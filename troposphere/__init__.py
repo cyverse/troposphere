@@ -3,12 +3,9 @@ from flask import render_template
 
 app = Flask(__name__)
 
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
-
-@app.route('/application')
-def application():
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def application(path):
     return render_template('application.html')
 
 if __name__ == '__main__':
