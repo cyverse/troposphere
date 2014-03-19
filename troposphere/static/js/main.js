@@ -1,5 +1,5 @@
 require.config({
-    baseUrl: '/static/js',
+    baseUrl: static_root + 'js',
     paths: {
         /* TODO: use minified versions in production */
         'jquery': '//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery',

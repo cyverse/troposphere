@@ -21,7 +21,7 @@ define(['react', 'profile'], function(React, profile) {
                 React.DOM.a(
                     {href: '/', id: 'logo'}, 
                     React.DOM.img({
-                        src: '/resources/images/mini_logo.png', 
+                        src: static_root + 'images/mini_logo.png', 
                         alt: 'iPlant Cloud Services',
                         height: '30',
                         width: '30'
