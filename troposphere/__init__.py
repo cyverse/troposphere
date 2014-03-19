@@ -3,16 +3,9 @@ from flask import render_template
 
 app = Flask(__name__)
 
-@app.route('/login')
-def login():
-    return "LOGIN!"
-
-@app.route('/logout')
-def logout():
-    return "LOGOUT!"
-
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
+@app.route('/application', defaults={'path': ''})
+@app.route('/application/', defaults={'path': ''})
+@app.route('/application/<path:path>')
 def application(path):
     return render_template('application.html')
 
