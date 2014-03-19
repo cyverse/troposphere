@@ -62,9 +62,8 @@ def cas_service_validator():
     if not ticket:
         logger.info("No Ticket received in GET string")
         abort(400)
-    user, auth_token = cas_validateTicket(ticket, sendback)
-    logger.debug(user)
-    logger.debug(auth_token)
+    user = cas_validateTicket(ticket, sendback)
+    logger.debug(user + " successfully authenticated against CAS")
     return redirect(sendback)
 
 @app.route('/no_user')

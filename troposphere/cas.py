@@ -54,29 +54,14 @@ def cas_validateTicket(ticket, sendback):
                      " and included this response:%s"
                      % (ticket, cas_response))
         abort(401)
-    (user, pgtIou) = parse_cas_response(cas_response)
+    user, _ = parse_cas_response(cas_response)
 
     if not user:
         logger.debug("User attribute missing from cas response!"
                      "This may require a fix to caslib.py")
         abort(500)
-    if not pgtIou or pgtIou == "":
-        logger.error("""Proxy Granting Ticket missing!
-        Atmosphere requires CAS proxy as a service to authenticate users.
-            Possible Causes:
-              * ServerName variable is wrong in /etc/apache2/apache2.conf
-              * Proxy URL does not exist
-              * Proxy URL is not a valid RSA-2/VeriSigned SSL certificate
-              * /etc/host and hostname do not match machine.""")
-        abort(500)
 
-    #updated = updateUserProxy(user, pgtIou)
-    #if not updated:
-        #return HttpResponseRedirect(redirect_logout_url)
-    logger.info("Updated proxy for <%s> -- Auth success!" % user)
-
-    logger.info("Session token created, return to: %s" % return_to)
-    return (auth_token.user.username, auth_token.key)
+    return user
 
 def cas_setReturnLocation(sendback):
     """
