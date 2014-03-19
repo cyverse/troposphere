@@ -1,11 +1,14 @@
+import logging
+
 from flask import Flask
 from flask import render_template, redirect, url_for, request
 import requests
 
 from troposphere import settings
-from troposphere.cas import cas_logoutRedirect, cas_loginRedirect
+from troposphere.cas import (cas_logoutRedirect, cas_loginRedirect,
+                             cas_validateTicket)
 
-
+logger = logging.getLogger(__name__)
 app = Flask(__name__)
 
 def get_maintenance():
@@ -30,7 +33,7 @@ def login():
     """
     records, disabled_login = get_maintenance()
     if disabled_login:
-        return abort(503)
+        abort(503)
 
     #if request.method == "POST" and 'next' in request.form:
     return cas_loginRedirect('/application/')
@@ -47,10 +50,26 @@ def logout():
 @app.route('/CAS_serviceValidater')
 def cas_service_validator():
     """
-    url(r'^CAS_serviceValidater',
-        'authentication.protocol.cas.cas_validateTicket'),
+    Method expects 2 GET parameters: 'ticket' & 'sendback'
+    After a CAS Login:
+    Redirects the request based on the GET param 'ticket'
+    Unauthorized Users are returned a 401
+    Authorized Users are redirected to the GET param 'sendback'
     """
-    return "Now we check to see if the cas ticket was valid"
+    logger.debug('GET Variables:%s' % request.args)
+    sendback = request.args.get('sendback', None)
+    ticket = request.args.get('ticket', None)
+    if not ticket:
+        logger.info("No Ticket received in GET string")
+        abort(400)
+    user, auth_token = cas_validateTicket(ticket, sendback)
+    logger.debug(user)
+    logger.debug(auth_token)
+    return redirect(sendback)
+
+@app.route('/no_user')
+def no_user():
+    return "You're not an Atmopshere user"
 
 #@app.route('/CASlogin', defaults={'path': ''})
 #@app.route('/CASlogin/<redirect>')
