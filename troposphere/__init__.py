@@ -7,6 +7,7 @@ import requests
 from troposphere import settings
 from troposphere.cas import (cas_logoutRedirect, cas_loginRedirect,
                              cas_validateTicket)
+from troposphere.oauth import generate_access_token
 
 logger = logging.getLogger(__name__)
 app = Flask(__name__)
@@ -64,6 +65,11 @@ def cas_service_validator():
         abort(400)
     user = cas_validateTicket(ticket, sendback)
     logger.debug(user + " successfully authenticated against CAS")
+
+    # Now check Groupy
+    key = open(settings.OAUTH_PRIVATE_KEY, 'r').read()
+    token = generate_access_token(key, user)
+    logger.debug("TOKEN: " + token)
     return redirect(sendback)
 
 @app.route('/no_user')
