@@ -110,5 +110,5 @@ def application(path):
     return render_template('application.html')
 
 if __name__ == '__main__':
-    app.config.from_object('troposphere.settings')
+    app.config.from_pyfile('troposphere.cfg')
     app.run(host='0.0.0.0', debug=True)
