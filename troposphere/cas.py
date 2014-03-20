@@ -17,12 +17,8 @@ class CASClient(object):
     def get_logout_endpoint(self):
         return self.cas_server + "/cas/logout?service=" + self.server_url
 
-    def get_login_endpoint(self, service_url):
-        """
-        service_url is the URL to which the CAS server will redirect your
-        clients upon successful authentication
-        """
-        return self.cas_server + "/cas/login?service=" + service_url
+    def get_login_endpoint(self):
+        return self.cas_server + "/cas/login?service=" + self.validator_url
 
     @staticmethod
     def parse_cas_response(cas_response):
@@ -50,9 +46,10 @@ class CASClient(object):
         caslib.cas_setServiceURL(sendback)
         cas_response = caslib.cas_serviceValidate(ticket)
         if not cas_response.success:
-            logger.debug("CAS Server did NOT validate ticket:%s"
+            logger.error("CAS Server did NOT validate ticket:%s"
                          " and included this response:%s"
                          % (ticket, cas_response))
+            logger.error(cas_response.map)
             raise InvalidTicket
         user, _ = CASClient.parse_cas_response(cas_response)
 

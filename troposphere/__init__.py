@@ -22,7 +22,9 @@ def get_oauth_client():
 def get_cas_client():
     if not hasattr(g, 'cas_client'):
         validator_url = url_for('cas_service_validator',
-                                sendback=url_for('application'))
+                                sendback=url_for('application'),
+                                _external=True,
+                                _scheme='https')
         g.cas_client = CASClient(app.config['CAS_SERVER'],
                                  app.config['SERVER_URL'],
                                  validator_url)
@@ -48,10 +50,7 @@ def login():
     if disabled_login:
         abort(503)
 
-    service_url = url_for('cas_service_validator',
-                          sendback=url_for('application'),
-                          _external=True)
-    return redirect(get_cas_client().get_login_endpoint(service_url))
+    return redirect(get_cas_client().get_login_endpoint())
 
 @app.route('/logout')
 def logout():
@@ -83,6 +82,7 @@ def cas_service_validator():
     try:
         user = get_cas_client().validate_ticket(ticket, sendback)
     except InvalidTicket:
+        abort(500)
         return redirect(url_for('application'))
 
     logger.debug(user + " successfully authenticated against CAS")
