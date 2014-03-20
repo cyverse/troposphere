@@ -22,7 +22,7 @@ def get_oauth_client():
 def get_cas_client():
     if not hasattr(g, 'cas_client'):
         validator_url = url_for('cas_service_validator',
-                                sendback='/application')
+                                sendback=url_for('application'))
         g.cas_client = CASClient(app.config['CAS_SERVER'],
                                  app.config['SERVER_URL'],
                                  validator_url)
@@ -34,10 +34,6 @@ def get_maintenance():
     whether or not login should be disabled
     """
     return ([], False)
-
-@app.route('/')
-def redirect_app():
-    return "Redirect"
 
 @app.errorhandler(503)
 def handle_maintenance():
@@ -53,7 +49,7 @@ def login():
         abort(503)
 
     service_url = url_for('cas_service_validator',
-                          sendback='/application',
+                          sendback=url_for('application'),
                           _external=True)
     return redirect(get_cas_client().get_login_endpoint(service_url))
 
@@ -104,8 +100,8 @@ def no_user(e):
     logger.debug(e)
     return "You're not an Atmopshere user"
 
-@app.route('/application', defaults={'path': ''})
-@app.route('/application/<path:path>')
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
 def application(path):
     return render_template('application.html')
 
