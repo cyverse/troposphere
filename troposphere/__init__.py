@@ -105,7 +105,6 @@ def no_user(e):
     return "You're not an Atmopshere user"
 
 @app.route('/application', defaults={'path': ''})
-@app.route('/application/', defaults={'path': ''})
 @app.route('/application/<path:path>')
 def application(path):
     return render_template('application.html')
