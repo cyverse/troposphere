@@ -62,9 +62,9 @@ def logout():
     """
     TODO: Destroy OAuth session
     """
-    if request.POST.get('cas', False):
+    if request.args.get('cas', False):
         return redirect(get_cas_client().get_logout_endpoint())
-    return redirect(app.config['REDIRECT_URL'] + '/login')
+    return redirect(url_for('application'))
 
 @app.route('/CAS_serviceValidater')
 def cas_service_validator():
