@@ -2,7 +2,8 @@ import logging
 from datetime import datetime
 
 from flask import Flask
-from flask import render_template, redirect, url_for, request, abort, g
+from flask import (render_template, redirect, url_for, request, abort, g,
+    flash, get_flashed_messages)
 import requests
 
 from troposphere.cas import CASClient, InvalidTicket
@@ -90,10 +91,8 @@ def cas_service_validator():
         token, expires = get_oauth_client().generate_access_token(user)
         logger.debug("TOKEN: " + token)
         expires = int((expires - datetime.utcfromtimestamp(0)).total_seconds())
-        return render_template('store_token.html',
-                                redirect=url_for('application'),
-                                token=token,
-                                expires=expires)
+        flash({'access_token': token, 'expires': expires})
+        return redirect(url_for('application'))
     except Unauthorized:
         abort(403)
 
@@ -109,6 +108,11 @@ def redirect_to_application():
 @app.route('/application', defaults={'path': ''})
 @app.route('/application/<path:path>')
 def application(path):
+    messages = get_flashed_messages()
+    if len(messages) > 0:
+        return render_template('application.html',
+                               access_token=messages[0]['access_token'],
+                               expires=messages[0]['expires'])
     return render_template('application.html')
 
 if __name__ == '__main__':

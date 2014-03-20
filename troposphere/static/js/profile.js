@@ -1,9 +1,7 @@
 define(['models/profile', 'collections/identities', 'jquery'], function(Profile, Identities, $) {
     /* Get Profile and identities beofre we do anything else  */
 
-    var access_token = sessionStorage.getItem("access_token");
-    var expires = sessionStorage.getItem("expires");
-    if (!access_token || !expires)
+    if (window.access_token === undefined || window.expires === undefined)
         return null;
 
     $.ajaxSetup({
