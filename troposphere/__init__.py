@@ -1,7 +1,7 @@
 import logging
 
 from flask import Flask
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request, abort
 import requests
 
 from troposphere import settings
@@ -68,12 +68,16 @@ def cas_service_validator():
 
     # Now check Groupy
     key = open(settings.OAUTH_PRIVATE_KEY, 'r').read()
-    token = generate_access_token(key, user)
-    logger.debug("TOKEN: " + token)
-    return redirect(sendback)
+    try:
+        token = generate_access_token(key, user)
+        logger.debug("TOKEN: " + token)
+        return redirect(sendback)
+    except:
+        abort(403)
 
-@app.route('/no_user')
-def no_user():
+@app.errorhandler(403)
+def no_user(e):
+    logger.debug(e)
     return "You're not an Atmopshere user"
 
 #@app.route('/CASlogin', defaults={'path': ''})
