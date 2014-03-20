@@ -1,8 +1,17 @@
-define(['models/profile', 'collections/identities'], function(Profile, Identities) {
+define(['models/profile', 'collections/identities', 'jquery'], function(Profile, Identities, $) {
     /* Get Profile and identities beofre we do anything else  */
-    /* TODO: Do this server side */
+
+    var access_token = sessionStorage.getItem("access_token");
+    var expires = sessionStorage.getItem("expires");
+    if (!access_token || !expires)
+        return null;
+
+    $.ajaxSetup({
+        headers: {'Authorization' :'Bearer ' + access_token}
+    });
 
     var profile = new Profile();
+
     profile.fetch({
         async: false,
         success: function(model) {
