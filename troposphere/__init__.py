@@ -28,7 +28,6 @@ def get_cas_client():
                                 _external=True,
                                 _scheme='https')
         g.cas_client = CASClient(app.config['CAS_SERVER'],
-                                 app.config['SERVER_URL'],
                                  validator_url)
     return g.cas_client
 
@@ -60,7 +59,8 @@ def logout():
     TODO: Destroy OAuth session
     """
     if request.args.get('cas', False):
-        return redirect(get_cas_client().get_logout_endpoint())
+        root_url = url_for('application', _external=True, _scheme='https')
+        return redirect(get_cas_client().get_logout_endpoint(root_url))
     return redirect(url_for('application'))
 
 @app.route('/CAS_serviceValidater')

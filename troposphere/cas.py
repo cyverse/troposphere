@@ -8,14 +8,13 @@ class InvalidTicket(Exception):
     pass
 
 class CASClient(object):
-    def __init__(self, cas_server, server_url, validator_url):
+    def __init__(self, cas_server, validator_url):
         self.cas_server = cas_server
-        self.server_url = server_url
         self.validator_url = validator_url
         caslib.cas_init(self.cas_server, self.validator_url)
 
-    def get_logout_endpoint(self):
-        return self.cas_server + "/cas/logout?service=" + self.server_url
+    def get_logout_endpoint(self, service_url):
+        return self.cas_server + "/cas/logout?service=" + service_url
 
     def get_login_endpoint(self):
         return self.cas_server + "/cas/login?service=" + self.validator_url
