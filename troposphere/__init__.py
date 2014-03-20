@@ -100,8 +100,12 @@ def no_user(e):
     logger.debug(e)
     return "You're not an Atmopshere user"
 
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
+@app.route('/')
+def redirect_to_application():
+    return redirect(url_for('application'))
+
+@app.route('/application', defaults={'path': ''})
+@app.route('/application/<path:path>')
 def application(path):
     return render_template('application.html')
 
