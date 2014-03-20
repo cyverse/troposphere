@@ -1,0 +1,3 @@
+-e git+https://github.com/iPlantCollaborativeOpenSource/caslib.py.git#egg=caslib
+-e git+https://github.com/iPlantCollaborativeOpenSource/jwt.py.git#egg=jwt.py
+-e .
