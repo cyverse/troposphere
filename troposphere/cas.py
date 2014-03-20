@@ -17,11 +17,12 @@ class CASClient(object):
     def get_logout_endpoint(self):
         return self.cas_server + "/cas/logout?service=" + self.server_url
 
-    def get_login_endpoint(self, redirect_url):
-        login_url = self.cas_server +\
-            "/cas/login?service=" + self.server_url +\
-            "/CAS_serviceValidater?sendback=" + redirect_url
-        return login_url
+    def get_login_endpoint(self, service_url):
+        """
+        service_url is the URL to which the CAS server will redirect your
+        clients upon successful authentication
+        """
+        return self.cas_server + "/cas/login?service=" + service_url
 
     @staticmethod
     def parse_cas_response(cas_response):
@@ -46,7 +47,7 @@ class CASClient(object):
                      " Ticket must now be validated with CAS")
 
         # ReturnLocation set, apply on successful authentication
-        self.set_return_location(sendback)
+        caslib.cas_setServiceURL(sendback)
         cas_response = caslib.cas_serviceValidate(ticket)
         if not cas_response.success:
             logger.debug("CAS Server did NOT validate ticket:%s"
@@ -61,12 +62,3 @@ class CASClient(object):
             raise Exception("User attribute missing from CAS response")
 
         return user
-
-    def set_return_location(self, sendback):
-        """
-        Reinitialize cas with the new sendback location
-        keeping all other variables the same.
-        """
-        caslib.cas_setServiceURL(
-            self.server_url + "/CAS_serviceValidater?sendback=" + sendback
-        )

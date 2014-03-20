@@ -4,7 +4,7 @@ from flask import Flask
 from flask import render_template, redirect, url_for, request, abort, g
 import requests
 
-from troposphere.cas import CASClient
+from troposphere.cas import CASClient, InvalidTicket
 from troposphere.oauth import OAuthClient, Unauthorized
 
 logger = logging.getLogger(__name__)
@@ -52,7 +52,10 @@ def login():
     if disabled_login:
         abort(503)
 
-    return redirect(get_cas_client().get_login_endpoint('/application'))
+    service_url = url_for('cas_service_validator',
+                          sendback='/application',
+                          _external=True)
+    return redirect(get_cas_client().get_login_endpoint(service_url))
 
 @app.route('/logout')
 def logout():
@@ -73,11 +76,13 @@ def cas_service_validator():
     Authorized Users are redirected to the GET param 'sendback'
     """
     logger.debug('GET Variables:%s' % request.args)
-    sendback = request.args.get('sendback', None)
+    sendback = request.args.get('sendback', '')
     ticket = request.args.get('ticket', None)
     if not ticket:
         logger.info("No Ticket received in GET string")
         abort(400)
+
+    sendback = url_for('cas_service_validator', sendback=sendback)
 
     try:
         user = get_cas_client().validate_ticket(ticket, sendback)
