@@ -1,7 +1,11 @@
 Troposphere
 ===========
 
-Place Troposphere's OAuth private key into ssl/private.key.
+```bash
+cp troposphere/troposphere.cfg.dist troposphere/troposphere.cfg
+```
+
+Edit `troposphere.cfg` with your own settings.
 
 ```bash
 pip install -r requirements.txt
