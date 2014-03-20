@@ -36,10 +36,7 @@ def login():
     if disabled_login:
         abort(503)
 
-    #if request.method == "POST" and 'next' in request.form:
     return cas_loginRedirect('/application/')
-    #else:
-        #return "Login please"
 
 @app.route('/logout')
 def logout():
@@ -79,13 +76,6 @@ def cas_service_validator():
 def no_user(e):
     logger.debug(e)
     return "You're not an Atmopshere user"
-
-#@app.route('/CASlogin', defaults={'path': ''})
-#@app.route('/CASlogin/<redirect>')
-#    """
-#    url(r'^CASlogin/(?P<redirect>.*)$', 'authentication.cas_loginRedirect'),
-#    """
-#    pass
 
 @app.route('/application', defaults={'path': ''})
 @app.route('/application/', defaults={'path': ''})
