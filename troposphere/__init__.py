@@ -77,12 +77,9 @@ def cas_service_validator():
         logger.info("No Ticket received in GET string")
         abort(400)
 
-    sendback = url_for('cas_service_validator', sendback=sendback)
-
     try:
-        user = get_cas_client().validate_ticket(ticket, sendback)
+        user = get_cas_client().validate_ticket(ticket)
     except InvalidTicket:
-        abort(500)
         return redirect(url_for('application'))
 
     logger.debug(user + " successfully authenticated against CAS")

@@ -31,7 +31,7 @@ class CASClient(object):
         pgtIOU = xml_response_dict.get('proxyGrantingTicket', None)
         return (user, pgtIOU)
 
-    def validate_ticket(self, ticket, sendback):
+    def validate_ticket(self, ticket):
         """
         Method expects 2 GET parameters: 'ticket' & 'sendback'
         After a CAS Login:
@@ -43,7 +43,6 @@ class CASClient(object):
                      " Ticket must now be validated with CAS")
 
         # ReturnLocation set, apply on successful authentication
-        caslib.cas_setServiceURL(sendback)
         cas_response = caslib.cas_serviceValidate(ticket)
         if not cas_response.success:
             logger.error("CAS Server did NOT validate ticket:%s"
