@@ -1,15 +1,25 @@
 import logging
 
 from flask import Flask
-from flask import render_template, redirect, url_for, request, abort
+from flask import render_template, redirect, url_for, request, abort, g
 import requests
 
 from troposphere.cas import (cas_logoutRedirect, cas_loginRedirect,
                              cas_validateTicket)
-from troposphere.oauth import generate_access_token
+from troposphere.oauth import OAuthClient, Unauthorized
 
 logger = logging.getLogger(__name__)
 app = Flask(__name__)
+
+def create_oauth_client():
+    key = open(app.config['OAUTH_PRIVATE_KEY'], 'r').read()
+    return OAuthClient(app.config['OAUTH_SERVER'], key,
+                       app.config['OAUTH_ISS'], app.config['OAUTH_SCOPE'])
+
+def get_oauth_client():
+    if not hasattr(g, 'oauth_client'):
+        g.oauth_client = create_oauth_client()
+    return g.oauth_client
 
 def get_maintenance():
     """
@@ -64,18 +74,15 @@ def cas_service_validator():
         user = cas_validateTicket(ticket, sendback)
     except InvalidTicket:
         return redirect(url_for('application'))
-    except:
-        abort(500)
 
     logger.debug(user + " successfully authenticated against CAS")
 
     # Now check Groupy
-    key = open(app.config['OAUTH_PRIVATE_KEY'], 'r').read()
     try:
-        token = generate_access_token(key, user)
+        token = get_oauth_client().generate_access_token(user)
         logger.debug("TOKEN: " + token)
         return redirect(sendback)
-    except:
+    except Unauthorized:
         abort(403)
 
 @app.errorhandler(403)
