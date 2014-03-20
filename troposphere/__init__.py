@@ -4,7 +4,6 @@ from flask import Flask
 from flask import render_template, redirect, url_for, request, abort
 import requests
 
-from troposphere import settings
 from troposphere.cas import (cas_logoutRedirect, cas_loginRedirect,
                              cas_validateTicket)
 from troposphere.oauth import generate_access_token
@@ -36,14 +35,14 @@ def login():
     if disabled_login:
         abort(503)
 
-    return cas_loginRedirect('/application/')
+    return redirect(cas_loginRedirect('/application/'))
 
 @app.route('/logout')
 def logout():
     #django_logout(request)
     if request.POST.get('cas', False):
-        return cas_logoutRedirect()
-    return redirect(settings.REDIRECT_URL + '/login')
+        return redirect(cas_logoutRedirect())
+    return redirect(app.config['REDIRECT_URL'] + '/login')
 
 @app.route('/CAS_serviceValidater')
 def cas_service_validator():
@@ -60,11 +59,18 @@ def cas_service_validator():
     if not ticket:
         logger.info("No Ticket received in GET string")
         abort(400)
-    user = cas_validateTicket(ticket, sendback)
+
+    try:
+        user = cas_validateTicket(ticket, sendback)
+    except InvalidTicket:
+        return redirect(url_for('application'))
+    except:
+        abort(500)
+
     logger.debug(user + " successfully authenticated against CAS")
 
     # Now check Groupy
-    key = open(settings.OAUTH_PRIVATE_KEY, 'r').read()
+    key = open(app.config['OAUTH_PRIVATE_KEY'], 'r').read()
     try:
         token = generate_access_token(key, user)
         logger.debug("TOKEN: " + token)
@@ -84,4 +90,5 @@ def application(path):
     return render_template('application.html')
 
 if __name__ == '__main__':
+    app.config.from_object('troposphere.settings')
     app.run(host='0.0.0.0', debug=True)
