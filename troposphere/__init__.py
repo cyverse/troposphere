@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 
 from flask import Flask
 from flask import render_template, redirect, url_for, request, abort, g
@@ -86,9 +87,13 @@ def cas_service_validator():
 
     # Now check Groupy
     try:
-        token = get_oauth_client().generate_access_token(user)
+        token, expires = get_oauth_client().generate_access_token(user)
         logger.debug("TOKEN: " + token)
-        return redirect(sendback)
+        expires = int((expires - datetime.utcfromtimestamp(0)).total_seconds())
+        return render_template('store_token.html',
+                                redirect=url_for('application'),
+                                token=token,
+                                expires=expires)
     except Unauthorized:
         abort(403)
 

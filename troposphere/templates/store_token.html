@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Atmosphere</title>
+    <script type="text/javascript">
+    var access_token = "{{ token }}";
+    var redirect_url = "{{ redirect }}";
+    var expires = {{ expires }};
+
+    sessionStorage.setItem("access_token", access_token);
+    sessionStorage.setItem("expires", expires);
+
+    window.location = redirect_url;
+    </script>
+</head>
+<body>
+</body>
+</html>

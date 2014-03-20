@@ -1,5 +1,6 @@
 import jwt
 import requests
+from datetime import datetime, timedelta
 
 class Unauthorized(Exception):
     pass
@@ -32,6 +33,7 @@ class OAuthClient(object):
             raise Unauthorized("Failed to generate auth token. Response:%s"
                             % response.__dict__)
         json_obj = response.json()
-        access_token = json_obj['access_token']
-        return access_token
+        token, expires_in = json_obj['access_token'], json_obj['expires_in']
+        expires = datetime.utcnow() + timedelta(seconds=expires_in)
 
+        return token, expires
