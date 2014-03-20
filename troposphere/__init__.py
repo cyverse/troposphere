@@ -38,10 +38,6 @@ def get_maintenance():
     """
     return ([], False)
 
-@app.errorhandler(503)
-def handle_maintenance():
-    return "We're undergoing maintenance"
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     """
@@ -99,7 +95,11 @@ def cas_service_validator():
 @app.errorhandler(403)
 def no_user(e):
     logger.debug(e)
-    return render_template('no_user.html')
+    return render_template('no_user.html'), 403
+
+@app.errorhandler(503)
+def handle_maintenance():
+    return "We're undergoing maintenance", 503
 
 @app.route('/')
 def redirect_to_application():
