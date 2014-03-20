@@ -2,8 +2,6 @@ import logging
 
 import caslib
 
-from troposphere import settings
-
 logger = logging.getLogger(__name__)
 
 class InvalidTicket(Exception):
@@ -19,12 +17,10 @@ class CASClient(object):
     def get_logout_endpoint(self):
         return self.cas_server + "/cas/logout?service=" + self.server_url
 
-    def get_login_endpoint(self, redirect_url, gateway=False):
-        login_url = settings.CAS_SERVER +\
-            "/cas/login?service=" + settings.SERVER_URL +\
+    def get_login_endpoint(self, redirect_url):
+        login_url = self.cas_server +\
+            "/cas/login?service=" + self.server_url +\
             "/CAS_serviceValidater?sendback=" + redirect_url
-        if gateway:
-            login_url += '&gateway=true'
         return login_url
 
     @staticmethod
