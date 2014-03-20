@@ -4,22 +4,29 @@ from flask import Flask
 from flask import render_template, redirect, url_for, request, abort, g
 import requests
 
-from troposphere.cas import (cas_logoutRedirect, cas_loginRedirect,
-                             cas_validateTicket)
+from troposphere.cas import CASClient
 from troposphere.oauth import OAuthClient, Unauthorized
 
 logger = logging.getLogger(__name__)
 app = Flask(__name__)
 
-def create_oauth_client():
-    key = open(app.config['OAUTH_PRIVATE_KEY'], 'r').read()
-    return OAuthClient(app.config['OAUTH_SERVER'], key,
-                       app.config['OAUTH_ISS'], app.config['OAUTH_SCOPE'])
-
 def get_oauth_client():
     if not hasattr(g, 'oauth_client'):
-        g.oauth_client = create_oauth_client()
+        key = open(app.config['OAUTH_PRIVATE_KEY'], 'r').read()
+        g.oauth_client = OAuthClient(app.config['OAUTH_SERVER'],
+                                     key,
+                                     app.config['OAUTH_ISS'],
+                                     app.config['OAUTH_SCOPE'])
     return g.oauth_client
+
+def get_cas_client():
+    if not hasattr(g, 'cas_client'):
+        validator_url = url_for('cas_service_validator',
+                                sendback='/application')
+        g.cas_client = CASClient(app.config['CAS_SERVER'],
+                                 app.config['SERVER_URL'],
+                                 validator_url)
+    return g.cas_client
 
 def get_maintenance():
     """
@@ -45,13 +52,15 @@ def login():
     if disabled_login:
         abort(503)
 
-    return redirect(cas_loginRedirect('/application/'))
+    return redirect(get_cas_client().get_login_endpoint('/application'))
 
 @app.route('/logout')
 def logout():
-    #django_logout(request)
+    """
+    TODO: Destroy OAuth session
+    """
     if request.POST.get('cas', False):
-        return redirect(cas_logoutRedirect())
+        return redirect(get_cas_client().get_logout_endpoint())
     return redirect(app.config['REDIRECT_URL'] + '/login')
 
 @app.route('/CAS_serviceValidater')
@@ -71,7 +80,7 @@ def cas_service_validator():
         abort(400)
 
     try:
-        user = cas_validateTicket(ticket, sendback)
+        user = get_cas_client().validate_ticket(ticket, sendback)
     except InvalidTicket:
         return redirect(url_for('application'))
 
