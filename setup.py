@@ -12,9 +12,7 @@ setup(name='troposphere',
       install_requires=[
           'Flask >= 0.10.1, < 0.11',
           'requests >= 2.2.1, < 2.3',
+          'caslib >= 1.0.3, < 1.1',
+          'jwt.py >= 0.1',
       ]
      )
-
-# caslib
-# jwt
-# httplib2
