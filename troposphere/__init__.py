@@ -99,7 +99,7 @@ def cas_service_validator():
 @app.errorhandler(403)
 def no_user(e):
     logger.debug(e)
-    return "You're not an Atmopshere user"
+    return render_template('no_user.html')
 
 @app.route('/')
 def redirect_to_application():

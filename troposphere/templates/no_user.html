@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>
+    Atmosphere | iPlant Collaborative
+  </title>
+  <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" />
+  <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='css/no_user.css') }}" />
+</head>
+<body>
+  <div id="wrapper">
+    <div id="imgcontainer" class="center">
+      <img src="{{ url_for('static', filename='images/login_mainimage.png') }}">
+    </div>
+    <div id="login">
+      <h2> User does not exist!</h2>
+      <p>You have logged in to an account that does not have access to Atmosphere for iPlant!</br> To add atmosphere to your account, Go to the <a href="https://user.iplantcollaborative.org/dashboard/">iPlant User Management Portal</a> and select 'Request Access' to Atmosphere.</br> If your account is still pending, you must wait until you are approved before using Atmosphere.</p>
+    </div>
+  </div>
+</body>
+</html>
