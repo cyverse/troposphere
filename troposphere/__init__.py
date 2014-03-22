@@ -73,7 +73,8 @@ def cas_service_validator():
     ticket = request.args.get('ticket', None)
     if not ticket:
         logger.info("No Ticket received in GET string")
-        abort(400)
+        flash({'gateway_unauthenticated': True})
+        return redirect(url_for('application'))
 
     try:
         user = get_cas_client().validate_ticket(ticket)
@@ -109,11 +110,17 @@ def redirect_to_application():
 @app.route('/application/<path:path>')
 def application(path):
     messages = get_flashed_messages()
-    if len(messages) > 0:
-        return render_template('application.html',
-                               access_token=messages[0]['access_token'],
-                               expires=messages[0]['expires'])
-    return render_template('application.html')
+
+    for message in messages:
+        if 'gateway_unauthenticated' in message.keys():
+            return render_template('application.html')
+
+        if 'access_token' in message.keys():
+            return render_template('application.html',
+                                   access_token=messages[0]['access_token'],
+                                   expires=messages[0]['expires'])
+
+    return redirect(get_cas_client().get_login_endpoint(gateway=True))
 
 if __name__ == '__main__':
     app.config.from_pyfile('troposphere.cfg')

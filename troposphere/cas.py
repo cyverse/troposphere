@@ -16,8 +16,11 @@ class CASClient(object):
     def get_logout_endpoint(self, service_url):
         return self.cas_server + "/cas/logout?service=" + service_url
 
-    def get_login_endpoint(self):
-        return self.cas_server + "/cas/login?service=" + self.validator_url
+    def get_login_endpoint(self, gateway=False):
+        url =  self.cas_server + "/cas/login?service=" + self.validator_url
+        if (gateway):
+            url += '&gateway=true'
+        return url
 
     @staticmethod
     def parse_cas_response(cas_response):
