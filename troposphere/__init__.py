@@ -24,7 +24,6 @@ def get_oauth_client():
 def get_cas_client():
     if not hasattr(g, 'cas_client'):
         validator_url = url_for('cas_service_validator',
-                                sendback=url_for('application'),
                                 _external=True,
                                 _scheme='https')
         g.cas_client = CASClient(app.config['CAS_SERVER'],
@@ -62,15 +61,14 @@ def logout():
 @app.route('/CAS_serviceValidater')
 def cas_service_validator():
     """
-    Method expects 2 GET parameters: 'ticket' & 'sendback'
+    Method expects 1 GET parameter: 'ticket'
     After a CAS Login:
     Redirects the request based on the GET param 'ticket'
-    Unauthorized Users are returned a 401
-    Authorized Users are redirected to the GET param 'sendback'
+    Unauthorized Users are redirected
     """
     logger.debug('GET Variables:%s' % request.args)
-    sendback = request.args.get('sendback', '')
     ticket = request.args.get('ticket', None)
+
     if not ticket:
         logger.info("No Ticket received in GET string")
         flash({'gateway_unauthenticated': True})
