@@ -89,3 +89,11 @@ def cas_service(request):
                                    'access_token': {'value': 'test',
                                                     'expires': '1234'}})
     return redirect('application')
+
+def forbidden(request):
+    """
+    View used when someone tries to log in and is an authenticated iPlant
+    user, but was found to be unauthorized to use Atmosphere by OAuth.
+    Returns HTTP status code 403 Forbidden
+    """
+    return render(request, 'no_user.html', status=403)
