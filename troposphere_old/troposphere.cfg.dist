@@ -1,8 +1,0 @@
-SECRET_KEY = 'Something unique and secret'
-
-CAS_SERVER = 'https://cas.example.com'
-
-OAUTH_SERVER = 'https://oauth.example.com'
-OAUTH_PRIVATE_KEY = '/absolute/path/to/ssl.key'
-OAUTH_ISS = 'your-app'
-OAUTH_SCOPE = ''
