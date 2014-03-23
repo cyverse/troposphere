@@ -16,3 +16,6 @@ OAUTH_SERVER = 'https://oauth.example.com'
 OAUTH_PRIVATE_KEY_PATH = '/path/to/private.key'
 OAUTH_ISS = 'your-app'
 OAUTH_SCOPE = 'scope'
+
+# PIPELINE
+PIPELINE_ENABLED = True

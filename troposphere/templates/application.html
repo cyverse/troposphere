@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load compressed %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +9,8 @@
     <!--CSS-->
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css"/>
-    <link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <!-- Compressed CSS -->
+    {% compressed_css 'application' %}
     <!--JS-->
     <!--[if IE]>
     <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
