@@ -22,16 +22,16 @@ def application(request):
     if disabled_login:
         return redirect('maintenance')
 
-    flashes = messages.get_messages(request)
     response = None
-    for msg in flashes:
-        if 'gateway_unauthenticated' in msg.keys():
-            response = render(request, 'application.html')
-
-        if 'access_token' in msg.keys():
-            response = render(request, 'application.html', {
-                              'access_token': msg['access_token'],
-                              'expires': msg['expires']})
+    for msg in messages.get_messages(request):
+        if isinstance(msg, dict) and 'login_check' in msg:
+            if 'access_token' in msg.keys():
+                token = msg['access_token']
+                response = render(request, 'application.html', {
+                                  'access_token': token['value'],
+                                  'expires': token['expires']})
+            else:
+                response = render(request, 'application.html')
 
     if response:
         return response
@@ -65,15 +65,17 @@ def cas_service(request):
 
     if not ticket:
         logger.info("No Ticket received in GET string")
-        messages.add_message(request, {'gateway_unauthenticated': True})
+        messages.add_message(request, {'login_check': True})
         return redirect('application')
 
     try:
         user = get_cas_client(request).validate_ticket(ticket)
     except InvalidTicket:
-        messages.add_message(request, {'gateway_unauthenticated': True})
+        messages.add_message(request, {'login_check': True})
         return redirect('application')
 
     logger.debug(user + " successfully authenticated against CAS")
-    messages.add_message(request, {'access_token': 'test', 'expires': '1234'})
+    messages.add_message(request, {'login_check': True,
+                                   'access_token': {'value': 'test',
+                                                    'expires': '1234'}})
     return redirect('application')
