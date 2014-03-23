@@ -10,6 +10,8 @@ keypair from Groupy for the Troposphere application. The configuration
 variable `OAUTH_PRIVATE_KEY_PATH` should refer to the absolute path of that key.
 
 ```bash
+npm install yuglify
 pip install -r requirements.txt
+python manage.py collectstatic
 python manage.py runserver
 ```

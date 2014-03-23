@@ -56,5 +56,6 @@ docs/_build/
 *.swp
 
 troposphere.key
-*.cfg
 troposphere/settings/local.py
+troposphere/assets
+node_modules
