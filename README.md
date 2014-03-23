@@ -2,14 +2,14 @@ Troposphere
 ===========
 
 ```bash
-cp troposphere/troposphere.cfg.dist troposphere/troposphere.cfg
+cp troposphere/settings/local.py.dist troposphere/settings/local.py
 ```
 
-Edit `troposphere.cfg` with your own settings. You'll have to generate a new
+Edit `local.py` with your own settings. You'll have to generate a new
 keypair from Groupy for the Troposphere application. The configuration
-variable `OAUTH_PRIVATE_KEY` should refer to the absolute path of that key.
+variable `OAUTH_PRIVATE_KEY_PATH` should refer to the absolute path of that key.
 
 ```bash
 pip install -r requirements.txt
-python troposphere/__init__.py
+python manage.py runserver
 ```
