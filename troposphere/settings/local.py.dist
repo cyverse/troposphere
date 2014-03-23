@@ -2,10 +2,17 @@
 SECRET_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
 ALLOWED_HOSTS = []
 
+# CAS
 CAS_SERVER = 'https://cas.example.com'
+
+# OAUTH
+OAUTH_SERVER = 'https://oauth.example.com'
+OAUTH_PRIVATE_KEY_PATH = '/path/to/private.key'
+OAUTH_ISS = 'your-app'
+OAUTH_SCOPE = 'scope'

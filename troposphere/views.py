@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -6,6 +7,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 
 from troposphere.cas import CASClient, InvalidTicket
+from troposphere.oauth import OAuthClient, Unauthorized
 import troposphere.messages as messages
 
 logger = logging.getLogger(__name__)
@@ -14,6 +16,11 @@ def get_cas_client(request):
     return CASClient(settings.CAS_SERVER,
                      request.build_absolute_uri(reverse('cas_service')))
 
+key = open(settings.OAUTH_PRIVATE_KEY_PATH, 'r').read()
+oauth_client = OAuthClient(settings.OAUTH_SERVER,
+                           key,
+                           settings.OAUTH_ISS,
+                           settings.OAUTH_SCOPE)
 def root(request):
     return redirect('application')
 
@@ -78,6 +85,7 @@ def cas_service(request):
         messages.add_message(request, {'login_check': True})
         return redirect('application')
 
+    # Authenticate request with CAS
     try:
         user = get_cas_client(request).validate_ticket(ticket)
     except InvalidTicket:
@@ -85,9 +93,23 @@ def cas_service(request):
         return redirect('application')
 
     logger.debug(user + " successfully authenticated against CAS")
-    messages.add_message(request, {'login_check': True,
-                                   'access_token': {'value': 'test',
-                                                    'expires': '1234'}})
+
+    # Authorize request with Groupy OAuth
+    try:
+        token, expires = oauth_client.generate_access_token(user)
+        logger.debug("TOKEN: " + token)
+        expires = int((expires - datetime.utcfromtimestamp(0)).total_seconds())
+        messages.add_message(request, {'login_check': True,
+                                       'access_token': {'value': token,
+                                                        'expires': expires}})
+        return redirect('application')
+    except Unauthorized:
+        if gatewayed:
+            messages.add_message(request, {'login_check': True})
+            return redirect('application')
+        else:
+            return redirect('forbidden')
+
     return redirect('application')
 
 def forbidden(request):

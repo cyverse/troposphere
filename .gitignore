@@ -55,6 +55,6 @@ docs/_build/
 # vim
 *.swp
 
-ssl
+troposphere.key
 *.cfg
 troposphere/settings/local.py
