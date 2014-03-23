@@ -5,5 +5,6 @@ urlpatterns = patterns('',
     url(r'^application$', 'troposphere.views.application', name='application'),
     url(r'^maintenance$', 'troposphere.views.maintenance', name='maintenance'),
     url(r'^login$', 'troposphere.views.login'),
+    url(r'^logout$', 'troposphere.views.logout'),
     url(r'^cas/service$', 'troposphere.views.cas_service', name='cas_service'),
 )
