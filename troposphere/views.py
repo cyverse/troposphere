@@ -36,6 +36,7 @@ def application(request):
     if response:
         return response
 
+    messages.add_message(request, 'gatewayed')
     return redirect(get_cas_client(request).get_login_endpoint(gateway=True))
 
 def get_maintenance():
@@ -60,7 +61,16 @@ def logout(request):
         return redirect(get_cas_client(request).get_logout_endpoint(root_url))
     return redirect('application')
 
+def gateway_request(request):
+    """
+    Returns true iff the preceeding request was an attempt to log in the use
+    into CAS with gateway=true
+    https://wiki.jasig.org/display/CAS/gateway
+    """
+    return any(m == 'gatewayed' for m in messages.get_messages(request))
+
 def cas_service(request):
+    gatewayed = gateway_request(request)
     ticket = request.GET.get('ticket', None)
 
     if not ticket:
