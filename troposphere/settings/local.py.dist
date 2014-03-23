@@ -7,3 +7,5 @@ DEBUG = True
 TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
+
+CAS_SERVER = 'https://cas.example.com'
