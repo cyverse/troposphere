@@ -43,7 +43,8 @@ def application(request):
     if response:
         return response
 
-    messages.add_message(request, 'gatewayed')
+    flash = {'gatewayed': True, 'path': request.get_full_path()}
+    messages.add_message(request, flash)
     return redirect(get_cas_client(request).get_login_endpoint(gateway=True))
 
 def get_maintenance():
@@ -70,27 +71,33 @@ def logout(request):
 
 def gateway_request(request):
     """
-    Returns true iff the preceeding request was an attempt to log in the use
-    into CAS with gateway=true
+    Returns a tuple of the form (a, b) where a is true iff the preceeding
+    request was an attempt to log in the use into CAS with gateway=true and b
+    is the path that was originally requested on Troposphere.
     https://wiki.jasig.org/display/CAS/gateway
     """
-    return any(m == 'gatewayed' for m in messages.get_messages(request))
+    for m in messages.get_messages(request):
+        if isinstance(m, dict) and m.has_key('gatewayed'):
+            return (True, m['path'])
+    return (False, None)
 
 def cas_service(request):
-    gatewayed = gateway_request(request)
+    gatewayed, sendback = gateway_request(request)
+    if sendback is None:
+        sendback = 'application'
     ticket = request.GET.get('ticket', None)
 
     if not ticket:
         logger.info("No Ticket received in GET string")
         messages.add_message(request, {'login_check': True})
-        return redirect('application')
+        return redirect(sendback)
 
     # Authenticate request with CAS
     try:
         user = get_cas_client(request).validate_ticket(ticket)
     except InvalidTicket:
         messages.add_message(request, {'login_check': True})
-        return redirect('application')
+        return redirect(sendback)
 
     logger.debug(user + " successfully authenticated against CAS")
 
@@ -102,15 +109,15 @@ def cas_service(request):
         messages.add_message(request, {'login_check': True,
                                        'access_token': {'value': token,
                                                         'expires': expires}})
-        return redirect('application')
+        return redirect(sendback)
     except Unauthorized:
         if gatewayed:
             messages.add_message(request, {'login_check': True})
-            return redirect('application')
+            return redirect(sendback)
         else:
             return redirect('forbidden')
 
-    return redirect('application')
+    return redirect(sendback)
 
 def forbidden(request):
     """
