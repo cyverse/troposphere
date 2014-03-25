@@ -62,18 +62,6 @@ define(['react', 'underscore', 'components/common/glyphicon', 'router'], functio
             login_required: false
         },
         {
-            text: 'Instances',
-            route: ['instances'],
-            icon: 'cloud-download',
-            login_required: true
-        },
-        {
-            text: 'Volumes',
-            route: ['volumes'],
-            icon: 'hdd',
-            login_required: true
-        },
-        {
             text: 'Cloud Providers',
             route: ['providers'],
             icon: 'cloud',
