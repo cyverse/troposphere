@@ -32,15 +32,15 @@ define(['react', 'underscore', 'components/page_header'], function(React, _, Pag
         }
     ];
 
-    var Dashboard = React.createClass({
+    var Projects = React.createClass({
         render: function() {
             return React.DOM.div({},
-                PageHeader({title: "Dashboard"}),
+                PageHeader({title: "Projects"}),
                 React.DOM.p({}, "Welcome to Atmosphere!"),
                 React.DOM.ul({'id': 'dashboard-link-list'}, _.map(items, DashboardIcon))
             );
         }
     });
 
-    return Dashboard;
+    return Projects;
 });

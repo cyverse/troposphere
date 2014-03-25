@@ -2,7 +2,7 @@ define(['backbone', 'react'], function(Backbone, React) {
     var Router = Backbone.Router.extend({
         routes: {
             '': 'handleDefaultRoute',
-            'dashboard': 'dashboard',
+            'projects': 'projects',
             'images': 'images',
             'images/favorites': 'imageFavorites',
             'images/authored': 'imageAuthored',
@@ -29,9 +29,9 @@ define(['backbone', 'react'], function(Backbone, React) {
                     node);
             }.bind(this));
         },
-        dashboard: function() {
-            this.setView(['components/dashboard'], function(Dashboard) {
-                return Dashboard();
+        projects: function() {
+            this.setView(['components/projects'], function(Projects) {
+                return Projects();
             });
         },
         images: function() {

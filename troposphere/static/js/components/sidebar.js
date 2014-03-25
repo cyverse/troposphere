@@ -38,8 +38,8 @@ define(['react', 'underscore', 'components/common/glyphicon', 'router'], functio
 
     var menuItems = [
         {
-            text: 'Dashboard',
-            route: ['dashboard'],
+            text: 'Projects',
+            route: ['projects'],
             icon: 'home',
             login_required: true
         },

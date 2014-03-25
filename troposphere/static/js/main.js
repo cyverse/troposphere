@@ -30,7 +30,7 @@ require(['jquery', 'backbone', 'react', 'components/application', 'profile', 'ro
         var app = Application();
         React.renderComponent(app, document.getElementById('application'));
 
-        var route = profile != null ? 'dashboard' : 'images';
+        var route = profile != null ? 'projects' : 'images';
         router.setDefaultRoute(route);
 
         Backbone.history.start({
