@@ -1,4 +1,5 @@
-define(['underscore', 'models/base'], function(_, Base) {
+define(['underscore', 'models/base', 'models/machine', 'collections/machines'],
+function(_, Base, Machine, Machines) {
 
     var Application = Base.extend({
         defaults: { 'model_name': 'application' },
@@ -7,6 +8,10 @@ define(['underscore', 'models/base'], function(_, Base) {
             attributes.id = response.uuid;
             attributes.rating = Math.floor(Math.random() * 6);
             attributes.favorite = Math.random() < 0.25;
+            var machines = _.map(attributes.machines, function(attrs) {
+                return new Machine(Machine.prototype.parse(attrs));
+            });
+            attributes.machines = new Machines(machines);
             return attributes;
         },
         url: function(){
