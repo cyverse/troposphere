@@ -1,11 +1,15 @@
 define(['react', 'models/application', 'collections/applications',
-    'components/images/cards', 'components/common/modal', 'jquery'], 
-    function(React, App, AppCollection, Cards, Modal, $) {
+'components/images/cards', 'components/common/modal', 'jquery',
+'components/common/time'], function(React, App, AppCollection, Cards, Modal, $,
+Time) {
 
     var Machine = React.createClass({
         render: function() {
             var machine = this.props.machine;
-            return React.DOM.li({}, machine.id);
+            console.log(machine);
+            return React.DOM.li({}, "Version: ", machine.get('pretty_version'),
+                React.DOM.br(),
+                "Date: ", Time({date: machine.get('start_date'), showRelative: false}));
         }
     });
 
