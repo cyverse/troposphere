@@ -2,7 +2,10 @@ define(['react', 'underscore', 'components/page_header', 'components/intro', 'co
 
     var ProjectsList = React.createClass({
         render: function() {
-            return React.DOM.ul({});
+            var items = this.props.projects.map(function(model) {
+                return React.DOM.li({key: model.id}, model.get('name'));
+            });
+            return React.DOM.ul({}, items);
         }
     });
 
@@ -16,10 +19,19 @@ define(['react', 'underscore', 'components/page_header', 'components/intro', 'co
             return React.DOM.p({}, "Projects help you organize your cloud resources");
         },
         render: function() {
+            var content;
+            if (this.state.projects === null) {
+                content = [
+                    React.DOM.p({}, "Welcome to Atmosphere!"),
+                    Intro()
+                ];
+            } else {
+                content = ProjectsList({projects: this.state.projects});
+            }
+
             return React.DOM.div({},
                 PageHeader({title: "Projects", helpText: this.helpText}),
-                React.DOM.p({}, "Welcome to Atmosphere!"),
-                Intro()
+                content
             );
         },
         updateProjects: function(projects) {
@@ -28,7 +40,7 @@ define(['react', 'underscore', 'components/page_header', 'components/intro', 'co
         },
         componentDidMount: function() {
             var projects = new ProjectCollection();
-            projects.on('sync', this.updateApplications);
+            projects.on('sync', this.updateProjects);
             projects.fetch();
         },
         componentWillUnmount: function() {
