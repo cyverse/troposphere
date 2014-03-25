@@ -2,6 +2,22 @@ define(['react', 'models/application', 'collections/applications',
     'components/images/cards', 'components/common/modal', 'jquery'], 
     function(React, App, AppCollection, Cards, Modal, $) {
 
+    var Machine = React.createClass({
+        render: function() {
+            var machine = this.props.machine;
+            return React.DOM.li({}, machine.id);
+        }
+    });
+
+    var MachineList = React.createClass({
+        render: function() {
+            var versions = this.props.machines.map(function(model) {
+                return Machine({key: model.id, machine: model});
+            });
+            return React.DOM.ul({}, versions);
+        }
+    });
+
     var LaunchApplicationModal = React.createClass({
         render: function() {
             return Modal({id: 'launch-modal', title: 'Launch Instance'},
@@ -47,6 +63,7 @@ define(['react', 'models/application', 'collections/applications',
                 React.DOM.h2({}, "Description"),
                 React.DOM.p({}, app.get('description')),
                 React.DOM.h2({}, "Versions of this Image"),
+                MachineList({machines: app.get('machines')}),
                 LaunchApplicationModal({application: app}));
         }
     });
