@@ -7,8 +7,9 @@ define(['backbone', 'react'], function(Backbone, React) {
             'images/favorites': 'imageFavorites',
             'images/authored': 'imageAuthored',
             'images/:id': 'imageDetail',
-            'instances': 'instances',
-            'volumes': 'volumes',
+            //'instances': 'instances',
+            'provider/:provider_id/identity/:identity_id/instances/:instance_id': 'instanceDetail',
+            //'volumes': 'volumes',
             'providers': 'providers',
             'settings': 'settings',
             'help': 'help'
@@ -51,6 +52,7 @@ define(['backbone', 'react'], function(Backbone, React) {
                 return ImageDetail({image_id: id});
             });
         },
+        /*
         instances: function() {
             this.setView(['components/instances'], function(Instances) {
                 return Instances();
@@ -60,6 +62,21 @@ define(['backbone', 'react'], function(Backbone, React) {
             this.setView(['components/volumes'], function(Volumes) {
                 return Volumes();
             });
+        },
+        */
+        instanceDetail: function(provider_id, identity_id, instance_id) {
+            this.setView(['collections/instances',
+            'components/instance_detail'], function(Instances, InstanceDetail) {
+                var coll = new Instances([], {provider_id: provider_id, identity_id: identity_id});
+                var instance;
+                coll.fetch({async: false, success: function() {
+                    instance = coll.get(instance_id);
+                }});
+                if (instance === undefined)
+                    throw "Unknown instance " + instance_id;
+                return InstanceDetail({instance: instance});
+            });
+            console.log(arguments);
         },
         providers: function() {
             this.setView(['components/providers', 'providers'], function(Providers, collection) {

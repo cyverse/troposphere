@@ -5,6 +5,7 @@ var Instance = Base.extend({
     defaults: { 'model_name': 'instance' },
     parse: function(response) {
         var attributes = response;
+        attributes.id = response.alias;
         attributes.start_date = new Date(response.start_date);
         return attributes;
     },
