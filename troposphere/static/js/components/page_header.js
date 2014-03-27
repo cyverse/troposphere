@@ -1,6 +1,9 @@
 define(['react', 'components/common/glyphicon'], function(React, Glyphicon) {
 
     var PageHeader = React.createClass({
+        getInitialState: function() {
+            return {showHelpText: false};
+        },
         render: function() {
             var help_button = [];
             var help_text = [];
@@ -9,13 +12,12 @@ define(['react', 'components/common/glyphicon'], function(React, Glyphicon) {
                     type: 'button', 
                     id: 'help-text-toggle-button',
                     className: 'btn btn-default', 
-                    'data-toggle': 'collapse',
-                    'data-target': '#help-text'},
+                    onClick: this.showHelpText},
                     Glyphicon({name: 'question-sign'}));
 
                 help_text = React.DOM.div({
-                    id: 'help-text', 
-                    className: 'collapse'},
+                    id: 'help-text',
+                    style: {display: this.state.showHelpText ? 'block' : 'none'}},
                     React.DOM.div({className: 'well'}, this.props.helpText()));
             }
 
@@ -23,6 +25,9 @@ define(['react', 'components/common/glyphicon'], function(React, Glyphicon) {
                 React.DOM.h1({}, this.props.title),
                 help_button,
                 help_text);
+        },
+        showHelpText: function() {
+            this.setState({showHelpText: !this.state.showHelpText});
         }
     });
 
