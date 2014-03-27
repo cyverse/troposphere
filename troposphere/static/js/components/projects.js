@@ -1,6 +1,6 @@
 define(['react', 'underscore', 'components/page_header',
-'components/intro', 'collections/projects'], function(React, _,
-PageHeader, Intro, ProjectCollection) {
+'components/intro', 'collections/projects', 'router'], function(React, _,
+PageHeader, Intro, ProjectCollection, router) {
 
     var ProjectItemMixin = {
         render: function() {
@@ -16,7 +16,18 @@ PageHeader, Intro, ProjectCollection) {
             return 'instance';
         },
         renderName: function() {
-            return React.DOM.a({}, this.props.model.get('name_or_id'));
+            var instance = this.props.model;
+            var instance_url = function(instance) {
+                var provider_id = instance.get('identity').provider;
+                var identity_id = instance.get('identity').id;
+                return 'provider/' + provider_id + '/identity/' + identity_id + '/instances/' + instance.id;
+            };
+            return React.DOM.a({
+                href: url_root + '/' + instance_url(instance),
+                onClick: function(e) {
+                    e.preventDefault();
+                    router.navigate(instance_url(instance), {trigger: true});
+                }}, this.props.model.get('name_or_id'));
         },
         renderDetails: function() {
             return this.props.model.get('status');
