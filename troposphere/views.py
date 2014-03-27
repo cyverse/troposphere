@@ -61,13 +61,8 @@ def login(request):
     return redirect(get_cas_client(request).get_login_endpoint())
 
 def logout(request):
-    """
-    TODO: Destroy OAuth token
-    """
-    if 'cas' in request.GET:
-        root_url = request.build_absolute_uri(reverse('application'))
-        return redirect(get_cas_client(request).get_logout_endpoint(root_url))
-    return redirect('application')
+    root_url = request.build_absolute_uri(reverse('application'))
+    return redirect(get_cas_client(request).get_logout_endpoint(root_url))
 
 def gateway_request(request):
     """
