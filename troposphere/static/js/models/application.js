@@ -7,7 +7,7 @@ function(_, Base, Machine, Machines) {
             var attributes = response;
             attributes.id = response.uuid;
             attributes.rating = Math.floor(Math.random() * 6);
-            attributes.favorite = Math.random() < 0.25;
+            attributes.favorite = response.is_bookmarked;
             var machines = _.map(attributes.machines, function(attrs) {
                 return new Machine(Machine.prototype.parse(attrs));
             });
