@@ -85,6 +85,7 @@ PIPELINE_CSS = {
             'css/applications.css',
             'css/global.css',
             'css/loading.css',
+            'css/projects.css',
         ),
         'output_filename': 'css/application.css'
     }

@@ -1,0 +1,29 @@
+#project-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+#project-list > li {
+    border: 2px solid #ccc;
+    border-radius: 5px;
+}
+
+#project-list h2 {
+    margin: 0;
+    padding: 10px;
+    background-color: hsl(0, 0%, 96%);
+    border-bottom: 2px solid #ccc;
+    border-radius: 5px;
+}
+
+.project-description {
+    border-bottom: 2px solid #ccc;
+    padding: 10px 10px 0;
+}
+
+.project-items {
+    margin: 0;
+    padding: 10px;
+    list-style: none;
+}
