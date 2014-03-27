@@ -19,7 +19,20 @@ PageHeader, Intro, ProjectCollection) {
             return React.DOM.a({}, this.props.model.get('name_or_id'));
         },
         renderDetails: function() {
-            return React.DOM.span({}, this.props.model.get('status'));
+            return this.props.model.get('status');
+        }
+    });
+
+    var VolumeProjectItem = React.createClass({
+        mixins: [ProjectItemMixin],
+        getClassName: function() {
+            return 'volume';
+        },
+        renderName: function() {
+            return React.DOM.a({}, this.props.model.get('name_or_id'));
+        },
+        renderDetails: function() {
+            return this.props.model.get('status');
         }
     });
 
@@ -29,6 +42,9 @@ PageHeader, Intro, ProjectCollection) {
             var items = [];
             items = items.concat(project.get('instances').map(function(instance) {
                 return InstanceProjectItem({model: instance});
+            }));
+            items = items.concat(project.get('volumes').map(function(volume) {
+                return VolumeProjectItem({model: volume});
             }));
 
             return React.DOM.ul({className: 'project-items container-fluid'}, items);
