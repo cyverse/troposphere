@@ -32,8 +32,10 @@ define(['backbone', 'react'], function(Backbone, React) {
             }.bind(this));
         },
         projects: function() {
-            this.setView(['components/projects'], function(Projects) {
-                return Projects();
+            this.setView(['components/projects', 'collections/projects'], function(Projects, Collection) {
+                var coll = new Collection();
+                coll.fetch({async: false});
+                return Projects({projects: coll});
             });
         },
         images: function() {

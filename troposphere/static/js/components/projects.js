@@ -1,51 +1,49 @@
-define(['react', 'underscore', 'components/page_header', 'components/intro', 'collections/projects'], function(React, _, PageHeader, Intro, ProjectCollection) {
+define(['react', 'underscore', 'components/page_header',
+'components/intro', 'collections/projects'], function(React, _,
+PageHeader, Intro, ProjectCollection) {
+
+    var ProjectItems = React.createClass({
+        render: function() {
+            var project = this.props.project;
+            var items = [];
+            items = items.concat(project.get('instances').map(function(instance) {
+                return React.DOM.li({}, instance.id);
+            }));
+
+            return React.DOM.ul({className: 'project-items'}, items);
+        }
+    });
+
+    var Project = React.createClass({
+        render: function() {
+            var project = this.props.project;
+            console.log(project);
+            return React.DOM.li({}, React.DOM.h2({}, project.get('name')), 
+                React.DOM.div({className: 'project-description'}, React.DOM.p({}, project.get('description'))),
+                ProjectItems({project: project}));
+        }
+    });
 
     var ProjectsList = React.createClass({
         render: function() {
             var items = this.props.projects.map(function(model) {
-                return React.DOM.li({key: model.id}, model.get('name'));
+                return Project({key: model.id, project: model});
             });
-            return React.DOM.ul({}, items);
+            return React.DOM.ul({id: 'project-list'}, items);
         }
     });
 
     var Projects = React.createClass({
-        getInitialState: function() {
-            return {
-                projects: null
-            };
-        },
         helpText: function() {
             return React.DOM.p({}, "Projects help you organize your cloud resources");
         },
         render: function() {
-            var content;
-            if (this.state.projects === null) {
-                content = [
-                    React.DOM.p({}, "Welcome to Atmosphere!"),
-                    Intro()
-                ];
-            } else {
-                content = ProjectsList({projects: this.state.projects});
-            }
+            var content = ProjectsList({projects: this.props.projects});
 
             return React.DOM.div({},
                 PageHeader({title: "Projects", helpText: this.helpText}),
                 content
             );
-        },
-        updateProjects: function(projects) {
-            if (this.isMounted())
-                this.setState({projects: projects});
-        },
-        componentDidMount: function() {
-            var projects = new ProjectCollection();
-            projects.on('sync', this.updateProjects);
-            projects.fetch();
-        },
-        componentWillUnmount: function() {
-            if (this.state.projects)
-                this.state.projects.off('sync', this.updateProjects);
         }
     });
 
