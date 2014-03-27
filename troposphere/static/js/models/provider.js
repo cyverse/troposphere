@@ -6,6 +6,7 @@ define(['underscore', 'models/base'], function(_, Base) {
             var attributes = response;
             
             attributes.description = "One day, providers will have descriptions. That will be a good day. For now, this is filler text. #sorryNotSorry";
+            attributes.name = attributes.location;
             return attributes;
         },
         url: function(){

@@ -1,13 +1,19 @@
 define(['react', 'underscore', 'components/page_header',
-'components/common/time'], function(React, _, PageHeader, Time) {
+'components/common/time', 'providers'], function(React, _, PageHeader, Time, providers) {
 
     var VolumeInfo = React.createClass({
         render: function() {
+            var volume = this.props.volume;
+            var provider = providers.get(volume.get('provider'));
+            var name = "(Unnamed Volume)";
+            if (volume.get('name') !== undefined)
+                name = volume.get('name');
+
             var items = [
-                ["Name", this.props.volume.get('name')],
-                ["ID", this.props.volume.id],
-                ["Provider", this.props.volume.get('provider')],
-                ["Date Created", Time({date: this.props.volume.get('create_time')})]
+                ["Name", name],
+                ["ID", volume.id],
+                ["Provider", provider.get('name')],
+                ["Date Created", Time({date: volume.get('create_time')})]
             ];
 
             var result = React.DOM.dl({}, _.map(items, function(item) {
