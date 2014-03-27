@@ -10,6 +10,7 @@ define(['backbone', 'react'], function(Backbone, React) {
             //'instances': 'instances',
             'provider/:provider_id/identity/:identity_id/instances/:instance_id': 'instanceDetail',
             //'volumes': 'volumes',
+            'provider/:provider_id/identity/:identity_id/volumes/:volume_id': 'volumeDetail',
             'providers': 'providers',
             'settings': 'settings',
             'help': 'help'
@@ -75,6 +76,18 @@ define(['backbone', 'react'], function(Backbone, React) {
                 if (instance === undefined)
                     throw "Unknown instance " + instance_id;
                 return InstanceDetail({instance: instance});
+            });
+        },
+        volumeDetail: function(provider_id, identity_id, volume_id) {
+            this.setView(['collections/volumes', 'components/volume_detail'], function(Volumes, VolumeDetail) {
+                var coll = new Volumes([], {provider_id: provider_id, identity_id: identity_id});
+                var volume;
+                coll.fetch({async: false, success: function() {
+                    volume = coll.get(volume_id);
+                }});
+                if (volume === undefined)
+                    throw "Unknown volume " + volume_id;
+                return VolumeDetail({volume: volume});
             });
         },
         providers: function() {
