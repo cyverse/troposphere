@@ -80,13 +80,14 @@ define(['backbone', 'react'], function(Backbone, React) {
         },
         volumeDetail: function(provider_id, identity_id, volume_id) {
             this.setView(['collections/volumes', 'components/volume_detail'], function(Volumes, VolumeDetail) {
-                var coll = new Volumes([], {provider_id: provider_id, identity_id: identity_id});
+                var volumes = new Volumes([], {provider_id: provider_id, identity_id: identity_id});
                 var volume;
-                coll.fetch({async: false, success: function() {
-                    volume = coll.get(volume_id);
+                volumes.fetch({async: false, success: function() {
+                    volume = volumes.get(volume_id);
                 }});
                 if (volume === undefined)
                     throw "Unknown volume " + volume_id;
+
                 return VolumeDetail({volume: volume});
             });
         },

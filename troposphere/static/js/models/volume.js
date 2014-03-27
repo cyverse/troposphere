@@ -27,11 +27,6 @@ var Volume = Base.extend({
         
         return attributes;
     },
-    get_available: function() {
-        return _.filter(this.models, function(model) {
-            return model.get('status') == 'available';
-        });
-    },
     attach_to: function(instance, mount_location, options) {
         if (!options) options = {};
         if (!options.success) options.success = function() {};
