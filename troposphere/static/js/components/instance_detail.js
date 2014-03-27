@@ -1,9 +1,9 @@
-define(['react'], function(React) {
+define(['react', 'components/page_header'], function(React, PageHeader) {
     return React.createClass({
         render: function() {
             var instance = this.props.instance;
             console.log(instance);
-            return React.DOM.div({}, "instance!")
+            return PageHeader({title: "Instance: " + instance.get('name_or_id')})
         }
     });
 });

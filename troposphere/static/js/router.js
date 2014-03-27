@@ -76,7 +76,6 @@ define(['backbone', 'react'], function(Backbone, React) {
                     throw "Unknown instance " + instance_id;
                 return InstanceDetail({instance: instance});
             });
-            console.log(arguments);
         },
         providers: function() {
             this.setView(['components/providers', 'providers'], function(Providers, collection) {
