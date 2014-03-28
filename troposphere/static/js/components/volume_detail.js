@@ -27,25 +27,55 @@ providers, Instances) {
         }
     });
 
-    var AttachmentInfo = React.createClass({
-        renderAvailable: function() {
-            var options;
+    var AttachmentForm = React.createClass({
+        getInitialState: function() {
+            return {attaching: false};
+        },
+        handleSubmit: function(e) {
+            e.preventDefault();
+            console.log(e);
+            this.setState({attaching: true});
+        },
+        getInstanceSelect: function() {
+            var options = [];
             if (this.props.instances)
                 options = this.props.instances.map(function(instance) {
                     return React.DOM.option({}, instance.get('name_or_id'));
                 });
-            else
-                options = [];
-            var instanceSelect = React.DOM.select({className: 'form-control'}, options);
-            return React.DOM.div({}, React.DOM.p({}, "Unattached"), instanceSelect);
+            return React.DOM.select({className: 'form-control', disabled: this.state.attaching}, options);
         },
-        renderUnavailable: function() {
-            return React.DOM.p({}, "Attached");
+        getAttachButton: function() {
+            var attaching = this.state.attaching;
+            var attrs = {className: 'btn btn-primary btn-block'};
+            if (attaching) {
+                attrs.className += ' disabled';
+                attrs.disabled = 'disabled';
+            }
+            return React.DOM.button(attrs, attaching ? "Attaching..." : "Attach");
         },
         render: function() {
+            return React.DOM.form({onSubmit: this.handleSubmit},
+                React.DOM.div({className: 'container-fluid'},
+                    React.DOM.div({className: 'row'},
+                        React.DOM.div({className: 'col-xs-9'}, this.getInstanceSelect()),
+                        React.DOM.div({className: 'col-xs-3'}, this.getAttachButton()))));
+        }
+    });
+
+    var AttachmentInfo = React.createClass({
+        render: function() {
             var volume = this.props.volume;
-            var content = volume.get('status') == 'available' ? this.renderAvailable() : this.renderUnavailable();
-            return React.DOM.div({}, React.DOM.h2({}, "Status"), content);
+            var content = [];
+            var available = volume.get('status') == 'available';
+
+            if (available)
+                content = AttachmentForm({volume: this.props.volume,
+                    instances: this.props.instances});
+
+            return React.DOM.div({},
+                React.DOM.h2({}, "Status"),
+                React.DOM.p({}, available ? 'Unattached' : 'Attached'),
+                content);
         }
     });
 
