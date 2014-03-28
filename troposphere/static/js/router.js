@@ -1,4 +1,4 @@
-define(['backbone', 'react'], function(Backbone, React) {
+define(['backbone', 'react', 'rsvp'], function(Backbone, React, RSVP) {
     var Router = Backbone.Router.extend({
         routes: {
             '': 'handleDefaultRoute',
@@ -22,21 +22,28 @@ define(['backbone', 'react'], function(Backbone, React) {
         handleDefaultRoute: function() {
             this.navigate(this.defaultRoute, {trigger: true, replace: true});
         },
-        setView: function(requirements, getView) {
+        setView: function(requirements, callback) {
             var node = document.getElementById('main');
             var loading = React.DOM.div({className: 'loading'});
             React.renderComponent(loading, node);
             require(requirements, function() {
-                var modules = arguments;
-                React.renderComponent(getView.apply(this, modules),
-                    node);
+                var result = callback.apply(this, arguments);
+                if (typeof(result.then) === 'function')
+                    result.then(function(view) {
+                        React.renderComponent(view, node);
+                    });
+                else
+                    React.renderComponent(result, node);
             }.bind(this));
         },
         projects: function() {
             this.setView(['components/projects', 'collections/projects'], function(Projects, Collection) {
                 var coll = new Collection();
-                coll.fetch({async: false});
-                return Projects({projects: coll});
+                return new RSVP.Promise(function(resolve, reject) {
+                    coll.fetch({success: function() {
+                        resolve(Projects({projects: coll}));
+                    }});
+                });
             });
         },
         images: function() {
