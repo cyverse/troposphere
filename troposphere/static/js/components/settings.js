@@ -22,7 +22,8 @@ define(['react', 'components/page_header', 'components/common/gravatar', 'utils'
         },
         handleClick: function(icon_type, e) {
             e.preventDefault();
-            this.props.profile.set_icons(icon_type, {
+            this.props.profile.save({icon_set: icon_type}, {
+                patch: true,
                 success: function() {
                     Utils.notify("Updated", "Your icon preference was changed successfully.", {type: "success"});
                     this.setState({selected: icon_type});
