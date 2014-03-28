@@ -24,14 +24,47 @@ require.config({
     }
 });
 
-require(['jquery', 'backbone', 'react', 'components/application', 'profile', 'router'], function($, Backbone, React, Application, profile, router) {
+require(['jquery', 'backbone', 'react', 'components/application', 'router',
+'models/profile', 'collections/identities'], function($, Backbone, React, Application, router, Profile, Identities) {
+    
+    function get_profile() {
+        if (window.access_token === undefined || window.expires === undefined)
+            return null;
+
+        $.ajaxSetup({
+            headers: {'Authorization' :'Bearer ' + access_token}
+        });
+
+        var profile = new Profile();
+        profile.fetch({
+            async: false,
+            success: function(model) {
+                var identities = new Identities();
+                identities.fetch({
+                    async: false
+                });
+
+                model.set('identities', identities);
+            },
+            error: function(model, response, options) {
+                if (response.status == 401) {
+                    console.log("Not logged in");
+                } else {
+                    console.error("Error fetching profile");
+                }
+                throw "Invalid access token";
+            }
+        });
+        return profile;
+    }
 
     $(document).ready(function() {
-        var app = Application();
+        var profile = get_profile();
+
+        var app = Application({profile: profile});
         React.renderComponent(app, document.getElementById('application'));
 
-        var route = profile != null ? 'projects' : 'images';
-        router.setDefaultRoute(route);
+        router.setProfile(profile);
 
         Backbone.history.start({
             pushState: true,
