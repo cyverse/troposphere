@@ -1,4 +1,5 @@
-define(['models/profile', 'collections/identities', 'jquery'], function(Profile, Identities, $) {
+define(['models/profile', 'collections/identities', 'jquery', 'rsvp'],
+function(Profile, Identities, $, RSVP) {
     /* Get Profile and identities beofre we do anything else  */
 
     if (window.access_token === undefined || window.expires === undefined)
@@ -9,7 +10,13 @@ define(['models/profile', 'collections/identities', 'jquery'], function(Profile,
     });
 
     var profile = new Profile();
+    var identities = new Identities();
 
+    $.when(profile.fetch(), identities.fetch()).then(function() {
+        console.log(arguments);
+    });
+
+    /*
     profile.fetch({
         async: false,
         success: function(model) {
@@ -28,6 +35,7 @@ define(['models/profile', 'collections/identities', 'jquery'], function(Profile,
             }
         }
     });
+    */
 
     return profile.isNew() ? null : profile;
 });
