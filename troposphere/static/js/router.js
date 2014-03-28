@@ -92,14 +92,15 @@ define(['backbone', 'react', 'rsvp'], function(Backbone, React, RSVP) {
         volumeDetail: function(provider_id, identity_id, volume_id) {
             this.setView(['collections/volumes', 'components/volume_detail'], function(Volumes, VolumeDetail) {
                 var volumes = new Volumes([], {provider_id: provider_id, identity_id: identity_id});
-                var volume;
-                volumes.fetch({async: false, success: function() {
-                    volume = volumes.get(volume_id);
-                }});
-                if (volume === undefined)
-                    throw "Unknown volume " + volume_id;
+                return new RSVP.Promise(function(resolve, reject) {
+                    volumes.fetch({success: function() {
+                        var volume = volumes.get(volume_id);
+                        if (volume === undefined)
+                            throw "Unknown volume " + volume_id;
 
-                return VolumeDetail({volume: volume});
+                         resolve(VolumeDetail({volume: volume}));
+                    }});
+                });
             });
         },
         providers: function() {
