@@ -43,7 +43,6 @@ define(['underscore', 'models/base', 'models/identity'], function(_, Base, Ident
             this.save({ icon_set: icon_set },
                 {
                     patch: true,
-                    async: false,
                     success: function() {
                         options.success();
                     },
