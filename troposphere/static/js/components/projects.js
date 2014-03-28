@@ -1,12 +1,13 @@
 define(['react', 'underscore', 'components/page_header',
-'components/intro', 'collections/projects', 'router'], function(React, _,
-PageHeader, Intro, ProjectCollection, router) {
+'components/intro', 'collections/projects', 'router',
+'components/common/time'], function(React, _,
+PageHeader, Intro, ProjectCollection, router, Time) {
 
     var ProjectItemMixin = {
         render: function() {
             return React.DOM.li({className: 'project-item row ' + this.getClassName()},
-                React.DOM.div({className: 'project-item-name col-md-8'}, this.renderName()),
-                React.DOM.div({className: 'project-item-details col-md-4'}, this.renderDetails()));
+                React.DOM.div({className: 'project-item-name col-md-6'}, this.renderName()),
+                React.DOM.div({className: 'project-item-details col-md-6'}, this.renderDetails()));
         }
     };
 
@@ -30,7 +31,10 @@ PageHeader, Intro, ProjectCollection, router) {
                 }}, this.props.model.get('name_or_id'));
         },
         renderDetails: function() {
-            return this.props.model.get('status');
+            var machine_name = this.props.model.get('machine_name') ||
+                this.props.model.get('machine_alias');
+            return [this.props.model.get('ip_address') + ', from ',
+                React.DOM.a({}, machine_name)];
         }
     });
 
@@ -43,7 +47,8 @@ PageHeader, Intro, ProjectCollection, router) {
             return React.DOM.a({}, this.props.model.get('name_or_id'));
         },
         renderDetails: function() {
-            return this.props.model.get('status');
+            return [this.props.model.get('size') + ' GB, created ',
+                Time({date: this.props.model.get('create_time')})];
         }
     });
 
