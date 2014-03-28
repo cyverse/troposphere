@@ -1,4 +1,4 @@
-define(['react', 'profile'], function(React, profile) {
+define(['react'], function(React) {
 
     var LoginLink = React.createClass({
         render: function() {
@@ -8,14 +8,15 @@ define(['react', 'profile'], function(React, profile) {
 
     var LogoutLink = React.createClass({
         render: function() {
-            return React.DOM.a({'href': '/logout'}, "Logout " + profile.get('username'));
+            return React.DOM.a({'href': '/logout'}, "Logout " + this.props.username);
         }
     });
 
     var Header = React.createClass({
         render: function() {
 
-            var rightChild = profile ? LogoutLink() : LoginLink();
+            var profile = this.props.profile;
+            var rightChild = profile ? LogoutLink({username: profile.get('username')}) : LoginLink();
 
             return React.DOM.header({'className': 'clearfix'},
                 React.DOM.a(

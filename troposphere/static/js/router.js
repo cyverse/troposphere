@@ -15,8 +15,9 @@ define(['backbone', 'react'], function(Backbone, React) {
             'settings': 'settings',
             'help': 'help'
         },
-        setDefaultRoute: function(route) {
-            this.defaultRoute = route;
+        setProfile: function(profile) {
+            this.profile = profile;
+            this.defaultRoute = profile != null ? 'projects' : 'images';
         },
         handleDefaultRoute: function() {
             this.navigate(this.defaultRoute, {trigger: true, replace: true});
@@ -100,7 +101,7 @@ define(['backbone', 'react'], function(Backbone, React) {
         },
         settings: function() {
             this.setView(['components/settings'], function(Settings) {
-                return Settings();
+                return Settings({profile: this.profile});
             });
         },
         help: function() {

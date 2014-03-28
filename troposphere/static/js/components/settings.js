@@ -1,5 +1,5 @@
-define(['react', 'components/page_header', 'components/common/gravatar', 'profile', 'utils'],
-    function(React, PageHeader, Gravatar, profile, Utils) {
+define(['react', 'components/page_header', 'components/common/gravatar', 'utils'],
+    function(React, PageHeader, Gravatar, Utils) {
 
     var IconOption = React.createClass({
         render: function() {
@@ -17,12 +17,12 @@ define(['react', 'components/page_header', 'components/common/gravatar', 'profil
     var IconSelect = React.createClass({
         getInitialState: function() {
             return {
-                selected: this.props.selected
+                selected: this.props.profile.get('settings')['icon_set']
             };
         },
         handleClick: function(icon_type, e) {
             e.preventDefault();
-            profile.set_icons(icon_type, {
+            this.props.profile.set_icons(icon_type, {
                 success: function() {
                     Utils.notify("Updated", "Your icon preference was changed successfully.", {type: "success"});
                     this.setState({selected: icon_type});
@@ -59,7 +59,7 @@ define(['react', 'components/page_header', 'components/common/gravatar', 'profil
                 React.DOM.h2({}, "Notifications"),
                 React.DOM.h2({}, "Appearance"),
                 React.DOM.p({}, "Image and instance icon set:"),
-                IconSelect({icons: icons, selected: profile.get('settings')['icon_set']}));
+                IconSelect({icons: icons, profile: this.props.profile}));
         }
     });
 

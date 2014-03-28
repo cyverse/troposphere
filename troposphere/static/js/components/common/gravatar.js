@@ -1,9 +1,10 @@
-define(['react', 'profile'], function(React, profile) {
+define(['react'], function(React) {
 
     var Icon = React.createClass({
         getDefaultProps: function() {
             return {
-                type: profile ? profile.get('settings')['icon_set'] : 'default',
+                //type: profile ? profile.get('settings')['icon_set'] : 'default',
+                type: 'default',
                 size: 50
             };
         },
