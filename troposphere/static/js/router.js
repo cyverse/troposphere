@@ -79,13 +79,14 @@ define(['backbone', 'react', 'rsvp'], function(Backbone, React, RSVP) {
             this.setView(['collections/instances',
             'components/instance_detail'], function(Instances, InstanceDetail) {
                 var coll = new Instances([], {provider_id: provider_id, identity_id: identity_id});
-                var instance;
-                coll.fetch({async: false, success: function() {
-                    instance = coll.get(instance_id);
-                }});
-                if (instance === undefined)
-                    throw "Unknown instance " + instance_id;
-                return InstanceDetail({instance: instance});
+                return new RSVP.Promise(function(resolve, reject) {
+                    coll.fetch({success: function() {
+                        var instance = coll.get(instance_id);
+                        if (instance === undefined)
+                            throw "Unknown instance " + instance_id;
+                        resolve(InstanceDetail({instance: instance}));
+                    }});
+                });
             });
         },
         volumeDetail: function(provider_id, identity_id, volume_id) {
