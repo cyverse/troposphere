@@ -8,35 +8,34 @@ var Volume = Base.extend({
     },
     parse: function(response) {
         
-        var attributes = response;
+        var attributes = _.pick(response, ['name', 'identity', 'status']);
         
         attributes.id = response.alias;
-        attributes.name_or_id = response.name.length == 0 ? response.alias : response.name;
-        attributes.create_time = new Date(response.start_date);
+        attributes.start_date = new Date(response.start_date);
         
-        attributes.attach_data = response.attach_data;
-        
-        if (!jQuery.isEmptyObject(attributes.attach_data)) {
-            attributes.attach_data.attachTime = new Date(attributes.attach_data.attachTime);
-        } 
-        else {
-            attributes.attach_data_attach_time = null;
-            attributes.attach_data_device = null
-            attributes.attach_data_instance_id = null;
+        attributes.attach_data = {
+            attach_time: null,
+            device: null,
+            instance_id: null
+        };
+
+        if (!_.isEmpty(response.attach_data)) {
+            attributes.attach_data = {
+                attach_time: new Date(response.attach_data.attachTime),
+                device: response.attach_data.device,
+                instance_id: response.attach_data.instanceId
+            };
         }
-        
+
         return attributes;
     },
-    attach_to: function(instance, mount_location, options) {
+    name_or_id: function() {
+        return this.get('name').length == 0 ? this.id : this.get('name');
+    },
+    attachTo: function(instance, mount_location, options) {
         if (!options) options = {};
         if (!options.success) options.success = function() {};
-
-        if (!options.error) options.error = function() {
-            var header = "Something broke!";
-            var body = 'You can refresh the page and try to perform this operation again. If the problem persists, please email '
-                + '<a href="mailto:support@iplantcollaborative.org">support@iplantcollaborative.org</a>. <br /><br />We apologize for the inconvenience.';
-            Atmo.Utils.notify(header, body);
-        }
+        if (!options.error) options.error = function() {};
         
         this.set({
             'status': 'attaching',
@@ -77,15 +76,10 @@ var Volume = Base.extend({
             }
         });
     },
-    detach: function(instance, options) {
+    detach: function(options) {
         if (!options) options = {};
         if (!options.success) options.success = function() {};
-        if (!options.error) options.error = function() {
-            var header = "Something broke!";
-            var body = "You can refresh the page and try to perform this operation again. If the problem persists, please email " +
-                '<a href="mailto:support@iplantcollaborative.org">support@iplantcollaborative.org</a>. <br /><br />We apologize for the inconvenience.';
-            Atmo.Utils.notify(header, body);
-        };
+        if (!options.error) options.error = function() {};
     
         var param = {
             volume_id: this.get('id'),
@@ -116,7 +110,7 @@ var Volume = Base.extend({
             }
         });
     },
-    confirm_destroy: function(options) {
+    confirmDestroy: function(options) {
         if (!options) options = {};
         if (!options.error) options.error = function() {
             var header = "Something broke!";
