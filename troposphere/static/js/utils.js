@@ -143,18 +143,6 @@ Utils.confirm = function(header, body, options) {
     Atmo.alert_modal.do_alert(header, body, options);
 };
 
-Utils.notify = function(header, body, options) {
-    var defaults = {no_timeout: false, type: 'info'};
-    var options = options ? _.defaults(options, defaults) : defaults;
-    notifications.add({
-        'header': header, 
-        'body': body, 
-        'timestamp': new Date(), 
-        'sticky': options.no_timeout,
-        'type': options.type
-    });
-};
-
 // case-insensitive Levenshtein Distance as defined by http://en.wikipedia.org/wiki/Levenshtein_distance
 Utils.levenshtein_distance= function(s, t) {
     var len_s = s.length, len_t = t.length, cost = 0;
@@ -260,74 +248,6 @@ Utils.current_credentials = function() {
            "identity_id": Atmo.profile.get('selected_identity').id
          };
 }
-Utils.attach_volume = function(volume, instance, mount_location, options) {
-    var options = options || {};
-    console.log("instance to attach to", instance);
-
-    volume.attach_to(instance, mount_location, {
-        success: function(response_text) {
-            var header = "Volume Successfully Attached";
-            var body = 'You must <a href="https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachinganEBSVolumetoanInstance-Step6%3AMountthefilesystemonthepartition." target="_blank">mount the volume</a> you before you can use it.<br />';
-            body += 'If the volume is new, you will need to <a href="https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachinganEBSVolumetoanInstance-Step5%3ACreatethefilesystem%28onetimeonly%29." target="_blank">create the file system</a> first.';
-
-            console.log("success response text", response_text);
-
-            Utils.notify(header, body, { no_timeout: true });
-            if (options.success)
-                options.success();
-        },
-        error: function() {
-            var header = "Volume attachment failed.";
-            var body = "If this problem persists, contact support at <a href=\"mailto:support@iplantcollaborative.org\">support@iplantcollaborative.org</a>"
-            Utils.notify(header, body, { no_timeout: true});
-        }
-    });
-};
-
-Utils.confirm_detach_volume = function(volume, instance, options) {
-    var header = "Do you want to detach <strong>"+volume.get('name_or_id')+'</strong>?';
-    //TODO: Replace this with a global var Atmo.provider or some such..
-    var identity_id = Atmo.profile.get('selected_identity').id;
-    var identity = Atmo.identities.get(identity_id);
-    var provider_name = identity.get('provider').get('type');
-    var body;
-    if (provider_name.toLowerCase() === 'openstack') {
-        body = '<p class="alert alert-error"><i class="glyphicon glyphicon-warning-sign"></i> <strong>WARNING</strong> If this volume is mounted, you <u>must</u> stop any running processes that are writing to the mount location before you can detach.</p>'; 
-        body += '<p>(<a href="https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachinganEBSVolumetoanInstance-Step7%3AUnmountanddetachthevolume." target="_blank">Learn more about unmounting and detaching a volume</a>)</p>';
-    } else {
-        body = '<p class="alert alert-error"><i class="glyphicon glyphicon-warning-sign"></i> <strong>WARNING</strong> If this volume is mounted, you <u>must</u> unmount it before detaching it.</p>'; 
-        body += '<p>If you detach a mounted volume, you run the risk of corrupting your data and the volume itself. (<a href="https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachinganEBSVolumetoanInstance-Step7%3AUnmountanddetachthevolume." target="_blank">Learn more about unmounting and detaching a volume</a>)</p>';
-    }
-
-    Utils.confirm(header, body, { 
-        on_confirm: function() {
-            volume.detach(instance, {
-                success: function() {
-                    Utils.notify("Volume Detached", "Volume is now available to attach to another instance or to destroy.");
-                    if (options.success)
-                        options.success();
-                },
-                error: function(message, response) {
-                    if (provider_name.toLowerCase() === 'openstack') {
-                        errors = $.parseJSON(response.responseText).errors
-                        var body = '<p class="alert alert-error">' + errors[0].message.replace(/\n/g, '<br />') + '</p>'
-                        body += "<p>Please correct the problem and try again. If the problem persists, or you are unsure how to fix the problem, please email <a href=\"mailto:support@iplantcollaborative.org\">support@iplantcollaborative.org</a>.</p>"
-                        Utils.confirm("Volume failed to detach", body, {
-                            //TODO: Remove the 'Cancel' button on this box
-                        });
-                    } else {
-                        Utils.notify("Volume failed to detach", "If the problem persists, please email <a href=\"mailto:support@iplantcollaborative.org\">support@iplantcollaborative.org</a>.", {no_timeout: true});
-                    }
-                }
-            }); 
-        },
-        on_cancel: function() {
-            console.log("cancelled volume detach.");
-            Atmo.volumes.fetch();
-        },
-        ok_button: 'Yes, detach this volume'
-    });
-};
 
 // To show people how much money they've saved by using Atmosphere!
 
