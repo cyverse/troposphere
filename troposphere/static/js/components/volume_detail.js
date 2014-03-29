@@ -132,8 +132,15 @@ Instances, VolumeController) {
                         DestroyForm({volume: this.props.volume}))
                 ];
             } else if (attached) {
+                var attachData = volume.get('attach_data');
+                var attachedText = [
+                    "Attached to instance ",
+                    attachData.instance_id,
+                    " as device ",
+                    React.DOM.code({}, attachData.device)
+                ];
                 content = [
-                    React.DOM.p({key: 'statusText'}, "Attached"),
+                    React.DOM.p({key: 'statusText'}, attachedText),
                     DetachmentForm({key: 'detachment', volume: this.props.volume})
                 ];
             }
