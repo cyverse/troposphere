@@ -139,10 +139,6 @@ Utils.update_weather = function() {
     });
 };
 
-Utils.confirm = function(header, body, options) {
-    Atmo.alert_modal.do_alert(header, body, options);
-};
-
 // case-insensitive Levenshtein Distance as defined by http://en.wikipedia.org/wiki/Levenshtein_distance
 Utils.levenshtein_distance= function(s, t) {
     var len_s = s.length, len_t = t.length, cost = 0;
