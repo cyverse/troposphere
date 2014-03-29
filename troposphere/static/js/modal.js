@@ -6,7 +6,7 @@ define(['react', 'backbone', 'underscore', 'components/mixins/modal'], function(
         mixins: [Modal],
         getDefaultProps: function() {
             return {
-                okButtonText: 'Submit',
+                okButtonText: 'OK',
                 //onCancel: function() {},
                 onConfirm: function() {}
             };
