@@ -12,8 +12,9 @@ define(['react', 'backbone', 'underscore', 'components/mixins/modal'], function(
             };
         },
         onConfirm: function() {
-            if (this.props.onConfirm())
+            this.props.onConfirm().then(function() {
                 this.props.onClose();
+            }.bind(this));
         },
         renderTitle: function() {
             return this.props.title;
@@ -32,7 +33,7 @@ define(['react', 'backbone', 'underscore', 'components/mixins/modal'], function(
 
     /* 
      * Options:
-     * onConfirm: Function to execute if user confirms modal.
+     * onConfirm: Promise to execute if user confirms modal.
      * onCancel: If user cancels callback
      * okButtonText: Alternate text for 'ok' button on modal. 
     */
