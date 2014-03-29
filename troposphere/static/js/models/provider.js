@@ -19,7 +19,7 @@ define(['underscore', 'models/base'], function(_, Base) {
             
             return url;
         },
-        isOpenstack: function() {
+        isOpenStack: function() {
             return this.get('type').toLowerCase() === 'openstack';
         }
     });
