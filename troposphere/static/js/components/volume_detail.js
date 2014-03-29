@@ -30,27 +30,20 @@ Instances, VolumeController) {
 
     var AttachmentForm = React.createClass({
         getInitialState: function() {
-            console.log(this.props.instances);
             return {
-                attaching: false,
                 instance: this.props.instances ? this.props.instances.at(0) : null
             };
         },
         componentWillReceiveProps: function(newProps) {
             var instances = newProps.instances;
-            console.log(instances);
             if (instances && instances.length)
                 this.setState({instance: instances.at(0)});
         },
         handleSubmit: function(e) {
             e.preventDefault();
-            console.log(e);
             var volume = this.props.volume;
-            this.setState({attaching: true}, function() {
-                console.log(this.state);
-                VolumeController
-                    .attachVolume(this.props.volume, this.state.instance);
-            });
+            VolumeController
+                .attachVolume(this.props.volume, this.state.instance);
         },
         handleChange: function(e) {
             var instance = this.props.instances.get(e.target.value);
@@ -62,17 +55,18 @@ Instances, VolumeController) {
                 options = this.props.instances.map(function(instance) {
                     return React.DOM.option({value: instance.id}, instance.get('name_or_id'));
                 });
+            var attaching = this.props.volume.get('status') == 'attaching';
             return React.DOM.select({
                 className: 'form-control',
-                disabled: this.state.attaching,
+                disabled: attaching,
                 onChange: this.handleChange,
                 value: this.state.instance ? this.state.instance.id : null
             }, options);
         },
         getAttachButton: function() {
-            var attaching = this.state.attaching;
+            var attaching = this.props.volume.get('status') == 'attaching';
             var attrs = {className: 'btn btn-primary btn-block'};
-            if (attaching) {
+            if (attaching || !this.state.instance) {
                 attrs.className += ' disabled';
                 attrs.disabled = 'disabled';
             }
@@ -90,7 +84,7 @@ Instances, VolumeController) {
     var DetachmentForm = React.createClass({
         handleSubmit: function(e) {
             e.preventDefault();
-            //VolumeController.detachVolume(volume, 
+            VolumeController.detachVolume(this.props.volume);
         },
         render: function() {
             var detaching = this.props.volume.get('status') === 'detaching';
@@ -111,7 +105,9 @@ Instances, VolumeController) {
         render: function() {
             var volume = this.props.volume;
             var content = [];
-            var available = volume.get('status') == 'available';
+            var state = volume.get('status');
+            var available = state == 'available' || state == 'attaching';
+            var attached = state == 'in-use' || state == 'detaching';
 
             if (available) {
                 content = [
@@ -119,7 +115,7 @@ Instances, VolumeController) {
                     AttachmentForm({volume: this.props.volume,
                     instances: this.props.instances})
                 ];
-            } else if (volume.get('status') == 'in-use') {
+            } else if (attached) {
                 content = [
                     React.DOM.p({}, "Attached"), 
                     DetachmentForm({volume: this.props.volume})
@@ -151,7 +147,6 @@ Instances, VolumeController) {
         render: function() {
             var volume = this.props.volume;
             var instances = this.props.instances;
-            //console.log(volume);
             return React.DOM.div({}, 
                 PageHeader({title: "Volume: " + volume.get('name_or_id'), helpText: this.helpText}),
                 VolumeInfo({volume: volume}),

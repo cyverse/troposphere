@@ -1,4 +1,5 @@
-define(['underscore', 'models/base', 'utils'], function(_, Base, Utils) {
+define(['underscore', 'models/base', 'utils', 'models/instance'],
+function(_, Base, Utils, Instance) {
 
 var Volume = Base.extend({
     defaults: { 'model_name': 'volume' },
@@ -96,6 +97,7 @@ var Volume = Base.extend({
             volume_id: this.get('id'),
             action: "detach_volume"
         };
+        var instance = this.getAttachedInstance();
         
         this.set({'status': 'detaching'});
         var self = this;
@@ -107,10 +109,8 @@ var Volume = Base.extend({
             data: param, 
             success: function(response_data) {
                 self.set({
-                    //'attach_data_attach_time': null,
-                    //'attach_data_device': null,
-                    //'attach_data_instance_id': null,
-                    'status': 'detaching'
+                    'attach_data': {},
+                    'status': 'available'
                 });
                 self.trigger('detach');
                 options.success();
