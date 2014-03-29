@@ -116,7 +116,8 @@ define(['react', 'underscore', 'components/common/glyphicon', 'router'], functio
                         icon: item.icon, 
                         active: this.state.active && item.route[0] == this.state.active[0],
                         text: item.text,
-                        id: item.route
+                        id: item.route,
+                        key: item.text
                     }, SidebarSubmenu({
                             items: item.menu, 
                             active: this.state.active,

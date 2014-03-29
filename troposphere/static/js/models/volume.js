@@ -9,7 +9,7 @@ var Volume = Base.extend({
     },
     parse: function(response) {
         
-        var attributes = _.pick(response, ['name', 'identity', 'status']);
+        var attributes = _.pick(response, ['name', 'identity', 'status', 'size']);
         
         attributes.id = response.alias;
         attributes.start_date = new Date(response.start_date);

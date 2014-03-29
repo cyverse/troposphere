@@ -62,7 +62,7 @@ PageHeader, Intro, ProjectCollection, router, Time) {
         },
         renderDetails: function() {
             return [this.props.model.get('size') + ' GB, created ',
-                Time({date: this.props.model.get('create_time')})];
+                Time({date: this.props.model.get('start_date')})];
         }
     });
 
