@@ -1,4 +1,6 @@
-define(['react', 'notifications'], function(React, notifications) {
+define(['react', 'notifications'], function(React, Notifications) {
+
+    var notifications = Notifications.collection;
 
     // Number of milliseconds to display a notification
     var timeout = 10 * 1000;

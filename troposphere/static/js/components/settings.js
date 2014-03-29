@@ -1,5 +1,5 @@
-define(['react', 'components/page_header', 'components/common/gravatar', 'utils'],
-    function(React, PageHeader, Gravatar, Utils) {
+define(['react', 'components/page_header', 'components/common/gravatar', 'notifications'],
+    function(React, PageHeader, Gravatar, Notifications) {
 
     var IconOption = React.createClass({
         render: function() {
@@ -25,11 +25,11 @@ define(['react', 'components/page_header', 'components/common/gravatar', 'utils'
             this.props.profile.save({icon_set: icon_type}, {
                 patch: true,
                 success: function() {
-                    Utils.notify("Updated", "Your icon preference was changed successfully.", {type: "success"});
+                    Notifications.notify("Updated", "Your icon preference was changed successfully.", {type: "success"});
                     this.setState({selected: icon_type});
                 }.bind(this),
                 error: function() {
-                    Utils.notify("Error", "Your icon preference was not changed successfully.", {type: "danger"});
+                    Notifications.notify("Error", "Your icon preference was not changed successfully.", {type: "danger"});
                 }
             });
         },
