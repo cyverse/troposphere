@@ -25,43 +25,14 @@ require.config({
     }
 });
 
-require(['jquery', 'backbone', 'react', 'components/application', 'router',
-'models/profile', 'collections/identities'], function($, Backbone, React, Application, router, Profile, Identities) {
+require(['jquery', 'backbone', 'react',
+'components/application', 'router', 'singletons/profile'], function($, Backbone,
+React, Application, router, profile) {
     
     function get_profile() {
-        if (window.access_token === undefined || window.expires === undefined)
-            return null;
-
-        $.ajaxSetup({
-            headers: {'Authorization' :'Bearer ' + access_token}
-        });
-
-        var profile = new Profile();
-        profile.fetch({
-            async: false,
-            success: function(model) {
-                var identities = new Identities();
-                identities.fetch({
-                    async: false
-                });
-
-                model.set('identities', identities);
-            },
-            error: function(model, response, options) {
-                if (response.status == 401) {
-                    console.log("Not logged in");
-                } else {
-                    console.error("Error fetching profile");
-                }
-                throw "Invalid access token";
-            }
-        });
-        return profile;
     }
 
     $(document).ready(function() {
-        var profile = get_profile();
-
         var app = Application({profile: profile});
         React.renderComponent(app, document.getElementById('application'));
 
