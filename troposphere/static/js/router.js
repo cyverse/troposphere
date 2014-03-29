@@ -104,7 +104,7 @@ define(['backbone', 'react', 'rsvp'], function(Backbone, React, RSVP) {
             });
         },
         providers: function() {
-            this.setView(['components/providers', 'providers'], function(Providers, collection) {
+            this.setView(['components/providers', 'singletons/providers'], function(Providers, collection) {
                 return Providers({providers: collection});
             });
         },
