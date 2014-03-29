@@ -121,30 +121,10 @@ var Volume = Base.extend({
             }
         });
     },
-    confirmDestroy: function(options) {
-        if (!options) options = {};
-        if (!options.error) options.error = function() {
-            var header = "Something broke!";
-            var body = 'You can refresh the page and try to perform this operation again. If the problem persists, please email '
-                + '<a href="mailto:support@iplantcollaborative.org">support@iplantcollaborative.org</a>. <br /><br />We apologize for the inconvenience.';
-            Atmo.Utils.notify(header, body);
-        };
-
-        var volname = this.get('name_or_id');
-        var self = this;
-        var header = "Do you want to destroy this volume?";
-        var body = "Your volume <strong>" + volname + "</strong> will be destroyed and all data will be permanently lost!";
-        
-        Atmo.Utils.confirm(header, body, { 
-            on_confirm: function() {
-                self.destroy({
-                    wait: true,
-                    success: options.success,
-                    error: options.error
-                });
-            },
-            ok_button: 'Yes, destroy this volume'
-        }); 
+    remove: function(options) {
+        var values = {wait: true};
+        _.defaults(values, options);
+        this.destroy(values);
     }
 });
 

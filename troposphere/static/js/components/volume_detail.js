@@ -43,7 +43,7 @@ Instances, VolumeController) {
             e.preventDefault();
             var volume = this.props.volume;
             VolumeController
-                .attachVolume(this.props.volume, this.state.instance);
+                .attach(this.props.volume, this.state.instance);
         },
         handleChange: function(e) {
             var instance = this.props.instances.get(e.target.value);
@@ -81,10 +81,24 @@ Instances, VolumeController) {
         }
     });
 
+    var DestroyForm = React.createClass({
+        handleClick: function(e) {
+            e.preventDefault();
+            console.log("destroy");
+            VolumeController.destroy(this.props.volume);
+        },
+        render: function() {
+            return React.DOM.button({
+                className: 'btn btn-default',
+                onClick: this.handleClick
+            }, "Destroy Volume");
+        }
+    });
+
     var DetachmentForm = React.createClass({
         handleSubmit: function(e) {
             e.preventDefault();
-            VolumeController.detachVolume(this.props.volume);
+            VolumeController.detach(this.props.volume);
         },
         render: function() {
             var detaching = this.props.volume.get('status') === 'detaching';
@@ -111,14 +125,16 @@ Instances, VolumeController) {
 
             if (available) {
                 content = [
-                    React.DOM.p({}, "Available"),
-                    AttachmentForm({volume: this.props.volume,
-                    instances: this.props.instances})
+                    React.DOM.p({key: 'statusText'}, "Available"),
+                    React.DOM.p({key: 'attachment'},
+                        AttachmentForm({volume: this.props.volume, instances: this.props.instances})),
+                    React.DOM.p({key: 'destroy'},
+                        DestroyForm({volume: this.props.volume}))
                 ];
             } else if (attached) {
                 content = [
-                    React.DOM.p({}, "Attached"), 
-                    DetachmentForm({volume: this.props.volume})
+                    React.DOM.p({key: 'statusText'}, "Attached"),
+                    DetachmentForm({key: 'detachment', volume: this.props.volume})
                 ];
             }
 
@@ -147,7 +163,7 @@ Instances, VolumeController) {
         render: function() {
             var volume = this.props.volume;
             var instances = this.props.instances;
-            return React.DOM.div({}, 
+            return React.DOM.div({},
                 PageHeader({title: "Volume: " + volume.get('name_or_id'), helpText: this.helpText}),
                 VolumeInfo({volume: volume}),
                 AttachmentInfo({volume: volume, instances: instances}));
@@ -166,7 +182,7 @@ Instances, VolumeController) {
         },
         setInstances: function(instances) {
             if (this.isMounted())
-                this.setState({instances: instances}); 
+                this.setState({instances: instances});
         },
         componentDidMount: function() {
             var provider_id = this.props.volume.get('identity').provider;
@@ -181,7 +197,7 @@ Instances, VolumeController) {
             if (this.state.instances)
                 this.state.instances.off('sync', this.setInstances);
 
-            this.state.volume.off('change', this.setVolume); 
+            this.state.volume.off('change', this.setVolume);
         },
         render: function() {
             return VolumeDetailPage({

@@ -1,6 +1,6 @@
 define(['react', 'notifications', 'rsvp', 'singletons/providers', 'modal',
-'components/common/glyphicon'], function(React, Notifications, RSVP, providers, Modal,
-Glyphicon) {
+'components/common/glyphicon', 'router'], function(React, Notifications, RSVP,
+providers, Modal, Glyphicon, router) {
 
     /*
      * models.volume volume,
@@ -38,8 +38,6 @@ Glyphicon) {
 
     /*
      * models.volume volume,
-     * models.instance instance,
-     * returns RSVP.Promise
      */
     var detachVolume = function(volume) {
         var header = React.DOM.span({},
@@ -101,8 +99,41 @@ Glyphicon) {
         });
     };
 
+    /*
+     * models.Volume volume
+     */
+    var destroyVolume = function(volume) {
+
+        var volName = volume.get('name_or_id');
+        var header = "Do you want to destroy this volume?";
+        var body = "Your volume <strong>" + volName + "</strong> will be destroyed and all data will be permanently lost!";
+
+        Modal.alert(header, body, {
+            onConfirm: function() {
+                return new RSVP.Promise(function(resolve, reject) {
+                    resolve();
+                    volume.remove({
+                        success: function() {
+                            Notifications.success("Success", "Volume destroyed");
+                            router.navigate('projects', {trigger: true});
+                        },
+                        error: function() {
+                            var header = "Something broke!";
+                            var body = 'You can refresh the page and try to perform this operation again. If the problem persists, please email '
+                                + '<a href="mailto:support@iplantcollaborative.org">support@iplantcollaborative.org</a>. <br /><br />We apologize for the inconvenience.';
+                            Notifications.danger(header, body);
+                        }
+                    });
+                });
+            },
+            okButtonText: 'Yes, destroy this volume'
+        });
+
+    };
+
     return {
-        attachVolume: attachVolume,
-        detachVolume: detachVolume
+        attach: attachVolume,
+        detach: detachVolume,
+        destroy: destroyVolume
     };
 });
