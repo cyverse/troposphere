@@ -11,6 +11,10 @@ define(['react', 'backbone', 'underscore', 'components/mixins/modal'], function(
                 onConfirm: function() {}
             };
         },
+        onConfirm: function() {
+            if (this.props.onConfirm())
+                this.props.onClose();
+        },
         renderTitle: function() {
             return this.props.title;
         },
@@ -21,7 +25,7 @@ define(['react', 'backbone', 'underscore', 'components/mixins/modal'], function(
             return React.DOM.div({},
                 React.DOM.button({
                     className: 'btn btn-primary', 
-                    onConfirm: this.props.onConfirm
+                    onClick: this.onConfirm,
                 }, this.props.okButtonText));
         }
     });
