@@ -9,11 +9,11 @@ define(['backbone'], function(Backbone) {
         },
         urlRoot: '/api/v1',
         url: function() {
-            if (!this.identity)
+            if (!this.get('identity'))
                 console.error("Model must be instantiated with identity option");
             var creds = {
-                provider_id: this.identity.get('provider_id'),
-                identity_id: this.identity.id
+                provider_id: this.get('identity').provider,
+                identity_id: this.get('identity').id
             };
             var url = this.urlRoot
                 + '/provider/' + creds.provider_id
