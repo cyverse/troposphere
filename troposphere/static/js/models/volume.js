@@ -32,6 +32,17 @@ var Volume = Base.extend({
     name_or_id: function() {
         return this.get('name').length == 0 ? this.id : this.get('name');
     },
+    isAttached: function() {
+        return this.get('status') == 'in-use' || this.get('status') == 'detaching';
+    },
+    getAttachedInstance: function() {
+        if (!this.isAttached())
+            throw "Unattached volume";
+        return new Instance({
+            id: this.get('attach_data').instance_id,
+            identity: this.get('identity')
+        });
+    },
     attachTo: function(instance, mount_location, options) {
         if (!options) options = {};
         if (!options.success) options.success = function() {};
