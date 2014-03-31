@@ -1,7 +1,8 @@
 define(['react', 'models/application', 'collections/applications',
-'components/images/cards', 'components/common/modal', 'jquery',
-'components/common/time'], function(React, App, AppCollection, Cards, Modal, $,
-Time) {
+'components/images/cards', 'components/mixins/modal', 'jquery',
+'components/common/time', 'modal', 'singletons/providers',
+'singletons/profile'], function(React, App, AppCollection, Cards, ModalMixin,
+$, Time, Modal, providers, profile) {
 
     var Machine = React.createClass({
         render: function() {
@@ -23,12 +24,49 @@ Time) {
     });
 
     var LaunchApplicationModal = React.createClass({
-        render: function() {
-            return Modal({id: 'launch-modal', title: 'Launch Instance'},
-                React.DOM.div({className: 'modal-body'},
-                    React.DOM.span({}, "hello")),
-                React.DOM.div({className: 'modal-footer'},
-                    React.DOM.span({}, "hello")));
+        mixins: [ModalMixin],
+        getInitialState: function() {
+            return {
+                instanceName: '',
+                identityId: '',
+            };
+        },
+        renderTitle: function() {
+            return this.props.application.get('name_or_id');
+        },
+        updateState: function(key, e) {
+            var value = e.target.value;
+            var state = {};
+            state[key] = value;
+            this.setState(state);
+        },
+        renderIdentityList: function() {
+            var options = profile.get('identities').map(function(identity) {
+                var provider_name = providers.get(identity.get('provider_id')).get('name');
+                return React.DOM.option({value: identity.id},
+                    "Identity " + identity.id + " on " + provider_name);
+            });
+            var callback = _.bind(this.updateState, this, 'identityId');
+            return React.DOM.select({
+                value: this.state.identityId,
+                id: 'identity',
+                className: 'form-control',
+                onChange: callback}, options);
+        },
+        renderBody: function() {
+            // provider id, identity id, machine_alias, name, size_alias, tags
+            console.log(providers);
+            console.log(profile);
+            return React.DOM.form({role: 'form'},
+                React.DOM.div({className: 'form-group'},
+                    React.DOM.label({htmlFor: 'instance-name'}, "Instance Name"),
+                    React.DOM.input({type: 'text', className: 'form-control', id: 'instance-name'})),
+                React.DOM.div({className: 'form-group'},
+                    React.DOM.label({htmlFor: 'identity'}, "Identity"),
+                    this.renderIdentityList()));
+        },
+        renderFooter: function() {
+            return React.DOM.button({type: 'submit', className: 'btn btn-default'}, "Launch");
         }
     });
 
@@ -52,7 +90,13 @@ Time) {
             }.bind(this)});
         },
         showModal: function(e) {
-            $('#launch-modal').modal('show');
+            Modal.events.trigger('alert', function(onClose) {
+                return LaunchApplicationModal({
+                    onClose: onClose,
+                    application: this.state.application
+                });
+            }.bind(this));
+            //$('#launch-modal').modal('show');
         },
         render: function() {
             var app = this.state.application;
@@ -60,15 +104,14 @@ Time) {
             if (!app)
                 return React.DOM.div({className: 'loading'});
 
-            return React.DOM.div({id: 'app-detail'}, 
+            return React.DOM.div({id: 'app-detail'},
                 React.DOM.h1({}, app.get('name_or_id')),
                 Cards.Rating({rating: app.get('rating')}),
                 Cards.ApplicationCard({application: app, onLaunch: this.showModal}),
                 React.DOM.h2({}, "Description"),
                 React.DOM.p({}, app.get('description')),
                 React.DOM.h2({}, "Versions of this Image"),
-                MachineList({machines: app.get('machines')}),
-                LaunchApplicationModal({application: app}));
+                MachineList({machines: app.get('machines')}))
         }
     });
 
