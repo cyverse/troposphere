@@ -17,7 +17,11 @@ define(['underscore', 'models/base'], function(_, Base) {
     */
 
     var Size = Base.extend({
-        defaults: { 'model_name': 'size' }
+        defaults: { 'model_name': 'size' },
+        parse: function(attributes) {
+            attributes.id = attributes.size;
+            return attributes;
+        }
     });
 
     _.extend(Size.defaults, Base.defaults);

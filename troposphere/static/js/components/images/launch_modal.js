@@ -1,25 +1,40 @@
 define(['react', 'singletons/providers', 'singletons/profile',
 'collections/sizes', 'components/mixins/modal'], function(React, providers,
-profile , Sizes, ModalMixin) {
+profile, Sizes, ModalMixin) {
 
     var InstanceSizeSelect = React.createClass({
+        getInitialState: function() {
+            var sizes = new Sizes([], {
+                provider_id: this.props.providerId,
+                identity_id: this.props.identityId
+            });
+
+            return {
+                sizes: sizes
+            };
+        },
+        updateSizes: function(newSizes) {
+            this.setState({sizes: newSizes});
+        },
         componentDidMount: function() {
-            console.log('mount');
-            this.props.sizes.on('sync', this.forceUpdate);
-            this.props.sizes.fetch();
+            this.state.sizes.on('sync', this.updateSizes);
+            this.state.sizes.fetch();
         },
         componentWillReceiveProps: function(nextProps) {
-            console.log('receive');
-            this.props.sizes.off('sync', this.forceUpdate);
-            nextProps.sizes.on('sync', this.forceUpdate);
-            nextProps.sizes.fetch();
+            this.state.sizes.off('sync', this.updateSizes);
+
+            var sizes = new Sizes([], {
+                provider_id: nextProps.providerId,
+                identity_id: nextProps.identityId
+            });
+            sizes.on('sync', this.updateSizes);
+            sizes.fetch();
         },
         renderOptionText: function(size) {
             return size.get('name');
         },
         render: function() {
-            console.log('render');
-            var options = this.props.sizes.map(function(size) {
+            var options = this.state.sizes.map(function(size) {
                 return React.DOM.option({
                     value: size.id
                 }, this.renderOptionText(size));
@@ -67,19 +82,14 @@ profile , Sizes, ModalMixin) {
         },
         renderBody: function() {
             // provider id, identity id, machine_alias, name, size_alias, tags
-            console.log(providers);
-            console.log(profile);
             var identity = profile.get('identities').get(this.state.identityId);
-            console.log(identity);
-            var sizes = new Sizes([], {
-                provider_id: identity.get('provider_id'),
-                identity_id: identity.id
-            });
-            console.log(sizes);
             return React.DOM.form({role: 'form'},
                 React.DOM.div({className: 'form-group'},
                     React.DOM.label({htmlFor: 'instance-name'}, "Instance Name"),
-                    React.DOM.input({type: 'text', className: 'form-control', id: 'instance-name'})),
+                    React.DOM.input({type: 'text',
+                        className: 'form-control',
+                        id: 'instance-name',
+                        onChange: _.bind(this.updateState, this, 'instanceName')})),
                 React.DOM.div({className: 'form-group'},
                     React.DOM.label({htmlFor: 'identity'}, "Identity"),
                     IdentitySelect({
@@ -87,11 +97,13 @@ profile , Sizes, ModalMixin) {
                         identityId: this.state.identityId})),
                 React.DOM.div({className: 'form-group'},
                     React.DOM.label({htmlFor: 'size'}, "Instance Size"),
-                    InstanceSizeSelect({sizes: sizes})));
+                    InstanceSizeSelect({
+                        providerId: identity.get('provider_id'),
+                        identityId: identity.id,
+                        onChange: _.bind(this.updateState, this, 'sizeId')})));
         },
         launchInstance: function(e) {
             e.preventDefault();
-            console.log(this.state);
         },
         renderFooter: function() {
             return React.DOM.button({type: 'submit',
