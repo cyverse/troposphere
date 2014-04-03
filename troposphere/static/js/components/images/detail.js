@@ -1,8 +1,8 @@
 define(['react', 'models/application', 'collections/applications',
-'components/images/cards', 'components/mixins/modal', 'jquery',
-'components/common/time', 'modal', 'singletons/providers',
-'singletons/profile'], function(React, App, AppCollection, Cards, ModalMixin,
-$, Time, Modal, providers, profile) {
+'components/images/cards', 'jquery',
+'components/common/time', 'modal', 'components/images/launch_modal'],
+function(React, App, AppCollection, Cards, $, Time, Modal,
+LaunchModal) {
 
     var Machine = React.createClass({
         render: function() {
@@ -20,53 +20,6 @@ $, Time, Modal, providers, profile) {
                 return Machine({key: model.id, machine: model});
             });
             return React.DOM.ul({}, versions);
-        }
-    });
-
-    var LaunchApplicationModal = React.createClass({
-        mixins: [ModalMixin],
-        getInitialState: function() {
-            return {
-                instanceName: '',
-                identityId: '',
-            };
-        },
-        renderTitle: function() {
-            return this.props.application.get('name_or_id');
-        },
-        updateState: function(key, e) {
-            var value = e.target.value;
-            var state = {};
-            state[key] = value;
-            this.setState(state);
-        },
-        renderIdentityList: function() {
-            var options = profile.get('identities').map(function(identity) {
-                var provider_name = providers.get(identity.get('provider_id')).get('name');
-                return React.DOM.option({value: identity.id},
-                    "Identity " + identity.id + " on " + provider_name);
-            });
-            var callback = _.bind(this.updateState, this, 'identityId');
-            return React.DOM.select({
-                value: this.state.identityId,
-                id: 'identity',
-                className: 'form-control',
-                onChange: callback}, options);
-        },
-        renderBody: function() {
-            // provider id, identity id, machine_alias, name, size_alias, tags
-            console.log(providers);
-            console.log(profile);
-            return React.DOM.form({role: 'form'},
-                React.DOM.div({className: 'form-group'},
-                    React.DOM.label({htmlFor: 'instance-name'}, "Instance Name"),
-                    React.DOM.input({type: 'text', className: 'form-control', id: 'instance-name'})),
-                React.DOM.div({className: 'form-group'},
-                    React.DOM.label({htmlFor: 'identity'}, "Identity"),
-                    this.renderIdentityList()));
-        },
-        renderFooter: function() {
-            return React.DOM.button({type: 'submit', className: 'btn btn-default'}, "Launch");
         }
     });
 
@@ -91,12 +44,11 @@ $, Time, Modal, providers, profile) {
         },
         showModal: function(e) {
             Modal.events.trigger('alert', function(onClose) {
-                return LaunchApplicationModal({
+                return LaunchModal({
                     onClose: onClose,
                     application: this.state.application
                 });
             }.bind(this));
-            //$('#launch-modal').modal('show');
         },
         render: function() {
             var app = this.state.application;
