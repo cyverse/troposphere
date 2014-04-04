@@ -1,43 +1,36 @@
 define(['react', 'singletons/providers', 'singletons/profile',
-'collections/sizes', 'components/mixins/modal'], function(React, providers,
-profile, Sizes, ModalMixin) {
+'collections/sizes', 'components/mixins/modal',
+'controllers/providers'], function(React, providers, profile, Sizes,
+ModalMixin, ProviderController) {
 
     var InstanceSizeSelect = React.createClass({
         getInitialState: function() {
-            var sizes = new Sizes([], {
-                provider_id: this.props.providerId,
-                identity_id: this.props.identityId
-            });
-
             return {
-                sizes: sizes
+                sizes: null
             };
         },
-        updateSizes: function(newSizes) {
-            this.setState({sizes: newSizes});
+        updateSizes: function(providerId, identityId) {
+            ProviderController.getSizeCollection(providerId, identityId)
+                .then(function(newSizes) {
+                    this.setState({sizes: newSizes});
+                }.bind(this));
         },
         componentDidMount: function() {
-            this.state.sizes.on('sync', this.updateSizes);
-            this.state.sizes.fetch();
+            this.updateSizes(this.props.providerId, this.props.identityId);
         },
-        componentWillReceiveProps: function(nextProps) {
-            this.state.sizes.off('sync', this.updateSizes);
-
-            var sizes = new Sizes([], {
-                provider_id: nextProps.providerId,
-                identity_id: nextProps.identityId
-            });
-            sizes.on('sync', this.updateSizes);
-            sizes.fetch();
+        componentWillReceiveProps: function(newProps) {
+            this.updateSizes(newProps.providerId, newProps.identityId);
         },
         renderOptionText: function(size) {
             return size.get('name');
         },
         render: function() {
-            var options = this.state.sizes.map(function(size) {
-                return React.DOM.option({
-                    value: size.id
-                }, this.renderOptionText(size));
+            var options = [];
+            if (this.state.sizes)
+                options = this.state.sizes.map(function(size) {
+                    return React.DOM.option({
+                        value: size.id
+                    }, this.renderOptionText(size));
             }.bind(this));
             return React.DOM.select({
                 value: this.props.value, 
