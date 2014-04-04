@@ -26,11 +26,13 @@ require.config({
 });
 
 require(['jquery', 'backbone', 'react',
-'components/application', 'router', 'singletons/profile'], function($, Backbone,
-React, Application, router, profile) {
-    
-    function get_profile() {
-    }
+'components/application', 'router', 'singletons/profile', 'rsvp'], function($,
+Backbone, React, Application, router, profile, RSVP) {
+
+    // Catch-all for errors within promises
+    RSVP.on('error', function(reason) {
+        console.assert(false, reason);
+    });
 
     $(document).ready(function() {
         var app = Application({profile: profile});
