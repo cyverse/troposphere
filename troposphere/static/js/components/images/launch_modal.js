@@ -33,7 +33,7 @@ ModalMixin, ProviderController) {
                     }, this.renderOptionText(size));
             }.bind(this));
             return React.DOM.select({
-                value: this.props.value, 
+                value: this.props.sizeId,
                 className: 'form-control',
                 id: 'size',
                 onChange: this.props.onChange}, options);
@@ -55,13 +55,29 @@ ModalMixin, ProviderController) {
         }
     });
 
+    var MachineSelect = React.createClass({
+        render: function() {
+            var options = this.props.machines.map(function(machine) {
+                return React.DOM.option({value: machine.id},
+                    machine.get('pretty_version'));
+            });
+            return React.DOM.select({
+                value: this.props.machineId,
+                id: 'machine',
+                className: 'form-control',
+                onChange: this.props.onChange}, options);
+        }
+    });
+
     var LaunchApplicationModal = React.createClass({
         mixins: [ModalMixin],
         getInitialState: function() {
             var defaultIdentity = profile.get('identities').at(0);
             return {
                 instanceName: '',
-                identityId: defaultIdentity.id
+                identityId: defaultIdentity.id,
+                sizeId: null,
+                machineId: this.props.application.get('machines').at(0).id
             };
         },
         renderTitle: function() {
@@ -93,10 +109,18 @@ ModalMixin, ProviderController) {
                     InstanceSizeSelect({
                         providerId: identity.get('provider_id'),
                         identityId: identity.id,
-                        onChange: _.bind(this.updateState, this, 'sizeId')})));
+                        sizeId: this.state.sizeId,
+                        onChange: _.bind(this.updateState, this, 'sizeId')})),
+                React.DOM.div({className: 'form-group'},
+                    React.DOM.label({htmlFor: 'machine'}, "Version"),
+                    MachineSelect({
+                        machineId: this.state.machineId,
+                        machines: this.props.application.get('machines') ,
+                        onChange: _.bind(this.updateState, this, 'machineId')})));
         },
         launchInstance: function(e) {
             e.preventDefault();
+            console.log(this.state);
         },
         renderFooter: function() {
             return React.DOM.button({type: 'submit',
