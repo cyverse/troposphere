@@ -1,4 +1,4 @@
-define(['react', 'components/page_header', 'components/common/gravatar', 'notifications'],
+define(['react', 'components/page_header', 'components/common/gravatar', 'controllers/notifications'],
     function(React, PageHeader, Gravatar, Notifications) {
 
     var IconOption = React.createClass({

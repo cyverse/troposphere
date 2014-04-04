@@ -1,7 +1,7 @@
 /** 
  * Global utilities file.  You can call these from anythwere!
  */
-define(['notifications'], function(notifications) {
+define(['controllers/notifications'], function(notifications) {
 
 var Utils = {};
 

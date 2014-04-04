@@ -1,4 +1,4 @@
-define(['react', 'notifications', 'rsvp', 'singletons/providers', 'modal',
+define(['react', 'controllers/notifications', 'rsvp', 'singletons/providers', 'modal',
 'components/common/glyphicon', 'router'], function(React, Notifications, RSVP,
 providers, Modal, Glyphicon, router) {
 

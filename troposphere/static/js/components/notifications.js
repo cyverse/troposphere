@@ -1,4 +1,4 @@
-define(['react', 'notifications'], function(React, Notifications) {
+define(['react', 'controllers/notifications'], function(React, Notifications) {
 
     var notifications = Notifications.collection;
 
