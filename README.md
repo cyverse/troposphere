@@ -24,7 +24,7 @@ npm install yuglify
 ```
 mkdir -p /opt/env
 virtualenv /opt/env/troposphere
-source /opt/env/trosposphere/bin/activate
+source /opt/env/troposphere/bin/activate
 pip install -r requirements.txt
 python manage.py collectstatic
 ```
