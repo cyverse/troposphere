@@ -100,6 +100,12 @@ ModalMixin, ProviderController) {
                         id: 'instance-name',
                         onChange: _.bind(this.updateState, this, 'instanceName')})),
                 React.DOM.div({className: 'form-group'},
+                    React.DOM.label({htmlFor: 'machine'}, "Version"),
+                    MachineSelect({
+                        machineId: this.state.machineId,
+                        machines: this.props.application.get('machines') ,
+                        onChange: _.bind(this.updateState, this, 'machineId')})),
+                React.DOM.div({className: 'form-group'},
                     React.DOM.label({htmlFor: 'identity'}, "Identity"),
                     IdentitySelect({
                         onChange: _.bind(this.updateState, this, 'identityId'), 
@@ -110,13 +116,7 @@ ModalMixin, ProviderController) {
                         providerId: identity.get('provider_id'),
                         identityId: identity.id,
                         sizeId: this.state.sizeId,
-                        onChange: _.bind(this.updateState, this, 'sizeId')})),
-                React.DOM.div({className: 'form-group'},
-                    React.DOM.label({htmlFor: 'machine'}, "Version"),
-                    MachineSelect({
-                        machineId: this.state.machineId,
-                        machines: this.props.application.get('machines') ,
-                        onChange: _.bind(this.updateState, this, 'machineId')})));
+                        onChange: _.bind(this.updateState, this, 'sizeId')})));
         },
         launchInstance: function(e) {
             e.preventDefault();
