@@ -55,38 +55,52 @@ providers, Providers, Help, InstanceDetail, VolumeDetail) {
         handleNavigate: function(route, options) {
             this.router.navigate(route, options);
         },
-        renderContent: function() {
-            if (this.state.route === 'settings')
+        pages: {
+            settings: function() {
                 return Settings({profile: this.state.profile});
-            else if (this.state.route === 'projects')
+            },
+            projects: function() {
                 return Projects();
-            else if (this.state.route === 'instanceDetail')
+            },
+            instanceDetail: function(providerId, identityId, instanceId) {
                 return InstanceDetail({
-                    providerId: this.state.routeArgs[0],
-                    identityId: this.state.routeArgs[1],
-                    instanceId: this.state.routeArgs[2]
+                    providerId: providerId,
+                    identityId: identityId,
+                    instanceId: instanceId
                 });
-            else if (this.state.route === 'volumeDetail')
+            },
+            volumeDetail: function(providerId, identityId, volumeId) {
                 return VolumeDetail({
-                    providerId: this.state.routeArgs[0],
-                    identityId: this.state.routeArgs[1],
-                    volumeId: this.state.routeArgs[2]
+                    providerId: providerId,
+                    identityId: identityId,
+                    volumeId: volumeId
                 });
-            else if (this.state.route == 'images')
+            },
+            images: function() {
                 return ImageList();
-            else if (this.state.route == 'imageFavorites')
+            },
+            imageFavorites: function() {
                 return ImageFavorites();
-            else if (this.state.route === 'imageDetail')
+            },
+            imageDetail: function(imageId) {
                 return ImageDetail({
-                    image_id: this.state.routeArgs[0], 
+                    image_id: imageId,
                     profile: this.state.profile, 
                     identities: this.state.identities
                 });
-            else if (this.state.route === 'providers') // Get providers lazily
+            },
+            providers: function() {
+                // TODO: Get providers lazily
                 return Providers({providers: this.state.providers});
-            else if (this.state.route === 'help')
+            },
+            help: function() {
                 return Help();
-            return React.DOM.div({className: 'loading'});
+            }
+        },
+        renderContent: function() {
+            if (this.state.route)
+                return this.pages[this.state.route].apply(this, this.state.routeArgs);
+            return React.DOM.div();
         },
         render: function() {
             return React.DOM.div({},
