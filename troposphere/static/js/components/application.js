@@ -46,6 +46,10 @@ providers, Providers, Help, InstanceDetail, VolumeDetail) {
         fetchProfile: function() {
             Profile.getProfile().then(function(profile) {
                 this.setState({profile: profile});
+
+                profile.on('change', function(m) {
+                    this.setState({profile: m});
+                }.bind(this));
             }.bind(this));
         },
         componentDidMount: function() {

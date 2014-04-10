@@ -28,14 +28,13 @@ function(RSVP, Profile, Identities, Notifications) {
             });
         },
         setIcons: function(profile, icon_type) {
-
             profile.save({icon_set: icon_type}, {
                 patch: true,
                 success: function() {
-                    Notifications.notify("Updated", "Your icon preference was changed successfully.", {type: "success"});
+                    Notifications.success("Updated", "Your icon preference was changed successfully.");
                 }.bind(this),
                 error: function() {
-                    Notifications.notify("Error", "Your icon preference was not changed successfully.", {type: "danger"});
+                    Notifications.danger("Error", "Your icon preference was not changed successfully.");
                 }
             });
         }
