@@ -17,7 +17,6 @@ ModalMixin, ProviderController) {
                 size.get('disk'), " GB disk)"];
         },
         render: function() {
-            console.log(this.props.size);
             return React.DOM.option({
                 value: this.props.size.id
             }, this.renderOptionText());
@@ -25,27 +24,10 @@ ModalMixin, ProviderController) {
     });
 
     var InstanceSizeSelect = React.createClass({
-        getInitialState: function() {
-            return {
-                sizes: null
-            };
-        },
-        updateSizes: function(providerId, identityId) {
-            ProviderController.getSizeCollection(providerId, identityId)
-                .then(function(newSizes) {
-                    this.setState({sizes: newSizes});
-                }.bind(this));
-        },
-        componentDidMount: function() {
-            this.updateSizes(this.props.providerId, this.props.identityId);
-        },
-        componentWillReceiveProps: function(newProps) {
-            this.updateSizes(newProps.providerId, newProps.identityId);
-        },
         render: function() {
             var options = [];
-            if (this.state.sizes)
-                options = this.state.sizes.map(function(size) {
+            if (this.props.sizes)
+                options = this.props.sizes.map(function(size) {
                     return InstanceSizeOption({key: size.id, size: size});
                 });
             return React.DOM.select({
@@ -93,11 +75,32 @@ ModalMixin, ProviderController) {
                 instanceName: '',
                 identityId: defaultIdentity.id,
                 sizeId: null,
-                machineId: this.props.application.get('machines').at(0).id
+                machineId: this.props.application.get('machines').at(0).id,
+                sizes: null
             };
         },
         renderTitle: function() {
             return this.props.application.get('name_or_id');
+        },
+        updateSizes: function(identityId) {
+            var identity = this.props.identities.get(identityId);
+            var providerId = identity.get('provider_id');
+            var identityId = identity.id;
+            ProviderController.getSizeCollection(providerId, identityId)
+                .then(function(newSizes) {
+                    this.setState({
+                        sizes: newSizes,
+                        sizeId: newSizes.at(0).id
+                    });
+                }.bind(this));
+        },
+        componentDidMount: function() {
+            this.updateSizes(this.state.identityId);
+        },
+        handleIdentityChange: function(e) {
+            var identityId = e.target.value;
+            this.setState({identityId: identityId});
+            this.updateSizes(identityId);
         },
         updateState: function(key, e) {
             var value = e.target.value;
@@ -124,14 +127,13 @@ ModalMixin, ProviderController) {
                 React.DOM.div({className: 'form-group'},
                     React.DOM.label({htmlFor: 'identity'}, "Identity"),
                     IdentitySelect({
-                        onChange: _.bind(this.updateState, this, 'identityId'), 
+                        onChange: this.handleIdentityChange,
                         identityId: this.state.identityId,
                         identities: this.props.identities})),
                 React.DOM.div({className: 'form-group'},
                     React.DOM.label({htmlFor: 'size'}, "Instance Size"),
                     InstanceSizeSelect({
-                        providerId: identity.get('provider_id'),
-                        identityId: identity.id,
+                        sizes: this.state.sizes,
                         sizeId: this.state.sizeId,
                         onChange: _.bind(this.updateState, this, 'sizeId')})));
         },
