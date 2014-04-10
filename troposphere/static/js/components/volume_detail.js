@@ -1,7 +1,7 @@
 define(['react', 'underscore', 'components/page_header',
 'components/common/time', 'singletons/providers', 'collections/instances',
-'controllers/volumes'], function(React, _, PageHeader, Time, providers,
-Instances, VolumeController) {
+'controllers/volumes', 'components/mixins/loading', 'collections/volumes', 'rsvp'], function(React, _, PageHeader, Time, providers,
+Instances, VolumeController, LoadingMixin, Volumes, RSVP) {
 
     var VolumeInfo = React.createClass({
         render: function() {
@@ -214,5 +214,27 @@ Instances, VolumeController) {
         }
     });
 
-    return VolumeDetail;
+    var VolumeDetailWrapper = React.createClass({
+        mixins: [LoadingMixin],
+        model: function() {
+            var volumes = new Volumes([], {
+                provider_id: this.props.providerId, 
+                identity_id: this.props.identityId
+            });
+            var volumeId = this.props.volumeId
+            return new RSVP.Promise(function(resolve, reject) {
+                volumes.fetch({success: function() {
+                    var volume = volumes.get(volumeId);
+                    if (volume === undefined)
+                        throw "Unknown volume " + volume_id;
+                    resolve(volume);
+                }});
+            });
+        },
+        renderContent: function() {
+            return VolumeDetail({volume: this.state.model});
+        }
+    });
+
+    return VolumeDetailWrapper;
 });

@@ -1,7 +1,7 @@
-define(['react', 'underscore', 'components/page_header',
-'components/intro', 'collections/projects', 'router',
-'components/common/time'], function(React, _,
-PageHeader, Intro, ProjectCollection, router, Time) {
+define(['backbone', 'react', 'underscore', 'components/page_header',
+'components/intro', 'collections/projects',
+'components/common/time', 'rsvp', 'components/mixins/loading'], function(Backbone, React, _,
+PageHeader, Intro, ProjectCollection, Time, RSVP, LoadingMixin) {
 
     var ProjectItemMixin = {
         render: function() {
@@ -28,7 +28,7 @@ PageHeader, Intro, ProjectCollection, router, Time) {
                 href: url_root + '/' + instance_url(instance),
                 onClick: function(e) {
                     e.preventDefault();
-                    router.navigate(instance_url(instance), {trigger: true});
+                    Backbone.history.navigate(instance_url(instance), {trigger: true});
                 }}, this.props.model.get('name_or_id'));
         },
         renderDetails: function() {
@@ -57,7 +57,7 @@ PageHeader, Intro, ProjectCollection, router, Time) {
                 href: url_root + '/' + url,
                 onClick: function(e) {
                     e.preventDefault();
-                    router.navigate(url, {trigger: true});
+                    Backbone.history.navigate(url, {trigger: true});
                 }}, volume.get('name_or_id'));
         },
         renderDetails: function() {
@@ -114,5 +114,21 @@ PageHeader, Intro, ProjectCollection, router, Time) {
         }
     });
 
-    return Projects;
+    var ProjectsView = React.createClass({
+        mixins: [LoadingMixin],
+        model: function() {
+            return new RSVP.Promise(function(resolve, reject) {
+                new ProjectCollection().fetch({
+                    success: function(coll) {
+                        resolve(coll);
+                    }
+                });
+            });
+        },
+        renderContent: function() {
+            return Projects({projects: this.state.model});
+        }
+    });
+
+    return ProjectsView;
 });
