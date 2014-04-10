@@ -34,6 +34,13 @@ function (React, Header, Sidebar, Footer, Notifications, Modal, Router, Profile)
         fetchProfile: function() {
             Profile.getProfile().then(function(profile) {
                 this.setState({profile: profile});
+
+                /*
+                profile.on('change', function(model) {
+                    console.log('change');
+                    this.setState({profile: model});
+                }.bind(this));
+                */
             }.bind(this));
         },
         componentDidMount: function() {

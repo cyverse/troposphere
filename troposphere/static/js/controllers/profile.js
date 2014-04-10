@@ -1,5 +1,5 @@
-define(['rsvp', 'models/profile', 'collections/identities'], 
-function(RSVP, Profile, Identities) {
+define(['rsvp', 'models/profile', 'collections/identities', 'controllers/notifications'], 
+function(RSVP, Profile, Identities, Notifications) {
 
     return {
         getProfile: function() {
@@ -25,6 +25,18 @@ function(RSVP, Profile, Identities) {
                         resolve(m);
                     }
                 });
+            });
+        },
+        setIcons: function(profile, icon_type) {
+
+            profile.save({icon_set: icon_type}, {
+                patch: true,
+                success: function() {
+                    Notifications.notify("Updated", "Your icon preference was changed successfully.", {type: "success"});
+                }.bind(this),
+                error: function() {
+                    Notifications.notify("Error", "Your icon preference was not changed successfully.", {type: "danger"});
+                }
             });
         }
     }

@@ -1,5 +1,5 @@
-define(['react', 'components/page_header', 'components/common/gravatar', 'controllers/notifications'],
-    function(React, PageHeader, Gravatar, Notifications) {
+define(['react', 'components/page_header', 'components/common/gravatar', 'controllers/profile'],
+    function(React, PageHeader, Gravatar, Profile) {
 
     var IconOption = React.createClass({
         render: function() {
@@ -15,52 +15,52 @@ define(['react', 'components/page_header', 'components/common/gravatar', 'contro
     });
 
     var IconSelect = React.createClass({
-        getInitialState: function() {
+        getDefaultProps: function() {
             return {
-                selected: this.props.profile.get('settings')['icon_set']
+                icons: {
+                    'default': 'Identicons',
+                    retro: 'Retro',
+                    robot: 'Robots',
+                    unicorn: 'Unicorns',
+                    monster: 'Monsters',
+                    wavatar: 'Wavatars'
+                }
             };
         },
         handleClick: function(icon_type, e) {
             e.preventDefault();
-            this.props.profile.save({icon_set: icon_type}, {
-                patch: true,
-                success: function() {
-                    Notifications.notify("Updated", "Your icon preference was changed successfully.", {type: "success"});
-                    this.setState({selected: icon_type});
-                }.bind(this),
-                error: function() {
-                    Notifications.notify("Error", "Your icon preference was not changed successfully.", {type: "danger"});
-                }
-            });
+            this.props.onSelect(icon_type);
+            console.log(this);
         },
         render: function() {
+            console.log(this.props);
             return React.DOM.ul({id: 'icon-set-select'}, _.map(this.props.icons, function(text, type) {
                 return IconOption({
                     type: type, 
                     text: text, 
-                    selected: type == this.state.selected, 
+                    selected: type == this.props.selected, 
                     onClick: this.handleClick});
             }.bind(this)));
         }
     });
 
-    var icons = {
-        'default': 'Identicons',
-        retro: 'Retro',
-        robot: 'Robots',
-        unicorn: 'Unicorns',
-        monster: 'Monsters',
-        wavatar: 'Wavatars'
-    };
-
     return React.createClass({
+        handleIconSelect: function(icon_type) {
+            Profile.setIcons(this.props.profile, icon_type);
+        },
+        getSelectedIconSet: function() {
+            var profile = this.props.profile;
+            return profile ? profile.get('settings')['icon_set'] : null
+        },
         render: function() {
             return React.DOM.div({},
                 PageHeader({title: "Settings"}),
                 React.DOM.h2({}, "Notifications"),
                 React.DOM.h2({}, "Appearance"),
                 React.DOM.p({}, "Image and instance icon set:"),
-                IconSelect({icons: icons, profile: this.props.profile}));
+                IconSelect({
+                    selected: this.getSelectedIconSet(),
+                    onSelect: this.handleIconSelect}));
         }
     });
 
