@@ -1,12 +1,50 @@
-define(['react', 'underscore', 'components/header', 'components/sidebar', 
-        'components/footer', 'components/notifications', 'components/modal'],
-function (React, _, Header, Sidebar, Footer, Notifications, Modal) {
-
+define(['react', 'components/header', 'components/sidebar',
+'components/footer', 'components/notifications', 'components/modal',
+'router', 'controllers/profile'],
+function (React, Header, Sidebar, Footer, Notifications, Modal, Router, Profile)
+{
     var Application = React.createClass({
+        getInitialState: function() {
+            return {
+                loggedIn: this.props.session.isValid(),
+                profile: null,
+                currentRoute: null
+            };
+        },
+        handleRoute: function(page) {
+            console.log(arguments);
+            this.setState({currentRoute: page});
+        },
+        beginRouting: function() {
+            this.router = new Router({
+                loggedIn: this.state.loggedIn
+            });
+
+            this.router.on("route", this.handleRoute);
+
+            Backbone.history.start({
+                pushState: true,
+                root: url_root
+            });
+        },
+        fetchProfile: function() {
+            Profile.getProfile().then(function(profile) {
+                this.setState({profile: profile});
+            }.bind(this));
+        },
+        componentDidMount: function() {
+            this.beginRouting();
+            this.fetchProfile();
+        },
+        handleNavigate: function(route, options) {
+            this.router.navigate(route, options);
+        },
         render: function() {
             return React.DOM.div({},
-                Header({profile: this.props.profile}),
-                Sidebar({loggedIn: this.props.profile != null}),
+                Header({profile: this.state.profile}),
+                Sidebar({loggedIn: this.state.loggedIn, 
+                    currentRoute: this.state.currentRoute,
+                    onNavigate: this.handleNavigate}),
                 Notifications(),
                 React.DOM.div({id: 'main'}),
                 Footer(),

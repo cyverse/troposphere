@@ -1,5 +1,10 @@
 define(['backbone', 'react', 'rsvp'], function(Backbone, React, RSVP) {
     var Router = Backbone.Router.extend({
+        initialize: function(options) {
+            this.defeaultRoute = 'images';
+            if (options && options.loggedIn)
+                this.defaultRoute = 'projects';
+        },
         routes: {
             '': 'handleDefaultRoute',
             'projects': 'projects',
@@ -14,10 +19,6 @@ define(['backbone', 'react', 'rsvp'], function(Backbone, React, RSVP) {
             'providers': 'providers',
             'settings': 'settings',
             'help': 'help'
-        },
-        setProfile: function(profile) {
-            this.profile = profile;
-            this.defaultRoute = profile != null ? 'projects' : 'images';
         },
         handleDefaultRoute: function() {
             this.navigate(this.defaultRoute, {trigger: true, replace: true});
@@ -120,5 +121,5 @@ define(['backbone', 'react', 'rsvp'], function(Backbone, React, RSVP) {
         }
     });
 
-    return new Router();
+    return Router;
 });

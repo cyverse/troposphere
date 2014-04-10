@@ -25,25 +25,28 @@ require.config({
     }
 });
 
-require(['jquery', 'backbone', 'react',
-'components/application', 'router', 'singletons/profile', 'rsvp'], function($,
-Backbone, React, Application, router, profile, RSVP) {
+require(['jquery', 'react', 'components/application', 'rsvp', 'models/session'],
+function($, React, Application, RSVP, Session) {
 
     // Catch-all for errors within promises
     RSVP.on('error', function(reason) {
         console.assert(false, reason);
     });
 
-    $(document).ready(function() {
-        var app = Application({profile: profile});
-        React.renderComponent(app, document.getElementById('application'));
-
-        router.setProfile(profile);
-
-        Backbone.history.start({
-            pushState: true,
-            root: url_root
+    var session = new Session();
+    if (window.access_token) {
+        $.ajaxSetup({
+            headers: {'Authorization' :'Bearer ' + window.access_token}
         });
+        session.set({
+            access_token: window.access_token,
+            expires: window.expires
+        });
+    }
+
+    $(document).ready(function() {
+        var app = Application({session: session});
+        React.renderComponent(app, document.getElementById('application'));
     });
 
 });

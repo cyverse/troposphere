@@ -1,9 +1,9 @@
-define(['react', 'underscore', 'components/common/glyphicon', 'router'], function (React, _, Glyphicon, router) {
+define(['react', 'underscore', 'components/common/glyphicon'], function (React, _, Glyphicon) {
 
     var SidebarListItem = React.createClass({
         handleClick: function(e) {
             e.preventDefault();
-            router.navigate(this.props.id.join('/'), {trigger: true});
+            this.props.onNavigate(this.props.id.join('/'), {trigger: true});
         },
         render: function() {
             var icon = this.props.icon ? Glyphicon({name: this.props.icon}) : null;
@@ -28,6 +28,7 @@ define(['react', 'underscore', 'components/common/glyphicon', 'router'], functio
             return React.DOM.ul({}, _.map(this.props.items, function(menu_item) {
                 if (!menu_item.login_required || this.props.loggedIn)
                     return SidebarListItem({
+                        onNavigate: this.props.onNavigate,
                         text: menu_item.text,
                         active: this.props.active && this.props.active.join('/') == menu_item.route.join('/'), // poor man's array equality
                         id: menu_item.route
@@ -83,44 +84,40 @@ define(['react', 'underscore', 'components/common/glyphicon', 'router'], functio
 
     //prop active route: 'images/authored' 'images/1234'
     var Sidebar = React.createClass({
-        getInitialState: function() {
-            return {
-                active: null
-            };
-        },
         getDefaultProps: function() {
             return {items: menuItems};
         },
-        componentDidMount: function() {
-            router.on("route", function(page) {
-                if (page == "handleDefaultRoute")
-                    return;
-                var routeMap = {
-                    'imageDetail': ['images'],
-                    'imageFavorites': ['images', 'favorites'],
-                    'imageAuthored': ['images', 'authored']
-                };
-                if (routeMap[page])
-                    page = routeMap[page];
-                else
-                    page = [page];
-                this.setState({active: page});
-            }.bind(this));
-        },
-        componentWillUnmount: function() {
+        getRouteList: function(page) {
+            if (page == "handleDefaultRoute")
+                return;
+            var routeMap = {
+                'imageDetail': ['images'],
+                'imageFavorites': ['images', 'favorites'],
+                'imageAuthored': ['images', 'authored']
+            };
+            if (routeMap[page])
+                page = routeMap[page];
+            else
+                page = [page];
+            return page;
         },
         render: function() {
+
+            var active = this.getRouteList(this.props.currentRoute);
+
             var items = _.map(this.props.items, function(item) {
                 if (!item.login_required || this.props.loggedIn)
                     return SidebarListItem({
                         icon: item.icon, 
-                        active: this.state.active && item.route[0] == this.state.active[0],
+                        active: active && item.route[0] == active[0],
                         text: item.text,
                         id: item.route,
-                        key: item.text
+                        key: item.text,
+                        onNavigate: this.props.onNavigate
                     }, SidebarSubmenu({
+                            onNavigate: this.props.onNavigate,
                             items: item.menu, 
-                            active: this.state.active,
+                            active: active,
                             loggedIn: this.props.loggedIn
                         }));
             }.bind(this));
