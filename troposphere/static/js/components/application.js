@@ -3,6 +3,7 @@ define(['react', 'components/header', 'components/sidebar',
 'router', 'controllers/profile'],
 function (React, Header, Sidebar, Footer, Notifications, Modal, Router, Profile)
 {
+
     var Application = React.createClass({
         getInitialState: function() {
             return {
@@ -10,6 +11,9 @@ function (React, Header, Sidebar, Footer, Notifications, Modal, Router, Profile)
                 profile: null,
                 currentRoute: null
             };
+        },
+        componentWillUpdate: function(nextProps, nextState) {
+            this.router.setProfile(nextState.profile); 
         },
         handleRoute: function(page) {
             console.log(arguments);

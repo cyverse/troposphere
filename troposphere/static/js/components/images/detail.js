@@ -46,7 +46,8 @@ LaunchModal) {
             Modal.events.trigger('alert', function(onClose) {
                 return LaunchModal({
                     onClose: onClose,
-                    application: this.state.application
+                    application: this.state.application,
+                    identities: this.props.identities
                 });
             }.bind(this));
         },

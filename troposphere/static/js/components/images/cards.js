@@ -1,4 +1,4 @@
-define(['react', 'components/common/gravatar', 'router'], function(React, Gravatar, router) {
+define(['react', 'components/common/gravatar', 'backbone'], function(React, Gravatar, Backbone) {
 
     var Rating = React.createClass({
         render: function() {
@@ -48,7 +48,7 @@ define(['react', 'components/common/gravatar', 'router'], function(React, Gravat
         },
         onImageClick: function(e) {
             e.preventDefault();
-            router.navigate("images/" + this.props.application.id, {trigger: true});
+            Backbone.history.navigate("images/" + this.props.application.id, {trigger: true});
         },
         render: function() {
             var app = this.props.application;

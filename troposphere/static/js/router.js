@@ -4,6 +4,7 @@ define(['backbone', 'react', 'rsvp'], function(Backbone, React, RSVP) {
             this.defeaultRoute = 'images';
             if (options && options.loggedIn)
                 this.defaultRoute = 'projects';
+            this.profile = null;
         },
         routes: {
             '': 'handleDefaultRoute',
@@ -19,6 +20,9 @@ define(['backbone', 'react', 'rsvp'], function(Backbone, React, RSVP) {
             'providers': 'providers',
             'settings': 'settings',
             'help': 'help'
+        },
+        setProfile: function(profile) {
+            this.profile = profile;
         },
         handleDefaultRoute: function() {
             this.navigate(this.defaultRoute, {trigger: true, replace: true});
@@ -60,8 +64,16 @@ define(['backbone', 'react', 'rsvp'], function(Backbone, React, RSVP) {
         imageAuthored: function() {
         },
         imageDetail: function(id) {
-            this.setView(['components/images/detail'], function(ImageDetail) {
-                return ImageDetail({image_id: id});
+            this.setView(['components/images/detail', 'controllers/profile'], function(ImageDetail, Profile) {
+                return new RSVP.Promise(function(resolve, reject) {
+                    Profile.getIdentities().then(function(identities) {
+                        resolve(ImageDetail({
+                            image_id: id,
+                            profile: this.profile,
+                            identities: identities
+                        }));
+                    });
+                });
             });
         },
         /*

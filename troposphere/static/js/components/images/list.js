@@ -1,6 +1,6 @@
 define(['react', 'components/page_header', 'collections/applications', 
-    'router', 'components/images/cards'],
-    function(React, PageHeader, Applications, router, Cards) {
+    'components/images/cards'],
+    function(React, PageHeader, Applications, Cards) {
 
     var ApplicationsHome = React.createClass({
         getInitialState: function() {

@@ -20,7 +20,7 @@ function(RSVP, Profile, Identities) {
         },
         getIdentities: function() {
             return new RSVP.Promise(function(resolve, reject) {
-                new Identites().fetch({
+                new Identities().fetch({
                     success: function(m) {
                         resolve(m);
                     }

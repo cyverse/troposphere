@@ -1,6 +1,6 @@
-define(['react', 'singletons/providers', 'singletons/profile',
+define(['react', 'singletons/providers',
 'collections/sizes', 'components/mixins/modal',
-'controllers/providers'], function(React, providers, profile, Sizes,
+'controllers/providers'], function(React, providers, Sizes,
 ModalMixin, ProviderController) {
 
     var InstanceSizeSelect = React.createClass({
@@ -42,7 +42,7 @@ ModalMixin, ProviderController) {
 
     var IdentitySelect = React.createClass({
         render: function() {
-            var options = profile.get('identities').map(function(identity) {
+            var options = this.props.identities.map(function(identity) {
                 var provider_name = providers.get(identity.get('provider_id')).get('name');
                 return React.DOM.option({value: identity.id},
                     "Identity " + identity.id + " on " + provider_name);
@@ -72,7 +72,7 @@ ModalMixin, ProviderController) {
     var LaunchApplicationModal = React.createClass({
         mixins: [ModalMixin],
         getInitialState: function() {
-            var defaultIdentity = profile.get('identities').at(0);
+            var defaultIdentity = this.props.identities.at(0);
             return {
                 instanceName: '',
                 identityId: defaultIdentity.id,
@@ -91,7 +91,7 @@ ModalMixin, ProviderController) {
         },
         renderBody: function() {
             // provider id, identity id, machine_alias, name, size_alias, tags
-            var identity = profile.get('identities').get(this.state.identityId);
+            var identity = this.props.identities.get(this.state.identityId);
             return React.DOM.form({role: 'form'},
                 React.DOM.div({className: 'form-group'},
                     React.DOM.label({htmlFor: 'instance-name'}, "Instance Name"),
@@ -109,7 +109,8 @@ ModalMixin, ProviderController) {
                     React.DOM.label({htmlFor: 'identity'}, "Identity"),
                     IdentitySelect({
                         onChange: _.bind(this.updateState, this, 'identityId'), 
-                        identityId: this.state.identityId})),
+                        identityId: this.state.identityId,
+                        identities: this.props.identities})),
                 React.DOM.div({className: 'form-group'},
                     React.DOM.label({htmlFor: 'size'}, "Instance Size"),
                     InstanceSizeSelect({
