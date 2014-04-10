@@ -3,6 +3,27 @@ define(['react', 'singletons/providers',
 'controllers/providers'], function(React, providers, Sizes,
 ModalMixin, ProviderController) {
 
+
+    var InstanceSizeOption = React.createClass({
+        canLaunch: function(size) {
+            return size.get('remaining') > 0;
+        },
+        renderOptionText: function() {
+            var size = this.props.size;
+            var memoryMB = size.get('mem') / 1024;
+            return [size.get('name'), " (",
+                size.get('cpu'), " CPUs, ",
+                memoryMB, " GB memory, ",
+                size.get('disk'), " GB disk)"];
+        },
+        render: function() {
+            console.log(this.props.size);
+            return React.DOM.option({
+                value: this.props.size.id
+            }, this.renderOptionText());
+        }
+    });
+
     var InstanceSizeSelect = React.createClass({
         getInitialState: function() {
             return {
@@ -21,17 +42,12 @@ ModalMixin, ProviderController) {
         componentWillReceiveProps: function(newProps) {
             this.updateSizes(newProps.providerId, newProps.identityId);
         },
-        renderOptionText: function(size) {
-            return size.get('name');
-        },
         render: function() {
             var options = [];
             if (this.state.sizes)
                 options = this.state.sizes.map(function(size) {
-                    return React.DOM.option({
-                        value: size.id
-                    }, this.renderOptionText(size));
-            }.bind(this));
+                    return InstanceSizeOption({key: size.id, size: size});
+                });
             return React.DOM.select({
                 value: this.props.sizeId,
                 className: 'form-control',
