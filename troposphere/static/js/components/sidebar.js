@@ -1,48 +1,11 @@
 define(['react', 'underscore', 'components/common/glyphicon'], function (React, _, Glyphicon) {
 
-    var SidebarListItem = React.createClass({
-        handleClick: function(e) {
-            e.preventDefault();
-            this.props.onNavigate(this.props.id.join('/'), {trigger: true});
-        },
-        render: function() {
-            var icon = this.props.icon ? Glyphicon({name: this.props.icon}) : null;
-
-            return React.DOM.li(
-                {className: this.props.active ? 'active' : ''}, 
-                React.DOM.a(
-                    {
-                        href: url_root + this.props.id.join('/'),
-                        onClick: this.handleClick
-                    },
-                    icon,
-                    this.props.text
-                ),
-                this.props.children
-            );
-        }
-    });
-
-    var SidebarSubmenu = React.createClass({
-        render: function() {
-            return React.DOM.ul({}, _.map(this.props.items, function(menu_item) {
-                if (!menu_item.login_required || this.props.loggedIn)
-                    return SidebarListItem({
-                        onNavigate: this.props.onNavigate,
-                        text: menu_item.text,
-                        active: this.props.active && this.props.active.join('/') == menu_item.route.join('/'), // poor man's array equality
-                        id: menu_item.route
-                    });
-            }.bind(this)));
-        }
-    });
-
     var menuItems = [
         {
             text: 'Projects',
             route: ['projects'],
             icon: 'home',
-            login_required: true
+            loginRequired: true
         },
         {
             text: 'Images',
@@ -52,35 +15,78 @@ define(['react', 'underscore', 'components/common/glyphicon'], function (React, 
                 {
                     text: 'Favorites',
                     route: ['images', 'favorites'],
-                    login_required: true
+                    loginRequired: true
                 },
                 {
                     text: 'My Images',
                     route: ['images', 'authored'],
-                    login_required: true
+                    loginRequired: true
                 }
             ],
-            login_required: false
+            loginRequired: false
         },
         {
             text: 'Cloud Providers',
             route: ['providers'],
             icon: 'cloud',
-            login_required: true
+            loginRequired: true
         },
         {
             text: 'Settings',
             route: ['settings'],
             icon: 'cog',
-            login_required: true
+            loginRequired: true
         },
         {
             text: 'Help',
             route: ['help'],
             icon: 'question-sign',
-            login_required: false
+            loginRequired: false
         }
     ];
+
+    var SidebarListItem = React.createClass({
+        handleClick: function(e) {
+            e.preventDefault();
+            this.props.onNavigate(this.props.id.join('/'), {trigger: true});
+        },
+        render: function() {
+            var icon = this.props.icon ? Glyphicon({name: this.props.icon}) : null;
+
+            return React.DOM.li({className: this.props.active ? 'active' : ''},
+                React.DOM.a({href: url_root + '/' + this.props.id.join('/'),
+                        onClick: this.handleClick},
+                    icon,
+                    this.props.text),
+                this.props.children);
+        }
+    });
+
+    var Menu = React.createClass({
+        render: function() {
+            var active = this.props.active;
+            var depth = this.props.depth;
+            var items = _.map(this.props.items, function(item) {
+                if (!item.loginRequired || this.props.loggedIn) {
+                    var submenu = null;
+                    if (item.menu)
+                        submenu = Menu({onNavigate: this.props.onNavigate,
+                            items: item.menu,
+                            active: active,
+                            loggedIn: this.props.loggedIn,
+                            depth: depth + 1});
+                    return SidebarListItem({icon: item.icon,
+                            active: active && item.route[depth] == active[depth],
+                            text: item.text,
+                            id: item.route,
+                            key: item.text,
+                            onNavigate: this.props.onNavigate},
+                            submenu);
+                }
+            }.bind(this));
+            return React.DOM.ul({}, items);
+        }
+    });
 
     //prop active route: 'images/authored' 'images/1234'
     var Sidebar = React.createClass({
@@ -102,26 +108,13 @@ define(['react', 'underscore', 'components/common/glyphicon'], function (React, 
             return page;
         },
         render: function() {
-
             var active = this.getRouteList(this.props.currentRoute);
-
-            var items = _.map(this.props.items, function(item) {
-                if (!item.login_required || this.props.loggedIn)
-                    return SidebarListItem({
-                        icon: item.icon, 
-                        active: active && item.route[0] == active[0],
-                        text: item.text,
-                        id: item.route,
-                        key: item.text,
-                        onNavigate: this.props.onNavigate
-                    }, SidebarSubmenu({
-                            onNavigate: this.props.onNavigate,
-                            items: item.menu, 
-                            active: active,
-                            loggedIn: this.props.loggedIn
-                        }));
-            }.bind(this));
-            return React.DOM.div({id: 'sidebar'}, React.DOM.ul({}, items));
+            return React.DOM.div({id: 'sidebar'},
+                Menu({active: active,
+                    items: this.props.items,
+                    onNavigate: this.props.onNavigate,
+                    loggedIn: this.props.loggedIn,
+                    depth: 0}));
         }
     });
 
