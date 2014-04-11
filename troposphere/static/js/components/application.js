@@ -18,10 +18,6 @@ providers, Providers, Help, InstanceDetail, VolumeDetail) {
                 identities: null
             };
         },
-        componentWillUpdate: function(nextProps, nextState) {
-            //this.router.setProfile(nextState.profile); 
-            console.log('new state!');
-        },
         handleRoute: function(page, args) {
             this.setState({route: page, routeArgs: args});
             if (page === 'imageDetail') {
