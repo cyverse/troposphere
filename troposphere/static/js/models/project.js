@@ -11,7 +11,6 @@ InstanceCollection, Instance, VolumeCollection, Volume) {
             response.volumes = new VolumeCollection(_.map(response.volumes, function(model) {
                 return Volume.prototype.parse(model);
             }), {provider_id: null, identity_id: null});
-            response.name = response.name === "default" ? "Unnamed Project" : response.name;
             return response;
         }
     });
