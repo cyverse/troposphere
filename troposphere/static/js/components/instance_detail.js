@@ -1,4 +1,6 @@
-define(['react', 'components/page_header', 'components/mixins/loading', 'collections/instances', 'rsvp'], function(React, PageHeader, LoadingMixin, Instances, RSVP) {
+define(['react', 'components/page_header', 'components/mixins/loading',
+'collections/instances', 'rsvp'], function(React, PageHeader, LoadingMixin,
+Instances, RSVP) {
     
     var InstanceDetail = React.createClass({
         mixins: [LoadingMixin],
@@ -12,7 +14,7 @@ define(['react', 'components/page_header', 'components/mixins/loading', 'collect
                 coll.fetch({success: function() {
                     var instance = coll.get(instanceId);
                     if (instance === undefined)
-                        throw "Unknown instance " + instance_id;
+                        reject("Unknown instance " + instanceId);
                     resolve(instance);
                 }});
             });
