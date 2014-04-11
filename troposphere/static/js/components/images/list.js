@@ -1,6 +1,6 @@
 define(['react', 'components/page_header', 'collections/applications', 
-    'components/images/cards'],
-    function(React, PageHeader, Applications, Cards) {
+    'components/images/cards', 'components/images/search'],
+    function(React, PageHeader, Applications, Cards, ImageSearch) {
 
     var ApplicationsHome = React.createClass({
         getInitialState: function() {
@@ -23,6 +23,7 @@ define(['react', 'components/page_header', 'collections/applications',
 
             return React.DOM.div({},
                 PageHeader({title: 'Images', helpText: this.helpText}),
+                ImageSearch(),
                 content);
         },
         updateApplications: function(apps) {
