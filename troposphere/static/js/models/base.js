@@ -12,7 +12,7 @@ define(['backbone'], function(Backbone) {
             if (!this.get('identity'))
                 console.error("Model must be instantiated with identity option");
             var creds = {
-                provider_id: this.get('identity').provider,
+                provider_id: this.get('identity').get('provider_id'),
                 identity_id: this.get('identity').id
             };
             var url = this.urlRoot

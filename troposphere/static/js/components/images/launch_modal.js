@@ -1,7 +1,6 @@
-define(['react', 'singletons/providers',
-'collections/sizes', 'components/mixins/modal',
-'controllers/providers'], function(React, providers, Sizes,
-ModalMixin, ProviderController) {
+define(['react', 'singletons/providers', 'collections/sizes',
+'components/mixins/modal', 'controllers/providers', 'controllers/instances'],
+function(React, providers, Sizes, ModalMixin, ProviderController, Instances) {
 
 
     var InstanceSizeOption = React.createClass({
@@ -139,7 +138,9 @@ ModalMixin, ProviderController) {
         },
         launchInstance: function(e) {
             e.preventDefault();
-            console.log(this.state);
+            var identity = this.props.identities.get(this.state.identityId);
+            Instances.launch(identity, this.state.machineId, this.state.sizeId,
+                this.state.instanceName);
         },
         renderFooter: function() {
             return React.DOM.button({type: 'submit',
