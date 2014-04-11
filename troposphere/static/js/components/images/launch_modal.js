@@ -75,7 +75,9 @@ function(React, providers, Sizes, ModalMixin, ProviderController, Instances) {
                 identityId: defaultIdentity.id,
                 sizeId: null,
                 machineId: this.props.application.get('machines').at(0).id,
-                sizes: null
+                sizes: null,
+                failure: false,
+                errors: null
             };
         },
         renderTitle: function() {
@@ -107,7 +109,7 @@ function(React, providers, Sizes, ModalMixin, ProviderController, Instances) {
             state[key] = value;
             this.setState(state);
         },
-        renderBody: function() {
+        renderLaunchForm: function() {
             // provider id, identity id, machine_alias, name, size_alias, tags
             var identity = this.props.identities.get(this.state.identityId);
             return React.DOM.form({role: 'form'},
@@ -136,16 +138,70 @@ function(React, providers, Sizes, ModalMixin, ProviderController, Instances) {
                         sizeId: this.state.sizeId,
                         onChange: _.bind(this.updateState, this, 'sizeId')})));
         },
+        renderLaunchUnsuccessful: function() {
+            var errors = this.state.errors;
+            var errorText = "Instance launch was unsuccessful";
+            if (errors && errors.length)
+                errorText += " due to the following errors:"
+            else
+                errorText += ".";
+
+            var errorList = React.DOM.ul({}, _.map(errors, function(err) {
+                return React.DOM.li({className: 'alert alert-danger'}, err);
+            }));
+
+            var supportEmail = "support@iplantcollaborative.org";
+
+            return React.DOM.div({},
+                React.DOM.p({}, errorText),
+                errorList,
+                React.DOM.p({},
+                    "If the problem persists, please email ",
+                    React.DOM.a({href: "mailto:" + supportEmail},
+                        supportEmail)));
+        },
+        renderBody: function() {
+            if (this.state.failure)
+                return this.renderLaunchUnsuccessful();
+            else
+                return this.renderLaunchForm();
+        },
         launchInstance: function(e) {
             e.preventDefault();
             var identity = this.props.identities.get(this.state.identityId);
+            this.setState({launching: true});
             Instances.launch(identity, this.state.machineId, this.state.sizeId,
-                this.state.instanceName);
+                this.state.instanceName)
+                .then(
+                    function(instance) {
+                        this.setState({launching: false});
+                        this.close();
+                    }.bind(this),
+                    function(messages) {
+                        this.setState({
+                            launching: false,
+                            failure: true,
+                            errors: messages
+                        });
+                    }.bind(this));
         },
         renderFooter: function() {
-            return React.DOM.button({type: 'submit',
-                className: 'btn btn-primary',
-                onClick: this.launchInstance}, "Launch");
+            if (this.state.failure)
+                return React.DOM.button({
+                    className: 'btn btn-primary',
+                    onClick: function() {
+                        this.setState({
+                            failure: false,
+                            errors: null
+                        });
+                    }.bind(this),
+                }, "Try again");
+            else
+                return React.DOM.button({type: 'submit',
+                    className: 'btn btn-primary',
+                    onClick: this.launchInstance,
+                    disabled: this.state.launching},
+                    this.state.launching ? "Launching..." : "Launch");
         }
     });
 
