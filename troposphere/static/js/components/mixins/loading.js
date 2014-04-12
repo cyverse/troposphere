@@ -14,13 +14,19 @@ define(['react'], function(React) {
         getInitialState: function() {
             return {_loading: true, model: null};
         },
-        componentDidMount: function() {
+        componentWillReceiveProps: function(nextProps) {
+            this.setState(this.getInitialState(), this._getModel);
+        },
+        _getModel: function() {
             this.model().then(function(data) {
                     this.setState({model: data, _loading: false});
                 }.bind(this),
                 function(msg) {
                     this.setState({_loading: false, _error: msg});
                 }.bind(this));
+        },
+        componentDidMount: function() {
+            this._getModel();
         },
         render: function() {
             if (this.state.model)
