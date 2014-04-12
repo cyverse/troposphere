@@ -9,10 +9,13 @@ define(['react', 'backbone'], function(React, Backbone) {
     });
     
     var SearchContainer = React.createClass({
+        getDefaultProps: function() {
+            return {query: ""};
+        },
         getInitialState: function() {
             return {
                 showAdvancedOptions: false,
-                query: ""
+                query: this.props.query
             }
         },
         statics: {
