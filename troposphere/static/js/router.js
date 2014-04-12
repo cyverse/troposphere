@@ -13,6 +13,7 @@ define(['backbone', 'react', 'rsvp'], function(Backbone, React, RSVP) {
             'images/favorites': 'imageFavorites',
             'images/authored': 'imageAuthored',
             'images/:id': 'imageDetail',
+            'images/search/:query': 'imageSearch',
             'provider/:provider_id/identity/:identity_id/instances/:instance_id': 'instanceDetail',
             'provider/:provider_id/identity/:identity_id/volumes/:volume_id': 'volumeDetail',
             'providers': 'providers',
