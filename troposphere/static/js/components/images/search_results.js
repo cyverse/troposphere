@@ -1,7 +1,7 @@
 define(['react', 'components/images/search',
 'components/page_header', 'components/mixins/loading', 'rsvp',
-'controllers/applications'], function(React, SearchBox, PageHeader,
-LoadingMixin, RSVP, Images) {
+'controllers/applications', 'components/images/cards'], function(React,
+SearchBox, PageHeader, LoadingMixin, RSVP, Images, Cards) {
 
     var Results = React.createClass({
         mixins: [LoadingMixin],
@@ -9,10 +9,7 @@ LoadingMixin, RSVP, Images) {
             return Images.searchApplications(this.props.query);
         },
         renderContent: function() {
-            return React.DOM.ul({},
-                this.state.model.map(function(app) {
-                    return React.DOM.li({}, app.get('name')); 
-                }));
+            return Cards.ApplicationCardList({applications: this.state.model});
         }
     });
 

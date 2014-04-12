@@ -1,6 +1,8 @@
-define(['collections/base'], function(Base) {
+define(['collections/base', 'models/application'], function(Base, Application)
+{
 
     var ApplicationSearchResults = Base.extend({
+        model: Application,
         initialize: function(models, options) {
             if (options.query)
                 this.query = options.query;
