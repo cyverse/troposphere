@@ -44,7 +44,7 @@ define(['react', 'components/common/gravatar', 'backbone'], function(React, Grav
             return {
                 showDetails: true,
                 showLaunch: false
-            }
+            };
         },
         onImageClick: function(e) {
             e.preventDefault();
@@ -99,6 +99,6 @@ define(['react', 'components/common/gravatar', 'backbone'], function(React, Grav
         "ApplicationCardList": ApplicationCardList,
         "ApplicationCard": ApplicationCard,
         "Rating": Rating
-    }
+    };
 
 });
