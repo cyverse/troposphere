@@ -1,4 +1,4 @@
-define(['react', 'collections/applications', 'components/images/cards', 'components/page_header'], 
+define(['react', 'collections/applications', 'components/applications/cards', 'components/page_header'], 
     function(React, Applications, Cards, PageHeader) {
 
     var Favorites = React.createClass({

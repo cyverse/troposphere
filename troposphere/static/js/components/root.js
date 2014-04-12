@@ -1,15 +1,16 @@
 define(['react', 'components/header', 'components/sidebar',
 'components/footer', 'components/notifications', 'components/modal',
 'router', 'controllers/profile', 'components/settings', 'components/projects',
-'components/images/list', 'components/images/favorites',
-'components/images/detail', 'singletons/providers', 'components/providers',
+'components/applications/list', 'components/applications/favorites',
+'components/applications/detail', 'singletons/providers', 'components/providers',
 'components/help', 'components/instance_detail', 'components/volume_detail',
-'components/images/search_results'],
+'components/applications/search_results'],
 function (React, Header, Sidebar, Footer, Notifications, Modal, Router,
-Profile, Settings, Projects, ImageList, ImageFavorites, ImageDetail,
-providers, Providers, Help, InstanceDetail, VolumeDetail, ImageSearchResults) {
+Profile, Settings, Projects, ApplicationList, ApplicationFavorites,
+ApplicationDetail, providers, Providers, Help, InstanceDetail, VolumeDetail,
+ApplicationSearchResults) {
 
-    var Application = React.createClass({
+    var Root = React.createClass({
         getInitialState: function() {
             return {
                 loggedIn: this.props.session.isValid(),
@@ -22,7 +23,7 @@ providers, Providers, Help, InstanceDetail, VolumeDetail, ImageSearchResults) {
         },
         handleRoute: function(page, args) {
             this.setState({route: page, routeArgs: args});
-            if (page === 'imageDetail') {
+            if (page === 'appDetail') {
                 Profile.getIdentities().then(function(identities) {
                     this.setState({'identities': identities});
                 }.bind(this));
@@ -62,20 +63,20 @@ providers, Providers, Help, InstanceDetail, VolumeDetail, ImageSearchResults) {
                 return Projects();
             },
             images: function() {
-                return ImageList();
+                return ApplicationList();
             },
-            imageFavorites: function() {
-                return ImageFavorites();
+            appFavorites: function() {
+                return ApplicationFavorites();
             },
-            imageDetail: function(imageId) {
-                return ImageDetail({
-                    image_id: imageId,
+            appDetail: function(appId) {
+                return ApplicationDetail({
+                    applicationId: appId,
                     profile: this.state.profile,
                     identities: this.state.identities
                 });
             },
-            imageSearch: function(query) {
-                return ImageSearchResults({
+            appSearch: function(query) {
+                return ApplicationSearchResults({
                     query: query,
                 });
             },
@@ -122,5 +123,5 @@ providers, Providers, Help, InstanceDetail, VolumeDetail, ImageSearchResults) {
         }
     });
 
-    return Application;
+    return Root;
 });

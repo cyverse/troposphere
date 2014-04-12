@@ -1,6 +1,6 @@
 define(['react', 'models/application', 'collections/applications',
-'components/images/cards', 'jquery',
-'components/common/time', 'modal', 'components/images/launch_modal'],
+'components/applications/cards', 'jquery',
+'components/common/time', 'modal', 'components/applications/launch_modal'],
 function(React, App, AppCollection, Cards, $, Time, Modal,
 LaunchModal) {
 
@@ -38,7 +38,7 @@ LaunchModal) {
             // This is terrible.
             var apps = new AppCollection();
             apps.fetch({success: function(collection) {
-                var app = collection.get(this.props.image_id);
+                var app = collection.get(this.props.applicationId);
                 this.setState({application: app});
             }.bind(this)});
         },

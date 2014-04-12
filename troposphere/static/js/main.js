@@ -25,7 +25,7 @@ require.config({
     }
 });
 
-require(['jquery', 'react', 'components/application', 'rsvp', 'models/session'],
+require(['jquery', 'react', 'components/root', 'rsvp', 'models/session'],
 function($, React, Application, RSVP, Session) {
 
     // Catch-all for errors within promises

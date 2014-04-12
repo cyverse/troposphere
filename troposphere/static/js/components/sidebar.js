@@ -94,12 +94,12 @@ define(['react', 'underscore', 'components/common/glyphicon'], function (React, 
             return {items: menuItems};
         },
         getRouteList: function(page) {
-            if (page == "handleDefaultRoute")
-                return;
+            console.log(page);
             var routeMap = {
-                'imageDetail': ['images'],
-                'imageFavorites': ['images', 'favorites'],
-                'imageAuthored': ['images', 'authored']
+                'appDetail': ['images'],
+                'appSearch': ['images'],
+                'appFavorites': ['images', 'favorites'],
+                'appAuthored': ['images', 'authored']
             };
             if (routeMap[page])
                 page = routeMap[page];

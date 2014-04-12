@@ -5,8 +5,8 @@ define(['react', 'components/common/gravatar', 'backbone'], function(React, Grav
             var repeatString = function(string, num) {
                 return new Array( num + 1 ).join( string );
             };
-            return React.DOM.div({className: 'star-rating'}, 
-                repeatString("\u2605", this.props.rating) + 
+            return React.DOM.div({className: 'star-rating'},
+                repeatString("\u2605", this.props.rating) +
                 repeatString("\u2606", 5 - this.props.rating));
         }
     });
@@ -14,21 +14,21 @@ define(['react', 'components/common/gravatar', 'backbone'], function(React, Grav
     var Bookmark = React.createClass({
         getInitialState: function() {
             return {
-                isFavorite: this.props.image.get('favorite')
+                isFavorite: this.props.application.get('favorite')
             };
         },
         updateFavorite: function(model) {
             this.setState({'isFavorite': model.get('favorite')});
         },
         componentDidMount: function() {
-            this.props.image.on('change:favorite', this.updateFavorite);
+            this.props.application.on('change:favorite', this.updateFavorite);
         },
         componentWillUnmount: function() {
-            this.props.image.off('change:favorite', this.updateFavorite);
+            this.props.application.off('change:favorite', this.updateFavorite);
         },
         toggleFavorite: function(e) {
             e.preventDefault();
-            this.props.image.set('favorite', !this.props.image.get('favorite'));
+            this.props.application.set('favorite', !this.props.application.get('favorite'));
         },
         render: function() {
             return React.DOM.a({
@@ -46,7 +46,7 @@ define(['react', 'components/common/gravatar', 'backbone'], function(React, Grav
                 showLaunch: false
             };
         },
-        onImageClick: function(e) {
+        onAppClick: function(e) {
             e.preventDefault();
             Backbone.history.navigate("images/" + this.props.application.id, {trigger: true});
         },
@@ -64,23 +64,23 @@ define(['react', 'components/common/gravatar', 'backbone'], function(React, Grav
             else
                 icon = Gravatar({hash: app.get('uuid_hash'), size: iconSize});
 
-            var imageUri = url_root + "/images/" + app.get('uuid');
+            var appUri = url_root + "/images/" + app.get('uuid');
 
-            return React.DOM.div({className: 'app-card'}, 
+            return React.DOM.div({className: 'app-card'},
                 React.DOM.div({className: 'icon-container'}, React.DOM.a({
-                        href: imageUri, 
-                        onClick: this.onImageClick
+                        href: appUri,
+                        onClick: this.onAppClick
                     }, icon)),
                 React.DOM.div({className: 'app-name'}, React.DOM.a({
-                        href: imageUri, 
-                        onClick: this.onImageClick,
+                        href: appUri,
+                        onClick: this.onAppClick,
                         title: app.get('name_or_id')
                     }, app.get('name_or_id'))),
                 Rating({rating: app.get('rating')}),
                 React.DOM.button({
-                    className: 'btn btn-primary btn-block launch-button', 
+                    className: 'btn btn-primary btn-block launch-button',
                     onClick: this.props.onLaunch}, "Launch"),
-                Bookmark({image: app}));
+                Bookmark({application: app}));
         }
     });
 

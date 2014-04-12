@@ -1,12 +1,12 @@
-define(['react', 'components/images/search',
+define(['react', 'components/applications/search',
 'components/page_header', 'components/mixins/loading', 'rsvp',
-'controllers/applications', 'components/images/cards'], function(React,
-SearchBox, PageHeader, LoadingMixin, RSVP, Images, Cards) {
+'controllers/applications', 'components/applications/cards'], function(React,
+SearchBox, PageHeader, LoadingMixin, RSVP, Applications, Cards) {
 
     var Results = React.createClass({
         mixins: [LoadingMixin],
         model: function() {
-            return Images.searchApplications(this.props.query);
+            return Applications.searchApplications(this.props.query);
         },
         renderContent: function() {
             return Cards.ApplicationCardList({applications: this.state.model});
