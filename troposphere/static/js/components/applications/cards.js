@@ -12,27 +12,14 @@ define(['react', 'components/common/gravatar', 'backbone'], function(React, Grav
     });
 
     var Bookmark = React.createClass({
-        getInitialState: function() {
-            return {
-                isFavorite: this.props.application.get('favorite')
-            };
-        },
-        updateFavorite: function(model) {
-            this.setState({'isFavorite': model.get('favorite')});
-        },
-        componentDidMount: function() {
-            this.props.application.on('change:favorite', this.updateFavorite);
-        },
-        componentWillUnmount: function() {
-            this.props.application.off('change:favorite', this.updateFavorite);
-        },
         toggleFavorite: function(e) {
             e.preventDefault();
             this.props.application.set('favorite', !this.props.application.get('favorite'));
         },
         render: function() {
+            var isFavorite = this.props.application.get('favorite')
             return React.DOM.a({
-                className: 'bookmark ' + (this.state.isFavorite ? 'on' : 'off'),
+                className: 'bookmark ' + (isFavorite ? 'on' : 'off'),
                 href: '#',
                 onClick: this.toggleFavorite
             });

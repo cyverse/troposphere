@@ -33,6 +33,7 @@ define(['react', 'components/page_header', 'collections/applications',
         componentDidMount: function() {
             var apps = new Applications();
             apps.on('sync', this.updateApplications);
+            apps.on('change', this.forceUpdate.bind(this, null));
             apps.fetch();
         },
         componentWillUnmount: function() {
