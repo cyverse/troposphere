@@ -1,13 +1,17 @@
 define(['react'], function(React) {
 
     var Modal = {
+        getInitialState: function() {
+            return {visible: true};
+        },
         close: function() {
-            console.log(this);
-            if (this.props.onClose)
-                this.props.onClose();
+            this.setState({visible: false});
+        },
+        componentWillReceiveProps: function() {
+            this.setState({visible: true});
         },
         render: function() {
-            return React.DOM.div({className: 'modal-dialog'},
+            var dialog = React.DOM.div({className: 'modal-dialog'},
                 React.DOM.div({className: 'modal-content'},
                     React.DOM.div({className: 'modal-header'},
                         React.DOM.button({
@@ -23,6 +27,16 @@ define(['react'], function(React) {
                         this.renderBody()),
                     React.DOM.div({className: 'modal-footer'},
                         this.renderFooter())));
+
+            var className = 'modal fade' + (this.state.visible ? ' in' : '');
+            return React.DOM.div({
+                id: 'application-modal',
+                className: className,
+                tabIndex: '-1',
+                role: 'dialog',
+                'aria-hidden': !this.state.visible,
+                style: {display: this.state.visible ? 'block' : 'none'}
+            }, dialog);
         }
     };
 

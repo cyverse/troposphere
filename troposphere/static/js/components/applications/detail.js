@@ -43,13 +43,10 @@ LaunchModal) {
             }.bind(this)});
         },
         showModal: function(e) {
-            Modal.events.trigger('alert', function(onClose) {
-                return LaunchModal({
-                    onClose: onClose,
-                    application: this.state.application,
-                    identities: this.props.identities
-                });
-            }.bind(this));
+            Modal.show(LaunchModal({
+                application: this.state.application,
+                identities: this.props.identities
+            }));
         },
         render: function() {
             var app = this.state.application;

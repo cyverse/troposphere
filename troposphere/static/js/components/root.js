@@ -1,14 +1,15 @@
 define(['react', 'components/header', 'components/sidebar',
-'components/footer', 'components/notifications', 'components/modal',
-'router', 'controllers/profile', 'components/settings', 'components/projects',
+'components/footer', 'components/notifications', 'router',
+'controllers/profile', 'components/settings', 'components/projects',
 'components/applications/list', 'components/applications/favorites',
-'components/applications/detail', 'singletons/providers', 'components/providers',
-'components/help', 'components/instance_detail', 'components/volume_detail',
-'components/applications/search_results'],
-function (React, Header, Sidebar, Footer, Notifications, Modal, Router,
+'components/applications/detail', 'singletons/providers',
+'components/providers', 'components/help',
+'components/instance_detail', 'components/volume_detail',
+'components/applications/search_results'], 
+function (React, Header, Sidebar, Footer, Notifications, Router,
 Profile, Settings, Projects, ApplicationList, ApplicationFavorites,
-ApplicationDetail, providers, Providers, Help, InstanceDetail, VolumeDetail,
-ApplicationSearchResults) {
+ApplicationDetail, providers, Providers, Help, InstanceDetail,
+VolumeDetail, ApplicationSearchResults) {
 
     var Root = React.createClass({
         getInitialState: function() {
@@ -118,8 +119,7 @@ ApplicationSearchResults) {
                     onNavigate: this.handleNavigate}),
                 Notifications(),
                 React.DOM.div({id: 'main'}, this.renderContent()),
-                Footer(),
-                Modal());
+                Footer());
         }
     });
 
