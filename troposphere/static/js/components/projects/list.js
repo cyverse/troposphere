@@ -1,8 +1,8 @@
 define(['backbone', 'react', 'underscore', 'components/page_header',
-'components/intro', 'collections/projects', 'rsvp',
+'components/intro', 'controllers/projects', 'rsvp',
 'components/mixins/loading', 'components/projects/project',
 'components/mixins/modal', 'modal'], function(Backbone, React, _, PageHeader,
-Intro, ProjectCollection, RSVP, LoadingMixin, Project, ModalMixin, Modal) {
+Intro, ProjectController, RSVP, LoadingMixin, Project, ModalMixin, Modal) {
 
     var ProjectsList = React.createClass({
         render: function() {
@@ -43,7 +43,8 @@ Intro, ProjectCollection, RSVP, LoadingMixin, Project, ModalMixin, Modal) {
                     })));
         },
         createProject: function() {
-            console.log(this.state);
+            ProjectController.create(this.state.projectName,
+                this.state.projectDescription);
         },
         renderFooter: function() {
             return React.DOM.button({
@@ -78,13 +79,7 @@ Intro, ProjectCollection, RSVP, LoadingMixin, Project, ModalMixin, Modal) {
     var ProjectsView = React.createClass({
         mixins: [LoadingMixin],
         model: function() {
-            return new RSVP.Promise(function(resolve, reject) {
-                new ProjectCollection().fetch({
-                    success: function(coll) {
-                        resolve(coll);
-                    }
-                });
-            });
+            return ProjectController.get();
         },
         renderContent: function() {
             return Projects({projects: this.state.model});

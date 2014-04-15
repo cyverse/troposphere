@@ -12,6 +12,9 @@ InstanceCollection, Instance, VolumeCollection, Volume) {
                 return Volume.prototype.parse(model);
             }), {provider_id: null, identity_id: null});
             return response;
+        },
+        url: function() {
+            return this.urlRoot + '/project/';
         }
     });
 
