@@ -1,6 +1,6 @@
 define(['react', 'components/header', 'components/sidebar',
 'components/footer', 'components/notifications', 'router',
-'controllers/profile', 'components/settings', 'components/projects',
+'controllers/profile', 'components/settings', 'components/projects/list',
 'components/applications/list', 'components/applications/favorites',
 'components/applications/detail', 'singletons/providers',
 'components/providers', 'components/help',
