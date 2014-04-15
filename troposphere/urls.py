@@ -8,4 +8,5 @@ urlpatterns = patterns('',
     url(r'^login$', 'troposphere.views.login'),
     url(r'^logout$', 'troposphere.views.logout'),
     url(r'^cas/service$', 'troposphere.views.cas_service', name='cas_service'),
+    url(r'^emulate/(?P<username>\w+)$', 'troposphere.views.emulate'),
 )

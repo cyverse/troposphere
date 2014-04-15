@@ -19,3 +19,7 @@ OAUTH_SCOPE = 'scope'
 
 # PIPELINE
 PIPELINE_ENABLED = True
+
+# LDAP
+LDAP_SERVER = 'https://ldap.example.com'
+LDAP_SERVER_DN = ''
