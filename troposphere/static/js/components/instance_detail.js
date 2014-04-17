@@ -29,7 +29,9 @@ PageHeader, LoadingMixin, Instances, RSVP, Time) {
     var InstanceLinks = React.createClass({
         renderLink: function(text, url) {
             return React.DOM.li({},
-                React.DOM.a({href: url, rel: 'external'}, text));
+                React.DOM.a({href: url,
+                    target: '_blank', 
+                    className: 'new-window'}, text));
         },
         render: function() {
             var instance = this.props.instance;
