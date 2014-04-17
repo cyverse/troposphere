@@ -97,7 +97,8 @@ VolumeDetail, ApplicationSearchResults) {
                 return InstanceDetail({
                     providerId: providerId,
                     identityId: identityId,
-                    instanceId: instanceId
+                    instanceId: instanceId,
+                    providers: this.state.providers
                 });
             },
             volumeDetail: function(providerId, identityId, volumeId) {

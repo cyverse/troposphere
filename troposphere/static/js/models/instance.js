@@ -18,6 +18,12 @@ var Instance = Base.extend({
     name_or_id: function() {
         return this.get('name') || this.get('id');
     },
+    shell_url: function() {
+        return "/shell/" + this.get('ip_address');
+    },
+    vnc_url: function() {
+        return "http://" + this.get('ip_address') + ":5904";
+    },
     is_active: function() {
         var states = ['active', 'running', 'verify_resize'];
         return _.contains(states, this.get('status'));
