@@ -44,13 +44,13 @@ define(['react', 'backbone'], function(React, Backbone) {
                     onChange: this.handleChange,
                     value: this.state.query,
                     onKeyUp: this.handleKeyUp,
-                }),
+                })/*,
                 React.DOM.a({
                     onClick: this.toggleAdvancedOptions,
                     href: '#'}, 
                     (this.state.showAdvancedOptions ? "Hide" : "Show") + 
                         " Advanced Search Options"),
-                AdvancedOptions({visible: this.state.showAdvancedOptions}));
+                AdvancedOptions({visible: this.state.showAdvancedOptions})*/);
         }
     });
 
