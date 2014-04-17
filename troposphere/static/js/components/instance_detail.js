@@ -46,22 +46,70 @@ PageHeader, LoadingMixin, Instances, RSVP, Time) {
     });
 
     var ActionList = React.createClass({
-        renderLink: function(text, onClick) {
-            return React.DOM.li({},
-                React.DOM.a({href: '#', onClick: onClick}, text));
+        renderButton: function(text, onClick, disabled) {
+            return React.DOM.button({className: 'btn btn-default',
+                                     onClick: onClick,
+                                     disabled: disabled},
+                                     text);
+        },
+        renderStartStopButton: function() {
+            if (!this.props.is_openstack)
+                return null;
+
+            if (this.props.instance.get('status') == 'shutoff')
+                return this.renderButton("Start");
+            else
+                return this.renderButton("Stop");
+        },
+        renderSuspendButton: function() {
+            if (!this.props.is_openstack)
+                return null;
+
+            if (this.props.instance.get('status') == 'suspended')
+                return this.renderButton('Resume');
+            else
+                return this.renderButton('Suspend');
+        },
+        renderRebootButton: function() {
+            // TODO: Make a button group that works in React
+            var items = [React.DOM.li({}, React.DOM.a({}, "Soft reboot"))];
+            if (this.props.is_openstack)
+                items.push(React.DOM.li({}, React.DOM.a({}, "Hard reboot")));
+
+            return React.DOM.div({className: 'btn-group'},
+                React.DOM.button({className: 'btn btn-default dropdown-doggle', 'data-toggle': 'dropdown'},
+                    "Reboot ", React.DOM.span({className: 'caret'})),
+                React.DOM.ul({className: 'dropdown-menu', role: 'menu'}, items));
+        },
+        renderTerminateButton: function() {
+            return this.renderButton("Terminate");
+        },
+        renderResizeButton: function() {
+            if (!this.props.is_openstack)
+                return null;
+
+            var disabled = this.props.instance.is_resize();
+            return this.renderButton("Resize", null, disabled);
+        },
+        renderImageRequestButton: function() {
+            var disabled = !this.props.instance.is_active();
+            return this.renderButton("Image", null, disabled);
+        },
+        renderReportButton: function() {
+            var disabled = !this.props.instance.is_active();
+            return this.renderButton("Report", null, disabled);
         },
         render: function() {
             return React.DOM.div({},
                 React.DOM.h2({}, "Actions"),
-                React.DOM.ul({},
-                    this.renderLink("Stop"),
-                    this.renderLink("Suspend"),
-                    this.renderLink("Reboot"),
-                    this.renderLink("Hard reboot"),
-                    this.renderLink("Terminate"),
-                    this.renderLink("Resize"),
-                    this.renderLink("Image"),
-                    this.renderLink("Report")));
+                React.DOM.div({},
+                    this.renderStartStopButton(), // OS only
+                    this.renderSuspendButton(), // OS only
+                    this.renderRebootButton(),
+                    this.renderTerminateButton(),
+                    this.renderResizeButton(), // OS only
+                    this.renderImageRequestButton(),
+                    this.renderReportButton()));
         }
     });
 
@@ -70,10 +118,10 @@ PageHeader, LoadingMixin, Instances, RSVP, Time) {
             var instance = this.props.instance;
             return React.DOM.div({},
                 PageHeader({title: "Instance: " + instance.get('name_or_id')}),
+                ActionList({instance: instance}),
                 InstanceAttributes({instance: instance, 
                     providers: this.props.providers}),
-                InstanceLinks({instance: instance}),
-                ActionList({instance: instance}));
+                InstanceLinks({instance: instance}));
         }
     });
     
