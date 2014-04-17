@@ -17,12 +17,14 @@ PageHeader, LoadingMixin, Instances, RSVP, Time) {
         },
         render: function() {
             var instance = this.props.instance;
-            return React.DOM.dl({},
-                this.renderPair("Status", instance.get('status')),
-                this.renderPair("IP Address", instance.get('ip_address')),
-                this.renderPair("Identity", this.renderIdentity(instance.get('identity'))),
-                this.renderPair("ID", instance.id),
-                this.renderPair("Date Launched", Time({date: instance.get('start_date')})));
+            return React.DOM.div({},
+                React.DOM.h2({}, "Details"),
+                React.DOM.dl({},
+                    this.renderPair("Status", instance.get('status')),
+                    this.renderPair("IP Address", instance.get('ip_address')),
+                    this.renderPair("Identity", this.renderIdentity(instance.get('identity'))),
+                    this.renderPair("ID", instance.id),
+                    this.renderPair("Date Launched", Time({date: instance.get('start_date')}))));
         }
     });
 
@@ -35,9 +37,11 @@ PageHeader, LoadingMixin, Instances, RSVP, Time) {
         },
         render: function() {
             var instance = this.props.instance;
-            return React.DOM.ul({},
-                this.renderLink("Web Shell", instance.get('shell_url')),
-                this.renderLink("Remote Desktop", instance.get('vnc_url')));
+            return React.DOM.div({},
+                React.DOM.h2({}, "Links"),
+                React.DOM.ul({},
+                    this.renderLink("Web Shell", instance.get('shell_url')),
+                    this.renderLink("Remote Desktop", instance.get('vnc_url'))));
         }
     });
 
