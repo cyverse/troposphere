@@ -1,6 +1,6 @@
 define(['react', 'components/page_header', 'components/mixins/loading',
-'collections/instances', 'rsvp', 'components/common/time'], function(React,
-PageHeader, LoadingMixin, Instances, RSVP, Time) {
+'collections/instances', 'rsvp', 'components/common/time', 'controllers/instances'], function(React,
+PageHeader, LoadingMixin, Instances, RSVP, Time, InstanceController) {
 
     var InstanceAttributes = React.createClass({
         renderPair: function(k, v) {
@@ -72,17 +72,19 @@ PageHeader, LoadingMixin, Instances, RSVP, Time) {
         },
         renderRebootButton: function() {
             // TODO: Make a button group that works in React
+            var disabled = !this.props.instance.is_active();
             var items = [React.DOM.li({}, React.DOM.a({}, "Soft reboot"))];
             if (this.props.is_openstack)
                 items.push(React.DOM.li({}, React.DOM.a({}, "Hard reboot")));
 
             return React.DOM.div({className: 'btn-group'},
-                React.DOM.button({className: 'btn btn-default dropdown-doggle', 'data-toggle': 'dropdown'},
+                React.DOM.button({className: 'btn btn-default dropdown-doggle', 'data-toggle': 'dropdown', disabled: disabled},
                     "Reboot ", React.DOM.span({className: 'caret'})),
                 React.DOM.ul({className: 'dropdown-menu', role: 'menu'}, items));
         },
         renderTerminateButton: function() {
-            return this.renderButton("Terminate");
+            var handleClick = InstanceController.terminate.bind(null, this.props.instance);
+            return this.renderButton("Terminate", handleClick);
         },
         renderResizeButton: function() {
             if (!this.props.is_openstack)

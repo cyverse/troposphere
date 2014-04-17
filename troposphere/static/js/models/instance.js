@@ -65,29 +65,6 @@ var Instance = Base.extend({
     is_resize: function() {
         return this.get('status').indexOf('resize') > -1;
     },
-    confirm_terminate: function(options) {
-        var header = "Are you sure you want to terminate this instance?";
-        var body = '<p class="alert alert-error"><i class="icon-warning-sign"></i> <b>WARNING</b> Unmount volumes within your instance '
-            + 'before terminating or risk corrupting your data and the volume.</p>'
-            + "<p>Your instance <strong>" + this.get('name') + " #" + this.get('id') + "</strong> will be shut down and all data will be permanently lost!</p>"
-            + "<p><u>Note:</u> Your resource usage charts will not reflect changes until the instance is completely terminated and has disappeared from your list of instances.</p>";
-            
-        var self = this;
-        
-        Atmo.Utils.confirm(header, body, {
-            on_confirm : function() {
-
-                Atmo.Utils.notify('Terminating Instance...', 'Please wait while your instance terminates.');
-
-                self.destroy({
-                    wait: true, 
-                    success: options.success,
-                    error: options.error
-                });
-            },
-            ok_button: 'Yes, terminate this instance'
-        });
-    },
     select: function() {
         this.collection.select_instance(this);
     },
