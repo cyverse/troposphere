@@ -62,6 +62,9 @@ var Instance = Base.extend({
         var states = ['suspended', 'shutoff'];
         return _.contains(states, this.get('status'));
     },
+    is_resize: function() {
+        return this.get('status').indexOf('resize') > -1;
+    },
     confirm_terminate: function(options) {
         var header = "Are you sure you want to terminate this instance?";
         var body = '<p class="alert alert-error"><i class="icon-warning-sign"></i> <b>WARNING</b> Unmount volumes within your instance '
