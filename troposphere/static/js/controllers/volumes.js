@@ -1,6 +1,6 @@
-define(['react', 'controllers/notifications', 'rsvp', 'singletons/providers', 'modal',
+define(['react', 'controllers/notifications', 'rsvp', 'modal',
 'components/common/glyphicon', 'router'], function(React, Notifications, RSVP,
-providers, Modal, Glyphicon, router) {
+Modal, Glyphicon, router) {
 
     /*
      * models.volume volume,
@@ -39,13 +39,12 @@ providers, Modal, Glyphicon, router) {
     /*
      * models.volume volume,
      */
-    var detachVolume = function(volume) {
+    var detachVolume = function(volume, provider) {
         var header = React.DOM.span({},
             "Do you want to detach ",
             React.DOM.strong({}, volume.get('name_or_id')),
             "?");
 
-        var provider = providers.get(volume.get('identity').provider);
         var body;
         if (provider.isOpenStack()) {
             body = [

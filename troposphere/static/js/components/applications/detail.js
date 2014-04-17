@@ -45,7 +45,8 @@ LaunchModal) {
         showModal: function(e) {
             Modal.show(LaunchModal({
                 application: this.state.application,
-                identities: this.props.identities
+                identities: this.props.identities,
+                providers: this.props.providers
             }));
         },
         render: function() {

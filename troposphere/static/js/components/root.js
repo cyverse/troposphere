@@ -2,13 +2,13 @@ define(['react', 'components/header', 'components/sidebar',
 'components/footer', 'components/notifications', 'router',
 'controllers/profile', 'components/settings', 'components/projects/list',
 'components/applications/list', 'components/applications/favorites',
-'components/applications/detail', 'singletons/providers',
+'components/applications/detail', 'controllers/providers',
 'components/providers', 'components/help',
 'components/instance_detail', 'components/volume_detail',
 'components/applications/search_results'], 
 function (React, Header, Sidebar, Footer, Notifications, Router,
 Profile, Settings, Projects, ApplicationList, ApplicationFavorites,
-ApplicationDetail, providers, Providers, Help, InstanceDetail,
+ApplicationDetail, ProviderController, Providers, Help, InstanceDetail,
 VolumeDetail, ApplicationSearchResults) {
 
     var Root = React.createClass({
@@ -18,7 +18,7 @@ VolumeDetail, ApplicationSearchResults) {
                 profile: null,
                 route: null,
                 routeArgs: [],
-                providers: providers,
+                providers: null,
                 identities: null
             };
         },
@@ -52,9 +52,20 @@ VolumeDetail, ApplicationSearchResults) {
                 }.bind(this));
             }.bind(this));
         },
+        fetchProviders: function() {
+            // TODO: fetch providers only on demand in stead of at mount
+            ProviderController.getProviders().then(function(providers) {
+                this.setState({providers: providers});
+
+                providers.on('change', function(m) {
+                    this.setState({providers: providers});
+                }.bind(this));
+            }.bind(this));
+        },
         componentDidMount: function() {
             this.beginRouting();
             this.fetchProfile();
+            this.fetchProviders();
         },
         handleNavigate: function(route, options) {
             this.router.navigate(route, options);
@@ -73,7 +84,8 @@ VolumeDetail, ApplicationSearchResults) {
                 return ApplicationDetail({
                     applicationId: appId,
                     profile: this.state.profile,
-                    identities: this.state.identities
+                    identities: this.state.identities,
+                    providers: this.state.providers
                 });
             },
             appSearch: function(query) {
@@ -92,7 +104,8 @@ VolumeDetail, ApplicationSearchResults) {
                 return VolumeDetail({
                     providerId: providerId,
                     identityId: identityId,
-                    volumeId: volumeId
+                    volumeId: volumeId,
+                    providers: this.state.providers
                 });
             },
             providers: function() {
