@@ -7,18 +7,10 @@ function(React, Sizes, ModalMixin, ProviderController, Instances) {
         canLaunch: function(size) {
             return size.get('remaining') > 0;
         },
-        renderOptionText: function() {
-            var size = this.props.size;
-            var memoryMB = size.get('mem') / 1024;
-            return [size.get('name'), " (",
-                size.get('cpu'), " CPUs, ",
-                memoryMB, " GB memory, ",
-                size.get('disk'), " GB disk)"];
-        },
         render: function() {
             return React.DOM.option({
                 value: this.props.size.id
-            }, this.renderOptionText());
+            }, this.props.size.formattedDetails());
         }
     });
 

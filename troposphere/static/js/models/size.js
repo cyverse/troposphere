@@ -21,6 +21,13 @@ define(['underscore', 'models/base'], function(_, Base) {
         parse: function(attributes) {
             attributes.id = attributes.alias;
             return attributes;
+        },
+        formattedDetails: function() {
+            var memoryGB = this.get('mem') / 1024;
+            var parts = [this.get('cpu') + ' CPUs',
+                         memoryGB + ' GB memory',
+                         this.get('disk') + ' GB disk'];
+            return this.get('name') + " (" + parts.join(', ') + ")";
         }
     });
 
