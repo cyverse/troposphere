@@ -9,6 +9,12 @@ var Instance = Base.extend({
         attributes.start_date = new Date(response.start_date);
         return attributes;
     },
+    getCreds: function() {
+        return {
+            provider_id: this.get('identity').provider,
+            identity_id: this.get('identity').id
+        };
+    },
     name_or_id: function() {
         return this.get('name') || this.get('id');
     },
