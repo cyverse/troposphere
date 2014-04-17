@@ -45,6 +45,26 @@ PageHeader, LoadingMixin, Instances, RSVP, Time) {
         }
     });
 
+    var ActionList = React.createClass({
+        renderLink: function(text, onClick) {
+            return React.DOM.li({},
+                React.DOM.a({href: '#', onClick: onClick}, text));
+        },
+        render: function() {
+            return React.DOM.div({},
+                React.DOM.h2({}, "Actions"),
+                React.DOM.ul({},
+                    this.renderLink("Stop"),
+                    this.renderLink("Suspend"),
+                    this.renderLink("Reboot"),
+                    this.renderLink("Hard reboot"),
+                    this.renderLink("Terminate"),
+                    this.renderLink("Resize"),
+                    this.renderLink("Image"),
+                    this.renderLink("Report")));
+        }
+    });
+
     var InstancePage = React.createClass({
         render: function() {
             var instance = this.props.instance;
@@ -52,7 +72,8 @@ PageHeader, LoadingMixin, Instances, RSVP, Time) {
                 PageHeader({title: "Instance: " + instance.get('name_or_id')}),
                 InstanceAttributes({instance: instance, 
                     providers: this.props.providers}),
-                InstanceLinks({instance: instance}));
+                InstanceLinks({instance: instance}),
+                ActionList({instance: instance}));
         }
     });
     
