@@ -16,3 +16,12 @@
 .identity-select {
     margin-bottom: 20px;
 }
+
+a.new-window::after {
+    content: '\e164';
+    font-family: 'Glyphicons Halflings';
+    margin-left: 4px;
+    font-size: .8em;
+    position: relative;
+    top: 1px;
+}
