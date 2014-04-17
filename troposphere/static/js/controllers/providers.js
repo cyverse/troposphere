@@ -1,4 +1,5 @@
-define(['react', 'collections/sizes', 'rsvp'], function(React, Sizes, RSVP) {
+define(['react', 'collections/sizes', 'rsvp',
+'collections/providers'], function(React, Sizes, RSVP, Providers) {
 
     var cachedSizes = {};
 
@@ -28,7 +29,18 @@ define(['react', 'collections/sizes', 'rsvp'], function(React, Sizes, RSVP) {
         });
     };
 
+    var getProviders = function() {
+        var providers = new Providers();
+        return new RSVP.Promise(function(resolve, reject) {
+            providers.fetch({
+                success: resolve,
+                error: reject
+            });
+        });
+    };
+
     return {
+        getProviders: getProviders,
         getSizeCollection: getSizeCollection
     };
 

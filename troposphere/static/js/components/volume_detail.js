@@ -1,12 +1,13 @@
 define(['react', 'underscore', 'components/page_header',
-'components/common/time', 'singletons/providers', 'collections/instances',
-'controllers/volumes', 'components/mixins/loading', 'collections/volumes', 'rsvp'], function(React, _, PageHeader, Time, providers,
-Instances, VolumeController, LoadingMixin, Volumes, RSVP) {
+'components/common/time', 'collections/instances',
+'controllers/volumes', 'components/mixins/loading', 'collections/volumes',
+'rsvp'], function(React, _, PageHeader, Time, Instances, VolumeController,
+LoadingMixin, Volumes, RSVP) {
 
     var VolumeInfo = React.createClass({
         render: function() {
             var volume = this.props.volume;
-            var provider = providers.get(volume.get('identity').provider);
+            var provider = this.props.providers.get(volume.get('identity').provider);
             var name = "(Unnamed Volume)";
             if (volume.get('name') !== undefined)
                 name = volume.get('name');
@@ -98,7 +99,8 @@ Instances, VolumeController, LoadingMixin, Volumes, RSVP) {
     var DetachmentForm = React.createClass({
         handleSubmit: function(e) {
             e.preventDefault();
-            VolumeController.detach(this.props.volume);
+            var provider = this.props.providers.get(this.props.volume.get('identity').provider);
+            VolumeController.detach(this.props.volume, provider);
         },
         render: function() {
             var detaching = this.props.volume.get('status') === 'detaching';
@@ -141,7 +143,9 @@ Instances, VolumeController, LoadingMixin, Volumes, RSVP) {
                 ];
                 content = [
                     React.DOM.p({key: 'statusText'}, attachedText),
-                    DetachmentForm({key: 'detachment', volume: this.props.volume})
+                    DetachmentForm({key: 'detachment', 
+                        volume: this.props.volume,
+                        providers: this.props.providers})
                 ];
             }
 
@@ -172,8 +176,8 @@ Instances, VolumeController, LoadingMixin, Volumes, RSVP) {
             var instances = this.props.instances;
             return React.DOM.div({},
                 PageHeader({title: "Volume: " + volume.get('name_or_id'), helpText: this.helpText}),
-                VolumeInfo({volume: volume}),
-                AttachmentInfo({volume: volume, instances: instances}));
+                VolumeInfo({volume: volume, providers: this.props.providers}),
+                AttachmentInfo({volume: volume, instances: instances, providers: this.props.providers}));
         }
     });
 
@@ -209,7 +213,8 @@ Instances, VolumeController, LoadingMixin, Volumes, RSVP) {
         render: function() {
             return VolumeDetailPage({
                 volume: this.state.volume,
-                instances: this.state.instances
+                instances: this.state.instances,
+                providers: this.props.providers
             });
         }
     });
@@ -232,7 +237,10 @@ Instances, VolumeController, LoadingMixin, Volumes, RSVP) {
             });
         },
         renderContent: function() {
-            return VolumeDetail({volume: this.state.model});
+            return VolumeDetail({
+                volume: this.state.model,
+                providers: this.props.providers
+            });
         }
     });
 
