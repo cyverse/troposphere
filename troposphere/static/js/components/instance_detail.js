@@ -40,8 +40,8 @@ PageHeader, LoadingMixin, Instances, RSVP, Time) {
             return React.DOM.div({},
                 React.DOM.h2({}, "Links"),
                 React.DOM.ul({},
-                    this.renderLink("Web Shell", instance.get('shell_url')),
-                    this.renderLink("Remote Desktop", instance.get('vnc_url'))));
+                    this.renderLink("Web Shell", instance.shell_url()),
+                    this.renderLink("Remote Desktop", instance.vnc_url())));
         }
     });
 
