@@ -9,7 +9,10 @@ SearchBox, PageHeader, LoadingMixin, RSVP, Applications, Cards) {
             return Applications.searchApplications(this.props.query);
         },
         renderContent: function() {
-            return Cards.ApplicationCardList({applications: this.state.model});
+            if (this.state.model.isEmpty())
+                return React.DOM.div({}, React.DOM.em({}, "No results found."));
+            else
+                return Cards.ApplicationCardList({applications: this.state.model});
         }
     });
 
