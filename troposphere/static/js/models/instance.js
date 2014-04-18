@@ -51,10 +51,14 @@ var Instance = Base.extend({
         return this.get('name') || this.get('id');
     },
     shell_url: function() {
-        return "/shell/" + this.get('ip_address');
+        if (this.get('public_ip_address'))
+            return "/shell/" + this.get('public_ip_address');
+        return null;
     },
     vnc_url: function() {
-        return "http://" + this.get('ip_address') + ":5904";
+        if (this.get('public_ip_address'))
+            return "http://" + this.get('public_ip_address') + ":5904";
+        return null;
     },
     is_active: function() {
         var states = ['active', 'running', 'verify_resize'];
