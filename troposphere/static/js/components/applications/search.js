@@ -36,7 +36,7 @@ define(['react', 'backbone'], function(React, Backbone) {
                 SearchContainer.handleSearch(this.state.query);
         },
         render: function() {
-            return React.DOM.div({},
+            return React.DOM.div({id: 'search-container'},
                 React.DOM.input({
                     type: 'text',
                     className: 'form-control',

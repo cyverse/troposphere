@@ -105,3 +105,8 @@
         top: 0;
     }
 }
+
+/* Search */
+#search-container {
+    margin-bottom: 20px;
+}
