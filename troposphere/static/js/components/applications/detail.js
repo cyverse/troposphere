@@ -28,18 +28,9 @@ LaunchModal) {
             return {application: null};
         },
         componentDidMount: function() {
-            // TODO: This is what should happen if we have API support for it
-            /*
-            var app = new App({id: this.props.image_id});
+            var app = new App({id: this.props.applicationId});
             app.fetch({success: function(model) {
-                this.setState({image: model});
-            }.bind(this)});
-            */
-            // This is terrible.
-            var apps = new AppCollection();
-            apps.fetch({success: function(collection) {
-                var app = collection.get(this.props.applicationId);
-                this.setState({application: app});
+                this.setState({application: model});
             }.bind(this)});
         },
         showModal: function(e) {
