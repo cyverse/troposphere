@@ -37,7 +37,7 @@ var Instance = Base.extend({
         delete attributes.ip_address;
         if (Instance.addressIsPrivate(ip))
             attributes.private_ip_address = ip;
-        else
+        else if (ip != '0.0.0.0')
             attributes.public_ip_address = ip;
         return attributes;
     },
