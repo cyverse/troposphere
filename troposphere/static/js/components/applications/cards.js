@@ -75,7 +75,7 @@ define(['react', 'components/common/gravatar', 'backbone'], function(React, Grav
         render: function() {
             var apps = this.props.applications;
             return React.DOM.div({},
-                React.DOM.h2({}, this.props.title),
+                React.DOM.h3({}, this.props.title),
                 React.DOM.ul({className: 'app-card-list'}, apps.map(function(app) {
                     return React.DOM.li({}, ApplicationCard({application: app}));
                 })));

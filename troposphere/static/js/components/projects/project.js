@@ -82,8 +82,8 @@ define(['react', 'components/common/time'], function(React, Time) {
         render: function() {
             var project = this.props.project;
             console.log(project);
-            return React.DOM.li({}, React.DOM.h2({}, project.get('name')), 
-                React.DOM.div({className: 'project-description'}, React.DOM.p({}, project.get('description'))),
+            return React.DOM.li({}, React.DOM.h2({}, project.get('name')), React.DOM.a({href: '#', className: 'btn btn-primary update-project-btn'}, '+'),
+                React.DOM.div({className: 'project-description'}, React.DOM.p({}, project.get('description')), React.DOM.a({href: '#'}, 'Edit Description')),
                 ProjectItems({project: project}));
         }
     });

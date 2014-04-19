@@ -3,7 +3,7 @@ define(['react', 'backbone'], function(React, Backbone) {
     var AdvancedOptions = React.createClass({
         render: function() {
             var display = this.props.visible ? "block" : "none";
-            return React.DOM.div({style: {display: display}},
+            return React.DOM.div({style: {display: display}, className: 'well advanced-search-options'},
                 "Advanced stuff, here, man");
         }
     });
@@ -36,21 +36,23 @@ define(['react', 'backbone'], function(React, Backbone) {
                 SearchContainer.handleSearch(this.state.query);
         },
         render: function() {
-            return React.DOM.div({},
+            return React.DOM.div({className: 'search-container'},
+                React.DOM.h2({}, ""),
                 React.DOM.input({
                     type: 'text',
-                    className: 'form-control',
+                    className: 'form-control search-input',
                     placeholder: 'Search by Image Name, Tag, OS, and more',
                     onChange: this.handleChange,
                     value: this.state.query,
                     onKeyUp: this.handleKeyUp,
-                })/*,
+                }), 
                 React.DOM.a({
                     onClick: this.toggleAdvancedOptions,
                     href: '#'}, 
                     (this.state.showAdvancedOptions ? "Hide" : "Show") + 
                         " Advanced Search Options"),
-                AdvancedOptions({visible: this.state.showAdvancedOptions})*/);
+                AdvancedOptions({visible: this.state.showAdvancedOptions}),
+                React.DOM.hr({}));
         }
     });
 

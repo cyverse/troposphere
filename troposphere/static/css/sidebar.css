@@ -1,6 +1,6 @@
 #sidebar {
-    background-color: #f5f5f5;
-    box-shadow: inset -10px 0px 10px -10px #999;
+    background-color: #BCEBF1;
+    box-shadow: inset -5px 0px 5px -5px #4A96A0;
 }
 
 #sidebar ul {
@@ -16,11 +16,12 @@
     text-decoration: none;
     padding: 10px 10px 10px 37px;
     position: relative;
+    border: 0;
 }
 
 #sidebar > ul > li > a {
     font-size: 1.2em; 
-    color: #222;
+    color: #333;
 }
 
 #sidebar > ul > li > a i {
@@ -30,24 +31,24 @@
 }
 
 #sidebar > ul > li > a:hover {
-    background-color: #e6e6e6;
-    box-shadow: inset -10px 0px 10px -10px #999;
+    background-color: #EDFBFC;
+    box-shadow: inset -5px 0px 5px -5px #4A96A0;
 }
 
 #sidebar > ul > li.active > a {
-    background-color: #333;
-    color: #fff;
+    background-color: #48A323;
+    color: #fefefe;
 }
 
 #sidebar > ul > li.active > a:hover {
-    background-color: #444;  
+    background-color: #5FB33D;  
 }
 
 /* Submenus */
 #sidebar ul ul {
     display: none;
-    background-color: hsl(0, 0%, 35%);
-    box-shadow: inset -10px 0px 10px -10px #999;
+    background-color: #D4F3F7;
+    box-shadow: inset -5px 0px 5px -5px #4A96A0;
 }
 
 #sidebar li.active ul {
@@ -55,11 +56,13 @@
 }
 
 #sidebar ul ul a {
-    color: #fff;
+    color: #444;
 }
 
 #sidebar ul ul a:hover {
-    color: #ccc;
+    color: #333;
+    background-color: #EDFBFC;
+    box-shadow: inset -5px 0px 5px -5px #4A96A0;
 }
 
 #sidebar ul ul li.active {

@@ -5,21 +5,39 @@
 }
 
 #project-list > li {
-    border: 2px solid #ccc;
-    border-radius: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    position: relative;
 }
 
 #project-list h2 {
     margin: 0;
     padding: 10px;
     background-color: hsl(0, 0%, 96%);
-    border-bottom: 2px solid #ccc;
-    border-radius: 5px;
+    border-bottom: 1px solid #ccc;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    font-size: 1.5em;
 }
 
+.update-project-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 0px 8px 1px 8px;
+    font-weight: bold;
+    font-size: 21px;
+}
 .project-description {
-    border-bottom: 2px solid #ccc;
+    border-bottom: 1px solid #ccc;
     padding: 10px 10px 0;
+    position: relative;
+}
+
+.project-description a {
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 
 .project-items {
