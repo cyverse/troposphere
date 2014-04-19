@@ -112,22 +112,6 @@
     border-left-color: hsl(0, 96%, 44%);
 }
 
-.search-container {
-    text-align: center;
-}
-
-.search-input {
-    height: 3.5em;
-    margin-bottom: 1em;
-    width: 65%;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.advanced-search-options {
-    margin-top: 10px;
-    text-align: left;
-}
 
 /* App detail page */
 /* Medium devices (desktops, 992px and up) */
@@ -142,4 +126,22 @@
         right: 0;
         top: 0;
     }
+}
+
+/* Search */
+#search-container {
+    text-align: center;
+}
+
+.search-input {
+    height: 3.5em;
+    margin-bottom: 1em;
+    width: 65%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.advanced-search-options {
+    margin-top: 10px;
+    text-align: left;
 }

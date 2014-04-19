@@ -17,11 +17,12 @@ PageHeader, LoadingMixin, Instances, RSVP, Time, InstanceController) {
         },
         render: function() {
             var instance = this.props.instance;
+            var addr = instance.get('public_ip_address');
             return React.DOM.div({},
                 React.DOM.h2({}, "Details"),
                 React.DOM.dl({},
                     this.renderPair("Status", instance.get('status')),
-                    this.renderPair("IP Address", instance.get('ip_address')),
+                    this.renderPair("IP Address", addr ? addr : React.DOM.em({}, "Unknown")),
                     this.renderPair("Identity", this.renderIdentity(instance.get('identity'))),
                     this.renderPair("ID", instance.id),
                     this.renderPair("Date Launched", Time({date: instance.get('start_date')}))));

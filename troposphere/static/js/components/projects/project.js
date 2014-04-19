@@ -31,7 +31,8 @@ define(['react', 'components/common/time'], function(React, Time) {
         renderDetails: function() {
             var machine_name = this.props.model.get('machine_name') ||
                 this.props.model.get('machine_alias');
-            return [this.props.model.get('ip_address') + ', from ',
+            var ip = this.props.model.get('public_ip_address');
+            return [ip ? ip + ', ' : '',  'from ',
                 React.DOM.a({}, machine_name)];
         }
     });

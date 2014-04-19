@@ -22,6 +22,7 @@ define(['react'], function(React) {
                     this.setState({model: data, _loading: false});
                 }.bind(this),
                 function(msg) {
+                    console.error(msg);
                     this.setState({_loading: false, _error: msg});
                 }.bind(this));
         },
