@@ -11,6 +11,16 @@ define(['react', 'components/common/gravatar', 'backbone'], function(React, Grav
         }
     });
 
+    var Tags = React.createClass({
+        render: function() {
+            var tags = this.props.tags.map(function(tag) {
+                return React.DOM.li({className: 'tag', key: tag}, React.DOM.a({href: '#'}, tag)); 
+            });
+
+            return React.DOM.ul({className: 'tags'}, tags);
+        }
+    });
+
     var Bookmark = React.createClass({
         toggleFavorite: function(e) {
             e.preventDefault();
@@ -85,7 +95,8 @@ define(['react', 'components/common/gravatar', 'backbone'], function(React, Grav
     return {
         "ApplicationCardList": ApplicationCardList,
         "ApplicationCard": ApplicationCard,
-        "Rating": Rating
+        "Rating": Rating,
+        "Tags": Tags
     };
 
 });

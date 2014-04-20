@@ -24,6 +24,9 @@ define(['react', 'components/page_header', 'collections/applications',
             return React.DOM.div({},
                 PageHeader({title: 'Images', helpText: this.helpText}),
                 ApplicationSearch(),
+                React.DOM.div({className: 'view-selector'}, 'View:', 
+                    React.DOM.a({className: 'btn btn-default'}, React.DOM.span({className: 'glyphicon glyphicon-th'}, '')),
+                    React.DOM.a({className: 'btn btn-default'}, React.DOM.span({className: 'glyphicon glyphicon-th-list'}, ''))),
                 content);
         },
         updateApplications: function(apps) {

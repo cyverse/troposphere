@@ -47,11 +47,17 @@ LaunchModal) {
                 return React.DOM.div({className: 'loading'});
 
             return React.DOM.div({id: 'app-detail'},
+                React.DOM.a({className: 'nav-back btn btn-default'}, React.DOM.span({className: 'glyphicon glyphicon-arrow-left'}, '')),
                 React.DOM.h1({}, app.get('name_or_id')),
-                Cards.Rating({rating: app.get('rating')}),
+                React.DOM.h2({className: 'tag-title'}, 'Image Tags'),
+                React.DOM.a({href: '#'}, 'Suggest a Tag'),
+                Cards.Tags({ tags: app.get('tags') }),
+                React.DOM.hr({}),
+                //Cards.Rating({rating: app.get('rating')}),
                 Cards.ApplicationCard({application: app, onLaunch: this.showModal}),
                 React.DOM.h2({}, "Description"),
                 React.DOM.p({}, app.get('description')),
+                React.DOM.hr({}),
                 React.DOM.h2({}, "Versions of this Image"),
                 MachineList({machines: app.get('machines')}))
         }
