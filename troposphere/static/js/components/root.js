@@ -64,8 +64,10 @@ VolumeDetail, ApplicationSearchResults) {
         },
         componentDidMount: function() {
             this.beginRouting();
-            this.fetchProfile();
-            this.fetchProviders();
+            if (this.props.session.isValid()) {
+                this.fetchProfile();
+                this.fetchProviders();
+            }
         },
         handleNavigate: function(route, options) {
             this.router.navigate(route, options);

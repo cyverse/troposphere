@@ -5,9 +5,9 @@ define(['models/base'], function(Base) {
         // http://backbonejs.org/#Model-isValid
         // TODO: check token expiration
         validate: function(attributes, options) {
-            if (!attributes.access_token || attributes.expires)
-                return false;
-            return true;
+            if(typeof(attributes.access_token) === "undefined" ||
+                typeof(attributes.expires) === "undefined")
+                return "Invalid access token";
         }
     });
 
