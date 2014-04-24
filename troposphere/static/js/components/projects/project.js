@@ -1,4 +1,4 @@
-define(['react', 'components/common/time'], function(React, Time) {
+define(['react', 'components/common/time', 'url'], function(React, Time, URL) {
 
     var ProjectItemMixin = {
         render: function() {
@@ -15,17 +15,11 @@ define(['react', 'components/common/time'], function(React, Time) {
         },
         renderName: function() {
             var instance = this.props.model;
-            /* TODO: Move this to the model */
-            var instance_url = function(instance) {
-                var provider_id = instance.get('identity').provider;
-                var identity_id = instance.get('identity').id;
-                return 'provider/' + provider_id + '/identity/' + identity_id + '/instances/' + instance.id;
-            };
             return React.DOM.a({
-                href: url_root + '/' + instance_url(instance),
+                href: url_root + '/' + URL.instance(instance),
                 onClick: function(e) {
                     e.preventDefault();
-                    Backbone.history.navigate(instance_url(instance), {trigger: true});
+                    Backbone.history.navigate(URL.instance(instance), {trigger: true});
                 }}, this.props.model.get('name_or_id'));
         },
         renderDetails: function() {
@@ -43,14 +37,8 @@ define(['react', 'components/common/time'], function(React, Time) {
             return 'volume';
         },
         renderName: function() {
-            /* TODO: Move this to the model */
-            var volume_url = function(volume) {
-                var provider_id = volume.get('identity').provider;
-                var identity_id = volume.get('identity').id;
-                return 'provider/' + provider_id + '/identity/' + identity_id + '/volumes/' + volume.id;
-            };
             var volume = this.props.model;
-            var url = volume_url(volume);
+            var url = URL.volume(volume);
             return React.DOM.a({
                 href: url_root + '/' + url,
                 onClick: function(e) {
