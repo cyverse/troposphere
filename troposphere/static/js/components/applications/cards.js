@@ -1,4 +1,4 @@
-define(['react', 'components/common/gravatar', 'backbone'], function(React, Gravatar, Backbone) {
+define(['react', 'components/common/gravatar', 'backbone', 'url'], function(React, Gravatar, Backbone, URL) {
 
     var Rating = React.createClass({
         render: function() {
@@ -45,7 +45,8 @@ define(['react', 'components/common/gravatar', 'backbone'], function(React, Grav
         },
         onAppClick: function(e) {
             e.preventDefault();
-            Backbone.history.navigate("images/" + this.props.application.id, {trigger: true});
+            var url = URL.application(this.props.application);
+            Backbone.history.navigate(url, {trigger: true});
         },
         render: function() {
             var app = this.props.application;
@@ -61,7 +62,7 @@ define(['react', 'components/common/gravatar', 'backbone'], function(React, Grav
             else
                 icon = Gravatar({hash: app.get('uuid_hash'), size: iconSize});
 
-            var appUri = url_root + "/images/" + app.get('uuid');
+            var appUri = URL.application(app, {absolute: true});
 
             return React.DOM.div({className: 'app-card'},
                 React.DOM.div({className: 'icon-container'}, React.DOM.a({

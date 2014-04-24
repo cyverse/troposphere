@@ -11,6 +11,9 @@ define(['underscore'], function(_) {
             var providerId = model.get('identity').provider;
             var identityId = model.get('identity').id;
             return 'provider/' + providerId + '/identity/' + identityId + '/volumes/' + model.id;
+        },
+        application: function(model) {
+            return 'images/' + model.id; 
         }
     };
 
@@ -27,7 +30,8 @@ define(['underscore'], function(_) {
 
     return {
         instance: _.partial(generateUrl, 'instance'),
-        volume: _.partial(generateUrl, 'volume')
+        volume: _.partial(generateUrl, 'volume'),
+        application: _.partial(generateUrl, 'application')
     };
 
 });
