@@ -1,6 +1,7 @@
 define(['react', 'components/page_header', 'components/mixins/loading',
-'collections/instances', 'rsvp', 'components/common/time', 'controllers/instances'], function(React,
-PageHeader, LoadingMixin, Instances, RSVP, Time, InstanceController) {
+'collections/instances', 'rsvp', 'components/common/time',
+'controllers/instances', 'url'], function(React, PageHeader, LoadingMixin,
+Instances, RSVP, Time, InstanceController, URL) {
 
     var InstanceAttributes = React.createClass({
         renderPair: function(k, v) {
@@ -100,7 +101,11 @@ PageHeader, LoadingMixin, Instances, RSVP, Time, InstanceController) {
         },
         renderReportButton: function() {
             var disabled = !this.props.instance.is_active();
-            return this.renderButton("Report", null, disabled);
+            var onClick = function() {
+                var url = URL.reportInstance(this.props.instance);
+                Backbone.history.navigate(url, {trigger: true});
+            }.bind(this);
+            return this.renderButton("Report", onClick, disabled);
         },
         render: function() {
             return React.DOM.div({},

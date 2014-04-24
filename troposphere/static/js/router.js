@@ -15,6 +15,7 @@ define(['backbone', 'react', 'rsvp'], function(Backbone, React, RSVP) {
             'images/:id': 'appDetail',
             'images/search/:query': 'appSearch',
             'provider/:provider_id/identity/:identity_id/instances/:instance_id': 'instanceDetail',
+            'provider/:provider_id/identity/:identity_id/instances/:instance_id/report': 'reportInstance',
             'provider/:provider_id/identity/:identity_id/volumes/:volume_id': 'volumeDetail',
             'providers': 'providers',
             'settings': 'settings',

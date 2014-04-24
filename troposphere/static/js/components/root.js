@@ -4,12 +4,12 @@ define(['react', 'components/header', 'components/sidebar',
 'components/applications/list', 'components/applications/favorites',
 'components/applications/detail', 'controllers/providers',
 'components/providers', 'components/help',
-'components/instances/detail', 'components/volume_detail',
-'components/applications/search_results'], 
+'components/instances/detail', 'components/instances/report',
+'components/volume_detail', 'components/applications/search_results'],
 function (React, Header, Sidebar, Footer, Notifications, Router,
 Profile, Settings, Projects, ApplicationList, ApplicationFavorites,
 ApplicationDetail, ProviderController, Providers, Help, InstanceDetail,
-VolumeDetail, ApplicationSearchResults) {
+ReportInstance, VolumeDetail, ApplicationSearchResults) {
 
     var Root = React.createClass({
         getInitialState: function() {
@@ -97,6 +97,14 @@ VolumeDetail, ApplicationSearchResults) {
             },
             instanceDetail: function(providerId, identityId, instanceId) {
                 return InstanceDetail({
+                    providerId: providerId,
+                    identityId: identityId,
+                    instanceId: instanceId,
+                    providers: this.state.providers
+                });
+            },
+            reportInstance: function(providerId, identityId, instanceId) {
+                return ReportInstance({
                     providerId: providerId,
                     identityId: identityId,
                     instanceId: instanceId,
