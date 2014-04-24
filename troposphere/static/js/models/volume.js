@@ -3,10 +3,6 @@ function(_, Base, Utils, Instance) {
 
 var Volume = Base.extend({
     defaults: { 'model_name': 'volume' },
-    initialize: function(attributes, options) {
-        if (options)
-            this.identity = options.identity;
-    },
     parse: function(response) {
         
         var attributes = _.pick(response, ['name', 'identity', 'status', 'size']);
@@ -29,6 +25,12 @@ var Volume = Base.extend({
         }
 
         return attributes;
+    },
+    getCreds: function() {
+        return {
+            provider_id: this.get('identity').provider,
+            identity_id: this.get('identity').id
+        };
     },
     name_or_id: function() {
         return this.get('name').length == 0 ? this.id : this.get('name');
