@@ -16,7 +16,7 @@ define(['react', 'components/common/time', 'url'], function(React, Time, URL) {
         renderName: function() {
             var instance = this.props.model;
             return React.DOM.a({
-                href: url_root + '/' + URL.instance(instance),
+                href: URL.instance(instance, {absolute: true}),
                 onClick: function(e) {
                     e.preventDefault();
                     Backbone.history.navigate(URL.instance(instance), {trigger: true});
@@ -38,12 +38,11 @@ define(['react', 'components/common/time', 'url'], function(React, Time, URL) {
         },
         renderName: function() {
             var volume = this.props.model;
-            var url = URL.volume(volume);
             return React.DOM.a({
-                href: url_root + '/' + url,
+                href: URL.volume(volume, {absolute: true}),
                 onClick: function(e) {
                     e.preventDefault();
-                    Backbone.history.navigate(url, {trigger: true});
+                    Backbone.history.navigate(URL.volume(volume), {trigger: true});
                 }}, volume.get('name_or_id'));
         },
         renderDetails: function() {
