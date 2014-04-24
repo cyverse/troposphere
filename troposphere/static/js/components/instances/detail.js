@@ -1,7 +1,7 @@
 define(['react', 'components/page_header', 'components/mixins/loading',
-'collections/instances', 'rsvp', 'components/common/time',
+'models/instance', 'rsvp', 'components/common/time',
 'controllers/instances', 'url'], function(React, PageHeader, LoadingMixin,
-Instances, RSVP, Time, InstanceController, URL) {
+Instance, RSVP, Time, InstanceController, URL) {
 
     var InstanceAttributes = React.createClass({
         renderPair: function(k, v) {
@@ -136,18 +136,16 @@ Instances, RSVP, Time, InstanceController, URL) {
     var InstanceDetail = React.createClass({
         mixins: [LoadingMixin],
         model: function() {
-            var coll = new Instances([], {
-                provider_id: this.props.providerId, 
-                identity_id: this.props.identityId
+            var model = new Instance({
+                identity: {
+                    provider: this.props.providerId,
+                    id: this.props.identityId
+                },
+                id: this.props.instanceId
             });
-            var instanceId = this.props.instanceId;
+
             return new RSVP.Promise(function(resolve, reject) {
-                coll.fetch({success: function() {
-                    var instance = coll.get(instanceId);
-                    if (instance === undefined)
-                        reject("Unknown instance " + instanceId);
-                    resolve(instance);
-                }});
+                model.fetch({success: resolve, error: reject});
             });
         },
         renderContent: function() {
