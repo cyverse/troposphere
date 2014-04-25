@@ -42,8 +42,8 @@ Instance, RSVP, Time, InstanceController, URL) {
             return React.DOM.div({},
                 React.DOM.h2({}, "Links"),
                 React.DOM.ul({},
-                    this.renderLink("Web Shell", instance.shell_url()),
-                    this.renderLink("Remote Desktop", instance.vnc_url())));
+                    this.renderLink("Web Shell", instance.get('shell_url')),
+                    this.renderLink("Remote Desktop", instance.get('vnc_url'))));
         }
     });
 
@@ -74,7 +74,7 @@ Instance, RSVP, Time, InstanceController, URL) {
         },
         renderRebootButton: function() {
             // TODO: Make a button group that works in React
-            var disabled = !this.props.instance.is_active();
+            var disabled = !this.props.instance.get('is_active');
             var items = [React.DOM.li({}, React.DOM.a({}, "Soft reboot"))];
             if (this.props.is_openstack)
                 items.push(React.DOM.li({}, React.DOM.a({}, "Hard reboot")));
@@ -96,11 +96,11 @@ Instance, RSVP, Time, InstanceController, URL) {
             return this.renderButton("Resize", null, disabled);
         },
         renderImageRequestButton: function() {
-            var disabled = !this.props.instance.is_active();
+            var disabled = !this.props.instance.get('is_active');
             return this.renderButton("Image", null, disabled);
         },
         renderReportButton: function() {
-            var disabled = !this.props.instance.is_active();
+            var disabled = !this.props.instance.get('is_active');
             var onClick = function() {
                 var url = URL.reportInstance(this.props.instance);
                 Backbone.history.navigate(url, {trigger: true});

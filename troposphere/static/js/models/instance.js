@@ -49,23 +49,22 @@ var Instance = Base.extend({
     },
     computed: {
         name_or_id: function() {
-            console.log(this);
-            return this.get('name') || this.get('id');
+            return this.get('name') || this.id;
+        },
+        shell_url: function() {
+            if (this.get('public_ip_address'))
+                return "/shell/" + this.get('public_ip_address');
+            return null;
+        },
+        vnc_url: function() {
+            if (this.get('public_ip_address'))
+                return "http://" + this.get('public_ip_address') + ":5904";
+            return null;
+        },
+        is_active: function() {
+            var states = ['active', 'running', 'verify_resize'];
+            return _.contains(states, this.get('status'));
         }
-    },
-    shell_url: function() {
-        if (this.get('public_ip_address'))
-            return "/shell/" + this.get('public_ip_address');
-        return null;
-    },
-    vnc_url: function() {
-        if (this.get('public_ip_address'))
-            return "http://" + this.get('public_ip_address') + ":5904";
-        return null;
-    },
-    is_active: function() {
-        var states = ['active', 'running', 'verify_resize'];
-        return _.contains(states, this.get('status'));
     },
     is_build: function() {
         var states = [
