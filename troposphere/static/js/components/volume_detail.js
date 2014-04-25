@@ -220,25 +220,18 @@ LoadingMixin, Volume, RSVP) {
     });
 
     var VolumeDetailWrapper = React.createClass({
-        mixins: [LoadingMixin],
-        model: function() {
-            var model = new Volume({
-                identity: {
-                    provider: this.props.providerId,
-                    id: this.props.identityId
-                },
-                id: this.props.volumeId
-            });
-
-            return new RSVP.Promise(function(resolve, reject) {
-                model.fetch({success: resolve, error: reject});
-            });
+        componentDidMount: function() {
+            if (!this.props.volume)
+                this.props.onRequestVolume();
         },
-        renderContent: function() {
-            return VolumeDetail({
-                volume: this.state.model,
-                providers: this.props.providers
-            });
+        render: function() {
+            if (this.props.volume)
+                return VolumeDetail({
+                    volume: this.props.volume,
+                    providers: this.props.providers
+                });
+            else
+                return React.DOM.div({className: 'loading'});
         }
     });
 

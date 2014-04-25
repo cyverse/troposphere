@@ -134,23 +134,15 @@ Instance, RSVP, Time, InstanceController, URL) {
     });
     
     var InstanceDetail = React.createClass({
-        mixins: [LoadingMixin],
-        model: function() {
-            var model = new Instance({
-                identity: {
-                    provider: this.props.providerId,
-                    id: this.props.identityId
-                },
-                id: this.props.instanceId
-            });
-
-            return new RSVP.Promise(function(resolve, reject) {
-                model.fetch({success: resolve, error: reject});
-            });
+        componentDidMount: function() {
+            if (!this.props.instance)
+                this.props.onRequestInstance();
         },
-        renderContent: function() {
-            console.log(this.state.model);
-            return InstancePage({instance: this.state.model, providers: this.props.providers});
+        render: function() {
+            if (this.props.instance)
+                return InstancePage({instance: this.props.instance, providers: this.props.providers});
+            else
+                return React.DOM.div({className: 'loading'});
         }
     });
 

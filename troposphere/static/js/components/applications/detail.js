@@ -24,24 +24,21 @@ LaunchModal) {
     });
 
     var ApplicationDetail = React.createClass({
-        getInitialState: function() {
-            return {application: null};
-        },
         componentDidMount: function() {
-            var app = new App({id: this.props.applicationId});
-            app.fetch({success: function(model) {
-                this.setState({application: model});
-            }.bind(this)});
+            if (!this.props.application)
+                this.props.onRequestApplication();
+            if (!this.props.identities)
+                this.props.onRequestIdentities();
         },
         showModal: function(e) {
             Modal.show(LaunchModal({
-                application: this.state.application,
+                application: this.props.application,
                 identities: this.props.identities,
                 providers: this.props.providers
             }));
         },
         render: function() {
-            var app = this.state.application;
+            var app = this.props.application;
 
             if (!app)
                 return React.DOM.div({className: 'loading'});

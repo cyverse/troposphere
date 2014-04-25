@@ -5,11 +5,14 @@ define(['react', 'components/header', 'components/sidebar',
 'components/applications/detail', 'controllers/providers',
 'components/providers', 'components/help',
 'components/instances/detail', 'components/instances/report',
-'components/volume_detail', 'components/applications/search_results'],
-function (React, Header, Sidebar, Footer, Notifications, Router,
-Profile, Settings, Projects, ApplicationList, ApplicationFavorites,
-ApplicationDetail, ProviderController, Providers, Help, InstanceDetail,
-ReportInstance, VolumeDetail, ApplicationSearchResults) {
+'components/volume_detail', 'components/applications/search_results',
+'collections/instances', 'models/instance', 'collections/volumes',
+'models/volume', 'collections/applications', 'models/application'], function
+(React, Header, Sidebar, Footer, Notifications, Router, Profile, Settings,
+Projects, ApplicationList, ApplicationFavorites, ApplicationDetail,
+ProviderController, Providers, Help, InstanceDetail, ReportInstance,
+VolumeDetail, ApplicationSearchResults, InstanceCollection, Instance,
+VolumeCollection, Volume, AppCollection, Application) {
 
     var Root = React.createClass({
         getInitialState: function() {
@@ -19,18 +22,16 @@ ReportInstance, VolumeDetail, ApplicationSearchResults) {
                 route: null,
                 routeArgs: [],
                 providers: null,
-                identities: null
+                identities: null,
+                instances: new InstanceCollection(),
+                volumes: new VolumeCollection(),
+                applications: new AppCollection()
             };
         },
         handleRoute: function(page, args) {
             if (page === 'handleDefaultRoute')
                 return;
             this.setState({route: page, routeArgs: args});
-            if (page === 'appDetail') {
-                Profile.getIdentities().then(function(identities) {
-                    this.setState({'identities': identities});
-                }.bind(this));
-            }
         },
         beginRouting: function() {
             this.router = new Router({
@@ -74,6 +75,50 @@ ReportInstance, VolumeDetail, ApplicationSearchResults) {
         handleNavigate: function(route, options) {
             this.router.navigate(route, options);
         },
+        fetchInstance: function(providerId, identityId, instanceId) {
+            var model = new Instance({
+                identity: {
+                    provider: providerId,
+                    id: identityId
+                },
+                id: instanceId
+            });
+
+            model.fetch({
+                success: function(instance) {
+                    this.state.instances.add(instance);
+                    this.setState({instances: this.state.instances});
+                }.bind(this)
+            });
+        },
+        fetchVolume: function(providerId, identityId, volumeId) {
+            var model = new Volume({
+                identity: {
+                    provider: providerId,
+                    id: identityId
+                },
+                id: volumeId
+            });
+
+            model.fetch({
+                success: function(volume) {
+                    this.state.volumes.add(volume);
+                    this.setState({volumes: this.state.volumes});
+                }.bind(this)
+            });
+        },
+        fetchApplication: function(appId) {
+            var app = new Application({id: appId});
+            app.fetch({success: function(model) {
+                this.state.applications.add(model);
+                this.setState({applications: this.state.applications});
+            }.bind(this)});
+        },
+        fetchIdentities: function() {
+            Profile.getIdentities().then(function(identities) {
+                this.setState({identities: identities});
+            }.bind(this));
+        },
         pages: {
             projects: function() {
                 return Projects();
@@ -85,8 +130,11 @@ ReportInstance, VolumeDetail, ApplicationSearchResults) {
                 return ApplicationFavorites();
             },
             appDetail: function(appId) {
+                var application = this.state.applications.get(appId);
                 return ApplicationDetail({
-                    applicationId: appId,
+                    application: application,
+                    onRequestApplication: this.fetchApplication.bind(this, appId),
+                    onRequestIdentities: this.fetchIdentities,
                     profile: this.state.profile,
                     identities: this.state.identities,
                     providers: this.state.providers
@@ -98,11 +146,11 @@ ReportInstance, VolumeDetail, ApplicationSearchResults) {
                 });
             },
             instanceDetail: function(providerId, identityId, instanceId) {
+                var instance = this.state.instances.get(instanceId);
                 return InstanceDetail({
-                    providerId: providerId,
-                    identityId: identityId,
-                    instanceId: instanceId,
-                    providers: this.state.providers
+                    instance: instance,
+                    providers: this.state.providers,
+                    onRequestInstance: this.fetchInstance.bind(this, providerId, identityId, instanceId)
                 });
             },
             reportInstance: function(providerId, identityId, instanceId) {
@@ -114,11 +162,11 @@ ReportInstance, VolumeDetail, ApplicationSearchResults) {
                 });
             },
             volumeDetail: function(providerId, identityId, volumeId) {
+                var volume = this.state.volumes.get(volumeId);
                 return VolumeDetail({
-                    providerId: providerId,
-                    identityId: identityId,
-                    volumeId: volumeId,
-                    providers: this.state.providers
+                    volume: volume,
+                    providers: this.state.providers,
+                    onRequestVolume: this.fetchVolume.bind(this, providerId, identityId, volumeId)
                 });
             },
             providers: function() {
