@@ -1,4 +1,4 @@
-define(['react', 'components/page_header', 'components/common/glyphicon'], function(React, PageHeader, Glyphicon) {
+define(['react', 'components/page_header', 'components/common/glyphicon', 'underscore'], function(React, PageHeader, Glyphicon, _) {
 
     var ReportInstanceForm = React.createClass({
         getInitialState: function() {
@@ -20,7 +20,7 @@ define(['react', 'components/page_header', 'components/common/glyphicon'], funct
         updateDetails: function(e) {
             this.setState({details: e.target.value});
         },
-        renderCheckbox: function(value, text) {
+        renderCheckbox: function(value) {
             return React.DOM.div({className: 'checkbox'},
                 React.DOM.label({},
                     React.DOM.input({
@@ -30,22 +30,32 @@ define(['react', 'components/page_header', 'components/common/glyphicon'], funct
                         value: value,
                         checked: this.state[value],
                         onChange: _.partial(this.updateCheckbox, value)}),
-                    text));
+                    this.problemText[value]));
         },
         handleSubmit: function(e) {
             e.preventDefault();
+            var problemKeys = _.keys(_.object(_.filter(_.pairs(this.state), function(pair) {return pair[1] === true;})))
+            var problems = _.values(_.pick(this.problemText, problemKeys));
             console.log(this.state);
+        },
+        problemText: {
+            ssh: "I cannot connect via SSH.",
+            vnc: "I cannot connect via VNC.",
+            pending: "The instance's status never changed from pending to running",
+            installErrors: "I am receiving errors while trying to run or install software",
+            metrics: "The instance's metrics do not display.",
+            other: "Other problem(s)."
         },
         render: function() {
             return React.DOM.form({role: 'form', onSubmit: this.handleSubmit},
                 React.DOM.div({className: 'form-group'},
                     React.DOM.label({}, "What problems are you having with this instance?"),
-                    this.renderCheckbox("ssh", "I cannot connect via SSH."),
-                    this.renderCheckbox("vnc", "I cannot connect via VNC."),
-                    this.renderCheckbox("pending", "The instance's status never changed from pending to running"),
-                    this.renderCheckbox("installErrors", "I am receiving errors while trying to run or install software"),
-                    this.renderCheckbox("metrics", "The instance's metrics do not display."),
-                    this.renderCheckbox("other", "Other problem(s).")),
+                    this.renderCheckbox("ssh"),
+                    this.renderCheckbox("vnc"),
+                    this.renderCheckbox("pending"),
+                    this.renderCheckbox("installErrors"),
+                    this.renderCheckbox("metrics"),
+                    this.renderCheckbox("other")),
                 React.DOM.div({className: 'form-group'},
                     React.DOM.label({htmlFor: 'details'}, "Please provide as many details about the problem as possible."),
                     React.DOM.textarea({className: 'form-control', onChange: this.updateDetails, rows: 6})),
