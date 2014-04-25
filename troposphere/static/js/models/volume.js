@@ -32,11 +32,13 @@ var Volume = Base.extend({
             identity_id: this.get('identity').id
         };
     },
-    name_or_id: function() {
-        return this.get('name').length == 0 ? this.id : this.get('name');
-    },
-    isAttached: function() {
-        return this.get('status') == 'in-use' || this.get('status') == 'detaching';
+    computed: {
+        name_or_id: function() {
+            return this.get('name').length == 0 ? this.id : this.get('name');
+        },
+        isAttached: function() {
+            return this.get('status') == 'in-use' || this.get('status') == 'detaching';
+        }
     },
     getAttachedInstance: function() {
         if (!this.isAttached())

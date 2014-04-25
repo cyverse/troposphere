@@ -24,8 +24,10 @@ function(_, Base, Machine, Machines) {
             
             return url;
         },
-        name_or_id: function() {
-            return this.get('name') || this.get('id');
+        computed: {
+            name_or_id: function() {
+                return this.get('name') || this.get('id');
+            }
         }
     });
 

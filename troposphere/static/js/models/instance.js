@@ -47,8 +47,11 @@ var Instance = Base.extend({
             identity_id: this.get('identity').id
         };
     },
-    name_or_id: function() {
-        return this.get('name') || this.get('id');
+    computed: {
+        name_or_id: function() {
+            console.log(this);
+            return this.get('name') || this.get('id');
+        }
     },
     shell_url: function() {
         if (this.get('public_ip_address'))

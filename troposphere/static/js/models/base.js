@@ -26,8 +26,8 @@ define(['backbone'], function(Backbone) {
          * attributes
          */
         get: function(attr) {
-            if (typeof this[attr] == 'function')
-                return this[attr]();
+            if (typeof this.computed !== "undefined" && typeof this.computed[attr] === 'function')
+                return this.computed[attr].call(this);
             return Backbone.Model.prototype.get.call(this, attr);
         },
     });
