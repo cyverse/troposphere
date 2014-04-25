@@ -23,6 +23,8 @@ ReportInstance, VolumeDetail, ApplicationSearchResults) {
             };
         },
         handleRoute: function(page, args) {
+            if (page === 'handleDefaultRoute')
+                return;
             this.setState({route: page, routeArgs: args});
             if (page === 'appDetail') {
                 Profile.getIdentities().then(function(identities) {

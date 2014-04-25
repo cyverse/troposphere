@@ -1,7 +1,7 @@
 define(['backbone', 'react', 'rsvp'], function(Backbone, React, RSVP) {
     var Router = Backbone.Router.extend({
         initialize: function(options) {
-            this.defeaultRoute = 'images';
+            this.defaultRoute = 'images';
             if (options && options.loggedIn)
                 this.defaultRoute = 'projects';
             this.application = options.application;
