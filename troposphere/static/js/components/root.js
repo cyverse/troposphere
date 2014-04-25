@@ -155,10 +155,9 @@ VolumeCollection, Volume, AppCollection, Application) {
             },
             reportInstance: function(providerId, identityId, instanceId) {
                 return ReportInstance({
-                    providerId: providerId,
-                    identityId: identityId,
-                    instanceId: instanceId,
-                    providers: this.state.providers
+                    instance: this.state.instances.get(instanceId),
+                    providers: this.state.providers,
+                    onRequestInstance: this.fetchInstance.bind(this, providerId, identityId, instanceId)
                 });
             },
             volumeDetail: function(providerId, identityId, volumeId) {
