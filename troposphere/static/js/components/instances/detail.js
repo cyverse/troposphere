@@ -1,8 +1,9 @@
 define(['react', 'components/page_header', 'components/mixins/loading',
 'models/instance', 'rsvp', 'components/common/time',
-'controllers/instances', 'url', 'components/common/button_dropdown'],
+'controllers/instances', 'url', 'components/common/button_dropdown',
+'components/common/glyphicon'],
 function(React, PageHeader, LoadingMixin, Instance, RSVP, Time,
-InstanceController, URL, ButtonDropdown) {
+InstanceController, URL, ButtonDropdown, Glyphicon) {
 
     var InstanceAttributes = React.createClass({
         renderPair: function(k, v) {
@@ -55,18 +56,18 @@ InstanceController, URL, ButtonDropdown) {
                 return null;
 
             if (this.props.instance.get('status') == 'shutoff')
-                return this.renderButton("Start");
+                return this.renderButton([Glyphicon({name: 'share-alt'}), " Start"]);
             else
-                return this.renderButton("Stop");
+                return this.renderButton([Glyphicon({name: 'stop'}), " Stop"]);
         },
         renderSuspendButton: function() {
             if (!this.props.isOpenstack)
                 return null;
 
             if (this.props.instance.get('status') == 'suspended')
-                return this.renderButton('Resume');
+                return this.renderButton([Glyphicon({name: 'play'}), 'Resume']);
             else
-                return this.renderButton('Suspend');
+                return this.renderButton([Glyphicon({name: 'pause'}), ' Suspend']);
         },
         renderRebootButton: function() {
             var disabled = !this.props.instance.get('is_active');
@@ -74,24 +75,24 @@ InstanceController, URL, ButtonDropdown) {
             if (this.props.isOpenstack)
                 items.push(React.DOM.li({}, React.DOM.a({}, "Hard reboot")));
 
-            return ButtonDropdown({buttonContent: "Reboot",
+            return ButtonDropdown({buttonContent: [Glyphicon({name: 'repeat'}), " Reboot"],
                                    options: items,
                                    disabled: disabled});
         },
         renderTerminateButton: function() {
             var handleClick = InstanceController.terminate.bind(null, this.props.instance);
-            return this.renderButton("Terminate", handleClick);
+            return this.renderButton([Glyphicon({name: 'remove'}), " Terminate"], handleClick);
         },
         renderResizeButton: function() {
             if (!this.props.isOpenstack)
                 return null;
 
             var disabled = this.props.instance.is_resize();
-            return this.renderButton("Resize", null, disabled);
+            return this.renderButton([Glyphicon({name: 'resize-full'}), " Resize"], null, disabled);
         },
         renderImageRequestButton: function() {
             var disabled = !this.props.instance.get('is_active');
-            return this.renderButton("Image", null, disabled);
+            return this.renderButton([Glyphicon({name: 'camera'}), " Image"], null, disabled);
         },
         renderReportButton: function() {
             var disabled = !this.props.instance.get('is_active');
@@ -99,7 +100,7 @@ InstanceController, URL, ButtonDropdown) {
                 var url = URL.reportInstance(this.props.instance);
                 Backbone.history.navigate(url, {trigger: true});
             }.bind(this);
-            return this.renderButton("Report", onClick, disabled);
+            return this.renderButton([Glyphicon({name: 'inbox'}), " Report"], onClick, disabled);
         },
         render: function() {
             return React.DOM.div({},
