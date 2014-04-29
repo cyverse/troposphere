@@ -4,8 +4,6 @@ define(['underscore', 'models/base'], function(_, Base) {
         defaults: { 'model_name': 'provider' },
         parse: function(response) {
             var attributes = response;
-            
-            attributes.description = "One day, providers will have descriptions. That will be a good day. For now, this is filler text. #sorryNotSorry";
             attributes.name = attributes.location;
             return attributes;
         },
