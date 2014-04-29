@@ -8,12 +8,7 @@ Instance, RSVP, Time, InstanceController, URL) {
             return [React.DOM.dt({}, k), React.DOM.dd({}, v)];
         },
         renderIdentity: function(identity) {
-            var text = identity.id + " on provider ";
-            if (this.props.providers) {
-                var provider = this.props.providers.get(identity.provider);
-                text += provider.get('name');
-            } else
-                text += identity.provider;
+            var text = identity.id + " on provider " + this.props.provider.get('name');
             return text;
         },
         render: function() {
@@ -55,7 +50,7 @@ Instance, RSVP, Time, InstanceController, URL) {
                                      text);
         },
         renderStartStopButton: function() {
-            if (!this.props.is_openstack)
+            if (!this.props.isOpenstack)
                 return null;
 
             if (this.props.instance.get('status') == 'shutoff')
@@ -64,7 +59,7 @@ Instance, RSVP, Time, InstanceController, URL) {
                 return this.renderButton("Stop");
         },
         renderSuspendButton: function() {
-            if (!this.props.is_openstack)
+            if (!this.props.isOpenstack)
                 return null;
 
             if (this.props.instance.get('status') == 'suspended')
@@ -76,7 +71,7 @@ Instance, RSVP, Time, InstanceController, URL) {
             // TODO: Make a button group that works in React
             var disabled = !this.props.instance.get('is_active');
             var items = [React.DOM.li({}, React.DOM.a({}, "Soft reboot"))];
-            if (this.props.is_openstack)
+            if (this.props.isOpenstack)
                 items.push(React.DOM.li({}, React.DOM.a({}, "Hard reboot")));
 
             return React.DOM.div({className: 'btn-group'},
@@ -89,7 +84,7 @@ Instance, RSVP, Time, InstanceController, URL) {
             return this.renderButton("Terminate", handleClick);
         },
         renderResizeButton: function() {
-            if (!this.props.is_openstack)
+            if (!this.props.isOpenstack)
                 return null;
 
             var disabled = this.props.instance.is_resize();
@@ -123,12 +118,14 @@ Instance, RSVP, Time, InstanceController, URL) {
 
     var InstancePage = React.createClass({
         render: function() {
-            var instance = this.props.instance;
+            var instance = this.props.instance,
+                provider = this.props.provider;
             return React.DOM.div({},
                 PageHeader({title: "Instance: " + instance.get('name_or_id')}),
-                ActionList({instance: instance}),
+                ActionList({instance: instance,
+                            isOpenstack: provider.isOpenStack()}),
                 InstanceAttributes({instance: instance, 
-                    providers: this.props.providers}),
+                    provider: provider}),
                 InstanceLinks({instance: instance}));
         }
     });
@@ -137,11 +134,18 @@ Instance, RSVP, Time, InstanceController, URL) {
         componentDidMount: function() {
             if (!this.props.instance)
                 this.props.onRequestInstance();
+            /*
+            if (!this.props.providers)
+                this.props.onRequestProviders();
+            */
         },
         render: function() {
-            if (this.props.instance)
-                return InstancePage({instance: this.props.instance, providers: this.props.providers});
-            else
+            if (this.props.instance && this.props.providers) {
+                var providers = this.props.providers,
+                    instance = this.props.instance;
+                var provider = providers.get(instance.get('identity').provider);
+                return InstancePage({instance: this.props.instance, provider: provider});
+            } else
                 return React.DOM.div({className: 'loading'});
         }
     });
