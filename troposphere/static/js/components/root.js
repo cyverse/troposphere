@@ -7,12 +7,12 @@ define(['react', 'components/header', 'components/sidebar',
 'components/instances/detail', 'components/instances/report',
 'components/volume_detail', 'components/applications/search_results',
 'collections/instances', 'models/instance', 'collections/volumes',
-'models/volume', 'collections/applications', 'models/application'], function
+'models/volume', 'collections/applications', 'models/application', 'controllers/projects'], function
 (React, Header, Sidebar, Footer, Notifications, Router, Profile, Settings,
 Projects, ApplicationList, ApplicationFavorites, ApplicationDetail,
 ProviderController, Providers, Help, InstanceDetail, ReportInstance,
 VolumeDetail, ApplicationSearchResults, InstanceCollection, Instance,
-VolumeCollection, Volume, AppCollection, Application) {
+VolumeCollection, Volume, AppCollection, Application, ProjectController) {
 
     var Root = React.createClass({
         getInitialState: function() {
@@ -119,9 +119,14 @@ VolumeCollection, Volume, AppCollection, Application) {
                 this.setState({identities: identities});
             }.bind(this));
         },
+        fetchProjects: function() {
+            ProjectController.get().then().then(function(projects) {
+                this.setState({projects: projects});
+            }.bind(this));
+        },
         pages: {
             projects: function() {
-                return Projects();
+                return Projects({projects: this.state.projects, onRequestProjects: this.fetchProjects});
             },
             images: function() {
                 return ApplicationList();

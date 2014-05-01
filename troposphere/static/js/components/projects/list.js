@@ -44,7 +44,7 @@ Intro, ProjectController, RSVP, LoadingMixin, Project, ModalMixin, Modal) {
         },
         createProject: function() {
             ProjectController.create(this.state.projectName,
-                this.state.projectDescription);
+                this.state.projectDescription).then(this.close);
         },
         renderFooter: function() {
             return React.DOM.button({
@@ -61,8 +61,16 @@ Intro, ProjectController, RSVP, LoadingMixin, Project, ModalMixin, Modal) {
         launchNewProjectModal: function() {
             Modal.show(NewProjectModal());
         },
+        componentDidMount: function() {
+            if (!this.props.projects)
+                this.props.onRequestProjects();
+        },
         render: function() {
-            var content = ProjectsList({projects: this.props.projects});
+            var content;
+            if (this.props.projects)
+                content = ProjectsList({projects: this.props.projects});
+            else
+                content = React.DOM.div({className: 'loading'});
 
             return React.DOM.div({},
                 PageHeader({title: "Projects", helpText: this.helpText}),
@@ -76,15 +84,6 @@ Intro, ProjectController, RSVP, LoadingMixin, Project, ModalMixin, Modal) {
         }
     });
 
-    var ProjectsView = React.createClass({
-        mixins: [LoadingMixin],
-        model: function() {
-            return ProjectController.get();
-        },
-        renderContent: function() {
-            return Projects({projects: this.state.model});
-        }
-    });
+    return Projects;
 
-    return ProjectsView;
 });
