@@ -7,13 +7,15 @@ function(React, Backbone, _, ModalMixin) {
             return {
                 okButtonText: 'OK',
                 //onCancel: function() {},
-                onConfirm: function() {}
             };
         },
         onConfirm: function() {
-            this.props.onConfirm().then(function() {
-                this.props.onClose();
-            }.bind(this));
+            if (this.props.onConfirm)
+                this.props.onConfirm().then(function() {
+                    this.close();
+                }.bind(this));
+            else
+                this.close();
         },
         renderTitle: function() {
             return this.props.title;
