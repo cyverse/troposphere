@@ -66,10 +66,15 @@ InstanceController, URL, ButtonDropdown, Glyphicon) {
             if (!this.props.isOpenstack)
                 return null;
 
+            var disabled = !this.props.instance.get('is_active');
+
             if (this.props.instance.get('status') == 'suspended')
-                return this.renderButton([Glyphicon({name: 'play'}), 'Resume']);
+                return this.renderButton([Glyphicon({name: 'play'}), ' Resume'],
+                    InstanceController.resume.bind(null, this.props.instance));
             else
-                return this.renderButton([Glyphicon({name: 'pause'}), ' Suspend']);
+                return this.renderButton([Glyphicon({name: 'pause'}), ' Suspend'],
+                    InstanceController.suspend.bind(null, this.props.instance),
+                    disabled);
         },
         renderRebootButton: function() {
             var disabled = !this.props.instance.get('is_active');
@@ -89,7 +94,7 @@ InstanceController, URL, ButtonDropdown, Glyphicon) {
             if (!this.props.isOpenstack)
                 return null;
 
-            var disabled = this.props.instance.is_resize();
+            var disabled = !this.props.instance.get('is_active') || this.props.instance.get('is_resize');
             return this.renderButton([Glyphicon({name: 'resize-full'}), " Resize"], null, disabled);
         },
         renderImageRequestButton: function() {
