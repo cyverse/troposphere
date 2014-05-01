@@ -8,6 +8,7 @@
     border: 1px solid #ccc;
     border-radius: 3px;
     position: relative;
+    margin-bottom: 1.5em;
 }
 
 #project-list h2 {
