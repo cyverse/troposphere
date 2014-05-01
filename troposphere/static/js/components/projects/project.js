@@ -69,9 +69,15 @@ define(['react', 'components/common/time', 'url'], function(React, Time, URL) {
     var Project = React.createClass({
         render: function() {
             var project = this.props.project;
+            var description = project.get('description') || React.DOM.em({}, 'No description');
             console.log(project);
-            return React.DOM.li({}, React.DOM.h2({}, project.get('name')), React.DOM.a({href: '#', className: 'btn btn-primary update-project-btn'}, '+'),
-                React.DOM.div({className: 'project-description'}, React.DOM.p({}, project.get('description')), React.DOM.a({href: '#'}, 'Edit Description')),
+            return React.DOM.li({},
+                React.DOM.h2({},
+                    project.get('name')),
+                    React.DOM.a({href: '#', className: 'btn btn-primary update-project-btn'}, '+'),
+                React.DOM.div({className: 'project-description'},
+                    React.DOM.a({href: '#'}, 'Edit Description'),
+                    React.DOM.p({}, description)),
                 ProjectItems({project: project}));
         }
     });
