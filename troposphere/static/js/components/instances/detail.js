@@ -56,9 +56,11 @@ InstanceController, URL, ButtonDropdown, Glyphicon) {
                 return null;
 
             if (this.props.instance.get('status') == 'shutoff')
-                return this.renderButton([Glyphicon({name: 'share-alt'}), " Start"]);
+                return this.renderButton([Glyphicon({name: 'share-alt'}), " Start"],
+                    InstanceController.start.bind(null, this.props.instance));
             else
-                return this.renderButton([Glyphicon({name: 'stop'}), " Stop"]);
+                return this.renderButton([Glyphicon({name: 'stop'}), " Stop"],
+                    InstanceController.stop.bind(null, this.props.instance));
         },
         renderSuspendButton: function() {
             if (!this.props.isOpenstack)
