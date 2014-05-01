@@ -64,6 +64,9 @@ var Instance = Base.extend({
         is_active: function() {
             var states = ['active', 'running', 'verify_resize'];
             return _.contains(states, this.get('status'));
+        },
+        action_url: function() {
+            return this.url() + '/action/';
         }
     },
     is_build: function() {
@@ -97,7 +100,7 @@ var Instance = Base.extend({
         return _.contains(states, this.get('status'));
     },
     is_inactive: function() {
-        var states = ['suspended', 'shutoff'];
+        var states = ['suspended', 'shutoff', 'shutoff - powering-on'];
         return _.contains(states, this.get('status'));
     },
     is_resize: function() {
@@ -144,6 +147,29 @@ var Instance = Base.extend({
 
         var xhr = this.sync('delete', this, options);
         return xhr;
+    },
+    performAction: function(action, options) {
+        if (!options) options = {};
+        if (!options.success) options.success = function() {};
+        if (!options.error) options.error = function() {};
+
+        $.ajax({
+            url: this.get('action_url'),
+            type: 'POST',
+            data: {action: action},
+            success: function(model) {
+                options.success.apply(null, arguments);
+            },
+            error: function(response, status, error) {
+                options.error.apply(null, arguments);
+            }
+        });
+    },
+    stop: function(options) {
+        this.performAction('stop', options);
+    },
+    start: function(options) {
+        this.performAction('start', options);
     }
 }, statics);
 
