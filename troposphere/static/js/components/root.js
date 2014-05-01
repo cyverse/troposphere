@@ -122,6 +122,10 @@ VolumeCollection, Volume, AppCollection, Application, ProjectController) {
         fetchProjects: function() {
             ProjectController.get().then().then(function(projects) {
                 this.setState({projects: projects});
+
+                projects.on('change', function() {
+                    this.setState({projects: projects});
+                }.bind(this));
             }.bind(this));
         },
         pages: {
