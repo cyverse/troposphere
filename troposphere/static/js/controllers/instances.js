@@ -99,7 +99,7 @@ Glyphicon) {
                         Notifications.success('Stop Instance', 'Instance successfully stopped');
                         resolve(model);
                     },
-                    error: function() {
+                    error: function(response) {
                         Notifications.danger('Error', 'Could not stop instance');
                         reject(response);
                     }
@@ -138,9 +138,6 @@ Glyphicon) {
             onConfirm = function() {
                 //Notifications.info('Starting Instance', 'Instance will be available momentarily.');
 
-                // Prevent user from being able to quickly start multiple instances and go over quota
-                instance.set({state: 'shutoff - powering-on'});
-
                 return new RSVP.Promise(function(resolve, reject) {
                     instance.start({
                         success: function(model) {
@@ -150,7 +147,6 @@ Glyphicon) {
                             resolve(model);
                         },
                         error: function(response, status, error) {
-                            instance.set({state: 'shutoff'});
                             Notifications.danger('Error', 'Could not start instance');
                             reject(response);
                         }
@@ -172,11 +168,98 @@ Glyphicon) {
         });
     };
 
+    var suspend = function(instance) {
+        if (instance.get('state') === 'active - suspending') {
+            Notifications.warning('Suspending Instance','Please wait while your instance suspend. Refresh "My Instances" to check its status.');
+            return;
+        }
+
+        var header = 'Suspend Instance';
+        var body = [
+            React.DOM.p({className: 'alert alert-warning'},
+                Glyphicon({name: 'warning-sign'}),
+                " ",
+                React.DOM.strong({}, "WARNING"),
+                " Suspending an instance will freeze its state, and the IP address may change when you resume the instance."),
+            React.DOM.p({},
+                'Suspending an instance frees up resources for other users and allows you to safely preserve the state of your instance without imaging. ',
+                'Your time allocation no longer counts against you in the suspended mode.'),
+            React.DOM.p({},
+                'Your resource usage charts will only reflect the freed resources once the instance\'s state is "suspended."')
+        ];
+
+        var okButtonText = 'Suspend Instance';
+        var onConfirm = function() {
+            return new RSVP.Promise(function(resolve, reject) {
+                instance.suspend({
+                    success: function(model) {
+                        //Atmo.instances.update();
+                        Notifications.success("Success", "Your instance is now suspended");
+                        resolve(model);
+                    },
+                    error: function(response) {
+                        Notifications.error("Error", "You instance could not be suspended");
+                        reject(response);
+                    }
+                });
+            });
+        };
+
+        Modal.alert(header, body, {
+            okButtonText: okButtonText,
+            onConfirm: onConfirm
+        });
+    };
+
+    var resume = function(instance) {
+        if (instance.get('state') == 'suspended - resuming') {
+            Notifications.warning('Resuming Instance', 'Please wait while your instance resumes. Refresh "My Instances" to check its status.');
+            return;
+        }
+
+        var header = 'Resume Instance', body, okButtonText, onConfirm;
+
+        // Make sure user has enough quota to resume this instance
+        if (canLaunchInstance(instance)) {
+            okButtonText = 'Resume Instance';
+            body = 'Your instance\'s IP address may change once it resumes.';
+            onConfirm = function() {
+                return new RSVP.Promise(function(resolve, reject) {
+                    instance.resume({
+                        success: function(model) {
+                            //Atmo.instances.update();
+                            Notifications.success('Success', 'Your instance is resuming');
+                            resolve(model);
+                        },
+                        error: function(response) {
+                          Notifications.danger('Error','You could not resume your instance');
+                          reject(response);
+                        }
+                    });
+                });
+            };
+        } else {
+            body = React.DOM.p({className: 'alert alert-error'},
+                Glyphicon({name: 'ban-circle'}),
+                " ",
+                React.DOM.strong({}, "Cannot resume instance"),
+                " You do not have enough resources to resume this instance. You must terminate, suspend, or stop another running instance, or request more resources.");
+            okButtonText = 'Ok';
+        }
+
+        Modal.alert(header, body, {
+            okButtonText: okButtonText,
+            onConfirm: onConfirm
+        });
+    };
+
     return {
         launch: launchInstance,
         terminate: terminate,
         stop: stop,
-        start: start
+        start: start,
+        suspend: suspend,
+        resume: resume
     };
 
 });
