@@ -123,7 +123,7 @@ VolumeCollection, Volume, AppCollection, Application, ProjectController) {
             ProjectController.get().then().then(function(projects) {
                 this.setState({projects: projects});
 
-                projects.on('change', function() {
+                projects.on('change add remove', function() {
                     this.setState({projects: projects});
                 }.bind(this));
             }.bind(this));

@@ -44,7 +44,10 @@ Intro, ProjectController, RSVP, LoadingMixin, Project, ModalMixin, Modal) {
         },
         createProject: function() {
             ProjectController.create(this.state.projectName,
-                this.state.projectDescription).then(this.close);
+                this.state.projectDescription).then(function(model) {
+                    this.props.projects.add(model);
+                    this.close();
+                }.bind(this));
         },
         renderFooter: function() {
             return React.DOM.button({
@@ -59,7 +62,7 @@ Intro, ProjectController, RSVP, LoadingMixin, Project, ModalMixin, Modal) {
             return React.DOM.p({}, "Projects help you organize your cloud resources");
         },
         launchNewProjectModal: function() {
-            Modal.show(NewProjectModal());
+            Modal.show(NewProjectModal({projects: this.props.projects}));
         },
         componentDidMount: function() {
             if (!this.props.projects)
