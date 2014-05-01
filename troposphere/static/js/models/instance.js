@@ -65,46 +65,46 @@ var Instance = Base.extend({
             var states = ['active', 'running', 'verify_resize'];
             return _.contains(states, this.get('status'));
         },
+        is_build: function() {
+            var states = [
+                'build',
+                'build - block_device_mapping',
+                'build - scheduling',
+                'build - spawning',
+                'build - networking' ,
+                'active - powering-off',
+                'active - image_uploading',
+                'shutoff - powering-on',
+                'pending',
+                'suspended - resuming',
+                'active - suspending',
+                'resize - resize_prep',
+                'resize - resize_migrating',
+                'resize - resize_migrated',
+                'resize - resize_finish',
+                'active - networking',
+                'active - deploying',
+                'active - initializing',
+                'hard_reboot - rebooting_hard',
+                'revert_resize - resize_reverting'
+            ];
+            return _.contains(states, this.get('status'));
+        },
+        is_delete: function() {
+            var states = ['delete', 'active - deleting', 'deleted', 'shutting-down',
+                'terminated'];
+            return _.contains(states, this.get('status'));
+        },
+        is_inactive: function() {
+            var states = ['suspended', 'shutoff', 'shutoff - powering-on'];
+            return _.contains(states, this.get('status'));
+        },
+        is_resize: function() {
+            return this.get('status').indexOf('resize') > -1;
+        },
         action_url: function() {
             return this.url() + '/action/';
         }
-    },
-    is_build: function() {
-        var states = [
-            'build',
-            'build - block_device_mapping',
-            'build - scheduling',
-            'build - spawning',
-            'build - networking' ,
-            'active - powering-off',
-            'active - image_uploading',
-            'shutoff - powering-on',
-            'pending',
-            'suspended - resuming',
-            'active - suspending',
-            'resize - resize_prep',
-            'resize - resize_migrating',
-            'resize - resize_migrated',
-            'resize - resize_finish',
-            'active - networking',
-            'active - deploying',
-            'active - initializing',
-            'hard_reboot - rebooting_hard',
-            'revert_resize - resize_reverting'
-        ];
-        return _.contains(states, this.get('status'));
-    },
-    is_delete: function() {
-        var states = ['delete', 'active - deleting', 'deleted', 'shutting-down', 
-            'terminated'];
-        return _.contains(states, this.get('status'));
-    },
-    is_inactive: function() {
-        var states = ['suspended', 'shutoff', 'shutoff - powering-on'];
-        return _.contains(states, this.get('status'));
-    },
-    is_resize: function() {
-        return this.get('status').indexOf('resize') > -1;
     },
     select: function() {
         this.collection.select_instance(this);
@@ -169,7 +169,21 @@ var Instance = Base.extend({
         this.performAction('stop', options);
     },
     start: function(options) {
+        // Prevent user from being able to quickly start multiple instances and go over quota
+        this.set({state: 'shutoff - powering-on'});
+        options.error = function() {
+            options.error();
+            this.set({state: 'shutoff'});
+        }.bind(this);
         this.performAction('start', options);
+    },
+    suspend: function(options) {
+        this.performAction('suspend', options);
+    },
+    resume: function(options) {
+        // Prevent user from being able to quickly resume multiple instances and go over quota
+        this.set({state: 'suspended - resuming'});
+        this.performAction('resume', options);
     }
 }, statics);
 
