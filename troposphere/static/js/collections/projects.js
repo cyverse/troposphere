@@ -6,6 +6,9 @@ define(['collections/base', 'models/project'], function(Base, Project) {
         url: function() {
             return url = this.urlRoot
                 + '/' + this.model.prototype.defaults.model_name + '/';
+        },
+        comparator: function(model) {
+            return -1 * model.get('start_date');
         }
     });
 
