@@ -1,5 +1,5 @@
-define(['underscore', 'models/base', 'utils', 'models/instance'],
-function(_, Base, Utils, Instance) {
+define(['underscore', 'models/base', 'models/instance'],
+function(_, Base, Instance) {
 
 var Volume = Base.extend({
     defaults: { 'model_name': 'volume' },

@@ -1,4 +1,4 @@
-define(['underscore', 'models/base', 'utils'], function(_, Base, Utils) {
+define(['underscore', 'models/base'], function(_, Base) {
 
 var statics = {
     /*
