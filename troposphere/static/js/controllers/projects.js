@@ -1,4 +1,4 @@
-define(['react', 'collections/projects', 'models/project', 'rsvp', 'controllers/notifications'], function(React, Collection, Model, RSVP, Notifications) {
+define(['react', 'collections/projects', 'models/project', 'rsvp', 'controllers/notifications', 'modal'], function(React, Collection, Model, RSVP, Notifications, Modal) {
 
     var projects = new Collection();
 
@@ -27,8 +27,35 @@ define(['react', 'collections/projects', 'models/project', 'rsvp', 'controllers/
         });
     };
 
+    var deleteProject = function(project) {
+        var header = "Delete project " + project.get('name');
+        var body = 'Are you sure you would like to delete project "' + project.get('name') + '"?';
+
+        var onConfirm = function() {
+            return new RSVP.Promise(function(resolve, reject) {
+                console.log('deleting project');
+                project.destroy({
+                    wait: true,
+                    success: function() {
+                        Notifications.success("Success", "Project deleted");
+                        resolve();
+                    },
+                    error: function() {
+                        Notifications.danger("Error", "Project could not be deleted");
+                        resolve();
+                    }
+                });
+            });
+        };
+
+        Modal.alert(header, body, {
+            onConfirm: onConfirm,
+            okButtonText: 'Delete project'});
+    };
+
     return {
         create: createProject,
-        get: getProjects
+        get: getProjects,
+        'delete': deleteProject
     };
 });

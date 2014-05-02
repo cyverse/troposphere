@@ -1,4 +1,4 @@
-define(['react', 'components/common/time', 'url'], function(React, Time, URL) {
+define(['react', 'components/common/time', 'url', 'controllers/projects'], function(React, Time, URL, ProjectController) {
 
     var ProjectItemMixin = {
         render: function() {
@@ -52,14 +52,19 @@ define(['react', 'components/common/time', 'url'], function(React, Time, URL) {
     });
 
     var ProjectItems = React.createClass({
+        confirmDelete: function() {
+            ProjectController.delete(this.props.project);
+        },
         render: function() {
             var project = this.props.project;
 
             var content;
             if (project.isEmpty()) {
                 content = React.DOM.div({},
-                    React.DOM.span({className: 'no-project-items'}, "Empty project. "),
-                    React.DOM.a({href: '#'}, "Delete " + project.get('name')));
+                    React.DOM.span({className: 'no-project-items'},
+                        "Empty project. "),
+                    React.DOM.a({href: '#', onClick: this.confirmDelete},
+                        "Delete " + project.get('name')));
             } else {
                 var items = [];
                 items = items.concat(project.get('instances').map(function(instance) {
