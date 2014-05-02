@@ -19,6 +19,9 @@ InstanceCollection, Instance, VolumeCollection, Volume) {
                 return this.urlRoot + '/project/' + this.id + '/';
             else
                 return this.urlRoot + '/project/';
+        },
+        isEmpty: function() {
+            return this.get('instances').isEmpty() && this.get('volumes').isEmpty();
         }
     });
 

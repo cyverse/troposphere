@@ -40,8 +40,16 @@
     float: right;
 }
 
+.project-contents {
+    padding: 10px;
+}
+
 .project-items {
     margin: 0;
-    padding: 10px;
     list-style: none;
+}
+
+.no-project-items {
+    font-style: italic;
+    color: #999;
 }

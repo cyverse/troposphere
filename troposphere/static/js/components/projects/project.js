@@ -54,15 +54,24 @@ define(['react', 'components/common/time', 'url'], function(React, Time, URL) {
     var ProjectItems = React.createClass({
         render: function() {
             var project = this.props.project;
-            var items = [];
-            items = items.concat(project.get('instances').map(function(instance) {
-                return InstanceProjectItem({key: instance.id, model: instance});
-            }));
-            items = items.concat(project.get('volumes').map(function(volume) {
-                return VolumeProjectItem({key: volume.id, model: volume});
-            }));
 
-            return React.DOM.ul({className: 'project-items container-fluid'}, items);
+            var content;
+            if (project.isEmpty()) {
+                content = React.DOM.div({},
+                    React.DOM.span({className: 'no-project-items'}, "Empty project. "),
+                    React.DOM.a({href: '#'}, "Delete " + project.get('name')));
+            } else {
+                var items = [];
+                items = items.concat(project.get('instances').map(function(instance) {
+                    return InstanceProjectItem({key: instance.id, model: instance});
+                }));
+                items = items.concat(project.get('volumes').map(function(volume) {
+                    return VolumeProjectItem({key: volume.id, model: volume});
+                }));
+                content = React.DOM.ul({className: 'project-items container-fluid'}, items);
+            }
+
+            return React.DOM.div({className: 'project-contents'}, content);
         }
     });
 
