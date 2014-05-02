@@ -1,7 +1,7 @@
 /*
  * Semantic time element
  */
-define(['react', 'utils', 'moment'], function(React, Utils, Moment) {
+define(['react', 'moment'], function(React,  Moment) {
 
     var Time = React.createClass({
         propTypes: {
@@ -17,8 +17,9 @@ define(['react', 'utils', 'moment'], function(React, Utils, Moment) {
         },
         render: function() {
             var text = "";
-            var absoluteText = Moment(this.props.date).format("MMM D, YYYY");
-            var relativeText = Utils.relative_time(this.props.date);
+            var moment = Moment(this.props.date);
+            var absoluteText = moment.format("MMM D, YYYY");
+            var relativeText = moment.fromNow();
 
             if (this.props.showAbsolute) {
                 text += absoluteText;
