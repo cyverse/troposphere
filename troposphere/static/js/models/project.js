@@ -22,6 +22,9 @@ InstanceCollection, Instance, VolumeCollection, Volume) {
         },
         isEmpty: function() {
             return this.get('instances').isEmpty() && this.get('volumes').isEmpty();
+        },
+        canBeDeleted: function() {
+            return this.get('name') !== 'Default';
         }
     });
 

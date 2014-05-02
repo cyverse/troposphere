@@ -60,11 +60,12 @@ define(['react', 'components/common/time', 'url', 'controllers/projects'], funct
 
             var content;
             if (project.isEmpty()) {
-                content = React.DOM.div({},
-                    React.DOM.span({className: 'no-project-items'},
-                        "Empty project. "),
-                    React.DOM.a({href: '#', onClick: this.confirmDelete},
+                var children = [React.DOM.span({className: 'no-project-items'},
+                    "Empty project. ")];
+                if (project.canBeDeleted())
+                    children.push(React.DOM.a({href: '#', onClick: this.confirmDelete},
                         "Delete " + project.get('name')));
+                content = React.DOM.div({}, children);
             } else {
                 var items = [];
                 items = items.concat(project.get('instances').map(function(instance) {
