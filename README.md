@@ -16,7 +16,10 @@ variable `OAUTH_PRIVATE_KEY_PATH` should refer to the absolute path of that key.
 Install yuglify with npm locally (cd into the directory where you cloned this repo)
 
 ```bash
-npm install yuglify
+sudo add-apt-repository ppa:chris-lea/node.js
+sudo apt-get update
+sudo apt-get install python-software-properties python g++ make nodejs
+#nodejs includes npm now
 ```
 
 ### Virtualenv
