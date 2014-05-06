@@ -15,7 +15,7 @@ sys.path.insert(0, '/opt/env/troposphere/lib/python2.7/site-packages')
 sys.path.insert(1, root_dir)
 
 def application(environ, start_response):
-    os.environ['DJANGO_SETTINGS_MODULE'] = environ['DJANGO_SETTINGS_MODULE']
+    os.environ['DJANGO_SETTINGS_MODULE'] = "troposphere.settings"
     from django.core.wsgi import get_wsgi_application
     try:
         _application = get_wsgi_application()
