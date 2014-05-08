@@ -5,7 +5,6 @@ define(['react'], function(React) {
             return {
                 buttonType: 'default',
                 buttonContent: '',
-                options: [],
                 disabled: false
             };
         },
@@ -26,7 +25,7 @@ define(['react'], function(React) {
                     this.props.buttonContent,
                     " ",
                     React.DOM.span({className: 'caret'})),
-                React.DOM.ul({className: 'dropdown-menu', role: 'menu'}, this.props.options));
+                React.DOM.ul({className: 'dropdown-menu', role: 'menu'}, this.props.children));
         }
     });
 });

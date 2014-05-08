@@ -83,8 +83,7 @@ InstanceController, URL, ButtonDropdown, Glyphicon) {
                 items.push(React.DOM.li({}, React.DOM.a({}, "Hard reboot")));
 
             return ButtonDropdown({buttonContent: [Glyphicon({name: 'repeat'}), " Reboot"],
-                                   options: items,
-                                   disabled: disabled});
+                                   disabled: disabled}, items);
         },
         renderTerminateButton: function() {
             var handleClick = InstanceController.terminate.bind(null, this.props.instance);
