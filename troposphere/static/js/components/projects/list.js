@@ -7,8 +7,8 @@ Intro, ProjectController, RSVP, LoadingMixin, Project, ModalMixin, Modal) {
     var ProjectsList = React.createClass({
         render: function() {
             var items = this.props.projects.map(function(model) {
-                return Project({key: model.id, project: model});
-            });
+                return Project({key: model.id, project: model, projects: this.props.projects});
+            }.bind(this));
             return React.DOM.ul({id: 'project-list'}, items);
         }
     });
