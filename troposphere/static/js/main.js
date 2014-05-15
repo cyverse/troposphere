@@ -34,6 +34,11 @@ function($, React, Application, RSVP, Session) {
     });
 
     var session = new Session();
+
+    // todo: remove in production - development mode only
+    window.access_token = "fake-token";
+    window.expires = "it's a mystery!";
+
     if (window.access_token) {
         $.ajaxSetup({
             headers: {'Authorization' :'Bearer ' + window.access_token}
