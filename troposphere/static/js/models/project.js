@@ -16,7 +16,7 @@ InstanceCollection, Instance, VolumeCollection, Volume) {
         },
         url: function() {
             if (this.id)
-                return this.urlRoot + '/project/' + this.id + '/';
+                return this.urlRoot + '/project/' + this.id;
             else
                 return this.urlRoot + '/project/';
         },
