@@ -7,12 +7,14 @@ define(['react', 'components/header', 'components/sidebar',
 'components/instances/detail', 'components/instances/report',
 'components/volume_detail', 'components/applications/search_results',
 'collections/instances', 'models/instance', 'collections/volumes',
-'models/volume', 'collections/applications', 'models/application', 'controllers/projects'], function
+'models/volume', 'collections/applications', 'models/application',
+'controllers/projects', 'controllers/notifications'], function
 (React, Header, Sidebar, Footer, Notifications, Router, Profile, Settings,
 Projects, ApplicationList, ApplicationFavorites, ApplicationDetail,
 ProviderController, Providers, Help, InstanceDetail, ReportInstance,
 VolumeDetail, ApplicationSearchResults, InstanceCollection, Instance,
-VolumeCollection, Volume, AppCollection, Application, ProjectController) {
+VolumeCollection, Volume, AppCollection, Application, ProjectController,
+NotificationController) {
 
     var Root = React.createClass({
         getInitialState: function() {
@@ -88,7 +90,10 @@ VolumeCollection, Volume, AppCollection, Application, ProjectController) {
                 success: function(instance) {
                     this.state.instances.add(instance);
                     this.setState({instances: this.state.instances});
-                }.bind(this)
+                }.bind(this),
+                error: function() {
+                    NotificationController.danger("Unknown Instance", "The requested instance does not exist.");
+                }
             });
         },
         fetchVolume: function(providerId, identityId, volumeId) {
@@ -104,7 +109,10 @@ VolumeCollection, Volume, AppCollection, Application, ProjectController) {
                 success: function(volume) {
                     this.state.volumes.add(volume);
                     this.setState({volumes: this.state.volumes});
-                }.bind(this)
+                }.bind(this),
+                error: function() {
+                    NotificationController.danger("Unknown Volume", "The requested volume does not exist.");
+                }
             });
         },
         fetchApplication: function(appId) {
