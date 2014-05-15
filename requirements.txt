@@ -1,4 +1,4 @@
-git+https://github.com/iPlantCollaborativeOpenSource/caslib.py.git#egg=caslib
+git+https://github.com/iPlantCollaborativeOpenSource/caslib.py.git@a5efd018b3dada1dc83cec6479debb965f716bdf#egg=caslib
 git+https://github.com/iPlantCollaborativeOpenSource/jwt.py.git#egg=jwt.py
 requests==2.2.1
 django==1.6.2
