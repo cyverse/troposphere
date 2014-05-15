@@ -117,7 +117,8 @@ ProjectController, ButtonDropdown) {
                 saving: false
             };
         },
-        startEditing: function() {
+        startEditing: function(e) {
+            e.preventDefault();
             this.setState({editing: true});
         },
         updateDescription: function(e) {
