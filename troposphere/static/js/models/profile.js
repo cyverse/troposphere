@@ -30,7 +30,7 @@ define(['underscore', 'models/base', 'models/identity'], function(_, Base, Ident
         },
         url: function(){
             return url = this.urlRoot
-                + '/' + this.defaults.model_name + '/';
+                + '/' + this.defaults.model_name;
         },
         get_credentials: function() {
             return {
