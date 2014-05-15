@@ -1,13 +1,13 @@
 /* base.js
  * Backbone.js base model functionality.
  */
-define(['backbone'], function(Backbone) {
+define(['backbone', 'globals'], function(Backbone, globals) {
 
     var Base = Backbone.Model.extend({
         defaults: {
             'model_name': 'base'
         },
-        urlRoot: '/api/v1',
+        urlRoot: globals.API_ROOT,
         url: function() {
             var creds = this.getCreds();
             var url = this.urlRoot
