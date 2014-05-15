@@ -19,7 +19,7 @@ function(_, Base, Machine, Machines) {
                 + '/' + this.defaults.model_name + '/';
             
             if (typeof this.get('id') != 'undefined') {
-                url += this.get('id') + '/';
+                url += this.get('id');
             }
             
             return url;
