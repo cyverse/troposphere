@@ -2,6 +2,7 @@ var gulp = require('gulp'),
   sass = require('gulp-ruby-sass');
 
 require('gulp/tasks/styles')(gulp);
+require('gulp/tasks/sass')(gulp);
 require('gulp/tasks/copyScriptsToAssets')(gulp);
 require('gulp/tasks/rjs')(gulp);
 require('gulp/tasks/images')(gulp);
