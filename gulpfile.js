@@ -10,5 +10,5 @@ require('gulp/tasks/clean')(gulp);
 require('gulp/tasks/watch')(gulp);
 
 gulp.task('default', ['clean'], function () {
-  gulp.start('styles', 'copyScriptsToAssets', 'images');
+  gulp.start('sass', 'copyScriptsToAssets', 'images');
 });
