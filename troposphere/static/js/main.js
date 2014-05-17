@@ -1,5 +1,5 @@
 require.config({
-    baseUrl: static_root + 'js',
+    baseUrl: '/assets/js',
     paths: {
         /* TODO: use minified versions in production */
         'jquery': '//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery',
@@ -25,8 +25,14 @@ require.config({
     }
 });
 
-require(['jquery', 'react', 'components/root', 'rsvp', 'models/session'],
-function($, React, Application, RSVP, Session) {
+require(
+  [
+    'jquery',
+    'react',
+    'components/root',
+    'rsvp',
+    'models/session'
+  ], function($, React, Application, RSVP, Session) {
 
     // Catch-all for errors within promises
     RSVP.on('error', function(reason) {

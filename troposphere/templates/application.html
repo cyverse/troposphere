@@ -5,35 +5,41 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atmosphere</title>
+    <title>Troposphere</title>
+
     <!--CSS-->
     <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css"/>
+
     <!-- Compressed CSS -->
     {% compressed_css 'application' %}
-    <!--JS-->
+
     <!--[if IE]>
     <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <script type="text/javascript">
-    var url_root = '/application';
-    var static_root = '/assets/';
-    </script>
-    {% if access_token and expires %}
-    <script type="text/javascript">
-    var access_token = "{{ access_token }}";
-    var expires = {{ expires }};
-    </script>
-    {% endif %}
-    <!-- Application dependencies -->
-    <script data-main="{% static 'js/main.js' %}" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
-    <!-- Google Analtics -->
-    <script src="{% static 'js/analytics.js' %}"></script>
 </head>
 <body>
 
-<div id="application"></div>
-<div id="modal"></div>
+    <div id="application"></div>
+    <div id="modal"></div>
+
+    <script type="text/javascript">
+        var url_root = '/application';
+        var static_root = '/assets/';
+    </script>
+
+    {% if access_token and expires %}
+    <script type="text/javascript">
+        var access_token = "{{ access_token }}";
+        var expires = {{ expires }};
+    </script>
+    {% endif %}
+
+    <!-- Application dependencies -->
+    <script data-main="/assets/js/main.js" src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+
+    <!-- Google Analtics -->
+    <script src="/assets/js/analytics.js"></script>
 
 </body>
 </html>
