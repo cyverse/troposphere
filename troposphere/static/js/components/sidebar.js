@@ -54,7 +54,7 @@ define(['react', 'underscore', 'components/common/glyphicon'], function (React, 
             var icon = this.props.icon ? Glyphicon({name: this.props.icon}) : null;
 
             return React.DOM.li({className: this.props.active ? 'active' : ''},
-                React.DOM.a({href: url_root + '/' + this.props.id.join('/'),
+                React.DOM.a({href: '/application/' + this.props.id.join('/'),
                         onClick: this.handleClick},
                     icon,
                     this.props.text),

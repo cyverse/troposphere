@@ -45,7 +45,7 @@ NotificationController) {
 
             Backbone.history.start({
                 pushState: true,
-                root: url_root
+                root: '/application'
             });
         },
         fetchProfile: function() {
