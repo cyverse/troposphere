@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Atmosphere Web Client",
   "dependencies": {
+    "underscore": "~1.6.0",
     "gulp": "~3.6.2",
     "gulp-concat": "~2.2.0",
     "gulp-imagemin": "~0.3.0",

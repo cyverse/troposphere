@@ -7,7 +7,6 @@ var gulp = require('gulp'),
 //imagemin = require('gulp-imagemin'),
 //rename = require('gulp-rename'),
   clean = require('gulp-clean'),
-  rjs = require('requirejs'),
   concat = require('gulp-concat'),
   notify = require('gulp-notify');
 //cache = require('gulp-cache'),
@@ -22,47 +21,11 @@ var paths = {
 // Styles
 require('gulp/tasks/styles')(gulp);
 
-//gulp.task('styles', function(){
-//  return gulp.src(paths.css)
-//    //.pipe(concat('styles.min.css'))
-//    //.pipe(minifycss())
-//    .pipe(gulp.dest('troposphere/assets/css'))
-//    .pipe(notify({ message: 'Styles task complete', onLast: true }));
-//});
-
 // Scripts
-gulp.task('copyScriptsToAssets', function () {
-  return gulp.src(paths.scripts)
-    .pipe(gulp.dest('troposphere/assets/js'))
-    .pipe(notify({ message: 'Copied scripts to troposphere/assets', onLast: true  }));
-});
+require('gulp/tasks/copyScriptsToAssets')(gulp);
 
-gulp.task('scripts', ['copyScriptsToAssets']);
-//gulp.task('scripts', ['copyScriptsToAssets'], function () {
-//  return gulp.src(['troposphere/static/js/analytics.js'])
-//    //.pipe(uglify())
-//    .pipe(gulp.dest('troposphere/assets/js'))
-//    .pipe(notify({ message: 'Scripts task complete' }));
-//});
-
-// RequireJS
-gulp.task('requirejsBuild', function (cb) {
-  rjs.optimize({
-    appDir: 'troposphere/static/js',
-    baseUrl: './',
-    mainConfigFile: "troposphere/static/js/main.js",
-    dir: "troposphere/assets/js",
-    removeCombined: true,
-    optimize: 'none',
-    modules: [
-      {
-        name: "main"
-      }
-    ]
-  }, function(buildResponse){
-    cb();
-  }, cb);
-});
+//gulp.task('scripts', ['copyScriptsToAssets']);
+require('gulp/tasks/rjs')(gulp);
 
 // Images
 gulp.task('images', function () {
