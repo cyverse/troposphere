@@ -22,7 +22,7 @@ define(['react'], function(React) {
                 React.DOM.a(
                     {href: '/', id: 'logo'}, 
                     React.DOM.img({
-                        src: static_root + 'images/mini_logo.png', 
+                        src: '/assets/images/mini_logo.png',
                         alt: 'iPlant Cloud Services',
                         height: '30',
                         width: '30'
