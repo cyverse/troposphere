@@ -5,24 +5,10 @@ define(
     'backbone',
     'url',
     './Rating.react',
-    './Tags.react'
+    './Tags.react',
+    './Bookmark.react'
   ],
-  function (React, Gravatar, Backbone, URL, Rating, Tags) {
-
-    var Bookmark = React.createClass({
-      toggleFavorite: function (e) {
-        e.preventDefault();
-        this.props.application.set('favorite', !this.props.application.get('favorite'));
-      },
-      render: function () {
-        var isFavorite = this.props.application.get('favorite')
-        return React.DOM.a({
-          className: 'bookmark ' + (isFavorite ? 'on' : 'off'),
-          href: '#',
-          onClick: this.toggleFavorite
-        });
-      }
-    });
+  function (React, Gravatar, Backbone, URL, Rating, Tags, Bookmark) {
 
     var ApplicationCard = React.createClass({
       getDefaultProps: function () {
