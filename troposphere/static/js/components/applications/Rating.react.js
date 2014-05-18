@@ -17,7 +17,7 @@ define(
                     repeatString("\u2606", 5 - this.props.rating);
 
         return (
-          <div className: 'star-rating'>
+          <div className='star-rating'>
             {stars}
           </div>
         );
