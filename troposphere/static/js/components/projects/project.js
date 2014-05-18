@@ -5,52 +5,11 @@ define(
     'url',
     'controllers/projects',
     'components/common/button_dropdown',
-    './ProjectItemMixin'
+    './ProjectItemMixin',
+    './InstanceProjectItem',
+    './VolumeProjectItem'
   ],
-  function(React, Time, URL, ProjectController, ButtonDropdown, ProjectItemMixin) {
-
-    var InstanceProjectItem = React.createClass({
-        mixins: [ProjectItemMixin],
-        getClassName: function() {
-            return 'instance';
-        },
-        renderName: function() {
-            var instance = this.props.model;
-            return React.DOM.a({
-                href: URL.instance(instance, {absolute: true}),
-                onClick: function(e) {
-                    e.preventDefault();
-                    Backbone.history.navigate(URL.instance(instance), {trigger: true});
-                }}, this.props.model.get('name_or_id'));
-        },
-        renderDetails: function() {
-            var machine_name = this.props.model.get('machine_name') ||
-                this.props.model.get('machine_alias');
-            var ip = this.props.model.get('public_ip_address');
-            return [ip ? ip + ', ' : '',  'from ',
-                React.DOM.a({}, machine_name)];
-        }
-    });
-
-    var VolumeProjectItem = React.createClass({
-        mixins: [ProjectItemMixin],
-        getClassName: function() {
-            return 'volume';
-        },
-        renderName: function() {
-            var volume = this.props.model;
-            return React.DOM.a({
-                href: URL.volume(volume, {absolute: true}),
-                onClick: function(e) {
-                    e.preventDefault();
-                    Backbone.history.navigate(URL.volume(volume), {trigger: true});
-                }}, volume.get('name_or_id'));
-        },
-        renderDetails: function() {
-            return [this.props.model.get('size') + ' GB, created ',
-                Time({date: this.props.model.get('start_date')})];
-        }
-    });
+  function(React, Time, URL, ProjectController, ButtonDropdown, ProjectItemMixin, InstanceProjectItem, VolumeProjectItem) {
 
     var ProjectItems = React.createClass({
         confirmDelete: function() {
