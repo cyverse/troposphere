@@ -34,7 +34,7 @@ define(function (require) {
 
       return (
         <form role='form' onSubmit={this.onSubmit}>
-          <div className: 'form-group'>
+          <div className='form-group'>
             <label htmlFor='project-name'>Project Name</label>
             <input type='text' className='form-control' id='project-name' onChange={this.inputOnChange}/>
           </div>

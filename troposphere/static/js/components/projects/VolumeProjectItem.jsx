@@ -23,7 +23,7 @@ define(
         };
 
         return (
-          <a href={href} onClick: {onClick}>
+          <a href={href} onClick={onClick}>
             {volume.get('name_or_id')}
           </a>
         );
