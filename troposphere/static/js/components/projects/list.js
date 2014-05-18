@@ -8,7 +8,7 @@ define(function(require) {
     var ProjectController = require('controllers/projects');
     var RSVP = require('rsvp');
     var LoadingMixin = require('components/mixins/loading');
-    var Project = require('components/projects/project');
+    var Project = require('components/projects/Project');
     var ModalMixin = require('components/mixins/modal');
     var Modal = require('modal');
     var ProjectsList = require('./ProjectsList');
