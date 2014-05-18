@@ -1,39 +1,37 @@
 header {
-    background-color: #0098aa;
-    color: #fff;
-    border-bottom: 3px solid hsl(182, 46%, 51%);
-    z-index: 10;
-    box-shadow: 4px 0px 6px rgba(0, 0, 0, .2);
-}
+  background-color: #0098aa;
+  color: #fff;
+  border-bottom: 3px solid hsl(182, 46%, 51%);
+  z-index: 10;
+  box-shadow: 4px 0px 6px rgba(0, 0, 0, .2);
 
-header a {
+  a {
     color: #EFEFEF;
     border: 0;
-}
 
-header a:hover {
-    color: #fff;
-    text-decoration: none;
-    border: 0;
+    &:hover {
+      color: #fff;
+      text-decoration: none;
+      border: 0;
+    }
+  }
 }
-
 
 #logo {
-    font-size: 1.2em;
-    padding: 5px;
-    display: block;
-    float: left;
-}
+  font-size: 1.2em;
+  padding: 5px;
+  display: block;
+  float: left;
 
-#logo img {
+  img {
     margin-right: 7px;
-}
+  }
 
-#logo a:hover img {
+  a:hover img {
     opacity: .7;
-}
+  }
 
-#logo::after {
+  &::after {
     content: "BETA";
     background-color: hsl(182, 46%, 51%);
     padding: 6px;
@@ -41,24 +39,24 @@ header a:hover {
     font-size: 80%;
     margin-left: 8px;
     letter-spacing: .1em;
+  }
 }
 
 #tagline {
-    font-size: 80%;
-    color: #CEECE8;
-    margin-left: 5px;
+  font-size: 80%;
+  color: #CEECE8;
+  margin-left: 5px;
 }
-
 
 #header-nav {
-    float: right;
-}
+  float: right;
 
-#header-nav a {
+  a {
     display: inline-block;
     padding: 10px;
-}
 
-#header-nav a:hover {
-    background-color: hsl(186, 100%, 37%);
+    &:hover {
+      background-color: hsl(186, 100%, 37%);
+    }
+  }
 }
