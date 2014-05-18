@@ -3,20 +3,10 @@ define(
     'react',
     'components/common/Gravatar.react',
     'backbone',
-    'url'
+    'url',
+    './Rating.react'
   ],
-  function (React, Gravatar, Backbone, URL) {
-
-    var Rating = React.createClass({
-      render: function () {
-        var repeatString = function (string, num) {
-          return new Array(num + 1).join(string);
-        };
-        return React.DOM.div({className: 'star-rating'},
-          repeatString("\u2605", this.props.rating) +
-            repeatString("\u2606", 5 - this.props.rating));
-      }
-    });
+  function (React, Gravatar, Backbone, URL, Rating) {
 
     var Tags = React.createClass({
       render: function () {
