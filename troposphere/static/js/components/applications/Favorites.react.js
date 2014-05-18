@@ -4,10 +4,10 @@ define(
   [
     'react',
     'collections/applications',
-    'components/applications/cards',
+    './ApplicationCardList.react',
     'components/PageHeader.react'
   ],
-  function (React, Applications, Cards, PageHeader) {
+  function (React, Applications, ApplicationCardList, PageHeader) {
 
     return React.createClass({
 
@@ -44,7 +44,7 @@ define(
 
         if (this.state.applications != null){
           content = (
-            <Cards.ApplicationCardList applications={this.state.applications}/>
+            <ApplicationCardList applications={this.state.applications}/>
           );
         }
 
