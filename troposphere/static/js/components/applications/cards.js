@@ -6,55 +6,10 @@ define(
     'url',
     './Rating.react',
     './Tags.react',
-    './Bookmark.react'
+    './Bookmark.react',
+    './ApplicationCard.react'
   ],
-  function (React, Gravatar, Backbone, URL, Rating, Tags, Bookmark) {
-
-    var ApplicationCard = React.createClass({
-      getDefaultProps: function () {
-        return {
-          showDetails: true,
-          showLaunch: false
-        };
-      },
-      onAppClick: function (e) {
-        e.preventDefault();
-        var url = URL.application(this.props.application);
-        Backbone.history.navigate(url, {trigger: true});
-      },
-      render: function () {
-        var app = this.props.application;
-
-        var iconSize = 150;
-        var icon;
-        if (app.get('icon'))
-          icon = React.DOM.img({
-            src: app.get('icon'),
-            width: iconSize,
-            height: iconSize
-          });
-        else
-          icon = Gravatar({hash: app.get('uuid_hash'), size: iconSize});
-
-        var appUri = URL.application(app, {absolute: true});
-
-        return React.DOM.div({className: 'app-card'},
-          React.DOM.div({className: 'icon-container'}, React.DOM.a({
-            href: appUri,
-            onClick: this.onAppClick
-          }, icon)),
-          React.DOM.div({className: 'app-name'}, React.DOM.a({
-            href: appUri,
-            onClick: this.onAppClick,
-            title: app.get('name_or_id')
-          }, app.get('name_or_id'))),
-          Rating({rating: app.get('rating')}),
-          React.DOM.button({
-            className: 'btn btn-primary btn-block launch-button',
-            onClick: this.props.onLaunch}, "Launch"),
-          Bookmark({application: app}));
-      }
-    });
+  function (React, Gravatar, Backbone, URL, Rating, Tags, Bookmark, ApplicationCard) {
 
     var ApplicationCardList = React.createClass({
       render: function () {
