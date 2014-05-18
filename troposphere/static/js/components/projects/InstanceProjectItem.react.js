@@ -2,7 +2,7 @@ define(
   [
     'react',
     'url',
-    './ProjectItemMixin'
+    './ProjectItemMixin.react'
   ],
   function (React, URL, ProjectItemMixin) {
 

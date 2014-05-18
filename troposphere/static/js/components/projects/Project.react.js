@@ -1,8 +1,8 @@
 define(
   [
     'react',
-    './ProjectItems',
-    './ProjectDescription'
+    './ProjectItems.react',
+    './ProjectDescription.react'
   ],
   function (React, ProjectItems, ProjectDescription) {
 

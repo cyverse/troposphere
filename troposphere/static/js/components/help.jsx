@@ -2,7 +2,7 @@ define(
   [
     'react',
     'components/page_header',
-    './FeedbackForm'
+    './FeedbackForm.react'
   ],
   function (React, PageHeader, FeedbackForm) {
 
@@ -49,7 +49,13 @@ define(
               {resourceElements}
             </ul>
             <h2>Atmosphere staff support</h2>
-            <p>Are you experiencing a problem with Atmosphere to which you can't find a solution? Do you have a feature request or bug report? Let us know!</p>
+            <p>
+              {
+                "Are you experiencing a problem with Atmosphere to which you " +
+                "can't find a solution? Do you have a feature request or bug " +
+                "report? Let us know!"
+              }
+            </p>
             <FeedbackForm/>
           </div>
         );

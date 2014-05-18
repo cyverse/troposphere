@@ -3,5 +3,6 @@ module.exports = {
   scripts: ['troposphere/static/js/**/*.js'],
   images: ['troposphere/static/images/**'],
   rootSassFileForApp: 'troposphere/static/css/app/app.scss',
-  jsxTemplates: 'troposphere/static/js/**/*.jsx'
+  //jsxTemplates: 'troposphere/static/js/**/*.jsx'
+  jsxTemplates: 'troposphere/static/js/**/*.react.js'
 };

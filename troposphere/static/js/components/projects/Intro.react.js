@@ -1,7 +1,7 @@
 define(
   [
     'react',
-    './DashboardIcon'
+    './DashboardIcon.react'
   ],
   function(React) {
 

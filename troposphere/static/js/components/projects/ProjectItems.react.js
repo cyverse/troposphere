@@ -2,8 +2,8 @@ define(
   [
     'react',
     'controllers/projects',
-    './InstanceProjectItem',
-    './VolumeProjectItem'
+    './InstanceProjectItem.react',
+    './VolumeProjectItem.react'
   ],
   function (React, ProjectController, InstanceProjectItem, VolumeProjectItem) {
 
