@@ -10,7 +10,7 @@
     "gulp-cache": "~0.1.3",
     "gulp-rename": "~1.2.0",
     "gulp-clean": "~0.2.4",
-    "gulp-livereload": "~1.3.1",
+    "gulp-livereload": "~1.5.0",
     "gulp-minify-css": "~0.3.1",
     "gulp-autoprefixer": "~0.0.7",
     "yuglify": "~0.1.4",
