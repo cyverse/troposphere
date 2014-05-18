@@ -7,45 +7,10 @@ define(
     'components/common/button_dropdown',
     './ProjectItemMixin',
     './InstanceProjectItem',
-    './VolumeProjectItem'
+    './VolumeProjectItem',
+    './ProjectItems'
   ],
-  function(React, Time, URL, ProjectController, ButtonDropdown, ProjectItemMixin, InstanceProjectItem, VolumeProjectItem) {
-
-    var ProjectItems = React.createClass({
-        confirmDelete: function() {
-            ProjectController.delete(this.props.project);
-        },
-        render: function() {
-            var project = this.props.project;
-
-            var content;
-            if (project.isEmpty()) {
-                var children = [React.DOM.span({className: 'no-project-items'},
-                    "Empty project. ")];
-                if (project.canBeDeleted())
-                    children.push(React.DOM.a({href: '#', onClick: this.confirmDelete},
-                        "Delete " + project.get('name')));
-                content = React.DOM.div({}, children);
-            } else {
-                var items = [];
-                items = items.concat(project.get('instances').map(function(instance) {
-                    return InstanceProjectItem({key: instance.id,
-                        model: instance,
-                        projects: this.props.projects,
-                        project: project});
-                }.bind(this)));
-                items = items.concat(project.get('volumes').map(function(volume) {
-                    return VolumeProjectItem({key: volume.id,
-                        model: volume,
-                        projects: this.props.projects,
-                        project: project});
-                }.bind(this)));
-                content = React.DOM.ul({className: 'project-items container-fluid'}, items);
-            }
-
-            return React.DOM.div({className: 'project-contents'}, content);
-        }
-    });
+  function(React, Time, URL, ProjectController, ButtonDropdown, ProjectItemMixin, InstanceProjectItem, VolumeProjectItem, ProjectItems) {
 
     var ProjectDescription = React.createClass({
         getInitialState: function() {
