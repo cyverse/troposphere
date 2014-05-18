@@ -15,7 +15,7 @@ define(
       helpText: function () {
         return (
           <p>Projects help you organize your cloud resources</p>
-          );
+        );
       },
 
       launchNewProjectModal: function () {
