@@ -1,190 +1,202 @@
 .app-card-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
+  list-style: none;
+  margin: 0;
+  padding: 0;
 
-.app-card-list li {
+  li {
     margin: 0 20px 20px 0;
     display: inline-block;
+  }
+
+  /* App cards on image lists */
+  .app-card {
+    border: 1px solid #ccc;
+
+    .launch-button {
+      display: none;
+    }
+  }
 }
 
 /* All app cards  */
 .app-card {
-    width: 220px;
-    padding: 20px;
-    border-radius: 5px;
-    position: relative;
-}
+  width: 220px;
+  padding: 20px;
+  border-radius: 5px;
+  position: relative;
 
-.app-card .icon-container {
+  .icon-container {
     text-align: center;
     margin-bottom: 15px;
-}
+  }
 
-.app-card .app-name  a {
+  .app-name a {
     display: block;
     font-size: 17px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
 }
 
-/* App cards on image lists */
-.app-card-list .app-card {
-    border: 1px solid #ccc;
-}
+#app-detail {
 
-.app-card-list .app-card .launch-button {
-    display: none; 
-}
-
-/* App cards on image detail page */
-#app-detail .app-card {
-    background-color: hsl(0, 0%, 90%);
-}
-
-#app-detail .app-card .app-name, #app-detail .app-card .star-rating {
-    display: none;
-}
-
-#app-detail h2 {
+  h2 {
     display: inline-block;
     margin-right: 15px;
     font-size: 18px;
+  }
+
+  /* App cards on image detail page */
+  .app-card {
+    background-color: hsl(0, 0%, 90%);
+
+    .app-name {
+      display: none;
+    }
+
+    .star-rating {
+      display: none;
+    }
+  }
 }
 
 ul.tags {
-    list-style: none;
-    padding-left: 0;
-}
-ul.tags li {
+  list-style: none;
+  padding-left: 0;
+
+  li {
     display: inline-block;
     margin-right: 5px;
+
+    a {
+      padding: 5px 10px;
+      border-radius: 3px;
+      background-color: #047A09;
+      color: #EEE;
+      border: 0;
+
+      &:hover {
+        background-color: #139418;
+        border: 0;
+      }
+    }
+  }
 }
-ul.tags li a {
-    padding: 5px 10px;
-    border-radius: 3px;
-    background-color: #047A09;
-    color: #EEE;
-    border: 0;
-}
-ul.tags li a:hover {
-    background-color: #139418;
-    border: 0;
-}
+
 .star-rating {
-    font-size: 28px;
-    color: hsl(45, 85%, 50%);
-    letter-spacing: 5px;
+  font-size: 28px;
+  color: hsl(45, 85%, 50%);
+  letter-spacing: 5px;
 }
 
 .nav-back {
-    float: left;
-    padding: 9px 14px;
-    margin-right: 10px;
+  float: left;
+  padding: 9px 14px;
+  margin-right: 10px;
 }
 
 /* Bookmarks */
 .bookmark {
-    width: 0px;
-    height: 35px;
-    position: absolute;
-    top: -5px;
-    right: 7px;
-    z-index: 1;
-    border-radius: 4px;
-    box-sizing: content-box;
-}
+  width: 0px;
+  height: 35px;
+  position: absolute;
+  top: -5px;
+  right: 7px;
+  z-index: 1;
+  border-radius: 4px;
+  box-sizing: content-box;
 
-.bookmark.off {
+  &.off {
     border-right: 15px solid hsl(0, 0%, 40%);
     border-left: 15px solid hsl(0, 0%, 40%);
     border-bottom: 10px solid transparent;
-}
 
-.bookmark.off:hover {
-    border-right-color: hsl(0, 0%, 30%);
-    border-left-color: hsl(0, 0%, 30%);
-}
+    &:hover {
+      border-right-color: hsl(0, 0%, 30%);
+      border-left-color: hsl(0, 0%, 30%);
+    }
 
-.bookmark.off::after {
-    content: "";
-    height: 39px;
-    position: absolute;
-    top: 2px;
-    left: -13px;
-    border-radius: 2px;
-    border-right: 13px solid #fff;
-    border-left: 13px solid #fff;
-    border-bottom: 9px solid transparent;
-}
+    &::after {
+      content: "";
+      height: 39px;
+      position: absolute;
+      top: 2px;
+      left: -13px;
+      border-radius: 2px;
+      border-right: 13px solid #fff;
+      border-left: 13px solid #fff;
+      border-bottom: 9px solid transparent;
+    }
+  }
 
-.bookmark.on {
+  &.on {
     border-right: 15px solid hsl(0, 100%, 25%);
     border-left: 15px solid hsl(0, 100%, 25%);
     border-bottom: 10px solid transparent;
-}
 
-.bookmark.on::after {
-    content: "";
-    height: 39px;
-    position: absolute;
-    top: 2px;
-    left: -13px;
-    border-radius: 2px;
-    border-right: 13px solid hsl(0, 96%, 40%);
-    border-left: 13px solid hsl(0, 96%, 40%);
-    border-bottom: 9px solid transparent;
-}
+    &:hover::after {
+      border-right-color: hsl(0, 96%, 44%);
+      border-left-color: hsl(0, 96%, 44%);
+    }
 
-.bookmark.on:hover::after {
-    border-right-color: hsl(0, 96%, 44%);
-    border-left-color: hsl(0, 96%, 44%);
+    &::after {
+      content: "";
+      height: 39px;
+      position: absolute;
+      top: 2px;
+      left: -13px;
+      border-radius: 2px;
+      border-right: 13px solid hsl(0, 96%, 40%);
+      border-left: 13px solid hsl(0, 96%, 40%);
+      border-bottom: 9px solid transparent;
+    }
+  }
 }
 
 /* View selector for cards, as list or as cards */
 .view-selector {
-    float: right;
-}
-.view-selector > span {
-  margin-right: 5px;
-}
-.view-selector .btn {
-  font-size: 12px;
-  margin-left: 5px;
-}
+  float: right;
 
+  > span {
+    margin-right: 5px;
+  }
+
+  .btn {
+    font-size: 12px;
+    margin-left: 5px;
+  }
+}
 
 /* App detail page */
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) {
-    #app-detail {
-        padding-right: 240px;
-        position: relative;
-    }
+  #app-detail {
+    padding-right: 240px;
+    position: relative;
 
-    #app-detail .app-card {
-        position: absolute;
-        right: 0;
-        top: 0;
+    .app-card {
+      position: absolute;
+      right: 0;
+      top: 0;
     }
+  }
 }
 
 /* Search */
 #search-container {
-    text-align: center;
+  text-align: center;
 }
 
 .search-input {
-    height: 3.5em;
-    margin-bottom: 1em;
-    width: 65%;
-    margin-left: auto;
-    margin-right: auto;
+  height: 3.5em;
+  margin-bottom: 1em;
+  width: 65%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .advanced-search-options {
-    margin-top: 10px;
-    text-align: left;
+  margin-top: 10px;
+  text-align: left;
 }
