@@ -12,23 +12,10 @@ define(
     'components/common/Glyphicon.react',
     './InstanceAttributes.react',
     './InstanceLinks.react',
-    './ActionList.react'
+    './ActionList.react',
+    './InstancePage.react'
   ],
-  function (React, PageHeader, LoadingMixin, Instance, RSVP, Time, InstanceController, URL, ButtonDropdown, Glyphicon, InstanceAttributes, InstanceLinks, ActionList) {
-
-    var InstancePage = React.createClass({
-      render: function () {
-        var instance = this.props.instance,
-          provider = this.props.provider;
-        return React.DOM.div({},
-          PageHeader({title: "Instance: " + instance.get('name_or_id')}),
-          ActionList({instance: instance,
-            isOpenstack: provider.isOpenStack()}),
-          InstanceAttributes({instance: instance,
-            provider: provider}),
-          InstanceLinks({instance: instance}));
-      }
-    });
+  function (React, PageHeader, LoadingMixin, Instance, RSVP, Time, InstanceController, URL, ButtonDropdown, Glyphicon, InstanceAttributes, InstanceLinks, ActionList, InstancePage) {
 
     var InstanceDetail = React.createClass({
       componentDidMount: function () {
