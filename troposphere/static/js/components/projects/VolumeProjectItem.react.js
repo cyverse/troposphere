@@ -3,7 +3,7 @@
 define(
   [
     'react',
-    'components/common/time',
+    'components/common/Time.react',
     'url',
     './ProjectItemMixin.react'
   ],

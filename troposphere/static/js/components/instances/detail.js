@@ -5,7 +5,7 @@ define(
     'components/mixins/loading',
     'models/instance',
     'rsvp',
-    'components/common/time',
+    'components/common/Time.react',
     'controllers/instances',
     'url',
     'components/common/ButtonDropdown.react',
