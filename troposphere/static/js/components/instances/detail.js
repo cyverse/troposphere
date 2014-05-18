@@ -9,31 +9,10 @@ define(
     'controllers/instances',
     'url',
     'components/common/ButtonDropdown.react',
-    'components/common/Glyphicon.react'
+    'components/common/Glyphicon.react',
+    './InstanceAttributes.react'
   ],
-  function (React, PageHeader, LoadingMixin, Instance, RSVP, Time, InstanceController, URL, ButtonDropdown, Glyphicon) {
-
-    var InstanceAttributes = React.createClass({
-      renderPair: function (k, v) {
-        return [React.DOM.dt({}, k), React.DOM.dd({}, v)];
-      },
-      renderIdentity: function (identity) {
-        var text = identity.id + " on provider " + this.props.provider.get('name');
-        return text;
-      },
-      render: function () {
-        var instance = this.props.instance;
-        var addr = instance.get('public_ip_address');
-        return React.DOM.div({},
-          React.DOM.h2({}, "Details"),
-          React.DOM.dl({},
-            this.renderPair("Status", instance.get('status')),
-            this.renderPair("IP Address", addr ? addr : React.DOM.em({}, "Unknown")),
-            this.renderPair("Identity", this.renderIdentity(instance.get('identity'))),
-            this.renderPair("ID", instance.id),
-            this.renderPair("Date Launched", Time({date: instance.get('start_date')}))));
-      }
-    });
+  function (React, PageHeader, LoadingMixin, Instance, RSVP, Time, InstanceController, URL, ButtonDropdown, Glyphicon, InstanceAttributes) {
 
     var InstanceLinks = React.createClass({
       renderLink: function (text, url) {
