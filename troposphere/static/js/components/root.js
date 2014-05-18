@@ -1,9 +1,9 @@
 define(
   [
     'react',
-    './header.react',
+    './Header.react',
     './sidebar',
-    './footer.react',
+    './Footer.react',
     './notifications',
     'router',
     'controllers/profile',
@@ -14,7 +14,7 @@ define(
     './applications/detail',
     'controllers/providers',
     './providers',
-    './help.react',
+    './Help.react',
     './instances/detail',
     './instances/report',
     './volume_detail',
