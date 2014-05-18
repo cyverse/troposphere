@@ -11,7 +11,7 @@ define(
     './projects/List.react',
     './applications/list',
     './applications/favorites',
-    './applications/detail',
+    './applications/ApplicationDetail.react',
     'controllers/providers',
     './Providers.react',
     './Help.react',
