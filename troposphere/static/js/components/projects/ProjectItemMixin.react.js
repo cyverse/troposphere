@@ -3,7 +3,7 @@
 define(
   [
     'react',
-    'components/common/button_dropdown'
+    'components/common/ButtonDropdown.react'
   ],
   function (React, ButtonDropdown) {
 
