@@ -13,7 +13,7 @@ define(
     './applications/favorites',
     './applications/detail',
     'controllers/providers',
-    './providers',
+    './Providers.react',
     './Help.react',
     './instances/detail',
     './instances/Report.react',
