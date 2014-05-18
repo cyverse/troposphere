@@ -4,19 +4,10 @@ define(
     'components/common/Gravatar.react',
     'backbone',
     'url',
-    './Rating.react'
+    './Rating.react',
+    './Tags.react'
   ],
-  function (React, Gravatar, Backbone, URL, Rating) {
-
-    var Tags = React.createClass({
-      render: function () {
-        var tags = this.props.tags.map(function (tag) {
-          return React.DOM.li({className: 'tag', key: tag}, React.DOM.a({href: '#'}, tag));
-        });
-
-        return React.DOM.ul({className: 'tags'}, tags);
-      }
-    });
+  function (React, Gravatar, Backbone, URL, Rating, Tags) {
 
     var Bookmark = React.createClass({
       toggleFavorite: function (e) {
