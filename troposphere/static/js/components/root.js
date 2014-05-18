@@ -4,7 +4,7 @@ define(
     './Header.react',
     './sidebar',
     './Footer.react',
-    './notifications',
+    './Notifications.react',
     'router',
     'controllers/profile',
     './settings',
