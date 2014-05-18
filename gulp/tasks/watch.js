@@ -16,6 +16,7 @@ module.exports = function (gulp) {
     gulp.watch(paths.css, ['sass']);
     gulp.watch(paths.scripts, ['copyScriptsToAssets']);
     gulp.watch(paths.images, ['images']);
+    gulp.watch(paths.jsxTemplates, ['react']);
   });
 
 };
