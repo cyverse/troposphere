@@ -12,50 +12,7 @@ define(function(require) {
     var ModalMixin = require('components/mixins/modal');
     var Modal = require('modal');
     var ProjectsList = require('./ProjectsList');
-
-    var NewProjectModal = React.createClass({
-        mixins: [ModalMixin],
-        getInitialState: function() {
-            return {
-                projectName: "",
-                projectDescription: ""
-            };
-        },
-        renderTitle: function() {
-            return "Create Project";
-        },
-        renderBody: function() {
-            return React.DOM.form({role: 'form', onSubmit: function(e) {e.preventDefault();}},
-                React.DOM.div({className: 'form-group'},
-                    React.DOM.label({htmlFor: 'project-name'}, "Project Name"),
-                    React.DOM.input({type: 'text',
-                        className: 'form-control',
-                        id: 'project-name',
-                        onChange: function(e) {this.setState({'projectName': e.target.value});}.bind(this)
-                    })),
-                React.DOM.div({className: 'form-group'},
-                    React.DOM.label({htmlFor: 'project-description'}, "Description"),
-                    React.DOM.textarea({type: 'text',
-                        className: 'form-control',
-                        id: 'project-description',
-                        rows: 7,
-                        onChange: function(e) {this.setState({'projectDescription': e.target.value});}.bind(this)
-                    })));
-        },
-        createProject: function() {
-            ProjectController.create(this.state.projectName,
-                this.state.projectDescription).then(function(model) {
-                    this.props.projects.add(model);
-                    this.close();
-                }.bind(this));
-        },
-        renderFooter: function() {
-            return React.DOM.button({
-                className: 'btn btn-primary',
-                onClick: this.createProject
-            }, "Create");
-        }
-    });
+    var NewProjectModal = require('./NewProjectModal');
 
     return React.createClass({
         helpText: function() {
