@@ -9,7 +9,7 @@ define(
     'controllers/instances',
     'url',
     'components/common/ButtonDropdown.react',
-    'components/common/glyphicon'
+    'components/common/Glyphicon.react'
   ],
   function (React, PageHeader, LoadingMixin, Instance, RSVP, Time, InstanceController, URL, ButtonDropdown, Glyphicon) {
 
