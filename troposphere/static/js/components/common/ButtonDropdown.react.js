@@ -38,7 +38,7 @@ define(
               <span className='caret'></span>
             </button>
             <ul className='dropdown-menu' role='menu'>
-              this.props.children
+              {this.props.children}
             </ul>
           </div>
         );
