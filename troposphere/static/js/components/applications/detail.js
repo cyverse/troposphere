@@ -7,19 +7,10 @@ define(
     'jquery',
     'components/common/Time.react',
     'modal',
-    'components/applications/launch_modal'
+    'components/applications/launch_modal',
+    './Machine.react'
   ],
-  function (React, App, AppCollection, Cards, $, Time, Modal, LaunchModal) {
-
-    var Machine = React.createClass({
-      render: function () {
-        var machine = this.props.machine;
-        console.log(machine);
-        return React.DOM.li({}, "Version: ", machine.get('pretty_version'),
-          React.DOM.br(),
-          "Date: ", Time({date: machine.get('start_date'), showRelative: false}));
-      }
-    });
+  function (React, App, AppCollection, Cards, $, Time, Modal, LaunchModal, Machine) {
 
     var MachineList = React.createClass({
       render: function () {
