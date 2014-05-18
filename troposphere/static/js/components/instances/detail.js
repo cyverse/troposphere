@@ -10,26 +10,10 @@ define(
     'url',
     'components/common/ButtonDropdown.react',
     'components/common/Glyphicon.react',
-    './InstanceAttributes.react'
+    './InstanceAttributes.react',
+    './InstanceLinks.react'
   ],
-  function (React, PageHeader, LoadingMixin, Instance, RSVP, Time, InstanceController, URL, ButtonDropdown, Glyphicon, InstanceAttributes) {
-
-    var InstanceLinks = React.createClass({
-      renderLink: function (text, url) {
-        return React.DOM.li({},
-          React.DOM.a({href: url,
-            target: '_blank',
-            className: 'new-window'}, text));
-      },
-      render: function () {
-        var instance = this.props.instance;
-        return React.DOM.div({},
-          React.DOM.h2({}, "Links"),
-          React.DOM.ul({},
-            this.renderLink("Web Shell", instance.get('shell_url')),
-            this.renderLink("Remote Desktop", instance.get('vnc_url'))));
-      }
-    });
+  function (React, PageHeader, LoadingMixin, Instance, RSVP, Time, InstanceController, URL, ButtonDropdown, Glyphicon, InstanceAttributes, InstanceLinks) {
 
     var ActionList = React.createClass({
       renderButton: function (text, onClick, disabled) {
