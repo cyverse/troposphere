@@ -1,17 +1,17 @@
-define(['backbone', 'react', 'underscore', 'components/page_header',
-'components/intro', 'controllers/projects', 'rsvp',
-'components/mixins/loading', 'components/projects/project',
-'components/mixins/modal', 'modal'], function(Backbone, React, _, PageHeader,
-Intro, ProjectController, RSVP, LoadingMixin, Project, ModalMixin, Modal) {
+define(function(require) {
 
-    var ProjectsList = React.createClass({
-        render: function() {
-            var items = this.props.projects.map(function(model) {
-                return Project({key: model.id, project: model, projects: this.props.projects});
-            }.bind(this));
-            return React.DOM.ul({id: 'project-list'}, items);
-        }
-    });
+    var Backbone = require('backbone');
+    var React = require('react');
+    var _ = require('underscore');
+    var PageHeader = require('components/page_header');
+    var Intro = require('./Intro');
+    var ProjectController = require('controllers/projects');
+    var RSVP = require('rsvp');
+    var LoadingMixin = require('components/mixins/loading');
+    var Project = require('components/projects/project');
+    var ModalMixin = require('components/mixins/modal');
+    var Modal = require('modal');
+    var ProjectsList = require('./ProjectsList');
 
     var NewProjectModal = React.createClass({
         mixins: [ModalMixin],
@@ -57,7 +57,7 @@ Intro, ProjectController, RSVP, LoadingMixin, Project, ModalMixin, Modal) {
         }
     });
 
-    var Projects = React.createClass({
+    return React.createClass({
         helpText: function() {
             return React.DOM.p({}, "Projects help you organize your cloud resources");
         },
@@ -86,7 +86,5 @@ Intro, ProjectController, RSVP, LoadingMixin, Project, ModalMixin, Modal) {
             );
         }
     });
-
-    return Projects;
 
 });

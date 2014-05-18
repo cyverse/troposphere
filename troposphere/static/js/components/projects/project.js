@@ -1,35 +1,13 @@
-define(['react', 'components/common/time', 'url', 'controllers/projects',
-'components/common/button_dropdown'], function(React, Time, URL,
-ProjectController, ButtonDropdown) {
-
-    var ProjectItemMixin = {
-        handleMove: function(destination, e) {
-            e.preventDefault();
-            var model = this.props.model;
-            var source = this.props.project;
-            destination.putItem(model);
-            source.removeItem(model);
-        },
-        renderAction: function() {
-            var items = this.props.projects
-                .filter(function(project) {
-                    return project != this.props.project;
-                }.bind(this))
-                .map(function(project) {
-                    return React.DOM.li({},
-                        React.DOM.a({href: '#', onClick: this.handleMove.bind(null, project)},
-                            project.get('name')));
-                }.bind(this));
-            return React.DOM.div({},
-                ButtonDropdown({buttonContent: "Move", disabled: items.length == 0}, items));
-        },
-        render: function() {
-            return React.DOM.li({className: 'project-item row ' + this.getClassName()},
-                React.DOM.div({className: 'project-item-name col-md-5'}, this.renderName()),
-                React.DOM.div({className: 'project-item-details col-md-5'}, this.renderDetails()),
-                React.DOM.div({className: 'project-item-action col-md-2'}, this.renderAction()));
-        }
-    };
+define(
+  [
+    'react',
+    'components/common/time',
+    'url',
+    'controllers/projects',
+    'components/common/button_dropdown',
+    './ProjectItemMixin'
+  ],
+  function(React, Time, URL, ProjectController, ButtonDropdown, ProjectItemMixin) {
 
     var InstanceProjectItem = React.createClass({
         mixins: [ProjectItemMixin],
