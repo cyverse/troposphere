@@ -8,18 +8,10 @@ define(
     'components/common/Time.react',
     'modal',
     'components/applications/launch_modal',
-    './Machine.react'
+    './Machine.react',
+    './MachineList.react'
   ],
-  function (React, App, AppCollection, Cards, $, Time, Modal, LaunchModal, Machine) {
-
-    var MachineList = React.createClass({
-      render: function () {
-        var versions = this.props.machines.map(function (model) {
-          return Machine({key: model.id, machine: model});
-        });
-        return React.DOM.ul({}, versions);
-      }
-    });
+  function (React, App, AppCollection, Cards, $, Time, Modal, LaunchModal, Machine, MachineList) {
 
     var ApplicationDetail = React.createClass({
       componentDidMount: function () {
