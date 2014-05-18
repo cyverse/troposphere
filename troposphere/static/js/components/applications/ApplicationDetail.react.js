@@ -1,12 +1,16 @@
 define(
   [
     'react',
-    'components/applications/cards',
+
+    './Rating.react',
+    './Tags.react',
+    './ApplicationCard.react',
+
     'modal',
     'components/applications/launch_modal',
     './MachineList.react'
   ],
-  function (React, Cards, Modal, LaunchModal, MachineList) {
+  function (React, Rating, Tags, ApplicationCard, Modal, LaunchModal, MachineList) {
 
     return React.createClass({
 
@@ -30,7 +34,7 @@ define(
 
         if (!app) {
           return (
-            <div className: 'loading'></div>
+            <div className='loading'></div>
             );
         }
 
@@ -42,10 +46,10 @@ define(
             <h1>{app.get('name_or_id')}</h1>
             <h2 className='tag-title'>Image Tags</h2>
             <a href='#'>Suggest a Tag</a>
-            <Cards.Tags tags={app.get('tags')}/>
+            <Tags tags={app.get('tags')}/>
             <hr/>
-            //<Cards.Rating rating={app.get('rating')}/>
-            <Cards.ApplicationCard application={app} onLaunch={this.showModal}/>
+            //<Rating rating={app.get('rating')}/>
+            <ApplicationCard application={app} onLaunch={this.showModal}/>
             <h2>Description</h2>
             <p>{app.get('description')}</p>
             <hr/>
