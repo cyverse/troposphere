@@ -16,7 +16,7 @@ define(
     './providers',
     './Help.react',
     './instances/detail',
-    './instances/report',
+    './instances/Report.react',
     './volume_detail',
     './applications/search_results',
     'collections/instances',
