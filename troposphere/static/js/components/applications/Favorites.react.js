@@ -1,3 +1,5 @@
+/** @jsx React.DOM */
+
 define(
   [
     'react',
@@ -7,12 +9,14 @@ define(
   ],
   function (React, Applications, Cards, PageHeader) {
 
-    var Favorites = React.createClass({
+    return React.createClass({
+
       getInitialState: function () {
         return {
-          appliations: null
+          applications: null
         };
       },
+
       updateApplications: function (apps) {
         if (this.isMounted()) {
           var favorites = new Applications(apps.filter(function (model) {
@@ -21,25 +25,37 @@ define(
           this.setState({applications: favorites});
         }
       },
+
       componentDidMount: function () {
         var apps = new Applications();
         apps.on('sync', this.updateApplications);
         apps.fetch();
       },
+
       componentWillUnmount: function () {
         if (this.state.applications)
           this.state.applications.off('sync', this.updateApplications);
       },
-      render: function () {
-        var content = React.DOM.div({className: 'loading'});
-        if (this.state.applications != null)
-          content = Cards.ApplicationCardList({applications: this.state.applications});
-        return React.DOM.div({},
-          PageHeader({title: "Favorite Images"}),
-          content);
-      }
-    });
 
-    return Favorites;
+      render: function () {
+        var content = (
+          <div className='loading'></div>
+        );
+
+        if (this.state.applications != null){
+          content = (
+            <Cards.ApplicationCardList applications={this.state.applications}/>
+          );
+        }
+
+        return (
+          <div>
+            <PageHeader title="Favorite Images"/>
+            {content}
+          </div>
+        );
+      }
+
+    });
 
   });

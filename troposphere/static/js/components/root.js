@@ -10,7 +10,7 @@ define(
     './settings',
     './projects/List.react',
     './applications/list',
-    './applications/favorites',
+    './applications/Favorites.react',
     './applications/ApplicationDetail.react',
     'controllers/providers',
     './Providers.react',
