@@ -15,7 +15,7 @@ define(
     'controllers/providers',
     './Providers.react',
     './Help.react',
-    './instances/detail',
+    './instances/InstanceDetail.react',
     './instances/Report.react',
     './volume_detail',
     './applications/search_results',
