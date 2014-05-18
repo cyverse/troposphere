@@ -2,19 +2,9 @@
 
 define(
   [
-    'react',
-    'components/PageHeader.react',
-    'components/mixins/loading',
-    'models/instance',
-    'rsvp',
-    'components/common/Time.react',
-    'controllers/instances',
-    'url',
-    'components/common/ButtonDropdown.react',
-    'components/common/Glyphicon.react',
-    './InstanceAttributes.react'
+    'react'
   ],
-  function (React, PageHeader, LoadingMixin, Instance, RSVP, Time, InstanceController, URL, ButtonDropdown, Glyphicon, InstanceAttributes) {
+  function (React) {
 
     return React.createClass({
 
