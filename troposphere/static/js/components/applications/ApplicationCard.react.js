@@ -33,7 +33,7 @@ define(
         var icon;
         if (app.get('icon')) {
           icon = (
-            <img src={app.get('icon')} width={iconSize} height={iconSize}></a>
+            <img src={app.get('icon')} width={iconSize} height={iconSize}/>
           );
         } else {
           icon = (
