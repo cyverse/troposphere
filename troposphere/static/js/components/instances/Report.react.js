@@ -5,10 +5,9 @@ define(
     'react',
     'components/PageHeader.react',
     'components/common/Glyphicon.react',
-    'underscore',
     './ReportInstanceForm.react'
   ],
-  function (React, PageHeader, Glyphicon, _, ReportInstanceForm) {
+  function (React, PageHeader, Glyphicon, ReportInstanceForm) {
 
     var ReportInstance = React.createClass({
 
