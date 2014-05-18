@@ -3,7 +3,7 @@
 define(
   [
     'react',
-    'components/page_header'
+    'components/PageHeader.react'
   ],
   function (React, PageHeader) {
 

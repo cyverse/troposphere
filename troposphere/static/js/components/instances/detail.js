@@ -1,7 +1,7 @@
 define(
   [
     'react',
-    'components/page_header',
+    'components/PageHeader.react',
     'components/mixins/loading',
     'models/instance',
     'rsvp',

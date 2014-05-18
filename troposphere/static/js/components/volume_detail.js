@@ -2,7 +2,7 @@ define(
   [
     'react',
     'underscore',
-    'components/page_header',
+    'components/PageHeader.react',
     'components/common/Time.react',
     'collections/instances',
     'controllers/volumes',

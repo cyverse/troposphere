@@ -1,7 +1,7 @@
 define(
   [
     'react',
-    'components/page_header',
+    'components/PageHeader.react',
     'components/common/Gravatar.react',
     'controllers/profile'
   ],

@@ -3,7 +3,7 @@
 define(
   [
     'react',
-    'components/page_header',
+    'components/PageHeader.react',
     'components/common/Glyphicon.react',
     'underscore',
     './ReportInstanceForm.react'
