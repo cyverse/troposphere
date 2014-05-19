@@ -12,22 +12,9 @@ define(
     'models/volume',
     'rsvp',
     './VolumeInfo.react',
-    './AttachmentForm.react'
-  ], function (React, _, PageHeader, Time, Instances, VolumeController, LoadingMixin, Volume, RSVP, VolumeInfo, AttachmentForm) {
-
-    var DestroyForm = React.createClass({
-      handleClick: function (e) {
-        e.preventDefault();
-        console.log("destroy");
-        VolumeController.destroy(this.props.volume);
-      },
-      render: function () {
-        return React.DOM.button({
-          className: 'btn btn-default',
-          onClick: this.handleClick
-        }, "Destroy Volume");
-      }
-    });
+    './AttachmentForm.react',
+    './DestroyForm.react'
+  ], function (React, _, PageHeader, Time, Instances, VolumeController, LoadingMixin, Volume, RSVP, VolumeInfo, AttachmentForm, DestroyForm) {
 
     var DetachmentForm = React.createClass({
       handleSubmit: function (e) {
