@@ -62,3 +62,7 @@ node_modules
 
 # JetBrains IDEs
 .idea
+
+#  gulp-ruby-sass caches files here
+.sass-cache
+

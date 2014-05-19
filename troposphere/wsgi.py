@@ -11,7 +11,7 @@ import os
 import sys
 
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.insert(0, '/opt/env/troposphere/lib/python2.7/site-packages')
+sys.path.insert(0, '/troposphere/env/lib/python2.7/site-packages')
 sys.path.insert(1, root_dir)
 os.environ['DJANGO_SETTINGS_MODULE'] = "troposphere.settings"
 

@@ -1,0 +1,39 @@
+{
+  "name": "troposphere",
+  "version": "0.0.1",
+  "description": "Atmosphere Web Client",
+  "dependencies": {
+    "underscore": "~1.6.0",
+    "gulp": "~3.6.2",
+    "gulp-concat": "~2.2.0",
+    "gulp-imagemin": "~0.3.0",
+    "gulp-cache": "~0.1.3",
+    "gulp-rename": "~1.2.0",
+    "gulp-clean": "~0.2.4",
+    "gulp-livereload": "~1.5.0",
+    "gulp-minify-css": "~0.3.1",
+    "gulp-autoprefixer": "~0.0.7",
+    "yuglify": "~0.1.4",
+    "gulp-requirejs": "~0.1.3",
+    "gulp-ruby-sass": "~0.5.0",
+    "gulp-jshint": "~1.5.5",
+    "gulp-notify": "~1.2.5",
+    "gulp-uglify": "~0.2.1",
+    "gulp-react": "~0.3.3",
+    "requirejs": "~2.1.11"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/iPlantCollaborativeOpenSource/troposphere.git"
+  },
+  "author": "iPlant Collaborative",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/iPlantCollaborativeOpenSource/troposphere/issues"
+  },
+  "homepage": "https://github.com/iPlantCollaborativeOpenSource/troposphere"
+}

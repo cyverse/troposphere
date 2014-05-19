@@ -1,0 +1,32 @@
+#volume-list {
+  list-style-type: none;
+  padding: 0;
+
+  > li {
+    position: relative;
+    padding-left: 20px;
+    max-width: 400px;
+
+    i.glyphicon {
+      position: absolute;
+      top: 12px;
+      left: 0px;
+    }
+  }
+
+  .volume-header {
+    > span,
+    > strong {
+      line-height: 40px;
+      font-size: 21px;
+    }
+  }
+
+  > li .btn-group {
+    float: right;
+  }
+}
+
+#volume-controls {
+  margin-bottom: 20px;
+}
