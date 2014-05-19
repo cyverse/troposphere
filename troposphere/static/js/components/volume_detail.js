@@ -11,61 +11,9 @@ define(
     'components/mixins/loading',
     'models/volume',
     'rsvp',
-    './VolumeInfo.react'
-  ], function (React, _, PageHeader, Time, Instances, VolumeController, LoadingMixin, Volume, RSVP, VolumeInfo) {
-
-    var AttachmentForm = React.createClass({
-      getInitialState: function () {
-        return {
-          instance: this.props.instances ? this.props.instances.at(0) : null
-        };
-      },
-      componentWillReceiveProps: function (newProps) {
-        var instances = newProps.instances;
-        if (instances && instances.length)
-          this.setState({instance: instances.at(0)});
-      },
-      handleSubmit: function (e) {
-        e.preventDefault();
-        var volume = this.props.volume;
-        VolumeController
-          .attach(this.props.volume, this.state.instance);
-      },
-      handleChange: function (e) {
-        var instance = this.props.instances.get(e.target.value);
-        this.setState({instance: instance});
-      },
-      getInstanceSelect: function () {
-        var options = [];
-        if (this.props.instances)
-          options = this.props.instances.map(function (instance) {
-            return React.DOM.option({value: instance.id}, instance.get('name_or_id'));
-          });
-        var attaching = this.props.volume.get('status') == 'attaching';
-        return React.DOM.select({
-          className: 'form-control',
-          disabled: attaching,
-          onChange: this.handleChange,
-          value: this.state.instance ? this.state.instance.id : null
-        }, options);
-      },
-      getAttachButton: function () {
-        var attaching = this.props.volume.get('status') == 'attaching';
-        var attrs = {className: 'btn btn-primary btn-block'};
-        if (attaching || !this.state.instance) {
-          attrs.className += ' disabled';
-          attrs.disabled = 'disabled';
-        }
-        return React.DOM.button(attrs, attaching ? "Attaching..." : "Attach");
-      },
-      render: function () {
-        return React.DOM.form({onSubmit: this.handleSubmit},
-          React.DOM.div({className: 'container-fluid'},
-            React.DOM.div({className: 'row'},
-              React.DOM.div({className: 'col-xs-9'}, this.getInstanceSelect()),
-              React.DOM.div({className: 'col-xs-3'}, this.getAttachButton()))));
-      }
-    });
+    './VolumeInfo.react',
+    './AttachmentForm.react'
+  ], function (React, _, PageHeader, Time, Instances, VolumeController, LoadingMixin, Volume, RSVP, VolumeInfo, AttachmentForm) {
 
     var DestroyForm = React.createClass({
       handleClick: function (e) {
