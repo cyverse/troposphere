@@ -1,3 +1,5 @@
+/** @jsx React.DOM */
+
 define(
   [
     'react',
@@ -53,34 +55,44 @@ define(
     ];
 
     //prop active route: 'images/authored' 'images/1234'
-    var Sidebar = React.createClass({
+    return React.createClass({
+
       getDefaultProps: function () {
         return {items: menuItems};
       },
+
       getRouteList: function (page) {
-        console.log(page);
         var routeMap = {
           'appDetail': ['images'],
           'appSearch': ['images'],
           'appFavorites': ['images', 'favorites'],
           'appAuthored': ['images', 'authored']
         };
-        if (routeMap[page])
+
+        if (routeMap[page]){
           page = routeMap[page];
-        else
+        }else{
           page = [page];
+        }
+
         return page;
       },
+
       render: function () {
         var active = this.getRouteList(this.props.currentRoute);
-        return React.DOM.div({id: 'sidebar'},
-          Menu({active: active,
-            items: this.props.items,
-            onNavigate: this.props.onNavigate,
-            loggedIn: this.props.loggedIn,
-            depth: 0}));
+
+        return (
+          <div id='sidebar'>
+            <Menu
+              active={active}
+              items={this.props.items}
+              onNavigate={this.props.onNavigate}
+              loggedIn={this.props.loggedIn}
+              depth={0}
+            />
+          </div>
+        );
       }
     });
 
-    return Sidebar;
   });

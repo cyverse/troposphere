@@ -2,7 +2,7 @@ define(function (require) {
 
     var React = require('react');
     var Header = require('./Header.react');
-    var Sidebar = require('./sidebar');
+    var Sidebar = require('./Sidebar.react');
     var Footer = require('./Footer.react');
     var Notifications = require('./Notifications.react');
     var Router = require('router');
