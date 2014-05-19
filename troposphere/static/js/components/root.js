@@ -7,7 +7,7 @@ define(function (require) {
     var Notifications = require('./Notifications.react');
     var Router = require('router');
     var Profile = require('controllers/profile');
-    var Settings = require('./settings');
+    var Settings = require('./Settings.react');
     var Projects = require('./projects/List.react');
     var ApplicationList = require('./applications/ApplicationsHome.react');
     var ApplicationFavorites = require('./applications/Favorites.react');
