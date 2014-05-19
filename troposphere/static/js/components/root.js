@@ -1,34 +1,32 @@
-define(
-  [
-    'react',
-    './Header.react',
-    './sidebar',
-    './Footer.react',
-    './Notifications.react',
-    'router',
-    'controllers/profile',
-    './settings',
-    './projects/List.react',
-    './applications/ApplicationsHome.react',
-    './applications/Favorites.react',
-    './applications/ApplicationDetail.react',
-    'controllers/providers',
-    './Providers.react',
-    './Help.react',
-    './instances/InstanceDetail.react',
-    './instances/Report.react',
-    './volume_detail',
-    './applications/SearchResults.react',
-    'collections/instances',
-    'models/instance',
-    'collections/volumes',
-    'models/volume',
-    'collections/applications',
-    'models/application',
-    'controllers/projects',
-    'controllers/notifications'
-  ],
-  function (React, Header, Sidebar, Footer, Notifications, Router, Profile, Settings, Projects, ApplicationList, ApplicationFavorites, ApplicationDetail, ProviderController, Providers, Help, InstanceDetail, ReportInstance, VolumeDetail, ApplicationSearchResults, InstanceCollection, Instance, VolumeCollection, Volume, AppCollection, Application, ProjectController, NotificationController) {
+define(function (require) {
+
+    var React = require('react');
+    var Header = require('./Header.react');
+    var Sidebar = require('./sidebar');
+    var Footer = require('./Footer.react');
+    var Notifications = require('./Notifications.react');
+    var Router = require('router');
+    var Profile = require('controllers/profile');
+    var Settings = require('./settings');
+    var Projects = require('./projects/List.react');
+    var ApplicationList = require('./applications/ApplicationsHome.react');
+    var ApplicationFavorites = require('./applications/Favorites.react');
+    var ApplicationDetail = require('./applications/ApplicationDetail.react');
+    var ProviderController = require('controllers/providers');
+    var Providers = require('./Providers.react');
+    var Help = require('./Help.react');
+    var InstanceDetail = require('./instances/InstanceDetail.react');
+    var ReportInstance = require('./instances/Report.react');
+    var VolumeDetail = require('./volume_detail');
+    var ApplicationSearchResults = require('./applications/SearchResults.react');
+    var InstanceCollection = require('collections/instances');
+    var Instance = require('models/instance');
+    var VolumeCollection = require('collections/volumes');
+    var Volume = require('models/volume');
+    var AppCollection = require('collections/applications');
+    var Application = require('models/application');
+    var ProjectController = require('controllers/projects');
+    var NotificationController = require('controllers/notifications');
 
     var Root = React.createClass({
       getInitialState: function () {
