@@ -5,9 +5,12 @@ define(
     'components/Root.react',
     'rsvp',
     'models/session',
-    'marionette'
+    'marionette',
+
+    // Routers
+    'routers/projects'
   ],
-  function ($, React, Application, RSVP, Session, Marionette) {
+  function ($, React, Application, RSVP, Session, Marionette, ProjectRouter) {
 
     return {
       run: function () {
@@ -33,8 +36,15 @@ define(
         }
 
         $(document).ready(function () {
-          var app = Application({session: session});
-          React.renderComponent(app, document.getElementById('application'));
+//          var app = Application({session: session});
+//          React.renderComponent(app, document.getElementById('application'));
+
+          ProjectRouter.start();
+
+          Backbone.history.start({
+            pushState: true,
+            root: '/application'
+          });
         });
       }
     }
