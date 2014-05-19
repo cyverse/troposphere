@@ -13,29 +13,9 @@ define(
     'rsvp',
     './VolumeInfo.react',
     './AttachmentForm.react',
-    './DestroyForm.react'
-  ], function (React, _, PageHeader, Time, Instances, VolumeController, LoadingMixin, Volume, RSVP, VolumeInfo, AttachmentForm, DestroyForm) {
-
-    var DetachmentForm = React.createClass({
-      handleSubmit: function (e) {
-        e.preventDefault();
-        var provider = this.props.providers.get(this.props.volume.get('identity').provider);
-        VolumeController.detach(this.props.volume, provider);
-      },
-      render: function () {
-        var detaching = this.props.volume.get('status') === 'detaching';
-
-        var buttonAttrs = {className: 'btn btn-primary'};
-        if (detaching) {
-          buttonAttrs.className += ' disabled';
-          buttonAttrs.disabled = true;
-        }
-
-        return React.DOM.form({onSubmit: this.handleSubmit},
-          React.DOM.label({htmlFor: 'attached_instance'}),
-          React.DOM.button(buttonAttrs, detaching ? "Detaching..." : "Detach"));
-      }
-    });
+    './DestroyForm.react',
+    './DetachmentForm.react'
+  ], function (React, _, PageHeader, Time, Instances, VolumeController, LoadingMixin, Volume, RSVP, VolumeInfo, AttachmentForm, DestroyForm, DetachmentForm) {
 
     var AttachmentInfo = React.createClass({
       render: function () {
