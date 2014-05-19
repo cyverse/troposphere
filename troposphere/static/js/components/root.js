@@ -18,7 +18,7 @@ define(
     './instances/InstanceDetail.react',
     './instances/Report.react',
     './volume_detail',
-    './applications/search_results',
+    './applications/SearchResults.react',
     'collections/instances',
     'models/instance',
     'collections/volumes',
