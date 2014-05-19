@@ -3,21 +3,9 @@
 define(
   [
     'react',
-    'underscore',
-    'components/PageHeader.react',
-    'components/common/Time.react',
-    'collections/instances',
-    'controllers/volumes',
-    'components/mixins/loading',
-    'models/volume',
-    'rsvp',
-    './VolumeInfo.react',
-    './AttachmentForm.react',
-    './DestroyForm.react',
-    './DetachmentForm.react',
-    './AttachmentInfo.react',
     './VolumeDetailPage.react'
-  ], function (React, _, PageHeader, Time, Instances, VolumeController, LoadingMixin, Volume, RSVP, VolumeInfo, AttachmentForm, DestroyForm, DetachmentForm, AttachmentInfo, VolumeDetailpage) {
+  ],
+  function (React, VolumeDetailpage) {
 
     return React.createClass({
 
@@ -54,9 +42,9 @@ define(
       render: function () {
         return (
           <VolumeDetailPage
-            volume={this.state.volume}
-            instances={this.state.instances}
-            providers={this.props.providers}
+          volume={this.state.volume}
+          instances={this.state.instances}
+          providers={this.props.providers}
           />
         );
       }
