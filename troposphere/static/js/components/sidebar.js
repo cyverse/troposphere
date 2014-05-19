@@ -2,9 +2,9 @@ define(
   [
     'react',
     'underscore',
-    'components/common/Glyphicon.react'
+    './SidebarListItem.react'
   ],
-  function (React, _, Glyphicon) {
+  function (React, _, SidebarListItem) {
 
     var menuItems = [
       {
@@ -50,23 +50,6 @@ define(
         loginRequired: false
       }
     ];
-
-    var SidebarListItem = React.createClass({
-      handleClick: function (e) {
-        e.preventDefault();
-        this.props.onNavigate(this.props.id.join('/'), {trigger: true});
-      },
-      render: function () {
-        var icon = this.props.icon ? Glyphicon({name: this.props.icon}) : null;
-
-        return React.DOM.li({className: this.props.active ? 'active' : ''},
-          React.DOM.a({href: '/application/' + this.props.id.join('/'),
-              onClick: this.handleClick},
-            icon,
-            this.props.text),
-          this.props.children);
-      }
-    });
 
     var Menu = React.createClass({
       render: function () {
