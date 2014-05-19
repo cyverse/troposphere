@@ -66,3 +66,6 @@ node_modules
 #  gulp-ruby-sass caches files here
 .sass-cache
 
+# Bower JavaScript components
+troposphere/static/bower_components
+
