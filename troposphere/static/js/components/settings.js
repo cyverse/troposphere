@@ -1,24 +1,14 @@
+/** @jsx React.DOM */
+
 define(
   [
     'react',
     'components/PageHeader.react',
     'components/common/Gravatar.react',
-    'controllers/profile'
+    'controllers/profile',
+    './IconOption.react'
   ],
-  function (React, PageHeader, Gravatar, Profile) {
-
-    var IconOption = React.createClass({
-      render: function () {
-        return React.DOM.li({className: this.props.selected ? 'selected' : ''},
-          React.DOM.a({
-              href: "#",
-              onClick: _.partial(this.props.onClick, this.props.type),
-            },
-            Gravatar({hash: '4dada4e6ac8298336c7063ae603ea86d', type: this.props.type}),
-            React.DOM.br(),
-            this.props.text));
-      }
-    });
+  function (React, PageHeader, Gravatar, Profile, IconOption) {
 
     var IconSelect = React.createClass({
       getDefaultProps: function () {
