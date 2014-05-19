@@ -5,7 +5,7 @@ define(
     'react',
     './VolumeDetailPage.react'
   ],
-  function (React, VolumeDetailpage) {
+  function (React, VolumeDetailPage) {
 
     return React.createClass({
 
@@ -42,9 +42,9 @@ define(
       render: function () {
         return (
           <VolumeDetailPage
-          volume={this.state.volume}
-          instances={this.state.instances}
-          providers={this.props.providers}
+            volume={this.state.volume}
+            instances={this.state.instances}
+            providers={this.props.providers}
           />
         );
       }
