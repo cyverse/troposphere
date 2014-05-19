@@ -17,7 +17,7 @@ define(function (require) {
     var Help = require('./Help.react');
     var InstanceDetail = require('./instances/InstanceDetail.react');
     var ReportInstance = require('./instances/Report.react');
-    var VolumeDetail = require('./volume_detail');
+    var VolumeDetail = require('./VolumeDetailWrapper.react');
     var ApplicationSearchResults = require('./applications/SearchResults.react');
     var InstanceCollection = require('collections/instances');
     var Instance = require('models/instance');
