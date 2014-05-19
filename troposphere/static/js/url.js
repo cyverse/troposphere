@@ -27,7 +27,7 @@ define(['underscore'], function(_) {
         var options = _.defaults(options || {}, defaultOptions);
         var url = generators[route](model);
         if (options.absolute)
-            url = url_root + '/' + url;
+            url = '/application/' + url;
         return url;
     };
 

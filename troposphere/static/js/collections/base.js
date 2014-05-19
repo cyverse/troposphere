@@ -1,10 +1,10 @@
 /* base.js
  * Backbone.js base collection functionality.
  */
-define(['backbone', 'underscore'], function(Backbone, _) {
+define(['backbone', 'underscore', 'globals'], function(Backbone, _, globals) {
 
 var Base = Backbone.Collection.extend({
-    urlRoot: '/api/v1',
+    urlRoot: globals.API_ROOT,
     url: function() {
         var creds = this.creds;
         return url = this.urlRoot
@@ -13,7 +13,7 @@ var Base = Backbone.Collection.extend({
             + '/' + this.model.prototype.defaults.model_name + '/';
     },
     defaults: {
-        'api_url': '/api/v1',
+        'api_url': globals.API_ROOT,
         'model_name': 'base'
     }
 });

@@ -4,7 +4,7 @@ define(['collections/base', 'models/provider'], function(Base, Provider) {
         model: Provider,
         url: function(){
             return url = this.urlRoot
-                + '/' + this.model.prototype.defaults.model_name + '/';
+                + '/' + this.model.prototype.defaults.model_name;
         }
     });
 
