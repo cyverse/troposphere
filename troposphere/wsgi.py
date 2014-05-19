@@ -13,13 +13,21 @@ import sys
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, '/opt/env/troposphere/lib/python2.7/site-packages')
 sys.path.insert(1, root_dir)
+os.environ['DJANGO_SETTINGS_MODULE'] = "troposphere.settings"
 
-def application(environ, start_response):
-    os.environ['DJANGO_SETTINGS_MODULE'] = "troposphere.settings"
-    from django.core.wsgi import get_wsgi_application
-    try:
-        _application = get_wsgi_application()
-    except Exception, e:
-        e.msg = os.path.dirname(__file__)
-        raise e
-    return _application(environ, start_response)
+#def application(environ, start_response):
+#    os.environ['DJANGO_SETTINGS_MODULE'] = "troposphere.settings"
+#    from django.core.wsgi import get_wsgi_application
+#    try:
+#        _application = get_wsgi_application()
+#    except Exception, e:
+#        e.msg = os.path.dirname(__file__)
+#        raise e
+#    return _application(environ, start_response)
+from django.core.wsgi import get_wsgi_application
+try:
+    application = get_wsgi_application()
+except Exception, e:
+    e.msg = os.path.dirname(__file__)
+    raise e
+

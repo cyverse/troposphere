@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.conf import settings
 from django.core.urlresolvers import reverse
 
-from troposphere.cas import CASClient, InvalidTicket
+from troposphere.cas import CASClient
 from troposphere.oauth import OAuthClient, Unauthorized
 from troposphere.ldap_client import LDAPClient
 import troposphere.messages as messages
@@ -14,8 +14,11 @@ import troposphere.messages as messages
 logger = logging.getLogger(__name__)
 
 def get_cas_client(request):
-    return CASClient(settings.CAS_SERVER,
-                     request.build_absolute_uri(reverse('cas_service')))
+    #Simple service validation setup
+    service_url = ""
+    if request:
+        service_url = request.build_absolute_uri(reverse('cas_service'))
+    return CASClient(settings.CAS_SERVER, service_url)
 
 key = open(settings.OAUTH_PRIVATE_KEY_PATH, 'r').read()
 oauth_client = OAuthClient(settings.OAUTH_SERVER,
@@ -29,6 +32,7 @@ def root(request):
     return redirect('application')
 
 def application(request):
+    logger.debug("Application URL requested")
     records, disabled_login = get_maintenance()
     if disabled_login:
         return redirect('maintenance')
@@ -49,7 +53,7 @@ def application(request):
 
     flash = {'gatewayed': True, 'path': request.get_full_path()}
     messages.add_message(request, flash)
-    return redirect(get_cas_client(request).get_login_endpoint(gateway=True))
+    return redirect(get_cas_client(request)._login_url(gateway=True))
 
 def get_maintenance():
     """
@@ -62,11 +66,11 @@ def maintenance(request):
     return HttpResponse("We're undergoing maintenance", status=503)
 
 def login(request):
-    return redirect(get_cas_client(request).get_login_endpoint())
+    return redirect(get_cas_client(request)._login_url())
 
 def logout(request):
     root_url = request.build_absolute_uri(reverse('application'))
-    return redirect(get_cas_client(request).get_logout_endpoint(root_url))
+    return redirect(get_cas_client(request)._logout_url(root_url))
 
 def gateway_request(request):
     """
@@ -85,6 +89,7 @@ def gateway_request(request):
     return (False, None, None)
 
 def cas_service(request):
+    logger.debug("Cas service request")
     gatewayed, sendback, emulated_user = gateway_request(request)
     if sendback is None:
         sendback = 'application'
@@ -96,12 +101,11 @@ def cas_service(request):
         return redirect(sendback)
 
     # Authenticate request with CAS
-    try:
-        user = get_cas_client(request).validate_ticket(ticket)
-    except InvalidTicket:
+    cas_response = get_cas_client(request).cas_serviceValidate(ticket)
+    if not cas_response or not cas_response.user:
         messages.add_message(request, {'login_check': True})
         return redirect(sendback)
-
+    user = cas_response.user
     logger.debug(user + " successfully authenticated against CAS")
 
     # Authorize request with Groupy OAuth
@@ -156,4 +160,4 @@ def emulate(request, username=None):
         'emulated_user': username
     }
     messages.add_message(request, flash)
-    return redirect(get_cas_client(request).get_login_endpoint(gateway=True))
+    return redirect(get_cas_client(request)._login_url(gateway=True))
