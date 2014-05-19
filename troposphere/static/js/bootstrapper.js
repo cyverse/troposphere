@@ -4,9 +4,10 @@ define(
     'react',
     'components/Root.react',
     'rsvp',
-    'models/session'
+    'models/session',
+    'marionette'
   ],
-  function ($, React, Application, RSVP, Session) {
+  function ($, React, Application, RSVP, Session, Marionette) {
 
     return {
       run: function () {
