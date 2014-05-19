@@ -14,46 +14,9 @@ define(
     './VolumeInfo.react',
     './AttachmentForm.react',
     './DestroyForm.react',
-    './DetachmentForm.react'
-  ], function (React, _, PageHeader, Time, Instances, VolumeController, LoadingMixin, Volume, RSVP, VolumeInfo, AttachmentForm, DestroyForm, DetachmentForm) {
-
-    var AttachmentInfo = React.createClass({
-      render: function () {
-        var volume = this.props.volume;
-        var content = [];
-        var state = volume.get('status');
-        var available = state == 'available' || state == 'attaching';
-        var attached = state == 'in-use' || state == 'detaching';
-
-        if (available) {
-          content = [
-            React.DOM.p({key: 'statusText'}, "Available"),
-            React.DOM.p({key: 'attachment'},
-              AttachmentForm({volume: this.props.volume, instances: this.props.instances})),
-            React.DOM.p({key: 'destroy'},
-              DestroyForm({volume: this.props.volume}))
-          ];
-        } else if (attached) {
-          var attachData = volume.get('attach_data');
-          var attachedText = [
-            "Attached to instance ",
-            attachData.instance_id,
-            " as device ",
-            React.DOM.code({}, attachData.device)
-          ];
-          content = [
-            React.DOM.p({key: 'statusText'}, attachedText),
-            DetachmentForm({key: 'detachment',
-              volume: this.props.volume,
-              providers: this.props.providers})
-          ];
-        }
-
-        return React.DOM.div({},
-          React.DOM.h2({}, "Status"),
-          content);
-      }
-    });
+    './DetachmentForm.react',
+    './AttachmentInfo.react'
+  ], function (React, _, PageHeader, Time, Instances, VolumeController, LoadingMixin, Volume, RSVP, VolumeInfo, AttachmentForm, DestroyForm, DetachmentForm, AttachmentInfo) {
 
     var VolumeDetailPage = React.createClass({
       helpText: function () {
