@@ -4,7 +4,7 @@ define(
     'components/PageHeader.react',
     'collections/applications',
     'components/applications/cards',
-    'components/applications/search'
+    'components/applications/SearchContainer.react'
   ],
   function (React, PageHeader, Applications, Cards, ApplicationSearch) {
 
