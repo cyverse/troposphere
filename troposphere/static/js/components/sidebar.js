@@ -2,9 +2,10 @@ define(
   [
     'react',
     'underscore',
-    './SidebarListItem.react'
+    './SidebarListItem.react',
+    './Menu.react'
   ],
-  function (React, _, SidebarListItem) {
+  function (React, _, SidebarListItem, Menu) {
 
     var menuItems = [
       {
@@ -50,32 +51,6 @@ define(
         loginRequired: false
       }
     ];
-
-    var Menu = React.createClass({
-      render: function () {
-        var active = this.props.active;
-        var depth = this.props.depth;
-        var items = _.map(this.props.items, function (item) {
-          if (!item.loginRequired || this.props.loggedIn) {
-            var submenu = null;
-            if (item.menu)
-              submenu = Menu({onNavigate: this.props.onNavigate,
-                items: item.menu,
-                active: active,
-                loggedIn: this.props.loggedIn,
-                depth: depth + 1});
-            return SidebarListItem({icon: item.icon,
-                active: active && item.route[depth] == active[depth],
-                text: item.text,
-                id: item.route,
-                key: item.text,
-                onNavigate: this.props.onNavigate},
-              submenu);
-          }
-        }.bind(this));
-        return React.DOM.ul({}, items);
-      }
-    });
 
     //prop active route: 'images/authored' 'images/1234'
     var Sidebar = React.createClass({
