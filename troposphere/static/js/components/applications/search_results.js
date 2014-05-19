@@ -1,26 +1,14 @@
 define(
   [
     'react',
-    'components/applications/search',
+    'components/applications/SearchContainer.react',
     'components/PageHeader.react',
     'components/mixins/loading',
     'rsvp',
     'controllers/applications',
-    'components/applications/cards'
-  ], function (React, SearchBox, PageHeader, LoadingMixin, RSVP, Applications, Cards) {
-
-    var Results = React.createClass({
-      mixins: [LoadingMixin],
-      model: function () {
-        return Applications.searchApplications(this.props.query);
-      },
-      renderContent: function () {
-        if (this.state.model.isEmpty())
-          return React.DOM.div({}, React.DOM.em({}, "No results found."));
-        else
-          return Cards.ApplicationCardList({applications: this.state.model});
-      }
-    });
+    'components/applications/cards',
+    './Results.react'
+  ], function (React, SearchBox, PageHeader, LoadingMixin, RSVP, Applications, Cards, Results) {
 
     var SearchResults = React.createClass({
       render: function () {
