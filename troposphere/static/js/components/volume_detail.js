@@ -15,34 +15,9 @@ define(
     './AttachmentForm.react',
     './DestroyForm.react',
     './DetachmentForm.react',
-    './AttachmentInfo.react'
-  ], function (React, _, PageHeader, Time, Instances, VolumeController, LoadingMixin, Volume, RSVP, VolumeInfo, AttachmentForm, DestroyForm, DetachmentForm, AttachmentInfo) {
-
-    var VolumeDetailPage = React.createClass({
-      helpText: function () {
-        var p1 = React.DOM.p({}, "A volume is available when it is not attached to an instance. Any newly created volume must be formatted and then mounted after it has been attached before you will be able to use it.");
-        var links = [
-          ["Creating a Volume", "https://pods.iplantcollaborative.org/wiki/x/UyWO"],
-          ["Attaching a Volume to an Instance", "https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachingaVolumetoanInstance-Attachingavolumetoaninstance"],
-          ["Formatting a Volume", "https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachingaVolumetoanInstance-Createthefilesystem%28onetimeeventpervolume%29"],
-          ["Mounting a Volume", "https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachingaVolumetoanInstance-Mountthefilesystemonthepartition"],
-          ["Unmounting and Detaching Volume", "https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachingaVolumetoanInstance-Detachingvolumesfrominstances"]
-        ];
-        var link_list = React.DOM.ul({}, _.map(links, function (item) {
-          return React.DOM.li({}, React.DOM.a({href: item[1]}, item[0]));
-        }));
-        var p2 = React.DOM.p({}, "More information about volumes:", link_list);
-        return React.DOM.div({}, p1, p2);
-      },
-      render: function () {
-        var volume = this.props.volume;
-        var instances = this.props.instances;
-        return React.DOM.div({},
-          PageHeader({title: "Volume: " + volume.get('name_or_id'), helpText: this.helpText}),
-          VolumeInfo({volume: volume, providers: this.props.providers}),
-          AttachmentInfo({volume: volume, instances: instances, providers: this.props.providers}));
-      }
-    });
+    './AttachmentInfo.react',
+    './VolumeDetailPage.react'
+  ], function (React, _, PageHeader, Time, Instances, VolumeController, LoadingMixin, Volume, RSVP, VolumeInfo, AttachmentForm, DestroyForm, DetachmentForm, AttachmentInfo, VolumeDetailpage) {
 
     var VolumeDetail = React.createClass({
       getInitialState: function () {
