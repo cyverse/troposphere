@@ -7,6 +7,7 @@ require('gulp/tasks/sass')(gulp);
 
 // Scripts
 require('gulp/tasks/copyScriptsToAssets')(gulp);
+require('gulp/tasks/copyBowerComponentsToAssets')(gulp);
 require('gulp/tasks/rjs')(gulp);
 require('gulp/tasks/react')(gulp);
 
@@ -18,5 +19,5 @@ require('gulp/tasks/clean')(gulp);
 require('gulp/tasks/watch')(gulp);
 
 gulp.task('default', ['clean'], function () {
-  gulp.start('sass', 'copyScriptsToAssets', 'react', 'images');
+  gulp.start('sass', 'copyScriptsToAssets', 'copyBowerComponentsToAssets', 'react', 'images');
 });
