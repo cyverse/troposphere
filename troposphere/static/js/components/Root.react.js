@@ -47,8 +47,7 @@ define(function (require) {
       },
 
       handleRoute: function (page, args) {
-        if (page === 'handleDefaultRoute')
-          return;
+        if (page === 'handleDefaultRoute') return;
         this.setState({route: page, routeArgs: args});
       },
 
@@ -165,80 +164,108 @@ define(function (require) {
 
       pages: {
         projects: function () {
-          return Projects({projects: this.state.projects, onRequestProjects: this.fetchProjects});
+          return (
+            <Projects projects={this.state.projects} onRequestProjects={this.fetchProjects}/>
+          );
         },
         images: function () {
-          return ApplicationList();
+          return (
+            <ApplicationList/>
+          );
         },
         appFavorites: function () {
-          return ApplicationFavorites();
+          return (
+            <ApplicationFavorites/>
+          );
         },
         appDetail: function (appId) {
           var application = this.state.applications.get(appId);
-          return ApplicationDetail({
-            application: application,
-            onRequestApplication: this.fetchApplication.bind(this, appId),
-            onRequestIdentities: this.fetchIdentities,
-            profile: this.state.profile,
-            identities: this.state.identities,
-            providers: this.state.providers
-          });
+          return (
+            <ApplicationDetail
+              application={application}
+              onRequestApplication={this.fetchApplication.bind(this, appId)}
+              onRequestIdentities={this.fetchIdentities}
+              profile={this.state.profile}
+              identities={this.state.identities}
+              providers={this.state.providers}
+            />
+          );
         },
         appSearch: function (query) {
-          return ApplicationSearchResults({
-            query: query,
-          });
+          return (
+            <ApplicationSearchResults query={query}/>
+          );
         },
         instanceDetail: function (providerId, identityId, instanceId) {
           var instance = this.state.instances.get(instanceId);
-          return InstanceDetail({
-            instance: instance,
-            providers: this.state.providers,
-            onRequestInstance: this.fetchInstance.bind(this, providerId, identityId, instanceId)
-          });
+          return (
+            <InstanceDetail
+              instance={instance}
+              providers={this.state.providers}
+              onRequestInstance={this.fetchInstance.bind(this, providerId, identityId, instanceId)}
+            />
+          );
         },
         reportInstance: function (providerId, identityId, instanceId) {
-          return ReportInstance({
-            instance: this.state.instances.get(instanceId),
-            providers: this.state.providers,
-            onRequestInstance: this.fetchInstance.bind(this, providerId, identityId, instanceId)
-          });
+          return (
+            <ReportInstance
+              instance={this.state.instances.get(instanceId)}
+              providers={this.state.providers}
+              onRequestInstance={this.fetchInstance.bind(this, providerId, identityId, instanceId)}
+            />
+          );
         },
         volumeDetail: function (providerId, identityId, volumeId) {
           var volume = this.state.volumes.get(volumeId);
-          return VolumeDetail({
-            volume: volume,
-            providers: this.state.providers,
-            onRequestVolume: this.fetchVolume.bind(this, providerId, identityId, volumeId)
-          });
+          return (
+            <VolumeDetail
+              volume={volume}
+              providers={this.state.providers}
+              onRequestVolume={this.fetchVolume.bind(this, providerId, identityId, volumeId)}
+            />
+          );
         },
         providers: function () {
           // TODO: Get providers lazily
-          return Providers({providers: this.state.providers});
+          return (
+            <Providers providers={this.state.providers}/>
+          );
         },
         settings: function () {
-          return Settings({profile: this.state.profile});
+          return (
+            <Settings profile={this.state.profile}/>
+          );
         },
         help: function () {
-          return Help();
+          return (
+            <Help/>
+          );
         }
       },
 
       renderContent: function () {
-        if (this.state.route)
+        if (this.state.route){
           return this.pages[this.state.route].apply(this, this.state.routeArgs);
-        return React.DOM.div();
+        }
+        return (
+          <div></div>
+        );
       },
 
       render: function () {
-        return React.DOM.div({},
-          Header({profile: this.state.profile}),
-          Sidebar({loggedIn: this.state.loggedIn,
-            currentRoute: this.state.route,
-            onNavigate: this.handleNavigate}),
-          Notifications(),
-          React.DOM.div({id: 'main'}, this.renderContent()),
-          Footer());
+        return (
+          <div>
+            <Header profile={this.state.profile}/>
+            <Sidebar loggedIn={this.state.loggedIn}
+                     currentRoute={this.state.route}
+                     onNavigate={this.handleNavigate}/>
+            <Notifications/>
+            <div id='main'>
+              {this.renderContent()}
+            </div>
+            <Footer/>
+          </div>
+        );
       }
 
     });
