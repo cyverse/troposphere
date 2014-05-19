@@ -9,7 +9,7 @@ define(
     'controllers/profile',
     './settings',
     './projects/List.react',
-    './applications/list',
+    './applications/ApplicationsHome.react',
     './applications/Favorites.react',
     './applications/ApplicationDetail.react',
     'controllers/providers',
