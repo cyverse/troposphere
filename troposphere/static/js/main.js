@@ -29,7 +29,7 @@ require(
   [
     'jquery',
     'react',
-    'components/root',
+    'components/Root.react',
     'rsvp',
     'models/session'
   ], function($, React, Application, RSVP, Session) {
