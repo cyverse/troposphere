@@ -1,3 +1,5 @@
+/** @jsx React.DOM */
+
 define(
   [
     'react',
@@ -8,33 +10,9 @@ define(
     'controllers/volumes',
     'components/mixins/loading',
     'models/volume',
-    'rsvp'
-  ], function (React, _, PageHeader, Time, Instances, VolumeController, LoadingMixin, Volume, RSVP) {
-
-    var VolumeInfo = React.createClass({
-      render: function () {
-        var volume = this.props.volume;
-        var provider = this.props.providers.get(volume.get('identity').provider);
-        var name = "(Unnamed Volume)";
-        if (volume.get('name') !== undefined)
-          name = volume.get('name');
-
-        var items = [
-          ["Name", name],
-          ["ID", volume.id],
-          ["Provider", provider.get('name')],
-          ["Date Created", Time({date: volume.get('start_date')})]
-        ];
-
-        var result = React.DOM.div({}, React.DOM.h2({}, "Details"), React.DOM.dl({}, _.map(items, function (item) {
-          return [
-            React.DOM.dt({}, item[0]),
-            React.DOM.dd({}, item[1])
-          ];
-        })));
-        return result;
-      }
-    });
+    'rsvp',
+    './VolumeInfo.react'
+  ], function (React, _, PageHeader, Time, Instances, VolumeController, LoadingMixin, Volume, RSVP, VolumeInfo) {
 
     var AttachmentForm = React.createClass({
       getInitialState: function () {
