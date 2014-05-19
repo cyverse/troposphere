@@ -28,7 +28,8 @@ define(function (require) {
     var ProjectController = require('controllers/projects');
     var NotificationController = require('controllers/notifications');
 
-    var Root = React.createClass({
+    return React.createClass({
+
       getInitialState: function () {
         return {
           loggedIn: this.props.session.isValid(),
@@ -42,11 +43,13 @@ define(function (require) {
           applications: new AppCollection()
         };
       },
+
       handleRoute: function (page, args) {
         if (page === 'handleDefaultRoute')
           return;
         this.setState({route: page, routeArgs: args});
       },
+
       beginRouting: function () {
         this.router = new Router({
           loggedIn: this.state.loggedIn,
@@ -60,6 +63,7 @@ define(function (require) {
           root: '/application'
         });
       },
+
       fetchProfile: function () {
         Profile.getProfile().then(function (profile) {
           this.setState({profile: profile});
@@ -69,6 +73,7 @@ define(function (require) {
           }.bind(this));
         }.bind(this));
       },
+
       fetchProviders: function () {
         // TODO: fetch providers only on demand in stead of at mount
         ProviderController.getProviders().then(function (providers) {
@@ -79,6 +84,7 @@ define(function (require) {
           }.bind(this));
         }.bind(this));
       },
+
       componentDidMount: function () {
         this.beginRouting();
         if (this.props.session.isValid()) {
@@ -86,9 +92,11 @@ define(function (require) {
           this.fetchProviders();
         }
       },
+
       handleNavigate: function (route, options) {
         this.router.navigate(route, options);
       },
+
       fetchInstance: function (providerId, identityId, instanceId) {
         var model = new Instance({
           identity: {
@@ -108,6 +116,7 @@ define(function (require) {
           }
         });
       },
+
       fetchVolume: function (providerId, identityId, volumeId) {
         var model = new Volume({
           identity: {
@@ -127,6 +136,7 @@ define(function (require) {
           }
         });
       },
+
       fetchApplication: function (appId) {
         var app = new Application({id: appId});
         app.fetch({success: function (model) {
@@ -134,11 +144,13 @@ define(function (require) {
           this.setState({applications: this.state.applications});
         }.bind(this)});
       },
+
       fetchIdentities: function () {
         Profile.getIdentities().then(function (identities) {
           this.setState({identities: identities});
         }.bind(this));
       },
+
       fetchProjects: function () {
         ProjectController.get().then().then(function (projects) {
           this.setState({projects: projects});
@@ -148,6 +160,7 @@ define(function (require) {
           }.bind(this));
         }.bind(this));
       },
+
       pages: {
         projects: function () {
           return Projects({projects: this.state.projects, onRequestProjects: this.fetchProjects});
@@ -208,11 +221,13 @@ define(function (require) {
           return Help();
         }
       },
+
       renderContent: function () {
         if (this.state.route)
           return this.pages[this.state.route].apply(this, this.state.routeArgs);
         return React.DOM.div();
       },
+
       render: function () {
         return React.DOM.div({},
           Header({profile: this.state.profile}),
@@ -223,7 +238,7 @@ define(function (require) {
           React.DOM.div({id: 'main'}, this.renderContent()),
           Footer());
       }
+
     });
 
-    return Root;
   });
