@@ -8,9 +8,10 @@ define(
     'marionette',
 
     // Routers
-    'routers/projects'
+    'routers/projects',
+    'routers/images'
   ],
-  function ($, React, Application, RSVP, Session, Marionette, ProjectRouter) {
+  function ($, React, Application, RSVP, Session, Marionette, ProjectRouter, ImageRouter) {
 
     return {
       run: function () {
@@ -40,6 +41,7 @@ define(
 //          React.renderComponent(app, document.getElementById('application'));
 
           ProjectRouter.start();
+          ImageRouter.start();
 
           Backbone.history.start({
             pushState: true,
