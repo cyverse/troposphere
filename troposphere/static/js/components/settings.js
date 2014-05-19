@@ -6,39 +6,10 @@ define(
     'components/PageHeader.react',
     'components/common/Gravatar.react',
     'controllers/profile',
-    './IconOption.react'
+    './IconOption.react',
+    './IconSelect.react'
   ],
-  function (React, PageHeader, Gravatar, Profile, IconOption) {
-
-    var IconSelect = React.createClass({
-      getDefaultProps: function () {
-        return {
-          icons: {
-            'default': 'Identicons',
-            retro: 'Retro',
-            robot: 'Robots',
-            unicorn: 'Unicorns',
-            monster: 'Monsters',
-            wavatar: 'Wavatars'
-          }
-        };
-      },
-      handleClick: function (icon_type, e) {
-        e.preventDefault();
-        this.props.onSelect(icon_type);
-        console.log(this);
-      },
-      render: function () {
-        console.log(this.props);
-        return React.DOM.ul({id: 'icon-set-select'}, _.map(this.props.icons, function (text, type) {
-          return IconOption({
-            type: type,
-            text: text,
-            selected: type == this.props.selected,
-            onClick: this.handleClick});
-        }.bind(this)));
-      }
-    });
+  function (React, PageHeader, Gravatar, Profile, IconOption, IconSelect) {
 
     return React.createClass({
       handleIconSelect: function (icon_type) {
