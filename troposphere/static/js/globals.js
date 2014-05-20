@@ -1,6 +1,5 @@
 define([], function () {
     return {
-        //API_ROOT: '/api/v1'
-        API_ROOT: 'http://atmosphere.apiary-mock.com'
+        API_ROOT: window.location.host == 'localhost' ? 'http://atmosphere.apiary-mock.com' : '/api/v1'
     }
 });

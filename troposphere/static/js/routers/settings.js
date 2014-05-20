@@ -13,11 +13,6 @@ define(
   function (Marionette, Root, Session, React, Settings, Profile, context) {
     'use strict';
 
-    var session = new Session({
-      access_token: "fake-token",
-      expires: "it's a mystery!"
-    });
-
     var Router = Marionette.AppRouter.extend({
       appRoutes: {
         'settings': 'showSettings'
@@ -28,7 +23,7 @@ define(
 
       render: function(content){
         var app = Root({
-          session: session,
+          session: context.session,
           profile: context.profile,
           content: content,
           route: Backbone.history.getFragment()
