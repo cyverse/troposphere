@@ -10,9 +10,10 @@ define(
 
     // Routers
     'routers/projects',
-    'routers/images'
+    'routers/images',
+    'routers/settings'
   ],
-  function ($, React, Application, RSVP, Session, Backbone, Marionette, ProjectRouter, ImageRouter) {
+  function ($, React, Application, RSVP, Session, Backbone, Marionette, ProjectRouter, ImageRouter, SettingsRouter) {
 
     return {
       run: function () {
@@ -45,6 +46,7 @@ define(
           // default empty route ("")
           ProjectRouter.start();
           ImageRouter.start();
+          SettingsRouter.start();
 
           // For push state support:
           // Route all internal links to the Backbone router(s). External links
