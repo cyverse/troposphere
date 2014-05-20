@@ -1,7 +1,6 @@
 Troposphere
 ===========
 
-
 Configuration
 -------------
 
