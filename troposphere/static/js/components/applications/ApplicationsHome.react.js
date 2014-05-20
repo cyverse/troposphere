@@ -53,7 +53,7 @@ define(
                 <span className='glyphicon glyphicon-th-list'>{''}</span>
               </a>
             </div>
-            content
+            {content}
           </div>
         );
       },
