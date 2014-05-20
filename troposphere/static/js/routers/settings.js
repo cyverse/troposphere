@@ -7,9 +7,10 @@ define(
     'models/session',
     'react',
     'components/Settings.react',
-    'controllers/profile'
+    'controllers/profile',
+    'context'
   ],
-  function (Marionette, Root, Session, React, Settings, Profile) {
+  function (Marionette, Root, Session, React, Settings, Profile, context) {
     'use strict';
 
     var session = new Session({
@@ -28,6 +29,7 @@ define(
       render: function(content){
         var app = Root({
           session: session,
+          profile: context.profile,
           content: content,
           route: Backbone.history.getFragment()
         });

@@ -10,9 +10,10 @@ define(
     'components/applications/Favorites.react',
     'components/applications/ApplicationDetail.react',
     'models/application',
-    'rsvp'
+    'rsvp',
+    'context'
   ],
-  function (Marionette, Root, Session, React, ApplicationList, ApplicationFavorites, ApplicationDetail, Application, RSVP) {
+  function (Marionette, Root, Session, React, ApplicationList, ApplicationFavorites, ApplicationDetail, Application, RSVP, context) {
     'use strict';
 
     var session = new Session({
@@ -36,6 +37,7 @@ define(
       render: function (content) {
         var app = Root({
           session: session,
+          profile: context.profile,
           content: content,
           route: Backbone.history.getFragment()
         });
