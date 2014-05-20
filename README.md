@@ -13,14 +13,15 @@ Edit `local.py` with your own settings. You'll have to generate a new
 keypair from Groupy for the Troposphere application. The configuration
 variable `OAUTH_PRIVATE_KEY_PATH` should refer to the absolute path of that key.
 
-Install yuglify with npm locally (cd into the directory where you cloned this repo)
-
 ### Node.js
 
 ```bash
 sudo add-apt-repository ppa:chris-lea/node.js
 sudo apt-get update
 sudo apt-get install python-software-properties python g++ make nodejs
+cd /path/to/troposphere
+npm install -g gulp
+npm install
 ```
 
 ### Ruby & SASS
@@ -39,7 +40,7 @@ source /opt/env/troposphere/bin/activate
 pip install -r requirements.txt
 ```
 
-### Gulp
+### Static asset compilation
 ```bash
 gulp
 ```
