@@ -23,9 +23,10 @@ define(
     var Router = Marionette.AppRouter.extend({
       appRoutes: {
         'images': 'showImages',
-        'images/favorites': 'showAppFavorites',
+        'images/:id': 'showAppDetail',
+        'images/favorites': 'showAppFavorites'
+        // todo: implement authored and search routes
         //'images/authored': 'showAppAuthored',
-        'images/:id': 'showAppDetail'
         //'images/search/:query': 'appSearch'
       }
     });
