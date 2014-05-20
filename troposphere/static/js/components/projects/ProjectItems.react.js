@@ -34,7 +34,7 @@ define(
               </a>
             );
           }
-          content = <div>children</div>;
+          content = <div>{children}</div>;
 
         } else {
 
