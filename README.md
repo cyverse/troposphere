@@ -53,6 +53,8 @@ Development Server
 python manage.py runserver 0.0.0.0:5000
 ````
 
+The virtualenv directory is set to `/opt/env/troposphere/lib/python2.7/site-packages` by default.  If you'd like to change that for development, you can set the `VIRTUAL_ENV_PATH` environment variable to specify a different location.
+
 Production Server
 -----------------
 
