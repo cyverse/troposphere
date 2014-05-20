@@ -8,9 +8,11 @@ define(
     'react',
     'components/applications/ApplicationsHome.react',
     'components/applications/Favorites.react',
-    'components/applications/ApplicationDetail.react'
+    'components/applications/ApplicationDetail.react',
+    'models/application',
+    'rsvp'
   ],
-  function (Marionette, Root, Session, React, ApplicationList, ApplicationFavorites, ApplicationDetail) {
+  function (Marionette, Root, Session, React, ApplicationList, ApplicationFavorites, ApplicationDetail, Application, RSVP) {
     'use strict';
 
     var session = new Session({
@@ -30,7 +32,7 @@ define(
 
     var Controller = Marionette.Controller.extend({
 
-      render: function(content){
+      render: function (content) {
         var app = Root({
           session: session,
           content: content,
@@ -39,6 +41,22 @@ define(
         React.renderComponent(app, document.getElementById('application'));
       },
 
+      //
+      // Fetching functions
+      //
+      fetchApplication: function (appId) {
+        var promise = new RSVP.Promise(function (resolve, reject) {
+          var application = new Application({id: appId});
+          application.fetch().done(function () {
+            resolve(application);
+          });
+        });
+        return promise;
+      },
+
+      //
+      // Route handlers
+      //
       showImages: function () {
         var content = ApplicationList();
         this.render(content);
@@ -54,17 +72,19 @@ define(
         this.render(content);
       },
 
-      showAppDetail: function(appId){
-//        var application = this.state.applications.get(appId);
-//
-//        ApplicationDetail({
-//          application: application,
-//          onRequestApplication: this.fetchApplication.bind(this, appId),
-//          onRequestIdentities: this.fetchIdentities,
-//          profile: this.state.profile,
-//          identities: this.state.identities,
-//          providers: this.state.providers
-//        })
+      showAppDetail: function (appId) {
+
+        this.fetchApplication(appId).then(function (application) {
+          var content = ApplicationDetail({
+            application: application
+            //onRequestApplication: this.fetchApplication.bind(this, appId),
+            //onRequestIdentities: this.fetchIdentities,
+            //profile: this.state.profile,
+            //identities: this.state.identities,
+            //providers: this.state.providers
+          });
+          this.render(content);
+        }.bind(this));
       }
 
     });
