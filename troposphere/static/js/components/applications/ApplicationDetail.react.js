@@ -10,23 +10,32 @@ define(
 
     'modal',
     'components/applications/launch_modal',
-    './MachineList.react'
+    './MachineList.react',
+    'controllers/profile',
+    'controllers/providers'
   ],
-  function (React, Rating, Tags, ApplicationCard, Modal, LaunchModal, MachineList) {
+  function (React, Rating, Tags, ApplicationCard, Modal, LaunchModal, MachineList, Profile, ProviderController) {
 
     return React.createClass({
 
       componentDidMount: function () {
-        if (!this.props.application) this.props.onRequestApplication();
-        if (!this.props.identities) this.props.onRequestIdentities();
+        // Fetch identities (used in modal)
+        Profile.getIdentities().then(function (identities) {
+          this.setState({identities: identities});
+        }.bind(this));
+
+        // Fetch providers (used in modal)
+        ProviderController.getProviders().then(function (providers) {
+          this.setState({providers: providers});
+        }.bind(this));
       },
 
       showModal: function (e) {
         Modal.show(
           <LaunchModal
             application={this.props.application}
-            identities={this.props.identities}
-            providers={this.props.providers}
+            identities={this.state.identities}
+            providers={this.state.providers}
           />
         );
       },
@@ -50,7 +59,7 @@ define(
             <a href='#'>Suggest a Tag</a>
             <Tags tags={app.get('tags')}/>
             <hr/>
-            //<Rating rating={app.get('rating')}/>
+            <Rating rating={app.get('rating')}/>
             <ApplicationCard application={app} onLaunch={this.showModal}/>
             <h2>Description</h2>
             <p>{app.get('description')}</p>
