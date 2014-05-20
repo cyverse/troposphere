@@ -11,9 +11,11 @@ define(
     // Routers
     'routers/projects',
     'routers/images',
-    'routers/settings'
+    'routers/settings',
+    'routers/help',
+    'routers/providers'
   ],
-  function ($, React, Application, RSVP, Session, Backbone, Marionette, ProjectRouter, ImageRouter, SettingsRouter) {
+  function ($, React, Application, RSVP, Session, Backbone, Marionette, ProjectsRouter, ImagesRouter, SettingsRouter, HelpRouter, ProvidersRouter) {
 
     return {
       run: function () {
@@ -44,9 +46,11 @@ define(
 
           // Start the project routers - one of them should be listening for the
           // default empty route ("")
-          ProjectRouter.start();
-          ImageRouter.start();
+          ProjectsRouter.start();
+          ImagesRouter.start();
           SettingsRouter.start();
+          HelpRouter.start();
+          ProvidersRouter.start();
 
           // For push state support:
           // Route all internal links to the Backbone router(s). External links
