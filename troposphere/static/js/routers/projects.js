@@ -12,6 +12,11 @@ define(
   function (Marionette, Root, Session, React, ProjectController, Projects) {
     'use strict';
 
+    var session = new Session({
+      access_token: "fake-token",
+      expires: "it's a mystery!"
+    });
+
     var Router = Marionette.AppRouter.extend({
       appRoutes: {
         '': 'showProjects',
@@ -21,29 +26,30 @@ define(
 
     var Controller = Marionette.Controller.extend({
 
+      render: function(content){
+        var app = Root({
+          session: session,
+          content: content,
+          route: Backbone.history.getFragment()
+        });
+        React.renderComponent(app, document.getElementById('application'));
+      },
+
       fetchProjects: function(){
         return ProjectController.get();
       },
 
       showProjects: function (param) {
-
-        var session = new Session({
-          access_token: "fake-token",
-          expires: "it's a mystery!"
-        });
-
-        this.fetchProjects().then(function(projects){
-          var projectsComponent = Projects({
+        this.fetchProjects().then(function (projects) {
+          var content = Projects({
             projects: projects,
-            onRequestProjects: function(){}
+            onRequestProjects: function () {}
           });
 
-          var app = Root({session: session, content: projectsComponent});
-          React.renderComponent(app, document.getElementById('application'));
-        });
+          this.render(content);
+        }.bind(this));
 
-        var app = Root({session: session});
-        React.renderComponent(app, document.getElementById('application'));
+        this.render(null);
       }
 
     });
