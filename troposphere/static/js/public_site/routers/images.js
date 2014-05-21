@@ -68,7 +68,7 @@ define(
             //identities: this.state.identities,
             //providers: this.state.providers
           });
-          this.render(content);
+          this.render(content, "images");
         }.bind(this));
       }
 

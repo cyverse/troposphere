@@ -29,12 +29,12 @@ define(
 
     var Controller = Marionette.Controller.extend({
 
-      render: function (content) {
+      render: function (content, route) {
         var app = Root({
           session: context.session,
           profile: context.profile,
           content: content,
-          route: Backbone.history.getFragment()
+          route: route || Backbone.history.getFragment()
         });
         React.renderComponent(app, document.getElementById('application'));
       },
@@ -57,7 +57,7 @@ define(
       //
       showImages: function () {
         var content = ApplicationList();
-        this.render(content);
+        this.render(content, "images");
       },
 
       showAppFavorites: function () {
@@ -81,7 +81,7 @@ define(
             //identities: this.state.identities,
             //providers: this.state.providers
           });
-          this.render(content);
+          this.render(content, "images");
         }.bind(this));
       }
 
