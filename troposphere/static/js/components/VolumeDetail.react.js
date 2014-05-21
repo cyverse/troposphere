@@ -3,9 +3,10 @@
 define(
   [
     'react',
-    './VolumeDetailPage.react'
+    './VolumeDetailPage.react',
+    'collections/instances'
   ],
-  function (React, VolumeDetailPage) {
+  function (React, VolumeDetailPage, Instances) {
 
     return React.createClass({
 
