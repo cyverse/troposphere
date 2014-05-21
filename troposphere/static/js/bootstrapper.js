@@ -15,9 +15,10 @@ define(
     'routers/settings',
     'routers/help',
     'routers/providers',
-    'routers/volumes'
+    'routers/volumes',
+    'routers/instances'
   ],
-  function ($, RSVP, Backbone, context, Session, ProfileController, ProjectsRouter, ImagesRouter, SettingsRouter, HelpRouter, ProvidersRouter, VolumesRouter) {
+  function ($, RSVP, Backbone, context, Session, ProfileController, ProjectsRouter, ImagesRouter, SettingsRouter, HelpRouter, ProvidersRouter, VolumesRouter, InstancesRouter) {
 
     function startApplication() {
 
@@ -36,6 +37,7 @@ define(
         HelpRouter.start();
         ProvidersRouter.start();
         VolumesRouter.start();
+        InstancesRouter.start();
 
         // For push state support:
         // Route all internal links to the Backbone router(s). External links
