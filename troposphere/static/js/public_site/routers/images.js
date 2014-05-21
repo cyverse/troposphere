@@ -18,12 +18,9 @@ define(
 
     var Router = Marionette.AppRouter.extend({
       appRoutes: {
+        '': 'showImages',
         'images': 'showImages',
-        'images/:id': 'showAppDetail',
-        'images/favorites': 'showAppFavorites'
-        // todo: implement authored and search routes
-        //'images/authored': 'showAppAuthored',
-        //'images/search/:query': 'appSearch'
+        'images/:id': 'showAppDetail'
       }
     });
 
@@ -58,16 +55,6 @@ define(
       showImages: function () {
         var content = ApplicationList();
         this.render(content, "images");
-      },
-
-      showAppFavorites: function () {
-        var content = ApplicationFavorites();
-        this.render(content);
-      },
-
-      showAppAuthored: function () {
-        var content = ApplicationFavorites();
-        this.render(content);
       },
 
       showAppDetail: function (appId) {

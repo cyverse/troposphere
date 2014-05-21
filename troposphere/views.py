@@ -46,7 +46,7 @@ def application(request):
                                   'access_token': token['value'],
                                   'expires': token['expires']})
             else:
-                response = render(request, 'application.html')
+                response = render(request, 'index.html')
 
     if response:
         return response

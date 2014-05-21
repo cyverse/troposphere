@@ -22,12 +22,12 @@ define(
 
     var Controller = Marionette.Controller.extend({
 
-      render: function (content) {
+      render: function (content, route) {
         var app = Root({
           session: context.session,
           profile: context.profile,
           content: content,
-          route: Backbone.history.getFragment()
+          route: route || Backbone.history.getFragment()
         });
         React.renderComponent(app, document.getElementById('application'));
       },
@@ -62,15 +62,17 @@ define(
         RSVP.hash({
           volume: this.fetchVolume(providerId, identityId, volumeId),
           providers: this.fetchProviders()
-        }).then(function (results) {
+        })
+        .then(function (results) {
           var content = VolumeDetail({
             volume: results.volume,
             providers: results.providers
           });
-          this.render(content);
-          }.bind(this));
 
-        this.render(VolumeDetail());
+          this.render(content, "projects");
+        }.bind(this));
+
+        this.render(VolumeDetail(), "projects");
       }
 
     });
