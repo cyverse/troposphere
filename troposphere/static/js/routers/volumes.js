@@ -33,23 +33,25 @@ define(
       },
 
       fetchVolume: function (providerId, identityId, volumeId) {
-        var model = new Volume({
-          identity: {
-            provider: providerId,
-            id: identityId
-          },
-          id: volumeId
-        });
+        var promise = new RSVP.Promise(function (resolve, reject) {
+          var volume = new Volume({
+            identity: {
+              provider: providerId,
+              id: identityId
+            },
+            id: volumeId
+          });
 
-        model.fetch({
-          success: function (volume) {
-            this.state.volumes.add(volume);
-            this.setState({volumes: this.state.volumes});
-          }.bind(this),
-          error: function () {
-            NotificationController.danger("Unknown Volume", "The requested volume does not exist.");
-          }
+          volume.fetch({
+            success: function (volumeAttributes) {
+              resolve(volume);
+            },
+            error: function () {
+              NotificationController.danger("Unknown Volume", "The requested volume does not exist.");
+            }
+          });
         });
+        return promise;
       },
 
       fetchProviders: function () {
@@ -57,7 +59,7 @@ define(
       },
 
       showVolumeDetail: function (providerId, identityId, volumeId) {
-        RSVP.all({
+        RSVP.hash({
           volume: this.fetchVolume(providerId, identityId, volumeId),
           providers: this.fetchProviders()
         }).then(function (results) {
@@ -66,7 +68,7 @@ define(
             providers: results.providers
           });
           this.render(content);
-        });
+          }.bind(this));
 
         this.render(null);
       }
