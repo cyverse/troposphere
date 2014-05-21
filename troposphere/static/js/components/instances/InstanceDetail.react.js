@@ -9,14 +9,6 @@ define(
 
     return React.createClass({
 
-      componentDidMount: function () {
-        if (!this.props.instance) this.props.onRequestInstance();
-        /*
-         if (!this.props.providers)
-         this.props.onRequestProviders();
-         */
-      },
-
       render: function () {
         if (this.props.instance && this.props.providers) {
           var providers = this.props.providers;
