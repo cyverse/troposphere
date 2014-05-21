@@ -19,7 +19,7 @@ sudo add-apt-repository ppa:chris-lea/node.js
 sudo apt-get update
 sudo apt-get install python-software-properties python g++ make nodejs
 cd /path/to/troposphere
-npm install -g gulp bower
+sudo npm install -g gulp bower
 npm install
 bower install
 ```
