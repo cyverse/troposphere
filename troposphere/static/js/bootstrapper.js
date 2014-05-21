@@ -75,7 +75,7 @@ define(
         var session = new Session();
 
         // todo: remove in production - development mode only
-        if (window.location.host == 'localhost') {
+        if (window.location.hostname == 'localhost') {
             window.access_token = "fake-token";
             window.expires = "it's a mystery!";
         }
