@@ -29,7 +29,8 @@ oauth_client = OAuthClient(settings.OAUTH_SERVER,
 ldap_client = LDAPClient(settings.LDAP_SERVER, settings.LDAP_SERVER_DN)
 
 def root(request):
-    return redirect('application')
+    #return redirect('application')
+    return render(request, 'index.html')
 
 def application(request):
     logger.debug("Application URL requested")
