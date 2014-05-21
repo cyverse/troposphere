@@ -10,7 +10,7 @@ var Base = Backbone.Collection.extend({
         return url = this.urlRoot
             + '/provider/' + creds.provider_id 
             + '/identity/' + creds.identity_id
-            + '/' + this.model.prototype.defaults.model_name + '/';
+            + '/' + this.model.prototype.defaults.model_name;
     },
     defaults: {
         'api_url': globals.API_ROOT,

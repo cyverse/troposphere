@@ -16,10 +16,6 @@ define(
     var Router = Marionette.AppRouter.extend({
       appRoutes: {
         'providers': 'showProviders'
-        // todo: implement provider detail routes
-        //'provider/:provider_id/identity/:identity_id/instances/:instance_id': 'instanceDetail',
-        //'provider/:provider_id/identity/:identity_id/instances/:instance_id/report': 'reportInstance',
-        //'provider/:provider_id/identity/:identity_id/volumes/:volume_id': 'volumeDetail'
       }
     });
 

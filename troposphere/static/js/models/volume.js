@@ -7,7 +7,10 @@ define(
   function (_, Base, Instance) {
 
     var Volume = Base.extend({
-      defaults: { 'model_name': 'volume' },
+      defaults: {
+        'model_name': 'volume'
+      },
+
       parse: function (response) {
 
         var attributes = _.pick(response, ['name', 'identity', 'status', 'size']);
@@ -31,12 +34,14 @@ define(
 
         return attributes;
       },
+
       getCreds: function () {
         return {
           provider_id: this.get('identity').provider,
           identity_id: this.get('identity').id
         };
       },
+
       computed: {
         name_or_id: function () {
           return this.get('name').length == 0 ? this.id : this.get('name');
@@ -45,6 +50,7 @@ define(
           return this.get('status') == 'in-use' || this.get('status') == 'detaching';
         }
       },
+
       getAttachedInstance: function () {
         if (!this.isAttached())
           throw "Unattached volume";
@@ -53,6 +59,7 @@ define(
           identity: this.get('identity')
         });
       },
+
       attachTo: function (instance, mount_location, options) {
         if (!options) options = {};
         if (!options.success) options.success = function () {
@@ -99,6 +106,7 @@ define(
           }
         });
       },
+
       detach: function (options) {
         if (!options) options = {};
         if (!options.success) options.success = function () {
@@ -134,11 +142,13 @@ define(
           }
         });
       },
+
       remove: function (options) {
         var values = {wait: true};
         _.defaults(values, options);
         this.destroy(values);
       }
+
     });
 
     _.extend(Volume.defaults, Base.defaults);

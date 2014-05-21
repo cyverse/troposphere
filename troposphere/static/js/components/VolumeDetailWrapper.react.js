@@ -8,10 +8,6 @@ define(
 
     return React.createClass({
 
-      componentDidMount: function () {
-        if (!this.props.volume) this.props.onRequestVolume();
-      },
-
       render: function () {
         if (this.props.volume) {
           return (

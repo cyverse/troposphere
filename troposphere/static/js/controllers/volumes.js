@@ -4,8 +4,10 @@ define(
     'controllers/notifications',
     'rsvp',
     'modal',
-    'components/common/Glyphicon.react',
-    'router'
+    'components/common/Glyphicon.react'
+    // todo: Commenting out router is a quick fix to get the app to work. Trace where
+    // it's used and add/modify code as needed to make the component behave as intended
+    //'router'
   ],
   function (React, Notifications, RSVP, Modal, Glyphicon, router) {
 
