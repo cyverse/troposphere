@@ -4,13 +4,20 @@ define(
     'rsvp',
     'backbone',
 
+    // Cross-app models
+    'context',
+    'models/session',
+
     // Routers
     './routers/images',
     'routers/help'
   ],
-  function ($, RSVP, Backbone, ImagesRouter, HelpRouter) {
+  function ($, RSVP, Backbone, context, Session, ImagesRouter, HelpRouter) {
 
     function startApplication() {
+
+      // todo: Remove this smartly. It's here because the header component expects it
+      context.session = new Session();
 
       // Catch-all for errors within promises
       RSVP.on('error', function (reason) {
