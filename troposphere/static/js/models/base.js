@@ -20,7 +20,7 @@ define(
         var url = this.urlRoot
           + '/provider/' + creds.provider_id
           + '/identity/' + creds.identity_id
-          + '/' + this.defaults.model_name;
+          + '/' + this.defaults.model_name + '/';
 
         if (this.get('id') !== undefined) {
           url += this.get('id');
