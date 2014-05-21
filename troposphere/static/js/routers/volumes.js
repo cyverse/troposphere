@@ -70,7 +70,7 @@ define(
           this.render(content);
           }.bind(this));
 
-        this.render(null);
+        this.render(VolumeDetail());
       }
 
     });
