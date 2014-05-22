@@ -3,10 +3,11 @@
 define(
   [
     'react',
-    'components/applications/SearchContainer.react',
+    '../list/SearchContainer.react',
     'components/PageHeader.react',
     './Results.react'
-  ], function (React, SearchBox, PageHeader, Results) {
+  ],
+  function (React, SearchBox, PageHeader, Results) {
 
     return React.createClass({
 

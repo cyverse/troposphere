@@ -5,8 +5,9 @@ define(
     'react',
     'components/mixins/loading',
     'controllers/applications',
-    './list/ApplicationCardList.react'
-  ], function (React, LoadingMixin, Applications, ApplicationCardList) {
+    '../list/ApplicationCardList.react'
+  ],
+  function (React, LoadingMixin, Applications, ApplicationCardList) {
 
     return React.createClass({
       mixins: [LoadingMixin],
