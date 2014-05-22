@@ -3,9 +3,9 @@
 define(
   [
     'react',
-    './InstancePage.react'
+    './detail/InstanceDetails.react'
   ],
-  function (React, InstancePage) {
+  function (React, InstanceDetails) {
 
     return React.createClass({
 
@@ -16,7 +16,7 @@ define(
           var provider = providers.get(instance.get('identity').provider);
 
           return (
-            <InstancePage instance={this.props.instance} provider={provider}/>
+            <InstanceDetails instance={this.props.instance} provider={provider}/>
           );
 
         } else {

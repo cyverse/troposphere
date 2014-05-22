@@ -120,7 +120,7 @@ define(
       },
 
       render: function () {
-        // Note: StartStop, Suspend and Resize are OS only
+        // Note: StartStop, Suspend and Resize are Open Stack features only
         return (
           <div>
             <h2>Actions</h2>
