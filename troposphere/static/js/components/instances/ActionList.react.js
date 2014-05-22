@@ -120,15 +120,16 @@ define(
       },
 
       render: function () {
+        // Note: StartStop, Suspend and Resize are OS only
         return (
           <div>
             <h2>Actions</h2>
             <div>
-              {this.renderStartStopButton()} // OS only
-              {this.renderSuspendButton()} // OS only
+              {this.renderStartStopButton()}
+              {this.renderSuspendButton()}
               {this.renderRebootButton()}
               {this.renderTerminateButton()}
-              {this.renderResizeButton()} // OS only
+              {this.renderResizeButton()}
               {this.renderImageRequestButton()}
               {this.renderReportButton()}
             </div>
