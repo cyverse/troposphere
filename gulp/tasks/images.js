@@ -14,22 +14,23 @@
 var paths = require('../paths');
 var notify = require('gulp-notify');
 var imagemin = require('gulp-imagemin');
+var gutil = require('gulp-util');
 
 module.exports = function (gulp) {
 
-  var destDirectory = 'troposphere/assets/images';
-
   gulp.task('images', function () {
+    var dest = (gutil.env.type === 'production' ? '.tmp/images' : 'troposphere/assets/images');
+
     return gulp.src(paths.images)
-      .pipe(gulp.dest(destDirectory))
-      .pipe(notify({ message: 'Images build task complete', onLast: true }));
+      .pipe(gulp.dest(dest))
+      .pipe(notify({ message: 'Copied images to: ' + dest, onLast: true }));
   });
 
-  gulp.task('images:prod', function () {
-    return gulp.src(paths.images)
-      .pipe(cache(imagemin({ optimizationLevel: 5, progressive: true, interlaced: true })))
-      .pipe(gulp.dest(destDirectory))
-      .pipe(notify({ message: 'Images build task complete', onLast: true }));
-  });
+//  gulp.task('images:prod', function () {
+//    return gulp.src(paths.images)
+//      .pipe(cache(imagemin({ optimizationLevel: 5, progressive: true, interlaced: true })))
+//      .pipe(gulp.dest(destDirectory))
+//      .pipe(notify({ message: 'Images build task complete', onLast: true }));
+//  });
 
 };
