@@ -7,8 +7,8 @@ define(
     'models/session',
     'react',
     'components/applications/list/ApplicationsHome.react',
-    'components/applications/Favorites.react',
-    'components/applications/ApplicationDetail.react',
+    'components/applications/favorites/Favorites.react',
+    'components/applications/detail/ApplicationDetail.react',
     'models/application',
     'rsvp',
     'context'

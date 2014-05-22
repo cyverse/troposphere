@@ -9,7 +9,7 @@ define(
     '../common/ApplicationCard.react',
 
     'modal',
-    'components/applications/launch_modal',
+    './launch_modal',
     './MachineList.react',
     'controllers/profile',
     'controllers/providers'
