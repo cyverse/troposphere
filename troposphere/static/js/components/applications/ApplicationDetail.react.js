@@ -6,7 +6,7 @@ define(
 
     './Rating.react',
     './Tags.react',
-    './ApplicationCard.react',
+    './list/ApplicationCard.react',
 
     'modal',
     'components/applications/launch_modal',

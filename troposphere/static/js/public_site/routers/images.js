@@ -6,7 +6,7 @@ define(
     'components/Main.react',
     'models/session',
     'react',
-    'components/applications/ApplicationsHome.react',
+    'components/applications/list/ApplicationsHome.react',
     'components/applications/Favorites.react',
     'components/applications/ApplicationDetail.react',
     'models/application',
