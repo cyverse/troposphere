@@ -6,8 +6,8 @@ define(
     'components/common/Gravatar.react',
     'backbone',
     'url',
-    '../Rating.react',
-    '../Bookmark.react'
+    './Rating.react',
+    './Bookmark.react'
   ],
   function (React, Gravatar, Backbone, URL, Rating, Bookmark) {
 
