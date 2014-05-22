@@ -3,7 +3,7 @@
 define(
   [
     'react',
-    'components/PageHeader.react',
+    'components/common/PageHeader.react',
     'collections/applications',
     './ApplicationCardList.react',
     './SearchContainer.react'

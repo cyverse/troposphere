@@ -4,7 +4,7 @@ define(
   [
     'react',
     '../list/SearchContainer.react',
-    'components/PageHeader.react',
+    'components/common/PageHeader.react',
     './Results.react'
   ],
   function (React, SearchBox, PageHeader, Results) {

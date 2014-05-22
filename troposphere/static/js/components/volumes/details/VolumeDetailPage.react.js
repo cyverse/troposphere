@@ -4,7 +4,7 @@ define(
   [
     'react',
     'underscore',
-    'components/PageHeader.react',
+    'components/common/PageHeader.react',
     './VolumeInfo.react',
     './AttachmentInfo.react'
   ],

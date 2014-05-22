@@ -3,7 +3,7 @@
 define(
   [
     'react',
-    'components/PageHeader.react',
+    'components/common/PageHeader.react',
     'modal',
     './ProjectsList.react',
     './NewProjectModal.react'

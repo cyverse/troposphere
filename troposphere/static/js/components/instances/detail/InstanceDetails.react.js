@@ -3,7 +3,7 @@
 define(
   [
     'react',
-    'components/PageHeader.react',
+    'components/common/PageHeader.react',
     './InstanceAttributes.react',
     './InstanceLinks.react',
     './ActionList.react'

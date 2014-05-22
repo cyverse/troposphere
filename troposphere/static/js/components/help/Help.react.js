@@ -3,7 +3,7 @@
 define(
   [
     'react',
-    'components/PageHeader.react',
+    'components/common/PageHeader.react',
     './FeedbackForm.react'
   ],
   function (React, PageHeader, FeedbackForm) {

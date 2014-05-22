@@ -6,7 +6,7 @@ define(
     'components/Root.react',
     'models/session',
     'react',
-    'components/Settings.react',
+    'components/settings/Settings.react',
     'controllers/profile',
     'context'
   ],

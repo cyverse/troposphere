@@ -1,12 +1,14 @@
 /** @jsx React.DOM */
 
-define(function (require) {
-
-    var React = require('react');
-    var Header = require('./Header.react');
-    var Sidebar = require('./Sidebar.react');
-    var Footer = require('./Footer.react');
-    var Notifications = require('./Notifications.react');
+define(
+  [
+    'react',
+    './Header.react',
+    './sidebar/Sidebar.react',
+    './Footer.react',
+    './Notifications.react'
+  ],
+  function (React, Header, Sidebar, Footer, Notifications) {
 
     return React.createClass({
 
