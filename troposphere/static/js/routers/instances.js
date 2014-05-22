@@ -3,7 +3,7 @@
 define(
   [
     'marionette',
-    'components/Main.react',
+    'components/Root.react',
     'react',
     'context',
     'rsvp',
