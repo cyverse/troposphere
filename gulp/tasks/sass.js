@@ -7,6 +7,7 @@ module.exports = function (gulp) {
 
   gulp.task('sass', function () {
     var dest = (gutil.env.type === 'production' ? '.tmp/css/app' : 'troposphere/assets/css/app');
+
     return gulp.src(paths.rootSassFileForApp)
       .pipe(sass({sourcemap: true}))
       .pipe(gulp.dest(dest))
