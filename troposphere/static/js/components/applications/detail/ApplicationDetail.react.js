@@ -4,9 +4,9 @@ define(
   [
     'react',
 
-    './common/Rating.react',
-    './Tags.react',
-    './common/ApplicationCard.react',
+    '../common/Rating.react',
+    '../Tags.react',
+    '../common/ApplicationCard.react',
 
     'modal',
     'components/applications/launch_modal',
