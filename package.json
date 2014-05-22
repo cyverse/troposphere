@@ -5,6 +5,7 @@
   "dependencies": {
     "underscore": "~1.6.0",
     "gulp": "~3.6.2",
+    "gulp-util": "^2.2.14",
     "gulp-concat": "~2.2.0",
     "gulp-imagemin": "~0.3.0",
     "gulp-cache": "~0.1.3",
