@@ -6,7 +6,7 @@ define(
     'components/Main.react',
     'models/session',
     'react',
-    'components/Providers.react',
+    'components/providers/Providers.react',
     'controllers/providers',
     'context'
   ],
