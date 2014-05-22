@@ -7,7 +7,8 @@ define(
     'components/PageHeader.react',
     './VolumeInfo.react',
     './AttachmentInfo.react'
-  ], function (React, _, PageHeader, VolumeInfo, AttachmentInfo) {
+  ],
+  function (React, _, PageHeader, VolumeInfo, AttachmentInfo) {
 
     return React.createClass({
 

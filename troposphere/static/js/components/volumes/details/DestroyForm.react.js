@@ -4,7 +4,8 @@ define(
   [
     'react',
     'controllers/volumes'
-  ], function (React, VolumeController) {
+  ],
+  function (React, VolumeController) {
 
     return React.createClass({
 

@@ -3,7 +3,7 @@
 define(
   [
     'react',
-    './VolumeDetail.react'
+    './details/VolumeDetail.react'
   ], function (React, VolumeDetail) {
 
     return React.createClass({

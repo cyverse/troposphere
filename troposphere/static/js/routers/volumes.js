@@ -9,9 +9,9 @@ define(
     'rsvp',
     'models/volume',
     'controllers/providers',
-    'components/VolumeDetailWrapper.react'
+    'components/volumes/VolumeDetailsPage.react'
   ],
-  function (Marionette, Root, React, context, RSVP, Volume, ProviderController, VolumeDetail) {
+  function (Marionette, Root, React, context, RSVP, Volume, ProviderController, VolumeDetailsPage) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({
@@ -64,7 +64,7 @@ define(
           providers: this.fetchProviders()
         })
         .then(function (results) {
-          var content = VolumeDetail({
+          var content = VolumeDetailsPage({
             volume: results.volume,
             providers: results.providers
           });
@@ -72,7 +72,7 @@ define(
           this.render(content, "projects");
         }.bind(this));
 
-        this.render(VolumeDetail(), "projects");
+        this.render(VolumeDetailsPage(), "projects");
       }
 
     });

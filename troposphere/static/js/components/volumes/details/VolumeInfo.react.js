@@ -5,7 +5,8 @@ define(
     'react',
     'underscore',
     'components/common/Time.react'
-  ], function (React, _, Time) {
+  ],
+  function (React, _, Time) {
 
     return React.createClass({
 

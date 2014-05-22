@@ -5,7 +5,8 @@ define(
     'react',
     'underscore',
     'controllers/volumes'
-  ], function (React, _, VolumeController) {
+  ],
+  function (React, _, VolumeController) {
 
     return React.createClass({
 
