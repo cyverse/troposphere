@@ -5,7 +5,7 @@ define(
     'react',
 
     '../common/Rating.react',
-    '../Tags.react',
+    './Tags.react',
     '../common/ApplicationCard.react',
 
     'modal',
