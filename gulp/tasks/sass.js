@@ -11,7 +11,7 @@ module.exports = function (gulp) {
     return gulp.src(paths.rootSassFileForApp)
       .pipe(sass({sourcemap: true}))
       .pipe(gulp.dest(dest))
-      .pipe(notify({ message: 'Sass task complete, copied files to: ' + dest, onLast: true }));
+      .pipe(notify({ message: 'Transformed SCSS to CSS and copied files to: ' + dest, onLast: true }));
   });
 
 };
