@@ -3,17 +3,16 @@
 define(
   [
     'marionette',
-    'components/Main.react',
+    'components/Root.react',
     'models/session',
     'react',
-    'components/applications/ApplicationsHome.react',
-    'components/applications/Favorites.react',
-    'components/applications/ApplicationDetail.react',
+    'components/applications/list/ApplicationsHome.react',
+    'components/applications/detail/ApplicationDetail.react',
     'models/application',
     'rsvp',
     'context'
   ],
-  function (Marionette, Root, Session, React, ApplicationList, ApplicationFavorites, ApplicationDetail, Application, RSVP, context) {
+  function (Marionette, Root, Session, React, ApplicationList, ApplicationDetail, Application, RSVP, context) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({

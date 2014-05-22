@@ -3,7 +3,7 @@
 define(
   [
     'react',
-    './ApplicationCard.react'
+    '../common/ApplicationCard.react'
   ],
   function (React, ApplicationCard) {
 

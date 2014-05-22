@@ -3,10 +3,10 @@
 define(
   [
     'marionette',
-    'components/Main.react',
+    'components/Root.react',
     'models/session',
     'react',
-    'components/Help.react',
+    'components/help/Help.react',
     'context'
   ],
   function (Marionette, Root, Session, React, Help, context) {

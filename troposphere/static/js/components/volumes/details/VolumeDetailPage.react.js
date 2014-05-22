@@ -4,10 +4,11 @@ define(
   [
     'react',
     'underscore',
-    'components/PageHeader.react',
+    'components/common/PageHeader.react',
     './VolumeInfo.react',
     './AttachmentInfo.react'
-  ], function (React, _, PageHeader, VolumeInfo, AttachmentInfo) {
+  ],
+  function (React, _, PageHeader, VolumeInfo, AttachmentInfo) {
 
     return React.createClass({
 

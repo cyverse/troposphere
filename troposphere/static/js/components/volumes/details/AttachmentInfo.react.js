@@ -6,7 +6,8 @@ define(
     './AttachmentForm.react',
     './DestroyForm.react',
     './DetachmentForm.react'
-  ], function (React, AttachmentForm, DestroyForm, DetachmentForm) {
+  ],
+  function (React, AttachmentForm, DestroyForm, DetachmentForm) {
 
     return React.createClass({
 

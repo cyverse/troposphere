@@ -3,11 +3,11 @@
 define(
   [
     'marionette',
-    'components/Main.react',
+    'components/Root.react',
     'models/session',
     'react',
     'controllers/projects',
-    'components/projects/List.react',
+    'components/projects/list/List.react',
     'context'
   ],
   function (Marionette, Root, Session, React, ProjectController, Projects, context) {

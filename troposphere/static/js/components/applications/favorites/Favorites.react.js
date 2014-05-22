@@ -4,8 +4,8 @@ define(
   [
     'react',
     'collections/applications',
-    './ApplicationCardList.react',
-    'components/PageHeader.react'
+    '../list/ApplicationCardList.react',
+    'components/common/PageHeader.react'
   ],
   function (React, Applications, ApplicationCardList, PageHeader) {
 

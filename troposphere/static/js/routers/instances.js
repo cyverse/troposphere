@@ -3,15 +3,15 @@
 define(
   [
     'marionette',
-    'components/Main.react',
+    'components/Root.react',
     'react',
     'context',
     'rsvp',
     'models/instance',
     'controllers/providers',
-    'components/instances/InstanceDetail.react'
+    'components/instances/InstanceDetailsPage.react'
   ],
-  function (Marionette, Root, React, context, RSVP, Instance, ProviderController, InstanceDetail) {
+  function (Marionette, Root, React, context, RSVP, Instance, ProviderController, InstanceDetails) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({
@@ -65,14 +65,14 @@ define(
           providers: this.fetchProviders()
         })
         .then(function (results) {
-          var content = InstanceDetail({
+          var content = InstanceDetails({
             instance: results.instance,
             providers: results.providers
           });
           this.render(content, "projects");
         }.bind(this));
 
-        this.render(InstanceDetail(), "projects");
+        this.render(InstanceDetails(), "projects");
       }
 
     });

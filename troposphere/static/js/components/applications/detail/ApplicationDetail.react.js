@@ -4,12 +4,12 @@ define(
   [
     'react',
 
-    './Rating.react',
+    '../common/Rating.react',
     './Tags.react',
-    './ApplicationCard.react',
+    '../common/ApplicationCard.react',
 
     'modal',
-    'components/applications/launch_modal',
+    './launch_modal',
     './MachineList.react',
     'controllers/profile',
     'controllers/providers'

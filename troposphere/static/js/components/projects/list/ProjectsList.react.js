@@ -3,7 +3,7 @@
 define(
   [
     'react',
-    './Project.react'
+    './project/Project.react'
   ],
   function (React, Project) {
 

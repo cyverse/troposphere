@@ -3,12 +3,12 @@
 define(
   [
     'marionette',
-    'components/Main.react',
+    'components/Root.react',
     'models/session',
     'react',
-    'components/applications/ApplicationsHome.react',
-    'components/applications/Favorites.react',
-    'components/applications/ApplicationDetail.react',
+    'components/applications/list/ApplicationsHome.react',
+    'components/applications/favorites/Favorites.react',
+    'components/applications/detail/ApplicationDetail.react',
     'models/application',
     'rsvp',
     'context'

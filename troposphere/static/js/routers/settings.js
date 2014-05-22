@@ -3,10 +3,10 @@
 define(
   [
     'marionette',
-    'components/Main.react',
+    'components/Root.react',
     'models/session',
     'react',
-    'components/Settings.react',
+    'components/settings/Settings.react',
     'controllers/profile',
     'context'
   ],

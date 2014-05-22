@@ -3,10 +3,10 @@
 define(
   [
     'react',
-    'components/PageHeader.react',
+    'components/common/PageHeader.react',
     'collections/applications',
-    'components/applications/ApplicationCardList.react',
-    'components/applications/SearchContainer.react'
+    './ApplicationCardList.react',
+    './SearchContainer.react'
   ],
   function (React, PageHeader, Applications, ApplicationCardList, ApplicationSearch) {
 
