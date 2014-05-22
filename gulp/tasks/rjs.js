@@ -19,10 +19,10 @@ var _ = require('underscore');
 module.exports = function (gulp) {
 
   var rjsConfig = {
-      appDir: '.tmp/js',
-      baseUrl: './',
+      appDir: '.tmp/',
+      baseUrl: './js',
       mainConfigFile: ".tmp/js/main.js",
-      dir: "troposphere/assets/js",
+      dir: "troposphere/assets/",
       removeCombined: true,
       modules: [
         {
