@@ -24,13 +24,6 @@ npm install
 bower install
 ```
 
-### Ruby & SASS
-
-```bash
-sudo apt-get install ruby1.9.1
-sudo gem install sass
-```
-
 ### Virtualenv
 
 ```
