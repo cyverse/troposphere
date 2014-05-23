@@ -1,7 +1,6 @@
 require.config({
   baseUrl: '/assets/js',
   paths: {
-    /* TODO: use minified versions in production */
     jquery: '../bower_components/jquery/dist/jquery',
     backbone: '../bower_components/backbone/backbone',
     marionette: '../bower_components/backbone.marionette/lib/core/amd/backbone.marionette',
