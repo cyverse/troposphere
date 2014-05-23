@@ -44,18 +44,18 @@ define(
   };
 
   Dispatcher.register(function(payload) {
-      var action = payload.action;
-      console.log(payload);
+    var action = payload.action;
+    console.log(payload);
 
-      switch(action.actionType) {
-        case 'application_fetchall':
-          ApplicationStore.fetch();
-          break;
-        default:
-          return true;
-      }
+    switch(action.actionType) {
+      case 'application_fetchall':
+        ApplicationStore.fetch();
+        break;
+      default:
+        return true;
+    }
 
-      return true;
+    return true;
   });
 
   _.extend(ApplicationStore, Backbone.Events);
