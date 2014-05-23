@@ -5,9 +5,6 @@
  *
  */
 
-var clean = require('gulp-clean');
-var livereload = require('gulp-livereload');
-var notify = require('gulp-notify');
 var paths = require('../paths');
 
 module.exports = function (gulp) {
