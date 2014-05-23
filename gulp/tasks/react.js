@@ -1,11 +1,14 @@
 /**
- * Compile React jsx templates into standard JavaScript syntax
+ * Transform React JSX templates into standard JavaScript and copy
+ * files destination directory.
  *
  * ---------------------------------------------------------------
  *
- * # task config
- * Combines files in appDir and copies the result to dir (leaving out
- * the files that were combined)
+ * # default task config
+ * Transform and copy files directly to the assets directory for easier development.
+ *
+ * # production task config
+ * Transform and copy files to .tmp directory where r.js will take over.
  *
  */
 
@@ -16,7 +19,7 @@ var gutil = require('gulp-util');
 
 module.exports = function (gulp) {
 
-  gulp.task('react', function (cb) {
+  gulp.task('react', function (done) {
     var dest = (gutil.env.type === 'production' ? '.tmp/js' : 'troposphere/assets/js');
 
     return gulp.src(paths.jsxTemplates)
