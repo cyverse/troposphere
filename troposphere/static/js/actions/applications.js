@@ -1,4 +1,4 @@
-define(['dispatcher/dispatcher'], function(Dispatcher) {
+define(['dispatchers/dispatcher'], function(Dispatcher) {
 
     // TODO: Move this
     var handleRouteAction = function(action) {
@@ -11,13 +11,13 @@ define(['dispatcher/dispatcher'], function(Dispatcher) {
     var ApplicationActions = {
         fetch: function(appId) {
             handleRouteAction({
-                actionType: ApplicationConstants.APP_FETCH,
+                actionType: 'application_fetch',
                 id: appId
             });
         },
         fetchAll: function() {
             handleRouteAction({
-                actionType: ApplicationConstants.APP_FETCH_ALL
+                actionType: 'application_fetchall'
             });
         }
     };
