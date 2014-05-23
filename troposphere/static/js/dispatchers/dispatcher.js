@@ -5,7 +5,7 @@ define(['rsvp', 'underscore'], function(RSVP, _) {
 
     var _addPromise = function(cb, payload) {
         _promises.push(new RSVP.Promise(function(resolve, reject) {
-            if (callback(payload))
+            if (cb(payload))
                 resolve(payload);
             else
                 reject(new Error("Dispatcher callback unsuccessful"));
@@ -16,20 +16,20 @@ define(['rsvp', 'underscore'], function(RSVP, _) {
         _promises = [];
     };
 
-    var Dispatcher = function() {
-    };
-
-    Dispatcher.prototype = _.extend(Dispatcher.prototype, {
+    var Dispatcher = {
         register: function(cb) {
             _callbacks.push(cb);
             return _callbacks.length - 1;
         },
         dispatch: function(payload) {
+            console.log(_callbacks);
             _.each(_callbacks, function(cb) {
                 _addPromise(cb, payload);
             });
-            RSVP.all(_promises).then(__clearPromises);
+            RSVP.all(_promises).then(_clearPromises);
         }
-    });
+    };
+
+    return Dispatcher;
 
 });
