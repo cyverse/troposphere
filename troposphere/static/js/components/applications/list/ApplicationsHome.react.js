@@ -12,12 +12,6 @@ define(
 
     return React.createClass({
 
-      getInitialState: function () {
-        return {
-          applications: null
-        };
-      },
-
       helpText: function () {
         return (
           <p>Applications are cool. You are, too. Keep bein' cool, bro.</p>
@@ -29,8 +23,8 @@ define(
           <div className="loading"></div>
         );
 
-        if (this.state.applications != null){
-          var applicationModels = this.state.applications.filter(function (app) {
+        if (this.props.applications != null){
+          var applicationModels = this.props.applications.filter(function (app) {
             return app.get('featured');
           });
           var applications = new Applications(applicationModels);
@@ -56,24 +50,6 @@ define(
             {content}
           </div>
         );
-      },
-
-      updateApplications: function (apps) {
-        if (this.isMounted())
-          this.setState({applications: apps});
-      },
-
-      componentDidMount: function () {
-        var apps = new Applications();
-        apps.on('sync', this.updateApplications);
-        apps.on('change', this.forceUpdate.bind(this, null));
-        apps.fetch();
-      },
-
-      componentWillUnmount: function () {
-        if (this.state.applications){
-          this.state.applications.off('sync', this.updateApplications);
-        }
       }
 
     });
