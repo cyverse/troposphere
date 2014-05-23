@@ -27,6 +27,9 @@ module.exports = function (gulp) {
     modules: [
       {
         name: "main"
+      },
+      {
+        name: "public_site/main"
       }
     ]
   };
