@@ -1,4 +1,10 @@
-define(['underscore', 'backbone', 'collections/applications'], function(_, Backbone, Applications) {
+define(
+  [
+    'underscore',
+    'backbone',
+    'collections/applications',
+    'dispatchers/dispatcher'
+  ], function(_, Backbone, Applications, Dispatcher) {
 
   var CHANGE_EVENT = 'change';
 
@@ -36,6 +42,21 @@ define(['underscore', 'backbone', 'collections/applications'], function(_, Backb
       this.trigger(CHANGE_EVENT);
     }
   };
+
+  Dispatcher.register(function(payload) {
+      var action = payload.action;
+      console.log(payload);
+
+      switch(action.actionType) {
+        case 'application_fetchall':
+          ApplicationStore.fetch();
+          break;
+        default:
+          return true;
+      }
+
+      return true;
+  });
 
   _.extend(ApplicationStore, Backbone.Events);
 
