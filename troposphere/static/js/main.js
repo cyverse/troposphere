@@ -10,7 +10,7 @@ require.config({
     google: 'https://www.google.com/jsapi',
     bootstrap: '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap',
     moment: '../bower_components/moment/moment',
-    react: '//cdnjs.cloudflare.com/ajax/libs/react/0.10.0/react',
+    react: '../bower_components/react/react-with-addons',
     rsvp: '../bower_components/rsvp/rsvp.amd'
   },
   shim: {

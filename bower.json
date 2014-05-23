@@ -4,6 +4,7 @@
   "dependencies": {
     "backbone.marionette": "~1.8.3",
     "rsvp": "~3.0.6",
-    "moment": "~2.6.0"
+    "moment": "~2.6.0",
+    "react": "~0.10.0"
   }
 }
