@@ -19,20 +19,21 @@ var _ = require('underscore');
 module.exports = function (gulp) {
 
   var rjsConfig = {
-      appDir: '.tmp/',
-      baseUrl: './js',
-      mainConfigFile: ".tmp/js/main.js",
-      dir: "troposphere/assets/",
-      removeCombined: true,
-      modules: [
-        {
-          name: "main"
-        }
-      ]
-    }
+    appDir: '.tmp/',
+    baseUrl: './js',
+    mainConfigFile: ".tmp/js/main.js",
+    dir: "troposphere/assets/",
+    removeCombined: true,
+    modules: [
+      {
+        name: "main"
+      }
+    ]
+  };
 
   gulp.task('rjs:dev', function (cb) {
     var devConfig = _.defaults({optimize: 'none'}, rjsConfig);
+
     rjs.optimize(devConfig, function (buildResponse) {
       cb();
     }, cb);
