@@ -3,7 +3,6 @@ var gutil = require('gulp-util');
 var runSequence = require('run-sequence');
 
 // Styles
-require('./gulp/tasks/styles')(gulp);
 require('./gulp/tasks/sass')(gulp);
 
 // Scripts
