@@ -1,6 +1,14 @@
 require.config({
   baseUrl: '/assets/js',
   paths: {
+    // Path fallbacks syntax:
+    // https://github.com/jrburke/requirejs/wiki/Upgrading-to-RequireJS-2.0#paths-fallbacks-
+    //
+    // jquery: [
+    //    'http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min',
+    //    //If the CDN location fails, load from this location
+    //    'lib/jquery'
+    //]
     jquery: '../bower_components/jquery/dist/jquery',
     backbone: '../bower_components/backbone/backbone',
     marionette: '../bower_components/backbone.marionette/lib/core/amd/backbone.marionette',
