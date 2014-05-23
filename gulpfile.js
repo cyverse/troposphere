@@ -1,5 +1,6 @@
 var gulp = require('gulp');
-var sass = require('gulp-ruby-sass');
+var gutil = require('gulp-util');
+var runSequence = require('run-sequence');
 
 // Styles
 require('./gulp/tasks/styles')(gulp);
@@ -18,10 +19,26 @@ require('./gulp/tasks/images')(gulp);
 require('./gulp/tasks/clean')(gulp);
 require('./gulp/tasks/watch')(gulp);
 
-gulp.task('default', ['clean'], function () {
-  gulp.start('sass', 'copyScriptsToAssets', 'copyBowerComponentsToAssets', 'react', 'images');
+//
+// Gulp Configurations
+//
+
+gulp.task('default', function () {
+
+  runSequence(
+    'clean',
+    ['sass', 'scripts', 'bower_components', 'react', 'images']
+  );
+
 });
 
-gulp.task('prod', ['clean'], function () {
-  gulp.start('sass', 'scripts', 'bower_components', 'react', 'images');
+gulp.task('prod', function () {
+  gutil.env.type = 'production';
+
+  runSequence(
+    'clean',
+    ['sass', 'scripts', 'bower_components', 'react', 'images'],
+    'rjs:dev'
+  );
+
 });
