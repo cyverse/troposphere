@@ -13,9 +13,9 @@ define(
     'rsvp',
     'context',
     'collections/applications',
-    'stores/applications'
+    'actions/applications'
   ],
-  function (Marionette, Root, Session, React, ApplicationList, ApplicationFavorites, ApplicationDetail, Application, RSVP, context, Applications, AppStore) {
+  function (Marionette, Root, Session, React, ApplicationList, ApplicationFavorites, ApplicationDetail, Application, RSVP, context, Applications, ApplicationActions) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({
@@ -55,7 +55,7 @@ define(
       },
 
       fetchApplications: function () {
-        AppStore.fetch();
+        ApplicationActions.fetchAll();
       },
 
       //
