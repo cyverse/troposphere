@@ -21,6 +21,7 @@
     "gulp-notify": "~1.2.5",
     "gulp-uglify": "~0.2.1",
     "gulp-react": "~0.3.3",
+    "run-sequence": "^0.3.5",
     "requirejs": "~2.1.11"
   },
   "devDependencies": {},

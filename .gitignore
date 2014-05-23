@@ -69,3 +69,6 @@ node_modules
 # Bower JavaScript components
 troposphere/static/bower_components
 
+# Temporary storage during Gulp production build process
+.tmp
+

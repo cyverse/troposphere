@@ -1,35 +1,36 @@
 /**
- * Move all images to specified directory
+ * Copy images to the destination directory
  *
  * ---------------------------------------------------------------
  *
- * # dev task config
- * Copy the images to destination directory
+ * # default task config
+ * Copy files directly to the assets directory for easier development.
  *
  * # prod task config
- * Minify the images, then copy to destination directory.
+ * Minify the images, then copy them to the .tmp directory where r.js will take over.
  *
  */
 
 var paths = require('../paths');
 var notify = require('gulp-notify');
 var imagemin = require('gulp-imagemin');
+var gutil = require('gulp-util');
 
 module.exports = function (gulp) {
 
-  var destDirectory = 'troposphere/assets/images';
+  gulp.task('images', function (done) {
+    var dest = (gutil.env.type === 'production' ? '.tmp/images' : 'troposphere/assets/images');
 
-  gulp.task('images', function () {
     return gulp.src(paths.images)
-      .pipe(gulp.dest(destDirectory))
-      .pipe(notify({ message: 'Images build task complete', onLast: true }));
+      .pipe(gulp.dest(dest))
+      .pipe(notify({ message: 'Copied images to: ' + dest, onLast: true }));
   });
 
-  gulp.task('images:prod', function () {
-    return gulp.src(paths.images)
-      .pipe(cache(imagemin({ optimizationLevel: 5, progressive: true, interlaced: true })))
-      .pipe(gulp.dest(destDirectory))
-      .pipe(notify({ message: 'Images build task complete', onLast: true }));
-  });
+//  gulp.task('images:prod', function () {
+//    return gulp.src(paths.images)
+//      .pipe(cache(imagemin({ optimizationLevel: 5, progressive: true, interlaced: true })))
+//      .pipe(gulp.dest(destDirectory))
+//      .pipe(notify({ message: 'Images build task complete', onLast: true }));
+//  });
 
 };

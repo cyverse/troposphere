@@ -1,5 +1,5 @@
 /**
- * Transform SASS files to CSS and copy result to destination directory.
+ * Copy bower_components files to the destination directory.
  *
  * ---------------------------------------------------------------
  *
@@ -12,19 +12,17 @@
  */
 
 var notify = require('gulp-notify');
-var sass = require('gulp-ruby-sass');
 var paths = require('../paths');
 var gutil = require('gulp-util');
 
 module.exports = function (gulp) {
 
-  gulp.task('sass', function (done) {
-    var dest = (gutil.env.type === 'production' ? '.tmp/css/app' : 'troposphere/assets/css/app');
+  gulp.task('bower_components', function (done) {
+    var dest = (gutil.env.type === 'production' ? '.tmp/bower_components' : 'troposphere/assets/bower_components');
 
-    return gulp.src(paths.rootSassFileForApp)
-      .pipe(sass({sourcemap: true}))
+    return gulp.src(paths.bowerComponents)
       .pipe(gulp.dest(dest))
-      .pipe(notify({ message: 'Transformed SCSS to CSS and copied files to: ' + dest, onLast: true }))
+      .pipe(notify({ message: 'Copied bower_components to: ' + dest, onLast: true  }));
   });
 
 };

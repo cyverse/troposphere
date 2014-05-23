@@ -2,6 +2,9 @@
   "name": "troposphere",
   "version": "0.0.1",
   "dependencies": {
-    "backbone.marionette": "~1.8.3"
+    "backbone.marionette": "~1.8.3",
+    "rsvp": "~3.0.6",
+    "moment": "~2.6.0",
+    "react": "~0.10.0"
   }
 }
