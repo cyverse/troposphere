@@ -11,7 +11,7 @@ define(['dispatchers/dispatcher'], function(Dispatcher) {
   var ApplicationActions = {
     fetch: function(appId) {
       handleRouteAction({
-        actionType: 'application_fetch',
+        actionType: 'application_fetchdetail',
         id: appId
       });
     },
