@@ -12,7 +12,7 @@ define(
         return url = this.urlRoot
           + '/' + this.model.prototype.defaults.model_name;
       }
-      
+
     });
 
   });

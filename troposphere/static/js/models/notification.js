@@ -3,6 +3,7 @@ define(
     'models/base'
   ],
   function (Base) {
+
     return Base.extend({
       defaults: {
         'header': null,
@@ -12,4 +13,5 @@ define(
         'type': 'info' // one of success, info, warning, danger
       }
     });
+
   });
