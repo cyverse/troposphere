@@ -1,12 +1,20 @@
 define(
   [
-    'underscore',
-    'models/base',
-    'models/identity'
+    'backbone',
+    'globals'
   ],
-  function (_, Base, Identity) {
-    var Profile = Base.extend({
-      defaults: { 'model_name': 'profile' },
+  function (Backbone, globals) {
+
+    return Backbone.Model.extend({
+      url: globals.API_ROOT + "/profile" + globals.slash(),
+
+      get_credentials: function () {
+        return {
+          provider_id: this.get('provider_id'),
+          identity_id: this.get('identity_id')
+        };
+      },
+
       parse: function (response) {
         var attributes = response;
 
@@ -33,20 +41,8 @@ define(
         attributes.settings.send_emails = response.send_emails;
 
         return attributes;
-      },
-      url: function () {
-        return url = this.urlRoot
-          + '/' + this.defaults.model_name;
-      },
-      get_credentials: function () {
-        return {
-          provider_id: this.get('provider_id'),
-          identity_id: this.get('identity_id')
-        };
       }
+
     });
 
-    _.extend(Profile.defaults, Base.defaults);
-
-    return Profile;
   });
