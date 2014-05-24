@@ -1,17 +1,18 @@
 define(
   [
-    'underscore',
-    'models/base'
+    'backbone',
+    'globals'
   ],
-  function (_, Base) {
+  function (Backbone, globals) {
 
-    var Machine = Base.extend({
-      defaults: { 'model_name': 'machine' },
+    return Backbone.Model.extend({
+
       parse: function (response) {
         response.id = response.alias;
         response.start_date = new Date(response.start_date);
         return response;
       },
+
       computed: {
         pretty_version: function () {
           var parts = this.get('version').split('.');
@@ -20,9 +21,7 @@ define(
           return parts.join(".");
         }
       }
+
     });
 
-    _.extend(Machine.defaults, Base.defaults);
-
-    return Machine;
   });
