@@ -1,11 +1,18 @@
-define(['collections/base', 'models/provider'], function(Base, Provider) {
+define(
+  [
+    'backbone',
+    'models/provider',
+    'globals'
+  ],
+  function (Backbone, Provider, globals) {
 
-    return Base.extend({
-        model: Provider,
-        url: function(){
-            return url = this.urlRoot
-                + '/' + this.model.prototype.defaults.model_name;
-        }
+    return Backbone.Collection.extend({
+      model: Provider,
+
+      url: function () {
+        return globals.API_ROOT + "/provider" + globals.slash();
+      }
+
     });
 
-});
+  });
