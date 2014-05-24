@@ -12,28 +12,50 @@ define(
     './launch_modal',
     './MachineList.react',
     'controllers/profile',
-    'controllers/providers'
+    'controllers/providers',
+    'stores/applications'
   ],
-  function (React, Rating, Tags, ApplicationCard, Modal, LaunchModal, MachineList, Profile, ProviderController) {
+  function (React, Rating, Tags, ApplicationCard, Modal, LaunchModal, MachineList, Profile, ProviderController, ApplicationStore) {
 
     return React.createClass({
+
+      getInitialState: function() {
+        return {
+          application: ApplicationStore.get(this.props.applicationId)
+        };
+      },
 
       componentDidMount: function () {
         // Fetch identities (used in modal)
         Profile.getIdentities().then(function (identities) {
-          this.setState({identities: identities});
+          if (this.isMounted())
+            this.setState({identities: identities});
         }.bind(this));
 
         // Fetch providers (used in modal)
         ProviderController.getProviders().then(function (providers) {
-          this.setState({providers: providers});
+          if (this.isMounted())
+            this.setState({providers: providers});
         }.bind(this));
+
+        ApplicationStore.addChangeListener(this.updateApp);
+      },
+
+      componentDidUnmount: function() {
+        ApplicationStore.removeChangeListener(this.updateApp);
+      },
+
+      updateApp: function() {
+        if (this.isMounted())
+          this.setState({
+            application: ApplicationStore.get(this.props.applicationId)
+          });
       },
 
       showModal: function (e) {
         Modal.show(
           <LaunchModal
-            application={this.props.application}
+            application={this.state.application}
             identities={this.state.identities}
             providers={this.state.providers}
           />
@@ -41,7 +63,7 @@ define(
       },
 
       render: function () {
-        var app = this.props.application;
+        var app = this.state.application;
 
         if (!app) {
           return (

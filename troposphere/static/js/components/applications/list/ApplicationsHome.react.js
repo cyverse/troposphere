@@ -25,7 +25,8 @@ define(
       },
 
       updateApps: function () {
-        this.setState(getApplicationState());
+        if (this.isMounted())
+          this.setState(getApplicationState());
       },
 
       componentDidMount: function () {

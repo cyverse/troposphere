@@ -45,13 +45,7 @@ define(
       // Fetching functions
       //
       fetchApplication: function (appId) {
-        var promise = new RSVP.Promise(function (resolve, reject) {
-          var application = new Application({id: appId});
-          application.fetch().done(function () {
-            resolve(application);
-          });
-        });
-        return promise;
+        ApplicationActions.fetch(appId);
       },
 
       fetchApplications: function () {
@@ -78,17 +72,16 @@ define(
 
       showAppDetail: function (appId) {
 
-        this.fetchApplication(appId).then(function (application) {
-          var content = ApplicationDetail({
-            application: application
-            //onRequestApplication: this.fetchApplication.bind(this, appId),
-            //onRequestIdentities: this.fetchIdentities,
-            //profile: this.state.profile,
-            //identities: this.state.identities,
-            //providers: this.state.providers
-          });
-          this.render(content, "images");
-        }.bind(this));
+        var content = ApplicationDetail({
+          applicationId: appId
+          //onRequestApplication: this.fetchApplication.bind(this, appId),
+          //onRequestIdentities: this.fetchIdentities,
+          //profile: this.state.profile,
+          //identities: this.state.identities,
+          //providers: this.state.providers
+        });
+        this.render(content, "images");
+        this.fetchApplication(appId);
       }
 
     });
