@@ -3,19 +3,28 @@
  */
 define(
   [
+    'backbone',
     'underscore',
-    'collections/base',
     'models/instance'
   ],
-  function (_, Base, Instance) {
+  function (Backbone, _, Instance) {
 
-    return Base.extend({
+    return Backbone.Collection.extend({
       model: Instance,
 
       initialize: function (models, options) {
-        if (options && options.provider_id && options.identity_id)
+        if (options && options.provider_id && options.identity_id) {
           this.creds = _.pick(options, 'provider_id', 'identity_id');
+        }
         this.selected_instance = null;
+      },
+
+      url: function () {
+        var creds = this.creds;
+        var url = this.urlRoot +
+                  '/provider/' + creds.provider_id +
+                  '/identity/' + creds.identity_id +
+                  '/instance' + globals.slash();
       },
 
       select_instance: function (model) {
@@ -31,10 +40,8 @@ define(
 
       update: function (options) {
         if (!options) options = {};
-        if (!options.success) options.success = function () {
-        };
-        if (!options.error) options.error = function () {
-        };
+        if (!options.success) options.success = function () {};
+        if (!options.error) options.error = function () {};
         var new_collection = new this.constructor();
         new_collection.url = this.url;
         new_collection.model = this.model;
@@ -88,7 +95,7 @@ define(
       get_active_instances: function () {
         // These are the instances that count towards a user's quota
         return _.filter(this.models, function (instance) {
-          return instance.get('state') != 'suspended' && instance.get('state') != 'shutoff';
+          return instance.get('state') !== 'suspended' && instance.get('state') !== 'shutoff';
         });
       }
 

@@ -1,9 +1,10 @@
 define(
   [
+    'backbone',
     'underscore',
-    'models/base'
+    'globals'
   ],
-  function (_, Base) {
+  function (Backbone, _, globals) {
 
     var statics = {
       /*
@@ -40,9 +41,21 @@ define(
       }
     };
 
-    var Instance = Base.extend({
+    var Instance = Backbone.Model.extend({
 
-      defaults: { 'model_name': 'instance' },
+      urlRoot: function(){
+        var creds = this.getCreds();
+        var url = globals.API_ROOT +
+                  '/provider/' + creds.provider_id +
+                  '/identity/' + creds.identity_id +
+                  '/instance' + globals.slash();
+        return url;
+      },
+
+      url: function(){
+        return Backbone.Model.prototype.url.apply(this) + globals.slash();
+      },
+
       parse: function (attributes) {
         attributes.id = attributes.alias;
         attributes.start_date = new Date(attributes.start_date);
@@ -54,30 +67,36 @@ define(
           attributes.public_ip_address = ip;
         return attributes;
       },
+
       getCreds: function () {
         return {
           provider_id: this.get('identity').provider,
           identity_id: this.get('identity').id
         };
       },
+
       computed: {
         name_or_id: function () {
           return this.get('name') || this.id;
         },
+
         shell_url: function () {
           if (this.get('public_ip_address'))
             return "/shell/" + this.get('public_ip_address');
           return null;
         },
+
         vnc_url: function () {
           if (this.get('public_ip_address'))
             return "http://" + this.get('public_ip_address') + ":5904";
           return null;
         },
+
         is_active: function () {
           var states = ['active', 'running', 'verify_resize'];
           return _.contains(states, this.get('status'));
         },
+
         is_build: function () {
           var states = [
             'build',
@@ -103,25 +122,31 @@ define(
           ];
           return _.contains(states, this.get('status'));
         },
+
         is_delete: function () {
           var states = ['delete', 'active - deleting', 'deleted', 'shutting-down',
             'terminated'];
           return _.contains(states, this.get('status'));
         },
+
         is_inactive: function () {
           var states = ['suspended', 'shutoff', 'shutoff - powering-on'];
           return _.contains(states, this.get('status'));
         },
+
         is_resize: function () {
           return this.get('status').indexOf('resize') > -1;
         },
+
         action_url: function () {
           return this.url() + '/action/';
         }
       },
+
       select: function () {
         this.collection.select_instance(this);
       },
+
       destroy: function (options) {
         // We overwrite the destroy function so that the model doesn't get deleted while the instance is still 'terminating'
 
@@ -161,6 +186,7 @@ define(
         var xhr = this.sync('delete', this, options);
         return xhr;
       },
+
       performAction: function (action, options) {
         if (!options) options = {};
         if (!options.success) options.success = function () {
@@ -180,9 +206,11 @@ define(
           }
         });
       },
+
       stop: function (options) {
         this.performAction('stop', options);
       },
+
       start: function (options) {
         // Prevent user from being able to quickly start multiple instances and go over quota
         this.set({state: 'shutoff - powering-on'});
@@ -192,17 +220,27 @@ define(
         }.bind(this);
         this.performAction('start', options);
       },
+
       suspend: function (options) {
         this.performAction('suspend', options);
       },
+
       resume: function (options) {
         // Prevent user from being able to quickly resume multiple instances and go over quota
         this.set({state: 'suspended - resuming'});
         this.performAction('resume', options);
+      },
+
+      /*
+       * Here, were override the get method to allow lazy-loading of computed
+       * attributes
+       */
+      get: function (attr) {
+        if (typeof this.computed !== "undefined" && typeof this.computed[attr] === 'function')
+          return this.computed[attr].call(this);
+        return Backbone.Model.prototype.get.call(this, attr);
       }
     }, statics);
-
-    _.extend(Instance.defaults, Base.defaults);
 
     return Instance;
 
