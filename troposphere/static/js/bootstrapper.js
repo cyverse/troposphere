@@ -11,14 +11,14 @@ define(
 
     // Routers
     'routers/projects',
-    'routers/images',
+    'routers/applications',
     'routers/settings',
     'routers/help',
     'routers/providers',
     'routers/volumes',
     'routers/instances'
   ],
-  function ($, RSVP, Backbone, context, Session, ProfileController, ProjectsRouter, ImagesRouter, SettingsRouter, HelpRouter, ProvidersRouter, VolumesRouter, InstancesRouter) {
+  function ($, RSVP, Backbone, context, Session, ProfileController, ProjectsRouter, ApplicationsRouter, SettingsRouter, HelpRouter, ProvidersRouter, VolumesRouter, InstancesRouter) {
 
     function startApplication() {
 
@@ -32,7 +32,7 @@ define(
         // Start the project routers - one of them should be listening for the
         // default empty route ("")
         ProjectsRouter.start();
-        ImagesRouter.start();
+        ApplicationsRouter.start();
         SettingsRouter.start();
         HelpRouter.start();
         ProvidersRouter.start();
