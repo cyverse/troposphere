@@ -5,8 +5,9 @@ define(
     'collections/applications',
     'dispatchers/dispatcher',
     'rsvp',
-    'models/application'
-  ], function(_, Backbone, ApplicationCollection, Dispatcher, RSVP, Application) {
+    'models/application',
+    'actions/applications'
+  ], function(_, Backbone, ApplicationCollection, Dispatcher, RSVP, Application, AppActions) {
 
   var CHANGE_EVENT = 'change';
 
@@ -76,10 +77,10 @@ define(
     console.log(payload);
 
     switch(action.actionType) {
-      case 'application_fetchall':
+      case AppActions.constants.fetchAll:
         ApplicationStore.fetchAll();
         break;
-      case 'application_fetchdetail':
+      case AppActions.constants.fetchDetail:
         ApplicationStore.fetchDetail(action.id);
         break;
       default:

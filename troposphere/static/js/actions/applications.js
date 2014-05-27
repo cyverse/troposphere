@@ -1,15 +1,19 @@
 define(['dispatchers/app_dispatcher'], function(AppDispatcher) {
 
   var ApplicationActions = {
+    constants: {
+      fetchDetail: 'application_fetch_detail',
+      fetchAll: 'application_fetch_all'
+    },
     fetch: function(appId) {
       AppDispatcher.handleRouteAction({
-        actionType: 'application_fetchdetail',
+        actionType: this.constants.fetchDetail,
         id: appId
       });
     },
     fetchAll: function() {
       AppDispatcher.handleRouteAction({
-        actionType: 'application_fetchall'
+        actionType: this.constants.fetchAll
       });
     }
   };
