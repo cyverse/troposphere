@@ -1,15 +1,13 @@
 define(
   [
     'underscore',
-    'backbone',
     'collections/applications',
     'dispatchers/dispatcher',
     'rsvp',
     'models/application',
-    'actions/applications'
-  ], function(_, Backbone, ApplicationCollection, Dispatcher, RSVP, Application, AppActions) {
-
-  var CHANGE_EVENT = 'change';
+    'actions/applications',
+    'stores/store'
+  ], function(_, ApplicationCollection, Dispatcher, RSVP, Application, AppActions, Store) {
 
   var _applications = new ApplicationCollection();
   var _synced = false;
@@ -60,15 +58,6 @@ define(
         _applications.add(model);
         this.emitChange();
       }.bind(this));
-    },
-    addChangeListener: function(callback) {
-      this.on(CHANGE_EVENT, callback);
-    },
-    removeChangeListener: function(callback) {
-      this.off(CHANGE_EVENT, callback);
-    },
-    emitChange: function() {
-      this.trigger(CHANGE_EVENT);
     }
   };
 
@@ -90,7 +79,7 @@ define(
     return true;
   });
 
-  _.extend(ApplicationStore, Backbone.Events);
+  _.extend(ApplicationStore, Store);
 
   return ApplicationStore;
 });
