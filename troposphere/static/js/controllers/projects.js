@@ -14,7 +14,9 @@ define(
     var getProjects = function () {
       return new RSVP.Promise(function (resolve, reject) {
         projects.fetch({
-          success: resolve,
+          success: function(){
+            resolve(projects);
+          },
           error: reject
         });
       });

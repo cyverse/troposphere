@@ -1,14 +1,25 @@
 define(
   [
+    'backbone',
     'underscore',
-    'models/base',
+    'globals',
     'models/instance'
   ],
-  function (_, Base, Instance) {
+  function (Backbone, _, globals, Instance) {
 
-    var Volume = Base.extend({
-      defaults: {
-        'model_name': 'volume'
+    return Backbone.Model.extend({
+
+      urlRoot: function(){
+        var creds = this.getCreds();
+        var url = globals.API_ROOT +
+                  '/provider/' + creds.provider_id +
+                  '/identity/' + creds.identity_id +
+                  '/volume' + globals.slash();
+        return url;
+      },
+
+      url: function(){
+        return Backbone.Model.prototype.url.apply(this) + globals.slash();
       },
 
       parse: function (response) {
@@ -51,15 +62,6 @@ define(
         }
       },
 
-      getAttachedInstance: function () {
-        if (!this.isAttached())
-          throw "Unattached volume";
-        return new Instance({
-          id: this.get('attach_data').instance_id,
-          identity: this.get('identity')
-        });
-      },
-
       attachTo: function (instance, mount_location, options) {
         if (!options) options = {};
         if (!options.success) options.success = function () {
@@ -79,7 +81,9 @@ define(
         };
 
         var self = this;
-        var action_url = instance.url() + 'action/';
+        var instanceUrl = instance.url();
+        if(instanceUrl.slice(-1) !== "/") instanceUrl += "/";
+        var action_url = instanceUrl + 'action' + globals.slash();
 
         $.ajax({
           url: action_url,
@@ -107,6 +111,15 @@ define(
         });
       },
 
+      getAttachedInstance: function () {
+        if (!this.isAttached())
+          throw "Unattached volume";
+        return new Instance({
+          id: this.get('attach_data').instance_id,
+          identity: this.get('identity')
+        });
+      },
+
       detach: function (options) {
         if (!options) options = {};
         if (!options.success) options.success = function () {
@@ -122,7 +135,9 @@ define(
 
         this.set({'status': 'detaching'});
         var self = this;
-        var action_url = instance.url() + 'action/';
+        var instanceUrl = instance.url();
+        if(instanceUrl.slice(-1) !== "/") instanceUrl += "/";
+        var action_url = instanceUrl + 'action' + globals.slash();
 
         $.ajax({
           url: action_url,
@@ -147,12 +162,18 @@ define(
         var values = {wait: true};
         _.defaults(values, options);
         this.destroy(values);
+      },
+
+      /*
+       * Here, were override the get method to allow lazy-loading of computed
+       * attributes
+       */
+      get: function (attr) {
+        if (typeof this.computed !== "undefined" && typeof this.computed[attr] === 'function')
+          return this.computed[attr].call(this);
+        return Backbone.Model.prototype.get.call(this, attr);
       }
 
     });
-
-    _.extend(Volume.defaults, Base.defaults);
-
-    return Volume;
 
   });

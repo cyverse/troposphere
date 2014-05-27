@@ -9,10 +9,10 @@ define(
     'models/session',
 
     // Routers
-    './routers/images',
+    './routers/applications',
     'routers/help'
   ],
-  function ($, RSVP, Backbone, context, Session, ImagesRouter, HelpRouter) {
+  function ($, RSVP, Backbone, context, Session, ApplicationsRouter, HelpRouter) {
 
     function startApplication() {
 
@@ -28,7 +28,7 @@ define(
 
         // Start the project routers - one of them should be listening for the
         // default empty route ("")
-        ImagesRouter.start();
+        ApplicationsRouter.start();
         HelpRouter.start();
 
         // For push state support:

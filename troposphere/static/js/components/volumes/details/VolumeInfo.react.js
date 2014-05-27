@@ -10,11 +10,17 @@ define(
 
     return React.createClass({
 
+      propTypes: {
+        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      },
+
       render: function () {
         var volume = this.props.volume;
-        var provider = this.props.providers.get(volume.get('identity').provider);
-        var name = "(Unnamed Volume)";
-        if (volume.get('name') !== undefined) name = volume.get('name');
+        var providerId = volume.get('identity').provider;
+        var provider = this.props.providers.get(providerId);
+        // todo: use defaults to set name in the model
+        var name = volume.get('name') || "(Unnamed Volume)";
 
         var items = [
           ["Name", name],

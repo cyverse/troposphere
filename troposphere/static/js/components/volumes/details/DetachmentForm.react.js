@@ -9,9 +9,15 @@ define(
 
     return React.createClass({
 
+      propTypes: {
+        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      },
+
       handleSubmit: function (e) {
         e.preventDefault();
-        var provider = this.props.providers.get(this.props.volume.get('identity').provider);
+        var providerId = this.props.volume.get('identity').provider;
+        var provider = this.props.providers.get(providerId);
         VolumeController.detach(this.props.volume, provider);
       },
 

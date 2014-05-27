@@ -11,14 +11,14 @@ define(
 
     // Routers
     'routers/projects',
-    'routers/images',
+    'routers/applications',
     'routers/settings',
     'routers/help',
     'routers/providers',
     'routers/volumes',
     'routers/instances'
   ],
-  function ($, RSVP, Backbone, context, Session, ProfileController, ProjectsRouter, ImagesRouter, SettingsRouter, HelpRouter, ProvidersRouter, VolumesRouter, InstancesRouter) {
+  function ($, RSVP, Backbone, context, Session, ProfileController, ProjectsRouter, ApplicationsRouter, SettingsRouter, HelpRouter, ProvidersRouter, VolumesRouter, InstancesRouter) {
 
     function startApplication() {
 
@@ -32,7 +32,7 @@ define(
         // Start the project routers - one of them should be listening for the
         // default empty route ("")
         ProjectsRouter.start();
-        ImagesRouter.start();
+        ApplicationsRouter.start();
         SettingsRouter.start();
         HelpRouter.start();
         ProvidersRouter.start();
@@ -80,11 +80,20 @@ define(
 
         // todo: remove in production - development mode only
         if (window.location.hostname == 'localhost') {
-            window.access_token = "fake-token";
+            window.access_token = "api-token";
             window.expires = "it's a mystery!";
-        }
 
-        if (window.access_token) {
+            $.ajaxSetup({
+              headers: {'Authorization': 'Token ' + window.access_token}
+            });
+
+            session.set({
+              access_token: window.access_token,
+              expires: window.expires
+            });
+
+        // For Chris to use w/ Apache config
+        } else { // if (window.access_token)
           $.ajaxSetup({
             headers: {'Authorization': 'Bearer ' + window.access_token}
           });

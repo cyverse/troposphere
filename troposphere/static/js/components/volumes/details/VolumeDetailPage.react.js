@@ -12,6 +12,12 @@ define(
 
     return React.createClass({
 
+      propTypes: {
+        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      },
+
       helpText: function () {
         var p1 = (
           <p>
@@ -41,14 +47,10 @@ define(
           );
         });
 
-        var link_list = (
-          <ul>{links}</ul>
-        );
-
         var p2 = (
           <p>
-            {"More information about volumes:"}
-            {link_list}
+            More information about volumes:
+            <ul>{links}</ul>
           </p>
         );
 
@@ -61,13 +63,11 @@ define(
       },
 
       render: function () {
-        var volume = this.props.volume;
-        var instances = this.props.instances;
         return (
           <div>
-            <PageHeader title={"Volume: " + volume.get('name_or_id')} helpText={this.helpText}/>
-            <VolumeInfo volume={volume} providers={this.props.providers}/>
-            <AttachmentInfo volume={volume} instances={instances} providers={this.props.providers}/>
+            <PageHeader title={"Volume: " + this.props.volume.get('name_or_id')} helpText={this.helpText}/>
+            <VolumeInfo volume={this.props.volume} providers={this.props.providers}/>
+            <AttachmentInfo volume={this.props.volume} instances={this.props.instances} providers={this.props.providers}/>
           </div>
         );
       }

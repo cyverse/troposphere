@@ -8,11 +8,12 @@ define(
     'react',
     'components/applications/list/ApplicationsHome.react',
     'components/applications/detail/ApplicationDetail.react',
+    'collections/applications',
     'models/application',
     'rsvp',
     'context'
   ],
-  function (Marionette, Root, Session, React, ApplicationList, ApplicationDetail, Application, RSVP, context) {
+  function (Marionette, Root, Session, React, ApplicationList, ApplicationDetail, Applications, Application, RSVP, context) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({
@@ -48,12 +49,27 @@ define(
         return promise;
       },
 
+      fetchApplications: function () {
+        return new RSVP.Promise(function (resolve, reject) {
+          var apps = new Applications();
+          apps.fetch().done(function () {
+            resolve(apps);
+          });
+        });
+      },
+
       //
       // Route handlers
       //
       showImages: function () {
-        var content = ApplicationList();
-        this.render(content, "images");
+        this.fetchApplications().then(function (apps) {
+          var content = ApplicationList({
+            applications: apps
+          });
+          this.render(content, "images");
+        }.bind(this));
+
+        this.render(ApplicationList(), "images");
       },
 
       showAppDetail: function (appId) {

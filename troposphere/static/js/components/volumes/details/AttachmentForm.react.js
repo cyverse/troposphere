@@ -10,6 +10,11 @@ define(
 
     return React.createClass({
 
+      propTypes: {
+        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      },
+
       getInitialState: function () {
         return {
           instance: this.props.instances ? this.props.instances.at(0) : null

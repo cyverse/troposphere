@@ -149,7 +149,6 @@ define(
             instance.start({
               success: function (model) {
                 // Merges models to those that are accurate based on server response
-                // Atmo.instances.update();
                 Notifications.success('Success', 'Instance successfully started');
                 resolve(model);
               },
@@ -200,7 +199,6 @@ define(
         return new RSVP.Promise(function (resolve, reject) {
           instance.suspend({
             success: function (model) {
-              //Atmo.instances.update();
               Notifications.success("Success", "Your instance is now suspended");
               resolve(model);
             },
@@ -234,7 +232,6 @@ define(
           return new RSVP.Promise(function (resolve, reject) {
             instance.resume({
               success: function (model) {
-                //Atmo.instances.update();
                 Notifications.success('Success', 'Your instance is resuming');
                 resolve(model);
               },

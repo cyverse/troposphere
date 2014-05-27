@@ -1,15 +1,22 @@
-define(['collections/base', 'models/project'], function(Base, Project) {
+define(
+  [
+    'backbone',
+    'models/project',
+    'globals'
+  ],
+  function (Backbone, Project, globals) {
 
-    return Base.extend({
-        model: Project,
-        defaults: { 'model_name': 'project' },
-        url: function() {
-            return url = this.urlRoot
-                + '/' + this.model.prototype.defaults.model_name;
-        },
-        comparator: function(model) {
-            return -1 * model.get('start_date');
-        }
+    return Backbone.Collection.extend({
+      model: Project,
+
+      url: function () {
+        return globals.API_ROOT + "/project" + globals.slash();
+      },
+
+      comparator: function (model) {
+        return -1 * model.get('start_date');
+      }
+
     });
 
-});
+  });

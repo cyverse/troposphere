@@ -9,9 +9,10 @@ define(
     'rsvp',
     'models/volume',
     'controllers/providers',
-    'components/volumes/VolumeDetailsPage.react'
+    'components/volumes/VolumeDetailsPage.react',
+    'controllers/notifications'
   ],
-  function (Marionette, Root, React, context, RSVP, Volume, ProviderController, VolumeDetailsPage) {
+  function (Marionette, Root, React, context, RSVP, Volume, ProviderController, VolumeDetailsPage, NotificationController) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({
@@ -59,20 +60,24 @@ define(
       },
 
       showVolumeDetail: function (providerId, identityId, volumeId) {
-        RSVP.hash({
-          volume: this.fetchVolume(providerId, identityId, volumeId),
-          providers: this.fetchProviders()
-        })
-        .then(function (results) {
-          var content = VolumeDetailsPage({
-            volume: results.volume,
-            providers: results.providers
-          });
+//        RSVP.hash({
+//          volume: this.fetchVolume(providerId, identityId, volumeId),
+//          providers: this.fetchProviders()
+//        })
+//        .then(function (results) {
+//          var content = VolumeDetailsPage({
+//            volume: results.volume,
+//            providers: results.providers
+//          });
+//
+//          this.render(content, "projects");
+//        }.bind(this));
 
-          this.render(content, "projects");
-        }.bind(this));
-
-        this.render(VolumeDetailsPage(), "projects");
+        this.render(VolumeDetailsPage({
+          providerId: providerId,
+          identityId: identityId,
+          volumeId: volumeId
+        }), "projects");
       }
 
     });
