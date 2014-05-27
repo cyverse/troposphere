@@ -8,6 +8,10 @@ define(
 
     return React.createClass({
 
+      propTypes: {
+        project: React.PropTypes.instanceOf(Backbone.Model).isRequired
+      },
+
       getInitialState: function () {
         return {
           editing: false,

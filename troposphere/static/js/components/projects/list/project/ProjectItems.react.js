@@ -11,6 +11,11 @@ define(
 
     return React.createClass({
 
+      propTypes: {
+        project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        projects: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      },
+
       confirmDelete: function () {
         ProjectController.delete(this.props.project);
       },
@@ -44,10 +49,10 @@ define(
             project.get('instances').map(function (instance) {
               return (
                 <InstanceProjectItem
-                key={instance.id}
-                model={instance}
-                projects={self.props.projects}
-                project={project}
+                  key={instance.id}
+                  model={instance}
+                  projects={self.props.projects}
+                  project={project}
                 />
               );
             })
