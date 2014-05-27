@@ -8,9 +8,10 @@ define(
     'react',
     'components/providers/Providers.react',
     'controllers/providers',
-    'context'
+    'context',
+    'actions/providers'
   ],
-  function (Marionette, Root, Session, React, Providers, ProviderController, context) {
+  function (Marionette, Root, Session, React, Providers, ProviderController, context, ProviderActions) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({
@@ -31,19 +32,10 @@ define(
         React.renderComponent(app, document.getElementById('application'));
       },
 
-      fetchProviders: function(){
-        return ProviderController.getProviders();
-      },
-
       showProviders: function (param) {
-        this.fetchProviders().then(function (providers) {
-          var content = Providers({providers: providers});
-          this.render(content);
-        }.bind(this));
-
-        // todo: move fetching of providers into the component
-        //var content = Providers();
-        this.render(null);
+        var content = Providers();
+        this.render(content);
+        ProviderActions.fetchAll();
       }
 
     });
