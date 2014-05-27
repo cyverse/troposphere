@@ -15,7 +15,7 @@ define(
   var Applications = {
     fetchAll: function() {
       return new RSVP.Promise(function (resolve, reject) {
-        apps = new ApplicationCollection();
+        var apps = new ApplicationCollection();
         apps.fetch().done(function() {
           resolve(apps);
         });
