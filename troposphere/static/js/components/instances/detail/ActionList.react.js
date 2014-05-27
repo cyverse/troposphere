@@ -12,6 +12,11 @@ define(
 
     return React.createClass({
 
+      propTypes: {
+        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        isOpenStack: React.PropTypes.bool.isRequired
+      },
+
       renderButton: function (text, onClick, disabled) {
         return (
           <button className='btn btn-default' onClick={onClick} disabled={disabled}>
