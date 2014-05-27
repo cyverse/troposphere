@@ -11,7 +11,7 @@ define(
       renderLink: function (text, url) {
         return (
           <li>
-            <a href={url} target='_blank' className='new-window'>
+            <a href={url} target='_blank'>
               {text}
             </a>
           </li>
