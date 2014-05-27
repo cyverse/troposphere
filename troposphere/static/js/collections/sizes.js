@@ -1,8 +1,22 @@
-define(['collections/base', 'models/size', 'underscore'], function(Base, Size, _) {
-    return Base.extend({
-        model: Size,
-        initialize: function(models, options) {
-            this.creds = _.pick(options, 'provider_id', 'identity_id');
-        }
+define(
+  [
+    'backbone',
+    'models/size',
+    'globals'
+  ],
+  function (Backbone, Size, globals) {
+
+    return Backbone.Collection.extend({
+      model: Size,
+
+      url: function () {
+        var url = globals.API_ROOT +
+                  "/provider/" + this.get('provider_id') +
+                  "/identity/" + this.get('identity_id') +
+                  "/size" + globals.slash();
+        return url;
+      }
+
     });
-});
+
+  });

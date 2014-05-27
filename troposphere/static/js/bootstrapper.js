@@ -80,11 +80,20 @@ define(
 
         // todo: remove in production - development mode only
         if (window.location.hostname == 'localhost') {
-            window.access_token = "fake-token";
+            window.access_token = "api-token";
             window.expires = "it's a mystery!";
-        }
 
-        if (window.access_token) {
+            $.ajaxSetup({
+              headers: {'Authorization': 'Token ' + window.access_token}
+            });
+
+            session.set({
+              access_token: window.access_token,
+              expires: window.expires
+            });
+
+        // For Chris to use w/ Apache config
+        } else { // if (window.access_token)
           $.ajaxSetup({
             headers: {'Authorization': 'Bearer ' + window.access_token}
           });

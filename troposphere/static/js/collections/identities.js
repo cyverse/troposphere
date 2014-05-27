@@ -1,13 +1,18 @@
-define(['collections/base', 'models/identity'], function(Base, Identity) {
+define(
+  [
+    'backbone',
+    'models/identity',
+    'globals'
+  ],
+  function (Backbone, Identity, globals) {
 
-var Identities = Base.extend({
-    model: Identity,
-    url: function(){
-        return url = this.urlRoot
-            + '/' + this.model.prototype.defaults.model_name;
-    }
-});
+    return Backbone.Collection.extend({
+      model: Identity,
 
-return Identities;
+      url: function () {
+        return globals.API_ROOT + '/identity' + globals.slash();
+      }
 
-});
+    });
+
+  });

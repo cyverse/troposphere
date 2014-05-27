@@ -114,7 +114,9 @@ define(
 
       var volName = volume.get('name_or_id');
       var header = "Do you want to destroy this volume?";
-      var body = "Your volume <strong>" + volName + "</strong> will be destroyed and all data will be permanently lost!";
+      var body = React.DOM.div({},
+        "Your volume ", React.DOM.strong({},volName), " will be destroyed and all data will be permanently lost!"
+      );
 
       Modal.alert(header, body, {
         onConfirm: function () {

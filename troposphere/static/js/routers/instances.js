@@ -9,9 +9,10 @@ define(
     'rsvp',
     'models/instance',
     'controllers/providers',
-    'components/instances/InstanceDetailsPage.react'
+    'components/instances/InstanceDetailsPage.react',
+    'controllers/notifications'
   ],
-  function (Marionette, Root, React, context, RSVP, Instance, ProviderController, InstanceDetails) {
+  function (Marionette, Root, React, context, RSVP, Instance, ProviderController, InstanceDetails, NotificationController) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({

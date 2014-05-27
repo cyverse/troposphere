@@ -11,14 +11,21 @@ define(
 
     return React.createClass({
 
+      propTypes: {
+        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      },
+
       render: function () {
         var volume = this.props.volume;
-        var content = [];
         var state = volume.get('status');
-        var available = state == 'available' || state == 'attaching';
-        var attached = state == 'in-use' || state == 'detaching';
+        var isAvailable = (state === 'available' || state === 'attaching');
+        var isAttached = (state === 'in-use' || state === 'detaching');
+        var attachData = volume.get('attach_data');
+        var content;
 
-        if (available) {
+        if (isAvailable) {
           content = [
             <p key='statusText'>Available</p>,
             <p key='attachment'>
@@ -28,17 +35,11 @@ define(
               <DestroyForm volume={this.props.volume}/>
             </p>
           ];
-
-        } else if (attached) {
-          var attachData = volume.get('attach_data');
-          var attachedText = [
-            "Attached to instance ",
-            attachData.instance_id,
-            " as device ",
-            <code>{attachData.device}</code>
-          ];
+        } else if (isAttached) {
           content = [
-            <p key='statusText'>{attachedText}</p>,
+            <p key='statusText'>
+              Attached to instance {attachData.instance_id} as device <code>{attachData.device}</code>
+            </p>,
             <DetachmentForm key='detachment' volume={this.props.volume} providers={this.props.providers}/>
           ];
         }

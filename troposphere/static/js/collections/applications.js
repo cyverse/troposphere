@@ -1,11 +1,18 @@
-define(['collections/base', 'models/application'], function(Base, Application) {
+define(
+  [
+    'backbone',
+    'models/application',
+    'globals'
+  ],
+  function (Backbone, Application, globals) {
 
-    return Base.extend({
-        model: Application,
-        url: function(){
-            return url = this.urlRoot
-                + '/' + this.model.prototype.defaults.model_name;
-        }
+    return Backbone.Collection.extend({
+      model: Application,
+
+      url: function () {
+        return globals.API_ROOT + "/application" + globals.slash();
+      }
+
     });
 
-});
+  });

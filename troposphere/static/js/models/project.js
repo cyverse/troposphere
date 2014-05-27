@@ -24,6 +24,7 @@ define(
 
     var Project = Base.extend({
       defaults: { 'model_name': 'project' },
+
       initialize: function (attributes) {
         _.each(['instances', 'volumes'], function (attr) {
           this.get(attr).on('all', function () {
@@ -31,6 +32,7 @@ define(
           }.bind(this));
         }.bind(this));
       },
+
       parse: function (response) {
         response.start_date = new Date(response.start_date);
         response.instances = new InstanceCollection(_.map(response.instances, function (model) {
@@ -41,22 +43,27 @@ define(
         }), {provider_id: null, identity_id: null});
         return response;
       },
+
       url: function () {
         if (this.id)
           return this.urlRoot + '/project/' + this.id;
         else
           return this.urlRoot + '/project/';
       },
+
       isEmpty: function () {
         return this.get('instances').isEmpty() && this.get('volumes').isEmpty();
       },
+
       canBeDeleted: function () {
         return this.get('name') !== 'Default';
       },
+
       objectUrl: function (model) {
         var objectType = Project.objectType(model);
         return this.url() + objectType + '/' + model.id + '/';
       },
+
       putItem: function (model, options) {
         var url = this.objectUrl(model);
         $.ajax({
@@ -68,6 +75,7 @@ define(
         // this is so bad. Sorry
         this.get(Project.objectType(model) + 's').add(model);
       },
+
       removeItem: function (model, options) {
         var url = this.objectUrl(model);
         $.ajax({
@@ -79,6 +87,7 @@ define(
         // this is so bad. Sorry
         this.get(Project.objectType(model) + 's').remove(model);
       }
+
     }, statics);
 
     return Project;
