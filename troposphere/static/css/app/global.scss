@@ -52,7 +52,7 @@ a {
   margin-bottom: 20px;
 }
 
-a.new-window::after {
+a[target="_blank"]::after {
   content: '\e164';
   font-family: 'Glyphicons Halflings';
   margin-left: 4px;

@@ -37,7 +37,7 @@ define(
         var resourceElements = _.map(resources, function (resource) {
           return (
             <li>
-              <a href="{resource.href}" target="_blank">{resource.title}</a>
+              <a href={resource.href} target="_blank">{resource.title}</a>
               <span>{" " + resource.description}</span>
             </li>
           );

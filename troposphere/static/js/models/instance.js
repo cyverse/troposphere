@@ -81,8 +81,9 @@ define(
         },
 
         shell_url: function () {
-          if (this.get('public_ip_address'))
-            return "/shell/" + this.get('public_ip_address');
+          var ip = this.get('public_ip_address');
+          if (ip)
+            return "https://atmo-proxy.iplantcollaborative.org/?ssh=ssh://" + ip + ":22";
           return null;
         },
 
