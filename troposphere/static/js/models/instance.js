@@ -139,7 +139,9 @@ define(
         },
 
         action_url: function () {
-          return this.url() + '/action/';
+          var instanceUrl = this.url();
+          if(instanceUrl.slice(-1) !== "/") instanceUrl += "/";
+          return instanceUrl + 'action' + globals.slash();
         }
       },
 
