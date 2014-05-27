@@ -1,14 +1,23 @@
 define(
   [
     'underscore',
-    'models/base',
+    'backbone',
+    'globals',
     'models/machine',
     'collections/machines'
   ],
-  function (_, Base, Machine, Machines) {
+  function (_, Backbone, globals, Machine, Machines) {
 
-    var Application = Base.extend({
+    return Backbone.Model.extend({
+
       defaults: { 'model_name': 'application' },
+
+      urlRoot: globals.API_ROOT + "/application",
+
+      url: function () {
+        var url = Backbone.Model.prototype.url.apply(this) + globals.slash();
+        return url;
+      },
 
       parse: function (response) {
         var attributes = response;
@@ -22,25 +31,22 @@ define(
         return attributes;
       },
 
-      url: function () {
-        var url = this.urlRoot
-          + '/' + this.defaults.model_name + '/';
-
-        if (typeof this.get('id') != 'undefined') {
-          url += this.get('id');
-        }
-
-        return url;
-      },
-
       computed: {
         name_or_id: function () {
           return this.get('name') || this.get('id');
         }
+      },
+
+      /*
+       * Here, were override the get method to allow lazy-loading of computed
+       * attributes
+       */
+      get: function (attr) {
+        if (typeof this.computed !== "undefined" && typeof this.computed[attr] === 'function')
+          return this.computed[attr].call(this);
+        return Backbone.Model.prototype.get.call(this, attr);
       }
+
     });
 
-    _.extend(Application.defaults, Base.defaults);
-
-    return Application;
   });
