@@ -36,10 +36,12 @@ define(
 
     var Size = Base.extend({
       defaults: { 'model_name': 'size' },
+
       parse: function (attributes) {
         attributes.id = attributes.alias;
         return attributes;
       },
+
       formattedDetails: function () {
         var parts = [this.get('cpu') + ' CPUs',
           Size.format_megabytes(this.get('mem')) + ' memory'];
