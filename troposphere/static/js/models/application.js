@@ -10,8 +10,6 @@ define(
 
     return Backbone.Model.extend({
 
-      defaults: { 'model_name': 'application' },
-
       urlRoot: globals.API_ROOT + "/application",
 
       url: function () {
