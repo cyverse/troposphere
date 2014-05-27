@@ -1,13 +1,13 @@
 define(
   [
+    'backbone',
     'underscore',
-    'models/base',
     'collections/instances',
     'collections/volumes'
   ],
-  function (_, Base, Instances, Volumes) {
-    var Identity = Base.extend({
-      defaults: { 'model_name': 'identity' },
+  function (Backbone, _, Instances, Volumes) {
+
+    return Backbone.Model.extend({
 
       initialize: function (attributes, options) {
         attributes.quota.mem *= 1024;
@@ -32,13 +32,6 @@ define(
         return ( typeof this.attributes.quota.allocation != 'undefined')
       },
 
-      url: function () {
-        var creds = Atmo.get_credentials();
-        return url = this.urlRoot
-          + '/provider/' + creds.provider_id
-          + '/' + this.defaults.model_name + '/';
-      },
-
       get_collection: function (cls, key) {
         var collection = this.get(key);
         if (!collection) {
@@ -60,7 +53,4 @@ define(
       }
     });
 
-    _.extend(Identity.defaults, Base.defaults);
-
-    return Identity;
   });
