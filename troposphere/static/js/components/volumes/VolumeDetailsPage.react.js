@@ -15,6 +15,11 @@ define(
 
     return React.createClass({
 
+      //
+      // Mounting & State
+      // ----------------
+      //
+
       propTypes: {
         providerId: React.PropTypes.string.isRequired,
         identityId: React.PropTypes.string.isRequired,
@@ -92,6 +97,10 @@ define(
         return promise;
       },
 
+      //
+      // Render
+      // ------
+      //
       render: function () {
         if (this.state.volume && this.state.providers && this.state.instances) {
           return (
