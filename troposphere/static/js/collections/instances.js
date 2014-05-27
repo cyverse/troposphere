@@ -5,9 +5,10 @@ define(
   [
     'backbone',
     'underscore',
+    'globals',
     'models/instance'
   ],
-  function (Backbone, _, Instance) {
+  function (Backbone, _, globals, Instance) {
 
     return Backbone.Collection.extend({
       model: Instance,
@@ -21,10 +22,11 @@ define(
 
       url: function () {
         var creds = this.creds;
-        var url = this.urlRoot +
+        var url = globals.API_ROOT +
                   '/provider/' + creds.provider_id +
                   '/identity/' + creds.identity_id +
                   '/instance' + globals.slash();
+        return url;
       },
 
       select_instance: function (model) {
