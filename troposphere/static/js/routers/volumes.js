@@ -6,11 +6,7 @@ define(
     'components/Root.react',
     'react',
     'context',
-    'rsvp',
-    'models/volume',
-    'controllers/providers',
-    'components/volumes/VolumeDetailsPage.react',
-    'controllers/notifications'
+    'components/volumes/VolumeDetailsPage.react'
   ],
   function (Marionette, Root, React, context, VolumeDetailsPage) {
     'use strict';
