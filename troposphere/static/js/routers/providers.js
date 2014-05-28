@@ -7,11 +7,10 @@ define(
     'models/session',
     'react',
     'components/providers/Providers.react',
-    'controllers/providers',
     'context',
     'actions/providers'
   ],
-  function (Marionette, Root, Session, React, Providers, ProviderController, context, ProviderActions) {
+  function (Marionette, Root, Session, React, Providers, context, ProviderActions) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({

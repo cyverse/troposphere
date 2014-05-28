@@ -12,14 +12,12 @@ define(
     './launch_modal',
     './MachineList.react',
     'controllers/profile',
-    'controllers/providers',
     'stores/applications',
     'stores/providers',
     'actions/providers'
   ],
   function (React, Rating, Tags, ApplicationCard, Modal, LaunchModal,
-  MachineList, Profile, ProviderController, ApplicationStore, ProviderStore,
-  ProviderActions) {
+  MachineList, Profile, ApplicationStore, ProviderStore, ProviderActions) {
 
     function getStoreState(applicationId) {
         return {
