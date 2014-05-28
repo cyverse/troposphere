@@ -2,9 +2,11 @@
 
 define(
   [
-    'react'
+    'react',
+    'underscore',
+    'url'
   ],
-  function (React) {
+  function (React, _, URL) {
 
     return React.createClass({
 
@@ -13,35 +15,33 @@ define(
       },
 
       render: function () {
+        var volumes = this.props.volumes.map(function (volume) {
+          var volumeName = volume.get('name');
+          var description = volume.get('description') || "No description provided.";
+          var volumeDetailsUrl = URL.volume(volume, {absolute: true});
+
+          return (
+            <tr>
+              <td>
+                <a href={volumeDetailsUrl}>
+                  {volumeName}
+                </a>
+              </td>
+              <td>{description}</td>
+            </tr>
+          );
+        });
+
         return (
           <table className="table">
             <thead>
               <tr>
-                <th>{"#"}</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Username</th>
+                <th>Name</th>
+                <th>Description</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-              </tr>
+              {volumes}
             </tbody>
           </table>
         );
