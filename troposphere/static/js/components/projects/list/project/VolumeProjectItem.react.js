@@ -12,6 +12,12 @@ define(
     return React.createClass({
       mixins: [ProjectItemMixin],
 
+      propTypes: {
+        model: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        projects: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      },
+
       getClassName: function () {
         return 'volume';
       },
@@ -19,13 +25,9 @@ define(
       renderName: function () {
         var volume = this.props.model;
         var href = URL.volume(volume, {absolute: true});
-        var onClick = function (e) {
-          e.preventDefault();
-          Backbone.history.navigate(URL.volume(volume), {trigger: true});
-        };
 
         return (
-          <a href={href} onClick={onClick}>
+          <a href={href}>
             {volume.get('name_or_id')}
           </a>
         );

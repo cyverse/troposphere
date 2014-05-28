@@ -9,6 +9,11 @@ define(
 
     return React.createClass({
 
+      propTypes: {
+        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        provider: React.PropTypes.instanceOf(Backbone.Model).isRequired
+      },
+
       renderPair: function (k, v) {
         return [
           <dt>{k}</dt>,

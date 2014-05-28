@@ -7,10 +7,10 @@ define(
     'models/session',
     'react',
     'controllers/projects',
-    'components/projects/list/List.react',
+    'components/projects/ProjectListPage.react',
     'context'
   ],
-  function (Marionette, Root, Session, React, ProjectController, Projects, context) {
+  function (Marionette, Root, Session, React, ProjectController, ProjectListPage, context) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({
@@ -32,21 +32,8 @@ define(
         React.renderComponent(app, document.getElementById('application'));
       },
 
-      fetchProjects: function(){
-        return ProjectController.get();
-      },
-
       showProjects: function (param) {
-        this.fetchProjects().then(function (projects) {
-          var content = Projects({
-            projects: projects,
-            onRequestProjects: function () {}
-          });
-
-          this.render(content, "projects");
-        }.bind(this));
-
-        this.render(null);
+        this.render(ProjectListPage(), "projects");
       }
 
     });
