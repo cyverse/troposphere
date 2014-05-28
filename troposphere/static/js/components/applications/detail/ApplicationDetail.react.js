@@ -13,16 +13,25 @@ define(
     './MachineList.react',
     'controllers/profile',
     'controllers/providers',
-    'stores/applications'
+    'stores/applications',
+    'stores/providers',
+    'actions/providers'
   ],
-  function (React, Rating, Tags, ApplicationCard, Modal, LaunchModal, MachineList, Profile, ProviderController, ApplicationStore) {
+  function (React, Rating, Tags, ApplicationCard, Modal, LaunchModal,
+  MachineList, Profile, ProviderController, ApplicationStore, ProviderStore,
+  ProviderActions) {
+
+    function getStoreState(applicationId) {
+        return {
+          application: ApplicationStore.get(applicationId),
+          providers: ProviderStore.getAll()
+        };
+    }
 
     return React.createClass({
 
       getInitialState: function() {
-        return {
-          application: ApplicationStore.get(this.props.applicationId)
-        };
+        return getStoreState(this.props.applicationId);
       },
 
       componentDidMount: function () {
@@ -33,23 +42,20 @@ define(
         }.bind(this));
 
         // Fetch providers (used in modal)
-        ProviderController.getProviders().then(function (providers) {
-          if (this.isMounted())
-            this.setState({providers: providers});
-        }.bind(this));
+        ProviderActions.fetchAll();
 
-        ApplicationStore.addChangeListener(this.updateApp);
+        ApplicationStore.addChangeListener(this.updateStoreState);
+        ProviderStore.addChangeListener(this.updateStoreState);
       },
 
       componentDidUnmount: function() {
-        ApplicationStore.removeChangeListener(this.updateApp);
+        ApplicationStore.removeChangeListener(this.updateStoreState);
+        ProviderStore.removeChangeListener(this.updateStoreState);
       },
 
-      updateApp: function() {
+      updateStoreState: function() {
         if (this.isMounted())
-          this.setState({
-            application: ApplicationStore.get(this.props.applicationId)
-          });
+          this.setState(getStoreState(this.props.applicationId))
       },
 
       showModal: function (e) {
