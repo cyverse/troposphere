@@ -6,13 +6,15 @@ define(
     'components/Root.react',
     'react',
     'context',
-    'components/volumes/VolumeDetailsPage.react'
+    'components/volumes/VolumeDetailsPage.react',
+    'components/volumes/VolumeListPage.react'
   ],
-  function (Marionette, Root, React, context, VolumeDetailsPage) {
+  function (Marionette, Root, React, context, VolumeDetailsPage, VolumeListPage) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({
       appRoutes: {
+        'volumes': 'showVolumes',
         'provider/:provider_id/identity/:identity_id/volumes/:volume_id': 'showVolumeDetail'
       }
     });
@@ -27,6 +29,10 @@ define(
           route: route || Backbone.history.getFragment()
         });
         React.renderComponent(app, document.getElementById('application'));
+      },
+
+      showVolumes: function () {
+        this.render(VolumeListPage(), "volumes");
       },
 
       showVolumeDetail: function (providerId, identityId, volumeId) {
