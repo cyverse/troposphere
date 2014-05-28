@@ -4,9 +4,10 @@ define(
   [
     'react',
     'underscore',
-    'url'
+    'url',
+    'components/common/PageHeader.react'
   ],
-  function (React, _, URL) {
+  function (React, _, URL, PageHeader) {
 
     return React.createClass({
 
@@ -32,18 +33,28 @@ define(
           );
         });
 
+        var helpText = function(){
+          return (
+            <div>
+              <p>This page shows volumes you've created across all providers</p>
+            </div>
+          );
+        }
         return (
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              {volumes}
-            </tbody>
-          </table>
+          <div>
+            <PageHeader title="All Volumes" helpText={helpText}/>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                {volumes}
+              </tbody>
+            </table>
+          </div>
         );
       }
 
