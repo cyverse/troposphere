@@ -4,13 +4,15 @@ define(
     'components/Root.react',
     'react',
     'context',
-    'components/instances/InstanceDetailsPage.react'
+    'components/instances/InstanceDetailsPage.react',
+    'components/instances/InstanceListPage.react'
   ],
-  function (Marionette, Root, React, context, InstanceDetails) {
+  function (Marionette, Root, React, context, InstanceDetails, InstanceListPage) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({
       appRoutes: {
+        'instances': 'showInstances',
         'provider/:provider_id/identity/:identity_id/instances/:instance_id': 'showInstanceDetail'
         //'provider/:provider_id/identity/:identity_id/instances/:instance_id/report': 'showReportInstance'
       }
@@ -26,6 +28,10 @@ define(
           route: route || Backbone.history.getFragment()
         });
         React.renderComponent(app, document.getElementById('application'));
+      },
+
+      showInstances: function () {
+        this.render(InstanceListPage(), "instances");
       },
 
       showInstanceDetail: function (providerId, identityId, instanceId) {
