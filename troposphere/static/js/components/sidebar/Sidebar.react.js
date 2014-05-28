@@ -35,6 +35,18 @@ define(
         loginRequired: false
       },
       {
+        text: 'Instances',
+        route: ['instances'],
+        icon: 'tasks',
+        loginRequired: true
+      },
+      {
+        text: 'Volumes',
+        route: ['volumes'],
+        icon: 'hdd',
+        loginRequired: true
+      },
+      {
         text: 'Cloud Providers',
         route: ['providers'],
         icon: 'cloud',
