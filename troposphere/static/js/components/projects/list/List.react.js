@@ -12,6 +12,10 @@ define(
 
     return React.createClass({
 
+      propTypes: {
+        projects: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      },
+
       helpText: function () {
         return (
           <p>Projects help you organize your cloud resources</p>
@@ -24,15 +28,7 @@ define(
         );
       },
 
-      componentDidMount: function () {
-        if (!this.props.projects) this.props.onRequestProjects();
-      },
-
       render: function () {
-        var content = this.props.projects ?
-          <ProjectsList projects={this.props.projects}/> :
-          <div className='loading'></div>;
-
         return (
           <div>
             <PageHeader title="Projects" helpText={this.helpText}/>
@@ -41,7 +37,7 @@ define(
               Create Project
               </button>
             </p>
-          {content}
+            <ProjectsList projects={this.props.projects}/>
           </div>
         );
       }

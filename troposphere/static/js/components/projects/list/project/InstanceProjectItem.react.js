@@ -11,6 +11,12 @@ define(
     return React.createClass({
       mixins: [ProjectItemMixin],
 
+      propTypes: {
+        model: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        projects: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      },
+
       getClassName: function () {
         return 'instance';
       },
@@ -18,13 +24,9 @@ define(
       renderName: function () {
         var instance = this.props.model;
         var href = URL.instance(instance, {absolute: true});
-        var navigateOnClick = function (e) {
-          e.preventDefault();
-          Backbone.history.navigate(URL.instance(instance), {trigger: true});
-        };
 
         return (
-          <a href={href} onClick={navigateOnClick}>
+          <a href={href}>
             {this.props.model.get('name_or_id')}
           </a>
         );

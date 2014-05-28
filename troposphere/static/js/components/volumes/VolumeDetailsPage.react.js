@@ -7,13 +7,17 @@ define(
     'rsvp',
     'models/volume',
     'controllers/providers',
-    'components/volumes/VolumeDetailsPage.react',
     'controllers/notifications',
     'collections/instances'
   ],
-  function (React, VolumeDetail, RSVP, Volume, ProviderController, VolumeDetailsPage, NotificationController, Instances) {
+  function (React, VolumeDetail, RSVP, Volume, ProviderController, NotificationController, Instances) {
 
     return React.createClass({
+
+      //
+      // Mounting & State
+      // ----------------
+      //
 
       propTypes: {
         providerId: React.PropTypes.string.isRequired,
@@ -92,6 +96,10 @@ define(
         return promise;
       },
 
+      //
+      // Render
+      // ------
+      //
       render: function () {
         if (this.state.volume && this.state.providers && this.state.instances) {
           return (

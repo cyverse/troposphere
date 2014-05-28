@@ -9,8 +9,12 @@ define(
 
     return React.createClass({
 
+      propTypes: {
+        projects: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      },
+
       render: function () {
-        var items = this.props.projects.map(function (model) {
+        var projects = this.props.projects.map(function (model) {
           return (
             <Project key={model.id} project={model} projects={this.props.projects}/>
           );
@@ -18,7 +22,7 @@ define(
 
         return (
           <ul id="project-list">
-            {items}
+            {projects}
           </ul>
         );
       }

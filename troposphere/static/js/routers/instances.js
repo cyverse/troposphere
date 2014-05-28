@@ -1,22 +1,18 @@
-/*global define */
-
 define(
   [
     'marionette',
     'components/Root.react',
     'react',
     'context',
-    'rsvp',
-    'models/instance',
-    'controllers/providers',
     'components/instances/InstanceDetailsPage.react',
-    'controllers/notifications'
+    'components/instances/InstanceListPage.react'
   ],
-  function (Marionette, Root, React, context, RSVP, Instance, ProviderController, InstanceDetails, NotificationController) {
+  function (Marionette, Root, React, context, InstanceDetails, InstanceListPage) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({
       appRoutes: {
+        'instances': 'showInstances',
         'provider/:provider_id/identity/:identity_id/instances/:instance_id': 'showInstanceDetail'
         //'provider/:provider_id/identity/:identity_id/instances/:instance_id/report': 'showReportInstance'
       }
@@ -34,46 +30,16 @@ define(
         React.renderComponent(app, document.getElementById('application'));
       },
 
-      fetchInstance: function (providerId, identityId, instanceId) {
-        var promise = new RSVP.Promise(function (resolve, reject) {
-          var instance = new Instance({
-            identity: {
-              provider: providerId,
-              id: identityId
-            },
-            id: instanceId
-          });
-
-          instance.fetch({
-            success: function (instanceAttributes) {
-              resolve(instance);
-            },
-            error: function () {
-              NotificationController.danger("Unknown Instance", "The requested instance does not exist.");
-            }
-          });
-        });
-        return promise;
-      },
-
-      fetchProviders: function () {
-        return ProviderController.getProviders();
+      showInstances: function () {
+        this.render(InstanceListPage(), "instances");
       },
 
       showInstanceDetail: function (providerId, identityId, instanceId) {
-        RSVP.hash({
-          instance: this.fetchInstance(providerId, identityId, instanceId),
-          providers: this.fetchProviders()
-        })
-        .then(function (results) {
-          var content = InstanceDetails({
-            instance: results.instance,
-            providers: results.providers
-          });
-          this.render(content, "projects");
-        }.bind(this));
-
-        this.render(InstanceDetails(), "projects");
+        this.render(InstanceDetails({
+          providerId: providerId,
+          identityId: identityId,
+          instanceId: instanceId
+        }), "projects");
       }
 
     });

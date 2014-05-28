@@ -9,6 +9,12 @@ define(
   function (React, ProjectItems, ProjectDescription) {
 
     return React.createClass({
+
+      propTypes: {
+        project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        projects: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      },
+
       render: function () {
         var project = this.props.project;
 
