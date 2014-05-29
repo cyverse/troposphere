@@ -1,6 +1,6 @@
-define(['react', 'collections/sizes',
-'components/mixins/modal', 'controllers/providers', 'controllers/instances'],
-function(React, Sizes, ModalMixin, ProviderController, Instances) {
+define(['react', 'collections/sizes', 'components/mixins/modal',
+'controllers/instances', 'actions/sizes', 'stores/sizes'],
+function(React, Sizes, ModalMixin, Instances, SizeActions, SizeStore) {
 
 
     var InstanceSizeOption = React.createClass({
@@ -77,25 +77,40 @@ function(React, Sizes, ModalMixin, ProviderController, Instances) {
         renderTitle: function() {
             return this.props.application.get('name_or_id');
         },
-        updateSizes: function(identityId) {
+        fetchSizes: function(identityId) {
             var identity = this.props.identities.get(identityId);
             var providerId = identity.get('provider_id');
             var identityId = identity.id;
-            ProviderController.getSizeCollection(providerId, identityId)
-                .then(function(newSizes) {
-                    this.setState({
-                        sizes: newSizes,
-                        sizeId: newSizes.at(0).id
-                    });
-                }.bind(this));
+            var sizes = SizeStore.get(providerId, identityId);
+            if (sizes)
+              this.setSizes(sizes);
+            else
+              SizeActions.fetch(providerId, identityId);
+        },
+        setSizes: function(newSizes) {
+            this.setState({
+              sizes: newSizes,
+              sizeId: newSizes.at(0).id
+            });
+        },
+        updateSizes: function() {
+            var identityId = this.state.identityId;
+            var identity = this.props.identities.get(identityId);
+            var providerId = identity.get('provider_id');
+            var newSizes = SizeStore.get(providerId, identityId);
+            this.setSizes(newSizes);
         },
         componentDidMount: function() {
-            this.updateSizes(this.state.identityId);
+            SizeStore.addChangeListener(this.updateSizes);
+            this.fetchSizes(this.state.identityId);
+        },
+        componentDidUnmount: function() {
+            SizeStore.removeChangeListener(this.updateSizes);
         },
         handleIdentityChange: function(e) {
             var identityId = e.target.value;
             this.setState({identityId: identityId});
-            this.updateSizes(identityId);
+            this.fetchSizes(identityId);
         },
         updateState: function(key, e) {
             var value = e.target.value;
