@@ -16,7 +16,12 @@ define(['underscore'], function(_) {
             return 'provider/' + providerId + '/identity/' + identityId + '/volumes/' + model.id;
         },
         application: function(model) {
-            return 'images/' + model.id; 
+            return 'images/' + model.id;
+        },
+        requestImage: function(model){
+            var providerId = model.get('identity').provider;
+            var identityId = model.get('identity').id;
+            return 'provider/' + providerId + '/identity/' + identityId + '/instances/' + model.id + '/request_image';
         }
     };
 
@@ -35,7 +40,8 @@ define(['underscore'], function(_) {
         instance: _.partial(generateUrl, 'instance'),
         reportInstance: _.partial(generateUrl, 'reportInstance'),
         volume: _.partial(generateUrl, 'volume'),
-        application: _.partial(generateUrl, 'application')
+        application: _.partial(generateUrl, 'application'),
+        requestImage: _.partial(generateUrl, 'requestImage')
     };
 
 });
