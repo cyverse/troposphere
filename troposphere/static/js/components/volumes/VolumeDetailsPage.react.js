@@ -6,11 +6,13 @@ define(
     './details/VolumeDetail.react',
     'rsvp',
     'models/volume',
-    'controllers/providers',
+    'stores/providers',
+    'actions/providers',
     'controllers/notifications',
     'collections/instances'
   ],
-  function (React, VolumeDetail, RSVP, Volume, ProviderController, NotificationController, Instances) {
+  function (React, VolumeDetail, RSVP, Volume, ProviderStore,
+  ProviderActions, NotificationController, Instances) {
 
     return React.createClass({
 
@@ -26,7 +28,9 @@ define(
       },
 
       getInitialState: function(){
-        return {};
+        return {
+          providers: ProviderStore.getAll()
+        };
       },
 
       componentDidMount: function () {
@@ -36,16 +40,27 @@ define(
 
         RSVP.hash({
           volume: this.fetchVolume(providerId, identityId, volumeId),
-          providers: this.fetchProviders(),
           instances: this.fetchInstances(providerId, identityId)
         })
         .then(function (results) {
           this.setState({
             volume: results.volume,
-            providers: results.providers,
             instances: results.instances
           })
         }.bind(this));
+
+        ProviderStore.addChangeListener(this.updateProviders);
+
+        if (this.state.providers.isEmpty())
+          ProviderActions.fetchAll();
+      },
+
+      componentDidUnmount: function () {
+        ProviderStore.removeChangeListener(this.updateProviders);
+      },
+
+      updateProviders: function() {
+        this.setState({providers: ProviderStore.getAll()});
       },
 
       //
@@ -74,10 +89,6 @@ define(
 
         });
         return promise;
-      },
-
-      fetchProviders: function () {
-        return ProviderController.getProviders();
       },
 
       fetchInstances: function (providerId, identityId) {
