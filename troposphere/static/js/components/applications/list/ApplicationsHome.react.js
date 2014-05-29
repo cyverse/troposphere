@@ -52,10 +52,11 @@ define(
           var applicationModels = this.state.applications.filter(function (app) {
             return app.get('featured');
           });
-          var applications = new Applications(applicationModels);
+          var featured = new Applications(applicationModels);
 
           content = [
-            <ApplicationCardList key="featured" title="Featured Images" applications={applications}/>
+            <ApplicationCardList key="featured" title="Featured Images" applications={featured}/>,
+            <ApplicationCardList key="all" title="All Images" applications={this.state.applications}/>
           ];
         }
 
