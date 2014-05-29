@@ -87,11 +87,6 @@ define(
         return promise;
       },
 
-      fetchProviders: function () {
-        return ProviderController.getProviders();
-      },
-
-
       //
       // Render
       // ------
