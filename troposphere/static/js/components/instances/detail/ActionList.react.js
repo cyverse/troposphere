@@ -113,15 +113,11 @@ define(
       renderReportButton: function () {
         var disabled = !this.props.instance.get('is_active');
 
-        var onClick = function () {
-          var url = URL.reportInstance(this.props.instance);
-          Backbone.history.navigate(url, {trigger: true});
-        }.bind(this);
-
         return this.renderButton(
           [<Glyphicon name='inbox'/>, " Report"],
-          onClick,
-          disabled
+          null,
+          disabled,
+          URL.reportInstance(this.props.instance, {absolute: true})
         );
       },
 
