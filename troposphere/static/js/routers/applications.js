@@ -9,22 +9,25 @@ define(
     'components/applications/list/ApplicationsHome.react',
     'components/applications/favorites/Favorites.react',
     'components/applications/detail/ApplicationDetail.react',
+    'components/applications/search/SearchResults.react',
     'models/application',
     'rsvp',
     'context',
     'collections/applications'
   ],
-  function (Marionette, Root, Session, React, ApplicationList, ApplicationFavorites, ApplicationDetail, Application, RSVP, context, Applications) {
-    'use strict';
+  function (Marionette, Root, Session, React, ApplicationList,
+  ApplicationFavorites, ApplicationDetail, Results, Application, RSVP, context,
+  Applications) {
+  'use strict';
 
     var Router = Marionette.AppRouter.extend({
       appRoutes: {
         'images': 'showImages',
         'images/:id': 'showAppDetail',
-        'images/favorites': 'showAppFavorites'
+        'images/favorites': 'showAppFavorites',
+        'images/search/:query': 'appSearch'
         // todo: implement authored and search routes
         //'images/authored': 'showAppAuthored',
-        //'images/search/:query': 'appSearch'
       }
     });
 
@@ -99,6 +102,11 @@ define(
           });
           this.render(content, "images");
         }.bind(this));
+      },
+
+      appSearch: function(query) {
+        var content = Results({query: query});
+        this.render(content, "appSearch");
       }
 
     });
