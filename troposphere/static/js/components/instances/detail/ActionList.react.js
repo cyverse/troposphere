@@ -17,12 +17,12 @@ define(
         isOpenStack: React.PropTypes.bool.isRequired
       },
 
-      renderButton: function (text, onClick, disabled) {
+      renderButton: function (text, onClick, disabled, href) {
         return (
-          <button className='btn btn-default' onClick={onClick} disabled={disabled}>
+          <a href={href} className='btn btn-default' onClick={onClick} disabled={disabled}>
             {text}
-          </button>
-          );
+          </a>
+        );
       },
 
       renderStartStopButton: function () {
@@ -105,7 +105,8 @@ define(
         return this.renderButton(
           [<Glyphicon name='camera'/>, " Image"],
           null,
-          disabled
+          disabled,
+          URL.requestImage(this.props.instance, {absolute: true})
         );
       },
 
