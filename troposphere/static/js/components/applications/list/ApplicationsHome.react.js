@@ -27,10 +27,11 @@ define(
           var applicationModels = this.props.applications.filter(function (app) {
             return app.get('featured');
           });
-          var applications = new Applications(applicationModels);
+          var featured = new Applications(applicationModels);
 
           content = [
-            <ApplicationCardList title="Featured Images" applications={applications}/>
+            <ApplicationCardList title="Featured Images" applications={featured}/>,
+            <ApplicationCardList title="All Images" applications={this.props.applications}/>
           ];
         }
 
