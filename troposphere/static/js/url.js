@@ -19,9 +19,7 @@ define(['underscore'], function(_) {
             return 'images/' + model.id;
         },
         requestImage: function(model){
-            var providerId = model.get('identity').provider;
-            var identityId = model.get('identity').id;
-            return 'provider/' + providerId + '/identity/' + identityId + '/instances/' + model.id + '/request_image';
+            return generators.instance(model) + '/request_image';
         }
     };
 
