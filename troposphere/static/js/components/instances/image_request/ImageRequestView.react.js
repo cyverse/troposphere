@@ -23,13 +23,10 @@ define(
             <div className="control-group">
               <label htmlFor="name" className="control-label">Image Name</label>
               <div className="controls">
-                <input type="text" name="name" className="span5" maxlength={30} size={15} />
                 <div className="help-block">
-                  <strong>Suggested Format:</strong>
-                  [Descriptive Name] [Your Username] [Version]
-                  <br />
-                Please limit name to 30 characters.
+                  Something meaningful to help users find this image. Please limit name to 30 characters.
                 </div>
+                <input type="text" name="name" className="form-control" maxlength={30} size={15} />
               </div>
             </div>
           );
@@ -50,10 +47,10 @@ define(
             <div className="control-group">
               <label htmlFor="provider" className="control-label">Cloud for Deployment</label>
               <div className="controls">
-                <select name="provider">
+                <div className="help-block">Select the cloud provider on which you plan to use this image.</div>
+                <select name="provider" className="form-control">
                   <option value={4}>iPlant Cloud - Tucson</option>
                 </select>
-                <div className="help-block">Select the cloud provider on which you plan to use this image.</div>
               </div>
             </div>
           );
@@ -64,8 +61,8 @@ define(
             <div className="control-group">
               <label htmlFor={name} className="control-label">{label}</label>
               <div className="controls">
-                <textarea name={name} rows="4" />
                 <div className="help-block">{description}</div>
+                <textarea name={name} rows="4" className="form-control" />
               </div>
             </div>
           );
@@ -77,15 +74,18 @@ define(
             <div className="control-group">
               <label htmlFor="tags" className="control-label">Image Tags</label>
               <div className="controls tagger_container">
+                <div className="help-block">
+                  Please include tags that will help users decide whether this image will suit their
+                  needs. You can include the operating system, installed software, or configuration information. E.g. Ubuntu,
+                  NGS Viewers, MAKER, QIIME, etc.
+                </div>
                 <div className="tagger clearfix">
                   <ul className="tag_list">
                     <li className="edit_tags">
                       <a className="tag_adder" title="Add a tag">Edit Tags</a>
                     </li>
                     <li className="tag_controls" style={displayNoneStyle}>
-                      <form>
-                        <input placeholder="New Tag" type="text" className="new_tag" />
-                      </form>
+                      <input placeholder="New Tag" type="text" className="new_tag" />
                       <div className="add_tag_button">Add</div>
                       <div className="done_tagging_button">✔ Done</div>
                       <ul className="suggested_tags_holder" style={displayNoneStyle} />
@@ -93,10 +93,6 @@ define(
                   </ul>
                 </div>
                 <input type="hidden" name="tags" className="tag_input" />
-                <div className="help-block">Please include tags that will help users decide whether this image will suit their
-                needs. You can include the operating system, installed software, or configuration information. E.g. Ubuntu,
-                NGS Viewers, MAKER, QIIME, etc.
-                </div>
               </div>
             </div>
           );
@@ -107,15 +103,16 @@ define(
             <div className="control-group">
               <label htmlFor="vis" className="control-label">Image Visibility</label>
               <div className="controls">
-                <select name="vis">
+                <div className="help-block" id="vis_help">
+                  A VM image can be made visible to you, a select group of users or to
+                  everyone. If you want visibility restricted to a select group of users, provide us a list of iPlant
+                  usernames. Public visibility means that any user will be able to launch the instance.
+                </div>
+                <select name="vis" className="form-control">
                   <option value="public">Public</option>
                   <option value="private">Private</option>
                   <option value="select">Specific Users</option>
                 </select>
-                <div className="help-block" id="vis_help">A VM image can be made visible to you, a select group of users or to
-                everyone. If you want visibility restricted to a select group of users, provide us a list of iPlant
-                usernames. Public visibility means that any user will be able to launch the instance.
-                </div>
               </div>
             </div>
           );
@@ -127,8 +124,8 @@ define(
               <div className="controls">
                 <label className="checkbox">
                   <input type="checkbox" id="licensed_software" />
-                I certify that this image does not contain license-restricted software that is prohibited from being
-                distributed within a virtual or cloud environment.
+                  I certify that this image does not contain license-restricted software that is prohibited from being
+                  distributed within a virtual or cloud environment.
                 </label>
                 <br />
               </div>
@@ -138,10 +135,7 @@ define(
 
         var renderFormActions = function(){
           return (
-            <div class="form-actions">
-              <input type="submit" class="btn btn-primary request_image_submit" value="Request Imaging"/>
-              <div class="help-block">Note: All volumes must be detached from an instance before it can be imaged.</div>
-            </div>
+            <button type="submit" className="btn btn-primary form-control">Request Imaging</button>
           );
         }
 
@@ -168,6 +162,10 @@ define(
             <PageHeader title="Request Imaging" helpText={helpText}/>
 
             <form className="request_imaging_form form-horizontal" method="post">
+
+            <div className="alert alert-danger">
+              <strong>Note:</strong> All volumes must be detached from an instance before it can be imaged.
+            </div>
 
             {renderInputControlGroup()}
             {renderControlGroup("Instance ID", "0bbbc916-0c76-4006-a86c-e570c96ff819")}
