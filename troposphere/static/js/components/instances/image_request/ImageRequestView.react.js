@@ -84,7 +84,7 @@ define(
           var tags = this.props.tags.map(function(tag){
             var tagName = tag.get('name');
             return (
-              <option value={tagName}>{tagName}</option>
+              <option key={tag.id} value={tagName}>{tagName}</option>
             );
           });
 
@@ -97,7 +97,7 @@ define(
                   needs. You can include the operating system, installed software, or configuration information. E.g. Ubuntu,
                   NGS Viewers, MAKER, QIIME, etc.
                 </div>
-                <select name="tags" multiple className="form-control">
+                <select name="tags" data-placeholder="Select tags to add..." multiple className="form-control">
                   {tags}
                 </select>
                 <input type="hidden" name="tags" className="tag_input" />
@@ -129,11 +129,13 @@ define(
         var renderCheckboxControlGroup = function(){
           return (
             <div className="control-group">
-              <div className="controls">
+              <div className="checkbox">
                 <label className="checkbox">
                   <input type="checkbox" id="licensed_software" />
-                  I certify that this image does not contain license-restricted software that is prohibited from being
-                  distributed within a virtual or cloud environment.
+                  <strong>
+                    I certify that this image does not contain license-restricted software that is prohibited from being
+                    distributed within a virtual or cloud environment.
+                  </strong>
                 </label>
                 <br />
               </div>
