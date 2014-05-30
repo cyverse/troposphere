@@ -13,11 +13,12 @@ define(
     'models/application',
     'rsvp',
     'context',
-    'collections/applications'
+    'collections/applications',
+    'actions/applications'
   ],
   function (Marionette, Root, Session, React, ApplicationList,
   ApplicationFavorites, ApplicationDetail, Results, Application, RSVP, context,
-  Applications) {
+  Applications, ApplicationActions) {
   'use strict';
 
     var Router = Marionette.AppRouter.extend({
@@ -47,36 +48,19 @@ define(
       // Fetching functions
       //
       fetchApplication: function (appId) {
-        var promise = new RSVP.Promise(function (resolve, reject) {
-          var application = new Application({id: appId});
-          application.fetch().done(function () {
-            resolve(application);
-          });
-        });
-        return promise;
+        ApplicationActions.fetch(appId);
       },
 
       fetchApplications: function () {
-        return new RSVP.Promise(function (resolve, reject) {
-          var apps = new Applications();
-          apps.fetch().done(function () {
-            resolve(apps);
-          });
-        });
+        ApplicationActions.fetchAll();
       },
 
       //
       // Route handlers
       //
       showImages: function () {
-        this.fetchApplications().then(function (apps) {
-          var content = ApplicationList({
-            applications: apps
-          });
-          this.render(content, "images");
-        }.bind(this));
-
         this.render(ApplicationList(), "images");
+        this.fetchApplications();
       },
 
       showAppFavorites: function () {
@@ -90,18 +74,16 @@ define(
       },
 
       showAppDetail: function (appId) {
-
-        this.fetchApplication(appId).then(function (application) {
-          var content = ApplicationDetail({
-            application: application
-            //onRequestApplication: this.fetchApplication.bind(this, appId),
-            //onRequestIdentities: this.fetchIdentities,
-            //profile: this.state.profile,
-            //identities: this.state.identities,
-            //providers: this.state.providers
-          });
-          this.render(content, "images");
-        }.bind(this));
+        var content = ApplicationDetail({
+          applicationId: appId
+          //onRequestApplication: this.fetchApplication.bind(this, appId),
+          //onRequestIdentities: this.fetchIdentities,
+          //profile: this.state.profile,
+          //identities: this.state.identities,
+          //providers: this.state.providers
+        });
+        this.render(content, "images");
+        this.fetchApplication(appId);
       },
 
       appSearch: function(query) {

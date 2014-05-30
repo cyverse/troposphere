@@ -12,28 +12,54 @@ define(
     './launch_modal',
     './MachineList.react',
     'controllers/profile',
-    'controllers/providers'
+    'stores/applications',
+    'stores/providers',
+    'actions/providers'
   ],
-  function (React, Rating, Tags, ApplicationCard, Modal, LaunchModal, MachineList, Profile, ProviderController) {
+  function (React, Rating, Tags, ApplicationCard, Modal, LaunchModal,
+  MachineList, Profile, ApplicationStore, ProviderStore, ProviderActions) {
+
+    function getStoreState(applicationId) {
+        return {
+          application: ApplicationStore.get(applicationId),
+          providers: ProviderStore.getAll()
+        };
+    }
 
     return React.createClass({
+
+      getInitialState: function() {
+        return getStoreState(this.props.applicationId);
+      },
 
       componentDidMount: function () {
         // Fetch identities (used in modal)
         Profile.getIdentities().then(function (identities) {
-          this.setState({identities: identities});
+          if (this.isMounted())
+            this.setState({identities: identities});
         }.bind(this));
 
         // Fetch providers (used in modal)
-        ProviderController.getProviders().then(function (providers) {
-          this.setState({providers: providers});
-        }.bind(this));
+        ProviderActions.fetchAll();
+
+        ApplicationStore.addChangeListener(this.updateStoreState);
+        ProviderStore.addChangeListener(this.updateStoreState);
+      },
+
+      componentDidUnmount: function() {
+        ApplicationStore.removeChangeListener(this.updateStoreState);
+        ProviderStore.removeChangeListener(this.updateStoreState);
+      },
+
+      updateStoreState: function() {
+        if (this.isMounted())
+          this.setState(getStoreState(this.props.applicationId))
       },
 
       showModal: function (e) {
         Modal.show(
           <LaunchModal
-            application={this.props.application}
+            application={this.state.application}
             identities={this.state.identities}
             providers={this.state.providers}
           />
@@ -41,7 +67,7 @@ define(
       },
 
       render: function () {
-        var app = this.props.application;
+        var app = this.state.application;
 
         if (!app) {
           return (

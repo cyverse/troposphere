@@ -3,29 +3,59 @@
 define(
   [
     'react',
-    'components/mixins/loading',
-    'controllers/applications',
+    'actions/applications',
+    'stores/applications',
     '../list/ApplicationCardList.react'
   ],
-  function (React, LoadingMixin, Applications, ApplicationCardList) {
+  function (React, AppActions, AppStore, ApplicationCardList) {
 
     return React.createClass({
-      mixins: [LoadingMixin],
 
-      model: function () {
-        return Applications.searchApplications(this.props.query);
+      getInitialState: function() {
+        return {
+          apps: AppStore.getResults(this.props.query)
+        };
       },
 
-      renderContent: function () {
-        if (this.state.model.isEmpty()){
+      updateResults: function() {
+        this.setState({
+          apps: AppStore.getResults(this.props.query)
+        });
+      },
+
+      componentDidMount: function() {
+        AppStore.addChangeListener(this.updateResults);
+        if (!this.state.apps)
+          AppActions.search(this.props.query);
+      },
+
+      componentDidUnmount: function() {
+        AppStore.removeChangeListener(this.updateResults);
+      },
+
+      componentWillReceiveProps: function(nextProps) {
+        this.setState({apps: null});
+        var results = AppStore.getResults(nextProps.query);
+        if (results)
+          this.setState({apps: results});
+        else
+          AppActions.search(nextProps.query);
+      },
+
+      render: function () {
+        if (!this.state.apps) {
+          return (
+            <div class="loading"></div>
+          );
+        } else if (this.state.apps.isEmpty()) {
           return (
             <div>
               <em>No results found.</em>
             </div>
           );
-        }else{
+        } else{
           return (
-            <ApplicationCardList applications={this.state.model}/>
+            <ApplicationCardList applications={this.state.apps}/>
           );
         }
       }
