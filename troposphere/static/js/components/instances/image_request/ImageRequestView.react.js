@@ -4,14 +4,19 @@ define(
   [
     'react',
     'components/common/PageHeader.react',
+    'jquery',
+
+    // jQuery plugins: need to make sure they're loaded, but they aren't called directly
+    'chosen'
   ],
-  function (React, PageHeader, InstanceAttributes, InstanceLinks, ActionList) {
+  function (React, PageHeader, $) {
 
     return React.createClass({
 
       propTypes: {
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        provider: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        provider: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       render: function () {
@@ -26,7 +31,7 @@ define(
                 <div className="help-block">
                   Something meaningful to help users find this image. Please limit name to 30 characters.
                 </div>
-                <input type="text" name="name" className="form-control" maxlength={30} size={15} />
+                <input type="text" name="name" className="form-control" maxLength="30" size="15" />
               </div>
             </div>
           );

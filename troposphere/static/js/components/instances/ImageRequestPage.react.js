@@ -7,9 +7,10 @@ define(
     'rsvp',
     'models/instance',
     'controllers/providers',
-    'controllers/notifications'
+    'controllers/notifications',
+    'collections/Tags'
   ],
-  function (React, ImageRequestView, RSVP, Instance, ProviderController, NotificationController) {
+  function (React, ImageRequestView, RSVP, Instance, ProviderController, NotificationController, Tags) {
 
     return React.createClass({
 
@@ -35,12 +36,14 @@ define(
 
         RSVP.hash({
           instance: this.fetchInstance(providerId, identityId, instanceId),
-          providers: this.fetchProviders()
+          providers: this.fetchProviders(),
+          tags: this.fetchTags()
         })
         .then(function (results) {
           this.setState({
             instance: results.instance,
-            providers: results.providers
+            providers: results.providers,
+            tags: results.tags
           });
         }.bind(this));
       },
@@ -76,6 +79,23 @@ define(
         return ProviderController.getProviders();
       },
 
+      fetchTags: function () {
+        var promise = new RSVP.Promise(function (resolve, reject) {
+          var tags = new Tags();
+
+          tags.fetch({
+            success: function (attrs) {
+              resolve(tags);
+            },
+            error: function () {
+              NotificationController.danger("Uh oh!", "There was a problem fetching the list of image tags.");
+              reject();
+            }
+          });
+        });
+        return promise;
+      },
+
 
       //
       // Render
@@ -83,13 +103,14 @@ define(
       //
 
       render: function () {
-        if (this.state.instance && this.state.providers) {
+        if (this.state.instance && this.state.providers && this.state.tags) {
           var providerId = this.state.instance.get('identity').provider;
           var provider = this.state.providers.get(providerId);
 
           return (
             <ImageRequestView instance={this.state.instance}
                               provider={provider}
+                              tags={this.state.tags}
             />
           );
         } else {
