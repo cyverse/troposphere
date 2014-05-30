@@ -5,6 +5,7 @@
     "backbone.marionette": "~1.8.3",
     "rsvp": "~3.0.6",
     "moment": "~2.6.0",
-    "react": "~0.10.0"
+    "react": "~0.10.0",
+    "chosen": "https://github.com/harvesthq/chosen/releases/download/v1.1.0/chosen_v1.1.0.zip"
   }
 }

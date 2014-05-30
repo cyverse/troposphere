@@ -19,7 +19,8 @@ require.config({
     bootstrap: '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap',
     moment: '../bower_components/moment/moment',
     react: '../bower_components/react/react-with-addons',
-    rsvp: '../bower_components/rsvp/rsvp.amd'
+    rsvp: '../bower_components/rsvp/rsvp.amd',
+    chosen: '../bower_components/chosen/chosen.jquery'
   },
   shim: {
     underscore: {
@@ -37,6 +38,10 @@ require.config({
     },
 
     bootstrap: {
+      deps: ['jquery']
+    },
+
+    chosen: {
       deps: ['jquery']
     }
   }
