@@ -6,11 +6,36 @@ define(
     'components/common/PageHeader.react',
     'collections/applications',
     './ApplicationCardList.react',
-    './SearchContainer.react'
+    './SearchContainer.react',
+    'stores/applications'
   ],
-  function (React, PageHeader, Applications, ApplicationCardList, ApplicationSearch) {
+  function (React, PageHeader, Applications, ApplicationCardList, ApplicationSearch, AppStore) {
+
+    function getApplicationState() {
+        return {
+          applications: AppStore.getAll(),
+          loading: !AppStore.isSynced()
+        };
+    }
 
     return React.createClass({
+
+      getInitialState: function () {
+        return getApplicationState();
+      },
+
+      updateApps: function () {
+        if (this.isMounted())
+          this.setState(getApplicationState());
+      },
+
+      componentDidMount: function () {
+        AppStore.addChangeListener(this.updateApps);
+      },
+
+      componentDidUnmount: function () {
+        AppStore.removeChangeListener(this.updateApps);
+      },
 
       helpText: function () {
         return (
@@ -23,14 +48,15 @@ define(
           <div className="loading"></div>
         );
 
-        if (this.props.applications != null){
-          var applicationModels = this.props.applications.filter(function (app) {
+        if (!this.state.loading){
+          var applicationModels = this.state.applications.filter(function (app) {
             return app.get('featured');
           });
-          var applications = new Applications(applicationModels);
+          var featured = new Applications(applicationModels);
 
           content = [
-            <ApplicationCardList title="Featured Images" applications={applications}/>
+            <ApplicationCardList key="featured" title="Featured Images" applications={featured}/>,
+            <ApplicationCardList key="all" title="All Images" applications={this.state.applications}/>
           ];
         }
 

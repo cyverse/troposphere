@@ -6,10 +6,12 @@ define(
     './detail/InstanceDetails.react',
     'rsvp',
     'models/instance',
-    'controllers/providers',
+    'stores/providers',
+    'actions/providers',
     'controllers/notifications'
   ],
-  function (React, InstanceDetails, RSVP, Instance, ProviderController, NotificationController) {
+  function (React, InstanceDetails, RSVP, Instance, ProviderStore,
+  ProviderActions, NotificationController) {
 
     return React.createClass({
 
@@ -25,7 +27,9 @@ define(
       },
 
       getInitialState: function(){
-        return {};
+        return {
+          providers: ProviderStore.getAll()
+        };
       },
 
       componentDidMount: function () {
@@ -35,14 +39,25 @@ define(
 
         RSVP.hash({
           instance: this.fetchInstance(providerId, identityId, instanceId),
-          providers: this.fetchProviders()
         })
         .then(function (results) {
           this.setState({
             instance: results.instance,
-            providers: results.providers
           });
         }.bind(this));
+
+        ProviderStore.addChangeListener(this.updateProviders);
+
+        if (this.state.providers.isEmpty())
+          ProviderActions.fetchAll();
+      },
+
+      componentDidUnmount: function () {
+        ProviderStore.removeChangeListener(this.updateProviders);
+      },
+
+      updateProviders: function() {
+        this.setState({providers: ProviderStore.getAll()});
       },
 
       //
@@ -71,11 +86,6 @@ define(
         });
         return promise;
       },
-
-      fetchProviders: function () {
-        return ProviderController.getProviders();
-      },
-
 
       //
       // Render
