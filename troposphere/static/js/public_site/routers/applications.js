@@ -24,7 +24,8 @@ define(
       appRoutes: {
         '': 'showImages',
         'images': 'showImages',
-        'images/:id': 'showAppDetail'
+        'images/:id': 'showAppDetail',
+        'images/search/:query': 'appSearch'
       }
     });
 
