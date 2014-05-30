@@ -19,6 +19,12 @@ define(
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
+      componentDidMount: function () {
+        var el = this.getDOMNode();
+        var $el = $(el);
+        $el.find('select[name="tags"]').chosen();
+      },
+
       render: function () {
         var instance = this.props.instance,
             provider = this.props.provider;
@@ -75,6 +81,13 @@ define(
 
         var displayNoneStyle = {display: 'none'};
         var renderImageTagsControlGroup = function(){
+          var tags = this.props.tags.map(function(tag){
+            var tagName = tag.get('name');
+            return (
+              <option value={tagName}>{tagName}</option>
+            );
+          });
+
           return (
             <div className="control-group">
               <label htmlFor="tags" className="control-label">Image Tags</label>
@@ -84,24 +97,14 @@ define(
                   needs. You can include the operating system, installed software, or configuration information. E.g. Ubuntu,
                   NGS Viewers, MAKER, QIIME, etc.
                 </div>
-                <div className="tagger clearfix">
-                  <ul className="tag_list">
-                    <li className="edit_tags">
-                      <a className="tag_adder" title="Add a tag">Edit Tags</a>
-                    </li>
-                    <li className="tag_controls" style={displayNoneStyle}>
-                      <input placeholder="New Tag" type="text" className="new_tag" />
-                      <div className="add_tag_button">Add</div>
-                      <div className="done_tagging_button">✔ Done</div>
-                      <ul className="suggested_tags_holder" style={displayNoneStyle} />
-                    </li>
-                  </ul>
-                </div>
+                <select name="tags" multiple className="form-control">
+                  {tags}
+                </select>
                 <input type="hidden" name="tags" className="tag_input" />
               </div>
             </div>
           );
-        }
+        }.bind(this);
 
         var renderImageVisibilityControlGroup = function(){
           return (
