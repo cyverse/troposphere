@@ -17,12 +17,12 @@ define(
         isOpenStack: React.PropTypes.bool.isRequired
       },
 
-      renderButton: function (text, onClick, disabled) {
+      renderButton: function (text, onClick, disabled, href) {
         return (
-          <button className='btn btn-default' onClick={onClick} disabled={disabled}>
+          <a href={href} className='btn btn-default' onClick={onClick} disabled={disabled}>
             {text}
-          </button>
-          );
+          </a>
+        );
       },
 
       renderStartStopButton: function () {
@@ -105,22 +105,19 @@ define(
         return this.renderButton(
           [<Glyphicon name='camera'/>, " Image"],
           null,
-          disabled
+          disabled,
+          URL.requestImage(this.props.instance, {absolute: true})
         );
       },
 
       renderReportButton: function () {
         var disabled = !this.props.instance.get('is_active');
 
-        var onClick = function () {
-          var url = URL.reportInstance(this.props.instance);
-          Backbone.history.navigate(url, {trigger: true});
-        }.bind(this);
-
         return this.renderButton(
           [<Glyphicon name='inbox'/>, " Report"],
-          onClick,
-          disabled
+          null,
+          disabled,
+          URL.reportInstance(this.props.instance, {absolute: true})
         );
       },
 

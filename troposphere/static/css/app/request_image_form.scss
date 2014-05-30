@@ -1,0 +1,22 @@
+.request_imaging_form {
+  max-width: 600px;
+  margin-bottom: 30px;
+
+  .control-group {
+    padding-top: 12px;
+
+    .help-block {
+      font-size: 13px;
+    }
+
+    textarea, input[type=text] {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    select {
+      width: 50%;
+      max-width: 50%;
+    }
+  }
+}

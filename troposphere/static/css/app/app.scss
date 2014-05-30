@@ -1,3 +1,23 @@
+//
+// Vendor Stylesheets
+// ------------------
+//
+
+// Import bootstrap-chosen for styling the Chosen multi-select like Bootstrap
+//
+// We need to let bootstrap know the path to our glyphicons (stored in bower_components)
+$icon-font-path: "/assets/bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
+@import "../../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap";
+
+// We need to let bootstrap-chosen know the path to the spite image it uses (stored in bower_components)
+$chosen-sprite-path: '/assets/bower_components/bootstrap-chosen/chosen-sprite.png';
+@import "../../bower_components/bootstrap-chosen/bootstrap-chosen";
+
+//
+// Application specific styles
+// ---------------------------
+//
+
 @import "layout";
 @import "header";
 @import "sidebar";
@@ -8,3 +28,4 @@
 @import "global";
 @import "loading";
 @import "projects";
+@import "request_image_form";
