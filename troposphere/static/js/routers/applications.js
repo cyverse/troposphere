@@ -76,11 +76,6 @@ define(
       showAppDetail: function (appId) {
         var content = ApplicationDetail({
           applicationId: appId
-          //onRequestApplication: this.fetchApplication.bind(this, appId),
-          //onRequestIdentities: this.fetchIdentities,
-          //profile: this.state.profile,
-          //identities: this.state.identities,
-          //providers: this.state.providers
         });
         this.render(content, "images");
         this.fetchApplication(appId);
