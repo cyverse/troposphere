@@ -85,7 +85,6 @@ define(
             <a href='#'>Suggest a Tag</a>
             <Tags tags={app.get('tags')}/>
             <hr/>
-            <Rating rating={app.get('rating')}/>
             <ApplicationCard application={app} onLaunch={this.showModal}/>
             <h2>Description</h2>
             <p>{app.get('description')}</p>

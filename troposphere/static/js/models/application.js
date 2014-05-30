@@ -20,7 +20,10 @@ define(
       parse: function (response) {
         var attributes = response;
         attributes.id = response.uuid;
-        attributes.rating = Math.floor(Math.random() * 6);
+        attributes.votes = {
+          up: Math.floor(Math.random() * 100),
+          down: Math.floor(Math.random() * 100)
+        };
         attributes.favorite = response.is_bookmarked;
         var machines = _.map(attributes.machines, function (attrs) {
           return new Machine(Machine.prototype.parse(attrs));

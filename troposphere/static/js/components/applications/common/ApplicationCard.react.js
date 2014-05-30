@@ -55,7 +55,7 @@ define(
                 {app.get('name_or_id')}
               </a>
             </div>
-            <Rating rating={app.get('rating')}/>
+            <Rating up={app.get('votes').up} down={app.get('votes').down} />
             <button className='btn btn-primary btn-block launch-button' onClick={this.props.onLaunch}>
               Launch
             </button>

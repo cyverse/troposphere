@@ -55,7 +55,7 @@
       display: none;
     }
 
-    .star-rating {
+    .rating {
       display: none;
     }
   }
@@ -84,10 +84,35 @@ ul.tags {
   }
 }
 
-.star-rating {
-  font-size: 28px;
-  color: hsl(45, 85%, 50%);
-  letter-spacing: 5px;
+.rating {
+  font-size: 16px;
+  padding: 10px 0;
+
+  > div {
+    text-align: center;
+  }
+
+  .votes {
+    i {
+      font-size: 20px;
+    }
+    span {
+      padding-left: 5px;
+    }
+  }
+
+  .votes-up {
+    i {
+      color: #339933;
+    }
+  }
+
+  .votes-down {
+    i {
+      color: #cc3333;
+    }
+  }
+
 }
 
 .nav-back {
