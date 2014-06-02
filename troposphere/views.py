@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.conf import settings
 from django.core.urlresolvers import reverse
 
-from troposphere.cas import CASClient
+from caslib import CASClient
 from troposphere.oauth import OAuthClient, Unauthorized
 from troposphere.ldap_client import LDAPClient
 import troposphere.messages as messages
@@ -66,6 +66,10 @@ def maintenance(request):
     return HttpResponse("We're undergoing maintenance", status=503)
 
 def login(request):
+    if 'token' in request.GET:
+        raise Exception("I Really want to use this token!")
+        #TODO: USE IT.
+    #Go get one.
     return redirect(get_cas_client(request)._login_url())
 
 def logout(request):
@@ -87,6 +91,7 @@ def gateway_request(request):
             else:
                 return (True, m['path'], None)
     return (False, None, None)
+
 
 def cas_service(request):
     logger.debug("Cas service request")
