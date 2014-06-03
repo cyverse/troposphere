@@ -64,14 +64,11 @@ define(
           description: this.state.projectDescription
         });
         ProjectActions.create(project);
-
       },
 
       renderFooter: function () {
         return (
-          <button className="btn btn-primary" onClick={this.createProject}>
-          "Create"
-          </button>
+          <button className="btn btn-primary" onClick={this.createProject}>Create</button>
         );
       }
 

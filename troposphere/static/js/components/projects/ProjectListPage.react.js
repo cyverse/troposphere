@@ -5,9 +5,15 @@ define(
     'react',
     './list/List.react',
     'rsvp',
-    'controllers/projects'
+    'stores/projects'
   ],
-  function (React, ProjectListView, RSVP, ProjectController) {
+  function (React, ProjectListView, RSVP, ProjectStore) {
+
+    function getProjectState() {
+        return {
+          projects: ProjectStore.getAll()
+        };
+    }
 
     return React.createClass({
 
@@ -16,18 +22,19 @@ define(
       // ----------------
       //
       getInitialState: function(){
-        return {};
+        return getProjectState();
+      },
+
+      updateApps: function () {
+        if (this.isMounted()) this.setState(getProjectState());
       },
 
       componentDidMount: function () {
-        RSVP.hash({
-          projects: this.fetchProjects()
-        })
-        .then(function (results) {
-          this.setState({
-            projects: results.projects
-          })
-        }.bind(this));
+        ProjectStore.addChangeListener(this.updateApps);
+      },
+
+      componentDidUnmount: function () {
+        ProjectStore.removeChangeListener(this.updateApps);
       },
 
       //

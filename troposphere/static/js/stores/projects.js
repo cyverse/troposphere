@@ -5,16 +5,16 @@ define(
     'stores/store',
     'rsvp',
     'collections/projects',
-    'actions/projects'
+    'constants/ProjectConstants'
   ],
-  function (_, Dispatcher, Store, RSVP, Projects, ProjectActions) {
+  function (_, Dispatcher, Store, RSVP, Projects, ProjectConstants) {
 
     var _projects = null;
     var _isFetching = false;
 
     var fetchProjects = function () {
       _isFetching = true;
-      return new RSVP.Promise(function (resolve, reject) {
+      var promise = new RSVP.Promise(function (resolve, reject) {
         var projects = new Projects();
         projects.fetch().done(function () {
           _isFetching = false;
@@ -22,18 +22,19 @@ define(
           resolve();
         });
       });
-    }
+      return promise;
+    };
 
     function create(project){
       _projects.add(project);
     }
 
-    var ProjectsStore = {
+    var ProjectStore = {
 
       getAll: function () {
         if(!_projects) {
-          fetchProjects().done(function(){
-            this.emitChange();
+          fetchProjects().then(function(){
+            ProjectStore.emitChange();
           }.bind(this));
         }
         return _projects;
@@ -46,19 +47,19 @@ define(
 
       switch (action.actionType) {
         case ProjectConstants.PROJECT_CREATE:
-          ApplicationStore.fetchAll();
+          create(action.model);
           break;
 
         default:
           return true;
       }
 
-      this.emitChange();
+      ProjectStore.emitChange();
 
       return true;
     });
 
-    _.extend(ProjectsStore, Store);
+    _.extend(ProjectStore, Store);
 
-    return ProjectsStore;
+    return ProjectStore;
   });
