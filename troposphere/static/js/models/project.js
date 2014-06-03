@@ -32,6 +32,16 @@ define(
         return url;
       },
 
+      defaults: {
+        name: 'No name provided',
+        description: 'No description provided'
+      },
+
+      initialize: function(options){
+        //this.set('instances', new InstanceCollection());
+        //this.set('volumes', new VolumeCollection());
+      },
+
       parse: function (response) {
         response.start_date = new Date(response.start_date);
         response.instances = new InstanceCollection(_.map(response.instances, function (model) {
@@ -44,7 +54,12 @@ define(
       },
 
       isEmpty: function () {
-        return this.get('instances').isEmpty() && this.get('volumes').isEmpty();
+        var instances = this.get('instances');
+        var volumes = this.get('volumes');
+        var hasNoInstances = instances ? instances.isEmpty() : true;
+        var hasNoVolumes = volumes ? volumes.isEmpty() : true;
+
+        return hasNoInstances && hasNoVolumes;
       },
 
       canBeDeleted: function () {
