@@ -1,19 +1,36 @@
 define(
   [
     'underscore',
-    'models/base',
+    'backbone',
     'collections/instances',
     'models/instance',
     'collections/volumes',
-    'models/volume'
+    'models/volume',
+    'globals'
   ],
-  function (_, Base, InstanceCollection, Instance, VolumeCollection, Volume) {
+  function (_, Backbone, InstanceCollection, Instance, VolumeCollection, Volume, globals) {
 
+    var statics = {
+      objectType: function (model) {
+        var objectType;
+        if (model instanceof Instance)
+          objectType = 'instance';
+        else if (model instanceof Volume)
+          objectType = 'volume';
+        else
+          throw "Unknown model type";
+        return objectType;
+      }
+    };
 
-    return Backbone.Model.extend({
+    var Project = Backbone.Model.extend({
 
+      urlRoot: globals.API_ROOT + "/project",
 
-
+      url: function () {
+        var url = Backbone.Model.prototype.url.apply(this) + globals.slash();
+        return url;
+      },
 
       parse: function (response) {
         response.start_date = new Date(response.start_date);
@@ -24,13 +41,6 @@ define(
           return Volume.prototype.parse(model);
         }), {provider_id: null, identity_id: null});
         return response;
-      },
-
-      url: function () {
-        if (this.id)
-          return this.urlRoot + '/project/' + this.id;
-        else
-          return this.urlRoot + '/project/';
       },
 
       isEmpty: function () {
