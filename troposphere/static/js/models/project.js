@@ -9,29 +9,11 @@ define(
   ],
   function (_, Base, InstanceCollection, Instance, VolumeCollection, Volume) {
 
-    var statics = {
-      objectType: function (model) {
-        var objectType;
-        if (model instanceof Instance)
-          objectType = 'instance';
-        else if (model instanceof Volume)
-          objectType = 'volume';
-        else
-          throw "Unknown model type";
-        return objectType;
-      }
-    };
 
-    var Project = Base.extend({
-      defaults: { 'model_name': 'project' },
+    return Backbone.Model.extend({
 
-      initialize: function (attributes) {
-        _.each(['instances', 'volumes'], function (attr) {
-          this.get(attr).on('all', function () {
-            this.trigger('change', this, this.get(attr));
-          }.bind(this));
-        }.bind(this));
-      },
+
+
 
       parse: function (response) {
         response.start_date = new Date(response.start_date);
