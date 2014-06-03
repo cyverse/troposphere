@@ -4,9 +4,11 @@ define(
   [
     'react',
     'controllers/projects',
-    'components/mixins/modal'
+    'components/mixins/modal',
+    'actions/projects',
+    'models/project'
   ],
-  function (React, ProjectController, ModalMixin) {
+  function (React, ProjectController, ModalMixin, ProjectActions, Project) {
 
     return React.createClass({
       mixins: [ModalMixin],
@@ -51,17 +53,23 @@ define(
       },
 
       createProject: function () {
-        ProjectController.create(this.state.projectName,
-            this.state.projectDescription).then(function (model) {
-            this.props.projects.add(model);
-            this.close();
-          }.bind(this)
-        );
+//        ProjectController.create(this.state.projectName,
+//            this.state.projectDescription).then(function (model) {
+//            this.props.projects.add(model);
+//            this.close();
+//          }.bind(this)
+//        );
+        var project = new Project({
+          name: this.state.projectName,
+          description: this.state.projectDescription
+        });
+        ProjectActions.create(project);
+
       },
 
       renderFooter: function () {
         return (
-          <button className="btn btn-primary" onClick="this.createProject">
+          <button className="btn btn-primary" onClick={this.createProject}>
           "Create"
           </button>
         );
