@@ -5,11 +5,12 @@ define(
     'react',
     'components/common/PageHeader.react',
     'jquery',
+    'backbone',
 
     // jQuery plugins: need to make sure they're loaded, but they aren't called directly
     'chosen'
   ],
-  function (React, PageHeader, $) {
+  function (React, PageHeader, $, Backbone) {
 
     return React.createClass({
 

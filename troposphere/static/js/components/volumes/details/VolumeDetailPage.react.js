@@ -6,9 +6,10 @@ define(
     'underscore',
     'components/common/PageHeader.react',
     './VolumeInfo.react',
-    './AttachmentInfo.react'
+    './AttachmentInfo.react',
+    'backbone'
   ],
-  function (React, _, PageHeader, VolumeInfo, AttachmentInfo) {
+  function (React, _, PageHeader, VolumeInfo, AttachmentInfo, Backbone) {
 
     return React.createClass({
 

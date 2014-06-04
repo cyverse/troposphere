@@ -3,9 +3,10 @@
 define(
   [
     'react',
-    'controllers/volumes'
+    'controllers/volumes',
+    'backbone'
   ],
-  function (React, VolumeController) {
+  function (React, VolumeController, Backbone) {
 
     return React.createClass({
 

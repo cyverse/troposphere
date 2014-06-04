@@ -4,9 +4,10 @@ define(
   [
     'react',
     './ProjectItems.react',
-    './ProjectDescription.react'
+    './ProjectDescription.react',
+    'backbone'
   ],
-  function (React, ProjectItems, ProjectDescription) {
+  function (React, ProjectItems, ProjectDescription, Backbone) {
 
     return React.createClass({
 

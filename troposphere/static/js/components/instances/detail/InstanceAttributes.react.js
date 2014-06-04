@@ -3,9 +3,10 @@
 define(
   [
     'react',
-    'components/common/Time.react'
+    'components/common/Time.react',
+    'backbone'
   ],
-  function (React, Time) {
+  function (React, Time, Backbone) {
 
     return React.createClass({
 

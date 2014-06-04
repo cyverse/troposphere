@@ -3,9 +3,10 @@
 define(
   [
     'react',
-    './project/Project.react'
+    './project/Project.react',
+    'backbone'
   ],
-  function (React, Project) {
+  function (React, Project, Backbone) {
 
     return React.createClass({
 

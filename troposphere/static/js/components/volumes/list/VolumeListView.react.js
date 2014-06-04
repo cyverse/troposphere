@@ -5,9 +5,10 @@ define(
     'react',
     'underscore',
     'url',
-    'components/common/PageHeader.react'
+    'components/common/PageHeader.react',
+    'backbone'
   ],
-  function (React, _, URL, PageHeader) {
+  function (React, _, URL, PageHeader, Backbone) {
 
     return React.createClass({
 

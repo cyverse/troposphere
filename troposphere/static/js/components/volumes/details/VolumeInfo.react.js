@@ -4,9 +4,10 @@ define(
   [
     'react',
     'underscore',
-    'components/common/Time.react'
+    'components/common/Time.react',
+    'backbone'
   ],
-  function (React, _, Time) {
+  function (React, _, Time, Backbone) {
 
     return React.createClass({
 

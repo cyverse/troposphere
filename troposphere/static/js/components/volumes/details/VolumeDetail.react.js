@@ -3,9 +3,10 @@
 define(
   [
     'react',
-    './VolumeDetailPage.react'
+    './VolumeDetailPage.react',
+    'backbone'
   ],
-  function (React, VolumeDetailPage) {
+  function (React, VolumeDetailPage, Backbone) {
 
     return React.createClass({
 
