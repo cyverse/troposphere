@@ -19,25 +19,13 @@ sudo add-apt-repository ppa:chris-lea/node.js
 sudo apt-get update
 sudo apt-get install python-software-properties python g++ make nodejs
 cd /path/to/troposphere
-sudo npm install -g gulp bower
-npm install
-bower install
-```
-
-### Virtualenv
-
-```
-mkdir -p /opt/env
-virtualenv /opt/env/troposphere
-source /opt/env/troposphere/bin/activate
-pip install -r requirements.txt
+make
 ```
 
 ### Static asset compilation
 ```bash
 gulp
 ```
-
 
 Development Server
 ------------------
