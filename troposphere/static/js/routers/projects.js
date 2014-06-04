@@ -8,9 +8,10 @@ define(
     'react',
     'controllers/projects',
     'components/projects/ProjectListPage.react',
-    'context'
+    'context',
+    'backbone'
   ],
-  function (Marionette, Root, Session, React, ProjectController, ProjectListPage, context) {
+  function (Marionette, Root, Session, React, ProjectController, ProjectListPage, context, Backbone) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({

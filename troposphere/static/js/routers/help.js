@@ -7,9 +7,10 @@ define(
     'models/session',
     'react',
     'components/help/Help.react',
-    'context'
+    'context',
+    'backbone'
   ],
-  function (Marionette, Root, Session, React, Help, context) {
+  function (Marionette, Root, Session, React, Help, context, Backbone) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({

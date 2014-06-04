@@ -7,9 +7,10 @@ define(
     'react',
     'context',
     'components/volumes/VolumeDetailsPage.react',
-    'components/volumes/VolumeListPage.react'
+    'components/volumes/VolumeListPage.react',
+    'backbone'
   ],
-  function (Marionette, Root, React, context, VolumeDetailsPage, VolumeListPage) {
+  function (Marionette, Root, React, context, VolumeDetailsPage, VolumeListPage, Backbone) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({
