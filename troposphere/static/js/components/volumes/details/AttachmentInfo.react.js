@@ -5,9 +5,10 @@ define(
     'react',
     './AttachmentForm.react',
     './DestroyForm.react',
-    './DetachmentForm.react'
+    './DetachmentForm.react',
+    'backbone'
   ],
-  function (React, AttachmentForm, DestroyForm, DetachmentForm) {
+  function (React, AttachmentForm, DestroyForm, DetachmentForm, Backbone) {
 
     return React.createClass({
 

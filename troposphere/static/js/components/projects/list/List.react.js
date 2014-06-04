@@ -6,9 +6,10 @@ define(
     'components/common/PageHeader.react',
     'modal',
     './ProjectsList.react',
-    './NewProjectModal.react'
+    './NewProjectModal.react',
+    'backbone'
   ],
-  function (React, PageHeader, Modal, ProjectsList, NewProjectModal) {
+  function (React, PageHeader, Modal, ProjectsList, NewProjectModal, Backbone) {
 
     return React.createClass({
 

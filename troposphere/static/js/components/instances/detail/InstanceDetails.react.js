@@ -6,9 +6,10 @@ define(
     'components/common/PageHeader.react',
     './InstanceAttributes.react',
     './InstanceLinks.react',
-    './ActionList.react'
+    './ActionList.react',
+    'backbone'
   ],
-  function (React, PageHeader, InstanceAttributes, InstanceLinks, ActionList) {
+  function (React, PageHeader, InstanceAttributes, InstanceLinks, ActionList, Backbone) {
 
     return React.createClass({
 

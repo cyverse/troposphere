@@ -5,9 +5,10 @@ define(
     'react',
     './InstanceProjectItem.react',
     './VolumeProjectItem.react',
-    'actions/projects'
+    'actions/projects',
+    'backbone'
   ],
-  function (React, InstanceProjectItem, VolumeProjectItem, ProjectActions) {
+  function (React, InstanceProjectItem, VolumeProjectItem, ProjectActions, Backbone) {
 
     return React.createClass({
 

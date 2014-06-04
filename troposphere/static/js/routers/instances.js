@@ -7,9 +7,10 @@ define(
     'components/instances/InstanceDetailsPage.react',
     'components/instances/InstanceListPage.react',
     'components/instances/ImageRequestPage.react',
-    'components/instances/ReportInstancePage.react'
+    'components/instances/ReportInstancePage.react',
+    'backbone'
   ],
-  function (Marionette, Root, React, context, InstanceDetails, InstanceListPage, ImageRequestPage, ReportInstancePage) {
+  function (Marionette, Root, React, context, InstanceDetails, InstanceListPage, ImageRequestPage, ReportInstancePage, Backbone) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({

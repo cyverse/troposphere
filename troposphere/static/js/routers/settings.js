@@ -8,9 +8,10 @@ define(
     'react',
     'components/settings/Settings.react',
     'controllers/profile',
-    'context'
+    'context',
+    'backbone'
   ],
-  function (Marionette, Root, Session, React, Settings, Profile, context) {
+  function (Marionette, Root, Session, React, Settings, Profile, context, Backbone) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({

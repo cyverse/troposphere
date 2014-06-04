@@ -4,9 +4,10 @@ define(
   [
     'react',
     'url',
-    './ProjectItemMixin.react'
+    './ProjectItemMixin.react',
+    'backbone'
   ],
-  function (React, URL, ProjectItemMixin) {
+  function (React, URL, ProjectItemMixin, Backbone) {
 
     return React.createClass({
       mixins: [ProjectItemMixin],

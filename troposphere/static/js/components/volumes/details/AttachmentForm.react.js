@@ -4,9 +4,10 @@ define(
   [
     'react',
     'underscore',
-    'controllers/volumes'
+    'controllers/volumes',
+    'backbone'
   ],
-  function (React, _, VolumeController) {
+  function (React, _, VolumeController, Backbone) {
 
     return React.createClass({
 

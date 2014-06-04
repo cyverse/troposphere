@@ -6,9 +6,10 @@ define(
     'controllers/instances',
     'url',
     'components/common/ButtonDropdown.react',
-    'components/common/Glyphicon.react'
+    'components/common/Glyphicon.react',
+    'backbone'
   ],
-  function (React, InstanceController, URL, ButtonDropdown, Glyphicon) {
+  function (React, InstanceController, URL, ButtonDropdown, Glyphicon, Backbone) {
 
     return React.createClass({
 

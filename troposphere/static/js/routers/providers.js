@@ -8,9 +8,10 @@ define(
     'react',
     'components/providers/Providers.react',
     'context',
-    'actions/providers'
+    'actions/providers',
+    'backbone'
   ],
-  function (Marionette, Root, Session, React, Providers, context, ProviderActions) {
+  function (Marionette, Root, Session, React, Providers, context, ProviderActions, Backbone) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({

@@ -5,9 +5,10 @@ define(
     'react',
     'components/common/Time.react',
     'url',
-    './ProjectItemMixin.react'
+    './ProjectItemMixin.react',
+    'backbone'
   ],
-  function (React, Time, URL, ProjectItemMixin) {
+  function (React, Time, URL, ProjectItemMixin, Backbone) {
 
     return React.createClass({
       mixins: [ProjectItemMixin],

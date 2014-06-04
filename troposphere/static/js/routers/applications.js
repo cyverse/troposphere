@@ -14,11 +14,12 @@ define(
     'rsvp',
     'context',
     'collections/applications',
-    'actions/applications'
+    'actions/applications',
+    'backbone'
   ],
   function (Marionette, Root, Session, React, ApplicationList,
   ApplicationFavorites, ApplicationDetail, Results, Application, RSVP, context,
-  Applications, ApplicationActions) {
+  Applications, ApplicationActions, Backbone) {
   'use strict';
 
     var Router = Marionette.AppRouter.extend({
