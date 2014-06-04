@@ -5,7 +5,7 @@ define(
     'components/modals/CancelConfirmModal.react',
     'react'
   ],
-  function (AppDispatcher, ProjectConstants, BootstrapModal, CancelConfirmModal, React) {
+  function (AppDispatcher, ProjectConstants, CancelConfirmModal, React) {
 
     return {
       create: function (project) {
