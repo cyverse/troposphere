@@ -38,12 +38,25 @@ define(
         this.refs.modal.show();
       },
 
+      //
+      resetState: function(){
+        this.replaceState({
+          projectName: "",
+          projectDescription: ""
+        });
+        $(this.getDOMNode()).find('#project-name').val("");
+        $(this.getDOMNode()).find('#project-description').val("");
+      },
+
       createProject: function () {
+        // save optimistically and hide the modal
         var project = new Project({
           name: this.state.projectName,
           description: this.state.projectDescription
         });
         ProjectActions.create(project);
+        this.resetState();
+        this.refs.modal.hide();
       },
 
       render: function(){
@@ -57,6 +70,7 @@ define(
             show={false}
             header="Create Project"
             buttons={buttons}
+            handleHidden={this.resetState}
           >
             <form role='form' onSubmit={this.onSubmit}>
               <div className='form-group'>
@@ -65,7 +79,10 @@ define(
               </div>
               <div className='form-group'>
                 <label htmlFor='project-description'>Description</label>
-                <textarea type='text' className='form-control' id='project-description' rows="7" onChange={this.textareaOnChange}/>
+                <textarea type='text' className='form-control'
+                          id='project-description' rows="7"
+                          onChange={this.textareaOnChange}
+                />
               </div>
             </form>
           </BootstrapModal>
