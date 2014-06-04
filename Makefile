@@ -1,22 +1,29 @@
-.DEFAULT_GOAL = all
+.DEFAULT_GOAL =	all
 
-.PHONY = all clean delete bower-install gulp-dev gulp-prod npm production prod
+.PHONY =	all clean delete delete-javascript delete-virtualenv bower-install gulp-dev gulp-prod \
+		javascript js npm pip prod production python virtualenv
 
-NPM	= npm
-NODE	= node
-GULP	= $(NODE) ./node_modules/gulp/bin/gulp.js
-BOWER	= $(NODE) ./node_modules/bower/bin/bower --allow-root
+BOWER	=	$(NODE) ./node_modules/bower/bin/bower --allow-root
+GULP	=	$(NODE) ./node_modules/gulp/bin/gulp.js
+NPM	=	npm
+NODE	=	node
+SHELL	=	/bin/bash
 
-all : npm bower-install gulp-dev
+all : npm bower-install gulp-dev virtualenv pip
 
 clean :
 	$(GULP) clean
 	$(BOWER) prune
 
-delete :
+delete : delete-javascript delete-virtualenv
+
+delete-javascript :
 	rm -rf ./node_modules/
 	rm -rf ./troposphere/assets/
 	rm -rf troposphere/static/bower_components/
+
+delete-virtualenv :
+	rm -rf /opt/env/troposphere/
 
 bower-install : .bowerrc bower.json
 	$(BOWER) install
@@ -27,9 +34,22 @@ gulp-dev : npm bower-install
 gulp-prod : npm bower-install
 	$(GULP) prod
 
+javascript : npm bower-install gulp-dev
+
+js : javascript
+
 npm : package.json
 	$(NPM) install --link
 
-production: gulp-prod
+pip : virtualenv
+	source /opt/env/troposphere/bin/activate;pip install -U -r requirements.txt
 
-prod: gulp-prod
+prod : gulp-prod
+
+production : gulp-prod
+
+python : virtualenv pip
+
+virtualenv :
+	mkdir -p /opt/env
+	-virtualenv /opt/env/troposphere
