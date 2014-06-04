@@ -23,9 +23,7 @@ define(
       },
 
       launchNewProjectModal: function () {
-        Modal.show(
-          <NewProjectModal projects={this.props.projects}/>
-        );
+        this.refs.modal.show();
       },
 
       render: function () {
@@ -38,6 +36,7 @@ define(
               </button>
             </p>
             <ProjectsList projects={this.props.projects}/>
+            <NewProjectModal ref="modal"/>
           </div>
         );
       }

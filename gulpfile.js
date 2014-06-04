@@ -4,6 +4,7 @@ var runSequence = require('run-sequence');
 
 // Styles
 require('./gulp/tasks/sass')(gulp);
+require('./gulp/tasks/sass_noUser')(gulp);
 
 // Scripts
 require('./gulp/tasks/scripts')(gulp);
@@ -26,7 +27,7 @@ gulp.task('default', function () {
 
   runSequence(
     'clean',
-    ['sass', 'scripts', 'bower_components', 'react', 'images']
+    ['sass', 'sass_noUser', 'scripts', 'bower_components', 'react', 'images']
   );
 
 });
@@ -36,7 +37,7 @@ gulp.task('prod', function () {
 
   runSequence(
     'clean',
-    ['sass', 'scripts', 'bower_components', 'react', 'images'],
+    ['sass', 'sass_noUser', 'scripts', 'bower_components', 'react', 'images'],
     'rjs:dev'
   );
 

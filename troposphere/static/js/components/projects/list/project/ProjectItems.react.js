@@ -3,11 +3,11 @@
 define(
   [
     'react',
-    'controllers/projects',
     './InstanceProjectItem.react',
-    './VolumeProjectItem.react'
+    './VolumeProjectItem.react',
+    'actions/projects'
   ],
-  function (React, ProjectController, InstanceProjectItem, VolumeProjectItem) {
+  function (React, InstanceProjectItem, VolumeProjectItem, ProjectActions) {
 
     return React.createClass({
 
@@ -17,7 +17,7 @@ define(
       },
 
       confirmDelete: function () {
-        ProjectController.delete(this.props.project);
+        ProjectActions.destroy(this.props.project);
       },
 
       render: function () {

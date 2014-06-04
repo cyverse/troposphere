@@ -1,13 +1,14 @@
 define(
   [
     'underscore',
-    'models/base',
+    'backbone',
     'collections/instances',
     'models/instance',
     'collections/volumes',
-    'models/volume'
+    'models/volume',
+    'globals'
   ],
-  function (_, Base, InstanceCollection, Instance, VolumeCollection, Volume) {
+  function (_, Backbone, InstanceCollection, Instance, VolumeCollection, Volume, globals) {
 
     var statics = {
       objectType: function (model) {
@@ -22,15 +23,23 @@ define(
       }
     };
 
-    var Project = Base.extend({
-      defaults: { 'model_name': 'project' },
+    var Project = Backbone.Model.extend({
 
-      initialize: function (attributes) {
-        _.each(['instances', 'volumes'], function (attr) {
-          this.get(attr).on('all', function () {
-            this.trigger('change', this, this.get(attr));
-          }.bind(this));
-        }.bind(this));
+      urlRoot: globals.API_ROOT + "/project",
+
+      url: function () {
+        var url = Backbone.Model.prototype.url.apply(this) + globals.slash();
+        return url;
+      },
+
+      defaults: {
+        name: 'No name provided',
+        description: 'No description provided'
+      },
+
+      initialize: function(options){
+        //this.set('instances', new InstanceCollection());
+        //this.set('volumes', new VolumeCollection());
       },
 
       parse: function (response) {
@@ -44,15 +53,13 @@ define(
         return response;
       },
 
-      url: function () {
-        if (this.id)
-          return this.urlRoot + '/project/' + this.id;
-        else
-          return this.urlRoot + '/project/';
-      },
-
       isEmpty: function () {
-        return this.get('instances').isEmpty() && this.get('volumes').isEmpty();
+        var instances = this.get('instances');
+        var volumes = this.get('volumes');
+        var hasNoInstances = instances ? instances.isEmpty() : true;
+        var hasNoVolumes = volumes ? volumes.isEmpty() : true;
+
+        return hasNoInstances && hasNoVolumes;
       },
 
       canBeDeleted: function () {

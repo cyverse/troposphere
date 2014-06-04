@@ -3,13 +3,13 @@
 define(
   [
     'react',
-    'controllers/projects',
-    'components/mixins/modal'
+    'components/common/BootstrapModal.react',
+    'actions/projects',
+    'models/project'
   ],
-  function (React, ProjectController, ModalMixin) {
+  function (React, BootstrapModal, ProjectActions, Project) {
 
     return React.createClass({
-      mixins: [ModalMixin],
 
       getInitialState: function () {
         return {
@@ -18,52 +18,74 @@ define(
         };
       },
 
-      renderTitle: function () {
-        return "Create Project";
+      // todo: I don't think there's a reason to update state unless
+      // there's a risk of the component being re-rendered by the parent.
+      // Should probably verify this behavior, but for now, we play it safe.
+      inputOnChange: function (e) {
+        this.setState({projectName: e.target.value});
       },
 
-      renderBody: function () {
+      textareaOnChange: function (e) {
+        this.setState({projectDescription: e.target.value});
+      },
 
-        var inputOnChange = function (e) {
-          this.setState({'projectName': e.target.value});
-        }.bind(this);
+      onSubmit: function (e) {
+        e.preventDefault();
+      },
 
-        var textareaOnChange = function (e) {
-          this.setState({'projectDescription': e.target.value});
-        }.bind(this);
+      // called by the parent component to show the modal
+      show: function(){
+        this.refs.modal.show();
+      },
 
-        var onSubmit = function (e) {
-          e.preventDefault();
-        };
-
-        return (
-          <form role='form' onSubmit={this.onSubmit}>
-            <div className='form-group'>
-              <label htmlFor='project-name'>Project Name</label>
-              <input type='text' className='form-control' id='project-name' onChange={this.inputOnChange}/>
-            </div>
-            <div className='form-group'>
-              <label htmlFor='project-description'>Description</label>
-              <textarea type='text' className='form-control' id='project-description' rows="7" onChange={this.textareaOnChange}/>
-            </div>
-          </form>
-        );
+      //
+      resetState: function(){
+        this.replaceState({
+          projectName: "",
+          projectDescription: ""
+        });
+        $(this.getDOMNode()).find('#project-name').val("");
+        $(this.getDOMNode()).find('#project-description').val("");
       },
 
       createProject: function () {
-        ProjectController.create(this.state.projectName,
-            this.state.projectDescription).then(function (model) {
-            this.props.projects.add(model);
-            this.close();
-          }.bind(this)
-        );
+        // save optimistically and hide the modal
+        var project = new Project({
+          name: this.state.projectName,
+          description: this.state.projectDescription
+        });
+        ProjectActions.create(project);
+        this.resetState();
+        this.refs.modal.hide();
       },
 
-      renderFooter: function () {
+      render: function(){
+        var buttons = [
+          {type: 'primary', text: 'Create', handler: this.createProject}
+        ];
+
         return (
-          <button className="btn btn-primary" onClick="this.createProject">
-          "Create"
-          </button>
+          <BootstrapModal
+            ref="modal"
+            show={false}
+            header="Create Project"
+            buttons={buttons}
+            handleHidden={this.resetState}
+          >
+            <form role='form' onSubmit={this.onSubmit}>
+              <div className='form-group'>
+                <label htmlFor='project-name'>Project Name</label>
+                <input type='text' className='form-control' id='project-name' onChange={this.inputOnChange}/>
+              </div>
+              <div className='form-group'>
+                <label htmlFor='project-description'>Description</label>
+                <textarea type='text' className='form-control'
+                          id='project-description' rows="7"
+                          onChange={this.textareaOnChange}
+                />
+              </div>
+            </form>
+          </BootstrapModal>
         );
       }
 
