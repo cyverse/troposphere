@@ -11,7 +11,7 @@ define(
     //
     // Copied from http://bl.ocks.org/insin/raw/8449696/
     //
-    
+
     var BootstrapModalMixin = function () {
       var handlerProps = [
         'handleShow',

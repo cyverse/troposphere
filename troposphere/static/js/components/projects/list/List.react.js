@@ -36,12 +36,7 @@ define(
               </button>
             </p>
             <ProjectsList projects={this.props.projects}/>
-            <NewProjectModal
-              ref="modal"
-              show={false}
-              header="Example Modal"
-              buttons={buttons}
-            />
+            <NewProjectModal ref="modal"/>
           </div>
         );
       }
