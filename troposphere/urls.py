@@ -7,8 +7,6 @@ urlpatterns = patterns('',
     url(r'^forbidden$', 'troposphere.views.forbidden', name='forbidden'),
     url(r'^login$', 'troposphere.views.login'),
     url(r'^logout$', 'troposphere.views.logout'),
-    url(r'^cas/service$', 'troposphere.views.cas_service', name='cas_service'),
     url(r'^cas/oauth2.0$', 'troposphere.views.cas_oauth_service',
         name='cas_oauth_service'),
-    url(r'^emulate/(?P<username>\w+)$', 'troposphere.views.emulate'),
 )

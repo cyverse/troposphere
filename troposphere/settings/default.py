@@ -21,7 +21,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-    'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_jenkins',
 )
@@ -98,6 +97,10 @@ PIPELINE_YUGLIFY_BINARY = os.path.join(os.path.dirname(BASE_DIR),
 PIPELINE_ENABLED = True
 
 # Sessions
+
+# Cookie-based sessions. Cookies are cryptographically signed.
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+
 # https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-SESSION_SERIALIZER
 # Without this setting, a leakage of the secret key results in a remote
 # code execution vulnerability. So keep this.

@@ -8,9 +8,7 @@ from django.core.urlresolvers import reverse
 
 from caslib import CASClient
 from caslib import OAuthClient as CAS_OAuthClient
-from troposphere.oauth import OAuthClient, Unauthorized
-from troposphere.ldap_client import LDAPClient
-import troposphere.messages as messages
+#from troposphere.ldap_client import LDAPClient
 
 logger = logging.getLogger(__name__)
 
@@ -22,16 +20,12 @@ def get_cas_client(request):
     return CASClient(settings.CAS_SERVER, service_url)
 
 key = open(settings.OAUTH_PRIVATE_KEY_PATH, 'r').read()
-oauth_client = OAuthClient(settings.OAUTH_SERVER,
-                           key,
-                           settings.OAUTH_ISS,
-                           settings.OAUTH_SCOPE)
 cas_oauth_client = CAS_OAuthClient(settings.CAS_SERVER,
                            settings.OAUTH_CLIENT_CALLBACK,
                            settings.OAUTH_CLIENT_KEY,
                            settings.OAUTH_CLIENT_SECRET,
                            auth_prefix="/castest")
-ldap_client = LDAPClient(settings.LDAP_SERVER, settings.LDAP_SERVER_DN)
+#ldap_client = LDAPClient(settings.LDAP_SERVER, settings.LDAP_SERVER_DN)
 
 def root(request):
     return redirect('application')
@@ -42,23 +36,13 @@ def application(request):
     if disabled_login:
         return redirect('maintenance')
 
-    response = None
-    for msg in messages.get_messages(request):
-        if isinstance(msg, dict) and 'login_check' in msg:
-            if 'access_token' in msg.keys():
-                token = msg['access_token']
-                response = render(request, 'application.html', {
-                                  'access_token': token['value'],
-                                  })
-            else:
-                response = render(request, 'index.html')
-
-    if response:
-        return response
-
-    flash = {'gatewayed': True, 'path': request.get_full_path()}
-    messages.add_message(request, flash)
-    return redirect(get_cas_client(request)._login_url(gateway=True))
+    if 'access_token' in request.session:
+        template_params = {
+           'access_token': request.session['access_token']
+        }
+        return render(request, 'application.html', template_params)
+    else:
+        return render(request, 'index.html')
 
 def get_maintenance():
     """
@@ -77,28 +61,8 @@ def logout(request):
     root_url = request.build_absolute_uri(reverse('application'))
     return redirect(get_cas_client(request)._logout_url(root_url))
 
-def gateway_request(request):
-    """
-    Returns a tuple of the form (a, b, c) where a is true iff the preceeding
-    request was an attempt to log in the use into CAS with gateway=true, b
-    is the path that was originally requested on Troposphere, and c is the
-    name of the user to emulate if the user is allowed to do so
-    https://wiki.jasig.org/display/CAS/gateway
-    """
-    for m in messages.get_messages(request):
-        if isinstance(m, dict) and m.has_key('gatewayed'):
-            if m.has_key('emulated_user'):
-                return (True, m['path'], m['emulated_user'])
-            else:
-                return (True, m['path'], None)
-    return (False, None, None)
-
-
 def cas_oauth_service(request):
     logger.debug("OAuth-CAS service request")
-    gatewayed, sendback, emulated_user = gateway_request(request)
-    if sendback is None:
-        sendback = 'application'
     if 'code' not in request.GET:
         #You should not be here, you should be at OAuth-wrapped CAS login.
         return redirect(cas_oauth_client.authorize_url())
@@ -110,53 +74,8 @@ def cas_oauth_service(request):
         #Lets try again (Redirect to OAuth-wrapped CAS login)
         return redirect(cas_oauth_client.authorize_url())
     #Token is valid... Our work here is done.
-    messages.add_message(request, {'login_check': True,
-                                   'access_token': {'value': token}})
-    return redirect(sendback)
-
-def cas_service(request):
-    logger.debug("CAS service request")
-    gatewayed, sendback, emulated_user = gateway_request(request)
-    if sendback is None:
-        sendback = 'application'
-    ticket = request.GET.get('ticket', None)
-
-    if not ticket:
-        logger.info("No Ticket received in GET string")
-        messages.add_message(request, {'login_check': True})
-        return redirect(sendback)
-
-    # Authenticate request with CAS
-    cas_response = get_cas_client(request).cas_serviceValidate(ticket)
-    if not cas_response or not cas_response.user:
-        messages.add_message(request, {'login_check': True})
-        return redirect(sendback)
-    user = cas_response.user
-    logger.debug(user + " successfully authenticated against CAS")
-
-    # Authorize request with Groupy OAuth
-    try:
-        token_user = user
-        if emulated_user:
-            if not user_can_emulate(user):
-                raise Unauthorized("User %s is not authorized to "
-                                   "emulate user %s" % (user, emulated_user))
-            token_user = emulated_user
-
-        token, expires = oauth_client.generate_access_token(token_user)
-        logger.debug("TOKEN: " + token)
-        expires = int((expires - datetime.utcfromtimestamp(0)).total_seconds())
-        messages.add_message(request, {'login_check': True,
-                                       'access_token': {'value': token}})
-        return redirect(sendback)
-    except Unauthorized:
-        if gatewayed:
-            messages.add_message(request, {'login_check': True})
-            return redirect(sendback)
-        else:
-            return redirect('forbidden')
-
-    return redirect(sendback)
+    request.session['access_token'] = token
+    return redirect('application')
 
 def forbidden(request):
     """
@@ -165,24 +84,3 @@ def forbidden(request):
     Returns HTTP status code 403 Forbidden
     """
     return render(request, 'no_user.html', status=403)
-
-def user_can_emulate(username):
-    """
-    Returns true iff the provider user is allowed to emulate
-    """
-    core_services = ldap_client.get_group_members('core-services')
-    return username in core_services
-
-def emulate(request, username=None):
-    """
-    Allow authorized users to pretend to be another user
-    """
-    application_url = request.build_absolute_uri(reverse('application'))
-
-    flash = {
-        'gatewayed': True,
-        'path': application_url,
-        'emulated_user': username
-    }
-    messages.add_message(request, flash)
-    return redirect(get_cas_client(request)._login_url(gateway=True))
