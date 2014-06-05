@@ -96,3 +96,30 @@ PIPELINE_YUGLIFY_BINARY = os.path.join(os.path.dirname(BASE_DIR),
     'node_modules', 'yuglify', 'bin', 'yuglify')
 
 PIPELINE_ENABLED = True
+
+# Sessions
+# https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-SESSION_SERIALIZER
+# Without this setting, a leakage of the secret key results in a remote
+# code execution vulnerability. So keep this.
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
+
+# Logging
+LOGGING_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'logs')
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(LOGGING_ROOT, 'troposphere.log'),
+        },
+    },
+    'loggers': {
+        '': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
