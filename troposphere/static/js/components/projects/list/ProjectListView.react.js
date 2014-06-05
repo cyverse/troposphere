@@ -5,11 +5,11 @@ define(
     'react',
     'components/common/PageHeader.react',
     'modal',
-    './ProjectsList.react',
+    './ProjectList.react',
     './NewProjectModal.react',
     'backbone'
   ],
-  function (React, PageHeader, Modal, ProjectsList, NewProjectModal, Backbone) {
+  function (React, PageHeader, Modal, ProjectList, NewProjectModal, Backbone) {
 
     return React.createClass({
 
@@ -36,7 +36,7 @@ define(
               Create Project
               </button>
             </p>
-            <ProjectsList projects={this.props.projects}/>
+            <ProjectList projects={this.props.projects}/>
             <NewProjectModal ref="modal"/>
           </div>
         );

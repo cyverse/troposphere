@@ -81,7 +81,6 @@ define(
         // todo: remove in production - development mode only
         if (window.location.hostname == 'localhost') {
             window.access_token = "api-token";
-            window.expires = "it's a mystery!";
 
             $.ajaxSetup({
               headers: {'Authorization': 'Token ' + window.access_token}

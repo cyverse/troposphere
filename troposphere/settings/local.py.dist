@@ -8,12 +8,15 @@ TEMPLATE_DEBUG = False
 
 ALLOWED_HOSTS = []
 
+SERVER_URL = "url-to-your-server"
+
 # CAS
 SERVER_URL = 'https://MY_SERVER_HERE'
 CAS_SERVER = 'https://cas.example.com'
 OAUTH_CLIENT_KEY = "KEY_HERE"
 OAUTH_CLIENT_SECRET = "SECRET_HERE"
 OAUTH_CLIENT_CALLBACK = SERVER_URL+ "/login/oauth2.0/callbackAuthorize"
+
 # OAUTH
 OAUTH_SERVER = 'https://oauth.example.com'
 OAUTH_PRIVATE_KEY_PATH = '/path/to/private.key'
