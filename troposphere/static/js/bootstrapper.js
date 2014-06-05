@@ -88,8 +88,7 @@ define(
             });
 
             session.set({
-              access_token: window.access_token,
-              expires: window.expires
+              access_token: window.access_token
             });
 
         // For Chris to use w/ Apache config
@@ -98,8 +97,7 @@ define(
             headers: {'Authorization': 'Bearer ' + window.access_token}
           });
           session.set({
-            access_token: window.access_token,
-            expires: window.expires
+            access_token: window.access_token
           });
         }
 
