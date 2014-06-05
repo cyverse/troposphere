@@ -3,7 +3,7 @@
 define(
   [
     'react',
-    './list/List.react',
+    './list/ProjectListView.react',
     'rsvp',
     'stores/projects'
   ],

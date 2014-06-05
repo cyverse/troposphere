@@ -3,17 +3,17 @@
 define(
   [
     'react',
-    'components/common/ButtonDropdown.react'
+    'components/common/ButtonDropdown.react',
+    'actions/projects'
   ],
-  function (React, ButtonDropdown) {
+  function (React, ButtonDropdown, ProjectActions) {
 
     return {
       handleMove: function (destination, e) {
         e.preventDefault();
         var model = this.props.model;
         var source = this.props.project;
-        destination.putItem(model);
-        source.removeItem(model);
+        ProjectActions.moveProjectItemTo(source, model, destination);
       },
 
       renderAction: function () {

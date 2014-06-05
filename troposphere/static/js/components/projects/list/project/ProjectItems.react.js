@@ -6,9 +6,18 @@ define(
     './InstanceProjectItem.react',
     './VolumeProjectItem.react',
     'actions/projects',
-    'backbone'
+    'backbone',
+    'stores/ProjectInstanceStore',
+    'stores/ProjectVolumeStore'
   ],
-  function (React, InstanceProjectItem, VolumeProjectItem, ProjectActions, Backbone) {
+  function (React, InstanceProjectItem, VolumeProjectItem, ProjectActions, Backbone, ProjectInstanceStore, ProjectVolumeStore) {
+
+    function getProjectState(project) {
+      return {
+        projectInstances: ProjectInstanceStore.getInstancesInProject(project),
+        projectVolumes: ProjectVolumeStore.getVolumesInProject(project)
+      };
+    }
 
     return React.createClass({
 
@@ -17,16 +26,37 @@ define(
         projects: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
+      getInitialState: function(){
+        return getProjectState(this.props.project);
+      },
+
+      componentDidMount: function () {
+        ProjectInstanceStore.addChangeListener(this._onChange);
+        ProjectVolumeStore.addChangeListener(this._onChange);
+      },
+
+      componentDidUnmount: function () {
+        ProjectInstanceStore.removeChangeListener(this._onChange);
+        ProjectVolumeStore.removeChangeListener(this._onChange);
+      },
+
+      _onChange: function(){
+        if (this.isMounted()) this.setState(getProjectState(this.props.project));
+      },
+
       confirmDelete: function () {
         ProjectActions.destroy(this.props.project);
       },
 
       render: function () {
+
         var self = this;
         var project = this.props.project;
-
+        var projectContainsInstances = this.state.projectInstances && this.state.projectInstances.length !== 0;
+        var projectContainsVolumes = this.state.projectVolumes && this.state.projectVolumes.length !== 0;
         var content;
-        if (project.isEmpty()) {
+
+        if (!projectContainsInstances && !projectContainsVolumes){
 
           var children = [
             React.DOM.span({className: 'no-project-items'},
@@ -46,31 +76,35 @@ define(
 
           var items = [];
 
-          items = items.concat(
-            project.get('instances').map(function (instance) {
-              return (
-                <InstanceProjectItem
-                  key={instance.id}
-                  model={instance}
-                  projects={self.props.projects}
-                  project={project}
-                />
-              );
-            })
-          );
+          if(this.state.projectInstances){
+            items = items.concat(
+              this.state.projectInstances.map(function (instance) {
+                return (
+                  <InstanceProjectItem
+                    key={instance.id}
+                    model={instance}
+                    projects={self.props.projects}
+                    project={project}
+                  />
+                );
+              })
+            );
+          }
 
-          items = items.concat(
-            project.get('volumes').map(function (volume) {
-              return (
-                <VolumeProjectItem
-                  key={volume.id}
-                  model={volume}
-                  projects={self.props.projects}
-                  project={project}
-                />
-              );
-            })
-          );
+          if(this.state.projectVolumes){
+            items = items.concat(
+              this.state.projectVolumes.map(function (volume) {
+                return (
+                  <VolumeProjectItem
+                    key={volume.id}
+                    model={volume}
+                    projects={self.props.projects}
+                    project={project}
+                  />
+                );
+              })
+            );
+          }
 
           content = (
             <ul className="project-items container-fluid">

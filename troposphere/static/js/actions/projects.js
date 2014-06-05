@@ -2,10 +2,26 @@ define(
   [
     'dispatchers/app_dispatcher',
     'constants/ProjectConstants',
+    'constants/ProjectInstanceConstants',
+    'constants/ProjectVolumeConstants',
     'components/modals/CancelConfirmModal.react',
-    'react'
+    'react',
+    'models/instance',
+    'models/volume'
   ],
-  function (AppDispatcher, ProjectConstants, CancelConfirmModal, React) {
+  function (AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, CancelConfirmModal, React, Instance, Volume) {
+
+    function getItemType(model) {
+      var objectType;
+      if (model instanceof Instance) {
+        objectType = 'instance';
+      } else if (model instanceof Volume) {
+        objectType = 'volume';
+      } else {
+        throw "Unknown model type";
+      }
+      return objectType;
+    }
 
     return {
       create: function (project) {
@@ -18,7 +34,6 @@ define(
       destroy: function (project) {
 
         var onConfirm = function () {
-          console.log('woo! try delete project!');
           AppDispatcher.handleRouteAction({
             actionType: ProjectConstants.PROJECT_DESTROY,
             model: project
@@ -35,8 +50,47 @@ define(
         });
 
         React.renderComponent(modal, document.getElementById('modal'));
+      },
 
+      moveProjectItemTo: function(sourceProject, projectItem, targetProject){
+        this.removeItemFromProject(sourceProject, projectItem);
+        this.addItemToProject(targetProject, projectItem);
+      },
+
+      addItemToProject: function(project, projectItem){
+        var itemType = getItemType(projectItem);
+        if(itemType === "instance"){
+          AppDispatcher.handleRouteAction({
+            actionType: ProjectInstanceConstants.ADD_INSTANCE_TO_PROJECT,
+            project: project,
+            instance: projectItem
+          });
+        }else if(itemType === "volume"){
+          AppDispatcher.handleRouteAction({
+            actionType: ProjectVolumeConstants.ADD_VOLUME_TO_PROJECT,
+            project: project,
+            volume: projectItem
+          });
+        }
+      },
+
+      removeItemFromProject: function(project, projectItem){
+        var itemType = getItemType(projectItem);
+        if(itemType === "instance"){
+          AppDispatcher.handleRouteAction({
+            actionType: ProjectInstanceConstants.REMOVE_INSTANCE_FROM_PROJECT,
+            project: project,
+            instance: projectItem
+          });
+        }else if(itemType === "volume"){
+          AppDispatcher.handleRouteAction({
+            actionType: ProjectVolumeConstants.REMOVE_VOLUME_FROM_PROJECT,
+            project: project,
+            volume: projectItem
+          });
+        }
       }
+
     };
 
   });
