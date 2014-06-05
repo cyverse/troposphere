@@ -18,10 +18,9 @@
     <div id="application"></div>
     <div id="modal"></div>
 
-    {% if access_token and expires %}
+    {% if access_token %}
     <script type="text/javascript">
         var access_token = "{{ access_token }}";
-        var expires = {{ expires }};
     </script>
     {% endif %}
 

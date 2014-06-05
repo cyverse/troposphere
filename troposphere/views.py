@@ -7,6 +7,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 
 from caslib import CASClient
+from caslib import OAuthClient as CAS_OAuthClient
 from troposphere.oauth import OAuthClient, Unauthorized
 from troposphere.ldap_client import LDAPClient
 import troposphere.messages as messages
@@ -25,7 +26,11 @@ oauth_client = OAuthClient(settings.OAUTH_SERVER,
                            key,
                            settings.OAUTH_ISS,
                            settings.OAUTH_SCOPE)
-
+cas_oauth_client = CAS_OAuthClient(settings.CAS_SERVER,
+                           settings.OAUTH_CLIENT_CALLBACK,
+                           settings.OAUTH_CLIENT_KEY,
+                           settings.OAUTH_CLIENT_SECRET,
+                           auth_prefix="/castest")
 ldap_client = LDAPClient(settings.LDAP_SERVER, settings.LDAP_SERVER_DN)
 
 def root(request):
@@ -44,7 +49,7 @@ def application(request):
                 token = msg['access_token']
                 response = render(request, 'application.html', {
                                   'access_token': token['value'],
-                                  'expires': token['expires']})
+                                  })
             else:
                 response = render(request, 'index.html')
 
@@ -66,11 +71,7 @@ def maintenance(request):
     return HttpResponse("We're undergoing maintenance", status=503)
 
 def login(request):
-    if 'token' in request.GET:
-        raise Exception("I Really want to use this token!")
-        #TODO: USE IT.
-    #Go get one.
-    return redirect(get_cas_client(request)._login_url())
+    return redirect(cas_oauth_client.authorize_url())
 
 def logout(request):
     root_url = request.build_absolute_uri(reverse('application'))
@@ -93,8 +94,28 @@ def gateway_request(request):
     return (False, None, None)
 
 
+def cas_oauth_service(request):
+    logger.debug("OAuth-CAS service request")
+    gatewayed, sendback, emulated_user = gateway_request(request)
+    if sendback is None:
+        sendback = 'application'
+    if 'code' not in request.GET:
+        #You should not be here, you should be at OAuth-wrapped CAS login.
+        return redirect(cas_oauth_client.authorize_url())
+
+    code_service_ticket = request.GET['code']
+    token, expiry_date = cas_oauth_client.get_access_token(code_service_ticket)
+    if not token:
+        #code_service_ticket has expired (They don't last very long...)
+        #Lets try again (Redirect to OAuth-wrapped CAS login)
+        return redirect(cas_oauth_client.authorize_url())
+    #Token is valid... Our work here is done.
+    messages.add_message(request, {'login_check': True,
+                                   'access_token': {'value': token}})
+    return redirect(sendback)
+
 def cas_service(request):
-    logger.debug("Cas service request")
+    logger.debug("CAS service request")
     gatewayed, sendback, emulated_user = gateway_request(request)
     if sendback is None:
         sendback = 'application'
@@ -126,8 +147,7 @@ def cas_service(request):
         logger.debug("TOKEN: " + token)
         expires = int((expires - datetime.utcfromtimestamp(0)).total_seconds())
         messages.add_message(request, {'login_check': True,
-                                       'access_token': {'value': token,
-                                                        'expires': expires}})
+                                       'access_token': {'value': token}})
         return redirect(sendback)
     except Unauthorized:
         if gatewayed:
