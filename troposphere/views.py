@@ -6,18 +6,9 @@ from django.shortcuts import render, redirect
 from django.conf import settings
 from django.core.urlresolvers import reverse
 
-from caslib import CASClient
 from caslib import OAuthClient as CAS_OAuthClient
-#from troposphere.ldap_client import LDAPClient
 
 logger = logging.getLogger(__name__)
-
-def get_cas_client(request):
-    #Simple service validation setup
-    service_url = ""
-    if request:
-        service_url = request.build_absolute_uri(reverse('cas_service'))
-    return CASClient(settings.CAS_SERVER, service_url)
 
 key = open(settings.OAUTH_PRIVATE_KEY_PATH, 'r').read()
 cas_oauth_client = CAS_OAuthClient(settings.CAS_SERVER,
@@ -25,7 +16,6 @@ cas_oauth_client = CAS_OAuthClient(settings.CAS_SERVER,
                            settings.OAUTH_CLIENT_KEY,
                            settings.OAUTH_CLIENT_SECRET,
                            auth_prefix="/castest")
-#ldap_client = LDAPClient(settings.LDAP_SERVER, settings.LDAP_SERVER_DN)
 
 def root(request):
     return redirect('application')
@@ -58,8 +48,8 @@ def login(request):
     return redirect(cas_oauth_client.authorize_url())
 
 def logout(request):
-    root_url = request.build_absolute_uri(reverse('application'))
-    return redirect(get_cas_client(request)._logout_url(root_url))
+    request.session.flush()
+    return redirect('application')
 
 def cas_oauth_service(request):
     logger.debug("OAuth-CAS service request")
