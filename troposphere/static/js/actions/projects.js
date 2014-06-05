@@ -2,10 +2,25 @@ define(
   [
     'dispatchers/app_dispatcher',
     'constants/ProjectConstants',
+    'constants/ProjectInstanceConstants',
     'components/modals/CancelConfirmModal.react',
-    'react'
+    'react',
+    'models/instance',
+    'models/volume'
   ],
-  function (AppDispatcher, ProjectConstants, CancelConfirmModal, React) {
+  function (AppDispatcher, ProjectConstants, ProjectInstanceConstants, CancelConfirmModal, React, Instance, Volume) {
+
+    function getItemType(model) {
+      var objectType;
+      if (model instanceof Instance) {
+        objectType = 'instance';
+      } else if (model instanceof Volume) {
+        objectType = 'volume';
+      } else {
+        throw "Unknown model type";
+      }
+      return objectType;
+    }
 
     return {
       create: function (project) {
@@ -35,8 +50,35 @@ define(
         });
 
         React.renderComponent(modal, document.getElementById('modal'));
+      },
 
+      moveProjectItemTo: function(sourceProject, projectItem, targetProject){
+        this.removeItemFromProject(sourceProject, projectItem);
+        this.addItemToProject(targetProject, projectItem);
+      },
+
+      addItemToProject: function(project, projectItem){
+        var itemType = getItemType(projectItem);
+        if(itemType === "instance"){
+          AppDispatcher.handleRouteAction({
+            actionType: ProjectInstanceConstants.ADD_INSTANCE_TO_PROJECT,
+            project: project,
+            instance: projectItem
+          });
+        }
+      },
+
+      removeItemFromProject: function(project, projectItem){
+        var itemType = getItemType(projectItem);
+        if(itemType === "instance"){
+          AppDispatcher.handleRouteAction({
+            actionType: ProjectInstanceConstants.REMOVE_INSTANCE_FROM_PROJECT,
+            project: project,
+            instance: projectItem
+          });
+        }
       }
+
     };
 
   });
