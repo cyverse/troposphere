@@ -13,6 +13,10 @@ define(
     var _projects = null;
     var _isFetching = false;
 
+    //
+    // CRUD Operations
+    //
+
     var fetchProjects = function () {
       _isFetching = true;
       var promise = new RSVP.Promise(function (resolve, reject) {
@@ -45,6 +49,10 @@ define(
       });
       _projects.remove(project);
     }
+
+    //
+    // Project Store
+    //
 
     var ProjectStore = {
 
