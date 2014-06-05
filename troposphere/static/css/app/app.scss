@@ -13,6 +13,9 @@ $icon-font-path: "/assets/bower_components/bootstrap-sass-official/vendor/assets
 $chosen-sprite-path: '/assets/bower_components/bootstrap-chosen/chosen-sprite.png';
 @import "../../bower_components/bootstrap-chosen/bootstrap-chosen";
 
+// toastr, for showing toast notifications
+@import "../../bower_components/toastr/toastr";
+
 //
 // Application specific styles
 // ---------------------------
