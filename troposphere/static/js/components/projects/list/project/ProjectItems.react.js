@@ -7,14 +7,15 @@ define(
     './VolumeProjectItem.react',
     'actions/projects',
     'backbone',
-    'stores/ProjectInstanceStore'
+    'stores/ProjectInstanceStore',
+    'stores/ProjectVolumeStore'
   ],
-  function (React, InstanceProjectItem, VolumeProjectItem, ProjectActions, Backbone, ProjectInstanceStore) {
+  function (React, InstanceProjectItem, VolumeProjectItem, ProjectActions, Backbone, ProjectInstanceStore, ProjectVolumeStore) {
 
     function getProjectState(project) {
       return {
-        projectInstances: ProjectInstanceStore.getInstancesInProject(project)
-        //projectVolumes: TodoStore.areAllComplete()
+        projectInstances: ProjectInstanceStore.getInstancesInProject(project),
+        projectVolumes: ProjectVolumeStore.getVolumesInProject(project)
       };
     }
 
@@ -31,10 +32,12 @@ define(
 
       componentDidMount: function () {
         ProjectInstanceStore.addChangeListener(this._onChange);
+        ProjectVolumeStore.addChangeListener(this._onChange);
       },
 
       componentDidUnmount: function () {
         ProjectInstanceStore.removeChangeListener(this._onChange);
+        ProjectVolumeStore.removeChangeListener(this._onChange);
       },
 
       _onChange: function(){
@@ -49,9 +52,11 @@ define(
 
         var self = this;
         var project = this.props.project;
-
+        var projectContainsInstances = this.state.projectInstances && this.state.projectInstances.length !== 0;
+        var projectContainsVolumes = this.state.projectVolumes && this.state.projectVolumes.length !== 0;
         var content;
-        if (!this.state.projectInstances || this.state.projectInstances.length === 0){//project.isEmpty()) {
+
+        if (!projectContainsInstances && !projectContainsVolumes){
 
           var children = [
             React.DOM.span({className: 'no-project-items'},
@@ -86,18 +91,20 @@ define(
             );
           }
 
-//          items = items.concat(
-//            project.get('volumes').map(function (volume) {
-//              return (
-//                <VolumeProjectItem
-//                  key={volume.id}
-//                  model={volume}
-//                  projects={self.props.projects}
-//                  project={project}
-//                />
-//              );
-//            })
-//          );
+          if(this.state.projectVolumes){
+            items = items.concat(
+              this.state.projectVolumes.map(function (volume) {
+                return (
+                  <VolumeProjectItem
+                    key={volume.id}
+                    model={volume}
+                    projects={self.props.projects}
+                    project={project}
+                  />
+                );
+              })
+            );
+          }
 
           content = (
             <ul className="project-items container-fluid">
