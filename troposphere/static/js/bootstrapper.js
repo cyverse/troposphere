@@ -16,9 +16,10 @@ define(
     'routers/help',
     'routers/providers',
     'routers/volumes',
-    'routers/instances'
+    'routers/instances',
+    'routers/DefaultRouter'
   ],
-  function ($, RSVP, Backbone, context, Session, ProfileController, ProjectsRouter, ApplicationsRouter, SettingsRouter, HelpRouter, ProvidersRouter, VolumesRouter, InstancesRouter) {
+  function ($, RSVP, Backbone, context, Session, ProfileController, ProjectsRouter, ApplicationsRouter, SettingsRouter, HelpRouter, ProvidersRouter, VolumesRouter, InstancesRouter, DefaultRouter) {
 
     function startApplication() {
 
@@ -38,6 +39,9 @@ define(
         ProvidersRouter.start();
         VolumesRouter.start();
         InstancesRouter.start();
+        // Note: The default router needs to start last, so it's wildcard route will be the last route
+        // that Backbone attempts to match against
+        DefaultRouter.start();
 
         // For push state support:
         // Route all internal links to the Backbone router(s). External links
