@@ -5,10 +5,9 @@ define(
     'react',
     './Header.react',
     './sidebar/Sidebar.react',
-    './Footer.react',
-    './Notifications.react'
+    './Footer.react'
   ],
-  function (React, Header, Sidebar, Footer, Notifications) {
+  function (React, Header, Sidebar, Footer) {
 
     return React.createClass({
 
@@ -25,7 +24,6 @@ define(
             <Sidebar loggedIn={this.state.loggedIn}
                      currentRoute={this.props.route}
             />
-            <Notifications/>
             <div id='main'>
               {this.props.content}
             </div>
