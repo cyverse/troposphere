@@ -1,31 +1,32 @@
 define(
   [
-    'collections/notifications'
+    'toastr',
+    'underscore'
   ],
-  function (Notifications) {
-    var notifications = new Notifications();
+  function (toastr, _) {
 
-    /*
-     * string type must be one of ['success', 'info', 'warning', danger']
-     * string header
-     * string body
-     * object options
-     boolean options.no_timeout if set to true will display the notifcation until it's been explicitly closed
-     */
-    var notify = function (type, header, body, options) {
-      var defaults = {no_timeout: false};
-      var options = options ? _.defaults(options, defaults) : defaults;
-      notifications.add({
-        'header': header,
-        'body': body,
-        'timestamp': new Date(),
-        'sticky': options.no_timeout,
-        'type': type
-      });
+    toastr.options = {
+      "timeOut": "3000",
+      "extendedTimeOut": "3000"
+    };
+
+    var notify = function (type, title, message, options) {
+      options = options || {};
+      options = _.defaults(options, toastr.options);
+
+      if (type === "success") {
+        toastr.success(message, title, options);
+      } else if (type === "info") {
+        toastr.info(message, title, options);
+      } else if (type === "danger") {
+        toastr.error(message, title, options);
+      } else if (type === "warning") {
+        toastr.warning(message, title, options);
+      }
+
     };
 
     return {
-      collection: notifications,
       success: notify.bind(null, 'success'),
       info: notify.bind(null, 'info'),
       warning: notify.bind(null, 'warning'),

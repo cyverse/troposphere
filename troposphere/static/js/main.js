@@ -20,7 +20,8 @@ require.config({
     moment: '../bower_components/moment/moment',
     react: '../bower_components/react/react-with-addons',
     rsvp: '../bower_components/rsvp/rsvp.amd',
-    chosen: '../bower_components/chosen/chosen.jquery'
+    chosen: '../bower_components/chosen/chosen.jquery',
+    toastr: '../bower_components/toastr/toastr'
   },
   shim: {
     underscore: {
