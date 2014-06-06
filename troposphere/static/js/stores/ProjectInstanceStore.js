@@ -13,7 +13,7 @@ define(
   function (_, Dispatcher, Store, RSVP, ProjectInstanceConstants, NotificationController, Instance, Backbone, globals) {
 
     var _projectInstances = {};
-    var _isFetching = false;
+    var _isBeingFetched = {};
 
     //
     // Project Instance Model
@@ -55,13 +55,13 @@ define(
     //
 
     var fetchProjectInstances = function (project) {
-      _isFetching = true;
+      _isBeingFetched[project.id] = true;
       var promise = new RSVP.Promise(function (resolve, reject) {
         var projectInstances = new ProjectInstanceCollection(null, {
           project: project
         });
         projectInstances.fetch().done(function () {
-          _isFetching = false;
+          _isBeingFetched[project.id] = false;
           _projectInstances[project.id] = projectInstances;
           resolve();
         });
@@ -111,7 +111,11 @@ define(
 
       getInstancesInProject: function (project) {
         var projectInstances = _projectInstances[project.id];
-        if(!projectInstances) {
+        var instancesAreBeingFetched = _isBeingFetched[project.id];
+
+        // If there are no instances for the project, and the instances aren't being fetched
+        // already, then go fetch them, otherwise return the instances we already have
+        if(!projectInstances && !instancesAreBeingFetched) {
           fetchProjectInstances(project).then(function(){
             ProjectInstanceStore.emitChange();
           }.bind(this));
