@@ -30,8 +30,12 @@ define(
 
       $(document).ready(function () {
 
-        // Start the project routers - one of them should be listening for the
-        // default empty route ("")
+        // Start the project routers
+        //
+        // Note: The default router needs to start first, so it's wildcard route will be the last route
+        // that Backbone attempts to match against
+        //
+        DefaultRouter.start();
         ProjectsRouter.start();
         ApplicationsRouter.start();
         SettingsRouter.start();
@@ -39,9 +43,6 @@ define(
         ProvidersRouter.start();
         VolumesRouter.start();
         InstancesRouter.start();
-        // Note: The default router needs to start last, so it's wildcard route will be the last route
-        // that Backbone attempts to match against
-        DefaultRouter.start();
 
         // For push state support:
         // Route all internal links to the Backbone router(s). External links
