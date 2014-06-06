@@ -13,7 +13,7 @@ define(
   function (_, Dispatcher, Store, RSVP, ProjectVolumeConstants, NotificationController, Volume, Backbone, globals) {
 
     var _projectVolumes = {};
-    var _isFetching = false;
+    var _isBeingFetched = {};
 
     //
     // Project Volume Model
@@ -55,13 +55,13 @@ define(
     //
 
     var fetchProjectVolumes = function (project) {
-      _isFetching = true;
+      _isBeingFetched[project.id] = true;
       var promise = new RSVP.Promise(function (resolve, reject) {
         var projectVolumes = new ProjectVolumeCollection(null, {
           project: project
         });
         projectVolumes.fetch().done(function () {
-          _isFetching = false;
+          _isBeingFetched[project.id] = false;
           _projectVolumes[project.id] = projectVolumes;
           resolve();
         });
@@ -111,7 +111,11 @@ define(
 
       getVolumesInProject: function (project) {
         var projectVolumes = _projectVolumes[project.id];
-        if(!projectVolumes) {
+        var volumesAreBeingFetched = _isBeingFetched[project.id];
+
+        // If there are no volumes for the project, and the volumes aren't being fetched
+        // already, then go fetch them, otherwise return the volumes we already have
+        if(!projectVolumes && !volumesAreBeingFetched) {
           fetchProjectVolumes(project).then(function(){
             ProjectVolumeStore.emitChange();
           }.bind(this));
