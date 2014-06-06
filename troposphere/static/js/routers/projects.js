@@ -16,7 +16,6 @@ define(
 
     var Router = Marionette.AppRouter.extend({
       appRoutes: {
-        '': 'showProjects',
         'projects': 'showProjects'
       }
     });

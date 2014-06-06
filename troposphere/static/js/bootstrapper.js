@@ -16,9 +16,10 @@ define(
     'routers/help',
     'routers/providers',
     'routers/volumes',
-    'routers/instances'
+    'routers/instances',
+    'routers/DefaultRouter'
   ],
-  function ($, RSVP, Backbone, context, Session, ProfileController, ProjectsRouter, ApplicationsRouter, SettingsRouter, HelpRouter, ProvidersRouter, VolumesRouter, InstancesRouter) {
+  function ($, RSVP, Backbone, context, Session, ProfileController, ProjectsRouter, ApplicationsRouter, SettingsRouter, HelpRouter, ProvidersRouter, VolumesRouter, InstancesRouter, DefaultRouter) {
 
     function startApplication() {
 
@@ -29,8 +30,12 @@ define(
 
       $(document).ready(function () {
 
-        // Start the project routers - one of them should be listening for the
-        // default empty route ("")
+        // Start the project routers
+        //
+        // Note: The default router needs to start first, so it's wildcard route will be the last route
+        // that Backbone attempts to match against
+        //
+        DefaultRouter.start();
         ProjectsRouter.start();
         ApplicationsRouter.start();
         SettingsRouter.start();
