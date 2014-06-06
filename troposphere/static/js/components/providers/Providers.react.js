@@ -4,13 +4,17 @@ define(
   [
     'react',
     'components/common/PageHeader.react',
-    'stores/providers'
+    'stores/providers',
+    'stores/identities',
+    'actions/providers',
+    'actions/identities'
   ],
-  function (React, PageHeader, ProviderStore) {
+  function (React, PageHeader, ProviderStore, IdentityStore, ProviderActions, IdentityActions) {
 
     function getProviderState() {
       return {
-        providers: ProviderStore.getAll()
+        providers: ProviderStore.getAll(),
+        identities: IdentityStore.getAll()
       };
     }
 
@@ -27,13 +31,18 @@ define(
 
       componentDidMount: function() {
         ProviderStore.addChangeListener(this.updateProviders);
+        IdentityStore.addChangeListener(this.updateProviders);
+        ProviderActions.fetchAll();
+        IdentityActions.fetchAll();
       },
 
       componentDidUnmount: function() {
         ProviderStore.removeChangeListener(this.updateProviders);
+        IdentityStore.removeChangeListener(this.updateProviders);
       },
 
       render: function () {
+        console.log(this.state);
         var providers = this.state.providers;
 
         var items = providers.map(function (model) {
