@@ -4,14 +4,24 @@ define(
   [
     'react',
     'components/common/PageHeader.react',
-    'stores/providers'
+    'stores/providers',
+    'stores/identities',
+    'actions/providers',
+    'actions/identities',
+    'components/providers/Provider.react'
   ],
-  function (React, PageHeader, ProviderStore) {
+  function (React, PageHeader, ProviderStore, IdentityStore, ProviderActions, IdentityActions, Provider) {
 
     function getProviderState() {
-      return {
-        providers: ProviderStore.getAll()
+      var state = {
+        providers: ProviderStore.getAll(),
+        identities: IdentityStore.getAll()
       };
+      if (state.identities)
+        state.identities = state.identities.groupBy(function(model) {
+          return model.get('provider_id');
+        });
+      return state;
     }
 
     return React.createClass({
@@ -27,21 +37,26 @@ define(
 
       componentDidMount: function() {
         ProviderStore.addChangeListener(this.updateProviders);
+        IdentityStore.addChangeListener(this.updateProviders);
+        ProviderActions.fetchAll();
+        IdentityActions.fetchAll();
       },
 
       componentDidUnmount: function() {
         ProviderStore.removeChangeListener(this.updateProviders);
+        IdentityStore.removeChangeListener(this.updateProviders);
       },
 
       render: function () {
         var providers = this.state.providers;
 
         var items = providers.map(function (model) {
-          return [
-            <h2>{model.get('location')}</h2>,
-            <p>{model.get('description')}</p>
-          ];
-        });
+          var identities;
+          if (this.state.identities)
+            identities = this.state.identities[model.id];
+
+          return (<Provider provider={model} identities={identities} />);
+        }.bind(this));
 
         return (
           <div>
