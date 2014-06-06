@@ -6,9 +6,14 @@ define(
     './list/InstanceListView.react',
     'rsvp',
     'collections/identities',
-    'collections/instances'
+    'collections/instances',
+    'stores/InstanceStore'
   ],
-  function (React, InstanceListView, RSVP, Identities, Instances) {
+  function (React, InstanceListView, RSVP, Identities, Instances, InstanceStore) {
+
+    function getState(){
+      return { }
+    }
 
     return React.createClass({
 
@@ -22,10 +27,16 @@ define(
       },
 
       getInitialState: function(){
-        return {};
+        return getState();
+      },
+
+      updateInstances: function () {
+        if (this.isMounted()) this.setState(getState());
       },
 
       componentDidMount: function () {
+        //InstanceStore.addChangeListener(this.updateInstances);
+
         var self = this;
         RSVP.hash({
           identities: self.fetchIdentities()
@@ -49,6 +60,10 @@ define(
             instances: instances
           })
         });
+      },
+
+      componentDidUnmount: function () {
+        //InstanceStore.removeChangeListener(this.updateInstances);
       },
 
       //
