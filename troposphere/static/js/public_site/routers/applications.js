@@ -25,7 +25,8 @@ define(
         '': 'showImages',
         'images': 'showImages',
         'images/:id': 'showAppDetail',
-        'images/search/:query': 'appSearch'
+        'images/search/:query': 'appSearch',
+        '*path':  'defaultRoute'
       }
     });
 
@@ -55,6 +56,11 @@ define(
       //
       // Route handlers
       //
+
+      defaultRoute: function(){
+        Backbone.history.navigate('', {trigger: true});
+      },
+
       showImages: function () {
         this.render(ApplicationList(), "images");
         this.fetchApplications();
