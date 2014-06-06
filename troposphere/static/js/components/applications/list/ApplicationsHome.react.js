@@ -60,19 +60,21 @@ define(
           ];
         }
 
+        // todo: Add ability for user to toggle display mode and then put this back in the code
+        //  <div className='view-selector'>
+        //    {'View:'}
+        //    <a className='btn btn-default'>
+        //      <span className='glyphicon glyphicon-th'>{''}</span>
+        //    </a>
+        //    <a className='btn btn-default'>
+        //      <span className='glyphicon glyphicon-th-list'>{''}</span>
+        //    </a>
+        //  </div>
+
         return (
           <div>
             <PageHeader title='Images' helpText={this.helpText}/>
             <ApplicationSearch/>
-            <div className='view-selector'>
-              {'View:'}
-              <a className='btn btn-default'>
-                <span className='glyphicon glyphicon-th'>{''}</span>
-              </a>
-              <a className='btn btn-default'>
-                <span className='glyphicon glyphicon-th-list'>{''}</span>
-              </a>
-            </div>
             {content}
           </div>
         );

@@ -15,8 +15,6 @@ define(
 
       onSubmit: function (e) {
         e.preventDefault();
-        console.log(e);
-        console.log(this.state.content);
         /* TODO: Send support request */
       },
 

@@ -60,7 +60,7 @@ define(
       return _applications;
     },
     getFeatured: function() {
-      return new Applications(_applications.filter(function(app) {
+      return new ApplicationCollection(_applications.filter(function(app) {
         return app.get('featured');
       }));
     },
@@ -90,7 +90,6 @@ define(
 
   Dispatcher.register(function(payload) {
     var action = payload.action;
-    console.log(payload);
 
     switch(action.actionType) {
       case AppActions.constants.fetchAll:

@@ -19,15 +19,12 @@ define(
      * returns RSVP.Promise
      */
     var attachVolume = function (volume, instance, mountLocation) {
-      console.log("instance to attach to", instance);
       return new RSVP.Promise(function (resolve, reject) {
         volume.attachTo(instance, mountLocation, {
           success: function (response_text) {
             var header = "Volume Successfully Attached";
             var body = 'You must <a href="https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachinganEBSVolumetoanInstance-Step6%3AMountthefilesystemonthepartition." target="_blank">mount the volume</a> you before you can use it.<br />';
             body += 'If the volume is new, you will need to <a href="https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachinganEBSVolumetoanInstance-Step5%3ACreatethefilesystem%28onetimeonly%29." target="_blank">create the file system</a> first.';
-
-            console.log("success response text", response_text);
 
             Notifications.success(header, body, { no_timeout: true });
             resolve(response_text);

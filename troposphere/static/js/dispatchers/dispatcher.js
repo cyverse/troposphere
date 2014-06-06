@@ -22,7 +22,6 @@ define(['rsvp', 'underscore'], function(RSVP, _) {
       return _callbacks.length - 1;
     },
     dispatch: function(payload) {
-      console.log(_callbacks);
       _.each(_callbacks, function(cb) {
         _addPromise(cb, payload);
       });
