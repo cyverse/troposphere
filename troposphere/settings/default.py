@@ -21,7 +21,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-    'django.contrib.staticfiles',
     'django_jenkins',
 )
 
@@ -56,48 +55,7 @@ USE_TZ = True
 # Templates
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.6/howto/static-files/
-STATIC_URL = '/assets/'
-#STATIC_ROOT = os.path.join(BASE_DIR, "assets")
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "assets"),
-)
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'pipeline.finders.PipelineFinder',
-)
-
-# Django Pipeline
-# http://django-pipeline.readthedocs.org/
-STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
-INSTALLED_APPS += ('pipeline',)
-PIPELINE_CSS = {
-    'application': {
-        'source_filenames': (
-            'css/layout.css',
-            'css/header.css',
-            'css/sidebar.css',
-            'css/dashboard.css',
-            'css/volumes.css',
-            'css/settings.css',
-            'css/applications.css',
-            'css/global.css',
-            'css/loading.css',
-            'css/projects.css',
-        ),
-        'output_filename': 'css/application.css'
-    }
-}
-
-PIPELINE_YUGLIFY_BINARY = os.path.join(os.path.dirname(BASE_DIR),
-    'node_modules', 'yuglify', 'bin', 'yuglify')
-
-PIPELINE_ENABLED = True
-
 # Sessions
-
 # Cookie-based sessions. Cookies are cryptographically signed.
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
