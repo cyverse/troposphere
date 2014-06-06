@@ -23,7 +23,6 @@ define(
     };
 
     var createProject = function (name, description) {
-      console.log(name, description);
       return new RSVP.Promise(function (resolve, reject) {
         var model = new Model();
         model.save({name: name, description: description}, {
@@ -44,7 +43,6 @@ define(
 
       var onConfirm = function () {
         return new RSVP.Promise(function (resolve, reject) {
-          console.log('deleting project');
           project.destroy({
             wait: true,
             success: function () {

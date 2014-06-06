@@ -65,7 +65,6 @@ define(
         var problems = _.values(
           _.pick(this.problemText, problemKeys)
         );
-        console.log(this.state);
       },
 
       problemText: {
