@@ -38,7 +38,7 @@ gulp.task('prod', function () {
   runSequence(
     'clean',
     ['sass', 'sass_noUser', 'scripts', 'bower_components', 'react', 'images'],
-    'rjs:dev'
+    'rjs:prod'
   );
 
 });
