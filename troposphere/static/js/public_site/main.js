@@ -1,18 +1,19 @@
 require.config({
   baseUrl: '/assets/js',
   paths: {
-    jquery: '../bower_components/jquery/dist/jquery',
-    backbone: '../bower_components/backbone/backbone',
-    marionette: '../bower_components/backbone.marionette/lib/core/amd/backbone.marionette',
-    'backbone.wreqr': '../bower_components/backbone.wreqr/lib/backbone.wreqr',
+    jquery: '//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min',
+    backbone: '//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min',
+    marionette: '//cdnjs.cloudflare.com/ajax/libs/backbone.marionette/1.8.6/core/amd/backbone.marionette.min',
+    'backbone.wreqr': '//cdnjs.cloudflare.com/ajax/libs/backbone.wreqr/0.1.0/backbone.wreqr.min',
     'backbone.babysitter': '../bower_components/backbone.babysitter/lib/backbone.babysitter',
-    underscore: '../bower_components/underscore/underscore',
+    underscore: '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min',
     google: 'https://www.google.com/jsapi',
-    bootstrap: '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap',
+    bootstrap: '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min',
     moment: '//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min',
-    react: '//cdnjs.cloudflare.com/ajax/libs/react/0.10.0/react',
+    react: '//cdnjs.cloudflare.com/ajax/libs/react/0.10.0/react-with-addons.min',
     rsvp: '//cdn.jsdelivr.net/rsvp/3.0/rsvp.amd.min',
-    toastr: '../bower_components/toastr/toastr'
+    chosen: '//cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.jquery.min',
+    toastr: '//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.2/js/toastr.min'
   },
   shim: {
     underscore: {
@@ -30,6 +31,10 @@ require.config({
     },
 
     bootstrap: {
+      deps: ['jquery']
+    },
+
+    chosen: {
       deps: ['jquery']
     }
   }
