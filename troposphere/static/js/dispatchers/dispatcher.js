@@ -26,6 +26,12 @@ define(['rsvp', 'underscore'], function(RSVP, _) {
         _addPromise(cb, payload);
       });
       RSVP.all(_promises).then(_clearPromises);
+    },
+    waitFor: function(/*array*/ promiseIndexes, /*function*/ callback) {
+      var selectedPromises = _.map(promiseIndexes, function(index) {
+        return _promises[index];
+      });
+      return RSVP.all(selectedPromises).then(callback);
     }
   };
 
