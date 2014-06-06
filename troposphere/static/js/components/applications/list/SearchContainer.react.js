@@ -46,6 +46,11 @@ define(
       render: function () {
         var linkText = (this.state.showAdvancedOptions ? "Hide" : "Show") + " Advanced Search Options";
 
+
+        // todo: implement advanced search and put this back in the code
+        //  <a onClick={this.toggleAdvancedOptions} href='#'>{linkText}</a>
+        //  <AdvancedOptions visible={this.state.showAdvancedOptions}/>
+
         return (
           <div id='search-container'>
             <input
@@ -56,10 +61,6 @@ define(
               value={this.state.query}
               onKeyUp={this.handleKeyUp}
             />
-            <a onClick={this.toggleAdvancedOptions} href='#'>
-              {linkText}
-            </a>
-            <AdvancedOptions visible={this.state.showAdvancedOptions}/>
             <hr/>
           </div>
         );
