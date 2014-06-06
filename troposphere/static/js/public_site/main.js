@@ -11,7 +11,8 @@ require.config({
     bootstrap: '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap',
     moment: '//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min',
     react: '//cdnjs.cloudflare.com/ajax/libs/react/0.10.0/react',
-    rsvp: '//cdn.jsdelivr.net/rsvp/3.0/rsvp.amd.min'
+    rsvp: '//cdn.jsdelivr.net/rsvp/3.0/rsvp.amd.min',
+    toastr: '../bower_components/toastr/toastr'
   },
   shim: {
     underscore: {
