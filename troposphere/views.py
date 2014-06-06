@@ -45,6 +45,8 @@ def maintenance(request):
     return HttpResponse("We're undergoing maintenance", status=503)
 
 def login(request):
+    if 'redirect_to' in request.GET:
+      request.session['redirect_to'] = request.GET['redirect_to']
     return redirect(cas_oauth_client.authorize_url())
 
 def logout(request):
@@ -65,6 +67,9 @@ def cas_oauth_service(request):
         return redirect(cas_oauth_client.authorize_url())
     #Token is valid... Our work here is done.
     request.session['access_token'] = token
+
+    if 'redirect_to' in request.session:
+      return redirect(request.session['redirect_to'])
     return redirect('application')
 
 def forbidden(request):
