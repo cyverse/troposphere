@@ -77,7 +77,7 @@ define(
 
       projectVolume.save().done(function(){
         var successMessage = "Volume '" + volume.get('name') + "' added to Project '" + project.get('name') + "'";
-        NotificationController.success(message);
+        NotificationController.success(successMessage);
       }).fail(function(){
         var failureMessage = "Error adding Volume '" + volume.get('name') + "' to Project '" + project.get('name') + "' :(  Please let Support know.";
         NotificationController.danger(failureMessage);
