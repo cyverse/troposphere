@@ -2,13 +2,13 @@ define(
   [
     'underscore',
     'collections/ApplicationCollection',
-    'collections/application_search_results',
+    'collections/ApplicationSearchResultCollection',
     'dispatchers/Dispatcher',
     'rsvp',
     'models/application',
     'actions/ApplicationActions',
     'stores/Store'
-  ], function(_, ApplicationCollection, SearchResults, Dispatcher, RSVP, Application, ApplicationActions, Store) {
+  ], function(_, ApplicationCollection, ApplicationSearchResultCollection, Dispatcher, RSVP, Application, ApplicationActions, Store) {
 
   var _applications = new ApplicationCollection();
   var _search_results = {};
@@ -32,7 +32,7 @@ define(
       });
     },
     search: function(query) {
-      var apps = new SearchResults([], {
+      var apps = new ApplicationSearchResultCollection([], {
         query: query
       });
 
