@@ -5,7 +5,7 @@ define(
     'react',
     'components/common/PageHeader.react',
     'stores/providers',
-    'stores/identities',
+    'stores/IdentityStore',
     'actions/providers',
     'actions/identities',
     'components/providers/Provider.react'
