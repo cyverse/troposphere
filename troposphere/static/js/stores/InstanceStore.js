@@ -37,7 +37,7 @@ define(
     var InstanceStore = {
 
       getAll: function () {
-        if(!_instances) {
+        if(!_instances && !_isFetching) {
           fetchInstances().then(function(){
             InstanceStore.emitChange();
           }.bind(this));

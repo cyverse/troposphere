@@ -57,7 +57,7 @@ define(
     var ProjectStore = {
 
       getAll: function () {
-        if(!_projects) {
+        if(!_projects && !_isFetching) {
           fetchProjects().then(function(){
             ProjectStore.emitChange();
           }.bind(this));
