@@ -6,9 +6,9 @@ define(
     'dispatchers/dispatcher',
     'rsvp',
     'models/application',
-    'actions/applications',
+    'actions/ApplicationActions',
     'stores/store'
-  ], function(_, ApplicationCollection, SearchResults, Dispatcher, RSVP, Application, AppActions, Store) {
+  ], function(_, ApplicationCollection, SearchResults, Dispatcher, RSVP, Application, ApplicationActions, Store) {
 
   var _applications = new ApplicationCollection();
   var _search_results = {};
@@ -92,13 +92,13 @@ define(
     var action = payload.action;
 
     switch(action.actionType) {
-      case AppActions.constants.fetchAll:
+      case ApplicationActions.constants.fetchAll:
         ApplicationStore.fetchAll();
         break;
-      case AppActions.constants.fetchDetail:
+      case ApplicationActions.constants.fetchDetail:
         ApplicationStore.fetchDetail(action.id);
         break;
-      case AppActions.constants.search:
+      case ApplicationActions.constants.search:
         ApplicationStore.search(action.query);
         break;
       default:

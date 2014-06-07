@@ -3,11 +3,11 @@
 define(
   [
     'react',
-    'actions/applications',
+    'actions/ApplicationActions',
     'stores/applications',
     '../list/ApplicationCardList.react'
   ],
-  function (React, AppActions, AppStore, ApplicationCardList) {
+  function (React, ApplicationActions, AppStore, ApplicationCardList) {
 
     return React.createClass({
 
@@ -26,7 +26,7 @@ define(
       componentDidMount: function() {
         AppStore.addChangeListener(this.updateResults);
         if (!this.state.apps)
-          AppActions.search(this.props.query);
+          ApplicationActions.search(this.props.query);
       },
 
       componentDidUnmount: function() {
@@ -39,7 +39,7 @@ define(
         if (results)
           this.setState({apps: results});
         else
-          AppActions.search(nextProps.query);
+          ApplicationActions.search(nextProps.query);
       },
 
       render: function () {

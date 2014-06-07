@@ -14,7 +14,7 @@ define(
     'rsvp',
     'context',
     'collections/applications',
-    'actions/applications',
+    'actions/ApplicationActions',
     'backbone'
   ],
   function (Marionette, Root, Session, React, ApplicationList,

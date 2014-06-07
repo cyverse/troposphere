@@ -14,7 +14,7 @@ define(
     'rsvp',
     'context',
     'collections/applications',
-    'actions/applications'
+    'actions/ApplicationActions'
   ],
   function ( Marionette, Root, Session, React, ApplicationList, ApplicationFavorites, ApplicationDetail,
     Results, Application, RSVP, context, Applications, ApplicationActions) {
