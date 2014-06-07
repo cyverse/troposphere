@@ -6,7 +6,7 @@ define(
 
     // Cross-app models
     'context',
-    'models/session',
+    'models/Session',
 
     // Routers
     './routers/ApplicationRouter',

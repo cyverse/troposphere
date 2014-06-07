@@ -4,7 +4,6 @@ define(
   [
     'marionette',
     'components/Root.react',
-    'models/session',
     'react',
     'components/applications/list/ApplicationsHome.react',
     'components/applications/favorites/Favorites.react',
@@ -15,7 +14,7 @@ define(
     'context',
     'actions/ApplicationActions'
   ],
-  function (Marionette, Root, Session, React, ApplicationList, ApplicationFavorites, ApplicationDetail, Results, Application, RSVP, context, ApplicationActions) {
+  function (Marionette, Root, React, ApplicationList, ApplicationFavorites, ApplicationDetail, SearchResults, Application, RSVP, context, ApplicationActions) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({
@@ -83,7 +82,7 @@ define(
       },
 
       appSearch: function (query) {
-        var content = Results({query: query});
+        var content = SearchResults({query: query});
         this.render(content, "appSearch");
       }
 
