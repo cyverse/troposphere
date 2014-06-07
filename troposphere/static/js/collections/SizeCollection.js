@@ -2,7 +2,7 @@ define(
   [
     'backbone',
     'underscore',
-    'models/size',
+    'models/Size',
     'globals'
   ],
   function (Backbone, _, Size, globals) {
