@@ -10,16 +10,16 @@ define(
     'controllers/profile',
 
     // Routers
-    'routers/projects',
-    'routers/applications',
-    'routers/settings',
-    'routers/help',
-    'routers/providers',
-    'routers/volumes',
-    'routers/instances',
+    'routers/ProjectRouter',
+    'routers/ApplicationRouter',
+    'routers/SettingsRouter',
+    'routers/HelpRouter',
+    'routers/ProviderRouter',
+    'routers/VolumeRouter',
+    'routers/InstanceRouter',
     'routers/DefaultRouter'
   ],
-  function ($, RSVP, Backbone, context, Session, ProfileController, ProjectsRouter, ApplicationsRouter, SettingsRouter, HelpRouter, ProvidersRouter, VolumesRouter, InstancesRouter, DefaultRouter) {
+  function ($, RSVP, Backbone, context, Session, ProfileController, ProjectRouter, ApplicationRouter, SettingsRouter, HelpRouter, ProviderRouter, VolumeRouter, InstanceRouter, DefaultRouter) {
 
     function startApplication() {
 
@@ -36,13 +36,13 @@ define(
         // that Backbone attempts to match against
         //
         DefaultRouter.start();
-        ProjectsRouter.start();
-        ApplicationsRouter.start();
+        ProjectRouter.start();
+        ApplicationRouter.start();
         SettingsRouter.start();
         HelpRouter.start();
-        ProvidersRouter.start();
-        VolumesRouter.start();
-        InstancesRouter.start();
+        ProviderRouter.start();
+        VolumeRouter.start();
+        InstanceRouter.start();
 
         // For push state support:
         // Route all internal links to the Backbone router(s). External links
