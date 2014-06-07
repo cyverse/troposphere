@@ -4,7 +4,7 @@ define(
     'dispatchers/Dispatcher',
     'stores/Store',
     'rsvp',
-    'collections/volumes',
+    'collections/VolumeCollection',
     'constants/VolumeConstants',
     'controllers/notifications',
     'stores/IdentityStore'

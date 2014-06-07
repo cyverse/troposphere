@@ -4,7 +4,7 @@ define(
     'backbone',
     'collections/InstanceCollection',
     'models/instance',
-    'collections/volumes',
+    'collections/VolumeCollection',
     'models/volume',
     'globals'
   ],

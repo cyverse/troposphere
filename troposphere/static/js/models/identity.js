@@ -3,9 +3,9 @@ define(
     'backbone',
     'underscore',
     'collections/InstanceCollection',
-    'collections/volumes'
+    'collections/VolumeCollection'
   ],
-  function (Backbone, _, InstanceCollection, Volumes) {
+  function (Backbone, _, InstanceCollection, VolumeCollection) {
 
     return Backbone.Model.extend({
 
@@ -49,7 +49,7 @@ define(
       },
 
       volumes: function () {
-        return this.get_collection(Volumes, '_volumes');
+        return this.get_collection(VolumeCollection, '_volumes');
       }
     });
 
