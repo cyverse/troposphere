@@ -13,7 +13,7 @@ define(
     './MachineList.react',
     'controllers/profile',
     'stores/ApplicationStore',
-    'stores/providers',
+    'stores/ProviderStore',
     'actions/ProviderActions'
   ],
   function (React, Rating, Tags, ApplicationCard, Modal, LaunchModal,

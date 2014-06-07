@@ -6,7 +6,7 @@ define(
     './detail/InstanceDetails.react',
     'rsvp',
     'models/instance',
-    'stores/providers',
+    'stores/ProviderStore',
     'actions/ProviderActions',
     'controllers/notifications'
   ],

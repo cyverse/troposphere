@@ -6,7 +6,7 @@ define(
     './details/VolumeDetail.react',
     'rsvp',
     'models/volume',
-    'stores/providers',
+    'stores/ProviderStore',
     'actions/ProviderActions',
     'controllers/notifications',
     'collections/instances'
