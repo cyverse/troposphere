@@ -1,7 +1,7 @@
 define(
   [
     'underscore',
-    'collections/applications',
+    'collections/ApplicationCollection',
     'collections/application_search_results',
     'dispatchers/Dispatcher',
     'rsvp',

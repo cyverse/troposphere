@@ -4,23 +4,18 @@ define(
   [
     'marionette',
     'components/Root.react',
-    'models/session',
     'react',
     'components/applications/list/ApplicationsHome.react',
     'components/applications/favorites/Favorites.react',
     'components/applications/detail/ApplicationDetail.react',
     'components/applications/search/SearchResults.react',
-    'models/application',
     'rsvp',
     'context',
-    'collections/applications',
     'actions/ApplicationActions',
     'backbone'
   ],
-  function (Marionette, Root, Session, React, ApplicationList,
-  ApplicationFavorites, ApplicationDetail, Results, Application, RSVP, context,
-  Applications, ApplicationActions, Backbone) {
-  'use strict';
+  function (Marionette, Root, React, ApplicationList, ApplicationFavorites, ApplicationDetail, SearchResults, RSVP, context, ApplicationActions, Backbone) {
+    'use strict';
 
     var Router = Marionette.AppRouter.extend({
       appRoutes: {
@@ -82,8 +77,8 @@ define(
         this.fetchApplication(appId);
       },
 
-      appSearch: function(query) {
-        var content = Results({query: query});
+      appSearch: function (query) {
+        var content = SearchResults({query: query});
         this.render(content, "appSearch");
       }
 
