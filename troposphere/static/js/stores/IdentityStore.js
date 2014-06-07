@@ -4,40 +4,57 @@ define(
     'stores/store',
     'collections/identities',
     'dispatchers/app_dispatcher',
-    'actions/identities',
+    'constants/IdentityConstants',
     'rsvp'
-  ], function(_, Store, Identities, AppDispatcher, IdentityActions, RSVP) {
-
-    var getIdentities = function() {
-        return new RSVP.Promise(function (resolve, reject) {
-          new Identities().fetch({
-            success: function (m) {
-              resolve(m);
-            }
-          });
-        });
-    };
+  ], function(_, Store, IdentityCollection, AppDispatcher, IdentityConstants, RSVP) {
 
     var _identities = null;
+    var _isFetching = false;
+
+    //
+    // CRUD Operations
+    //
+
+    var fetchIdentities = function() {
+      _isFetching = true;
+      var promise = new RSVP.Promise(function (resolve, reject) {
+        var identities = new IdentityCollection();
+        identities.fetch().done(function () {
+          _isFetching = false;
+          _identities = identities;
+          resolve();
+        });
+      });
+      return promise;
+    };
+
+    //
+    // Identity Store
+    //
 
     var IdentityStore = {
       getAll: function() {
+        if(!_identities && !_isFetching) {
+          fetchIdentities().then(function(){
+            IdentityStore.emitChange();
+          }.bind(this));
+        }
         return _identities;
       },
+
       fetchAll: function() {
-        getIdentities().then(function(coll) {
-          _identities = coll;
-          this.emitChange();
-        }.bind(this));
+        fetchIdentities().then(function(coll) {
+          IdentityStore.emitChange();
+        });
       }
     };
 
     AppDispatcher.register(function(payload) {
       var action = payload.action;
       switch(action.actionType) {
-        case IdentityActions.constants.fetchAll:
-          IdentityStore.fetchAll();
-          break;
+        //case IdentityConstants.constants.fetchAll:
+        //  IdentityStore.fetchAll();
+        //  break;
       }
 
       return true;

@@ -7,10 +7,9 @@ define(
     'stores/providers',
     'stores/IdentityStore',
     'actions/providers',
-    'actions/identities',
     'components/providers/Provider.react'
   ],
-  function (React, PageHeader, ProviderStore, IdentityStore, ProviderActions, IdentityActions, Provider) {
+  function (React, PageHeader, ProviderStore, IdentityStore, ProviderActions, Provider) {
 
     function getProviderState() {
       var state = {
@@ -39,7 +38,6 @@ define(
         ProviderStore.addChangeListener(this.updateProviders);
         IdentityStore.addChangeListener(this.updateProviders);
         ProviderActions.fetchAll();
-        IdentityActions.fetchAll();
       },
 
       componentDidUnmount: function() {
