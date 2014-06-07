@@ -6,9 +6,9 @@ define(
     'jquery',
     'underscore',
     'rsvp',
-    'controllers/notifications'
+    'controllers/NotificationController'
   ],
-  function ($, _, RSVP, Notifications) {
+  function ($, _, RSVP, NotificationController) {
 
     // models/Instance instance
     // [string] problems
@@ -51,11 +51,11 @@ define(
           url: '/api/v1/email/support/',
           data: data,
           success: function () {
-            Notifications.success("Your report has been sent to support", "Reports are typically answered in one to two business days.");
+            NotificationController.success("Your report has been sent to support", "Reports are typically answered in one to two business days.");
             resolve();
           },
           error: function () {
-            Notifications.danger('Could not send report', 'Please email your issue directly to <a href="mailto:support@iplantcollaborative.org">support@iplantcollaborative.org</a>.');
+            NotificationController.danger('Could not send report', 'Please email your issue directly to <a href="mailto:support@iplantcollaborative.org">support@iplantcollaborative.org</a>.');
             reject();
           }
         });

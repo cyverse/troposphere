@@ -6,7 +6,7 @@ define(
     'rsvp',
     'collections/VolumeCollection',
     'constants/VolumeConstants',
-    'controllers/notifications',
+    'controllers/NotificationController',
     'stores/IdentityStore'
   ],
   function (_, Dispatcher, Store, RSVP, VolumeCollection, VolumeConstants, NotificationController, IdentityStore) {

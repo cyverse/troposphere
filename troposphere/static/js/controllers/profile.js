@@ -3,9 +3,9 @@ define(
     'rsvp',
     'models/Profile',
     'collections/IdentityCollection',
-    'controllers/notifications'
+    'controllers/NotificationController'
   ],
-  function (RSVP, Profile, IdentityCollection, Notifications) {
+  function (RSVP, Profile, IdentityCollection, NotificationController) {
 
     return {
       getProfile: function () {
@@ -39,10 +39,10 @@ define(
         profile.save({icon_set: icon_type}, {
           patch: true,
           success: function () {
-            Notifications.success("Updated", "Your icon preference was changed successfully.");
+            NotificationController.success("Updated", "Your icon preference was changed successfully.");
           }.bind(this),
           error: function () {
-            Notifications.danger("Error", "Your icon preference was not changed successfully.");
+            NotificationController.danger("Error", "Your icon preference was not changed successfully.");
           }
         });
       }

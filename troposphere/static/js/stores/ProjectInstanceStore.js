@@ -5,7 +5,7 @@ define(
     'stores/Store',
     'rsvp',
     'constants/ProjectInstanceConstants',
-    'controllers/notifications',
+    'controllers/NotificationController',
     'models/Instance',
     'backbone',
     'globals'

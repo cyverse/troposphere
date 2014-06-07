@@ -1,7 +1,7 @@
 define(
   [
     'react',
-    'controllers/notifications',
+    'controllers/NotificationController',
     'rsvp',
     'modal',
     'components/common/Glyphicon.react'
@@ -9,7 +9,7 @@ define(
     // it's used and add/modify code as needed to make the component behave as intended
     //'router'
   ],
-  function (React, Notifications, RSVP, Modal, Glyphicon, router) {
+  function (React, NotificationController, RSVP, Modal, Glyphicon, router) {
 
     /*
      * models.volume volume,
@@ -26,13 +26,13 @@ define(
             var body = 'You must <a href="https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachinganEBSVolumetoanInstance-Step6%3AMountthefilesystemonthepartition." target="_blank">mount the volume</a> you before you can use it.<br />';
             body += 'If the volume is new, you will need to <a href="https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachinganEBSVolumetoanInstance-Step5%3ACreatethefilesystem%28onetimeonly%29." target="_blank">create the file system</a> first.';
 
-            Notifications.success(header, body, { no_timeout: true });
+            NotificationController.success(header, body, { no_timeout: true });
             resolve(response_text);
           },
           error: function (response_text) {
             var header = "Volume attachment failed.";
             var body = "If this problem persists, contact support at <a href=\"mailto:support@iplantcollaborative.org\">support@iplantcollaborative.org</a>"
-            Notifications.danger(header, body, {
+            NotificationController.danger(header, body, {
               no_timeout: true,
               type: 'error'
             });
@@ -85,7 +85,7 @@ define(
             resolve();
             volume.detach({
               success: function () {
-                Notifications.success("Volume Detached", "Volume is now available to attach to another instance or to destroy.");
+                NotificationController.success("Volume Detached", "Volume is now available to attach to another instance or to destroy.");
               },
               error: function (message, response) {
                 if (provider.isOpenStack()) {
@@ -121,14 +121,14 @@ define(
             resolve();
             volume.remove({
               success: function () {
-                Notifications.success("Success", "Volume destroyed");
+                NotificationController.success("Success", "Volume destroyed");
                 router.navigate('projects', {trigger: true});
               },
               error: function () {
                 var header = "Something broke!";
                 var body = 'You can refresh the page and try to perform this operation again. If the problem persists, please email '
                   + '<a href="mailto:support@iplantcollaborative.org">support@iplantcollaborative.org</a>. <br /><br />We apologize for the inconvenience.';
-                Notifications.danger(header, body);
+                NotificationController.danger(header, body);
               }
             });
           });

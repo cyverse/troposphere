@@ -7,7 +7,7 @@ define(
     'rsvp',
     'models/Instance',
     'controllers/providers',
-    'controllers/notifications'
+    'controllers/NotificationController'
   ],
   function (React, ReportImageView, RSVP, Instance, ProviderController, NotificationController) {
 

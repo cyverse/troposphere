@@ -6,7 +6,7 @@ define(
     'rsvp',
     'collections/InstanceCollection',
     'constants/InstanceConstants',
-    'controllers/notifications',
+    'controllers/NotificationController',
     'stores/IdentityStore'
   ],
   function (_, Dispatcher, Store, RSVP, InstanceCollection, InstanceConstants, NotificationController, IdentityStore) {

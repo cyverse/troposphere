@@ -8,7 +8,7 @@ define(
     'models/Volume',
     'stores/ProviderStore',
     'actions/ProviderActions',
-    'controllers/notifications',
+    'controllers/NotificationController',
     'collections/InstanceCollection'
   ],
   function (React, VolumeDetail, RSVP, Volume, ProviderStore, ProviderActions, NotificationController, InstanceCollection) {

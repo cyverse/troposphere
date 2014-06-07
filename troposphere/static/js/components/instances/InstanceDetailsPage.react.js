@@ -8,7 +8,7 @@ define(
     'models/Instance',
     'stores/ProviderStore',
     'actions/ProviderActions',
-    'controllers/notifications'
+    'controllers/NotificationController'
   ],
   function (React, InstanceDetails, RSVP, Instance, ProviderStore, ProviderActions, NotificationController) {
 

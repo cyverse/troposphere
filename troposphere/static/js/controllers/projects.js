@@ -4,10 +4,10 @@ define(
     'collections/ProjectCollection',
     'models/Project',
     'rsvp',
-    'controllers/notifications',
+    'controllers/NotificationController',
     'modal'
   ],
-  function (React, ProjectCollection, Project, RSVP, Notifications, Modal) {
+  function (React, ProjectCollection, Project, RSVP, NotificationController, Modal) {
 
     var projects = new ProjectCollection();
 
@@ -27,7 +27,7 @@ define(
         var project = new Project();
         project.save({name: name, description: description}, {
           success: function (attr) {
-            Notifications.success('Success', 'Created new project "' + project.get('name') + '"');
+            NotificationController.success('Success', 'Created new project "' + project.get('name') + '"');
             resolve(project);
           },
           error: function (attr, response) {
@@ -46,11 +46,11 @@ define(
           project.destroy({
             wait: true,
             success: function () {
-              Notifications.success("Success", "Project deleted");
+              NotificationController.success("Success", "Project deleted");
               resolve();
             },
             error: function () {
-              Notifications.danger("Error", "Project could not be deleted");
+              NotificationController.danger("Error", "Project could not be deleted");
               resolve();
             }
           });

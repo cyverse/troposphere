@@ -6,7 +6,7 @@ define(
     'rsvp',
     'collections/ProjectCollection',
     'constants/ProjectConstants',
-    'controllers/notifications'
+    'controllers/NotificationController'
   ],
   function (_, Dispatcher, Store, RSVP, ProjectCollection, ProjectConstants, NotificationController) {
 

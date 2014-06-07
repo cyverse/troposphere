@@ -2,13 +2,13 @@ define(
   [
     'models/Instance',
     'rsvp',
-    'controllers/notifications',
     'underscore',
-    'modal', 'controllers/notifications',
+    'modal',
+    'controllers/NotificationController',
     'react',
     'components/common/Glyphicon.react'
   ],
-  function (Instance, RSVP, Notifications, _, Modal, Notifications, React, Glyphicon) {
+  function (Instance, RSVP, _, Modal, NotificationController, React, Glyphicon) {
 
     /*
      * models.Identity identity
@@ -37,7 +37,7 @@ define(
 
         instance.save(params, {
           success: function (model) {
-            Notifications.success("Instance Launched", "Your instance will be ready soon.");
+            NotificationController.success("Instance Launched", "Your instance will be ready soon.");
             resolve(model);
           },
           error: function (model, response, options) {
@@ -77,7 +77,7 @@ define(
       Modal.alert(header, body, {
         onConfirm: function () {
           return new RSVP.Promise(function (resolve, reject) {
-            Notifications.info('Terminating Instance...', 'Please wait while your instance terminates.');
+            NotificationController.info('Terminating Instance...', 'Please wait while your instance terminates.');
 
             instance.destroy({wait: true, success: resolve, error: reject});
           });
@@ -89,7 +89,7 @@ define(
     var stop = function (instance) {
       // If the instance is already starting/stopping inform user and return
       if (instance.get('state') === 'active - powering-off') {
-        Notifications.warning('Stopping Instance', 'Please wait while your instance stops.');
+        NotificationController.warning('Stopping Instance', 'Please wait while your instance stops.');
         return;
       }
 
@@ -103,11 +103,11 @@ define(
         return new RSVP.Promise(function (resolve, reject) {
           instance.stop({
             success: function (model) {
-              Notifications.success('Stop Instance', 'Instance successfully stopped');
+              NotificationController.success('Stop Instance', 'Instance successfully stopped');
               resolve(model);
             },
             error: function (response) {
-              Notifications.danger('Error', 'Could not stop instance');
+              NotificationController.danger('Error', 'Could not stop instance');
               reject(response);
             }
           });
@@ -127,7 +127,7 @@ define(
 
     var start = function (instance) {
       if (instance.get('state') === 'shutoff - powering-on') {
-        Notifications.warning('Starting Instance', 'Please wait while your instance starts. Refresh "My Instances" to check its status.');
+        NotificationController.warning('Starting Instance', 'Please wait while your instance starts. Refresh "My Instances" to check its status.');
         return;
       }
 
@@ -143,17 +143,17 @@ define(
         ];
         okButtonText = 'Start Instance';
         onConfirm = function () {
-          //Notifications.info('Starting Instance', 'Instance will be available momentarily.');
+          //NotificationController.info('Starting Instance', 'Instance will be available momentarily.');
 
           return new RSVP.Promise(function (resolve, reject) {
             instance.start({
               success: function (model) {
                 // Merges models to those that are accurate based on server response
-                Notifications.success('Success', 'Instance successfully started');
+                NotificationController.success('Success', 'Instance successfully started');
                 resolve(model);
               },
               error: function (response, status, error) {
-                Notifications.danger('Error', 'Could not start instance');
+                NotificationController.danger('Error', 'Could not start instance');
                 reject(response);
               }
             });
@@ -176,7 +176,7 @@ define(
 
     var suspend = function (instance) {
       if (instance.get('state') === 'active - suspending') {
-        Notifications.warning('Suspending Instance', 'Please wait while your instance suspend. Refresh "My Instances" to check its status.');
+        NotificationController.warning('Suspending Instance', 'Please wait while your instance suspend. Refresh "My Instances" to check its status.');
         return;
       }
 
@@ -199,11 +199,11 @@ define(
         return new RSVP.Promise(function (resolve, reject) {
           instance.suspend({
             success: function (model) {
-              Notifications.success("Success", "Your instance is now suspended");
+              NotificationController.success("Success", "Your instance is now suspended");
               resolve(model);
             },
             error: function (response) {
-              Notifications.error("Error", "You instance could not be suspended");
+              NotificationController.error("Error", "You instance could not be suspended");
               reject(response);
             }
           });
@@ -218,7 +218,7 @@ define(
 
     var resume = function (instance) {
       if (instance.get('state') == 'suspended - resuming') {
-        Notifications.warning('Resuming Instance', 'Please wait while your instance resumes. Refresh "My Instances" to check its status.');
+        NotificationController.warning('Resuming Instance', 'Please wait while your instance resumes. Refresh "My Instances" to check its status.');
         return;
       }
 
@@ -232,11 +232,11 @@ define(
           return new RSVP.Promise(function (resolve, reject) {
             instance.resume({
               success: function (model) {
-                Notifications.success('Success', 'Your instance is resuming');
+                NotificationController.success('Success', 'Your instance is resuming');
                 resolve(model);
               },
               error: function (response) {
-                Notifications.danger('Error', 'You could not resume your instance');
+                NotificationController.danger('Error', 'You could not resume your instance');
                 reject(response);
               }
             });
