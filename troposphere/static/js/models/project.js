@@ -2,7 +2,7 @@ define(
   [
     'underscore',
     'backbone',
-    'collections/instances',
+    'collections/InstanceCollection',
     'models/instance',
     'collections/volumes',
     'models/volume',

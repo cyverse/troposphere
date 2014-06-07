@@ -9,9 +9,9 @@ define(
     'stores/ProviderStore',
     'actions/ProviderActions',
     'controllers/notifications',
-    'collections/instances'
+    'collections/InstanceCollection'
   ],
-  function (React, VolumeDetail, RSVP, Volume, ProviderStore, ProviderActions, NotificationController, Instances) {
+  function (React, VolumeDetail, RSVP, Volume, ProviderStore, ProviderActions, NotificationController, InstanceCollection) {
 
     return React.createClass({
 
@@ -90,7 +90,7 @@ define(
       fetchInstances: function (providerId, identityId) {
         var promise = new RSVP.Promise(function (resolve, reject) {
 
-          var instances = new Instances([], {
+          var instances = new InstanceCollection([], {
             provider_id: providerId,
             identity_id: identityId
           });
