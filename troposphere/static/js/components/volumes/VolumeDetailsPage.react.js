@@ -7,12 +7,11 @@ define(
     'rsvp',
     'models/volume',
     'stores/providers',
-    'actions/providers',
+    'actions/ProviderActions',
     'controllers/notifications',
     'collections/instances'
   ],
-  function (React, VolumeDetail, RSVP, Volume, ProviderStore,
-  ProviderActions, NotificationController, Instances) {
+  function (React, VolumeDetail, RSVP, Volume, ProviderStore, ProviderActions, NotificationController, Instances) {
 
     return React.createClass({
 

@@ -14,7 +14,7 @@ define(
     'controllers/profile',
     'stores/applications',
     'stores/providers',
-    'actions/providers'
+    'actions/ProviderActions'
   ],
   function (React, Rating, Tags, ApplicationCard, Modal, LaunchModal,
   MachineList, Profile, ApplicationStore, ProviderStore, ProviderActions) {

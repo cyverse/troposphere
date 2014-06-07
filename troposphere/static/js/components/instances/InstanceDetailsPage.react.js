@@ -7,7 +7,7 @@ define(
     'rsvp',
     'models/instance',
     'stores/providers',
-    'actions/providers',
+    'actions/ProviderActions',
     'controllers/notifications'
   ],
   function (React, InstanceDetails, RSVP, Instance, ProviderStore,

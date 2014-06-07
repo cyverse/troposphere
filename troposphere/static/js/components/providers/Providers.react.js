@@ -6,7 +6,7 @@ define(
     'components/common/PageHeader.react',
     'stores/providers',
     'stores/IdentityStore',
-    'actions/providers',
+    'actions/ProviderActions',
     'components/providers/Provider.react'
   ],
   function (React, PageHeader, ProviderStore, IdentityStore, ProviderActions, Provider) {
@@ -16,10 +16,11 @@ define(
         providers: ProviderStore.getAll(),
         identities: IdentityStore.getAll()
       };
-      if (state.identities)
-        state.identities = state.identities.groupBy(function(model) {
+      if (state.identities) {
+        state.identities = state.identities.groupBy(function (model) {
           return model.get('provider_id');
         });
+      }
       return state;
     }
 
