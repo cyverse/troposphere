@@ -3,9 +3,9 @@ define(
     'react',
     'collections/sizes',
     'rsvp',
-    'collections/providers'
+    'collections/ProviderCollection'
   ],
-  function (React, Sizes, RSVP, Providers) {
+  function (React, Sizes, RSVP, ProviderCollection) {
 
     var cachedSizes = {};
 
@@ -36,7 +36,7 @@ define(
     };
 
     var getProviders = function () {
-      var providers = new Providers();
+      var providers = new ProviderCollection();
       return new RSVP.Promise(function (resolve, reject) {
         providers.fetch({
           success: resolve,

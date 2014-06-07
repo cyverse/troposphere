@@ -2,7 +2,7 @@ define(
   [
     'underscore',
     'stores/Store',
-    'collections/providers',
+    'collections/ProviderCollection',
     'dispatchers/AppDispatcher',
     'constants/ProviderConstants',
     'rsvp'
