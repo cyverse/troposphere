@@ -5,7 +5,7 @@ define(
     'components/mixins/modal',
     'controllers/instances',
     'actions/SizeActions',
-    'stores/sizes'
+    'stores/SizeStore'
   ],
   function (React, Sizes, ModalMixin, Instances, SizeActions, SizeStore) {
 
