@@ -2,10 +2,10 @@ define(
   [
     'rsvp',
     'models/profile',
-    'collections/identities',
+    'collections/IdentityCollection',
     'controllers/notifications'
   ],
-  function (RSVP, Profile, Identities, Notifications) {
+  function (RSVP, Profile, IdentityCollection, Notifications) {
 
     return {
       getProfile: function () {
@@ -27,7 +27,7 @@ define(
 
       getIdentities: function () {
         return new RSVP.Promise(function (resolve, reject) {
-          new Identities().fetch({
+          new IdentityCollection().fetch({
             success: function (m) {
               resolve(m);
             }
