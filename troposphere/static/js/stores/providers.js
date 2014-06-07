@@ -4,48 +4,59 @@ define(
     'stores/store',
     'collections/providers',
     'dispatchers/app_dispatcher',
-    'actions/ProviderActions',
+    'constants/ProviderConstants',
     'rsvp'
-  ], function(_, Store, ProviderCollection, AppDispatcher, ProviderActions, RSVP) {
+  ],
+  function (_, Store, ProviderCollection, AppDispatcher, ProviderConstants, RSVP) {
 
-  var _providers = new ProviderCollection();
+    var _providers = null;
+    var _isFetching = false;
 
-  var Providers = {
-    fetchAll: function() {
-      return new RSVP.Promise(function(resolve, reject) {
+    //
+    // CRUD Operations
+    //
+
+    var fetchProviders = function () {
+      _isFetching = true;
+      var promise = new RSVP.Promise(function (resolve, reject) {
         var providers = new ProviderCollection();
-        providers.fetch().done(function() {
-          resolve(providers);
+        providers.fetch().done(function () {
+          _isFetching = false;
+          _providers = providers;
+          resolve();
         });
       });
-    }
-  };
+      return promise;
+    };
 
-  var ProviderStore = {
-    getAll: function() {
-      return _providers;
-    },
-    fetchAll: function() {
-      Providers.fetchAll().then(function(coll) {
-        _providers = coll;
-        this.emitChange()
-      }.bind(this));
-    }
-  };
+    //
+    // Provider Store
+    //
 
-  AppDispatcher.register(function(payload) {
-    var action = payload.action;
-    switch(action.actionType) {
-      case ProviderActions.constants.fetchAll:
-        ProviderStore.fetchAll();
-        break;
-    }
+    var ProviderStore = {
+      getAll: function () {
+        if(!_providers && !_isFetching) {
+          fetchProviders().then(function(){
+            ProviderStore.emitChange();
+          });
+        }
+        return _providers;
+      }
+    };
 
-    return true;
+    AppDispatcher.register(function (payload) {
+      var action = payload.action;
+      switch (action.actionType) {
+        // case ProviderConstants.FETCH_ALL:
+        //   fetchProviders();
+        //   break;
+      }
+
+      return true;
+    });
+
+    _.extend(ProviderStore, Store);
+
+    return ProviderStore;
+
   });
-  
-  _.extend(ProviderStore, Store);
-
-  return ProviderStore;
-
-});

@@ -39,9 +39,6 @@ define(
             this.setState({identities: identities});
         }.bind(this));
 
-        // Fetch providers (used in modal)
-        ProviderActions.fetchAll();
-
         ApplicationStore.addChangeListener(this.updateStoreState);
         ProviderStore.addChangeListener(this.updateStoreState);
       },

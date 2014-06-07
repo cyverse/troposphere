@@ -49,9 +49,6 @@ define(
         }.bind(this));
 
         ProviderStore.addChangeListener(this.updateProviders);
-
-        if (this.state.providers.isEmpty())
-          ProviderActions.fetchAll();
       },
 
       componentDidUnmount: function () {

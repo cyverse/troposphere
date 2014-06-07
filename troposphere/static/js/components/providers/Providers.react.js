@@ -26,43 +26,47 @@ define(
 
     return React.createClass({
 
-      getInitialState: function() {
+      getInitialState: function () {
         return getProviderState();
       },
 
-      updateProviders: function() {
-        if (this.isMounted())
-          this.setState(getProviderState());
+      updateProviders: function () {
+        if (this.isMounted()) this.setState(getProviderState());
       },
 
-      componentDidMount: function() {
+      componentDidMount: function () {
         ProviderStore.addChangeListener(this.updateProviders);
         IdentityStore.addChangeListener(this.updateProviders);
-        ProviderActions.fetchAll();
       },
 
-      componentDidUnmount: function() {
+      componentDidUnmount: function () {
         ProviderStore.removeChangeListener(this.updateProviders);
         IdentityStore.removeChangeListener(this.updateProviders);
       },
 
       render: function () {
-        var providers = this.state.providers;
+        if (this.state.providers) {
+          var items = this.state.providers.map(function (model) {
+            var identities;
+            if (this.state.identities) {
+              identities = this.state.identities[model.id];
+            }
+            return (
+              <Provider provider={model} identities={identities} />
+            );
+          }.bind(this));
 
-        var items = providers.map(function (model) {
-          var identities;
-          if (this.state.identities)
-            identities = this.state.identities[model.id];
-
-          return (<Provider provider={model} identities={identities} />);
-        }.bind(this));
-
-        return (
-          <div>
-            <PageHeader title="Cloud Providers"/>
-            {items}
-          </div>
-        );
+          return (
+            <div>
+              <PageHeader title="Cloud Providers"/>
+              {items}
+            </div>
+          );
+        } else {
+          return (
+            <div className='loading'></div>
+          );
+        }
       }
 
     });

@@ -1,15 +1,13 @@
-define(['dispatchers/app_dispatcher'], function(AppDispatcher) {
+define(
+  [
+    'dispatchers/app_dispatcher',
+    'constants/ProviderConstants'
+  ],
+  function (AppDispatcher, ProviderConstants) {
 
-  var ProviderActions = {
-    constants: {
-      fetchAll: 'provider_fetch_all'
-    },
-    fetchAll: function() {
-      AppDispatcher.handleRouteAction({
-        actionType: this.constants.fetchAll
-      });
-    }
-  };
+    var ProviderActions = {
 
-  return ProviderActions;
-});
+    };
+
+    return ProviderActions;
+  });
