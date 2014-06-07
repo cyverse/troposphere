@@ -5,12 +5,10 @@ define(
     'react',
     './list/InstanceListView.react',
     'rsvp',
-    'collections/identities',
-    'collections/instances',
     'stores/InstanceStore',
     'stores/IdentityStore'
   ],
-  function (React, InstanceListView, RSVP, Identities, Instances, InstanceStore, IdentityStore) {
+  function (React, InstanceListView, RSVP, InstanceStore, IdentityStore) {
 
     function getState(){
       return {
