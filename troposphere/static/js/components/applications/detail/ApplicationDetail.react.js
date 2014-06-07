@@ -12,7 +12,7 @@ define(
     './launch_modal',
     './MachineList.react',
     'controllers/profile',
-    'stores/applications',
+    'stores/ApplicationStore',
     'stores/providers',
     'actions/ProviderActions'
   ],

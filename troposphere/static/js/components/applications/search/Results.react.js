@@ -4,38 +4,38 @@ define(
   [
     'react',
     'actions/ApplicationActions',
-    'stores/applications',
+    'stores/ApplicationStore',
     '../list/ApplicationCardList.react'
   ],
-  function (React, ApplicationActions, AppStore, ApplicationCardList) {
+  function (React, ApplicationActions, ApplicationStore, ApplicationCardList) {
 
     return React.createClass({
 
       getInitialState: function() {
         return {
-          apps: AppStore.getResults(this.props.query)
+          apps: ApplicationStore.getResults(this.props.query)
         };
       },
 
       updateResults: function() {
         this.setState({
-          apps: AppStore.getResults(this.props.query)
+          apps: ApplicationStore.getResults(this.props.query)
         });
       },
 
       componentDidMount: function() {
-        AppStore.addChangeListener(this.updateResults);
+        ApplicationStore.addChangeListener(this.updateResults);
         if (!this.state.apps)
           ApplicationActions.search(this.props.query);
       },
 
       componentDidUnmount: function() {
-        AppStore.removeChangeListener(this.updateResults);
+        ApplicationStore.removeChangeListener(this.updateResults);
       },
 
       componentWillReceiveProps: function(nextProps) {
         this.setState({apps: null});
-        var results = AppStore.getResults(nextProps.query);
+        var results = ApplicationStore.getResults(nextProps.query);
         if (results)
           this.setState({apps: results});
         else
