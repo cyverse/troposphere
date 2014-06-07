@@ -6,7 +6,7 @@ define(
     'backbone',
     'underscore',
     'globals',
-    'models/volume'
+    'models/Volume'
   ],
   function (Backbone, _, globals, Volume) {
 

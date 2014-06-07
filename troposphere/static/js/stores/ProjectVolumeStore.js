@@ -6,7 +6,7 @@ define(
     'rsvp',
     'constants/ProjectVolumeConstants',
     'controllers/notifications',
-    'models/volume',
+    'models/Volume',
     'backbone',
     'globals'
   ],

@@ -7,7 +7,7 @@ define(
     'components/modals/CancelConfirmModal.react',
     'react',
     'models/Instance',
-    'models/volume'
+    'models/Volume'
   ],
   function (AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, CancelConfirmModal, React, Instance, Volume) {
 

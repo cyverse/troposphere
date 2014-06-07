@@ -5,7 +5,7 @@ define(
     'react',
     './details/VolumeDetail.react',
     'rsvp',
-    'models/volume',
+    'models/Volume',
     'stores/ProviderStore',
     'actions/ProviderActions',
     'controllers/notifications',

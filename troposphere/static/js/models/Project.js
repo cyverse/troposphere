@@ -5,7 +5,7 @@ define(
     'collections/InstanceCollection',
     'models/Instance',
     'collections/VolumeCollection',
-    'models/volume',
+    'models/Volume',
     'globals'
   ],
   function (_, Backbone, InstanceCollection, Instance, VolumeCollection, Volume, globals) {
