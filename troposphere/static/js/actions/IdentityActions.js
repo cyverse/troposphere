@@ -1,6 +1,6 @@
 define(
   [
-    'dispatchers/app_dispatcher'
+    'dispatchers/AppDispatcher'
   ],
   function (AppDispatcher) {
 

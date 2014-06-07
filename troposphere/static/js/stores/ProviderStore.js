@@ -3,7 +3,7 @@ define(
     'underscore',
     'stores/Store',
     'collections/providers',
-    'dispatchers/app_dispatcher',
+    'dispatchers/AppDispatcher',
     'constants/ProviderConstants',
     'rsvp'
   ],

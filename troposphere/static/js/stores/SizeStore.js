@@ -4,7 +4,7 @@ define(
     'stores/Store',
     'rsvp',
     'collections/sizes',
-    'dispatchers/app_dispatcher',
+    'dispatchers/AppDispatcher',
     'actions/SizeActions'
   ], function(_, Store, RSVP, Sizes, AppDispatcher, SizeActions) {
 

@@ -3,7 +3,7 @@ define(
     'underscore',
     'stores/Store',
     'collections/identities',
-    'dispatchers/app_dispatcher',
+    'dispatchers/AppDispatcher',
     'constants/IdentityConstants',
     'rsvp'
   ], function(_, Store, IdentityCollection, AppDispatcher, IdentityConstants, RSVP) {
