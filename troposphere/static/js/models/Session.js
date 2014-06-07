@@ -1,6 +1,6 @@
 define(
   [
-    'models/base'
+    'models/Base'
   ],
   function (Base) {
 

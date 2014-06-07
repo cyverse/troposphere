@@ -1,7 +1,7 @@
 define(
   [
     'underscore',
-    'models/base'
+    'models/Base'
   ],
   function (_, Base) {
 
