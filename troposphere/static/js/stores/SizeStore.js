@@ -1,7 +1,7 @@
 define(
   [
     'underscore',
-    'stores/store',
+    'stores/Store',
     'rsvp',
     'collections/sizes',
     'dispatchers/app_dispatcher',

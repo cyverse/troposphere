@@ -2,7 +2,7 @@ define(
   [
     'underscore',
     'dispatchers/dispatcher',
-    'stores/store',
+    'stores/Store',
     'rsvp',
     'collections/projects',
     'constants/ProjectConstants',

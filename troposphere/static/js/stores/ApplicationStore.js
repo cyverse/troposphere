@@ -7,7 +7,7 @@ define(
     'rsvp',
     'models/application',
     'actions/ApplicationActions',
-    'stores/store'
+    'stores/Store'
   ], function(_, ApplicationCollection, SearchResults, Dispatcher, RSVP, Application, ApplicationActions, Store) {
 
   var _applications = new ApplicationCollection();

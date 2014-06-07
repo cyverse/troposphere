@@ -1,7 +1,7 @@
 define(
   [
     'underscore',
-    'stores/store',
+    'stores/Store',
     'collections/identities',
     'dispatchers/app_dispatcher',
     'constants/IdentityConstants',
