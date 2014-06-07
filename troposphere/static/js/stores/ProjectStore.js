@@ -4,11 +4,11 @@ define(
     'dispatchers/Dispatcher',
     'stores/Store',
     'rsvp',
-    'collections/projects',
+    'collections/ProjectCollection',
     'constants/ProjectConstants',
     'controllers/notifications'
   ],
-  function (_, Dispatcher, Store, RSVP, Projects, ProjectConstants, NotificationController) {
+  function (_, Dispatcher, Store, RSVP, ProjectCollection, ProjectConstants, NotificationController) {
 
     var _projects = null;
     var _isFetching = false;
@@ -20,7 +20,7 @@ define(
     var fetchProjects = function () {
       _isFetching = true;
       var promise = new RSVP.Promise(function (resolve, reject) {
-        var projects = new Projects();
+        var projects = new ProjectCollection();
         projects.fetch().done(function () {
           _isFetching = false;
           _projects = projects;

@@ -1,15 +1,15 @@
 define(
   [
     'react',
-    'collections/projects',
+    'collections/ProjectCollection',
     'models/project',
     'rsvp',
     'controllers/notifications',
     'modal'
   ],
-  function (React, Collection, Model, RSVP, Notifications, Modal) {
+  function (React, ProjectCollection, Model, RSVP, Notifications, Modal) {
 
-    var projects = new Collection();
+    var projects = new ProjectCollection();
 
     var getProjects = function () {
       return new RSVP.Promise(function (resolve, reject) {
