@@ -2,12 +2,12 @@ define(
   [
     'react',
     'collections/ProjectCollection',
-    'models/project',
+    'models/Project',
     'rsvp',
     'controllers/notifications',
     'modal'
   ],
-  function (React, ProjectCollection, Model, RSVP, Notifications, Modal) {
+  function (React, ProjectCollection, Project, RSVP, Notifications, Modal) {
 
     var projects = new ProjectCollection();
 
@@ -24,13 +24,13 @@ define(
 
     var createProject = function (name, description) {
       return new RSVP.Promise(function (resolve, reject) {
-        var model = new Model();
-        model.save({name: name, description: description}, {
-          success: function (model) {
-            Notifications.success('Success', 'Created new project "' + model.get('name') + '"');
-            resolve(model);
+        var project = new Project();
+        project.save({name: name, description: description}, {
+          success: function (attr) {
+            Notifications.success('Success', 'Created new project "' + project.get('name') + '"');
+            resolve(project);
           },
-          error: function (model, response) {
+          error: function (attr, response) {
             reject(response);
           }
         });

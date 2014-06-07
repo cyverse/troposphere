@@ -1,7 +1,7 @@
 define(
   [
     'backbone',
-    'models/project',
+    'models/Project',
     'globals'
   ],
   function (Backbone, Project, globals) {
