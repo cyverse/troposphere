@@ -1,13 +1,12 @@
 define(
   [
     'react',
-    'collections/sizes',
     'components/mixins/modal',
     'controllers/instances',
     'actions/SizeActions',
     'stores/SizeStore'
   ],
-  function (React, Sizes, ModalMixin, Instances, SizeActions, SizeStore) {
+  function (React, ModalMixin, InstanceController, SizeActions, SizeStore) {
 
     var InstanceSizeOption = React.createClass({
       canLaunch: function (size) {
@@ -88,10 +87,11 @@ define(
         var providerId = identity.get('provider_id');
         var identityId = identity.id;
         var sizes = SizeStore.get(providerId, identityId);
-        if (sizes)
+        if (sizes) {
           this.setSizes(sizes);
-        else
+        } else {
           SizeActions.fetch(providerId, identityId);
+        }
       },
       setSizes: function (newSizes) {
         this.setState({
@@ -157,10 +157,11 @@ define(
       renderLaunchUnsuccessful: function () {
         var errors = this.state.errors;
         var errorText = "Instance launch was unsuccessful";
-        if (errors && errors.length)
+        if (errors && errors.length) {
           errorText += " due to the following errors:"
-        else
+        } else {
           errorText += ".";
+        }
 
         var errorList = React.DOM.ul({}, _.map(errors, function (err) {
           return React.DOM.li({className: 'alert alert-danger'}, err);
@@ -177,16 +178,17 @@ define(
               supportEmail)));
       },
       renderBody: function () {
-        if (this.state.failure)
+        if (this.state.failure) {
           return this.renderLaunchUnsuccessful();
-        else
+        } else {
           return this.renderLaunchForm();
+        }
       },
       launchInstance: function (e) {
         e.preventDefault();
         var identity = this.props.identities.get(this.state.identityId);
         this.setState({launching: true});
-        Instances.launch(identity, this.state.machineId, this.state.sizeId,
+        InstanceController.launch(identity, this.state.machineId, this.state.sizeId,
           this.state.instanceName)
           .then(
           function (instance) {
@@ -202,7 +204,7 @@ define(
           }.bind(this));
       },
       renderFooter: function () {
-        if (this.state.failure)
+        if (this.state.failure) {
           return React.DOM.button({
             className: 'btn btn-primary',
             onClick: function () {
@@ -210,14 +212,15 @@ define(
                 failure: false,
                 errors: null
               });
-            }.bind(this),
+            }.bind(this)
           }, "Try again");
-        else
+        } else {
           return React.DOM.button({type: 'submit',
               className: 'btn btn-primary',
               onClick: this.launchInstance,
               disabled: this.state.launching},
             this.state.launching ? "Launching..." : "Launch");
+        }
       }
     });
 

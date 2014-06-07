@@ -1,17 +1,17 @@
 define(
   [
     'react',
-    'collections/sizes',
+    'collections/SizeCollection',
     'rsvp',
     'collections/ProviderCollection'
   ],
-  function (React, Sizes, RSVP, ProviderCollection) {
+  function (React, SizeCollection, RSVP, ProviderCollection) {
 
     var cachedSizes = {};
 
     var getSizesUncached = function (providerId, identityId) {
       return new RSVP.Promise(function (resolve, reject) {
-        var sizes = new Sizes([], {
+        var sizes = new SizeCollection([], {
           provider_id: providerId,
           identity_id: identityId
         });
