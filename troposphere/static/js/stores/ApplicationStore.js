@@ -3,7 +3,7 @@ define(
     'underscore',
     'collections/applications',
     'collections/application_search_results',
-    'dispatchers/dispatcher',
+    'dispatchers/Dispatcher',
     'rsvp',
     'models/application',
     'actions/ApplicationActions',

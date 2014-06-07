@@ -1,7 +1,7 @@
 define(
   [
     'underscore',
-    'dispatchers/dispatcher',
+    'dispatchers/Dispatcher',
     'stores/Store',
     'rsvp',
     'constants/ProjectInstanceConstants',

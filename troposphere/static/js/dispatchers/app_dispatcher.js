@@ -1,6 +1,6 @@
 define(
   [
-    'dispatchers/dispatcher',
+    'dispatchers/Dispatcher',
     'underscore'
   ],
   function (Dispatcher, _) {
