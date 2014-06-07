@@ -2,7 +2,7 @@ define(
   [
     'react',
     'components/mixins/modal',
-    'controllers/instances',
+    'controllers/InstanceController',
     'actions/SizeActions',
     'stores/SizeStore'
   ],

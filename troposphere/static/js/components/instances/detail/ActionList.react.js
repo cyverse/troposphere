@@ -3,7 +3,7 @@
 define(
   [
     'react',
-    'controllers/instances',
+    'controllers/InstanceController',
     'url',
     'components/common/ButtonDropdown.react',
     'components/common/Glyphicon.react',
