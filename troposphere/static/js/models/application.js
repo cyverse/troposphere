@@ -4,9 +4,9 @@ define(
     'backbone',
     'globals',
     'models/machine',
-    'collections/machines'
+    'collections/MachineCollection'
   ],
-  function (_, Backbone, globals, Machine, Machines) {
+  function (_, Backbone, globals, Machine, MachineCollection) {
 
     return Backbone.Model.extend({
 
@@ -28,7 +28,7 @@ define(
         var machines = _.map(attributes.machines, function (attrs) {
           return new Machine(Machine.prototype.parse(attrs));
         });
-        attributes.machines = new Machines(machines);
+        attributes.machines = new MachineCollection(machines);
         return attributes;
       },
 

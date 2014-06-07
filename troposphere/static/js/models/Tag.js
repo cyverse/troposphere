@@ -2,11 +2,9 @@ define(
   [
     'underscore',
     'backbone',
-    'globals',
-    'models/machine',
-    'collections/machines'
+    'globals'
   ],
-  function (_, Backbone, globals, Machine, Machines) {
+  function (_, Backbone, globals) {
 
     return Backbone.Model.extend({
 
