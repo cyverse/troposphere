@@ -32,9 +32,11 @@ define(
 
     function create(project){
       project.save().done(function(){
-        NotificationController.success('project saved sucessfully!');
+        var successMessage = "Project " + project.get('name') + " created.";
+        NotificationController.success(successMessage);
       }).fail(function(){
-        NotificationController.danger("problem creating project, removing from list :(");
+        var failureMessage = "Error creating Project " + project.get('name') + " :( Please let Support know.";
+        NotificationController.danger(failureMessage);
         _projects.remove(project);
       });
       _projects.add(project);
@@ -42,9 +44,11 @@ define(
 
     function destroy(project){
       project.destroy().done(function(){
-        NotificationController.success('project destroyed sucessfully!');
+        var successMessage = "Project " + project.get('name') + " deleted.";
+        NotificationController.success(successMessage);
       }).fail(function(){
-        NotificationController.danger("problem destroying project, adding back to list :(");
+        var failureMessage = "Error deleting Project " + project.get('name') + " :( Please let Support know.";
+        NotificationController.danger(failureMessage);
         _projects.add(project);
       });
       _projects.remove(project);
