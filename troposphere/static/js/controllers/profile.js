@@ -1,7 +1,7 @@
 define(
   [
     'rsvp',
-    'models/profile',
+    'models/Profile',
     'collections/IdentityCollection',
     'controllers/notifications'
   ],
