@@ -6,7 +6,7 @@ define(
     'constants/ProjectVolumeConstants',
     'components/modals/CancelConfirmModal.react',
     'react',
-    'models/instance',
+    'models/Instance',
     'models/volume'
   ],
   function (AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, CancelConfirmModal, React, Instance, Volume) {

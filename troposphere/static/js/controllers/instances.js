@@ -1,6 +1,6 @@
 define(
   [
-    'models/instance',
+    'models/Instance',
     'rsvp',
     'controllers/notifications',
     'underscore',

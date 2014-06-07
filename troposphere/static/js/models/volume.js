@@ -3,7 +3,7 @@ define(
     'backbone',
     'underscore',
     'globals',
-    'models/instance'
+    'models/Instance'
   ],
   function (Backbone, _, globals, Instance) {
 
@@ -112,8 +112,7 @@ define(
       },
 
       getAttachedInstance: function () {
-        if (!this.isAttached())
-          throw "Unattached volume";
+        if (!this.isAttached()) throw "Unattached volume";
         return new Instance({
           id: this.get('attach_data').instance_id,
           identity: this.get('identity')
@@ -169,8 +168,9 @@ define(
        * attributes
        */
       get: function (attr) {
-        if (typeof this.computed !== "undefined" && typeof this.computed[attr] === 'function')
+        if (typeof this.computed !== "undefined" && typeof this.computed[attr] === 'function') {
           return this.computed[attr].call(this);
+        }
         return Backbone.Model.prototype.get.call(this, attr);
       }
 

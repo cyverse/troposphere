@@ -5,7 +5,7 @@ define(
     'react',
     './report/Report.react',
     'rsvp',
-    'models/instance',
+    'models/Instance',
     'controllers/providers',
     'controllers/notifications'
   ],

@@ -10,13 +10,12 @@ define(
     'components/applications/favorites/Favorites.react',
     'components/applications/detail/ApplicationDetail.react',
     'components/applications/search/SearchResults.react',
-    'models/application',
+    'models/Application',
     'rsvp',
     'context',
     'actions/ApplicationActions'
   ],
-  function ( Marionette, Root, Session, React, ApplicationList, ApplicationFavorites, ApplicationDetail,
-    Results, Application, RSVP, context, ApplicationActions) {
+  function (Marionette, Root, Session, React, ApplicationList, ApplicationFavorites, ApplicationDetail, Results, Application, RSVP, context, ApplicationActions) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({
@@ -25,7 +24,7 @@ define(
         'images': 'showImages',
         'images/:id': 'showAppDetail',
         'images/search/:query': 'appSearch',
-        '*path':  'defaultRoute'
+        '*path': 'defaultRoute'
       }
     });
 
@@ -56,7 +55,7 @@ define(
       // Route handlers
       //
 
-      defaultRoute: function(){
+      defaultRoute: function () {
         Backbone.history.navigate('', {trigger: true});
       },
 
@@ -83,7 +82,7 @@ define(
         this.fetchApplication(appId);
       },
 
-      appSearch: function(query) {
+      appSearch: function (query) {
         var content = Results({query: query});
         this.render(content, "appSearch");
       }

@@ -6,7 +6,7 @@ define(
     'rsvp',
     'constants/ProjectInstanceConstants',
     'controllers/notifications',
-    'models/instance',
+    'models/Instance',
     'backbone',
     'globals'
   ],

@@ -5,13 +5,12 @@ define(
     'react',
     './detail/InstanceDetails.react',
     'rsvp',
-    'models/instance',
+    'models/Instance',
     'stores/ProviderStore',
     'actions/ProviderActions',
     'controllers/notifications'
   ],
-  function (React, InstanceDetails, RSVP, Instance, ProviderStore,
-  ProviderActions, NotificationController) {
+  function (React, InstanceDetails, RSVP, Instance, ProviderStore, ProviderActions, NotificationController) {
 
     return React.createClass({
 

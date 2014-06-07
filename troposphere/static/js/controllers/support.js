@@ -10,7 +10,7 @@ define(
   ],
   function ($, _, RSVP, Notifications) {
 
-    // models/instance instance
+    // models/Instance instance
     // [string] problems
     // string description
     // TODO: Send along running instances and volumes
@@ -57,7 +57,7 @@ define(
           error: function () {
             Notifications.danger('Could not send report', 'Please email your issue directly to <a href="mailto:support@iplantcollaborative.org">support@iplantcollaborative.org</a>.');
             reject();
-          },
+          }
         });
       });
     }

@@ -3,7 +3,7 @@ define(
     'underscore',
     'backbone',
     'collections/InstanceCollection',
-    'models/instance',
+    'models/Instance',
     'collections/VolumeCollection',
     'models/volume',
     'globals'

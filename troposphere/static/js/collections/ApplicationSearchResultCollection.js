@@ -1,7 +1,7 @@
 define(
   [
     'collections/Base',
-    'models/application'
+    'models/Application'
   ],
   function (Base, Application) {
 

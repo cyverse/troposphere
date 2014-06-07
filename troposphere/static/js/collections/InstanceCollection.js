@@ -6,7 +6,7 @@ define(
     'backbone',
     'underscore',
     'globals',
-    'models/instance'
+    'models/Instance'
   ],
   function (Backbone, _, globals, Instance) {
 
