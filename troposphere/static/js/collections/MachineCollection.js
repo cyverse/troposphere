@@ -1,7 +1,7 @@
 define(
   [
     'collections/Base',
-    'models/machine'
+    'models/Machine'
   ],
   function (Base, Machine) {
 

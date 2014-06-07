@@ -3,7 +3,7 @@ define(
     'underscore',
     'backbone',
     'globals',
-    'models/machine',
+    'models/Machine',
     'collections/MachineCollection'
   ],
   function (_, Backbone, globals, Machine, MachineCollection) {
