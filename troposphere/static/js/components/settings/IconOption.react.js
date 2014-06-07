@@ -3,11 +3,9 @@
 define(
   [
     'react',
-    'components/common/PageHeader.react',
-    'components/common/Gravatar.react',
-    'controllers/profile'
+    'components/common/Gravatar.react'
   ],
-  function (React, PageHeader, Gravatar, Profile) {
+  function (React, Gravatar) {
 
     return React.createClass({
       render: function () {

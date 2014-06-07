@@ -6,11 +6,11 @@ define(
     'components/Root.react',
     'react',
     'components/settings/Settings.react',
-    'controllers/profile',
+    'controllers/ProfileController',
     'context',
     'backbone'
   ],
-  function (Marionette, Root, React, Settings, Profile, context, Backbone) {
+  function (Marionette, Root, React, Settings, ProfileController, context, Backbone) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({
@@ -32,7 +32,7 @@ define(
       },
 
       fetchProfile: function () {
-        return Profile.getProfile();
+        return ProfileController.getProfile();
       },
 
       showSettings: function (param) {

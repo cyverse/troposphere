@@ -11,13 +11,12 @@ define(
     'modal',
     './launch_modal',
     './MachineList.react',
-    'controllers/profile',
+    'controllers/ProfileController',
     'stores/ApplicationStore',
     'stores/ProviderStore',
     'actions/ProviderActions'
   ],
-  function (React, Rating, Tags, ApplicationCard, Modal, LaunchModal,
-  MachineList, Profile, ApplicationStore, ProviderStore, ProviderActions) {
+  function (React, Rating, Tags, ApplicationCard, Modal, LaunchModal, MachineList, ProfileController, ApplicationStore, ProviderStore, ProviderActions) {
 
     function getStoreState(applicationId) {
         return {
@@ -34,7 +33,7 @@ define(
 
       componentDidMount: function () {
         // Fetch identities (used in modal)
-        Profile.getIdentities().then(function (identities) {
+        ProfileController.getIdentities().then(function (identities) {
           if (this.isMounted())
             this.setState({identities: identities});
         }.bind(this));
