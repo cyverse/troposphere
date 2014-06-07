@@ -4,7 +4,7 @@ define(
   [
     'react',
     'components/common/ButtonDropdown.react',
-    'actions/projects'
+    'actions/ProjectActions'
   ],
   function (React, ButtonDropdown, ProjectActions) {
 

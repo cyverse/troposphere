@@ -4,7 +4,7 @@ define(
   [
     'react',
     'components/common/BootstrapModal.react',
-    'actions/projects',
+    'actions/ProjectActions',
     'models/project'
   ],
   function (React, BootstrapModal, ProjectActions, Project) {

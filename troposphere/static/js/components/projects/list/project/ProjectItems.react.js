@@ -5,7 +5,7 @@ define(
     'react',
     './InstanceProjectItem.react',
     './VolumeProjectItem.react',
-    'actions/projects',
+    'actions/ProjectActions',
     'backbone',
     'stores/ProjectInstanceStore',
     'stores/ProjectVolumeStore'
