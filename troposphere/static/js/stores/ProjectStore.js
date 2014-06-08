@@ -34,10 +34,12 @@ define(
       project.save().done(function(){
         var successMessage = "Project " + project.get('name') + " created.";
         NotificationController.success(successMessage);
+        ProjectStore.emitChange();
       }).fail(function(){
         var failureMessage = "Error creating Project " + project.get('name') + " :( Please let Support know.";
         NotificationController.danger(failureMessage);
         _projects.remove(project);
+        ProjectStore.emitChange();
       });
       _projects.add(project);
     }
@@ -46,10 +48,12 @@ define(
       project.destroy().done(function(){
         var successMessage = "Project " + project.get('name') + " deleted.";
         NotificationController.success(successMessage);
+        ProjectStore.emitChange();
       }).fail(function(){
         var failureMessage = "Error deleting Project " + project.get('name') + " :( Please let Support know.";
         NotificationController.danger(failureMessage);
         _projects.add(project);
+        ProjectStore.emitChange();
       });
       _projects.remove(project);
     }
