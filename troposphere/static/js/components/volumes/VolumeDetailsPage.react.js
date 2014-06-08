@@ -5,14 +5,13 @@ define(
     'react',
     './details/VolumeDetail.react',
     'rsvp',
-    'models/volume',
-    'stores/providers',
-    'actions/providers',
-    'controllers/notifications',
-    'collections/instances'
+    'models/Volume',
+    'stores/ProviderStore',
+    'actions/ProviderActions',
+    'controllers/NotificationController',
+    'collections/InstanceCollection'
   ],
-  function (React, VolumeDetail, RSVP, Volume, ProviderStore,
-  ProviderActions, NotificationController, Instances) {
+  function (React, VolumeDetail, RSVP, Volume, ProviderStore, ProviderActions, NotificationController, InstanceCollection) {
 
     return React.createClass({
 
@@ -50,9 +49,6 @@ define(
         }.bind(this));
 
         ProviderStore.addChangeListener(this.updateProviders);
-
-        if (this.state.providers.isEmpty())
-          ProviderActions.fetchAll();
       },
 
       componentDidUnmount: function () {
@@ -94,7 +90,7 @@ define(
       fetchInstances: function (providerId, identityId) {
         var promise = new RSVP.Promise(function (resolve, reject) {
 
-          var instances = new Instances([], {
+          var instances = new InstanceCollection([], {
             provider_id: providerId,
             identity_id: identityId
           });

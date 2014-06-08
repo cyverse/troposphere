@@ -6,13 +6,13 @@ define(
 
     // Cross-app models
     'context',
-    'models/session',
+    'models/Session',
 
     // Routers
-    './routers/applications',
-    'routers/help'
+    './routers/ApplicationRouter',
+    'routers/HelpRouter'
   ],
-  function ($, RSVP, Backbone, context, Session, ApplicationsRouter, HelpRouter) {
+  function ($, RSVP, Backbone, context, Session, ApplicationRouter, HelpRouter) {
 
     function startApplication() {
 
@@ -28,7 +28,7 @@ define(
 
         // Start the project routers - one of them should be listening for the
         // default empty route ("")
-        ApplicationsRouter.start();
+        ApplicationRouter.start();
         HelpRouter.start();
 
         // For push state support:

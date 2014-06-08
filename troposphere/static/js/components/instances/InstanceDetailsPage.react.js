@@ -5,13 +5,12 @@ define(
     'react',
     './detail/InstanceDetails.react',
     'rsvp',
-    'models/instance',
-    'stores/providers',
-    'actions/providers',
-    'controllers/notifications'
+    'models/Instance',
+    'stores/ProviderStore',
+    'actions/ProviderActions',
+    'controllers/NotificationController'
   ],
-  function (React, InstanceDetails, RSVP, Instance, ProviderStore,
-  ProviderActions, NotificationController) {
+  function (React, InstanceDetails, RSVP, Instance, ProviderStore, ProviderActions, NotificationController) {
 
     return React.createClass({
 
@@ -47,9 +46,6 @@ define(
         }.bind(this));
 
         ProviderStore.addChangeListener(this.updateProviders);
-
-        if (this.state.providers.isEmpty())
-          ProviderActions.fetchAll();
       },
 
       componentDidUnmount: function () {

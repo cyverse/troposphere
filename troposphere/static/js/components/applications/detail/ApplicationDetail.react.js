@@ -11,13 +11,12 @@ define(
     'modal',
     './launch_modal',
     './MachineList.react',
-    'controllers/profile',
-    'stores/applications',
-    'stores/providers',
-    'actions/providers'
+    'controllers/ProfileController',
+    'stores/ApplicationStore',
+    'stores/ProviderStore',
+    'actions/ProviderActions'
   ],
-  function (React, Rating, Tags, ApplicationCard, Modal, LaunchModal,
-  MachineList, Profile, ApplicationStore, ProviderStore, ProviderActions) {
+  function (React, Rating, Tags, ApplicationCard, Modal, LaunchModal, MachineList, ProfileController, ApplicationStore, ProviderStore, ProviderActions) {
 
     function getStoreState(applicationId) {
         return {
@@ -34,13 +33,9 @@ define(
 
       componentDidMount: function () {
         // Fetch identities (used in modal)
-        Profile.getIdentities().then(function (identities) {
-          if (this.isMounted())
-            this.setState({identities: identities});
+        ProfileController.getIdentities().then(function (identities) {
+          if (this.isMounted()) this.setState({identities: identities});
         }.bind(this));
-
-        // Fetch providers (used in modal)
-        ProviderActions.fetchAll();
 
         ApplicationStore.addChangeListener(this.updateStoreState);
         ProviderStore.addChangeListener(this.updateStoreState);
@@ -52,8 +47,7 @@ define(
       },
 
       updateStoreState: function() {
-        if (this.isMounted())
-          this.setState(getStoreState(this.props.applicationId))
+        if (this.isMounted()) this.setState(getStoreState(this.props.applicationId))
       },
 
       showModal: function (e) {

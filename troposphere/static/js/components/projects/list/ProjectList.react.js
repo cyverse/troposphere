@@ -15,9 +15,9 @@ define(
       },
 
       render: function () {
-        var projects = this.props.projects.map(function (model) {
+        var projects = this.props.projects.map(function (project) {
           return (
-            <Project key={model.id} project={model} projects={this.props.projects}/>
+            <Project key={project.id || project.cid} project={project} projects={this.props.projects}/>
           );
         }.bind(this));
 

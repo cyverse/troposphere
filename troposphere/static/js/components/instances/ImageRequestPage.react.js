@@ -5,12 +5,12 @@ define(
     'react',
     './image_request/ImageRequestView.react',
     'rsvp',
-    'models/instance',
-    'controllers/providers',
-    'controllers/notifications',
-    'collections/Tags'
+    'models/Instance',
+    'controllers/ProviderController',
+    'controllers/NotificationController',
+    'collections/TagCollection'
   ],
-  function (React, ImageRequestView, RSVP, Instance, ProviderController, NotificationController, Tags) {
+  function (React, ImageRequestView, RSVP, Instance, ProviderController, NotificationController, TagCollection) {
 
     return React.createClass({
 
@@ -81,7 +81,7 @@ define(
 
       fetchTags: function () {
         var promise = new RSVP.Promise(function (resolve, reject) {
-          var tags = new Tags();
+          var tags = new TagCollection();
 
           tags.fetch({
             success: function (attrs) {

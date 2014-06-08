@@ -1,12 +1,12 @@
 define(
   [
     'underscore',
-    'dispatchers/dispatcher',
-    'stores/store',
+    'dispatchers/Dispatcher',
+    'stores/Store',
     'rsvp',
     'constants/ProjectInstanceConstants',
-    'controllers/notifications',
-    'models/instance',
+    'controllers/NotificationController',
+    'models/Instance',
     'backbone',
     'globals'
   ],

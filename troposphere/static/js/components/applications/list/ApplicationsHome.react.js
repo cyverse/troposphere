@@ -4,17 +4,17 @@ define(
   [
     'react',
     'components/common/PageHeader.react',
-    'collections/applications',
+    'collections/ApplicationCollection',
     './ApplicationCardList.react',
     './SearchContainer.react',
-    'stores/applications'
+    'stores/ApplicationStore'
   ],
-  function (React, PageHeader, Applications, ApplicationCardList, ApplicationSearch, AppStore) {
+  function (React, PageHeader, ApplicationCollection, ApplicationCardList, ApplicationSearch, ApplicationStore) {
 
     function getApplicationState() {
         return {
-          applications: AppStore.getAll(),
-          loading: !AppStore.isSynced()
+          applications: ApplicationStore.getAll(),
+          loading: !ApplicationStore.isSynced()
         };
     }
 
@@ -30,11 +30,11 @@ define(
       },
 
       componentDidMount: function () {
-        AppStore.addChangeListener(this.updateApps);
+        ApplicationStore.addChangeListener(this.updateApps);
       },
 
       componentDidUnmount: function () {
-        AppStore.removeChangeListener(this.updateApps);
+        ApplicationStore.removeChangeListener(this.updateApps);
       },
 
       helpText: function () {
@@ -52,7 +52,7 @@ define(
           var applicationModels = this.state.applications.filter(function (app) {
             return app.get('featured');
           });
-          var featured = new Applications(applicationModels);
+          var featured = new ApplicationCollection(applicationModels);
 
           content = [
             <ApplicationCardList key="featured" title="Featured Images" applications={featured}/>,

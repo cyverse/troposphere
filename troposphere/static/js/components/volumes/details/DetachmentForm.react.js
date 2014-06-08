@@ -3,7 +3,7 @@
 define(
   [
     'react',
-    'controllers/volumes',
+    'controllers/VolumeController',
     'backbone'
   ],
   function (React, VolumeController, Backbone) {

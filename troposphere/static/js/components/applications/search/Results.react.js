@@ -3,49 +3,51 @@
 define(
   [
     'react',
-    'actions/applications',
-    'stores/applications',
+    'actions/ApplicationActions',
+    'stores/ApplicationStore',
     '../list/ApplicationCardList.react'
   ],
-  function (React, AppActions, AppStore, ApplicationCardList) {
+  function (React, ApplicationActions, ApplicationStore, ApplicationCardList) {
 
     return React.createClass({
 
-      getInitialState: function() {
+      getInitialState: function () {
         return {
-          apps: AppStore.getResults(this.props.query)
+          apps: ApplicationStore.getResults(this.props.query)
         };
       },
 
-      updateResults: function() {
-        this.setState({
-          apps: AppStore.getResults(this.props.query)
-        });
+      updateResults: function () {
+        if (this.isMounted()) {
+          this.setState({
+            apps: ApplicationStore.getResults(this.props.query)
+          });
+        }
       },
 
-      componentDidMount: function() {
-        AppStore.addChangeListener(this.updateResults);
-        if (!this.state.apps)
-          AppActions.search(this.props.query);
+      componentDidMount: function () {
+        ApplicationStore.addChangeListener(this.updateResults);
+        if (!this.state.apps) ApplicationActions.search(this.props.query);
       },
 
-      componentDidUnmount: function() {
-        AppStore.removeChangeListener(this.updateResults);
+      componentDidUnmount: function () {
+        ApplicationStore.removeChangeListener(this.updateResults);
       },
 
-      componentWillReceiveProps: function(nextProps) {
+      componentWillReceiveProps: function (nextProps) {
         this.setState({apps: null});
-        var results = AppStore.getResults(nextProps.query);
-        if (results)
+        var results = ApplicationStore.getResults(nextProps.query);
+        if (results) {
           this.setState({apps: results});
-        else
-          AppActions.search(nextProps.query);
+        } else {
+          ApplicationActions.search(nextProps.query);
+        }
       },
 
       render: function () {
         if (!this.state.apps) {
           return (
-            <div class="loading"></div>
+            <div className="loading"></div>
           );
         } else if (this.state.apps.isEmpty()) {
           return (
@@ -53,7 +55,7 @@ define(
               <em>No results found.</em>
             </div>
           );
-        } else{
+        } else {
           return (
             <ApplicationCardList applications={this.state.apps}/>
           );

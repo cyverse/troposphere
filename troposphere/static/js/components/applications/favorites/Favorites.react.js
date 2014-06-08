@@ -3,11 +3,11 @@
 define(
   [
     'react',
-    'collections/applications',
+    'collections/ApplicationCollection',
     '../list/ApplicationCardList.react',
     'components/common/PageHeader.react'
   ],
-  function (React, Applications, ApplicationCardList, PageHeader) {
+  function (React, ApplicationCollection, ApplicationCardList, PageHeader) {
 
     return React.createClass({
 
@@ -19,7 +19,7 @@ define(
 
       updateApplications: function (apps) {
         if (this.isMounted()) {
-          var favorites = new Applications(apps.filter(function (model) {
+          var favorites = new ApplicationCollection(apps.filter(function (model) {
             return model.get('favorite');
           }));
           this.setState({applications: favorites});
@@ -27,7 +27,7 @@ define(
       },
 
       componentDidMount: function () {
-        var apps = new Applications();
+        var apps = new ApplicationCollection();
         apps.on('sync', this.updateApplications);
         apps.fetch();
       },

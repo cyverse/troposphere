@@ -5,7 +5,7 @@ define(
     'react',
     './list/ProjectListView.react',
     'rsvp',
-    'stores/projects'
+    'stores/ProjectStore'
   ],
   function (React, ProjectListView, RSVP, ProjectStore) {
 

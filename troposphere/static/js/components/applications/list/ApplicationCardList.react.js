@@ -13,7 +13,7 @@ define(
         var apps = this.props.applications;
         var appCards = apps.map(function (app) {
           return (
-            <li>
+            <li key={app.id}>
               <ApplicationCard application={app}/>
             </li>
           );

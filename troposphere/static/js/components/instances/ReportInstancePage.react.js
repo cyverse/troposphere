@@ -5,11 +5,10 @@ define(
     'react',
     './report/Report.react',
     'rsvp',
-    'models/instance',
-    'controllers/providers',
-    'controllers/notifications'
+    'models/Instance',
+    'controllers/NotificationController'
   ],
-  function (React, ReportImageView, RSVP, Instance, ProviderController, NotificationController) {
+  function (React, ReportImageView, RSVP, Instance, NotificationController) {
 
     return React.createClass({
 
