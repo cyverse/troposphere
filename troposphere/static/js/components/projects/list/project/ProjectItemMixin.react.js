@@ -24,7 +24,7 @@ define(
           })
           .map(function (project) {
             return (
-              <li>
+              <li key={project.id || project.cid}>
                 <a href="#" onClick={self.handleMove.bind(null, project)}>
                   {project.get('name')}
                 </a>

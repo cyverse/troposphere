@@ -35,10 +35,14 @@ define(
       },
 
       renderDetails: function () {
-        return [
-          this.props.model.get('size') + ' GB, created ',
-          <Time date={this.props.model.get('start_date')}/>
-        ];
+        var size = this.props.model.get('size');
+        var createdOn = this.props.model.get('start_date');
+        return (
+          <div>
+            {size + ' GB, created '}
+            <Time date={createdOn}/>
+          </div>
+        );
       }
 
     });

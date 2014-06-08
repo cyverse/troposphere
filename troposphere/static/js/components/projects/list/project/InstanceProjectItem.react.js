@@ -36,11 +36,13 @@ define(
       renderDetails: function () {
         var machine_name = this.props.model.get('machine_name') || this.props.model.get('machine_alias');
         var ip = this.props.model.get('public_ip_address');
-        return [
-          ip ? ip + ', ' : '',
-          'from ',
-          <a>{machine_name}</a>
-        ];
+        return (
+          <div>
+            {ip ? ip + ', ' : ''}
+            {'from '}
+            <a>{machine_name}</a>
+          </div>
+        );
       }
 
     });
