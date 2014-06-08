@@ -10,7 +10,7 @@ define(
 
     // Routers
     './routers/ApplicationRouter',
-    'routers/help'
+    'routers/HelpRouter'
   ],
   function ($, RSVP, Backbone, context, Session, ApplicationRouter, HelpRouter) {
 
