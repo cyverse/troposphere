@@ -6,7 +6,7 @@ define(
     './image_request/ImageRequestView.react',
     'rsvp',
     'models/Instance',
-    'controllers/providers',
+    'controllers/ProviderController',
     'controllers/NotificationController',
     'collections/TagCollection'
   ],
