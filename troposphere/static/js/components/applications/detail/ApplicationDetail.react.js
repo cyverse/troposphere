@@ -34,8 +34,7 @@ define(
       componentDidMount: function () {
         // Fetch identities (used in modal)
         ProfileController.getIdentities().then(function (identities) {
-          if (this.isMounted())
-            this.setState({identities: identities});
+          if (this.isMounted()) this.setState({identities: identities});
         }.bind(this));
 
         ApplicationStore.addChangeListener(this.updateStoreState);
@@ -48,8 +47,7 @@ define(
       },
 
       updateStoreState: function() {
-        if (this.isMounted())
-          this.setState(getStoreState(this.props.applicationId))
+        if (this.isMounted()) this.setState(getStoreState(this.props.applicationId))
       },
 
       showModal: function (e) {

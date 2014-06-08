@@ -40,7 +40,7 @@ define(
 
       //
       resetState: function(){
-        this.replaceState({
+        this.setState({
           projectName: "",
           projectDescription: ""
         });

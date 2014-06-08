@@ -11,41 +11,43 @@ define(
 
     return React.createClass({
 
-      getInitialState: function() {
+      getInitialState: function () {
         return {
           apps: ApplicationStore.getResults(this.props.query)
         };
       },
 
-      updateResults: function() {
-        this.setState({
-          apps: ApplicationStore.getResults(this.props.query)
-        });
+      updateResults: function () {
+        if (this.isMounted()) {
+          this.setState({
+            apps: ApplicationStore.getResults(this.props.query)
+          });
+        }
       },
 
-      componentDidMount: function() {
+      componentDidMount: function () {
         ApplicationStore.addChangeListener(this.updateResults);
-        if (!this.state.apps)
-          ApplicationActions.search(this.props.query);
+        if (!this.state.apps) ApplicationActions.search(this.props.query);
       },
 
-      componentDidUnmount: function() {
+      componentDidUnmount: function () {
         ApplicationStore.removeChangeListener(this.updateResults);
       },
 
-      componentWillReceiveProps: function(nextProps) {
+      componentWillReceiveProps: function (nextProps) {
         this.setState({apps: null});
         var results = ApplicationStore.getResults(nextProps.query);
-        if (results)
+        if (results) {
           this.setState({apps: results});
-        else
+        } else {
           ApplicationActions.search(nextProps.query);
+        }
       },
 
       render: function () {
         if (!this.state.apps) {
           return (
-            <div class="loading"></div>
+            <div className="loading"></div>
           );
         } else if (this.state.apps.isEmpty()) {
           return (
@@ -53,7 +55,7 @@ define(
               <em>No results found.</em>
             </div>
           );
-        } else{
+        } else {
           return (
             <ApplicationCardList applications={this.state.apps}/>
           );
