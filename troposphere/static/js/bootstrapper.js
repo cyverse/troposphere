@@ -6,8 +6,8 @@ define(
 
     // Cross-app models
     './context',
-    'models/session',
-    'controllers/profile',
+    'models/Session',
+    'controllers/ProfileController',
 
     // Routers
     'routers/ProjectRouter',
