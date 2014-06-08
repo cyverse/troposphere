@@ -5,12 +5,11 @@ define(
     'marionette',
     'components/Root.react',
     'react',
-    'controllers/projects',
     'components/projects/ProjectListPage.react',
     'context',
     'backbone'
   ],
-  function (Marionette, Root, React, ProjectController, ProjectListPage, context, Backbone) {
+  function (Marionette, Root, React, ProjectListPage, context, Backbone) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({
