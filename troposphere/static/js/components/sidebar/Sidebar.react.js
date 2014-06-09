@@ -91,7 +91,9 @@ define(
       },
 
       render: function () {
-        //var active = this.getRouteList(this.props.currentRoute);
+        // todo: instead of passing in arrays as route arguments (to highlight the proper route) create
+        // a RouteConstants object with fields like APPLICATION_LIST, APPLICATION_DETAILS, APPLICATION_FAVORITES
+        // and use the 'getRouteList' function here to match to the proper array
 
         return (
           <div id='sidebar'>
