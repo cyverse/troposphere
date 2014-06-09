@@ -35,7 +35,7 @@ define(
       },
 
       showInstances: function () {
-        this.render(InstanceListPage(), "instances");
+        this.render(InstanceListPage(), ["instances"]);
       },
 
       showInstanceDetail: function (providerId, identityId, instanceId) {
