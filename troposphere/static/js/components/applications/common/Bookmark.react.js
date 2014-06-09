@@ -2,19 +2,20 @@
 
 define(
   [
-    'react'
+    'react',
+    'actions/ApplicationActions'
   ],
-  function (React) {
+  function (React, ApplicationActions) {
 
     return React.createClass({
 
       toggleFavorite: function (e) {
         e.preventDefault();
-        this.props.application.set('favorite', !this.props.application.get('favorite'));
+        ApplicationActions.toggleFavorited(this.props.application);
       },
 
       render: function () {
-        var isFavorite = this.props.application.get('favorite');
+        var isFavorite = this.props.application.get('isFavorited');
         var className = 'bookmark ' + (isFavorite ? 'on' : 'off');
 
         return (

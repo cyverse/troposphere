@@ -1,8 +1,9 @@
 define(
   [
-    'dispatchers/AppDispatcher'
+    'dispatchers/AppDispatcher',
+    'constants/ApplicationConstants'
   ],
-  function (AppDispatcher) {
+  function (AppDispatcher, ApplicationConstants) {
 
     var ApplicationActions = {
       constants: {
@@ -28,6 +29,13 @@ define(
         AppDispatcher.handleRouteAction({
           actionType: this.constants.search,
           query: query
+        });
+      },
+
+      toggleFavorited: function (application) {
+        AppDispatcher.handleRouteAction({
+          actionType: ApplicationConstants.APPLICATION_TOGGLE_FAVORITED,
+          application: application
         });
       }
     };

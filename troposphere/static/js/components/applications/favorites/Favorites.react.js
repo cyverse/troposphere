@@ -19,8 +19,8 @@ define(
 
       updateApplications: function (apps) {
         if (this.isMounted()) {
-          var favorites = new ApplicationCollection(apps.filter(function (model) {
-            return model.get('favorite');
+          var favorites = new ApplicationCollection(apps.filter(function (application) {
+            return application.get('isFavorited');
           }));
           this.setState({applications: favorites});
         }
