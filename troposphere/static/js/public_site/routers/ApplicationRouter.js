@@ -11,10 +11,9 @@ define(
     'components/applications/search/SearchResults.react',
     'models/Application',
     'rsvp',
-    'context',
-    'actions/ApplicationActions'
+    'context'
   ],
-  function (Marionette, Root, React, ApplicationListView, ApplicationFavorites, ApplicationDetail, SearchResults, Application, RSVP, context, ApplicationActions) {
+  function (Marionette, Root, React, ApplicationListView, ApplicationFavorites, ApplicationDetail, SearchResults, Application, RSVP, context) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({
@@ -22,7 +21,7 @@ define(
         '': 'showImages',
         'images': 'showImages',
         'images/:id': 'showAppDetail',
-        'images/search/:query': 'appSearch',
+        'images/search/:query': 'showApplicationSearchResults',
         '*path': 'defaultRoute'
       }
     });
@@ -48,7 +47,7 @@ define(
       },
 
       showImages: function () {
-        this.render(ApplicationListView(), "images");
+        this.render(ApplicationListView(), ["images"]);
       },
 
       showAppFavorites: function () {
@@ -65,12 +64,12 @@ define(
         var content = ApplicationDetail({
           applicationId: appId
         });
-        this.render(content, "images");
+        this.render(content, ["images"]);
       },
 
-      appSearch: function (query) {
+      showApplicationSearchResults: function (query) {
         var content = SearchResults({query: query});
-        this.render(content, "appSearch");
+        this.render(content, ["images", "search"]);
       }
 
     });

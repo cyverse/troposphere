@@ -1,30 +1,28 @@
-/*global define */
-
-define(
-  [
-    'marionette',
-    'components/Root.react',
-    'react',
-    'components/applications/list/ApplicationListView.react',
-    'components/applications/favorites/Favorites.react',
-    'components/applications/detail/ApplicationDetail.react',
-    'components/applications/search/SearchResults.react',
-    'rsvp',
-    'context',
-    'actions/ApplicationActions',
-    'backbone'
-  ],
-  function (Marionette, Root, React, ApplicationListView, ApplicationFavorites, ApplicationDetail, SearchResults, RSVP, context, ApplicationActions, Backbone) {
+define(function (require) {
     'use strict';
+
+    var Marionette                   = require('marionette'),
+        Root                         = require('components/Root.react'),
+        React                        = require('react'),
+        ApplicationListView          = require('components/applications/list/ApplicationListView.react'),
+        ApplicationDetail            = require('components/applications/detail/ApplicationDetail.react'),
+        //SearchResults                = require('components/applications/search/SearchResults.react'),
+        ApplicationSearchResultsPage = require('components/applications/ApplicationSearchResultsPage.react'),
+        FavoritedApplicationsPage    = require('components/applications/FavoritedApplicationsPage.react'),
+        MyApplicationsPage           = require('components/applications/MyApplicationsPage.react'),
+        RSVP                         = require('rsvp'),
+        context                      = require('context'),
+        ApplicationActions           = require('actions/ApplicationActions'),
+        Backbone                     = require('backbone');
+
 
     var Router = Marionette.AppRouter.extend({
       appRoutes: {
         'images': 'showImages',
-        'images/:id': 'showAppDetail',
-        'images/favorites': 'showAppFavorites',
-        'images/search/:query': 'appSearch'
-        // todo: implement authored and search routes
-        //'images/authored': 'showAppAuthored',
+        'images/search/:query': 'showApplicationSearchResults',
+        'images/favorites': 'showFavoritedApplications',
+        'images/authored': 'showAuthoredApplications',
+        'images/:id': 'showAppDetail'
       }
     });
 
@@ -44,29 +42,27 @@ define(
       // Route handlers
       //
       showImages: function () {
-        this.render(ApplicationListView(), "images");
+        this.render(ApplicationListView(), ["images"]);
       },
 
-      showAppFavorites: function () {
-        var content = ApplicationFavorites();
-        this.render(content);
+      showFavoritedApplications: function () {
+        this.render(FavoritedApplicationsPage(), ["images","favorites"]);
       },
 
-      showAppAuthored: function () {
-        var content = ApplicationFavorites();
-        this.render(content);
+      showAuthoredApplications: function () {
+        this.render(MyApplicationsPage(), ["images", "authored"]);
       },
 
       showAppDetail: function (appId) {
         var content = ApplicationDetail({
           applicationId: appId
         });
-        this.render(content, "images");
+        this.render(content, ["images"]);
       },
 
-      appSearch: function (query) {
-        var content = SearchResults({query: query});
-        this.render(content, "appSearch");
+      showApplicationSearchResults: function (query) {
+        var content = ApplicationSearchResultsPage({query: query});
+        this.render(content, ["images", "search"]);
       }
 
     });

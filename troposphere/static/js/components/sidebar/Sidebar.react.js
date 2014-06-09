@@ -91,12 +91,12 @@ define(
       },
 
       render: function () {
-        var active = this.getRouteList(this.props.currentRoute);
+        //var active = this.getRouteList(this.props.currentRoute);
 
         return (
           <div id='sidebar'>
             <Menu
-              active={active}
+              active={this.props.currentRoute}
               items={this.props.items}
               onNavigate={this.props.onNavigate}
               loggedIn={this.props.loggedIn}

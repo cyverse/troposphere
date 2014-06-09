@@ -9,13 +9,15 @@ define(
     'actions/ApplicationActions',
     'stores/Store',
     'constants/ApplicationConstants',
-    'controllers/NotificationController'
+    'controllers/NotificationController',
+    'context'
   ],
-  function (_, ApplicationCollection, ApplicationSearchResultCollection, Dispatcher, RSVP, Application, ApplicationActions, Store, ApplicationConstants, NotificationController) {
+  function (_, ApplicationCollection, ApplicationSearchResultCollection, Dispatcher, RSVP, Application, ApplicationActions, Store, ApplicationConstants, NotificationController, context) {
 
     var _applications = null;
-    var _search_results = {};
+    var _searchResults = {};
     var _isFetching = false;
+    var _isSearching = false;
 
     var fetchApplications = function () {
       if(!_isFetching) {
@@ -29,26 +31,25 @@ define(
       }
     };
 
-    var Applications = {
-
-      search: function (query) {
-        var apps = new ApplicationSearchResultCollection([], {
+    function searchFor(query) {
+      if (!_isSearching) {
+        _isSearching = true;
+        var searchResults = new ApplicationSearchResultCollection(null, {
           query: query
         });
 
-        return new RSVP.Promise(function (resolve, reject) {
-          apps.fetch({
-            success: function (coll) {
-              resolve(coll);
-            },
-            error: function (coll, response) {
-              reject(response.responseText);
-            }
-          });
+        searchResults.fetch({
+          success: function () {
+            _isSearching = false;
+            _searchResults[query] = searchResults;
+            ApplicationStore.emitChange();
+          },
+          error: function (coll, response) {
+            NotificationController.danger(response.responseText);
+          }
         });
       }
-
-    };
+    }
 
     var ApplicationStore = {
 
@@ -79,16 +80,40 @@ define(
         }
       },
 
-      getResults: function (query) {
-        return _search_results[query];
+      getFavorited: function(){
+        if (!_applications) {
+          fetchApplications();
+        } else {
+          return new ApplicationCollection(_applications.where({isFavorited: true}));
+        }
       },
 
-      search: function (query) {
-        Applications.search(query).then(function (collection) {
-          _search_results[query] = collection;
-          this.emitChange();
-        }.bind(this));
+      getCreated: function(){
+        if (!_applications) {
+          fetchApplications();
+        } else {
+          return new ApplicationCollection(_applications.where({created_by: context.profile.get('username')}));
+        }
       },
+
+      getSearchResultsFor: function(query){
+        var searchResults = _searchResults[query];
+        if(!searchResults){
+          searchFor(query);
+        }
+        return searchResults;
+      },
+
+      getResults: function (query) {
+        return _searchResults[query];
+      },
+
+//      search: function (query) {
+//        Applications.search(query).then(function (collection) {
+//          _searchResults[query] = collection;
+//          this.emitChange();
+//        }.bind(this));
+//      },
 
       toggleFavorited: function(application){
         var isFavorited = application.get('isFavorited');
