@@ -31,7 +31,7 @@ define(
       },
 
       showProjects: function (param) {
-        this.render(ProjectListPage(), "projects");
+        this.render(ProjectListPage(), ["projects"]);
       }
 
     });

@@ -35,7 +35,7 @@ define(
       },
 
       showInstances: function () {
-        this.render(InstanceListPage(), "instances");
+        this.render(InstanceListPage(), ["instances"]);
       },
 
       showInstanceDetail: function (providerId, identityId, instanceId) {
@@ -43,7 +43,7 @@ define(
           providerId: providerId,
           identityId: identityId,
           instanceId: instanceId
-        }), "projects");
+        }), ["instances"]);
       },
 
       showRequestImage: function(providerId, identityId, instanceId){
@@ -51,7 +51,7 @@ define(
           providerId: providerId,
           identityId: identityId,
           instanceId: instanceId
-        }), "projects");
+        }), ["instances"]);
       },
 
       showReportInstance: function(providerId, identityId, instanceId){
@@ -59,7 +59,7 @@ define(
           providerId: providerId,
           identityId: identityId,
           instanceId: instanceId
-        }), "projects");
+        }), ["instances"]);
       }
 
     });

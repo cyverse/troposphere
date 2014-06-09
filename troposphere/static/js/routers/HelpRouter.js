@@ -20,19 +20,18 @@ define(
 
     var Controller = Marionette.Controller.extend({
 
-      render: function (content) {
+      render: function (content, route) {
         var app = Root({
           session: context.session,
           profile: context.profile,
           content: content,
-          route: Backbone.history.getFragment()
+          route: route || Backbone.history.getFragment()
         });
         React.renderComponent(app, document.getElementById('application'));
       },
 
       showHelp: function (param) {
-        var content = Help();
-        this.render(content);
+        this.render(Help(), ["help"]);
       }
 
     });

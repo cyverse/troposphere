@@ -24,11 +24,18 @@ define(
           up: Math.floor(Math.random() * 100),
           down: Math.floor(Math.random() * 100)
         };
-        attributes.favorite = response.is_bookmarked;
+        attributes.isFavorited = response.is_bookmarked;
         var machines = _.map(attributes.machines, function (attrs) {
           return new Machine(Machine.prototype.parse(attrs));
         });
         attributes.machines = new MachineCollection(machines);
+        return attributes;
+      },
+
+      toJSON: function (options) {
+        var attributes = _.clone(this.attributes);
+        attributes.is_bookmarked = attributes.isFavorited;
+        delete attributes['isFavorited'];
         return attributes;
       },
 
@@ -43,8 +50,9 @@ define(
        * attributes
        */
       get: function (attr) {
-        if (typeof this.computed !== "undefined" && typeof this.computed[attr] === 'function')
+        if (typeof this.computed !== "undefined" && typeof this.computed[attr] === 'function') {
           return this.computed[attr].call(this);
+        }
         return Backbone.Model.prototype.get.call(this, attr);
       }
 
