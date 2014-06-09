@@ -68,7 +68,7 @@ define(
         if(!_projects && !_isFetching) {
           fetchProjects().then(function(){
             ProjectStore.emitChange();
-          }.bind(this));
+          });
         }
         return _projects;
       }

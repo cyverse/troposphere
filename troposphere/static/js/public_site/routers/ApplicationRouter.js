@@ -5,7 +5,7 @@ define(
     'marionette',
     'components/Root.react',
     'react',
-    'components/applications/list/ApplicationsHome.react',
+    'components/applications/list/ApplicationListView.react',
     'components/applications/favorites/Favorites.react',
     'components/applications/detail/ApplicationDetail.react',
     'components/applications/search/SearchResults.react',
@@ -14,7 +14,7 @@ define(
     'context',
     'actions/ApplicationActions'
   ],
-  function (Marionette, Root, React, ApplicationList, ApplicationFavorites, ApplicationDetail, SearchResults, Application, RSVP, context, ApplicationActions) {
+  function (Marionette, Root, React, ApplicationListView, ApplicationFavorites, ApplicationDetail, SearchResults, Application, RSVP, context, ApplicationActions) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({
@@ -46,10 +46,6 @@ define(
         ApplicationActions.fetch(appId);
       },
 
-      fetchApplications: function () {
-        ApplicationActions.fetchAll();
-      },
-
       //
       // Route handlers
       //
@@ -59,8 +55,7 @@ define(
       },
 
       showImages: function () {
-        this.render(ApplicationList(), "images");
-        this.fetchApplications();
+        this.render(ApplicationListView(), "images");
       },
 
       showAppFavorites: function () {

@@ -13,9 +13,23 @@ define(
   ],
   function (_, ApplicationCollection, ApplicationSearchResultCollection, Dispatcher, RSVP, Application, ApplicationActions, Store, ApplicationConstants, NotificationController) {
 
-    var _applications = new ApplicationCollection();
+    var _applications = null;
     var _search_results = {};
-    var _synced = false;
+    var _isFetching = false;
+
+    var fetchApplications = function () {
+      _isFetching = true;
+      var promise = new RSVP.Promise(function (resolve, reject) {
+        var applications = new ApplicationCollection();
+        applications.fetch().done(function () {
+          _isFetching = false;
+          _applications = applications;
+          ApplicationStore.emitChange();
+          resolve();
+        });
+      });
+      return promise;
+    };
 
     var Applications = {
       fetchAll: function () {
@@ -56,30 +70,38 @@ define(
     };
 
     var ApplicationStore = {
-      isSynced: function () {
-        return _synced;
-      },
 
       get: function (appId) {
-        return _applications.get(appId);
+        if(!_applications && !_isFetching) {
+          fetchApplications().then(function(){
+            ApplicationStore.emitChange();
+          });
+        } else {
+          return _applications.get(appId);
+        }
       },
 
       getAll: function () {
-        return _applications;
+        if(!_applications && !_isFetching) {
+          fetchApplications().then(function(){
+            ApplicationStore.emitChange();
+          });
+        } else {
+          return _applications;
+        }
       },
 
       getFeatured: function () {
-        return new ApplicationCollection(_applications.filter(function (app) {
-          return app.get('featured');
-        }));
-      },
-
-      fetchAll: function () {
-        Applications.fetchAll().then(function (coll) {
-          _applications = coll;
-          _synced = true;
-          this.emitChange();
-        }.bind(this));
+        if(!_applications && !_isFetching) {
+          fetchApplications().then(function(){
+            ApplicationStore.emitChange();
+          });
+        } else {
+          var featuredApplications = _applications.filter(function (app) {
+            return app.get('featured');
+          });
+          return new ApplicationCollection(featuredApplications);
+        }
       },
 
       fetchDetail: function (appId) {
@@ -124,10 +146,6 @@ define(
       var action = payload.action;
 
       switch (action.actionType) {
-        case ApplicationActions.constants.fetchAll:
-          ApplicationStore.fetchAll();
-          break;
-
         case ApplicationActions.constants.fetchDetail:
           ApplicationStore.fetchDetail(action.id);
           break;

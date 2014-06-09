@@ -8,7 +8,6 @@ define(
     var ApplicationActions = {
       constants: {
         fetchDetail: 'application_fetch_detail',
-        fetchAll: 'application_fetch_all',
         search: 'application_search'
       },
 
@@ -16,12 +15,6 @@ define(
         AppDispatcher.handleRouteAction({
           actionType: this.constants.fetchDetail,
           id: appId
-        });
-      },
-
-      fetchAll: function () {
-        AppDispatcher.handleRouteAction({
-          actionType: this.constants.fetchAll
         });
       },
 
