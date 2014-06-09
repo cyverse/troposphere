@@ -34,6 +34,10 @@ define(
         ApplicationStore.removeChangeListener(this.updateState);
       },
 
+      componentWillReceiveProps: function (nextProps) {
+        this.setState(getState(nextProps.query));
+      },
+
       render: function () {
         var content;
         if (!this.state.applications) {
