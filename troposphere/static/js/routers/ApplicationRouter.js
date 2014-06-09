@@ -6,13 +6,10 @@ define(function (require) {
         React                        = require('react'),
         ApplicationListView          = require('components/applications/list/ApplicationListView.react'),
         ApplicationDetail            = require('components/applications/detail/ApplicationDetail.react'),
-        //SearchResults                = require('components/applications/search/SearchResults.react'),
         ApplicationSearchResultsPage = require('components/applications/ApplicationSearchResultsPage.react'),
         FavoritedApplicationsPage    = require('components/applications/FavoritedApplicationsPage.react'),
         MyApplicationsPage           = require('components/applications/MyApplicationsPage.react'),
-        RSVP                         = require('rsvp'),
         context                      = require('context'),
-        ApplicationActions           = require('actions/ApplicationActions'),
         Backbone                     = require('backbone');
 
 

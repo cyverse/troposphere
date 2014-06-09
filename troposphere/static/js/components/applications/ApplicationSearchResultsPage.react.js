@@ -4,26 +4,26 @@ define(
   [
     'react',
     'components/common/PageHeader.react',
-    'collections/ApplicationCollection',
-    './list/ApplicationListView.react',
+    './list/SearchContainer.react',
+    './search/Results.react',
     'stores/ApplicationStore'
   ],
-  function (React, PageHeader, ApplicationCollection, ApplicationListView, ApplicationStore) {
+  function (React, PageHeader, SearchContainer, SearchResults, ApplicationStore) {
 
-    function getState() {
+    function getState(query) {
       return {
-        applications: ApplicationStore.getSearchResultsFor(this.props.query)
+        applications: ApplicationStore.getSearchResultsFor(query)
       };
     }
 
     return React.createClass({
 
       getInitialState: function () {
-        return getState();
+        return getState(this.props.query);
       },
 
       updateState: function () {
-        if (this.isMounted()) this.setState(getState());
+        if (this.isMounted()) this.setState(getState(this.props.query));
       },
 
       componentDidMount: function () {
@@ -40,16 +40,20 @@ define(
           content = (
             <div className="loading"></div>
           );
-        } else {
+        } else if (this.state.applications.isEmpty()) {
           content = (
-            <Results applications={this.state.applications}/>
+            <p>No images found matching that search.</p>
+          );
+        }else {
+          content = (
+            <SearchResults applications={this.state.applications}/>
           );
         }
 
         return (
           <div>
             <PageHeader title="Image Search"/>
-            <SearchBox query={this.props.query}/>
+            <SearchContainer query={this.props.query}/>
             {content}
           </div>
         );

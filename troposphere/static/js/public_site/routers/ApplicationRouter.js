@@ -1,20 +1,14 @@
-/*global define */
-
-define(
-  [
-    'marionette',
-    'components/Root.react',
-    'react',
-    'components/applications/list/ApplicationListView.react',
-    'components/applications/favorites/Favorites.react',
-    'components/applications/detail/ApplicationDetail.react',
-    'components/applications/search/SearchResults.react',
-    'models/Application',
-    'rsvp',
-    'context'
-  ],
-  function (Marionette, Root, React, ApplicationListView, ApplicationFavorites, ApplicationDetail, SearchResults, Application, RSVP, context) {
+define(function (require) {
     'use strict';
+
+    var Marionette                   = require('marionette'),
+        Root                         = require('components/Root.react'),
+        React                        = require('react'),
+        context                      = require('context'),
+        ApplicationListView          = require('components/applications/list/ApplicationListView.react'),
+        ApplicationDetail            = require('components/applications/detail/ApplicationDetail.react'),
+        ApplicationSearchResultsPage = require('components/applications/ApplicationSearchResultsPage.react'),
+        Backbone                     = require('backbone');
 
     var Router = Marionette.AppRouter.extend({
       appRoutes: {
@@ -50,16 +44,6 @@ define(
         this.render(ApplicationListView(), ["images"]);
       },
 
-      showAppFavorites: function () {
-        var content = ApplicationFavorites();
-        this.render(content);
-      },
-
-      showAppAuthored: function () {
-        var content = ApplicationFavorites();
-        this.render(content);
-      },
-
       showAppDetail: function (appId) {
         var content = ApplicationDetail({
           applicationId: appId
@@ -68,7 +52,9 @@ define(
       },
 
       showApplicationSearchResults: function (query) {
-        var content = SearchResults({query: query});
+        var content = ApplicationSearchResultsPage({
+          query: query
+        });
         this.render(content, ["images", "search"]);
       }
 
