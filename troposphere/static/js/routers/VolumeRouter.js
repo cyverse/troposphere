@@ -41,7 +41,7 @@ define(
           providerId: providerId,
           identityId: identityId,
           volumeId: volumeId
-        }), ["projects"]);
+        }), ["volumes"]);
       }
 
     });
