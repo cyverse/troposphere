@@ -33,7 +33,7 @@ define(
       },
 
       showVolumes: function () {
-        this.render(VolumeListPage(), "volumes");
+        this.render(VolumeListPage(), ["volumes"]);
       },
 
       showVolumeDetail: function (providerId, identityId, volumeId) {
@@ -41,7 +41,7 @@ define(
           providerId: providerId,
           identityId: identityId,
           volumeId: volumeId
-        }), "projects");
+        }), ["volumes"]);
       }
 
     });

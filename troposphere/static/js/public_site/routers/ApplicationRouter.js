@@ -1,28 +1,21 @@
-/*global define */
-
-define(
-  [
-    'marionette',
-    'components/Root.react',
-    'react',
-    'components/applications/list/ApplicationsHome.react',
-    'components/applications/favorites/Favorites.react',
-    'components/applications/detail/ApplicationDetail.react',
-    'components/applications/search/SearchResults.react',
-    'models/Application',
-    'rsvp',
-    'context',
-    'actions/ApplicationActions'
-  ],
-  function (Marionette, Root, React, ApplicationList, ApplicationFavorites, ApplicationDetail, SearchResults, Application, RSVP, context, ApplicationActions) {
+define(function (require) {
     'use strict';
+
+    var Marionette                   = require('marionette'),
+        Root                         = require('components/Root.react'),
+        React                        = require('react'),
+        context                      = require('context'),
+        ApplicationListView          = require('components/applications/list/ApplicationListView.react'),
+        ApplicationDetail            = require('components/applications/detail/ApplicationDetail.react'),
+        ApplicationSearchResultsPage = require('components/applications/ApplicationSearchResultsPage.react'),
+        Backbone                     = require('backbone');
 
     var Router = Marionette.AppRouter.extend({
       appRoutes: {
         '': 'showImages',
         'images': 'showImages',
         'images/:id': 'showAppDetail',
-        'images/search/:query': 'appSearch',
+        'images/search/:query': 'showApplicationSearchResults',
         '*path': 'defaultRoute'
       }
     });
@@ -40,17 +33,6 @@ define(
       },
 
       //
-      // Fetching functions
-      //
-      fetchApplication: function (appId) {
-        ApplicationActions.fetch(appId);
-      },
-
-      fetchApplications: function () {
-        ApplicationActions.fetchAll();
-      },
-
-      //
       // Route handlers
       //
 
@@ -59,31 +41,21 @@ define(
       },
 
       showImages: function () {
-        this.render(ApplicationList(), "images");
-        this.fetchApplications();
-      },
-
-      showAppFavorites: function () {
-        var content = ApplicationFavorites();
-        this.render(content);
-      },
-
-      showAppAuthored: function () {
-        var content = ApplicationFavorites();
-        this.render(content);
+        this.render(ApplicationListView(), ["images"]);
       },
 
       showAppDetail: function (appId) {
         var content = ApplicationDetail({
           applicationId: appId
         });
-        this.render(content, "images");
-        this.fetchApplication(appId);
+        this.render(content, ["images"]);
       },
 
-      appSearch: function (query) {
-        var content = SearchResults({query: query});
-        this.render(content, "appSearch");
+      showApplicationSearchResults: function (query) {
+        var content = ApplicationSearchResultsPage({
+          query: query
+        });
+        this.render(content, ["images", "search"]);
       }
 
     });

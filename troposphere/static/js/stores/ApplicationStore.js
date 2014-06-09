@@ -7,104 +7,151 @@ define(
     'rsvp',
     'models/Application',
     'actions/ApplicationActions',
-    'stores/Store'
+    'stores/Store',
+    'constants/ApplicationConstants',
+    'controllers/NotificationController',
+    'context'
   ],
-  function (_, ApplicationCollection, ApplicationSearchResultCollection, Dispatcher, RSVP, Application, ApplicationActions, Store) {
+  function (_, ApplicationCollection, ApplicationSearchResultCollection, Dispatcher, RSVP, Application, ApplicationActions, Store, ApplicationConstants, NotificationController, context) {
 
-    var _applications = new ApplicationCollection();
-    var _search_results = {};
-    var _synced = false;
+    var _applications = null;
+    var _searchResults = {};
+    var _isFetching = false;
+    var _isSearching = false;
 
-    var Applications = {
-      fetchAll: function () {
-        return new RSVP.Promise(function (resolve, reject) {
-          var apps = new ApplicationCollection();
-          apps.fetch().done(function () {
-            resolve(apps);
-          });
-        });
-      },
-      fetchDetail: function (appId) {
-        return new RSVP.Promise(function (resolve, reject) {
-          var application = new Application({id: appId});
-          application.fetch().done(function () {
-            resolve(application);
-          });
-        });
-      },
-      search: function (query) {
-        var apps = new ApplicationSearchResultCollection([], {
-          query: query
-        });
-
-        return new RSVP.Promise(function (resolve, reject) {
-          apps.fetch({
-            success: function (coll) {
-              resolve(coll);
-            },
-            error: function (coll, response) {
-              reject(response.responseText);
-            }
-          });
+    var fetchApplications = function () {
+      if(!_isFetching) {
+        _isFetching = true;
+        var applications = new ApplicationCollection();
+        applications.fetch().done(function () {
+          _isFetching = false;
+          _applications = applications;
+          ApplicationStore.emitChange();
         });
       }
     };
 
-    var ApplicationStore = {
-      isSynced: function () {
-        return _synced;
-      },
-      get: function (appId) {
-        return _applications.get(appId);
-      },
-      getAll: function () {
-        return _applications;
-      },
-      getFeatured: function () {
-        return new ApplicationCollection(_applications.filter(function (app) {
-          return app.get('featured');
-        }));
-      },
-      fetchAll: function () {
-        Applications.fetchAll().then(function (coll) {
-          _applications = coll;
-          _synced = true;
-          this.emitChange();
-        }.bind(this));
-      },
-      fetchDetail: function (appId) {
-        Applications.fetchDetail(appId).then(function (model) {
-          _applications.add(model);
-          this.emitChange();
-        }.bind(this));
-      },
-      getResults: function (query) {
-        return _search_results[query];
-      },
-      search: function (query) {
-        Applications.search(query).then(function (collection) {
-          _search_results[query] = collection;
-          this.emitChange();
-        }.bind(this));
+    function searchFor(query) {
+      if (!_isSearching) {
+        _isSearching = true;
+        var searchResults = new ApplicationSearchResultCollection(null, {
+          query: query
+        });
+
+        searchResults.fetch({
+          success: function () {
+            _isSearching = false;
+            _searchResults[query] = searchResults;
+            ApplicationStore.emitChange();
+          },
+          error: function (coll, response) {
+            NotificationController.danger(response.responseText);
+          }
+        });
       }
+    }
+
+    var ApplicationStore = {
+
+      get: function (appId) {
+        if(!_applications) {
+          fetchApplications();
+        } else {
+          return _applications.get(appId);
+        }
+      },
+
+      getAll: function () {
+        if(!_applications) {
+          fetchApplications();
+        } else {
+          return _applications;
+        }
+      },
+
+      getFeatured: function () {
+        if(!_applications) {
+          fetchApplications();
+        } else {
+          var featuredApplications = _applications.filter(function (app) {
+            return app.get('featured');
+          });
+          return new ApplicationCollection(featuredApplications);
+        }
+      },
+
+      getFavorited: function(){
+        if (!_applications) {
+          fetchApplications();
+        } else {
+          return new ApplicationCollection(_applications.where({isFavorited: true}));
+        }
+      },
+
+      getCreated: function(){
+        if (!_applications) {
+          fetchApplications();
+        } else {
+          return new ApplicationCollection(_applications.where({created_by: context.profile.get('username')}));
+        }
+      },
+
+      getSearchResultsFor: function(query){
+        var searchResults = _searchResults[query];
+        if(!searchResults){
+          searchFor(query);
+        }
+        return searchResults;
+      },
+
+      getResults: function (query) {
+        return _searchResults[query];
+      },
+
+//      search: function (query) {
+//        Applications.search(query).then(function (collection) {
+//          _searchResults[query] = collection;
+//          this.emitChange();
+//        }.bind(this));
+//      },
+
+      toggleFavorited: function(application){
+        var isFavorited = application.get('isFavorited');
+        var prefix = isFavorited ? " un-" : " ";
+        application.set('isFavorited', !isFavorited);
+
+        application.save().done(function(){
+          var successMessage = "Image " + application.get('name') + prefix + "favorited.";
+          NotificationController.success(successMessage);
+          ApplicationStore.emitChange();
+        }).fail(function () {
+          var failureMessage = "Image " + application.get('name') + " could not be" + prefix + "favorited :( Please let Support know.";
+          NotificationController.danger(failureMessage);
+          var wasFavorited = application.previousAttributes().isFavorited;
+          application.set('isFavorited', wasFavorited);
+          ApplicationStore.emitChange();
+        });
+      }
+
     };
 
     Dispatcher.register(function (payload) {
       var action = payload.action;
 
       switch (action.actionType) {
-        case ApplicationActions.constants.fetchAll:
-          ApplicationStore.fetchAll();
-          break;
-        case ApplicationActions.constants.fetchDetail:
-          ApplicationStore.fetchDetail(action.id);
-          break;
         case ApplicationActions.constants.search:
           ApplicationStore.search(action.query);
           break;
+
+        case ApplicationConstants.APPLICATION_TOGGLE_FAVORITED:
+          ApplicationStore.toggleFavorited(action.application);
+          break;
+
         default:
           return true;
       }
+
+      ApplicationStore.emitChange();
 
       return true;
     });
