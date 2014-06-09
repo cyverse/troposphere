@@ -18,37 +18,18 @@ define(
     var _isFetching = false;
 
     var fetchApplications = function () {
-      _isFetching = true;
-      var promise = new RSVP.Promise(function (resolve, reject) {
+      if(!_isFetching) {
+        _isFetching = true;
         var applications = new ApplicationCollection();
         applications.fetch().done(function () {
           _isFetching = false;
           _applications = applications;
           ApplicationStore.emitChange();
-          resolve();
         });
-      });
-      return promise;
+      }
     };
 
     var Applications = {
-      fetchAll: function () {
-        return new RSVP.Promise(function (resolve, reject) {
-          var apps = new ApplicationCollection();
-          apps.fetch().done(function () {
-            resolve(apps);
-          });
-        });
-      },
-
-      fetchDetail: function (appId) {
-        return new RSVP.Promise(function (resolve, reject) {
-          var application = new Application({id: appId});
-          application.fetch().done(function () {
-            resolve(application);
-          });
-        });
-      },
 
       search: function (query) {
         var apps = new ApplicationSearchResultCollection([], {
@@ -72,43 +53,30 @@ define(
     var ApplicationStore = {
 
       get: function (appId) {
-        if(!_applications && !_isFetching) {
-          fetchApplications().then(function(){
-            ApplicationStore.emitChange();
-          });
+        if(!_applications) {
+          fetchApplications();
         } else {
           return _applications.get(appId);
         }
       },
 
       getAll: function () {
-        if(!_applications && !_isFetching) {
-          fetchApplications().then(function(){
-            ApplicationStore.emitChange();
-          });
+        if(!_applications) {
+          fetchApplications();
         } else {
           return _applications;
         }
       },
 
       getFeatured: function () {
-        if(!_applications && !_isFetching) {
-          fetchApplications().then(function(){
-            ApplicationStore.emitChange();
-          });
+        if(!_applications) {
+          fetchApplications();
         } else {
           var featuredApplications = _applications.filter(function (app) {
             return app.get('featured');
           });
           return new ApplicationCollection(featuredApplications);
         }
-      },
-
-      fetchDetail: function (appId) {
-        Applications.fetchDetail(appId).then(function (model) {
-          _applications.add(model);
-          this.emitChange();
-        }.bind(this));
       },
 
       getResults: function (query) {
@@ -146,10 +114,6 @@ define(
       var action = payload.action;
 
       switch (action.actionType) {
-        case ApplicationActions.constants.fetchDetail:
-          ApplicationStore.fetchDetail(action.id);
-          break;
-
         case ApplicationActions.constants.search:
           ApplicationStore.search(action.query);
           break;

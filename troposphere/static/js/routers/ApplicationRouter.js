@@ -41,13 +41,6 @@ define(
       },
 
       //
-      // Fetching functions
-      //
-      fetchApplication: function (appId) {
-        ApplicationActions.fetch(appId);
-      },
-
-      //
       // Route handlers
       //
       showImages: function () {
@@ -69,7 +62,6 @@ define(
           applicationId: appId
         });
         this.render(content, "images");
-        this.fetchApplication(appId);
       },
 
       appSearch: function (query) {

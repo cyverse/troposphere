@@ -7,15 +7,7 @@ define(
 
     var ApplicationActions = {
       constants: {
-        fetchDetail: 'application_fetch_detail',
         search: 'application_search'
-      },
-
-      fetch: function (appId) {
-        AppDispatcher.handleRouteAction({
-          actionType: this.constants.fetchDetail,
-          id: appId
-        });
       },
 
       search: function (query) {
