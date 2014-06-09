@@ -1,4 +1,7 @@
+import os
 import logging
+import requests
+
 from datetime import datetime
 
 from django.http import HttpResponse, HttpResponseForbidden
@@ -21,7 +24,6 @@ def root(request):
     return redirect('application')
 
 def application(request):
-    logger.debug("Application URL requested")
     records, disabled_login = get_maintenance()
     if disabled_login:
         return redirect('maintenance')
@@ -65,6 +67,48 @@ def cas_oauth_service(request):
         return redirect(cas_oauth_client.authorize_url())
     #Token is valid... Our work here is done.
     request.session['access_token'] = token
+    return redirect('application')
+
+def emulate(request, username):
+    if 'access_token' not in request.session:
+        return redirect(cas_oauth_client.authorize_url())
+
+    if 'emulator_token' in request.session:
+        old_token = request.session['emulator_token']
+    else:
+        old_token = request.session['access_token']
+    if not username:
+        #Restore the 'old token'
+        logger.info("Session_token: %s. Request to remove emulation."
+                 % (old_token, ))
+        request.session['access_token'] = old_token
+        return redirect('application')
+
+    logger.info("Session_token: %s. Request to emulate %s."
+                 % (old_token, username))
+
+    r = requests.get(
+            os.path.join(settings.SERVER_URL,
+                         "api/v1/token_emulate/%s" % username),
+            headers={'Authorization':'Bearer %s' % old_token})
+    try:
+        j_data = r.json()
+    except ValueError:
+        logger.warn("The API server returned non-json data(Error) %s" % r.text)
+        return redirect('application')
+
+    new_token = j_data.get('token')
+    emulated_by = j_data.get('emulated_by')
+    if not new_token or not emulated_by:
+        logger.warn("The API server returned data missing the key(s) "
+                "token/emulated_by. Data: %s" % j_data)
+        return redirect('application')
+
+    logger.info("User %s (Token: %s) has emulated User %s (Token:%s)"
+                % (emulated_by, old_token, username, new_token))
+
+    request.session['emulator_token'] = old_token
+    request.session['access_token'] = new_token
     return redirect('application')
 
 def forbidden(request):
