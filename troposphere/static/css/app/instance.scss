@@ -4,10 +4,15 @@
     padding-left: 0;
   }
 
+  .action-section {
+    font-weight: 500;
+    font-size: 17px;
+  }
+
   li {
     border: solid lightgrey 1px;
     border-top: solid lightgrey 0px;
-    padding: 10px;
+    padding: 14px;
 
     span {
       margin-left: 10px;

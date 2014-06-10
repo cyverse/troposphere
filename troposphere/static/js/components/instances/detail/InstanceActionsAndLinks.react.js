@@ -26,14 +26,13 @@ define(
 
         var links = linksArray.map(function(link){
           if(!link.icon) return (
-            <li>{link.label}</li>
+            <li className="action-section">{link.label}</li>
           );
 
           return (
             <li>
               <span>
-                <Glyphicon name={link.icon}/>
-                <a href="#">{link.label}</a>
+                <Glyphicon name={link.icon}/>{link.label}
               </span>
             </li>
           );
