@@ -10,17 +10,24 @@
   }
 
   li {
-    border: solid lightgrey 1px;
-    border-top: solid lightgrey 0px;
+    border: solid #E8E8E8 1px;
+    border-top: solid #E8E8E8 0px;
     padding: 14px;
+  }
 
+  .action-link {
     span {
       margin-left: 10px;
+    }
+
+    &:hover {
+      background-color: rgba(72, 163, 35, 0.5);;
+      cursor: pointer;
     }
   }
 
   li:first-child {
-    border-top: solid lightgrey 1px;
+    border-top: solid #E8E8E8 1px;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
   }

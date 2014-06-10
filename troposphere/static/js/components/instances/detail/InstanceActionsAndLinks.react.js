@@ -30,7 +30,7 @@ define(
           );
 
           return (
-            <li>
+            <li className="action-link">
               <span>
                 <Glyphicon name={link.icon}/>{link.label}
               </span>
