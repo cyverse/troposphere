@@ -18,6 +18,22 @@ define(
         InstanceController.start(this.props.instance);
       },
 
+      onSuspend: function(){
+        InstanceController.suspend(this.props.instance);
+      },
+
+      onStop: function(){
+        InstanceController.stop(this.props.instance);
+      },
+
+      onResume: function(){
+        InstanceController.resume(this.props.instance);
+      },
+
+      onTerminate: function(){
+        InstanceController.terminate(this.props.instance);
+      },
+
       render: function () {
         var nullFoo = function(){};
         var linksArray = [
@@ -25,11 +41,12 @@ define(
           {label: 'Image', icon: 'camera', onClick: nullFoo},
           {label: 'Report', icon: 'inbox', onClick: nullFoo},
           {label: 'Reboot', icon: 'repeat', onClick: nullFoo},
-          {label: 'Suspend', icon: 'pause', onClick: nullFoo},
+          {label: 'Suspend', icon: 'pause', onClick: this.onSuspend},
           {label: 'Start', icon: 'play', onClick: this.onPlay},
-          {label: 'Stop', icon: 'stop', onClick: nullFoo},
+          {label: 'Resume', icon: 'play', onClick: this.onResume},
+          {label: 'Stop', icon: 'stop', onClick: this.onStop},
           {label: 'Resize', icon: 'resize-full', onClick: nullFoo},
-          {label: 'Terminate', icon: 'remove', onClick: nullFoo},
+          {label: 'Terminate', icon: 'remove', onClick: this.onTerminate},
           {label: 'Links', icon: null},
           {label: 'Open Web Shell', icon: 'credit-card', onClick: nullFoo},
           {label: 'Remote Desktop', icon: 'fullscreen', onClick: nullFoo}
