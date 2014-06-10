@@ -70,7 +70,7 @@ define(
           ' will be shut down and all data will be permanently lost!'),
         React.DOM.p({},
           React.DOM.em({}, "Note:"),
-          ' Your resource usage charts will not relect changes until the ',
+          ' Your resource usage charts will not reflect changes until the ',
           'instance is completely terminated and has disappeared ',
           'from your list of instances.'));
 
