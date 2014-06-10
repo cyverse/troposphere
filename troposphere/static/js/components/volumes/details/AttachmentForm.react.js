@@ -4,7 +4,7 @@ define(
   [
     'react',
     'underscore',
-    'controllers/volumes',
+    'controllers/VolumeController',
     'backbone'
   ],
   function (React, _, VolumeController, Backbone) {

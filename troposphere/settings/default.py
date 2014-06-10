@@ -69,11 +69,20 @@ LOGGING_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'logs')
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(asctime)s %(name)s-%(levelname)s [%(pathname)s:%(lineno)d] %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
     'handlers': {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': os.path.join(LOGGING_ROOT, 'troposphere.log'),
+            'formatter': 'verbose',
         },
     },
     'loggers': {

@@ -5,10 +5,16 @@ define(
     'react',
     './list/VolumeListView.react',
     'rsvp',
-    'collections/identities',
-    'collections/volumes'
+    'stores/VolumeStore',
+    'stores/IdentityStore'
   ],
-  function (React, VolumeListView, RSVP, Identities, Volumes) {
+  function (React, VolumeListView, RSVP, VolumeStore, IdentityStore) {
+
+    function getState(){
+      return {
+        volumes: VolumeStore.getAll()
+      }
+    }
 
     return React.createClass({
 
@@ -22,66 +28,26 @@ define(
       },
 
       getInitialState: function(){
-        return {};
+        return getState();
+      },
+
+      updateInstances: function () {
+        if (this.isMounted()) this.setState(getState());
       },
 
       componentDidMount: function () {
-        var self = this;
-        RSVP.hash({
-          identities: self.fetchIdentities()
-        })
-        .then(function (results) {
-          // return an array of promises (one for each volume collection being fetched)
-          var promises = results.identities.map(function (identity) {
-            var providerId = identity.get('provider_id');
-            var identityId = identity.get('id');
-            return self.fetchVolumesFor(providerId, identityId);
-          });
-          return RSVP.all(promises);
-        })
-        .then(function (volumeCollections) {
-          // Combine all results into a single volume collection
-          var volumes = new Volumes();
-          for(var i = 0; i < volumeCollections.length; i++) {
-            volumes.add(volumeCollections[i].toJSON());
-          };
-          self.setState({
-            volumes: volumes
-          })
-        });
+        VolumeStore.addChangeListener(this.updateInstances);
+
+        // todo: IdentityStore is only included here because InstanceStore.getAll() is
+        // lazy loading, but I'm not sure how to get InstanceStore to know when new
+        // identities have been without getting this component to call InstanceStore.getAll()
+        // again at the moment.  Figure it out and remove this line.
+        IdentityStore.addChangeListener(this.updateInstances);
       },
 
-      //
-      // Fetching methods
-      // ----------------
-      //
-
-      fetchIdentities: function () {
-        var promise = new RSVP.Promise(function (resolve, reject) {
-          var identities = new Identities();
-          identities.fetch().done(function(){
-            resolve(identities);
-          });
-        });
-        return promise;
-      },
-
-      fetchVolumesFor: function (providerId, identityId) {
-        var promise = new RSVP.Promise(function (resolve, reject) {
-          var volumes = new Volumes(null, {
-            provider_id: providerId,
-            identity_id: identityId
-          });
-          // make sure promise returns the right volumes collection
-          // for when this function is called multiple times
-          (function(volumes, resolve){
-            volumes.fetch().done(function(){
-              resolve(volumes);
-            });
-          })(volumes, resolve)
-
-        });
-        return promise;
+      componentDidUnmount: function () {
+        VolumeStore.removeChangeListener(this.updateInstances);
+        IdentityStore.removeChangeListener(this.updateInstances);
       },
 
       //

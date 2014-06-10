@@ -37,9 +37,11 @@ define(
 
       render: function () {
         var buttons = this.props.buttons.map(function (button) {
-          return <button type="button" className={'btn btn-' + button.type} onClick={button.handler}>
-            {button.text}
-          </button>
+          return (
+            <button key={button.text} type="button" className={'btn btn-' + button.type} onClick={button.handler}>
+              {button.text}
+            </button>
+          );
         });
 
         return (

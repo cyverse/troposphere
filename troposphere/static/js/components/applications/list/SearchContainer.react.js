@@ -11,7 +11,9 @@ define(
     var SearchContainer = React.createClass({
 
       getDefaultProps: function () {
-        return {query: ""};
+        return {
+          query: ""
+        };
       },
 
       getInitialState: function () {

@@ -3,11 +3,9 @@
 define(
   [
     'react',
-    'components/common/BootstrapModal.react',
-    'actions/projects',
-    'models/project'
+    'components/common/BootstrapModal.react'
   ],
-  function (React, BootstrapModal, ProjectActions, Project) {
+  function (React, BootstrapModal) {
 
     return React.createClass({
 

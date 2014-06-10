@@ -42,28 +42,33 @@ define(
       },
 
       renderEditing: function () {
-        var project = this.props.project;
-        return [
-          <div className="form-group">
-            <textarea className={'form-control'} rows="7" onChange={this.updateDescription}>
-              {project.get('description')}
-            </textarea>
-          </div>,
-          <p>
-            <button className="btn btn-primary" onClick={this.save} disabled={this.state.saving}>
+        return (
+          <div>
+            <div className="form-group">
+              <textarea className={'form-control'} rows="7" onChange={this.updateDescription}>
+                {this.props.project.get('description')}
+              </textarea>
+            </div>
+            <p>
+              <button className="btn btn-primary" onClick={this.save} disabled={this.state.saving}>
               {this.state.saving ? "Saving..." : "Save"}
-            </button>
-          </p>
-        ];
+              </button>
+            </p>
+          </div>
+        );
       },
 
       renderNotEditing: function () {
         var project = this.props.project;
         var description = project.get('description') || <em>No description</em>;
-        return [
-          <a href="#" onClick={this.startEditing}>Edit Description</a>,
-          <p>{description}</p>
-        ];
+        return (
+          <div>
+            <a href="#" onClick={this.startEditing}>
+              Edit Description
+            </a>
+            <p>{description}</p>
+          </div>
+        );
       },
 
       render: function () {
@@ -75,7 +80,9 @@ define(
         }
 
         return (
-          <div className="project-description">{content}</div>
+          <div className="project-description">
+            {content}
+          </div>
         );
       }
 

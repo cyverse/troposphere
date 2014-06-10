@@ -4,8 +4,8 @@ define(
   [
     'react',
     'components/common/BootstrapModal.react',
-    'actions/projects',
-    'models/project'
+    'actions/ProjectActions',
+    'models/Project'
   ],
   function (React, BootstrapModal, ProjectActions, Project) {
 
@@ -40,7 +40,7 @@ define(
 
       //
       resetState: function(){
-        this.replaceState({
+        this.setState({
           projectName: "",
           projectDescription: ""
         });

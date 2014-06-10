@@ -5,7 +5,7 @@ define(
     'react',
     './InstanceProjectItem.react',
     './VolumeProjectItem.react',
-    'actions/projects',
+    'actions/ProjectActions',
     'backbone',
     'stores/ProjectInstanceStore',
     'stores/ProjectVolumeStore'
@@ -58,19 +58,20 @@ define(
 
         if (!projectContainsInstances && !projectContainsVolumes){
 
-          var children = [
-            React.DOM.span({className: 'no-project-items'},
-              "Empty project. ")
-          ];
+          var deleteProjectLink = (
+            <a href="#" onClick={this.confirmDelete}>
+              {"Delete " + project.get('name')}
+            </a>
+          );
 
-          if (project.canBeDeleted()) {
-            children.push(
-              <a href="#" onClick={this.confirmDelete}>
-                {"Delete " + project.get('name')}
-              </a>
-            );
-          }
-          content = <div>{children}</div>;
+          content = (
+            <div>
+              <span className='no-project-items'>
+                Empty project.
+              </span>
+              {project.canBeDeleted() ? deleteProjectLink : null}
+            </div>
+          );
 
         } else {
 
