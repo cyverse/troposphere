@@ -9,25 +9,11 @@ define(
     return React.createClass({
 
       render: function () {
-        var rootStyles = {
-          position: "relative"
-        };
-
-        var iconStyles = {
-          "float": "left",
-          "margin-right": "22px"
-        };
-
-        var editStyles = {
-          "position": "absolute",
-          "right": "20px",
-          "top": "20px"
-        };
 
         return (
-          <div className="clearfix" style={rootStyles}>
+          <div className="instance-info clearfix">
 
-            <div className="icon-container" style={iconStyles}>
+            <div className="instance-image icon-container">
               <a href="/application/images/9ab516c9-c39f-595e-a990-977642da4c0e">
                 <img src="//www.gravatar.com/avatar/918bf82f238c6c264fc7701e1ff61363?d=identicon&amp;s=150" width="150" height="150"/>
               </a>
@@ -47,7 +33,7 @@ define(
               </ul>
             </div>
 
-            <div className="edit-instance-link" style={editStyles}>
+            <div className="edit-instance-link">
               <a href="#">Edit Instance Info</a>
             </div>
 

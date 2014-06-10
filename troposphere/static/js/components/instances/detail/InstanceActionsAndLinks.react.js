@@ -2,26 +2,47 @@
 
 define(
   [
-    'react'
+    'react',
+    'components/common/Glyphicon.react'
   ],
-  function (React) {
+  function (React, Glyphicon) {
 
     return React.createClass({
 
       render: function () {
+        var linksArray = [
+          {label: 'Actions', icon: null},
+          {label: 'Image', icon: 'camera'},
+          {label: 'Report', icon: 'inbox'},
+          {label: 'Reboot', icon: 'repeat'},
+          {label: 'Suspend', icon: 'pause'},
+          {label: 'Stop', icon: 'stop'},
+          {label: 'Resize', icon: 'resize-full'},
+          {label: 'Terminate', icon: 'remove'},
+          {label: 'Links', icon: null},
+          {label: 'Open Web Shell', icon: 'credit-card'},
+          {label: 'Remote Desktop', icon: 'fullscreen'}
+        ];
+
+        var links = linksArray.map(function(link){
+          if(!link.icon) return (
+            <li>{link.label}</li>
+          );
+
+          return (
+            <li>
+              <span>
+                <Glyphicon name={link.icon}/>
+                <a href="#">{link.label}</a>
+              </span>
+            </li>
+          );
+        });
+
         return (
-          <div>
-            <ul className="nav nav-pills nav-stacked" style={{"max-width": "300px"}}>
-              <li>Actions</li>
-              <li className="active"><a href="#">Image</a></li>
-              <li><a href="#">Report</a></li>
-              <li><a href="#">Reboot</a></li>
-              <li><a href="#">Suspend</a></li>
-              <li><a href="#">Stop</a></li>
-              <li><a href="#">Resize</a></li>
-              <li>Links</li>
-              <li><a href="#">Open Web Shell</a></li>
-              <li><a href="#">Remote Desktop</a></li>
+          <div className="instance-actions">
+            <ul>
+              {links}
             </ul>
           </div>
 
