@@ -51,7 +51,23 @@ define(
       },
 
       getLaunchedDate: function(){
+          return (
+            <li>
+              <span className="instance-detail-label">Launched</span>
+              <span className="instance-detail-value">
+                <Time date={this.props.instance.get('start_date')}/>
+              </span>
+            </li>
+          );
+      },
 
+      getBasedOn: function(){
+          return (
+            <li>
+              <span className="instance-detail-label">Based on</span>
+              <span className="instance-detail-value">{'iPlant Base Image v3.0'}</span>
+            </li>
+          );
       },
 
       getIdentity: function(){
@@ -68,34 +84,19 @@ define(
         );
       },
 
-      render: function () {
-        var launchDate = (
-          <Time date={this.props.instance.get('start_date')}/>
-        );
-
-        var identityId = this.props.instance.id;
+      getId: function(){
+        var identityId = this.props.instance.get('identity').id;
         var providerName = this.props.provider.get('name');
 
-        var identityValue = (
-          <span></span>
+        return (
+          <li>
+            <span className="instance-detail-label">ID</span>
+            <span className="instance-detail-value">{this.props.instance.id}</span>
+          </li>
         );
+      },
 
-        var detailArray = [
-          //{label: 'IP Address', value: '128.196.64.25'},
-          {label: 'Launched', value: launchDate},
-          {label: 'Based On', value: 'iPlant Base Image v3.0'},
-          {label: 'Identity', value: '7 on iPlant Cloud-Tucson'},
-          {label: 'ID', value: 'b94d4964-8de3-4965-a87a-f4cf44d33165'}
-        ];
-
-        var details = detailArray.map(function(detail){
-          return (
-            <li>
-              <span className="instance-detail-label">{detail.label}</span>
-              <span className="instance-detail-value">{detail.value}</span>
-            </li>
-          );
-        });
+      render: function () {
 
         return (
           <div className="instance-details-section">
@@ -103,8 +104,10 @@ define(
             <ul>
               {this.getStatus(this.props.instance)}
               {this.getIpAddress(this.props.instance)}
+              {this.getLaunchedDate()}
+              {this.getBasedOn()}
               {this.getIdentity()}
-              {details}
+              {this.getId()}
             </ul>
           </div>
         );
