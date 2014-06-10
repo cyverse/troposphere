@@ -12,9 +12,16 @@ define(
         return (
           <div>
             <ul className="nav nav-pills nav-stacked" style={{"max-width": "300px"}}>
-              <li className="active"><a href="#">Home</a></li>
-              <li><a href="#">Profile</a></li>
-              <li><a href="#">Messages</a></li>
+              <li>Actions</li>
+              <li className="active"><a href="#">Image</a></li>
+              <li><a href="#">Report</a></li>
+              <li><a href="#">Reboot</a></li>
+              <li><a href="#">Suspend</a></li>
+              <li><a href="#">Stop</a></li>
+              <li><a href="#">Resize</a></li>
+              <li>Links</li>
+              <li><a href="#">Open Web Shell</a></li>
+              <li><a href="#">Remote Desktop</a></li>
             </ul>
           </div>
 
