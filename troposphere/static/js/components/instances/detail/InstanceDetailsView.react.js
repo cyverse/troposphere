@@ -27,7 +27,7 @@ define(
             <Header/>
             <div className="row">
               <div className="col-md-9">
-                <InstanceInfo/>
+                <InstanceInfo instance={instance}/>
                 <hr/>
                 <InstanceDetails/>
                 <hr/>

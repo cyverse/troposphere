@@ -2,11 +2,16 @@
 
 define(
   [
-    'react'
+    'react',
+    'components/common/Time.react'
   ],
-  function (React) {
+  function (React, Time) {
 
     return React.createClass({
+
+      propTypes: {
+        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
+      },
 
       render: function () {
 
@@ -20,8 +25,8 @@ define(
             </div>
 
             <div className="instance-info">
-              <h4 className="instance-name">Instance Name</h4>
-              <div className="instance-launch-date">Launched on March 3, 2014</div>
+              <h4 className="instance-name">{this.props.instance.get('name')}</h4>
+              <div className="instance-launch-date">Launched on <Time date={this.props.instance.get('start_date')}/></div>
               <div className="instance-tags">Instance Tags:</div>
               <ul className="tags">
                 <li className="tag"><a href="#">Batman</a></li>
