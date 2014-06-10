@@ -14,16 +14,32 @@ define(
     return React.createClass({
 
       render: function () {
+        var detailArray = [
+          {label: 'Status', value: 'Active'},
+          {label: 'IP Address', value: '128.196.64.25'},
+          {label: 'Launched', value: 'May 21, 2014 (9 days ago)'},
+          {label: 'Based On', value: 'iPlant Base Image v3.0'},
+          {label: 'Identity', value: '7 on iPlant Cloud-Tucson'},
+          {label: 'ID', value: 'b94d4964-8de3-4965-a87a-f4cf44d33165'}
+        ];
+
+        var statusLight = <span className="instance-status-light"></span>
+
+        var details = detailArray.map(function(detail){
+          return (
+            <li>
+              <span className="instance-detail-label">{detail.label}</span>
+              {detail.label === "Status" ? statusLight : null}
+              <span className="instance-detail-value">{detail.value}</span>
+            </li>
+          );
+        });
+
         return (
-          <div>
-            <h2>Instance Details</h2>
+          <div className="instance-details-section">
+            <h4>Instance Details</h4>
             <ul>
-              <li>Status: Active</li>
-              <li>IP Address: 128.196.64.25</li>
-              <li>Launched: May 21, 2014 (9 days ago)</li>
-              <li>Based On: iPlant Base Image v3.0</li>
-              <li>Identity: 7 on iPlant Cloud-Tucson</li>
-              <li>ID: b94d4964-8de3-4965-a87a-f4cf44d33165</li>
+              {details}
             </ul>
           </div>
         );
