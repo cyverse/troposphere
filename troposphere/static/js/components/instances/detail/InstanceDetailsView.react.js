@@ -33,7 +33,7 @@ define(
                 <hr/>
               </div>
               <div className="col-md-3">
-                <InstanceActionsAndLinks/>
+                <InstanceActionsAndLinks instance={instance}/>
               </div>
             </div>
           </div>
