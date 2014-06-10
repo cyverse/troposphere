@@ -15,8 +15,14 @@ define(
 
       render: function () {
 
+        var tags = this.props.instance.get('tags').map(function(tag){
+          return (
+            <li key={tag} className="tag"><a href="#">{tag}</a></li>
+          );
+        });
+
         return (
-          <div className="instance-info-section">
+          <div className="instance-info-section clearfix">
 
             <div className="instance-image">
               <a href="/application/images/9ab516c9-c39f-595e-a990-977642da4c0e">
@@ -29,12 +35,7 @@ define(
               <div className="instance-launch-date">Launched on <Time date={this.props.instance.get('start_date')}/></div>
               <div className="instance-tags">Instance Tags:</div>
               <ul className="tags">
-                <li className="tag"><a href="#">Batman</a></li>
-                <li className="tag"><a href="#">Bruce Wayne</a></li>
-                <li className="tag"><a href="#">Superman</a></li>
-                <li className="tag"><a href="#">Ironman</a></li>
-                <li className="tag"><a href="#">Black Widow</a></li>
-                <li className="tag"><a href="#">HULK SMASH!!</a></li>
+                {tags}
               </ul>
             </div>
 
