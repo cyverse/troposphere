@@ -101,8 +101,19 @@
 .instance-status-light {
   width: 12px;
   height: 12px;
-  background: green;
   border-radius: 50%;
   display: inline-block;
   margin-right: 5px;
+
+  &.active {
+    background: green;
+  }
+
+  &.suspended {
+    background: grey;
+  }
+
+  &.stopped {
+    background: crimson;
+  }
 }

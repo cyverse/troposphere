@@ -3,9 +3,10 @@
 define(
   [
     'react',
+    'backbone',
     'components/common/Time.react'
   ],
-  function (React, Time) {
+  function (React, Backbone, Time) {
 
     return React.createClass({
 
@@ -35,7 +36,7 @@ define(
               <div className="instance-launch-date">Launched on <Time date={this.props.instance.get('start_date')}/></div>
               <div className="instance-tags">Instance Tags:</div>
               <ul className="tags">
-                {tags}
+                {tags.length > 0 ? tags : <span>This instance has not been tagged.</span>}
               </ul>
             </div>
 

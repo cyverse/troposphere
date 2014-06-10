@@ -60,11 +60,22 @@ define(
         attributes.id = attributes.alias;
         attributes.start_date = new Date(attributes.start_date);
         var ip = attributes.ip_address;
-        delete attributes.ip_address;
-        if (Instance.addressIsPrivate(ip))
+        
+        // todo: For some reason I'm unclear on, we're specifically checking if an IP
+        // address is public or private.  Talking to JMatt, we assign a private IP initially
+        // and then give instances a public IP when it's available.  If the instance is suspended
+        // or shut down, we take the public IP address back, and assign it another one when the
+        // instance becomes active again.
+        //
+        // I'm choosing to leave the IP address in the model until I understand the reason for
+        // making it explicit better.
+        //
+        //delete attributes.ip_address;
+        if (Instance.addressIsPrivate(ip)) {
           attributes.private_ip_address = ip;
-        else if (ip != '0.0.0.0')
+        } else if (ip != '0.0.0.0') {
           attributes.public_ip_address = ip;
+        }
         return attributes;
       },
 

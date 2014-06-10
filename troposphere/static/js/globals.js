@@ -8,8 +8,8 @@ define([], function () {
 
   function getApiServer(){
     if(window.location.hostname === 'localhost'){
-      return servers.APIARY_MOCK;
-      //return servers.DALLOWAY;
+      //return servers.APIARY_MOCK;
+      return servers.DALLOWAY;
     }else{
       return servers.ALOM;
     }
