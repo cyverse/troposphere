@@ -15,7 +15,8 @@ define(
     return React.createClass({
 
       propTypes: {
-        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        provider: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
       getStatus: function(instance){
@@ -51,13 +52,34 @@ define(
 
       getLaunchedDate: function(){
 
+      },
 
+      getIdentity: function(){
+        var identityId = this.props.instance.get('identity').id;
+        var providerName = this.props.provider.get('name');
+
+        return (
+          <li>
+            <span className="instance-detail-label">Identity</span>
+            <span className="instance-detail-value">
+              <strong>{identityId}</strong> on <strong>{providerName}</strong>
+            </span>
+          </li>
+        );
       },
 
       render: function () {
         var launchDate = (
           <Time date={this.props.instance.get('start_date')}/>
         );
+
+        var identityId = this.props.instance.id;
+        var providerName = this.props.provider.get('name');
+
+        var identityValue = (
+          <span></span>
+        );
+
         var detailArray = [
           //{label: 'IP Address', value: '128.196.64.25'},
           {label: 'Launched', value: launchDate},
@@ -81,6 +103,7 @@ define(
             <ul>
               {this.getStatus(this.props.instance)}
               {this.getIpAddress(this.props.instance)}
+              {this.getIdentity()}
               {details}
             </ul>
           </div>

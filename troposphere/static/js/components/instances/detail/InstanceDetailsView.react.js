@@ -29,7 +29,7 @@ define(
               <div className="col-md-9">
                 <InstanceInfo instance={instance}/>
                 <hr/>
-                <InstanceDetails instance={instance}/>
+                <InstanceDetails instance={instance} provider={provider}/>
                 <hr/>
               </div>
               <div className="col-md-3">
