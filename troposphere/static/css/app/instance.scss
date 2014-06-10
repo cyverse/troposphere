@@ -46,6 +46,19 @@
 
 .instance-info {
   position: relative;
+  margin-left: 121px;
+
+  .instance-name {
+    margin-top: 0px;
+  }
+
+  .instance-launch-date {
+    margin-bottom: 5px;
+  }
+
+  .instance-tags {
+    margin-bottom: 8px;
+  }
 }
 
 .instance-image {
