@@ -60,7 +60,7 @@ define(
         attributes.id = attributes.alias;
         attributes.start_date = new Date(attributes.start_date);
         var ip = attributes.ip_address;
-        
+
         // todo: For some reason I'm unclear on, we're specifically checking if an IP
         // address is public or private.  Talking to JMatt, we assign a private IP initially
         // and then give instances a public IP when it's available.  If the instance is suspended

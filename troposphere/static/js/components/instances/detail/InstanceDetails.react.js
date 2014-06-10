@@ -7,9 +7,10 @@ define(
     './InstanceAttributes.react',
     './InstanceLinks.react',
     './ActionList.react',
-    'backbone'
+    'backbone',
+    'components/common/Time.react'
   ],
-  function (React, PageHeader, InstanceAttributes, InstanceLinks, ActionList, Backbone) {
+  function (React, PageHeader, InstanceAttributes, InstanceLinks, ActionList, Backbone, Time) {
 
     return React.createClass({
 
@@ -48,10 +49,18 @@ define(
         );
       },
 
+      getLaunchedDate: function(){
+
+
+      },
+
       render: function () {
+        var launchDate = (
+          <Time date={this.props.instance.get('start_date')}/>
+        );
         var detailArray = [
           //{label: 'IP Address', value: '128.196.64.25'},
-          {label: 'Launched', value: 'May 21, 2014 (9 days ago)'},
+          {label: 'Launched', value: launchDate},
           {label: 'Based On', value: 'iPlant Base Image v3.0'},
           {label: 'Identity', value: '7 on iPlant Cloud-Tucson'},
           {label: 'ID', value: 'b94d4964-8de3-4965-a87a-f4cf44d33165'}
