@@ -8,9 +8,10 @@ define(
     './InstanceLinks.react',
     './ActionList.react',
     'backbone',
-    'components/common/Time.react'
+    'components/common/Time.react',
+    'url'
   ],
-  function (React, PageHeader, InstanceAttributes, InstanceLinks, ActionList, Backbone, Time) {
+  function (React, PageHeader, InstanceAttributes, InstanceLinks, ActionList, Backbone, Time, URL) {
 
     return React.createClass({
 
@@ -62,12 +63,15 @@ define(
       },
 
       getBasedOn: function(){
-          return (
-            <li>
-              <span className="instance-detail-label">Based on</span>
-              <span className="instance-detail-value">{'iPlant Base Image v3.0'}</span>
-            </li>
-          );
+        var applicationUrl = URL.application({id: this.props.instance.get('application_uuid')}, {absolute: true});
+        return (
+          <li>
+            <span className="instance-detail-label">Based on</span>
+            <span className="instance-detail-value">
+              <a href={applicationUrl}>{this.props.instance.get('application_name')}</a>
+            </span>
+          </li>
+        );
       },
 
       getIdentity: function(){
