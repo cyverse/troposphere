@@ -3,14 +3,23 @@
 define(
   [
     'react',
-    './detail/InstanceDetails.react',
+    './detail/InstanceDetailsView.react',
     'rsvp',
     'models/Instance',
     'stores/ProviderStore',
     'actions/ProviderActions',
-    'controllers/NotificationController'
+    'controllers/NotificationController',
+    'stores/InstanceStore',
+    'stores/IdentityStore'
   ],
-  function (React, InstanceDetails, RSVP, Instance, ProviderStore, ProviderActions, NotificationController) {
+  function (React, InstanceDetailsView, RSVP, Instance, ProviderStore, ProviderActions, NotificationController, InstanceStore, IdentityStore) {
+
+    function getState(instanceId){
+      return {
+        providers: ProviderStore.getAll(),
+        instance: InstanceStore.get(instanceId)
+      }
+    }
 
     return React.createClass({
 
@@ -26,34 +35,41 @@ define(
       },
 
       getInitialState: function(){
-        return {
-          providers: ProviderStore.getAll()
-        };
+        return getState(this.props.instanceId);
       },
 
       componentDidMount: function () {
-        var providerId = this.props.providerId;
-        var identityId = this.props.identityId;
-        var instanceId = this.props.instanceId;
+//        var providerId = this.props.providerId;
+//        var identityId = this.props.identityId;
+//        var instanceId = this.props.instanceId;
+//
+//        RSVP.hash({
+//          instance: this.fetchInstance(providerId, identityId, instanceId)
+//        })
+//        .then(function (results) {
+//          this.setState({
+//            instance: results.instance
+//          });
+//        }.bind(this));
 
-        RSVP.hash({
-          instance: this.fetchInstance(providerId, identityId, instanceId),
-        })
-        .then(function (results) {
-          this.setState({
-            instance: results.instance,
-          });
-        }.bind(this));
+        ProviderStore.addChangeListener(this.updateState);
+        InstanceStore.addChangeListener(this.updateState);
 
-        ProviderStore.addChangeListener(this.updateProviders);
+        // todo: IdentityStore is only included here because InstanceStore.get(instanceId) is
+        // lazy loading, but I'm not sure how to get InstanceStore to know when new
+        // identities have been without getting this component to call InstanceStore.getAll()
+        // again at the moment.  Figure it out and remove this line.
+        IdentityStore.addChangeListener(this.updateState);
       },
 
       componentDidUnmount: function () {
-        ProviderStore.removeChangeListener(this.updateProviders);
+        ProviderStore.removeChangeListener(this.updateState);
+        InstanceStore.removeChangeListener(this.updateState);
+        IdentityStore.removeChangeListener(this.updateState);
       },
 
-      updateProviders: function() {
-        this.setState({providers: ProviderStore.getAll()});
+      updateState: function() {
+        this.setState(getState(this.props.instanceId));
       },
 
       //
@@ -61,27 +77,27 @@ define(
       // ----------------
       //
 
-      fetchInstance: function (providerId, identityId, instanceId) {
-        var promise = new RSVP.Promise(function (resolve, reject) {
-          var instance = new Instance({
-            identity: {
-              provider: providerId,
-              id: identityId
-            },
-            id: instanceId
-          });
-
-          instance.fetch({
-            success: function (attrs) {
-              resolve(instance);
-            },
-            error: function () {
-              NotificationController.danger("Unknown Instance", "The requested instance does not exist.");
-            }
-          });
-        });
-        return promise;
-      },
+//      fetchInstance: function (providerId, identityId, instanceId) {
+//        var promise = new RSVP.Promise(function (resolve, reject) {
+//          var instance = new Instance({
+//            identity: {
+//              provider: providerId,
+//              id: identityId
+//            },
+//            id: instanceId
+//          });
+//
+//          instance.fetch({
+//            success: function (attrs) {
+//              resolve(instance);
+//            },
+//            error: function () {
+//              NotificationController.danger("Unknown Instance", "The requested instance does not exist.");
+//            }
+//          });
+//        });
+//        return promise;
+//      },
 
       //
       // Render
@@ -94,8 +110,8 @@ define(
           var provider = this.state.providers.get(providerId);
 
           return (
-            <InstanceDetails instance={this.state.instance}
-                             provider={provider}
+            <InstanceDetailsView instance={this.state.instance}
+                                 provider={provider}
             />
           );
         } else {
