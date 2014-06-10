@@ -22,7 +22,10 @@ module.exports = function (gulp) {
     var dest = (gutil.env.type === 'production' ? '.tmp/css' : 'troposphere/assets/css');
 
     return gulp.src(paths.rootSassFileForNoUser)
-      .pipe(sass({sourceComments: 'map'}))
+      .pipe(sass({
+        sourceMap: 'sass',
+        sourceComments: 'map'
+      }))
       .pipe(gulp.dest(dest))
       .pipe(notify({ message: 'Transformed SCSS to CSS and copied files to: ' + dest, onLast: true }))
   });
