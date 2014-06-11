@@ -55,7 +55,7 @@ define(
             resolve();
           },
           error: function () {
-            NotificationController.danger('Could not send report', 'Please email your issue directly to <a href="mailto:support@iplantcollaborative.org">support@iplantcollaborative.org</a>.');
+            NotificationController.error('Could not send report', 'Please email your issue directly to <a href="mailto:support@iplantcollaborative.org">support@iplantcollaborative.org</a>.');
             reject();
           }
         });

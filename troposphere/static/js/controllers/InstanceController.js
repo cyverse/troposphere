@@ -70,7 +70,7 @@ define(
           ' will be shut down and all data will be permanently lost!'),
         React.DOM.p({},
           React.DOM.em({}, "Note:"),
-          ' Your resource usage charts will not relect changes until the ',
+          ' Your resource usage charts will not reflect changes until the ',
           'instance is completely terminated and has disappeared ',
           'from your list of instances.'));
 
@@ -107,7 +107,7 @@ define(
               resolve(model);
             },
             error: function (response) {
-              NotificationController.danger('Error', 'Could not stop instance');
+              NotificationController.error('Error', 'Could not stop instance');
               reject(response);
             }
           });
@@ -153,7 +153,7 @@ define(
                 resolve(model);
               },
               error: function (response, status, error) {
-                NotificationController.danger('Error', 'Could not start instance');
+                NotificationController.error('Error', 'Could not start instance');
                 reject(response);
               }
             });
@@ -236,7 +236,7 @@ define(
                 resolve(model);
               },
               error: function (response) {
-                NotificationController.danger('Error', 'You could not resume your instance');
+                NotificationController.error('Error', 'You could not resume your instance');
                 reject(response);
               }
             });
@@ -246,8 +246,11 @@ define(
         body = React.DOM.p({className: 'alert alert-error'},
           Glyphicon({name: 'ban-circle'}),
           " ",
-          React.DOM.strong({}, "Cannot resume instance"),
-          " You do not have enough resources to resume this instance. You must terminate, suspend, or stop another running instance, or request more resources.");
+          React.DOM.strong({},
+            "Cannot resume instance"
+          ),
+          " You do not have enough resources to resume this instance. You must terminate, suspend, or stop another running instance, or request more resources."
+        );
         okButtonText = 'Ok';
       }
 
@@ -262,8 +265,8 @@ define(
       terminate: terminate,
       stop: stop,
       start: start,
-      suspend: suspend,
-      resume: resume
+      //suspend: suspend,
+      //resume: resume
     };
 
   });

@@ -42,7 +42,7 @@ define(
             NotificationController.success("Updated", "Your icon preference was changed successfully.");
           }.bind(this),
           error: function () {
-            NotificationController.danger("Error", "Your icon preference was not changed successfully.");
+            NotificationController.error("Error", "Your icon preference was not changed successfully.");
           }
         });
       }

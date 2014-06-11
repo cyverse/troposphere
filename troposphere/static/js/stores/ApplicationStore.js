@@ -45,7 +45,7 @@ define(
             ApplicationStore.emitChange();
           },
           error: function (coll, response) {
-            NotificationController.danger(response.responseText);
+            NotificationController.error(response.responseText);
           }
         });
       }
@@ -126,7 +126,7 @@ define(
           ApplicationStore.emitChange();
         }).fail(function () {
           var failureMessage = "Image " + application.get('name') + " could not be" + prefix + "favorited :( Please let Support know.";
-          NotificationController.danger(failureMessage);
+          NotificationController.error(failureMessage);
           var wasFavorited = application.previousAttributes().isFavorited;
           application.set('isFavorited', wasFavorited);
           ApplicationStore.emitChange();

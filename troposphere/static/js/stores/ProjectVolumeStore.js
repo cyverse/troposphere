@@ -80,7 +80,7 @@ define(
         NotificationController.success(successMessage);
       }).fail(function(){
         var failureMessage = "Error adding Volume '" + volume.get('name') + "' to Project '" + project.get('name') + "' :(  Please let Support know.";
-        NotificationController.danger(failureMessage);
+        NotificationController.error(failureMessage);
         _projectVolumes[project.id].remove(volume);
       });
       _projectVolumes[project.id].add(volume);
@@ -97,7 +97,7 @@ define(
         NotificationController.success(successMessage);
       }).fail(function(){
         var failureMessage = "Error removing Volume '" + volume.get('name') + "' from Project '" + project.get('name') + "' :(  Please let Support know.";
-        NotificationController.danger(failureMessage);
+        NotificationController.error(failureMessage);
         _projectVolumes[project.id].add(volume);
       });
       _projectVolumes[project.id].remove(volume);

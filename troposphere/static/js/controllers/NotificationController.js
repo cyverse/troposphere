@@ -18,7 +18,7 @@ define(
         toastr.success(message, title, options);
       } else if (type === "info") {
         toastr.info(message, title, options);
-      } else if (type === "danger") {
+      } else if (type === "error") {
         toastr.error(message, title, options);
       } else if (type === "warning") {
         toastr.warning(message, title, options);
@@ -30,7 +30,7 @@ define(
       success: notify.bind(null, 'success'),
       info: notify.bind(null, 'info'),
       warning: notify.bind(null, 'warning'),
-      danger: notify.bind(null, 'danger')
+      error: notify.bind(null, 'error')
     };
 
   });
