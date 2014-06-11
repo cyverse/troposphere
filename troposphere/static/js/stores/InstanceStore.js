@@ -113,6 +113,21 @@ define(
       });
     };
 
+    var terminate = function(instance){
+      instance.destroy({
+        success: function (model) {
+          NotificationController.success('Terminate Instance', 'Instance terminated started');
+          InstanceStore.emitChange();
+        },
+        error: function (response) {
+          NotificationController.error('Error', 'Instance could not be terminated :(');
+          _instances.add(instance);
+          InstanceStore.emitChange();
+        }
+      });
+      _instances.remove(instance);
+    };
+
     //
     // Instance Store
     //
@@ -160,6 +175,10 @@ define(
 
         case InstanceConstants.INSTANCE_START:
           start(action.instance);
+          break;
+
+        case InstanceConstants.INSTANCE_TERMINATE:
+          terminate(action.instance);
           break;
 
         default:

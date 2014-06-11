@@ -69,35 +69,8 @@ define(
       },
 
       updateState: function() {
-        this.setState(getState(this.props.instanceId));
+        if (this.isMounted()) this.setState(getState(this.props.instanceId));
       },
-
-      //
-      // Fetching methods
-      // ----------------
-      //
-
-//      fetchInstance: function (providerId, identityId, instanceId) {
-//        var promise = new RSVP.Promise(function (resolve, reject) {
-//          var instance = new Instance({
-//            identity: {
-//              provider: providerId,
-//              id: identityId
-//            },
-//            id: instanceId
-//          });
-//
-//          instance.fetch({
-//            success: function (attrs) {
-//              resolve(instance);
-//            },
-//            error: function () {
-//              NotificationController.error("Unknown Instance", "The requested instance does not exist.");
-//            }
-//          });
-//        });
-//        return promise;
-//      },
 
       //
       // Render

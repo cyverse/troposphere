@@ -4,11 +4,10 @@ define(
   [
     'react',
     'components/common/Glyphicon.react',
-    'controllers/InstanceController',
     'url',
     'actions/InstanceActions'
   ],
-  function (React, Glyphicon, InstanceController, URL, InstanceActions) {
+  function (React, Glyphicon, URL, InstanceActions) {
 
     return React.createClass({
 
@@ -33,7 +32,7 @@ define(
       },
 
       onTerminate: function(){
-        InstanceController.terminate(this.props.instance);
+        InstanceActions.terminate(this.props.instance);
       },
 
       onReboot: function(){ /* no implementation yet */ },
