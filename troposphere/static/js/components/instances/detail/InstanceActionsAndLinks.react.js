@@ -17,20 +17,22 @@ define(
       },
 
       onPlay: function(){
-        InstanceController.start(this.props.instance);
+        //InstanceController.start(this.props.instance);
+        InstanceActions.start(this.props.instance);
       },
 
       onSuspend: function(){
-        //InstanceController.suspend(this.props.instance);
         InstanceActions.suspend(this.props.instance);
       },
 
       onStop: function(){
-        InstanceController.stop(this.props.instance);
+        //InstanceController.stop(this.props.instance);
+        InstanceActions.stop(this.props.instance);
       },
 
       onResume: function(){
-        InstanceController.resume(this.props.instance);
+        //InstanceController.resume(this.props.instance);
+        InstanceActions.resume(this.props.instance);
       },
 
       onTerminate: function(){

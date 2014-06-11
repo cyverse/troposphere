@@ -74,6 +74,32 @@ define(
       });
     };
 
+    var resume = function(instance){
+      instance.resume({
+        success: function (model) {
+          NotificationController.success("Success", "Your instance is resuming");
+          InstanceStore.emitChange();
+        },
+        error: function (response) {
+          NotificationController.error("Error", "Your instance could not be resumed :(");
+          InstanceStore.emitChange();
+        }
+      });
+    };
+
+    var stop = function(instance){
+      instance.stop({
+        success: function (model) {
+          NotificationController.success('Stop Instance', 'Instance successfully stopped');
+          InstanceStore.emitChange();
+        },
+        error: function (response) {
+          NotificationController.error('Error', 'Instance could not be stopped :(');
+          InstanceStore.emitChange();
+        }
+      });
+    };
+
     //
     // Instance Store
     //
@@ -109,6 +135,14 @@ define(
       switch (action.actionType) {
         case InstanceConstants.INSTANCE_SUSPEND:
           suspend(action.instance);
+          break;
+
+        case InstanceConstants.INSTANCE_RESUME:
+          resume(action.instance);
+          break;
+
+        case InstanceConstants.INSTANCE_STOP:
+          stop(action.instance);
           break;
 
         default:

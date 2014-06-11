@@ -246,8 +246,11 @@ define(
         body = React.DOM.p({className: 'alert alert-error'},
           Glyphicon({name: 'ban-circle'}),
           " ",
-          React.DOM.strong({}, "Cannot resume instance"),
-          " You do not have enough resources to resume this instance. You must terminate, suspend, or stop another running instance, or request more resources.");
+          React.DOM.strong({},
+            "Cannot resume instance"
+          ),
+          " You do not have enough resources to resume this instance. You must terminate, suspend, or stop another running instance, or request more resources."
+        );
         okButtonText = 'Ok';
       }
 
@@ -262,8 +265,8 @@ define(
       terminate: terminate,
       stop: stop,
       start: start,
-      suspend: suspend,
-      resume: resume
+      //suspend: suspend,
+      //resume: resume
     };
 
   });
