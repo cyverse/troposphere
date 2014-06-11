@@ -5,11 +5,11 @@ define(
     'marionette',
     'components/Root.react',
     'react',
-    'components/providers/Providers.react',
+    'components/providers/ProviderListPage.react',
     'context',
     'backbone'
   ],
-  function (Marionette, Root, React, Providers, context, Backbone) {
+  function (Marionette, Root, React, ProviderListPage, context, Backbone) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({
@@ -31,7 +31,7 @@ define(
       },
 
       showProviders: function (param) {
-        this.render(Providers(), ["providers"]);
+        this.render(ProviderListPage(), ["providers"]);
       }
 
     });

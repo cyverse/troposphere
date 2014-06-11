@@ -2,20 +2,26 @@
 
 define(
   [
-    'react'
-  ], function(React) {
+    'react',
+    'backbone'
+  ],
+  function (React, Backbone) {
 
-    var Provider = React.createClass({
-      render: function() {
-          var provider = this.props.provider;
-          return (
-            <div>
-              <h2>{provider.get('location')}</h2>
-              <p>{provider.get('description')}</p>
-            </div>
-          );
+    return React.createClass({
+
+      propTypes: {
+        provider: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      },
+
+      render: function () {
+        return (
+          <div>
+            <h2>{this.props.provider.get('location')}</h2>
+            <p>{this.props.provider.get('description')}</p>
+          </div>
+        );
       }
     });
 
-    return Provider;
   });
