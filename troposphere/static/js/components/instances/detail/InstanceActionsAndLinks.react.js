@@ -35,8 +35,8 @@ define(
         InstanceController.terminate(this.props.instance);
       },
 
-      onReboot: function(){ },
-      onResize: function(){ },
+      onReboot: function(){ /* no implementation yet */ },
+      onResize: function(){ /* no implementation yet */ },
 
       render: function () {
         var requestImageUrl = URL.requestImage(this.props.instance, {absolute: true});
@@ -86,6 +86,7 @@ define(
           // buttons if there isn't a valid href for the link, or (perhaps) not even
           // showing the buttons at all...but I think it's better communication to
           // disable the buttons with a message explaining why on rollover.
+          //
           if(link.openInNewWindow) {
             var style = {};
             if(!link.href) style.cursor = 'not-allowed';
