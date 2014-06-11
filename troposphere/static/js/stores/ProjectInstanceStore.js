@@ -80,7 +80,7 @@ define(
         NotificationController.success(successMessage);
       }).fail(function(){
         var failureMessage = "Error adding Instance '" + instance.get('name') + "' to Project '" + project.get('name') + "' :(  Please let Support know.";
-        NotificationController.danger(failureMessage);
+        NotificationController.error(failureMessage);
         _projectInstances[project.id].remove(instance);
       });
       _projectInstances[project.id].add(instance);
@@ -97,7 +97,7 @@ define(
         NotificationController.success(successMessage);
       }).fail(function(){
         var failureMessage = "Error adding Instance '" + instance.get('name') + "' to Project '" + project.get('name') + "' :(  Please let Support know.";
-        NotificationController.danger(failureMessage);
+        NotificationController.error(failureMessage);
         _projectInstances[project.id].add(instance);
       });
       _projectInstances[project.id].remove(instance);

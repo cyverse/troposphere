@@ -33,7 +33,7 @@ define(
           <BootstrapModal
             ref="modal"
             show={true}
-            header="Create Project"
+            header={this.props.header}
             buttons={buttons}
             handleHidden={this.cleanup}
           >

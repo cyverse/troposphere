@@ -79,7 +79,7 @@ define(
               resolve(volume);
             },
             error: function () {
-              NotificationController.danger("Unknown Volume", "The requested volume does not exist.");
+              NotificationController.error("Unknown Volume", "The requested volume does not exist.");
             }
           });
 

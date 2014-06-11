@@ -4,12 +4,12 @@ define([], function () {
     APIARY_MOCK: 'http://atmosphere.apiary-mock.com',
     ALOM: '/api/v1',
     DALLOWAY: 'https://dalloway.iplantc.org:443/api/v1'
-  }
+  };
 
   function getApiServer(){
     if(window.location.hostname === 'localhost'){
-      return servers.APIARY_MOCK;
-      //return servers.DALLOWAY;
+      //return servers.APIARY_MOCK;
+      return servers.DALLOWAY;
     }else{
       return servers.ALOM;
     }

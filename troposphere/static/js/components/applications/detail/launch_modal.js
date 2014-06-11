@@ -12,6 +12,7 @@ define(
       canLaunch: function (size) {
         return size.get('remaining') > 0;
       },
+
       render: function () {
         return React.DOM.option({
           value: this.props.size.id
@@ -41,6 +42,7 @@ define(
         return React.DOM.option({value: identity.id},
             "Identity " + identity.id + " on " + provider_name);
       },
+
       render: function () {
         var options = this.props.identities.map(this.renderOption);
         return React.DOM.select({
@@ -67,6 +69,7 @@ define(
 
     var LaunchApplicationModal = React.createClass({
       mixins: [ModalMixin],
+
       getInitialState: function () {
         var defaultIdentity = this.props.identities.at(0);
         return {
@@ -79,9 +82,11 @@ define(
           errors: null
         };
       },
+
       renderTitle: function () {
         return this.props.application.get('name_or_id');
       },
+
       fetchSizes: function (identityId) {
         var identity = this.props.identities.get(identityId);
         var providerId = identity.get('provider_id');
@@ -93,12 +98,14 @@ define(
           SizeActions.fetch(providerId, identityId);
         }
       },
+
       setSizes: function (newSizes) {
         this.setState({
           sizes: newSizes,
           sizeId: newSizes.at(0).id
         });
       },
+
       updateSizes: function () {
         var identityId = this.state.identityId;
         var identity = this.props.identities.get(identityId);
@@ -106,24 +113,29 @@ define(
         var newSizes = SizeStore.get(providerId, identityId);
         this.setSizes(newSizes);
       },
+
       componentDidMount: function () {
         SizeStore.addChangeListener(this.updateSizes);
         this.fetchSizes(this.state.identityId);
       },
+
       componentDidUnmount: function () {
         SizeStore.removeChangeListener(this.updateSizes);
       },
+
       handleIdentityChange: function (e) {
         var identityId = e.target.value;
         this.setState({identityId: identityId});
         this.fetchSizes(identityId);
       },
+
       updateState: function (key, e) {
         var value = e.target.value;
         var state = {};
         state[key] = value;
         this.setState(state);
       },
+
       renderLaunchForm: function () {
         // provider id, identity id, machine_alias, name, size_alias, tags
         var identity = this.props.identities.get(this.state.identityId);
@@ -154,6 +166,7 @@ define(
               sizeId: this.state.sizeId,
               onChange: _.bind(this.updateState, this, 'sizeId')})));
       },
+
       renderLaunchUnsuccessful: function () {
         var errors = this.state.errors;
         var errorText = "Instance launch was unsuccessful";
@@ -177,6 +190,7 @@ define(
             React.DOM.a({href: "mailto:" + supportEmail},
               supportEmail)));
       },
+
       renderBody: function () {
         if (this.state.failure) {
           return this.renderLaunchUnsuccessful();
@@ -184,6 +198,7 @@ define(
           return this.renderLaunchForm();
         }
       },
+
       launchInstance: function (e) {
         e.preventDefault();
         var identity = this.props.identities.get(this.state.identityId);
@@ -203,6 +218,7 @@ define(
             });
           }.bind(this));
       },
+
       renderFooter: function () {
         if (this.state.failure) {
           return React.DOM.button({

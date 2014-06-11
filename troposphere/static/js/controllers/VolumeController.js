@@ -32,7 +32,7 @@ define(
           error: function (response_text) {
             var header = "Volume attachment failed.";
             var body = "If this problem persists, contact support at <a href=\"mailto:support@iplantcollaborative.org\">support@iplantcollaborative.org</a>"
-            NotificationController.danger(header, body, {
+            NotificationController.error(header, body, {
               no_timeout: true,
               type: 'error'
             });
@@ -128,7 +128,7 @@ define(
                 var header = "Something broke!";
                 var body = 'You can refresh the page and try to perform this operation again. If the problem persists, please email '
                   + '<a href="mailto:support@iplantcollaborative.org">support@iplantcollaborative.org</a>. <br /><br />We apologize for the inconvenience.';
-                NotificationController.danger(header, body);
+                NotificationController.error(header, body);
               }
             });
           });

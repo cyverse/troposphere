@@ -36,8 +36,9 @@ define(
     };
 
     var fetchInstances = function (identities) {
-      _isFetching = true;
-      var promise = new RSVP.Promise(function (resolve, reject) {
+      if(!_isFetching) {
+        _isFetching = true;
+
         // return an array of promises (one for each volume collection being fetched)
         var promises = identities.map(function (identity) {
           var providerId = identity.get('provider_id');
@@ -55,10 +56,76 @@ define(
           // Save the results to local cache
           _isFetching = false;
           _instances = instances;
-          resolve();
+          InstanceStore.emitChange();
         });
+      }
+    };
+
+    var suspend = function(instance){
+      instance.suspend({
+        success: function (model) {
+          NotificationController.success("Success", "Your instance is now suspended");
+          InstanceStore.emitChange();
+        },
+        error: function (response) {
+          NotificationController.error("Error", "Your instance could not be suspended :(");
+          InstanceStore.emitChange();
+        }
       });
-      return promise;
+    };
+
+    var resume = function(instance){
+      instance.resume({
+        success: function (model) {
+          NotificationController.success("Success", "Your instance is resuming");
+          InstanceStore.emitChange();
+        },
+        error: function (response) {
+          NotificationController.error("Error", "Your instance could not be resumed :(");
+          InstanceStore.emitChange();
+        }
+      });
+    };
+
+    var stop = function(instance){
+      instance.stop({
+        success: function (model) {
+          NotificationController.success('Stop Instance', 'Instance successfully stopped');
+          InstanceStore.emitChange();
+        },
+        error: function (response) {
+          NotificationController.error('Error', 'Instance could not be stopped :(');
+          InstanceStore.emitChange();
+        }
+      });
+    };
+
+    var start = function(instance){
+      instance.start({
+        success: function (model) {
+          NotificationController.success('Start Instance', 'Instance successfully started');
+          InstanceStore.emitChange();
+        },
+        error: function (response) {
+          NotificationController.error('Error', 'Instance could not be started :(');
+          InstanceStore.emitChange();
+        }
+      });
+    };
+
+    var terminate = function(instance){
+      instance.destroy({
+        success: function (model) {
+          NotificationController.success('Terminate Instance', 'Instance terminated started');
+          InstanceStore.emitChange();
+        },
+        error: function (response) {
+          NotificationController.error('Error', 'Instance could not be terminated :(');
+          _instances.add(instance);
+          InstanceStore.emitChange();
+        }
+      });
+      _instances.remove(instance);
     };
 
     //
@@ -68,15 +135,24 @@ define(
     var InstanceStore = {
 
       getAll: function () {
-        if(!_instances && !_isFetching) {
+        if(!_instances) {
           var identities = IdentityStore.getAll();
           if(identities) {
-            fetchInstances(identities).then(function () {
-              InstanceStore.emitChange();
-            }.bind(this));
+            fetchInstances(identities);
           }
         }
         return _instances;
+      },
+
+      get: function (instanceId) {
+        if(!_instances) {
+          var identities = IdentityStore.getAll();
+          if(identities) {
+            fetchInstances(identities);
+          }
+        } else {
+          return _instances.get(instanceId);
+        }
       }
 
     };
@@ -85,9 +161,25 @@ define(
       var action = payload.action;
 
       switch (action.actionType) {
-        //case ProjectConstants.PROJECT_CREATE:
-        //  create(action.model);
-        //  break;
+        case InstanceConstants.INSTANCE_SUSPEND:
+          suspend(action.instance);
+          break;
+
+        case InstanceConstants.INSTANCE_RESUME:
+          resume(action.instance);
+          break;
+
+        case InstanceConstants.INSTANCE_STOP:
+          stop(action.instance);
+          break;
+
+        case InstanceConstants.INSTANCE_START:
+          start(action.instance);
+          break;
+
+        case InstanceConstants.INSTANCE_TERMINATE:
+          terminate(action.instance);
+          break;
 
         default:
           return true;
