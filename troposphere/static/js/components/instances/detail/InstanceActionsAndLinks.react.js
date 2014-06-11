@@ -37,12 +37,13 @@ define(
 
       onReboot: function(){ },
       onResize: function(){ },
-      onOpenWebShell: function(){ },
-      onRemoteDesktop: function(){ },
 
       render: function () {
         var requestImageUrl = URL.requestImage(this.props.instance, {absolute: true});
         var reportInstanceUrl = URL.reportInstance(this.props.instance, {absolute: true});
+
+        var webShellUrl = this.props.instance.get('shell_url');
+        var remoteDesktopUrl = this.props.instance.get('vnc_url');
 
         var linksArray = [
           {label: 'Actions', icon: null},
@@ -56,8 +57,8 @@ define(
           {label: 'Resize', icon: 'resize-full', onClick: this.onResize},
           {label: 'Terminate', icon: 'remove', onClick: this.onTerminate},
           {label: 'Links', icon: null},
-          {label: 'Open Web Shell', icon: 'credit-card', onClick: this.onOpenWebShell},
-          {label: 'Remote Desktop', icon: 'fullscreen', onClick: this.onRemoteDesktop}
+          {label: 'Open Web Shell', icon: 'credit-card', href: webShellUrl, openInNewWindow: true},
+          {label: 'Remote Desktop', icon: 'fullscreen', href: remoteDesktopUrl, openInNewWindow: true}
         ];
 
         var links = linksArray.map(function(link){
@@ -80,6 +81,24 @@ define(
               </a>
             </li>
           );
+
+          // todo: This isn't implemented well at all.  We should be disabling these
+          // buttons if there isn't a valid href for the link, or (perhaps) not even
+          // showing the buttons at all...but I think it's better communication to
+          // disable the buttons with a message explaining why on rollover.
+          if(link.openInNewWindow) {
+            var style = {};
+            if(!link.href) style.cursor = 'not-allowed';
+            return (
+              <li className="action-link" style={style}>
+                <a href={link.href} target="_blank">
+                  <span>
+                    <Glyphicon name={link.icon}/>{link.label}
+                  </span>
+                </a>
+              </li>
+            );
+          }
 
           // Links with onClick callbacks will typically trigger modals requiring
           // confirmation before continuing
