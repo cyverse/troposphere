@@ -5,9 +5,10 @@ define(
     'react',
     'components/common/Glyphicon.react',
     'controllers/InstanceController',
-    'url'
+    'url',
+    'actions/InstanceActions'
   ],
-  function (React, Glyphicon, InstanceController, URL) {
+  function (React, Glyphicon, InstanceController, URL, InstanceActions) {
 
     return React.createClass({
 
@@ -20,7 +21,8 @@ define(
       },
 
       onSuspend: function(){
-        InstanceController.suspend(this.props.instance);
+        //InstanceController.suspend(this.props.instance);
+        InstanceActions.suspend(this.props.instance);
       },
 
       onStop: function(){
