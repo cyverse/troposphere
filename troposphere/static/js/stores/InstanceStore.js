@@ -100,6 +100,19 @@ define(
       });
     };
 
+    var start = function(instance){
+      instance.start({
+        success: function (model) {
+          NotificationController.success('Start Instance', 'Instance successfully started');
+          InstanceStore.emitChange();
+        },
+        error: function (response) {
+          NotificationController.error('Error', 'Instance could not be started :(');
+          InstanceStore.emitChange();
+        }
+      });
+    };
+
     //
     // Instance Store
     //
@@ -143,6 +156,10 @@ define(
 
         case InstanceConstants.INSTANCE_STOP:
           stop(action.instance);
+          break;
+
+        case InstanceConstants.INSTANCE_START:
+          start(action.instance);
           break;
 
         default:

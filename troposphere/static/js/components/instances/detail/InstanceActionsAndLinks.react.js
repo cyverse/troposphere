@@ -16,8 +16,7 @@ define(
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
-      onPlay: function(){
-        //InstanceController.start(this.props.instance);
+      onStart: function(){
         InstanceActions.start(this.props.instance);
       },
 
@@ -26,12 +25,10 @@ define(
       },
 
       onStop: function(){
-        //InstanceController.stop(this.props.instance);
         InstanceActions.stop(this.props.instance);
       },
 
       onResume: function(){
-        //InstanceController.resume(this.props.instance);
         InstanceActions.resume(this.props.instance);
       },
 
@@ -55,7 +52,7 @@ define(
           {label: 'Report', icon: 'inbox', href: reportInstanceUrl},
           {label: 'Reboot', icon: 'repeat', onClick: this.onReboot},
           {label: 'Suspend', icon: 'pause', onClick: this.onSuspend},
-          {label: 'Start', icon: 'play', onClick: this.onPlay},
+          {label: 'Start', icon: 'play', onClick: this.onStart},
           {label: 'Resume', icon: 'play', onClick: this.onResume},
           {label: 'Stop', icon: 'stop', onClick: this.onStop},
           {label: 'Resize', icon: 'resize-full', onClick: this.onResize},
