@@ -68,7 +68,7 @@ define(
               resolve(instance);
             },
             error: function () {
-              NotificationController.danger("Unknown Instance", "The requested instance does not exist.");
+              NotificationController.error("Unknown Instance", "The requested instance does not exist.");
             }
           });
         });
@@ -88,7 +88,7 @@ define(
               resolve(tags);
             },
             error: function () {
-              NotificationController.danger("Uh oh!", "There was a problem fetching the list of image tags.");
+              NotificationController.error("Uh oh!", "There was a problem fetching the list of image tags.");
               reject();
             }
           });

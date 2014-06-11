@@ -37,7 +37,7 @@ define(
         ProjectStore.emitChange();
       }).fail(function(){
         var failureMessage = "Error creating Project " + project.get('name') + " :( Please let Support know.";
-        NotificationController.danger(failureMessage);
+        NotificationController.error(failureMessage);
         _projects.remove(project);
         ProjectStore.emitChange();
       });
@@ -51,7 +51,7 @@ define(
         ProjectStore.emitChange();
       }).fail(function(){
         var failureMessage = "Error deleting Project " + project.get('name') + " :( Please let Support know.";
-        NotificationController.danger(failureMessage);
+        NotificationController.error(failureMessage);
         _projects.add(project);
         ProjectStore.emitChange();
       });

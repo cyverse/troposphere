@@ -107,7 +107,7 @@ define(
               resolve(model);
             },
             error: function (response) {
-              NotificationController.danger('Error', 'Could not stop instance');
+              NotificationController.error('Error', 'Could not stop instance');
               reject(response);
             }
           });
@@ -153,7 +153,7 @@ define(
                 resolve(model);
               },
               error: function (response, status, error) {
-                NotificationController.danger('Error', 'Could not start instance');
+                NotificationController.error('Error', 'Could not start instance');
                 reject(response);
               }
             });
@@ -236,7 +236,7 @@ define(
                 resolve(model);
               },
               error: function (response) {
-                NotificationController.danger('Error', 'You could not resume your instance');
+                NotificationController.error('Error', 'You could not resume your instance');
                 reject(response);
               }
             });
