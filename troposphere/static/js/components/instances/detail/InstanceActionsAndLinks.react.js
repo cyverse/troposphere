@@ -45,21 +45,35 @@ define(
         var webShellUrl = this.props.instance.get('shell_url');
         var remoteDesktopUrl = this.props.instance.get('vnc_url');
 
+        var status = this.props.instance.get('status');
+
+        // todo: Add back and implement reboot and resize once it's understood how to
+        // I'm hiding from the display for now so as not to show users functionality
+        // that doesn't exist.
         var linksArray = [
           {label: 'Actions', icon: null},
           {label: 'Image', icon: 'camera', href: requestImageUrl},
-          {label: 'Report', icon: 'inbox', href: reportInstanceUrl},
-          {label: 'Reboot', icon: 'repeat', onClick: this.onReboot},
-          {label: 'Suspend', icon: 'pause', onClick: this.onSuspend},
-          {label: 'Start', icon: 'play', onClick: this.onStart},
-          {label: 'Resume', icon: 'play', onClick: this.onResume},
-          {label: 'Stop', icon: 'stop', onClick: this.onStop},
-          {label: 'Resize', icon: 'resize-full', onClick: this.onResize},
+          {label: 'Report', icon: 'inbox', href: reportInstanceUrl}
+          //{label: 'Reboot', icon: 'repeat', onClick: this.onReboot},
+          //{label: 'Resize', icon: 'resize-full', onClick: this.onResize},
+        ];
+
+        // Add in the conditional links based on current machine state
+        if(status === "active"){
+          linksArray.push({label: 'Suspend', icon: 'pause', onClick: this.onSuspend});
+          linksArray.push({label: 'Stop', icon: 'stop', onClick: this.onStop});
+        }else if(status === "suspended"){
+          linksArray.push({label: 'Resume', icon: 'play', onClick: this.onResume});
+        }else if(status === "shutoff"){
+          linksArray.push({label: 'Start', icon: 'play', onClick: this.onStart});
+        }
+
+        linksArray = linksArray.concat([
           {label: 'Terminate', icon: 'remove', onClick: this.onTerminate},
           {label: 'Links', icon: null},
           {label: 'Open Web Shell', icon: 'credit-card', href: webShellUrl, openInNewWindow: true},
           {label: 'Remote Desktop', icon: 'fullscreen', href: remoteDesktopUrl, openInNewWindow: true}
-        ];
+        ]);
 
         var links = linksArray.map(function(link){
           // Links without icons are generally section headings
