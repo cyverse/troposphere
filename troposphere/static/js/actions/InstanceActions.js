@@ -8,9 +8,10 @@ define(
     'components/modals/InstanceResumeBody.react',
     'components/modals/InstanceStopBody.react',
     'components/modals/InstanceStartBody.react',
-    'components/modals/InstanceTerminateBody.react'
+    'components/modals/InstanceTerminateBody.react',
+    'components/modals/instance_launch/InstanceLaunchBody.react'
   ],
-  function (AppDispatcher, InstanceConstants, React, CancelConfirmModal, InstanceSuspendBody, InstanceResumeBody, InstanceStopBody, InstanceStartBody, InstanceTerminateBody) {
+  function (AppDispatcher, InstanceConstants, React, CancelConfirmModal, InstanceSuspendBody, InstanceResumeBody, InstanceStopBody, InstanceStartBody, InstanceTerminateBody, InstanceLaunchBody) {
 
     return {
       suspend: function (instance) {
@@ -106,6 +107,29 @@ define(
           confirmButtonMessage: "Yes, terminate this instance",
           onConfirm: onConfirm,
           body: InstanceTerminateBody.build(instance)
+        });
+
+        React.renderComponent(modal, document.getElementById('modal'));
+      },
+
+      launch: function(application, identities, providers){
+
+        var onConfirm = function (instance) {
+          AppDispatcher.handleRouteAction({
+            actionType: InstanceConstants.INSTANCE_LAUNCH,
+            instance: instance
+          });
+          // Since this is triggered from the images page, navigate off
+          // that page and back to the instance list so the user can see
+          // their instance being created
+          Backbone.history.navigate('instances', {trigger: true});
+        };
+
+        var modal = CancelConfirmModal({
+          header: application.get('name_or_id'),
+          confirmButtonMessage: "Launch Instance",
+          onConfirm: onConfirm,
+          body: InstanceLaunchBody.build(application, identities, providers)
         });
 
         React.renderComponent(modal, document.getElementById('modal'));

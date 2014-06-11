@@ -14,9 +14,11 @@ define(
     'controllers/ProfileController',
     'stores/ApplicationStore',
     'stores/ProviderStore',
-    'actions/ProviderActions'
+    'actions/ProviderActions',
+    'actions/InstanceActions',
+    'stores/IdentityStore'
   ],
-  function (React, Rating, Tags, ApplicationCard, Modal, LaunchModal, MachineList, ProfileController, ApplicationStore, ProviderStore, ProviderActions) {
+  function (React, Rating, Tags, ApplicationCard, Modal, LaunchModal, MachineList, ProfileController, ApplicationStore, ProviderStore, ProviderActions, InstanceActions, IdentityStore) {
 
     function getStoreState(applicationId) {
         return {
@@ -51,13 +53,19 @@ define(
       },
 
       showModal: function (e) {
-        Modal.show(
-          <LaunchModal
-            application={this.state.application}
-            identities={this.state.identities}
-            providers={this.state.providers}
-          />
-        );
+        var identities = IdentityStore.getAll();
+        var providers = ProviderStore.getAll();
+
+        if(identities && providers) {
+          InstanceActions.launch(this.state.application, identities, providers);
+        }
+//        Modal.show(
+//          <LaunchModal
+//            application={this.state.application}
+//            identities={this.state.identities}
+//            providers={this.state.providers}
+//          />
+//        );
       },
 
       render: function () {

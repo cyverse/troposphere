@@ -16,16 +16,15 @@ define(
     //
 
     var fetchIdentities = function() {
-      _isFetching = true;
-      var promise = new RSVP.Promise(function (resolve, reject) {
+      if(!_isFetching) {
+        _isFetching = true;
         var identities = new IdentityCollection();
         identities.fetch().done(function () {
           _isFetching = false;
           _identities = identities;
-          resolve();
+          IdentityStore.emitChange();
         });
-      });
-      return promise;
+      }
     };
 
     //
@@ -34,18 +33,10 @@ define(
 
     var IdentityStore = {
       getAll: function() {
-        if(!_identities && !_isFetching) {
-          fetchIdentities().then(function(){
-            IdentityStore.emitChange();
-          }.bind(this));
+        if(!_identities) {
+          fetchIdentities()
         }
         return _identities;
-      },
-
-      fetchAll: function() {
-        fetchIdentities().then(function(coll) {
-          IdentityStore.emitChange();
-        });
       }
     };
 

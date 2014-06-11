@@ -116,7 +116,7 @@ define(
     var terminate = function(instance){
       instance.destroy({
         success: function (model) {
-          NotificationController.success('Terminate Instance', 'Instance terminated started');
+          NotificationController.success('Terminate Instance', 'Instance termination started');
           InstanceStore.emitChange();
         },
         error: function (response) {
@@ -126,6 +126,21 @@ define(
         }
       });
       _instances.remove(instance);
+    };
+
+    var launch = function(instance){
+      instance.save({
+        success: function (model) {
+          NotificationController.success('Launch Instance', 'Instance successfully launched');
+          InstanceStore.emitChange();
+        },
+        error: function (response) {
+          NotificationController.error('Error', 'Instance could not be launched :(');
+          _instances.remove(instance);
+          InstanceStore.emitChange();
+        }
+      });
+      _instances.add(instance);
     };
 
     //
@@ -179,6 +194,10 @@ define(
 
         case InstanceConstants.INSTANCE_TERMINATE:
           terminate(action.instance);
+          break;
+
+        case InstanceConstants.INSTANCE_LAUNCH:
+          launch(action.instance);
           break;
 
         default:

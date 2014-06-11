@@ -23,11 +23,13 @@ define(
     };
 
     var SizeStore = {
+
       get: function (providerId, identityId) {
         var provider = _sizes[providerId];
         if (provider)
           return provider[identityId];
       },
+
       fetch: function (providerId, identityId) {
         _getSizesUncached(providerId, identityId)
           .then(function (collection) {
