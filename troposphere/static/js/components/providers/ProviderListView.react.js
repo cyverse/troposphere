@@ -17,7 +17,11 @@ define(
 
       render: function () {
           var providers = this.props.providers.map(function (provider) {
-            var providerIdentities = this.props.identities.where({'provider_id': provider.id});
+
+            // Get the identities belonging to this provider and cast as the original collection
+            // type (which should be IdentityCollection)
+            var providerIdentityArray = this.props.identities.where({'provider_id': provider.id});
+            var providerIdentities = new this.props.identities.constructor(providerIdentityArray);
 
             return (
               <Provider provider={provider}
