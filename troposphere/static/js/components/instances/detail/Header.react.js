@@ -2,14 +2,9 @@
 
 define(
   [
-    'react',
-    'components/common/PageHeader.react',
-    './InstanceAttributes.react',
-    './InstanceLinks.react',
-    './ActionList.react',
-    'backbone'
+    'react'
   ],
-  function (React, PageHeader, InstanceAttributes, InstanceLinks, ActionList, Backbone) {
+  function (React) {
 
     return React.createClass({
 

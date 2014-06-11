@@ -3,15 +3,11 @@
 define(
   [
     'react',
-    'components/common/PageHeader.react',
-    './InstanceAttributes.react',
-    './InstanceLinks.react',
-    './ActionList.react',
     'backbone',
     'components/common/Time.react',
     'url'
   ],
-  function (React, PageHeader, InstanceAttributes, InstanceLinks, ActionList, Backbone, Time, URL) {
+  function (React, Backbone, Time, URL) {
 
     return React.createClass({
 
