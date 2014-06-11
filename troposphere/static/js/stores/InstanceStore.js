@@ -61,6 +61,19 @@ define(
       }
     };
 
+    var suspend = function(instance){
+      instance.suspend({
+        success: function (model) {
+          NotificationController.success("Success", "Your instance is now suspended");
+          InstanceStore.emitChange();
+        },
+        error: function (response) {
+          NotificationController.error("Error", "Your instance could not be suspended :(");
+          InstanceStore.emitChange();
+        }
+      });
+    };
+
     //
     // Instance Store
     //
@@ -94,9 +107,9 @@ define(
       var action = payload.action;
 
       switch (action.actionType) {
-        //case ProjectConstants.PROJECT_CREATE:
-        //  create(action.model);
-        //  break;
+        case InstanceConstants.INSTANCE_SUSPEND:
+          suspend(action.instance);
+          break;
 
         default:
           return true;
