@@ -73,18 +73,40 @@ define(
       },
 
       //
+      // Callbacks
+      // ---------
+      //
+
+      // remove the modal from the DOM once we're finished with it
+      handleHidden: function(){
+        document.getElementById('modal').innerHTML = "";
+      },
+
+      cancel: function(){
+        this.hide();
+      },
+
+      confirm: function () {
+        this.hide();
+        this.props.onConfirm();
+      },
+
+      //
       // Render
       // ------
       //
       render: function () {
-        var buttons = null;
-        //var buttons = this.props.buttons.map(function (button) {
-        //  return (
-        //    <button key={button.text} type="button" className={'btn btn-' + button.type} onClick={button.handler}>
-        //      {button.text}
-        //    </button>
-        //  );
-        //});
+        var buttonArray = [
+          {type: 'danger', text: 'Cancel', handler: this.cancel},
+          {type: 'primary', text: this.props.confirmButtonMessage, handler: this.confirm}
+        ];
+        var buttons = buttonArray.map(function (button) {
+          return (
+            <button key={button.text} type="button" className={'btn btn-' + button.type} onClick={button.handler}>
+              {button.text}
+            </button>
+          );
+        });
 
         var emptyFunction = function(){};
 

@@ -133,7 +133,12 @@ define(
         //  body: InstanceLaunchBody.build(application, identities, providers)
         //});
 
-        var modal = InstanceLaunchModal({header: application.get('name'), application: application});
+        var modal = InstanceLaunchModal({
+          header: application.get('name'),
+          application: application,
+          confirmButtonMessage: "Launch instance",
+          onConfirm: onConfirm
+        });
 
         React.renderComponent(modal, document.getElementById('modal'));
       }
