@@ -22,6 +22,27 @@
   width: 30px;
 }
 
+// created to show an instance is loading in the list view
+tr div.loading-tiny-inline {
+  @extend .loading;
+  height: 25px;
+  width: 25px;
+  margin: 0 !important;
+  display: inline-block;
+  height: 25px;
+  width: 25px;
+}
+
+// This has to be this specific to override the default Bootstrap styling
+.table > tbody > tr.loading-row > td {
+  line-height: 32px;
+  span {
+    line-height: 32px;
+    vertical-align: text-bottom;
+    margin-left: 10px;
+  }
+}
+
 @-webkit-keyframes rotation {
     from {-webkit-transform: rotate(0deg);}
     to {-webkit-transform: rotate(359deg);}

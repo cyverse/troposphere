@@ -58,6 +58,12 @@ define(
           _isFetching = false;
           _instances = instances;
           InstanceStore.emitChange();
+        }).catch(function(error) {
+          // This can happen if any of the server calls timeout
+          // todo: should we set a timeout for server requests, and reinitiate if a respond doesn't
+          // come back within 2-3 seconds?
+          _isFetching = false;
+          fetchInstances();
         });
       }
     };
