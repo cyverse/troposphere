@@ -1,7 +1,7 @@
 /* http://www.designcouch.com/home/why/2013/05/23/dead-simple-pure-css-loading-spinner/ */
 .loading {
-    height:60px;
-    width:60px;
+    height: 60px;
+    width: 60px;
     margin: 0 auto;
     position: relative;
     -webkit-animation: rotation .6s infinite linear;
@@ -14,6 +14,12 @@
     border-top:6px solid rgba(0, 152, 170, .8);
     
     border-radius:100%;
+}
+
+.loading-small {
+  @extend .loading;
+  height: 30px;
+  width: 30px;
 }
 
 @-webkit-keyframes rotation {

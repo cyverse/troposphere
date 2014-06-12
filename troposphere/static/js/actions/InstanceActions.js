@@ -9,9 +9,10 @@ define(
     'components/modals/InstanceStopBody.react',
     'components/modals/InstanceStartBody.react',
     'components/modals/InstanceTerminateBody.react',
-    'components/modals/instance_launch/InstanceLaunchBody.react'
+    'components/modals/instance_launch/InstanceLaunchBody.react',
+    'components/modals/InstanceLaunchModal.react'
   ],
-  function (AppDispatcher, InstanceConstants, React, CancelConfirmModal, InstanceSuspendBody, InstanceResumeBody, InstanceStopBody, InstanceStartBody, InstanceTerminateBody, InstanceLaunchBody) {
+  function (AppDispatcher, InstanceConstants, React, CancelConfirmModal, InstanceSuspendBody, InstanceResumeBody, InstanceStopBody, InstanceStartBody, InstanceTerminateBody, InstanceLaunchBody, InstanceLaunchModal) {
 
     return {
       suspend: function (instance) {
@@ -125,12 +126,14 @@ define(
           Backbone.history.navigate('instances', {trigger: true});
         };
 
-        var modal = CancelConfirmModal({
-          header: application.get('name_or_id'),
-          confirmButtonMessage: "Launch Instance",
-          onConfirm: onConfirm,
-          body: InstanceLaunchBody.build(application, identities, providers)
-        });
+        //var modal = CancelConfirmModal({
+        //  header: application.get('name_or_id'),
+        //  confirmButtonMessage: "Launch Instance",
+        //  onConfirm: onConfirm,
+        //  body: InstanceLaunchBody.build(application, identities, providers)
+        //});
+
+        var modal = InstanceLaunchModal({header: application.get('name'), application: application});
 
         React.renderComponent(modal, document.getElementById('modal'));
       }
