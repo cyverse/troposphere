@@ -4,11 +4,10 @@ define(
   [
     'react',
     'components/mixins/modal',
-    'controllers/InstanceController',
     'actions/SizeActions',
     'stores/SizeStore'
   ],
-  function (React, ModalMixin, InstanceController, SizeActions, SizeStore) {
+  function (React, ModalMixin, SizeActions, SizeStore) {
 
     return React.createClass({
 

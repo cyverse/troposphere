@@ -3,22 +3,16 @@
 define(
   [
     'react',
-
-    '../common/Rating.react',
     './Tags.react',
     '../common/ApplicationCard.react',
-
-    'modal',
-    './launch_modal',
     './MachineList.react',
     'controllers/ProfileController',
     'stores/ApplicationStore',
     'stores/ProviderStore',
-    'actions/ProviderActions',
     'actions/InstanceActions',
     'stores/IdentityStore'
   ],
-  function (React, Rating, Tags, ApplicationCard, Modal, LaunchModal, MachineList, ProfileController, ApplicationStore, ProviderStore, ProviderActions, InstanceActions, IdentityStore) {
+  function (React, Tags, ApplicationCard, MachineList, ProfileController, ApplicationStore, ProviderStore, InstanceActions, IdentityStore) {
 
     function getStoreState(applicationId) {
         return {
@@ -59,13 +53,6 @@ define(
         if(identities && providers) {
           InstanceActions.launch(this.state.application, identities, providers);
         }
-//        Modal.show(
-//          <LaunchModal
-//            application={this.state.application}
-//            identities={this.state.identities}
-//            providers={this.state.providers}
-//          />
-//        );
       },
 
       render: function () {
