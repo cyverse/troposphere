@@ -78,8 +78,8 @@ define(
         state.machineId = this.state.machineId || machines.first().id;
 
         // Fetch instance sizes user can launch if required information exists
-        if(state.identities && state.providers && this.state.identityId){
-          var selectedIdentity = state.identities.get(this.state.identityId);
+        if(state.identities && state.providers && state.identityId){
+          var selectedIdentity = state.identities.get(state.identityId);
           var selectedProvider = state.providers.get(selectedIdentity.get('provider_id'));
           state.sizes = SizeStore.get(selectedProvider.id, selectedIdentity.id);
         }
