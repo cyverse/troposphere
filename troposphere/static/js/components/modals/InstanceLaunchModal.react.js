@@ -53,7 +53,12 @@ define(
       // ----------------
       //
       getInitialState: function(){
-        return getState();
+        var initialState = getState();
+        initialState.instanceName = null;
+        initialState.machineId = null;
+        initialState.identityId = null;
+        initialState.sizeId = null;
+        return initialState;
       },
 
       updateState: function () {
@@ -73,8 +78,8 @@ define(
       },
 
       //
-      // Callbacks
-      // ---------
+      // Internal Modal Callbacks
+      // ------------------------
       //
 
       // remove the modal from the DOM once we're finished with it
@@ -91,6 +96,17 @@ define(
         this.props.onConfirm();
       },
 
+
+      //
+      // Custom Modal Callbacks
+      // ----------------------
+      //
+
+      onInstanceNameChange: function(e){
+        var newInstanceName = e.target.value;
+        this.setState({instanceName: newInstanceName});
+      },
+
       //
       // Render
       // ------
@@ -101,12 +117,18 @@ define(
           {type: 'primary', text: this.props.confirmButtonMessage, handler: this.confirm}
         ];
         var buttons = buttonArray.map(function (button) {
+          // Enable all buttons be default
+          var isDisabled = false;
+
+          // Disable the launch button if the user hasn't provided a name for the instance
+          if(button.type === "primary") isDisabled = this.state.instanceName ? false :  true;
+
           return (
-            <button key={button.text} type="button" className={'btn btn-' + button.type} onClick={button.handler}>
+            <button key={button.text} type="button" className={'btn btn-' + button.type} onClick={button.handler} disabled={isDisabled}>
               {button.text}
             </button>
           );
-        });
+        }.bind(this));
 
         var emptyFunction = function(){};
 
@@ -121,6 +143,7 @@ define(
           var machines = this.props.application.get('machines');
           this.state.machineId = this.state.machineId || machines.first().id;
 
+          // The provider & identity combination the user has selected (or defaulted to)
           var selectedIdentity = this.state.identities.get(this.state.identityId);
           var selectedProvider = this.state.providers.get(selectedIdentity.get('provider_id'));
 
@@ -129,7 +152,7 @@ define(
 
               <div className='form-group'>
                 <label htmlFor='instance-name'>Instance Name</label>
-                <input type='text' className='form-control' id='instance-name' onChange={emptyFunction}/>
+                <input type='text' className='form-control' id='instance-name' onChange={this.onInstanceNameChange}/>
               </div>
 
               <div className='form-group'>
@@ -143,10 +166,10 @@ define(
               <div className='form-group'>
                 <label htmlFor='identity'>Identity</label>
                 <IdentitySelect
-                    onChange={emptyFunction}
                     identityId={this.state.identityId}
                     identities={this.state.identities}
                     providers={this.state.providers}
+                    onChange={emptyFunction}
                 />
               </div>
 
