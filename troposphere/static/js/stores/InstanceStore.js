@@ -5,11 +5,12 @@ define(
     'stores/Store',
     'rsvp',
     'collections/InstanceCollection',
+    'models/Instance',
     'constants/InstanceConstants',
     'controllers/NotificationController',
     'stores/IdentityStore'
   ],
-  function (_, Dispatcher, Store, RSVP, InstanceCollection, InstanceConstants, NotificationController, IdentityStore) {
+  function (_, Dispatcher, Store, RSVP, InstanceCollection, Instance, InstanceConstants, NotificationController, IdentityStore) {
 
     var _instances = null;
     var _isFetching = false;
@@ -128,8 +129,21 @@ define(
       _instances.remove(instance);
     };
 
-    var launch = function(instance){
-      instance.save({
+    var launch = function(identity, machineId, sizeId, instanceName){
+      var instance = new Instance({
+        identity: {
+          id: identity.id,
+          provider: identity.get('provider_id')
+        }
+      });
+
+      var params = {
+        machine_alias: machineId,
+        size_alias: sizeId,
+        name: instanceName
+      };
+
+      instance.save(params, {
         success: function (model) {
           NotificationController.success('Launch Instance', 'Instance successfully launched');
           InstanceStore.emitChange();
@@ -197,7 +211,7 @@ define(
           break;
 
         case InstanceConstants.INSTANCE_LAUNCH:
-          launch(action.instance);
+          launch(action.identity, action.machineId, action.sizeId, action.instanceName);
           break;
 
         default:
