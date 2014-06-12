@@ -40,7 +40,7 @@ define(
     // }
 
     function getState() {
-      return {
+      var state = {
         providers: ProviderStore.getAll(),
         identities: IdentityStore.getAll(),
         // todo: The only reason InstanceStore is here is because if the instance is launched, the store
@@ -52,28 +52,79 @@ define(
         // new instance to a non-existent list, and register a callback to add this instance once all of
         // the instances are loaded (but we'd need to handle the edge case where the instance fails to load
         // and we're notified before the full instance collection returns)
-        instances: InstanceStore.getAll()
+        instances: InstanceStore.getAll(),
+        sizes: null,
+
+        instanceName: null,
+        machineId: null,
+        identityId: null,
+        sizeId: null
       };
+
+      this.state = this.state || {};
+      if(this.state) {
+
+        // Use provided instance name or default to nothing
+        state.instanceName = this.state.instanceName || "";
+
+        // Use selected identity or default to the first one
+        if (state.identities) {
+          state.identityId = this.state.identityId || state.identities.first().id;
+        }
+
+        // Use selected machine (image version) or default to the first one
+        // todo: we should be sorting these by date or version number before selecting the first one
+        var machines = this.props.application.get('machines');
+        state.machineId = this.state.machineId || machines.first().id;
+
+        // Fetch instance sizes user can launch if required information exists
+        if(state.identities && state.providers && this.state.identityId){
+          var selectedIdentity = state.identities.get(this.state.identityId);
+          var selectedProvider = state.providers.get(selectedIdentity.get('provider_id'));
+          state.sizes = SizeStore.get(selectedProvider.id, selectedIdentity.id);
+        }
+
+        // If we switch identities, while a size with the previous identity was selected, that size may
+        // not exist in the new collection.  So check to see if it does, and set the sizeId to null if
+        // doesn't exist (forcing the user to select a size in the new list)
+        if(state.sizes){
+          var selectedSize = state.sizes.get(this.state.sizeId);
+          state.sizeId = selectedSize ? selectedSize.id : null;
+        }
+
+        // Use selected machine size or default to the first one
+        if(state.sizes) {
+          state.sizeId = state.sizeId || state.sizes.first().id;
+        }
+      }
+
+
+
+      return state;
     }
 
     return React.createClass({
       mixins: [BootstrapModalMixin],
+
+      propTypes: {
+        application: React.PropTypes.instanceOf(Backbone.Model).isRequired
+      },
 
       //
       // Mounting & State
       // ----------------
       //
       getInitialState: function(){
-        var initialState = getState();
-        initialState.instanceName = null;
-        initialState.machineId = null;
-        initialState.identityId = null;
-        initialState.sizeId = null;
+        var initialState = getState.apply(this);
+        //initialState.instanceName = null;
+        //initialState.machineId = null;
+        //initialState.identityId = null;
+        //initialState.sizeId = null;
         return initialState;
       },
 
       updateState: function () {
-        if (this.isMounted()) this.setState(getState());
+        if (this.isMounted()) this.setState(getState.apply(this));
       },
 
       componentDidMount: function () {
@@ -166,17 +217,29 @@ define(
         var content;
         if(this.state.identities && this.state.providers && this.state.instances){
 
+          // todo: React recommends treating state as immutable, which we are obviously not doing
+          // All code below that sets this.state directly should instead be moved into getState.
+          // -----------------------------------------------------------------------------------
+
           // Use selected identity or default to the first one
-          this.state.identityId = this.state.identityId || this.state.identities.first().id;
+          //this.state.identityId = this.state.identityId || this.state.identities.first().id;
 
           // Use selected machine (image version) or default to the first one
           // todo: we should be sorting these by date or version number before selecting the first one
           var machines = this.props.application.get('machines');
-          this.state.machineId = this.state.machineId || machines.first().id;
+          //this.state.machineId = this.state.machineId || machines.first().id;
+
+          // Use selected machine size or default to the first one
+          //if(this.state.sizes) {
+          //  this.state.sizeId = this.state.sizeId || this.state.sizes.first().id;
+          //}
 
           // The provider & identity combination the user has selected (or defaulted to)
-          var selectedIdentity = this.state.identities.get(this.state.identityId);
-          var selectedProvider = this.state.providers.get(selectedIdentity.get('provider_id'));
+          //var selectedIdentity = this.state.identities.get(this.state.identityId);
+          //var selectedProvider = this.state.providers.get(selectedIdentity.get('provider_id'));
+
+          //provider={selectedProvider}
+          //identity={selectedIdentity}
 
           content = (
             <form role='form'>
@@ -208,8 +271,7 @@ define(
                 <label htmlFor='size'>Instance Size</label>
                 <InstanceSizeSelect
                     sizeId={this.state.sizeId}
-                    provider={selectedProvider}
-                    identity={selectedIdentity}
+                    sizes={this.state.sizes}
                     onChange={this.onSizeChange}
                 />
               </div>

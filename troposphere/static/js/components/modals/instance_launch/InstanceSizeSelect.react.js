@@ -9,31 +9,33 @@ define(
   ],
   function (React, Backbone, InstanceSizeOption, SizeStore) {
 
-    function getState(provider, identity){
-      return {
-        sizes: SizeStore.get(provider.id, identity.id)
-      }
-    }
+//    function getState(provider, identity){
+//      return {
+//        sizes: SizeStore.get(provider.id, identity.id)
+//      }
+//    }
 
     return React.createClass({
 
       propTypes: {
-        provider: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        identity: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        //provider: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        //identity: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        sizeId: React.PropTypes.string.isRequired,
+        sizes: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         onChange: React.PropTypes.func.isRequired
       },
 
-      getInitialState: function(){
-        return getState(this.props.provider, this.props.identity);
-      },
-
-      componentWillReceiveProps: function (nextProps) {
-        this.setState(getState(nextProps.provider, nextProps.identity));
-      },
+//      getInitialState: function(){
+//        return getState(this.props.provider, this.props.identity);
+//      },
+//
+//      componentWillReceiveProps: function (nextProps) {
+//        this.setState(getState(nextProps.provider, nextProps.identity));
+//      },
 
       render: function () {
-        if (this.state.sizes) {
-          var options = this.state.sizes.map(function (size) {
+        if (this.props.sizes) {
+          var options = this.props.sizes.map(function (size) {
             return (
               <InstanceSizeOption key={size.id} size={size}/>
             );
@@ -46,12 +48,12 @@ define(
           // time the component is initialized.  I think this is a bad inversion of control - we should
           // probably be fetching the sizes in the parent component, and pass in the list like we do
           // with the rest of the components (and setting sizeId to the first size if not in state already)
-          if(!this.props.sizeId) {
-            var target = {
-              value: this.state.sizes.first().id
-            };
-            this.props.onChange({target: target});
-          }
+//          if(!this.props.sizeId) {
+//            var target = {
+//              value: this.state.sizes.first().id
+//            };
+//            this.props.onChange({target: target});
+//          }
 
           return (
             <select value={this.props.sizeId} className='form-control' id='size' onChange={this.props.onChange}>
