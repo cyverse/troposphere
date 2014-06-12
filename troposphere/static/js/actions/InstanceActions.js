@@ -129,6 +129,12 @@ define(
           Backbone.history.navigate('instances', {trigger: true});
         };
 
+        var onCancel = function(){
+          // Important! We need to unmount the component so it un-registers from Stores and
+          // also so that we can relaunch it again later.
+          React.unmountComponentAtNode(document.getElementById('modal'));
+        };
+
         //var modal = CancelConfirmModal({
         //  header: application.get('name_or_id'),
         //  confirmButtonMessage: "Launch Instance",
@@ -140,7 +146,9 @@ define(
           header: application.get('name'),
           application: application,
           confirmButtonMessage: "Launch instance",
-          onConfirm: onConfirm
+          onConfirm: onConfirm,
+          onCancel: onCancel,
+          handleHidden: onCancel
         });
 
         React.renderComponent(modal, document.getElementById('modal'));

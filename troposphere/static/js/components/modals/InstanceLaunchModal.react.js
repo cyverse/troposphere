@@ -134,7 +134,7 @@ define(
         InstanceStore.addChangeListener(this.updateState);
       },
 
-      componentDidUnmount: function () {
+      componentWillUnmount: function () {
         ProviderStore.removeChangeListener(this.updateState);
         IdentityStore.removeChangeListener(this.updateState);
         SizeStore.removeChangeListener(this.updateState);
@@ -147,12 +147,13 @@ define(
       //
 
       // remove the modal from the DOM once we're finished with it
-      handleHidden: function(){
-        document.getElementById('modal').innerHTML = "";
-      },
+      //handleHidden: function(){
+      //  document.getElementById('modal').innerHTML = "";
+      //},
 
       cancel: function(){
         this.hide();
+        //this.props.onCancel();
       },
 
       confirm: function () {
