@@ -113,7 +113,7 @@ define(
         React.renderComponent(modal, document.getElementById('modal'));
       },
 
-      launch: function(application, identities, providers){
+      launch: function(application){
 
         var onConfirm = function (identity, machineId, sizeId, instanceName) {
           AppDispatcher.handleRouteAction({
@@ -130,17 +130,10 @@ define(
         };
 
         var onCancel = function(){
-          // Important! We need to unmount the component so it un-registers from Stores and
+          // Important! We need to un-mount the component so it un-registers from Stores and
           // also so that we can relaunch it again later.
           React.unmountComponentAtNode(document.getElementById('modal'));
         };
-
-        //var modal = CancelConfirmModal({
-        //  header: application.get('name_or_id'),
-        //  confirmButtonMessage: "Launch Instance",
-        //  onConfirm: onConfirm,
-        //  body: InstanceLaunchBody.build(application, identities, providers)
-        //});
 
         var modal = InstanceLaunchModal({
           header: application.get('name'),
