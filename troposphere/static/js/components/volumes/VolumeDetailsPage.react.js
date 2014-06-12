@@ -51,7 +51,7 @@ define(
         ProviderStore.addChangeListener(this.updateProviders);
       },
 
-      componentDidUnmount: function () {
+      componentWillUnmount: function () {
         ProviderStore.removeChangeListener(this.updateProviders);
       },
 
