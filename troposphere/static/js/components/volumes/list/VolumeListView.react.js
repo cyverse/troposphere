@@ -23,16 +23,11 @@ define(
         if(command === "attach"){
           console.log("attach" + volumeName);
           //VolumeActions.attach(volume);
-
         }else if(command === "detach"){
-          console.log("detach" + volumeName);
           VolumeActions.detach(volume);
-
         }else if(command === "destroy"){
-          console.log("destroy" + volumeName);
-          //VolumeActions.destroy(volume);
+          VolumeActions.destroy(volume);
         }
-
         e.target.value = e.target.options[0].value;
       },
 

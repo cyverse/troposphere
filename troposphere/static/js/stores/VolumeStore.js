@@ -74,6 +74,19 @@ define(
       });
     };
 
+    var destroy = function(volume){
+      volume.remove({
+        success: function (model) {
+          NotificationController.success("Success", "Your volume was destroyed.");
+          VolumeStore.emitChange();
+        },
+        error: function (message, response) {
+          NotificationController.error("Error", "Your volume could not be destroyed :(");
+          VolumeStore.emitChange();
+        }
+      });
+    };
+
 
     //
     // Volume Store
@@ -98,16 +111,20 @@ define(
     Dispatcher.register(function (payload) {
       var action = payload.action;
 
+      VolumeStore.emitChange();
+
       switch (action.actionType) {
         case VolumeConstants.VOLUME_DETACH:
           detach(action.volume);
           break;
 
+        case VolumeConstants.VOLUME_DESTROY:
+          destroy(action.volume);
+          break;
+
         default:
           return true;
       }
-
-      VolumeStore.emitChange();
 
       return true;
     });
