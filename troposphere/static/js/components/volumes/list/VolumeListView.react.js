@@ -15,7 +15,8 @@ define(
 
       propTypes: {
         volumes: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       onChange: function(volume, e){
@@ -60,6 +61,7 @@ define(
           var description = volume.get('description') || "No description provided.";
           var volumeDetailsUrl = URL.volume(volume, {absolute: true});
           var volumeStatus = volume.get('status');
+          var volumeProvider = this.props.providers.get(volume.get('identity').provider);
           var volumeOptions;
           if(volumeStatus === "available"){
             volumeOptions = this.getVolumeAttachOptions(volume);
@@ -81,7 +83,7 @@ define(
                 {volumeOptions}
               </td>
               <td>
-                200 GB on <a href="#">iPlant Cloud - Tucson</a>
+                200 GB on <strong>{volumeProvider.get('name')}</strong>
               </td>
             </tr>
           );
