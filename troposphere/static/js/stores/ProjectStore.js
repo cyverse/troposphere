@@ -18,16 +18,15 @@ define(
     //
 
     var fetchProjects = function () {
-      _isFetching = true;
-      var promise = new RSVP.Promise(function (resolve, reject) {
+      if(!_projects && !_isFetching) {
+        _isFetching = true;
         var projects = new ProjectCollection();
         projects.fetch().done(function () {
           _isFetching = false;
           _projects = projects;
-          resolve();
+          ProjectStore.emitChange();
         });
-      });
-      return promise;
+      }
     };
 
     function create(project){
@@ -65,10 +64,8 @@ define(
     var ProjectStore = {
 
       getAll: function () {
-        if(!_projects && !_isFetching) {
-          fetchProjects().then(function(){
-            ProjectStore.emitChange();
-          });
+        if(!_projects) {
+          fetchProjects()
         }
         return _projects;
       }

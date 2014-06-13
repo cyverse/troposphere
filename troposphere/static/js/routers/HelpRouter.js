@@ -5,11 +5,11 @@ define(
     'marionette',
     'components/Root.react',
     'react',
-    'components/help/Help.react',
+    'components/help/HelpPage.react',
     'context',
     'backbone'
   ],
-  function (Marionette, Root, React, Help, context, Backbone) {
+  function (Marionette, Root, React, HelpPage, context, Backbone) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({
@@ -31,7 +31,7 @@ define(
       },
 
       showHelp: function (param) {
-        this.render(Help(), ["help"]);
+        this.render(HelpPage(), ["help"]);
       }
 
     });

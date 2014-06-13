@@ -5,12 +5,11 @@ define(
     'marionette',
     'components/Root.react',
     'react',
-    'components/settings/Settings.react',
-    'controllers/ProfileController',
+    'components/settings/SettingsPage.react',
     'context',
     'backbone'
   ],
-  function (Marionette, Root, React, Settings, ProfileController, context, Backbone) {
+  function (Marionette, Root, React, SettingsPage, context, Backbone) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({
@@ -31,15 +30,8 @@ define(
         React.renderComponent(app, document.getElementById('application'));
       },
 
-      fetchProfile: function () {
-        return ProfileController.getProfile();
-      },
-
       showSettings: function (param) {
-        this.fetchProfile().then(function (profile) {
-          var content = Settings({profile: profile});
-          this.render(content, ["settings"]);
-        }.bind(this));
+        this.render(SettingsPage(), ["settings"]);
       }
 
     });

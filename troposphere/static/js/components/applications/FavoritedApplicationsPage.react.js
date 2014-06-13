@@ -29,7 +29,7 @@ define(
         ApplicationStore.addChangeListener(this.updateState);
       },
 
-      componentDidUnmount: function () {
+      componentWillUnmount: function () {
         ApplicationStore.removeChangeListener(this.updateState);
       },
 

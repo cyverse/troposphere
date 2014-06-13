@@ -5,11 +5,12 @@ define(
     'stores/Store',
     'rsvp',
     'collections/InstanceCollection',
+    'models/Instance',
     'constants/InstanceConstants',
     'controllers/NotificationController',
     'stores/IdentityStore'
   ],
-  function (_, Dispatcher, Store, RSVP, InstanceCollection, InstanceConstants, NotificationController, IdentityStore) {
+  function (_, Dispatcher, Store, RSVP, InstanceCollection, Instance, InstanceConstants, NotificationController, IdentityStore) {
 
     var _instances = null;
     var _isFetching = false;
@@ -57,6 +58,12 @@ define(
           _isFetching = false;
           _instances = instances;
           InstanceStore.emitChange();
+        }).catch(function(error) {
+          // This can happen if any of the server calls timeout
+          // todo: should we set a timeout for server requests, and reinitiate if a respond doesn't
+          // come back within 2-3 seconds?
+          _isFetching = false;
+          fetchInstances();
         });
       }
     };
@@ -116,7 +123,7 @@ define(
     var terminate = function(instance){
       instance.destroy({
         success: function (model) {
-          NotificationController.success('Terminate Instance', 'Instance terminated started');
+          NotificationController.success('Terminate Instance', 'Instance termination started');
           InstanceStore.emitChange();
         },
         error: function (response) {
@@ -126,6 +133,34 @@ define(
         }
       });
       _instances.remove(instance);
+    };
+
+    var launch = function(identity, machineId, sizeId, instanceName){
+      var instance = new Instance({
+        identity: {
+          id: identity.id,
+          provider: identity.get('provider_id')
+        }
+      });
+
+      var params = {
+        machine_alias: machineId,
+        size_alias: sizeId,
+        name: instanceName
+      };
+
+      instance.save(params, {
+        success: function (model) {
+          NotificationController.success('Launch Instance', 'Instance successfully launched');
+          InstanceStore.emitChange();
+        },
+        error: function (response) {
+          NotificationController.error('Error', 'Instance could not be launched :(');
+          _instances.remove(instance);
+          InstanceStore.emitChange();
+        }
+      });
+      _instances.add(instance);
     };
 
     //
@@ -179,6 +214,10 @@ define(
 
         case InstanceConstants.INSTANCE_TERMINATE:
           terminate(action.instance);
+          break;
+
+        case InstanceConstants.INSTANCE_LAUNCH:
+          launch(action.identity, action.machineId, action.sizeId, action.instanceName);
           break;
 
         default:
