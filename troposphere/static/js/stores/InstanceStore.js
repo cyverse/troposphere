@@ -37,7 +37,7 @@ define(
     };
 
     var fetchInstances = function (identities) {
-      if(!_isFetching) {
+      if(!_isFetching && identities) {
         _isFetching = true;
 
         // return an array of promises (one for each volume collection being fetched)

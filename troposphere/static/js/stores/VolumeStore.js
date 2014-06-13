@@ -37,8 +37,9 @@ define(
     };
 
     var fetchVolumes = function (identities) {
-      _isFetching = true;
-      var promise = new RSVP.Promise(function (resolve, reject) {
+      if(!_isFetching && identities) {
+        _isFetching = true;
+
         // return an array of promises (one for each volume collection being fetched)
         var promises = identities.map(function (identity) {
           var providerId = identity.get('provider_id');
@@ -56,10 +57,9 @@ define(
           // Save the results to local cache
           _isFetching = false;
           _volumes = volumes;
-          resolve();
+          VolumeStore.emitChange();
         });
-      });
-      return promise;
+      }
     };
 
     var detach = function(volume){
@@ -117,12 +117,21 @@ define(
         if(!_volumes && !_isFetching) {
           var identities = IdentityStore.getAll();
           if(identities) {
-            fetchVolumes(identities).then(function () {
-              VolumeStore.emitChange();
-            }.bind(this));
+            fetchVolumes(identities);
           }
         }
         return _volumes;
+      },
+
+      get: function (volumeId) {
+        if(!_volumes) {
+          var identities = IdentityStore.getAll();
+          if(identities) {
+            fetchVolumes(identities);
+          }
+        } else {
+          return _volumes.get(volumeId);
+        }
       }
 
     };
