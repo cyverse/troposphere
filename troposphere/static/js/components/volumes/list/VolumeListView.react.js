@@ -21,8 +21,7 @@ define(
         var command = e.target.value;
         var volumeName = volume.get('name');
         if(command === "attach"){
-          console.log("attach" + volumeName);
-          //VolumeActions.attach(volume);
+          VolumeActions.attach(volume);
         }else if(command === "detach"){
           VolumeActions.detach(volume);
         }else if(command === "destroy"){

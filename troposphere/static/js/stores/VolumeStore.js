@@ -7,9 +7,10 @@ define(
     'collections/VolumeCollection',
     'constants/VolumeConstants',
     'controllers/NotificationController',
-    'stores/IdentityStore'
+    'stores/IdentityStore',
+    'components/notifications/VolumeAttachNotifications.react'
   ],
-  function (_, Dispatcher, Store, RSVP, VolumeCollection, VolumeConstants, NotificationController, IdentityStore) {
+  function (_, Dispatcher, Store, RSVP, VolumeCollection, VolumeConstants, NotificationController, IdentityStore, VolumeAttachNotifications) {
 
     var _volumes = null;
     var _isFetching = false;
@@ -88,6 +89,22 @@ define(
     };
 
 
+    var attach = function(volume, instance, mountLocation){
+      volume.attachTo(instance, mountLocation, {
+        success: function (response) {
+          var title = "Volume Successfully Attached";
+          var successMessage = VolumeAttachNotifications.success();
+          NotificationController.success(title, successMessage);
+        },
+        error: function (response) {
+          var header = "Volume could not be attached :(";
+          var errorMessage = VolumeAttachNotifications.success();
+          NotificationController.success(title, errorMessage);
+        }
+      });
+    };
+
+
     //
     // Volume Store
     //
@@ -120,6 +137,10 @@ define(
 
         case VolumeConstants.VOLUME_DESTROY:
           destroy(action.volume);
+          break;
+
+        case VolumeConstants.VOLUME_ATTACH:
+          attach(action.volume, action.instance, action.mountLocation);
           break;
 
         default:
