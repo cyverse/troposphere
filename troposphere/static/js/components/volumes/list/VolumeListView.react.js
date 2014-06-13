@@ -14,7 +14,8 @@ define(
     return React.createClass({
 
       propTypes: {
-        volumes: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        volumes: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       onChange: function(volume, e){
@@ -42,7 +43,9 @@ define(
       },
 
       getVolumeDetachOptions: function(volume){
-        var placeholderMessage = "Attached to iPlant Base Instance";
+        var attachData = volume.get('attach_data')
+        var instance = this.props.instances.get(attachData.instance_id);
+        var placeholderMessage = "Attached to " + instance.get('name') + " as device " + attachData.device;
         return (
           <select name="tags" data-placeholder={placeholderMessage} className="form-control" onChange={this.onChange.bind(this, volume)}>
             <option>{placeholderMessage}</option>
