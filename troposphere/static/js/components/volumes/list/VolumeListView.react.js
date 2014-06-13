@@ -72,7 +72,7 @@ define(
           }
 
           return (
-            <tr>
+            <tr key={volume.id || volume.cid}>
               <td>
                 {volumeName}
               </td>
