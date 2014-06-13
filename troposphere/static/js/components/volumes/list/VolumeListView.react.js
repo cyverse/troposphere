@@ -6,9 +6,10 @@ define(
     'underscore',
     'url',
     'components/common/PageHeader.react',
-    'backbone'
+    'backbone',
+    'actions/VolumeActions'
   ],
-  function (React, _, URL, PageHeader, Backbone) {
+  function (React, _, URL, PageHeader, Backbone, VolumeActions) {
 
     return React.createClass({
 
@@ -21,11 +22,17 @@ define(
         var volumeName = volume.get('name');
         if(command === "attach"){
           console.log("attach" + volumeName);
+          //VolumeActions.attach(volume);
+
         }else if(command === "detach"){
           console.log("detach" + volumeName);
+          VolumeActions.detach(volume);
+
         }else if(command === "destroy"){
           console.log("destroy" + volumeName);
+          //VolumeActions.destroy(volume);
         }
+
         e.target.value = e.target.options[0].value;
       },
 

@@ -1,17 +1,43 @@
 define(
   [
+    'react',
     'dispatchers/AppDispatcher',
-    'constants/VolumeConstants'
+    'constants/VolumeConstants',
+    'components/modals/CancelConfirmModal.react',
+    'components/modals/VolumeDetachBody.react'
   ],
-  function (AppDispatcher, VolumeConstants) {
+  function (React, AppDispatcher, VolumeConstants, CancelConfirmModal, VolumeDetachBody) {
 
     return {
-      // create: function (volume) {
-      //   AppDispatcher.handleRouteAction({
-      //     actionType: VolumeConstants.VOLUME_CREATE,
-      //     model: volume
-      //   });
-      // }
+      detach: function (volume) {
+
+        var onConfirm = function () {
+          AppDispatcher.handleRouteAction({
+            actionType: VolumeConstants.VOLUME_DETACH,
+            volume: volume
+          });
+        };
+
+        var onCancel = function(){
+          // Important! We need to un-mount the component so it un-registers from Stores and
+          // also so that we can relaunch it again later.
+          React.unmountComponentAtNode(document.getElementById('modal'));
+        };
+
+        var headerMessage = "Detach volume " + volume.get('name_or_id') + "?";
+
+        var modal = CancelConfirmModal({
+          header: headerMessage,
+          confirmButtonMessage: "Yes, detach this volume",
+          body: VolumeDetachBody.build(),
+          onConfirm: onConfirm,
+          onCancel: onCancel,
+          handleHidden: onCancel
+        });
+
+        React.renderComponent(modal, document.getElementById('modal'));
+      }
+
     };
 
   });

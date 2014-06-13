@@ -61,6 +61,20 @@ define(
       return promise;
     };
 
+    var detach = function(volume){
+      volume.detach({
+        success: function (model) {
+          NotificationController.success("Success", "Your volume was detached.  It is now available to attach to another instance or destroy.");
+          VolumeStore.emitChange();
+        },
+        error: function (message, response) {
+          NotificationController.error("Error", "Your volume could not be detached :(");
+          VolumeStore.emitChange();
+        }
+      });
+    };
+
+
     //
     // Volume Store
     //
@@ -85,9 +99,9 @@ define(
       var action = payload.action;
 
       switch (action.actionType) {
-        //case VolumeConstants.VOLUME_CREATE:
-        //  create(action.model);
-        //  break;
+        case VolumeConstants.VOLUME_DETACH:
+          detach(action.volume);
+          break;
 
         default:
           return true;
