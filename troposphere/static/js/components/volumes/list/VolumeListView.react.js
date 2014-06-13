@@ -74,9 +74,7 @@ define(
           return (
             <tr>
               <td>
-                <a href={volumeDetailsUrl}>
-                  {volumeName}
-                </a>
+                {volumeName}
               </td>
               <td>{description}</td>
               <td>
