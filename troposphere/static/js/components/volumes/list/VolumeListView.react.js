@@ -56,6 +56,15 @@ define(
           var volumeName = volume.get('name');
           var description = volume.get('description') || "No description provided.";
           var volumeDetailsUrl = URL.volume(volume, {absolute: true});
+          var volumeStatus = volume.get('status');
+          var volumeOptions;
+          if(volumeStatus === "available"){
+            volumeOptions = this.getVolumeAttachOptions(volume);
+          }else if(volumeStatus === "in-use"){
+            volumeOptions = this.getVolumeDetachOptions(volume)
+          }else{
+            volumeOptions = volumeStatus;
+          }
 
           return (
             <tr>
@@ -66,7 +75,7 @@ define(
               </td>
               <td>{description}</td>
               <td>
-                { volume.get('status') === "available" ? this.getVolumeAttachOptions(volume) : this.getVolumeDetachOptions(volume) }
+                {volumeOptions}
               </td>
               <td>
                 200 GB on <a href="#">iPlant Cloud - Tucson</a>

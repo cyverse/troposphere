@@ -95,11 +95,13 @@ define(
           var title = "Volume Successfully Attached";
           var successMessage = VolumeAttachNotifications.success();
           NotificationController.success(title, successMessage);
+          VolumeStore.emitChange();
         },
         error: function (response) {
           var header = "Volume could not be attached :(";
           var errorMessage = VolumeAttachNotifications.success();
           NotificationController.success(title, errorMessage);
+          VolumeStore.emitChange();
         }
       });
     };
