@@ -8,9 +8,11 @@ define(
     'components/modals/InstanceResumeBody.react',
     'components/modals/InstanceStopBody.react',
     'components/modals/InstanceStartBody.react',
-    'components/modals/InstanceTerminateBody.react'
+    'components/modals/InstanceTerminateBody.react',
+    'components/modals/instance_launch/InstanceLaunchBody.react',
+    'components/modals/InstanceLaunchModal.react'
   ],
-  function (AppDispatcher, InstanceConstants, React, CancelConfirmModal, InstanceSuspendBody, InstanceResumeBody, InstanceStopBody, InstanceStartBody, InstanceTerminateBody) {
+  function (AppDispatcher, InstanceConstants, React, CancelConfirmModal, InstanceSuspendBody, InstanceResumeBody, InstanceStopBody, InstanceStartBody, InstanceTerminateBody, InstanceLaunchBody, InstanceLaunchModal) {
 
     return {
       suspend: function (instance) {
@@ -106,6 +108,40 @@ define(
           confirmButtonMessage: "Yes, terminate this instance",
           onConfirm: onConfirm,
           body: InstanceTerminateBody.build(instance)
+        });
+
+        React.renderComponent(modal, document.getElementById('modal'));
+      },
+
+      launch: function(application){
+
+        var onConfirm = function (identity, machineId, sizeId, instanceName) {
+          AppDispatcher.handleRouteAction({
+            actionType: InstanceConstants.INSTANCE_LAUNCH,
+            identity: identity,
+            machineId: machineId,
+            sizeId: sizeId,
+            instanceName: instanceName
+          });
+          // Since this is triggered from the images page, navigate off
+          // that page and back to the instance list so the user can see
+          // their instance being created
+          Backbone.history.navigate('instances', {trigger: true});
+        };
+
+        var onCancel = function(){
+          // Important! We need to un-mount the component so it un-registers from Stores and
+          // also so that we can relaunch it again later.
+          React.unmountComponentAtNode(document.getElementById('modal'));
+        };
+
+        var modal = InstanceLaunchModal({
+          header: application.get('name'),
+          application: application,
+          confirmButtonMessage: "Launch instance",
+          onConfirm: onConfirm,
+          onCancel: onCancel,
+          handleHidden: onCancel
         });
 
         React.renderComponent(modal, document.getElementById('modal'));

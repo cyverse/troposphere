@@ -62,7 +62,7 @@ define(
         IdentityStore.addChangeListener(this.updateState);
       },
 
-      componentDidUnmount: function () {
+      componentWillUnmount: function () {
         ProviderStore.removeChangeListener(this.updateState);
         InstanceStore.removeChangeListener(this.updateState);
         IdentityStore.removeChangeListener(this.updateState);

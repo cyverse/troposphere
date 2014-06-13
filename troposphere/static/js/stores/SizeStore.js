@@ -10,42 +10,55 @@ define(
   function (_, Store, RSVP, SizeCollection, AppDispatcher, SizeActions) {
 
     var _sizes = {};
+    var _isFetching = {};
 
-    var _getSizesUncached = function (providerId, identityId) {
-      return new RSVP.Promise(function (resolve, reject) {
-        var sizes = new SizeCollection([], {
+    function fetchSizesForProviderIdentity(providerId, identityId){
+      addEntriesForProviderIdentityIfNotExists(providerId, identityId);
+
+      if(!_isFetching[providerId][identityId]) {
+        _isFetching[providerId][identityId] = true;
+        var sizes = new SizeCollection(null, {
           provider_id: providerId,
           identity_id: identityId
         });
-        sizes.on('sync', resolve);
-        sizes.fetch();
-      });
-    };
+
+        sizes.fetch().done(function () {
+          _isFetching[providerId][identityId] = false;
+           _sizes[providerId][identityId] = sizes;
+          SizeStore.emitChange();
+        });
+      }
+    }
+
+    function addEntriesForProviderIdentityIfNotExists(providerId, identityId){
+      // Add fetching entries, set default state to false
+      _isFetching[providerId] = _isFetching[providerId] || {};
+      _isFetching[providerId][identityId] = _isFetching[providerId][identityId] || false;
+
+      // Add size entries (only needed for provider level, identity level can be undefined)
+      _sizes[providerId] = _sizes[providerId] || {};
+    }
 
     var SizeStore = {
+
       get: function (providerId, identityId) {
-        var provider = _sizes[providerId];
-        if (provider)
-          return provider[identityId];
-      },
-      fetch: function (providerId, identityId) {
-        _getSizesUncached(providerId, identityId)
-          .then(function (collection) {
-            if (!_sizes[providerId])
-              _sizes[providerId] = {};
-            _sizes[providerId][identityId] = collection;
-            this.emitChange();
-          }.bind(this))
+        addEntriesForProviderIdentityIfNotExists(providerId, identityId);
+
+        if (!_sizes[providerId][identityId]) {
+          fetchSizesForProviderIdentity(providerId, identityId);
+        }
+        return _sizes[providerId][identityId];
       }
+
     };
 
     AppDispatcher.register(function (payload) {
       var action = payload.action;
 
       switch (action.actionType) {
-        case SizeActions.constants.fetch:
-          SizeStore.fetch(action.providerId, action.identityId);
-          break;
+        // case SizeActions.SIZE_FETCH:
+        //   fetchSizesForProviderIdentity(action.providerId, action.identityId);
+        //   break;
       }
 
       return true;

@@ -33,7 +33,7 @@ define(
         ProjectStore.addChangeListener(this.updateApps);
       },
 
-      componentDidUnmount: function () {
+      componentWillUnmount: function () {
         ProjectStore.removeChangeListener(this.updateApps);
       },
 

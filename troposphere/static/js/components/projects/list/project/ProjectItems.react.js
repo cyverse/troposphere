@@ -35,7 +35,7 @@ define(
         ProjectVolumeStore.addChangeListener(this._onChange);
       },
 
-      componentDidUnmount: function () {
+      componentWillUnmount: function () {
         ProjectInstanceStore.removeChangeListener(this._onChange);
         ProjectVolumeStore.removeChangeListener(this._onChange);
       },

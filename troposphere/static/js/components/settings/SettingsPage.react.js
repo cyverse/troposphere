@@ -5,19 +5,19 @@ define(
     'react',
     'components/common/PageHeader.react',
     'controllers/ProfileController',
-    './IconSelect.react'
+    './IconSelect.react',
+    'context'
   ],
-  function (React, PageHeader, ProfileController, IconSelect) {
+  function (React, PageHeader, ProfileController, IconSelect, context) {
 
     return React.createClass({
 
       handleIconSelect: function (icon_type) {
-        ProfileController.setIcons(this.props.profile, icon_type);
+        ProfileController.setIcons(context.profile, icon_type);
       },
 
       getSelectedIconSet: function () {
-        var profile = this.props.profile;
-        return profile ? profile.get('settings')['icon_set'] : null
+        return context.profile.get('settings')['icon_set'];
       },
 
       render: function () {

@@ -23,18 +23,33 @@ define(
           var dateCreated = instance.get('start_date');
           var instanceDetailsUrl = URL.instance(instance, {absolute: true});
 
-          return (
-            <tr>
-              <td>
-                <a href={instanceDetailsUrl}>
-                  {instanceName}
-                </a>
-              </td>
-              <td>
-                <Time date={dateCreated}/>
-              </td>
-            </tr>
-          );
+          if (!instance.id) {
+            return (
+              <tr className="loading-row">
+                <td>
+                  <div className="loading-tiny-inline"></div>
+                  <span>{instanceName}</span>
+                </td>
+                <td>
+                  <Time date={dateCreated}/>
+                </td>
+              </tr>
+            );
+          } else {
+            return (
+              <tr>
+                <td>
+                  <a href={instanceDetailsUrl}>
+                    {instanceName}
+                  </a>
+                </td>
+                <td>
+                  <Time date={dateCreated}/>
+                </td>
+              </tr>
+            );
+          }
+
         });
 
         var helpText = function(){
@@ -43,7 +58,8 @@ define(
               <p>This page shows instances you've created across all providers</p>
             </div>
           );
-        }
+        };
+
         return (
           <div>
             <PageHeader title="All Instances" helpText={helpText}/>
