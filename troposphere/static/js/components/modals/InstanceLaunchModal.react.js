@@ -98,8 +98,6 @@ define(
         }
       }
 
-
-
       return state;
     }
 

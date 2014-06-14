@@ -5,12 +5,13 @@ define(
     'stores/Store',
     'rsvp',
     'collections/VolumeCollection',
+    'models/Volume',
     'constants/VolumeConstants',
     'controllers/NotificationController',
     'stores/IdentityStore',
     'components/notifications/VolumeAttachNotifications.react'
   ],
-  function (_, Dispatcher, Store, RSVP, VolumeCollection, VolumeConstants, NotificationController, IdentityStore, VolumeAttachNotifications) {
+  function (_, Dispatcher, Store, RSVP, VolumeCollection, Volume, VolumeConstants, NotificationController, IdentityStore, VolumeAttachNotifications) {
 
     var _volumes = null;
     var _isFetching = false;
@@ -106,6 +107,36 @@ define(
       });
     };
 
+    var create = function(volumeName, volumeSize, identity){
+      var volume = new Volume({
+        identity: {
+          id: identity.id,
+          provider: identity.get('provider_id')
+        },
+        name: volumeName,
+        description: "",
+        size: volumeSize
+      });
+
+      var params = {
+        model_name: "volume",
+        tags: "CF++"
+      };
+
+      volume.save(params, {
+        success: function (model) {
+          NotificationController.success('Success', 'Volume successfully created');
+          VolumeStore.emitChange();
+        },
+        error: function (response) {
+          NotificationController.error('Error', 'Volume could not be created :(');
+          _volumes.remove(volume);
+          VolumeStore.emitChange();
+        }
+      });
+      _volumes.add(volume);
+    };
+
 
     //
     // Volume Store
@@ -152,6 +183,10 @@ define(
 
         case VolumeConstants.VOLUME_ATTACH:
           attach(action.volume, action.instance, action.mountLocation);
+          break;
+
+        case VolumeConstants.VOLUME_CREATE:
+          create(action.volumeName, action.volumeSize, action.identity);
           break;
 
         default:

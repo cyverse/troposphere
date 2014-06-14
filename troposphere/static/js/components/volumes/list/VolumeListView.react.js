@@ -32,6 +32,10 @@ define(
         e.target.value = e.target.options[0].value;
       },
 
+      onCreateVolume: function(e){
+        VolumeActions.create();
+      },
+
       getVolumeAttachOptions: function(volume){
         var placeholderMessage = "Unattached";
         return (
@@ -98,6 +102,7 @@ define(
         return (
           <div>
             <PageHeader title="All Volumes" helpText={helpText}/>
+            <button className="btn btn-primary pull-right" onClick={this.onCreateVolume}>Create New Volume</button>
             <table className="table">
               <thead>
                 <tr>
