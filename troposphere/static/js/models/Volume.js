@@ -14,7 +14,7 @@ define(
         var url = globals.API_ROOT +
                   '/provider/' + creds.provider_id +
                   '/identity/' + creds.identity_id +
-                  '/volume' + globals.slash();
+                  '/volume';
         return url;
       },
 
