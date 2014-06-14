@@ -14,7 +14,7 @@ define(
         var url = globals.API_ROOT +
                   '/provider/' + creds.provider_id +
                   '/identity/' + creds.identity_id +
-                  '/volume' + globals.slash();
+                  '/volume';
         return url;
       },
 
@@ -56,10 +56,11 @@ define(
       computed: {
         name_or_id: function () {
           return this.get('name').length == 0 ? this.id : this.get('name');
-        },
-        isAttached: function () {
-          return this.get('status') == 'in-use' || this.get('status') == 'detaching';
         }
+      },
+
+      isAttached: function () {
+        return this.get('status') == 'in-use' || this.get('status') == 'detaching';
       },
 
       attachTo: function (instance, mount_location, options) {
