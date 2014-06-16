@@ -14,7 +14,7 @@ define(
 
     var LogoutLink = React.createClass({
       render: function () {
-        return <a href="/logout">{"Logout " + this.props.username}</a>;
+        return <a href="/logout?cas=True">{"Logout " + this.props.username}</a>;
       }
     });
 

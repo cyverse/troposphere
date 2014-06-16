@@ -51,6 +51,12 @@ def login(request):
 
 def logout(request):
     request.session.flush()
+    #Look for 'cas' to be passed on logout.
+    if request.POST.get('cas',False) or request.GET.get('cas',False):
+        return_to = settings.SERVER_URL + reverse('application')
+        logout_url = cas_oauth_client.logout(return_to)
+        logger.info("Redirect user to: %s" % logout_url)
+        return redirect(logout_url)
     return redirect('application')
 
 def cas_oauth_service(request):
