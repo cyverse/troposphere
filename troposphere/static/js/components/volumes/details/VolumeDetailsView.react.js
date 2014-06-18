@@ -6,17 +6,15 @@ define(
     'underscore',
     'components/common/PageHeader.react',
     './VolumeInfo.react',
-    './AttachmentInfo.react',
     'backbone'
   ],
-  function (React, _, PageHeader, VolumeInfo, AttachmentInfo, Backbone) {
+  function (React, _, PageHeader, VolumeInfo, Backbone) {
 
     return React.createClass({
 
       propTypes: {
         volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       helpText: function () {
@@ -68,7 +66,6 @@ define(
           <div>
             <PageHeader title={"Volume: " + this.props.volume.get('name_or_id')} helpText={this.helpText}/>
             <VolumeInfo volume={this.props.volume} providers={this.props.providers}/>
-            <AttachmentInfo volume={this.props.volume} instances={this.props.instances} providers={this.props.providers}/>
           </div>
         );
       }

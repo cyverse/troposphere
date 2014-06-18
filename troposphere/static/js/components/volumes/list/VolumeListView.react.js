@@ -6,14 +6,57 @@ define(
     'underscore',
     'url',
     'components/common/PageHeader.react',
-    'backbone'
+    'backbone',
+    'actions/VolumeActions'
   ],
-  function (React, _, URL, PageHeader, Backbone) {
+  function (React, _, URL, PageHeader, Backbone, VolumeActions) {
 
     return React.createClass({
 
       propTypes: {
-        volumes: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        volumes: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      },
+
+      onChange: function(volume, e){
+        var command = e.target.value;
+        var volumeName = volume.get('name');
+        if(command === "attach"){
+          VolumeActions.attach(volume);
+        }else if(command === "detach"){
+          VolumeActions.detach(volume);
+        }else if(command === "destroy"){
+          VolumeActions.destroy(volume);
+        }
+        e.target.value = e.target.options[0].value;
+      },
+
+      onCreateVolume: function(e){
+        VolumeActions.create();
+      },
+
+      getVolumeAttachOptions: function(volume){
+        var placeholderMessage = "Unattached";
+        return (
+          <select name="tags" data-placeholder={placeholderMessage} className="form-control" onChange={this.onChange.bind(this, volume)}>
+            <option>{placeholderMessage}</option>
+            <option value="attach">Attach to...</option>
+            <option value="destroy">Destroy</option>
+          </select>
+        );
+      },
+
+      getVolumeDetachOptions: function(volume){
+        var attachData = volume.get('attach_data')
+        var instance = this.props.instances.get(attachData.instance_id);
+        var placeholderMessage = "Attached to " + instance.get('name') + " as device " + attachData.device;
+        return (
+          <select name="tags" data-placeholder={placeholderMessage} className="form-control" onChange={this.onChange.bind(this, volume)}>
+            <option>{placeholderMessage}</option>
+            <option value="detach">Detach</option>
+          </select>
+        );
       },
 
       render: function () {
@@ -21,18 +64,32 @@ define(
           var volumeName = volume.get('name');
           var description = volume.get('description') || "No description provided.";
           var volumeDetailsUrl = URL.volume(volume, {absolute: true});
+          var volumeStatus = volume.get('status');
+          var volumeProvider = this.props.providers.get(volume.get('identity').provider);
+          var volumeOptions;
+          if(volumeStatus === "available"){
+            volumeOptions = this.getVolumeAttachOptions(volume);
+          }else if(volumeStatus === "in-use"){
+            volumeOptions = this.getVolumeDetachOptions(volume)
+          }else{
+            volumeOptions = volumeStatus;
+          }
 
           return (
-            <tr>
+            <tr key={volume.id || volume.cid}>
               <td>
-                <a href={volumeDetailsUrl}>
-                  {volumeName}
-                </a>
+                {volumeName}
               </td>
               <td>{description}</td>
+              <td>
+                {volumeOptions}
+              </td>
+              <td>
+                200 GB on <strong>{volumeProvider.get('name')}</strong>
+              </td>
             </tr>
           );
-        });
+        }.bind(this));
 
         var helpText = function(){
           return (
@@ -40,15 +97,19 @@ define(
               <p>This page shows volumes you've created across all providers</p>
             </div>
           );
-        }
+        };
+
         return (
           <div>
             <PageHeader title="All Volumes" helpText={helpText}/>
+            <button className="btn btn-primary pull-right" onClick={this.onCreateVolume}>Create New Volume</button>
             <table className="table">
               <thead>
                 <tr>
                   <th>Name</th>
                   <th>Description</th>
+                  <th>Status</th>
+                  <th>Size, Provider</th>
                 </tr>
               </thead>
               <tbody>

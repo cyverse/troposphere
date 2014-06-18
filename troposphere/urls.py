@@ -13,4 +13,5 @@ urlpatterns = patterns('',
     url(r'^logout$', 'troposphere.views.logout'),
     url(r'^cas/oauth2.0$', 'troposphere.views.cas_oauth_service',
         name='cas_oauth_service'),
+    url(r'^version$', 'troposphere.views.version'),
 )
