@@ -2,9 +2,10 @@
 
 define(
   [
-    'react'
+    'react',
+    'actions/HelpActions'
   ],
-  function (React) {
+  function (React, HelpActions) {
 
     return React.createClass({
       getInitialState: function () {
@@ -15,23 +16,24 @@ define(
 
       onSubmit: function (e) {
         e.preventDefault();
-        /* TODO: Send support request */
+        var feedback = e.target.value;
+        HelpActions.sendFeedback(feedback);
       },
 
-      handleChange: function (e) {
-        this.setState({content: event.target.value});
+      onTextChange: function (e) {
+        var feedback = e.target.value;
+        this.setState({content: feedback});
       },
 
       render: function () {
+        var isDisabled = this.state.content ? false : true;
         return (
           <form onSubmit={this.onSubmit}>
             <div className="form-group">
-              <textarea className="form-control" rows="5" onChange={this.handleChange}>
-                {this.state.content}
-              </textarea>
+              <textarea className="form-control" rows="5" onChange={this.onTextChange} value={this.state.content}/>
             </div>
             <div className="form-group">
-              <input className="btn btn-primary" type="submit" value="Send"/>
+              <input className="btn btn-primary" type="submit" value="Send" disabled={isDisabled}/>
             </div>
           </form>
         );

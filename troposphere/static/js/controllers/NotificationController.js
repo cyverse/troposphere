@@ -6,8 +6,9 @@ define(
   function (toastr, _) {
 
     toastr.options = {
-      "timeOut": "3000",
-      "extendedTimeOut": "3000"
+      "closeButton": true,
+      "timeOut": "0",
+      "extendedTimeOut": "0"
     };
 
     var notify = function (type, title, message, options) {
