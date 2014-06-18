@@ -1,27 +1,33 @@
-import os
-import logging
-import requests
-
 from datetime import datetime
+import json
+import logging
+import os
 
+from django.conf import settings
+from django.core import serializers
+from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect
-from django.conf import settings
-from django.core.urlresolvers import reverse
+
+import requests
 
 from caslib import OAuthClient as CAS_OAuthClient
 
-logger = logging.getLogger(__name__)
+from troposphere.version import get_version
 
+
+logger = logging.getLogger(__name__)
 key = open(settings.OAUTH_PRIVATE_KEY_PATH, 'r').read()
 cas_oauth_client = CAS_OAuthClient(settings.CAS_SERVER,
-                           settings.OAUTH_CLIENT_CALLBACK,
-                           settings.OAUTH_CLIENT_KEY,
-                           settings.OAUTH_CLIENT_SECRET,
-                           auth_prefix="/castest")
+                                   settings.OAUTH_CLIENT_CALLBACK,
+                                   settings.OAUTH_CLIENT_KEY,
+                                   settings.OAUTH_CLIENT_SECRET,
+                                   auth_prefix="/castest")
+
 
 def root(request):
     return redirect('application')
+
 
 def application(request):
     records, disabled_login = get_maintenance()
@@ -30,11 +36,12 @@ def application(request):
 
     if 'access_token' in request.session:
         template_params = {
-           'access_token': request.session['access_token']
+            'access_token': request.session['access_token']
         }
         return render(request, 'application.html', template_params)
     else:
         return render(request, 'index.html')
+
 
 def get_maintenance():
     """
@@ -43,21 +50,25 @@ def get_maintenance():
     """
     return ([], False)
 
+
 def maintenance(request):
     return HttpResponse("We're undergoing maintenance", status=503)
+
 
 def login(request):
     return redirect(cas_oauth_client.authorize_url())
 
+
 def logout(request):
     request.session.flush()
     #Look for 'cas' to be passed on logout.
-    if request.POST.get('cas',False) or request.GET.get('cas',False):
+    if request.POST.get('cas', False) or request.GET.get('cas', False):
         return_to = settings.SERVER_URL + reverse('application')
         logout_url = cas_oauth_client.logout(return_to)
         logger.info("Redirect user to: %s" % logout_url)
         return redirect(logout_url)
     return redirect('application')
+
 
 def cas_oauth_service(request):
     logger.debug("OAuth-CAS service request")
@@ -75,6 +86,7 @@ def cas_oauth_service(request):
     request.session['access_token'] = token
     return redirect('application')
 
+
 def emulate(request, username):
     if 'access_token' not in request.session:
         return redirect(cas_oauth_client.authorize_url())
@@ -86,17 +98,17 @@ def emulate(request, username):
     if not username:
         #Restore the 'old token'
         logger.info("Session_token: %s. Request to remove emulation."
-                 % (old_token, ))
+                    % (old_token, ))
         request.session['access_token'] = old_token
         return redirect('application')
 
     logger.info("Session_token: %s. Request to emulate %s."
-                 % (old_token, username))
+                % (old_token, username))
 
     r = requests.get(
-            os.path.join(settings.SERVER_URL,
-                         "api/v1/token_emulate/%s" % username),
-            headers={'Authorization':'Bearer %s' % old_token})
+        os.path.join(settings.SERVER_URL,
+                     "api/v1/token_emulate/%s" % username),
+        headers={'Authorization': 'Bearer %s' % old_token})
     try:
         j_data = r.json()
     except ValueError:
@@ -107,7 +119,7 @@ def emulate(request, username):
     emulated_by = j_data.get('emulated_by')
     if not new_token or not emulated_by:
         logger.warn("The API server returned data missing the key(s) "
-                "token/emulated_by. Data: %s" % j_data)
+                    "token/emulated_by. Data: %s" % j_data)
         return redirect('application')
 
     logger.info("User %s (Token: %s) has emulated User %s (Token:%s)"
@@ -117,6 +129,7 @@ def emulate(request, username):
     request.session['access_token'] = new_token
     return redirect('application')
 
+
 def forbidden(request):
     """
     View used when someone tries to log in and is an authenticated iPlant
@@ -124,3 +137,10 @@ def forbidden(request):
     Returns HTTP status code 403 Forbidden
     """
     return render(request, 'no_user.html', status=403)
+
+
+def version(request):
+    v = get_version()
+    v["commit_date"] = v["commit_date"].isoformat()
+    v_json = json.dumps(v)
+    return HttpResponse(v_json, mimetype='application/json')
