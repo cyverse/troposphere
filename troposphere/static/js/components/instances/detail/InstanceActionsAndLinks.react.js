@@ -88,7 +88,7 @@ define(
           // to log requests to Google Analytics
           if(link.href) return (
             <li className="action-link">
-              <a href={link.href}>
+              <a href={link.href} target="_blank">
               <span>
                 <Glyphicon name={link.icon}/>{link.label}
               </span>
