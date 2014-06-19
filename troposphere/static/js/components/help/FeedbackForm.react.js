@@ -16,7 +16,7 @@ define(
 
       onSubmit: function (e) {
         e.preventDefault();
-        var feedback = e.target.value;
+        var feedback = this.state.content;
         HelpActions.sendFeedback(feedback);
       },
 
