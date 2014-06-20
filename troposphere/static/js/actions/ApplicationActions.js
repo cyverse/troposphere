@@ -6,16 +6,6 @@ define(
   function (AppDispatcher, ApplicationConstants) {
 
     var ApplicationActions = {
-      constants: {
-        search: 'application_search'
-      },
-
-      search: function (query) {
-        AppDispatcher.handleRouteAction({
-          actionType: this.constants.search,
-          query: query
-        });
-      },
 
       toggleFavorited: function (application) {
         AppDispatcher.handleRouteAction({

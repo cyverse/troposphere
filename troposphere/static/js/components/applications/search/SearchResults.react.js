@@ -11,16 +11,6 @@ define(
 
     return React.createClass({
 
-//      componentWillReceiveProps: function (nextProps) {
-//        this.setState({apps: null});
-//        var results = ApplicationStore.getResults(nextProps.query);
-//        if (results) {
-//          this.setState({apps: results});
-//        } else {
-//          ApplicationActions.search(nextProps.query);
-//        }
-//      },
-
       render: function () {
         if (this.props.applications.isEmpty()) {
           return (
