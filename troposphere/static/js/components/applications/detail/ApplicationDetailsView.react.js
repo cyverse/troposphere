@@ -25,11 +25,11 @@ define(
       render: function () {
         return (
           <div id='app-detail'>
+            <ApplicationCard application={this.props.application} onLaunch={this.showModal}/>
+
             <HeaderView application={this.props.application}/>
             <TagsView application={this.props.application}/>
             <AvailabilityView application={this.props.application}/>
-            <hr/>
-            <ApplicationCard application={this.props.application} onLaunch={this.showModal}/>
             <DescriptionView application={this.props.application}/>
             <hr/>
             <VersionsView application={this.props.application}/>
