@@ -48,7 +48,7 @@ define(
       render: function () {
 
         var profile = this.props.profile;
-        var loginLogoutLink = profile ? LogoutLink({username: profile.get('username')}) : LoginLink();
+        var loginLogoutDropdown = profile ? LogoutLink({username: profile.get('username')}) : LoginLink();
 
         return (
           <div className="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -68,7 +68,7 @@ define(
 
               <div className="navbar-collapse collapse">
                 <ul className="nav navbar-nav navbar-right">
-                  {loginLogoutLink}
+                  {loginLogoutDropdown}
                 </ul>
               </div>
             </div>
