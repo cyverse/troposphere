@@ -31,7 +31,6 @@ define(
             <TagsView application={this.props.application}/>
             <AvailabilityView application={this.props.application}/>
             <DescriptionView application={this.props.application}/>
-            <hr/>
             <VersionsView application={this.props.application}/>
           </div>
         );

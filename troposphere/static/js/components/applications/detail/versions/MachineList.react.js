@@ -10,7 +10,7 @@ define(
     return React.createClass({
 
       propTypes: {
-        application: React.PropTypes.array.isRequired
+        machines: React.PropTypes.array.isRequired
       },
 
       render: function () {

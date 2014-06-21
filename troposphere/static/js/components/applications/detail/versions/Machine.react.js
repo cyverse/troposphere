@@ -17,13 +17,31 @@ define(
       render: function () {
         return (
           <li>
-            {"Version: "}
-            {this.props.machine.get('pretty_version')}
-            <br/>
-            {"Date: "}
-            <Time date={this.props.machine.get('start_date')} showRelative={false}/>
+            <div>
+              <img className="image-version-image" src="http://placehold.it/75x75"/>
+              <div className="image-version-details">
+                <div className="version">
+                  v.0.12.3
+                  <span className="recommended-tag">Recommended</span>
+                </div>
+                <div>2/15/2014</div>
+                <div>author_username</div>
+              </div>
+            </div>
+            <button className="btn btn-primary launch-button">Launch this Version</button>
           </li>
         );
+
+//        return (
+//          <li>
+//            <img src="http://placehold.it/53x53"/>
+//            <div className="image-version-details">
+//              {this.props.machine.get('pretty_version')}
+//              <Time date={this.props.machine.get('start_date')} showRelative={false}/>
+//              {"jchansen"}
+//            </div>
+//          </li>
+//        );
       }
 
     });

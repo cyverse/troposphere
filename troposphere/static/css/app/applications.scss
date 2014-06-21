@@ -183,7 +183,59 @@ ul.tags {
     // http://jeffyam.com/node/189
     line-height: 30px;
     font-size: 16px;
-    color: #414042;
+    color: #666;
+  }
+}
+
+.image-versions {
+  h2 {
+    margin-bottom: 15px;
+  }
+
+  ul {
+    list-style-type: none;
+    padding-left: 0;
+  }
+
+  li {
+    position: relative;
+    margin-bottom: 18px;
+
+    .launch-button {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      font-size: 19px;
+      padding: 4px 9px;
+    }
+  }
+
+  .recommended-tag {
+    padding: 4px 10px;
+    border-radius: 3px;
+    background-color: #FBB040;
+    color: #EEE;
+    border: 0;
+    font-size: 13px;
+    margin-left: 10px;
+  }
+
+  img {
+    margin-right: 20px;
+    border-radius: 3px;
+  }
+
+  .image-version-details {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 13px;
+
+    height: 75px;
+    line-height: 25px;
+
+    .version {
+      font-size: 16px;
+    }
   }
 }
 
