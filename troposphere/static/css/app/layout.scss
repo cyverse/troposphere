@@ -12,6 +12,13 @@ footer {
   }
 }
 
+/* Extra small devices (phones, 767px and below) */
+@media (max-width: 767px) {
+  #sidebar {
+    margin-top: 51px;
+  }
+}
+
 /* Small devices (tablets, 768px and up) */
 @media (min-width: 768px) {
 
@@ -25,7 +32,7 @@ footer {
 
   #sidebar {
     position: fixed;
-    top: 43px;
+    top: 52px;
     bottom: 0;
     left: 0;
     width: 200px;
