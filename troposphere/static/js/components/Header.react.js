@@ -67,12 +67,6 @@ define(
               </div>
 
               <div className="navbar-collapse collapse">
-                <ul className="nav navbar-nav">
-                  <li className="">
-                    <a href="#">Dashboard</a>
-                  </li>
-                </ul>
-
                 <ul className="nav navbar-nav navbar-right">
                   {loginLogoutLink}
                 </ul>
