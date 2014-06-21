@@ -2,9 +2,10 @@
 
 define(
   [
-    'react'
+    'react',
+    'actions/VersionActions'
   ],
-  function (React) {
+  function (React, VersionActions) {
 
     var LoginLink = React.createClass({
       render: function () {
@@ -17,6 +18,12 @@ define(
     });
 
     var LogoutLink = React.createClass({
+
+      onShowVersion: function(e){
+        e.preventDefault();
+        VersionActions.showVersion();
+      },
+
       render: function () {
         return (
           <li className="dropdown">
@@ -25,7 +32,7 @@ define(
             </a>
             <ul className="dropdown-menu">
               <li>
-                <a href="/version">Version</a>
+                <a href="#" onClick={this.onShowVersion}>Version</a>
               </li>
               <li>
                 <a href="/logout?cas=True">Sign out</a>
@@ -37,6 +44,7 @@ define(
     });
 
     var Header = React.createClass({
+
       render: function () {
 
         var profile = this.props.profile;

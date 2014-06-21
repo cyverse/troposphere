@@ -12,7 +12,7 @@ define(
   ],
   function ($, _, Store, IdentityCollection, AppDispatcher, IdentityConstants, RSVP, ClientVersion, ServerVersion) {
 
-    var _version = {};
+    var _version;
     var _isFetching = false;
 
     //
@@ -25,12 +25,17 @@ define(
         var clientVersion = new ClientVersion();
         var serverVersion = new ServerVersion();
 
-        $.when({
-          client: clientVersion.fetch(),
-          server: serverVersion.fetch()
-        }).done(function(version){
+//        $.when({
+//          client: clientVersion.fetch(),
+//          server: serverVersion.fetch()
+//        }).done(function(version){
+        $.when(clientVersion.fetch(), serverVersion.fetch())
+          .done(function(client, server){
           _isFetching = false;
-          _version = version;
+          _version = {
+            client: clientVersion,
+            server: serverVersion
+          };
           VersionStore.emitChange();
         })
       }
@@ -41,7 +46,7 @@ define(
     //
 
     var VersionStore = {
-      getAll: function () {
+      getVersion: function () {
         if (!_version) {
           fetchVersions()
         }
