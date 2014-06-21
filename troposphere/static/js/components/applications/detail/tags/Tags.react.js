@@ -8,6 +8,10 @@ define(
 
     return React.createClass({
 
+      propTypes: {
+        application: React.PropTypes.array.isRequired
+      },
+
       render: function () {
         var tags = this.props.tags.map(function (tag) {
           return (

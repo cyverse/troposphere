@@ -6,15 +6,15 @@ define(function (require) {
         React                        = require('react'),
         context                      = require('context'),
         ApplicationListView          = require('components/applications/list/ApplicationListView.react'),
-        ApplicationDetail            = require('components/applications/detail/ApplicationDetail.react'),
+        ApplicationDetailsPage       = require('components/applications/ApplicationDetailsPage.react'),
         ApplicationSearchResultsPage = require('components/applications/ApplicationSearchResultsPage.react'),
         Backbone                     = require('backbone');
 
     var Router = Marionette.AppRouter.extend({
       appRoutes: {
-        '': 'showImages',
-        'images': 'showImages',
-        'images/:id': 'showAppDetail',
+        '': 'showApplications',
+        'images': 'showApplications',
+        'images/:id': 'showApplicationDetails',
         'images/search/:query': 'showApplicationSearchResults',
         '*path': 'defaultRoute'
       }
@@ -40,12 +40,12 @@ define(function (require) {
         Backbone.history.navigate('', {trigger: true});
       },
 
-      showImages: function () {
+      showApplications: function () {
         this.render(ApplicationListView(), ["images"]);
       },
 
-      showAppDetail: function (appId) {
-        var content = ApplicationDetail({
+      showApplicationDetails: function (appId) {
+        var content = ApplicationDetailsPage({
           applicationId: appId
         });
         this.render(content, ["images"]);

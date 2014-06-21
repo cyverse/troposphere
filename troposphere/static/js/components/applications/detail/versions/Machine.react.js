@@ -3,21 +3,25 @@
 define(
   [
     'react',
+    'backbone',
     'components/common/Time.react'
   ],
-  function (React, Time) {
+  function (React, Backbone, Time) {
 
     return React.createClass({
 
+      propTypes: {
+        machine: React.PropTypes.instanceOf(Backbone.Model).isRequired
+      },
+
       render: function () {
-        var machine = this.props.machine;
         return (
           <li>
             {"Version: "}
-            {machine.get('pretty_version')}
+            {this.props.machine.get('pretty_version')}
             <br/>
             {"Date: "}
-            <Time date={machine.get('start_date')} showRelative={false}/>
+            <Time date={this.props.machine.get('start_date')} showRelative={false}/>
           </li>
         );
       }

@@ -9,10 +9,14 @@ define(
 
     return React.createClass({
 
+      propTypes: {
+        application: React.PropTypes.array.isRequired
+      },
+
       render: function () {
-        var versions = this.props.machines.map(function (model) {
+        var versions = this.props.machines.map(function (machine) {
           return (
-            <Machine key={model.id} machine={model}/>
+            <Machine key={machine.id} machine={machine}/>
           );
         });
 
