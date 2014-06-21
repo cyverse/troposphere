@@ -44,8 +44,7 @@
   h2 {
     display: inline-block;
     //margin-right: 15px;
-    font-size: 18px;
-    font-weight: normal;
+    font-size: 19px;
   }
 
   /* App cards on image detail page */
@@ -125,6 +124,7 @@ ul.tags {
   background-color: #444 !important;
   padding-top: 13px !important;
   padding-bottom: 13px !important;
+  border: none;
 
   .glyphicon {
     color: white;
@@ -140,6 +140,7 @@ ul.tags {
     display: inline-block;
     margin: 0;
     font-size: 28px;
+    font-weight: 600;
   }
 }
 
@@ -161,6 +162,7 @@ ul.tags {
   h2 {
     margin-top: 10px;
     margin-right: 25px;
+    margin-bottom: 10px;
   }
 
   span {
@@ -168,6 +170,21 @@ ul.tags {
     font-weight: normal;
   }
 
+}
+
+.image-description {
+  h2 {
+    margin-bottom: 10px;
+  }
+
+  p {
+    // Formula to convert Illustrator's 'leading' to line-height
+    // line-height = font-size + leading/2
+    // http://jeffyam.com/node/189
+    line-height: 30px;
+    font-size: 16px;
+    color: #414042;
+  }
 }
 
 /* Bookmarks */
