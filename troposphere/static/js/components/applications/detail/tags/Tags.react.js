@@ -13,7 +13,8 @@ define(
       },
 
       render: function () {
-        var tags = this.props.tags.map(function (tag) {
+        var tags = ["Hello", "world", "I", "am long tag"].map(function (tag) {
+        //var tags = this.props.tags.map(function (tag) {
           return (
             <li className="tag" key={tag}>
               <a href="#">

@@ -43,8 +43,9 @@
 
   h2 {
     display: inline-block;
-    margin-right: 15px;
+    //margin-right: 15px;
     font-size: 18px;
+    font-weight: normal;
   }
 
   /* App cards on image detail page */
@@ -73,7 +74,7 @@ ul.tags {
     a {
       padding: 5px 10px;
       border-radius: 3px;
-      background-color: #047A09;
+      background-color: #48A323;
       color: #EEE;
       border: 0;
 
@@ -117,9 +118,43 @@ ul.tags {
 }
 
 .nav-back {
-  float: left;
+  //float: left;
   padding: 9px 14px;
   margin-right: 10px;
+
+  background-color: #444 !important;
+  padding-top: 13px !important;
+  padding-bottom: 13px !important;
+
+  .glyphicon {
+    color: white;
+    -webkit-transform: scaleX(2.5) scaleY(3);
+  }
+}
+
+.image-header {
+  margin-bottom: 10px;
+
+  h1 {
+    vertical-align: middle;
+    display: inline-block;
+    margin: 0;
+    font-size: 28px;
+  }
+}
+
+.image-tags {
+  h2 {
+    margin-right: 10px;
+    margin-bottom: 15px;
+  }
+
+  > a {
+    color: #48A323;
+    text-decoration: underline;
+    font-weight: 300;
+    font-size: 16px;
+  }
 }
 
 /* Bookmarks */

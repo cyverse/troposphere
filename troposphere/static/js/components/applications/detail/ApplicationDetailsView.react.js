@@ -4,12 +4,13 @@ define(
   [
     'react',
     './header/HeaderView.react',
+    './availability/AvailabilityView.react',
     './tags/TagsView.react',
     '../common/ApplicationCard.react',
     './description/DescriptionView.react',
     './versions/VersionsView.react'
   ],
-  function (React, HeaderView, TagsView, ApplicationCard, DescriptionView, VersionsView) {
+  function (React, HeaderView, AvailabilityView, TagsView, ApplicationCard, DescriptionView, VersionsView) {
 
     return React.createClass({
 
@@ -26,6 +27,7 @@ define(
           <div id='app-detail'>
             <HeaderView application={this.props.application}/>
             <TagsView application={this.props.application}/>
+            <AvailabilityView application={this.props.application}/>
             <hr/>
             <ApplicationCard application={this.props.application} onLaunch={this.showModal}/>
             <DescriptionView application={this.props.application}/>
