@@ -7,6 +7,25 @@ define(
 
     return Backbone.Model.extend({
 
+      initialize: function (models, options) {
+        if (options && options.provider_id && options.identity_id) {
+          this.creds = _.pick(options, 'provider_id', 'identity_id');
+        }
+      },
+
+      urlRoot: function () {
+        var creds = this.creds;
+        var url = globals.API_ROOT +
+                  '/provider/' + creds.provider_id +
+                  '/identity/' + creds.identity_id +
+                  '/machine' + globals.slash();
+        return url;
+      },
+
+      url: function(){
+        return Backbone.Model.prototype.url.apply(this) + globals.slash();
+      },
+
       parse: function (response) {
         response.id = response.alias;
         response.start_date = new Date(response.start_date);
