@@ -4,13 +4,15 @@ define(
   [
     'react',
     'stores/ApplicationStore',
+    'stores/ProviderStore',
     './detail/ApplicationDetailsView.react'
   ],
-  function (React, ApplicationStore, ApplicationDetailsView) {
+  function (React, ApplicationStore, ProviderStore, ApplicationDetailsView) {
 
     function getState(applicationId) {
         return {
-          application: ApplicationStore.get(applicationId)
+          application: ApplicationStore.get(applicationId),
+          providers: ProviderStore.getAll()
         };
     }
 
@@ -35,10 +37,12 @@ define(
 
       componentDidMount: function () {
         ApplicationStore.addChangeListener(this.updateState);
+        ProviderStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function() {
         ApplicationStore.removeChangeListener(this.updateState);
+        ProviderStore.removeChangeListener(this.updateState);
       },
 
       //
@@ -48,10 +52,14 @@ define(
 
       render: function () {
         var application = this.state.application;
+        var providers = this.state.providers;
 
-        if (application) {
+        if (application && providers) {
           return (
-            <ApplicationDetailsView application={this.state.application}/>
+            <ApplicationDetailsView
+              application={this.state.application}
+              providers={this.state.providers}
+            />
           );
         }else{
           return (

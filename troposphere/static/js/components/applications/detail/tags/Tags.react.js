@@ -9,7 +9,7 @@ define(
     return React.createClass({
 
       propTypes: {
-        application: React.PropTypes.array.isRequired
+        tags: React.PropTypes.array.isRequired
       },
 
       render: function () {

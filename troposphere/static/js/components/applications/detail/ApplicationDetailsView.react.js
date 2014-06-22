@@ -15,7 +15,8 @@ define(
     return React.createClass({
 
       propTypes: {
-        application: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       showModal: function (e) {
@@ -29,7 +30,9 @@ define(
 
             <HeaderView application={this.props.application}/>
             <TagsView application={this.props.application}/>
-            <AvailabilityView application={this.props.application}/>
+            <AvailabilityView application={this.props.application}
+                              providers={this.props.providers}
+            />
             <DescriptionView application={this.props.application}/>
             <VersionsView application={this.props.application}/>
           </div>

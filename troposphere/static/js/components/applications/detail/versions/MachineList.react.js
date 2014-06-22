@@ -10,7 +10,7 @@ define(
     return React.createClass({
 
       propTypes: {
-        machines: React.PropTypes.array.isRequired
+        machines: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       render: function () {
