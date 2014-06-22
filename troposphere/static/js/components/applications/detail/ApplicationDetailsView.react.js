@@ -8,9 +8,10 @@ define(
     './tags/TagsView.react',
     '../common/ApplicationCard.react',
     './description/DescriptionView.react',
-    './versions/VersionsView.react'
+    './versions/VersionsView.react',
+    'actions/InstanceActions'
   ],
-  function (React, HeaderView, AvailabilityView, TagsView, ApplicationCard, DescriptionView, VersionsView) {
+  function (React, HeaderView, AvailabilityView, TagsView, ApplicationCard, DescriptionView, VersionsView, InstanceActions) {
 
     return React.createClass({
 
@@ -20,7 +21,7 @@ define(
       },
 
       showModal: function (e) {
-        InstanceActions.launch(this.state.application);
+        InstanceActions.launch(this.props.application);
       },
 
       render: function () {

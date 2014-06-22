@@ -14,6 +14,11 @@ define(
         machine: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
+      onLaunchVersion: function(e){
+        e.preventDefault();
+        alert("Launching of previous versions not yet implemented.");
+      },
+
       render: function () {
         return (
           <li>
@@ -28,7 +33,9 @@ define(
                 <div>author_username</div>
               </div>
             </div>
-            <button className="btn btn-primary launch-button">Launch this Version</button>
+            <button className="btn btn-primary launch-button" onClick={this.onLaunchVersion}>
+              Launch this Version
+            </button>
           </li>
         );
 

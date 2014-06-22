@@ -14,11 +14,16 @@ define(
         application: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
+      onSuggestTag: function(e){
+        e.preventDefault();
+        alert("Tag suggestion featured not implemented yet.")
+      },
+
       render: function () {
         return (
           <div className="image-tags">
             <h2 className='tag-title'>Image Tags</h2>
-            <a href='#'>Suggest a Tag</a>
+            <a href='#' onClick={this.onSuggestTag}>Suggest a Tag</a>
             <Tags tags={this.props.application.get('tags')}/>
           </div>
         );
