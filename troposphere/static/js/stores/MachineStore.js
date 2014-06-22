@@ -14,10 +14,9 @@ define(
     function fetchMachine(providerId, identityId, machineId){
       if(!_isFetching[machineId]) {
         _isFetching[machineId] = true;
-        var machine = new Machine(null, {
+        var machine = new Machine({id: machineId}, {
           provider_id: providerId,
-          identity_id: identityId,
-          id: machineId
+          identity_id: identityId
         });
 
         machine.fetch().done(function () {

@@ -4,9 +4,10 @@ define(
   [
     'react',
     'backbone',
-    'components/common/Time.react'
+    'components/common/Time.react',
+    'moment'
   ],
-  function (React, Backbone, Time) {
+  function (React, Backbone, Time, moment) {
 
     return React.createClass({
 
@@ -20,17 +21,21 @@ define(
       },
 
       render: function () {
+        // todo: figure out if anything is ever recommended, or if it's just a concept idea
+        var isRecommended = false;
+        var dateCreated = moment(this.props.machine.get('start_date')).format("M/DD/YYYY");
+
         return (
           <li>
             <div>
               <img className="image-version-image" src="http://placehold.it/75x75"/>
               <div className="image-version-details">
                 <div className="version">
-                  v.0.12.3
-                  <span className="recommended-tag">Recommended</span>
+                  {this.props.machine.get('pretty_version')}
+                  {isRecommended ? <span className="recommended-tag">Recommended</span> : null}
                 </div>
-                <div>2/15/2014</div>
-                <div>author_username</div>
+                <div>{dateCreated}</div>
+                <div>{this.props.machine.get('ownerid')}</div>
               </div>
             </div>
             <button className="btn btn-primary launch-button" onClick={this.onLaunchVersion}>
@@ -38,17 +43,6 @@ define(
             </button>
           </li>
         );
-
-//        return (
-//          <li>
-//            <img src="http://placehold.it/53x53"/>
-//            <div className="image-version-details">
-//              {this.props.machine.get('pretty_version')}
-//              <Time date={this.props.machine.get('start_date')} showRelative={false}/>
-//              {"jchansen"}
-//            </div>
-//          </li>
-//        );
       }
 
     });

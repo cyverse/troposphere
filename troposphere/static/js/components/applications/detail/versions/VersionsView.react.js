@@ -11,14 +11,17 @@ define(
     return React.createClass({
 
       propTypes: {
-        application: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       render: function () {
         return (
           <div className="image-versions">
             <h2>Versions of this Image</h2>
-            <MachineList machines={this.props.application.get('machines')}/>
+            <MachineList machines={this.props.application.get('machines')}
+                         identities={this.props.identities}
+            />
           </div>
         );
       }
