@@ -2,9 +2,10 @@
 
 define(
   [
-    'react'
+    'react',
+    'backbone'
   ],
-  function (React) {
+  function (React, Backbone) {
 
     return React.createClass({
 
