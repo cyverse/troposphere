@@ -5,9 +5,10 @@ define(
     'react',
     'stores/ProviderStore',
     'stores/IdentityStore',
+    'stores/SizeStore',
     './DashboardView.react'
   ],
-  function (React, ProviderStore, IdentityStore, DashboardView) {
+  function (React, ProviderStore, IdentityStore, SizeStore, DashboardView) {
 
     function getState(applicationId) {
         return {
@@ -34,11 +35,13 @@ define(
       componentDidMount: function () {
         ProviderStore.addChangeListener(this.updateState);
         IdentityStore.addChangeListener(this.updateState);
+        SizeStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function() {
         ProviderStore.removeChangeListener(this.updateState);
         IdentityStore.removeChangeListener(this.updateState);
+        SizeStore.removeChangeListener(this.updateState);
       },
 
       //
@@ -52,7 +55,7 @@ define(
 
         if (providers && identities) {
           return (
-            <DashboardView/>
+            <DashboardView providers={providers} identities={identities}/>
           );
         }else{
           return (

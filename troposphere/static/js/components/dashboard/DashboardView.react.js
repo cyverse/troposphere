@@ -3,18 +3,20 @@
 define(
   [
     'react',
+    'backbone',
     './Header.react',
     './ResourceSummary.react',
     './Links.react',
-    './CloudCapacity.react',
+    './CloudCapacityList.react',
     './Notifications.react'
   ],
-  function (React, HeaderView, ResourceSummary, Links, CloudCapacity, Notifications) {
+  function (React, Backbone, HeaderView, ResourceSummary, Links, CloudCapacityList, Notifications) {
 
     return React.createClass({
 
       propTypes: {
-        //application: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       render: function () {
@@ -23,7 +25,7 @@ define(
             <HeaderView/>
             <Notifications/>
             <Links/>
-            <CloudCapacity/>
+            <CloudCapacityList providers={this.props.providers} identities={this.props.identities}/>
             <ResourceSummary/>
           </div>
         );
