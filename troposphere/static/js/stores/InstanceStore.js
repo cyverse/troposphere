@@ -69,7 +69,7 @@ define(
           InstanceStore.emitChange();
         },
         error: function (response) {
-          NotificationController.error("Error", "Your instance could not be suspended :(");
+          NotificationController.error("Error", "Your instance could not be suspended");
           InstanceStore.emitChange();
         }
       });
@@ -82,7 +82,7 @@ define(
           InstanceStore.emitChange();
         },
         error: function (response) {
-          NotificationController.error("Error", "Your instance could not be resumed :(");
+          NotificationController.error("Error", "Your instance could not be resumed");
           InstanceStore.emitChange();
         }
       });
@@ -95,7 +95,7 @@ define(
           InstanceStore.emitChange();
         },
         error: function (response) {
-          NotificationController.error('Error', 'Instance could not be stopped :(');
+          NotificationController.error('Error', 'Instance could not be stopped');
           InstanceStore.emitChange();
         }
       });
@@ -108,7 +108,7 @@ define(
           InstanceStore.emitChange();
         },
         error: function (response) {
-          NotificationController.error('Error', 'Instance could not be started :(');
+          NotificationController.error('Error', 'Instance could not be started');
           InstanceStore.emitChange();
         }
       });
@@ -121,7 +121,7 @@ define(
           InstanceStore.emitChange();
         },
         error: function (response) {
-          NotificationController.error('Error', 'Instance could not be terminated :(');
+          NotificationController.error('Error', 'Instance could not be terminated');
           _instances.add(instance);
           InstanceStore.emitChange();
         }
@@ -149,7 +149,7 @@ define(
           InstanceStore.emitChange();
         },
         error: function (response) {
-          NotificationController.error('Error', 'Instance could not be launched :(');
+          NotificationController.error('Error', 'Instance could not be launched');
           _instances.remove(instance);
           InstanceStore.emitChange();
         }

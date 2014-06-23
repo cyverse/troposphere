@@ -14,6 +14,11 @@ define(
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
+      onEditInstanceDetails: function(e){
+        e.preventDefault();
+        alert("Editing instance details not yet implemented.");
+      },
+
       render: function () {
 
         var tags = this.props.instance.get('tags').map(function(tag){
@@ -41,7 +46,7 @@ define(
             </div>
 
             <div className="edit-instance-link">
-              <a href="#">Edit Instance Info</a>
+              <a href="#" onClick={this.onEditInstanceDetails}>Edit Instance Info</a>
             </div>
 
           </div>

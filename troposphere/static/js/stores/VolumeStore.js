@@ -66,11 +66,11 @@ define(
     var detach = function(volume){
       volume.detach({
         success: function (model) {
-          NotificationController.success("Success", "Your volume was detached.  It is now available to attach to another instance or destroy.");
+          NotificationController.success("Success", "Volume was detached.  It is now available to attach to another instance or destroy.");
           VolumeStore.emitChange();
         },
         error: function (message, response) {
-          NotificationController.error("Error", "Your volume could not be detached :(");
+          NotificationController.error("Error", "Volume could not be detached");
           VolumeStore.emitChange();
         }
       });
@@ -79,11 +79,11 @@ define(
     var destroy = function(volume){
       volume.remove({
         success: function (model) {
-          NotificationController.success("Success", "Your volume was destroyed.");
+          NotificationController.success("Success", "Volume was destroyed.");
           VolumeStore.emitChange();
         },
         error: function (message, response) {
-          NotificationController.error("Error", "Your volume could not be destroyed :(");
+          NotificationController.error("Error", "Volume could not be destroyed");
           VolumeStore.emitChange();
         }
       });
@@ -99,7 +99,7 @@ define(
           VolumeStore.emitChange();
         },
         error: function (response) {
-          var header = "Volume could not be attached :(";
+          var header = "Volume could not be attached";
           var errorMessage = VolumeAttachNotifications.success();
           NotificationController.success(title, errorMessage);
           VolumeStore.emitChange();
@@ -129,7 +129,7 @@ define(
           VolumeStore.emitChange();
         },
         error: function (response) {
-          NotificationController.error('Error', 'Volume could not be created :(');
+          NotificationController.error('Error', 'Volume could not be created');
           _volumes.remove(volume);
           VolumeStore.emitChange();
         }

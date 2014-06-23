@@ -60,7 +60,7 @@ define(
 
           var deleteProjectLink = (
             <a href="#" onClick={this.confirmDelete}>
-              {"Delete " + project.get('name')}
+              {"Delete project"}
             </a>
           );
 
