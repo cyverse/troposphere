@@ -37,11 +37,21 @@ define(
           );
         }
 
+        // todo: delete this line when it's official that we aren't going to include
+        // descriptive help in the header. I think we should take it out because users
+        // don't need to see it once they understand how the app works, and it we have
+        // to explain what things are in long text then we've done something wrong :(
+        // return (
+        //   <div className="main-page-header">
+        //     <h1>{this.props.title}</h1>
+        //     {help_button}
+        //     {help_text}
+        //   </div>
+        // );
+
         return (
           <div className="main-page-header">
             <h1>{this.props.title}</h1>
-            {help_button}
-            {help_text}
           </div>
         );
       },
