@@ -4,10 +4,9 @@ define(
   [
     'react',
     'components/mixins/modal',
-    'actions/SizeActions',
-    'stores/SizeStore'
+    'actions/SizeActions'
   ],
-  function (React, ModalMixin, SizeActions, SizeStore) {
+  function (React, ModalMixin, SizeActions) {
 
     return React.createClass({
 
