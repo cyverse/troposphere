@@ -11,9 +11,15 @@ define(
 
     var menuItems = [
       {
+        text: 'Dashboard',
+        route: ['dashboard'],
+        icon: 'home',
+        loginRequired: true
+      },
+      {
         text: 'Projects',
         route: ['projects'],
-        icon: 'home',
+        icon: 'folder-open',
         loginRequired: true
       },
       {
