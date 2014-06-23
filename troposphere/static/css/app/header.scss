@@ -1,36 +1,10 @@
-header {
-  background-color: #0098aa;
-  color: #fff;
-  border-bottom: 3px solid hsl(182, 46%, 51%);
-  z-index: 10;
-  box-shadow: 4px 0px 6px rgba(0, 0, 0, .2);
+.navbar-brand {
+  background: url('/assets/images/mini_logo.png') no-repeat 10px center;
+  padding-left: 50px;
+  font-weight: 300;
+  font-size: 16px;
 
-  a {
-    color: #EFEFEF;
-    border: 0;
-
-    &:hover {
-      color: #fff;
-      text-decoration: none;
-      border: 0;
-    }
-  }
-}
-
-#logo {
-  font-size: 1.2em;
-  padding: 5px;
-  display: block;
-  float: left;
-
-  img {
-    margin-right: 7px;
-  }
-
-  a:hover img {
-    opacity: .7;
-  }
-
+  // Add BETA label after the brand name
   &::after {
     content: "BETA";
     background-color: hsl(182, 46%, 51%);
@@ -39,24 +13,5 @@ header {
     font-size: 80%;
     margin-left: 8px;
     letter-spacing: .1em;
-  }
-}
-
-#tagline {
-  font-size: 80%;
-  color: #CEECE8;
-  margin-left: 5px;
-}
-
-#header-nav {
-  float: right;
-
-  a {
-    display: inline-block;
-    padding: 10px;
-
-    &:hover {
-      background-color: hsl(186, 100%, 37%);
-    }
   }
 }

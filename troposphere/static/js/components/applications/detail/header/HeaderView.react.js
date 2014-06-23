@@ -2,11 +2,16 @@
 
 define(
   [
-    'react'
+    'react',
+    'backbone'
   ],
-  function (React) {
+  function (React, Backbone) {
 
     return React.createClass({
+
+      propTypes: {
+        application: React.PropTypes.instanceOf(Backbone.Model).isRequired
+      },
 
       onReturnToPreviousPage: function(e){
         e.preventDefault();
@@ -19,7 +24,7 @@ define(
             <a className='nav-back btn btn-default' onClick={this.onReturnToPreviousPage}>
               <span className='glyphicon glyphicon-arrow-left'>{''}</span>
             </a>
-            <h1>Instances</h1>
+            <h1>{this.props.application.get('name_or_id')}</h1>
           </div>
         );
       }

@@ -43,8 +43,8 @@ define(
     AppDispatcher.register(function(payload) {
       var action = payload.action;
       switch(action.actionType) {
-        //case IdentityConstants.constants.fetchAll:
-        //  IdentityStore.fetchAll();
+        //case IdentityConstants.ACTION:
+        //  IdentityStore.action();
         //  break;
       }
 

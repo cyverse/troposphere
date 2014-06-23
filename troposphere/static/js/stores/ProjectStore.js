@@ -35,7 +35,7 @@ define(
         NotificationController.success(successMessage);
         ProjectStore.emitChange();
       }).fail(function(){
-        var failureMessage = "Error creating Project " + project.get('name') + " :( Please let Support know.";
+        var failureMessage = "Error creating Project " + project.get('name') + ".";
         NotificationController.error(failureMessage);
         _projects.remove(project);
         ProjectStore.emitChange();
@@ -49,7 +49,7 @@ define(
         NotificationController.success(successMessage);
         ProjectStore.emitChange();
       }).fail(function(){
-        var failureMessage = "Error deleting Project " + project.get('name') + " :( Please let Support know.";
+        var failureMessage = "Error deleting Project " + project.get('name') + ".";
         NotificationController.error(failureMessage);
         _projects.add(project);
         ProjectStore.emitChange();

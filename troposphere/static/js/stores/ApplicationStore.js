@@ -108,13 +108,6 @@ define(
         return _searchResults[query];
       },
 
-//      search: function (query) {
-//        Applications.search(query).then(function (collection) {
-//          _searchResults[query] = collection;
-//          this.emitChange();
-//        }.bind(this));
-//      },
-
       toggleFavorited: function(application){
         var isFavorited = application.get('isFavorited');
         var prefix = isFavorited ? " un-" : " ";
@@ -125,7 +118,7 @@ define(
           NotificationController.success(successMessage);
           ApplicationStore.emitChange();
         }).fail(function () {
-          var failureMessage = "Image " + application.get('name') + " could not be" + prefix + "favorited :( Please let Support know.";
+          var failureMessage = "Image " + application.get('name') + " could not be" + prefix + "favorited.";
           NotificationController.error(failureMessage);
           var wasFavorited = application.previousAttributes().isFavorited;
           application.set('isFavorited', wasFavorited);
@@ -139,10 +132,6 @@ define(
       var action = payload.action;
 
       switch (action.actionType) {
-        case ApplicationActions.constants.search:
-          ApplicationStore.search(action.query);
-          break;
-
         case ApplicationConstants.APPLICATION_TOGGLE_FAVORITED:
           ApplicationStore.toggleFavorited(action.application);
           break;

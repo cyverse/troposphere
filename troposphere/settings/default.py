@@ -16,6 +16,8 @@ DEBUG = False
 
 TEMPLATE_DEBUG = False
 
+APPEND_SLASH = False
+
 ALLOWED_HOSTS = []
 
 # Application definition
@@ -31,6 +33,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'troposphere.slash_middleware.RemoveSlashMiddleware',
 )
 
 ROOT_URLCONF = 'troposphere.urls'

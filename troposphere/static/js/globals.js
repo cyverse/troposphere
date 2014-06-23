@@ -24,7 +24,7 @@ define([], function () {
       if(getApiServer() === servers.APIARY_MOCK){
         return ""
       }else{
-        return "/"
+        return ""
       }
     }
   }

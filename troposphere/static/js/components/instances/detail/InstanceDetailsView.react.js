@@ -25,7 +25,7 @@ define(
         return (
           <div>
             <Header/>
-            <div className="row">
+            <div className="row instance-details-content">
               <div className="col-md-9">
                 <InstanceInfo instance={instance}/>
                 <hr/>

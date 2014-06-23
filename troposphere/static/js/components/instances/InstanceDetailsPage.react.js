@@ -39,19 +39,6 @@ define(
       },
 
       componentDidMount: function () {
-//        var providerId = this.props.providerId;
-//        var identityId = this.props.identityId;
-//        var instanceId = this.props.instanceId;
-//
-//        RSVP.hash({
-//          instance: this.fetchInstance(providerId, identityId, instanceId)
-//        })
-//        .then(function (results) {
-//          this.setState({
-//            instance: results.instance
-//          });
-//        }.bind(this));
-
         ProviderStore.addChangeListener(this.updateState);
         InstanceStore.addChangeListener(this.updateState);
 

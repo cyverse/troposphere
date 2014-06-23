@@ -5,7 +5,7 @@ define(function (require) {
         Root                         = require('components/Root.react'),
         React                        = require('react'),
         ApplicationListView          = require('components/applications/list/ApplicationListView.react'),
-        ApplicationDetail            = require('components/applications/detail/ApplicationDetail.react'),
+        ApplicationDetailsPage       = require('components/applications/ApplicationDetailsPage.react'),
         ApplicationSearchResultsPage = require('components/applications/ApplicationSearchResultsPage.react'),
         FavoritedApplicationsPage    = require('components/applications/FavoritedApplicationsPage.react'),
         MyApplicationsPage           = require('components/applications/MyApplicationsPage.react'),
@@ -15,11 +15,11 @@ define(function (require) {
 
     var Router = Marionette.AppRouter.extend({
       appRoutes: {
-        'images': 'showImages',
+        'images': 'showApplications',
         'images/search/:query': 'showApplicationSearchResults',
         'images/favorites': 'showFavoritedApplications',
         'images/authored': 'showAuthoredApplications',
-        'images/:id': 'showAppDetail'
+        'images/:id': 'showApplicationDetail'
       }
     });
 
@@ -38,7 +38,7 @@ define(function (require) {
       //
       // Route handlers
       //
-      showImages: function () {
+      showApplications: function () {
         this.render(ApplicationListView(), ["images"]);
       },
 
@@ -50,8 +50,8 @@ define(function (require) {
         this.render(MyApplicationsPage(), ["images", "authored"]);
       },
 
-      showAppDetail: function (appId) {
-        var content = ApplicationDetail({
+      showApplicationDetail: function (appId) {
+        var content = ApplicationDetailsPage({
           applicationId: appId
         });
         this.render(content, ["images"]);
