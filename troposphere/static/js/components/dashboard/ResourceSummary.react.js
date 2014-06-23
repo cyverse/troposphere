@@ -2,11 +2,19 @@
 
 define(
   [
-    'react'
+    'react',
+    'backbone'
   ],
-  function (React) {
+  function (React, Backbone) {
 
     return React.createClass({
+
+      propTypes: {
+        provider: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        volumes: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      },
 
       render: function () {
         /*
@@ -15,59 +23,47 @@ define(
           to see details for cloud resources or click on the provider or the quota to see that provider.
          */
 
+        var provider = this.props.provider;
+
+        var identityData = this.props.identities.where({provider_id: provider.id}).map(function(identity){
+          var instancesCreatedUnderIdentity = this.props.instances.filter(function(instance){
+            return instance.get('identity').provider === provider.id;
+          });
+          var instanceCount = instancesCreatedUnderIdentity.length;
+
+          var volumesCreatedUnderIdentity = this.props.instances.filter(function(volume){
+            return volume.get('identity').provider === provider.id;
+          });
+          var volumeCount = volumesCreatedUnderIdentity.length;
+
+          return (
+            <tr key={identity.id}>
+              <td>{identity.id}</td>
+              <td>{instanceCount}</td>
+              <td>{volumeCount}</td>
+            </tr>
+          );
+        }.bind(this));
+
         var style = {
           "margin-left": "40px"
         };
 
         return (
-          <div className='resouce-summary'>
-            <h2>Resource Summary</h2>
-
-            <div className="" style={style}>
-              <h3>iPlant Cloud - Tucson</h3>
-              <table className="table table-condensed">
-                <thead>
-                  <tr>
-                    <th>Identity</th>
-                    <th>Instances</th>
-                    <th>Volumes</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>2</td>
-                    <td>3</td>
-                  </tr>
-                  <tr>
-                    <td>2</td>
-                    <td>4</td>
-                    <td>2</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <div className="" style={style}>
-              <h3>iPlant Workshop - Tucson</h3>
-              <table className="table table-condensed">
-                <thead>
-                  <tr>
-                    <th>Identity</th>
-                    <th>Instances</th>
-                    <th>Volumes</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1</td>
-                    <td>2</td>
-                    <td>3</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
+          <div className="" style={style}>
+            <h3>{provider.get('location')}</h3>
+            <table className="table table-condensed">
+              <thead>
+                <tr>
+                  <th>Identity</th>
+                  <th>Instance Count</th>
+                  <th>Volume Count</th>
+                </tr>
+              </thead>
+              <tbody>
+                {identityData}
+              </tbody>
+            </table>
           </div>
         );
       }

@@ -6,14 +6,18 @@ define(
     'stores/ProviderStore',
     'stores/IdentityStore',
     'stores/SizeStore',
+    'stores/InstanceStore',
+    'stores/VolumeStore',
     './DashboardView.react'
   ],
-  function (React, ProviderStore, IdentityStore, SizeStore, DashboardView) {
+  function (React, ProviderStore, IdentityStore, SizeStore, InstanceStore, VolumeStore, DashboardView) {
 
     function getState(applicationId) {
         return {
           providers: ProviderStore.getAll(),
-          identities: IdentityStore.getAll()
+          identities: IdentityStore.getAll(),
+          instances: InstanceStore.getAll(),
+          volumes: VolumeStore.getAll()
         };
     }
 
@@ -36,12 +40,16 @@ define(
         ProviderStore.addChangeListener(this.updateState);
         IdentityStore.addChangeListener(this.updateState);
         SizeStore.addChangeListener(this.updateState);
+        InstanceStore.addChangeListener(this.updateState);
+        VolumeStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function() {
         ProviderStore.removeChangeListener(this.updateState);
         IdentityStore.removeChangeListener(this.updateState);
         SizeStore.removeChangeListener(this.updateState);
+        InstanceStore.removeChangeListener(this.updateState);
+        VolumeStore.removeChangeListener(this.updateState);
       },
 
       //
@@ -52,10 +60,16 @@ define(
       render: function () {
         var providers = this.state.providers;
         var identities = this.state.identities;
+        var instances = this.state.instances;
+        var volumes = this.state.volumes;
 
-        if (providers && identities) {
+        if (providers && identities && instances && volumes) {
           return (
-            <DashboardView providers={providers} identities={identities}/>
+            <DashboardView providers={providers}
+                           identities={identities}
+                           instances={instances}
+                           volumes={volumes}
+            />
           );
         }else{
           return (
