@@ -79,7 +79,7 @@ define(
         var successMessage = "Instance '" + instance.get('name') + "' added to Project '" + project.get('name') + "'";
         NotificationController.success(successMessage);
       }).fail(function(){
-        var failureMessage = "Error adding Instance '" + instance.get('name') + "' to Project '" + project.get('name') + "' :(  Please let Support know.";
+        var failureMessage = "Error adding Instance '" + instance.get('name') + "' to Project '" + project.get('name') + "'.";
         NotificationController.error(failureMessage);
         _projectInstances[project.id].remove(instance);
       });
@@ -96,7 +96,7 @@ define(
         var successMessage = "Instance '" + instance.get('name') + "' removed from Project '" + project.get('name') + "'";
         NotificationController.success(successMessage);
       }).fail(function(){
-        var failureMessage = "Error adding Instance '" + instance.get('name') + "' to Project '" + project.get('name') + "' :(  Please let Support know.";
+        var failureMessage = "Error adding Instance '" + instance.get('name') + "' to Project '" + project.get('name') + "'.";
         NotificationController.error(failureMessage);
         _projectInstances[project.id].add(instance);
       });

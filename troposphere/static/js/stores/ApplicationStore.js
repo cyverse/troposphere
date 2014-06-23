@@ -118,7 +118,7 @@ define(
           NotificationController.success(successMessage);
           ApplicationStore.emitChange();
         }).fail(function () {
-          var failureMessage = "Image " + application.get('name') + " could not be" + prefix + "favorited :( Please let Support know.";
+          var failureMessage = "Image " + application.get('name') + " could not be" + prefix + "favorited.";
           NotificationController.error(failureMessage);
           var wasFavorited = application.previousAttributes().isFavorited;
           application.set('isFavorited', wasFavorited);
