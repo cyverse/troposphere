@@ -71,9 +71,10 @@ define(
         };
 
         this.set({
-          'status': 'attaching',
-          'attach_data_instance_id': instance.get('id')
+          'status': 'attaching'
         });
+
+        this.get('attach_data').instance_id = instance.get('id');
 
         var param = {
           volume_id: this.get('id'),
@@ -89,13 +90,17 @@ define(
         $.ajax({
           url: action_url,
           type: 'POST',
-          data: param,
+          data: JSON.stringify(param),
           success: function (response_text, textStatus, jqXHR) {
+            var attachData = {
+              attach_time: null,
+              device: response_text.object.attach_data.device,
+              instance_id: instance.get('id')
+            };
+
             self.set({
-              'attach_data_attach_time': null,
-              'attach_data_device': response_text.object.attach_data.device,
-              'attach_data_instance_id': instance.get('id'),
-              'status': 'in-use'
+              'status': 'in-use',
+              attach_data: attachData
             });
 
             self.trigger('attach');
@@ -103,9 +108,9 @@ define(
           },
           error: function (jqXHR, textStatus, errorThrown) {
             self.set({
-              'status': 'available',
-              'attach_data_instance_id': null
+              'status': 'available'
             });
+            self.get('attach_data').instance_id = null;
 
             options.error('failed to attach volume');
           }
@@ -142,7 +147,8 @@ define(
         $.ajax({
           url: action_url,
           type: "POST",
-          data: param,
+          data: JSON.stringify(param),
+          dataType: "json",
           success: function (response_data) {
             self.set({
               'attach_data': {},
