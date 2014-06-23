@@ -3,9 +3,13 @@
 define(
   [
     'react',
-    './HeaderView.react'
+    './Header.react',
+    './ResourceSummary.react',
+    './Links.react',
+    './CloudCapacity.react',
+    './Notifications.react'
   ],
-  function (React, HeaderView) {
+  function (React, HeaderView, ResourceSummary, Links, CloudCapacity, Notifications) {
 
     return React.createClass({
 
@@ -15,8 +19,12 @@ define(
 
       render: function () {
         return (
-          <div id='app-detail'>
-            <HeaderView application={this.props.application}/>
+          <div id='dashboard-view'>
+            <HeaderView/>
+            <Notifications/>
+            <Links/>
+            <CloudCapacity/>
+            <ResourceSummary/>
           </div>
         );
       }
