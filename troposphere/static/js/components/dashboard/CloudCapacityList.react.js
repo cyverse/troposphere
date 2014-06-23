@@ -29,7 +29,7 @@ define(
 
           if(sizes){
             return (
-              <CloudCapacity provider={provider} sizes={sizes}/>
+              <CloudCapacity key={provider.id} provider={provider} sizes={sizes}/>
             );
           }else{
             return (
