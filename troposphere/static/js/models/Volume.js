@@ -148,7 +148,7 @@ define(
         $.ajax({
           url: action_url,
           type: "POST",
-          data: JSON.stringify(param),
+          data: param,
           dataType: "json",
           success: function (response_data) {
             self.set({
