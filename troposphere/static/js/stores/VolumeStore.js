@@ -15,6 +15,8 @@ define(
 
     var _volumes = null;
     var _isFetching = false;
+    var validStates = ["available", "in-use"];
+    var pollingFrequency = 5*1000;
 
     //
     // CRUD Operations
@@ -55,6 +57,14 @@ define(
           for (var i = 0; i < volumeCollections.length; i++) {
             volumes.add(volumeCollections[i].toJSON());
           }
+
+          // Start polling for any instances that are in transition states
+          volumes.forEach(function(volume){
+            if(validStates.indexOf(volume.get("status")) < 0){
+              pollUntilBuildIsFinished(volume);
+            }
+          });
+
           // Save the results to local cache
           _isFetching = false;
           _volumes = volumes;
@@ -126,6 +136,7 @@ define(
       volume.save(params, {
         success: function (model) {
           NotificationController.success('Success', 'Volume successfully created');
+          pollUntilBuildIsFinished(volume);
           VolumeStore.emitChange();
         },
         error: function (response) {
@@ -137,6 +148,29 @@ define(
       _volumes.add(volume);
     };
 
+    //
+    // Polling functions
+    //
+
+    var _volumesBuilding = [];
+    var pollUntilBuildIsFinished = function(volume){
+      _volumesBuilding.push(volume);
+      fetchAndRemoveIfFinished(volume);
+    };
+
+    var fetchAndRemoveIfFinished = function(volume){
+      setTimeout(function(){
+        volume.fetch().done(function(){
+          var index = _volumesBuilding.indexOf(volume);
+          if(validStates.indexOf(volume.get("status")) >= 0){
+            _volumesBuilding.slice(index, 1);
+          }else{
+            fetchAndRemoveIfFinished(volume);
+          }
+          VolumeStore.emitChange();
+        });
+      }, pollingFrequency);
+    };
 
     //
     // Volume Store

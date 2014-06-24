@@ -59,7 +59,7 @@ define(
 
           // Start polling for any instances that are in transition states
           instances.forEach(function(instance){
-            if(validStates.indexOf(instance.get("status")) >= 0){
+            if(validStates.indexOf(instance.get("status")) < 0){
               pollUntilBuildIsFinished(instance);
             }
           });
