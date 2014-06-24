@@ -10,7 +10,7 @@ define(
       success: function(){
         var mountVolumeDocumentationUrl = "https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachinganEBSVolumetoanInstance-Step6%3AMountthefilesystemonthepartition.";
         var createFileSystemDocumentationUrl = "https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachinganEBSVolumetoanInstance-Step5%3ACreatethefilesystem%28onetimeonly%29.";
-        return (
+        var message = (
           <div>
             {'You must '}
             <a href={mountVolumeDocumentationUrl} target="_blank">
@@ -25,10 +25,12 @@ define(
             {' first.'}
           </div>
         );
+
+        return React.renderComponentToString(message);
       },
 
       error: function(){
-        return (
+        var message = (
           <div>
             {"If this problem persists, contact support at "}
             <a href="mailto:support@iplantcollaborative.org">
@@ -36,6 +38,8 @@ define(
             </a>
           </div>
         );
+
+        return React.renderComponentToString(message);
       }
     }
 

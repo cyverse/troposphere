@@ -27,13 +27,20 @@ define(
           statusLight = <span className="instance-status-light stopped"></span>;
         }
 
+        var style = {};
         var capitalizedStatus = status.charAt(0).toUpperCase() + status.slice(1);
+        if(capitalizedStatus === "Error") {
+          capitalizedStatus = "Launch failed. Atmosphere at capacity.";
+          style = {
+            color: "#d44950"
+          }
+        }
 
         return (
           <li>
             <span className="instance-detail-label">Status</span>
             {statusLight}
-            <span className="instance-detail-value">{capitalizedStatus}</span>
+            <span style={style} className="instance-detail-value">{capitalizedStatus}</span>
           </li>
         );
       },
