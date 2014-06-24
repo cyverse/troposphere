@@ -14,6 +14,8 @@ define(
 
     var _instances = null;
     var _isFetching = false;
+    var validStates = ["active", "error", "active - deploy_error"];
+    var pollingFrequency = 10*1000;
 
     //
     // CRUD Operations
@@ -54,6 +56,14 @@ define(
           for (var i = 0; i < instanceCollections.length; i++) {
             instances.add(instanceCollections[i].toJSON());
           }
+
+          // Start polling for any instances that are in transition states
+          instances.forEach(function(instance){
+            if(validStates.indexOf(instance.get("status")) >= 0){
+              pollUntilBuildIsFinished(instance);
+            }
+          });
+
           // Save the results to local cache
           _isFetching = false;
           _instances = instances;
@@ -146,6 +156,7 @@ define(
       instance.save(params, {
         success: function (model) {
           NotificationController.success('Launch Instance', 'Instance successfully launched');
+          pollUntilBuildIsFinished(instance);
           InstanceStore.emitChange();
         },
         error: function (response) {
@@ -155,6 +166,26 @@ define(
         }
       });
       _instances.add(instance);
+    };
+
+    var _instancesBuilding = [];
+    var pollUntilBuildIsFinished = function(instance){
+      _instancesBuilding.push(instance);
+      fetchAndRemoveIfFinished(instance);
+    };
+
+    var fetchAndRemoveIfFinished = function(instance){
+      setTimeout(function(){
+        instance.fetch().done(function(){
+          var index = _instancesBuilding.indexOf(instance);
+          if(validStates.indexOf(instance.get("state")) >= 0){
+            _instancesBuilding.slice(index, 1);
+          }else{
+            fetchAndRemoveIfFinished(instance);
+          }
+          InstanceStore.emitChange();
+        });
+      }, pollingFrequency);
     };
 
     //
