@@ -81,21 +81,6 @@ define(
             <li className="action-section">{link.label}</li>
           );
 
-          // Some actions have hrefs, because they redirect to actual pages (and are
-          // not actions in need of confirmation).  While we *could* call
-          // Backbone.history.navigate from an onClick callback, we want all url
-          // changes to pass through our Backbone catcher in main.js that we can use
-          // to log requests to Google Analytics
-          if(link.href) return (
-            <li className="action-link">
-              <a href={link.href} target="_blank">
-              <span>
-                <Glyphicon name={link.icon}/>{link.label}
-              </span>
-              </a>
-            </li>
-          );
-
           // todo: This isn't implemented well at all.  We should be disabling these
           // buttons if there isn't a valid href for the link, or (perhaps) not even
           // showing the buttons at all...but I think it's better communication to
@@ -114,6 +99,21 @@ define(
               </li>
             );
           }
+
+          // Some actions have hrefs, because they redirect to actual pages (and are
+          // not actions in need of confirmation).  While we *could* call
+          // Backbone.history.navigate from an onClick callback, we want all url
+          // changes to pass through our Backbone catcher in main.js that we can use
+          // to log requests to Google Analytics
+          if(link.href) return (
+            <li className="action-link">
+              <a href={link.href}>
+              <span>
+                <Glyphicon name={link.icon}/>{link.label}
+              </span>
+              </a>
+            </li>
+          );
 
           // Links with onClick callbacks will typically trigger modals requiring
           // confirmation before continuing

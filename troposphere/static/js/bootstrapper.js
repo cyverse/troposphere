@@ -10,6 +10,7 @@ define(
     'controllers/ProfileController',
 
     // Routers
+    'routers/DashboardRouter',
     'routers/ProjectRouter',
     'routers/ApplicationRouter',
     'routers/SettingsRouter',
@@ -19,7 +20,7 @@ define(
     'routers/InstanceRouter',
     'routers/DefaultRouter'
   ],
-  function ($, RSVP, Backbone, context, Session, ProfileController, ProjectRouter, ApplicationRouter, SettingsRouter, HelpRouter, ProviderRouter, VolumeRouter, InstanceRouter, DefaultRouter) {
+  function ($, RSVP, Backbone, context, Session, ProfileController, DashboardRouter, ProjectRouter, ApplicationRouter, SettingsRouter, HelpRouter, ProviderRouter, VolumeRouter, InstanceRouter, DefaultRouter) {
 
     function startApplication() {
 
@@ -36,6 +37,7 @@ define(
         // that Backbone attempts to match against
         //
         DefaultRouter.start();
+        DashboardRouter.start();
         ProjectRouter.start();
         ApplicationRouter.start();
         SettingsRouter.start();
@@ -88,7 +90,10 @@ define(
             window.access_token = "api-token";
 
             $.ajaxSetup({
-              headers: {'Authorization': 'Token ' + window.access_token}
+              headers: {
+                'Authorization': 'Token ' + window.access_token,
+                "Content-Type": "application/json"
+              }
             });
 
             session.set({

@@ -17,7 +17,7 @@ define(
     var Controller = Marionette.Controller.extend({
 
       defaultRoute: function (param) {
-        Backbone.history.navigate('projects', {trigger: true});
+        Backbone.history.navigate('dashboard', {trigger: true});
       }
 
     });
