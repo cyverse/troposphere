@@ -91,6 +91,7 @@ define(
           url: action_url,
           type: 'POST',
           data: JSON.stringify(param),
+          dataType: "json",
           success: function (response_text, textStatus, jqXHR) {
             var attachData = {
               attach_time: null,
