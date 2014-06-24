@@ -103,15 +103,15 @@ define(
     var attach = function(volume, instance, mountLocation){
       volume.attachTo(instance, mountLocation, {
         success: function (response) {
-          var title = "Volume Successfully Attached";
+          var title = "Volume successfully attached";
           var successMessage = VolumeAttachNotifications.success();
           NotificationController.success(title, successMessage);
           VolumeStore.emitChange();
         },
         error: function (response) {
-          var header = "Volume could not be attached";
-          var errorMessage = VolumeAttachNotifications.success();
-          NotificationController.success(title, errorMessage);
+          var title = "Volume could not be attached";
+          var errorMessage = VolumeAttachNotifications.error();
+          NotificationController.error(title, errorMessage);
           VolumeStore.emitChange();
         }
       });

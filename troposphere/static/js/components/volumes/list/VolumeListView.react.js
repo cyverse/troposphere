@@ -85,7 +85,7 @@ define(
                 {volumeOptions}
               </td>
               <td>
-                200 GB on <strong>{volumeProvider.get('name')}</strong>
+              {volume.get('size')} GB on <strong>{volumeProvider.get('name')}</strong>
               </td>
             </tr>
           );
