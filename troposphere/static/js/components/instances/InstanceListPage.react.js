@@ -6,13 +6,15 @@ define(
     './list/InstanceListView.react',
     'rsvp',
     'stores/InstanceStore',
-    'stores/IdentityStore'
+    'stores/IdentityStore',
+    'stores/ProviderStore'
   ],
-  function (React, InstanceListView, RSVP, InstanceStore, IdentityStore) {
+  function (React, InstanceListView, RSVP, InstanceStore, IdentityStore, ProviderStore) {
 
     function getState(){
       return {
-        instances: InstanceStore.getAll()
+        instances: InstanceStore.getAll(),
+        providers: ProviderStore.getAll()
       }
     }
 
@@ -37,6 +39,7 @@ define(
 
       componentDidMount: function () {
         InstanceStore.addChangeListener(this.updateInstances);
+        ProviderStore.addChangeListener(this.updateInstances);
 
         // todo: IdentityStore is only included here because InstanceStore.getAll() is
         // lazy loading, but I'm not sure how to get InstanceStore to know when new
@@ -47,6 +50,7 @@ define(
 
       componentWillUnmount: function () {
         InstanceStore.removeChangeListener(this.updateInstances);
+        ProviderStore.removeChangeListener(this.updateInstances);
         IdentityStore.removeChangeListener(this.updateInstances);
       },
 
@@ -55,9 +59,11 @@ define(
       // ------
       //
       render: function () {
-        if (this.state.instances) {
+        if (this.state.instances && this.state.providers) {
           return (
-            <InstanceListView instances={this.state.instances} />
+            <InstanceListView instances={this.state.instances}
+                              providers={this.state.providers}
+            />
           );
         } else {
           return (

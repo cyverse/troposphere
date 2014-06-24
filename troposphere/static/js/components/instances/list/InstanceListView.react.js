@@ -7,15 +7,15 @@ define(
     'url',
     'components/common/PageHeader.react',
     'components/common/Time.react',
-    'backbone',
-    'url'
+    'backbone'
   ],
-  function (React, _, URL, PageHeader, Time, Backbone, URL) {
+  function (React, _, URL, PageHeader, Time, Backbone) {
 
     return React.createClass({
 
       propTypes: {
-        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       getStatus: function(instance){
@@ -60,6 +60,7 @@ define(
           var validStates = ["active", "error", "active - deploy_error"];
           var instanceInValidState = validStates.indexOf(instance.get('status')) >= 0;
 
+          var instanceProvider = this.props.providers.get(instance.get('identity').provider);
 
           var loadingStyles = {};
           if(!instanceInValidState){
@@ -82,6 +83,9 @@ define(
                 <td>
                   <Time date={dateCreated}/>
                 </td>
+                <td>
+                  <strong>{instanceProvider.get('name')}</strong>
+                </td>
               </tr>
             );
           } else {
@@ -96,6 +100,9 @@ define(
                 {this.getStatus(instance)}
                 <td>
                   <Time date={dateCreated}/>
+                </td>
+                <td>
+                  <strong>{instanceProvider.get('name')}</strong>
                 </td>
               </tr>
             );
@@ -123,6 +130,7 @@ define(
                   <th>Name</th>
                   <th>Status</th>
                   <th>Created</th>
+                  <th>Provider</th>
                 </tr>
               </thead>
               <tbody>
