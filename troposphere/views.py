@@ -22,7 +22,7 @@ cas_oauth_client = CAS_OAuthClient(settings.CAS_SERVER,
                                    settings.OAUTH_CLIENT_CALLBACK,
                                    settings.OAUTH_CLIENT_KEY,
                                    settings.OAUTH_CLIENT_SECRET,
-                                   auth_prefix="/castest")
+                                   auth_prefix="/castest4")
 
 
 def root(request):
