@@ -3,11 +3,11 @@
 define(
   [
     'react',
+    'backbone',
     'components/mixins/modal',
-    'actions/SizeActions',
-    'stores/SizeStore'
+    'actions/SizeActions'
   ],
-  function (React, ModalMixin, SizeActions, SizeStore) {
+  function (React, Backbone, ModalMixin, SizeActions) {
 
     return React.createClass({
 

@@ -20,6 +20,12 @@ define(['underscore'], function(_) {
         },
         requestImage: function(model){
             return generators.instance(model) + '/request_image';
+        },
+        images: function(){
+            return 'images';
+        },
+        help: function(){
+            return 'help';
         }
     };
 
@@ -39,6 +45,8 @@ define(['underscore'], function(_) {
         reportInstance: _.partial(generateUrl, 'reportInstance'),
         volume: _.partial(generateUrl, 'volume'),
         application: _.partial(generateUrl, 'application'),
+        images: _.partial(generateUrl, 'images'),
+        help: _.partial(generateUrl, 'help'),
         requestImage: _.partial(generateUrl, 'requestImage')
     };
 

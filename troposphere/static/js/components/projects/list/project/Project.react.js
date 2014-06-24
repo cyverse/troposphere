@@ -16,6 +16,11 @@ define(
         projects: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
+      onAddResourceToProject: function(e){
+        e.preventDefault();
+        alert("Creating resources directly in projects not yet implemented");
+      },
+
       render: function () {
         var project = this.props.project;
 
@@ -23,7 +28,7 @@ define(
           return (
             <li>
               <h2>{project.get('name')}</h2>
-              <a href="#" className="btn btn-primary update-project-btn">+</a>
+              <a href="#" className="btn btn-primary update-project-btn" onClick={this.onAddResourceToProject}>+</a>
               <ProjectDescription project={project}/>
               <ProjectItems project={project} projects={this.props.projects}/>
             </li>

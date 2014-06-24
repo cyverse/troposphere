@@ -4,10 +4,9 @@ define(
   [
     'react',
     'backbone',
-    './InstanceOption.react',
-    'stores/SizeStore'
+    './InstanceOption.react'
   ],
-  function (React, Backbone, InstanceOption, SizeStore) {
+  function (React, Backbone, InstanceOption) {
 
     return React.createClass({
 

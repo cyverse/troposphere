@@ -3,9 +3,10 @@
 define(
   [
     'react',
+    'backbone',
     'actions/VersionActions'
   ],
-  function (React, VersionActions) {
+  function (React, Backbone, VersionActions) {
 
     var LoginLink = React.createClass({
       render: function () {
@@ -19,6 +20,10 @@ define(
 
     var LogoutLink = React.createClass({
 
+      propTypes: {
+        username: React.PropTypes.string.isRequired
+      },
+
       onShowVersion: function(e){
         e.preventDefault();
         VersionActions.showVersion();
@@ -27,7 +32,8 @@ define(
       render: function () {
         return (
           <li className="dropdown">
-            <a className="dropdown-toggle" href="#" data-toggle="dropdown">jchansen
+            <a className="dropdown-toggle" href="#" data-toggle="dropdown">
+              {this.props.username}
               <b className="caret"></b>
             </a>
             <ul className="dropdown-menu">
@@ -44,6 +50,10 @@ define(
     });
 
     var Header = React.createClass({
+
+      propTypes: {
+        profile: React.PropTypes.instanceOf(Backbone.Model).isRequired
+      },
 
       render: function () {
 
