@@ -45,6 +45,21 @@ define(
         }
       },
 
+      favorited: function(isFavorited){
+        var actionUrl = globals.API_ROOT + "/bookmark/application/" + this.id + globals.slash();
+        var data = {
+          marked: isFavorited
+        };
+
+        var promise = $.ajax({
+          url: actionUrl,
+          type: "PUT",
+          data: JSON.stringify(data),
+          dataType: "json"
+        });
+        return promise;
+      },
+
       /*
        * Here, were override the get method to allow lazy-loading of computed
        * attributes

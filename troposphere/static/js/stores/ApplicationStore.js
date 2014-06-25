@@ -113,7 +113,7 @@ define(
         var prefix = isFavorited ? " un-" : " ";
         application.set('isFavorited', !isFavorited);
 
-        application.save().done(function(){
+        application.favorited(!isFavorited).done(function(){
           var successMessage = "Image " + application.get('name') + prefix + "favorited.";
           NotificationController.success(successMessage);
           ApplicationStore.emitChange();

@@ -91,7 +91,7 @@ define(
 
             $.ajaxSetup({
               headers: {
-                'Authorization': 'Token ' + window.access_token,
+                "Authorization": "Token " + window.access_token,
                 "Content-Type": "application/json"
               }
             });
@@ -103,7 +103,10 @@ define(
         // For Chris to use w/ Apache config
         } else { // if (window.access_token)
           $.ajaxSetup({
-            headers: {'Authorization': 'Bearer ' + window.access_token}
+            headers: {
+              "Authorization": "Token " + window.access_token,
+              "Content-Type": "application/json"
+            }
           });
           session.set({
             access_token: window.access_token
