@@ -89,6 +89,10 @@ define(
             volume: projectItem
           });
         }
+      },
+
+      addResourceToProject: function(project){
+        alert("2: Creating resources directly in projects not yet implemented");
       }
 
     };
