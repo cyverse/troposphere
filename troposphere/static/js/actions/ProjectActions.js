@@ -5,11 +5,12 @@ define(
     'constants/ProjectInstanceConstants',
     'constants/ProjectVolumeConstants',
     'components/modals/CancelConfirmModal.react',
+    'components/modals/ProjectAddResourceModal.react',
     'react',
     'models/Instance',
     'models/Volume'
   ],
-  function (AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, CancelConfirmModal, React, Instance, Volume) {
+  function (AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, CancelConfirmModal, ProjectAddResourceModal, React, Instance, Volume) {
 
     function getItemType(model) {
       var objectType;
@@ -92,7 +93,25 @@ define(
       },
 
       addResourceToProject: function(project){
-        alert("2: Creating resources directly in projects not yet implemented");
+        var onConfirm = function (identity, machineId, sizeId, instanceName) {
+          alert('Resource not really added!');
+        };
+
+        var onCancel = function(){
+          // Important! We need to un-mount the component so it un-registers from Stores and
+          // also so that we can relaunch it again later.
+          React.unmountComponentAtNode(document.getElementById('modal'));
+        };
+
+        var modal = ProjectAddResourceModal({
+          header: "Add Resource to Project",
+          confirmButtonMessage: "Add Resource",
+          onConfirm: onConfirm,
+          onCancel: onCancel,
+          handleHidden: onCancel
+        });
+
+        React.renderComponent(modal, document.getElementById('modal'));
       }
 
     };
