@@ -2,12 +2,18 @@
 
 define(
   [
-    "react",
-    "underscore"
+    'react',
+    'backbone',
+    'underscore',
+    "actions/InstanceActions"
   ],
-  function (React, _) {
+  function (React, Backbone, _, InstanceActions) {
 
     return React.createClass({
+
+      propTypes: {
+        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
+      },
 
       getInitialState: function () {
         return {
@@ -37,18 +43,17 @@ define(
         return (
           <div className="checkbox">
             <label>
-              <input
-              type="checkbox"
-              name="problems"
-              id={"problems-" + value}
-              value={value}
-              checked={this.state[value]}
-              onChange={onChange}
+              <input type="checkbox"
+                     name="problems"
+                     id={"problems-" + value}
+                     value={value}
+                     checked={this.state[value]}
+                     onChange={onChange}
               />
               {this.problemText[value]}
             </label>
           </div>
-          );
+        );
       },
 
       handleSubmit: function (e) {
@@ -65,6 +70,13 @@ define(
         var problems = _.values(
           _.pick(this.problemText, problemKeys)
         );
+
+        var reportInfo = {
+          problems: problems,
+          message: this.state.details
+        };
+
+        InstanceActions.reportInstance(this.props.instance, reportInfo);
       },
 
       problemText: {
