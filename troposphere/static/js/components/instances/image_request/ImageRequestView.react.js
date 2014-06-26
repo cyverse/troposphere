@@ -6,11 +6,12 @@ define(
     'components/common/PageHeader.react',
     'jquery',
     'backbone',
+    'actions/InstanceActions',
 
     // jQuery plugins: need to make sure they're loaded, but they aren't called directly
     'chosen'
   ],
-  function (React, PageHeader, $, Backbone) {
+  function (React, PageHeader, $, Backbone, InstanceActions) {
 
     return React.createClass({
 
@@ -26,11 +27,42 @@ define(
         $el.find('select[name="tags"]').chosen();
       },
 
+      onSubmit: function(e){
+        e.preventDefault();
+
+        var el = this.getDOMNode();
+        var $el = $(el);
+
+        var instanceId = $el.find('input[name="instanceId"]');
+        var name = $el.find('input[name="name"]');
+        var ipAddress = $el.find('input[name="ipAddress"]');
+        var providerId = $el.find('select[name="provider"]');
+        var description = $el.find('textarea[name="description"]');
+        var software = $el.find('textarea[name="software"]');
+        var sys = $el.find('textarea[name="sys"]');
+        var tags = $el.find('select[name="tags"]');
+        var visibility = $el.find('select[name="visibility"]');
+
+        var requestData = {
+          instance: instanceId.val(),
+          name: name.val(),
+          ip_address: ipAddress.val(),
+          provider: providerId.val(),
+          description: description.val(),
+          software: software.val(),
+          sys: sys.val(),
+          tags: tags.val(),
+          vis: visibility.val()
+        };
+
+        InstanceActions.requestImage(this.props.instance, requestData);
+      },
+
       render: function () {
         var instance = this.props.instance,
             provider = this.props.provider;
 
-        renderInputControlGroup = function(){
+        var renderInputControlGroup = function(){
           return (
             <div className="control-group">
               <label htmlFor="name" className="control-label">Image Name</label>
@@ -42,17 +74,17 @@ define(
               </div>
             </div>
           );
-        }
+        };
 
-        var renderControlGroup = function(label, id){
+        var renderControlGroup = function(label, id, name){
           return (
             <div className="control-group">
               <label htmlFor="instance" className="control-label">{label}</label>
               <div className="controls">{id}</div>
-              <input type="hidden" name="instance" value={id} />
+              <input type="hidden" name={name} value={id} />
             </div>
           );
-        }
+        };
 
         var renderDropdownControlGroup = function(){
           return (
@@ -66,7 +98,7 @@ define(
               </div>
             </div>
           );
-        }
+        };
 
         var renderTextAreaControlGroup = function(label, description, name){
           return (
@@ -78,7 +110,7 @@ define(
               </div>
             </div>
           );
-        }
+        };
 
         var displayNoneStyle = {display: 'none'};
         var renderImageTagsControlGroup = function(){
@@ -117,7 +149,7 @@ define(
                   everyone. If you want visibility restricted to a select group of users, provide us a list of iPlant
                   usernames. Public visibility means that any user will be able to launch the instance.
                 </div>
-                <select name="vis" className="form-control">
+                <select name="visibility" className="form-control">
                   <option value="public">Public</option>
                   <option value="private">Private</option>
                   <option value="select">Specific Users</option>
@@ -125,7 +157,7 @@ define(
               </div>
             </div>
           );
-        }
+        };
 
         var renderCheckboxControlGroup = function(){
           return (
@@ -142,13 +174,13 @@ define(
               </div>
             </div>
           );
-        }
+        };
 
         var renderFormActions = function(){
           return (
-            <button type="submit" className="btn btn-primary form-control">Request Imaging</button>
+            <button type="submit" className="btn btn-primary form-control" on>Request Imaging</button>
           );
-        }
+        };
 
         var helpText = function(){
           return (
@@ -158,7 +190,7 @@ define(
               before completing the form below.
             </p>
           );
-        }
+        };
 
         var systemFilesHelpText = (
           <div>
@@ -172,15 +204,15 @@ define(
           <div className="imaging_form module">
             <PageHeader title="Request Imaging" helpText={helpText}/>
 
-            <form className="request_imaging_form form-horizontal" method="post">
+            <form className="request_imaging_form form-horizontal" method="post" onSubmit={this.onSubmit}>
 
             <div className="alert alert-danger">
               <strong>Note:</strong> All volumes must be detached from an instance before it can be imaged.
             </div>
 
             {renderInputControlGroup()}
-            {renderControlGroup("Instance ID", "0bbbc916-0c76-4006-a86c-e570c96ff819")}
-            {renderControlGroup("IP Address", "128.196.64.25")}
+            {renderControlGroup("Instance ID", "0bbbc916-0c76-4006-a86c-e570c96ff819", "instanceId")}
+            {renderControlGroup("IP Address", "128.196.64.25", "ipAddress")}
             {renderDropdownControlGroup()}
             {renderTextAreaControlGroup(
               "Description of the Image",

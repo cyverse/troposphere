@@ -3,6 +3,8 @@ define(
     'dispatchers/AppDispatcher',
     'constants/InstanceConstants',
     'react',
+    'globals',
+    'controllers/NotificationController',
     'components/modals/CancelConfirmModal.react',
     'components/modals/InstanceSuspendBody.react',
     'components/modals/InstanceResumeBody.react',
@@ -12,7 +14,7 @@ define(
     'components/modals/instance_launch/InstanceLaunchBody.react',
     'components/modals/InstanceLaunchModal.react'
   ],
-  function (AppDispatcher, InstanceConstants, React, CancelConfirmModal, InstanceSuspendBody, InstanceResumeBody, InstanceStopBody, InstanceStartBody, InstanceTerminateBody, InstanceLaunchBody, InstanceLaunchModal) {
+  function (AppDispatcher, InstanceConstants, React, globals, NotificationController, CancelConfirmModal, InstanceSuspendBody, InstanceResumeBody, InstanceStopBody, InstanceStartBody, InstanceTerminateBody, InstanceLaunchBody, InstanceLaunchModal) {
 
     return {
       suspend: function (instance) {
@@ -145,6 +147,24 @@ define(
         });
 
         React.renderComponent(modal, document.getElementById('modal'));
+      },
+
+      requestImage: function(instance, requestData){
+        var providerId = instance.getCreds().provider_id;
+        var identityId = instance.getCreds().identity_id;
+        var requestUrl = globals.API_ROOT + "/provider/" + providerId + "/identity/" + identityId + "/request_image" + globals.slash();
+
+        $.ajax({
+          url: requestUrl,
+          type: 'PUT',
+          data: requestData,
+          success: function (model) {
+            NotificationController.info(null, "An image of your instance has been requested");
+          },
+          error: function (response, status, error) {
+            NotificationController.error(null, response.responseText);
+          }
+        });
       }
 
     };
