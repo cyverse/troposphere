@@ -3,17 +3,17 @@
 define(
   [
     'react',
+    'backbone',
     'components/common/PageHeader.react',
     'components/common/Glyphicon.react',
     './ReportInstanceForm.react'
   ],
-  function (React, PageHeader, Glyphicon, ReportInstanceForm) {
+  function (React, Backbone, PageHeader, Glyphicon, ReportInstanceForm) {
 
-    var ReportInstance = React.createClass({
+    return React.createClass({
 
-      componentDidMount: function () {
-        if (!this.props.instance)
-          this.props.onRequestInstance();
+      propTypes: {
+        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
       renderIntro: function () {
@@ -32,23 +32,14 @@ define(
       },
 
       render: function () {
-        var content;
-        if (this.props.instance) {
-          content = (
-            <div>
-              <PageHeader title="Report Instance"/>
-              {this.renderIntro()}
-              <ReportInstanceForm instance={this.props.instance}/>
-            </div>
-          );
-        } else {
-          content = (
-            <div className='loading'></div>
-          );
-        }
-        return content;
+        return (
+          <div>
+            <PageHeader title="Report Instance"/>
+            {this.renderIntro()}
+            <ReportInstanceForm instance={this.props.instance}/>
+          </div>
+        );
       }
     });
 
-    return ReportInstance;
   });

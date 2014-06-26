@@ -3,7 +3,7 @@
 define(
   [
     'react',
-    './report/Report.react',
+    './report/ReportImageView.react',
     'rsvp',
     'models/Instance',
     'controllers/NotificationController'
