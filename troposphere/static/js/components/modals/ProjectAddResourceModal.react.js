@@ -6,9 +6,10 @@ define(
     'components/mixins/BootstrapModalMixin.react',
     'stores/ProviderStore',
     'stores/IdentityStore',
-    './instance_launch/IdentitySelect.react'
+    './instance_launch/IdentitySelect.react',
+    './project_resource/ResourceTypeMenu.react'
   ],
-  function (React, BootstrapModalMixin, ProviderStore, IdentityStore, IdentitySelect) {
+  function (React, BootstrapModalMixin, ProviderStore, IdentityStore, IdentitySelect, ResourceTypeMenu) {
 
     // Example Usage from http://bl.ocks.org/insin/raw/8449696/
     // render: function(){
@@ -35,6 +36,17 @@ define(
     //   this.refs.modal.show();
     // }
 
+    var resourceTypes = [
+      {
+        name: "Instance",
+        glyph: "tasks"
+      },
+      {
+        name: "Volume",
+        glyph: "hdd"
+      }
+    ];
+
     function getState() {
       var state = {
         providers: ProviderStore.getAll(),
@@ -46,7 +58,7 @@ define(
 
       this.state = this.state || {};
 
-      state.selectedResourceName = this.state.selectedResourceName || "Volume";
+      state.selectedResourceType = this.state.selectedResourceType || resourceTypes[1];
 
       // Use provided volume name or default to nothing
       state.volumeName = this.state.volumeName || "";
@@ -130,9 +142,8 @@ define(
         this.setState({volumeSize: newVolumeSize});
       },
 
-      onResourceTypeChanged: function(resource, e){
-        e.preventDefault();
-        this.setState({selectedResourceName: resource.name});
+      onResourceTypeChanged: function(newResourceType){
+        this.setState({selectedResourceType: newResourceType});
       },
 
       //
@@ -196,22 +207,6 @@ define(
           );
         }
 
-        var resources = [{name: "Instance", glyph: "tasks"},{name: "Volume", glyph: "hdd"}].map(function(resource){
-          var className = "glyphicon glyphicon-" + resource.glyph;
-          var isActive = this.state.selectedResourceName === resource.name;
-
-          return (
-            <li key={resource.name} className={isActive ? "active" : ""}>
-              <div className="clickable-region" onClick={this.onResourceTypeChanged.bind(this, resource)}>
-                <div className="icon-container">
-                  <i className={className}></i>
-                </div>
-                <label>{resource.name}</label>
-              </div>
-            </li>
-          );
-        }.bind(this));
-
         return (
           <div id="project-resource-modal" className="modal fade">
             <div className="modal-dialog">
@@ -221,9 +216,10 @@ define(
                   <strong>{this.props.header}</strong>
                 </div>
                 <div className="modal-body">
-                  <ul className="horizontal-list">
-                    {resources}
-                  </ul>
+                  <ResourceTypeMenu resourceTypes={resourceTypes}
+                                    selectedResourceType={this.state.selectedResourceType}
+                                    onResourceTypeChanged={this.onResourceTypeChanged}
+                  />
                   <hr/>
                   {content}
                 </div>
