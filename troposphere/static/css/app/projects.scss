@@ -55,3 +55,48 @@
   color: #999;
   margin-right: 7px;
 }
+
+// Project Resource Modal
+#project-resource-modal {
+  hr {
+    margin-top: 10px;
+  }
+
+  .horizontal-list {
+    text-align: center;
+    margin: 0;
+    padding: 10px 0px 0px 0px;
+
+    .clickable-region {
+      width: 80px;
+      margin: auto;
+      cursor: pointer;
+
+      label {
+        cursor: pointer;
+      }
+    }
+
+    li {
+      display: inline-block;
+      width: 33%;
+
+      &.active {
+        color: #77AB41;
+      }
+
+      .icon-container {
+        //height: 40px;
+
+        i {
+          //-webkit-transform: scale(4);
+          font-size: 50px;
+        }
+      }
+
+      label {
+        font-size: 15px;
+      }
+    }
+  }
+}

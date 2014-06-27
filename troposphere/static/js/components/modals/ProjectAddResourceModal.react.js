@@ -46,6 +46,8 @@ define(
 
       this.state = this.state || {};
 
+      state.selectedResourceName = this.state.selectedResourceName || "Volume";
+
       // Use provided volume name or default to nothing
       state.volumeName = this.state.volumeName || "";
 
@@ -128,6 +130,10 @@ define(
         this.setState({volumeSize: newVolumeSize});
       },
 
+      onResourceTypeChanged: function(resource, e){
+        e.preventDefault();
+        this.setState({selectedResourceName: resource.name});
+      },
 
       //
       // Render
@@ -190,8 +196,24 @@ define(
           );
         }
 
+        var resources = [{name: "Instance", glyph: "tasks"},{name: "Volume", glyph: "hdd"}].map(function(resource){
+          var className = "glyphicon glyphicon-" + resource.glyph;
+          var isActive = this.state.selectedResourceName === resource.name;
+
+          return (
+            <li key={resource.name} className={isActive ? "active" : ""}>
+              <div className="clickable-region" onClick={this.onResourceTypeChanged.bind(this, resource)}>
+                <div className="icon-container">
+                  <i className={className}></i>
+                </div>
+                <label>{resource.name}</label>
+              </div>
+            </li>
+          );
+        }.bind(this));
+
         return (
-          <div className="modal fade">
+          <div id="project-resource-modal" className="modal fade">
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
@@ -199,6 +221,10 @@ define(
                   <strong>{this.props.header}</strong>
                 </div>
                 <div className="modal-body">
+                  <ul className="horizontal-list">
+                    {resources}
+                  </ul>
+                  <hr/>
                   {content}
                 </div>
                 <div className="modal-footer">
