@@ -7,34 +7,11 @@ define(
     'stores/ProviderStore',
     'stores/IdentityStore',
     './instance_launch/IdentitySelect.react',
-    './project_resource/ResourceTypeMenu.react'
+    './project_resource/ResourceTypeMenu.react',
+    './project_resource/VolumeResourceContent.react',
+    './project_resource/InstanceResourceContent.react'
   ],
-  function (React, BootstrapModalMixin, ProviderStore, IdentityStore, IdentitySelect, ResourceTypeMenu) {
-
-    // Example Usage from http://bl.ocks.org/insin/raw/8449696/
-    // render: function(){
-    // <div>
-    //   ...custom components...
-    //   <ExampleModal
-    //      ref="modal"
-    //      show={false}
-    //      header="Example Modal"
-    //      buttons={buttons}
-    //      handleShow={this.handleLog.bind(this, 'Modal about to show', 'info')}
-    //      handleShown={this.handleLog.bind(this, 'Modal showing', 'success')}
-    //      handleHide={this.handleLog.bind(this, 'Modal about to hide', 'warning')}
-    //      handleHidden={this.handleLog.bind(this, 'Modal hidden', 'danger')}
-    //    >
-    //      <p>I'm the content.</p>
-    //      <p>That's about it, really.</p>
-    //    </ExampleModal>
-    // </div>
-    //
-
-    // To show the modal, call this.refs.modal.show() from the parent component:
-    // handleShowModal: function() {
-    //   this.refs.modal.show();
-    // }
+  function (React, BootstrapModalMixin, ProviderStore, IdentityStore, IdentitySelect, ResourceTypeMenu, VolumeResourceContent, InstanceResourceContent) {
 
     var resourceTypes = [
       {
@@ -151,7 +128,72 @@ define(
       // ------
       //
 
+      getButtons: function(confirmButtonMessage, isEnabled, bodyState){
+        var buttonArray = [
+          {type: 'danger', text: 'Cancel', handler: this.cancel},
+          {type: 'primary', text: confirmButtonMessage, handler: this.confirm}
+        ];
+
+        var buttons = buttonArray.map(function (button) {
+          // Enable all buttons be default
+          var isDisabled = false;
+
+          // Disable the launch button if the user hasn't provided a name, size or identity for the volume
+          var stateIsValid = this.state.identityId &&
+                             this.state.volumeName &&
+                             this.state.volumeSize;
+          if(button.type === "primary" && !stateIsValid ) isDisabled = true;
+
+          return (
+            <button key={button.text} type="button" className={'btn btn-' + button.type} onClick={button.handler} disabled={isDisabled}>
+              {button.text}
+            </button>
+          );
+        }.bind(this));
+      },
+
+      onContentChanged: function(contentState, isValid){
+        // if isValid, button should be shown
+        // contentState is passed back to component
+        //
+      },
+
+      onCreateResource: function(){
+        var resourceName = this.state.selectedResourceType.name;
+
+        var resourceParams;
+        if(resourceName === "Volume"){
+          resourceParams = this.refs.content.getVolumeParams();
+          this.props.onCreateVolume(resourceParams);
+        }
+      },
+
       render: function () {
+
+        //
+        // Body Content
+        //
+
+        var content;
+        var selectedResourceName = this.state.selectedResourceType.name;
+        if(selectedResourceName === "Volume"){
+          content = (
+            <VolumeResourceContent ref="resource"/>
+          );
+        } else if(selectedResourceName === "Instance"){
+          content = (
+           <InstanceResourceContent ref="resource"/>
+         );
+        } else {
+         content = (
+           <div className="loading"></div>
+         );
+        }
+
+        //
+        // Button Content
+        //
+
         var buttonArray = [
           {type: 'danger', text: 'Cancel', handler: this.cancel},
           {type: 'primary', text: this.props.confirmButtonMessage, handler: this.confirm}
@@ -174,38 +216,9 @@ define(
           );
         }.bind(this));
 
-        var content;
-        if(this.state.identities && this.state.providers){
-          content = (
-            <form role='form'>
-
-              <div className='form-group'>
-                <label htmlFor='volumeName'>Volume Name</label>
-                <input type="text" className="form-control" value={this.state.volumeName} onChange={this.onVolumeNameChange}/>
-              </div>
-
-              <div className='form-group'>
-                <label htmlFor='volumeSize'>Volume Size</label>
-                <input type="number" className="form-control" value={this.state.volumeSize} onChange={this.onVolumeSizeChange}/>
-              </div>
-
-              <div className='form-group'>
-                <label htmlFor='identity'>Identity</label>
-                <IdentitySelect
-                    identityId={this.state.identityId}
-                    identities={this.state.identities}
-                    providers={this.state.providers}
-                    onChange={this.onProviderIdentityChange}
-                />
-              </div>
-
-            </form>
-          );
-        }else{
-          content = (
-            <div className="loading"></div>
-          );
-        }
+        //
+        // Modal Content
+        //
 
         return (
           <div id="project-resource-modal" className="modal fade">
