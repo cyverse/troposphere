@@ -57,7 +57,7 @@ define(
           var dateCreated = instance.get('start_date');
           var instanceDetailsUrl = URL.instance(instance, {absolute: true});
 
-          var validStates = ["active", "error", "active - deploy_error"];
+          var validStates = ["active", "error", "active - deploy_error", "suspended"];
           var instanceInValidState = validStates.indexOf(instance.get('status')) >= 0;
 
           var instanceProvider = this.props.providers.get(instance.get('identity').provider);
