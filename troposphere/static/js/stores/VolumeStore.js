@@ -9,9 +9,10 @@ define(
     'constants/VolumeConstants',
     'controllers/NotificationController',
     'stores/IdentityStore',
-    'components/notifications/VolumeAttachNotifications.react'
+    'components/notifications/VolumeAttachNotifications.react',
+    'actions/ProjectActions'
   ],
-  function (_, Dispatcher, Store, RSVP, VolumeCollection, Volume, VolumeConstants, NotificationController, IdentityStore, VolumeAttachNotifications) {
+  function (_, Dispatcher, Store, RSVP, VolumeCollection, Volume, VolumeConstants, NotificationController, IdentityStore, VolumeAttachNotifications, ProjectActions) {
 
     var _volumes = null;
     var _isFetching = false;
@@ -117,7 +118,7 @@ define(
       });
     };
 
-    var create = function(volumeName, volumeSize, identity){
+    var create = function(volumeName, volumeSize, identity, project){
       var volume = new Volume({
         identity: {
           id: identity.id,
@@ -137,6 +138,7 @@ define(
         success: function (model) {
           NotificationController.success('Success', 'Volume successfully created');
           pollUntilBuildIsFinished(volume);
+          ProjectActions.addItemToProject(project, volume);
           VolumeStore.emitChange();
         },
         error: function (response) {
@@ -228,7 +230,7 @@ define(
           break;
 
         case VolumeConstants.VOLUME_CREATE:
-          create(action.volumeName, action.volumeSize, action.identity);
+          create(action.volumeName, action.volumeSize, action.identity, action.project);
           break;
 
         default:
