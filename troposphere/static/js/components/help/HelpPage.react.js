@@ -3,11 +3,11 @@
 define(
   [
     'react',
-    'backbone',
     'components/common/PageHeader.react',
-    './FeedbackForm.react'
+    './FeedbackForm.react',
+    'context'
   ],
-  function (React, Backbone, PageHeader, FeedbackForm) {
+  function (React, PageHeader, FeedbackForm, context) {
 
     var resources = [
       {
@@ -70,7 +70,7 @@ define(
             <ul>
               {resourceElements}
             </ul>
-            {this.props.profile ? feedbackSection : null}
+            {context.profile ? feedbackSection : null}
           </div>
         );
       }
