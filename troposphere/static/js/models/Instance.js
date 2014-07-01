@@ -174,7 +174,7 @@ define(
             success(model, resp, options);
 
             // Get the new state from the data returned by API call
-            self.set('state', resp.status);
+            self.set('status', resp.status);
           }
 
           if (!model.isNew())
@@ -224,26 +224,28 @@ define(
       },
 
       stop: function (options) {
+        this.set({status: 'active - stopping'});
         this.performAction('stop', options);
       },
 
       start: function (options) {
         // Prevent user from being able to quickly start multiple instances and go over quota
-        this.set({state: 'shutoff - powering-on'});
+        this.set({status: 'shutoff - powering-on'});
         options.error = function () {
           options.error();
-          this.set({state: 'shutoff'});
+          this.set({status: 'shutoff'});
         }.bind(this);
         this.performAction('start', options);
       },
 
       suspend: function (options) {
+        this.set({status: 'active - suspending'});
         this.performAction('suspend', options);
       },
 
       resume: function (options) {
         // Prevent user from being able to quickly resume multiple instances and go over quota
-        this.set({state: 'suspended - resuming'});
+        this.set({status: 'suspended - resuming'});
         this.performAction('resume', options);
       },
 
