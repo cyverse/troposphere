@@ -211,7 +211,9 @@ define(
         $.ajax({
           url: this.get('action_url'),
           type: 'POST',
-          data: {action: action},
+          data: JSON.stringify({
+            action: action
+          }),
           success: function (model) {
             options.success.apply(null, arguments);
           },
