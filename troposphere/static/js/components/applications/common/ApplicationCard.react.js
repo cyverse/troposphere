@@ -7,9 +7,10 @@ define(
     'backbone',
     'url',
     './Rating.react',
-    './Bookmark.react'
+    './Bookmark.react',
+    'context'
   ],
-  function (React, Gravatar, Backbone, URL, Rating, Bookmark) {
+  function (React, Gravatar, Backbone, URL, Rating, Bookmark, context) {
 
     return React.createClass({
 
@@ -43,6 +44,14 @@ define(
 
         var appUri = URL.application(app, {absolute: true});
 
+        // Hide bookmarking on the public page
+        var bookmark;
+        if(context.profile){
+          bookmark = (
+            <Bookmark application={app}/>
+          );
+        }
+
         return (
           <div className='app-card'>
             <div className='icon-container'>
@@ -59,7 +68,7 @@ define(
             <button className='btn btn-primary btn-block launch-button' onClick={this.props.onLaunch}>
               Launch
             </button>
-            <Bookmark application={app}/>
+            {bookmark}
           </div>
         );
       }
