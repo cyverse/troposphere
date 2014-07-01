@@ -164,7 +164,8 @@ define(
       confirm: function () {
         this.hide();
         var identity = this.state.identities.get(this.state.identityId);
-        this.props.onConfirm(identity, this.state.machineId, this.state.sizeId, this.state.instanceName);
+        var project = this.state.projects.get(this.state.projectId);
+        this.props.onConfirm(identity, this.state.machineId, this.state.sizeId, this.state.instanceName, project);
       },
 
 

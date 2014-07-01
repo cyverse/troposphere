@@ -8,9 +8,10 @@ define(
     'models/Instance',
     'constants/InstanceConstants',
     'controllers/NotificationController',
-    'stores/IdentityStore'
+    'stores/IdentityStore',
+    'actions/ProjectActions'
   ],
-  function (_, Dispatcher, Store, RSVP, InstanceCollection, Instance, InstanceConstants, NotificationController, IdentityStore) {
+  function (_, Dispatcher, Store, RSVP, InstanceCollection, Instance, InstanceConstants, NotificationController, IdentityStore, ProjectActions) {
 
     var _instances = null;
     var _isFetching = false;
@@ -139,7 +140,7 @@ define(
       _instances.remove(instance);
     };
 
-    var launch = function(identity, machineId, sizeId, instanceName){
+    var launch = function(identity, machineId, sizeId, instanceName, project){
       var instance = new Instance({
         identity: {
           id: identity.id,
@@ -157,6 +158,7 @@ define(
         success: function (model) {
           NotificationController.success('Launch Instance', 'Instance successfully launched');
           pollUntilBuildIsFinished(instance);
+          ProjectActions.addItemToProject(project, instance);
           InstanceStore.emitChange();
         },
         error: function (response) {
@@ -242,7 +244,7 @@ define(
           break;
 
         case InstanceConstants.INSTANCE_LAUNCH:
-          launch(action.identity, action.machineId, action.sizeId, action.instanceName);
+          launch(action.identity, action.machineId, action.sizeId, action.instanceName, action.project);
           break;
 
         default:

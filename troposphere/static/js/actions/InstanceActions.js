@@ -117,13 +117,14 @@ define(
 
       launch: function(application){
 
-        var onConfirm = function (identity, machineId, sizeId, instanceName) {
+        var onConfirm = function (identity, machineId, sizeId, instanceName, project) {
           AppDispatcher.handleRouteAction({
             actionType: InstanceConstants.INSTANCE_LAUNCH,
             identity: identity,
             machineId: machineId,
             sizeId: sizeId,
-            instanceName: instanceName
+            instanceName: instanceName,
+            project: project
           });
           // Since this is triggered from the images page, navigate off
           // that page and back to the instance list so the user can see
