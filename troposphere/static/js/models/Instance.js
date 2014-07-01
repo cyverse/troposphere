@@ -2,9 +2,10 @@ define(
   [
     'backbone',
     'underscore',
-    'globals'
+    'globals',
+    'context'
   ],
-  function (Backbone, _, globals) {
+  function (Backbone, _, globals, context) {
 
     var statics = {
       /*
@@ -92,9 +93,10 @@ define(
         },
 
         shell_url: function () {
+          var username = context.profile.get('username');
           var ip = this.get('public_ip_address');
           if (ip)
-            return "https://atmo-proxy.iplantcollaborative.org/?ssh=ssh://" + ip + ":22";
+            return "https://atmo-proxy.iplantcollaborative.org/?ssh=ssh://" + username + "@" + ip + ":22";
           return null;
         },
 
