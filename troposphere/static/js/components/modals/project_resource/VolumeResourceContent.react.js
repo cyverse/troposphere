@@ -3,18 +3,15 @@
 define(
   [
     'react',
-    'stores/ProviderStore',
-    'stores/IdentityStore',
+    'backbone',
     '../instance_launch/IdentitySelect.react'
   ],
-  function (React, ProviderStore, IdentityStore, IdentitySelect) {
+  function (React, Backbone, IdentitySelect) {
 
     function getState() {
       var state = {
-        providers: ProviderStore.getAll(),
-        identities: IdentityStore.getAll(),
-
         volumeName: null,
+        volumeSize: null,
         identityId: null
       };
 
@@ -27,35 +24,40 @@ define(
       state.volumeSize = this.state.volumeSize || 1;
 
       // Use selected identity or default to the first one
-      if (state.identities) {
-        state.identityId = this.state.identityId || state.identities.first().id;
-      }
+      state.identityId = this.state.identityId || this.props.identities.first().id;
 
       return state;
     }
 
     return React.createClass({
 
+      propTypes: {
+        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        onChange: React.PropTypes.func.isRequired
+      },
+
       //
       // Mounting & State
       // ----------------
       //
+
       getInitialState: function(){
         return getState.apply(this);
       },
 
-      updateState: function () {
-        if (this.isMounted()) this.setState(getState.apply(this));
-      },
+      emitChange: function(){
+        var isValid = this.state.identityId &&
+                      this.state.volumeName.length > 0 &&
+                      this.state.volumeSize;
 
-      componentDidMount: function () {
-        ProviderStore.addChangeListener(this.updateState);
-        IdentityStore.addChangeListener(this.updateState);
-      },
+        var resourceProps = {
+          identityId: this.state.identityId,
+          volumeName: this.state.volumeName,
+          volumeSize: this.state.volumeSize
+        };
 
-      componentWillUnmount: function () {
-        ProviderStore.removeChangeListener(this.updateState);
-        IdentityStore.removeChangeListener(this.updateState);
+        this.props.onChange(isValid, resourceProps);
       },
 
       //
@@ -65,12 +67,16 @@ define(
 
       onProviderIdentityChange: function(e){
         var newIdentityId = e.target.value;
+        this.state.identityId = newIdentityId;
         this.setState({identityId: newIdentityId});
+        this.emitChange();
       },
 
       onVolumeNameChange: function(e){
         var newVolumeName = e.target.value;
+        this.state.volumeName = newVolumeName;
         this.setState({volumeName: newVolumeName});
+        this.emitChange();
       },
 
       onVolumeSizeChange: function(e){
@@ -82,7 +88,17 @@ define(
         // and don't magically change it for them.
         //if(e.target.value < 1) e.target.value = 1;
         var newVolumeSize = e.target.value;
+        this.state.volumeSize = newVolumeSize;
         this.setState({volumeSize: newVolumeSize});
+        this.emitChange();
+      },
+
+      getVolumeParams: function(){
+        return {
+          volumeName: this.state.volumeName,
+          volumeSize: this.state.volumeSize,
+          identityId: this.state.identityId
+        };
       },
 
       //
@@ -91,40 +107,32 @@ define(
       //
 
       render: function () {
-        var content;
-        if(this.state.identities && this.state.providers){
-          content = (
-            <form role='form'>
+        return (
+          <form role='form'>
 
-              <div className='form-group'>
-                <label htmlFor='volumeName'>Volume Name</label>
-                <input type="text" className="form-control" value={this.state.volumeName} onChange={this.onVolumeNameChange}/>
-              </div>
+            <div className='form-group'>
+              <label htmlFor='volumeName'>Volume Name</label>
+              <input type="text" className="form-control" value={this.state.volumeName} onChange={this.onVolumeNameChange}/>
+            </div>
 
-              <div className='form-group'>
-                <label htmlFor='volumeSize'>Volume Size</label>
-                <input type="number" className="form-control" value={this.state.volumeSize} onChange={this.onVolumeSizeChange}/>
-              </div>
+            <div className='form-group'>
+              <label htmlFor='volumeSize'>Volume Size</label>
+              <input type="number" className="form-control" value={this.state.volumeSize} onChange={this.onVolumeSizeChange}/>
+            </div>
 
-              <div className='form-group'>
-                <label htmlFor='identity'>Identity</label>
-                <IdentitySelect
-                    identityId={this.state.identityId}
-                    identities={this.state.identities}
-                    providers={this.state.providers}
-                    onChange={this.onProviderIdentityChange}
-                />
-              </div>
+            <div className='form-group'>
+              <label htmlFor='identity'>Identity</label>
+              <IdentitySelect
+                  identityId={this.state.identityId}
+                  identities={this.props.identities}
+                  providers={this.props.providers}
+                  onChange={this.onProviderIdentityChange}
+              />
+            </div>
 
-            </form>
-          );
-        }else{
-          content = (
-            <div className="loading"></div>
-          );
-        }
+          </form>
+        );
 
-        return content;
       }
 
     });

@@ -93,8 +93,13 @@ define(
       },
 
       addResourceToProject: function(project){
-        var onConfirm = function (identity, machineId, sizeId, instanceName) {
-          alert('Resource not really added!');
+
+        var onCreateVolume = function (volumeParams) {
+          AppDispatcher.handleRouteAction({
+            actionType: ProjectConstants.PROJECT_CREATE_VOLUME_AND_ADD_TO_PROJECT,
+            project: project,
+            volumeParams: volumeParams
+          });
         };
 
         var onCancel = function(){
@@ -105,10 +110,9 @@ define(
 
         var modal = ProjectAddResourceModal({
           header: "Add Resource to Project",
-          confirmButtonMessage: "Add Resource",
-          onConfirm: onConfirm,
           onCancel: onCancel,
-          handleHidden: onCancel
+          handleHidden: onCancel,
+          onCreateVolume: onCreateVolume
         });
 
         React.renderComponent(modal, document.getElementById('modal'));

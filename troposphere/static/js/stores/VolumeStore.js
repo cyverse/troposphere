@@ -197,6 +197,14 @@ define(
         } else {
           return _volumes.get(volumeId);
         }
+      },
+
+      // Force the store to fetch all data and reset the contents of the store
+      fetchAll: function(){
+        var identities = IdentityStore.getAll();
+        if(identities) {
+          fetchVolumes(identities);
+        }
       }
 
     };
