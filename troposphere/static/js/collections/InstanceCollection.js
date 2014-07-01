@@ -97,7 +97,7 @@ define(
       get_active_instances: function () {
         // These are the instances that count towards a user's quota
         return _.filter(this.models, function (instance) {
-          return instance.get('state') !== 'suspended' && instance.get('state') !== 'shutoff';
+          return instance.get('status') !== 'suspended' && instance.get('status') !== 'shutoff';
         });
       }
 

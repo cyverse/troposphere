@@ -6,9 +6,12 @@ define(
     'rsvp',
     'collections/ProjectCollection',
     'constants/ProjectConstants',
-    'controllers/NotificationController'
+    'controllers/NotificationController',
+    'models/Volume',
+    'actions/ProjectActions',
+    'stores/VolumeStore'
   ],
-  function (_, Dispatcher, Store, RSVP, ProjectCollection, ProjectConstants, NotificationController) {
+  function (_, Dispatcher, Store, RSVP, ProjectCollection, ProjectConstants, NotificationController, Volume, ProjectActions, VolumeStore) {
 
     var _projects = null;
     var _isFetching = false;
@@ -32,7 +35,7 @@ define(
     function create(project){
       project.save().done(function(){
         var successMessage = "Project " + project.get('name') + " created.";
-        NotificationController.success(successMessage);
+        //NotificationController.success(successMessage);
         ProjectStore.emitChange();
       }).fail(function(){
         var failureMessage = "Error creating Project " + project.get('name') + ".";
@@ -46,7 +49,7 @@ define(
     function destroy(project){
       project.destroy().done(function(){
         var successMessage = "Project " + project.get('name') + " deleted.";
-        NotificationController.success(successMessage);
+        //NotificationController.success(successMessage);
         ProjectStore.emitChange();
       }).fail(function(){
         var failureMessage = "Error deleting Project " + project.get('name') + ".";
@@ -55,6 +58,40 @@ define(
         ProjectStore.emitChange();
       });
       _projects.remove(project);
+    }
+
+    function createVolumeAndAddToProject(project, volumeParams){
+      var identity = volumeParams.identity;
+      var volumeName = volumeParams.volumeName;
+      var volumeSize = volumeParams.volumeSize;
+
+      var volume = new Volume({
+        identity: {
+          id: identity.id,
+          provider: identity.get('provider_id')
+        },
+        name: volumeName,
+        description: "",
+        size: volumeSize
+      });
+
+      var params = {
+        model_name: "volume"
+      };
+
+      volume.save(params, {
+        success: function (model) {
+          NotificationController.success(null, 'Step 1 (create volume) completed.');
+
+          // add volume to project
+          // force volumes to fetch
+          ProjectActions.addItemToProject(project, volume);
+          VolumeStore.fetchAll();
+        },
+        error: function (response) {
+          NotificationController.error(null, 'Step 1 (create volume) failed.');
+        }
+      });
     }
 
     //
@@ -82,6 +119,10 @@ define(
 
         case ProjectConstants.PROJECT_DESTROY:
           destroy(action.model);
+          break;
+
+        case ProjectConstants.PROJECT_CREATE_VOLUME_AND_ADD_TO_PROJECT:
+          createVolumeAndAddToProject(action.project, action.volumeParams);
           break;
 
         default:

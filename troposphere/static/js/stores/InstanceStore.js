@@ -8,13 +8,14 @@ define(
     'models/Instance',
     'constants/InstanceConstants',
     'controllers/NotificationController',
-    'stores/IdentityStore'
+    'stores/IdentityStore',
+    'actions/ProjectActions'
   ],
-  function (_, Dispatcher, Store, RSVP, InstanceCollection, Instance, InstanceConstants, NotificationController, IdentityStore) {
+  function (_, Dispatcher, Store, RSVP, InstanceCollection, Instance, InstanceConstants, NotificationController, IdentityStore, ProjectActions) {
 
     var _instances = null;
     var _isFetching = false;
-    var validStates = ["active", "error", "active - deploy_error"];
+    var validStates = ["active", "error", "active - deploy_error", "suspended"];
     var pollingFrequency = 10*1000;
 
     //
@@ -75,7 +76,8 @@ define(
     var suspend = function(instance){
       instance.suspend({
         success: function (model) {
-          NotificationController.success("Success", "Your instance is now suspended");
+          //NotificationController.success("Success", "Your instance is now suspended");
+          pollUntilBuildIsFinished(instance);
           InstanceStore.emitChange();
         },
         error: function (response) {
@@ -88,7 +90,8 @@ define(
     var resume = function(instance){
       instance.resume({
         success: function (model) {
-          NotificationController.success("Success", "Your instance is resuming");
+          //NotificationController.success("Success", "Your instance is resuming");
+          pollUntilBuildIsFinished(instance);
           InstanceStore.emitChange();
         },
         error: function (response) {
@@ -101,7 +104,8 @@ define(
     var stop = function(instance){
       instance.stop({
         success: function (model) {
-          NotificationController.success('Stop Instance', 'Instance successfully stopped');
+          //NotificationController.success('Stop Instance', 'Instance successfully stopped');
+          pollUntilBuildIsFinished(instance);
           InstanceStore.emitChange();
         },
         error: function (response) {
@@ -114,7 +118,8 @@ define(
     var start = function(instance){
       instance.start({
         success: function (model) {
-          NotificationController.success('Start Instance', 'Instance successfully started');
+          //NotificationController.success('Start Instance', 'Instance successfully started');
+          pollUntilBuildIsFinished(instance);
           InstanceStore.emitChange();
         },
         error: function (response) {
@@ -127,7 +132,8 @@ define(
     var terminate = function(instance){
       instance.destroy({
         success: function (model) {
-          NotificationController.success('Terminate Instance', 'Instance termination started');
+          //NotificationController.success('Terminate Instance', 'Instance termination started');
+          pollUntilBuildIsFinished(instance);
           InstanceStore.emitChange();
         },
         error: function (response) {
@@ -139,7 +145,7 @@ define(
       _instances.remove(instance);
     };
 
-    var launch = function(identity, machineId, sizeId, instanceName){
+    var launch = function(identity, machineId, sizeId, instanceName, project){
       var instance = new Instance({
         identity: {
           id: identity.id,
@@ -155,8 +161,9 @@ define(
 
       instance.save(params, {
         success: function (model) {
-          NotificationController.success('Launch Instance', 'Instance successfully launched');
+          //NotificationController.success('Launch Instance', 'Instance successfully launched');
           pollUntilBuildIsFinished(instance);
+          ProjectActions.addItemToProject(project, instance);
           InstanceStore.emitChange();
         },
         error: function (response) {
@@ -178,7 +185,7 @@ define(
       setTimeout(function(){
         instance.fetch().done(function(){
           var index = _instancesBuilding.indexOf(instance);
-          if(validStates.indexOf(instance.get("state")) >= 0){
+          if(validStates.indexOf(instance.get("status")) >= 0){
             _instancesBuilding.slice(index, 1);
           }else{
             fetchAndRemoveIfFinished(instance);
@@ -242,7 +249,7 @@ define(
           break;
 
         case InstanceConstants.INSTANCE_LAUNCH:
-          launch(action.identity, action.machineId, action.sizeId, action.instanceName);
+          launch(action.identity, action.machineId, action.sizeId, action.instanceName, action.project);
           break;
 
         default:

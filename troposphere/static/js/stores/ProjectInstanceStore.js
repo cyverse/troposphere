@@ -77,7 +77,7 @@ define(
 
       projectInstance.save().done(function(){
         var successMessage = "Instance '" + instance.get('name') + "' added to Project '" + project.get('name') + "'";
-        NotificationController.success(successMessage);
+        //NotificationController.success(successMessage);
       }).fail(function(){
         var failureMessage = "Error adding Instance '" + instance.get('name') + "' to Project '" + project.get('name') + "'.";
         NotificationController.error(failureMessage);
@@ -94,7 +94,7 @@ define(
 
       projectInstance.destroy().done(function(){
         var successMessage = "Instance '" + instance.get('name') + "' removed from Project '" + project.get('name') + "'";
-        NotificationController.success(successMessage);
+        //NotificationController.success(successMessage);
       }).fail(function(){
         var failureMessage = "Error adding Instance '" + instance.get('name') + "' to Project '" + project.get('name') + "'.";
         NotificationController.error(failureMessage);

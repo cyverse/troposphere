@@ -77,7 +77,7 @@ define(
 
       projectVolume.save().done(function(){
         var successMessage = "Volume '" + volume.get('name') + "' added to Project '" + project.get('name') + "'";
-        NotificationController.success(successMessage);
+        //NotificationController.success(successMessage);
       }).fail(function(){
         var failureMessage = "Error adding Volume '" + volume.get('name') + "' to Project '" + project.get('name') + "'.";
         NotificationController.error(failureMessage);
@@ -94,7 +94,7 @@ define(
 
       projectVolume.destroy().done(function(){
         var successMessage = "Volume '" + volume.get('name') + "' removed from Project '" + project.get('name') + "'";
-        NotificationController.success(successMessage);
+        //NotificationController.success(successMessage);
       }).fail(function(){
         var failureMessage = "Error removing Volume '" + volume.get('name') + "' from Project '" + project.get('name') + "'.";
         NotificationController.error(failureMessage);

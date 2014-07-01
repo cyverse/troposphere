@@ -45,6 +45,15 @@ define(
         );
       },
 
+      getSize: function(size){
+        return (
+          <li>
+            <span className="instance-detail-label">Size</span>
+            <span className="instance-detail-value">{size.formattedDetails()}</span>
+          </li>
+        );
+      },
+
       getIpAddress: function(instance){
         return (
           <li>
@@ -110,6 +119,7 @@ define(
             <h4>Instance Details</h4>
             <ul>
               {this.getStatus(this.props.instance)}
+              {this.getSize(this.props.size)}
               {this.getIpAddress(this.props.instance)}
               {this.getLaunchedDate()}
               {this.getBasedOn()}
