@@ -25,7 +25,7 @@ define(
         var providerCapacities = this.props.providers.map(function (provider) {
           var providerId = provider.id;
           var identityId = this.props.identities.findWhere({provider_id: providerId}).id;
-          var sizes = SizeStore.get(providerId, identityId);
+          var sizes = SizeStore.getAllFor(providerId, identityId);
 
           if(sizes){
             return (

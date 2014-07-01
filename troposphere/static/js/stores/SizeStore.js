@@ -41,7 +41,7 @@ define(
 
     var SizeStore = {
 
-      get: function (providerId, identityId) {
+      getAllFor: function (providerId, identityId) {
         addEntriesForProviderIdentityIfNotExists(providerId, identityId);
 
         if (!_sizes[providerId][identityId]) {

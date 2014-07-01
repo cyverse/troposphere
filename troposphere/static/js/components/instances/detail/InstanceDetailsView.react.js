@@ -15,12 +15,14 @@ define(
 
       propTypes: {
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        provider: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        provider: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        size: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
       render: function () {
         var instance = this.props.instance,
-            provider = this.props.provider;
+            provider = this.props.provider,
+            size = this.props.size;
 
         return (
           <div>
@@ -29,7 +31,7 @@ define(
               <div className="col-md-9">
                 <InstanceInfo instance={instance}/>
                 <hr/>
-                <InstanceDetails instance={instance} provider={provider}/>
+                <InstanceDetails instance={instance} provider={provider} size={size}/>
                 <hr/>
               </div>
               <div className="col-md-3">

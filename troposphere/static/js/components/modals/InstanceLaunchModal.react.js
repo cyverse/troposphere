@@ -85,7 +85,7 @@ define(
         if(state.identities && state.providers && state.identityId){
           var selectedIdentity = state.identities.get(state.identityId);
           var selectedProvider = state.providers.get(selectedIdentity.get('provider_id'));
-          state.sizes = SizeStore.get(selectedProvider.id, selectedIdentity.id);
+          state.sizes = SizeStore.getAllFor(selectedProvider.id, selectedIdentity.id);
         }
 
         // If we switch identities, while a size with the previous identity was selected, that size may
