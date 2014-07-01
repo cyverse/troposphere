@@ -7,16 +7,25 @@ define(
     'stores/ProviderStore',
     'stores/IdentityStore',
     'stores/MachineStore',
-    './detail/ApplicationDetailsView.react'
+    './detail/ApplicationDetailsView.react',
+    'context'
   ],
-  function (React, ApplicationStore, ProviderStore, IdentityStore, MachineStore, ApplicationDetailsView) {
+  function (React, ApplicationStore, ProviderStore, IdentityStore, MachineStore, ApplicationDetailsView, context) {
 
     function getState(applicationId) {
-        return {
-          application: ApplicationStore.get(applicationId),
-          providers: ProviderStore.getAll(),
-          identities: IdentityStore.getAll()
-        };
+      var state = {
+        application: ApplicationStore.get(applicationId),
+        providers: null,
+        identities: null
+      };
+
+      // Only fetch providers and identites if the user is logged in
+      if(context.profile){
+        state.providers = ProviderStore.getAll();
+        state.identities = IdentityStore.getAll();
+      }
+
+      return state;
     }
 
     return React.createClass({
@@ -66,20 +75,29 @@ define(
         var application = this.state.application;
         var providers = this.state.providers;
         var identities = this.state.identities;
+        var userLoggedIn = context.profile;
 
-        if (application && providers && identities) {
-          return (
-            <ApplicationDetailsView
-              application={this.state.application}
-              providers={this.state.providers}
-              identities={this.state.identities}
-            />
-          );
-        }else{
-          return (
-            <div className='loading'></div>
-          );
+        if (application) {
+          // If the user isn't logged in, display the public view, otherwise
+          // wait for providers and instances to be fetched
+          if(!userLoggedIn){
+            return (
+              <ApplicationDetailsView application={this.state.application}/>
+            );
+          }else if(providers && identities) {
+            return (
+              <ApplicationDetailsView
+                application={this.state.application}
+                providers={this.state.providers}
+                identities={this.state.identities}
+              />
+            );
+          }
         }
+
+        return (
+          <div className='loading'></div>
+        );
       }
 
     });

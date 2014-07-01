@@ -115,7 +115,7 @@ define(
 
         application.favorited(!isFavorited).done(function(){
           var successMessage = "Image " + application.get('name') + prefix + "favorited.";
-          NotificationController.success(successMessage);
+          //NotificationController.success(successMessage);
           ApplicationStore.emitChange();
         }).fail(function () {
           var failureMessage = "Image " + application.get('name') + " could not be" + prefix + "favorited.";

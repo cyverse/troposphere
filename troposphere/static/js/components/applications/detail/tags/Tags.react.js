@@ -2,9 +2,10 @@
 
 define(
   [
-    'react'
+    'react',
+    'context'
   ],
-  function (React) {
+  function (React, context) {
 
     return React.createClass({
 
@@ -19,13 +20,21 @@ define(
 
       render: function () {
         var tags = this.props.tags.map(function (tag) {
-          return (
-            <li className="tag" key={tag}>
-              <a href="#" onClick={this.onTagClicked}>
+          if(context.profile) {
+            return (
+              <li className="tag" key={tag}>
+                <a href="#" onClick={this.onTagClicked}>
                 {tag}
-              </a>
-            </li>
-          );
+                </a>
+              </li>
+            );
+          }else{
+            return (
+              <li className="tag" key={tag}>
+                <span>{tag}</span>
+              </li>
+            );
+          }
         }.bind(this));
 
         return (
