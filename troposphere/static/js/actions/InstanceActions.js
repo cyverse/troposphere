@@ -12,10 +12,10 @@ define(
     'components/modals/InstanceStopBody.react',
     'components/modals/InstanceStartBody.react',
     'components/modals/InstanceTerminateBody.react',
-    'components/modals/instance_launch/InstanceLaunchBody.react',
-    'components/modals/InstanceLaunchModal.react'
+    'components/modals/InstanceLaunchModal.react',
+    'url'
   ],
-  function (AppDispatcher, InstanceConstants, React, globals, context, NotificationController, CancelConfirmModal, InstanceSuspendBody, InstanceResumeBody, InstanceStopBody, InstanceStartBody, InstanceTerminateBody, InstanceLaunchBody, InstanceLaunchModal) {
+  function (AppDispatcher, InstanceConstants, React, globals, context, NotificationController, CancelConfirmModal, InstanceSuspendBody, InstanceResumeBody, InstanceStopBody, InstanceStartBody, InstanceTerminateBody, InstanceLaunchModal, URL) {
 
     return {
       suspend: function (instance) {
@@ -118,13 +118,14 @@ define(
 
       launch: function(application){
 
-        var onConfirm = function (identity, machineId, sizeId, instanceName) {
+        var onConfirm = function (identity, machineId, sizeId, instanceName, project) {
           AppDispatcher.handleRouteAction({
             actionType: InstanceConstants.INSTANCE_LAUNCH,
             identity: identity,
             machineId: machineId,
             sizeId: sizeId,
-            instanceName: instanceName
+            instanceName: instanceName,
+            project: project
           });
           // Since this is triggered from the images page, navigate off
           // that page and back to the instance list so the user can see
@@ -198,7 +199,9 @@ define(
           type: 'POST',
           data: JSON.stringify(reportData),
           success: function (model) {
-            NotificationController.info(null, "Your instance problems have been reported to support. You will be contacted within _TIMEFRAME_.");
+            NotificationController.info(null, "Your instance problems have been sent to support.");
+            var instanceUrl = URL.instance(instance);
+            Backbone.history.navigate(instanceUrl, {trigger: true});
           },
           error: function (response, status, error) {
             NotificationController.error(null, response.responseText);

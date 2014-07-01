@@ -5,11 +5,12 @@ define(
     'constants/ProjectInstanceConstants',
     'constants/ProjectVolumeConstants',
     'components/modals/CancelConfirmModal.react',
+    'components/modals/ProjectAddResourceModal.react',
     'react',
     'models/Instance',
     'models/Volume'
   ],
-  function (AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, CancelConfirmModal, React, Instance, Volume) {
+  function (AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, CancelConfirmModal, ProjectAddResourceModal, React, Instance, Volume) {
 
     function getItemType(model) {
       var objectType;
@@ -89,6 +90,32 @@ define(
             volume: projectItem
           });
         }
+      },
+
+      addResourceToProject: function(project){
+
+        var onCreateVolume = function (volumeParams) {
+          AppDispatcher.handleRouteAction({
+            actionType: ProjectConstants.PROJECT_CREATE_VOLUME_AND_ADD_TO_PROJECT,
+            project: project,
+            volumeParams: volumeParams
+          });
+        };
+
+        var onCancel = function(){
+          // Important! We need to un-mount the component so it un-registers from Stores and
+          // also so that we can relaunch it again later.
+          React.unmountComponentAtNode(document.getElementById('modal'));
+        };
+
+        var modal = ProjectAddResourceModal({
+          header: "Add Resource to Project",
+          onCancel: onCancel,
+          handleHidden: onCancel,
+          onCreateVolume: onCreateVolume
+        });
+
+        React.renderComponent(modal, document.getElementById('modal'));
       }
 
     };

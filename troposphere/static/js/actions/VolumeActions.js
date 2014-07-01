@@ -100,12 +100,13 @@ define(
 
       create: function(){
 
-        var onConfirm = function (volumeName, volumeSize, identity) {
+        var onConfirm = function (volumeName, volumeSize, identity, project) {
           AppDispatcher.handleRouteAction({
             actionType: VolumeConstants.VOLUME_CREATE,
             volumeName: volumeName,
             volumeSize: volumeSize,
-            identity: identity
+            identity: identity,
+            project: project
           });
         };
 

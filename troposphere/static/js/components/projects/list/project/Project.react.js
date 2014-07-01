@@ -5,9 +5,10 @@ define(
     'react',
     './ProjectItems.react',
     './ProjectDescription.react',
-    'backbone'
+    'backbone',
+    'actions/ProjectActions'
   ],
-  function (React, ProjectItems, ProjectDescription, Backbone) {
+  function (React, ProjectItems, ProjectDescription, Backbone, ProjectActions) {
 
     return React.createClass({
 
@@ -18,7 +19,7 @@ define(
 
       onAddResourceToProject: function(e){
         e.preventDefault();
-        alert("Creating resources directly in projects not yet implemented");
+        ProjectActions.addResourceToProject(this.props.project);
       },
 
       render: function () {

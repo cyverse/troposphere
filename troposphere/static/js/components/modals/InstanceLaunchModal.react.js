@@ -8,11 +8,13 @@ define(
     'stores/IdentityStore',
     'stores/SizeStore',
     'stores/InstanceStore',
+    'stores/ProjectStore',
     './instance_launch/MachineSelect.react',
     './instance_launch/IdentitySelect.react',
-    './instance_launch/InstanceSizeSelect.react'
+    './instance_launch/InstanceSizeSelect.react',
+    './instance_launch/ProjectSelect.react'
   ],
-  function (React, BootstrapModalMixin, ProviderStore, IdentityStore, SizeStore, InstanceStore, MachineSelect, IdentitySelect, InstanceSizeSelect) {
+  function (React, BootstrapModalMixin, ProviderStore, IdentityStore, SizeStore, InstanceStore, ProjectStore, MachineSelect, IdentitySelect, InstanceSizeSelect, ProjectSelect) {
 
     // Example Usage from http://bl.ocks.org/insin/raw/8449696/
     // render: function(){
@@ -54,11 +56,13 @@ define(
         // and we're notified before the full instance collection returns)
         instances: InstanceStore.getAll(),
         sizes: null,
+        projects: ProjectStore.getAll(),
 
         instanceName: null,
         machineId: null,
         identityId: null,
-        sizeId: null
+        sizeId: null,
+        projectId: null
       };
 
       this.state = this.state || {};
@@ -81,7 +85,7 @@ define(
         if(state.identities && state.providers && state.identityId){
           var selectedIdentity = state.identities.get(state.identityId);
           var selectedProvider = state.providers.get(selectedIdentity.get('provider_id'));
-          state.sizes = SizeStore.get(selectedProvider.id, selectedIdentity.id);
+          state.sizes = SizeStore.getAllFor(selectedProvider.id, selectedIdentity.id);
         }
 
         // If we switch identities, while a size with the previous identity was selected, that size may
@@ -95,6 +99,11 @@ define(
         // Use selected machine size or default to the first one
         if(state.sizes) {
           state.sizeId = state.sizeId || state.sizes.first().id;
+        }
+
+        // Use selected project or default to the null one
+        if(state.projects) {
+          state.projectId = state.projectId || state.projects.findWhere({name: "Default"}).id;
         }
       }
 
@@ -114,10 +123,6 @@ define(
       //
       getInitialState: function(){
         var initialState = getState.apply(this);
-        //initialState.instanceName = null;
-        //initialState.machineId = null;
-        //initialState.identityId = null;
-        //initialState.sizeId = null;
         return initialState;
       },
 
@@ -130,6 +135,7 @@ define(
         IdentityStore.addChangeListener(this.updateState);
         SizeStore.addChangeListener(this.updateState);
         InstanceStore.addChangeListener(this.updateState);
+        ProjectStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
@@ -137,6 +143,7 @@ define(
         IdentityStore.removeChangeListener(this.updateState);
         SizeStore.removeChangeListener(this.updateState);
         InstanceStore.removeChangeListener(this.updateState);
+        ProjectStore.removeChangeListener(this.updateState);
       },
 
       //
@@ -157,7 +164,8 @@ define(
       confirm: function () {
         this.hide();
         var identity = this.state.identities.get(this.state.identityId);
-        this.props.onConfirm(identity, this.state.machineId, this.state.sizeId, this.state.instanceName);
+        var project = this.state.projects.get(this.state.projectId);
+        this.props.onConfirm(identity, this.state.machineId, this.state.sizeId, this.state.instanceName, project);
       },
 
 
@@ -184,6 +192,11 @@ define(
       onSizeChange: function(e){
         var newSizeId = e.target.value;
         this.setState({sizeId: newSizeId});
+      },
+
+      onProjectChange: function(e){
+        var newProjectId = e.target.value;
+        this.setState({projectId: newProjectId});
       },
 
       //
@@ -272,6 +285,15 @@ define(
                     sizeId={this.state.sizeId}
                     sizes={this.state.sizes}
                     onChange={this.onSizeChange}
+                />
+              </div>
+
+              <div className='form-group'>
+                <label htmlFor='project'>Project</label>
+                <ProjectSelect
+                    projectId={this.state.projectId}
+                    projects={this.state.projects}
+                    onChange={this.onProjectChange}
                 />
               </div>
             </form>
