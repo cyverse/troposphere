@@ -78,17 +78,17 @@ ul.tags {
     margin-right: 5px;
     margin-bottom: 10px;
 
-    a {
+    span, a {
       padding: 5px 10px;
       border-radius: 3px;
       background-color: #48A323;
       color: #EEE;
       border: 0;
+    }
 
-      &:hover {
-        background-color: #139418;
-        border: 0;
-      }
+    a:hover {
+      background-color: #139418;
+      border: 0;
     }
   }
 }
