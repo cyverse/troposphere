@@ -14,9 +14,11 @@ define(
       },
 
       render: function () {
+        var projectName = this.props.project.get('name');
+        if(projectName === "Default") projectName = "Do not add to a project";
         return (
           <option value={this.props.project.id}>
-            {this.props.project.get('name')}
+            {projectName}
           </option>
         );
       }
