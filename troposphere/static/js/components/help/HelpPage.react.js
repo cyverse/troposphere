@@ -3,10 +3,11 @@
 define(
   [
     'react',
+    'backbone',
     'components/common/PageHeader.react',
     './FeedbackForm.react'
   ],
-  function (React, PageHeader, FeedbackForm) {
+  function (React, Backbone, PageHeader, FeedbackForm) {
 
     var resources = [
       {
@@ -32,6 +33,11 @@ define(
     ];
 
     return React.createClass({
+
+      propTypes: {
+        profile: React.PropTypes.instanceOf(Backbone.Model)
+      },
+
       render: function () {
 
         var resourceElements = _.map(resources, function (resource) {
@@ -43,13 +49,8 @@ define(
           );
         });
 
-        return (
+        var feedbackSection = (
           <div>
-            <PageHeader title="Help"/>
-            <h2>External resources</h2>
-            <ul>
-              {resourceElements}
-            </ul>
             <h2>Atmosphere staff support</h2>
             <p>
               {
@@ -59,6 +60,17 @@ define(
               }
             </p>
             <FeedbackForm/>
+          </div>
+        );
+
+        return (
+          <div>
+            <PageHeader title="Help"/>
+            <h2>External resources</h2>
+            <ul>
+              {resourceElements}
+            </ul>
+            {this.props.profile ? feedbackSection : null}
           </div>
         );
       }
