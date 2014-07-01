@@ -26,7 +26,11 @@ define(['underscore'], function(_) {
         },
         help: function(){
             return 'help';
+        },
+        login: function(){
+          return '/login'
         }
+
     };
 
     var generateUrl = function(route, model, options) {
@@ -47,7 +51,8 @@ define(['underscore'], function(_) {
         application: _.partial(generateUrl, 'application'),
         images: _.partial(generateUrl, 'images'),
         help: _.partial(generateUrl, 'help'),
-        requestImage: _.partial(generateUrl, 'requestImage')
+        requestImage: _.partial(generateUrl, 'requestImage'),
+        login: _.partial(generateUrl, 'login')
     };
 
 });
