@@ -34,10 +34,6 @@ define(
 
     return React.createClass({
 
-      propTypes: {
-        profile: React.PropTypes.instanceOf(Backbone.Model)
-      },
-
       render: function () {
 
         var resourceElements = _.map(resources, function (resource) {

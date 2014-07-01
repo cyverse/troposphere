@@ -45,10 +45,26 @@ define(
         var appUri = URL.application(app, {absolute: true});
 
         // Hide bookmarking on the public page
-        var bookmark;
+        var bookmark
         if(context.profile){
           bookmark = (
             <Bookmark application={app}/>
+          );
+        }
+
+        var button;
+        if(context.profile){
+          button = (
+            <button className='btn btn-primary btn-block launch-button' onClick={this.props.onLaunch}>
+              Launch
+            </button>
+          );
+        }else{
+          var loginUrl = URL.login();
+          button = (
+            <a className='btn btn-primary btn-block launch-button' href={loginUrl}>
+              Login to Launch
+            </a>
           );
         }
 
@@ -65,9 +81,7 @@ define(
               </a>
             </div>
             <Rating up={app.get('votes').up} down={app.get('votes').down} />
-            <button className='btn btn-primary btn-block launch-button' onClick={this.props.onLaunch}>
-              Launch
-            </button>
+            {button}
             {bookmark}
           </div>
         );
