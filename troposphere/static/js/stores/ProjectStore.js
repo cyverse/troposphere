@@ -35,7 +35,7 @@ define(
     function create(project){
       project.save().done(function(){
         var successMessage = "Project " + project.get('name') + " created.";
-        NotificationController.success(successMessage);
+        //NotificationController.success(successMessage);
         ProjectStore.emitChange();
       }).fail(function(){
         var failureMessage = "Error creating Project " + project.get('name') + ".";
@@ -49,7 +49,7 @@ define(
     function destroy(project){
       project.destroy().done(function(){
         var successMessage = "Project " + project.get('name') + " deleted.";
-        NotificationController.success(successMessage);
+        //NotificationController.success(successMessage);
         ProjectStore.emitChange();
       }).fail(function(){
         var failureMessage = "Error deleting Project " + project.get('name') + ".";

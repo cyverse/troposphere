@@ -76,7 +76,7 @@ define(
     var suspend = function(instance){
       instance.suspend({
         success: function (model) {
-          NotificationController.success("Success", "Your instance is now suspended");
+          //NotificationController.success("Success", "Your instance is now suspended");
           pollUntilBuildIsFinished(instance);
           InstanceStore.emitChange();
         },
@@ -90,7 +90,7 @@ define(
     var resume = function(instance){
       instance.resume({
         success: function (model) {
-          NotificationController.success("Success", "Your instance is resuming");
+          //NotificationController.success("Success", "Your instance is resuming");
           pollUntilBuildIsFinished(instance);
           InstanceStore.emitChange();
         },
@@ -104,7 +104,7 @@ define(
     var stop = function(instance){
       instance.stop({
         success: function (model) {
-          NotificationController.success('Stop Instance', 'Instance successfully stopped');
+          //NotificationController.success('Stop Instance', 'Instance successfully stopped');
           pollUntilBuildIsFinished(instance);
           InstanceStore.emitChange();
         },
@@ -118,7 +118,7 @@ define(
     var start = function(instance){
       instance.start({
         success: function (model) {
-          NotificationController.success('Start Instance', 'Instance successfully started');
+          //NotificationController.success('Start Instance', 'Instance successfully started');
           pollUntilBuildIsFinished(instance);
           InstanceStore.emitChange();
         },
@@ -132,7 +132,7 @@ define(
     var terminate = function(instance){
       instance.destroy({
         success: function (model) {
-          NotificationController.success('Terminate Instance', 'Instance termination started');
+          //NotificationController.success('Terminate Instance', 'Instance termination started');
           pollUntilBuildIsFinished(instance);
           InstanceStore.emitChange();
         },
@@ -161,7 +161,7 @@ define(
 
       instance.save(params, {
         success: function (model) {
-          NotificationController.success('Launch Instance', 'Instance successfully launched');
+          //NotificationController.success('Launch Instance', 'Instance successfully launched');
           pollUntilBuildIsFinished(instance);
           ProjectActions.addItemToProject(project, instance);
           InstanceStore.emitChange();
