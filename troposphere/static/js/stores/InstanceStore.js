@@ -15,7 +15,7 @@ define(
 
     var _instances = null;
     var _isFetching = false;
-    var validStates = ["active", "error", "active - deploy_error"];
+    var validStates = ["active", "error", "active - deploy_error", "suspended"];
     var pollingFrequency = 10*1000;
 
     //
@@ -77,6 +77,7 @@ define(
       instance.suspend({
         success: function (model) {
           NotificationController.success("Success", "Your instance is now suspended");
+          pollUntilBuildIsFinished(instance);
           InstanceStore.emitChange();
         },
         error: function (response) {
@@ -90,6 +91,7 @@ define(
       instance.resume({
         success: function (model) {
           NotificationController.success("Success", "Your instance is resuming");
+          pollUntilBuildIsFinished(instance);
           InstanceStore.emitChange();
         },
         error: function (response) {
@@ -103,6 +105,7 @@ define(
       instance.stop({
         success: function (model) {
           NotificationController.success('Stop Instance', 'Instance successfully stopped');
+          pollUntilBuildIsFinished(instance);
           InstanceStore.emitChange();
         },
         error: function (response) {
@@ -116,6 +119,7 @@ define(
       instance.start({
         success: function (model) {
           NotificationController.success('Start Instance', 'Instance successfully started');
+          pollUntilBuildIsFinished(instance);
           InstanceStore.emitChange();
         },
         error: function (response) {
@@ -129,6 +133,7 @@ define(
       instance.destroy({
         success: function (model) {
           NotificationController.success('Terminate Instance', 'Instance termination started');
+          pollUntilBuildIsFinished(instance);
           InstanceStore.emitChange();
         },
         error: function (response) {
@@ -180,7 +185,7 @@ define(
       setTimeout(function(){
         instance.fetch().done(function(){
           var index = _instancesBuilding.indexOf(instance);
-          if(validStates.indexOf(instance.get("state")) >= 0){
+          if(validStates.indexOf(instance.get("status")) >= 0){
             _instancesBuilding.slice(index, 1);
           }else{
             fetchAndRemoveIfFinished(instance);
