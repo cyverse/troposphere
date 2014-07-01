@@ -12,9 +12,10 @@ define(
     'components/modals/InstanceStopBody.react',
     'components/modals/InstanceStartBody.react',
     'components/modals/InstanceTerminateBody.react',
-    'components/modals/InstanceLaunchModal.react'
+    'components/modals/InstanceLaunchModal.react',
+    'url'
   ],
-  function (AppDispatcher, InstanceConstants, React, globals, context, NotificationController, CancelConfirmModal, InstanceSuspendBody, InstanceResumeBody, InstanceStopBody, InstanceStartBody, InstanceTerminateBody, InstanceLaunchModal) {
+  function (AppDispatcher, InstanceConstants, React, globals, context, NotificationController, CancelConfirmModal, InstanceSuspendBody, InstanceResumeBody, InstanceStopBody, InstanceStartBody, InstanceTerminateBody, InstanceLaunchModal, URL) {
 
     return {
       suspend: function (instance) {
@@ -198,7 +199,9 @@ define(
           type: 'POST',
           data: JSON.stringify(reportData),
           success: function (model) {
-            NotificationController.info(null, "Your instance problems have been reported to support.");
+            NotificationController.info(null, "Your instance problems have been sent to support.");
+            var instanceUrl = URL.instance(instance);
+            Backbone.history.navigate(instanceUrl, {trigger: true});
           },
           error: function (response, status, error) {
             NotificationController.error(null, response.responseText);
