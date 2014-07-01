@@ -12,10 +12,9 @@ define(
     'components/modals/InstanceStopBody.react',
     'components/modals/InstanceStartBody.react',
     'components/modals/InstanceTerminateBody.react',
-    'components/modals/instance_launch/InstanceLaunchBody.react',
     'components/modals/InstanceLaunchModal.react'
   ],
-  function (AppDispatcher, InstanceConstants, React, globals, context, NotificationController, CancelConfirmModal, InstanceSuspendBody, InstanceResumeBody, InstanceStopBody, InstanceStartBody, InstanceTerminateBody, InstanceLaunchBody, InstanceLaunchModal) {
+  function (AppDispatcher, InstanceConstants, React, globals, context, NotificationController, CancelConfirmModal, InstanceSuspendBody, InstanceResumeBody, InstanceStopBody, InstanceStartBody, InstanceTerminateBody, InstanceLaunchModal) {
 
     return {
       suspend: function (instance) {
