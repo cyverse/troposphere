@@ -17,8 +17,8 @@ define(
         var nameA = projectA.get('name').toLowerCase();
         var nameB = projectB.get('name').toLowerCase();
 
-        if(nameA === "Default") return -1;
-        if(nameB === "Default") return 1;
+        if(nameA === "default") return -1;
+        if(nameB === "default") return 1;
         if(nameA === nameB) return 0;
         return nameA < nameB ? -1 : 1;
       }
