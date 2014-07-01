@@ -198,7 +198,7 @@ define(
           type: 'POST',
           data: JSON.stringify(reportData),
           success: function (model) {
-            NotificationController.info(null, "Your instance problems have been reported to support. You will be contacted within _TIMEFRAME_.");
+            NotificationController.info(null, "Your instance problems have been reported to support.");
           },
           error: function (response, status, error) {
             NotificationController.error(null, response.responseText);
