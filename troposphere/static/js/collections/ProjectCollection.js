@@ -13,8 +13,14 @@ define(
         return globals.API_ROOT + "/project" + globals.slash();
       },
 
-      comparator: function (model) {
-        return -1 * model.get('start_date');
+      comparator: function (projectA, projectB) {
+        var nameA = projectA.get('name').toLowerCase();
+        var nameB = projectB.get('name').toLowerCase();
+
+        if(nameA === "Default") return -1;
+        if(nameB === "Default") return 1;
+        if(nameA === nameB) return 0;
+        return nameA < nameB ? -1 : 1;
       }
 
     });
