@@ -120,6 +120,8 @@ define(
           context.session = session;
           context.profile = profile;
 
+          $('body').removeClass('splash-screen');
+
           startApplication();
         });
       }
