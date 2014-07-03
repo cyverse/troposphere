@@ -7,9 +7,10 @@ define(
     'backbone',
     'url',
     './Rating.react',
-    './Bookmark.react'
+    './Bookmark.react',
+    'context'
   ],
-  function (React, Gravatar, Backbone, URL, Rating, Bookmark) {
+  function (React, Gravatar, Backbone, URL, Rating, Bookmark, context) {
 
     return React.createClass({
 
@@ -43,6 +44,33 @@ define(
 
         var appUri = URL.application(app, {absolute: true});
 
+        // Hide bookmarking on the public page
+        var bookmark
+        if(context.profile){
+          bookmark = (
+            <Bookmark application={app}/>
+          );
+        }
+
+        var button;
+        if(context.profile){
+          button = (
+            <button className='btn btn-primary btn-block launch-button' onClick={this.props.onLaunch}>
+              Launch
+            </button>
+          );
+        }else{
+          var loginUrl = URL.login();
+          button = (
+            <a className='btn btn-primary btn-block launch-button' href={loginUrl}>
+              Login to Launch
+            </a>
+          );
+        }
+
+        // todo: Put ratings back when we actually implement them, not while they're random
+        //var ratings = <Rating up={app.get('votes').up} down={app.get('votes').down} />
+
         return (
           <div className='app-card'>
             <div className='icon-container'>
@@ -55,11 +83,8 @@ define(
                 {app.get('name_or_id')}
               </a>
             </div>
-            <Rating up={app.get('votes').up} down={app.get('votes').down} />
-            <button className='btn btn-primary btn-block launch-button' onClick={this.props.onLaunch}>
-              Launch
-            </button>
-            <Bookmark application={app}/>
+            {button}
+            {bookmark}
           </div>
         );
       }

@@ -26,19 +26,37 @@ define(
       },
 
       render: function () {
+        var availabilityView, versionView;
+
+        // Since providers requires authentication, we can't display which providers
+        // the image is available on on the public page
+        if(this.props.providers){
+          availabilityView = (
+            <AvailabilityView application={this.props.application}
+                              providers={this.props.providers}
+            />
+          );
+        }
+
+        // Since identities requires authentication, we can't display the image
+        // versions on the public page
+        if(this.props.identities){
+          versionView = (
+            <VersionsView application={this.props.application}
+                          identities={this.props.identities}
+            />
+          );
+        }
+
         return (
           <div id='app-detail'>
             <ApplicationCard application={this.props.application} onLaunch={this.showModal}/>
 
             <HeaderView application={this.props.application}/>
             <TagsView application={this.props.application}/>
-            <AvailabilityView application={this.props.application}
-                              providers={this.props.providers}
-            />
+            {availabilityView}
             <DescriptionView application={this.props.application}/>
-            <VersionsView application={this.props.application}
-                          identities={this.props.identities}
-            />
+            {versionView}
           </div>
         );
       }

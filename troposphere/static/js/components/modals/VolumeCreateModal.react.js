@@ -6,9 +6,11 @@ define(
     'components/mixins/BootstrapModalMixin.react',
     'stores/ProviderStore',
     'stores/IdentityStore',
-    './instance_launch/IdentitySelect.react'
+    'stores/ProjectStore',
+    './instance_launch/IdentitySelect.react',
+    './instance_launch/ProjectSelect.react'
   ],
-  function (React, BootstrapModalMixin, ProviderStore, IdentityStore, IdentitySelect) {
+  function (React, BootstrapModalMixin, ProviderStore, IdentityStore, ProjectStore, IdentitySelect, ProjectSelect) {
 
     // Example Usage from http://bl.ocks.org/insin/raw/8449696/
     // render: function(){
@@ -39,9 +41,11 @@ define(
       var state = {
         providers: ProviderStore.getAll(),
         identities: IdentityStore.getAll(),
+        projects: ProjectStore.getAll(),
 
         volumeName: null,
-        identityId: null
+        identityId: null,
+        projectId: null
       };
 
       this.state = this.state || {};
@@ -55,6 +59,11 @@ define(
       // Use selected identity or default to the first one
       if (state.identities) {
         state.identityId = this.state.identityId || state.identities.first().id;
+      }
+
+      // Use selected project or default to the null one
+      if(state.projects) {
+        state.projectId = state.projectId || state.projects.findWhere({name: "Default"}).id;
       }
 
       return state;
@@ -78,11 +87,13 @@ define(
       componentDidMount: function () {
         ProviderStore.addChangeListener(this.updateState);
         IdentityStore.addChangeListener(this.updateState);
+        ProjectStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
         ProviderStore.removeChangeListener(this.updateState);
         IdentityStore.removeChangeListener(this.updateState);
+        ProjectStore.removeChangeListener(this.updateState);
       },
 
       //
@@ -97,7 +108,8 @@ define(
       confirm: function () {
         this.hide();
         var identity = this.state.identities.get(this.state.identityId);
-        this.props.onConfirm(this.state.volumeName, this.state.volumeSize, identity);
+        var project = this.state.projects.get(this.state.projectId);
+        this.props.onConfirm(this.state.volumeName, this.state.volumeSize, identity, project);
       },
 
 
@@ -126,6 +138,11 @@ define(
         //if(e.target.value < 1) e.target.value = 1;
         var newVolumeSize = e.target.value;
         this.setState({volumeSize: newVolumeSize});
+      },
+
+      onProjectChange: function(e){
+        var newProjectId = e.target.value;
+        this.setState({projectId: newProjectId});
       },
 
 
@@ -179,6 +196,15 @@ define(
                     identities={this.state.identities}
                     providers={this.state.providers}
                     onChange={this.onProviderIdentityChange}
+                />
+              </div>
+
+              <div className='form-group'>
+                <label htmlFor='project'>Project</label>
+                <ProjectSelect
+                    projectId={this.state.projectId}
+                    projects={this.state.projects}
+                    onChange={this.onProjectChange}
                 />
               </div>
 

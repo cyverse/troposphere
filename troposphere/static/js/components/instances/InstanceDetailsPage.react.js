@@ -10,9 +10,10 @@ define(
     'actions/ProviderActions',
     'controllers/NotificationController',
     'stores/InstanceStore',
-    'stores/IdentityStore'
+    'stores/IdentityStore',
+    'stores/SizeStore'
   ],
-  function (React, InstanceDetailsView, RSVP, Instance, ProviderStore, ProviderActions, NotificationController, InstanceStore, IdentityStore) {
+  function (React, InstanceDetailsView, RSVP, Instance, ProviderStore, ProviderActions, NotificationController, InstanceStore, IdentityStore, SizeStore) {
 
     function getState(instanceId){
       return {
@@ -47,12 +48,14 @@ define(
         // identities have been without getting this component to call InstanceStore.getAll()
         // again at the moment.  Figure it out and remove this line.
         IdentityStore.addChangeListener(this.updateState);
+        SizeStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
         ProviderStore.removeChangeListener(this.updateState);
         InstanceStore.removeChangeListener(this.updateState);
         IdentityStore.removeChangeListener(this.updateState);
+        SizeStore.removeChangeListener(this.updateState);
       },
 
       updateState: function() {
@@ -69,16 +72,24 @@ define(
           var providerId = this.state.instance.get('identity').provider;
           var provider = this.state.providers.get(providerId);
 
-          return (
-            <InstanceDetailsView instance={this.state.instance}
-                                 provider={provider}
-            />
-          );
-        } else {
-          return (
-            <div className='loading'></div>
-          );
+          var identityId = this.state.instance.get('identity').id;
+          var sizeId = this.state.instance.get('size_alias');
+          var sizes = SizeStore.getAllFor(providerId, identityId)
+          if(sizes) {
+            var size = sizes.get(sizeId);
+
+            return (
+              <InstanceDetailsView instance={this.state.instance}
+                                   provider={provider}
+                                   size={size}
+              />
+            );
+          }
         }
+
+        return (
+          <div className='loading'></div>
+        );
       }
 
     });

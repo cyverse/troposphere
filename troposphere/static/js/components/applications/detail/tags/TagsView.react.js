@@ -4,9 +4,10 @@ define(
   [
     'react',
     'backbone',
+    'context',
     './Tags.react'
   ],
-  function (React, Backbone, Tags) {
+  function (React, Backbone, context, Tags) {
 
     return React.createClass({
 
@@ -22,10 +23,18 @@ define(
       },
 
       render: function () {
+
+        var suggestTag;
+        if(context.profile){
+          suggestTag = (
+            <a href='#' onClick={this.onSuggestTag}>Suggest a Tag</a>
+          );
+        }
+
         return (
           <div className="image-tags">
             <h2 className='tag-title'>Image Tags</h2>
-            <a href='#' onClick={this.onSuggestTag}>Suggest a Tag</a>
+            {suggestTag}
             <Tags tags={this.props.application.get('tags')}/>
           </div>
         );
