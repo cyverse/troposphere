@@ -6,11 +6,9 @@ define(
     'backbone',
     '../Header.react',
     '../ResourceSummaryList.react',
-    '../Links.react',
-    '../CloudCapacityList.react',
-    '../Notifications.react'
+    '../CloudCapacityList.react'
   ],
-  function (React, Backbone, HeaderView, ResourceSummaryList, Links, CloudCapacityList, Notifications) {
+  function (React, Backbone, HeaderView, ResourceSummaryList, CloudCapacityList) {
 
     return React.createClass({
 
@@ -27,15 +25,13 @@ define(
             <div className="col-md-9">
               <HeaderView/>
               <a href="/application/images" className="btn btn-primary pull-right">Launch an Instance</a>
-              <Notifications/>
-              <Links/>
-              <CloudCapacityList providers={this.props.providers}
-                                 identities={this.props.identities}
-              />
               <ResourceSummaryList providers={this.props.providers}
                                    identities={this.props.identities}
                                    instances={this.props.instances}
                                    volumes={this.props.volumes}
+              />
+              <CloudCapacityList providers={this.props.providers}
+                                 identities={this.props.identities}
               />
             </div>
             <div className="col-md-3">
