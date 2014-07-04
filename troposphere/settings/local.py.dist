@@ -12,7 +12,7 @@ def generate_secret_key(secret_key_path):
 try:
     from secret_key import SECRET_KEY
 except ImportError:
-    import ipdb;ipdb.set_trace()
+    import os
     SETTINGS_DIR=os.path.abspath(os.path.dirname(__file__))
     generate_secret_key(os.path.join(SETTINGS_DIR, 'secret_key.py'))
     try:
