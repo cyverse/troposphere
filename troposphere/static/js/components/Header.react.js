@@ -82,6 +82,10 @@ define(
                   <li><a href="/application/projects">Projects</a></li>
                   <li><a href="/application/images">Images</a></li>
                   <li><a href="/application/providers">Providers</a></li>
+                  <li><a href="/application/providers">Settings</a></li>
+                  <li><a href="/application/help">Help</a></li>
+                  <li><a href="/application/instances">Instances</a></li>
+                  <li><a href="/application/volumes">Volumes</a></li>
                 </ul>
                 <ul className="nav navbar-nav navbar-right">
                   {loginLogoutDropdown}
