@@ -62,7 +62,7 @@ define(
 
         return (
           <div className="navbar navbar-default navbar-fixed-top" role="navigation">
-            <div className="container-fluid">
+            <div className="container">
 
               <div className="navbar-header">
                 <button type="button" className="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -72,11 +72,17 @@ define(
                   <span className="icon-bar"></span>
                 </button>
                 <a className="navbar-brand" href="/">
-                  Atmosphere: iPlant Cloud Services
+                  Atmosphere
                 </a>
               </div>
 
               <div className="navbar-collapse collapse">
+                <ul className="nav navbar-nav">
+                  <li className="active"><a href="/application/dashboard">Dashboard</a></li>
+                  <li><a href="/application/projects">Projects</a></li>
+                  <li><a href="/application/images">Images</a></li>
+                  <li><a href="/application/providers">Providers</a></li>
+                </ul>
                 <ul className="nav navbar-nav navbar-right">
                   {loginLogoutDropdown}
                 </ul>
