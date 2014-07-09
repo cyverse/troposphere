@@ -8,6 +8,7 @@ define(
     './context',
     'models/Session',
     'controllers/ProfileController',
+    'controllers/NotificationController',
 
     // Routers
     'routers/DashboardRouter',
@@ -20,7 +21,7 @@ define(
     'routers/InstanceRouter',
     'routers/DefaultRouter'
   ],
-  function ($, RSVP, Backbone, context, Session, ProfileController, DashboardRouter, ProjectRouter, ApplicationRouter, SettingsRouter, HelpRouter, ProviderRouter, VolumeRouter, InstanceRouter, DefaultRouter) {
+  function ($, RSVP, Backbone, context, Session, ProfileController, NotificationController, DashboardRouter, ProjectRouter, ApplicationRouter, SettingsRouter, HelpRouter, ProviderRouter, VolumeRouter, InstanceRouter, DefaultRouter) {
 
     function startApplication() {
 
@@ -123,6 +124,14 @@ define(
           $('body').removeClass('splash-screen');
 
           startApplication();
+        }).catch(function(e) {
+            NotificationController.error(
+              null,
+              "There was an error logging you in. If this persists, please email <a href='mailto:support@iplantcollaborative.org'>support@iplantcollaborative.org</a>.",
+              {
+                "positionClass": "toast-top-full-width"
+              }
+            )
         });
       }
     }
