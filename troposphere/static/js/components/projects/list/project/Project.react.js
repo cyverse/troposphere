@@ -26,22 +26,25 @@ define(
         var project = this.props.project;
 
         if(project.id){
+          var projectUrl = "/application/projects/" + project.id;
           return (
             <li>
-              <h2>{project.get('name')}</h2>
-              <a href="#" className="btn btn-primary update-project-btn" onClick={this.onAddResourceToProject}>+</a>
-              <ProjectDescription project={project}/>
-              <ProjectItems project={project} projects={this.props.projects}/>
+              <a href={projectUrl}>{project.get('name')}</a>
             </li>
           );
+//          return (
+//            <li>
+//              <h2>{project.get('name')}</h2>
+//              <a href="#" className="btn btn-primary update-project-btn" onClick={this.onAddResourceToProject}>+</a>
+//              <ProjectDescription project={project}/>
+//              <ProjectItems project={project} projects={this.props.projects}/>
+//            </li>
+//          );
 
         }else{
           return (
             <li>
               <h2>{project.get('name')} ...creating project...</h2>
-              <div className="project-description">
-                <p>{project.get('description')}</p>
-              </div>
             </li>
           );
         }
