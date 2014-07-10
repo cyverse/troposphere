@@ -35,7 +35,7 @@ define(
           <div>
             <Header profile={this.props.profile}/>
             {sidebar}
-            <div id="main" className="container">
+            <div id="main">
               {this.props.content}
             </div>
             {footer}

@@ -1,5 +1,5 @@
 #main {
-  padding-top: 70px;
+  padding-top: 52px;
   padding-bottom: 30px;
 }
 
@@ -74,4 +74,41 @@ footer {
 /* Large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
 
+}
+
+
+// Secondary Navigation
+.secondary-nav {
+  background: white;
+  border-bottom: 1px solid #EEEEEE;
+  margin-bottom: 35px;
+
+  li {
+    list-style: none;
+    float: left;
+    margin-right: 60px;
+
+    a {
+      border-bottom: 3px solid transparent;
+      border-color: #6AA54F;
+      text-transform: uppercase;
+      padding: 18px 4px 18px 30px;
+      display: block;
+    }
+  }
+}
+
+.sub-menu {
+  li {
+    list-style: none;
+  }
+
+  a {
+    padding-left: 10px;
+    border-left: 2px solid #6AA54F;
+
+    &.active {
+      font-weight: 600;
+    }
+  }
 }
