@@ -100,6 +100,14 @@ define(
 
     var ProjectStore = {
 
+      get: function (projectId) {
+        if(!_projects) {
+          fetchProjects();
+        } else {
+          return _projects.get(projectId);
+        }
+      },
+
       getAll: function () {
         if(!_projects) {
           fetchProjects()

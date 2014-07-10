@@ -18,16 +18,27 @@ define(
       },
 
       render: function () {
+
+        var sidebar = (
+          false ?
+          <Sidebar loggedIn={this.state.loggedIn}
+                   currentRoute={this.props.route}
+          />
+          : null
+        );
+
+        var footer = (
+          false ? <Footer/> : null
+        );
+
         return (
           <div>
             <Header profile={this.props.profile}/>
-            <Sidebar loggedIn={this.state.loggedIn}
-                     currentRoute={this.props.route}
-            />
-            <div id='main'>
+            {sidebar}
+            <div id="main" className="container">
               {this.props.content}
             </div>
-            <Footer/>
+            {footer}
           </div>
         );
       }

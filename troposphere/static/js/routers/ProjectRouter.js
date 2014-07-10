@@ -6,15 +6,17 @@ define(
     'components/Root.react',
     'react',
     'components/projects/ProjectListPage.react',
+    'components/projects/ProjectDetailsPage.react',
     'context',
     'backbone'
   ],
-  function (Marionette, Root, React, ProjectListPage, context, Backbone) {
+  function (Marionette, Root, React, ProjectListPage, ProjectDetailsPage, context, Backbone) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({
       appRoutes: {
-        'projects': 'showProjects'
+        'projects': 'showProjects',
+        'projects/:id': 'showProjectDetails'
       }
     });
 
@@ -32,6 +34,12 @@ define(
 
       showProjects: function (param) {
         this.render(ProjectListPage(), ["projects"]);
+      },
+
+      showProjectDetails: function (projectId) {
+        this.render(ProjectDetailsPage({
+          projectId: projectId
+        }), ["projects"]);
       }
 
     });
