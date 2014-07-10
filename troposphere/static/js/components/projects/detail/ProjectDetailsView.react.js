@@ -23,7 +23,7 @@ define(
                 </div>
                 <ul className="secondary-nav-links">
                   <li><a href="#">Overview</a></li>
-                  <li><a href="#">Resources</a></li>
+                  <li className="active"><a href="#">Resources</a></li>
                   <li><a href="#">Activity</a></li>
                 </ul>
               </div>
@@ -32,7 +32,7 @@ define(
               <div className="sub-menu col-md-3">
                 <button className="btn btn-primary">Create</button>
                 <ul>
-                  <li><a href="#">Instances</a></li>
+                  <li className="active"><a href="#">Instances</a></li>
                   <li><a href="#">Volumes</a></li>
                 </ul>
               </div>

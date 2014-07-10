@@ -90,25 +90,42 @@ footer {
 
     a {
       border-bottom: 3px solid transparent;
-      border-color: #6AA54F;
       text-transform: uppercase;
       padding: 18px 4px 18px 30px;
       display: block;
+    }
+
+    &.active a {
+      border-color: #6AA54F;
     }
   }
 }
 
 .sub-menu {
+  button {
+    padding: 6px 20px;
+  }
+
+  ul {
+    padding-left: 0;
+    padding-top: 15px;
+  }
+
   li {
     list-style: none;
-  }
 
-  a {
-    padding-left: 10px;
-    border-left: 2px solid #6AA54F;
+    a {
+      padding-left: 10px;
+      border-left: 2px solid transparent;
+    }
 
-    &.active {
+    &.active a {
+      color: #6AA54F;
       font-weight: 600;
+      border-left: 2px solid #6AA54F;
+      padding-left: 9px;
     }
   }
+
+
 }
