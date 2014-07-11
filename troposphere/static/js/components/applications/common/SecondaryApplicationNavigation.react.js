@@ -10,15 +10,18 @@ define(
     var routes = [
       {
         name: "Search",
-        href: "/application/images"
+        href: "/application/images",
+        icon: "search"
       },
       {
         name: "Favorites",
-        href: "/application/images/favorites"
+        href: "/application/images/favorites",
+        icon: "bookmark"
       },
       {
         name: "My Images",
-        href: "/application/images/authored"
+        href: "/application/images/authored",
+        icon: "user"
       }
     ];
 

@@ -18,7 +18,8 @@ define(
         var routes = [
           {
             name: "Resources",
-            href: "/application/projects/" + this.props.project.id
+            href: "/application/projects/" + this.props.project.id,
+            icon: "th"
           }
         ];
 

@@ -88,11 +88,17 @@ footer {
     float: left;
     margin-right: 60px;
 
+    i {
+      font-size: 17px;
+      margin-right: 6px;
+    }
+
     a {
       border-bottom: 3px solid transparent;
       text-transform: uppercase;
       padding: 18px 4px 18px 30px;
       display: block;
+      font-size: 16px;
     }
 
     &.active a {
