@@ -11,15 +11,16 @@ define(
     return React.createClass({
 
       propTypes: {
+        project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         volumes: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       render: function () {
         var volumeRows = this.props.volumes.map(function(volume){
           return (
-            <VolumeRow key={volume.id} volume={volume}/>
+            <VolumeRow key={volume.id} volume={volume} project={this.props.project}/>
           );
-        });
+        }.bind(this));
 
         return (
           <div>

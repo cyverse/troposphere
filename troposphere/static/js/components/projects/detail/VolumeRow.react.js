@@ -11,12 +11,16 @@ define(
     return React.createClass({
 
       propTypes: {
+        project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
       render: function () {
         var volume = this.props.volume;
-        var volumeUrl = URL.volume(volume, {absolute: true});
+        var volumeUrl = URL.projectVolume({
+          project: this.props.project,
+          volume: volume
+        }, {absolute: true});
         return (
           <tr>
             <td><div className="resource-checkbox"></div></td>

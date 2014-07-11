@@ -29,8 +29,16 @@ define(['underscore'], function(_) {
         },
         login: function(){
           return '/login'
+        },
+        project: function(project){
+          return 'projects/' + project.id;
+        },
+        projectInstance: function(data){
+          return generators.project(data.project) + '/instances/' + data.instance.id;
+        },
+        projectVolume: function(data){
+          return generators.project(data.project) + '/volumes/' + data.volume.id;
         }
-
     };
 
     var generateUrl = function(route, model, options) {
@@ -52,7 +60,9 @@ define(['underscore'], function(_) {
         images: _.partial(generateUrl, 'images'),
         help: _.partial(generateUrl, 'help'),
         requestImage: _.partial(generateUrl, 'requestImage'),
-        login: _.partial(generateUrl, 'login')
+        login: _.partial(generateUrl, 'login'),
+        projectInstance: _.partial(generateUrl, 'projectInstance'),
+        projectVolume: _.partial(generateUrl, 'projectVolume')
     };
 
 });
