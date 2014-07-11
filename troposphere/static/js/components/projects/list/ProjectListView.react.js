@@ -25,8 +25,8 @@ define(
         return (
           <div>
             <ProjectListHeader title={this.props.projects.length + " Projects"}>
-              <button className='btn btn-primary' >
-                Create Project
+              <button className='btn btn-primary' onClick={this.launchNewProjectModal}>
+                Create New Project
               </button>
             </ProjectListHeader>
             <div className="container">
