@@ -37,7 +37,7 @@ define(
               <b className="caret"></b>
             </a>
             <ul className="dropdown-menu">
-              <li><a href="/application/providers">Settings</a></li>
+              <li><a href="/application/settings">Settings</a></li>
               <li><a href="/application/help">Help</a></li>
               <li><a href="/application/instances">Instances</a></li>
               <li><a href="/application/volumes">Volumes</a></li>

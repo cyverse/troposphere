@@ -100,7 +100,7 @@ define(
         };
 
         return (
-          <div>
+          <div className="container">
             <PageHeader title="All Volumes" helpText={helpText}/>
             <button className="btn btn-primary pull-right" onClick={this.onCreateVolume}>Create New Volume</button>
             <table className="table">

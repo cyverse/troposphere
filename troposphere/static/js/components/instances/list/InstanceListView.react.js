@@ -121,7 +121,7 @@ define(
         var imagesUrl = URL.images(null, {absolute: true});
 
         return (
-          <div>
+          <div className="container">
             <PageHeader title="All Instances" helpText={helpText}/>
             <a href={imagesUrl} className="btn btn-primary pull-right">Launch an Instance</a>
             <table className="table">
