@@ -4,10 +4,10 @@ define(
   [
     'react',
     'backbone',
-    './ProjectNavigation.react',
+    '../common/SecondaryProjectNavigation.react',
     './SubMenu.react'
   ],
-  function (React, Backbone, ProjectNavigation, SubMenu) {
+  function (React, Backbone, SecondaryProjectNavigation, SubMenu) {
 
     return React.createClass({
 
@@ -19,7 +19,7 @@ define(
       render: function () {
         return (
           <div className="project-details">
-            <ProjectNavigation project={this.props.project}/>
+            <SecondaryProjectNavigation project={this.props.project} currentRoute="resources"/>
             <div className="container">
               <table>
                 <tbody>
