@@ -4,9 +4,10 @@ define(
   [
     'react',
     './detail/ProjectDetailsView.react',
+    './detail/ProjectDetails.react',
     'stores/ProjectStore'
   ],
-  function (React, ProjectDetailsView, ProjectStore) {
+  function (React, ProjectDetailsView, ProjectDetails, ProjectStore) {
 
     function getState(projectId) {
       return {
@@ -49,7 +50,9 @@ define(
       render: function () {
         if (this.state.project) {
           return (
-            <ProjectDetailsView project={this.state.project}/>
+            <ProjectDetailsView project={this.state.project}>
+              <ProjectDetails project={this.state.project}/>
+            </ProjectDetailsView>
           );
         } else {
           return (
