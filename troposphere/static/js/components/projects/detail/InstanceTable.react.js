@@ -15,6 +15,12 @@ define(
       },
 
       render: function () {
+        var instanceRows = this.props.instances.map(function(instance){
+          return (
+            <InstanceRow key={instance.id} instance={instance}/>
+          );
+        });
+
         return (
           <div>
             <div className="header">
@@ -33,8 +39,7 @@ define(
                 </tr>
               </thead>
               <tbody>
-                <InstanceRow/>
-                <InstanceRow/>
+                {instanceRows}
               </tbody>
             </table>
           </div>

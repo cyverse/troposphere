@@ -14,14 +14,15 @@ define(
       },
 
       render: function () {
+        var instance = this.props.instance;
         return (
           <tr>
             <td><div className="resource-checkbox"></div></td>
-            <td><a href="#">Instance 1</a></td>
-            <td>Active</td>
-            <td>128.196.25</td>
-            <td>tiny1</td>
-            <td><a href="#">iPlant Cloud - Tucson</a></td>
+            <td><a href="#">{instance.get('name')}</a></td>
+            <td>{instance.get('status')}</td>
+            <td>{instance.get('ip_address')}</td>
+            <td>?tiny1?</td>
+            <td><a href="#">?iPlant Cloud - Tucson?</a></td>
           </tr>
         );
       }

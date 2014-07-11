@@ -19,7 +19,7 @@ define(
         return (
           <div className="project-details">
             <ProjectNavigation project={this.props.project}/>
-            <ProjectDetails/>
+            <ProjectDetails project={this.props.project}/>
           </div>
         );
       }
