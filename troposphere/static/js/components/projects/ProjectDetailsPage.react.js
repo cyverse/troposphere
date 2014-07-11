@@ -54,11 +54,11 @@ define(
               <ProjectDetails project={this.state.project}/>
             </ProjectDetailsView>
           );
-        } else {
-          return (
-            <div className="loading"></div>
-          );
         }
+
+        return (
+          <div className="loading"></div>
+        );
       }
 
     });

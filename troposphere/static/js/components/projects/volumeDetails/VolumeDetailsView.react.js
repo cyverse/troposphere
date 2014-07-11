@@ -4,13 +4,12 @@ define(
   [
     'react',
     'backbone',
-    '../detail/ProjectNavigation.react',
     './VolumeDetails.react',
     'stores/ProjectVolumeStore',
     'stores/ProviderStore',
     'controllers/NotificationController'
   ],
-  function (React, Backbone, ProjectNavigation, VolumeDetails, ProjectVolumeStore, ProviderStore, NotificationController) {
+  function (React, Backbone, VolumeDetails, ProjectVolumeStore, ProviderStore, NotificationController) {
 
     function getState(project) {
       return {
@@ -49,10 +48,7 @@ define(
           var volume = this.state.volumes.get(this.props.volumeId);
           if(!volume) NotificationController.error(null, "No volume with id: " + this.props.volumeId);
           return (
-            <div className="project-details">
-              <ProjectNavigation project={this.props.project}/>
-              <VolumeDetails volume={volume} providers={this.state.providers}/>
-            </div>
+            <VolumeDetails volume={volume} providers={this.state.providers}/>
           );
         }
 

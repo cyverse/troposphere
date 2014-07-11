@@ -13,7 +13,8 @@ define(
 
       propTypes: {
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        provider: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        provider: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        size: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
       getStatus: function(instance){

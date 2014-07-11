@@ -11,15 +11,16 @@ define(
     return React.createClass({
 
       propTypes: {
+        project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       render: function () {
         var instanceRows = this.props.instances.map(function(instance){
           return (
-            <InstanceRow key={instance.id} instance={instance}/>
+            <InstanceRow key={instance.id} instance={instance} project={this.props.project}/>
           );
-        });
+        }.bind(this));
 
         return (
           <div>

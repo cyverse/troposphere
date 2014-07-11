@@ -74,7 +74,7 @@ define(
 
           var identityId = this.state.instance.get('identity').id;
           var sizeId = this.state.instance.get('size_alias');
-          var sizes = SizeStore.getAllFor(providerId, identityId)
+          var sizes = SizeStore.getAllFor(providerId, identityId);
           if(sizes) {
             var size = sizes.get(sizeId);
 

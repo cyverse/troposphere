@@ -8,17 +8,19 @@ define(
     'components/projects/ProjectListPage.react',
     'components/projects/ProjectDetailsPage.react',
     'components/projects/VolumeDetailsPage.react',
+    'components/projects/InstanceDetailsPage.react',
     'context',
     'backbone'
   ],
-  function (Marionette, Root, React, ProjectListPage, ProjectDetailsPage, VolumeDetailsPage, context, Backbone) {
+  function (Marionette, Root, React, ProjectListPage, ProjectDetailsPage, VolumeDetailsPage, InstanceDetailsPage, context, Backbone) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({
       appRoutes: {
         'projects': 'showProjects',
         'projects/:id': 'showProjectDetails',
-        'projects/:id/volumes/:id': 'showProjectVolumeDetails'
+        'projects/:id/volumes/:id': 'showProjectVolumeDetails',
+        'projects/:id/instances/:id': 'showProjectInstanceDetails'
       }
     });
 
@@ -48,6 +50,13 @@ define(
         this.render(VolumeDetailsPage({
           projectId: projectId,
           volumeId: volumeId
+        }), ["projects"]);
+      },
+
+      showProjectInstanceDetails: function(projectId, instanceId){
+        this.render(InstanceDetailsPage({
+          projectId: projectId,
+          instanceId: instanceId
         }), ["projects"]);
       }
 

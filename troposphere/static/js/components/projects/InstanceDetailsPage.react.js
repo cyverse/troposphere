@@ -4,10 +4,10 @@ define(
   [
     'react',
     './detail/ProjectDetailsView.react',
-    './volumeDetails/VolumeDetailsView.react',
+    './instanceDetails/InstanceDetailsView.react',
     'stores/ProjectStore'
   ],
-  function (React, ProjectDetailsView, VolumeDetailsView, ProjectStore) {
+  function (React, ProjectDetailsView, InstanceDetailsView, ProjectStore) {
 
     function getState(projectId) {
       return {
@@ -24,7 +24,7 @@ define(
 
       propTypes: {
         projectId: React.PropTypes.string.isRequired,
-        volumeId: React.PropTypes.string.isRequired
+        instanceId: React.PropTypes.string.isRequired
       },
 
       getInitialState: function() {
@@ -53,7 +53,7 @@ define(
         if (this.state.project) {
           return (
             <ProjectDetailsView project={this.state.project}>
-              <VolumeDetailsView project={this.state.project} volumeId={this.props.volumeId}/>
+              <InstanceDetailsView project={this.state.project} instanceId={this.props.instanceId}/>
             </ProjectDetailsView>
           );
         }
