@@ -31,7 +31,7 @@ define(
           }.bind(this));
 
           return (
-            <div>
+            <div className="container">
               <PageHeader title="Cloud Providers"/>
               {providers}
             </div>

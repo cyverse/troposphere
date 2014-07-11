@@ -71,7 +71,7 @@ define(
         }
 
         return (
-          <div>
+          <div className="container">
             <PageHeader title='Images' helpText={this.helpText}/>
             <ApplicationSearch/>
             {content}

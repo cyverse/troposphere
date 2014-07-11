@@ -29,7 +29,7 @@ define(
 
       render: function () {
         return (
-          <div>
+          <div className="container">
             <PageHeader title="Projects" helpText={this.helpText}/>
             <p>
               <button className='btn btn-primary' onClick={this.launchNewProjectModal}>

@@ -60,7 +60,7 @@ define(
         );
 
         return (
-          <div>
+          <div className="container">
             <PageHeader title="Help"/>
             <h2>External resources</h2>
             <ul>

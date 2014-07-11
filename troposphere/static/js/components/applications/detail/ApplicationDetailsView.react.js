@@ -49,7 +49,7 @@ define(
         }
 
         return (
-          <div id='app-detail'>
+          <div id='app-detail' className="container">
             <ApplicationCard application={this.props.application} onLaunch={this.showModal}/>
 
             <HeaderView application={this.props.application}/>

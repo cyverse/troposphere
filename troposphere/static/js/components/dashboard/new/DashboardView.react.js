@@ -21,7 +21,7 @@ define(
 
       render: function () {
         return (
-          <div id='dashboard-view' className="row">
+          <div id='dashboard-view' className="container">
             <div className="col-md-9">
               <HeaderView/>
               <a href="/application/images" className="btn btn-primary pull-right">Launch an Instance</a>
