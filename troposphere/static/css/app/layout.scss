@@ -104,6 +104,7 @@ footer {
 .sub-menu {
   button {
     padding: 6px 20px;
+    text-transform: uppercase;
   }
 
   ul {
@@ -130,6 +131,12 @@ footer {
 
 .button-bar {
   border-bottom: 1px solid #dddddd;
+  padding: 10px;
+
+  button {
+    padding: 6px 26px;
+    border-radius: 2px;
+  }
 }
 
 .side-panel {
@@ -170,15 +177,61 @@ footer {
 .scrollable-content {
 
   .header {
+    padding: 10px 0px;
+
     i {
-      font-size: 24px;
+      font-size: 25px;
       margin-right: 10px;
     }
 
     h2 {
-      display: inline;
+      display: inline-block;
       vertical-align: bottom;
+      font-size: 27px;
+      margin-top: 0px;
+      margin-bottom: 3px;
     }
   }
 
+  div.resource-checkbox {
+    height: 13px;
+    width: 13px;
+    border: 1px solid #cccccc;
+
+    &.checkmark {
+      background-color: green;
+    }
+  }
+
+}
+
+.project-details > div.container {
+  margin-top: -35px;
+}
+
+// Table styles
+.td-sub-menu {
+  float: left;
+  margin-right: 35px;
+  margin-top: 35px;
+}
+
+.td-project-content {
+  width: 100%;
+
+  .resource-list {
+    position: relative;
+
+    .side-panel {
+      position: absolute;
+      right: 0;
+      width: 350px;
+    }
+
+    .scrollable-content {
+      float: left;
+      width: 100%;
+      padding-right: 350px;
+    }
+  }
 }
