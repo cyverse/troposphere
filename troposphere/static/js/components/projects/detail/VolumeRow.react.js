@@ -20,9 +20,9 @@ define(
         return (
           <tr>
             <td><div className="resource-checkbox"></div></td>
-            <td><a href="#">{volume.get('name')}</a></td>
+            <td><a href={volumeUrl}>{volume.get('name')}</a></td>
             <td>Attached to <a href="#">?iPlant Base Instance?</a></td>
-            <td>?200 GB?</td>
+            <td>{volume.get('size') + " GB"}</td>
             <td><a href="#">?iPlant Cloud - Tucson?</a></td>
           </tr>
         );
