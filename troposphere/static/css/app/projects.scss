@@ -7,24 +7,27 @@
     background: #fff;
     border: 1px solid #ccc;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
-    padding: 10px;
-    height: 200px;
-    width: 175px;
 
     display: inline-block;
     position: relative;
     margin-right: 50px;
     margin-bottom: 50px;
-  }
 
-  h2 {
-    margin: 0;
-    padding: 10px;
-    background-color: hsl(0, 0%, 96%);
-    border-bottom: 1px solid #ccc;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-    font-size: 1.5em;
+    > a > div {
+      padding: 15px;
+      height: 250px;
+      width: 225px;
+
+      h2 {
+        font-size: 19px;
+        margin: 0;
+        color: #231F20;
+      }
+
+      time {
+        color: #6D6E71;
+      }
+    }
   }
 }
 

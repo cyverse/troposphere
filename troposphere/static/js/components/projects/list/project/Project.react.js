@@ -6,9 +6,11 @@ define(
     './ProjectItems.react',
     './ProjectDescription.react',
     'backbone',
-    'actions/ProjectActions'
+    'actions/ProjectActions',
+    'components/common/Time.react',
+    'moment'
   ],
-  function (React, ProjectItems, ProjectDescription, Backbone, ProjectActions) {
+  function (React, ProjectItems, ProjectDescription, Backbone, ProjectActions, Time, moment) {
 
     return React.createClass({
 
@@ -27,9 +29,16 @@ define(
 
         if(project.id){
           var projectUrl = "/application/projects/" + project.id;
+          var projectCreationDate = moment(project.get('start_date')).format("MMM D, YYYY");
+
           return (
             <li>
-              <a href={projectUrl}>{project.get('name')}</a>
+              <a href={projectUrl}>
+                <div>
+                  <h2>{project.get('name')}</h2>
+                  <time>{"Created " + projectCreationDate}</time>
+                </div>
+              </a>
             </li>
           );
 //          return (
