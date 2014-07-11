@@ -50,9 +50,11 @@ define(
         }
 
         return (
-          <div className="container">
+          <div>
             <SecondaryApplicationNavigation currentRoute="my images"/>
-            {content}
+            <div className="container">
+              {content}
+            </div>
           </div>
         );
       }

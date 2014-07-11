@@ -54,10 +54,12 @@ define(
         }
 
         return (
-          <div className="container">
+          <div>
             <SecondaryApplicationNavigation currentRoute="search"/>
-            <ApplicationSearch/>
-            {content}
+            <div className="container application-card-view">
+              <ApplicationSearch/>
+              {content}
+            </div>
           </div>
         );
 

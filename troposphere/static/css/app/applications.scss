@@ -1,7 +1,25 @@
+// todo: this is a hack to get the cards to align in the center of the page
+// find a better way to do this, or (at least) modify this value to adjust
+// for different screen sizes
+.application-card-view {
+  h3 {
+    margin-left: 9%;
+  }
+
+  .app-card-list {
+    margin-left: 9%;
+  }
+}
+
 .app-card-list {
   list-style: none;
   margin: 0;
   padding: 0;
+
+  // todo: this is a hack to get the cards to align in the center of the page
+  // find a better way to do this, or (at least) modify this value to adjust
+  // for different screen sizes
+  margin-left: 9%;
 
   li {
     margin: 0 20px 20px 0;
