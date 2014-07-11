@@ -13,6 +13,85 @@ define(
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
+      getInstances: function(){
+        return (
+          <div>
+            <div className="header">
+              <i className="glyphicon glyphicon-tasks"></i>
+              <h2>Instances</h2>
+            </div>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th><div className="resource-checkbox"></div></th>
+                  <th>Name</th>
+                  <th>Status</th>
+                  <th>IP Address</th>
+                  <th>Size</th>
+                  <th>Provider</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><div className="resource-checkbox"></div></td>
+                  <td><a href="#">Instance 1</a></td>
+                  <td>Active</td>
+                  <td>128.196.25</td>
+                  <td>tiny1</td>
+                  <td><a href="#">iPlant Cloud - Tucson</a></td>
+                </tr>
+                <tr>
+                  <td><div className="resource-checkbox"></div></td>
+                  <td><a href="#">Instance 2</a></td>
+                  <td>Suspended</td>
+                  <td>128.196.17</td>
+                  <td>tiny1</td>
+                  <td><a href="#">iPlant Cloud - Tucson</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        );
+      },
+
+      getVolumes: function(){
+        return (
+          <div>
+            <div className="header">
+              <i className="glyphicon glyphicon-hdd"></i>
+              <h2>Volumes</h2>
+            </div>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th><div className="resource-checkbox"></div></th>
+                  <th>Name</th>
+                  <th>Status</th>
+                  <th>Size</th>
+                  <th>Provider</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><div className="resource-checkbox"></div></td>
+                  <td><a href="#">Volume 1</a></td>
+                  <td>Attached to <a href="#">iPlant Base Instance</a></td>
+                  <td>200 GB</td>
+                  <td><a href="#">iPlant Cloud - Tucson</a></td>
+                </tr>
+                <tr>
+                  <td><div className="resource-checkbox"></div></td>
+                  <td><a href="#">Volume 2</a></td>
+                  <td>Unattached</td>
+                  <td>300 GB</td>
+                  <td><a href="#">iPlant Cloud - Tucson</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        );
+      },
+
       render: function () {
         return (
           <div className="project-details">
@@ -56,31 +135,8 @@ define(
                         <div className="resource-list">
 
                           <div className="scrollable-content">
-                            <div>
-                              <div className="header">
-                                <i className="glyphicon glyphicon-tasks"></i>
-                                <h2>Instances</h2>
-                              </div>
-                              <table className="table">
-                                <thead>
-                                  <tr>
-                                    <th><div className="resource-checkbox"></div></th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Username</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td><div className="resource-checkbox"></div></td>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-
+                          {this.getInstances()}
+                          {this.getVolumes()}
                           </div>
 
                           <div className="side-panel">
