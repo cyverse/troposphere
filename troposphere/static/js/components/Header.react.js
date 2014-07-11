@@ -8,6 +8,29 @@ define(
   ],
   function (React, Backbone, VersionActions) {
 
+    var links = [
+      {
+        name: "Dashboard",
+        href: "/application/dashboard"
+      },
+      {
+        name: "Projects",
+        href: "/application/projects"
+      },
+      {
+        name: "Images",
+        href: "/application/images"
+      },
+      {
+        name: "Providers",
+        href: "/application/providers"
+      },
+      {
+        name: "Help",
+        href: "/application/help"
+      }
+    ];
+
     var LoginLink = React.createClass({
       render: function () {
         return (
@@ -65,6 +88,14 @@ define(
         var profile = this.props.profile;
         var loginLogoutDropdown = profile ? LogoutLink({username: profile.get('username')}) : LoginLink();
 
+        var navLinks = links.map(function(link){
+          var isCurrentRoute = (link.name.toLowerCase() === this.props.currentRoute[0]);
+          var className = isCurrentRoute ? "active" : null;
+          return (
+            <li className={className}><a href={link.href}>{link.name}</a></li>
+          );
+        }.bind(this));
+
         return (
           <div className="navbar navbar-default navbar-fixed-top" role="navigation">
             <div className="container">
@@ -83,11 +114,7 @@ define(
 
               <div className="navbar-collapse collapse">
                 <ul className="nav navbar-nav">
-                  <li className="active"><a href="/application/dashboard">Dashboard</a></li>
-                  <li><a href="/application/projects">Projects</a></li>
-                  <li><a href="/application/images">Images</a></li>
-                  <li><a href="/application/providers">Providers</a></li>
-                  <li><a href="/application/help">Help</a></li>
+                  {navLinks}
                 </ul>
                 <ul className="nav navbar-nav navbar-right">
                   {loginLogoutDropdown}

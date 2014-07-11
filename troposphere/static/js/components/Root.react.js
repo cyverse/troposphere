@@ -33,7 +33,7 @@ define(
 
         return (
           <div>
-            <Header profile={this.props.profile}/>
+            <Header profile={this.props.profile} currentRoute={this.props.route}/>
             {sidebar}
             <div id="main">
               {this.props.content}
