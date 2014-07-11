@@ -2,6 +2,37 @@
   h2 {
 
   }
+
+  ul.notifications {
+    background-color: #EEF0F0;
+    height: 1000px;
+    list-style-type: none;
+    padding-left: 0px;
+
+    li {
+      padding: 15px;
+      border-top: solid 1px #C9C9C9;
+
+      &:first-of-type {
+        border-top: none;
+      }
+
+      .title {
+        i {
+          color: #76AA49;
+        }
+
+        span {
+          font-size: 16px;
+          padding-left: 8px;
+        }
+      }
+
+      .message {
+        padding-left: 22px;
+      }
+    }
+  }
 }
 
 

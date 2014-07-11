@@ -68,6 +68,9 @@ define(
           );
         }
 
+        // todo: Put ratings back when we actually implement them, not while they're random
+        //var ratings = <Rating up={app.get('votes').up} down={app.get('votes').down} />
+
         return (
           <div className='app-card'>
             <div className='icon-container'>
@@ -80,7 +83,6 @@ define(
                 {app.get('name_or_id')}
               </a>
             </div>
-            <Rating up={app.get('votes').up} down={app.get('votes').down} />
             {button}
             {bookmark}
           </div>
