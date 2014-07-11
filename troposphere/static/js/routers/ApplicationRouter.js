@@ -4,7 +4,7 @@ define(function (require) {
     var Marionette                   = require('marionette'),
         Root                         = require('components/Root.react'),
         React                        = require('react'),
-        ApplicationListView          = require('components/applications/list/ApplicationListView.react'),
+        ApplicationListPage          = require('components/applications/ApplicationListPage.react'),
         ApplicationDetailsPage       = require('components/applications/ApplicationDetailsPage.react'),
         ApplicationSearchResultsPage = require('components/applications/ApplicationSearchResultsPage.react'),
         FavoritedApplicationsPage    = require('components/applications/FavoritedApplicationsPage.react'),
@@ -39,7 +39,7 @@ define(function (require) {
       // Route handlers
       //
       showApplications: function () {
-        this.render(ApplicationListView(), ["images"]);
+        this.render(ApplicationListPage(), ["images"]);
       },
 
       showFavoritedApplications: function () {

@@ -55,7 +55,7 @@ define(
         }
 
         return (
-          <div>
+          <div className="container">
             <PageHeader title="Image Search"/>
             <SearchContainer query={this.props.query}/>
             {content}
