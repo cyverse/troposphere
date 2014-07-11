@@ -3,11 +3,7 @@
 define(
   [
     'react',
-    'backbone',
-    './InstanceTable.react',
-    './VolumeTable.react',
-    './PreviewPanel.react',
-    './SubMenu.react'
+    'backbone'
   ],
   function (React, Backbone) {
 

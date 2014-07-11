@@ -4,12 +4,13 @@ define(
   [
     'react',
     'components/common/PageHeader.react',
+    'components/common/SecondaryNavigation.react',
     'collections/ApplicationCollection',
     './ApplicationCardList.react',
     './SearchContainer.react',
     'stores/ApplicationStore'
   ],
-  function (React, PageHeader, ApplicationCollection, ApplicationCardList, ApplicationSearch, ApplicationStore) {
+  function (React, PageHeader, SecondaryNavigation, ApplicationCollection, ApplicationCardList, ApplicationSearch, ApplicationStore) {
 
     function getState() {
       return {
@@ -70,8 +71,26 @@ define(
           ];
         }
 
+        var routes = [
+          {
+            name: "Search",
+            href: "/application/images"
+          },
+          {
+            name: "Favorites",
+            href: "/application/images/favorites"
+          },
+          {
+            name: "My Images",
+            href: "/application/images/authored"
+          }
+        ];
+
+        var currentRoute = "search";
+
         return (
           <div className="container">
+            <SecondaryNavigation title="Images" routes={routes} currentRoute={currentRoute}/>
             <PageHeader title='Images' helpText={this.helpText}/>
             <ApplicationSearch/>
             {content}
