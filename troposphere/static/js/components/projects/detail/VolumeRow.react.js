@@ -3,9 +3,10 @@
 define(
   [
     'react',
-    'backbone'
+    'backbone',
+    'url'
   ],
-  function (React, Backbone) {
+  function (React, Backbone, URL) {
 
     return React.createClass({
 
@@ -14,13 +15,15 @@ define(
       },
 
       render: function () {
+        var volume = this.props.volume;
+        var volumeUrl = URL.volume(volume, {absolute: true});
         return (
           <tr>
             <td><div className="resource-checkbox"></div></td>
-            <td><a href="#">Volume 1</a></td>
-            <td>Attached to <a href="#">iPlant Base Instance</a></td>
-            <td>200 GB</td>
-            <td><a href="#">iPlant Cloud - Tucson</a></td>
+            <td><a href="#">{volume.get('name')}</a></td>
+            <td>Attached to <a href="#">?iPlant Base Instance?</a></td>
+            <td>?200 GB?</td>
+            <td><a href="#">?iPlant Cloud - Tucson?</a></td>
           </tr>
         );
       }

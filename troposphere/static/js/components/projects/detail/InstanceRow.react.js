@@ -3,9 +3,10 @@
 define(
   [
     'react',
-    'backbone'
+    'backbone',
+    'url'
   ],
-  function (React, Backbone) {
+  function (React, Backbone, URL) {
 
     return React.createClass({
 
@@ -15,10 +16,11 @@ define(
 
       render: function () {
         var instance = this.props.instance;
+        var instanceUrl = URL.instance(instance, {absolute: true});
         return (
           <tr>
             <td><div className="resource-checkbox"></div></td>
-            <td><a href="#">{instance.get('name')}</a></td>
+            <td><a href={instanceUrl}>{instance.get('name')}</a></td>
             <td>{instance.get('status')}</td>
             <td>{instance.get('ip_address')}</td>
             <td>?tiny1?</td>

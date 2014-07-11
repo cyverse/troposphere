@@ -15,6 +15,12 @@ define(
       },
 
       render: function () {
+        var volumeRows = this.props.volumes.map(function(volume){
+          return (
+            <VolumeRow key={volume.id} volume={volume}/>
+          );
+        });
+
         return (
           <div>
             <div className="header">
@@ -32,8 +38,7 @@ define(
                 </tr>
               </thead>
               <tbody>
-                <VolumeRow/>
-                <VolumeRow/>
+                {volumeRows}
               </tbody>
             </table>
           </div>
