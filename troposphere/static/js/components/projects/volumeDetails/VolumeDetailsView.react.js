@@ -32,10 +32,12 @@ define(
 
       componentDidMount: function () {
         ProjectVolumeStore.addChangeListener(this.onUpdate);
+        ProviderStore.addChangeListener(this.onUpdate);
       },
 
       componentWillUnmount: function () {
         ProjectVolumeStore.removeChangeListener(this.onUpdate);
+        ProviderStore.addChangeListener(this.onUpdate);
       },
 
       onUpdate: function(){
