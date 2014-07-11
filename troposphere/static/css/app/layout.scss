@@ -83,6 +83,20 @@ footer {
   border-bottom: 1px solid #EEEEEE;
   margin-bottom: 35px;
 
+  // For the projects list page
+  &.half-height {
+    padding: 23px 0px;
+
+    h1 {
+      float: left;
+      margin: 0;
+    }
+
+    button {
+      float: right;
+    }
+  }
+
   li {
     list-style: none;
     float: left;
