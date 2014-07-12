@@ -10,7 +10,7 @@ define(
 
       propTypes: {
         label: React.PropTypes.string.isRequired,
-        children: React.PropTypes.component.isRequired
+        children: React.PropTypes.renderable.isRequired
       },
 
       render: function () {
