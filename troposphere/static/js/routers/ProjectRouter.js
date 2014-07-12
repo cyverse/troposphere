@@ -10,10 +10,11 @@ define(
     'components/projects/VolumeDetailsPage.react',
     'components/projects/InstanceDetailsPage.react',
     'components/projects/RequestImagePage.react',
+    'components/projects/ReportInstancePage.react',
     'context',
     'backbone'
   ],
-  function (Marionette, Root, React, ProjectListPage, ProjectDetailsPage, VolumeDetailsPage, InstanceDetailsPage, RequestImagePage, context, Backbone) {
+  function (Marionette, Root, React, ProjectListPage, ProjectDetailsPage, VolumeDetailsPage, InstanceDetailsPage, RequestImagePage, ReportInstancePage, context, Backbone) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({
@@ -22,7 +23,8 @@ define(
         'projects/:id': 'showProjectDetails',
         'projects/:id/volumes/:id': 'showProjectVolumeDetails',
         'projects/:id/instances/:id': 'showProjectInstanceDetails',
-        'projects/:id/instances/:id/request_image': 'showRequestImagePage'
+        'projects/:id/instances/:id/request_image': 'showRequestImagePage',
+        'projects/:id/instances/:id/report': 'showReportInstancePage'
       }
     });
 
@@ -64,6 +66,13 @@ define(
 
       showRequestImagePage: function(projectId, instanceId){
         this.render(RequestImagePage({
+          projectId: projectId,
+          instanceId: instanceId
+        }), ["projects"]);
+      },
+
+      showReportInstancePage: function(projectId, instanceId){
+        this.render(ReportInstancePage({
           projectId: projectId,
           instanceId: instanceId
         }), ["projects"]);
