@@ -3,14 +3,11 @@
 define(
   [
     'react',
-    './ProjectItems.react',
-    './ProjectDescription.react',
     'backbone',
     'actions/ProjectActions',
-    'components/common/Time.react',
     'moment'
   ],
-  function (React, ProjectItems, ProjectDescription, Backbone, ProjectActions, Time, moment) {
+  function (React, Backbone, ProjectActions, moment) {
 
     return React.createClass({
 
@@ -41,14 +38,6 @@ define(
               </a>
             </li>
           );
-//          return (
-//            <li>
-//              <h2>{project.get('name')}</h2>
-//              <a href="#" className="btn btn-primary update-project-btn" onClick={this.onAddResourceToProject}>+</a>
-//              <ProjectDescription project={project}/>
-//              <ProjectItems project={project} projects={this.props.projects}/>
-//            </li>
-//          );
 
         }else{
           return (
