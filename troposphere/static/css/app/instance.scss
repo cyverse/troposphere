@@ -1,27 +1,7 @@
 //
-// Details Section
-// items: status, IP address, based on, ID
+// The little light before status description
+// todo: make this inherit from a resource version so we can reuse for volumes
 //
-
-.resource-details-section {
-  ul {
-    list-style-type: none;
-    padding-left: 27px;
-    margin: 0;
-
-    li {
-      line-height: 30px;
-
-      > span:first-of-type {
-        width: 90px;
-        margin-right: 20px;
-        display: inline-block;
-        text-align: right;
-        color: #5A5A5A;
-      }
-    }
-  }
-}
 
 .instance-status-light {
   width: 12px;
@@ -40,19 +20,5 @@
 
   &.stopped {
     background: crimson;
-  }
-}
-
-.resource-details-content {
-  .section {
-    padding: 23px 0px;
-
-    .title {
-      margin-top: 0;
-    }
-  }
-
-  hr {
-    margin: 0;
   }
 }

@@ -35,6 +35,44 @@
 }
 
 //
+// Resource Details Section
+//
+
+.resource-details-content {
+  .section {
+    padding: 23px 0px;
+
+    .title {
+      margin-top: 0;
+    }
+  }
+
+  hr {
+    margin: 0;
+  }
+}
+
+.resource-details-section {
+  ul {
+    list-style-type: none;
+    padding-left: 27px;
+    margin: 0;
+
+    li {
+      line-height: 30px;
+
+      > span:first-of-type {
+        width: 90px;
+        margin-right: 20px;
+        display: inline-block;
+        text-align: right;
+        color: #5A5A5A;
+      }
+    }
+  }
+}
+
+//
 // Resource Actions & Links Bar
 //
 
