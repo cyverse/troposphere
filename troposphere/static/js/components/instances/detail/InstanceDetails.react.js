@@ -5,9 +5,10 @@ define(
     'react',
     'backbone',
     'components/common/Time.react',
-    'url'
+    'url',
+    'components/projects/common/ResourceDetail.react'
   ],
-  function (React, Backbone, Time, URL) {
+  function (React, Backbone, Time, URL, ResourceDetail) {
 
     return React.createClass({
 
@@ -38,78 +39,62 @@ define(
         }
 
         return (
-          <li>
-            <span>Status</span>
+          <ResourceDetail label="Status">
             {statusLight}
             <span style={style}>{capitalizedStatus}</span>
-          </li>
+          </ResourceDetail>
         );
       },
 
       getSize: function(size){
         return (
-          <li>
-            <span>Size</span>
-            <span>{size.formattedDetails()}</span>
-          </li>
+          <ResourceDetail label="Size">
+            {size.formattedDetails()}
+          </ResourceDetail>
         );
       },
 
       getIpAddress: function(instance){
         return (
-          <li>
-            <span>IP Address</span>
-            <span>{instance.get('ip_address')}</span>
-          </li>
+          <ResourceDetail label="IP Address">
+            {instance.get('ip_address')}
+          </ResourceDetail>
         );
       },
 
-      getLaunchedDate: function(){
-          return (
-            <li>
-              <span>Launched</span>
-              <span>
-                <Time date={this.props.instance.get('start_date')}/>
-              </span>
-            </li>
-          );
-      },
-
-      getBasedOn: function(){
-        var applicationUrl = URL.application({id: this.props.instance.get('application_uuid')}, {absolute: true});
+      getLaunchedDate: function(instance){
         return (
-          <li>
-            <span>Based on</span>
-            <span>
-              <a href={applicationUrl}>{this.props.instance.get('application_name')}</a>
-            </span>
-          </li>
+          <ResourceDetail label="Launched">
+            <Time date={instance.get('start_date')}/>
+          </ResourceDetail>
         );
       },
 
-      getIdentity: function(){
-        var identityId = this.props.instance.get('identity').id;
-        var providerName = this.props.provider.get('name');
-
+      getBasedOn: function(instance){
+        var applicationUrl = URL.application({id: instance.get('application_uuid')}, {absolute: true});
         return (
-          <li>
-            <span>Identity</span>
-            <span>
-              <strong>{identityId}</strong> on <strong>{providerName}</strong>
-            </span>
-          </li>
+          <ResourceDetail label="Based on">
+            <a href={applicationUrl}>{instance.get('application_name')}</a>
+          </ResourceDetail>
         );
       },
 
-      getId: function(){
-        var identityId = this.props.instance.get('identity').id;
-        var providerName = this.props.provider.get('name');
+      getIdentity: function(instance, provider){
+        var identityId = instance.get('identity').id;
+        var providerName = provider.get('name');
 
         return (
-          <li>
-            <span>ID</span>
-            <span>{this.props.instance.id}</span>
-          </li>
+          <ResourceDetail label="Identity">
+            <strong>{identityId}</strong> on <strong>{providerName}</strong>
+          </ResourceDetail>
+        );
+      },
+
+      getId: function(instance){
+        return (
+          <ResourceDetail label="ID">
+            {instance.id}
+          </ResourceDetail>
         );
       },
 
@@ -122,10 +107,10 @@ define(
               {this.getStatus(this.props.instance)}
               {this.getSize(this.props.size)}
               {this.getIpAddress(this.props.instance)}
-              {this.getLaunchedDate()}
-              {this.getBasedOn()}
-              {this.getIdentity()}
-              {this.getId()}
+              {this.getLaunchedDate(this.props.instance)}
+              {this.getBasedOn(this.props.instance)}
+              {this.getIdentity(this.props.instance, this.props.provider)}
+              {this.getId(this.props.instance)}
             </ul>
           </div>
         );
