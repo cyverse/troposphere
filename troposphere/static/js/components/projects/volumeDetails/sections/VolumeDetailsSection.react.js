@@ -5,9 +5,10 @@ define(
     'react',
     'backbone',
     'components/common/Time.react',
-    'url'
+    'url',
+    'components/projects/common/ResourceDetail.react'
   ],
-  function (React, Backbone, Time, URL) {
+  function (React, Backbone, Time, URL, ResourceDetail) {
 
     return React.createClass({
 
@@ -18,19 +19,17 @@ define(
 
       getStatus: function(volume){
         return (
-          <li>
-            <span>Status</span>
-            <span>?Attached to Instance Name?</span>
-          </li>
+          <ResourceDetail label="Status">
+            {"?Attached to Instance Name?"}
+          </ResourceDetail>
         );
       },
 
       getSize: function(volume){
         return (
-          <li>
-            <span>Size</span>
-            <span>{volume.get('size') + " GB"}</span>
-          </li>
+          <ResourceDetail label="Size">
+            {volume.get('size') + " GB"}
+          </ResourceDetail>
         );
       },
 
@@ -39,21 +38,17 @@ define(
         var providerName = provider.get('name');
 
         return (
-          <li>
-            <span>Identity</span>
-            <span>
-              <strong>{identityId}</strong> on <strong>{providerName}</strong>
-            </span>
-          </li>
+          <ResourceDetail label="Identity">
+            <strong>{identityId}</strong> on <strong>{providerName}</strong>
+          </ResourceDetail>
         );
       },
 
       getId: function(volume){
         return (
-          <li>
-            <span>ID</span>
-            <span>{volume.id}</span>
-          </li>
+          <ResourceDetail label="ID">
+            {volume.id}
+          </ResourceDetail>
         );
       },
 
