@@ -81,11 +81,11 @@ define(function (require) {
       render: function () {
         var instance = this.state.instance;
         if(instance && this.state.providers) {
-          var providerId = this.state.instance.get('identity').provider;
+          var providerId = instance.get('identity').provider;
           var provider = this.state.providers.get(providerId);
 
-          var identityId = this.state.instance.get('identity').id;
-          var sizeId = this.state.instance.get('size_alias');
+          var identityId = instance.get('identity').id;
+          var sizeId = instance.get('size_alias');
           var sizes = SizeStore.getAllFor(providerId, identityId);
           if(sizes) {
             var size = sizes.get(sizeId);
