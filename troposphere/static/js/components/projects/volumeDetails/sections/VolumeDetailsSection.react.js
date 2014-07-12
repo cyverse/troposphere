@@ -4,52 +4,21 @@ define(
   [
     'react',
     'backbone',
-    'components/common/Time.react',
-    'url',
-    'components/projects/common/ResourceDetail.react'
+    'components/projects/common/ResourceDetail.react',
+
+    // Resource Details
+    './details/Id.react',
+    './details/Status.react',
+    './details/Size.react',
+    './details/Identity.react'
   ],
-  function (React, Backbone, Time, URL, ResourceDetail) {
+  function (React, Backbone, ResourceDetail, Id, Status, Size, Identity) {
 
     return React.createClass({
 
       propTypes: {
         volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired
-      },
-
-      getStatus: function(volume){
-        return (
-          <ResourceDetail label="Status">
-            {"?Attached to Instance Name?"}
-          </ResourceDetail>
-        );
-      },
-
-      getSize: function(volume){
-        return (
-          <ResourceDetail label="Size">
-            {volume.get('size') + " GB"}
-          </ResourceDetail>
-        );
-      },
-
-      getIdentity: function(volume, provider){
-        var identityId = volume.get('identity').id;
-        var providerName = provider.get('name');
-
-        return (
-          <ResourceDetail label="Identity">
-            <strong>{identityId}</strong> on <strong>{providerName}</strong>
-          </ResourceDetail>
-        );
-      },
-
-      getId: function(volume){
-        return (
-          <ResourceDetail label="ID">
-            {volume.id}
-          </ResourceDetail>
-        );
       },
 
       render: function () {
@@ -60,10 +29,10 @@ define(
           <div className="resource-details-section section">
             <h4 className="title">Volume Details</h4>
             <ul>
-              {this.getStatus(this.props.volume)}
-              {this.getSize(this.props.volume)}
-              {this.getIdentity(this.props.volume, provider)}
-              {this.getId(this.props.volume)}
+              <Status volume={this.props.volume}/>
+              <Size volume={this.props.volume}/>
+              <Identity volume={this.props.volume} provider={provider}/>
+              <Id volume={this.props.volume}/>
             </ul>
           </div>
         );
