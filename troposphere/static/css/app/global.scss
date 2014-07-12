@@ -50,16 +50,6 @@ a {
   transition: background-color 500ms cubic;
 }
 
-#help-text-toggle-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-.identity-select {
-  margin-bottom: 20px;
-}
-
 a[target="_blank"]::after {
   content: '\e164';
   font-family: 'Glyphicons Halflings';
