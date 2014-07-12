@@ -4,15 +4,26 @@ define(
   [
     'react',
     'backbone',
-    './VolumeRow.react'
+    './VolumeRow.react',
+    './Checkbox.react'
   ],
-  function (React, Backbone, VolumeRow) {
+  function (React, Backbone, VolumeRow, Checkbox) {
 
     return React.createClass({
 
       propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         volumes: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      },
+
+      getInitialState: function(){
+        return {
+          isChecked: false
+        }
+      },
+
+      toggleCheckbox: function(e){
+        this.setState({isChecked: !this.state.isChecked});
       },
 
       render: function () {
@@ -35,7 +46,7 @@ define(
             <table className="table table-hover">
               <thead>
                 <tr>
-                  <th><div className="resource-checkbox"></div></th>
+                  <th><Checkbox isChecked={this.state.isChecked} onToggleChecked={this.toggleCheckbox}/></th>
                   <th>Name</th>
                   <th>Status</th>
                   <th>Size</th>
