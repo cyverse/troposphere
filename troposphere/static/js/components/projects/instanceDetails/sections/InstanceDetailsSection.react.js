@@ -4,15 +4,18 @@ define(
   [
     'react',
     'backbone',
-    'components/common/Time.react',
-    'url',
     'components/projects/common/ResourceDetail.react',
 
     // Resource Details
     './details/Id.react',
-    './details/Status.react'
+    './details/Status.react',
+    './details/Size.react',
+    './details/IpAddress.react',
+    './details/LaunchDate.react',
+    './details/CreatedFrom.react',
+    './details/Identity.react'
   ],
-  function (React, Backbone, Time, URL, ResourceDetail, Id, Status) {
+  function (React, Backbone, ResourceDetail, Id, Status, Size, IpAddress, LaunchDate, CreatedFrom, Identity) {
 
     return React.createClass({
 
@@ -22,62 +25,17 @@ define(
         size: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
-      getSize: function(size){
-        return (
-          <ResourceDetail label="Size">
-            {size.formattedDetails()}
-          </ResourceDetail>
-        );
-      },
-
-      getIpAddress: function(instance){
-        return (
-          <ResourceDetail label="IP Address">
-            {instance.get('ip_address')}
-          </ResourceDetail>
-        );
-      },
-
-      getLaunchedDate: function(instance){
-        return (
-          <ResourceDetail label="Launched">
-            <Time date={instance.get('start_date')}/>
-          </ResourceDetail>
-        );
-      },
-
-      getBasedOn: function(instance){
-        var applicationUrl = URL.application({id: instance.get('application_uuid')}, {absolute: true});
-        return (
-          <ResourceDetail label="Based on">
-            <a href={applicationUrl}>{instance.get('application_name')}</a>
-          </ResourceDetail>
-        );
-      },
-
-      getIdentity: function(instance, provider){
-        var identityId = instance.get('identity').id;
-        var providerName = provider.get('name');
-
-        return (
-          <ResourceDetail label="Identity">
-            <strong>{identityId}</strong> on <strong>{providerName}</strong>
-          </ResourceDetail>
-        );
-      },
-
       render: function () {
-
         return (
           <div className="resource-details-section section">
             <h4 className="title">Instance Details</h4>
             <ul>
               <Status instance={this.props.instance}/>
-              {this.getSize(this.props.size)}
-              {this.getIpAddress(this.props.instance)}
-              {this.getLaunchedDate(this.props.instance)}
-              {this.getBasedOn(this.props.instance)}
-              {this.getIdentity(this.props.instance, this.props.provider)}
+              <Size size={this.props.size}/>
+              <IpAddress instance={this.props.instance}/>
+              <LaunchDate instance={this.props.instance}/>
+              <CreatedFrom instance={this.props.instance}/>
+              <Identity instance={this.props.instance} provider={this.props.provider}/>
               <Id instance={this.props.instance}/>
             </ul>
           </div>
