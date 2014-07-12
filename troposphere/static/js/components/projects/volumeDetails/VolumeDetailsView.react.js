@@ -4,9 +4,8 @@ define(
   [
     'react',
     'backbone',
-    //'./VolumeDetailsSection.react',
-    './sections/VolumeDetails.react',
-    './sections/VolumeInfo.react',
+    './sections/VolumeDetailsSection.react',
+    './sections/VolumeInfoSection.react',
     '../common/BreadcrumbBar.react',
     './actions/VolumeActionsAndLinks.react',
     'stores/ProjectVolumeStore',
