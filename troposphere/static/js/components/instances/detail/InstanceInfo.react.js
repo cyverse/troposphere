@@ -28,24 +28,24 @@ define(
         });
 
         return (
-          <div className="instance-info-section section clearfix">
+          <div className="resource-info-section section clearfix">
 
-            <div className="instance-image">
+            <div className="resource-image">
               <a href="/application/images/9ab516c9-c39f-595e-a990-977642da4c0e">
                 <img src="//www.gravatar.com/avatar/918bf82f238c6c264fc7701e1ff61363?d=identicon&amp;s=113" width="113" height="113"/>
               </a>
             </div>
 
-            <div className="instance-info">
-              <h4 className="instance-name">{this.props.instance.get('name')}</h4>
-              <div className="instance-launch-date">Launched on <Time date={this.props.instance.get('start_date')}/></div>
-              <div className="instance-tags">Instance Tags:</div>
+            <div className="resource-info">
+              <h4 className="resource-name">{this.props.instance.get('name')}</h4>
+              <div className="resource-launch-date">Launched on <Time date={this.props.instance.get('start_date')}/></div>
+              <div className="resource-tags">Instance Tags:</div>
               <ul className="tags">
                 {tags.length > 0 ? tags : <span>This instance has not been tagged.</span>}
               </ul>
             </div>
 
-            <div className="edit-instance-link">
+            <div className="edit-resource-link">
               <a href="#" onClick={this.onEditInstanceDetails}>Edit Instance Info</a>
             </div>
 

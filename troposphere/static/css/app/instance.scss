@@ -1,95 +1,36 @@
 //
-// Actions/Links Bar
-//
-
-.instance-actions {
-  ul {
-    list-style: none;
-    padding-left: 0;
-  }
-
-  .action-section {
-    font-weight: 500;
-    font-size: 17px;
-  }
-
-  li {
-    border: solid #E8E8E8 1px;
-    border-top: solid #E8E8E8 0px;
-    padding: 14px;
-
-    &.danger {
-      color: white;
-      background : -moz-linear-gradient(50% 0% -90deg,rgba(244, 125, 92, 1) 0%,rgba(244, 125, 92, 1) 0.08%,rgba(242, 99, 75, 1) 23.78%,rgba(240, 80, 63, 1) 48%,rgba(239, 69, 56, 1) 73.05%,rgba(239, 65, 54, 1) 100%);
-      background : -webkit-linear-gradient(-90deg, rgba(244, 125, 92, 1) 0%, rgba(244, 125, 92, 1) 0.08%, rgba(242, 99, 75, 1) 23.78%, rgba(240, 80, 63, 1) 48%, rgba(239, 69, 56, 1) 73.05%, rgba(239, 65, 54, 1) 100%);
-      background : -webkit-gradient(linear,50% 0% ,50% 100% ,color-stop(0,rgba(244, 125, 92, 1) ),color-stop(0.0008,rgba(244, 125, 92, 1) ),color-stop(0.2378,rgba(242, 99, 75, 1) ),color-stop(0.48,rgba(240, 80, 63, 1) ),color-stop(0.7305,rgba(239, 69, 56, 1) ),color-stop(1,rgba(239, 65, 54, 1) ));
-      background : -o-linear-gradient(-90deg, rgba(244, 125, 92, 1) 0%, rgba(244, 125, 92, 1) 0.08%, rgba(242, 99, 75, 1) 23.78%, rgba(240, 80, 63, 1) 48%, rgba(239, 69, 56, 1) 73.05%, rgba(239, 65, 54, 1) 100%);
-      background : -ms-linear-gradient(-90deg, rgba(244, 125, 92, 1) 0%, rgba(244, 125, 92, 1) 0.08%, rgba(242, 99, 75, 1) 23.78%, rgba(240, 80, 63, 1) 48%, rgba(239, 69, 56, 1) 73.05%, rgba(239, 65, 54, 1) 100%);
-      -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#F47D5C', endColorstr='#EF4136' ,GradientType=0)";
-      background : linear-gradient(180deg, rgba(244, 125, 92, 1) 0%, rgba(244, 125, 92, 1) 0.08%, rgba(242, 99, 75, 1) 23.78%, rgba(240, 80, 63, 1) 48%, rgba(239, 69, 56, 1) 73.05%, rgba(239, 65, 54, 1) 100%);
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F47D5C',endColorstr='#EF4136' , GradientType=0);
-    }
-  }
-
-  .action-link {
-    span {
-      margin-left: 10px;
-    }
-
-    &:hover {
-      background-color: #f5f5f5;
-      cursor: pointer;
-    }
-  }
-
-  li:last-child {
-    border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
-  }
-
-  a {
-    color: rgb(51, 51, 51);
-
-    &:hover {
-      color: rgb(51, 51, 51);
-      border-bottom: none;
-    }
-  }
-}
-
-//
 // Info Section
 // items: image, name, launch date, tags
 //
 
-.instance-info-section {
+.resource-info-section {
   position: relative;
 }
 
-.edit-instance-link {
+.edit-resource-link {
   position: absolute;
   right: 0px;
   top: 23px;
 }
 
-.instance-info {
+.resource-info {
   position: relative;
   margin-left: 121px;
 
-  .instance-name {
+  .resource-name {
     margin-top: 0px;
   }
 
-  .instance-launch-date {
+  .resource-launch-date {
     margin-bottom: 5px;
   }
 
-  .instance-tags {
+  .resource-tags {
     margin-bottom: 8px;
   }
 }
 
-.instance-image {
+.resource-image {
   float: left;
   margin-right: 22px;
 }

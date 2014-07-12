@@ -78,10 +78,10 @@ define(
         var links = linksArray.map(function(link){
           // Links without icons are generally section headings
           if(!link.icon) return (
-            <li className="action-section">{link.label}</li>
+            <li className="section-label">{link.label}</li>
           );
 
-          var className = "action-link";
+          var className = "section-link";
           if(link.isDangerLink) className += " danger";
           // todo: This isn't implemented well at all.  We should be disabling these
           // buttons if there isn't a valid href for the link, or (perhaps) not even
@@ -129,7 +129,7 @@ define(
         });
 
         return (
-          <div className="instance-actions">
+          <div className="resource-actions">
             <ul>
               {links}
             </ul>
