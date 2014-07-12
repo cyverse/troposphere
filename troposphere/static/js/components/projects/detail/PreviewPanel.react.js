@@ -16,30 +16,39 @@ define(
     return React.createClass({
 
       propTypes: {
-        project: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        resource: React.PropTypes.instanceOf(Backbone.Model)
       },
 
       render: function () {
-        var resource = new Instance();
+        //var resource = new Instance();
         //var resource = new Volume();
 
         var resourcePreview;
-        if(resource instanceof Instance){
-          resourcePreview = (
-            <InstancePreviewView/>
-          );
-        } else if(resource instanceof Volume){
-          resourcePreview = (
-            <VolumePreviewView/>
+
+        if(this.props.resource) {
+          if (this.props.resource instanceof Instance) {
+            resourcePreview = (
+              <InstancePreviewView/>
+            );
+          } else if (this.props.resource instanceof Volume) {
+            resourcePreview = (
+              <VolumePreviewView/>
+            );
+          }
+
+          return (
+            <div className="side-panel">
+              <div className="header">
+                <span className="title">Details</span>
+              </div>
+              {resourcePreview}
+            </div>
           );
         }
 
         return (
           <div className="side-panel">
-            <div className="header">
-              <span className="title">Details</span>
-            </div>
-            {resourcePreview}
           </div>
         );
       }

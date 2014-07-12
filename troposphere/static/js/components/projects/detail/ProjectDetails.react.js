@@ -17,7 +17,8 @@ define(
     function getState(project) {
       return {
         instances: ProjectInstanceStore.getInstancesInProject(project),
-        volumes: ProjectVolumeStore.getVolumesInProject(project)
+        volumes: ProjectVolumeStore.getVolumesInProject(project),
+        selectedResource: null
       };
     }
 
@@ -45,6 +46,10 @@ define(
         if (this.isMounted()) this.setState(getState(this.props.project));
       },
 
+      onResourceSelected: function(resource){
+        this.setState({selectedResource: resource});
+      },
+
       render: function () {
         if(this.state.instances && this.state.volumes) {
           return (
@@ -52,10 +57,10 @@ define(
               <ButtonBar/>
               <div className="resource-list">
                 <div className="scrollable-content">
-                  <InstanceTable instances={this.state.instances} project={this.props.project}/>
+                  <InstanceTable instances={this.state.instances} project={this.props.project} onResourceSelected={this.onResourceSelected}/>
                   <VolumeTable volumes={this.state.volumes} project={this.props.project}/>
                 </div>
-                <PreviewPanel/>
+                <PreviewPanel resource={this.state.selectedResource}/>
               </div>
             </div>
           );

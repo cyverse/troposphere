@@ -12,13 +12,18 @@ define(
 
       propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        onResourceSelected: React.PropTypes.func.isRequired
       },
 
       render: function () {
         var instanceRows = this.props.instances.map(function(instance){
           return (
-            <InstanceRow key={instance.id} instance={instance} project={this.props.project}/>
+            <InstanceRow key={instance.id}
+                         instance={instance}
+                         project={this.props.project}
+                         onResourceSelected={this.props.onResourceSelected}
+            />
           );
         }.bind(this));
 

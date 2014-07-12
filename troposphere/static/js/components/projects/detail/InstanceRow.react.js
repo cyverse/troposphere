@@ -13,7 +13,8 @@ define(
 
       propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        onResourceSelected: React.PropTypes.func.isRequired
       },
 
       getInitialState: function(){
@@ -23,8 +24,8 @@ define(
       },
 
       toggleCheckbox: function(e){
-        console.log("clicked!");
         this.setState({isChecked: !this.state.isChecked});
+        this.props.onResourceSelected(this.props.instance);
       },
 
       render: function () {
