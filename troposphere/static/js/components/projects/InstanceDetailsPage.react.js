@@ -4,7 +4,7 @@ define(
   [
     'react',
     './detail/ProjectDetailsView.react',
-    './instanceDetails/InstanceDetailsView.react',
+    './resources/instance/details/InstanceDetailsView.react',
     'stores/ProjectStore'
   ],
   function (React, ProjectDetailsView, InstanceDetailsView, ProjectStore) {

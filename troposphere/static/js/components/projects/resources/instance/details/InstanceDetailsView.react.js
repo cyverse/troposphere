@@ -4,7 +4,7 @@ define(
   [
     'react',
     'backbone',
-    '../common/BreadcrumbBar.react',
+    'components/projects/common/BreadcrumbBar.react',
     './sections/InstanceInfoSection.react',
     './sections/InstanceDetailsSection.react',
     './actions/InstanceActionsAndLinks.react',

@@ -15,13 +15,13 @@ define(function (require) {
         IdentityStore = require('stores/IdentityStore'),
         SizeStore     = require('stores/SizeStore');
 
-    var Id          = require('components/projects/instanceDetails/sections/details/Id.react'),
-        Status      = require('components/projects/instanceDetails/sections/details/Status.react'),
-        Size        = require('components/projects/instanceDetails/sections/details/Size.react'),
-        IpAddress   = require('components/projects/instanceDetails/sections/details/IpAddress.react'),
-        LaunchDate  = require('components/projects/instanceDetails/sections/details/LaunchDate.react'),
-        CreatedFrom = require('components/projects/instanceDetails/sections/details/CreatedFrom.react'),
-        Identity    = require('components/projects/instanceDetails/sections/details/Identity.react');
+    var Id          = require('../details/sections/details/Id.react'),
+        Status      = require('../details/sections/details/Status.react'),
+        Size        = require('../details/sections/details/Size.react'),
+        IpAddress   = require('../details/sections/details/IpAddress.react'),
+        LaunchDate  = require('../details/sections/details/LaunchDate.react'),
+        CreatedFrom = require('../details/sections/details/CreatedFrom.react'),
+        Identity    = require('../details/sections/details/Identity.react');
 
     //
     // State
