@@ -1,5 +1,41 @@
 //
-// Actions/Links Bar
+// Resource Info Section
+//
+
+.resource-info-section {
+  position: relative;
+}
+
+.edit-resource-link {
+  position: absolute;
+  right: 0px;
+  top: 23px;
+}
+
+.resource-info {
+  position: relative;
+  margin-left: 121px;
+
+  .resource-name {
+    margin-top: 0px;
+  }
+
+  .resource-launch-date {
+    margin-bottom: 5px;
+  }
+
+  .resource-tags {
+    margin-bottom: 8px;
+  }
+}
+
+.resource-image {
+  float: left;
+  margin-right: 22px;
+}
+
+//
+// Resource Actions & Links Bar
 //
 
 .resource-actions {

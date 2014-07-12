@@ -116,7 +116,7 @@ define(
       render: function () {
 
         return (
-          <div className="instance-details-section section">
+          <div className="resource-details-section section">
             <h4 className="title">Instance Details</h4>
             <ul>
               {this.getStatus(this.props.instance)}

@@ -74,7 +74,7 @@ define(
           return (
             <div>
               <BreadcrumbBar/>
-              <div className="row instance-details-content resource-details">
+              <div className="row resource-details-content">
                 <div className="col-md-9 resource-detail-sections">
                   <VolumeInfoSection volume={volume}/>
                   <hr/>

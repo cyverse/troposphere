@@ -24,7 +24,7 @@ define(
             size = this.props.size;
 
         return (
-          <div className="row instance-details-content">
+          <div className="row resource-details-content">
             <div className="col-md-9">
               <InstanceInfo instance={instance}/>
               <hr/>

@@ -62,7 +62,7 @@ define(
         var provider = this.props.providers.get(providerId);
 
         return (
-          <div className="instance-details-section section">
+          <div className="resource-details-section section">
             <h4 className="title">Volume Details</h4>
             <ul>
               {this.getStatus(this.props.volume)}
