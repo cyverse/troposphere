@@ -116,8 +116,8 @@ define(
       render: function () {
 
         return (
-          <div className="instance-details-section">
-            <h4>Instance Details</h4>
+          <div className="instance-details-section section">
+            <h4 className="title">Instance Details</h4>
             <ul>
               {this.getStatus(this.props.instance)}
               {this.getSize(this.props.size)}

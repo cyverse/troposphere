@@ -69,7 +69,7 @@ define(
         }
 
         linksArray = linksArray.concat([
-          {label: 'Terminate', icon: 'remove', onClick: this.onTerminate},
+          {label: 'Terminate', icon: 'remove', onClick: this.onTerminate, isDangerLink: true},
           {label: 'Links', icon: null},
           {label: 'Open Web Shell', icon: 'credit-card', href: webShellUrl, openInNewWindow: true},
           {label: 'Remote Desktop', icon: 'fullscreen', href: remoteDesktopUrl, openInNewWindow: true}
@@ -81,6 +81,8 @@ define(
             <li className="action-section">{link.label}</li>
           );
 
+          var className = "action-link";
+          if(link.isDangerLink) className += " danger";
           // todo: This isn't implemented well at all.  We should be disabling these
           // buttons if there isn't a valid href for the link, or (perhaps) not even
           // showing the buttons at all...but I think it's better communication to
@@ -90,7 +92,7 @@ define(
             var style = {};
             if(!link.href) style.cursor = 'not-allowed';
             return (
-              <li className="action-link" style={style}>
+              <li className={className} style={style}>
                 <a href={link.href} target="_blank">
                   <span>
                     <Glyphicon name={link.icon}/>{link.label}
@@ -106,7 +108,7 @@ define(
           // changes to pass through our Backbone catcher in main.js that we can use
           // to log requests to Google Analytics
           if(link.href) return (
-            <li className="action-link">
+            <li className={className}>
               <a href={link.href}>
               <span>
                 <Glyphicon name={link.icon}/>{link.label}
@@ -118,7 +120,7 @@ define(
           // Links with onClick callbacks will typically trigger modals requiring
           // confirmation before continuing
           return (
-            <li className="action-link" onClick={link.onClick}>
+            <li className={className} onClick={link.onClick}>
               <span>
                 <Glyphicon name={link.icon}/>{link.label}
               </span>

@@ -28,7 +28,7 @@ define(
               <i className="glyphicon glyphicon-hdd"></i>
               <h2>Volumes</h2>
             </div>
-            <table className="table">
+            <table className="table table-hover">
               <thead>
                 <tr>
                   <th><div className="resource-checkbox"></div></th>
