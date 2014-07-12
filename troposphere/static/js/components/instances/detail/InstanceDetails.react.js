@@ -39,9 +39,9 @@ define(
 
         return (
           <li>
-            <span className="instance-detail-label">Status</span>
+            <span>Status</span>
             {statusLight}
-            <span style={style} className="instance-detail-value">{capitalizedStatus}</span>
+            <span style={style}>{capitalizedStatus}</span>
           </li>
         );
       },
@@ -49,8 +49,8 @@ define(
       getSize: function(size){
         return (
           <li>
-            <span className="instance-detail-label">Size</span>
-            <span className="instance-detail-value">{size.formattedDetails()}</span>
+            <span>Size</span>
+            <span>{size.formattedDetails()}</span>
           </li>
         );
       },
@@ -58,8 +58,8 @@ define(
       getIpAddress: function(instance){
         return (
           <li>
-            <span className="instance-detail-label">IP Address</span>
-            <span className="instance-detail-value">{instance.get('ip_address')}</span>
+            <span>IP Address</span>
+            <span>{instance.get('ip_address')}</span>
           </li>
         );
       },
@@ -67,8 +67,8 @@ define(
       getLaunchedDate: function(){
           return (
             <li>
-              <span className="instance-detail-label">Launched</span>
-              <span className="instance-detail-value">
+              <span>Launched</span>
+              <span>
                 <Time date={this.props.instance.get('start_date')}/>
               </span>
             </li>
@@ -79,8 +79,8 @@ define(
         var applicationUrl = URL.application({id: this.props.instance.get('application_uuid')}, {absolute: true});
         return (
           <li>
-            <span className="instance-detail-label">Based on</span>
-            <span className="instance-detail-value">
+            <span>Based on</span>
+            <span>
               <a href={applicationUrl}>{this.props.instance.get('application_name')}</a>
             </span>
           </li>
@@ -93,8 +93,8 @@ define(
 
         return (
           <li>
-            <span className="instance-detail-label">Identity</span>
-            <span className="instance-detail-value">
+            <span>Identity</span>
+            <span>
               <strong>{identityId}</strong> on <strong>{providerName}</strong>
             </span>
           </li>
@@ -107,8 +107,8 @@ define(
 
         return (
           <li>
-            <span className="instance-detail-label">ID</span>
-            <span className="instance-detail-value">{this.props.instance.id}</span>
+            <span>ID</span>
+            <span>{this.props.instance.id}</span>
           </li>
         );
       },

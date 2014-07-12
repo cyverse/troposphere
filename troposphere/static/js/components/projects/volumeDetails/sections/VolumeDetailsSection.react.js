@@ -19,8 +19,8 @@ define(
       getStatus: function(volume){
         return (
           <li>
-            <span className="instance-detail-label">Status</span>
-            <span className="instance-detail-value">?Attached to Instance Name?</span>
+            <span>Status</span>
+            <span>?Attached to Instance Name?</span>
           </li>
         );
       },
@@ -28,8 +28,8 @@ define(
       getSize: function(volume){
         return (
           <li>
-            <span className="instance-detail-label">Size</span>
-            <span className="instance-detail-value">{volume.get('size') + " GB"}</span>
+            <span>Size</span>
+            <span>{volume.get('size') + " GB"}</span>
           </li>
         );
       },
@@ -40,8 +40,8 @@ define(
 
         return (
           <li>
-            <span className="instance-detail-label">Identity</span>
-            <span className="instance-detail-value">
+            <span>Identity</span>
+            <span>
               <strong>{identityId}</strong> on <strong>{providerName}</strong>
             </span>
           </li>
@@ -51,8 +51,8 @@ define(
       getId: function(volume){
         return (
           <li>
-            <span className="instance-detail-label resource-detail-label">ID</span>
-            <span className="instance-detail-value resource-detail-value">{volume.id}</span>
+            <span>ID</span>
+            <span>{volume.id}</span>
           </li>
         );
       },

@@ -46,7 +46,7 @@ define(
         return (
           <td>
             {statusLight}
-            <span style={style} className="instance-detail-value">{capitalizedStatus}</span>
+            <span style={style}>{capitalizedStatus}</span>
           </td>
         );
       },
