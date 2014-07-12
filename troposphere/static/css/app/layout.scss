@@ -3,16 +3,6 @@
   padding-bottom: 30px;
 }
 
-footer {
-  text-align: center;
-  margin: 1.5em 0;
-  font-size: .8em;
-
-  a {
-    color: #999;
-  }
-}
-
 /* Extra small devices (phones, 767px and below) */
 @media (max-width: 767px) {
 
@@ -20,12 +10,7 @@ footer {
 
 /* Small devices (tablets, 768px and up) */
 @media (min-width: 768px) {
-  footer {
-    width: 200px;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-  }
+
 }
 
 /* Medium devices (desktops, 992px and up) */
