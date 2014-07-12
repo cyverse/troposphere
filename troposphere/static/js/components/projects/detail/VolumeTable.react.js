@@ -18,7 +18,11 @@ define(
       render: function () {
         var volumeRows = this.props.volumes.map(function(volume){
           return (
-            <VolumeRow key={volume.id} volume={volume} project={this.props.project}/>
+            <VolumeRow key={volume.id}
+                       volume={volume}
+                       project={this.props.project}
+                       onResourceSelected={this.props.onResourceSelected}
+            />
           );
         }.bind(this));
 

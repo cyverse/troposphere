@@ -34,6 +34,7 @@ define(
           project: this.props.project,
           instance: instance
         }, {absolute: true});
+
         return (
           <tr>
             <td><Checkbox isChecked={this.state.isChecked} onToggleChecked={this.toggleCheckbox}/></td>

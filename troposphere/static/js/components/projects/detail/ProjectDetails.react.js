@@ -58,7 +58,7 @@ define(
               <div className="resource-list">
                 <div className="scrollable-content">
                   <InstanceTable instances={this.state.instances} project={this.props.project} onResourceSelected={this.onResourceSelected}/>
-                  <VolumeTable volumes={this.state.volumes} project={this.props.project}/>
+                  <VolumeTable volumes={this.state.volumes} project={this.props.project} onResourceSelected={this.onResourceSelected}/>
                 </div>
                 <PreviewPanel resource={this.state.selectedResource}/>
               </div>
