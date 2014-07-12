@@ -1,0 +1,68 @@
+/** @jsx React.DOM */
+
+define(
+  [
+    'react',
+    'backbone',
+    'url',
+    './Checkbox.react',
+
+    // Table Data
+    './tableData/instance/Name.react',
+    './tableData/instance/Status.react',
+    './tableData/instance/IpAddress.react',
+    './tableData/instance/Size.react',
+    './tableData/instance/Provider.react'
+  ],
+  function (React, Backbone, URL, Checkbox, Name, Status, IpAddress, Size, Provider) {
+
+    return React.createClass({
+
+      propTypes: {
+        project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        onResourceSelected: React.PropTypes.func.isRequired
+      },
+
+      getInitialState: function(){
+        return {
+          isChecked: false
+        }
+      },
+
+      toggleCheckbox: function(e){
+        this.setState({isChecked: !this.state.isChecked});
+        this.props.onResourceSelected(this.props.instance);
+      },
+
+      render: function () {
+        var project = this.props.project,
+            instance = this.props.instance;
+
+        return (
+          <tr>
+            <td>
+              <Checkbox isChecked={this.state.isChecked} onToggleChecked={this.toggleCheckbox}/>
+            </td>
+            <td>
+              <Name project={project} instance={instance}/>
+            </td>
+            <td>
+              <Status instance={instance}/>
+            </td>
+            <td>
+              <IpAddress instance={instance}/>
+            </td>
+            <td>
+              <Size/>
+            </td>
+            <td>
+              <Provider/>
+            </td>
+          </tr>
+        );
+      }
+
+    });
+
+  });
