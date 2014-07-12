@@ -3,13 +3,12 @@
 define(
   [
     'react',
-    './Header.react',
     './InstanceInfo.react',
     './InstanceDetails.react',
     './InstanceActionsAndLinks.react',
     'backbone'
   ],
-  function (React, Header, InstanceInfo, InstanceDetails, InstanceActionsAndLinks, Backbone) {
+  function (React, InstanceInfo, InstanceDetails, InstanceActionsAndLinks, Backbone) {
 
     return React.createClass({
 
@@ -25,18 +24,15 @@ define(
             size = this.props.size;
 
         return (
-          <div>
-            <Header/>
-            <div className="row instance-details-content">
-              <div className="col-md-9">
-                <InstanceInfo instance={instance}/>
-                <hr/>
-                <InstanceDetails instance={instance} provider={provider} size={size}/>
-                <hr/>
-              </div>
-              <div className="col-md-3">
-                <InstanceActionsAndLinks instance={instance}/>
-              </div>
+          <div className="row instance-details-content">
+            <div className="col-md-9">
+              <InstanceInfo instance={instance}/>
+              <hr/>
+              <InstanceDetails instance={instance} provider={provider} size={size}/>
+              <hr/>
+            </div>
+            <div className="col-md-3">
+              <InstanceActionsAndLinks instance={instance}/>
             </div>
           </div>
         );

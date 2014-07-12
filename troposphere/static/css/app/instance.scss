@@ -128,5 +128,11 @@
 }
 
 .instance-details-content {
-  padding-top: 20px;
+  .section {
+    padding: 23px 0px;
+  }
+
+  hr {
+    margin: 0;
+  }
 }

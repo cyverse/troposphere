@@ -5,13 +5,14 @@ define(
     'react',
     'backbone',
     '../../instances/detail/InstanceDetailsView.react',
+    '../common/BreadcrumbBar.react',
     'stores/InstanceStore',
     'stores/ProviderStore',
     'stores/SizeStore',
     'stores/IdentityStore',
     'controllers/NotificationController'
   ],
-  function (React, Backbone, InstanceDetails, InstanceStore, ProviderStore, SizeStore, IdentityStore, NotificationController) {
+  function (React, Backbone, InstanceDetails, BreadcrumbBar, InstanceStore, ProviderStore, SizeStore, IdentityStore, NotificationController) {
 
     function getState(project, instanceId) {
       return {
@@ -69,7 +70,10 @@ define(
             var size = sizes.get(sizeId);
 
             return (
-              <InstanceDetails instance={this.state.instance} provider={provider} size={size}/>
+              <div>
+                <BreadcrumbBar/>
+                <InstanceDetails instance={this.state.instance} provider={provider} size={size}/>
+              </div>
             );
           }
         }

@@ -28,11 +28,11 @@ define(
         });
 
         return (
-          <div className="instance-info-section clearfix">
+          <div className="instance-info-section section clearfix">
 
             <div className="instance-image">
               <a href="/application/images/9ab516c9-c39f-595e-a990-977642da4c0e">
-                <img src="//www.gravatar.com/avatar/918bf82f238c6c264fc7701e1ff61363?d=identicon&amp;s=100" width="100" height="100"/>
+                <img src="//www.gravatar.com/avatar/918bf82f238c6c264fc7701e1ff61363?d=identicon&amp;s=113" width="113" height="113"/>
               </a>
             </div>
 
