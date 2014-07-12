@@ -31,31 +31,6 @@
   }
 }
 
-.project-description {
-  border-bottom: 1px solid #ccc;
-  padding: 10px 10px 0;
-  position: relative;
-
-  a {
-    float: right;
-  }
-}
-
-.project-contents {
-  padding: 10px;
-}
-
-.project-items {
-  margin: 0;
-  list-style: none;
-}
-
-.no-project-items {
-  font-style: italic;
-  color: #999;
-  margin-right: 7px;
-}
-
 // Project Resource Modal
 #project-resource-modal {
   hr {
