@@ -70,7 +70,7 @@ define(function (require) {
       },
 
       updateState: function(){
-        if (this.isMounted()) this.setState(getState(this.props.project, this.props.instanceId));
+        if (this.isMounted()) this.setState(getState(this.props.instance.id));
       },
 
       //

@@ -28,11 +28,11 @@ define(
         if(this.props.resource) {
           if (this.props.resource instanceof Instance) {
             resourcePreview = (
-              <InstancePreviewView instance={this.props.resource}/>
+              <InstancePreviewView key={this.props.resource.id} instance={this.props.resource}/>
             );
           } else if (this.props.resource instanceof Volume) {
             resourcePreview = (
-              <VolumePreviewView volume={this.props.resource}/>
+              <VolumePreviewView key={this.props.resource.id} volume={this.props.resource}/>
             );
           }
 
