@@ -4,15 +4,27 @@ define(
   [
     'react',
     'backbone',
-    'url'
+    'url',
+    './Checkbox.react'
   ],
-  function (React, Backbone, URL) {
+  function (React, Backbone, URL, Checkbox) {
 
     return React.createClass({
 
       propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
+      },
+
+      getInitialState: function(){
+        return {
+          isChecked: false
+        }
+      },
+
+      toggleCheckbox: function(e){
+        console.log("clicked!");
+        this.setState({isChecked: !this.state.isChecked});
       },
 
       render: function () {
@@ -23,7 +35,7 @@ define(
         }, {absolute: true});
         return (
           <tr>
-            <td><div className="resource-checkbox"></div></td>
+            <td><Checkbox isChecked={this.state.isChecked} onToggleChecked={this.toggleCheckbox}/></td>
             <td><a href={instanceUrl}>{instance.get('name')}</a></td>
             <td>{instance.get('status')}</td>
             <td>{instance.get('ip_address')}</td>

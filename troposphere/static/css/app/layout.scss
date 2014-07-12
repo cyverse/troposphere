@@ -83,6 +83,16 @@ footer {
   border-bottom: 1px solid #EEEEEE;
   margin-bottom: 35px;
 
+  h1 {
+    font-size: 25px;
+    margin-bottom: 12px;
+    margin-top: 29px;
+  }
+
+  ul {
+    padding-left: 0px;
+  }
+
   // For the projects list page
   &.half-height {
     padding: 23px 0px;
@@ -90,6 +100,7 @@ footer {
     h1 {
       float: left;
       margin: 0;
+      line-height: 39px;
     }
 
     button {
@@ -108,11 +119,12 @@ footer {
     }
 
     a {
-      border-bottom: 3px solid transparent;
+      border-bottom: 5px solid transparent;
       text-transform: uppercase;
-      padding: 18px 4px 18px 30px;
+      padding: 18px 4px 18px 0px;
       display: block;
-      font-size: 16px;
+      font-size: 14px;
+      color: #333;
     }
 
     &.active a {
@@ -138,6 +150,7 @@ footer {
     a {
       padding-left: 10px;
       border-left: 2px solid transparent;
+      color: #999;
     }
 
     &.active a {
@@ -223,10 +236,21 @@ footer {
     height: 13px;
     width: 13px;
     border: 1px solid #cccccc;
+    position: relative;
 
-    &.checkmark {
-      background-color: green;
+    img {
+      position: absolute;
+      height: 13px;
+      top: -3px;
+      display: none;
     }
+
+    &.checked {
+      img {
+        display: block;
+      }
+    }
+
   }
 
   // overide default bootstrap styling (specificity is to outweigh bootstrap)
