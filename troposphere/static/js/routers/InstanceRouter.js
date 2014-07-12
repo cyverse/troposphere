@@ -4,19 +4,19 @@ define(
     'components/Root.react',
     'react',
     'context',
-    'components/instances/InstanceDetailsPage.react',
+    //'components/instances/InstanceDetailsPage.react',
     'components/instances/InstanceListPage.react',
     'components/instances/ImageRequestPage.react',
     'components/instances/ReportInstancePage.react',
     'backbone'
   ],
-  function (Marionette, Root, React, context, InstanceDetails, InstanceListPage, ImageRequestPage, ReportInstancePage, Backbone) {
+  function (Marionette, Root, React, context, InstanceListPage, ImageRequestPage, ReportInstancePage, Backbone) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({
       appRoutes: {
         'instances': 'showInstances',
-        'provider/:provider_id/identity/:identity_id/instances/:instance_id': 'showInstanceDetail',
+        //'provider/:provider_id/identity/:identity_id/instances/:instance_id': 'showInstanceDetail',
         'provider/:provider_id/identity/:identity_id/instances/:instance_id/request_image': 'showRequestImage',
         'provider/:provider_id/identity/:identity_id/instances/:instance_id/report': 'showReportInstance'
       }
@@ -38,13 +38,13 @@ define(
         this.render(InstanceListPage(), ["instances"]);
       },
 
-      showInstanceDetail: function (providerId, identityId, instanceId) {
-        this.render(InstanceDetails({
-          providerId: providerId,
-          identityId: identityId,
-          instanceId: instanceId
-        }), ["instances"]);
-      },
+      // showInstanceDetail: function (providerId, identityId, instanceId) {
+      //   this.render(InstanceDetails({
+      //     providerId: providerId,
+      //     identityId: identityId,
+      //     instanceId: instanceId
+      //   }), ["instances"]);
+      // },
 
       showRequestImage: function(providerId, identityId, instanceId){
         this.render(ImageRequestPage({

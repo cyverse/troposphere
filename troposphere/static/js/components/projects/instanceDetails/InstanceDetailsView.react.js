@@ -4,15 +4,17 @@ define(
   [
     'react',
     'backbone',
-    '../../instances/detail/InstanceDetailsView.react',
     '../common/BreadcrumbBar.react',
+    './sections/InstanceInfoSection.react',
+    './sections/InstanceDetailsSection.react',
+    './actions/InstanceActionsAndLinks.react',
     'stores/InstanceStore',
     'stores/ProviderStore',
     'stores/SizeStore',
     'stores/IdentityStore',
     'controllers/NotificationController'
   ],
-  function (React, Backbone, InstanceDetails, BreadcrumbBar, InstanceStore, ProviderStore, SizeStore, IdentityStore, NotificationController) {
+  function (React, Backbone, BreadcrumbBar, InstanceInfoSection, InstanceDetailsSection, InstanceActionsAndLinks, InstanceStore, ProviderStore, SizeStore, IdentityStore, NotificationController) {
 
     function getState(project, instanceId) {
       return {
@@ -72,7 +74,17 @@ define(
             return (
               <div>
                 <BreadcrumbBar/>
-                <InstanceDetails instance={this.state.instance} provider={provider} size={size}/>
+                <div className="row resource-details-content">
+                  <div className="col-md-9">
+                    <InstanceInfoSection instance={this.state.instance}/>
+                    <hr/>
+                    <InstanceDetailsSection instance={this.state.instance} provider={provider} size={size}/>
+                    <hr/>
+                  </div>
+                  <div className="col-md-3">
+                    <InstanceActionsAndLinks instance={this.state.instance}/>
+                  </div>
+                </div>
               </div>
             );
           }
