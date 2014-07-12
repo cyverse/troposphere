@@ -201,7 +201,7 @@ define(
         );
 
         return (
-          <div className="imaging_form module">
+          <div className="col-md-12 imaging_form module">
             <PageHeader title="Request Imaging" helpText={helpText}/>
 
             <form className="request_imaging_form form-horizontal" method="post" onSubmit={this.onSubmit}>
