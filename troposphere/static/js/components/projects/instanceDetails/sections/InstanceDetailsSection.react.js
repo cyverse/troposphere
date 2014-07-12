@@ -6,9 +6,13 @@ define(
     'backbone',
     'components/common/Time.react',
     'url',
-    'components/projects/common/ResourceDetail.react'
+    'components/projects/common/ResourceDetail.react',
+
+    // Resource Details
+    './details/Id.react',
+    './details/Status.react'
   ],
-  function (React, Backbone, Time, URL, ResourceDetail) {
+  function (React, Backbone, Time, URL, ResourceDetail, Id, Status) {
 
     return React.createClass({
 
@@ -16,34 +20,6 @@ define(
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         provider: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         size: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
-
-      getStatus: function(instance){
-        var status = instance.get('status');
-        var statusLight;
-        if(status === "active"){
-          statusLight = <span className="instance-status-light active"></span>;
-        }else if(status === "suspended"){
-          statusLight = <span className="instance-status-light suspended"></span>;
-        }else if(status === "shutoff"){
-          statusLight = <span className="instance-status-light stopped"></span>;
-        }
-
-        var style = {};
-        var capitalizedStatus = status.charAt(0).toUpperCase() + status.slice(1);
-        if(capitalizedStatus === "Error") {
-          capitalizedStatus = "Launch failed. Atmosphere at capacity.";
-          style = {
-            color: "#d44950"
-          }
-        }
-
-        return (
-          <ResourceDetail label="Status">
-            {statusLight}
-            <span style={style}>{capitalizedStatus}</span>
-          </ResourceDetail>
-        );
       },
 
       getSize: function(size){
@@ -90,27 +66,19 @@ define(
         );
       },
 
-      getId: function(instance){
-        return (
-          <ResourceDetail label="ID">
-            {instance.id}
-          </ResourceDetail>
-        );
-      },
-
       render: function () {
 
         return (
           <div className="resource-details-section section">
             <h4 className="title">Instance Details</h4>
             <ul>
-              {this.getStatus(this.props.instance)}
+              <Status instance={this.props.instance}/>
               {this.getSize(this.props.size)}
               {this.getIpAddress(this.props.instance)}
               {this.getLaunchedDate(this.props.instance)}
               {this.getBasedOn(this.props.instance)}
               {this.getIdentity(this.props.instance, this.props.provider)}
-              {this.getId(this.props.instance)}
+              <Id instance={this.props.instance}/>
             </ul>
           </div>
         );

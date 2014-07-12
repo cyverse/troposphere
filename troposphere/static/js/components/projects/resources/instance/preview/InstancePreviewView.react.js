@@ -2,9 +2,11 @@
 
 define(
   [
-    'react'
+    'react',
+    'components/projects/instanceDetails/sections/details/Id.react',
+    'components/projects/instanceDetails/sections/details/Status.react'
   ],
-  function (React) {
+  function (React, Id, Status) {
 
     return React.createClass({
 
@@ -14,7 +16,7 @@ define(
       //
 
       propTypes: {
-
+        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
       //
@@ -25,14 +27,8 @@ define(
       render: function () {
         return (
           <ul>
-            <li>
-              <span>Instance</span>
-              <span>Preview</span>
-            </li>
-            <li>
-              <span>Instance</span>
-              <span>Preview</span>
-            </li>
+            <Id instance={this.props.instance}/>
+            <Status instance={this.props.instance}/>
             <li>
               <span>Instance</span>
               <span>Preview</span>
