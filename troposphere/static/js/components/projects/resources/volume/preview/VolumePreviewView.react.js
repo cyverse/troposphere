@@ -14,10 +14,10 @@ define(function (require) {
         ProviderStore = require('stores/ProviderStore'),
         IdentityStore = require('stores/IdentityStore');
 
-    var Id          = require('components/projects/resources/volume/details/sections/details/Id.react'),
-        Status      = require('components/projects/resources/volume/details/sections/details/Status.react'),
-        Size        = require('components/projects/resources/volume/details/sections/details/Size.react'),
-        Identity    = require('components/projects/resources/volume/details/sections/details/Identity.react');
+    var Id          = require('../details/sections/details/Id.react'),
+        Status      = require('../details/sections/details/Status.react'),
+        Size        = require('../details/sections/details/Size.react'),
+        Identity    = require('../details/sections/details/Identity.react');
 
     //
     // State
