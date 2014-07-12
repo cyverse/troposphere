@@ -4,9 +4,14 @@ define(
   [
     'react',
     'backbone',
-    '../resources/instance/preview/InstancePreviewView.react'
+    '../resources/instance/preview/InstancePreviewView.react',
+    '../resources/volume/preview/VolumePreviewView.react',
+
+    // Resource Models
+    'models/Instance',
+    'models/Volume'
   ],
-  function (React, Backbone, InstancePreviewView) {
+  function (React, Backbone, InstancePreviewView, VolumePreviewView, Instance, Volume) {
 
     return React.createClass({
 
@@ -15,10 +20,17 @@ define(
       },
 
       render: function () {
+        var resource = new Instance();
+        //var resource = new Volume();
+
         var resourcePreview;
-        if(true){
+        if(resource instanceof Instance){
           resourcePreview = (
             <InstancePreviewView/>
+          );
+        } else if(resource instanceof Volume){
+          resourcePreview = (
+            <VolumePreviewView/>
           );
         }
 
