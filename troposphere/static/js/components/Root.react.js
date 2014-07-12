@@ -4,10 +4,9 @@ define(
   [
     'react',
     './Header.react',
-    './sidebar/Sidebar.react',
     './Footer.react'
   ],
-  function (React, Header, Sidebar, Footer) {
+  function (React, Header, Footer) {
 
     return React.createClass({
 
@@ -19,14 +18,6 @@ define(
 
       render: function () {
 
-        var sidebar = (
-          false ?
-          <Sidebar loggedIn={this.state.loggedIn}
-                   currentRoute={this.props.route}
-          />
-          : null
-        );
-
         var footer = (
           false ? <Footer/> : null
         );
@@ -34,7 +25,6 @@ define(
         return (
           <div>
             <Header profile={this.props.profile} currentRoute={this.props.route}/>
-            {sidebar}
             <div id="main">
               {this.props.content}
             </div>
