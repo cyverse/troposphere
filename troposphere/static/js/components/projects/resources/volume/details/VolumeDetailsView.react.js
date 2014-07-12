@@ -6,7 +6,7 @@ define(
     'backbone',
     './sections/VolumeDetailsSection.react',
     './sections/VolumeInfoSection.react',
-    '../common/BreadcrumbBar.react',
+    'components/projects/common/BreadcrumbBar.react',
     './actions/VolumeActionsAndLinks.react',
     'stores/ProjectVolumeStore',
     'stores/ProviderStore',
