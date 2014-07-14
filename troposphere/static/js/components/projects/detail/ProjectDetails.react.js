@@ -35,7 +35,9 @@ define(
       },
 
       getInitialState: function(){
-        return getState(this.props.project);
+        var state = getState(this.props.project);
+        state.selectedResources = [];
+        return state;
       },
 
       componentDidMount: function () {
@@ -59,7 +61,11 @@ define(
       },
 
       onResourceSelected: function(resource){
-        this.setState({selectedResource: resource});
+        this.state.selectedResources.push(resource);
+        this.setState({
+          selectedResource: resource,
+          selectedResource: this.state.selectedResources
+        });
       },
 
       render: function () {
@@ -95,9 +101,12 @@ define(
             }
           }.bind(this));
 
+          // Only show the action button bar if the user has selected resources
+          var isButtonBarVisible = this.state.selectedResources.length > 0;
+
           return (
             <div className="project-content">
-              <ButtonBar/>
+              <ButtonBar isVisible={isButtonBarVisible}/>
               <div className="resource-list">
                 <div className="scrollable-content">
                   <InstanceTable instances={instances}
