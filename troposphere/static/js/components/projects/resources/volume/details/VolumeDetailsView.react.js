@@ -10,12 +10,15 @@ define(
     './actions/VolumeActionsAndLinks.react',
     'stores/ProjectVolumeStore',
     'stores/ProviderStore',
+    'stores/VolumeStore',
+    'stores/IdentityStore',
     'controllers/NotificationController'
   ],
-  function (React, Backbone, VolumeDetailsSection, VolumeInfoSection, BreadcrumbBar, VolumeActionsAndLinks, ProjectVolumeStore, ProviderStore, NotificationController) {
+  function (React, Backbone, VolumeDetailsSection, VolumeInfoSection, BreadcrumbBar, VolumeActionsAndLinks, ProjectVolumeStore, ProviderStore, VolumeStore, IdentityStore, NotificationController) {
 
-    function getState(project) {
+    function getState(project, volumeId) {
       return {
+        volume: VolumeStore.get(volumeId),
         volumes: ProjectVolumeStore.getVolumesInProject(project),
         providers: ProviderStore.getAll()
       };
@@ -47,28 +50,38 @@ define(
       },
 
       getInitialState: function(){
-        return getState(this.props.project);
+        return getState(this.props.project, this.props.volumeId);
       },
 
       componentDidMount: function () {
-        ProjectVolumeStore.addChangeListener(this.onUpdate);
-        ProviderStore.addChangeListener(this.onUpdate);
+        ProjectVolumeStore.addChangeListener(this.updateState);
+        ProviderStore.addChangeListener(this.updateState);
+        VolumeStore.addChangeListener(this.updateState);
+
+        // todo: IdentityStore is only included here because InstanceStore.get(instanceId) is
+        // lazy loading, but I'm not sure how to get InstanceStore to know when new
+        // identities have been without getting this component to call InstanceStore.getAll()
+        // again at the moment.  Figure it out and remove this line.
+        IdentityStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
-        ProjectVolumeStore.removeChangeListener(this.onUpdate);
-        ProviderStore.addChangeListener(this.onUpdate);
+        ProjectVolumeStore.removeChangeListener(this.updateState);
+        ProviderStore.removeChangeListener(this.updateState);
+        VolumeStore.removeChangeListener(this.updateState);
+        IdentityStore.removeChangeListener(this.updateState);
       },
 
-      onUpdate: function(){
-        if (this.isMounted()) this.setState(getState(this.props.project));
+      updateState: function(){
+        if (this.isMounted()) this.setState(getState(this.props.project, this.props.volumeId));
       },
 
       render: function () {
         //<VolumeDetails volume={volume} providers={this.state.providers}/>
-        if(this.state.volumes && this.state.providers) {
+        if(this.state.volumes && this.state.providers && this.state.volume) {
           var volume = this.state.volumes.get(this.props.volumeId);
           if(!volume) NotificationController.error(null, "No volume with id: " + this.props.volumeId);
+          volume = this.state.volume;
 
           return (
             <div>

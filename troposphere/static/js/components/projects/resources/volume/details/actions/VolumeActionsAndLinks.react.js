@@ -5,9 +5,9 @@ define(
     'react',
     'components/common/Glyphicon.react',
     'url',
-    'actions/InstanceActions'
+    'actions/VolumeActions'
   ],
-  function (React, Glyphicon, URL, InstanceActions) {
+  function (React, Glyphicon, URL, VolumeActions) {
 
     return React.createClass({
 
@@ -15,42 +15,31 @@ define(
         volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
-      onStart: function(){
-        InstanceActions.start(this.props.volume);
+      onAttach: function(){
+        VolumeActions.attach(this.props.volume);
       },
 
-      onSuspend: function(){
-        InstanceActions.suspend(this.props.volume);
-      },
-
-      onStop: function(){
-        InstanceActions.stop(this.props.volume);
-      },
-
-      onResume: function(){
-        InstanceActions.resume(this.props.volume);
+      onDetach: function(){
+        VolumeActions.detach(this.props.volume);
       },
 
       onTerminate: function(){
-        InstanceActions.terminate(this.props.volume);
+        VolumeActions.destroy(this.props.volume);
       },
 
       render: function () {
 
+        var status = this.props.volume.get('status');
+
         var linksArray = [
-          {label: 'Actions', icon: null},
-          {label: 'Image', icon: 'camera', href: "#"},
-          {label: 'Report', icon: 'inbox', href: "#"}
+          {label: 'Actions', icon: null}
         ];
 
         // Add in the conditional links based on current machine state
-        if(status === "active"){
-          linksArray.push({label: 'Suspend', icon: 'pause', onClick: this.onSuspend});
-          linksArray.push({label: 'Stop', icon: 'stop', onClick: this.onStop});
-        }else if(status === "suspended"){
-          linksArray.push({label: 'Resume', icon: 'play', onClick: this.onResume});
-        }else if(status === "shutoff"){
-          linksArray.push({label: 'Start', icon: 'play', onClick: this.onStart});
+        if(status === "available"){
+          linksArray.push({label: 'Attach', icon: 'save', onClick: this.onAttach});
+        }else if(status === "in-use"){
+          linksArray.push({label: 'Detach', icon: 'open', onClick: this.onDetach});
         }
 
         linksArray = linksArray.concat([
