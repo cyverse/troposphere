@@ -5,9 +5,15 @@ define(
     'react',
     'backbone',
     'url',
-    './Checkbox.react'
+    './Checkbox.react',
+
+    // Table Data
+    './tableData/volume/Name.react',
+    './tableData/volume/Status.react',
+    './tableData/volume/Size.react',
+    './tableData/volume/Provider.react'
   ],
-  function (React, Backbone, URL, Checkbox) {
+  function (React, Backbone, URL, Checkbox, Name, Status, Size, Provider) {
 
     return React.createClass({
 
@@ -30,18 +36,22 @@ define(
 
       render: function () {
         var volume = this.props.volume;
-        var volumeUrl = URL.projectVolume({
-          project: this.props.project,
-          volume: volume
-        }, {absolute: true});
 
         return (
           <tr>
             <td><Checkbox isChecked={this.state.isChecked} onToggleChecked={this.toggleCheckbox}/></td>
-            <td><a href={volumeUrl}>{volume.get('name')}</a></td>
-            <td>Attached to <a href="#">?iPlant Base Instance?</a></td>
-            <td>{volume.get('size') + " GB"}</td>
-            <td><a href="#">?iPlant Cloud - Tucson?</a></td>
+            <td>
+              <Name project={this.props.project} volume={volume}/>
+            </td>
+            <td>
+              <Status volume={volume}/>
+            </td>
+            <td>
+              <Size volume={volume}/>
+            </td>
+            <td>
+              <Provider/>
+            </td>
           </tr>
         );
       }
