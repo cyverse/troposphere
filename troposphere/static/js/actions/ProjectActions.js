@@ -1,16 +1,17 @@
 define(
   [
+    'react',
     'dispatchers/AppDispatcher',
     'constants/ProjectConstants',
     'constants/ProjectInstanceConstants',
     'constants/ProjectVolumeConstants',
     'components/modals/CancelConfirmModal.react',
     'components/modals/ProjectAddResourceModal.react',
-    'react',
+    'components/modals/VolumeCreateModal.react',
     'models/Instance',
     'models/Volume'
   ],
-  function (AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, CancelConfirmModal, ProjectAddResourceModal, React, Instance, Volume) {
+  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, CancelConfirmModal, ProjectAddResourceModal, VolumeCreateModal, Instance, Volume) {
 
     function getItemType(model) {
       var objectType;

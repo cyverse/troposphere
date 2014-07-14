@@ -175,6 +175,18 @@ define(
         }.bind(this));
 
         var content;
+
+        var projectDropdown = false ? (
+          <div className='form-group'>
+            <label htmlFor='project'>Project</label>
+            <ProjectSelect
+                projectId={this.state.projectId}
+                projects={this.state.projects}
+                onChange={this.onProjectChange}
+            />
+          </div>
+        ) : null;
+
         if(this.state.identities && this.state.providers){
           content = (
             <form role='form'>
@@ -199,14 +211,7 @@ define(
                 />
               </div>
 
-              <div className='form-group'>
-                <label htmlFor='project'>Project</label>
-                <ProjectSelect
-                    projectId={this.state.projectId}
-                    projects={this.state.projects}
-                    onChange={this.onProjectChange}
-                />
-              </div>
+              {projectDropdown}
 
             </form>
           );
