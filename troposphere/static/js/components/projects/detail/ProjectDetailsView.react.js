@@ -25,7 +25,7 @@ define(
                 <tbody>
                   <tr>
                     <td className="td-sub-menu">
-                      <SubMenu/>
+                      <SubMenu project={this.props.project}/>
                     </td>
                     <td className="td-project-content">
                       {this.props.children}

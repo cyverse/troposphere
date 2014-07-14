@@ -147,7 +147,11 @@ define(
           VolumeStore.emitChange();
         }
       });
-      _volumes.add(volume);
+      if(_volumes) {
+        _volumes.add(volume)
+      }else{
+        console.error("_volumes not defined");
+      }
     };
 
     //
