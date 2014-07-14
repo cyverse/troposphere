@@ -20,7 +20,8 @@ define(
       propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        onResourceSelected: React.PropTypes.func.isRequired
+        onResourceSelected: React.PropTypes.func.isRequired,
+        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
       },
 
       getInitialState: function(){
@@ -50,7 +51,7 @@ define(
               <Size volume={volume}/>
             </td>
             <td>
-              <Provider/>
+              <Provider volume={volume} providers={this.props.providers}/>
             </td>
           </tr>
         );

@@ -11,10 +11,13 @@ define(
     return React.createClass({
 
       propTypes: {
-        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       render: function () {
+
+
         return (
           <ResourceDetail label="Status">
             {"?Attached to Instance Name?"}

@@ -12,9 +12,10 @@ define(
     'stores/ProjectInstanceStore',
     'stores/ProjectVolumeStore',
     'stores/InstanceStore',
-    'stores/VolumeStore'
+    'stores/VolumeStore',
+    'stores/ProviderStore'
   ],
-  function (React, Backbone, InstanceTable, VolumeTable, PreviewPanel, SubMenu, ButtonBar, ProjectInstanceStore, ProjectVolumeStore, InstanceStore, VolumeStore) {
+  function (React, Backbone, InstanceTable, VolumeTable, PreviewPanel, SubMenu, ButtonBar, ProjectInstanceStore, ProjectVolumeStore, InstanceStore, VolumeStore, ProviderStore) {
 
     function getState(project) {
       return {
@@ -22,7 +23,8 @@ define(
         volumes: VolumeStore.getAll(),
         projectInstances: ProjectInstanceStore.getInstancesInProject(project),
         projectVolumes: ProjectVolumeStore.getVolumesInProject(project),
-        selectedResource: null
+        selectedResource: null,
+        providers: ProviderStore.getAll()
       };
     }
 
@@ -41,6 +43,7 @@ define(
         VolumeStore.addChangeListener(this.updateState);
         ProjectInstanceStore.addChangeListener(this.updateState);
         ProjectVolumeStore.addChangeListener(this.updateState);
+        ProviderStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
@@ -48,6 +51,7 @@ define(
         VolumeStore.removeChangeListener(this.updateState);
         ProjectInstanceStore.removeChangeListener(this.updateState);
         ProjectVolumeStore.removeChangeListener(this.updateState);
+        ProviderStore.removeChangeListener(this.updateState);
       },
 
       updateState: function(){
@@ -59,7 +63,7 @@ define(
       },
 
       render: function () {
-        if(this.state.projectInstances && this.state.projectVolumes && this.state.instances && this.state.volumes) {
+        if(this.state.projectInstances && this.state.projectVolumes && this.state.instances && this.state.volumes && this.state.providers) {
 
           // Figure out which instances are real
           var instances = new this.state.instances.constructor();
@@ -96,8 +100,16 @@ define(
               <ButtonBar/>
               <div className="resource-list">
                 <div className="scrollable-content">
-                  <InstanceTable instances={instances} project={this.props.project} onResourceSelected={this.onResourceSelected}/>
-                  <VolumeTable volumes={volumes} project={this.props.project} onResourceSelected={this.onResourceSelected}/>
+                  <InstanceTable instances={instances}
+                                 project={this.props.project}
+                                 onResourceSelected={this.onResourceSelected}
+                                 providers={this.state.providers}
+                  />
+                  <VolumeTable volumes={volumes}
+                               project={this.props.project}
+                               onResourceSelected={this.onResourceSelected}
+                               providers={this.state.providers}
+                  />
                 </div>
                 <PreviewPanel resource={this.state.selectedResource}/>
               </div>
