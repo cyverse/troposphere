@@ -3,9 +3,10 @@
 define(
   [
     'react',
-    'backbone'
+    'backbone',
+    'components/projects/common/StatusLight.react'
   ],
-  function (React, Backbone) {
+  function (React, Backbone, StatusLight) {
 
     return React.createClass({
 
@@ -14,10 +15,22 @@ define(
       },
 
       render: function () {
-        var instance = this.props.instance;
+        var status = this.props.instance.get('status');
+        var style = {};
+        var capitalizedStatus = status.charAt(0).toUpperCase() + status.slice(1);
+
+        if(capitalizedStatus === "Error") {
+          capitalizedStatus = "Launch failed. Atmosphere at capacity.";
+          style = {
+            color: "#d44950"
+          }
+        }
 
         return (
-          <span>{instance.get('status')}</span>
+          <span>
+            <StatusLight instance={this.props.instance}/>
+            <span style={style}>{capitalizedStatus}</span>
+          </span>
         );
       }
 

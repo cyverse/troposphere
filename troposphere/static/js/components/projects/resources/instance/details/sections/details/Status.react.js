@@ -4,9 +4,10 @@ define(
   [
     'react',
     'backbone',
-    'components/projects/common/ResourceDetail.react'
+    'components/projects/common/ResourceDetail.react',
+    'components/projects/common/StatusLight.react'
   ],
-  function (React, Backbone, ResourceDetail) {
+  function (React, Backbone, ResourceDetail, StatusLight) {
 
     return React.createClass({
 
@@ -16,17 +17,9 @@ define(
 
       render: function () {
         var status = this.props.instance.get('status');
-        var statusLight;
-        if(status === "active"){
-          statusLight = <span className="instance-status-light active"></span>;
-        }else if(status === "suspended"){
-          statusLight = <span className="instance-status-light suspended"></span>;
-        }else if(status === "shutoff"){
-          statusLight = <span className="instance-status-light stopped"></span>;
-        }
-
         var style = {};
         var capitalizedStatus = status.charAt(0).toUpperCase() + status.slice(1);
+
         if(capitalizedStatus === "Error") {
           capitalizedStatus = "Launch failed. Atmosphere at capacity.";
           style = {
@@ -36,7 +29,7 @@ define(
 
         return (
           <ResourceDetail label="Status">
-            {statusLight}
+            <StatusLight instance={this.props.instance}/>
             <span style={style}>{capitalizedStatus}</span>
           </ResourceDetail>
         );
