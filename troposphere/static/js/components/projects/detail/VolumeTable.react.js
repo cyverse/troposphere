@@ -5,9 +5,10 @@ define(
     'react',
     'backbone',
     './VolumeRow.react',
+    './VolumeNotRealRow.react',
     './Checkbox.react'
   ],
-  function (React, Backbone, VolumeRow, Checkbox) {
+  function (React, Backbone, VolumeRow, VolumeNotRealRow, Checkbox) {
 
     return React.createClass({
 
@@ -28,13 +29,22 @@ define(
 
       render: function () {
         var volumeRows = this.props.volumes.map(function(volume){
-          return (
-            <VolumeRow key={volume.id}
-                       volume={volume}
-                       project={this.props.project}
-                       onResourceSelected={this.props.onResourceSelected}
-            />
-          );
+          if(volume.isRealVolume) {
+            return (
+              <VolumeRow key={volume.id}
+                         volume={volume}
+                         project={this.props.project}
+                         onResourceSelected={this.props.onResourceSelected}
+              />
+            );
+          }else{
+            return (
+              <VolumeNotRealRow key={volume.id}
+                                volume={volume}
+                                project={this.props.project}
+              />
+            );
+          }
         }.bind(this));
 
         return (

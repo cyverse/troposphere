@@ -60,16 +60,32 @@ define(
 
       render: function () {
         if(this.state.projectInstances && this.state.projectVolumes && this.state.instances && this.state.volumes) {
-          
+
+          // Figure out which instances are real
+          var instances = new this.state.instances.constructor();
+
+          this.state.projectInstances.map(function(projectInstance){
+            var realInstance = this.state.instances.get(projectInstance.id);
+            if(realInstance){
+              realInstance.isRealInstance = true;
+              instances.push(realInstance);
+            }else {
+              console.log("Instance " + projectInstance.get('name') + " is not real.");
+              projectInstance.isRealInstance = false;
+              instances.push(projectInstance);
+            }
+          }.bind(this));
+
           // Figure out which volumes are real
           var volumes = new this.state.volumes.constructor();
 
           this.state.projectVolumes.map(function(projectVolume){
             var realVolume = this.state.volumes.get(projectVolume.id);
             if(realVolume){
+              realVolume.isRealVolume = true;
               volumes.push(realVolume);
             }else {
-              console.log(projectVolume.get('name') + " is not real.");
+              console.log("Volume " + projectVolume.get('name') + " is not real.");
               projectVolume.isRealVolume = false;
               volumes.push(projectVolume);
             }
@@ -80,7 +96,7 @@ define(
               <ButtonBar/>
               <div className="resource-list">
                 <div className="scrollable-content">
-                  <InstanceTable instances={this.state.instances} project={this.props.project} onResourceSelected={this.onResourceSelected}/>
+                  <InstanceTable instances={instances} project={this.props.project} onResourceSelected={this.onResourceSelected}/>
                   <VolumeTable volumes={volumes} project={this.props.project} onResourceSelected={this.onResourceSelected}/>
                 </div>
                 <PreviewPanel resource={this.state.selectedResource}/>

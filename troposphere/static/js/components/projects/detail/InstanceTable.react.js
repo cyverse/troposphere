@@ -5,9 +5,10 @@ define(
     'react',
     'backbone',
     './InstanceRow.react',
+    './InstanceNotRealRow.react',
     './Checkbox.react'
   ],
-  function (React, Backbone, InstanceRow, Checkbox) {
+  function (React, Backbone, InstanceRow, InstanceNotRealRow, Checkbox) {
 
     return React.createClass({
 
@@ -29,13 +30,22 @@ define(
 
       render: function () {
         var instanceRows = this.props.instances.map(function(instance){
-          return (
-            <InstanceRow key={instance.id}
-                         instance={instance}
-                         project={this.props.project}
-                         onResourceSelected={this.props.onResourceSelected}
-            />
-          );
+          if(instance.isRealInstance) {
+            return (
+              <InstanceRow key={instance.id}
+                           instance={instance}
+                           project={this.props.project}
+                           onResourceSelected={this.props.onResourceSelected}
+              />
+            );
+          }else{
+            return (
+              <InstanceNotRealRow key={instance.id}
+                                  instance={instance}
+                                  project={this.props.project}
+              />
+            );
+          }
         }.bind(this));
 
         return (
