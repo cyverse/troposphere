@@ -29,12 +29,16 @@ define(
               <button className="btn btn-primary dropdown-toggle" data-toggle="dropdown">Create</button>
               <ul className="dropdown-menu">
                 <li>
-                  <i className={'glyphicon glyphicon-tasks'}/>
-                  <a href="/application/images">Instance</a>
+                  <a href="/application/images">
+                    <i className={'glyphicon glyphicon-tasks'}/>
+                    Instance
+                  </a>
                 </li>
                 <li>
-                  <i className={'glyphicon glyphicon-hdd'}/>
-                  <a href="#" onClick={this.onLaunchVolume}>Volume</a>
+                  <a href="#" onClick={this.onLaunchVolume}>
+                    <i className={'glyphicon glyphicon-hdd'}/>
+                    Volume
+                  </a>
                 </li>
               </ul>
             </div>
