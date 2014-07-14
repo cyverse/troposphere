@@ -90,8 +90,9 @@ define(
         $.ajax({
           url: action_url,
           type: 'POST',
-          data: param,
+          data: JSON.stringify(param),
           dataType: "json",
+          contentType: 'application/json',
           success: function (response_text, textStatus, jqXHR) {
             var attachData = {
               attach_time: null,
@@ -147,9 +148,10 @@ define(
 
         $.ajax({
           url: action_url,
-          type: "POST",
-          data: param,
-          dataType: "json",
+          type: 'POST',
+          data: JSON.stringify(param),
+          dataType: 'json',
+          contentType: 'application/json',
           success: function (response_data) {
             self.set({
               'attach_data': {},

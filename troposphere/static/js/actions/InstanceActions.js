@@ -159,7 +159,9 @@ define(
         $.ajax({
           url: requestUrl,
           type: 'PUT',
-          data: requestData,
+          data: JSON.stringify(requestData),
+          dataType: 'json',
+          contentType: 'application/json',
           success: function (model) {
             NotificationController.info(null, "An image of your instance has been requested");
           },
@@ -198,6 +200,8 @@ define(
           url: reportUrl,
           type: 'POST',
           data: JSON.stringify(reportData),
+          dataType: 'json',
+          contentType: 'application/json',
           success: function (model) {
             NotificationController.info(null, "Your instance problems have been sent to support.");
             var instanceUrl = URL.instance(instance);
