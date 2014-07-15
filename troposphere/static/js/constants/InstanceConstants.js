@@ -4,6 +4,7 @@ define(
   function () {
 
     return {
+      INSTANCE_UPDATE: "INSTANCE_UPDATE",
       INSTANCE_START: "INSTANCE_START",
       INSTANCE_STOP: "INSTANCE_STOP",
       INSTANCE_SUSPEND: "INSTANCE_SUSPEND",

@@ -18,6 +18,14 @@ define(
   function (AppDispatcher, InstanceConstants, React, globals, context, NotificationController, CancelConfirmModal, InstanceSuspendBody, InstanceResumeBody, InstanceStopBody, InstanceStartBody, InstanceTerminateBody, InstanceLaunchModal, URL) {
 
     return {
+      updateInstanceAttributes: function (instance, newAttributes) {
+        instance.set(newAttributes);
+        AppDispatcher.handleRouteAction({
+          actionType: InstanceConstants.INSTANCE_UPDATE,
+          instance: instance
+        });
+      },
+
       suspend: function (instance) {
 
         var onConfirm = function () {

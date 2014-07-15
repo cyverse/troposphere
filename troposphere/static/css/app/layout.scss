@@ -89,6 +89,7 @@
       margin-bottom: 7px;
       margin-top: 25px;
       outline: 0;
+      background-color: transparent;
     }
   }
 }
@@ -103,6 +104,19 @@
 
   &:hover i {
     display: inline-block;
+  }
+}
+
+.resource-name {
+  input {
+    border: 0;
+    padding: 0;
+    border-bottom: 1px dashed #CCC;
+    margin-bottom: 7px;
+    margin-top: 7px;
+    outline: 0;
+    font-size: 18px;
+    background-color: transparent;
   }
 }
 
