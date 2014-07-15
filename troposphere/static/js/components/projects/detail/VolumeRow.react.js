@@ -42,7 +42,7 @@ define(
         var rowClassName = this.props.isSelected ? "selected" : null;
 
         return (
-          <tr className={rowClassName}>
+          <tr className={rowClassName} onClick={this.toggleCheckbox}>
             <td><Checkbox isChecked={this.state.isChecked} onToggleChecked={this.toggleCheckbox}/></td>
             <td>
               <Name project={this.props.project} volume={volume}/>
