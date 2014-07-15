@@ -13,9 +13,10 @@ define(
     'stores/ProjectVolumeStore',
     'stores/InstanceStore',
     'stores/VolumeStore',
-    'stores/ProviderStore'
+    'stores/ProviderStore',
+    'actions/ProjectActions'
   ],
-  function (React, Backbone, InstanceTable, VolumeTable, PreviewPanel, SubMenu, ButtonBar, ProjectInstanceStore, ProjectVolumeStore, InstanceStore, VolumeStore, ProviderStore) {
+  function (React, Backbone, InstanceTable, VolumeTable, PreviewPanel, SubMenu, ButtonBar, ProjectInstanceStore, ProjectVolumeStore, InstanceStore, VolumeStore, ProviderStore, ProjectActions) {
 
     function getState(project) {
       return {
@@ -68,6 +69,11 @@ define(
         });
       },
 
+      onMoveSelectedResources: function(){
+        var selectedResources = this.state.selectedResources;
+        ProjectActions.moveResources(selectedResources);
+      },
+
       render: function () {
         if(this.state.projectInstances && this.state.projectVolumes && this.state.instances && this.state.volumes && this.state.providers) {
 
@@ -106,7 +112,7 @@ define(
 
           return (
             <div className="project-content">
-              <ButtonBar isVisible={isButtonBarVisible}/>
+              <ButtonBar isVisible={isButtonBarVisible} onMoveSelectedResources={this.onMoveSelectedResources}/>
               <div className="resource-list">
                 <div className="scrollable-content">
                   <InstanceTable instances={instances}
