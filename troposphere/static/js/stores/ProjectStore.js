@@ -46,6 +46,18 @@ define(
       _projects.add(project);
     }
 
+    function update(project){
+      project.save().done(function(){
+        var successMessage = "Project " + project.get('name') + " updated.";
+        //NotificationController.success(successMessage);
+        ProjectStore.emitChange();
+      }).fail(function(){
+        var failureMessage = "Error updating Project " + project.get('name') + ".";
+        NotificationController.error(failureMessage);
+        ProjectStore.emitChange();
+      });
+    }
+
     function destroy(project){
       project.destroy().done(function(){
         var successMessage = "Project " + project.get('name') + " deleted.";
@@ -123,6 +135,10 @@ define(
       switch (action.actionType) {
         case ProjectConstants.PROJECT_CREATE:
           create(action.model);
+          break;
+
+        case ProjectConstants.PROJECT_UPDATE:
+          update(action.model);
           break;
 
         case ProjectConstants.PROJECT_DESTROY:

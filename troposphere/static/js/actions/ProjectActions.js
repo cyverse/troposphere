@@ -32,6 +32,14 @@ define(
         });
       },
 
+      updateProjectAttributes: function (project, newAttributes) {
+        project.set(newAttributes);
+        AppDispatcher.handleRouteAction({
+          actionType: ProjectConstants.PROJECT_UPDATE,
+          model: project
+        });
+      },
+
       destroy: function (project) {
 
         var onConfirm = function () {

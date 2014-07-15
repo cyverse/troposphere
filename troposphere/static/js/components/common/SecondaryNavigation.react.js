@@ -16,7 +16,8 @@ define(
         title: React.PropTypes.string.isRequired,
         routes: React.PropTypes.array.isRequired,
         currentRoute: React.PropTypes.string.isRequired,
-        canEditTitle: React.PropTypes.bool
+        canEditTitle: React.PropTypes.bool,
+        onTitleChanged: React.PropTypes.func
       },
 
       getInitialState: function(){
@@ -31,6 +32,7 @@ define(
           title: text,
           isEditing: false
         });
+        this.props.onTitleChanged(text);
       },
 
       onEnterEditMode: function(e){
@@ -53,7 +55,7 @@ define(
         }.bind(this));
 
         var titleContent;
-        if(this.state.isEditing){
+        if(this.props.canEditTitle && this.state.isEditing){
           titleContent = (
             <EditableInputField text={this.state.title} onDoneEditing={this.onDoneEditing}/>
           );
