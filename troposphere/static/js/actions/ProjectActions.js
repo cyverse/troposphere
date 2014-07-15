@@ -99,7 +99,7 @@ define(
             this.removeItemFromProject(currentProject, resource);
             this.addItemToProject(newProject, resource);
           }.bind(this));
-        };
+        }.bind(this);
 
         var onCancel = function(){
           // Important! We need to un-mount the component so it un-registers from Stores and
@@ -113,7 +113,8 @@ define(
           onConfirm: onConfirm,
           onCancel: onCancel,
           handleHidden: onCancel,
-          currentProject: currentProject
+          currentProject: currentProject,
+          resources: resources
         });
 
         React.renderComponent(modal, document.getElementById('modal'));

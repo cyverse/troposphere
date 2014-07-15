@@ -58,7 +58,8 @@ define(
       mixins: [BootstrapModalMixin],
 
       propTypes: {
-        currentProject: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        currentProject: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        resources: React.PropTypes.array.isRequired
       },
 
       //
@@ -139,6 +140,12 @@ define(
 
         var content;
         if(this.state.projects){
+          var resourceNames = this.props.resources.map(function(resource){
+            return (
+              <li key={resource.id}>{resource.get('name')}</li>
+            );
+          });
+
           content = (
             <form role='form'>
 
@@ -146,8 +153,7 @@ define(
                 <label htmlFor='volumeSize'>Resources to Move</label>
                 <p>The following resources will be moved to the selected project</p>
                 <ul>
-                  <li>Resource 1</li>
-                  <li>Resource 2</li>
+                  {resourceNames}
                 </ul>
               </div>
 
