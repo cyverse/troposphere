@@ -4,13 +4,8 @@ define(
   [
     'react',
     'backbone',
-    './InstanceTable.react',
-    './VolumeTable.react',
     './PreviewPanel.react',
-    './SubMenu.react',
     './ButtonBar.react',
-    './NoInstanceNotice.react',
-    './NoVolumeNotice.react',
     './InstanceList.react',
     './VolumeList.react',
 
@@ -22,7 +17,7 @@ define(
     'stores/ProviderStore',
     'actions/ProjectActions'
   ],
-  function (React, Backbone, InstanceTable, VolumeTable, PreviewPanel, SubMenu, ButtonBar, NoInstanceNotice, NoVolumeNotice, InstanceList, VolumeList, ProjectInstanceStore, ProjectVolumeStore, InstanceStore, VolumeStore, ProviderStore, ProjectActions) {
+  function (React, Backbone, PreviewPanel, ButtonBar, InstanceList, VolumeList, ProjectInstanceStore, ProjectVolumeStore, InstanceStore, VolumeStore, ProviderStore, ProjectActions) {
 
     function getState(project) {
       return {
