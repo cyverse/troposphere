@@ -66,7 +66,7 @@ define(
         this.state.selectedResources.push(resource);
         this.setState({
           selectedResource: resource,
-          selectedResource: this.state.selectedResources
+          selectedResources: this.state.selectedResources
         });
       },
 
@@ -87,7 +87,7 @@ define(
               realInstance.isRealInstance = true;
               instances.push(realInstance);
             }else {
-              console.log("Instance " + projectInstance.get('name') + " is not real.");
+              //console.log("Instance " + projectInstance.get('name') + " is not real.");
               projectInstance.isRealInstance = false;
               instances.push(projectInstance);
             }
@@ -102,7 +102,7 @@ define(
               realVolume.isRealVolume = true;
               volumes.push(realVolume);
             }else {
-              console.log("Volume " + projectVolume.get('name') + " is not real.");
+              //console.log("Volume " + projectVolume.get('name') + " is not real.");
               projectVolume.isRealVolume = false;
               volumes.push(projectVolume);
             }
@@ -120,11 +120,13 @@ define(
                                 project={this.props.project}
                                 onResourceSelected={this.onResourceSelected}
                                 providers={this.state.providers}
+                                selectedResource={this.state.selectedResource}
                   />
                   <VolumeList volumes={volumes}
                               project={this.props.project}
                               onResourceSelected={this.onResourceSelected}
                               providers={this.state.providers}
+                              selectedResource={this.state.selectedResource}
                   />
                 </div>
                 <PreviewPanel resource={this.state.selectedResource}/>

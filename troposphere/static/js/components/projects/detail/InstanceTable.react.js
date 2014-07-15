@@ -16,7 +16,8 @@ define(
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         onResourceSelected: React.PropTypes.func.isRequired,
-        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        selectedResource: React.PropTypes.instanceOf(Backbone.Model)
       },
 
       getInitialState: function(){
@@ -31,6 +32,7 @@ define(
 
       render: function () {
         var instanceRows = this.props.instances.map(function(instance){
+          var isSelected = (this.props.selectedResource === instance);
           if(instance.isRealInstance) {
             return (
               <InstanceRow key={instance.id}
@@ -38,6 +40,7 @@ define(
                            project={this.props.project}
                            onResourceSelected={this.props.onResourceSelected}
                            providers={this.props.providers}
+                           isSelected={isSelected}
               />
             );
           }else{

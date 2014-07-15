@@ -22,7 +22,8 @@ define(
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         onResourceSelected: React.PropTypes.func.isRequired,
-        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        isSelected: React.PropTypes.bool
       },
 
       getInitialState: function(){
@@ -40,8 +41,10 @@ define(
         var project = this.props.project,
             instance = this.props.instance;
 
+        var rowClassName = this.props.isSelected ? "selected" : null;
+
         return (
-          <tr>
+          <tr className={rowClassName}>
             <td>
               <Checkbox isChecked={this.state.isChecked} onToggleChecked={this.toggleCheckbox}/>
             </td>

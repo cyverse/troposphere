@@ -264,7 +264,6 @@
         display: block;
       }
     }
-
   }
 
   // overide default bootstrap styling (specificity is to outweigh bootstrap)
@@ -272,6 +271,18 @@
     border: none;
   }
 
+}
+
+.table tr {
+  &.selected {
+    //background-color: rgba(255,255,100,0.4);
+    //background-color: rgba(0, 123, 137, 0.2);
+    background-color: #eee;
+
+    &:hover td {
+      background-color: #eee;
+    }
+  }
 }
 
 .project-details > div.container {
