@@ -3,9 +3,12 @@
 define(
   [
     'react',
-    'backbone'
+    'backbone',
+    './EditableInputField.react'
   ],
-  function (React, Backbone) {
+  function (React, Backbone, EditableInputField) {
+
+    var ENTER_KEY = 13;
 
     return React.createClass({
 
@@ -18,8 +21,20 @@ define(
 
       getInitialState: function(){
         return {
-          isEditing: false
+          isEditing: false,
+          title: this.props.title
         }
+      },
+
+      onDoneEditing: function(text){
+        this.setState({
+          title: text,
+          isEditing: false
+        });
+      },
+
+      onEnterEditMode: function(e){
+        this.setState({isEditing: true});
       },
 
       render: function () {
@@ -37,15 +52,22 @@ define(
           );
         }.bind(this));
 
-        var titleClass = "project-name";
-        if(this.state.isEditing) titleClass += " editing";
+        var titleContent;
+        if(this.state.isEditing){
+          titleContent = (
+            <EditableInputField text={this.state.title} onDoneEditing={this.onDoneEditing}/>
+          );
+        }else{
+          titleContent = (
+            <h1 onClick={this.onEnterEditMode}>{this.state.title}</h1>
+          );
+        }
 
         return (
           <div className="secondary-nav">
             <div className="container">
-              <div className={titleClass}>
-                <h1>{this.props.title}</h1>
-                <input type="text" value={this.props.title}/>
+              <div className="project-name">
+                {titleContent}
               </div>
               <ul className="secondary-nav-links">
                 {links}

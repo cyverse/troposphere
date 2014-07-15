@@ -89,16 +89,6 @@
       margin-bottom: 7px;
       margin-top: 25px;
       outline: 0;
-      display: none;
-    }
-
-    &.editing {
-      h1 {
-        display: none;
-      }
-      input {
-        display: block;
-      }
     }
   }
 }
