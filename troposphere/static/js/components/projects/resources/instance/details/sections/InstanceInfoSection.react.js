@@ -35,7 +35,12 @@ define(
             </div>
 
             <div className="resource-info">
-              <h4 className="resource-name">{this.props.instance.get('name')}</h4>
+              <div className="resource-name editable">
+                <h4>
+                  {this.props.instance.get('name')}
+                  <i className="glyphicon glyphicon-pencil"></i>
+                </h4>
+              </div>
               <div className="resource-launch-date">Launched on <Time date={this.props.instance.get('start_date')}/></div>
               <div className="resource-tags">Instance Tags:</div>
               <ul className="tags">

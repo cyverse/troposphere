@@ -90,19 +90,30 @@
       margin-top: 25px;
       outline: 0;
     }
+  }
+}
 
-    h1 i {
-      font-size: 18px;
-      color: #999;
-      margin-left: 9px;
-      display: none;
-    }
+.editable {
+  i {
+    font-size: 18px;
+    color: #999;
+    margin-left: 9px;
+    display: none;
+  }
 
-    &.editable h1 {
-      &:hover i {
-        display: inline-block;
-      }
-    }
+  &:hover i {
+    display: inline-block;
+  }
+}
+
+.editable h1 {
+  @extend .editable;
+}
+
+.editable h4 {
+  @extend .editable;
+  i {
+    font-size: 14px;
   }
 }
 

@@ -28,7 +28,7 @@ define(
             </div>
 
             <div className="resource-info">
-              <h4 className="resource-name resource-name">
+              <h4 className="resource-name">
                 {this.props.volume.get('name')}
               </h4>
               <div className="resource-launch-date">
