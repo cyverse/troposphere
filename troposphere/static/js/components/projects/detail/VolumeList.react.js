@@ -15,7 +15,8 @@ define(
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         volumes: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         onResourceSelected: React.PropTypes.func.isRequired,
-        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        selectedResource: React.PropTypes.instanceOf(Backbone.Model)
       },
 
       getVolumeContent: function(){
@@ -25,6 +26,7 @@ define(
                          project={this.props.project}
                          onResourceSelected={this.props.onResourceSelected}
                          providers={this.props.providers}
+                         selectedResource={this.props.selectedResource}
             />
           );
         }else{

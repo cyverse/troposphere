@@ -22,6 +22,7 @@ define(
         volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         onResourceSelected: React.PropTypes.func.isRequired,
         providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        isSelected: React.PropTypes.bool
       },
 
       getInitialState: function(){
@@ -38,8 +39,10 @@ define(
       render: function () {
         var volume = this.props.volume;
 
+        var rowClassName = this.props.isSelected ? "selected" : null;
+
         return (
-          <tr>
+          <tr className={rowClassName}>
             <td><Checkbox isChecked={this.state.isChecked} onToggleChecked={this.toggleCheckbox}/></td>
             <td>
               <Name project={this.props.project} volume={volume}/>

@@ -15,7 +15,8 @@ define(
       propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         volumes: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        selectedResource: React.PropTypes.instanceOf(Backbone.Model)
       },
 
       getInitialState: function(){
@@ -30,6 +31,7 @@ define(
 
       render: function () {
         var volumeRows = this.props.volumes.map(function(volume){
+          var isSelected = (this.props.selectedResource === volume);
           if(volume.isRealVolume) {
             return (
               <VolumeRow key={volume.id}
@@ -37,6 +39,7 @@ define(
                          project={this.props.project}
                          onResourceSelected={this.props.onResourceSelected}
                          providers={this.props.providers}
+                         isSelected={isSelected}
               />
             );
           }else{
