@@ -32,8 +32,9 @@
 
   h1 {
     font-size: 25px;
-    margin-bottom: 12px;
+    margin-bottom: 3px;
     margin-top: 29px;
+    height: 36px;
   }
 
   ul {
@@ -76,6 +77,28 @@
 
     &.active a {
       border-color: #6AA54F;
+    }
+  }
+
+  .project-name {
+    input {
+      border: 0;
+      padding: 0;
+      border-bottom: 1px dashed #CCC;
+      font-size: 25px;
+      margin-bottom: 7px;
+      margin-top: 25px;
+      outline: 0;
+      display: none;
+    }
+
+    &.editing {
+      h1 {
+        display: none;
+      }
+      input {
+        display: block;
+      }
     }
   }
 }

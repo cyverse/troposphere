@@ -12,7 +12,14 @@ define(
       propTypes: {
         title: React.PropTypes.string.isRequired,
         routes: React.PropTypes.array.isRequired,
-        currentRoute: React.PropTypes.string.isRequired
+        currentRoute: React.PropTypes.string.isRequired,
+        canEditTitle: React.PropTypes.bool
+      },
+
+      getInitialState: function(){
+        return {
+          isEditing: false
+        }
       },
 
       render: function () {
@@ -30,11 +37,15 @@ define(
           );
         }.bind(this));
 
+        var titleClass = "project-name";
+        if(this.state.isEditing) titleClass += " editing";
+
         return (
           <div className="secondary-nav">
             <div className="container">
-              <div className="project-name">
+              <div className={titleClass}>
                 <h1>{this.props.title}</h1>
+                <input type="text" value={this.props.title}/>
               </div>
               <ul className="secondary-nav-links">
                 {links}
