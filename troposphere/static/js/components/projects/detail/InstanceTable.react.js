@@ -22,23 +22,24 @@ define(
         selectedResources: React.PropTypes.instanceOf(Backbone.Collection)
       },
 
-      getInitialState: function(){
-        return {
-          isChecked: false
-        }
-      },
-
       toggleCheckbox: function(e){
-        var isChecked = !this.state.isChecked;
-        this.setState({isChecked: isChecked});
+        var isChecked = this.areAllInstancesSelected();
 
         this.props.instances.each(function(instance){
-          if(isChecked){
+          if(!isChecked){
             this.props.onResourceSelected(instance);
           }else{
             this.props.onResourceDeselected(instance);
           }
         }.bind(this));
+      },
+
+      areAllInstancesSelected: function(){
+        var allInstancesSelected = true;
+        this.props.instances.each(function(instance){
+          if(!this.props.selectedResources.get(instance)) allInstancesSelected = false;
+        }.bind(this));
+        return allInstancesSelected;
       },
 
       render: function () {
@@ -71,7 +72,7 @@ define(
           <table className="table table-hover">
             <thead>
               <tr>
-                <th><Checkbox isChecked={this.state.isChecked} onToggleChecked={this.toggleCheckbox}/></th>
+                <th><Checkbox isChecked={this.areAllInstancesSelected()} onToggleChecked={this.toggleCheckbox}/></th>
                 <th>Name</th>
                 <th>Status</th>
                 <th>IP Address</th>
