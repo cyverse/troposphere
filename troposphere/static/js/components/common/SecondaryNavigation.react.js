@@ -61,14 +61,20 @@ define(
           );
         }else{
           titleContent = (
-            <h1 onClick={this.onEnterEditMode}>{this.state.title}</h1>
+            <h1 onClick={this.onEnterEditMode}>
+              {this.state.title}
+              <i className="glyphicon glyphicon-pencil"></i>
+            </h1>
           );
         }
+
+        var titleClassName = "project-name";
+        if(this.props.canEditTitle) titleClassName += " editable";
 
         return (
           <div className="secondary-nav">
             <div className="container">
-              <div className="project-name">
+              <div className={titleClassName}>
                 {titleContent}
               </div>
               <ul className="secondary-nav-links">
