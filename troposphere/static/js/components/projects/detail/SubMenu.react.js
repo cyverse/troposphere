@@ -17,7 +17,7 @@ define(
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
-      onLaunchVolume: function(e){
+      onCreateVolume: function(e){
         e.preventDefault();
         VolumeActions.createAndAddToProject(this.props.project);
       },
@@ -35,7 +35,7 @@ define(
                   </a>
                 </li>
                 <li>
-                  <a href="#" onClick={this.onLaunchVolume}>
+                  <a href="#" onClick={this.onCreateVolume}>
                     <i className={'glyphicon glyphicon-hdd'}/>
                     Volume
                   </a>

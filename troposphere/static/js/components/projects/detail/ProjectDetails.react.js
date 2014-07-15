@@ -9,6 +9,11 @@ define(
     './PreviewPanel.react',
     './SubMenu.react',
     './ButtonBar.react',
+    './NoInstanceNotice.react',
+    './NoVolumeNotice.react',
+    './InstanceList.react',
+
+    // Stores and Actions
     'stores/ProjectInstanceStore',
     'stores/ProjectVolumeStore',
     'stores/InstanceStore',
@@ -16,7 +21,7 @@ define(
     'stores/ProviderStore',
     'actions/ProjectActions'
   ],
-  function (React, Backbone, InstanceTable, VolumeTable, PreviewPanel, SubMenu, ButtonBar, ProjectInstanceStore, ProjectVolumeStore, InstanceStore, VolumeStore, ProviderStore, ProjectActions) {
+  function (React, Backbone, InstanceTable, VolumeTable, PreviewPanel, SubMenu, ButtonBar, NoInstanceNotice, NoVolumeNotice, InstanceList, ProjectInstanceStore, ProjectVolumeStore, InstanceStore, VolumeStore, ProviderStore, ProjectActions) {
 
     function getState(project) {
       return {
@@ -74,6 +79,22 @@ define(
         ProjectActions.moveResources(selectedResources, this.props.project);
       },
 
+      getVolumeContent: function(volumes){
+        if(volumes.length > 0){
+          return (
+            <VolumeTable volumes={volumes}
+                         project={this.props.project}
+                         onResourceSelected={this.onResourceSelected}
+                         providers={this.state.providers}
+            />
+          );
+        }else{
+          return (
+            <NoVolumeNotice project={this.props.project}/>
+          );
+        }
+      },
+
       render: function () {
         if(this.state.projectInstances && this.state.projectVolumes && this.state.instances && this.state.volumes && this.state.providers) {
 
@@ -115,16 +136,12 @@ define(
               <ButtonBar isVisible={isButtonBarVisible} onMoveSelectedResources={this.onMoveSelectedResources}/>
               <div className="resource-list">
                 <div className="scrollable-content">
-                  <InstanceTable instances={instances}
-                                 project={this.props.project}
-                                 onResourceSelected={this.onResourceSelected}
-                                 providers={this.state.providers}
+                  <InstanceList instances={instances}
+                                project={this.props.project}
+                                onResourceSelected={this.onResourceSelected}
+                                providers={this.state.providers}
                   />
-                  <VolumeTable volumes={volumes}
-                               project={this.props.project}
-                               onResourceSelected={this.onResourceSelected}
-                               providers={this.state.providers}
-                  />
+                  {this.getVolumeContent(volumes)}
                 </div>
                 <PreviewPanel resource={this.state.selectedResource}/>
               </div>
