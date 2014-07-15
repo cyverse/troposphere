@@ -12,6 +12,7 @@ define(
     './NoInstanceNotice.react',
     './NoVolumeNotice.react',
     './InstanceList.react',
+    './VolumeList.react',
 
     // Stores and Actions
     'stores/ProjectInstanceStore',
@@ -21,7 +22,7 @@ define(
     'stores/ProviderStore',
     'actions/ProjectActions'
   ],
-  function (React, Backbone, InstanceTable, VolumeTable, PreviewPanel, SubMenu, ButtonBar, NoInstanceNotice, NoVolumeNotice, InstanceList, ProjectInstanceStore, ProjectVolumeStore, InstanceStore, VolumeStore, ProviderStore, ProjectActions) {
+  function (React, Backbone, InstanceTable, VolumeTable, PreviewPanel, SubMenu, ButtonBar, NoInstanceNotice, NoVolumeNotice, InstanceList, VolumeList, ProjectInstanceStore, ProjectVolumeStore, InstanceStore, VolumeStore, ProviderStore, ProjectActions) {
 
     function getState(project) {
       return {
@@ -79,22 +80,6 @@ define(
         ProjectActions.moveResources(selectedResources, this.props.project);
       },
 
-      getVolumeContent: function(volumes){
-        if(volumes.length > 0){
-          return (
-            <VolumeTable volumes={volumes}
-                         project={this.props.project}
-                         onResourceSelected={this.onResourceSelected}
-                         providers={this.state.providers}
-            />
-          );
-        }else{
-          return (
-            <NoVolumeNotice project={this.props.project}/>
-          );
-        }
-      },
-
       render: function () {
         if(this.state.projectInstances && this.state.projectVolumes && this.state.instances && this.state.volumes && this.state.providers) {
 
@@ -141,7 +126,11 @@ define(
                                 onResourceSelected={this.onResourceSelected}
                                 providers={this.state.providers}
                   />
-                  {this.getVolumeContent(volumes)}
+                  <VolumeList volumes={volumes}
+                              project={this.props.project}
+                              onResourceSelected={this.onResourceSelected}
+                              providers={this.state.providers}
+                  />
                 </div>
                 <PreviewPanel resource={this.state.selectedResource}/>
               </div>

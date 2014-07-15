@@ -50,26 +50,20 @@ define(
         }.bind(this));
 
         return (
-          <div>
-            <div className="header">
-              <i className="glyphicon glyphicon-hdd"></i>
-              <h2>Volumes</h2>
-            </div>
-            <table className="table table-hover">
-              <thead>
-                <tr>
-                  <th><Checkbox isChecked={this.state.isChecked} onToggleChecked={this.toggleCheckbox}/></th>
-                  <th>Name</th>
-                  <th>Status</th>
-                  <th>Size</th>
-                  <th>Provider</th>
-                </tr>
-              </thead>
-              <tbody>
-                {volumeRows}
-              </tbody>
-            </table>
-          </div>
+          <table className="table table-hover">
+            <thead>
+              <tr>
+                <th><Checkbox isChecked={this.state.isChecked} onToggleChecked={this.toggleCheckbox}/></th>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Size</th>
+                <th>Provider</th>
+              </tr>
+            </thead>
+            <tbody>
+              {volumeRows}
+            </tbody>
+          </table>
         );
       }
 
