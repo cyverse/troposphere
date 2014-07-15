@@ -74,6 +74,18 @@ define(
       }
     };
 
+    function update(volume){
+      volume.save({name: volume.get('name')}, {patch: true}).done(function(){
+        var successMessage = "Volume " + volume.get('name') + " updated.";
+        //NotificationController.success(successMessage);
+        VolumeStore.emitChange();
+      }).fail(function(){
+        var failureMessage = "Error updating Volume " + volume.get('name') + ".";
+        NotificationController.error(failureMessage);
+        VolumeStore.emitChange();
+      });
+    }
+
     var detach = function(volume){
       volume.detach({
         success: function (model) {
@@ -221,6 +233,10 @@ define(
       VolumeStore.emitChange();
 
       switch (action.actionType) {
+        case VolumeConstants.VOLUME_UPDATE:
+          update(action.volume);
+          break;
+
         case VolumeConstants.VOLUME_DETACH:
           detach(action.volume);
           break;
