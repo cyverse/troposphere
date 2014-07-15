@@ -29,7 +29,7 @@ define(
 
       onDoneEditing: function(text){
         this.setState({
-          title: text,
+          name: text,
           isEditing: false
         });
         InstanceActions.updateInstanceAttributes(this.props.instance, {name: text})

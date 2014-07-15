@@ -4,14 +4,35 @@ define(
   [
     'react',
     'backbone',
-    'components/common/Time.react'
+    'components/common/Time.react',
+    'components/common/EditableInputField.react',
+    'actions/VolumeActions'
   ],
-  function (React, Backbone, Time) {
+  function (React, Backbone, Time, EditableInputField, VolumeActions) {
 
     return React.createClass({
 
       propTypes: {
         volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
+      },
+
+      getInitialState: function(){
+        return {
+          name: this.props.volume.get('name'),
+          isEditing: false
+        }
+      },
+
+      onEnterEditMode: function(e){
+        this.setState({isEditing: true});
+      },
+
+      onDoneEditing: function(text){
+        this.setState({
+          name: text,
+          isEditing: false
+        });
+        VolumeActions.updateVolumeAttributes(this.props.volume, {name: text})
       },
 
       onEditInformation: function(e){
@@ -20,6 +41,21 @@ define(
       },
 
       render: function () {
+
+        var nameContent;
+        if(this.state.isEditing){
+          nameContent = (
+            <EditableInputField text={this.state.name} onDoneEditing={this.onDoneEditing}/>
+          );
+        }else{
+          nameContent = (
+            <h4 onClick={this.onEnterEditMode}>
+              {this.state.name}
+              <i className="glyphicon glyphicon-pencil"></i>
+            </h4>
+          );
+        }
+
         return (
           <div className="resource-info-section section clearfix">
 
@@ -28,9 +64,9 @@ define(
             </div>
 
             <div className="resource-info">
-              <h4 className="resource-name">
-                {this.props.volume.get('name')}
-              </h4>
+              <div className="resource-name editable">
+                {nameContent}
+              </div>
               <div className="resource-launch-date">
                 Launched on <Time date={this.props.volume.get('start_date')}/>
               </div>

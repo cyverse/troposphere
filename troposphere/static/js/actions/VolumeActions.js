@@ -12,6 +12,14 @@ define(
   function (React, AppDispatcher, VolumeConstants, CancelConfirmModal, VolumeDetachBody, VolumeDestroyBody, VolumeAttachModal, VolumeCreateModal) {
 
     return {
+      updateVolumeAttributes: function (volume, newAttributes) {
+        volume.set(newAttributes);
+        AppDispatcher.handleRouteAction({
+          actionType: VolumeConstants.VOLUME_UPDATE,
+          volume: volume
+        });
+      },
+
       detach: function (volume) {
 
         var onConfirm = function () {
