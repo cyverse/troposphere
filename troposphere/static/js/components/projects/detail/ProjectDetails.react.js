@@ -71,7 +71,7 @@ define(
 
       onMoveSelectedResources: function(){
         var selectedResources = this.state.selectedResources;
-        ProjectActions.moveResources(selectedResources);
+        ProjectActions.moveResources(selectedResources, this.props.project);
       },
 
       render: function () {

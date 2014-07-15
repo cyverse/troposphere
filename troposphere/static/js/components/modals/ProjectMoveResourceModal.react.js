@@ -35,17 +35,20 @@ define(
     //   this.refs.modal.show();
     // }
 
-    function getState(currentProject) {
+    function getState(currentProject, currentState) {
       var state = {
         projects: ProjectStore.getAll(),
         projectId: null
       };
 
-      this.state = this.state || {};
-
       // Use selected project or default to the null one
       if(state.projects) {
-        state.projectId = state.projectId || state.projects.first().id;
+        state.projects = state.projects.clone();
+        state.projects.remove(currentProject);
+
+        // todo: Account for the scenario when the only project is the current one
+        // and the length of projects will now be zero
+        state.projectId = currentState.projectId || state.projects.first().id;
       }
 
       return state;
@@ -55,7 +58,7 @@ define(
       mixins: [BootstrapModalMixin],
 
       propTypes: {
-        project: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        currentProject: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
       //
@@ -64,11 +67,11 @@ define(
       //
 
       getInitialState: function(){
-        return getState.apply(this);
+        return getState(this.props.currentProject, this.state || {});
       },
 
       updateState: function () {
-        if (this.isMounted()) this.setState(getState.apply(this));
+        if (this.isMounted()) this.setState(getState(this.props.currentProject, this.state || {}));
       },
 
       componentDidMount: function () {

@@ -112,7 +112,8 @@ define(
           confirmButtonMessage: "Move resources",
           onConfirm: onConfirm,
           onCancel: onCancel,
-          handleHidden: onCancel
+          handleHidden: onCancel,
+          currentProject: currentProject
         });
 
         React.renderComponent(modal, document.getElementById('modal'));
