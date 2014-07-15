@@ -15,8 +15,10 @@ define(
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         onResourceSelected: React.PropTypes.func.isRequired,
+        onResourceDeselected: React.PropTypes.func.isRequired,
         providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        selectedResource: React.PropTypes.instanceOf(Backbone.Model)
+        previewedResource: React.PropTypes.instanceOf(Backbone.Model),
+        selectedResources: React.PropTypes.instanceOf(Backbone.Collection)
       },
 
       getInstanceContent: function(){
@@ -25,8 +27,10 @@ define(
             <InstanceTable instances={this.props.instances}
                            project={this.props.project}
                            onResourceSelected={this.props.onResourceSelected}
+                           onResourceDeselected={this.props.onResourceDeselected}
                            providers={this.props.providers}
-                           selectedResource={this.props.selectedResource}
+                           previewedResource={this.props.selectedResource}
+                           selectedResources={this.props.selectedResources}
             />
           );
         }else{

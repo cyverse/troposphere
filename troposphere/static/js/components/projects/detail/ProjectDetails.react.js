@@ -26,6 +26,7 @@ define(
         projectInstances: ProjectInstanceStore.getInstancesInProject(project),
         projectVolumes: ProjectVolumeStore.getVolumesInProject(project),
         selectedResource: null,
+        previewedResource: null,
         providers: ProviderStore.getAll()
       };
     }
@@ -38,7 +39,7 @@ define(
 
       getInitialState: function(){
         var state = getState(this.props.project);
-        state.selectedResources = [];
+        state.selectedResources = new Backbone.Collection();
         return state;
       },
 
@@ -64,8 +65,25 @@ define(
 
       onResourceSelected: function(resource){
         this.state.selectedResources.push(resource);
+
         this.setState({
           selectedResource: resource,
+          previewedResource: resource,
+          selectedResources: this.state.selectedResources
+        });
+      },
+
+      onResourceDeselected: function(resource){
+        this.state.selectedResources.remove(resource);
+        var previewedResource = this.state.previewedResource;
+
+        if(previewedResource === resource){
+          previewedResource = this.state.selectedResources.last();
+        }
+
+        this.setState({
+          selectedResource: previewedResource,
+          previewedResource: previewedResource,
           selectedResources: this.state.selectedResources
         });
       },
@@ -119,8 +137,10 @@ define(
                   <InstanceList instances={instances}
                                 project={this.props.project}
                                 onResourceSelected={this.onResourceSelected}
+                                onResourceDeselected={this.onResourceDeselected}
                                 providers={this.state.providers}
-                                selectedResource={this.state.selectedResource}
+                                previewedResource={this.state.previewedResource}
+                                selectedResources={this.state.selectedResources}
                   />
                   <VolumeList volumes={volumes}
                               project={this.props.project}

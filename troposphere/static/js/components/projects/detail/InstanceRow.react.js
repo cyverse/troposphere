@@ -22,31 +22,30 @@ define(
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         onResourceSelected: React.PropTypes.func.isRequired,
+        onResourceDeselected: React.PropTypes.func.isRequired,
         providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        isSelected: React.PropTypes.bool
-      },
-
-      getInitialState: function(){
-        return {
-          isChecked: false
-        }
+        isPreviewed: React.PropTypes.bool,
+        isChecked: React.PropTypes.bool
       },
 
       toggleCheckbox: function(e){
-        this.setState({isChecked: !this.state.isChecked});
-        this.props.onResourceSelected(this.props.instance);
+        if(this.props.isChecked){
+          this.props.onResourceDeselected(this.props.instance);
+        }else{
+          this.props.onResourceSelected(this.props.instance);
+        }
       },
 
       render: function () {
         var project = this.props.project,
             instance = this.props.instance;
 
-        var rowClassName = this.props.isSelected ? "selected" : null;
+        var rowClassName = this.props.isPreviewed ? "selected" : null;
 
         return (
           <tr className={rowClassName} onClick={this.toggleCheckbox}>
             <td>
-              <Checkbox isChecked={this.state.isChecked} onToggleChecked={this.toggleCheckbox}/>
+              <Checkbox isChecked={this.props.isChecked} onToggleChecked={this.toggleCheckbox}/>
             </td>
             <td>
               <Name project={project} instance={instance}/>
