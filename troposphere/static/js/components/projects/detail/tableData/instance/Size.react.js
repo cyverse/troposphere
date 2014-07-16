@@ -3,19 +3,33 @@
 define(
   [
     'react',
-    'backbone'
+    'backbone',
+    'stores/SizeStore'
   ],
-  function (React, Backbone) {
+  function (React, Backbone, SizeStore) {
 
     return React.createClass({
 
       propTypes: {
-
+        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
       render: function () {
+        var identity = this.props.instance.get('identity');
+        var providerId = identity.provider;
+        var identityId = identity.id;
+        var sizes = SizeStore.getAllFor(providerId, identityId);
+
+        if(sizes) {
+          var sizeId = this.props.instance.get('size_alias');
+          var size = sizes.get(sizeId);
+          return (
+            <span>{size.get('name')}</span>
+          );
+        }
+
         return (
-          <span>{"?tiny1?"}</span>
+          <div className="loading-tiny-inline"></div>
         );
       }
 

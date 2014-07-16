@@ -51,7 +51,7 @@ define(
               <IpAddress instance={instance}/>
             </td>
             <td>
-              <Size/>
+              <Size instance={instance}/>
             </td>
             <td>
               <Provider instance={instance} providers={this.props.providers}/>
