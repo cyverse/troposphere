@@ -5,9 +5,12 @@ define(
     'react',
     'backbone',
     './InstanceTable.react',
-    './NoInstanceNotice.react'
+    './NoInstanceNotice.react',
+
+    './InstanceRow.react',
+    './InstanceNotRealRow.react'
   ],
-  function (React, Backbone, InstanceTable, NoInstanceNotice) {
+  function (React, Backbone, InstanceTable, NoInstanceNotice, InstanceRow, InstanceNotRealRow) {
 
     return React.createClass({
 

@@ -6,9 +6,10 @@ define(
     'backbone',
     './InstanceRow.react',
     './InstanceNotRealRow.react',
-    './Checkbox.react'
+    './Checkbox.react',
+    './SelectableTable.react'
   ],
-  function (React, Backbone, InstanceRow, InstanceNotRealRow, Checkbox) {
+  function (React, Backbone, InstanceRow, InstanceNotRealRow, Checkbox, SelectableTable) {
 
     return React.createClass({
 
@@ -22,27 +23,7 @@ define(
         selectedResources: React.PropTypes.instanceOf(Backbone.Collection)
       },
 
-      toggleCheckbox: function(e){
-        var isChecked = this.areAllInstancesSelected();
-
-        this.props.instances.each(function(instance){
-          if(!isChecked){
-            this.props.onResourceSelected(instance);
-          }else{
-            this.props.onResourceDeselected(instance);
-          }
-        }.bind(this));
-      },
-
-      areAllInstancesSelected: function(){
-        var allInstancesSelected = true;
-        this.props.instances.each(function(instance){
-          if(!this.props.selectedResources.get(instance)) allInstancesSelected = false;
-        }.bind(this));
-        return allInstancesSelected;
-      },
-
-      render: function () {
+      getInstanceRows: function(){
         var instanceRows = this.props.instances.map(function(instance){
           var isPreviewed = (this.props.previewedResource === instance);
           var isChecked = this.props.selectedResources.get(instance) ? true : false;
@@ -67,24 +48,69 @@ define(
             );
           }
         }.bind(this));
+        return instanceRows;
+      },
+
+      render: function () {
+//        var instanceRows = this.props.instances.map(function(instance){
+//          var isPreviewed = (this.props.previewedResource === instance);
+//          var isChecked = this.props.selectedResources.get(instance) ? true : false;
+//          if(instance.isRealInstance) {
+//            return (
+//              <InstanceRow key={instance.id}
+//                           instance={instance}
+//                           project={this.props.project}
+//                           onResourceSelected={this.props.onResourceSelected}
+//                           onResourceDeselected={this.props.onResourceDeselected}
+//                           providers={this.props.providers}
+//                           isPreviewed={isPreviewed}
+//                           isChecked={isChecked}
+//              />
+//            );
+//          }else{
+//            return (
+//              <InstanceNotRealRow key={instance.id}
+//                                  instance={instance}
+//                                  project={this.props.project}
+//              />
+//            );
+//          }
+//        }.bind(this));
+
+//        var instanceRows = this.props.getResourceRows();
+
+//        return (
+//          <table className="table table-hover">
+//            <thead>
+//              <tr>
+//                <th><Checkbox isChecked={this.areAllInstancesSelected()} onToggleChecked={this.toggleCheckbox}/></th>
+//                <th>Name</th>
+//                <th>Status</th>
+//                <th>IP Address</th>
+//                <th>Size</th>
+//                <th>Provider</th>
+//              </tr>
+//            </thead>
+//            <tbody>
+//              {instanceRows}
+//            </tbody>
+//          </table>
+//        );
 
         return (
-          <table className="table table-hover">
-            <thead>
-              <tr>
-                <th><Checkbox isChecked={this.areAllInstancesSelected()} onToggleChecked={this.toggleCheckbox}/></th>
-                <th>Name</th>
-                <th>Status</th>
-                <th>IP Address</th>
-                <th>Size</th>
-                <th>Provider</th>
-              </tr>
-            </thead>
-            <tbody>
-              {instanceRows}
-            </tbody>
-          </table>
-        );
+          <SelectableTable resources={this.props.instances}
+                           selectedResources={this.props.selectedResources}
+                           getResourceRows={this.getInstanceRows}
+                           onResourceSelected={this.props.onResourceSelected}
+                           onResourceDeselected={this.props.onResourceDeselected}
+          >
+            <th>Name</th>
+            <th>Status</th>
+            <th>IP Address</th>
+            <th>Size</th>
+            <th>Provider</th>
+          </SelectableTable>
+        )
       }
 
     });

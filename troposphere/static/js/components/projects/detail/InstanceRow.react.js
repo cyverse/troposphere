@@ -4,8 +4,9 @@ define(
   [
     'react',
     'backbone',
-    'url',
-    './Checkbox.react',
+
+    // Base Row
+    './SelectableRow.react',
 
     // Table Data
     './tableData/instance/Name.react',
@@ -14,39 +15,32 @@ define(
     './tableData/instance/Size.react',
     './tableData/instance/Provider.react'
   ],
-  function (React, Backbone, URL, Checkbox, Name, Status, IpAddress, Size, Provider) {
+  function (React, Backbone, SelectableRow, Name, Status, IpAddress, Size, Provider) {
 
     return React.createClass({
 
       propTypes: {
-        project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         onResourceSelected: React.PropTypes.func.isRequired,
         onResourceDeselected: React.PropTypes.func.isRequired,
-        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         isPreviewed: React.PropTypes.bool,
-        isChecked: React.PropTypes.bool
-      },
+        isChecked: React.PropTypes.bool,
 
-      toggleCheckbox: function(e){
-        if(this.props.isChecked){
-          this.props.onResourceDeselected(this.props.instance);
-        }else{
-          this.props.onResourceSelected(this.props.instance);
-        }
+        project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       render: function () {
         var project = this.props.project,
             instance = this.props.instance;
 
-        var rowClassName = this.props.isPreviewed ? "selected" : null;
-
         return (
-          <tr className={rowClassName} onClick={this.toggleCheckbox}>
-            <td>
-              <Checkbox isChecked={this.props.isChecked} onToggleChecked={this.toggleCheckbox}/>
-            </td>
+          <SelectableRow isActive={this.props.isPreviewed}
+                         isSelected={this.props.isChecked}
+                         onResourceSelected={this.props.onResourceSelected}
+                         onResourceDeselected={this.props.onResourceDeselected}
+                         resource={this.props.instance}
+          >
             <td>
               <Name project={project} instance={instance}/>
             </td>
@@ -62,7 +56,7 @@ define(
             <td>
               <Provider instance={instance} providers={this.props.providers}/>
             </td>
-          </tr>
+          </SelectableRow>
         );
       }
 
