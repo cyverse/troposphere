@@ -107,11 +107,11 @@ define(
           this.state.projectInstances.map(function(projectInstance){
             var realInstance = this.state.instances.get(projectInstance.id);
             if(realInstance){
-              realInstance.isRealInstance = true;
+              realInstance.isRealResource = true;
               instances.push(realInstance);
             }else {
               //console.log("Instance " + projectInstance.get('name') + " is not real.");
-              projectInstance.isRealInstance = false;
+              projectInstance.isRealResource = false;
               instances.push(projectInstance);
             }
           }.bind(this));
@@ -122,11 +122,11 @@ define(
           this.state.projectVolumes.map(function(projectVolume){
             var realVolume = this.state.volumes.get(projectVolume.id);
             if(realVolume){
-              realVolume.isRealVolume = true;
+              realVolume.isRealResource = true;
               volumes.push(realVolume);
             }else {
               //console.log("Volume " + projectVolume.get('name') + " is not real.");
-              projectVolume.isRealVolume = false;
+              projectVolume.isRealResource = false;
               volumes.push(projectVolume);
             }
           }.bind(this));

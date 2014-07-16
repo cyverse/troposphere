@@ -32,7 +32,7 @@ define(
                            onResourceSelected={this.props.onResourceSelected}
                            onResourceDeselected={this.props.onResourceDeselected}
                            providers={this.props.providers}
-                           previewedResource={this.props.selectedResource}
+                           previewedResource={this.props.previewedResource}
                            selectedResources={this.props.selectedResources}
             />
           );

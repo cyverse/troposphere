@@ -25,10 +25,12 @@ define(
         var isChecked = this.areAllResourcesSelected();
 
         this.props.resources.each(function(resource){
-          if(!isChecked){
-            this.props.onResourceSelected(resource);
-          }else{
-            this.props.onResourceDeselected(resource);
+          if(resource.isRealResource) {
+            if (!isChecked) {
+              this.props.onResourceSelected(resource);
+            } else {
+              this.props.onResourceDeselected(resource);
+            }
           }
         }.bind(this));
       },
@@ -36,7 +38,7 @@ define(
       areAllResourcesSelected: function(){
         var allResourcesSelected = true;
         this.props.resources.each(function(resource){
-          if(!this.props.selectedResources.get(resource)) allResourcesSelected = false;
+          if(resource.isRealResource && !this.props.selectedResources.get(resource)) allResourcesSelected = false;
         }.bind(this));
         return allResourcesSelected;
       },

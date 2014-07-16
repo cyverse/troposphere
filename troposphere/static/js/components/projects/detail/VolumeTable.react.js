@@ -37,7 +37,7 @@ define(
           var isPreviewed = (this.props.previewedResource === volume);
           var isChecked = this.props.selectedResources.get(volume) ? true : false;
 
-          if(volume.isRealVolume) {
+          if(volume.isRealResource) {
             return (
               <VolumeRow key={volume.id}
                          volume={volume}

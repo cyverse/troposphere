@@ -27,7 +27,7 @@ define(
           var isPreviewed = (this.props.previewedResource === instance);
           var isChecked = this.props.selectedResources.get(instance) ? true : false;
 
-          if(instance.isRealInstance) {
+          if(instance.isRealResource) {
             return (
               <InstanceRow key={instance.id}
                            instance={instance}
