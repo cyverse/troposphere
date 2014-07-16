@@ -25,8 +25,10 @@ define(
             <VolumeTable volumes={this.props.volumes}
                          project={this.props.project}
                          onResourceSelected={this.props.onResourceSelected}
+                         onResourceDeselected={this.props.onResourceDeselected}
                          providers={this.props.providers}
-                         selectedResource={this.props.selectedResource}
+                         previewedResource={this.props.selectedResource}
+                         selectedResources={this.props.selectedResources}
             />
           );
         }else{

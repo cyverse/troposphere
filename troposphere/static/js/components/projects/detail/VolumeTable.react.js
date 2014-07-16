@@ -6,17 +6,20 @@ define(
     'backbone',
     './VolumeRow.react',
     './VolumeNotRealRow.react',
-    './Checkbox.react'
+    './SelectableTable.react'
   ],
-  function (React, Backbone, VolumeRow, VolumeNotRealRow, Checkbox) {
+  function (React, Backbone, VolumeRow, VolumeNotRealRow, SelectableTable) {
 
     return React.createClass({
 
       propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         volumes: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        onResourceSelected: React.PropTypes.func.isRequired,
+        onResourceDeselected: React.PropTypes.func.isRequired,
         providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        selectedResource: React.PropTypes.instanceOf(Backbone.Model)
+        previewedResource: React.PropTypes.instanceOf(Backbone.Model),
+        selectedResources: React.PropTypes.instanceOf(Backbone.Collection)
       },
 
       getInitialState: function(){
@@ -29,17 +32,21 @@ define(
         this.setState({isChecked: !this.state.isChecked});
       },
 
-      render: function () {
-        var volumeRows = this.props.volumes.map(function(volume){
-          var isSelected = (this.props.selectedResource === volume);
+      getVolumeRows: function(){
+        return this.props.volumes.map(function(volume){
+          var isPreviewed = (this.props.previewedResource === volume);
+          var isChecked = this.props.selectedResources.get(volume) ? true : false;
+
           if(volume.isRealVolume) {
             return (
               <VolumeRow key={volume.id}
                          volume={volume}
                          project={this.props.project}
                          onResourceSelected={this.props.onResourceSelected}
+                         onResourceDeselected={this.props.onResourceDeselected}
                          providers={this.props.providers}
-                         isSelected={isSelected}
+                         isPreviewed={isPreviewed}
+                         isChecked={isChecked}
               />
             );
           }else{
@@ -51,23 +58,22 @@ define(
             );
           }
         }.bind(this));
+      },
 
+      render: function () {
         return (
-          <table className="table table-hover">
-            <thead>
-              <tr>
-                <th><Checkbox isChecked={this.state.isChecked} onToggleChecked={this.toggleCheckbox}/></th>
-                <th>Name</th>
-                <th>Status</th>
-                <th>Size</th>
-                <th>Provider</th>
-              </tr>
-            </thead>
-            <tbody>
-              {volumeRows}
-            </tbody>
-          </table>
-        );
+          <SelectableTable resources={this.props.volumes}
+                           selectedResources={this.props.selectedResources}
+                           getResourceRows={this.getVolumeRows}
+                           onResourceSelected={this.props.onResourceSelected}
+                           onResourceDeselected={this.props.onResourceDeselected}
+          >
+            <th>Name</th>
+            <th>Status</th>
+            <th>Size</th>
+            <th>Provider</th>
+          </SelectableTable>
+        )
       }
 
     });

@@ -145,8 +145,10 @@ define(
                   <VolumeList volumes={volumes}
                               project={this.props.project}
                               onResourceSelected={this.onResourceSelected}
+                              onResourceDeselected={this.onResourceDeselected}
                               providers={this.state.providers}
-                              selectedResource={this.state.selectedResource}
+                              previewedResource={this.state.previewedResource}
+                              selectedResources={this.state.selectedResources}
                   />
                 </div>
                 <PreviewPanel resource={this.state.selectedResource}/>
