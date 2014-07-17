@@ -15,11 +15,6 @@ define(
         machine: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
-      onLaunchVersion: function(e){
-        e.preventDefault();
-        alert("Launching of previous versions not yet implemented.");
-      },
-
       render: function () {
         // todo: figure out if anything is ever recommended, or if it's just a concept idea
         var isRecommended = false;
@@ -38,9 +33,6 @@ define(
                 <div>{this.props.machine.get('ownerid')}</div>
               </div>
             </div>
-            <button className="btn btn-primary launch-button" onClick={this.onLaunchVersion}>
-              Launch this Version
-            </button>
           </li>
         );
       }
