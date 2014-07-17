@@ -17,7 +17,8 @@ define(
         onResourceSelected: React.PropTypes.func.isRequired,
         providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         previewedResource: React.PropTypes.instanceOf(Backbone.Model),
-        selectedResources: React.PropTypes.instanceOf(Backbone.Collection)
+        selectedResources: React.PropTypes.instanceOf(Backbone.Collection),
+        instances: React.PropTypes.instanceOf(Backbone.Collection)
       },
 
       getVolumeContent: function(){
@@ -30,6 +31,7 @@ define(
                          providers={this.props.providers}
                          previewedResource={this.props.previewedResource}
                          selectedResources={this.props.selectedResources}
+                         instances={this.props.instances}
             />
           );
         }else{

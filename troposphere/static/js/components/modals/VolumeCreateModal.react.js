@@ -41,11 +41,9 @@ define(
       var state = {
         providers: ProviderStore.getAll(),
         identities: IdentityStore.getAll(),
-        projects: ProjectStore.getAll(),
 
         volumeName: null,
-        identityId: null,
-        projectId: null
+        identityId: null
       };
 
       this.state = this.state || {};
@@ -59,11 +57,6 @@ define(
       // Use selected identity or default to the first one
       if (state.identities) {
         state.identityId = this.state.identityId || state.identities.first().id;
-      }
-
-      // Use selected project or default to the null one
-      if(state.projects) {
-        state.projectId = state.projectId || state.projects.findWhere({name: "Default"}).id;
       }
 
       return state;
@@ -87,13 +80,11 @@ define(
       componentDidMount: function () {
         ProviderStore.addChangeListener(this.updateState);
         IdentityStore.addChangeListener(this.updateState);
-        ProjectStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
         ProviderStore.removeChangeListener(this.updateState);
         IdentityStore.removeChangeListener(this.updateState);
-        ProjectStore.removeChangeListener(this.updateState);
       },
 
       //
@@ -108,8 +99,7 @@ define(
       confirm: function () {
         this.hide();
         var identity = this.state.identities.get(this.state.identityId);
-        var project = this.state.projects.get(this.state.projectId);
-        this.props.onConfirm(this.state.volumeName, this.state.volumeSize, identity, project);
+        this.props.onConfirm(this.state.volumeName, this.state.volumeSize, identity);
       },
 
 
@@ -138,11 +128,6 @@ define(
         //if(e.target.value < 1) e.target.value = 1;
         var newVolumeSize = e.target.value;
         this.setState({volumeSize: newVolumeSize});
-      },
-
-      onProjectChange: function(e){
-        var newProjectId = e.target.value;
-        this.setState({projectId: newProjectId});
       },
 
 
@@ -175,18 +160,6 @@ define(
         }.bind(this));
 
         var content;
-
-        var projectDropdown = false ? (
-          <div className='form-group'>
-            <label htmlFor='project'>Project</label>
-            <ProjectSelect
-                projectId={this.state.projectId}
-                projects={this.state.projects}
-                onChange={this.onProjectChange}
-            />
-          </div>
-        ) : null;
-
         if(this.state.identities && this.state.providers){
           content = (
             <form role='form'>
@@ -210,8 +183,6 @@ define(
                     onChange={this.onProviderIdentityChange}
                 />
               </div>
-
-              {projectDropdown}
 
             </form>
           );

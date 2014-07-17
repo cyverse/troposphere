@@ -26,7 +26,8 @@ define(
 
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       render: function () {
@@ -44,7 +45,7 @@ define(
               <Name project={project} volume={volume}/>
             </td>
             <td>
-              <Status volume={volume}/>
+              <Status volume={volume} instances={this.props.instances}/>
             </td>
             <td>
               <Size volume={volume}/>

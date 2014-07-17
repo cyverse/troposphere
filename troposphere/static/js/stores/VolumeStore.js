@@ -1,18 +1,27 @@
-define(
-  [
-    'underscore',
-    'dispatchers/Dispatcher',
-    'stores/Store',
-    'rsvp',
-    'collections/VolumeCollection',
-    'models/Volume',
-    'constants/VolumeConstants',
-    'controllers/NotificationController',
-    'stores/IdentityStore',
-    'components/notifications/VolumeAttachNotifications.react',
-    'actions/ProjectActions'
-  ],
-  function (_, Dispatcher, Store, RSVP, VolumeCollection, Volume, VolumeConstants, NotificationController, IdentityStore, VolumeAttachNotifications, ProjectActions) {
+define(function (require) {
+    'use strict';
+
+    //
+    // Dependencies
+    // ------------
+    //
+
+  var _ = require('underscore'),
+    Dispatcher = require('dispatchers/Dispatcher'),
+    Store = require('stores/Store'),
+    RSVP = require('rsvp'),
+    VolumeCollection = require('collections/VolumeCollection'),
+    Volume = require('models/Volume'),
+    VolumeConstants = require('constants/VolumeConstants'),
+    NotificationController = require('controllers/NotificationController'),
+    IdentityStore = require('stores/IdentityStore'),
+    VolumeAttachNotifications = require('components/notifications/VolumeAttachNotifications.react'),
+    ProjectActions = require('actions/ProjectActions');
+
+
+    //
+    // Private variables
+    //
 
     var _volumes = null;
     var _isFetching = false;

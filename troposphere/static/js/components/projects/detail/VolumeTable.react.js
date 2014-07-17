@@ -19,7 +19,8 @@ define(
         onResourceDeselected: React.PropTypes.func.isRequired,
         providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         previewedResource: React.PropTypes.instanceOf(Backbone.Model),
-        selectedResources: React.PropTypes.instanceOf(Backbone.Collection)
+        selectedResources: React.PropTypes.instanceOf(Backbone.Collection),
+        instances: React.PropTypes.instanceOf(Backbone.Collection)
       },
 
       getInitialState: function(){
@@ -47,6 +48,7 @@ define(
                          providers={this.props.providers}
                          isPreviewed={isPreviewed}
                          isChecked={isChecked}
+                         instances={this.props.instances}
               />
             );
           }else{

@@ -10,13 +10,25 @@ define(
     return React.createClass({
 
       propTypes: {
-        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       render: function () {
+        var status = this.props.volume.get('status'),
+            placeholderMessage = status;
+
+        if(status === "available"){
+          placeholderMessage = "Unattached";
+        }else if(status === "in-use"){
+          var attachData = this.props.volume.get('attach_data');
+          var instance = this.props.instances.get(attachData.instance_id);
+          placeholderMessage = "Attached to " + instance.get('name') + " as device " + attachData.device;
+        }
+
         return (
           <span>
-            Attached to <a href="#">{"?iPlant Base Instance?"}</a>
+            {placeholderMessage}
           </span>
         );
       }

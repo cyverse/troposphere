@@ -154,6 +154,7 @@ define(
                               providers={this.state.providers}
                               previewedResource={this.state.previewedResource}
                               selectedResources={this.state.selectedResources}
+                              instances={instances}
                   />
                 </div>
                 <PreviewPanel resource={this.state.selectedResource}/>

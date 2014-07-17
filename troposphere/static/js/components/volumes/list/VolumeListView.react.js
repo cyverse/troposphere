@@ -48,7 +48,7 @@ define(
       },
 
       getVolumeDetachOptions: function(volume){
-        var attachData = volume.get('attach_data')
+        var attachData = volume.get('attach_data');
         var instance = this.props.instances.get(attachData.instance_id);
         var placeholderMessage = "Attached to " + instance.get('name') + " as device " + attachData.device;
         return (
