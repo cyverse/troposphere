@@ -144,17 +144,16 @@ ul.tags {
 
 .nav-back {
   //float: left;
-  padding: 9px 14px;
+  padding: 10px 13px !important;
   margin-right: 10px;
 
   background-color: #444 !important;
-  padding-top: 13px !important;
-  padding-bottom: 13px !important;
   border: none;
 
   .glyphicon {
     color: white;
-    -webkit-transform: scaleX(2.5) scaleY(3);
+    //-webkit-transform: scaleX(2.5) scaleY(3);
+    -webkit-transform: scaleX(1.8) scaleY(2.2);
   }
 }
 
@@ -165,8 +164,19 @@ ul.tags {
     vertical-align: middle;
     display: inline-block;
     margin: 0;
-    font-size: 28px;
-    font-weight: 600;
+    font-size: 25px;
+    //font-weight: 600;
+  }
+
+  button {
+    float: right;
+    background-color: #BEE5EA;
+    font-size: 17px;
+    padding: 4px 9px;
+
+    i {
+      margin-right: 5px;
+    }
   }
 }
 
