@@ -6,12 +6,12 @@ define(
     './header/HeaderView.react',
     './availability/AvailabilityView.react',
     './tags/TagsView.react',
-    '../common/ApplicationCard.react',
+    './launch/ImageLaunchCard.react',
     './description/DescriptionView.react',
     './versions/VersionsView.react',
     'actions/InstanceActions'
   ],
-  function (React, HeaderView, AvailabilityView, TagsView, ApplicationCard, DescriptionView, VersionsView, InstanceActions) {
+  function (React, HeaderView, AvailabilityView, TagsView, ImageLaunchCard, DescriptionView, VersionsView, InstanceActions) {
 
     return React.createClass({
 
@@ -63,7 +63,7 @@ define(
                 {versionView}
               </div>
               <div className="col-md-3">
-                <ApplicationCard application={this.props.application} onLaunch={this.showModal}/>
+                <ImageLaunchCard application={this.props.application} onLaunch={this.showModal}/>
               </div>
             </div>
 

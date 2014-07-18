@@ -23,7 +23,7 @@ define(
         return (
           <li>
             <div>
-              <img className="image-version-image" src="http://placehold.it/75x75"/>
+              <img className="image-version-image" src="http://placehold.it/63x63"/>
               <div className="image-version-details">
                 <div className="version">
                   {this.props.machine.get('pretty_version')}

@@ -6,25 +6,16 @@ define(
     'components/common/Gravatar.react',
     'backbone',
     'url',
-    './Rating.react',
-    './Bookmark.react',
+    '../../common/Bookmark.react',
     'context'
   ],
-  function (React, Gravatar, Backbone, URL, Rating, Bookmark, context) {
+  function (React, Gravatar, Backbone, URL, Bookmark, context) {
 
     return React.createClass({
 
-      getDefaultProps: function () {
-        return {
-          showDetails: true,
-          showLaunch: false
-        };
-      },
-
-      onAppClick: function (e) {
-        e.preventDefault();
-        var url = URL.application(this.props.application);
-        Backbone.history.navigate(url, {trigger: true});
+      propTypes: {
+        application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        onLaunch: React.PropTypes.func.isRequired
       },
 
       render: function () {
@@ -41,8 +32,6 @@ define(
             <Gravatar hash={app.get('uuid_hash')} size={iconSize}/>
           );
         }
-
-        var appUri = URL.application(app, {absolute: true});
 
         // Hide bookmarking on the public page
         var bookmark;
@@ -68,19 +57,11 @@ define(
           );
         }
 
-        // todo: Put ratings back when we actually implement them, not while they're random
-        //var ratings = <Rating up={app.get('votes').up} down={app.get('votes').down} />
-
         return (
-          <div className='app-card'>
+          <div className='image-launch-card'>
             <div className='icon-container'>
-              <a href={appUri} onClick={this.onAppClick}>
+              <a>
                 {icon}
-              </a>
-            </div>
-            <div className='app-name'>
-              <a href={appUri} onClick={this.onAppClick} title={app.get('name_or_id')}>
-                {app.get('name_or_id')}
               </a>
             </div>
             {button}

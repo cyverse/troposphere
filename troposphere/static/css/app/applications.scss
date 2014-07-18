@@ -36,24 +36,20 @@
   }
 }
 
-.app-card {
-  .launch-button {
-    font-size: 19px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-  }
-}
-
 /* All app cards  */
 .app-card {
-  width: 220px;
-  padding: 20px;
+  width: 237px;
+  padding: 38px 0px 26px 0px;
   border-radius: 5px;
   position: relative;
 
   .icon-container {
     text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: 38px;
+
+    img {
+      border-radius: 5px;
+    }
   }
 
   .app-name a {
@@ -63,6 +59,13 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  .launch-button {
+    font-size: 21px;
+    padding: 7px 56px;
+    margin: auto;
+    display: block;
+  }
 }
 
 #app-detail {
@@ -70,19 +73,31 @@
   h2 {
     display: inline-block;
     //margin-right: 15px;
-    font-size: 19px;
+    font-size: 17px;
   }
 
-  /* App cards on image detail page */
-  .app-card {
+  .image-launch-card {
     background-color: hsl(0, 0%, 90%);
 
-    .app-name {
-      display: none;
+    width: 237px;
+    padding: 38px 0px 26px 0px;
+    border-radius: 5px;
+    position: relative;
+
+    .icon-container {
+      text-align: center;
+      margin-bottom: 38px;
+
+      img {
+        border-radius: 5px;
+      }
     }
 
-    .rating {
-      display: none;
+    .launch-button {
+      font-size: 21px;
+      padding: 7px 56px;
+      margin: auto;
+      display: block;
     }
   }
 }
@@ -210,15 +225,15 @@ ul.tags {
 
 .image-description {
   h2 {
-    margin-bottom: 10px;
+    margin-bottom: 3px;
   }
 
   p {
     // Formula to convert Illustrator's 'leading' to line-height
     // line-height = font-size + leading/2
     // http://jeffyam.com/node/189
-    line-height: 30px;
-    font-size: 16px;
+    line-height: 25px;
+    font-size: 14px;
     color: #666;
   }
 }
@@ -261,72 +276,27 @@ ul.tags {
   .image-version-details {
     display: inline-block;
     vertical-align: middle;
-    font-size: 13px;
+    font-size: 12px;
 
-    height: 75px;
-    line-height: 25px;
+    //height: 75px;
+    line-height: 21px;
 
     .version {
-      font-size: 16px;
+      font-size: 15px;
     }
   }
 }
 
 /* Bookmarks */
 .bookmark {
-  width: 0px;
-  height: 35px;
   position: absolute;
-  top: -5px;
-  right: 7px;
-  z-index: 1;
-  border-radius: 4px;
-  box-sizing: content-box;
+  top: 8px;
+  right: 8px;
 
-  &.off {
-    border-right: 15px solid hsl(0, 0%, 40%);
-    border-left: 15px solid hsl(0, 0%, 40%);
-    border-bottom: 10px solid transparent;
-
-    &:hover {
-      border-right-color: hsl(0, 0%, 30%);
-      border-left-color: hsl(0, 0%, 30%);
-    }
-
-    &::after {
-      content: "";
-      height: 39px;
-      position: absolute;
-      top: 2px;
-      left: -13px;
-      border-radius: 2px;
-      border-right: 13px solid #fff;
-      border-left: 13px solid #fff;
-      border-bottom: 9px solid transparent;
-    }
-  }
-
-  &.on {
-    border-right: 15px solid hsl(0, 100%, 25%);
-    border-left: 15px solid hsl(0, 100%, 25%);
-    border-bottom: 10px solid transparent;
-
-    &:hover::after {
-      border-right-color: hsl(0, 96%, 44%);
-      border-left-color: hsl(0, 96%, 44%);
-    }
-
-    &::after {
-      content: "";
-      height: 39px;
-      position: absolute;
-      top: 2px;
-      left: -13px;
-      border-radius: 2px;
-      border-right: 13px solid hsl(0, 96%, 40%);
-      border-left: 13px solid hsl(0, 96%, 40%);
-      border-bottom: 9px solid transparent;
-    }
+  img {
+    height: 24px;
+    width: 24px;
+    display: block;
   }
 }
 
@@ -349,6 +319,10 @@ ul.tags {
 @media (min-width: 992px) {
   #app-detail {
     .app-card {
+      float: right;
+    }
+
+    .image-launch-card {
       float: right;
     }
   }
