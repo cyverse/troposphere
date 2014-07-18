@@ -348,13 +348,8 @@ ul.tags {
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) {
   #app-detail {
-    padding-right: 240px;
-    position: relative;
-
     .app-card {
-      position: absolute;
-      right: 0;
-      top: 0;
+      float: right;
     }
   }
 }

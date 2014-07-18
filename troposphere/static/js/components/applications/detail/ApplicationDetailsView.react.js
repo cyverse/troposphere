@@ -50,13 +50,23 @@ define(
 
         return (
           <div id='app-detail' className="container">
-            <ApplicationCard application={this.props.application} onLaunch={this.showModal}/>
+            <div className="row">
+              <div className="col-md-12">
+                <HeaderView application={this.props.application}/>
+              </div>
+            </div>
+            <div className="row image-content">
+              <div className="col-md-9">
+                <TagsView application={this.props.application}/>
+                {availabilityView}
+                <DescriptionView application={this.props.application}/>
+                {versionView}
+              </div>
+              <div className="col-md-3">
+                <ApplicationCard application={this.props.application} onLaunch={this.showModal}/>
+              </div>
+            </div>
 
-            <HeaderView application={this.props.application}/>
-            <TagsView application={this.props.application}/>
-            {availabilityView}
-            <DescriptionView application={this.props.application}/>
-            {versionView}
           </div>
         );
       }
