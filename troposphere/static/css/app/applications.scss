@@ -21,9 +21,10 @@
   // for different screen sizes
   margin-left: 9%;
 
-  li {
+  > li {
     margin: 0 20px 20px 0;
     display: inline-block;
+    vertical-align: top;
   }
 
   /* App cards on image lists */
@@ -38,33 +39,46 @@
 
 /* All app cards  */
 .app-card {
-  width: 237px;
-  padding: 38px 0px 26px 0px;
+  width: 225px;
+  padding: 20px 0px 26px 0px;
   border-radius: 5px;
   position: relative;
+  background-color: white;
 
   .icon-container {
     text-align: center;
-    margin-bottom: 38px;
+    margin-bottom: 8px;
 
     img {
       border-radius: 5px;
+      border: 1px solid #ccc;
     }
   }
 
-  .app-name a {
-    display: block;
-    font-size: 17px;
+  .app-name {
+    //text-align: center;
+    font-size: 16px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding-left: 22px;
+    padding-right: 22px;
+    margin-bottom: 9px;
   }
 
-  .launch-button {
-    font-size: 21px;
-    padding: 7px 56px;
-    margin: auto;
-    display: block;
+  .tags {
+    padding-left: 22px;
+    padding-right: 22px;
+
+    .tag {
+      font-size: 10px;
+      margin-right: 4px;
+      margin-bottom: 4px;
+
+      a {
+        padding: 3px 7px;
+      }
+    }
   }
 }
 
@@ -77,7 +91,7 @@
   }
 
   .image-launch-card {
-    background-color: hsl(0, 0%, 90%);
+    background-color: #EEEEEE;
 
     width: 237px;
     padding: 38px 0px 26px 0px;
