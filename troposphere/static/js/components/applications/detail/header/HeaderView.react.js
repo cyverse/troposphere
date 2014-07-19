@@ -25,6 +25,10 @@ define(
               <span className='glyphicon glyphicon-arrow-left'>{''}</span>
             </a>
             <h1>{this.props.application.get('name_or_id')}</h1>
+            <button className="btn">
+              <i className='glyphicon glyphicon-plus'></i>
+              Add to Project
+            </button>
           </div>
         );
       }

@@ -18,6 +18,14 @@ define(
   function (AppDispatcher, InstanceConstants, React, globals, context, NotificationController, CancelConfirmModal, InstanceSuspendBody, InstanceResumeBody, InstanceStopBody, InstanceStartBody, InstanceTerminateBody, InstanceLaunchModal, URL) {
 
     return {
+      updateInstanceAttributes: function (instance, newAttributes) {
+        instance.set(newAttributes);
+        AppDispatcher.handleRouteAction({
+          actionType: InstanceConstants.INSTANCE_UPDATE,
+          instance: instance
+        });
+      },
+
       suspend: function (instance) {
 
         var onConfirm = function () {
@@ -159,7 +167,9 @@ define(
         $.ajax({
           url: requestUrl,
           type: 'PUT',
-          data: requestData,
+          data: JSON.stringify(requestData),
+          dataType: 'json',
+          contentType: 'application/json',
           success: function (model) {
             NotificationController.info(null, "An image of your instance has been requested");
           },
@@ -198,6 +208,8 @@ define(
           url: reportUrl,
           type: 'POST',
           data: JSON.stringify(reportData),
+          dataType: 'json',
+          contentType: 'application/json',
           success: function (model) {
             NotificationController.info(null, "Your instance problems have been sent to support.");
             var instanceUrl = URL.instance(instance);

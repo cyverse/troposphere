@@ -22,7 +22,7 @@ define(
 
       render: function () {
         return (
-          <div>
+          <div className="container">
             <PageHeader title="Settings"/>
             <h2>Notifications</h2>
             <h2>Appearance</h2>

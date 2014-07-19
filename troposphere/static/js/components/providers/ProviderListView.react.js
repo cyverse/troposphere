@@ -4,9 +4,10 @@ define(
   [
     'react',
     'components/common/PageHeader.react',
-    'components/providers/Provider.react'
+    'components/providers/Provider.react',
+    './ProviderListHeader.react'
   ],
-  function (React, PageHeader, Provider) {
+  function (React, PageHeader, Provider, ProviderListHeader) {
 
     return React.createClass({
 
@@ -32,8 +33,10 @@ define(
 
           return (
             <div>
-              <PageHeader title="Cloud Providers"/>
-              {providers}
+              <ProviderListHeader title={this.props.providers.length + " Cloud Providers"}/>
+              <div className="container">
+                {providers}
+              </div>
             </div>
           );
 

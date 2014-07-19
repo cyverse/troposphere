@@ -3,6 +3,7 @@
 define(
   [
     'react',
+    './common/SecondaryApplicationNavigation.react',
     'stores/ApplicationStore',
     'stores/ProviderStore',
     'stores/IdentityStore',
@@ -10,7 +11,7 @@ define(
     './detail/ApplicationDetailsView.react',
     'context'
   ],
-  function (React, ApplicationStore, ProviderStore, IdentityStore, MachineStore, ApplicationDetailsView, context) {
+  function (React, SecondaryApplicationNavigation, ApplicationStore, ProviderStore, IdentityStore, MachineStore, ApplicationDetailsView, context) {
 
     function getState(applicationId) {
       var state = {
@@ -76,6 +77,7 @@ define(
         var providers = this.state.providers;
         var identities = this.state.identities;
         var userLoggedIn = context.profile;
+        var content;
 
         if (application) {
           // If the user isn't logged in, display the public view, otherwise
@@ -85,7 +87,7 @@ define(
               <ApplicationDetailsView application={this.state.application}/>
             );
           }else if(providers && identities) {
-            return (
+            content = (
               <ApplicationDetailsView
                 application={this.state.application}
                 providers={this.state.providers}
@@ -93,10 +95,19 @@ define(
               />
             );
           }
+        }else{
+          content = (
+            <div className='loading'></div>
+          );
         }
 
         return (
-          <div className='loading'></div>
+          <div>
+            <SecondaryApplicationNavigation currentRoute="search"/>
+            <div className="container">
+              {content}
+            </div>
+          </div>
         );
       }
 

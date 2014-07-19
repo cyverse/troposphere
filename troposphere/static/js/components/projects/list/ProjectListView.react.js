@@ -3,24 +3,18 @@
 define(
   [
     'react',
-    'components/common/PageHeader.react',
     'modal',
     './ProjectList.react',
     './NewProjectModal.react',
-    'backbone'
+    'backbone',
+    '../common/ProjectListHeader.react'
   ],
-  function (React, PageHeader, Modal, ProjectList, NewProjectModal, Backbone) {
+  function (React, Modal, ProjectList, NewProjectModal, Backbone, ProjectListHeader) {
 
     return React.createClass({
 
       propTypes: {
         projects: React.PropTypes.instanceOf(Backbone.Collection).isRequired
-      },
-
-      helpText: function () {
-        return (
-          <p>Projects help you organize your cloud resources</p>
-        );
       },
 
       launchNewProjectModal: function () {
@@ -30,14 +24,15 @@ define(
       render: function () {
         return (
           <div>
-            <PageHeader title="Projects" helpText={this.helpText}/>
-            <p>
+            <ProjectListHeader title={this.props.projects.length + " Projects"}>
               <button className='btn btn-primary' onClick={this.launchNewProjectModal}>
-              Create Project
+                Create New Project
               </button>
-            </p>
-            <ProjectList projects={this.props.projects}/>
-            <NewProjectModal ref="modal"/>
+            </ProjectListHeader>
+            <div className="container">
+              <ProjectList projects={this.props.projects}/>
+              <NewProjectModal ref="modal"/>
+            </div>
           </div>
         );
       }

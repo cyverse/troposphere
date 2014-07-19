@@ -1,18 +1,27 @@
-define(
-  [
-    'underscore',
-    'dispatchers/Dispatcher',
-    'stores/Store',
-    'rsvp',
-    'collections/VolumeCollection',
-    'models/Volume',
-    'constants/VolumeConstants',
-    'controllers/NotificationController',
-    'stores/IdentityStore',
-    'components/notifications/VolumeAttachNotifications.react',
-    'actions/ProjectActions'
-  ],
-  function (_, Dispatcher, Store, RSVP, VolumeCollection, Volume, VolumeConstants, NotificationController, IdentityStore, VolumeAttachNotifications, ProjectActions) {
+define(function (require) {
+    'use strict';
+
+    //
+    // Dependencies
+    // ------------
+    //
+
+  var _ = require('underscore'),
+    Dispatcher = require('dispatchers/Dispatcher'),
+    Store = require('stores/Store'),
+    RSVP = require('rsvp'),
+    VolumeCollection = require('collections/VolumeCollection'),
+    Volume = require('models/Volume'),
+    VolumeConstants = require('constants/VolumeConstants'),
+    NotificationController = require('controllers/NotificationController'),
+    IdentityStore = require('stores/IdentityStore'),
+    VolumeAttachNotifications = require('components/notifications/VolumeAttachNotifications.react'),
+    ProjectActions = require('actions/ProjectActions');
+
+
+    //
+    // Private variables
+    //
 
     var _volumes = null;
     var _isFetching = false;
@@ -73,6 +82,18 @@ define(
         });
       }
     };
+
+    function update(volume){
+      volume.save({name: volume.get('name')}, {patch: true}).done(function(){
+        var successMessage = "Volume " + volume.get('name') + " updated.";
+        //NotificationController.success(successMessage);
+        VolumeStore.emitChange();
+      }).fail(function(){
+        var failureMessage = "Error updating Volume " + volume.get('name') + ".";
+        NotificationController.error(failureMessage);
+        VolumeStore.emitChange();
+      });
+    }
 
     var detach = function(volume){
       volume.detach({
@@ -147,7 +168,11 @@ define(
           VolumeStore.emitChange();
         }
       });
-      _volumes.add(volume);
+      if(_volumes) {
+        _volumes.add(volume)
+      }else{
+        console.error("_volumes not defined");
+      }
     };
 
     //
@@ -217,6 +242,10 @@ define(
       VolumeStore.emitChange();
 
       switch (action.actionType) {
+        case VolumeConstants.VOLUME_UPDATE:
+          update(action.volume);
+          break;
+
         case VolumeConstants.VOLUME_DETACH:
           detach(action.volume);
           break;

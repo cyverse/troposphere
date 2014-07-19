@@ -216,6 +216,8 @@ define(
           data: JSON.stringify({
             action: action
           }),
+          dataType: 'json',
+          contentType: 'application/json',
           success: function (model) {
             options.success.apply(null, arguments);
           },

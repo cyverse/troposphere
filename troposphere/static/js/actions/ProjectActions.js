@@ -1,16 +1,16 @@
 define(
   [
+    'react',
     'dispatchers/AppDispatcher',
     'constants/ProjectConstants',
     'constants/ProjectInstanceConstants',
     'constants/ProjectVolumeConstants',
     'components/modals/CancelConfirmModal.react',
-    'components/modals/ProjectAddResourceModal.react',
-    'react',
+    'components/modals/ProjectMoveResourceModal.react',
     'models/Instance',
     'models/Volume'
   ],
-  function (AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, CancelConfirmModal, ProjectAddResourceModal, React, Instance, Volume) {
+  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, CancelConfirmModal, ProjectMoveResourceModal, Instance, Volume) {
 
     function getItemType(model) {
       var objectType;
@@ -28,6 +28,14 @@ define(
       create: function (project) {
         AppDispatcher.handleRouteAction({
           actionType: ProjectConstants.PROJECT_CREATE,
+          model: project
+        });
+      },
+
+      updateProjectAttributes: function (project, newAttributes) {
+        project.set(newAttributes);
+        AppDispatcher.handleRouteAction({
+          actionType: ProjectConstants.PROJECT_UPDATE,
           model: project
         });
       },
@@ -92,15 +100,14 @@ define(
         }
       },
 
-      addResourceToProject: function(project){
+      moveResources: function(resources, currentProject){
 
-        var onCreateVolume = function (volumeParams) {
-          AppDispatcher.handleRouteAction({
-            actionType: ProjectConstants.PROJECT_CREATE_VOLUME_AND_ADD_TO_PROJECT,
-            project: project,
-            volumeParams: volumeParams
-          });
-        };
+        var onConfirm = function (newProject) {
+          resources.map(function(resource){
+            this.removeItemFromProject(currentProject, resource);
+            this.addItemToProject(newProject, resource);
+          }.bind(this));
+        }.bind(this);
 
         var onCancel = function(){
           // Important! We need to un-mount the component so it un-registers from Stores and
@@ -108,11 +115,14 @@ define(
           React.unmountComponentAtNode(document.getElementById('modal'));
         };
 
-        var modal = ProjectAddResourceModal({
-          header: "Add Resource to Project",
+        var modal = ProjectMoveResourceModal({
+          header: "Move Resources",
+          confirmButtonMessage: "Move resources",
+          onConfirm: onConfirm,
           onCancel: onCancel,
           handleHidden: onCancel,
-          onCreateVolume: onCreateVolume
+          currentProject: currentProject,
+          resources: resources
         });
 
         React.renderComponent(modal, document.getElementById('modal'));

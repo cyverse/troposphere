@@ -1,0 +1,23 @@
+.splash-image {
+  text-align: center;
+  background-image: url('/assets/images/login_background.png');
+  background-repeat: no-repeat;
+  display: none;
+}
+
+.splash-screen {
+  background-image: url('/assets/images/login_background.png');
+  background-color: #9DDBE1;
+  background-repeat: repeat-x;
+
+  .splash-image {
+    display: block;
+  }
+
+  .loading {
+    border-left: 6px solid rgba(255, 255, 255, 0.15);
+    border-right: 6px solid rgba(255, 255, 255, 0.15);
+    border-bottom: 6px solid rgba(255, 255, 255, 0.15);
+    border-top: 6px solid rgba(255, 255, 255, 0.8);
+  }
+}

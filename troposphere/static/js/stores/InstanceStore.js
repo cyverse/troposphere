@@ -73,6 +73,18 @@ define(
       }
     };
 
+    function update(instance){
+      instance.save({name: instance.get('name')}, {patch: true}).done(function(){
+        var successMessage = "Instance " + instance.get('name') + " updated.";
+        //NotificationController.success(successMessage);
+        InstanceStore.emitChange();
+      }).fail(function(){
+        var failureMessage = "Error updating Instance " + instance.get('name') + ".";
+        NotificationController.error(failureMessage);
+        InstanceStore.emitChange();
+      });
+    }
+
     var suspend = function(instance){
       instance.suspend({
         success: function (model) {
@@ -228,6 +240,10 @@ define(
       var action = payload.action;
 
       switch (action.actionType) {
+        case InstanceConstants.INSTANCE_UPDATE:
+          update(action.instance);
+          break;
+
         case InstanceConstants.INSTANCE_SUSPEND:
           suspend(action.instance);
           break;

@@ -6,12 +6,12 @@ define(
     './header/HeaderView.react',
     './availability/AvailabilityView.react',
     './tags/TagsView.react',
-    '../common/ApplicationCard.react',
+    './launch/ImageLaunchCard.react',
     './description/DescriptionView.react',
     './versions/VersionsView.react',
     'actions/InstanceActions'
   ],
-  function (React, HeaderView, AvailabilityView, TagsView, ApplicationCard, DescriptionView, VersionsView, InstanceActions) {
+  function (React, HeaderView, AvailabilityView, TagsView, ImageLaunchCard, DescriptionView, VersionsView, InstanceActions) {
 
     return React.createClass({
 
@@ -49,14 +49,24 @@ define(
         }
 
         return (
-          <div id='app-detail'>
-            <ApplicationCard application={this.props.application} onLaunch={this.showModal}/>
+          <div id='app-detail' className="container">
+            <div className="row">
+              <div className="col-md-12">
+                <HeaderView application={this.props.application}/>
+              </div>
+            </div>
+            <div className="row image-content">
+              <div className="col-md-9">
+                <TagsView application={this.props.application}/>
+                {availabilityView}
+                <DescriptionView application={this.props.application}/>
+                {versionView}
+              </div>
+              <div className="col-md-3">
+                <ImageLaunchCard application={this.props.application} onLaunch={this.showModal}/>
+              </div>
+            </div>
 
-            <HeaderView application={this.props.application}/>
-            <TagsView application={this.props.application}/>
-            {availabilityView}
-            <DescriptionView application={this.props.application}/>
-            {versionView}
           </div>
         );
       }

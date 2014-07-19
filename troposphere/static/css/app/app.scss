@@ -49,13 +49,15 @@ $chosen-sprite-path: '/assets/bower_components/bootstrap-chosen/chosen-sprite.pn
 
 @import "layout";
 @import "header";
-@import "sidebar";
 @import "dashboard";
 @import "volumes";
 @import "settings";
 @import "applications";
 @import "global";
+@import "splash_page";
 @import "loading";
 @import "projects";
 @import "request_image_form";
 @import "instance";
+@import "project_resource";
+@import "provider";

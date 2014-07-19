@@ -16,7 +16,7 @@ define(
 
       render: function () {
         return (
-          <div>
+          <div className="provider">
             <h2>{this.props.provider.get('location')}</h2>
             <p>{this.props.provider.get('description')}</p>
           </div>

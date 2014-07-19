@@ -103,7 +103,7 @@ define(
 
         // Use selected project or default to the null one
         if(state.projects) {
-          state.projectId = state.projectId || state.projects.findWhere({name: "Default"}).id;
+          state.projectId = state.projectId || state.projects.first().id;
         }
       }
 
