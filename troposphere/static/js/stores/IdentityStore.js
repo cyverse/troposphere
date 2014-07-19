@@ -6,7 +6,8 @@ define(
     'dispatchers/AppDispatcher',
     'constants/IdentityConstants',
     'rsvp'
-  ], function(_, Store, IdentityCollection, AppDispatcher, IdentityConstants, RSVP) {
+  ],
+  function(_, Store, IdentityCollection, AppDispatcher, IdentityConstants, RSVP) {
 
     var _identities = null;
     var _isFetching = false;

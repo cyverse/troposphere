@@ -4,12 +4,13 @@ define(
   [
     'react',
     'components/common/PageHeader.react',
+    'components/common/SecondaryNavigation.react',
     'collections/ApplicationCollection',
     './ApplicationCardList.react',
     './SearchContainer.react',
     'stores/ApplicationStore'
   ],
-  function (React, PageHeader, ApplicationCollection, ApplicationCardList, ApplicationSearch, ApplicationStore) {
+  function (React, PageHeader, SecondaryNavigation, ApplicationCollection, ApplicationCardList, ApplicationSearch, ApplicationStore) {
 
     function getState() {
       return {
@@ -35,12 +36,6 @@ define(
         ApplicationStore.removeChangeListener(this.updateState);
       },
 
-      helpText: function () {
-        return (
-          <p>Applications are cool. You are, too. Keep bein' cool, bro.</p>
-        );
-      },
-
       render: function () {
         var content;
         if (!this.state.applications) {
@@ -53,26 +48,32 @@ define(
           });
           var featuredApplications = new ApplicationCollection(featuredApplicationArray);
 
-          // todo: Add ability for user to toggle display mode and then put this back in the code
-          //  <div className='view-selector'>
-          //    {'View:'}
-          //    <a className='btn btn-default'>
-          //      <span className='glyphicon glyphicon-th'>{''}</span>
-          //    </a>
-          //    <a className='btn btn-default'>
-          //      <span className='glyphicon glyphicon-th-list'>{''}</span>
-          //    </a>
-          //  </div>
-
           content = [
             <ApplicationCardList key="featured" title="Featured Images" applications={featuredApplications}/>,
             <ApplicationCardList key="all" title="All Images" applications={this.state.applications}/>
           ];
         }
 
+        var routes = [
+          {
+            name: "Search",
+            href: "/application/images"
+          },
+          {
+            name: "Favorites",
+            href: "/application/images/favorites"
+          },
+          {
+            name: "My Images",
+            href: "/application/images/authored"
+          }
+        ];
+
+        var currentRoute = "search";
+
         return (
-          <div>
-            <PageHeader title='Images' helpText={this.helpText}/>
+          <div className="container">
+            <SecondaryNavigation title="Images" routes={routes} currentRoute={currentRoute}/>
             <ApplicationSearch/>
             {content}
           </div>

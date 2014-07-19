@@ -12,7 +12,7 @@ define(
   ],
   function (React, ProviderStore, IdentityStore, SizeStore, InstanceStore, VolumeStore, DashboardView) {
 
-    function getState(applicationId) {
+    function getState() {
         return {
           providers: ProviderStore.getAll(),
           identities: IdentityStore.getAll(),

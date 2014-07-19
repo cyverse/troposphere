@@ -3,12 +3,12 @@
 define(
   [
     'react',
-    'components/common/PageHeader.react',
+    './common/SecondaryApplicationNavigation.react',
     './list/SearchContainer.react',
     './search/SearchResults.react',
     'stores/ApplicationStore'
   ],
-  function (React, PageHeader, SearchContainer, SearchResults, ApplicationStore) {
+  function (React, SecondaryApplicationNavigation, SearchContainer, SearchResults, ApplicationStore) {
 
     function getState(query) {
       return {
@@ -56,9 +56,11 @@ define(
 
         return (
           <div>
-            <PageHeader title="Image Search"/>
-            <SearchContainer query={this.props.query}/>
-            {content}
+            <SecondaryApplicationNavigation currentRoute="search"/>
+            <div className="container application-card-view">
+              <SearchContainer query={this.props.query}/>
+              {content}
+            </div>
           </div>
         );
 

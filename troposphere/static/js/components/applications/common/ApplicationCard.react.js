@@ -8,17 +8,15 @@ define(
     'url',
     './Rating.react',
     './Bookmark.react',
-    'context'
+    'context',
+    '../detail/tags/Tags.react'
   ],
-  function (React, Gravatar, Backbone, URL, Rating, Bookmark, context) {
+  function (React, Gravatar, Backbone, URL, Rating, Bookmark, context, Tags) {
 
     return React.createClass({
 
-      getDefaultProps: function () {
-        return {
-          showDetails: true,
-          showLaunch: false
-        };
+      propTypes: {
+        application: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
       onAppClick: function (e) {
@@ -30,7 +28,7 @@ define(
       render: function () {
         var app = this.props.application;
 
-        var iconSize = 150;
+        var iconSize = 145;
         var icon;
         if (app.get('icon')) {
           icon = (
@@ -45,26 +43,10 @@ define(
         var appUri = URL.application(app, {absolute: true});
 
         // Hide bookmarking on the public page
-        var bookmark
+        var bookmark;
         if(context.profile){
           bookmark = (
             <Bookmark application={app}/>
-          );
-        }
-
-        var button;
-        if(context.profile){
-          button = (
-            <button className='btn btn-primary btn-block launch-button' onClick={this.props.onLaunch}>
-              Launch
-            </button>
-          );
-        }else{
-          var loginUrl = URL.login();
-          button = (
-            <a className='btn btn-primary btn-block launch-button' href={loginUrl}>
-              Login to Launch
-            </a>
           );
         }
 
@@ -79,12 +61,10 @@ define(
               </a>
             </div>
             <div className='app-name'>
-              <a href={appUri} onClick={this.onAppClick} title={app.get('name_or_id')}>
-                {app.get('name_or_id')}
-              </a>
+              {app.get('name_or_id')}
             </div>
-            {button}
             {bookmark}
+            <Tags tags={app.get('tags')}/>
           </div>
         );
       }

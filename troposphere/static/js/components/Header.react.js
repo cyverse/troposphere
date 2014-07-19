@@ -8,6 +8,29 @@ define(
   ],
   function (React, Backbone, VersionActions) {
 
+    var links = [
+      {
+        name: "Dashboard",
+        href: "/application/dashboard"
+      },
+      {
+        name: "Projects",
+        href: "/application/projects"
+      },
+      {
+        name: "Images",
+        href: "/application/images"
+      },
+      {
+        name: "Providers",
+        href: "/application/providers"
+      },
+      {
+        name: "Help",
+        href: "/application/help"
+      }
+    ];
+
     var LoginLink = React.createClass({
       render: function () {
         return (
@@ -37,6 +60,8 @@ define(
               <b className="caret"></b>
             </a>
             <ul className="dropdown-menu">
+              <li><a href="/application/settings">Settings</a></li>
+              <li className="divider"></li>
               <li>
                 <a href="#" onClick={this.onShowVersion}>Version</a>
               </li>
@@ -60,9 +85,17 @@ define(
         var profile = this.props.profile;
         var loginLogoutDropdown = profile ? LogoutLink({username: profile.get('username')}) : LoginLink();
 
+        var navLinks = links.map(function(link){
+          var isCurrentRoute = (link.name.toLowerCase() === this.props.currentRoute[0]);
+          var className = isCurrentRoute ? "active" : null;
+          return (
+            <li className={className}><a href={link.href}>{link.name}</a></li>
+          );
+        }.bind(this));
+
         return (
           <div className="navbar navbar-default navbar-fixed-top" role="navigation">
-            <div className="container-fluid">
+            <div className="container">
 
               <div className="navbar-header">
                 <button type="button" className="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -72,11 +105,14 @@ define(
                   <span className="icon-bar"></span>
                 </button>
                 <a className="navbar-brand" href="/">
-                  Atmosphere: iPlant Cloud Services
+                  Atmosphere
                 </a>
               </div>
 
               <div className="navbar-collapse collapse">
+                <ul className="nav navbar-nav">
+                  {navLinks}
+                </ul>
                 <ul className="nav navbar-nav navbar-right">
                   {loginLogoutDropdown}
                 </ul>

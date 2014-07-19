@@ -15,11 +15,6 @@ define(
         machine: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
-      onLaunchVersion: function(e){
-        e.preventDefault();
-        alert("Launching of previous versions not yet implemented.");
-      },
-
       render: function () {
         // todo: figure out if anything is ever recommended, or if it's just a concept idea
         var isRecommended = false;
@@ -28,7 +23,7 @@ define(
         return (
           <li>
             <div>
-              <img className="image-version-image" src="http://placehold.it/75x75"/>
+              <img className="image-version-image" src="http://placehold.it/63x63"/>
               <div className="image-version-details">
                 <div className="version">
                   {this.props.machine.get('pretty_version')}
@@ -38,9 +33,6 @@ define(
                 <div>{this.props.machine.get('ownerid')}</div>
               </div>
             </div>
-            <button className="btn btn-primary launch-button" onClick={this.onLaunchVersion}>
-              Launch this Version
-            </button>
           </li>
         );
       }

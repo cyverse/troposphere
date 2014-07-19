@@ -55,7 +55,8 @@ define(
           url: actionUrl,
           type: "PUT",
           data: JSON.stringify(data),
-          dataType: "json"
+          dataType: "json",
+          contentType: 'application/json'
         });
         return promise;
       },

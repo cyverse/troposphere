@@ -38,14 +38,6 @@ define(
       },
 
       //
-      // Fetching methods
-      // ----------------
-      //
-      fetchProjects: function(){
-        return ProjectController.get();
-      },
-
-      //
       // Render
       // ------
       //

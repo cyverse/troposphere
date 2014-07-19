@@ -1,111 +1,7 @@
 //
-// Actions/Links Bar
+// The little light before status description
+// todo: make this inherit from a resource version so we can reuse for volumes
 //
-
-.instance-actions {
-  ul {
-    list-style: none;
-    padding-left: 0;
-  }
-
-  .action-section {
-    font-weight: 500;
-    font-size: 17px;
-  }
-
-  li {
-    border: solid #E8E8E8 1px;
-    border-top: solid #E8E8E8 0px;
-    padding: 14px;
-  }
-
-  .action-link {
-    span {
-      margin-left: 10px;
-    }
-
-    &:hover {
-      background-color: rgba(72, 163, 35, 0.5);;
-      cursor: pointer;
-    }
-  }
-
-  li:first-child {
-    border-top: solid #E8E8E8 1px;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-  }
-
-  li:last-child {
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-  }
-
-  a {
-    color: rgb(51, 51, 51);
-
-    &:hover {
-      color: rgb(51, 51, 51);
-      border-bottom: none;
-    }
-  }
-}
-
-//
-// Info Section
-// items: image, name, launch date, tags
-//
-
-.edit-instance-link {
-  position: absolute;
-  right: 0px;
-  top: 0px;
-}
-
-.instance-info {
-  position: relative;
-  margin-left: 121px;
-
-  .instance-name {
-    margin-top: 0px;
-  }
-
-  .instance-launch-date {
-    margin-bottom: 5px;
-  }
-
-  .instance-tags {
-    margin-bottom: 8px;
-  }
-}
-
-.instance-image {
-  float: left;
-  margin-right: 22px;
-}
-
-//
-// Details Section
-// items: status, IP address, based on, ID
-//
-
-.instance-details-section {
-  ul {
-    list-style-type: none;
-
-    li {
-      line-height: 30px;
-
-      > span:first-of-type {
-        width: 90px;
-        margin-right: 20px;
-        display: inline-block;
-        text-align: right;
-        color: #5A5A5A;
-      }
-    }
-  }
-}
 
 .instance-status-light {
   width: 12px;
@@ -125,8 +21,4 @@
   &.stopped {
     background: crimson;
   }
-}
-
-.instance-details-content {
-  padding-top: 20px;
 }

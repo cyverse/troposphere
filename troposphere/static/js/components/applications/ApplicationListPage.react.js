@@ -3,12 +3,13 @@
 define(
   [
     'react',
-    'components/common/PageHeader.react',
+    './common/SecondaryApplicationNavigation.react',
     'collections/ApplicationCollection',
-    './list/ApplicationListView.react',
+    './list/ApplicationCardList.react',
+    './list/SearchContainer.react',
     'stores/ApplicationStore'
   ],
-  function (React, PageHeader, ApplicationCollection, ApplicationListView, ApplicationStore) {
+  function (React, SecondaryApplicationNavigation, ApplicationCollection, ApplicationCardList, ApplicationSearch, ApplicationStore) {
 
     function getState() {
       return {
@@ -37,7 +38,7 @@ define(
       render: function () {
         var content;
         if (!this.state.applications) {
-          return (
+          content = (
             <div className="loading"></div>
           );
         } else {
@@ -45,17 +46,6 @@ define(
             return app.get('featured');
           });
           var featuredApplications = new ApplicationCollection(featuredApplicationArray);
-
-          // todo: Add ability for user to toggle display mode and then put this back in the code
-          //  <div className='view-selector'>
-          //    {'View:'}
-          //    <a className='btn btn-default'>
-          //      <span className='glyphicon glyphicon-th'>{''}</span>
-          //    </a>
-          //    <a className='btn btn-default'>
-          //      <span className='glyphicon glyphicon-th-list'>{''}</span>
-          //    </a>
-          //  </div>
 
           content = [
             <ApplicationCardList key="featured" title="Featured Images" applications={featuredApplications}/>,
@@ -65,9 +55,11 @@ define(
 
         return (
           <div>
-            <PageHeader title='Images' helpText={this.helpText}/>
-            <ApplicationSearch/>
-            {content}
+            <SecondaryApplicationNavigation currentRoute="search"/>
+            <div className="container application-card-view">
+              <ApplicationSearch/>
+              {content}
+            </div>
           </div>
         );
 

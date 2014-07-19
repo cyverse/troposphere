@@ -3,11 +3,11 @@
 define(
   [
     'react',
-    'components/common/PageHeader.react',
+    './common/SecondaryApplicationNavigation.react',
     './list/ApplicationCardList.react',
     'stores/ApplicationStore'
   ],
-  function (React, PageHeader, ApplicationCardList, ApplicationStore) {
+  function (React, SecondaryApplicationNavigation, ApplicationCardList, ApplicationStore) {
 
     function getState() {
       return {
@@ -51,8 +51,10 @@ define(
 
         return (
           <div>
-            <PageHeader title="My Images"/>
-            {content}
+            <SecondaryApplicationNavigation currentRoute="my images"/>
+            <div className="container">
+              {content}
+            </div>
           </div>
         );
       }

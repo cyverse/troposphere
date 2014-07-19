@@ -5,7 +5,7 @@ define(
     'marionette',
     'components/Root.react',
     'react',
-    'components/dashboard/new/DashboardPage.react',
+    'components/dashboard/DashboardPage.react',
     'context',
     'backbone'
   ],

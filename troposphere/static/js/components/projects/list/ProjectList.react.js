@@ -3,7 +3,7 @@
 define(
   [
     'react',
-    './project/Project.react',
+    './Project.react',
     'backbone'
   ],
   function (React, Project, Backbone) {
