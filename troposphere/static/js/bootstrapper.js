@@ -17,11 +17,10 @@ define(
     'routers/SettingsRouter',
     'routers/HelpRouter',
     'routers/ProviderRouter',
-    'routers/VolumeRouter',
     'routers/InstanceRouter',
     'routers/DefaultRouter'
   ],
-  function ($, RSVP, Backbone, context, Session, ProfileController, NotificationController, DashboardRouter, ProjectRouter, ApplicationRouter, SettingsRouter, HelpRouter, ProviderRouter, VolumeRouter, InstanceRouter, DefaultRouter) {
+  function ($, RSVP, Backbone, context, Session, ProfileController, NotificationController, DashboardRouter, ProjectRouter, ApplicationRouter, SettingsRouter, HelpRouter, ProviderRouter, InstanceRouter, DefaultRouter) {
 
     function startApplication() {
 
@@ -44,7 +43,6 @@ define(
         SettingsRouter.start();
         HelpRouter.start();
         ProviderRouter.start();
-        VolumeRouter.start();
         InstanceRouter.start();
 
         // For push state support:
