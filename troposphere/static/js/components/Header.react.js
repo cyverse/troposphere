@@ -61,8 +61,6 @@ define(
             </a>
             <ul className="dropdown-menu">
               <li><a href="/application/settings">Settings</a></li>
-              <li><a href="/application/help">Help</a></li>
-              <li><a href="/application/volumes">Volumes</a></li>
               <li className="divider"></li>
               <li>
                 <a href="#" onClick={this.onShowVersion}>Version</a>
