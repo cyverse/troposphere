@@ -33,7 +33,7 @@ define(
 
       render: function () {
         return (
-          <div>
+          <div className="container">
             <PageHeader title="Report Instance"/>
             {this.renderIntro()}
             <ReportInstanceForm instance={this.props.instance}/>
