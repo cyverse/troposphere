@@ -23,6 +23,8 @@ define(
           statusLight = <span className="instance-status-light suspended"></span>;
         }else if(status === "shutoff"){
           statusLight = <span className="instance-status-light stopped"></span>;
+        }else{
+          statusLight = <span></span>;
         }
 
         return (
