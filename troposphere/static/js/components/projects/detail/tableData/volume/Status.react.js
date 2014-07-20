@@ -23,7 +23,11 @@ define(
         }else if(status === "in-use"){
           var attachData = this.props.volume.get('attach_data');
           var instance = this.props.instances.get(attachData.instance_id);
-          placeholderMessage = "Attached to " + instance.get('name') + " as device " + attachData.device;
+          if(instance) {
+            placeholderMessage = "Attached to " + instance.get('name') + " as device " + attachData.device;
+          }else{
+            placeholderMessage = "Attached to instance outside project (" + attachData.instance_id + ")";
+          }
         }
 
         return (
