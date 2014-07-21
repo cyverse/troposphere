@@ -23,8 +23,8 @@ define(
         var title = this.props.volumes.length + " Volumes";
 
         return (
-          <div className="resource-summary">
-            <h2>{title}</h2>
+          <div className="resource-summary col-md-3">
+            <h3>{title}</h3>
             {summaries}
           </div>
         );
