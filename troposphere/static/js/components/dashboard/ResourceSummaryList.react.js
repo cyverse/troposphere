@@ -4,12 +4,11 @@ define(
   [
     'react',
     'backbone',
-    './ResourceSummary.react',
     './InstanceSummary.react',
     './VolumeSummary.react',
     './ProviderSummaryList.react'
   ],
-  function (React, Backbone, ResourceSummary, InstanceSummary, VolumeSummary, ProviderSummaryList) {
+  function (React, Backbone, InstanceSummary, VolumeSummary, ProviderSummaryList) {
 
     return React.createClass({
 
@@ -21,29 +20,6 @@ define(
       },
 
       render: function () {
-        /*
-          Summary of resources in use (sorted by provider/identity?) incl. Instances, Volumes,
-          and a simplified quota representation (?). I imagine they'll be able to click on these
-          to see details for cloud resources or click on the provider or the quota to see that provider.
-         */
-
-        var providerSummaries = this.props.providers.map(function (provider) {
-          if(true){
-            return (
-              <ResourceSummary key={provider.id}
-                               provider={provider}
-                               identities={this.props.identities}
-                               instances={this.props.instances}
-                               volumes={this.props.volumes}
-              />
-            );
-          }else{
-            return (
-              <div className='loading'></div>
-            );
-          }
-        }.bind(this));
-
         return (
           <div className="">
             <h2>Resources in Use</h2>
@@ -56,7 +32,6 @@ define(
                                    volumes={this.props.volumes}
               />
             </div>
-            {providerSummaries}
           </div>
         );
       }
