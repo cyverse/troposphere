@@ -35,6 +35,10 @@ define(
         ApplicationStore.removeChangeListener(this.updateState);
       },
 
+      onMoreImages: function(){
+        ApplicationStore.fetchMore();
+      },
+
       render: function () {
         var content;
         if (!this.state.applications) {
@@ -53,12 +57,18 @@ define(
           ];
         }
 
+        var buttonStyle = {
+          margin: "auto",
+          display: "block"
+        };
+
         return (
           <div>
             <SecondaryApplicationNavigation currentRoute="search"/>
             <div className="container application-card-view">
               <ApplicationSearch/>
               {content}
+              <button style={buttonStyle} className="btn btn-default" onClick={this.onMoreImages}>More Images</button>
             </div>
           </div>
         );
