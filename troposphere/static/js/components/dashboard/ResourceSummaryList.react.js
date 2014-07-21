@@ -4,9 +4,11 @@ define(
   [
     'react',
     'backbone',
-    './ResourceSummary.react'
+    './ResourceSummary.react',
+    './InstanceSummary.react',
+    './VolumeSummary.react'
   ],
-  function (React, Backbone, ResourceSummary) {
+  function (React, Backbone, ResourceSummary, InstanceSummary, VolumeSummary) {
 
     return React.createClass({
 
@@ -44,6 +46,8 @@ define(
         return (
           <div className="">
             <h2>Resources in Use</h2>
+            <InstanceSummary instances={this.props.instances}/>
+            <VolumeSummary volumes={this.props.volumes}/>
             {providerSummaries}
           </div>
         );
