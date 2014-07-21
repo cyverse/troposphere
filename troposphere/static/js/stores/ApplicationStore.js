@@ -17,6 +17,7 @@ define(
     var _applications = null;
     var _searchResults = {};
     var _isFetching = false;
+    var _isFetchingMore = false;
     var _isSearching = false;
 
     var fetchApplications = function () {
@@ -26,6 +27,20 @@ define(
         applications.fetch().done(function () {
           _isFetching = false;
           _applications = applications;
+          ApplicationStore.emitChange();
+        });
+      }
+    };
+
+    var fetchMoreApplications = function () {
+      var nextUrl = _applications.meta.next;
+      if(nextUrl && !_isFetchingMore){
+        _isFetchingMore = true;
+        var moreApplications = new ApplicationCollection();
+        moreApplications.fetch({url: nextUrl}).done(function () {
+          _isFetchingMore = false;
+          _applications.add(moreApplications.models);
+          _applications.meta = moreApplications.meta;
           ApplicationStore.emitChange();
         });
       }
@@ -67,6 +82,10 @@ define(
         } else {
           return _applications;
         }
+      },
+
+      fetchMore: function(){
+        fetchMoreApplications();
       },
 
       getFeatured: function () {
