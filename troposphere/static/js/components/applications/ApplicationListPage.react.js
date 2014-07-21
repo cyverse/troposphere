@@ -13,7 +13,8 @@ define(
 
     function getState() {
       return {
-        applications: ApplicationStore.getAll()
+        applications: ApplicationStore.getAll(),
+        isLoadingMoreResults: false
       };
     }
 
@@ -35,7 +36,8 @@ define(
         ApplicationStore.removeChangeListener(this.updateState);
       },
 
-      onMoreImages: function(){
+      onLoadMoreImages: function(){
+        this.setState({isLoadingMoreResults: true});
         ApplicationStore.fetchMore();
       },
 
@@ -51,16 +53,36 @@ define(
           });
           var featuredApplications = new ApplicationCollection(featuredApplicationArray);
 
+          var buttonStyle = {
+            margin: "auto",
+            display: "block"
+          };
+
+          var loadingStyle= {
+            margin: "0px auto"
+          };
+
+          var moreImagesButton = null;
+          if(this.state.applications.meta.next){
+            if(this.state.isLoadingMoreResults){
+              moreImagesButton = (
+                <div style={loadingStyle} className="loading"></div>
+              );
+            }else {
+              moreImagesButton = (
+                <button style={buttonStyle} className="btn btn-default" onClick={this.onLoadMoreImages}>
+                  More Images
+                </button>
+              );
+            }
+          }
+
           content = [
             <ApplicationCardList key="featured" title="Featured Images" applications={featuredApplications}/>,
-            <ApplicationCardList key="all" title="All Images" applications={this.state.applications}/>
+            <ApplicationCardList key="all" title="All Images" applications={this.state.applications}/>,
+            moreImagesButton
           ];
         }
-
-        var buttonStyle = {
-          margin: "auto",
-          display: "block"
-        };
 
         return (
           <div>
@@ -68,7 +90,6 @@ define(
             <div className="container application-card-view">
               <ApplicationSearch/>
               {content}
-              <button style={buttonStyle} className="btn btn-default" onClick={this.onMoreImages}>More Images</button>
             </div>
           </div>
         );
