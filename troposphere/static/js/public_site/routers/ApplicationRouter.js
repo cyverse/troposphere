@@ -5,7 +5,7 @@ define(function (require) {
         Root                         = require('components/Root.react'),
         React                        = require('react'),
         context                      = require('context'),
-        ApplicationListView          = require('components/applications/list/ApplicationListView.react'),
+        ApplicationListPage          = require('components/applications/ApplicationListPage.react'),
         ApplicationDetailsPage       = require('components/applications/ApplicationDetailsPage.react'),
         ApplicationSearchResultsPage = require('components/applications/ApplicationSearchResultsPage.react'),
         Backbone                     = require('backbone');
@@ -41,7 +41,7 @@ define(function (require) {
       },
 
       showApplications: function () {
-        this.render(ApplicationListView(), ["images"]);
+        this.render(ApplicationListPage(), ["images"]);
       },
 
       showApplicationDetails: function (appId) {

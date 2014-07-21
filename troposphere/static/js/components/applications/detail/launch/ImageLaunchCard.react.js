@@ -51,7 +51,7 @@ define(
         }else{
           var loginUrl = URL.login();
           button = (
-            <a className='btn btn-primary btn-block launch-button' href={loginUrl}>
+            <a className='btn btn-primary launch-button' href={loginUrl}>
               Login to Launch
             </a>
           );
