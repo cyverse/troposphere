@@ -43,7 +43,7 @@ define(
 
         return (
           <div className="">
-            <h2>Resource Summary</h2>
+            <h2>Resources in Use</h2>
             {providerSummaries}
           </div>
         );

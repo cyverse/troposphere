@@ -6,9 +6,10 @@ define(
     'backbone',
     './DashboardHeader.react',
     './ResourceSummaryList.react',
-    './CloudCapacityList.react'
+    './CloudCapacityList.react',
+    './InstanceSummary.react'
   ],
-  function (React, Backbone, DashboardHeader, ResourceSummaryList, CloudCapacityList) {
+  function (React, Backbone, DashboardHeader, ResourceSummaryList, CloudCapacityList, InstanceSummary) {
 
     return React.createClass({
 
@@ -31,6 +32,7 @@ define(
                                      instances={this.props.instances}
                                      volumes={this.props.volumes}
                 />
+                <InstanceSummary instances={this.props.instances}/>
                 <CloudCapacityList providers={this.props.providers}
                                    identities={this.props.identities}
                 />
