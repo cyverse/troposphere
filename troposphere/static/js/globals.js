@@ -3,7 +3,7 @@ define([], function () {
   var servers = {
     APIARY_MOCK: 'http://atmosphere.apiary-mock.com',
     ALOM: '/api/v1',
-    DALLOWAY: 'https://dalloway.iplantc.org:443/api/v1'
+    DALLOWAY: 'https://alom.iplantc.org:443/api/v1'
   };
 
   function getApiServer(){
