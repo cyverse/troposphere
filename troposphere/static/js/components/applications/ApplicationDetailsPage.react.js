@@ -83,7 +83,7 @@ define(
           // If the user isn't logged in, display the public view, otherwise
           // wait for providers and instances to be fetched
           if(!userLoggedIn){
-            return (
+            content = (
               <ApplicationDetailsView application={this.state.application}/>
             );
           }else if(providers && identities) {

@@ -3,25 +3,29 @@
 define(
   [
     'react',
-    'components/common/SecondaryNavigation.react'
+    'components/common/SecondaryNavigation.react',
+    'context'
   ],
-  function (React, SecondaryNavigation) {
+  function (React, SecondaryNavigation, context) {
 
     var routes = [
       {
         name: "Search",
         href: "/application/images",
-        icon: "search"
+        icon: "search",
+        requiresLogin: false
       },
       {
         name: "Favorites",
         href: "/application/images/favorites",
-        icon: "bookmark"
+        icon: "bookmark",
+        requiresLogin: true
       },
       {
         name: "My Images",
         href: "/application/images/authored",
-        icon: "user"
+        icon: "user",
+        requiresLogin: true
       }
     ];
 
@@ -32,6 +36,13 @@ define(
       },
 
       render: function () {
+
+        if(!context.profile){
+          routes = routes.filter(function(route){
+            return !route.requiresLogin;
+          })
+        }
+
         return (
           <div>
             <SecondaryNavigation title="Images" routes={routes} currentRoute={this.props.currentRoute}/>
