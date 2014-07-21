@@ -10,17 +10,17 @@ define(
     return React.createClass({
 
       propTypes: {
-        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        volumes: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       render: function () {
-        var summaries = this.props.instances.map(function (instance) {
+        var summaries = this.props.volumes.map(function (volume) {
           return (
-            <div key={instance.id}>{"1 " + instance.get('status')}</div>
+            <div key={volume.id}>{"1 " + volume.get('status')}</div>
           );
         }.bind(this));
 
-        var title = this.props.instances.length + " Instances";
+        var title = this.props.volumes.length + " Volumes";
 
         return (
           <div className="resource-summary">
