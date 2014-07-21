@@ -19,7 +19,7 @@ define(function (require) {
         'images/search/:query': 'showApplicationSearchResults',
         'images/favorites': 'showFavoritedApplications',
         'images/authored': 'showAuthoredApplications',
-        'images/:id': 'showApplicationDetail'
+        'images/:id': 'showApplicationDetails'
       }
     });
 
@@ -50,7 +50,7 @@ define(function (require) {
         this.render(MyApplicationsPage(), ["images", "authored"]);
       },
 
-      showApplicationDetail: function (appId) {
+      showApplicationDetails: function (appId) {
         var content = ApplicationDetailsPage({
           applicationId: appId
         });

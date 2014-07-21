@@ -11,23 +11,28 @@ define(
     var links = [
       {
         name: "Dashboard",
-        href: "/application/dashboard"
+        href: "/application/dashboard",
+        requiresLogin: true
       },
       {
         name: "Projects",
-        href: "/application/projects"
+        href: "/application/projects",
+        requiresLogin: true
       },
       {
         name: "Images",
-        href: "/application/images"
+        href: "/application/images",
+        requiresLogin: false
       },
       {
         name: "Providers",
-        href: "/application/providers"
+        href: "/application/providers",
+        requiresLogin: true
       },
       {
         name: "Help",
-        href: "/application/help"
+        href: "/application/help",
+        requiresLogin: false
       }
     ];
 
@@ -84,6 +89,12 @@ define(
 
         var profile = this.props.profile;
         var loginLogoutDropdown = profile ? LogoutLink({username: profile.get('username')}) : LoginLink();
+
+        if(!profile) {
+          links = links.filter(function (link) {
+            return !link.requiresLogin;
+          })
+        }
 
         var navLinks = links.map(function(link){
           var isCurrentRoute = (link.name.toLowerCase() === this.props.currentRoute[0]);
