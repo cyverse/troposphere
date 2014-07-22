@@ -12,6 +12,7 @@ define(
     return React.createClass({
 
       propTypes: {
+        project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
@@ -39,8 +40,15 @@ define(
       onResize: function(){ /* no implementation yet */ },
 
       render: function () {
-        var requestImageUrl = URL.requestImage(this.props.instance, {absolute: true});
-        var reportInstanceUrl = URL.reportInstance(this.props.instance, {absolute: true});
+        var requestImageUrl = URL.requestImage({
+          project: this.props.project,
+          instance: this.props.instance
+        }, {absolute: true});
+
+        var reportInstanceUrl = URL.reportInstance({
+          project: this.props.project,
+          instance: this.props.instance
+        }, {absolute: true});
 
         var webShellUrl = this.props.instance.get('shell_url');
         var remoteDesktopUrl = this.props.instance.get('vnc_url');
@@ -92,7 +100,7 @@ define(
             var style = {};
             if(!link.href) style.cursor = 'not-allowed';
             return (
-              <li className={className} style={style}>
+              <li className={className + " link"} style={style}>
                 <a href={link.href} target="_blank">
                   <span>
                     <Glyphicon name={link.icon}/>{link.label}
@@ -108,7 +116,7 @@ define(
           // changes to pass through our Backbone catcher in main.js that we can use
           // to log requests to Google Analytics
           if(link.href) return (
-            <li className={className}>
+            <li className={className + " link"}>
               <a href={link.href}>
               <span>
                 <Glyphicon name={link.icon}/>{link.label}

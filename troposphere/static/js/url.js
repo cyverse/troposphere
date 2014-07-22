@@ -7,8 +7,8 @@ define(['underscore'], function(_) {
             var identityId = model.get('identity').id;
             return 'provider/' + providerId + '/identity/' + identityId + '/instances/' + model.id;
         },
-        reportInstance: function(model) {
-            return generators.instance(model) + '/report';
+        reportInstance: function(data) {
+            return generators.projectInstance(data) + '/report';
         },
         volume: function(model) {
             var providerId = model.get('identity').provider;
@@ -18,8 +18,8 @@ define(['underscore'], function(_) {
         application: function(model) {
             return 'images/' + model.id;
         },
-        requestImage: function(model){
-            return generators.instance(model) + '/request_image';
+        requestImage: function(data){
+            return generators.projectInstance(data) + '/request_image';
         },
         images: function(){
             return 'images';
@@ -61,6 +61,7 @@ define(['underscore'], function(_) {
         help: _.partial(generateUrl, 'help'),
         requestImage: _.partial(generateUrl, 'requestImage'),
         login: _.partial(generateUrl, 'login'),
+        project: _.partial(generateUrl, 'project'),
         projectInstance: _.partial(generateUrl, 'projectInstance'),
         projectVolume: _.partial(generateUrl, 'projectVolume')
     };
