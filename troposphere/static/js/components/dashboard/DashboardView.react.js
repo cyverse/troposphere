@@ -7,9 +7,10 @@ define(
     './DashboardHeader.react',
     './ResourceSummaryList.react',
     './CloudCapacityList.react',
-    './InstanceHistoryList.react'
+    './InstanceHistoryList.react',
+    './MaintenanceMessageList.react'
   ],
-  function (React, Backbone, DashboardHeader, ResourceSummaryList, CloudCapacityList, InstanceHistoryList) {
+  function (React, Backbone, DashboardHeader, ResourceSummaryList, CloudCapacityList, InstanceHistoryList, MaintenanceMessageList) {
 
     return React.createClass({
 
@@ -17,7 +18,8 @@ define(
         providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        volumes: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        volumes: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        maintenanceMessages: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       render: function () {
@@ -46,26 +48,7 @@ define(
                 </div>
 
                 <div className="col-md-3">
-                  <ul className="notifications">
-                    <li>
-                      <div className="title">
-                        <i className="glyphicon glyphicon-pushpin"></i>
-                        <span>Scheduled Maintenance</span>
-                      </div>
-                      <div className="message">
-                        Atmosphere will undergo scheduled maintanence from 9:ooAM - 5:00PM (MST).
-                      </div>
-                    </li>
-                    <li>
-                      <div className="title">
-                        <i className="glyphicon glyphicon-pushpin"></i>
-                        <span>Scheduled Maintenance</span>
-                      </div>
-                      <div className="message">
-                        Atmosphere will undergo scheduled maintanence from 9:ooAM - 5:00PM (MST).
-                      </div>
-                    </li>
-                  </ul>
+                  <MaintenanceMessageList messages={this.props.maintenanceMessages}/>
                 </div>
               </div>
             </div>

@@ -9,16 +9,18 @@ define(
     'stores/InstanceStore',
     'stores/VolumeStore',
     'stores/InstanceHistoryStore',
+    'stores/MaintenanceMessageStore',
     './DashboardView.react'
   ],
-  function (React, ProviderStore, IdentityStore, SizeStore, InstanceStore, VolumeStore, InstanceHistoryStore, DashboardView) {
+  function (React, ProviderStore, IdentityStore, SizeStore, InstanceStore, VolumeStore, InstanceHistoryStore, MaintenanceMessageStore, DashboardView) {
 
     function getState() {
         return {
           providers: ProviderStore.getAll(),
           identities: IdentityStore.getAll(),
           instances: InstanceStore.getAll(),
-          volumes: VolumeStore.getAll()
+          volumes: VolumeStore.getAll(),
+          maintenanceMessages: MaintenanceMessageStore.getAll()
         };
     }
 
@@ -44,6 +46,7 @@ define(
         InstanceStore.addChangeListener(this.updateState);
         VolumeStore.addChangeListener(this.updateState);
         InstanceHistoryStore.addChangeListener(this.updateState);
+        MaintenanceMessageStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function() {
@@ -53,6 +56,7 @@ define(
         InstanceStore.removeChangeListener(this.updateState);
         VolumeStore.removeChangeListener(this.updateState);
         InstanceHistoryStore.removeChangeListener(this.updateState);
+        MaintenanceMessageStore.removeChangeListener(this.updateState);
       },
 
       //
@@ -65,13 +69,15 @@ define(
         var identities = this.state.identities;
         var instances = this.state.instances;
         var volumes = this.state.volumes;
+        var maintenanceMessages = this.state.maintenanceMessages;
 
-        if (providers && identities && instances && volumes) {
+        if (providers && identities && instances && volumes && maintenanceMessages) {
           return (
             <DashboardView providers={providers}
                            identities={identities}
                            instances={instances}
                            volumes={volumes}
+                           maintenanceMessages={maintenanceMessages}
             />
           );
         }else{
