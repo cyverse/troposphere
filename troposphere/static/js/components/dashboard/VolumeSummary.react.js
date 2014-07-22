@@ -14,9 +14,16 @@ define(
       },
 
       render: function () {
-        var summaries = this.props.volumes.map(function (volume) {
+        var summaryGroups = {};
+        this.props.volumes.map(function (volume) {
+          var status = volume.get('status');
+          summaryGroups[status] = (summaryGroups[status] || 0);
+          summaryGroups[status] += 1;
+        }.bind(this));
+
+        var summaries = Object.keys(summaryGroups).map(function (status) {
           return (
-            <div key={volume.id}>{"1 " + volume.get('status')}</div>
+            <div key={status}>{summaryGroups[status] + " " + status}</div>
           );
         }.bind(this));
 
