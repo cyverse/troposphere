@@ -31,7 +31,7 @@ define(
       },
 
       comparator: function (a, b) {
-        return a.start_date > b.start_date;
+        return b.get('start_date').diff(a.get('start_date'), "seconds");
       }
 
     });

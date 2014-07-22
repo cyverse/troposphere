@@ -16,9 +16,13 @@ define(
 
       render: function () {
         var instanceHistories = InstanceHistoryStore.getAll();
+        var title = "Instance History";
         var content;
 
         if(instanceHistories){
+          var historyCount = " (" + instanceHistories.length + " instances launched)";
+          title += historyCount;
+
           content = instanceHistories.map(function (instance) {
             var startDate = instance.get('start_date');
             var endDate = instance.get('end_date');
@@ -43,7 +47,7 @@ define(
                             </span>
                           </div>
                           <div>{formattedStartDate + " - " + formattedEndDate}</div>
-                          <div>{timeSpan + " days ago"}</div>
+                          <div>{timeSpan + " days ago, on " + instance.get('provider')}</div>
                         </div>
                       </div>
                     </li>
@@ -60,7 +64,7 @@ define(
 
         return (
           <div>
-            <h2>Instance History</h2>
+            <h2>{title}</h2>
             {content}
           </div>
 
