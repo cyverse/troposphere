@@ -40,6 +40,7 @@ define(
         var description = $el.find('textarea[name="description"]');
         var software = $el.find('textarea[name="software"]');
         var sys = $el.find('textarea[name="sys"]');
+        var exclude = $el.find('textarea[name="exclude"]');
         var tags = $el.find('select[name="tags"]');
         var visibility = $el.find('select[name="visibility"]');
 
@@ -51,10 +52,12 @@ define(
           description: description.val(),
           software: software.val(),
           sys: sys.val(),
-          tags: tags.val(),
+          exclude: exclude.val(),
+          tags: tags.val() || [],
           vis: visibility.val()
         };
 
+        //console.log(requestData);
         InstanceActions.requestImage(this.props.instance, requestData);
       },
 
