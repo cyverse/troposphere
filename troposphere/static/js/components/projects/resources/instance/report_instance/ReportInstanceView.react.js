@@ -74,7 +74,7 @@ define(
           return (
             <div>
               <BreadcrumbBar breadcrumbs={breadcrumbs}/>
-              <div className="row resource-details-content">
+              <div className="row report-instance-view">
                 <div className="col-md-12">
                   <ReportInstanceIntroduction instance={this.state.instance}/>
                   <ReportInstanceForm instance={this.state.instance}/>
