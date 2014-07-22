@@ -10,7 +10,7 @@ define(
     return Backbone.Model.extend({
 
       initialize: function (attributes, options) {
-        attributes.quota.mem *= 1024;
+        //attributes.quota.mem *= 1024;
       },
 
       parse: function (response) {
@@ -20,10 +20,10 @@ define(
         attributes.provider_id = response.provider_id;
         //attributes.credentials = response.credentials;
         attributes.quota = response.quota;
-        attributes.quota.mem = response.quota.mem * 1024;
+        attributes.quota.mem = response.quota.mem;
         attributes.quota.cpu = response.quota.cpu;
-        attributes.quota.disk = response.quota.disk;
-        attributes.quota.disk_count = response.quota.disk_count;
+        //attributes.quota.disk = response.quota.disk;
+        //attributes.quota.disk_count = response.quota.disk_count;
 
         return attributes;
       },
