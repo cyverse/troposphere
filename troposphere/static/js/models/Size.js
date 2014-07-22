@@ -39,6 +39,7 @@ define(
 
       parse: function (attributes) {
         attributes.id = attributes.alias;
+        attributes.mem = attributes.mem / 1024;
         return attributes;
       },
 

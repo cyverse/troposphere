@@ -15,7 +15,7 @@ define(
 
     var _instances = null;
     var _isFetching = false;
-    var validStates = ["active", "error", "active - deploy_error", "suspended"];
+    var validStates = ["active", "error", "active - deploy_error", "suspended", "shutoff"];
     var pollingFrequency = 10*1000;
 
     //
