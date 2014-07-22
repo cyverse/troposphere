@@ -100,7 +100,7 @@ define(
             var style = {};
             if(!link.href) style.cursor = 'not-allowed';
             return (
-              <li className={className} style={style}>
+              <li className={className + " link"} style={style}>
                 <a href={link.href} target="_blank">
                   <span>
                     <Glyphicon name={link.icon}/>{link.label}
@@ -116,7 +116,7 @@ define(
           // changes to pass through our Backbone catcher in main.js that we can use
           // to log requests to Google Analytics
           if(link.href) return (
-            <li className={className}>
+            <li className={className + " link"}>
               <a href={link.href}>
               <span>
                 <Glyphicon name={link.icon}/>{link.label}
