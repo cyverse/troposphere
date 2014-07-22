@@ -12,9 +12,10 @@ define(
     'stores/ProviderStore',
     'stores/VolumeStore',
     'stores/IdentityStore',
-    'controllers/NotificationController'
+    'controllers/NotificationController',
+    'url'
   ],
-  function (React, Backbone, VolumeDetailsSection, VolumeInfoSection, BreadcrumbBar, VolumeActionsAndLinks, ProjectVolumeStore, ProviderStore, VolumeStore, IdentityStore, NotificationController) {
+  function (React, Backbone, VolumeDetailsSection, VolumeInfoSection, BreadcrumbBar, VolumeActionsAndLinks, ProjectVolumeStore, ProviderStore, VolumeStore, IdentityStore, NotificationController, URL) {
 
     function getState(project, volumeId) {
       return {
@@ -83,9 +84,23 @@ define(
           if(!volume) NotificationController.error(null, "No volume with id: " + this.props.volumeId);
           volume = this.state.volume;
 
+          var breadcrumbs = [
+            {
+              name: "Resources",
+              url: URL.project(this.props.project, {absolute: true})
+            },
+            {
+              name: volume.get('name'),
+              url: URL.projectVolume({
+                project: this.props.project,
+                volume: volume
+              }, {absolute: true})
+            }
+          ];
+
           return (
             <div>
-              <BreadcrumbBar/>
+              <BreadcrumbBar breadcrumbs={breadcrumbs}/>
               <div className="row resource-details-content">
                 <div className="col-md-9 resource-detail-sections">
                   <VolumeInfoSection volume={volume}/>
