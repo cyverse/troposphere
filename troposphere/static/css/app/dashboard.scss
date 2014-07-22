@@ -1,5 +1,20 @@
 #dashboard-view {
 
+  .dashboard-header {
+    padding: 13px 0px;
+
+    h1 {
+      float: left;
+      margin: 0;
+    }
+
+    a {
+      float: right;
+      //font-size: 18px;
+      //padding: 10px 10px;
+    }
+  }
+
   .secondary-nav {
     margin-bottom: 0px;
   }

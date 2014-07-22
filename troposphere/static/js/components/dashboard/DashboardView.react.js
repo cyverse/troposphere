@@ -23,41 +23,50 @@ define(
       render: function () {
         return (
           <div id="dashboard-view">
-            <DashboardHeader title="Dashboard"/>
+            {false ? <DashboardHeader title="Dashboard"/> : null}
             <div className="container">
-              <div className="col-md-9">
-                <a href="/application/images" className="btn btn-primary pull-right">Launch an Instance</a>
-                <ResourceSummaryList providers={this.props.providers}
+              <div className="row">
+
+                <div className="col-md-9">
+                  <div>
+                    <div className="dashboard-header clearfix">
+                      <h1>Dashboard</h1>
+                      <a href="/application/images" className="btn btn-primary">Launch an Instance</a>
+                    </div>
+                  </div>
+                  <ResourceSummaryList providers={this.props.providers}
+                                       identities={this.props.identities}
+                                       instances={this.props.instances}
+                                       volumes={this.props.volumes}
+                  />
+                  <CloudCapacityList providers={this.props.providers}
                                      identities={this.props.identities}
-                                     instances={this.props.instances}
-                                     volumes={this.props.volumes}
-                />
-                <CloudCapacityList providers={this.props.providers}
-                                   identities={this.props.identities}
-                />
-                <InstanceHistoryList/>
-              </div>
-              <div className="col-md-3">
-                <ul className="notifications">
-                  <li>
-                    <div className="title">
-                      <i className="glyphicon glyphicon-pushpin"></i>
-                      <span>Scheduled Maintenance</span>
-                    </div>
-                    <div className="message">
-                      Atmosphere will undergo scheduled maintanence from 9:ooAM - 5:00PM (MST).
-                    </div>
-                  </li>
-                  <li>
-                    <div className="title">
-                      <i className="glyphicon glyphicon-pushpin"></i>
-                      <span>Scheduled Maintenance</span>
-                    </div>
-                    <div className="message">
-                      Atmosphere will undergo scheduled maintanence from 9:ooAM - 5:00PM (MST).
-                    </div>
-                  </li>
-                </ul>
+                  />
+                  <InstanceHistoryList/>
+                </div>
+
+                <div className="col-md-3">
+                  <ul className="notifications">
+                    <li>
+                      <div className="title">
+                        <i className="glyphicon glyphicon-pushpin"></i>
+                        <span>Scheduled Maintenance</span>
+                      </div>
+                      <div className="message">
+                        Atmosphere will undergo scheduled maintanence from 9:ooAM - 5:00PM (MST).
+                      </div>
+                    </li>
+                    <li>
+                      <div className="title">
+                        <i className="glyphicon glyphicon-pushpin"></i>
+                        <span>Scheduled Maintenance</span>
+                      </div>
+                      <div className="message">
+                        Atmosphere will undergo scheduled maintanence from 9:ooAM - 5:00PM (MST).
+                      </div>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
