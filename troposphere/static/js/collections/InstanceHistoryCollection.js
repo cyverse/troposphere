@@ -30,7 +30,9 @@ define(
         return response.results;
       },
 
-      comparator: "start_date"
+      comparator: function (a, b) {
+        return a.start_date > b.start_date;
+      }
 
     });
 

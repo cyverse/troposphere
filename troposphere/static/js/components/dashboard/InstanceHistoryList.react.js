@@ -21,7 +21,13 @@ define(
         if(instanceHistories){
           content = instanceHistories.map(function (instance) {
             return (
-              <div key={instance.id}>{instance.get('name')}</div>
+              <div key={instance.id}>
+                <strong>{instance.get('name')}</strong>
+                <ul>
+                  <li>{"start_date: " + instance.get('start_date').format("MMM DD, YYYY")}</li>
+                  <li>{"end_date: " + instance.get('end_date').format("MMM DD, YYYY")}</li>
+                </ul>
+              </div>
             );
           }.bind(this));
         }else{
