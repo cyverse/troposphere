@@ -61,6 +61,7 @@ define(['underscore'], function(_) {
         help: _.partial(generateUrl, 'help'),
         requestImage: _.partial(generateUrl, 'requestImage'),
         login: _.partial(generateUrl, 'login'),
+        project: _.partial(generateUrl, 'project'),
         projectInstance: _.partial(generateUrl, 'projectInstance'),
         projectVolume: _.partial(generateUrl, 'projectVolume')
     };
