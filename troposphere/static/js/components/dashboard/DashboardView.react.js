@@ -6,9 +6,10 @@ define(
     'backbone',
     './DashboardHeader.react',
     './ResourceSummaryList.react',
-    './CloudCapacityList.react'
+    './CloudCapacityList.react',
+    './InstanceHistoryList.react'
   ],
-  function (React, Backbone, DashboardHeader, ResourceSummaryList, CloudCapacityList) {
+  function (React, Backbone, DashboardHeader, ResourceSummaryList, CloudCapacityList, InstanceHistoryList) {
 
     return React.createClass({
 
@@ -34,6 +35,7 @@ define(
                 <CloudCapacityList providers={this.props.providers}
                                    identities={this.props.identities}
                 />
+                <InstanceHistoryList/>
               </div>
               <div className="col-md-3">
                 <ul className="notifications">

@@ -8,9 +8,10 @@ define(
     'stores/SizeStore',
     'stores/InstanceStore',
     'stores/VolumeStore',
+    'stores/InstanceHistoryStore',
     './DashboardView.react'
   ],
-  function (React, ProviderStore, IdentityStore, SizeStore, InstanceStore, VolumeStore, DashboardView) {
+  function (React, ProviderStore, IdentityStore, SizeStore, InstanceStore, VolumeStore, InstanceHistoryStore, DashboardView) {
 
     function getState() {
         return {
@@ -42,6 +43,7 @@ define(
         SizeStore.addChangeListener(this.updateState);
         InstanceStore.addChangeListener(this.updateState);
         VolumeStore.addChangeListener(this.updateState);
+        InstanceHistoryStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function() {
@@ -50,6 +52,7 @@ define(
         SizeStore.removeChangeListener(this.updateState);
         InstanceStore.removeChangeListener(this.updateState);
         VolumeStore.removeChangeListener(this.updateState);
+        InstanceHistoryStore.removeChangeListener(this.updateState);
       },
 
       //
