@@ -166,7 +166,7 @@ define(
 
         $.ajax({
           url: requestUrl,
-          type: 'PUT',
+          type: 'POST',
           data: JSON.stringify(requestData),
           dataType: 'json',
           contentType: 'application/json',

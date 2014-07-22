@@ -92,6 +92,15 @@
     border-top: solid #E8E8E8 0px;
     padding: 14px;
 
+    &.link {
+      padding: 0px;
+
+      a {
+        padding: 14px;
+        display: block;
+      }
+    }
+
     &.danger {
       color: white;
       background : -moz-linear-gradient(50% 0% -90deg,rgba(244, 125, 92, 1) 0%,rgba(244, 125, 92, 1) 0.08%,rgba(242, 99, 75, 1) 23.78%,rgba(240, 80, 63, 1) 48%,rgba(239, 69, 56, 1) 73.05%,rgba(239, 65, 54, 1) 100%);

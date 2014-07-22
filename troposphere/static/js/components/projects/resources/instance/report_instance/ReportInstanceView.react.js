@@ -9,9 +9,10 @@ define(
     './ReportInstanceForm.react',
     'stores/InstanceStore',
     'stores/SizeStore',
-    'stores/IdentityStore'
+    'stores/IdentityStore',
+    'url'
   ],
-  function (React, Backbone, BreadcrumbBar, ReportInstanceIntroduction, ReportInstanceForm, InstanceStore, SizeStore, IdentityStore) {
+  function (React, Backbone, BreadcrumbBar, ReportInstanceIntroduction, ReportInstanceForm, InstanceStore, SizeStore, IdentityStore, URL) {
 
     function getState(project, instanceId) {
       return {
@@ -53,10 +54,27 @@ define(
 
       render: function () {
         if(this.state.instance) {
+          var breadcrumbs = [
+            {
+              name: "Resources",
+              url: URL.project(this.props.project, {absolute: true})
+            },
+            {
+              name: this.state.instance.get('name'),
+              url: URL.projectInstance({
+                project: this.props.project,
+                instance: this.state.instance
+              }, {absolute: true})
+            },
+            {
+              name: "Report Instance"
+            }
+          ];
+
           return (
             <div>
-              <BreadcrumbBar/>
-              <div className="row resource-details-content">
+              <BreadcrumbBar breadcrumbs={breadcrumbs}/>
+              <div className="row report-instance-view">
                 <div className="col-md-12">
                   <ReportInstanceIntroduction instance={this.state.instance}/>
                   <ReportInstanceForm instance={this.state.instance}/>

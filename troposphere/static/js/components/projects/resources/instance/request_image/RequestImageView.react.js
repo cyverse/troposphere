@@ -11,9 +11,10 @@ define(
     'stores/SizeStore',
     'stores/IdentityStore',
     'stores/TagStore',
-    'controllers/NotificationController'
+    'controllers/NotificationController',
+    'url'
   ],
-  function (React, Backbone, BreadcrumbBar, RequestImageForm, InstanceStore, ProviderStore, SizeStore, IdentityStore, TagStore, NotificationController) {
+  function (React, Backbone, BreadcrumbBar, RequestImageForm, InstanceStore, ProviderStore, SizeStore, IdentityStore, TagStore, NotificationController, URL) {
 
     function getState(project, instanceId) {
       return {
@@ -64,9 +65,26 @@ define(
           var providerId = this.state.instance.get('identity').provider;
           var provider = this.state.providers.get(providerId);
 
+          var breadcrumbs = [
+            {
+              name: "Resources",
+              url: URL.project(this.props.project, {absolute: true})
+            },
+            {
+              name: this.state.instance.get('name'),
+              url: URL.projectInstance({
+                project: this.props.project,
+                instance: this.state.instance
+              }, {absolute: true})
+            },
+            {
+              name: "Request Image"
+            }
+          ];
+
           return (
             <div>
-              <BreadcrumbBar/>
+              <BreadcrumbBar breadcrumbs={breadcrumbs}/>
               <div className="row resource-details-content">
                 <RequestImageForm instance={this.state.instance}
                                   provider={provider}

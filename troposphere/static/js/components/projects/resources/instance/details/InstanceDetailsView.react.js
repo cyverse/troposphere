@@ -12,9 +12,10 @@ define(
     'stores/ProviderStore',
     'stores/SizeStore',
     'stores/IdentityStore',
-    'controllers/NotificationController'
+    'controllers/NotificationController',
+    'url'
   ],
-  function (React, Backbone, BreadcrumbBar, InstanceInfoSection, InstanceDetailsSection, InstanceActionsAndLinks, InstanceStore, ProviderStore, SizeStore, IdentityStore, NotificationController) {
+  function (React, Backbone, BreadcrumbBar, InstanceInfoSection, InstanceDetailsSection, InstanceActionsAndLinks, InstanceStore, ProviderStore, SizeStore, IdentityStore, NotificationController, URL) {
 
     function getState(project, instanceId) {
       return {
@@ -71,9 +72,23 @@ define(
           if(sizes) {
             var size = sizes.get(sizeId);
 
+            var breadcrumbs = [
+              {
+                name: "Resources",
+                url: URL.project(this.props.project, {absolute: true})
+              },
+              {
+                name: this.state.instance.get('name'),
+                url: URL.projectInstance({
+                  project: this.props.project,
+                  instance: this.state.instance
+                }, {absolute: true})
+              }
+            ];
+
             return (
               <div>
-                <BreadcrumbBar/>
+                <BreadcrumbBar breadcrumbs={breadcrumbs}/>
                 <div className="row resource-details-content">
                   <div className="col-md-9">
                     <InstanceInfoSection instance={this.state.instance}/>
@@ -82,7 +97,7 @@ define(
                     <hr/>
                   </div>
                   <div className="col-md-3">
-                    <InstanceActionsAndLinks instance={this.state.instance}/>
+                    <InstanceActionsAndLinks project={this.props.project} instance={this.state.instance}/>
                   </div>
                 </div>
               </div>

@@ -17,10 +17,9 @@ define(
     'routers/SettingsRouter',
     'routers/HelpRouter',
     'routers/ProviderRouter',
-    'routers/InstanceRouter',
     'routers/DefaultRouter'
   ],
-  function ($, RSVP, Backbone, context, Session, ProfileController, NotificationController, DashboardRouter, ProjectRouter, ApplicationRouter, SettingsRouter, HelpRouter, ProviderRouter, InstanceRouter, DefaultRouter) {
+  function ($, RSVP, Backbone, context, Session, ProfileController, NotificationController, DashboardRouter, ProjectRouter, ApplicationRouter, SettingsRouter, HelpRouter, ProviderRouter, DefaultRouter) {
 
     function startApplication() {
 
@@ -43,7 +42,6 @@ define(
         SettingsRouter.start();
         HelpRouter.start();
         ProviderRouter.start();
-        InstanceRouter.start();
 
         // For push state support:
         // Route all internal links to the Backbone router(s). External links
