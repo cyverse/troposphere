@@ -82,7 +82,7 @@ define(
                     <hr/>
                   </div>
                   <div className="col-md-3">
-                    <InstanceActionsAndLinks instance={this.state.instance}/>
+                    <InstanceActionsAndLinks project={this.props.project} instance={this.state.instance}/>
                   </div>
                 </div>
               </div>

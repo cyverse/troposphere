@@ -12,6 +12,7 @@ define(
     return React.createClass({
 
       propTypes: {
+        project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
@@ -39,8 +40,15 @@ define(
       onResize: function(){ /* no implementation yet */ },
 
       render: function () {
-        var requestImageUrl = URL.requestImage(this.props.instance, {absolute: true});
-        var reportInstanceUrl = URL.reportInstance(this.props.instance, {absolute: true});
+        var requestImageUrl = URL.requestImage({
+          project: this.props.project,
+          instance: this.props.instance
+        }, {absolute: true});
+
+        var reportInstanceUrl = URL.reportInstance({
+          project: this.props.project,
+          instance: this.props.instance
+        }, {absolute: true});
 
         var webShellUrl = this.props.instance.get('shell_url');
         var remoteDesktopUrl = this.props.instance.get('vnc_url');
