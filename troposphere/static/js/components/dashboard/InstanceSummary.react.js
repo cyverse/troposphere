@@ -14,9 +14,16 @@ define(
       },
 
       render: function () {
-        var summaries = this.props.instances.map(function (instance) {
+        var summaryGroups = {};
+        this.props.instances.map(function (instance) {
+          var status = instance.get('status');
+          summaryGroups[status] = (summaryGroups[status] || 0);
+          summaryGroups[status] += 1;
+        }.bind(this));
+
+        var summaries = Object.keys(summaryGroups).map(function (status) {
           return (
-            <div key={instance.id}>{"1 " + instance.get('status')}</div>
+            <div key={status}>{summaryGroups[status] + " " + status}</div>
           );
         }.bind(this));
 
