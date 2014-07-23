@@ -30,15 +30,6 @@ define(
         }
       },
 
-      componentDidUpdate: function(){
-        var el = this.getDOMNode();
-        var $el = $(el);
-        $el.find('select[name="tags"]')
-           .chosen()
-           .trigger('chosen:updated')
-           .change(this.onTagsChanged);
-      },
-
       onEnterEditMode: function(e){
         this.setState({isEditing: true});
       },
@@ -56,16 +47,6 @@ define(
         InstanceActions.updateInstanceAttributes(this.props.instance, {name: text})
       },
 
-      onEditTags: function(e){
-        e.preventDefault();
-        this.setState({isEditingTags: true});
-      },
-
-      onDoneEditingTags: function(e){
-        e.preventDefault();
-        this.setState({isEditingTags: false});
-      },
-
       onTagsChanged: function(text){
         //var tags = $(text.currentTarget).val();
         var tags = text;
@@ -77,41 +58,7 @@ define(
         alert("Editing instance details not yet implemented.");
       },
 
-      renderTags: function(){
-        var tags = this.props.tags.map(function(tag){
-          var tagName = tag.get('name');
-          return (
-            <option key={tag.id} value={tagName}>{tagName}</option>
-          );
-        });
-
-        return (
-          <div>
-            <select name="tags"
-                    data-placeholder="Select tags to add..."
-                    className="form-control"
-                    multiple={true}
-                    value={this.props.instance.get('tags')}
-            >
-              {tags}
-            </select>
-            <a className="btn btn-primary new-tag" href="#" onClick={this.onCreateNewTag}>+ New tag</a>
-          </div>
-        );
-      },
-
       render: function () {
-        var tags = this.props.instance.get('tags').map(function(tag){
-          return (
-            <li key={tag} className="tag"><a href="#">{tag}</a></li>
-          );
-        });
-
-        var readOnlyTags = (
-          <ul className="tags">
-            {tags.length > 0 ? tags : <span>This instance has not been tagged.</span>}
-          </ul>
-        );
 
         var nameContent;
         if(this.state.isEditing){
@@ -124,17 +71,6 @@ define(
               {this.state.name}
               <i className="glyphicon glyphicon-pencil"></i>
             </h4>
-          );
-        }
-
-        var editTags;
-        if(this.state.isEditingTags){
-          editTags = (
-            <a href="#" onClick={this.onDoneEditingTags}>Done editing</a>
-          );
-        }else{
-          editTags = (
-            <a href="#" onClick={this.onEditTags}>Edit tags</a>
           );
         }
 
@@ -154,11 +90,6 @@ define(
                             activeTags={this.props.instance.get('tags')}
                             onTagsChanged={this.onTagsChanged}
               />
-              <div className="resource-tags">
-                Instance Tags:
-                {editTags}
-                {this.state.isEditingTags ? this.renderTags() : readOnlyTags}
-              </div>
             </div>
 
           </div>
