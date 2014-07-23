@@ -34,6 +34,7 @@ define(
         var $el = $(el);
         $el.find('select[name="tags"]')
            .chosen()
+           .trigger('chosen:updated')
            .change(this.onTagsChanged);
       },
 
