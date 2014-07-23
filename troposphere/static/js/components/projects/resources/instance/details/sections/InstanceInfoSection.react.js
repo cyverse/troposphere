@@ -6,13 +6,14 @@ define(
     'backbone',
     'components/common/Time.react',
     'components/common/EditableInputField.react',
+    './ResourceTags.react',
     'actions/InstanceActions',
     'actions/TagActions',
 
     // jQuery plugins: need to make sure they're loaded, but they aren't called directly
     'chosen'
   ],
-  function (React, Backbone, Time, EditableInputField, InstanceActions, TagActions) {
+  function (React, Backbone, Time, EditableInputField, ResourceTags, InstanceActions, TagActions) {
 
     return React.createClass({
 
@@ -66,7 +67,8 @@ define(
       },
 
       onTagsChanged: function(text){
-        var tags = $(text.currentTarget).val();
+        //var tags = $(text.currentTarget).val();
+        var tags = text;
         InstanceActions.updateInstanceAttributes(this.props.instance, {tags: tags})
       },
 
@@ -148,6 +150,10 @@ define(
                 {nameContent}
               </div>
               <div className="resource-launch-date">Launched on <Time date={this.props.instance.get('start_date')}/></div>
+              <ResourceTags tags={this.props.tags}
+                            activeTags={this.props.instance.get('tags')}
+                            onTagsChanged={this.onTagsChanged}
+              />
               <div className="resource-tags">
                 Instance Tags:
                 {editTags}
