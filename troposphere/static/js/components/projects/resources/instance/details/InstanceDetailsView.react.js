@@ -12,15 +12,17 @@ define(
     'stores/ProviderStore',
     'stores/SizeStore',
     'stores/IdentityStore',
+    'stores/TagStore',
     'controllers/NotificationController',
     'url'
   ],
-  function (React, Backbone, BreadcrumbBar, InstanceInfoSection, InstanceDetailsSection, InstanceActionsAndLinks, InstanceStore, ProviderStore, SizeStore, IdentityStore, NotificationController, URL) {
+  function (React, Backbone, BreadcrumbBar, InstanceInfoSection, InstanceDetailsSection, InstanceActionsAndLinks, InstanceStore, ProviderStore, SizeStore, IdentityStore, TagStore, NotificationController, URL) {
 
     function getState(project, instanceId) {
       return {
         instance: InstanceStore.get(instanceId),
-        providers: ProviderStore.getAll()
+        providers: ProviderStore.getAll(),
+        tags: TagStore.getAll()
       };
     }
 
@@ -38,6 +40,7 @@ define(
       componentDidMount: function () {
         InstanceStore.addChangeListener(this.updateState);
         ProviderStore.addChangeListener(this.updateState);
+        TagStore.addChangeListener(this.updateState);
 
         // todo: IdentityStore is only included here because InstanceStore.get(instanceId) is
         // lazy loading, but I'm not sure how to get InstanceStore to know when new
@@ -50,6 +53,7 @@ define(
       componentWillUnmount: function () {
         InstanceStore.removeChangeListener(this.updateState);
         ProviderStore.removeChangeListener(this.updateState);
+        TagStore.removeChangeListener(this.updateState);
         IdentityStore.removeChangeListener(this.updateState);
         SizeStore.removeChangeListener(this.updateState);
       },
@@ -59,7 +63,7 @@ define(
       },
 
       render: function () {
-        if(this.state.instance && this.state.providers) {
+        if(this.state.instance && this.state.providers && this.state.tags) {
           //var instance = this.state.instances.get(this.props.instanceId);
           //if(!instance) NotificationController.error(null, "No instance with id: " + this.props.volumeId);
 
@@ -91,7 +95,9 @@ define(
                 <BreadcrumbBar breadcrumbs={breadcrumbs}/>
                 <div className="row resource-details-content">
                   <div className="col-md-9">
-                    <InstanceInfoSection instance={this.state.instance}/>
+                    <InstanceInfoSection instance={this.state.instance}
+                                         tags={this.state.tags}
+                    />
                     <hr/>
                     <InstanceDetailsSection instance={this.state.instance} provider={provider} size={size}/>
                     <hr/>
