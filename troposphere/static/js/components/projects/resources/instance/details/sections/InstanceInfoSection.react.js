@@ -43,7 +43,7 @@ define(
 
       onCreateNewTag: function(e){
         e.preventDefault();
-        TagActions.createNewTagAndAddToInstance(this.props.instance);
+        TagActions.create(this.props.instance);
       },
 
       onDoneEditing: function(text){
@@ -92,7 +92,7 @@ define(
             >
               {tags}
             </select>
-            <a className="btn btn-primary new-tag" href="#">+ New tag</a>
+            <a className="btn btn-primary new-tag" href="#" onClick={this.onCreateNewTag}>+ New tag</a>
           </div>
         );
       },
