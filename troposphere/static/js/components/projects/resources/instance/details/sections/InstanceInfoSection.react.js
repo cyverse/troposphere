@@ -7,11 +7,12 @@ define(
     'components/common/Time.react',
     'components/common/EditableInputField.react',
     'actions/InstanceActions',
+    'actions/TagActions',
 
     // jQuery plugins: need to make sure they're loaded, but they aren't called directly
     'chosen'
   ],
-  function (React, Backbone, Time, EditableInputField, InstanceActions) {
+  function (React, Backbone, Time, EditableInputField, InstanceActions, TagActions) {
 
     return React.createClass({
 
@@ -23,20 +24,26 @@ define(
       getInitialState: function(){
         return {
           name: this.props.instance.get('name'),
-          isEditing: false
+          isEditing: false,
+          isEditingTags: false
         }
       },
 
-      componentDidMount: function () {
+      componentDidUpdate: function(){
         var el = this.getDOMNode();
         var $el = $(el);
         $el.find('select[name="tags"]')
            .chosen()
-           .change(this.onDoneEditingTags);
+           .change(this.onTagsChanged);
       },
 
       onEnterEditMode: function(e){
         this.setState({isEditing: true});
+      },
+
+      onCreateNewTag: function(e){
+        e.preventDefault();
+        TagActions.createNewTagAndAddToInstance(this.props.instance);
       },
 
       onDoneEditing: function(text){
@@ -47,16 +54,18 @@ define(
         InstanceActions.updateInstanceAttributes(this.props.instance, {name: text})
       },
 
-      onDoneEditingTags: function(text){
-        // var el = this.getDOMNode();
-        // var $el = $(el);
-        // var tags = $el.find('select[name="tags"]').val();
+      onEditTags: function(e){
+        e.preventDefault();
+        this.setState({isEditingTags: true});
+      },
 
+      onDoneEditingTags: function(e){
+        e.preventDefault();
+        this.setState({isEditingTags: false});
+      },
+
+      onTagsChanged: function(text){
         var tags = $(text.currentTarget).val();
-
-//        this.setState({
-//          isEditingTags: false
-//        });
         InstanceActions.updateInstanceAttributes(this.props.instance, {tags: tags})
       },
 
@@ -74,7 +83,7 @@ define(
         });
 
         return (
-          <div className="control-group">
+          <div>
             <select name="tags"
                     data-placeholder="Select tags to add..."
                     className="form-control"
@@ -83,6 +92,7 @@ define(
             >
               {tags}
             </select>
+            <a className="btn btn-primary new-tag" href="#">+ New tag</a>
           </div>
         );
       },
@@ -93,6 +103,12 @@ define(
             <li key={tag} className="tag"><a href="#">{tag}</a></li>
           );
         });
+
+        var readOnlyTags = (
+          <ul className="tags">
+            {tags.length > 0 ? tags : <span>This instance has not been tagged.</span>}
+          </ul>
+        );
 
         var nameContent;
         if(this.state.isEditing){
@@ -108,6 +124,17 @@ define(
           );
         }
 
+        var editTags;
+        if(this.state.isEditingTags){
+          editTags = (
+            <a href="#" onClick={this.onDoneEditingTags}>Done editing</a>
+          );
+        }else{
+          editTags = (
+            <a href="#" onClick={this.onEditTags}>Edit tags</a>
+          );
+        }
+
         return (
           <div className="resource-info-section section clearfix">
 
@@ -120,16 +147,11 @@ define(
                 {nameContent}
               </div>
               <div className="resource-launch-date">Launched on <Time date={this.props.instance.get('start_date')}/></div>
-              <div className="resource-tags">Instance Tags:</div>
-              <ul className="tags">
-                {tags.length > 0 ? tags : <span>This instance has not been tagged.</span>}
-              </ul>
-
-              {this.renderTags()}
-            </div>
-
-            <div className="edit-resource-link">
-              <a href="#" onClick={this.onEditInstanceDetails}>Edit Instance Info</a>
+              <div className="resource-tags">
+                Instance Tags:
+                {editTags}
+                {this.state.isEditingTags ? this.renderTags() : readOnlyTags}
+              </div>
             </div>
 
           </div>

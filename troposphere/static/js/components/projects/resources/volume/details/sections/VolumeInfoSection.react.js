@@ -72,10 +72,6 @@ define(
               </div>
             </div>
 
-            <div className="edit-resource-link">
-              <a href="#" onClick={this.onEditInformation}>Edit Volume Info</a>
-            </div>
-
           </div>
         );
       }
