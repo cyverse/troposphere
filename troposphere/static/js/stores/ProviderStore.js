@@ -4,10 +4,9 @@ define(
     'stores/Store',
     'collections/ProviderCollection',
     'dispatchers/AppDispatcher',
-    'constants/ProviderConstants',
     'rsvp'
   ],
-  function (_, Store, ProviderCollection, AppDispatcher, ProviderConstants, RSVP) {
+  function (_, Store, ProviderCollection, AppDispatcher, RSVP) {
 
     var _providers = null;
     var _isFetching = false;

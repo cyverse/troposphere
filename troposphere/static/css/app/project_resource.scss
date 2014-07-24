@@ -2,19 +2,8 @@
 // Resource Info Section
 //
 
-.resource-info-section {
-  position: relative;
-}
-
-.edit-resource-link {
-  position: absolute;
-  right: 0px;
-  top: 23px;
-}
-
 .resource-info {
-  position: relative;
-  margin-left: 121px;
+  margin-left: 143px;
 
   .resource-name {
     margin-top: 0px;
@@ -25,13 +14,25 @@
   }
 
   .resource-tags {
-    margin-bottom: 8px;
+
+
+    > span {
+      padding-right: 5px;
+    }
+
+    .tags {
+      margin-top: 8px;
+    }
+
+    .new-tag {
+      padding: 3px 6px;
+      margin-top: 5px;
+    }
   }
 }
 
 .resource-image {
   float: left;
-  margin-right: 22px;
 }
 
 //

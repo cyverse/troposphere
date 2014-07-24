@@ -6,25 +6,37 @@ define(
     'backbone',
     'components/common/Time.react',
     'components/common/EditableInputField.react',
-    'actions/InstanceActions'
+    './ResourceTags.react',
+    'actions/InstanceActions',
+    'actions/TagActions',
+
+    // jQuery plugins: need to make sure they're loaded, but they aren't called directly
+    'chosen'
   ],
-  function (React, Backbone, Time, EditableInputField, InstanceActions) {
+  function (React, Backbone, Time, EditableInputField, ResourceTags, InstanceActions, TagActions) {
 
     return React.createClass({
 
       propTypes: {
-        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       getInitialState: function(){
         return {
           name: this.props.instance.get('name'),
-          isEditing: false
+          isEditing: false,
+          isEditingTags: false
         }
       },
 
       onEnterEditMode: function(e){
         this.setState({isEditing: true});
+      },
+
+      onCreateNewTag: function(e){
+        e.preventDefault();
+        TagActions.create(this.props.instance);
       },
 
       onDoneEditing: function(text){
@@ -35,18 +47,18 @@ define(
         InstanceActions.updateInstanceAttributes(this.props.instance, {name: text})
       },
 
+      onTagsChanged: function(text){
+        //var tags = $(text.currentTarget).val();
+        var tags = text;
+        InstanceActions.updateInstanceAttributes(this.props.instance, {tags: tags})
+      },
+
       onEditInstanceDetails: function(e){
         e.preventDefault();
         alert("Editing instance details not yet implemented.");
       },
 
       render: function () {
-
-        var tags = this.props.instance.get('tags').map(function(tag){
-          return (
-            <li key={tag} className="tag"><a href="#">{tag}</a></li>
-          );
-        });
 
         var nameContent;
         if(this.state.isEditing){
@@ -74,14 +86,10 @@ define(
                 {nameContent}
               </div>
               <div className="resource-launch-date">Launched on <Time date={this.props.instance.get('start_date')}/></div>
-              <div className="resource-tags">Instance Tags:</div>
-              <ul className="tags">
-                {tags.length > 0 ? tags : <span>This instance has not been tagged.</span>}
-              </ul>
-            </div>
-
-            <div className="edit-resource-link">
-              <a href="#" onClick={this.onEditInstanceDetails}>Edit Instance Info</a>
+              <ResourceTags tags={this.props.tags}
+                            activeTags={this.props.instance.get('tags')}
+                            onTagsChanged={this.onTagsChanged}
+              />
             </div>
 
           </div>

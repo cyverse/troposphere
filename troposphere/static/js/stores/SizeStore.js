@@ -4,10 +4,9 @@ define(
     'stores/Store',
     'rsvp',
     'collections/SizeCollection',
-    'dispatchers/AppDispatcher',
-    'actions/SizeActions'
+    'dispatchers/AppDispatcher'
   ],
-  function (_, Store, RSVP, SizeCollection, AppDispatcher, SizeActions) {
+  function (_, Store, RSVP, SizeCollection, AppDispatcher) {
 
     var _sizes = {};
     var _isFetching = {};
@@ -56,10 +55,11 @@ define(
       var action = payload.action;
 
       switch (action.actionType) {
-        // case SizeActions.SIZE_FETCH:
-        //   fetchSizesForProviderIdentity(action.providerId, action.identityId);
-        //   break;
+        default:
+          return true;
       }
+
+      SizeStore.emitChange();
 
       return true;
     });

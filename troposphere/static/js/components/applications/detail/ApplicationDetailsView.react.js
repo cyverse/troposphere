@@ -18,7 +18,8 @@ define(
       propTypes: {
         application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       showModal: function (e) {
@@ -57,7 +58,7 @@ define(
             </div>
             <div className="row image-content">
               <div className="col-md-9">
-                <TagsView application={this.props.application}/>
+                <TagsView application={this.props.application} tags={this.props.tags}/>
                 {availabilityView}
                 <DescriptionView application={this.props.application}/>
                 {versionView}

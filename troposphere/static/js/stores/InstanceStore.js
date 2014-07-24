@@ -74,7 +74,12 @@ define(
     };
 
     function update(instance){
-      instance.save({name: instance.get('name')}, {patch: true}).done(function(){
+      instance.save({
+        name: instance.get('name'),
+        tags: instance.get('tags')
+      }, {
+        patch: true
+      }).done(function(){
         var successMessage = "Instance " + instance.get('name') + " updated.";
         //NotificationController.success(successMessage);
         InstanceStore.emitChange();

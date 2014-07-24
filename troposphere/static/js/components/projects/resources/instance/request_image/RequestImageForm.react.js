@@ -115,7 +115,6 @@ define(
           );
         };
 
-        var displayNoneStyle = {display: 'none'};
         var renderImageTagsControlGroup = function(){
           var tags = this.props.tags.map(function(tag){
             var tagName = tag.get('name');
