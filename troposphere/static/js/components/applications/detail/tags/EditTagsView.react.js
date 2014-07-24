@@ -5,12 +5,11 @@ define(
     'react',
     'backbone',
     'context',
-    './Tags.react',
     './ViewTags.react',
     './EditTags.react',
     'actions/ApplicationActions'
   ],
-  function (React, Backbone, context, Tags, ViewTags, EditTags, ApplicationActions) {
+  function (React, Backbone, context, ViewTags, EditTags, ApplicationActions) {
 
     return React.createClass({
 
