@@ -17,43 +17,12 @@ define(
     // CRUD Operations
     //
 
-    var fetchInstanceHistoryFor = function (providerId, identityId) {
-      var promise = new RSVP.Promise(function (resolve, reject) {
-        var instances = new InstanceHistoryCollection(null, {
-          provider_id: providerId,
-          identity_id: identityId
-        });
-        // make sure promise returns the right instances collection
-        // for when this function is called multiple times
-        (function(instances, resolve){
-          instances.fetch().done(function(){
-            resolve(instances);
-          });
-        })(instances, resolve)
-      });
-      return promise;
-    };
-
-    var fetchInstanceHistories = function (identities) {
-      if(!_isFetching && identities) {
+    var fetchInstanceHistory = function () {
+      if(!_isFetching) {
         _isFetching = true;
 
-        // return an array of promises (one for each volume collection being fetched)
-        var promises = identities.map(function (identity) {
-          var providerId = identity.get('provider_id');
-          var identityId = identity.get('id');
-          return fetchInstanceHistoryFor(providerId, identityId);
-        });
-
-        // When all instance collections are fetched...
-        RSVP.all(promises).then(function (instanceCollections) {
-          // Combine results into a single volume collection
-          var instances = new InstanceHistoryCollection();
-          for (var i = 0; i < instanceCollections.length; i++) {
-            instances.add(instanceCollections[i].toJSON());
-          }
-
-          // Save the results to local cache
+        var instances = new InstanceHistoryCollection();
+        instances.fetch().done(function () {
           _isFetching = false;
           _instanceHistories = instances;
           InstanceHistoryStore.emitChange();
@@ -69,10 +38,7 @@ define(
 
       getAll: function () {
         if(!_instanceHistories) {
-          var identities = IdentityStore.getAll();
-          if(identities) {
-            fetchInstanceHistories(identities);
-          }
+          fetchInstanceHistory();
         }
         return _instanceHistories;
       }
@@ -83,7 +49,6 @@ define(
       var action = payload.action;
 
       switch (action.actionType) {
-
         default:
           return true;
       }

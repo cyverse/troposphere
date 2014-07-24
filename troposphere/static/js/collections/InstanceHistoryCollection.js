@@ -14,9 +14,7 @@ define(
 
       url: function () {
         var url = globals.API_ROOT +
-                  '/provider/' + this.creds.provider_id +
-                  '/identity/' + this.creds.identity_id +
-                  '/instance/history' + globals.slash();
+                  '/instance_history' + globals.slash();
         return url;
       },
 
