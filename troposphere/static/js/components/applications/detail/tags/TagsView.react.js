@@ -19,7 +19,7 @@ define(
 
       render: function () {
 
-        if(context && context.profile.get('username') === this.props.application.get('created_by')){
+        if(context.profile && context.profile.get('username') === this.props.application.get('created_by')){
           return (
             <EditTagsView application={this.props.application}
                           tags={this.props.tags}
