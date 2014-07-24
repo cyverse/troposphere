@@ -3,12 +3,19 @@ define(
     'underscore',
     'collections/TagCollection',
     'dispatchers/Dispatcher',
-    'stores/Store'
+    'stores/Store',
+    'constants/TagConstants',
+    'models/Tag',
+    'controllers/NotificationController'
   ],
-  function (_, TagCollection, Dispatcher, Store) {
+  function (_, TagCollection, Dispatcher, Store, TagConstants, Tag, NotificationController) {
 
     var _tags = null;
     var _isFetching = false;
+
+    //
+    // CRUD Operations
+    //
 
     var fetchTags = function () {
       if(!_isFetching) {
@@ -21,6 +28,27 @@ define(
         });
       }
     };
+
+    function create(name, description){
+      var tag = new Tag({
+        name: name,
+        description: description
+      });
+
+      tag.save().done(function(){
+        TagStore.emitChange();
+      }).fail(function(){
+        var failureMessage = "Error creating Tag " + tag.get('name') + ".";
+        NotificationController.error(failureMessage);
+        _tags.remove(tag);
+        TagStore.emitChange();
+      });
+      _tags.add(tag);
+    }
+
+    //
+    // Store
+    //
 
     var TagStore = {
 
@@ -45,14 +73,14 @@ define(
     Dispatcher.register(function (payload) {
       var action = payload.action;
 
-      // switch (action.actionType) {
-      //   case ApplicationConstants.APPLICATION_TOGGLE_FAVORITED:
-      //     ApplicationStore.toggleFavorited(action.application);
-      //     break;
-      //
-      //   default:
-      //     return true;
-      // }
+      switch (action.actionType) {
+         case TagConstants.TAG_CREATE:
+           create(action.name, action.description);
+           break;
+
+         default:
+           return true;
+      }
 
       TagStore.emitChange();
 

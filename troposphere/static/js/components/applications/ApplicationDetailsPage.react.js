@@ -8,16 +8,18 @@ define(
     'stores/ProviderStore',
     'stores/IdentityStore',
     'stores/MachineStore',
+    'stores/TagStore',
     './detail/ApplicationDetailsView.react',
     'context'
   ],
-  function (React, SecondaryApplicationNavigation, ApplicationStore, ProviderStore, IdentityStore, MachineStore, ApplicationDetailsView, context) {
+  function (React, SecondaryApplicationNavigation, ApplicationStore, ProviderStore, IdentityStore, MachineStore, TagStore, ApplicationDetailsView, context) {
 
     function getState(applicationId) {
       var state = {
         application: ApplicationStore.get(applicationId),
         providers: null,
-        identities: null
+        identities: null,
+        tags: TagStore.getAll()
       };
 
       // Only fetch providers and identites if the user is logged in
@@ -52,6 +54,7 @@ define(
         ApplicationStore.addChangeListener(this.updateState);
         ProviderStore.addChangeListener(this.updateState);
         IdentityStore.addChangeListener(this.updateState);
+        TagStore.addChangeListener(this.updateState);
 
         // todo: MachineStore is only included here because
         // MachineStore.get(providerId, identityId, machineId) called by versions/MachineList
@@ -64,6 +67,7 @@ define(
         ApplicationStore.removeChangeListener(this.updateState);
         ProviderStore.removeChangeListener(this.updateState);
         IdentityStore.removeChangeListener(this.updateState);
+        TagStore.removeChangeListener(this.updateState);
         MachineStore.removeChangeListener(this.updateState);
       },
 
@@ -76,22 +80,24 @@ define(
         var application = this.state.application;
         var providers = this.state.providers;
         var identities = this.state.identities;
+        var tags = this.state.tags;
         var userLoggedIn = context.profile;
         var content;
 
-        if (application) {
+        if (application && tags) {
           // If the user isn't logged in, display the public view, otherwise
           // wait for providers and instances to be fetched
           if(!userLoggedIn){
             content = (
-              <ApplicationDetailsView application={this.state.application}/>
+              <ApplicationDetailsView application={application}/>
             );
           }else if(providers && identities) {
             content = (
               <ApplicationDetailsView
-                application={this.state.application}
-                providers={this.state.providers}
-                identities={this.state.identities}
+                application={application}
+                providers={providers}
+                identities={identities}
+                tags={tags}
               />
             );
           }

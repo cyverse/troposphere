@@ -5,39 +5,35 @@ define(
     'react',
     'backbone',
     'context',
-    './Tags.react'
+    './ViewTagsView.react',
+    './EditTagsView.react'
   ],
-  function (React, Backbone, context, Tags) {
+  function (React, Backbone, context, ViewTagsView, EditTagsView) {
 
     return React.createClass({
 
       propTypes: {
-        application: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
-
-      onSuggestTag: function(e){
-        e.preventDefault();
-        // todo: I have NO IDEA how this is getting triggered when clicking on an application and
-        // navigating to the detail page.  Figure it out and remove the isMounted check.
-        if(e.target.tagName === "A") alert("Tag suggestion featured not implemented yet.");
+        application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        tags: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
       render: function () {
 
-        var suggestTag;
-        if(context.profile){
-          suggestTag = (
-            <a href='#' onClick={this.onSuggestTag}>Suggest a Tag</a>
+        if(context && context.profile.get('username') === this.props.application.get('created_by')){
+          return (
+            <EditTagsView application={this.props.application}
+                          tags={this.props.tags}
+            />
+          );
+
+        }else{
+          return (
+            <ViewTagsView tags={this.props.tags}
+                          application={this.props.application}
+            />
           );
         }
 
-        return (
-          <div className="image-tags">
-            <h2 className='tag-title'>Image Tags</h2>
-            {suggestTag}
-            <Tags tags={this.props.application.get('tags')}/>
-          </div>
-        );
       }
 
     });
