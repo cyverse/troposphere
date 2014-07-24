@@ -46,6 +46,21 @@ define(
       }
     };
 
+    function update(application){
+      application.save({
+        name: application.get('name'),
+        tags: application.get('tags')
+      }, {
+        patch: true
+      }).done(function(){
+        ApplicationStore.emitChange();
+      }).fail(function(){
+        var failureMessage = "Error updating Application " + application.get('name') + ".";
+        NotificationController.error(failureMessage);
+        ApplicationStore.emitChange();
+      });
+    }
+
     function searchFor(query) {
       if (!_isSearching) {
         _isSearching = true;
@@ -151,6 +166,10 @@ define(
       var action = payload.action;
 
       switch (action.actionType) {
+        case ApplicationConstants.APPLICATION_UPDATE:
+          update(action.application);
+          break;
+
         case ApplicationConstants.APPLICATION_TOGGLE_FAVORITED:
           ApplicationStore.toggleFavorited(action.application);
           break;
