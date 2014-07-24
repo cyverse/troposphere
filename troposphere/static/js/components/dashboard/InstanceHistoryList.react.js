@@ -4,9 +4,10 @@ define(
   [
     'react',
     'backbone',
-    'stores/InstanceHistoryStore'
+    'stores/InstanceHistoryStore',
+    'moment'
   ],
-  function (React, Backbone, InstanceHistoryStore) {
+  function (React, Backbone, InstanceHistoryStore, moment) {
 
     return React.createClass({
 
