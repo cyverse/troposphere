@@ -17,7 +17,6 @@ define(
         if (options && options.provider_id && options.identity_id) {
           this.creds = _.pick(options, 'provider_id', 'identity_id');
         }
-        this.selected_instance = null;
       },
 
       url: function () {

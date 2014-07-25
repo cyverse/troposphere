@@ -16,7 +16,6 @@ define(
       initialize: function (models, options) {
         if (options && options.provider_id && options.identity_id)
           this.creds = _.pick(options, 'provider_id', 'identity_id');
-        this.selected_volume = null;
       },
 
       url: function(){
