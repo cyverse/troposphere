@@ -149,7 +149,6 @@ define(
     var terminate = function(instance){
       instance.destroy({
         success: function (model) {
-          //NotificationController.success('Terminate Instance', 'Instance termination started');
           pollUntilBuildIsFinished(instance);
           InstanceStore.emitChange();
         },

@@ -23,7 +23,7 @@ define(
         VolumeActions.detach(this.props.volume);
       },
 
-      onTerminate: function(){
+      onDelete: function(){
         VolumeActions.destroy(this.props.volume);
       },
 
@@ -43,7 +43,7 @@ define(
         }
 
         linksArray = linksArray.concat([
-          {label: 'Terminate', icon: 'remove', onClick: this.onTerminate, isDangerLink: true}
+          {label: 'Delete', icon: 'remove', onClick: this.onDelete, isDangerLink: true}
         ]);
 
         var links = linksArray.map(function(link){
