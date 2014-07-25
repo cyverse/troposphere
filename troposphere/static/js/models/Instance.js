@@ -25,6 +25,26 @@ define(
       parse: function (attributes) {
         attributes.id = attributes.alias;
         attributes.start_date = new Date(attributes.start_date);
+
+        // -------
+        var statusTokens = attributes.status.split('-');
+        var state = statusTokens[0].trim();
+        var activity = null;
+
+        if(statusTokens.length === 2){
+          activity = statusTokens[1].trim();
+        }else if(statusTokens.length === 3){
+          // Deal with Openstack Grizzly's hyphenated states "powering-on" and "powering-off"
+          activity = statusTokens[1].trim() + '-' + statusTokens[2].trim();
+        }
+
+        // overwrite the status with a more relevant data structure for the UI
+        attributes.status = {
+          state: state,
+          activity: activity
+        };
+
+        // -------
         return attributes;
       },
 
