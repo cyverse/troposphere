@@ -7,42 +7,7 @@ define(
   ],
   function (Backbone, _, globals, context) {
 
-    var statics = {
-      /*
-       * The API returns a field called "ip_address", which might be public or
-       * private. It's awful and should be changed in the future. This is a hack.
-       * Please refer to RFC 1918 for how to classify private addresses.
-       */
-      addressIsPrivate: function (address) {
-        var ranges = [
-          ['10.0.0.0', 8],
-          ['172.16.0.0', 12],
-          ['192.168.0.0', 16]
-        ];
-
-        var addrToInt = function (addr) {
-          var strToInt = function (str) {
-            return parseInt(str, 10);
-          };
-          var parts = _.map(addr.split('.'), strToInt);
-          return _.foldl(parts, function (memo, num) {
-            return (memo << 8) | num;
-          }, 0);
-        };
-
-        var intToMask = function (i) {
-          return ~((1 << (32 - i)) - 1);
-        };
-
-        return _.any(ranges, function (range) {
-          var addr = addrToInt(range[0]);
-          var mask = intToMask(range[1]);
-          return (addrToInt(address) & mask) == addr;
-        });
-      }
-    };
-
-    var Instance = Backbone.Model.extend({
+    return Backbone.Model.extend({
 
       urlRoot: function(){
         var creds = this.getCreds();
@@ -60,23 +25,6 @@ define(
       parse: function (attributes) {
         attributes.id = attributes.alias;
         attributes.start_date = new Date(attributes.start_date);
-        var ip = attributes.ip_address;
-
-        // todo: For some reason I'm unclear on, we're specifically checking if an IP
-        // address is public or private.  Talking to JMatt, we assign a private IP initially
-        // and then give instances a public IP when it's available.  If the instance is suspended
-        // or shut down, we take the public IP address back, and assign it another one when the
-        // instance becomes active again.
-        //
-        // I'm choosing to leave the IP address in the model until I understand the reason for
-        // making it explicit better.
-        //
-        //delete attributes.ip_address;
-        if (Instance.addressIsPrivate(ip)) {
-          attributes.private_ip_address = ip;
-        } else if (ip != '0.0.0.0') {
-          attributes.public_ip_address = ip;
-        }
         return attributes;
       },
 
@@ -91,16 +39,12 @@ define(
 
         shell_url: function () {
           var username = context.profile.get('username');
-          var ip = this.get('public_ip_address');
-          if (ip)
-            return "https://atmo-proxy.iplantcollaborative.org/?ssh=ssh://" + username + "@" + ip + ":22";
-          return null;
+          var ip = this.get('ip_address');
+          return "https://atmo-proxy.iplantcollaborative.org/?ssh=ssh://" + username + "@" + ip + ":22";
         },
 
         vnc_url: function () {
-          if (this.get('public_ip_address'))
-            return "http://" + this.get('public_ip_address') + ":5904";
-          return null;
+          return "http://" + this.get('ip_address') + ":5904";
         },
 
         is_active: function () {
@@ -255,8 +199,6 @@ define(
           return this.computed[attr].call(this);
         return Backbone.Model.prototype.get.call(this, attr);
       }
-    }, statics);
-
-    return Instance;
+    });
 
   });
