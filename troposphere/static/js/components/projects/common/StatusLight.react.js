@@ -10,11 +10,11 @@ define(
     return React.createClass({
 
       propTypes: {
-        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        status: React.PropTypes.string.isRequired
       },
 
       render: function () {
-        var status = this.props.instance.get('status');
+        var status = this.props.status;
         var statusLight;
 
         if(status === "active"){

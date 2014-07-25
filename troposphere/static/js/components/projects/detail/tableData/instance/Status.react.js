@@ -15,7 +15,7 @@ define(
       },
 
       render: function () {
-        var status = this.props.instance.get('status');
+        var status = this.props.instance.get('status').state;
         var style = {};
         var capitalizedStatus = status.charAt(0).toUpperCase() + status.slice(1);
 
@@ -28,7 +28,7 @@ define(
 
         return (
           <span>
-            <StatusLight instance={this.props.instance}/>
+            <StatusLight status={status}/>
             <span style={style}>{capitalizedStatus}</span>
           </span>
         );
