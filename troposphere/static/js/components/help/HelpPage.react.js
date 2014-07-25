@@ -5,10 +5,9 @@ define(
     'react',
     'components/common/PageHeader.react',
     './FeedbackForm.react',
-    'context',
-    './HelpHeader.react'
+    'context'
   ],
-  function (React, PageHeader, FeedbackForm, context, HelpHeader) {
+  function (React, PageHeader, FeedbackForm, context) {
 
     var resources = [
       {
@@ -62,7 +61,6 @@ define(
 
         return (
           <div>
-            <HelpHeader title={"Help"}/>
             <div className="container">
               <h2>External resources</h2>
               <ul>
