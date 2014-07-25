@@ -19,7 +19,7 @@ define(
       render: function () {
 
         var footer = (
-          false ? <Footer/> : null
+          true ? <Footer/> : null
         );
 
         return (

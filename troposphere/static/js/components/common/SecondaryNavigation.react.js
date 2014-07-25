@@ -13,7 +13,7 @@ define(
     return React.createClass({
 
       propTypes: {
-        title: React.PropTypes.string.isRequired,
+        title: React.PropTypes.string,
         routes: React.PropTypes.array.isRequired,
         currentRoute: React.PropTypes.string.isRequired,
         canEditTitle: React.PropTypes.bool,
@@ -55,17 +55,21 @@ define(
         }.bind(this));
 
         var titleContent;
-        if(this.props.canEditTitle && this.state.isEditing){
-          titleContent = (
-            <EditableInputField text={this.state.title} onDoneEditing={this.onDoneEditing}/>
-          );
-        }else{
-          titleContent = (
-            <h1 onClick={this.onEnterEditMode}>
+        if(this.props.title) {
+          if (this.props.canEditTitle && this.state.isEditing) {
+            titleContent = (
+              <EditableInputField text={this.state.title} onDoneEditing={this.onDoneEditing}/>
+              );
+          } else {
+            titleContent = (
+              <h1 onClick={this.onEnterEditMode}>
               {this.state.title}
-              <i className="glyphicon glyphicon-pencil"></i>
-            </h1>
-          );
+                <i className="glyphicon glyphicon-pencil"></i>
+              </h1>
+              );
+          }
+        }else{
+          titleContent = null;
         }
 
         var titleClassName = "project-name";

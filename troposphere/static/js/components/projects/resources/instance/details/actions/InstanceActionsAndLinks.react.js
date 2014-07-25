@@ -32,7 +32,7 @@ define(
         InstanceActions.resume(this.props.instance);
       },
 
-      onTerminate: function(){
+      onDelete: function(){
         InstanceActions.terminate(this.props.instance);
       },
 
@@ -77,7 +77,7 @@ define(
         }
 
         linksArray = linksArray.concat([
-          {label: 'Terminate', icon: 'remove', onClick: this.onTerminate, isDangerLink: true},
+          {label: 'Delete', icon: 'remove', onClick: this.onDelete, isDangerLink: true},
           {label: 'Links', icon: null},
           {label: 'Open Web Shell', icon: 'credit-card', href: webShellUrl, openInNewWindow: true},
           {label: 'Remote Desktop', icon: 'fullscreen', href: remoteDesktopUrl, openInNewWindow: true}

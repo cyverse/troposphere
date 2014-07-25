@@ -11,11 +11,11 @@ define(
     'components/modals/InstanceResumeBody.react',
     'components/modals/InstanceStopBody.react',
     'components/modals/InstanceStartBody.react',
-    'components/modals/InstanceTerminateBody.react',
+    'components/modals/InstanceDeleteBody.react',
     'components/modals/InstanceLaunchModal.react',
     'url'
   ],
-  function (AppDispatcher, InstanceConstants, React, globals, context, NotificationController, CancelConfirmModal, InstanceSuspendBody, InstanceResumeBody, InstanceStopBody, InstanceStartBody, InstanceTerminateBody, InstanceLaunchModal, URL) {
+  function (AppDispatcher, InstanceConstants, React, globals, context, NotificationController, CancelConfirmModal, InstanceSuspendBody, InstanceResumeBody, InstanceStopBody, InstanceStartBody, InstanceDeleteBody, InstanceLaunchModal, URL) {
 
     return {
       updateInstanceAttributes: function (instance, newAttributes) {
@@ -118,7 +118,7 @@ define(
           header: "Are you sure you want to terminate this instance?",
           confirmButtonMessage: "Yes, terminate this instance",
           onConfirm: onConfirm,
-          body: InstanceTerminateBody.build(instance)
+          body: InstanceDeleteBody.build(instance)
         });
 
         React.renderComponent(modal, document.getElementById('modal'));

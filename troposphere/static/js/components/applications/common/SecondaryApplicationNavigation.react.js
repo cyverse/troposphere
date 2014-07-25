@@ -45,7 +45,7 @@ define(
 
         return (
           <div>
-            <SecondaryNavigation title="Images" routes={routes} currentRoute={this.props.currentRoute}/>
+            <SecondaryNavigation title="" routes={routes} currentRoute={this.props.currentRoute}/>
           </div>
         );
 
