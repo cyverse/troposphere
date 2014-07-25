@@ -5,17 +5,24 @@ define(
     'react'
   ],
   function (React) {
-    var Footer = React.createClass({
+
+    return React.createClass({
+
       render: function () {
         var year = new Date().getFullYear();
+
         return (
-          <footer>
-            <a href="http://user.iplantcollaborative.org" target="_blank">
-                  {"\u00a9" + year + " iPlant Collaborative"}
-            </a>
+          <footer className="footer">
+            <div className="container">
+              <a href="http://user.iplantcollaborative.org" target="_blank">
+                    {"\u00a9" + year + " iPlant Collaborative"}
+              </a>
+              <button className="btn btn-default">{"Feedback & Support"}</button>
+            </div>
           </footer>
         );
       }
+
     });
-    return Footer;
+
   });
