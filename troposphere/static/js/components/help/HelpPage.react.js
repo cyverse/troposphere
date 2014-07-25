@@ -2,12 +2,9 @@
 
 define(
   [
-    'react',
-    'components/common/PageHeader.react',
-    './FeedbackForm.react',
-    'context'
+    'react'
   ],
-  function (React, PageHeader, FeedbackForm, context) {
+  function (React) {
 
     var resources = [
       {
@@ -45,20 +42,6 @@ define(
           );
         });
 
-        var feedbackSection = (
-          <div>
-            <h2>Atmosphere staff support</h2>
-            <p>
-              {
-                "Are you experiencing a problem with Atmosphere to which you " +
-                "can't find a solution? Do you have a feature request or bug " +
-                "report? Let us know!"
-              }
-            </p>
-            <FeedbackForm/>
-          </div>
-        );
-
         return (
           <div>
             <div className="container">
@@ -66,7 +49,13 @@ define(
               <ul>
                 {resourceElements}
               </ul>
-              {context.profile ? feedbackSection : null}
+              <div>
+                <h2>Contact</h2>
+                <p>
+                  {"You can contact the Atmosphere support staff by sending an email to "}
+                  <a href="mailto:support@iplantcollaborative.org">support@iplantcollaborative.org</a>
+                </p>
+              </div>
             </div>
           </div>
         );
