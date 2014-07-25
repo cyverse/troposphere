@@ -24,8 +24,6 @@ define(
 
     function getState(project) {
       return {
-        instances: InstanceStore.getAll(),
-        volumes: VolumeStore.getAll(),
         projectInstances: ProjectInstanceStore.getInstancesInProject(project),
         projectVolumes: ProjectVolumeStore.getVolumesInProject(project),
         selectedResource: null,
@@ -99,37 +97,17 @@ define(
       },
 
       render: function () {
-        if(this.state.projectInstances && this.state.projectVolumes && this.state.instances && this.state.volumes && this.state.providers) {
+        if(this.state.projectInstances && this.state.projectVolumes && this.state.providers) {
 
           // Figure out which instances are real
-          var instances = new this.state.instances.constructor();
-
           this.state.projectInstances.map(function(projectInstance){
-            var realInstance = this.state.instances.get(projectInstance.id);
-            if(realInstance){
-              realInstance.isRealResource = true;
-              instances.push(realInstance);
-            }else {
-              //console.log("Instance " + projectInstance.get('name') + " is not real.");
-              projectInstance.isRealResource = false;
-              instances.push(projectInstance);
-            }
-          }.bind(this));
+            projectInstance.isRealResource = true;
+          });
 
           // Figure out which volumes are real
-          var volumes = new this.state.volumes.constructor();
-
           this.state.projectVolumes.map(function(projectVolume){
-            var realVolume = this.state.volumes.get(projectVolume.id);
-            if(realVolume){
-              realVolume.isRealResource = true;
-              volumes.push(realVolume);
-            }else {
-              //console.log("Volume " + projectVolume.get('name') + " is not real.");
-              projectVolume.isRealResource = false;
-              volumes.push(projectVolume);
-            }
-          }.bind(this));
+            projectVolume.isRealResource = true;
+          });
 
           // Only show the action button bar if the user has selected resources
           var isButtonBarVisible = this.state.selectedResources.length > 0;
@@ -139,7 +117,7 @@ define(
               <ButtonBar isVisible={isButtonBarVisible} onMoveSelectedResources={this.onMoveSelectedResources}/>
               <div className="resource-list">
                 <div className="scrollable-content">
-                  <InstanceList instances={instances}
+                  <InstanceList instances={this.state.projectInstances}
                                 project={this.props.project}
                                 onResourceSelected={this.onResourceSelected}
                                 onResourceDeselected={this.onResourceDeselected}
@@ -147,14 +125,14 @@ define(
                                 previewedResource={this.state.previewedResource}
                                 selectedResources={this.state.selectedResources}
                   />
-                  <VolumeList volumes={volumes}
+                  <VolumeList volumes={this.state.projectVolumes}
                               project={this.props.project}
                               onResourceSelected={this.onResourceSelected}
                               onResourceDeselected={this.onResourceDeselected}
                               providers={this.state.providers}
                               previewedResource={this.state.previewedResource}
                               selectedResources={this.state.selectedResources}
-                              instances={instances}
+                              instances={this.state.projectInstances}
                   />
                 </div>
                 <PreviewPanel resource={this.state.selectedResource}/>
