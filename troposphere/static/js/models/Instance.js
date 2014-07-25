@@ -156,10 +156,6 @@ define(
         }
       },
 
-      select: function () {
-        this.collection.select_instance(this);
-      },
-
       destroy: function (options) {
         // We overwrite the destroy function so that the model doesn't get deleted while the instance is still 'terminating'
 
