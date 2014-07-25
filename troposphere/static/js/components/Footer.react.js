@@ -2,11 +2,16 @@
 
 define(
   [
-    'react'
+    'react',
+    'actions/HelpActions'
   ],
-  function (React) {
+  function (React, HelpActions) {
 
     return React.createClass({
+
+      onFeedback: function(){
+        HelpActions.showFeedbackModal();
+      },
 
       render: function () {
         var year = new Date().getFullYear();
@@ -17,7 +22,9 @@ define(
               <a href="http://user.iplantcollaborative.org" target="_blank">
                     {"\u00a9" + year + " iPlant Collaborative"}
               </a>
-              <button className="btn btn-default">{"Feedback & Support"}</button>
+              <button className="btn btn-primary" onClick={this.onFeedback}>
+                {"Feedback & Support"}
+              </button>
             </div>
           </footer>
         );
