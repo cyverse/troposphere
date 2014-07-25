@@ -88,9 +88,6 @@ define(
       },
 
       computed: {
-        name_or_id: function () {
-          return this.get('name') || this.id;
-        },
 
         shell_url: function () {
           var username = context.profile.get('username');

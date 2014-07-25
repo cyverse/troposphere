@@ -53,12 +53,6 @@ define(
         };
       },
 
-      computed: {
-        name_or_id: function () {
-          return this.get('name').length == 0 ? this.id : this.get('name');
-        }
-      },
-
       isAttached: function () {
         return this.get('status') == 'in-use' || this.get('status') == 'detaching';
       },
@@ -171,17 +165,6 @@ define(
         var values = {wait: true};
         _.defaults(values, options);
         this.destroy(values);
-      },
-
-      /*
-       * Here, were override the get method to allow lazy-loading of computed
-       * attributes
-       */
-      get: function (attr) {
-        if (typeof this.computed !== "undefined" && typeof this.computed[attr] === 'function') {
-          return this.computed[attr].call(this);
-        }
-        return Backbone.Model.prototype.get.call(this, attr);
       }
 
     });

@@ -61,7 +61,7 @@ define(
               </a>
             </div>
             <div className='app-name'>
-              {app.get('name_or_id')}
+              {app.get('name')}
             </div>
             {bookmark}
             <Tags tags={app.get('tags')}/>

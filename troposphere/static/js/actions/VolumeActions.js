@@ -35,7 +35,7 @@ define(
           React.unmountComponentAtNode(document.getElementById('modal'));
         };
 
-        var headerMessage = "Detach volume " + volume.get('name_or_id') + "?";
+        var headerMessage = "Detach volume " + volume.get('name') + "?";
 
         var modal = CancelConfirmModal({
           header: headerMessage,

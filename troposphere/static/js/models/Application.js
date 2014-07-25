@@ -39,12 +39,6 @@ define(
         return attributes;
       },
 
-      computed: {
-        name_or_id: function () {
-          return this.get('name') || this.get('id');
-        }
-      },
-
       favorited: function(isFavorited){
         var actionUrl = globals.API_ROOT + "/bookmark/application/" + this.id + globals.slash();
         var data = {
@@ -59,17 +53,6 @@ define(
           contentType: 'application/json'
         });
         return promise;
-      },
-
-      /*
-       * Here, were override the get method to allow lazy-loading of computed
-       * attributes
-       */
-      get: function (attr) {
-        if (typeof this.computed !== "undefined" && typeof this.computed[attr] === 'function') {
-          return this.computed[attr].call(this);
-        }
-        return Backbone.Model.prototype.get.call(this, attr);
       }
 
     });
