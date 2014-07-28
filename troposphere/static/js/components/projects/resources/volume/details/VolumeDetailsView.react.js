@@ -8,19 +8,18 @@ define(
     './sections/VolumeInfoSection.react',
     'components/projects/common/BreadcrumbBar.react',
     './actions/VolumeActionsAndLinks.react',
-    'stores/ProjectVolumeStore',
     'stores/ProviderStore',
     'stores/VolumeStore',
     'stores/IdentityStore',
     'controllers/NotificationController',
     'url'
   ],
-  function (React, Backbone, VolumeDetailsSection, VolumeInfoSection, BreadcrumbBar, VolumeActionsAndLinks, ProjectVolumeStore, ProviderStore, VolumeStore, IdentityStore, NotificationController, URL) {
+  function (React, Backbone, VolumeDetailsSection, VolumeInfoSection, BreadcrumbBar, VolumeActionsAndLinks, ProviderStore, VolumeStore, IdentityStore, NotificationController, URL) {
 
     function getState(project, volumeId) {
       return {
         volume: VolumeStore.get(volumeId),
-        volumes: ProjectVolumeStore.getVolumesInProject(project),
+        volumes: VolumeStore.getVolumesInProject(project),
         providers: ProviderStore.getAll()
       };
     }
@@ -55,7 +54,6 @@ define(
       },
 
       componentDidMount: function () {
-        ProjectVolumeStore.addChangeListener(this.updateState);
         ProviderStore.addChangeListener(this.updateState);
         VolumeStore.addChangeListener(this.updateState);
 
@@ -67,7 +65,6 @@ define(
       },
 
       componentWillUnmount: function () {
-        ProjectVolumeStore.removeChangeListener(this.updateState);
         ProviderStore.removeChangeListener(this.updateState);
         VolumeStore.removeChangeListener(this.updateState);
         IdentityStore.removeChangeListener(this.updateState);

@@ -10,8 +10,6 @@ define(
     './VolumeList.react',
 
     // Stores
-    'stores/ProjectInstanceStore',
-    'stores/ProjectVolumeStore',
     'stores/InstanceStore',
     'stores/VolumeStore',
     'stores/ProviderStore',
@@ -20,13 +18,12 @@ define(
     // Actions
     'actions/ProjectActions'
   ],
-  function (React, Backbone, PreviewPanel, ButtonBar, InstanceList, VolumeList, ProjectInstanceStore, ProjectVolumeStore, InstanceStore, VolumeStore, ProviderStore, SizeStore, ProjectActions) {
+  function (React, Backbone, PreviewPanel, ButtonBar, InstanceList, VolumeList, InstanceStore, VolumeStore, ProviderStore, SizeStore, ProjectActions) {
 
     function getState(project) {
       return {
-        //projectInstances: ProjectInstanceStore.getInstancesInProject(project),
         projectInstances: InstanceStore.getInstancesInProject(project),
-        projectVolumes: ProjectVolumeStore.getVolumesInProject(project),
+        projectVolumes: VolumeStore.getVolumesInProject(project),
         selectedResource: null,
         previewedResource: null,
         providers: ProviderStore.getAll()
@@ -48,8 +45,6 @@ define(
       componentDidMount: function () {
         InstanceStore.addChangeListener(this.updateState);
         VolumeStore.addChangeListener(this.updateState);
-        ProjectInstanceStore.addChangeListener(this.updateState);
-        ProjectVolumeStore.addChangeListener(this.updateState);
         ProviderStore.addChangeListener(this.updateState);
         SizeStore.addChangeListener(this.updateState);
       },
@@ -57,8 +52,6 @@ define(
       componentWillUnmount: function () {
         InstanceStore.removeChangeListener(this.updateState);
         VolumeStore.removeChangeListener(this.updateState);
-        ProjectInstanceStore.removeChangeListener(this.updateState);
-        ProjectVolumeStore.removeChangeListener(this.updateState);
         ProviderStore.removeChangeListener(this.updateState);
         SizeStore.removeChangeListener(this.updateState);
       },

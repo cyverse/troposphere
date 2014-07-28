@@ -109,19 +109,19 @@ define(
 
     var ProjectInstanceStore = {
 
-      getInstancesInProject: function (project) {
-        var projectInstances = _projectInstances[project.id];
-        var instancesAreBeingFetched = _isBeingFetched[project.id];
-
-        // If there are no instances for the project, and the instances aren't being fetched
-        // already, then go fetch them, otherwise return the instances we already have
-        if(!projectInstances && !instancesAreBeingFetched) {
-          fetchProjectInstances(project).then(function(){
-            ProjectInstanceStore.emitChange();
-          }.bind(this));
-        }
-        return projectInstances;
-      }
+//      getInstancesInProject: function (project) {
+//        var projectInstances = _projectInstances[project.id];
+//        var instancesAreBeingFetched = _isBeingFetched[project.id];
+//
+//        // If there are no instances for the project, and the instances aren't being fetched
+//        // already, then go fetch them, otherwise return the instances we already have
+//        if(!projectInstances && !instancesAreBeingFetched) {
+//          fetchProjectInstances(project).then(function(){
+//            ProjectInstanceStore.emitChange();
+//          }.bind(this));
+//        }
+//        return projectInstances;
+//      }
 
     };
 

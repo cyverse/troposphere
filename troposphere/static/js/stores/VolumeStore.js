@@ -232,6 +232,19 @@ define(function (require) {
         if(identities) {
           fetchVolumes(identities);
         }
+      },
+
+      getVolumesInProject: function (project) {
+        _volumes = _volumes || new VolumeCollection();
+
+        _volumes.add(project.get('volumes').models);
+
+        var projectVolumes = _volumes.filter(function(volume){
+          return volume.get('projects').indexOf(project.id) >= 0;
+        });
+
+        var projectVolumeCollection = new VolumeCollection(projectVolumes);
+        return projectVolumeCollection;
       }
 
     };

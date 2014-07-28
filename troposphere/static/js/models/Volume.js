@@ -24,7 +24,7 @@ define(
 
       parse: function (response) {
 
-        var attributes = _.pick(response, ['name', 'identity', 'status', 'size']);
+        var attributes = response;//_.pick(response, ['name', 'identity', 'status', 'size']);
 
         attributes.id = response.alias;
         attributes.start_date = new Date(response.start_date);
