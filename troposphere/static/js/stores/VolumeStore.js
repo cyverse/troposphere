@@ -7,16 +7,18 @@ define(function (require) {
     //
 
   var _ = require('underscore'),
-    Dispatcher = require('dispatchers/Dispatcher'),
-    Store = require('stores/Store'),
-    RSVP = require('rsvp'),
-    VolumeCollection = require('collections/VolumeCollection'),
-    Volume = require('models/Volume'),
-    VolumeConstants = require('constants/VolumeConstants'),
-    NotificationController = require('controllers/NotificationController'),
-    IdentityStore = require('stores/IdentityStore'),
-    VolumeAttachNotifications = require('components/notifications/VolumeAttachNotifications.react'),
-    ProjectActions = require('actions/ProjectActions');
+      Dispatcher = require('dispatchers/Dispatcher'),
+      Store = require('stores/Store'),
+      RSVP = require('rsvp'),
+      VolumeCollection = require('collections/VolumeCollection'),
+      Volume = require('models/Volume'),
+      VolumeConstants = require('constants/VolumeConstants'),
+      ProjectVolumeConstants = require('constants/ProjectVolumeConstants'),
+      NotificationController = require('controllers/NotificationController'),
+      IdentityStore = require('stores/IdentityStore'),
+      VolumeAttachNotifications = require('components/notifications/VolumeAttachNotifications.react'),
+      ProjectActions = require('actions/ProjectActions'),
+      ProjectVolume = require('./helpers/ProjectVolume');
 
 
     //
@@ -200,6 +202,65 @@ define(function (require) {
     };
 
     //
+    // Project Volume Functions
+    //
+
+    function addVolumeToProject(volume, project){
+      var projectVolume = new ProjectVolume({
+        volume: volume,
+        project: project
+      });
+
+      volume.get('projects').push(project.id);
+
+      projectVolume.save().done(function(){
+        // do nothing
+      }).fail(function(){
+        var failureMessage = "Error adding Volume '" + volume.get('name') + "' to Project '" + project.get('name') + "'.";
+        NotificationController.error(failureMessage);
+
+        // remove the instance from the project
+        var volumeProjectIds = volume.get('projects');
+        var indexOfProjectId = volumeProjectIds.indexOf(project.id);
+        if(indexOfProjectId >= 0){
+          volume.get('projects').splice(indexOfProjectId, 1);
+        }
+
+        VolumeStore.emitChange();
+      });
+
+      VolumeStore.emitChange();
+    }
+
+    function removeVolumeFromProject(volume, project){
+      var projectVolume = new ProjectVolume({
+        volume: volume,
+        project: project
+      });
+
+      // remove the instance from the project
+      var volumeProjectIds = volume.get('projects');
+      var indexOfProjectId = volumeProjectIds.indexOf(project.id);
+      if(indexOfProjectId >= 0){
+        volume.get('projects').splice(indexOfProjectId, 1);
+      }
+
+      projectVolume.destroy().done(function(){
+        // do nothing
+      }).fail(function(){
+        var failureMessage = "Error removing Volume '" + volume.get('name') + "' from Project '" + project.get('name') + "'.";
+        NotificationController.error(failureMessage);
+
+        // add the instance back to the project
+        volume.get('projects').push(project.id);
+
+        VolumeStore.emitChange();
+      });
+
+      VolumeStore.emitChange();
+    }
+
+    //
     // Volume Store
     //
 
@@ -273,6 +334,14 @@ define(function (require) {
 
         case VolumeConstants.VOLUME_CREATE:
           create(action.volumeName, action.volumeSize, action.identity, action.project);
+          break;
+
+        case ProjectVolumeConstants.ADD_VOLUME_TO_PROJECT:
+          addVolumeToProject(action.volume, action.project);
+          break;
+
+        case ProjectVolumeConstants.REMOVE_VOLUME_FROM_PROJECT:
+          removeVolumeFromProject(action.volume, action.project);
           break;
 
         default:
