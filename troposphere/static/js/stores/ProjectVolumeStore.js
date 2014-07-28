@@ -16,58 +16,8 @@ define(
     var _isBeingFetched = {};
 
     //
-    // Project Volume Model
-    // Mainly a helper for generating add/remove urls
-    //
-
-    var ProjectVolume = Backbone.Model.extend({
-      urlRoot: function() {
-        return globals.API_ROOT + "/project/" + this.project.id + "/volume";
-      },
-
-      url: function () {
-        var url = Backbone.Model.prototype.url.apply(this) + globals.slash();
-        return url;
-      },
-
-      initialize: function(options){
-        this.volume = options.volume;
-        this.project = options.project;
-        this.set("id", this.volume.id);
-      }
-    });
-
-    var ProjectVolumeCollection = Backbone.Collection.extend({
-      model: Volume,
-
-      url: function () {
-        var url = globals.API_ROOT + "/project/" + this.project.id + "/volume" + globals.slash();
-        return url;
-      },
-
-      initialize: function(models, options){
-        this.project = options.project;
-      }
-    });
-
-    //
     // CRUD Operations
     //
-
-    var fetchProjectVolumes = function (project) {
-      _isBeingFetched[project.id] = true;
-      var promise = new RSVP.Promise(function (resolve, reject) {
-        var projectVolumes = new ProjectVolumeCollection(null, {
-          project: project
-        });
-        projectVolumes.fetch().done(function () {
-          _isBeingFetched[project.id] = false;
-          _projectVolumes[project.id] = projectVolumes;
-          resolve();
-        });
-      });
-      return promise;
-    };
 
     function addVolumeToProject(volume, project){
       var projectVolume = new ProjectVolume({
@@ -108,20 +58,6 @@ define(
     //
 
     var ProjectVolumeStore = {
-
-      getVolumesInProject: function (project) {
-        var projectVolumes = _projectVolumes[project.id];
-        var volumesAreBeingFetched = _isBeingFetched[project.id];
-
-        // If there are no volumes for the project, and the volumes aren't being fetched
-        // already, then go fetch them, otherwise return the volumes we already have
-        if(!projectVolumes && !volumesAreBeingFetched) {
-          fetchProjectVolumes(project).then(function(){
-            ProjectVolumeStore.emitChange();
-          }.bind(this));
-        }
-        return projectVolumes;
-      }
 
     };
 
