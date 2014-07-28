@@ -1,10 +1,12 @@
 define(
   [
+    'react',
     'jquery',
     'controllers/NotificationController',
-    'globals'
+    'globals',
+    'components/modals/FeedbackModal.react'
   ],
-  function ($, NotificationController, globals) {
+  function (React, $, NotificationController, globals, FeedbackModal) {
 
     return {
 
@@ -41,6 +43,29 @@ define(
           }
         });
 
+      },
+
+      showFeedbackModal: function(){
+
+        var onConfirm = function (feedback) {
+          this.sendFeedback(feedback);
+        }.bind(this);
+
+        var onCancel = function(){
+          // Important! We need to un-mount the component so it un-registers from Stores and
+          // also so that we can relaunch it again later.
+          React.unmountComponentAtNode(document.getElementById('modal'));
+        };
+
+        var modal = FeedbackModal({
+          header: "Send Feedback",
+          confirmButtonMessage: "Send feedback",
+          onConfirm: onConfirm,
+          onCancel: onCancel,
+          handleHidden: onCancel
+        });
+
+        React.renderComponent(modal, document.getElementById('modal'));
       }
 
     };
