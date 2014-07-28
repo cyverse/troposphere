@@ -236,6 +236,19 @@ define(
         } else {
           return _instances.get(instanceId);
         }
+      },
+
+      getInstancesInProject: function (project) {
+        _instances = _instances || new InstanceCollection();
+
+        _instances.add(project.get('instances').models);
+
+        var projectInstances = _instances.filter(function(instance){
+          return instance.get('projects').indexOf(project.id) >= 0;
+        });
+
+        var projectInstanceCollection = new InstanceCollection(projectInstances);
+        return projectInstanceCollection;
       }
 
     };

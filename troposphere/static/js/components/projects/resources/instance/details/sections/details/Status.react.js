@@ -16,7 +16,7 @@ define(
       },
 
       render: function () {
-        var status = this.props.instance.get('status');
+        var status = this.props.instance.get('status').state;
         var style = {};
         var capitalizedStatus = status.charAt(0).toUpperCase() + status.slice(1);
 

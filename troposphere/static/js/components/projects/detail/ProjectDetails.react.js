@@ -24,7 +24,8 @@ define(
 
     function getState(project) {
       return {
-        projectInstances: ProjectInstanceStore.getInstancesInProject(project),
+        //projectInstances: ProjectInstanceStore.getInstancesInProject(project),
+        projectInstances: InstanceStore.getInstancesInProject(project),
         projectVolumes: ProjectVolumeStore.getVolumesInProject(project),
         selectedResource: null,
         previewedResource: null,
