@@ -49,13 +49,14 @@ define(
         React.renderComponent(modal, document.getElementById('modal'));
       },
 
-      destroy: function (volume) {
+      destroy: function (volume, redirectUrl) {
 
         var onConfirm = function () {
           AppDispatcher.handleRouteAction({
             actionType: VolumeConstants.VOLUME_DESTROY,
             volume: volume
           });
+          Backbone.history.navigate(redirectUrl, {trigger: true});
         };
 
         var onCancel = function(){

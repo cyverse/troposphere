@@ -12,7 +12,8 @@ define(
     return React.createClass({
 
       propTypes: {
-        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        project: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
       onAttach: function(){
@@ -24,7 +25,8 @@ define(
       },
 
       onDelete: function(){
-        VolumeActions.destroy(this.props.volume);
+        var redirectUrl = URL.project(this.props.project, {absolute: true})
+        VolumeActions.destroy(this.props.volume, redirectUrl);
       },
 
       render: function () {

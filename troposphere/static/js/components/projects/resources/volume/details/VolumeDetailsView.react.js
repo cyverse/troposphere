@@ -106,7 +106,7 @@ define(
                   <hr/>
                 </div>
                 <div className="col-md-3 resource-actions">
-                  <VolumeActionsAndLinks volume={volume}/>
+                  <VolumeActionsAndLinks volume={volume} project={this.props.project}/>
                 </div>
               </div>
             </div>
