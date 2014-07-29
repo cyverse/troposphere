@@ -41,14 +41,8 @@ define(['underscore'], function(_) {
         }
     };
 
-    var generateUrl = function(route, model, options) {
-        var defaultOptions = {
-            absolute: false
-        };
-        var options = _.defaults(options || {}, defaultOptions);
-        var url = generators[route](model);
-        if (options.absolute)
-            url = '/application/' + url;
+    var generateUrl = function(route, model) {
+        var url = '/' + generators[route](model);
         return url;
     };
 
