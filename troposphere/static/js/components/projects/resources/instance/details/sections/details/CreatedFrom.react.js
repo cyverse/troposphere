@@ -17,7 +17,7 @@ define(
 
       render: function () {
         var instance = this.props.instance;
-        var applicationUrl = URL.application({id: instance.get('application_uuid')}, {absolute: true});
+        var applicationUrl = URL.application({id: instance.get('application_uuid')});
         return (
           <ResourceDetail label="Based on">
             <a href={applicationUrl}>{instance.get('application_name')}</a>

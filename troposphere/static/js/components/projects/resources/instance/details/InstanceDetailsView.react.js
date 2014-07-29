@@ -79,14 +79,14 @@ define(
             var breadcrumbs = [
               {
                 name: "Resources",
-                url: URL.project(this.props.project, {absolute: true})
+                url: URL.project(this.props.project)
               },
               {
                 name: this.state.instance.get('name'),
                 url: URL.projectInstance({
                   project: this.props.project,
                   instance: this.state.instance
-                }, {absolute: true})
+                })
               }
             ];
 

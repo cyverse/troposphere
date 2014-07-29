@@ -40,7 +40,7 @@ define(
           );
         }
 
-        var appUri = URL.application(app, {absolute: true});
+        var appUri = URL.application(app);
 
         // Hide bookmarking on the public page
         var bookmark;

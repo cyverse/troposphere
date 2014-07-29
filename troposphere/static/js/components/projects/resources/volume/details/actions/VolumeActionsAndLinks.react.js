@@ -25,7 +25,7 @@ define(
       },
 
       onDelete: function(){
-        var redirectUrl = URL.project(this.props.project, {absolute: true})
+        var redirectUrl = URL.project(this.props.project);
         VolumeActions.destroy(this.props.volume, redirectUrl);
       },
 

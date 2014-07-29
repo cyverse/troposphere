@@ -84,14 +84,14 @@ define(
           var breadcrumbs = [
             {
               name: "Resources",
-              url: URL.project(this.props.project, {absolute: true})
+              url: URL.project(this.props.project)
             },
             {
               name: volume.get('name'),
               url: URL.projectVolume({
                 project: this.props.project,
                 volume: volume
-              }, {absolute: true})
+              })
             }
           ];
 
