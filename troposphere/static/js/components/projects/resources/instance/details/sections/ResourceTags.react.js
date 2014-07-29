@@ -100,7 +100,7 @@ define(
         });
 
         return (
-          <div>
+          <div className="tagger">
             <select name="tags"
                     data-placeholder="Select tags to add..."
                     className="form-control"
@@ -109,17 +109,20 @@ define(
             >
               {tags}
             </select>
-            <a className="btn btn-primary new-tag" href="#" onClick={this.onCreateNewTag}>+ New tag</a>
           </div>
         );
       },
 
       render: function () {
 
-        var link;
+        var link, newTagButton;
         if(this.state.isEditingTags){
           link = (
             <a href="#" onClick={this.onDoneEditingTags}>Done editing</a>
+          );
+
+          newTagButton = (
+            <a className="btn btn-primary new-tag" href="#" onClick={this.onCreateNewTag}>+ New tag</a>
           );
         }else{
           link = (
@@ -131,6 +134,7 @@ define(
           <div className="resource-tags">
             <span>Instance Tags:</span>
             {link}
+            {newTagButton}
             {this.state.isEditingTags ? this.renderEditableTags() : this.renderReadableTags()}
           </div>
         );
