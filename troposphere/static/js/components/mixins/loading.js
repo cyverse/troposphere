@@ -24,7 +24,7 @@ define(
       },
 
       _getModel: function () {
-        this.model().then(function (data) {
+        this.model().done(function (data) {
             this.setState({model: data, _loading: false});
           }.bind(this),
           function (msg) {

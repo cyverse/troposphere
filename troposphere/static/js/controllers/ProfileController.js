@@ -1,50 +1,32 @@
 define(
   [
-    'rsvp',
+    'q',
     'models/Profile',
     'collections/IdentityCollection',
     'controllers/NotificationController'
   ],
-  function (RSVP, Profile, IdentityCollection, NotificationController) {
+  function (Q, Profile, IdentityCollection, NotificationController) {
 
     return {
       getProfile: function () {
-        return new RSVP.Promise(function (resolve, reject) {
-          new Profile().fetch({
-            success: function (m) {
-              resolve(m);
-            },
-            error: function (model, response, options) {
-              if (response.status == 401) {
-                reject("Not logged in");
-              } else {
-                reject("Error fetching profile");
-              }
-            }
-          });
-        });
-      },
+        var defer = Q.defer();
 
-      getIdentities: function () {
-        return new RSVP.Promise(function (resolve, reject) {
-          new IdentityCollection().fetch({
-            success: function (m) {
-              resolve(m);
-            }
-          });
-        });
-      },
+        var profile = new Profile();
 
-      setIcons: function (profile, icon_type) {
-        profile.save({icon_set: icon_type}, {
-          patch: true,
-          success: function () {
-            NotificationController.success("Updated", "Your icon preference was changed successfully.");
-          }.bind(this),
-          error: function () {
-            NotificationController.error("Error", "Your icon preference was not changed successfully.");
+        profile.fetch({
+          success: function (m) {
+            defer.resolve(m);
+          },
+          error: function (model, response, options) {
+            if (response.status == 401) {
+              defer.reject("Not logged in");
+            } else {
+              defer.reject("Error fetching profile");
+            }
           }
         });
+
+        return defer.promise;
       }
     }
 

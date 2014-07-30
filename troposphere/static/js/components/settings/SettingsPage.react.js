@@ -4,16 +4,27 @@ define(
   [
     'react',
     'components/common/PageHeader.react',
-    'controllers/ProfileController',
     './IconSelect.react',
     'context'
   ],
-  function (React, PageHeader, ProfileController, IconSelect, context) {
+  function (React, PageHeader, IconSelect, context) {
 
     return React.createClass({
 
       handleIconSelect: function (icon_type) {
-        ProfileController.setIcons(context.profile, icon_type);
+        alert.show("handleIconSelect not implemented");
+        // todo: move into ProfileStore and ProfileActions
+        // setIcons: function (profile, icon_type) {
+        //   profile.save({icon_set: icon_type}, {
+        //     patch: true,
+        //     success: function () {
+        //       NotificationController.success("Updated", "Your icon preference was changed successfully.");
+        //     }.bind(this),
+        //     error: function () {
+        //       NotificationController.error("Error", "Your icon preference was not changed successfully.");
+        //     }
+        //   });
+        // }
       },
 
       getSelectedIconSet: function () {
