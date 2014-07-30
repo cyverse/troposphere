@@ -198,8 +198,10 @@ define(
 
     var _instancesBuilding = [];
     var pollUntilBuildIsFinished = function(instance){
-      _instancesBuilding.push(instance);
-      fetchAndRemoveIfFinished(instance);
+      if(_instancesBuilding.indexOf(instance) < 0) {
+        _instancesBuilding.push(instance);
+        fetchAndRemoveIfFinished(instance);
+      }
     };
 
     var fetchAndRemoveIfFinished = function(instance){
@@ -309,6 +311,13 @@ define(
 
         var projectInstances = _instances.filter(function(instance){
           return instance.get('projects').indexOf(project.id) >= 0;
+        });
+
+        // Start polling for any instances that are in transition states
+        projectInstances.forEach(function(instance){
+          if(!instance.get('state').isInFinalState()){
+            pollUntilBuildIsFinished(instance);
+          }
         });
 
         var projectInstanceCollection = new InstanceCollection(projectInstances);

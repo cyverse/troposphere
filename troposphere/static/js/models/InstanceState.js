@@ -66,6 +66,8 @@ define(
           "shutoff"
         ];
 
+        if(this.get('status') === "build") return false;
+
         var isInFinalState = validStates.indexOf(this.get('status_raw')) >= 0;
         return isInFinalState;
       },
@@ -75,7 +77,7 @@ define(
         var activity = this.get('activity');
         var percentComplete = 100;
         if(status && activity) {
-          percentComplete = this.getPercentComplete(status, activity);
+          percentComplete = get_percent_complete(status, activity);
         }
         return percentComplete;
       },
