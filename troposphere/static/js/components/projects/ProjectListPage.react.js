@@ -4,10 +4,9 @@ define(
   [
     'react',
     './list/ProjectListView.react',
-    'rsvp',
     'stores/ProjectStore'
   ],
-  function (React, ProjectListView, RSVP, ProjectStore) {
+  function (React, ProjectListView, ProjectStore) {
 
     function getProjectState() {
         return {
