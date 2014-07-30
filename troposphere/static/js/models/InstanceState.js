@@ -73,6 +73,7 @@ define(
       },
 
       isDeployError: function(){
+        return false;
         var status = this.get('status');
         var activity = this.get('activity');
 
