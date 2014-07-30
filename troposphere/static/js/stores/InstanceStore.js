@@ -12,10 +12,9 @@ define(
     'actions/ProjectActions',
     './helpers/ProjectInstance',
     './helpers/ProjectInstanceCollection',
-    'models/InstanceState',
     'q'
   ],
-  function (_, Dispatcher, Store, InstanceCollection, Instance, InstanceConstants, ProjectInstanceConstants, NotificationController, IdentityStore, ProjectActions, ProjectInstance, InstanceState, ProjectInstanceCollection, Q) {
+  function (_, Dispatcher, Store, InstanceCollection, Instance, InstanceConstants, ProjectInstanceConstants, NotificationController, IdentityStore, ProjectActions, ProjectInstance, ProjectInstanceCollection, Q) {
 
     var _instances = new InstanceCollection();
     var _isFetching = false;
@@ -175,11 +174,10 @@ define(
         identity: {
           id: identity.id,
           provider: identity.get('provider_id')
-        }
-      });
-
-      instance.set('projects', [project.id]);
-      instance.set('state', new InstanceState({status_raw: "build - scheduling"}));
+        },
+        status: "build - scheduling",
+        projects: [project.id]
+      }, {parse: true});
 
       var params = {
         machine_alias: machineId,
