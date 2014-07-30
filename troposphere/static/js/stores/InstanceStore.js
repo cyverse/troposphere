@@ -17,7 +17,6 @@ define(
 
     var _instances = null;
     var _isFetching = false;
-    var validStates = ["active", "error", "active - deploy_error", "suspended", "shutoff"];
     var pollingFrequency = 10*1000;
 
     //
@@ -62,7 +61,7 @@ define(
 
           // Start polling for any instances that are in transition states
           instances.forEach(function(instance){
-            if(validStates.indexOf(instance.get("status")) < 0){
+            if(!instance.get('state').isInFinalState()){
               pollUntilBuildIsFinished(instance);
             }
           });
@@ -207,7 +206,7 @@ define(
       setTimeout(function(){
         instance.fetch().done(function(){
           var index = _instancesBuilding.indexOf(instance);
-          if(validStates.indexOf(instance.get("status")) >= 0){
+          if(instance.get('state').isInFinalState()){
             _instancesBuilding.slice(index, 1);
           }else{
             fetchAndRemoveIfFinished(instance);

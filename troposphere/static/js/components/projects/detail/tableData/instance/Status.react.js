@@ -16,8 +16,8 @@ define(
       },
 
       render: function () {
-        var state = this.props.instance.get('status').state;
-        var activity = this.props.instance.get('status').activity;
+        var state = this.props.instance.get('state').get('status');
+        var activity = this.props.instance.get('state').get('activity');
 
         var status = state + " - " + activity;
 

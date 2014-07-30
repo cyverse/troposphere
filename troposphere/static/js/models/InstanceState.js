@@ -1,12 +1,9 @@
-/** @jsx React.DOM */
-
 define(
   [
-    'react',
-    'backbone',
-    'components/projects/common/StatusLight.react'
+    'underscore',
+    'backbone'
   ],
-  function (React, Backbone, StatusLight) {
+  function (_, Backbone) {
 
     var get_percent_complete = function(state, activiy) {
 
@@ -58,27 +55,40 @@ define(
       }
     };
 
-    return React.createClass({
+    return Backbone.Model.extend({
 
-      propTypes: {
-        state: React.PropTypes.string.isRequired,
-        activity: React.PropTypes.string
+      isInFinalState: function(){
+        var validStates = [
+          "active",
+          "error",
+          "active - deploy_error",
+          "suspended",
+          "shutoff"
+        ];
+
+        var isInFinalState = validStates.indexOf(this.get('status_raw')) >= 0;
+        return isInFinalState;
       },
 
-      render: function () {
-        var state = this.props.state;
-        var activity = this.props.activity;
-        var style = {width: "0%"};
+      getPercentComplete: function(){
 
-        style.width = "40%";
+      },
 
-        return (
-          <div className="progress">
-            <div className="progress-bar progress-bar-success" style={style}>
-              {style.width}
-            </div>
-          </div>
-        );
+      initialize: function(attributes, options){
+
+        var statusTokens = attributes.status_raw.split('-');
+        var state = statusTokens[0].trim();
+        var activity = null;
+
+        if(statusTokens.length === 2){
+          activity = statusTokens[1].trim();
+        }else if(statusTokens.length === 3){
+          // Deal with Openstack Grizzly's hyphenated states "powering-on" and "powering-off"
+          activity = statusTokens[1].trim() + '-' + statusTokens[2].trim();
+        }
+
+        this.set('status', state);
+        this.set('activity', activity);
       }
 
     });
