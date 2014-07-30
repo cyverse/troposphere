@@ -16,13 +16,15 @@ define(
       },
 
       render: function () {
-        var state = this.props.instance.get('state').get('status');
-        var activity = this.props.instance.get('state').get('activity');
-
+        var instanceState = this.props.instance.get('state');
+        var state = instanceState.get('status');
+        var activity = instanceState.get('activity');
         var status = state + " - " + activity;
 
+        var rawStatus = instanceState.get('status_raw');
+
         var style = {};
-        var capitalizedStatus = status.charAt(0).toUpperCase() + status.slice(1);
+        var capitalizedStatus = rawStatus.charAt(0).toUpperCase() + rawStatus.slice(1);
 
         if(state === "error") {
           capitalizedStatus = "Launch failed. Atmosphere at capacity.";
@@ -37,7 +39,7 @@ define(
               <StatusLight status={state}/>
               <span style={style}>{capitalizedStatus}</span>
             </div>
-            <StatusBar state={state} activity={activity}/>
+            <StatusBar state={this.props.instance.get('state')} activity={activity}/>
           </span>
         );
       }

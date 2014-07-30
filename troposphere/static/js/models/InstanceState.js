@@ -71,7 +71,13 @@ define(
       },
 
       getPercentComplete: function(){
-
+        var status = this.get('status');
+        var activity = this.get('activity');
+        var percentComplete = 100;
+        if(status && activity) {
+          percentComplete = this.getPercentComplete(status, activity);
+        }
+        return percentComplete;
       },
 
       initialize: function(attributes, options){

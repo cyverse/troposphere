@@ -4,23 +4,26 @@ define(
   [
     'react',
     'backbone',
-    'components/projects/common/StatusLight.react'
+    'components/projects/common/StatusLight.react',
+    'models/InstanceState'
   ],
-  function (React, Backbone, StatusLight) {
+  function (React, Backbone, StatusLight, InstanceState) {
 
     return React.createClass({
 
       propTypes: {
-        state: React.PropTypes.string.isRequired,
+        state: React.PropTypes.instanceOf(InstanceState).isRequired,
         activity: React.PropTypes.string
       },
 
       render: function () {
         var state = this.props.state;
         var activity = this.props.activity;
+
+        var percentComplete = this.props.state.getPercentComplete();
         var style = {width: "0%"};
 
-        style.width = "40%";
+        style.width = percentComplete + "%";
 
         return (
           <div className="progress">
