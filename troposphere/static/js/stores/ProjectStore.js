@@ -3,12 +3,11 @@ define(
     'underscore',
     'dispatchers/Dispatcher',
     'stores/Store',
-    'rsvp',
     'collections/ProjectCollection',
     'constants/ProjectConstants',
     'controllers/NotificationController'
   ],
-  function (_, Dispatcher, Store, RSVP, ProjectCollection, ProjectConstants, NotificationController) {
+  function (_, Dispatcher, Store, ProjectCollection, ProjectConstants, NotificationController) {
 
     var _projects = null;
     var _isFetching = false;

@@ -21,7 +21,8 @@ require.config({
     react: '//cdnjs.cloudflare.com/ajax/libs/react/0.11.0/react-with-addons.min',
     rsvp: '//cdn.jsdelivr.net/rsvp/3.0/rsvp.amd.min',
     chosen: '//cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.jquery.min',
-    toastr: '//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.2/js/toastr.min'
+    toastr: '//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.2/js/toastr.min',
+    q: '//cdnjs.cloudflare.com/ajax/libs/q.js/1.0.1/q.min'
   },
 
   shim: {

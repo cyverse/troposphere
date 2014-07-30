@@ -3,10 +3,9 @@ define(
     'underscore',
     'stores/Store',
     'collections/ProviderCollection',
-    'dispatchers/AppDispatcher',
-    'rsvp'
+    'dispatchers/AppDispatcher'
   ],
-  function (_, Store, ProviderCollection, AppDispatcher, RSVP) {
+  function (_, Store, ProviderCollection, AppDispatcher) {
 
     var _providers = null;
     var _isFetching = false;
@@ -17,15 +16,13 @@ define(
 
     var fetchProviders = function () {
       _isFetching = true;
-      var promise = new RSVP.Promise(function (resolve, reject) {
-        var providers = new ProviderCollection();
-        providers.fetch().done(function () {
-          _isFetching = false;
-          _providers = providers;
-          resolve();
-        });
+      var providers = new ProviderCollection();
+
+      providers.fetch().done(function () {
+        _isFetching = false;
+        _providers = providers;
+        ProviderStore.emitChange();
       });
-      return promise;
     };
 
     //
@@ -35,9 +32,7 @@ define(
     var ProviderStore = {
       getAll: function () {
         if(!_providers && !_isFetching) {
-          fetchProviders().then(function(){
-            ProviderStore.emitChange();
-          });
+          fetchProviders();
         }
         return _providers;
       }
