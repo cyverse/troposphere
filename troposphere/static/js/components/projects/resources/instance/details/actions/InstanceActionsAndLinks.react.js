@@ -33,7 +33,8 @@ define(
       },
 
       onDelete: function(){
-        InstanceActions.terminate(this.props.instance);
+        var redirectUrl = URL.project(this.props.project, {relative: true});
+        InstanceActions.terminate(this.props.instance, redirectUrl);
       },
 
       onReboot: function(){ /* no implementation yet */ },

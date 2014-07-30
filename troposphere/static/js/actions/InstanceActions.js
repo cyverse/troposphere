@@ -102,16 +102,14 @@ define(
         React.renderComponent(modal, document.getElementById('modal'));
       },
 
-      terminate: function(instance){
+      terminate: function(instance, redirectUrl){
 
         var onConfirm = function () {
           AppDispatcher.handleRouteAction({
             actionType: InstanceConstants.INSTANCE_TERMINATE,
             instance: instance
           });
-          // Since this is triggered from the instance details page, navigate off
-          // that page and back to the instance list
-          Backbone.history.navigate('instances', {trigger: true});
+          Backbone.history.navigate(redirectUrl, {trigger: true});
         };
 
         var modal = CancelConfirmModal({
