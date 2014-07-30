@@ -3,7 +3,6 @@ define(
     'underscore',
     'dispatchers/Dispatcher',
     'stores/Store',
-    'rsvp',
     'collections/InstanceCollection',
     'models/Instance',
     'constants/InstanceConstants',
@@ -12,11 +11,13 @@ define(
     'stores/IdentityStore',
     'actions/ProjectActions',
     './helpers/ProjectInstance',
-    'models/InstanceState'
+    './helpers/ProjectInstanceCollection',
+    'models/InstanceState',
+    'q'
   ],
-  function (_, Dispatcher, Store, RSVP, InstanceCollection, Instance, InstanceConstants, ProjectInstanceConstants, NotificationController, IdentityStore, ProjectActions, ProjectInstance, InstanceState) {
+  function (_, Dispatcher, Store, InstanceCollection, Instance, InstanceConstants, ProjectInstanceConstants, NotificationController, IdentityStore, ProjectActions, ProjectInstance, InstanceState, ProjectInstanceCollection, Q) {
 
-    var _instances = null;
+    var _instances = new InstanceCollection();
     var _isFetching = false;
     var pollingFrequency = 10*1000;
 
@@ -25,20 +26,22 @@ define(
     //
 
     var fetchInstancesFor = function (providerId, identityId) {
-      var promise = new RSVP.Promise(function (resolve, reject) {
-        var instances = new InstanceCollection(null, {
-          provider_id: providerId,
-          identity_id: identityId
-        });
-        // make sure promise returns the right instances collection
-        // for when this function is called multiple times
-        (function(instances, resolve){
-          instances.fetch().done(function(){
-            resolve(instances);
-          });
-        })(instances, resolve)
+      var defer = Q.defer();
+
+      var instances = new InstanceCollection(null, {
+        provider_id: providerId,
+        identity_id: identityId
       });
-      return promise;
+
+      // make sure promise returns the right instances collection
+      // for when this function is called multiple times
+      (function(instances, defer){
+        instances.fetch().done(function(){
+          defer.resolve(instances);
+        });
+      })(instances, defer);
+
+      return defer.promise;
     };
 
     var fetchInstances = function (identities) {
@@ -53,7 +56,7 @@ define(
         });
 
         // When all instance collections are fetched...
-        RSVP.all(promises).then(function (instanceCollections) {
+        Q.all(promises).done(function (instanceCollections) {
           // Combine results into a single volume collection
           var instances = new InstanceCollection();
           for (var i = 0; i < instanceCollections.length; i++) {
@@ -91,6 +94,10 @@ define(
         InstanceStore.emitChange();
       });
     }
+
+    //
+    // Instance Actions
+    //
 
     var suspend = function(instance){
       instance.suspend({
@@ -329,24 +336,27 @@ define(
       },
 
       getInstancesInProject: function (project) {
-        _instances = _instances || new InstanceCollection();
 
-        _instances.add(project.get('instances').models);
+        var projectInstanceArray = project.get('instances').map(function(instanceData){
+          // todo: we're converting into an instance object here so we can use
+          // id instead of alias for consistency. Eventually all alias attributes
+          // need to be renamed id and then we can create the object only if
+          // the id isn't in the existing map.
+          var instance = new Instance(instanceData, {parse: true});
+          var existingInstance = _instances.get(instance.id);
 
-        var projectInstances = _instances.filter(function(instance){
-          return instance.get('projects').indexOf(project.id) >= 0;
-        });
-
-        // Start polling for any instances that are in transition states
-        projectInstances.forEach(function(instance){
-          // todo: when cached data can be trusted, stop polling real data here
-          //if(!instance.get('state').isInFinalState()){
+          if(existingInstance){
+            instance = existingInstance;
+          }else{
+            _instances.push(instance);
             pollNowUntilBuildIsFinished(instance);
-          //}
+          }
+
+          return instance;
         });
 
-        var projectInstanceCollection = new InstanceCollection(projectInstances);
-        return projectInstanceCollection;
+        var projectInstances = new InstanceCollection(projectInstanceArray);
+        return projectInstances;
       }
 
     };
