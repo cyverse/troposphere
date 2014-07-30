@@ -11,9 +11,10 @@ define(
     'controllers/NotificationController',
     'stores/IdentityStore',
     'actions/ProjectActions',
-    './helpers/ProjectInstance'
+    './helpers/ProjectInstance',
+    'models/InstanceState'
   ],
-  function (_, Dispatcher, Store, RSVP, InstanceCollection, Instance, InstanceConstants, ProjectInstanceConstants, NotificationController, IdentityStore, ProjectActions, ProjectInstance) {
+  function (_, Dispatcher, Store, RSVP, InstanceCollection, Instance, InstanceConstants, ProjectInstanceConstants, NotificationController, IdentityStore, ProjectActions, ProjectInstance, InstanceState) {
 
     var _instances = null;
     var _isFetching = false;
@@ -169,6 +170,9 @@ define(
           provider: identity.get('provider_id')
         }
       });
+
+      instance.set('projects', [project.id]);
+      instance.set('state', new InstanceState({status_raw: "build - scheduling"}));
 
       var params = {
         machine_alias: machineId,
