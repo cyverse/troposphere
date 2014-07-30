@@ -10,11 +10,11 @@ define(
     return React.createClass({
 
       propTypes: {
-        status: React.PropTypes.string.isRequired
+        state: React.PropTypes.string.isRequired
       },
 
       render: function () {
-        var status = this.props.status;
+        var status = this.props.state.get('status');
         var statusLight;
 
         if(status === "active"){

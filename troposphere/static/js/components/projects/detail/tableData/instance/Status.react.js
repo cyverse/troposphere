@@ -26,17 +26,20 @@ define(
         var style = {};
         var capitalizedStatus = rawStatus.charAt(0).toUpperCase() + rawStatus.slice(1);
 
-        if(state === "error") {
-          capitalizedStatus = "Launch failed. Atmosphere at capacity.";
-          style = {
-            color: "#d44950"
-          }
+        if(instanceState.isDeployError()) {
+          return (
+            <span>
+              <div>
+                <span style={{color: "#d44950"}}>{"Launch failed. Atmosphere at capacity."}</span>
+              </div>
+            </span>
+          );
         }
 
         return (
           <span>
             <div>
-              <StatusLight status={state}/>
+              <StatusLight state={instanceState}/>
               <span style={style}>{capitalizedStatus}</span>
             </div>
             <StatusBar state={this.props.instance.get('state')} activity={activity}/>

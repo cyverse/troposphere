@@ -4,10 +4,9 @@ define(
   [
     'react',
     'backbone',
-    'components/projects/common/StatusLight.react',
     'models/InstanceState'
   ],
-  function (React, Backbone, StatusLight, InstanceState) {
+  function (React, Backbone, InstanceState) {
 
     return React.createClass({
 

@@ -72,6 +72,17 @@ define(
         return isInFinalState;
       },
 
+      isDeployError: function(){
+        var status = this.get('status');
+        var activity = this.get('activity');
+
+        if(status === "active" && activity === "deploy_error"){
+          return true;
+        }else {
+          return false;
+        }
+      },
+
       getPercentComplete: function(){
         var status = this.get('status');
         var activity = this.get('activity');

@@ -204,6 +204,14 @@ define(
       }
     };
 
+    // Poll
+    var pollNowUntilBuildIsFinished = function(instance){
+      if(_instancesBuilding.indexOf(instance) < 0) {
+        _instancesBuilding.push(instance);
+        fetchNowAndRemoveIfFinished(instance);
+      }
+    };
+
     var fetchAndRemoveIfFinished = function(instance){
       setTimeout(function(){
         instance.fetch().done(function(){
@@ -216,6 +224,18 @@ define(
           InstanceStore.emitChange();
         });
       }, pollingFrequency);
+    };
+
+    var fetchNowAndRemoveIfFinished = function(instance){
+      instance.fetch().done(function(){
+        var index = _instancesBuilding.indexOf(instance);
+        if(instance.get('state').isInFinalState()){
+          _instancesBuilding.slice(index, 1);
+        }else{
+          fetchAndRemoveIfFinished(instance);
+        }
+        InstanceStore.emitChange();
+      });
     };
 
     //
@@ -315,9 +335,10 @@ define(
 
         // Start polling for any instances that are in transition states
         projectInstances.forEach(function(instance){
-          if(!instance.get('state').isInFinalState()){
-            pollUntilBuildIsFinished(instance);
-          }
+          // todo: when cached data can be trusted, stop polling real data here
+          //if(!instance.get('state').isInFinalState()){
+            pollNowUntilBuildIsFinished(instance);
+          //}
         });
 
         var projectInstanceCollection = new InstanceCollection(projectInstances);
