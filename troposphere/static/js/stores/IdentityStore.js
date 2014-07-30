@@ -3,10 +3,9 @@ define(
     'underscore',
     'stores/Store',
     'collections/IdentityCollection',
-    'dispatchers/AppDispatcher',
-    'rsvp'
+    'dispatchers/AppDispatcher'
   ],
-  function(_, Store, IdentityCollection, AppDispatcher, RSVP) {
+  function(_, Store, IdentityCollection, AppDispatcher) {
 
     var _identities = null;
     var _isFetching = false;

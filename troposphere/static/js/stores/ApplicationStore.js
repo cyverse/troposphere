@@ -4,7 +4,6 @@ define(
     'collections/ApplicationCollection',
     'collections/ApplicationSearchResultCollection',
     'dispatchers/Dispatcher',
-    'rsvp',
     'models/Application',
     'actions/ApplicationActions',
     'stores/Store',
@@ -12,7 +11,7 @@ define(
     'controllers/NotificationController',
     'context'
   ],
-  function (_, ApplicationCollection, ApplicationSearchResultCollection, Dispatcher, RSVP, Application, ApplicationActions, Store, ApplicationConstants, NotificationController, context) {
+  function (_, ApplicationCollection, ApplicationSearchResultCollection, Dispatcher, Application, ApplicationActions, Store, ApplicationConstants, NotificationController, context) {
 
     var _applications = null;
     var _searchResults = {};

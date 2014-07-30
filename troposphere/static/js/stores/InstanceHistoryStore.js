@@ -3,12 +3,11 @@ define(
     'underscore',
     'dispatchers/Dispatcher',
     'stores/Store',
-    'rsvp',
     'collections/InstanceHistoryCollection',
     'controllers/NotificationController',
     'stores/IdentityStore'
   ],
-  function (_, Dispatcher, Store, RSVP, InstanceHistoryCollection, NotificationController, IdentityStore) {
+  function (_, Dispatcher, Store, InstanceHistoryCollection, NotificationController, IdentityStore) {
 
     var _instanceHistories = null;
     var _isFetching = false;

@@ -1,7 +1,6 @@
 define(
   [
     'jquery',
-    'rsvp',
     'backbone',
 
     // Cross-app models
@@ -12,17 +11,12 @@ define(
     './routers/ApplicationRouter',
     'routers/HelpRouter'
   ],
-  function ($, RSVP, Backbone, context, Session, ApplicationRouter, HelpRouter) {
+  function ($, Backbone, context, Session, ApplicationRouter, HelpRouter) {
 
     function startApplication() {
 
       // todo: Remove this smartly. It's here because the header component expects it
       context.session = new Session();
-
-      // Catch-all for errors within promises
-      RSVP.on('error', function (reason) {
-        console.assert(false, reason);
-      });
 
       $(document).ready(function () {
 

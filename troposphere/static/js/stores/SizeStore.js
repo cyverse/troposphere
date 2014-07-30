@@ -2,11 +2,10 @@ define(
   [
     'underscore',
     'stores/Store',
-    'rsvp',
     'collections/SizeCollection',
     'dispatchers/AppDispatcher'
   ],
-  function (_, Store, RSVP, SizeCollection, AppDispatcher) {
+  function (_, Store, SizeCollection, AppDispatcher) {
 
     var _sizes = {};
     var _isFetching = {};
