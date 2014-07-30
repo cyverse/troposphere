@@ -9,7 +9,7 @@ define(function (require) {
   var _ = require('underscore'),
       Dispatcher = require('dispatchers/Dispatcher'),
       Store = require('stores/Store'),
-      RSVP = require('rsvp'),
+      Q = require('q'),
       VolumeCollection = require('collections/VolumeCollection'),
       Volume = require('models/Volume'),
       VolumeConstants = require('constants/VolumeConstants'),
@@ -35,20 +35,22 @@ define(function (require) {
     //
 
     var fetchVolumesFor = function (providerId, identityId) {
-      var promise = new RSVP.Promise(function (resolve, reject) {
-        var volumes = new VolumeCollection(null, {
-          provider_id: providerId,
-          identity_id: identityId
-        });
-        // make sure promise returns the right instances collection
-        // for when this function is called multiple times
-        (function(volumes, resolve){
-          volumes.fetch().done(function(){
-            resolve(volumes);
-          });
-        })(volumes, resolve)
+      var defer = Q.defer();
+
+      var volumes = new VolumeCollection(null, {
+        provider_id: providerId,
+        identity_id: identityId
       });
-      return promise;
+
+      // make sure promise returns the right instances collection
+      // for when this function is called multiple times
+      (function(volumes, defer){
+        volumes.fetch().done(function(){
+          defer.resolve(volumes);
+        });
+      })(volumes, defer);
+
+      return defer.promise;
     };
 
     var fetchVolumes = function (identities) {
@@ -63,7 +65,7 @@ define(function (require) {
         });
 
         // When all volume collections are fetched...
-        RSVP.all(promises).then(function (volumeCollections) {
+        Q.all(promises).done(function (volumeCollections) {
           // Combine results into a single volume collection
           var volumes = new VolumeCollection();
           for (var i = 0; i < volumeCollections.length; i++) {
