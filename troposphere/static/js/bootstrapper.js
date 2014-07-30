@@ -1,7 +1,6 @@
 define(
   [
     'jquery',
-    'rsvp',
     'backbone',
 
     // Cross-app models
@@ -19,14 +18,9 @@ define(
     'routers/ProviderRouter',
     'routers/DefaultRouter'
   ],
-  function ($, RSVP, Backbone, context, Session, ProfileController, NotificationController, DashboardRouter, ProjectRouter, ApplicationRouter, SettingsRouter, HelpRouter, ProviderRouter, DefaultRouter) {
+  function ($, Backbone, context, Session, ProfileController, NotificationController, DashboardRouter, ProjectRouter, ApplicationRouter, SettingsRouter, HelpRouter, ProviderRouter, DefaultRouter) {
 
     function startApplication() {
-
-      // Catch-all for errors within promises
-      RSVP.on('error', function (reason) {
-        console.assert(false, reason);
-      });
 
       $(document).ready(function () {
 
@@ -128,7 +122,7 @@ define(
                 "positionClass": "toast-top-full-width"
               }
             )
-        });
+        }).done();
       }
     }
 
