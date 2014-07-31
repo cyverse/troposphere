@@ -3,9 +3,10 @@ define(
     'underscore',
     'dispatchers/Dispatcher',
     'stores/Store',
-    'models/Profile'
+    'models/Profile',
+    'controllers/NotificationController'
   ],
-  function (_, Dispatcher, Store, Profile) {
+  function (_, Dispatcher, Store, Profile, NotificationController) {
 
     var _profile = null;
     var _isFetching = false;
@@ -18,10 +19,18 @@ define(
       if(!_isFetching) {
         _isFetching = true;
         var profile = new Profile();
-        profile.fetch().done(function () {
+        profile.fetch().then(function () {
           _isFetching = false;
           _profile = profile;
           ProfileStore.emitChange();
+        }).fail(function(){
+          NotificationController.error(
+            null,
+            "There was an error logging you in. If this persists, please email <a href='mailto:support@iplantcollaborative.org'>support@iplantcollaborative.org</a>.",
+            {
+              "positionClass": "toast-top-full-width"
+            }
+          );
         });
       }
     };
