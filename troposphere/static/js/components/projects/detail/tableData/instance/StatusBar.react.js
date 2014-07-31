@@ -24,6 +24,12 @@ define(
 
         style.width = percentComplete + "%";
 
+        if(!percentComplete || percentComplete === 100){
+          return (
+            null
+          );
+        }
+
         return (
           <div className="progress">
             <div className="progress-bar progress-bar-success" style={style}>
