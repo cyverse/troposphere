@@ -10,7 +10,7 @@ define(
     return React.createClass({
 
       propTypes: {
-        state: React.PropTypes.string.isRequired
+        state: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
       render: function () {
