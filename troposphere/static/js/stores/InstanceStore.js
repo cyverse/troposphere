@@ -187,7 +187,7 @@ define(
 
       instance.save(params, {
         success: function (model) {
-          //NotificationController.success('Launch Instance', 'Instance successfully launched');
+          NotificationController.success('Launch Instance', 'Instance successfully launched');
           pollUntilBuildIsFinished(instance);
           ProjectActions.addItemToProject(project, instance);
           InstanceStore.emitChange();
@@ -257,16 +257,20 @@ define(
         project: project
       });
 
-      instance.get('projects').push(project.id);
+      project.get('instances').push(instance.toJSON());
 
       projectInstance.save().done(function(){
         // do nothing
+        project.fetch().then(function(){
+          InstanceStore.emitChange();
+        });
+
       }).fail(function(){
         var failureMessage = "Error adding Instance '" + instance.get('name') + "' to Project '" + project.get('name') + "'.";
         NotificationController.error(failureMessage);
 
         // remove the instance from the project
-        var instanceProjectIds = instance.get('projects');
+        var instanceProjectIds = project.get('projects');
         var indexOfProjectId = instanceProjectIds.indexOf(project.id);
         if(indexOfProjectId >= 0){
           instance.get('projects').splice(indexOfProjectId, 1);
@@ -331,6 +335,15 @@ define(
         } else {
           return _instances.get(instanceId);
         }
+      },
+
+      getInstanceInProject: function(project, instanceId){
+        var instances = this.getInstancesInProject(project);
+        var instance = instances.get(instanceId);
+        if(!instance){
+          NotificationController.error("Instance not in project", "The instance could not be found in the project");
+        }
+        return instance;
       },
 
       getInstancesInProject: function (project) {
