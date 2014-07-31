@@ -90,6 +90,11 @@ define(
         ProjectActions.moveResources(selectedResources, this.props.project);
       },
 
+      onDeleteSelectedResources: function(){
+        var selectedResources = this.state.selectedResources;
+        ProjectActions.deleteResources(selectedResources);
+      },
+
       render: function () {
         if(this.state.projectInstances && this.state.projectVolumes && this.state.providers) {
 
@@ -108,7 +113,10 @@ define(
 
           return (
             <div className="project-content">
-              <ButtonBar isVisible={isButtonBarVisible} onMoveSelectedResources={this.onMoveSelectedResources}/>
+              <ButtonBar isVisible={isButtonBarVisible}
+                         onMoveSelectedResources={this.onMoveSelectedResources}
+                         onDeleteSelectedResources={this.onDeleteSelectedResources}
+              />
               <div className="resource-list">
                 <div className="scrollable-content">
                   <InstanceList instances={this.state.projectInstances}

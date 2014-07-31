@@ -11,7 +11,8 @@ define(
 
       propTypes: {
         isVisible: React.PropTypes.bool.isRequired,
-        onMoveSelectedResources: React.PropTypes.func.isRequired
+        onMoveSelectedResources: React.PropTypes.func.isRequired,
+        onDeleteSelectedResources: React.PropTypes.func.isRequired
       },
 
       render: function () {
@@ -21,6 +22,9 @@ define(
           <div className="button-bar">
             <button className={className} onClick={this.props.onMoveSelectedResources}>
               <i className="glyphicon glyphicon-folder-open"/>
+            </button>
+            <button className={className} onClick={this.props.onDeleteSelectedResources}>
+              <i className="glyphicon glyphicon-trash"/>
             </button>
           </div>
         );

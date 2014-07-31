@@ -5,12 +5,15 @@ define(
     'constants/ProjectConstants',
     'constants/ProjectInstanceConstants',
     'constants/ProjectVolumeConstants',
+    'constants/InstanceConstants',
+    'constants/VolumeConstants',
     'components/modals/CancelConfirmModal.react',
     'components/modals/ProjectMoveResourceModal.react',
+    'components/modals/ProjectDeleteResourceModal.react',
     'models/Instance',
     'models/Volume'
   ],
-  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, CancelConfirmModal, ProjectMoveResourceModal, Instance, Volume) {
+  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, InstanceConstants, VolumeConstants, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, Instance, Volume) {
 
     function getItemType(model) {
       var objectType;
@@ -100,12 +103,26 @@ define(
         }
       },
 
+      deleteResource: function(projectItem){
+        var itemType = getItemType(projectItem);
+        if(itemType === "instance"){
+          AppDispatcher.handleRouteAction({
+            actionType: InstanceConstants.INSTANCE_TERMINATE,
+            instance: projectItem
+          });
+        }else if(itemType === "volume"){
+          AppDispatcher.handleRouteAction({
+            actionType: VolumeConstants.VOLUME_DESTROY,
+            volume: projectItem
+          });
+        }
+      },
+
       moveResources: function(resources, currentProject){
 
         var onConfirm = function (newProject) {
           resources.map(function(resource){
-            this.removeItemFromProject(currentProject, resource);
-            this.addItemToProject(newProject, resource);
+            this.moveProjectItemTo(currentProject, resource, newProject);
           }.bind(this));
         }.bind(this);
 
@@ -122,6 +139,32 @@ define(
           onCancel: onCancel,
           handleHidden: onCancel,
           currentProject: currentProject,
+          resources: resources
+        });
+
+        React.renderComponent(modal, document.getElementById('modal'));
+      },
+
+      deleteResources: function(resources){
+
+        var onConfirm = function () {
+          resources.map(function(resource){
+            this.deleteResource(resource);
+          }.bind(this));
+        }.bind(this);
+
+        var onCancel = function(){
+          // Important! We need to un-mount the component so it un-registers from Stores and
+          // also so that we can relaunch it again later.
+          React.unmountComponentAtNode(document.getElementById('modal'));
+        };
+
+        var modal = ProjectDeleteResourceModal({
+          header: "Delete Resources",
+          confirmButtonMessage: "Delete resources",
+          onConfirm: onConfirm,
+          onCancel: onCancel,
+          handleHidden: onCancel,
           resources: resources
         });
 
