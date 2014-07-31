@@ -3,20 +3,13 @@ define(
     'jquery',
     'backbone',
 
-    // Cross-app models
-    'context',
-    'models/Session',
-
     // Routers
     './routers/ApplicationRouter',
     'routers/HelpRouter'
   ],
-  function ($, Backbone, context, Session, ApplicationRouter, HelpRouter) {
+  function ($, Backbone, ApplicationRouter, HelpRouter) {
 
     function startApplication() {
-
-      // todo: Remove this smartly. It's here because the header component expects it
-      context.session = new Session();
 
       $(document).ready(function () {
 

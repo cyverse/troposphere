@@ -22,7 +22,6 @@ define(
 
       render: function (content, route) {
         var app = Root({
-          session: context.session,
           profile: context.profile,
           content: content,
           route: route || Backbone.history.getFragment()
