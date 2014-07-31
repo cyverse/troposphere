@@ -10,7 +10,6 @@ define(
     return React.createClass({
 
       propTypes: {
-        projects: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         title: React.PropTypes.string.isRequired,
         children: React.PropTypes.component
       },

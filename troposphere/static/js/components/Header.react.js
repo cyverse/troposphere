@@ -65,7 +65,9 @@ define(
               <b className="caret"></b>
             </a>
             <ul className="dropdown-menu">
-              <li><a href="/application/settings">Settings</a></li>
+              <li>
+                  <a href="/application/settings">Settings</a>
+              </li>
               <li className="divider"></li>
               <li>
                 <a href="#" onClick={this.onShowVersion}>Version</a>
@@ -100,7 +102,7 @@ define(
           var isCurrentRoute = (link.name.toLowerCase() === this.props.currentRoute[0]);
           var className = isCurrentRoute ? "active" : null;
           return (
-            <li className={className}><a href={link.href}>{link.name}</a></li>
+            <li key={link.name} className={className}><a href={link.href}>{link.name}</a></li>
           );
         }.bind(this));
 

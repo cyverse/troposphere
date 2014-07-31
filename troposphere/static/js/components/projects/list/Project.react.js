@@ -12,8 +12,7 @@ define(
     return React.createClass({
 
       propTypes: {
-        project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        projects: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        project: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
       onAddResourceToProject: function(e){

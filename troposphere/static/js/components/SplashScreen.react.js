@@ -31,10 +31,6 @@ define(
       // ----------------
       //
 
-      propTypes: {
-        accessToken: React.PropTypes.string.isRequired
-      },
-
       getInitialState: function() {
         return getState();
       },
