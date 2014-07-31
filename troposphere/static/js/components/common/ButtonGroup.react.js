@@ -12,7 +12,7 @@ define(
       render: function () {
         var actions = _.map(this.props.actions, function (callback, text) {
           return (
-            <li>
+            <li key={text}>
               <a href='#' onClick={callback}>{text}</a>
             </li>
           );
