@@ -45,7 +45,7 @@ define(
           var isCurrentRoute = (route.name.toLowerCase() === this.props.currentRoute);
           var className = isCurrentRoute ? "active" : null;
           return (
-            <li className={className}>
+            <li key={route.name} className={className}>
               <a href={route.href}>
                 <i className={'glyphicon glyphicon-' + route.icon}></i>
                 {route.name}

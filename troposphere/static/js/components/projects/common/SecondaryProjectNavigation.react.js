@@ -3,16 +3,17 @@
 define(
   [
     'react',
+    'backbone',
     'components/common/SecondaryNavigation.react',
     'actions/ProjectActions'
   ],
-  function (React, SecondaryNavigation, ProjectActions) {
+  function (React, Backbone, SecondaryNavigation, ProjectActions) {
 
     return React.createClass({
 
       propTypes: {
         currentRoute: React.PropTypes.string.isRequired,
-        project: React.PropTypes.string.isRequired
+        project: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
       onTitleChanged: function(text){
