@@ -6,6 +6,7 @@ define(
     'react',
     'context',
     'stores/ProfileStore',
+    'stores/IdentityStore',
 
     // Routers
     'routers/DashboardRouter',
@@ -16,11 +17,12 @@ define(
     'routers/ProviderRouter',
     'routers/DefaultRouter'
   ],
-  function ($, React, context, ProfileStore, DashboardRouter, ProjectRouter, ApplicationRouter, SettingsRouter, HelpRouter, ProviderRouter, DefaultRouter) {
+  function ($, React, context, ProfileStore, IdentityStore, DashboardRouter, ProjectRouter, ApplicationRouter, SettingsRouter, HelpRouter, ProviderRouter, DefaultRouter) {
 
     function getState() {
       return {
-        profile: ProfileStore.get()
+        profile: ProfileStore.get(),
+        identities: IdentityStore.getAll()
       };
     }
 
@@ -37,7 +39,15 @@ define(
 
       updateState: function() {
         var profile = ProfileStore.get();
-        if(profile){
+        // we're fetching the identities during app load because it simplifies a lot of code
+        // if we can assume the identities are already here.  In order to get all user instances
+        // and volumes we have to loop through all identities to get the whole collection.
+        // If we don't fetch all identities before the application loads, then each view that
+        // needs the instances or volumes ends up having to listen to change events on the IdentityStore
+        // in order to see if it's possible to fetch the identities yet (because the long urls require
+        // knowing provider and identity information - provider/1/identity/2/instance)
+        var identities = IdentityStore.getAll();
+        if(profile && identities){
           // set user context
           context.profile = profile;
 
@@ -47,10 +57,12 @@ define(
 
       componentDidMount: function () {
         ProfileStore.addChangeListener(this.updateState);
+        IdentityStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
         ProfileStore.removeChangeListener(this.updateState);
+        IdentityStore.removeChangeListener(this.updateState);
       },
 
       startApplication: function(){

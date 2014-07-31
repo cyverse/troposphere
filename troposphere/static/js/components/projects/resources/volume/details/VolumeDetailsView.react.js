@@ -10,11 +10,10 @@ define(
     './actions/VolumeActionsAndLinks.react',
     'stores/ProviderStore',
     'stores/VolumeStore',
-    'stores/IdentityStore',
     'controllers/NotificationController',
     'url'
   ],
-  function (React, Backbone, VolumeDetailsSection, VolumeInfoSection, BreadcrumbBar, VolumeActionsAndLinks, ProviderStore, VolumeStore, IdentityStore, NotificationController, URL) {
+  function (React, Backbone, VolumeDetailsSection, VolumeInfoSection, BreadcrumbBar, VolumeActionsAndLinks, ProviderStore, VolumeStore, NotificationController, URL) {
 
     function getState(project, volumeId) {
       return {
@@ -56,18 +55,11 @@ define(
       componentDidMount: function () {
         ProviderStore.addChangeListener(this.updateState);
         VolumeStore.addChangeListener(this.updateState);
-
-        // todo: IdentityStore is only included here because InstanceStore.get(instanceId) is
-        // lazy loading, but I'm not sure how to get InstanceStore to know when new
-        // identities have been without getting this component to call InstanceStore.getAll()
-        // again at the moment.  Figure it out and remove this line.
-        IdentityStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
         ProviderStore.removeChangeListener(this.updateState);
         VolumeStore.removeChangeListener(this.updateState);
-        IdentityStore.removeChangeListener(this.updateState);
       },
 
       updateState: function(){

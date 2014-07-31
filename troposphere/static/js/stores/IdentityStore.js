@@ -42,9 +42,7 @@ define(
     AppDispatcher.register(function(payload) {
       var action = payload.action;
       switch(action.actionType) {
-        //case IdentityConstants.ACTION:
-        //  IdentityStore.action();
-        //  break;
+        // add actions here
       }
 
       return true;
