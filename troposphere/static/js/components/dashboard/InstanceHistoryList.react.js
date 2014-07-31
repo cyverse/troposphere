@@ -12,7 +12,7 @@ define(
     return React.createClass({
 
       propTypes: {
-        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+
       },
 
       render: function () {
@@ -40,7 +40,7 @@ define(
                   <ul>
                     <li>
                       <div>
-                        <img className="image-version-image" src="http://placehold.it/63x63"/>
+                        <img className="image-version-image" src="//placehold.it/63x63"/>
                         <div className="image-version-details">
                           <div className="version">
                             <span>
