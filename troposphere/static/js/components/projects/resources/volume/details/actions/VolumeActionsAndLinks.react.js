@@ -51,7 +51,7 @@ define(
         var links = linksArray.map(function(link){
           // Links without icons are generally section headings
           if(!link.icon) return (
-            <li className="section-label">{link.label}</li>
+            <li key={link.label} className="section-label">{link.label}</li>
           );
 
           var className = "section-link";
@@ -65,7 +65,7 @@ define(
             var style = {};
             if(!link.href) style.cursor = 'not-allowed';
             return (
-              <li className={className + " link"} style={style}>
+              <li key={link.label} className={className + " link"} style={style}>
                 <a href={link.href} target="_blank">
                   <span>
                     <Glyphicon name={link.icon}/>{link.label}
@@ -81,7 +81,7 @@ define(
           // changes to pass through our Backbone catcher in main.js that we can use
           // to log requests to Google Analytics
           if(link.href) return (
-            <li className={className + " link"}>
+            <li key={link.label} className={className + " link"}>
               <a href={link.href}>
               <span>
                 <Glyphicon name={link.icon}/>{link.label}
@@ -93,7 +93,7 @@ define(
           // Links with onClick callbacks will typically trigger modals requiring
           // confirmation before continuing
           return (
-            <li className={className} onClick={link.onClick}>
+            <li key={link.label} className={className} onClick={link.onClick}>
               <span>
                 <Glyphicon name={link.icon}/>{link.label}
               </span>
