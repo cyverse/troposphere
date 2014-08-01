@@ -15,7 +15,7 @@ define(
 
       onReturnToPreviousPage: function(e){
         e.preventDefault();
-        alert("Navigating back to the previous page not yet implemented.");
+        Backbone.history.history.back();
       },
 
       render: function () {
