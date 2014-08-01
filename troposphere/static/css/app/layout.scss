@@ -43,6 +43,7 @@
 
   ul {
     padding-left: 0px;
+    margin-bottom: 0px;
   }
 
   // For the projects list page
@@ -60,29 +61,72 @@
     }
   }
 
-  li {
+  > .container > ul > li {
     list-style: none;
-    float: left;
     margin-right: 60px;
 
-    i {
-      font-size: 17px;
-      margin-right: 6px;
-    }
-
-    a {
+    > a {
+      text-decoration: none;
       border-bottom: 5px solid transparent;
       text-transform: uppercase;
       padding: 18px 4px 18px 0px;
       display: block;
       font-size: 14px;
       color: #333;
+
+      i {
+        font-size: 17px;
+        margin-right: 6px;
+      }
     }
 
     &.active a {
       border-color: #6AA54F;
     }
   }
+
+  .secondary-nav-links {
+    li {
+      float: left;
+    }
+  }
+
+  .options-bar {
+
+    > ul > li {
+      margin-right: 15px;
+    }
+
+    .caret {
+       @extend .caret;
+       height: 10px;
+       border-top: 6px solid;
+    }
+
+    .dropdown-menu a {
+
+      i {
+        margin-right: 6px;
+      }
+
+      &.danger {
+        color: #d44950;
+
+        &:hover {
+          color: white;
+          background: -moz-linear-gradient(50% 0% -90deg, rgba(244, 125, 92, 1) 0%, rgba(244, 125, 92, 1) 0.08%, rgba(242, 99, 75, 1) 23.78%, rgba(240, 80, 63, 1) 48%, rgba(239, 69, 56, 1) 73.05%, rgba(239, 65, 54, 1) 100%);
+          background: -webkit-linear-gradient(-90deg, rgba(244, 125, 92, 1) 0%, rgba(244, 125, 92, 1) 0.08%, rgba(242, 99, 75, 1) 23.78%, rgba(240, 80, 63, 1) 48%, rgba(239, 69, 56, 1) 73.05%, rgba(239, 65, 54, 1) 100%);
+          background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0, rgba(244, 125, 92, 1)), color-stop(0.0008, rgba(244, 125, 92, 1)), color-stop(0.2378, rgba(242, 99, 75, 1)), color-stop(0.48, rgba(240, 80, 63, 1)), color-stop(0.7305, rgba(239, 69, 56, 1)), color-stop(1, rgba(239, 65, 54, 1)));
+          background: -o-linear-gradient(-90deg, rgba(244, 125, 92, 1) 0%, rgba(244, 125, 92, 1) 0.08%, rgba(242, 99, 75, 1) 23.78%, rgba(240, 80, 63, 1) 48%, rgba(239, 69, 56, 1) 73.05%, rgba(239, 65, 54, 1) 100%);
+          background: -ms-linear-gradient(-90deg, rgba(244, 125, 92, 1) 0%, rgba(244, 125, 92, 1) 0.08%, rgba(242, 99, 75, 1) 23.78%, rgba(240, 80, 63, 1) 48%, rgba(239, 69, 56, 1) 73.05%, rgba(239, 65, 54, 1) 100%);
+          -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#F47D5C', endColorstr='#EF4136' ,GradientType=0)";
+          background: linear-gradient(180deg, rgba(244, 125, 92, 1) 0%, rgba(244, 125, 92, 1) 0.08%, rgba(242, 99, 75, 1) 23.78%, rgba(240, 80, 63, 1) 48%, rgba(239, 69, 56, 1) 73.05%, rgba(239, 65, 54, 1) 100%);
+          filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F47D5C', endColorstr='#EF4136', GradientType=0);
+        }
+      }
+    }
+  }
+
 
   .project-name {
     input {

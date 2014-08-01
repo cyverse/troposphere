@@ -84,6 +84,25 @@ define(
               <ul className="secondary-nav-links">
                 {links}
               </ul>
+
+              <ul className="options-bar navbar-nav navbar-right">
+                <li className="dropdown">
+                  <a href="#" className="dropdown-toggle" data-toggle="dropdown">
+                    <i className="glyphicon glyphicon-cog"/>
+                    Options
+                    <b className="caret"></b>
+                  </a>
+                  <ul className="dropdown-menu">
+                    <li>
+                      <a href="#" className="danger">
+                        <i className="glyphicon glyphicon-trash"/>
+                        Delete Project
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+
             </div>
           </div>
         );
