@@ -201,6 +201,27 @@ define(function (require) {
       }, pollingFrequency);
     };
 
+    // The pollNow functions poll immediately and then cycle
+    // as opposed to waiting for the delay and THEN polling
+    var pollNowUntilBuildIsFinished = function(volume){
+      if(_volumesBuilding.indexOf(volume) < 0) {
+        _volumesBuilding.push(volume);
+        fetchNowAndRemoveIfFinished(volume);
+      }
+    };
+
+    var fetchNowAndRemoveIfFinished = function(volume){
+      volume.fetch().done(function(){
+        var index = _volumesBuilding.indexOf(volume);
+        if(volume.get('state').isInFinalState()){
+          _volumesBuilding.slice(index, 1);
+        }else{
+          fetchAndRemoveIfFinished(volume);
+        }
+        VolumeStore.emitChange();
+      });
+    };
+
     //
     // Volume Store
     //
@@ -236,17 +257,37 @@ define(function (require) {
         }
       },
 
+      getVolumeInProject: function(project, volumeId){
+        var volumes = this.getVolumesInProject(project);
+        var volume = volumes.get(volumeId);
+        if(!volume){
+          NotificationController.error("Volume not in project", "The volume could not be found in the project");
+        }
+        return volume;
+      },
+
       getVolumesInProject: function (project) {
-        _volumes = _volumes || new VolumeCollection();
 
-        _volumes.add(project.get('volumes').models);
+        var projectVolumeArray = project.get('volumes').map(function(volumeData){
+          // todo: we're converting into a volume object here so we can use
+          // id instead of alias for consistency. Eventually all alias attributes
+          // need to be renamed id and then we can create the object only if
+          // the id isn't in the existing map.
+          var volume = new Volume(volumeData, {parse: true});
+          var existingVolume = _volumes.get(volume.id);
 
-        var projectVolumes = _volumes.filter(function(volume){
-          return volume.get('projects').indexOf(project.id) >= 0;
+          if(existingVolume){
+            volume = existingVolume;
+          }else{
+            _volumes.push(volume);
+            pollNowUntilBuildIsFinished(volume);
+          }
+
+          return volume;
         });
 
-        var projectVolumeCollection = new VolumeCollection(projectVolumes);
-        return projectVolumeCollection;
+        var projectInstances = new VolumeCollection(projectVolumeArray);
+        return projectInstances;
       }
 
     };
