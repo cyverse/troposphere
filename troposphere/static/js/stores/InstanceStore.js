@@ -6,15 +6,12 @@ define(
     'collections/InstanceCollection',
     'models/Instance',
     'constants/InstanceConstants',
-    'constants/ProjectInstanceConstants',
     'controllers/NotificationController',
     'stores/IdentityStore',
     'actions/ProjectActions',
-    './helpers/ProjectInstance',
-    './helpers/ProjectInstanceCollection',
     'q'
   ],
-  function (_, Dispatcher, Store, InstanceCollection, Instance, InstanceConstants, ProjectInstanceConstants, NotificationController, IdentityStore, ProjectActions, ProjectInstance, ProjectInstanceCollection, Q) {
+  function (_, Dispatcher, Store, InstanceCollection, Instance, InstanceConstants, NotificationController, IdentityStore, ProjectActions, Q) {
 
     var _instances = new InstanceCollection();
     var _isFetching = false;
@@ -248,69 +245,6 @@ define(
     };
 
     //
-    // Project Instance Functions
-    //
-
-    function addInstanceToProject(instance, project){
-      var projectInstance = new ProjectInstance({
-        instance: instance,
-        project: project
-      });
-
-      project.get('instances').push(instance.toJSON());
-
-      projectInstance.save().done(function(){
-        // do nothing
-        project.fetch().then(function(){
-          InstanceStore.emitChange();
-        });
-
-      }).fail(function(){
-        var failureMessage = "Error adding Instance '" + instance.get('name') + "' to Project '" + project.get('name') + "'.";
-        NotificationController.error(failureMessage);
-
-        // remove the instance from the project
-        var instanceProjectIds = project.get('projects');
-        var indexOfProjectId = instanceProjectIds.indexOf(project.id);
-        if(indexOfProjectId >= 0){
-          instance.get('projects').splice(indexOfProjectId, 1);
-        }
-
-        InstanceStore.emitChange();
-      });
-
-      InstanceStore.emitChange();
-    }
-
-    function removeInstanceFromProject(instance, project){
-      var projectInstance = new ProjectInstance({
-        instance: instance,
-        project: project
-      });
-
-      // remove the instance from the project
-      var instanceProjectIds = instance.get('projects');
-      var indexOfProjectId = instanceProjectIds.indexOf(project.id);
-      if(indexOfProjectId >= 0){
-        instance.get('projects').splice(indexOfProjectId, 1);
-      }
-
-      projectInstance.destroy().done(function(){
-        // do nothing
-      }).fail(function(){
-        var failureMessage = "Error removing Instance '" + instance.get('name') + "' from Project '" + project.get('name') + "'.";
-        NotificationController.error(failureMessage);
-
-        // add the instance back to the project
-        instance.get('projects').push(project.id);
-
-        InstanceStore.emitChange();
-      });
-
-      InstanceStore.emitChange();
-    }
-
-    //
     // Instance Store
     //
 
@@ -402,14 +336,6 @@ define(
 
         case InstanceConstants.INSTANCE_LAUNCH:
           launch(action.identity, action.machineId, action.sizeId, action.instanceName, action.project);
-          break;
-
-        case ProjectInstanceConstants.ADD_INSTANCE_TO_PROJECT:
-          addInstanceToProject(action.instance, action.project);
-          break;
-
-        case ProjectInstanceConstants.REMOVE_INSTANCE_FROM_PROJECT:
-          removeInstanceFromProject(action.instance, action.project);
           break;
 
         default:
