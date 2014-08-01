@@ -17,7 +17,8 @@ define(
         routes: React.PropTypes.array.isRequired,
         currentRoute: React.PropTypes.string.isRequired,
         canEditTitle: React.PropTypes.bool,
-        onTitleChanged: React.PropTypes.func
+        onTitleChanged: React.PropTypes.func,
+        additionalContent: React.PropTypes.renderable
       },
 
       getInitialState: function(){
@@ -75,6 +76,8 @@ define(
         var titleClassName = "project-name";
         if(this.props.canEditTitle) titleClassName += " editable";
 
+        var hasAdditionalContent = this.props.additionalContent;
+
         return (
           <div className="secondary-nav">
             <div className="container">
@@ -84,25 +87,7 @@ define(
               <ul className="secondary-nav-links">
                 {links}
               </ul>
-
-              <ul className="options-bar navbar-nav navbar-right">
-                <li className="dropdown">
-                  <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                    <i className="glyphicon glyphicon-cog"/>
-                    Options
-                    <b className="caret"></b>
-                  </a>
-                  <ul className="dropdown-menu">
-                    <li>
-                      <a href="#" className="danger">
-                        <i className="glyphicon glyphicon-trash"/>
-                        Delete Project
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-
+             {hasAdditionalContent ? this.props.additionalContent : null}
             </div>
           </div>
         );
