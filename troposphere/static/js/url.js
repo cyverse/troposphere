@@ -43,6 +43,10 @@ define(
         return '/login'
       },
 
+      projects: function ( ) {
+        return 'projects';
+      },
+
       project: function (project) {
         return 'projects/' + project.id;
       },
@@ -77,6 +81,7 @@ define(
       help: _.partial(generateUrl, 'help'),
       requestImage: _.partial(generateUrl, 'requestImage'),
       login: _.partial(generateUrl, 'login'),
+      projects: _.partial(generateUrl, 'projects'),
       project: _.partial(generateUrl, 'project'),
       projectInstance: _.partial(generateUrl, 'projectInstance'),
       projectVolume: _.partial(generateUrl, 'projectVolume')

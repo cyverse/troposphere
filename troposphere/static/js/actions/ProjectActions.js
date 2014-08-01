@@ -12,9 +12,10 @@ define(
     'components/modals/ProjectDeleteResourceModal.react',
     'components/modals/ProjectReportResourceModal.react',
     'models/Instance',
-    'models/Volume'
+    'models/Volume',
+    'url'
   ],
-  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, InstanceConstants, VolumeConstants, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectReportResourceModal, Instance, Volume) {
+  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, InstanceConstants, VolumeConstants, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectReportResourceModal, Instance, Volume, URL) {
 
     function getItemType(model) {
       var objectType;
@@ -51,6 +52,8 @@ define(
             actionType: ProjectConstants.PROJECT_DESTROY,
             model: project
           });
+          var redirectUrl = URL.projects(null, {relative: true});
+          Backbone.history.navigate(redirectUrl, {trigger: true});
         };
 
         var body = 'Are you sure you would like to delete project "' + project.get('name') + '"?';
