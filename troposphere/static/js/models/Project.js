@@ -57,30 +57,6 @@ define(
       objectUrl: function (model) {
         var objectType = Project.objectType(model);
         return this.url() + objectType + '/' + model.id + '/';
-      },
-
-      putItem: function (model, options) {
-        var url = this.objectUrl(model);
-        $.ajax({
-          dataType: 'json',
-          contentType: 'application/json',
-          url: url,
-          type: 'PUT'
-        });
-        // this is so bad. Sorry
-        this.get(Project.objectType(model) + 's').add(model);
-      },
-
-      removeItem: function (model, options) {
-        var url = this.objectUrl(model);
-        $.ajax({
-          dataType: 'json',
-          contentType: 'application/json',
-          url: url,
-          type: 'DELETE'
-        });
-        // this is so bad. Sorry
-        this.get(Project.objectType(model) + 's').remove(model);
       }
 
     }, statics);

@@ -3,9 +3,10 @@ define(
     'backbone',
     'underscore',
     'globals',
-    'models/Instance'
+    'models/Instance',
+    './VolumeState'
   ],
-  function (Backbone, _, globals, Instance) {
+  function (Backbone, _, globals, Instance, VolumeState) {
 
     return Backbone.Model.extend({
 
@@ -24,10 +25,11 @@ define(
 
       parse: function (response) {
 
-        var attributes = response;//_.pick(response, ['name', 'identity', 'status', 'size']);
+        var attributes = response;
 
-        attributes.id = response.alias;
-        attributes.start_date = new Date(response.start_date);
+        attributes.id = attributes.alias;
+        attributes.start_date = new Date(attributes.start_date);
+        attributes.state = new VolumeState({status_raw: attributes.status});
 
         attributes.attach_data = {
           attach_time: null,
@@ -159,12 +161,6 @@ define(
             self.set({'status': 'in-use'});
           }
         });
-      },
-
-      remove: function (options) {
-        var values = {wait: true};
-        _.defaults(values, options);
-        this.destroy(values);
       }
 
     });

@@ -23,7 +23,7 @@ define(function (require) {
     // Private variables
     //
 
-    var _volumes = null;
+    var _volumes = new VolumeCollection();
     var _isFetching = false;
     var validStates = ["available", "in-use", "error_deleting"];
     var pollingFrequency = 5*1000;
