@@ -10,10 +10,11 @@ define(
     'components/modals/CancelConfirmModal.react',
     'components/modals/ProjectMoveResourceModal.react',
     'components/modals/ProjectDeleteResourceModal.react',
+    'components/modals/ProjectReportResourceModal.react',
     'models/Instance',
     'models/Volume'
   ],
-  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, InstanceConstants, VolumeConstants, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, Instance, Volume) {
+  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, InstanceConstants, VolumeConstants, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectReportResourceModal, Instance, Volume) {
 
     function getItemType(model) {
       var objectType;
@@ -165,6 +166,31 @@ define(
           onConfirm: onConfirm,
           onCancel: onCancel,
           handleHidden: onCancel,
+          resources: resources
+        });
+
+        React.renderComponent(modal, document.getElementById('modal'));
+      },
+
+      reportResources: function(project, resources){
+
+        var onConfirm = function () {
+          // todo: report the resources
+        }.bind(this);
+
+        var onCancel = function(){
+          // Important! We need to un-mount the component so it un-registers from Stores and
+          // also so that we can relaunch it again later.
+          React.unmountComponentAtNode(document.getElementById('modal'));
+        };
+
+        var modal = ProjectReportResourceModal({
+          header: "Report Resources",
+          confirmButtonMessage: "Send",
+          onConfirm: onConfirm,
+          onCancel: onCancel,
+          handleHidden: onCancel,
+          project: project,
           resources: resources
         });
 

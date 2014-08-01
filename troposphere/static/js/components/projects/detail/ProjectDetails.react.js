@@ -95,6 +95,11 @@ define(
         ProjectActions.deleteResources(selectedResources);
       },
 
+      onReportSelectedResources: function(){
+        var selectedResources = this.state.selectedResources;
+        ProjectActions.reportResources(this.props.project, selectedResources);
+      },
+
       render: function () {
         if(this.state.projectInstances && this.state.projectVolumes && this.state.providers) {
 
@@ -116,6 +121,7 @@ define(
               <ButtonBar isVisible={isButtonBarVisible}
                          onMoveSelectedResources={this.onMoveSelectedResources}
                          onDeleteSelectedResources={this.onDeleteSelectedResources}
+                         onReportSelectedResources={this.onReportSelectedResources}
               />
               <div className="resource-list">
                 <div className="scrollable-content">
