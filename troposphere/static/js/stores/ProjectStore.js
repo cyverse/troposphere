@@ -6,12 +6,12 @@ define(
     'collections/ProjectCollection',
     'constants/ProjectConstants',
     'controllers/NotificationController',
-
     'constants/ProjectInstanceConstants',
     './helpers/ProjectInstance',
-    './helpers/ProjectInstanceCollection'
+    'constants/ProjectVolumeConstants',
+    './helpers/ProjectVolume'
   ],
-  function (_, Dispatcher, Store, ProjectCollection, ProjectConstants, NotificationController, ProjectInstanceConstants, ProjectInstance, ProjectInstanceCollection) {
+  function (_, Dispatcher, Store, ProjectCollection, ProjectConstants, NotificationController, ProjectInstanceConstants, ProjectInstance, ProjectVolumeConstants, ProjectVolume) {
 
     var _projects = null;
     var _isFetching = false;
@@ -147,6 +147,74 @@ define(
     }
 
     //
+    // Project Volume Functions
+    //
+
+    function addVolumeToProject(volume, project){
+      var projectVolume = new ProjectVolume({
+        volume: volume,
+        project: project
+      });
+
+      project.get('volumes').push(volume.toJSON());
+
+      projectVolume.save().done(function(){
+        if(_shouldDoubleCheckIfProjectApiFunctionsAsExpected) {
+          // refetch the project to make sure the change was also made on the server
+          project.fetch().then(function () {
+            ProjectStore.emitChange();
+          });
+        }
+      }).fail(function(){
+        var failureMessage = "Error adding Volume '" + volume.get('name') + "' to Project '" + project.get('name') + "'.";
+        NotificationController.error(failureMessage);
+
+        var indexOfVolume = project.get('volumes').map(function(instance){
+          return volume.alias;
+        }).indexOf(volume.id);
+
+        // remove the instance from the project
+        if(indexOfVolume >= 0) {
+          project.get('volumes').splice(indexOfVolume, 1);
+        }
+
+        ProjectStore.emitChange();
+      });
+
+      ProjectStore.emitChange();
+    }
+
+    function removeVolumeFromProject(volume, project){
+      var projectVolume = new ProjectVolume({
+        volume: volume,
+        project: project
+      });
+
+      // remove the instance from the project
+      var indexOfVolume = project.get('volumes').map(function(volume){
+        return volume.alias;
+      }).indexOf(volume.id);
+
+      if(indexOfVolume >= 0) {
+        project.get('volumes').splice(indexOfVolume, 1);
+      }
+
+      projectVolume.destroy().done(function(){
+        // do nothing
+      }).fail(function(){
+        var failureMessage = "Error removing Volume '" + volume.get('name') + "' from Project '" + project.get('name') + "'.";
+        NotificationController.error(failureMessage);
+
+        // add the instance back to the project
+        project.get('volumes').push(volume.toJSON());
+
+        ProjectStore.emitChange();
+      });
+
+      ProjectStore.emitChange();
+    }
+
+    //
     // Project Store
     //
 
@@ -191,6 +259,14 @@ define(
 
         case ProjectInstanceConstants.REMOVE_INSTANCE_FROM_PROJECT:
           removeInstanceFromProject(action.instance, action.project);
+          break;
+
+        case ProjectVolumeConstants.ADD_VOLUME_TO_PROJECT:
+          addVolumeToProject(action.volume, action.project);
+          break;
+
+        case ProjectVolumeConstants.REMOVE_VOLUME_FROM_PROJECT:
+          removeVolumeFromProject(action.volume, action.project);
           break;
 
         default:
