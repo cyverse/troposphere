@@ -250,26 +250,40 @@ define(
 
     var InstanceStore = {
 
-      getAll: function () {
-        if(!_instances) {
-          var identities = IdentityStore.getAll();
-          if(identities) {
-            fetchInstances(identities);
-          }
-        }
+      // until instances have their own endpoint at /instances
+      // we need to either fetch them using identities or the
+      // information we get from projects
+      getAll: function (projects) {
+        if(!projects) throw new Error("Must supply projects");
+
+        console.log('getting all projects...');
+        projects.each(function(project){
+          this.getInstancesInProject(project);
+        }.bind(this));
+
         return _instances;
       },
 
-      get: function (instanceId) {
-        if(!_instances) {
-          var identities = IdentityStore.getAll();
-          if(identities) {
-            fetchInstances(identities);
-          }
-        } else {
-          return _instances.get(instanceId);
-        }
-      },
+      // getAll: function () {
+      //   if(!_instances) {
+      //     var identities = IdentityStore.getAll();
+      //     if(identities) {
+      //       fetchInstances(identities);
+      //     }
+      //   }
+      //   return _instances;
+      // },
+
+      // get: function (instanceId) {
+      //   if(!_instances) {
+      //     var identities = IdentityStore.getAll();
+      //     if(identities) {
+      //       fetchInstances(identities);
+      //     }
+      //   } else {
+      //     return _instances.get(instanceId);
+      //   }
+      // },
 
       getInstanceInProject: function(project, instanceId){
         var instances = this.getInstancesInProject(project);

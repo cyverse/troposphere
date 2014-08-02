@@ -228,26 +228,40 @@ define(function (require) {
 
     var VolumeStore = {
 
-      getAll: function () {
-        if(!_volumes && !_isFetching) {
-          var identities = IdentityStore.getAll();
-          if(identities) {
-            fetchVolumes(identities);
-          }
-        }
+      // until instances have their own endpoint at /instances
+      // we need to either fetch them using identities or the
+      // information we get from projects
+      getAll: function (projects) {
+        if(!projects) throw new Error("Must supply projects");
+
+        console.log('getting all projects...');
+        projects.each(function(project){
+          this.getVolumesInProject(project);
+        }.bind(this));
+
         return _volumes;
       },
 
-      get: function (volumeId) {
-        if(!_volumes) {
-          var identities = IdentityStore.getAll();
-          if(identities) {
-            fetchVolumes(identities);
-          }
-        } else {
-          return _volumes.get(volumeId);
-        }
-      },
+      // getAll: function () {
+      //   if(!_volumes && !_isFetching) {
+      //     var identities = IdentityStore.getAll();
+      //     if(identities) {
+      //       fetchVolumes(identities);
+      //     }
+      //   }
+      //   return _volumes;
+      // },
+
+      // get: function (volumeId) {
+      //   if(!_volumes) {
+      //     var identities = IdentityStore.getAll();
+      //     if(identities) {
+      //       fetchVolumes(identities);
+      //     }
+      //   } else {
+      //     return _volumes.get(volumeId);
+      //   }
+      // },
 
       // Force the store to fetch all data and reset the contents of the store
       fetchAll: function(){
