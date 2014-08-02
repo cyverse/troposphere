@@ -111,7 +111,7 @@ define(function (require) {
     };
 
     var destroy = function(volume){
-      volume.remove({
+      volume.destroy({
         success: function (model) {
           NotificationController.success("Success", "Volume was destroyed.");
           VolumeStore.emitChange();
