@@ -77,7 +77,7 @@ define(
         React.renderComponent(modal, document.getElementById('modal'));
       },
 
-      attach: function(volume){
+      attach: function(volume, project){
 
         var onConfirm = function (instance, mountLocation) {
           mountLocation = mountLocation || "";
@@ -101,7 +101,8 @@ define(
           confirmButtonMessage: "Attach volume to instance",
           onConfirm: onConfirm,
           onCancel: onCancel,
-          handleHidden: onCancel
+          handleHidden: onCancel,
+          project: project
         });
 
         React.renderComponent(modal, document.getElementById('modal'));
