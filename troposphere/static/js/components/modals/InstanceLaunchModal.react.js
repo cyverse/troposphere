@@ -229,29 +229,9 @@ define(
         var content;
         if(this.state.identities && this.state.providers && this.state.instances && this.state.projects && this.state.sizes){
 
-          // todo: React recommends treating state as immutable, which we are obviously not doing
-          // All code below that sets this.state directly should instead be moved into getState.
-          // -----------------------------------------------------------------------------------
-
-          // Use selected identity or default to the first one
-          //this.state.identityId = this.state.identityId || this.state.identities.first().id;
-
           // Use selected machine (image version) or default to the first one
           // todo: we should be sorting these by date or version number before selecting the first one
           var machines = this.props.application.get('machines');
-          //this.state.machineId = this.state.machineId || machines.first().id;
-
-          // Use selected machine size or default to the first one
-          //if(this.state.sizes) {
-          //  this.state.sizeId = this.state.sizeId || this.state.sizes.first().id;
-          //}
-
-          // The provider & identity combination the user has selected (or defaulted to)
-          //var selectedIdentity = this.state.identities.get(this.state.identityId);
-          //var selectedProvider = this.state.providers.get(selectedIdentity.get('provider_id'));
-
-          //provider={selectedProvider}
-          //identity={selectedIdentity}
 
           content = (
             <form role='form'>
