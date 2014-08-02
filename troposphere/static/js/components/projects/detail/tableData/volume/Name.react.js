@@ -22,7 +22,7 @@ define(
         var volumeUrl = URL.projectVolume({
           project: project,
           volume: volume
-        }, {absolute: true});
+        });
 
         return (
           <a href={volumeUrl}>{volume.get('name')}</a>

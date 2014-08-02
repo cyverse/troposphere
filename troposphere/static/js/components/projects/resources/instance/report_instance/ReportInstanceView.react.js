@@ -9,10 +9,9 @@ define(
     './ReportInstanceForm.react',
     'stores/InstanceStore',
     'stores/SizeStore',
-    'stores/IdentityStore',
     'url'
   ],
-  function (React, Backbone, BreadcrumbBar, ReportInstanceIntroduction, ReportInstanceForm, InstanceStore, SizeStore, IdentityStore, URL) {
+  function (React, Backbone, BreadcrumbBar, ReportInstanceIntroduction, ReportInstanceForm, InstanceStore, SizeStore, URL) {
 
     function getState(project, instanceId) {
       return {
@@ -33,18 +32,11 @@ define(
 
       componentDidMount: function () {
         InstanceStore.addChangeListener(this.updateState);
-
-        // todo: IdentityStore is only included here because InstanceStore.get(instanceId) is
-        // lazy loading, but I'm not sure how to get InstanceStore to know when new
-        // identities have been without getting this component to call InstanceStore.getAll()
-        // again at the moment.  Figure it out and remove this line.
-        IdentityStore.addChangeListener(this.updateState);
         SizeStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
         InstanceStore.removeChangeListener(this.updateState);
-        IdentityStore.removeChangeListener(this.updateState);
         SizeStore.removeChangeListener(this.updateState);
       },
 
@@ -57,14 +49,14 @@ define(
           var breadcrumbs = [
             {
               name: "Resources",
-              url: URL.project(this.props.project, {absolute: true})
+              url: URL.project(this.props.project)
             },
             {
               name: this.state.instance.get('name'),
               url: URL.projectInstance({
                 project: this.props.project,
                 instance: this.state.instance
-              }, {absolute: true})
+              })
             },
             {
               name: "Report Instance"

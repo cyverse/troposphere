@@ -23,6 +23,13 @@ define(
       },
 
       render: function () {
+        var scrollSpy = (
+          <ul>
+            <li className="active"><a href="#">Instances</a></li>
+            <li><a href="#">Volumes</a></li>
+          </ul>
+        );
+
         return (
           <div className="sub-menu">
             <div className="dropdown">
@@ -42,10 +49,7 @@ define(
                 </li>
               </ul>
             </div>
-            <ul>
-              <li className="active"><a href="#">Instances</a></li>
-              <li><a href="#">Volumes</a></li>
-            </ul>
+            {false ? scrollSpy : null}
           </div>
         );
       }

@@ -23,6 +23,14 @@ define(
       },
 
       render: function () {
+
+        // todo: show cloud capacity again when we have a better idea of what to show
+        // var cloudCapacity = (
+        //   <CloudCapacityList providers={this.props.providers}
+        //                      identities={this.props.identities}
+        //   />
+        // );
+
         return (
           <div id="dashboard-view">
             {false ? <DashboardHeader title="Dashboard"/> : null}
@@ -40,9 +48,6 @@ define(
                                        identities={this.props.identities}
                                        instances={this.props.instances}
                                        volumes={this.props.volumes}
-                  />
-                  <CloudCapacityList providers={this.props.providers}
-                                     identities={this.props.identities}
                   />
                   <InstanceHistoryList/>
                 </div>

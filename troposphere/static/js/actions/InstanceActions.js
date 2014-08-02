@@ -102,16 +102,14 @@ define(
         React.renderComponent(modal, document.getElementById('modal'));
       },
 
-      terminate: function(instance){
+      terminate: function(instance, redirectUrl){
 
         var onConfirm = function () {
           AppDispatcher.handleRouteAction({
             actionType: InstanceConstants.INSTANCE_TERMINATE,
             instance: instance
           });
-          // Since this is triggered from the instance details page, navigate off
-          // that page and back to the instance list
-          Backbone.history.navigate('instances', {trigger: true});
+          Backbone.history.navigate(redirectUrl, {trigger: true});
         };
 
         var modal = CancelConfirmModal({
@@ -138,7 +136,8 @@ define(
           // Since this is triggered from the images page, navigate off
           // that page and back to the instance list so the user can see
           // their instance being created
-          Backbone.history.navigate('instances', {trigger: true});
+          var redirectUrl = URL.project(project, {relative: true});
+          Backbone.history.navigate(redirectUrl, {trigger: true});
         };
 
         var onCancel = function(){

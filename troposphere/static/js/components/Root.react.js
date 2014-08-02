@@ -10,12 +10,6 @@ define(
 
     return React.createClass({
 
-      getInitialState: function () {
-        return {
-          loggedIn: this.props.session.isValid()
-        };
-      },
-
       render: function () {
 
         var footer = (

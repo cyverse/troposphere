@@ -5,12 +5,17 @@ define(
     'constants/ProjectConstants',
     'constants/ProjectInstanceConstants',
     'constants/ProjectVolumeConstants',
+    'constants/InstanceConstants',
+    'constants/VolumeConstants',
     'components/modals/CancelConfirmModal.react',
     'components/modals/ProjectMoveResourceModal.react',
+    'components/modals/ProjectDeleteResourceModal.react',
+    'components/modals/ProjectReportResourceModal.react',
     'models/Instance',
-    'models/Volume'
+    'models/Volume',
+    'url'
   ],
-  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, CancelConfirmModal, ProjectMoveResourceModal, Instance, Volume) {
+  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, InstanceConstants, VolumeConstants, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectReportResourceModal, Instance, Volume, URL) {
 
     function getItemType(model) {
       var objectType;
@@ -47,6 +52,8 @@ define(
             actionType: ProjectConstants.PROJECT_DESTROY,
             model: project
           });
+          var redirectUrl = URL.projects(null, {relative: true});
+          Backbone.history.navigate(redirectUrl, {trigger: true});
         };
 
         var body = 'Are you sure you would like to delete project "' + project.get('name') + '"?';
@@ -100,12 +107,26 @@ define(
         }
       },
 
+      deleteResource: function(projectItem){
+        var itemType = getItemType(projectItem);
+        if(itemType === "instance"){
+          AppDispatcher.handleRouteAction({
+            actionType: InstanceConstants.INSTANCE_TERMINATE,
+            instance: projectItem
+          });
+        }else if(itemType === "volume"){
+          AppDispatcher.handleRouteAction({
+            actionType: VolumeConstants.VOLUME_DESTROY,
+            volume: projectItem
+          });
+        }
+      },
+
       moveResources: function(resources, currentProject){
 
         var onConfirm = function (newProject) {
           resources.map(function(resource){
-            this.removeItemFromProject(currentProject, resource);
-            this.addItemToProject(newProject, resource);
+            this.moveProjectItemTo(currentProject, resource, newProject);
           }.bind(this));
         }.bind(this);
 
@@ -122,6 +143,57 @@ define(
           onCancel: onCancel,
           handleHidden: onCancel,
           currentProject: currentProject,
+          resources: resources
+        });
+
+        React.renderComponent(modal, document.getElementById('modal'));
+      },
+
+      deleteResources: function(resources){
+
+        var onConfirm = function () {
+          resources.map(function(resource){
+            this.deleteResource(resource);
+          }.bind(this));
+        }.bind(this);
+
+        var onCancel = function(){
+          // Important! We need to un-mount the component so it un-registers from Stores and
+          // also so that we can relaunch it again later.
+          React.unmountComponentAtNode(document.getElementById('modal'));
+        };
+
+        var modal = ProjectDeleteResourceModal({
+          header: "Delete Resources",
+          confirmButtonMessage: "Delete resources",
+          onConfirm: onConfirm,
+          onCancel: onCancel,
+          handleHidden: onCancel,
+          resources: resources
+        });
+
+        React.renderComponent(modal, document.getElementById('modal'));
+      },
+
+      reportResources: function(project, resources){
+
+        var onConfirm = function () {
+          // todo: report the resources
+        }.bind(this);
+
+        var onCancel = function(){
+          // Important! We need to un-mount the component so it un-registers from Stores and
+          // also so that we can relaunch it again later.
+          React.unmountComponentAtNode(document.getElementById('modal'));
+        };
+
+        var modal = ProjectReportResourceModal({
+          header: "Report Resources",
+          confirmButtonMessage: "Send",
+          onConfirm: onConfirm,
+          onCancel: onCancel,
+          handleHidden: onCancel,
+          project: project,
           resources: resources
         });
 

@@ -5,11 +5,10 @@ define(
     'stores/Store',
     'collections/IdentityCollection',
     'dispatchers/AppDispatcher',
-    'rsvp',
     'models/ClientVersion',
     'models/ServerVersion'
   ],
-  function ($, _, Store, IdentityCollection, AppDispatcher, RSVP, ClientVersion, ServerVersion) {
+  function ($, _, Store, IdentityCollection, AppDispatcher, ClientVersion, ServerVersion) {
 
     var _version;
     var _isFetching = false;

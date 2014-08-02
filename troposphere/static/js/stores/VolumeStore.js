@@ -7,23 +7,23 @@ define(function (require) {
     //
 
   var _ = require('underscore'),
-    Dispatcher = require('dispatchers/Dispatcher'),
-    Store = require('stores/Store'),
-    RSVP = require('rsvp'),
-    VolumeCollection = require('collections/VolumeCollection'),
-    Volume = require('models/Volume'),
-    VolumeConstants = require('constants/VolumeConstants'),
-    NotificationController = require('controllers/NotificationController'),
-    IdentityStore = require('stores/IdentityStore'),
-    VolumeAttachNotifications = require('components/notifications/VolumeAttachNotifications.react'),
-    ProjectActions = require('actions/ProjectActions');
+      Dispatcher = require('dispatchers/Dispatcher'),
+      Store = require('stores/Store'),
+      Q = require('q'),
+      VolumeCollection = require('collections/VolumeCollection'),
+      Volume = require('models/Volume'),
+      VolumeConstants = require('constants/VolumeConstants'),
+      NotificationController = require('controllers/NotificationController'),
+      IdentityStore = require('stores/IdentityStore'),
+      VolumeAttachNotifications = require('components/notifications/VolumeAttachNotifications.react'),
+      ProjectActions = require('actions/ProjectActions');
 
 
     //
     // Private variables
     //
 
-    var _volumes = null;
+    var _volumes = new VolumeCollection();
     var _isFetching = false;
     var validStates = ["available", "in-use", "error_deleting"];
     var pollingFrequency = 5*1000;
@@ -33,20 +33,22 @@ define(function (require) {
     //
 
     var fetchVolumesFor = function (providerId, identityId) {
-      var promise = new RSVP.Promise(function (resolve, reject) {
-        var volumes = new VolumeCollection(null, {
-          provider_id: providerId,
-          identity_id: identityId
-        });
-        // make sure promise returns the right instances collection
-        // for when this function is called multiple times
-        (function(volumes, resolve){
-          volumes.fetch().done(function(){
-            resolve(volumes);
-          });
-        })(volumes, resolve)
+      var defer = Q.defer();
+
+      var volumes = new VolumeCollection(null, {
+        provider_id: providerId,
+        identity_id: identityId
       });
-      return promise;
+
+      // make sure promise returns the right instances collection
+      // for when this function is called multiple times
+      (function(volumes, defer){
+        volumes.fetch().done(function(){
+          defer.resolve(volumes);
+        });
+      })(volumes, defer);
+
+      return defer.promise;
     };
 
     var fetchVolumes = function (identities) {
@@ -61,7 +63,7 @@ define(function (require) {
         });
 
         // When all volume collections are fetched...
-        RSVP.all(promises).then(function (volumeCollections) {
+        Q.all(promises).done(function (volumeCollections) {
           // Combine results into a single volume collection
           var volumes = new VolumeCollection();
           for (var i = 0; i < volumeCollections.length; i++) {
@@ -109,7 +111,7 @@ define(function (require) {
     };
 
     var destroy = function(volume){
-      volume.remove({
+      volume.destroy({
         success: function (model) {
           NotificationController.success("Success", "Volume was destroyed.");
           VolumeStore.emitChange();
@@ -199,6 +201,27 @@ define(function (require) {
       }, pollingFrequency);
     };
 
+    // The pollNow functions poll immediately and then cycle
+    // as opposed to waiting for the delay and THEN polling
+    var pollNowUntilBuildIsFinished = function(volume){
+      if(_volumesBuilding.indexOf(volume) < 0) {
+        _volumesBuilding.push(volume);
+        fetchNowAndRemoveIfFinished(volume);
+      }
+    };
+
+    var fetchNowAndRemoveIfFinished = function(volume){
+      volume.fetch().done(function(){
+        var index = _volumesBuilding.indexOf(volume);
+        if(volume.get('state').isInFinalState()){
+          _volumesBuilding.slice(index, 1);
+        }else{
+          fetchAndRemoveIfFinished(volume);
+        }
+        VolumeStore.emitChange();
+      });
+    };
+
     //
     // Volume Store
     //
@@ -232,6 +255,39 @@ define(function (require) {
         if(identities) {
           fetchVolumes(identities);
         }
+      },
+
+      getVolumeInProject: function(project, volumeId){
+        var volumes = this.getVolumesInProject(project);
+        var volume = volumes.get(volumeId);
+        if(!volume){
+          NotificationController.error("Volume not in project", "The volume could not be found in the project");
+        }
+        return volume;
+      },
+
+      getVolumesInProject: function (project) {
+
+        var projectVolumeArray = project.get('volumes').map(function(volumeData){
+          // todo: we're converting into a volume object here so we can use
+          // id instead of alias for consistency. Eventually all alias attributes
+          // need to be renamed id and then we can create the object only if
+          // the id isn't in the existing map.
+          var volume = new Volume(volumeData, {parse: true});
+          var existingVolume = _volumes.get(volume.id);
+
+          if(existingVolume){
+            volume = existingVolume;
+          }else{
+            _volumes.push(volume);
+            pollNowUntilBuildIsFinished(volume);
+          }
+
+          return volume;
+        });
+
+        var projectInstances = new VolumeCollection(projectVolumeArray);
+        return projectInstances;
       }
 
     };

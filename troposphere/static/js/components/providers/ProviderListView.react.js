@@ -24,7 +24,8 @@ define(
             var providerIdentities = new this.props.identities.constructor(providerIdentityArray);
 
             return (
-              <Provider provider={provider}
+              <Provider key={provider.id}
+                        provider={provider}
                         identities={providerIdentities}
               />
             );

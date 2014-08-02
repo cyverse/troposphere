@@ -17,7 +17,8 @@ define(
         routes: React.PropTypes.array.isRequired,
         currentRoute: React.PropTypes.string.isRequired,
         canEditTitle: React.PropTypes.bool,
-        onTitleChanged: React.PropTypes.func
+        onTitleChanged: React.PropTypes.func,
+        additionalContent: React.PropTypes.renderable
       },
 
       getInitialState: function(){
@@ -45,7 +46,7 @@ define(
           var isCurrentRoute = (route.name.toLowerCase() === this.props.currentRoute);
           var className = isCurrentRoute ? "active" : null;
           return (
-            <li className={className}>
+            <li key={route.name} className={className}>
               <a href={route.href}>
                 <i className={'glyphicon glyphicon-' + route.icon}></i>
                 {route.name}
@@ -75,6 +76,8 @@ define(
         var titleClassName = "project-name";
         if(this.props.canEditTitle) titleClassName += " editable";
 
+        var hasAdditionalContent = this.props.additionalContent;
+
         return (
           <div className="secondary-nav">
             <div className="container">
@@ -84,6 +87,7 @@ define(
               <ul className="secondary-nav-links">
                 {links}
               </ul>
+             {hasAdditionalContent ? this.props.additionalContent : null}
             </div>
           </div>
         );

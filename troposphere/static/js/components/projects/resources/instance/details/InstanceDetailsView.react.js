@@ -11,16 +11,15 @@ define(
     'stores/InstanceStore',
     'stores/ProviderStore',
     'stores/SizeStore',
-    'stores/IdentityStore',
     'stores/TagStore',
     'controllers/NotificationController',
     'url'
   ],
-  function (React, Backbone, BreadcrumbBar, InstanceInfoSection, InstanceDetailsSection, InstanceActionsAndLinks, InstanceStore, ProviderStore, SizeStore, IdentityStore, TagStore, NotificationController, URL) {
+  function (React, Backbone, BreadcrumbBar, InstanceInfoSection, InstanceDetailsSection, InstanceActionsAndLinks, InstanceStore, ProviderStore, SizeStore, TagStore, NotificationController, URL) {
 
     function getState(project, instanceId) {
       return {
-        instance: InstanceStore.get(instanceId),
+        instance: InstanceStore.getInstanceInProject(project, instanceId),
         providers: ProviderStore.getAll(),
         tags: TagStore.getAll()
       };
@@ -41,12 +40,6 @@ define(
         InstanceStore.addChangeListener(this.updateState);
         ProviderStore.addChangeListener(this.updateState);
         TagStore.addChangeListener(this.updateState);
-
-        // todo: IdentityStore is only included here because InstanceStore.get(instanceId) is
-        // lazy loading, but I'm not sure how to get InstanceStore to know when new
-        // identities have been without getting this component to call InstanceStore.getAll()
-        // again at the moment.  Figure it out and remove this line.
-        IdentityStore.addChangeListener(this.updateState);
         SizeStore.addChangeListener(this.updateState);
       },
 
@@ -54,7 +47,6 @@ define(
         InstanceStore.removeChangeListener(this.updateState);
         ProviderStore.removeChangeListener(this.updateState);
         TagStore.removeChangeListener(this.updateState);
-        IdentityStore.removeChangeListener(this.updateState);
         SizeStore.removeChangeListener(this.updateState);
       },
 
@@ -79,14 +71,14 @@ define(
             var breadcrumbs = [
               {
                 name: "Resources",
-                url: URL.project(this.props.project, {absolute: true})
+                url: URL.project(this.props.project)
               },
               {
                 name: this.state.instance.get('name'),
                 url: URL.projectInstance({
                   project: this.props.project,
                   instance: this.state.instance
-                }, {absolute: true})
+                })
               }
             ];
 

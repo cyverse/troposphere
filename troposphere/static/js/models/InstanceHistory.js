@@ -16,7 +16,7 @@ define(
 
       parse: function (response) {
         var attributes = response;
-
+        attributes.id = attributes.alias;
         attributes.start_date = moment(attributes.start_date);
         attributes.end_date = moment(attributes.end_date);
         return attributes;

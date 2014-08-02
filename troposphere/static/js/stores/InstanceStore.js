@@ -3,19 +3,18 @@ define(
     'underscore',
     'dispatchers/Dispatcher',
     'stores/Store',
-    'rsvp',
     'collections/InstanceCollection',
     'models/Instance',
     'constants/InstanceConstants',
     'controllers/NotificationController',
     'stores/IdentityStore',
-    'actions/ProjectActions'
+    'actions/ProjectActions',
+    'q'
   ],
-  function (_, Dispatcher, Store, RSVP, InstanceCollection, Instance, InstanceConstants, NotificationController, IdentityStore, ProjectActions) {
+  function (_, Dispatcher, Store, InstanceCollection, Instance, InstanceConstants, NotificationController, IdentityStore, ProjectActions, Q) {
 
-    var _instances = null;
+    var _instances = new InstanceCollection();
     var _isFetching = false;
-    var validStates = ["active", "error", "active - deploy_error", "suspended", "shutoff"];
     var pollingFrequency = 10*1000;
 
     //
@@ -23,20 +22,22 @@ define(
     //
 
     var fetchInstancesFor = function (providerId, identityId) {
-      var promise = new RSVP.Promise(function (resolve, reject) {
-        var instances = new InstanceCollection(null, {
-          provider_id: providerId,
-          identity_id: identityId
-        });
-        // make sure promise returns the right instances collection
-        // for when this function is called multiple times
-        (function(instances, resolve){
-          instances.fetch().done(function(){
-            resolve(instances);
-          });
-        })(instances, resolve)
+      var defer = Q.defer();
+
+      var instances = new InstanceCollection(null, {
+        provider_id: providerId,
+        identity_id: identityId
       });
-      return promise;
+
+      // make sure promise returns the right instances collection
+      // for when this function is called multiple times
+      (function(instances, defer){
+        instances.fetch().done(function(){
+          defer.resolve(instances);
+        });
+      })(instances, defer);
+
+      return defer.promise;
     };
 
     var fetchInstances = function (identities) {
@@ -51,7 +52,7 @@ define(
         });
 
         // When all instance collections are fetched...
-        RSVP.all(promises).then(function (instanceCollections) {
+        Q.all(promises).done(function (instanceCollections) {
           // Combine results into a single volume collection
           var instances = new InstanceCollection();
           for (var i = 0; i < instanceCollections.length; i++) {
@@ -60,7 +61,7 @@ define(
 
           // Start polling for any instances that are in transition states
           instances.forEach(function(instance){
-            if(validStates.indexOf(instance.get("status")) < 0){
+            if(!instance.get('state').isInFinalState()){
               pollUntilBuildIsFinished(instance);
             }
           });
@@ -89,6 +90,10 @@ define(
         InstanceStore.emitChange();
       });
     }
+
+    //
+    // Instance Actions
+    //
 
     var suspend = function(instance){
       instance.suspend({
@@ -166,8 +171,10 @@ define(
         identity: {
           id: identity.id,
           provider: identity.get('provider_id')
-        }
-      });
+        },
+        status: "build - scheduling",
+        projects: [project.id]
+      }, {parse: true});
 
       var params = {
         machine_alias: machineId,
@@ -177,7 +184,7 @@ define(
 
       instance.save(params, {
         success: function (model) {
-          //NotificationController.success('Launch Instance', 'Instance successfully launched');
+          NotificationController.success('Launch Instance', 'Instance successfully launched');
           pollUntilBuildIsFinished(instance);
           ProjectActions.addItemToProject(project, instance);
           InstanceStore.emitChange();
@@ -191,17 +198,31 @@ define(
       _instances.add(instance);
     };
 
+    //
+    // Polling Functions
+    //
+
     var _instancesBuilding = [];
     var pollUntilBuildIsFinished = function(instance){
-      _instancesBuilding.push(instance);
-      fetchAndRemoveIfFinished(instance);
+      if(_instancesBuilding.indexOf(instance) < 0) {
+        _instancesBuilding.push(instance);
+        fetchAndRemoveIfFinished(instance);
+      }
+    };
+
+    // Poll
+    var pollNowUntilBuildIsFinished = function(instance){
+      if(_instancesBuilding.indexOf(instance) < 0) {
+        _instancesBuilding.push(instance);
+        fetchNowAndRemoveIfFinished(instance);
+      }
     };
 
     var fetchAndRemoveIfFinished = function(instance){
       setTimeout(function(){
         instance.fetch().done(function(){
           var index = _instancesBuilding.indexOf(instance);
-          if(validStates.indexOf(instance.get("status")) >= 0){
+          if(instance.get('state').isInFinalState()){
             _instancesBuilding.slice(index, 1);
           }else{
             fetchAndRemoveIfFinished(instance);
@@ -209,6 +230,18 @@ define(
           InstanceStore.emitChange();
         });
       }, pollingFrequency);
+    };
+
+    var fetchNowAndRemoveIfFinished = function(instance){
+      instance.fetch().done(function(){
+        var index = _instancesBuilding.indexOf(instance);
+        if(instance.get('state').isInFinalState()){
+          _instancesBuilding.slice(index, 1);
+        }else{
+          fetchAndRemoveIfFinished(instance);
+        }
+        InstanceStore.emitChange();
+      });
     };
 
     //
@@ -236,6 +269,39 @@ define(
         } else {
           return _instances.get(instanceId);
         }
+      },
+
+      getInstanceInProject: function(project, instanceId){
+        var instances = this.getInstancesInProject(project);
+        var instance = instances.get(instanceId);
+        if(!instance){
+          NotificationController.error("Instance not in project", "The instance could not be found in the project");
+        }
+        return instance;
+      },
+
+      getInstancesInProject: function (project) {
+
+        var projectInstanceArray = project.get('instances').map(function(instanceData){
+          // todo: we're converting into an instance object here so we can use
+          // id instead of alias for consistency. Eventually all alias attributes
+          // need to be renamed id and then we can create the object only if
+          // the id isn't in the existing map.
+          var instance = new Instance(instanceData, {parse: true});
+          var existingInstance = _instances.get(instance.id);
+
+          if(existingInstance){
+            instance = existingInstance;
+          }else{
+            _instances.push(instance);
+            pollNowUntilBuildIsFinished(instance);
+          }
+
+          return instance;
+        });
+
+        var projectInstances = new InstanceCollection(projectInstanceArray);
+        return projectInstances;
       }
 
     };

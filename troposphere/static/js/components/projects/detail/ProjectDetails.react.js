@@ -10,8 +10,6 @@ define(
     './VolumeList.react',
 
     // Stores
-    'stores/ProjectInstanceStore',
-    'stores/ProjectVolumeStore',
     'stores/InstanceStore',
     'stores/VolumeStore',
     'stores/ProviderStore',
@@ -20,14 +18,12 @@ define(
     // Actions
     'actions/ProjectActions'
   ],
-  function (React, Backbone, PreviewPanel, ButtonBar, InstanceList, VolumeList, ProjectInstanceStore, ProjectVolumeStore, InstanceStore, VolumeStore, ProviderStore, SizeStore, ProjectActions) {
+  function (React, Backbone, PreviewPanel, ButtonBar, InstanceList, VolumeList, InstanceStore, VolumeStore, ProviderStore, SizeStore, ProjectActions) {
 
     function getState(project) {
       return {
-        instances: InstanceStore.getAll(),
-        volumes: VolumeStore.getAll(),
-        projectInstances: ProjectInstanceStore.getInstancesInProject(project),
-        projectVolumes: ProjectVolumeStore.getVolumesInProject(project),
+        projectInstances: InstanceStore.getInstancesInProject(project),
+        projectVolumes: VolumeStore.getVolumesInProject(project),
         selectedResource: null,
         previewedResource: null,
         providers: ProviderStore.getAll()
@@ -49,8 +45,6 @@ define(
       componentDidMount: function () {
         InstanceStore.addChangeListener(this.updateState);
         VolumeStore.addChangeListener(this.updateState);
-        ProjectInstanceStore.addChangeListener(this.updateState);
-        ProjectVolumeStore.addChangeListener(this.updateState);
         ProviderStore.addChangeListener(this.updateState);
         SizeStore.addChangeListener(this.updateState);
       },
@@ -58,8 +52,6 @@ define(
       componentWillUnmount: function () {
         InstanceStore.removeChangeListener(this.updateState);
         VolumeStore.removeChangeListener(this.updateState);
-        ProjectInstanceStore.removeChangeListener(this.updateState);
-        ProjectVolumeStore.removeChangeListener(this.updateState);
         ProviderStore.removeChangeListener(this.updateState);
         SizeStore.removeChangeListener(this.updateState);
       },
@@ -98,48 +90,42 @@ define(
         ProjectActions.moveResources(selectedResources, this.props.project);
       },
 
+      onDeleteSelectedResources: function(){
+        var selectedResources = this.state.selectedResources;
+        ProjectActions.deleteResources(selectedResources);
+      },
+
+      onReportSelectedResources: function(){
+        var selectedResources = this.state.selectedResources;
+        ProjectActions.reportResources(this.props.project, selectedResources);
+      },
+
       render: function () {
-        if(this.state.projectInstances && this.state.projectVolumes && this.state.instances && this.state.volumes && this.state.providers) {
+        if(this.state.projectInstances && this.state.projectVolumes && this.state.providers) {
 
           // Figure out which instances are real
-          var instances = new this.state.instances.constructor();
-
           this.state.projectInstances.map(function(projectInstance){
-            var realInstance = this.state.instances.get(projectInstance.id);
-            if(realInstance){
-              realInstance.isRealResource = true;
-              instances.push(realInstance);
-            }else {
-              //console.log("Instance " + projectInstance.get('name') + " is not real.");
-              projectInstance.isRealResource = false;
-              instances.push(projectInstance);
-            }
-          }.bind(this));
+            projectInstance.isRealResource = true;
+          });
 
           // Figure out which volumes are real
-          var volumes = new this.state.volumes.constructor();
-
           this.state.projectVolumes.map(function(projectVolume){
-            var realVolume = this.state.volumes.get(projectVolume.id);
-            if(realVolume){
-              realVolume.isRealResource = true;
-              volumes.push(realVolume);
-            }else {
-              //console.log("Volume " + projectVolume.get('name') + " is not real.");
-              projectVolume.isRealResource = false;
-              volumes.push(projectVolume);
-            }
-          }.bind(this));
+            projectVolume.isRealResource = true;
+          });
 
           // Only show the action button bar if the user has selected resources
           var isButtonBarVisible = this.state.selectedResources.length > 0;
 
           return (
             <div className="project-content">
-              <ButtonBar isVisible={isButtonBarVisible} onMoveSelectedResources={this.onMoveSelectedResources}/>
+              <ButtonBar isVisible={isButtonBarVisible}
+                         onMoveSelectedResources={this.onMoveSelectedResources}
+                         onDeleteSelectedResources={this.onDeleteSelectedResources}
+                         onReportSelectedResources={this.onReportSelectedResources}
+              />
               <div className="resource-list">
                 <div className="scrollable-content">
-                  <InstanceList instances={instances}
+                  <InstanceList instances={this.state.projectInstances}
                                 project={this.props.project}
                                 onResourceSelected={this.onResourceSelected}
                                 onResourceDeselected={this.onResourceDeselected}
@@ -147,14 +133,14 @@ define(
                                 previewedResource={this.state.previewedResource}
                                 selectedResources={this.state.selectedResources}
                   />
-                  <VolumeList volumes={volumes}
+                  <VolumeList volumes={this.state.projectVolumes}
                               project={this.props.project}
                               onResourceSelected={this.onResourceSelected}
                               onResourceDeselected={this.onResourceDeselected}
                               providers={this.state.providers}
                               previewedResource={this.state.previewedResource}
                               selectedResources={this.state.selectedResources}
-                              instances={instances}
+                              instances={this.state.projectInstances}
                   />
                 </div>
                 <PreviewPanel resource={this.state.selectedResource}/>

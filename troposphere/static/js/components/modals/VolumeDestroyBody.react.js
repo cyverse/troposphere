@@ -12,7 +12,7 @@ define(
         return (
           <div>
             {"Your volume "}
-            <strong>{volume.get('name_or_id')}</strong>
+            <strong>{volume.get('name')}</strong>
             {" will be destroyed and all data will be permanently lost!"}
           </div>
         );

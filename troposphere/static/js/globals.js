@@ -1,17 +1,17 @@
 define([], function () {
 
   var servers = {
-    APIARY_MOCK: 'http://atmosphere.apiary-mock.com',
-    ALOM: '/api/v1',
-    DALLOWAY: 'https://alom.iplantc.org:443/api/v1'
+    MOCK: 'http://atmosphere.apiary-mock.com',
+    PRODUCTION: '/api/v1',
+    DEVELOPMENT: 'https://atmobeta.iplantc.org:443/api/v1'
   };
 
   function getApiServer(){
     if(window.location.hostname === 'localhost'){
-      //return servers.APIARY_MOCK;
-      return servers.DALLOWAY;
+      //return servers.MOCK;
+      return servers.DEVELOPMENT;
     }else{
-      return servers.ALOM;
+      return servers.PRODUCTION;
     }
   }
 
@@ -21,7 +21,7 @@ define([], function () {
     API_ROOT: getApiServer(),
 
     slash: function(){
-      if(getApiServer() === servers.APIARY_MOCK){
+      if(getApiServer() === servers.MOCK){
         return ""
       }else{
         return ""

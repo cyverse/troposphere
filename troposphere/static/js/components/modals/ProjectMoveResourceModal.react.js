@@ -59,7 +59,7 @@ define(
 
       propTypes: {
         currentProject: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        resources: React.PropTypes.array.isRequired
+        resources: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       //
