@@ -227,7 +227,7 @@ define(
         }.bind(this));
 
         var content;
-        if(this.state.identities && this.state.providers && this.state.instances){
+        if(this.state.identities && this.state.providers && this.state.instances && this.state.projects && this.state.sizes){
 
           // todo: React recommends treating state as immutable, which we are obviously not doing
           // All code below that sets this.state directly should instead be moved into getState.

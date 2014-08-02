@@ -28,7 +28,10 @@ define(
         var breadcrumbs = this.props.breadcrumbs.map(function(breadcrumb, index, array){
           var isCurrentLocation = (array.length - 1) === index ? true : false;
           return (
-            <Breadcrumb breadcrumb={breadcrumb} isCurrentLocation={isCurrentLocation}/>
+            <Breadcrumb key={breadcrumb.name}
+                        breadcrumb={breadcrumb}
+                        isCurrentLocation={isCurrentLocation}
+            />
           )
         });
 

@@ -4,15 +4,14 @@ define(
   [
     'react',
     './list/ProjectListView.react',
-    'rsvp',
     'stores/ProjectStore'
   ],
-  function (React, ProjectListView, RSVP, ProjectStore) {
+  function (React, ProjectListView, ProjectStore) {
 
     function getProjectState() {
-        return {
-          projects: ProjectStore.getAll()
-        };
+      return {
+        projects: ProjectStore.getAll()
+      };
     }
 
     return React.createClass({
@@ -21,7 +20,7 @@ define(
       // Mounting & State
       // ----------------
       //
-      getInitialState: function(){
+      getInitialState: function () {
         return getProjectState();
       },
 

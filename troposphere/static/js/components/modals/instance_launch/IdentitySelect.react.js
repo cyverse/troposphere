@@ -23,7 +23,7 @@ define(
           var provider_name = provider.get('name');
 
           return (
-            <option value={identity.id}>
+            <option key={identity.id} value={identity.id}>
               {"Identity " + identity.id + " on " + provider_name}
             </option>
           );

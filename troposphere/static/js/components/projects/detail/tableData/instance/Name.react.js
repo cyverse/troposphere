@@ -22,7 +22,7 @@ define(
         var instanceUrl = URL.projectInstance({
           project: project,
           instance: instance
-        }, {absolute: true});
+        });
 
         return (
           <a href={instanceUrl}>{instance.get('name')}</a>

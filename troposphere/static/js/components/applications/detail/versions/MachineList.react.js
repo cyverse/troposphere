@@ -30,7 +30,7 @@ define(
             );
           }else{
             return (
-              <div className='loading'></div>
+              <div key={m.id + providerId} className="loading"></div>
             );
           }
         }.bind(this));

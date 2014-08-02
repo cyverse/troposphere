@@ -17,12 +17,13 @@ define(
       },
 
       onConfirm: function () {
-        if (this.props.onConfirm)
-          this.props.onConfirm().then(function () {
+        if (this.props.onConfirm) {
+          this.props.onConfirm().done(function () {
             this.close();
           }.bind(this));
-        else
+        } else {
           this.close();
+        }
       },
 
       renderTitle: function () {

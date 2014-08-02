@@ -40,7 +40,7 @@ define(
           );
         }
 
-        var appUri = URL.application(app, {absolute: true});
+        var appUri = URL.application(app);
 
         // Hide bookmarking on the public page
         var bookmark;
@@ -61,7 +61,7 @@ define(
               </a>
             </div>
             <div className='app-name'>
-              {app.get('name_or_id')}
+              {app.get('name')}
             </div>
             {bookmark}
             <Tags tags={app.get('tags')}/>

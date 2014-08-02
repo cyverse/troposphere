@@ -35,7 +35,7 @@ define(
 
         var resourceElements = _.map(resources, function (resource) {
           return (
-            <li>
+            <li key={resource.title}>
               <a href={resource.href} target="_blank">{resource.title}</a>
               <span>{" " + resource.description}</span>
             </li>
@@ -43,19 +43,17 @@ define(
         });
 
         return (
-          <div>
-            <div className="container">
-              <h2>External resources</h2>
-              <ul>
-                {resourceElements}
-              </ul>
-              <div>
-                <h2>Contact</h2>
-                <p>
-                  {"You can contact the Atmosphere support staff by sending an email to "}
-                  <a href="mailto:support@iplantcollaborative.org">support@iplantcollaborative.org</a>
-                </p>
-              </div>
+          <div className="container">
+            <h2>External resources</h2>
+            <ul>
+              {resourceElements}
+            </ul>
+            <div>
+              <h2>Contact</h2>
+              <p>
+                {"You can contact the Atmosphere support staff by sending an email to "}
+                <a href="mailto:support@iplantcollaborative.org">support@iplantcollaborative.org</a>
+              </p>
             </div>
           </div>
         );

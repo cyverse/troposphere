@@ -3,9 +3,10 @@ define(
     'backbone',
     'underscore',
     'globals',
-    'models/Instance'
+    'models/Instance',
+    './VolumeState'
   ],
-  function (Backbone, _, globals, Instance) {
+  function (Backbone, _, globals, Instance, VolumeState) {
 
     return Backbone.Model.extend({
 
@@ -24,10 +25,11 @@ define(
 
       parse: function (response) {
 
-        var attributes = _.pick(response, ['name', 'identity', 'status', 'size']);
+        var attributes = response;
 
-        attributes.id = response.alias;
-        attributes.start_date = new Date(response.start_date);
+        attributes.id = attributes.alias;
+        attributes.start_date = new Date(attributes.start_date);
+        attributes.state = new VolumeState({status_raw: attributes.status});
 
         attributes.attach_data = {
           attach_time: null,
@@ -51,12 +53,6 @@ define(
           provider_id: this.get('identity').provider,
           identity_id: this.get('identity').id
         };
-      },
-
-      computed: {
-        name_or_id: function () {
-          return this.get('name').length == 0 ? this.id : this.get('name');
-        }
       },
 
       isAttached: function () {
@@ -165,23 +161,6 @@ define(
             self.set({'status': 'in-use'});
           }
         });
-      },
-
-      remove: function (options) {
-        var values = {wait: true};
-        _.defaults(values, options);
-        this.destroy(values);
-      },
-
-      /*
-       * Here, were override the get method to allow lazy-loading of computed
-       * attributes
-       */
-      get: function (attr) {
-        if (typeof this.computed !== "undefined" && typeof this.computed[attr] === 'function') {
-          return this.computed[attr].call(this);
-        }
-        return Backbone.Model.prototype.get.call(this, attr);
       }
 
     });

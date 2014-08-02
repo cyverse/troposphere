@@ -13,7 +13,7 @@ define(
 
       propTypes: {
         application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        tags: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       onSuggestTag: function(e){

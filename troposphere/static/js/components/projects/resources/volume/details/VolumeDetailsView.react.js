@@ -8,19 +8,17 @@ define(
     './sections/VolumeInfoSection.react',
     'components/projects/common/BreadcrumbBar.react',
     './actions/VolumeActionsAndLinks.react',
-    'stores/ProjectVolumeStore',
     'stores/ProviderStore',
     'stores/VolumeStore',
-    'stores/IdentityStore',
     'controllers/NotificationController',
     'url'
   ],
-  function (React, Backbone, VolumeDetailsSection, VolumeInfoSection, BreadcrumbBar, VolumeActionsAndLinks, ProjectVolumeStore, ProviderStore, VolumeStore, IdentityStore, NotificationController, URL) {
+  function (React, Backbone, VolumeDetailsSection, VolumeInfoSection, BreadcrumbBar, VolumeActionsAndLinks, ProviderStore, VolumeStore, NotificationController, URL) {
 
     function getState(project, volumeId) {
       return {
         volume: VolumeStore.get(volumeId),
-        volumes: ProjectVolumeStore.getVolumesInProject(project),
+        volumes: VolumeStore.getVolumesInProject(project),
         providers: ProviderStore.getAll()
       };
     }
@@ -55,22 +53,13 @@ define(
       },
 
       componentDidMount: function () {
-        ProjectVolumeStore.addChangeListener(this.updateState);
         ProviderStore.addChangeListener(this.updateState);
         VolumeStore.addChangeListener(this.updateState);
-
-        // todo: IdentityStore is only included here because InstanceStore.get(instanceId) is
-        // lazy loading, but I'm not sure how to get InstanceStore to know when new
-        // identities have been without getting this component to call InstanceStore.getAll()
-        // again at the moment.  Figure it out and remove this line.
-        IdentityStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
-        ProjectVolumeStore.removeChangeListener(this.updateState);
         ProviderStore.removeChangeListener(this.updateState);
         VolumeStore.removeChangeListener(this.updateState);
-        IdentityStore.removeChangeListener(this.updateState);
       },
 
       updateState: function(){
@@ -87,14 +76,14 @@ define(
           var breadcrumbs = [
             {
               name: "Resources",
-              url: URL.project(this.props.project, {absolute: true})
+              url: URL.project(this.props.project)
             },
             {
               name: volume.get('name'),
               url: URL.projectVolume({
                 project: this.props.project,
                 volume: volume
-              }, {absolute: true})
+              })
             }
           ];
 
@@ -109,7 +98,7 @@ define(
                   <hr/>
                 </div>
                 <div className="col-md-3 resource-actions">
-                  <VolumeActionsAndLinks volume={volume}/>
+                  <VolumeActionsAndLinks volume={volume} project={this.props.project}/>
                 </div>
               </div>
             </div>

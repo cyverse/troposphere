@@ -12,7 +12,6 @@ define(function (require) {
 
     var InstanceStore = require('stores/InstanceStore'),
         ProviderStore = require('stores/ProviderStore'),
-        IdentityStore = require('stores/IdentityStore'),
         SizeStore     = require('stores/SizeStore');
 
     var Id          = require('../details/sections/details/Id.react'),
@@ -53,19 +52,12 @@ define(function (require) {
       componentDidMount: function () {
         InstanceStore.addChangeListener(this.updateState);
         ProviderStore.addChangeListener(this.updateState);
-
-        // todo: IdentityStore is only included here because InstanceStore.get(instanceId) is
-        // lazy loading, but I'm not sure how to get InstanceStore to know when new
-        // identities have been without getting this component to call InstanceStore.getAll()
-        // again at the moment.  Figure it out and remove this line.
-        IdentityStore.addChangeListener(this.updateState);
         SizeStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
         InstanceStore.removeChangeListener(this.updateState);
         ProviderStore.removeChangeListener(this.updateState);
-        IdentityStore.removeChangeListener(this.updateState);
         SizeStore.removeChangeListener(this.updateState);
       },
 

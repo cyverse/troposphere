@@ -4,9 +4,10 @@ define(
   [
     'react',
     'backbone',
-    'components/projects/common/StatusLight.react'
+    'components/projects/common/StatusLight.react',
+    './StatusBar.react'
   ],
-  function (React, Backbone, StatusLight) {
+  function (React, Backbone, StatusLight, StatusBar) {
 
     return React.createClass({
 
@@ -15,21 +16,33 @@ define(
       },
 
       render: function () {
-        var status = this.props.instance.get('status');
-        var style = {};
-        var capitalizedStatus = status.charAt(0).toUpperCase() + status.slice(1);
+        var instanceState = this.props.instance.get('state');
+        var state = instanceState.get('status');
+        var activity = instanceState.get('activity');
+        var status = state + " - " + activity;
 
-        if(capitalizedStatus === "Error") {
-          capitalizedStatus = "Launch failed. Atmosphere at capacity.";
-          style = {
-            color: "#d44950"
-          }
+        var rawStatus = instanceState.get('status_raw');
+
+        var style = {};
+        var capitalizedStatus = rawStatus.charAt(0).toUpperCase() + rawStatus.slice(1);
+
+        if(instanceState.isDeployError()) {
+          return (
+            <span>
+              <div>
+                <span style={{color: "#d44950"}}>{"Launch failed. Atmosphere at capacity."}</span>
+              </div>
+            </span>
+          );
         }
 
         return (
           <span>
-            <StatusLight instance={this.props.instance}/>
-            <span style={style}>{capitalizedStatus}</span>
+            <div>
+              <StatusLight state={instanceState}/>
+              <span style={style}>{capitalizedStatus}</span>
+            </div>
+            <StatusBar state={this.props.instance.get('state')} activity={activity}/>
           </span>
         );
       }

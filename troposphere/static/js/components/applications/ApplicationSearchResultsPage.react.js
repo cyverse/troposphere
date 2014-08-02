@@ -18,6 +18,10 @@ define(
 
     return React.createClass({
 
+      propTypes: {
+        query: React.PropTypes.string.isRequired
+      },
+
       getInitialState: function () {
         return getState(this.props.query);
       },

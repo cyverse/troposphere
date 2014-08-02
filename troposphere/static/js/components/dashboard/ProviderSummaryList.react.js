@@ -20,7 +20,8 @@ define(
       render: function () {
         var summaries = this.props.identities.map(function(identity) {
           return (
-            <ProviderSummary identity={identity}
+            <ProviderSummary key={identity.id}
+                             identity={identity}
                              providers={this.props.providers}
                              instances={this.props.instances}
                              volumes={this.props.volumes}
