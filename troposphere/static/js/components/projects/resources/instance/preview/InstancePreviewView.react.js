@@ -27,9 +27,9 @@ define(function (require) {
     // -----
     //
 
-    function getState(instanceId) {
+    function getState(project, instanceId) {
       return {
-        instance: InstanceStore.get(instanceId),
+        instance: InstanceStore.getInstanceInProject(project, instanceId),
         providers: ProviderStore.getAll()
       };
     }
@@ -42,11 +42,12 @@ define(function (require) {
       //
 
       propTypes: {
+        project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
       getInitialState: function(){
-        return getState(this.props.instance.id);
+        return getState(this.props.project, this.props.instance.id);
       },
 
       componentDidMount: function () {
@@ -62,7 +63,7 @@ define(function (require) {
       },
 
       updateState: function(){
-        if (this.isMounted()) this.setState(getState(this.props.instance.id));
+        if (this.isMounted()) this.setState(getState(this.props.project, this.props.instance.id));
       },
 
       //

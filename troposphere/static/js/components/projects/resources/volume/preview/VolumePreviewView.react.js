@@ -23,9 +23,9 @@ define(function (require) {
     // -----
     //
 
-    function getState(volumeId) {
+    function getState(project, volumeId) {
       return {
-        volume: VolumeStore.get(volumeId),
+        volume: VolumeStore.getVolumeInProject(project, volumeId),
         providers: ProviderStore.getAll()
       };
     }
@@ -38,11 +38,12 @@ define(function (require) {
       //
 
       propTypes: {
+        project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
       getInitialState: function(){
-        return getState(this.props.volume.id);
+        return getState(this.props.project, this.props.volume.id);
       },
 
       componentDidMount: function () {
@@ -56,7 +57,7 @@ define(function (require) {
       },
 
       updateState: function(){
-        if (this.isMounted()) this.setState(getState(this.props.volume.id));
+        if (this.isMounted()) this.setState(getState(this.props.project, this.props.volume.id));
       },
 
       //

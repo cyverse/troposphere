@@ -143,7 +143,7 @@ define(
                               instances={this.state.projectInstances}
                   />
                 </div>
-                <PreviewPanel resource={this.state.selectedResource}/>
+                <PreviewPanel project={this.props.project} resource={this.state.selectedResource}/>
               </div>
             </div>
           );

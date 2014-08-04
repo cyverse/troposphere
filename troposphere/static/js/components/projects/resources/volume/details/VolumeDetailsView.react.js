@@ -9,17 +9,19 @@ define(
     'components/projects/common/BreadcrumbBar.react',
     './actions/VolumeActionsAndLinks.react',
     'stores/ProviderStore',
+    'stores/InstanceStore',
     'stores/VolumeStore',
     'controllers/NotificationController',
     'url'
   ],
-  function (React, Backbone, VolumeDetailsSection, VolumeInfoSection, BreadcrumbBar, VolumeActionsAndLinks, ProviderStore, VolumeStore, NotificationController, URL) {
+  function (React, Backbone, VolumeDetailsSection, VolumeInfoSection, BreadcrumbBar, VolumeActionsAndLinks, ProviderStore, InstanceStore, VolumeStore, NotificationController, URL) {
 
     function getState(project, volumeId) {
       return {
-        volume: VolumeStore.get(volumeId),
+        volume: VolumeStore.getVolumeInProject(project, volumeId),
         volumes: VolumeStore.getVolumesInProject(project),
-        providers: ProviderStore.getAll()
+        providers: ProviderStore.getAll(),
+        instances: InstanceStore.getInstancesInProject(project)
       };
     }
 
@@ -68,7 +70,7 @@ define(
 
       render: function () {
         //<VolumeDetails volume={volume} providers={this.state.providers}/>
-        if(this.state.volumes && this.state.providers && this.state.volume) {
+        if(this.state.volumes && this.state.instances && this.state.providers && this.state.volume) {
           var volume = this.state.volumes.get(this.props.volumeId);
           if(!volume) NotificationController.error(null, "No volume with id: " + this.props.volumeId);
           volume = this.state.volume;
@@ -94,7 +96,7 @@ define(
                 <div className="col-md-9 resource-detail-sections">
                   <VolumeInfoSection volume={volume}/>
                   <hr/>
-                  <VolumeDetailsSection volume={volume} providers={this.state.providers}/>
+                  <VolumeDetailsSection volume={volume} providers={this.state.providers} instances={this.state.instances}/>
                   <hr/>
                 </div>
                 <div className="col-md-3 resource-actions">

@@ -4,12 +4,9 @@ define(
   [
     'react',
     'backbone',
-    './InstanceTable.react',
-    './VolumeTable.react',
-    './PreviewPanel.react',
     'actions/VolumeActions'
   ],
-  function (React, Backbone, InstanceTable, VolumeTable, PreviewPanel, VolumeActions) {
+  function (React, Backbone, VolumeActions) {
 
     return React.createClass({
 
