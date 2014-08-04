@@ -16,7 +16,7 @@ define(
       render: function () {
         var summaryGroups = {};
         this.props.volumes.map(function (volume) {
-          var status = volume.get('status');
+          var status = volume.get('state').get('status');
           summaryGroups[status] = (summaryGroups[status] || 0);
           summaryGroups[status] += 1;
         }.bind(this));

@@ -4,9 +4,10 @@ define(
   [
     'react',
     'backbone',
-    'stores/SizeStore'
+    'stores/SizeStore',
+    './StatusBar.react'
   ],
-  function (React, Backbone, SizeStore) {
+  function (React, Backbone, SizeStore, StatusBar) {
 
     return React.createClass({
 
@@ -37,7 +38,16 @@ define(
           return memo + size.get('cpu');
         }.bind(this), 0);
 
-        return currentCpuCount + "/" + maxCpuCount;
+        var messageText = "You are using " + currentCpuCount + " of " + maxCpuCount + " allotted CPUs";
+
+        return (
+          <li>
+            <StatusBar value={currentCpuCount}
+                       maxValue={maxCpuCount}
+            />
+            {messageText}
+          </li>
+        );
       },
 
       calculateMemoryUsage: function(instances, quota, sizes){
@@ -48,7 +58,16 @@ define(
           return memo + size.get('mem');
         }.bind(this), 0);
 
-        return currentMemory + "/" + maxMemory;
+        var messageText = "You are using " + currentMemory + " of " + maxMemory + " allotted GBs of Memory";
+
+        return (
+          <li>
+            <StatusBar value={currentMemory}
+                       maxValue={maxMemory}
+            />
+            {messageText}
+          </li>
+        );
       },
 
       calculateStorageUsage: function(volumes, quota){
@@ -58,7 +77,16 @@ define(
           return memo + volume.get('size')
         }.bind(this), 0);
 
-        return currentStorage + "/" + maxStorage;
+        var messageText = "You are using " + currentStorage + " of " + maxStorage + " allotted GBs of Storage";
+
+        return (
+          <li>
+            <StatusBar value={currentStorage}
+                       maxValue={maxStorage}
+            />
+            {messageText}
+          </li>
+        );
       },
 
       calculateStorageCountUsage: function(volumes, quota){
@@ -68,7 +96,16 @@ define(
           return memo + 1;
         }.bind(this), 0);
 
-        return currentStorageCount + "/" + maxStorageCount;
+        var messageText = "You are using " + currentStorageCount + " of " + maxStorageCount + " Storage Volumes";
+
+        return (
+          <li>
+            <StatusBar value={currentStorageCount}
+                       maxValue={maxStorageCount}
+            />
+            {messageText}
+          </li>
+        );
       },
 
       render: function () {
@@ -92,12 +129,13 @@ define(
               <h4>{provider.get('name')}</h4>
               <ul>
                 <li>{providerInstances.length + " Instances"}</li>
-                <li>{cpuUsage + " CPUs"}</li>
-                <li>{memoryUsage + " GBs Memory"}</li>
+
+                {cpuUsage}
+                {memoryUsage}
 
                 <li>{providerVolumes.length + " Volumes"}</li>
-                <li>{storageUsage + " GBs Storage"}</li>
-                <li>{storageCountUsage + " Storage Volumes"}</li>
+                {storageUsage}
+                {storageCountUsage}
               </ul>
             </div>
           );
