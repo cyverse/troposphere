@@ -18,7 +18,7 @@ define(
 
       propTypes: {
         volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       render: function () {

@@ -6,21 +6,22 @@ define(
     'stores/ProviderStore',
     'stores/IdentityStore',
     'stores/SizeStore',
+    'stores/ProjectStore',
     'stores/InstanceStore',
     'stores/VolumeStore',
     'stores/InstanceHistoryStore',
     'stores/MaintenanceMessageStore',
     './DashboardView.react'
   ],
-  function (React, ProviderStore, IdentityStore, SizeStore, InstanceStore, VolumeStore, InstanceHistoryStore, MaintenanceMessageStore, DashboardView) {
+  function (React, ProviderStore, IdentityStore, SizeStore, ProjectStore, InstanceStore, VolumeStore, InstanceHistoryStore, MaintenanceMessageStore, DashboardView) {
 
     function getState() {
         return {
           providers: ProviderStore.getAll(),
           identities: IdentityStore.getAll(),
-          instances: InstanceStore.getAll(),
-          volumes: VolumeStore.getAll(),
+          projects: ProjectStore.getAll(),
           maintenanceMessages: MaintenanceMessageStore.getAll()
+          // todo: fetch instances and volumes not in a project
         };
     }
 
@@ -36,7 +37,7 @@ define(
       },
 
       updateState: function() {
-        if (this.isMounted()) this.setState(getState())
+        if (this.isMounted()) this.setState(getState());
       },
 
       componentDidMount: function () {
@@ -44,6 +45,7 @@ define(
         IdentityStore.addChangeListener(this.updateState);
         SizeStore.addChangeListener(this.updateState);
         InstanceStore.addChangeListener(this.updateState);
+        ProjectStore.addChangeListener(this.updateState);
         VolumeStore.addChangeListener(this.updateState);
         InstanceHistoryStore.addChangeListener(this.updateState);
         MaintenanceMessageStore.addChangeListener(this.updateState);
@@ -54,6 +56,7 @@ define(
         IdentityStore.removeChangeListener(this.updateState);
         SizeStore.removeChangeListener(this.updateState);
         InstanceStore.removeChangeListener(this.updateState);
+        ProjectStore.removeChangeListener(this.updateState);
         VolumeStore.removeChangeListener(this.updateState);
         InstanceHistoryStore.removeChangeListener(this.updateState);
         MaintenanceMessageStore.removeChangeListener(this.updateState);
@@ -67,11 +70,13 @@ define(
       render: function () {
         var providers = this.state.providers;
         var identities = this.state.identities;
-        var instances = this.state.instances;
-        var volumes = this.state.volumes;
+        var projects = this.state.projects;
         var maintenanceMessages = this.state.maintenanceMessages;
 
-        if (providers && identities && instances && volumes && maintenanceMessages) {
+        if (providers && identities && projects && maintenanceMessages) {
+          var instances = InstanceStore.getAll(projects);
+          var volumes = VolumeStore.getAll(projects);
+
           return (
             <DashboardView providers={providers}
                            identities={identities}

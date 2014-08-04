@@ -15,7 +15,7 @@ define(
 
     function getState(project, instanceId) {
       return {
-        instance: InstanceStore.get(instanceId)
+        instance: InstanceStore.getInstanceInProject(project, instanceId)
       };
     }
 

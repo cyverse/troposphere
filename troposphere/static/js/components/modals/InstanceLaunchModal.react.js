@@ -7,14 +7,13 @@ define(
     'stores/ProviderStore',
     'stores/IdentityStore',
     'stores/SizeStore',
-    'stores/InstanceStore',
     'stores/ProjectStore',
     './instance_launch/MachineSelect.react',
     './instance_launch/IdentitySelect.react',
     './instance_launch/InstanceSizeSelect.react',
     './instance_launch/ProjectSelect.react'
   ],
-  function (React, BootstrapModalMixin, ProviderStore, IdentityStore, SizeStore, InstanceStore, ProjectStore, MachineSelect, IdentitySelect, InstanceSizeSelect, ProjectSelect) {
+  function (React, BootstrapModalMixin, ProviderStore, IdentityStore, SizeStore, ProjectStore, MachineSelect, IdentitySelect, InstanceSizeSelect, ProjectSelect) {
 
     // Example Usage from http://bl.ocks.org/insin/raw/8449696/
     // render: function(){
@@ -45,16 +44,6 @@ define(
       var state = {
         providers: ProviderStore.getAll(),
         identities: IdentityStore.getAll(),
-        // todo: The only reason InstanceStore is here is because if the instance is launched, the store
-        // will 1) try to add it to the existing instances collection (which may not have been fetched
-        // at this point) and 2) will redirect to the /instances page, and if the instances haven't been
-        // fetched then this instance can't be added to the list and the user won't see it.  To resolve
-        // both of these use cases, I'm requiring the instances to be fetched at this point...a better
-        // approach might be to load the instances in the InstanceStore at the point we try to add this
-        // new instance to a non-existent list, and register a callback to add this instance once all of
-        // the instances are loaded (but we'd need to handle the edge case where the instance fails to load
-        // and we're notified before the full instance collection returns)
-        instances: InstanceStore.getAll(),
         sizes: null,
         projects: ProjectStore.getAll(),
 
@@ -134,7 +123,6 @@ define(
         ProviderStore.addChangeListener(this.updateState);
         IdentityStore.addChangeListener(this.updateState);
         SizeStore.addChangeListener(this.updateState);
-        InstanceStore.addChangeListener(this.updateState);
         ProjectStore.addChangeListener(this.updateState);
       },
 
@@ -142,7 +130,6 @@ define(
         ProviderStore.removeChangeListener(this.updateState);
         IdentityStore.removeChangeListener(this.updateState);
         SizeStore.removeChangeListener(this.updateState);
-        InstanceStore.removeChangeListener(this.updateState);
         ProjectStore.removeChangeListener(this.updateState);
       },
 
@@ -227,31 +214,11 @@ define(
         }.bind(this));
 
         var content;
-        if(this.state.identities && this.state.providers && this.state.instances && this.state.projects && this.state.sizes){
-
-          // todo: React recommends treating state as immutable, which we are obviously not doing
-          // All code below that sets this.state directly should instead be moved into getState.
-          // -----------------------------------------------------------------------------------
-
-          // Use selected identity or default to the first one
-          //this.state.identityId = this.state.identityId || this.state.identities.first().id;
+        if(this.state.identities && this.state.providers && this.state.projects && this.state.sizes){
 
           // Use selected machine (image version) or default to the first one
           // todo: we should be sorting these by date or version number before selecting the first one
           var machines = this.props.application.get('machines');
-          //this.state.machineId = this.state.machineId || machines.first().id;
-
-          // Use selected machine size or default to the first one
-          //if(this.state.sizes) {
-          //  this.state.sizeId = this.state.sizeId || this.state.sizes.first().id;
-          //}
-
-          // The provider & identity combination the user has selected (or defaulted to)
-          //var selectedIdentity = this.state.identities.get(this.state.identityId);
-          //var selectedProvider = this.state.providers.get(selectedIdentity.get('provider_id'));
-
-          //provider={selectedProvider}
-          //identity={selectedIdentity}
 
           content = (
             <form role='form'>

@@ -16,6 +16,7 @@ define(
     return React.createClass({
 
       propTypes: {
+        project: React.PropTypes.instanceOf(Backbone.Model),
         resource: React.PropTypes.instanceOf(Backbone.Model)
       },
 
@@ -28,11 +29,11 @@ define(
         if(this.props.resource) {
           if (this.props.resource instanceof Instance) {
             resourcePreview = (
-              <InstancePreviewView key={this.props.resource.id} instance={this.props.resource}/>
+              <InstancePreviewView key={this.props.resource.id} instance={this.props.resource} project={this.props.project}/>
             );
           } else if (this.props.resource instanceof Volume) {
             resourcePreview = (
-              <VolumePreviewView key={this.props.resource.id} volume={this.props.resource}/>
+              <VolumePreviewView key={this.props.resource.id} volume={this.props.resource} project={this.props.project}/>
             );
           }
 
