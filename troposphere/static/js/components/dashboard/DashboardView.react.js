@@ -10,9 +10,9 @@ define(
     './InstanceHistoryList.react',
     './MaintenanceMessageList.react',
     './plots/ResourceStatusSummaryPlot.react',
-    './plots/ProviderSummaryPolarPlot.react'
+    './plots/ProviderSummaryLinePlot.react'
   ],
-  function (React, Backbone, DashboardHeader, ResourceSummaryList, CloudCapacityList, InstanceHistoryList, MaintenanceMessageList, ResourceStatusSummaryPlot, ProviderSummaryPolarPlot) {
+  function (React, Backbone, DashboardHeader, ResourceSummaryList, CloudCapacityList, InstanceHistoryList, MaintenanceMessageList, ResourceStatusSummaryPlot, ProviderSummaryLinePlot) {
 
     return React.createClass({
 
@@ -37,21 +37,7 @@ define(
           <div id="dashboard-view">
             {false ? <DashboardHeader title="Dashboard"/> : null}
             <div className="container">
-              <h2>Resources in Use</h2>
-              <div className="row">
-                <div className="col-md-8">
-                  <ProviderSummaryPolarPlot providers={this.props.providers}
-                                            identities={this.props.identities}
-                                            instances={this.props.instances}
-                                            volumes={this.props.volumes}
-                                            isPolarPlot={false}
-                  />
-                </div>
-                <div className="col-md-4">
-                  <ResourceStatusSummaryPlot title="Instances" resources={this.props.instances}/>
-                  <ResourceStatusSummaryPlot title="Volumes" resources={this.props.volumes}/>
-                </div>
-              </div>
+
               <div className="row">
 
                 <div className="col-md-9">
@@ -61,11 +47,21 @@ define(
                       <a href="/application/images" className="btn btn-primary">Launch an Instance</a>
                     </div>
                   </div>
-                  <ResourceSummaryList providers={this.props.providers}
-                                       identities={this.props.identities}
-                                       instances={this.props.instances}
-                                       volumes={this.props.volumes}
-                  />
+                  <h2>Resources in Use</h2>
+                  <div className="row">
+                    <div className="col-md-8">
+                      <ProviderSummaryLinePlot providers={this.props.providers}
+                                               identities={this.props.identities}
+                                               instances={this.props.instances}
+                                               volumes={this.props.volumes}
+                                               isPolarPlot={true}
+                      />
+                    </div>
+                    <div className="col-md-4">
+                      <ResourceStatusSummaryPlot title="Instances" resources={this.props.instances}/>
+                      <ResourceStatusSummaryPlot title="Volumes" resources={this.props.volumes}/>
+                    </div>
+                  </div>
                   <InstanceHistoryList/>
                 </div>
 

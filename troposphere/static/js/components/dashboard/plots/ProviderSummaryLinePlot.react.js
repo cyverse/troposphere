@@ -134,7 +134,8 @@ define(
               'Memory': "GBs of Memory",
               'Storage': "GBs of Storage",
               'Volumes': "Volumes"
-            }
+            },
+            animation: false
           }
         }
       },
@@ -154,6 +155,13 @@ define(
 
         var el = this.getDOMNode();
         var $el = $(el);
+        $el.removeClass("loading");
+
+        if(seriesData.length === 0) {
+          $el.addClass("loading");
+          return;
+        }
+
         $el.highcharts({
           chart: {
             polar: this.props.isPolarPlot,
@@ -203,6 +211,21 @@ define(
           },
           series: seriesData
         });
+      },
+
+      componentDidUpdate: function(){
+        // var el = this.getDOMNode();
+        // var $el = $(el);
+        // var chart = $el.highcharts();
+
+        // var data = this.getChartData();
+
+        // chart.series[0].update({
+        //   data: data,
+        //   animation: false
+        // });
+
+        this.componentDidMount();
       },
 
       render: function () {
