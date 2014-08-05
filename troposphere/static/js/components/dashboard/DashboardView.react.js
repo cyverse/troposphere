@@ -40,10 +40,10 @@ define(
             <div className="container">
               <h2>Resources in Use</h2>
               <div className="row">
-                <div className="col-md-6">
+                <div className="col-md-8">
                   <LineBasic/>
                 </div>
-                <div className="col-md-3">
+                <div className="col-md-4">
                   <PieDonut/>
                   <PieDonut/>
                 </div>

@@ -49,7 +49,6 @@ define(
               max: 100
           },
           legend: {
-
               align: 'center',
               verticalAlign: 'top',
               borderWidth: 0
