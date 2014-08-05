@@ -39,7 +39,7 @@ define(
             {false ? <DashboardHeader title="Dashboard"/> : null}
             <div className="container">
               <div className="row">
-                <PolarSpider/>
+                <PieDonut/>
               </div>
               <div className="row">
 

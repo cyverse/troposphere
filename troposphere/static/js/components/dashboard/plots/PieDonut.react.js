@@ -158,7 +158,7 @@ define(
 
       render: function () {
         return (
-          <div className="lineBasic">
+          <div>
           </div>
         );
       }

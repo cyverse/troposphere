@@ -50,7 +50,8 @@ require.config({
     },
 
     highcharts: {
-      deps: ['jquery', 'highchartsBase']
+      deps: ['jquery', 'highchartsBase'],
+      exports: 'Highcharts'
     }
   }
 });
