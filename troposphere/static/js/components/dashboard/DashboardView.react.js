@@ -12,9 +12,10 @@ define(
     './plots/LineBasic.react',
     './plots/PolarSpider.react',
     './plots/PieDonut.react',
-    './plots/ResourceStatusSummaryPlot.react'
+    './plots/ResourceStatusSummaryPlot.react',
+    './plots/ProviderSummaryPolarPlot.react'
   ],
-  function (React, Backbone, DashboardHeader, ResourceSummaryList, CloudCapacityList, InstanceHistoryList, MaintenanceMessageList, LineBasic, PolarSpider, PieDonut, ResourceStatusSummaryPlot) {
+  function (React, Backbone, DashboardHeader, ResourceSummaryList, CloudCapacityList, InstanceHistoryList, MaintenanceMessageList, LineBasic, PolarSpider, PieDonut, ResourceStatusSummaryPlot, ProviderSummaryPolarPlot) {
 
     return React.createClass({
 
@@ -42,7 +43,11 @@ define(
               <h2>Resources in Use</h2>
               <div className="row">
                 <div className="col-md-8">
-                  <LineBasic/>
+                  <ProviderSummaryPolarPlot providers={this.props.providers}
+                                            identities={this.props.identities}
+                                            instances={this.props.instances}
+                                            volumes={this.props.volumes}
+                  />
                 </div>
                 <div className="col-md-4">
                   <ResourceStatusSummaryPlot title="Instances" resources={this.props.instances}/>
