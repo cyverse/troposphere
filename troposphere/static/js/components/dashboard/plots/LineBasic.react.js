@@ -25,9 +25,11 @@ define(
         var el = this.getDOMNode();
         var $el = $(el);
         $el.highcharts({
+          chart: {
+            backgroundColor:'transparent'
+          },
           title: {
-              text: 'Resources in Use',
-              x: -20 //center
+              text: ''
           },
           xAxis: {
               categories: ['CPUs', 'Memory', 'Storage', 'Volumes']
@@ -42,12 +44,14 @@ define(
                       width: 1,
                       color: '#808080'
                   }
-              ]
+              ],
+              min: 0,
+              max: 100
           },
           legend: {
-              layout: 'vertical',
-              align: 'right',
-              verticalAlign: 'middle',
+
+              align: 'center',
+              verticalAlign: 'top',
               borderWidth: 0
           },
           series: [
@@ -59,7 +63,10 @@ define(
                   name: 'Workshop-Cloud',
                   data: [0.8, 5.7, 11.3, 17.0]
               }
-          ]
+          ],
+          credits: {
+            enabled: false
+          }
       });
       },
 

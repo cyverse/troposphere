@@ -38,15 +38,13 @@ define(
           <div id="dashboard-view">
             {false ? <DashboardHeader title="Dashboard"/> : null}
             <div className="container">
+              <h2>Resources in Use</h2>
               <div className="row">
                 <div className="col-md-6">
-                  <PolarSpider/>
+                  <LineBasic/>
                 </div>
                 <div className="col-md-3">
                   <PieDonut/>
-                  <PieDonut/>
-                </div>
-                <div className="col-md-3">
                   <PieDonut/>
                 </div>
               </div>
