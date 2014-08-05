@@ -256,7 +256,6 @@ define(
       getAll: function (projects) {
         if(!projects) throw new Error("Must supply projects");
 
-        console.log('getting all projects...');
         projects.each(function(project){
           this.getInstancesInProject(project);
         }.bind(this));
