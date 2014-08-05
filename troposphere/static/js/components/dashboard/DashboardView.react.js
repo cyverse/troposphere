@@ -8,9 +8,12 @@ define(
     './ResourceSummaryList.react',
     './CloudCapacityList.react',
     './InstanceHistoryList.react',
-    './MaintenanceMessageList.react'
+    './MaintenanceMessageList.react',
+    './plots/LineBasic.react',
+    './plots/PolarSpider.react',
+    './plots/PieDonut.react'
   ],
-  function (React, Backbone, DashboardHeader, ResourceSummaryList, CloudCapacityList, InstanceHistoryList, MaintenanceMessageList) {
+  function (React, Backbone, DashboardHeader, ResourceSummaryList, CloudCapacityList, InstanceHistoryList, MaintenanceMessageList, LineBasic, PolarSpider, PieDonut) {
 
     return React.createClass({
 
@@ -35,6 +38,9 @@ define(
           <div id="dashboard-view">
             {false ? <DashboardHeader title="Dashboard"/> : null}
             <div className="container">
+              <div className="row">
+                <PolarSpider/>
+              </div>
               <div className="row">
 
                 <div className="col-md-9">

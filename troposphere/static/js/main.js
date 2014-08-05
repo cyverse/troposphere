@@ -21,7 +21,9 @@ require.config({
     react: '//cdnjs.cloudflare.com/ajax/libs/react/0.11.0/react-with-addons.min',
     chosen: '//cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.jquery.min',
     toastr: '//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.2/js/toastr.min',
-    q: '//cdnjs.cloudflare.com/ajax/libs/q.js/1.0.1/q.min'
+    q: '//cdnjs.cloudflare.com/ajax/libs/q.js/1.0.1/q.min',
+    highchartsBase: '//code.highcharts.com/highcharts',
+    highcharts: '//code.highcharts.com/highcharts-more'
   },
 
   shim: {
@@ -45,6 +47,10 @@ require.config({
 
     chosen: {
       deps: ['jquery']
+    },
+
+    highcharts: {
+      deps: ['jquery', 'highchartsBase']
     }
   }
 });
