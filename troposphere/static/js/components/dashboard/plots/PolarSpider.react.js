@@ -36,11 +36,7 @@ define(
             enabled: false
           },
           title: {
-            text: 'Resource Consumption',
-            x: -80
-          },
-          pane: {
-            size: '80%'
+            text: ''
           },
           xAxis: {
             categories: ['CPU', 'Memory', 'Storage', 'Volumes'],
@@ -79,10 +75,9 @@ define(
             booyah: 1
           },
           legend: {
-            align: 'right',
             verticalAlign: 'top',
-            y: 70,
-            layout: 'vertical'
+            align: 'right',
+            floating: true
           },
           series: [
             {
