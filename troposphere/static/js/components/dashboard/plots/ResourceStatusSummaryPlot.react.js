@@ -100,7 +100,6 @@ define(
           },
           series: [
             {
-
               data: data,
               size: '60%',
               animation: options.animation

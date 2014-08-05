@@ -9,13 +9,10 @@ define(
     './CloudCapacityList.react',
     './InstanceHistoryList.react',
     './MaintenanceMessageList.react',
-    './plots/LineBasic.react',
-    './plots/PolarSpider.react',
-    './plots/PieDonut.react',
     './plots/ResourceStatusSummaryPlot.react',
     './plots/ProviderSummaryPolarPlot.react'
   ],
-  function (React, Backbone, DashboardHeader, ResourceSummaryList, CloudCapacityList, InstanceHistoryList, MaintenanceMessageList, LineBasic, PolarSpider, PieDonut, ResourceStatusSummaryPlot, ProviderSummaryPolarPlot) {
+  function (React, Backbone, DashboardHeader, ResourceSummaryList, CloudCapacityList, InstanceHistoryList, MaintenanceMessageList, ResourceStatusSummaryPlot, ProviderSummaryPolarPlot) {
 
     return React.createClass({
 
@@ -47,6 +44,7 @@ define(
                                             identities={this.props.identities}
                                             instances={this.props.instances}
                                             volumes={this.props.volumes}
+                                            isPolarPlot={false}
                   />
                 </div>
                 <div className="col-md-4">
