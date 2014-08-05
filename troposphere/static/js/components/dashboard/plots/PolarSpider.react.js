@@ -21,6 +21,7 @@ define(
 
       componentDidMount: function(){
         console.log("component mounted!");
+        var barf = "yes";
 
         var el = this.getDOMNode();
         var $el = $(el);
@@ -30,15 +31,14 @@ define(
             type: 'line'
           },
           title: {
-            text: 'Budget vs spending',
+            text: 'Resource Consumption',
             x: -80
           },
           pane: {
             size: '80%'
           },
           xAxis: {
-            categories: ['Sales', 'Marketing', 'Development', 'Customer Support',
-              'Information Technology', 'Administration'],
+            categories: ['CPU', 'Memory', 'Storage', 'Volumes'],
             tickmarkPlacement: 'on',
             lineWidth: 0
           },
@@ -48,8 +48,30 @@ define(
             min: 0
           },
           tooltip: {
-            shared: true,
-            pointFormat: '<span style="color:{series.color}">{series.name}: <b>${point.y:,.0f}</b><br/>'
+            shared: false,
+            //pointFormat: '<span style="color:{series.color}">{series.name}: <b>${point.y:,.0f}</b><br/>',
+            formatter: function(tooltip){
+              var limits = this.series.options.limits;
+              var currentLimit = limits[this.x];
+              var currentUsage = Math.round(currentLimit*this.y);
+              var appendMessages = this.series.options.appendMessages;
+              var appendMessage = appendMessages[this.x];
+
+              var component = React.createClass({
+                render: function(){
+                  // color:{series.color}
+                  return (
+                    <div>
+                      <span style={{color: tooltip.options.style.color}}></span>
+                      {"You are using " + currentUsage + " of " + currentLimit + " allotted " + appendMessage}
+                    </div>
+                  );
+                }
+              });
+              var stuff = React.renderComponentToStaticMarkup(component());
+              return stuff;
+            },
+            booyah: 1
           },
           legend: {
             align: 'right',
@@ -59,14 +81,21 @@ define(
           },
           series: [
             {
-              name: 'Allocated Budget',
-              data: [43000, 19000, 60000, 35000, 17000, 10000],
-              pointPlacement: 'on'
-            },
-            {
-              name: 'Actual Spending',
-              data: [50000, 39000, 42000, 31000, 26000, 14000],
-              pointPlacement: 'on'
+              name: 'Tucson Cloud',
+              data: [6/32, 24/64, 7/200, 7/8],
+              pointPlacement: 'on',
+              limits: {
+                'CPU': 32,
+                'Memory': 64,
+                'Storage': 200,
+                'Volumes': 8
+              },
+              appendMessages: {
+                'CPU': "CPUs",
+                'Memory': "GBs of Memory",
+                'Storage': "GBs of Storage",
+                'Volumes': "Volumes"
+              }
             }
           ]
         });
