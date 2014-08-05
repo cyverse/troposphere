@@ -24,7 +24,7 @@ define(
           var historyCount = " (" + instanceHistories.length + " instances launched)";
           title += historyCount;
 
-          content = instanceHistories.map(function (instance) {
+          content = instanceHistories.slice(0,5).map(function (instance) {
             var startDate = instance.get('start_date');
             var endDate = instance.get('end_date');
 
@@ -68,7 +68,6 @@ define(
             <h2>{title}</h2>
             {content}
           </div>
-
         );
       }
 
