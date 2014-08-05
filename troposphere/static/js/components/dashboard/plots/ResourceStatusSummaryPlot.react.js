@@ -5,12 +5,13 @@ define(
     'react',
     'backbone',
     'jquery',
+    './tooltips/ResourceStatusTooltip.react',
 
     // jquery plugins
     'highcharts'
 
   ],
-  function (React, Backbone, $, Highcharts) {
+  function (React, Backbone, $, ResourceStatusTooltip, Highcharts) {
 
     return React.createClass({
 
@@ -63,7 +64,22 @@ define(
       },
 
       appendPlot: function(options){
+        var title = this.props.title;
         var data = this.getChartData();
+
+        var formatterComponent = React.createClass({
+          render: function(){
+
+            return (
+              <div>
+                There are <b>{this.y}</b>{" " + title} with
+                <br/>
+                a status of <b>{this.key}</b>
+              </div>
+            );
+          }
+        });
+        //var stuff = React.renderComponentToStaticMarkup(component());
 
         // Create the chart
         var el = this.getDOMNode();
@@ -75,7 +91,7 @@ define(
             height: 200
           },
           title:{
-            text: this.props.title
+            text: this.props.resources.length + " " + this.props.title
           },
           plotOptions: {
             pie: {
@@ -84,12 +100,22 @@ define(
           },
           series: [
             {
-              name: 'Browsers',
+
               data: data,
               size: '60%',
               animation: options.animation
             }
           ],
+          tooltip: {
+            formatter: function() {
+              var formatterComponent = ResourceStatusTooltip({
+                resourceName: title,
+                status: this.key,
+                count: this.y
+              });
+              return React.renderComponentToStaticMarkup(formatterComponent);
+            }
+          },
           credits: {
             enabled: false
           }
