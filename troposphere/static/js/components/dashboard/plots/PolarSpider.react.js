@@ -28,7 +28,12 @@ define(
         $el.highcharts({
           chart: {
             polar: true,
-            type: 'line'
+            type: 'line',
+            backgroundColor:'transparent',
+            height: 400
+          },
+          credits: {
+            enabled: false
           },
           title: {
             text: 'Resource Consumption',

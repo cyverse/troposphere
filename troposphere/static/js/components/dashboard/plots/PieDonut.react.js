@@ -22,7 +22,7 @@ define(
       componentDidMount: function(){
 
         var colors = Highcharts.getOptions().colors,
-          categories = ['MSIE', 'Firefox', 'Chrome', 'Safari', 'Opera'],
+          categories = ['MSIE', 'Firefox', 'Chrome', 'Safari'],
           name = 'Browser brands',
           data = [
             {
@@ -66,41 +66,22 @@ define(
                 data: [4.55, 1.42, 0.23, 0.21, 0.20, 0.19, 0.14],
                 color: colors[3]
               }
-            },
-            {
-              y: 2.14,
-              color: colors[4],
-              drilldown: {
-                name: 'Opera versions',
-                categories: ['Opera 9.x', 'Opera 10.x', 'Opera 11.x'],
-                data: [ 0.12, 0.37, 1.65],
-                color: colors[4]
-              }
             }
           ];
 
 
         // Build the data arrays
         var browserData = [];
-        var versionsData = [];
         for (var i = 0; i < data.length; i++) {
 
           // add browser data
-          browserData.push({
-            name: categories[i],
-            y: data[i].y,
-            color: data[i].color
-          });
+//          browserData.push({
+//            name: categories[i],
+//            y: data[i].y,
+//            color: data[i].color
+//          });
 
-          // add version data
-          for (var j = 0; j < data[i].drilldown.data.length; j++) {
-            var brightness = 0.2 - (j / data[i].drilldown.data.length) / 5;
-            versionsData.push({
-              name: data[i].drilldown.categories[j],
-              y: data[i].drilldown.data[j],
-              color: Highcharts.Color(data[i].color).brighten(brightness).get()
-            });
-          }
+          browserData.push([categories[i], data[i].y]);
         }
 
         // Create the chart
@@ -108,51 +89,28 @@ define(
         var $el = $(el);
         $el.highcharts({
           chart: {
-            type: 'pie'
+            type: 'pie',
+            backgroundColor:'transparent',
+            height: 200
           },
-          title: {
-            text: 'Browser market share, April, 2011'
-          },
-          yAxis: {
-            title: {
-              text: 'Total percent market share'
-            }
+          title:{
+            text: 'Instances'
           },
           plotOptions: {
             pie: {
-              shadow: false,
-              center: ['50%', '50%']
+              innerSize: '40%'
             }
-          },
-          tooltip: {
-            valueSuffix: '%'
           },
           series: [
             {
               name: 'Browsers',
               data: browserData,
-              size: '60%',
-              dataLabels: {
-                formatter: function () {
-                  return this.y > 5 ? this.point.name : null;
-                },
-                color: 'white',
-                distance: -30
-              }
-            },
-            {
-              name: 'Versions',
-              data: versionsData,
-              size: '80%',
-              innerSize: '60%',
-              dataLabels: {
-                formatter: function () {
-                  // display only if larger than 1
-                  return this.y > 1 ? '<b>' + this.point.name + ':</b> ' + this.y + '%' : null;
-                }
-              }
+              size: '60%'
             }
-          ]
+          ],
+          credits: {
+            enabled: false
+          }
         });
       },
 

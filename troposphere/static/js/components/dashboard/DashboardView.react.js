@@ -39,7 +39,16 @@ define(
             {false ? <DashboardHeader title="Dashboard"/> : null}
             <div className="container">
               <div className="row">
-                <PieDonut/>
+                <div className="col-md-6">
+                  <PolarSpider/>
+                </div>
+                <div className="col-md-3">
+                  <PieDonut/>
+                  <PieDonut/>
+                </div>
+                <div className="col-md-3">
+                  <PieDonut/>
+                </div>
               </div>
               <div className="row">
 
