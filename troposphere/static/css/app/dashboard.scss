@@ -1,18 +1,8 @@
 #dashboard-view {
 
-  .dashboard-header {
-    padding: 13px 0px;
-
-    h1 {
-      float: left;
-      margin: 0;
-    }
-
-    a {
-      float: right;
-      //font-size: 18px;
-      //padding: 10px 10px;
-    }
+  h2 {
+    font-size: 28px;
+    border-bottom: 1px solid #dddddd;
   }
 
   .secondary-nav {
@@ -59,5 +49,42 @@
         padding-left: 22px;
       }
     }
+  }
+
+  .calls-to-action > .col-md-3:first-of-type {
+    margin-left: 12.5%;
+  }
+
+  .option {
+    font-size: 13px !important;
+    font-family: Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color: #FFF;
+    box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    border: 1px solid rgb(241, 241, 241) !important;
+    padding: 20px;
+    text-align: center !important;
+    margin-bottom: 20px;
+    color: #555 !important;
+    font-weight: normal !important;
+    text-decoration: none;
+    display: block;
+    line-height: 16px;
+    min-height: 230px;
+
+    img {
+      text-align: center !important;
+      margin-bottom: 10px;
+    }
+
+    strong {
+      color: #0098aa;
+      font-weight: normal;
+    }
+
+    hr {
+      border: 1px solid #EEE !important;
+    }
+
   }
 }
