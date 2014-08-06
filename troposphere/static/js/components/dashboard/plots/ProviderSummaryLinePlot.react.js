@@ -93,6 +93,17 @@ define(
         };
       },
 
+      calculateAllocationUsage: function(quota){
+        var maxAllocation = quota.allocation.threshold;
+        var currentAllocation = quota.allocation.current;
+
+        return {
+          currentUsage: currentAllocation,
+          maxAllocation: maxAllocation,
+          percentUsed: currentAllocation/maxAllocation
+        };
+      },
+
       getDataForIdentity: function(identity){
         var providerId = identity.get("provider_id");
         var provider = this.props.providers.get(providerId);
@@ -119,24 +130,36 @@ define(
           var volumeUsageStats = this.calculateStorageCountUsage(providerVolumes, quota);
           var volumeUsage = volumeUsageStats.percentUsed*100;
 
-          return {
+          // Allocation Usage
+          var allocationUsageStats = this.calculateAllocationUsage(quota);
+          var allocationUsage = allocationUsageStats.percentUsed*100;
+
+          var seriesData = {
             name: provider.get('name'),
             data: [cpuUsage, memoryUsage, storageUsage, volumeUsage],
             pointPlacement: 'on',
             limits: {
-              'CPU': cpuUsageStats.maxAllocation,
-              'Memory': memoryUsageStats.maxAllocation,
-              'Storage': storageUsageStats.maxAllocation,
-              'Volumes': volumeUsageStats.maxAllocation
+              CPU: cpuUsageStats.maxAllocation,
+              Memory: memoryUsageStats.maxAllocation,
+              Storage: storageUsageStats.maxAllocation,
+              Volumes: volumeUsageStats.maxAllocation
             },
             appendMessages: {
-              'CPU': "CPUs",
-              'Memory': "GBs of Memory",
-              'Storage': "GBs of Storage",
-              'Volumes': "Volumes"
+              CPU: "CPUs",
+              Memory: "GBs of Memory",
+              Storage: "GBs of Storage",
+              Volumes: "Volumes"
             },
             animation: false
+          };
+
+          if(allocationUsageStats.maxAllocation){
+            seriesData.data.push(allocationUsage);
+            seriesData.limits.Allocation = allocationUsageStats.maxAllocation;
+            seriesData.appendMessages.Allocation = "APUs";
           }
+
+          return seriesData;
         }
       },
 
@@ -152,6 +175,9 @@ define(
       componentDidMount: function(){
         var categories = ['CPU', 'Memory', 'Storage', 'Volumes'];
         var seriesData = this.getChartData();
+        if(seriesData.length > 0 && seriesData[0].limits.Allocation) {
+          categories.push("Allocation");
+        }
 
         var el = this.getDOMNode();
         var $el = $(el);

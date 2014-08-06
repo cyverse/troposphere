@@ -12,7 +12,7 @@ define(
       propTypes: {
         resourceName: React.PropTypes.string.isRequired,
         status: React.PropTypes.string.isRequired,
-        count: React.PropTypes.string.isRequired
+        count: React.PropTypes.number.isRequired
       },
 
       render: function(){

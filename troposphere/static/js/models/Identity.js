@@ -6,12 +6,13 @@ define(
 
     return Backbone.Model.extend({
 
-      defaults: {
+      parse: function(response){
+
         // put default allocation data here since it isn't
         // in the data structure for admins (but we want it
         // in the object for consistency)
-        quota: {
-          allocation: {
+        if(!response.quota.allocation){
+          response.quota.allocation = {
             burn: null,
             current: null,
             delta: null,
@@ -19,6 +20,8 @@ define(
             ttz: null
           }
         }
+
+        return response;
       },
 
       hasAllocation: function () {
