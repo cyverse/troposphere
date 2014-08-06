@@ -113,11 +113,11 @@ define(
 
           // Storage Usage
           var storageUsageStats = this.calculateStorageUsage(providerVolumes, quota);
-          var storageUsage = memoryUsageStats.percentUsed*100;
+          var storageUsage = storageUsageStats.percentUsed*100;
 
           // Volume Usage
           var volumeUsageStats = this.calculateStorageCountUsage(providerVolumes, quota);
-          var volumeUsage = volumeUsageStats.percentUsed;
+          var volumeUsage = volumeUsageStats.percentUsed*100;
 
           return {
             name: provider.get('name'),
@@ -184,7 +184,10 @@ define(
             gridLineInterpolation: 'polygon',
             lineWidth: 0,
             min: 0,
-            max: 100
+            max: 100,
+            title: {
+              text: 'Percent of Allocation Used'
+            }
           },
           tooltip: {
             shared: false,
@@ -207,7 +210,6 @@ define(
           legend: {
             verticalAlign: 'top',
             align: 'center'
-            //floating: true
           },
           series: seriesData
         });
