@@ -4,7 +4,6 @@ define(
   [
     'react',
     'backbone',
-    './ResourceSummaryList.react',
     './CloudCapacityList.react',
     './InstanceHistoryList.react',
     './MaintenanceMessageList.react',
@@ -13,7 +12,7 @@ define(
     './CallToAction.react',
     'url'
   ],
-  function (React, Backbone, ResourceSummaryList, CloudCapacityList, InstanceHistoryList, MaintenanceMessageList, ResourceStatusSummaryPlot, ProviderSummaryLinePlot, CallToAction, URL) {
+  function (React, Backbone, CloudCapacityList, InstanceHistoryList, MaintenanceMessageList, ResourceStatusSummaryPlot, ProviderSummaryLinePlot, CallToAction, URL) {
 
     return React.createClass({
 
@@ -88,7 +87,7 @@ define(
                 <div className="col-md-3">
                   <MaintenanceMessageList messages={this.props.maintenanceMessages}/>
                 </div>
-                
+
               </div>
             </div>
           </div>
