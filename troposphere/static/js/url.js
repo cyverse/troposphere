@@ -39,6 +39,10 @@ define(
         return 'help';
       },
 
+      settings: function () {
+        return 'settings';
+      },
+
       login: function () {
         return '/login'
       },
@@ -79,6 +83,7 @@ define(
       application: _.partial(generateUrl, 'application'),
       images: _.partial(generateUrl, 'images'),
       help: _.partial(generateUrl, 'help'),
+      settings: _.partial(generateUrl, 'settings'),
       requestImage: _.partial(generateUrl, 'requestImage'),
       login: _.partial(generateUrl, 'login'),
       projects: _.partial(generateUrl, 'projects'),
