@@ -10,6 +10,7 @@ define(
 
     var _instanceHistories = null;
     var _isFetching = false;
+    var _isFetchingMore = false;
 
     //
     // CRUD Operations
@@ -20,9 +21,25 @@ define(
         _isFetching = true;
 
         var instances = new InstanceHistoryCollection();
-        instances.fetch().done(function () {
+        var baseUrl = instances.url() + "?page=1";
+        instances.fetch({url: baseUrl}).done(function () {
           _isFetching = false;
           _instanceHistories = instances;
+          InstanceHistoryStore.emitChange();
+        });
+      }
+    };
+
+    var fetchMoreInstanceHistory = function () {
+      var nextUrl = _instanceHistories.meta.next;
+      if(nextUrl && !_isFetchingMore){
+        _isFetchingMore = true;
+        var moreHistory = new InstanceHistoryCollection();
+        var nextUrl = moreHistory.url() + nextUrl;
+        moreHistory.fetch({url: nextUrl}).done(function () {
+          _isFetchingMore = false;
+          _instanceHistories.add(moreHistory.models);
+          _instanceHistories.meta = moreHistory.meta;
           InstanceHistoryStore.emitChange();
         });
       }
@@ -39,6 +56,10 @@ define(
           fetchInstanceHistory();
         }
         return _instanceHistories;
+      },
+
+      fetchMore: function(){
+        fetchMoreInstanceHistory();
       }
 
     };

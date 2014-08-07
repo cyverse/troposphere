@@ -9,22 +9,50 @@ define(
   ],
   function (React, Backbone, InstanceHistoryStore, moment) {
 
+    function getState() {
+      return {
+        instanceHistory: InstanceHistoryStore.getAll(),
+        isLoadingMoreResults: false
+      };
+    }
+
     return React.createClass({
 
       propTypes: {
 
       },
 
+      getInitialState: function () {
+        return getState();
+      },
+
+      updateState: function () {
+        if (this.isMounted()) this.setState(getState());
+      },
+
+      componentDidMount: function () {
+        InstanceHistoryStore.addChangeListener(this.updateState);
+      },
+
+      componentWillUnmount: function () {
+        InstanceHistoryStore.removeChangeListener(this.updateState);
+      },
+
+      onLoadMoreInstanceHistory: function(){
+        this.setState({isLoadingMoreResults: true});
+        InstanceHistoryStore.fetchMore();
+      },
+
       render: function () {
         var instanceHistories = InstanceHistoryStore.getAll();
         var title = "Instance History";
-        var content;
+        var content, instanceHistoryItems;
 
         if(instanceHistories){
           var historyCount = " (" + instanceHistories.length + " instances launched)";
           title += historyCount;
 
-          content = instanceHistories.slice(0,5).map(function (instance) {
+          instanceHistoryItems = instanceHistories.map(function (instance) {
             var startDate = instance.get('start_date');
             var endDate = instance.get('end_date');
 
@@ -57,6 +85,37 @@ define(
               </div>
             );
           }.bind(this));
+
+          // Load more instances from history
+          var buttonStyle = {
+            margin: "auto",
+            display: "block"
+          };
+
+          var loadingStyle= {
+            margin: "0px auto"
+          };
+
+          var moreHistoryButton = null;
+          if(instanceHistories.meta.next){
+            if(this.state.isLoadingMoreResults){
+              moreHistoryButton = (
+                <div style={loadingStyle} className="loading"></div>
+              );
+            }else {
+              moreHistoryButton = (
+                <button style={buttonStyle} className="btn btn-default" onClick={this.onLoadMoreInstanceHistory}>
+                  Show More History
+                </button>
+              );
+            }
+          }
+
+          content = [
+            instanceHistoryItems,
+            moreHistoryButton
+          ];
+
         }else{
           content = (
             <div className="loading"></div>
