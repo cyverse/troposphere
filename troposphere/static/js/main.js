@@ -23,7 +23,8 @@ require.config({
     toastr: '//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.2/js/toastr.min',
     q: '//cdnjs.cloudflare.com/ajax/libs/q.js/1.0.1/q.min',
     highchartsBase: '//code.highcharts.com/highcharts',
-    highcharts: '//code.highcharts.com/highcharts-more'
+    highcharts: '//code.highcharts.com/highcharts-more',
+    crypto: '//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5'
   },
 
   shim: {
@@ -52,6 +53,10 @@ require.config({
     highcharts: {
       deps: ['jquery', 'highchartsBase'],
       exports: 'Highcharts'
+    },
+
+    crypto: {
+      exports: 'CryptoJS'
     }
   }
 });
