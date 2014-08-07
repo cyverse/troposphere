@@ -22,7 +22,7 @@ define(
         var isRecommended = false;
         var dateCreated = moment(this.props.machine.get('start_date')).format("M/DD/YYYY");
 
-        var machineHash = CryptoJS.MD5(this.props.machine.id);
+        var machineHash = CryptoJS.MD5(this.props.machine.id).toString();
         var iconSize = 63;
 
         return (

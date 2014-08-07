@@ -51,7 +51,7 @@ define(
         var content, instanceHistoryItems;
 
         if(instanceHistories){
-          var historyCount = " (" + instanceHistories.length + " instances launched)";
+          var historyCount = " (" + instanceHistories.meta.count + " instances launched)";
           title += historyCount;
 
           instanceHistoryItems = instanceHistories.map(function (instance) {
@@ -60,11 +60,12 @@ define(
 
             var formattedStartDate = startDate.format("MMM DD, YYYY");
             var formattedEndDate = endDate.format("MMM DD, YYYY");
+            if(!endDate.isValid()) formattedEndDate = "Present";
 
             var now = moment();
             var timeSpan = now.diff(startDate, "days");
 
-            var instanceHistoryHash = CryptoJS.MD5(instance.id);
+            var instanceHistoryHash = CryptoJS.MD5(instance.id).toString();
             var iconSize = 63;
 
             return (
@@ -116,10 +117,12 @@ define(
             }
           }
 
-          content = [
-            instanceHistoryItems,
-            moreHistoryButton
-          ];
+          content = (
+            <div>
+              {instanceHistoryItems}
+              {moreHistoryButton}
+            </div>
+          );
 
         }else{
           content = (
