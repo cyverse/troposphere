@@ -5,9 +5,11 @@ define(
     'react',
     'backbone',
     'components/common/Time.react',
-    'moment'
+    'moment',
+    'components/common/Gravatar.react',
+    'crypto'
   ],
-  function (React, Backbone, Time, moment) {
+  function (React, Backbone, Time, moment, Gravatar, CryptoJS) {
 
     return React.createClass({
 
@@ -20,10 +22,13 @@ define(
         var isRecommended = false;
         var dateCreated = moment(this.props.machine.get('start_date')).format("M/DD/YYYY");
 
+        var machineHash = CryptoJS.MD5(this.props.machine.id);
+        var iconSize = 63;
+
         return (
           <li>
             <div>
-              <img className="image-version-image" src="http://placehold.it/63x63"/>
+              <Gravatar hash={machineHash} size={iconSize}/>
               <div className="image-version-details">
                 <div className="version">
                   {this.props.machine.get('pretty_version')}

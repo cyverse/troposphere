@@ -5,9 +5,11 @@ define(
     'react',
     'backbone',
     'stores/InstanceHistoryStore',
-    'moment'
+    'moment',
+    'crypto',
+    'components/common/Gravatar.react'
   ],
-  function (React, Backbone, InstanceHistoryStore, moment) {
+  function (React, Backbone, InstanceHistoryStore, moment, CryptoJS, Gravatar) {
 
     function getState() {
       return {
@@ -62,13 +64,16 @@ define(
             var now = moment();
             var timeSpan = now.diff(startDate, "days");
 
+            var instanceHistoryHash = CryptoJS.MD5(instance.id);
+            var iconSize = 63;
+
             return (
               <div key={instance.id}>
                 <div className="image-versions">
                   <ul>
                     <li>
                       <div>
-                        <img className="image-version-image" src="http://placehold.it/63x63"/>
+                        <Gravatar hash={instanceHistoryHash} size={iconSize}/>
                         <div className="image-version-details">
                           <div className="version">
                             <span>
