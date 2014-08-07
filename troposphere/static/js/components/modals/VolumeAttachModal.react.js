@@ -63,11 +63,11 @@ define(
       // ----------------
       //
       getInitialState: function(){
-        return getState.apply(this, this.props.project);
+        return getState.apply(this, [this.props.project]);
       },
 
       updateState: function () {
-        if (this.isMounted()) this.setState(getState.apply(this, this.props.project));
+        if (this.isMounted()) this.setState(getState.apply(this, [this.props.project]));
       },
 
       componentDidMount: function () {
