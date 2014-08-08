@@ -47,6 +47,8 @@ define(
       }).fail(function(){
         var failureMessage = "Error creating Tag " + tag.get('name') + ".";
         NotificationController.error(failureMessage);
+
+        if(options.afterSaveError) options.afterSaveError(tag);
         _tags.remove(tag);
         TagStore.emitChange();
       });
@@ -62,6 +64,9 @@ define(
         afterSave: function(tag){
           _pendingInstanceTags[instance.id].remove(tag);
           InstanceActions.addTagToInstance(tag, instance);
+        },
+        afterSaveError: function(tag){
+          _pendingInstanceTags[instance.id].remove(tag);
         }
       })
     }
@@ -100,7 +105,7 @@ define(
         // Add any pending tags to the result set
         var pendingInstanceTags = _pendingInstanceTags[instance.id];
         if(pendingInstanceTags){
-          instanceTagArray.concat(pendingInstanceTags.models);
+          instanceTagArray = instanceTagArray.concat(pendingInstanceTags.models);
         }
 
         return new TagCollection(instanceTagArray);
