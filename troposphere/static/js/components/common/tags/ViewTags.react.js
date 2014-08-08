@@ -3,9 +3,10 @@
 define(
   [
     'react',
-    'backbone'
+    'backbone',
+    './Tag.react'
   ],
-  function (React, Backbone) {
+  function (React, Backbone, Tag) {
 
     return React.createClass({
 
@@ -15,13 +16,14 @@ define(
       },
 
       render: function () {
-        var tags = this.props.activeTags.map(function(tag){
+        var tags = this.props.activeTags.map(function(tagName){
+          var tag = this.props.tags.findWhere({name: tagName});
           return (
-            <li key={tag} className="tag">
-                <a href="#">{tag}</a>
-            </li>
+            <Tag key={tag}
+                 tag={tag}
+            />
           );
-        });
+        }.bind(this));
 
         var content;
         if(tags.length > 0){
