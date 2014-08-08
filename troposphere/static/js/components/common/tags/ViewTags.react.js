@@ -19,7 +19,7 @@ define(
         var tags = this.props.activeTags.map(function(tagName){
           var tag = this.props.tags.findWhere({name: tagName});
           return (
-            <Tag key={tag}
+            <Tag key={tag.id}
                  tag={tag}
             />
           );
