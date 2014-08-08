@@ -4,20 +4,20 @@ define(
   [
     'react',
     'backbone',
-    'actions/TagActions',
     'components/common/tags/EditTagsView.react',
 
     // jQuery plugins: need to make sure they're loaded, but they aren't called directly
     'chosen'
   ],
-  function (React, Backbone, TagActions, EditTagsView) {
+  function (React, Backbone, EditTagsView) {
 
     return React.createClass({
 
       propTypes: {
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         activeTags: React.PropTypes.array.isRequired,
-        onTagsChanged: React.PropTypes.func.isRequired
+        onTagsChanged: React.PropTypes.func.isRequired,
+        onCreateNewTag: React.PropTypes.func.isRequired
       },
 
       getInitialState: function(){
@@ -55,17 +55,13 @@ define(
         this.setState({isEditingTags: false});
       },
 
-      onCreateNewTag: function(tagNameSuggestion){
-        TagActions.create(tagNameSuggestion);
-      },
-
       render: function () {
         return (
           <div>
             <EditTagsView activeTags={this.props.activeTags}
                           tags={this.props.tags}
                           onTagsChanged={this.props.onTagsChanged}
-                          onCreateNewTag={this.onCreateNewTag}
+                          onCreateNewTag={this.props.onCreateNewTag}
                           label={"Instance Tags:"}
             />
           </div>

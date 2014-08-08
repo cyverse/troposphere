@@ -26,6 +26,14 @@ define(
         });
       },
 
+      addTagToInstance: function(tag, instance){
+        AppDispatcher.handleRouteAction({
+          actionType: InstanceConstants.INSTANCE_ADD_TAG,
+          tag: tag,
+          instance: instance
+        });
+      },
+
       suspend: function (instance) {
 
         var onConfirm = function () {

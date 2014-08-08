@@ -9,9 +9,10 @@ define(
 
     return {
 
-      create: function(initialTagName){
+      create: function(initialTagName, options){
+        options = options || {};
 
-        var onConfirm = function (name, description) {
+        var onConfirm = options.onConfirm || function (name, description) {
           AppDispatcher.handleRouteAction({
             actionType: TagConstants.TAG_CREATE,
             name: name,
@@ -35,6 +36,19 @@ define(
         });
 
         React.renderComponent(modal, document.getElementById('modal'));
+      },
+
+      create_AddToInstance: function(initialTagName, instance){
+        this.create(initialTagName, {
+          onConfirm: function(name, description){
+            AppDispatcher.handleRouteAction({
+              actionType: TagConstants.TAG_CREATE_AND_ADD_TO_INSTANCE,
+              name: name,
+              description: description,
+              instance: instance
+            });
+          }
+        })
       }
 
     };

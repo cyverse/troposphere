@@ -74,7 +74,7 @@ define(
       }
     };
 
-    function update(instance){
+    var update = function(instance){
       instance.save({
         name: instance.get('name'),
         tags: instance.get('tags')
@@ -89,7 +89,23 @@ define(
         NotificationController.error(failureMessage);
         InstanceStore.emitChange();
       });
-    }
+    };
+
+    var addTagToInstance = function(tag, instance){
+      var instanceTags = instance.get('tags');
+      instanceTags.push(tag.get('name'));
+      instance.save({
+        tags: instanceTags
+      }, {
+        patch: true
+      }).done(function(){
+        InstanceStore.emitChange();
+      }).fail(function(){
+        var failureMessage = "Error adding tag to Instance";
+        NotificationController.error(failureMessage);
+        InstanceStore.emitChange();
+      });
+    };
 
     //
     // Instance Actions
@@ -349,6 +365,10 @@ define(
 
         case InstanceConstants.INSTANCE_LAUNCH:
           launch(action.identity, action.machineId, action.sizeId, action.instanceName, action.project);
+          break;
+
+        case InstanceConstants.INSTANCE_ADD_TAG:
+          addTagToInstance(action.tag, action.instance);
           break;
 
         default:
