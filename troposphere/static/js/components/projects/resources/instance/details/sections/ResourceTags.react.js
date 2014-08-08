@@ -5,11 +5,12 @@ define(
     'react',
     'backbone',
     'actions/TagActions',
+    'components/common/tags/EditTagsView.react',
 
     // jQuery plugins: need to make sure they're loaded, but they aren't called directly
     'chosen'
   ],
-  function (React, Backbone, TagActions) {
+  function (React, Backbone, TagActions, EditTagsView) {
 
     return React.createClass({
 
@@ -54,88 +55,19 @@ define(
         this.setState({isEditingTags: false});
       },
 
-      //
-
-      onCreateNewTag: function(e){
-        e.preventDefault();
-        TagActions.create();
-      },
-
-      onTagsChanged: function(text){
-        var tags = $(text.currentTarget).val();
-        this.props.onTagsChanged(tags);
-      },
-
-      renderReadableTags: function(){
-        var tags = this.props.activeTags.map(function(tag){
-          return (
-            <li key={tag} className="tag">
-                <a href="#">{tag}</a>
-            </li>
-          );
-        });
-
-        var content;
-        if(tags.length > 0){
-          content = tags;
-        }else{
-          content = (
-            <span>This instance has not been tagged.</span>
-          )
-        }
-
-        return (
-          <ul className="tags">
-            {content}
-          </ul>
-        );
-      },
-
-      renderEditableTags: function(){
-        var tags = this.props.tags.map(function(tag){
-          var tagName = tag.get('name');
-          return (
-            <option key={tag.id} value={tagName}>{tagName}</option>
-          );
-        });
-
-        return (
-          <div className="tagger">
-            <select name="tags"
-                    data-placeholder="Select tags to add..."
-                    className="form-control"
-                    multiple={true}
-                    value={this.props.activeTags}
-            >
-              {tags}
-            </select>
-          </div>
-        );
+      onCreateNewTag: function(tagNameSuggestion){
+        TagActions.create(tagNameSuggestion);
       },
 
       render: function () {
-
-        var link, newTagButton;
-        if(this.state.isEditingTags){
-          link = (
-            <a href="#" onClick={this.onDoneEditingTags}>Done editing</a>
-          );
-
-          newTagButton = (
-            <a className="btn btn-primary new-tag" href="#" onClick={this.onCreateNewTag}>+ New tag</a>
-          );
-        }else{
-          link = (
-            <a href="#" onClick={this.onEditTags}>Edit tags</a>
-          );
-        }
-
         return (
-          <div className="resource-tags">
-            <span>Instance Tags:</span>
-            {link}
-            {newTagButton}
-            {this.state.isEditingTags ? this.renderEditableTags() : this.renderReadableTags()}
+          <div>
+            <EditTagsView activeTags={this.props.activeTags}
+                          tags={this.props.tags}
+                          onTagsChanged={this.props.onTagsChanged}
+                          onCreateNewTag={this.onCreateNewTag}
+                          label={"Instance Tags:"}
+            />
           </div>
         );
       }

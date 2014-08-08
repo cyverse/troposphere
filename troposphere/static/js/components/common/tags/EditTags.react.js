@@ -62,7 +62,7 @@ define(
         });
 
         return (
-          <div>
+          <div className="tagger">
             <select name="tags"
                     data-placeholder="Select tags to add..."
                     className="form-control"
@@ -71,7 +71,6 @@ define(
             >
               {tags}
             </select>
-            <a className="btn btn-primary new-tag" href="#" onClick={this.onCreateNewTag}>+ New tag</a>
           </div>
         );
       }

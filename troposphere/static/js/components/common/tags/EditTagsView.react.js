@@ -15,10 +15,11 @@ define(
     return React.createClass({
 
       propTypes: {
-        application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        activeTags: React.PropTypes.array.isRequired,
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         onTagsChanged: React.PropTypes.func.isRequired,
-        onCreateNewTag: React.PropTypes.func.isRequired
+        onCreateNewTag: React.PropTypes.func.isRequired,
+        label: React.PropTypes.string.isRequired
       },
 
       getInitialState: function(){
@@ -46,14 +47,19 @@ define(
 
       render: function () {
 
-        var link;
+        var link, newTagButton;
         if(this.state.isEditingTags){
           link = (
-            <a href="#" onClick={this.onDoneEditingTags}>Done editing</a>
+            <a className="toggle-editing-link" href="#" onClick={this.onDoneEditingTags}>Done editing</a>
           );
+
+          newTagButton = (
+            <a className="btn btn-primary new-tag" href="#" onClick={this.props.onCreateNewTag}>+ New tag</a>
+          );
+
         }else{
           link = (
-            <a href="#" onClick={this.onEditTags}>Edit tags</a>
+            <a className="toggle-editing-link" href="#" onClick={this.onEditTags}>Edit tags</a>
           );
         }
 
@@ -61,7 +67,7 @@ define(
         if(this.state.isEditingTags){
           tagView = (
             <EditTags tags={this.props.tags}
-                      activeTags={this.props.application.get('tags')}
+                      activeTags={this.props.activeTags}
                       onTagsChanged={this.props.onTagsChanged}
                       onEnterKeyPressed={this.onEnterKeyPressed}
             />
@@ -69,15 +75,16 @@ define(
         }else{
           tagView = (
             <ViewTags tags={this.props.tags}
-                      activeTags={this.props.application.get('tags')}
+                      activeTags={this.props.activeTags}
             />
           )
         }
 
         return (
-          <div className="image-tags">
-            <h2 className='tag-title'>Image Tags</h2>
+          <div className="resource-tags">
+            <span className='tag-title'>{this.props.label}</span>
             {link}
+            {newTagButton}
             {tagView}
           </div>
         );
