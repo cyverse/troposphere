@@ -12,7 +12,7 @@ define(
     return React.createClass({
 
       propTypes: {
-        application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        activeTags: React.PropTypes.array.isRequired,
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
@@ -36,7 +36,7 @@ define(
             <h2 className='tag-title'>Image Tags</h2>
             {suggestTag}
             <ViewTags tags={this.props.tags}
-                      activeTags={this.props.application.get('tags')}
+                      activeTags={this.props.activeTags}
             />
           </div>
         );
