@@ -3,38 +3,23 @@
 define(
   [
     'react',
-    'context'
+    'components/common/tags/Tag.react'
   ],
-  function (React, context) {
+  function (React, Tag) {
 
     return React.createClass({
 
       propTypes: {
-        tags: React.PropTypes.array.isRequired
-      },
-
-      onTagClicked: function(e){
-        e.preventDefault();
-        alert("Tag selection not implemented yet.");
+        activeTags: React.PropTypes.array.isRequired,
+        tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       render: function () {
-        var tags = this.props.tags.map(function (tag) {
-          if(context.profile) {
-            return (
-              <li className="tag" key={tag}>
-                <a href="#" onClick={this.onTagClicked}>
-                {tag}
-                </a>
-              </li>
-            );
-          }else{
-            return (
-              <li className="tag" key={tag}>
-                <span>{tag}</span>
-              </li>
-            );
-          }
+        var tags = this.props.activeTags.map(function(tagName) {
+          var tag = this.props.tags.findWhere({name: tagName});
+          return (
+            <Tag key={tag.id} tag={tag}/>
+          );
         }.bind(this));
 
         return (

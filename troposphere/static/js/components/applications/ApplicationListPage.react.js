@@ -7,13 +7,15 @@ define(
     'collections/ApplicationCollection',
     './list/ApplicationCardList.react',
     './list/SearchContainer.react',
-    'stores/ApplicationStore'
+    'stores/ApplicationStore',
+    'stores/TagStore'
   ],
-  function (React, SecondaryApplicationNavigation, ApplicationCollection, ApplicationCardList, ApplicationSearch, ApplicationStore) {
+  function (React, SecondaryApplicationNavigation, ApplicationCollection, ApplicationCardList, ApplicationSearch, ApplicationStore, TagStore) {
 
     function getState() {
       return {
         applications: ApplicationStore.getAll(),
+        tags: TagStore.getAll(),
         isLoadingMoreResults: false
       };
     }
@@ -30,10 +32,12 @@ define(
 
       componentDidMount: function () {
         ApplicationStore.addChangeListener(this.updateState);
+        TagStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
         ApplicationStore.removeChangeListener(this.updateState);
+        TagStore.removeChangeListener(this.updateState);
       },
 
       onLoadMoreImages: function(){
@@ -43,11 +47,8 @@ define(
 
       render: function () {
         var content;
-        if (!this.state.applications) {
-          content = (
-            <div className="loading"></div>
-          );
-        } else {
+        if (this.state.applications && this.state.tags) {
+
           var featuredApplicationArray = this.state.applications.filter(function (app) {
             return app.get('featured');
           });
@@ -78,10 +79,22 @@ define(
           }
 
           content = [
-            <ApplicationCardList key="featured" title="Featured Images" applications={featuredApplications}/>,
-            <ApplicationCardList key="all" title="All Images" applications={this.state.applications}/>,
+            <ApplicationCardList key="featured"
+                                 title="Featured Images"
+                                 applications={featuredApplications}
+                                 tags={this.state.tags}
+            />,
+            <ApplicationCardList key="all"
+                                 title="All Images"
+                                 applications={this.state.applications}
+                                 tags={this.state.tags}
+            />,
             moreImagesButton
           ];
+        } else {
+          content = (
+            <div className="loading"></div>
+          );
         }
 
         return (
