@@ -32,7 +32,9 @@ define(
         var el = this.getDOMNode();
         var $el = $(el);
         $el.find('select[name="tags"]')
-           .chosen()
+           .chosen({
+              no_results_text: "No tag found. Press Enter to create a new tag for"
+            })
            .trigger('chosen:updated')
            .change(this.onTagsChanged);
 
