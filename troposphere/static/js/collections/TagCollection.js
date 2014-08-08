@@ -14,7 +14,7 @@ define(
       },
 
       comparator: function (model) {
-        return -1 * model.get('name');
+        return model.get('name').toLowerCase();
       }
 
     });
