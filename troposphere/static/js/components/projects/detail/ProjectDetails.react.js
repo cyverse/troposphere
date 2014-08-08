@@ -92,7 +92,7 @@ define(
 
       onDeleteSelectedResources: function(){
         var selectedResources = this.state.selectedResources;
-        ProjectActions.deleteResources(selectedResources);
+        ProjectActions.deleteResources(selectedResources, this.props.project);
       },
 
       onReportSelectedResources: function(){

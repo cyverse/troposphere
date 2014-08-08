@@ -16,7 +16,8 @@ define(
     return React.createClass({
 
       propTypes: {
-        application: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       onAppClick: function (e) {
@@ -64,7 +65,9 @@ define(
               {app.get('name')}
             </div>
             {bookmark}
-            <Tags tags={app.get('tags')}/>
+            <Tags activeTags={app.get('tags')}
+                  tags={this.props.tags}
+            />
           </div>
         );
       }

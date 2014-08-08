@@ -14,7 +14,8 @@ define(
     return React.createClass({
 
       propTypes: {
-        applications: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        applications: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       render: function () {
@@ -34,8 +35,16 @@ define(
 
           return (
             <div>
-              <ApplicationCardList key="featured" title="Featured Search Results" applications={featuredApplications}/>,
-              <ApplicationCardList key="searchResults" title="Search Results" applications={this.props.applications}/>
+              <ApplicationCardList key="featured"
+                                   title="Featured Search Results"
+                                   applications={featuredApplications}
+                                   tags={this.props.tags}
+              />,
+              <ApplicationCardList key="searchResults"
+                                   title="Search Results"
+                                   applications={this.props.applications}
+                                   tags={this.props.tags}
+              />
             </div>
           );
         }

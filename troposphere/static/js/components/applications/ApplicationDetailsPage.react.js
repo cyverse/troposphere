@@ -89,7 +89,9 @@ define(
           // wait for providers and instances to be fetched
           if(!userLoggedIn){
             content = (
-              <ApplicationDetailsView application={application}/>
+              <ApplicationDetailsView application={application}
+                                      tags={tags}
+              />
             );
           }else if(providers && identities) {
             content = (

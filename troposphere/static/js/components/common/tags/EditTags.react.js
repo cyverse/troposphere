@@ -16,24 +16,36 @@ define(
       propTypes: {
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         activeTags: React.PropTypes.array.isRequired,
-        onTagsChanged: React.PropTypes.func.isRequired
+        onTagsChanged: React.PropTypes.func.isRequired,
+        onEnterKeyPressed: React.PropTypes.func.isRequired
       },
 
       componentDidMount: function(){
-        this.updateChosenForm();
+        this.setupChosenForm();
       },
 
       componentDidUpdate: function(){
         this.updateChosenForm();
       },
 
+      setupChosenForm: function(){
+        var el = this.getDOMNode();
+        var $el = $(el);
+        $el.find('select[name="tags"]')
+           .chosen({
+              no_results_text: "No tag found. Press Enter to create a new tag for"
+            })
+           .change(this.onTagsChanged);
+
+        $el.find('.search-field input')
+           .keyup(this.props.onEnterKeyPressed);
+      },
+
       updateChosenForm: function(){
         var el = this.getDOMNode();
         var $el = $(el);
         $el.find('select[name="tags"]')
-           .chosen()
-           .trigger('chosen:updated')
-           .change(this.onTagsChanged);
+           .trigger('chosen:updated');
       },
 
       onCreateNewTag: function(e){
@@ -56,7 +68,7 @@ define(
         });
 
         return (
-          <div>
+          <div className="tagger">
             <select name="tags"
                     data-placeholder="Select tags to add..."
                     className="form-control"
@@ -65,7 +77,6 @@ define(
             >
               {tags}
             </select>
-            <a className="btn btn-primary new-tag" href="#" onClick={this.onCreateNewTag}>+ New tag</a>
           </div>
         );
       }

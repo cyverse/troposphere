@@ -5,10 +5,12 @@ define(
     'react',
     'backbone',
     'context',
-    './ViewTagsView.react',
-    './EditTagsView.react'
+    'components/common/tags/ViewTagsView.react',
+    'components/common/tags/EditTagsView.react',
+    'actions/ApplicationActions',
+    'actions/TagActions'
   ],
-  function (React, Backbone, context, ViewTagsView, EditTagsView) {
+  function (React, Backbone, context, ViewTagsView, EditTagsView, ApplicationActions, TagActions) {
 
     return React.createClass({
 
@@ -17,20 +19,36 @@ define(
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
+      onTagsChanged: function(tags){
+        ApplicationActions.updateApplicationAttributes(this.props.application, {tags: tags});
+      },
+
+      onCreateNewTag: function(tagNameSuggestion){
+        TagActions.create(tagNameSuggestion);
+      },
+
       render: function () {
+        var applicationTags = this.props.application.get('tags');
 
         if(context.profile && context.profile.get('username') === this.props.application.get('created_by')){
           return (
-            <EditTagsView application={this.props.application}
-                          tags={this.props.tags}
-            />
+            <div className="image-tags">
+              <EditTagsView tags={this.props.tags}
+                            activeTags={applicationTags}
+                            onTagsChanged={this.onTagsChanged}
+                            onCreateNewTag={this.onCreateNewTag}
+                            label={"Image Tags"}
+              />
+            </div>
           );
 
         }else{
           return (
-            <ViewTagsView tags={this.props.tags}
-                          application={this.props.application}
-            />
+            <div className="image-tags">
+              <ViewTagsView tags={this.props.tags}
+                            activeTags={applicationTags}
+              />
+            </div>
           );
         }
 

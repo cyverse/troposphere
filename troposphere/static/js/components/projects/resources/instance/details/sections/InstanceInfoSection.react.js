@@ -34,9 +34,8 @@ define(
         this.setState({isEditing: true});
       },
 
-      onCreateNewTag: function(e){
-        e.preventDefault();
-        TagActions.create(this.props.instance);
+      onCreateNewTag: function(tagNameSuggestion){
+        TagActions.create_AddToInstance(tagNameSuggestion, this.props.instance);
       },
 
       onDoneEditing: function(text){
@@ -89,6 +88,7 @@ define(
               <ResourceTags tags={this.props.tags}
                             activeTags={this.props.instance.get('tags')}
                             onTagsChanged={this.onTagsChanged}
+                            onCreateNewTag={this.onCreateNewTag}
               />
             </div>
 
