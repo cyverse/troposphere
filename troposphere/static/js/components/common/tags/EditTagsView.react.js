@@ -45,6 +45,10 @@ define(
         }
       },
 
+      onCreateNewEmptyTag: function(e){
+        this.props.onCreateNewTag();
+      },
+
       render: function () {
 
         var link, newTagButton;
@@ -54,7 +58,7 @@ define(
           );
 
           newTagButton = (
-            <a className="btn btn-primary new-tag" href="#" onClick={this.props.onCreateNewTag}>+ New tag</a>
+            <a className="btn btn-primary new-tag" href="#" onClick={this.onCreateNewEmptyTag}>+ New tag</a>
           );
 
         }else{

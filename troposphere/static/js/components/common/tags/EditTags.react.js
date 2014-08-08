@@ -21,25 +21,31 @@ define(
       },
 
       componentDidMount: function(){
-        this.updateChosenForm();
+        this.setupChosenForm();
       },
 
       componentDidUpdate: function(){
         this.updateChosenForm();
       },
 
-      updateChosenForm: function(){
+      setupChosenForm: function(){
         var el = this.getDOMNode();
         var $el = $(el);
         $el.find('select[name="tags"]')
            .chosen({
               no_results_text: "No tag found. Press Enter to create a new tag for"
             })
-           .trigger('chosen:updated')
            .change(this.onTagsChanged);
 
         $el.find('.search-field input')
            .keyup(this.props.onEnterKeyPressed);
+      },
+
+      updateChosenForm: function(){
+        var el = this.getDOMNode();
+        var $el = $(el);
+        $el.find('select[name="tags"]')
+           .trigger('chosen:updated');
       },
 
       onCreateNewTag: function(e){
