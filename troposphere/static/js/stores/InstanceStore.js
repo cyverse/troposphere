@@ -17,6 +17,7 @@ define(
     var _isFetching = false;
     var pollingFrequency = 10*1000;
     var _pendingProjectInstances = {};
+    var _pendingRemovalProjectInstances = {};
 
     //
     // CRUD Operations
@@ -168,19 +169,40 @@ define(
       });
     };
 
-    var terminate = function(instance){
+    var terminate = function(instance, options){
+      options = options || {};
+
       instance.destroy({
         success: function (model) {
+          if(options.afterDestroy) options.afterDestroy(instance);
           pollUntilBuildIsFinished(instance);
           InstanceStore.emitChange();
         },
         error: function (response) {
           NotificationController.error('Error', 'Instance could not be terminated');
+          if(options.afterDestroyError) options.afterDestroyError(instance);
           _instances.add(instance);
           InstanceStore.emitChange();
         }
       });
       _instances.remove(instance);
+    };
+
+    var terminate_RemoveFromProject = function(instance, project){
+
+      _pendingRemovalProjectInstances[project.id] = _pendingRemovalProjectInstances[project.id] || new InstanceCollection();
+      _pendingRemovalProjectInstances[project.id].add(instance);
+
+      terminate(instance, {
+        afterDestroy: function(instance){
+          _pendingRemovalProjectInstances[project.id].remove(instance);
+          ProjectActions.removeItemFromProject(project, instance);
+        },
+        afterDestroyError: function(instance){
+          _pendingRemovalProjectInstances[project.id].remove(instance);
+          //ProjectActions.addItemToProject(project, instance);
+        }
+      })
     };
 
     var launch = function(identity, machineId, sizeId, instanceName, options){
@@ -385,7 +407,7 @@ define(
           break;
 
         case InstanceConstants.INSTANCE_TERMINATE:
-          terminate(action.instance);
+          terminate_RemoveFromProject(action.instance, action.project);
           break;
 
         case InstanceConstants.INSTANCE_LAUNCH:

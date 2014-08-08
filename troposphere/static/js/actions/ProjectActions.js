@@ -107,12 +107,13 @@ define(
         }
       },
 
-      deleteResource: function(projectItem){
+      deleteResource: function(projectItem, project){
         var itemType = getItemType(projectItem);
         if(itemType === "instance"){
           AppDispatcher.handleRouteAction({
             actionType: InstanceConstants.INSTANCE_TERMINATE,
-            instance: projectItem
+            instance: projectItem,
+            project: project
           });
         }else if(itemType === "volume"){
           AppDispatcher.handleRouteAction({
@@ -149,11 +150,11 @@ define(
         React.renderComponent(modal, document.getElementById('modal'));
       },
 
-      deleteResources: function(resources){
+      deleteResources: function(resources, project){
 
         var onConfirm = function () {
           resources.map(function(resource){
-            this.deleteResource(resource);
+            this.deleteResource(resource, project);
           }.bind(this));
         }.bind(this);
 
