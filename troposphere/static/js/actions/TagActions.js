@@ -9,7 +9,7 @@ define(
 
     return {
 
-      create: function(){
+      create: function(initialTagName){
 
         var onConfirm = function (name, description) {
           AppDispatcher.handleRouteAction({
@@ -30,7 +30,8 @@ define(
           confirmButtonMessage: "Create tag",
           onConfirm: onConfirm,
           onCancel: onCancel,
-          handleHidden: onCancel
+          handleHidden: onCancel,
+          initialTagName: initialTagName
         });
 
         React.renderComponent(modal, document.getElementById('modal'));
