@@ -5,9 +5,11 @@ define(
     'react',
     './detail/ProjectDetailsView.react',
     './detail/ProjectDetails.react',
-    'stores/ProjectStore'
+    'stores/ProjectStore',
+    'stores/InstanceStore',
+    'stores/VolumeStore'
   ],
-  function (React, ProjectDetailsView, ProjectDetails, ProjectStore) {
+  function (React, ProjectDetailsView, ProjectDetails, ProjectStore, InstanceStore, VolumeStore) {
 
     function getState(projectId) {
       return {
@@ -36,10 +38,14 @@ define(
 
       componentDidMount: function () {
         ProjectStore.addChangeListener(this.updateState);
+        //InstanceStore.addChangeListener(this.updateState);
+        //VolumeStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
         ProjectStore.removeChangeListener(this.updateState);
+        //InstanceStore.removeChangeListener(this.updateState);
+        //VolumeStore.removeChangeListener(this.updateState);
       },
 
       //

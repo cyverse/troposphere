@@ -118,7 +118,8 @@ define(
         }else if(itemType === "volume"){
           AppDispatcher.handleRouteAction({
             actionType: VolumeConstants.VOLUME_DESTROY,
-            volume: projectItem
+            volume: projectItem,
+            project: project
           });
         }
       },
