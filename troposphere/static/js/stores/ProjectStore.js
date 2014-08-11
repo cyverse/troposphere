@@ -73,6 +73,20 @@ define(
       _projects.remove(project);
     }
 
+    function add(project){
+      _projects.add(project);
+    }
+
+    function update(project){
+      var existingModel = _projects.find(project);
+      if(!existingModel) throw new Error("Project doesn't exist.");
+      _projects.add(project, {merge: true});
+    }
+
+    function remove(project){
+      _projects.remove(project);
+    }
+
     //
     // Project Instance Functions
     //
@@ -237,43 +251,59 @@ define(
 
     };
 
-    Dispatcher.register(function (payload) {
-      var action = payload.action;
+    Dispatcher.register(function (dispatch) {
+      var actionType = dispatch.action.actionType;
+      var payload = dispatch.action.payload;
+      var options = dispatch.action.options || options;
 
-      switch (action.actionType) {
-        case ProjectConstants.PROJECT_CREATE:
-          create(action.model);
+      switch (actionType) {
+        // case ProjectConstants.PROJECT_CREATE:
+        //   create(action.model);
+        //   break;
+
+        // case ProjectConstants.PROJECT_UPDATE:
+        //   update(action.model);
+        //   break;
+
+        // case ProjectConstants.PROJECT_DESTROY:
+        //   destroy(action.model);
+        //   break;
+
+        case ProjectConstants.ADD_PROJECT:
+          add(payload.project);
           break;
 
-        case ProjectConstants.PROJECT_UPDATE:
-          update(action.model);
+        case ProjectConstants.UPDATE_PROJECT:
+          update(payload.project);
           break;
 
-        case ProjectConstants.PROJECT_DESTROY:
-          destroy(action.model);
+        case ProjectConstants.REMOVE_PROJECT:
+          remove(payload.project);
           break;
 
         case ProjectInstanceConstants.ADD_INSTANCE_TO_PROJECT:
-          addInstanceToProject(action.instance, action.project);
+          addInstanceToProject(payload.instance, payload.project);
           break;
 
         case ProjectInstanceConstants.REMOVE_INSTANCE_FROM_PROJECT:
-          removeInstanceFromProject(action.instance, action.project);
+          removeInstanceFromProject(payload.instance, payload.project);
           break;
 
         case ProjectVolumeConstants.ADD_VOLUME_TO_PROJECT:
-          addVolumeToProject(action.volume, action.project);
+          addVolumeToProject(payload.volume, payload.project);
           break;
 
         case ProjectVolumeConstants.REMOVE_VOLUME_FROM_PROJECT:
-          removeVolumeFromProject(action.volume, action.project);
+          removeVolumeFromProject(payload.volume, payload.project);
           break;
 
         default:
           return true;
       }
 
-      ProjectStore.emitChange();
+      if(!options.silent) {
+        ProjectStore.emitChange();
+      }
 
       return true;
     });

@@ -13,9 +13,11 @@ define(
     'components/modals/ProjectReportResourceModal.react',
     'models/Instance',
     'models/Volume',
-    'url'
+    'url',
+    './modalHelpers/ProjectModalHelpers',
+    'controllers/NotificationController'
   ],
-  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, InstanceConstants, VolumeConstants, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectReportResourceModal, Instance, Volume, URL) {
+  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, InstanceConstants, VolumeConstants, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectReportResourceModal, Instance, Volume, URL, ProjectModalHelpers, NotificationController) {
 
     function getItemType(model) {
       var objectType;
@@ -30,6 +32,16 @@ define(
     }
 
     return {
+
+      dispatch: function(actionType, payload, options){
+        options = options || {};
+        AppDispatcher.handleRouteAction({
+          actionType: actionType,
+          payload: payload,
+          options: options
+        });
+      },
+      
       create: function (project) {
         AppDispatcher.handleRouteAction({
           actionType: ProjectConstants.PROJECT_CREATE,
@@ -45,27 +57,43 @@ define(
         });
       },
 
+      // destroy: function (project) {
+      //   var onConfirm = function () {
+      //     AppDispatcher.handleRouteAction({
+      //       actionType: ProjectConstants.PROJECT_DESTROY,
+      //       model: project
+      //     });
+      //     var redirectUrl = URL.projects(null, {relative: true});
+      //     Backbone.history.navigate(redirectUrl, {trigger: true});
+      //   };
+      //   var body = 'Are you sure you would like to delete project "' + project.get('name') + '"?';
+      //   var modal = CancelConfirmModal({
+      //     header: "Delete Project",
+      //     confirmButtonMessage: "Delete project",
+      //     onConfirm: onConfirm,
+      //     body: body
+      //   });
+      //   React.renderComponent(modal, document.getElementById('modal'));
+      // },
+
       destroy: function (project) {
+        var that = this;
+        ProjectModalHelpers.destroy(project, {
+          onConfirm: function(){
+            that.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
 
-        var onConfirm = function () {
-          AppDispatcher.handleRouteAction({
-            actionType: ProjectConstants.PROJECT_DESTROY,
-            model: project
-          });
-          var redirectUrl = URL.projects(null, {relative: true});
-          Backbone.history.navigate(redirectUrl, {trigger: true});
-        };
+            project.destroy().done(function(){
+              // handle success
+            }).fail(function(){
+              var failureMessage = "Error deleting Project " + project.get('name') + ".";
+              NotificationController.error(failureMessage);
+              that.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
+            });
 
-        var body = 'Are you sure you would like to delete project "' + project.get('name') + '"?';
-
-        var modal = CancelConfirmModal({
-          header: "Delete Project",
-          confirmButtonMessage: "Delete project",
-          onConfirm: onConfirm,
-          body: body
+            var redirectUrl = URL.projects(null, {relative: true});
+            Backbone.history.navigate(redirectUrl, {trigger: true});
+          }
         });
-
-        React.renderComponent(modal, document.getElementById('modal'));
       },
 
       moveProjectItemTo: function(sourceProject, projectItem, targetProject){

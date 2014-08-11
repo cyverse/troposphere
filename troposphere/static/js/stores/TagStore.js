@@ -32,6 +32,12 @@ define(
       _tags.add(tag);
     }
 
+    function update(tag, options){
+      var existingModel = _tags.find(tag);
+      if(!existingModel) throw new Error("Tag doesn't exist.");
+      _tags.add(tag, {merge: true});
+    }
+
     function remove(tag, options){
       _tags.remove(tag);
     }
@@ -95,6 +101,10 @@ define(
       switch (actionType) {
         case TagConstants.ADD_TAG:
           add(payload.tag);
+          break;
+
+        case TagConstants.UPDATE_TAG:
+          update(payload.tag);
           break;
 
         case TagConstants.REMOVE_TAG:
