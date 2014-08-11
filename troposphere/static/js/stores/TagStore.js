@@ -4,12 +4,9 @@ define(
     'collections/TagCollection',
     'dispatchers/Dispatcher',
     'stores/Store',
-    'constants/TagConstants',
-    'models/Tag',
-    'controllers/NotificationController',
-    'actions/InstanceActions'
+    'constants/TagConstants'
   ],
-  function (_, TagCollection, Dispatcher, Store, TagConstants, Tag, NotificationController, InstanceActions) {
+  function (_, TagCollection, Dispatcher, Store, TagConstants) {
 
     var _tags = null;
     var _isFetching = false;
@@ -30,46 +27,6 @@ define(
         });
       }
     };
-
-    function create(name, description, options){
-      options = options || {};
-
-      var tag = new Tag({
-        name: name,
-        description: description
-      });
-
-      if(options.afterCreate) options.afterCreate(tag);
-
-      tag.save().done(function(){
-        if(options.afterSave) options.afterSave(tag);
-        TagStore.emitChange();
-      }).fail(function(){
-        var failureMessage = "Error creating Tag " + tag.get('name') + ".";
-        NotificationController.error(failureMessage);
-
-        if(options.afterSaveError) options.afterSaveError(tag);
-        _tags.remove(tag);
-        TagStore.emitChange();
-      });
-
-    }
-
-    function create_AddToInstance(name, description, instance){
-      create(name, description, {
-        afterCreate: function(tag){
-          _pendingInstanceTags[instance.id] = _pendingInstanceTags[instance.id] || new TagCollection();
-          _pendingInstanceTags[instance.id].add(tag);
-        },
-        afterSave: function(tag){
-          _pendingInstanceTags[instance.id].remove(tag);
-          InstanceActions.addTagToInstance(tag, instance);
-        },
-        afterSaveError: function(tag){
-          _pendingInstanceTags[instance.id].remove(tag);
-        }
-      })
-    }
 
     function add(tag, options){
       _tags.add(tag);
@@ -136,14 +93,6 @@ define(
       var options = dispatch.action.options || options;
 
       switch (actionType) {
-         // case TagConstants.TAG_CREATE:
-         //   create(action.name, action.description);
-         //   break;
-
-         // case TagConstants.TAG_CREATE_AND_ADD_TO_INSTANCE:
-         //   create_AddToInstance(action.name, action.description, action.instance);
-         //   break;
-
         case TagConstants.ADD_TAG:
           add(payload.tag);
           break;
