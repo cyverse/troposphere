@@ -3,12 +3,11 @@ define(
     'react',
     'dispatchers/AppDispatcher',
     'constants/TagConstants',
-    'components/modals/TagCreateModal.react',
     'models/Tag',
     'actions/InstanceActions',
     './modalHelpers/TagModalHelpers'
   ],
-  function (React, AppDispatcher, TagConstants, TagCreateModal, Tag, InstanceActions, TagModalHelpers) {
+  function (React, AppDispatcher, TagConstants, Tag, InstanceActions, TagModalHelpers) {
 
     return {
 
