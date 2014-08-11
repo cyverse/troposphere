@@ -3,52 +3,49 @@ define(
     'react',
     'dispatchers/AppDispatcher',
     'constants/TagConstants',
-    'components/modals/TagCreateModal.react'
+    'components/modals/TagCreateModal.react',
+    'models/Tag',
+    'actions/InstanceActions',
+    './modalHelpers/TagModalHelpers'
   ],
-  function (React, AppDispatcher, TagConstants, TagCreateModal) {
+  function (React, AppDispatcher, TagConstants, TagCreateModal, Tag, InstanceActions, TagModalHelpers) {
 
     return {
 
-      create: function(initialTagName, options){
+      dispatch: function(actionType, payload, options){
         options = options || {};
-
-        var onConfirm = options.onConfirm || function (name, description) {
-          AppDispatcher.handleRouteAction({
-            actionType: TagConstants.TAG_CREATE,
-            name: name,
-            description: description
-          });
-        };
-
-        var onCancel = function(){
-          // Important! We need to un-mount the component so it un-registers from Stores and
-          // also so that we can relaunch it again later.
-          React.unmountComponentAtNode(document.getElementById('modal'));
-        };
-
-        var modal = TagCreateModal({
-          header: "Create Tag",
-          confirmButtonMessage: "Create tag",
-          onConfirm: onConfirm,
-          onCancel: onCancel,
-          handleHidden: onCancel,
-          initialTagName: initialTagName
+        AppDispatcher.handleRouteAction({
+          actionType: actionType,
+          payload: payload,
+          options: options
         });
-
-        React.renderComponent(modal, document.getElementById('modal'));
       },
 
       create_AddToInstance: function(initialTagName, instance){
-        this.create(initialTagName, {
+
+        TagModalHelpers.create({name: initialTagName}, {
           onConfirm: function(name, description){
-            AppDispatcher.handleRouteAction({
-              actionType: TagConstants.TAG_CREATE_AND_ADD_TO_INSTANCE,
+
+            var tag = new Tag({
               name: name,
-              description: description,
-              instance: instance
+              description: description
             });
-          }
-        })
+
+            // Add the tag optimistically
+            this.dispatch(TagConstants.ADD_TAG, {tag: tag}, {silent: true});
+            tag.save().done(function () {
+              this.dispatch(TagConstants.UPDATE_TAG, {tag: tag}, {silent: true});
+              this.dispatch(TagConstants.REMOVE_PENDING_TAG_FROM_INSTANCE, {tag: tag, instance: instance});
+              InstanceActions.addTagToInstance(tag, instance);
+            }.bind(this)).fail(function () {
+              this.dispatch(TagConstants.REMOVE_TAG, {tag: tag}, {silent: true});
+              this.dispatch(TagConstants.REMOVE_PENDING_TAG_FROM_INSTANCE, {tag: tag, instance: instance});
+            }.bind(this));
+
+            this.dispatch(TagConstants.ADD_PENDING_TAG_TO_INSTANCE, {tag: tag, instance: instance});
+
+          }.bind(this)
+        });
       }
 
     };

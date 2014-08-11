@@ -52,7 +52,7 @@ define(
         _tags.remove(tag);
         TagStore.emitChange();
       });
-      _tags.add(tag);
+
     }
 
     function create_AddToInstance(name, description, instance){
@@ -69,6 +69,23 @@ define(
           _pendingInstanceTags[instance.id].remove(tag);
         }
       })
+    }
+
+    function add(tag, options){
+      _tags.add(tag);
+    }
+
+    function remove(tag, options){
+      _tags.remove(tag);
+    }
+
+    function addPendingTagToInstance(tag, instance){
+      _pendingInstanceTags[instance.id] = _pendingInstanceTags[instance.id] || new TagCollection();
+      _pendingInstanceTags[instance.id].add(tag);
+    }
+
+    function removePendingTagFromInstance(tag, instance){
+      _pendingInstanceTags[instance.id].remove(tag);
     }
 
     //
@@ -113,23 +130,43 @@ define(
 
     };
 
-    Dispatcher.register(function (payload) {
-      var action = payload.action;
+    Dispatcher.register(function (dispatch) {
+      var actionType = dispatch.action.actionType;
+      var payload = dispatch.action.payload;
+      var options = dispatch.action.options || options;
 
-      switch (action.actionType) {
-         case TagConstants.TAG_CREATE:
-           create(action.name, action.description);
-           break;
+      switch (actionType) {
+         // case TagConstants.TAG_CREATE:
+         //   create(action.name, action.description);
+         //   break;
 
-        case TagConstants.TAG_CREATE_AND_ADD_TO_INSTANCE:
-            create_AddToInstance(action.name, action.description, action.instance);
-           break;
+         // case TagConstants.TAG_CREATE_AND_ADD_TO_INSTANCE:
+         //   create_AddToInstance(action.name, action.description, action.instance);
+         //   break;
+
+        case TagConstants.ADD_TAG:
+          add(payload.tag);
+          break;
+
+        case TagConstants.REMOVE_TAG:
+          remove(payload.tag);
+          break;
+
+        case TagConstants.ADD_PENDING_TAG_TO_INSTANCE:
+          addPendingTagToInstance(payload.tag, payload.instance);
+          break;
+
+        case TagConstants.REMOVE_PENDING_TAG_FROM_INSTANCE:
+          removePendingTagFromInstance(payload.tag, payload.instance);
+          break;
 
          default:
            return true;
       }
 
-      TagStore.emitChange();
+      if(!options.silent) {
+        TagStore.emitChange();
+      }
 
       return true;
     });
