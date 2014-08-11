@@ -13,11 +13,27 @@ define(
     'components/modals/InstanceStartBody.react',
     'components/modals/InstanceDeleteBody.react',
     'components/modals/InstanceLaunchModal.react',
-    'url'
+    'url',
+    './modalHelpers/InstanceModalHelpers',
+    'constants/ProjectInstanceConstants'
   ],
-  function (AppDispatcher, InstanceConstants, React, globals, context, NotificationController, CancelConfirmModal, InstanceSuspendBody, InstanceResumeBody, InstanceStopBody, InstanceStartBody, InstanceDeleteBody, InstanceLaunchModal, URL) {
+  function (AppDispatcher, InstanceConstants, React, globals, context, NotificationController, CancelConfirmModal, InstanceSuspendBody, InstanceResumeBody, InstanceStopBody, InstanceStartBody, InstanceDeleteBody, InstanceLaunchModal, URL, InstanceModalHelpers, ProjectInstanceConstants) {
 
     return {
+
+      dispatch: function(actionType, payload, options){
+        options = options || {};
+        AppDispatcher.handleRouteAction({
+          actionType: actionType,
+          payload: payload,
+          options: options
+        });
+      },
+
+      // ------------------------
+      // Standard CRUD Operations
+      // ------------------------
+
       updateInstanceAttributes: function (instance, newAttributes) {
         instance.set(newAttributes);
         AppDispatcher.handleRouteAction({
@@ -110,25 +126,39 @@ define(
         React.renderComponent(modal, document.getElementById('modal'));
       },
 
-      terminate: function(instance, redirectUrl, project){
+      terminate: function(payload, options){
+        var instance = payload.instance;
+        var redirectUrl = payload.redirectUrl;
+        var project = payload.project;
+        var that = this;
 
-        var onConfirm = function () {
-          AppDispatcher.handleRouteAction({
-            actionType: InstanceConstants.INSTANCE_TERMINATE,
-            instance: instance,
-            project: project
-          });
-          Backbone.history.navigate(redirectUrl, {trigger: true});
-        };
+        InstanceModalHelpers.terminate({
+          instance: instance
+        },{
+          onConfirm: function () {
+            // todo: change instance state to show that it's being terminated
 
-        var modal = CancelConfirmModal({
-          header: "Are you sure you want to terminate this instance?",
-          confirmButtonMessage: "Yes, terminate this instance",
-          onConfirm: onConfirm,
-          body: InstanceDeleteBody.build(instance)
+            instance.destroy().done(function () {
+              NotificationController.success(null, 'Instance terminated');
+
+              that.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
+
+              // todo: the proper thing to do is to poll until the instance is actually terminated
+              // and THEN remove it from the project. Need to add a callback to support that.
+              // InstanceStore.pollUntilFinalState(instance);
+              that.dispatch(ProjectInstanceConstants.REMOVE_INSTANCE_FROM_PROJECT, {
+                instance: instance,
+                project: project
+              });
+
+            }).fail(function (response) {
+              NotificationController.error(null, 'Instance could not be terminated');
+              //that.dispatch(InstanceConstants.ADD_INSTANCE, {instance: instance});
+            });
+
+            if(redirectUrl) Backbone.history.navigate(redirectUrl, {trigger: true});
+          }
         });
-
-        React.renderComponent(modal, document.getElementById('modal'));
       },
 
       launch: function(application){

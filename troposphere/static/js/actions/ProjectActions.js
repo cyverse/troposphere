@@ -17,9 +17,11 @@ define(
     './modalHelpers/ProjectModalHelpers',
     'controllers/NotificationController',
     'stores/helpers/ProjectInstance',
-    'stores/helpers/ProjectVolume'
+    'stores/helpers/ProjectVolume',
+    'actions/InstanceActions',
+    'actions/VolumeActions'
   ],
-  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, InstanceConstants, VolumeConstants, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectReportResourceModal, Instance, Volume, URL, ProjectModalHelpers, NotificationController, ProjectInstance, ProjectVolume) {
+  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, InstanceConstants, VolumeConstants, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectReportResourceModal, Instance, Volume, URL, ProjectModalHelpers, NotificationController, ProjectInstance, ProjectVolume, InstanceActions, VolumeActions) {
 
     var _isParanoid = false;
 
@@ -263,15 +265,13 @@ define(
       deleteResource: function(resource, project){
         // todo: remove instance from project after deletion
         if(resource instanceof Instance){
-          AppDispatcher.handleRouteAction({
-            actionType: InstanceConstants.INSTANCE_TERMINATE,
+          InstanceActions.terminate({
             instance: resource,
             project: project
           });
         }else if(resource instanceof Volume){
-          AppDispatcher.handleRouteAction({
-            actionType: VolumeConstants.VOLUME_DESTROY,
-            volume: resource,
+          VolumeActions.terminate({
+            instance: resource,
             project: project
           });
         }else{

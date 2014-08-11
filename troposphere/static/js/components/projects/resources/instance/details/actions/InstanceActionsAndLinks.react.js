@@ -34,7 +34,11 @@ define(
 
       onDelete: function(){
         var redirectUrl = URL.project(this.props.project, {relative: true});
-        InstanceActions.terminate(this.props.instance, redirectUrl, this.props.project);
+        InstanceActions.terminate({
+          instance:this.props.instance,
+          project: this.props.project,
+          redirectUrl: redirectUrl
+        });
       },
 
       onReboot: function(){ /* no implementation yet */ },
