@@ -6,18 +6,14 @@ define(
     'collections/InstanceCollection',
     'models/Instance',
     'constants/InstanceConstants',
-    'controllers/NotificationController',
-    'stores/IdentityStore',
-    'actions/ProjectActions',
-    'q'
+    'controllers/NotificationController'
   ],
-  function (_, Dispatcher, Store, InstanceCollection, Instance, InstanceConstants, NotificationController, IdentityStore, ProjectActions, Q) {
+  function (_, Dispatcher, Store, InstanceCollection, Instance, InstanceConstants, NotificationController) {
 
     var _instances = new InstanceCollection();
     var _isFetching = false;
     var pollingFrequency = 10*1000;
     var _pendingProjectInstances = {};
-    var _pendingRemovalProjectInstances = {};
 
     //
     // CRUD Operations
