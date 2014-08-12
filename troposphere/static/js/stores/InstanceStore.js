@@ -6,9 +6,10 @@ define(
     'collections/InstanceCollection',
     'models/Instance',
     'constants/InstanceConstants',
+    'constants/ProjectInstanceConstants',
     'controllers/NotificationController'
   ],
-  function (_, Dispatcher, Store, InstanceCollection, Instance, InstanceConstants, NotificationController) {
+  function (_, Dispatcher, Store, InstanceCollection, Instance, InstanceConstants, ProjectInstanceConstants, NotificationController) {
 
     var _instances = new InstanceCollection();
     var _isFetching = false;
@@ -32,6 +33,15 @@ define(
 
     function remove(instance) {
       _instances.remove(instance);
+    }
+
+    function addPendingInstanceToProject(instance, project) {
+      _pendingProjectInstances[project.id] = _pendingProjectInstances[project.id] || new InstanceCollection();
+      _pendingProjectInstances[project.id].add(instance);
+    }
+
+    function removePendingInstanceFromProject(instance, project) {
+      _pendingProjectInstances[project.id].remove(instance);
     }
 
     //
@@ -160,6 +170,14 @@ define(
 
         case InstanceConstants.REMOVE_INSTANCE:
           remove(payload.instance);
+          break;
+
+        case ProjectInstanceConstants.ADD_PENDING_INSTANCE_TO_PROJECT:
+          addPendingInstanceToProject(payload.instance, payload.project);
+          break;
+
+        case ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT:
+          removePendingInstanceFromProject(payload.instance, payload.project);
           break;
 
         default:

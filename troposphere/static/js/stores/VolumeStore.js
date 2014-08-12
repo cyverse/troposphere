@@ -12,7 +12,8 @@ define(function (require) {
       VolumeCollection = require('collections/VolumeCollection'),
       Volume = require('models/Volume'),
       VolumeConstants = require('constants/VolumeConstants'),
-      NotificationController = require('controllers/NotificationController');
+      NotificationController = require('controllers/NotificationController'),
+      ProjectVolumeConstants = require('constants/ProjectVolumeConstants');
 
   //
   // Private variables
@@ -22,6 +23,7 @@ define(function (require) {
   var _isFetching = false;
   var validStates = ["available", "in-use", "error_deleting"];
   var pollingFrequency = 5 * 1000;
+  var _pendingProjectVolumes = {};
 
   //
   // CRUD Operations
@@ -40,6 +42,15 @@ define(function (require) {
 
   function remove(volume) {
     _volumes.remove(volume);
+  }
+
+  function addPendingVolumeToProject(volume, project){
+    _pendingProjectVolumes[project.id] = _pendingProjectVolumes[project.id] || new VolumeCollection();
+    _pendingProjectVolumes[project.id].add(volume);
+  }
+
+  function removePendingVolumeFromProject(volume, project){
+    _pendingProjectVolumes[project.id].remove(volume);
   }
 
   //
@@ -138,6 +149,12 @@ define(function (require) {
         return volume;
       });
 
+      // Add any pending volumes to the result set
+      var pendingProjectVolumes = _pendingProjectVolumes[project.id];
+      if(pendingProjectVolumes){
+        projectVolumeArray = projectVolumeArray.concat(pendingProjectVolumes.models);
+      }
+
       return new VolumeCollection(projectVolumeArray);
     }
 
@@ -160,6 +177,14 @@ define(function (require) {
 
       case VolumeConstants.REMOVE_VOLUME:
         remove(payload.volume);
+        break;
+
+      case ProjectVolumeConstants.ADD_PENDING_VOLUME_TO_PROJECT:
+        addPendingVolumeToProject(payload.volume, payload.project);
+        break;
+
+      case ProjectVolumeConstants.REMOVE_PENDING_VOLUME_FROM_PROJECT:
+        removePendingVolumeFromProject(payload.volume, payload.project);
         break;
 
       default:

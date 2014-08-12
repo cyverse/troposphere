@@ -11,9 +11,10 @@ define(
     'components/modals/VolumeCreateModal.react',
     './modalHelpers/VolumeModalHelpers',
     'controllers/NotificationController',
-    'models/Volume'
+    'models/Volume',
+    'actions/ProjectVolumeActions'
   ],
-  function (React, AppDispatcher, VolumeConstants, ProjectVolumeConstants, CancelConfirmModal, VolumeDetachBody, VolumeDestroyBody, VolumeAttachModal, VolumeCreateModal, VolumeModalHelpers, NotificationController, Volume) {
+  function (React, AppDispatcher, VolumeConstants, ProjectVolumeConstants, CancelConfirmModal, VolumeDetachBody, VolumeDestroyBody, VolumeAttachModal, VolumeCreateModal, VolumeModalHelpers, NotificationController, Volume, ProjectVolumeActions) {
 
     return {
 
@@ -206,7 +207,7 @@ define(
             };
 
             that.dispatch(VolumeConstants.ADD_VOLUME, {volume: volume});
-            that.dispatch(ProjectVolumeConstants.ADD_VOLUME_TO_PROJECT, {
+            that.dispatch(ProjectVolumeConstants.ADD_PENDING_VOLUME_TO_PROJECT, {
               volume: volume,
               project: project
             });
@@ -214,12 +215,17 @@ define(
             volume.save(params).done(function () {
               NotificationController.success(null, 'Volume created');
               that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+              that.dispatch(ProjectVolumeConstants.REMOVE_PENDING_VOLUME_FROM_PROJECT, {
+                volume: volume,
+                project: project
+              });
+              ProjectVolumeActions.addVolumeToProject(volume, project);
               //pollUntilBuildIsFinished(volume);
             }).fail(function () {
               NotificationController.error(null, 'Volume could not be created');
 
               that.dispatch(VolumeConstants.REMOVE_VOLUME, {volume: volume});
-              that.dispatch(ProjectVolumeConstants.REMOVE_VOLUME_FROM_PROJECT, {
+              that.dispatch(ProjectVolumeConstants.REMOVE_PENDING_VOLUME_FROM_PROJECT, {
                 volume: volume,
                 project: project
               });

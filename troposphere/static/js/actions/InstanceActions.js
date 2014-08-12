@@ -225,7 +225,7 @@ define(
             };
 
             that.dispatch(InstanceConstants.ADD_INSTANCE, {instance: instance});
-            that.dispatch(ProjectInstanceConstants.ADD_INSTANCE_TO_PROJECT, {
+            that.dispatch(ProjectInstanceConstants.ADD_PENDING_INSTANCE_TO_PROJECT, {
               instance: instance,
               project: project
             });
@@ -234,12 +234,16 @@ define(
               success: function (model) {
                 NotificationController.success(null, 'Instance launching...');
                 that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+                that.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
+                  instance: instance,
+                  project: project
+                });
                 //pollUntilBuildIsFinished(instance);
               },
               error: function (response) {
                 NotificationController.error(null, 'Instance could not be launched');
                 that.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
-                that.dispatch(ProjectInstanceConstants.REMOVE_INSTANCE_FROM_PROJECT, {
+                that.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
                   instance: instance,
                   project: project
                 });

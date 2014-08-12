@@ -19,9 +19,11 @@ define(
     'stores/helpers/ProjectInstance',
     'stores/helpers/ProjectVolume',
     'actions/InstanceActions',
-    'actions/VolumeActions'
+    'actions/VolumeActions',
+    'actions/ProjectInstanceActions',
+    'actions/ProjectVolumeActions'
   ],
-  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, InstanceConstants, VolumeConstants, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectReportResourceModal, Instance, Volume, URL, ProjectModalHelpers, NotificationController, ProjectInstance, ProjectVolume, InstanceActions, VolumeActions) {
+  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, InstanceConstants, VolumeConstants, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectReportResourceModal, Instance, Volume, URL, ProjectModalHelpers, NotificationController, ProjectInstance, ProjectVolume, InstanceActions, VolumeActions, ProjectInstanceActions, ProjectVolumeActions) {
 
     var _isParanoid = false;
 
@@ -115,9 +117,9 @@ define(
 
       addResourceToProject: function(resource, project, options){
         if(resource instanceof Instance){
-          this._addInstanceToProject(resource, project, options);
+          ProjectInstanceActions.addInstanceToProject(resource, project, options);
         }else if(resource instanceof Volume){
-          this._addVolumeToProject(resource, project, options);
+          ProjectVolumeActions.addVolumeToProject(resource, project, options);
         }else{
           throw new Error("Unknown resource type");
         }
@@ -125,124 +127,12 @@ define(
 
       removeResourceFromProject: function(resource, project, options){
         if(resource instanceof Instance){
-          this._removeInstanceFromProject(resource, project, options);
+          ProjectInstanceActions.removeInstanceFromProject(resource, project, options);
         }else if(resource instanceof Volume){
-          this._removeVolumeFromProject(resource, project, options);
+          ProjectVolumeActions.removeVolumeFromProject(resource, project, options);
         }else{
           throw new Error("Unknown resource type");
         }
-      },
-
-      _addInstanceToProject: function(instance, project, options){
-        var that = this;
-
-        var projectInstance = new ProjectInstance({
-          instance: instance,
-          project: project
-        });
-
-        this.dispatch(ProjectInstanceConstants.ADD_INSTANCE_TO_PROJECT, {
-          instance: instance,
-          project: project
-        }, options);
-
-        projectInstance.save().done(function(){
-          // re-fetch the project to make sure the change was also made on the server
-          if(_isParanoid) {
-            project.fetch().then(function () {
-              that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
-            });
-          }
-        }).fail(function(){
-          that.dispatch(ProjectInstanceConstants.REMOVE_INSTANCE_FROM_PROJECT, {
-            instance: instance,
-            project: project
-          });
-        });
-      },
-
-      _removeInstanceFromProject: function(instance, project, options){
-        var that = this;
-
-        var projectInstance = new ProjectInstance({
-          instance: instance,
-          project: project
-        });
-
-        this.dispatch(ProjectInstanceConstants.REMOVE_INSTANCE_FROM_PROJECT, {
-          instance: instance,
-          project: project
-        }, options);
-
-        projectInstance.destroy().done(function(){
-          // re-fetch the project to make sure the change was also made on the server
-          if(_isParanoid) {
-            project.fetch().then(function () {
-              that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
-            });
-          }
-        }).fail(function(){
-          that.dispatch(ProjectInstanceConstants.ADD_INSTANCE_TO_PROJECT, {
-            instance: instance,
-            project: project
-          });
-        });
-      },
-
-      _addVolumeToProject: function(volume, project, options){
-        var that = this;
-
-        var projectVolume = new ProjectVolume({
-          volume: volume,
-          project: project
-        });
-
-        this.dispatch(ProjectVolumeConstants.ADD_VOLUME_TO_PROJECT, {
-          volume: volume,
-          project: project
-        }, options);
-
-        projectVolume.save().done(function(){
-          // re-fetch the project to make sure the change was also made on the server
-          if(_isParanoid) {
-            project.fetch().then(function () {
-              that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
-            });
-          }
-        }).fail(function(){
-          that.dispatch(ProjectVolumeConstants.REMOVE_VOLUME_FROM_PROJECT, {
-            volume: volume,
-            project: project
-          });
-        });
-      },
-
-      _removeVolumeFromProject: function(volume, project, options){
-        var that = this;
-
-        var projectVolume = new ProjectVolume({
-          volume: volume,
-          project: project
-        });
-
-        this.dispatch(ProjectVolumeConstants.REMOVE_VOLUME_FROM_PROJECT, {
-          volume: volume,
-          project: project
-        }, options);
-
-        projectVolume.destroy().done(function(){
-          // re-fetch the project to make sure the change was also made on the server
-          if(_isParanoid) {
-            project.fetch().then(function () {
-              that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
-            });
-          }
-        }).fail(function(){
-          that.dispatch(ProjectVolumeConstants.ADD_VOLUME_TO_PROJECT, {
-            volume: volume,
-            project: project
-          });
-        });
       },
 
       // ------------------------
