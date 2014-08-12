@@ -41,17 +41,30 @@ define(
       // ------------------------
 
       create: function (project) {
-        AppDispatcher.handleRouteAction({
-          actionType: ProjectConstants.PROJECT_CREATE,
-          model: project
+        var that = this;
+
+        this.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
+
+        project.save().done(function(){
+          NotificationController.success(null, "Project " + project.get('name') + " created.");
+        }).fail(function(){
+          var message = "Error creating Project " + project.get('name') + ".";
+          NotificationController.error(null, message);
+          that.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
         });
       },
 
       updateProjectAttributes: function (project, newAttributes) {
+        var that = this;
         project.set(newAttributes);
-        AppDispatcher.handleRouteAction({
-          actionType: ProjectConstants.PROJECT_UPDATE,
-          model: project
+
+        that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
+
+        project.save().done(function(){
+          NotificationController.success(null, "Project " + project.get('name') + " updated.");
+        }).fail(function(){
+          NotificationController.error(null, "Error updating Project " + project.get('name') + ".");
+          that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
         });
       },
 
@@ -62,7 +75,7 @@ define(
             that.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
 
             project.destroy().done(function(){
-              // handle success
+              NotificationController.success(null, "Project " + project.get('name') + " deleted.");
             }).fail(function(){
               var failureMessage = "Error deleting Project " + project.get('name') + ".";
               NotificationController.error(failureMessage);

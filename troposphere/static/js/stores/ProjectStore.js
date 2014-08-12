@@ -5,17 +5,13 @@ define(
     'stores/Store',
     'collections/ProjectCollection',
     'constants/ProjectConstants',
-    'controllers/NotificationController',
     'constants/ProjectInstanceConstants',
-    './helpers/ProjectInstance',
-    'constants/ProjectVolumeConstants',
-    './helpers/ProjectVolume'
+    'constants/ProjectVolumeConstants'
   ],
-  function (_, Dispatcher, Store, ProjectCollection, ProjectConstants, NotificationController, ProjectInstanceConstants, ProjectInstance, ProjectVolumeConstants, ProjectVolume) {
+  function (_, Dispatcher, Store, ProjectCollection, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants) {
 
     var _projects = null;
     var _isFetching = false;
-    var _shouldDoubleCheckIfProjectApiFunctionsAsExpected = false;
 
     //
     // CRUD Operations
@@ -32,46 +28,6 @@ define(
         });
       }
     };
-
-    function create(project){
-      project.save().done(function(){
-        var successMessage = "Project " + project.get('name') + " created.";
-        //NotificationController.success(successMessage);
-        ProjectStore.emitChange();
-      }).fail(function(){
-        var failureMessage = "Error creating Project " + project.get('name') + ".";
-        NotificationController.error(failureMessage);
-        _projects.remove(project);
-        ProjectStore.emitChange();
-      });
-      _projects.add(project);
-    }
-
-    function update(project){
-      project.save().done(function(){
-        var successMessage = "Project " + project.get('name') + " updated.";
-        //NotificationController.success(successMessage);
-        ProjectStore.emitChange();
-      }).fail(function(){
-        var failureMessage = "Error updating Project " + project.get('name') + ".";
-        NotificationController.error(failureMessage);
-        ProjectStore.emitChange();
-      });
-    }
-
-    function destroy(project){
-      project.destroy().done(function(){
-        var successMessage = "Project " + project.get('name') + " deleted.";
-        //NotificationController.success(successMessage);
-        ProjectStore.emitChange();
-      }).fail(function(){
-        var failureMessage = "Error deleting Project " + project.get('name') + ".";
-        NotificationController.error(failureMessage);
-        _projects.add(project);
-        ProjectStore.emitChange();
-      });
-      _projects.remove(project);
-    }
 
     function add(project){
       _projects.add(project);
@@ -152,17 +108,6 @@ define(
       var options = dispatch.action.options || options;
 
       switch (actionType) {
-        // case ProjectConstants.PROJECT_CREATE:
-        //   create(action.model);
-        //   break;
-
-        // case ProjectConstants.PROJECT_UPDATE:
-        //   update(action.model);
-        //   break;
-
-        // case ProjectConstants.PROJECT_DESTROY:
-        //   destroy(action.model);
-        //   break;
 
         case ProjectConstants.ADD_PROJECT:
           add(payload.project);
