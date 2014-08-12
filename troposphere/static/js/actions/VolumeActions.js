@@ -4,17 +4,13 @@ define(
     'dispatchers/AppDispatcher',
     'constants/VolumeConstants',
     'constants/ProjectVolumeConstants',
-    'components/modals/CancelConfirmModal.react',
-    'components/modals/VolumeDetachBody.react',
-    'components/modals/VolumeDestroyBody.react',
-    'components/modals/VolumeAttachModal.react',
-    'components/modals/VolumeCreateModal.react',
     './modalHelpers/VolumeModalHelpers',
     'controllers/NotificationController',
     'models/Volume',
-    'actions/ProjectVolumeActions'
+    'actions/ProjectVolumeActions',
+    'components/notifications/VolumeAttachNotifications.react'
   ],
-  function (React, AppDispatcher, VolumeConstants, ProjectVolumeConstants, CancelConfirmModal, VolumeDetachBody, VolumeDestroyBody, VolumeAttachModal, VolumeCreateModal, VolumeModalHelpers, NotificationController, Volume, ProjectVolumeActions) {
+  function (React, AppDispatcher, VolumeConstants, ProjectVolumeConstants, VolumeModalHelpers, NotificationController, Volume, ProjectVolumeActions, VolumeAttachNotifications) {
 
     return {
 
@@ -50,44 +46,46 @@ define(
         });
       },
 
-      detach: function (volume) {
+      attach: function(volume, project){
+        var that = this;
 
-//        volume.detach({
-//          success: function (model) {
-//            NotificationController.success("Success", "Volume was detached.  It is now available to attach to another instance or destroy.");
-//            VolumeStore.emitChange();
-//          },
-//          error: function (message, response) {
-//            NotificationController.error("Error", "Volume could not be detached");
-//            VolumeStore.emitChange();
-//          }
-//        });
-
-        var onConfirm = function () {
-          AppDispatcher.handleRouteAction({
-            actionType: VolumeConstants.VOLUME_DETACH,
-            volume: volume
-          });
-        };
-
-        var onCancel = function(){
-          // Important! We need to un-mount the component so it un-registers from Stores and
-          // also so that we can relaunch it again later.
-          React.unmountComponentAtNode(document.getElementById('modal'));
-        };
-
-        var headerMessage = "Detach volume " + volume.get('name') + "?";
-
-        var modal = CancelConfirmModal({
-          header: headerMessage,
-          confirmButtonMessage: "Yes, detach this volume",
-          body: VolumeDetachBody.build(),
-          onConfirm: onConfirm,
-          onCancel: onCancel,
-          handleHidden: onCancel
+        VolumeModalHelpers.attach({
+          volume: volume,
+          project: project
+        },{
+          onConfirm: function (instance, mountLocation) {
+            volume.attachTo(instance, mountLocation, {
+              success: function () {
+                NotificationController.success(null, VolumeAttachNotifications.success());
+                that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+              },
+              error: function () {
+                var message = "Volume could not be attached. " + VolumeAttachNotifications.error();
+                NotificationController.error(null, message);
+              }
+            });
+          }
         });
+      },
 
-        React.renderComponent(modal, document.getElementById('modal'));
+      detach: function (volume) {
+        var that = this;
+
+        VolumeModalHelpers.start({
+          volume: volume
+        },{
+          onConfirm: function () {
+            volume.detach({
+              success: function (model) {
+                NotificationController.success(null, "Volume was detached.  It is now available to attach to another instance or destroy.");
+                that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+              },
+              error: function (message, response) {
+                NotificationController.error(null, "Volume could not be detached");
+              }
+            });
+          }
+        });
       },
 
       _destroy: function(payload, options){
@@ -134,54 +132,6 @@ define(
 
       destroy_noModal: function(payload, options){
         this._destroy(payload, options);
-      },
-
-      attach: function(volume, project){
-
-//        var attach = function(volume, instance, mountLocation){
-//          volume.attachTo(instance, mountLocation, {
-//            success: function (response) {
-//              var title = "Volume successfully attached";
-//              var successMessage = VolumeAttachNotifications.success();
-//              NotificationController.success(title, successMessage);
-//              VolumeStore.emitChange();
-//            },
-//            error: function (response) {
-//              var title = "Volume could not be attached";
-//              var errorMessage = VolumeAttachNotifications.error();
-//              NotificationController.error(title, errorMessage);
-//              VolumeStore.emitChange();
-//            }
-//          });
-//        };
-
-        var onConfirm = function (instance, mountLocation) {
-          mountLocation = mountLocation || "";
-          AppDispatcher.handleRouteAction({
-            actionType: VolumeConstants.VOLUME_ATTACH,
-            volume: volume,
-            instance: instance,
-            mountLocation: mountLocation
-          });
-        };
-
-        var onCancel = function(){
-          // Important! We need to un-mount the component so it un-registers from Stores and
-          // also so that we can relaunch it again later.
-          React.unmountComponentAtNode(document.getElementById('modal'));
-        };
-
-        var modal = VolumeAttachModal({
-          header: "Attach Volume",
-          volume: volume,
-          confirmButtonMessage: "Attach volume to instance",
-          onConfirm: onConfirm,
-          onCancel: onCancel,
-          handleHidden: onCancel,
-          project: project
-        });
-
-        React.renderComponent(modal, document.getElementById('modal'));
       },
 
       createAndAddToProject: function(payload){
