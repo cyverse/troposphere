@@ -89,6 +89,23 @@ define(
         });
 
         CommonHelpers.renderComponent(modal);
+      },
+
+      launch: function (payload, options) {
+        if(!options.onConfirm) throw new Error("Must supply options.onConfirm callback");
+
+        var application = payload.application;
+
+        var modal = InstanceLaunchModal({
+          header: application.get('name'),
+          application: application,
+          confirmButtonMessage: "Launch instance",
+          onConfirm: options.onConfirm,
+          onCancel: CommonHelpers.onCancel,
+          handleHidden: CommonHelpers.onCancel
+        });
+
+        CommonHelpers.renderComponent(modal);
       }
 
     };

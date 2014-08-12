@@ -8,9 +8,10 @@ define(
     'controllers/NotificationController',
     'url',
     './modalHelpers/InstanceModalHelpers',
-    'constants/ProjectInstanceConstants'
+    'constants/ProjectInstanceConstants',
+    'models/Instance'
   ],
-  function (AppDispatcher, InstanceConstants, React, globals, context, NotificationController, URL, InstanceModalHelpers, ProjectInstanceConstants) {
+  function (AppDispatcher, InstanceConstants, React, globals, context, NotificationController, URL, InstanceModalHelpers, ProjectInstanceConstants, Instance) {
 
     return {
 
@@ -160,7 +161,6 @@ define(
            });
           }
         });
-
       },
 
       _terminate: function(payload, options){
@@ -211,40 +211,7 @@ define(
 
       launch: function(application){
 
-        // var launch = function(identity, machineId, sizeId, instanceName, options){
-        //   options = options || {};
 
-        //   var instance = new Instance({
-        //     identity: {
-        //       id: identity.id,
-        //       provider: identity.get('provider_id')
-        //     },
-        //     status: "build - scheduling"
-        //   }, {parse: true});
-
-        //   var params = {
-        //     machine_alias: machineId,
-        //     size_alias: sizeId,
-        //     name: instanceName
-        //   };
-
-        //   if(options.afterCreate) options.afterCreate(instance);
-
-        //   instance.save(params, {
-        //     success: function (model) {
-        //       if(options.afterSave) options.afterSave(instance);
-        //       pollUntilBuildIsFinished(instance);
-        //       InstanceStore.emitChange();
-        //     },
-        //     error: function (response) {
-        //       NotificationController.error('Error', 'Instance could not be launched');
-        //       if(options.afterSaveError) options.afterSaveError(instance);
-        //       _instances.remove(instance);
-        //       InstanceStore.emitChange();
-        //     }
-        //   });
-        //   _instances.add(instance);
-        // };
 
         // var launch_AddToProject = function(identity, machineId, sizeId, instanceName, project){
         //   launch(identity, machineId, sizeId, instanceName, {
@@ -262,38 +229,55 @@ define(
         //   })
         // };
 
-        var onConfirm = function (identity, machineId, sizeId, instanceName, project) {
-          AppDispatcher.handleRouteAction({
-            actionType: InstanceConstants.INSTANCE_LAUNCH,
-            identity: identity,
-            machineId: machineId,
-            sizeId: sizeId,
-            instanceName: instanceName,
-            project: project
-          });
-          // Since this is triggered from the images page, navigate off
-          // that page and back to the instance list so the user can see
-          // their instance being created
-          var redirectUrl = URL.project(project, {relative: true});
-          Backbone.history.navigate(redirectUrl, {trigger: true});
-        };
+        var that = this;
 
-        var onCancel = function(){
-          // Important! We need to un-mount the component so it un-registers from Stores and
-          // also so that we can relaunch it again later.
-          React.unmountComponentAtNode(document.getElementById('modal'));
-        };
+        InstanceModalHelpers.launch({
+          application: application
+        },{
+          onConfirm: function (identity, machineId, sizeId, instanceName, project) {
+            var instance = new Instance({
+              identity: {
+                id: identity.id,
+                provider: identity.get('provider_id')
+              },
+              status: "build - scheduling"
+            }, {parse: true});
 
-        var modal = InstanceLaunchModal({
-          header: application.get('name'),
-          application: application,
-          confirmButtonMessage: "Launch instance",
-          onConfirm: onConfirm,
-          onCancel: onCancel,
-          handleHidden: onCancel
+            var params = {
+              machine_alias: machineId,
+              size_alias: sizeId,
+              name: instanceName
+            };
+
+            that.dispatch(InstanceConstants.ADD_INSTANCE, {instance: instance});
+            that.dispatch(ProjectInstanceConstants.ADD_INSTANCE_TO_PROJECT, {
+              instance: instance,
+              project: project
+            });
+
+            instance.save(params, {
+              success: function (model) {
+                NotificationController.success(null, 'Instance launching...');
+                that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+                //pollUntilBuildIsFinished(instance);
+              },
+              error: function (response) {
+                NotificationController.error(null, 'Instance could not be launched');
+                that.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
+                that.dispatch(ProjectInstanceConstants.REMOVE_INSTANCE_FROM_PROJECT, {
+                  instance: instance,
+                  project: project
+                });
+              }
+            });
+
+            // Since this is triggered from the images page, navigate off
+            // that page and back to the instance list so the user can see
+            // their instance being created
+            var redirectUrl = URL.project(project, {relative: true});
+            Backbone.history.navigate(redirectUrl, {trigger: true});
+          }
         });
-
-        React.renderComponent(modal, document.getElementById('modal'));
       },
 
       requestImage: function(instance, requestData){
