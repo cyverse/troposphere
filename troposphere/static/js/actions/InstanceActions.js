@@ -28,14 +28,10 @@ define(
       // ------------------------
 
       updateInstanceAttributes: function (instance, newAttributes) {
-        var oldName = instance.get('name');
-        var oldTags = instance.get('tags');
         var that = this;
 
-        instance.set({
-          name: newAttributes.name,
-          tags: newAttributes.tags
-        });
+        instance.set(newAttributes);
+        that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
 
         instance.save({
           name: instance.get('name'),
@@ -48,11 +44,6 @@ define(
         }).fail(function () {
           var message = "Error updating Instance " + instance.get('name') + ".";
           NotificationController.error(message);
-
-          instance.set({
-            name: oldName,
-            tags: oldTags
-          });
           that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
         });
       },

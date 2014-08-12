@@ -56,12 +56,12 @@ define(
 
       updateProjectAttributes: function (project, newAttributes) {
         var that = this;
-        project.set(newAttributes);
 
+        project.set(newAttributes);
         that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
 
         project.save().done(function(){
-          NotificationController.success(null, "Project " + project.get('name') + " updated.");
+          NotificationController.success(null, "Project name updated.");
         }).fail(function(){
           NotificationController.error(null, "Error updating Project " + project.get('name') + ".");
           that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});

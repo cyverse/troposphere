@@ -34,11 +34,14 @@ define(
         var that = this;
 
         volume.set(newAttributes);
+        that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+
         volume.save({
           name: volume.get('name')
         },{
           patch: true
         }).done(function(){
+          NotificationController.success(null, "Volume name updated");
           that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
         }).fail(function(){
           var message = "Error updating Volume " + volume.get('name') + ".";
