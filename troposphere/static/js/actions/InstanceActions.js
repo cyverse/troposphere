@@ -6,18 +6,11 @@ define(
     'globals',
     'context',
     'controllers/NotificationController',
-    'components/modals/CancelConfirmModal.react',
-    'components/modals/InstanceSuspendBody.react',
-    'components/modals/InstanceResumeBody.react',
-    'components/modals/InstanceStopBody.react',
-    'components/modals/InstanceStartBody.react',
-    'components/modals/InstanceDeleteBody.react',
-    'components/modals/InstanceLaunchModal.react',
     'url',
     './modalHelpers/InstanceModalHelpers',
     'constants/ProjectInstanceConstants'
   ],
-  function (AppDispatcher, InstanceConstants, React, globals, context, NotificationController, CancelConfirmModal, InstanceSuspendBody, InstanceResumeBody, InstanceStopBody, InstanceStartBody, InstanceDeleteBody, InstanceLaunchModal, URL, InstanceModalHelpers, ProjectInstanceConstants) {
+  function (AppDispatcher, InstanceConstants, React, globals, context, NotificationController, URL, InstanceModalHelpers, ProjectInstanceConstants) {
 
     return {
 
@@ -35,6 +28,24 @@ define(
       // ------------------------
 
       updateInstanceAttributes: function (instance, newAttributes) {
+
+        // var update = function(instance){
+        //   instance.save({
+        //     name: instance.get('name'),
+        //     tags: instance.get('tags')
+        //   }, {
+        //     patch: true
+        //   }).done(function(){
+        //     var successMessage = "Instance " + instance.get('name') + " updated.";
+        //     //NotificationController.success(successMessage);
+        //     InstanceStore.emitChange();
+        //   }).fail(function(){
+        //     var failureMessage = "Error updating Instance " + instance.get('name') + ".";
+        //     NotificationController.error(failureMessage);
+        //     InstanceStore.emitChange();
+        //   });
+        // };
+
         instance.set(newAttributes);
         AppDispatcher.handleRouteAction({
           actionType: InstanceConstants.INSTANCE_UPDATE,
@@ -43,6 +54,23 @@ define(
       },
 
       addTagToInstance: function(tag, instance){
+
+        // var addTagToInstance = function(tag, instance){
+        //   var instanceTags = instance.get('tags');
+        //   instanceTags.push(tag.get('name'));
+        //   instance.save({
+        //     tags: instanceTags
+        //   }, {
+        //     patch: true
+        //   }).done(function(){
+        //     InstanceStore.emitChange();
+        //   }).fail(function(){
+        //     var failureMessage = "Error adding tag to Instance";
+        //     NotificationController.error(failureMessage);
+        //     InstanceStore.emitChange();
+        //   });
+        // };
+
         AppDispatcher.handleRouteAction({
           actionType: InstanceConstants.INSTANCE_ADD_TAG,
           tag: tag,
@@ -51,79 +79,88 @@ define(
       },
 
       suspend: function (instance) {
+        var that = this;
 
-        var onConfirm = function () {
-          AppDispatcher.handleRouteAction({
-            actionType: InstanceConstants.INSTANCE_SUSPEND,
-            instance: instance
-          });
-        };
-
-        var modal = CancelConfirmModal({
-          header: "Suspend Instance",
-          confirmButtonMessage: "Suspend Instance",
-          onConfirm: onConfirm,
-          body: InstanceSuspendBody.build()
+        InstanceModalHelpers.suspend({
+          instance: instance
+        },{
+          onConfirm: function () {
+            instance.suspend({
+             success: function (model) {
+               NotificationController.success(null, "Your instance is suspending...");
+               //pollUntilBuildIsFinished(instance);
+               that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+             },
+             error: function (response) {
+               NotificationController.error(null, "Your instance could not be suspended");
+             }
+           });
+          }
         });
-
-        React.renderComponent(modal, document.getElementById('modal'));
       },
 
       resume: function(instance){
+        var that = this;
 
-        var onConfirm = function () {
-          AppDispatcher.handleRouteAction({
-            actionType: InstanceConstants.INSTANCE_RESUME,
-            instance: instance
-          });
-        };
-
-        var modal = CancelConfirmModal({
-          header: "Resume Instance",
-          confirmButtonMessage: "Resume Instance",
-          onConfirm: onConfirm,
-          body: InstanceResumeBody.build()
+        InstanceModalHelpers.resume({
+          instance: instance
+        },{
+          onConfirm: function () {
+            instance.resume({
+             success: function (model) {
+               NotificationController.success(null, "Your instance is resuming...");
+               //pollUntilBuildIsFinished(instance);
+               that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+             },
+             error: function (response) {
+               NotificationController.error(null, "Your instance could not be resumed");
+             }
+           });
+          }
         });
-
-        React.renderComponent(modal, document.getElementById('modal'));
       },
 
       stop: function(instance){
+        var that = this;
 
-        var onConfirm = function () {
-          AppDispatcher.handleRouteAction({
-            actionType: InstanceConstants.INSTANCE_STOP,
-            instance: instance
-          });
-        };
-
-        var modal = CancelConfirmModal({
-          header: "Stop Instance",
-          confirmButtonMessage: "Stop Instance",
-          onConfirm: onConfirm,
-          body: InstanceStopBody.build()
+        InstanceModalHelpers.stop({
+          instance: instance
+        },{
+          onConfirm: function () {
+            instance.stop({
+             success: function (model) {
+               NotificationController.success(null, "Your instance is stopping...");
+               //pollUntilBuildIsFinished(instance);
+               that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+             },
+             error: function (response) {
+               NotificationController.error(null, "Your instance could not be stopped");
+             }
+           });
+          }
         });
-
-        React.renderComponent(modal, document.getElementById('modal'));
       },
 
       start: function(instance){
+        var that = this;
 
-        var onConfirm = function () {
-          AppDispatcher.handleRouteAction({
-            actionType: InstanceConstants.INSTANCE_START,
-            instance: instance
-          });
-        };
-
-        var modal = CancelConfirmModal({
-          header: "Start Instance",
-          confirmButtonMessage: "Start Instance",
-          onConfirm: onConfirm,
-          body: InstanceStartBody.build()
+        InstanceModalHelpers.start({
+          instance: instance
+        },{
+          onConfirm: function () {
+            instance.start({
+             success: function (model) {
+               NotificationController.success(null, "Your instance is starting...");
+               //pollUntilBuildIsFinished(instance);
+               that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+             },
+             error: function (response) {
+               NotificationController.error(null, "Your instance could not be started");
+             }
+           });
+          }
         });
 
-        React.renderComponent(modal, document.getElementById('modal'));
       },
 
       _terminate: function(payload, options){
@@ -173,6 +210,57 @@ define(
       },
 
       launch: function(application){
+
+        // var launch = function(identity, machineId, sizeId, instanceName, options){
+        //   options = options || {};
+
+        //   var instance = new Instance({
+        //     identity: {
+        //       id: identity.id,
+        //       provider: identity.get('provider_id')
+        //     },
+        //     status: "build - scheduling"
+        //   }, {parse: true});
+
+        //   var params = {
+        //     machine_alias: machineId,
+        //     size_alias: sizeId,
+        //     name: instanceName
+        //   };
+
+        //   if(options.afterCreate) options.afterCreate(instance);
+
+        //   instance.save(params, {
+        //     success: function (model) {
+        //       if(options.afterSave) options.afterSave(instance);
+        //       pollUntilBuildIsFinished(instance);
+        //       InstanceStore.emitChange();
+        //     },
+        //     error: function (response) {
+        //       NotificationController.error('Error', 'Instance could not be launched');
+        //       if(options.afterSaveError) options.afterSaveError(instance);
+        //       _instances.remove(instance);
+        //       InstanceStore.emitChange();
+        //     }
+        //   });
+        //   _instances.add(instance);
+        // };
+
+        // var launch_AddToProject = function(identity, machineId, sizeId, instanceName, project){
+        //   launch(identity, machineId, sizeId, instanceName, {
+        //     afterCreate: function(instance){
+        //       _pendingProjectInstances[project.id] = _pendingProjectInstances[project.id] || new InstanceCollection();
+        //       _pendingProjectInstances[project.id].add(instance);
+        //     },
+        //     afterSave: function(instance){
+        //       _pendingProjectInstances[project.id].remove(instance);
+        //       ProjectActions.addItemToProject(project, instance);
+        //     },
+        //     afterSaveError: function(instance){
+        //       _pendingProjectInstances[project.id].remove(instance);
+        //     }
+        //   })
+        // };
 
         var onConfirm = function (identity, machineId, sizeId, instanceName, project) {
           AppDispatcher.handleRouteAction({
