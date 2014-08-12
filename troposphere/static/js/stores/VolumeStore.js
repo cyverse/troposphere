@@ -48,7 +48,7 @@ define(function (require) {
 
   var _volumesBuilding = [];
   var pollUntilBuildIsFinished = function (volume) {
-    return;
+    //return;
     if (volume.id) {
       _volumesBuilding.push(volume);
       fetchAndRemoveIfFinished(volume);
@@ -56,7 +56,7 @@ define(function (require) {
   };
 
   var fetchAndRemoveIfFinished = function (volume) {
-    return;
+    //return;
     setTimeout(function () {
       volume.fetch().done(function () {
         var index = _volumesBuilding.indexOf(volume);
@@ -73,7 +73,7 @@ define(function (require) {
   // The pollNow functions poll immediately and then cycle
   // as opposed to waiting for the delay and THEN polling
   var pollNowUntilBuildIsFinished = function (volume) {
-    return;
+    //return;
     if (volume.id && _volumesBuilding.indexOf(volume) < 0) {
       _volumesBuilding.push(volume);
       fetchNowAndRemoveIfFinished(volume);
@@ -81,7 +81,7 @@ define(function (require) {
   };
 
   var fetchNowAndRemoveIfFinished = function (volume) {
-    return;
+    //return;
     volume.fetch().done(function () {
       var index = _volumesBuilding.indexOf(volume);
       if (volume.get('state').isInFinalState()) {

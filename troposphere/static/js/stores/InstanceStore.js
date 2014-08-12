@@ -40,7 +40,7 @@ define(
 
     var _instancesBuilding = [];
     var pollUntilBuildIsFinished = function(instance){
-      return;
+      //return;
       if(_instancesBuilding.indexOf(instance) < 0) {
         _instancesBuilding.push(instance);
         fetchAndRemoveIfFinished(instance);
@@ -49,7 +49,7 @@ define(
 
     // Poll
     var pollNowUntilBuildIsFinished = function(instance){
-      return;
+      //return;
       if(_instancesBuilding.indexOf(instance) < 0) {
         _instancesBuilding.push(instance);
         fetchNowAndRemoveIfFinished(instance);
@@ -57,7 +57,7 @@ define(
     };
 
     var fetchAndRemoveIfFinished = function(instance){
-      return;
+      //return;
       setTimeout(function(){
         instance.fetch().done(function(){
           var index = _instancesBuilding.indexOf(instance);
@@ -72,7 +72,7 @@ define(
     };
 
     var fetchNowAndRemoveIfFinished = function(instance){
-      return;
+      //return;
       instance.fetch().done(function(){
         var index = _instancesBuilding.indexOf(instance);
         if(instance.get('state').isInFinalState()){
