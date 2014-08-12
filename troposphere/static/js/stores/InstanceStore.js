@@ -382,47 +382,63 @@ define(
 
     };
 
-    Dispatcher.register(function (payload) {
-      var action = payload.action;
+    Dispatcher.register(function (dispatch) {
+      var actionType = dispatch.action.actionType;
+      var payload = dispatch.action.payload;
+      var options = dispatch.action.options || options;
 
-      switch (action.actionType) {
+      switch (actionType) {
         case InstanceConstants.INSTANCE_UPDATE:
-          update(action.instance);
+          update(payload.instance);
           break;
 
         case InstanceConstants.INSTANCE_SUSPEND:
-          suspend(action.instance);
+          suspend(payload.instance);
           break;
 
         case InstanceConstants.INSTANCE_RESUME:
-          resume(action.instance);
+          resume(payload.instance);
           break;
 
         case InstanceConstants.INSTANCE_STOP:
-          stop(action.instance);
+          stop(payload.instance);
           break;
 
         case InstanceConstants.INSTANCE_START:
-          start(action.instance);
+          start(payload.instance);
           break;
 
         case InstanceConstants.INSTANCE_TERMINATE:
-          terminate_RemoveFromProject(action.instance, action.project);
+          terminate_RemoveFromProject(payload.instance, payload.project);
           break;
 
         case InstanceConstants.INSTANCE_LAUNCH:
-          launch_AddToProject(action.identity, action.machineId, action.sizeId, action.instanceName, action.project);
+          launch_AddToProject(payload.identity, payload.machineId, payload.sizeId, payload.instanceName, payload.project);
           break;
 
         case InstanceConstants.INSTANCE_ADD_TAG:
-          addTagToInstance(action.tag, action.instance);
+          addTagToInstance(payload.tag, payload.instance);
+          break;
+
+        case InstanceConstants.ADD_INSTANCE:
+          add(payload.tag, payload.instance);
+          break;
+
+        case InstanceConstants.UPDATE_INSTANCE:
+          add(payload.tag, payload.instance);
+          break;
+
+        case InstanceConstants.REMOVE_INSTANCE:
+          add(payload.tag, payload.instance);
           break;
 
         default:
           return true;
       }
 
-      InstanceStore.emitChange();
+      if(!options.silent) {
+        InstanceStore.emitChange();
+      }
 
       return true;
     });

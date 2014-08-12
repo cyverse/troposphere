@@ -78,7 +78,7 @@ define(
     }
 
     function update(project){
-      var existingModel = _projects.find(project);
+      var existingModel = _projects.get(project);
       if(!existingModel) throw new Error("Project doesn't exist.");
       _projects.add(project, {merge: true});
     }

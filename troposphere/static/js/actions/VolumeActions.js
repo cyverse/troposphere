@@ -10,9 +10,10 @@ define(
     'components/modals/VolumeAttachModal.react',
     'components/modals/VolumeCreateModal.react',
     './modalHelpers/VolumeModalHelpers',
-    'controllers/NotificationController'
+    'controllers/NotificationController',
+    'models/Volume'
   ],
-  function (React, AppDispatcher, VolumeConstants, ProjectVolumeConstants, CancelConfirmModal, VolumeDetachBody, VolumeDestroyBody, VolumeAttachModal, VolumeCreateModal, VolumeModalHelpers, NotificationController) {
+  function (React, AppDispatcher, VolumeConstants, ProjectVolumeConstants, CancelConfirmModal, VolumeDetachBody, VolumeDestroyBody, VolumeAttachModal, VolumeCreateModal, VolumeModalHelpers, NotificationController, Volume) {
 
     return {
 
@@ -30,14 +31,33 @@ define(
       // ------------------------
 
       updateVolumeAttributes: function (volume, newAttributes) {
+        var that = this;
+
         volume.set(newAttributes);
-        AppDispatcher.handleRouteAction({
-          actionType: VolumeConstants.VOLUME_UPDATE,
-          volume: volume
+        volume.save({
+          name: volume.get('name')
+        },{
+          patch: true
+        }).done(function(){
+          that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+        }).fail(function(){
+          var message = "Error updating Volume " + volume.get('name') + ".";
+          NotificationController.error(message);
         });
       },
 
       detach: function (volume) {
+
+//        volume.detach({
+//          success: function (model) {
+//            NotificationController.success("Success", "Volume was detached.  It is now available to attach to another instance or destroy.");
+//            VolumeStore.emitChange();
+//          },
+//          error: function (message, response) {
+//            NotificationController.error("Error", "Volume could not be detached");
+//            VolumeStore.emitChange();
+//          }
+//        });
 
         var onConfirm = function () {
           AppDispatcher.handleRouteAction({
@@ -114,6 +134,23 @@ define(
 
       attach: function(volume, project){
 
+//        var attach = function(volume, instance, mountLocation){
+//          volume.attachTo(instance, mountLocation, {
+//            success: function (response) {
+//              var title = "Volume successfully attached";
+//              var successMessage = VolumeAttachNotifications.success();
+//              NotificationController.success(title, successMessage);
+//              VolumeStore.emitChange();
+//            },
+//            error: function (response) {
+//              var title = "Volume could not be attached";
+//              var errorMessage = VolumeAttachNotifications.error();
+//              NotificationController.error(title, errorMessage);
+//              VolumeStore.emitChange();
+//            }
+//          });
+//        };
+
         var onConfirm = function (instance, mountLocation) {
           mountLocation = mountLocation || "";
           AppDispatcher.handleRouteAction({
@@ -143,62 +180,50 @@ define(
         React.renderComponent(modal, document.getElementById('modal'));
       },
 
-      create: function(){
+      createAndAddToProject: function(payload){
+        var project = payload.project;
+        var that = this;
 
-        var onConfirm = function (volumeName, volumeSize, identity, project) {
-          AppDispatcher.handleRouteAction({
-            actionType: VolumeConstants.VOLUME_CREATE,
-            volumeName: volumeName,
-            volumeSize: volumeSize,
-            identity: identity,
-            project: project
-          });
-        };
+        VolumeModalHelpers.createAndAddToProject(null, {
+          onConfirm: function (volumeName, volumeSize, identity) {
 
-        var onCancel = function(){
-          // Important! We need to un-mount the component so it un-registers from Stores and
-          // also so that we can relaunch it again later.
-          React.unmountComponentAtNode(document.getElementById('modal'));
-        };
+            var volume = new Volume({
+              identity: {
+                id: identity.id,
+                provider: identity.get('provider_id')
+              },
+              name: volumeName,
+              description: "",
+              size: volumeSize
+            });
 
-        var modal = VolumeCreateModal({
-          header: "Create Volume",
-          confirmButtonMessage: "Create volume",
-          onConfirm: onConfirm,
-          onCancel: onCancel,
-          handleHidden: onCancel
-        });
+            var params = {
+              model_name: "volume",
+              tags: "CF++"
+            };
 
-        React.renderComponent(modal, document.getElementById('modal'));
-      },
+            that.dispatch(VolumeConstants.ADD_VOLUME, {volume: volume});
+            that.dispatch(ProjectVolumeConstants.ADD_VOLUME_TO_PROJECT, {
+              volume: volume,
+              project: project
+            });
 
-      createAndAddToProject: function(project){
+            volume.save(params).done(function () {
+              NotificationController.success(null, 'Volume created');
+              that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+              //pollUntilBuildIsFinished(volume);
+            }).fail(function () {
+              NotificationController.error(null, 'Volume could not be created');
 
-        var onConfirm = function (volumeName, volumeSize, identity) {
-          AppDispatcher.handleRouteAction({
-            actionType: VolumeConstants.VOLUME_CREATE,
-            volumeName: volumeName,
-            volumeSize: volumeSize,
-            identity: identity,
-            project: project
-          });
-        };
+              that.dispatch(VolumeConstants.REMOVE_VOLUME, {volume: volume});
+              that.dispatch(ProjectVolumeConstants.REMOVE_VOLUME_FROM_PROJECT, {
+                volume: volume,
+                project: project
+              });
+            });
+          }
+        })
 
-        var onCancel = function(){
-          // Important! We need to un-mount the component so it un-registers from Stores and
-          // also so that we can relaunch it again later.
-          React.unmountComponentAtNode(document.getElementById('modal'));
-        };
-
-        var modal = VolumeCreateModal({
-          header: "Create Volume",
-          confirmButtonMessage: "Create volume",
-          onConfirm: onConfirm,
-          onCancel: onCancel,
-          handleHidden: onCancel
-        });
-
-        React.renderComponent(modal, document.getElementById('modal'));
       }
 
     };
