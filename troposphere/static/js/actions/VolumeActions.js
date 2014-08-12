@@ -3,15 +3,32 @@ define(
     'react',
     'dispatchers/AppDispatcher',
     'constants/VolumeConstants',
+    'constants/ProjectVolumeConstants',
     'components/modals/CancelConfirmModal.react',
     'components/modals/VolumeDetachBody.react',
     'components/modals/VolumeDestroyBody.react',
     'components/modals/VolumeAttachModal.react',
-    'components/modals/VolumeCreateModal.react'
+    'components/modals/VolumeCreateModal.react',
+    './modalHelpers/VolumeModalHelpers',
+    'controllers/NotificationController'
   ],
-  function (React, AppDispatcher, VolumeConstants, CancelConfirmModal, VolumeDetachBody, VolumeDestroyBody, VolumeAttachModal, VolumeCreateModal) {
+  function (React, AppDispatcher, VolumeConstants, ProjectVolumeConstants, CancelConfirmModal, VolumeDetachBody, VolumeDestroyBody, VolumeAttachModal, VolumeCreateModal, VolumeModalHelpers, NotificationController) {
 
     return {
+
+      dispatch: function(actionType, payload, options){
+        options = options || {};
+        AppDispatcher.handleRouteAction({
+          actionType: actionType,
+          payload: payload,
+          options: options
+        });
+      },
+
+      // ------------------------
+      // Standard CRUD Operations
+      // ------------------------
+
       updateVolumeAttributes: function (volume, newAttributes) {
         volume.set(newAttributes);
         AppDispatcher.handleRouteAction({
@@ -49,32 +66,50 @@ define(
         React.renderComponent(modal, document.getElementById('modal'));
       },
 
-      destroy: function (volume, redirectUrl) {
+      _destroy: function(payload, options){
+        var volume = payload.volume;
+        var project = payload.project;
+        var that = this;
 
-        var onConfirm = function () {
-          AppDispatcher.handleRouteAction({
-            actionType: VolumeConstants.VOLUME_DESTROY,
-            volume: volume
+        // todo: change volume state to show that it's being destroyed
+
+        volume.destroy().done(function () {
+          NotificationController.success(null, 'Volume destroyed');
+
+          that.dispatch(VolumeConstants.REMOVE_VOLUME, {volume: volume});
+
+          // todo: the proper thing to do is to poll until the volume is actually destroyed
+          // and THEN remove it from the project. Need to add a callback to support that.
+          // VolumeStore.pollUntilFinalState(volume);
+          that.dispatch(ProjectVolumeConstants.REMOVE_VOLUME_FROM_PROJECT, {
+            volume: volume,
+            project: project
           });
-          Backbone.history.navigate(redirectUrl, {trigger: true});
-        };
 
-        var onCancel = function(){
-          // Important! We need to un-mount the component so it un-registers from Stores and
-          // also so that we can relaunch it again later.
-          React.unmountComponentAtNode(document.getElementById('modal'));
-        };
-
-        var modal = CancelConfirmModal({
-          header: "Destroy this volume?",
-          confirmButtonMessage: "Yes, destroy this volume",
-          body: VolumeDestroyBody.build(volume),
-          onConfirm: onConfirm,
-          onCancel: onCancel,
-          handleHidden: onCancel
+        }).fail(function (response) {
+          NotificationController.error(null, 'Volume could not be deleted');
+          //that.dispatch(VolumeConstants.ADD_VOLUME, {volume: volume});
         });
+      },
 
-        React.renderComponent(modal, document.getElementById('modal'));
+      destroy: function(payload, options){
+        var volume = payload.volume;
+        var redirectUrl = payload.redirectUrl;
+        var project = payload.project;
+        var that = this;
+
+        VolumeModalHelpers.destroy({
+          volume: volume
+        },{
+          onConfirm: function () {
+            that._destroy(payload, options);
+            if(redirectUrl) Backbone.history.navigate(redirectUrl, {trigger: true});
+          }
+        });
+      },
+
+      destroy_noModal: function(payload, options){
+        this._destroy(payload, options);
       },
 
       attach: function(volume, project){
@@ -165,40 +200,6 @@ define(
 
         React.renderComponent(modal, document.getElementById('modal'));
       }
-
-//      createAndAddToProject: function(project){
-//
-//        var onConfirm = function (volumeName, volumeSize, identity) {
-//
-//          var volumeParams = {
-//            volumeName: volumeName,
-//            volumeSize: volumeSize,
-//            identity: identity
-//          };
-//
-//          AppDispatcher.handleRouteAction({
-//            actionType: ProjectConstants.PROJECT_CREATE_VOLUME_AND_ADD_TO_PROJECT,
-//            project: project,
-//            volumeParams: volumeParams
-//          });
-//        };
-//
-//        var onCancel = function(){
-//          // Important! We need to un-mount the component so it un-registers from Stores and
-//          // also so that we can relaunch it again later.
-//          React.unmountComponentAtNode(document.getElementById('modal'));
-//        };
-//
-//        var modal = VolumeCreateModal({
-//          header: "Create Volume",
-//          confirmButtonMessage: "Create volume",
-//          onConfirm: onConfirm,
-//          onCancel: onCancel,
-//          handleHidden: onCancel
-//        });
-//
-//        React.renderComponent(modal, document.getElementById('modal'));
-//      }
 
     };
 

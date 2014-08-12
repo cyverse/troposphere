@@ -126,6 +126,32 @@ define(
         React.renderComponent(modal, document.getElementById('modal'));
       },
 
+      _terminate: function(payload, options){
+        var instance = payload.instance;
+        var project = payload.project;
+        var that = this;
+
+        // todo: change instance state to show that it's being terminated
+
+        instance.destroy().done(function () {
+          NotificationController.success(null, 'Instance terminated');
+
+          that.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
+
+          // todo: the proper thing to do is to poll until the instance is actually terminated
+          // and THEN remove it from the project. Need to add a callback to support that.
+          // InstanceStore.pollUntilFinalState(instance);
+          that.dispatch(ProjectInstanceConstants.REMOVE_INSTANCE_FROM_PROJECT, {
+            instance: instance,
+            project: project
+          });
+
+        }).fail(function (response) {
+          NotificationController.error(null, 'Instance could not be terminated');
+          //that.dispatch(InstanceConstants.ADD_INSTANCE, {instance: instance});
+        });
+      },
+
       terminate: function(payload, options){
         var instance = payload.instance;
         var redirectUrl = payload.redirectUrl;
@@ -136,29 +162,14 @@ define(
           instance: instance
         },{
           onConfirm: function () {
-            // todo: change instance state to show that it's being terminated
-
-            instance.destroy().done(function () {
-              NotificationController.success(null, 'Instance terminated');
-
-              that.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
-
-              // todo: the proper thing to do is to poll until the instance is actually terminated
-              // and THEN remove it from the project. Need to add a callback to support that.
-              // InstanceStore.pollUntilFinalState(instance);
-              that.dispatch(ProjectInstanceConstants.REMOVE_INSTANCE_FROM_PROJECT, {
-                instance: instance,
-                project: project
-              });
-
-            }).fail(function (response) {
-              NotificationController.error(null, 'Instance could not be terminated');
-              //that.dispatch(InstanceConstants.ADD_INSTANCE, {instance: instance});
-            });
-
+            that._terminate(payload, options);
             if(redirectUrl) Backbone.history.navigate(redirectUrl, {trigger: true});
           }
         });
+      },
+
+      terminate_noModal: function(payload, options){
+        this._terminate(payload, options);
       },
 
       launch: function(application){

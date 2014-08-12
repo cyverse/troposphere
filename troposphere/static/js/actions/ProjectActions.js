@@ -237,43 +237,32 @@ define(
       // ------------------------
 
       deleteResources: function(resources, project){
+        var that = this;
 
-        var onConfirm = function () {
-          resources.map(function(resource){
-            this.deleteResource(resource, project);
-          }.bind(this));
-        }.bind(this);
-
-        var onCancel = function(){
-          // Important! We need to un-mount the component so it un-registers from Stores and
-          // also so that we can relaunch it again later.
-          React.unmountComponentAtNode(document.getElementById('modal'));
-        };
-
-        var modal = ProjectDeleteResourceModal({
-          header: "Delete Resources",
-          confirmButtonMessage: "Delete resources",
-          onConfirm: onConfirm,
-          onCancel: onCancel,
-          handleHidden: onCancel,
+        ProjectModalHelpers.deleteResources({
           resources: resources
+        },{
+          onConfirm: function(){
+            resources.map(function(resource){
+              that.deleteResource(resource, project, {silent: true});
+            });
+            that.dispatch(ProjectConstants.EMIT_CHANGE);
+          }
         });
-
-        React.renderComponent(modal, document.getElementById('modal'));
       },
 
-      deleteResource: function(resource, project){
+      deleteResource: function(resource, project, options){
         // todo: remove instance from project after deletion
         if(resource instanceof Instance){
-          InstanceActions.terminate({
+          InstanceActions.terminate_noModal({
             instance: resource,
             project: project
-          });
+          }, options);
         }else if(resource instanceof Volume){
-          VolumeActions.terminate({
-            instance: resource,
+          VolumeActions.destroy_noModal({
+            volume: resource,
             project: project
-          });
+          }, options);
         }else{
           throw new Error("Unknown resource type");
         }
