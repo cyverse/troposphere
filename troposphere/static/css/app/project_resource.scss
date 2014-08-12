@@ -12,26 +12,24 @@
   .resource-launch-date {
     margin-bottom: 5px;
   }
+}
 
-  .resource-tags {
+.resource-tags {
+  > span {
+    padding-right: 5px;
+  }
 
+  .tags {
+    margin-top: 8px;
+  }
 
-    > span {
-      padding-right: 5px;
-    }
+  .new-tag {
+    padding: 3px 6px;
+    margin-left: 5px;
+  }
 
-    .tags {
-      margin-top: 8px;
-    }
-
-    .new-tag {
-      padding: 3px 6px;
-      margin-left: 5px;
-    }
-
-    .tagger {
-      margin-top: 5px;
-    }
+  .tagger {
+    margin-top: 5px;
   }
 }
 

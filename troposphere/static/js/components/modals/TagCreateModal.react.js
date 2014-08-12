@@ -42,16 +42,24 @@ define(
     return React.createClass({
       mixins: [BootstrapModalMixin],
 
+      propTypes: {
+        initialTagName: React.PropTypes.string
+      },
+
       //
       // Mounting & State
       // ----------------
       //
+
       getInitialState: function(){
-        return getState.apply(this);
+        return {
+          name: this.props.initialTagName,
+          description: null
+        }
       },
 
       updateState: function () {
-        if (this.isMounted()) this.setState(getState.apply(this));
+        if (this.isMounted()) this.setState(getState());
       },
 
       //

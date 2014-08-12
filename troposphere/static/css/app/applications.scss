@@ -215,16 +215,33 @@ ul.tags {
 }
 
 .image-tags {
-  h2 {
-    margin-right: 10px;
-    margin-bottom: 15px;
-  }
+  .resource-tags {
+    > span {
+      display: inline-block;
+      font-size: 17px;
+      margin-right: 10px;
+      margin-bottom: 15px;
+      margin-top: 20px;
+      font-weight: 500;
+      line-height: 1.1;
+      padding-right: 0px;
+    }
 
-  > a {
-    color: #48A323;
-    text-decoration: underline;
-    font-weight: 300;
-    font-size: 16px;
+    a.toggle-editing-link {
+      color: #48A323;
+      text-decoration: underline;
+      font-weight: 300;
+      font-size: 16px;
+    }
+
+    .tags {
+      margin-top: 0px;
+    }
+
+    .tagger {
+      margin-top: 0px;
+      margin-bottom: 10px;
+    }
   }
 }
 
@@ -363,9 +380,4 @@ ul.tags {
 .advanced-search-options {
   margin-top: 10px;
   text-align: left;
-}
-
-.image-tags .new-tag {
-  padding: 3px 6px;
-  margin-top: 5px;
 }

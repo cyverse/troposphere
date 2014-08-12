@@ -26,6 +26,14 @@ define(
         });
       },
 
+      addTagToInstance: function(tag, instance){
+        AppDispatcher.handleRouteAction({
+          actionType: InstanceConstants.INSTANCE_ADD_TAG,
+          tag: tag,
+          instance: instance
+        });
+      },
+
       suspend: function (instance) {
 
         var onConfirm = function () {
@@ -102,12 +110,13 @@ define(
         React.renderComponent(modal, document.getElementById('modal'));
       },
 
-      terminate: function(instance, redirectUrl){
+      terminate: function(instance, redirectUrl, project){
 
         var onConfirm = function () {
           AppDispatcher.handleRouteAction({
             actionType: InstanceConstants.INSTANCE_TERMINATE,
-            instance: instance
+            instance: instance,
+            project: project
           });
           Backbone.history.navigate(redirectUrl, {trigger: true});
         };

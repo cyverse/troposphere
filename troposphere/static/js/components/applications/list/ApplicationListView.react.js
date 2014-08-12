@@ -8,13 +8,15 @@ define(
     'collections/ApplicationCollection',
     './ApplicationCardList.react',
     './SearchContainer.react',
-    'stores/ApplicationStore'
+    'stores/ApplicationStore',
+    'stores/TagStore'
   ],
-  function (React, PageHeader, SecondaryNavigation, ApplicationCollection, ApplicationCardList, ApplicationSearch, ApplicationStore) {
+  function (React, PageHeader, SecondaryNavigation, ApplicationCollection, ApplicationCardList, ApplicationSearch, ApplicationStore, TagStore) {
 
     function getState() {
       return {
-        applications: ApplicationStore.getAll()
+        applications: ApplicationStore.getAll(),
+        tags: TagStore.getAll()
       };
     }
 
@@ -30,28 +32,38 @@ define(
 
       componentDidMount: function () {
         ApplicationStore.addChangeListener(this.updateState);
+        TagStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
         ApplicationStore.removeChangeListener(this.updateState);
+        TagStore.removeChangeListener(this.updateState);
       },
 
       render: function () {
         var content;
-        if (!this.state.applications) {
-          content = (
-            <div className="loading"></div>
-          );
-        } else {
+        if (this.state.applications && this.state.tags) {
           var featuredApplicationArray = this.state.applications.filter(function (app) {
             return app.get('featured');
           });
           var featuredApplications = new ApplicationCollection(featuredApplicationArray);
 
           content = [
-            <ApplicationCardList key="featured" title="Featured Images" applications={featuredApplications}/>,
-            <ApplicationCardList key="all" title="All Images" applications={this.state.applications}/>
+            <ApplicationCardList key="featured"
+                                 title="Featured Images"
+                                 applications={featuredApplications}
+                                 tags={this.props.tags}
+            />,
+            <ApplicationCardList key="all"
+                                 title="All Images"
+                                 applications={this.state.applications}
+                                 tags={this.props.tags}
+            />
           ];
+        } else {
+          content = (
+            <div className="loading"></div>
+          );
         }
 
         var routes = [

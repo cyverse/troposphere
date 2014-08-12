@@ -17,7 +17,7 @@ define(
       },
 
       onAttach: function(){
-        VolumeActions.attach(this.props.volume);
+        VolumeActions.attach(this.props.volume, this.props.project);
       },
 
       onDetach: function(){

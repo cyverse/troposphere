@@ -27,6 +27,8 @@ define(function (require) {
     var _isFetching = false;
     var validStates = ["available", "in-use", "error_deleting"];
     var pollingFrequency = 5*1000;
+    var _pendingProjectVolumes = {};
+    var _pendingRemovalProjectVolumes = {};
 
     //
     // CRUD Operations
@@ -87,8 +89,6 @@ define(function (require) {
 
     function update(volume){
       volume.save({name: volume.get('name')}, {patch: true}).done(function(){
-        var successMessage = "Volume " + volume.get('name') + " updated.";
-        //NotificationController.success(successMessage);
         VolumeStore.emitChange();
       }).fail(function(){
         var failureMessage = "Error updating Volume " + volume.get('name') + ".";
@@ -110,17 +110,36 @@ define(function (require) {
       });
     };
 
-    var destroy = function(volume){
+    var destroy = function(volume, options){
+      options = options || {};
+
       volume.destroy({
         success: function (model) {
-          NotificationController.success("Success", "Volume was destroyed.");
+          if(options.afterDestroy) options.afterDestroy(volume);
           VolumeStore.emitChange();
         },
         error: function (message, response) {
           NotificationController.error("Error", "Volume could not be destroyed");
+          if(options.afterDestroyError) options.afterDestroyError(volume);
           VolumeStore.emitChange();
         }
       });
+    };
+
+    var destroy_RemoveFromProject = function(volume, project){
+      _pendingRemovalProjectVolumes[project.id] = _pendingRemovalProjectVolumes[project.id] || new VolumeCollection();
+      _pendingRemovalProjectVolumes[project.id].add(volume);
+
+      destroy(volume, {
+        afterDestroy: function(instance){
+          _pendingRemovalProjectVolumes[project.id].remove(volume);
+          ProjectActions.removeItemFromProject(project, volume);
+        },
+        afterDestroyError: function(instance){
+          _pendingRemovalProjectVolumes[project.id].remove(volume);
+          //ProjectActions.addItemToProject(project, instance);
+        }
+      })
     };
 
 
@@ -141,7 +160,9 @@ define(function (require) {
       });
     };
 
-    var create = function(volumeName, volumeSize, identity, project){
+    var create = function(volumeName, volumeSize, identity, options){
+      options = options || {};
+
       var volume = new Volume({
         identity: {
           id: identity.id,
@@ -157,24 +178,43 @@ define(function (require) {
         tags: "CF++"
       };
 
+      if(options.afterCreate) options.afterCreate(volume);
+
       volume.save(params, {
         success: function (model) {
-          NotificationController.success('Success', 'Volume successfully created');
+          if(options.afterSave) options.afterSave(volume);
           pollUntilBuildIsFinished(volume);
-          ProjectActions.addItemToProject(project, volume);
           VolumeStore.emitChange();
         },
         error: function (response) {
           NotificationController.error('Error', 'Volume could not be created');
+          if(options.afterSaveError) options.afterSaveError(volume);
           _volumes.remove(volume);
           VolumeStore.emitChange();
         }
       });
+
       if(_volumes) {
         _volumes.add(volume)
       }else{
         console.error("_volumes not defined");
       }
+    };
+
+    var create_AddToProject = function(volumeName, volumeSize, identity, project){
+      create(volumeName, volumeSize, identity, {
+        afterCreate: function(volume){
+          _pendingProjectVolumes[project.id] = _pendingProjectVolumes[project.id] || new VolumeCollection();
+          _pendingProjectVolumes[project.id].add(volume);
+        },
+        afterSave: function(volume){
+          _pendingProjectVolumes[project.id].remove(volume);
+          ProjectActions.addItemToProject(project, volume);
+        },
+        afterSaveError: function(volume){
+          _pendingProjectVolumes[project.id].remove(volume);
+        }
+      })
     };
 
     //
@@ -228,26 +268,39 @@ define(function (require) {
 
     var VolumeStore = {
 
-      getAll: function () {
-        if(!_volumes && !_isFetching) {
-          var identities = IdentityStore.getAll();
-          if(identities) {
-            fetchVolumes(identities);
-          }
-        }
+      // until instances have their own endpoint at /instances
+      // we need to either fetch them using identities or the
+      // information we get from projects
+      getAll: function (projects) {
+        if(!projects) throw new Error("Must supply projects");
+
+        projects.each(function(project){
+          this.getVolumesInProject(project);
+        }.bind(this));
+
         return _volumes;
       },
 
-      get: function (volumeId) {
-        if(!_volumes) {
-          var identities = IdentityStore.getAll();
-          if(identities) {
-            fetchVolumes(identities);
-          }
-        } else {
-          return _volumes.get(volumeId);
-        }
-      },
+      // getAll: function () {
+      //   if(!_volumes && !_isFetching) {
+      //     var identities = IdentityStore.getAll();
+      //     if(identities) {
+      //       fetchVolumes(identities);
+      //     }
+      //   }
+      //   return _volumes;
+      // },
+
+      // get: function (volumeId) {
+      //   if(!_volumes) {
+      //     var identities = IdentityStore.getAll();
+      //     if(identities) {
+      //       fetchVolumes(identities);
+      //     }
+      //   } else {
+      //     return _volumes.get(volumeId);
+      //   }
+      // },
 
       // Force the store to fetch all data and reset the contents of the store
       fetchAll: function(){
@@ -286,6 +339,12 @@ define(function (require) {
           return volume;
         });
 
+        // Add any pending volumes to the result set
+        var pendingProjectVolumes = _pendingProjectVolumes[project.id];
+        if(pendingProjectVolumes){
+          projectVolumeArray = projectVolumeArray.concat(pendingProjectVolumes.models);
+        }
+
         var projectInstances = new VolumeCollection(projectVolumeArray);
         return projectInstances;
       }
@@ -294,8 +353,6 @@ define(function (require) {
 
     Dispatcher.register(function (payload) {
       var action = payload.action;
-
-      VolumeStore.emitChange();
 
       switch (action.actionType) {
         case VolumeConstants.VOLUME_UPDATE:
@@ -307,7 +364,7 @@ define(function (require) {
           break;
 
         case VolumeConstants.VOLUME_DESTROY:
-          destroy(action.volume);
+          destroy_RemoveFromProject(action.volume, action.project);
           break;
 
         case VolumeConstants.VOLUME_ATTACH:
@@ -315,12 +372,14 @@ define(function (require) {
           break;
 
         case VolumeConstants.VOLUME_CREATE:
-          create(action.volumeName, action.volumeSize, action.identity, action.project);
+          create_AddToProject(action.volumeName, action.volumeSize, action.identity, action.project);
           break;
 
         default:
           return true;
       }
+
+      VolumeStore.emitChange();
 
       return true;
     });

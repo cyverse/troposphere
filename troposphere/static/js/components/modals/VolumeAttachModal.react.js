@@ -34,9 +34,9 @@ define(
     //   this.refs.modal.show();
     // }
 
-    function getState() {
+    function getState(project) {
       var state = {
-        instances: InstanceStore.getAll(),
+        instances: InstanceStore.getInstancesInProject(project),
         instanceId: null
       };
 
@@ -54,7 +54,8 @@ define(
       mixins: [BootstrapModalMixin],
 
       propTypes: {
-        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        project: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
       //
@@ -62,11 +63,11 @@ define(
       // ----------------
       //
       getInitialState: function(){
-        return getState.apply(this);
+        return getState.apply(this, [this.props.project]);
       },
 
       updateState: function () {
-        if (this.isMounted()) this.setState(getState.apply(this));
+        if (this.isMounted()) this.setState(getState.apply(this, [this.props.project]));
       },
 
       componentDidMount: function () {

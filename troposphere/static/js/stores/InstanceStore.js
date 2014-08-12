@@ -16,6 +16,8 @@ define(
     var _instances = new InstanceCollection();
     var _isFetching = false;
     var pollingFrequency = 10*1000;
+    var _pendingProjectInstances = {};
+    var _pendingRemovalProjectInstances = {};
 
     //
     // CRUD Operations
@@ -74,7 +76,7 @@ define(
       }
     };
 
-    function update(instance){
+    var update = function(instance){
       instance.save({
         name: instance.get('name'),
         tags: instance.get('tags')
@@ -89,7 +91,23 @@ define(
         NotificationController.error(failureMessage);
         InstanceStore.emitChange();
       });
-    }
+    };
+
+    var addTagToInstance = function(tag, instance){
+      var instanceTags = instance.get('tags');
+      instanceTags.push(tag.get('name'));
+      instance.save({
+        tags: instanceTags
+      }, {
+        patch: true
+      }).done(function(){
+        InstanceStore.emitChange();
+      }).fail(function(){
+        var failureMessage = "Error adding tag to Instance";
+        NotificationController.error(failureMessage);
+        InstanceStore.emitChange();
+      });
+    };
 
     //
     // Instance Actions
@@ -151,14 +169,18 @@ define(
       });
     };
 
-    var terminate = function(instance){
+    var terminate = function(instance, options){
+      options = options || {};
+
       instance.destroy({
         success: function (model) {
+          if(options.afterDestroy) options.afterDestroy(instance);
           pollUntilBuildIsFinished(instance);
           InstanceStore.emitChange();
         },
         error: function (response) {
           NotificationController.error('Error', 'Instance could not be terminated');
+          if(options.afterDestroyError) options.afterDestroyError(instance);
           _instances.add(instance);
           InstanceStore.emitChange();
         }
@@ -166,14 +188,32 @@ define(
       _instances.remove(instance);
     };
 
-    var launch = function(identity, machineId, sizeId, instanceName, project){
+    var terminate_RemoveFromProject = function(instance, project){
+
+      _pendingRemovalProjectInstances[project.id] = _pendingRemovalProjectInstances[project.id] || new InstanceCollection();
+      _pendingRemovalProjectInstances[project.id].add(instance);
+
+      terminate(instance, {
+        afterDestroy: function(instance){
+          _pendingRemovalProjectInstances[project.id].remove(instance);
+          ProjectActions.removeItemFromProject(project, instance);
+        },
+        afterDestroyError: function(instance){
+          _pendingRemovalProjectInstances[project.id].remove(instance);
+          //ProjectActions.addItemToProject(project, instance);
+        }
+      })
+    };
+
+    var launch = function(identity, machineId, sizeId, instanceName, options){
+      options = options || {};
+
       var instance = new Instance({
         identity: {
           id: identity.id,
           provider: identity.get('provider_id')
         },
-        status: "build - scheduling",
-        projects: [project.id]
+        status: "build - scheduling"
       }, {parse: true});
 
       var params = {
@@ -182,20 +222,38 @@ define(
         name: instanceName
       };
 
+      if(options.afterCreate) options.afterCreate(instance);
+
       instance.save(params, {
         success: function (model) {
-          NotificationController.success('Launch Instance', 'Instance successfully launched');
+          if(options.afterSave) options.afterSave(instance);
           pollUntilBuildIsFinished(instance);
-          ProjectActions.addItemToProject(project, instance);
           InstanceStore.emitChange();
         },
         error: function (response) {
           NotificationController.error('Error', 'Instance could not be launched');
+          if(options.afterSaveError) options.afterSaveError(instance);
           _instances.remove(instance);
           InstanceStore.emitChange();
         }
       });
       _instances.add(instance);
+    };
+
+    var launch_AddToProject = function(identity, machineId, sizeId, instanceName, project){
+      launch(identity, machineId, sizeId, instanceName, {
+        afterCreate: function(instance){
+          _pendingProjectInstances[project.id] = _pendingProjectInstances[project.id] || new InstanceCollection();
+          _pendingProjectInstances[project.id].add(instance);
+        },
+        afterSave: function(instance){
+          _pendingProjectInstances[project.id].remove(instance);
+          ProjectActions.addItemToProject(project, instance);
+        },
+        afterSaveError: function(instance){
+          _pendingProjectInstances[project.id].remove(instance);
+        }
+      })
     };
 
     //
@@ -250,26 +308,39 @@ define(
 
     var InstanceStore = {
 
-      getAll: function () {
-        if(!_instances) {
-          var identities = IdentityStore.getAll();
-          if(identities) {
-            fetchInstances(identities);
-          }
-        }
+      // until instances have their own endpoint at /instances
+      // we need to either fetch them using identities or the
+      // information we get from projects
+      getAll: function (projects) {
+        if(!projects) throw new Error("Must supply projects");
+
+        projects.each(function(project){
+          this.getInstancesInProject(project);
+        }.bind(this));
+
         return _instances;
       },
 
-      get: function (instanceId) {
-        if(!_instances) {
-          var identities = IdentityStore.getAll();
-          if(identities) {
-            fetchInstances(identities);
-          }
-        } else {
-          return _instances.get(instanceId);
-        }
-      },
+      // getAll: function () {
+      //   if(!_instances) {
+      //     var identities = IdentityStore.getAll();
+      //     if(identities) {
+      //       fetchInstances(identities);
+      //     }
+      //   }
+      //   return _instances;
+      // },
+
+      // get: function (instanceId) {
+      //   if(!_instances) {
+      //     var identities = IdentityStore.getAll();
+      //     if(identities) {
+      //       fetchInstances(identities);
+      //     }
+      //   } else {
+      //     return _instances.get(instanceId);
+      //   }
+      // },
 
       getInstanceInProject: function(project, instanceId){
         var instances = this.getInstancesInProject(project);
@@ -300,8 +371,13 @@ define(
           return instance;
         });
 
-        var projectInstances = new InstanceCollection(projectInstanceArray);
-        return projectInstances;
+        // Add any pending instances to the result set
+        var pendingProjectInstances = _pendingProjectInstances[project.id];
+        if(pendingProjectInstances){
+          projectInstanceArray = projectInstanceArray.concat(pendingProjectInstances.models);
+        }
+
+        return new InstanceCollection(projectInstanceArray);
       }
 
     };
@@ -331,11 +407,15 @@ define(
           break;
 
         case InstanceConstants.INSTANCE_TERMINATE:
-          terminate(action.instance);
+          terminate_RemoveFromProject(action.instance, action.project);
           break;
 
         case InstanceConstants.INSTANCE_LAUNCH:
-          launch(action.identity, action.machineId, action.sizeId, action.instanceName, action.project);
+          launch_AddToProject(action.identity, action.machineId, action.sizeId, action.instanceName, action.project);
+          break;
+
+        case InstanceConstants.INSTANCE_ADD_TAG:
+          addTagToInstance(action.tag, action.instance);
           break;
 
         default:

@@ -4,13 +4,15 @@ define(
   [
     'react',
     'backbone',
-    './DashboardHeader.react',
-    './ResourceSummaryList.react',
     './CloudCapacityList.react',
     './InstanceHistoryList.react',
-    './MaintenanceMessageList.react'
+    './MaintenanceMessageList.react',
+    './plots/ResourceStatusSummaryPlot.react',
+    './plots/ProviderSummaryLinePlot.react',
+    './CallToAction.react',
+    'url'
   ],
-  function (React, Backbone, DashboardHeader, ResourceSummaryList, CloudCapacityList, InstanceHistoryList, MaintenanceMessageList) {
+  function (React, Backbone, CloudCapacityList, InstanceHistoryList, MaintenanceMessageList, ResourceStatusSummaryPlot, ProviderSummaryLinePlot, CallToAction, URL) {
 
     return React.createClass({
 
@@ -33,28 +35,59 @@ define(
 
         return (
           <div id="dashboard-view">
-            {false ? <DashboardHeader title="Dashboard"/> : null}
             <div className="container">
               <div className="row">
 
                 <div className="col-md-9">
-                  <div>
-                    <div className="dashboard-header clearfix">
-                      <h1>Dashboard</h1>
-                      <a href="/application/images" className="btn btn-primary">Launch an Instance</a>
+
+                  <h2>Calls to Action</h2>
+                  <div className="row calls-to-action">
+                    <div className="col-md-3">
+                      <CallToAction title="Launch New Instance"
+                                    image="/assets/images/icon_launchnewinstance.png"
+                                    description="Browse Atmosphere's list of available images and select one to launch a new instance."
+                                    link={URL.images()}
+                      />
+                    </div>
+                    <div className="col-md-3">
+                      <CallToAction title="Browse Help Resources"
+                                    image="/assets/images/icon_gethelp.png"
+                                    description="View a video tutorial, read the how-to guides, or email the Atmosphere support team."
+                                    link={URL.help()}
+                      />
+                    </div>
+                    <div className="col-md-3">
+                      <CallToAction title="Change Your Settings"
+                                    image="/assets/images/icon_settings.png"
+                                    description="Modify your account settings, view your resource quota, or request more resources."
+                                    link={URL.settings()}
+                      />
                     </div>
                   </div>
-                  <ResourceSummaryList providers={this.props.providers}
-                                       identities={this.props.identities}
-                                       instances={this.props.instances}
-                                       volumes={this.props.volumes}
-                  />
+
+                  <h2>Resources in Use</h2>
+                  <div className="row">
+                    <div className="col-md-8">
+                      <ProviderSummaryLinePlot providers={this.props.providers}
+                                               identities={this.props.identities}
+                                               instances={this.props.instances}
+                                               volumes={this.props.volumes}
+                                               isPolarPlot={false}
+                      />
+                    </div>
+                    <div className="col-md-4">
+                      <ResourceStatusSummaryPlot title="Instances" resources={this.props.instances}/>
+                      <ResourceStatusSummaryPlot title="Volumes" resources={this.props.volumes}/>
+                    </div>
+                  </div>
+
                   <InstanceHistoryList/>
                 </div>
 
                 <div className="col-md-3">
                   <MaintenanceMessageList messages={this.props.maintenanceMessages}/>
                 </div>
+
               </div>
             </div>
           </div>

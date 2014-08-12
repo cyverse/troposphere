@@ -31,7 +31,7 @@ define(
         var icons = _.map(this.props.icons, function (text, type) {
           var isSelected = (type == this.props.selected);
           return (
-            <IconOption type={type} text={text} selected={isSelected} onClick={this.handleClick}/>
+            <IconOption key={text} type={type} text={text} selected={isSelected} onClick={this.handleClick}/>
           );
         }.bind(this));
 

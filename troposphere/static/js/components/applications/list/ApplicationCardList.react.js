@@ -9,15 +9,21 @@ define(
 
     return React.createClass({
 
+      propTypes: {
+        applications: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      },
+
       render: function () {
         var apps = this.props.applications;
         var appCards = apps.map(function (app) {
           return (
             <li key={app.id}>
-              <ApplicationCard application={app}/>
+              <ApplicationCard application={app}
+                               tags={this.props.tags}/>
             </li>
           );
-        });
+        }.bind(this));
 
         return (
           <div>
