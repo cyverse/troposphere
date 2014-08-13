@@ -71,7 +71,7 @@ define(
       detach: function (volume) {
         var that = this;
 
-        VolumeModalHelpers.start({
+        VolumeModalHelpers.detach({
           volume: volume
         },{
           onConfirm: function () {
