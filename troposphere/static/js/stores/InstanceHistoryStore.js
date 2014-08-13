@@ -35,7 +35,6 @@ define(
       if(nextUrl && !_isFetchingMore){
         _isFetchingMore = true;
         var moreHistory = new InstanceHistoryCollection();
-        var nextUrl = moreHistory.url() + nextUrl;
         moreHistory.fetch({url: nextUrl}).done(function () {
           _isFetchingMore = false;
           _instanceHistories.add(moreHistory.models);
