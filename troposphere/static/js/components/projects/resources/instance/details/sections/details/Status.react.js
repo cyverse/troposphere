@@ -18,6 +18,7 @@ define(
       render: function () {
         var instanceState = this.props.instance.get('state');
         var status = instanceState.get('status');
+        var activity = instanceState.get('activity');
         var style = {};
         var capitalizedStatus = status.charAt(0).toUpperCase() + status.slice(1);
 
@@ -26,6 +27,8 @@ define(
           style = {
             color: "#d44950"
           }
+        }else{
+          capitalizedStatus += activity ? " - " + activity : "";
         }
 
         return (
