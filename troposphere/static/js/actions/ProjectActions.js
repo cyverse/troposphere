@@ -13,169 +13,187 @@ define(
     'components/modals/ProjectReportResourceModal.react',
     'models/Instance',
     'models/Volume',
-    'url'
+    'models/Project',
+    'url',
+    './modalHelpers/ProjectModalHelpers',
+    'controllers/NotificationController',
+    'stores/helpers/ProjectInstance',
+    'stores/helpers/ProjectVolume',
+    'actions/InstanceActions',
+    'actions/VolumeActions',
+    'actions/ProjectInstanceActions',
+    'actions/ProjectVolumeActions'
   ],
-  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, InstanceConstants, VolumeConstants, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectReportResourceModal, Instance, Volume, URL) {
+  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, InstanceConstants, VolumeConstants, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectReportResourceModal, Instance, Volume, Project, URL, ProjectModalHelpers, NotificationController, ProjectInstance, ProjectVolume, InstanceActions, VolumeActions, ProjectInstanceActions, ProjectVolumeActions) {
 
-    function getItemType(model) {
-      var objectType;
-      if (model instanceof Instance) {
-        objectType = 'instance';
-      } else if (model instanceof Volume) {
-        objectType = 'volume';
-      } else {
-        throw "Unknown model type";
-      }
-      return objectType;
-    }
+    var _isParanoid = false;
 
     return {
-      create: function (project) {
+
+      dispatch: function(actionType, payload, options){
+        options = options || {};
         AppDispatcher.handleRouteAction({
-          actionType: ProjectConstants.PROJECT_CREATE,
-          model: project
+          actionType: actionType,
+          payload: payload,
+          options: options
         });
       },
 
+      // ------------------------
+      // Standard CRUD Operations
+      // ------------------------
+
+      create: function (project) {
+        var that = this;
+        ProjectModalHelpers.create(null, {
+          onConfirm: function(name, description){
+
+            var project = new Project({
+              name: name,
+              description: description
+            });
+
+            that.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
+
+            project.save().done(function(){
+              NotificationController.success(null, "Project " + project.get('name') + " created.");
+              that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
+            }).fail(function(){
+              var message = "Error creating Project " + project.get('name') + ".";
+              NotificationController.error(null, message);
+              that.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
+            });
+          }
+        });
+
+
+      },
+
       updateProjectAttributes: function (project, newAttributes) {
+        var that = this;
+
         project.set(newAttributes);
-        AppDispatcher.handleRouteAction({
-          actionType: ProjectConstants.PROJECT_UPDATE,
-          model: project
+        that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
+
+        project.save().done(function(){
+          NotificationController.success(null, "Project name updated.");
+        }).fail(function(){
+          NotificationController.error(null, "Error updating Project " + project.get('name') + ".");
+          that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
         });
       },
 
       destroy: function (project) {
+        var that = this;
+        ProjectModalHelpers.destroy({
+          project: project
+        },{
+          onConfirm: function(){
+            that.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
 
-        var onConfirm = function () {
-          AppDispatcher.handleRouteAction({
-            actionType: ProjectConstants.PROJECT_DESTROY,
-            model: project
-          });
-          var redirectUrl = URL.projects(null, {relative: true});
-          Backbone.history.navigate(redirectUrl, {trigger: true});
-        };
+            project.destroy().done(function(){
+              NotificationController.success(null, "Project " + project.get('name') + " deleted.");
+            }).fail(function(){
+              var failureMessage = "Error deleting Project " + project.get('name') + ".";
+              NotificationController.error(failureMessage);
+              that.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
+            });
 
-        var body = 'Are you sure you would like to delete project "' + project.get('name') + '"?';
-
-        var modal = CancelConfirmModal({
-          header: "Delete Project",
-          confirmButtonMessage: "Delete project",
-          onConfirm: onConfirm,
-          body: body
+            var redirectUrl = URL.projects(null, {relative: true});
+            Backbone.history.navigate(redirectUrl, {trigger: true});
+          }
         });
-
-        React.renderComponent(modal, document.getElementById('modal'));
       },
 
-      moveProjectItemTo: function(sourceProject, projectItem, targetProject){
-        this.removeItemFromProject(sourceProject, projectItem);
-        this.addItemToProject(targetProject, projectItem);
-      },
+      // ----------------------
+      // Move Project Resources
+      // ----------------------
 
-      addItemToProject: function(project, projectItem){
-        var itemType = getItemType(projectItem);
-        if(itemType === "instance"){
-          AppDispatcher.handleRouteAction({
-            actionType: ProjectInstanceConstants.ADD_INSTANCE_TO_PROJECT,
-            project: project,
-            instance: projectItem
-          });
-        }else if(itemType === "volume"){
-          AppDispatcher.handleRouteAction({
-            actionType: ProjectVolumeConstants.ADD_VOLUME_TO_PROJECT,
-            project: project,
-            volume: projectItem
-          });
-        }
-      },
+      moveResources: function (resources, currentProject) {
+        var that = this;
 
-      removeItemFromProject: function(project, projectItem){
-        var itemType = getItemType(projectItem);
-        if(itemType === "instance"){
-          AppDispatcher.handleRouteAction({
-            actionType: ProjectInstanceConstants.REMOVE_INSTANCE_FROM_PROJECT,
-            project: project,
-            instance: projectItem
-          });
-        }else if(itemType === "volume"){
-          AppDispatcher.handleRouteAction({
-            actionType: ProjectVolumeConstants.REMOVE_VOLUME_FROM_PROJECT,
-            project: project,
-            volume: projectItem
-          });
-        }
-      },
-
-      deleteResource: function(projectItem, project){
-        var itemType = getItemType(projectItem);
-        if(itemType === "instance"){
-          AppDispatcher.handleRouteAction({
-            actionType: InstanceConstants.INSTANCE_TERMINATE,
-            instance: projectItem,
-            project: project
-          });
-        }else if(itemType === "volume"){
-          AppDispatcher.handleRouteAction({
-            actionType: VolumeConstants.VOLUME_DESTROY,
-            volume: projectItem,
-            project: project
-          });
-        }
-      },
-
-      moveResources: function(resources, currentProject){
-
-        var onConfirm = function (newProject) {
-          resources.map(function(resource){
-            this.moveProjectItemTo(currentProject, resource, newProject);
-          }.bind(this));
-        }.bind(this);
-
-        var onCancel = function(){
-          // Important! We need to un-mount the component so it un-registers from Stores and
-          // also so that we can relaunch it again later.
-          React.unmountComponentAtNode(document.getElementById('modal'));
-        };
-
-        var modal = ProjectMoveResourceModal({
-          header: "Move Resources",
-          confirmButtonMessage: "Move resources",
-          onConfirm: onConfirm,
-          onCancel: onCancel,
-          handleHidden: onCancel,
-          currentProject: currentProject,
-          resources: resources
+        ProjectModalHelpers.moveResources({
+          resources: resources,
+          currentProject: currentProject
+        },{
+          onConfirm: function(newProject){
+            resources.map(function(resource){
+              that.addResourceToProject(resource, newProject, {silent: true});
+              that.removeResourceFromProject(resource, currentProject, {silent: true});
+            });
+            that.dispatch(ProjectConstants.EMIT_CHANGE);
+          }
         });
-
-        React.renderComponent(modal, document.getElementById('modal'));
       },
+
+      // ----------------------------
+      // Add/Remove Project Resources
+      // ----------------------------
+
+      addResourceToProject: function(resource, project, options){
+        if(resource instanceof Instance){
+          ProjectInstanceActions.addInstanceToProject(resource, project, options);
+        }else if(resource instanceof Volume){
+          ProjectVolumeActions.addVolumeToProject(resource, project, options);
+        }else{
+          throw new Error("Unknown resource type");
+        }
+      },
+
+      removeResourceFromProject: function(resource, project, options){
+        if(resource instanceof Instance){
+          ProjectInstanceActions.removeInstanceFromProject(resource, project, options);
+        }else if(resource instanceof Volume){
+          ProjectVolumeActions.removeVolumeFromProject(resource, project, options);
+        }else{
+          throw new Error("Unknown resource type");
+        }
+      },
+
+      // ------------------------
+      // Delete Project Resources
+      // ------------------------
 
       deleteResources: function(resources, project){
+        var that = this;
 
-        var onConfirm = function () {
-          resources.map(function(resource){
-            this.deleteResource(resource, project);
-          }.bind(this));
-        }.bind(this);
-
-        var onCancel = function(){
-          // Important! We need to un-mount the component so it un-registers from Stores and
-          // also so that we can relaunch it again later.
-          React.unmountComponentAtNode(document.getElementById('modal'));
-        };
-
-        var modal = ProjectDeleteResourceModal({
-          header: "Delete Resources",
-          confirmButtonMessage: "Delete resources",
-          onConfirm: onConfirm,
-          onCancel: onCancel,
-          handleHidden: onCancel,
+        ProjectModalHelpers.deleteResources({
           resources: resources
-        });
+        },{
+          onConfirm: function(){
+            // We need to clone the array because we're going to be destroying
+            // the model and that will cause it to be removed from the collection
+            var clonedResources = resources.models.slice(0);
 
-        React.renderComponent(modal, document.getElementById('modal'));
+            clonedResources.map(function(resource){
+                that.deleteResource(resource, project, {silent: true});
+            });
+
+            that.dispatch(ProjectConstants.EMIT_CHANGE);
+          }
+        });
       },
+
+      deleteResource: function(resource, project, options){
+        // todo: remove instance from project after deletion
+        if(resource instanceof Instance){
+          InstanceActions.terminate_noModal({
+            instance: resource,
+            project: project
+          }, options);
+        }else if(resource instanceof Volume){
+          VolumeActions.destroy_noModal({
+            volume: resource,
+            project: project
+          }, options);
+        }else{
+          throw new Error("Unknown resource type");
+        }
+      },
+
+      // ------------------------
+      // Report Project Resources
+      // ------------------------
 
       reportResources: function(project, resources){
 

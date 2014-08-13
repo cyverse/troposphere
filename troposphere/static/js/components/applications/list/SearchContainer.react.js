@@ -8,7 +8,8 @@ define(
   ],
   function (React, Backbone, AdvancedOptions) {
 
-    var SearchContainer = React.createClass({
+    return React.createClass({
+      displayName: "SearchContainer",
 
       getDefaultProps: function () {
         return {
@@ -69,7 +70,5 @@ define(
       }
 
     });
-
-    return SearchContainer;
 
   });

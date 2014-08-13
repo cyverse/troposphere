@@ -10,7 +10,8 @@ define(
   ],
   function (React, Moment) {
 
-    var Time = React.createClass({
+    return React.createClass({
+      displayName: "Time",
 
       propTypes: {
         date: React.PropTypes.instanceOf(Date),
@@ -50,7 +51,5 @@ define(
       }
 
     });
-
-    return Time;
 
   });

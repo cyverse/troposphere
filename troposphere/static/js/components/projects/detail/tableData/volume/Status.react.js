@@ -8,6 +8,7 @@ define(
   function (React, Backbone) {
 
     return React.createClass({
+      displayName: "Status",
 
       propTypes: {
         volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,

@@ -11,6 +11,7 @@ define(
   function (React, Backbone, InstanceRow, InstanceNotRealRow, SelectableTable) {
 
     return React.createClass({
+      displayName: "InstanceTable",
 
       propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
@@ -68,5 +69,7 @@ define(
       }
 
     });
+
+    return InstanceTable;
 
   });

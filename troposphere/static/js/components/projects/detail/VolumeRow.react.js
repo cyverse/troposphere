@@ -17,6 +17,7 @@ define(
   function (React, Backbone, SelectableRow, Name, Status, Size, Provider) {
 
     return React.createClass({
+      displayName: "VolumeRow",
 
       propTypes: {
         onResourceSelected: React.PropTypes.func.isRequired,

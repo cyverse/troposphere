@@ -9,10 +9,11 @@ define(
   function (React, Backbone, ResourceDetail) {
 
     return React.createClass({
+      displayName: "Status",
 
       propTypes: {
         volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired // only required if volume attached
       },
 
       render: function () {

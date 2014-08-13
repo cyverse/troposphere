@@ -5,17 +5,13 @@ define(
     'stores/Store',
     'collections/ProjectCollection',
     'constants/ProjectConstants',
-    'controllers/NotificationController',
     'constants/ProjectInstanceConstants',
-    './helpers/ProjectInstance',
-    'constants/ProjectVolumeConstants',
-    './helpers/ProjectVolume'
+    'constants/ProjectVolumeConstants'
   ],
-  function (_, Dispatcher, Store, ProjectCollection, ProjectConstants, NotificationController, ProjectInstanceConstants, ProjectInstance, ProjectVolumeConstants, ProjectVolume) {
+  function (_, Dispatcher, Store, ProjectCollection, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants) {
 
     var _projects = null;
     var _isFetching = false;
-    var _shouldDoubleCheckIfProjectApiFunctionsAsExpected = false;
 
     //
     // CRUD Operations
@@ -33,43 +29,17 @@ define(
       }
     };
 
-    function create(project){
-      project.save().done(function(){
-        var successMessage = "Project " + project.get('name') + " created.";
-        //NotificationController.success(successMessage);
-        ProjectStore.emitChange();
-      }).fail(function(){
-        var failureMessage = "Error creating Project " + project.get('name') + ".";
-        NotificationController.error(failureMessage);
-        _projects.remove(project);
-        ProjectStore.emitChange();
-      });
+    function add(project){
       _projects.add(project);
     }
 
     function update(project){
-      project.save().done(function(){
-        var successMessage = "Project " + project.get('name') + " updated.";
-        //NotificationController.success(successMessage);
-        ProjectStore.emitChange();
-      }).fail(function(){
-        var failureMessage = "Error updating Project " + project.get('name') + ".";
-        NotificationController.error(failureMessage);
-        ProjectStore.emitChange();
-      });
+      var existingModel = _projects.get(project);
+      if(!existingModel) throw new Error("Project doesn't exist.");
+      _projects.add(project, {merge: true});
     }
 
-    function destroy(project){
-      project.destroy().done(function(){
-        var successMessage = "Project " + project.get('name') + " deleted.";
-        //NotificationController.success(successMessage);
-        ProjectStore.emitChange();
-      }).fail(function(){
-        var failureMessage = "Error deleting Project " + project.get('name') + ".";
-        NotificationController.error(failureMessage);
-        _projects.add(project);
-        ProjectStore.emitChange();
-      });
+    function remove(project){
       _projects.remove(project);
     }
 
@@ -78,72 +48,17 @@ define(
     //
 
     function addInstanceToProject(instance, project){
-      var projectInstance = new ProjectInstance({
-        instance: instance,
-        project: project
-      });
-
       project.get('instances').push(instance.toJSON());
-
-      projectInstance.save().done(function(){
-        if(_shouldDoubleCheckIfProjectApiFunctionsAsExpected) {
-          // refetch the project to make sure the change was also made on the server
-          project.fetch().then(function () {
-            ProjectStore.emitChange();
-          });
-        }
-      }).fail(function(){
-        var failureMessage = "Error adding Instance '" + instance.get('name') + "' to Project '" + project.get('name') + "'.";
-        NotificationController.error(failureMessage);
-
-        var indexOfInstance = project.get('instances').map(function(instance){
-          return instance.alias;
-        }).indexOf(instance.id);
-
-        // remove the instance from the project
-        if(indexOfInstance >= 0) {
-          project.get('instances').splice(indexOfInstance, 1);
-        }
-
-        ProjectStore.emitChange();
-      });
-
-      ProjectStore.emitChange();
     }
 
     function removeInstanceFromProject(instance, project){
-      var projectInstance = new ProjectInstance({
-        instance: instance,
-        project: project
-      });
-
-      // remove the instance from the project
-      var indexOfInstance = project.get('instances').map(function(instance){
-        return instance.alias;
+      var indexOfInstance = project.get('instances').map(function(_instance){
+        return _instance.alias;
       }).indexOf(instance.id);
 
-      if(indexOfInstance >= 0) {
-        project.get('instances').splice(indexOfInstance, 1);
-      }
+      if(indexOfInstance < 0) throw new Error("Instance not in project");
 
-      projectInstance.destroy().done(function(){
-        if(_shouldDoubleCheckIfProjectApiFunctionsAsExpected) {
-          // refetch the project to make sure the change was also made on the server
-          project.fetch().then(function () {
-            ProjectStore.emitChange();
-          });
-        }
-      }).fail(function(){
-        var failureMessage = "Error removing Instance '" + instance.get('name') + "' from Project '" + project.get('name') + "'.";
-        NotificationController.error(failureMessage);
-
-        // add the instance back to the project
-        project.get('instances').push(instance.toJSON());
-
-        ProjectStore.emitChange();
-      });
-
-      ProjectStore.emitChange();
+      project.get('instances').splice(indexOfInstance, 1);
     }
 
     //
@@ -151,67 +66,17 @@ define(
     //
 
     function addVolumeToProject(volume, project){
-      var projectVolume = new ProjectVolume({
-        volume: volume,
-        project: project
-      });
-
       project.get('volumes').push(volume.toJSON());
-
-      projectVolume.save().done(function(){
-        if(_shouldDoubleCheckIfProjectApiFunctionsAsExpected) {
-          // refetch the project to make sure the change was also made on the server
-          project.fetch().then(function () {
-            ProjectStore.emitChange();
-          });
-        }
-      }).fail(function(){
-        var failureMessage = "Error adding Volume '" + volume.get('name') + "' to Project '" + project.get('name') + "'.";
-        NotificationController.error(failureMessage);
-
-        var indexOfVolume = project.get('volumes').map(function(instance){
-          return volume.alias;
-        }).indexOf(volume.id);
-
-        // remove the instance from the project
-        if(indexOfVolume >= 0) {
-          project.get('volumes').splice(indexOfVolume, 1);
-        }
-
-        ProjectStore.emitChange();
-      });
-
-      ProjectStore.emitChange();
     }
 
     function removeVolumeFromProject(volume, project){
-      var projectVolume = new ProjectVolume({
-        volume: volume,
-        project: project
-      });
-
-      // remove the instance from the project
-      var indexOfVolume = project.get('volumes').map(function(volume){
-        return volume.alias;
+      var indexOfVolume = project.get('volumes').map(function(_volume){
+        return _volume.alias;
       }).indexOf(volume.id);
 
-      if(indexOfVolume >= 0) {
-        project.get('volumes').splice(indexOfVolume, 1);
-      }
+      if(indexOfVolume < 0) throw new Error("Volume not in project");
 
-      projectVolume.destroy().done(function(){
-        // do nothing
-      }).fail(function(){
-        var failureMessage = "Error removing Volume '" + volume.get('name') + "' from Project '" + project.get('name') + "'.";
-        NotificationController.error(failureMessage);
-
-        // add the instance back to the project
-        project.get('volumes').push(volume.toJSON());
-
-        ProjectStore.emitChange();
-      });
-
-      ProjectStore.emitChange();
+      project.get('volumes').splice(indexOfVolume, 1);
     }
 
     //
@@ -237,43 +102,51 @@ define(
 
     };
 
-    Dispatcher.register(function (payload) {
-      var action = payload.action;
+    Dispatcher.register(function (dispatch) {
+      var actionType = dispatch.action.actionType;
+      var payload = dispatch.action.payload;
+      var options = dispatch.action.options || options;
 
-      switch (action.actionType) {
-        case ProjectConstants.PROJECT_CREATE:
-          create(action.model);
+      switch (actionType) {
+
+        case ProjectConstants.ADD_PROJECT:
+          add(payload.project);
           break;
 
-        case ProjectConstants.PROJECT_UPDATE:
-          update(action.model);
+        case ProjectConstants.UPDATE_PROJECT:
+          update(payload.project);
           break;
 
-        case ProjectConstants.PROJECT_DESTROY:
-          destroy(action.model);
+        case ProjectConstants.REMOVE_PROJECT:
+          remove(payload.project);
           break;
 
         case ProjectInstanceConstants.ADD_INSTANCE_TO_PROJECT:
-          addInstanceToProject(action.instance, action.project);
+          addInstanceToProject(payload.instance, payload.project);
           break;
 
         case ProjectInstanceConstants.REMOVE_INSTANCE_FROM_PROJECT:
-          removeInstanceFromProject(action.instance, action.project);
+          removeInstanceFromProject(payload.instance, payload.project);
           break;
 
         case ProjectVolumeConstants.ADD_VOLUME_TO_PROJECT:
-          addVolumeToProject(action.volume, action.project);
+          addVolumeToProject(payload.volume, payload.project);
           break;
 
         case ProjectVolumeConstants.REMOVE_VOLUME_FROM_PROJECT:
-          removeVolumeFromProject(action.volume, action.project);
+          removeVolumeFromProject(payload.volume, payload.project);
+          break;
+
+        case ProjectConstants.EMIT_CHANGE:
           break;
 
         default:
           return true;
       }
 
-      ProjectStore.emitChange();
+      if(!options.silent) {
+        ProjectStore.emitChange();
+      }
 
       return true;
     });

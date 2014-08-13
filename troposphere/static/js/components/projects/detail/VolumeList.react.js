@@ -10,6 +10,7 @@ define(
   function (React, Backbone, VolumeTable, NoVolumeNotice) {
 
     return React.createClass({
+      displayName: "VolumeList",
 
       propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,

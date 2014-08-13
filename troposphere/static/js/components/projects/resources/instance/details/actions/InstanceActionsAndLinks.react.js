@@ -34,7 +34,11 @@ define(
 
       onDelete: function(){
         var redirectUrl = URL.project(this.props.project, {relative: true});
-        InstanceActions.terminate(this.props.instance, redirectUrl, this.props.project);
+        InstanceActions.terminate({
+          instance:this.props.instance,
+          project: this.props.project,
+          redirectUrl: redirectUrl
+        });
       },
 
       onReboot: function(){ /* no implementation yet */ },
@@ -54,7 +58,7 @@ define(
         var webShellUrl = this.props.instance.get('shell_url');
         var remoteDesktopUrl = this.props.instance.get('vnc_url');
 
-        var status = this.props.instance.get('status');
+        var status = this.props.instance.get('state').get('status');
 
         // todo: Add back and implement reboot and resize once it's understood how to
         // I'm hiding from the display for now so as not to show users functionality
@@ -68,13 +72,15 @@ define(
         ];
 
         // Add in the conditional links based on current machine state
-        if(status === "active"){
-          linksArray.push({label: 'Suspend', icon: 'pause', onClick: this.onSuspend});
-          linksArray.push({label: 'Stop', icon: 'stop', onClick: this.onStop});
-        }else if(status === "suspended"){
-          linksArray.push({label: 'Resume', icon: 'play', onClick: this.onResume});
-        }else if(status === "shutoff"){
-          linksArray.push({label: 'Start', icon: 'play', onClick: this.onStart});
+        if(this.props.instance.get('state').isInFinalState()) {
+          if (status === "active") {
+            linksArray.push({label: 'Suspend', icon: 'pause', onClick: this.onSuspend});
+            linksArray.push({label: 'Stop', icon: 'stop', onClick: this.onStop});
+          } else if (status === "suspended") {
+            linksArray.push({label: 'Resume', icon: 'play', onClick: this.onResume});
+          } else if (status === "shutoff") {
+            linksArray.push({label: 'Start', icon: 'play', onClick: this.onStart});
+          }
         }
 
         linksArray = linksArray.concat([

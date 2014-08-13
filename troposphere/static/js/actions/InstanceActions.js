@@ -2,169 +2,296 @@ define(
   [
     'dispatchers/AppDispatcher',
     'constants/InstanceConstants',
-    'react',
+    'constants/ProjectInstanceConstants',
+    'models/Instance',
+    'models/InstanceState',
     'globals',
     'context',
+    'url',
+    './modalHelpers/InstanceModalHelpers',
     'controllers/NotificationController',
-    'components/modals/CancelConfirmModal.react',
-    'components/modals/InstanceSuspendBody.react',
-    'components/modals/InstanceResumeBody.react',
-    'components/modals/InstanceStopBody.react',
-    'components/modals/InstanceStartBody.react',
-    'components/modals/InstanceDeleteBody.react',
-    'components/modals/InstanceLaunchModal.react',
-    'url'
+    'actions/ProjectInstanceActions'
   ],
-  function (AppDispatcher, InstanceConstants, React, globals, context, NotificationController, CancelConfirmModal, InstanceSuspendBody, InstanceResumeBody, InstanceStopBody, InstanceStartBody, InstanceDeleteBody, InstanceLaunchModal, URL) {
+  function (AppDispatcher, InstanceConstants, ProjectInstanceConstants, Instance, InstanceState, globals, context, URL, InstanceModalHelpers, NotificationController, ProjectInstanceActions) {
 
     return {
-      updateInstanceAttributes: function (instance, newAttributes) {
-        instance.set(newAttributes);
+
+      dispatch: function(actionType, payload, options){
+        options = options || {};
         AppDispatcher.handleRouteAction({
-          actionType: InstanceConstants.INSTANCE_UPDATE,
-          instance: instance
+          actionType: actionType,
+          payload: payload,
+          options: options
+        });
+      },
+
+      // ------------------------
+      // Standard CRUD Operations
+      // ------------------------
+
+      updateInstanceAttributes: function (instance, newAttributes) {
+        var that = this;
+
+        instance.set(newAttributes);
+        that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+
+        instance.save({
+          name: instance.get('name'),
+          tags: instance.get('tags')
+        }, {
+          patch: true
+        }).done(function () {
+          NotificationController.success(null, "Instance name and tags updated");
+          that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+        }).fail(function () {
+          var message = "Error updating Instance " + instance.get('name') + ".";
+          NotificationController.error(message);
+          that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
         });
       },
 
       addTagToInstance: function(tag, instance){
-        AppDispatcher.handleRouteAction({
-          actionType: InstanceConstants.INSTANCE_ADD_TAG,
-          tag: tag,
-          instance: instance
+        var instanceTags = instance.get('tags');
+        var that = this;
+
+        instanceTags.push(tag.get('name'));
+
+        // instance.set({tags: instanceTags});
+        // that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+
+        instance.save({
+          tags: instanceTags
+        }, {
+          patch: true
+        }).done(function () {
+          that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+        }).fail(function () {
+          NotificationController.error(null, "Error adding tag to Instance");
+          that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
         });
       },
 
-      suspend: function (instance) {
+      _terminate: function(payload, options){
+        var instance = payload.instance;
+        var project = payload.project;
+        var that = this;
 
-        var onConfirm = function () {
-          AppDispatcher.handleRouteAction({
-            actionType: InstanceConstants.INSTANCE_SUSPEND,
-            instance: instance
-          });
-        };
+        that.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
 
-        var modal = CancelConfirmModal({
-          header: "Suspend Instance",
-          confirmButtonMessage: "Suspend Instance",
-          onConfirm: onConfirm,
-          body: InstanceSuspendBody.build()
+        instance.destroy().done(function () {
+          NotificationController.success(null, 'Instance terminated');
+          // poll until the instance is actually terminated
+          //that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+          ProjectInstanceActions.removeInstanceFromProject(instance, project);
+
+        }).fail(function (response) {
+          NotificationController.error(null, 'Instance could not be terminated');
+          that.dispatch(InstanceConstants.ADD_INSTANCE, {instance: instance});
         });
+      },
 
-        React.renderComponent(modal, document.getElementById('modal'));
+      terminate: function(payload, options){
+        var instance = payload.instance;
+        var redirectUrl = payload.redirectUrl;
+        var project = payload.project;
+        var that = this;
+
+        InstanceModalHelpers.terminate({
+          instance: instance
+        },{
+          onConfirm: function () {
+            that._terminate(payload, options);
+            if(redirectUrl) Backbone.history.navigate(redirectUrl, {trigger: true});
+          }
+        });
+      },
+
+      terminate_noModal: function(payload, options){
+        this._terminate(payload, options);
+      },
+
+      // ----------------
+      // Instance Actions
+      // ----------------
+
+      suspend: function (instance) {
+        var that = this;
+
+        var instanceState = new InstanceState({status_raw: "active - suspending"});
+        instance.set({state: instanceState});
+
+        InstanceModalHelpers.suspend({
+          instance: instance
+        },{
+          onConfirm: function () {
+
+            var instanceState = new InstanceState({status_raw: "active - suspending"});
+            instance.set({state: instanceState});
+            that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+
+            instance.suspend({
+             success: function (model) {
+               NotificationController.success(null, "Your instance is suspending...");
+
+               var instanceState = new InstanceState({status_raw: "active - suspending"});
+               instance.set({state: instanceState});
+
+               that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+               that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+             },
+             error: function (response) {
+               NotificationController.error(null, "Your instance could not be suspended");
+             }
+           });
+          }
+        });
       },
 
       resume: function(instance){
+        var that = this;
 
-        var onConfirm = function () {
-          AppDispatcher.handleRouteAction({
-            actionType: InstanceConstants.INSTANCE_RESUME,
-            instance: instance
-          });
-        };
+        InstanceModalHelpers.resume({
+          instance: instance
+        },{
+          onConfirm: function () {
 
-        var modal = CancelConfirmModal({
-          header: "Resume Instance",
-          confirmButtonMessage: "Resume Instance",
-          onConfirm: onConfirm,
-          body: InstanceResumeBody.build()
+            var instanceState = new InstanceState({status_raw: "suspended - resuming"});
+            instance.set({state: instanceState});
+            that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+
+            instance.resume({
+             success: function (model) {
+               NotificationController.success(null, "Your instance is resuming...");
+
+               var instanceState = new InstanceState({status_raw: "suspended - resuming"});
+               instance.set({state: instanceState});
+
+               that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+               that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+             },
+             error: function (response) {
+               NotificationController.error(null, "Your instance could not be resumed");
+             }
+           });
+          }
         });
-
-        React.renderComponent(modal, document.getElementById('modal'));
       },
 
       stop: function(instance){
+        var that = this;
 
-        var onConfirm = function () {
-          AppDispatcher.handleRouteAction({
-            actionType: InstanceConstants.INSTANCE_STOP,
-            instance: instance
-          });
-        };
+        InstanceModalHelpers.stop({
+          instance: instance
+        },{
+          onConfirm: function () {
 
-        var modal = CancelConfirmModal({
-          header: "Stop Instance",
-          confirmButtonMessage: "Stop Instance",
-          onConfirm: onConfirm,
-          body: InstanceStopBody.build()
+            var instanceState = new InstanceState({status_raw: "active - powering-off"});
+            instance.set({state: instanceState});
+            that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+
+            instance.stop({
+             success: function (model) {
+               NotificationController.success(null, "Your instance is stopping...");
+
+               var instanceState = new InstanceState({status_raw: "active - powering-off"});
+               instance.set({state: instanceState});
+
+               that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+               that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+             },
+             error: function (response) {
+               NotificationController.error(null, "Your instance could not be stopped");
+             }
+           });
+          }
         });
-
-        React.renderComponent(modal, document.getElementById('modal'));
       },
 
       start: function(instance){
+        var that = this;
 
-        var onConfirm = function () {
-          AppDispatcher.handleRouteAction({
-            actionType: InstanceConstants.INSTANCE_START,
-            instance: instance
-          });
-        };
+        InstanceModalHelpers.start({
+          instance: instance
+        },{
+          onConfirm: function () {
 
-        var modal = CancelConfirmModal({
-          header: "Start Instance",
-          confirmButtonMessage: "Start Instance",
-          onConfirm: onConfirm,
-          body: InstanceStartBody.build()
+            var instanceState = new InstanceState({status_raw: "shutoff - powering-on"});
+            instance.set({state: instanceState});
+            that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+
+            instance.start({
+             success: function (model) {
+               NotificationController.success(null, "Your instance is starting...");
+
+               var instanceState = new InstanceState({status_raw: "shutoff - powering-on"});
+               instance.set({state: instanceState});
+
+               that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+               that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+             },
+             error: function (response) {
+               NotificationController.error(null, "Your instance could not be started");
+             }
+           });
+          }
         });
-
-        React.renderComponent(modal, document.getElementById('modal'));
-      },
-
-      terminate: function(instance, redirectUrl, project){
-
-        var onConfirm = function () {
-          AppDispatcher.handleRouteAction({
-            actionType: InstanceConstants.INSTANCE_TERMINATE,
-            instance: instance,
-            project: project
-          });
-          Backbone.history.navigate(redirectUrl, {trigger: true});
-        };
-
-        var modal = CancelConfirmModal({
-          header: "Are you sure you want to terminate this instance?",
-          confirmButtonMessage: "Yes, terminate this instance",
-          onConfirm: onConfirm,
-          body: InstanceDeleteBody.build(instance)
-        });
-
-        React.renderComponent(modal, document.getElementById('modal'));
       },
 
       launch: function(application){
+        var that = this;
 
-        var onConfirm = function (identity, machineId, sizeId, instanceName, project) {
-          AppDispatcher.handleRouteAction({
-            actionType: InstanceConstants.INSTANCE_LAUNCH,
-            identity: identity,
-            machineId: machineId,
-            sizeId: sizeId,
-            instanceName: instanceName,
-            project: project
-          });
-          // Since this is triggered from the images page, navigate off
-          // that page and back to the instance list so the user can see
-          // their instance being created
-          var redirectUrl = URL.project(project, {relative: true});
-          Backbone.history.navigate(redirectUrl, {trigger: true});
-        };
+        InstanceModalHelpers.launch({
+          application: application
+        },{
+          onConfirm: function (identity, machineId, sizeId, instanceName, project) {
+            var instance = new Instance({
+              identity: {
+                id: identity.id,
+                provider: identity.get('provider_id')
+              },
+              status: "build - scheduling"
+            }, {parse: true});
 
-        var onCancel = function(){
-          // Important! We need to un-mount the component so it un-registers from Stores and
-          // also so that we can relaunch it again later.
-          React.unmountComponentAtNode(document.getElementById('modal'));
-        };
+            var params = {
+              machine_alias: machineId,
+              size_alias: sizeId,
+              name: instanceName
+            };
 
-        var modal = InstanceLaunchModal({
-          header: application.get('name'),
-          application: application,
-          confirmButtonMessage: "Launch instance",
-          onConfirm: onConfirm,
-          onCancel: onCancel,
-          handleHidden: onCancel
+            that.dispatch(InstanceConstants.ADD_INSTANCE, {instance: instance});
+            that.dispatch(ProjectInstanceConstants.ADD_PENDING_INSTANCE_TO_PROJECT, {
+              instance: instance,
+              project: project
+            });
+
+            instance.save(params, {
+              success: function (model) {
+                NotificationController.success(null, 'Instance launching...');
+                that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+                that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+                that.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
+                  instance: instance,
+                  project: project
+                });
+                ProjectInstanceActions.addInstanceToProject(instance, project);
+              },
+              error: function (response) {
+                NotificationController.error(null, 'Instance could not be launched');
+                that.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
+                that.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
+                  instance: instance,
+                  project: project
+                });
+              }
+            });
+
+            // Since this is triggered from the images page, navigate off
+            // that page and back to the instance list so the user can see
+            // their instance being created
+            var redirectUrl = URL.project(project, {relative: true});
+            Backbone.history.navigate(redirectUrl, {trigger: true});
+          }
         });
-
-        React.renderComponent(modal, document.getElementById('modal'));
       },
 
       requestImage: function(instance, requestData){
@@ -182,7 +309,8 @@ define(
             NotificationController.info(null, "An image of your instance has been requested");
           },
           error: function (response, status, error) {
-            NotificationController.error(null, response.responseText);
+            console.log(response.responseText);
+            NotificationController.error(null, "An image of your instance could not be requested");
           }
         });
       },
@@ -219,12 +347,13 @@ define(
           dataType: 'json',
           contentType: 'application/json',
           success: function (model) {
-            NotificationController.info(null, "Your instance problems have been sent to support.");
+            NotificationController.info(null, "Your instance report has been sent to support.");
             var instanceUrl = URL.instance(instance);
             Backbone.history.navigate(instanceUrl, {trigger: true});
           },
           error: function (response, status, error) {
-            NotificationController.error(null, response.responseText);
+            console.log(response.responseText);
+            NotificationController.error(null, "Your instance report could not be sent to support");
           }
         });
       }
