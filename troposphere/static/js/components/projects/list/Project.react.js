@@ -41,7 +41,12 @@ define(
         }else{
           return (
             <li>
-              <h2>{project.get('name')} ...creating project...</h2>
+              <a>
+                <div>
+                  <h2>{project.get('name')}</h2>
+                  <time>{"Creating..."}</time>
+                </div>
+              </a>
             </li>
           );
         }

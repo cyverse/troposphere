@@ -13,6 +13,7 @@ define(
     'components/modals/ProjectReportResourceModal.react',
     'models/Instance',
     'models/Volume',
+    'models/Project',
     'url',
     './modalHelpers/ProjectModalHelpers',
     'controllers/NotificationController',
@@ -23,7 +24,7 @@ define(
     'actions/ProjectInstanceActions',
     'actions/ProjectVolumeActions'
   ],
-  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, InstanceConstants, VolumeConstants, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectReportResourceModal, Instance, Volume, URL, ProjectModalHelpers, NotificationController, ProjectInstance, ProjectVolume, InstanceActions, VolumeActions, ProjectInstanceActions, ProjectVolumeActions) {
+  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, InstanceConstants, VolumeConstants, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectReportResourceModal, Instance, Volume, Project, URL, ProjectModalHelpers, NotificationController, ProjectInstance, ProjectVolume, InstanceActions, VolumeActions, ProjectInstanceActions, ProjectVolumeActions) {
 
     var _isParanoid = false;
 
@@ -44,16 +45,28 @@ define(
 
       create: function (project) {
         var that = this;
+        ProjectModalHelpers.create(null, {
+          onConfirm: function(name, description){
 
-        this.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
+            var project = new Project({
+              name: name,
+              description: description
+            });
 
-        project.save().done(function(){
-          NotificationController.success(null, "Project " + project.get('name') + " created.");
-        }).fail(function(){
-          var message = "Error creating Project " + project.get('name') + ".";
-          NotificationController.error(null, message);
-          that.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
+            that.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
+
+            project.save().done(function(){
+              NotificationController.success(null, "Project " + project.get('name') + " created.");
+              that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
+            }).fail(function(){
+              var message = "Error creating Project " + project.get('name') + ".";
+              NotificationController.error(null, message);
+              that.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
+            });
+          }
         });
+
+
       },
 
       updateProjectAttributes: function (project, newAttributes) {
@@ -72,7 +85,9 @@ define(
 
       destroy: function (project) {
         var that = this;
-        ProjectModalHelpers.destroy(project, {
+        ProjectModalHelpers.destroy({
+          project: project
+        },{
           onConfirm: function(){
             that.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
 
