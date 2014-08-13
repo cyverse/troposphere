@@ -15,6 +15,7 @@ define(
   function (React, Backbone, ResourceDetail, Id, Status, Size, Identity) {
 
     return React.createClass({
+      displayName: "VolumeDetailsSection",
 
       propTypes: {
         volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,

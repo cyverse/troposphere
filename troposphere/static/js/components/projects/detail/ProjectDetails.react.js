@@ -17,9 +17,13 @@ define(
     'stores/ProjectStore',
 
     // Actions
-    'actions/ProjectActions'
+    'actions/ProjectActions',
+
+    // Models
+    'models/Instance',
+    'models/Volume'
   ],
-  function (React, Backbone, PreviewPanel, ButtonBar, InstanceList, VolumeList, InstanceStore, VolumeStore, ProviderStore, SizeStore, ProjectStore, ProjectActions) {
+  function (React, Backbone, PreviewPanel, ButtonBar, InstanceList, VolumeList, InstanceStore, VolumeStore, ProviderStore, SizeStore, ProjectStore, ProjectActions, Instance, Volume) {
 
     function getState(project) {
       return {
@@ -60,7 +64,23 @@ define(
       },
 
       updateState: function(){
-        if (this.isMounted()) this.setState(getState(this.props.project));
+        if (this.isMounted()) {
+          var state = getState(this.props.project);
+
+          // Remove any selected resources that are no longer in the project
+          var projectInstances = InstanceStore.getInstancesInProject(this.props.project);
+          var projectVolumes = VolumeStore.getVolumesInProject(this.props.project);
+
+          var selectedResourcesClone = this.state.selectedResources.models.slice(0);
+          selectedResourcesClone.map(function(selectedResource){
+            var instanceInProject = selectedResource instanceof Instance && projectInstances.get(selectedResource);
+            var volumeInProject = selectedResource instanceof Volume && projectVolumes.get(selectedResource);
+            var resourceInProject = instanceInProject || volumeInProject;
+            if(!resourceInProject) this.state.selectedResources.remove(selectedResource);
+          }.bind(this));
+
+          this.setState(state);
+        }
       },
 
       onResourceSelected: function(resource){

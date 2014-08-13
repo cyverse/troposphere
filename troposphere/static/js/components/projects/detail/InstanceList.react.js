@@ -10,6 +10,7 @@ define(
   function (React, Backbone, InstanceTable, NoInstanceNotice) {
 
     return React.createClass({
+      displayName: "InstanceList",
 
       propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
