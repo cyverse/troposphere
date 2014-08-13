@@ -7,10 +7,11 @@ define(
     './modalHelpers/VolumeModalHelpers',
     'controllers/NotificationController',
     'models/Volume',
+    'models/VolumeState',
     'actions/ProjectVolumeActions',
     'components/notifications/VolumeAttachNotifications.react'
   ],
-  function (React, AppDispatcher, VolumeConstants, ProjectVolumeConstants, VolumeModalHelpers, NotificationController, Volume, ProjectVolumeActions, VolumeAttachNotifications) {
+  function (React, AppDispatcher, VolumeConstants, ProjectVolumeConstants, VolumeModalHelpers, NotificationController, Volume, VolumeState, ProjectVolumeActions, VolumeAttachNotifications) {
 
     return {
 
@@ -54,6 +55,11 @@ define(
           project: project
         },{
           onConfirm: function (instance, mountLocation) {
+
+            var volumeState = new VolumeState({status_raw: "attaching"});
+            volume.set({state: volumeState});
+            that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+
             volume.attachTo(instance, mountLocation, {
               success: function () {
                 NotificationController.success(null, VolumeAttachNotifications.success());
@@ -75,6 +81,11 @@ define(
           volume: volume
         },{
           onConfirm: function () {
+
+            var volumeState = new VolumeState({status_raw: "detaching"});
+            volume.set({state: volumeState});
+            that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+
             volume.detach({
               success: function (model) {
                 NotificationController.success(null, "Volume was detached.  It is now available to attach to another instance or destroy.");
@@ -94,6 +105,9 @@ define(
         var that = this;
 
         // todo: change volume state to show that it's being destroyed
+        var volumeState = new VolumeState({status_raw: "deleting"});
+        volume.set({state: volumeState});
+        that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
 
         volume.destroy().done(function () {
           NotificationController.success(null, 'Volume destroyed');

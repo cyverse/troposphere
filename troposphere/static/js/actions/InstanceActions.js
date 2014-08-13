@@ -119,6 +119,7 @@ define(
 
         var instanceState = new InstanceState({status_raw: "active - suspending"});
         instance.set({state: instanceState});
+        that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
 
         InstanceModalHelpers.suspend({
           instance: instance
