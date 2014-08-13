@@ -11,9 +11,11 @@ define(
     'stores/VolumeStore',
     'stores/InstanceHistoryStore',
     'stores/MaintenanceMessageStore',
-    './DashboardView.react'
+    './DashboardView.react',
+    'context',
+    'actions/NullProjectActions'
   ],
-  function (React, ProviderStore, IdentityStore, SizeStore, ProjectStore, InstanceStore, VolumeStore, InstanceHistoryStore, MaintenanceMessageStore, DashboardView) {
+  function (React, ProviderStore, IdentityStore, SizeStore, ProjectStore, InstanceStore, VolumeStore, InstanceHistoryStore, MaintenanceMessageStore, DashboardView, context, NullProjectActions) {
 
     function getState() {
         return {
@@ -49,6 +51,10 @@ define(
         VolumeStore.addChangeListener(this.updateState);
         InstanceHistoryStore.addChangeListener(this.updateState);
         MaintenanceMessageStore.addChangeListener(this.updateState);
+
+        if(!context.nullProject.isEmpty()){
+          NullProjectActions.migrateResourcesIntoProject(context.nullProject);
+        }
       },
 
       componentWillUnmount: function() {
