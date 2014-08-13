@@ -58,7 +58,7 @@ define(
         var webShellUrl = this.props.instance.get('shell_url');
         var remoteDesktopUrl = this.props.instance.get('vnc_url');
 
-        var status = this.props.instance.get('status');
+        var status = this.props.instance.get('state').get('status');
 
         // todo: Add back and implement reboot and resize once it's understood how to
         // I'm hiding from the display for now so as not to show users functionality
