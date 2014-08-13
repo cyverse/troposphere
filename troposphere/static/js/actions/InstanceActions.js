@@ -8,9 +8,10 @@ define(
     'context',
     'url',
     './modalHelpers/InstanceModalHelpers',
-    'controllers/NotificationController'
+    'controllers/NotificationController',
+    'actions/ProjectInstanceActions'
   ],
-  function (AppDispatcher, InstanceConstants, ProjectInstanceConstants, Instance, globals, context, URL, InstanceModalHelpers, NotificationController) {
+  function (AppDispatcher, InstanceConstants, ProjectInstanceConstants, Instance, globals, context, URL, InstanceModalHelpers, NotificationController, ProjectInstanceActions) {
 
     return {
 
@@ -84,10 +85,7 @@ define(
           // todo: the proper thing to do is to poll until the instance is actually terminated
           // and THEN remove it from the project. Need to add a callback to support that.
           // InstanceStore.pollUntilFinalState(instance);
-          that.dispatch(ProjectInstanceConstants.REMOVE_INSTANCE_FROM_PROJECT, {
-            instance: instance,
-            project: project
-          });
+          ProjectInstanceActions.removeInstanceFromProject(instance, project);
 
         }).fail(function (response) {
           NotificationController.error(null, 'Instance could not be terminated');

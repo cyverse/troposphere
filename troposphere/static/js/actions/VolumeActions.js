@@ -103,10 +103,7 @@ define(
           // todo: the proper thing to do is to poll until the volume is actually destroyed
           // and THEN remove it from the project. Need to add a callback to support that.
           // VolumeStore.pollUntilFinalState(volume);
-          that.dispatch(ProjectVolumeConstants.REMOVE_VOLUME_FROM_PROJECT, {
-            volume: volume,
-            project: project
-          });
+          ProjectVolumeActions.removeVolumeFromProject(volume, project);
 
         }).fail(function (response) {
           NotificationController.error(null, 'Volume could not be deleted');
