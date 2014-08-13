@@ -161,9 +161,14 @@ define(
           resources: resources
         },{
           onConfirm: function(){
-            resources.map(function(resource){
-              that.deleteResource(resource, project, {silent: true});
+            // We need to clone the array because we're going to be destroying
+            // the model and that will cause it to be removed from the collection
+            var clonedResources = resources.models.slice(0);
+
+            clonedResources.map(function(resource){
+                that.deleteResource(resource, project, {silent: true});
             });
+
             that.dispatch(ProjectConstants.EMIT_CHANGE);
           }
         });
