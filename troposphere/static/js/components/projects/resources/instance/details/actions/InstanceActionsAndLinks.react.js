@@ -72,13 +72,15 @@ define(
         ];
 
         // Add in the conditional links based on current machine state
-        if(status === "active"){
-          linksArray.push({label: 'Suspend', icon: 'pause', onClick: this.onSuspend});
-          linksArray.push({label: 'Stop', icon: 'stop', onClick: this.onStop});
-        }else if(status === "suspended"){
-          linksArray.push({label: 'Resume', icon: 'play', onClick: this.onResume});
-        }else if(status === "shutoff"){
-          linksArray.push({label: 'Start', icon: 'play', onClick: this.onStart});
+        if(this.props.instance.get('state').isInFinalState()) {
+          if (status === "active") {
+            linksArray.push({label: 'Suspend', icon: 'pause', onClick: this.onSuspend});
+            linksArray.push({label: 'Stop', icon: 'stop', onClick: this.onStop});
+          } else if (status === "suspended") {
+            linksArray.push({label: 'Resume', icon: 'play', onClick: this.onResume});
+          } else if (status === "shutoff") {
+            linksArray.push({label: 'Start', icon: 'play', onClick: this.onStart});
+          }
         }
 
         linksArray = linksArray.concat([
