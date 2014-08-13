@@ -15,6 +15,7 @@ define(
     var _isFetching = false;
     var pollingFrequency = 10*1000;
     var _pendingProjectInstances = {};
+    var _instancesBuilding = [];
 
     //
     // CRUD Operations
@@ -28,7 +29,6 @@ define(
       var existingModel = _instances.get(instance);
       if (!existingModel) throw new Error("Instance doesn't exist.");
       _instances.add(instance, {merge: true});
-      pollUntilBuildIsFinished(instance);
     }
 
     function remove(instance) {
@@ -48,18 +48,7 @@ define(
     // Polling Functions
     //
 
-    var _instancesBuilding = [];
-    var pollUntilBuildIsFinished = function(instance){
-      //return;
-      if(_instancesBuilding.indexOf(instance) < 0) {
-        _instancesBuilding.push(instance);
-        fetchAndRemoveIfFinished(instance);
-      }
-    };
-
-    // Poll
     var pollNowUntilBuildIsFinished = function(instance){
-      //return;
       if(_instancesBuilding.indexOf(instance) < 0) {
         _instancesBuilding.push(instance);
         fetchNowAndRemoveIfFinished(instance);
@@ -67,12 +56,11 @@ define(
     };
 
     var fetchAndRemoveIfFinished = function(instance){
-      //return;
       setTimeout(function(){
         instance.fetch().done(function(){
           var index = _instancesBuilding.indexOf(instance);
           if(instance.get('state').isInFinalState()){
-            _instancesBuilding.slice(index, 1);
+            _instancesBuilding.splice(index, 1);
           }else{
             fetchAndRemoveIfFinished(instance);
           }
@@ -82,11 +70,10 @@ define(
     };
 
     var fetchNowAndRemoveIfFinished = function(instance){
-      //return;
       instance.fetch().done(function(){
         var index = _instancesBuilding.indexOf(instance);
         if(instance.get('state').isInFinalState()){
-          _instancesBuilding.slice(index, 1);
+          _instancesBuilding.splice(index, 1);
         }else{
           fetchAndRemoveIfFinished(instance);
         }
@@ -170,6 +157,10 @@ define(
 
         case InstanceConstants.REMOVE_INSTANCE:
           remove(payload.instance);
+          break;
+
+        case InstanceConstants.POLL_INSTANCE:
+          pollNowUntilBuildIsFinished(payload.instance);
           break;
 
         case ProjectInstanceConstants.ADD_PENDING_INSTANCE_TO_PROJECT:

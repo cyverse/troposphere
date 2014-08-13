@@ -24,6 +24,7 @@ define(function (require) {
   var validStates = ["available", "in-use", "error_deleting"];
   var pollingFrequency = 5 * 1000;
   var _pendingProjectVolumes = {};
+  var _volumesBuilding = [];
 
   //
   // CRUD Operations
@@ -37,7 +38,6 @@ define(function (require) {
     var existingModel = _volumes.get(volume);
     if (!existingModel) throw new Error("Volume doesn't exist.");
     _volumes.add(volume, {merge: true});
-    pollUntilBuildIsFinished(volume);
   }
 
   function remove(volume) {
@@ -57,22 +57,19 @@ define(function (require) {
   // Polling functions
   //
 
-  var _volumesBuilding = [];
-  var pollUntilBuildIsFinished = function (volume) {
-    //return;
-    if (volume.id) {
+  var pollNowUntilBuildIsFinished = function (volume) {
+    if (volume.id && _volumesBuilding.indexOf(volume) < 0) {
       _volumesBuilding.push(volume);
-      fetchAndRemoveIfFinished(volume);
+      fetchNowAndRemoveIfFinished(volume);
     }
   };
 
   var fetchAndRemoveIfFinished = function (volume) {
-    //return;
     setTimeout(function () {
       volume.fetch().done(function () {
         var index = _volumesBuilding.indexOf(volume);
         if (validStates.indexOf(volume.get("status")) >= 0) {
-          _volumesBuilding.slice(index, 1);
+          _volumesBuilding.splice(index, 1);
         } else {
           fetchAndRemoveIfFinished(volume);
         }
@@ -81,22 +78,11 @@ define(function (require) {
     }, pollingFrequency);
   };
 
-  // The pollNow functions poll immediately and then cycle
-  // as opposed to waiting for the delay and THEN polling
-  var pollNowUntilBuildIsFinished = function (volume) {
-    //return;
-    if (volume.id && _volumesBuilding.indexOf(volume) < 0) {
-      _volumesBuilding.push(volume);
-      fetchNowAndRemoveIfFinished(volume);
-    }
-  };
-
   var fetchNowAndRemoveIfFinished = function (volume) {
-    //return;
     volume.fetch().done(function () {
       var index = _volumesBuilding.indexOf(volume);
       if (volume.get('state').isInFinalState()) {
-        _volumesBuilding.slice(index, 1);
+        _volumesBuilding.splice(index, 1);
       } else {
         fetchAndRemoveIfFinished(volume);
       }
@@ -177,6 +163,10 @@ define(function (require) {
 
       case VolumeConstants.REMOVE_VOLUME:
         remove(payload.volume);
+        break;
+
+      case VolumeConstants.POLL_VOLUME:
+        pollNowUntilBuildIsFinished(payload.volume);
         break;
 
       case ProjectVolumeConstants.ADD_PENDING_VOLUME_TO_PROJECT:

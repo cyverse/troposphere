@@ -4,6 +4,7 @@ define(
     'constants/InstanceConstants',
     'constants/ProjectInstanceConstants',
     'models/Instance',
+    'models/InstanceState',
     'globals',
     'context',
     'url',
@@ -11,7 +12,7 @@ define(
     'controllers/NotificationController',
     'actions/ProjectInstanceActions'
   ],
-  function (AppDispatcher, InstanceConstants, ProjectInstanceConstants, Instance, globals, context, URL, InstanceModalHelpers, NotificationController, ProjectInstanceActions) {
+  function (AppDispatcher, InstanceConstants, ProjectInstanceConstants, Instance, InstanceState, globals, context, URL, InstanceModalHelpers, NotificationController, ProjectInstanceActions) {
 
     return {
 
@@ -75,21 +76,17 @@ define(
         var project = payload.project;
         var that = this;
 
-        // todo: change instance state to show that it's being terminated
+        that.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
 
         instance.destroy().done(function () {
           NotificationController.success(null, 'Instance terminated');
-
-          that.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
-
-          // todo: the proper thing to do is to poll until the instance is actually terminated
-          // and THEN remove it from the project. Need to add a callback to support that.
-          // InstanceStore.pollUntilFinalState(instance);
+          // poll until the instance is actually terminated
+          //that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
           ProjectInstanceActions.removeInstanceFromProject(instance, project);
 
         }).fail(function (response) {
           NotificationController.error(null, 'Instance could not be terminated');
-          //that.dispatch(InstanceConstants.ADD_INSTANCE, {instance: instance});
+          that.dispatch(InstanceConstants.ADD_INSTANCE, {instance: instance});
         });
       },
 
@@ -120,15 +117,27 @@ define(
       suspend: function (instance) {
         var that = this;
 
+        var instanceState = new InstanceState({status_raw: "active - suspending"});
+        instance.set({state: instanceState});
+
         InstanceModalHelpers.suspend({
           instance: instance
         },{
           onConfirm: function () {
+
+            var instanceState = new InstanceState({status_raw: "active - suspending"});
+            instance.set({state: instanceState});
+            that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+
             instance.suspend({
              success: function (model) {
                NotificationController.success(null, "Your instance is suspending...");
-               //pollUntilBuildIsFinished(instance);
+
+               var instanceState = new InstanceState({status_raw: "active - suspending"});
+               instance.set({state: instanceState});
+
                that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+               that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
              },
              error: function (response) {
                NotificationController.error(null, "Your instance could not be suspended");
@@ -145,11 +154,20 @@ define(
           instance: instance
         },{
           onConfirm: function () {
+
+            var instanceState = new InstanceState({status_raw: "suspended - resuming"});
+            instance.set({state: instanceState});
+            that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+
             instance.resume({
              success: function (model) {
                NotificationController.success(null, "Your instance is resuming...");
-               //pollUntilBuildIsFinished(instance);
+
+               var instanceState = new InstanceState({status_raw: "suspended - resuming"});
+               instance.set({state: instanceState});
+
                that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+               that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
              },
              error: function (response) {
                NotificationController.error(null, "Your instance could not be resumed");
@@ -166,11 +184,20 @@ define(
           instance: instance
         },{
           onConfirm: function () {
+
+            var instanceState = new InstanceState({status_raw: "active - powering-off"});
+            instance.set({state: instanceState});
+            that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+
             instance.stop({
              success: function (model) {
                NotificationController.success(null, "Your instance is stopping...");
-               //pollUntilBuildIsFinished(instance);
+
+               var instanceState = new InstanceState({status_raw: "active - powering-off"});
+               instance.set({state: instanceState});
+
                that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+               that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
              },
              error: function (response) {
                NotificationController.error(null, "Your instance could not be stopped");
@@ -187,11 +214,20 @@ define(
           instance: instance
         },{
           onConfirm: function () {
+
+            var instanceState = new InstanceState({status_raw: "shutoff - powering-on"});
+            instance.set({state: instanceState});
+            that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+
             instance.start({
              success: function (model) {
                NotificationController.success(null, "Your instance is starting...");
-               //pollUntilBuildIsFinished(instance);
+
+               var instanceState = new InstanceState({status_raw: "shutoff - powering-on"});
+               instance.set({state: instanceState});
+
                that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+               that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
              },
              error: function (response) {
                NotificationController.error(null, "Your instance could not be started");
@@ -232,12 +268,12 @@ define(
               success: function (model) {
                 NotificationController.success(null, 'Instance launching...');
                 that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+                that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
                 that.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
                   instance: instance,
                   project: project
                 });
                 ProjectInstanceActions.addInstanceToProject(instance, project);
-                //pollUntilBuildIsFinished(instance);
               },
               error: function (response) {
                 NotificationController.error(null, 'Instance could not be launched');
