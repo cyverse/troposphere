@@ -31,17 +31,17 @@ define(
         attributes.start_date = new Date(attributes.start_date);
         attributes.state = new VolumeState({status_raw: attributes.status});
 
-        attributes.attach_data = {
-          attach_time: null,
-          device: null,
-          instance_id: null
-        };
-
-        if (!_.isEmpty(response.attach_data)) {
+        if (response.attach_data && response.attach_data.instanceId) {
           attributes.attach_data = {
-            attach_time: new Date(response.attach_data.attachTime),
+            //attach_time: new Date(response.attach_data.attach_time),
             device: response.attach_data.device,
             instance_id: response.attach_data.instanceId
+          };
+        }else{
+          attributes.attach_data = {
+            //attach_time: null,
+            device: null,
+            instance_id: null
           };
         }
 

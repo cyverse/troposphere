@@ -236,6 +236,7 @@ define(
                   instance: instance,
                   project: project
                 });
+                ProjectInstanceActions.addInstanceToProject(instance, project);
                 //pollUntilBuildIsFinished(instance);
               },
               error: function (response) {
