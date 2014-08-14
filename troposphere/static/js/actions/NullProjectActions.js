@@ -34,8 +34,21 @@ define(
 
       migrateResourcesIntoProject: function (nullProject) {
         var that = this;
+        var instances = InstanceStore.getInstancesInProject(nullProject);
+        var volumes = VolumeStore.getVolumesInProject(nullProject);
+
+
+        var resources = new Backbone.Collection();
+        instances.each(function(instance){
+          resources.push(instance);
+        });
+        volumes.each(function(volume){
+          resources.push(volume);
+        });
+
         NullProjectModalHelpers.migrateResources({
-          nullProject: nullProject
+          nullProject: nullProject,
+          resources: resources
         },{
           onConfirm: function(projectName){
 
@@ -44,11 +57,7 @@ define(
               description: projectName
             });
 
-            var instances = InstanceStore.getInstancesInProject(nullProject);
-            var volumes = VolumeStore.getVolumesInProject(nullProject);
-
-            var instancesClone = instances.models.slice(0);
-            var volumesClone = volumes.models.slice(0);
+            var resourcesClone = resources.models.slice(0);
 
             that.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
 
@@ -56,12 +65,8 @@ define(
               NotificationController.success(null, "Project " + project.get('name') + " created.");
               that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
 
-              instancesClone.map(function(instance){
-                 ProjectActions.addResourceToProject(instance, project);
-              });
-
-              volumesClone.map(function(volume){
-                 ProjectActions.addResourceToProject(volume, project);
+              resourcesClone.map(function(resource){
+                 ProjectActions.addResourceToProject(resource, project);
               });
 
             }).fail(function(){
