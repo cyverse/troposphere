@@ -32,7 +32,7 @@ define(
 
         return (
           <div className="progress">
-            <div className="progress-bar progress-bar-success" style={style}>
+            <div className="progress-bar progress-bar-success progress-bar-striped active" style={style}>
               {style.width}
             </div>
           </div>
