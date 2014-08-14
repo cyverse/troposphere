@@ -13,9 +13,10 @@ define(
     'constants/ProjectConstants',
     'actions/ProjectActions',
     'stores/InstanceStore',
-    'stores/VolumeStore'
+    'stores/VolumeStore',
+    'url'
   ],
-  function (React, AppDispatcher, NullProjectConstants, NullProjectInstanceConstants, NullProjectVolumeConstants, NullProjectModalHelpers, NotificationController, ProjectInstanceActions, ProjectVolumeActions, Project, ProjectConstants, ProjectActions, InstanceStore, VolumeStore) {
+  function (React, AppDispatcher, NullProjectConstants, NullProjectInstanceConstants, NullProjectVolumeConstants, NullProjectModalHelpers, NotificationController, ProjectInstanceActions, ProjectVolumeActions, Project, ProjectConstants, ProjectActions, InstanceStore, VolumeStore, URL) {
 
     return {
 
@@ -68,6 +69,9 @@ define(
               resourcesClone.map(function(resource){
                  ProjectActions.addResourceToProject(resource, project);
               });
+
+              var redirectUrl = URL.project(project, {relative: true});
+              Backbone.history.navigate(redirectUrl, {trigger: true});
 
             }).fail(function(){
               var message = "Error creating Project " + project.get('name') + ".";

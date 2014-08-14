@@ -41,6 +41,12 @@ define(
         resources: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
+      getInitialState: function () {
+        return {
+          projectName: this.props.dateTimeStamp
+        };
+      },
+
       //
       // Internal Modal Callbacks
       // ------------------------
@@ -52,7 +58,16 @@ define(
 
       confirm: function () {
         this.hide();
-        this.props.onConfirm();
+        this.props.onConfirm(this.state.projectName);
+      },
+
+      //
+      // Custom Modal Callbacks
+      // ----------------------
+      //
+
+      onProjectNameChange: function (e) {
+        this.setState({projectName: e.target.value});
       },
 
       //
@@ -71,7 +86,7 @@ define(
           var isDisabled = false;
 
           // Disable the launch button if the user hasn't provided a name, size or identity for the volume
-          var stateIsValid = true;
+          var stateIsValid = this.state.projectName;
           if(button.type === "primary" && !stateIsValid ) isDisabled = true;
 
           return (
@@ -94,15 +109,17 @@ define(
         var content = (
           <form role='form'>
 
-            <p>{"Looks like you have resources that aren't in a project. Would you like to migrate them?"}</p>
-            <p>This will create a new project called "<b>{this.props.dateTimeStamp}</b>" and move all of these resources into that project.</p>
-
             <div className='form-group'>
-              <label htmlFor='volumeSize'>Resources to Migrate</label>
-              <p>The following resources will be migrated into the project:</p>
+              <p>{"Looks like you have some resources that aren't in a project! Would you like to migrate the following resources into a project so that you can interact with them?"}</p>
               <ul>
                 {resourceNames}
               </ul>
+            </div>
+
+            <div className='form-group'>
+              <label>Project Name</label>
+              <p>{"If you accept, a new project will be created with the following name. Feel free to change it to something more meaningful, and you can always rename the project later."}</p>
+              <input type='text' className='form-control' value={this.state.projectName} onChange={this.onProjectNameChange}/>
             </div>
 
           </form>
