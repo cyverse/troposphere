@@ -44,7 +44,7 @@ define(
       },
 
       login: function () {
-        return '/login'
+        return 'login'
       },
 
       projects: function ( ) {
