@@ -22,6 +22,7 @@ define(
         var status = volumeState.get('status');
         var activity = volumeState.get('activity');
         var placeholderMessage = status;
+        var lightStatus = "active";
 
         if(status === "available"){
           placeholderMessage = "Unattached";
@@ -36,6 +37,8 @@ define(
             placeholderMessage = "Attached to instance outside project (" + attachData.instance_id + ")";
             style = {color: "#d44950"}
           }
+        }else{
+          lightStatus = "transition";
         }
 
 //        return (
@@ -47,7 +50,7 @@ define(
         return (
           <span>
             <div>
-              <StatusLight state={volumeState}/>
+              <StatusLight status={lightStatus}/>
               <span style={style}>{placeholderMessage}</span>
             </div>
             <StatusBar state={volumeState} activity={activity}/>

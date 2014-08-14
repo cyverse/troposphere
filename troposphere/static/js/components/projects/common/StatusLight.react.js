@@ -10,21 +10,21 @@ define(
     return React.createClass({
 
       propTypes: {
-        state: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        status: React.PropTypes.string.isRequired
       },
 
       render: function () {
-        var status = this.props.state.get('status');
+        var status = this.props.status;
         var statusLight;
 
         if(status === "active"){
           statusLight = <span className="instance-status-light active"></span>;
-        }else if(status === "suspended"){
-          statusLight = <span className="instance-status-light suspended"></span>;
-        }else if(status === "shutoff"){
-          statusLight = <span className="instance-status-light stopped"></span>;
+        }else if(status === "transition"){
+          statusLight = <span className="instance-status-light transition"></span>;
+        }else if(status === "inactive"){
+          statusLight = <span className="instance-status-light inactive"></span>;
         }else{
-          statusLight = <span></span>;
+          statusLight = <span className="instance-status-light"></span>;
         }
 
         return (

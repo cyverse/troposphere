@@ -3,23 +3,20 @@
 define(
   [
     'react',
-    'backbone',
-    'models/InstanceState'
+    'backbone'
   ],
-  function (React, Backbone, InstanceState) {
+  function (React, Backbone) {
 
     return React.createClass({
 
       propTypes: {
-        state: React.PropTypes.instanceOf(InstanceState).isRequired,
-        activity: React.PropTypes.string
+        state: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
       render: function () {
         var state = this.props.state;
-        var activity = this.props.activity;
 
-        var percentComplete = this.props.state.getPercentComplete();
+        var percentComplete = state.getPercentComplete();
         var style = {width: "0%"};
 
         style.width = percentComplete + "%";
