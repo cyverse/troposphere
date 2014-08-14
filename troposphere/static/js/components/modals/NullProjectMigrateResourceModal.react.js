@@ -94,7 +94,8 @@ define(
         var content = (
           <form role='form'>
 
-            <p>{body}</p>
+            <p>{"Looks like you have resources that aren't in a project. Would you like to migrate them?"}</p>
+            <p>This will create a new project called "<b>{this.props.dateTimeStamp}</b>" and move all of these resources into that project.</p>
 
             <div className='form-group'>
               <label htmlFor='volumeSize'>Resources to Migrate</label>

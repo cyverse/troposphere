@@ -24,7 +24,8 @@ require.config({
     q: '//cdnjs.cloudflare.com/ajax/libs/q.js/1.0.1/q.min',
     highchartsBase: '//code.highcharts.com/highcharts',
     highcharts: '//code.highcharts.com/highcharts-more',
-    crypto: '//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5'
+    crypto: '//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5',
+    'jquery.dotdotdot': '//cdnjs.cloudflare.com/ajax/libs/jQuery.dotdotdot/1.6.10/jquery.dotdotdot.min'
   },
 
   shim: {

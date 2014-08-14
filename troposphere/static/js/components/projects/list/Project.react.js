@@ -5,14 +5,26 @@ define(
     'react',
     'backbone',
     'actions/ProjectActions',
-    'moment'
+    'moment',
+    'jquery',
+
+    // plugins
+    'jquery.dotdotdot'
   ],
-  function (React, Backbone, ProjectActions, moment) {
+  function (React, Backbone, ProjectActions, moment, $) {
 
     return React.createClass({
 
       propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired
+      },
+
+      componentDidMount: function(){
+        var el = this.getDOMNode();
+        var $el = $(el);
+        $el.find("h2").dotdotdot({
+          height: 20
+        });
       },
 
       onAddResourceToProject: function(e){
