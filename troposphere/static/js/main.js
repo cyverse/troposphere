@@ -58,6 +58,10 @@ require.config({
 
     crypto: {
       exports: 'CryptoJS'
+    },
+
+    'jquery.dotdotdot': {
+      deps: ['jquery']
     }
   }
 });
