@@ -5,9 +5,10 @@ define(
     'components/modals/CancelConfirmModal.react',
     'components/modals/ProjectMoveResourceModal.react',
     'components/modals/ProjectDeleteResourceModal.react',
-    'components/modals/ProjectCreateModal.react'
+    'components/modals/ProjectCreateModal.react',
+    'components/modals/ProjectRemoveResourceModal.react'
   ],
-  function (React, CommonHelpers, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectCreateModal) {
+  function (React, CommonHelpers, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectCreateModal, ProjectRemoveResourceModal) {
 
     return {
 
@@ -58,6 +59,25 @@ define(
           handleHidden: CommonHelpers.onCancel,
           currentProject: currentProject,
           resources: resources
+        });
+
+        CommonHelpers.renderComponent(modal);
+      },
+
+      removeResources: function(payload, options){
+        if(!options.onConfirm) throw new Error("Must supply options.onConfirm callback");
+
+        var resources = payload.resources;
+        var project = payload.project;
+
+        var modal = ProjectRemoveResourceModal({
+          header: "Remove Resources",
+          confirmButtonMessage: "Remove resources",
+          project: project,
+          resources: resources,
+          onConfirm: options.onConfirm,
+          onCancel: CommonHelpers.onCancel,
+          handleHidden: CommonHelpers.onCancel
         });
 
         CommonHelpers.renderComponent(modal);

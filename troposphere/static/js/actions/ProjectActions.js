@@ -150,6 +150,22 @@ define(
         }
       },
 
+      removeResources: function(resources, project){
+        var that = this;
+
+        ProjectModalHelpers.removeResources({
+          resources: resources,
+          project: project
+        },{
+          onConfirm: function(){
+            resources.map(function(resource){
+              that.removeResourceFromProject(resource, project, {silent: true});
+            });
+            that.dispatch(ProjectConstants.EMIT_CHANGE);
+          }
+        });
+      },
+
       // ------------------------
       // Delete Project Resources
       // ------------------------

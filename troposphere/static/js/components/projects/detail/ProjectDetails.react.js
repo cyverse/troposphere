@@ -123,6 +123,11 @@ define(
         ProjectActions.reportResources(this.props.project, selectedResources);
       },
 
+      onRemoveSelectedResources: function(){
+        var selectedResources = this.state.selectedResources;
+        ProjectActions.removeResources(selectedResources, this.props.project);
+      },
+
       render: function () {
         if(this.state.projectInstances && this.state.projectVolumes && this.state.providers) {
 
@@ -145,6 +150,7 @@ define(
                          onMoveSelectedResources={this.onMoveSelectedResources}
                          onDeleteSelectedResources={this.onDeleteSelectedResources}
                          onReportSelectedResources={this.onReportSelectedResources}
+                         onRemoveSelectedResources={this.onRemoveSelectedResources}
               />
               <div className="resource-list">
                 <div className="scrollable-content">
