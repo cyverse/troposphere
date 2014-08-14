@@ -17,7 +17,8 @@ define(
 
       propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model),
-        resource: React.PropTypes.instanceOf(Backbone.Model)
+        resource: React.PropTypes.instanceOf(Backbone.Model),
+        instances: React.PropTypes.instanceOf(Backbone.Collection)
       },
 
       render: function () {
@@ -29,11 +30,18 @@ define(
         if(this.props.resource) {
           if (this.props.resource instanceof Instance) {
             resourcePreview = (
-              <InstancePreviewView key={this.props.resource.id} instance={this.props.resource} project={this.props.project}/>
+              <InstancePreviewView key={this.props.resource.id}
+                                   instance={this.props.resource}
+                                   project={this.props.project}
+              />
             );
           } else if (this.props.resource instanceof Volume) {
             resourcePreview = (
-              <VolumePreviewView key={this.props.resource.id} volume={this.props.resource} project={this.props.project}/>
+              <VolumePreviewView key={this.props.resource.id}
+                                 volume={this.props.resource}
+                                 project={this.props.project}
+                                 instances={this.props.instances}
+              />
             );
           }
 

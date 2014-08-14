@@ -49,7 +49,7 @@ define(
             </button>
           );
         }else{
-          var loginUrl = URL.login();
+          var loginUrl = URL.login(null, {relative: true});
           button = (
             <a className='btn btn-primary launch-button' href={loginUrl}>
               Login to Launch

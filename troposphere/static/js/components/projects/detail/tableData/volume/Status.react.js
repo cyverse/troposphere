@@ -3,11 +3,14 @@
 define(
   [
     'react',
-    'backbone'
+    'backbone',
+    'components/projects/common/StatusLight.react',
+    '../instance/StatusBar.react'
   ],
-  function (React, Backbone) {
+  function (React, Backbone, StatusLight, StatusBar) {
 
     return React.createClass({
+      displayName: "Status",
 
       propTypes: {
         volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
@@ -15,24 +18,42 @@ define(
       },
 
       render: function () {
-        var status = this.props.volume.get('status'),
-            placeholderMessage = status;
+        var volumeState = this.props.volume.get('state');
+        var status = volumeState.get('status');
+        var activity = volumeState.get('activity');
+        var placeholderMessage = status;
+        var lightStatus = "active";
 
         if(status === "available"){
           placeholderMessage = "Unattached";
         }else if(status === "in-use"){
           var attachData = this.props.volume.get('attach_data');
           var instance = this.props.instances.get(attachData.instance_id);
+          var style = {};
+
           if(instance) {
-            placeholderMessage = "Attached to " + instance.get('name') + " as device " + attachData.device;
+            placeholderMessage = "Attached to " + instance.get('name');
           }else{
             placeholderMessage = "Attached to instance outside project (" + attachData.instance_id + ")";
+            style = {color: "#d44950"}
           }
+        }else{
+          lightStatus = "transition";
         }
+
+//        return (
+//          <span>
+//            {placeholderMessage}
+//          </span>
+//        );
 
         return (
           <span>
-            {placeholderMessage}
+            <div>
+              <StatusLight status={lightStatus}/>
+              <span style={style}>{placeholderMessage}</span>
+            </div>
+            <StatusBar state={volumeState} activity={activity}/>
           </span>
         );
       }

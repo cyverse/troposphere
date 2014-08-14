@@ -14,11 +14,16 @@ define(
     'stores/VolumeStore',
     'stores/ProviderStore',
     'stores/SizeStore',
+    'stores/ProjectStore',
 
     // Actions
-    'actions/ProjectActions'
+    'actions/ProjectActions',
+
+    // Models
+    'models/Instance',
+    'models/Volume'
   ],
-  function (React, Backbone, PreviewPanel, ButtonBar, InstanceList, VolumeList, InstanceStore, VolumeStore, ProviderStore, SizeStore, ProjectActions) {
+  function (React, Backbone, PreviewPanel, ButtonBar, InstanceList, VolumeList, InstanceStore, VolumeStore, ProviderStore, SizeStore, ProjectStore, ProjectActions, Instance, Volume) {
 
     function getState(project) {
       return {
@@ -47,6 +52,7 @@ define(
         VolumeStore.addChangeListener(this.updateState);
         ProviderStore.addChangeListener(this.updateState);
         SizeStore.addChangeListener(this.updateState);
+        ProjectStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
@@ -54,10 +60,27 @@ define(
         VolumeStore.removeChangeListener(this.updateState);
         ProviderStore.removeChangeListener(this.updateState);
         SizeStore.removeChangeListener(this.updateState);
+        ProjectStore.removeChangeListener(this.updateState);
       },
 
       updateState: function(){
-        if (this.isMounted()) this.setState(getState(this.props.project));
+        if (this.isMounted()) {
+          var state = getState(this.props.project);
+
+          // Remove any selected resources that are no longer in the project
+          var projectInstances = InstanceStore.getInstancesInProject(this.props.project);
+          var projectVolumes = VolumeStore.getVolumesInProject(this.props.project);
+
+          var selectedResourcesClone = this.state.selectedResources.models.slice(0);
+          selectedResourcesClone.map(function(selectedResource){
+            var instanceInProject = selectedResource instanceof Instance && projectInstances.get(selectedResource);
+            var volumeInProject = selectedResource instanceof Volume && projectVolumes.get(selectedResource);
+            var resourceInProject = instanceInProject || volumeInProject;
+            if(!resourceInProject) this.state.selectedResources.remove(selectedResource);
+          }.bind(this));
+
+          this.setState(state);
+        }
       },
 
       onResourceSelected: function(resource){
@@ -100,6 +123,11 @@ define(
         ProjectActions.reportResources(this.props.project, selectedResources);
       },
 
+      onRemoveSelectedResources: function(){
+        var selectedResources = this.state.selectedResources;
+        ProjectActions.removeResources(selectedResources, this.props.project);
+      },
+
       render: function () {
         if(this.state.projectInstances && this.state.projectVolumes && this.state.providers) {
 
@@ -122,6 +150,7 @@ define(
                          onMoveSelectedResources={this.onMoveSelectedResources}
                          onDeleteSelectedResources={this.onDeleteSelectedResources}
                          onReportSelectedResources={this.onReportSelectedResources}
+                         onRemoveSelectedResources={this.onRemoveSelectedResources}
               />
               <div className="resource-list">
                 <div className="scrollable-content">
@@ -143,7 +172,10 @@ define(
                               instances={this.state.projectInstances}
                   />
                 </div>
-                <PreviewPanel project={this.props.project} resource={this.state.selectedResource}/>
+                <PreviewPanel project={this.props.project}
+                              resource={this.state.selectedResource}
+                              instances={this.state.projectInstances}
+                />
               </div>
             </div>
           );

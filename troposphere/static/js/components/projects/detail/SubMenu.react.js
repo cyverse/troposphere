@@ -16,7 +16,7 @@ define(
 
       onCreateVolume: function(e){
         e.preventDefault();
-        VolumeActions.createAndAddToProject(this.props.project);
+        VolumeActions.createAndAddToProject({project: this.props.project});
       },
 
       render: function () {

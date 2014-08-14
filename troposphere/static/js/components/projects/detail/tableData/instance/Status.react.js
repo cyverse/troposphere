@@ -17,9 +17,17 @@ define(
 
       render: function () {
         var instanceState = this.props.instance.get('state');
-        var state = instanceState.get('status');
+        var status = instanceState.get('status');
         var activity = instanceState.get('activity');
-        var status = state + " - " + activity;
+        var lightStatus = "transition";
+
+        if(status === "active" && !activity){
+          lightStatus = "active";
+        }else if(status === "suspended" && !activity){
+          lightStatus = "inactive";
+        }else if(status === "shutoff" && !activity){
+          lightStatus = "inactive";
+        }
 
         var rawStatus = instanceState.get('status_raw');
 
@@ -39,10 +47,10 @@ define(
         return (
           <span>
             <div>
-              <StatusLight state={instanceState}/>
+              <StatusLight status={lightStatus}/>
               <span style={style}>{capitalizedStatus}</span>
             </div>
-            <StatusBar state={this.props.instance.get('state')} activity={activity}/>
+            <StatusBar state={instanceState} activity={activity}/>
           </span>
         );
       }

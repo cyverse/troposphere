@@ -9,19 +9,6 @@
     margin-bottom: 0px;
   }
 
-  .resource-summary {
-    display: inline-block;
-    vertical-align: top;
-
-    li {
-      list-style-type: none;
-      .progress {
-        margin-bottom: 0;
-        margin-top: 10px;
-      }
-    }
-  }
-
   ul.notifications {
     background-color: #EEF0F0;
     height: 1000px;

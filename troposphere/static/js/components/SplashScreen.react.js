@@ -7,6 +7,7 @@ define(
     'context',
     'stores/ProfileStore',
     'stores/IdentityStore',
+    'stores/NullProjectStore',
 
     // Routers
     'routers/DashboardRouter',
@@ -17,12 +18,13 @@ define(
     'routers/ProviderRouter',
     'routers/DefaultRouter'
   ],
-  function ($, React, context, ProfileStore, IdentityStore, DashboardRouter, ProjectRouter, ApplicationRouter, SettingsRouter, HelpRouter, ProviderRouter, DefaultRouter) {
+  function ($, React, context, ProfileStore, IdentityStore, NullProjectStore, DashboardRouter, ProjectRouter, ApplicationRouter, SettingsRouter, HelpRouter, ProviderRouter, DefaultRouter) {
 
     function getState() {
       return {
         profile: ProfileStore.get(),
-        identities: IdentityStore.getAll()
+        identities: IdentityStore.getAll(),
+        nullProject: NullProjectStore.get()
       };
     }
 
@@ -39,6 +41,7 @@ define(
 
       updateState: function() {
         var profile = ProfileStore.get();
+        var nullProject = NullProjectStore.get();
         // we're fetching the identities during app load because it simplifies a lot of code
         // if we can assume the identities are already here.  In order to get all user instances
         // and volumes we have to loop through all identities to get the whole collection.
@@ -47,9 +50,10 @@ define(
         // in order to see if it's possible to fetch the identities yet (because the long urls require
         // knowing provider and identity information - provider/1/identity/2/instance)
         var identities = IdentityStore.getAll();
-        if(profile && identities){
+        if(profile && identities && nullProject){
           // set user context
           context.profile = profile;
+          context.nullProject = nullProject;
 
           this.startApplication();
         }
@@ -58,11 +62,13 @@ define(
       componentDidMount: function () {
         ProfileStore.addChangeListener(this.updateState);
         IdentityStore.addChangeListener(this.updateState);
+        NullProjectStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
         ProfileStore.removeChangeListener(this.updateState);
         IdentityStore.removeChangeListener(this.updateState);
+        NullProjectStore.removeChangeListener(this.updateState);
       },
 
       startApplication: function(){

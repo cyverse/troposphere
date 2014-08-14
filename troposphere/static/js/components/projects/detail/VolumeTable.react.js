@@ -11,6 +11,7 @@ define(
   function (React, Backbone, VolumeRow, VolumeNotRealRow, SelectableTable) {
 
     return React.createClass({
+      displayName: "VolumeTable",
 
       propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,

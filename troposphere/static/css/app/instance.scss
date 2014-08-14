@@ -9,16 +9,17 @@
   border-radius: 50%;
   display: inline-block;
   margin-right: 5px;
+  background: gray;
 
   &.active {
     background: green;
   }
 
-  &.suspended {
-    background: grey;
+  &.transition {
+    background: #F9CB49;
   }
 
-  &.stopped {
+  &.inactive {
     background: crimson;
   }
 }

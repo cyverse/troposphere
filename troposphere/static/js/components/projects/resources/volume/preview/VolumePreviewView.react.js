@@ -39,7 +39,8 @@ define(function (require) {
 
       propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       getInitialState: function(){
@@ -74,7 +75,7 @@ define(function (require) {
 
           return (
             <ul>
-              <Status volume={volume}/>
+              <Status volume={volume} instances={this.props.instances}/>
               <Size volume={volume}/>
               <Identity volume={volume} provider={provider}/>
               <Id volume={volume}/>

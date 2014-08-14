@@ -4,12 +4,9 @@ define(
     'collections/TagCollection',
     'dispatchers/Dispatcher',
     'stores/Store',
-    'constants/TagConstants',
-    'models/Tag',
-    'controllers/NotificationController',
-    'actions/InstanceActions'
+    'constants/TagConstants'
   ],
-  function (_, TagCollection, Dispatcher, Store, TagConstants, Tag, NotificationController, InstanceActions) {
+  function (_, TagCollection, Dispatcher, Store, TagConstants) {
 
     var _tags = null;
     var _isFetching = false;
@@ -31,44 +28,27 @@ define(
       }
     };
 
-    function create(name, description, options){
-      options = options || {};
-
-      var tag = new Tag({
-        name: name,
-        description: description
-      });
-
-      if(options.afterCreate) options.afterCreate(tag);
-
-      tag.save().done(function(){
-        if(options.afterSave) options.afterSave(tag);
-        TagStore.emitChange();
-      }).fail(function(){
-        var failureMessage = "Error creating Tag " + tag.get('name') + ".";
-        NotificationController.error(failureMessage);
-
-        if(options.afterSaveError) options.afterSaveError(tag);
-        _tags.remove(tag);
-        TagStore.emitChange();
-      });
+    function add(tag, options){
       _tags.add(tag);
     }
 
-    function create_AddToInstance(name, description, instance){
-      create(name, description, {
-        afterCreate: function(tag){
-          _pendingInstanceTags[instance.id] = _pendingInstanceTags[instance.id] || new TagCollection();
-          _pendingInstanceTags[instance.id].add(tag);
-        },
-        afterSave: function(tag){
-          _pendingInstanceTags[instance.id].remove(tag);
-          InstanceActions.addTagToInstance(tag, instance);
-        },
-        afterSaveError: function(tag){
-          _pendingInstanceTags[instance.id].remove(tag);
-        }
-      })
+    function update(tag, options){
+      var existingModel = _tags.find(tag);
+      if(!existingModel) throw new Error("Tag doesn't exist.");
+      _tags.add(tag, {merge: true});
+    }
+
+    function remove(tag, options){
+      _tags.remove(tag);
+    }
+
+    function addPendingTagToInstance(tag, instance){
+      _pendingInstanceTags[instance.id] = _pendingInstanceTags[instance.id] || new TagCollection();
+      _pendingInstanceTags[instance.id].add(tag);
+    }
+
+    function removePendingTagFromInstance(tag, instance){
+      _pendingInstanceTags[instance.id].remove(tag);
     }
 
     //
@@ -113,23 +93,39 @@ define(
 
     };
 
-    Dispatcher.register(function (payload) {
-      var action = payload.action;
+    Dispatcher.register(function (dispatch) {
+      var actionType = dispatch.action.actionType;
+      var payload = dispatch.action.payload;
+      var options = dispatch.action.options || options;
 
-      switch (action.actionType) {
-         case TagConstants.TAG_CREATE:
-           create(action.name, action.description);
-           break;
+      switch (actionType) {
+        case TagConstants.ADD_TAG:
+          add(payload.tag);
+          break;
 
-        case TagConstants.TAG_CREATE_AND_ADD_TO_INSTANCE:
-            create_AddToInstance(action.name, action.description, action.instance);
-           break;
+        case TagConstants.UPDATE_TAG:
+          update(payload.tag);
+          break;
+
+        case TagConstants.REMOVE_TAG:
+          remove(payload.tag);
+          break;
+
+        case TagConstants.ADD_PENDING_TAG_TO_INSTANCE:
+          addPendingTagToInstance(payload.tag, payload.instance);
+          break;
+
+        case TagConstants.REMOVE_PENDING_TAG_FROM_INSTANCE:
+          removePendingTagFromInstance(payload.tag, payload.instance);
+          break;
 
          default:
            return true;
       }
 
-      TagStore.emitChange();
+      if(!options.silent) {
+        TagStore.emitChange();
+      }
 
       return true;
     });

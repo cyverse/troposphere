@@ -8,7 +8,9 @@ define(
   ],
   function (React, _, SidebarListItem) {
 
-    var Menu = React.createClass({
+    return React.createClass({
+      displayName: "Menu",
+
       render: function () {
         var active = this.props.active;
         var depth = this.props.depth;
@@ -50,7 +52,5 @@ define(
         );
       }
     });
-
-    return Menu;
 
   });

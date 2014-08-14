@@ -25,14 +25,14 @@ $navbar-default-toggle-icon-bar-bg:        #fff;
 $navbar-default-toggle-border-color:       $navbar-default-link-active-bg;
 
 // We need to let bootstrap know the path to our glyphicons (stored in bower_components)
-$icon-font-path: "/assets/bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
+$icon-font-path: "/assets/bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
 
 //
 // Vendor Stylesheets
 // ------------------
 //
 
-@import "../../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap";
+@import "../../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap";
 
 /* Import bootstrap-chosen for styling the Chosen multi-select like Bootstrap */
 // We need to let bootstrap-chosen know the path to the spite image it uses (stored in bower_components)

@@ -5,9 +5,10 @@ define(
     'react',
     'backbone',
     'components/projects/common/ResourceDetail.react',
-    'components/projects/common/StatusLight.react'
+    'components/projects/common/StatusLight.react',
+    'components/projects/detail/tableData/instance/StatusBar.react'
   ],
-  function (React, Backbone, ResourceDetail, StatusLight) {
+  function (React, Backbone, ResourceDetail, StatusLight, StatusBar) {
 
     return React.createClass({
 
@@ -18,20 +19,39 @@ define(
       render: function () {
         var instanceState = this.props.instance.get('state');
         var status = instanceState.get('status');
-        var style = {};
-        var capitalizedStatus = status.charAt(0).toUpperCase() + status.slice(1);
+        var activity = instanceState.get('activity');
+        var lightStatus = "transition";
 
-        if(capitalizedStatus === "Error") {
-          capitalizedStatus = "Launch failed. Atmosphere at capacity.";
-          style = {
-            color: "#d44950"
-          }
+        if(status === "active" && !activity){
+          lightStatus = "active";
+        }else if(status === "suspended" && !activity){
+          lightStatus = "inactive";
+        }else if(status === "shutoff" && !activity){
+          lightStatus = "inactive";
+        }
+
+        var rawStatus = instanceState.get('status_raw');
+
+        var style = {};
+        var capitalizedStatus = rawStatus.charAt(0).toUpperCase() + rawStatus.slice(1);
+
+        if(instanceState.isDeployError()) {
+          return (
+            <span>
+              <div>
+                <span style={{color: "#d44950"}}>{"Launch failed. Atmosphere at capacity."}</span>
+              </div>
+            </span>
+          );
         }
 
         return (
           <ResourceDetail label="Status">
-            <StatusLight state={instanceState}/>
-            <span style={style}>{capitalizedStatus}</span>
+            <div className="resource-status">
+              <StatusLight status={lightStatus}/>
+              <span style={style}>{capitalizedStatus}</span>
+              <StatusBar state={instanceState}/>
+            </div>
           </ResourceDetail>
         );
       }

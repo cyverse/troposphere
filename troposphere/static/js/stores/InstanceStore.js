@@ -6,269 +6,48 @@ define(
     'collections/InstanceCollection',
     'models/Instance',
     'constants/InstanceConstants',
-    'controllers/NotificationController',
-    'stores/IdentityStore',
-    'actions/ProjectActions',
-    'q'
+    'constants/ProjectInstanceConstants',
+    'controllers/NotificationController'
   ],
-  function (_, Dispatcher, Store, InstanceCollection, Instance, InstanceConstants, NotificationController, IdentityStore, ProjectActions, Q) {
+  function (_, Dispatcher, Store, InstanceCollection, Instance, InstanceConstants, ProjectInstanceConstants, NotificationController) {
 
     var _instances = new InstanceCollection();
     var _isFetching = false;
     var pollingFrequency = 10*1000;
     var _pendingProjectInstances = {};
-    var _pendingRemovalProjectInstances = {};
+    var _instancesBuilding = [];
 
     //
     // CRUD Operations
     //
 
-    var fetchInstancesFor = function (providerId, identityId) {
-      var defer = Q.defer();
-
-      var instances = new InstanceCollection(null, {
-        provider_id: providerId,
-        identity_id: identityId
-      });
-
-      // make sure promise returns the right instances collection
-      // for when this function is called multiple times
-      (function(instances, defer){
-        instances.fetch().done(function(){
-          defer.resolve(instances);
-        });
-      })(instances, defer);
-
-      return defer.promise;
-    };
-
-    var fetchInstances = function (identities) {
-      if(!_isFetching && identities) {
-        _isFetching = true;
-
-        // return an array of promises (one for each volume collection being fetched)
-        var promises = identities.map(function (identity) {
-          var providerId = identity.get('provider_id');
-          var identityId = identity.get('id');
-          return fetchInstancesFor(providerId, identityId);
-        });
-
-        // When all instance collections are fetched...
-        Q.all(promises).done(function (instanceCollections) {
-          // Combine results into a single volume collection
-          var instances = new InstanceCollection();
-          for (var i = 0; i < instanceCollections.length; i++) {
-            instances.add(instanceCollections[i].toJSON());
-          }
-
-          // Start polling for any instances that are in transition states
-          instances.forEach(function(instance){
-            if(!instance.get('state').isInFinalState()){
-              pollUntilBuildIsFinished(instance);
-            }
-          });
-
-          // Save the results to local cache
-          _isFetching = false;
-          _instances = instances;
-          InstanceStore.emitChange();
-        });
-      }
-    };
-
-    var update = function(instance){
-      instance.save({
-        name: instance.get('name'),
-        tags: instance.get('tags')
-      }, {
-        patch: true
-      }).done(function(){
-        var successMessage = "Instance " + instance.get('name') + " updated.";
-        //NotificationController.success(successMessage);
-        InstanceStore.emitChange();
-      }).fail(function(){
-        var failureMessage = "Error updating Instance " + instance.get('name') + ".";
-        NotificationController.error(failureMessage);
-        InstanceStore.emitChange();
-      });
-    };
-
-    var addTagToInstance = function(tag, instance){
-      var instanceTags = instance.get('tags');
-      instanceTags.push(tag.get('name'));
-      instance.save({
-        tags: instanceTags
-      }, {
-        patch: true
-      }).done(function(){
-        InstanceStore.emitChange();
-      }).fail(function(){
-        var failureMessage = "Error adding tag to Instance";
-        NotificationController.error(failureMessage);
-        InstanceStore.emitChange();
-      });
-    };
-
-    //
-    // Instance Actions
-    //
-
-    var suspend = function(instance){
-      instance.suspend({
-        success: function (model) {
-          //NotificationController.success("Success", "Your instance is now suspended");
-          pollUntilBuildIsFinished(instance);
-          InstanceStore.emitChange();
-        },
-        error: function (response) {
-          NotificationController.error("Error", "Your instance could not be suspended");
-          InstanceStore.emitChange();
-        }
-      });
-    };
-
-    var resume = function(instance){
-      instance.resume({
-        success: function (model) {
-          //NotificationController.success("Success", "Your instance is resuming");
-          pollUntilBuildIsFinished(instance);
-          InstanceStore.emitChange();
-        },
-        error: function (response) {
-          NotificationController.error("Error", "Your instance could not be resumed");
-          InstanceStore.emitChange();
-        }
-      });
-    };
-
-    var stop = function(instance){
-      instance.stop({
-        success: function (model) {
-          //NotificationController.success('Stop Instance', 'Instance successfully stopped');
-          pollUntilBuildIsFinished(instance);
-          InstanceStore.emitChange();
-        },
-        error: function (response) {
-          NotificationController.error('Error', 'Instance could not be stopped');
-          InstanceStore.emitChange();
-        }
-      });
-    };
-
-    var start = function(instance){
-      instance.start({
-        success: function (model) {
-          //NotificationController.success('Start Instance', 'Instance successfully started');
-          pollUntilBuildIsFinished(instance);
-          InstanceStore.emitChange();
-        },
-        error: function (response) {
-          NotificationController.error('Error', 'Instance could not be started');
-          InstanceStore.emitChange();
-        }
-      });
-    };
-
-    var terminate = function(instance, options){
-      options = options || {};
-
-      instance.destroy({
-        success: function (model) {
-          if(options.afterDestroy) options.afterDestroy(instance);
-          pollUntilBuildIsFinished(instance);
-          InstanceStore.emitChange();
-        },
-        error: function (response) {
-          NotificationController.error('Error', 'Instance could not be terminated');
-          if(options.afterDestroyError) options.afterDestroyError(instance);
-          _instances.add(instance);
-          InstanceStore.emitChange();
-        }
-      });
-      _instances.remove(instance);
-    };
-
-    var terminate_RemoveFromProject = function(instance, project){
-
-      _pendingRemovalProjectInstances[project.id] = _pendingRemovalProjectInstances[project.id] || new InstanceCollection();
-      _pendingRemovalProjectInstances[project.id].add(instance);
-
-      terminate(instance, {
-        afterDestroy: function(instance){
-          _pendingRemovalProjectInstances[project.id].remove(instance);
-          ProjectActions.removeItemFromProject(project, instance);
-        },
-        afterDestroyError: function(instance){
-          _pendingRemovalProjectInstances[project.id].remove(instance);
-          //ProjectActions.addItemToProject(project, instance);
-        }
-      })
-    };
-
-    var launch = function(identity, machineId, sizeId, instanceName, options){
-      options = options || {};
-
-      var instance = new Instance({
-        identity: {
-          id: identity.id,
-          provider: identity.get('provider_id')
-        },
-        status: "build - scheduling"
-      }, {parse: true});
-
-      var params = {
-        machine_alias: machineId,
-        size_alias: sizeId,
-        name: instanceName
-      };
-
-      if(options.afterCreate) options.afterCreate(instance);
-
-      instance.save(params, {
-        success: function (model) {
-          if(options.afterSave) options.afterSave(instance);
-          pollUntilBuildIsFinished(instance);
-          InstanceStore.emitChange();
-        },
-        error: function (response) {
-          NotificationController.error('Error', 'Instance could not be launched');
-          if(options.afterSaveError) options.afterSaveError(instance);
-          _instances.remove(instance);
-          InstanceStore.emitChange();
-        }
-      });
+    function add(instance) {
       _instances.add(instance);
-    };
+    }
 
-    var launch_AddToProject = function(identity, machineId, sizeId, instanceName, project){
-      launch(identity, machineId, sizeId, instanceName, {
-        afterCreate: function(instance){
-          _pendingProjectInstances[project.id] = _pendingProjectInstances[project.id] || new InstanceCollection();
-          _pendingProjectInstances[project.id].add(instance);
-        },
-        afterSave: function(instance){
-          _pendingProjectInstances[project.id].remove(instance);
-          ProjectActions.addItemToProject(project, instance);
-        },
-        afterSaveError: function(instance){
-          _pendingProjectInstances[project.id].remove(instance);
-        }
-      })
-    };
+    function update(instance) {
+      var existingModel = _instances.get(instance);
+      if (!existingModel) throw new Error("Instance doesn't exist.");
+      _instances.add(instance, {merge: true});
+    }
+
+    function remove(instance) {
+      _instances.remove(instance);
+    }
+
+    function addPendingInstanceToProject(instance, project) {
+      _pendingProjectInstances[project.id] = _pendingProjectInstances[project.id] || new InstanceCollection();
+      _pendingProjectInstances[project.id].add(instance);
+    }
+
+    function removePendingInstanceFromProject(instance, project) {
+      _pendingProjectInstances[project.id].remove(instance);
+    }
 
     //
     // Polling Functions
     //
 
-    var _instancesBuilding = [];
-    var pollUntilBuildIsFinished = function(instance){
-      if(_instancesBuilding.indexOf(instance) < 0) {
-        _instancesBuilding.push(instance);
-        fetchAndRemoveIfFinished(instance);
-      }
-    };
-
-    // Poll
     var pollNowUntilBuildIsFinished = function(instance){
       if(_instancesBuilding.indexOf(instance) < 0) {
         _instancesBuilding.push(instance);
@@ -281,7 +60,7 @@ define(
         instance.fetch().done(function(){
           var index = _instancesBuilding.indexOf(instance);
           if(instance.get('state').isInFinalState()){
-            _instancesBuilding.slice(index, 1);
+            _instancesBuilding.splice(index, 1);
           }else{
             fetchAndRemoveIfFinished(instance);
           }
@@ -294,7 +73,7 @@ define(
       instance.fetch().done(function(){
         var index = _instancesBuilding.indexOf(instance);
         if(instance.get('state').isInFinalState()){
-          _instancesBuilding.slice(index, 1);
+          _instancesBuilding.splice(index, 1);
         }else{
           fetchAndRemoveIfFinished(instance);
         }
@@ -320,27 +99,6 @@ define(
 
         return _instances;
       },
-
-      // getAll: function () {
-      //   if(!_instances) {
-      //     var identities = IdentityStore.getAll();
-      //     if(identities) {
-      //       fetchInstances(identities);
-      //     }
-      //   }
-      //   return _instances;
-      // },
-
-      // get: function (instanceId) {
-      //   if(!_instances) {
-      //     var identities = IdentityStore.getAll();
-      //     if(identities) {
-      //       fetchInstances(identities);
-      //     }
-      //   } else {
-      //     return _instances.get(instanceId);
-      //   }
-      // },
 
       getInstanceInProject: function(project, instanceId){
         var instances = this.getInstancesInProject(project);
@@ -382,47 +140,44 @@ define(
 
     };
 
-    Dispatcher.register(function (payload) {
-      var action = payload.action;
+    Dispatcher.register(function (dispatch) {
+      var actionType = dispatch.action.actionType;
+      var payload = dispatch.action.payload;
+      var options = dispatch.action.options || options;
 
-      switch (action.actionType) {
-        case InstanceConstants.INSTANCE_UPDATE:
-          update(action.instance);
+      switch (actionType) {
+
+        case InstanceConstants.ADD_INSTANCE:
+          add(payload.instance);
           break;
 
-        case InstanceConstants.INSTANCE_SUSPEND:
-          suspend(action.instance);
+        case InstanceConstants.UPDATE_INSTANCE:
+          update(payload.instance);
           break;
 
-        case InstanceConstants.INSTANCE_RESUME:
-          resume(action.instance);
+        case InstanceConstants.REMOVE_INSTANCE:
+          remove(payload.instance);
           break;
 
-        case InstanceConstants.INSTANCE_STOP:
-          stop(action.instance);
+        case InstanceConstants.POLL_INSTANCE:
+          pollNowUntilBuildIsFinished(payload.instance);
           break;
 
-        case InstanceConstants.INSTANCE_START:
-          start(action.instance);
+        case ProjectInstanceConstants.ADD_PENDING_INSTANCE_TO_PROJECT:
+          addPendingInstanceToProject(payload.instance, payload.project);
           break;
 
-        case InstanceConstants.INSTANCE_TERMINATE:
-          terminate_RemoveFromProject(action.instance, action.project);
-          break;
-
-        case InstanceConstants.INSTANCE_LAUNCH:
-          launch_AddToProject(action.identity, action.machineId, action.sizeId, action.instanceName, action.project);
-          break;
-
-        case InstanceConstants.INSTANCE_ADD_TAG:
-          addTagToInstance(action.tag, action.instance);
+        case ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT:
+          removePendingInstanceFromProject(payload.instance, payload.project);
           break;
 
         default:
           return true;
       }
 
-      InstanceStore.emitChange();
+      if(!options.silent) {
+        InstanceStore.emitChange();
+      }
 
       return true;
     });
