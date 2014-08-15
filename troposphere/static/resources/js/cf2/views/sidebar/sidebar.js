@@ -2,7 +2,7 @@ Atmo.Views.Sidebar = Backbone.View.extend({
   'tagName': 'div',
   events: {
     'click #instance_link, #volume_link': 'select_link',
-    'click #refresh_instances_button' : 'refresh_instance_list',
+    'click #refresh_instances_button' : 'refresh_instance_list'
   },
   initialize: function() {
     Atmo.instances.bind('fail', this.stop_spinner, this);
@@ -61,7 +61,7 @@ Atmo.Views.Sidebar = Backbone.View.extend({
     }
   },
   refresh_instance_list: function(e) {
-    this.$el.find('#refresh_instances_button img').attr('src', site_root + '/resources/images/loader.gif');
+    this.$el.find('#refresh_instances_button img').attr('src', site_root + '/assets/resources/images/loader.gif');
     var self = this;
     
     // Occurs if initial fetch failed
@@ -70,11 +70,11 @@ Atmo.Views.Sidebar = Backbone.View.extend({
     
     Atmo.instances.update({
       success: function() {
-	self.$el.find('#refresh_instances_button img').attr('src', site_root + '/resources/images/icon_mini_refresh.png');
+	self.$el.find('#refresh_instances_button img').attr('src', site_root + '/assets/resources/images/icon_mini_refresh.png');
       },
       error: function() {
 	Atmo.Utils.notify("Could not update instance list", 'If the problem persists, please email <a href="mailto:support@iplantcollaborative.org">support@iplantcollaborative.org</a>', { no_timeout: true });
-	self.$el.find('#refresh_instances_button img').attr('src', site_root + '/resources/images/icon_mini_refresh.png');
+	self.$el.find('#refresh_instances_button img').attr('src', site_root + '/assets/resources/images/icon_mini_refresh.png');
 	self.stop_spinner();
       },
     });
@@ -85,11 +85,11 @@ Atmo.Views.Sidebar = Backbone.View.extend({
     // Occurs if initial fetch failed
     Atmo.volumes.update({
       success: function() {
-	self.$el.find('#refresh_instances_button img').attr('src', site_root + '/resources/images/icon_mini_refresh.png');
+	self.$el.find('#refresh_instances_button img').attr('src', site_root + '/assets/resources/images/icon_mini_refresh.png');
       },
       error: function() {
 	Atmo.Utils.notify("Could not update volume list", 'If the problem persists, please email <a href="mailto:support@iplantcollaborative.org">support@iplantcollaborative.org</a>', { no_timeout: true });
-	self.$el.find('#refresh_instances_button img').attr('src', site_root + '/resources/images/icon_mini_refresh.png');
+	self.$el.find('#refresh_instances_button img').attr('src', site_root + '/assets/resources/images/icon_mini_refresh.png');
 	self.stop_spinner();
       },
     });
@@ -99,6 +99,6 @@ Atmo.Views.Sidebar = Backbone.View.extend({
   },
   stop_spinner: function() {
     Atmo.Utils.notify("Could not update instances or volumes.", 'If the problem persists, please email <a href="mailto:support@iplantcollaborative.org">support@iplantcollaborative.org</a>', { no_timeout: true });
-    this.$el.find('#refresh_instances_button img').attr('src', site_root + '/resources/images/icon_mini_refresh.png');
+    this.$el.find('#refresh_instances_button img').attr('src', site_root + '/assets/resources/images/icon_mini_refresh.png');
   }
 });
