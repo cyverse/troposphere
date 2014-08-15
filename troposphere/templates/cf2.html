@@ -15,6 +15,13 @@
         var site_root = '{{ site_root }}';
         sessionStorage.clear(); // clear previous sessionStorage values
     </script>
+
+    {% if access_token %}
+        <script type="text/javascript">
+            var access_token = "{{ access_token }}";
+        </script>
+    {% endif %}
+
     <!-- 3rd party dependencies -->
     <script src="https://www.google.com/jsapi"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
@@ -274,13 +281,6 @@
         </div>
     </div>
 </div>
-
-{% if access_token %}
-    <script type="text/javascript">
-        var access_token = "{{ access_token }}";
-    </script>
-{% endif %}
-
 
 </body>
 </html>
