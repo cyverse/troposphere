@@ -6,7 +6,7 @@ Atmo.Models.Base = Backbone.Model.extend({
 	defaults: {
 		'model_name': 'base'
 	},
-	urlRoot: '/api/v1',
+	urlRoot: Atmo.API_ROOT,
 	url: function() {
 		var creds = Atmo.get_credentials();
 		var url = this.urlRoot

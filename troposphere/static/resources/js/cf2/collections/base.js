@@ -3,7 +3,7 @@
  */
 
 Atmo.Collections.Base = Backbone.Collection.extend({
-	urlRoot: '/api/v1',
+	urlRoot: Atmo.API_ROOT,
 	url: function() {
 		var creds = Atmo.get_credentials();
 		return url = this.urlRoot
