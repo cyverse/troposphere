@@ -30,7 +30,7 @@ Atmo.Models.Profile = Atmo.Models.Base.extend({
     },
 	url: function(){
 		return url = this.urlRoot
-			+ '/' + this.defaults.model_name + '/';
+			+ '/' + this.defaults.model_name;
 	},
     // Given a md5 hash, return the URL to a icon
 	get_icon: function(hash) {
