@@ -74,7 +74,7 @@ Atmo.Views.FeedbackLink = Backbone.View.extend({
 
 		if ($('#feedback').val().length > 0) {
 
-			$('#submit_feedback').html('<img src="'+site_root+'/resources/images/loader.gif" /> Sending...').attr('disabled', 'disabled');				
+			$('#submit_feedback').html('<img src="'+site_root+'/assets/resources/images/loader.gif" /> Sending...').attr('disabled', 'disabled');
 
 			$.ajax(site_root + '/api/v1/email/feedback/', {
 				type: 'POST',

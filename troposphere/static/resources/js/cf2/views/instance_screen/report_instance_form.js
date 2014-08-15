@@ -100,7 +100,7 @@ Atmo.Views.ReportInstanceForm = Backbone.View.extend({
                 .removeClass("btn-primary")
                 .click(function() { return false; });
             var loader = $('<img/>', {
-                src: site_root + '/resources/images/loader.gif',
+                src: site_root + '/assets/resources/images/loader.gif',
                 style: 'margin-right: 10px;'
             });
             btn.before(loader);
