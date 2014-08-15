@@ -108,7 +108,9 @@ Atmo.Views.ReportInstanceForm = Backbone.View.extend({
             $.ajax({
                 type: 'POST',
                 url: Atmo.API_ROOT + '/email/support',
-                data: data,
+                data: JSON.stringify(data),
+                dataType: 'json',
+                contentType: 'application/json',
                 success: function() {
 					loader.remove();
 					btn.val("Report Submitted")

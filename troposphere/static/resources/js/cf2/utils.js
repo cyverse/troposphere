@@ -236,10 +236,10 @@ Atmo.Utils.get_profile = function() {
     + "/" + model_name;
   $.ajax({
     type: "GET",
-    contentType:"application/json; charset=utf-8",
-    dataType:"json",
     url: url,
-    data: params,
+    data: JSON.stringify(params),
+    dataType: 'json',
+    contentType: 'application/json',
     success: function(data, textStatus, jqXHR) {
       $.each(data, function(key, value) {
         profile.set(key, value);

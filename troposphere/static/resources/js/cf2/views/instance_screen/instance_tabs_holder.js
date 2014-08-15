@@ -509,7 +509,9 @@ Atmo.Views.InstanceTabsHolder = Backbone.View.extend({
 		$.ajax({
 			url: Atmo.API_ROOT + '/provider/' + ident.get('provider_id') + '/identity/' + ident.get('id') + '/instance/' + instance_id + '/action',
 			type: 'POST',
-			data: data,
+      data: JSON.stringify(data),
+      dataType: 'json',
+      contentType: 'application/json',
 			success: function(result_obj) {
                 url = result_obj['object'];
                 newtab.location = url;
@@ -661,7 +663,9 @@ Atmo.Views.InstanceTabsHolder = Backbone.View.extend({
                      + '/instance/' + self.model.get('id') + '/action',
 
 				type: 'POST',
-				data: data,
+				data: JSON.stringify(data),
+        dataType: 'json',
+        contentType: 'application/json',
 				success: function() {
 					// Merges models to those that are accurate based on server response
 					Atmo.instances.update();
@@ -710,7 +714,9 @@ Atmo.Views.InstanceTabsHolder = Backbone.View.extend({
                      self.model.get('id') + '/action',
 
                 type: 'POST',
-                data: data,
+                data: JSON.stringify(data),
+                dataType: 'json',
+                contentType: 'application/json',
                 success: function(){
                     Atmo.instances.update();
                     if(provider_name_lowercase !== 'openstack')
@@ -766,7 +772,9 @@ Atmo.Views.InstanceTabsHolder = Backbone.View.extend({
 					$.ajax({
 						url: Atmo.API_ROOT + '/provider/' + id.get('provider_id') + '/identity/' + id.get('id') + '/instance/' + self.model.get('id') + '/action',
 						type: 'POST',
-						data: data,
+						data: JSON.stringify(data),
+            dataType: 'json',
+            contentType: 'application/json',
 						success: function() {
 							Atmo.instances.update();
 						},
@@ -802,7 +810,9 @@ Atmo.Views.InstanceTabsHolder = Backbone.View.extend({
 				$.ajax({
 					url: Atmo.API_ROOT + '/provider/' + id.get('provider_id') + '/identity/' + id.get('id') + '/instance/' + self.model.get('id') + '/action',
 					type: 'POST',
-					data: data,
+					data: JSON.stringify(data),
+          dataType: 'json',
+          contentType: 'application/json',
 					success: function() {
 						// Merges models to those that are accurate based on server response
 						Atmo.instances.update();
@@ -856,7 +866,9 @@ Atmo.Views.InstanceTabsHolder = Backbone.View.extend({
 					$.ajax({
 						url: Atmo.API_ROOT + '/provider/' + id.get('provider_id') + '/identity/' + id.get('id') + '/instance/' + self.model.get('id') + '/action',
 						type: 'POST',
-						data: data,
+						data: JSON.stringify(data),
+            dataType: 'json',
+            contentType: 'application/json',
 						success: function() {
 							// Merges models to those that are accurate based on server response
 							Atmo.instances.update();
@@ -886,7 +898,9 @@ Atmo.Views.InstanceTabsHolder = Backbone.View.extend({
 				$.ajax({
 					url: Atmo.API_ROOT + '/provider/' + id.get('provider_id') + '/identity/' + id.get('id') + '/instance/' + self.model.get('id') + '/action',
 					type: 'POST',
-					data: data,
+					data: JSON.stringify(data),
+          dataType: 'json',
+          contentType: 'application/json',
 					success: function() {
 						//Atmo.Utils.notify('Resuming Instance', 'Instance will be active and available shortly.');
 						// Merges models to those that are accurate based on server response

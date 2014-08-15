@@ -78,7 +78,9 @@ Atmo.Views.FeedbackLink = Backbone.View.extend({
 
 			$.ajax(Atmo.API_ROOT + '/email/feedback', {
 				type: 'POST',
-				data: data,
+        data: JSON.stringify(data),
+        dataType: 'json',
+        contentType: 'application/json',
 				success: function(data) {
 
 					// setTimeout to prevent loader gif from flashing on fast responses

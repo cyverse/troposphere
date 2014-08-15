@@ -155,7 +155,9 @@ Atmo.Views.SettingsScreen = Backbone.View.extend({
         $.ajax({
             type: 'POST',
             url: Atmo.API_ROOT + '/email/support',
-            data: data,
+            data: JSON.stringify(data),
+            dataType: 'json',
+            contentType: 'application/json',
             statusCode: {
                 200: function() {
                     self.$el.find('#request_new_identity').val('Request New Identity').removeAttr('disabled', 'disabled');

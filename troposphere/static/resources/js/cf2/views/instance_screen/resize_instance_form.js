@@ -177,7 +177,9 @@ Atmo.Views.ResizeInstanceForm = Backbone.View.extend({
 		$.ajax({
 			url: Atmo.API_ROOT + '/provider/' + id.get('provider_id') + '/identity/' + id.get('id') + '/instance/' + self.model.get('id') + '/action',
 			type: 'POST',
-			data: data,
+			data: JSON.stringify(data),
+      dataType: 'json',
+      contentType: 'application/json',
 			success: function() {
 				Atmo.Utils.notify('Resizing Instance', 'Instance will finish resizing shortly.');
 
@@ -233,7 +235,9 @@ Atmo.Views.ResizeInstanceForm = Backbone.View.extend({
 			$.ajax({
 				url: Atmo.API_ROOT + '/provider/' + id.get('provider_id') + '/identity/' + id.get('id') + '/instance/' + self.model.get('id') + '/action',
 				type: 'POST',
-				data: data,
+				data: JSON.stringify(data),
+        dataType: 'json',
+        contentType: 'application/json',
 				success: function() {
 					Atmo.Utils.notify('Finalizing Resize', 'Instance is active and ready to use.');
 
@@ -276,7 +280,9 @@ Atmo.Views.ResizeInstanceForm = Backbone.View.extend({
 		$.ajax({
 			url: Atmo.API_ROOT + '/provider/' + id.get('provider_id') + '/identity/' + id.get('id') + '/instance/' + self.model.get('id') + '/action',
 			type: 'POST',
-			data: data,
+			data: JSON.stringify(data),
+      dataType: 'json',
+      contentType: 'application/json',
 			success: function() {
 				Atmo.Utils.notify('Reverting to previous size', 'Instance will finish reverting shortly. Refresh \'My Instances\' to check instance status.');
 

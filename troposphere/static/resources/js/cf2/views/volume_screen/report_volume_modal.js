@@ -176,7 +176,9 @@ Atmo.Views.ReportVolumeModal = Backbone.View.extend({
 			$.ajax({
 				type: 'POST',
 				url: Atmo.API_ROOT + '/email/support',
-				data: data,
+				data: JSON.stringify(data),
+        dataType: 'json',
+        contentType: 'application/json',
 				success: function() {
 					// Clean out the form for next time
 					self.render();

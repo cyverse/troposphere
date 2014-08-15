@@ -43,14 +43,15 @@ Atmo.Views.InstanceGraph = Backbone.View.extend({
             var self = this;
             $.ajax({
                 url: site_root + '/api/metrics',
-                data: {
+                data: JSON.stringify({
                     id: this.model.get('id'),
                     provider: this.selected_provider.get('type'),
                     from: '-7d',
                     type: type
-                },
+                }),
                 type: 'GET',
                 dataType: 'json',
+                contentType: 'application/json',
                 success: function(data, textStatus) {
                     self.data = data;
                     if (self.data.length >= 3) 

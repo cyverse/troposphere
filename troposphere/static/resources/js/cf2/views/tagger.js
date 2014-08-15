@@ -154,7 +154,9 @@ Atmo.Views.Tagger = Backbone.View.extend({
 
 								$.ajax({
 									type: 'POST',
-									data: data,
+                  data: JSON.stringify(data),
+                  dataType: 'json',
+                  contentType: 'application/json',
 									url: Atmo.API_ROOT + '/tag',
 									success: function() {
 										self.add_tag(text);

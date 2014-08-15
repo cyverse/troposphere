@@ -58,8 +58,11 @@ Atmo.Models.Volume = Atmo.Models.Base.extend({
 
 		$.ajax({
 			url: action_url, 
-			type : 'POST', 
-			data: param, 
+			type : 'POST',
+      data: JSON.stringify(param),
+      dataType: 'json',
+      contentType: 'application/json',
+
 			success:function(response_text, textStatus, jqXHR) {
 				self.set({
 					'attach_data_attach_time': null,
@@ -102,8 +105,10 @@ Atmo.Models.Volume = Atmo.Models.Base.extend({
 		
 		$.ajax({
 			url: action_url, 
-			type: "POST", 
-			data: param, 
+			type: "POST",
+      data: JSON.stringify(param),
+      dataType: 'json',
+      contentType: 'application/json',
 			success: function(response_data) {
 				self.set({
 					//'attach_data_attach_time': null,

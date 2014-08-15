@@ -106,7 +106,9 @@ Atmo.Views.RequestResourcesModal = Backbone.View.extend({
 			type: 'POST',
 			async: false,
 			url: Atmo.API_ROOT + '/email/request_quota',
-			data: form.serialize(),
+      data: JSON.stringify(form.serialize()),
+      dataType: 'json',
+      contentType: 'application/json',
 			success: function() {
 				Atmo.Utils.notify("Request Sent Successfully", "Support will be in touch with you shortly.");
 
