@@ -1,0 +1,1 @@
+Atmo.API_ROOT = 'https://atmobeta.iplantc.org:443/api/v1';

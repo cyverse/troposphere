@@ -33,7 +33,9 @@ define(
 
         $.ajax(feedbackUrl, {
           type: 'POST',
-          data: data,
+          data: JSON.stringify(data),
+          dataType: 'json',
+          contentType: 'application/json',
           success: function (data) {
             NotificationController.info("Thanks for your feedback!", "Support has been notified.");
           },

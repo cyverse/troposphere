@@ -42,6 +42,22 @@ def application(request):
     else:
         return render(request, 'index.html')
 
+def cf2(request):
+    records, disabled_login = get_maintenance()
+    if disabled_login:
+        return redirect('maintenance')
+
+    if 'access_token' in request.session:
+        template_params = {
+            'access_token': request.session['access_token']
+        }
+        return render(request, 'cf2.html', template_params)
+    else:
+        template_params = {
+            'disable_login': disabled_login
+        }
+        return render(request, 'login.html', template_params)
+
 
 def get_maintenance():
     """

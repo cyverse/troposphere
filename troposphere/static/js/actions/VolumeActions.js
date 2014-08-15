@@ -159,8 +159,9 @@ define(
               },
               name: volumeName,
               description: "",
-              size: volumeSize
-            });
+              size: volumeSize,
+              status: "creating"
+            }, {parse: true});
 
             var params = {
               model_name: "volume",

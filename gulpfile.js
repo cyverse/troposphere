@@ -19,6 +19,9 @@ require('./gulp/tasks/images')(gulp);
 require('./gulp/tasks/clean')(gulp);
 require('./gulp/tasks/watch')(gulp);
 
+// Copy old Arturo/CF2 UI into assets directory
+require('./gulp/tasks/cf2')(gulp);
+
 //
 // Gulp Configurations
 //
@@ -27,7 +30,7 @@ gulp.task('default', function () {
 
   runSequence(
     'clean',
-    ['sass', 'sass_noUser', 'scripts', 'bower_components', 'react', 'images']
+    ['sass', 'sass_noUser', 'scripts', 'bower_components', 'react', 'images', 'cf2']
   );
 
 });
@@ -37,7 +40,7 @@ gulp.task('prod', function () {
 
   runSequence(
     'clean',
-    ['sass', 'sass_noUser', 'scripts', 'bower_components', 'react', 'images'],
+    ['sass', 'sass_noUser', 'scripts', 'bower_components', 'react', 'images', 'cf2'],
     'rjs:prod'
   );
 

@@ -13,6 +13,7 @@ module.exports = function (gulp) {
     gulp.watch(paths.css, ['sass']);
     gulp.watch(paths.scripts, ['scripts']);
     gulp.watch(paths.images, ['images']);
+    gulp.watch(paths.cf2, ['cf2']);
     gulp.watch(paths.jsxTemplates, ['react']);
   });
 
