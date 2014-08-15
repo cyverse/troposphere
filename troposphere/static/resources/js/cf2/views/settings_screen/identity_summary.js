@@ -121,7 +121,7 @@ var errors = Array();
 self.$el.find('.accordion-inner').children().hide();
 
 var loader = $('<div>', {
-html: '<img src="'+site_root+'/resources/images/loader_large.gif" />',
+html: '<img src="'+site_root+'/assets/resources/images/loader_large.gif" />',
 style: 'display: none; text-align: center;'
 });
 self.$el.find('.accordion-inner').prepend(loader);
@@ -296,7 +296,7 @@ self.$el.find('.accordion-inner').prepend(loader);
 
     if (!self.is_populated()) {
       var loader = $('<div>', {
-        html: '<img src="'+site_root+'/resources/images/loader_large.gif" />',
+        html: '<img src="'+site_root+'/assets/resources/images/loader_large.gif" />',
         style: 'display: none; text-align: center;'
       })
         .prependTo(this.$el.find('.panel-body'))

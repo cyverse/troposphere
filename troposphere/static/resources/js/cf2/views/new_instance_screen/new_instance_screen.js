@@ -141,8 +141,8 @@ Atmo.Views.NewInstanceScreen = Backbone.View.extend({
         var self = this;
         if(Atmo.images.models.length == 0) {
             // Called when images haven't yet loaded
-            self.$el.find('#featured_image_list').append('<div style="text-align: center"><img src="'+site_root+'/resources/images/loader_large.gif" /></div>');
-            self.$el.find('#misc_image_list').append('<div style="text-align: center"><img src="'+site_root+'/resources/images/loader_large.gif" /></div>');
+            self.$el.find('#featured_image_list').append('<div style="text-align: center"><img src="'+site_root+'/assets/resources/images/loader_large.gif" /></div>');
+            self.$el.find('#misc_image_list').append('<div style="text-align: center"><img src="'+site_root+'/assets/resources/images/loader_large.gif" /></div>');
         }
         else {
 
