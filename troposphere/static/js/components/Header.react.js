@@ -129,7 +129,7 @@ define(
                 <ul className="nav navbar-nav navbar-right">
                   <li>
                     <a href="/cf2">
-                      <img src="/resources/images/beta_on.png" style={{"width":"82px"}}/>
+                      <img src="/assets/images/beta_on.png" style={{"width":"82px"}}/>
                     </a>
                   </li>
                   {loginLogoutDropdown}
