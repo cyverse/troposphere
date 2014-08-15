@@ -17,7 +17,7 @@ Atmo.Views.VolumeScreenVolume = Backbone.View.extend({
             .append($('<strong>').append( this.model.get('name_or_id') ))
             .append(' (' + this.model.get('size') + ' GB) ')
             .append(
-                $('<span>').append($('<img>', { src: '../resources/images/x_close.png' } ))
+                $('<span>').append($('<img>', { src: '../assets/resources/images/x_close.png' } ))
             )
             .draggable({revert: 'invalid', disabled: true})
             .data('volume', this.model);

@@ -9,10 +9,10 @@ Atmo.Collections.Base = Backbone.Collection.extend({
 		return url = this.urlRoot
 			+ '/provider/' + creds.provider_id 
 			+ '/identity/' + creds.identity_id
-			+ '/' + this.model.prototype.defaults.model_name + '/';
+			+ '/' + this.model.prototype.defaults.model_name;
 	},
 	defaults: {
-		'api_url': '/api/v1',
+		'api_url': Atmo.API_ROOT,
 		'model_name': 'base'
 	},
 	fetch: function(options) {

@@ -419,7 +419,7 @@ Atmo.Views.InstanceTabsHolder = Backbone.View.extend({
 	},
 	add_close_shell: function() {
 		this.$el.find('a.instance_shell_tab').append($('<img />', {
-			src: site_root+'/resources/images/x_close.png',
+			src: site_root+'/assets/resources/images/x_close.png',
 			title: 'Terminate Shell',
 			'class': 'terminate_shell'
 		}));
@@ -458,9 +458,9 @@ Atmo.Views.InstanceTabsHolder = Backbone.View.extend({
 	},
 	add_close_vnc: function() {
 		this.$el.find('a.instance_vnc_tab').append($('<img/>', {
-			src: site_root+'/resources/images/x_close.png',
+			src: site_root+'/assets/resources/images/x_close.png',
 			title: 'Terminate VNC',
-			'class': 'terminate_vnc',
+			'class': 'terminate_vnc'
 		}));
 		this.$el.find('.terminate_vnc').attr('data-instance_id', this.model.get('id'));
 

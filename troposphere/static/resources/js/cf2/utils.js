@@ -96,7 +96,7 @@ Atmo.Utils.calculate_occupancy = function(vcpus_used, vcpus, memory_mb_used, mem
 Atmo.Utils.update_weather = function() {
 
     $.ajax({
-        url: '/api/v1/provider/' + Atmo.profile.get('selected_identity').get('provider_id') + '/hypervisor/',
+        url: Atmo.API_ROOT + '/provider/' + Atmo.profile.get('selected_identity').get('provider_id') + '/hypervisor',
         type: 'GET',
         success: function(response_text) {
 

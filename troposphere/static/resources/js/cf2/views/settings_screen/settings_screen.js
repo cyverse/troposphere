@@ -70,7 +70,7 @@ Atmo.Views.SettingsScreen = Backbone.View.extend({
 		// Grab first page of machine history
 		$.ajax({
 			type: 'GET',
-			url: site_root + '/api/v1/provider/' + provider + '/identity/' + identity + '/machine/history/?page=1', 
+			url: Atmo.API_ROOT + '/provider/' + provider + '/identity/' + identity + '/machine/history?page=1',
 			success: function(response_text) {
 
 				// Loop through given instances and append them.
@@ -92,7 +92,7 @@ Atmo.Views.SettingsScreen = Backbone.View.extend({
 		// Grab first page of instance history
 		$.ajax({
 			type: 'GET',
-			url: site_root + '/api/v1/provider/' + provider + '/identity/' + identity + '/instance/history/?page=1', 
+			url: Atmo.API_ROOT + '/provider/' + provider + '/identity/' + identity + '/instance/history?page=1',
 			success: function(response_text) {
 
 				// Loop through given instances and append them.
@@ -105,11 +105,11 @@ Atmo.Views.SettingsScreen = Backbone.View.extend({
 					container.empty();
 
 				for (var i = 0; i < instances.length; i++) {
-                    instance = instances[i]
+                    instance = instances[i];
                     if (instance.start_date.length == 24) {
                         instance.start_date = instance.start_date.split('.')[0] + 'Z'
                     }
-                    instance.start_date_p = Date.parse(instance.start_date)
+                    instance.start_date_p = Date.parse(instance.start_date);
                     if (instance.start_date_p != null)
                         instance.start_date =instance.start_date_p.format("MM/dd/yyyy II:mm p")
                     if (instance.end_date != null) {
@@ -119,8 +119,8 @@ Atmo.Views.SettingsScreen = Backbone.View.extend({
                         instance.end_date_p = Date.parse(instance.end_date)
                     }
                     if (instance.end_date_p != null)
-                        instance.end_date = instance.end_date_p.format("MM/dd/yyyy II:mm p")
-                    instance.active_time = Atmo.Utils.seconds_to_pretty_time(parseFloat(instance.active_time), 1)
+                        instance.end_date = instance.end_date_p.format("MM/dd/yyyy II:mm p");
+                    instance.active_time = Atmo.Utils.seconds_to_pretty_time(parseFloat(instance.active_time), 1);
 					container.append(_.template(Atmo.Templates['instance_history_row'], instance));
 				}
 			},
@@ -154,14 +154,14 @@ Atmo.Views.SettingsScreen = Backbone.View.extend({
 
         $.ajax({
             type: 'POST',
-            url: site_root + '/api/v1/email/support/', 
+            url: Atmo.API_ROOT + '/email/support/',
             data: data,
             statusCode: {
                 200: function() {
                     self.$el.find('#request_new_identity').val('Request New Identity').removeAttr('disabled', 'disabled');
 					Atmo.Utils.notify('Request Submitted', 'Support will contact you shortly about adding a new cloud identity.');
                 }
-            },
+            }
         });
         return false;
 	},
@@ -192,7 +192,7 @@ Atmo.Views.SettingsScreen = Backbone.View.extend({
         var loader = $('<span/>', {
             class: 'inline-help',
             style: 'margin-left: 10px;',
-            html: '<img src="'+site_root+'/resources/images/loader.gif"> Updating'
+            html: '<img src="'+site_root+'/assets/resources/images/loader.gif"> Updating'
         });
         this.$el.find('label[for="icon_set"]').find('span').remove();
         this.$el.find('label[for="icon_set"]').append(loader);
@@ -264,7 +264,7 @@ Atmo.Views.SettingsScreen = Backbone.View.extend({
         var loader = $('<span/>', {
             class: 'inline-help',
             style: 'margin-left: 10px;',
-            html: '<img src="'+site_root+'/resources/images/loader.gif"> Updating'
+            html: '<img src="'+site_root+'/assets/resources/images/loader.gif"> Updating'
         });
 
         input.parent().find('span').remove();

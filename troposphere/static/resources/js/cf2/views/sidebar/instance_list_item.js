@@ -101,7 +101,7 @@ Atmo.Views.SidebarInstanceListItem = Backbone.View.extend({
                     'class': 'instance_service',
                     html: service + ' is running'
                 }).append($('<img/>', { 
-                        src: site_root+'/resources/images/x_close.png',
+                        src: site_root+'/assets/resources/images/x_close.png',
                         'class': 'terminate_' + service_lower
                 })).appendTo(self.$el.find('.instance_state_indicators'));
         });
