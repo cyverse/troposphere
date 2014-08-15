@@ -9,5 +9,6 @@ module.exports = {
   rootSassFileForApp: 'troposphere/static/css/app/app.scss',
   rootSassFileForNoUser: 'troposphere/static/css/no_user.scss',
   //jsxTemplates: 'troposphere/static/js/**/*.jsx'
-  jsxTemplates: 'troposphere/static/js/**/*.react.js'
+  jsxTemplates: 'troposphere/static/js/**/*.react.js',
+  cf2: 'troposphere/static/resources/**'
 };
