@@ -152,7 +152,7 @@ self.$el.find('.accordion-inner').prepend(loader);
     // Get instances and volumes of this provider and identity 
     $.ajax({
       type: 'GET',
-      url: site_root + '/api/v1/provider/' + self.provider + '/identity/' + self.identity_id + '/instance/', 
+      url: Atmo.API_ROOT + '/provider/' + self.provider + '/identity/' + self.identity_id + '/instance',
       success: function(response_text) {
         self.instances = response_text;
             
@@ -216,7 +216,7 @@ self.$el.find('.accordion-inner').prepend(loader);
     
     $.ajax({
       type: 'GET',
-      url: site_root + '/api/v1/provider/' + self.provider + '/identity/' + self.identity_id + '/volume/', 
+      url: Atmo.API_ROOT + '/provider/' + self.provider + '/identity/' + self.identity_id + '/volume',
       success: function(response_text) {
         self.volumes = response_text;
             
@@ -238,7 +238,7 @@ self.$el.find('.accordion-inner').prepend(loader);
         vol_tbody.append($('<tr>', {
           html: function() {
                     
-            var img = '<img src="' + site_root + '/resources/images/mini_vol.png"> ';
+            var img = '<img src="' + site_root + '/assets/resources/images/mini_vol.png"> ';
             var name = (self.volumes[i]['name'] || self.volumes[i]['id']);
             var content = '<td>' + img + name + '</td>';
             content += '<td>' + self.volumes[i]['size'] + ' GB</td>';
@@ -379,7 +379,7 @@ self.$el.find('.accordion-inner').prepend(loader);
             for (var i = 0; i < Atmo.volumes.length; i++) {
               vol_tbody.append($('<tr>', {
                 html: function() {
-                  var img = '<img src="' + site_root + '/resources/images/mini_vol.png"> ';
+                  var img = '<img src="' + site_root + '/assets/resources/images/mini_vol.png"> ';
                   var name = (Atmo.volumes.models[i].get('name') || Atmo.volumes.models[i].get('id'));
                   var content = '<td>' + img + name + '</td>';
                   content += '<td>' + Atmo.volumes.models[i].get('size') + ' GB</td>';

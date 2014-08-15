@@ -507,11 +507,11 @@ Atmo.Views.InstanceTabsHolder = Backbone.View.extend({
 		var ident = Atmo.profile.get('selected_identity');
 		var instance_id = this.model.get('id');
 		$.ajax({
-			url: site_root + '/api/v1/provider/' + ident.get('provider_id') + '/identity/' + ident.get('id') + '/instance/' + instance_id + '/action/',
+			url: Atmo.API_ROOT + '/provider/' + ident.get('provider_id') + '/identity/' + ident.get('id') + '/instance/' + instance_id + '/action',
 			type: 'POST',
 			data: data,
 			success: function(result_obj) {
-                url = result_obj['object']
+                url = result_obj['object'];
                 newtab.location = url;
 			},
 			error: function(request, status, error) {
@@ -656,9 +656,9 @@ Atmo.Views.InstanceTabsHolder = Backbone.View.extend({
 		on_confirm = function() {
 			Atmo.Utils.notify('Instance is rebooting...', 'Instance will finish rebooting momentarily.');
 			$.ajax({
-				url: site_root + '/api/v1/provider/' +
+				url: Atmo.API_ROOT + '/provider/' +
                      identity_id.get('provider_id') + '/identity/' + identity_id.get('id') 
-                     + '/instance/' + self.model.get('id') + '/action/',
+                     + '/instance/' + self.model.get('id') + '/action',
 
 				type: 'POST',
 				data: data,
@@ -704,10 +704,10 @@ Atmo.Views.InstanceTabsHolder = Backbone.View.extend({
         on_confirm = function(){
             Atmo.Utils.notify('Instance is hard rebooting...', 'Instance will finish rebooting momentarily.');
             $.ajax({
-                url: site_root + '/api/v1/provider/' +
+                url: Atmo.API_ROOT + '/provider/' +
                      identity_id.get('provider_id') + '/identity/' +
                      identity_id.get('id') + '/instance/' +
-                     self.model.get('id') + '/action/',
+                     self.model.get('id') + '/action',
 
                 type: 'POST',
                 data: data,
@@ -764,7 +764,7 @@ Atmo.Views.InstanceTabsHolder = Backbone.View.extend({
 
 					Atmo.Utils.notify('Resuming Instance', 'Instance will be active and available shortly.');
 					$.ajax({
-						url: site_root + '/api/v1/provider/' + id.get('provider_id') + '/identity/' + id.get('id') + '/instance/' + self.model.get('id') + '/action/',
+						url: Atmo.API_ROOT + '/provider/' + id.get('provider_id') + '/identity/' + id.get('id') + '/instance/' + self.model.get('id') + '/action',
 						type: 'POST',
 						data: data,
 						success: function() {
@@ -800,7 +800,7 @@ Atmo.Views.InstanceTabsHolder = Backbone.View.extend({
 				Atmo.Utils.notify('Suspending Instance', 'Instance will be suspended momentarily.');
 
 				$.ajax({
-					url: site_root + '/api/v1/provider/' + id.get('provider_id') + '/identity/' + id.get('id') + '/instance/' + self.model.get('id') + '/action/',
+					url: Atmo.API_ROOT + '/provider/' + id.get('provider_id') + '/identity/' + id.get('id') + '/instance/' + self.model.get('id') + '/action',
 					type: 'POST',
 					data: data,
 					success: function() {
@@ -854,7 +854,7 @@ Atmo.Views.InstanceTabsHolder = Backbone.View.extend({
 									state_is_inactive: false});
 
 					$.ajax({
-						url: site_root + '/api/v1/provider/' + id.get('provider_id') + '/identity/' + id.get('id') + '/instance/' + self.model.get('id') + '/action/',
+						url: Atmo.API_ROOT + '/provider/' + id.get('provider_id') + '/identity/' + id.get('id') + '/instance/' + self.model.get('id') + '/action',
 						type: 'POST',
 						data: data,
 						success: function() {
@@ -884,7 +884,7 @@ Atmo.Views.InstanceTabsHolder = Backbone.View.extend({
 			on_confirm = function() {
 				Atmo.Utils.notify('Stopping Instance', 'Instance will be stopped momentarily.');
 				$.ajax({
-					url: site_root + '/api/v1/provider/' + id.get('provider_id') + '/identity/' + id.get('id') + '/instance/' + self.model.get('id') + '/action/',
+					url: Atmo.API_ROOT + '/provider/' + id.get('provider_id') + '/identity/' + id.get('id') + '/instance/' + self.model.get('id') + '/action',
 					type: 'POST',
 					data: data,
 					success: function() {

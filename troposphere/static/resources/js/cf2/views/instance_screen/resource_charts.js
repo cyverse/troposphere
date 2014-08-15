@@ -98,7 +98,7 @@ Atmo.Views.ResourceCharts = Backbone.View.extend({
         $.ajax({
             type: 'GET',
             async: false,
-            url: site_root + '/api/v1/provider/' + provider + '/identity/' + identity,
+            url: Atmo.API_ROOT + '/provider/' + provider + '/identity/' + identity,
             success: function(response_text) {
                 total = response_text[0]["quota"][quota_type];
             },
@@ -136,7 +136,7 @@ Atmo.Views.ResourceCharts = Backbone.View.extend({
 
             $.ajax({
                 type: 'GET',
-                url: site_root + '/api/v1/provider/' + provider + '/identity/' + identity + '/volume/',
+                url: Atmo.API_ROOT + '/provider/' + provider + '/identity/' + identity + '/volume',
                 success: function(volumes) {
 
                     if (quota_type == 'storage') {
@@ -175,7 +175,7 @@ Atmo.Views.ResourceCharts = Backbone.View.extend({
             $.ajax({
                 type: 'GET',
                 async: false,
-                url: site_root + '/api/v1/provider/' + provider + '/identity/' + identity + '/instance/',
+                url: Atmo.API_ROOT + '/provider/' + provider + '/identity/' + identity + '/instance',
                 success: function(response_text) {
                     instances = response_text;
                 },
@@ -200,7 +200,7 @@ Atmo.Views.ResourceCharts = Backbone.View.extend({
             // Get instance sizes
             $.ajax({
                 type: 'GET',
-                url: site_root + '/api/v1/provider/' + provider + '/identity/' + identity + '/size/',
+                url: Atmo.API_ROOT + '/provider/' + provider + '/identity/' + identity + '/size',
                 success: function(instance_types) {
 
                     // Filter out any instances that aren't active

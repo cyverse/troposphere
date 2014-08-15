@@ -154,7 +154,7 @@ Atmo.Views.SettingsScreen = Backbone.View.extend({
 
         $.ajax({
             type: 'POST',
-            url: Atmo.API_ROOT + '/email/support/',
+            url: Atmo.API_ROOT + '/email/support',
             data: data,
             statusCode: {
                 200: function() {

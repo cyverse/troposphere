@@ -175,7 +175,7 @@ Atmo.Views.ResizeInstanceForm = Backbone.View.extend({
 		this.$el.find('input[type="submit"]').attr('disabled', 'disabled').val('Resizing Instance...');
 
 		$.ajax({
-			url: site_root + '/api/v1/provider/' + id.get('provider_id') + '/identity/' + id.get('id') + '/instance/' + self.model.get('id') + '/action/',
+			url: Atmo.API_ROOT + '/provider/' + id.get('provider_id') + '/identity/' + id.get('id') + '/instance/' + self.model.get('id') + '/action',
 			type: 'POST',
 			data: data,
 			success: function() {
@@ -231,7 +231,7 @@ Atmo.Views.ResizeInstanceForm = Backbone.View.extend({
 
 			// AJAX call to confirm resize
 			$.ajax({
-				url: site_root + '/api/v1/provider/' + id.get('provider_id') + '/identity/' + id.get('id') + '/instance/' + self.model.get('id') + '/action/',
+				url: Atmo.API_ROOT + '/provider/' + id.get('provider_id') + '/identity/' + id.get('id') + '/instance/' + self.model.get('id') + '/action',
 				type: 'POST',
 				data: data,
 				success: function() {
@@ -274,7 +274,7 @@ Atmo.Views.ResizeInstanceForm = Backbone.View.extend({
 
 		// AJAX call to revert resize
 		$.ajax({
-			url: site_root + '/api/v1/provider/' + id.get('provider_id') + '/identity/' + id.get('id') + '/instance/' + self.model.get('id') + '/action/',
+			url: Atmo.API_ROOT + '/provider/' + id.get('provider_id') + '/identity/' + id.get('id') + '/instance/' + self.model.get('id') + '/action',
 			type: 'POST',
 			data: data,
 			success: function() {

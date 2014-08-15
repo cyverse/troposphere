@@ -134,7 +134,7 @@ $(function() {
         $("#countdown_time").html(count);
         count--;
         if (count == 0)
-            window.location.replace(site_root + "/logout/");	
+            window.location.replace(site_root + "/logout");
       }, 1000);
 
 
@@ -142,12 +142,12 @@ $(function() {
             ok_button: "Log out of all iPlant services",
             on_confirm: function(){
                 var csrftoken = Atmo.Utils.getCookie('csrftoken');
-                Atmo.Utils.post_to_url(site_root + "/logout/", { cas: true, 'csrfmiddlewaretoken':csrftoken })
+                Atmo.Utils.post_to_url(site_root + "/logout?cas=true", { cas: true, 'csrfmiddlewaretoken':csrftoken })
             },
 
             cancel_button: "Log out of Atmosphere Only",
             on_cancel: function(){
-                window.location.replace(site_root + "/logout/");	
+                window.location.replace(site_root + "/logout");
             }
       });
 

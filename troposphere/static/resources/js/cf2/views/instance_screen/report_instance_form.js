@@ -107,12 +107,12 @@ Atmo.Views.ReportInstanceForm = Backbone.View.extend({
 
             $.ajax({
                 type: 'POST',
-                url: site_root + '/api/v1/email/support/', 
+                url: Atmo.API_ROOT + '/email/support',
                 data: data,
                 success: function() {
 					loader.remove();
 					btn.val("Report Submitted")
-						.attr("disabled", "disabled")
+						.attr("disabled", "disabled");
 					btn.after($('<a/>', {
 						href: '#',
 						style: 'margin-left: 10px;',
