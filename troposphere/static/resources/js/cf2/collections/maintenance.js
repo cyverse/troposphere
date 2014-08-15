@@ -2,7 +2,7 @@ Atmo.Collections.Maintenances = Atmo.Collections.Base.extend({
   model: Atmo.Models.Maintenance,
   url: function(){
     return url = this.urlRoot
-      + '/' + this.model.prototype.defaults.model_name + '/?active=True';
+      + '/' + this.model.prototype.defaults.model_name + '?active=True';
   },
   in_maintenance: function(provider_id){
     var result = false;

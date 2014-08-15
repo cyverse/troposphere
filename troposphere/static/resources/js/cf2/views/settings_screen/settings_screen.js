@@ -92,7 +92,7 @@ Atmo.Views.SettingsScreen = Backbone.View.extend({
 		// Grab first page of instance history
 		$.ajax({
 			type: 'GET',
-			url: Atmo.API_ROOT + '/provider/' + provider + '/identity/' + identity + '/instance/history?page=1',
+			url: Atmo.API_ROOT + '/instance_history?page=1',
 			success: function(response_text) {
 
 				// Loop through given instances and append them.

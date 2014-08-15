@@ -33,7 +33,7 @@ Atmo.Models.Identity = Atmo.Models.Base.extend({
 		var creds = Atmo.get_credentials();
 		return url = this.urlRoot
 			+ '/provider/' + creds.provider_id 
-			+ '/' + this.defaults.model_name + '/';
+			+ '/' + this.defaults.model_name;
 	}
 });
 

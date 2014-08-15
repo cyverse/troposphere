@@ -20,7 +20,7 @@ Atmo.Models.Volume = Atmo.Models.Base.extend({
 		} 
 		else {
 			attributes.attach_data_attach_time = null;
-			attributes.attach_data_device = null
+			attributes.attach_data_device = null;
 			attributes.attach_data_instance_id = null;
 		}
 		
@@ -54,7 +54,7 @@ Atmo.Models.Volume = Atmo.Models.Base.extend({
 		};
   
 		var self = this;
-		var action_url = instance.url() + 'action/';
+		var action_url = instance.url() + 'action';
 
 		$.ajax({
 			url: action_url, 
@@ -98,7 +98,7 @@ Atmo.Models.Volume = Atmo.Models.Base.extend({
 		
 		this.set({'status': 'detaching'});
 		var self = this;
-		var action_url = instance.url() + 'action/';
+		var action_url = instance.url() + 'action';
 		
 		$.ajax({
 			url: action_url, 

@@ -11,10 +11,10 @@ Atmo.Models.Provider = Atmo.Models.Base.extend({
 	},
 	url: function(){
 		var url = this.urlRoot
-			+ '/' + this.defaults.model_name + '/';
+			+ '/' + this.defaults.model_name;
 		
 		if (typeof this.get('id') != 'undefined') {
-			url += this.get('id') + '/';
+			url = url  + '/' + this.get('id');
 		}
 		
 		return url;
