@@ -36,7 +36,7 @@ def application(request):
         return redirect('maintenance')
 
     template_params = {
-        'access_token': request.session['access_token'],
+        'access_token': request.session.get('access_token'),
         'disable_login': disabled_login
     }
 
