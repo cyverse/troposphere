@@ -40,14 +40,16 @@ def application(request):
         'disable_login': disabled_login
     }
 
-    # reset beta cookie if requested
-    if "beta" in request.REQUEST:
+    # If beta flag in query params, set the session value to that
+    if "beta" in request.GET:
         request.session['beta'] = request.GET['beta'].lower()
 
+    # If beta flag not defined, default it to false to show the old UI
     if "beta" not in request.session:
         request.session['beta'] = 'false'
 
     # Return the new Troposphere UI
+    # If user logged in, show the full app, otherwise show the public site
     if request.session['beta'] == 'true':
         if "access_token" in request.session:
             return render(request, 'application.html', template_params)
@@ -55,6 +57,7 @@ def application(request):
             return render(request, 'index.html')
 
     # Return the old Airport UI
+    # If user logged in, show the app, otherwise show the login page
     else:
         if "access_token" in request.session:
             return render(request, 'cf2.html', template_params)
