@@ -31,32 +31,35 @@ def root(request):
 
 def application(request):
     records, disabled_login = get_maintenance()
+
     if disabled_login:
         return redirect('maintenance')
 
-    if 'access_token' in request.session:
-        template_params = {
-            'access_token': request.session['access_token']
-        }
-        return render(request, 'application.html', template_params)
-    else:
-        return render(request, 'index.html')
+    template_params = {
+        'access_token': request.session['access_token'],
+        'disable_login': disabled_login
+    }
 
-def cf2(request):
-    records, disabled_login = get_maintenance()
-    if disabled_login:
-        return redirect('maintenance')
+    # reset beta cookie if requested
+    if "beta" in request.REQUEST:
+        request.session['beta'] = request.GET['beta'].lower()
 
-    if 'access_token' in request.session:
-        template_params = {
-            'access_token': request.session['access_token']
-        }
-        return render(request, 'cf2.html', template_params)
+    if "beta" not in request.session:
+        request.session['beta'] = 'false'
+
+    # Return the new Troposphere UI
+    if request.session['beta'] == 'true':
+        if "access_token" in request.session:
+            return render(request, 'application.html', template_params)
+        else:
+            return render(request, 'index.html')
+
+    # Return the old Airport UI
     else:
-        template_params = {
-            'disable_login': disabled_login
-        }
-        return render(request, 'login.html', template_params)
+        if "access_token" in request.session:
+            return render(request, 'cf2.html', template_params)
+        else:
+            return render(request, 'login.html', template_params)
 
 
 def get_maintenance():
