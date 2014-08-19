@@ -8,9 +8,7 @@ Configuration
 cp troposphere/settings/local.py.dist troposphere/settings/local.py
 ```
 
-Edit `local.py` with your own settings. You'll have to generate a new
-keypair from Groupy for the Troposphere application. The configuration
-variable `OAUTH_PRIVATE_KEY_PATH` should refer to the absolute path of that key.
+Edit `local.py` with your own settings.
 
 ### Node.js
 
