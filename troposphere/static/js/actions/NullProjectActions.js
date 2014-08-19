@@ -14,9 +14,11 @@ define(
     'actions/ProjectActions',
     'stores/InstanceStore',
     'stores/VolumeStore',
-    'url'
+    'url',
+    'models/Instance',
+    'models/Volume'
   ],
-  function (React, AppDispatcher, NullProjectConstants, NullProjectInstanceConstants, NullProjectVolumeConstants, NullProjectModalHelpers, NotificationController, ProjectInstanceActions, ProjectVolumeActions, Project, ProjectConstants, ProjectActions, InstanceStore, VolumeStore, URL) {
+  function (React, AppDispatcher, NullProjectConstants, NullProjectInstanceConstants, NullProjectVolumeConstants, NullProjectModalHelpers, NotificationController, ProjectInstanceActions, ProjectVolumeActions, Project, ProjectConstants, ProjectActions, InstanceStore, VolumeStore, URL, Instance, Volume) {
 
     return {
 
@@ -55,7 +57,9 @@ define(
 
             var project = new Project({
               name: projectName,
-              description: projectName
+              description: projectName,
+              instances: [],
+              volumes:[]
             });
 
             var resourcesClone = resources.models.slice(0);
@@ -67,7 +71,17 @@ define(
               that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
 
               resourcesClone.map(function(resource){
-                 ProjectActions.addResourceToProject(resource, project);
+                ProjectActions.addResourceToProject(resource, project);
+
+                if(resource instanceof Instance){
+                  that.dispatch(NullProjectInstanceConstants.REMOVE_INSTANCE_FROM_NULL_PROJECT, {
+                    instance: resource
+                  });
+                }else if(resource instanceof Volume){
+                  that.dispatch(NullProjectVolumeConstants.REMOVE_VOLUME_FROM_NULL_PROJECT, {
+                    volume: resource
+                  });
+                }
               });
 
               var redirectUrl = URL.project(project, {relative: true});

@@ -78,8 +78,10 @@ def maintenance(request):
 
 
 def login(request):
-    if 'redirect_to' in request.GET:
-      request.session['redirect_to'] = request.GET['redirect_to']
+    #TODO: Collect request.GET['redirect'] and store in SESSION
+    redirect_url = request.GET.get('redirect')
+    if redirect_url:
+        request.session['redirect_to'] = redirect_url
     return redirect(cas_oauth_client.authorize_url())
 
 
@@ -112,8 +114,10 @@ def cas_oauth_service(request):
     #Token is valid... Our work here is done.
     request.session['access_token'] = token
 
-    if 'redirect_to' in request.session:
-      return redirect(request.session['redirect_to'])
+    #TODO: Looking for 'redirect' in SESSION, send them there...
+    if request.session.get('redirect_to'):
+        redirect_url = request.session.pop('redirect_to')
+        return redirect(redirect_url)
     return redirect('application')
 
 
