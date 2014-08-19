@@ -22,9 +22,11 @@ define(
     'actions/InstanceActions',
     'actions/VolumeActions',
     'actions/ProjectInstanceActions',
-    'actions/ProjectVolumeActions'
+    'actions/ProjectVolumeActions',
+    'constants/NullProjectInstanceConstants',
+    'constants/NullProjectVolumeConstants'
   ],
-  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, InstanceConstants, VolumeConstants, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectReportResourceModal, Instance, Volume, Project, URL, ProjectModalHelpers, NotificationController, ProjectInstance, ProjectVolume, InstanceActions, VolumeActions, ProjectInstanceActions, ProjectVolumeActions) {
+  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, InstanceConstants, VolumeConstants, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectReportResourceModal, Instance, Volume, Project, URL, ProjectModalHelpers, NotificationController, ProjectInstance, ProjectVolume, InstanceActions, VolumeActions, ProjectInstanceActions, ProjectVolumeActions, NullProjectInstanceConstants, NullProjectVolumeConstants) {
 
     var _isParanoid = false;
 
@@ -160,6 +162,15 @@ define(
           onConfirm: function(){
             resources.map(function(resource){
               that.removeResourceFromProject(resource, project, {silent: true});
+              if(resource instanceof Instance){
+                  that.dispatch(NullProjectInstanceConstants.ADD_INSTANCE_TO_NULL_PROJECT, {
+                    instance: resource
+                  });
+                }else if(resource instanceof Volume){
+                  that.dispatch(NullProjectVolumeConstants.ADD_VOLUME_TO_NULL_PROJECT, {
+                    volume: resource
+                  });
+                }
             });
             that.dispatch(ProjectConstants.EMIT_CHANGE);
           }
