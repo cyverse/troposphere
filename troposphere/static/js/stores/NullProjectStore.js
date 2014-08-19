@@ -37,28 +37,36 @@ define(
     // Project Instance Functions
     //
 
-    function removeInstanceFromProject(instance, project){
-      var indexOfInstance = project.get('instances').map(function(_instance){
+    function removeInstanceFromProject(instance){
+      var indexOfInstance = _project.get('instances').map(function(_instance){
         return _instance.alias;
       }).indexOf(instance.id);
 
       if(indexOfInstance < 0) throw new Error("Instance not in project");
 
-      project.get('instances').splice(indexOfInstance, 1);
+      _project.get('instances').splice(indexOfInstance, 1);
+    }
+
+    function addInstanceToProject(instance){
+      _project.get('instances').push(instance.toJSON());
     }
 
     //
     // Project Volume Functions
     //
 
-    function removeVolumeFromProject(volume, project){
-      var indexOfVolume = project.get('volumes').map(function(_volume){
+    function removeVolumeFromProject(volume){
+      var indexOfVolume = _project.get('volumes').map(function(_volume){
         return _volume.alias;
       }).indexOf(volume.id);
 
       if(indexOfVolume < 0) throw new Error("Volume not in project");
 
-      project.get('volumes').splice(indexOfVolume, 1);
+      _project.get('volumes').splice(indexOfVolume, 1);
+    }
+
+    function addVolumeToProject(volume){
+      _project.get('volumes').push(volume.toJSON());
     }
 
     //
@@ -89,11 +97,19 @@ define(
           break;
 
         case NullProjectInstanceConstants.REMOVE_INSTANCE_FROM_NULL_PROJECT:
-          removeInstanceFromProject(payload.instance, payload.project);
+          removeInstanceFromProject(payload.instance);
+          break;
+
+        case NullProjectInstanceConstants.ADD_INSTANCE_TO_NULL_PROJECT:
+          addInstanceToProject(payload.instance);
           break;
 
         case NullProjectVolumeConstants.REMOVE_VOLUME_FROM_NULL_PROJECT:
-          removeVolumeFromProject(payload.volume, payload.project);
+          removeVolumeFromProject(payload.volume);
+          break;
+
+        case NullProjectVolumeConstants.ADD_VOLUME_TO_NULL_PROJECT:
+          addVolumeToProject(payload.volume);
           break;
 
         case NullProjectConstants.EMIT_NULL_PROJECT_CHANGE:
