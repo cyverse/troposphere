@@ -131,32 +131,31 @@ def emulate(request, username):
         old_token = request.session['access_token']
     if not username:
         #Restore the 'old token'
-        logger.info("Session_token: %s. Request to remove emulation."
+        logger.info("[EMULATE]Session_token: %s. Request to remove emulation."
                     % (old_token, ))
         request.session['access_token'] = old_token
         return redirect('application')
 
-    logger.info("Session_token: %s. Request to emulate %s."
+    logger.info("[EMULATE]Session_token: %s. Request to emulate %s."
                 % (old_token, username))
 
     r = requests.get(
         os.path.join(settings.SERVER_URL,
                      "api/v1/token_emulate/%s" % username),
-        headers={'Authorization': 'Bearer %s' % old_token})
+        headers={'Authorization': 'Token %s' % old_token})
     try:
         j_data = r.json()
     except ValueError:
-        logger.warn("The API server returned non-json data(Error) %s" % r.text)
+        logger.warn("[EMULATE]The API server returned non-json data(Error) %s" % r.text)
         return redirect('application')
-
     new_token = j_data.get('token')
     emulated_by = j_data.get('emulated_by')
     if not new_token or not emulated_by:
-        logger.warn("The API server returned data missing the key(s) "
+        logger.warn("[EMULATE]The API server returned data missing the key(s) "
                     "token/emulated_by. Data: %s" % j_data)
         return redirect('application')
 
-    logger.info("User %s (Token: %s) has emulated User %s (Token:%s)"
+    logger.info("[EMULATE]User %s (Token: %s) has emulated User %s (Token:%s)"
                 % (emulated_by, old_token, username, new_token))
 
     request.session['emulator_token'] = old_token
