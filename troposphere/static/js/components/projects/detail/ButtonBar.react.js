@@ -23,7 +23,7 @@ define(
         if(!this.props.isVisible) className += " invisible";
 
         var removeResourceButton;
-        if(context.profile.get('username') === "jchansen"){
+        if(context.profile.get('is_superuser') === true){
           removeResourceButton = (
             <button className={className} style={{"background-color": "bisque"}} onClick={this.props.onRemoveSelectedResources}>
               <i className="glyphicon glyphicon-export"/>
