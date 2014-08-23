@@ -28,7 +28,9 @@ define(
             null,
             "There was an error logging you in. If this persists, please email <a href='mailto:support@iplantcollaborative.org'>support@iplantcollaborative.org</a>.",
             {
-              "positionClass": "toast-top-full-width"
+              "positionClass": "toast-top-full-width",
+              "timeOut": "0",
+              "extendedTimeOut": "0"
             }
           );
         });
