@@ -9,14 +9,6 @@
       mocha: "../../node_modules/mocha/mocha"
     },
     shim: {
-      // underscore: {
-      //   deps: [],
-      //   exports: '_'
-      // },
-      // backbone: {
-      //   deps: ['jquery', 'underscore'],
-      //   exports: 'Backbone'
-      // }
       mocha: {
           exports: 'mocha'
       }
@@ -27,16 +19,22 @@
   define(function(require) {
     var chai = require('chai');
     var mocha = require('mocha');
-    var should = chai.should();
+    chai.should();
 
     mocha.setup('bdd');
 
     require(
       [
-        'specs/sum'
+        'specs/sum',
+        'specs/fail'
       ],
       function(require) {
-        mocha.run();
+        if (window.mochaPhantomJS) {
+          mochaPhantomJS.run();
+        }
+        else {
+          mocha.run();
+        }
       }
     );
 

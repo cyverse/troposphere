@@ -1,8 +1,8 @@
 define(function (require) {
 
-  describe('Test', function () {
+  describe('Good Test', function () {
 
-    it("should be true", function () {
+    it("should pass", function () {
       true.should.equal(true);
     });
 
