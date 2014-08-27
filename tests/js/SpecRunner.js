@@ -45,9 +45,9 @@ define(function (require) {
 
   require(
     [
-      'specs/sum',
-      'specs/fail',
-      'specs/react',
+      //'specs/sum',
+      //'specs/fail',
+      //'specs/react',
       'specs/squire'
     ],
     function (require) {
