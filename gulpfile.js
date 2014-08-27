@@ -48,6 +48,7 @@ gulp.task('prod', function () {
 });
 
 gulp.task('mocha', function() {
-    return gulp.src('tests/test.html')
-               .pipe(mochaPhantomJs());
+  // todo: figure out how to turn off image loading ({loadImages: false})?
+  return gulp.src('tests/test.html')
+             .pipe(mochaPhantomJs());
 });

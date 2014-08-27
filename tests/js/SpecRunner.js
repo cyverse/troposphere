@@ -14,7 +14,8 @@ require.config({
 
     chai: "../../../node_modules/chai/chai",
     mocha: "../../../node_modules/mocha/mocha",
-    sinon: "../../../node_modules/sinon/lib/sinon"
+    sinon: "../../../node_modules/sinon/lib/sinon",
+    squire: "../../../node_modules/squirejs/src/Squire"
     //jsx: '../../troposphere/static/bower_components/require-jsx/jsx',
     //JSXTransformer: '../../troposphere/static/bower_components/react/JSXTransformer'
   },
@@ -46,7 +47,8 @@ define(function (require) {
     [
       'specs/sum',
       'specs/fail',
-      'specs/react'
+      'specs/react',
+      'specs/squire'
     ],
     function (require) {
       if (window.mochaPhantomJS) {
