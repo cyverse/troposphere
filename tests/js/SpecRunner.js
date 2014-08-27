@@ -9,6 +9,7 @@ require.config({
     moment: '../bower_components/moment/moment',
     q: '../bower_components/q/q',
     bootstrap: '../bower_components/bootstrap/dist/js/bootstrap',
+    'jquery.dotdotdot': '../bower_components/jQuery.dotdotdot/src/js/jquery.dotdotdot',
 
     specs: '../../../tests/js/specs',
 
@@ -16,8 +17,6 @@ require.config({
     mocha: "../../../node_modules/mocha/mocha",
     sinon: "../../../node_modules/sinon/lib/sinon",
     squire: "../../../node_modules/squirejs/src/Squire"
-    //jsx: '../../troposphere/static/bower_components/require-jsx/jsx',
-    //JSXTransformer: '../../troposphere/static/bower_components/react/JSXTransformer'
   },
   shim: {
     underscore: {
@@ -45,10 +44,8 @@ define(function (require) {
 
   require(
     [
-      //'specs/sum',
-      //'specs/fail',
-      //'specs/react',
-      'specs/squire'
+      'specs/components/Header.react',
+      'specs/components/projects/ProjectListView.react'
     ],
     function (require) {
       if (window.mochaPhantomJS) {
