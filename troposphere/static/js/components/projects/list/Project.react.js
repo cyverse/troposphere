@@ -4,14 +4,13 @@ define(
   [
     'react',
     'backbone',
-    'actions/ProjectActions',
     'moment',
     'jquery',
 
     // plugins
     'jquery.dotdotdot'
   ],
-  function (React, Backbone, ProjectActions, moment, $) {
+  function (React, Backbone, moment, $) {
 
     return React.createClass({
 
@@ -25,11 +24,6 @@ define(
         $el.find("h2").dotdotdot({
           height: 20
         });
-      },
-
-      onAddResourceToProject: function(e){
-        e.preventDefault();
-        ProjectActions.addResourceToProject(this.props.project);
       },
 
       render: function () {
