@@ -16,7 +16,7 @@ Atmo.Models.Volume = Atmo.Models.Base.extend({
 			attributes.attach_data_attach_relative = Atmo.Utils.relative_time(attributes.attach_data_attach_time);
 			attach_data.attachRelative = attributes.attach_data_attach_relative;
 			attributes.attach_data_device = attach_data.device;
-			attributes.attach_data_instance_id = attach_data.instanceId;
+			attributes.attach_data_instance_id = attach_data.instance_alias;
 		} 
 		else {
 			attributes.attach_data_attach_time = null;
