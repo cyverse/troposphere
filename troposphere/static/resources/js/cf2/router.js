@@ -31,7 +31,9 @@ Atmo.Router = Backbone.Router.extend({
         $("#username").html(profile.get('id'));
       },
       error: function () {
-        window.location.replace(site_root + "/login");
+        //TODO: Jason's awesome replacement screen goes here
+        //TODO: Find a gnome.
+        //window.location.replace(site_root + "/login");
       }
     });
     Atmo.Utils.update_weather();

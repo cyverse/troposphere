@@ -86,7 +86,7 @@ Atmo.Views.VolumeScreenDraggableInstances = Backbone.View.extend({
                 //TODO: If we are in the detaching state we should poll until we change states..
                 var new_view = new Atmo.Views.VolumeScreenVolume({model: volume});
                 self.volume_map[volume.get('id')] = new_view;
-                instance_id = volume.get('attach_data').instanceId;
+                instance_id = volume.get('attach_data').instance_alias;
                 if (self.instance_map[instance_id] !== undefined) {
                   self.instance_map[instance_id].append_volume(new_view);
                 }
