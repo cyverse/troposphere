@@ -4,7 +4,7 @@ define([
 ], function (bdd, chai) {
 
   chai.should();
-  var url = "http://localhost:8080/tests";
+  var url = "http://localhost:8080/tests" + "?test=root_loggedIn";
 
   with (bdd) {
 
