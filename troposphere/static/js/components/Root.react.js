@@ -26,7 +26,7 @@ define(
             <div id="main">
               {this.props.content}
             </div>
-            <Footer/>
+            <Footer profile={this.props.profile}/>
           </div>
         );
       }
