@@ -25,7 +25,8 @@ require.config({
     highchartsBase: '//code.highcharts.com/highcharts',
     highcharts: '//code.highcharts.com/highcharts-more',
     crypto: '//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5',
-    'jquery.dotdotdot': '//cdnjs.cloudflare.com/ajax/libs/jQuery.dotdotdot/1.6.10/jquery.dotdotdot.min'
+    'jquery.dotdotdot': '//cdnjs.cloudflare.com/ajax/libs/jQuery.dotdotdot/1.6.10/jquery.dotdotdot.min',
+    sinon: '//cdnjs.cloudflare.com/ajax/libs/sinon.js/1.7.3/sinon-min'
   },
 
   shim: {
@@ -62,6 +63,10 @@ require.config({
 
     'jquery.dotdotdot': {
       deps: ['jquery']
+    },
+
+    sinon: {
+      exports: 'sinon'
     }
   }
 });
