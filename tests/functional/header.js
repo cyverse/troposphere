@@ -14,11 +14,22 @@ define([
           .get(url)
           .setFindTimeout(5000)
           .findByCssSelector('.dropdown-toggle span')
-          .click()
-          .getVisibleText()
-          .then(function (text) {
-            text.should.equal('testUser');
-          });
+            .click()
+            .getVisibleText()
+            .then(function (text) {
+              text.should.equal('testUser');
+            })
+            .end()
+          .findAllByCssSelector('ul.navbar-nav:first-child li a')
+            .getVisibleText()
+            .then(function (links) {
+              links.length.should.equal(5);
+              links[0].should.equal('Dashboard');
+              links[1].should.equal('Projects');
+              links[2].should.equal('Images');
+              links[3].should.equal('Providers');
+              links[4].should.equal('Help');
+            });
       });
     })
 

@@ -13,12 +13,12 @@ require(
   function ($, React, Backbone, sinon, Root) {
 
     // set up the stores the application will be using
-    var mockProfile = new Backbone.Model({displayName: "testUser"});
+    var mockProfile = new Backbone.Model({username: "testUser"});
 
     $(document).ready(function () {
       React.renderComponent(Root({
         profile: mockProfile,
-        currentRoute: ["projects"]
+        route: ["projects"]
       }), document.getElementById('application'));
     });
 
