@@ -22,6 +22,18 @@ define(function (require) {
     stores.VersionStore            = require('stores/VersionStore');
     stores.VolumeStore             = require('stores/VolumeStore');
 
+    var actions = require('actions');
+    actions.ApplicationActions     = require('actions/ApplicationActions');
+    actions.HelpActions            = require('actions/HelpActions');
+    actions.InstanceActions        = require('actions/InstanceActions');
+    actions.NullProjectActions     = require('actions/NullProjectActions');
+    actions.ProjectActions         = require('actions/ProjectActions');
+    actions.ProjectInstanceActions = require('actions/ProjectInstanceActions');
+    actions.ProjectVolumeActions   = require('actions/ProjectVolumeActions');
+    actions.TagActions             = require('actions/TagActions');
+    actions.VersionActions         = require('actions/VersionActions');
+    actions.VolumeActions          = require('actions/VolumeActions');
+
     return {
       run: function () {
 

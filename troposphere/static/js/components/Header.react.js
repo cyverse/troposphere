@@ -4,9 +4,12 @@ define(
   [
     'react',
     'backbone',
-    'actions/VersionActions'
+    'actions',
+
+    // required to enable the drop-down
+    'bootstrap'
   ],
-  function (React, Backbone, VersionActions) {
+  function (React, Backbone, actions) {
 
     var links = [
       {
@@ -54,7 +57,7 @@ define(
 
       onShowVersion: function(e){
         e.preventDefault();
-        VersionActions.showVersion();
+        actions.VersionActions.showVersion();
       },
 
       render: function () {
@@ -84,7 +87,8 @@ define(
     var Header = React.createClass({
 
       propTypes: {
-        profile: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        profile: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        currentRoute: React.PropTypes.array.isRequired
       },
 
       render: function () {

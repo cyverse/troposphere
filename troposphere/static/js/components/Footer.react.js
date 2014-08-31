@@ -3,15 +3,15 @@
 define(
   [
     'react',
-    'actions/HelpActions',
+    'actions',
     'context'
   ],
-  function (React, HelpActions, context) {
+  function (React, actions, context) {
 
     return React.createClass({
 
       onFeedback: function(){
-        HelpActions.showFeedbackModal();
+        actions.HelpActions.showFeedbackModal();
       },
 
       render: function () {
