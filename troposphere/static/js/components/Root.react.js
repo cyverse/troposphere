@@ -13,7 +13,7 @@ define(
 
       propTypes: {
         profile: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        currentRoute: React.PropTypes.oneOfType([
+        route: React.PropTypes.oneOfType([
           React.PropTypes.string,
           React.PropTypes.array
         ])
