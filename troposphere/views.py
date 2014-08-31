@@ -180,5 +180,10 @@ def version(request):
 
 
 def tests(request):
-    return render(request, 'tests.html')
+
+    template_params = {
+        'test': request.GET['test'].lower()
+    }
+
+    return render(request, 'tests.html', template_params)
 
