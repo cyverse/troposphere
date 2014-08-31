@@ -15,6 +15,7 @@ module.exports = function (gulp) {
     gulp.watch(paths.images, ['images']);
     gulp.watch(paths.cf2, ['cf2']);
     gulp.watch(paths.jsxTemplates, ['react']);
+    gulp.watch(paths.tests, ['tests']);
   });
 
 };
