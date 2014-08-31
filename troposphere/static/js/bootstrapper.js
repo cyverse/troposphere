@@ -9,11 +9,6 @@ define(
     return {
       run: function () {
 
-        // todo: remove in production - development mode only
-        if (window.location.hostname == 'localhost') {
-          window.access_token = "api-token";
-        }
-
         $.ajaxSetup({
           headers: {
             "Authorization": "Token " + window.access_token,

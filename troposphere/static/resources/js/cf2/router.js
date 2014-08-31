@@ -1,10 +1,5 @@
 /* Router: maps hash navigation */
 
-// todo: remove in production - development mode only
-if (window.location.hostname == 'localhost') {
-  window.access_token = "api-key";
-}
-
 $.ajaxSetup({
   headers: {
     "Authorization": "Token " + window.access_token,
