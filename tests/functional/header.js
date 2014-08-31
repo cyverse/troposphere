@@ -9,6 +9,7 @@ define([
   with (bdd) {
 
     describe("Header", function () {
+
       it("should display users name", function () {
         return this.remote
           .get(url)
@@ -18,8 +19,13 @@ define([
             .getVisibleText()
             .then(function (text) {
               text.should.equal('testUser');
-            })
-            .end()
+            });
+      });
+
+      it("should display correct links in header", function () {
+        return this.remote
+          .get(url)
+          .setFindTimeout(5000)
           .findAllByCssSelector('ul.navbar-nav:first-child li a')
             .getVisibleText()
             .then(function (links) {
