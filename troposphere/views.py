@@ -177,3 +177,13 @@ def version(request):
     v["commit_date"] = v["commit_date"].isoformat()
     v_json = json.dumps(v)
     return HttpResponse(v_json, mimetype='application/json')
+
+
+def tests(request):
+
+    template_params = {
+        'test': request.GET['test'].lower()
+    }
+
+    return render(request, 'tests.html', template_params)
+

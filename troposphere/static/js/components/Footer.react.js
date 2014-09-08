@@ -3,29 +3,32 @@
 define(
   [
     'react',
-    'actions/HelpActions',
-    'context'
+    'backbone',
+    'actions'
   ],
-  function (React, HelpActions, context) {
+  function (React, Backbone, actions) {
 
     return React.createClass({
 
+      propTypes: {
+        profile: React.PropTypes.instanceOf(Backbone.Model)
+      },
+
       onFeedback: function(){
-        HelpActions.showFeedbackModal();
+        actions.HelpActions.showFeedbackModal();
       },
 
       render: function () {
         var year = new Date().getFullYear();
 
         var feedbackButton = null;
-        if(context.profile){
+        if(this.props.profile){
           feedbackButton = (
             <button className="btn btn-primary" onClick={this.onFeedback}>
               {"Feedback & Support"}
             </button>
           );
         }
-
 
         return (
           <footer className="footer">

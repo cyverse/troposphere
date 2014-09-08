@@ -24,11 +24,9 @@ define(
         }
       },
 
-      statics: {
-        handleSearch: function (query) {
-          var queryUrl = "images/search/" + encodeURIComponent(query);
-          Backbone.history.navigate(queryUrl, {trigger: true});
-        }
+      handleSearch: function (query) {
+        var queryUrl = "images/search/" + encodeURIComponent(query);
+        Backbone.history.navigate(queryUrl, {trigger: true});
       },
 
       toggleAdvancedOptions: function (e) {
@@ -42,7 +40,7 @@ define(
 
       handleKeyUp: function (e) {
         if (e.keyCode == 13 && this.state.query.length) {
-          SearchContainer.handleSearch(this.state.query);
+          this.handleSearch(this.state.query);
         }
       },
 

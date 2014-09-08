@@ -3,26 +3,30 @@
 define(
   [
     'react',
+    'backbone',
     './Header.react',
     './Footer.react'
   ],
-  function (React, Header, Footer) {
+  function (React, Backbone, Header, Footer) {
 
     return React.createClass({
 
+      propTypes: {
+        profile: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        route: React.PropTypes.oneOfType([
+          React.PropTypes.string,
+          React.PropTypes.array
+        ])
+      },
+
       render: function () {
-
-        var footer = (
-          true ? <Footer/> : null
-        );
-
         return (
           <div>
             <Header profile={this.props.profile} currentRoute={this.props.route}/>
             <div id="main">
               {this.props.content}
             </div>
-            {footer}
+            <Footer profile={this.props.profile}/>
           </div>
         );
       }

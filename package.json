@@ -26,9 +26,16 @@
     "gulp-uglify": "~0.2.1",
     "gulp-react": "~0.3.3",
     "run-sequence": "^0.3.5",
-    "requirejs": "~2.1.11"
+    "requirejs": "~2.1.11",
+    "mocha": "~1.21.4",
+    "chai": "~1.9.1",
+    "sinon": "~1.10.3",
+    "gulp-mocha-phantomjs": "~0.5.0",
+    "squirejs": "~0.2.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "intern": "^2.0.3"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

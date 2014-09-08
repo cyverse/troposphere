@@ -5,10 +5,12 @@
     "backbone.marionette": "~2.0.1",
     "q": "~1.0.1",
     "moment": "~2.6.0",
-    "react": "~0.10.0",
+    "react": "~0.11.1",
     "chosen": "https://github.com/harvesthq/chosen/releases/download/v1.1.0/chosen_v1.1.0.zip",
     "bootstrap-chosen": "master",
     "bootstrap-sass-official": "~3.2.0",
-    "toastr": "~2.0.3"
+    "toastr": "~2.0.3",
+    "bootstrap": "~3.2.0",
+    "jQuery.dotdotdot": "~1.6.16"
   }
 }

@@ -4,13 +4,13 @@ define(
   [
     'react',
     './list/ProjectListView.react',
-    'stores/ProjectStore'
+    'stores'
   ],
-  function (React, ProjectListView, ProjectStore) {
+  function (React, ProjectListView, stores) {
 
     function getProjectState() {
       return {
-        projects: ProjectStore.getAll()
+        projects: stores.ProjectStore.getAll()
       };
     }
 
@@ -29,11 +29,11 @@ define(
       },
 
       componentDidMount: function () {
-        ProjectStore.addChangeListener(this.updateApps);
+        stores.ProjectStore.addChangeListener(this.updateApps);
       },
 
       componentWillUnmount: function () {
-        ProjectStore.removeChangeListener(this.updateApps);
+        stores.ProjectStore.removeChangeListener(this.updateApps);
       },
 
       //

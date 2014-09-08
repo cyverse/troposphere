@@ -10,5 +10,6 @@ module.exports = {
   rootSassFileForNoUser: 'troposphere/static/css/no_user.scss',
   //jsxTemplates: 'troposphere/static/js/**/*.jsx'
   jsxTemplates: 'troposphere/static/js/**/*.react.js',
-  cf2: 'troposphere/static/resources/**'
+  cf2: 'troposphere/static/resources/**',
+  tests: 'troposphere/static/tests/**'
 };
