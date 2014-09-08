@@ -74,4 +74,37 @@
     }
 
   }
+
+  .instance-history {
+
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+
+    li {
+      position: relative;
+      margin-bottom: 18px;
+    }
+
+    img {
+      margin-right: 20px;
+      border-radius: 3px;
+    }
+
+    .instance-history-details {
+      display: inline-block;
+      vertical-align: middle;
+      font-size: 13px;
+      line-height: 21px;
+
+      .name {
+        font-size: 15px;
+      }
+    }
+
+    .launch-info {
+      float: right;
+    }
+  }
 }

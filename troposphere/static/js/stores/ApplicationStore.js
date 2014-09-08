@@ -157,6 +157,14 @@ define(
           application.set('isFavorited', wasFavorited);
           ApplicationStore.emitChange();
         });
+      },
+
+      getApplicationWithMachine: function(machineId){
+        var application = _applications.filter(function(application){
+          var machines = application.get('machines');
+          return machines.get(machineId);
+        });
+        return application[0];
       }
 
     };

@@ -4,16 +4,17 @@ define(
   [
     'react',
     'backbone',
-    'stores/InstanceHistoryStore',
+    'stores',
     'moment',
     'crypto',
-    'components/common/Gravatar.react'
+    'components/common/Gravatar.react',
+    'url'
   ],
-  function (React, Backbone, InstanceHistoryStore, moment, CryptoJS, Gravatar) {
+  function (React, Backbone, stores, moment, CryptoJS, Gravatar, url) {
 
     function getState() {
       return {
-        instanceHistory: InstanceHistoryStore.getAll(),
+        instanceHistory: stores.InstanceHistoryStore.getAll(),
         isLoadingMoreResults: false
       };
     }
@@ -33,20 +34,20 @@ define(
       },
 
       componentDidMount: function () {
-        InstanceHistoryStore.addChangeListener(this.updateState);
+        stores.InstanceHistoryStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
-        InstanceHistoryStore.removeChangeListener(this.updateState);
+        stores.InstanceHistoryStore.removeChangeListener(this.updateState);
       },
 
       onLoadMoreInstanceHistory: function(){
         this.setState({isLoadingMoreResults: true});
-        InstanceHistoryStore.fetchMore();
+        stores.InstanceHistoryStore.fetchMore();
       },
 
       render: function () {
-        var instanceHistories = InstanceHistoryStore.getAll();
+        var instanceHistories = stores.InstanceHistoryStore.getAll();
         var title = "Instance History";
         var content, instanceHistoryItems;
 
@@ -68,22 +69,26 @@ define(
             var instanceHistoryHash = CryptoJS.MD5(instance.id).toString();
             var iconSize = 63;
 
+            var application = stores.ApplicationStore.getApplicationWithMachine(instance.get('machine_alias'));
+            var applicationUrl = url.application(application);
+            var applicationName = application.get('name');
+
             return (
               <div key={instance.id}>
-                <div className="image-versions">
+                <div className="instance-history">
                   <ul>
                     <li>
                       <div>
                         <Gravatar hash={instanceHistoryHash} size={iconSize}/>
-                        <div className="image-version-details">
-                          <div className="version">
-                            <span>
-                              <strong>{instance.get('name')}</strong>
-                            </span>
-                          </div>
-                          <div>{formattedStartDate + " - " + formattedEndDate}</div>
-                          <div>{timeSpan + " days ago, on " + instance.get('provider')}</div>
+                        <div className="instance-history-details">
+                          <a className="name">{instance.get('name')}</a>
+                          <div>Launched from <a href={applicationUrl}>{applicationName}</a></div>
+                          <div>{"Ran: " + formattedStartDate + " - " + formattedEndDate}</div>
                         </div>
+                        <span className="launch-info">
+                          <strong>{timeSpan + " days ago"}</strong>
+                          {" on " + instance.get('provider')}
+                        </span>
                       </div>
                     </li>
                   </ul>

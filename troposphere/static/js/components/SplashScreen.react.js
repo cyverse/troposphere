@@ -5,9 +5,7 @@ define(
     'jquery',
     'react',
     'context',
-    'stores/ProfileStore',
-    'stores/IdentityStore',
-    'stores/NullProjectStore',
+    'stores',
 
     // Routers
     'routers/DashboardRouter',
@@ -18,13 +16,13 @@ define(
     'routers/ProviderRouter',
     'routers/DefaultRouter'
   ],
-  function ($, React, context, ProfileStore, IdentityStore, NullProjectStore, DashboardRouter, ProjectRouter, ApplicationRouter, SettingsRouter, HelpRouter, ProviderRouter, DefaultRouter) {
+  function ($, React, context, stores, DashboardRouter, ProjectRouter, ApplicationRouter, SettingsRouter, HelpRouter, ProviderRouter, DefaultRouter) {
 
     function getState() {
       return {
-        profile: ProfileStore.get(),
-        identities: IdentityStore.getAll(),
-        nullProject: NullProjectStore.get()
+        profile: stores.ProfileStore.get(),
+        identities: stores.IdentityStore.getAll(),
+        nullProject: stores.NullProjectStore.get()
       };
     }
 
@@ -40,8 +38,8 @@ define(
       },
 
       updateState: function() {
-        var profile = ProfileStore.get();
-        var nullProject = NullProjectStore.get();
+        var profile = stores.ProfileStore.get();
+        var nullProject = stores.NullProjectStore.get();
         // we're fetching the identities during app load because it simplifies a lot of code
         // if we can assume the identities are already here.  In order to get all user instances
         // and volumes we have to loop through all identities to get the whole collection.
@@ -49,8 +47,14 @@ define(
         // needs the instances or volumes ends up having to listen to change events on the IdentityStore
         // in order to see if it's possible to fetch the identities yet (because the long urls require
         // knowing provider and identity information - provider/1/identity/2/instance)
-        var identities = IdentityStore.getAll();
-        if(profile && identities && nullProject){
+        var identities = stores.IdentityStore.getAll();
+
+        // we're fetching the applications before the app loads because we need to display links to the images
+        // on the dashboard in the instance history, and (at the moment) there's no way to know which image a
+        // machine belongs to without searching through the images
+        var applications = stores.ApplicationStore.getAll();
+
+        if(profile && identities && nullProject && applications){
           // set user context
           context.profile = profile;
           context.nullProject = nullProject;
@@ -60,15 +64,17 @@ define(
       },
 
       componentDidMount: function () {
-        ProfileStore.addChangeListener(this.updateState);
-        IdentityStore.addChangeListener(this.updateState);
-        NullProjectStore.addChangeListener(this.updateState);
+        stores.ProfileStore.addChangeListener(this.updateState);
+        stores.IdentityStore.addChangeListener(this.updateState);
+        stores.NullProjectStore.addChangeListener(this.updateState);
+        stores.ApplicationStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
-        ProfileStore.removeChangeListener(this.updateState);
-        IdentityStore.removeChangeListener(this.updateState);
-        NullProjectStore.removeChangeListener(this.updateState);
+        stores.ProfileStore.removeChangeListener(this.updateState);
+        stores.IdentityStore.removeChangeListener(this.updateState);
+        stores.NullProjectStore.removeChangeListener(this.updateState);
+        stores.ApplicationStore.removeChangeListener(this.updateState);
       },
 
       startApplication: function(){
