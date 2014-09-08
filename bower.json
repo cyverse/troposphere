@@ -11,6 +11,10 @@
     "bootstrap-sass-official": "~3.2.0",
     "toastr": "~2.0.3",
     "bootstrap": "~3.2.0",
-    "jQuery.dotdotdot": "~1.6.16"
+    "jQuery.dotdotdot": "~1.6.16",
+    "highcharts-release": "~4.0.4",
+    "crypto": "~3.24.10",
+    "jquery.dotdotdot": "~1.6.16",
+    "sinon": "~1.10.3"
   }
 }
