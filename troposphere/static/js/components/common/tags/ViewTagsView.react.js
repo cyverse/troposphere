@@ -25,7 +25,8 @@ define(
 
       render: function () {
         var suggestTag;
-        if(context.profile){
+        // todo: enable suggest-a-tag when it's a supported feature
+        if(context.profile && false){
           suggestTag = (
             <a href='#' onClick={this.onSuggestTag}>Suggest a Tag</a>
           );
