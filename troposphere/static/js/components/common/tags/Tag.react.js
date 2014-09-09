@@ -3,7 +3,10 @@
 define(
   [
     'react',
-    'backbone'
+    'backbone',
+
+    // plugins
+    'bootstrap'
   ],
   function (React, Backbone) {
 
