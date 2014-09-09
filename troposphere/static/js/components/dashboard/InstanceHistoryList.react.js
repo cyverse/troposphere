@@ -33,13 +33,20 @@ define(
         if (this.isMounted()) this.setState(getState());
       },
 
-//      componentDidMount: function () {
-//        stores.InstanceHistoryStore.addChangeListener(this.updateState);
-//      },
-//
-//      componentWillUnmount: function () {
-//        stores.InstanceHistoryStore.removeChangeListener(this.updateState);
-//      },
+      // todo: find a better way to handle this
+      // we're listening to changes to the store because the *assumption* is that when the store changes we
+      // have a new page of results. This is only true because right now this is the only component that uses
+      // the InstanceHistoryStore.  But if we launch an instance and add it to the store (which we don't
+      // do currently) this would assume that "add" operations was a "oh, new page of results, sweet!"
+      // And that would be an awful lie :(
+      
+      componentDidMount: function () {
+        stores.InstanceHistoryStore.addChangeListener(this.updateState);
+      },
+
+      componentWillUnmount: function () {
+        stores.InstanceHistoryStore.removeChangeListener(this.updateState);
+      },
 
       onLoadMoreInstanceHistory: function(){
         this.setState({isLoadingMoreResults: true});
