@@ -81,7 +81,7 @@ define(
                       <div>
                         <Gravatar hash={instanceHistoryHash} size={iconSize}/>
                         <div className="instance-history-details">
-                          <a className="name">{instance.get('name')}</a>
+                          <strong className="name">{instance.get('name')}</strong>
                           <div>Launched from <a href={applicationUrl}>{applicationName}</a></div>
                           <div>{"Ran: " + formattedStartDate + " - " + formattedEndDate}</div>
                         </div>
