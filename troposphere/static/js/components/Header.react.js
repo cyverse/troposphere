@@ -132,7 +132,7 @@ define(
                 </ul>
                 <ul className="nav navbar-nav navbar-right">
                   <li>
-                    <a href="/application?beta=false">
+                    <a className="beta-toggle" href="/application?beta=false">
                       <img src="/assets/images/beta_on.png" style={{"width":"82px"}}/>
                     </a>
                   </li>
