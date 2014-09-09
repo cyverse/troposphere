@@ -33,13 +33,13 @@ define(
         if (this.isMounted()) this.setState(getState());
       },
 
-      componentDidMount: function () {
-        stores.InstanceHistoryStore.addChangeListener(this.updateState);
-      },
-
-      componentWillUnmount: function () {
-        stores.InstanceHistoryStore.removeChangeListener(this.updateState);
-      },
+//      componentDidMount: function () {
+//        stores.InstanceHistoryStore.addChangeListener(this.updateState);
+//      },
+//
+//      componentWillUnmount: function () {
+//        stores.InstanceHistoryStore.removeChangeListener(this.updateState);
+//      },
 
       onLoadMoreInstanceHistory: function(){
         this.setState({isLoadingMoreResults: true});
@@ -48,10 +48,16 @@ define(
 
       render: function () {
         var instanceHistories = stores.InstanceHistoryStore.getAll();
+
+        // we're fetching the applications before the app loads because we need to display links to the images
+        // on the dashboard in the instance history, and (at the moment) there's no way to know which image a
+        // machine belongs to without searching through the images
+        var applications = stores.ApplicationStore.getAll();
+
         var title = "Instance History";
         var content, instanceHistoryItems;
 
-        if(instanceHistories){
+        if(instanceHistories && applications){
           var historyCount = " (" + instanceHistories.meta.count + " instances launched)";
           title += historyCount;
 

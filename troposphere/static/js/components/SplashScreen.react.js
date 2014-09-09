@@ -49,12 +49,7 @@ define(
         // knowing provider and identity information - provider/1/identity/2/instance)
         var identities = stores.IdentityStore.getAll();
 
-        // we're fetching the applications before the app loads because we need to display links to the images
-        // on the dashboard in the instance history, and (at the moment) there's no way to know which image a
-        // machine belongs to without searching through the images
-        var applications = stores.ApplicationStore.getAll();
-
-        if(profile && identities && nullProject && applications){
+        if(profile && identities && nullProject){
           // set user context
           context.profile = profile;
           context.nullProject = nullProject;
@@ -126,14 +121,6 @@ define(
       },
 
       render: function () {
-        // return (
-        //   <div className="splash-image">
-        //     <img src="/assets/images/login_mainimage.png"/>
-        //     <div className="loading"></div>
-        //     <h4>Loading Atmosphere...</h4>
-        //   </div>
-        // );
-
         return null;
       }
 

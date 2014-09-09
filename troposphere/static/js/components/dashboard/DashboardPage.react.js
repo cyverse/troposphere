@@ -3,26 +3,19 @@
 define(
   [
     'react',
-    'stores/ProviderStore',
-    'stores/IdentityStore',
-    'stores/SizeStore',
-    'stores/ProjectStore',
-    'stores/InstanceStore',
-    'stores/VolumeStore',
-    'stores/InstanceHistoryStore',
-    'stores/MaintenanceMessageStore',
+    'stores',
     './DashboardView.react',
     'context',
     'actions/NullProjectActions'
   ],
-  function (React, ProviderStore, IdentityStore, SizeStore, ProjectStore, InstanceStore, VolumeStore, InstanceHistoryStore, MaintenanceMessageStore, DashboardView, context, NullProjectActions) {
+  function (React, stores, DashboardView, context, NullProjectActions) {
 
     function getState() {
         return {
-          providers: ProviderStore.getAll(),
-          identities: IdentityStore.getAll(),
-          projects: ProjectStore.getAll(),
-          maintenanceMessages: MaintenanceMessageStore.getAll()
+          providers: stores.ProviderStore.getAll(),
+          identities: stores.IdentityStore.getAll(),
+          projects: stores.ProjectStore.getAll(),
+          maintenanceMessages: stores.MaintenanceMessageStore.getAll()
           // todo: fetch instances and volumes not in a project
         };
     }
@@ -43,29 +36,31 @@ define(
       },
 
       componentDidMount: function () {
-        ProviderStore.addChangeListener(this.updateState);
-        IdentityStore.addChangeListener(this.updateState);
-        SizeStore.addChangeListener(this.updateState);
-        InstanceStore.addChangeListener(this.updateState);
-        ProjectStore.addChangeListener(this.updateState);
-        VolumeStore.addChangeListener(this.updateState);
-        InstanceHistoryStore.addChangeListener(this.updateState);
-        MaintenanceMessageStore.addChangeListener(this.updateState);
+        stores.ProviderStore.addChangeListener(this.updateState);
+        stores.IdentityStore.addChangeListener(this.updateState);
+        stores.SizeStore.addChangeListener(this.updateState);
+        stores.InstanceStore.addChangeListener(this.updateState);
+        stores.ProjectStore.addChangeListener(this.updateState);
+        stores.VolumeStore.addChangeListener(this.updateState);
+        stores.InstanceHistoryStore.addChangeListener(this.updateState);
+        stores.MaintenanceMessageStore.addChangeListener(this.updateState);
+        stores.ApplicationStore.addChangeListener(this.updateState);
 
         if(!context.nullProject.isEmpty()){
-          NullProjectActions.migrateResourcesIntoProject(context.nullProject);
+          stores.NullProjectActions.migrateResourcesIntoProject(context.nullProject);
         }
       },
 
       componentWillUnmount: function() {
-        ProviderStore.removeChangeListener(this.updateState);
-        IdentityStore.removeChangeListener(this.updateState);
-        SizeStore.removeChangeListener(this.updateState);
-        InstanceStore.removeChangeListener(this.updateState);
-        ProjectStore.removeChangeListener(this.updateState);
-        VolumeStore.removeChangeListener(this.updateState);
-        InstanceHistoryStore.removeChangeListener(this.updateState);
-        MaintenanceMessageStore.removeChangeListener(this.updateState);
+        stores.ProviderStore.removeChangeListener(this.updateState);
+        stores.IdentityStore.removeChangeListener(this.updateState);
+        stores.SizeStore.removeChangeListener(this.updateState);
+        stores.InstanceStore.removeChangeListener(this.updateState);
+        stores.ProjectStore.removeChangeListener(this.updateState);
+        stores.VolumeStore.removeChangeListener(this.updateState);
+        stores.InstanceHistoryStore.removeChangeListener(this.updateState);
+        stores.MaintenanceMessageStore.removeChangeListener(this.updateState);
+        stores.ApplicationStore.removeChangeListener(this.updateState);
       },
 
       //
@@ -80,8 +75,8 @@ define(
         var maintenanceMessages = this.state.maintenanceMessages;
 
         if (providers && identities && projects && maintenanceMessages) {
-          var instances = InstanceStore.getAll(projects);
-          var volumes = VolumeStore.getAll(projects);
+          var instances = stores.InstanceStore.getAll(projects);
+          var volumes = stores.VolumeStore.getAll(projects);
 
           return (
             <DashboardView providers={providers}
