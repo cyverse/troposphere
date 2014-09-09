@@ -7,7 +7,7 @@ from django.conf import settings
 from django.core import serializers
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseForbidden
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, render_to_response
 
 import requests
 
@@ -30,6 +30,7 @@ def root(request):
 
 
 def application(request):
+    response = HttpResponse()
     records, disabled_login = get_maintenance()
 
     if disabled_login:
@@ -51,18 +52,22 @@ def application(request):
     # Return the new Troposphere UI
     # If user logged in, show the full app, otherwise show the public site
     if request.session['beta'] == 'true':
-        if "access_token" in request.session:
-            return render(request, 'application.html', template_params)
+        if template_params['access_token']:
+            response = render_to_response('application.html', template_params)
         else:
-            return render(request, 'index.html')
+            response = render_to_response('index.html')
 
     # Return the old Airport UI
     # If user logged in, show the app, otherwise show the login page
     else:
-        if "access_token" in request.session:
-            return render(request, 'cf2.html', template_params)
+        if template_params['access_token']:
+            response = render_to_response('cf2.html', template_params)
         else:
-            return render(request, 'login.html', template_params)
+            response = render_to_response('login.html', template_params)
+
+
+    response.set_cookie('beta', request.session['beta'])
+    return response
 
 
 def get_maintenance():

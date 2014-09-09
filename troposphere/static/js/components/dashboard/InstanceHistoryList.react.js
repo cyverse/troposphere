@@ -39,7 +39,7 @@ define(
       // the InstanceHistoryStore.  But if we launch an instance and add it to the store (which we don't
       // do currently) this would assume that "add" operations was a "oh, new page of results, sweet!"
       // And that would be an awful lie :(
-      
+
       componentDidMount: function () {
         stores.InstanceHistoryStore.addChangeListener(this.updateState);
       },
