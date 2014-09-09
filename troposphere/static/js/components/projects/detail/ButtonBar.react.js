@@ -4,9 +4,10 @@ define(
   [
     'react',
     'backbone',
-    'context'
+    'context',
+    './Button.react'
   ],
-  function (React, Backbone, context) {
+  function (React, Backbone, context, Button) {
 
     return React.createClass({
 
@@ -19,30 +20,29 @@ define(
       },
 
       render: function () {
-        var className = "btn btn-default";
-        if(!this.props.isVisible) className += " invisible";
-
-        var removeResourceButton;
-        if(context.profile.get('is_superuser') === true){
-          removeResourceButton = (
-            <button className={className} style={{"background-color": "bisque"}} onClick={this.props.onRemoveSelectedResources}>
-              <i className="glyphicon glyphicon-export"/>
-            </button>
-          );
-        }
-
         return (
           <div className="button-bar">
-            <button className="btn btn-default" onClick={this.props.onReportSelectedResources}>
-              <i className="glyphicon glyphicon-list-alt"/>
-            </button>
-            <button className={className} onClick={this.props.onMoveSelectedResources}>
-              <i className="glyphicon glyphicon-folder-open"/>
-            </button>
-            <button className={className} onClick={this.props.onDeleteSelectedResources}>
-              <i className="glyphicon glyphicon-trash"/>
-            </button>
-            {removeResourceButton}
+            <Button icon="list-alt"
+                    tooltip="Report issue with project or selected resources"
+                    onClick={this.props.onReportSelectedResources}
+                    isVisible={true}
+            />
+            <Button icon="folder-open"
+                    tooltip="Move selected resources"
+                    onClick={this.props.onMoveSelectedResources}
+                    isVisible={this.props.isVisible}
+            />
+            <Button icon="trash"
+                    tooltip="Delete selected resources"
+                    onClick={this.props.onDeleteSelectedResources}
+                    isVisible={this.props.isVisible}
+            />
+            <Button icon="export"
+                    tooltip="Remove selected resources (admin only)"
+                    onClick={this.props.onRemoveSelectedResources}
+                    style={{"background-color": "bisque"}}
+                    isVisible={context.profile.get('is_superuser') && this.props.isVisible}
+            />
           </div>
         );
       }
