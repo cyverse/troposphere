@@ -251,6 +251,14 @@
   background-color: #eeeeee;
   padding: 10px;
 
+  .preview-message {
+    padding: 10px 40px;
+    .message {
+      color: #aaa;
+      font-size: 16px;
+    }
+  }
+
   .header {
     border-bottom: 2px solid #CCCCCC;
     padding-bottom: 1px;

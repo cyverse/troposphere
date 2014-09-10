@@ -57,6 +57,11 @@ define(
 
         return (
           <div className="side-panel">
+            <div className="preview-message">
+              <span className="message">
+                Select a resource to see a preview of its details
+              </span>
+            </div>
           </div>
         );
       }
