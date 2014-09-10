@@ -15,19 +15,29 @@ define(
       },
 
       render: function () {
-        var notifications = this.props.messages.map(function(message) {
+        var notifications = this.props.messages.map(function (message) {
           return (
             <MaintenanceMessage message={message}/>
-          );
+            );
         }.bind(this));
 
-        var title = "Total Resources in Use";
-
-        return (
-          <ul className="notifications">
-            {notifications}
-          </ul>
-        );
+        if (notifications.length > 0) {
+          return (
+            <ul className="notifications">
+              {notifications}
+            </ul>
+          );
+        }else{
+          return (
+            <ul className="notifications">
+              <div className="preview-message">
+                <span className="message">
+                  You will see a notiication here when Atmosphere is scheduled to go down for maintence.
+                </span>
+              </div>
+            </ul>
+          )
+        }
       }
 
     });

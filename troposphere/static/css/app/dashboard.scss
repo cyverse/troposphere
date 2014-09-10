@@ -15,6 +15,15 @@
     list-style-type: none;
     padding-left: 0px;
 
+    .preview-message {
+      padding: 10px 20px;
+
+      .message {
+        color: #aaa;
+        font-size: 16px;
+      }
+    }
+
     li {
       padding: 15px;
       border-bottom: solid 1px #C9C9C9;
