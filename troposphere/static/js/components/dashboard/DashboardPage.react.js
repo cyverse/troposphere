@@ -47,7 +47,7 @@ define(
         stores.ApplicationStore.addChangeListener(this.updateState);
 
         if(!context.nullProject.isEmpty()){
-          stores.NullProjectActions.migrateResourcesIntoProject(context.nullProject);
+          NullProjectActions.migrateResourcesIntoProject(context.nullProject);
         }
       },
 
