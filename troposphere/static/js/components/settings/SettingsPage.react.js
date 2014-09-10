@@ -5,14 +5,15 @@ define(
     'react',
     'components/common/PageHeader.react',
     './IconSelect.react',
-    'context'
+    'context',
+    './SettingsHeader.react'
   ],
-  function (React, PageHeader, IconSelect, context) {
+  function (React, PageHeader, IconSelect, context, SettingsHeader) {
 
     return React.createClass({
 
       handleIconSelect: function (icon_type) {
-        alert.show("handleIconSelect not implemented");
+        alert("handleIconSelect not implemented");
         // todo: move into ProfileStore and ProfileActions
         // setIcons: function (profile, icon_type) {
         //   profile.save({icon_set: icon_type}, {
@@ -32,13 +33,24 @@ define(
       },
 
       render: function () {
+        var selectedIconSet = this.getSelectedIconSet();
+        
         return (
-          <div className="container">
-            <PageHeader title="Settings"/>
-            <h2>Notifications</h2>
-            <h2>Appearance</h2>
-            <p>Image and instance icon set:</p>
-            <IconSelect selected={this.getSelectedIconSet()} onSelect={this.handleIconSelect}/>
+          <div className="settings-view">
+            <SettingsHeader/>
+            <div className="container">
+              <div className="notifications">
+                <h3>Notifications</h3>
+                <div class="checkbox">
+                  <input type="checkbox"/> Receive an email notification when an instance finishes launching
+                </div>
+              </div>
+              <div>
+                <h3>Appearance</h3>
+                <p>Select the Image and Instance icon set you would like to use:</p>
+                <IconSelect selected={selectedIconSet} onSelect={this.handleIconSelect}/>
+              </div>
+            </div>
           </div>
         );
       }
