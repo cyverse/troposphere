@@ -4,26 +4,14 @@ define(
   [
     'react',
     'backbone',
-    'moment',
-    'jquery',
-
-    // plugins
-    'jquery.dotdotdot'
+    'moment'
   ],
-  function (React, Backbone, moment, $) {
+  function (React, Backbone, moment) {
 
     return React.createClass({
 
       propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
-
-      componentDidMount: function(){
-        var el = this.getDOMNode();
-        var $el = $(el);
-        $el.find("h2").dotdotdot({
-          height: 20
-        });
       },
 
       render: function () {

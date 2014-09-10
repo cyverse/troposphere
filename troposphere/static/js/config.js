@@ -66,10 +66,6 @@ require.config({
       '//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5',
       'lib/md5'
     ],
-    'jquery.dotdotdot': [
-      '//cdnjs.cloudflare.com/ajax/libs/jQuery.dotdotdot/1.6.10/jquery.dotdotdot.min',
-      '../bower_components/jquery.dotdotdot/src/js/jquery.dotdotdot'
-    ],
     sinon: [
       '//cdnjs.cloudflare.com/ajax/libs/sinon.js/1.7.3/sinon-min',
       '../bower_components/sinon/lib/sinon'
@@ -106,10 +102,6 @@ require.config({
 
     crypto: {
       exports: 'CryptoJS'
-    },
-
-    'jquery.dotdotdot': {
-      deps: ['jquery']
     },
 
     sinon: {
