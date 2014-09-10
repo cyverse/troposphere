@@ -2,11 +2,16 @@
 
 define(
   [
-    'react'
+    'react',
+    'stores'
   ],
-  function (React) {
+  function (React, stores) {
 
     return React.createClass({
+
+      propTypes: {
+        type: React.PropTypes.string
+      },
 
       getDefaultProps: function () {
         return {

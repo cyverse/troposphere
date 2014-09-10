@@ -9,9 +9,10 @@ define(
     './Rating.react',
     './Bookmark.react',
     'context',
-    '../detail/tags/Tags.react'
+    '../detail/tags/Tags.react',
+    'stores'
   ],
-  function (React, Gravatar, Backbone, URL, Rating, Bookmark, context, Tags) {
+  function (React, Gravatar, Backbone, URL, Rating, Bookmark, context, Tags, stores) {
 
     return React.createClass({
 
@@ -28,6 +29,7 @@ define(
 
       render: function () {
         var app = this.props.application;
+        var type = stores.ProfileStore.get().get('icon_set');
 
         var iconSize = 145;
         var icon;
@@ -37,7 +39,7 @@ define(
           );
         } else {
           icon = (
-            <Gravatar hash={app.get('uuid_hash')} size={iconSize}/>
+            <Gravatar hash={app.get('uuid_hash')} size={iconSize} type={type}/>
           );
         }
 

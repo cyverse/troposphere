@@ -7,9 +7,10 @@ define(
     'components/common/Time.react',
     'moment',
     'components/common/Gravatar.react',
-    'crypto'
+    'crypto',
+    'stores'
   ],
-  function (React, Backbone, Time, moment, Gravatar, CryptoJS) {
+  function (React, Backbone, Time, moment, Gravatar, CryptoJS, stores) {
 
     return React.createClass({
 
@@ -24,11 +25,12 @@ define(
 
         var machineHash = CryptoJS.MD5(this.props.machine.id).toString();
         var iconSize = 63;
+        var type = stores.ProfileStore.get().get('icon_set');
 
         return (
           <li>
             <div>
-              <Gravatar hash={machineHash} size={iconSize}/>
+              <Gravatar hash={machineHash} size={iconSize} type={type}/>
               <div className="image-version-details">
                 <div className="version">
                   {this.props.machine.get('pretty_version')}

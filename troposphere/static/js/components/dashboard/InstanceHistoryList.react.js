@@ -85,6 +85,7 @@ define(
             var application = stores.ApplicationStore.getApplicationWithMachine(instance.get('machine_alias'));
             var applicationUrl = url.application(application);
             var applicationName = application.get('name');
+            var type = stores.ProfileStore.get().get('icon_set');
 
             return (
               <div key={instance.id}>
@@ -92,7 +93,7 @@ define(
                   <ul>
                     <li>
                       <div>
-                        <Gravatar hash={instanceHistoryHash} size={iconSize}/>
+                        <Gravatar hash={instanceHistoryHash} size={iconSize} type={type}/>
                         <div className="instance-history-details">
                           <strong className="name">{instance.get('name')}</strong>
                           <div>Launched from <a href={applicationUrl}>{applicationName}</a></div>
