@@ -128,7 +128,7 @@ Atmo.Router = Backbone.Router.extend({
         200: function (response) {
           $('#version').html('<a href="https://github.com/iPlantCollaborativeOpenSource/atmosphere/tree/'
             + response['git_sha'] + '">'
-            + new Date(response['date']).toString("F") + ' '
+            + new Date(response['commit_date']).toString("F") + ' '
             + '(' + response['git_sha_abbrev'] + ')</a>');
         }
       }
