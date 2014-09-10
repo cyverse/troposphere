@@ -5,12 +5,11 @@ define(
     'react',
     'components/common/PageHeader.react',
     './IconSelect.react',
-    'context',
     './SettingsHeader.react',
     'actions/ProfileActions',
     'stores'
   ],
-  function (React, PageHeader, IconSelect, context, SettingsHeader, ProfileActions, stores) {
+  function (React, PageHeader, IconSelect, SettingsHeader, ProfileActions, stores) {
 
     function getState() {
       return {
@@ -37,15 +36,22 @@ define(
       },
 
       handleIconSelect: function (iconType) {
-        ProfileActions.updateProfileAttributes(context.profile, {icon_set: iconType});
+        ProfileActions.updateProfileAttributes(this.state.profile, {icon_set: iconType});
+      },
+
+      onChangeEmailPreference: function(event){
+        var isChecked = event.target.checked;
+        ProfileActions.updateProfileAttributes(this.state.profile, {send_emails: isChecked});
       },
 
       getSelectedIconSet: function () {
-        return context.profile.get('settings')['icon_set'];
+        return
       },
 
       render: function () {
-        var selectedIconSet = this.getSelectedIconSet();
+        var profile = this.state.profile;
+        var selectedIconSet = profile.get('settings')['icon_set'];
+        var wantsEmails = profile.get('settings')['send_emails'];
 
         return (
           <div className="settings-view">
@@ -54,7 +60,7 @@ define(
               <div className="notifications">
                 <h3>Notifications</h3>
                 <div class="checkbox">
-                  <input type="checkbox"/> Receive an email notification when an instance finishes launching
+                  <input type="checkbox" checked={wantsEmails} onChange={this.onChangeEmailPreference}/> Receive an email notification when an instance finishes launching
                 </div>
               </div>
               <div>
