@@ -4,9 +4,10 @@ define(
     'dispatchers/Dispatcher',
     'stores/Store',
     'models/Profile',
-    'controllers/NotificationController'
+    'controllers/NotificationController',
+    'constants/ProfileConstants'
   ],
-  function (_, Dispatcher, Store, Profile, NotificationController) {
+  function (_, Dispatcher, Store, Profile, NotificationController, ProfileConstants) {
 
     var _profile = null;
     var _isFetching = false;
@@ -37,6 +38,10 @@ define(
       }
     };
 
+    function update(profile){
+      _profile.set(profile, {merge: true});
+    }
+
     //
     // Store
     //
@@ -55,16 +60,16 @@ define(
     Dispatcher.register(function (payload) {
       var action = payload.action;
 
-      // switch (action.actionType) {
-      //    case ProfileConstants.PROFILE_UPDATE:
-      //      update(action.name, action.description);
-      //      break;
+      switch (action.actionType) {
+          case ProfileConstants.UPDATE_PROFILE:
+            update(action.name, action.description);
+            break;
 
-      //    default:
-      //      return true;
-      // }
+          default:
+            return true;
+      }
 
-      // ProfileStore.emitChange();
+      ProfileStore.emitChange();
 
       return true;
     });

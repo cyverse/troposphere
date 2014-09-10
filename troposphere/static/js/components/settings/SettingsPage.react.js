@@ -6,26 +6,38 @@ define(
     'components/common/PageHeader.react',
     './IconSelect.react',
     'context',
-    './SettingsHeader.react'
+    './SettingsHeader.react',
+    'actions/ProfileActions',
+    'stores'
   ],
-  function (React, PageHeader, IconSelect, context, SettingsHeader) {
+  function (React, PageHeader, IconSelect, context, SettingsHeader, ProfileActions, stores) {
+
+    function getState() {
+      return {
+        profile: stores.ProfileStore.get()
+      };
+    }
 
     return React.createClass({
 
-      handleIconSelect: function (icon_type) {
-        alert("handleIconSelect not implemented");
-        // todo: move into ProfileStore and ProfileActions
-        // setIcons: function (profile, icon_type) {
-        //   profile.save({icon_set: icon_type}, {
-        //     patch: true,
-        //     success: function () {
-        //       NotificationController.success("Updated", "Your icon preference was changed successfully.");
-        //     }.bind(this),
-        //     error: function () {
-        //       NotificationController.error("Error", "Your icon preference was not changed successfully.");
-        //     }
-        //   });
-        // }
+      getInitialState: function () {
+        return getState();
+      },
+
+      updateState: function () {
+        if (this.isMounted()) this.setState(getState());
+      },
+
+      componentDidMount: function () {
+        stores.ProfileStore.addChangeListener(this.updateState);
+      },
+
+      componentWillUnmount: function () {
+        stores.ProfileStore.removeChangeListener(this.updateState);
+      },
+
+      handleIconSelect: function (iconType) {
+        ProfileActions.updateProfileAttributes(context.profile, {icon_set: iconType});
       },
 
       getSelectedIconSet: function () {
@@ -34,7 +46,7 @@ define(
 
       render: function () {
         var selectedIconSet = this.getSelectedIconSet();
-        
+
         return (
           <div className="settings-view">
             <SettingsHeader/>
