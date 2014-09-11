@@ -22,7 +22,10 @@ define(
       return {
         profile: stores.ProfileStore.get(),
         identities: stores.IdentityStore.getAll(),
-        nullProject: stores.NullProjectStore.get()
+        nullProject: stores.NullProjectStore.get(),
+        // fetching applications here just to make the application feel more responsive
+        // by the time the user navigates to the applications page
+        applications: stores.ApplicationStore.getAll()
       };
     }
 
