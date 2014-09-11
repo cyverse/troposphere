@@ -5,11 +5,12 @@ define(
     'react',
     'backbone',
     'actions',
+    './MaintenanceMessageBanner.react',
 
     // required to enable the drop-down
     'bootstrap'
   ],
-  function (React, Backbone, actions) {
+  function (React, Backbone, actions, MaintenanceMessageBanner) {
 
     var links = [
       {
@@ -112,6 +113,7 @@ define(
 
         return (
           <div className="navbar navbar-default navbar-fixed-top" role="navigation">
+            <MaintenanceMessageBanner maintenanceMessages={this.props.maintenanceMessages}/>
             <div className="container">
 
               <div className="navbar-header">

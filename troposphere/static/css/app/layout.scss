@@ -388,3 +388,13 @@
 .not-real-resource-row {
   color: #E00;
 }
+
+ul.message-banner {
+  background-color: #F3F0B6;
+  list-style-type: none;
+  margin: 0;
+
+  .message {
+    padding: 3px 0px;
+  }
+}
