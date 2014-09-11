@@ -17,7 +17,7 @@ define(
         var message = this.props.message;
 
         return (
-          <li>
+          <li className="sticky">
             <div className="title">
               <i className="glyphicon glyphicon-pushpin"></i>
               <span>{message.get('title')}</span>

@@ -28,16 +28,22 @@
       padding: 15px;
       border-bottom: solid 1px #C9C9C9;
 
+      &.sticky {
+        background-color: #F3F0B6;
+      }
+
       .title {
         margin-bottom: 3px;
+        padding-left: 22px;
         
         i {
           color: #76AA49;
+          margin-left: -25px;
+          padding-right: 10px;
         }
 
         span {
           font-size: 16px;
-          padding-left: 8px;
         }
       }
 
