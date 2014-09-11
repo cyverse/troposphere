@@ -4,13 +4,11 @@ define(
   [
     'react',
     'components/mixins/BootstrapModalMixin.react',
-    'stores/ProviderStore',
-    'stores/IdentityStore',
-    'stores/ProjectStore',
+    'stores',
     './instance_launch/IdentitySelect.react',
     './instance_launch/ProjectSelect.react'
   ],
-  function (React, BootstrapModalMixin, ProviderStore, IdentityStore, ProjectStore, IdentitySelect, ProjectSelect) {
+  function (React, BootstrapModalMixin, stores, IdentitySelect, ProjectSelect) {
 
     // Example Usage from http://bl.ocks.org/insin/raw/8449696/
     // render: function(){
@@ -39,8 +37,8 @@ define(
 
     function getState() {
       var state = {
-        providers: ProviderStore.getAll(),
-        identities: IdentityStore.getAll(),
+        providers: stores.ProviderStore.getAll(),
+        identities: stores.IdentityStore.getAll(),
 
         volumeName: null,
         identityId: null
@@ -78,13 +76,13 @@ define(
       },
 
       componentDidMount: function () {
-        ProviderStore.addChangeListener(this.updateState);
-        IdentityStore.addChangeListener(this.updateState);
+        stores.ProviderStore.addChangeListener(this.updateState);
+        stores.IdentityStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
-        ProviderStore.removeChangeListener(this.updateState);
-        IdentityStore.removeChangeListener(this.updateState);
+        stores.ProviderStore.removeChangeListener(this.updateState);
+        stores.IdentityStore.removeChangeListener(this.updateState);
       },
 
       //
@@ -146,10 +144,15 @@ define(
           // Enable all buttons be default
           var isDisabled = false;
 
+          // Make sure the selected provider is not in maintenance
+          var selectedIdentity = stores.IdentityStore.get(this.state.identityId);
+          var isProviderInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(selectedIdentity.get('provider_id'));
+
           // Disable the launch button if the user hasn't provided a name, size or identity for the volume
           var stateIsValid = this.state.identityId &&
                              this.state.volumeName &&
-                             this.state.volumeSize;
+                             this.state.volumeSize &&
+                             !isProviderInMaintenance;
           if(button.type === "primary" && !stateIsValid ) isDisabled = true;
 
           return (
