@@ -2,15 +2,26 @@ define(
   [
     'backbone',
     'models/MaintenanceMessage',
-    'globals'
+    'globals',
+    'moment'
   ],
-  function (Backbone, MaintenanceMessage, globals) {
+  function (Backbone, MaintenanceMessage, globals, moment) {
 
     return Backbone.Collection.extend({
       model: MaintenanceMessage,
 
       url: function () {
-        return globals.API_ROOT + "/maintenance" + globals.slash() + "?active=true";
+        return globals.API_ROOT + "/maintenance" + globals.slash();
+      },
+
+      parse: function(results){
+        var currentDate = moment();
+        results = results.filter(function(result){
+          var endDate = moment(result.end_date);
+          var isCurrentOrFutureMaintenance = currentDate.diff(endDate) < 0;
+          return isCurrentOrFutureMaintenance;
+        });
+        return results;
       },
 
       comparator: function (a, b) {
