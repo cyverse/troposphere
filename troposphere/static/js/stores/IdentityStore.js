@@ -36,6 +36,14 @@ define(
           fetchIdentities()
         }
         return _identities;
+      },
+
+      get: function (identityId) {
+        if(!_identities) {
+          fetchIdentities()
+        }else {
+          return _identities.get(identityId);
+        }
       }
     };
 

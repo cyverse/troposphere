@@ -4,16 +4,13 @@ define(
   [
     'react',
     'components/mixins/BootstrapModalMixin.react',
-    'stores/ProviderStore',
-    'stores/IdentityStore',
-    'stores/SizeStore',
-    'stores/ProjectStore',
+    'stores',
     './instance_launch/MachineSelect.react',
     './instance_launch/IdentitySelect.react',
     './instance_launch/InstanceSizeSelect.react',
     './instance_launch/ProjectSelect.react'
   ],
-  function (React, BootstrapModalMixin, ProviderStore, IdentityStore, SizeStore, ProjectStore, MachineSelect, IdentitySelect, InstanceSizeSelect, ProjectSelect) {
+  function (React, BootstrapModalMixin, stores, MachineSelect, IdentitySelect, InstanceSizeSelect, ProjectSelect) {
 
     // Example Usage from http://bl.ocks.org/insin/raw/8449696/
     // render: function(){
@@ -42,10 +39,10 @@ define(
 
     function getState() {
       var state = {
-        providers: ProviderStore.getAll(),
-        identities: IdentityStore.getAll(),
+        providers: stores.ProviderStore.getAll(),
+        identities: stores.IdentityStore.getAll(),
         sizes: null,
-        projects: ProjectStore.getAll(),
+        projects: stores.ProjectStore.getAll(),
 
         instanceName: null,
         machineId: null,
@@ -74,7 +71,7 @@ define(
         if(state.identities && state.providers && state.identityId){
           var selectedIdentity = state.identities.get(state.identityId);
           var selectedProvider = state.providers.get(selectedIdentity.get('provider_id'));
-          state.sizes = SizeStore.getAllFor(selectedProvider.id, selectedIdentity.id);
+          state.sizes = stores.SizeStore.getAllFor(selectedProvider.id, selectedIdentity.id);
         }
 
         // If we switch identities, while a size with the previous identity was selected, that size may
@@ -120,17 +117,17 @@ define(
       },
 
       componentDidMount: function () {
-        ProviderStore.addChangeListener(this.updateState);
-        IdentityStore.addChangeListener(this.updateState);
-        SizeStore.addChangeListener(this.updateState);
-        ProjectStore.addChangeListener(this.updateState);
+        stores.ProviderStore.addChangeListener(this.updateState);
+        stores.IdentityStore.addChangeListener(this.updateState);
+        stores.SizeStore.addChangeListener(this.updateState);
+        stores.ProjectStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
-        ProviderStore.removeChangeListener(this.updateState);
-        IdentityStore.removeChangeListener(this.updateState);
-        SizeStore.removeChangeListener(this.updateState);
-        ProjectStore.removeChangeListener(this.updateState);
+        stores.ProviderStore.removeChangeListener(this.updateState);
+        stores.IdentityStore.removeChangeListener(this.updateState);
+        stores.SizeStore.removeChangeListener(this.updateState);
+        stores.ProjectStore.removeChangeListener(this.updateState);
       },
 
       //
@@ -199,11 +196,16 @@ define(
           // Enable all buttons be default
           var isDisabled = false;
 
+          // Make sure the selected provider is not in maintenance
+          var selectedIdentity = stores.IdentityStore.get(this.state.identityId);
+          var isProviderInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(selectedIdentity.get('provider_id'));
+
           // Disable the launch button if the user hasn't provided a name for the instance
           var stateIsValid = this.state.instanceName &&
                              this.state.machineId &&
                              this.state.identityId &&
-                             this.state.sizeId;
+                             this.state.sizeId &&
+                             !isProviderInMaintenance;
           if(button.type === "primary" && !stateIsValid ) isDisabled = true;
 
           return (
@@ -237,7 +239,7 @@ define(
               </div>
 
               <div className='form-group'>
-                <label htmlFor='identity'>Identity</label>
+                <label htmlFor='identity'>Provider</label>
                 <IdentitySelect
                     identityId={this.state.identityId}
                     identities={this.state.identities}

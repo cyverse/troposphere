@@ -30,6 +30,10 @@ define(
         } else {
           return _messages;
         }
+      },
+
+      isProviderInMaintenance: function(providerId){
+        return _messages.where({provider_id: providerId}).length > 0;
       }
 
     };
