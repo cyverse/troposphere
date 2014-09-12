@@ -19,12 +19,12 @@ define(
       },
       {
         title: "FAQs",
-        href: "https://pods.iplantcollaborative.org/wiki/x/Iaxm",
+        href: "https://pods.iplantcollaborative.org/wiki/display/atmman/Atmosphere+FAQs",
         description: "Atmosphere's most frequently asked questions"
       },
       {
         title: "VNC Viewer Tutorial",
-        href: "https://pods.iplantcollaborative.org/wiki/x/Iaxm",
+        href: "https://pods.iplantcollaborative.org/wiki/display/atmman/Using+VNC+Viewer+to+Connect+to+an+Atmosphere+VM",
         description: "Instructions for downloading and using VNC Viewer"
       }
     ];
