@@ -53,10 +53,7 @@ define(
               <p>
                 {"You can contact the Atmosphere support staff by clicking on the "}
                 <strong>{"Feedback & Support"}</strong>
-                {" button at the bottom of the page to enter a help request online."}
-              </p>
-              <p>
-                {"Alternatively, you can also contact the support staff by sending an email to "}
+                {" button at the bottom of the page (to enter a help request online) or by sending an email to "}
                 <a href="mailto:support@iplantcollaborative.org">support@iplantcollaborative.org</a>
               </p>
             </div>
