@@ -61,9 +61,7 @@ define(
             <div className="date">
               {this.getMaintenanceDateTimeMessage(message)}
             </div>
-            <div className="message">
-              {message.get('message')}
-            </div>
+            <div className="message" dangerouslySetInnerHTML={{__html: message.get('message')}}/>
           </li>
         );
       }
