@@ -24,6 +24,7 @@ define(
         identities: stores.IdentityStore.getAll(),
         nullProject: stores.NullProjectStore.get(),
         maintenanceMessages: stores.MaintenanceMessageStore.getAll(),
+        providers: stores.ProviderStore.getAll(),
         // fetching applications here just to make the application feel more responsive
         // by the time the user navigates to the applications page
         applications: stores.ApplicationStore.getAll()
@@ -53,8 +54,9 @@ define(
         // knowing provider and identity information - provider/1/identity/2/instance)
         var identities = stores.IdentityStore.getAll();
         var maintenanceMessages = stores.MaintenanceMessageStore.getAll();
+        var providers = stores.ProviderStore.getAll();
 
-        if(profile && identities && nullProject && maintenanceMessages){
+        if(profile && identities && nullProject && maintenanceMessages && providers){
           // set user context
           context.profile = profile;
           context.nullProject = nullProject;

@@ -35,6 +35,13 @@ define(
           fetchProviders();
         }
         return _providers;
+      },
+
+      get: function (providerId) {
+        if(!_providers && !_isFetching) {
+          fetchProviders();
+        }
+        return _providers.get(providerId);
       }
     };
 
