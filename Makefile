@@ -26,7 +26,7 @@ delete-virtualenv :
 	rm -rf /opt/env/troposphere/
 
 bower-install : .bowerrc bower.json
-	$(BOWER) install
+	$(BOWER) install --config.interactive=false
 
 gulp-dev : npm bower-install
 	$(GULP)
