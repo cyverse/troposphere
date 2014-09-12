@@ -125,7 +125,7 @@ define(
 
             <div className='form-group'>
               <p>
-                {"Are you experiencing a problem with your project or it's resources? Let us know!"}
+                {"Are you experiencing a problem with your project or its resources? Let us know!"}
               </p>
               <label htmlFor='volumeSize'>Additional information</label>
               <p>
