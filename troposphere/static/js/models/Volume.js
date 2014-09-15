@@ -33,13 +33,11 @@ define(
 
         if (response.attach_data && response.attach_data.instance_alias) {
           attributes.attach_data = {
-            //attach_time: new Date(response.attach_data.attach_time),
             device: response.attach_data.device,
             instance_id: response.attach_data.instance_alias
           };
         }else{
           attributes.attach_data = {
-            //attach_time: null,
             device: null,
             instance_id: null
           };
