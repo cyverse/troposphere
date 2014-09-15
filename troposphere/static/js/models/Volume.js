@@ -31,11 +31,11 @@ define(
         attributes.start_date = new Date(attributes.start_date);
         attributes.state = new VolumeState({status_raw: attributes.status});
 
-        if (response.attach_data && response.attach_data.instanceId) {
+        if (response.attach_data && response.attach_data.instance_alias) {
           attributes.attach_data = {
             //attach_time: new Date(response.attach_data.attach_time),
             device: response.attach_data.device,
-            instance_id: response.attach_data.instanceId
+            instance_id: response.attach_data.instance_alias
           };
         }else{
           attributes.attach_data = {
