@@ -17,7 +17,7 @@ from troposphere.version import get_version
 
 
 logger = logging.getLogger(__name__)
-key = open(settings.OAUTH_PRIVATE_KEY_PATH, 'r').read()
+#key = open(settings.OAUTH_PRIVATE_KEY_PATH, 'r').read()
 cas_oauth_client = CAS_OAuthClient(settings.CAS_SERVER,
                                    settings.OAUTH_CLIENT_CALLBACK,
                                    settings.OAUTH_CLIENT_KEY,
