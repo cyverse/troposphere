@@ -17,9 +17,10 @@ define(
       parse: function(results){
         var currentDate = moment();
         results = results.filter(function(result){
+          var hasProvider = result.provider_id;
           var endDate = moment(result.end_date);
           var isCurrentOrFutureMaintenance = currentDate.diff(endDate) < 0;
-          return isCurrentOrFutureMaintenance;
+          return isCurrentOrFutureMaintenance && hasProvider;
         });
         return results;
       },
