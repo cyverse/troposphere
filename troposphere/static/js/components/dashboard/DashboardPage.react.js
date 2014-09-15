@@ -4,11 +4,9 @@ define(
   [
     'react',
     'stores',
-    './DashboardView.react',
-    'context',
-    'actions/NullProjectActions'
+    './DashboardView.react'
   ],
-  function (React, stores, DashboardView, context, NullProjectActions) {
+  function (React, stores, DashboardView) {
 
     function getState() {
         return {
@@ -45,10 +43,6 @@ define(
         stores.InstanceHistoryStore.addChangeListener(this.updateState);
         stores.MaintenanceMessageStore.addChangeListener(this.updateState);
         stores.ApplicationStore.addChangeListener(this.updateState);
-
-        if(!context.nullProject.isEmpty()){
-          NullProjectActions.migrateResourcesIntoProject(context.nullProject);
-        }
       },
 
       componentWillUnmount: function() {

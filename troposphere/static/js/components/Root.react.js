@@ -4,11 +4,13 @@ define(
   [
     'react',
     'backbone',
+    'context',
     './Header.react',
     './Footer.react',
-    'stores'
+    'stores',
+    'actions/NullProjectActions'
   ],
-  function (React, Backbone, Header, Footer, stores) {
+  function (React, Backbone, context, Header, Footer, stores, NullProjectActions) {
 
     return React.createClass({
 
@@ -18,6 +20,12 @@ define(
           React.PropTypes.string,
           React.PropTypes.array
         ])
+      },
+
+      componentDidMount: function () {
+        if(!context.nullProject.isEmpty()){
+          NullProjectActions.migrateResourcesIntoProject(context.nullProject);
+        }
       },
 
       render: function () {
