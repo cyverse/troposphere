@@ -5,10 +5,11 @@ define(
     'react',
     'backbone',
     'components/mixins/BootstrapModalMixin.react',
-    'components/modals/instance_launch/ProjectSelect.react',
-    'stores/ProjectStore'
+    'components/modals/migrate_resources/ProjectSelect.react',
+    'components/modals/migrate_resources/ResourceListItem.react',
+    'stores'
   ],
-  function (React, Backbone, BootstrapModalMixin, ProjectSelect, ProjectStore) {
+  function (React, Backbone, BootstrapModalMixin, ProjectSelect, ResourceListItem, stores) {
 
     // Example Usage from http://bl.ocks.org/insin/raw/8449696/
     // render: function(){
@@ -52,7 +53,7 @@ define(
       getInitialState: function () {
         var initialState = {
           projectName: "", //this.props.dateTimeStamp,
-          projects: ProjectStore.getAll(),
+          projects: stores.ProjectStore.getAll(),
           projectId: null
         };
 
@@ -66,7 +67,7 @@ define(
       getState: function(){
         var state = {
           projectName: this.state.projectName,
-          projects: ProjectStore.getAll(),
+          projects: stores.ProjectStore.getAll(),
           projectId: this.state.projectId
         };
 
@@ -84,11 +85,11 @@ define(
       },
 
       componentDidMount: function () {
-        ProjectStore.addChangeListener(this.updateState);
+        stores.ProjectStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
-        ProjectStore.removeChangeListener(this.updateState);
+        stores.ProjectStore.removeChangeListener(this.updateState);
       },
 
       //
@@ -146,7 +147,7 @@ define(
             var isDisabled = false;
 
             // Disable the launch button if the user hasn't provided a name, size or identity for the volume
-            var stateIsValid = !!this.state.projectName || !!this.state.projectId;
+            var stateIsValid = !!this.state.projectName || (!!this.state.projectId && this.state.projectId !== "-1");
             if (button.type === "primary" && !stateIsValid) isDisabled = true;
 
             return (
@@ -158,50 +159,48 @@ define(
 
           var resourceNames = this.props.resources.map(function (resource) {
             return (
-              <li key={resource.id}>{resource.get('name')}</li>
-              );
+              <ResourceListItem key={resource.id} resource={resource}/>
+            );
           });
-
-          var body = "Looks like you have resources that aren't in a project. Would you like to migrate them? " +
-            "This will create a new project called '" + this.props.dateTimeStamp +
-            "' and move all of these resources into that project.";
 
           var projectSelection;
           if (this.state.projects.length > 0) {
             projectSelection = (
               <div className='form-group'>
-                <p>{"Alternately, you may also move the resources into one of your existing projects by selecting one from the dropdown below."}</p>
                 <ProjectSelect projectId={this.state.projectId}
-                projects={this.state.projects}
-                onChange={this.onProjectChange}
+                               projects={this.state.projects}
+                               onChange={this.onProjectChange}
                 />
               </div>
-              );
+            );
           }
 
-          content = (
-            <form role='form'>
-
+          var newProjectCreation;
+          if(this.state.projectId === "-1"){
+            newProjectCreation = (
               <div className='form-group'>
-                <p>{"Looks like you have some resources that aren't in a project! Would you like to migrate the following resources into a project so that you can interact with them?"}</p>
-                <ul>
-                  {resourceNames}
-                </ul>
-              </div>
-
-              <div className='form-group'>
-                <label htmlFor='project'>Project</label>
-                <p>{"If you accept, a new project will be created with the following name. Feel free to change it to something more meaningful, and you can always rename the project later."}</p>
+                <label>Project Name</label>
                 <input type="text"
                        className="form-control"
                        value={this.state.projectName}
                        onChange={this.onProjectNameChange}
-                       placeholder="New project name..."
+                       placeholder="Enter project name..."
                 />
               </div>
+            )
+          }
 
+          content = (
+            <form role='form'>
+              <div className='form-group'>
+                <p>{"Looks like you have some resources that aren't in a project!"}</p>
+                <ul>
+                  {resourceNames}
+                </ul>
+                <p>{"In order to interact with your resources (such as suspending instances or attaching volumes) you will need to move them into a project.  Please select the project you would like to move them into below. You may also create a new project."}</p>
+              </div>
               {projectSelection}
-
+              {newProjectCreation}
             </form>
             );
         }else {
