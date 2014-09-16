@@ -15,6 +15,8 @@ define(
 
       $(document).ready(function () {
 
+        $('body').removeClass('splash-screen');
+
         // Start the project routers - one of them should be listening for the
         // default empty route ("")
         ApplicationRouter.start();
