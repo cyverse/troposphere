@@ -59,6 +59,8 @@ define(
 
         if(initialState.projects && initialState.projects.length > 0){
           initialState.projectId = initialState.projects.first().id;
+        }else{
+          initialState.projectId = "-1";
         }
 
         return initialState;
@@ -163,7 +165,7 @@ define(
             );
           });
 
-          var projectSelection;
+          var projectSelection, explanationText = "";
           if (this.state.projects.length > 0) {
             projectSelection = (
               <div className='form-group'>
@@ -173,6 +175,14 @@ define(
                 />
               </div>
             );
+            explanationText = "In order to interact with your resources (such as suspending instances or attaching " +
+                              "volumes) you will need to move them into a project.  Please select the project you would " +
+                              "like to move them into below. You may also create a new project."
+          }else{
+            explanationText = "In order to interact with your resources (such as suspending instances or attaching " +
+                              "volumes) you will need to move them into a project. At the moment, you don't have any " +
+                              "projects, but that's not a problem at all!  We can create your first one right here. " +
+                              "Please enter a name for your project below."
           }
 
           var newProjectCreation;
@@ -197,7 +207,7 @@ define(
                 <ul>
                   {resourceNames}
                 </ul>
-                <p>{"In order to interact with your resources (such as suspending instances or attaching volumes) you will need to move them into a project.  Please select the project you would like to move them into below. You may also create a new project."}</p>
+                <p>{explanationText}</p>
               </div>
               {projectSelection}
               {newProjectCreation}
