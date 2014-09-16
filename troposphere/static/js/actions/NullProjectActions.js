@@ -5,6 +5,8 @@ define(
     'constants/NullProjectConstants',
     'constants/NullProjectInstanceConstants',
     'constants/NullProjectVolumeConstants',
+    'constants/ProjectInstanceConstants',
+    'constants/ProjectVolumeConstants',
     './modalHelpers/NullProjectModalHelpers',
     'controllers/NotificationController',
     'actions/ProjectInstanceActions',
@@ -17,7 +19,7 @@ define(
     'models/Instance',
     'models/Volume'
   ],
-  function (React, AppDispatcher, NullProjectConstants, NullProjectInstanceConstants, NullProjectVolumeConstants, NullProjectModalHelpers, NotificationController, ProjectInstanceActions, ProjectVolumeActions, Project, ProjectConstants, ProjectActions, stores, URL, Instance, Volume) {
+  function (React, AppDispatcher, NullProjectConstants, NullProjectInstanceConstants, NullProjectVolumeConstants, ProjectInstanceConstants, ProjectVolumeConstants, NullProjectModalHelpers, NotificationController, ProjectInstanceActions, ProjectVolumeActions, Project, ProjectConstants, ProjectActions, stores, URL, Instance, Volume) {
 
     return {
 
@@ -45,6 +47,24 @@ define(
           this.dispatch(NullProjectVolumeConstants.REMOVE_VOLUME_FROM_NULL_PROJECT, {
             volume: resource
           });
+        }
+      },
+
+      _migrateResourceIntoRealProject: function(resource, oldProject, newProject){
+        ProjectActions.addResourceToProject(resource, newProject);
+
+        if(oldProject) {
+          if (resource instanceof Instance) {
+            this.dispatch(ProjectInstanceConstants.REMOVE_INSTANCE_FROM_PROJECT, {
+              instance: resource,
+              project: oldProject
+            });
+          } else if (resource instanceof Volume) {
+            this.dispatch(ProjectVolumeConstants.REMOVE_VOLUME_FROM_PROJECT, {
+              volume: resource,
+              project: oldProject
+            });
+          }
         }
       },
 
@@ -82,7 +102,7 @@ define(
             var instanceProjectId = instance.get('projects')[0];
             if(volumeProjectId !== instanceProjectId){
               var project = stores.ProjectStore.get(instanceProjectId);
-              this._migrateResourceIntoProject(volume, project);
+              this._migrateResourceIntoRealProject(volume, volumeProject, project);
               volumesInWrongProject.push({
                 volume: volume,
                 instance: instance,
