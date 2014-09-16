@@ -84,7 +84,19 @@ define(
 
             var application = stores.ApplicationStore.getApplicationWithMachine(instance.get('machine_alias'));
             var applicationUrl = application ? url.application(application) : "";
-            var applicationName = application.get('name');
+            var applicationName = application ? application.get('name') : "[image does not exist]";
+            var applicationLink;
+
+            if(application){
+              applicationLink = (
+                <a href={applicationUrl}>{applicationName}</a>
+              )
+            }else{
+              applicationLink = (
+                <strong>{applicationName}</strong>
+              )
+            }
+
             var type = stores.ProfileStore.get().get('icon_set');
 
             return (
@@ -96,7 +108,7 @@ define(
                         <Gravatar hash={instanceHistoryHash} size={iconSize} type={type}/>
                         <div className="instance-history-details">
                           <strong className="name">{instance.get('name')}</strong>
-                          <div>Launched from <a href={applicationUrl}>{applicationName}</a></div>
+                          <div>Launched from {applicationLink}</div>
                           <div>{"Ran: " + formattedStartDate + " - " + formattedEndDate}</div>
                         </div>
                         <span className="launch-info">
