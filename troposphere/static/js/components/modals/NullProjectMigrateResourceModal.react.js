@@ -138,7 +138,6 @@ define(
 
         if(this.state.projects) {
           var buttonArray = [
-            {type: 'danger', text: 'Cancel', handler: this.cancel},
             {type: 'primary', text: this.props.confirmButtonMessage, handler: this.confirm}
           ];
 
@@ -216,7 +215,6 @@ define(
               <div className="modal-dialog">
                 <div className="modal-content">
                   <div className="modal-header">
-                    {this.renderCloseButton()}
                     <strong>{this.props.header}</strong>
                   </div>
                   <div className="modal-body">

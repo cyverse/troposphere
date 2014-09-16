@@ -23,12 +23,13 @@ define(
 
         var modal = NullProjectMigrateResourceModal({
           header: "Migrate Resources",
-          confirmButtonMessage: "Yes, migrate resources into project",
+          confirmButtonMessage: "Move resources into project",
           resources: resources,
           dateTimeStamp: dateTimeStamp,
           onConfirm: options.onConfirm,
           onCancel: CommonHelpers.onCancel,
-          handleHidden: CommonHelpers.onCancel
+          handleHidden: CommonHelpers.onCancel,
+          backdrop: 'static'
         });
 
         CommonHelpers.renderComponent(modal);
