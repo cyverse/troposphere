@@ -5,9 +5,11 @@ define(
 
     // Routers
     './routers/ApplicationRouter',
-    'routers/HelpRouter'
+    'routers/HelpRouter',
+    'stores',
+    'models/Profile'
   ],
-  function ($, Backbone, ApplicationRouter, HelpRouter) {
+  function ($, Backbone, ApplicationRouter, HelpRouter, stores, Profile) {
 
     function startApplication() {
 
@@ -17,6 +19,12 @@ define(
         // default empty route ("")
         ApplicationRouter.start();
         HelpRouter.start();
+
+        // Stores
+        stores.ProfileStore = {};
+        stores.ProfileStore.get = function(){
+          return new Profile({icon_set: "default"})
+        };
 
         // For push state support:
         // Route all internal links to the Backbone router(s). External links

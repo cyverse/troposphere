@@ -23,15 +23,20 @@ define(
       },
 
       componentDidMount: function () {
-        if(!context.nullProject.isEmpty()){
-          NullProjectActions.migrateResourcesIntoProject(context.nullProject);
-        }else{
-          NullProjectActions.moveAttachedVolumesIntoCorrectProject();
+        if(context.nullProject){
+          if(!context.nullProject.isEmpty()){
+            NullProjectActions.migrateResourcesIntoProject(context.nullProject);
+          }else{
+            NullProjectActions.moveAttachedVolumesIntoCorrectProject();
+          }
         }
       },
 
       render: function () {
-        var maintenanceMessages = stores.MaintenanceMessageStore.getAll();
+        var maintenanceMessages = new Backbone.Collection();
+        if(this.props.profile) {
+          maintenanceMessages = stores.MaintenanceMessageStore.getAll();
+        }
         var marginTop = maintenanceMessages.length * 24 + "px";
 
         return (
