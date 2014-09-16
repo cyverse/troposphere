@@ -22,6 +22,7 @@ define(
       return {
         profile: stores.ProfileStore.get(),
         identities: stores.IdentityStore.getAll(),
+        projects: stores.ProjectStore.getAll(),
         nullProject: stores.NullProjectStore.get(),
         maintenanceMessages: stores.MaintenanceMessageStore.getAll(),
         providers: stores.ProviderStore.getAll(),
@@ -55,8 +56,9 @@ define(
         var identities = stores.IdentityStore.getAll();
         var maintenanceMessages = stores.MaintenanceMessageStore.getAll();
         var providers = stores.ProviderStore.getAll();
+        var projects = stores.ProjectStore.getAll();
 
-        if(profile && identities && nullProject && maintenanceMessages && providers){
+        if(profile && identities && nullProject && maintenanceMessages && providers && projects){
           // set user context
           context.profile = profile;
           context.nullProject = nullProject;
@@ -70,6 +72,7 @@ define(
         stores.IdentityStore.addChangeListener(this.updateState);
         stores.NullProjectStore.addChangeListener(this.updateState);
         stores.ApplicationStore.addChangeListener(this.updateState);
+        stores.ProjectStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
@@ -77,6 +80,7 @@ define(
         stores.IdentityStore.removeChangeListener(this.updateState);
         stores.NullProjectStore.removeChangeListener(this.updateState);
         stores.ApplicationStore.removeChangeListener(this.updateState);
+        stores.ProjectStore.removeChangeListener(this.updateState);
       },
 
       startApplication: function(){

@@ -3,10 +3,11 @@ define(
     'react',
     './CommonHelpers',
     'components/modals/NullProjectMigrateResourceModal.react',
+    'components/modals/NullProjectMoveAttachedVolumesModal.react',
     'moment',
     'underscore'
   ],
-  function (React, CommonHelpers, NullProjectMigrateResourceModal, moment, _) {
+  function (React, CommonHelpers, NullProjectMigrateResourceModal, NullProjectMoveAttachedVolumesModal, moment, _) {
 
     return {
 
@@ -28,6 +29,20 @@ define(
           onConfirm: options.onConfirm,
           onCancel: CommonHelpers.onCancel,
           handleHidden: CommonHelpers.onCancel
+        });
+
+        CommonHelpers.renderComponent(modal);
+      },
+
+      moveAttachedVolumesIntoInstanceProject: function(payload, options){
+        var movedVolumesArray = payload.movedVolumesArray;
+
+        var modal = NullProjectMoveAttachedVolumesModal({
+          header: "Move attached volumes into instance project",
+          confirmButtonMessage: "Understood",
+          movedVolumesArray: movedVolumesArray,
+          handleHidden: CommonHelpers.onCancel,
+          backdrop: 'static'
         });
 
         CommonHelpers.renderComponent(modal);

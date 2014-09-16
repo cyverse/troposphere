@@ -25,6 +25,8 @@ define(
       componentDidMount: function () {
         if(!context.nullProject.isEmpty()){
           NullProjectActions.migrateResourcesIntoProject(context.nullProject);
+        }else{
+          NullProjectActions.moveAttachedVolumesIntoCorrectProject();
         }
       },
 
