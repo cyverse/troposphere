@@ -39,8 +39,8 @@ define(
         var movedVolumesArray = payload.movedVolumesArray;
 
         var modal = NullProjectMoveAttachedVolumesModal({
-          header: "Move attached volumes into instance project",
-          confirmButtonMessage: "Understood",
+          header: "Move Volumes",
+          confirmButtonMessage: "Okay",
           movedVolumesArray: movedVolumesArray,
           handleHidden: CommonHelpers.onCancel,
           backdrop: 'static'
