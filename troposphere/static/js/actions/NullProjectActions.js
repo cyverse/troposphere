@@ -184,7 +184,7 @@ define(
               }else if(params.projectId && params.projects){
                 project = params.projects.get(params.projectId);
                 that._migrateResourcesIntoProject(resourcesClone, project);
-
+                that.moveAttachedVolumesIntoCorrectProject();
               }else{
                 throw new Error("expected either projectName OR projectId and projects parameters")
               }
