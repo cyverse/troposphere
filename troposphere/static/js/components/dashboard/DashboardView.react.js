@@ -40,7 +40,7 @@ define(
 
                 <div className="col-md-9">
 
-                  <h2>Calls to Action</h2>
+                  <h2>Getting Started</h2>
                   <div className="row calls-to-action">
                     <div className="col-md-3">
                       <CallToAction title="Launch New Instance"
