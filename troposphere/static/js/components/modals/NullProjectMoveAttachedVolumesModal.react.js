@@ -137,6 +137,15 @@ define(
         var content = (
           <form role='form'>
             <div className='form-group'>
+              <p>
+                {
+                  "Howdy! It looks like you had some volumes that were outside the project of the " +
+                  "instances they were attached to.  This can sometimes happen when switching back " +
+                  "and forth between the Atmosphere beta interface and the current interface.  No " +
+                  "worries though!  We've detected the problem and fixed it for you."
+                }
+              </p>
+              <p>{"Here are a list of the changes we've made for you:"}</p>
               <ul>
                 {this.props.movedVolumesArray.map(this.renderMovedVolume)}
               </ul>
