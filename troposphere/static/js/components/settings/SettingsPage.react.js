@@ -48,6 +48,11 @@ define(
         return
       },
 
+      onRequestMoreResources: function(e){
+        e.preventDefault();
+        alert("Requesting more resources is not yet implemented");
+      },
+
       render: function () {
         var profile = this.state.profile;
         var selectedIconSet = profile.get('settings')['icon_set'];
@@ -61,6 +66,12 @@ define(
                 <h3>Notifications</h3>
                 <div class="checkbox">
                   <input type="checkbox" checked={wantsEmails} onChange={this.onChangeEmailPreference}/> Receive an email notification when an instance finishes launching
+                </div>
+              </div>
+              <div>
+                <h3>Allocation</h3>
+                <div>
+                  <p>If you need a temporary or permanent boost in your allocation (more CPUs, etc.) you may <a href="#" onClick={this.onRequestMoreResources}>request more resources</a></p>
                 </div>
               </div>
               <div>
