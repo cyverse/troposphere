@@ -14,8 +14,22 @@ define(
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
+      getInitialState: function(){
+        return {
+          resultsPerPage: 20,
+          page: 1
+        }
+      },
+
+      onLoadMoreImages: function(){
+        this.setState({page: this.state.page + 1})
+      },
+
       render: function () {
-        var apps = this.props.applications;
+        var applications = this.props.applications;
+        var numberOfResults = this.state.page*this.state.resultsPerPage;
+        var apps = applications.first(numberOfResults);
+
         var appCards = apps.map(function (app) {
           return (
             <li key={app.id}>
@@ -25,12 +39,22 @@ define(
           );
         }.bind(this));
 
+        var loadMoreImagesButton;
+        if(numberOfResults < applications.models.length) {
+          loadMoreImagesButton = (
+            <button style={{"margin": "auto", "display": "block"}} className="btn btn-default" onClick={this.onLoadMoreImages}>
+            Show more images...
+            </button>
+          )
+        }
+
         return (
           <div>
             <h3>{this.props.title}</h3>
             <ul className='app-card-list'>
               {appCards}
             </ul>
+            {loadMoreImagesButton}
           </div>
         );
       }
