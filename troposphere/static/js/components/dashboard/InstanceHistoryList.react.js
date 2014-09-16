@@ -83,7 +83,7 @@ define(
             var iconSize = 63;
 
             var application = stores.ApplicationStore.getApplicationWithMachine(instance.get('machine_alias'));
-            var applicationUrl = url.application(application);
+            var applicationUrl = application ? url.application(application) : "";
             var applicationName = application.get('name');
             var type = stores.ProfileStore.get().get('icon_set');
 
