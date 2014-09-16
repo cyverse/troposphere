@@ -21,7 +21,7 @@ module.exports = function (gulp) {
   var rjsConfig = {
     appDir: '.tmp/',
     baseUrl: './js',
-    mainConfigFile: ".tmp/js/main.js",
+    mainConfigFile: ".tmp/js/config.js",
     dir: "troposphere/assets/",
     removeCombined: true,
     modules: [
@@ -31,7 +31,25 @@ module.exports = function (gulp) {
       {
         name: "public_site/main"
       }
-    ]
+    ],
+    paths: {
+      jquery: '../bower_components/jquery/dist/jquery',
+      backbone: '../bower_components/backbone/backbone',
+      marionette: '../bower_components/backbone.marionette/lib/core/backbone.marionette',
+      'backbone.wreqr': '../bower_components/backbone.wreqr/lib/backbone.wreqr',
+      'backbone.babysitter': '../bower_components/backbone.babysitter/lib/backbone.babysitter',
+      underscore: '../bower_components/underscore/underscore',
+      bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min',
+      moment: '../bower_components/moment/moment',
+      react: '../bower_components/react/react-with-addons',
+      chosen: '../bower_components/chosen/chosen.jquery',
+      toastr: '../bower_components/toastr/toastr',
+      q: '../bower_components/q/q',
+      highchartsBase: '../bower_components/highcharts-release/highcharts',
+      highcharts: '../bower_components/highcharts-release/highcharts-more',
+      crypto: 'lib/md5',
+      sinon: '../bower_components/sinon/lib/sinon'
+    }
   };
 
   gulp.task('rjs:dev', function (cb) {
