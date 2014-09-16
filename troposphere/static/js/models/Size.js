@@ -21,19 +21,6 @@ define(
      }
      */
 
-    var statics = {
-      format_megabytes: function (mb) {
-        var memoryScalar = mb;
-        var memoryUnits = "MB";
-        if (mb > 1024) {
-          var digits = mb % 1024 == 0 ? 0 : 1;
-          memoryScalar = (mb / 1024).toFixed(digits);
-          memoryUnits = "GB";
-        }
-        return memoryScalar + " " + memoryUnits;
-      }
-    };
-
     var Size = Base.extend({
       defaults: { 'model_name': 'size' },
 
@@ -44,8 +31,10 @@ define(
       },
 
       formattedDetails: function () {
-        var parts = [this.get('cpu') + ' CPUs',
-          Size.format_megabytes(this.get('mem')) + ' memory'];
+        var parts = [
+          this.get('cpu') + ' CPUs',
+          this.get('mem') + ' GB memory'
+        ];
         if (this.get('disk'))
           parts.push(this.get('disk') + ' GB disk');
         if (this.get('root'))
@@ -53,7 +42,7 @@ define(
 
         return this.get('name') + " (" + parts.join(', ') + ")";
       }
-    }, statics);
+    });
 
     _.extend(Size.defaults, Base.defaults);
 
