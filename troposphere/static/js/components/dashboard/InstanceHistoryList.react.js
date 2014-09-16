@@ -84,7 +84,7 @@ define(
 
             var application = stores.ApplicationStore.getApplicationWithMachine(instance.get('machine_alias'));
             var applicationUrl = application ? url.application(application) : "";
-            var applicationName = application ? application.get('name') : "[image does not exist]";
+            var applicationName = application ? application.get('name') : "[image no longer exists]";
             var applicationLink;
 
             if(application){
