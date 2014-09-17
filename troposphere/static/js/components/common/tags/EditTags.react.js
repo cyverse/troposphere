@@ -15,7 +15,7 @@ define(
 
       propTypes: {
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        activeTags: React.PropTypes.array.isRequired,
+        activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         onTagsChanged: React.PropTypes.func.isRequired,
         onEnterKeyPressed: React.PropTypes.func.isRequired
       },
@@ -67,13 +67,17 @@ define(
           );
         });
 
+        var activeTagNames = this.props.activeTags.map(function(tag){
+          return tag.get('name');
+        });
+
         return (
           <div className="tagger">
             <select name="tags"
                     data-placeholder="Select tags to add..."
                     className="form-control"
                     multiple={true}
-                    value={this.props.activeTags}
+                    value={activeTagNames}
             >
               {tags}
             </select>

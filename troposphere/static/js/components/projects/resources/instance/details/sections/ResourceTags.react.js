@@ -15,7 +15,7 @@ define(
 
       propTypes: {
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        activeTags: React.PropTypes.array.isRequired,
+        activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         onTagsChanged: React.PropTypes.func.isRequired,
         onCreateNewTag: React.PropTypes.func.isRequired
       },

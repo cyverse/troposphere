@@ -15,7 +15,7 @@ define(
     return React.createClass({
 
       propTypes: {
-        activeTags: React.PropTypes.array.isRequired,
+        activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         onTagsChanged: React.PropTypes.func.isRequired,
         onCreateNewTag: React.PropTypes.func.isRequired,
@@ -46,7 +46,7 @@ define(
       },
 
       onCreateNewEmptyTag: function(e){
-        this.props.onCreateNewTag();
+        this.props.onCreateNewTag("");
       },
 
       render: function () {
@@ -63,7 +63,7 @@ define(
 
         }else{
           link = (
-            <a className="toggle-editing-link" href="#" onClick={this.onEditTags}>Edit tags</a>
+            <a className="toggle-editing-link" href="#" onClick={this.onEditTags}>Create/Edit tags</a>
           );
         }
 

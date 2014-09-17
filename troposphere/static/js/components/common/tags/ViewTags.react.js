@@ -9,19 +9,17 @@ define(
   function (React, Backbone, Tag) {
 
     return React.createClass({
+      display: "ViewTags",
 
       propTypes: {
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        activeTags: React.PropTypes.array.isRequired
+        activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       render: function () {
-        var tags = this.props.activeTags.map(function(tagName){
-          var tag = this.props.tags.findWhere({name: tagName});
+        var tags = this.props.activeTags.map(function(tag){
           return (
-            <Tag key={tag.id}
-                 tag={tag}
-            />
+            <Tag key={tag.id || tag.cid} tag={tag}/>
           );
         }.bind(this));
 

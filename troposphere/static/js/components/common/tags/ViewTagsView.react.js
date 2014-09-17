@@ -12,7 +12,7 @@ define(
     return React.createClass({
 
       propTypes: {
-        activeTags: React.PropTypes.array.isRequired,
+        activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 

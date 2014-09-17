@@ -33,7 +33,7 @@ define(
     }
 
     function update(tag, options){
-      var existingModel = _tags.find(tag);
+      var existingModel = _tags.get(tag);
       if(!existingModel) throw new Error("Tag doesn't exist.");
       _tags.add(tag, {merge: true});
     }
