@@ -51,13 +51,12 @@ define(
       },
 
       addTagToInstance: function(tag, instance){
-        var instanceTags = instance.get('tags');
         var that = this;
-
+        var instanceTags = instance.get('tags');
         instanceTags.push(tag.get('name'));
 
-        // instance.set({tags: instanceTags});
-        // that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+        instance.set({tags: instanceTags});
+        that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
 
         instance.save({
           tags: instanceTags
