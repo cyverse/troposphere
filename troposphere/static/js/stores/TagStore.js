@@ -11,6 +11,7 @@ define(
     var _tags = null;
     var _isFetching = false;
     var _pendingInstanceTags = {};
+    var _pendingImageTags = {};
 
     //
     // CRUD Operations
@@ -51,6 +52,15 @@ define(
       _pendingInstanceTags[instance.id].remove(tag);
     }
 
+    function addPendingTagToImage(tag, image){
+      _pendingImageTags[image.id] = _pendingImageTags[image.id] || new TagCollection();
+      _pendingImageTags[image.id].add(tag);
+    }
+
+    function removePendingTagFromImage(tag, image){
+      _pendingImageTags[image.id].remove(tag);
+    }
+
     //
     // Store
     //
@@ -89,6 +99,24 @@ define(
         }
 
         return new TagCollection(instanceTagArray);
+      },
+
+      getImageTags: function (image) {
+        if(!_tags) throw new Error("Must fetch tags before calling getInstanceTags");
+
+        var imageTagArray = image.get('tags').map(function(tagName){
+          var tag = _tags.findWhere({name: tagName}, {parse: true});
+          if(!tag) throw new Error("Expected to find a tag with name '" + tagName +"'");
+          return tag;
+        });
+
+        // Add any pending tags to the result set
+        var pendingImageTags = _pendingImageTags[instance.id];
+        if(pendingImageTags){
+          imageTagArray = imageTagArray.concat(pendingImageTags.models);
+        }
+
+        return new TagCollection(imageTagArray);
       }
 
     };
@@ -117,6 +145,14 @@ define(
 
         case TagConstants.REMOVE_PENDING_TAG_FROM_INSTANCE:
           removePendingTagFromInstance(payload.tag, payload.instance);
+          break;
+
+        case TagConstants.ADD_PENDING_TAG_TO_IMAGE:
+          addPendingTagToImage(payload.tag, payload.image);
+          break;
+
+        case TagConstants.REMOVE_PENDING_TAG_FROM_IMAGE:
+          removePendingTagFromImage(payload.tag, payload.image);
           break;
 
          default:
