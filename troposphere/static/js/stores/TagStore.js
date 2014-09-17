@@ -102,7 +102,7 @@ define(
       },
 
       getImageTags: function (image) {
-        if(!_tags) throw new Error("Must fetch tags before calling getInstanceTags");
+        if(!_tags) throw new Error("Must fetch tags before calling getImageTags");
 
         var imageTagArray = image.get('tags').map(function(tagName){
           var tag = _tags.findWhere({name: tagName}, {parse: true});
@@ -111,7 +111,7 @@ define(
         });
 
         // Add any pending tags to the result set
-        var pendingImageTags = _pendingImageTags[instance.id];
+        var pendingImageTags = _pendingImageTags[image.id];
         if(pendingImageTags){
           imageTagArray = imageTagArray.concat(pendingImageTags.models);
         }

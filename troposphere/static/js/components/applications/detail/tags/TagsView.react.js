@@ -8,9 +8,10 @@ define(
     'components/common/tags/ViewTagsView.react',
     'components/common/tags/EditTagsView.react',
     'actions/ApplicationActions',
-    'actions/TagActions'
+    'actions/TagActions',
+    'stores'
   ],
-  function (React, Backbone, context, ViewTagsView, EditTagsView, ApplicationActions, TagActions) {
+  function (React, Backbone, context, ViewTagsView, EditTagsView, ApplicationActions, TagActions, stores) {
 
     return React.createClass({
 
@@ -28,7 +29,7 @@ define(
       },
 
       render: function () {
-        var applicationTags = this.props.application.get('tags');
+        var applicationTags = stores.TagStore.getImageTags(this.props.application);
 
         if(context.profile && context.profile.get('username') === this.props.application.get('created_by')){
           return (

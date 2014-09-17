@@ -30,7 +30,7 @@ define(
       render: function () {
         var app = this.props.application;
         var type = stores.ProfileStore.get().get('icon_set');
-        var tags = stores.TagStore.getImageTags(app);
+        var imageTags = stores.TagStore.getImageTags(app);
 
         var iconSize = 145;
         var icon;
@@ -68,7 +68,7 @@ define(
               {app.get('name')}
             </div>
             {bookmark}
-            <Tags activeTags={app.get('tags')}
+            <Tags activeTags={imageTags}
                   tags={this.props.tags}
             />
           </div>
