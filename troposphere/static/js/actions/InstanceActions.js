@@ -41,7 +41,7 @@ define(
         }, {
           patch: true
         }).done(function () {
-          NotificationController.success(null, "Instance name and tags updated");
+          //NotificationController.success(null, "Instance name and tags updated");
           that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
         }).fail(function () {
           var message = "Error updating Instance " + instance.get('name') + ".";
