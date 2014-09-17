@@ -30,6 +30,7 @@ define(
       render: function () {
         var app = this.props.application;
         var type = stores.ProfileStore.get().get('icon_set');
+        var tags = stores.TagStore.getImageTags(app);
 
         var iconSize = 145;
         var icon;

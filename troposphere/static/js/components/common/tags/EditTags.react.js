@@ -12,6 +12,7 @@ define(
   function (React, Backbone, TagActions) {
 
     return React.createClass({
+      display: "EditTags",
 
       propTypes: {
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,

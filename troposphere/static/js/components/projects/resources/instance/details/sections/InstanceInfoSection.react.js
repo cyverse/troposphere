@@ -17,6 +17,7 @@ define(
   function (React, Backbone, Time, EditableInputField, ResourceTags, InstanceActions, TagActions, stores) {
 
     return React.createClass({
+      display: "InstanceInfoSection",
 
       propTypes: {
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,

@@ -11,6 +11,7 @@ define(
   function (React, Backbone) {
 
     return React.createClass({
+      display: "Tag",
 
       propTypes: {
         tag: React.PropTypes.instanceOf(Backbone.Model).isRequired

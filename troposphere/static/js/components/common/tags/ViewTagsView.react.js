@@ -10,6 +10,7 @@ define(
   function (React, Backbone, context, ViewTags) {
 
     return React.createClass({
+      display: "ViewTagsView",
 
       propTypes: {
         activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
