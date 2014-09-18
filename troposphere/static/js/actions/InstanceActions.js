@@ -10,9 +10,10 @@ define(
     'url',
     './modalHelpers/InstanceModalHelpers',
     'controllers/NotificationController',
-    'actions/ProjectInstanceActions'
+    'actions/ProjectInstanceActions',
+    'stores'
   ],
-  function (AppDispatcher, InstanceConstants, ProjectInstanceConstants, Instance, InstanceState, globals, context, URL, InstanceModalHelpers, NotificationController, ProjectInstanceActions) {
+  function (AppDispatcher, InstanceConstants, ProjectInstanceConstants, Instance, InstanceState, globals, context, URL, InstanceModalHelpers, NotificationController, ProjectInstanceActions, stores) {
 
     return {
 
@@ -95,14 +96,22 @@ define(
         var project = payload.project;
         var that = this;
 
-        InstanceModalHelpers.terminate({
-          instance: instance
-        },{
-          onConfirm: function () {
-            that._terminate(payload, options);
-            if(redirectUrl) Backbone.history.navigate(redirectUrl, {trigger: true});
-          }
-        });
+        var attachedVolumes = stores.VolumeStore.getVolumesAttachedToInstance(instance);
+        if(attachedVolumes.length > 0){
+          var volumesNames = attachedVolumes.reduce(function(previousVolume, currentVolume, index, array) {
+            return previousVolume + "," + currentVolume.get('name');
+          }, "");
+          alert("can not delete instance, volumes attached: " + volumesNames)
+        }else{
+          InstanceModalHelpers.terminate({
+            instance: instance
+          },{
+            onConfirm: function () {
+              that._terminate(payload, options);
+              if(redirectUrl) Backbone.history.navigate(redirectUrl, {trigger: true});
+            }
+          });
+        }
       },
 
       terminate_noModal: function(payload, options){
