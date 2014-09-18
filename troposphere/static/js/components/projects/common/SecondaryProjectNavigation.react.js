@@ -5,9 +5,10 @@ define(
     'react',
     'backbone',
     'components/common/SecondaryNavigation.react',
-    'actions/ProjectActions'
+    'actions/ProjectActions',
+    'stores'
   ],
-  function (React, Backbone, SecondaryNavigation, ProjectActions) {
+  function (React, Backbone, SecondaryNavigation, ProjectActions, stores) {
 
     return React.createClass({
 
@@ -22,7 +23,15 @@ define(
 
       onDeleteProject: function(e){
         e.preventDefault();
-        ProjectActions.destroy(this.props.project);
+
+        var projectInstances = stores.InstanceStore.getInstancesInProject(this.props.project);
+        var projectVolumes = stores.VolumeStore.getVolumesInProject(this.props.project);
+
+        if(projectInstances.length > 0 || projectVolumes.length > 0){
+          ProjectActions.explainProjectDeleteConditions();
+        }else{
+          ProjectActions.destroy(this.props.project);
+        }
       },
 
       render: function () {

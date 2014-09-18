@@ -107,6 +107,14 @@ define(
         });
       },
 
+      // --------------------
+      // Informational Actions
+      // --------------------
+
+      explainProjectDeleteConditions: function(){
+        ProjectModalHelpers.explainProjectDeleteConditions();
+      },
+
       // ----------------------
       // Move Project Resources
       // ----------------------

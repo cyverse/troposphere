@@ -6,9 +6,10 @@ define(
     'components/modals/ProjectMoveResourceModal.react',
     'components/modals/ProjectDeleteResourceModal.react',
     'components/modals/ProjectCreateModal.react',
-    'components/modals/ProjectRemoveResourceModal.react'
+    'components/modals/ProjectRemoveResourceModal.react',
+    'components/modals/ProjectDeleteConditionsModal.react'
   ],
-  function (React, CommonHelpers, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectCreateModal, ProjectRemoveResourceModal) {
+  function (React, CommonHelpers, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectCreateModal, ProjectRemoveResourceModal, ProjectDeleteConditionsModal) {
 
     return {
 
@@ -95,6 +96,17 @@ define(
           onCancel: CommonHelpers.onCancel,
           handleHidden: CommonHelpers.onCancel,
           resources: resources
+        });
+
+        CommonHelpers.renderComponent(modal);
+      },
+
+      explainProjectDeleteConditions: function(){
+
+        var modal = ProjectDeleteConditionsModal({
+          header: "Project Delete Conditions",
+          confirmButtonMessage: "Okay",
+          handleHidden: CommonHelpers.onCancel
         });
 
         CommonHelpers.renderComponent(modal);

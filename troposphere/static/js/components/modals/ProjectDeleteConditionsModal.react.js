@@ -49,45 +49,6 @@ define(
       },
 
       //
-      // Render Helpers
-      // --------------
-      //
-
-      renderMovedVolume: function(movedVolumeData){
-        var volume = movedVolumeData.volume;
-        var instance = movedVolumeData.instance;
-        var oldProject = movedVolumeData.oldProject;
-        var newProject = movedVolumeData.newProject;
-        var message;
-
-        if(oldProject){
-          message = (
-            <div>
-              <span>{"Moved the volume "}</span>
-              <strong>{volume.get('name')}</strong>
-              <span>{" from the project "}</span>
-              <strong>{oldProject.get('name')}</strong>
-              <span>{" and into the project "}</span>
-              <strong>{newProject.get('name')}</strong>
-            </div>
-          );
-        }else{
-          message = (
-            <div>
-              <span>{"Moved the volume "}</span>
-              <strong>{volume.get('name')}</strong>
-              <span>{" into the project "}</span>
-              <strong>{newProject.get('name')}</strong>
-            </div>
-          );
-        }
-
-        return (
-          <li>{message}</li>
-        )
-      },
-
-      //
       // Render
       // ------
       //
@@ -115,18 +76,18 @@ define(
         var content = (
           <form role='form'>
             <div className='form-group'>
-              <p>
+              <p className="alert alert-info">
+                <i className="glyphicon glyphicon-info-sign"/>
+                <strong>Uh-oh! </strong>
                 {
-                  "Howdy! It looks like you had some volumes that were outside the project of the " +
-                  "instances they were attached to.  This can sometimes happen when switching back " +
-                  "and forth between the Atmosphere beta interface and the current interface.  No " +
-                  "worries though!  We've detected the problem and fixed it for you."
+                  "It looks like you're trying to delete this project. However, we don't currently support " +
+                  "deleting projects that have resources in them."
                 }
               </p>
-              <p>{"Here are a list of the changes we've made for you:"}</p>
-              <ul>
-                {this.props.movedVolumesArray.map(this.renderMovedVolume)}
-              </ul>
+              <p>
+                Before you can delete this project, you first need to either <strong>DELETE</strong> all resources in this project <span style={{"text-decoration":"underline"}}>or</span> <strong>MOVE</strong> them into another project.
+              </p>
+              <p>Once there are no resources left in the project, you'll be able to delete it.</p>
             </div>
           </form>
         );
