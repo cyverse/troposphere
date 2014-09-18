@@ -12,9 +12,13 @@ define(
     './tableData/volume/Name.react',
     './tableData/volume/Status.react',
     './tableData/volume/Size.react',
-    './tableData/volume/Provider.react'
+    './tableData/volume/Provider.react',
+
+    'stores',
+    'crypto',
+    'components/common/Gravatar.react'
   ],
-  function (React, Backbone, SelectableRow, Name, Status, Size, Provider) {
+  function (React, Backbone, SelectableRow, Name, Status, Size, Provider, stores, CryptoJS, Gravatar) {
 
     return React.createClass({
       displayName: "VolumeRow",
@@ -32,8 +36,12 @@ define(
       },
 
       render: function () {
-        var project = this.props.project,
-            volume = this.props.volume;
+        var project = this.props.project;
+        var volume = this.props.volume;
+
+        var instanceHash = CryptoJS.MD5(volume.id).toString();
+        var type = stores.ProfileStore.get().get('icon_set');
+        var iconSize = 18;
 
         return (
           <SelectableRow isActive={this.props.isPreviewed}
@@ -42,7 +50,8 @@ define(
                          onResourceDeselected={this.props.onResourceDeselected}
                          resource={volume}
           >
-            <td>
+            <td className="image-preview">
+              <Gravatar hash={instanceHash} size={iconSize} type={type}/>
               <Name project={project} volume={volume}/>
             </td>
             <td>

@@ -13,9 +13,13 @@ define(
     './tableData/instance/Status.react',
     './tableData/instance/IpAddress.react',
     './tableData/instance/Size.react',
-    './tableData/instance/Provider.react'
+    './tableData/instance/Provider.react',
+
+    'stores',
+    'crypto',
+    'components/common/Gravatar.react'
   ],
-  function (React, Backbone, SelectableRow, Name, Status, IpAddress, Size, Provider) {
+  function (React, Backbone, SelectableRow, Name, Status, IpAddress, Size, Provider, stores, CryptoJS, Gravatar) {
 
     return React.createClass({
 
@@ -31,8 +35,12 @@ define(
       },
 
       render: function () {
-        var project = this.props.project,
-            instance = this.props.instance;
+        var project = this.props.project;
+        var instance = this.props.instance;
+
+        var instanceHash = CryptoJS.MD5(instance.id).toString();
+        var type = stores.ProfileStore.get().get('icon_set');
+        var iconSize = 18;
 
         return (
           <SelectableRow isActive={this.props.isPreviewed}
@@ -41,10 +49,8 @@ define(
                          onResourceDeselected={this.props.onResourceDeselected}
                          resource={this.props.instance}
           >
-            <td>
-              <img src="//www.gravatar.com/avatar/918bf82f238c6c264fc7701e1ff61363?d=identicon&amp;s=18"
-                   style={{"margin-right":"5px", "padding-bottom":"0px", "margin-top":"-5px;"}}
-              />
+            <td className="image-preview">
+              <Gravatar hash={instanceHash} size={iconSize} type={type}/>
               <Name project={project} instance={instance}/>
             </td>
             <td>
