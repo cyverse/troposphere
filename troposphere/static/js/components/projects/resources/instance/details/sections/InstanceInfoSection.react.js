@@ -10,11 +10,13 @@ define(
     'actions/InstanceActions',
     'actions/TagActions',
     'stores',
+    'crypto',
+    'components/common/Gravatar.react',
 
     // jQuery plugins: need to make sure they're loaded, but they aren't called directly
     'chosen'
   ],
-  function (React, Backbone, Time, EditableInputField, ResourceTags, InstanceActions, TagActions, stores) {
+  function (React, Backbone, Time, EditableInputField, ResourceTags, InstanceActions, TagActions, stores, CryptoJS, Gravatar) {
 
     return React.createClass({
       display: "InstanceInfoSection",
@@ -75,11 +77,15 @@ define(
           );
         }
 
+        var instanceHash = CryptoJS.MD5(this.props.instance.id).toString();
+        var type = stores.ProfileStore.get().get('icon_set');
+        var iconSize = 113;
+
         return (
           <div className="resource-info-section section clearfix">
 
             <div className="resource-image">
-              <img src="//www.gravatar.com/avatar/918bf82f238c6c264fc7701e1ff61363?d=identicon&amp;s=113" width="113" height="113"/>
+              <Gravatar hash={instanceHash} size={iconSize} type={type}/>
             </div>
 
             <div className="resource-info">
