@@ -42,6 +42,9 @@ define(
                          resource={this.props.instance}
           >
             <td>
+              <img src="//www.gravatar.com/avatar/918bf82f238c6c264fc7701e1ff61363?d=identicon&amp;s=18"
+                   style={{"margin-right":"5px", "padding-bottom":"0px", "margin-top":"-5px;"}}
+              />
               <Name project={project} instance={instance}/>
             </td>
             <td>
