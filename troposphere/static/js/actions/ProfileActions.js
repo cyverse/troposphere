@@ -29,7 +29,7 @@ define(
         that.dispatch(ProfileConstants.UPDATE_PROFILE, {profile: profile});
 
         profile.save(newAttributes, {patch: true}).done(function () {
-          NotificationController.success(null, "Settings updated.");
+          //NotificationController.success(null, "Settings updated.");
           that.dispatch(ProfileConstants.UPDATE_PROFILE, {profile: profile});
         }).fail(function () {
           NotificationController.error(null, "Error updating Settings");
