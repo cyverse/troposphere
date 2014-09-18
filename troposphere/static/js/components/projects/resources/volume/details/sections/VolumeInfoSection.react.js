@@ -6,9 +6,12 @@ define(
     'backbone',
     'components/common/Time.react',
     'components/common/EditableInputField.react',
-    'actions/VolumeActions'
+    'actions/VolumeActions',
+    'stores',
+    'crypto',
+    'components/common/Gravatar.react'
   ],
-  function (React, Backbone, Time, EditableInputField, VolumeActions) {
+  function (React, Backbone, Time, EditableInputField, VolumeActions, stores, CryptoJS, Gravatar) {
 
     return React.createClass({
 
@@ -56,11 +59,15 @@ define(
           );
         }
 
+        var instanceHash = CryptoJS.MD5(this.props.volume.id).toString();
+        var type = stores.ProfileStore.get().get('icon_set');
+        var iconSize = 113;
+
         return (
           <div className="resource-info-section section clearfix">
 
             <div className="resource-image">
-              <img src="//www.gravatar.com/avatar/918bf82f238c6c264fc7701e1ff61363?d=identicon&amp;s=113" width="113" height="113"/>
+              <Gravatar hash={instanceHash} size={iconSize} type={type}/>
             </div>
 
             <div className="resource-info">
