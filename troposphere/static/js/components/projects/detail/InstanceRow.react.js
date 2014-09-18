@@ -42,6 +42,13 @@ define(
         var type = stores.ProfileStore.get().get('icon_set');
         var iconSize = 18;
 
+        var gravatar;
+        if(false){
+          gravatar = (
+            <Gravatar hash={instanceHash} size={iconSize} type={type}/>
+          )
+        }
+
         return (
           <SelectableRow isActive={this.props.isPreviewed}
                          isSelected={this.props.isChecked}
@@ -50,7 +57,7 @@ define(
                          resource={this.props.instance}
           >
             <td className="image-preview">
-              <Gravatar hash={instanceHash} size={iconSize} type={type}/>
+              {gravatar}
               <Name project={project} instance={instance}/>
             </td>
             <td>
