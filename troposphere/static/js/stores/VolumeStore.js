@@ -142,6 +142,17 @@ define(function (require) {
       }
 
       return new VolumeCollection(projectVolumeArray);
+    },
+
+    getVolumesAttachedToInstance: function (instance) {
+      var attachedVolumes = [];
+      _volumes.each(function(volume){
+        var attachData = volume.get('attach_data');
+        if(attachData.instance_id && attachData.instance_id === instance.id){
+          attachedVolumes.push(volume);
+        }
+      });
+      return attachedVolumes;
     }
 
   };
