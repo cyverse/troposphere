@@ -58,7 +58,7 @@ define(
             that.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
 
             project.save().done(function(){
-              NotificationController.success(null, "Project " + project.get('name') + " created.");
+              //NotificationController.success(null, "Project " + project.get('name') + " created.");
               that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
             }).fail(function(){
               var message = "Error creating Project " + project.get('name') + ".";
@@ -78,7 +78,7 @@ define(
         that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
 
         project.save().done(function(){
-          NotificationController.success(null, "Project name updated.");
+          //NotificationController.success(null, "Project name updated.");
         }).fail(function(){
           NotificationController.error(null, "Error updating Project " + project.get('name') + ".");
           that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
@@ -94,7 +94,7 @@ define(
             that.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
 
             project.destroy().done(function(){
-              NotificationController.success(null, "Project " + project.get('name') + " deleted.");
+              //NotificationController.success(null, "Project " + project.get('name') + " deleted.");
             }).fail(function(){
               var failureMessage = "Error deleting Project " + project.get('name') + ".";
               NotificationController.error(failureMessage);
