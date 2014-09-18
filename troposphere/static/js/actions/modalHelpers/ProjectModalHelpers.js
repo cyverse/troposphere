@@ -7,9 +7,10 @@ define(
     'components/modals/ProjectDeleteResourceModal.react',
     'components/modals/ProjectCreateModal.react',
     'components/modals/ProjectRemoveResourceModal.react',
-    'components/modals/ProjectDeleteConditionsModal.react'
+    'components/modals/ProjectDeleteConditionsModal.react',
+    'components/modals/ProjectDeleteBody.react'
   ],
-  function (React, CommonHelpers, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectCreateModal, ProjectRemoveResourceModal, ProjectDeleteConditionsModal) {
+  function (React, CommonHelpers, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectCreateModal, ProjectRemoveResourceModal, ProjectDeleteConditionsModal, ProjectDeleteBody) {
 
     return {
 
@@ -32,11 +33,12 @@ define(
 
         var project = payload.project;
 
-        var body = 'Are you sure you would like to delete project "' + project.get('name') + '"?';
+        //var body = 'Are you sure you want to delete the project <strong>HTML TEST</strong>"' + project.get('name') + '"?';
+        var body = ProjectDeleteBody.build(project);
 
         var modal = CancelConfirmModal({
           header: "Delete Project",
-          confirmButtonMessage: "Delete project",
+          confirmButtonMessage: "Yes, delete the project",
           body: body,
           onConfirm: options.onConfirm,
           onCancel: CommonHelpers.onCancel,
