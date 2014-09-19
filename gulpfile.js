@@ -1,6 +1,5 @@
 var gulp = require('gulp');
 var gutil = require('gulp-util');
-var mochaPhantomJs = require('gulp-mocha-phantomjs');
 var runSequence = require('run-sequence');
 
 // Styles
@@ -46,10 +45,4 @@ gulp.task('prod', function () {
     'rjs:prod'
   );
 
-});
-
-gulp.task('mocha', function() {
-  // todo: figure out how to turn off image loading ({loadImages: false})?
-  return gulp.src('tests/test.html')
-             .pipe(mochaPhantomJs());
 });
