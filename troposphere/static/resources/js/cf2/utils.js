@@ -268,10 +268,9 @@ Atmo.Utils.attach_volume = function(volume, instance, mount_location, options) {
 
     volume.attach_to(instance, mount_location, {
         success: function(response_text) {
+            var mount_location = volume.get('attach_data_device');
             var header = "Volume Successfully Attached";
-            var body = 'You must <a href="https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachinganEBSVolumetoanInstance-Step6%3AMountthefilesystemonthepartition." target="_blank">mount the volume</a> you before you can use it.<br />';
-            body += 'If the volume is new, you will need to <a href="https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachinganEBSVolumetoanInstance-Step5%3ACreatethefilesystem%28onetimeonly%29." target="_blank">create the file system</a> first.';
-
+            var body = 'The volume was mounted to the instance at ' + mount_location + '. You may want to <a href="https://pods.iplantcollaborative.org/wiki/display/atmman/Attaching+a+Volume+to+an+Instance" target="_blank">change permissions on the mounted partition</a> in order to grant your user write access to the volume.';
 
             Atmo.Utils.notify(header, body, { no_timeout: true });
             if (options.success)
