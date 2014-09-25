@@ -7,9 +7,12 @@ define(
     './routers/ApplicationRouter',
     'routers/HelpRouter',
     'stores',
-    'models/Profile'
+    'models/Profile',
+
+    // stores
+    'stores/TagStore'
   ],
-  function ($, Backbone, ApplicationRouter, HelpRouter, stores, Profile) {
+  function ($, Backbone, ApplicationRouter, HelpRouter, stores, Profile, TagStore) {
 
     function startApplication() {
 
@@ -27,6 +30,8 @@ define(
         stores.ProfileStore.get = function(){
           return new Profile({icon_set: "default"})
         };
+
+        stores.TagStore = TagStore;
 
         // For push state support:
         // Route all internal links to the Backbone router(s). External links
