@@ -178,7 +178,7 @@ define(
               </div>
 
               <div className='form-group'>
-                <label htmlFor='identity'>Identity</label>
+                <label htmlFor='identity'>Provider</label>
                 <IdentitySelect
                     identityId={this.state.identityId}
                     identities={this.state.identities}
