@@ -9,9 +9,10 @@ define(
     'models/Volume',
     'models/VolumeState',
     'actions/ProjectVolumeActions',
-    'components/notifications/VolumeAttachNotifications.react'
+    'components/notifications/VolumeAttachNotifications.react',
+    'stores'
   ],
-  function (React, AppDispatcher, VolumeConstants, ProjectVolumeConstants, VolumeModalHelpers, NotificationController, Volume, VolumeState, ProjectVolumeActions, VolumeAttachNotifications) {
+  function (React, AppDispatcher, VolumeConstants, ProjectVolumeConstants, VolumeModalHelpers, NotificationController, Volume, VolumeState, ProjectVolumeActions, VolumeAttachNotifications, stores) {
 
     return {
 
@@ -50,28 +51,35 @@ define(
       attach: function(volume, project){
         var that = this;
 
-        VolumeModalHelpers.attach({
-          volume: volume,
-          project: project
-        },{
-          onConfirm: function (instance, mountLocation) {
+        var instances = stores.InstanceStore.getInstancesInProject(project);
+        if(instances.length === 0){
+          VolumeModalHelpers.explainAttachRules();
+        }else{
+          VolumeModalHelpers.attach({
+            volume: volume,
+            project: project
+          },{
+            onConfirm: function (instance, mountLocation) {
 
-            var volumeState = new VolumeState({status_raw: "attaching"});
-            volume.set({state: volumeState});
-            that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+              var volumeState = new VolumeState({status_raw: "attaching"});
+              volume.set({state: volumeState});
+              that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
 
-            volume.attachTo(instance, mountLocation, {
-              success: function () {
-                NotificationController.success(null, VolumeAttachNotifications.success());
-                that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
-              },
-              error: function () {
-                var message = "Volume could not be attached. " + VolumeAttachNotifications.error();
-                NotificationController.error(null, message);
-              }
-            });
-          }
-        });
+              volume.attachTo(instance, mountLocation, {
+                success: function () {
+                  NotificationController.success(null, VolumeAttachNotifications.success());
+                  that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+                },
+                error: function () {
+                  var message = "Volume could not be attached. " + VolumeAttachNotifications.error();
+                  NotificationController.error(null, message);
+                }
+              });
+            }
+          });
+        }
+
+
       },
 
       detach: function (volume) {

@@ -134,6 +134,7 @@ define(
         if(this.state.instances){
           content = (
             <form role='form'>
+              <p>Select the instance from the list below that you would like to attach the volume to:</p>
 
               <div className='form-group'>
                 <label htmlFor='instance'>Instance</label>

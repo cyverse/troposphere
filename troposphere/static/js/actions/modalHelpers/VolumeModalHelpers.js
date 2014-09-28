@@ -6,9 +6,10 @@ define(
     'components/modals/VolumeDetachBody.react',
     'components/modals/VolumeDestroyBody.react',
     'components/modals/VolumeAttachModal.react',
-    'components/modals/VolumeCreateModal.react'
+    'components/modals/VolumeCreateModal.react',
+    'components/modals/VolumeAttachRulesModal.react'
   ],
-  function (React, CommonHelpers, CancelConfirmModal, VolumeDetachBody, VolumeDestroyBody, VolumeAttachModal, VolumeCreateModal) {
+  function (React, CommonHelpers, CancelConfirmModal, VolumeDetachBody, VolumeDestroyBody, VolumeAttachModal, VolumeCreateModal, VolumeAttachRulesModal) {
 
     return {
 
@@ -62,6 +63,18 @@ define(
           onConfirm: options.onConfirm,
           onCancel: CommonHelpers.onCancel,
           handleHidden: CommonHelpers.onCancel
+        });
+
+        CommonHelpers.renderComponent(modal);
+      },
+
+      explainAttachRules: function(payload, options){
+
+        var modal = VolumeAttachRulesModal({
+          header: "Volume Attach Rules",
+          confirmButtonMessage: "Okay",
+          handleHidden: CommonHelpers.onCancel,
+          backdrop: 'static'
         });
 
         CommonHelpers.renderComponent(modal);
