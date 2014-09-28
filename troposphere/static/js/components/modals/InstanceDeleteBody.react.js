@@ -16,7 +16,7 @@ define(
               <strong>WARNING</strong>
               {
                 ' Unmount volumes within your instance ' +
-                'before terminating or risk corrupting your data and the volume'
+                'before deleting the instance or risk corrupting your data and the volume'
               }
             </p>
             <p>
@@ -28,7 +28,7 @@ define(
               <em>Note:</em>
               {
                 ' Your resource usage charts will not reflect changes until the ' +
-                'instance is completely terminated and has disappeared ' +
+                'instance is completely deleted and has disappeared ' +
                 'from your list of instances.'
               }
             </p>
