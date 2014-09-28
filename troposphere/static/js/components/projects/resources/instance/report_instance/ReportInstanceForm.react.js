@@ -89,6 +89,9 @@ define(
       },
 
       render: function () {
+        var stateIsValid = !!this.state.details && this.state.details.length > 0;
+        var isDisabled = !stateIsValid;
+
         return (
           <form role="form" onSubmit={this.handleSubmit}>
             <div className="form-group">
@@ -106,7 +109,7 @@ define(
               </label>
               <textarea className="form-control" onChange={this.updateDetails} rows="6"/>
             </div>
-            <button type="submit" className="btn btn-primary">Submit</button>
+            <button type="submit" className="btn btn-primary" disabled={isDisabled}>Submit</button>
           </form>
           );
       }
