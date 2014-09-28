@@ -19,8 +19,8 @@ define(
         var volume = payload.volume;
 
         var modal = CancelConfirmModal({
-          header: "Are you sure you want to terminate this instance?",
-          confirmButtonMessage: "Yes, terminate this instance",
+          header: "Delete Volume",
+          confirmButtonMessage: "Yes, delete this volume",
           body: VolumeDestroyBody.build(volume),
           onConfirm: options.onConfirm,
           onCancel: CommonHelpers.onCancel,

@@ -9,11 +9,19 @@ define(
 
     return {
       build: function(volume){
+        var volumeName = volume.get('name');
         return (
           <div>
-            {"Your volume "}
-            <strong>{volume.get('name')}</strong>
-            {" will be destroyed and all data will be permanently lost!"}
+            <p>
+              {"Are you sure you want to delete the volume "}
+              <strong>{volumeName}</strong>
+              {"?"}
+            </p>
+            <p>
+              {"The volume will be destroyed and "}
+              <strong style={{"text-decoration":"underline"}}>all data will be permanently lost</strong>
+              {"."}
+            </p>
           </div>
         );
       }
