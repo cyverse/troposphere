@@ -35,12 +35,10 @@ define(
 
         var volume = payload.volume;
 
-        var headerMessage = "Detach volume " + volume.get('name') + "?";
-
         var modal = CancelConfirmModal({
-          header: headerMessage,
-          confirmButtonMessage: "Yes, detach this volume",
-          body: VolumeDetachBody.build(),
+          header: "Detach Volume",
+          confirmButtonMessage: "Yes, detach the volume",
+          body: VolumeDetachBody.build(volume),
           onConfirm: options.onConfirm,
           onCancel: CommonHelpers.onCancel,
           handleHidden: CommonHelpers.onCancel
