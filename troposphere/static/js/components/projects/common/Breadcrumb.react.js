@@ -19,11 +19,14 @@ define(
 
         if(this.props.isCurrentLocation){
           return (
-            <span style={{color: "#56AA21"}}>{breadcrumb.name}</span>
+            <span>{breadcrumb.name}</span>
           );
         }else {
           return (
-            <a style={{color: "#333"}} href={breadcrumb.url}>{breadcrumb.name + " > "}</a>
+            <span className="breadcrumb">
+              <a href={breadcrumb.url}>{breadcrumb.name}</a>
+              <span>{" > "}</span>
+            </span>
           );
         }
       }
