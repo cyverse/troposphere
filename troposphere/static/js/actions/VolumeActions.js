@@ -12,7 +12,7 @@ define(
     'stores',
 
     // Modals
-    './modalHelpers/CommonHelpers',
+    'components/modals/ModalHelpers',
     'components/modals/volume/VolumeAttachRulesModal.react',
     'components/modals/volume/VolumeAttachModal.react',
     'components/modals/volume/VolumeDetachModal.react',

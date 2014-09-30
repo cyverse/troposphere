@@ -23,7 +23,7 @@ define(
     'actions/ProjectVolumeActions',
 
     // Modals
-    './modalHelpers/CommonHelpers',
+    'components/modals/ModalHelpers',
     'components/modals/project/ProjectCreateModal.react',
     'components/modals/project/ProjectDeleteModal.react',
     'components/modals/project/ProjectDeleteConditionsModal.react',

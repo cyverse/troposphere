@@ -5,7 +5,7 @@ define(
     'constants/TagConstants',
     'models/Tag',
     'actions/InstanceActions',
-    './modalHelpers/CommonHelpers',
+    'components/modals/ModalHelpers',
     'components/modals/tag/TagCreateModal.react'
   ],
   function (React, AppDispatcher, TagConstants, Tag, InstanceActions, ModalHelpers, TagCreateModal) {

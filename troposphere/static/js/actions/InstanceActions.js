@@ -13,7 +13,7 @@ define(
     'stores',
 
     // Modals
-    './modalHelpers/CommonHelpers',
+    'components/modals/ModalHelpers',
     'components/modals/instance/InstanceSuspendModal.react',
     'components/modals/instance/InstanceDeleteModal.react',
     'components/modals/instance/InstanceResumeModal.react',
