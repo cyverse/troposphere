@@ -65,8 +65,6 @@ define(
             });
           }
         });
-
-
       },
 
       updateProjectAttributes: function (project, newAttributes) {

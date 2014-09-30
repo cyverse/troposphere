@@ -8,9 +8,9 @@ define(
     'components/modals/project/ProjectCreateModal.react',
     'components/modals/project/ProjectRemoveResourceModal.react',
     'components/modals/project/ProjectDeleteConditionsModal.react',
-    'components/modals/project/ProjectDeleteBody.react'
+    'components/modals/project/ProjectDeleteModal.react'
   ],
-  function (React, CommonHelpers, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectCreateModal, ProjectRemoveResourceModal, ProjectDeleteConditionsModal, ProjectDeleteBody) {
+  function (React, CommonHelpers, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectCreateModal, ProjectRemoveResourceModal, ProjectDeleteConditionsModal, ProjectDeleteModal) {
 
     return {
 
@@ -28,16 +28,10 @@ define(
 
       destroy: function (payload, options) {
         if(!options.onConfirm) throw new Error("Must supply options.onConfirm callback");
+        if(!payload.project) throw new Error("Must supply project in payload");
 
-        var project = payload.project;
-
-        //var body = 'Are you sure you want to delete the project <strong>HTML TEST</strong>"' + project.get('name') + '"?';
-        var body = ProjectDeleteBody.build(project);
-
-        var modal = CancelConfirmModal({
-          header: "Delete Project",
-          confirmButtonMessage: "Yes, delete the project",
-          body: body,
+        var modal = ProjectDeleteModal({
+          project: payload.project,
           onConfirm: options.onConfirm,
           onCancel: CommonHelpers.onCancel,
           handleHidden: CommonHelpers.onCancel
