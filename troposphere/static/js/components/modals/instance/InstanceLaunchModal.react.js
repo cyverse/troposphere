@@ -87,7 +87,7 @@ define(
         var hasImageVersion          = !!this.state.machineId;
         var hasProvider              = !!this.state.identityId;
         var hasSize                  = !!this.state.sizeId;
-        var providerNotInMaintenance = !!isProviderInMaintenance;
+        var providerNotInMaintenance = !isProviderInMaintenance;
 
         return hasInstanceName && hasImageVersion && hasProvider && hasSize && providerNotInMaintenance;
       },
