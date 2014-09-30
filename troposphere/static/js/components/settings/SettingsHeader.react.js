@@ -10,8 +10,7 @@ define(
     return React.createClass({
 
       propTypes: {
-        title: React.PropTypes.string.isRequired,
-        children: React.PropTypes.component
+
       },
 
       render: function () {
