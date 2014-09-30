@@ -72,7 +72,7 @@ define(
       // ------
       //
 
-      renderResources: function(resource){
+      renderResource: function(resource){
         return (
           <li key={resource.id}>{resource.get('name')}</li>
         );

@@ -16,6 +16,10 @@ define(
         resources: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
+      isSubmittable: function(){
+        return true;
+      },
+
       //
       // Internal Modal Callbacks
       // ------------------------

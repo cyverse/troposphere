@@ -2,36 +2,37 @@ define(
   [
     'react',
     'dispatchers/AppDispatcher',
+
+    // Constants
     'constants/ProjectConstants',
-    'constants/ProjectInstanceConstants',
-    'constants/ProjectVolumeConstants',
-    'constants/InstanceConstants',
-    'constants/VolumeConstants',
-    'components/modals/CancelConfirmModal.react',
-    'components/modals/project/ProjectReportResourceModal.react',
+    'constants/NullProjectInstanceConstants',
+    'constants/NullProjectVolumeConstants',
+
+    // Models
     'models/Instance',
     'models/Volume',
     'models/Project',
+
     'url',
-    './modalHelpers/ProjectModalHelpers',
     'controllers/NotificationController',
-    'stores/helpers/ProjectInstance',
-    'stores/helpers/ProjectVolume',
+
+    // Actions
     'actions/InstanceActions',
     'actions/VolumeActions',
     'actions/ProjectInstanceActions',
     'actions/ProjectVolumeActions',
-    'constants/NullProjectInstanceConstants',
-    'constants/NullProjectVolumeConstants',
+
+    // Modals
     './modalHelpers/CommonHelpers',
     'components/modals/project/ProjectCreateModal.react',
     'components/modals/project/ProjectDeleteModal.react',
     'components/modals/project/ProjectDeleteConditionsModal.react',
     'components/modals/project/ProjectMoveResourceModal.react',
     'components/modals/project/ProjectDeleteResourceModal.react',
-    'components/modals/project/ProjectRemoveResourceModal.react'
+    'components/modals/project/ProjectRemoveResourceModal.react',
+    'components/modals/project/ProjectReportResourceModal.react'
   ],
-  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, InstanceConstants, VolumeConstants, CancelConfirmModal, ProjectReportResourceModal, Instance, Volume, Project, URL, ProjectModalHelpers, NotificationController, ProjectInstance, ProjectVolume, InstanceActions, VolumeActions, ProjectInstanceActions, ProjectVolumeActions, NullProjectInstanceConstants, NullProjectVolumeConstants, ModalHelpers, ProjectCreateModal, ProjectDeleteModal, ProjectDeleteConditionsModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectRemoveResourceModal) {
+  function (React, AppDispatcher, ProjectConstants, NullProjectInstanceConstants, NullProjectVolumeConstants, Instance, Volume, Project, URL, NotificationController, InstanceActions, VolumeActions, ProjectInstanceActions, ProjectVolumeActions, ModalHelpers, ProjectCreateModal, ProjectDeleteModal, ProjectDeleteConditionsModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectRemoveResourceModal, ProjectReportResourceModal) {
 
     var _isParanoid = false;
 
@@ -239,28 +240,15 @@ define(
       // ------------------------
 
       reportResources: function(project, resources){
-
-        var onConfirm = function () {
-          // todo: report the resources
-        }.bind(this);
-
-        var onCancel = function(){
-          // Important! We need to un-mount the component so it un-registers from Stores and
-          // also so that we can relaunch it again later.
-          React.unmountComponentAtNode(document.getElementById('modal'));
-        };
-
         var modal = ProjectReportResourceModal({
-          header: "Report Resources",
-          confirmButtonMessage: "Send",
-          onConfirm: onConfirm,
-          onCancel: onCancel,
-          handleHidden: onCancel,
           project: project,
           resources: resources
         });
 
-        React.renderComponent(modal, document.getElementById('modal'));
+        ModalHelpers.renderModal(modal, function(){
+          // todo: report the resources
+          alert("Report resources not yet implemented")
+        });
       }
 
     };
