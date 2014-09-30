@@ -5,7 +5,7 @@ define(
     'react',
     'components/mixins/BootstrapModalMixin.react',
     'stores/InstanceStore',
-    './volume_attach/InstanceSelect.react'
+    '../volume_attach/InstanceSelect.react'
   ],
   function (React, BootstrapModalMixin, InstanceStore, InstanceSelect) {
 

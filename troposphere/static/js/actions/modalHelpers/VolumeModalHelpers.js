@@ -3,11 +3,11 @@ define(
     'react',
     './CommonHelpers',
     'components/modals/CancelConfirmModal.react',
-    'components/modals/VolumeDetachBody.react',
-    'components/modals/VolumeDestroyBody.react',
-    'components/modals/VolumeAttachModal.react',
-    'components/modals/VolumeCreateModal.react',
-    'components/modals/VolumeAttachRulesModal.react'
+    'components/modals/volume/VolumeDetachBody.react',
+    'components/modals/volume/VolumeDestroyBody.react',
+    'components/modals/volume/VolumeAttachModal.react',
+    'components/modals/volume/VolumeCreateModal.react',
+    'components/modals/volume/VolumeAttachRulesModal.react'
   ],
   function (React, CommonHelpers, CancelConfirmModal, VolumeDetachBody, VolumeDestroyBody, VolumeAttachModal, VolumeCreateModal, VolumeAttachRulesModal) {
 
