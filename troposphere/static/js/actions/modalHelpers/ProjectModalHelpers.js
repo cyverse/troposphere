@@ -14,18 +14,6 @@ define(
 
     return {
 
-      create: function (payload, options) {
-        if(!options.onConfirm) throw new Error("Must supply options.onConfirm callback");
-
-        var modal = ProjectCreateModal({
-          onConfirm: options.onConfirm,
-          onCancel: CommonHelpers.onCancel,
-          handleHidden: CommonHelpers.onCancel
-        });
-
-        CommonHelpers.renderComponent(modal);
-      },
-
       destroy: function (payload, options) {
         if(!options.onConfirm) throw new Error("Must supply options.onConfirm callback");
         if(!payload.project) throw new Error("Must supply project in payload");

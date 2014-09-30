@@ -22,9 +22,11 @@ define(
     'actions/ProjectInstanceActions',
     'actions/ProjectVolumeActions',
     'constants/NullProjectInstanceConstants',
-    'constants/NullProjectVolumeConstants'
+    'constants/NullProjectVolumeConstants',
+    'components/modals/project/ProjectCreateModal.react',
+    './modalHelpers/CommonHelpers'
   ],
-  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, InstanceConstants, VolumeConstants, CancelConfirmModal, ProjectReportResourceModal, Instance, Volume, Project, URL, ProjectModalHelpers, NotificationController, ProjectInstance, ProjectVolume, InstanceActions, VolumeActions, ProjectInstanceActions, ProjectVolumeActions, NullProjectInstanceConstants, NullProjectVolumeConstants) {
+  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, InstanceConstants, VolumeConstants, CancelConfirmModal, ProjectReportResourceModal, Instance, Volume, Project, URL, ProjectModalHelpers, NotificationController, ProjectInstance, ProjectVolume, InstanceActions, VolumeActions, ProjectInstanceActions, ProjectVolumeActions, NullProjectInstanceConstants, NullProjectVolumeConstants, ProjectCreateModal, ModalHelpers) {
 
     var _isParanoid = false;
 
@@ -45,26 +47,28 @@ define(
 
       create: function (project) {
         var that = this;
-        ProjectModalHelpers.create(null, {
-          onConfirm: function(name, description){
 
-            var project = new Project({
-              name: name,
-              description: description
-            });
+        var modal = ProjectCreateModal();
 
-            that.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
+        ModalHelpers.renderModal(modal, function(name, description){
 
-            project.save().done(function(){
-              //NotificationController.success(null, "Project " + project.get('name') + " created.");
-              that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
-            }).fail(function(){
-              var message = "Error creating Project " + project.get('name') + ".";
-              NotificationController.error(null, message);
-              that.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
-            });
-          }
-        });
+          var project = new Project({
+            name: name,
+            description: description
+          });
+
+          that.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
+
+          project.save().done(function(){
+            //NotificationController.success(null, "Project " + project.get('name') + " created.");
+            that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
+          }).fail(function(){
+            var message = "Error creating Project " + project.get('name') + ".";
+            NotificationController.error(null, message);
+            that.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
+          });
+        })
+
       },
 
       updateProjectAttributes: function (project, newAttributes) {
