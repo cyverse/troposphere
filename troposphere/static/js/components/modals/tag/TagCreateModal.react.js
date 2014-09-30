@@ -46,6 +46,12 @@ define(
         initialTagName: React.PropTypes.string
       },
 
+      isSubmittable: function(){
+        var hasName        = !!this.state.name;
+        var hasDescription = !!this.state.description;
+        return hasName && hasDescription;
+      },
+
       //
       // Mounting & State
       // ----------------
@@ -97,29 +103,8 @@ define(
       // ------
       //
 
-      render: function () {
-        var buttonArray = [
-          {type: 'danger', text: 'Cancel', handler: this.cancel},
-          {type: 'primary', text: this.props.confirmButtonMessage, handler: this.confirm}
-        ];
-
-        var buttons = buttonArray.map(function (button) {
-          // Enable all buttons be default
-          var isDisabled = false;
-
-          // Disable the launch button if the user hasn't provided a name, size or identity for the volume
-          var stateIsValid = this.state.name &&
-                             this.state.description;
-          if(button.type === "primary" && !stateIsValid ) isDisabled = true;
-
-          return (
-            <button key={button.text} type="button" className={'btn btn-' + button.type} onClick={button.handler} disabled={isDisabled}>
-              {button.text}
-            </button>
-          );
-        }.bind(this));
-
-        var content = (
+      renderBody: function(){
+        return (
           <form role='form'>
 
             <div className='form-group'>
@@ -144,20 +129,27 @@ define(
 
           </form>
         );
+      },
 
+      render: function () {
         return (
           <div className="modal fade">
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
                   {this.renderCloseButton()}
-                  <strong>{this.props.header}</strong>
+                  <strong>Create Tag</strong>
                 </div>
                 <div className="modal-body">
-                  {content}
+                  {this.renderBody()}
                 </div>
                 <div className="modal-footer">
-                  {buttons}
+                  <button type="button" className="btn btn-danger" onClick={this.cancel}>
+                    Cancel
+                  </button>
+                  <button type="button" className="btn btn-primary" onClick={this.confirm} disabled={!this.isSubmittable()}>
+                    Create tag
+                  </button>
                 </div>
               </div>
             </div>
