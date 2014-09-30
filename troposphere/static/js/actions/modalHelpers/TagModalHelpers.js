@@ -2,7 +2,7 @@ define(
   [
     'react',
     './CommonHelpers',
-    'components/modals/TagCreateModal.react'
+    'components/modals/tag/TagCreateModal.react'
   ],
   function (React, CommonHelpers, TagCreateModal) {
 
