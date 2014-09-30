@@ -3,12 +3,12 @@ define(
     'react',
     './CommonHelpers',
     'components/modals/CancelConfirmModal.react',
-    'components/modals/InstanceSuspendBody.react',
-    'components/modals/InstanceResumeBody.react',
-    'components/modals/InstanceStopBody.react',
-    'components/modals/InstanceStartBody.react',
-    'components/modals/InstanceDeleteBody.react',
-    'components/modals/InstanceLaunchModal.react'
+    'components/modals/instance/InstanceSuspendBody.react',
+    'components/modals/instance/InstanceResumeBody.react',
+    'components/modals/instance/InstanceStopBody.react',
+    'components/modals/instance/InstanceStartBody.react',
+    'components/modals/instance/InstanceDeleteBody.react',
+    'components/modals/instance/InstanceLaunchModal.react'
   ],
   function (React, CommonHelpers, CancelConfirmModal, InstanceSuspendBody, InstanceResumeBody, InstanceStopBody, InstanceStartBody, InstanceDeleteBody, InstanceLaunchModal) {
 
