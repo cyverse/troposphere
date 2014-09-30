@@ -32,6 +32,7 @@ define(
 
         var modal = ProjectDeleteModal({
           project: payload.project,
+
           onConfirm: options.onConfirm,
           onCancel: CommonHelpers.onCancel,
           handleHidden: CommonHelpers.onCancel
@@ -59,15 +60,13 @@ define(
 
       removeResources: function(payload, options){
         if(!options.onConfirm) throw new Error("Must supply options.onConfirm callback");
-
-        var resources = payload.resources;
-        var project = payload.project;
+        if(!payload.resources) throw new Error("Must supply resources in payload");
+        if(!payload.project) throw new Error("Must supply project in payload");
 
         var modal = ProjectRemoveResourceModal({
-          header: "Remove Resources",
-          confirmButtonMessage: "Remove resources",
-          project: project,
-          resources: resources,
+          project: payload.project,
+          resources: payload.resources,
+
           onConfirm: options.onConfirm,
           onCancel: CommonHelpers.onCancel,
           handleHidden: CommonHelpers.onCancel
@@ -78,16 +77,14 @@ define(
 
       deleteResources: function(payload, options) {
         if (!options.onConfirm) throw new Error("Must supply options.onConfirm callback");
-
-        var resources = payload.resources;
+        if(!payload.resources) throw new Error("Must supply resources in payload");
 
         var modal = ProjectDeleteResourceModal({
-          header: "Delete Resources",
-          confirmButtonMessage: "Delete resources",
+          resources: payload.resources,
+
           onConfirm: options.onConfirm,
           onCancel: CommonHelpers.onCancel,
-          handleHidden: CommonHelpers.onCancel,
-          resources: resources
+          handleHidden: CommonHelpers.onCancel
         });
 
         CommonHelpers.renderComponent(modal);
@@ -96,8 +93,6 @@ define(
       explainProjectDeleteConditions: function(){
 
         var modal = ProjectDeleteConditionsModal({
-          header: "Project Delete Conditions",
-          confirmButtonMessage: "Okay",
           handleHidden: CommonHelpers.onCancel
         });
 

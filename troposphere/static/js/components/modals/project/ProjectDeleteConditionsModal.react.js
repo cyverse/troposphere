@@ -53,27 +53,8 @@ define(
       // ------
       //
 
-      render: function () {
-        var buttonArray = [
-          {type: 'primary', text: this.props.confirmButtonMessage, handler: this.confirm}
-        ];
-
-        var buttons = buttonArray.map(function (button) {
-          // Enable all buttons be default
-          var isDisabled = false;
-
-          // Disable the launch button if the user hasn't provided a name, size or identity for the volume
-          var stateIsValid = true;
-          if(button.type === "primary" && !stateIsValid ) isDisabled = true;
-
-          return (
-            <button key={button.text} type="button" className={'btn btn-' + button.type} onClick={button.handler} disabled={isDisabled}>
-              {button.text}
-            </button>
-          );
-        }.bind(this));
-
-        var content = (
+      renderBody: function(){
+        return (
           <form role='form'>
             <div className='form-group'>
               <p className="alert alert-info">
@@ -91,19 +72,23 @@ define(
             </div>
           </form>
         );
+      },
 
+      render: function () {
         return (
           <div className="modal fade">
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
-                  <strong>{this.props.header}</strong>
+                  <strong>Project Delete Conditions</strong>
                 </div>
                 <div className="modal-body">
-                  {content}
+                  {this.renderBody()}
                 </div>
                 <div className="modal-footer">
-                  {buttons}
+                  <button type="button" className="btn btn-primary" onClick={this.confirm}>
+                    Okay
+                  </button>
                 </div>
               </div>
             </div>
