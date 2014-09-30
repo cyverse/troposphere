@@ -42,18 +42,16 @@ define(
 
       moveResources: function(payload, options){
         if(!options.onConfirm) throw new Error("Must supply options.onConfirm callback");
-
-        var resources = payload.resources;
-        var currentProject = payload.currentProject;
+        if(!payload.resources) throw new Error("Must supply resources in payload");
+        if(!payload.currentProject) throw new Error("Must supply currentProject in payload");
 
         var modal = ProjectMoveResourceModal({
-          header: "Move Resources",
-          confirmButtonMessage: "Move resources",
+          currentProject: payload.currentProject,
+          resources: payload.resources,
+
           onConfirm: options.onConfirm,
           onCancel: CommonHelpers.onCancel,
-          handleHidden: CommonHelpers.onCancel,
-          currentProject: currentProject,
-          resources: resources
+          handleHidden: CommonHelpers.onCancel
         });
 
         CommonHelpers.renderComponent(modal);

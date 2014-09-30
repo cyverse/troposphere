@@ -5,39 +5,14 @@ define(
     'react',
     'backbone',
     'components/mixins/BootstrapModalMixin.react',
-    'stores/ProjectStore',
+    'stores',
     '../instance_launch/ProjectSelect.react'
   ],
-  function (React, Backbone, BootstrapModalMixin, ProjectStore, ProjectSelect) {
-
-    // Example Usage from http://bl.ocks.org/insin/raw/8449696/
-    // render: function(){
-    // <div>
-    //   ...custom components...
-    //   <ExampleModal
-    //      ref="modal"
-    //      show={false}
-    //      header="Example Modal"
-    //      buttons={buttons}
-    //      handleShow={this.handleLog.bind(this, 'Modal about to show', 'info')}
-    //      handleShown={this.handleLog.bind(this, 'Modal showing', 'success')}
-    //      handleHide={this.handleLog.bind(this, 'Modal about to hide', 'warning')}
-    //      handleHidden={this.handleLog.bind(this, 'Modal hidden', 'danger')}
-    //    >
-    //      <p>I'm the content.</p>
-    //      <p>That's about it, really.</p>
-    //    </ExampleModal>
-    // </div>
-    //
-
-    // To show the modal, call this.refs.modal.show() from the parent component:
-    // handleShowModal: function() {
-    //   this.refs.modal.show();
-    // }
+  function (React, Backbone, BootstrapModalMixin, stores, ProjectSelect) {
 
     function getState(currentProject, currentState) {
       var state = {
-        projects: ProjectStore.getAll(),
+        projects: stores.ProjectStore.getAll(),
         projectId: null
       };
 
@@ -62,6 +37,12 @@ define(
         resources: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
+      isSubmittable: function(){
+        var hasName        = !!this.state.projectName;
+        var hasDescription = !!this.state.projectDescription;
+        return hasName && hasDescription;
+      },
+
       //
       // Mounting & State
       // ----------------
@@ -76,11 +57,11 @@ define(
       },
 
       componentDidMount: function () {
-        ProjectStore.addChangeListener(this.updateState);
+        stores.ProjectStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
-        ProjectStore.removeChangeListener(this.updateState);
+        stores.ProjectStore.removeChangeListener(this.updateState);
       },
 
       //
@@ -115,45 +96,22 @@ define(
       // ------
       //
 
-      render: function () {
-        // todo: If the user only has one project, provide an action to create another project
+      renderResource: function(resource){
+        return (
+          <li key={resource.id}>{resource.get('name')}</li>
+        );
+      },
 
-        var buttonArray = [
-          {type: 'danger', text: 'Cancel', handler: this.cancel},
-          {type: 'primary', text: this.props.confirmButtonMessage, handler: this.confirm}
-        ];
-
-        var buttons = buttonArray.map(function (button) {
-          // Enable all buttons be default
-          var isDisabled = false;
-
-          // Disable the launch button if the user hasn't provided a name, size or identity for the volume
-          var stateIsValid = true;
-          if(button.type === "primary" && !stateIsValid ) isDisabled = true;
-
-          return (
-            <button key={button.text} type="button" className={'btn btn-' + button.type} onClick={button.handler} disabled={isDisabled}>
-              {button.text}
-            </button>
-          );
-        }.bind(this));
-
-        var content;
+      renderBody: function(){
         if(this.state.projects){
-          var resourceNames = this.props.resources.map(function(resource){
-            return (
-              <li key={resource.id}>{resource.get('name')}</li>
-            );
-          });
-
-          content = (
+          return (
             <form role='form'>
 
               <div className='form-group'>
                 <label htmlFor='volumeSize'>Resources to Move</label>
                 <p>The following resources will be moved to the selected project</p>
                 <ul>
-                  {resourceNames}
+                  {this.props.resources.map(this.renderResource)}
                 </ul>
               </div>
 
@@ -168,11 +126,15 @@ define(
 
             </form>
           );
-        }else{
-          content = (
-            <div className="loading"></div>
-          );
         }
+
+        return (
+          <div className="loading"></div>
+        );
+      },
+
+      render: function () {
+        // todo: If the user only has one project, provide an action to create another project
 
         return (
           <div className="modal fade">
@@ -180,13 +142,18 @@ define(
               <div className="modal-content">
                 <div className="modal-header">
                   {this.renderCloseButton()}
-                  <strong>{this.props.header}</strong>
+                  <strong>Move Resources</strong>
                 </div>
                 <div className="modal-body">
-                  {content}
+                  {this.renderBody()}
                 </div>
                 <div className="modal-footer">
-                  {buttons}
+                  <button type="button" className="btn btn-danger" onClick={this.cancel}>
+                    Cancel
+                  </button>
+                  <button type="button" className="btn btn-primary" onClick={this.confirm} disabled={!this.isSubmittable()}>
+                    Move resources
+                  </button>
                 </div>
               </div>
             </div>
