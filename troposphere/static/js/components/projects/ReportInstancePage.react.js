@@ -3,11 +3,11 @@
 define(
   [
     'react',
-    './detail/ProjectDetailsView.react',
+    './detail/ProjectResourcesWrapper.react',
     './resources/instance/report_instance/ReportInstanceView.react',
     'stores/ProjectStore'
   ],
-  function (React, ProjectDetailsView, ReportInstanceView, ProjectStore) {
+  function (React, ProjectResourcesWrapper, ReportInstanceView, ProjectStore) {
 
     function getState(projectId) {
       return {
@@ -52,9 +52,9 @@ define(
 
         if (this.state.project) {
           return (
-            <ProjectDetailsView project={this.state.project}>
+            <ProjectResourcesWrapper project={this.state.project}>
               <ReportInstanceView project={this.state.project} instanceId={this.props.instanceId}/>
-            </ProjectDetailsView>
+            </ProjectResourcesWrapper>
           );
         }
 

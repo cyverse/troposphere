@@ -4,10 +4,12 @@ define(
   [
     'react',
     './detail/ProjectResourcesWrapper.react',
-    './resources/volume/details/VolumeDetailsView.react',
-    'stores/ProjectStore'
+    './detail/ProjectDetails.react',
+    'stores/ProjectStore',
+    'stores/InstanceStore',
+    'stores/VolumeStore'
   ],
-  function (React, ProjectResourcesWrapper, VolumeDetailsView, ProjectStore) {
+  function (React, ProjectResourcesWrapper, ProjectDetails, ProjectStore, InstanceStore, VolumeStore) {
 
     function getState(projectId) {
       return {
@@ -23,8 +25,7 @@ define(
       //
 
       propTypes: {
-        projectId: React.PropTypes.string.isRequired,
-        volumeId: React.PropTypes.string.isRequired
+        projectId: React.PropTypes.string.isRequired
       },
 
       getInitialState: function() {
@@ -37,10 +38,14 @@ define(
 
       componentDidMount: function () {
         ProjectStore.addChangeListener(this.updateState);
+        //InstanceStore.addChangeListener(this.updateState);
+        //VolumeStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
         ProjectStore.removeChangeListener(this.updateState);
+        //InstanceStore.removeChangeListener(this.updateState);
+        //VolumeStore.removeChangeListener(this.updateState);
       },
 
       //
@@ -49,11 +54,10 @@ define(
       //
 
       render: function () {
-
         if (this.state.project) {
           return (
             <ProjectResourcesWrapper project={this.state.project}>
-              <VolumeDetailsView project={this.state.project} volumeId={this.props.volumeId}/>
+              <ProjectDetails project={this.state.project}/>
             </ProjectResourcesWrapper>
           );
         }

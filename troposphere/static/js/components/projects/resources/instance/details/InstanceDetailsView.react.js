@@ -71,7 +71,7 @@ define(
             var breadcrumbs = [
               {
                 name: "Resources",
-                url: URL.project(this.props.project)
+                url: URL.projectResources({project: this.props.project})
               },
               {
                 name: this.state.instance.get('name'),

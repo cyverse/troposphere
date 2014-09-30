@@ -5,15 +5,13 @@ define(
     'react',
     './detail/ProjectDetailsView.react',
     './detail/ProjectDetails.react',
-    'stores/ProjectStore',
-    'stores/InstanceStore',
-    'stores/VolumeStore'
+    'stores'
   ],
-  function (React, ProjectDetailsView, ProjectDetails, ProjectStore, InstanceStore, VolumeStore) {
+  function (React, ProjectDetailsView, ProjectDetails, stores) {
 
     function getState(projectId) {
       return {
-        project: ProjectStore.get(projectId)
+        project: stores.ProjectStore.get(projectId)
       };
     }
 
@@ -37,15 +35,11 @@ define(
       },
 
       componentDidMount: function () {
-        ProjectStore.addChangeListener(this.updateState);
-        //InstanceStore.addChangeListener(this.updateState);
-        //VolumeStore.addChangeListener(this.updateState);
+        stores.ProjectStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
-        ProjectStore.removeChangeListener(this.updateState);
-        //InstanceStore.removeChangeListener(this.updateState);
-        //VolumeStore.removeChangeListener(this.updateState);
+        stores.ProjectStore.removeChangeListener(this.updateState);
       },
 
       //
@@ -57,7 +51,7 @@ define(
         if (this.state.project) {
           return (
             <ProjectDetailsView project={this.state.project}>
-              <ProjectDetails project={this.state.project}/>
+              <h3>Details for project {this.state.project.get('name')}</h3>
             </ProjectDetailsView>
           );
         }

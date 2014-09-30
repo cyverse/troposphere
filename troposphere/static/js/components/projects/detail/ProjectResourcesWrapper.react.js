@@ -19,7 +19,7 @@ define(
       render: function () {
         return (
           <div className="project-details">
-            <SecondaryProjectNavigation project={this.props.project} currentRoute="details"/>
+            <SecondaryProjectNavigation project={this.props.project} currentRoute="resources"/>
             <div className="container">
               <table>
                 <tbody>
