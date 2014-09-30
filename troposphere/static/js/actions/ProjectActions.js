@@ -8,9 +8,7 @@ define(
     'constants/InstanceConstants',
     'constants/VolumeConstants',
     'components/modals/CancelConfirmModal.react',
-    'components/modals/ProjectMoveResourceModal.react',
-    'components/modals/ProjectDeleteResourceModal.react',
-    'components/modals/ProjectReportResourceModal.react',
+    'components/modals/project/ProjectReportResourceModal.react',
     'models/Instance',
     'models/Volume',
     'models/Project',
@@ -26,7 +24,7 @@ define(
     'constants/NullProjectInstanceConstants',
     'constants/NullProjectVolumeConstants'
   ],
-  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, InstanceConstants, VolumeConstants, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectReportResourceModal, Instance, Volume, Project, URL, ProjectModalHelpers, NotificationController, ProjectInstance, ProjectVolume, InstanceActions, VolumeActions, ProjectInstanceActions, ProjectVolumeActions, NullProjectInstanceConstants, NullProjectVolumeConstants) {
+  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectVolumeConstants, InstanceConstants, VolumeConstants, CancelConfirmModal, ProjectReportResourceModal, Instance, Volume, Project, URL, ProjectModalHelpers, NotificationController, ProjectInstance, ProjectVolume, InstanceActions, VolumeActions, ProjectInstanceActions, ProjectVolumeActions, NullProjectInstanceConstants, NullProjectVolumeConstants) {
 
     var _isParanoid = false;
 

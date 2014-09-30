@@ -5,10 +5,10 @@ define(
     'react',
     'components/mixins/BootstrapModalMixin.react',
     'stores',
-    './instance_launch/MachineSelect.react',
-    './instance_launch/IdentitySelect.react',
-    './instance_launch/InstanceSizeSelect.react',
-    './instance_launch/ProjectSelect.react'
+    '../instance_launch/MachineSelect.react',
+    '../instance_launch/IdentitySelect.react',
+    '../instance_launch/InstanceSizeSelect.react',
+    '../instance_launch/ProjectSelect.react'
   ],
   function (React, BootstrapModalMixin, stores, MachineSelect, IdentitySelect, InstanceSizeSelect, ProjectSelect) {
 

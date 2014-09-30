@@ -6,7 +6,7 @@ define(
     'backbone',
     'components/mixins/BootstrapModalMixin.react',
     'stores/ProjectStore',
-    './instance_launch/ProjectSelect.react'
+    '../instance_launch/ProjectSelect.react'
   ],
   function (React, Backbone, BootstrapModalMixin, ProjectStore, ProjectSelect) {
 
