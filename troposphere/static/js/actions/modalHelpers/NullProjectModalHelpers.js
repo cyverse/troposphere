@@ -2,8 +2,8 @@ define(
   [
     'react',
     './CommonHelpers',
-    'components/modals/NullProjectMigrateResourceModal.react',
-    'components/modals/NullProjectMoveAttachedVolumesModal.react',
+    'components/modals/nullProject/NullProjectMigrateResourceModal.react',
+    'components/modals/nullProject/NullProjectMoveAttachedVolumesModal.react',
     'moment',
     'underscore'
   ],
