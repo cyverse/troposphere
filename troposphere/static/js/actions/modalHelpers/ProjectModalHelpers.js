@@ -3,12 +3,12 @@ define(
     'react',
     './CommonHelpers',
     'components/modals/CancelConfirmModal.react',
-    'components/modals/ProjectMoveResourceModal.react',
-    'components/modals/ProjectDeleteResourceModal.react',
-    'components/modals/ProjectCreateModal.react',
-    'components/modals/ProjectRemoveResourceModal.react',
-    'components/modals/ProjectDeleteConditionsModal.react',
-    'components/modals/ProjectDeleteBody.react'
+    'components/modals/project/ProjectMoveResourceModal.react',
+    'components/modals/project/ProjectDeleteResourceModal.react',
+    'components/modals/project/ProjectCreateModal.react',
+    'components/modals/project/ProjectRemoveResourceModal.react',
+    'components/modals/project/ProjectDeleteConditionsModal.react',
+    'components/modals/project/ProjectDeleteBody.react'
   ],
   function (React, CommonHelpers, CancelConfirmModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectCreateModal, ProjectRemoveResourceModal, ProjectDeleteConditionsModal, ProjectDeleteBody) {
 
