@@ -11,38 +11,18 @@ define(
   ],
   function (React, Backbone, BootstrapModalMixin, ProjectSelect, ResourceListItem, stores) {
 
-    // Example Usage from http://bl.ocks.org/insin/raw/8449696/
-    // render: function(){
-    // <div>
-    //   ...custom components...
-    //   <ExampleModal
-    //      ref="modal"
-    //      show={false}
-    //      header="Example Modal"
-    //      buttons={buttons}
-    //      handleShow={this.handleLog.bind(this, 'Modal about to show', 'info')}
-    //      handleShown={this.handleLog.bind(this, 'Modal showing', 'success')}
-    //      handleHide={this.handleLog.bind(this, 'Modal about to hide', 'warning')}
-    //      handleHidden={this.handleLog.bind(this, 'Modal hidden', 'danger')}
-    //    >
-    //      <p>I'm the content.</p>
-    //      <p>That's about it, really.</p>
-    //    </ExampleModal>
-    // </div>
-    //
-
-    // To show the modal, call this.refs.modal.show() from the parent component:
-    // handleShowModal: function() {
-    //   this.refs.modal.show();
-    // }
-
     return React.createClass({
       mixins: [BootstrapModalMixin],
 
       propTypes: {
-        dateTimeStamp: React.PropTypes.string.isRequired,
-        resources: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        projects: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        resources: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      },
+
+      isSubmittable: function(){
+        var hasName        = !!this.state.projectName;
+        var hasTargetProject = (!!this.state.projectId && this.state.projectId !== "-1");
+
+        return hasName && hasTargetProject;
       },
 
       //
@@ -52,7 +32,7 @@ define(
 
       getInitialState: function () {
         var initialState = {
-          projectName: "", //this.props.dateTimeStamp,
+          projectName: "",
           projects: stores.ProjectStore.getAll(),
           projectId: null
         };
@@ -136,107 +116,103 @@ define(
       // ------
       //
 
-      render: function () {
-        var content;
+      renderResource: function(resource){
+        return (
+          <ResourceListItem key={resource.id} resource={resource}/>
+        );
+      },
 
+      renderProjectSelectionForm: function(){
+        if (this.state.projects.length > 0) {
+          return (
+            <div className='form-group'>
+              <ProjectSelect projectId={this.state.projectId}
+              projects={this.state.projects}
+              onChange={this.onProjectChange}
+              />
+            </div>
+          );
+        }
+      },
+
+      renderProjectCreationForm: function(){
+        // Only render this if the user has requested to create a new project from the dropdown
+        // The "new project" option has an id of -1
+        if(this.state.projectId === "-1"){
+          return (
+            <div className='form-group'>
+              <label>Project Name</label>
+              <input type="text"
+                     className="form-control"
+                     value={this.state.projectName}
+                     onChange={this.onProjectNameChange}
+                     placeholder="Enter project name..."
+              />
+            </div>
+          )
+        }
+      },
+
+      renderExplanationText: function(){
+        var explanationText = "";
+        if (this.state.projects.length > 0) {
+          explanationText = "In order to interact with your resources (such as suspending instances or attaching " +
+                            "volumes) you will need to move them into a project.  Please select the project you would " +
+                            "like to move them into below. You may also create a new project."
+        }else{
+          explanationText = "In order to interact with your resources (such as suspending instances or attaching " +
+                            "volumes) you will need to move them into a project. At the moment, you don't have any " +
+                            "projects, but that's not a problem at all!  We can create your first one right here. " +
+                            "Please enter a name for your project below."
+        }
+        return explanationText;
+      },
+
+      renderBody: function(){
         if(this.state.projects) {
-          var buttonArray = [
-            {type: 'primary', text: this.props.confirmButtonMessage, handler: this.confirm}
-          ];
-
-          var buttons = buttonArray.map(function (button) {
-            // Enable all buttons be default
-            var isDisabled = false;
-
-            // Disable the launch button if the user hasn't provided a name, size or identity for the volume
-            var stateIsValid = !!this.state.projectName || (!!this.state.projectId && this.state.projectId !== "-1");
-            if (button.type === "primary" && !stateIsValid) isDisabled = true;
-
-            return (
-              <button key={button.text} type="button" className={'btn btn-' + button.type} onClick={button.handler} disabled={isDisabled}>
-                {button.text}
-              </button>
-              );
-          }.bind(this));
-
-          var resourceNames = this.props.resources.map(function (resource) {
-            return (
-              <ResourceListItem key={resource.id} resource={resource}/>
-            );
-          });
-
-          var projectSelection, explanationText = "";
-          if (this.state.projects.length > 0) {
-            projectSelection = (
-              <div className='form-group'>
-                <ProjectSelect projectId={this.state.projectId}
-                               projects={this.state.projects}
-                               onChange={this.onProjectChange}
-                />
-              </div>
-            );
-            explanationText = "In order to interact with your resources (such as suspending instances or attaching " +
-                              "volumes) you will need to move them into a project.  Please select the project you would " +
-                              "like to move them into below. You may also create a new project."
-          }else{
-            explanationText = "In order to interact with your resources (such as suspending instances or attaching " +
-                              "volumes) you will need to move them into a project. At the moment, you don't have any " +
-                              "projects, but that's not a problem at all!  We can create your first one right here. " +
-                              "Please enter a name for your project below."
-          }
-
-          var newProjectCreation;
-          if(this.state.projectId === "-1"){
-            newProjectCreation = (
-              <div className='form-group'>
-                <label>Project Name</label>
-                <input type="text"
-                       className="form-control"
-                       value={this.state.projectName}
-                       onChange={this.onProjectNameChange}
-                       placeholder="Enter project name..."
-                />
-              </div>
-            )
-          }
-
-          content = (
+          return (
             <form role='form'>
               <div className='form-group'>
                 <p>{"Looks like you have some resources that aren't in a project!"}</p>
                 <ul>
-                  {resourceNames}
+                  {this.props.resources.map(this.renderResource)}
                 </ul>
-                <p>{explanationText}</p>
+                <p>{this.renderExplanationText()}</p>
               </div>
-              {projectSelection}
-              {newProjectCreation}
+              {this.renderProjectSelectionForm()}
+              {this.renderProjectCreationForm()}
             </form>
-            );
-        }else {
-          content = (
-            <div className="loading"></div>
           );
         }
 
-          return (
-            <div className="modal fade">
-              <div className="modal-dialog">
-                <div className="modal-content">
-                  <div className="modal-header">
-                    <strong>{this.props.header}</strong>
-                  </div>
-                  <div className="modal-body">
-                    {content}
-                  </div>
-                  <div className="modal-footer">
-                    {buttons}
-                  </div>
+        return (
+          <div className="loading"></div>
+        );
+      },
+
+      render: function () {
+        return (
+          <div className="modal fade">
+            <div className="modal-dialog">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <strong>Migrate Resources</strong>
+                </div>
+                <div className="modal-body">
+                  {this.renderBody()}
+                </div>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-danger" onClick={this.cancel}>
+                    Cancel
+                  </button>
+                  <button type="button" className="btn btn-primary" onClick={this.confirm} disabled={!this.isSubmittable()}>
+                    Move resources into project
+                  </button>
                 </div>
               </div>
             </div>
-          );
-
+          </div>
+        );
       }
 
     });

@@ -7,7 +7,6 @@ define(
     'constants/NullProjectVolumeConstants',
     'constants/ProjectInstanceConstants',
     'constants/ProjectVolumeConstants',
-    './modalHelpers/NullProjectModalHelpers',
     'controllers/NotificationController',
     'actions/ProjectInstanceActions',
     'actions/ProjectVolumeActions',
@@ -17,9 +16,14 @@ define(
     'stores',
     'url',
     'models/Instance',
-    'models/Volume'
+    'models/Volume',
+
+    // Modals
+    './modalHelpers/CommonHelpers',
+    'components/modals/nullProject/NullProjectMoveAttachedVolumesModal.react',
+    'components/modals/nullProject/NullProjectMigrateResourceModal.react'
   ],
-  function (React, AppDispatcher, NullProjectConstants, NullProjectInstanceConstants, NullProjectVolumeConstants, ProjectInstanceConstants, ProjectVolumeConstants, NullProjectModalHelpers, NotificationController, ProjectInstanceActions, ProjectVolumeActions, Project, ProjectConstants, ProjectActions, stores, URL, Instance, Volume) {
+  function (React, AppDispatcher, NullProjectConstants, NullProjectInstanceConstants, NullProjectVolumeConstants, ProjectInstanceConstants, ProjectVolumeConstants, NullProjectModalHelpers, NotificationController, ProjectInstanceActions, ProjectVolumeActions, Project, ProjectConstants, ProjectActions, stores, URL, Instance, Volume, ModalHelpers, NullProjectMoveAttachedVolumesModal, NullProjectMigrateResourceModal) {
 
     return {
 
@@ -115,9 +119,12 @@ define(
 
         // Let the user know what we just did
         if(volumesInWrongProject.length > 0) {
-          NullProjectModalHelpers.moveAttachedVolumesIntoInstanceProject({
-            movedVolumesArray: volumesInWrongProject
+          var modal = NullProjectMoveAttachedVolumesModal({
+            movedVolumesArray: volumesInWrongProject,
+            backdrop: 'static'
           });
+
+          ModalHelpers.renderModal(modal, function(){});
         }
       },
 
@@ -151,45 +158,45 @@ define(
         }.bind(this));
 
         if(resources.length > 0){
-          NullProjectModalHelpers.migrateResources({
-            nullProject: nullProject,
-            resources: resources
-          },{
-            onConfirm: function(params){
 
-              var resourcesClone = resources.models.slice(0);
-              var project;
+          var modal = NullProjectMigrateResourceModal({
+            resources: resources,
+            backdrop: 'static'
+          });
 
-              if(params.projectName){
-                project = new Project({
-                  name: params.projectName,
-                  description: params.projectName,
-                  instances: [],
-                  volumes:[]
-                });
+          ModalHelpers.renderModal(modal, function(params){
+            var resourcesClone = resources.models.slice(0);
+            var project;
 
-                that.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
+            if(params.projectName){
+              project = new Project({
+                name: params.projectName,
+                description: params.projectName,
+                instances: [],
+                volumes:[]
+              });
 
-                project.save().done(function(){
-                  NotificationController.success(null, "Project " + project.get('name') + " created.");
-                  that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
-                  that._migrateResourcesIntoProject(resourcesClone, project);
-                  that.moveAttachedVolumesIntoCorrectProject();
-                }).fail(function(){
-                  var message = "Error creating Project " + project.get('name') + ".";
-                  NotificationController.error(null, message);
-                  that.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
-                });
+              that.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
 
-              }else if(params.projectId && params.projects){
-                project = params.projects.get(params.projectId);
+              project.save().done(function(){
+                NotificationController.success(null, "Project " + project.get('name') + " created.");
+                that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
                 that._migrateResourcesIntoProject(resourcesClone, project);
                 that.moveAttachedVolumesIntoCorrectProject();
-              }else{
-                throw new Error("expected either projectName OR projectId and projects parameters")
-              }
+              }).fail(function(){
+                var message = "Error creating Project " + project.get('name') + ".";
+                NotificationController.error(null, message);
+                that.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
+              });
+
+            }else if(params.projectId && params.projects){
+              project = params.projects.get(params.projectId);
+              that._migrateResourcesIntoProject(resourcesClone, project);
+              that.moveAttachedVolumesIntoCorrectProject();
+            }else{
+              throw new Error("expected either projectName OR projectId and projects parameters")
             }
-          });
+          })
 
         }else{
           that.moveAttachedVolumesIntoCorrectProject();
