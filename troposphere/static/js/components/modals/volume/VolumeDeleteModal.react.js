@@ -3,12 +3,17 @@
 define(
   [
     'react',
-    'components/mixins/BootstrapModalMixin.react'
+    'components/mixins/BootstrapModalMixin.react',
+    'components/common/Glyphicon.react'
   ],
-  function (React, BootstrapModalMixin) {
+  function (React, BootstrapModalMixin, Glyphicon) {
 
     return React.createClass({
       mixins: [BootstrapModalMixin],
+
+      propTypes: {
+        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
+      },
 
       //
       // Internal Modal Callbacks
@@ -21,6 +26,7 @@ define(
 
       confirm: function () {
         this.hide();
+        this.props.onConfirm();
       },
 
       //
@@ -29,39 +35,42 @@ define(
       //
 
       renderBody: function(){
+        var volume = this.props.volume;
         return (
-          <form role='form'>
-            <div className='form-group'>
-              <p>
-                <strong>Uh oh! </strong>
-                {
-                  "It looks like you don't have any instances in this project. Volumes can only be attached " +
-                  "to instances in the same project, so you'll need to "
-                }
-                <a href="https://pods.iplantcollaborative.org/wiki/display/atmman/Launching+a+New+Instance">create an instance</a>
-                {
-                  " or move an existing instance into this project before you can attach the volume."
-                }
-              </p>
-            </div>
-          </form>
+          <div>
+            <p>
+              {"Are you sure you want to delete the volume "}
+              <strong>{volume.get('name')}</strong>
+              {"?"}
+            </p>
+            <p>
+              {"The volume will be destroyed and "}
+              <strong style={{"text-decoration":"underline"}}>all data will be permanently lost</strong>
+              {"."}
+            </p>
+          </div>
         );
       },
 
       render: function () {
+
         return (
           <div className="modal fade">
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
-                  <strong>Volume Attach Rules</strong>
+                  {this.renderCloseButton()}
+                  <strong>Delete Volume</strong>
                 </div>
                 <div className="modal-body">
                   {this.renderBody()}
                 </div>
                 <div className="modal-footer">
+                  <button type="button" className="btn btn-danger" onClick={this.cancel}>
+                    Cancel
+                  </button>
                   <button type="button" className="btn btn-primary" onClick={this.confirm}>
-                    Okay
+                    Yes, delete this volume
                   </button>
                 </div>
               </div>

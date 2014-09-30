@@ -4,15 +4,22 @@ define(
     'dispatchers/AppDispatcher',
     'constants/VolumeConstants',
     'constants/ProjectVolumeConstants',
-    './modalHelpers/VolumeModalHelpers',
     'controllers/NotificationController',
     'models/Volume',
     'models/VolumeState',
     'actions/ProjectVolumeActions',
     'components/notifications/VolumeAttachNotifications.react',
-    'stores'
+    'stores',
+
+    // Modals
+    './modalHelpers/CommonHelpers',
+    'components/modals/volume/VolumeAttachRulesModal.react',
+    'components/modals/volume/VolumeAttachModal.react',
+    'components/modals/volume/VolumeDetachModal.react',
+    'components/modals/volume/VolumeDeleteModal.react',
+    'components/modals/volume/VolumeCreateModal.react'
   ],
-  function (React, AppDispatcher, VolumeConstants, ProjectVolumeConstants, VolumeModalHelpers, NotificationController, Volume, VolumeState, ProjectVolumeActions, VolumeAttachNotifications, stores) {
+  function (React, AppDispatcher, VolumeConstants, ProjectVolumeConstants, NotificationController, Volume, VolumeState, ProjectVolumeActions, VolumeAttachNotifications, stores, ModalHelpers, VolumeAttachRulesModal, VolumeAttachModal, VolumeDetachModal, VolumeDeleteModal, VolumeCreateModal) {
 
     return {
 
@@ -53,58 +60,63 @@ define(
 
         var instances = stores.InstanceStore.getInstancesInProject(project);
         if(instances.length === 0){
-          VolumeModalHelpers.explainAttachRules();
+
+          var modal = VolumeAttachRulesModal({
+            backdrop: 'static'
+          });
+
+          ModalHelpers.renderModal(modal, function(){});
+
         }else{
-          VolumeModalHelpers.attach({
+
+          var modal = VolumeAttachModal({
             volume: volume,
             project: project
-          },{
-            onConfirm: function (instance, mountLocation) {
-
-              var volumeState = new VolumeState({status_raw: "attaching"});
-              volume.set({state: volumeState});
-              that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
-
-              volume.attachTo(instance, mountLocation, {
-                success: function () {
-                  NotificationController.success(null, VolumeAttachNotifications.success());
-                  that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
-                },
-                error: function () {
-                  var message = "Volume could not be attached. " + VolumeAttachNotifications.error();
-                  NotificationController.error(null, message);
-                }
-              });
-            }
           });
+
+          ModalHelpers.renderModal(modal, function (instance, mountLocation) {
+            var volumeState = new VolumeState({status_raw: "attaching"});
+            volume.set({state: volumeState});
+            that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+
+            volume.attachTo(instance, mountLocation, {
+              success: function () {
+                NotificationController.success(null, VolumeAttachNotifications.success());
+                that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+              },
+              error: function () {
+                var message = "Volume could not be attached. " + VolumeAttachNotifications.error();
+                NotificationController.error(null, message);
+              }
+            });
+          })
         }
-
-
       },
 
       detach: function (volume) {
         var that = this;
 
-        VolumeModalHelpers.detach({
+        var modal = VolumeDetachModal({
           volume: volume
-        },{
-          onConfirm: function () {
-
-            var volumeState = new VolumeState({status_raw: "detaching"});
-            volume.set({state: volumeState});
-            that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
-
-            volume.detach({
-              success: function (model) {
-                NotificationController.success(null, "Volume was detached.  It is now available to attach to another instance or destroy.");
-                that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
-              },
-              error: function (message, response) {
-                NotificationController.error(null, "Volume could not be detached");
-              }
-            });
-          }
         });
+
+        ModalHelpers.renderModal(modal, function () {
+          var volumeState = new VolumeState({status_raw: "detaching"});
+          volume.set({state: volumeState});
+          that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+
+          volume.detach({
+            success: function (model) {
+              NotificationController.success(null, "Volume was detached.  It is now available to attach to another instance or destroy.");
+              that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+            },
+            error: function (message, response) {
+              NotificationController.error(null, "Volume could not be detached");
+            }
+          });
+        })
+
+
       },
 
       _destroy: function(payload, options){
@@ -118,7 +130,7 @@ define(
         that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
 
         volume.destroy().done(function () {
-          NotificationController.success(null, 'Volume destroyed');
+          //NotificationController.success(null, 'Volume destroyed');
 
           that.dispatch(VolumeConstants.REMOVE_VOLUME, {volume: volume});
 
@@ -136,17 +148,16 @@ define(
       destroy: function(payload, options){
         var volume = payload.volume;
         var redirectUrl = payload.redirectUrl;
-        var project = payload.project;
         var that = this;
 
-        VolumeModalHelpers.destroy({
+        var modal = VolumeDeleteModal({
           volume: volume
-        },{
-          onConfirm: function () {
-            that._destroy(payload, options);
-            if(redirectUrl) Backbone.history.navigate(redirectUrl, {trigger: true});
-          }
         });
+
+        ModalHelpers.renderModal(modal, function () {
+          that._destroy(payload, options);
+          if(redirectUrl) Backbone.history.navigate(redirectUrl, {trigger: true});
+        })
       },
 
       destroy_noModal: function(payload, options){
@@ -157,50 +168,49 @@ define(
         var project = payload.project;
         var that = this;
 
-        VolumeModalHelpers.createAndAddToProject(null, {
-          onConfirm: function (volumeName, volumeSize, identity) {
+        var modal = VolumeCreateModal();
 
-            var volume = new Volume({
-              identity: {
-                id: identity.id,
-                provider: identity.get('provider_id')
-              },
-              name: volumeName,
-              description: "",
-              size: volumeSize,
-              status: "creating"
-            }, {parse: true});
+        ModalHelpers.renderModal(modal, function (volumeName, volumeSize, identity) {
+          var volume = new Volume({
+            identity: {
+              id: identity.id,
+              provider: identity.get('provider_id')
+            },
+            name: volumeName,
+            description: "",
+            size: volumeSize,
+            status: "creating"
+          }, {parse: true});
 
-            var params = {
-              model_name: "volume",
-              tags: "CF++"
-            };
+          var params = {
+            model_name: "volume",
+            tags: "CF++"
+          };
 
-            that.dispatch(VolumeConstants.ADD_VOLUME, {volume: volume});
-            that.dispatch(ProjectVolumeConstants.ADD_PENDING_VOLUME_TO_PROJECT, {
+          that.dispatch(VolumeConstants.ADD_VOLUME, {volume: volume});
+          that.dispatch(ProjectVolumeConstants.ADD_PENDING_VOLUME_TO_PROJECT, {
+            volume: volume,
+            project: project
+          });
+
+          volume.save(params).done(function () {
+            NotificationController.success(null, 'Volume created');
+            that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+            that.dispatch(ProjectVolumeConstants.REMOVE_PENDING_VOLUME_FROM_PROJECT, {
               volume: volume,
               project: project
             });
+            ProjectVolumeActions.addVolumeToProject(volume, project);
+            //pollUntilBuildIsFinished(volume);
+          }).fail(function () {
+            NotificationController.error(null, 'Volume could not be created');
 
-            volume.save(params).done(function () {
-              NotificationController.success(null, 'Volume created');
-              that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
-              that.dispatch(ProjectVolumeConstants.REMOVE_PENDING_VOLUME_FROM_PROJECT, {
-                volume: volume,
-                project: project
-              });
-              ProjectVolumeActions.addVolumeToProject(volume, project);
-              //pollUntilBuildIsFinished(volume);
-            }).fail(function () {
-              NotificationController.error(null, 'Volume could not be created');
-
-              that.dispatch(VolumeConstants.REMOVE_VOLUME, {volume: volume});
-              that.dispatch(ProjectVolumeConstants.REMOVE_PENDING_VOLUME_FROM_PROJECT, {
-                volume: volume,
-                project: project
-              });
+            that.dispatch(VolumeConstants.REMOVE_VOLUME, {volume: volume});
+            that.dispatch(ProjectVolumeConstants.REMOVE_PENDING_VOLUME_FROM_PROJECT, {
+              volume: volume,
+              project: project
             });
-          }
+          });
         })
 
       }

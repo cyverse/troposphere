@@ -5,35 +5,9 @@ define(
     'react',
     'components/mixins/BootstrapModalMixin.react',
     'stores',
-    '../instance_launch/IdentitySelect.react',
-    '../instance_launch/ProjectSelect.react'
+    '../instance_launch/IdentitySelect.react'
   ],
-  function (React, BootstrapModalMixin, stores, IdentitySelect, ProjectSelect) {
-
-    // Example Usage from http://bl.ocks.org/insin/raw/8449696/
-    // render: function(){
-    // <div>
-    //   ...custom components...
-    //   <ExampleModal
-    //      ref="modal"
-    //      show={false}
-    //      header="Example Modal"
-    //      buttons={buttons}
-    //      handleShow={this.handleLog.bind(this, 'Modal about to show', 'info')}
-    //      handleShown={this.handleLog.bind(this, 'Modal showing', 'success')}
-    //      handleHide={this.handleLog.bind(this, 'Modal about to hide', 'warning')}
-    //      handleHidden={this.handleLog.bind(this, 'Modal hidden', 'danger')}
-    //    >
-    //      <p>I'm the content.</p>
-    //      <p>That's about it, really.</p>
-    //    </ExampleModal>
-    // </div>
-    //
-
-    // To show the modal, call this.refs.modal.show() from the parent component:
-    // handleShowModal: function() {
-    //   this.refs.modal.show();
-    // }
+  function (React, BootstrapModalMixin, stores, IdentitySelect) {
 
     function getState() {
       var state = {
@@ -62,6 +36,20 @@ define(
 
     return React.createClass({
       mixins: [BootstrapModalMixin],
+
+      isSubmittable: function(){
+        // Make sure the selected provider is not in maintenance
+          var selectedIdentity = stores.IdentityStore.get(this.state.identityId);
+          var isProviderInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(selectedIdentity.get('provider_id'));
+
+          // Disable the launch button if the user hasn't provided a name, size or identity for the volume
+          var hasProvider              = !!this.state.identityId;
+          var hasName                  = !!this.state.volumeName;
+          var hasSize                  = !!this.state.volumeSize;
+          var providerNotInMaintenance = !isProviderInMaintenance;
+
+        return hasProvider && hasName && hasSize && providerNotInMaintenance;
+      },
 
       //
       // Mounting & State
@@ -134,37 +122,9 @@ define(
       // ------
       //
 
-      render: function () {
-        var buttonArray = [
-          {type: 'danger', text: 'Cancel', handler: this.cancel},
-          {type: 'primary', text: this.props.confirmButtonMessage, handler: this.confirm}
-        ];
-
-        var buttons = buttonArray.map(function (button) {
-          // Enable all buttons be default
-          var isDisabled = false;
-
-          // Make sure the selected provider is not in maintenance
-          var selectedIdentity = stores.IdentityStore.get(this.state.identityId);
-          var isProviderInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(selectedIdentity.get('provider_id'));
-
-          // Disable the launch button if the user hasn't provided a name, size or identity for the volume
-          var stateIsValid = this.state.identityId &&
-                             this.state.volumeName &&
-                             this.state.volumeSize &&
-                             !isProviderInMaintenance;
-          if(button.type === "primary" && !stateIsValid ) isDisabled = true;
-
-          return (
-            <button key={button.text} type="button" className={'btn btn-' + button.type} onClick={button.handler} disabled={isDisabled}>
-              {button.text}
-            </button>
-          );
-        }.bind(this));
-
-        var content;
+      renderBody: function(){
         if(this.state.identities && this.state.providers){
-          content = (
+          return (
             <form role='form'>
 
               <div className='form-group'>
@@ -190,24 +150,31 @@ define(
             </form>
           );
         }else{
-          content = (
+          return (
             <div className="loading"></div>
           );
         }
+      },
 
+      render: function () {
         return (
           <div className="modal fade">
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
                   {this.renderCloseButton()}
-                  <strong>{this.props.header}</strong>
+                  <strong>Create Volume</strong>
                 </div>
                 <div className="modal-body">
-                  {content}
+                  {this.renderBody()}
                 </div>
                 <div className="modal-footer">
-                  {buttons}
+                  <button type="button" className="btn btn-danger" onClick={this.cancel}>
+                    Cancel
+                  </button>
+                  <button type="button" className="btn btn-primary" onClick={this.confirm} disabled={!this.isSubmittable()}>
+                    Create volume
+                  </button>
                 </div>
               </div>
             </div>

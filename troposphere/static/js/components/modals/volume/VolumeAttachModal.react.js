@@ -4,10 +4,10 @@ define(
   [
     'react',
     'components/mixins/BootstrapModalMixin.react',
-    'stores/InstanceStore',
+    'stores',
     '../volume_attach/InstanceSelect.react'
   ],
-  function (React, BootstrapModalMixin, InstanceStore, InstanceSelect) {
+  function (React, BootstrapModalMixin, stores, InstanceSelect) {
 
     // Example Usage from http://bl.ocks.org/insin/raw/8449696/
     // render: function(){
@@ -36,7 +36,7 @@ define(
 
     function getState(project) {
       var state = {
-        instances: InstanceStore.getInstancesInProject(project),
+        instances: stores.InstanceStore.getInstancesInProject(project),
         instanceId: null
       };
 
@@ -58,6 +58,11 @@ define(
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
+      isSubmittable: function(){
+        var hasInstanceId = !!this.state.instanceId;
+        return hasInstanceId;
+      },
+
       //
       // Mounting & State
       // ----------------
@@ -71,11 +76,11 @@ define(
       },
 
       componentDidMount: function () {
-        InstanceStore.addChangeListener(this.updateState);
+        stores.InstanceStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
-        InstanceStore.removeChangeListener(this.updateState);
+        stores.InstanceStore.removeChangeListener(this.updateState);
       },
 
       //
@@ -109,30 +114,10 @@ define(
       // ------
       //
 
-      render: function () {
-        var buttonArray = [
-          {type: 'danger', text: 'Cancel', handler: this.cancel},
-          {type: 'primary', text: this.props.confirmButtonMessage, handler: this.confirm}
-        ];
+      renderBody: function(){
 
-        var buttons = buttonArray.map(function (button) {
-          // Enable all buttons be default
-          var isDisabled = false;
-
-          // Disable the launch button if the user hasn't provided a name for the instance
-          var stateIsValid = this.state.instanceId;
-          if(button.type === "primary" && !stateIsValid ) isDisabled = true;
-
-          return (
-            <button key={button.text} type="button" className={'btn btn-' + button.type} onClick={button.handler} disabled={isDisabled}>
-              {button.text}
-            </button>
-          );
-        }.bind(this));
-
-        var content;
         if(this.state.instances){
-          content = (
+          return (
             <form role='form'>
               <p>Select the instance from the list below that you would like to attach the volume to:</p>
 
@@ -147,25 +132,32 @@ define(
 
             </form>
           );
-        }else{
-          content = (
-            <div className="loading"></div>
-          );
         }
 
+        return (
+          <div className="loading"></div>
+        );
+      },
+
+      render: function () {
         return (
           <div className="modal fade">
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
                   {this.renderCloseButton()}
-                  <strong>{this.props.header}</strong>
+                  <strong>Attach Volume</strong>
                 </div>
                 <div className="modal-body">
-                  {content}
+                  {this.renderBody()}
                 </div>
                 <div className="modal-footer">
-                  {buttons}
+                  <button type="button" className="btn btn-danger" onClick={this.cancel}>
+                    Cancel
+                  </button>
+                  <button type="button" className="btn btn-primary" onClick={this.confirm} disabled={!this.isSubmittable()}>
+                    Attach volume to instance
+                  </button>
                 </div>
               </div>
             </div>
