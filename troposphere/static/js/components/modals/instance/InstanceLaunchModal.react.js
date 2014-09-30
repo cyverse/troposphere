@@ -12,31 +12,6 @@ define(
   ],
   function (React, BootstrapModalMixin, stores, MachineSelect, IdentitySelect, InstanceSizeSelect, ProjectSelect) {
 
-    // Example Usage from http://bl.ocks.org/insin/raw/8449696/
-    // render: function(){
-    // <div>
-    //   ...custom components...
-    //   <ExampleModal
-    //      ref="modal"
-    //      show={false}
-    //      header="Example Modal"
-    //      buttons={buttons}
-    //      handleShow={this.handleLog.bind(this, 'Modal about to show', 'info')}
-    //      handleShown={this.handleLog.bind(this, 'Modal showing', 'success')}
-    //      handleHide={this.handleLog.bind(this, 'Modal about to hide', 'warning')}
-    //      handleHidden={this.handleLog.bind(this, 'Modal hidden', 'danger')}
-    //    >
-    //      <p>I'm the content.</p>
-    //      <p>That's about it, really.</p>
-    //    </ExampleModal>
-    // </div>
-    //
-
-    // To show the modal, call this.refs.modal.show() from the parent component:
-    // handleShowModal: function() {
-    //   this.refs.modal.show();
-    // }
-
     function getState() {
       var state = {
         providers: stores.ProviderStore.getAll(),
@@ -101,6 +76,20 @@ define(
 
       propTypes: {
         application: React.PropTypes.instanceOf(Backbone.Model).isRequired
+      },
+
+      isSubmittable: function(){
+        // Make sure the selected provider is not in maintenance
+        var selectedIdentity = stores.IdentityStore.get(this.state.identityId);
+        var isProviderInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(selectedIdentity.get('provider_id'));
+
+        var hasInstanceName          = !!this.state.instanceName;
+        var hasImageVersion          = !!this.state.machineId;
+        var hasProvider              = !!this.state.identityId;
+        var hasSize                  = !!this.state.sizeId;
+        var providerNotInMaintenance = !!isProviderInMaintenance;
+
+        return hasInstanceName && hasImageVersion && hasProvider && hasSize && providerNotInMaintenance;
       },
 
       //
@@ -187,42 +176,15 @@ define(
       // Render
       // ------
       //
-      render: function () {
-        var buttonArray = [
-          {type: 'danger', text: 'Cancel', handler: this.cancel},
-          {type: 'primary', text: this.props.confirmButtonMessage, handler: this.confirm}
-        ];
-        var buttons = buttonArray.map(function (button) {
-          // Enable all buttons be default
-          var isDisabled = false;
 
-          // Make sure the selected provider is not in maintenance
-          var selectedIdentity = stores.IdentityStore.get(this.state.identityId);
-          var isProviderInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(selectedIdentity.get('provider_id'));
-
-          // Disable the launch button if the user hasn't provided a name for the instance
-          var stateIsValid = this.state.instanceName &&
-                             this.state.machineId &&
-                             this.state.identityId &&
-                             this.state.sizeId &&
-                             !isProviderInMaintenance;
-          if(button.type === "primary" && !stateIsValid ) isDisabled = true;
-
-          return (
-            <button key={button.text} type="button" className={'btn btn-' + button.type} onClick={button.handler} disabled={isDisabled}>
-              {button.text}
-            </button>
-          );
-        }.bind(this));
-
-        var content;
+      renderBody: function(){
         if(this.state.identities && this.state.providers && this.state.projects && this.state.sizes){
 
           // Use selected machine (image version) or default to the first one
           // todo: we should be sorting these by date or version number before selecting the first one
           var machines = this.props.application.get('machines');
 
-          content = (
+          return (
             <form role='form'>
 
               <div className='form-group'>
@@ -267,25 +229,32 @@ define(
               </div>
             </form>
           );
-        }else{
-          content = (
-            <div className="loading"></div>
-          );
         }
 
+        return (
+          <div className="loading"></div>
+        );
+      },
+
+      render: function () {
         return (
           <div className="modal fade">
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
                   {this.renderCloseButton()}
-                  <strong>{this.props.header}</strong>
+                  <strong>Launch instance of {this.props.application.get('name')}</strong>
                 </div>
                 <div className="modal-body">
-                  {content}
+                  {this.renderBody()}
                 </div>
                 <div className="modal-footer">
-                  {buttons}
+                  <button type="button" className="btn btn-danger" onClick={this.cancel}>
+                    Cancel
+                  </button>
+                  <button type="button" className="btn btn-primary" onClick={this.confirm} disabled={!this.isSubmittable()}>
+                    Launch instance
+                  </button>
                 </div>
               </div>
             </div>
