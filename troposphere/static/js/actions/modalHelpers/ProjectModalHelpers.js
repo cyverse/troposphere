@@ -18,8 +18,6 @@ define(
         if(!options.onConfirm) throw new Error("Must supply options.onConfirm callback");
 
         var modal = ProjectCreateModal({
-          header: "Create Project",
-          confirmButtonMessage: "Create",
           onConfirm: options.onConfirm,
           onCancel: CommonHelpers.onCancel,
           handleHidden: CommonHelpers.onCancel

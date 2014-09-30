@@ -17,6 +17,12 @@ define(
         };
       },
 
+      isSubmittable: function(){
+        var hasName        = !!this.state.projectName;
+        var hasDescription = !!this.state.projectDescription;
+        return hasName && hasDescription;
+      },
+
       //
       // Internal Modal Callbacks
       // ------------------------
@@ -39,11 +45,11 @@ define(
       // todo: I don't think there's a reason to update state unless
       // there's a risk of the component being re-rendered by the parent.
       // Should probably verify this behavior, but for now, we play it safe.
-      onProjectNameChange: function (e) {
+      onNameChange: function (e) {
         this.setState({projectName: e.target.value});
       },
 
-      onProjectDescriptionChange: function (e) {
+      onDescriptionChange: function (e) {
         this.setState({projectDescription: e.target.value});
       },
 
@@ -52,45 +58,29 @@ define(
       // ------
       //
 
-      render: function () {
-        var buttonArray = [
-          {type: 'danger', text: 'Cancel', handler: this.cancel},
-          {type: 'primary', text: this.props.confirmButtonMessage, handler: this.confirm}
-        ];
-
-        var buttons = buttonArray.map(function (button) {
-          // Enable all buttons be default
-          var isDisabled = false;
-
-          // Disable the launch button if the user hasn't provided a name, size or identity for the volume
-          var stateIsValid = this.state.projectName &&
-                             this.state.projectDescription;
-          if(button.type === "primary" && !stateIsValid ) isDisabled = true;
-
-          return (
-            <button key={button.text} type="button" className={'btn btn-' + button.type} onClick={button.handler} disabled={isDisabled}>
-              {button.text}
-            </button>
-          );
-        }.bind(this));
-
-        var content = (
+      renderBody: function(){
+        return (
           <form role='form'>
+
             <div className='form-group'>
               <label htmlFor='project-name'>Project Name</label>
-              <input type='text' className='form-control' value={this.state.projectName} onChange={this.onProjectNameChange}/>
+              <input type='text' className='form-control' value={this.state.projectName} onChange={this.onNameChange}/>
             </div>
+
             <div className='form-group'>
               <label htmlFor='project-description'>Description</label>
               <textarea type='text'
                         className='form-control'
                         rows="7"
                         value={this.state.projectDescription}
-                        onChange={this.onProjectDescriptionChange}
+                        onChange={this.onDescriptionChange}
               />
             </div>
           </form>
         );
+      },
+
+      render: function () {
 
         return (
           <div className="modal fade">
@@ -98,13 +88,18 @@ define(
               <div className="modal-content">
                 <div className="modal-header">
                   {this.renderCloseButton()}
-                  <strong>{this.props.header}</strong>
+                  <strong>Create Project</strong>
                 </div>
                 <div className="modal-body">
-                  {content}
+                  {this.renderBody()}
                 </div>
                 <div className="modal-footer">
-                  {buttons}
+                  <button type="button" className="btn btn-danger" onClick={this.cancel}>
+                    Cancel
+                  </button>
+                  <button type="button" className="btn btn-primary" onClick={this.confirm} disabled={!this.isSubmittable()}>
+                    Create
+                  </button>
                 </div>
               </div>
             </div>
