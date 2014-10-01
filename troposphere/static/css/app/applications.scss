@@ -382,3 +382,36 @@ ul.tags {
   margin-top: 10px;
   text-align: left;
 }
+
+ul.tag-list {
+  list-style-type: none;
+  padding-left: 0;
+
+  li.tag-item {
+    //border-top: solid 1px #ddd;
+
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+    border-left-color: #6AA54F;
+
+    h4 {
+      margin-top: 0;
+      margin-bottom: 5px;
+    }
+
+    p {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.image-tag-list {
+  table {
+    h4 {
+      min-height: 30px;
+    }
+  }
+}
