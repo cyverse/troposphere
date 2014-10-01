@@ -4,8 +4,8 @@ define(
   [
     'react',
     'backbone',
-    '../resources/instance/preview/InstancePreviewView.react',
-    '../resources/volume/preview/VolumePreviewView.react',
+    'components/projects/resources/instance/preview/InstancePreviewView.react',
+    'components/projects/resources/volume/preview/VolumePreviewView.react',
 
     // Resource Models
     'models/Instance',

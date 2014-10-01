@@ -3,7 +3,7 @@
 define(
   [
     'react',
-    './detail/ProjectResourcesWrapper.react',
+    './detail/resources/ProjectResourcesWrapper.react',
     './resources/instance/details/InstanceDetailsView.react',
     'stores/ProjectStore'
   ],

@@ -4,7 +4,7 @@ define(
   [
     'react',
     'backbone',
-    '../../common/SecondaryProjectNavigation.react'
+    'components/projects/common/SecondaryProjectNavigation.react'
   ],
   function (React, Backbone, SecondaryProjectNavigation) {
 
