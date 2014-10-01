@@ -3,11 +3,10 @@
 define(
   [
     'react',
-    './detail/ProjectDetailsView.react',
-    './detail/ProjectDetails.react',
-    'stores'
+    'stores',
+    './detail/details/ProjectDetailsView.react'
   ],
-  function (React, ProjectDetailsView, ProjectDetails, stores) {
+  function (React, stores, ProjectDetailsView) {
 
     function getState(projectId) {
       return {
@@ -48,10 +47,34 @@ define(
       //
 
       render: function () {
-        if (this.state.project) {
+        var project = this.state.project;
+        var h4Style = {
+          "color": "#5A5A5A",
+          "font-size": "18px",
+          "margin-bottom": "5px"
+        };
+
+        var pStyle = {
+          "font-size": "15px"
+        };
+
+        var divStyle= {
+          "margin-top": "22px"
+        };
+
+        if (project) {
           return (
-            <ProjectDetailsView project={this.state.project}>
-              <h3>Details for project {this.state.project.get('name')}</h3>
+            <ProjectDetailsView project={project}>
+              <div>
+                <div style={divStyle}>
+                  <h4 style={h4Style}>Created</h4>
+                  <p style={pStyle}>{project.get('start_date').format("MMMM Do, YYYY")}</p>
+                </div>
+                <div style={divStyle}>
+                  <h4 style={h4Style}>Description</h4>
+                  <p style={pStyle}>{project.get('description')}</p>
+                </div>
+              </div>
             </ProjectDetailsView>
           );
         }

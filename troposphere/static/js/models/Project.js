@@ -4,9 +4,10 @@ define(
     'backbone',
     'models/Instance',
     'models/Volume',
-    'globals'
+    'globals',
+    'moment'
   ],
-  function (_, Backbone, Instance, Volume, globals) {
+  function (_, Backbone, Instance, Volume, globals, moment) {
 
     var statics = {
       objectType: function (model) {
@@ -36,7 +37,7 @@ define(
       },
 
       parse: function (response) {
-        response.start_date = new Date(response.start_date);
+        response.start_date = moment(response.start_date);
 
         return response;
       },
