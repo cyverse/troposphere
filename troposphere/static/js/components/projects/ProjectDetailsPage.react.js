@@ -48,31 +48,18 @@ define(
 
       render: function () {
         var project = this.state.project;
-        var h4Style = {
-          "color": "#5A5A5A",
-          "font-size": "18px",
-          "margin-bottom": "5px"
-        };
-
-        var pStyle = {
-          "font-size": "15px"
-        };
-
-        var divStyle= {
-          "margin-top": "22px"
-        };
 
         if (project) {
           return (
             <ProjectDetailsView project={project}>
               <div>
-                <div style={divStyle}>
-                  <h4 style={h4Style}>Created</h4>
-                  <p style={pStyle}>{project.get('start_date').format("MMMM Do, YYYY")}</p>
+                <div className="project-info-segment">
+                  <h4>Created</h4>
+                  <p>{project.get('start_date').format("MMMM Do, YYYY")}</p>
                 </div>
-                <div style={divStyle}>
-                  <h4 style={h4Style}>Description</h4>
-                  <p style={pStyle}>{project.get('description')}</p>
+                <div className="project-info-segment">
+                  <h4>Description</h4>
+                  <p>{project.get('description')}</p>
                 </div>
               </div>
             </ProjectDetailsView>
