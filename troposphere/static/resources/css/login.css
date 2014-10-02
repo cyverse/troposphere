@@ -64,6 +64,20 @@ h4, h5 {
 	;
 }
 
+a.submitButton {
+    display: block;
+    width: 227px;
+    margin: auto;
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+a.submitButton:hover {
+    color: white;
+    border-bottom-color: white;
+    border-bottom-width: 2px;
+}
+
 #login {
 	position: relative;
 	top: -250px;
