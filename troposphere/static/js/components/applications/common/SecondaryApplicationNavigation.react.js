@@ -26,6 +26,12 @@ define(
         href: "/application/images/authored",
         icon: "user",
         requiresLogin: true
+      },
+      {
+        name: "Tags",
+        href: "/application/images/tags",
+        icon: "tags",
+        requiresLogin: false
       }
     ];
 

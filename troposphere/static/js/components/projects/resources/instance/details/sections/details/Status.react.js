@@ -6,7 +6,7 @@ define(
     'backbone',
     'components/projects/common/ResourceDetail.react',
     'components/projects/common/StatusLight.react',
-    'components/projects/detail/tableData/instance/StatusBar.react'
+    'components/projects/detail/resources/tableData/instance/StatusBar.react'
   ],
   function (React, Backbone, ResourceDetail, StatusLight, StatusBar) {
 

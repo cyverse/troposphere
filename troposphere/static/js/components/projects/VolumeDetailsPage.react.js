@@ -3,11 +3,11 @@
 define(
   [
     'react',
-    './detail/ProjectDetailsView.react',
+    './detail/resources/ProjectResourcesWrapper.react',
     './resources/volume/details/VolumeDetailsView.react',
     'stores/ProjectStore'
   ],
-  function (React, ProjectDetailsView, VolumeDetailsView, ProjectStore) {
+  function (React, ProjectResourcesWrapper, VolumeDetailsView, ProjectStore) {
 
     function getState(projectId) {
       return {
@@ -52,9 +52,9 @@ define(
 
         if (this.state.project) {
           return (
-            <ProjectDetailsView project={this.state.project}>
+            <ProjectResourcesWrapper project={this.state.project}>
               <VolumeDetailsView project={this.state.project} volumeId={this.props.volumeId}/>
-            </ProjectDetailsView>
+            </ProjectResourcesWrapper>
           );
         }
 

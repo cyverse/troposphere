@@ -3,11 +3,11 @@
 define(
   [
     'react',
-    './detail/ProjectDetailsView.react',
+    './detail/resources/ProjectResourcesWrapper.react',
     './resources/instance/request_image/RequestImageView.react',
     'stores/ProjectStore'
   ],
-  function (React, ProjectDetailsView, RequestImageView, ProjectStore) {
+  function (React, ProjectResourcesWrapper, RequestImageView, ProjectStore) {
 
     function getState(projectId) {
       return {
@@ -52,9 +52,9 @@ define(
 
         if (this.state.project) {
           return (
-            <ProjectDetailsView project={this.state.project}>
+            <ProjectResourcesWrapper project={this.state.project}>
               <RequestImageView project={this.state.project} instanceId={this.props.instanceId}/>
-            </ProjectDetailsView>
+            </ProjectResourcesWrapper>
           );
         }
 

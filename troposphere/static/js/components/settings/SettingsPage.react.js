@@ -64,7 +64,7 @@ define(
             <div className="container">
               <div className="notifications">
                 <h3>Notifications</h3>
-                <div class="checkbox">
+                <div className="checkbox">
                   <input type="checkbox" checked={wantsEmails} onChange={this.onChangeEmailPreference}/> Receive an email notification when an instance finishes launching
                 </div>
               </div>
