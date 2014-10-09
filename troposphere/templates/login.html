@@ -59,7 +59,8 @@
                     <small color="#444">iPlant Cloud Services</small>
                 </h2>
 
-                <br/><br/>
+                <br/>
+                <br/>
 
                 {% for record in records %}
                     <div class='maintenance-message'
@@ -71,16 +72,14 @@
                             {{ record.message }}
                         {% endif %}</div>
                 {% endfor %}
-                <form>
-                    {% csrf_token %}
-                    {% if disable_login == False %}
-                        <a href="/login">
-                            <input value="Log in with your iPlant ID" class="submitButton">
-                        </a>
-                    {% else %}
-                    {% endif %}
-                    <input type="hidden" name="next" value="/">
-                </form>
+
+                {% csrf_token %}
+                {% if disable_login == False %}
+                    <a class="submitButton" href="/login">
+                        Log in with your iPlant ID
+                    </a>
+                {% else %}
+                {% endif %}
 
                 <a href="https://user.iplantcollaborative.org/reset/request">Forgot Password?</a>
                 <a href="https://user.iplantcollaborative.org/register/">Register Now</a>
