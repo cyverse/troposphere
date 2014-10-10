@@ -3,11 +3,12 @@
 define(
   [
     'react',
+    'backbone',
     'components/mixins/BootstrapModalMixin.react',
     'stores',
     '../volume_attach/InstanceSelect.react'
   ],
-  function (React, BootstrapModalMixin, stores, InstanceSelect) {
+  function (React, Backbone, BootstrapModalMixin, stores, InstanceSelect) {
 
     // Example Usage from http://bl.ocks.org/insin/raw/8449696/
     // render: function(){

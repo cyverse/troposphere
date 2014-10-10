@@ -3,6 +3,7 @@
 define(
   [
     'react',
+    'backbone',
     'components/mixins/BootstrapModalMixin.react',
     'stores',
     '../instance_launch/MachineSelect.react',
@@ -10,7 +11,7 @@ define(
     '../instance_launch/InstanceSizeSelect.react',
     '../instance_launch/ProjectSelect.react'
   ],
-  function (React, BootstrapModalMixin, stores, MachineSelect, IdentitySelect, InstanceSizeSelect, ProjectSelect) {
+  function (React, Backbone, BootstrapModalMixin, stores, MachineSelect, IdentitySelect, InstanceSizeSelect, ProjectSelect) {
 
     function getState() {
       var state = {

@@ -3,9 +3,10 @@
 define(
   [
     'react',
+    'backbone',
     'components/mixins/BootstrapModalMixin.react'
   ],
-  function (React, BootstrapModalMixin) {
+  function (React, Backbone, BootstrapModalMixin) {
 
     return React.createClass({
       mixins: [BootstrapModalMixin],
