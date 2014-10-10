@@ -87,7 +87,7 @@ define(
         that.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
 
         instance.destroy().done(function () {
-          NotificationController.success(null, 'Instance terminated');
+          //NotificationController.success(null, 'Instance terminated');
           // poll until the instance is actually terminated
           //that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
           ProjectInstanceActions.removeInstanceFromProject(instance, project);
@@ -273,7 +273,7 @@ define(
 
           instance.save(params, {
             success: function (model) {
-              NotificationController.success(null, 'Instance launching...');
+              //NotificationController.success(null, 'Instance launching...');
               that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
               that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
               that.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
