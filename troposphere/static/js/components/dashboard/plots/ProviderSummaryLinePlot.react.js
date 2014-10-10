@@ -193,6 +193,15 @@ define(
             backgroundColor:'transparent',
             height: 400
           },
+          colors: [
+            '#0098aa',
+            '#56AA21',
+            '#AD5527',
+            '#5E8535',
+            '#60646B',
+            '#2F5494',
+            '#C79730'
+          ],
           credits: {
             enabled: false
           },
