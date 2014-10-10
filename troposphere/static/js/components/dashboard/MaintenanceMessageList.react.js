@@ -4,22 +4,35 @@ define(
   [
     'react',
     'backbone',
-    './MaintenanceMessage.react'
+    './MaintenanceMessage.react',
+    './ImageCreatedMessage.react'
   ],
-  function (React, Backbone, MaintenanceMessage) {
+  function (React, Backbone, MaintenanceMessage, ImageCreatedMessage) {
 
     return React.createClass({
 
       propTypes: {
-        messages: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        messages: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        applications: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      },
+
+      renderApplicationNotification: function(application){
+        return (
+          <ImageCreatedMessage key={application.id} application={application}/>
+        );
+      },
+
+      renderMaintenanceNotification: function(message){
+        return (
+          <MaintenanceMessage message={message}/>
+        );
       },
 
       render: function () {
-        var notifications = this.props.messages.map(function (message) {
-          return (
-            <MaintenanceMessage message={message}/>
-            );
-        }.bind(this));
+        var notifications = [];
+        var maintenanceNotifications = this.props.messages.map(this.renderMaintenanceNotification);
+        var applicationNotifications = this.props.applications.slice(0,10).map(this.renderApplicationNotification);
+        notifications = notifications.concat(maintenanceNotifications, applicationNotifications);
 
         if (notifications.length > 0) {
           return (

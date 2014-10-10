@@ -4,9 +4,10 @@ define(
     'backbone',
     'globals',
     'models/Machine',
-    'collections/MachineCollection'
+    'collections/MachineCollection',
+    'moment'
   ],
-  function (_, Backbone, globals, Machine, MachineCollection) {
+  function (_, Backbone, globals, Machine, MachineCollection, moment) {
 
     return Backbone.Model.extend({
 
@@ -29,6 +30,9 @@ define(
           return new Machine(Machine.prototype.parse(attrs));
         });
         attributes.machines = new MachineCollection(machines);
+        attributes.start_date = moment(attributes.start_date);
+        attributes.end_date = moment(attributes.end_date);
+
         return attributes;
       },
 

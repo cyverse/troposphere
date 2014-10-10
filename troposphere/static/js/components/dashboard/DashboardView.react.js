@@ -21,7 +21,8 @@ define(
         identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         volumes: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        maintenanceMessages: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        maintenanceMessages: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        applications: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       render: function () {
@@ -85,7 +86,9 @@ define(
                 </div>
 
                 <div className="col-md-3">
-                  <MaintenanceMessageList messages={this.props.maintenanceMessages}/>
+                  <MaintenanceMessageList messages={this.props.maintenanceMessages}
+                                          applications={this.props.applications}
+                  />
                 </div>
 
               </div>
