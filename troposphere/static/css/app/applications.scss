@@ -4,14 +4,62 @@
 .application-card-view {
   h3 {
     margin-left: 9%;
+    border-bottom: 1px solid #ccc;
   }
 
-  .app-card-list {
+  .app-card-grid {
     margin-left: 9%;
   }
 }
 
 .app-card-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  // todo: this is a hack to get the cards to align in the center of the page
+  // find a better way to do this, or (at least) modify this value to adjust
+  // for different screen sizes
+  margin-left: 9%;
+
+  > li {
+    margin: 0 20px 20px 0;
+  }
+
+  .app-card {
+    border: 1px solid #ccc;
+    width: 100%;
+
+    .icon-container {
+      margin-left: 20px;
+      text-align: left;
+    }
+
+    .app-name {
+      vertical-align: top;
+      display: inline-block;
+
+      strong {
+        font-size: 19px;
+      }
+    }
+
+    .tags {
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+
+    p {
+      white-space: normal;
+      padding-left: 20px;
+      padding-right: 20px;
+      padding-top: 5px;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.app-card-grid {
   list-style: none;
   margin: 0;
   padding: 0;

@@ -3,7 +3,7 @@
 define(
   [
     'react',
-    '../common/ApplicationListCard.react'
+    '../common/ApplicationCard.react'
   ],
   function (React, ApplicationCard) {
 
@@ -25,20 +25,19 @@ define(
         this.setState({page: this.state.page + 1})
       },
 
-      renderCard: function(application){
-        return (
-          <li key={application.id}>
-            <ApplicationCard application={application}
-                             tags={this.props.tags}/>
-          </li>
-        );
-      },
-
       render: function () {
         var applications = this.props.applications;
         var numberOfResults = this.state.page*this.state.resultsPerPage;
         var apps = applications.first(numberOfResults);
-        var appCards = apps.map(this.renderCard);
+
+        var appCards = apps.map(function (app) {
+          return (
+            <li key={app.id}>
+              <ApplicationCard application={app}
+                               tags={this.props.tags}/>
+            </li>
+          );
+        }.bind(this));
 
         var loadMoreImagesButton;
         if(numberOfResults < applications.models.length) {
@@ -52,7 +51,7 @@ define(
         return (
           <div>
             <h3>{this.props.title}</h3>
-            <ul className='app-card-list'>
+            <ul className='app-card-grid'>
               {appCards}
             </ul>
             {loadMoreImagesButton}
