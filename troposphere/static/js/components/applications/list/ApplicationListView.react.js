@@ -86,13 +86,23 @@ define(
         var tags = this.props.tags;
 
         if (applications && tags) {
-          return (
-            <ApplicationCardList key="all"
-                                 title="All Images"
-                                 applications={applications}
-                                 tags={tags}
-            />
-          );
+          if(this.state.viewType === "list") {
+            return (
+              <ApplicationCardList key="all"
+                                   title="All Images"
+                                   applications={applications}
+                                   tags={tags}
+              />
+            );
+          }else{
+            return (
+              <ApplicationCardGrid key="all"
+                                   title="All Images"
+                                   applications={applications}
+                                   tags={tags}
+              />
+            );
+          }
         } else {
           return (
             <div className="loading"></div>
@@ -100,14 +110,38 @@ define(
         }
       },
 
+      renderListButton: function(){
+        var classValues = "btn btn-default";
+        if(this.state.viewType === "list") classValues += " active";
+
+        return (
+          <button type="button" className={classValues} onClick={this.onChangeViewType}>
+            <span className="glyphicon glyphicon-align-justify"></span> List
+          </button>
+        );
+      },
+
+      renderGridButton: function(){
+        var classValues = "btn btn-default";
+        if(this.state.viewType === "grid") classValues += " active";
+
+        return (
+          <button type="button" className={classValues} onClick={this.onChangeViewType}>
+            <span className="glyphicon glyphicon-th"></span> Grid
+          </button>
+        );
+      },
+
       render: function () {
         var routes = this.getRoutes();
 
         return (
           <div>
-            <div style={{"float": "right"}}>
-              <button onClick={this.onChangeViewType}>List</button>
-              <button onClick={this.onChangeViewType}>Grid</button>
+            <div className="clearfix">
+              <div className="btn-group pull-right">
+                {this.renderListButton()}
+                {this.renderGridButton()}
+              </div>
             </div>
             {this.renderFeaturedImages()}
             {this.renderImages()}

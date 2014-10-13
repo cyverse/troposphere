@@ -44,7 +44,7 @@ define(
         if(numberOfResults < applications.models.length) {
           loadMoreImagesButton = (
             <button style={{"margin": "auto", "display": "block"}} className="btn btn-default" onClick={this.onLoadMoreImages}>
-            Show more images...
+              Show more images...
             </button>
           )
         }
