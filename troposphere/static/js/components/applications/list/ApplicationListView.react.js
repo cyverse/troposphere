@@ -40,33 +40,8 @@ define(
         TagStore.removeChangeListener(this.updateState);
       },
 
-      render: function () {
-        var content;
-        if (this.state.applications && this.state.tags) {
-          var featuredApplicationArray = this.state.applications.filter(function (app) {
-            return app.get('featured');
-          });
-          var featuredApplications = new ApplicationCollection(featuredApplicationArray);
-
-          content = [
-            <ApplicationCardList key="featured"
-                                 title="Featured Images"
-                                 applications={featuredApplications}
-                                 tags={this.props.tags}
-            />,
-            <ApplicationCardList key="all"
-                                 title="All Images"
-                                 applications={this.state.applications}
-                                 tags={this.props.tags}
-            />
-          ];
-        } else {
-          content = (
-            <div className="loading"></div>
-          );
-        }
-
-        var routes = [
+      getRoutes: function(){
+        return [
           {
             name: "Search",
             href: "/application/images"
@@ -80,14 +55,53 @@ define(
             href: "/application/images/authored"
           }
         ];
+      },
 
-        var currentRoute = "search";
+      renderFeaturedImages: function(){
+        if (this.state.applications && this.state.tags) {
+          var featuredApplicationArray = this.state.applications.filter(function (app) {
+            return app.get('featured');
+          });
+          var featuredApplications = new ApplicationCollection(featuredApplicationArray);
+
+          return (
+            <ApplicationCardList key="featured"
+                                 title="Featured Images"
+                                 applications={featuredApplications}
+                                 tags={this.props.tags}
+            />
+          );
+        }
+      },
+
+      renderImages: function(){
+        var applications = this.state.applications;
+        var tags = this.state.tags;
+
+        if (applications && tags) {
+          return (
+            <ApplicationCardList key="all"
+                                 title="All Images"
+                                 applications={applications}
+                                 tags={tags}
+            />
+          );
+        } else {
+          return (
+            <div className="loading"></div>
+          );
+        }
+      },
+
+      render: function () {
+        var routes = this.getRoutes();
 
         return (
           <div className="container">
-            <SecondaryNavigation title="Images" routes={routes} currentRoute={currentRoute}/>
+            <SecondaryNavigation title="Images" routes={routes} currentRoute="search"/>
             <ApplicationSearch/>
-            {content}
+            {this.renderFeaturedImages()}
+            {this.renderImages()}
           </div>
         );
 
