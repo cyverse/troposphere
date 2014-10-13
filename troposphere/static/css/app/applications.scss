@@ -3,12 +3,7 @@
 // for different screen sizes
 .application-card-view {
   h3 {
-    margin-left: 9%;
     border-bottom: 1px solid #ccc;
-  }
-
-  .app-card-grid {
-    margin-left: 9%;
   }
 }
 
@@ -17,13 +12,8 @@
   margin: 0;
   padding: 0;
 
-  // todo: this is a hack to get the cards to align in the center of the page
-  // find a better way to do this, or (at least) modify this value to adjust
-  // for different screen sizes
-  margin-left: 9%;
-
   > li {
-    margin: 0 20px 20px 0;
+    margin: 0 0 20px 0;
   }
 
   .app-card {
@@ -64,15 +54,11 @@
   margin: 0;
   padding: 0;
 
-  // todo: this is a hack to get the cards to align in the center of the page
-  // find a better way to do this, or (at least) modify this value to adjust
-  // for different screen sizes
-  margin-left: 9%;
-
   > li {
-    margin: 0 20px 20px 0;
+    margin: 0 0 20px 0;
     display: inline-block;
     vertical-align: top;
+    width: 25%;
   }
 
   /* App cards on image lists */
@@ -413,15 +399,31 @@ ul.tags {
   }
 }
 
+@media (max-width: 991px) {
+  .app-card-grid {
+    > li {
+      width: 33%;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .app-card-grid {
+    > li {
+      width: 50%;
+    }
+  }
+}
+
 /* Search */
 #search-container {
   text-align: center;
 }
 
 .search-input {
-  height: 3.5em;
+  height: 55px;
+  font-size: 20px;
   margin-bottom: 1em;
-  width: 65%;
   margin-left: auto;
   margin-right: auto;
 }

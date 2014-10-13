@@ -54,6 +54,10 @@ define(
       render: function () {
         return (
           <div>
+            <div style={{"float": "right"}}>
+              <button>List</button>
+              <button>Grid</button>
+            </div>
             {this.renderFeaturedImages()}
             {this.renderImages()}
           </div>

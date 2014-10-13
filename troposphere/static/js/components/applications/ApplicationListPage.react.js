@@ -8,9 +8,10 @@ define(
     './list/ApplicationCardList.react',
     './list/SearchContainer.react',
     'stores/ApplicationStore',
-    'stores/TagStore'
+    'stores/TagStore',
+    './list/ApplicationListView.react'
   ],
-  function (React, SecondaryApplicationNavigation, ApplicationCollection, ApplicationCardList, ApplicationSearch, ApplicationStore, TagStore) {
+  function (React, SecondaryApplicationNavigation, ApplicationCollection, ApplicationCardList, ApplicationSearch, ApplicationStore, TagStore, ApplicationListView) {
 
     function getState() {
       return {
@@ -45,64 +46,27 @@ define(
         ApplicationStore.fetchMore();
       },
 
-      render: function () {
-        var content;
+      renderImages: function(){
         if (this.state.applications && this.state.tags) {
-
-          var featuredApplicationArray = this.state.applications.filter(function (app) {
-            return app.get('featured');
-          });
-          var featuredApplications = new ApplicationCollection(featuredApplicationArray);
-
-          var buttonStyle = {
-            margin: "auto",
-            display: "block"
-          };
-
-          var loadingStyle= {
-            margin: "0px auto"
-          };
-
-          var moreImagesButton = null;
-          if(this.state.applications.meta.next){
-            if(this.state.isLoadingMoreResults){
-              moreImagesButton = (
-                <div style={loadingStyle} className="loading"></div>
-              );
-            }else {
-              moreImagesButton = (
-                <button style={buttonStyle} className="btn btn-default" onClick={this.onLoadMoreImages}>
-                  More Images
-                </button>
-              );
-            }
-          }
-
-          content = [
-            <ApplicationCardList key="featured"
-                                 title="Featured Images"
-                                 applications={featuredApplications}
+          return (
+            <ApplicationListView applications={this.state.applications}
                                  tags={this.state.tags}
-            />,
-            <ApplicationCardList key="all"
-                                 title="All Images"
-                                 applications={this.state.applications}
-                                 tags={this.state.tags}
-            />,
-            moreImagesButton
-          ];
-        } else {
-          content = (
-            <div className="loading"></div>
+            />
           );
         }
 
+        return (
+          <div className="loading"></div>
+        );
+      },
+
+      render: function () {
         return (
           <div>
             <SecondaryApplicationNavigation currentRoute="search"/>
             <div className="container application-card-view">
               <ApplicationSearch/>
-              {content}
+              {this.renderImages()}
             </div>
           </div>
         );

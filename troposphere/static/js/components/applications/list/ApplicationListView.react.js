@@ -3,41 +3,35 @@
 define(
   [
     'react',
+    'backbone',
     'components/common/PageHeader.react',
     'components/common/SecondaryNavigation.react',
     'collections/ApplicationCollection',
     './ApplicationCardList.react',
-    './SearchContainer.react',
-    'stores/ApplicationStore',
-    'stores/TagStore'
+    './ApplicationCardGrid.react',
+    './SearchContainer.react'
   ],
-  function (React, PageHeader, SecondaryNavigation, ApplicationCollection, ApplicationCardList, ApplicationSearch, ApplicationStore, TagStore) {
-
-    function getState() {
-      return {
-        applications: ApplicationStore.getAll(),
-        tags: TagStore.getAll()
-      };
-    }
+  function (React, Backbone, PageHeader, SecondaryNavigation, ApplicationCollection, ApplicationCardList, ApplicationCardGrid, ApplicationSearch) {
 
     return React.createClass({
 
-      getInitialState: function () {
-        return getState();
+      propTypes: {
+        applications: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
-      updateState: function () {
-        if (this.isMounted()) this.setState(getState());
+      getInitialState: function(){
+        return {
+         viewType: 'list'
+        }
       },
 
-      componentDidMount: function () {
-        ApplicationStore.addChangeListener(this.updateState);
-        TagStore.addChangeListener(this.updateState);
-      },
-
-      componentWillUnmount: function () {
-        ApplicationStore.removeChangeListener(this.updateState);
-        TagStore.removeChangeListener(this.updateState);
+      onChangeViewType: function(){
+        if(this.state.viewType === "list"){
+          this.setState({viewType: 'grid'});
+        }else{
+          this.setState({viewType: 'list'});
+        }
       },
 
       getRoutes: function(){
@@ -58,25 +52,38 @@ define(
       },
 
       renderFeaturedImages: function(){
-        if (this.state.applications && this.state.tags) {
-          var featuredApplicationArray = this.state.applications.filter(function (app) {
+        var applications = this.props.applications;
+        var tags = this.props.tags;
+
+        if (applications && tags) {
+          var featuredApplicationArray = applications.filter(function (app) {
             return app.get('featured');
           });
           var featuredApplications = new ApplicationCollection(featuredApplicationArray);
 
-          return (
-            <ApplicationCardList key="featured"
-                                 title="Featured Images"
-                                 applications={featuredApplications}
-                                 tags={this.props.tags}
-            />
-          );
+          if(this.state.viewType === "list") {
+            return (
+              <ApplicationCardList key="featured"
+                                   title="Featured Images"
+                                   applications={featuredApplications}
+                                   tags={tags}
+              />
+            );
+          }else{
+            return (
+              <ApplicationCardGrid key="featured"
+                                   title="Featured Images"
+                                   applications={featuredApplications}
+                                   tags={tags}
+              />
+            );
+          }
         }
       },
 
       renderImages: function(){
-        var applications = this.state.applications;
-        var tags = this.state.tags;
+        var applications = this.props.applications;
+        var tags = this.props.tags;
 
         if (applications && tags) {
           return (
@@ -97,9 +104,11 @@ define(
         var routes = this.getRoutes();
 
         return (
-          <div className="container">
-            <SecondaryNavigation title="Images" routes={routes} currentRoute="search"/>
-            <ApplicationSearch/>
+          <div>
+            <div style={{"float": "right"}}>
+              <button onClick={this.onChangeViewType}>List</button>
+              <button onClick={this.onChangeViewType}>Grid</button>
+            </div>
             {this.renderFeaturedImages()}
             {this.renderImages()}
           </div>
