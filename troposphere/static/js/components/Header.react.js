@@ -16,26 +16,31 @@ define(
       {
         name: "Dashboard",
         href: "/application/dashboard",
+        icon: "stats",
         requiresLogin: true
       },
       {
         name: "Projects",
         href: "/application/projects",
+        icon: "folder-open",
         requiresLogin: true
       },
       {
         name: "Images",
         href: "/application/images",
+        icon: "floppy-disk",
         requiresLogin: false
       },
       {
         name: "Providers",
         href: "/application/providers",
+        icon: "cloud",
         requiresLogin: true
       },
       {
         name: "Help",
         href: "/application/help",
+        icon: "question-sign",
         requiresLogin: false
       }
     ];
@@ -107,7 +112,12 @@ define(
           var isCurrentRoute = (link.name.toLowerCase() === this.props.currentRoute[0]);
           var className = isCurrentRoute ? "active" : null;
           return (
-            <li key={link.name} className={className}><a href={link.href}>{link.name}</a></li>
+            <li key={link.name} className={className}>
+              <a href={link.href}>
+                <i className={"glyphicon glyphicon-" + link.icon}></i>
+                {link.name}
+              </a>
+            </li>
           );
         }.bind(this));
 
