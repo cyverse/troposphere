@@ -37,7 +37,7 @@ define(
                       <span>{project.get('volumes').length}</span>
                     </li>
                     <li>
-                      <i className="glyphicon glyphicon-picture"></i>
+                      <i className="glyphicon glyphicon-floppy-disk"></i>
                       <span>{project.get('applications').length}</span>
                     </li>
                   </ul>
