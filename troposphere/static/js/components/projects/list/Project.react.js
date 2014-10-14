@@ -24,9 +24,23 @@ define(
           return (
             <li>
               <a href={projectUrl}>
-                <div>
+                <div style={{"position": "relative"}}>
                   <h2>{project.get('name')}</h2>
                   <time>{"Created " + projectCreationDate}</time>
+                  <ul className="project-resource-list">
+                    <li>
+                      <i className="glyphicon glyphicon-tasks"></i>
+                      <span>{project.get('instances').length}</span>
+                    </li>
+                    <li>
+                      <i className="glyphicon glyphicon-hdd"></i>
+                      <span>{project.get('volumes').length}</span>
+                    </li>
+                    <li>
+                      <i className="glyphicon glyphicon-picture"></i>
+                      <span>{project.get('applications').length}</span>
+                    </li>
+                  </ul>
                 </div>
               </a>
             </li>
