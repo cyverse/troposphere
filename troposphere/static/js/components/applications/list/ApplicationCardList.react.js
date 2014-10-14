@@ -5,7 +5,7 @@ define(
     'react',
     '../common/ApplicationListCard.react'
   ],
-  function (React, ApplicationCard) {
+  function (React, ApplicationListCard) {
 
     return React.createClass({
 
@@ -28,8 +28,8 @@ define(
       renderCard: function(application){
         return (
           <li key={application.id}>
-            <ApplicationCard application={application}
-                             tags={this.props.tags}/>
+            <ApplicationListCard application={application}
+                                 tags={this.props.tags}/>
           </li>
         );
       },

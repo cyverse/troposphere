@@ -32,7 +32,7 @@ define(
         var type = stores.ProfileStore.get().get('icon_set');
         var imageTags = stores.TagStore.getImageTags(app);
 
-        var iconSize = 50;
+        var iconSize = 67;
         var icon;
         if (app.get('icon')) {
           icon = (
@@ -66,7 +66,8 @@ define(
                 </a>
               </span>
               <span className='app-name'>
-                <strong>{app.get('name')}</strong>
+                <h4>{app.get('name')}</h4>
+                <div>by <strong>{app.get('created_by')}</strong></div>
                 <Tags activeTags={imageTags}
                     tags={this.props.tags}
                 />
