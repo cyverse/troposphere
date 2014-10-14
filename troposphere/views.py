@@ -8,6 +8,7 @@ from django.core import serializers
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import render, redirect, render_to_response
+from django.template import RequestContext
 
 import requests
 
@@ -53,17 +54,28 @@ def application(request):
     # If user logged in, show the full app, otherwise show the public site
     if request.session['beta'] == 'true':
         if template_params['access_token']:
-            response = render_to_response('application.html', template_params)
+            response = render_to_response(
+                'application.html',
+                template_params,
+                context_instance = RequestContext(request))
         else:
-            response = render_to_response('index.html')
+            response = render_to_response(
+                'index.html',
+                context_instance = RequestContext(request))
 
     # Return the old Airport UI
     # If user logged in, show the app, otherwise show the login page
     else:
         if template_params['access_token']:
-            response = render_to_response('cf2.html', template_params)
+            response = render_to_response(
+                'cf2.html',
+                template_params,
+                context_instance = RequestContext(request))
         else:
-            response = render_to_response('login.html', template_params)
+            response = render_to_response(
+                'login.html',
+                template_params,
+                context_instance = RequestContext(request))
 
 
     response.set_cookie('beta', request.session['beta'])

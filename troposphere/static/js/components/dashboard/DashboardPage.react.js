@@ -13,8 +13,8 @@ define(
           providers: stores.ProviderStore.getAll(),
           identities: stores.IdentityStore.getAll(),
           projects: stores.ProjectStore.getAll(),
-          maintenanceMessages: stores.MaintenanceMessageStore.getAll()
-          // todo: fetch instances and volumes not in a project
+          maintenanceMessages: stores.MaintenanceMessageStore.getAll(),
+          applications: stores.ApplicationStore.getAll()
         };
     }
 
@@ -67,8 +67,9 @@ define(
         var identities = this.state.identities;
         var projects = this.state.projects;
         var maintenanceMessages = this.state.maintenanceMessages;
+        var applications = this.state.applications;
 
-        if (providers && identities && projects && maintenanceMessages) {
+        if (providers && identities && projects && maintenanceMessages && applications) {
           var instances = stores.InstanceStore.getAll(projects);
           var volumes = stores.VolumeStore.getAll(projects);
 
@@ -78,6 +79,7 @@ define(
                            instances={instances}
                            volumes={volumes}
                            maintenanceMessages={maintenanceMessages}
+                           applications={applications}
             />
           );
         }else{

@@ -3,9 +3,9 @@
 define(
   [
     'react',
-    '../common/ApplicationCard.react'
+    '../common/ApplicationListCard.react'
   ],
-  function (React, ApplicationCard) {
+  function (React, ApplicationListCard) {
 
     return React.createClass({
 
@@ -25,25 +25,26 @@ define(
         this.setState({page: this.state.page + 1})
       },
 
+      renderCard: function(application){
+        return (
+          <li key={application.id}>
+            <ApplicationListCard application={application}
+                                 tags={this.props.tags}/>
+          </li>
+        );
+      },
+
       render: function () {
         var applications = this.props.applications;
         var numberOfResults = this.state.page*this.state.resultsPerPage;
         var apps = applications.first(numberOfResults);
-
-        var appCards = apps.map(function (app) {
-          return (
-            <li key={app.id}>
-              <ApplicationCard application={app}
-                               tags={this.props.tags}/>
-            </li>
-          );
-        }.bind(this));
+        var appCards = apps.map(this.renderCard);
 
         var loadMoreImagesButton;
         if(numberOfResults < applications.models.length) {
           loadMoreImagesButton = (
             <button style={{"margin": "auto", "display": "block"}} className="btn btn-default" onClick={this.onLoadMoreImages}>
-            Show more images...
+              Show more images...
             </button>
           )
         }

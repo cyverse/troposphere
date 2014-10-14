@@ -76,3 +76,42 @@
     }
   }
 }
+
+.project-info-segment {
+  margin-top: 22px;
+
+  h4 {
+    color: #5A5A5A;
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+
+  p {
+    font-size: 15px;
+  }
+}
+
+ul.project-resource-list {
+  position: absolute;
+  bottom: 0px;
+  font-size: 18px;
+  color: #231F20;
+  list-style-type: none;
+  padding: 0;
+
+  width: 100%;
+  border-top: 1px solid #ccc;
+  margin-left: -15px;
+
+  li {
+    display: inline-block;
+    margin-left: 29px;
+
+    i {
+      margin-right: 7px;
+    }
+    span {
+      font-size: 23px;
+    }
+  }
+}

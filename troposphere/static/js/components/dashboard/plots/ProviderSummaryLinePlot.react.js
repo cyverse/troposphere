@@ -137,7 +137,6 @@ define(
           var seriesData = {
             name: provider.get('name'),
             data: [cpuUsage, memoryUsage, storageUsage, volumeUsage],
-            pointPlacement: 'on',
             limits: {
               CPU: cpuUsageStats.maxAllocation,
               Memory: memoryUsageStats.maxAllocation,
@@ -190,11 +189,19 @@ define(
 
         $el.highcharts({
           chart: {
-            polar: this.props.isPolarPlot,
-            type: 'line',
+            type: 'column',
             backgroundColor:'transparent',
             height: 400
           },
+          colors: [
+            '#0098aa',
+            '#56AA21',
+            '#AD5527',
+            '#5E8535',
+            '#60646B',
+            '#2F5494',
+            '#C79730'
+          ],
           credits: {
             enabled: false
           },
@@ -202,13 +209,9 @@ define(
             text: ''
           },
           xAxis: {
-            categories: categories,
-            tickmarkPlacement: 'on',
-            lineWidth: 0
+            categories: categories
           },
           yAxis: {
-            gridLineInterpolation: 'polygon',
-            lineWidth: 0,
             min: 0,
             max: 100,
             title: {

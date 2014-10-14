@@ -3,17 +3,14 @@
 define(
   [
     'react',
-    './detail/ProjectDetailsView.react',
-    './detail/ProjectDetails.react',
-    'stores/ProjectStore',
-    'stores/InstanceStore',
-    'stores/VolumeStore'
+    'stores',
+    './detail/details/ProjectDetailsView.react'
   ],
-  function (React, ProjectDetailsView, ProjectDetails, ProjectStore, InstanceStore, VolumeStore) {
+  function (React, stores, ProjectDetailsView) {
 
     function getState(projectId) {
       return {
-        project: ProjectStore.get(projectId)
+        project: stores.ProjectStore.get(projectId)
       };
     }
 
@@ -37,15 +34,11 @@ define(
       },
 
       componentDidMount: function () {
-        ProjectStore.addChangeListener(this.updateState);
-        //InstanceStore.addChangeListener(this.updateState);
-        //VolumeStore.addChangeListener(this.updateState);
+        stores.ProjectStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
-        ProjectStore.removeChangeListener(this.updateState);
-        //InstanceStore.removeChangeListener(this.updateState);
-        //VolumeStore.removeChangeListener(this.updateState);
+        stores.ProjectStore.removeChangeListener(this.updateState);
       },
 
       //
@@ -54,10 +47,21 @@ define(
       //
 
       render: function () {
-        if (this.state.project) {
+        var project = this.state.project;
+
+        if (project) {
           return (
-            <ProjectDetailsView project={this.state.project}>
-              <ProjectDetails project={this.state.project}/>
+            <ProjectDetailsView project={project}>
+              <div>
+                <div className="project-info-segment">
+                  <h4>Created</h4>
+                  <p>{project.get('start_date').format("MMMM Do, YYYY")}</p>
+                </div>
+                <div className="project-info-segment">
+                  <h4>Description</h4>
+                  <p>{project.get('description')}</p>
+                </div>
+              </div>
             </ProjectDetailsView>
           );
         }

@@ -9,6 +9,7 @@ define(function (require) {
         ApplicationSearchResultsPage = require('components/applications/ApplicationSearchResultsPage.react'),
         FavoritedApplicationsPage    = require('components/applications/FavoritedApplicationsPage.react'),
         MyApplicationsPage           = require('components/applications/MyApplicationsPage.react'),
+        ImageTagsPage                = require('components/applications/ImageTagsPage.react'),
         context                      = require('context'),
         Backbone                     = require('backbone');
 
@@ -19,6 +20,7 @@ define(function (require) {
         'images/search/:query': 'showApplicationSearchResults',
         'images/favorites': 'showFavoritedApplications',
         'images/authored': 'showAuthoredApplications',
+        'images/tags': 'showImageTags',
         'images/:id': 'showApplicationDetails'
       }
     });
@@ -47,6 +49,10 @@ define(function (require) {
 
       showAuthoredApplications: function () {
         this.render(MyApplicationsPage(), ["images", "authored"]);
+      },
+
+      showImageTags: function () {
+        this.render(ImageTagsPage(), ["images", "tags"]);
       },
 
       showApplicationDetails: function (appId) {

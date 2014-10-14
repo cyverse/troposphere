@@ -420,3 +420,18 @@ ul.message-banner {
     padding: 3px 0px;
   }
 }
+
+@media (max-width: 1199px) {
+
+  .td-project-content {
+    .resource-list {
+      .scrollable-content {
+        padding-right: 0px;
+      }
+
+      .side-panel {
+        display: none;
+      }
+    }
+  }
+}

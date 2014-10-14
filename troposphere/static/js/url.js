@@ -61,6 +61,10 @@ define(
 
       projectVolume: function (data) {
         return generators.project(data.project) + '/volumes/' + data.volume.id;
+      },
+
+      projectResources: function(data){
+        return generators.project(data.project) + '/resources';
       }
     };
 
@@ -89,7 +93,8 @@ define(
       projects: _.partial(generateUrl, 'projects'),
       project: _.partial(generateUrl, 'project'),
       projectInstance: _.partial(generateUrl, 'projectInstance'),
-      projectVolume: _.partial(generateUrl, 'projectVolume')
+      projectVolume: _.partial(generateUrl, 'projectVolume'),
+      projectResources: _.partial(generateUrl, 'projectResources')
     };
 
   });

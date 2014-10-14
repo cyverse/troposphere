@@ -95,13 +95,20 @@ define(
           },
           plotOptions: {
             pie: {
-              innerSize: '40%'
+              innerSize: '40%',
+
+              allowPointSelect: true,
+              cursor: 'pointer',
+              dataLabels: {
+                enabled: false
+              },
+              showInLegend: true
             }
           },
           series: [
             {
               data: data,
-              size: '60%',
+              //size: '60%',
               animation: options.animation
             }
           ],
@@ -114,6 +121,11 @@ define(
               });
               return React.renderComponentToStaticMarkup(formatterComponent);
             }
+          },
+          legend: {
+            verticalAlign: 'top',
+            align: 'center',
+            y: 30
           },
           credits: {
             enabled: false

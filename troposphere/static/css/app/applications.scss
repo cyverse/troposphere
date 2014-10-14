@@ -3,11 +3,15 @@
 // for different screen sizes
 .application-card-view {
   h3 {
-    margin-left: 9%;
+    border-bottom: 1px solid #ccc;
   }
+}
 
-  .app-card-list {
-    margin-left: 9%;
+.display-toggles {
+  h3 {
+    border: none;
+    float: left;
+    margin: 0;
   }
 }
 
@@ -16,15 +20,55 @@
   margin: 0;
   padding: 0;
 
-  // todo: this is a hack to get the cards to align in the center of the page
-  // find a better way to do this, or (at least) modify this value to adjust
-  // for different screen sizes
-  margin-left: 9%;
+  > li {
+    margin: 0 0 20px 0;
+  }
+
+  .app-card {
+    border: 1px solid #ccc;
+    width: 100%;
+
+    .icon-container {
+      margin-left: 20px;
+      text-align: left;
+    }
+
+    .app-name {
+      vertical-align: top;
+      display: inline-block;
+
+      h4 {
+        font-size: 19px;
+        font-weight: bold;
+        margin: 0;
+      }
+    }
+
+    .tags {
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+
+    p {
+      white-space: normal;
+      padding-left: 20px;
+      padding-right: 20px;
+      padding-top: 5px;
+      margin-bottom: 0;
+    }
+  }
+}
+
+.app-card-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 
   > li {
-    margin: 0 20px 20px 0;
+    margin: 0 0 20px 0;
     display: inline-block;
     vertical-align: top;
+    width: 25%;
   }
 
   /* App cards on image lists */
@@ -365,15 +409,31 @@ ul.tags {
   }
 }
 
+@media (max-width: 991px) {
+  .app-card-grid {
+    > li {
+      width: 33%;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .app-card-grid {
+    > li {
+      width: 50%;
+    }
+  }
+}
+
 /* Search */
 #search-container {
   text-align: center;
 }
 
 .search-input {
-  height: 3.5em;
+  height: 55px;
+  font-size: 20px;
   margin-bottom: 1em;
-  width: 65%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -381,4 +441,37 @@ ul.tags {
 .advanced-search-options {
   margin-top: 10px;
   text-align: left;
+}
+
+ul.tag-list {
+  list-style-type: none;
+  padding-left: 0;
+
+  li.tag-item {
+    //border-top: solid 1px #ddd;
+
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+    border-left-color: #6AA54F;
+
+    h4 {
+      margin-top: 0;
+      margin-bottom: 5px;
+    }
+
+    p {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.image-tag-list {
+  table {
+    h4 {
+      min-height: 30px;
+    }
+  }
 }

@@ -3,4 +3,4 @@ python-dateutil==2.2
 requests==2.2.1
 django==1.6.2
 django-jenkins==0.15.0
-git+git://github.com/iPlantCollaborativeOpenSource/caslib.py.git#egg=caslib
+caslib.py==2.1.0

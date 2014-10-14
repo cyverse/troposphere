@@ -3,70 +3,39 @@
 define(
   [
     'react',
+    'backbone',
     'components/common/PageHeader.react',
     'components/common/SecondaryNavigation.react',
     'collections/ApplicationCollection',
     './ApplicationCardList.react',
-    './SearchContainer.react',
-    'stores/ApplicationStore',
-    'stores/TagStore'
+    './ApplicationCardGrid.react',
+    './SearchContainer.react'
   ],
-  function (React, PageHeader, SecondaryNavigation, ApplicationCollection, ApplicationCardList, ApplicationSearch, ApplicationStore, TagStore) {
-
-    function getState() {
-      return {
-        applications: ApplicationStore.getAll(),
-        tags: TagStore.getAll()
-      };
-    }
+  function (React, Backbone, PageHeader, SecondaryNavigation, ApplicationCollection, ApplicationCardList, ApplicationCardGrid, ApplicationSearch) {
 
     return React.createClass({
 
-      getInitialState: function () {
-        return getState();
+      propTypes: {
+        applications: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
-      updateState: function () {
-        if (this.isMounted()) this.setState(getState());
-      },
-
-      componentDidMount: function () {
-        ApplicationStore.addChangeListener(this.updateState);
-        TagStore.addChangeListener(this.updateState);
-      },
-
-      componentWillUnmount: function () {
-        ApplicationStore.removeChangeListener(this.updateState);
-        TagStore.removeChangeListener(this.updateState);
-      },
-
-      render: function () {
-        var content;
-        if (this.state.applications && this.state.tags) {
-          var featuredApplicationArray = this.state.applications.filter(function (app) {
-            return app.get('featured');
-          });
-          var featuredApplications = new ApplicationCollection(featuredApplicationArray);
-
-          content = [
-            <ApplicationCardList key="featured"
-                                 title="Featured Images"
-                                 applications={featuredApplications}
-                                 tags={this.props.tags}
-            />,
-            <ApplicationCardList key="all"
-                                 title="All Images"
-                                 applications={this.state.applications}
-                                 tags={this.props.tags}
-            />
-          ];
-        } else {
-          content = (
-            <div className="loading"></div>
-          );
+      getInitialState: function(){
+        return {
+         viewType: 'list'
         }
+      },
 
-        var routes = [
+      onChangeViewType: function(){
+        if(this.state.viewType === "list"){
+          this.setState({viewType: 'grid'});
+        }else{
+          this.setState({viewType: 'list'});
+        }
+      },
+
+      getRoutes: function(){
+        return [
           {
             name: "Search",
             href: "/application/images"
@@ -80,14 +49,110 @@ define(
             href: "/application/images/authored"
           }
         ];
+      },
 
-        var currentRoute = "search";
+      renderFeaturedImages: function(){
+        var applications = this.props.applications;
+        var tags = this.props.tags;
+
+        if (applications && tags) {
+          var featuredApplicationArray = applications.filter(function (app) {
+            return app.get('featured');
+          });
+          var featuredApplications = new ApplicationCollection(featuredApplicationArray);
+
+          if(this.state.viewType === "list") {
+            return (
+              <ApplicationCardList key="featured"
+                                   title="Featured Images"
+                                   applications={featuredApplications}
+                                   tags={tags}
+              />
+            );
+          }else{
+            return (
+              <ApplicationCardGrid key="featured"
+                                   title="Featured Images"
+                                   applications={featuredApplications}
+                                   tags={tags}
+              />
+            );
+          }
+        }
+      },
+
+      renderImages: function(){
+        var applications = this.props.applications;
+        var tags = this.props.tags;
+
+        if (applications && tags) {
+          if(this.state.viewType === "list") {
+            return (
+              <ApplicationCardList key="all"
+                                   title="All Images"
+                                   applications={applications}
+                                   tags={tags}
+              />
+            );
+          }else{
+            return (
+              <ApplicationCardGrid key="all"
+                                   title="All Images"
+                                   applications={applications}
+                                   tags={tags}
+              />
+            );
+          }
+        } else {
+          return (
+            <div className="loading"></div>
+          );
+        }
+      },
+
+      renderListButton: function(){
+        var classValues = "btn btn-default";
+        if(this.state.viewType === "list") classValues += " active";
 
         return (
-          <div className="container">
-            <SecondaryNavigation title="Images" routes={routes} currentRoute={currentRoute}/>
-            <ApplicationSearch/>
-            {content}
+          <button type="button" className={classValues} onClick={this.onChangeViewType}>
+            <span className="glyphicon glyphicon-align-justify"></span> List
+          </button>
+        );
+      },
+
+      renderGridButton: function(){
+        var classValues = "btn btn-default";
+        if(this.state.viewType === "grid") classValues += " active";
+
+        return (
+          <button type="button" className={classValues} onClick={this.onChangeViewType}>
+            <span className="glyphicon glyphicon-th"></span> Grid
+          </button>
+        );
+      },
+
+      renderResultsTitleAndToggles: function(){
+        var title = "Showing (?) of " + this.props.applications.length + " images";
+        return (
+          <div className="display-toggles clearfix">
+            <h3>{title}</h3>
+            <div className="btn-group pull-right">
+              {this.renderListButton()}
+              {this.renderGridButton()}
+            </div>
+          </div>
+        );
+      },
+
+      render: function () {
+        var routes = this.getRoutes();
+
+        return (
+          <div>
+            {this.renderResultsTitleAndToggles()}
+            {this.renderFeaturedImages()}
+            {this.renderImages()}
           </div>
         );
 
