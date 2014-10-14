@@ -69,7 +69,8 @@ require.config({
     sinon: [
       '//cdnjs.cloudflare.com/ajax/libs/sinon.js/1.7.3/sinon-min',
       '../bower_components/sinon/lib/sinon'
-    ]
+    ],
+    showdown: "//cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min"
   },
 
   shim: {
