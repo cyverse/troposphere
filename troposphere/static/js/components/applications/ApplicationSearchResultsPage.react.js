@@ -57,6 +57,7 @@ define(
             content = (
               <SearchResults applications={this.state.applications}
                              tags={this.state.tags}
+                             query={this.props.query}
               />
             );
           }
