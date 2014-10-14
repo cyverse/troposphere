@@ -132,17 +132,25 @@ define(
         );
       },
 
+      renderResultsTitleAndToggles: function(){
+        var title = "Showing (?) of " + this.props.applications.length + " images";
+        return (
+          <div className="display-toggles clearfix">
+            <h3>{title}</h3>
+            <div className="btn-group pull-right">
+              {this.renderListButton()}
+              {this.renderGridButton()}
+            </div>
+          </div>
+        );
+      },
+
       render: function () {
         var routes = this.getRoutes();
 
         return (
           <div>
-            <div className="clearfix">
-              <div className="btn-group pull-right">
-                {this.renderListButton()}
-                {this.renderGridButton()}
-              </div>
-            </div>
+            {this.renderResultsTitleAndToggles()}
             {this.renderFeaturedImages()}
             {this.renderImages()}
           </div>
