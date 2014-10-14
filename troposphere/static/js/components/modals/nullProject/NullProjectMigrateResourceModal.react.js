@@ -22,7 +22,7 @@ define(
         var hasName        = !!this.state.projectName;
         var hasTargetProject = (!!this.state.projectId && this.state.projectId !== "-1");
 
-        return hasName && hasTargetProject;
+        return hasName || hasTargetProject;
       },
 
       //

@@ -41,6 +41,10 @@ define(
         stores.ProjectStore.removeChangeListener(this.updateState);
       },
 
+      onDescriptionChanged: function(text){
+        ProjectActions.updateProjectAttributes(this.props.project, {description: text});
+      },
+
       //
       // Render
       // ------
@@ -51,18 +55,7 @@ define(
 
         if (project) {
           return (
-            <ProjectDetailsView project={project}>
-              <div>
-                <div className="project-info-segment">
-                  <h4>Created</h4>
-                  <p>{project.get('start_date').format("MMMM Do, YYYY")}</p>
-                </div>
-                <div className="project-info-segment">
-                  <h4>Description</h4>
-                  <p>{project.get('description')}</p>
-                </div>
-              </div>
-            </ProjectDetailsView>
+            <ProjectDetailsView project={project}/>
           );
         }
 
