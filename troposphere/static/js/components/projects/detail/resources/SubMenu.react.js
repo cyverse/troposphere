@@ -30,7 +30,7 @@ define(
         return (
           <div className="sub-menu">
             <div className="dropdown">
-              <button className="btn btn-primary dropdown-toggle" data-toggle="dropdown">Create</button>
+              <button className="btn btn-primary dropdown-toggle" data-toggle="dropdown">New</button>
               <ul className="dropdown-menu">
                 <li>
                   <a href="/application/images">
