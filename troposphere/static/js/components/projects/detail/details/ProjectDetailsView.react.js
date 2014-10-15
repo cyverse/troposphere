@@ -54,6 +54,18 @@ define(
                   <h4>Description</h4>
                   <span dangerouslySetInnerHTML={{__html: projectHtml}}/>
                 </div>
+                <div className="project-info-segment">
+                  <h4>Principal Investigator</h4>
+                </div>
+                <div className="project-info-segment">
+                  <h4>Contributors</h4>
+                </div>
+                <div className="project-info-segment">
+                  <h4>Tags</h4>
+                </div>
+                <div className="project-info-segment">
+                  <h4>Funding Source and Agency</h4>
+                </div>
               </div>
             </div>
           </div>
