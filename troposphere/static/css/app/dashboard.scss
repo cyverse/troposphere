@@ -33,8 +33,7 @@
     }
 
     li {
-      padding: 15px;
-      border-bottom: solid 1px #C9C9C9;
+      padding: 11px 11px 0px 11px;
 
       &.sticky {
         background-color: #F3F0B6;
@@ -52,6 +51,30 @@
 
         span {
           font-size: 16px;
+        }
+      }
+
+      .message.activity-message {
+        background-color: #fff;
+        border-bottom: 2px solid rgba(0,0,0,0.10);
+        border-left: 1px solid rgba(0,0,0,0.10);
+        border-right: 1px solid rgba(0,0,0,0.10);
+        border-top: 1px solid rgba(0,0,0,0.10);
+        border-radius: 5px;
+        margin: 0 0 0px 0px;
+        padding: 10px;
+        position: relative;
+
+        i {
+          font-size: 24px;
+          position: absolute;
+          top: 14px;
+          left: 12px;
+          color: #777;
+        }
+
+        .details {
+          margin-left: 32px;
         }
       }
 
