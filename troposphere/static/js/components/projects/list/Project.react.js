@@ -4,9 +4,10 @@ define(
   [
     'react',
     'backbone',
-    'moment'
+    'moment',
+    'url'
   ],
-  function (React, Backbone, moment) {
+  function (React, Backbone, moment, URL) {
 
     return React.createClass({
 
@@ -18,7 +19,7 @@ define(
         var project = this.props.project;
 
         if(project.id){
-          var projectUrl = "/application/projects/" + project.id;
+          var projectUrl = URL.projectResources({project: project});
           var projectCreationDate = moment(project.get('start_date')).format("MMM D, YYYY");
 
           return (
