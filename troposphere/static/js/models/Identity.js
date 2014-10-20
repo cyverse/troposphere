@@ -13,21 +13,12 @@ define(
         // in the object for consistency)
         if(!response.quota.allocation){
           response.quota.allocation = {
-            burn: null,
-            current: null,
-            delta: null,
-            threshold: null,
-            ttz: null
+            current: 10,
+            threshold: 1000
           }
         }
 
         return response;
-      },
-
-      hasAllocation: function () {
-        return (
-          typeof this.attributes.quota.allocation != 'undefined'
-        );
       }
 
     });
