@@ -27,4 +27,11 @@
     line-height: 25px;
     font-size: 13px;
   }
+
+  .value {
+    position: absolute;
+    z-index: 1;
+    margin-top: 3px;
+    margin-left: 7px;
+  }
 }

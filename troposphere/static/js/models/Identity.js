@@ -13,12 +13,58 @@ define(
         // in the object for consistency)
         if(!response.quota.allocation){
           response.quota.allocation = {
-            current: 10,
-            threshold: 1000
+            current: 168,
+            threshold: 168
           }
         }
 
         return response;
+      },
+
+      _getInstancesBelongingToThisIdentity: function(instances){
+        return instances.filter(function(instance){
+          var isInIdentity = instance.get('identity').id === this.id;
+          var isDeductingFromAUs = instance.get('status') !== "suspended";
+          return isInIdentity && isDeductingFromAUs;
+        }.bind(this));
+      },
+
+      _getVolumesBelongingToThisIdentity: function(volumes){
+        return volumes.filter(function(volume){
+          return volume.get('identity').id === this.id;
+        }.bind(this));
+      },
+
+      getCpusUsed: function(instances, sizes){
+        var relevantInstances = this._getInstancesBelongingToThisIdentity(instances);
+
+        return relevantInstances.reduce(function(total, instance){
+          var size = sizes.get(instance.get('size_alias'));
+          return total + size.get('cpu');
+        }, 0);
+      },
+
+      getMemoryUsed: function(instances, sizes){
+        var relevantInstances = this._getInstancesBelongingToThisIdentity(instances);
+
+        return relevantInstances.reduce(function(total, instance){
+          var size = sizes.get(instance.get('size_alias'));
+          return total + size.get('mem');
+        }, 0);
+      },
+
+      getStorageUsed: function(volumes){
+        var relevantVolumes = this._getVolumesBelongingToThisIdentity(instances);
+
+        return relevantVolumes.reduce(function(total, volume){
+          var size = volume.get('size');
+          return total + size.mem;
+        }, 0);
+      },
+
+      getStorageCountUsed: function(volumes){
+        var relevantVolumes = this._getVolumesBelongingToThisIdentity(instances);
+        return relevantVolumes.length;
       }
 
     });

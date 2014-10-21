@@ -24,8 +24,13 @@ define(
         machineId: null,
         identityId: null,
         sizeId: null,
-        projectId: null
+        projectId: null,
+        instances: null
       };
+
+      if(state.projects){
+        state.instances = stores.InstanceStore.getAll(state.projects);
+      }
 
       this.state = this.state || {};
       if(this.state) {
@@ -109,8 +114,7 @@ define(
       // ----------------
       //
       getInitialState: function(){
-        var initialState = getState.apply(this);
-        return initialState;
+        return getState.apply(this);
       },
 
       updateState: function () {
@@ -122,6 +126,7 @@ define(
         stores.IdentityStore.addChangeListener(this.updateState);
         stores.SizeStore.addChangeListener(this.updateState);
         stores.ProjectStore.addChangeListener(this.updateState);
+        stores.InstanceStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
@@ -129,6 +134,7 @@ define(
         stores.IdentityStore.removeChangeListener(this.updateState);
         stores.SizeStore.removeChangeListener(this.updateState);
         stores.ProjectStore.removeChangeListener(this.updateState);
+        stores.InstanceStore.removeChangeListener(this.updateState);
       },
 
       //
@@ -242,22 +248,20 @@ define(
         return (
           <div className="quota-consumption-bars">
             <div className="progress">
-              <div className={"progress-bar " + barTypeClass} style={currentlyUsedStyle}>
-                {currentlyUsedPercent + projectedPercent + "%"}
-              </div>
-              <div className={"progress-bar " + barTypeClass} style={projectedUsedStyle}>
-              </div>
+              <div className="value">{currentlyUsedPercent + projectedPercent + "%"}</div>
+              <div className={"progress-bar " + barTypeClass} style={currentlyUsedStyle}></div>
+              <div className={"progress-bar " + barTypeClass} style={projectedUsedStyle}></div>
             </div>
             <div>{message}</div>
           </div>
         );
       },
 
-      renderCpuConsumption: function(identity, size){
+      renderCpuConsumption: function(identity, size, sizes, instances){
         var quota = identity.get('quota');
         var maximumAllowed = quota.cpu;
         var projected = size.get('cpu');
-        var currentlyUsed = Math.ceil(maximumAllowed / 2);
+        var currentlyUsed = identity.getCpusUsed(instances, sizes);
 
         // convert to percentages
         var projectedPercent = Math.ceil(projected / maximumAllowed * 100);
@@ -274,11 +278,11 @@ define(
         return this.renderProgressBar(message, currentlyUsedPercent, projectedPercent, overQuotaMessage);
       },
 
-      renderMemoryConsumption: function(identity, size){
+      renderMemoryConsumption: function(identity, size, sizes, instances){
         var quota = identity.get('quota');
         var maximumAllowed = quota.mem;
         var projected = size.get('mem');
-        var currentlyUsed = Math.ceil(maximumAllowed / 2);
+        var currentlyUsed = identity.getMemoryUsed(instances, sizes);
 
         // convert to percentages
         var projectedPercent = Math.ceil(projected / maximumAllowed * 100);
@@ -296,13 +300,15 @@ define(
       },
 
       renderBody: function(){
-        if(this.state.identities && this.state.providers && this.state.projects && this.state.sizes){
+        if(this.state.identities && this.state.providers && this.state.projects && this.state.sizes && this.state.instances){
 
           // Use selected machine (image version) or default to the first one
           // todo: we should be sorting these by date or version number before selecting the first one
           var machines = this.props.application.get('machines');
           var identity = this.state.identities.get(this.state.identityId);
           var size = this.state.sizes.get(this.state.sizeId);
+          var instances = this.state.instances;
+          var sizes = this.state.sizes;
 
           return (
             <form role='form'>
@@ -311,8 +317,8 @@ define(
 
               <div className='form-group' className="modal-section">
                 <h4>Projected Resource Usage</h4>
-                {this.renderCpuConsumption(identity, size)}
-                {this.renderMemoryConsumption(identity, size)}
+                {this.renderCpuConsumption(identity, size, sizes, instances)}
+                {this.renderMemoryConsumption(identity, size, sizes, instances)}
               </div>
 
               <div className='form-group' className="modal-section">
