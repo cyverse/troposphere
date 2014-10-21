@@ -83,14 +83,25 @@ define(
         // Make sure the selected provider is not in maintenance
         var selectedIdentity = stores.IdentityStore.get(this.state.identityId);
         var isProviderInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(selectedIdentity.get('provider_id'));
+        var allocation = selectedIdentity.get('quota').allocation;
+        var size;
 
         var hasInstanceName          = !!this.state.instanceName;
         var hasImageVersion          = !!this.state.machineId;
         var hasProvider              = !!this.state.identityId;
         var hasSize                  = !!this.state.sizeId;
+        var hasAllocationAvailable   = allocation.current < allocation.threshold;
         var providerNotInMaintenance = !isProviderInMaintenance;
+        var hasEnoughQuotaForCpu = false;
+        var hasEnoughQuotaForMemory = false;
 
-        return hasInstanceName && hasImageVersion && hasProvider && hasSize && providerNotInMaintenance;
+        if(this.state.sizes){
+          size = this.state.sizes.get(this.state.sizeId);
+          hasEnoughQuotaForCpu = this.hasEnoughQuotaForCpu(selectedIdentity, size);
+          hasEnoughQuotaForMemory = this.hasEnoughQuotaForMemory(selectedIdentity, size);
+        }
+
+        return hasInstanceName && hasImageVersion && hasProvider && hasSize && providerNotInMaintenance && hasAllocationAvailable && hasEnoughQuotaForCpu && hasEnoughQuotaForMemory;
       },
 
       //
@@ -174,9 +185,115 @@ define(
       },
 
       //
+      // Helper Functions
+      //
+
+      hasEnoughQuotaForCpu: function(identity, size){
+        var quota = identity.get('quota');
+        var maximumAllowed = quota.cpu;
+        var projected = size.get('cpu');
+        var currentlyUsed = Math.ceil(maximumAllowed / 2);
+
+        return (projected + currentlyUsed) < maximumAllowed;
+      },
+
+      hasEnoughQuotaForMemory: function(identity, size){
+        var quota = identity.get('quota');
+        var maximumAllowed = quota.mem;
+        var projected = size.get('mem');
+        var currentlyUsed = Math.ceil(maximumAllowed / 2);
+
+        return (projected + currentlyUsed) < maximumAllowed;
+      },
+
+      //
       // Render
       // ------
       //
+
+      renderAllocationWarning: function(){
+        return (
+          <div className="alert alert-warning">
+            <strong>Uh oh!</strong>
+            {
+              "Looks like you don't have any AUs available.  In order to launch instances, you need " +
+              "to have AU's free.  You will be able to launch again once your AU's have been reset."
+            }
+          </div>
+        );
+      },
+
+      renderProgressBar: function(message, currentlyUsedPercent, projectedPercent, overQuotaMessage){
+        var currentlyUsedStyle = { width: currentlyUsedPercent + "%" };
+        var projectedUsedStyle = { width: projectedPercent + "%", opacity: "0.6" };
+        var totalPercent = currentlyUsedPercent + projectedPercent;
+        var barTypeClass;
+
+        if(totalPercent <= 50){
+          barTypeClass = "progress-bar-success";
+        }else if(totalPercent <= 100){
+          barTypeClass = "progress-bar-warning";
+        }else{
+          barTypeClass = "progress-bar-danger";
+          projectedUsedStyle.width = (100 - currentlyUsedPercent) + "%";
+          message = overQuotaMessage;
+        }
+
+        return (
+          <div className="quota-consumption-bars">
+            <div className="progress">
+              <div className={"progress-bar " + barTypeClass} style={currentlyUsedStyle}>
+                {currentlyUsedPercent + projectedPercent + "%"}
+              </div>
+              <div className={"progress-bar " + barTypeClass} style={projectedUsedStyle}>
+              </div>
+            </div>
+            <div>{message}</div>
+          </div>
+        );
+      },
+
+      renderCpuConsumption: function(identity, size){
+        var quota = identity.get('quota');
+        var maximumAllowed = quota.cpu;
+        var projected = size.get('cpu');
+        var currentlyUsed = Math.ceil(maximumAllowed / 2);
+
+        // convert to percentages
+        var projectedPercent = Math.ceil(projected / maximumAllowed * 100);
+        var currentlyUsedPercent = Math.ceil(currentlyUsed / maximumAllowed * 100);
+
+        var message = "You will use " + (currentlyUsed + projected) + " of " + maximumAllowed + " allotted CPUs.";
+        var overQuotaMessage = (
+          <div>
+            <strong>CPU quota exceeded.</strong>
+            <span>{" Choose a smaller size or terminate a running instance."}</span>
+          </div>
+        );
+
+        return this.renderProgressBar(message, currentlyUsedPercent, projectedPercent, overQuotaMessage);
+      },
+
+      renderMemoryConsumption: function(identity, size){
+        var quota = identity.get('quota');
+        var maximumAllowed = quota.mem;
+        var projected = size.get('mem');
+        var currentlyUsed = Math.ceil(maximumAllowed / 2);
+
+        // convert to percentages
+        var projectedPercent = Math.ceil(projected / maximumAllowed * 100);
+        var currentlyUsedPercent = Math.ceil(currentlyUsed / maximumAllowed * 100);
+
+        var message = "You will use " + (currentlyUsed + projected) + " of " + maximumAllowed + " allotted GBs of Memory.";
+        var overQuotaMessage = (
+          <div>
+            <strong>Memory quota exceeded.</strong>
+            <span>{" Choose a smaller size or terminate a running instance."}</span>
+          </div>
+        );
+
+        return this.renderProgressBar(message, currentlyUsedPercent, projectedPercent, overQuotaMessage);
+      },
 
       renderBody: function(){
         if(this.state.identities && this.state.providers && this.state.projects && this.state.sizes){
@@ -184,9 +301,23 @@ define(
           // Use selected machine (image version) or default to the first one
           // todo: we should be sorting these by date or version number before selecting the first one
           var machines = this.props.application.get('machines');
+          var identity = this.state.identities.get(this.state.identityId);
+          var size = this.state.sizes.get(this.state.sizeId);
 
           return (
             <form role='form'>
+
+              {this.renderAllocationWarning(identity)}
+
+              <div className='form-group' className="modal-section">
+                <h4>Projected Resource Usage</h4>
+                {this.renderCpuConsumption(identity, size)}
+                {this.renderMemoryConsumption(identity, size)}
+              </div>
+
+              <div className='form-group' className="modal-section">
+                <h4>Instance Details</h4>
+              </div>
 
               <div className='form-group'>
                 <label htmlFor='instance-name'>Instance Name</label>

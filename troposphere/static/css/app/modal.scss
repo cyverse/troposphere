@@ -3,3 +3,28 @@
     list-style-type: none;
   }
 }
+
+.modal-section {
+  h4 {
+    font-size: 19px;
+    border-bottom: 1px solid #ddd;
+  }
+}
+
+.quota-consumption-bars {
+  margin-top: 10px;
+  width: 50%;
+  display: inline-block;
+  vertical-align: top;
+  padding-left: 15px;
+  padding-right: 15px;
+  
+  .progress {
+    height: 25px;
+  }
+  
+  .progress-bar {
+    line-height: 25px;
+    font-size: 13px;
+  }
+}
