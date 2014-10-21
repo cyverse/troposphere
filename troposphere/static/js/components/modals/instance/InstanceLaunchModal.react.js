@@ -102,8 +102,8 @@ define(
 
         if(this.state.sizes){
           size = this.state.sizes.get(this.state.sizeId);
-          hasEnoughQuotaForCpu = this.hasEnoughQuotaForCpu(selectedIdentity, size);
-          hasEnoughQuotaForMemory = this.hasEnoughQuotaForMemory(selectedIdentity, size);
+          hasEnoughQuotaForCpu = this.hasEnoughQuotaForCpu(selectedIdentity, size, this.state.sizes, this.state.instances);
+          hasEnoughQuotaForMemory = this.hasEnoughQuotaForMemory(selectedIdentity, size, this.state.sizes, this.state.instances);
         }
 
         return hasInstanceName && hasImageVersion && hasProvider && hasSize && providerNotInMaintenance && hasAllocationAvailable && hasEnoughQuotaForCpu && hasEnoughQuotaForMemory;
@@ -194,22 +194,22 @@ define(
       // Helper Functions
       //
 
-      hasEnoughQuotaForCpu: function(identity, size){
+      hasEnoughQuotaForCpu: function(identity, size, sizes, instances){
         var quota = identity.get('quota');
         var maximumAllowed = quota.cpu;
         var projected = size.get('cpu');
-        var currentlyUsed = Math.ceil(maximumAllowed / 2);
+        var currentlyUsed = identity.getCpusUsed(instances, sizes);
 
-        return (projected + currentlyUsed) < maximumAllowed;
+        return (projected + currentlyUsed) <= maximumAllowed;
       },
 
-      hasEnoughQuotaForMemory: function(identity, size){
+      hasEnoughQuotaForMemory: function(identity, size, sizes, instances){
         var quota = identity.get('quota');
         var maximumAllowed = quota.mem;
         var projected = size.get('mem');
-        var currentlyUsed = Math.ceil(maximumAllowed / 2);
+        var currentlyUsed = identity.getMemoryUsed(instances, sizes);
 
-        return (projected + currentlyUsed) < maximumAllowed;
+        return (projected + currentlyUsed) <= maximumAllowed;
       },
 
       //
@@ -248,7 +248,7 @@ define(
         return (
           <div className="quota-consumption-bars">
             <div className="progress">
-              <div className="value">{currentlyUsedPercent + projectedPercent + "%"}</div>
+              <div className="value">{Math.round(currentlyUsedPercent + projectedPercent) + "%"}</div>
               <div className={"progress-bar " + barTypeClass} style={currentlyUsedStyle}></div>
               <div className={"progress-bar " + barTypeClass} style={projectedUsedStyle}></div>
             </div>
@@ -264,10 +264,10 @@ define(
         var currentlyUsed = identity.getCpusUsed(instances, sizes);
 
         // convert to percentages
-        var projectedPercent = Math.ceil(projected / maximumAllowed * 100);
-        var currentlyUsedPercent = Math.ceil(currentlyUsed / maximumAllowed * 100);
+        var projectedPercent = projected / maximumAllowed * 100;
+        var currentlyUsedPercent = currentlyUsed / maximumAllowed * 100;
 
-        var message = "You will use " + (currentlyUsed + projected) + " of " + maximumAllowed + " allotted CPUs.";
+        var message = "You will use " + (Math.round(currentlyUsed + projected)) + " of " + maximumAllowed + " allotted CPUs.";
         var overQuotaMessage = (
           <div>
             <strong>CPU quota exceeded.</strong>
@@ -285,10 +285,10 @@ define(
         var currentlyUsed = identity.getMemoryUsed(instances, sizes);
 
         // convert to percentages
-        var projectedPercent = Math.ceil(projected / maximumAllowed * 100);
-        var currentlyUsedPercent = Math.ceil(currentlyUsed / maximumAllowed * 100);
+        var projectedPercent = projected / maximumAllowed * 100;
+        var currentlyUsedPercent = currentlyUsed / maximumAllowed * 100;
 
-        var message = "You will use " + (currentlyUsed + projected) + " of " + maximumAllowed + " allotted GBs of Memory.";
+        var message = "You will use " + (Math.round(currentlyUsed + projected)) + " of " + maximumAllowed + " allotted GBs of Memory.";
         var overQuotaMessage = (
           <div>
             <strong>Memory quota exceeded.</strong>
