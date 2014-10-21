@@ -13,7 +13,9 @@ define(
       var state = {
         providers: stores.ProviderStore.getAll(),
         identities: stores.IdentityStore.getAll(),
+        projects: stores.ProjectStore.getAll(),
 
+        volumes: null,
         volumeName: null,
         identityId: null
       };
@@ -24,11 +26,15 @@ define(
       state.volumeName = this.state.volumeName || "";
 
       // Use provided volume size or default to 1 GB
-      state.volumeSize = this.state.volumeSize || 1;
+      state.volumeSize = Number(this.state.volumeSize) || 1;
 
       // Use selected identity or default to the first one
       if (state.identities) {
         state.identityId = this.state.identityId || state.identities.first().id;
+      }
+
+      if(state.projects){
+        state.volumes = stores.VolumeStore.getAll(state.projects)
       }
 
       return state;
@@ -39,16 +45,19 @@ define(
 
       isSubmittable: function(){
         // Make sure the selected provider is not in maintenance
-          var selectedIdentity = stores.IdentityStore.get(this.state.identityId);
-          var isProviderInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(selectedIdentity.get('provider_id'));
+        var selectedIdentity = stores.IdentityStore.get(this.state.identityId);
+        var isProviderInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(selectedIdentity.get('provider_id'));
+        var volumes = this.state.volumes;
 
-          // Disable the launch button if the user hasn't provided a name, size or identity for the volume
-          var hasProvider              = !!this.state.identityId;
-          var hasName                  = !!this.state.volumeName;
-          var hasSize                  = !!this.state.volumeSize;
-          var providerNotInMaintenance = !isProviderInMaintenance;
+        // Disable the launch button if the user hasn't provided a name, size or identity for the volume
+        var hasProvider              = !!this.state.identityId;
+        var hasName                  = !!this.state.volumeName;
+        var hasSize                  = !!this.state.volumeSize;
+        var providerNotInMaintenance = !isProviderInMaintenance;
+        var hasEnoughQuotaForStorage = this.hasEnoughQuotaForStorage(selectedIdentity, this.state.volumeSize, volumes);
+        var hasEnoughQuotaForStorageCount = this.hasEnoughQuotaForStorageCount(selectedIdentity, volumes);
 
-        return hasProvider && hasName && hasSize && providerNotInMaintenance;
+        return hasProvider && hasName && hasSize && providerNotInMaintenance && hasEnoughQuotaForStorage && hasEnoughQuotaForStorageCount;
       },
 
       //
@@ -66,11 +75,15 @@ define(
       componentDidMount: function () {
         stores.ProviderStore.addChangeListener(this.updateState);
         stores.IdentityStore.addChangeListener(this.updateState);
+        stores.ProjectStore.addChangeListener(this.updateState);
+        stores.VolumeStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
         stores.ProviderStore.removeChangeListener(this.updateState);
         stores.IdentityStore.removeChangeListener(this.updateState);
+        stores.ProjectStore.removeChangeListener(this.updateState);
+        stores.VolumeStore.removeChangeListener(this.updateState);
       },
 
       //
@@ -112,20 +125,125 @@ define(
         // probably better over all just to tell them the value has to be > 1
         // and don't magically change it for them.
         //if(e.target.value < 1) e.target.value = 1;
-        var newVolumeSize = e.target.value;
+        var newVolumeSize = Number(e.target.value);
         this.setState({volumeSize: newVolumeSize});
       },
 
+      //
+      // Helper Functions
+      //
+
+      hasEnoughQuotaForStorage: function(identity, size, volumes){
+        var quota = identity.get('quota');
+        var maximumAllowed = quota.storage;
+        var projected = size;
+        var currentlyUsed = identity.getStorageUsed(volumes);
+
+        return (projected + currentlyUsed) <= maximumAllowed;
+      },
+
+      hasEnoughQuotaForStorageCount: function(identity, volumes){
+        var quota = identity.get('quota');
+        var maximumAllowed = quota.storage_count;
+        var projected = 1;
+        var currentlyUsed = identity.getStorageCountUsed(volumes);
+
+        return (projected + currentlyUsed) <= maximumAllowed;
+      },
 
       //
       // Render
       // ------
       //
 
+      renderProgressBar: function(message, currentlyUsedPercent, projectedPercent, overQuotaMessage){
+        var currentlyUsedStyle = { width: currentlyUsedPercent + "%" };
+        var projectedUsedStyle = { width: projectedPercent + "%", opacity: "0.6" };
+        var totalPercent = currentlyUsedPercent + projectedPercent;
+        var barTypeClass;
+
+        if(totalPercent <= 50){
+          barTypeClass = "progress-bar-success";
+        }else if(totalPercent <= 100){
+          barTypeClass = "progress-bar-warning";
+        }else{
+          barTypeClass = "progress-bar-danger";
+          projectedUsedStyle.width = (100 - currentlyUsedPercent) + "%";
+          message = overQuotaMessage;
+        }
+
+        return (
+          <div className="quota-consumption-bars">
+            <div className="progress">
+              <div className="value">{Math.round(currentlyUsedPercent + projectedPercent) + "%"}</div>
+              <div className={"progress-bar " + barTypeClass} style={currentlyUsedStyle}></div>
+              <div className={"progress-bar " + barTypeClass} style={projectedUsedStyle}></div>
+            </div>
+            <div>{message}</div>
+          </div>
+        );
+      },
+
+      renderStorageConsumption: function(identity, size, volumes){
+        var quota = identity.get('quota');
+        var maximumAllowed = quota.storage;
+        var projected = size;
+        var currentlyUsed = identity.getStorageUsed(volumes);
+
+        // convert to percentages
+        var projectedPercent = projected / maximumAllowed * 100;
+        var currentlyUsedPercent = currentlyUsed / maximumAllowed * 100;
+
+        var message = "You will use " + (Math.round(currentlyUsed + projected)) + " of " + maximumAllowed + " allotted GBs of Storage.";
+        var overQuotaMessage = (
+          <div>
+            <strong>Storage quota exceeded.</strong>
+            <span>{" Choose a smaller size or delete an existing volume."}</span>
+          </div>
+        );
+
+        return this.renderProgressBar(message, currentlyUsedPercent, projectedPercent, overQuotaMessage);
+      },
+
+      renderStorageCountConsumption: function(identity, size, volumes){
+        var quota = identity.get('quota');
+        var maximumAllowed = quota.storage_count;
+        var projected = 1;
+        var currentlyUsed = identity.getStorageCountUsed(volumes);
+
+        // convert to percentages
+        var projectedPercent = projected / maximumAllowed * 100;
+        var currentlyUsedPercent = currentlyUsed / maximumAllowed * 100;
+
+        var message = "You will use " + (Math.round(currentlyUsed + projected)) + " of " + maximumAllowed + " allotted Volumes.";
+        var overQuotaMessage = (
+          <div>
+            <strong>Volume quota exceeded.</strong>
+            <span>{" You must delete an existing volume before creating a new one."}</span>
+          </div>
+        );
+
+        return this.renderProgressBar(message, currentlyUsedPercent, projectedPercent, overQuotaMessage);
+      },
+
       renderBody: function(){
-        if(this.state.identities && this.state.providers){
+        if(this.state.identities && this.state.providers && this.state.volumes){
+          var volumes = this.state.volumes;
+          var identity = this.state.identities.get(this.state.identityId);
+          var size = this.state.volumeSize;
+
           return (
             <form role='form'>
+
+              <div className='form-group' className="modal-section">
+                <h4>Projected Resource Usage</h4>
+                {this.renderStorageConsumption(identity, size, volumes)}
+                {this.renderStorageCountConsumption(identity, size, volumes)}
+              </div>
+
+              <div className='form-group' className="modal-section">
+                <h4>Volume Details</h4>
+              </div>
 
               <div className='form-group'>
                 <label htmlFor='volumeName'>Volume Name</label>

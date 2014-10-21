@@ -54,16 +54,16 @@ define(
       },
 
       getStorageUsed: function(volumes){
-        var relevantVolumes = this._getVolumesBelongingToThisIdentity(instances);
+        var relevantVolumes = this._getVolumesBelongingToThisIdentity(volumes);
 
         return relevantVolumes.reduce(function(total, volume){
           var size = volume.get('size');
-          return total + size.mem;
+          return total + size;
         }, 0);
       },
 
       getStorageCountUsed: function(volumes){
-        var relevantVolumes = this._getVolumesBelongingToThisIdentity(instances);
+        var relevantVolumes = this._getVolumesBelongingToThisIdentity(volumes);
         return relevantVolumes.length;
       }
 
