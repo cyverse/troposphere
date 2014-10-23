@@ -202,9 +202,6 @@ define(
                   {this.renderBody()}
                 </div>
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-danger" onClick={this.cancel}>
-                    Cancel
-                  </button>
                   <button type="button" className="btn btn-primary" onClick={this.confirm} disabled={!this.isSubmittable()}>
                     Move resources into project
                   </button>
