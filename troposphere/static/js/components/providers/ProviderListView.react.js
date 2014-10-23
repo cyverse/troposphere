@@ -15,7 +15,8 @@ define(
         providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        volumes: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        volumes: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        projects: React.PropTypes.instanceOf(Backbone.Collection)
       },
 
       render: function () {
@@ -43,6 +44,7 @@ define(
                       identities={providerIdentities}
                       instances={providerInstances}
                       volumes={providerVolumes}
+                      projects={this.props.projects}
             />
           );
         }.bind(this));
