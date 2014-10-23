@@ -22,8 +22,14 @@ define(
 
       getInitialState: function(){
         return {
-         viewType: 'list'
+          viewType: 'list',
+          resultsPerPage: 20,
+          page: 1
         }
+      },
+
+      onLoadMoreImages: function(){
+        this.setState({page: this.state.page + 1})
       },
 
       onChangeViewType: function(){
@@ -47,6 +53,8 @@ define(
                                    title="Featured Images"
                                    applications={featuredApplications}
                                    tags={this.props.tags}
+                                   onLoadMoreImages={this.onLoadMoreImages}
+                                   totalNumberOfApplications={featuredApplications.models.length}
               />
             );
           }else{
@@ -55,6 +63,8 @@ define(
                                    title="Featured Images"
                                    applications={featuredApplications}
                                    tags={this.props.tags}
+                                   onLoadMoreImages={this.onLoadMoreImages}
+                                   totalNumberOfApplications={featuredApplications.models.length}
               />
             );
           }
@@ -62,7 +72,13 @@ define(
       },
 
       renderImages: function(){
-        if (this.props.applications.isEmpty()) {
+        var numberOfResults = this.state.page*this.state.resultsPerPage;
+        var totalNumberOfApplications = this.props.applications.models.length;
+        var applications = this.props.applications.first(numberOfResults);
+        applications = new ApplicationCollection(applications);
+        var tags = this.props.tags;
+
+        if (applications.isEmpty()) {
           return (
             <em>No results found.</em>
           );
@@ -72,16 +88,20 @@ define(
           return (
             <ApplicationCardList key="searchResults"
                                  title="Search Results"
-                                 applications={this.props.applications}
-                                 tags={this.props.tags}
+                                 applications={applications}
+                                 tags={tags}
+                                 onLoadMoreImages={this.onLoadMoreImages}
+                                 totalNumberOfApplications={totalNumberOfApplications}
             />
           );
         }else{
           return (
             <ApplicationCardGrid key="searchResults"
                                  title="Search Results"
-                                 applications={this.props.applications}
-                                 tags={this.props.tags}
+                                 applications={applications}
+                                 tags={tags}
+                                 onLoadMoreImages={this.onLoadMoreImages}
+                                 totalNumberOfApplications={totalNumberOfApplications}
             />
           );
         }
@@ -110,7 +130,11 @@ define(
       },
 
       renderResultsTitleAndToggles: function(){
-        var title = "Showing (?) of " + this.props.applications.length + " results for " + '"' + this.props.query + '"';
+        var numberOfResults = this.state.page*this.state.resultsPerPage;
+        var applications = this.props.applications;
+        var numberOfDisplayedApplications = applications.first(numberOfResults).length;
+
+        var title = "Showing " + numberOfDisplayedApplications + " of " + applications.models.length + " results for " + '"' + this.props.query + '"';
         return (
           <div className="display-toggles clearfix">
             <h3>{title}</h3>
