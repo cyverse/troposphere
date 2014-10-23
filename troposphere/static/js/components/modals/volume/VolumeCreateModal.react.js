@@ -235,34 +235,40 @@ define(
           return (
             <form role='form'>
 
-              <div className='form-group' className="modal-section">
+              <div className="modal-section form-horizontal">
+                <h4>Volume Details</h4>
+
+                <div className='form-group'>
+                  <label htmlFor='volumeName' className="col-sm-3 control-label">Volume Name</label>
+                  <div className="col-sm-9">
+                    <input type="text" className="form-control" value={this.state.volumeName} onChange={this.onVolumeNameChange}/>
+                  </div>
+                </div>
+
+                <div className='form-group'>
+                  <label htmlFor='volumeSize' className="col-sm-3 control-label">Volume Size</label>
+                  <div className="col-sm-9">
+                    <input type="number" className="form-control" value={this.state.volumeSize} onChange={this.onVolumeSizeChange}/>
+                  </div>
+                </div>
+
+                <div className='form-group'>
+                  <label htmlFor='identity' className="col-sm-3 control-label">Provider</label>
+                  <div className="col-sm-9">
+                    <IdentitySelect
+                        identityId={this.state.identityId}
+                        identities={this.state.identities}
+                        providers={this.state.providers}
+                        onChange={this.onProviderIdentityChange}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="modal-section">
                 <h4>Projected Resource Usage</h4>
                 {this.renderStorageConsumption(identity, size, volumes)}
                 {this.renderStorageCountConsumption(identity, size, volumes)}
-              </div>
-
-              <div className='form-group' className="modal-section">
-                <h4>Volume Details</h4>
-              </div>
-
-              <div className='form-group'>
-                <label htmlFor='volumeName'>Volume Name</label>
-                <input type="text" className="form-control" value={this.state.volumeName} onChange={this.onVolumeNameChange}/>
-              </div>
-
-              <div className='form-group'>
-                <label htmlFor='volumeSize'>Volume Size</label>
-                <input type="number" className="form-control" value={this.state.volumeSize} onChange={this.onVolumeSizeChange}/>
-              </div>
-
-              <div className='form-group'>
-                <label htmlFor='identity'>Provider</label>
-                <IdentitySelect
-                    identityId={this.state.identityId}
-                    identities={this.state.identities}
-                    providers={this.state.providers}
-                    onChange={this.onProviderIdentityChange}
-                />
               </div>
 
             </form>
