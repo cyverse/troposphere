@@ -325,58 +325,60 @@ define(
           return (
             <form role='form'>
 
-              {this.renderAllocationWarning(identity)}
+              <div className='form-group' className="modal-section">
+                <h4>Instance Details</h4>
+                
+                <div className='form-group'>
+                  <label htmlFor='instance-name'>Instance Name</label>
+                  <input type='text' className='form-control' id='instance-name' onChange={this.onInstanceNameChange}/>
+                </div>
+
+                <div className='form-group'>
+                  <label htmlFor='machine'>Version</label>
+                  <MachineSelect machineId={this.state.machineId}
+                                 machines={machines}
+                                 onChange={this.onMachineChange}
+                  />
+                </div>
+
+                <div className='form-group'>
+                  <label htmlFor='identity'>Provider</label>
+                  <IdentitySelect
+                      identityId={this.state.identityId}
+                      identities={this.state.identities}
+                      providers={this.state.providers}
+                      onChange={this.onProviderIdentityChange}
+                  />
+                </div>
+
+                <div className='form-group'>
+                  <label htmlFor='size'>Instance Size</label>
+                  <InstanceSizeSelect
+                      sizeId={this.state.sizeId}
+                      sizes={this.state.sizes}
+                      onChange={this.onSizeChange}
+                  />
+                </div>
+
+                <div className='form-group'>
+                  <label htmlFor='project'>Project</label>
+                  <ProjectSelect
+                      projectId={this.state.projectId}
+                      projects={this.state.projects}
+                      onChange={this.onProjectChange}
+                  />
+                </div>
+              </div>
+
+
 
               <div className='form-group' className="modal-section">
                 <h4>Projected Resource Usage</h4>
                 {this.renderCpuConsumption(identity, size, sizes, instances)}
                 {this.renderMemoryConsumption(identity, size, sizes, instances)}
+                {this.renderAllocationWarning(identity)}
               </div>
 
-              <div className='form-group' className="modal-section">
-                <h4>Instance Details</h4>
-              </div>
-
-              <div className='form-group'>
-                <label htmlFor='instance-name'>Instance Name</label>
-                <input type='text' className='form-control' id='instance-name' onChange={this.onInstanceNameChange}/>
-              </div>
-
-              <div className='form-group'>
-                <label htmlFor='machine'>Version</label>
-                <MachineSelect machineId={this.state.machineId}
-                               machines={machines}
-                               onChange={this.onMachineChange}
-                />
-              </div>
-
-              <div className='form-group'>
-                <label htmlFor='identity'>Provider</label>
-                <IdentitySelect
-                    identityId={this.state.identityId}
-                    identities={this.state.identities}
-                    providers={this.state.providers}
-                    onChange={this.onProviderIdentityChange}
-                />
-              </div>
-
-              <div className='form-group'>
-                <label htmlFor='size'>Instance Size</label>
-                <InstanceSizeSelect
-                    sizeId={this.state.sizeId}
-                    sizes={this.state.sizes}
-                    onChange={this.onSizeChange}
-                />
-              </div>
-
-              <div className='form-group'>
-                <label htmlFor='project'>Project</label>
-                <ProjectSelect
-                    projectId={this.state.projectId}
-                    projects={this.state.projects}
-                    onChange={this.onProjectChange}
-                />
-              </div>
             </form>
           );
         }
