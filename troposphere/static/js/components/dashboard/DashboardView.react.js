@@ -4,7 +4,6 @@ define(
   [
     'react',
     'backbone',
-    './CloudCapacityList.react',
     './InstanceHistoryList.react',
     './MaintenanceMessageList.react',
     './plots/ResourceStatusSummaryPlot.react',
@@ -12,7 +11,7 @@ define(
     './CallToAction.react',
     'url'
   ],
-  function (React, Backbone, CloudCapacityList, InstanceHistoryList, MaintenanceMessageList, ResourceStatusSummaryPlot, ProviderSummaryLinePlot, CallToAction, URL) {
+  function (React, Backbone, InstanceHistoryList, MaintenanceMessageList, ResourceStatusSummaryPlot, ProviderSummaryLinePlot, CallToAction, URL) {
 
     return React.createClass({
 
@@ -25,70 +24,7 @@ define(
         applications: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
-      renderAllocation: function(){
-        return (
-          <div>
-            <h2>Allocation</h2>
-            <div className="row">
-              <div className="col-md-12">
-                <div className="allocation-summary">
-                  <p>
-                    You have used <strong>40% of your allocation</strong>, or 65 of 168 AUs.
-                  </p>
-                  <div className="progress">
-                    <div className="progress-bar progress-bar-success" style={{"width":"40%"}}>40%</div>
-                  </div>
-                  <p>
-                    You currently have <strong>3 instances</strong> running that are consuming your remaining AUs
-                    at a rate of <strong>20 AUs/hour</strong>. If all of these instances continue running, you
-                    will run out of allocation in <strong>15 hours</strong>, and all of your instances will be
-                    automatically suspended.
-                  </p>
-                  <p>
-                    You can see a list of the instances that are currently consuming your allocation below.
-                  </p>
-                </div>
-                <table className="table table-striped table-condensed">
-                  <thead>
-                    <tr>
-                      <th>Instance</th>
-                      <th>Status</th>
-                      <th>CPUs</th>
-                      <th>AUs/hour</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td><a>Mark</a></td>
-                      <td>Active</td>
-                      <td>1</td>
-                      <td>1</td>
-                    </tr>
-                  </tbody>
-                  <tbody>
-                    <tr>
-                      <td><a>Susan</a></td>
-                      <td>Active</td>
-                      <td>2</td>
-                      <td>2</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        )
-      },
-
       render: function () {
-
-        // todo: show cloud capacity again when we have a better idea of what to show
-        // var cloudCapacity = (
-        //   <CloudCapacityList providers={this.props.providers}
-        //                      identities={this.props.identities}
-        //   />
-        // );
-
         return (
           <div id="dashboard-view">
             <div className="container">
@@ -120,8 +56,6 @@ define(
                       />
                     </div>
                   </div>
-
-                  {this.renderAllocation()}
 
                   <h2>Resources in Use</h2>
                   <div className="row">
