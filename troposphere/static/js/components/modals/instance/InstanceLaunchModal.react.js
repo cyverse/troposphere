@@ -9,9 +9,10 @@ define(
     '../instance_launch/MachineSelect.react',
     '../instance_launch/IdentitySelect.react',
     '../instance_launch/InstanceSizeSelect.react',
-    '../instance_launch/ProjectSelect.react'
+    '../instance_launch/ProjectSelect.react',
+    'components/common/Glyphicon.react'
   ],
-  function (React, Backbone, BootstrapModalMixin, stores, MachineSelect, IdentitySelect, InstanceSizeSelect, ProjectSelect) {
+  function (React, Backbone, BootstrapModalMixin, stores, MachineSelect, IdentitySelect, InstanceSizeSelect, ProjectSelect, Glyphicon) {
 
     function getState() {
       var state = {
@@ -88,14 +89,13 @@ define(
         // Make sure the selected provider is not in maintenance
         var selectedIdentity = stores.IdentityStore.get(this.state.identityId);
         var isProviderInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(selectedIdentity.get('provider_id'));
-        var allocation = selectedIdentity.get('quota').allocation;
         var size;
 
         var hasInstanceName          = !!this.state.instanceName;
         var hasImageVersion          = !!this.state.machineId;
         var hasProvider              = !!this.state.identityId;
         var hasSize                  = !!this.state.sizeId;
-        var hasAllocationAvailable   = allocation.current < allocation.threshold;
+        var hasAllocationAvailable   = this.hasAvailableAllocation(selectedIdentity);
         var providerNotInMaintenance = !isProviderInMaintenance;
         var hasEnoughQuotaForCpu = false;
         var hasEnoughQuotaForMemory = false;
@@ -107,6 +107,37 @@ define(
         }
 
         return hasInstanceName && hasImageVersion && hasProvider && hasSize && providerNotInMaintenance && hasAllocationAvailable && hasEnoughQuotaForCpu && hasEnoughQuotaForMemory;
+      },
+
+      //
+      // Helper Functions
+      //
+
+      hasEnoughQuotaForCpu: function(identity, size, sizes, instances){
+        var quota = identity.get('quota');
+        var maximumAllowed = quota.cpu;
+        var projected = size.get('cpu');
+        var currentlyUsed = identity.getCpusUsed(instances, sizes);
+
+        return (projected + currentlyUsed) <= maximumAllowed;
+      },
+
+      hasEnoughQuotaForMemory: function(identity, size, sizes, instances){
+        var quota = identity.get('quota');
+        var maximumAllowed = quota.mem;
+        var projected = size.get('mem');
+        var currentlyUsed = identity.getMemoryUsed(instances, sizes);
+
+        return (projected + currentlyUsed) <= maximumAllowed;
+      },
+
+      hasAvailableAllocation: function(identity){
+        var allocation = identity.get('quota').allocation,
+            allocationConsumed = allocation.current,
+            allocationTotal = allocation.threshold,
+            allocationRemaining = allocationTotal - allocationConsumed;
+
+        return allocationRemaining > 0;
       },
 
       //
@@ -191,42 +222,23 @@ define(
       },
 
       //
-      // Helper Functions
-      //
-
-      hasEnoughQuotaForCpu: function(identity, size, sizes, instances){
-        var quota = identity.get('quota');
-        var maximumAllowed = quota.cpu;
-        var projected = size.get('cpu');
-        var currentlyUsed = identity.getCpusUsed(instances, sizes);
-
-        return (projected + currentlyUsed) <= maximumAllowed;
-      },
-
-      hasEnoughQuotaForMemory: function(identity, size, sizes, instances){
-        var quota = identity.get('quota');
-        var maximumAllowed = quota.mem;
-        var projected = size.get('mem');
-        var currentlyUsed = identity.getMemoryUsed(instances, sizes);
-
-        return (projected + currentlyUsed) <= maximumAllowed;
-      },
-
-      //
       // Render
       // ------
       //
 
-      renderAllocationWarning: function(){
-        return (
-          <div className="alert alert-warning">
-            <strong>Uh oh!</strong>
-            {
-              "Looks like you don't have any AUs available.  In order to launch instances, you need " +
-              "to have AU's free.  You will be able to launch again once your AU's have been reset."
-            }
-          </div>
-        );
+      renderAllocationWarning: function(identity){
+        if(!this.hasAvailableAllocation(identity)) {
+          return (
+            <div className="alert alert-danger">
+              <Glyphicon name='warning-sign'/>
+              <strong>Uh oh!</strong>
+              {
+                "Looks like you don't have any AUs available.  In order to launch instances, you need " +
+                "to have AU's free.  You will be able to launch again once your AU's have been reset."
+              }
+            </div>
+          );
+        }
       },
 
       renderProgressBar: function(message, currentlyUsedPercent, projectedPercent, overQuotaMessage){
