@@ -62,96 +62,99 @@ define(
       },
 
       renderAllocation: function(identity, instances, sizes){
-        var allocationConsumed = 65,
-            allocationTotal = 168,
-            allocationConsumedPercent = 40,
-            instancesRunning = 3,
-            allocationBurnRate = 20,
-            timeRemaining = 15;
-
-        if(this.state.sizes){
-          return (
-            <div>
-              <div className="col-md-6">
-                <div className="allocation-summary">
-                  <p>
-                    You have used <strong>{allocationConsumedPercent}% of your allocation</strong>, or {allocationConsumed} of {allocationTotal} AUs.
-                  </p>
-                  <div className="progress">
-                    <div className="progress-bar progress-bar-success" style={{"width":"40%"}}>{allocationConsumedPercent}%</div>
-                  </div>
-                  <p>
-                    You currently have <strong>{instancesRunning} instances</strong> running that are consuming your remaining AUs
-                    at a rate of <strong>{allocationBurnRate} AUs/hour</strong>. If all of these instances continue running, you
-                    will run out of allocation in <strong>{timeRemaining} hours</strong>, and all of your instances will be
-                    automatically suspended.
-                  </p>
-                </div>
-              </div>
-
-              <div className="col-md-6">
-                <p>
-                  You can see a list of the instances that are currently consuming your allocation below.
-                </p>
-                <table className="table table-striped table-condensed">
-                  <thead>
-                    <tr>
-                      <th>Instance</th>
-                      <th>Status</th>
-                      <th>CPUs</th>
-                      <th>AUs/hour</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {
-                      instances.map(function(instance){
-                        return this.renderInstanceTableRow(instance, sizes);
-                      }.bind(this))
-                    }
-                  </tbody>
-                </table>
-              </div>
-
-            </div>
-          )
-        }
+        var allocation = identity.get('quota').allocation,
+            allocationConsumed = allocation.current,
+            allocationTotal = allocation.threshold,
+            allocationRemaining = allocationTotal - allocationConsumed,
+            allocationConsumedPercent = Math.round(allocationConsumed/allocationTotal*100),
+            instancesConsumingAllocation = identity.getInstancesConsumingAllocation(instances),
+            allocationBurnRate = identity.getCpusUsed(instancesConsumingAllocation, sizes),
+            timeRemaining = allocationRemaining/allocationBurnRate,
+            width = allocationConsumedPercent > 100 ? 100 : allocationConsumedPercent;
 
         return (
-          <div className="loading"></div>
+          <div>
+            <div className="col-md-6">
+              <div className="allocation-summary">
+                <p>
+                  You have used <strong>{allocationConsumedPercent}% of your allocation</strong>, or {allocationConsumed} of {allocationTotal} AUs.
+                </p>
+                <div className="progress">
+                  <div className="progress-bar progress-bar-success" style={{"width": width + "%"}}>{allocationConsumedPercent}%</div>
+                </div>
+                <p>
+                  You currently have <strong>{instancesConsumingAllocation.length} instances</strong> running that are consuming your remaining AUs
+                  at a rate of <strong>{allocationBurnRate} AUs/hour</strong>. If all of these instances continue running, you
+                  will run out of allocation in <strong>{timeRemaining} hours</strong>, and all of your instances will be
+                  automatically suspended.
+                </p>
+              </div>
+            </div>
+
+            <div className="col-md-6">
+              <p>
+                You can see a list of the instances that are currently consuming your allocation below.
+              </p>
+              <table className="table table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Instance</th>
+                    <th>Status</th>
+                    <th>CPUs</th>
+                    <th>AUs/hour</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    instancesConsumingAllocation.map(function(instance){
+                      return this.renderInstanceTableRow(instance, sizes);
+                    }.bind(this))
+                  }
+                </tbody>
+              </table>
+            </div>
+
+          </div>
         )
       },
 
       render: function () {
         var providers = new ProviderCollection([this.props.provider]);
 
-        return (
-          <div className="provider">
-            <h2>{this.props.provider.get('location')}</h2>
-            <p>{this.props.provider.get('description')}</p>
-            <div className="row">
-              {
-                this.props.identities.map(function(identity){
-                  return this.renderAllocation(identity, this.props.instances, this.state.sizes);
-                }.bind(this))
-              }
-            </div>
-            <div className="row">
-              <div className="col-md-8">
-                <ProviderSummaryLinePlot providers={providers}
-                                         identities={this.props.identities}
-                                         instances={this.props.instances}
-                                         volumes={this.props.volumes}
-                                         isPolarPlot={false}
-                />
+        if(this.state.sizes){
+          return (
+            <div className="provider">
+              <h2>{this.props.provider.get('location')}</h2>
+              <p>{this.props.provider.get('description')}</p>
+              <div className="row">
+                {
+                  this.props.identities.map(function(identity){
+                    return this.renderAllocation(identity, this.props.instances, this.state.sizes);
+                  }.bind(this))
+                }
               </div>
-              <div className="col-md-4">
-                <ResourceStatusSummaryPlot title="Instances" resources={this.props.instances}/>
-                <ResourceStatusSummaryPlot title="Volumes" resources={this.props.volumes}/>
+              <div className="row">
+                <div className="col-md-8">
+                  <ProviderSummaryLinePlot providers={providers}
+                                           identities={this.props.identities}
+                                           instances={this.props.instances}
+                                           volumes={this.props.volumes}
+                                           isPolarPlot={false}
+                  />
+                </div>
+                <div className="col-md-4">
+                  <ResourceStatusSummaryPlot title="Instances" resources={this.props.instances}/>
+                  <ResourceStatusSummaryPlot title="Volumes" resources={this.props.volumes}/>
+                </div>
               </div>
-            </div>
 
-          </div>
-        );
+            </div>
+          );
+        }
+
+        return (
+          <div className="loading"></div>
+        )
       }
     });
 

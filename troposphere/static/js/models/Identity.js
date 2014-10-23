@@ -13,7 +13,7 @@ define(
         // in the object for consistency)
         if(!response.quota.allocation){
           response.quota.allocation = {
-            current: 168,
+            current: 120,
             threshold: 168
           }
         }
@@ -33,6 +33,14 @@ define(
         return volumes.filter(function(volume){
           return volume.get('identity').id === this.id;
         }.bind(this));
+      },
+
+      getInstancesConsumingAllocation: function(instances){
+        var relevantInstances = this._getInstancesBelongingToThisIdentity(instances);
+
+        return relevantInstances.filter(function(instance){
+          return instance.get('status') !== "suspended";
+        });
       },
 
       getCpusUsed: function(instances, sizes){
