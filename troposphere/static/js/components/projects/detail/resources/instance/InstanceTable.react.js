@@ -6,7 +6,7 @@ define(
     'backbone',
     './InstanceRow.react',
     './InstanceNotRealRow.react',
-    './SelectableTable.react'
+    '../SelectableTable.react'
   ],
   function (React, Backbone, InstanceRow, InstanceNotRealRow, SelectableTable) {
 

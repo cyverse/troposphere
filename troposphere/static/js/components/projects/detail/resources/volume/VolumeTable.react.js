@@ -6,7 +6,7 @@ define(
     'backbone',
     './VolumeRow.react',
     './VolumeNotRealRow.react',
-    './SelectableTable.react'
+    '../SelectableTable.react'
   ],
   function (React, Backbone, VolumeRow, VolumeNotRealRow, SelectableTable) {
 

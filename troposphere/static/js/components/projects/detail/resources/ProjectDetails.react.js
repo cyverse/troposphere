@@ -6,8 +6,8 @@ define(
     'backbone',
     './PreviewPanel.react',
     './ButtonBar.react',
-    './InstanceList.react',
-    './VolumeList.react',
+    './instance/InstanceList.react',
+    './volume/VolumeList.react',
 
     // Stores
     'stores/InstanceStore',
