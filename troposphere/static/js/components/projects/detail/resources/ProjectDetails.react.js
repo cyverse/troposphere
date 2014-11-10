@@ -81,7 +81,10 @@ define(
 
           // Hold onto selected resource if it still exists
           var indexOfSelectedResource = this.state.selectedResources.indexOf(this.state.selectedResource);
-          if(indexOfSelectedResource >= 0) state.selectedResource = this.state.selectedResource;
+          if(indexOfSelectedResource >= 0) {
+            state.selectedResource = this.state.selectedResource;
+            state.previewedResource = this.state.previewedResource;
+          }
 
           this.setState(state);
         }
