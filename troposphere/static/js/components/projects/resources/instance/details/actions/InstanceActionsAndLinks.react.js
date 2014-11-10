@@ -65,11 +65,14 @@ define(
         // that doesn't exist.
         var linksArray = [
           {label: 'Actions', icon: null},
-          {label: 'Image', icon: 'camera', href: requestImageUrl},
           {label: 'Report', icon: 'inbox', href: reportInstanceUrl}
           //{label: 'Reboot', icon: 'repeat', onClick: this.onReboot},
           //{label: 'Resize', icon: 'resize-full', onClick: this.onResize},
         ];
+
+        if(status !== "suspended"){
+          linksArray.push({label: 'Image', icon: 'camera', href: requestImageUrl});
+        }
 
         // Add in the conditional links based on current machine state
         if(this.props.instance.get('state').isInFinalState()) {
