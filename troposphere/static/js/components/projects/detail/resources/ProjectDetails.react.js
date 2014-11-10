@@ -79,6 +79,10 @@ define(
             if(!resourceInProject) this.state.selectedResources.remove(selectedResource);
           }.bind(this));
 
+          // Hold onto selected resource if it still exists
+          var indexOfSelectedResource = this.state.selectedResources.indexOf(this.state.selectedResource);
+          if(indexOfSelectedResource >= 0) state.selectedResource = this.state.selectedResource;
+
           this.setState(state);
         }
       },
