@@ -5,11 +5,12 @@ define(
     'react',
     'backbone',
     'actions/TagActions',
+    './ChosenDropdown.react',
 
     // jQuery plugins: need to make sure they're loaded, but they aren't called directly
     'chosen'
   ],
-  function (React, Backbone, TagActions) {
+  function (React, Backbone, TagActions, ChosenDropdown) {
 
     return React.createClass({
       display: "EditTags",
@@ -54,9 +55,13 @@ define(
         TagActions.create();
       },
 
-      onTagsChanged: function(text){
-        var tags = $(text.currentTarget).val();
-        this.props.onTagsChanged(tags);
+//      onTagsChanged: function(text){
+//        var tags = $(text.currentTarget).val();
+//        this.props.onTagsChanged(tags);
+//      },
+
+      onTagsChanged: function(arrayOfTagNames){
+        this.props.onTagsChanged(arrayOfTagNames);
       },
 
       render: function () {
@@ -82,6 +87,11 @@ define(
             >
               {tags}
             </select>
+            <p>React.Chosen</p>
+            <ChosenDropdown tags={this.props.tags}
+                            activeTags={this.props.activeTags}
+                            onTagsChanged={this.props.onTagsChanged}
+            />
           </div>
         );
       }
