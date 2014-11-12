@@ -11,10 +11,7 @@ define(
     'actions/TagActions',
     'stores',
     'crypto',
-    'components/common/Gravatar.react',
-
-    // jQuery plugins: need to make sure they're loaded, but they aren't called directly
-    'chosen'
+    'components/common/Gravatar.react'
   ],
   function (React, Backbone, Time, EditableInputField, ResourceTags, InstanceActions, TagActions, stores, CryptoJS, Gravatar) {
 

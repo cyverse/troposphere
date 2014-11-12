@@ -7,10 +7,7 @@ define(
     'underscore',
     'actions/TagActions',
     './ChosenDropdownItem.react',
-    './ChosenSelectedTag.react',
-
-    // jQuery plugins: need to make sure they're loaded, but they aren't called directly
-    'chosen'
+    './ChosenSelectedTag.react'
   ],
   function (React, Backbone, _, TagActions, ChosenDropdownItem, ChosenSelectedTag) {
 
