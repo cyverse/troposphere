@@ -108,7 +108,7 @@ define(
             });
             self.get('attach_data').instance_id = null;
 
-            options.error('failed to attach volume');
+            options.error(jqXHR.responseJSON);
           }
         });
       },

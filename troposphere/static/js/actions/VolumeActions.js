@@ -83,10 +83,22 @@ define(
               success: function () {
                 NotificationController.success(null, VolumeAttachNotifications.success());
                 that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+                that.dispatch(VolumeConstants.POLL_VOLUME, {volume: volume});
               },
-              error: function () {
-                var message = "Volume could not be attached. " + VolumeAttachNotifications.error();
-                NotificationController.error(null, message);
+              error: function (responseJSON) {
+                var errorCode = responseJSON.errors[0].code,
+                    errorMessage = responseJSON.errors[0].message,
+                    message;
+
+                if(errorCode === 409){
+                  message = VolumeAttachNotifications.attachError(volume, instance);
+                  NotificationController.error(null, message);
+                }else{
+                  message = "Volume could not be attached. " + VolumeAttachNotifications.error();
+                  NotificationController.error(null, message);
+                }
+
+                that.dispatch(VolumeConstants.POLL_VOLUME, {volume: volume});
               }
             });
           })
@@ -109,6 +121,7 @@ define(
             success: function (model) {
               NotificationController.success(null, "Volume was detached.  It is now available to attach to another instance or destroy.");
               that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+              that.dispatch(VolumeConstants.POLL_VOLUME, {volume: volume});
             },
             error: function (message, response) {
               NotificationController.error(null, "Volume could not be detached");
@@ -196,6 +209,7 @@ define(
           volume.save(params).done(function () {
             NotificationController.success(null, 'Volume created');
             that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+            that.dispatch(VolumeConstants.POLL_VOLUME, {volume: volume});
             that.dispatch(ProjectVolumeConstants.REMOVE_PENDING_VOLUME_FROM_PROJECT, {
               volume: volume,
               project: project
