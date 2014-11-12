@@ -31,9 +31,16 @@ define(
         onEnterKeyPressed: React.PropTypes.func.isRequired
       },
 
-      onCreateNewTag: function(e){
-        e.preventDefault();
-        //TagActions.create();
+      componentDidMount: function(){
+        this.setupChosenForm();
+      },
+
+      setupChosenForm: function(){
+        var el = this.getDOMNode();
+        var $el = $(el);
+
+        $el.find('.search-field input')
+           .keyup(this.props.onEnterKeyPressed);
       },
 
       onTagSelected: function(selectedTag){
