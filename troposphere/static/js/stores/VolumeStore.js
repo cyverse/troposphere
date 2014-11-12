@@ -21,7 +21,6 @@ define(function (require) {
 
   var _volumes = new VolumeCollection();
   var _isFetching = false;
-  var validStates = ["available", "in-use", "error_deleting"];
   var pollingFrequency = 5 * 1000;
   var _pendingProjectVolumes = {};
   var _volumesBuilding = [];
@@ -68,7 +67,7 @@ define(function (require) {
     setTimeout(function () {
       volume.fetch().done(function () {
         var index = _volumesBuilding.indexOf(volume);
-        if (validStates.indexOf(volume.get("status")) >= 0) {
+        if (volume.get('state').isInFinalState()) {
           _volumesBuilding.splice(index, 1);
         } else {
           fetchAndRemoveIfFinished(volume);
