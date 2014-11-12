@@ -4,22 +4,23 @@ define(
   [
     'react',
     'backbone',
+    'underscore',
     'actions/TagActions',
     './ChosenDropdownItem.react',
     './ChosenSelectedTag.react',
 
     // jQuery plugins: need to make sure they're loaded, but they aren't called directly
-    'chosen',
-    'jquery.outside'
+    'chosen'
   ],
-  function (React, Backbone, TagActions, ChosenDropdownItem, ChosenSelectedTag) {
+  function (React, Backbone, _, TagActions, ChosenDropdownItem, ChosenSelectedTag) {
 
     return React.createClass({
       display: "ChosenDropdown",
 
       getInitialState: function(){
         return {
-          showTags: false
+          showTags: false,
+          searchText: ""
         }
       },
 
@@ -147,8 +148,17 @@ define(
 
       },
 
+      filterSearchResults: function() {
+        var node = this.getDOMNode();
+        var $node = $(node);
+        var search_field = $node.find('input');
+        var searchText = search_field.val();
+        this.setState({searchText: searchText});
+      },
+
       onKeyUp: function(){
         this.scaleSearchField();
+        this.filterSearchResults();
       },
 
       render: function () {
@@ -161,8 +171,32 @@ define(
           'chosen-container-active': this.state.showTags
         });
 
-        var tags = this.props.tags.map(this.renderTag);
         var selectedTags = this.props.activeTags.map(this.renderSelectedTag);
+        var filteredTags = this.props.tags.difference(this.props.activeTags.models);
+        filteredTags = filteredTags.filter(function(tag){
+          return tag.get('name').indexOf(this.state.searchText) > -1;
+        }.bind(this));
+        var tags = filteredTags.map(this.renderTag);
+
+        if(this.state.searchText && tags.length < 1){
+          tags = (
+            <li className="no-results">
+              No tag found. Press Enter to create a new tag for "<span>{this.state.searchText}</span>"
+            </li>
+          )
+        }else if(selectedTags.length === 0 && tags.length < 1){
+          tags = (
+            <li className="no-results">
+              No tags have been created yet.
+            </li>
+          )
+        }else if(selectedTags.length > 0 && tags.length < 1){
+          tags = (
+            <li className="no-results">
+              All available tags have been added.
+            </li>
+          )
+        }
 
         var placeholderText = selectedTags.length > 0 ? "" : "Select tags to add...";
 
