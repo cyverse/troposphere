@@ -5,10 +5,7 @@ define(
     'react',
     'backbone',
     'actions/TagActions',
-    './ChosenDropdown.react',
-
-    // jQuery plugins: need to make sure they're loaded, but they aren't called directly
-    'chosen'
+    './ChosenDropdown.react'
   ],
   function (React, Backbone, TagActions, ChosenDropdown) {
 
@@ -26,28 +23,12 @@ define(
         this.setupChosenForm();
       },
 
-      componentDidUpdate: function(){
-        this.updateChosenForm();
-      },
-
       setupChosenForm: function(){
         var el = this.getDOMNode();
         var $el = $(el);
-        $el.find('select[name="tags"]')
-           .chosen({
-              no_results_text: "No tag found. Press Enter to create a new tag for"
-            })
-           .change(this.onTagsChanged);
 
         $el.find('.search-field input')
            .keyup(this.props.onEnterKeyPressed);
-      },
-
-      updateChosenForm: function(){
-        var el = this.getDOMNode();
-        var $el = $(el);
-        $el.find('select[name="tags"]')
-           .trigger('chosen:updated');
       },
 
       onCreateNewTag: function(e){
@@ -55,10 +36,6 @@ define(
         TagActions.create();
       },
 
-//      onTagsChanged: function(text){
-//        var tags = $(text.currentTarget).val();
-//        this.props.onTagsChanged(tags);
-//      },
 
       onTagsChanged: function(arrayOfTagNames){
         this.props.onTagsChanged(arrayOfTagNames);
@@ -73,21 +50,8 @@ define(
           );
         });
 
-        var activeTagNames = this.props.activeTags.map(function(tag){
-          return tag.get('name');
-        });
-
         return (
           <div className="tagger">
-            <select name="tags"
-                    data-placeholder="Select tags to add..."
-                    className="form-control"
-                    multiple={true}
-                    value={activeTagNames}
-            >
-              {tags}
-            </select>
-            <p>React.Chosen</p>
             <ChosenDropdown tags={this.props.tags}
                             activeTags={this.props.activeTags}
                             onTagsChanged={this.props.onTagsChanged}

@@ -37,7 +37,6 @@ define(
       },
 
       onTagSelected: function(selectedTag){
-        console.log('tag selected');
         var tagNames = this.props.activeTags.map(function(tag){
           return tag.get('name');
         });
@@ -79,7 +78,6 @@ define(
       },
 
       onEnterTags: function(e){
-        console.log("onEnterTags");
         this.setState({showTags: true});
 
         $(document).bind("mouseup", this._checkIfApplies);
@@ -93,7 +91,6 @@ define(
       },
 
       onLeaveTags: function(e){
-        console.log("onLeaveTags");
         this.closeDropdown();
       },
 
