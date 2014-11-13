@@ -22,7 +22,10 @@ require.config({
     backbone: '../bower_components/backbone/backbone',
     underscore: '../bower_components/underscore/underscore',
     jquery: '../bower_components/jquery/dist/jquery',
-    bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min'
+    bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min',
+    toastr: '../bower_components/toastr/toastr',
+    moment: '../bower_components/moment/moment',
+    q: '../bower_components/q/q'
   },
 
   shim: {

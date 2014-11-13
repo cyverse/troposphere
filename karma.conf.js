@@ -15,18 +15,19 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      //{pattern: '.tmp/public/js/**/*.js', included: false},
-      //{pattern: '.tmp/public/bower_components/**/*.js', included: false},
       {pattern: 'troposphere/assets/bower_components/react/react-with-addons.js', included: false},
       {pattern: 'troposphere/assets/bower_components/backbone/backbone.js', included: false},
       {pattern: 'troposphere/assets/bower_components/underscore/underscore.js', included: false},
       {pattern: 'troposphere/assets/bower_components/jquery/dist/jquery.js', included: false},
       {pattern: 'troposphere/assets/bower_components/bootstrap/dist/js/bootstrap.min.js', included: false},
-
-      //{pattern: 'node_modules/.bin/*.js', included: false},
+      {pattern: 'troposphere/assets/bower_components/bootstrap/dist/js/bootstrap.min.js', included: false},
+      {pattern: 'troposphere/assets/bower_components/toastr/toastr.js', included: false},
+      {pattern: 'troposphere/assets/bower_components/moment/moment.js', included: false},
+      {pattern: 'troposphere/assets/bower_components/q/q.js', included: false},
 
       {pattern: 'troposphere/assets/js/**/*.js', included: false},
 
+      {pattern: 'test/**/*.fixture.js', included: false},
       {pattern: 'test/**/*.spec.js', included: false},
       'test/test-main.js'
     ],
