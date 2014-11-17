@@ -45,7 +45,7 @@ define(
     });
 
     var mountModal = function (modalComponent) {
-      React.renderComponent(modalComponent, document.getElementById('modal'));
+      React.render(modalComponent, document.getElementById('modal'));
     };
 
     /* 

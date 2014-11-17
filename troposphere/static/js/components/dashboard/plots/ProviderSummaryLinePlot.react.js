@@ -233,7 +233,7 @@ define(
                 max: currentLimit
               });
 
-              return React.renderComponentToStaticMarkup(formatterComponent);
+              return React.renderToStaticMarkup(formatterComponent);
             }
           },
           legend: {

@@ -28,7 +28,7 @@ define(function (require) {
           content: content,
           route: route || Backbone.history.getFragment()
         });
-        React.renderComponent(app, document.getElementById('application'));
+        React.render(app, document.getElementById('application'));
       },
 
       //

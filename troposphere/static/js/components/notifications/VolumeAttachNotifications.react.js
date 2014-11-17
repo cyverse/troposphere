@@ -28,7 +28,7 @@ define(
           </div>
         );
 
-        return React.renderComponentToString(message);
+        return React.renderToString(message);
       },
 
       error: function(){

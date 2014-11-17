@@ -18,7 +18,7 @@ define(
         onResourceSelected: React.PropTypes.func.isRequired,
         onResourceDeselected: React.PropTypes.func.isRequired,
 
-        children: React.PropTypes.renderable.isRequired
+        children: React.PropTypes.node.isRequired
       },
 
       toggleCheckbox: function(e){

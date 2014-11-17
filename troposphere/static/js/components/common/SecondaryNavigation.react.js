@@ -18,7 +18,7 @@ define(
         currentRoute: React.PropTypes.string.isRequired,
         canEditTitle: React.PropTypes.bool,
         onTitleChanged: React.PropTypes.func,
-        additionalContent: React.PropTypes.renderable
+        additionalContent: React.PropTypes.node
       },
 
       getInitialState: function(){

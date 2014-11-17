@@ -10,9 +10,10 @@ define(
     './Bookmark.react',
     'context',
     '../detail/tags/Tags.react',
-    'stores'
+    'stores',
+    'navigator'
   ],
-  function (React, Gravatar, Backbone, URL, Rating, Bookmark, context, Tags, stores) {
+  function (React, Gravatar, Backbone, URL, Rating, Bookmark, context, Tags, stores, navigator) {
 
     return React.createClass({
 
@@ -24,7 +25,7 @@ define(
       onAppClick: function (e) {
         e.preventDefault();
         var url = URL.application(this.props.application);
-        Backbone.history.navigate(url, {trigger: true});
+        navigator.navigateTo(url);
       },
 
       render: function () {

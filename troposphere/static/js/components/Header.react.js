@@ -100,7 +100,7 @@ define(
       render: function () {
 
         var profile = this.props.profile;
-        var loginLogoutDropdown = profile ? LogoutLink({username: profile.get('username')}) : LoginLink();
+        var loginLogoutDropdown = profile ? <LogoutLink username={profile.get('username')}/> : <LoginLink/>;
 
         if(!profile) {
           links = links.filter(function (link) {

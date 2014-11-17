@@ -33,53 +33,61 @@ define(
     var Controller = Marionette.Controller.extend({
 
       render: function(content, route){
-        var app = Root({
+        var Component = React.createFactory(Root);
+        var app = Component({
           profile: context.profile,
           content: content,
           route: route || Backbone.history.getFragment()
         });
-        React.renderComponent(app, document.getElementById('application'));
+        React.render(app, document.getElementById('application'));
       },
 
       showProjects: function (param) {
-        this.render(ProjectListPage(), ["projects"]);
+        var Component = React.createFactory(ProjectListPage);
+        this.render(Component(), ["projects"]);
       },
 
       showProjectDetails: function (projectId) {
-        this.render(ProjectDetailsPage({
+        var Component = React.createFactory(ProjectDetailsPage);
+        this.render(Component({
           projectId: projectId
         }), ["projects"]);
       },
 
       showProjectResources: function (projectId) {
-        this.render(ProjectResourcesPage({
+        var Component = React.createFactory(ProjectResourcesPage);
+        this.render(Component({
           projectId: projectId
         }), ["projects"]);
       },
 
       showProjectVolumeDetails: function(projectId, volumeId){
-        this.render(VolumeDetailsPage({
+        var Component = React.createFactory(VolumeDetailsPage);
+        this.render(Component({
           projectId: projectId,
           volumeId: volumeId
         }), ["projects"]);
       },
 
       showProjectInstanceDetails: function(projectId, instanceId){
-        this.render(InstanceDetailsPage({
+        var Component = React.createFactory(InstanceDetailsPage);
+        this.render(Component({
           projectId: projectId,
           instanceId: instanceId
         }), ["projects"]);
       },
 
       showRequestImagePage: function(projectId, instanceId){
-        this.render(RequestImagePage({
+        var Component = React.createFactory(RequestImagePage);
+        this.render(Component({
           projectId: projectId,
           instanceId: instanceId
         }), ["projects"]);
       },
 
       showReportInstancePage: function(projectId, instanceId){
-        this.render(ReportInstancePage({
+        var Component = React.createFactory(ReportInstancePage);
+        this.render(Component({
           projectId: projectId,
           instanceId: instanceId
         }), ["projects"]);

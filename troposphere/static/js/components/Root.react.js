@@ -42,7 +42,7 @@ define(
         return (
           <div>
             <Header profile={this.props.profile} currentRoute={this.props.route} maintenanceMessages={maintenanceMessages}/>
-            <div id="main" style={{"margin-top": marginTop}}>
+            <div id="main" style={{"marginTop": marginTop}}>
               {this.props.content}
             </div>
             <Footer profile={this.props.profile}/>

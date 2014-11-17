@@ -119,7 +119,7 @@ define(
                 status: this.key,
                 count: this.y
               });
-              return React.renderComponentToStaticMarkup(formatterComponent);
+              return React.renderToStaticMarkup(formatterComponent);
             }
           },
           legend: {

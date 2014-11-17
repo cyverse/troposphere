@@ -15,7 +15,7 @@ define(
         onResourceDeselected: React.PropTypes.func.isRequired,
         isActive: React.PropTypes.bool,
         isSelected: React.PropTypes.bool,
-        children: React.PropTypes.renderable.isRequired,
+        children: React.PropTypes.node.isRequired,
         resource: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
