@@ -66,13 +66,13 @@ define(
       renderTagRow: function(tag){
         return (
           <tr>
-            <td style={{"vertical-align":"top","width":"117px"}}>
-              <h4 style={{"margin":"0", "color":"#5A5A5A", "font-size":"18px"}}>
+            <td style={{"verticalAlign":"top","width":"117px"}}>
+              <h4 style={{"margin":"0", "color":"#5A5A5A", "fontSize":"18px"}}>
                 {tag.get('name')}
               </h4>
             </td>
             <td>
-              <p style={{"font-size":"14px"}}>
+              <p style={{"fontSize":"14px"}}>
                 {tag.get('description')}
               </p>
             </td>

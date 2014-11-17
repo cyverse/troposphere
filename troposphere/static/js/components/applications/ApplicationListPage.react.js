@@ -46,35 +46,12 @@ define(
         ApplicationStore.fetchMore();
       },
 
-      renderImages: function(){
-        if (this.state.applications && this.state.tags) {
-          return (
-            <ApplicationListView applications={this.state.applications}
-                                 tags={this.state.tags}
-            />
-          );
-        }
-
-        return (
-          <div className="loading"></div>
-        );
-      },
-
       render: function () {
         return (
-          this.renderImages()
+          <ApplicationListView applications={this.state.applications}
+                               tags={this.state.tags}
+          />
         );
-
-        return (
-          <div>
-            <SecondaryApplicationNavigation currentRoute="search"/>
-            <div className="container application-card-view">
-              <ApplicationSearch/>
-              {this.renderImages()}
-            </div>
-          </div>
-        );
-
       }
 
     });
