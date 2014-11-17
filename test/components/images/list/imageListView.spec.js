@@ -15,10 +15,23 @@ define(function(require) {
     var TestUtils,
         imageViewElement;
 
-    ddescribe('Image List View', function() {
+    describe('Image List View', function() {
 
       beforeEach(function() {
         TestUtils = React.addons.TestUtils;
+
+//        var mockComponent = function (component, mockTagName) {
+//          var reactClass = React.createClass({
+//                render: function () {
+//                  var mockTagName = mockTagName || "div";
+//                  return React.DOM[mockTagName](null, this.props.children);
+//                }
+//              }),
+//              mock = sinon.stub(component, reactClass);
+//          return mock;
+//        };
+
+        var mockComponent = TestUtils.mockComponent(SecondaryApplicationNavigation);
 
         var listView = ImageListView({applications: imageCollectionFixture});
         imageViewElement = TestUtils.renderIntoDocument(listView);
@@ -39,7 +52,7 @@ define(function(require) {
         };
       });
 
-      it("should have secondary navigation", function(){
+      iit("should have secondary navigation", function(){
         var elements = TestUtils.scryRenderedComponentsWithType(imageViewElement, SecondaryApplicationNavigation);
         expect(elements.length).toBe(1);
       });
