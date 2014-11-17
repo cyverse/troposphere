@@ -62,6 +62,10 @@ define(
 
       render: function () {
         return (
+          this.renderImages()
+        );
+
+        return (
           <div>
             <SecondaryApplicationNavigation currentRoute="search"/>
             <div className="container application-card-view">

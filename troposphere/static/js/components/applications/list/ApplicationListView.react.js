@@ -5,19 +5,19 @@ define(
     'react',
     'backbone',
     'components/common/PageHeader.react',
-    'components/common/SecondaryNavigation.react',
     'collections/ApplicationCollection',
     './ApplicationCardList.react',
     './ApplicationCardGrid.react',
-    './SearchContainer.react'
+    './SearchContainer.react',
+    '../common/SecondaryApplicationNavigation.react'
   ],
-  function (React, Backbone, PageHeader, SecondaryNavigation, ApplicationCollection, ApplicationCardList, ApplicationCardGrid, ApplicationSearch) {
+  function (React, Backbone, PageHeader, ApplicationCollection, ApplicationCardList, ApplicationCardGrid, ApplicationSearch, SecondaryApplicationNavigation) {
 
     return React.createClass({
 
       propTypes: {
-        applications: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        applications: React.PropTypes.instanceOf(Backbone.Collection),
+        tags: React.PropTypes.instanceOf(Backbone.Collection)
       },
 
       getInitialState: function(){
@@ -164,17 +164,32 @@ define(
         );
       },
 
-      render: function () {
-        var routes = this.getRoutes();
+      renderBody: function(){
+        if (this.props.applications && this.props.tags) {
+          return (
+            <div>
+              {this.renderResultsTitleAndToggles()}
+              {this.renderFeaturedImages()}
+              {this.renderImages()}
+            </div>
+          );
+        }
 
         return (
+          <div className="loading"></div>
+        );
+      },
+
+      render: function () {
+        return (
           <div>
-            {this.renderResultsTitleAndToggles()}
-            {this.renderFeaturedImages()}
-            {this.renderImages()}
+            <SecondaryApplicationNavigation currentRoute="search"/>
+            <div className="container application-card-view">
+              <ApplicationSearch/>
+              {this.renderBody()}
+            </div>
           </div>
         );
-
       }
 
     });
