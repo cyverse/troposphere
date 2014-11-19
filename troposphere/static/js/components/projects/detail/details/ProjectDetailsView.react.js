@@ -6,11 +6,11 @@ define(
     'jquery',
     'backbone',
     'components/projects/common/SecondaryProjectNavigation.react',
-    'showdown',
-    'actions/ProjectActions',
-    './InputField.react'
+    'actions',
+    './InputField.react',
+    './HtmlTextAreaField.react'
   ],
-  function (React, $, Backbone, SecondaryProjectNavigation, Showdown, ProjectActions, InputField) {
+  function (React, $, Backbone, SecondaryProjectNavigation, actions, InputField, TextAreaField) {
 
     return React.createClass({
 
@@ -18,76 +18,39 @@ define(
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
-      onSaveDescription: function(e){
-        var projectDescription = $(this.getDOMNode()).find("textarea")[0].value;
-
+      onSaveDescription: function(description){
+        actions.ProjectActions.updateProjectAttributes(this.props.project, {description: description})
       },
 
       // ------
       // Render
       // ------
 
-      renderDescription: function(){
-        var project = this.state.project;
-        var description = project.get('description');
-        var converter = new Showdown.converter();
-        var projectHtml;
-
-        if(description) {
-          if (this.state.isEditing) {
-            return (
-              <EditableInputField text={this.state.title} onDoneEditing={this.onDoneEditing}/>
-            );
-          } else {
-            projectHtml = converter.makeHtml(description);
-            return (
-              <span dangerouslySetInnerHTML={{__html: projectHtml}}/>
-            );
-          }
-        }
-      },
-
       renderDateCreated: function(project){
         return (
-          <div className="project-info-segment">
-            <h4>Created</h4>
-            <p>{project.get('start_date').format("MMMM Do, YYYY")}</p>
+          <div className="project-info-segment row">
+            <h4 className="col-md-3">Created</h4>
+            <p className="col-md-9">{project.get('start_date').format("MMMM Do, YYYY")}</p>
           </div>
         );
       },
 
       renderDescription: function(project){
-        var converter = new Showdown.converter();
-        var projectHtml = converter.makeHtml(project.get('description'));
-
+        console.log("helo");
         return (
-          <div className="project-info-segment">
-            <h4>Description</h4>
-            <span dangerouslySetInnerHTML={{__html: projectHtml}}/>
-          </div>
-        )
-      },
-
-      renderEditableDescription: function(project){
-        return (
-          <div className="project-info-segment">
-            <h4>Description</h4>
-            <div style={{"display": "inline-block"}}>
-              <textarea style={{"width":"450px", "maxWidth":"450px", "height":"150px"}}>{project.get('description')}</textarea>
-              <button className="btn btn-small btn-default"
-                      style={{"display": "block", "padding":"5px 10px"}}
-                      onClick={this.onSaveDescription}>
-                Save changes
-              </button>
-            </div>
+          <div className="project-info-segment row">
+            <h4 className="col-md-3">Description</h4>
+            <TextAreaField title={project.get('description')}
+                           canEditTitle={true}
+                           onTitleChanged={this.onSaveDescription}/>
           </div>
         )
       },
 
       renderPrincipalInvestigator: function(){
         return (
-          <div className="project-info-segment">
-            <h4>Principal Investigator</h4>
+          <div className="project-info-segment row">
+            <h4 className="col-md-3">Principal Investigator</h4>
             <InputField title="__Not_A_Database_Field__"
                         canEditTitle={true}
                         onTitleChanged={function(){}}/>
@@ -97,8 +60,8 @@ define(
 
       renderContributors: function(){
         return (
-          <div className="project-info-segment">
-            <h4>Contributors</h4>
+          <div className="project-info-segment row">
+            <h4 className="col-md-3">Contributors</h4>
             <InputField title="__Not_A_Database_Field__"
                         canEditTitle={true}
                         onTitleChanged={function(){}}/>
@@ -108,8 +71,8 @@ define(
 
       renderTags: function(){
         return (
-          <div className="project-info-segment">
-            <h4>Tags</h4>
+          <div className="project-info-segment row">
+            <h4 className="col-md-3">Tags</h4>
             <InputField title="__Not_A_Database_Field__"
                         canEditTitle={true}
                         onTitleChanged={function(){}}/>
@@ -119,20 +82,9 @@ define(
 
       renderFundingSource: function(){
         return (
-          <div className="project-info-segment">
-            <h4>Funding Source/Agency</h4>
+          <div className="project-info-segment row">
+            <h4 className="col-md-3">Funding Source/Agency</h4>
             <InputField title="__Not_A_Database_Field__"
-                        canEditTitle={true}
-                        onTitleChanged={function(){}}/>
-          </div>
-        );
-      },
-
-      renderEditableInput: function(){
-        return (
-          <div className="project-info-segment">
-            <h4>Project Field</h4>
-            <InputField title="my text"
                         canEditTitle={true}
                         onTitleChanged={function(){}}/>
           </div>
@@ -148,12 +100,11 @@ define(
             <div className="container">
               <div>
                 {this.renderDateCreated(project)}
-                {this.renderEditableDescription(project)}
+                {this.renderDescription(project)}
                 {this.renderPrincipalInvestigator()}
                 {this.renderContributors()}
                 {this.renderTags()}
                 {this.renderFundingSource()}
-                {this.renderEditableInput()}
               </div>
             </div>
           </div>

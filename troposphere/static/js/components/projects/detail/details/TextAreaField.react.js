@@ -4,9 +4,9 @@ define(
   [
     'react',
     'backbone',
-    'components/common/EditableInputField.react'
+    'components/common/EditableTextAreaField.react'
   ],
-  function (React, Backbone, EditableInputField) {
+  function (React, Backbone, EditableTextAreaField) {
 
     var ENTER_KEY = 13;
 
@@ -43,7 +43,7 @@ define(
         if(this.props.title) {
           if (this.props.canEditTitle && this.state.isEditing) {
             titleContent = (
-              <EditableInputField text={this.state.title} onDoneEditing={this.onDoneEditing}/>
+              <EditableTextAreaField text={this.state.title} onDoneEditing={this.onDoneEditing}/>
               );
           } else {
             titleContent = (
@@ -59,8 +59,6 @@ define(
 
         var titleClassName = "project-property col-md-9";
         if(this.props.canEditTitle) titleClassName += " editable";
-
-        var hasAdditionalContent = this.props.additionalContent;
 
         return (
           <div className={titleClassName}>

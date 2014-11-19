@@ -131,11 +131,14 @@ ul.project-resource-list {
     padding: 0;
     border-bottom: 1px dashed #CCC;
     font-size: 16px;
-    //margin-bottom: 7px;
-    //margin-top: 16px;
+    margin-bottom: 9px;
     outline: 0;
     background-color: transparent;
-    width: 450px;
+    width: 600px;
+  }
+
+  p {
+    max-width: 600px;
   }
 
   &.editable {
@@ -148,6 +151,21 @@ ul.project-resource-list {
 
     &:hover i {
       display: inline-block;
+    }
+
+    textarea {
+      max-width: 950px;
+      //min-height: 150px;
+      height: 150px;
+      width: 600px;
+      font-size: 16px;
+    }
+  }
+  
+  .html-wrapper {
+    display: inline-block;
+    p {
+      display: block;
     }
   }
 }

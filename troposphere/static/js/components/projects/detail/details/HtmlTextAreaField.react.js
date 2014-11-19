@@ -4,9 +4,10 @@ define(
   [
     'react',
     'backbone',
-    'components/common/EditableInputField.react'
+    'components/common/EditableTextAreaField.react',
+    'showdown'
   ],
-  function (React, Backbone, EditableInputField) {
+  function (React, Backbone, EditableTextAreaField, Showdown) {
 
     var ENTER_KEY = 13;
 
@@ -38,19 +39,23 @@ define(
       },
 
       render: function () {
+        var converter = new Showdown.converter(),
+            textHtml,
+            titleContent;
 
-        var titleContent;
         if(this.props.title) {
+          textHtml = converter.makeHtml(this.props.title);
+
           if (this.props.canEditTitle && this.state.isEditing) {
             titleContent = (
-              <EditableInputField text={this.state.title} onDoneEditing={this.onDoneEditing}/>
-              );
+              <EditableTextAreaField text={this.state.title} onDoneEditing={this.onDoneEditing}/>
+            );
           } else {
             titleContent = (
-              <p onClick={this.onEnterEditMode}>
-                {this.state.title}
+              <div onClick={this.onEnterEditMode}>
+                <span className="html-wrapper" dangerouslySetInnerHTML={{__html: textHtml}}/>
                 <i className="glyphicon glyphicon-pencil"></i>
-              </p>
+              </div>
             );
           }
         }else{
@@ -59,8 +64,6 @@ define(
 
         var titleClassName = "project-property col-md-9";
         if(this.props.canEditTitle) titleClassName += " editable";
-
-        var hasAdditionalContent = this.props.additionalContent;
 
         return (
           <div className={titleClassName}>
