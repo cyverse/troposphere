@@ -4,7 +4,7 @@ define(
   [
     'react',
     'backbone',
-    './EditableInputField.react'
+    'components/common/EditableInputField.react'
   ],
   function (React, Backbone, EditableInputField) {
 
@@ -14,11 +14,8 @@ define(
 
       propTypes: {
         title: React.PropTypes.string,
-        routes: React.PropTypes.array.isRequired,
-        currentRoute: React.PropTypes.string.isRequired,
         canEditTitle: React.PropTypes.bool,
-        onTitleChanged: React.PropTypes.func,
-        additionalContent: React.PropTypes.node
+        onTitleChanged: React.PropTypes.func
       },
 
       getInitialState: function(){
@@ -42,53 +39,32 @@ define(
 
       render: function () {
 
-        var links = this.props.routes.map(function(route){
-          var isCurrentRoute = (route.name.toLowerCase() === this.props.currentRoute);
-          var className = isCurrentRoute ? "active" : null;
-          return (
-            <li key={route.name} className={className}>
-              <a href={route.href}>
-                <i className={'glyphicon glyphicon-' + route.icon}></i>
-                {route.name}
-              </a>
-            </li>
-          );
-        }.bind(this));
-
         var titleContent;
         if(this.props.title) {
           if (this.props.canEditTitle && this.state.isEditing) {
             titleContent = (
               <EditableInputField text={this.state.title} onDoneEditing={this.onDoneEditing}/>
-            );
+              );
           } else {
             titleContent = (
-              <h1 onClick={this.onEnterEditMode}>
-              {this.state.title}
+              <p onClick={this.onEnterEditMode}>
+                {this.state.title}
                 <i className="glyphicon glyphicon-pencil"></i>
-              </h1>
+              </p>
             );
           }
         }else{
           titleContent = null;
         }
 
-        var titleClassName = "project-name";
+        var titleClassName = "project-property";
         if(this.props.canEditTitle) titleClassName += " editable";
 
         var hasAdditionalContent = this.props.additionalContent;
 
         return (
-          <div className="secondary-nav">
-            <div className="container">
-              <div className={titleClassName}>
-                {titleContent}
-              </div>
-              <ul className="secondary-nav-links">
-                {links}
-              </ul>
-             {hasAdditionalContent ? this.props.additionalContent : null}
-            </div>
+          <div className={titleClassName}>
+            {titleContent}
           </div>
         );
       }

@@ -82,12 +82,19 @@
 
   h4 {
     color: #5A5A5A;
-    font-size: 18px;
+    font-size: 16px;
     margin-bottom: 5px;
+    display: inline-block;
+    width: 175px;
+    text-align: right;
+    margin-right: 25px;
+    //vertical-align: top;
+    margin-top: 0;
   }
 
   p {
-    font-size: 15px;
+    font-size: 16px;
+    display: inline-block;
   }
 }
 
@@ -112,6 +119,35 @@ ul.project-resource-list {
     }
     span {
       font-size: 23px;
+    }
+  }
+}
+
+.project-property {
+  display: inline-block;
+
+  input {
+    border: 0;
+    padding: 0;
+    border-bottom: 1px dashed #CCC;
+    font-size: 16px;
+    //margin-bottom: 7px;
+    //margin-top: 16px;
+    outline: 0;
+    background-color: transparent;
+    width: 450px;
+  }
+
+  &.editable {
+    i {
+      font-size: 14px;
+      color: #999;
+      margin-left: 9px;
+      display: none;
+    }
+
+    &:hover i {
+      display: inline-block;
     }
   }
 }
