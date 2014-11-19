@@ -13,7 +13,7 @@ define(
         // in the object for consistency)
         if(!response.quota.allocation){
           response.quota.allocation = {
-            current: 168,
+            current: 10,
             threshold: 168
           }
         }
