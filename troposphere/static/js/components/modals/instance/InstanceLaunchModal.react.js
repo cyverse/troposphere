@@ -14,6 +14,8 @@ define(
   ],
   function (React, Backbone, BootstrapModalMixin, stores, MachineSelect, IdentitySelect, InstanceSizeSelect, ProjectSelect, Glyphicon) {
 
+    var ENTER_KEY = 13;
+
     function getState() {
       var state = {
         providers: stores.ProviderStore.getAll(),
@@ -190,6 +192,12 @@ define(
         this.props.onConfirm(identity, this.state.machineId, this.state.sizeId, this.state.instanceName, project);
       },
 
+      handleKeyDown: function(e){
+        var text = e.target.value;
+        if (e.which === ENTER_KEY) {
+          e.preventDefault();
+        }
+      },
 
       //
       // Custom Modal Callbacks
@@ -333,7 +341,7 @@ define(
                 <div className='form-group'>
                   <label htmlFor='instance-name' className="col-sm-3 control-label">Instance Name</label>
                   <div className="col-sm-9">
-                    <input type='text' className='form-control' id='instance-name' onChange={this.onInstanceNameChange}/>
+                    <input type='text' className='form-control' id='instance-name' onChange={this.onInstanceNameChange} onKeyDown={this.handleKeyDown}/>
                   </div>
                 </div>
 
