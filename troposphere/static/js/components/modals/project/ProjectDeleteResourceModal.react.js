@@ -6,9 +6,10 @@ define(
     'backbone',
     'components/mixins/BootstrapModalMixin.react',
     'stores/ProjectStore',
-    '../instance_launch/ProjectSelect.react'
+    '../instance_launch/ProjectSelect.react',
+    'components/common/Glyphicon.react'
   ],
-  function (React, Backbone, BootstrapModalMixin, ProjectStore, ProjectSelect) {
+  function (React, Backbone, BootstrapModalMixin, ProjectStore, ProjectSelect, Glyphicon) {
 
     function getState() {
       return {
@@ -74,7 +75,7 @@ define(
 
       renderResource: function(resource){
         return (
-          <li key={resource.id}>{resource.get('name')}</li>
+          <li key={resource.id}><strong>{resource.get('name')}</strong></li>
         );
       },
 
@@ -83,11 +84,20 @@ define(
           <form role='form'>
 
             <div className='form-group'>
-              <label htmlFor='volumeSize'>Resources to Delete</label>
-              <p>The following resources will be deleted.  This CAN NOT be undone.</p>
+
+              <p className='alert alert-danger'>
+                <Glyphicon name='warning-sign'/>
+                <strong>WARNING</strong>
+                {
+                  ' This action is permanent and CANNOT be undone.'
+                }
+              </p>
+
+              <p>If you proceed, the following resources and all data on them will be destroyed:</p>
               <ul>
                 {this.props.resources.map(this.renderResource)}
               </ul>
+              <p>{"Would you still like to delete these resources?"}</p>
             </div>
 
           </form>
@@ -111,7 +121,7 @@ define(
                     Cancel
                   </button>
                   <button type="button" className="btn btn-primary" onClick={this.confirm} disabled={!this.isSubmittable()}>
-                    Delete resources
+                    Yes, delete the resources
                   </button>
                 </div>
               </div>
