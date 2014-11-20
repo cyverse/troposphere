@@ -11,7 +11,7 @@ define(
 
       propTypes: {
         title: React.PropTypes.string.isRequired,
-        children: React.PropTypes.component
+        children: React.PropTypes.element
       },
 
       render: function () {

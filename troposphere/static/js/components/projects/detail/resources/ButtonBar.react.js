@@ -40,7 +40,7 @@ define(
             <Button icon="export"
                     tooltip="Remove selected resources (admin only)"
                     onClick={this.props.onRemoveSelectedResources}
-                    style={{"background-color": "bisque"}}
+                    style={{"backgroundColor": "bisque"}}
                     isVisible={context.profile.get('is_superuser') && this.props.isVisible}
             />
           </div>
