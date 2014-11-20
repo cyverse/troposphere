@@ -81,7 +81,7 @@ define(
 
             volume.attachTo(instance, mountLocation, {
               success: function () {
-                NotificationController.success(null, VolumeAttachNotifications.success());
+                //NotificationController.success(null, VolumeAttachNotifications.success());
                 that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
                 that.dispatch(VolumeConstants.POLL_VOLUME, {volume: volume});
               },
