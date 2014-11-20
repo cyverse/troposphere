@@ -197,18 +197,30 @@
     border-top-right-radius: 0;
     padding-top: 5px;
 
-    li a {
-      i {
-        margin-right: 10px;
-        font-size: 16px;
-        line-height: 22px;
-        vertical-align: middle;
+    li {
+      border-left: 4px solid transparent;
+
+      &:hover {
+        background-color: #f5f5f5;
+        border-left: 4px solid #848484;
       }
 
-      span {
-        font-size: 16px;
-        line-height: 15px;
-        vertical-align: middle;
+      a {
+        border-left: none;
+        color: #333;
+
+        i {
+          margin-right: 10px;
+          font-size: 16px;
+          line-height: 22px;
+          vertical-align: middle;
+        }
+
+        span {
+          font-size: 16px;
+          line-height: 15px;
+          vertical-align: middle;
+        }
       }
     }
   }
