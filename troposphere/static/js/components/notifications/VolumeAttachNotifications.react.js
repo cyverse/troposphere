@@ -52,7 +52,7 @@ define(
           <div>
             {"Volume '" + volumeName + "' could not be auto-attached to the instance '" + instanceName + "'. "}
             {"Please see "}
-            <a href={mountVolumeDocumentationUrl} target="_blank" style={{"text-decoration":"underline"}}>
+            <a href={mountVolumeDocumentationUrl} target="_blank" style={{"textDecoration":"underline"}}>
               {'Mounting a Volume'}
             </a>
             {"in the help documentation to learn how to mount the volume manually"}
