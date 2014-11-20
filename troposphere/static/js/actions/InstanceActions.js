@@ -19,9 +19,10 @@ define(
     'components/modals/instance/InstanceResumeModal.react',
     'components/modals/instance/InstanceStopModal.react',
     'components/modals/instance/InstanceStartModal.react',
-    'components/modals/instance/InstanceLaunchModal.react'
+    'components/modals/instance/InstanceLaunchModal.react',
+    'components/modals/instance/ExplainInstanceDeleteConditionsModal.react'
   ],
-  function (AppDispatcher, InstanceConstants, ProjectInstanceConstants, Instance, InstanceState, globals, context, URL, NotificationController, ProjectInstanceActions, stores, ModalHelpers, InstanceSuspendModal, InstanceDeleteModal, InstanceResumeModal, InstanceStopModal, InstanceStartModal, InstanceLaunchModal) {
+  function (AppDispatcher, InstanceConstants, ProjectInstanceConstants, Instance, InstanceState, globals, context, URL, NotificationController, ProjectInstanceActions, stores, ModalHelpers, InstanceSuspendModal, InstanceDeleteModal, InstanceResumeModal, InstanceStopModal, InstanceStartModal, InstanceLaunchModal, ExplainInstanceDeleteConditionsModal) {
 
     return {
 
@@ -106,10 +107,13 @@ define(
 
         var attachedVolumes = stores.VolumeStore.getVolumesAttachedToInstance(instance);
         if(attachedVolumes.length > 0){
-          var volumesNames = attachedVolumes.reduce(function(previousVolume, currentVolume, index, array) {
-            return previousVolume + "," + currentVolume.get('name');
-          }, "");
-          alert("can not delete instance, volumes attached: " + volumesNames)
+          var modal = ExplainInstanceDeleteConditionsModal({
+            attachedVolumes: attachedVolumes,
+            backdrop: 'static'
+          });
+
+          ModalHelpers.renderModal(modal, function(){});
+
         }else{
           var modal = InstanceDeleteModal({
             instance: payload.instance
