@@ -20,7 +20,6 @@ module.exports = function(config) {
       {pattern: 'troposphere/assets/bower_components/underscore/underscore.js', included: false},
       {pattern: 'troposphere/assets/bower_components/jquery/dist/jquery.js', included: false},
       {pattern: 'troposphere/assets/bower_components/bootstrap/dist/js/bootstrap.min.js', included: false},
-      {pattern: 'troposphere/assets/bower_components/bootstrap/dist/js/bootstrap.min.js', included: false},
       {pattern: 'troposphere/assets/bower_components/toastr/toastr.js', included: false},
       {pattern: 'troposphere/assets/bower_components/moment/moment.js', included: false},
       {pattern: 'troposphere/assets/bower_components/q/q.js', included: false},
