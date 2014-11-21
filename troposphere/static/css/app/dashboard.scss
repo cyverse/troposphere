@@ -33,7 +33,6 @@
     }
 
     li {
-      padding: 11px 11px 0px 11px;
 
       &.sticky {
         background-color: #F3F0B6;
@@ -56,11 +55,9 @@
 
       .message.activity-message {
         background-color: #fff;
-        border-bottom: 2px solid rgba(0,0,0,0.10);
+        border-bottom: 1px solid rgba(0,0,0,0.10);
         border-left: 1px solid rgba(0,0,0,0.10);
         border-right: 1px solid rgba(0,0,0,0.10);
-        border-top: 1px solid rgba(0,0,0,0.10);
-        border-radius: 5px;
         margin: 0 0 0px 0px;
         padding: 10px;
         position: relative;
