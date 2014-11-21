@@ -1,5 +1,6 @@
 define(
   [
+    'react',
     'dispatchers/AppDispatcher',
     'constants/InstanceConstants',
     'constants/ProjectInstanceConstants',
@@ -20,9 +21,10 @@ define(
     'components/modals/instance/InstanceStopModal.react',
     'components/modals/instance/InstanceStartModal.react',
     'components/modals/instance/InstanceLaunchModal.react',
-    'components/modals/instance/ExplainInstanceDeleteConditionsModal.react'
+    'components/modals/instance/ExplainInstanceDeleteConditionsModal.react',
+    'components/modals/project/ProjectInstanceLaunchModal.react'
   ],
-  function (AppDispatcher, InstanceConstants, ProjectInstanceConstants, Instance, InstanceState, globals, context, URL, NotificationController, ProjectInstanceActions, stores, ModalHelpers, InstanceSuspendModal, InstanceDeleteModal, InstanceResumeModal, InstanceStopModal, InstanceStartModal, InstanceLaunchModal, ExplainInstanceDeleteConditionsModal) {
+  function (React, AppDispatcher, InstanceConstants, ProjectInstanceConstants, Instance, InstanceState, globals, context, URL, NotificationController, ProjectInstanceActions, stores, ModalHelpers, InstanceSuspendModal, InstanceDeleteModal, InstanceResumeModal, InstanceStopModal, InstanceStartModal, InstanceLaunchModal, ExplainInstanceDeleteConditionsModal, ProjectInstanceLaunchModal) {
 
     return {
 
@@ -368,6 +370,12 @@ define(
             NotificationController.error(null, "Your instance report could not be sent to support");
           }
         });
+      },
+
+      createAndAddToProject: function(project){
+        var modal = React.createElement(ProjectInstanceLaunchModal);
+
+        ModalHelpers.renderModal(modal, function(){});
       }
 
     };

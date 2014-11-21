@@ -15,7 +15,7 @@ define(
 
       renderImage: function(image){
         return (
-          <Image image={image}/>
+          <Image key={image.id} image={image}/>
         )
       },
 

@@ -48,7 +48,7 @@ define(
 
       });
 
-      describe("with images", function(){
+      ddescribe("with images", function(){
 
         beforeEach(function(){
           stores.ApplicationStore.getAll = function(){
@@ -73,6 +73,38 @@ define(
           var results = TestUtils.scryRenderedComponentsWithType(modalElement, ImageList);
           expect(results.length).toBe(1);
         });
+
+        it("should tell the user there is no filter criteria", function(){
+            var liElements = TestUtils.findRenderedDOMComponentWithClass(modalElement, "filter-description");
+            expect(liElements.getDOMNode().textContent).toBe('Showing all images');
+          });
+
+        describe("when user enters search term", function(){
+          var searchTerm;
+
+          beforeEach(function(){
+            searchTerm = "Image2";
+
+            stores.ApplicationStore.getSearchResultsFor = function(){
+              return imageCollectionFixture.slice(1);
+            };
+
+            var input = TestUtils.findRenderedDOMComponentWithTag(modalElement, "input");
+            TestUtils.Simulate.change(input, {target: {value: searchTerm}});
+            TestUtils.Simulate.keyUp(input, {keyCode: 13});
+          });
+
+          it("should filter search results when user enters a search term", function(){
+            var liElements = TestUtils.scryRenderedDOMComponentsWithTag(modalElement, "li");
+            expect(liElements.length).toBe(1);
+          });
+
+          it("should tell the user what they searched for", function(){
+            var liElements = TestUtils.findRenderedDOMComponentWithClass(modalElement, "filter-description");
+            expect(liElements.getDOMNode().textContent).toBe('Showing results for "' + searchTerm + '"');
+          });
+
+        })
 
       });
 
