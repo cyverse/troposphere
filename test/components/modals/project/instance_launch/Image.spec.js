@@ -8,7 +8,7 @@ define(
     var TestUtils,
         imageElement;
 
-    describe('Image List', function() {
+    describe('Image', function() {
 
       beforeEach(function() {
         TestUtils = React.addons.TestUtils;
@@ -24,6 +24,24 @@ define(
       it("should display the image name", function(){
         var el = TestUtils.findRenderedDOMComponentWithClass(imageElement, "name");
         expect(el.getDOMNode().textContent).toBe(imageFixture.get('name'));
+      });
+
+      it("should display the image description", function(){
+        var el = TestUtils.findRenderedDOMComponentWithClass(imageElement, "description");
+        expect(el.getDOMNode().textContent).toBe(imageFixture.get('description'));
+      });
+
+      describe("when user clicks on image", function(){
+
+        it("should pass the image to the onClick prop function", function(){
+          var onClick = sinon.spy();
+          var image = React.createElement(Image, {image: imageFixture, onClick: onClick});
+          var imageElement = TestUtils.renderIntoDocument(image);
+          TestUtils.Simulate.click(imageElement.getDOMNode());
+          expect(onClick.calledOnce).toBe(true);
+          expect(onClick.calledWith(imageFixture)).toBe(true);
+        });
+
       });
 
       it("should display the image description", function(){

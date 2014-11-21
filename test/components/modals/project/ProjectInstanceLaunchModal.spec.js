@@ -4,8 +4,9 @@ define(
     'components/modals/project/ProjectInstanceLaunchModal.react',
     'test/fixtures/images.fixture',
     'stores',
-    'components/modals/project/instance_launch/ImageList.react'
-  ], function(React, ProjectInstanceLaunchModal, imageCollectionFixture, stores, ImageList) {
+    'components/modals/project/instance_launch/ImageList.react',
+    'test/fixtures/image.fixture'
+  ], function(React, ProjectInstanceLaunchModal, imageCollectionFixture, stores, ImageList, imageFixture) {
 
     var TestUtils,
         modalElement;
@@ -48,7 +49,7 @@ define(
 
       });
 
-      ddescribe("with images", function(){
+      describe("with images", function(){
 
         beforeEach(function(){
           stores.ApplicationStore.getAll = function(){
@@ -103,6 +104,19 @@ define(
             var liElements = TestUtils.findRenderedDOMComponentWithClass(modalElement, "filter-description");
             expect(liElements.getDOMNode().textContent).toBe('Showing results for "' + searchTerm + '"');
           });
+
+        });
+
+        ddescribe("when user clicks on an image", function(){
+
+          beforeEach(function(){
+            modalElement.showImageDetails(imageFixture);
+          });
+
+          it("should not show the search bar", function(){
+            var results = TestUtils.scryRenderedDOMComponentsWithClass(modalElement, "search-bar");
+            expect(results.length).toBe(0);
+          })
 
         })
 

@@ -72,6 +72,9 @@ define(
         }
       },
 
+      showImageDetails: function(image){
+        this.setState({image: image})
+      },
 
       //
       // Render
@@ -119,16 +122,16 @@ define(
         if(images){
           return (
             <div>
-              <input onChange={this.handleChange} onKeyUp={this.handleKeyUp}/>
+              <input className="search-bar" onChange={this.handleChange} onKeyUp={this.handleKeyUp}/>
               {this.renderFilterDescription(query)}
-              <ImageList images={images}/>
+              <ImageList images={images} onClick={this.showImageDetails}/>
             </div>
           );
         }
 
         return (
           <div>
-            <input onChange={this.handleChange} onKeyUp={this.handleKeyUp}/>
+            <input className="search-bar" onChange={this.handleChange} onKeyUp={this.handleKeyUp}/>
             {this.renderFilterDescription(query)}
             <div className="loading"/>
           </div>
@@ -136,6 +139,14 @@ define(
       },
 
       render: function () {
+        var image = this.state.image;
+
+        if(image){
+          return (
+            <div>Image details</div>
+          )
+        }
+
         return (
           <div className="modal fade">
             <div className="modal-dialog">

@@ -10,12 +10,13 @@ define(
 
     return React.createClass({
       propTypes: {
-        images: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        images: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        onClick: React.PropTypes.func
       },
 
       renderImage: function(image){
         return (
-          <Image key={image.id} image={image}/>
+          <Image key={image.id} image={image} onClick={this.props.onClick}/>
         )
       },
 
