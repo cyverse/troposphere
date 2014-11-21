@@ -52,7 +52,7 @@ define(function(require) {
         };
       });
 
-      iit("should have secondary navigation", function(){
+      it("should have secondary navigation", function(){
         var elements = TestUtils.scryRenderedComponentsWithType(imageViewElement, SecondaryApplicationNavigation);
         expect(elements.length).toBe(1);
       });

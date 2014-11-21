@@ -28,6 +28,30 @@ define(
       is_bookmarked: false
     }, {parse: true});
 
-    return new ImageCollection([image1]);
+    var image2 =  new Image({
+      id: "2",
+      uuid: "2",
+      icon: null,
+      created_by: "username",
+      name: "Image2 Name",
+      tags: ["tagName"],
+      description: "Image2 Description",
+      start_date: "2014-02-04T18:17:18.053Z",
+      end_date: null,
+      private: false,
+      featured: false,
+      machines: [
+          {
+              alias: "2",
+              version: "1",
+              start_date: "2014-02-04T19:09:07.622Z",
+              end_date: null,
+              provider: 1
+          }
+      ],
+      is_bookmarked: false
+    }, {parse: true});
+
+    return new ImageCollection([image1, image2]);
 
 });
