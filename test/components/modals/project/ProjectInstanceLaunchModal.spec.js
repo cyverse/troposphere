@@ -5,8 +5,9 @@ define(
     'test/fixtures/images.fixture',
     'stores',
     'components/modals/project/instance_launch/ImageList.react',
-    'test/fixtures/image.fixture'
-  ], function(React, ProjectInstanceLaunchModal, imageCollectionFixture, stores, ImageList, imageFixture) {
+    'test/fixtures/image.fixture',
+    'components/modals/project/instance_launch/ImageDetailsView.react'
+  ], function(React, ProjectInstanceLaunchModal, imageCollectionFixture, stores, ImageList, imageFixture, ImageDetailsView) {
 
     var TestUtils,
         modalElement;
@@ -23,104 +24,144 @@ define(
           addChangeListener: function(){},
           removeChangeListener: function(){}
         };
-
-        var factory = React.createFactory(ProjectInstanceLaunchModal);
-        var modal = factory();
-        modalElement = TestUtils.renderIntoDocument(modal);
       });
 
-      it("should have a search bar", function(){
-        var input = TestUtils.findRenderedDOMComponentWithTag(modalElement, "input");
-        expect(input).toBeDefined();
-      });
+      describe("image list view", function(){
 
-      describe("with no images", function(){
-
-        beforeEach(function(){
-          stores.ApplicationStore.getAll = function(){
-            return null;
-          }
-        });
-
-        it("should display a loading animation", function(){
-          var elements = TestUtils.scryRenderedDOMComponentsWithClass(modalElement, "loading");
-          expect(elements.length).toBe(1);
-        });
-
-      });
-
-      describe("with images", function(){
-
-        beforeEach(function(){
-          stores.ApplicationStore.getAll = function(){
-            return imageCollectionFixture;
-          };
-
-          var modal = ProjectInstanceLaunchModal();
+        beforeEach(function() {
+          var factory = React.createFactory(ProjectInstanceLaunchModal);
+          var modal = factory();
           modalElement = TestUtils.renderIntoDocument(modal);
         });
 
-        it("should not display a loading animation", function(){
-          var elements = TestUtils.scryRenderedDOMComponentsWithClass(modalElement, "loading");
-          expect(elements.length).toBe(0);
+        it("should have a search bar", function(){
+          var input = TestUtils.findRenderedDOMComponentWithTag(modalElement, "input");
+          expect(input).toBeDefined();
         });
 
-        it("should display a list of search results", function(){
-          var liElements = TestUtils.scryRenderedDOMComponentsWithTag(modalElement, "li");
-          expect(liElements.length).toBe(imageCollectionFixture.length);
+        describe("with no images", function(){
+
+          beforeEach(function(){
+            stores.ApplicationStore.getAll = function(){
+              return null;
+            }
+          });
+
+          it("should display a loading animation", function(){
+            var elements = TestUtils.scryRenderedDOMComponentsWithClass(modalElement, "loading");
+            expect(elements.length).toBe(1);
+          });
+
         });
 
-        it("should display a list of search results", function(){
-          var results = TestUtils.scryRenderedComponentsWithType(modalElement, ImageList);
-          expect(results.length).toBe(1);
-        });
+        describe("with images", function(){
 
-        it("should tell the user there is no filter criteria", function(){
+          beforeEach(function(){
+            stores.ApplicationStore.getAll = function(){
+              return imageCollectionFixture;
+            };
+
+            var modal = ProjectInstanceLaunchModal();
+            modalElement = TestUtils.renderIntoDocument(modal);
+          });
+
+          it("should not display a loading animation", function(){
+            var elements = TestUtils.scryRenderedDOMComponentsWithClass(modalElement, "loading");
+            expect(elements.length).toBe(0);
+          });
+
+          it("should display a list of search results", function(){
+            var liElements = TestUtils.scryRenderedDOMComponentsWithTag(modalElement, "li");
+            expect(liElements.length).toBe(imageCollectionFixture.length);
+          });
+
+          it("should display a list of search results", function(){
+            var results = TestUtils.scryRenderedComponentsWithType(modalElement, ImageList);
+            expect(results.length).toBe(1);
+          });
+
+          it("should tell the user there is no filter criteria", function(){
             var liElements = TestUtils.findRenderedDOMComponentWithClass(modalElement, "filter-description");
             expect(liElements.getDOMNode().textContent).toBe('Showing all images');
           });
 
-        describe("when user enters search term", function(){
-          var searchTerm;
+          describe("when user enters search term", function(){
+            var searchTerm;
 
-          beforeEach(function(){
-            searchTerm = "Image2";
+            beforeEach(function(){
+              searchTerm = "Image2";
 
-            stores.ApplicationStore.getSearchResultsFor = function(){
-              return imageCollectionFixture.slice(1);
-            };
+              stores.ApplicationStore.getSearchResultsFor = function(){
+                return imageCollectionFixture.slice(1);
+              };
 
-            var input = TestUtils.findRenderedDOMComponentWithTag(modalElement, "input");
-            TestUtils.Simulate.change(input, {target: {value: searchTerm}});
-            TestUtils.Simulate.keyUp(input, {keyCode: 13});
+              var input = TestUtils.findRenderedDOMComponentWithTag(modalElement, "input");
+              TestUtils.Simulate.change(input, {target: {value: searchTerm}});
+              TestUtils.Simulate.keyUp(input, {keyCode: 13});
+            });
+
+            it("should filter search results when user enters a search term", function(){
+              var liElements = TestUtils.scryRenderedDOMComponentsWithTag(modalElement, "li");
+              expect(liElements.length).toBe(1);
+            });
+
+            it("should tell the user what they searched for", function(){
+              var liElements = TestUtils.findRenderedDOMComponentWithClass(modalElement, "filter-description");
+              expect(liElements.getDOMNode().textContent).toBe('Showing results for "' + searchTerm + '"');
+            });
+
           });
 
-          it("should filter search results when user enters a search term", function(){
-            var liElements = TestUtils.scryRenderedDOMComponentsWithTag(modalElement, "li");
-            expect(liElements.length).toBe(1);
+          describe("when user clicks on an image", function(){
+
+            beforeEach(function(){
+              modalElement.showImageDetails(imageFixture);
+            });
+
+            it("should not show the search bar", function(){
+              var results = TestUtils.scryRenderedDOMComponentsWithClass(modalElement, "search-bar");
+              expect(results.length).toBe(0);
+            })
+
           });
 
-          it("should tell the user what they searched for", function(){
-            var liElements = TestUtils.findRenderedDOMComponentWithClass(modalElement, "filter-description");
-            expect(liElements.getDOMNode().textContent).toBe('Showing results for "' + searchTerm + '"');
-          });
+          describe("footer", function(){
+            it("should contain a cancel button", function(){
+              TestUtils.findRenderedDOMComponentWithClass(modalElement, "cancel-button");
+            })
+          })
 
         });
 
-        ddescribe("when user clicks on an image", function(){
+      });
 
-          beforeEach(function(){
-            modalElement.showImageDetails(imageFixture);
+      describe("image details view", function(){
+
+        beforeEach(function() {
+          var factory = React.createFactory(ProjectInstanceLaunchModal);
+          var modal = factory();
+          modalElement = TestUtils.renderIntoDocument(modal);
+          modalElement.showImageDetails(imageFixture);
+        });
+
+        it("should display the image details view", function(){
+          var results = TestUtils.scryRenderedComponentsWithType(modalElement, ImageDetailsView);
+          expect(results.length).toBe(1);
+        });
+
+        ddescribe("footer", function(){
+
+          it("should contain a search button", function(){
+            TestUtils.findRenderedDOMComponentWithClass(modalElement, "search-button");
           });
 
-          it("should not show the search bar", function(){
-            var results = TestUtils.scryRenderedDOMComponentsWithClass(modalElement, "search-bar");
-            expect(results.length).toBe(0);
-          })
+          it("should contain a configure button", function(){
+            TestUtils.findRenderedDOMComponentWithClass(modalElement, "configure-button");
+          });
 
         })
 
-      });
+      })
 
     });
 

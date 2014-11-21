@@ -6,9 +6,10 @@ define(
     'backbone',
     'components/mixins/BootstrapModalMixin.react',
     'stores',
-    './instance_launch/ImageList.react'
+    './instance_launch/ImageList.react',
+    './instance_launch/ImageDetailsView.react'
   ],
-  function (React, Backbone, BootstrapModalMixin, stores, ImageList) {
+  function (React, Backbone, BootstrapModalMixin, stores, ImageList, ImageDetailsView) {
 
     var ENTER_KEY = 13;
 
@@ -138,13 +139,52 @@ define(
         );
       },
 
+
+
+      renderImageDetailsView: function(image){
+        return (
+          <ImageDetailsView image={image}/>
+        );
+      },
+
+      renderImageDetailsViewFooter: function(image){
+        return (
+          <div className="modal-footer">
+            <button type="button" className="btn btn-default search-button">
+              Search
+            </button>
+            <button type="button" className="btn btn-primary configure-button">
+              Configure
+            </button>
+          </div>
+        );
+      },
+
+      renderImageListView: function(){
+        return this.renderBody();
+      },
+
+      renderImageListViewFooter: function(){
+        return (
+          <div className="modal-footer">
+            <button type="button" className="btn btn-danger cancel-button" onClick={this.cancel}>
+              Cancel
+            </button>
+          </div>
+        )
+      },
+
       render: function () {
-        var image = this.state.image;
+        var image = this.state.image,
+            renderBodyContent,
+            renderFooter;
 
         if(image){
-          return (
-            <div>Image details</div>
-          )
+          renderBodyContent = this.renderImageDetailsView.bind(this, image);
+          renderFooter = this.renderImageDetailsViewFooter;
+        }else{
+          renderBodyContent = this.renderImageListView;
+          renderFooter = this.renderImageListViewFooter;
         }
 
         return (
@@ -156,8 +196,9 @@ define(
                   <strong>Launch Image</strong>
                 </div>
                 <div className="modal-body">
-                  {this.renderBody()}
+                  {renderBodyContent()}
                 </div>
+                {renderFooter()}
               </div>
             </div>
           </div>
