@@ -159,6 +159,15 @@ define(
             TestUtils.findRenderedDOMComponentWithClass(modalElement, "configure-button");
           });
 
+          describe("when user clicks on search button", function(){
+            it("should navigate back to the image list view", function(){
+              var searchButton = TestUtils.findRenderedDOMComponentWithClass(modalElement, "search-button");
+              TestUtils.Simulate.click(searchButton.getDOMNode());
+              var elements = TestUtils.scryRenderedDOMComponentsWithTag(modalElement, "input");
+              expect(elements.length).toBe(1);
+            })
+          })
+
         })
 
       })

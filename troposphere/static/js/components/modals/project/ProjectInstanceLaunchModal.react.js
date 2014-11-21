@@ -78,6 +78,18 @@ define(
       },
 
       //
+      // Navigation Callbacks
+      //
+
+      navigateToListView: function(){
+        this.setState({image: null});
+      },
+
+      navigateToLaunchView: function(){
+
+      },
+
+      //
       // Render
       // ------
       //
@@ -139,8 +151,6 @@ define(
         );
       },
 
-
-
       renderImageDetailsView: function(image){
         return (
           <ImageDetailsView image={image}/>
@@ -150,10 +160,10 @@ define(
       renderImageDetailsViewFooter: function(image){
         return (
           <div className="modal-footer">
-            <button type="button" className="btn btn-default search-button">
+            <button type="button" className="btn btn-default search-button" onClick={this.navigateToListView}>
               Search
             </button>
-            <button type="button" className="btn btn-primary configure-button">
+            <button type="button" className="btn btn-primary configure-button" onClick={this.navigateToLaunchView}>
               Configure
             </button>
           </div>
