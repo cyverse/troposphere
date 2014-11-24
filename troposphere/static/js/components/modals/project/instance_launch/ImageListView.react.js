@@ -110,7 +110,12 @@ define(
         if(images){
           return (
             <div>
-              <input type="text" placeholder="Search across image name, tag or description" className="form-control search-input search-bar" onChange={this.handleChange} onKeyUp={this.handleKeyUp}/>
+              <input type="text"
+                     placeholder="Search across image name, tag or description"
+                     className="form-control search-input"
+                     onChange={this.handleChange}
+                     onKeyUp={this.handleKeyUp}
+              />
               {this.renderFilterDescription(query)}
               <ImageList images={images} onClick={this.showImageDetails}/>
             </div>
@@ -119,7 +124,12 @@ define(
 
         return (
           <div>
-            <input className="search-bar" onChange={this.handleChange} onKeyUp={this.handleKeyUp}/>
+            <input type="text"
+                   placeholder="Search across image name, tag or description"
+                   className="form-control search-input"
+                   onChange={this.handleChange}
+                   onKeyUp={this.handleKeyUp}
+            />
             {this.renderFilterDescription(query)}
             <div className="loading"/>
           </div>
