@@ -6,12 +6,11 @@ define(
     'backbone',
     'components/mixins/BootstrapModalMixin.react',
     'stores',
-    './instance_launch/ImageList.react',
-    './instance_launch/ImageDetailsView.react'
+    './instance_launch/ImageListView.react',
+    './instance_launch/ImageDetailsView.react',
+    './instance_launch/ImageLaunchView.react'
   ],
-  function (React, Backbone, BootstrapModalMixin, stores, ImageList, ImageDetailsView) {
-
-    var ENTER_KEY = 13;
+  function (React, Backbone, BootstrapModalMixin, stores, ImageListView, ImageDetailsView, ImageLaunchView) {
 
     return React.createClass({
       mixins: [BootstrapModalMixin],
@@ -26,13 +25,7 @@ define(
       },
 
       getState: function() {
-        var query = this.state ? this.state.query : null;
-        var querySubmitted = this.state ? this.state.querySubmitted : false;
-        return {
-          query: query,
-          querySubmitted: querySubmitted,
-          images: stores.ApplicationStore.getAll()
-        }
+        return { };
       },
 
       updateState: function () {
@@ -61,20 +54,8 @@ define(
         this.props.onConfirm();
       },
 
-      handleChange: function (e) {
-        var query = e.target.value;
-        this.setState({query: query, querySubmitted: false});
-      },
-
-      handleKeyUp: function (e) {
-        var query = this.state.query;
-        if (e.keyCode == ENTER_KEY && query.length) {
-          this.setState({query: query, querySubmitted: true});
-        }
-      },
-
-      showImageDetails: function(image){
-        this.setState({image: image})
+      handleLaunchImage: function(image){
+        console.log("Launching image");
       },
 
       //
@@ -82,11 +63,15 @@ define(
       //
 
       navigateToListView: function(){
-        this.setState({image: null});
+        this.setState({image: null, configureImage: false});
       },
 
-      navigateToLaunchView: function(){
+      navigateToDetailsView: function(image){
+        this.setState({image: image, configureImage: false});
+      },
 
+      navigateToLaunchView: function(image){
+        this.setState({image: image, configureImage: true});
       },
 
       //
@@ -94,108 +79,42 @@ define(
       // ------
       //
 
-      renderImage: function(){
-        return(
-          <li></li>
-        )
-      },
+      renderTitle: function(){
+        var image = this.state.image,
+            configureImage = this.state.configureImage,
+            title = "";
 
-      renderImageList: function(){
-        return(
-          <ul>
-            {this.state.images.map(this.renderImage)}
-          </ul>
-        )
-      },
-
-      renderFilterDescription: function(query){
-        var message;
-
-        if(query){
-          message = 'Showing results for "' + query + '"';
+        if(image && configureImage){
+          title = "Configure Image";
+        }else if(image && !configureImage){
+          title = "Review Image";
         }else{
-          message = "Showing all images"
+          title = "Select Image";
         }
 
-        return (
-          <span className="filter-description">{message}</span>
-        )
+        return title;
       },
 
       renderBody: function(){
-        var images = this.state.images,
-            query = this.state.query,
-            querySubmitted = this.state.querySubmitted;
+        var image = this.state.image,
+            configureImage = this.state.configureImage;
 
-        // if a search has been requested, use the search results instead of the full image list
-        if(query && querySubmitted) {
-          images = stores.ApplicationStore.getSearchResultsFor(query);
-        }
-
-        if(images){
+        if(image && configureImage){
           return (
-            <div>
-              <input className="search-bar" onChange={this.handleChange} onKeyUp={this.handleKeyUp}/>
-              {this.renderFilterDescription(query)}
-              <ImageList images={images} onClick={this.showImageDetails}/>
-            </div>
+            <ImageLaunchView image={image} onPrevious={this.navigateToDetailsView} onNext={this.handleLaunchImage}/>
+          )
+        }else if(image && !configureImage){
+          return (
+            <ImageDetailsView image={image} onPrevious={this.navigateToListView} onNext={this.navigateToLaunchView}/>
+          )
+        }else{
+          return (
+            <ImageListView onPrevious={this.cancel} onNext={this.navigateToDetailsView}/>
           );
         }
-
-        return (
-          <div>
-            <input className="search-bar" onChange={this.handleChange} onKeyUp={this.handleKeyUp}/>
-            {this.renderFilterDescription(query)}
-            <div className="loading"/>
-          </div>
-        );
-      },
-
-      renderImageDetailsView: function(image){
-        return (
-          <ImageDetailsView image={image}/>
-        );
-      },
-
-      renderImageDetailsViewFooter: function(image){
-        return (
-          <div className="modal-footer">
-            <button type="button" className="btn btn-default search-button" onClick={this.navigateToListView}>
-              Search
-            </button>
-            <button type="button" className="btn btn-primary configure-button" onClick={this.navigateToLaunchView}>
-              Configure
-            </button>
-          </div>
-        );
-      },
-
-      renderImageListView: function(){
-        return this.renderBody();
-      },
-
-      renderImageListViewFooter: function(){
-        return (
-          <div className="modal-footer">
-            <button type="button" className="btn btn-danger cancel-button" onClick={this.cancel}>
-              Cancel
-            </button>
-          </div>
-        )
       },
 
       render: function () {
-        var image = this.state.image,
-            renderBodyContent,
-            renderFooter;
-
-        if(image){
-          renderBodyContent = this.renderImageDetailsView.bind(this, image);
-          renderFooter = this.renderImageDetailsViewFooter;
-        }else{
-          renderBodyContent = this.renderImageListView;
-          renderFooter = this.renderImageListViewFooter;
-        }
 
         return (
           <div className="modal fade">
@@ -203,12 +122,9 @@ define(
               <div className="modal-content">
                 <div className="modal-header">
                   {this.renderCloseButton()}
-                  <strong>Launch Image</strong>
+                  <strong>{this.renderTitle()}</strong>
                 </div>
-                <div className="modal-body">
-                  {renderBodyContent()}
-                </div>
-                {renderFooter()}
+                {this.renderBody()}
               </div>
             </div>
           </div>

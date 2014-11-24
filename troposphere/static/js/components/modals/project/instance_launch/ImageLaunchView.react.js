@@ -28,7 +28,7 @@ define(
         this.props.onPrevious(this.props.image);
       },
 
-      onConfigure: function(){
+      onLaunch: function(){
         this.props.onNext(this.props.image);
       },
 
@@ -37,42 +37,26 @@ define(
       // ------
       //
 
-      renderTag: function(tagName){
-        return (
-          <li>{tagName}</li>
-        )
-      },
-
-      renderTags: function(image){
-        return (
-          <ul className="tags">{image.get('tags').map(this.renderTag)}</ul>
-        )
-      },
-
-      renderBody: function(image){
-        return (
-          <div className="image-details">
-            <div className="name">{image.get('name')}</div>
-            <div className="description">{image.get('description')}</div>
-            {this.renderTags(image)}
-          </div>
-        )
-      },
-
-      render: function () {
+      renderBody: function () {
         var image = this.props.image;
 
         return (
+          <div>Launch Image</div>
+        );
+      },
+
+      render: function () {
+        return (
           <div>
             <div className="modal-body">
-              {this.renderBody(image)}
+              {this.renderBody()}
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-default cancel-button" onClick={this.onBack}>
                 Back
               </button>
-              <button type="button" className="btn btn-primary cancel-button" onClick={this.onConfigure}>
-                Configure
+              <button type="button" className="btn btn-primary cancel-button" onClick={this.onLaunch}>
+                Launch
               </button>
             </div>
           </div>

@@ -6,8 +6,9 @@ define(
     'stores',
     'components/modals/project/instance_launch/ImageList.react',
     'test/fixtures/image.fixture',
-    'components/modals/project/instance_launch/ImageDetailsView.react'
-  ], function(React, ProjectInstanceLaunchModal, imageCollectionFixture, stores, ImageList, imageFixture, ImageDetailsView) {
+    'components/modals/project/instance_launch/ImageDetailsView.react',
+    'components/modals/project/instance_launch/ImageLaunchView.react'
+  ], function(React, ProjectInstanceLaunchModal, imageCollectionFixture, stores, ImageList, imageFixture, ImageDetailsView, ImageLaunchView) {
 
     var TestUtils,
         modalElement;
@@ -166,9 +167,22 @@ define(
               var elements = TestUtils.scryRenderedDOMComponentsWithTag(modalElement, "input");
               expect(elements.length).toBe(1);
             })
+          });
+
+          describe("when user clicks on configure button", function(){
+            it("should navigate back to the image launch view", function(){
+              var searchButton = TestUtils.findRenderedDOMComponentWithClass(modalElement, "configure-button");
+              TestUtils.Simulate.click(searchButton.getDOMNode());
+              var results = TestUtils.scryRenderedComponentsWithType(modalElement, ImageLaunchView);
+              expect(results.length).toBe(1);
+            })
           })
 
         })
+
+      });
+
+      describe("image launch view", function(){
 
       })
 

@@ -8,7 +8,7 @@ define(
     var TestUtils,
         imageDetails;
 
-    ddescribe("Image Details View", function(){
+    describe("Image Details View", function(){
 
       beforeEach(function() {
         TestUtils = React.addons.TestUtils;
