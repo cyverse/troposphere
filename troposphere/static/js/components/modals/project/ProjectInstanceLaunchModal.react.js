@@ -25,7 +25,11 @@ define(
       },
 
       getState: function() {
-        return { };
+        return {
+          providers: stores.ProviderStore.getAll(),
+          identities: stores.IdentityStore.getAll(),
+          tags: stores.TagStore.getAll()
+        };
       },
 
       updateState: function () {
@@ -34,10 +38,23 @@ define(
 
       componentDidMount: function () {
         stores.ApplicationStore.addChangeListener(this.updateState);
+        stores.ProviderStore.addChangeListener(this.updateState);
+        stores.IdentityStore.addChangeListener(this.updateState);
+        stores.TagStore.addChangeListener(this.updateState);
+
+        // todo: MachineStore is only included here because
+        // MachineStore.get(providerId, identityId, machineId) called by versions/MachineList
+        // is lazy loaded, so I need to re-trigger the render cycle when the machine data
+        // returns from the server.
+        stores.MachineStore.addChangeListener(this.updateState);
       },
 
-      componentWillUnmount: function () {
+      componentWillUnmount: function() {
         stores.ApplicationStore.removeChangeListener(this.updateState);
+        stores.ProviderStore.removeChangeListener(this.updateState);
+        stores.IdentityStore.removeChangeListener(this.updateState);
+        stores.TagStore.removeChangeListener(this.updateState);
+        stores.MachineStore.removeChangeListener(this.updateState);
       },
 
       //
@@ -97,15 +114,30 @@ define(
 
       renderBody: function(){
         var image = this.state.image,
-            configureImage = this.state.configureImage;
+            configureImage = this.state.configureImage,
+            providers = this.state.providers,
+            identities = this.state.identities,
+            tags = this.state.tags;
 
         if(image && configureImage){
           return (
-            <ImageLaunchView image={image} onPrevious={this.navigateToDetailsView} onNext={this.handleLaunchImage}/>
+            <ImageLaunchView image={image}
+                             providers={providers}
+                             identities={identities}
+                             tags={tags}
+                             onPrevious={this.navigateToDetailsView}
+                             onNext={this.handleLaunchImage}
+            />
           )
         }else if(image && !configureImage){
           return (
-            <ImageDetailsView image={image} onPrevious={this.navigateToListView} onNext={this.navigateToLaunchView}/>
+            <ImageDetailsView image={image}
+                              providers={providers}
+                              identities={identities}
+                              tags={tags}
+                              onPrevious={this.navigateToListView}
+                              onNext={this.navigateToLaunchView}
+            />
           )
         }else{
           return (

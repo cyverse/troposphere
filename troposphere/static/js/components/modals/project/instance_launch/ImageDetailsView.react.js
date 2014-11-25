@@ -3,9 +3,10 @@
 define(
   [
     'react',
-    'backbone'
+    'backbone',
+    './ImageDetails.react'
   ],
-  function (React, Backbone) {
+  function (React, Backbone, ImageDetails) {
 
     return React.createClass({
 
@@ -49,23 +50,33 @@ define(
         )
       },
 
-      renderBody: function(image){
+      renderBody: function(image, providers, identities, tags){
+        if(image && providers && identities && tags) {
+          return (
+            <ImageDetails
+              image={image}
+              providers={providers}
+              identities={identities}
+              tags={tags}
+            />
+          );
+        }
+
         return (
-          <div className="image-details">
-            <div className="name">{image.get('name')}</div>
-            <div className="description">{image.get('description')}</div>
-            {this.renderTags(image)}
-          </div>
+          <div className="loading"/>
         )
       },
 
       render: function () {
-        var image = this.props.image;
+        var image = this.props.image,
+            providers = this.props.providers,
+            identities = this.props.identities,
+            tags = this.props.tags;
 
         return (
           <div>
             <div className="modal-body">
-              {this.renderBody(image)}
+              {this.renderBody(image, providers, identities, tags)}
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-default cancel-button" onClick={this.onBack}>
