@@ -22,7 +22,7 @@ define(
 
       render: function () {
         return (
-          <ul>
+          <ul className="app-card-list modal-list">
             {this.props.images.map(this.renderImage)}
           </ul>
         );

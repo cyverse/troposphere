@@ -5,9 +5,10 @@ define(
     'react',
     'backbone',
     'stores',
-    './ImageList.react'
+    './ImageList.react',
+    'components/applications/list/ApplicationCardList.react'
   ],
-  function (React, Backbone, stores, ImageList) {
+  function (React, Backbone, stores, ImageList, ApplicationCardList) {
 
     var ENTER_KEY = 13;
 
@@ -33,7 +34,8 @@ define(
         return {
           query: query,
           querySubmitted: querySubmitted,
-          images: stores.ApplicationStore.getAll()
+          images: stores.ApplicationStore.getAll(),
+          tags: stores.TagStore.getAll()
         }
       },
 
@@ -43,10 +45,12 @@ define(
 
       componentDidMount: function () {
         stores.ApplicationStore.addChangeListener(this.updateState);
+        stores.TagStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
         stores.ApplicationStore.removeChangeListener(this.updateState);
+        stores.TagStore.removeChangeListener(this.updateState);
       },
 
       //
@@ -99,6 +103,7 @@ define(
 
       renderBody: function(){
         var images = this.state.images,
+            tags = this.state.tags,
             query = this.state.query,
             querySubmitted = this.state.querySubmitted;
 
@@ -107,7 +112,7 @@ define(
           images = stores.ApplicationStore.getSearchResultsFor(query);
         }
 
-        if(images){
+        if(images && tags){
           return (
             <div>
               <input type="text"
