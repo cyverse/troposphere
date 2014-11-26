@@ -45,7 +45,7 @@ define(
         return (
           <div id="app-detail">
             <div className="image-content">
-              <div class="image-header">
+              <div className="image-header">
                 <h1>{this.props.image.get('name')}</h1>
               </div>
               <TagsView application={this.props.image} tags={this.props.tags}/>
@@ -53,7 +53,6 @@ define(
               <DescriptionView application={this.props.image}/>
               {this.renderVersions()}
             </div>
-
           </div>
         );
       }

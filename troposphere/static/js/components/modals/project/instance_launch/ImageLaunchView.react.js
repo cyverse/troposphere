@@ -3,9 +3,10 @@
 define(
   [
     'react',
-    'backbone'
+    'backbone',
+    './InstanceLaunch.react'
   ],
-  function (React, Backbone) {
+  function (React, Backbone, InstanceLaunch) {
 
     return React.createClass({
 
@@ -28,8 +29,8 @@ define(
         this.props.onPrevious(this.props.image);
       },
 
-      onLaunch: function(){
-        this.props.onNext(this.props.image);
+      onLaunch: function(identity, machineId, sizeId, instanceName){
+        this.props.onNext(identity, machineId, sizeId, instanceName);
       },
 
       //
@@ -37,29 +38,11 @@ define(
       // ------
       //
 
-      renderBody: function () {
+      render: function () {
         var image = this.props.image;
 
         return (
-          <div>Launch Image</div>
-        );
-      },
-
-      render: function () {
-        return (
-          <div>
-            <div className="modal-body">
-              {this.renderBody()}
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-default cancel-button" onClick={this.onBack}>
-                Back
-              </button>
-              <button type="button" className="btn btn-primary cancel-button" onClick={this.onLaunch}>
-                Launch
-              </button>
-            </div>
-          </div>
+          <InstanceLaunch image={image} onPrevious={this.onBack} onNext={this.onLaunch}/>
         );
       }
 

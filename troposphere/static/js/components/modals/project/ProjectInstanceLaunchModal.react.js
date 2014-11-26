@@ -66,13 +66,9 @@ define(
         this.hide();
       },
 
-      confirm: function () {
+      handleLaunchImage: function(identity, machineId, sizeId, instanceName){
         this.hide();
-        this.props.onConfirm();
-      },
-
-      handleLaunchImage: function(image){
-        console.log("Launching image");
+        this.props.onConfirm(identity, machineId, sizeId, instanceName);
       },
 
       //
@@ -141,7 +137,9 @@ define(
           )
         }else{
           return (
-            <ImageListView onPrevious={this.cancel} onNext={this.navigateToDetailsView}/>
+            <ImageListView onPrevious={this.cancel}
+                           onNext={this.navigateToDetailsView}
+            />
           );
         }
       },

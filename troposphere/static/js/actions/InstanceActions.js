@@ -304,8 +304,6 @@ define(
           var redirectUrl = URL.project(project, {relative: true});
           Backbone.history.navigate(redirectUrl, {trigger: true});
         })
-
-
       },
 
       requestImage: function(instance, requestData){
@@ -372,10 +370,53 @@ define(
         });
       },
 
-      createAndAddToProject: function(project){
+      createAndAddToProject: function(options){
+        var project = options.project;
         var modal = React.createElement(ProjectInstanceLaunchModal);
+        var that = this;
 
-        ModalHelpers.renderModal(modal, function(){});
+        ModalHelpers.renderModal(modal, function (identity, machineId, sizeId, instanceName) {
+          var instance = new Instance({
+            identity: {
+              id: identity.id,
+              provider: identity.get('provider_id')
+            },
+            status: "build - scheduling"
+          }, {parse: true});
+
+          var params = {
+            machine_alias: machineId,
+            size_alias: sizeId,
+            name: instanceName
+          };
+
+          that.dispatch(InstanceConstants.ADD_INSTANCE, {instance: instance});
+          that.dispatch(ProjectInstanceConstants.ADD_PENDING_INSTANCE_TO_PROJECT, {
+            instance: instance,
+            project: project
+          });
+
+          instance.save(params, {
+            success: function (model) {
+              //NotificationController.success(null, 'Instance launching...');
+              that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+              that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+              that.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
+                instance: instance,
+                project: project
+              });
+              ProjectInstanceActions.addInstanceToProject(instance, project);
+            },
+            error: function (response) {
+              NotificationController.error(null, 'Instance could not be launched');
+              that.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
+              that.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
+                instance: instance,
+                project: project
+              });
+            }
+          });
+        })
       }
 
     };
