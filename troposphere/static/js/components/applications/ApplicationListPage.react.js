@@ -5,13 +5,12 @@ define(
     'react',
     './common/SecondaryApplicationNavigation.react',
     'collections/ApplicationCollection',
-    './list/ApplicationCardList.react',
     './list/SearchContainer.react',
     'stores/ApplicationStore',
     'stores/TagStore',
     './list/ApplicationListView.react'
   ],
-  function (React, SecondaryApplicationNavigation, ApplicationCollection, ApplicationCardList, ApplicationSearch, ApplicationStore, TagStore, ApplicationListView) {
+  function (React, SecondaryApplicationNavigation, ApplicationCollection, ApplicationSearch, ApplicationStore, TagStore, ApplicationListView) {
 
     function getState() {
       return {

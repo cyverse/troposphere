@@ -29,7 +29,6 @@ require.config({
       '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min',
       '../bower_components/underscore/underscore'
     ],
-    google: 'https://www.google.com/jsapi',
     bootstrap: [
       '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min',
       '../bower_components/bootstrap/dist/js/bootstrap.min'

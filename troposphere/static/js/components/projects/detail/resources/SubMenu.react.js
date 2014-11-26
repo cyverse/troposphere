@@ -4,9 +4,9 @@ define(
   [
     'react',
     'backbone',
-    'actions/VolumeActions'
+    'actions'
   ],
-  function (React, Backbone, VolumeActions) {
+  function (React, Backbone, actions) {
 
     return React.createClass({
 
@@ -16,7 +16,12 @@ define(
 
       onCreateVolume: function(e){
         e.preventDefault();
-        VolumeActions.createAndAddToProject({project: this.props.project});
+        actions.VolumeActions.createAndAddToProject({project: this.props.project});
+      },
+
+      onCreateInstance: function(e){
+        e.preventDefault();
+        actions.InstanceActions.createAndAddToProject({project: this.props.project});
       },
 
       render: function () {
@@ -33,7 +38,7 @@ define(
               <button className="btn btn-primary dropdown-toggle" data-toggle="dropdown">New</button>
               <ul className="dropdown-menu">
                 <li>
-                  <a href="/application/images">
+                  <a href="#" onClick={this.onCreateInstance}>
                     <i className={'glyphicon glyphicon-tasks'}/>
                     Instance
                   </a>
