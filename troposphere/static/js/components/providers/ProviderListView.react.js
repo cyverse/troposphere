@@ -3,11 +3,9 @@
 define(
   [
     'react',
-    'components/providers/Provider.react',
-    'collections/InstanceCollection',
-    'collections/VolumeCollection'
+    './ProviderList.react'
   ],
-  function (React, Provider, InstanceCollection, VolumeCollection) {
+  function (React, ProviderList) {
 
     return React.createClass({
 
@@ -111,7 +109,7 @@ define(
           <div>
             <div className="container">
               <div className="col-md-2">
-                {this.renderCloudList()}
+                <ProviderList providers={this.props.providers}/>
               </div>
               <div className="col-md-10 provider-details">
                 {this.renderName()}
