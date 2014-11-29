@@ -30,9 +30,11 @@ define(
       },
 
       getState: function() {
+        var inputText = this.state ? this.state.inputText : null;
         var query = this.state ? this.state.query : null;
         var querySubmitted = this.state ? this.state.querySubmitted : false;
         return {
+          inputText: inputText,
           query: query,
           querySubmitted: querySubmitted,
           images: stores.ApplicationStore.getAll(),
@@ -63,12 +65,12 @@ define(
       //
 
       handleChange: function (e) {
-        var query = e.target.value;
-        this.setState({query: query, querySubmitted: false});
+        var text = e.target.value;
+        this.setState({inputText: text});
       },
 
       handleKeyUp: function (e) {
-        var query = this.state.query;
+        var query = this.state.inputText;
         if (e.keyCode == ENTER_KEY && query.length) {
           this.setState({query: query, querySubmitted: true});
         }

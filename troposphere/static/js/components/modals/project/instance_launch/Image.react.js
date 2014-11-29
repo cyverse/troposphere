@@ -5,9 +5,10 @@ define(
     'react',
     'backbone',
     'stores',
-    'components/common/tags/ViewTags.react'
+    'components/common/tags/ViewTags.react',
+    'components/common/Gravatar.react'
   ],
-  function (React, Backbone, stores, Tags) {
+  function (React, Backbone, stores, Tags, Gravatar) {
 
     return React.createClass({
 
@@ -30,20 +31,33 @@ define(
       },
 
       render: function () {
-        var image = this.props.image;
+        var image = this.props.image,
+            type = stores.ProfileStore.get().get('icon_set'),
+            iconSize = 67,
+            icon;
+
+        if (image.get('icon')) {
+          icon = (
+            <img src={image.get('icon')} width={iconSize} height={iconSize}/>
+          );
+        } else {
+          icon = (
+            <Gravatar hash={image.get('uuid_hash')} size={iconSize} type={type}/>
+          );
+        }
 
         return (
           <li onClick={this.handleClick}>
             <div className="app-card">
               <div>
                 <span className="icon-container">
-                  <img src="//www.gravatar.com/avatar/c45690bf6dcd6f52619cd2a1308fe396?d=identicon&amp;s=67" width="67" height="67"/>
+                  {icon}
                 </span>
                 <span className="app-name">
                   <h4 className="name">{image.get('name')}</h4>
                   <div>
                     <span>by </span>
-                    <strong>atmoadmin</strong>
+                    <strong>{image.get('created_by')}</strong>
                   </div>
                   {this.renderTags()}
                 </span>
