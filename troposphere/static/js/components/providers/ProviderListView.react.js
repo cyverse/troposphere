@@ -17,6 +17,16 @@ define(
         projects: React.PropTypes.instanceOf(Backbone.Collection)
       },
 
+      getInitialState: function(){
+        return {
+          currentProvider: this.props.providers.first()
+        }
+      },
+
+      handleProviderChange: function(provider){
+        this.setState({currentProvider: provider});
+      },
+
       renderStat: function(value, subText, moreInfo){
         return (
           <div className="col-md-3 provider-stat">
@@ -56,10 +66,10 @@ define(
         )
       },
 
-      renderName: function(){
+      renderName: function(provider){
         return (
           <div className="row">
-            <h2>iPlant Cloud - Tucson</h2>
+            <h2>{provider.get('name')}</h2>
           </div>
         )
       },
@@ -105,14 +115,19 @@ define(
       },
 
       render: function () {
+        var provider = this.state.currentProvider;
+
         return (
           <div>
             <div className="container">
               <div className="col-md-2">
-                <ProviderList providers={this.props.providers}/>
+                <ProviderList providers={this.props.providers}
+                              selectedProvider={provider}
+                              onSelectedProviderChanged={this.handleProviderChange}
+                />
               </div>
               <div className="col-md-10 provider-details">
-                {this.renderName()}
+                {this.renderName(provider)}
                 {this.renderStats()}
                 {this.renderDescription()}
                 {this.renderInstanceList()}

@@ -11,21 +11,18 @@ define(
     return React.createClass({
 
       propTypes: {
-        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired
-      },
-
-      getInitialState: function(){
-        return {
-          selectedProvider: null
-        }
+        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        selectedProvider: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        onSelectedProviderChanged: React.PropTypes.func.isRequired
       },
 
       handleProviderSelected: function(provider){
-        this.setState({selectedProvider: provider})
+        //this.setState({selectedProvider: provider});
+        this.props.onSelectedProviderChanged(provider);
       },
 
       renderProvider: function(provider){
-        var selectedProvider = this.state.selectedProvider || this.props.providers.first(),
+        var selectedProvider = this.props.selectedProvider,
             isSelected = provider.id === selectedProvider.id;
 
         return (
