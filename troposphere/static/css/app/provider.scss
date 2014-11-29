@@ -20,3 +20,51 @@
     height: 28px;
   }
 }
+
+.provider-stat {
+  font-size: 16px;
+  border-left: 1px solid #e5e5e5;
+  text-align: center;
+  height: 80px;
+
+  &:first-of-type {
+    border-left: 1px solid transparent;
+  }
+
+  .stat {
+    font-size: 30px;
+  }
+
+  .sub-text {
+    margin-left: 5px;
+  }
+
+  .more-info {
+    color: #888;
+    font-size: 14px;
+  }
+}
+
+.provider-details {
+  h4 {
+   border-bottom: 1px solid #e5e5e5;
+  }
+
+  .provider-info-section {
+    margin-bottom: 12px;
+  }
+}
+
+.provider-list {
+  margin-top: 20px;
+
+  li a {
+    color: #aaa;
+    cursor: pointer;
+  }
+
+  li.active a {
+    color: #56AA21;
+  }
+}
+

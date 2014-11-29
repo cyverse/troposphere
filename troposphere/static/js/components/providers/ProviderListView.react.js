@@ -19,40 +19,106 @@ define(
         projects: React.PropTypes.instanceOf(Backbone.Collection)
       },
 
+      renderStat: function(value, subText, moreInfo){
+        return (
+          <div className="col-md-3 provider-stat">
+            <div>
+              <span className="stat">{value}</span>
+              <span className="sub-text">{subText}</span>
+            </div>
+            <div className="more-info">{moreInfo}</div>
+          </div>
+        )
+      },
+
+      renderStats: function(){
+        return (
+          <div className="row provider-info-section provider-stats">
+            {this.renderStat("67%", "(10/168 AUs)", "AUs currently used")}
+            {this.renderStat(3, "instances", "Number of instances consuming allocation")}
+            {this.renderStat(12, "hours", "Time remaining before allocation runs out")}
+            {this.renderStat(13, "AUs/hour", "Rate at which AUs are being used")}
+          </div>
+        )
+      },
+
+      renderCloudList: function(){
+        return (
+          <ul className="nav nav-stacked provider-list">
+            <li className="active">
+              <a>iPlant Cloud - Tucson</a>
+            </li>
+            <li>
+              <a>iPlant Cloud - Austin</a>
+            </li>
+            <li>
+              <a>iPlant Workshop Cloud - Tucson</a>
+            </li>
+          </ul>
+        )
+      },
+
+      renderName: function(){
+        return (
+          <div className="row">
+            <h2>iPlant Cloud - Tucson</h2>
+          </div>
+        )
+      },
+
+      renderDescription: function(){
+        return (
+          <div className="row provider-info-section">
+            <h4>Description</h4>
+            <p>No Description Provided</p>
+          </div>
+        )
+      },
+      
+      renderInstanceList: function(){
+        return (
+          <div className="row provider-info-section">
+            <h4>Instances Consuming Allocation</h4>
+            <div>
+              <p>The following instancs are currently consuming allocation on this provider:</p>
+              <table className="table table-striped table-condensed">
+                <thead>
+                  <tr>
+                    <th>Instance</th>
+                    <th>Status</th>
+                    <th>CPUs</th>
+                    <th>AUs/hour</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <a href="/application/projects/3177/instances/0344be18-0bf0-407b-a160-20f33ab1b745">test2</a>
+                    </td>
+                    <td>active</td>
+                    <td>1</td>
+                    <td>1</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )
+      },
+
       render: function () {
-        var providers = this.props.providers.map(function (provider) {
-
-          // Get the identities belonging to this provider and cast as the original collection
-          // type (which should be IdentityCollection)
-          var providerIdentityArray = this.props.identities.where({'provider_id': provider.id});
-          var providerIdentities = new this.props.identities.constructor(providerIdentityArray);
-
-          // Filter Instances and Volumes for only those in this provider
-          var providerInstanceArray = this.props.instances.filter(function(instance){
-            return instance.get('identity').provider === provider.id;
-          });
-          var providerInstances = new InstanceCollection(providerInstanceArray);
-
-          var providerVolumeArray = this.props.volumes.filter(function(volume){
-            return volume.get('identity').provider === provider.id;
-          });
-          var providerVolumes = new VolumeCollection(providerVolumeArray);
-
-          return (
-            <Provider key={provider.id}
-                      provider={provider}
-                      identities={providerIdentities}
-                      instances={providerInstances}
-                      volumes={providerVolumes}
-                      projects={this.props.projects}
-            />
-          );
-        }.bind(this));
-
         return (
           <div>
             <div className="container">
-              {providers}
+              <div className="col-md-2">
+                {this.renderCloudList()}
+              </div>
+              <div className="col-md-10 provider-details">
+                {this.renderName()}
+                {this.renderStats()}
+                {this.renderDescription()}
+                {this.renderInstanceList()}
+              </div>
             </div>
           </div>
         );
