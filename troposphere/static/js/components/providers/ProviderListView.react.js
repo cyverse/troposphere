@@ -6,12 +6,12 @@ define(
     'backbone',
     './ProviderList.react',
     './ProviderName.react',
-    './ProviderStats_original.react',
+    './ProviderStats.react',
     './ProviderDescription.react',
     './ProviderInstances.react',
     './ProviderResourcesSection.react'
   ],
-  function (React, Backbone, ProviderList, ProviderName, ProviderStats_original, ProviderDescription, ProviderInstances, ProviderResourcesSection) {
+  function (React, Backbone, ProviderList, ProviderName, ProviderStats, ProviderDescription, ProviderInstances, ProviderResourcesSection) {
 
     return React.createClass({
 
@@ -51,7 +51,10 @@ define(
               </div>
               <div className="col-md-10 provider-details">
                 <ProviderName provider={provider}/>
-                <ProviderStats_original provider={provider}/>
+                <ProviderStats provider={provider}
+                               identities={identities}
+                               instances={instances}
+                />
                 <ProviderDescription provider={provider}/>
                 <ProviderInstances provider={provider}
                                    identities={identities}
