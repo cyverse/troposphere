@@ -4,11 +4,12 @@ define(
   [
     'react',
     'backbone',
-    'collections/ProviderCollection',
-    'stores',
-    'url'
+    'collections/InstanceCollection',
+    'collections/VolumeCollection',
+    './ProviderInstanceTable.react',
+    'stores'
   ],
-  function (React, Backbone, ProviderCollection, stores, URL) {
+  function (React, Backbone, InstanceCollection, VolumeCollection, ProviderInstanceTable, stores) {
 
     return React.createClass({
 
@@ -17,111 +18,60 @@ define(
         identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         volumes: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        projects: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        projects: React.PropTypes.instanceOf(Backbone.Collection)
       },
 
-      getInitialState: function () {
-        return this.getState();
-      },
+      // ------
+      // Render
+      // ------
 
-      getState: function(){
-        var identity = this.props.identities.first();
-        return {
-          sizes: stores.SizeStore.getAllFor(identity.get('provider_id'), identity.id)
-        }
-      },
+      renderBody: function(provider, identities, instances, volumes, projects){
 
-      updateState: function () {
-        if (this.isMounted()) this.setState(this.getState());
-      },
+        // Get the identities belonging to this provider and cast as the original collection
+        // type (which should be IdentityCollection)
+        var providerIdentityArray = identities.where({'provider_id': provider.id});
+        var providerIdentities = new identities.constructor(providerIdentityArray);
 
-      componentDidMount: function () {
-        stores.SizeStore.addChangeListener(this.updateState);
-      },
-
-      componentWillUnmount: function () {
-        stores.SizeStore.removeChangeListener(this.updateState);
-      },
-
-      getProjectForInstance: function(projects, instance){
-        var projectArray = projects.filter(function(project){
-          return project.get('instances').filter(function(i){
-            return i.id === instance.id
-          }).length > 0;
+        // Filter Instances and Volumes for only those in this provider
+        var providerInstanceArray = instances.filter(function(instance){
+          return instance.get('identity').provider === provider.id;
         });
+        var providerInstances = new InstanceCollection(providerInstanceArray);
 
-        if(projectArray.length > 0){
-          return projectArray[0];
-        }else{
-          throw new Error("found more or less than 1 project containing the instance")
-        }
-      },
-
-      renderInstanceTableRow: function(instance, sizes){
-        var size = sizes.get(instance.get('size_alias'));
-        var numberOfCpus = Number(size.get('cpu'));
-        var ausPerCpu = 1;
-        var burnRate = ausPerCpu*numberOfCpus;
-        var instanceProject = this.getProjectForInstance(this.props.projects, instance);
-
-        var instanceUrl = URL.projectInstance({project: instanceProject, instance: instance});
+        var providerVolumeArray = volumes.filter(function(volume){
+          return volume.get('identity').provider === provider.id;
+        });
+        var providerVolumes = new VolumeCollection(providerVolumeArray);
 
         return (
-          <tr>
-            <td>
-              <a href={instanceUrl}>{instance.get('name')}</a>
-            </td>
-            <td>{instance.get('status')}</td>
-            <td>{numberOfCpus}</td>
-            <td>{burnRate}</td>
-          </tr>
-        );
-      },
-
-      renderAllocation: function(identity, instances, sizes){
-        var instancesConsumingAllocation = identity.getInstancesConsumingAllocation(instances);
-
-        return (
-          <table className="table table-striped table-condensed">
-            <thead>
-              <tr>
-                <th>Instance</th>
-                <th>Status</th>
-                <th>CPUs</th>
-                <th>AUs/hour</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                instancesConsumingAllocation.map(function(instance){
-                  return this.renderInstanceTableRow(instance, sizes);
-                }.bind(this))
-              }
-            </tbody>
-          </table>
+          <ProviderInstanceTable provider={provider}
+                                 identities={providerIdentities}
+                                 instances={providerInstances}
+                                 volumes={providerVolumes}
+                                 projects={projects}
+          />
         )
       },
 
       render: function () {
-        var sizes = this.state.sizes,
-            instances = this.props.instances;
-
-        if(sizes){
-          return (
-            <div>
-              {
-                this.props.identities.map(function(identity){
-                  return this.renderAllocation(identity, instances, sizes);
-                }.bind(this))
-              }
-            </div>
-          );
-        }
+        var provider = this.props.provider,
+            identities = this.props.identities,
+            instances = this.props.instances,
+            volumes = this.props.volumes,
+            projects = this.props.projects;
 
         return (
-          <div className="loading"></div>
-        )
+          <div className="row provider-info-section">
+            <h4>Instances Consuming Allocation</h4>
+            <div>
+              <p>The following instances are currently consuming allocation on this provider:</p>
+              {this.renderBody(provider, identities, instances, volumes, projects)}
+            </div>
+          </div>
+        );
+
       }
+
     });
 
   });

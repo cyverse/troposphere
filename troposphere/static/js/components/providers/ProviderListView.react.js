@@ -8,10 +8,10 @@ define(
     './ProviderName.react',
     './ProviderStats_original.react',
     './ProviderDescription.react',
-    './ProviderInstanceList.react',
+    './ProviderInstances.react',
     './ProviderResourcesSection.react'
   ],
-  function (React, Backbone, ProviderList, ProviderName, ProviderStats_original, ProviderDescription, ProviderInstanceList, ProviderResourcesSection) {
+  function (React, Backbone, ProviderList, ProviderName, ProviderStats_original, ProviderDescription, ProviderInstances, ProviderResourcesSection) {
 
     return React.createClass({
 
@@ -53,11 +53,11 @@ define(
                 <ProviderName provider={provider}/>
                 <ProviderStats_original provider={provider}/>
                 <ProviderDescription provider={provider}/>
-                <ProviderInstanceList provider={provider}
-                                      identities={identities}
-                                      instances={instances}
-                                      volumes={volumes}
-                                      projects={projects}
+                <ProviderInstances provider={provider}
+                                   identities={identities}
+                                   instances={instances}
+                                   volumes={volumes}
+                                   projects={projects}
                 />
                 <ProviderResourcesSection provider={provider}
                                           identities={identities}
