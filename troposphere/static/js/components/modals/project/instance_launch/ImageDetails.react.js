@@ -6,9 +6,11 @@ define(
     'components/applications/detail/availability/AvailabilityView.react',
     'components/applications/detail/tags/TagsView.react',
     'components/applications/detail/description/DescriptionView.react',
-    'components/applications/detail/versions/VersionsView.react'
+    'components/applications/detail/versions/VersionsView.react',
+    'stores',
+    'components/common/Gravatar.react'
   ],
-  function (React, AvailabilityView, TagsView, DescriptionView, VersionsView) {
+  function (React, AvailabilityView, TagsView, DescriptionView, VersionsView, stores, Gravatar) {
 
     return React.createClass({
 
@@ -42,11 +44,33 @@ define(
       },
 
       render: function () {
+        var image = this.props.image,
+            type = stores.ProfileStore.get().get('icon_set'),
+            iconSize = 67,
+            icon;
+
+        if (image.get('icon')) {
+          icon = (
+            <img src={image.get('icon')} width={iconSize} height={iconSize}/>
+          );
+        } else {
+          icon = (
+            <Gravatar hash={image.get('uuid_hash')} size={iconSize} type={type}/>
+          );
+        }
+
         return (
           <div id="app-detail">
             <div className="image-content">
               <div className="image-header">
-                <h1>{this.props.image.get('name')}</h1>
+                {icon}
+                <div style={{display: "inline-block", marginLeft: "10px"}}>
+                  <h1>{image.get('name')}</h1>
+                  <div>
+                    <span>by </span>
+                    <strong>{image.get('created_by')}</strong>
+                  </div>
+                </div>
               </div>
               <TagsView application={this.props.image} tags={this.props.tags}/>
               {this.renderAvailability()}

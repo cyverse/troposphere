@@ -6,9 +6,10 @@ define(
     'backbone',
     'stores',
     './ImageList.react',
-    'components/applications/list/ApplicationCardList.react'
+    'components/applications/list/ApplicationCardList.react',
+    'collections/ApplicationCollection'
   ],
-  function (React, Backbone, stores, ImageList, ApplicationCardList) {
+  function (React, Backbone, stores, ImageList, ApplicationCardList, ImageCollection) {
 
     var ENTER_KEY = 13;
 
@@ -29,13 +30,18 @@ define(
       },
 
       getState: function() {
+        var inputText = this.state ? this.state.inputText : null;
         var query = this.state ? this.state.query : null;
         var querySubmitted = this.state ? this.state.querySubmitted : false;
         return {
+          inputText: inputText,
           query: query,
           querySubmitted: querySubmitted,
           images: stores.ApplicationStore.getAll(),
-          tags: stores.TagStore.getAll()
+          tags: stores.TagStore.getAll(),
+
+          resultsPerPage: 20,
+          page: 1
         }
       },
 
@@ -59,12 +65,12 @@ define(
       //
 
       handleChange: function (e) {
-        var query = e.target.value;
-        this.setState({query: query, querySubmitted: false});
+        var text = e.target.value;
+        this.setState({inputText: text});
       },
 
       handleKeyUp: function (e) {
-        var query = this.state.query;
+        var query = this.state.inputText;
         if (e.keyCode == ENTER_KEY && query.length) {
           this.setState({query: query, querySubmitted: true});
         }
@@ -82,6 +88,10 @@ define(
         this.props.onPrevious();
       },
 
+      handleLoadMoreImages: function(){
+        this.setState({page: this.state.page + 1});
+      },
+
       //
       // Render
       // ------
@@ -97,15 +107,27 @@ define(
         }
 
         return (
-          <span className="filter-description">{message}</span>
+          <div className="filter-description">{message}</div>
         )
+      },
+
+      renderMoreImagesButton: function(images, totalNumberOfImages){
+        if(images.models.length < totalNumberOfImages) {
+          return (
+            <button style={{"margin": "auto", "display": "block"}} className="btn btn-default" onClick={this.handleLoadMoreImages}>
+              Show more images...
+            </button>
+          )
+        }
       },
 
       renderBody: function(){
         var images = this.state.images,
             tags = this.state.tags,
             query = this.state.query,
-            querySubmitted = this.state.querySubmitted;
+            querySubmitted = this.state.querySubmitted,
+            numberOfResults,
+            totalNumberOfImages;
 
         // if a search has been requested, use the search results instead of the full image list
         if(query && querySubmitted) {
@@ -113,6 +135,12 @@ define(
         }
 
         if(images && tags){
+          numberOfResults = this.state.page*this.state.resultsPerPage;
+          totalNumberOfImages = images.models.length;
+
+          images = images.first(numberOfResults);
+          images = new ImageCollection(images);
+
           return (
             <div>
               <input type="text"
@@ -123,6 +151,7 @@ define(
               />
               {this.renderFilterDescription(query)}
               <ImageList images={images} onClick={this.showImageDetails}/>
+              {this.renderMoreImagesButton(images, totalNumberOfImages)}
             </div>
           );
         }

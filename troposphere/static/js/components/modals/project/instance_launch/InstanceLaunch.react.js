@@ -394,7 +394,7 @@ define(
               {this.renderBody()}
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-danger" onClick={this.onBack}>
+              <button type="button" className="btn btn-default pull-left" onClick={this.onBack}>
                 Back
               </button>
               <button type="button" className="btn btn-primary" onClick={this.onNext} disabled={!this.isSubmittable()}>
