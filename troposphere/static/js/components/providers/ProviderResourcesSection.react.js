@@ -21,8 +21,6 @@ define(
       },
 
       renderResources: function(provider, identities, instances, volumes, projects){
-        return;
-
         // Get the identities belonging to this provider and cast as the original collection
         // type (which should be IdentityCollection)
         var providerIdentityArray = identities.where({'provider_id': provider.id});
@@ -57,7 +55,8 @@ define(
             projects = this.props.projects;
 
         return (
-          <div>
+          <div className="row provider-info-section">
+            <h4>Resources</h4>
             {this.renderResources(provider, identities, instances, volumes, projects)}
           </div>
         );

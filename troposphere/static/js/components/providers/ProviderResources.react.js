@@ -26,7 +26,7 @@ define(
       },
 
       getState: function(){
-        var identity = this.props.identities.first();
+        var identity = this._getIdentity();
         return {
           sizes: stores.SizeStore.getAllFor(identity.get('provider_id'), identity.id)
         }
@@ -44,15 +44,32 @@ define(
         stores.SizeStore.removeChangeListener(this.updateState);
       },
 
+      //
+      // Helper Functions
+      //
+
+      _getIdentity: function(){
+        var provider = this.props.provider;
+        return this.props.identities.findWhere({
+          provider_id: provider.id
+        });
+      },
+
+      //
+      // Render
+      //
+
       render: function () {
-        var providers = new ProviderCollection([this.props.provider]);
+        var provider = this.props.provider,
+            providers = new ProviderCollection([provider]);
 
         if(this.state.sizes){
           return (
             <div className="provider">
               <div className="row">
                 <div className="col-md-8">
-                  <ProviderSummaryLinePlot providers={providers}
+                  <ProviderSummaryLinePlot key={provider.id}
+                                           providers={providers}
                                            identities={this.props.identities}
                                            instances={this.props.instances}
                                            volumes={this.props.volumes}
@@ -60,8 +77,8 @@ define(
                   />
                 </div>
                 <div className="col-md-4">
-                  <ResourceStatusSummaryPlot title="Instances" resources={this.props.instances}/>
-                  <ResourceStatusSummaryPlot title="Volumes" resources={this.props.volumes}/>
+                  <ResourceStatusSummaryPlot provider={provider.id} title="Instances" resources={this.props.instances}/>
+                  <ResourceStatusSummaryPlot provider={provider.id} title="Volumes" resources={this.props.volumes}/>
                 </div>
               </div>
 
@@ -70,7 +87,7 @@ define(
         }
 
         return (
-          <div className="loading"></div>
+          <div></div>
         )
       }
     });
