@@ -55,21 +55,29 @@ Atmo.Views.RequestImagingForm = Backbone.View.extend({
 
 	},
     send_request: function(e) {
+        var self = this;
         e.preventDefault();
 
-		if (this.$el.find('#licensed_software:checked').length == 0) {
-			// You shall not pass!
-			this.$el.find('#licensed_software').closest('.control-group').addClass('error');
-			this.$el.find('#licensed_software').closest('.controls').addClass('alert-error').addClass('alert');
-			return false;
-		}
+	if (this.$el.find('#licensed_software:checked').length == 0) {
+		// You shall not pass!
+		this.$el.find('#licensed_software').closest('.control-group').addClass('error');
+		this.$el.find('#licensed_software').closest('.controls').addClass('alert-error').addClass('alert');
+		return false;
+	}
+        
+        var form = this.$el.find('.request_imaging_form');
+        var formData = form.serializeArray();
 
-        var self = this;
+	var result = {};
+        for(var i = 0; i < formData.length; i++){
+		var data = formData[i];
+		result[data.name] = data.value;
+        }
 
         $.ajax({
             type: 'POST',
             url: Atmo.API_ROOT + '/provider/'+Atmo.profile.get('selected_identity').get('provider_id') + '/identity/' + Atmo.profile.get('selected_identity').id + '/request_image',
-            data: JSON.stringify(this.$el.find('.request_imaging_form').serialize()),
+            data: JSON.stringify(result),
             dataType: 'json',
             contentType: 'application/json',
             success: function() {
