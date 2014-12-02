@@ -99,14 +99,17 @@ Atmo.Views.RequestResourcesModal = Backbone.View.extend({
 
 		var form = this.$el.find('form[name="request_resources_form"]');
 
-		var success;
-		var pairs = form.serialize().split('&');
-		var result = {};
+		var username = form.find("[name='username']").val();
+		var quota = form.find("[name='quota']").val();
+		var reason = form.find("[name='reason']").val();
 
-		pairs.forEach(function(pair) {
-	  		pair = pair.split('=');
-			result[pair[0]] = decodeURIComponent(pair[1] || '');
-		});
+		var result = {
+			username: username,
+			quota: quota,
+			reason: reason
+		}
+		
+		var success;
 
 		var self = this;
 		$.ajax({
