@@ -63,6 +63,19 @@ define(
           context.profile = profile;
           context.nullProject = nullProject;
 
+          window.Intercom('boot', {
+            app_id: window.intercom_app_id,
+            name: profile.get("username"),
+            username: profile.get("username"),
+            email: profile.get("email"),
+            company: {
+              id: window.intercom_company_id,
+              name: window.intercom_company_name
+            }
+            // TODO: The current logged in user's sign-up date as a Unix timestamp.
+            //created_at: 1234567890
+          });
+
           this.startApplication();
         }
       },
@@ -194,6 +207,9 @@ define(
             var title = getTitle(url);
             document.title = title ? title + " - Atmosphere" : "Atmosphere";
             Backbone.history.navigate(url, { trigger: true });
+
+            // Update intercom so users get any messages sent to them
+            window.Intercom('update');
           }
         });
       },

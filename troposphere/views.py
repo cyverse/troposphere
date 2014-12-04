@@ -42,6 +42,11 @@ def application(request):
         'disable_login': disabled_login
     }
 
+    if hasattr(settings, "INTERCOM_APP_ID"):
+        template_params['intercom_app_id'] = settings.INTERCOM_APP_ID
+        template_params['intercom_company_id'] = settings.INTERCOM_COMPANY_ID
+        template_params['intercom_company_name'] = settings.INTERCOM_COMPANY_NAME
+
     # If beta flag in query params, set the session value to that
     if "beta" in request.GET:
         request.session['beta'] = request.GET['beta'].lower()
