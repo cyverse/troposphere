@@ -24,6 +24,19 @@ Atmo.Router = Backbone.Router.extend({
       async: false,
       success: function (profile, foo, bar) {
         $("#username").html(profile.get('id'));
+
+        window.Intercom('boot', {
+          app_id: window.intercom_app_id,
+          name: profile.get("username"),
+          username: profile.get("username"),
+          email: profile.get("email"),
+          company: {
+            id: window.intercom_company_id,
+            name: window.intercom_company_name
+          }
+          // TODO: The current logged in user's sign-up date as a Unix timestamp.
+          //created_at: 1234567890
+        });
       },
       error: function () {
         //TODO: Jason's awesome replacement screen goes here
