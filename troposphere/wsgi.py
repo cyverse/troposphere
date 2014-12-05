@@ -7,7 +7,6 @@ https://docs.djangoproject.com/en/1.6/howto/deployment/wsgi/
 
 import os
 import sys
-from django.conf import settings
 
 root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
@@ -19,7 +18,11 @@ else:
 sys.path.insert(0, virtual_env_path)
 sys.path.insert(1, root_dir)
 
+# Warning! The DJANGO_SETTINGS_MODULE environment variable MUST be defined BEFORE "settings" is
+# imported from django.conf because it depends on that variable. If you import "settings" BEFORE
+# defining the environment variable you may get a 500 error
 os.environ["DJANGO_SETTINGS_MODULE"] = "troposphere.settings"
+from django.conf import settings
 
 if hasattr(settings, "NEW_RELIC_ENVIRONMENT"):
   try:
@@ -34,6 +37,8 @@ if hasattr(settings, "NEW_RELIC_ENVIRONMENT"):
   except Exception, bad_config:
       print "[T]Warning: newrelic not initialized.."
       print bad_config
+else:
+    print "[T]Plugin: Skipping New Relic setup. NEW_RELIC_ENVIRONMENT not defined in local.py"
 
 from django.core.wsgi import get_wsgi_application
 try:
