@@ -5,9 +5,10 @@ define(
     'react',
     'backbone',
     'moment',
-    'url'
+    'url',
+    './ProjectResource.react'
   ],
-  function (React, Backbone, moment, URL) {
+  function (React, Backbone, moment, URL, ProjectResource) {
 
     return React.createClass({
 
@@ -29,18 +30,18 @@ define(
                   <h2>{project.get('name')}</h2>
                   <time>{"Created " + projectCreationDate}</time>
                   <ul className="project-resource-list">
-                    <li>
-                      <i className="glyphicon glyphicon-tasks"></i>
-                      <span>{project.get('instances').length}</span>
-                    </li>
-                    <li>
-                      <i className="glyphicon glyphicon-hdd"></i>
-                      <span>{project.get('volumes').length}</span>
-                    </li>
-                    <li>
-                      <i className="glyphicon glyphicon-floppy-disk"></i>
-                      <span>{project.get('applications').length}</span>
-                    </li>
+                    <ProjectResource icon={"tasks"}
+                                     count={project.get('instances').length}
+                                     resourceType={"instances"}
+                    />
+                    <ProjectResource icon={"hdd"}
+                                     count={project.get('volumes').length}
+                                     resourceType={"volumes"}
+                    />
+                    <ProjectResource icon={"floppy-disk"}
+                                     count={project.get('applications').length}
+                                     resourceType={"images"}
+                    />
                   </ul>
                 </div>
               </a>
