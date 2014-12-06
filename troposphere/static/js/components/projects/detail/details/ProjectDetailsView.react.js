@@ -36,7 +36,6 @@ define(
       },
 
       renderDescription: function(project){
-        console.log("helo");
         return (
           <div className="project-info-segment row">
             <h4 className="col-md-3">Description</h4>
