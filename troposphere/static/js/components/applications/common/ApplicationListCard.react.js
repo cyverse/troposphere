@@ -32,6 +32,7 @@ define(
         var app = this.props.application;
         var type = stores.ProfileStore.get().get('icon_set');
         var imageTags = stores.TagStore.getImageTags(app);
+        var applicationCreationDate = moment(app.get('start_date')).format("MMM D, YYYY");
 
         var iconSize = 67;
         var icon;
@@ -68,7 +69,7 @@ define(
               </span>
               <span className='app-name'>
                 <h4>{app.get('name')}</h4>
-                <div>by <strong>{app.get('created_by')}</strong></div>
+                <div><time>{applicationCreationDate}</time> by <strong>{app.get('created_by')}</strong></div>
                 <Tags activeTags={imageTags}
                     tags={this.props.tags}
                 />
