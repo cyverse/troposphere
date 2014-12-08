@@ -3,11 +3,12 @@
 define(
   [
     'react',
+    'jquery',
 
     // plugins
     'bootstrap'
   ],
-  function (React) {
+  function (React, $) {
 
     return React.createClass({
 
