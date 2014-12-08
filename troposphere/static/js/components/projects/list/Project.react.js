@@ -24,11 +24,14 @@ define(
           var projectCreationDate = moment(project.get('start_date')).format("MMM D, YYYY");
 
           return (
-            <li>
+            <li className="project-card">
               <a href={projectUrl}>
                 <div style={{"position": "relative"}}>
-                  <h2>{project.get('name')}</h2>
-                  <time>{"Created " + projectCreationDate}</time>
+                  <div className="content">
+                    <h2>{project.get('name')}</h2>
+                    <time>{"Created " + projectCreationDate}</time>
+                    <p className="description">{project.get("description")}</p>
+                  </div>
                   <ul className="project-resource-list">
                     <ProjectResource icon={"tasks"}
                                      count={project.get('instances').length}
