@@ -3,14 +3,27 @@
 define(
   [
     'react',
-    'backbone'
+    'backbone',
+    'jquery',
+
+    // plugins
+    'bootstrap'
   ],
-  function (React, Backbone) {
+  function (React, Backbone, $) {
 
     return React.createClass({
 
       propTypes: {
         application: React.PropTypes.instanceOf(Backbone.Model).isRequired
+      },
+
+      componentDidMount: function(){
+        var el = this.getDOMNode();
+        var $el = $(el).find('.tooltip-wrapper');
+        $el.tooltip({
+          title: "Coming soon! You'll be able to add frequently used images to projects for even easier launching.",
+          placement: "left"
+        });
       },
 
       onReturnToPreviousPage: function(e){
@@ -22,10 +35,12 @@ define(
 
         // todo: add the project button back in when we support adding images to projects
         var addToProjectButton = (
-          <button className="btn">
-            <i className='glyphicon glyphicon-plus'></i>
-            Add to Project
-          </button>
+          <div className="tooltip-wrapper" style={{display: "inline-block", float:"right"}}>
+            <button className="btn" disabled>
+              <i className='glyphicon glyphicon-plus'></i>
+              Add to Project
+            </button>
+          </div>
         );
 
         return (
@@ -34,7 +49,7 @@ define(
               <span className='glyphicon glyphicon-arrow-left'>{''}</span>
             </a>
             <h1>{this.props.application.get('name')}</h1>
-            {false ? addToProjectButton : null}
+            {true ? addToProjectButton : null}
           </div>
         );
       }
