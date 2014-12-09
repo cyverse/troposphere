@@ -36,16 +36,23 @@ define(
           );
         }.bind(this));
 
+        var titleContent;
+        if(this.props.title) {
+          titleContent = (
+            <div className="project-name">
+              <h1>
+                {this.props.title}
+              </h1>
+            </div>
+          )
+        }
+
         var hasAdditionalContent = this.props.additionalContent;
 
         return (
           <div className="secondary-nav">
             <div className="container">
-              <div className="project-name">
-                <h1>
-                  {this.props.title}
-                </h1>
-              </div>
+              {titleContent}
               <ul className="secondary-nav-links">
                 {links}
               </ul>
