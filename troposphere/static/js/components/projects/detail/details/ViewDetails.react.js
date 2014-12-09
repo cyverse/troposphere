@@ -5,12 +5,9 @@ define(
     'react',
     'jquery',
     'backbone',
-    'components/projects/common/SecondaryProjectNavigation.react',
-    'actions',
-    './InputField.react',
-    './HtmlTextAreaField.react'
+    'showdown'
   ],
-  function (React, $, Backbone, SecondaryProjectNavigation, actions, InputField, TextAreaField) {
+  function (React, $, Backbone, Showdown) {
 
     return React.createClass({
 
@@ -41,10 +38,14 @@ define(
       },
 
       renderDescription: function(project){
+        var converter = new Showdown.converter(),
+            description = project.get('description'),
+            descriptionHtml = converter.makeHtml(description);
+
         return (
           <div className="project-info-segment row">
             <h4 className="col-md-3">Description</h4>
-            <p className="col-md-9">{project.get('description')}</p>
+            <div className="col-md-9" dangerouslySetInnerHTML={{__html: descriptionHtml}}/>
           </div>
         )
       },

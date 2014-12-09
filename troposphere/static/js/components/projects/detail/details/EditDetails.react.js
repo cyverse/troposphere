@@ -73,7 +73,7 @@ define(
               <h4 className="col-md-3">Description</h4>
               <textarea type="text"
                         defaultValue={this.state.description}
-                        onKeyPress={this.handleDescriptionChange}
+                        onKeyUp={this.handleDescriptionChange}
               />
             </div>
 
