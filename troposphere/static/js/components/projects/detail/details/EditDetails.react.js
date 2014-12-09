@@ -3,28 +3,48 @@
 define(
   [
     'react',
-    'jquery',
-    'backbone',
-    'components/projects/common/SecondaryProjectNavigation.react',
-    'actions',
-    './InputField.react',
-    './HtmlTextAreaField.react'
+    'backbone'
   ],
-  function (React, $, Backbone, SecondaryProjectNavigation, actions, InputField, TextAreaField) {
+  function (React, Backbone) {
 
     return React.createClass({
 
       propTypes: {
-        project: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        onCancel: React.PropTypes.func.isRequired,
+        onSave: React.PropTypes.func.isRequired
       },
 
-      onSave: function(description){
-        actions.ProjectActions.updateProjectAttributes(this.props.project, {description: description})
+      getInitialState: function(){
+        var project = this.props.project;
+
+        return {
+          name: project.get('name'),
+          description: project.get('description')
+        }
       },
 
-      onEnterKey: function(e){
+      handleCancel: function(){
+        this.props.onCancel();
+      },
+
+      handleSave: function(description){
+        this.props.onSave({
+          name: this.state.name,
+          description: this.state.description
+        });
+
+        //actions.ProjectActions.updateProjectAttributes(this.props.project, {description: description})
+      },
+
+      handleNameChange: function(e){
         var text = e.target.value;
-        console.log(text);
+        this.setState({name: text});
+      },
+
+      handleDescriptionChange: function(e){
+        var text = e.target.value;
+        this.setState({description: text});
       },
 
       // ------
@@ -35,12 +55,12 @@ define(
         var project = this.props.project;
 
         return (
-          <div>
-            <div className="project-info-segment row">
+          <div className="edit-details">
+            <div className="project-info-segment row" style={{marginTop:"62px"}}>
               <h4 className="col-md-3">Name</h4>
               <input type="text"
-                     defaultValue={project.get('name')}
-                     onKeyPress={this.onEnterKey}
+                     defaultValue={this.state.name}
+                     onKeyUp={this.handleNameChange}
               />
             </div>
 
@@ -51,9 +71,16 @@ define(
 
             <div className="project-info-segment row">
               <h4 className="col-md-3">Description</h4>
-              <textarea type="text" defaultValue={project.get('description')}/>
+              <textarea type="text"
+                        defaultValue={this.state.description}
+                        onKeyPress={this.handleDescriptionChange}
+              />
             </div>
 
+            <div className="buttons">
+              <button className="btn btn-default cancel-button" onClick={this.handleCancel}>Cancel</button>
+              <button className="btn btn-primary save-button" onClick={this.handleSave}>Save</button>
+            </div>
           </div>
         );
       }

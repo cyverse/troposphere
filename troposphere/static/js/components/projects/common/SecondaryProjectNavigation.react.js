@@ -73,7 +73,7 @@ define(
             <SecondaryNavigation title={this.props.project.get('name')}
                                  routes={routes}
                                  currentRoute={this.props.currentRoute}
-                                 canEditTitle={true}
+                                 canEditTitle={false}
                                  onTitleChanged={this.onTitleChanged}
                                  additionalContent={additionalContent}
             />

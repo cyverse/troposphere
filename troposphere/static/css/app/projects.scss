@@ -87,8 +87,32 @@
   }
 }
 
+.edit-details {
+  .buttons {
+    margin-left: 124px;
+    margin-top: 20px;
+  }
+
+  .cancel-button {
+    margin-right: 20px;
+  }
+}
+
 .project-info-segment {
   margin-top: 22px;
+
+  textarea {
+    font-size: 16px;
+    width: 650px;
+    height: 215px;
+    margin-left: 15px;
+  }
+
+  input {
+    font-size: 16px;
+    width: 400px;
+    margin-left: 15px;
+  }
 
   h4 {
     color: #5A5A5A;

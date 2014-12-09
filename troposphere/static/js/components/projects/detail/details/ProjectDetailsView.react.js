@@ -26,16 +26,13 @@ define(
         }
       },
 
-      onSaveDescription: function(description){
-        actions.ProjectActions.updateProjectAttributes(this.props.project, {description: description})
-      },
-
       handleCancel: function(){
         this.setState({isEditing: false})
       },
 
-      handleSave: function(){
-        this.setState({isEditing: false})
+      handleSave: function(params){
+        this.setState({isEditing: false});
+        actions.ProjectActions.updateProjectAttributes(this.props.project, params)
       },
 
       handleEdit: function(){
@@ -62,9 +59,10 @@ define(
       renderEditDetailsView: function(project){
         return (
           <div className="container">
-            <EditDetails project={project}/>
-            <button onClick={this.handleCancel}>Cancel</button>
-            <button onClick={this.handleSave}>Save</button>
+            <EditDetails project={project}
+                         onSave={this.handleSave}
+                         onCancel={this.handleCancel}
+            />
           </div>
         )
       },
