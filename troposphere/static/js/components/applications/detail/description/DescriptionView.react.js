@@ -3,9 +3,10 @@
 define(
   [
     'react',
-    'backbone'
+    'backbone',
+    'showdown'
   ],
-  function (React, Backbone) {
+  function (React, Backbone, Showdown) {
 
     return React.createClass({
 
@@ -14,10 +15,15 @@ define(
       },
 
       render: function () {
+        var application = this.props.application,
+            converter = new Showdown.converter(),
+            description = application.get('description'),
+            descriptionHtml = converter.makeHtml(description);
+
         return (
           <div className='image-description'>
             <h2>Image Description</h2>
-            <p>{this.props.application.get('description')}</p>
+            <div dangerouslySetInnerHTML={{__html: descriptionHtml}}/>
           </div>
         );
       }

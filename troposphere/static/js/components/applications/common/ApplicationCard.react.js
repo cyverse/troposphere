@@ -11,9 +11,10 @@ define(
     'context',
     '../detail/tags/Tags.react',
     'stores',
-    './ApplicationCardDescription.react'
+    './ApplicationCardDescription.react',
+    'moment'
   ],
-  function (React, Gravatar, Backbone, URL, Rating, Bookmark, context, Tags, stores, ApplicationCardDescription) {
+  function (React, Gravatar, Backbone, URL, Rating, Bookmark, context, Tags, stores, ApplicationCardDescription, moment) {
 
     return React.createClass({
 

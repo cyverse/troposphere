@@ -11,9 +11,11 @@ define(
     'context',
     '../detail/tags/Tags.react',
     'stores',
-    'navigator'
+    'navigator',
+    'showdown',
+    'moment'
   ],
-  function (React, Gravatar, Backbone, URL, Rating, Bookmark, context, Tags, stores, navigator) {
+  function (React, Gravatar, Backbone, URL, Rating, Bookmark, context, Tags, stores, navigator, Showdown, moment) {
 
     return React.createClass({
 
@@ -29,10 +31,13 @@ define(
       },
 
       render: function () {
-        var app = this.props.application;
-        var type = stores.ProfileStore.get().get('icon_set');
-        var imageTags = stores.TagStore.getImageTags(app);
-        var applicationCreationDate = moment(app.get('start_date')).format("MMM D, YYYY");
+        var app = this.props.application,
+            type = stores.ProfileStore.get().get('icon_set'),
+            imageTags = stores.TagStore.getImageTags(app),
+            applicationCreationDate = moment(app.get('start_date')).format("MMM D, YYYY"),
+            converter = new Showdown.converter(),
+            description = app.get('description'),
+            descriptionHtml = converter.makeHtml(description);
 
         var iconSize = 67;
         var icon;
@@ -56,9 +61,6 @@ define(
           );
         }
 
-        // todo: Put ratings back when we actually implement them, not while they're random
-        //var ratings = <Rating up={app.get('votes').up} down={app.get('votes').down} />
-
         return (
           <div className='app-card'>
             <div>
@@ -75,7 +77,7 @@ define(
                 />
               </span>
             </div>
-            <p>{app.get('description')}</p>
+            <div dangerouslySetInnerHTML={{__html: descriptionHtml}}/>
             {bookmark}
           </div>
         );
