@@ -133,7 +133,7 @@ define(
                   <span className="icon-bar"></span>
                   <span className="icon-bar"></span>
                 </button>
-                <a className="navbar-brand" href="/">
+                <a className="navbar-brand" href="/application/dashboard">
                   Atmosphere
                 </a>
               </div>
