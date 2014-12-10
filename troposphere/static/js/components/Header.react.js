@@ -49,7 +49,7 @@ define(
       render: function () {
         return (
           <li className="dropdown">
-            <a href="/login">Login</a>
+            <a href="/login?redirect=/application?beta=true">Login</a>
           </li>
         );
       }
