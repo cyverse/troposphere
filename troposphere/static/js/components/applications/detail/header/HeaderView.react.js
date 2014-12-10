@@ -5,11 +5,12 @@ define(
     'react',
     'backbone',
     'jquery',
+    'stores',
 
     // plugins
     'bootstrap'
   ],
-  function (React, Backbone, $) {
+  function (React, Backbone, $, stores) {
 
     return React.createClass({
 
@@ -32,16 +33,20 @@ define(
       },
 
       render: function () {
+        var profile = stores.ProfileStore.get(),
+            addToProjectButton;
 
-        // todo: add the project button back in when we support adding images to projects
-        var addToProjectButton = (
-          <div className="tooltip-wrapper" style={{display: "inline-block", float:"right"}}>
-            <button className="btn" disabled>
-              <i className='glyphicon glyphicon-plus'></i>
-              Add to Project
-            </button>
-          </div>
-        );
+
+        if(profile.id) {
+          addToProjectButton = (
+            <div className="tooltip-wrapper" style={{display: "inline-block", float: "right"}}>
+              <button className="btn" disabled>
+                <i className='glyphicon glyphicon-plus'></i>
+                Add to Project
+              </button>
+            </div>
+          );
+        }
 
         return (
           <div className='image-header'>
@@ -49,7 +54,7 @@ define(
               <span className='glyphicon glyphicon-arrow-left'>{''}</span>
             </a>
             <h1>{this.props.application.get('name')}</h1>
-            {true ? addToProjectButton : null}
+            {addToProjectButton}
           </div>
         );
       }
