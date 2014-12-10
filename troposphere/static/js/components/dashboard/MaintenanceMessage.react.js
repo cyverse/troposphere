@@ -53,15 +53,19 @@ define(
         var message = this.props.message;
 
         return (
-          <li className="sticky">
-            <div className="title">
-              <i className="glyphicon glyphicon-pushpin"></i>
-              <span>{message.get('title')}</span>
+          <li>
+            <div className="message activity-message sticky">
+              <div>
+                <i className="glyphicon glyphicon-wrench"></i>
+              </div>
+              <div className="details">
+                <div>
+                  <strong>{message.get('title')}</strong>
+                </div>
+                {this.getMaintenanceDateTimeMessage(message)}
+                <div dangerouslySetInnerHTML={{__html: message.get('message')}}/>
+              </div>
             </div>
-            <div className="date">
-              {this.getMaintenanceDateTimeMessage(message)}
-            </div>
-            <div className="message" dangerouslySetInnerHTML={{__html: message.get('message')}}/>
           </li>
         );
       }

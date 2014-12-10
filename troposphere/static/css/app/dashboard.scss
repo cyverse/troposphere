@@ -34,10 +34,6 @@
 
     li {
 
-      &.sticky {
-        background-color: #F3F0B6;
-      }
-
       .title {
         margin-bottom: 3px;
         padding-left: 22px;
@@ -72,6 +68,10 @@
 
         .details {
           margin-left: 32px;
+        }
+
+        &.sticky {
+          background-color: #F3F0B6;
         }
       }
 
