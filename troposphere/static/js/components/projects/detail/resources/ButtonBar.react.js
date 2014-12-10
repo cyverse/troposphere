@@ -5,9 +5,10 @@ define(
     'react',
     'backbone',
     'context',
-    './Button.react'
+    './Button.react',
+    './RefreshButton.react'
   ],
-  function (React, Backbone, context, Button) {
+  function (React, Backbone, context, Button, RefreshButton) {
 
     return React.createClass({
 
@@ -22,6 +23,7 @@ define(
       render: function () {
         return (
           <div className="button-bar">
+            <RefreshButton/>
             <Button icon="list-alt"
                     tooltip="Report issue with project or selected resources"
                     onClick={this.props.onReportSelectedResources}

@@ -215,3 +215,10 @@ ul.project-resource-list {
     padding-right: 15px;
   }
 }
+
+.refreshing {
+  -webkit-animation: rotation 1s infinite linear;
+  -moz-animation: rotation 1s infinite linear;
+  -o-animation: rotation 1s infinite linear;
+  animation: rotation 1s infinite linear;
+}
