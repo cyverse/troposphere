@@ -13,7 +13,8 @@ require.config({
     chosen: '//cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.jquery.min',
     toastr: '//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.2/js/toastr.min',
     q: '//cdnjs.cloudflare.com/ajax/libs/q.js/1.0.1/q.min',
-    crypto: '//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5'
+    crypto: '//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5',
+    showdown: '//cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min'
   },
   shim: {
     underscore: {
