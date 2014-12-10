@@ -121,6 +121,13 @@ define(
           );
         }.bind(this));
 
+        var productIconUrl;
+        if(profile){
+          productIconUrl = "/application/dashboard";
+        }else{
+          productIconUrl = "/application/images";
+        }
+
         return (
           <div className="navbar navbar-default navbar-fixed-top" role="navigation">
             <MaintenanceMessageBanner maintenanceMessages={this.props.maintenanceMessages}/>
@@ -133,7 +140,7 @@ define(
                   <span className="icon-bar"></span>
                   <span className="icon-bar"></span>
                 </button>
-                <a className="navbar-brand" href="/application/dashboard">
+                <a className="navbar-brand" href={productIconUrl}>
                   Atmosphere
                 </a>
               </div>
