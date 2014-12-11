@@ -18,7 +18,7 @@ define(
         var provider = stores.ProviderStore.get(message.get('provider_id'));
         var providerName = provider.get('name');
         return (
-          <li className="message">
+          <li key={message.id} className="message">
             <strong>{providerName} </strong>
             {message.get('message')}
           </li>
