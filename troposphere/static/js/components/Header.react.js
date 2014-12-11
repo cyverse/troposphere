@@ -82,6 +82,9 @@ define(
                 <a href="#" onClick={this.onShowVersion}>Version</a>
               </li>
               <li>
+                <a href="http://atmosphere.status.io" target="_blank">Status</a>
+              </li>
+              <li>
                 <a href="/logout?cas=True">Sign out</a>
               </li>
             </ul>
