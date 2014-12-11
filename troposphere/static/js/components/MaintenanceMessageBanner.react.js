@@ -19,8 +19,8 @@ define(
         var providerName = provider.get('name');
         return (
           <li className="message">
-            <strong>{providerName}</strong>
-            {" is currently under maintenance.  You will not be able to launch anything in it until maintenance is completed."}
+            <strong>{providerName} </strong>
+            {message.get('message')}
           </li>
         )
       },
