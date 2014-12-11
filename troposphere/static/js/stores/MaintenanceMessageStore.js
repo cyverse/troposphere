@@ -33,7 +33,16 @@ define(
       },
 
       isProviderInMaintenance: function(providerId){
-        return _messages.where({provider_id: providerId}).length > 0;
+        var providerMessages = _messages.where({provider_id: providerId}),
+            isInMaintenance = false;
+
+        providerMessages.forEach(function(message){
+          if(message.get('disable_login') === true) {
+            isInMaintenance = true;
+          }
+        });
+
+        return isInMaintenance;
       }
 
     };
