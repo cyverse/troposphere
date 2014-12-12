@@ -49,8 +49,8 @@ define(
         return (
           <table className="table table-hover">
             <thead>
-              <tr>
-                <th><Checkbox isChecked={this.areAllResourcesSelected()} onToggleChecked={this.toggleCheckbox}/></th>
+              <tr onClick={this.toggleCheckbox}>
+                <th><Checkbox isChecked={this.areAllResourcesSelected()}/></th>
                 {this.props.children}
               </tr>
             </thead>
