@@ -26,6 +26,7 @@ define(
       propTypes: {
         onResourceSelected: React.PropTypes.func.isRequired,
         onResourceDeselected: React.PropTypes.func.isRequired,
+        onPreviewResource: React.PropTypes.func.isRequired,
         isPreviewed: React.PropTypes.bool,
         isChecked: React.PropTypes.bool,
 
@@ -48,6 +49,7 @@ define(
                          onResourceSelected={this.props.onResourceSelected}
                          onResourceDeselected={this.props.onResourceDeselected}
                          resource={this.props.instance}
+                         onPreviewResource={this.props.onPreviewResource}
           >
             <td className="image-preview">
               <Gravatar hash={instanceHash} size={iconSize} type={type}/>

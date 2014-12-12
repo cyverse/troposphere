@@ -35,6 +35,7 @@ define(
                            project={this.props.project}
                            onResourceSelected={this.props.onResourceSelected}
                            onResourceDeselected={this.props.onResourceDeselected}
+                           onPreviewResource={this.props.onPreviewResource}
                            providers={this.props.providers}
                            isPreviewed={isPreviewed}
                            isChecked={isChecked}

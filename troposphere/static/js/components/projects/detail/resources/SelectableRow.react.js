@@ -13,6 +13,7 @@ define(
       propTypes: {
         onResourceSelected: React.PropTypes.func.isRequired,
         onResourceDeselected: React.PropTypes.func.isRequired,
+        onPreviewResource: React.PropTypes.func.isRequired,
         isActive: React.PropTypes.bool,
         isSelected: React.PropTypes.bool,
         children: React.PropTypes.node.isRequired,
@@ -27,11 +28,17 @@ define(
         }
       },
 
+      previewResource: function(e){
+        if(this.props.onPreviewResource){
+          this.props.onPreviewResource(this.props.resource);
+        }
+      },
+
       render: function () {
         var rowClassName = this.props.isActive ? "selected" : null;
 
         return (
-          <tr className={rowClassName} onClick={this.toggleCheckbox}>
+          <tr className={rowClassName} onClick={this.previewResource}>
             <td>
               <Checkbox isChecked={this.props.isSelected} onToggleChecked={this.toggleCheckbox}/>
             </td>
