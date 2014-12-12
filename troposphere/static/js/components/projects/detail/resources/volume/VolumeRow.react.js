@@ -26,6 +26,7 @@ define(
       propTypes: {
         onResourceSelected: React.PropTypes.func.isRequired,
         onResourceDeselected: React.PropTypes.func.isRequired,
+        onPreviewResource: React.PropTypes.func.isRequired,
         isPreviewed: React.PropTypes.bool,
         isChecked: React.PropTypes.bool,
 
@@ -48,6 +49,7 @@ define(
                          isSelected={this.props.isChecked}
                          onResourceSelected={this.props.onResourceSelected}
                          onResourceDeselected={this.props.onResourceDeselected}
+                         onPreviewResource={this.props.onPreviewResource}
                          resource={volume}
           >
             <td className="image-preview">

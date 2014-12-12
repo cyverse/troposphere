@@ -18,6 +18,7 @@ define(
         volumes: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         onResourceSelected: React.PropTypes.func.isRequired,
         onResourceDeselected: React.PropTypes.func.isRequired,
+        onPreviewResource: React.PropTypes.func.isRequired,
         providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         previewedResource: React.PropTypes.instanceOf(Backbone.Model),
         selectedResources: React.PropTypes.instanceOf(Backbone.Collection),
@@ -46,6 +47,7 @@ define(
                          project={this.props.project}
                          onResourceSelected={this.props.onResourceSelected}
                          onResourceDeselected={this.props.onResourceDeselected}
+                         onPreviewResource={this.props.onPreviewResource}
                          providers={this.props.providers}
                          isPreviewed={isPreviewed}
                          isChecked={isChecked}
