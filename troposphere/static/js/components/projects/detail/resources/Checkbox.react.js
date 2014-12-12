@@ -20,7 +20,7 @@ define(
           className += " checked";
         }
         return (
-          <div className={className} onClick={this.props.onToggleChecked}>
+          <div className={className}>
             <img src="/assets/images/checkmark.png"/>
           </div>
         );

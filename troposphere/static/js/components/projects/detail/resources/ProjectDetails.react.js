@@ -116,7 +116,14 @@ define(
       },
 
       onPreviewResource: function(resource){
-        console.log(resource);
+        this.state.selectedResources.reset();
+        this.state.selectedResources.push(resource);
+
+        this.setState({
+          selectedResource: resource,
+          previewedResource: resource,
+          selectedResources: this.state.selectedResources
+        });
       },
 
       onMoveSelectedResources: function(){
@@ -178,6 +185,7 @@ define(
                               project={this.props.project}
                               onResourceSelected={this.onResourceSelected}
                               onResourceDeselected={this.onResourceDeselected}
+                              onPreviewResource={this.onPreviewResource}
                               providers={this.state.providers}
                               previewedResource={this.state.previewedResource}
                               selectedResources={this.state.selectedResources}

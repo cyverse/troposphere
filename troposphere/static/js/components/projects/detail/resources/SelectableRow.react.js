@@ -21,6 +21,7 @@ define(
       },
 
       toggleCheckbox: function(e){
+        e.stopPropagation();
         if(this.props.isSelected){
           this.props.onResourceDeselected(this.props.resource);
         }else{
@@ -39,8 +40,8 @@ define(
 
         return (
           <tr className={rowClassName} onClick={this.previewResource}>
-            <td>
-              <Checkbox isChecked={this.props.isSelected} onToggleChecked={this.toggleCheckbox}/>
+            <td onClick={this.toggleCheckbox}>
+              <Checkbox isChecked={this.props.isSelected}/>
             </td>
             {this.props.children}
           </tr>
