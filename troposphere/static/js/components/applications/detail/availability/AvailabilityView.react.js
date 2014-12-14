@@ -22,7 +22,7 @@ define(
 
         return (
           <div className='image-availability'>
-            <h2>Image available on:</h2>
+            <h2>Available on:</h2>
             <span>{providerNames.join(", ")}</span>
           </div>
         );

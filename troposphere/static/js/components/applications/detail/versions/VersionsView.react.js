@@ -18,7 +18,7 @@ define(
       render: function () {
         return (
           <div className="image-versions">
-            <h2>Versions of this Image</h2>
+            <h2>Versions</h2>
             <MachineList machines={this.props.application.get('machines')}
                          identities={this.props.identities}
             />

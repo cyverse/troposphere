@@ -22,7 +22,7 @@ define(
 
         return (
           <div className='image-description'>
-            <h2>Image Description</h2>
+            <h2>Description</h2>
             <div dangerouslySetInnerHTML={{__html: descriptionHtml}}/>
           </div>
         );

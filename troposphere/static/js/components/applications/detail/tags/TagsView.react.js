@@ -38,7 +38,7 @@ define(
                             activeTags={applicationTags}
                             onTagsChanged={this.onTagsChanged}
                             onCreateNewTag={this.onCreateNewTag}
-                            label={"Image Tags"}
+                            label={"Tags"}
               />
             </div>
           );
