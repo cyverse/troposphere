@@ -7,9 +7,10 @@ define(
     './header/HeaderView.react',
     './launch/ImageLaunchCard.react',
     'actions/InstanceActions',
-    './ViewApplicationDetails.react'
+    './ViewApplicationDetails.react',
+    './EditApplicationDetails.react'
   ],
-  function (React, Backbone, HeaderView, ImageLaunchCard, InstanceActions, ViewApplicationDetails) {
+  function (React, Backbone, HeaderView, ImageLaunchCard, InstanceActions, ViewApplicationDetails, EditApplicationDetails) {
 
     return React.createClass({
 
@@ -20,11 +21,51 @@ define(
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
+      getInitialState: function(){
+        return {
+          isEditing: false
+        }
+      },
+
       showModal: function (e) {
         InstanceActions.launch(this.props.application);
       },
 
+      handleEditImageDetails: function(){
+        this.setState({isEditing: true})
+      },
+
+      handleSaveImageDetails: function(){
+        this.setState({isEditing: false})
+      },
+
+      handleCancelEditing: function(){
+        this.setState({isEditing: false})
+      },
+
       render: function () {
+        var view;
+
+        if(this.state.isEditing){
+          view = (
+            <EditApplicationDetails application={this.props.application}
+                                    tags={this.props.tags}
+                                    providers={this.props.providers}
+                                    identities={this.props.identities}
+                                    onSave={this.handleSaveImageDetails}
+                                    onCancel={this.handleCancelEditing}
+            />
+          )
+        }else{
+          view = (
+            <ViewApplicationDetails application={this.props.application}
+                                    tags={this.props.tags}
+                                    providers={this.props.providers}
+                                    identities={this.props.identities}
+                                    onEditImageDetails={this.handleEditImageDetails}
+            />
+          )
+        }
         return (
           <div id='app-detail' className="container">
             <div className="row">
@@ -34,11 +75,7 @@ define(
             </div>
             <div className="row image-content">
               <div className="col-md-9">
-                <ViewApplicationDetails application={this.props.application}
-                                        tags={this.props.tags}
-                                        providers={this.props.providers}
-                                        identities={this.props.identities}
-                />
+                {view}
               </div>
               <div className="col-md-3">
                 <ImageLaunchCard application={this.props.application} onLaunch={this.showModal}/>

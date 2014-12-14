@@ -21,7 +21,7 @@ define(
 
         return (
           <div className="image-tags image-info-segment row">
-            <h4 className="title col-md-2">Image Tags</h4>
+            <h4 className="title col-md-2">Tags</h4>
             <div className="content col-md-10">
               <ViewTags tags={this.props.tags}
                         activeTags={applicationTags}

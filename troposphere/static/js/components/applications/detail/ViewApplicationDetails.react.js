@@ -20,7 +20,8 @@ define(
         application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        onEditImageDetails: React.PropTypes.func.isRequired
       },
 
       showModal: function (e) {
@@ -53,7 +54,7 @@ define(
         return (
           <div>
             <div className="edit-link-row">
-              <a className="edit-link">Edit details</a>
+              <a className="edit-link" onClick={this.props.onEditImageDetails}>Edit details</a>
             </div>
             <div>
               <NameView application={this.props.application}/>

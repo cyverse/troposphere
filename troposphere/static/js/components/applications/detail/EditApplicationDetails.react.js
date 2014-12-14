@@ -7,12 +7,12 @@ define(
     './availability/AvailabilityView.react',
     './tags/TagsView.react',
     './launch/ImageLaunchCard.react',
-    './name/NameView.react',
-    './description/DescriptionView.react',
+    './name/EditNameView.react',
+    './description/EditDescriptionView.react',
     './versions/VersionsView.react',
     'actions/InstanceActions'
   ],
-  function (React, HeaderView, AvailabilityView, TagsView, ImageLaunchCard, NameView, DescriptionView, VersionsView, InstanceActions) {
+  function (React, HeaderView, AvailabilityView, TagsView, ImageLaunchCard, EditNameView, EditDescriptionView, VersionsView, InstanceActions) {
 
     return React.createClass({
 
@@ -20,11 +20,21 @@ define(
         application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        onSave: React.PropTypes.func.isRequired,
+        onCancel: React.PropTypes.func.isRequired
       },
 
       showModal: function (e) {
         InstanceActions.launch(this.props.application);
+      },
+
+      handleNameChange: function(e){
+        console.log(e.target.value);
+      },
+
+      handleNameChange: function(e){
+        console.log(e.target.value);
       },
 
       render: function () {
@@ -51,28 +61,17 @@ define(
         }
 
         return (
-          <div id='app-detail' className="container">
-            <div className="row">
-              <div className="col-md-12">
-                <HeaderView application={this.props.application}/>
-              </div>
+          <div>
+            <div className="edit-link-row">
+              <a className="edit-link" onClick={this.props.onCancel}>Cancel</a>
             </div>
-            <div className="row image-content">
-              <div className="row edit-link-row">
-                <a className="edit-link">Edit details</a>
-              </div>
-              <div className="col-md-9">
-                <NameView application={this.props.application}/>
-                <TagsView application={this.props.application} tags={this.props.tags}/>
-                {availabilityView}
-                <DescriptionView application={this.props.application}/>
-                {versionView}
-              </div>
-              <div className="col-md-3">
-                <ImageLaunchCard application={this.props.application} onLaunch={this.showModal}/>
-              </div>
+            <div>
+              <EditNameView application={this.props.application} onChange={this.props.handleNameChange}/>
+              <TagsView application={this.props.application} tags={this.props.tags}/>
+              {availabilityView}
+              <EditDescriptionView application={this.props.application} onChange={this.props.handleDescriptionChange}/>
+              {versionView}
             </div>
-
           </div>
         );
       }
