@@ -15,15 +15,12 @@ define(
       },
 
       render: function () {
-        var application = this.props.application,
-            converter = new Showdown.converter(),
-            description = application.get('description'),
-            descriptionHtml = converter.makeHtml(description);
+        var image = this.props.application;
 
         return (
           <div className="image-info-segment row">
-            <h4 className="title col-md-2">Description</h4>
-            <div className="content col-md-10" dangerouslySetInnerHTML={{__html: descriptionHtml}}/>
+            <h4 className="title col-md-2">Name</h4>
+            <p className="content col-md-10">{image.get('name')}</p>
           </div>
         );
       }

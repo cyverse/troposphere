@@ -4,14 +4,10 @@ define(
   [
     'react',
     'backbone',
-    'context',
-    'components/common/tags/ViewTagsView.react',
-    'components/common/tags/EditTagsView.react',
-    'actions/ApplicationActions',
-    'actions/TagActions',
+    'components/common/tags/ViewTags.react',
     'stores'
   ],
-  function (React, Backbone, context, ViewTagsView, EditTagsView, ApplicationActions, TagActions, stores) {
+  function (React, Backbone, ViewTags, stores) {
 
     return React.createClass({
 
@@ -20,38 +16,19 @@ define(
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
-      onTagsChanged: function(tags){
-        ApplicationActions.updateApplicationAttributes(this.props.application, {tags: tags});
-      },
-
-      onCreateNewTag: function(tagNameSuggestion){
-        TagActions.create(tagNameSuggestion);
-      },
-
       render: function () {
         var applicationTags = stores.TagStore.getImageTags(this.props.application);
 
-        if(context.profile && context.profile.get('username') === this.props.application.get('created_by')){
-          return (
-            <div className="image-tags">
-              <EditTagsView tags={this.props.tags}
-                            activeTags={applicationTags}
-                            onTagsChanged={this.onTagsChanged}
-                            onCreateNewTag={this.onCreateNewTag}
-                            label={"Tags"}
+        return (
+          <div className="image-tags image-info-segment row">
+            <h4 className="title col-md-2">Image Tags</h4>
+            <div className="content col-md-10">
+              <ViewTags tags={this.props.tags}
+                        activeTags={applicationTags}
               />
             </div>
-          );
-
-        }else{
-          return (
-            <div className="image-tags">
-              <ViewTagsView tags={this.props.tags}
-                            activeTags={applicationTags}
-              />
-            </div>
-          );
-        }
+          </div>
+        );
 
       }
 

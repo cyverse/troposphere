@@ -36,7 +36,9 @@ define(
         }.bind(this));
 
         return (
-          <ul>{versions}</ul>
+          <div className="content col-md-10">
+            <ul>{versions}</ul>
+          </div>
         );
       }
 

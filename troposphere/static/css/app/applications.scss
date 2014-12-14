@@ -494,3 +494,45 @@ ul.tag-list {
 .tag-title {
   margin-bottom: 10px;
 }
+
+.image-info-segment {
+  margin-top: 22px;
+
+  textarea {
+    font-size: 16px;
+    width: 650px;
+    height: 215px;
+    margin-left: 15px;
+  }
+
+  input {
+    font-size: 16px;
+    width: 400px;
+    margin-left: 15px;
+  }
+
+  .title {
+    color: #5A5A5A;
+    font-size: 16px;
+    margin-bottom: 5px;
+    //text-align: right;
+    margin-top: 0;
+  }
+
+  .content {
+    font-size: 16px;
+
+    .tags {
+      margin-top: 0;
+    }
+  }
+}
+
+.image-content {
+  .edit-link-row {
+    .edit-link {
+      text-align: left;
+      padding-left: 0;
+    }
+  }
+}

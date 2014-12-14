@@ -3,15 +3,13 @@
 define(
   [
     'react',
+    'backbone',
     './header/HeaderView.react',
-    './availability/AvailabilityView.react',
-    './tags/TagsView.react',
     './launch/ImageLaunchCard.react',
-    './description/DescriptionView.react',
-    './versions/VersionsView.react',
-    'actions/InstanceActions'
+    'actions/InstanceActions',
+    './ViewApplicationDetails.react'
   ],
-  function (React, HeaderView, AvailabilityView, TagsView, ImageLaunchCard, DescriptionView, VersionsView, InstanceActions) {
+  function (React, Backbone, HeaderView, ImageLaunchCard, InstanceActions, ViewApplicationDetails) {
 
     return React.createClass({
 
@@ -27,28 +25,6 @@ define(
       },
 
       render: function () {
-        var availabilityView, versionView;
-
-        // Since providers requires authentication, we can't display which providers
-        // the image is available on on the public page
-        if(this.props.providers){
-          availabilityView = (
-            <AvailabilityView application={this.props.application}
-                              providers={this.props.providers}
-            />
-          );
-        }
-
-        // Since identities requires authentication, we can't display the image
-        // versions on the public page
-        if(this.props.identities){
-          versionView = (
-            <VersionsView application={this.props.application}
-                          identities={this.props.identities}
-            />
-          );
-        }
-
         return (
           <div id='app-detail' className="container">
             <div className="row">
@@ -58,10 +34,11 @@ define(
             </div>
             <div className="row image-content">
               <div className="col-md-9">
-                <TagsView application={this.props.application} tags={this.props.tags}/>
-                {availabilityView}
-                <DescriptionView application={this.props.application}/>
-                {versionView}
+                <ViewApplicationDetails application={this.props.application}
+                                        tags={this.props.tags}
+                                        providers={this.props.providers}
+                                        identities={this.props.identities}
+                />
               </div>
               <div className="col-md-3">
                 <ImageLaunchCard application={this.props.application} onLaunch={this.showModal}/>
