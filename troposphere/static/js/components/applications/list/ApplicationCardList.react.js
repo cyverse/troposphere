@@ -13,7 +13,7 @@ define(
         applications: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         onLoadMoreImages: React.PropTypes.func,
-        totalNumberOfApplications: React.PropTypes.number.isRequired
+        totalNumberOfApplications: React.PropTypes.number
       },
 
       renderCard: function(application){
