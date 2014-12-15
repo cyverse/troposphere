@@ -24,7 +24,7 @@ define(
 
       renderMaintenanceNotification: function(message){
         return (
-          <MaintenanceMessage message={message}/>
+          <MaintenanceMessage key={message.id} message={message}/>
         );
       },
 
