@@ -64,8 +64,12 @@
     cursor: pointer;
   }
 
-  li.active a {
-    color: #56AA21;
+  li.active {
+    border-left: 3px solid #56AA21;
+    
+    a {
+      color: #56AA21;
+    }
   }
 }
 
