@@ -53,18 +53,15 @@ define(
 
       handleNameChange: function(e){
         var name = e.target.value;
-        console.log(name);
         this.setState({name: name});
       },
 
       handleDescriptionChange: function(e){
         var description = e.target.value;
-        console.log(description);
         this.setState({description: description});
       },
 
       handleTagChange: function(tags){
-        console.log(tags);
         this.setState({tags: tags});
       },
 

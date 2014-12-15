@@ -30,7 +30,6 @@ define(
       },
 
       onTagSelected: function(){
-        console.log('low level tag selected');
         this.props.onTagSelected(this.props.tag);
       },
 

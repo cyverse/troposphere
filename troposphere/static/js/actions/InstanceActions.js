@@ -321,7 +321,6 @@ define(
             NotificationController.info(null, "An image of your instance has been requested");
           },
           error: function (response, status, error) {
-            console.log(response.responseText);
             NotificationController.error(null, "An image of your instance could not be requested");
           }
         });
@@ -364,7 +363,6 @@ define(
             Backbone.history.navigate(instanceUrl, {trigger: true});
           },
           error: function (response, status, error) {
-            console.log(response.responseText);
             NotificationController.error(null, "Your instance report could not be sent to support");
           }
         });

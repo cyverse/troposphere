@@ -38,14 +38,11 @@ define(
 
       handleSaveImageDetails: function(newAttributes){
         var application = this.props.application;
-
-        console.log("saving...");
         this.setState({isEditing: false});
         actions.ApplicationActions.updateApplicationAttributes(application, newAttributes);
       },
 
       handleCancelEditing: function(){
-        console.log("canceling...");
         this.setState({isEditing: false})
       },
 
