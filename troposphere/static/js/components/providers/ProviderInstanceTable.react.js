@@ -66,7 +66,7 @@ define(
         var instanceUrl = URL.projectInstance({project: instanceProject, instance: instance});
 
         return (
-          <tr>
+          <tr key={instance.id}>
             <td>
               <a href={instanceUrl}>{instance.get('name')}</a>
             </td>
