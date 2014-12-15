@@ -6,10 +6,10 @@ define(
     'components/common/PageHeader.react',
     './IconSelect.react',
     './SettingsHeader.react',
-    'actions/ProfileActions',
+    'actions',
     'stores'
   ],
-  function (React, PageHeader, IconSelect, SettingsHeader, ProfileActions, stores) {
+  function (React, PageHeader, IconSelect, SettingsHeader, actions, stores) {
 
     function getState() {
       return {
@@ -36,21 +36,17 @@ define(
       },
 
       handleIconSelect: function (iconType) {
-        ProfileActions.updateProfileAttributes(this.state.profile, {icon_set: iconType});
+        actions.ProfileActions.updateProfileAttributes(this.state.profile, {icon_set: iconType});
       },
 
-      onChangeEmailPreference: function(event){
+      handleChangeEmailPreference: function(event){
         var isChecked = event.target.checked;
-        ProfileActions.updateProfileAttributes(this.state.profile, {send_emails: isChecked});
+        actions.ProfileActions.updateProfileAttributes(this.state.profile, {send_emails: isChecked});
       },
 
-      getSelectedIconSet: function () {
-        return
-      },
-
-      onRequestMoreResources: function(e){
+      handleRequestMoreResources: function(e){
         e.preventDefault();
-        alert("Requesting more resources is not yet implemented");
+        actions.HelpActions.requestMoreResources();
       },
 
       render: function () {
@@ -65,13 +61,13 @@ define(
               <div className="notifications">
                 <h3>Notifications</h3>
                 <div>
-                  <input type="checkbox" checked={wantsEmails} onChange={this.onChangeEmailPreference}/> Receive an email notification when an instance finishes launching
+                  <input type="checkbox" checked={wantsEmails} onChange={this.handleChangeEmailPreference}/> Receive an email notification when an instance finishes launching
                 </div>
               </div>
               <div>
                 <h3>Allocation</h3>
                 <div>
-                  <p>If you need a temporary or permanent boost in your allocation (more CPUs, etc.) you may <a href="#" onClick={this.onRequestMoreResources}>request more resources</a></p>
+                  <p>If you need a temporary or permanent boost in your allocation (more CPUs, etc.) you may <a href="#" onClick={this.handleRequestMoreResources}>request more resources</a></p>
                 </div>
               </div>
               <div>

@@ -4,9 +4,12 @@ define(
     'jquery',
     'controllers/NotificationController',
     'globals',
-    'components/modals/FeedbackModal.react'
+    'components/modals/FeedbackModal.react',
+    'components/modals/RequestMoreResourcesModal.react',
+    'components/modals/ModalHelpers',
+    'stores'
   ],
-  function (React, $, NotificationController, globals, FeedbackModal) {
+  function (React, $, NotificationController, globals, FeedbackModal, RequestMoreResourcesModal, ModalHelpers, stores) {
 
     return {
 
@@ -68,7 +71,42 @@ define(
         });
 
         React.render(modal, document.getElementById('modal'));
-      }
+      },
+
+      requestMoreResources: function (project) {
+        var that = this;
+
+        var modal = RequestMoreResourcesModal();
+
+        ModalHelpers.renderModal(modal, function(quota, reason){
+
+          var user = stores.ProfileStore.get(),
+              username = user.get('username');
+
+          var data = {
+            username: username,
+            quota: quota,
+            reason: reason
+          };
+
+          var requestUrl = globals.API_ROOT + '/email/request_quota' + globals.slash();
+
+          $.ajax(requestUrl, {
+            type: 'POST',
+            data: JSON.stringify(data),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+              NotificationController.info("Resource Request submitted", "Support will be in touch with you shortly.");
+            },
+            error: function (response_text) {
+              var errorMessage = "An error occured while submitting your request for more resources.  Please email your resources request to <a href='mailto:support@iplantcollaborative.org'>support@iplantcollaborative.org</a>.";
+              NotificationController.error("Request resources error", errorMessage);
+            }
+          });
+        })
+
+      },
 
     };
 
