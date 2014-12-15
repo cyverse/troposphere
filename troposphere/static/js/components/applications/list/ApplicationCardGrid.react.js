@@ -12,7 +12,7 @@ define(
       propTypes: {
         applications: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        onLoadMoreImages: React.PropTypes.func.isRequired,
+        onLoadMoreImages: React.PropTypes.func,
         totalNumberOfApplications: React.PropTypes.number.isRequired
       },
 
