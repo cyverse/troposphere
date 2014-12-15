@@ -14,7 +14,7 @@ define(
 
       propTypes: {
         icon: React.PropTypes.string.isRequired,
-        count: React.PropTypes.string.isRequired,
+        count: React.PropTypes.number.isRequired,
         resourceType: React.PropTypes.string.isRequired
       },
 
