@@ -424,13 +424,21 @@
   color: #E00;
 }
 
-ul.message-banner {
+.message-banner-wrapper {
   background-color: #F3F0B6;
+}
+
+ul.message-banner {
   list-style-type: none;
   margin: 0;
+  padding-left: 0;
 
   .message {
     padding: 3px 0px;
+    
+    .provider-name {
+      margin-right: 10px;
+    }
   }
 }
 

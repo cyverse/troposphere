@@ -19,17 +19,21 @@ define(
         var providerName = provider.get('name');
         return (
           <li key={message.id} className="message">
-            <strong>{providerName} </strong>
-            {message.get('message')}
+            <strong className="provider-name">{providerName}</strong>
+            <span>{message.get('message')}</span>
           </li>
         )
       },
 
       render: function () {
         return (
-          <ul className="message-banner">
-            {this.props.maintenanceMessages.map(this.renderMessage)}
-          </ul>
+          <div className="message-banner-wrapper">
+            <div className="container">
+              <ul className="message-banner">
+                {this.props.maintenanceMessages.map(this.renderMessage)}
+              </ul>
+            </div>
+          </div>
         );
       }
 
