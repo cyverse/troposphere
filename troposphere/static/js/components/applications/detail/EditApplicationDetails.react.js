@@ -40,6 +40,15 @@ define(
         InstanceActions.launch(this.props.application);
       },
 
+      handleSave: function(){
+        var updatedAttributes = {
+          name: this.state.name,
+          description: this.state.description
+        };
+
+        this.props.onSave(updatedAttributes);
+      },
+
       handleNameChange: function(e){
         var name = e.target.value;
         console.log(name);
@@ -79,7 +88,7 @@ define(
           <div>
             <div className="edit-link-row">
               <a className="edit-link" onClick={this.props.onCancel}>Cancel</a>
-              <a className="edit-link" onClick={this.props.onSave}>Save</a>
+              <a className="edit-link" onClick={this.handleSave}>Save</a>
             </div>
             <div>
               <EditNameView application={this.props.application} value={this.state.name} onChange={this.handleNameChange}/>

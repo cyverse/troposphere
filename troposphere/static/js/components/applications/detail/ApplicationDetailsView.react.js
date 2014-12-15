@@ -8,9 +8,10 @@ define(
     './launch/ImageLaunchCard.react',
     'actions/InstanceActions',
     './ViewApplicationDetails.react',
-    './EditApplicationDetails.react'
+    './EditApplicationDetails.react',
+    'actions'
   ],
-  function (React, Backbone, HeaderView, ImageLaunchCard, InstanceActions, ViewApplicationDetails, EditApplicationDetails) {
+  function (React, Backbone, HeaderView, ImageLaunchCard, InstanceActions, ViewApplicationDetails, EditApplicationDetails, actions) {
 
     return React.createClass({
 
@@ -35,9 +36,12 @@ define(
         this.setState({isEditing: true})
       },
 
-      handleSaveImageDetails: function(){
+      handleSaveImageDetails: function(newAttributes){
+        var application = this.props.application;
+
         console.log("saving...");
-        this.setState({isEditing: false})
+        this.setState({isEditing: false});
+        actions.ApplicationActions.updateApplicationAttributes(application, newAttributes);
       },
 
       handleCancelEditing: function(){
