@@ -75,3 +75,5 @@ troposphere/static/bower_components
 # Include the lib folder for 3rd party files that need to be commited to git
 !troposphere/static/js/lib
 
+# Third party setting
+extras/newrelic
