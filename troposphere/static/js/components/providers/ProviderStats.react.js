@@ -87,7 +87,7 @@ define(
           <div className="row provider-info-section provider-stats">
             {this.renderAllocationStat(allocationConsumedPercent, allocationConsumed, allocationTotal)}
             {this.renderStat(instancesConsumingAllocation.length, "instances", "Number of instances consuming allocation")}
-            {this.renderStat(timeRemaining, "hours", "Time remaining before allocation runs out")}
+            {this.renderStat(Math.round(timeRemaining), "hours", "Time remaining before allocation runs out")}
             {this.renderStat(allocationBurnRate, "AUs/hour", "Rate at which AUs are being used")}
           </div>
         )
