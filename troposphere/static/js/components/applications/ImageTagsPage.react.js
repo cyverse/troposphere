@@ -65,7 +65,7 @@ define(
 
       renderTagRow: function(tag){
         return (
-          <tr>
+          <tr key={tag.id || tag.cid}>
             <td style={{"verticalAlign":"top","width":"117px"}}>
               <h4 style={{"margin":"0", "color":"#5A5A5A", "fontSize":"18px"}}>
                 {tag.get('name')}
