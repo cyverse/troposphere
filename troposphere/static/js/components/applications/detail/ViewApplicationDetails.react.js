@@ -8,11 +8,13 @@ define(
     './tags/TagsView.react',
     './launch/ImageLaunchCard.react',
     './name/NameView.react',
+    './created/CreatedView.react',
+    './author/AuthorView.react',
     './description/DescriptionView.react',
     './versions/VersionsView.react',
     'actions/InstanceActions'
   ],
-  function (React, HeaderView, AvailabilityView, TagsView, ImageLaunchCard, NameView, DescriptionView, VersionsView, InstanceActions) {
+  function (React, HeaderView, AvailabilityView, TagsView, ImageLaunchCard, NameView, CreatedView, AuthorView, DescriptionView, VersionsView, InstanceActions) {
 
     return React.createClass({
 
@@ -58,6 +60,8 @@ define(
             </div>
             <div>
               <NameView application={this.props.application}/>
+              <CreatedView application={this.props.application}/>
+              <AuthorView application={this.props.application}/>
               <TagsView application={this.props.application} tags={this.props.tags}/>
               {availabilityView}
               <DescriptionView application={this.props.application}/>

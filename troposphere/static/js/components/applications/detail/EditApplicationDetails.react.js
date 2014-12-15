@@ -8,11 +8,13 @@ define(
     './tags/TagsView.react',
     './launch/ImageLaunchCard.react',
     './name/EditNameView.react',
+    './created/CreatedView.react',
+    './author/AuthorView.react',
     './description/EditDescriptionView.react',
     './versions/VersionsView.react',
     'actions/InstanceActions'
   ],
-  function (React, HeaderView, AvailabilityView, TagsView, ImageLaunchCard, EditNameView, EditDescriptionView, VersionsView, InstanceActions) {
+  function (React, HeaderView, AvailabilityView, TagsView, ImageLaunchCard, EditNameView, CreatedView, AuthorView, EditDescriptionView, VersionsView, InstanceActions) {
 
     return React.createClass({
 
@@ -67,6 +69,8 @@ define(
             </div>
             <div>
               <EditNameView application={this.props.application} onChange={this.props.handleNameChange}/>
+              <CreatedView application={this.props.application}/>
+              <AuthorView application={this.props.application}/>
               <TagsView application={this.props.application} tags={this.props.tags}/>
               {availabilityView}
               <EditDescriptionView application={this.props.application} onChange={this.props.handleDescriptionChange}/>
