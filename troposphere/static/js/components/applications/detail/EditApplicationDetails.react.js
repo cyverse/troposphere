@@ -27,16 +27,29 @@ define(
         onCancel: React.PropTypes.func.isRequired
       },
 
+      getInitialState: function(){
+        var image = this.props.application;
+
+        return {
+          name: image.get('name'),
+          description: image.get('description')
+        }
+      },
+
       showModal: function (e) {
         InstanceActions.launch(this.props.application);
       },
 
       handleNameChange: function(e){
-        console.log(e.target.value);
+        var name = e.target.value;
+        console.log(name);
+        this.setState({name: name});
       },
 
-      handleNameChange: function(e){
-        console.log(e.target.value);
+      handleDescriptionChange: function(e){
+        var description = e.target.value;
+        console.log(description);
+        this.setState({description: description});
       },
 
       render: function () {
@@ -66,14 +79,15 @@ define(
           <div>
             <div className="edit-link-row">
               <a className="edit-link" onClick={this.props.onCancel}>Cancel</a>
+              <a className="edit-link" onClick={this.props.onSave}>Save</a>
             </div>
             <div>
-              <EditNameView application={this.props.application} onChange={this.props.handleNameChange}/>
+              <EditNameView application={this.props.application} value={this.state.name} onChange={this.handleNameChange}/>
               <CreatedView application={this.props.application}/>
               <AuthorView application={this.props.application}/>
               <TagsView application={this.props.application} tags={this.props.tags}/>
               {availabilityView}
-              <EditDescriptionView application={this.props.application} onChange={this.props.handleDescriptionChange}/>
+              <EditDescriptionView application={this.props.application} value={this.state.description} onChange={this.handleDescriptionChange}/>
               {versionView}
             </div>
           </div>

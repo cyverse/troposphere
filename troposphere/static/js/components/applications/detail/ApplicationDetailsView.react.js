@@ -36,10 +36,12 @@ define(
       },
 
       handleSaveImageDetails: function(){
+        console.log("saving...");
         this.setState({isEditing: false})
       },
 
       handleCancelEditing: function(){
+        console.log("canceling...");
         this.setState({isEditing: false})
       },
 

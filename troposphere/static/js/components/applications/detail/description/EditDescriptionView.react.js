@@ -11,18 +11,20 @@ define(
     return React.createClass({
 
       propTypes: {
-        application: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        value: React.PropTypes.string.isRequired,
+        onChange: React.PropTypes.func.isRequired
       },
 
       render: function () {
         var application = this.props.application,
-            description = application.get('description');
+            description = this.props.value;
 
         return (
           <div className="image-info-segment row">
             <h4 className="title col-md-2">Description</h4>
             <div className="content col-md-10">
-              <textarea defaultValue={description} onChange={this.props.handleChange}/>
+              <textarea value={description} onChange={this.props.onChange}/>
             </div>
           </div>
         );
