@@ -4,55 +4,54 @@ define(
   [
     'react',
     'backbone',
-    'context',
-    'components/common/tags/ViewTagsView.react',
-    'components/common/tags/EditTagsView.react',
-    'actions/ApplicationActions',
-    'actions/TagActions',
+    './ActualEditTagsView.react',
+    'actions',
     'stores'
   ],
-  function (React, Backbone, context, ViewTagsView, EditTagsView, ApplicationActions, TagActions, stores) {
+  function (React, Backbone, EditTagsView, actions, stores) {
 
     return React.createClass({
 
       propTypes: {
         application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        onChange: React.PropTypes.func.isRequired
+      },
+
+      getInitialState: function(){
+        return {
+          tags: this.props.application.get('tags')
+        }
       },
 
       onTagsChanged: function(tags){
-        ApplicationActions.updateApplicationAttributes(this.props.application, {tags: tags});
+        this.props.onChange(tags);
       },
 
       onCreateNewTag: function(tagNameSuggestion){
-        TagActions.create(tagNameSuggestion);
+        actions.TagActions.create(tagNameSuggestion);
       },
 
       render: function () {
-        var applicationTags = stores.TagStore.getImageTags(this.props.application);
+        var application = this.props.application;
+        var image = new this.props.application.constructor({
+          id: application.id,
+          tags: this.props.value
+        });
+        var applicationTags = stores.TagStore.getImageTags(image);
 
-        if(context.profile && context.profile.get('username') === this.props.application.get('created_by')){
-          return (
-            <div className="image-tags">
+        return (
+          <div className="image-tags image-info-segment row">
+            <h4 className="title col-md-2">Tags</h4>
+            <div className="content col-md-10">
               <EditTagsView tags={this.props.tags}
                             activeTags={applicationTags}
                             onTagsChanged={this.onTagsChanged}
                             onCreateNewTag={this.onCreateNewTag}
-                            label={"Tags"}
               />
             </div>
-          );
-
-        }else{
-          return (
-            <div className="image-tags">
-              <ViewTagsView tags={this.props.tags}
-                            activeTags={applicationTags}
-              />
-            </div>
-          );
-        }
-
+          </div>
+        );
       }
 
     });

@@ -12,9 +12,10 @@ define(
     './author/AuthorView.react',
     './description/DescriptionView.react',
     './versions/VersionsView.react',
-    'actions/InstanceActions'
+    'actions/InstanceActions',
+    'stores'
   ],
-  function (React, HeaderView, AvailabilityView, TagsView, ImageLaunchCard, NameView, CreatedView, AuthorView, DescriptionView, VersionsView, InstanceActions) {
+  function (React, HeaderView, AvailabilityView, TagsView, ImageLaunchCard, NameView, CreatedView, AuthorView, DescriptionView, VersionsView, InstanceActions, stores) {
 
     return React.createClass({
 
@@ -28,6 +29,19 @@ define(
 
       showModal: function (e) {
         InstanceActions.launch(this.props.application);
+      },
+
+      renderEditLink: function(){
+        var profile = stores.ProfileStore.get(),
+            image = this.props.application;
+
+        if(profile.id && profile.get('username') === image.get('created_by')){
+          return (
+            <div className="edit-link-row">
+              <a className="edit-link" onClick={this.props.onEditImageDetails}>Edit details</a>
+            </div>
+          )
+        }
       },
 
       render: function () {
@@ -55,9 +69,7 @@ define(
 
         return (
           <div>
-            <div className="edit-link-row">
-              <a className="edit-link" onClick={this.props.onEditImageDetails}>Edit details</a>
-            </div>
+            {this.renderEditLink()}
             <div>
               <NameView application={this.props.application}/>
               <CreatedView application={this.props.application}/>

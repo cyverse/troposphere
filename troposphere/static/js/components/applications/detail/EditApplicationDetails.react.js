@@ -5,7 +5,7 @@ define(
     'react',
     './header/HeaderView.react',
     './availability/AvailabilityView.react',
-    './tags/TagsView.react',
+    './tags/EditTagsView.react',
     './launch/ImageLaunchCard.react',
     './name/EditNameView.react',
     './created/CreatedView.react',
@@ -14,7 +14,7 @@ define(
     './versions/VersionsView.react',
     'actions/InstanceActions'
   ],
-  function (React, HeaderView, AvailabilityView, TagsView, ImageLaunchCard, EditNameView, CreatedView, AuthorView, EditDescriptionView, VersionsView, InstanceActions) {
+  function (React, HeaderView, AvailabilityView, EditTagsView, ImageLaunchCard, EditNameView, CreatedView, AuthorView, EditDescriptionView, VersionsView, InstanceActions) {
 
     return React.createClass({
 
@@ -32,7 +32,8 @@ define(
 
         return {
           name: image.get('name'),
-          description: image.get('description')
+          description: image.get('description'),
+          tags: image.get('tags')
         }
       },
 
@@ -43,7 +44,8 @@ define(
       handleSave: function(){
         var updatedAttributes = {
           name: this.state.name,
-          description: this.state.description
+          description: this.state.description,
+          tags: this.state.tags
         };
 
         this.props.onSave(updatedAttributes);
@@ -59,6 +61,11 @@ define(
         var description = e.target.value;
         console.log(description);
         this.setState({description: description});
+      },
+
+      handleTagChange: function(tags){
+        console.log(tags);
+        this.setState({tags: tags});
       },
 
       render: function () {
@@ -94,7 +101,7 @@ define(
               <EditNameView application={this.props.application} value={this.state.name} onChange={this.handleNameChange}/>
               <CreatedView application={this.props.application}/>
               <AuthorView application={this.props.application}/>
-              <TagsView application={this.props.application} tags={this.props.tags}/>
+              <EditTagsView application={this.props.application} tags={this.props.tags} value={this.state.tags} onChange={this.handleTagChange}/>
               {availabilityView}
               <EditDescriptionView application={this.props.application} value={this.state.description} onChange={this.handleDescriptionChange}/>
               {versionView}
