@@ -18,7 +18,7 @@ define(
             <a href={mountVolumeDocumentationUrl} target="_blank">
               {'mount the volume'}
             </a>
-            {'you before you can use it.'}
+            {' before you can use it.'}
             <br />
             {'If the volume is new, you will need to '}
             <a href={createFileSystemDocumentationUrl} target="_blank">
