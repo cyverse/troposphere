@@ -52,11 +52,6 @@ define(
         InstanceActions.updateInstanceAttributes(this.props.instance, {tags: tags})
       },
 
-      onEditInstanceDetails: function(e){
-        e.preventDefault();
-        alert("Editing instance details not yet implemented.");
-      },
-
       render: function () {
         var instanceTags = stores.TagStore.getInstanceTags(this.props.instance);
 
