@@ -43,7 +43,7 @@ define(
 
         var reportInfo = {
           problems: problems,
-          message: this.state.details
+          details: this.state.details
         };
 
         return reportInfo;

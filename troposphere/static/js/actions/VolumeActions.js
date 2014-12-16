@@ -10,6 +10,7 @@ define(
     'actions/ProjectVolumeActions',
     'components/notifications/VolumeAttachNotifications.react',
     'stores',
+    'globals',
 
     // Modals
     'components/modals/ModalHelpers',
@@ -20,7 +21,7 @@ define(
     'components/modals/volume/VolumeCreateModal.react',
     'components/modals/volume/VolumeReportModal.react'
   ],
-  function (React, AppDispatcher, VolumeConstants, ProjectVolumeConstants, NotificationController, Volume, VolumeState, ProjectVolumeActions, VolumeAttachNotifications, stores, ModalHelpers, VolumeAttachRulesModal, VolumeAttachModal, VolumeDetachModal, VolumeDeleteModal, VolumeCreateModal, VolumeReportModal) {
+  function (React, AppDispatcher, VolumeConstants, ProjectVolumeConstants, NotificationController, Volume, VolumeState, ProjectVolumeActions, VolumeAttachNotifications, stores, globals, ModalHelpers, VolumeAttachRulesModal, VolumeAttachModal, VolumeDetachModal, VolumeDeleteModal, VolumeCreateModal, VolumeReportModal) {
 
     return {
 
@@ -238,7 +239,43 @@ define(
         });
 
         ModalHelpers.renderModal(modal, function (reportInfo) {
-          console.log(reportInfo);
+          var profile = stores.ProfileStore.get(),
+              username = profile.get('username'),
+              reportUrl = globals.API_ROOT + "/email/support" + globals.slash(),
+              problemText = "",
+              reportData = {};
+
+          if(reportInfo.problems){
+            _.each(reportInfo.problems, function(problem){
+              problemText = problemText + "  -" + problem + "\n";
+            })
+          }
+
+          reportData = {
+            username: username,
+            message: "Volume ID: " + volume.id + "\n" +
+                     "Provider ID: " + volume.get('identity').provider + "\n" +
+                     "\n" +
+                     "Problems" + "\n" +
+                     problemText + "\n" +
+                     "Details \n" +
+                     reportInfo.details + "\n",
+            subject: "Atmosphere Volume Report from " + username
+          };
+
+          $.ajax({
+            url: reportUrl,
+            type: 'POST',
+            data: JSON.stringify(reportData),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (model) {
+              NotificationController.info(null, "Your volume report has been sent to support.");
+            },
+            error: function (response, status, error) {
+              NotificationController.error(null, "Your volume report could not be sent to support");
+            }
+          });
         })
       }
 
