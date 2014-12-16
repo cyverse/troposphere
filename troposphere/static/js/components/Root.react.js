@@ -15,7 +15,7 @@ define(
     return React.createClass({
 
       propTypes: {
-        profile: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        profile: React.PropTypes.instanceOf(Backbone.Model),
         route: React.PropTypes.oneOfType([
           React.PropTypes.string,
           React.PropTypes.array

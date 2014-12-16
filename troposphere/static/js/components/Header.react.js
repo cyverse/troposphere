@@ -96,7 +96,7 @@ define(
     var Header = React.createClass({
 
       propTypes: {
-        profile: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        profile: React.PropTypes.instanceOf(Backbone.Model),
         currentRoute: React.PropTypes.array.isRequired
       },
 
