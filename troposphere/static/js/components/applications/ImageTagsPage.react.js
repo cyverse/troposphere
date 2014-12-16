@@ -22,7 +22,9 @@ define(
     return React.createClass({
 
       getInitialState: function () {
-        return getState();
+        var state = getState();
+        state.searchTerm = "";
+        return state;
       },
 
       updateState: function () {
@@ -37,6 +39,11 @@ define(
       componentWillUnmount: function () {
         ApplicationStore.removeChangeListener(this.updateState);
         TagStore.removeChangeListener(this.updateState);
+      },
+
+      handleFilterChange: function(e){
+        var searchTerm = e.target.value;
+        this.setState({searchTerm: searchTerm});
       },
 
       renderTag: function(tag){
@@ -80,8 +87,25 @@ define(
         )
       },
 
-      renderTagsAsTable: function(){
-        var tags = this.state.tags;
+      getFilteredTags: function(tags, searchTerm){
+        var filteredTags = tags;
+        searchTerm = searchTerm.trim().toLowerCase();
+
+        if(searchTerm){
+          filteredTags = tags.filter(function(tag){
+            var name = tag.get("name").toLowerCase(),
+                description = tag.get("description").toLowerCase();
+
+            return name.indexOf(searchTerm) >= 0 || description.indexOf(searchTerm) >= 0;
+          });
+
+          filteredTags = new tags.constructor(filteredTags);
+        }
+
+        return filteredTags;
+      },
+
+      renderTagsAsTable: function(tags){
         if(tags) {
           return (
             <table className="table">
@@ -98,12 +122,42 @@ define(
       },
 
       render: function () {
+        var tags = this.state.tags,
+            searchTerm = this.state.searchTerm,
+            text = "";
+
+        if(tags) {
+          tags = this.getFilteredTags(tags, searchTerm);
+        }
+
+        if(tags && this.state.searchTerm){
+          if(tags.length > 0) {
+            text = 'Showing tags matching "' + searchTerm + '"';
+          }else{
+            text = 'No tags matching "' + searchTerm + '"';
+          }
+        }else{
+          text = "Showing all tags"
+        }
+
         return (
           <div>
             <SecondaryApplicationNavigation currentRoute="tags"/>
             <div className="container">
+              <div id="search-container">
+                <input type="text"
+                       className="form-control search-input"
+                       placeholder="Filter by tag name or description"
+                       value={this.state.searchTerm}
+                       onChange={this.handleFilterChange}
+                />
+                <hr/>
+                <h3 style={{textAlign: "left", fontSize: "24px"}}>
+                  {text}
+                </h3>
+              </div>
               <div className="image-tag-list">
-                {false ? this.renderTags() : this.renderTagsAsTable()}
+                {false ? this.renderTags() : this.renderTagsAsTable(tags)}
               </div>
             </div>
           </div>
