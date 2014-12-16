@@ -5,9 +5,9 @@ define(
     'react',
     'components/common/Glyphicon.react',
     'url',
-    'actions/VolumeActions'
+    'actions'
   ],
-  function (React, Glyphicon, URL, VolumeActions) {
+  function (React, Glyphicon, URL, actions) {
 
     return React.createClass({
 
@@ -17,20 +17,24 @@ define(
       },
 
       onAttach: function(){
-        VolumeActions.attach(this.props.volume, this.props.project);
+        actions.VolumeActions.attach(this.props.volume, this.props.project);
       },
 
       onDetach: function(){
-        VolumeActions.detach(this.props.volume);
+        actions.VolumeActions.detach(this.props.volume);
       },
 
       onDelete: function(){
         var redirectUrl = URL.project(this.props.project, {relative: true});
-        VolumeActions.destroy({
+        actions.VolumeActions.destroy({
           volume: this.props.volume,
           project: this.props.project,
           redirectUrl: redirectUrl
         });
+      },
+
+      handleReport: function(){
+        actions.VolumeActions.reportVolume(this.props.volume);
       },
 
       render: function () {
@@ -38,7 +42,8 @@ define(
         var status = this.props.volume.get('status');
 
         var linksArray = [
-          {label: 'Actions', icon: null}
+          {label: 'Actions', icon: null},
+          {label: 'Report', icon: 'inbox', onClick: this.handleReport}
         ];
 
         // Add in the conditional links based on current machine state

@@ -17,9 +17,10 @@ define(
     'components/modals/volume/VolumeAttachModal.react',
     'components/modals/volume/VolumeDetachModal.react',
     'components/modals/volume/VolumeDeleteModal.react',
-    'components/modals/volume/VolumeCreateModal.react'
+    'components/modals/volume/VolumeCreateModal.react',
+    'components/modals/volume/VolumeReportModal.react'
   ],
-  function (React, AppDispatcher, VolumeConstants, ProjectVolumeConstants, NotificationController, Volume, VolumeState, ProjectVolumeActions, VolumeAttachNotifications, stores, ModalHelpers, VolumeAttachRulesModal, VolumeAttachModal, VolumeDetachModal, VolumeDeleteModal, VolumeCreateModal) {
+  function (React, AppDispatcher, VolumeConstants, ProjectVolumeConstants, NotificationController, Volume, VolumeState, ProjectVolumeActions, VolumeAttachNotifications, stores, ModalHelpers, VolumeAttachRulesModal, VolumeAttachModal, VolumeDetachModal, VolumeDeleteModal, VolumeCreateModal, VolumeReportModal) {
 
     return {
 
@@ -227,6 +228,18 @@ define(
           });
         })
 
+      },
+
+      reportVolume: function(volume){
+        var that = this;
+
+        var modal = VolumeReportModal({
+          volume: volume
+        });
+
+        ModalHelpers.renderModal(modal, function (reportInfo) {
+          console.log(reportInfo);
+        })
       }
 
     };
