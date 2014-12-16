@@ -145,6 +145,23 @@ def cas_oauth_service(request):
     return redirect('application')
 
 
+def unemulate(request):
+    if 'emulator_token' in request.session:
+        old_token = request.session['emulator_token']
+    else:
+        old_token = request.session['access_token']
+
+    # Restore the 'old token'
+    logger.info("[EMULATE]Session_token: %s. Request to remove emulation."
+                % (old_token, ))
+    request.session['access_token'] = old_token
+
+    if "emulate_by" in request.session:
+        del request.session['emulate_by']
+
+    return redirect('application')
+
+
 def emulate(request, username):
     if 'access_token' not in request.session:
         return redirect(cas_oauth_client.authorize_url())
@@ -153,18 +170,6 @@ def emulate(request, username):
         old_token = request.session['emulator_token']
     else:
         old_token = request.session['access_token']
-
-    # Remove the emulator from the session
-    if not username:
-        # Restore the 'old token'
-        logger.info("[EMULATE]Session_token: %s. Request to remove emulation."
-                    % (old_token, ))
-        request.session['access_token'] = old_token
-
-        if "emulate_by" in request.session:
-            del request.session['emulate_by']
-
-        return redirect('application')
 
     logger.info("[EMULATE]Session_token: %s. Request to emulate %s."
                 % (old_token, username))
