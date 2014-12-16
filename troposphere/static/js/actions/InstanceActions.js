@@ -20,11 +20,12 @@ define(
     'components/modals/instance/InstanceResumeModal.react',
     'components/modals/instance/InstanceStopModal.react',
     'components/modals/instance/InstanceStartModal.react',
+    'components/modals/instance/InstanceRebootModal.react',
     'components/modals/instance/InstanceLaunchModal.react',
     'components/modals/instance/ExplainInstanceDeleteConditionsModal.react',
     'components/modals/project/ProjectInstanceLaunchModal.react'
   ],
-  function (React, AppDispatcher, InstanceConstants, ProjectInstanceConstants, Instance, InstanceState, globals, context, URL, NotificationController, ProjectInstanceActions, stores, ModalHelpers, InstanceSuspendModal, InstanceDeleteModal, InstanceResumeModal, InstanceStopModal, InstanceStartModal, InstanceLaunchModal, ExplainInstanceDeleteConditionsModal, ProjectInstanceLaunchModal) {
+  function (React, AppDispatcher, InstanceConstants, ProjectInstanceConstants, Instance, InstanceState, globals, context, URL, NotificationController, ProjectInstanceActions, stores, ModalHelpers, InstanceSuspendModal, InstanceDeleteModal, InstanceResumeModal, InstanceStopModal, InstanceStartModal, InstanceRebootModal, InstanceLaunchModal, ExplainInstanceDeleteConditionsModal, ProjectInstanceLaunchModal) {
 
     return {
 
@@ -161,9 +162,7 @@ define(
              NotificationController.error(null, "Your instance could not be suspended");
            }
          });
-        })
-
-
+        });
       },
 
       resume: function(instance){
@@ -247,6 +246,36 @@ define(
            }
          });
         })
+      },
+
+      reboot: function (instance) {
+        var that = this;
+
+        var modal = InstanceRebootModal();
+
+        ModalHelpers.renderModal(modal, function () {
+          // If user desires a hard reboot, need to pass an additional argument of reboot_type
+          // action: "reboot"
+          // reboot_type: "HARD"
+
+          var instanceState = new InstanceState({status_raw: "active - rebooting"});
+          instance.set({state: instanceState});
+          that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+
+          instance.reboot({
+           success: function (model) {
+             var instanceState = new InstanceState({status_raw: "active - rebooting"});
+             instance.set({state: instanceState});
+
+             that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+             that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+           },
+           error: function (response) {
+             NotificationController.error(null, "Your instance could not be rebooted");
+             that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+           }
+         });
+        });
       },
 
       launch: function(application){

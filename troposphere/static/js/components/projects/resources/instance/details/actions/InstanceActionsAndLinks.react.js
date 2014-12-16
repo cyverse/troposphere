@@ -41,8 +41,9 @@ define(
         });
       },
 
-      onReboot: function(){ /* no implementation yet */ },
-      onResize: function(){ /* no implementation yet */ },
+      onReboot: function(){
+        InstanceActions.reboot(this.props.instance);
+      },
 
       render: function () {
         var requestImageUrl = URL.requestImage({
@@ -79,6 +80,7 @@ define(
           if (status === "active") {
             linksArray.push({label: 'Suspend', icon: 'pause', onClick: this.onSuspend});
             linksArray.push({label: 'Stop', icon: 'stop', onClick: this.onStop});
+            linksArray.push({label: 'Reboot', icon: 'repeat', onClick: this.onReboot});
           } else if (status === "suspended") {
             linksArray.push({label: 'Resume', icon: 'play', onClick: this.onResume});
           } else if (status === "shutoff") {
