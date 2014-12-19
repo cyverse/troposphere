@@ -37,14 +37,14 @@ define(
       render: function () {
         var routes = [
           {
-            name: "Details",
-            href: "/application/projects/" + this.props.project.id,
-            icon: "list-alt"
-          },
-          {
             name: "Resources",
             href: "/application/projects/" + this.props.project.id + "/resources",
             icon: "th"
+          },
+          {
+            name: "Details",
+            href: "/application/projects/" + this.props.project.id,
+            icon: "list-alt"
           }
         ];
 
