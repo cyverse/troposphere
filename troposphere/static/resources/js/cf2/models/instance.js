@@ -113,7 +113,7 @@ Atmo.Models.Instance = Atmo.Models.Base.extend({
                 // wrapError function from backbone.js
                 var wrapError = function (model, options) {
                         var error = options.error;
-                        options.error = function(resp) {
+                        options.error = function(model, resp) {
                                 if (error) error(model, resp, options);
                                 model.trigger('error', model, resp, options);
                         };
