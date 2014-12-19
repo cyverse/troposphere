@@ -23,9 +23,10 @@ define(
     'components/modals/instance/InstanceRebootModal.react',
     'components/modals/instance/InstanceLaunchModal.react',
     'components/modals/instance/ExplainInstanceDeleteConditionsModal.react',
-    'components/modals/project/ProjectInstanceLaunchModal.react'
+    'components/modals/project/ProjectInstanceLaunchModal.react',
+    'components/modals/instance/InstanceReportModal.react'
   ],
-  function (React, AppDispatcher, InstanceConstants, ProjectInstanceConstants, Instance, InstanceState, globals, context, URL, NotificationController, ProjectInstanceActions, stores, ModalHelpers, InstanceSuspendModal, InstanceDeleteModal, InstanceResumeModal, InstanceStopModal, InstanceStartModal, InstanceRebootModal, InstanceLaunchModal, ExplainInstanceDeleteConditionsModal, ProjectInstanceLaunchModal) {
+  function (React, AppDispatcher, InstanceConstants, ProjectInstanceConstants, Instance, InstanceState, globals, context, URL, NotificationController, ProjectInstanceActions, stores, ModalHelpers, InstanceSuspendModal, InstanceDeleteModal, InstanceResumeModal, InstanceStopModal, InstanceStartModal, InstanceRebootModal, InstanceLaunchModal, ExplainInstanceDeleteConditionsModal, ProjectInstanceLaunchModal, InstanceReportModal) {
 
     return {
 
@@ -355,46 +356,53 @@ define(
         });
       },
 
-      reportInstance: function(instance, reportInfo){
-        var reportUrl = globals.API_ROOT + "/email/support" + globals.slash();
+      reportInstance: function(instance){
+        var that = this;
 
-        var problemText = "";
-        if(reportInfo.problems){
-          _.each(reportInfo.problems, function(problem){
-            problemText = problemText + "  -" + problem + "\n";
-          })
-        }
-
-        var username = context.profile.get('username');
-
-        var reportData = {
-          username: username,
-          message: "Instance IP: " + instance.get('ip_address') + "\n" +
-                   "Instance ID: " + instance.id + "\n" +
-                   "Provider ID: " + instance.get('identity').provider + "\n" +
-                   "\n" +
-                   "Problems" + "\n" +
-                   problemText + "\n" +
-                   "Message \n" +
-                   reportInfo.message + "\n",
-          subject: "Atmosphere Instance Report from " + username
-        };
-
-        $.ajax({
-          url: reportUrl,
-          type: 'POST',
-          data: JSON.stringify(reportData),
-          dataType: 'json',
-          contentType: 'application/json',
-          success: function (model) {
-            NotificationController.info(null, "Your instance report has been sent to support.");
-            var instanceUrl = URL.instance(instance);
-            Backbone.history.navigate(instanceUrl, {trigger: true});
-          },
-          error: function (response, status, error) {
-            NotificationController.error(null, "Your instance report could not be sent to support");
-          }
+        var modal = InstanceReportModal({
+          instance: instance
         });
+
+        ModalHelpers.renderModal(modal, function (reportInfo) {
+          var profile = stores.ProfileStore.get(),
+              username = profile.get('username'),
+              reportUrl = globals.API_ROOT + "/email/support" + globals.slash(),
+              problemText = "",
+              reportData = {};
+
+          if(reportInfo.problems){
+            _.each(reportInfo.problems, function(problem){
+              problemText = problemText + "  -" + problem + "\n";
+            })
+          }
+
+          reportData = {
+            username: username,
+            message: "Instance IP: " + instance.get('ip_address') + "\n" +
+                     "Instance ID: " + instance.id + "\n" +
+                     "Provider ID: " + instance.get('identity').provider + "\n" +
+                     "\n" +
+                     "Problems" + "\n" +
+                     problemText + "\n" +
+                     "Details \n" +
+                     reportInfo.details + "\n",
+            subject: "Atmosphere Instance Report from " + username
+          };
+
+          $.ajax({
+            url: reportUrl,
+            type: 'POST',
+            data: JSON.stringify(reportData),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (model) {
+              NotificationController.info(null, "Your instance report has been sent to support.");
+            },
+            error: function (response, status, error) {
+              NotificationController.error(null, "Your instance report could not be sent to support");
+            }
+          });
+        })
       },
 
       createAndAddToProject: function(options){

@@ -32,6 +32,10 @@ define(
         InstanceActions.resume(this.props.instance);
       },
 
+      onReport: function(){
+        InstanceActions.reportInstance(this.props.instance);
+      },
+
       onDelete: function(){
         var redirectUrl = URL.projectResources(this.props.project, {relative: true});
         InstanceActions.terminate({
@@ -51,11 +55,6 @@ define(
           instance: this.props.instance
         });
 
-        var reportInstanceUrl = URL.reportInstance({
-          project: this.props.project,
-          instance: this.props.instance
-        });
-
         var webShellUrl = this.props.instance.get('shell_url');
         var remoteDesktopUrl = this.props.instance.get('vnc_url');
 
@@ -66,7 +65,7 @@ define(
         // that doesn't exist.
         var linksArray = [
           {label: 'Actions', icon: null},
-          {label: 'Report', icon: 'inbox', href: reportInstanceUrl}
+          {label: 'Report', icon: 'inbox', onClick: this.onReport}
           //{label: 'Reboot', icon: 'repeat', onClick: this.onReboot},
           //{label: 'Resize', icon: 'resize-full', onClick: this.onResize},
         ];
