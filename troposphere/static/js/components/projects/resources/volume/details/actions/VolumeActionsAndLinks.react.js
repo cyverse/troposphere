@@ -3,11 +3,12 @@
 define(
   [
     'react',
+    'backbone',
     'components/common/Glyphicon.react',
     'url',
     'actions'
   ],
-  function (React, Glyphicon, URL, actions) {
+  function (React, Backbone, Glyphicon, URL, actions) {
 
     return React.createClass({
 
