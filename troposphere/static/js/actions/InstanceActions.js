@@ -337,27 +337,7 @@ define(
         })
       },
 
-      requestImage: function(instance, requestData){
-        var providerId = instance.getCreds().provider_id;
-        var identityId = instance.getCreds().identity_id;
-        var requestUrl = globals.API_ROOT + "/provider/" + providerId + "/identity/" + identityId + "/request_image" + globals.slash();
-
-        $.ajax({
-          url: requestUrl,
-          type: 'POST',
-          data: JSON.stringify(requestData),
-          dataType: 'json',
-          contentType: 'application/json',
-          success: function (model) {
-            NotificationController.info(null, "An image of your instance has been requested");
-          },
-          error: function (response, status, error) {
-            NotificationController.error(null, "An image of your instance could not be requested");
-          }
-        });
-      },
-
-      imageInstance: function(instance){
+      requestImage: function(instance){
         var that = this;
 
         // instanceId, ipAddress

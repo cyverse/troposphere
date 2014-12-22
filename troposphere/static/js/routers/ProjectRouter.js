@@ -10,11 +10,10 @@ define(
     'components/projects/ProjectResourcesPage.react',
     'components/projects/VolumeDetailsPage.react',
     'components/projects/InstanceDetailsPage.react',
-    'components/projects/RequestImagePage.react',
     'context',
     'backbone'
   ],
-  function (Marionette, Root, React, ProjectListPage, ProjectDetailsPage, ProjectResourcesPage, VolumeDetailsPage, InstanceDetailsPage, RequestImagePage, context, Backbone) {
+  function (Marionette, Root, React, ProjectListPage, ProjectDetailsPage, ProjectResourcesPage, VolumeDetailsPage, InstanceDetailsPage, context, Backbone) {
     'use strict';
 
     var Router = Marionette.AppRouter.extend({
@@ -23,8 +22,7 @@ define(
         'projects/:id': 'showProjectDetails',
         'projects/:id/resources': 'showProjectResources',
         'projects/:id/volumes/:id': 'showProjectVolumeDetails',
-        'projects/:id/instances/:id': 'showProjectInstanceDetails',
-        'projects/:id/instances/:id/request_image': 'showRequestImagePage'
+        'projects/:id/instances/:id': 'showProjectInstanceDetails'
       }
     });
 
@@ -69,14 +67,6 @@ define(
 
       showProjectInstanceDetails: function(projectId, instanceId){
         var Component = React.createFactory(InstanceDetailsPage);
-        this.render(Component({
-          projectId: projectId,
-          instanceId: instanceId
-        }), ["projects"]);
-      },
-
-      showRequestImagePage: function(projectId, instanceId){
-        var Component = React.createFactory(RequestImagePage);
         this.render(Component({
           projectId: projectId,
           instanceId: instanceId

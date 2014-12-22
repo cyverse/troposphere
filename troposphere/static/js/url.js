@@ -27,10 +27,6 @@ define(
         return 'images/' + model.id;
       },
 
-      requestImage: function (data) {
-        return generators.projectInstance(data) + '/request_image';
-      },
-
       images: function () {
         return 'images';
       },
@@ -88,7 +84,6 @@ define(
       images: _.partial(generateUrl, 'images'),
       help: _.partial(generateUrl, 'help'),
       settings: _.partial(generateUrl, 'settings'),
-      requestImage: _.partial(generateUrl, 'requestImage'),
       login: _.partial(generateUrl, 'login'),
       projects: _.partial(generateUrl, 'projects'),
       project: _.partial(generateUrl, 'project'),
