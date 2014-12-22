@@ -368,8 +368,46 @@ define(
           tags: tags
         });
 
-        ModalHelpers.renderModal(modal, function (reportInfo) {
-          console.log("request submitted");
+        ModalHelpers.renderModal(modal, function (details) {
+          var tagNames,
+              requestData,
+              providerId,
+              identityId,
+              requestUrl;
+
+          tagNames = details.tags.map(function(tag){
+            return tag.get('name');
+          });
+
+          requestData = {
+            instance: instance.id,
+            ip_address: instance.get("ip_address"),
+            name: details.name,
+            description: details.description,
+            tags: tagNames,
+            software: details.software,
+            exclude: details.filesToExclude,
+            sys: details.systemFiles,
+            vis: "public"
+          };
+
+          providerId = instance.getCreds().provider_id;
+          identityId = instance.getCreds().identity_id;
+          requestUrl = globals.API_ROOT + "/provider/" + providerId + "/identity/" + identityId + "/request_image" + globals.slash();
+
+          $.ajax({
+            url: requestUrl,
+            type: 'POST',
+            data: JSON.stringify(requestData),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (model) {
+              NotificationController.info(null, "An image of your instance has been requested");
+            },
+            error: function (response, status, error) {
+              NotificationController.error(null, "An image of your instance could not be requested");
+            }
+          });
         })
       },
 
