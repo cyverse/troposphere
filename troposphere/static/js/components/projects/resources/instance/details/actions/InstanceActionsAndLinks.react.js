@@ -36,6 +36,10 @@ define(
         InstanceActions.reportInstance(this.props.instance);
       },
 
+      onImageRequest: function(){
+        InstanceActions.imageInstance(this.props.instance);
+      },
+
       onDelete: function(){
         var redirectUrl = URL.projectResources({project: this.props.project}, {relative: true});
         InstanceActions.terminate({
@@ -50,11 +54,6 @@ define(
       },
 
       render: function () {
-        var requestImageUrl = URL.requestImage({
-          project: this.props.project,
-          instance: this.props.instance
-        });
-
         var webShellUrl = this.props.instance.get('shell_url');
         var remoteDesktopUrl = this.props.instance.get('vnc_url');
 
@@ -71,7 +70,7 @@ define(
         ];
 
         if(status !== "suspended"){
-          linksArray.push({label: 'Image', icon: 'camera', href: requestImageUrl});
+          linksArray.push({label: 'Image', icon: 'camera', onClick: this.onImageRequest});
         }
 
         // Add in the conditional links based on current machine state

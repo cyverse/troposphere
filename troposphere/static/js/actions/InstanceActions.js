@@ -24,9 +24,10 @@ define(
     'components/modals/instance/InstanceLaunchModal.react',
     'components/modals/instance/ExplainInstanceDeleteConditionsModal.react',
     'components/modals/project/ProjectInstanceLaunchModal.react',
-    'components/modals/instance/InstanceReportModal.react'
+    'components/modals/instance/InstanceReportModal.react',
+    'components/modals/instance/InstanceImageModal.react'
   ],
-  function (React, AppDispatcher, InstanceConstants, ProjectInstanceConstants, Instance, InstanceState, globals, context, URL, NotificationController, ProjectInstanceActions, stores, ModalHelpers, InstanceSuspendModal, InstanceDeleteModal, InstanceResumeModal, InstanceStopModal, InstanceStartModal, InstanceRebootModal, InstanceLaunchModal, ExplainInstanceDeleteConditionsModal, ProjectInstanceLaunchModal, InstanceReportModal) {
+  function (React, AppDispatcher, InstanceConstants, ProjectInstanceConstants, Instance, InstanceState, globals, context, URL, NotificationController, ProjectInstanceActions, stores, ModalHelpers, InstanceSuspendModal, InstanceDeleteModal, InstanceResumeModal, InstanceStopModal, InstanceStartModal, InstanceRebootModal, InstanceLaunchModal, ExplainInstanceDeleteConditionsModal, ProjectInstanceLaunchModal, InstanceReportModal, InstanceImageModal) {
 
     return {
 
@@ -354,6 +355,21 @@ define(
             NotificationController.error(null, "An image of your instance could not be requested");
           }
         });
+      },
+
+      imageInstance: function(instance){
+        var that = this;
+
+        var tags = stores.TagStore.getInstanceTags(instance);
+
+        var modal = InstanceImageModal({
+          instance: instance,
+          tags: tags
+        });
+
+        ModalHelpers.renderModal(modal, function (reportInfo) {
+          console.log("request submitted");
+        })
       },
 
       reportInstance: function(instance){
