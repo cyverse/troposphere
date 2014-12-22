@@ -13,7 +13,7 @@ define(
       },
 
       handleChange: function(e){
-        this.props.onChange(e.target.value)
+        this.props.onChange(e.target.checked)
       },
 
       render: function () {
@@ -21,7 +21,7 @@ define(
           <div className="form-group" style={{marginBottom: "-20px"}}>
             <div className="checkbox">
               <label className="checkbox">
-                <input type="checkbox" id="licensed_software" />
+                <input type="checkbox" id="licensed_software" onChange={this.handleChange}/>
                 <strong>
                   I certify that this image does not contain license-restricted software that is prohibited from being
                   distributed within a virtual or cloud environment.

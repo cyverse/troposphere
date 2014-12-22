@@ -2,22 +2,29 @@
 
 define(
   [
-    'react'
+    'react',
+    'backbone',
+
+    // plugins
+    'chosen'
   ],
-  function (React) {
+  function (React, Backbone) {
 
     return React.createClass({
 
       propTypes: {
-        onChange: React.PropTypes.func.isRequired
+        onChange: React.PropTypes.func.isRequired,
+        tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       handleChange: function(e){
         this.props.onChange(e.target.value)
       },
 
-      componentDidMount: function(){
-
+      componentDidMount: function () {
+        var el = this.getDOMNode();
+        var $el = $(el);
+        $el.find('select[name="tags"]').chosen();
       },
 
       render: function () {

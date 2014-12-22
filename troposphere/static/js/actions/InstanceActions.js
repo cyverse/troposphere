@@ -360,6 +360,7 @@ define(
       imageInstance: function(instance){
         var that = this;
 
+        // instanceId, ipAddress
         var tags = stores.TagStore.getInstanceTags(instance);
 
         var modal = InstanceImageModal({

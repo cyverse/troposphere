@@ -10,7 +10,8 @@ define(
     return React.createClass({
 
       propTypes: {
-        onChange: React.PropTypes.func.isRequired
+        onChange: React.PropTypes.func.isRequired,
+        value: React.PropTypes.string.isRequired
       },
 
       handleChange: function(e){
@@ -34,7 +35,7 @@ define(
             <div className="help-block">
               Select the cloud provider on which you plan to use this image.
             </div>
-            <select name="provider" className="form-control">
+            <select value={this.props.value} name="provider" className="form-control" onChange={this.handleChange}>
               {options}
             </select>
           </div>
