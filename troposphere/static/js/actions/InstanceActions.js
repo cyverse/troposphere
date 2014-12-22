@@ -365,6 +365,7 @@ define(
             name: details.name,
             description: details.description,
             tags: tagNames,
+            provider: details.providerId,
             software: details.software,
             exclude: details.filesToExclude,
             sys: details.systemFiles,
