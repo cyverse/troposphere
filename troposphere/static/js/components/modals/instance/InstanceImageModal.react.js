@@ -200,8 +200,6 @@ define(
       },
 
       render: function () {
-        console.log(this.state);
-
         return (
           <div className="modal fade">
             <div className="modal-dialog">
