@@ -6,6 +6,7 @@ define(
     'backbone',
     'components/mixins/BootstrapModalMixin.react',
     'components/common/Glyphicon.react',
+    'stores',
 
     './request_image/ImageName.react',
     './request_image/ImageDescription.react',
@@ -17,7 +18,7 @@ define(
     './request_image/ImageFilesToExclude.react',
     './request_image/ImageLicenseAgreement.react'
   ],
-  function (React, Backbone, BootstrapModalMixin, Glyphicon, Name, Description, Tags, Provider, Visibility, Software, SystemFiles, FilesToExclude, LicenseAgreement) {
+  function (React, Backbone, BootstrapModalMixin, Glyphicon, stores, Name, Description, Tags, Provider, Visibility, Software, SystemFiles, FilesToExclude, LicenseAgreement) {
 
     return React.createClass({
       mixins: [BootstrapModalMixin],
@@ -31,7 +32,7 @@ define(
         return {
           name: "",
           description: "",
-          tags: [],
+          tags: stores.TagStore.getInstanceTags(this.props.instance),
           providerId: this.props.instance.get('identity').provider,
           visibility: "public",
           software: "",
@@ -68,7 +69,7 @@ define(
       cancel: function(){
         this.hide();
       },
-      
+
       confirm: function () {
         this.hide();
 
@@ -188,7 +189,7 @@ define(
 
             <Name onChange={this.handleNameChange}/>
             <Description onChange={this.handleDescriptionChange}/>
-            <Tags instance={instance} tags={this.props.tags} onChange={this.handleTagsChange}/>
+            <Tags instance={instance} tags={this.props.tags} imageTags={this.state.tags} onChange={this.handleTagsChange}/>
             <Provider value={this.state.providerId} onChange={this.handleProviderChange}/>
             <Visibility value={this.state.visibility} onChange={this.handleVisibilityChange}/>
             {this.renderAdvancedOptions()}

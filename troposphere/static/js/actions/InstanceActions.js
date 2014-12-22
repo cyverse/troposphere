@@ -361,7 +361,7 @@ define(
         var that = this;
 
         // instanceId, ipAddress
-        var tags = stores.TagStore.getInstanceTags(instance);
+        var tags = stores.TagStore.getAll();
 
         var modal = InstanceImageModal({
           instance: instance,

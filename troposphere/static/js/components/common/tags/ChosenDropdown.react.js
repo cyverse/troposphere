@@ -25,10 +25,12 @@ define(
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         onTagsChanged: React.PropTypes.func.isRequired,
-        onEnterKeyPressed: React.PropTypes.func.isRequired
+        onEnterKeyPressed: React.PropTypes.func.isRequired,
+        width: React.PropTypes.string
       },
 
       componentDidMount: function(){
+        this.scaleSearchField();
         this.setupChosenForm();
       },
 
@@ -202,7 +204,7 @@ define(
         var placeholderText = selectedTags.length > 0 ? "" : "Select tags to add...";
 
         return (
-          <div className={classes} style={{"width":"614px"}}>
+          <div className={classes} style={{"width": this.props.width || "614px"}}>
             <ul className="chosen-choices" onFocus={this.onEnterTags}>
               {selectedTags}
               <li className="search-field">
