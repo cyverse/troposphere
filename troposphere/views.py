@@ -14,8 +14,8 @@ import requests
 
 from caslib import OAuthClient as CAS_OAuthClient
 
+from troposphere.models import MaintenanceRecord
 from troposphere.version import get_version
-
 
 logger = logging.getLogger(__name__)
 #key = open(settings.OAUTH_PRIVATE_KEY_PATH, 'r').read()
@@ -32,7 +32,7 @@ def root(request):
 
 def application(request):
     response = HttpResponse()
-    records, disabled_login = get_maintenance()
+    _, disabled_login = get_maintenance(request)
 
     if disabled_login:
         return redirect('maintenance')
@@ -89,16 +89,23 @@ def application(request):
     return response
 
 
-def get_maintenance():
+def get_maintenance(request):
     """
     Returns a list of maintenance records along with a boolean to indicate
     whether or not login should be disabled
     """
-    return ([], False)
+    records = MaintenanceRecord.objects.all()
+    disable_login = MaintenanceRecord.disable_login_access(request)
+    return (records, disable_login)
 
 
 def maintenance(request):
-    return HttpResponse("We're undergoing maintenance", status=503)
+    records, disabled = get_maintenance(request)
+
+    if not disabled:
+        return redirect("/login")
+
+    return render(request, 'login.html', {"records": records, "disable_login": disabled})
 
 
 def login(request):
