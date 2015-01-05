@@ -68,8 +68,8 @@ define(
           // if the emulator token exists, the user is being emulated by staff
           // in that case, this doesn't count as a real session, so don't report
           // it to Intercom.
-          isEmulatedUser = !!emulator_token;
-          
+          isEmulatedUser = !!window.emulator_token;
+
           if(!isEmulatedUser) {
             window.Intercom('boot', {
               app_id: window.intercom_app_id,
