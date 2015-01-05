@@ -39,6 +39,8 @@ def application(request):
 
     template_params = {
         'access_token': request.session.get('access_token'),
+        'emulator_token': request.session.get('emulator_token'),
+        'emulated_by': request.session.get('emulated_by'),
         'disable_login': disabled_login
     }
 
@@ -143,6 +145,23 @@ def cas_oauth_service(request):
     return redirect('application')
 
 
+def unemulate(request):
+    if 'emulator_token' in request.session:
+        old_token = request.session['emulator_token']
+    else:
+        old_token = request.session['access_token']
+
+    # Restore the 'old token'
+    logger.info("[EMULATE]Session_token: %s. Request to remove emulation."
+                % (old_token, ))
+    request.session['access_token'] = old_token
+
+    if "emulate_by" in request.session:
+        del request.session['emulate_by']
+
+    return redirect('application')
+
+
 def emulate(request, username):
     if 'access_token' not in request.session:
         return redirect(cas_oauth_client.authorize_url())
@@ -151,12 +170,6 @@ def emulate(request, username):
         old_token = request.session['emulator_token']
     else:
         old_token = request.session['access_token']
-    if not username:
-        #Restore the 'old token'
-        logger.info("[EMULATE]Session_token: %s. Request to remove emulation."
-                    % (old_token, ))
-        request.session['access_token'] = old_token
-        return redirect('application')
 
     logger.info("[EMULATE]Session_token: %s. Request to emulate %s."
                 % (old_token, username))
@@ -180,6 +193,7 @@ def emulate(request, username):
     logger.info("[EMULATE]User %s (Token: %s) has emulated User %s (Token:%s)"
                 % (emulated_by, old_token, username, new_token))
 
+    request.session["emulate_by"] = emulated_by
     request.session['emulator_token'] = old_token
     request.session['access_token'] = new_token
     return redirect('application')
