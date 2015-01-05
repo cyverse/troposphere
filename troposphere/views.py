@@ -155,6 +155,7 @@ def cas_oauth_service(request):
 def unemulate(request):
     if 'emulator_token' in request.session:
         old_token = request.session['emulator_token']
+        del request.session['emulator_token']
     else:
         old_token = request.session['access_token']
 
