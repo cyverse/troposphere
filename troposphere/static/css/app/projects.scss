@@ -14,7 +14,7 @@
     margin-bottom: 50px;
     float: left;
 
-    &:nth-child(3n){
+    &:nth-child(3n) {
       margin-right: 0;
     }
 
@@ -54,6 +54,22 @@
 
     > a > div {
       width: 278px;
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  #project-list > li {
+    &:nth-child(2n) {
+      margin-right: 0;
+    }
+
+    &:nth-child(3n) {
+      margin-right: 50px;
+    }
+
+    > a > div {
+      width: 333px;
     }
   }
 }
