@@ -14,8 +14,12 @@
     margin-bottom: 50px;
     float: left;
 
+    &:nth-child(3n){
+      margin-right: 0;
+    }
+
     .content {
-      max-height: 200px;
+      max-height: 219px;
       overflow-y: hidden;
     }
 
@@ -26,8 +30,8 @@
 
     > a > div {
       padding: 15px;
-      height: 250px;
-      width: 225px;
+      height: 275px;
+      width: 344px; //225px; //width: 278px;
 
       h2 {
         font-size: 19px;
@@ -38,6 +42,18 @@
       time {
         color: #6D6E71;
       }
+    }
+  }
+}
+
+@media (max-width: 1199px) {
+  #project-list > li {
+    &:nth-child(3n) {
+      margin-right: 0;
+    }
+
+    > a > div {
+      width: 278px;
     }
   }
 }
