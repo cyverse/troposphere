@@ -88,6 +88,10 @@
 
   .calls-to-action > .col-md-3:first-of-type {
     margin-left: 12.5%;
+
+    @media (max-width: 991px) {
+      margin-left: inherit;
+    }
   }
 
   .option {

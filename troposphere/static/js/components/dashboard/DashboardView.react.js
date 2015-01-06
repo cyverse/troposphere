@@ -34,21 +34,21 @@ define(
 
                   <h2>Getting Started</h2>
                   <div className="row calls-to-action">
-                    <div className="col-md-3">
+                    <div className="col-md-3 col-sm-4">
                       <CallToAction title="Launch New Instance"
                                     image="/assets/images/icon_launchnewinstance.png"
                                     description="Browse Atmosphere's list of available images and select one to launch a new instance."
                                     link={URL.images()}
                       />
                     </div>
-                    <div className="col-md-3">
+                    <div className="col-md-3 col-sm-4">
                       <CallToAction title="Browse Help Resources"
                                     image="/assets/images/icon_gethelp.png"
                                     description="View a video tutorial, read the how-to guides, or email the Atmosphere support team."
                                     link={URL.help()}
                       />
                     </div>
-                    <div className="col-md-3">
+                    <div className="col-md-3 col-sm-4">
                       <CallToAction title="Change Your Settings"
                                     image="/assets/images/icon_settings.png"
                                     description="Modify your account settings, view your resource quota, or request more resources."
