@@ -38,12 +38,16 @@ Atmo.Router = Backbone.Router.extend({
           //created_at: 1234567890
         });
       },
-      error: function () {
-        //TODO: Jason's awesome replacement screen goes here
-        //TODO: Find a gnome.
-        //window.location.replace(site_root + "/login");
+      error: function (result) {
+        // Redirect the user to the forbidden page with more info
+        if(result.status === 403) {
+          window.location.pathname = "/forbidden";
+        }
       }
     });
+
+
+
     Atmo.Utils.update_weather();
     Atmo.providers = new Atmo.Collections.Providers();
     Atmo.providers.fetch({
