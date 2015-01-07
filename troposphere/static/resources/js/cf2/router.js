@@ -38,11 +38,11 @@ Atmo.Router = Backbone.Router.extend({
           //created_at: 1234567890
         });
       },
-      error: function (result) {
+      error: function () {
+        // If we end up here, the user has an iPlant account but doesn't
+        // have access to Atmosphere itself.
         // Redirect the user to the forbidden page with more info
-        if(result.status === 403) {
-          window.location.pathname = "/forbidden";
-        }
+        window.location.pathname = "/forbidden";
       }
     });
 
