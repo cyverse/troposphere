@@ -31,6 +31,10 @@ define(
         return 'images';
       },
 
+      imageSearch: function (data) {
+        return generators.images() + '/search/' + data.query;
+      },
+
       help: function () {
         return 'help';
       },
@@ -82,6 +86,7 @@ define(
       volume: _.partial(generateUrl, 'volume'),
       application: _.partial(generateUrl, 'application'),
       images: _.partial(generateUrl, 'images'),
+      imageSearch: _.partial(generateUrl, 'imageSearch'),
       help: _.partial(generateUrl, 'help'),
       settings: _.partial(generateUrl, 'settings'),
       login: _.partial(generateUrl, 'login'),

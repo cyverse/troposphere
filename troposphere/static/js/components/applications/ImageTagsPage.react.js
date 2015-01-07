@@ -6,9 +6,10 @@ define(
     './common/SecondaryApplicationNavigation.react',
     'collections/ApplicationCollection',
     './list/ApplicationCardList.react',
-    'stores'
+    'stores',
+    'url'
   ],
-  function (React, SecondaryApplicationNavigation, ApplicationCollection, ApplicationCardList, stores) {
+  function (React, SecondaryApplicationNavigation, ApplicationCollection, ApplicationCardList, stores, URL) {
 
     function getState() {
       return {
@@ -45,10 +46,14 @@ define(
       },
 
       renderTag: function(tag){
+        var name = tag.get('name'),
+            description = tag.get('description'),
+            searchUrl = URL.imageSearch({query: name});
+
         return (
           <li className="tag-item" key={tag.id}>
-            <h4>{tag.get('name')}</h4>
-            <p>{tag.get('description')}</p>
+            <h4><a href={searchUrl}>{name}</a></h4>
+            <p>{description}</p>
           </li>
         )
       },
@@ -69,16 +74,20 @@ define(
       },
 
       renderTagRow: function(tag){
+        var name = tag.get('name'),
+            description = tag.get('description'),
+            searchUrl = URL.imageSearch({query: name});
+
         return (
           <tr key={tag.id || tag.cid}>
             <td style={{"verticalAlign":"top","width":"117px"}}>
               <h4 style={{"margin":"0", "color":"#5A5A5A", "fontSize":"18px"}}>
-                {tag.get('name')}
+                <a href={searchUrl}>{name}</a>
               </h4>
             </td>
             <td>
               <p style={{"fontSize":"14px"}}>
-                {tag.get('description')}
+                {description}
               </p>
             </td>
           </tr>
