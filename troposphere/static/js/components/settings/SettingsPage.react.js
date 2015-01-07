@@ -67,7 +67,7 @@ define(
               <div>
                 <h3>Allocation</h3>
                 <div>
-                  <p>If you need a temporary or permanent boost in your allocation (more CPUs, etc.) you may <a href="#" onClick={this.handleRequestMoreResources}>request more resources</a></p>
+                  <p>If you need a temporary or permanent boost in your allocation (more CPUs, etc.) you may <a href="#" onClick={this.handleRequestMoreResources}>request more resources.</a></p>
                 </div>
               </div>
               <div>
