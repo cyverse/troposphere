@@ -88,18 +88,6 @@ define(
           dataType: "json",
           contentType: 'application/json',
           success: function (response_text, textStatus, jqXHR) {
-            var attachData = {
-              attach_time: null,
-              device: response_text.object.attach_data.device,
-              instance_id: instance.get('id')
-            };
-
-            self.set({
-              'status': 'in-use',
-              attach_data: attachData
-            });
-
-            self.trigger('attach');
             options.success(response_text);
           },
           error: function (jqXHR, textStatus, errorThrown) {
