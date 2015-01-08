@@ -70,7 +70,9 @@ define(
                 </a>
               </span>
               <span className='app-name'>
-                <h4>{app.get('name')}</h4>
+                <h4>
+                  <a href={appUri}>{app.get('name')}</a>
+                </h4>
                 <div><time>{applicationCreationDate}</time> by <strong>{app.get('created_by')}</strong></div>
                 <Tags activeTags={imageTags}
                     tags={this.props.tags}

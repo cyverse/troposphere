@@ -68,7 +68,7 @@ define(
               </a>
             </div>
             <div className='app-name'>
-              {app.get('name')}
+              <a href={appUri}>{app.get('name')}</a>
             </div>
             <div className="creation-details">
               <time>{applicationCreationDate}</time> by <strong>{app.get('created_by')}</strong>
