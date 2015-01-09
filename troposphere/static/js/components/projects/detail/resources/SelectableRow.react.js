@@ -22,6 +22,8 @@ define(
 
       toggleCheckbox: function(e){
         e.stopPropagation();
+        if(!this.props.resource.id) return;
+
         if(this.props.isSelected){
           this.props.onResourceDeselected(this.props.resource);
         }else{
@@ -30,7 +32,7 @@ define(
       },
 
       previewResource: function(e){
-        if(this.props.onPreviewResource){
+        if(this.props.onPreviewResource && this.props.resource.id){
           this.props.onPreviewResource(this.props.resource);
         }
       },

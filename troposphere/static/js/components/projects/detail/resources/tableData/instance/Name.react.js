@@ -17,16 +17,23 @@ define(
 
       render: function () {
         var project = this.props.project,
-            instance = this.props.instance;
+            instance = this.props.instance,
+            instanceUrl;
 
-        var instanceUrl = URL.projectInstance({
-          project: project,
-          instance: instance
-        });
+        if(instance.id) {
+          instanceUrl = URL.projectInstance({
+            project: project,
+            instance: instance
+          });
 
-        return (
-          <a href={instanceUrl}>{instance.get('name')}</a>
-        );
+          return (
+            <a href={instanceUrl}>{instance.get('name')}</a>
+          );
+        }else{
+          return (
+            <span>{instance.get('name')}</span>
+          );
+        }
       }
 
     });
