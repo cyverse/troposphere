@@ -27,12 +27,12 @@ define(
         return 'images/' + model.id;
       },
 
-      requestImage: function (data) {
-        return generators.projectInstance(data) + '/request_image';
-      },
-
       images: function () {
         return 'images';
+      },
+
+      imageSearch: function (data) {
+        return generators.images() + '/search/' + data.query;
       },
 
       help: function () {
@@ -86,9 +86,9 @@ define(
       volume: _.partial(generateUrl, 'volume'),
       application: _.partial(generateUrl, 'application'),
       images: _.partial(generateUrl, 'images'),
+      imageSearch: _.partial(generateUrl, 'imageSearch'),
       help: _.partial(generateUrl, 'help'),
       settings: _.partial(generateUrl, 'settings'),
-      requestImage: _.partial(generateUrl, 'requestImage'),
       login: _.partial(generateUrl, 'login'),
       projects: _.partial(generateUrl, 'projects'),
       project: _.partial(generateUrl, 'project'),

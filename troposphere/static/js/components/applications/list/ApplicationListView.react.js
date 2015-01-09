@@ -5,25 +5,31 @@ define(
     'react',
     'backbone',
     'components/common/PageHeader.react',
-    'components/common/SecondaryNavigation.react',
     'collections/ApplicationCollection',
     './ApplicationCardList.react',
     './ApplicationCardGrid.react',
-    './SearchContainer.react'
+    './SearchContainer.react',
+    '../common/SecondaryApplicationNavigation.react'
   ],
-  function (React, Backbone, PageHeader, SecondaryNavigation, ApplicationCollection, ApplicationCardList, ApplicationCardGrid, ApplicationSearch) {
+  function (React, Backbone, PageHeader, ApplicationCollection, ApplicationCardList, ApplicationCardGrid, ApplicationSearch, SecondaryApplicationNavigation) {
 
     return React.createClass({
 
       propTypes: {
-        applications: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        applications: React.PropTypes.instanceOf(Backbone.Collection),
+        tags: React.PropTypes.instanceOf(Backbone.Collection)
       },
 
       getInitialState: function(){
         return {
-         viewType: 'list'
+          viewType: 'list',
+          resultsPerPage: 20,
+          page: 1
         }
+      },
+
+      onLoadMoreImages: function(){
+        this.setState({page: this.state.page + 1})
       },
 
       onChangeViewType: function(){
@@ -67,6 +73,7 @@ define(
                                    title="Featured Images"
                                    applications={featuredApplications}
                                    tags={tags}
+                                   totalNumberOfApplications={featuredApplications.models.length}
               />
             );
           }else{
@@ -75,6 +82,7 @@ define(
                                    title="Featured Images"
                                    applications={featuredApplications}
                                    tags={tags}
+                                   totalNumberOfApplications={featuredApplications.models.length}
               />
             );
           }
@@ -82,7 +90,10 @@ define(
       },
 
       renderImages: function(){
-        var applications = this.props.applications;
+        var numberOfResults = this.state.page*this.state.resultsPerPage;
+        var totalNumberOfApplications = this.props.applications.models.length;
+        var applications = this.props.applications.first(numberOfResults);
+        applications = new ApplicationCollection(applications);
         var tags = this.props.tags;
 
         if (applications && tags) {
@@ -92,6 +103,8 @@ define(
                                    title="All Images"
                                    applications={applications}
                                    tags={tags}
+                                   onLoadMoreImages={this.onLoadMoreImages}
+                                   totalNumberOfApplications={totalNumberOfApplications}
               />
             );
           }else{
@@ -100,6 +113,8 @@ define(
                                    title="All Images"
                                    applications={applications}
                                    tags={tags}
+                                   onLoadMoreImages={this.onLoadMoreImages}
+                                   totalNumberOfApplications={totalNumberOfApplications}
               />
             );
           }
@@ -133,7 +148,11 @@ define(
       },
 
       renderResultsTitleAndToggles: function(){
-        var title = "Showing (?) of " + this.props.applications.length + " images";
+        var numberOfResults = this.state.page*this.state.resultsPerPage;
+        var applications = this.props.applications;
+        var numberOfDisplayedApplications = applications.first(numberOfResults).length;
+
+        var title = "Showing " + numberOfDisplayedApplications + " of " + applications.length + " images";
         return (
           <div className="display-toggles clearfix">
             <h3>{title}</h3>
@@ -145,17 +164,32 @@ define(
         );
       },
 
-      render: function () {
-        var routes = this.getRoutes();
+      renderBody: function(){
+        if (this.props.applications && this.props.tags) {
+          return (
+            <div>
+              {this.renderResultsTitleAndToggles()}
+              {this.renderFeaturedImages()}
+              {this.renderImages()}
+            </div>
+          );
+        }
 
         return (
+          <div className="loading"></div>
+        );
+      },
+
+      render: function () {
+        return (
           <div>
-            {this.renderResultsTitleAndToggles()}
-            {this.renderFeaturedImages()}
-            {this.renderImages()}
+            <SecondaryApplicationNavigation currentRoute="search"/>
+            <div className="container application-card-view">
+              <ApplicationSearch/>
+              {this.renderBody()}
+            </div>
           </div>
         );
-
       }
 
     });

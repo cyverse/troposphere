@@ -14,10 +14,24 @@
     margin-bottom: 50px;
     float: left;
 
+    &:nth-child(3n) {
+      margin-right: 0;
+    }
+
+    .content {
+      max-height: 219px;
+      overflow-y: hidden;
+    }
+
+    .description {
+      color: #6D6E71;
+      margin-top: 5px;
+    }
+
     > a > div {
       padding: 15px;
-      height: 250px;
-      width: 225px;
+      height: 275px;
+      width: 344px; //225px; //width: 278px;
 
       h2 {
         font-size: 19px;
@@ -28,6 +42,34 @@
       time {
         color: #6D6E71;
       }
+    }
+  }
+}
+
+@media (max-width: 1199px) {
+  #project-list > li {
+    &:nth-child(3n) {
+      margin-right: 0;
+    }
+
+    > a > div {
+      width: 278px;
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  #project-list > li {
+    &:nth-child(2n) {
+      margin-right: 0;
+    }
+
+    &:nth-child(3n) {
+      margin-right: 50px;
+    }
+
+    > a > div {
+      width: 333px;
     }
   }
 }
@@ -77,17 +119,47 @@
   }
 }
 
+.edit-details {
+  .buttons {
+    margin-left: 124px;
+    margin-top: 20px;
+  }
+
+  .cancel-button {
+    margin-right: 20px;
+  }
+}
+
 .project-info-segment {
   margin-top: 22px;
 
+  textarea {
+    font-size: 16px;
+    width: 650px;
+    height: 215px;
+    margin-left: 15px;
+  }
+
+  input {
+    font-size: 16px;
+    width: 400px;
+    margin-left: 15px;
+  }
+
   h4 {
     color: #5A5A5A;
-    font-size: 18px;
+    font-size: 16px;
     margin-bottom: 5px;
+    display: inline-block;
+    width: 100px;
+    text-align: right;
+    margin-right: 25px;
+    margin-top: 0;
   }
 
   p {
-    font-size: 15px;
+    font-size: 16px;
+    display: inline-block;
   }
 }
 
@@ -114,4 +186,71 @@ ul.project-resource-list {
       font-size: 23px;
     }
   }
+}
+
+.project-property {
+  display: inline-block;
+
+  input {
+    border: 0;
+    padding: 0;
+    border-bottom: 1px dashed #CCC;
+    font-size: 16px;
+    margin-bottom: 9px;
+    outline: 0;
+    background-color: transparent;
+    width: 600px;
+  }
+
+  p {
+    max-width: 600px;
+  }
+
+  &.editable {
+    i {
+      font-size: 14px;
+      color: #999;
+      margin-left: 9px;
+      display: none;
+    }
+
+    &:hover i {
+      display: inline-block;
+    }
+
+    textarea {
+      max-width: 950px;
+      //min-height: 150px;
+      height: 150px;
+      width: 600px;
+      font-size: 16px;
+    }
+  }
+  
+  .html-wrapper {
+    display: inline-block;
+    p {
+      display: block;
+    }
+  }
+}
+
+.edit-link-row {
+  margin-top: 20px;
+
+  .edit-link {
+    width: 100px;
+    display: inline-block;
+    text-align: right;
+    margin-right: 25px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+.refreshing {
+  -webkit-animation: rotation 1s infinite linear;
+  -moz-animation: rotation 1s infinite linear;
+  -o-animation: rotation 1s infinite linear;
+  animation: rotation 1s infinite linear;
 }

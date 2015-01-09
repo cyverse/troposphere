@@ -33,12 +33,6 @@
     }
 
     li {
-      padding: 15px;
-      border-bottom: solid 1px #C9C9C9;
-
-      &.sticky {
-        background-color: #F3F0B6;
-      }
 
       .title {
         margin-bottom: 3px;
@@ -55,6 +49,32 @@
         }
       }
 
+      .message.activity-message {
+        background-color: #fff;
+        border-bottom: 1px solid rgba(0,0,0,0.10);
+        border-left: 1px solid rgba(0,0,0,0.10);
+        border-right: 1px solid rgba(0,0,0,0.10);
+        margin: 0 0 0px 0px;
+        padding: 10px;
+        position: relative;
+
+        i {
+          font-size: 24px;
+          position: absolute;
+          top: 14px;
+          left: 12px;
+          color: #777;
+        }
+
+        .details {
+          margin-left: 32px;
+        }
+
+        &.sticky {
+          background-color: #F3F0B6;
+        }
+      }
+
       .message {
         padding-left: 22px;
       }
@@ -68,6 +88,10 @@
 
   .calls-to-action > .col-md-3:first-of-type {
     margin-left: 12.5%;
+
+    @media (max-width: 991px) {
+      margin-left: inherit;
+    }
   }
 
   .option {

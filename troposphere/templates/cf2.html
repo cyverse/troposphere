@@ -4,13 +4,17 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atmosphere</title>
+
     <!--CSS-->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="{{ site_root }}/assets/resources/css/cloudfront.css"/>
+
     <!--JS-->
     <!--[if IE]>
-	  <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
+    <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	  <![endif]-->
+
+    <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/tpwq3d9w';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
 </head>
 <body>
 
@@ -28,9 +32,14 @@
 
         <div class="col-sm-8" id="header_nav">
 
-
             <div class="btn-toolbar navbar-right">
-                
+
+                <div class="btn-group btn-group-sm" style="margin-top: 4px; margin-right: 15px;">
+                    <a href="/application?beta=true">
+                        <img src="/assets/images/beta_off.png" style="width:82px;">
+                    </a>
+                </div>
+
                 <div class="btn-group btn-group-sm">
                     <a class="btn btn-default" href="#settings"><i class="glyphicon glyphicon-user"></i>
 
@@ -191,11 +200,17 @@
         sessionStorage.clear(); // clear previous sessionStorage values
     </script>
 
-    {% if access_token %}
-        <script type="text/javascript">
+    <script type="text/javascript">
+        {% if access_token %}
             var access_token = "{{ access_token }}";
-        </script>
-    {% endif %}
+        {% endif %}
+        {% if intercom_app_id %}
+            var intercom_app_id = "{{ intercom_app_id }}";
+            var intercom_company_id = "{{ intercom_company_id }}";
+            var intercom_company_name = "{{ intercom_company_name }}";
+        {% endif %}
+    </script>
+
 
     <!-- 3rd party dependencies -->
     <script src="https://www.google.com/jsapi"></script>

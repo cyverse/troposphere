@@ -29,7 +29,6 @@ require.config({
       '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min',
       '../bower_components/underscore/underscore'
     ],
-    google: 'https://www.google.com/jsapi',
     bootstrap: [
       '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min',
       '../bower_components/bootstrap/dist/js/bootstrap.min'
@@ -39,7 +38,7 @@ require.config({
       '../bower_components/moment/moment'
     ],
     react: [
-      '//cdnjs.cloudflare.com/ajax/libs/react/0.11.0/react-with-addons.min',
+      '//cdnjs.cloudflare.com/ajax/libs/react/0.12.0/react-with-addons.min',
       '../bower_components/react/react-with-addons'
     ],
     chosen: [
@@ -69,7 +68,8 @@ require.config({
     sinon: [
       '//cdnjs.cloudflare.com/ajax/libs/sinon.js/1.7.3/sinon-min',
       '../bower_components/sinon/lib/sinon'
-    ]
+    ],
+    showdown: "//cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min"
   },
 
   shim: {
@@ -95,8 +95,12 @@ require.config({
       deps: ['jquery']
     },
 
+    highchartsBase: {
+      deps: ['jquery']
+    },
+
     highcharts: {
-      deps: ['jquery', 'highchartsBase'],
+      deps: ['highchartsBase'],
       exports: 'Highcharts'
     },
 

@@ -21,16 +21,18 @@ define(
     var Controller = Marionette.Controller.extend({
 
       render: function(content, route){
-        var app = Root({
+        var Component = React.createFactory(Root);
+        var app = Component({
           profile: context.profile,
           content: content,
           route: route || Backbone.history.getFragment()
         });
-        React.renderComponent(app, document.getElementById('application'));
+        React.render(app, document.getElementById('application'));
       },
 
       showProviders: function (param) {
-        this.render(ProviderListPage(), ["providers"]);
+        var Component = React.createFactory(ProviderListPage);
+        this.render(Component(), ["providers"]);
       }
 
     });

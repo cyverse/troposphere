@@ -74,10 +74,14 @@ define(
             });
           }
         }).fail(function(){
-          that.dispatch(ProjectInstanceConstants.ADD_INSTANCE_TO_PROJECT, {
-            instance: instance,
-            project: project
-          });
+          var warning = "API says instance wasn't removed from project, but is likely " +
+                        "lying. False false bug. This message is here until PAG is over.";
+          console.warn(warning);
+
+          //that.dispatch(ProjectInstanceConstants.ADD_INSTANCE_TO_PROJECT, {
+          //  instance: instance,
+          //  project: project
+          //});
         });
       }
 

@@ -99,6 +99,16 @@ Atmo.Views.RequestResourcesModal = Backbone.View.extend({
 
 		var form = this.$el.find('form[name="request_resources_form"]');
 
+		var username = form.find("[name='username']").val();
+		var quota = form.find("[name='quota']").val();
+		var reason = form.find("[name='reason']").val();
+
+		var result = {
+			username: username,
+			quota: quota,
+			reason: reason
+		}
+		
 		var success;
 
 		var self = this;
@@ -106,7 +116,7 @@ Atmo.Views.RequestResourcesModal = Backbone.View.extend({
 			type: 'POST',
 			async: false,
 			url: Atmo.API_ROOT + '/email/request_quota',
-      data: JSON.stringify(form.serialize()),
+      data: JSON.stringify(result),
       dataType: 'json',
       contentType: 'application/json',
 			success: function() {

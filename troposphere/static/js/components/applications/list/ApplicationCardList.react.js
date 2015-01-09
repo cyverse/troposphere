@@ -11,18 +11,9 @@ define(
 
       propTypes: {
         applications: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
-      },
-
-      getInitialState: function(){
-        return {
-          resultsPerPage: 20,
-          page: 1
-        }
-      },
-
-      onLoadMoreImages: function(){
-        this.setState({page: this.state.page + 1})
+        tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        onLoadMoreImages: React.PropTypes.func,
+        totalNumberOfApplications: React.PropTypes.number
       },
 
       renderCard: function(application){
@@ -36,14 +27,13 @@ define(
 
       render: function () {
         var applications = this.props.applications;
-        var numberOfResults = this.state.page*this.state.resultsPerPage;
-        var apps = applications.first(numberOfResults);
-        var appCards = apps.map(this.renderCard);
+        var totalNumberOfApplications = this.props.totalNumberOfApplications;
+        var appCards = applications.map(this.renderCard);
 
         var loadMoreImagesButton;
-        if(numberOfResults < applications.models.length) {
+        if(applications.models.length < totalNumberOfApplications) {
           loadMoreImagesButton = (
-            <button style={{"margin": "auto", "display": "block"}} className="btn btn-default" onClick={this.onLoadMoreImages}>
+            <button style={{"margin": "auto", "display": "block"}} className="btn btn-default" onClick={this.props.onLoadMoreImages}>
               Show more images...
             </button>
           )

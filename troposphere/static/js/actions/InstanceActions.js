@@ -1,5 +1,6 @@
 define(
   [
+    'react',
     'dispatchers/AppDispatcher',
     'constants/InstanceConstants',
     'constants/ProjectInstanceConstants',
@@ -19,9 +20,14 @@ define(
     'components/modals/instance/InstanceResumeModal.react',
     'components/modals/instance/InstanceStopModal.react',
     'components/modals/instance/InstanceStartModal.react',
-    'components/modals/instance/InstanceLaunchModal.react'
+    'components/modals/instance/InstanceRebootModal.react',
+    'components/modals/instance/InstanceLaunchModal.react',
+    'components/modals/instance/ExplainInstanceDeleteConditionsModal.react',
+    'components/modals/project/ProjectInstanceLaunchModal.react',
+    'components/modals/instance/InstanceReportModal.react',
+    'components/modals/instance/InstanceImageModal.react'
   ],
-  function (AppDispatcher, InstanceConstants, ProjectInstanceConstants, Instance, InstanceState, globals, context, URL, NotificationController, ProjectInstanceActions, stores, ModalHelpers, InstanceSuspendModal, InstanceDeleteModal, InstanceResumeModal, InstanceStopModal, InstanceStartModal, InstanceLaunchModal) {
+  function (React, AppDispatcher, InstanceConstants, ProjectInstanceConstants, Instance, InstanceState, globals, context, URL, NotificationController, ProjectInstanceActions, stores, ModalHelpers, InstanceSuspendModal, InstanceDeleteModal, InstanceResumeModal, InstanceStopModal, InstanceStartModal, InstanceRebootModal, InstanceLaunchModal, ExplainInstanceDeleteConditionsModal, ProjectInstanceLaunchModal, InstanceReportModal, InstanceImageModal) {
 
     return {
 
@@ -106,10 +112,13 @@ define(
 
         var attachedVolumes = stores.VolumeStore.getVolumesAttachedToInstance(instance);
         if(attachedVolumes.length > 0){
-          var volumesNames = attachedVolumes.reduce(function(previousVolume, currentVolume, index, array) {
-            return previousVolume + "," + currentVolume.get('name');
-          }, "");
-          alert("can not delete instance, volumes attached: " + volumesNames)
+          var modal = ExplainInstanceDeleteConditionsModal({
+            attachedVolumes: attachedVolumes,
+            backdrop: 'static'
+          });
+
+          ModalHelpers.renderModal(modal, function(){});
+
         }else{
           var modal = InstanceDeleteModal({
             instance: payload.instance
@@ -155,9 +164,7 @@ define(
              NotificationController.error(null, "Your instance could not be suspended");
            }
          });
-        })
-
-
+        });
       },
 
       resume: function(instance){
@@ -243,6 +250,36 @@ define(
         })
       },
 
+      reboot: function (instance) {
+        var that = this;
+
+        var modal = InstanceRebootModal();
+
+        ModalHelpers.renderModal(modal, function () {
+          // If user desires a hard reboot, need to pass an additional argument of reboot_type
+          // action: "reboot"
+          // reboot_type: "HARD"
+
+          var instanceState = new InstanceState({status_raw: "active - rebooting"});
+          instance.set({state: instanceState});
+          that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+
+          instance.reboot({
+           success: function (model) {
+             var instanceState = new InstanceState({status_raw: "active - rebooting"});
+             instance.set({state: instanceState});
+
+             that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+             that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+           },
+           error: function (response) {
+             NotificationController.error(null, "Your instance could not be rebooted");
+             that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+           }
+         });
+        });
+      },
+
       launch: function(application){
         var that = this;
 
@@ -295,75 +332,162 @@ define(
           // Since this is triggered from the images page, navigate off
           // that page and back to the instance list so the user can see
           // their instance being created
-          var redirectUrl = URL.project(project, {relative: true});
+          var redirectUrl = URL.projectResources({project: project}, {relative: true});
           Backbone.history.navigate(redirectUrl, {trigger: true});
         })
-
-
       },
 
-      requestImage: function(instance, requestData){
-        var providerId = instance.getCreds().provider_id;
-        var identityId = instance.getCreds().identity_id;
-        var requestUrl = globals.API_ROOT + "/provider/" + providerId + "/identity/" + identityId + "/request_image" + globals.slash();
+      requestImage: function(instance){
+        var that = this;
 
-        $.ajax({
-          url: requestUrl,
-          type: 'POST',
-          data: JSON.stringify(requestData),
-          dataType: 'json',
-          contentType: 'application/json',
-          success: function (model) {
-            NotificationController.info(null, "An image of your instance has been requested");
-          },
-          error: function (response, status, error) {
-            console.log(response.responseText);
-            NotificationController.error(null, "An image of your instance could not be requested");
-          }
+        // instanceId, ipAddress
+        var tags = stores.TagStore.getAll();
+
+        var modal = InstanceImageModal({
+          instance: instance,
+          tags: tags
         });
+
+        ModalHelpers.renderModal(modal, function (details) {
+          var tagNames,
+              requestData,
+              providerId,
+              identityId,
+              requestUrl;
+
+          tagNames = details.tags.map(function(tag){
+            return tag.get('name');
+          });
+
+          requestData = {
+            instance: instance.id,
+            ip_address: instance.get("ip_address"),
+            name: details.name,
+            description: details.description,
+            tags: tagNames,
+            provider: details.providerId,
+            software: details.software,
+            exclude: details.filesToExclude,
+            sys: details.systemFiles,
+            vis: "public"
+          };
+
+          providerId = instance.getCreds().provider_id;
+          identityId = instance.getCreds().identity_id;
+          requestUrl = globals.API_ROOT + "/provider/" + providerId + "/identity/" + identityId + "/request_image" + globals.slash();
+
+          $.ajax({
+            url: requestUrl,
+            type: 'POST',
+            data: JSON.stringify(requestData),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (model) {
+              NotificationController.info(null, "An image of your instance has been requested");
+            },
+            error: function (response, status, error) {
+              NotificationController.error(null, "An image of your instance could not be requested");
+            }
+          });
+        })
       },
 
-      reportInstance: function(instance, reportInfo){
-        var reportUrl = globals.API_ROOT + "/email/support" + globals.slash();
+      reportInstance: function(instance){
+        var that = this;
 
-        var problemText = "";
-        if(reportInfo.problems){
-          _.each(reportInfo.problems, function(problem){
-            problemText = problemText + "  -" + problem + "\n";
-          })
-        }
-
-        var username = context.profile.get('username');
-
-        var reportData = {
-          username: username,
-          message: "Instance IP: " + instance.get('ip_address') + "\n" +
-                   "Instance ID: " + instance.id + "\n" +
-                   "Provider ID: " + instance.get('identity').provider + "\n" +
-                   "\n" +
-                   "Problems" + "\n" +
-                   problemText + "\n" +
-                   "Message \n" +
-                   reportInfo.message + "\n",
-          subject: "Atmosphere Instance Report from " + username
-        };
-
-        $.ajax({
-          url: reportUrl,
-          type: 'POST',
-          data: JSON.stringify(reportData),
-          dataType: 'json',
-          contentType: 'application/json',
-          success: function (model) {
-            NotificationController.info(null, "Your instance report has been sent to support.");
-            var instanceUrl = URL.instance(instance);
-            Backbone.history.navigate(instanceUrl, {trigger: true});
-          },
-          error: function (response, status, error) {
-            console.log(response.responseText);
-            NotificationController.error(null, "Your instance report could not be sent to support");
-          }
+        var modal = InstanceReportModal({
+          instance: instance
         });
+
+        ModalHelpers.renderModal(modal, function (reportInfo) {
+          var profile = stores.ProfileStore.get(),
+              username = profile.get('username'),
+              reportUrl = globals.API_ROOT + "/email/support" + globals.slash(),
+              problemText = "",
+              reportData = {};
+
+          if(reportInfo.problems){
+            _.each(reportInfo.problems, function(problem){
+              problemText = problemText + "  -" + problem + "\n";
+            })
+          }
+
+          reportData = {
+            username: username,
+            message: "Instance IP: " + instance.get('ip_address') + "\n" +
+                     "Instance ID: " + instance.id + "\n" +
+                     "Provider ID: " + instance.get('identity').provider + "\n" +
+                     "\n" +
+                     "Problems" + "\n" +
+                     problemText + "\n" +
+                     "Details \n" +
+                     reportInfo.details + "\n",
+            subject: "Atmosphere Instance Report from " + username
+          };
+
+          $.ajax({
+            url: reportUrl,
+            type: 'POST',
+            data: JSON.stringify(reportData),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (model) {
+              NotificationController.info(null, "Your instance report has been sent to support.");
+            },
+            error: function (response, status, error) {
+              NotificationController.error(null, "Your instance report could not be sent to support");
+            }
+          });
+        })
+      },
+
+      createAndAddToProject: function(options){
+        var project = options.project;
+        var modal = React.createElement(ProjectInstanceLaunchModal);
+        var that = this;
+
+        ModalHelpers.renderModal(modal, function (identity, machineId, sizeId, instanceName) {
+          var instance = new Instance({
+            identity: {
+              id: identity.id,
+              provider: identity.get('provider_id')
+            },
+            status: "build - scheduling"
+          }, {parse: true});
+
+          var params = {
+            machine_alias: machineId,
+            size_alias: sizeId,
+            name: instanceName
+          };
+
+          that.dispatch(InstanceConstants.ADD_INSTANCE, {instance: instance});
+          that.dispatch(ProjectInstanceConstants.ADD_PENDING_INSTANCE_TO_PROJECT, {
+            instance: instance,
+            project: project
+          });
+
+          instance.save(params, {
+            success: function (model) {
+              //NotificationController.success(null, 'Instance launching...');
+              that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+              that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+              that.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
+                instance: instance,
+                project: project
+              });
+              ProjectInstanceActions.addInstanceToProject(instance, project);
+            },
+            error: function (response) {
+              NotificationController.error(null, 'Instance could not be launched');
+              that.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
+              that.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
+                instance: instance,
+                project: project
+              });
+            }
+          });
+        })
       }
 
     };

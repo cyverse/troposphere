@@ -58,10 +58,32 @@ define(
         var providers = stores.ProviderStore.getAll();
         var projects = stores.ProjectStore.getAll();
 
+        var isEmulatedUser;
+
         if(profile && identities && nullProject && maintenanceMessages && providers && projects){
           // set user context
           context.profile = profile;
           context.nullProject = nullProject;
+
+          // if the emulator token exists, the user is being emulated by staff
+          // in that case, this doesn't count as a real session, so don't report
+          // it to Intercom.
+          isEmulatedUser = !!window.emulator_token;
+
+          if(!isEmulatedUser) {
+            window.Intercom('boot', {
+              app_id: window.intercom_app_id,
+              name: profile.get("username"),
+              username: profile.get("username"),
+              email: profile.get("email"),
+              company: {
+                id: window.intercom_company_id,
+                name: window.intercom_company_name
+              }
+              // TODO: The current logged in user's sign-up date as a Unix timestamp.
+              //created_at: 1234567890
+            });
+          }
 
           this.startApplication();
         }
@@ -121,12 +143,82 @@ define(
           root: urlRoot
         });
 
+        var matchesExpression = function(url, expression){
+          var re = new RegExp(expression);
+          return !!re.exec(url);
+        };
+
+        var getTitle = function(url){
+
+          if(matchesExpression(url, "^(dashboard)$")){ // dashboard
+            return "Dashboard";
+
+          }else if(matchesExpression(url, "^(projects)$")){ // projects
+            return "Projects";
+
+          }else if(matchesExpression(url, "^(projects\\/[\\w\\d\\-]+)$")){ // projects/3106
+             return "Project Details";
+
+          }else if(matchesExpression(url, "^(projects\\/[\\w\\d\\-]+\\/resources)$")){ // projects/3106/resources
+             return "Project Resources";
+
+          }else if(matchesExpression(url, "^(projects\\/[\\w\\d\\-]+\\/instances\\/[\\w\\d\\-]+)$")){ // projects/3106/instances/5bac377d-bd04-40ec-a101-5b12b5477ec6
+             return "Instance Details";
+
+          }else if(matchesExpression(url, "^(projects\\/[\\w\\d\\-]+\\/instances\\/[\\w\\d\\-]+\\/report)$")){ // projects/3106/instances/5bac377d-bd04-40ec-a101-5b12b5477ec6/report
+             return "Report Instance";
+
+          }else if(matchesExpression(url, "^(projects\\/[\\w\\d\\-]+\\/instances\\/[\\w\\d\\-]+\\/request_image)$")){ // projects/3106/instances/5bac377d-bd04-40ec-a101-5b12b5477ec6/request_image
+             return "Request Image";
+
+          }else if(matchesExpression(url, "^(projects\\/[\\w\\d\\-]+\\/volumes\\/[\\w\\d\\-]+)$")){ // projects/3106/volumes/4b8ebc12-ba61-4f22-8f7c-c670c857d5a2
+             return "Volume Details";
+
+          }else if(matchesExpression(url, "^(images)$")){ // images
+             return "Images";
+
+          }else if(matchesExpression(url, "^(images\\/[\\w\\d\\-]+)$")){ // images/fb065674-3ec2-599d-81ea-f69b542b6523
+             return "Image Details";
+
+          }else if(matchesExpression(url, "^(images\\/search\\/[\\w\\d\\-\\%]+)")){ // images/search/maker
+             return "Image Search";
+
+          }else if(matchesExpression(url, "^(images\\/favorites)$")){ // images/favorites
+             return "Favorite Images";
+
+          }else if(matchesExpression(url, "^(images\\/authored)$")){ // images/authored
+             return "My Images";
+
+          }else if(matchesExpression(url, "^(images\\/tags)$")){ // images/tags
+             return "Image Tags";
+
+          }else if(matchesExpression(url, "^(providers)$")){ // providers
+             return "Providers";
+
+          }else if(matchesExpression(url, "^(help)$")){ // help
+             return "Help";
+
+          }else if(matchesExpression(url, "^(settings)$")){ // settings
+             return "Settings";
+
+          }else{
+             return "";
+
+          }
+
+        };
+
         $(document).on("click", "a[href^='" + urlRoot + "']", function (event) {
           if (!event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey) {
             event.preventDefault();
             var regExp = new RegExp("^" + urlRoot); // Ex: /^\/application\//
             var url = $(event.currentTarget).attr("href").replace(regExp, "");
+            var title = getTitle(url);
+            document.title = title ? title + " - Atmosphere" : "Atmosphere";
             Backbone.history.navigate(url, { trigger: true });
+
+            // Update intercom so users get any messages sent to them
+            window.Intercom('update');
           }
         });
       },

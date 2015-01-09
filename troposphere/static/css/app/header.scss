@@ -25,6 +25,11 @@
   .navbar-nav > li > a.beta-toggle {
     display: none;
   }
+
+  .nav > li > a {
+    padding-left: 11px;
+    padding-right: 11px;
+  }
 }
 
 .navbar-nav li a i {

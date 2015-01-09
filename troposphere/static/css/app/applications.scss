@@ -41,12 +41,18 @@
         font-size: 19px;
         font-weight: bold;
         margin: 0;
+        margin-bottom: 2px;
+
+        a {
+          text-decoration: underline;
+        }
       }
     }
 
     .tags {
       padding-left: 0px;
       padding-right: 0px;
+      margin-top: 0px;
     }
 
     p {
@@ -108,6 +114,22 @@
     padding-left: 22px;
     padding-right: 22px;
     margin-bottom: 9px;
+
+    > a {
+      text-decoration: underline;
+    }
+  }
+
+  .creation-details {
+    padding-left: 22px;
+    padding-right: 22px;
+  }
+
+  .description {
+    padding-right: 22px;
+    padding-left: 22px;
+    padding-top: 5px;
+    overflow-x: hidden;
   }
 
   .tags {
@@ -169,6 +191,7 @@
 ul.tags {
   list-style: none;
   padding-left: 0;
+  margin-top: 5px;
 
   li {
     display: inline-block;
@@ -472,6 +495,55 @@ ul.tag-list {
   table {
     h4 {
       min-height: 30px;
+    }
+  }
+}
+
+.tag-title {
+  margin-bottom: 10px;
+}
+
+.image-info-segment {
+  margin-top: 12px;
+
+  textarea {
+    font-size: 16px;
+    width: 95%;
+    height: 215px;
+  }
+
+  input {
+    font-size: 16px;
+    width: 95%;
+  }
+  
+  .btn.new-tag {
+    margin-left: 0px;
+    margin-bottom: 5px;
+  }
+
+  .title {
+    color: #5A5A5A;
+    font-size: 16px;
+    margin-bottom: 5px;
+    //text-align: right;
+    margin-top: 0;
+  }
+
+  .content {
+    font-size: 16px;
+
+    .tags {
+      margin-top: 0;
+    }
+  }
+}
+
+.image-content {
+  .edit-link-row {
+    .edit-link {
+      text-align: left;
+      padding-left: 0;
     }
   }
 }

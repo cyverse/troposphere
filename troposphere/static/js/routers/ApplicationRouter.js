@@ -28,42 +28,49 @@ define(function (require) {
     var Controller = Marionette.Controller.extend({
 
       render: function (content, route) {
-        var app = Root({
+        var Component = React.createFactory(Root);
+        var app = Component({
           profile: context.profile,
           content: content,
           route: route || Backbone.history.getFragment()
         });
-        React.renderComponent(app, document.getElementById('application'));
+        React.render(app, document.getElementById('application'));
       },
 
       //
       // Route handlers
       //
       showApplications: function () {
-        this.render(ApplicationListPage(), ["images"]);
+        var Component = React.createFactory(ApplicationListPage);
+        this.render(Component(), ["images"]);
       },
 
       showFavoritedApplications: function () {
-        this.render(FavoritedApplicationsPage(), ["images","favorites"]);
+        var Component = React.createFactory(FavoritedApplicationsPage);
+        this.render(Component(), ["images","favorites"]);
       },
 
       showAuthoredApplications: function () {
-        this.render(MyApplicationsPage(), ["images", "authored"]);
+        var Component = React.createFactory(MyApplicationsPage);
+        this.render(Component(), ["images", "authored"]);
       },
 
       showImageTags: function () {
-        this.render(ImageTagsPage(), ["images", "tags"]);
+        var Component = React.createFactory(ImageTagsPage);
+        this.render(Component(), ["images", "tags"]);
       },
 
       showApplicationDetails: function (appId) {
-        var content = ApplicationDetailsPage({
+        var Component = React.createFactory(ApplicationDetailsPage);
+        var content = Component({
           applicationId: appId
         });
         this.render(content, ["images"]);
       },
 
       showApplicationSearchResults: function (query) {
-        var content = ApplicationSearchResultsPage({query: query});
+        var Component = React.createFactory(ApplicationSearchResultsPage);
+        var content = Component({query: query});
         this.render(content, ["images", "search"]);
       }
 

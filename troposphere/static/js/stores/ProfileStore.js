@@ -24,16 +24,21 @@ define(
           _isFetching = false;
           _profile = profile;
           ProfileStore.emitChange();
-        }).fail(function(){
-          NotificationController.error(
-            null,
-            "There was an error logging you in. If this persists, please email <a href='mailto:support@iplantcollaborative.org'>support@iplantcollaborative.org</a>.",
-            {
-              "positionClass": "toast-top-full-width",
-              "timeOut": "0",
-              "extendedTimeOut": "0"
-            }
-          );
+        }).fail(function(result){
+          if(result.status === 403) {
+            // Redirect the user to the forbidden page with more info
+            window.location.pathname = "/forbidden";
+          }else {
+            NotificationController.error(
+              null,
+              "There was an error logging you in. If this persists, please email <a href='mailto:support@iplantcollaborative.org'>support@iplantcollaborative.org</a>.",
+              {
+                "positionClass": "toast-top-full-width",
+                "timeOut": "0",
+                "extendedTimeOut": "0"
+              }
+            );
+          }
         });
       }
     };

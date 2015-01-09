@@ -32,8 +32,16 @@ define(
         InstanceActions.resume(this.props.instance);
       },
 
+      onReport: function(){
+        InstanceActions.reportInstance(this.props.instance);
+      },
+
+      onImageRequest: function(){
+        InstanceActions.requestImage(this.props.instance);
+      },
+
       onDelete: function(){
-        var redirectUrl = URL.project(this.props.project, {relative: true});
+        var redirectUrl = URL.projectResources({project: this.props.project}, {relative: true});
         InstanceActions.terminate({
           instance:this.props.instance,
           project: this.props.project,
@@ -41,20 +49,11 @@ define(
         });
       },
 
-      onReboot: function(){ /* no implementation yet */ },
-      onResize: function(){ /* no implementation yet */ },
+      onReboot: function(){
+        InstanceActions.reboot(this.props.instance);
+      },
 
       render: function () {
-        var requestImageUrl = URL.requestImage({
-          project: this.props.project,
-          instance: this.props.instance
-        });
-
-        var reportInstanceUrl = URL.reportInstance({
-          project: this.props.project,
-          instance: this.props.instance
-        });
-
         var webShellUrl = this.props.instance.get('shell_url');
         var remoteDesktopUrl = this.props.instance.get('vnc_url');
 
@@ -65,17 +64,21 @@ define(
         // that doesn't exist.
         var linksArray = [
           {label: 'Actions', icon: null},
-          {label: 'Image', icon: 'camera', href: requestImageUrl},
-          {label: 'Report', icon: 'inbox', href: reportInstanceUrl}
+          {label: 'Report', icon: 'inbox', onClick: this.onReport}
           //{label: 'Reboot', icon: 'repeat', onClick: this.onReboot},
           //{label: 'Resize', icon: 'resize-full', onClick: this.onResize},
         ];
+
+        if(status !== "suspended"){
+          linksArray.push({label: 'Image', icon: 'camera', onClick: this.onImageRequest});
+        }
 
         // Add in the conditional links based on current machine state
         if(this.props.instance.get('state').isInFinalState()) {
           if (status === "active") {
             linksArray.push({label: 'Suspend', icon: 'pause', onClick: this.onSuspend});
             linksArray.push({label: 'Stop', icon: 'stop', onClick: this.onStop});
+            linksArray.push({label: 'Reboot', icon: 'repeat', onClick: this.onReboot});
           } else if (status === "suspended") {
             linksArray.push({label: 'Resume', icon: 'play', onClick: this.onResume});
           } else if (status === "shutoff") {

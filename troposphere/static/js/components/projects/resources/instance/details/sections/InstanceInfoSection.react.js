@@ -11,10 +11,7 @@ define(
     'actions/TagActions',
     'stores',
     'crypto',
-    'components/common/Gravatar.react',
-
-    // jQuery plugins: need to make sure they're loaded, but they aren't called directly
-    'chosen'
+    'components/common/Gravatar.react'
   ],
   function (React, Backbone, Time, EditableInputField, ResourceTags, InstanceActions, TagActions, stores, CryptoJS, Gravatar) {
 
@@ -53,11 +50,6 @@ define(
       onTagsChanged: function(text){
         var tags = text || [];
         InstanceActions.updateInstanceAttributes(this.props.instance, {tags: tags})
-      },
-
-      onEditInstanceDetails: function(e){
-        e.preventDefault();
-        alert("Editing instance details not yet implemented.");
       },
 
       render: function () {

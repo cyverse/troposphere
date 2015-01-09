@@ -10,6 +10,7 @@ define(
     'actions/ProjectVolumeActions',
     'components/notifications/VolumeAttachNotifications.react',
     'stores',
+    'globals',
 
     // Modals
     'components/modals/ModalHelpers',
@@ -17,9 +18,10 @@ define(
     'components/modals/volume/VolumeAttachModal.react',
     'components/modals/volume/VolumeDetachModal.react',
     'components/modals/volume/VolumeDeleteModal.react',
-    'components/modals/volume/VolumeCreateModal.react'
+    'components/modals/volume/VolumeCreateModal.react',
+    'components/modals/volume/VolumeReportModal.react'
   ],
-  function (React, AppDispatcher, VolumeConstants, ProjectVolumeConstants, NotificationController, Volume, VolumeState, ProjectVolumeActions, VolumeAttachNotifications, stores, ModalHelpers, VolumeAttachRulesModal, VolumeAttachModal, VolumeDetachModal, VolumeDeleteModal, VolumeCreateModal) {
+  function (React, AppDispatcher, VolumeConstants, ProjectVolumeConstants, NotificationController, Volume, VolumeState, ProjectVolumeActions, VolumeAttachNotifications, stores, globals, ModalHelpers, VolumeAttachRulesModal, VolumeAttachModal, VolumeDetachModal, VolumeDeleteModal, VolumeCreateModal, VolumeReportModal) {
 
     return {
 
@@ -47,7 +49,7 @@ define(
         },{
           patch: true
         }).done(function(){
-          NotificationController.success(null, "Volume name updated");
+          //NotificationController.success(null, "Volume name updated");
           that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
         }).fail(function(){
           var message = "Error updating Volume " + volume.get('name') + ".";
@@ -81,12 +83,24 @@ define(
 
             volume.attachTo(instance, mountLocation, {
               success: function () {
-                NotificationController.success(null, VolumeAttachNotifications.success());
+                //NotificationController.success(null, VolumeAttachNotifications.success());
                 that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+                that.dispatch(VolumeConstants.POLL_VOLUME_WITH_DELAY, {volume: volume});
               },
-              error: function () {
-                var message = "Volume could not be attached. " + VolumeAttachNotifications.error();
-                NotificationController.error(null, message);
+              error: function (responseJSON) {
+                var errorCode = responseJSON.errors[0].code,
+                    errorMessage = responseJSON.errors[0].message,
+                    message;
+
+                if(errorCode === 409){
+                  message = VolumeAttachNotifications.attachError(volume, instance);
+                  NotificationController.error(null, message);
+                }else{
+                  message = "Volume could not be attached. " + VolumeAttachNotifications.error();
+                  NotificationController.error(null, message);
+                }
+
+                that.dispatch(VolumeConstants.POLL_VOLUME, {volume: volume});
               }
             });
           })
@@ -107,8 +121,10 @@ define(
 
           volume.detach({
             success: function (model) {
-              NotificationController.success(null, "Volume was detached.  It is now available to attach to another instance or destroy.");
+              //NotificationController.success(null, "Volume was detached.  It is now available to attach to another instance or destroy.");
+              volume.set('state', volumeState);
               that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+              that.dispatch(VolumeConstants.POLL_VOLUME_WITH_DELAY, {volume: volume});
             },
             error: function (message, response) {
               NotificationController.error(null, "Volume could not be detached");
@@ -194,8 +210,9 @@ define(
           });
 
           volume.save(params).done(function () {
-            NotificationController.success(null, 'Volume created');
+            //NotificationController.success(null, 'Volume created');
             that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+            that.dispatch(VolumeConstants.POLL_VOLUME, {volume: volume});
             that.dispatch(ProjectVolumeConstants.REMOVE_PENDING_VOLUME_FROM_PROJECT, {
               volume: volume,
               project: project
@@ -213,6 +230,54 @@ define(
           });
         })
 
+      },
+
+      reportVolume: function(volume){
+        var that = this;
+
+        var modal = VolumeReportModal({
+          volume: volume
+        });
+
+        ModalHelpers.renderModal(modal, function (reportInfo) {
+          var profile = stores.ProfileStore.get(),
+              username = profile.get('username'),
+              reportUrl = globals.API_ROOT + "/email/support" + globals.slash(),
+              problemText = "",
+              reportData = {};
+
+          if(reportInfo.problems){
+            _.each(reportInfo.problems, function(problem){
+              problemText = problemText + "  -" + problem + "\n";
+            })
+          }
+
+          reportData = {
+            username: username,
+            message: "Volume ID: " + volume.id + "\n" +
+                     "Provider ID: " + volume.get('identity').provider + "\n" +
+                     "\n" +
+                     "Problems" + "\n" +
+                     problemText + "\n" +
+                     "Details \n" +
+                     reportInfo.details + "\n",
+            subject: "Atmosphere Volume Report from " + username
+          };
+
+          $.ajax({
+            url: reportUrl,
+            type: 'POST',
+            data: JSON.stringify(reportData),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (model) {
+              NotificationController.info(null, "Your volume report has been sent to support.");
+            },
+            error: function (response, status, error) {
+              NotificationController.error(null, "Your volume report could not be sent to support");
+            }
+          });
+        })
       }
 
     };

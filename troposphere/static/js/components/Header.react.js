@@ -49,7 +49,7 @@ define(
       render: function () {
         return (
           <li className="dropdown">
-            <a href="/login">Login</a>
+            <a href="/login?redirect=/application?beta=true">Login</a>
           </li>
         );
       }
@@ -82,6 +82,9 @@ define(
                 <a href="#" onClick={this.onShowVersion}>Version</a>
               </li>
               <li>
+                <a href="http://atmosphere.status.io" target="_blank">Status</a>
+              </li>
+              <li>
                 <a href="/logout?cas=True">Sign out</a>
               </li>
             </ul>
@@ -93,14 +96,14 @@ define(
     var Header = React.createClass({
 
       propTypes: {
-        profile: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        profile: React.PropTypes.instanceOf(Backbone.Model),
         currentRoute: React.PropTypes.array.isRequired
       },
 
       render: function () {
 
         var profile = this.props.profile;
-        var loginLogoutDropdown = profile ? LogoutLink({username: profile.get('username')}) : LoginLink();
+        var loginLogoutDropdown = profile ? <LogoutLink username={profile.get('username')}/> : <LoginLink/>;
 
         if(!profile) {
           links = links.filter(function (link) {
@@ -121,6 +124,13 @@ define(
           );
         }.bind(this));
 
+        var productIconUrl;
+        if(profile){
+          productIconUrl = "/application/dashboard";
+        }else{
+          productIconUrl = "/application/images";
+        }
+
         return (
           <div className="navbar navbar-default navbar-fixed-top" role="navigation">
             <MaintenanceMessageBanner maintenanceMessages={this.props.maintenanceMessages}/>
@@ -133,7 +143,7 @@ define(
                   <span className="icon-bar"></span>
                   <span className="icon-bar"></span>
                 </button>
-                <a className="navbar-brand" href="/">
+                <a className="navbar-brand" href={productIconUrl}>
                   Atmosphere
                 </a>
               </div>

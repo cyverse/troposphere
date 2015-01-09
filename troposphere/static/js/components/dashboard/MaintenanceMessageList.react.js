@@ -24,7 +24,7 @@ define(
 
       renderMaintenanceNotification: function(message){
         return (
-          <MaintenanceMessage message={message}/>
+          <MaintenanceMessage key={message.id} message={message}/>
         );
       },
 
@@ -45,7 +45,7 @@ define(
             <ul className="notifications">
               <div className="preview-message">
                 <span className="message">
-                  You will see a notiication here when Atmosphere is scheduled to go down for maintence.
+                  You will see a notification here when Atmosphere is scheduled to go down for maintenance.
                 </span>
               </div>
             </ul>

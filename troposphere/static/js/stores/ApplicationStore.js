@@ -48,6 +48,7 @@ define(
     function update(application){
       application.save({
         name: application.get('name'),
+        description: application.get('description'),
         tags: application.get('tags')
       }, {
         patch: true

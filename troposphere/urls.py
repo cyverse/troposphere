@@ -4,6 +4,8 @@ user_match = "[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*"
 
 urlpatterns = patterns('',
     url(r'^$', 'troposphere.views.root'),
+    url(r'^application/emulate$', 'troposphere.views.unemulate',
+        name='unemulate-user'),
     url(r'^application/emulate/(?P<username>(%s))$' % user_match, 'troposphere.views.emulate',
         name='emulate-user'),
     url(r'^application', 'troposphere.views.application', name='application'),

@@ -60,6 +60,7 @@ define(
                               identities={identities}
                               instances={instances}
                               volumes={volumes}
+                              projects={projects}
             />
           );
         }else {

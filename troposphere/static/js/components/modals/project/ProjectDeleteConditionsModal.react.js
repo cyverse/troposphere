@@ -41,7 +41,7 @@ define(
                 }
               </p>
               <p>
-                Before you can delete this project, you first need to either <strong>DELETE</strong> all resources in this project <span style={{"text-decoration":"underline"}}>or</span> <strong>MOVE</strong> them into another project.
+                Before you can delete this project, you first need to either <strong>DELETE</strong> all resources in this project <span style={{"textDecoration":"underline"}}>or</span> <strong>MOVE</strong> them into another project.
               </p>
               <p>Once there are no resources left in the project, you'll be able to delete it.</p>
             </div>

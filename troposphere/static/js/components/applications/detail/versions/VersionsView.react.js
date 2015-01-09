@@ -17,8 +17,8 @@ define(
 
       render: function () {
         return (
-          <div className="image-versions">
-            <h2>Versions of this Image</h2>
+          <div className="image-versions image-info-segment row">
+            <h2 className="title col-md-2">Versions</h2>
             <MachineList machines={this.props.application.get('machines')}
                          identities={this.props.identities}
             />

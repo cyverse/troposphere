@@ -192,6 +192,12 @@ define(
         this.performAction('resume', options);
       },
 
+      reboot: function (options) {
+        // Prevent user from being able to quickly resume multiple instances and go over quota
+        this.set({status: 'active - rebooting'});
+        this.performAction('reboot', options);
+      },
+
       /*
        * Here, were override the get method to allow lazy-loading of computed
        * attributes

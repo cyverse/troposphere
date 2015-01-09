@@ -23,7 +23,9 @@ define(
 
         // todo: Account for the scenario when the only project is the current one
         // and the length of projects will now be zero
-        state.projectId = currentState.projectId || state.projects.first().id;
+        if(state.projects.models.length > 0) {
+          state.projectId = currentState.projectId || state.projects.first().id;
+        }
       }
 
       return state;
@@ -38,9 +40,8 @@ define(
       },
 
       isSubmittable: function(){
-        var hasName        = !!this.state.projectName;
-        var hasDescription = !!this.state.projectDescription;
-        return hasName && hasDescription;
+        var hasProject = !!this.state.projectId;
+        return hasProject;
       },
 
       //
@@ -104,28 +105,41 @@ define(
 
       renderBody: function(){
         if(this.state.projects){
-          return (
-            <form role='form'>
+          if(this.state.projects.models.length > 0){
+            return (
+              <form role='form'>
 
-              <div className='form-group'>
-                <label htmlFor='volumeSize'>Resources to Move</label>
-                <p>The following resources will be moved to the selected project</p>
-                <ul>
-                  {this.props.resources.map(this.renderResource)}
-                </ul>
-              </div>
+                <div className='form-group'>
+                  <label htmlFor='volumeSize'>Resources to Move</label>
+                  <p>The following resources will be moved to the selected project</p>
+                  <ul>
+                    {this.props.resources.map(this.renderResource)}
+                  </ul>
+                </div>
 
-              <div className='form-group'>
-                <label htmlFor='project'>Project</label>
-                <ProjectSelect
-                    projectId={this.state.projectId}
-                    projects={this.state.projects}
-                    onChange={this.onProjectChange}
-                />
-              </div>
+                <div className='form-group'>
+                  <label htmlFor='project'>Project</label>
+                  <ProjectSelect
+                      projectId={this.state.projectId}
+                      projects={this.state.projects}
+                      onChange={this.onProjectChange}
+                  />
+                </div>
 
-            </form>
-          );
+              </form>
+            );
+          }else{
+            return (
+              <form role='form'>
+
+                <div className='form-group'>
+                  <p>Looks like you only have one project.</p>
+                  <p>In order to move resources between projects, you will first need to create a second project.</p>
+                </div>
+
+              </form>
+            );
+          }
         }
 
         return (

@@ -46,7 +46,7 @@ define(
             </p>
             <p>
               {"The volume will be destroyed and "}
-              <strong style={{"text-decoration":"underline"}}>all data will be permanently lost</strong>
+              <strong style={{"textDecoration":"underline"}}>all data will be permanently lost</strong>
               {"."}
             </p>
           </div>

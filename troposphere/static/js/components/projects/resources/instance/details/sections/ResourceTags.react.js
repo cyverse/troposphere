@@ -4,10 +4,7 @@ define(
   [
     'react',
     'backbone',
-    'components/common/tags/EditTagsView.react',
-
-    // jQuery plugins: need to make sure they're loaded, but they aren't called directly
-    'chosen'
+    'components/common/tags/EditTagsView.react'
   ],
   function (React, Backbone, EditTagsView) {
 
@@ -26,25 +23,6 @@ define(
           isEditingTags: false
         }
       },
-
-      componentDidMount: function(){
-        this.updateChosenForm();
-      },
-
-      componentDidUpdate: function(){
-        this.updateChosenForm();
-      },
-
-      updateChosenForm: function(){
-        var el = this.getDOMNode();
-        var $el = $(el);
-        $el.find('select[name="tags"]')
-           .chosen()
-           .trigger('chosen:updated')
-           .change(this.onTagsChanged);
-      },
-
-      //
 
       onEditTags: function(e){
         e.preventDefault();

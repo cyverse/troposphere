@@ -17,7 +17,7 @@ define(
         modal.props.onCancel = onCancel;
         modal.props.handleHidden = onCancel;
 
-        React.renderComponent(modal, document.getElementById('modal'));
+        React.render(modal, document.getElementById('modal'));
       }
 
     }

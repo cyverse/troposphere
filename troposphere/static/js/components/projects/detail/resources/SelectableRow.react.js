@@ -13,13 +13,17 @@ define(
       propTypes: {
         onResourceSelected: React.PropTypes.func.isRequired,
         onResourceDeselected: React.PropTypes.func.isRequired,
+        onPreviewResource: React.PropTypes.func.isRequired,
         isActive: React.PropTypes.bool,
         isSelected: React.PropTypes.bool,
-        children: React.PropTypes.renderable.isRequired,
+        children: React.PropTypes.node.isRequired,
         resource: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
       toggleCheckbox: function(e){
+        e.stopPropagation();
+        if(!this.props.resource.id) return;
+
         if(this.props.isSelected){
           this.props.onResourceDeselected(this.props.resource);
         }else{
@@ -27,13 +31,19 @@ define(
         }
       },
 
+      previewResource: function(e){
+        if(this.props.onPreviewResource && this.props.resource.id){
+          this.props.onPreviewResource(this.props.resource);
+        }
+      },
+
       render: function () {
         var rowClassName = this.props.isActive ? "selected" : null;
 
         return (
-          <tr className={rowClassName} onClick={this.toggleCheckbox}>
-            <td>
-              <Checkbox isChecked={this.props.isSelected} onToggleChecked={this.toggleCheckbox}/>
+          <tr className={rowClassName} onClick={this.previewResource}>
+            <td onClick={this.toggleCheckbox}>
+              <Checkbox isChecked={this.props.isSelected}/>
             </td>
             {this.props.children}
           </tr>

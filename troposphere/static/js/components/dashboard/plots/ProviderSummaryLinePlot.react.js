@@ -155,7 +155,7 @@ define(
           if(allocationUsageStats.maxAllocation){
             seriesData.data.push(allocationUsage);
             seriesData.limits.Allocation = allocationUsageStats.maxAllocation;
-            seriesData.appendMessages.Allocation = "APUs";
+            seriesData.appendMessages.Allocation = "AUs";
           }
 
           return seriesData;
@@ -233,7 +233,7 @@ define(
                 max: currentLimit
               });
 
-              return React.renderComponentToStaticMarkup(formatterComponent);
+              return React.renderToStaticMarkup(formatterComponent);
             }
           },
           legend: {

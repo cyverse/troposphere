@@ -4,9 +4,12 @@ define(
   [
     'react',
     'backbone',
-    'moment'
+    'moment',
+    'url',
+    './ProjectResource.react',
+    'showdown'
   ],
-  function (React, Backbone, moment) {
+  function (React, Backbone, moment, URL, ProjectResource, Showdown) {
 
     return React.createClass({
 
@@ -15,31 +18,37 @@ define(
       },
 
       render: function () {
-        var project = this.props.project;
+        var project = this.props.project,
+            converter = new Showdown.converter(),
+            description = project.get('description'),
+            descriptionHtml = converter.makeHtml(description);
 
         if(project.id){
-          var projectUrl = "/application/projects/" + project.id;
+          var projectUrl = URL.projectResources({project: project});
           var projectCreationDate = moment(project.get('start_date')).format("MMM D, YYYY");
 
           return (
-            <li>
+            <li className="project-card">
               <a href={projectUrl}>
                 <div style={{"position": "relative"}}>
-                  <h2>{project.get('name')}</h2>
-                  <time>{"Created " + projectCreationDate}</time>
+                  <div className="content">
+                    <h2>{project.get('name')}</h2>
+                    <time>{"Created " + projectCreationDate}</time>
+                    <div className="description" dangerouslySetInnerHTML={{__html: descriptionHtml}}/>
+                  </div>
                   <ul className="project-resource-list">
-                    <li>
-                      <i className="glyphicon glyphicon-tasks"></i>
-                      <span>{project.get('instances').length}</span>
-                    </li>
-                    <li>
-                      <i className="glyphicon glyphicon-hdd"></i>
-                      <span>{project.get('volumes').length}</span>
-                    </li>
-                    <li>
-                      <i className="glyphicon glyphicon-floppy-disk"></i>
-                      <span>{project.get('applications').length}</span>
-                    </li>
+                    <ProjectResource icon={"tasks"}
+                                     count={project.get('instances').length}
+                                     resourceType={"instances"}
+                    />
+                    <ProjectResource icon={"hdd"}
+                                     count={project.get('volumes').length}
+                                     resourceType={"volumes"}
+                    />
+                    <ProjectResource icon={"floppy-disk"}
+                                     count={project.get('applications').length}
+                                     resourceType={"images"}
+                    />
                   </ul>
                 </div>
               </a>

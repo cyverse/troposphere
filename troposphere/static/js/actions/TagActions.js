@@ -21,6 +21,30 @@ define(
         });
       },
 
+      create: function(initialTagName){
+
+        var modal = TagCreateModal({
+          initialTagName: initialTagName
+        });
+
+        ModalHelpers.renderModal(modal, function(name, description){
+
+          var tag = new Tag({
+            name: name,
+            description: description
+          });
+
+          // Add the tag optimistically
+          this.dispatch(TagConstants.ADD_TAG, {tag: tag}, {silent: true});
+          tag.save().done(function () {
+            this.dispatch(TagConstants.UPDATE_TAG, {tag: tag}, {silent: true});
+          }.bind(this)).fail(function () {
+            this.dispatch(TagConstants.REMOVE_TAG, {tag: tag}, {silent: true});
+          }.bind(this));
+
+        }.bind(this));
+      },
+
       create_AddToInstance: function(initialTagName, instance){
 
         var modal = TagCreateModal({

@@ -38,11 +38,6 @@ define(
         VolumeActions.updateVolumeAttributes(this.props.volume, {name: text})
       },
 
-      onEditInformation: function(e){
-        e.preventDefault();
-        alert("Editing instance details not yet implemented.");
-      },
-
       render: function () {
 
         var nameContent;

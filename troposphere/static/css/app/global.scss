@@ -62,4 +62,9 @@ a[target="_blank"]::after {
 
 .progress {
   margin-bottom: 0;
+  height: 5px;
+}
+
+.tooltip-inner {
+  white-space: pre-wrap;
 }

@@ -10,9 +10,12 @@ define(
     './Bookmark.react',
     'context',
     '../detail/tags/Tags.react',
-    'stores'
+    'stores',
+    'navigator',
+    'showdown',
+    'moment'
   ],
-  function (React, Gravatar, Backbone, URL, Rating, Bookmark, context, Tags, stores) {
+  function (React, Gravatar, Backbone, URL, Rating, Bookmark, context, Tags, stores, navigator, Showdown, moment) {
 
     return React.createClass({
 
@@ -24,13 +27,17 @@ define(
       onAppClick: function (e) {
         e.preventDefault();
         var url = URL.application(this.props.application);
-        Backbone.history.navigate(url, {trigger: true});
+        navigator.navigateTo(url);
       },
 
       render: function () {
-        var app = this.props.application;
-        var type = stores.ProfileStore.get().get('icon_set');
-        var imageTags = stores.TagStore.getImageTags(app);
+        var app = this.props.application,
+            type = stores.ProfileStore.get().get('icon_set'),
+            imageTags = stores.TagStore.getImageTags(app),
+            applicationCreationDate = moment(app.get('start_date')).format("MMM D, YYYY"),
+            converter = new Showdown.converter(),
+            description = app.get('description'),
+            descriptionHtml = converter.makeHtml(description);
 
         var iconSize = 67;
         var icon;
@@ -54,9 +61,6 @@ define(
           );
         }
 
-        // todo: Put ratings back when we actually implement them, not while they're random
-        //var ratings = <Rating up={app.get('votes').up} down={app.get('votes').down} />
-
         return (
           <div className='app-card'>
             <div>
@@ -66,14 +70,16 @@ define(
                 </a>
               </span>
               <span className='app-name'>
-                <h4>{app.get('name')}</h4>
-                <div>by <strong>{app.get('created_by')}</strong></div>
+                <h4>
+                  <a href={appUri}>{app.get('name')}</a>
+                </h4>
+                <div><time>{applicationCreationDate}</time> by <strong>{app.get('created_by')}</strong></div>
                 <Tags activeTags={imageTags}
                     tags={this.props.tags}
                 />
               </span>
             </div>
-            <p>{app.get('description')}</p>
+            <div dangerouslySetInnerHTML={{__html: descriptionHtml}}/>
             {bookmark}
           </div>
         );

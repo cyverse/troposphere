@@ -142,9 +142,16 @@ Atmo.Views.InstanceScreen = Backbone.View.extend({
                 Atmo.Utils.notify(header, body);
 
             },
-            error: function (model, message, options) {
-                //console.log('error');
-                //console.log(model, message);
+            error: function (model, resp, options) {
+                var header = "Unable to terminate instance",
+                    body;
+                if(resp.status === 409){
+                    body = "Instances cannot be terminated while volumes are attached.  Please detach all volumes from this instance and try terminating again."
+                }else{
+                    body = "There was an error terminate your instance.";
+                    body += ' If the problem persists, please contact <a href="mailto:support@iplantcollaborative.org">support@iplantcollaborative.org</a>';
+                }
+                Atmo.Utils.notify(header, body);
             }
         });
     },

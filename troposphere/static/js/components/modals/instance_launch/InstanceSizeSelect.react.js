@@ -3,10 +3,9 @@
 define(
   [
     'react',
-    'backbone',
-    './InstanceSizeOption.react'
+    'backbone'
   ],
-  function (React, Backbone, InstanceSizeOption) {
+  function (React, Backbone) {
 
     return React.createClass({
 
@@ -16,24 +15,28 @@ define(
         onChange: React.PropTypes.func.isRequired
       },
 
+      renderOption: function (size) {
+        return (
+          <option key={size.id} value={size.id}>
+            {size.formattedDetails()}
+          </option>
+        );
+      },
+
       render: function () {
         if (this.props.sizes) {
-          var options = this.props.sizes.map(function (size) {
-            return (
-              <InstanceSizeOption key={size.id} size={size}/>
-            );
-          });
+          var options = this.props.sizes.map(this.renderOption);
 
           return (
             <select value={this.props.sizeId} className='form-control' id='size' onChange={this.props.onChange}>
               {options}
             </select>
           );
-        } else {
-          return (
-            <div className="loading-small"></div>
-          );
         }
+
+        return (
+          <div className="loading-small"></div>
+        );
       }
     });
 

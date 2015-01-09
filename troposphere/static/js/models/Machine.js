@@ -1,9 +1,10 @@
 define(
   [
     'backbone',
-    'globals'
+    'globals',
+    'moment'
   ],
-  function (Backbone, globals) {
+  function (Backbone, globals, moment) {
 
     return Backbone.Model.extend({
 
@@ -28,7 +29,7 @@ define(
 
       parse: function (response) {
         response.id = response.alias;
-        response.start_date = new Date(response.start_date);
+        response.start_date = moment(response.start_date);
         return response;
       },
 

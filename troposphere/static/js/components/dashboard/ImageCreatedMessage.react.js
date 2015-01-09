@@ -23,9 +23,17 @@ define(
 
         return (
           <li>
-            <div className="title">
-              <i className="glyphicon glyphicon-floppy-disk"></i>
-              <span><strong>{username}</strong> created the image <a href={imageUrl}>{application.get('name')}</a> on {startDate.format("M/D/YY")}</span>
+            <div className="message activity-message">
+              <div>
+                <i className="glyphicon glyphicon-floppy-disk"></i>
+              </div>
+              <div className="details">
+                <div><strong>{username}</strong> created an image</div>
+                <div>{startDate.format("MMM DD, YYYY")}</div>
+                <div>
+                  <a href={imageUrl}>{application.get('name')}</a>
+                </div>
+              </div>
             </div>
           </li>
         );

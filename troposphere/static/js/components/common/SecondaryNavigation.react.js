@@ -18,26 +18,7 @@ define(
         currentRoute: React.PropTypes.string.isRequired,
         canEditTitle: React.PropTypes.bool,
         onTitleChanged: React.PropTypes.func,
-        additionalContent: React.PropTypes.renderable
-      },
-
-      getInitialState: function(){
-        return {
-          isEditing: false,
-          title: this.props.title
-        }
-      },
-
-      onDoneEditing: function(text){
-        this.setState({
-          title: text,
-          isEditing: false
-        });
-        this.props.onTitleChanged(text);
-      },
-
-      onEnterEditMode: function(e){
-        this.setState({isEditing: true});
+        additionalContent: React.PropTypes.node
       },
 
       render: function () {
@@ -57,33 +38,21 @@ define(
 
         var titleContent;
         if(this.props.title) {
-          if (this.props.canEditTitle && this.state.isEditing) {
-            titleContent = (
-              <EditableInputField text={this.state.title} onDoneEditing={this.onDoneEditing}/>
-              );
-          } else {
-            titleContent = (
-              <h1 onClick={this.onEnterEditMode}>
-              {this.state.title}
-                <i className="glyphicon glyphicon-pencil"></i>
+          titleContent = (
+            <div className="project-name">
+              <h1>
+                {this.props.title}
               </h1>
-              );
-          }
-        }else{
-          titleContent = null;
+            </div>
+          )
         }
-
-        var titleClassName = "project-name";
-        if(this.props.canEditTitle) titleClassName += " editable";
 
         var hasAdditionalContent = this.props.additionalContent;
 
         return (
           <div className="secondary-nav">
             <div className="container">
-              <div className={titleClassName}>
-                {titleContent}
-              </div>
+              {titleContent}
               <ul className="secondary-nav-links">
                 {links}
               </ul>

@@ -117,6 +117,18 @@ define(
         }
 
         return new TagCollection(imageTagArray);
+      },
+
+      getTagsFromArrayOfNames: function (tagNames) {
+        if(!_tags) throw new Error("Must fetch tags before calling getTagsFromArrayOfNames");
+
+        var tagArray = tagNames.map(function(tagName){
+          var tag = _tags.findWhere({name: tagName}, {parse: true});
+          if(!tag) throw new Error("Expected to find a tag with name '" + tagName +"'");
+          return tag;
+        });
+
+        return new TagCollection(tagArray);
       }
 
     };

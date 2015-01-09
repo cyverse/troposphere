@@ -24,7 +24,7 @@ define(
           handleHidden: onClose
         });
 
-        React.renderComponent(modal, document.getElementById('modal'));
+        React.render(modal, document.getElementById('modal'));
       }
 
     };

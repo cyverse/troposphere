@@ -45,7 +45,8 @@ define(function (require) {
         });
 
         $(document).ready(function () {
-          React.renderComponent(SplashScreen(), document.getElementById('application'));
+          var SplashScreenComponent = React.createFactory(SplashScreen);
+          React.render(SplashScreenComponent(), document.getElementById('application'));
         });
       }
     }

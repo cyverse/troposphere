@@ -17,16 +17,23 @@ define(
 
       render: function () {
         var project = this.props.project,
-            volume = this.props.volume;
+            volume = this.props.volume,
+            volumeUrl;
 
-        var volumeUrl = URL.projectVolume({
-          project: project,
-          volume: volume
-        });
+        if(volume.id) {
+          volumeUrl = URL.projectVolume({
+            project: project,
+            volume: volume
+          });
 
-        return (
-          <a href={volumeUrl}>{volume.get('name')}</a>
-        );
+          return (
+            <a href={volumeUrl}>{volume.get('name')}</a>
+          );
+        }else{
+          return (
+            <span>{volume.get('name')}</span>
+          );
+        }
       }
 
     });

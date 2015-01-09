@@ -6,8 +6,8 @@ define(
     'backbone',
     './PreviewPanel.react',
     './ButtonBar.react',
-    './InstanceList.react',
-    './VolumeList.react',
+    './instance/InstanceList.react',
+    './volume/VolumeList.react',
 
     // Stores
     'stores/InstanceStore',
@@ -79,6 +79,13 @@ define(
             if(!resourceInProject) this.state.selectedResources.remove(selectedResource);
           }.bind(this));
 
+          // Hold onto selected resource if it still exists
+          var indexOfSelectedResource = this.state.selectedResources.indexOf(this.state.selectedResource);
+          if(indexOfSelectedResource >= 0) {
+            state.selectedResource = this.state.selectedResource;
+            state.previewedResource = this.state.previewedResource;
+          }
+
           this.setState(state);
         }
       },
@@ -104,6 +111,17 @@ define(
         this.setState({
           selectedResource: previewedResource,
           previewedResource: previewedResource,
+          selectedResources: this.state.selectedResources
+        });
+      },
+
+      onPreviewResource: function(resource){
+        this.state.selectedResources.reset();
+        this.state.selectedResources.push(resource);
+
+        this.setState({
+          selectedResource: resource,
+          previewedResource: resource,
           selectedResources: this.state.selectedResources
         });
       },
@@ -158,6 +176,7 @@ define(
                                 project={this.props.project}
                                 onResourceSelected={this.onResourceSelected}
                                 onResourceDeselected={this.onResourceDeselected}
+                                onPreviewResource={this.onPreviewResource}
                                 providers={this.state.providers}
                                 previewedResource={this.state.previewedResource}
                                 selectedResources={this.state.selectedResources}
@@ -166,6 +185,7 @@ define(
                               project={this.props.project}
                               onResourceSelected={this.onResourceSelected}
                               onResourceDeselected={this.onResourceDeselected}
+                              onPreviewResource={this.onPreviewResource}
                               providers={this.state.providers}
                               previewedResource={this.state.previewedResource}
                               selectedResources={this.state.selectedResources}

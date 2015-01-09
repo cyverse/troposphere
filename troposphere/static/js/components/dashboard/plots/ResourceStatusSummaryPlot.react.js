@@ -29,6 +29,9 @@ define(
         var $el = $(el);
         var chart = $el.highcharts();
 
+        var newChartTitle = this.props.resources.length + " " + this.props.title;
+        chart.setTitle({text: newChartTitle});
+
         var data = this.getChartData();
 
         chart.series[0].update({
@@ -119,7 +122,7 @@ define(
                 status: this.key,
                 count: this.y
               });
-              return React.renderComponentToStaticMarkup(formatterComponent);
+              return React.renderToStaticMarkup(formatterComponent);
             }
           },
           legend: {

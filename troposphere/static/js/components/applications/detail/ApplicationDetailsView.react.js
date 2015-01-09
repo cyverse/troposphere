@@ -3,15 +3,15 @@
 define(
   [
     'react',
+    'backbone',
     './header/HeaderView.react',
-    './availability/AvailabilityView.react',
-    './tags/TagsView.react',
     './launch/ImageLaunchCard.react',
-    './description/DescriptionView.react',
-    './versions/VersionsView.react',
-    'actions/InstanceActions'
+    'actions/InstanceActions',
+    './ViewApplicationDetails.react',
+    './EditApplicationDetails.react',
+    'actions'
   ],
-  function (React, HeaderView, AvailabilityView, TagsView, ImageLaunchCard, DescriptionView, VersionsView, InstanceActions) {
+  function (React, Backbone, HeaderView, ImageLaunchCard, InstanceActions, ViewApplicationDetails, EditApplicationDetails, actions) {
 
     return React.createClass({
 
@@ -22,33 +22,53 @@ define(
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
+      getInitialState: function(){
+        return {
+          isEditing: false
+        }
+      },
+
       showModal: function (e) {
         InstanceActions.launch(this.props.application);
       },
 
+      handleEditImageDetails: function(){
+        this.setState({isEditing: true})
+      },
+
+      handleSaveImageDetails: function(newAttributes){
+        var application = this.props.application;
+        this.setState({isEditing: false});
+        actions.ApplicationActions.updateApplicationAttributes(application, newAttributes);
+      },
+
+      handleCancelEditing: function(){
+        this.setState({isEditing: false})
+      },
+
       render: function () {
-        var availabilityView, versionView;
+        var view;
 
-        // Since providers requires authentication, we can't display which providers
-        // the image is available on on the public page
-        if(this.props.providers){
-          availabilityView = (
-            <AvailabilityView application={this.props.application}
-                              providers={this.props.providers}
+        if(this.state.isEditing){
+          view = (
+            <EditApplicationDetails application={this.props.application}
+                                    tags={this.props.tags}
+                                    providers={this.props.providers}
+                                    identities={this.props.identities}
+                                    onSave={this.handleSaveImageDetails}
+                                    onCancel={this.handleCancelEditing}
             />
-          );
-        }
-
-        // Since identities requires authentication, we can't display the image
-        // versions on the public page
-        if(this.props.identities){
-          versionView = (
-            <VersionsView application={this.props.application}
-                          identities={this.props.identities}
+          )
+        }else{
+          view = (
+            <ViewApplicationDetails application={this.props.application}
+                                    tags={this.props.tags}
+                                    providers={this.props.providers}
+                                    identities={this.props.identities}
+                                    onEditImageDetails={this.handleEditImageDetails}
             />
-          );
+          )
         }
-
         return (
           <div id='app-detail' className="container">
             <div className="row">
@@ -58,10 +78,7 @@ define(
             </div>
             <div className="row image-content">
               <div className="col-md-9">
-                <TagsView application={this.props.application} tags={this.props.tags}/>
-                {availabilityView}
-                <DescriptionView application={this.props.application}/>
-                {versionView}
+                {view}
               </div>
               <div className="col-md-3">
                 <ImageLaunchCard application={this.props.application} onLaunch={this.showModal}/>

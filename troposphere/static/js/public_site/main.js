@@ -7,14 +7,14 @@ require.config({
     'backbone.wreqr': '//cdnjs.cloudflare.com/ajax/libs/backbone.wreqr/0.1.0/backbone.wreqr.min',
     'backbone.babysitter': '../bower_components/backbone.babysitter/lib/backbone.babysitter',
     underscore: '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min',
-    google: 'https://www.google.com/jsapi',
     bootstrap: '//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.1.1/js/bootstrap.min',
     moment: '//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min',
-    react: '//cdnjs.cloudflare.com/ajax/libs/react/0.10.0/react-with-addons.min',
+    react: '//cdnjs.cloudflare.com/ajax/libs/react/0.12.0/react-with-addons.min',
     chosen: '//cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.jquery.min',
     toastr: '//cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.2/js/toastr.min',
     q: '//cdnjs.cloudflare.com/ajax/libs/q.js/1.0.1/q.min',
-    crypto: '//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5'
+    crypto: '//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5',
+    showdown: '//cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min'
   },
   shim: {
     underscore: {

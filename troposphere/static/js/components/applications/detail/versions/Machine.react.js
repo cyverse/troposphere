@@ -5,12 +5,11 @@ define(
     'react',
     'backbone',
     'components/common/Time.react',
-    'moment',
     'components/common/Gravatar.react',
     'crypto',
     'stores'
   ],
-  function (React, Backbone, Time, moment, Gravatar, CryptoJS, stores) {
+  function (React, Backbone, Time, Gravatar, CryptoJS, stores) {
 
     return React.createClass({
 
@@ -19,9 +18,10 @@ define(
       },
 
       render: function () {
+        console.log(this.props.machine.id);
         // todo: figure out if anything is ever recommended, or if it's just a concept idea
         var isRecommended = false;
-        var dateCreated = moment(this.props.machine.get('start_date')).format("M/DD/YYYY");
+        var dateCreated = this.props.machine.get('start_date').format("M/DD/YYYY");
 
         var machineHash = CryptoJS.MD5(this.props.machine.id).toString();
         var iconSize = 63;
