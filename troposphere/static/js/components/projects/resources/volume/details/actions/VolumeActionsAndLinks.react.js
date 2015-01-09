@@ -40,7 +40,7 @@ define(
 
       render: function () {
 
-        var status = this.props.volume.get('status');
+        var status = this.props.volume.get('state').get('status');
 
         var linksArray = [
           {label: 'Actions', icon: null},

@@ -85,7 +85,7 @@ define(
               success: function () {
                 //NotificationController.success(null, VolumeAttachNotifications.success());
                 that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
-                that.dispatch(VolumeConstants.POLL_VOLUME, {volume: volume});
+                that.dispatch(VolumeConstants.POLL_VOLUME_WITH_DELAY, {volume: volume});
               },
               error: function (responseJSON) {
                 var errorCode = responseJSON.errors[0].code,
@@ -121,9 +121,10 @@ define(
 
           volume.detach({
             success: function (model) {
-              NotificationController.success(null, "Volume was detached.  It is now available to attach to another instance or destroy.");
+              //NotificationController.success(null, "Volume was detached.  It is now available to attach to another instance or destroy.");
+              volume.set('state', volumeState);
               that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
-              that.dispatch(VolumeConstants.POLL_VOLUME, {volume: volume});
+              that.dispatch(VolumeConstants.POLL_VOLUME_WITH_DELAY, {volume: volume});
             },
             error: function (message, response) {
               NotificationController.error(null, "Volume could not be detached");

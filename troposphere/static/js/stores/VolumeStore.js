@@ -63,6 +63,13 @@ define(function (require) {
     }
   };
 
+  var pollUntilBuildIsFinished = function (volume) {
+    if (volume.id && _volumesBuilding.indexOf(volume) < 0) {
+      _volumesBuilding.push(volume);
+      fetchAndRemoveIfFinished(volume);
+    }
+  };
+
   var fetchAndRemoveIfFinished = function (volume) {
     setTimeout(function () {
       volume.fetch().done(function () {
@@ -177,6 +184,10 @@ define(function (require) {
 
       case VolumeConstants.POLL_VOLUME:
         pollNowUntilBuildIsFinished(payload.volume);
+        break;
+
+      case VolumeConstants.POLL_VOLUME_WITH_DELAY:
+        pollUntilBuildIsFinished(payload.volume);
         break;
 
       case ProjectVolumeConstants.ADD_PENDING_VOLUME_TO_PROJECT:
