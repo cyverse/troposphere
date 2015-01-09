@@ -6,9 +6,10 @@ define(
     'backbone',
     'moment',
     'url',
-    './ProjectResource.react'
+    './ProjectResource.react',
+    'showdown'
   ],
-  function (React, Backbone, moment, URL, ProjectResource) {
+  function (React, Backbone, moment, URL, ProjectResource, Showdown) {
 
     return React.createClass({
 
@@ -17,7 +18,10 @@ define(
       },
 
       render: function () {
-        var project = this.props.project;
+        var project = this.props.project,
+            converter = new Showdown.converter(),
+            description = project.get('description'),
+            descriptionHtml = converter.makeHtml(description);
 
         if(project.id){
           var projectUrl = URL.projectResources({project: project});
@@ -30,7 +34,7 @@ define(
                   <div className="content">
                     <h2>{project.get('name')}</h2>
                     <time>{"Created " + projectCreationDate}</time>
-                    <p className="description">{project.get("description")}</p>
+                    <div className="description" dangerouslySetInnerHTML={{__html: descriptionHtml}}/>
                   </div>
                   <ul className="project-resource-list">
                     <ProjectResource icon={"tasks"}
