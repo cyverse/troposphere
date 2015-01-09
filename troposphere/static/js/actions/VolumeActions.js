@@ -210,7 +210,7 @@ define(
           });
 
           volume.save(params).done(function () {
-            NotificationController.success(null, 'Volume created');
+            //NotificationController.success(null, 'Volume created');
             that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
             that.dispatch(VolumeConstants.POLL_VOLUME, {volume: volume});
             that.dispatch(ProjectVolumeConstants.REMOVE_PENDING_VOLUME_FROM_PROJECT, {
