@@ -43,14 +43,28 @@ define(
         });
         var providerVolumes = new VolumeCollection(providerVolumeArray);
 
-        return (
-          <ProviderInstanceTable provider={provider}
-                                 identities={providerIdentities}
-                                 instances={providerInstances}
-                                 volumes={providerVolumes}
-                                 projects={projects}
-          />
-        )
+        var identity = providerIdentities.first(),
+            instancesConsumingAllocation = identity.getInstancesConsumingAllocation(providerInstances);
+
+        if(instancesConsumingAllocation.length > 0) {
+          return (
+            <div>
+              <p>The following instances are currently consuming allocation on this provider:</p>
+              <ProviderInstanceTable provider={provider}
+                                     identities={providerIdentities}
+                                     instances={providerInstances}
+                                     volumes={providerVolumes}
+                                     projects={projects}
+              />
+            </div>
+          )
+        }else{
+          return (
+            <div>
+              <p>You currently have no instances using allocation.</p>
+            </div>
+          )
+        }
       },
 
       render: function () {
@@ -63,10 +77,7 @@ define(
         return (
           <div className="row provider-info-section">
             <h4>Instances Consuming Allocation</h4>
-            <div>
-              <p>The following instances are currently consuming allocation on this provider:</p>
-              {this.renderBody(provider, identities, instances, volumes, projects)}
-            </div>
+            {this.renderBody(provider, identities, instances, volumes, projects)}
           </div>
         );
 
