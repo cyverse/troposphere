@@ -30,7 +30,7 @@ define(
 
           if(instance.isRealResource) {
             return (
-              <InstanceRow key={instance.id}
+              <InstanceRow key={instance.id || instance.cid}
                            instance={instance}
                            project={this.props.project}
                            onResourceSelected={this.props.onResourceSelected}
@@ -43,7 +43,7 @@ define(
             );
           }else{
             return (
-              <InstanceNotRealRow key={instance.id}
+              <InstanceNotRealRow key={instance.id || instance.cid}
                                   instance={instance}
                                   project={this.props.project}
               />

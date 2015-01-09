@@ -42,7 +42,7 @@ define(
 
           if(volume.isRealResource) {
             return (
-              <VolumeRow key={volume.id}
+              <VolumeRow key={volume.id || volume.cid}
                          volume={volume}
                          project={this.props.project}
                          onResourceSelected={this.props.onResourceSelected}
@@ -56,7 +56,7 @@ define(
             );
           }else{
             return (
-              <VolumeNotRealRow key={volume.id}
+              <VolumeNotRealRow key={volume.id || volume.cid}
                                 volume={volume}
                                 project={this.props.project}
               />
