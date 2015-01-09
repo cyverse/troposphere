@@ -52,7 +52,7 @@ define(
         if(projectArray.length > 0){
           return projectArray[0];
         }else{
-          throw new Error("found more or less than 1 project containing the instance")
+          console.warn("The instance is not in a project");
         }
       },
 
@@ -63,7 +63,10 @@ define(
         var burnRate = ausPerCpu*numberOfCpus;
         var instanceProject = this.getProjectForInstance(this.props.projects, instance);
 
-        var instanceUrl = URL.projectInstance({project: instanceProject, instance: instance});
+        var instanceUrl;
+        if(instanceProject){
+          instanceUrl = URL.projectInstance({project: instanceProject, instance: instance});
+        }
 
         return (
           <tr key={instance.id}>
