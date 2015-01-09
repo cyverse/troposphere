@@ -332,7 +332,7 @@ define(
           // Since this is triggered from the images page, navigate off
           // that page and back to the instance list so the user can see
           // their instance being created
-          var redirectUrl = URL.projectResources(project, {relative: true});
+          var redirectUrl = URL.projectResources({project: project}, {relative: true});
           Backbone.history.navigate(redirectUrl, {trigger: true});
         })
       },
