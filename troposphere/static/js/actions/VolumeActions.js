@@ -49,7 +49,7 @@ define(
         },{
           patch: true
         }).done(function(){
-          NotificationController.success(null, "Volume name updated");
+          //NotificationController.success(null, "Volume name updated");
           that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
         }).fail(function(){
           var message = "Error updating Volume " + volume.get('name') + ".";
