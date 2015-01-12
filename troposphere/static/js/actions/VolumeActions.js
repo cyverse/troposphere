@@ -58,9 +58,16 @@ define(
       },
 
       attach: function(volume, project){
-        var that = this;
+        var that = this,
+            instances = stores.InstanceStore.getInstancesInProject(project),
+            InstanceCollection = instances.constructor;
 
-        var instances = stores.InstanceStore.getInstancesInProject(project);
+        // Filter out instances not in the same provider as the volume
+        instances = instances.filter(function(i){
+          return i.get('identity').provider === volume.get('identity').provider;
+        });
+        instances = new InstanceCollection(instances);
+
         if(instances.length === 0){
 
           var modal = VolumeAttachRulesModal({
