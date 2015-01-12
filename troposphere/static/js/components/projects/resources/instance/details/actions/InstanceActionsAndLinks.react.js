@@ -54,10 +54,11 @@ define(
       },
 
       render: function () {
-        var webShellUrl = this.props.instance.get('shell_url');
-        var remoteDesktopUrl = this.props.instance.get('vnc_url');
-
-        var status = this.props.instance.get('state').get('status');
+        var webShellUrl = this.props.instance.get('shell_url'),
+            remoteDesktopUrl = this.props.instance.get('vnc_url'),
+            status = this.props.instance.get('state').get('status'),
+            ip_address = this.props.instance.get('ip_address'),
+            webLinksDisabled = !ip_address || ip_address === "0.0.0.0";
 
         // todo: Add back and implement reboot and resize once it's understood how to
         // I'm hiding from the display for now so as not to show users functionality
@@ -89,8 +90,8 @@ define(
         linksArray = linksArray.concat([
           {label: 'Delete', icon: 'remove', onClick: this.onDelete, isDangerLink: true},
           {label: 'Links', icon: null},
-          {label: 'Open Web Shell', icon: 'credit-card', href: webShellUrl, openInNewWindow: true},
-          {label: 'Remote Desktop', icon: 'fullscreen', href: remoteDesktopUrl, openInNewWindow: true}
+          {label: 'Open Web Shell', icon: 'credit-card', href: webShellUrl, openInNewWindow: true, isDisabled: webLinksDisabled},
+          {label: 'Remote Desktop', icon: 'fullscreen', href: remoteDesktopUrl, openInNewWindow: true, isDisabled: webLinksDisabled}
         ]);
 
         var links = linksArray.map(function(link){
@@ -110,7 +111,7 @@ define(
             var style = {};
             if(!link.href) style.cursor = 'not-allowed';
             return (
-              <li key={link.label} className={className + " link"} style={style}>
+              <li key={link.label} className={className + " link"} style={style} disabled={link.isDisabled}>
                 <a href={link.href} target="_blank">
                   <span>
                     <Glyphicon name={link.icon}/>{link.label}
