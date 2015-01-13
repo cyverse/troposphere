@@ -6,8 +6,7 @@
 /* For: Bootstrap */
 
 // Basics of the navbar
-//$navbar-default-bg: #0098aa;
-$navbar-default-bg: pink;
+$navbar-default-bg: #0098aa;
 
 // Navbar links
 $navbar-default-link-color: darken(white, 10%);
@@ -28,11 +27,10 @@ $navbar-default-toggle-border-color:       $navbar-default-link-active-bg;
 // We need to let bootstrap know the path to our glyphicons (stored in bower_components)
 $icon-font-path: "/assets/bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
 
-//$brand-primary: #56AA21;
-$brand-primary: red;
+$brand-primary: #56AA21;
 
 $link-color: $brand-primary;
-$tag-color: orange;
+$tag-color: $brand-primary;
 
 //
 // Vendor Stylesheets
