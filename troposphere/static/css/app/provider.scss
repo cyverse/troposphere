@@ -70,10 +70,10 @@
   }
 
   li.active {
-    border-left: 3px solid #56AA21;
+    border-left: 3px solid $link-color;
 
     a {
-      color: #56AA21;
+      color: $link-color;
     }
   }
 }

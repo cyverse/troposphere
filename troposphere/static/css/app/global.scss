@@ -7,11 +7,11 @@ h1, h2, h3 {
 }
 
 a {
-  color: #56AA21;
+  color: $link-color;
   border-bottom: 1px solid transparent;
 
   &:hover {
-    color: #308400;
+    //color: #308400;
     text-decoration: none;
   }
 }
@@ -21,19 +21,19 @@ a {
 }
 
 .btn-primary {
-  border: 0;
+//  border: 0;
   // Copied out of Illustrator using the 'CSS Properties' (Window -> CSS Properties)
-  background : -moz-linear-gradient(50% 0% -90deg,rgba(106, 165, 79, 1) 0%,rgba(88, 148, 65, 1) 100%);
-  background : -webkit-linear-gradient(-90deg, rgba(106, 165, 79, 1) 0%, rgba(88, 148, 65, 1) 100%);
-  background : -webkit-gradient(linear,50% 0% ,50% 100% ,color-stop(0,rgba(106, 165, 79, 1) ),color-stop(1,rgba(88, 148, 65, 1) ));
-  background : -o-linear-gradient(-90deg, rgba(106, 165, 79, 1) 0%, rgba(88, 148, 65, 1) 100%);
-  background : -ms-linear-gradient(-90deg, rgba(106, 165, 79, 1) 0%, rgba(88, 148, 65, 1) 100%);
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#6AA54F', endColorstr='#589441' ,GradientType=0)";
-  background : linear-gradient(180deg, rgba(106, 165, 79, 1) 0%, rgba(88, 148, 65, 1) 100%);
+//  background : -moz-linear-gradient(50% 0% -90deg,rgba(106, 165, 79, 1) 0%,rgba(88, 148, 65, 1) 100%);
+//  background : -webkit-linear-gradient(-90deg, rgba(106, 165, 79, 1) 0%, rgba(88, 148, 65, 1) 100%);
+//  background : -webkit-gradient(linear,50% 0% ,50% 100% ,color-stop(0,rgba(106, 165, 79, 1) ),color-stop(1,rgba(88, 148, 65, 1) ));
+//  background : -o-linear-gradient(-90deg, rgba(106, 165, 79, 1) 0%, rgba(88, 148, 65, 1) 100%);
+//  background : -ms-linear-gradient(-90deg, rgba(106, 165, 79, 1) 0%, rgba(88, 148, 65, 1) 100%);
+//  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#6AA54F', endColorstr='#589441' ,GradientType=0)";
+//  background : linear-gradient(180deg, rgba(106, 165, 79, 1) 0%, rgba(88, 148, 65, 1) 100%);
   border-radius : 1px;
   -moz-border-radius : 1px;
   -webkit-border-radius : 1px;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6AA54F',endColorstr='#589441' , GradientType=0);
+//  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6AA54F',endColorstr='#589441' , GradientType=0);
 }
 
 .btn-primary:hover,
@@ -41,8 +41,8 @@ a {
 .btn-primary:active,
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
-  background-color: #6ED445;
-  border: 0;
+  //background-color: #6ED445;
+  //border: 0;
   box-shadow: 1px 1px 1px 0px rgba(0, 0, 0, .2);
   transition: background-color 500ms cubic;
 }
