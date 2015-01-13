@@ -7,7 +7,7 @@
   // Add BETA label after the brand name
   &::after {
     content: "BETA";
-    background-color: hsl(182, 46%, 51%);
+    background-color: $navbar-default-link-active-bg;
     padding: 6px;
     border-radius: 3px;
     font-size: 80%;
