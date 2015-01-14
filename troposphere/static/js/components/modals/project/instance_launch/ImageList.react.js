@@ -24,6 +24,7 @@ define(
         return (
           <ul className="app-card-list modal-list">
             {this.props.images.map(this.renderImage)}
+            {this.props.children}
           </ul>
         );
       }
