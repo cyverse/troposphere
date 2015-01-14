@@ -129,6 +129,14 @@ define(
         )
       },
 
+      renderNoResultsFor: function(query){
+        var message = 'No images found matching "' + query + '"';
+
+        return (
+          <div className="filter-description">{message}</div>
+        )
+      },
+
       renderMoreImagesButton: function(images, totalNumberOfImages){
         if(images.models.length < totalNumberOfImages) {
           return (
@@ -160,20 +168,36 @@ define(
           images = images.first(numberOfResults);
           images = new ImageCollection(images);
 
-          return (
-            <div>
-              <input type="text"
-                     placeholder="Search across image name, tag or description"
-                     className="form-control search-input"
-                     onChange={this.handleChange}
-                     onKeyUp={this.handleKeyUp}
-              />
+          if(images.length > 0) {
+            return (
+              <div>
+                <input
+                  type="text"
+                  placeholder="Search across image name, tag or description"
+                  className="form-control search-input"
+                  onChange={this.handleChange}
+                  onKeyUp={this.handleKeyUp}
+                />
               {this.renderFilterDescription(query)}
-              <ImageList images={images} onClick={this.showImageDetails}>
+                <ImageList images={images} onClick={this.showImageDetails}>
                 {this.renderMoreImagesButton(images, totalNumberOfImages)}
-              </ImageList>
-            </div>
-          );
+                </ImageList>
+              </div>
+            );
+          }else{
+            return (
+              <div>
+                <input
+                  type="text"
+                  placeholder="Search across image name, tag or description"
+                  className="form-control search-input"
+                  onChange={this.handleChange}
+                  onKeyUp={this.handleKeyUp}
+                />
+                {this.renderNoResultsFor(query)}
+              </div>
+            );
+          }
         }
 
         return (
