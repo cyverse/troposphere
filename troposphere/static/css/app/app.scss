@@ -27,6 +27,11 @@ $navbar-default-toggle-border-color:       $navbar-default-link-active-bg;
 // We need to let bootstrap know the path to our glyphicons (stored in bower_components)
 $icon-font-path: "/assets/bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
 
+$brand-primary: #56AA21;
+
+$link-color: $brand-primary;
+$tag-color: $brand-primary;
+
 //
 // Vendor Stylesheets
 // ------------------
@@ -64,3 +69,15 @@ $chosen-sprite-path: '/assets/bower_components/bootstrap-chosen/chosen-sprite.pn
 @import "footer";
 @import "chosen_tweaks";
 @import "modal";
+
+// Primary - header
+// when headers button is pressed
+// link color + on hover
+// graph colors
+// buttons + button on press
+// secondary nav background
+// body background
+
+
+// primary + shade
+// accent + shade
