@@ -6,10 +6,9 @@ define(
     'backbone',
     'stores',
     './ImageList.react',
-    'components/applications/list/ApplicationCardList.react',
     'collections/ApplicationCollection'
   ],
-  function (React, Backbone, stores, ImageList, ApplicationCardList, ImageCollection) {
+  function (React, Backbone, stores, ImageList, ImageCollection) {
 
     var ENTER_KEY = 13;
 
@@ -114,9 +113,11 @@ define(
       renderMoreImagesButton: function(images, totalNumberOfImages){
         if(images.models.length < totalNumberOfImages) {
           return (
-            <button style={{"margin": "auto", "display": "block"}} className="btn btn-default" onClick={this.handleLoadMoreImages}>
-              Show more images...
-            </button>
+            <li>
+              <button style={{"margin": "15px auto", "display": "block"}} className="btn btn-default" onClick={this.handleLoadMoreImages}>
+                Show more images...
+              </button>
+            </li>
           )
         }
       },
@@ -150,8 +151,9 @@ define(
                      onKeyUp={this.handleKeyUp}
               />
               {this.renderFilterDescription(query)}
-              <ImageList images={images} onClick={this.showImageDetails}/>
-              {this.renderMoreImagesButton(images, totalNumberOfImages)}
+              <ImageList images={images} onClick={this.showImageDetails}>
+                {this.renderMoreImagesButton(images, totalNumberOfImages)}
+              </ImageList>
             </div>
           );
         }
@@ -177,7 +179,7 @@ define(
               {this.renderBody()}
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-danger cancel-button" onClick={this.onPrevious}>
+              <button type="button" className="btn btn-danger cancel-button pull-left" onClick={this.onPrevious}>
                 Cancel
               </button>
             </div>
