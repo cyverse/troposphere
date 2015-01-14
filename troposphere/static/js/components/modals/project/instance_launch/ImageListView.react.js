@@ -179,7 +179,7 @@ define(
               {this.renderBody()}
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-danger cancel-button pull-left" onClick={this.onPrevious}>
+              <button type="button" className="btn btn-danger cancel-button pull-left" onClick={this.onBack}>
                 Cancel
               </button>
             </div>
