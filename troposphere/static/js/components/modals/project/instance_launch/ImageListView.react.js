@@ -10,7 +10,8 @@ define(
   ],
   function (React, Backbone, stores, ImageList, ImageCollection) {
 
-    var ENTER_KEY = 13;
+    var timer,
+        timerDelay = 100;
 
     return React.createClass({
 
@@ -29,14 +30,17 @@ define(
       },
 
       getState: function() {
-        var inputText = this.state ? this.state.inputText : null;
-        var query = this.state ? this.state.query : null;
-        var querySubmitted = this.state ? this.state.querySubmitted : false;
+        var query = this.state ? this.state.query : null,
+            images;
+        if(query){
+          images = stores.ApplicationStore.getSearchResultsFor(query);
+        }else{
+          images = stores.ApplicationStore.getAll();
+        }
+
         return {
-          inputText: inputText,
           query: query,
-          querySubmitted: querySubmitted,
-          images: stores.ApplicationStore.getAll(),
+          images: images,
           tags: stores.TagStore.getAll(),
 
           resultsPerPage: 20,
@@ -63,16 +67,31 @@ define(
       // ------------------------
       //
 
+      handleSearch: function (query) {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(function(){
+          query = this.state.query;
+          if(query) {
+            this.setState({
+              images: stores.ApplicationStore.getSearchResultsFor(query)
+            });
+          }else{
+            this.setState({
+              images: stores.ApplicationStore.getAll()
+            });
+          }
+        }.bind(this), timerDelay);
+      },
+
       handleChange: function (e) {
-        var text = e.target.value;
-        this.setState({inputText: text});
+        this.setState({query: e.target.value});
       },
 
       handleKeyUp: function (e) {
-        var query = this.state.inputText;
-        if (e.keyCode == ENTER_KEY && query.length) {
-          this.setState({query: query, querySubmitted: true});
-        }
+        //if (e.keyCode == 13 && this.state.query.length) {
+        //if (this.state.query.length) {
+          this.handleSearch(this.state.query);
+        //}
       },
 
       showImageDetails: function(image){
@@ -126,14 +145,13 @@ define(
         var images = this.state.images,
             tags = this.state.tags,
             query = this.state.query,
-            querySubmitted = this.state.querySubmitted,
             numberOfResults,
             totalNumberOfImages;
 
         // if a search has been requested, use the search results instead of the full image list
-        if(query && querySubmitted) {
-          images = stores.ApplicationStore.getSearchResultsFor(query);
-        }
+        //if(query) {
+        //  images = stores.ApplicationStore.getSearchResultsFor(query);
+        //}
 
         if(images && tags){
           numberOfResults = this.state.page*this.state.resultsPerPage;
