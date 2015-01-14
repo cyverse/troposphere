@@ -31,7 +31,7 @@ define(
       render: function () {
         var notifications = [];
         var maintenanceNotifications = this.props.messages.map(this.renderMaintenanceNotification);
-        var applicationNotifications = this.props.applications.slice(0,10).map(this.renderApplicationNotification);
+        var applicationNotifications = this.props.applications.slice(0,30).map(this.renderApplicationNotification);
         notifications = notifications.concat(maintenanceNotifications, applicationNotifications);
 
         if (notifications.length > 0) {
