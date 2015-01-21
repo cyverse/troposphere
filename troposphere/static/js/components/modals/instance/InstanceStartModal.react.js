@@ -3,9 +3,10 @@
 define(
   [
     'react',
-    'components/mixins/BootstrapModalMixin.react'
+    'components/mixins/BootstrapModalMixin.react',
+    'components/common/Glyphicon.react'
   ],
-  function (React, BootstrapModalMixin) {
+  function (React, BootstrapModalMixin, Glyphicon) {
 
     return React.createClass({
       mixins: [BootstrapModalMixin],
