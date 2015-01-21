@@ -36,6 +36,7 @@
     .app-name {
       vertical-align: top;
       display: inline-block;
+      max-width: 1000px;
 
       h4 {
         font-size: 19px;
@@ -141,6 +142,7 @@
       margin-right: 4px;
       margin-bottom: 4px;
       border-top: 1px solid transparent;
+      float: left;
 
       span, a {
         padding: 3px 7px;
