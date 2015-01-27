@@ -45,6 +45,16 @@ define(
 
       // Use selected instance or default to the first one
       if (state.instances) {
+        var volume = this.props.volume,
+            InstanceCollection = state.instances.constructor;
+
+        // Filter out instances not in the same provider as the volume
+        state.instances = state.instances.filter(function(i){
+          return i.get('identity').provider === volume.get('identity').provider;
+        });
+        state.instances = new InstanceCollection(state.instances);
+
+
         state.instanceId = this.state.instanceId || state.instances.first().id;
       }
 
