@@ -20,8 +20,8 @@ define(
         var providerName = this.props.provider.get('name');
 
         return (
-          <ResourceDetail label="Identity">
-            <strong>{identityId}</strong> on <strong>{providerName}</strong>
+          <ResourceDetail label="Provider">
+            {providerName}
           </ResourceDetail>
         );
       }
