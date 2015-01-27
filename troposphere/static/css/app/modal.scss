@@ -42,6 +42,10 @@
 
 .app-card-list.modal-list {
   margin-bottom: 15px;
+  max-height: 550px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border: 1px solid black;
 
   .app-card {
     border-radius: 0;
@@ -53,10 +57,26 @@
     margin: 0;
     border: 1px solid #ccc;
     border-top: 0;
+
+    &:hover {
+      cursor: pointer;
+
+      .app-card {
+        background-color: #eee;
+      }
+    }
   }
   
   li:first-child {
     border-top: 1px solid #ccc;
+  }
+
+  ul.tags {
+    max-width: 430px;
+
+    li {
+      float: left;
+    }
   }
 }
 

@@ -155,7 +155,12 @@ define(
                 <ul className="nav navbar-nav navbar-right">
                   <li>
                     <a className="beta-toggle" href="/application?beta=false">
-                      <img src="/assets/images/beta_on.png" style={{"width":"82px"}}/>
+                      <div className="toggle-wrapper">
+                        <div className="toggle-background">
+                          <div className="toggle-text">View Old UI</div>
+                        </div>
+                        <div className="toggle-switch"></div>
+                      </div>
                     </a>
                   </li>
                   {loginLogoutDropdown}

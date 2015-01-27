@@ -24,7 +24,7 @@ define(
         }.bind(this));
 
         return (
-          <ul className="tags">
+          <ul className="tags clearfix">
             {tags}
           </ul>
         );

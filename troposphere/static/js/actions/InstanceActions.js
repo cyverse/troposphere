@@ -90,17 +90,28 @@ define(
         var project = payload.project;
         var that = this;
 
-        that.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
+        var instanceState = new InstanceState({status_raw: "deleting"});
+        var originalState = instance.get('state');
+        instance.set({state: instanceState});
+        that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
 
         instance.destroy().done(function () {
           //NotificationController.success(null, 'Instance terminated');
-          // poll until the instance is actually terminated
-          //that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+          that.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
           ProjectInstanceActions.removeInstanceFromProject(instance, project);
 
         }).fail(function (response) {
-          NotificationController.error(null, 'Instance could not be terminated');
-          that.dispatch(InstanceConstants.ADD_INSTANCE, {instance: instance});
+          instance.set({state: originalState});
+          that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+          that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+
+          if(response && response.responseJSON && response.responseJSON.errors){
+              var errors = response.responseJSON.errors;
+              var error = errors[0];
+              NotificationController.error("Your instance could not be deleted.", error.message);
+           }else{
+              NotificationController.error("Your instance could not be deleted", "If the problem persists, please report the instance.");
+           }
         });
       },
 
@@ -147,6 +158,7 @@ define(
 
         ModalHelpers.renderModal(modal, function () {
           var instanceState = new InstanceState({status_raw: "active - suspending"});
+          var originalState = instance.get('state');
           instance.set({state: instanceState});
           that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
 
@@ -161,7 +173,16 @@ define(
              that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
            },
            error: function (response) {
-             NotificationController.error(null, "Your instance could not be suspended");
+             instance.set({state: originalState});
+             that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+             that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+             if(response && response.responseJSON && response.responseJSON.errors){
+                var errors = response.responseJSON.errors;
+                var error = errors[0];
+                NotificationController.error("Your instance could not be suspended.", error.message);
+             }else{
+                NotificationController.error("Your instance could not be suspended", "If the problem persists, please report the instance.");
+             }
            }
          });
         });
@@ -174,6 +195,8 @@ define(
 
         ModalHelpers.renderModal(modal, function () {
           var instanceState = new InstanceState({status_raw: "suspended - resuming"});
+          var originalState = instance.get('state');
+
           instance.set({state: instanceState});
           that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
 
@@ -188,7 +211,17 @@ define(
              that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
            },
            error: function (response) {
-             NotificationController.error(null, "Your instance could not be resumed");
+            instance.set({state: originalState});
+             that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+             that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+
+             if(response && response.responseJSON && response.responseJSON.errors){
+                var errors = response.responseJSON.errors;
+                var error = errors[0];
+                NotificationController.error("Your instance could not be resumed.", error.message);
+             }else{
+                NotificationController.error("Your instance could not be resumed", "If the problem persists, please report the instance.");
+             }
            }
          });
         });
@@ -203,6 +236,7 @@ define(
         ModalHelpers.renderModal(modal, function () {
 
           var instanceState = new InstanceState({status_raw: "active - powering-off"});
+          var originalState = instance.get('state');
           instance.set({state: instanceState});
           that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
 
@@ -217,7 +251,17 @@ define(
              that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
            },
            error: function (response) {
-             NotificationController.error(null, "Your instance could not be stopped");
+             instance.set({state: originalState});
+             that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+             that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+
+             if(response && response.responseJSON && response.responseJSON.errors){
+                var errors = response.responseJSON.errors;
+                var error = errors[0];
+                NotificationController.error("Your instance could not be stopped.", error.message);
+             }else{
+                NotificationController.error("Your instance could not be stopped", "If the problem persists, please report the instance.");
+             }
            }
          });
         })
@@ -230,13 +274,12 @@ define(
 
         ModalHelpers.renderModal(modal, function () {
           var instanceState = new InstanceState({status_raw: "shutoff - powering-on"});
+          var originalState = instance.get('state');
           instance.set({state: instanceState});
           that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
 
           instance.start({
            success: function (model) {
-             //NotificationController.success(null, "Your instance is starting...");
-
              var instanceState = new InstanceState({status_raw: "shutoff - powering-on"});
              instance.set({state: instanceState});
 
@@ -244,7 +287,16 @@ define(
              that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
            },
            error: function (response) {
-             NotificationController.error(null, "Your instance could not be started");
+             instance.set({state: originalState});
+             that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+             that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+             if(response && response.responseJSON && response.responseJSON.errors){
+                var errors = response.responseJSON.errors;
+                var error = errors[0];
+                NotificationController.error("Your instance could not be started.", error.message);
+             }else{
+                NotificationController.error("Your instance could not be started", "If the problem persists, please report the instance.");
+             }
            }
          });
         })
@@ -261,6 +313,7 @@ define(
           // reboot_type: "HARD"
 
           var instanceState = new InstanceState({status_raw: "active - rebooting"});
+          var originalState = instance.get('state');
           instance.set({state: instanceState});
           that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
 
@@ -273,8 +326,17 @@ define(
              that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
            },
            error: function (response) {
-             NotificationController.error(null, "Your instance could not be rebooted");
+             instance.set({state: originalState});
+             that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
              that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+
+             if(response && response.responseJSON && response.responseJSON.errors){
+                var errors = response.responseJSON.errors;
+                var error = errors[0];
+                NotificationController.error("Instance could not be rebooted", error.message);
+             }else{
+                NotificationController.error("Instance could not be rebooted", "If the problem persists, please report the instance.");
+             }
            }
          });
         });
@@ -320,12 +382,19 @@ define(
               ProjectInstanceActions.addInstanceToProject(instance, project);
             },
             error: function (response) {
-              NotificationController.error(null, 'Instance could not be launched');
               that.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
               that.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
                 instance: instance,
                 project: project
               });
+
+              if(response && response.responseJSON && response.responseJSON.errors){
+                var errors = response.responseJSON.errors;
+                var error = errors[0];
+                NotificationController.error("Instance could not be launched", error.message);
+             }else{
+                NotificationController.error("Instance could not be launched", "If the problem persists, please report the instance.");
+             }
             }
           });
 
@@ -386,7 +455,13 @@ define(
               NotificationController.info(null, "An image of your instance has been requested");
             },
             error: function (response, status, error) {
-              NotificationController.error(null, "An image of your instance could not be requested");
+              if(response && response.responseJSON && response.responseJSON.errors){
+                var errors = response.responseJSON.errors;
+                var error = errors[0];
+                NotificationController.error("An image of your instance could not be requested.", error.message);
+              }else{
+                NotificationController.error("An image of your instance could not be requested", "If the problem persists, please report the instance.");
+              }
             }
           });
         })
@@ -435,7 +510,13 @@ define(
               NotificationController.info(null, "Your instance report has been sent to support.");
             },
             error: function (response, status, error) {
-              NotificationController.error(null, "Your instance report could not be sent to support");
+              if(response && response.responseJSON && response.responseJSON.errors){
+                var errors = response.responseJSON.errors;
+                var error = errors[0];
+                NotificationController.error("Your instance report could not be sent to support", error.message);
+              }else{
+                NotificationController.error("Your instance report could not be sent to support", "If the problem persists, please send an email to support@iplantcollaborative.org.");
+              }
             }
           });
         })
@@ -479,12 +560,18 @@ define(
               ProjectInstanceActions.addInstanceToProject(instance, project);
             },
             error: function (response) {
-              NotificationController.error(null, 'Instance could not be launched');
               that.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
               that.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
                 instance: instance,
                 project: project
               });
+              if(response && response.responseJSON && response.responseJSON.errors){
+                var errors = response.responseJSON.errors;
+                var error = errors[0];
+                NotificationController.error("Instance could not be launched", error.message);
+              }else{
+                NotificationController.error("Instance could not be launched", "If the problem persists, please send an email to support@iplantcollaborative.org.");
+              }
             }
           });
         })

@@ -80,6 +80,7 @@ define(
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-default cancel-button pull-left" onClick={this.onBack}>
+                <span className="glyphicon glyphicon-chevron-left"></span>
                 Back
               </button>
               <button type="button" className="btn btn-primary cancel-button" onClick={this.onConfigure}>

@@ -40,9 +40,10 @@ define(
       computed: {
 
         shell_url: function () {
-          var username = context.profile.get('username');
-          var ip = this.get('ip_address');
-          return "https://atmo-proxy.iplantcollaborative.org/?ssh=ssh://" + username + "@" + ip + ":22";
+          var username = context.profile.get('username'),
+              ip = this.get('ip_address'),
+              location = ip.split(".").join("-");
+          return "https://atmo-proxy.iplantcollaborative.org/?location=" + location + "&ssh=ssh://" + username + "@" + ip + ":22";
         },
 
         vnc_url: function () {

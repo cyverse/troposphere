@@ -35,12 +35,18 @@ define(
               <p>
                 <strong>Uh oh! </strong>
                 {
-                  "It looks like you don't have any instances in this project. Volumes can only be attached " +
-                  "to instances in the same project, so you'll need to "
+                  "It looks like you don't have any instances in this project that you can attach the volume " +
+                  "to. Volumes can only be attached to instances that are in the same project and on the same " +
+                  "provider as the volume."
+                }
+              </p>
+              <p>
+                {
+                  "If you'd like to attach this volume to an instance, you'll first need to "
                 }
                 <a href="https://pods.iplantcollaborative.org/wiki/display/atmman/Launching+a+New+Instance">create an instance</a>
                 {
-                  " or move an existing instance into this project before you can attach the volume."
+                  " on the same provider or move an existing instance into this project."
                 }
               </p>
             </div>

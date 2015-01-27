@@ -20,7 +20,7 @@ define(
 
       renderProvider: function(provider){
         return (
-          <option value={provider.id}>{provider.get('location')}</option>
+          <option key={provider.id} value={provider.id}>{provider.get('location')}</option>
         )
       },
 

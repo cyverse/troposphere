@@ -6,12 +6,12 @@ define(
     'backbone',
     'stores',
     './ImageList.react',
-    'components/applications/list/ApplicationCardList.react',
     'collections/ApplicationCollection'
   ],
-  function (React, Backbone, stores, ImageList, ApplicationCardList, ImageCollection) {
+  function (React, Backbone, stores, ImageList, ImageCollection) {
 
-    var ENTER_KEY = 13;
+    var timer,
+        timerDelay = 100;
 
     return React.createClass({
 
@@ -30,14 +30,17 @@ define(
       },
 
       getState: function() {
-        var inputText = this.state ? this.state.inputText : null;
-        var query = this.state ? this.state.query : null;
-        var querySubmitted = this.state ? this.state.querySubmitted : false;
+        var query = this.state ? this.state.query : null,
+            images;
+        if(query){
+          images = stores.ApplicationStore.getSearchResultsFor(query);
+        }else{
+          images = stores.ApplicationStore.getAll();
+        }
+
         return {
-          inputText: inputText,
           query: query,
-          querySubmitted: querySubmitted,
-          images: stores.ApplicationStore.getAll(),
+          images: images,
           tags: stores.TagStore.getAll(),
 
           resultsPerPage: 20,
@@ -64,16 +67,31 @@ define(
       // ------------------------
       //
 
+      handleSearch: function (query) {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(function(){
+          query = this.state.query;
+          if(query) {
+            this.setState({
+              images: stores.ApplicationStore.getSearchResultsFor(query)
+            });
+          }else{
+            this.setState({
+              images: stores.ApplicationStore.getAll()
+            });
+          }
+        }.bind(this), timerDelay);
+      },
+
       handleChange: function (e) {
-        var text = e.target.value;
-        this.setState({inputText: text});
+        this.setState({query: e.target.value});
       },
 
       handleKeyUp: function (e) {
-        var query = this.state.inputText;
-        if (e.keyCode == ENTER_KEY && query.length) {
-          this.setState({query: query, querySubmitted: true});
-        }
+        //if (e.keyCode == 13 && this.state.query.length) {
+        //if (this.state.query.length) {
+          this.handleSearch(this.state.query);
+        //}
       },
 
       showImageDetails: function(image){
@@ -111,12 +129,22 @@ define(
         )
       },
 
+      renderNoResultsFor: function(query){
+        var message = 'No images found matching "' + query + '"';
+
+        return (
+          <div className="filter-description">{message}</div>
+        )
+      },
+
       renderMoreImagesButton: function(images, totalNumberOfImages){
         if(images.models.length < totalNumberOfImages) {
           return (
-            <button style={{"margin": "auto", "display": "block"}} className="btn btn-default" onClick={this.handleLoadMoreImages}>
-              Show more images...
-            </button>
+            <li>
+              <button style={{"margin": "15px auto", "display": "block"}} className="btn btn-default" onClick={this.handleLoadMoreImages}>
+                Show more images...
+              </button>
+            </li>
           )
         }
       },
@@ -125,14 +153,13 @@ define(
         var images = this.state.images,
             tags = this.state.tags,
             query = this.state.query,
-            querySubmitted = this.state.querySubmitted,
             numberOfResults,
             totalNumberOfImages;
 
         // if a search has been requested, use the search results instead of the full image list
-        if(query && querySubmitted) {
-          images = stores.ApplicationStore.getSearchResultsFor(query);
-        }
+        //if(query) {
+        //  images = stores.ApplicationStore.getSearchResultsFor(query);
+        //}
 
         if(images && tags){
           numberOfResults = this.state.page*this.state.resultsPerPage;
@@ -141,19 +168,36 @@ define(
           images = images.first(numberOfResults);
           images = new ImageCollection(images);
 
-          return (
-            <div>
-              <input type="text"
-                     placeholder="Search across image name, tag or description"
-                     className="form-control search-input"
-                     onChange={this.handleChange}
-                     onKeyUp={this.handleKeyUp}
-              />
+          if(images.length > 0) {
+            return (
+              <div>
+                <input
+                  type="text"
+                  placeholder="Search across image name, tag or description"
+                  className="form-control search-input"
+                  onChange={this.handleChange}
+                  onKeyUp={this.handleKeyUp}
+                />
               {this.renderFilterDescription(query)}
-              <ImageList images={images} onClick={this.showImageDetails}/>
-              {this.renderMoreImagesButton(images, totalNumberOfImages)}
-            </div>
-          );
+                <ImageList images={images} onClick={this.showImageDetails}>
+                {this.renderMoreImagesButton(images, totalNumberOfImages)}
+                </ImageList>
+              </div>
+            );
+          }else{
+            return (
+              <div>
+                <input
+                  type="text"
+                  placeholder="Search across image name, tag or description"
+                  className="form-control search-input"
+                  onChange={this.handleChange}
+                  onKeyUp={this.handleKeyUp}
+                />
+                {this.renderNoResultsFor(query)}
+              </div>
+            );
+          }
         }
 
         return (
@@ -177,7 +221,7 @@ define(
               {this.renderBody()}
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-danger cancel-button" onClick={this.onPrevious}>
+              <button type="button" className="btn btn-danger cancel-button pull-left" onClick={this.onBack}>
                 Cancel
               </button>
             </div>

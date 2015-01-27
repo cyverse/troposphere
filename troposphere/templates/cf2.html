@@ -9,6 +9,45 @@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="{{ site_root }}/assets/resources/css/cloudfront.css"/>
 
+    <style>
+        a.beta-toggle {
+            padding-top: 16px;
+            padding-bottom: 9px;
+        }
+
+        a.beta-toggle .toggle-wrapper {
+            position: relative;
+            margin-top: 2px;
+        }
+
+        a.beta-toggle .toggle-background {
+            background-color: #ABABAB;
+            width: 126px;
+            height: 18px;
+            border-radius: 14px;
+            font-size: 13px;
+        }
+
+        a.beta-toggle .toggle-text {
+            margin-left: 8px;
+            padding-top: 3px;
+            color: #FCEEEB;
+            font-family: Helvetica;
+            font-weight: 100;
+        }
+
+        a.beta-toggle .toggle-switch {
+            width: 22px;
+            height: 22px;
+            position: absolute;
+            background-color: #E4E4E4;
+            border-radius: 12px;
+            top: -2px;
+            right: 0px;
+        }
+
+    </style>
+
     <!--JS-->
     <!--[if IE]>
     <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -35,8 +74,13 @@
             <div class="btn-toolbar navbar-right">
 
                 <div class="btn-group btn-group-sm" style="margin-top: 4px; margin-right: 15px;">
-                    <a href="/application?beta=true">
-                        <img src="/assets/images/beta_off.png" style="width:82px;">
+                    <a class="beta-toggle" href="/application?beta=true">
+                      <div class="toggle-wrapper">
+                        <div class="toggle-background">
+                          <div class="toggle-text">Preview New UI</div>
+                        </div>
+                        <div class="toggle-switch"></div>
+                      </div>
                     </a>
                 </div>
 
