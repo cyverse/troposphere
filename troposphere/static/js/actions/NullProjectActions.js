@@ -114,6 +114,10 @@ define(function (require) {
 
         if (instanceId) {
           var instance = instances.get(instanceId);
+          if(!instance){
+            console.warn("Instance with id: " + instanceId + " was not found.");
+            return;
+          }
           var instanceProjectId = instance.get('projects')[0];
           if(volumeProjectId !== instanceProjectId){
             var project = stores.ProjectStore.get(instanceProjectId);
