@@ -239,10 +239,10 @@ define(
           return (
             <div className="alert alert-danger">
               <Glyphicon name='warning-sign'/>
-              <strong>Uh oh!</strong>
+              <strong>{"Uh oh!"}</strong>
               {
-                "Looks like you don't have any AUs available.  In order to launch instances, you need " +
-                "to have AU's free.  You will be able to launch again once your AU's have been reset."
+                " Looks like you don't have any AUs available.  In order to launch instances, you need " +
+                "to have AUs free.  You will be able to launch again once your AUs have been reset."
               }
             </div>
           );
