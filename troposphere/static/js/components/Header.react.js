@@ -143,9 +143,7 @@ define(
                   <span className="icon-bar"></span>
                   <span className="icon-bar"></span>
                 </button>
-                <a className="navbar-brand" href={productIconUrl}>
-                  Atmosphere
-                </a>
+                <a className="navbar-brand" href={productIconUrl}></a>
               </div>
 
               <div className="navbar-collapse collapse">
