@@ -38,11 +38,16 @@ define(
       },
 
       render: function () {
-        var content;
+        var content,
+            imagingDocsUrl = "https://pods.iplantcollaborative.org/wiki/display/atmman/Requesting+an+Image+of+an+Instance";
         if(this.state.applications && this.state.tags){
           if(this.state.applications.isEmpty()){
             content = (
-              <p>You have not created any images.  Click the 'image' button on the details page for one of your instances to create an image of it.</p>
+              <p>
+                {"You have not created any images. To learn how to create an image, please refer to the "}
+                <a href={imagingDocsUrl} target="_blank">documention on imaging</a>
+                {"."}
+              </p>
             );
           } else {
             content = (
