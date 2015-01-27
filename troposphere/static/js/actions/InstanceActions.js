@@ -90,22 +90,27 @@ define(
         var project = payload.project;
         var that = this;
 
-        that.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
+        var instanceState = new InstanceState({status_raw: "deleting"});
+        var originalState = instance.get('state');
+        instance.set({state: instanceState});
+        that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
 
         instance.destroy().done(function () {
           //NotificationController.success(null, 'Instance terminated');
-          // poll until the instance is actually terminated
-          //that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+          that.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
           ProjectInstanceActions.removeInstanceFromProject(instance, project);
 
         }).fail(function (response) {
-          that.dispatch(InstanceConstants.ADD_INSTANCE, {instance: instance});
+          instance.set({state: originalState});
+          that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+          that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+
           if(response && response.responseJSON && response.responseJSON.errors){
               var errors = response.responseJSON.errors;
               var error = errors[0];
-              NotificationController.error("Your instance could not be terminated.", error.message);
+              NotificationController.error("Your instance could not be deleted.", error.message);
            }else{
-              NotificationController.error("Your instance could not be terminated", "If the problem persists, please report the instance.");
+              NotificationController.error("Your instance could not be deleted", "If the problem persists, please report the instance.");
            }
         });
       },
