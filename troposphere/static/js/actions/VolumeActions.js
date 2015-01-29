@@ -19,9 +19,10 @@ define(
     'components/modals/volume/VolumeDetachModal.react',
     'components/modals/volume/VolumeDeleteModal.react',
     'components/modals/volume/VolumeCreateModal.react',
-    'components/modals/volume/VolumeReportModal.react'
+    'components/modals/volume/VolumeReportModal.react',
+    'components/modals/volume/ExplainVolumeDeleteConditionsModal.react'
   ],
-  function (React, AppDispatcher, VolumeConstants, ProjectVolumeConstants, NotificationController, Volume, VolumeState, ProjectVolumeActions, VolumeAttachNotifications, stores, globals, ModalHelpers, VolumeAttachRulesModal, VolumeAttachModal, VolumeDetachModal, VolumeDeleteModal, VolumeCreateModal, VolumeReportModal) {
+  function (React, AppDispatcher, VolumeConstants, ProjectVolumeConstants, NotificationController, Volume, VolumeState, ProjectVolumeActions, VolumeAttachNotifications, stores, globals, ModalHelpers, VolumeAttachRulesModal, VolumeAttachModal, VolumeDetachModal, VolumeDeleteModal, VolumeCreateModal, VolumeReportModal, ExplainVolumeDeleteConditionsModal) {
 
     return {
 
@@ -172,12 +173,25 @@ define(
         var volume = payload.volume;
         var redirectUrl = payload.redirectUrl;
         var that = this;
+        var modal;
+        var isAttached = volume.get('attach_data') && volume.get('attach_data').instance_id;
 
-        var modal = VolumeDeleteModal({
-          volume: volume
-        });
+        if(isAttached){
+          modal = ExplainVolumeDeleteConditionsModal({
+            volume: volume,
+            instance: stores.InstanceStore.getInstanceInProject(
+              payload.project,
+              volume.get('attach_data').instance_id
+            )
+          });
+        }else{
+          modal = VolumeDeleteModal({
+            volume: volume
+          });
+        }
 
         ModalHelpers.renderModal(modal, function () {
+          if(isAttached) return;
           that._destroy(payload, options);
           if(redirectUrl) Backbone.history.navigate(redirectUrl, {trigger: true});
         })
