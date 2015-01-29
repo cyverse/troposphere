@@ -73,8 +73,11 @@ define(
 
         // Use selected project or default to the null one
         if(state.projects) {
-          state.projectId = state.projectId || state.projects.first().id;
+          state.projectId = state.projectId || state.projects.length > 0 ? state.projects.first() : null;
         }
+
+        // Use provided instance name or default to nothing
+        state.projectName = this.state.projectName || "";
       }
 
       return state;
@@ -97,6 +100,7 @@ define(
         var hasImageVersion          = !!this.state.machineId;
         var hasProvider              = !!this.state.identityId;
         var hasSize                  = !!this.state.sizeId;
+        var hasProject               = !!this.state.projectId || !!this.state.projectName;
         var hasAllocationAvailable   = this.hasAvailableAllocation(selectedIdentity);
         var providerNotInMaintenance = !isProviderInMaintenance;
         var hasEnoughQuotaForCpu = false;
@@ -108,7 +112,7 @@ define(
           hasEnoughQuotaForMemory = this.hasEnoughQuotaForMemory(selectedIdentity, size, this.state.sizes, this.state.instances);
         }
 
-        return hasInstanceName && hasImageVersion && hasProvider && hasSize && providerNotInMaintenance && hasAllocationAvailable && hasEnoughQuotaForCpu && hasEnoughQuotaForMemory;
+        return hasInstanceName && hasImageVersion && hasProvider && hasSize && providerNotInMaintenance && hasAllocationAvailable && hasEnoughQuotaForCpu && hasEnoughQuotaForMemory && hasProject;
       },
 
       //
@@ -189,7 +193,11 @@ define(
         this.hide();
         var identity = this.state.identities.get(this.state.identityId);
         var project = this.state.projects.get(this.state.projectId);
-        this.props.onConfirm(identity, this.state.machineId, this.state.sizeId, this.state.instanceName, project);
+        if(this.state.projectName){
+          this.props.onConfirm(identity, this.state.machineId, this.state.sizeId, this.state.instanceName, this.state.projectName);
+        }else{
+          this.props.onConfirm(identity, this.state.machineId, this.state.sizeId, this.state.instanceName, project);
+        }
       },
 
       handleKeyDown: function(e){
@@ -227,6 +235,10 @@ define(
       onProjectChange: function(e){
         var newProjectId = e.target.value;
         this.setState({projectId: newProjectId});
+      },
+
+      onProjectNameChange: function (e) {
+        this.setState({projectName: e.target.value});
       },
 
       //
@@ -319,6 +331,30 @@ define(
         return this.renderProgressBar(message, currentlyUsedPercent, projectedPercent, overQuotaMessage);
       },
 
+      renderProjectSelectionForm: function(){
+        if (this.state.projects.length > 0) {
+          return (
+            <ProjectSelect projectId={this.state.projectId}
+                           projects={this.state.projects}
+                           onChange={this.onProjectChange}
+            />
+          );
+        }
+      },
+
+      renderProjectCreationForm: function(){
+        if(this.state.projects.length <= 0){
+          return (
+            <input type="text"
+                   className="form-control"
+                   value={this.state.projectName}
+                   onChange={this.onProjectNameChange}
+                   placeholder="Enter project name..."
+            />
+          )
+        }
+      },
+
       renderBody: function(){
         if(this.state.identities && this.state.providers && this.state.projects && this.state.sizes && this.state.instances){
 
@@ -381,11 +417,8 @@ define(
                 <div className='form-group'>
                   <label htmlFor='project' className="col-sm-3 control-label">Project</label>
                   <div className="col-sm-9">
-                    <ProjectSelect
-                        projectId={this.state.projectId}
-                        projects={this.state.projects}
-                        onChange={this.onProjectChange}
-                    />
+                    {this.renderProjectSelectionForm()}
+                    {this.renderProjectCreationForm()}
                   </div>
                 </div>
               </div>

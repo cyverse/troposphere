@@ -47,8 +47,12 @@ define(
         var relevantInstances = this._getInstancesBelongingToThisIdentity(instances);
 
         return relevantInstances.reduce(function(total, instance){
-          var size = sizes.get(instance.get('size_alias'));
-          return total + size.get('cpu');
+          if(instance.id) {
+            var size = sizes.get(instance.get('size_alias'));
+            return total + size.get('cpu');
+          }else{
+            return total;
+          }
         }, 0);
       },
 
@@ -56,8 +60,12 @@ define(
         var relevantInstances = this._getInstancesBelongingToThisIdentity(instances);
 
         return relevantInstances.reduce(function(total, instance){
-          var size = sizes.get(instance.get('size_alias'));
-          return total + size.get('mem');
+          if(instance.id) {
+            var size = sizes.get(instance.get('size_alias'));
+            return total + size.get('mem');
+          }else{
+            return total;
+          }
         }, 0);
       },
 

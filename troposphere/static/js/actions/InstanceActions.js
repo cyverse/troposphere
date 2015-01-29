@@ -4,8 +4,10 @@ define(
     'dispatchers/AppDispatcher',
     'constants/InstanceConstants',
     'constants/ProjectInstanceConstants',
+    'constants/ProjectConstants',
     'models/Instance',
     'models/InstanceState',
+    'models/Project',
     'globals',
     'context',
     'url',
@@ -27,7 +29,7 @@ define(
     'components/modals/instance/InstanceReportModal.react',
     'components/modals/instance/InstanceImageModal.react'
   ],
-  function (React, AppDispatcher, InstanceConstants, ProjectInstanceConstants, Instance, InstanceState, globals, context, URL, NotificationController, ProjectInstanceActions, stores, ModalHelpers, InstanceSuspendModal, InstanceDeleteModal, InstanceResumeModal, InstanceStopModal, InstanceStartModal, InstanceRebootModal, InstanceLaunchModal, ExplainInstanceDeleteConditionsModal, ProjectInstanceLaunchModal, InstanceReportModal, InstanceImageModal) {
+  function (React, AppDispatcher, InstanceConstants, ProjectInstanceConstants, ProjectConstants, Instance, InstanceState, Project, globals, context, URL, NotificationController, ProjectInstanceActions, stores, ModalHelpers, InstanceSuspendModal, InstanceDeleteModal, InstanceResumeModal, InstanceStopModal, InstanceStartModal, InstanceRebootModal, InstanceLaunchModal, ExplainInstanceDeleteConditionsModal, ProjectInstanceLaunchModal, InstanceReportModal, InstanceImageModal) {
 
     return {
 
@@ -350,59 +352,97 @@ define(
         });
 
         ModalHelpers.renderModal(modal, function (identity, machineId, sizeId, instanceName, project) {
-          var instance = new Instance({
-            identity: {
-              id: identity.id,
-              provider: identity.get('provider_id')
-            },
-            status: "build - scheduling"
-          }, {parse: true});
+          if(typeof project === "string"){
+            var projectName = project;
+            project = new Project({
+              name: projectName,
+              description: projectName,
+              instances: [],
+              volumes:[]
+            });
 
-          var params = {
-            machine_alias: machineId,
-            size_alias: sizeId,
-            name: instanceName
-          };
+            that.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
 
-          that.dispatch(InstanceConstants.ADD_INSTANCE, {instance: instance});
-          that.dispatch(ProjectInstanceConstants.ADD_PENDING_INSTANCE_TO_PROJECT, {
-            instance: instance,
-            project: project
-          });
+            project.save().done(function(){
+              //NotificationController.success(null, "Project " + project.get('name') + " created.");
+              that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
+              that._createAndAddToProjectNoModal(identity, machineId, sizeId, instanceName, project);
 
-          instance.save(params, {
-            success: function (model) {
-              //NotificationController.success(null, 'Instance launching...');
-              that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
-              that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
-              that.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
-                instance: instance,
-                project: project
-              });
-              ProjectInstanceActions.addInstanceToProject(instance, project);
-            },
-            error: function (response) {
-              that.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
-              that.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
-                instance: instance,
-                project: project
-              });
-
+              // Since this is triggered from the images page, navigate off
+              // that page and back to the instance list so the user can see
+              // their instance being created
+              var redirectUrl = URL.projectResources({project: project}, {relative: true});
+              Backbone.history.navigate(redirectUrl, {trigger: true});
+            }).fail(function(response){
+              that.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
+              var title = "Project " + project.get('name') + " could not be created";
               if(response && response.responseJSON && response.responseJSON.errors){
-                var errors = response.responseJSON.errors;
-                var error = errors[0];
-                NotificationController.error("Instance could not be launched", error.message);
-             }else{
-                NotificationController.error("Instance could not be launched", "If the problem persists, please report the instance.");
-             }
-            }
-          });
+                  var errors = response.responseJSON.errors;
+                  var error = errors[0];
+                  NotificationController.error(title, error.message);
+               }else{
+                  NotificationController.error(title, "If the problem persists, please let support at support@iplantcollaborative.org.");
+               }
+            });
 
-          // Since this is triggered from the images page, navigate off
-          // that page and back to the instance list so the user can see
-          // their instance being created
-          var redirectUrl = URL.projectResources({project: project}, {relative: true});
-          Backbone.history.navigate(redirectUrl, {trigger: true});
+          }else{
+            var instance = new Instance({
+              name: instanceName,
+              size_alias: sizeId,
+              identity: {
+                id: identity.id,
+                provider: identity.get('provider_id')
+              },
+              status: "build - scheduling"
+            }, {parse: true});
+
+            var params = {
+              machine_alias: machineId,
+              size_alias: sizeId,
+              name: instanceName
+            };
+
+            that.dispatch(InstanceConstants.ADD_INSTANCE, {instance: instance});
+            that.dispatch(ProjectInstanceConstants.ADD_PENDING_INSTANCE_TO_PROJECT, {
+              instance: instance,
+              project: project
+            });
+
+            instance.save(null, {
+              data: JSON.stringify(params),
+              success: function (model) {
+                //NotificationController.success(null, 'Instance launching...');
+                that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+                that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+                that.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
+                  instance: instance,
+                  project: project
+                });
+                ProjectInstanceActions.addInstanceToProject(instance, project);
+              },
+              error: function (response) {
+                that.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
+                that.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
+                  instance: instance,
+                  project: project
+                });
+
+                if(response && response.responseJSON && response.responseJSON.errors){
+                  var errors = response.responseJSON.errors;
+                  var error = errors[0];
+                  NotificationController.error("Instance could not be launched", error.message);
+               }else{
+                  NotificationController.error("Instance could not be launched", "If the problem persists, please report the instance.");
+               }
+              }
+            });
+
+            // Since this is triggered from the images page, navigate off
+            // that page and back to the instance list so the user can see
+            // their instance being created
+            var redirectUrl = URL.projectResources({project: project}, {relative: true});
+            Backbone.history.navigate(redirectUrl, {trigger: true});
+          }
         })
       },
 
@@ -522,59 +562,67 @@ define(
         })
       },
 
+      _createAndAddToProjectNoModal: function(identity, machineId, sizeId, instanceName, project){
+        var that = this;
+        var instance = new Instance({
+          name: instanceName,
+          size_alias: sizeId,
+          identity: {
+            id: identity.id,
+            provider: identity.get('provider_id')
+          },
+          status: "build - scheduling"
+        }, {parse: true});
+
+        var params = {
+          machine_alias: machineId,
+          size_alias: sizeId,
+          name: instanceName
+        };
+
+        that.dispatch(InstanceConstants.ADD_INSTANCE, {instance: instance});
+        that.dispatch(ProjectInstanceConstants.ADD_PENDING_INSTANCE_TO_PROJECT, {
+          instance: instance,
+          project: project
+        });
+
+        instance.save(null, {
+          data: JSON.stringify(params),
+          success: function (model) {
+            //NotificationController.success(null, 'Instance launching...');
+            that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+            that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+            that.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
+              instance: instance,
+              project: project
+            });
+            ProjectInstanceActions.addInstanceToProject(instance, project);
+          },
+          error: function (response) {
+            that.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
+            that.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
+              instance: instance,
+              project: project
+            });
+            if(response && response.responseJSON && response.responseJSON.errors){
+              var errors = response.responseJSON.errors;
+              var error = errors[0];
+              NotificationController.error("Instance could not be launched", error.message);
+            }else{
+              NotificationController.error("Instance could not be launched", "If the problem persists, please send an email to support@iplantcollaborative.org.");
+            }
+          }
+        });
+      },
+
       createAndAddToProject: function(options){
         var project = options.project;
         var modal = React.createElement(ProjectInstanceLaunchModal);
         var that = this;
 
         ModalHelpers.renderModal(modal, function (identity, machineId, sizeId, instanceName) {
-          var instance = new Instance({
-            identity: {
-              id: identity.id,
-              provider: identity.get('provider_id')
-            },
-            status: "build - scheduling"
-          }, {parse: true});
-
-          var params = {
-            machine_alias: machineId,
-            size_alias: sizeId,
-            name: instanceName
-          };
-
-          that.dispatch(InstanceConstants.ADD_INSTANCE, {instance: instance});
-          that.dispatch(ProjectInstanceConstants.ADD_PENDING_INSTANCE_TO_PROJECT, {
-            instance: instance,
-            project: project
-          });
-
-          instance.save(params, {
-            success: function (model) {
-              //NotificationController.success(null, 'Instance launching...');
-              that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
-              that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
-              that.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
-                instance: instance,
-                project: project
-              });
-              ProjectInstanceActions.addInstanceToProject(instance, project);
-            },
-            error: function (response) {
-              that.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
-              that.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
-                instance: instance,
-                project: project
-              });
-              if(response && response.responseJSON && response.responseJSON.errors){
-                var errors = response.responseJSON.errors;
-                var error = errors[0];
-                NotificationController.error("Instance could not be launched", error.message);
-              }else{
-                NotificationController.error("Instance could not be launched", "If the problem persists, please send an email to support@iplantcollaborative.org.");
-              }
-            }
-          });
-        })
+          that._createAndAddToProjectNoModal(identity, machineId, sizeId, instanceName, project);
+        });
       }
 
     };
