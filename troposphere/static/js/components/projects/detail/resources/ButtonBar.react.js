@@ -21,6 +21,20 @@ define(
       },
 
       render: function () {
+
+        // todo: put this back when we can support it properly
+        // right now instances can't be deleted with volumes attached,
+        // and volumes can't be deleted while attached to an instance
+        // handling this in the UI state machine is just to complicated
+        // at the moment. It's much easier to control if the user has to
+        // delete things individually.
+        //
+        //<Button icon="trash"
+        //        tooltip="Delete selected resources"
+        //        onClick={this.props.onDeleteSelectedResources}
+        //        isVisible={this.props.isVisible}
+        ///>
+
         return (
           <div className="button-bar">
             <RefreshButton/>
@@ -32,11 +46,6 @@ define(
             <Button icon="folder-open"
                     tooltip="Move selected resources"
                     onClick={this.props.onMoveSelectedResources}
-                    isVisible={this.props.isVisible}
-            />
-            <Button icon="trash"
-                    tooltip="Delete selected resources"
-                    onClick={this.props.onDeleteSelectedResources}
                     isVisible={this.props.isVisible}
             />
             <Button icon="export"
