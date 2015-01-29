@@ -88,7 +88,7 @@ define(function (require) {
         this._migrateResourceIntoProject(resource, project);
       }.bind(this));
 
-      var redirectUrl = URL.projectResources(project, {relative: true});
+      var redirectUrl = URL.projectResources({project: project}, {relative: true});
       Backbone.history.navigate(redirectUrl, {trigger: true});
     },
 
