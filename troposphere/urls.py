@@ -19,4 +19,5 @@ urlpatterns = patterns('',
         name='cas_oauth_service'),
     url(r'^version$', 'troposphere.views.version'),
     url(r'^tests$', 'troposphere.views.tests'),
+    url(r'^api/', include('api.urls')),
 )

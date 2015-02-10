@@ -104,3 +104,28 @@ LOGGING = {
 }
 
 STATIC_URL = '/static/'
+
+REST_FRAMEWORK = {
+    # 'DEFAULT_RENDERER_CLASSES': (
+    #     # Included Renderers
+    #     'rest_framework.renderers.JSONRenderer',
+    #     'rest_framework.renderers.JSONPRenderer',
+    #     'rest_framework.renderers.BrowsableAPIRenderer',
+    #     'rest_framework.renderers.YAMLRenderer',
+    #     'rest_framework.renderers.XMLRenderer'
+    # ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'PAGINATE_BY': 20,                 # Default to 20
+    'PAGINATE_BY_PARAM': 'page_size',  # Allow client to override, using `?page_size=xxx`.
+    'MAX_PAGINATE_BY': 100,             # Maximum limit allowed when using `?page_size=xxx`.
+    # 'DEFAULT_FILTER_BACKENDS': (
+    #     # 'rest_framework.filters.DjangoFilterBackend',
+    #     'rest_framework_filters.backends.DjangoFilterBackend',
+    #     'rest_framework.filters.SearchFilter'
+    # ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
+}
