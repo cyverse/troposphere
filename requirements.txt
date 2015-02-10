@@ -5,3 +5,4 @@ django==1.7.4
 django-jenkins==0.15.0
 caslib.py==2.1.0
 psycopg2==2.5.2
+djangorestframework==3.0.4
