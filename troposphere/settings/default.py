@@ -23,7 +23,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.admin',
+    'django.contrib.staticfiles',
+    'rest_framework',
     'django_jenkins',
+    'api'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -96,3 +102,5 @@ LOGGING = {
         },
     },
 }
+
+STATIC_URL = '/static/'
