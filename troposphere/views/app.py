@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect, render_to_response
 from django.template import RequestContext
 
 from troposphere.version import get_version
+from api.models import UserPreferences
 
 from .maintenance import get_maintenance
 
@@ -14,13 +15,42 @@ def root(request):
     return redirect('application')
 
 
-def application(request):
-    response = HttpResponse()
-    _, disabled_login = get_maintenance(request)
+def _handle_public_application_request(request, disabled_login):
+    template_params = {
+        'access_token': request.session.get('access_token'),
+        'emulator_token': request.session.get('emulator_token'),
+        'emulated_by': request.session.get('emulated_by'),
+        'disable_login': disabled_login
+    }
 
-    if disabled_login:
-        return redirect('maintenance')
+    # If beta flag in query params, set the session value to that
+    if "beta" in request.GET:
+        request.session['beta'] = request.GET['beta'].lower()
 
+    # If beta flag not defined, default it to false to show the old UI
+    if "beta" not in request.session:
+        request.session['beta'] = 'false'
+
+    # Return the new Troposphere UI
+    if request.session['beta'] == 'true':
+        response = render_to_response(
+            'index.html',
+            context_instance=RequestContext(request)
+        )
+
+    # Return the old Airport UI
+    else:
+        response = render_to_response(
+            'login.html',
+            template_params,
+            context_instance=RequestContext(request)
+        )
+
+    response.set_cookie('beta', request.session['beta'])
+    return response
+
+
+def _handle_authenticated_application_request(request, disabled_login):
     template_params = {
         'access_token': request.session.get('access_token'),
         'emulator_token': request.session.get('emulator_token'),
@@ -33,43 +63,46 @@ def application(request):
         template_params['intercom_company_id'] = settings.INTERCOM_COMPANY_ID
         template_params['intercom_company_name'] = settings.INTERCOM_COMPANY_NAME
 
+    user_preferences, created = UserPreferences.objects.get_or_create(user=request.user)
+
     # If beta flag in query params, set the session value to that
     if "beta" in request.GET:
         request.session['beta'] = request.GET['beta'].lower()
-
-    # If beta flag not defined, default it to false to show the old UI
-    if "beta" not in request.session:
-        request.session['beta'] = 'false'
+        show_beta_interface = True if request.session['beta'] == 'true' else False
+        user_preferences.show_beta_interface = show_beta_interface
+        user_preferences.save()
+        return redirect('application')
 
     # Return the new Troposphere UI
-    # If user logged in, show the full app, otherwise show the public site
-    if request.session['beta'] == 'true':
-        if template_params['access_token']:
-            response = render_to_response(
-                'application.html',
-                template_params,
-                context_instance = RequestContext(request))
-        else:
-            response = render_to_response(
-                'index.html',
-                context_instance = RequestContext(request))
+    if user_preferences.show_beta_interface:
+        response = render_to_response(
+            'application.html',
+            template_params,
+            context_instance=RequestContext(request)
+        )
 
     # Return the old Airport UI
-    # If user logged in, show the app, otherwise show the login page
     else:
-        if template_params['access_token']:
-            response = render_to_response(
-                'cf2.html',
-                template_params,
-                context_instance = RequestContext(request))
-        else:
-            response = render_to_response(
-                'login.html',
-                template_params,
-                context_instance = RequestContext(request))
+        response = render_to_response(
+            'cf2.html',
+            template_params,
+            context_instance=RequestContext(request)
+        )
 
-    response.set_cookie('beta', request.session['beta'])
     return response
+
+
+def application(request):
+    response = HttpResponse()
+    _, disabled_login = get_maintenance(request)
+
+    if disabled_login:
+        return redirect('maintenance')
+
+    if request.user.is_authenticated():
+        return _handle_authenticated_application_request(request, disabled_login)
+    else:
+        return _handle_public_application_request(request, disabled_login)
 
 
 def forbidden(request):
