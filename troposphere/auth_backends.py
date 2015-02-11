@@ -20,12 +20,10 @@ class OAuthLoginBackend(object):
     """
     CAS OAuth Authentication Backend
 
-    Exchanges an access_token for a user, creates it does not exist
+    Exchanges an access_token for a user, creates if does not exist
     """
 
     def authenticate(self, access_token=None):
-        access_token = "TGT-296-Kr4WCd4pcGtdBpbjfTjDzyF6IFaiqlkCbF2t2NyJ4LexjdquEE-auth.iplantc.org"
-
         try:
             user_token = UserToken.objects.get(token=access_token)
 
@@ -39,16 +37,12 @@ class OAuthLoginBackend(object):
                 value = attr[key]
                 profile_dict[key] = value
 
-            try:
-                user = User.objects.get(username=profile_dict['username'])
-            except User.DoesNotExist:
-                user = User.objects.create(
-                    username=profile['username'],
-                    first_name=profile_dict['firstName'],
-                    last_name=profile_dict['lastName'],
-                    email=profile_dict['email'],
-                    is_staff=('staff' in profile_dict['entitlement'])
-                )
+            user, created = User.objects.get_or_create(username=profile_dict['username'])
+            user.first_name = profile_dict['firstName']
+            user.last_name = profile_dict['lastName']
+            user.email = profile_dict['email']
+            user.is_staff = ('staff' in profile_dict['entitlement'])
+            user.save()
 
             user_token = UserToken.objects.create(token=access_token, user=user)
 
