@@ -55,11 +55,11 @@ class OAuthLoginBackend(object):
         user = user_token.user
         return user
 
-    def get_user(self, username):
+    def get_user(self, user_id):
         """
         Get a User object from the username.
         """
         try:
-            return User.objects.get(username=username)
+            return User.objects.get(pk=user_id)
         except User.DoesNotExist:
             return None
