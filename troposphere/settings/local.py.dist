@@ -30,7 +30,7 @@ ALLOWED_HOSTS = ["SERVERNAME", "localhost"]
 SERVER_URL = "url-to-your-server"
 
 # CAS
-SERVER_URL = 'https://MY_SERVER_HERE'
+SERVER_URL = 'https://SERVERNAME'
 CAS_SERVER = 'https://cas.example.com'
 CAS_AUTH_PREFIX = "/your_cas_prefix"
 OAUTH_CLIENT_KEY = "KEY_HERE"
