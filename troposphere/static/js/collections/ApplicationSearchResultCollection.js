@@ -1,11 +1,12 @@
 define(
   [
-    'collections/Base',
-    'models/Application'
+    'backbone',
+    'models/Application',
+    'globals'
   ],
-  function (Base, Application) {
+  function (Backbone, Application, globals) {
 
-    return Base.extend({
+    return Backbone.Collection.extend({
       model: Application,
 
       initialize: function (models, options) {
@@ -13,15 +14,17 @@ define(
       },
 
       url: function () {
-        return this.urlRoot + '/application/search?query=' + encodeURIComponent(this.query);
+        return globals.API_V2_ROOT + "/images?search=" + encodeURIComponent(this.query);
       },
 
       parse: function (response) {
-        var count = response.count;
-        var next = response.next;
-        var previous = response.previous;
-        var results = response.results;
-        return results;
+        this.meta = {
+          count: response.count,
+          next: response.next,
+          previous: response.previous
+        };
+
+        return response.results;
       }
 
     });
