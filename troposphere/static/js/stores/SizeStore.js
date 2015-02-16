@@ -11,13 +11,15 @@ define(
     var _isFetching = false;
 
     var fetchSizes = function () {
-      _isFetching = true;
-      var sizes = new SizeCollection();
-      sizes.fetch().done(function () {
-        _isFetching = false;
-        _sizes = sizes;
-        SizeStore.emitChange();
-      });
+      if(!_isFetching) {
+        _isFetching = true;
+        var sizes = new SizeCollection();
+        sizes.fetch().done(function () {
+          _isFetching = false;
+          _sizes = sizes;
+          SizeStore.emitChange();
+        });
+      }
     };
 
     var SizeStore = {
