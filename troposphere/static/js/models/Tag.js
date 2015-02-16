@@ -8,7 +8,7 @@ define(
 
     return Backbone.Model.extend({
 
-      urlRoot: globals.API_ROOT + "/tag",
+      urlRoot: globals.API_V2_ROOT + "/tags",
 
       url: function () {
         var url = Backbone.Model.prototype.url.apply(this) + globals.slash();

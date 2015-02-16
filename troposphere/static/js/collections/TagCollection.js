@@ -10,11 +10,19 @@ define(
       model: Tag,
 
       url: function () {
-        return globals.API_ROOT + "/tag" + globals.slash();
+        return globals.API_V2_ROOT + "/tags" + globals.slash();
       },
 
       comparator: function (model) {
         return model.get('name').toLowerCase();
+      },
+
+      parse: function (response) {
+        var count = response.count;
+        var next = response.next;
+        var previous = response.previous;
+        var results = response.results;
+        return results;
       }
 
     });
