@@ -138,7 +138,7 @@ define(
       },
 
       hasAvailableAllocation: function(identity){
-        var allocation = identity.get('quota').allocation,
+        var allocation = identity.get('allocation'),
             allocationConsumed = allocation.current,
             allocationTotal = allocation.threshold,
             allocationRemaining = allocationTotal - allocationConsumed;

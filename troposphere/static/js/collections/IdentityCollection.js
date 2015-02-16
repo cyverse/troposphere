@@ -10,7 +10,17 @@ define(
       model: Identity,
 
       url: function () {
-        return globals.API_ROOT + '/identity' + globals.slash();
+        return globals.API_V2_ROOT + '/identities' + globals.slash();
+      },
+
+      parse: function (response) {
+        this.meta = {
+          count: response.count,
+          next: response.next,
+          previous: response.previous
+        };
+
+        return response.results;
       }
 
     });

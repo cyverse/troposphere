@@ -23,7 +23,7 @@ define(
       getState: function(){
         var identity = this._getIdentity();
         return {
-          sizes: stores.SizeStore.getAllFor(identity.get('provider_id'), identity.id)
+          sizes: stores.SizeStore.getAllFor(identity.get('provider').id, identity.id)
         }
       },
 
@@ -45,8 +45,8 @@ define(
 
       _getIdentity: function(){
         var provider = this.props.provider;
-        return this.props.identities.findWhere({
-          provider_id: provider.id
+        return this.props.identities.find(function(identity){
+          return identity.get('provider').id === provider.id;
         });
       },
 
@@ -74,7 +74,7 @@ define(
       },
 
       renderStats: function(identity, instances, sizes){
-        var allocation = identity.get('quota').allocation,
+        var allocation = identity.get('allocation'),
             allocationConsumed = allocation.current,
             allocationTotal = allocation.threshold,
             allocationRemaining = allocationTotal - allocationConsumed,

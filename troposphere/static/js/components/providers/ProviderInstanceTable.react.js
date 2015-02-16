@@ -26,7 +26,7 @@ define(
       getState: function(){
         var identity = this.props.identities.first();
         return {
-          sizes: stores.SizeStore.getAllFor(identity.get('provider_id'), identity.id)
+          sizes: stores.SizeStore.getAllFor(identity.get('provider').id, identity.id)
         }
       },
 

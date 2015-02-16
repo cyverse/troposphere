@@ -11,11 +11,16 @@ define(
         // put default allocation data here since it isn't
         // in the data structure for admins (but we want it
         // in the object for consistency)
-        if(!response.quota.allocation){
-          response.quota.allocation = {
+        if(!response.allocation){
+          response.allocation = {
             current: 10,
             threshold: 168
           }
+        }
+
+        // todo: put this in the API
+        if(response.allocation.current === null || response.allocation.current === undefined) {
+          response.allocation.current = 777;
         }
 
         return response;

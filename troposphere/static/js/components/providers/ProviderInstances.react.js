@@ -29,7 +29,9 @@ define(
 
         // Get the identities belonging to this provider and cast as the original collection
         // type (which should be IdentityCollection)
-        var providerIdentityArray = identities.where({'provider_id': provider.id});
+        var providerIdentityArray = identities.filter(function(identity){
+          return identity.get('provider').id === provider.id;
+        });
         var providerIdentities = new identities.constructor(providerIdentityArray);
 
         // Filter Instances and Volumes for only those in this provider

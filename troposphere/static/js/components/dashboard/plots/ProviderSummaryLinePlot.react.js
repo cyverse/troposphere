@@ -93,9 +93,9 @@ define(
         };
       },
 
-      calculateAllocationUsage: function(quota){
-        var maxAllocation = quota.allocation.threshold;
-        var currentAllocation = quota.allocation.current;
+      calculateAllocationUsage: function(allocation){
+        var maxAllocation = allocation.threshold;
+        var currentAllocation = allocation.current;
 
         return {
           currentUsage: currentAllocation,
@@ -105,9 +105,10 @@ define(
       },
 
       getDataForIdentity: function(identity){
-        var providerId = identity.get("provider_id");
+        var providerId = identity.get("provider").id;
         var provider = this.props.providers.get(providerId);
         var quota = identity.get('quota');
+        var allocation = identity.get('allocation');
         var sizes = SizeStore.getAllFor(provider.id, identity.id);
 
         if(sizes){
@@ -131,7 +132,7 @@ define(
           var volumeUsage = volumeUsageStats.percentUsed*100;
 
           // Allocation Usage
-          var allocationUsageStats = this.calculateAllocationUsage(quota);
+          var allocationUsageStats = this.calculateAllocationUsage(allocation);
           var allocationUsage = allocationUsageStats.percentUsed*100;
 
           var seriesData = {

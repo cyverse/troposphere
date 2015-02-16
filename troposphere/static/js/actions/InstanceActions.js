@@ -391,7 +391,7 @@ define(
               size_alias: sizeId,
               identity: {
                 id: identity.id,
-                provider: identity.get('provider_id')
+                provider: identity.get('provider').id
               },
               status: "build - scheduling"
             }, {parse: true});
@@ -569,7 +569,7 @@ define(
           size_alias: sizeId,
           identity: {
             id: identity.id,
-            provider: identity.get('provider_id')
+            provider: identity.get('provider').id
           },
           status: "build - scheduling"
         }, {parse: true});
