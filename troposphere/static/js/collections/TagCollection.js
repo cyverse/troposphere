@@ -18,11 +18,13 @@ define(
       },
 
       parse: function (response) {
-        var count = response.count;
-        var next = response.next;
-        var previous = response.previous;
-        var results = response.results;
-        return results;
+        this.meta = {
+          count: response.count,
+          next: response.next,
+          previous: response.previous
+        };
+
+        return response.results;
       }
 
     });
