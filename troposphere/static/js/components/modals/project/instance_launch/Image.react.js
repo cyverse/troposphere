@@ -57,7 +57,7 @@ define(
                   <h4 className="name">{image.get('name')}</h4>
                   <div>
                     <span>by </span>
-                    <strong>{image.get('created_by')}</strong>
+                    <strong>{image.get('created_by').username}</strong>
                   </div>
                   {this.renderTags()}
                 </span>

@@ -73,7 +73,7 @@ define(
                 <h4>
                   <a href={appUri}>{app.get('name')}</a>
                 </h4>
-                <div><time>{applicationCreationDate}</time> by <strong>{app.get('created_by')}</strong></div>
+                <div><time>{applicationCreationDate}</time> by <strong>{app.get('created_by').username}</strong></div>
                 <Tags activeTags={imageTags}
                     tags={this.props.tags}
                 />

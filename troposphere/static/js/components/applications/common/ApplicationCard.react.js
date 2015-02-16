@@ -71,7 +71,7 @@ define(
               <a href={appUri}>{app.get('name')}</a>
             </div>
             <div className="creation-details">
-              <time>{applicationCreationDate}</time> by <strong>{app.get('created_by')}</strong>
+              <time>{applicationCreationDate}</time> by <strong>{app.get('created_by').username}</strong>
             </div>
             {bookmark}
             <Tags activeTags={imageTags}
