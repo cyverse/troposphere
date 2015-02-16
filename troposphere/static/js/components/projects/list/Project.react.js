@@ -46,7 +46,7 @@ define(
                                      resourceType={"volumes"}
                     />
                     <ProjectResource icon={"floppy-disk"}
-                                     count={project.get('applications').length}
+                                     count={project.get('images').length}
                                      resourceType={"images"}
                     />
                   </ul>

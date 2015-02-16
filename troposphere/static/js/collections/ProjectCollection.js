@@ -10,7 +10,17 @@ define(
       model: Project,
 
       url: function () {
-        return globals.API_ROOT + "/project" + globals.slash();
+        return globals.API_V2_ROOT + "/projects" + globals.slash();
+      },
+
+      parse: function (response) {
+        this.meta = {
+          count: response.count,
+          next: response.next,
+          previous: response.previous
+        };
+
+        return response.results;
       },
 
       comparator: function (projectA, projectB) {
