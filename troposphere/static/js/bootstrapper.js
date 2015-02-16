@@ -26,6 +26,7 @@ define(function (require) {
     actions.ApplicationActions     = require('actions/ApplicationActions');
     actions.HelpActions            = require('actions/HelpActions');
     actions.InstanceActions        = require('actions/InstanceActions');
+    actions.ProfileActions         = require('actions/ProfileActions');
     actions.NullProjectActions     = require('actions/NullProjectActions');
     actions.ProjectActions         = require('actions/ProjectActions');
     actions.ProjectInstanceActions = require('actions/ProjectInstanceActions');
