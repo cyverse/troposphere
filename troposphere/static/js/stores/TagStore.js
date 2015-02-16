@@ -86,9 +86,10 @@ define(
       getInstanceTags: function (instance) {
         if(!_tags) throw new Error("Must fetch tags before calling getInstanceTags");
 
-        var instanceTagArray = instance.get('tags').map(function(tagName){
-          var tag = _tags.findWhere({name: tagName}, {parse: true});
-          if(!tag) throw new Error("Expected to find a tag with name '" + tagName +"'");
+        var instanceTagArray = instance.get('tags').map(function(tag){
+          //var tagName = tag.name;
+          //var tag = _tags.findWhere({name: tagName}, {parse: true});
+          //if(!tag) throw new Error("Expected to find a tag with name '" + tagName +"'");
           return tag;
         });
 
@@ -104,9 +105,10 @@ define(
       getImageTags: function (image) {
         if(!_tags) throw new Error("Must fetch tags before calling getImageTags");
 
-        var imageTagArray = image.get('tags').map(function(tagName){
-          var tag = _tags.findWhere({name: tagName}, {parse: true});
-          if(!tag) throw new Error("Expected to find a tag with name '" + tagName +"'");
+        var imageTagArray = image.get('tags').map(function(tag){
+          //var tagName = tag.name;
+          //var tag = _tags.findWhere({name: tagName}, {parse: true});
+          //if(!tag) throw new Error("Expected to find a tag with name '" + tagName +"'");
           return tag;
         });
 

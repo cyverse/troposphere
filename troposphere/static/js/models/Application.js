@@ -11,7 +11,7 @@ define(
 
     return Backbone.Model.extend({
 
-      urlRoot: globals.API_ROOT + "/application",
+      urlRoot: globals.API_V2_ROOT + "/images",
 
       url: function () {
         var url = Backbone.Model.prototype.url.apply(this) + globals.slash();
@@ -25,10 +25,15 @@ define(
           up: Math.floor(Math.random() * 100),
           down: Math.floor(Math.random() * 100)
         };
-        attributes.isFavorited = response.is_bookmarked;
-        var machines = _.map(attributes.machines, function (attrs) {
-          return new Machine(Machine.prototype.parse(attrs));
-        });
+
+        // todo: move this feature into ImageBookmarksStore
+        attributes.isFavorited = true; //response.is_bookmarked;
+
+        // todo: handle this through the ProviderSnapshot store
+        //var machines = _.map(attributes.machines, function (attrs) {
+        //  return new Machine(Machine.prototype.parse(attrs));
+        //});
+        var machines = [];
         attributes.machines = new MachineCollection(machines);
         attributes.start_date = moment(attributes.start_date);
         attributes.end_date = moment(attributes.end_date);

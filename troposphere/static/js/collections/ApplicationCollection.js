@@ -10,7 +10,7 @@ define(
       model: Application,
 
       url: function () {
-        return globals.API_ROOT + "/application" + globals.slash();
+        return globals.API_V2_ROOT + "/images" + globals.slash();
       },
 
       parse: function (response) {
