@@ -95,6 +95,8 @@ define(
         stores.NullProjectStore.addChangeListener(this.updateState);
         stores.ApplicationStore.addChangeListener(this.updateState);
         stores.ProjectStore.addChangeListener(this.updateState);
+        stores.MaintenanceMessageStore.addChangeListener(this.updateState);
+        stores.ProviderStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
@@ -103,6 +105,8 @@ define(
         stores.NullProjectStore.removeChangeListener(this.updateState);
         stores.ApplicationStore.removeChangeListener(this.updateState);
         stores.ProjectStore.removeChangeListener(this.updateState);
+        stores.MaintenanceMessageStore.removeChangeListener(this.updateState);
+        stores.ProviderStore.removeChangeListener(this.updateState);
       },
 
       startApplication: function(){
