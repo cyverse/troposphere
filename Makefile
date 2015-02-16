@@ -39,7 +39,7 @@ javascript : npm bower-install gulp-dev
 js : javascript
 
 npm : package.json
-	$(NPM) install --link
+	$(NPM) install
 
 pip : virtualenv
 	source /opt/env/troposphere/bin/activate;pip install -U -r requirements.txt
@@ -55,4 +55,4 @@ virtualenv :
 	-virtualenv /opt/env/troposphere
 
 chown :
-	chown -R www-data:core-services .
+	chown -R www-data:www-data .

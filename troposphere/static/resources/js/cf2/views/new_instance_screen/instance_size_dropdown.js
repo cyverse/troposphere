@@ -20,6 +20,7 @@ Atmo.Views.InstanceSizeDropdown = Backbone.View.extend({
 	if (!instance_types.models.length) {
             this.no_size_information();
         } else {
+            self.$el.empty();
             instance_types.each(function (model) {
                 type_option = self.type_option(model);
                 if (type_option != undefined) {

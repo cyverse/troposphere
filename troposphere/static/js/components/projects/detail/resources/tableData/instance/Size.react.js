@@ -23,9 +23,15 @@ define(
         if(sizes) {
           var sizeId = this.props.instance.get('size_alias');
           var size = sizes.get(sizeId);
-          return (
-            <span>{size.get('name')}</span>
-          );
+          if(size) {
+            return (
+              <span>{size.get('name')}</span>
+            );
+          }else{
+            return (
+              <span></span>
+            )
+          }
         }
 
         return (

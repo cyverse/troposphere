@@ -19,9 +19,10 @@ define(
     'components/modals/volume/VolumeDetachModal.react',
     'components/modals/volume/VolumeDeleteModal.react',
     'components/modals/volume/VolumeCreateModal.react',
-    'components/modals/volume/VolumeReportModal.react'
+    'components/modals/volume/VolumeReportModal.react',
+    'components/modals/volume/ExplainVolumeDeleteConditionsModal.react'
   ],
-  function (React, AppDispatcher, VolumeConstants, ProjectVolumeConstants, NotificationController, Volume, VolumeState, ProjectVolumeActions, VolumeAttachNotifications, stores, globals, ModalHelpers, VolumeAttachRulesModal, VolumeAttachModal, VolumeDetachModal, VolumeDeleteModal, VolumeCreateModal, VolumeReportModal) {
+  function (React, AppDispatcher, VolumeConstants, ProjectVolumeConstants, NotificationController, Volume, VolumeState, ProjectVolumeActions, VolumeAttachNotifications, stores, globals, ModalHelpers, VolumeAttachRulesModal, VolumeAttachModal, VolumeDetachModal, VolumeDeleteModal, VolumeCreateModal, VolumeReportModal, ExplainVolumeDeleteConditionsModal) {
 
     return {
 
@@ -51,9 +52,15 @@ define(
         }).done(function(){
           //NotificationController.success(null, "Volume name updated");
           that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
-        }).fail(function(){
-          var message = "Error updating Volume " + volume.get('name') + ".";
-          NotificationController.error(message);
+        }).fail(function(response){
+          var title = "Error updating Volume " + volume.get('name');
+          if(response && response.responseJSON && response.responseJSON.errors){
+              var errors = response.responseJSON.errors;
+              var error = errors[0];
+              NotificationController.error(title, error.message);
+           }else{
+              NotificationController.error(title, "If the problem persists, please let support at support@iplantcollaborative.org.");
+           }
         });
       },
 
@@ -97,14 +104,15 @@ define(
               error: function (responseJSON) {
                 var errorCode = responseJSON.errors[0].code,
                     errorMessage = responseJSON.errors[0].message,
-                    message;
+                    message,
+                    title = "Error attaching volume";
 
                 if(errorCode === 409){
                   message = VolumeAttachNotifications.attachError(volume, instance);
-                  NotificationController.error(null, message);
+                  NotificationController.error(title, message);
                 }else{
-                  message = "Volume could not be attached. " + VolumeAttachNotifications.error();
-                  NotificationController.error(null, message);
+                  message = VolumeAttachNotifications.error();
+                  NotificationController.error(title, message);
                 }
 
                 that.dispatch(VolumeConstants.POLL_VOLUME, {volume: volume});
@@ -134,7 +142,14 @@ define(
               that.dispatch(VolumeConstants.POLL_VOLUME_WITH_DELAY, {volume: volume});
             },
             error: function (message, response) {
-              NotificationController.error(null, "Volume could not be detached");
+              var title = "Error detaching Volume " + volume.get('name');
+              if(response && response.responseJSON && response.responseJSON.errors){
+                  var errors = response.responseJSON.errors;
+                  var error = errors[0];
+                  NotificationController.error(title, error.message);
+               }else{
+                  NotificationController.error(title, "If the problem persists, please let support at support@iplantcollaborative.org.");
+               }
             }
           });
         })
@@ -163,8 +178,14 @@ define(
           ProjectVolumeActions.removeVolumeFromProject(volume, project);
 
         }).fail(function (response) {
-          NotificationController.error(null, 'Volume could not be deleted');
-          //that.dispatch(VolumeConstants.ADD_VOLUME, {volume: volume});
+          var title = "Error deleting Volume " + volume.get('name');
+          if(response && response.responseJSON && response.responseJSON.errors){
+              var errors = response.responseJSON.errors;
+              var error = errors[0];
+              NotificationController.error(title, error.message);
+           }else{
+              NotificationController.error(title, "If the problem persists, please let support at support@iplantcollaborative.org.");
+           }
         });
       },
 
@@ -172,12 +193,25 @@ define(
         var volume = payload.volume;
         var redirectUrl = payload.redirectUrl;
         var that = this;
+        var modal;
+        var isAttached = volume.get('attach_data') && volume.get('attach_data').instance_id;
 
-        var modal = VolumeDeleteModal({
-          volume: volume
-        });
+        if(isAttached){
+          modal = ExplainVolumeDeleteConditionsModal({
+            volume: volume,
+            instance: stores.InstanceStore.getInstanceInProject(
+              payload.project,
+              volume.get('attach_data').instance_id
+            )
+          });
+        }else{
+          modal = VolumeDeleteModal({
+            volume: volume
+          });
+        }
 
         ModalHelpers.renderModal(modal, function () {
+          if(isAttached) return;
           that._destroy(payload, options);
           if(redirectUrl) Backbone.history.navigate(redirectUrl, {trigger: true});
         })
@@ -226,8 +260,15 @@ define(
             });
             ProjectVolumeActions.addVolumeToProject(volume, project);
             //pollUntilBuildIsFinished(volume);
-          }).fail(function () {
-            NotificationController.error(null, 'Volume could not be created');
+          }).fail(function (response) {
+            var title = "Error creating Volume " + volume.get('name');
+            if(response && response.responseJSON && response.responseJSON.errors){
+                var errors = response.responseJSON.errors;
+                var error = errors[0];
+                NotificationController.error(title, error.message);
+             }else{
+                NotificationController.error(title, "If the problem persists, please let support at support@iplantcollaborative.org.");
+             }
 
             that.dispatch(VolumeConstants.REMOVE_VOLUME, {volume: volume});
             that.dispatch(ProjectVolumeConstants.REMOVE_PENDING_VOLUME_FROM_PROJECT, {
