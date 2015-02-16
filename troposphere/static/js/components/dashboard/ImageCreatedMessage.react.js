@@ -18,7 +18,7 @@ define(
       render: function () {
         var application = this.props.application;
         var startDate = moment(application.get('start_date'));
-        var username = application.get('created_by');
+        var user = application.get('created_by');
         var imageUrl = URL.application(application);
 
         return (
@@ -28,7 +28,7 @@ define(
                 <i className="glyphicon glyphicon-floppy-disk"></i>
               </div>
               <div className="details">
-                <div><strong>{username}</strong> created an image</div>
+                <div><strong>{user.username}</strong> created an image</div>
                 <div>{startDate.format("MMM DD, YYYY")}</div>
                 <div>
                   <a href={imageUrl}>{application.get('name')}</a>
