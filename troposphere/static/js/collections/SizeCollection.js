@@ -10,16 +10,26 @@ define(
     return Backbone.Collection.extend({
       model: Size,
 
-      initialize: function(models, options) {
-        this.creds = _.pick(options, 'provider_id', 'identity_id');
+      url: function () {
+        return globals.API_V2_ROOT + "/sizes?page_size=100" + globals.slash();
       },
 
-      url: function () {
-        var url = globals.API_ROOT +
-                  "/provider/" + this.creds.provider_id +
-                  "/identity/" + this.creds.identity_id +
-                  "/size" + globals.slash();
-        return url;
+      parse: function (response) {
+        this.meta = {
+          count: response.count,
+          next: response.next,
+          previous: response.previous
+        };
+
+        return response.results;
+      },
+
+      comparator: function (sizeA, sizeB) {
+        var aliasA = sizeA.get('alias').toLowerCase();
+        var aliasB = sizeB.get('alias').toLowerCase();
+
+        if(aliasA === aliasB) return 0;
+        return aliasA < aliasB ? -1 : 1;
       }
 
     });

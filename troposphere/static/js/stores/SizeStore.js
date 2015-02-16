@@ -7,45 +7,46 @@ define(
   ],
   function (_, Store, SizeCollection, AppDispatcher) {
 
-    var _sizes = {};
-    var _isFetching = {};
+    var _sizes = null;
+    var _isFetching = false;
 
-    function fetchSizesForProviderIdentity(providerId, identityId){
-      addEntriesForProviderIdentityIfNotExists(providerId, identityId);
-
-      if(!_isFetching[providerId][identityId]) {
-        _isFetching[providerId][identityId] = true;
-        var sizes = new SizeCollection(null, {
-          provider_id: providerId,
-          identity_id: identityId
-        });
-
-        sizes.fetch().done(function () {
-          _isFetching[providerId][identityId] = false;
-           _sizes[providerId][identityId] = sizes;
-          SizeStore.emitChange();
-        });
-      }
-    }
-
-    function addEntriesForProviderIdentityIfNotExists(providerId, identityId){
-      // Add fetching entries, set default state to false
-      _isFetching[providerId] = _isFetching[providerId] || {};
-      _isFetching[providerId][identityId] = _isFetching[providerId][identityId] || false;
-
-      // Add size entries (only needed for provider level, identity level can be undefined)
-      _sizes[providerId] = _sizes[providerId] || {};
-    }
+    var fetchSizes = function () {
+      _isFetching = true;
+      var sizes = new SizeCollection();
+      sizes.fetch().done(function () {
+        _isFetching = false;
+        _sizes = sizes;
+        SizeStore.emitChange();
+      });
+    };
 
     var SizeStore = {
 
-      getAllFor: function (providerId, identityId) {
-        addEntriesForProviderIdentityIfNotExists(providerId, identityId);
-
-        if (!_sizes[providerId][identityId]) {
-          fetchSizesForProviderIdentity(providerId, identityId);
+      getAll: function () {
+        if(!_sizes) {
+          fetchSizes();
+        } else {
+          return _sizes;
         }
-        return _sizes[providerId][identityId];
+      },
+
+      get: function (sizeId) {
+        if(!_sizes) {
+          fetchSizes();
+        }
+        return _sizes.get(sizeId);
+      },
+
+      getAllFor: function (providerId, identityId) {
+        var providerSizes;
+        if(!_sizes) {
+          fetchSizes();
+        } else {
+          providerSizes = _sizes.where(function(size){
+            return size.get('provider').id === providerId;
+          });
+          return new SizeCollection(providerSizes);
+        }
       }
 
     };
