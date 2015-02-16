@@ -126,7 +126,9 @@ define(
         if (!_applications) {
           fetchApplications();
         } else {
-          return new ApplicationCollection(_applications.where({created_by: context.profile.get('username')}));
+          return new ApplicationCollection(_applications.filter(function(image){
+            return image.get('created_by').username === context.profile.get('username');
+          }));
         }
       },
 
