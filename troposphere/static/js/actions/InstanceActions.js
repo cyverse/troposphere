@@ -420,7 +420,7 @@ define(
                 });
                 ProjectInstanceActions.addInstanceToProject(instance, project);
               },
-              error: function (response) {
+              error: function (model, response) {
                 that.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
                 that.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
                   instance: instance,
@@ -432,7 +432,10 @@ define(
                   var error = errors[0];
                   NotificationController.error("Instance could not be launched", error.message);
                }else{
-                  NotificationController.error("Instance could not be launched", "If the problem persists, please report the instance.");
+                  NotificationController.error(
+                    "Instance could not be launched",
+                    "If the problem persists, please send an email to support@iplantcollaborative.org."
+                  );
                }
               }
             });
