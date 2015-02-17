@@ -201,7 +201,14 @@ define(
 
       onProviderIdentityChange: function(e){
         var newIdentityId = e.target.value;
-        this.setState({identityId: newIdentityId});
+        var identity = this.state.identities.get(newIdentityId);
+        var provider_id = identity.get('provider_id');
+        var sizes = stores.SizeStore.getAllFor(provider_id, newIdentityId);
+        this.setState({
+          identityId: newIdentityId,
+          sizes: sizes,
+          sizeId: sizes ? sizes.first().id : null
+        });
       },
 
       onSizeChange: function(e){
