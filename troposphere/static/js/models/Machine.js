@@ -28,7 +28,7 @@ define(
       },
 
       parse: function (response) {
-        response.id = response.alias;
+        response.id = response.alias + ':' + response.provider;
         response.start_date = moment(response.start_date);
         return response;
       },
