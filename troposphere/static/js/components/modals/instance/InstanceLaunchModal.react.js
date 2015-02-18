@@ -35,6 +35,22 @@ define(
         state.instances = stores.InstanceStore.getAll(state.projects);
       }
 
+      var machines = this.props.application.get('machines');
+      var machineAliasMap = {};
+      var _machines = machines.filter(function(machine){
+        if(machineAliasMap[machine.get('alias')]) return false;
+        machineAliasMap[machine.get('alias')] = machine;
+        return true;
+      });
+      state.machines = new machines.constructor(_machines);
+
+      if(state.providers){
+        var providers = this.props.application.get('machines').map(function(machine){
+          return state.providers.get(machine.get('provider'));
+        });
+        state.providers = new state.providers.constructor(providers);
+      }
+
       this.state = this.state || {};
       if(this.state) {
 
@@ -42,14 +58,17 @@ define(
         state.instanceName = this.state.instanceName || "";
 
         // Use selected identity or default to the first one
-        if (state.identities) {
+        if (state.identities && state.providers) {
+          var validIdentities = state.providers.map(function(provider){
+            return state.identities.findWhere({'provider_id': provider.id});
+          });
+          state.identities = new state.identities.constructor(validIdentities);
           state.identityId = this.state.identityId || state.identities.first().id;
         }
 
         // Use selected machine (image version) or default to the first one
         // todo: we should be sorting these by date or version number before selecting the first one
-        var machines = this.props.application.get('machines');
-        state.machineId = this.state.machineId || machines.first().id;
+        state.machineId = this.state.machineId || state.machines.first().get('alias');
 
         // Fetch instance sizes user can launch if required information exists
         if(state.identities && state.providers && state.identityId){
@@ -367,7 +386,7 @@ define(
 
           // Use selected machine (image version) or default to the first one
           // todo: we should be sorting these by date or version number before selecting the first one
-          var machines = this.props.application.get('machines');
+          var machines = this.state.machines;
           var identity = this.state.identities.get(this.state.identityId);
           var size = this.state.sizes.get(this.state.sizeId);
           var instances = this.state.instances;
