@@ -21,7 +21,7 @@ define(function (require) {
 
   var _volumes = new VolumeCollection();
   var _isFetching = false;
-  var pollingFrequency = 5 * 1000;
+  var pollingFrequency = 10 * 1000;
   var _pendingProjectVolumes = {};
   var _volumesBuilding = [];
 

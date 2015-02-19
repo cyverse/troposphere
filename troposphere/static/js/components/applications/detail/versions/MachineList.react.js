@@ -19,7 +19,7 @@ define(
         var versions = this.props.machines.map(function (m) {
           var providerId = m.get('provider');
           var identityId = this.props.identities.findWhere({provider_id: providerId}).id;
-          var machine = MachineStore.get(providerId, identityId, m.id);
+          var machine = MachineStore.get(providerId, identityId, m.get('alias'));
 
           // todo: at the time of this writing, there are multiple machines with the same alias/id.
           // Because of that (and because we're displaying all the machines) we need to create an id

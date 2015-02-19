@@ -169,6 +169,8 @@ define(
                          onDeleteSelectedResources={this.onDeleteSelectedResources}
                          onReportSelectedResources={this.onReportSelectedResources}
                          onRemoveSelectedResources={this.onRemoveSelectedResources}
+                         previewedResource={this.state.previewedResource}
+                         project={this.props.project}
               />
               <div className="resource-list">
                 <div className="scrollable-content">

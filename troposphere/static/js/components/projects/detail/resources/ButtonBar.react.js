@@ -6,9 +6,10 @@ define(
     'backbone',
     'context',
     './Button.react',
-    './RefreshButton.react'
+    './RefreshButton.react',
+    './ResourceActionButtons.react'
   ],
-  function (React, Backbone, context, Button, RefreshButton) {
+  function (React, Backbone, context, Button, RefreshButton, ResourceActionButtons) {
 
     return React.createClass({
 
@@ -53,6 +54,10 @@ define(
                     onClick={this.props.onRemoveSelectedResources}
                     style={{"backgroundColor": "bisque"}}
                     isVisible={context.profile.get('is_superuser') && this.props.isVisible}
+            />
+            <ResourceActionButtons
+              previewedResource={this.props.previewedResource}
+              project={this.props.project}
             />
           </div>
         );
