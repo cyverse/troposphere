@@ -47,8 +47,10 @@
             var intercom_company_name = "{{ intercom_company_name }}";
         {% endif %}
 
-        {%  if show_troposphere_only %}
-            var show_troposphere_only = {{ show_troposphere_only }};
+        {% if show_troposphere_only %}
+            var show_troposphere_only = true;
+        {%  else %}
+            var show_troposphere_only = false;
         {% endif %}
     </script>
 
