@@ -55,4 +55,4 @@ virtualenv :
 	-virtualenv /opt/env/troposphere
 
 chown :
-	chown -R www-data:core-services .
+	chown -R www-data:www-data .
