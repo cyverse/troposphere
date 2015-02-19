@@ -37,11 +37,14 @@ def application(request):
     if disabled_login:
         return redirect('maintenance')
 
+    show_troposphere_only = hasattr(settings, "SHOW_TROPOSPHERE_ONLY") and settings.SHOW_TROPOSPHERE_ONLY is True
+
     template_params = {
         'access_token': request.session.get('access_token'),
         'emulator_token': request.session.get('emulator_token'),
         'emulated_by': request.session.get('emulated_by'),
-        'disable_login': disabled_login
+        'disable_login': disabled_login,
+        'show_troposphere_only': show_troposphere_only
     }
 
     if hasattr(settings, "INTERCOM_APP_ID"):
@@ -59,16 +62,17 @@ def application(request):
 
     # Return the new Troposphere UI
     # If user logged in, show the full app, otherwise show the public site
-    if request.session['beta'] == 'true':
+    if request.session['beta'] == 'true' or show_troposphere_only:
         if template_params['access_token']:
             response = render_to_response(
                 'application.html',
                 template_params,
-                context_instance = RequestContext(request))
+                context_instance=RequestContext(request))
         else:
             response = render_to_response(
                 'index.html',
-                context_instance = RequestContext(request))
+                template_params,
+                context_instance=RequestContext(request))
 
     # Return the old Airport UI
     # If user logged in, show the app, otherwise show the login page
