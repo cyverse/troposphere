@@ -100,6 +100,23 @@ define(
         currentRoute: React.PropTypes.array.isRequired
       },
 
+      renderBetaToggle: function(){
+        if(!window.show_troposphere_only){
+          return (
+            <li>
+              <a className="beta-toggle" href="/application?beta=false">
+                <div className="toggle-wrapper">
+                  <div className="toggle-background">
+                    <div className="toggle-text">View Old UI</div>
+                  </div>
+                  <div className="toggle-switch"></div>
+                </div>
+              </a>
+            </li>
+          )
+        }
+      },
+
       render: function () {
 
         var profile = this.props.profile;
@@ -153,16 +170,7 @@ define(
                   {navLinks}
                 </ul>
                 <ul className="nav navbar-nav navbar-right">
-                  <li>
-                    <a className="beta-toggle" href="/application?beta=false">
-                      <div className="toggle-wrapper">
-                        <div className="toggle-background">
-                          <div className="toggle-text">View Old UI</div>
-                        </div>
-                        <div className="toggle-switch"></div>
-                      </div>
-                    </a>
-                  </li>
+                  {this.renderBetaToggle()}
                   {loginLogoutDropdown}
                 </ul>
               </div>
