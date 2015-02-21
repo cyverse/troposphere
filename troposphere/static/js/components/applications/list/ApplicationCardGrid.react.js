@@ -10,34 +10,24 @@ define(
     return React.createClass({
 
       propTypes: {
+        title: React.PropTypes.string.isRequired,
         applications: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        onLoadMoreImages: React.PropTypes.func,
-        totalNumberOfApplications: React.PropTypes.number
+        tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       renderCard: function(application){
         return (
           <li key={application.id}>
-            <ApplicationCard application={application}
-                             tags={this.props.tags}/>
+            <ApplicationCard
+              application={application}
+              tags={this.props.tags}/>
           </li>
         );
       },
 
       render: function () {
         var applications = this.props.applications;
-        var totalNumberOfApplications = this.props.totalNumberOfApplications;
         var appCards = applications.map(this.renderCard);
-
-        var loadMoreImagesButton;
-        if(applications.models.length < totalNumberOfApplications) {
-          loadMoreImagesButton = (
-            <button style={{"margin": "auto", "display": "block"}} className="btn btn-default" onClick={this.props.onLoadMoreImages}>
-              Show more images...
-            </button>
-          )
-        }
 
         return (
           <div>
@@ -45,7 +35,6 @@ define(
             <ul className='app-card-grid'>
               {appCards}
             </ul>
-            {loadMoreImagesButton}
           </div>
         );
       }
