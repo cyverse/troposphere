@@ -6,8 +6,8 @@ define(
     'backbone',
     'stores',
     'collections/ApplicationCollection',
-    './ApplicationCardList.react',
-    './ApplicationCardGrid.react',
+    './list/ApplicationCardList.react',
+    './grid/ApplicationCardGrid.react',
     '../common/SecondaryApplicationNavigation.react'
   ],
   function (React, Backbone, stores, ApplicationCollection, ApplicationCardList, ApplicationCardGrid, SecondaryApplicationNavigation) {

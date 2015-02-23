@@ -6,15 +6,14 @@ define(
     'components/common/Gravatar.react',
     'backbone',
     'url',
-    './Rating.react',
-    './Bookmark.react',
+    '../../common/Bookmark.react',
     'context',
-    '../detail/tags/Tags.react',
+    '../../detail/tags/Tags.react',
     'stores',
     './ApplicationCardDescription.react',
     'moment'
   ],
-  function (React, Gravatar, Backbone, URL, Rating, Bookmark, context, Tags, stores, ApplicationCardDescription, moment) {
+  function (React, Gravatar, Backbone, URL, Bookmark, context, Tags, stores, ApplicationCardDescription, moment) {
 
     return React.createClass({
 
@@ -56,9 +55,6 @@ define(
             <Bookmark application={app}/>
           );
         }
-
-        // todo: Put ratings back when we actually implement them, not while they're random
-        //var ratings = <Rating up={app.get('votes').up} down={app.get('votes').down} />
 
         return (
           <div className='app-card'>

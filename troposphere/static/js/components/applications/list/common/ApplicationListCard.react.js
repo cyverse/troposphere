@@ -6,16 +6,15 @@ define(
     'components/common/Gravatar.react',
     'backbone',
     'url',
-    './Rating.react',
-    './Bookmark.react',
+    '../../common/Bookmark.react',
     'context',
-    '../detail/tags/Tags.react',
+    '../../detail/tags/Tags.react',
     'stores',
     'navigator',
     'showdown',
     'moment'
   ],
-  function (React, Gravatar, Backbone, URL, Rating, Bookmark, context, Tags, stores, navigator, Showdown, moment) {
+  function (React, Gravatar, Backbone, URL, Bookmark, context, Tags, stores, navigator, Showdown, moment) {
 
     return React.createClass({
 
