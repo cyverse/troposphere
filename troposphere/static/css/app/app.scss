@@ -37,6 +37,7 @@ $icon-font-path: "/assets/bower_components/bootstrap-sass-official/assets/fonts/
 /* Import bootstrap-chosen for styling the Chosen multi-select like Bootstrap */
 // We need to let bootstrap-chosen know the path to the spite image it uses (stored in bower_components)
 $chosen-sprite-path: '/assets/bower_components/bootstrap-chosen/chosen-sprite.png';
+$chosen-sprite-retina-path: $chosen-sprite-path;
 @import "../../bower_components/bootstrap-chosen/bootstrap-chosen";
 
 // toastr, for showing toast notifications
