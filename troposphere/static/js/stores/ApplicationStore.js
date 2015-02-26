@@ -163,7 +163,7 @@ define(
       getApplicationWithMachine: function(machineId){
         var application = _applications.filter(function(application){
           var machines = application.get('machines');
-          return machines.get(machineId);
+          return machines.where({alias: machineId}).length > 0;
         });
         return application[0];
       }
