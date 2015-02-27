@@ -223,7 +223,7 @@ $(document).ready(function () {
 
       var header = 'New UI Preview';
       var body = "<p>We've been working hard to create an improved experience for Atmosphere. Check out the new features in the video below and try it out for yourself.  We'd love to hear what you think!</p>";
-      body += '<iframe width="560" height="315" src="https://www.youtube.com/embed/Sml2FCGKLLs" frameborder="0" allowfullscreen></iframe>';
+      body += '<iframe width="560" height="315" src="https://www.youtube.com/embed/oasiNn-6mDw" frameborder="0" allowfullscreen></iframe>';
       var ok_button = 'Take me to the new UI';
       var on_confirm = function() {
         window.location = '/application?beta=true';
