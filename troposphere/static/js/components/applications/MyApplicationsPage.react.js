@@ -4,7 +4,7 @@ define(
   [
     'react',
     './common/SecondaryApplicationNavigation.react',
-    './list/ApplicationCardList.react',
+    './list/list/ApplicationCardList.react',
     'stores/ApplicationStore',
     'stores/TagStore'
   ],

@@ -5,7 +5,7 @@ define(
     'react',
     './common/SecondaryApplicationNavigation.react',
     'collections/ApplicationCollection',
-    './list/ApplicationCardList.react',
+    './list/list/ApplicationCardList.react',
     'stores',
     'url'
   ],
