@@ -165,7 +165,6 @@ define(
               />
               <div className="resource-list">
                 <div className="scrollable-content">
-                  {false ?
                   <InstanceList instances={this.state.projectInstances}
                                 project={this.props.project}
                                 onResourceSelected={this.onResourceSelected}
@@ -174,8 +173,7 @@ define(
                                 providers={this.state.providers}
                                 previewedResource={this.state.previewedResource}
                                 selectedResources={this.state.selectedResources}
-                  /> : null }
-                  {true ?
+                  />
                   <VolumeList volumes={this.state.projectVolumes}
                               project={this.props.project}
                               onResourceSelected={this.onResourceSelected}
@@ -185,13 +183,12 @@ define(
                               previewedResource={this.state.previewedResource}
                               selectedResources={this.state.selectedResources}
                               instances={this.state.projectInstances}
-                  /> : null }
+                  />
                 </div>
-                {false ?
                 <PreviewPanel project={this.props.project}
                               resource={this.state.selectedResource}
                               instances={this.state.projectInstances}
-                /> : null }
+                />
               </div>
             </div>
           );

@@ -49,7 +49,7 @@ define(function (require) {
 
       return (
         <div className="project-details">
-          <SecondaryProjectNavigation project={project} currentRoute="details"/>
+          <SecondaryProjectNavigation project={project} currentRoute="todo-remove-this"/>
           <RouteHandler/>
         </div>
       );
