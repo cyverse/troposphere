@@ -8,12 +8,14 @@ define(function (require) {
       DefaultRoute = Router.DefaultRoute;
 
   var Master = require('./components/Master.react'),
+      PassThroughHandler = require('./components/PassThroughHandler.react'),
       MasterTest = require('./components/MasterTest.react'),
       DashboardPage = require('./components/dashboard/DashboardPage.react'),
       ProjectListPage = require('./components/projects/ProjectListPage.react'),
       ImageListPage = require('./components/applications/ApplicationListPage.react'),
       ProviderListPage = require('./components/providers/ProviderListPage.react'), // broken
-      HelpPage = require('./components/help/HelpPage.react');
+      HelpPage = require('./components/help/HelpPage.react'),
+      ProjectDetailsPage = require('./components/projects/ProjectDetailsPage.react');
 
   //<Route name="dashboard" handler={Master}/>
   //<Route name="projects" handler={Master}/>
@@ -34,6 +36,11 @@ define(function (require) {
       <Route name="images" handler={ImageListPage}/>
       <Route name="providers" handler={ProviderListPage}/>
       <Route name="help" handler={HelpPage}/>
+
+      <Route name="project" path="projects/:projectId" handler={PassThroughHandler}>
+        <Route name="project-details" path="details" handler={ProjectDetailsPage}/>
+        <DefaultRoute handler={ProjectDetailsPage}/>
+      </Route>
 
       <DefaultRoute handler={MasterTest}/>
     </Route>
