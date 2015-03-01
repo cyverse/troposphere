@@ -2,7 +2,12 @@ define(function (require) {
   "use strict";
 
   var React = require('react'),
-      stores = require('stores');
+      stores = require('stores'),
+      Backbone = require('backbone'),
+      context = require('context'),
+      Header = require('./Header.react'),
+      Footer = require('./Footer.react'),
+      actions = require('actions');
 
   // Routing
   var Router = require('react-router'),
@@ -12,17 +17,46 @@ define(function (require) {
 
     mixins: [Router.State],
 
+    componentDidMount: function () {
+      // todo: kick out for now as v2 has a different flow - refactor this later
+      return;
+
+      if(context.nullProject){
+        if(!context.nullProject.isEmpty()){
+          actions.NullProjectActions.migrateResourcesIntoProject(context.nullProject);
+        }else{
+          actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
+        }
+      }
+    },
+
     // --------------
     // Render Helpers
     // --------------
 
     render: function () {
+      var maintenanceMessages = new Backbone.Collection();
+      if(this.props.profile) {
+        maintenanceMessages = stores.MaintenanceMessageStore.getAll();
+      }
+      var marginTop = maintenanceMessages.length * 24 + "px";
+
       return (
         <div>
-          <h2>Master Test</h2>
-          <RouteHandler/>
+          <Header profile={context.profile} currentRoute={["projects"]} maintenanceMessages={maintenanceMessages}/>
+          <div id="main" style={{"marginTop": marginTop}}>
+            <RouteHandler/>
+          </div>
+          <Footer profile={this.props.profile}/>
         </div>
       );
+
+      //return (
+      //  <div>
+      //    <h2>Master Test</h2>
+      //    <RouteHandler/>
+      //  </div>
+      //);
     }
 
   });
