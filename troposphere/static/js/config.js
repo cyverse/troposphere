@@ -41,6 +41,10 @@ require.config({
       '//cdnjs.cloudflare.com/ajax/libs/react/0.12.0/react-with-addons.min',
       '../bower_components/react/react-with-addons'
     ],
+    'react-router': [
+      'https://cdnjs.cloudflare.com/ajax/libs/react-router/0.11.6/react-router',
+      '../bower_components/react-router/dist/react-router'
+    ],
     chosen: [
       '//cdnjs.cloudflare.com/ajax/libs/chosen/1.1.0/chosen.jquery.min',
       '../bower_components/chosen/chosen.jquery'
@@ -69,7 +73,9 @@ require.config({
       '//cdnjs.cloudflare.com/ajax/libs/sinon.js/1.7.3/sinon-min',
       '../bower_components/sinon/lib/sinon'
     ],
-    showdown: "//cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min"
+    showdown: [
+      "//cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min"
+    ]
   },
 
   shim: {
@@ -110,6 +116,19 @@ require.config({
 
     sinon: {
       exports: 'sinon'
+    },
+
+    react: {
+      exports: 'React'
+    },
+
+    'globalize-react-hack': {
+      deps: ['react']
+    },
+
+    'react-router': {
+      deps: ['globalize-react-hack'],
+      exports: 'ReactRouter'
     }
   }
 });

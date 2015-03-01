@@ -14,9 +14,11 @@ define(
     'routers/SettingsRouter',
     'routers/HelpRouter',
     'routers/ProviderRouter',
-    'routers/DefaultRouter'
+    'routers/DefaultRouter',
+
+    '../Router'
   ],
-  function ($, React, context, stores, DashboardRouter, ProjectRouter, ApplicationRouter, SettingsRouter, HelpRouter, ProviderRouter, DefaultRouter) {
+  function ($, React, context, stores, DashboardRouter, ProjectRouter, ApplicationRouter, SettingsRouter, HelpRouter, ProviderRouter, DefaultRouter, Router) {
 
     function getState() {
       return {
@@ -212,18 +214,31 @@ define(
 
         };
 
-        $(document).on("click", "a[href^='" + urlRoot + "']", function (event) {
-          if (!event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey) {
-            event.preventDefault();
-            var regExp = new RegExp("^" + urlRoot); // Ex: /^\/application\//
-            var url = $(event.currentTarget).attr("href").replace(regExp, "");
-            var title = getTitle(url);
-            document.title = title ? title + " - Atmosphere" : "Atmosphere";
-            Backbone.history.navigate(url, { trigger: true });
+        //$(document).on("click", "a[href^='" + urlRoot + "']", function (event) {
+        //  if (!event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey) {
+        //    event.preventDefault();
+        //    var regExp = new RegExp("^" + urlRoot); // Ex: /^\/application\//
+        //    var url = $(event.currentTarget).attr("href").replace(regExp, "");
+        //    var title = getTitle(url);
+        //    document.title = title ? title + " - Atmosphere" : "Atmosphere";
+        //    Backbone.history.navigate(url, { trigger: true });
+        //
+        //    // Update intercom so users get any messages sent to them
+        //    window.Intercom('update');
+        //  }
+        //});
 
-            // Update intercom so users get any messages sent to them
-            window.Intercom('update');
-          }
+        //
+        // Start the application router
+        //
+
+        //Render the main app component
+        Router.getInstance().run(function (Handler, state) {
+          // you might want to push the state of the router to a store for whatever reason
+          //RouterActions.routeChange({routerState: state});
+
+          // whenever the url changes, this callback is called again
+          React.render(<Handler/>, document.getElementById("application"));
         });
       },
 

@@ -29,6 +29,18 @@ define(function (require) {
   // CRUD Operations
   //
 
+  var fetchVolumes = function () {
+      if(!_volumes && !_isFetching) {
+        _isFetching = true;
+        var volumes = new VolumeCollection();
+        volumes.fetch().done(function () {
+          _isFetching = false;
+          _volumes = volumes;
+          VolumeStore.emitChange();
+        });
+      }
+    };
+
   function add(volume) {
     _volumes.add(volume);
   }
@@ -102,13 +114,22 @@ define(function (require) {
 
   var VolumeStore = {
 
+    //getAll: function (projects) {
+    //  if (!projects) throw new Error("Must supply projects");
+    //
+    //  projects.each(function (project) {
+    //    this.getVolumesInProject(project);
+    //  }.bind(this));
+    //
+    //  return _volumes;
+    //},
+
     getAll: function (projects) {
-      if (!projects) throw new Error("Must supply projects");
+      if (projects) throw new Error("No need to supply projects");
 
-      projects.each(function (project) {
-        this.getVolumesInProject(project);
-      }.bind(this));
-
+      if(!_volumes) {
+        fetchVolumes()
+      }
       return _volumes;
     },
 
