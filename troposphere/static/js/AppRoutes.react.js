@@ -9,7 +9,8 @@ define(function (require) {
 
   var Master = require('./components/Master.react'),
       MasterTest = require('./components/MasterTest.react'),
-      ProjectListPage = require('./components/projects/ProjectListPage.react');
+      ProjectListPage = require('./components/projects/ProjectListPage.react'),
+      ImageListPage = require('./components/applications/ApplicationListPage.react');
 
   //<Route name="dashboard" handler={Master}/>
   //<Route name="projects" handler={Master}/>
@@ -27,7 +28,7 @@ define(function (require) {
     <Route name="root" path="/application" handler={Master}>
       <Route name="dashboard" handler={MasterTest}/>
       <Route name="projects" handler={ProjectListPage}/>
-      <Route name="images" handler={MasterTest}/>
+      <Route name="images" handler={ImageListPage}/>
       <Route name="providers" handler={MasterTest}/>
       <Route name="help" handler={MasterTest}/>
 
