@@ -15,6 +15,7 @@ define(function (require) {
       ImageListPage = require('./components/applications/ApplicationListPage.react'),
       ProviderListPage = require('./components/providers/ProviderListPage.react'), // broken
       HelpPage = require('./components/help/HelpPage.react'),
+      ProjectDetailsMaster = require('./components/projects/detail/ProjectDetailsMaster.react'),
       ProjectDetailsPage = require('./components/projects/ProjectDetailsPage.react'),
       ProjectResourcesPage = require('./components/projects/ProjectResourcesPage.react');
 
@@ -38,7 +39,7 @@ define(function (require) {
       <Route name="providers" handler={ProviderListPage}/>
       <Route name="help" handler={HelpPage}/>
 
-      <Route name="project" path="projects/:projectId" handler={PassThroughHandler}>
+      <Route name="project" path="projects/:projectId" handler={ProjectDetailsMaster}>
         <Route name="project-details" path="details" handler={ProjectDetailsPage}/>
         <Route name="project-resources" path="resources" handler={ProjectResourcesPage}/>
         <DefaultRoute handler={ProjectDetailsPage}/>

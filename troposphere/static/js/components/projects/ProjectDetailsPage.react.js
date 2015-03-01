@@ -48,14 +48,14 @@ define(
       render: function () {
         var project = this.state.project;
 
-        if (project) {
+        if(!project) {
           return (
-            <ProjectDetailsView project={project}/>
+            <div className="loading"></div>
           );
         }
 
         return (
-          <div className="loading"></div>
+          <ProjectDetailsView project={project}/>
         );
       }
 
