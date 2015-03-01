@@ -38,11 +38,15 @@ define(
         var routes = [
           {
             name: "Resources",
+            linksTo: "project-resources",
+            params: {projectId: this.props.project.id},
             href: "/application/projects/" + this.props.project.id + "/resources",
             icon: "th"
           },
           {
             name: "Details",
+            linksTo: "project-details",
+            params: {projectId: this.props.project.id},
             href: "/application/projects/" + this.props.project.id,
             icon: "list-alt"
           }

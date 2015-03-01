@@ -4,9 +4,10 @@ define(
   [
     'react',
     'backbone',
-    './EditableInputField.react'
+    './EditableInputField.react',
+    'react-router'
   ],
-  function (React, Backbone, EditableInputField) {
+  function (React, Backbone, EditableInputField, Router) {
 
     var ENTER_KEY = 13;
 
@@ -26,14 +27,25 @@ define(
         var links = this.props.routes.map(function(route){
           var isCurrentRoute = (route.name.toLowerCase() === this.props.currentRoute);
           var className = isCurrentRoute ? "active" : null;
-          return (
-            <li key={route.name} className={className}>
-              <a href={route.href}>
-                <i className={'glyphicon glyphicon-' + route.icon}></i>
+          if(!route.linksTo) {
+            return (
+              <li key={route.name} className={className}>
+                <a href={route.href}>
+                  <i className={'glyphicon glyphicon-' + route.icon}></i>
                 {route.name}
-              </a>
-            </li>
-          );
+                </a>
+              </li>
+            );
+          }else{
+            return (
+              <li key={route.name}>
+                <Router.Link to={route.linksTo} params={route.params} className={className}>
+                  <i className={'glyphicon glyphicon-' + route.icon}></i>
+                  {route.name}
+                </Router.Link>
+              </li>
+            );
+          }
         }.bind(this));
 
         var titleContent;
