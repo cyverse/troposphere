@@ -39,7 +39,7 @@ define(
         var project = this.props.project;
         var instance = this.props.instance;
 
-        var instanceHash = CryptoJS.MD5(instance.id).toString();
+        var instanceHash = CryptoJS.MD5(instance.id.toString()).toString();
         var type = stores.ProfileStore.get().get('icon_set');
         var iconSize = 18;
 
