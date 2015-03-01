@@ -20,7 +20,7 @@ define(
 
     function getState(project) {
       return {
-        projectInstances: stores.InstanceStore.getInstancesInProject(project),
+        projectInstances: stores.ProjectInstanceStore.getInstancesFor(project),
         projectVolumes: stores.VolumeStore.getVolumesInProject(project),
         selectedResource: null,
         previewedResource: null,
@@ -46,6 +46,7 @@ define(
         stores.ProviderStore.addChangeListener(this.updateState);
         stores.SizeStore.addChangeListener(this.updateState);
         stores.ProjectStore.addChangeListener(this.updateState);
+        stores.ProjectInstanceStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
@@ -54,6 +55,7 @@ define(
         stores.ProviderStore.removeChangeListener(this.updateState);
         stores.SizeStore.removeChangeListener(this.updateState);
         stores.ProjectStore.removeChangeListener(this.updateState);
+        stores.ProjectInstanceStore.addChangeListener(this.updateState);
       },
 
       updateState: function(){
@@ -141,16 +143,6 @@ define(
 
       render: function () {
         if(this.state.projectInstances && this.state.projectVolumes && this.state.providers) {
-
-          // Figure out which instances are real
-          this.state.projectInstances.map(function(projectInstance){
-            projectInstance.isRealResource = true;
-          });
-
-          // Figure out which volumes are real
-          this.state.projectVolumes.map(function(projectVolume){
-            projectVolume.isRealResource = true;
-          });
 
           // Only show the action button bar if the user has selected resources
           var isButtonBarVisible = this.state.selectedResources.length > 0;

@@ -4,9 +4,10 @@ define(
     'dispatchers/Dispatcher',
     'stores/Store',
     'collections/ProjectInstanceCollection',
-    'constants/ProjectInstanceConstants'
+    'constants/ProjectInstanceConstants',
+    'collections/InstanceCollection'
   ],
-  function (_, Dispatcher, Store, Collection, Constants) {
+  function (_, Dispatcher, Store, Collection, Constants, InstanceCollection) {
 
     var _models = null;
     var _isFetching = false;
@@ -38,7 +39,14 @@ define(
           url: models.url() + "?project__id=" + projectId
         }).done(function () {
           _isFetchingFor[projectId] = false;
-          _modelsFor[projectId] = models;
+
+          // convert ProjectInstance collection to an InstanceCollection
+          var instances = models.map(function(pi){
+            return pi.get('instance');
+          });
+          instances = new InstanceCollection(instances, {parse: true});
+
+          _modelsFor[projectId] = instances;
           ModelStore.emitChange();
         });
       }
