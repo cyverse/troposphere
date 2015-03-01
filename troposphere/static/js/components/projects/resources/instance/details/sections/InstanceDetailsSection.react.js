@@ -35,7 +35,7 @@ define(
             <h4 className="title">Instance Details</h4>
             <ul>
               <Status instance={instance}/>
-              <Size size={size}/>
+              <Size instance={instance}/>
               <IpAddress instance={instance}/>
               <LaunchDate instance={instance}/>
               <CreatedFrom instance={instance}/>

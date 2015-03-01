@@ -5,9 +5,10 @@ define(
     'react',
     'backbone',
     'components/projects/common/ResourceDetail.react',
-    'url'
+    'react-router',
+    'stores'
   ],
-  function (React, Backbone, ResourceDetail, URL) {
+  function (React, Backbone, ResourceDetail, Router, stores) {
 
     return React.createClass({
 
@@ -16,11 +17,20 @@ define(
       },
 
       render: function () {
-        var instance = this.props.instance;
-        var applicationUrl = URL.application({id: instance.get('application_uuid')});
+        var instance = this.props.instance,
+            image = stores.ApplicationStore.get(instance.get('image').id);
+
+        if(!image){
+          return (
+            <div className="loading-tiny-inline"></div>
+          );
+        }
+
         return (
           <ResourceDetail label="Based on">
-            <a href={applicationUrl}>{instance.get('application_name')}</a>
+            <Router.Link to="image" params={{imageId: image.id}}>
+              {image.get('name')}
+            </Router.Link>
           </ResourceDetail>
         );
       }
