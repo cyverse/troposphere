@@ -144,10 +144,10 @@ define(
         //
 
         var urlRoot = '/application/';
-        Backbone.history.start({
-          pushState: true,
-          root: urlRoot
-        });
+        //Backbone.history.start({
+        //  pushState: true,
+        //  root: urlRoot
+        //});
 
         var matchesExpression = function(url, expression){
           var re = new RegExp(expression);

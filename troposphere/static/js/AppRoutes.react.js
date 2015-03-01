@@ -11,7 +11,7 @@ define(function (require) {
       MasterTest = require('./components/MasterTest.react');
 
   var AppRoutes = (
-    <Route name="root" path="/" handler={Master}>
+    <Route name="root" path="/application" handler={Master}>
       <Route handler={MasterTest}/>
 
       <DefaultRoute handler={MasterTest}/>

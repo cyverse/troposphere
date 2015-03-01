@@ -10,8 +10,8 @@ define(function (require) {
   // create the router and assign to the singleton
   function createRouter() {
     _router = Router.create({
-      routes: routes
-      //location: Router.HistoryLocation
+      routes: routes,
+      location: Router.HistoryLocation
     });
   }
 
