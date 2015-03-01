@@ -21,7 +21,7 @@ define(
     function getState(project) {
       return {
         projectInstances: stores.ProjectInstanceStore.getInstancesFor(project),
-        projectVolumes: stores.VolumeStore.getVolumesInProject(project),
+        projectVolumes: stores.ProjectVolumeStore.getVolumesFor(project),
         selectedResource: null,
         previewedResource: null,
         providers: stores.ProviderStore.getAll()
@@ -47,6 +47,7 @@ define(
         stores.SizeStore.addChangeListener(this.updateState);
         stores.ProjectStore.addChangeListener(this.updateState);
         stores.ProjectInstanceStore.addChangeListener(this.updateState);
+        stores.ProjectVolumeStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
@@ -55,7 +56,8 @@ define(
         stores.ProviderStore.removeChangeListener(this.updateState);
         stores.SizeStore.removeChangeListener(this.updateState);
         stores.ProjectStore.removeChangeListener(this.updateState);
-        stores.ProjectInstanceStore.addChangeListener(this.updateState);
+        stores.ProjectInstanceStore.removeChangeListener(this.updateState);
+        stores.ProjectVolumeStore.removeChangeListener(this.updateState);
       },
 
       updateState: function(){
@@ -63,8 +65,8 @@ define(
           var state = getState(this.props.project);
 
           // Remove any selected resources that are no longer in the project
-          var projectInstances = stores.InstanceStore.getInstancesInProject(this.props.project);
-          var projectVolumes = stores.VolumeStore.getVolumesInProject(this.props.project);
+          var projectInstances = stores.ProjectInstanceStore.getInstancesFor(this.props.project);
+          var projectVolumes = stores.ProjectVolumeStore.getVolumesFor(this.props.project);
 
           var selectedResourcesClone = this.state.selectedResources.models.slice(0);
           selectedResourcesClone.map(function(selectedResource){
