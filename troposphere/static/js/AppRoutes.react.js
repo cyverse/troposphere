@@ -8,7 +8,8 @@ define(function (require) {
       DefaultRoute = Router.DefaultRoute;
 
   var Master = require('./components/Master.react'),
-      MasterTest = require('./components/MasterTest.react');
+      MasterTest = require('./components/MasterTest.react'),
+      ProjectListPage = require('./components/projects/ProjectListPage.react');
 
   //<Route name="dashboard" handler={Master}/>
   //<Route name="projects" handler={Master}/>
@@ -25,7 +26,7 @@ define(function (require) {
   var AppRoutes = (
     <Route name="root" path="/application" handler={Master}>
       <Route name="dashboard" handler={MasterTest}/>
-      <Route name="projects" handler={MasterTest}/>
+      <Route name="projects" handler={ProjectListPage}/>
       <Route name="images" handler={MasterTest}/>
       <Route name="providers" handler={MasterTest}/>
       <Route name="help" handler={MasterTest}/>
