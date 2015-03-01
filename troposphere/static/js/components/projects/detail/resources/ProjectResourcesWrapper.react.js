@@ -4,10 +4,9 @@ define(
   [
     'react',
     'backbone',
-    'components/projects/common/SecondaryProjectNavigation.react',
     './SubMenu.react'
   ],
-  function (React, Backbone, SecondaryProjectNavigation, SubMenu) {
+  function (React, Backbone, SubMenu) {
 
     return React.createClass({
 

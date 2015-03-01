@@ -16,7 +16,6 @@ define(
       },
 
       render: function () {
-        var identityId = this.props.volume.get('identity').id;
         var providerName = this.props.provider.get('name');
 
         return (

@@ -23,7 +23,7 @@ define(
       },
 
       render: function () {
-        var providerId = this.props.volume.get('identity').provider;
+        var providerId = this.props.volume.get('provider');
         var provider = this.props.providers.get(providerId);
 
         return (
