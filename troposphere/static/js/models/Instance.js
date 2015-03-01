@@ -24,7 +24,6 @@ define(
       },
 
       parse: function (attributes) {
-        attributes.id = attributes.alias;
         attributes.start_date = new Date(attributes.start_date);
         attributes.state = new InstanceState({status_raw: attributes.status});
         return attributes;
