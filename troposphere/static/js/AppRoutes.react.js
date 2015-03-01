@@ -9,8 +9,11 @@ define(function (require) {
 
   var Master = require('./components/Master.react'),
       MasterTest = require('./components/MasterTest.react'),
+      DashboardPage = require('./components/dashboard/DashboardPage.react'),
       ProjectListPage = require('./components/projects/ProjectListPage.react'),
-      ImageListPage = require('./components/applications/ApplicationListPage.react');
+      ImageListPage = require('./components/applications/ApplicationListPage.react'),
+      ProviderListPage = require('./components/providers/ProviderListPage.react'), // broken
+      HelpPage = require('./components/help/HelpPage.react');
 
   //<Route name="dashboard" handler={Master}/>
   //<Route name="projects" handler={Master}/>
@@ -26,11 +29,11 @@ define(function (require) {
 
   var AppRoutes = (
     <Route name="root" path="/application" handler={Master}>
-      <Route name="dashboard" handler={MasterTest}/>
+      <Route name="dashboard" handler={DashboardPage}/>
       <Route name="projects" handler={ProjectListPage}/>
       <Route name="images" handler={ImageListPage}/>
-      <Route name="providers" handler={MasterTest}/>
-      <Route name="help" handler={MasterTest}/>
+      <Route name="providers" handler={ProviderListPage}/>
+      <Route name="help" handler={HelpPage}/>
 
       <DefaultRoute handler={MasterTest}/>
     </Route>
