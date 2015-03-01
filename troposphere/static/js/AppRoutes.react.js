@@ -13,6 +13,7 @@ define(function (require) {
       DashboardPage = require('./components/dashboard/DashboardPage.react'),
       ProjectListPage = require('./components/projects/ProjectListPage.react'),
       ImageListPage = require('./components/applications/ApplicationListPage.react'),
+      ImageDetailsPage = require('./components/applications/ApplicationDetailsPage.react'),
       ProviderListPage = require('./components/providers/ProviderListPage.react'), // broken
       HelpPage = require('./components/help/HelpPage.react'),
       ProjectDetailsMaster = require('./components/projects/detail/ProjectDetailsMaster.react'),
@@ -44,6 +45,8 @@ define(function (require) {
         <Route name="project-resources" path="resources" handler={ProjectResourcesPage}/>
         <DefaultRoute handler={ProjectDetailsPage}/>
       </Route>
+
+      <Route name="image" path="images/:imageId" handler={ImageDetailsPage}/>
 
       <DefaultRoute handler={MasterTest}/>
     </Route>

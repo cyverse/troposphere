@@ -17,18 +17,38 @@ define(function (require) {
 
     mixins: [Router.State],
 
-    componentDidMount: function () {
-      // todo: kick out for now as v2 has a different flow - refactor this later
-      return;
+    getState: function() {
+        return {};
+      },
 
-      if(context.nullProject){
-        if(!context.nullProject.isEmpty()){
-          actions.NullProjectActions.migrateResourcesIntoProject(context.nullProject);
-        }else{
-          actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
-        }
-      }
-    },
+      getInitialState: function() {
+        return this.getState();
+      },
+
+      updateState: function() {
+        if (this.isMounted()) this.setState(this.getState())
+      },
+
+      componentDidMount: function () {
+        stores.ApplicationStore.addChangeListener(this.updateState);
+      },
+
+      componentWillUnmount: function () {
+        stores.ApplicationStore.removeChangeListener(this.updateState);
+      },
+
+      //componentDidMount: function () {
+      //  // todo: kick out for now as v2 has a different flow - refactor this later
+      //  return;
+      //
+      //  if(context.nullProject){
+      //    if(!context.nullProject.isEmpty()){
+      //      actions.NullProjectActions.migrateResourcesIntoProject(context.nullProject);
+      //    }else{
+      //      actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
+      //    }
+      //  }
+      //},
 
     // --------------
     // Render Helpers
@@ -50,13 +70,6 @@ define(function (require) {
           <Footer profile={this.props.profile}/>
         </div>
       );
-
-      //return (
-      //  <div>
-      //    <h2>Master Test</h2>
-      //    <RouteHandler/>
-      //  </div>
-      //);
     }
 
   });

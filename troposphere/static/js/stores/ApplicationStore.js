@@ -17,6 +17,7 @@ define(
     var _featuredImages = null;
     var _searchResults = {};
     var _isFetching = false;
+    var _isFetchingImage = {};
     var _isFetchingFeaturedImages = false;
     var _isFetchingMore = false;
     var _isSearching = false;
@@ -28,6 +29,18 @@ define(
         applications.fetch().done(function () {
           _isFetching = false;
           _applications = applications;
+          ApplicationStore.emitChange();
+        });
+      }
+    };
+
+    var fetchApplication = function(imageId){
+      if(!_isFetchingImage[imageId]){
+        _isFetchingImage[imageId] = true;
+        var image = new Application({ id: imageId });
+        image.fetch().done(function () {
+          _isFetchingImage[imageId] = false;
+          _applications.add(image);
           ApplicationStore.emitChange();
         });
       }
@@ -116,10 +129,15 @@ define(
 
       get: function (appId) {
         if(!_applications) {
-          fetchApplications();
-        } else {
-          return _applications.get(appId);
+          return fetchApplications();
         }
+
+        var image = _applications.get(appId);
+        if(!image) {
+          return fetchApplication(appId);
+        }
+
+        return image;
       },
 
       getAll: function () {
