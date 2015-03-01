@@ -26,17 +26,21 @@ define(
       },
 
       render: function () {
+        var instance = this.props.instance,
+            size = this.props.size,
+            provider = this.props.provider;
+
         return (
           <div className="resource-details-section section">
             <h4 className="title">Instance Details</h4>
             <ul>
-              <Status instance={this.props.instance}/>
-              <Size size={this.props.size}/>
-              <IpAddress instance={this.props.instance}/>
-              <LaunchDate instance={this.props.instance}/>
-              <CreatedFrom instance={this.props.instance}/>
-              <Identity instance={this.props.instance} provider={this.props.provider}/>
-              <Id instance={this.props.instance}/>
+              <Status instance={instance}/>
+              <Size size={size}/>
+              <IpAddress instance={instance}/>
+              <LaunchDate instance={instance}/>
+              <CreatedFrom instance={instance}/>
+              <Identity instance={instance} provider={provider}/>
+              <Id instance={instance}/>
             </ul>
           </div>
         );
