@@ -35,8 +35,9 @@ define(
       get: function (sizeId) {
         if(!_sizes) {
           fetchSizes();
+        }else{
+          return _sizes.get(sizeId);
         }
-        return _sizes.get(sizeId);
       },
 
       getAllFor: function (providerId, identityId) {
