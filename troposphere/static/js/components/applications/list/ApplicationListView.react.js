@@ -4,32 +4,97 @@ define(
   [
     'react',
     'backbone',
-    'components/common/PageHeader.react',
+    'stores',
     'collections/ApplicationCollection',
-    './ApplicationCardList.react',
-    './ApplicationCardGrid.react',
-    './SearchContainer.react',
+    './list/ApplicationCardList.react',
+    './grid/ApplicationCardGrid.react',
     '../common/SecondaryApplicationNavigation.react'
   ],
-  function (React, Backbone, PageHeader, ApplicationCollection, ApplicationCardList, ApplicationCardGrid, ApplicationSearch, SecondaryApplicationNavigation) {
+  function (React, Backbone, stores, ApplicationCollection, ApplicationCardList, ApplicationCardGrid, SecondaryApplicationNavigation) {
+
+    var timer,
+        timerDelay = 100;
 
     return React.createClass({
 
       propTypes: {
-        applications: React.PropTypes.instanceOf(Backbone.Collection),
+        query: React.PropTypes.string,
         tags: React.PropTypes.instanceOf(Backbone.Collection)
+      },
+
+      getDefaultProps: function(){
+        return {
+          query: ""
+        }
       },
 
       getInitialState: function(){
         return {
-          viewType: 'list',
-          resultsPerPage: 20,
-          page: 1
+          applications: stores.ApplicationStore.getAll(),
+          featuredImages: stores.ApplicationStore.getAllFeatured(),
+          query: this.props.query,
+          isLoadingMoreResults: false,
+          nextUrl: null,
+          viewType: 'list'
         }
       },
 
+      getState: function() {
+        return {
+          applications: stores.ApplicationStore.getSearchResultsFor(this.state.query),
+          featuredImages: stores.ApplicationStore.getAllFeatured()
+        }
+      },
+
+      updateState: function() {
+        var state = this.getState();
+        if(state.applications.meta.next !== this.state.nextUrl){
+          state.isLoadingMoreResults = false;
+          state.nextUrl = null;
+        }
+        if (this.isMounted()) this.setState(state);
+      },
+
+      componentDidMount: function () {
+        stores.ApplicationStore.addChangeListener(this.updateState);
+      },
+
+      componentWillUnmount: function() {
+        stores.ApplicationStore.removeChangeListener(this.updateState);
+      },
+
       onLoadMoreImages: function(){
-        this.setState({page: this.state.page + 1})
+        this.setState({
+          isLoadingMoreResults: true,
+          nextUrl: this.state.applications.meta.next
+        });
+        if(this.state.query){
+          stores.ApplicationStore.getMoreSearchResultsFor(this.state.query);
+        }else{
+          stores.ApplicationStore.getMoreImages();
+        }
+      },
+
+      //
+      // Callbacks
+      //
+
+      handleSearch: function (query) {
+        if (timer) clearTimeout(timer);
+
+        timer = setTimeout(function(){
+          var query = this.state.query,
+              applications = stores.ApplicationStore.getSearchResultsFor(query);
+          this.setState({applications: applications});
+        }.bind(this), timerDelay);
+      },
+
+      onSearchChange: function (e) {
+        this.setState({query: e.target.value});
+      },
+
+      onSearchKeyUp: function (e) {
+        this.handleSearch(this.state.query);
       },
 
       onChangeViewType: function(){
@@ -40,88 +105,84 @@ define(
         }
       },
 
-      getRoutes: function(){
-        return [
-          {
-            name: "Search",
-            href: "/application/images"
-          },
-          {
-            name: "Favorites",
-            href: "/application/images/favorites"
-          },
-          {
-            name: "My Images",
-            href: "/application/images/authored"
-          }
-        ];
-      },
+      // --------------
+      // Render methods
+      // --------------
 
       renderFeaturedImages: function(){
-        var applications = this.props.applications;
-        var tags = this.props.tags;
+        var images = this.state.featuredImages,
+            tags = this.props.tags;
 
-        if (applications && tags) {
-          var featuredApplicationArray = applications.filter(function (app) {
-            return app.get('featured');
-          });
-          var featuredApplications = new ApplicationCollection(featuredApplicationArray);
-
+        if (images && tags) {
           if(this.state.viewType === "list") {
             return (
-              <ApplicationCardList key="featured"
-                                   title="Featured Images"
-                                   applications={featuredApplications}
-                                   tags={tags}
-                                   totalNumberOfApplications={featuredApplications.models.length}
+              <ApplicationCardList
+                key="featured"
+                title="Featured Images"
+                applications={images}
+                tags={tags}
               />
             );
           }else{
             return (
-              <ApplicationCardGrid key="featured"
-                                   title="Featured Images"
-                                   applications={featuredApplications}
-                                   tags={tags}
-                                   totalNumberOfApplications={featuredApplications.models.length}
+              <ApplicationCardGrid
+                key="featured"
+                title="Featured Images"
+                applications={images}
+                tags={tags}
               />
             );
           }
         }
       },
 
-      renderImages: function(){
-        var numberOfResults = this.state.page*this.state.resultsPerPage;
-        var totalNumberOfApplications = this.props.applications.models.length;
-        var applications = this.props.applications.first(numberOfResults);
-        applications = new ApplicationCollection(applications);
+      renderImages: function(applications){
         var tags = this.props.tags;
 
         if (applications && tags) {
           if(this.state.viewType === "list") {
             return (
-              <ApplicationCardList key="all"
-                                   title="All Images"
-                                   applications={applications}
-                                   tags={tags}
-                                   onLoadMoreImages={this.onLoadMoreImages}
-                                   totalNumberOfApplications={totalNumberOfApplications}
+              <ApplicationCardList
+                key="all"
+                title="All Images"
+                applications={applications}
+                tags={tags}
               />
             );
           }else{
             return (
-              <ApplicationCardGrid key="all"
-                                   title="All Images"
-                                   applications={applications}
-                                   tags={tags}
-                                   onLoadMoreImages={this.onLoadMoreImages}
-                                   totalNumberOfApplications={totalNumberOfApplications}
+              <ApplicationCardGrid
+                key="all"
+                title="All Images"
+                applications={applications}
+                tags={tags}
               />
             );
           }
-        } else {
+        }
+
+        return (
+          <div className="loading"></div>
+        );
+      },
+
+      renderLoadMoreButton: function(applications){
+        if(this.state.isLoadingMoreResults){
           return (
-            <div className="loading"></div>
-          );
+            <div style={{"margin": "auto", "display": "block"}} className="loading"/>
+          )
+        }
+
+        if(applications.meta.next) {
+          return (
+            <button
+              style={{"margin": "auto", "display": "block"}}
+              className="btn btn-default"
+              onClick={this.onLoadMoreImages}
+            >
+              Show more images...
+            </button>
+          )
         }
       },
 
@@ -147,30 +208,24 @@ define(
         );
       },
 
-      renderResultsTitleAndToggles: function(){
-        var numberOfResults = this.state.page*this.state.resultsPerPage;
-        var applications = this.props.applications;
-        var numberOfDisplayedApplications = applications.first(numberOfResults).length;
-
-        var title = "Showing " + numberOfDisplayedApplications + " of " + applications.length + " images";
-        return (
-          <div className="display-toggles clearfix">
-            <h3>{title}</h3>
-            <div className="btn-group pull-right">
-              {this.renderListButton()}
-              {this.renderGridButton()}
-            </div>
-          </div>
-        );
-      },
-
       renderBody: function(){
-        if (this.props.applications && this.props.tags) {
+        var applications = this.state.applications,
+            title = "";
+
+        if (applications) {
+          title = "Showing " + applications.length + " of " + applications.meta.count + " images";
           return (
             <div>
-              {this.renderResultsTitleAndToggles()}
+              <div className="display-toggles clearfix">
+                <h3>{title}</h3>
+                <div className="btn-group pull-right">
+                  {this.renderListButton()}
+                  {this.renderGridButton()}
+                </div>
+              </div>
               {this.renderFeaturedImages()}
-              {this.renderImages()}
+              {this.renderImages(applications)}
+              {this.renderLoadMoreButton(applications)}
             </div>
           );
         }
@@ -182,12 +237,20 @@ define(
 
       render: function () {
         return (
-          <div>
-            <SecondaryApplicationNavigation currentRoute="search"/>
-            <div className="container application-card-view">
-              <ApplicationSearch/>
-              {this.renderBody()}
+          <div className="container application-card-view">
+            <div id='search-container'>
+              <input
+                type='text'
+                className='form-control search-input'
+                placeholder='Search across image name, tag or description'
+                onChange={this.onSearchChange}
+                value={this.props.value}
+                onKeyUp={this.onSearchKeyUp}
+                ref="textField"
+              />
+              <hr/>
             </div>
+            {this.renderBody()}
           </div>
         );
       }

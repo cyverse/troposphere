@@ -23,6 +23,11 @@ define(
         var project = new NullProject();
         project.fetch().done(function () {
           _isFetching = false;
+
+          // todo: disabling null project for the moment
+          project.set('instances', []);
+          project.set('volumes', []);
+
           _project = project;
           NullProjectStore.emitChange();
         });

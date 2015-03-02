@@ -1,33 +1,21 @@
 define(
   [
     'underscore',
-    'models/Base'
+    'backbone',
+    'globals',
+    'moment'
   ],
-  function (_, Base) {
+  function (_, Backbone, globals, moment) {
 
-    /*
-     {
-     "occupancy": 0,
-     "total": 1,
-     "remaining": 1,
-     "active": true,
-     "alias": "1",
-     "name": "tiny1",
-     "provider": 4,
-     "cpu": 1,
-     "disk": 30,
-     "root": 0,
-     "mem": 4096
-     }
-     */
+    return Backbone.Model.extend({
 
-    var Size = Base.extend({
-      defaults: { 'model_name': 'size' },
+      urlRoot: globals.API_V2_ROOT + "/sizes",
 
-      parse: function (attributes) {
-        attributes.id = attributes.alias;
-        attributes.mem = attributes.mem / 1024;
-        return attributes;
+      parse: function (response) {
+        response.mem = response.mem / 1024;
+        response.start_date = moment(response.start_date);
+        response.end_date = moment(response.end_date);
+        return response;
       },
 
       formattedDetails: function () {
@@ -42,10 +30,7 @@ define(
 
         return this.get('name') + " (" + parts.join(', ') + ")";
       }
+
     });
-
-    _.extend(Size.defaults, Base.defaults);
-
-    return Size;
 
   });

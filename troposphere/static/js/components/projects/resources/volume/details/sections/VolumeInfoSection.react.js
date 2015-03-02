@@ -54,7 +54,7 @@ define(
           );
         }
 
-        var instanceHash = CryptoJS.MD5(this.props.volume.id).toString();
+        var instanceHash = CryptoJS.MD5(this.props.volume.id.toString()).toString();
         var type = stores.ProfileStore.get().get('icon_set');
         var iconSize = 113;
 

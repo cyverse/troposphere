@@ -44,6 +44,16 @@ define(
         }else {
           return _identities.get(identityId);
         }
+      },
+
+      getIdentityFor: function(provider){
+        if(!_identities) return fetchIdentities();
+
+        var identity = _identities.find(function(identity){
+          return identity.get('provider').id === provider.id;
+        });
+
+        return identity;
       }
     };
 

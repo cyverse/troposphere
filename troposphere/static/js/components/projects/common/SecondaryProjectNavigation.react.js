@@ -1,87 +1,86 @@
-/** @jsx React.DOM */
+define(function(require){
 
-define(
-  [
-    'react',
-    'backbone',
-    'components/common/SecondaryNavigation.react',
-    'actions/ProjectActions',
-    'stores'
-  ],
-  function (React, Backbone, SecondaryNavigation, ProjectActions, stores) {
+  var React = require('react'),
+      Backbone = require('backbone'),
+      Router = require('react-router'),
+      Glyphicon = require('components/common/Glyphicon.react'),
+      actions = require('actions'),
+      stores = require('stores');
 
-    return React.createClass({
+  return React.createClass({
 
-      propTypes: {
-        currentRoute: React.PropTypes.string.isRequired,
-        project: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    propTypes: {
+      project: React.PropTypes.instanceOf(Backbone.Model).isRequired
+    },
 
-      onTitleChanged: function(text){
-        ProjectActions.updateProjectAttributes(this.props.project, {name: text});
-      },
+    onDeleteProject: function(e){
+      e.preventDefault();
 
-      onDeleteProject: function(e){
-        e.preventDefault();
+      var project = this.props.project,
+          projectInstances = stores.InstanceStore.getInstancesInProject(project),
+          projectVolumes = stores.VolumeStore.getVolumesInProject(project);
 
-        var projectInstances = stores.InstanceStore.getInstancesInProject(this.props.project);
-        var projectVolumes = stores.VolumeStore.getVolumesInProject(this.props.project);
+      if(projectInstances.length > 0 || projectVolumes.length > 0){
+        actions.ProjectActions.explainProjectDeleteConditions();
+      }else{
+        actions.ProjectActions.destroy(project);
+      }
+    },
 
-        if(projectInstances.length > 0 || projectVolumes.length > 0){
-          ProjectActions.explainProjectDeleteConditions();
-        }else{
-          ProjectActions.destroy(this.props.project);
-        }
-      },
+    renderRoute: function(name, linksTo, icon, params){
+      return (
+        <li key={name}>
+          <Router.Link to={linksTo} params={params}>
+            <Glyphicon name={icon}/>
+            <span>{name}</span>
+          </Router.Link>
+        </li>
+      )
+    },
 
-      render: function () {
-        var routes = [
-          {
-            name: "Resources",
-            href: "/application/projects/" + this.props.project.id + "/resources",
-            icon: "th"
-          },
-          {
-            name: "Details",
-            href: "/application/projects/" + this.props.project.id,
-            icon: "list-alt"
-          }
-        ];
+    render: function () {
+      var project = this.props.project;
 
-        var additionalContent = (
-          <ul className="options-bar navbar-nav navbar-right">
-            <li className="dropdown">
-              <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                <i className="glyphicon glyphicon-cog"/>
-                Options
-                <b className="caret"></b>
-              </a>
-              <ul className="dropdown-menu">
-                <li>
-                  <a href="#" className="danger" onClick={this.onDeleteProject}>
-                    <i className="glyphicon glyphicon-trash"/>
-                    Delete Project
+      return (
+        <div>
+          <div className="secondary-nav">
+            <div className="container">
+
+              <div className="project-name">
+                <h1>
+                  {project.get('name')}
+                </h1>
+              </div>
+
+              <ul className="secondary-nav-links">
+                {this.renderRoute("Resources", "project-resources", "th", {projectId: project.id})}
+                {this.renderRoute("Details", "project-details", "list-alt", {projectId: project.id})}
+              </ul>
+
+              <ul className="options-bar navbar-nav navbar-right">
+                <li className="dropdown">
+                  <a href="#" className="dropdown-toggle" data-toggle="dropdown">
+                    <i className="glyphicon glyphicon-cog"/>
+                    Options
+                    <b className="caret"></b>
                   </a>
+                  <ul className="dropdown-menu">
+                    <li>
+                      <a href="#" className="danger" onClick={this.onDeleteProject}>
+                        <i className="glyphicon glyphicon-trash"/>
+                        Delete Project
+                      </a>
+                    </li>
+                  </ul>
                 </li>
               </ul>
-            </li>
-          </ul>
-        );
 
-        return (
-          <div>
-            <SecondaryNavigation title={this.props.project.get('name')}
-                                 routes={routes}
-                                 currentRoute={this.props.currentRoute}
-                                 canEditTitle={false}
-                                 onTitleChanged={this.onTitleChanged}
-                                 additionalContent={additionalContent}
-            />
+            </div>
           </div>
-        );
-
-      }
-
-    });
+        </div>
+      );
+    }
 
   });
+
+});

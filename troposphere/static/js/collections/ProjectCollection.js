@@ -9,8 +9,16 @@ define(
     return Backbone.Collection.extend({
       model: Project,
 
-      url: function () {
-        return globals.API_ROOT + "/project" + globals.slash();
+      url: globals.API_V2_ROOT + "/projects",
+
+      parse: function (response) {
+        this.meta = {
+          count: response.count,
+          next: response.next,
+          previous: response.previous
+        };
+
+        return response.results;
       },
 
       comparator: function (projectA, projectB) {

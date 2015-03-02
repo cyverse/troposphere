@@ -6,16 +6,15 @@ define(
     'components/common/Gravatar.react',
     'backbone',
     'url',
-    './Rating.react',
-    './Bookmark.react',
+    '../../common/Bookmark.react',
     'context',
-    '../detail/tags/Tags.react',
+    '../../detail/tags/Tags.react',
     'stores',
     'navigator',
     'showdown',
     'moment'
   ],
-  function (React, Gravatar, Backbone, URL, Rating, Bookmark, context, Tags, stores, navigator, Showdown, moment) {
+  function (React, Gravatar, Backbone, URL, Bookmark, context, Tags, stores, navigator, Showdown, moment) {
 
     return React.createClass({
 
@@ -73,7 +72,7 @@ define(
                 <h4>
                   <a href={appUri}>{app.get('name')}</a>
                 </h4>
-                <div><time>{applicationCreationDate}</time> by <strong>{app.get('created_by')}</strong></div>
+                <div><time>{applicationCreationDate}</time> by <strong>{app.get('created_by').username}</strong></div>
                 <Tags activeTags={imageTags}
                     tags={this.props.tags}
                 />

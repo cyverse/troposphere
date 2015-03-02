@@ -16,7 +16,7 @@ define(
 
       render: function () {
         var volume = this.props.volume;
-        var volumeProvider = this.props.providers.get(volume.get('identity').provider);
+        var volumeProvider = this.props.providers.get(volume.get('provider'));
 
         return (
           <span>{volumeProvider.get('name')}</span>

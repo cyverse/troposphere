@@ -67,12 +67,9 @@
   li a {
     color: #aaa;
     cursor: pointer;
-  }
 
-  li.active {
-    border-left: 3px solid $link-color;
-
-    a {
+    &.active {
+      border-left: 3px solid $link-color;
       color: $link-color;
     }
   }

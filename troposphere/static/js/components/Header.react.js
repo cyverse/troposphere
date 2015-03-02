@@ -6,39 +6,47 @@ define(
     'backbone',
     'actions',
     './MaintenanceMessageBanner.react',
+    'react-router',
 
     // required to enable the drop-down
     'bootstrap'
   ],
-  function (React, Backbone, actions, MaintenanceMessageBanner) {
+  function (React, Backbone, actions, MaintenanceMessageBanner, Router) {
+
+    var Link = Router.Link;
 
     var links = [
       {
         name: "Dashboard",
+        linksTo: "dashboard",
         href: "/application/dashboard",
         icon: "stats",
         requiresLogin: true
       },
       {
         name: "Projects",
+        linksTo: "projects",
         href: "/application/projects",
         icon: "folder-open",
         requiresLogin: true
       },
       {
         name: "Images",
+        linksTo: "images",
         href: "/application/images",
         icon: "floppy-disk",
         requiresLogin: false
       },
       {
         name: "Providers",
+        linksTo: "providers",
         href: "/application/providers",
         icon: "cloud",
         requiresLogin: true
       },
       {
         name: "Help",
+        linksTo: "help",
         href: "/application/help",
         icon: "question-sign",
         requiresLogin: false
@@ -75,7 +83,7 @@ define(
             </a>
             <ul className="dropdown-menu">
               <li>
-                  <a href="/application/settings">Settings</a>
+                  <Link to="settings">Settings</Link>
               </li>
               <li className="divider"></li>
               <li>
@@ -115,20 +123,20 @@ define(
           var isCurrentRoute = (link.name.toLowerCase() === this.props.currentRoute[0]);
           var className = isCurrentRoute ? "active" : null;
           return (
-            <li key={link.name} className={className}>
-              <a href={link.href}>
+            <li key={link.name}>
+              <Link to={link.linksTo}>
                 <i className={"glyphicon glyphicon-" + link.icon}></i>
                 {link.name}
-              </a>
+              </Link>
             </li>
           );
         }.bind(this));
 
-        var productIconUrl;
+        var brandLink;
         if(profile){
-          productIconUrl = "/application/dashboard";
+          brandLink = <Link to="dashboard" className="navbar-brand"/>;
         }else{
-          productIconUrl = "/application/images";
+          brandLink = <Link to="images" className="navbar-brand"/>;
         }
 
         return (
@@ -143,7 +151,7 @@ define(
                   <span className="icon-bar"></span>
                   <span className="icon-bar"></span>
                 </button>
-                <a className="navbar-brand" href={productIconUrl}></a>
+                {brandLink}
               </div>
 
               <div className="navbar-collapse collapse">

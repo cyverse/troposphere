@@ -77,24 +77,17 @@ define(function (require) {
           var providerId = instance.get('identity').provider;
           var provider = this.state.providers.get(providerId);
 
-          var identityId = instance.get('identity').id;
-          var sizeId = instance.get('size_alias');
-          var sizes = SizeStore.getAllFor(providerId, identityId);
-          if(sizes) {
-            var size = sizes.get(sizeId);
-
-            return (
-              <ul>
-                <Id instance={instance}/>
-                <Status instance={instance}/>
-                <Size size={size}/>
-                <IpAddress instance={instance}/>
-                <LaunchDate instance={instance}/>
-                <CreatedFrom instance={instance}/>
-                <Identity instance={instance} provider={provider}/>
-              </ul>
-            );
-          }
+          return (
+            <ul>
+              <Id instance={instance}/>
+              <Status instance={instance}/>
+              <Size instance={instance}/>
+              <IpAddress instance={instance}/>
+              <LaunchDate instance={instance}/>
+              <CreatedFrom instance={instance}/>
+              <Identity instance={instance} provider={provider}/>
+            </ul>
+          );
         }
 
         return (

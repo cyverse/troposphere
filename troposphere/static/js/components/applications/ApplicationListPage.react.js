@@ -40,11 +40,6 @@ define(
         TagStore.removeChangeListener(this.updateState);
       },
 
-      onLoadMoreImages: function(){
-        this.setState({isLoadingMoreResults: true});
-        ApplicationStore.fetchMore();
-      },
-
       render: function () {
         return (
           <ApplicationListView applications={this.state.applications}

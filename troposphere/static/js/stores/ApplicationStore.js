@@ -14,8 +14,11 @@ define(
   function (_, ApplicationCollection, ApplicationSearchResultCollection, Dispatcher, Application, ApplicationActions, Store, ApplicationConstants, NotificationController, context) {
 
     var _applications = null;
+    var _featuredImages = null;
     var _searchResults = {};
     var _isFetching = false;
+    var _isFetchingImage = {};
+    var _isFetchingFeaturedImages = false;
     var _isFetchingMore = false;
     var _isSearching = false;
 
@@ -31,15 +34,56 @@ define(
       }
     };
 
-    var fetchMoreApplications = function () {
+    var fetchApplication = function(imageId){
+      if(!_isFetchingImage[imageId]){
+        _isFetchingImage[imageId] = true;
+        var image = new Application({ id: imageId });
+        image.fetch().done(function () {
+          _isFetchingImage[imageId] = false;
+          _applications.add(image);
+          ApplicationStore.emitChange();
+        });
+      }
+    };
+
+    var fetchFeaturedImages = function(){
+      if(!_isFetchingFeaturedImages) {
+        _isFetchingFeaturedImages = true;
+        var images = new ApplicationCollection();
+        var url = images.url + "?tags__name=Featured";
+        images.fetch({url: url}).done(function () {
+          _isFetchingFeaturedImages = false;
+          _featuredImages = images;
+          ApplicationStore.emitChange();
+        });
+      }
+    };
+
+    var fetchMoreImages = function () {
       var nextUrl = _applications.meta.next;
       if(nextUrl && !_isFetchingMore){
         _isFetchingMore = true;
-        var moreApplications = new ApplicationCollection();
-        moreApplications.fetch({url: nextUrl}).done(function () {
+        var moreImages = new ApplicationCollection();
+        moreImages.fetch({url: nextUrl}).done(function () {
           _isFetchingMore = false;
-          _applications.add(moreApplications.models);
-          _applications.meta = moreApplications.meta;
+          _applications.add(moreImages.models);
+          _applications.meta = moreImages.meta;
+          ApplicationStore.emitChange();
+        });
+      }
+    };
+
+    var fetchMoreSearchResultsFor = function (query) {
+      var searchResults = _searchResults[query],
+          nextUrl = searchResults.meta.next;
+
+      if(nextUrl && !_isFetchingMore){
+        _isFetchingMore = true;
+        var moreImages = new ApplicationCollection();
+        moreImages.fetch({url: nextUrl}).done(function () {
+          _isFetchingMore = false;
+          searchResults.add(moreImages.models);
+          searchResults.meta = moreImages.meta;
           ApplicationStore.emitChange();
         });
       }
@@ -85,10 +129,15 @@ define(
 
       get: function (appId) {
         if(!_applications) {
-          fetchApplications();
-        } else {
-          return _applications.get(appId);
+          return fetchApplications();
         }
+
+        var image = _applications.get(appId);
+        if(!image) {
+          return fetchApplication(appId);
+        }
+
+        return image;
       },
 
       getAll: function () {
@@ -99,8 +148,16 @@ define(
         }
       },
 
-      fetchMore: function(){
-        fetchMoreApplications();
+      getAllFeatured: function(){
+        if(!_featuredImages) {
+          fetchFeaturedImages();
+        } else {
+          return _featuredImages;
+        }
+      },
+
+      getMoreImages: function(){
+        fetchMoreImages();
       },
 
       getFeatured: function () {
@@ -126,11 +183,15 @@ define(
         if (!_applications) {
           fetchApplications();
         } else {
-          return new ApplicationCollection(_applications.where({created_by: context.profile.get('username')}));
+          return new ApplicationCollection(_applications.filter(function(image){
+            return image.get('created_by').username === context.profile.get('username');
+          }));
         }
       },
 
       getSearchResultsFor: function(query){
+        if(!query) return this.getAll();
+
         var searchResults = _searchResults[query];
         if(!searchResults){
           searchFor(query);
@@ -138,8 +199,9 @@ define(
         return searchResults;
       },
 
-      getResults: function (query) {
-        return _searchResults[query];
+      getMoreSearchResultsFor: function(query){
+        if(!query) throw new Error("query must be specified");
+        fetchMoreSearchResultsFor(query);
       },
 
       toggleFavorited: function(application){

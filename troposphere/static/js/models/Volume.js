@@ -27,7 +27,6 @@ define(
 
         var attributes = response;
 
-        attributes.id = attributes.alias;
         attributes.start_date = new Date(attributes.start_date);
         attributes.state = new VolumeState({status_raw: attributes.status});
 
@@ -48,7 +47,7 @@ define(
 
       getCreds: function () {
         return {
-          provider_id: this.get('identity').provider,
+          provider_id: this.get('provider'),
           identity_id: this.get('identity').id
         };
       },

@@ -1,11 +1,6 @@
 define(function (require) {
   'use strict';
 
-  //
-  // Dependencies
-  // ------------
-  //
-
   var _ = require('underscore'),
       Dispatcher = require('dispatchers/Dispatcher'),
       Store = require('stores/Store'),
@@ -19,37 +14,42 @@ define(function (require) {
   // Private variables
   //
 
-  var _volumes = new VolumeCollection();
+  var _models = null;
   var _isFetching = false;
-  var pollingFrequency = 5 * 1000;
-  var _pendingProjectVolumes = {};
+
+  var pollingFrequency = 15 * 1000;
   var _volumesBuilding = [];
 
   //
   // CRUD Operations
   //
 
+  var fetchModels = function () {
+    if(!_models && !_isFetching) {
+      _isFetching = true;
+      var models = new VolumeCollection();
+      models.fetch({
+        url: models.url + "?page_size=100"
+      }).done(function () {
+        _isFetching = false;
+        _models = models;
+        ModelStore.emitChange();
+      });
+    }
+  };
+
   function add(volume) {
-    _volumes.add(volume);
+    _models.add(volume);
   }
 
-  function update(volume) {
-    var existingModel = _volumes.get(volume);
+  function update(model) {
+    var existingModel = _models.get(model);
     if (!existingModel) throw new Error("Volume doesn't exist.");
-    _volumes.add(volume, {merge: true});
+    _models.add(model, {merge: true});
   }
 
-  function remove(volume) {
-    _volumes.remove(volume);
-  }
-
-  function addPendingVolumeToProject(volume, project){
-    _pendingProjectVolumes[project.id] = _pendingProjectVolumes[project.id] || new VolumeCollection();
-    _pendingProjectVolumes[project.id].add(volume);
-  }
-
-  function removePendingVolumeFromProject(volume, project){
-    _pendingProjectVolumes[project.id].remove(volume);
+  function remove(model) {
+    _models.remove(model);
   }
 
   //
@@ -79,7 +79,7 @@ define(function (require) {
         } else {
           fetchAndRemoveIfFinished(volume);
         }
-        VolumeStore.emitChange();
+        ModelStore.emitChange();
       });
     }, pollingFrequency);
   };
@@ -92,7 +92,7 @@ define(function (require) {
       } else {
         fetchAndRemoveIfFinished(volume);
       }
-      VolumeStore.emitChange();
+      ModelStore.emitChange();
     });
   };
 
@@ -100,59 +100,38 @@ define(function (require) {
   // Volume Store
   //
 
-  var VolumeStore = {
+  var ModelStore = {
 
-    getAll: function (projects) {
-      if (!projects) throw new Error("Must supply projects");
-
-      projects.each(function (project) {
-        this.getVolumesInProject(project);
-      }.bind(this));
-
-      return _volumes;
-    },
-
-    getVolumeInProject: function (project, volumeId) {
-      var volumes = this.getVolumesInProject(project);
-      var volume = volumes.get(volumeId);
-      if (!volume) {
-        NotificationController.error("Volume not in project", "The volume could not be found in the project");
+    getAll: function () {
+      if(!_models) {
+        fetchModels()
       }
-      return volume;
+      return _models;
     },
 
-    getVolumesInProject: function (project) {
+    get: function (modelId) {
+      if(!_models) {
+        fetchModels();
+      } else {
+        return _models.get(modelId);
+      }
+    },
 
-      var projectVolumeArray = project.get('volumes').map(function (volumeData) {
-        // todo: we're converting into a volume object here so we can use
-        // id instead of alias for consistency. Eventually all alias attributes
-        // need to be renamed id and then we can create the object only if
-        // the id isn't in the existing map.
-        var volume = new Volume(volumeData, {parse: true});
-        var existingVolume = _volumes.get(volume);
+    getVolumesOnProvider: function (provider) {
+      if(!_models) return fetchModels();
 
-        if (existingVolume) {
-          volume = existingVolume;
-        } else {
-          _volumes.push(volume);
-          pollNowUntilBuildIsFinished(volume);
-        }
-
-        return volume;
+      var volumes = _models.filter(function(volume){
+        return volume.get('provider').id === provider.id;
       });
 
-      // Add any pending volumes to the result set
-      var pendingProjectVolumes = _pendingProjectVolumes[project.id];
-      if(pendingProjectVolumes){
-        projectVolumeArray = projectVolumeArray.concat(pendingProjectVolumes.models);
-      }
-
-      return new VolumeCollection(projectVolumeArray);
+      return new VolumeCollection(volumes);
     },
 
     getVolumesAttachedToInstance: function (instance) {
+      if(!_models) return fetchModels();
+
       var attachedVolumes = [];
-      _volumes.each(function(volume){
+      _models.each(function(volume){
         var attachData = volume.get('attach_data');
         if(attachData.instance_id && attachData.instance_id === instance.id){
           attachedVolumes.push(volume);
@@ -190,26 +169,18 @@ define(function (require) {
         pollUntilBuildIsFinished(payload.volume);
         break;
 
-      case ProjectVolumeConstants.ADD_PENDING_VOLUME_TO_PROJECT:
-        addPendingVolumeToProject(payload.volume, payload.project);
-        break;
-
-      case ProjectVolumeConstants.REMOVE_PENDING_VOLUME_FROM_PROJECT:
-        removePendingVolumeFromProject(payload.volume, payload.project);
-        break;
-
       default:
         return true;
     }
 
     if (!options.silent) {
-      VolumeStore.emitChange();
+      ModelStore.emitChange();
     }
 
     return true;
   });
 
-  _.extend(VolumeStore, Store);
+  _.extend(ModelStore, Store);
 
-  return VolumeStore;
+  return ModelStore;
 });

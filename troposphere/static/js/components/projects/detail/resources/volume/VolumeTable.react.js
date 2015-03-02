@@ -40,28 +40,19 @@ define(
           var isPreviewed = (this.props.previewedResource === volume);
           var isChecked = this.props.selectedResources.get(volume) ? true : false;
 
-          if(volume.isRealResource) {
-            return (
-              <VolumeRow key={volume.id || volume.cid}
-                         volume={volume}
-                         project={this.props.project}
-                         onResourceSelected={this.props.onResourceSelected}
-                         onResourceDeselected={this.props.onResourceDeselected}
-                         onPreviewResource={this.props.onPreviewResource}
-                         providers={this.props.providers}
-                         isPreviewed={isPreviewed}
-                         isChecked={isChecked}
-                         instances={this.props.instances}
-              />
-            );
-          }else{
-            return (
-              <VolumeNotRealRow key={volume.id || volume.cid}
-                                volume={volume}
-                                project={this.props.project}
-              />
-            );
-          }
+          return (
+            <VolumeRow key={volume.id || volume.cid}
+                       volume={volume}
+                       project={this.props.project}
+                       onResourceSelected={this.props.onResourceSelected}
+                       onResourceDeselected={this.props.onResourceDeselected}
+                       onPreviewResource={this.props.onPreviewResource}
+                       providers={this.props.providers}
+                       isPreviewed={isPreviewed}
+                       isChecked={isChecked}
+                       instances={this.props.instances}
+            />
+          );
         }.bind(this));
       },
 

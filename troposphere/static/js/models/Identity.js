@@ -11,28 +11,39 @@ define(
         // put default allocation data here since it isn't
         // in the data structure for admins (but we want it
         // in the object for consistency)
-        if(!response.quota.allocation){
-          response.quota.allocation = {
+        if(!response.allocation){
+          response.allocation = {
             current: 10,
             threshold: 168
           }
+        }
+
+        // todo: put this in the API
+        if(response.allocation.current === null || response.allocation.current === undefined) {
+          response.allocation.current = 777;
         }
 
         return response;
       },
 
       _getInstancesBelongingToThisIdentity: function(instances){
-        return instances.filter(function(instance){
-          var isInIdentity = instance.get('identity').id === this.id;
-          var isDeductingFromAUs = instance.get('status') !== "suspended";
-          return isInIdentity && isDeductingFromAUs;
-        }.bind(this));
+        console.warn("Returning all instances...need to clean this up.");
+        return instances;
+
+        //return instances.filter(function(instance){
+        //  var isInIdentity = instance.get('identity').id === this.id;
+        //  var isDeductingFromAUs = instance.get('status') !== "suspended";
+        //  return isInIdentity && isDeductingFromAUs;
+        //}.bind(this));
       },
 
       _getVolumesBelongingToThisIdentity: function(volumes){
-        return volumes.filter(function(volume){
-          return volume.get('identity').id === this.id;
-        }.bind(this));
+        console.warn("Returning all volumes...need to clean this up.");
+        return volumes;
+
+        //return volumes.filter(function(volume){
+        //  return volume.get('identity').id === this.id;
+        //}.bind(this));
       },
 
       getInstancesConsumingAllocation: function(instances){
@@ -48,7 +59,7 @@ define(
 
         return relevantInstances.reduce(function(total, instance){
           if(instance.id) {
-            var size = sizes.get(instance.get('size_alias'));
+            var size = sizes.get(instance.get('size').id);
             return total + size.get('cpu');
           }else{
             return total;
@@ -61,7 +72,7 @@ define(
 
         return relevantInstances.reduce(function(total, instance){
           if(instance.id) {
-            var size = sizes.get(instance.get('size_alias'));
+            var size = sizes.get(instance.get('size').id);
             return total + size.get('mem');
           }else{
             return total;

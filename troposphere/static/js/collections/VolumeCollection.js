@@ -1,6 +1,3 @@
-/* volumes.js
- * Backbone.js volumes collection.
- */
 define(
   [
     'backbone',
@@ -13,18 +10,16 @@ define(
     return Backbone.Collection.extend({
       model: Volume,
 
-      initialize: function (models, options) {
-        if (options && options.provider_id && options.identity_id)
-          this.creds = _.pick(options, 'provider_id', 'identity_id');
-      },
+      url: globals.API_V2_ROOT + '/volumes',
 
-      url: function(){
-        var creds = this.creds;
-        var url = globals.API_ROOT +
-                  '/provider/' + creds.provider_id +
-                  '/identity/' + creds.identity_id +
-                  '/volume' + globals.slash();
-        return url;
+      parse: function (response) {
+        this.meta = {
+          count: response.count,
+          next: response.next,
+          previous: response.previous
+        };
+
+        return response.results;
       }
 
     });

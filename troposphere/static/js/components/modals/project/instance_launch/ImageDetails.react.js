@@ -68,7 +68,7 @@ define(
                   <h1>{image.get('name')}</h1>
                   <div>
                     <span>by </span>
-                    <strong>{image.get('created_by')}</strong>
+                    <strong>{image.get('created_by').username}</strong>
                   </div>
                 </div>
               </div>

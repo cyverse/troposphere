@@ -40,8 +40,9 @@ define(
       get: function (providerId) {
         if(!_providers && !_isFetching) {
           fetchProviders();
+        }else{
+          return _providers.get(providerId);
         }
-        return _providers.get(providerId);
       }
     };
 

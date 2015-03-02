@@ -4,7 +4,7 @@ define(
   [
     'react',
     './common/SecondaryApplicationNavigation.react',
-    './list/ApplicationCardList.react',
+    './list/list/ApplicationCardList.react',
     'stores/ApplicationStore',
     'stores/TagStore'
   ],
@@ -63,11 +63,8 @@ define(
         }
 
         return (
-          <div>
-            <SecondaryApplicationNavigation currentRoute="my images"/>
-            <div className="container">
-              {content}
-            </div>
+          <div className="container">
+            {content}
           </div>
         );
       }

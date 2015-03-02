@@ -1,33 +1,29 @@
-/** @jsx React.DOM */
+define(function (require) {
 
-define(
-  [
-    'react',
-    'backbone'
-  ],
-  function (React, Backbone) {
+  var React = require('react'),
+      Router = require('react-router');
 
-    return React.createClass({
+  return React.createClass({
 
-      propTypes: {
-        title: React.PropTypes.string.isRequired,
-        image: React.PropTypes.string.isRequired,
-        description: React.PropTypes.string.isRequired,
-        link: React.PropTypes.string.isRequired
-      },
+    propTypes: {
+      title: React.PropTypes.string.isRequired,
+      image: React.PropTypes.string.isRequired,
+      description: React.PropTypes.string.isRequired,
+      linksTo: React.PropTypes.string.isRequired
+    },
 
-      render: function () {
-        return (
-          <a href={this.props.link} className="option">
-            <img src={this.props.image}/>
-            <br/>
-            <strong>{this.props.title}</strong>
-            <hr/>
-            {this.props.description}
-          </a>
-        );
-      }
-
-    });
+    render: function () {
+      return (
+        <Router.Link to={this.props.linksTo} className="option">
+          <img src={this.props.image}/>
+          <br/>
+          <strong>{this.props.title}</strong>
+          <hr/>
+          {this.props.description}
+        </Router.Link>
+      );
+    }
 
   });
+
+});

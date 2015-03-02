@@ -231,7 +231,7 @@ define(
           var volume = new Volume({
             identity: {
               id: identity.id,
-              provider: identity.get('provider_id')
+              provider: identity.get('provider').id
             },
             name: volumeName,
             description: "",
