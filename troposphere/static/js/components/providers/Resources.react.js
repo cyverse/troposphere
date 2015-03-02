@@ -3,7 +3,9 @@ define(function (require) {
   var React = require('react'),
       Backbone = require('backbone'),
       stores = require('stores'),
-      ProviderCollection = require('collections/ProviderCollection');
+      ProviderCollection = require('collections/ProviderCollection'),
+      ProviderSummaryLinePlot = require('components/dashboard/plots/ProviderSummaryLinePlot.react'),
+      ResourceStatusSummaryPlot = require('components/dashboard/plots/ResourceStatusSummaryPlot.react');
 
   return React.createClass({
 

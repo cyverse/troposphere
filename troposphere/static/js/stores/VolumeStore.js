@@ -133,6 +133,16 @@ define(function (require) {
       return _volumes;
     },
 
+    getVolumesOnProvider: function (provider) {
+      if(!_volumes) return fetchVolumes();
+
+      var volumes = _volumes.filter(function(volume){
+        return volume.get('provider').id === provider.id;
+      });
+
+      return new VolumeCollection(volumes);
+    },
+
     getVolumeInProject: function (project, volumeId) {
       var volumes = this.getVolumesInProject(project);
       var volume = volumes.get(volumeId);
