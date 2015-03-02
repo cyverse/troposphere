@@ -69,12 +69,9 @@ define(
         }
 
         return (
-          <div>
-            <SecondaryApplicationNavigation currentRoute="search"/>
-            <div className="container application-card-view">
-              <SearchContainer query={this.props.query}/>
-              {content}
-            </div>
+          <div className="container application-card-view">
+            <SearchContainer query={this.props.query}/>
+            {content}
           </div>
         );
 

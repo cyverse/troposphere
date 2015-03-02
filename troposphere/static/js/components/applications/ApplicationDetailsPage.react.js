@@ -110,11 +110,8 @@ define(
         }
 
         return (
-          <div>
-            <SecondaryApplicationNavigation currentRoute="search"/>
-            <div className="container">
-              {content}
-            </div>
+          <div className="container">
+            {content}
           </div>
         );
       }

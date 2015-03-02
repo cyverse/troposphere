@@ -18,7 +18,11 @@ define(function (require) {
       HelpPage = require('./components/help/HelpPage.react'),
       ProjectDetailsMaster = require('./components/projects/detail/ProjectDetailsMaster.react'),
       ProjectDetailsPage = require('./components/projects/ProjectDetailsPage.react'),
-      ProjectResourcesPage = require('./components/projects/ProjectResourcesPage.react');
+      ProjectResourcesPage = require('./components/projects/ProjectResourcesPage.react'),
+      FavoritedImagesPage = require('./components/applications/FavoritedApplicationsPage.react'),
+      MyImagesPage = require('./components/applications/MyApplicationsPage.react'),
+      ImageTagsPage = require('./components/applications/ImageTagsPage.react'),
+      ImagesMaster = require('./components/applications/ImagesMaster.react');
 
   //<Route name="dashboard" handler={Master}/>
   //<Route name="projects" handler={Master}/>
@@ -36,7 +40,15 @@ define(function (require) {
     <Route name="root" path="/application" handler={Master}>
       <Route name="dashboard" handler={DashboardPage}/>
       <Route name="projects" handler={ProjectListPage}/>
-      <Route name="images" handler={ImageListPage}/>
+
+      <Route name="images" handler={ImagesMaster}>
+        <Route name="search" handler={ImageListPage}/>
+        <Route name="favorites" handler={FavoritedImagesPage}/>
+        <Route name="authored" handler={MyImagesPage}/>
+        <Route name="tags" handler={ImageTagsPage}/>
+        <DefaultRoute handler={ImageListPage}/>
+      </Route>
+
       <Route name="providers" handler={ProviderListPage}/>
       <Route name="help" handler={HelpPage}/>
 
