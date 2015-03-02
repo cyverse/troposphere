@@ -30,7 +30,7 @@ define(
 
           return (
             <li className="project-card">
-              <Router.Link to="project" params={{projectId: project.id}}>
+              <Router.Link to="project-resources" params={{projectId: project.id}}>
                 <div style={{"position": "relative"}}>
                   <div className="content">
                     <h2>{project.get('name')}</h2>
