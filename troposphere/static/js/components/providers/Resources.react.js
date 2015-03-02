@@ -4,6 +4,7 @@ define(function (require) {
       Backbone = require('backbone'),
       stores = require('stores'),
       ProviderCollection = require('collections/ProviderCollection'),
+      IdentityCollection = require('collections/IdentityCollection'),
       ProviderSummaryLinePlot = require('components/dashboard/plots/ProviderSummaryLinePlot.react'),
       ResourceStatusSummaryPlot = require('components/dashboard/plots/ResourceStatusSummaryPlot.react');
 
@@ -15,13 +16,15 @@ define(function (require) {
 
     render: function () {
       var provider = this.props.provider,
-          providers = new ProviderCollection([provider]),
-          identities = stores.IdentityStore.getAll(),
+          identity = stores.IdentityStore.getIdentityFor(provider),
           instances = stores.InstanceStore.getInstancesOnProvider(provider),
           volumes = stores.VolumeStore.getVolumesOnProvider(provider),
           sizes = stores.SizeStore.getSizesFor(provider);
 
-      if(!provider || !identities || !instances || !volumes || !sizes) return <div className="loading"></div>;
+      if(!provider || !identity || !instances || !volumes || !sizes) return <div className="loading"></div>;
+
+      var providers = new ProviderCollection([provider]),
+          identities = new IdentityCollection([identity]);
 
       return (
         <div className="row provider-info-section">
@@ -34,7 +37,7 @@ define(function (require) {
                   identities={identities}
                   instances={instances}
                   volumes={volumes}
-                  isPolarPlot={false}
+                  sizes={sizes}
                 />
               </div>
               <div className="col-md-4">

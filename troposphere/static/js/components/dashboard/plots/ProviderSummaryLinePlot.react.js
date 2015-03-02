@@ -5,13 +5,12 @@ define(
     'react',
     'backbone',
     'jquery',
-    'stores/SizeStore',
     './tooltips/ResourceUseTooltip.react',
 
     // jquery plugins
     'highcharts'
   ],
-  function (React, Backbone, $, SizeStore, ResourceUseTooltip) {
+  function (React, Backbone, $, ResourceUseTooltip) {
 
     return React.createClass({
 
@@ -20,157 +19,12 @@ define(
         identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         volumes: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        isPolarPlot: React.PropTypes.bool
+        sizes: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
-      getProviderInstances: function(instances, provider){
-        return instances.filter(function(instance){
-          return instance.get('identity').provider === provider.id;
-        });
-      },
-
-      getProviderVolumes: function(volumes, provider){
-         return volumes.filter(function(volume){
-          return volume.get('identity').provider === provider.id;
-        });
-      },
-
-      calculateCpuUsage: function(instances, quota, sizes){
-        var maxCpuCount = quota.cpu;
-
-        var currentCpuCount = instances.reduce(function(memo, instance){
-          var size = sizes.findWhere({alias: instance.get('size_alias')});
-          return memo + size.get('cpu');
-        }.bind(this), 0);
-
-        return {
-          currentUsage: currentCpuCount,
-          maxAllocation: maxCpuCount,
-          percentUsed: currentCpuCount/maxCpuCount
-        };
-      },
-
-      calculateMemoryUsage: function(instances, quota, sizes){
-        var maxMemory = quota.mem;
-
-        var currentMemory = instances.reduce(function(memo, instance){
-          var size = sizes.findWhere({alias: instance.get('size_alias')});
-          return memo + size.get('mem');
-        }.bind(this), 0);
-
-        return {
-          currentUsage: currentMemory,
-          maxAllocation: maxMemory,
-          percentUsed: currentMemory/maxMemory
-        };
-      },
-
-      calculateStorageUsage: function(volumes, quota){
-        var maxStorage = quota.storage;
-
-        var currentStorage = volumes.reduce(function(memo, volume){
-          return memo + volume.get('size')
-        }.bind(this), 0);
-
-        return {
-          currentUsage: currentStorage,
-          maxAllocation: maxStorage,
-          percentUsed: currentStorage/maxStorage
-        };
-      },
-
-      calculateStorageCountUsage: function(volumes, quota){
-        var maxStorageCount = quota.storage_count;
-
-        var currentStorageCount = volumes.reduce(function(memo, volume){
-          return memo + 1;
-        }.bind(this), 0);
-
-        return {
-          currentUsage: currentStorageCount,
-          maxAllocation: maxStorageCount,
-          percentUsed: currentStorageCount/maxStorageCount
-        };
-      },
-
-      calculateAllocationUsage: function(allocation){
-        var maxAllocation = allocation.threshold;
-        var currentAllocation = allocation.current;
-
-        return {
-          currentUsage: currentAllocation,
-          maxAllocation: maxAllocation,
-          percentUsed: currentAllocation/maxAllocation
-        };
-      },
-
-      getDataForIdentity: function(identity){
-        var providerId = identity.get("provider").id;
-        var provider = this.props.providers.get(providerId);
-        var quota = identity.get('quota');
-        var allocation = identity.get('allocation');
-        var sizes = SizeStore.getAllFor(provider.id, identity.id);
-
-        if(sizes){
-          var providerInstances = this.getProviderInstances(this.props.instances, provider);
-          var providerVolumes = this.getProviderInstances(this.props.volumes, provider);
-
-          // CPU Usage
-          var cpuUsageStats = this.calculateCpuUsage(providerInstances, quota, sizes);
-          var cpuUsage = cpuUsageStats.percentUsed*100;
-
-          // Memory Usage
-          var memoryUsageStats = this.calculateMemoryUsage(providerInstances, quota, sizes);
-          var memoryUsage = memoryUsageStats.percentUsed*100;
-
-          // Storage Usage
-          var storageUsageStats = this.calculateStorageUsage(providerVolumes, quota);
-          var storageUsage = storageUsageStats.percentUsed*100;
-
-          // Volume Usage
-          var volumeUsageStats = this.calculateStorageCountUsage(providerVolumes, quota);
-          var volumeUsage = volumeUsageStats.percentUsed*100;
-
-          // Allocation Usage
-          var allocationUsageStats = this.calculateAllocationUsage(allocation);
-          var allocationUsage = allocationUsageStats.percentUsed*100;
-
-          var seriesData = {
-            name: provider.get('name'),
-            data: [cpuUsage, memoryUsage, storageUsage, volumeUsage],
-            limits: {
-              CPU: cpuUsageStats.maxAllocation,
-              Memory: memoryUsageStats.maxAllocation,
-              Storage: storageUsageStats.maxAllocation,
-              Volumes: volumeUsageStats.maxAllocation
-            },
-            appendMessages: {
-              CPU: "CPUs",
-              Memory: "GBs of Memory",
-              Storage: "GBs of Storage",
-              Volumes: "Volumes"
-            },
-            animation: false
-          };
-
-          if(allocationUsageStats.maxAllocation){
-            seriesData.data.push(allocationUsage);
-            seriesData.limits.Allocation = allocationUsageStats.maxAllocation;
-            seriesData.appendMessages.Allocation = "AUs";
-          }
-
-          return seriesData;
-        }
-      },
-
-      getChartData: function(){
-        var summaries = [];
-        this.props.identities.map(function(identity) {
-          var data = this.getDataForIdentity(identity);
-          if(data) summaries.push(data);
-        }.bind(this));
-        return summaries;
-      },
+      //
+      // Mounting and State
+      //
 
       componentDidMount: function(){
         var categories = ['CPU', 'Memory', 'Storage', 'Volumes'];
@@ -246,19 +100,164 @@ define(
       },
 
       componentDidUpdate: function(){
-        // var el = this.getDOMNode();
-        // var $el = $(el);
-        // var chart = $el.highcharts();
-
-        // var data = this.getChartData();
-
-        // chart.series[0].update({
-        //   data: data,
-        //   animation: false
-        // });
-
         this.componentDidMount();
       },
+
+      //
+      // Helper Methods
+      //
+
+      getChartData: function(){
+        var summaries = [];
+        this.props.identities.map(function(identity) {
+          var data = this.getDataForIdentity(identity);
+          if(data) summaries.push(data);
+        }.bind(this));
+        return summaries;
+      },
+
+      getDataForIdentity: function(identity){
+        var provider = this.props.providers.get(identity.get("provider").id),
+            sizes = this.props.sizes,
+            instances = this.props.instances,
+            volumes = this.props.volumes,
+            quota = identity.get('quota'),
+            allocation = identity.get('allocation');
+
+        var providerInstances = this.getProviderInstances(instances, provider);
+        var providerVolumes = this.getProviderVolumes(volumes, provider);
+
+        // CPU Usage
+        var cpuUsageStats = this.calculateCpuUsage(providerInstances, quota, sizes),
+            cpuUsage = cpuUsageStats.percentUsed*100;
+
+        // Memory Usage
+        var memoryUsageStats = this.calculateMemoryUsage(providerInstances, quota, sizes),
+            memoryUsage = memoryUsageStats.percentUsed*100;
+
+        // Storage Usage
+        var storageUsageStats = this.calculateStorageUsage(providerVolumes, quota),
+            storageUsage = storageUsageStats.percentUsed*100;
+
+        // Volume Usage
+        var volumeUsageStats = this.calculateStorageCountUsage(providerVolumes, quota),
+            volumeUsage = volumeUsageStats.percentUsed*100;
+
+        // Allocation Usage
+        var allocationUsageStats = this.calculateAllocationUsage(allocation),
+            allocationUsage = allocationUsageStats.percentUsed*100;
+
+        var seriesData = {
+          name: provider.get('name'),
+          data: [cpuUsage, memoryUsage, storageUsage, volumeUsage],
+          limits: {
+            CPU: cpuUsageStats.maxAllocation,
+            Memory: memoryUsageStats.maxAllocation,
+            Storage: storageUsageStats.maxAllocation,
+            Volumes: volumeUsageStats.maxAllocation
+          },
+          appendMessages: {
+            CPU: "CPUs",
+            Memory: "GBs of Memory",
+            Storage: "GBs of Storage",
+            Volumes: "Volumes"
+          },
+          animation: false
+        };
+
+        if(allocationUsageStats.maxAllocation){
+          seriesData.data.push(allocationUsage);
+          seriesData.limits.Allocation = allocationUsageStats.maxAllocation;
+          seriesData.appendMessages.Allocation = "AUs";
+        }
+
+        return seriesData;
+      },
+
+      getProviderInstances: function(instances, provider){
+        return instances.filter(function(instance){
+          return instance.get('identity').provider === provider.id;
+        });
+      },
+
+      getProviderVolumes: function(volumes, provider){
+         return volumes.filter(function(volume){
+          return volume.get('identity').provider === provider.id;
+        });
+      },
+
+      calculateCpuUsage: function(instances, quota, sizes){
+        var maxCpuCount = quota.cpu;
+
+        var currentCpuCount = instances.reduce(function(memo, instance){
+          var size = sizes.get(instance.get('size').id);
+          return memo + size.get('cpu');
+        }.bind(this), 0);
+
+        return {
+          currentUsage: currentCpuCount,
+          maxAllocation: maxCpuCount,
+          percentUsed: currentCpuCount/maxCpuCount
+        };
+      },
+
+      calculateMemoryUsage: function(instances, quota, sizes){
+        var maxMemory = quota.mem;
+
+        var currentMemory = instances.reduce(function(memo, instance){
+          var size = sizes.get(instance.get('size').id);
+          return memo + size.get('mem');
+        }.bind(this), 0);
+
+        return {
+          currentUsage: currentMemory,
+          maxAllocation: maxMemory,
+          percentUsed: currentMemory/maxMemory
+        };
+      },
+
+      calculateStorageUsage: function(volumes, quota){
+        var maxStorage = quota.storage;
+
+        var currentStorage = volumes.reduce(function(memo, volume){
+          return memo + volume.get('size')
+        }.bind(this), 0);
+
+        return {
+          currentUsage: currentStorage,
+          maxAllocation: maxStorage,
+          percentUsed: currentStorage/maxStorage
+        };
+      },
+
+      calculateStorageCountUsage: function(volumes, quota){
+        var maxStorageCount = quota.storage_count;
+
+        var currentStorageCount = volumes.reduce(function(memo, volume){
+          return memo + 1;
+        }.bind(this), 0);
+
+        return {
+          currentUsage: currentStorageCount,
+          maxAllocation: maxStorageCount,
+          percentUsed: currentStorageCount/maxStorageCount
+        };
+      },
+
+      calculateAllocationUsage: function(allocation){
+        var maxAllocation = allocation.threshold;
+        var currentAllocation = allocation.current;
+
+        return {
+          currentUsage: currentAllocation,
+          maxAllocation: maxAllocation,
+          percentUsed: currentAllocation/maxAllocation
+        };
+      },
+
+      //
+      // Render
+      //
 
       render: function () {
         return (
