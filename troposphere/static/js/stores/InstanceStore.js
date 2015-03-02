@@ -20,7 +20,9 @@ define(function (require) {
       if(!_models && !_isFetching) {
         _isFetching = true;
         var models = new Collection();
-        models.fetch().done(function () {
+        models.fetch({
+          url: models.url + "?page_size=100"
+        }).done(function () {
           _isFetching = false;
           _models = models;
           ModelStore.emitChange();
