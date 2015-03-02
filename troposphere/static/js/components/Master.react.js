@@ -18,54 +18,51 @@ define(function (require) {
     mixins: [Router.State],
 
     getState: function() {
-        return {};
-      },
+      return {};
+    },
 
-      getInitialState: function() {
-        return this.getState();
-      },
+    getInitialState: function() {
+      return this.getState();
+    },
 
-      updateState: function() {
-        if (this.isMounted()) this.setState(this.getState())
-      },
+    updateState: function() {
+      if (this.isMounted()) this.setState(this.getState())
+    },
 
-      componentDidMount: function () {
-        // subscribe to all Stores
-        Object.keys(stores).forEach(function(storeName){
-          stores[storeName].addChangeListener(this.updateState);
-        }.bind(this));
-      },
+    componentDidMount: function () {
+      // subscribe to all Stores
+      Object.keys(stores).forEach(function(storeName){
+        stores[storeName].addChangeListener(this.updateState);
+      }.bind(this));
+    },
 
-      componentWillUnmount: function () {
-        // un-subscribe from all Stores
-        Object.keys(stores).forEach(function(storeName){
-          stores[storeName].removeChangeListener(this.updateState);
-        }.bind(this));
-      },
+    componentWillUnmount: function () {
+      // un-subscribe from all Stores
+      Object.keys(stores).forEach(function(storeName){
+        stores[storeName].removeChangeListener(this.updateState);
+      }.bind(this));
+    },
 
-      //componentDidMount: function () {
-      //  // todo: kick out for now as v2 has a different flow - refactor this later
-      //  return;
-      //
-      //  if(context.nullProject){
-      //    if(!context.nullProject.isEmpty()){
-      //      actions.NullProjectActions.migrateResourcesIntoProject(context.nullProject);
-      //    }else{
-      //      actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
-      //    }
-      //  }
-      //},
+    //componentDidMount: function () {
+    //  // todo: kick out for now as v2 has a different flow - refactor this later
+    //  return;
+    //
+    //  if(context.nullProject){
+    //    if(!context.nullProject.isEmpty()){
+    //      actions.NullProjectActions.migrateResourcesIntoProject(context.nullProject);
+    //    }else{
+    //      actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
+    //    }
+    //  }
+    //},
 
     // --------------
     // Render Helpers
     // --------------
 
     render: function () {
-      var maintenanceMessages = new Backbone.Collection();
-      if(this.props.profile) {
-        maintenanceMessages = stores.MaintenanceMessageStore.getAll();
-      }
-      var marginTop = maintenanceMessages.length * 24 + "px";
+      var maintenanceMessages = stores.MaintenanceMessageStore.getAll() || new Backbone.Collection(),
+          marginTop = maintenanceMessages.length * 24 + "px";
 
       return (
         <div>
@@ -73,7 +70,7 @@ define(function (require) {
           <div id="main" style={{"marginTop": marginTop}}>
             <RouteHandler/>
           </div>
-          <Footer profile={this.props.profile}/>
+          <Footer profile={context.profile}/>
         </div>
       );
     }
