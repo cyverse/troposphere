@@ -81,6 +81,8 @@ define(function(require){
         <div className="col-md-10 provider-details">
           <Name provider={provider}/>
           <ProviderStats provider={provider}/>
+          <ProviderDescription provider={provider}/>
+          <ProviderInstances provider={provider}/>
         </div>
       );
 

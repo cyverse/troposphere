@@ -1,90 +1,87 @@
-/** @jsx React.DOM */
+define(function (require) {
 
-define(
-  [
-    'react',
-    'backbone',
-    'collections/InstanceCollection',
-    'collections/VolumeCollection',
-    './ProviderInstanceTable.react',
-    'stores'
-  ],
-  function (React, Backbone, InstanceCollection, VolumeCollection, ProviderInstanceTable, stores) {
+  var React = require('react'),
+      Backbone = require('backbone'),
+      stores = require('stores'),
+      Router = require('react-router');
 
-    return React.createClass({
+  return React.createClass({
 
-      propTypes: {
-        provider: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        volumes: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        projects: React.PropTypes.instanceOf(Backbone.Collection)
-      },
+    propTypes: {
+      provider: React.PropTypes.instanceOf(Backbone.Model).isRequired
+    },
 
-      // ------
-      // Render
-      // ------
+    renderInstanceTableRow: function(instance, sizes){
+      var size = sizes.get(instance.get('size').id),
+          numberOfCpus = Number(size.get('cpu')),
+          ausPerCpu = 1,
+          burnRate = ausPerCpu*numberOfCpus;
 
-      renderBody: function(provider, identities, instances, volumes, projects){
+      // todo: should look for this in the ProjectStore instead
+      var projectId = instance.get('projects')[0];
 
-        // Get the identities belonging to this provider and cast as the original collection
-        // type (which should be IdentityCollection)
-        var providerIdentityArray = identities.filter(function(identity){
-          return identity.get('provider').id === provider.id;
-        });
-        var providerIdentities = new identities.constructor(providerIdentityArray);
+      return (
+        <tr key={instance.id}>
+          <td>
+            <Router.Link to="project" params={{projectId: projectId}}>
+              {instance.get('name')}
+            </Router.Link>
+          </td>
+          <td>{instance.get('status')}</td>
+          <td>{numberOfCpus}</td>
+          <td>{burnRate}</td>
+        </tr>
+      );
+    },
 
-        // Filter Instances and Volumes for only those in this provider
-        var providerInstanceArray = instances.filter(function(instance){
-          return instance.get('identity').provider === provider.id;
-        });
-        var providerInstances = new InstanceCollection(providerInstanceArray);
+    render: function () {
+      var provider = this.props.provider,
+          instances = stores.InstanceStore.getInstancesOnProvider(provider),
+          sizes = stores.SizeStore.getSizesFor(provider),
+          content = null;
 
-        var providerVolumeArray = volumes.filter(function(volume){
-          return volume.get('identity').provider === provider.id;
-        });
-        var providerVolumes = new VolumeCollection(providerVolumeArray);
+      if(!provider || !instances || !sizes) return <div className="loading"></div>;
 
-        var identity = providerIdentities.first(),
-            instancesConsumingAllocation = identity.getInstancesConsumingAllocation(providerInstances);
-
-        if(instancesConsumingAllocation.length > 0) {
-          return (
-            <div>
-              <p>The following instances are currently consuming allocation on this provider:</p>
-              <ProviderInstanceTable provider={provider}
-                                     identities={providerIdentities}
-                                     instances={providerInstances}
-                                     volumes={providerVolumes}
-                                     projects={projects}
-              />
-            </div>
-          )
-        }else{
-          return (
-            <div>
-              <p>You currently have no instances using allocation.</p>
-            </div>
-          )
-        }
-      },
-
-      render: function () {
-        var provider = this.props.provider,
-            identities = this.props.identities,
-            instances = this.props.instances,
-            volumes = this.props.volumes,
-            projects = this.props.projects;
-
-        return (
-          <div className="row provider-info-section">
-            <h4>Instances Consuming Allocation</h4>
-            {this.renderBody(provider, identities, instances, volumes, projects)}
+      if(instances.length > 0) {
+        content = (
+          <div>
+            <p>The following instances are currently consuming allocation on this provider:</p>
+            <table className="table table-striped table-condensed">
+              <thead>
+                <tr>
+                  <th>Instance</th>
+                  <th>Status</th>
+                  <th>CPUs</th>
+                  <th>AUs/hour</th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  instances.map(function(instance){
+                    return this.renderInstanceTableRow(instance, sizes);
+                  }.bind(this))
+                }
+              </tbody>
+            </table>
           </div>
         );
-
+      }else{
+        content = (
+          <div>
+            <p>You currently have no instances using allocation.</p>
+          </div>
+        );
       }
 
-    });
+      return (
+        <div className="row provider-info-section">
+          <h4>Instances Consuming Allocation</h4>
+          {content}
+        </div>
+      );
+
+    }
 
   });
+
+});
