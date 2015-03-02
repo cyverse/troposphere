@@ -12,11 +12,7 @@ define(
     return InstanceCollection.extend({
       model: InstanceHistory,
 
-      url: function () {
-        var url = globals.API_ROOT +
-                  '/instance_history' + globals.slash();
-        return url;
-      },
+      url: globals.API_ROOT + '/instance_history',
 
       parse: function (response) {
         this.meta = {

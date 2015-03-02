@@ -8,9 +8,7 @@ define(function(require){
   return Backbone.Collection.extend({
     model: ProjectVolume,
 
-    url: function () {
-      return globals.API_V2_ROOT + "/project_volumes";
-    },
+    url: globals.API_V2_ROOT + "/project_volumes",
 
     parse: function (response) {
       this.meta = {

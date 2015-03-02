@@ -50,7 +50,7 @@ define(
       if(!_isFetchingFeaturedImages) {
         _isFetchingFeaturedImages = true;
         var images = new ApplicationCollection();
-        var url = images.url() + "?tags__name=Featured";
+        var url = images.url + "?tags__name=Featured";
         images.fetch({url: url}).done(function () {
           _isFetchingFeaturedImages = false;
           _featuredImages = images;

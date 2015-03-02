@@ -36,7 +36,7 @@ define(
         _isFetchingFor[projectId] = true;
         var models = new Collection();
         models.fetch({
-          url: models.url() + "?project__id=" + projectId
+          url: models.url + "?project__id=" + projectId
         }).done(function () {
           _isFetchingFor[projectId] = false;
 

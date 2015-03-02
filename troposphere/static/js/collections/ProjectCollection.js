@@ -9,9 +9,7 @@ define(
     return Backbone.Collection.extend({
       model: Project,
 
-      url: function () {
-        return globals.API_V2_ROOT + "/projects" + globals.slash();
-      },
+      url: globals.API_V2_ROOT + "/projects",
 
       parse: function (response) {
         this.meta = {
