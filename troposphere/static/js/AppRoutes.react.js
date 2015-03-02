@@ -25,7 +25,6 @@ define(function (require) {
       ImagesMaster = require('./components/applications/ImagesMaster.react'),
       ProvidersMaster = require('./components/providers/ProvidersMaster.react'),
       SettingsPage = require('./components/settings/SettingsPage.react');
-  
 
   var AppRoutes = (
     <Route name="root" path="/application" handler={Master}>

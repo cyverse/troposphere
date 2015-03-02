@@ -83,7 +83,7 @@ define(
             </a>
             <ul className="dropdown-menu">
               <li>
-                  <a href="/application/settings">Settings</a>
+                  <Link to="settings">Settings</Link>
               </li>
               <li className="divider"></li>
               <li>
@@ -122,14 +122,6 @@ define(
         var navLinks = links.map(function(link){
           var isCurrentRoute = (link.name.toLowerCase() === this.props.currentRoute[0]);
           var className = isCurrentRoute ? "active" : null;
-          //return (
-          //  <li key={link.name} className={className}>
-          //    <a href={link.href}>
-          //      <i className={"glyphicon glyphicon-" + link.icon}></i>
-          //      {link.name}
-          //    </a>
-          //  </li>
-          //);
           return (
             <li key={link.name}>
               <Link to={link.linksTo}>
