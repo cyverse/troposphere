@@ -16,15 +16,6 @@ require.config({
       '//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min',
       '../bower_components/backbone/backbone'
     ],
-    marionette: [
-      '//cdnjs.cloudflare.com/ajax/libs/backbone.marionette/1.8.6/core/amd/backbone.marionette.min',
-      '../bower_components/backbone.marionette/lib/core/backbone.marionette'
-    ],
-    'backbone.wreqr': [
-      '//cdnjs.cloudflare.com/ajax/libs/backbone.wreqr/0.1.0/backbone.wreqr.min',
-      '../bower_components/backbone.wreqr/lib/backbone.wreqr'
-    ],
-    'backbone.babysitter': '../bower_components/backbone.babysitter/lib/backbone.babysitter',
     underscore: [
       '//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min',
       '../bower_components/underscore/underscore'
@@ -42,7 +33,7 @@ require.config({
       '../bower_components/react/react-with-addons'
     ],
     'react-router': [
-      'https://cdnjs.cloudflare.com/ajax/libs/react-router/0.11.6/react-router',
+      'https://cdnjs.cloudflare.com/ajax/libs/react-router/0.11.6/react-router.min',
       '../bower_components/react-router/dist/react-router'
     ],
     chosen: [
@@ -86,11 +77,6 @@ require.config({
     backbone: {
       deps: ['underscore', 'jquery'],
       exports: 'Backbone'
-    },
-
-    marionette: {
-      deps: ['backbone'],
-      exports: 'Marionette'
     },
 
     bootstrap: {
