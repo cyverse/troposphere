@@ -23,19 +23,9 @@ define(function (require) {
       MyImagesPage = require('./components/applications/MyApplicationsPage.react'),
       ImageTagsPage = require('./components/applications/ImageTagsPage.react'),
       ImagesMaster = require('./components/applications/ImagesMaster.react'),
-      ProvidersMaster = require('./components/providers/ProvidersMaster.react');
-
-  //<Route name="dashboard" handler={Master}/>
-  //<Route name="projects" handler={Master}/>
-  //<Route name="project" path="projects/:projectId" handler={Master}>
-  //  <Route name="project-details" path="details" handler={Master}/>
-  //  <Route name="project-resources" path="resources" handler={Master}/>
-  //  <Route name="project-instance" path="instances/:instanceId" handler={Master}/>
-  //  <Route name="project-volume" path="volumes/:volumeId" handler={Master}/>
-  //  <DefaultRoute handler={MasterTest}/>
-  //</Route>
-  //<Route name="images" handler={Master}/>
-  //<Route name="image" path="images/:imageId" handler={Master}/>
+      ProvidersMaster = require('./components/providers/ProvidersMaster.react'),
+      SettingsPage = require('./components/settings/SettingsPage.react');
+  
 
   var AppRoutes = (
     <Route name="root" path="/application" handler={Master}>
@@ -55,6 +45,7 @@ define(function (require) {
       </Route>
 
       <Route name="help" handler={HelpPage}/>
+      <Route name="settings" handler={SettingsPage}/>
 
       <Route name="project" path="projects/:projectId" handler={ProjectDetailsMaster}>
         <Route name="project-details" path="details" handler={ProjectDetailsPage}/>

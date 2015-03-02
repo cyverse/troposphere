@@ -42,7 +42,7 @@ define(function (require) {
                       title="Launch New Instance"
                       image="/assets/images/icon_launchnewinstance.png"
                       description="Browse Atmosphere's list of available images and select one to launch a new instance."
-                      link={URL.images()}
+                      linksTo="images"
                     />
                   </div>
                   <div className="col-md-3 col-sm-4">
@@ -50,7 +50,7 @@ define(function (require) {
                       title="Browse Help Resources"
                       image="/assets/images/icon_gethelp.png"
                       description="View a video tutorial, read the how-to guides, or email the Atmosphere support team."
-                      link={URL.help()}
+                      linksTo="help"
                     />
                   </div>
                   <div className="col-md-3 col-sm-4">
@@ -58,7 +58,7 @@ define(function (require) {
                       title="Change Your Settings"
                       image="/assets/images/icon_settings.png"
                       description="Modify your account settings, view your resource quota, or request more resources."
-                      link={URL.settings()}
+                      linksTo="settings"
                     />
                   </div>
                 </div>
