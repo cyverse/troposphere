@@ -4,7 +4,8 @@ define(function (require) {
       React = require('react'),
       context = require('context'),
       stores = require('stores'),
-      Router = require('../Router');
+      Router = require('../Router'),
+      routes = require('../AppRoutes.react');
 
   return React.createClass({
 
@@ -66,7 +67,7 @@ define(function (require) {
       $('body').removeClass('splash-screen');
 
       // Start the application router
-      Router.getInstance().run(function (Handler, state) {
+      Router.getInstance(routes).run(function (Handler, state) {
         // you might want to push the state of the router to a store for whatever reason
         // RouterActions.routeChange({routerState: state});
 
