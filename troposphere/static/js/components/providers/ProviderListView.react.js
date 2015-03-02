@@ -1,69 +1,92 @@
-/** @jsx React.DOM */
+define(function(require){
+  "use strict";
 
-define(
-  [
-    'react',
-    'backbone',
-    './ProviderName.react',
-    './ProviderStats.react',
-    './ProviderDescription.react',
-    './ProviderInstances.react',
-    './ProviderResourcesSection.react'
-  ],
-  function (React, Backbone, ProviderName, ProviderStats, ProviderDescription, ProviderInstances, ProviderResourcesSection) {
+  var React = require('react'),
+      Backbone = require('backbone'),
+      Router = require('react-router'),
+      stores = require('stores'),
+      Name = require('./Name.react'),
+      ProviderStats = require('./ProviderStats.react'),
+      ProviderDescription = require('./ProviderDescription.react'),
+      ProviderInstances = require('./ProviderInstances.react'),
+      ProviderResourcesSection = require('./ProviderResourcesSection.react');
 
-    return React.createClass({
+  return React.createClass({
 
-      propTypes: {
-        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        volumes: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        projects: React.PropTypes.instanceOf(Backbone.Collection)
-      },
+    mixins: [Router.State],
 
-      getInitialState: function(){
-        return {
-          currentProvider: this.props.providers.first()
-        }
-      },
+    //
+    // Mounting & State
+    // ----------------
+    //
 
-      handleProviderChange: function(provider){
-        this.setState({currentProvider: provider});
-      },
+    getState: function() {
+      return {
+        provider: stores.ProviderStore.get(this.getParams().providerId)
+      };
+    },
 
-      render: function () {
-        var provider = this.state.currentProvider,
-            identities = this.props.identities,
-            instances = this.props.instances,
-            volumes = this.props.volumes,
-            projects = this.props.projects;
+    getInitialState: function() {
+      return this.getState();
+    },
 
-        return (
-          <div className="col-md-10 provider-details">
-            <ProviderName provider={provider}/>
-            <ProviderStats provider={provider}
-                           identities={identities}
-                           instances={instances}
-            />
-            <ProviderDescription provider={provider}/>
-            <ProviderInstances provider={provider}
-                               identities={identities}
-                               instances={instances}
-                               volumes={volumes}
-                               projects={projects}
-            />
-            <ProviderResourcesSection provider={provider}
-                                      identities={identities}
-                                      instances={instances}
-                                      volumes={volumes}
-                                      projects={projects}
-            />
-          </div>
-        );
+    updateState: function() {
+      if (this.isMounted()) this.setState(this.getState())
+    },
 
-      }
+    componentDidMount: function () {
+      stores.ProviderStore.addChangeListener(this.updateState);
+    },
 
-    });
+    componentWillUnmount: function () {
+      stores.ProviderStore.removeChangeListener(this.updateState);
+    },
+
+
+    render: function () {
+      var provider = this.state.provider,
+          identities = this.props.identities,
+          instances = this.props.instances,
+          volumes = this.props.volumes,
+          projects = this.props.projects;
+
+      if(!provider) return <div className="loading"></div>;
+
+      //return (
+      //  <div className="col-md-10 provider-details">
+      //    <Name provider={provider}/>
+      //    <ProviderStats provider={provider}
+      //                   identities={identities}
+      //                   instances={instances}
+      //    />
+      //    <ProviderDescription provider={provider}/>
+      //    <ProviderInstances provider={provider}
+      //                       identities={identities}
+      //                       instances={instances}
+      //                       volumes={volumes}
+      //                       projects={projects}
+      //    />
+      //    <ProviderResourcesSection provider={provider}
+      //                              identities={identities}
+      //                              instances={instances}
+      //                              volumes={volumes}
+      //                              projects={projects}
+      //    />
+      //  </div>
+      //);
+
+      return (
+        <div className="col-md-10 provider-details">
+          <Name provider={provider}/>
+          <ProviderStats provider={provider}
+                         identities={identities}
+                         instances={instances}
+          />
+        </div>
+      );
+
+    }
 
   });
+
+});

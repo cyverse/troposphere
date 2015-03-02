@@ -14,7 +14,7 @@ define(function (require) {
       ProjectListPage = require('./components/projects/ProjectListPage.react'),
       ImageListPage = require('./components/applications/ApplicationListPage.react'),
       ImageDetailsPage = require('./components/applications/ApplicationDetailsPage.react'),
-      ProviderListPage = require('./components/providers/ProviderListPage.react'), // broken
+      ProviderDetailsPage = require('./components/providers/ProviderListView.react'),
       HelpPage = require('./components/help/HelpPage.react'),
       ProjectDetailsMaster = require('./components/projects/detail/ProjectDetailsMaster.react'),
       ProjectDetailsPage = require('./components/projects/ProjectDetailsPage.react'),
@@ -51,7 +51,7 @@ define(function (require) {
       </Route>
 
       <Route name="providers" handler={ProvidersMaster}>
-        <Route name="provider" path=":providerId" handler={MasterTest}/>
+        <Route name="provider" path=":providerId" handler={ProviderDetailsPage}/>
       </Route>
 
       <Route name="help" handler={HelpPage}/>

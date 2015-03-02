@@ -1,111 +1,84 @@
-/** @jsx React.DOM */
+define(function (require) {
 
-define(
-  [
-    'react',
-    'backbone',
-    'stores'
-  ],
-  function (React, Backbone, stores) {
+  var React = require('react'),
+      Backbone = require('backbone'),
+      stores = require('stores');
 
-    return React.createClass({
+  return React.createClass({
 
-      propTypes: {
-        provider: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired
-      },
+    propTypes: {
+      provider: React.PropTypes.instanceOf(Backbone.Model).isRequired
+    },
 
-      getInitialState: function () {
-        return this.getState();
-      },
+    //
+    // Helper Functions
+    //
 
-      getState: function(){
-        var identity = this._getIdentity();
-        return {
-          sizes: stores.SizeStore.getAllFor(identity.get('provider').id, identity.id)
-        }
-      },
+    _getIdentity: function(){
+      var provider = this.props.provider;
+      return this.props.identities.find(function(identity){
+        return identity.get('provider').id === provider.id;
+      });
+    },
 
-      updateState: function () {
-        if (this.isMounted()) this.setState(this.getState());
-      },
+    //
+    // Render
+    //
 
-      componentDidMount: function () {
-        stores.SizeStore.addChangeListener(this.updateState);
-      },
-
-      componentWillUnmount: function () {
-        stores.SizeStore.removeChangeListener(this.updateState);
-      },
-
-      //
-      // Helper Functions
-      //
-
-      _getIdentity: function(){
-        var provider = this.props.provider;
-        return this.props.identities.find(function(identity){
-          return identity.get('provider').id === provider.id;
-        });
-      },
-
-      //
-      // Render
-      //
-
-      renderStat: function(value, subText, moreInfo){
-        return (
-          <div className="col-md-3 provider-stat">
-            <div>
-              <span className="stat">{value}</span>
-              <span className="sub-text">{subText}</span>
-            </div>
-            <div className="more-info">{moreInfo}</div>
+    renderStat: function(value, subText, moreInfo){
+      return (
+        <div className="col-md-3 provider-stat">
+          <div>
+            <span className="stat">{value}</span>
+            <span className="sub-text">{subText}</span>
           </div>
-        )
-      },
+          <div className="more-info">{moreInfo}</div>
+        </div>
+      )
+    },
 
-      renderAllocationStat: function(allocationConsumedPercent, allocationConsumed, allocationTotal){
-        var allocationPercent = allocationConsumedPercent + "%";
-        var usedOverTotal = "(" + allocationConsumed + "/" + allocationTotal + ") AUs";
+    renderAllocationStat: function(allocationConsumedPercent, allocationConsumed, allocationTotal){
+      var allocationPercent = allocationConsumedPercent + "%";
+      var usedOverTotal = "(" + allocationConsumed + "/" + allocationTotal + ") AUs";
 
-        return this.renderStat(allocationPercent, usedOverTotal, "AUs currently used");
-      },
+      return this.renderStat(allocationPercent, usedOverTotal, "AUs currently used");
+    },
 
-      renderStats: function(identity, instances, sizes){
-        var allocation = identity.get('allocation'),
-            allocationConsumed = allocation.current,
-            allocationTotal = allocation.threshold,
-            allocationRemaining = allocationTotal - allocationConsumed,
-            allocationConsumedPercent = Math.round(allocationConsumed/allocationTotal*100),
-            instancesConsumingAllocation = identity.getInstancesConsumingAllocation(instances),
-            allocationBurnRate = identity.getCpusUsed(instancesConsumingAllocation, sizes),
-            timeRemaining = allocationRemaining/allocationBurnRate;
+    renderStats: function(identity, instances, sizes){
+      var allocation = identity.get('allocation'),
+          allocationConsumed = allocation.current,
+          allocationTotal = allocation.threshold,
+          allocationRemaining = allocationTotal - allocationConsumed,
+          allocationConsumedPercent = Math.round(allocationConsumed/allocationTotal*100),
+          instancesConsumingAllocation = identity.getInstancesConsumingAllocation(instances),
+          allocationBurnRate = identity.getCpusUsed(instancesConsumingAllocation, sizes),
+          timeRemaining = allocationRemaining/allocationBurnRate;
 
-        return (
-          <div className="row provider-info-section provider-stats">
-            {this.renderAllocationStat(allocationConsumedPercent, allocationConsumed, allocationTotal)}
-            {this.renderStat(instancesConsumingAllocation.length, "instances", "Number of instances consuming allocation")}
-            {this.renderStat(Math.round(timeRemaining), "hours", "Time remaining before allocation runs out")}
-            {this.renderStat(allocationBurnRate, "AUs/hour", "Rate at which AUs are being used")}
-          </div>
-        )
-      },
+      return (
+        <div className="row provider-info-section provider-stats">
+          {this.renderAllocationStat(allocationConsumedPercent, allocationConsumed, allocationTotal)}
+          {this.renderStat(instancesConsumingAllocation.length, "instances", "Number of instances consuming allocation")}
+          {this.renderStat(Math.round(timeRemaining), "hours", "Time remaining before allocation runs out")}
+          {this.renderStat(allocationBurnRate, "AUs/hour", "Rate at which AUs are being used")}
+        </div>
+      )
+    },
 
-      render: function () {
-        var identity = this._getIdentity(),
-            instances = this.props.instances,
-            sizes = this.state.sizes;
+    render: function () {
+      var provider = this.props.provider,
+          identity = stores.IdentityStore.getIdentityFor(provider),
+          instances = stores.InstanceStore.getInstancesOnProvider(provider),
+          sizes = stores.SizeStore.getSizesFor(provider);
 
-        if(sizes){
-          return this.renderStats(identity, instances, sizes);
-        }
-
+      if(!provider || !identity || !instances || !sizes){
         return (
           <div className="loading"></div>
         )
       }
-    });
+
+      return this.renderStats(identity, instances, sizes);
+    }
 
   });
+
+});
