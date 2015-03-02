@@ -4,8 +4,7 @@ define(function (require) {
   var React = require('react'),
       Router = require('react-router'),
       RouteHandler = Router.RouteHandler,
-      stores = require('stores'),
-      ProviderList = require('./ProviderList.react');
+      stores = require('stores');
 
   return React.createClass({
 
