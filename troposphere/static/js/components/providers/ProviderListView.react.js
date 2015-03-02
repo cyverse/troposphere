@@ -9,7 +9,7 @@ define(function(require){
       Stats = require('./Stats.react'),
       Description = require('./Description.react'),
       Instances = require('./Instances.react'),
-      ProviderResourcesSection = require('./ProviderResourcesSection.react');
+      Resources = require('./Resources.react');
 
   return React.createClass({
 
@@ -83,7 +83,7 @@ define(function(require){
           <Stats provider={provider}/>
           <Description provider={provider}/>
           <Instances provider={provider}/>
-          <ProviderResourcesSection
+          <Resources
             provider={provider}
             identities={identities}
             instances={instances}
