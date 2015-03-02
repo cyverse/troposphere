@@ -70,7 +70,7 @@ define(function (require) {
         var volume = this.state.volume;
 
         if(volume && this.state.providers) {
-          var providerId = volume.get('identity').provider;
+          var providerId = volume.get('provider');
           var provider = this.state.providers.get(providerId);
 
           return (

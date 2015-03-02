@@ -4,33 +4,32 @@ define(
   [
     'react',
     'stores',
-    './detail/details/ProjectDetailsView.react'
+    './detail/details/ProjectDetailsView.react',
+    'react-router'
   ],
-  function (React, stores, ProjectDetailsView) {
-
-    function getState(projectId) {
-      return {
-        project: stores.ProjectStore.get(projectId)
-      };
-    }
+  function (React, stores, ProjectDetailsView, Router) {
 
     return React.createClass({
+
+      mixins: [Router.State],
 
       //
       // Mounting & State
       // ----------------
       //
 
-      propTypes: {
-        projectId: React.PropTypes.string.isRequired
+      getState: function() {
+        return {
+          project: stores.ProjectStore.get(this.getParams().projectId)
+        };
       },
 
       getInitialState: function() {
-        return getState(this.props.projectId);
+        return this.getState();
       },
 
       updateState: function() {
-        if (this.isMounted()) this.setState(getState(this.props.projectId))
+        if (this.isMounted()) this.setState(this.getState())
       },
 
       componentDidMount: function () {
@@ -41,10 +40,6 @@ define(
         stores.ProjectStore.removeChangeListener(this.updateState);
       },
 
-      onDescriptionChanged: function(text){
-        ProjectActions.updateProjectAttributes(this.props.project, {description: text});
-      },
-
       //
       // Render
       // ------
@@ -53,14 +48,14 @@ define(
       render: function () {
         var project = this.state.project;
 
-        if (project) {
+        if(!project) {
           return (
-            <ProjectDetailsView project={project}/>
+            <div className="loading"></div>
           );
         }
 
         return (
-          <div className="loading"></div>
+          <ProjectDetailsView project={project}/>
         );
       }
 

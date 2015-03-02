@@ -237,23 +237,20 @@ define(
 
       render: function () {
         return (
-          <div>
-            <SecondaryApplicationNavigation currentRoute="search"/>
-            <div className="container application-card-view">
-              <div id='search-container'>
-                <input
-                  type='text'
-                  className='form-control search-input'
-                  placeholder='Search across image name, tag or description'
-                  onChange={this.onSearchChange}
-                  value={this.props.value}
-                  onKeyUp={this.onSearchKeyUp}
-                  ref="textField"
-                />
-                <hr/>
-              </div>
-              {this.renderBody()}
+          <div className="container application-card-view">
+            <div id='search-container'>
+              <input
+                type='text'
+                className='form-control search-input'
+                placeholder='Search across image name, tag or description'
+                onChange={this.onSearchChange}
+                value={this.props.value}
+                onKeyUp={this.onSearchKeyUp}
+                ref="textField"
+              />
+              <hr/>
             </div>
+            {this.renderBody()}
           </div>
         );
       }

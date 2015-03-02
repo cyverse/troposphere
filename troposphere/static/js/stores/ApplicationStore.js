@@ -17,6 +17,7 @@ define(
     var _featuredImages = null;
     var _searchResults = {};
     var _isFetching = false;
+    var _isFetchingImage = {};
     var _isFetchingFeaturedImages = false;
     var _isFetchingMore = false;
     var _isSearching = false;
@@ -33,11 +34,23 @@ define(
       }
     };
 
+    var fetchApplication = function(imageId){
+      if(!_isFetchingImage[imageId]){
+        _isFetchingImage[imageId] = true;
+        var image = new Application({ id: imageId });
+        image.fetch().done(function () {
+          _isFetchingImage[imageId] = false;
+          _applications.add(image);
+          ApplicationStore.emitChange();
+        });
+      }
+    };
+
     var fetchFeaturedImages = function(){
       if(!_isFetchingFeaturedImages) {
         _isFetchingFeaturedImages = true;
         var images = new ApplicationCollection();
-        var url = images.url() + "?tags__name=Featured";
+        var url = images.url + "?tags__name=Featured";
         images.fetch({url: url}).done(function () {
           _isFetchingFeaturedImages = false;
           _featuredImages = images;
@@ -116,10 +129,15 @@ define(
 
       get: function (appId) {
         if(!_applications) {
-          fetchApplications();
-        } else {
-          return _applications.get(appId);
+          return fetchApplications();
         }
+
+        var image = _applications.get(appId);
+        if(!image) {
+          return fetchApplication(appId);
+        }
+
+        return image;
       },
 
       getAll: function () {

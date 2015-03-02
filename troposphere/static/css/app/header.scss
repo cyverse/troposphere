@@ -70,3 +70,12 @@
 .navbar-nav li a i {
   margin-right: 7px;
 }
+
+// hack to get bootstrap nav styling to work when the "active" class is
+// on the 'a' tag and not its parent 'li' tag
+.navbar-default .navbar-nav > li > a.active,
+.navbar-default .navbar-nav > li > a.active:hover,
+.navbar-default .navbar-nav > li > a.active:focus {
+  color: $navbar-default-link-active-color;
+  background-color: $navbar-default-link-active-bg;
+}

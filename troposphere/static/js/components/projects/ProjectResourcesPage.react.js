@@ -5,47 +5,40 @@ define(
     'react',
     './detail/resources/ProjectResourcesWrapper.react',
     './detail/resources/ProjectDetails.react',
-    'stores/ProjectStore',
-    'stores/InstanceStore',
-    'stores/VolumeStore'
+    'stores',
+    'react-router'
   ],
-  function (React, ProjectResourcesWrapper, ProjectDetails, ProjectStore, InstanceStore, VolumeStore) {
-
-    function getState(projectId) {
-      return {
-        project: ProjectStore.get(projectId)
-      };
-    }
+  function (React, ProjectResourcesWrapper, ProjectDetails, stores, Router) {
 
     return React.createClass({
+
+      mixins: [Router.State],
 
       //
       // Mounting & State
       // ----------------
       //
 
-      propTypes: {
-        projectId: React.PropTypes.string.isRequired
+      getState: function() {
+        return {
+          project: stores.ProjectStore.get(this.getParams().projectId)
+        };
       },
 
       getInitialState: function() {
-        return getState(this.props.projectId);
+        return this.getState();
       },
 
       updateState: function() {
-        if (this.isMounted()) this.setState(getState(this.props.projectId))
+        if (this.isMounted()) this.setState(this.getState())
       },
 
       componentDidMount: function () {
-        ProjectStore.addChangeListener(this.updateState);
-        //InstanceStore.addChangeListener(this.updateState);
-        //VolumeStore.addChangeListener(this.updateState);
+        stores.ProjectStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
-        ProjectStore.removeChangeListener(this.updateState);
-        //InstanceStore.removeChangeListener(this.updateState);
-        //VolumeStore.removeChangeListener(this.updateState);
+        stores.ProjectStore.removeChangeListener(this.updateState);
       },
 
       //
@@ -54,16 +47,18 @@ define(
       //
 
       render: function () {
-        if (this.state.project) {
+        var project = this.state.project;
+
+        if(!project){
           return (
-            <ProjectResourcesWrapper project={this.state.project}>
-              <ProjectDetails project={this.state.project}/>
-            </ProjectResourcesWrapper>
+            <div className="loading"></div>
           );
         }
 
         return (
-          <div className="loading"></div>
+          <ProjectResourcesWrapper project={project}>
+            <ProjectDetails project={project}/>
+          </ProjectResourcesWrapper>
         );
       }
 

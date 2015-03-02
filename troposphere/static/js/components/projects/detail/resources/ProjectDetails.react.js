@@ -9,29 +9,22 @@ define(
     './instance/InstanceList.react',
     './volume/VolumeList.react',
 
-    // Stores
-    'stores/InstanceStore',
-    'stores/VolumeStore',
-    'stores/ProviderStore',
-    'stores/SizeStore',
-    'stores/ProjectStore',
-
-    // Actions
-    'actions/ProjectActions',
+    'stores',
+    'actions',
 
     // Models
     'models/Instance',
     'models/Volume'
   ],
-  function (React, Backbone, PreviewPanel, ButtonBar, InstanceList, VolumeList, InstanceStore, VolumeStore, ProviderStore, SizeStore, ProjectStore, ProjectActions, Instance, Volume) {
+  function (React, Backbone, PreviewPanel, ButtonBar, InstanceList, VolumeList, stores, actions, Instance, Volume) {
 
     function getState(project) {
       return {
-        projectInstances: InstanceStore.getInstancesInProject(project),
-        projectVolumes: VolumeStore.getVolumesInProject(project),
+        projectInstances: stores.ProjectInstanceStore.getInstancesFor(project),
+        projectVolumes: stores.ProjectVolumeStore.getVolumesFor(project),
         selectedResource: null,
         previewedResource: null,
-        providers: ProviderStore.getAll()
+        providers: stores.ProviderStore.getAll()
       };
     }
 
@@ -48,19 +41,23 @@ define(
       },
 
       componentDidMount: function () {
-        InstanceStore.addChangeListener(this.updateState);
-        VolumeStore.addChangeListener(this.updateState);
-        ProviderStore.addChangeListener(this.updateState);
-        SizeStore.addChangeListener(this.updateState);
-        ProjectStore.addChangeListener(this.updateState);
+        stores.InstanceStore.addChangeListener(this.updateState);
+        stores.VolumeStore.addChangeListener(this.updateState);
+        stores.ProviderStore.addChangeListener(this.updateState);
+        stores.SizeStore.addChangeListener(this.updateState);
+        stores.ProjectStore.addChangeListener(this.updateState);
+        stores.ProjectInstanceStore.addChangeListener(this.updateState);
+        stores.ProjectVolumeStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
-        InstanceStore.removeChangeListener(this.updateState);
-        VolumeStore.removeChangeListener(this.updateState);
-        ProviderStore.removeChangeListener(this.updateState);
-        SizeStore.removeChangeListener(this.updateState);
-        ProjectStore.removeChangeListener(this.updateState);
+        stores.InstanceStore.removeChangeListener(this.updateState);
+        stores.VolumeStore.removeChangeListener(this.updateState);
+        stores.ProviderStore.removeChangeListener(this.updateState);
+        stores.SizeStore.removeChangeListener(this.updateState);
+        stores.ProjectStore.removeChangeListener(this.updateState);
+        stores.ProjectInstanceStore.removeChangeListener(this.updateState);
+        stores.ProjectVolumeStore.removeChangeListener(this.updateState);
       },
 
       updateState: function(){
@@ -68,8 +65,8 @@ define(
           var state = getState(this.props.project);
 
           // Remove any selected resources that are no longer in the project
-          var projectInstances = InstanceStore.getInstancesInProject(this.props.project);
-          var projectVolumes = VolumeStore.getVolumesInProject(this.props.project);
+          var projectInstances = stores.ProjectInstanceStore.getInstancesFor(this.props.project);
+          var projectVolumes = stores.ProjectVolumeStore.getVolumesFor(this.props.project);
 
           var selectedResourcesClone = this.state.selectedResources.models.slice(0);
           selectedResourcesClone.map(function(selectedResource){
@@ -128,36 +125,26 @@ define(
 
       onMoveSelectedResources: function(){
         var selectedResources = this.state.selectedResources;
-        ProjectActions.moveResources(selectedResources, this.props.project);
+        actions.ProjectActions.moveResources(selectedResources, this.props.project);
       },
 
       onDeleteSelectedResources: function(){
         var selectedResources = this.state.selectedResources;
-        ProjectActions.deleteResources(selectedResources, this.props.project);
+        actions.ProjectActions.deleteResources(selectedResources, this.props.project);
       },
 
       onReportSelectedResources: function(){
         var selectedResources = this.state.selectedResources;
-        ProjectActions.reportResources(this.props.project, selectedResources);
+        actions.ProjectActions.reportResources(this.props.project, selectedResources);
       },
 
       onRemoveSelectedResources: function(){
         var selectedResources = this.state.selectedResources;
-        ProjectActions.removeResources(selectedResources, this.props.project);
+        actions.ProjectActions.removeResources(selectedResources, this.props.project);
       },
 
       render: function () {
         if(this.state.projectInstances && this.state.projectVolumes && this.state.providers) {
-
-          // Figure out which instances are real
-          this.state.projectInstances.map(function(projectInstance){
-            projectInstance.isRealResource = true;
-          });
-
-          // Figure out which volumes are real
-          this.state.projectVolumes.map(function(projectVolume){
-            projectVolume.isRealResource = true;
-          });
 
           // Only show the action button bar if the user has selected resources
           var isButtonBarVisible = this.state.selectedResources.length > 0;

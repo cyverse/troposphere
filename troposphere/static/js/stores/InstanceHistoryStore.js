@@ -19,10 +19,10 @@ define(
     var fetchInstanceHistory = function () {
       if(!_isFetching) {
         _isFetching = true;
-
         var instances = new InstanceHistoryCollection();
-        var baseUrl = instances.url() + "?page=1";
-        instances.fetch({url: baseUrl}).done(function () {
+        instances.fetch({
+          url: instances.url + "?page=1"
+        }).done(function () {
           _isFetching = false;
           _instanceHistories = instances;
           InstanceHistoryStore.emitChange();

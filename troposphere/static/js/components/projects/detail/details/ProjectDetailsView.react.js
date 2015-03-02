@@ -77,12 +77,7 @@ define(
           view = this.renderDetailsView(project);
         }
 
-        return (
-          <div className="project-details">
-            <SecondaryProjectNavigation project={this.props.project} currentRoute="details"/>
-            {view}
-          </div>
-        );
+        return view;
       }
 
     });

@@ -60,11 +60,8 @@ define(
         }
 
         return (
-          <div>
-            <SecondaryApplicationNavigation currentRoute="favorites"/>
-            <div className="container">
-              {content}
-            </div>
+          <div className="container">
+            {content}
           </div>
         );
       }

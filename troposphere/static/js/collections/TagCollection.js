@@ -9,9 +9,7 @@ define(
     return Backbone.Collection.extend({
       model: Tag,
 
-      url: function () {
-        return globals.API_V2_ROOT + "/tags" + globals.slash();
-      },
+      url: globals.API_V2_ROOT + "/tags",
 
       comparator: function (model) {
         return model.get('name').toLowerCase();

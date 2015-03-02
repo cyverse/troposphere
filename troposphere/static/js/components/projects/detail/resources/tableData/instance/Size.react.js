@@ -4,9 +4,9 @@ define(
   [
     'react',
     'backbone',
-    'stores/SizeStore'
+    'stores'
   ],
-  function (React, Backbone, SizeStore) {
+  function (React, Backbone, stores) {
 
     return React.createClass({
 
@@ -15,27 +15,17 @@ define(
       },
 
       render: function () {
-        var identity = this.props.instance.get('identity');
-        var providerId = identity.provider;
-        var identityId = identity.id;
-        var sizes = SizeStore.getAllFor(providerId, identityId);
+        var instance = this.props.instance,
+            size = stores.SizeStore.get(instance.get('size').id);
 
-        if(sizes) {
-          var sizeId = this.props.instance.get('size_alias');
-          var size = sizes.get(sizeId);
-          if(size) {
-            return (
-              <span>{size.get('name')}</span>
-            );
-          }else{
-            return (
-              <span></span>
-            )
-          }
+        if(!size){
+          return (
+            <div className="loading-tiny-inline"></div>
+          );
         }
 
         return (
-          <div className="loading-tiny-inline"></div>
+          <span>{size.get('name')}</span>
         );
       }
 

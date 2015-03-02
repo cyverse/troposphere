@@ -148,24 +148,21 @@ define(
         }
 
         return (
-          <div>
-            <SecondaryApplicationNavigation currentRoute="tags"/>
-            <div className="container">
-              <div id="search-container">
-                <input type="text"
-                       className="form-control search-input"
-                       placeholder="Filter by tag name or description"
-                       value={this.state.searchTerm}
-                       onChange={this.handleFilterChange}
-                />
-                <hr/>
-                <h3 style={{textAlign: "left", fontSize: "24px"}}>
-                  {text}
-                </h3>
-              </div>
-              <div className="image-tag-list">
-                {false ? this.renderTags() : this.renderTagsAsTable(tags)}
-              </div>
+          <div className="container">
+            <div id="search-container">
+              <input type="text"
+                     className="form-control search-input"
+                     placeholder="Filter by tag name or description"
+                     value={this.state.searchTerm}
+                     onChange={this.handleFilterChange}
+              />
+              <hr/>
+              <h3 style={{textAlign: "left", fontSize: "24px"}}>
+                {text}
+              </h3>
+            </div>
+            <div className="image-tag-list">
+              {false ? this.renderTags() : this.renderTagsAsTable(tags)}
             </div>
           </div>
         );

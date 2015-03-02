@@ -20,7 +20,6 @@ define(
 
       parse: function (response) {
         var attributes = response;
-        attributes.id = response.uuid;
         attributes.votes = {
           up: Math.floor(Math.random() * 100),
           down: Math.floor(Math.random() * 100)

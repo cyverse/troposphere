@@ -10,9 +10,7 @@ define(
     return Backbone.Collection.extend({
       model: Size,
 
-      url: function () {
-        return globals.API_V2_ROOT + "/sizes?page_size=100" + globals.slash();
-      },
+      url: globals.API_V2_ROOT + "/sizes",
 
       parse: function (response) {
         this.meta = {

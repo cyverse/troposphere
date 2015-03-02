@@ -5,50 +5,64 @@ define(
     'collections/SizeCollection',
     'dispatchers/AppDispatcher'
   ],
-  function (_, Store, SizeCollection, AppDispatcher) {
+  function (_, Store, Collection, AppDispatcher) {
 
-    var _sizes = null;
+    var _models = null;
     var _isFetching = false;
+
+    var _modelsFor = {};
+    var _isFetchingFor = {};
 
     var fetchSizes = function () {
       if(!_isFetching) {
         _isFetching = true;
-        var sizes = new SizeCollection();
-        sizes.fetch().done(function () {
+        var models = new Collection();
+        models.fetch({
+          url: models.url + "?page_size=100"
+        }).done(function () {
           _isFetching = false;
-          _sizes = sizes;
-          SizeStore.emitChange();
+          _models = models;
+          ModelStore.emitChange();
         });
       }
     };
 
-    var SizeStore = {
+    var fetchModelsFor = function(providerId){
+      if(!_modelsFor[providerId] && !_isFetchingFor[providerId]) {
+        _isFetchingFor[providerId] = true;
+        var models = new Collection();
+        models.fetch({
+          url: models.url + "?provider__id=" + providerId + "&page_size=100"
+        }).done(function () {
+          _isFetchingFor[providerId] = false;
+          _modelsFor[providerId] = models;
+          ModelStore.emitChange();
+        });
+      }
+    };
+
+    var ModelStore = {
 
       getAll: function () {
-        if(!_sizes) {
+        if(!_models) {
           fetchSizes();
         } else {
-          return _sizes;
+          return _models;
         }
       },
 
-      get: function (sizeId) {
-        if(!_sizes) {
+      get: function (modelId) {
+        if(!_models) {
           fetchSizes();
+        }else{
+          return _models.get(modelId);
         }
-        return _sizes.get(sizeId);
       },
 
-      getAllFor: function (providerId, identityId) {
-        var providerSizes;
-        if(!_sizes) {
-          fetchSizes();
-        } else {
-          providerSizes = _sizes.where(function(size){
-            return size.get('provider').id === providerId;
-          });
-          return new SizeCollection(providerSizes);
-        }
+      getSizesFor: function(provider){
+        if(!_modelsFor[provider.id]) return fetchModelsFor(provider.id);
+
+        return _modelsFor[provider.id];
       }
 
     };
@@ -61,13 +75,13 @@ define(
           return true;
       }
 
-      SizeStore.emitChange();
+      ModelStore.emitChange();
 
       return true;
     });
 
-    _.extend(SizeStore, Store);
+    _.extend(ModelStore, Store);
 
-    return SizeStore;
+    return ModelStore;
 
   });
