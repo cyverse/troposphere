@@ -16,10 +16,12 @@ define(
     var fetchSizes = function () {
       if(!_isFetching) {
         _isFetching = true;
-        var sizes = new Collection();
-        sizes.fetch().done(function () {
+        var models = new Collection();
+        models.fetch({
+          url: models.url + "?page_size=100"
+        }).done(function () {
           _isFetching = false;
-          _models = sizes;
+          _models = models;
           ModelStore.emitChange();
         });
       }
@@ -30,11 +32,10 @@ define(
         _isFetchingFor[providerId] = true;
         var models = new Collection();
         models.fetch({
-          url: models.url() + "?provider__id=" + providerId + "&page_size=100"
+          url: models.url + "?provider__id=" + providerId + "&page_size=100"
         }).done(function () {
           _isFetchingFor[providerId] = false;
-          var sizes = new Collection(models, {parse: true});
-          _modelsFor[providerId] = sizes;
+          _modelsFor[providerId] = models;
           ModelStore.emitChange();
         });
       }

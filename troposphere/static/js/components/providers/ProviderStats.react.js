@@ -45,14 +45,14 @@ define(function (require) {
     },
 
     renderStats: function(identity, instances, sizes){
-      var allocation = identity.get('allocation'),
-          allocationConsumed = allocation.current,
-          allocationTotal = allocation.threshold,
-          allocationRemaining = allocationTotal - allocationConsumed,
-          allocationConsumedPercent = Math.round(allocationConsumed/allocationTotal*100),
-          instancesConsumingAllocation = identity.getInstancesConsumingAllocation(instances),
-          allocationBurnRate = identity.getCpusUsed(instancesConsumingAllocation, sizes),
-          timeRemaining = allocationRemaining/allocationBurnRate;
+      var allocation = identity.get('allocation');
+      var allocationConsumed = allocation.current;
+      var allocationTotal = allocation.threshold;
+      var allocationRemaining = allocationTotal - allocationConsumed;
+      var allocationConsumedPercent = Math.round(allocationConsumed/allocationTotal*100);
+      var instancesConsumingAllocation = identity.getInstancesConsumingAllocation(instances);
+      var allocationBurnRate = identity.getCpusUsed(instancesConsumingAllocation, sizes);
+      var timeRemaining = allocationRemaining/allocationBurnRate;
 
       return (
         <div className="row provider-info-section provider-stats">

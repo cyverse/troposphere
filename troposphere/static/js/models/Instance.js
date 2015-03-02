@@ -10,18 +10,7 @@ define(
 
     return Backbone.Model.extend({
 
-      urlRoot: function(){
-        var creds = this.getCreds();
-        var url = globals.API_ROOT +
-                  '/provider/' + creds.provider_id +
-                  '/identity/' + creds.identity_id +
-                  '/instance' + globals.slash();
-        return url;
-      },
-
-      url: function(){
-        return Backbone.Model.prototype.url.apply(this) + globals.slash();
-      },
+      urlRoot: globals.API_V2_ROOT + "/instances",
 
       parse: function (attributes) {
         attributes.start_date = new Date(attributes.start_date);

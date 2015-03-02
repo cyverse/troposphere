@@ -20,31 +20,33 @@ define(function(require){
     // ----------------
     //
 
-    getState: function() {
-      return {
-        provider: stores.ProviderStore.get(this.getParams().providerId)
-      };
-    },
-
-    getInitialState: function() {
-      return this.getState();
-    },
-
-    updateState: function() {
-      if (this.isMounted()) this.setState(this.getState())
-    },
-
-    componentDidMount: function () {
-      stores.ProviderStore.addChangeListener(this.updateState);
-    },
-
-    componentWillUnmount: function () {
-      stores.ProviderStore.removeChangeListener(this.updateState);
-    },
+    //getState: function() {
+    //  return {
+    //    provider:
+    //  };
+    //},
+    //
+    //getInitialState: function() {
+    //  return this.getState();
+    //},
+    //
+    //updateState: function() {
+    //  if (this.isMounted()) this.setState(this.getState())
+    //},
+    //
+    //componentDidMount: function () {
+    //  stores.ProviderStore.addChangeListener(this.updateState);
+    //},
+    //
+    //componentWillUnmount: function () {
+    //  stores.ProviderStore.removeChangeListener(this.updateState);
+    //},
 
 
     render: function () {
-      var provider = this.state.provider,
+      // we are fetching the provider here (and not in getInitialState) because the component
+      // doesn't get re-mounted when the url changes, so those functions won't run twice
+      var provider = stores.ProviderStore.get(this.getParams().providerId),
           identities = this.props.identities,
           instances = this.props.instances,
           volumes = this.props.volumes,
@@ -78,10 +80,7 @@ define(function(require){
       return (
         <div className="col-md-10 provider-details">
           <Name provider={provider}/>
-          <ProviderStats provider={provider}
-                         identities={identities}
-                         instances={instances}
-          />
+          <ProviderStats provider={provider}/>
         </div>
       );
 

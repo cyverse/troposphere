@@ -30,11 +30,17 @@ define(function (require) {
       },
 
       componentDidMount: function () {
-        stores.ApplicationStore.addChangeListener(this.updateState);
+        // subscribe to all Stores
+        Object.keys(stores).forEach(function(storeName){
+          stores[storeName].addChangeListener(this.updateState);
+        }.bind(this));
       },
 
       componentWillUnmount: function () {
-        stores.ApplicationStore.removeChangeListener(this.updateState);
+        // un-subscribe from all Stores
+        Object.keys(stores).forEach(function(storeName){
+          stores[storeName].removeChangeListener(this.updateState);
+        }.bind(this));
       },
 
       //componentDidMount: function () {
