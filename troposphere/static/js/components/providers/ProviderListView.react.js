@@ -6,9 +6,9 @@ define(function(require){
       Router = require('react-router'),
       stores = require('stores'),
       Name = require('./Name.react'),
-      ProviderStats = require('./ProviderStats.react'),
-      ProviderDescription = require('./ProviderDescription.react'),
-      ProviderInstances = require('./ProviderInstances.react'),
+      Stats = require('./Stats.react'),
+      Description = require('./Description.react'),
+      Instances = require('./Instances.react'),
       ProviderResourcesSection = require('./ProviderResourcesSection.react');
 
   return React.createClass({
@@ -80,9 +80,9 @@ define(function(require){
       return (
         <div className="col-md-10 provider-details">
           <Name provider={provider}/>
-          <ProviderStats provider={provider}/>
-          <ProviderDescription provider={provider}/>
-          <ProviderInstances provider={provider}/>
+          <Stats provider={provider}/>
+          <Description provider={provider}/>
+          <Instances provider={provider}/>
         </div>
       );
 
