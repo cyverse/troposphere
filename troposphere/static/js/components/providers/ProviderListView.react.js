@@ -4,14 +4,13 @@ define(
   [
     'react',
     'backbone',
-    './ProviderList.react',
     './ProviderName.react',
     './ProviderStats.react',
     './ProviderDescription.react',
     './ProviderInstances.react',
     './ProviderResourcesSection.react'
   ],
-  function (React, Backbone, ProviderList, ProviderName, ProviderStats, ProviderDescription, ProviderInstances, ProviderResourcesSection) {
+  function (React, Backbone, ProviderName, ProviderStats, ProviderDescription, ProviderInstances, ProviderResourcesSection) {
 
     return React.createClass({
 
@@ -41,35 +40,25 @@ define(
             projects = this.props.projects;
 
         return (
-          <div>
-            <div className="container">
-              <div className="col-md-2">
-                <ProviderList providers={this.props.providers}
-                              selectedProvider={provider}
-                              onSelectedProviderChanged={this.handleProviderChange}
-                />
-              </div>
-              <div className="col-md-10 provider-details">
-                <ProviderName provider={provider}/>
-                <ProviderStats provider={provider}
+          <div className="col-md-10 provider-details">
+            <ProviderName provider={provider}/>
+            <ProviderStats provider={provider}
+                           identities={identities}
+                           instances={instances}
+            />
+            <ProviderDescription provider={provider}/>
+            <ProviderInstances provider={provider}
                                identities={identities}
                                instances={instances}
-                />
-                <ProviderDescription provider={provider}/>
-                <ProviderInstances provider={provider}
-                                   identities={identities}
-                                   instances={instances}
-                                   volumes={volumes}
-                                   projects={projects}
-                />
-                <ProviderResourcesSection provider={provider}
-                                          identities={identities}
-                                          instances={instances}
-                                          volumes={volumes}
-                                          projects={projects}
-                />
-              </div>
-            </div>
+                               volumes={volumes}
+                               projects={projects}
+            />
+            <ProviderResourcesSection provider={provider}
+                                      identities={identities}
+                                      instances={instances}
+                                      volumes={volumes}
+                                      projects={projects}
+            />
           </div>
         );
 

@@ -40,7 +40,7 @@ define(function (require) {
 
     renderProvider: function(provider){
       return (
-        <li>
+        <li key={provider.id}>
           <Router.Link to="provider" params={{providerId: provider.id}}>
             {provider.get('name')}
           </Router.Link>
