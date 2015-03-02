@@ -83,6 +83,13 @@ define(function(require){
           <Stats provider={provider}/>
           <Description provider={provider}/>
           <Instances provider={provider}/>
+          <ProviderResourcesSection
+            provider={provider}
+            identities={identities}
+            instances={instances}
+            volumes={volumes}
+            projects={projects}
+          />
         </div>
       );
 
