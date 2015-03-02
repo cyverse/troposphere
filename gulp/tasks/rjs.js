@@ -42,13 +42,15 @@ module.exports = function (gulp) {
       bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min',
       moment: '../bower_components/moment/moment',
       react: '../bower_components/react/react-with-addons',
+      'react-router': '../bower_components/react-router/dist/react-router',
       chosen: '../bower_components/chosen/chosen.jquery',
       toastr: '../bower_components/toastr/toastr',
       q: '../bower_components/q/q',
       highchartsBase: '../bower_components/highcharts-release/highcharts',
       highcharts: '../bower_components/highcharts-release/highcharts-more',
       crypto: 'lib/md5',
-      sinon: '../bower_components/sinon/lib/sinon'
+      sinon: '../bower_components/sinon/lib/sinon',
+      showdown: '../bower_components/showdown/compressed/Showdown'
     }
   };
 
