@@ -1,66 +1,42 @@
-/** @jsx React.DOM */
+define(function(require){
 
-define(
-  [
-    'react',
-    'components/common/SecondaryNavigation.react',
-    'context'
-  ],
-  function (React, SecondaryNavigation, context) {
+  var React = require('react'),
+      Router = require('react-router'),
+      Glyphicon = require('components/common/Glyphicon.react'),
+      context = require('context');
 
-    var routes = [
-      {
-        name: "Search",
-        linksTo: "search",
-        href: "/application/images",
-        icon: "search",
-        requiresLogin: false
-      },
-      {
-        name: "Favorites",
-        linksTo: "favorites",
-        href: "/application/images/favorites",
-        icon: "bookmark",
-        requiresLogin: true
-      },
-      {
-        name: "My Images",
-        linksTo: "authored",
-        href: "/application/images/authored",
-        icon: "user",
-        requiresLogin: true
-      },
-      {
-        name: "Tags",
-        linksTo: "tags",
-        href: "/application/images/tags",
-        icon: "tags",
-        requiresLogin: false
-      }
-    ];
+  return React.createClass({
 
-    return React.createClass({
+    renderRoute: function(name, linksTo, icon, requiresLogin){
+      if(requiresLogin && !context.profile) return null;
 
-      propTypes: {
-        currentRoute: React.PropTypes.string.isRequired
-      },
+      return (
+        <li key={name}>
+          <Router.Link to={linksTo}>
+            <Glyphicon name={icon}/>
+            <span>{name}</span>
+          </Router.Link>
+        </li>
+      )
+    },
 
-      render: function () {
-
-        if(!context.profile){
-          routes = routes.filter(function(route){
-            return !route.requiresLogin;
-          })
-        }
-
-        return (
-          <div>
-            <SecondaryNavigation title="" routes={routes} currentRoute={this.props.currentRoute}/>
+    render: function () {
+      return (
+        <div>
+          <div className="secondary-nav">
+            <div className="container">
+              <ul className="secondary-nav-links">
+                {this.renderRoute("Search", "search", "search", false)}
+                {this.renderRoute("Favorites", "favorites", "bookmark", true)}
+                {this.renderRoute("My Images", "authored", "user", true)}
+                {this.renderRoute("Tags", "tags", "tags", false)}
+              </ul>
+            </div>
           </div>
-        );
-
-      }
-
-    });
+        </div>
+      );
+    }
 
   });
+
+});
