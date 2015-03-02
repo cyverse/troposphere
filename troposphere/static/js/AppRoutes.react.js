@@ -22,7 +22,8 @@ define(function (require) {
       FavoritedImagesPage = require('./components/applications/FavoritedApplicationsPage.react'),
       MyImagesPage = require('./components/applications/MyApplicationsPage.react'),
       ImageTagsPage = require('./components/applications/ImageTagsPage.react'),
-      ImagesMaster = require('./components/applications/ImagesMaster.react');
+      ImagesMaster = require('./components/applications/ImagesMaster.react'),
+      ProvidersMaster = require('./components/providers/ProvidersMaster.react');
 
   //<Route name="dashboard" handler={Master}/>
   //<Route name="projects" handler={Master}/>
@@ -49,7 +50,10 @@ define(function (require) {
         <DefaultRoute handler={ImageListPage}/>
       </Route>
 
-      <Route name="providers" handler={ProviderListPage}/>
+      <Route name="providers" handler={ProvidersMaster}>
+        <Route name="provider" path=":providerId" handler={MasterTest}/>
+      </Route>
+
       <Route name="help" handler={HelpPage}/>
 
       <Route name="project" path="projects/:projectId" handler={ProjectDetailsMaster}>
