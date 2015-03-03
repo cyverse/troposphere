@@ -42,7 +42,7 @@ define(
             <Button icon="list-alt"
                     tooltip="Report issue with project or selected resources"
                     onClick={this.props.onReportSelectedResources}
-                    isVisible={true}
+                    isVisible={false}
             />
             <Button icon="folder-open"
                     tooltip="Move selected resources"
