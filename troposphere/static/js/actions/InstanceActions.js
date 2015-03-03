@@ -124,7 +124,7 @@ define(
         var that = this;
 
         var attachedVolumes = stores.VolumeStore.getVolumesAttachedToInstance(instance);
-        if(attachedVolumes.length > 0){
+        if(false && attachedVolumes.length > 0){
           var modal = ExplainInstanceDeleteConditionsModal({
             attachedVolumes: attachedVolumes,
             backdrop: 'static'
