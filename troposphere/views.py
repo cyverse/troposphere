@@ -93,6 +93,66 @@ def application(request):
     return response
 
 
+def application_backdoor(request):
+    response = HttpResponse()
+    disabled_login = False
+
+    show_troposphere_only = hasattr(settings, "SHOW_TROPOSPHERE_ONLY") and settings.SHOW_TROPOSPHERE_ONLY is True
+
+    template_params = {
+        'access_token': request.session.get('access_token'),
+        'emulator_token': request.session.get('emulator_token'),
+        'emulated_by': request.session.get('emulated_by'),
+        'disable_login': disabled_login,
+        'show_troposphere_only': show_troposphere_only
+    }
+
+    if hasattr(settings, "INTERCOM_APP_ID"):
+        template_params['intercom_app_id'] = settings.INTERCOM_APP_ID
+        template_params['intercom_company_id'] = settings.INTERCOM_COMPANY_ID
+        template_params['intercom_company_name'] = settings.INTERCOM_COMPANY_NAME
+
+    # If beta flag in query params, set the session value to that
+    if "beta" in request.GET:
+        request.session['beta'] = request.GET['beta'].lower()
+
+    # If beta flag not defined, default it to false to show the old UI
+    if "beta" not in request.session:
+        request.session['beta'] = 'false'
+
+    # Return the new Troposphere UI
+    # If user logged in, show the full app, otherwise show the public site
+    if request.session['beta'] == 'true' or show_troposphere_only:
+        if template_params['access_token']:
+            response = render_to_response(
+                'application.html',
+                template_params,
+                context_instance=RequestContext(request))
+        else:
+            response = render_to_response(
+                'index.html',
+                template_params,
+                context_instance=RequestContext(request))
+
+    # Return the old Airport UI
+    # If user logged in, show the app, otherwise show the login page
+    else:
+        if template_params['access_token']:
+            response = render_to_response(
+                'cf2.html',
+                template_params,
+                context_instance = RequestContext(request))
+        else:
+            response = render_to_response(
+                'login.html',
+                template_params,
+                context_instance = RequestContext(request))
+
+
+    response.set_cookie('beta', request.session['beta'])
+    return response
+
+
 def get_maintenance(request):
     """
     Returns a list of maintenance records along with a boolean to indicate
