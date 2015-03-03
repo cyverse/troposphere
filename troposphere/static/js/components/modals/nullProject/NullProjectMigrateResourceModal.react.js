@@ -111,6 +111,10 @@ define(
         this.setState({projectId: e.target.value});
       },
 
+      cancelEnterButton: function(e){
+        e.preventDefault();
+      },
+
       //
       // Render
       // ------
@@ -171,7 +175,7 @@ define(
       renderBody: function(){
         if(this.state.projects) {
           return (
-            <form role='form'>
+            <form role='form' onSubmit={this.cancelEnterButton}>
               <div className='form-group'>
                 <p>{"Looks like you have some resources that aren't in a project!"}</p>
                 <ul>
