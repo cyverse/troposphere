@@ -46,7 +46,7 @@ define(
             <div className='form-group'>
               <p>
                 {
-                  "Volumes can only be deleted while they are not attached to an instance."
+                  "Volumes cannot be deleted while they are attached to an instance."
                 }
               </p>
               <p>
