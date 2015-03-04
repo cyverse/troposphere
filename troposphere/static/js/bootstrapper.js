@@ -13,7 +13,6 @@ define(function (require) {
     stores.InstanceStore           = require('stores/InstanceStore');
     stores.MachineStore            = require('stores/MachineStore');
     stores.MaintenanceMessageStore = require('stores/MaintenanceMessageStore');
-    stores.NullProjectStore        = require('stores/NullProjectStore');
     stores.ProfileStore            = require('stores/ProfileStore');
     stores.ProjectStore            = require('stores/ProjectStore');
     stores.ProjectInstanceStore    = require('stores/ProjectInstanceStore');
