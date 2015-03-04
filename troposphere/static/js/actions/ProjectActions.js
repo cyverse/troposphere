@@ -5,6 +5,7 @@ define(function (require) {
       actions = require('actions'),
       URL = require('url'),
       NotificationController = require('controllers/NotificationController'),
+      Router = require('../Router'),
 
       // Constants
       ProjectConstants = require('constants/ProjectConstants'),
@@ -25,9 +26,6 @@ define(function (require) {
       ProjectDeleteResourceModal = require('components/modals/project/ProjectDeleteResourceModal.react'),
       ProjectRemoveResourceModal = require('components/modals/project/ProjectRemoveResourceModal.react'),
       ProjectReportResourceModal = require('components/modals/project/ProjectReportResourceModal.react');
-
-
-  var _isParanoid = false;
 
   return {
 
@@ -93,8 +91,7 @@ define(function (require) {
           Utils.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
         });
 
-        var redirectUrl = URL.projects(null, {relative: true});
-        Backbone.history.navigate(redirectUrl, {trigger: true});
+        Router.getInstance().transitionTo("projects");
       })
     },
 

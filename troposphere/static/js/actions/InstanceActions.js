@@ -11,7 +11,7 @@ define(function (require) {
       Project = require('models/Project'),
       globals = require('globals'),
       context = require('context'),
-      URL = require('url'),
+      Router = require('../Router'),
       NotificationController = require('controllers/NotificationController'),
       ProjectInstanceActions = require('actions/ProjectInstanceActions'),
       stores = require('stores'),
@@ -362,8 +362,8 @@ define(function (require) {
             // Since this is triggered from the images page, navigate off
             // that page and back to the instance list so the user can see
             // their instance being created
-            var redirectUrl = URL.projectResources({project: project}, {relative: true});
-            Backbone.history.navigate(redirectUrl, {trigger: true});
+            Router.getInstance().transitionTo("project-resources", {projectId: project.id});
+
           }).fail(function(response){
             Utils.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
             var title = "Project " + project.get('name') + " could not be created";
@@ -431,8 +431,7 @@ define(function (require) {
           // Since this is triggered from the images page, navigate off
           // that page and back to the instance list so the user can see
           // their instance being created
-          var redirectUrl = URL.projectResources({project: project}, {relative: true});
-          Backbone.history.navigate(redirectUrl, {trigger: true});
+          Router.getInstance().transitionTo("project-resources", {projectId: project.id});
         }
       })
     },
