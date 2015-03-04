@@ -1,41 +1,34 @@
-/** @jsx React.DOM */
+define(function (require) {
+  "use strict";
 
-define(
-  [
-    'react',
-    'backbone',
-    'url'
-  ],
-  function (React, Backbone, URL) {
+  var React = require('react'),
+      Backbone = require('backbone'),
+      Router = require('react-router');
 
-    return React.createClass({
+  return React.createClass({
 
-      propTypes: {
-        project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    propTypes: {
+      project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+      instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
+    },
 
-      render: function () {
-        var project = this.props.project,
-            instance = this.props.instance,
-            instanceUrl;
+    render: function () {
+      var project = this.props.project,
+          instance = this.props.instance;
 
-        if(instance.id) {
-          instanceUrl = URL.projectInstance({
-            project: project,
-            instance: instance
-          });
-
-          return (
-            <a href={instanceUrl}>{instance.get('name')}</a>
-          );
-        }else{
-          return (
-            <span>{instance.get('name')}</span>
-          );
-        }
+      if(instance.id) {
+        return (
+          <Router.Link to="project-instance-details" params={{projectId: project.id, instanceId: instance.id}}>
+            {instance.get('name')}
+          </Router.Link>
+        );
+      }else{
+        return (
+          <span>{instance.get('name')}</span>
+        );
       }
-
-    });
+    }
 
   });
+
+});
