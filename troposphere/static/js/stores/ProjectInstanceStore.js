@@ -8,7 +8,7 @@ define(function (require) {
       InstanceCollection = require('collections/InstanceCollection'),
       Instance = require('models/Instance');
 
-  var _models = null;
+  var _models = new Collection();
   var _isFetching = false;
 
   var _modelsFor = {};
@@ -38,6 +38,9 @@ define(function (require) {
         url: models.url + "?project__id=" + projectId
       }).done(function () {
         _isFetchingFor[projectId] = false;
+
+        // add models to existing cache
+        _models.add(models.models);
 
         // convert ProjectInstance collection to an InstanceCollection
         var instances = models.map(function(pi){
@@ -81,12 +84,24 @@ define(function (require) {
       return _models;
     },
 
+    getProjectInstanceFor: function(project, instance){
+      return _models.find(function(pm){
+        return pm.get('project').id === project.id && pm.get('instance').id === instance.id;
+      });
+    },
+
     getInstancesFor: function(project){
-      if(!_modelsFor[project.id]) {
-        fetchModelsFor(project.id);
-      } else {
-        return _modelsFor[project.id];
-      }
+      if(!_modelsFor[project.id]) return fetchModelsFor(project.id);
+
+      // convert ProjectVolume collection to an VolumeCollection
+      var projectInstances = _models.filter(function(pi){
+        return pi.get('instance').projects.indexOf(project.id) >= 0;
+      });
+
+      var instances = projectInstances.map(function(pi){
+        return new Instance(pi.get('instance'), {parse: true});
+      });
+      return new InstanceCollection(instances);
     }
 
   };
