@@ -12,9 +12,9 @@ define(
     './author/AuthorView.react',
     './description/EditDescriptionView.react',
     './versions/VersionsView.react',
-    'actions/InstanceActions'
+    'actions'
   ],
-  function (React, HeaderView, AvailabilityView, EditTagsView, ImageLaunchCard, EditNameView, CreatedView, AuthorView, EditDescriptionView, VersionsView, InstanceActions) {
+  function (React, HeaderView, AvailabilityView, EditTagsView, ImageLaunchCard, EditNameView, CreatedView, AuthorView, EditDescriptionView, VersionsView, actions) {
 
     return React.createClass({
 
@@ -38,7 +38,7 @@ define(
       },
 
       showModal: function (e) {
-        InstanceActions.launch(this.props.application);
+        actions.InstanceActions.launch(this.props.application);
       },
 
       handleSave: function(){

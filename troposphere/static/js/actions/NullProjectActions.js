@@ -5,34 +5,29 @@ define(function (require) {
   // Dependencies
   //
 
-  var React                  = require('react');
-  var AppDispatcher          = require('dispatchers/AppDispatcher');
-  var stores                 = require('stores');
-  var URL                    = require('url');
-  var NotificationController = require('controllers/NotificationController');
-  var Router                 = require('../Router');
+  var AppDispatcher          = require('dispatchers/AppDispatcher'),
+      stores                 = require('stores'),
+      NotificationController = require('controllers/NotificationController'),
+      Router                 = require('../Router'),
+      Utils                  = require('./Utils'),
+      actions                = require('actions');
 
   // Constants
-  var NullProjectInstanceConstants = require('constants/NullProjectInstanceConstants');
-  var NullProjectVolumeConstants   = require('constants/NullProjectVolumeConstants');
-  var ProjectInstanceConstants     = require('constants/ProjectInstanceConstants');
-  var ProjectVolumeConstants       = require('constants/ProjectVolumeConstants');
-  var ProjectConstants             = require('constants/ProjectConstants');
-
-  // Actions
-  var ProjectActions         = require('actions/ProjectActions');
+  var NullProjectInstanceConstants = require('constants/NullProjectInstanceConstants'),
+      NullProjectVolumeConstants   = require('constants/NullProjectVolumeConstants'),
+      ProjectInstanceConstants     = require('constants/ProjectInstanceConstants'),
+      ProjectVolumeConstants       = require('constants/ProjectVolumeConstants'),
+      ProjectConstants             = require('constants/ProjectConstants');
 
   // Models
-  var Project  = require('models/Project');
-  var Instance = require('models/Instance');
-  var Volume   = require('models/Volume');
+  var Project  = require('models/Project'),
+      Instance = require('models/Instance'),
+      Volume   = require('models/Volume');
 
   // Modals
-  var ModalHelpers                        = require('components/modals/ModalHelpers');
-  var NullProjectMoveAttachedVolumesModal = require('components/modals/nullProject/NullProjectMoveAttachedVolumesModal.react');
-  var NullProjectMigrateResourceModal     = require('components/modals/nullProject/NullProjectMigrateResourceModal.react');
-
-  var Utils = require('./Utils');
+  var ModalHelpers                        = require('components/modals/ModalHelpers'),
+      NullProjectMoveAttachedVolumesModal = require('components/modals/nullProject/NullProjectMoveAttachedVolumesModal.react'),
+      NullProjectMigrateResourceModal     = require('components/modals/nullProject/NullProjectMigrateResourceModal.react');
 
   //
   // Module
@@ -45,7 +40,7 @@ define(function (require) {
     // ------------------------
 
     _migrateResourceIntoProject: function(resource, project){
-      ProjectActions.addResourceToProject(resource, project);
+      actions.ProjectActions.addResourceToProject(resource, project);
 
       if(resource instanceof Instance){
         Utils.dispatch(NullProjectInstanceConstants.REMOVE_INSTANCE_FROM_NULL_PROJECT, {
@@ -59,7 +54,7 @@ define(function (require) {
     },
 
     _migrateResourceIntoRealProject: function(resource, oldProject, newProject){
-      ProjectActions.addResourceToProject(resource, newProject);
+      actions.ProjectActions.addResourceToProject(resource, newProject);
 
       if(oldProject) {
         if (resource instanceof Instance) {

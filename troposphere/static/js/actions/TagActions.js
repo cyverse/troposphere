@@ -1,72 +1,70 @@
-define(
-  [
-    'react',
-    'dispatchers/AppDispatcher',
-    'constants/TagConstants',
-    'models/Tag',
-    'actions/InstanceActions',
-    'components/modals/ModalHelpers',
-    'components/modals/tag/TagCreateModal.react',
-    './Utils'
-  ],
-  function (React, AppDispatcher, TagConstants, Tag, InstanceActions, ModalHelpers, TagCreateModal, Utils) {
+define(function (require) {
+  'use strict';
 
-    return {
+  var AppDispatcher = require('dispatchers/AppDispatcher'),
+      TagConstants = require('constants/TagConstants'),
+      Tag = require('models/Tag'),
+      actions = require('actions'),
+      ModalHelpers = require('components/modals/ModalHelpers'),
+      TagCreateModal = require('components/modals/tag/TagCreateModal.react'),
+      Utils = require('./Utils');
 
-      create: function(initialTagName){
+  return {
 
-        var modal = TagCreateModal({
-          initialTagName: initialTagName
+    create: function(initialTagName){
+
+      var modal = TagCreateModal({
+        initialTagName: initialTagName
+      });
+
+      ModalHelpers.renderModal(modal, function(name, description){
+
+        var tag = new Tag({
+          name: name,
+          description: description
         });
 
-        ModalHelpers.renderModal(modal, function(name, description){
-
-          var tag = new Tag({
-            name: name,
-            description: description
-          });
-
-          // Add the tag optimistically
-          Utils.dispatch(TagConstants.ADD_TAG, {tag: tag}, {silent: true});
-          tag.save().done(function () {
-            Utils.dispatch(TagConstants.UPDATE_TAG, {tag: tag}, {silent: true});
-          }.bind(this)).fail(function () {
-            Utils.dispatch(TagConstants.REMOVE_TAG, {tag: tag}, {silent: true});
-          }.bind(this));
-
+        // Add the tag optimistically
+        Utils.dispatch(TagConstants.ADD_TAG, {tag: tag}, {silent: true});
+        tag.save().done(function () {
+          Utils.dispatch(TagConstants.UPDATE_TAG, {tag: tag}, {silent: true});
+        }.bind(this)).fail(function () {
+          Utils.dispatch(TagConstants.REMOVE_TAG, {tag: tag}, {silent: true});
         }.bind(this));
-      },
 
-      create_AddToInstance: function(initialTagName, instance){
+      }.bind(this));
+    },
 
-        var modal = TagCreateModal({
-          initialTagName: initialTagName
+    create_AddToInstance: function(initialTagName, instance){
+
+      var modal = TagCreateModal({
+        initialTagName: initialTagName
+      });
+
+      ModalHelpers.renderModal(modal, function(name, description){
+
+        var tag = new Tag({
+          name: name,
+          description: description
         });
 
-        ModalHelpers.renderModal(modal, function(name, description){
-
-          var tag = new Tag({
-            name: name,
-            description: description
-          });
-
-          // Add the tag optimistically
-          Utils.dispatch(TagConstants.ADD_TAG, {tag: tag}, {silent: true});
-          tag.save().done(function () {
-            Utils.dispatch(TagConstants.UPDATE_TAG, {tag: tag}, {silent: true});
-            Utils.dispatch(TagConstants.REMOVE_PENDING_TAG_FROM_INSTANCE, {tag: tag, instance: instance});
-            InstanceActions.addTagToInstance(tag, instance);
-          }.bind(this)).fail(function () {
-            Utils.dispatch(TagConstants.REMOVE_TAG, {tag: tag}, {silent: true});
-            Utils.dispatch(TagConstants.REMOVE_PENDING_TAG_FROM_INSTANCE, {tag: tag, instance: instance});
-          }.bind(this));
-
-          Utils.dispatch(TagConstants.ADD_PENDING_TAG_TO_INSTANCE, {tag: tag, instance: instance});
-
+        // Add the tag optimistically
+        Utils.dispatch(TagConstants.ADD_TAG, {tag: tag}, {silent: true});
+        tag.save().done(function () {
+          Utils.dispatch(TagConstants.UPDATE_TAG, {tag: tag}, {silent: true});
+          Utils.dispatch(TagConstants.REMOVE_PENDING_TAG_FROM_INSTANCE, {tag: tag, instance: instance});
+          actions.InstanceActions.addTagToInstance(tag, instance);
+        }.bind(this)).fail(function () {
+          Utils.dispatch(TagConstants.REMOVE_TAG, {tag: tag}, {silent: true});
+          Utils.dispatch(TagConstants.REMOVE_PENDING_TAG_FROM_INSTANCE, {tag: tag, instance: instance});
         }.bind(this));
 
-      }
+        Utils.dispatch(TagConstants.ADD_PENDING_TAG_TO_INSTANCE, {tag: tag, instance: instance});
 
-    };
+      }.bind(this));
 
-  });
+    }
+
+  };
+
+});

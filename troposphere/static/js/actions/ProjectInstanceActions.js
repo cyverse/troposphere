@@ -7,8 +7,6 @@ define(function (require) {
       Utils = require('./Utils'),
       stores = require('stores');
 
-  var _isParanoid = false;
-
   return {
 
     // ----------------------------

@@ -7,13 +7,12 @@ define(
     'components/common/Time.react',
     'components/common/EditableInputField.react',
     './ResourceTags.react',
-    'actions/InstanceActions',
-    'actions/TagActions',
+    'actions',
     'stores',
     'crypto',
     'components/common/Gravatar.react'
   ],
-  function (React, Backbone, Time, EditableInputField, ResourceTags, InstanceActions, TagActions, stores, CryptoJS, Gravatar) {
+  function (React, Backbone, Time, EditableInputField, ResourceTags, actions, stores, CryptoJS, Gravatar) {
 
     return React.createClass({
       display: "InstanceInfoSection",
@@ -36,7 +35,7 @@ define(
       },
 
       onCreateNewTag: function(tagNameSuggestion){
-        TagActions.create_AddToInstance(tagNameSuggestion, this.props.instance);
+        actions.TagActions.create_AddToInstance(tagNameSuggestion, this.props.instance);
       },
 
       onDoneEditing: function(text){
@@ -44,12 +43,12 @@ define(
           name: text,
           isEditing: false
         });
-        InstanceActions.updateInstanceAttributes(this.props.instance, {name: text})
+        actions.InstanceActions.updateInstanceAttributes(this.props.instance, {name: text})
       },
 
       onTagsChanged: function(text){
         var tags = text || [];
-        InstanceActions.updateInstanceAttributes(this.props.instance, {tags: tags})
+        actions.InstanceActions.updateInstanceAttributes(this.props.instance, {tags: tags})
       },
 
       render: function () {

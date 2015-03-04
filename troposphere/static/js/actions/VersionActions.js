@@ -1,32 +1,30 @@
-define(
-  [
-    'react',
-    'dispatchers/AppDispatcher',
-    'components/modals/VersionInformationModal.react'
-  ],
-  function (React, AppDispatcher, VersionInformationModal) {
+define(function (require) {
 
-    return {
+  var React = require('react'),
+      AppDispatcher = require('dispatchers/AppDispatcher'),
+      VersionInformationModal = require('components/modals/VersionInformationModal.react');
 
-      showVersion: function (volume) {
+  return {
 
-        var onClose = function(){
-          // Important! We need to un-mount the component so it un-registers from Stores and
-          // also so that we can relaunch it again later.
-          React.unmountComponentAtNode(document.getElementById('modal'));
-        };
+    showVersion: function (volume) {
 
-        var headerMessage = "Atmosphere Version";
+      var onClose = function(){
+        // Important! We need to un-mount the component so it un-registers from Stores and
+        // also so that we can relaunch it again later.
+        React.unmountComponentAtNode(document.getElementById('modal'));
+      };
 
-        var modal = VersionInformationModal({
-          header: headerMessage,
-          onClose: onClose,
-          handleHidden: onClose
-        });
+      var headerMessage = "Atmosphere Version";
 
-        React.render(modal, document.getElementById('modal'));
-      }
+      var modal = VersionInformationModal({
+        header: headerMessage,
+        onClose: onClose,
+        handleHidden: onClose
+      });
 
-    };
+      React.render(modal, document.getElementById('modal'));
+    }
 
-  });
+  };
+
+});

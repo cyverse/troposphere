@@ -1,34 +1,27 @@
-define(
-  [
-    'react',
-    'dispatchers/AppDispatcher',
-    'constants/ProfileConstants',
-    'controllers/NotificationController',
-    './Utils'
-  ],
-  function (React, AppDispatcher, ProfileConstants, NotificationController, Utils) {
+define(function (require) {
 
-    return {
+  var AppDispatcher = require('dispatchers/AppDispatcher'),
+      ProfileConstants = require('constants/ProfileConstants'),
+      NotificationController = require('controllers/NotificationController'),
+      Utils = require('./Utils');
 
-      // ------------------------
-      // Standard CRUD Operations
-      // ------------------------
+  return {
 
-      updateProfileAttributes: function (profile, newAttributes) {
-        var that = this;
+    updateProfileAttributes: function (profile, newAttributes) {
+      var that = this;
 
-        profile.set(newAttributes);
+      profile.set(newAttributes);
+      Utils.dispatch(ProfileConstants.UPDATE_PROFILE, {profile: profile});
+
+      profile.save(newAttributes, {patch: true}).done(function () {
+        //NotificationController.success(null, "Settings updated.");
         Utils.dispatch(ProfileConstants.UPDATE_PROFILE, {profile: profile});
+      }).fail(function () {
+        NotificationController.error(null, "Error updating Settings");
+        Utils.dispatch(ProfileConstants.UPDATE_PROFILE, {profile: profile});
+      });
 
-        profile.save(newAttributes, {patch: true}).done(function () {
-          //NotificationController.success(null, "Settings updated.");
-          Utils.dispatch(ProfileConstants.UPDATE_PROFILE, {profile: profile});
-        }).fail(function () {
-          NotificationController.error(null, "Error updating Settings");
-          Utils.dispatch(ProfileConstants.UPDATE_PROFILE, {profile: profile});
-        });
-
-      }
     }
+  }
 
-  });
+});

@@ -6,12 +6,11 @@ define(
     'backbone',
     './header/HeaderView.react',
     './launch/ImageLaunchCard.react',
-    'actions/InstanceActions',
+    'actions',
     './ViewApplicationDetails.react',
-    './EditApplicationDetails.react',
-    'actions'
+    './EditApplicationDetails.react'
   ],
-  function (React, Backbone, HeaderView, ImageLaunchCard, InstanceActions, ViewApplicationDetails, EditApplicationDetails, actions) {
+  function (React, Backbone, HeaderView, ImageLaunchCard, actions, ViewApplicationDetails, EditApplicationDetails) {
 
     return React.createClass({
 
@@ -29,7 +28,7 @@ define(
       },
 
       showModal: function (e) {
-        InstanceActions.launch(this.props.application);
+        actions.InstanceActions.launch(this.props.application);
       },
 
       handleEditImageDetails: function(){
