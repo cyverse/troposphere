@@ -8,20 +8,17 @@ define(
     './sections/InstanceInfoSection.react',
     './sections/InstanceDetailsSection.react',
     './actions/InstanceActionsAndLinks.react',
-    'stores/InstanceStore',
-    'stores/ProviderStore',
-    'stores/SizeStore',
-    'stores/TagStore',
     'controllers/NotificationController',
-    'url'
+    'url',
+    'stores'
   ],
-  function (React, Backbone, BreadcrumbBar, InstanceInfoSection, InstanceDetailsSection, InstanceActionsAndLinks, InstanceStore, ProviderStore, SizeStore, TagStore, NotificationController, URL) {
+  function (React, Backbone, BreadcrumbBar, InstanceInfoSection, InstanceDetailsSection, InstanceActionsAndLinks, NotificationController, URL, stores) {
 
     function getState(project, instanceId) {
       return {
-        instance: InstanceStore.getInstanceInProject(project, instanceId),
-        providers: ProviderStore.getAll(),
-        tags: TagStore.getAll()
+        instance: stores.InstanceStore.get(instanceId),
+        providers: stores.ProviderStore.getAll(),
+        tags: stores.TagStore.getAll()
       };
     }
 
@@ -37,17 +34,17 @@ define(
       },
 
       componentDidMount: function () {
-        InstanceStore.addChangeListener(this.updateState);
-        ProviderStore.addChangeListener(this.updateState);
-        TagStore.addChangeListener(this.updateState);
-        SizeStore.addChangeListener(this.updateState);
+        stores.InstanceStore.addChangeListener(this.updateState);
+        stores.ProviderStore.addChangeListener(this.updateState);
+        stores.TagStore.addChangeListener(this.updateState);
+        stores.SizeStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
-        InstanceStore.removeChangeListener(this.updateState);
-        ProviderStore.removeChangeListener(this.updateState);
-        TagStore.removeChangeListener(this.updateState);
-        SizeStore.removeChangeListener(this.updateState);
+        stores.InstanceStore.removeChangeListener(this.updateState);
+        stores.ProviderStore.removeChangeListener(this.updateState);
+        stores.TagStore.removeChangeListener(this.updateState);
+        stores.SizeStore.removeChangeListener(this.updateState);
       },
 
       updateState: function(){
@@ -64,7 +61,7 @@ define(
 
           var identityId = this.state.instance.get('identity').id;
           var sizeId = this.state.instance.get('size_alias');
-          var sizes = SizeStore.getAllFor(providerId, identityId);
+          var sizes = stores.SizeStore.getAllFor(providerId, identityId);
           if(sizes) {
             var size = sizes.get(sizeId);
 

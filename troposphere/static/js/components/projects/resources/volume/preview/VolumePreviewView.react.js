@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 define(function (require) {
     'use strict';
 
@@ -8,10 +6,8 @@ define(function (require) {
     // ------------
     //
 
-    var React = require('react');
-
-    var VolumeStore   = require('stores/VolumeStore'),
-        ProviderStore = require('stores/ProviderStore');
+    var React = require('react'),
+        stores   = require('stores');
 
     var Id          = require('../details/sections/details/Id.react'),
         Status      = require('../details/sections/details/Status.react'),
@@ -25,8 +21,8 @@ define(function (require) {
 
     function getState(project, volumeId) {
       return {
-        volume: VolumeStore.getVolumeInProject(project, volumeId),
-        providers: ProviderStore.getAll()
+        volume: stores.VolumeStore.get(volumeId),
+        providers: stores.ProviderStore.getAll()
       };
     }
 
@@ -48,13 +44,13 @@ define(function (require) {
       },
 
       componentDidMount: function () {
-        VolumeStore.addChangeListener(this.updateState);
-        ProviderStore.addChangeListener(this.updateState);
+        stores.VolumeStore.addChangeListener(this.updateState);
+        stores.ProviderStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
-        VolumeStore.removeChangeListener(this.updateState);
-        ProviderStore.removeChangeListener(this.updateState);
+        stores.VolumeStore.removeChangeListener(this.updateState);
+        stores.ProviderStore.removeChangeListener(this.updateState);
       },
 
       updateState: function(){

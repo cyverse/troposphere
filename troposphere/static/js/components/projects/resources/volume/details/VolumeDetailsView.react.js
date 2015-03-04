@@ -8,20 +8,18 @@ define(
     './sections/VolumeInfoSection.react',
     'components/projects/common/BreadcrumbBar.react',
     './actions/VolumeActionsAndLinks.react',
-    'stores/ProviderStore',
-    'stores/InstanceStore',
-    'stores/VolumeStore',
     'controllers/NotificationController',
-    'url'
+    'url',
+    'stores'
   ],
-  function (React, Backbone, VolumeDetailsSection, VolumeInfoSection, BreadcrumbBar, VolumeActionsAndLinks, ProviderStore, InstanceStore, VolumeStore, NotificationController, URL) {
+  function (React, Backbone, VolumeDetailsSection, VolumeInfoSection, BreadcrumbBar, VolumeActionsAndLinks, NotificationController, URL, stores) {
 
     function getState(project, volumeId) {
       return {
-        volume: VolumeStore.getVolumeInProject(project, volumeId),
-        volumes: VolumeStore.getVolumesInProject(project),
-        providers: ProviderStore.getAll(),
-        instances: InstanceStore.getInstancesInProject(project)
+        volume: stores.VolumeStore.get(volumeId),
+        volumes: stores.ProjectVolumeStore.getVolumesFor(project),
+        providers: stores.ProviderStore.getAll(),
+        instances: stores.ProjectInstanceStore.getInstancesFor(project)
       };
     }
 
@@ -55,13 +53,13 @@ define(
       },
 
       componentDidMount: function () {
-        ProviderStore.addChangeListener(this.updateState);
-        VolumeStore.addChangeListener(this.updateState);
+        stores.ProviderStore.addChangeListener(this.updateState);
+        stores.VolumeStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
-        ProviderStore.removeChangeListener(this.updateState);
-        VolumeStore.removeChangeListener(this.updateState);
+        stores.ProviderStore.removeChangeListener(this.updateState);
+        stores.VolumeStore.removeChangeListener(this.updateState);
       },
 
       updateState: function(){

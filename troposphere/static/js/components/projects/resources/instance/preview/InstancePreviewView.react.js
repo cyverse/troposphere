@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 define(function (require) {
     'use strict';
 
@@ -8,11 +6,8 @@ define(function (require) {
     // ------------
     //
 
-    var React = require('react');
-
-    var InstanceStore = require('stores/InstanceStore'),
-        ProviderStore = require('stores/ProviderStore'),
-        SizeStore     = require('stores/SizeStore');
+    var React = require('react'),
+        stores = require('stores');
 
     var Id          = require('../details/sections/details/Id.react'),
         Status      = require('../details/sections/details/Status.react'),
@@ -29,8 +24,8 @@ define(function (require) {
 
     function getState(project, instanceId) {
       return {
-        instance: InstanceStore.getInstanceInProject(project, instanceId),
-        providers: ProviderStore.getAll()
+        instance: stores.InstanceStore.get(instanceId),
+        providers: stores.ProviderStore.getAll()
       };
     }
 
@@ -51,15 +46,15 @@ define(function (require) {
       },
 
       componentDidMount: function () {
-        InstanceStore.addChangeListener(this.updateState);
-        ProviderStore.addChangeListener(this.updateState);
-        SizeStore.addChangeListener(this.updateState);
+        stores.InstanceStore.addChangeListener(this.updateState);
+        stores.ProviderStore.addChangeListener(this.updateState);
+        stores.SizeStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
-        InstanceStore.removeChangeListener(this.updateState);
-        ProviderStore.removeChangeListener(this.updateState);
-        SizeStore.removeChangeListener(this.updateState);
+        stores.InstanceStore.removeChangeListener(this.updateState);
+        stores.ProviderStore.removeChangeListener(this.updateState);
+        stores.SizeStore.removeChangeListener(this.updateState);
       },
 
       updateState: function(){

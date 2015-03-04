@@ -192,10 +192,7 @@ define(
         if(isAttached){
           modal = ExplainVolumeDeleteConditionsModal({
             volume: volume,
-            instance: stores.InstanceStore.getInstanceInProject(
-              payload.project,
-              volume.get('attach_data').instance_id
-            )
+            instance: stores.InstanceStore.get(volume.get('attach_data').instance_id)
           });
         }else{
           modal = VolumeDeleteModal({
