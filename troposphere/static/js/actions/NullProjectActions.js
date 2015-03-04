@@ -10,6 +10,7 @@ define(function (require) {
   var stores                 = require('stores');
   var URL                    = require('url');
   var NotificationController = require('controllers/NotificationController');
+  var Router                 = require('../Router');
 
   // Constants
   var NullProjectInstanceConstants = require('constants/NullProjectInstanceConstants');
@@ -80,8 +81,7 @@ define(function (require) {
         this._migrateResourceIntoProject(resource, project);
       }.bind(this));
 
-      var redirectUrl = URL.projectResources({project: project}, {relative: true});
-      Backbone.history.navigate(redirectUrl, {trigger: true});
+      Router.getInstance().transitionTo("project-resources", {projectId: project.id});
     },
 
     // synchronize project resource state
