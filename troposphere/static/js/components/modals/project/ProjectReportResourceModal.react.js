@@ -80,7 +80,7 @@ define(
       renderBody: function(){
         var project = this.props.project;
         return (
-          <form role='form'>
+          <div role='form'>
 
             <div className='form-group'>
               <p>
@@ -103,7 +103,7 @@ define(
               />
             </div>
 
-          </form>
+          </div>
         );
       },
 

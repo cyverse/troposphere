@@ -30,7 +30,7 @@ define(
 
       renderBody: function(){
         return (
-          <form role='form'>
+          <div role='form'>
             <div className='form-group'>
               <p>
                 <strong>Uh oh! </strong>
@@ -50,7 +50,7 @@ define(
                 }
               </p>
             </div>
-          </form>
+          </div>
         );
       },
 

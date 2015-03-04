@@ -42,7 +42,7 @@ define(
 
       renderBody: function(){
         return (
-          <form role='form'>
+          <div role='form'>
             <div className='form-group'>
               <p>
                 {
@@ -59,7 +59,7 @@ define(
               </ul>
               <p>{"Once you detach the above volumes you will be able to delete this instance."}</p>
             </div>
-          </form>
+          </div>
         );
       },
 

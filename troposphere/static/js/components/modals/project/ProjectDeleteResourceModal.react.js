@@ -81,7 +81,7 @@ define(
 
       renderBody: function(){
         return (
-          <form role='form'>
+          <div role='form'>
 
             <div className='form-group'>
 
@@ -100,7 +100,7 @@ define(
               <p>{"Would you still like to delete these resources?"}</p>
             </div>
 
-          </form>
+          </div>
         );
       },
 

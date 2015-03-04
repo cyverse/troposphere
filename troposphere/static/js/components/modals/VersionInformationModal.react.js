@@ -106,7 +106,7 @@ define(
           var serverLastUpdated = moment(server.get('commit_date')).format("MMM Do YYYY");
 
           content = (
-            <form role='form'>
+            <div role='form'>
 
               <div className='form-group'>
                 <div>
@@ -121,7 +121,7 @@ define(
                 </div>
               </div>
 
-            </form>
+            </div>
           );
         }else{
           content = (

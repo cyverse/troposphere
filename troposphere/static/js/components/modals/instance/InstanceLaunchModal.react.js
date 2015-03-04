@@ -367,7 +367,7 @@ define(
           var sizes = this.state.sizes;
 
           return (
-            <form role='form'>
+            <div role='form'>
 
               {this.renderAllocationWarning(identity)}
 
@@ -429,7 +429,7 @@ define(
                 {this.renderMemoryConsumption(identity, size, sizes, instances)}
               </div>
 
-            </form>
+            </div>
           );
         }
 

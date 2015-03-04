@@ -107,7 +107,7 @@ define(
         if(this.state.projects){
           if(this.state.projects.models.length > 0){
             return (
-              <form role='form'>
+              <div role='form'>
 
                 <div className='form-group'>
                   <label htmlFor='volumeSize'>Resources to Move</label>
@@ -126,18 +126,18 @@ define(
                   />
                 </div>
 
-              </form>
+              </div>
             );
           }else{
             return (
-              <form role='form'>
+              <div role='form'>
 
                 <div className='form-group'>
                   <p>Looks like you only have one project.</p>
                   <p>In order to move resources between projects, you will first need to create a second project.</p>
                 </div>
 
-              </form>
+              </div>
             );
           }
         }

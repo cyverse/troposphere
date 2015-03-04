@@ -233,7 +233,7 @@ define(
           var size = this.state.volumeSize;
 
           return (
-            <form role='form'>
+            <div role='form'>
 
               <div className="modal-section form-horizontal">
                 <h4>Volume Details</h4>
@@ -271,7 +271,7 @@ define(
                 {this.renderStorageCountConsumption(identity, size, volumes)}
               </div>
 
-            </form>
+            </div>
           );
         }else{
           return (
