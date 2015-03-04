@@ -110,6 +110,16 @@ define(function (require) {
         });
 
         return new Collection(instances);
+      },
+
+      getInstancesNotInAProject: function (provider) {
+        if(!_models) return fetchModels();
+
+        var instances = _models.filter(function(instance){
+          return instance.get('projects').length === 0
+        });
+
+        return new Collection(instances);
       }
 
     };

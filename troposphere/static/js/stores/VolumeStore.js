@@ -4,11 +4,8 @@ define(function (require) {
   var _ = require('underscore'),
       Dispatcher = require('dispatchers/Dispatcher'),
       Store = require('stores/Store'),
-      VolumeCollection = require('collections/VolumeCollection'),
-      Volume = require('models/Volume'),
-      VolumeConstants = require('constants/VolumeConstants'),
-      NotificationController = require('controllers/NotificationController'),
-      ProjectVolumeConstants = require('constants/ProjectVolumeConstants');
+      Collection = require('collections/VolumeCollection'),
+      Constants = require('constants/VolumeConstants');
 
   //
   // Private variables
@@ -27,7 +24,7 @@ define(function (require) {
   var fetchModels = function () {
     if(!_models && !_isFetching) {
       _isFetching = true;
-      var models = new VolumeCollection();
+      var models = new Collection();
       models.fetch({
         url: models.url + "?page_size=100"
       }).done(function () {
@@ -124,7 +121,7 @@ define(function (require) {
         return volume.get('provider').id === provider.id;
       });
 
-      return new VolumeCollection(volumes);
+      return new Collection(volumes);
     },
 
     getVolumesAttachedToInstance: function (instance) {
@@ -138,6 +135,16 @@ define(function (require) {
         }
       });
       return attachedVolumes;
+    },
+
+    getVolumesNotInAProject: function () {
+      if(!_models) return fetchModels();
+
+      var volumes = _models.filter(function(volume){
+        return volume.get('projects').length === 0
+      });
+
+      return new Collection(volumes);
     }
 
   };
@@ -149,23 +156,23 @@ define(function (require) {
 
     switch (actionType) {
 
-      case VolumeConstants.ADD_VOLUME:
+      case Constants.ADD_VOLUME:
         add(payload.volume);
         break;
 
-      case VolumeConstants.UPDATE_VOLUME:
+      case Constants.UPDATE_VOLUME:
         update(payload.volume);
         break;
 
-      case VolumeConstants.REMOVE_VOLUME:
+      case Constants.REMOVE_VOLUME:
         remove(payload.volume);
         break;
 
-      case VolumeConstants.POLL_VOLUME:
+      case Constants.POLL_VOLUME:
         pollNowUntilBuildIsFinished(payload.volume);
         break;
 
-      case VolumeConstants.POLL_VOLUME_WITH_DELAY:
+      case Constants.POLL_VOLUME_WITH_DELAY:
         pollUntilBuildIsFinished(payload.volume);
         break;
 
