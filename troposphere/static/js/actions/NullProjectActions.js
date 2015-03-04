@@ -143,6 +143,7 @@ define(function (require) {
       }
     },
 
+    // todo: remove this function or discover why it exists
     _volumeAllowedToBeMigratedByUser: function(volume, nullProject){
       // If has no attach data, return true
       var attached_instance_id = volume.get('attach_data').instance_id;
@@ -158,19 +159,24 @@ define(function (require) {
     },
 
     migrateResourcesIntoProject: function (nullProject) {
-      var that = this;
-      var instances = stores.InstanceStore.getInstancesInProject(nullProject);
-      var volumes = stores.VolumeStore.getVolumesInProject(nullProject);
+      var instances = nullProject.get('instances'),
+          volumes = nullProject.get('volumes'),
+          resources = new Backbone.Collection(),
+          that = this;
 
-      var resources = new Backbone.Collection();
       instances.each(function(instance){
         resources.push(instance);
       });
+
+      //volumes.each(function(volume){
+      //  if(this._volumeAllowedToBeMigratedByUser(volume, nullProject)) {
+      //    resources.push(volume);
+      //  }
+      //}.bind(this));
+
       volumes.each(function(volume){
-        if(this._volumeAllowedToBeMigratedByUser(volume, nullProject)) {
-          resources.push(volume);
-        }
-      }.bind(this));
+        resources.push(volume);
+      });
 
       if(resources.length > 0){
 

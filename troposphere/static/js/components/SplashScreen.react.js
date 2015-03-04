@@ -16,15 +16,19 @@ define(function (require) {
 
     getInitialState: function() {
       return {
-        profile: stores.ProfileStore.get()
+        profile: stores.ProfileStore.get(),
+        instances: stores.InstanceStore.getAll(),
+        volumes: stores.VolumeStore.getAll()
       };
     },
 
     updateState: function() {
       var profile = stores.ProfileStore.get(),
+          instances = stores.InstanceStore.getAll(),
+          volumes = stores.VolumeStore.getAll(),
           isEmulatedUser;
 
-      if(profile){
+      if(profile && instances && volumes){
 
         // set user context
         context.profile = profile;
@@ -56,10 +60,14 @@ define(function (require) {
 
     componentDidMount: function () {
       stores.ProfileStore.addChangeListener(this.updateState);
+      stores.InstanceStore.addChangeListener(this.updateState);
+      stores.VolumeStore.addChangeListener(this.updateState);
     },
 
     componentWillUnmount: function () {
       stores.ProfileStore.removeChangeListener(this.updateState);
+      stores.InstanceStore.removeChangeListener(this.updateState);
+      stores.VolumeStore.removeChangeListener(this.updateState);
     },
 
     startApplication: function(){

@@ -1,29 +1,26 @@
-define(
-  [
-    'underscore',
-    'backbone',
-    'globals'
-  ],
-  function (_, Backbone, globals) {
+define(function (require) {
 
-    return Backbone.Model.extend({
+  var Backbone = require('backbone');
 
-      urlRoot: globals.API_ROOT + "/project/null",
+  return Backbone.Model.extend({
 
-      url: function () {
-        var url = Backbone.Model.prototype.url.apply(this) + globals.slash();
-        return url;
-      },
+    initialize: function(attrs){
+      this.set('instances', attrs.instances || []);
+      this.set('volumes', attrs.volumes || []);
+    },
 
-      isEmpty: function () {
-        var instances = this.get('instances');
-        var volumes = this.get('volumes');
-        var hasNoInstances = instances.length === 0;
-        var hasNoVolumes = volumes.length === 0;
+    isEmpty: function () {
+      var instances = this.get('instances').filter(function(instance){
+        return instance.get('projects').length === 0;
+      });
 
-        return hasNoInstances && hasNoVolumes;
-      }
+      var volumes = this.get('volumes').filter(function(volume){
+        return volume.get('projects').length === 0;
+      });
 
-    });
+      return instances.length === 0 && volumes.length === 0;
+    }
 
   });
+
+});

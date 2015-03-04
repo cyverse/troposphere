@@ -7,7 +7,8 @@ define(function (require) {
       context = require('context'),
       Header = require('./Header.react'),
       Footer = require('./Footer.react'),
-      actions = require('actions');
+      actions = require('actions'),
+      NullProject = require('models/NullProject');
 
   // Routing
   var Router = require('react-router'),
@@ -34,6 +35,19 @@ define(function (require) {
       Object.keys(stores).forEach(function(storeName){
         stores[storeName].addChangeListener(this.updateState);
       }.bind(this));
+
+      // IMPORTANT! We get one shot at this. If the instances and volumes aren't
+      // fetched before this component is mounted we miss our opportunity to migrate
+      // the users resources (so make sure they're fetched in the Splash Screen)
+      var instances = stores.InstanceStore.getAll(),
+          volumes = stores.VolumeStore.getAll(),
+          nullProject = new NullProject({instances: instances, volumes: volumes});
+
+      if(!nullProject.isEmpty()){
+        actions.NullProjectActions.migrateResourcesIntoProject(nullProject);
+      }else{
+        actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
+      }
     },
 
     componentWillUnmount: function () {
@@ -42,19 +56,6 @@ define(function (require) {
         stores[storeName].removeChangeListener(this.updateState);
       }.bind(this));
     },
-
-    //componentDidMount: function () {
-    //  // todo: kick out for now as v2 has a different flow - refactor this later
-    //  return;
-    //
-    //  if(context.nullProject){
-    //    if(!context.nullProject.isEmpty()){
-    //      actions.NullProjectActions.migrateResourcesIntoProject(context.nullProject);
-    //    }else{
-    //      actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
-    //    }
-    //  }
-    //},
 
     // --------------
     // Render Helpers
