@@ -1,35 +1,34 @@
-define(
-  [
-    'backbone',
-    'underscore',
-    'models/Size',
-    'globals'
-  ],
-  function (Backbone, _, Size, globals) {
+define(function (require) {
+  "use strict";
 
-    return Backbone.Collection.extend({
-      model: Size,
+  var Backbone = require('backbone'),
+      _ = require('underscore'),
+      Size = require('models/Size'),
+      globals = require('globals');
 
-      url: globals.API_V2_ROOT + "/sizes",
+  return Backbone.Collection.extend({
+    model: Size,
 
-      parse: function (response) {
-        this.meta = {
-          count: response.count,
-          next: response.next,
-          previous: response.previous
-        };
+    url: globals.API_V2_ROOT + "/sizes",
 
-        return response.results;
-      },
+    parse: function (response) {
+      this.meta = {
+        count: response.count,
+        next: response.next,
+        previous: response.previous
+      };
 
-      comparator: function (sizeA, sizeB) {
-        var aliasA = sizeA.get('alias').toLowerCase();
-        var aliasB = sizeB.get('alias').toLowerCase();
+      return response.results;
+    },
 
-        if(aliasA === aliasB) return 0;
-        return aliasA < aliasB ? -1 : 1;
-      }
+    comparator: function (sizeA, sizeB) {
+      var aliasA = sizeA.get('alias').toLowerCase();
+      var aliasB = sizeB.get('alias').toLowerCase();
 
-    });
+      if(aliasA === aliasB) return 0;
+      return aliasA < aliasB ? -1 : 1;
+    }
 
   });
+
+});

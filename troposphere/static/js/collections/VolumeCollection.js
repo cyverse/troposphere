@@ -1,27 +1,26 @@
-define(
-  [
-    'backbone',
-    'underscore',
-    'globals',
-    'models/Volume'
-  ],
-  function (Backbone, _, globals, Volume) {
+define(function (require) {
+  "use strict";
 
-    return Backbone.Collection.extend({
-      model: Volume,
+  var Backbone = require('backbone'),
+      _ = require('underscore'),
+      Volume = require('models/Volume'),
+      globals = require('globals');
 
-      url: globals.API_V2_ROOT + '/volumes',
+  return Backbone.Collection.extend({
+    model: Volume,
 
-      parse: function (response) {
-        this.meta = {
-          count: response.count,
-          next: response.next,
-          previous: response.previous
-        };
+    url: globals.API_V2_ROOT + '/volumes',
 
-        return response.results;
-      }
+    parse: function (response) {
+      this.meta = {
+        count: response.count,
+        next: response.next,
+        previous: response.previous
+      };
 
-    });
+      return response.results;
+    }
 
   });
+
+});

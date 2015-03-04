@@ -1,30 +1,29 @@
-define(
-  [
-    'backbone',
-    'models/Tag',
-    'globals'
-  ],
-  function (Backbone, Tag, globals) {
+define(function (require) {
+  "use strict";
 
-    return Backbone.Collection.extend({
-      model: Tag,
+  var Backbone = require('backbone'),
+      Tag = require('models/Tag'),
+      globals = require('globals');
 
-      url: globals.API_V2_ROOT + "/tags",
+  return Backbone.Collection.extend({
+    model: Tag,
 
-      comparator: function (model) {
-        return model.get('name').toLowerCase();
-      },
+    url: globals.API_V2_ROOT + "/tags",
 
-      parse: function (response) {
-        this.meta = {
-          count: response.count,
-          next: response.next,
-          previous: response.previous
-        };
+    comparator: function (model) {
+      return model.get('name').toLowerCase();
+    },
 
-        return response.results;
-      }
+    parse: function (response) {
+      this.meta = {
+        count: response.count,
+        next: response.next,
+        previous: response.previous
+      };
 
-    });
+      return response.results;
+    }
 
   });
+
+});

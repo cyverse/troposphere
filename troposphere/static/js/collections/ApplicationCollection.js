@@ -1,30 +1,29 @@
-define(
-  [
-    'backbone',
-    'models/Application',
-    'globals'
-  ],
-  function (Backbone, Application, globals) {
+define(function (require) {
+  "use strict";
 
-    return Backbone.Collection.extend({
-      model: Application,
+  var Backbone = require('backbone'),
+      Application = require('models/Application'),
+      globals = require('globals');
 
-      url: globals.API_V2_ROOT + "/images",
+  return Backbone.Collection.extend({
+    model: Application,
 
-      parse: function (response) {
-        this.meta = {
-          count: response.count,
-          next: response.next,
-          previous: response.previous
-        };
+    url: globals.API_V2_ROOT + "/images",
 
-        return response.results;
-      },
+    parse: function (response) {
+      this.meta = {
+        count: response.count,
+        next: response.next,
+        previous: response.previous
+      };
 
-      comparator: function (a, b) {
-        return b.get('start_date').diff(a.get('start_date'), "seconds");
-      }
+      return response.results;
+    },
 
-    });
+    comparator: function (a, b) {
+      return b.get('start_date').diff(a.get('start_date'), "seconds");
+    }
 
   });
+
+});

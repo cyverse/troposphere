@@ -1,26 +1,25 @@
-define(
-  [
-    'backbone',
-    'models/Provider',
-    'globals'
-  ],
-  function (Backbone, Provider, globals) {
+define(function (require) {
+  "use strict";
 
-    return Backbone.Collection.extend({
-      model: Provider,
+  var Backbone = require('backbone'),
+      Provider = require('models/Provider'),
+      globals = require('globals');
 
-      url: globals.API_V2_ROOT + "/providers",
+  return Backbone.Collection.extend({
+    model: Provider,
 
-      parse: function (response) {
-        this.meta = {
-          count: response.count,
-          next: response.next,
-          previous: response.previous
-        };
+    url: globals.API_V2_ROOT + "/providers",
 
-        return response.results;
-      }
+    parse: function (response) {
+      this.meta = {
+        count: response.count,
+        next: response.next,
+        previous: response.previous
+      };
 
-    });
+      return response.results;
+    }
 
   });
+
+});

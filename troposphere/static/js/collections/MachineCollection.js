@@ -1,27 +1,26 @@
-define(
-  [
-    'backbone',
-    'underscore',
-    'globals',
-    'models/Machine'
-  ],
-  function (Backbone, _, globals, Machine) {
+define(function (require) {
+  "use strict";
 
-    return Backbone.Collection.extend({
-      model: Machine,
+  var Backbone = require('backbone'),
+      _ = require('underscore'),
+      globals = require('globals'),
+      Machine = require('models/Machine');
 
-      url: globals.API_V2_ROOT + '/provider_machines',
+  return Backbone.Collection.extend({
+    model: Machine,
 
-      parse: function (response) {
-        this.meta = {
-          count: response.count,
-          next: response.next,
-          previous: response.previous
-        };
+    url: globals.API_V2_ROOT + '/provider_machines',
 
-        return response.results;
-      }
+    parse: function (response) {
+      this.meta = {
+        count: response.count,
+        next: response.next,
+        previous: response.previous
+      };
 
-    });
+      return response.results;
+    }
 
   });
+
+});
