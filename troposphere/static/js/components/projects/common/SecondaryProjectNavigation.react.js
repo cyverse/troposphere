@@ -17,8 +17,8 @@ define(function(require){
       e.preventDefault();
 
       var project = this.props.project,
-          projectInstances = stores.InstanceStore.getInstancesInProject(project),
-          projectVolumes = stores.VolumeStore.getVolumesInProject(project);
+          projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
+          projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project);
 
       if(projectInstances.length > 0 || projectVolumes.length > 0){
         actions.ProjectActions.explainProjectDeleteConditions();
