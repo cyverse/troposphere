@@ -6,20 +6,12 @@ define(
     'models/Tag',
     'actions/InstanceActions',
     'components/modals/ModalHelpers',
-    'components/modals/tag/TagCreateModal.react'
+    'components/modals/tag/TagCreateModal.react',
+    './Utils'
   ],
-  function (React, AppDispatcher, TagConstants, Tag, InstanceActions, ModalHelpers, TagCreateModal) {
+  function (React, AppDispatcher, TagConstants, Tag, InstanceActions, ModalHelpers, TagCreateModal, Utils) {
 
     return {
-
-      dispatch: function(actionType, payload, options){
-        options = options || {};
-        AppDispatcher.handleRouteAction({
-          actionType: actionType,
-          payload: payload,
-          options: options
-        });
-      },
 
       create: function(initialTagName){
 
@@ -35,11 +27,11 @@ define(
           });
 
           // Add the tag optimistically
-          this.dispatch(TagConstants.ADD_TAG, {tag: tag}, {silent: true});
+          Utils.dispatch(TagConstants.ADD_TAG, {tag: tag}, {silent: true});
           tag.save().done(function () {
-            this.dispatch(TagConstants.UPDATE_TAG, {tag: tag}, {silent: true});
+            Utils.dispatch(TagConstants.UPDATE_TAG, {tag: tag}, {silent: true});
           }.bind(this)).fail(function () {
-            this.dispatch(TagConstants.REMOVE_TAG, {tag: tag}, {silent: true});
+            Utils.dispatch(TagConstants.REMOVE_TAG, {tag: tag}, {silent: true});
           }.bind(this));
 
         }.bind(this));
@@ -59,17 +51,17 @@ define(
           });
 
           // Add the tag optimistically
-          this.dispatch(TagConstants.ADD_TAG, {tag: tag}, {silent: true});
+          Utils.dispatch(TagConstants.ADD_TAG, {tag: tag}, {silent: true});
           tag.save().done(function () {
-            this.dispatch(TagConstants.UPDATE_TAG, {tag: tag}, {silent: true});
-            this.dispatch(TagConstants.REMOVE_PENDING_TAG_FROM_INSTANCE, {tag: tag, instance: instance});
+            Utils.dispatch(TagConstants.UPDATE_TAG, {tag: tag}, {silent: true});
+            Utils.dispatch(TagConstants.REMOVE_PENDING_TAG_FROM_INSTANCE, {tag: tag, instance: instance});
             InstanceActions.addTagToInstance(tag, instance);
           }.bind(this)).fail(function () {
-            this.dispatch(TagConstants.REMOVE_TAG, {tag: tag}, {silent: true});
-            this.dispatch(TagConstants.REMOVE_PENDING_TAG_FROM_INSTANCE, {tag: tag, instance: instance});
+            Utils.dispatch(TagConstants.REMOVE_TAG, {tag: tag}, {silent: true});
+            Utils.dispatch(TagConstants.REMOVE_PENDING_TAG_FROM_INSTANCE, {tag: tag, instance: instance});
           }.bind(this));
 
-          this.dispatch(TagConstants.ADD_PENDING_TAG_TO_INSTANCE, {tag: tag, instance: instance});
+          Utils.dispatch(TagConstants.ADD_PENDING_TAG_TO_INSTANCE, {tag: tag, instance: instance});
 
         }.bind(this));
 

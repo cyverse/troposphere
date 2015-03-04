@@ -27,20 +27,12 @@ define(
     'components/modals/instance/ExplainInstanceDeleteConditionsModal.react',
     'components/modals/project/ProjectInstanceLaunchModal.react',
     'components/modals/instance/InstanceReportModal.react',
-    'components/modals/instance/InstanceImageModal.react'
+    'components/modals/instance/InstanceImageModal.react',
+    './Utils'
   ],
-  function (React, AppDispatcher, InstanceConstants, ProjectInstanceConstants, ProjectConstants, Instance, InstanceState, Project, globals, context, URL, NotificationController, ProjectInstanceActions, stores, ModalHelpers, InstanceSuspendModal, InstanceDeleteModal, InstanceResumeModal, InstanceStopModal, InstanceStartModal, InstanceRebootModal, InstanceLaunchModal, ExplainInstanceDeleteConditionsModal, ProjectInstanceLaunchModal, InstanceReportModal, InstanceImageModal) {
+  function (React, AppDispatcher, InstanceConstants, ProjectInstanceConstants, ProjectConstants, Instance, InstanceState, Project, globals, context, URL, NotificationController, ProjectInstanceActions, stores, ModalHelpers, InstanceSuspendModal, InstanceDeleteModal, InstanceResumeModal, InstanceStopModal, InstanceStartModal, InstanceRebootModal, InstanceLaunchModal, ExplainInstanceDeleteConditionsModal, ProjectInstanceLaunchModal, InstanceReportModal, InstanceImageModal, Utils) {
 
     return {
-
-      dispatch: function(actionType, payload, options){
-        options = options || {};
-        AppDispatcher.handleRouteAction({
-          actionType: actionType,
-          payload: payload,
-          options: options
-        });
-      },
 
       // ------------------------
       // Standard CRUD Operations
@@ -50,7 +42,7 @@ define(
         var that = this;
 
         instance.set(newAttributes);
-        that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+        Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
 
         instance.save({
           name: instance.get('name'),
@@ -59,11 +51,11 @@ define(
           patch: true
         }).done(function () {
           //NotificationController.success(null, "Instance name and tags updated");
-          that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+          Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
         }).fail(function () {
           var message = "Error updating Instance " + instance.get('name') + ".";
           NotificationController.error(message);
-          that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+          Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
         });
       },
 
@@ -73,17 +65,17 @@ define(
         instanceTags.push(tag.get('name'));
 
         instance.set({tags: instanceTags});
-        that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+        Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
 
         instance.save({
           tags: instanceTags
         }, {
           patch: true
         }).done(function () {
-          that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+          Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
         }).fail(function () {
           NotificationController.error(null, "Error adding tag to Instance");
-          that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+          Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
         });
       },
 
@@ -95,17 +87,17 @@ define(
         var instanceState = new InstanceState({status_raw: "deleting"});
         var originalState = instance.get('state');
         instance.set({state: instanceState});
-        that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+        Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
 
         instance.destroy().done(function () {
           //NotificationController.success(null, 'Instance terminated');
-          that.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
+          Utils.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
           ProjectInstanceActions.removeInstanceFromProject(instance, project);
 
         }).fail(function (response) {
           instance.set({state: originalState});
-          that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
-          that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+          Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+          Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
 
           if(response && response.responseJSON && response.responseJSON.errors){
               var errors = response.responseJSON.errors;
@@ -162,7 +154,7 @@ define(
           var instanceState = new InstanceState({status_raw: "active - suspending"});
           var originalState = instance.get('state');
           instance.set({state: instanceState});
-          that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+          Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
 
           instance.suspend({
            success: function (model) {
@@ -171,13 +163,13 @@ define(
              var instanceState = new InstanceState({status_raw: "active - suspending"});
              instance.set({state: instanceState});
 
-             that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
-             that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+             Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+             Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
            },
            error: function (response) {
              instance.set({state: originalState});
-             that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
-             that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+             Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+             Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
              if(response && response.responseJSON && response.responseJSON.errors){
                 var errors = response.responseJSON.errors;
                 var error = errors[0];
@@ -200,7 +192,7 @@ define(
           var originalState = instance.get('state');
 
           instance.set({state: instanceState});
-          that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+          Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
 
           instance.resume({
            success: function (model) {
@@ -209,13 +201,13 @@ define(
              var instanceState = new InstanceState({status_raw: "suspended - resuming"});
              instance.set({state: instanceState});
 
-             that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
-             that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+             Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+             Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
            },
            error: function (response) {
             instance.set({state: originalState});
-             that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
-             that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+             Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+             Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
 
              if(response && response.responseJSON && response.responseJSON.errors){
                 var errors = response.responseJSON.errors;
@@ -240,7 +232,7 @@ define(
           var instanceState = new InstanceState({status_raw: "active - powering-off"});
           var originalState = instance.get('state');
           instance.set({state: instanceState});
-          that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+          Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
 
           instance.stop({
            success: function (model) {
@@ -249,13 +241,13 @@ define(
              var instanceState = new InstanceState({status_raw: "active - powering-off"});
              instance.set({state: instanceState});
 
-             that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
-             that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+             Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+             Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
            },
            error: function (response) {
              instance.set({state: originalState});
-             that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
-             that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+             Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+             Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
 
              if(response && response.responseJSON && response.responseJSON.errors){
                 var errors = response.responseJSON.errors;
@@ -278,20 +270,20 @@ define(
           var instanceState = new InstanceState({status_raw: "shutoff - powering-on"});
           var originalState = instance.get('state');
           instance.set({state: instanceState});
-          that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+          Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
 
           instance.start({
            success: function (model) {
              var instanceState = new InstanceState({status_raw: "shutoff - powering-on"});
              instance.set({state: instanceState});
 
-             that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
-             that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+             Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+             Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
            },
            error: function (response) {
              instance.set({state: originalState});
-             that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
-             that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+             Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+             Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
              if(response && response.responseJSON && response.responseJSON.errors){
                 var errors = response.responseJSON.errors;
                 var error = errors[0];
@@ -317,20 +309,20 @@ define(
           var instanceState = new InstanceState({status_raw: "active - rebooting"});
           var originalState = instance.get('state');
           instance.set({state: instanceState});
-          that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+          Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
 
           instance.reboot({
            success: function (model) {
              var instanceState = new InstanceState({status_raw: "active - rebooting"});
              instance.set({state: instanceState});
 
-             that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
-             that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+             Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+             Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
            },
            error: function (response) {
              instance.set({state: originalState});
-             that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
-             that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+             Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+             Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
 
              if(response && response.responseJSON && response.responseJSON.errors){
                 var errors = response.responseJSON.errors;
@@ -361,11 +353,11 @@ define(
               volumes:[]
             });
 
-            that.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
+            Utils.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
 
             project.save().done(function(){
               //NotificationController.success(null, "Project " + project.get('name') + " created.");
-              that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
+              Utils.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
               that._createAndAddToProjectNoModal(identity, machineId, sizeId, instanceName, project);
 
               // Since this is triggered from the images page, navigate off
@@ -374,7 +366,7 @@ define(
               var redirectUrl = URL.projectResources({project: project}, {relative: true});
               Backbone.history.navigate(redirectUrl, {trigger: true});
             }).fail(function(response){
-              that.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
+              Utils.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
               var title = "Project " + project.get('name') + " could not be created";
               if(response && response.responseJSON && response.responseJSON.errors){
                   var errors = response.responseJSON.errors;
@@ -402,8 +394,8 @@ define(
               name: instanceName
             };
 
-            that.dispatch(InstanceConstants.ADD_INSTANCE, {instance: instance});
-            that.dispatch(ProjectInstanceConstants.ADD_PENDING_INSTANCE_TO_PROJECT, {
+            Utils.dispatch(InstanceConstants.ADD_INSTANCE, {instance: instance});
+            Utils.dispatch(ProjectInstanceConstants.ADD_PENDING_INSTANCE_TO_PROJECT, {
               instance: instance,
               project: project
             });
@@ -412,17 +404,17 @@ define(
               data: JSON.stringify(params),
               success: function (model) {
                 //NotificationController.success(null, 'Instance launching...');
-                that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
-                that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
-                that.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
+                Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+                Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+                Utils.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
                   instance: instance,
                   project: project
                 });
                 ProjectInstanceActions.addInstanceToProject(instance, project);
               },
               error: function (response) {
-                that.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
-                that.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
+                Utils.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
+                Utils.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
                   instance: instance,
                   project: project
                 });
@@ -580,8 +572,8 @@ define(
           name: instanceName
         };
 
-        that.dispatch(InstanceConstants.ADD_INSTANCE, {instance: instance});
-        that.dispatch(ProjectInstanceConstants.ADD_PENDING_INSTANCE_TO_PROJECT, {
+        Utils.dispatch(InstanceConstants.ADD_INSTANCE, {instance: instance});
+        Utils.dispatch(ProjectInstanceConstants.ADD_PENDING_INSTANCE_TO_PROJECT, {
           instance: instance,
           project: project
         });
@@ -590,17 +582,17 @@ define(
           data: JSON.stringify(params),
           success: function (model) {
             //NotificationController.success(null, 'Instance launching...');
-            that.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
-            that.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
-            that.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
+            Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+            Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+            Utils.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
               instance: instance,
               project: project
             });
             ProjectInstanceActions.addInstanceToProject(instance, project);
           },
           error: function (response) {
-            that.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
-            that.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
+            Utils.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
+            Utils.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
               instance: instance,
               project: project
             });

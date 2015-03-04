@@ -4,22 +4,14 @@ define(
     'dispatchers/AppDispatcher',
     'constants/ProjectConstants',
     'constants/ProjectInstanceConstants',
-    'stores/helpers/ProjectInstance'
+    'stores/helpers/ProjectInstance',
+    './Utils'
   ],
-  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectInstance) {
+  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectInstance, Utils) {
 
     var _isParanoid = false;
 
     return {
-
-      dispatch: function(actionType, payload, options){
-        options = options || {};
-        AppDispatcher.handleRouteAction({
-          actionType: actionType,
-          payload: payload,
-          options: options
-        });
-      },
 
       // ----------------------------
       // Add/Remove Project Resources
@@ -33,7 +25,7 @@ define(
           project: project
         });
 
-        this.dispatch(ProjectInstanceConstants.ADD_INSTANCE_TO_PROJECT, {
+        Utils.dispatch(ProjectInstanceConstants.ADD_INSTANCE_TO_PROJECT, {
           instance: instance,
           project: project
         }, options);
@@ -42,11 +34,11 @@ define(
           // re-fetch the project to make sure the change was also made on the server
           if(_isParanoid) {
             project.fetch().then(function () {
-              that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
+              Utils.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
             });
           }
         }).fail(function(){
-          that.dispatch(ProjectInstanceConstants.REMOVE_INSTANCE_FROM_PROJECT, {
+          Utils.dispatch(ProjectInstanceConstants.REMOVE_INSTANCE_FROM_PROJECT, {
             instance: instance,
             project: project
           });
@@ -61,7 +53,7 @@ define(
           project: project
         });
 
-        this.dispatch(ProjectInstanceConstants.REMOVE_INSTANCE_FROM_PROJECT, {
+        Utils.dispatch(ProjectInstanceConstants.REMOVE_INSTANCE_FROM_PROJECT, {
           instance: instance,
           project: project
         }, options);
@@ -70,7 +62,7 @@ define(
           // re-fetch the project to make sure the change was also made on the server
           if(_isParanoid) {
             project.fetch().then(function () {
-              that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
+              Utils.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
             });
           }
         }).fail(function(){
@@ -78,7 +70,7 @@ define(
                         "lying. False false bug. This message is here until PAG is over.";
           console.warn(warning);
 
-          //that.dispatch(ProjectInstanceConstants.ADD_INSTANCE_TO_PROJECT, {
+          //Utils.dispatch(ProjectInstanceConstants.ADD_INSTANCE_TO_PROJECT, {
           //  instance: instance,
           //  project: project
           //});

@@ -20,20 +20,13 @@ define(
     'components/modals/volume/VolumeDeleteModal.react',
     'components/modals/volume/VolumeCreateModal.react',
     'components/modals/volume/VolumeReportModal.react',
-    'components/modals/volume/ExplainVolumeDeleteConditionsModal.react'
+    'components/modals/volume/ExplainVolumeDeleteConditionsModal.react',
+
+    './Utils'
   ],
-  function (React, AppDispatcher, VolumeConstants, ProjectVolumeConstants, NotificationController, Volume, VolumeState, ProjectVolumeActions, VolumeAttachNotifications, stores, globals, ModalHelpers, VolumeAttachRulesModal, VolumeAttachModal, VolumeDetachModal, VolumeDeleteModal, VolumeCreateModal, VolumeReportModal, ExplainVolumeDeleteConditionsModal) {
+  function (React, AppDispatcher, VolumeConstants, ProjectVolumeConstants, NotificationController, Volume, VolumeState, ProjectVolumeActions, VolumeAttachNotifications, stores, globals, ModalHelpers, VolumeAttachRulesModal, VolumeAttachModal, VolumeDetachModal, VolumeDeleteModal, VolumeCreateModal, VolumeReportModal, ExplainVolumeDeleteConditionsModal, Utils) {
 
     return {
-
-      dispatch: function(actionType, payload, options){
-        options = options || {};
-        AppDispatcher.handleRouteAction({
-          actionType: actionType,
-          payload: payload,
-          options: options
-        });
-      },
 
       // ------------------------
       // Standard CRUD Operations
@@ -43,7 +36,7 @@ define(
         var that = this;
 
         volume.set(newAttributes);
-        that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+        Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
 
         volume.save({
           name: volume.get('name')
@@ -51,7 +44,7 @@ define(
           patch: true
         }).done(function(){
           //NotificationController.success(null, "Volume name updated");
-          that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+          Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
         }).fail(function(response){
           var title = "Error updating Volume " + volume.get('name');
           if(response && response.responseJSON && response.responseJSON.errors){
@@ -93,13 +86,13 @@ define(
           ModalHelpers.renderModal(modal, function (instance, mountLocation) {
             var volumeState = new VolumeState({status_raw: "attaching"});
             volume.set({state: volumeState});
-            that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+            Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
 
             volume.attachTo(instance, mountLocation, {
               success: function () {
                 //NotificationController.success(null, VolumeAttachNotifications.success());
-                that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
-                that.dispatch(VolumeConstants.POLL_VOLUME_WITH_DELAY, {volume: volume});
+                Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+                Utils.dispatch(VolumeConstants.POLL_VOLUME_WITH_DELAY, {volume: volume});
               },
               error: function (responseJSON) {
                 var errorCode = responseJSON.errors[0].code,
@@ -115,7 +108,7 @@ define(
                   NotificationController.error(title, message);
                 }
 
-                that.dispatch(VolumeConstants.POLL_VOLUME, {volume: volume});
+                Utils.dispatch(VolumeConstants.POLL_VOLUME, {volume: volume});
               }
             });
           })
@@ -132,14 +125,14 @@ define(
         ModalHelpers.renderModal(modal, function () {
           var volumeState = new VolumeState({status_raw: "detaching"});
           volume.set({state: volumeState});
-          that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+          Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
 
           volume.detach({
             success: function (model) {
               //NotificationController.success(null, "Volume was detached.  It is now available to attach to another instance or destroy.");
               volume.set('state', volumeState);
-              that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
-              that.dispatch(VolumeConstants.POLL_VOLUME_WITH_DELAY, {volume: volume});
+              Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+              Utils.dispatch(VolumeConstants.POLL_VOLUME_WITH_DELAY, {volume: volume});
             },
             error: function (message, response) {
               var title = "Error detaching Volume " + volume.get('name');
@@ -165,12 +158,12 @@ define(
         // todo: change volume state to show that it's being destroyed
         var volumeState = new VolumeState({status_raw: "deleting"});
         volume.set({state: volumeState});
-        that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+        Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
 
         volume.destroy().done(function () {
           //NotificationController.success(null, 'Volume destroyed');
 
-          that.dispatch(VolumeConstants.REMOVE_VOLUME, {volume: volume});
+          Utils.dispatch(VolumeConstants.REMOVE_VOLUME, {volume: volume});
 
           // todo: the proper thing to do is to poll until the volume is actually destroyed
           // and THEN remove it from the project. Need to add a callback to support that.
@@ -244,17 +237,17 @@ define(
             tags: "CF++"
           };
 
-          that.dispatch(VolumeConstants.ADD_VOLUME, {volume: volume});
-          that.dispatch(ProjectVolumeConstants.ADD_PENDING_VOLUME_TO_PROJECT, {
+          Utils.dispatch(VolumeConstants.ADD_VOLUME, {volume: volume});
+          Utils.dispatch(ProjectVolumeConstants.ADD_PENDING_VOLUME_TO_PROJECT, {
             volume: volume,
             project: project
           });
 
           volume.save(params).done(function () {
             //NotificationController.success(null, 'Volume created');
-            that.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
-            that.dispatch(VolumeConstants.POLL_VOLUME, {volume: volume});
-            that.dispatch(ProjectVolumeConstants.REMOVE_PENDING_VOLUME_FROM_PROJECT, {
+            Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+            Utils.dispatch(VolumeConstants.POLL_VOLUME, {volume: volume});
+            Utils.dispatch(ProjectVolumeConstants.REMOVE_PENDING_VOLUME_FROM_PROJECT, {
               volume: volume,
               project: project
             });
@@ -270,8 +263,8 @@ define(
                 NotificationController.error(title, "If the problem persists, please let support at support@iplantcollaborative.org.");
              }
 
-            that.dispatch(VolumeConstants.REMOVE_VOLUME, {volume: volume});
-            that.dispatch(ProjectVolumeConstants.REMOVE_PENDING_VOLUME_FROM_PROJECT, {
+            Utils.dispatch(VolumeConstants.REMOVE_VOLUME, {volume: volume});
+            Utils.dispatch(ProjectVolumeConstants.REMOVE_PENDING_VOLUME_FROM_PROJECT, {
               volume: volume,
               project: project
             });

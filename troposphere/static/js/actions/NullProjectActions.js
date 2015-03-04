@@ -31,21 +31,13 @@ define(function (require) {
   var NullProjectMoveAttachedVolumesModal = require('components/modals/nullProject/NullProjectMoveAttachedVolumesModal.react');
   var NullProjectMigrateResourceModal     = require('components/modals/nullProject/NullProjectMigrateResourceModal.react');
 
+  var Utils = require('./Utils');
 
   //
   // Module
   //
 
   return {
-
-    dispatch: function(actionType, payload, options){
-      options = options || {};
-      AppDispatcher.handleRouteAction({
-        actionType: actionType,
-        payload: payload,
-        options: options
-      });
-    },
 
     // ------------------------
     // Standard CRUD Operations
@@ -55,11 +47,11 @@ define(function (require) {
       ProjectActions.addResourceToProject(resource, project);
 
       if(resource instanceof Instance){
-        this.dispatch(NullProjectInstanceConstants.REMOVE_INSTANCE_FROM_NULL_PROJECT, {
+        Utils.dispatch(NullProjectInstanceConstants.REMOVE_INSTANCE_FROM_NULL_PROJECT, {
           instance: resource
         });
       }else if(resource instanceof Volume){
-        this.dispatch(NullProjectVolumeConstants.REMOVE_VOLUME_FROM_NULL_PROJECT, {
+        Utils.dispatch(NullProjectVolumeConstants.REMOVE_VOLUME_FROM_NULL_PROJECT, {
           volume: resource
         });
       }
@@ -70,12 +62,12 @@ define(function (require) {
 
       if(oldProject) {
         if (resource instanceof Instance) {
-          this.dispatch(ProjectInstanceConstants.REMOVE_INSTANCE_FROM_PROJECT, {
+          Utils.dispatch(ProjectInstanceConstants.REMOVE_INSTANCE_FROM_PROJECT, {
             instance: resource,
             project: oldProject
           });
         } else if (resource instanceof Volume) {
-          this.dispatch(ProjectVolumeConstants.REMOVE_VOLUME_FROM_PROJECT, {
+          Utils.dispatch(ProjectVolumeConstants.REMOVE_VOLUME_FROM_PROJECT, {
             volume: resource,
             project: oldProject
           });
@@ -197,17 +189,17 @@ define(function (require) {
               volumes:[]
             });
 
-            that.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
+            Utils.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
 
             project.save().done(function(){
               //NotificationController.success(null, "Project " + project.get('name') + " created.");
-              that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
+              Utils.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
               that._migrateResourcesIntoProject(resourcesClone, project);
               that.moveAttachedVolumesIntoCorrectProject();
             }).fail(function(){
               var message = "Error creating Project " + project.get('name') + ".";
               NotificationController.error(null, message);
-              that.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
+              Utils.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
             });
 
           }else if(params.projectId && params.projects){

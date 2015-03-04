@@ -30,22 +30,15 @@ define(
     'components/modals/project/ProjectMoveResourceModal.react',
     'components/modals/project/ProjectDeleteResourceModal.react',
     'components/modals/project/ProjectRemoveResourceModal.react',
-    'components/modals/project/ProjectReportResourceModal.react'
+    'components/modals/project/ProjectReportResourceModal.react',
+
+    './Utils'
   ],
-  function (React, AppDispatcher, ProjectConstants, NullProjectInstanceConstants, NullProjectVolumeConstants, Instance, Volume, Project, URL, NotificationController, InstanceActions, VolumeActions, ProjectInstanceActions, ProjectVolumeActions, ModalHelpers, ProjectCreateModal, ProjectDeleteModal, ProjectDeleteConditionsModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectRemoveResourceModal, ProjectReportResourceModal) {
+  function (React, AppDispatcher, ProjectConstants, NullProjectInstanceConstants, NullProjectVolumeConstants, Instance, Volume, Project, URL, NotificationController, InstanceActions, VolumeActions, ProjectInstanceActions, ProjectVolumeActions, ModalHelpers, ProjectCreateModal, ProjectDeleteModal, ProjectDeleteConditionsModal, ProjectMoveResourceModal, ProjectDeleteResourceModal, ProjectRemoveResourceModal, ProjectReportResourceModal, Utils) {
 
     var _isParanoid = false;
 
     return {
-
-      dispatch: function(actionType, payload, options){
-        options = options || {};
-        AppDispatcher.handleRouteAction({
-          actionType: actionType,
-          payload: payload,
-          options: options
-        });
-      },
 
       // ------------------------
       // Standard CRUD Operations
@@ -63,15 +56,15 @@ define(
             description: description
           });
 
-          that.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
+          Utils.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
 
           project.save().done(function(){
             //NotificationController.success(null, "Project " + project.get('name') + " created.");
-            that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
+            Utils.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
           }).fail(function(){
             var message = "Error creating Project " + project.get('name') + ".";
             NotificationController.error(null, message);
-            that.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
+            Utils.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
           });
         })
 
@@ -81,13 +74,13 @@ define(
         var that = this;
 
         project.set(newAttributes);
-        that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
+        Utils.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
 
         project.save().done(function(){
           //NotificationController.success(null, "Project name updated.");
         }).fail(function(){
           NotificationController.error(null, "Error updating Project " + project.get('name') + ".");
-          that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
+          Utils.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
         });
       },
 
@@ -99,14 +92,14 @@ define(
         });
 
         ModalHelpers.renderModal(modal, function(){
-          that.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
+          Utils.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
 
           project.destroy().done(function(){
             //NotificationController.success(null, "Project " + project.get('name') + " deleted.");
           }).fail(function(){
             var failureMessage = "Error deleting Project " + project.get('name') + ".";
             NotificationController.error(failureMessage);
-            that.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
+            Utils.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
           });
 
           var redirectUrl = URL.projects(null, {relative: true});
@@ -141,7 +134,7 @@ define(
             that.addResourceToProject(resource, newProject, {silent: true});
             that.removeResourceFromProject(resource, currentProject, {silent: true});
           });
-          that.dispatch(ProjectConstants.EMIT_CHANGE);
+          Utils.dispatch(ProjectConstants.EMIT_CHANGE);
         });
       },
 
@@ -181,16 +174,16 @@ define(
           resources.map(function(resource){
             that.removeResourceFromProject(resource, project, {silent: true});
             if(resource instanceof Instance){
-                that.dispatch(NullProjectInstanceConstants.ADD_INSTANCE_TO_NULL_PROJECT, {
+                Utils.dispatch(NullProjectInstanceConstants.ADD_INSTANCE_TO_NULL_PROJECT, {
                   instance: resource
                 });
               }else if(resource instanceof Volume){
-                that.dispatch(NullProjectVolumeConstants.ADD_VOLUME_TO_NULL_PROJECT, {
+                Utils.dispatch(NullProjectVolumeConstants.ADD_VOLUME_TO_NULL_PROJECT, {
                   volume: resource
                 });
               }
           });
-          that.dispatch(ProjectConstants.EMIT_CHANGE);
+          Utils.dispatch(ProjectConstants.EMIT_CHANGE);
         })
       },
 
@@ -214,7 +207,7 @@ define(
               that.deleteResource(resource, project, {silent: true});
           });
 
-          that.dispatch(ProjectConstants.EMIT_CHANGE);
+          Utils.dispatch(ProjectConstants.EMIT_CHANGE);
         })
       },
 
