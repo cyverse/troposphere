@@ -63,12 +63,12 @@ define(function (require) {
 
       if(oldProject) {
         if (resource instanceof Instance) {
-          Utils.dispatch(ProjectInstanceConstants.REMOVE_INSTANCE_FROM_PROJECT, {
+          Utils.dispatch(ProjectInstanceConstants.REMOVE_PROJECT_INSTANCE, {
             instance: resource,
             project: oldProject
           });
         } else if (resource instanceof Volume) {
-          Utils.dispatch(ProjectVolumeConstants.REMOVE_VOLUME_FROM_PROJECT, {
+          Utils.dispatch(ProjectVolumeConstants.REMOVE_PROJECT_VOLUME, {
             volume: resource,
             project: oldProject
           });

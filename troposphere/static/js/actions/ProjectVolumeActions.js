@@ -22,7 +22,7 @@ define(function (require) {
           };
 
       projectVolume.save(null, {attrs: data}).done(function(){
-        Utils.dispatch(ProjectVolumeConstants.ADD_VOLUME_TO_PROJECT, projectVolume, options);
+        Utils.dispatch(ProjectVolumeConstants.ADD_PROJECT_VOLUME, projectVolume, options);
       })
     },
 
@@ -34,7 +34,7 @@ define(function (require) {
         project: project
       });
 
-      Utils.dispatch(ProjectVolumeConstants.REMOVE_VOLUME_FROM_PROJECT, {
+      Utils.dispatch(ProjectVolumeConstants.REMOVE_PROJECT_VOLUME, {
         volume: volume,
         project: project
       }, options);
@@ -50,7 +50,7 @@ define(function (require) {
         var warning = "API says volume wasn't removed from project, but is likely " +
                       "lying. False false bug. This message is here until PAG is over.";
         console.warn(warning);
-        //Utils.dispatch(ProjectVolumeConstants.ADD_VOLUME_TO_PROJECT, {
+        //Utils.dispatch(ProjectVolumeConstants.ADD_PROJECT_VOLUME, {
         //  volume: volume,
         //  project: project
         //});

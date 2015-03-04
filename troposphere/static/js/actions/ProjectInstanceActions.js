@@ -22,7 +22,7 @@ define(function (require) {
           };
 
       projectInstance.save(null, { attrs: data }).done(function(){
-        Utils.dispatch(ProjectInstanceConstants.ADD_INSTANCE_TO_PROJECT, projectInstance, options);
+        Utils.dispatch(ProjectInstanceConstants.ADD_PROJECT_INSTANCE, projectInstance, options);
       });
     },
 
@@ -34,7 +34,7 @@ define(function (require) {
         project: project
       });
 
-      Utils.dispatch(ProjectInstanceConstants.REMOVE_INSTANCE_FROM_PROJECT, {
+      Utils.dispatch(ProjectInstanceConstants.REMOVE_PROJECT_INSTANCE, {
         instance: instance,
         project: project
       }, options);
@@ -51,7 +51,7 @@ define(function (require) {
                       "lying. False false bug. This message is here until PAG is over.";
         console.warn(warning);
 
-        //Utils.dispatch(ProjectInstanceConstants.ADD_INSTANCE_TO_PROJECT, {
+        //Utils.dispatch(ProjectInstanceConstants.ADD_PROJECT_INSTANCE, {
         //  instance: instance,
         //  project: project
         //});
