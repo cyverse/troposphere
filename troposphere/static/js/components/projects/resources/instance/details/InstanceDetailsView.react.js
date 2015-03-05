@@ -6,7 +6,6 @@ define(function (require) {
       InstanceInfoSection = require('./sections/InstanceInfoSection.react'),
       InstanceDetailsSection = require('./sections/InstanceDetailsSection.react'),
       InstanceActionsAndLinks = require('./actions/InstanceActionsAndLinks.react'),
-      URL = require('url'),
       stores = require('stores');
 
   return React.createClass({
@@ -51,14 +50,13 @@ define(function (require) {
       var breadcrumbs = [
         {
           name: "Resources",
-          url: URL.projectResources({project: project})
+          linksTo: "project-resources",
+          params: {projectId: project.id}
         },
         {
           name: instance.get('name'),
-          url: URL.projectInstance({
-            project: project,
-            instance: instance
-          })
+          linksTo: "project-instance-details",
+          params: {projectId: project.id, instanceId: instance.id}
         }
       ];
 
