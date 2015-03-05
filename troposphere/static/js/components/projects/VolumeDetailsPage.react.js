@@ -1,68 +1,28 @@
-/** @jsx React.DOM */
+define(function (require) {
 
-define(
-  [
-    'react',
-    './detail/resources/ProjectResourcesWrapper.react',
-    './resources/volume/details/VolumeDetailsView.react',
-    'stores/ProjectStore'
-  ],
-  function (React, ProjectResourcesWrapper, VolumeDetailsView, ProjectStore) {
+  var React = require('react'),
+      ProjectResourcesWrapper = require('./detail/resources/ProjectResourcesWrapper.react'),
+      VolumeDetailsView = require('./resources/volume/details/VolumeDetailsView.react'),
+      Router = require('react-router'),
+      stores = require('stores');
 
-    function getState(projectId) {
-      return {
-        project: ProjectStore.get(projectId)
-      };
+  return React.createClass({
+
+    mixins: [Router.State],
+
+    render: function () {
+      var project = stores.ProjectStore.get(this.getParams().projectId),
+          volume = stores.VolumeStore.get(this.getParams().volumeId);
+
+      if (!project || !volume) return <div className="loading"></div>;
+
+      return (
+        <ProjectResourcesWrapper project={project}>
+          <VolumeDetailsView project={project} volume={volume}/>
+        </ProjectResourcesWrapper>
+      );
     }
 
-    return React.createClass({
-
-      //
-      // Mounting & State
-      // ----------------
-      //
-
-      propTypes: {
-        projectId: React.PropTypes.string.isRequired,
-        volumeId: React.PropTypes.string.isRequired
-      },
-
-      getInitialState: function() {
-        return getState(this.props.projectId);
-      },
-
-      updateState: function() {
-        if (this.isMounted()) this.setState(getState(this.props.projectId))
-      },
-
-      componentDidMount: function () {
-        ProjectStore.addChangeListener(this.updateState);
-      },
-
-      componentWillUnmount: function () {
-        ProjectStore.removeChangeListener(this.updateState);
-      },
-
-      //
-      // Render
-      // ------
-      //
-
-      render: function () {
-
-        if (this.state.project) {
-          return (
-            <ProjectResourcesWrapper project={this.state.project}>
-              <VolumeDetailsView project={this.state.project} volumeId={this.props.volumeId}/>
-            </ProjectResourcesWrapper>
-          );
-        }
-
-        return (
-          <div className="loading"></div>
-        );
-      }
-
-    });
-
   });
+
+});
