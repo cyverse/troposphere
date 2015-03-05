@@ -47,7 +47,8 @@ define(function (require) {
     },
 
     render: function () {
-      var tags = stores.TagStore.getAll(),
+      var instance = this.props.instance,
+          tags = stores.TagStore.getAll(),
           instanceTags = stores.InstanceTagStore.getTagsFor(this.props.instance);
 
       if(!tags || !instanceTags) return <div className="loading"></div>;
@@ -66,7 +67,7 @@ define(function (require) {
         );
       }
 
-      var instanceHash = CryptoJS.MD5(this.props.instance.id.toString()).toString();
+      var instanceHash = CryptoJS.MD5(instance.id.toString()).toString();
       var type = stores.ProfileStore.get().get('icon_set');
       var iconSize = 113;
 
@@ -81,8 +82,8 @@ define(function (require) {
             <div className="resource-name editable">
               {nameContent}
             </div>
-            <div className="resource-launch-date">Launched on <Time date={this.props.instance.get('start_date')}/></div>
-            <ResourceTags tags={this.props.tags}
+            <div className="resource-launch-date">Launched on <Time date={instance.get('start_date')}/></div>
+            <ResourceTags tags={tags}
                           activeTags={instanceTags}
                           onTagsChanged={this.onTagsChanged}
                           onCreateNewTag={this.onCreateNewTag}

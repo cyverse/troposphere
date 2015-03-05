@@ -20,15 +20,11 @@ define(
     return React.createClass({
 
       propTypes: {
-        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        provider: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        size: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
       render: function () {
-        var instance = this.props.instance,
-            size = this.props.size,
-            provider = this.props.provider;
+        var instance = this.props.instance;
 
         return (
           <div className="resource-details-section section">
@@ -39,7 +35,7 @@ define(
               <IpAddress instance={instance}/>
               <LaunchDate instance={instance}/>
               <CreatedFrom instance={instance}/>
-              <Identity instance={instance} provider={provider}/>
+              <Identity instance={instance}/>
               <Id instance={instance}/>
             </ul>
           </div>

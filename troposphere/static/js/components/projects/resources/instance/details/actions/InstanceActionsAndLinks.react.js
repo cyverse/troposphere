@@ -45,7 +45,8 @@ define(
         actions.InstanceActions.terminate({
           instance:this.props.instance,
           project: this.props.project,
-          redirectUrl: redirectUrl
+          redirectUrl: redirectUrl,
+          redirectTo: "project-resources"
         });
       },
 

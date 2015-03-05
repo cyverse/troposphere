@@ -17,14 +17,9 @@ define(
 
       render: function () {
         var instance = this.props.instance,
-            providerId = instance.get('provider').id || instance.get('provider'),
-            provider = stores.ProviderStore.get(providerId);
+            provider = stores.ProviderStore.get(instance.get('provider').id);
 
-        if(!provider){
-          return (
-            <div className="loading-tiny-inline"></div>
-          );
-        }
+        if(!provider) return <div className="loading-tiny-inline"></div>;
 
         return (
           <ResourceDetail label="Provider">

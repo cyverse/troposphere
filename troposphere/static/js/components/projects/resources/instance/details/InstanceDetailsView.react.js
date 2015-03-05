@@ -44,12 +44,9 @@ define(function (require) {
 
     render: function () {
       var instance = this.props.instance,
-          project = this.props.project,
-          providers = this.state.providers,
-          size = stores.SizeStore.get(instance.get('size').id),
-          provider = stores.ProviderStore.get(instance.get('provider').id);
+          project = this.props.project;
 
-      if(!instance || !project || !providers || !size || !provider) return <div className="loading"></div>;
+      if(!instance || !project) return <div className="loading"></div>;
 
       var breadcrumbs = [
         {
@@ -65,33 +62,6 @@ define(function (require) {
         }
       ];
 
-      //return (
-      //  <div>
-      //    <BreadcrumbBar breadcrumbs={breadcrumbs}/>
-      //    <div className="row resource-details-content">
-      //      <div className="col-md-9">
-      //        <InstanceInfoSection
-      //          instance={instance}
-      //          tags={tags}
-      //        />
-      //        <hr/>
-      //        <InstanceDetailsSection
-      //          instance={instance}
-      //          provider={provider}
-      //          size={size}
-      //        />
-      //        <hr/>
-      //      </div>
-      //      <div className="col-md-3">
-      //        <InstanceActionsAndLinks
-      //          project={project}
-      //          instance={instance}
-      //        />
-      //      </div>
-      //    </div>
-      //  </div>
-      //);
-
       return (
         <div>
           <BreadcrumbBar breadcrumbs={breadcrumbs}/>
@@ -99,11 +69,18 @@ define(function (require) {
             <div className="col-md-9">
               <InstanceInfoSection instance={instance}/>
               <hr/>
+              <InstanceDetailsSection instance={instance}/>
+              <hr/>
+            </div>
+            <div className="col-md-3">
+              <InstanceActionsAndLinks
+                project={project}
+                instance={instance}
+              />
             </div>
           </div>
         </div>
       );
-
     }
 
   });
