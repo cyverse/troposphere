@@ -14,8 +14,7 @@ define(function (require) {
     display: "InstanceInfoSection",
 
     propTypes: {
-      instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
     getInitialState: function(){
@@ -48,7 +47,10 @@ define(function (require) {
     },
 
     render: function () {
-      var instanceTags = stores.TagStore.getInstanceTags(this.props.instance);
+      var tags = stores.TagStore.getAll(),
+          instanceTags = stores.InstanceTagStore.getTagsFor(this.props.instance);
+
+      if(!tags || !instanceTags) return <div className="loading"></div>;
 
       var nameContent;
       if(this.state.isEditing){

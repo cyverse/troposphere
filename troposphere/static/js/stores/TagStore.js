@@ -83,25 +83,6 @@ define(
         }
       },
 
-      getInstanceTags: function (instance) {
-        if(!_tags) throw new Error("Must fetch tags before calling getInstanceTags");
-
-        var instanceTagArray = instance.get('tags').map(function(tag){
-          //var tagName = tag.name;
-          //var tag = _tags.findWhere({name: tagName}, {parse: true});
-          //if(!tag) throw new Error("Expected to find a tag with name '" + tagName +"'");
-          return tag;
-        });
-
-        // Add any pending tags to the result set
-        var pendingInstanceTags = _pendingInstanceTags[instance.id];
-        if(pendingInstanceTags){
-          instanceTagArray = instanceTagArray.concat(pendingInstanceTags.models);
-        }
-
-        return new TagCollection(instanceTagArray);
-      },
-
       getImageTags: function (image) {
         if(!_tags) throw new Error("Must fetch tags before calling getImageTags");
 

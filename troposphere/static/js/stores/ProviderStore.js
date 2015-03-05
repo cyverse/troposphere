@@ -1,64 +1,64 @@
-define(
-  [
-    'underscore',
-    'stores/Store',
-    'collections/ProviderCollection',
-    'dispatchers/AppDispatcher'
-  ],
-  function (_, Store, ProviderCollection, AppDispatcher) {
+define(function (require) {
 
-    var _providers = null;
-    var _isFetching = false;
+  var _ = require('underscore'),
+      Store = require('stores/Store'),
+      Collection = require('collections/ProviderCollection'),
+      AppDispatcher = require('dispatchers/AppDispatcher');
 
-    //
-    // CRUD Operations
-    //
+  var _providers = null;
+  var _isFetching = false;
 
-    var fetchProviders = function () {
+  //
+  // CRUD Operations
+  //
+
+  var fetchModels = function () {
+    if(!_providers && !_isFetching) {
       _isFetching = true;
-      var providers = new ProviderCollection();
+      var providers = new Collection();
 
       providers.fetch().done(function () {
         _isFetching = false;
         _providers = providers;
-        ProviderStore.emitChange();
+        ModelStore.emitChange();
       });
-    };
+    }
+  };
 
-    //
-    // Provider Store
-    //
+  //
+  // Provider Store
+  //
 
-    var ProviderStore = {
-      getAll: function () {
-        if(!_providers && !_isFetching) {
-          fetchProviders();
-        }
-        return _providers;
-      },
-
-      get: function (providerId) {
-        if(!_providers && !_isFetching) {
-          fetchProviders();
-        }else{
-          return _providers.get(providerId);
-        }
+  var ModelStore = {
+    getAll: function () {
+      if(!_providers) {
+        fetchModels();
       }
-    };
+      return _providers;
+    },
 
-    AppDispatcher.register(function (payload) {
-      var action = payload.action;
-      switch (action.actionType) {
-        // case ProviderConstants.FETCH_ALL:
-        //   fetchProviders();
-        //   break;
+    get: function (providerId) {
+      if(!_providers) {
+        fetchModels();
+      }else{
+        return _providers.get(providerId);
       }
+    }
+  };
 
-      return true;
-    });
+  AppDispatcher.register(function (payload) {
+    var action = payload.action;
+    switch (action.actionType) {
+      // case ProviderConstants.FETCH_ALL:
+      //   fetchModels();
+      //   break;
+    }
 
-    _.extend(ProviderStore, Store);
-
-    return ProviderStore;
-
+    return true;
   });
+
+  _.extend(ModelStore, Store);
+
+  return ModelStore;
+
+});
