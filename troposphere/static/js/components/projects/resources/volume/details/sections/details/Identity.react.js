@@ -1,30 +1,29 @@
-/** @jsx React.DOM */
+define(function (require) {
 
-define(
-  [
-    'react',
-    'backbone',
-    'components/projects/common/ResourceDetail.react'
-  ],
-  function (React, Backbone, ResourceDetail) {
+  var React = require('react'),
+      Backbone = require('backbone'),
+      ResourceDetail = require('components/projects/common/ResourceDetail.react'),
+      stores = require('stores');
 
-    return React.createClass({
+  return React.createClass({
 
-      propTypes: {
-        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        provider: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    propTypes: {
+      volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
+    },
 
-      render: function () {
-        var providerName = this.props.provider.get('name');
+    render: function () {
+      var volume = this.props.volume,
+          provider = stores.ProviderStore.get(volume.get('provider'));
 
-        return (
-          <ResourceDetail label="Provider">
-            {providerName}
-          </ResourceDetail>
-        );
-      }
+      if(!provider) return <div className="loading"></div>;
 
-    });
+      return (
+        <ResourceDetail label="Provider">
+          {provider.get('name')}
+        </ResourceDetail>
+      );
+    }
 
   });
+
+});

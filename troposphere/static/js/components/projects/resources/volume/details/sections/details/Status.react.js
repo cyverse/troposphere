@@ -1,58 +1,58 @@
-/** @jsx React.DOM */
+define(function (require) {
 
-define(
-  [
-    'react',
-    'backbone',
-    'components/projects/common/ResourceDetail.react',
-    'components/projects/common/StatusLight.react',
-    'components/projects/detail/resources/tableData/instance/StatusBar.react'
-  ],
-  function (React, Backbone, ResourceDetail, StatusLight, StatusBar) {
+  var React = require('react'),
+      Backbone = require('backbone'),
+      ResourceDetail = require('components/projects/common/ResourceDetail.react'),
+      StatusLight = require('components/projects/common/StatusLight.react'),
+      StatusBar = require('components/projects/detail/resources/tableData/instance/StatusBar.react'),
+      stores = require('stores');
 
-    return React.createClass({
-      displayName: "Status",
+  return React.createClass({
+    displayName: "Status",
 
-      propTypes: {
-        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired // only required if volume attached
-      },
+    propTypes: {
+      volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
+    },
 
-      render: function () {
-        var volumeState = this.props.volume.get('state');
-        var status = volumeState.get('status');
-        var activity = volumeState.get('activity');
-        var placeholderMessage = status;
-        var lightStatus = "active";
+    render: function () {
+      var volume = this.props.volume,
+          instances = stores.InstanceStore.getAll(),
+          volumeState = volume.get('state'),
+          status = volumeState.get('status'),
+          activity = volumeState.get('activity'),
+          placeholderMessage = status,
+          lightStatus = "active",
+          attachData,
+          instance,
+          style = {};
 
-        if(status === "available"){
-          placeholderMessage = "Unattached";
-        }else if(status === "in-use"){
-          var attachData = this.props.volume.get('attach_data');
-          var instance = this.props.instances.get(attachData.instance_id);
-          var style = {};
+      if(status === "available"){
+        placeholderMessage = "Unattached";
+      }else if(status === "in-use"){
+        attachData = volume.get('attach_data');
+        instance = instances.get(attachData.instance_id);
 
-          if(instance) {
-            placeholderMessage = "Attached to " + instance.get('name');
-          }else{
-            placeholderMessage = "Attached to instance outside project (" + attachData.instance_id + ")";
-            style = {color: "#d44950"}
-          }
+        if(instance) {
+          placeholderMessage = "Attached to " + instance.get('name');
         }else{
-          lightStatus = "transition";
+          placeholderMessage = "Attached to instance outside project (" + attachData.instance_id + ")";
+          style = {color: "#d44950"}
         }
-
-        return (
-          <ResourceDetail label="Status">
-            <div className="resource-status">
-              <StatusLight status={lightStatus}/>
-              <span style={style}>{placeholderMessage}</span>
-              <StatusBar state={volumeState}/>
-            </div>
-          </ResourceDetail>
-        );
+      }else{
+        lightStatus = "transition";
       }
 
-    });
+      return (
+        <ResourceDetail label="Status">
+          <div className="resource-status">
+            <StatusLight status={lightStatus}/>
+            <span style={style}>{placeholderMessage}</span>
+            <StatusBar state={volumeState}/>
+          </div>
+        </ResourceDetail>
+      );
+    }
 
   });
+
+});

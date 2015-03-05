@@ -1,27 +1,25 @@
-/** @jsx React.DOM */
+define(function (require) {
 
-define(
-  [
-    'react',
-    'backbone',
-    'components/projects/common/ResourceDetail.react'
-  ],
-  function (React, Backbone, ResourceDetail) {
+  var React = require('react'),
+      Backbone = require('backbone'),
+      ResourceDetail = require('components/projects/common/ResourceDetail.react');
 
-    return React.createClass({
+  return React.createClass({
 
-      propTypes: {
-        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    propTypes: {
+      volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
+    },
 
-      render: function () {
-        return (
-          <ResourceDetail label="Size">
-            {this.props.volume.get('size') + " GB"}
-          </ResourceDetail>
-        );
-      }
+    render: function () {
+      var volume = this.props.volume;
 
-    });
+      return (
+        <ResourceDetail label="Size">
+          {volume.get('size') + " GB"}
+        </ResourceDetail>
+      );
+    }
 
   });
+
+});

@@ -1,44 +1,36 @@
-/** @jsx React.DOM */
+define(function (require) {
 
-define(
-  [
-    'react',
-    'backbone',
-    'components/projects/common/ResourceDetail.react',
+  var React = require('react'),
+      Backbone = require('backbone'),
+      ResourceDetail = require('components/projects/common/ResourceDetail.react'),
+      Id = require('./details/Id.react'),
+      Status = require('./details/Status.react'),
+      Size = require('./details/Size.react'),
+      Identity = require('./details/Identity.react');
 
-    // Resource Details
-    './details/Id.react',
-    './details/Status.react',
-    './details/Size.react',
-    './details/Identity.react'
-  ],
-  function (React, Backbone, ResourceDetail, Id, Status, Size, Identity) {
+  return React.createClass({
+    displayName: "VolumeDetailsSection",
 
-    return React.createClass({
-      displayName: "VolumeDetailsSection",
+    propTypes: {
+      volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
+    },
 
-      propTypes: {
-        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired
-      },
+    render: function () {
+      var volume = this.props.volume;
 
-      render: function () {
-        var providerId = this.props.volume.get('provider');
-        var provider = this.props.providers.get(providerId);
-
-        return (
-          <div className="resource-details-section section">
-            <h4 className="title">Volume Details</h4>
-            <ul>
-              <Status volume={this.props.volume} instances={this.props.instances}/>
-              <Size volume={this.props.volume}/>
-              <Identity volume={this.props.volume} provider={provider}/>
-              <Id volume={this.props.volume}/>
-            </ul>
-          </div>
-        );
-      }
-
-    });
+      return (
+        <div className="resource-details-section section">
+          <h4 className="title">Volume Details</h4>
+          <ul>
+            <Status volume={volume}/>
+            <Size volume={volume}/>
+            <Identity volume={volume}/>
+            <Id volume={volume}/>
+          </ul>
+        </div>
+      );
+    }
 
   });
+
+});
