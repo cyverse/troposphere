@@ -24,7 +24,7 @@ define(
       render: function () {
         var resource = this.props.resource,
             project = this.props.project,
-            
+
             resourcePreview;
 
         if(!resource) {

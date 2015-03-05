@@ -30,8 +30,6 @@ define(function (require) {
     // ------------------------
 
     updateVolumeAttributes: function (volume, newAttributes) {
-      var that = this;
-
       volume.set(newAttributes);
       Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
 
@@ -55,8 +53,7 @@ define(function (require) {
     },
 
     attach: function(volume, project){
-      var that = this,
-          instances = stores.InstanceStore.getInstancesInProject(project),
+      var instances = stores.InstanceStore.getInstancesInProject(project),
           InstanceCollection = instances.constructor;
 
       // Filter out instances not in the same provider as the volume
@@ -113,8 +110,6 @@ define(function (require) {
     },
 
     detach: function (volume) {
-      var that = this;
-
       var modal = VolumeDetachModal({
         volume: volume
       });
@@ -150,7 +145,6 @@ define(function (require) {
     _destroy: function(payload, options){
       var volume = payload.volume;
       var project = payload.project;
-      var that = this;
 
       // todo: change volume state to show that it's being destroyed
       var volumeState = new VolumeState({status_raw: "deleting"});
@@ -210,7 +204,6 @@ define(function (require) {
 
     createAndAddToProject: function(payload){
       var project = payload.project;
-      var that = this;
 
       var modal = VolumeCreateModal();
 
@@ -268,8 +261,6 @@ define(function (require) {
     },
 
     reportVolume: function(volume){
-      var that = this;
-
       var modal = VolumeReportModal({
         volume: volume
       });

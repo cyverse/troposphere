@@ -9,19 +9,7 @@ define(
   function (Backbone, _, globals, Instance, VolumeState) {
 
     return Backbone.Model.extend({
-
-      urlRoot: function(){
-        var creds = this.getCreds();
-        var url = globals.API_ROOT +
-                  '/provider/' + creds.provider_id +
-                  '/identity/' + creds.identity_id +
-                  '/volume';
-        return url;
-      },
-
-      url: function(){
-        return Backbone.Model.prototype.url.apply(this) + globals.slash();
-      },
+      urlRoot: globals.API_V2_ROOT + "/volumes",
 
       parse: function (response) {
 

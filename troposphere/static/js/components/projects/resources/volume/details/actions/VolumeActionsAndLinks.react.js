@@ -22,11 +22,16 @@ define(function (require) {
     },
 
     onDelete: function(){
-      var redirectUrl = URL.projectResources({project: this.props.project}, {relative: true});
+      var project = this.props.project,
+          volume = this.props.volume;
+
+      var redirectUrl = URL.projectResources({project: project}, {relative: true});
       actions.VolumeActions.destroy({
-        volume: this.props.volume,
-        project: this.props.project,
-        redirectUrl: redirectUrl
+        volume: volume,
+        project: project,
+        redirectUrl: redirectUrl,
+        linksTo: "project-resources",
+        params: {projectId: project.id}
       });
     },
 
@@ -35,8 +40,8 @@ define(function (require) {
     },
 
     render: function () {
-
-      var status = this.props.volume.get('state').get('status');
+      var volume = this.props.volume,
+          status = volume.get('state').get('status');
 
       var linksArray = [
         {label: 'Actions', icon: null},
