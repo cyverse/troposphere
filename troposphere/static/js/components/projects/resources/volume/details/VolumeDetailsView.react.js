@@ -5,8 +5,7 @@ define(function (require) {
       VolumeDetailsSection = require('./sections/VolumeDetailsSection.react'),
       VolumeInfoSection = require('./sections/VolumeInfoSection.react'),
       BreadcrumbBar = require('components/projects/common/BreadcrumbBar.react'),
-      VolumeActionsAndLinks = require('./actions/VolumeActionsAndLinks.react'),
-      stores = require('stores');
+      VolumeActionsAndLinks = require('./actions/VolumeActionsAndLinks.react');
 
   // var p1 = (
   //   <p>
@@ -35,11 +34,7 @@ define(function (require) {
 
     render: function () {
       var project = this.props.project,
-          volume = this.props.volume,
-          instances = stores.InstanceStore.getAll(),
-          providers = stores.ProviderStore.getAll();
-
-      if(!instances || !providers || !volume) return <div className="loading"></div>;
+          volume = this.props.volume;
 
       var breadcrumbs = [
         {
@@ -61,7 +56,7 @@ define(function (require) {
             <div className="col-md-9 resource-detail-sections">
               <VolumeInfoSection volume={volume}/>
               <hr/>
-              <VolumeDetailsSection volume={volume} providers={providers} instances={instances}/>
+              <VolumeDetailsSection volume={volume}/>
               <hr/>
             </div>
             <div className="col-md-3 resource-actions">
