@@ -3,7 +3,7 @@ define(function (require) {
 
   var InstanceConstants = require('constants/InstanceConstants'),
       NotificationController = require('controllers/NotificationController'),
-      Utils = require('./Utils');
+      Utils = require('../Utils');
 
   return {
 

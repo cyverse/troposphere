@@ -4,7 +4,7 @@ define(function (require) {
   var InstanceConstants = require('constants/InstanceConstants'),
       InstanceState = require('models/InstanceState'),
       NotificationController = require('controllers/NotificationController'),
-      Utils = require('./Utils');
+      Utils = require('../Utils');
 
   return {
     updateInstanceAttributes: function (instance, newAttributes) {

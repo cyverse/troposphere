@@ -15,7 +15,7 @@ define(function (require) {
       // Modals
       ModalHelpers = require('components/modals/ModalHelpers'),
       InstanceLaunchModal = require('components/modals/instance/InstanceLaunchModal.react'),
-      Utils = require('./Utils');
+      Utils = require('../Utils');
 
   return {
     launch: function(application){

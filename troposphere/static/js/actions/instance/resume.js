@@ -7,7 +7,7 @@ define(function (require) {
       NotificationController = require('controllers/NotificationController'),
       ModalHelpers = require('components/modals/ModalHelpers'),
       InstanceResumeModal = require('components/modals/instance/InstanceResumeModal.react'),
-      Utils = require('./Utils');
+      Utils = require('../Utils');
 
   return {
     resume: function(instance){

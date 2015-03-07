@@ -9,7 +9,7 @@ define(function (require) {
       ModalHelpers = require('components/modals/ModalHelpers'),
       InstanceDeleteModal = require('components/modals/instance/InstanceDeleteModal.react'),
       ExplainInstanceDeleteConditionsModal = require('components/modals/instance/ExplainInstanceDeleteConditionsModal.react'),
-      Utils = require('./Utils');
+      Utils = require('../Utils');
 
   return {
 

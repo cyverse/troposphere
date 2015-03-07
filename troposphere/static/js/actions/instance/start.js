@@ -6,7 +6,7 @@ define(function (require) {
       NotificationController = require('controllers/NotificationController'),
       ModalHelpers = require('components/modals/ModalHelpers'),
       InstanceStartModal = require('components/modals/instance/InstanceStartModal.react'),
-      Utils = require('./Utils');
+      Utils = require('../Utils');
 
   return {
     start: function(instance){

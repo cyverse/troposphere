@@ -7,7 +7,7 @@ define(function (require) {
       stores = require('stores'),
       ModalHelpers = require('components/modals/ModalHelpers'),
       InstanceSuspendModal = require('components/modals/instance/InstanceSuspendModal.react'),
-      Utils = require('./Utils');
+      Utils = require('../Utils');
 
   return {
     suspend: function (instance) {

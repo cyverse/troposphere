@@ -6,7 +6,7 @@ define(function (require) {
       NotificationController = require('controllers/NotificationController'),
       ModalHelpers = require('components/modals/ModalHelpers'),
       InstanceRebootModal = require('components/modals/instance/InstanceRebootModal.react'),
-      Utils = require('./Utils');
+      Utils = require('../Utils');
 
   return {
     reboot: function (instance) {

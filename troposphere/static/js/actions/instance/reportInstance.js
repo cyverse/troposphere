@@ -6,7 +6,7 @@ define(function (require) {
       stores = require('stores'),
       ModalHelpers = require('components/modals/ModalHelpers'),
       InstanceReportModal = require('components/modals/instance/InstanceReportModal.react'),
-      Utils = require('./Utils');
+      Utils = require('../Utils');
 
   return {
     reportInstance: function(instance){

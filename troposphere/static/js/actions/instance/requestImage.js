@@ -6,7 +6,7 @@ define(function (require) {
       stores = require('stores'),
       ModalHelpers = require('components/modals/ModalHelpers'),
       InstanceImageModal = require('components/modals/instance/InstanceImageModal.react'),
-      Utils = require('./Utils');
+      Utils = require('../Utils');
 
   return {
     requestImage: function(instance){

@@ -9,7 +9,7 @@ define(function (require) {
       actions = require('actions'),
       ModalHelpers = require('components/modals/ModalHelpers'),
       ProjectInstanceLaunchModal = require('components/modals/project/ProjectInstanceLaunchModal.react'),
-      Utils = require('./Utils');
+      Utils = require('../Utils');
 
   return {
 
