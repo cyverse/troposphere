@@ -7,7 +7,8 @@ define(function (require) {
       NotificationController = require('controllers/NotificationController'),
       ModalHelpers = require('components/modals/ModalHelpers'),
       InstanceResumeModal = require('components/modals/instance/InstanceResumeModal.react'),
-      Utils = require('../Utils');
+      Utils = require('../Utils'),
+      InstanceActionRequest = require('models/InstanceActionRequest');
 
   return {
     resume: function(instance){
@@ -20,28 +21,34 @@ define(function (require) {
         instance.set({state: instanceState});
         Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
 
-        instance.resume({
-         success: function (model) {
-           var instanceState = new InstanceState({status_raw: "suspended - resuming"});
+        var actionRequest = new InstanceActionRequest({instance: instance});
+        actionRequest.save(null, {
+          attrs: {action: "asdf"}
+        }).done(function(){
+          var instanceState = new InstanceState({status_raw: "suspended - resuming"});
            instance.set({state: instanceState});
 
            Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
            Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
-         },
-         error: function (response) {
-          instance.set({state: originalState});
-           Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
-           Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+        }).error(function(response){
+          try {
+            var error = response.responseJSON.errors[0];
+            NotificationController.error(
+              "Your instance could not be resumed",
+              error.code + ": " + error.message
+            );
+          }
+          catch(err){
+            NotificationController.error(
+              "Your instance could not be resumed",
+              "If the problem persists, please contact support."
+            );
+          }
 
-           if(response && response.responseJSON && response.responseJSON.errors){
-              var errors = response.responseJSON.errors;
-              var error = errors[0];
-              NotificationController.error("Your instance could not be resumed.", error.message);
-           }else{
-              NotificationController.error("Your instance could not be resumed", "If the problem persists, please report the instance.");
-           }
-         }
-       });
+          instance.set({state: originalState});
+          Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+          Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+        });
       });
 
     }

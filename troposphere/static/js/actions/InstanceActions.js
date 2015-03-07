@@ -2,7 +2,7 @@ define(function (require) {
   "use strict";
 
   return {
-    resume: require('./instance/resume')
+    resume: require('./instance/resume').resume
   };
 
 });
