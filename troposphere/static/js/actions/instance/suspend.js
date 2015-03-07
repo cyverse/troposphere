@@ -9,6 +9,7 @@ define(function (require) {
       InstanceActionRequest = require('models/InstanceActionRequest');
 
   return {
+
     suspend: function (instance) {
       var modal = InstanceSuspendModal();
 
@@ -35,6 +36,7 @@ define(function (require) {
         });
       });
     }
+
   };
 
 });

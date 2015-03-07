@@ -9,6 +9,7 @@ define(function (require) {
       InstanceActionRequest = require('models/InstanceActionRequest');
 
   return {
+
     resume: function(instance){
       var modal = InstanceResumeModal();
 
@@ -34,8 +35,8 @@ define(function (require) {
           Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
         });
       });
-
     }
+
   };
 
 });
