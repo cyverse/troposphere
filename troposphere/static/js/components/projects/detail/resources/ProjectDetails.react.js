@@ -11,24 +11,26 @@ define(function (require) {
       Instance = require('models/Instance'),
       Volume = require('models/Volume');
 
-  function getState(project) {
-    return {
-      projectInstances: stores.ProjectInstanceStore.getInstancesFor(project),
-      projectVolumes: stores.ProjectVolumeStore.getVolumesFor(project),
-      selectedResource: null,
-      previewedResource: null,
-      providers: stores.ProviderStore.getAll()
-    };
-  }
-
   return React.createClass({
 
     propTypes: {
       project: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
+    getState: function() {
+      var project = this.props.project;
+
+      return {
+        projectInstances: stores.ProjectInstanceStore.getInstancesFor(project),
+        projectVolumes: stores.ProjectVolumeStore.getVolumesFor(project),
+        selectedResource: null,
+        previewedResource: null,
+        providers: stores.ProviderStore.getAll()
+      };
+    },
+
     getInitialState: function(){
-      var state = getState(this.props.project);
+      var state = this.getState();
       state.selectedResources = new Backbone.Collection();
       return state;
     },
@@ -55,7 +57,7 @@ define(function (require) {
 
     updateState: function(){
       if (this.isMounted()) {
-        var state = getState(this.props.project);
+        var state = this.getState();
 
         // Remove any selected resources that are no longer in the project
         var projectInstances = stores.ProjectInstanceStore.getInstancesFor(this.props.project);
@@ -137,50 +139,57 @@ define(function (require) {
     },
 
     render: function () {
-      if(this.state.projectInstances && this.state.projectVolumes && this.state.providers) {
+      var projectInstances = this.state.projectInstances,
+          projectVolumes = this.state.projectVolumes,
+          providers = this.state.providers,
+          project = this.props.project,
+          previewedResource = this.state.previewedResource,
+          selectedResources = this.state.selectedResources,
+          selectedResource = this.state.selectedResource,
+          isButtonBarVisible;
 
-        // Only show the action button bar if the user has selected resources
-        var isButtonBarVisible = this.state.selectedResources.length > 0;
+      if(!projectInstances || !projectVolumes || !providers) return <div className="loading"></div>;
 
-        return (
-          <div className="project-content">
-            <ButtonBar isVisible={isButtonBarVisible}
-                       onMoveSelectedResources={this.onMoveSelectedResources}
-                       onDeleteSelectedResources={this.onDeleteSelectedResources}
-                       onReportSelectedResources={this.onReportSelectedResources}
-                       onRemoveSelectedResources={this.onRemoveSelectedResources}
-            />
-            <div className="resource-list">
-              <div className="scrollable-content">
-                <InstanceList instances={this.state.projectInstances}
-                              project={this.props.project}
-                              onResourceSelected={this.onResourceSelected}
-                              onResourceDeselected={this.onResourceDeselected}
-                              onPreviewResource={this.onPreviewResource}
-                              providers={this.state.providers}
-                              previewedResource={this.state.previewedResource}
-                              selectedResources={this.state.selectedResources}
-                />
-                <VolumeList volumes={this.state.projectVolumes}
-                            project={this.props.project}
-                            onResourceSelected={this.onResourceSelected}
-                            onResourceDeselected={this.onResourceDeselected}
-                            onPreviewResource={this.onPreviewResource}
-                            providers={this.state.providers}
-                            previewedResource={this.state.previewedResource}
-                            selectedResources={this.state.selectedResources}
-                            instances={this.state.projectInstances}
-                />
-              </div>
-              <PreviewPanel resource={this.state.selectedResource}/>
+      // Only show the action button bar if the user has selected resources
+      isButtonBarVisible = this.state.selectedResources.length > 0;
+
+      return (
+        <div className="project-content">
+          <ButtonBar
+            isVisible={isButtonBarVisible}
+             onMoveSelectedResources={this.onMoveSelectedResources}
+             onDeleteSelectedResources={this.onDeleteSelectedResources}
+             onReportSelectedResources={this.onReportSelectedResources}
+             onRemoveSelectedResources={this.onRemoveSelectedResources}
+          />
+          <div className="resource-list">
+            <div className="scrollable-content">
+              <InstanceList
+                instances={projectInstances}
+                project={project}
+                onResourceSelected={this.onResourceSelected}
+                onResourceDeselected={this.onResourceDeselected}
+                onPreviewResource={this.onPreviewResource}
+                providers={providers}
+                previewedResource={previewedResource}
+                selectedResources={selectedResources}
+              />
+              <VolumeList
+                volumes={projectVolumes}
+                project={project}
+                onResourceSelected={this.onResourceSelected}
+                onResourceDeselected={this.onResourceDeselected}
+                onPreviewResource={this.onPreviewResource}
+                providers={providers}
+                previewedResource={previewedResource}
+                selectedResources={selectedResources}
+                instances={projectInstances}
+              />
             </div>
+            <PreviewPanel resource={selectedResource}/>
           </div>
-        );
-      }else{
-        return (
-           <div className="loading"></div>
-        );
-      }
+        </div>
+      );
     }
 
   });
