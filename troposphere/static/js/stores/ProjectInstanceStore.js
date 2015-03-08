@@ -102,6 +102,18 @@ define(function (require) {
         return new Instance(pi.get('instance'), {parse: true});
       });
       return new InstanceCollection(instances);
+    },
+
+    getInstancesForProjectOnProvider: function(project, provider){
+      // get instances in project
+      var instances = this.getInstancesFor(project);
+
+      // filter out instances not on provider
+      var instances = instances.filter(function(i){
+        return i.get('provider').id === provider.id;
+      });
+
+      return new InstanceCollection(instances);
     }
 
   };
