@@ -17,63 +17,33 @@ define(function (require) {
       project: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    getState: function() {
-      var project = this.props.project;
-
+    getInitialState: function(){
       return {
-        projectInstances: stores.ProjectInstanceStore.getInstancesFor(project),
-        projectVolumes: stores.ProjectVolumeStore.getVolumesFor(project),
         selectedResource: null,
         previewedResource: null,
-        providers: stores.ProviderStore.getAll()
-      };
-    },
-
-    getInitialState: function(){
-      var state = this.getState();
-      state.selectedResources = new Backbone.Collection();
-      return state;
-    },
-
-    componentDidMount: function () {
-      stores.InstanceStore.addChangeListener(this.updateState);
-      stores.VolumeStore.addChangeListener(this.updateState);
-      stores.ProviderStore.addChangeListener(this.updateState);
-      stores.SizeStore.addChangeListener(this.updateState);
-      stores.ProjectStore.addChangeListener(this.updateState);
-      stores.ProjectInstanceStore.addChangeListener(this.updateState);
-      stores.ProjectVolumeStore.addChangeListener(this.updateState);
-    },
-
-    componentWillUnmount: function () {
-      stores.InstanceStore.removeChangeListener(this.updateState);
-      stores.VolumeStore.removeChangeListener(this.updateState);
-      stores.ProviderStore.removeChangeListener(this.updateState);
-      stores.SizeStore.removeChangeListener(this.updateState);
-      stores.ProjectStore.removeChangeListener(this.updateState);
-      stores.ProjectInstanceStore.removeChangeListener(this.updateState);
-      stores.ProjectVolumeStore.removeChangeListener(this.updateState);
+        selectedResources: new Backbone.Collection()
+      }
     },
 
     updateState: function(){
+      var project = this.props.project,
+          projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
+          projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project),
+          selectedResourcesClone = this.state.selectedResources.models.slice(0),
+          state = this.getInitialState();
+
       if (this.isMounted()) {
-        var state = this.getState();
-
         // Remove any selected resources that are no longer in the project
-        var projectInstances = stores.ProjectInstanceStore.getInstancesFor(this.props.project);
-        var projectVolumes = stores.ProjectVolumeStore.getVolumesFor(this.props.project);
-
-        var selectedResourcesClone = this.state.selectedResources.models.slice(0);
         selectedResourcesClone.map(function(selectedResource){
-          var instanceInProject = selectedResource instanceof Instance && projectInstances.get(selectedResource);
-          var volumeInProject = selectedResource instanceof Volume && projectVolumes.get(selectedResource);
-          var resourceInProject = instanceInProject || volumeInProject;
-          if(!resourceInProject) this.state.selectedResources.remove(selectedResource);
-        }.bind(this));
+          var instanceInProject = selectedResource instanceof Instance && projectInstances.get(selectedResource),
+              volumeInProject = selectedResource instanceof Volume && projectVolumes.get(selectedResource),
+              resourceInProject = instanceInProject || volumeInProject;
 
-        // Hold onto selected resource if it still exists
-        var indexOfSelectedResource = this.state.selectedResources.indexOf(this.state.selectedResource);
-        if(indexOfSelectedResource >= 0) {
+          if(resourceInProject) state.selectedResources.add(selectedResource);
+        });
+
+        // Hold onto selected resource if it still exists in the project
+        if(state.selectedResources.indexOf(this.state.selectedResource) >= 0) {
           state.selectedResource = this.state.selectedResource;
           state.previewedResource = this.state.previewedResource;
         }
@@ -83,66 +53,85 @@ define(function (require) {
     },
 
     onResourceSelected: function(resource){
-      this.state.selectedResources.push(resource);
+      var selectedResources = this.state.selectedResources;
+
+      // Add the resource to the list of selected resources
+      selectedResources.push(resource);
 
       this.setState({
         selectedResource: resource,
         previewedResource: resource,
-        selectedResources: this.state.selectedResources
+        selectedResources: selectedResources
       });
     },
 
     onResourceDeselected: function(resource){
-      this.state.selectedResources.remove(resource);
-      var previewedResource = this.state.previewedResource;
+      var selectedResources = this.state.selectedResources,
+          previewedResource = this.state.previewedResource;
 
+      // Remove the resources from the list of selected resources
+      selectedResources.remove(resource);
+
+      // If the resource is equal to the currently previewed resource, change
+      // the previewed resource to the last resource the user selected
       if(previewedResource === resource){
-        previewedResource = this.state.selectedResources.last();
+        previewedResource = selectedResources.last();
       }
 
       this.setState({
         selectedResource: previewedResource,
         previewedResource: previewedResource,
-        selectedResources: this.state.selectedResources
+        selectedResources: selectedResources
       });
     },
 
     onPreviewResource: function(resource){
-      this.state.selectedResources.reset();
-      this.state.selectedResources.push(resource);
+      var selectedResources = this.state.selectedResources;
+
+      // todo: figure out why I did this...
+      selectedResources.reset();
+      selectedResources.push(resource);
 
       this.setState({
         selectedResource: resource,
         previewedResource: resource,
-        selectedResources: this.state.selectedResources
+        selectedResources: selectedResources
       });
     },
 
     onMoveSelectedResources: function(){
-      var selectedResources = this.state.selectedResources;
-      actions.ProjectActions.moveResources(selectedResources, this.props.project);
+      actions.ProjectActions.moveResources(
+        this.state.selectedResources,
+        this.props.project
+      );
     },
 
     onDeleteSelectedResources: function(){
-      var selectedResources = this.state.selectedResources;
-      actions.ProjectActions.deleteResources(selectedResources, this.props.project);
+      actions.ProjectActions.deleteResources(
+        this.state.selectedResources,
+        this.props.project
+      );
     },
 
     onReportSelectedResources: function(){
-      var selectedResources = this.state.selectedResources;
-      actions.ProjectActions.reportResources(this.props.project, selectedResources);
+      actions.ProjectActions.reportResources(
+        this.props.project,
+        this.state.selectedResources
+      );
     },
 
     onRemoveSelectedResources: function(){
-      var selectedResources = this.state.selectedResources;
-      actions.ProjectActions.removeResources(selectedResources, this.props.project);
+      actions.ProjectActions.removeResources(
+        this.state.selectedResources,
+        this.props.project
+      );
     },
 
     render: function () {
-      var projectInstances = this.state.projectInstances,
-          projectVolumes = this.state.projectVolumes,
-          providers = this.state.providers,
-          project = this.props.project,
+      var project = this.props.project,
+          projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
+          projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project),
+          providers = stores.ProviderStore.getAll(),
           previewedResource = this.state.previewedResource,
           selectedResources = this.state.selectedResources,
           selectedResource = this.state.selectedResource,
