@@ -3,12 +3,13 @@ define(function (require) {
 
   var InstanceConstants = require('constants/InstanceConstants'),
       InstanceState = require('models/InstanceState'),
-      NotificationController = require('controllers/NotificationController'),
       ModalHelpers = require('components/modals/ModalHelpers'),
       InstanceRebootModal = require('components/modals/instance/InstanceRebootModal.react'),
-      Utils = require('../Utils');
+      Utils = require('../Utils'),
+      InstanceActionRequest = require('models/InstanceActionRequest');
 
   return {
+
     reboot: function (instance) {
       var modal = InstanceRebootModal();
 
@@ -17,35 +18,29 @@ define(function (require) {
         // action: "reboot"
         // reboot_type: "HARD"
 
-        var instanceState = new InstanceState({status_raw: "active - rebooting"});
-        var originalState = instance.get('state');
+        var instanceState = new InstanceState({status_raw: "active - rebooting"}),
+            originalState = instance.get('state'),
+            actionRequest = new InstanceActionRequest({instance: instance});
+
         instance.set({state: instanceState});
         Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
 
-        instance.reboot({
-         success: function (model) {
-           var instanceState = new InstanceState({status_raw: "active - rebooting"});
-           instance.set({state: instanceState});
-
-           Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
-           Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
-         },
-         error: function (response) {
-           instance.set({state: originalState});
-           Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
-           Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
-
-           if(response && response.responseJSON && response.responseJSON.errors){
-              var errors = response.responseJSON.errors;
-              var error = errors[0];
-              NotificationController.error("Instance could not be rebooted", error.message);
-           }else{
-              NotificationController.error("Instance could not be rebooted", "If the problem persists, please report the instance.");
-           }
-         }
-       });
+        actionRequest.save(null, {
+          attrs: {action: "reboot"}
+        }).done(function(){
+          instance.set({
+            state: new InstanceState({status_raw: "active - rebooting"})
+          });
+        }).fail(function(response){
+          instance.set({state: originalState});
+          Utils.displayError({title: "Your instance could not be resumed", response: response});
+        }).always(function(){
+          Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+          Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+        });
       });
     }
+
   };
 
 });

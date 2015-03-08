@@ -5,7 +5,8 @@ define(function (require) {
     resume: require('./instance/resume').resume,
     suspend: require('./instance/suspend').suspend,
     stop: require('./instance/stop').stop,
-    start: require('./instance/start').start
+    start: require('./instance/start').start,
+    reboot: require('./instance/reboot').reboot
   };
 
 });
