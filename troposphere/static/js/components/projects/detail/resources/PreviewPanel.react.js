@@ -1,73 +1,60 @@
-/** @jsx React.DOM */
+define(function (require) {
 
-define(
-  [
-    'react',
-    'backbone',
-    'components/projects/resources/instance/preview/InstancePreviewView.react',
-    'components/projects/resources/volume/preview/VolumePreviewView.react',
+    var React = require('react'),
+        Backbone = require('backbone'),
+        InstancePreviewView = require('components/projects/resources/instance/preview/InstancePreviewView.react'),
+        VolumePreviewView = require('components/projects/resources/volume/preview/VolumePreviewView.react'),
+        Instance = require('models/Instance'),
+        Volume = require('models/Volume');
 
-    // Resource Models
-    'models/Instance',
-    'models/Volume'
-  ],
-  function (React, Backbone, InstancePreviewView, VolumePreviewView, Instance, Volume) {
+  return React.createClass({
 
-    return React.createClass({
+    propTypes: {
+      resource: React.PropTypes.instanceOf(Backbone.Model)
+    },
 
-      propTypes: {
-        project: React.PropTypes.instanceOf(Backbone.Model),
-        resource: React.PropTypes.instanceOf(Backbone.Model),
-        instances: React.PropTypes.instanceOf(Backbone.Collection)
-      },
+    render: function () {
+      var resource = this.props.resource,
+          resourcePreview;
 
-      render: function () {
-        var resource = this.props.resource,
-            project = this.props.project,
-
-            resourcePreview;
-
-        if(!resource) {
-          return (
-            <div className="side-panel">
-              <div className="preview-message">
-                <span className="message">
-                  Select a resource to see a preview of its details
-                </span>
-              </div>
-            </div>
-          );
-        }
-
-        if(resource instanceof Instance) {
-          resourcePreview = (
-            <InstancePreviewView
-              key={resource.id}
-              instance={resource}
-              project={project}
-            />
-          );
-        } else if(resource instanceof Volume) {
-          resourcePreview = (
-            <VolumePreviewView
-              key={resource.id}
-              volume={resource}
-              project={project}
-              instances={instances}
-            />
-          );
-        }
-
+      if(!resource) {
         return (
           <div className="side-panel">
-            <div className="header">
-              <span className="title">Details</span>
+            <div className="preview-message">
+              <span className="message">
+                Select a resource to see a preview of its details
+              </span>
             </div>
-            {resourcePreview}
           </div>
         );
       }
 
-    });
+      if(resource instanceof Instance) {
+        resourcePreview = (
+          <InstancePreviewView
+            key={resource.id}
+            instance={resource}
+          />
+        );
+      } else if(resource instanceof Volume) {
+        resourcePreview = (
+          <VolumePreviewView
+            key={resource.id}
+            volume={resource}
+          />
+        );
+      }
+
+      return (
+        <div className="side-panel">
+          <div className="header">
+            <span className="title">Details</span>
+          </div>
+          {resourcePreview}
+        </div>
+      );
+    }
 
   });
+
+});

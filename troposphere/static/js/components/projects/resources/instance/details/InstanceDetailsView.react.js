@@ -15,32 +15,6 @@ define(function (require) {
       project: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    getState: function(project, instanceId) {
-      return {
-        providers: stores.ProviderStore.getAll()
-      };
-    },
-
-    getInitialState: function(){
-      return this.getState();
-    },
-
-    componentDidMount: function () {
-      stores.InstanceStore.addChangeListener(this.updateState);
-      stores.ProviderStore.addChangeListener(this.updateState);
-      stores.SizeStore.addChangeListener(this.updateState);
-    },
-
-    componentWillUnmount: function () {
-      stores.InstanceStore.removeChangeListener(this.updateState);
-      stores.ProviderStore.removeChangeListener(this.updateState);
-      stores.SizeStore.removeChangeListener(this.updateState);
-    },
-
-    updateState: function(){
-      if (this.isMounted()) this.setState(this.getState());
-    },
-
     render: function () {
       var instance = this.props.instance,
           project = this.props.project;
