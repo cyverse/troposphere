@@ -7,22 +7,24 @@ define(function (require) {
   return Backbone.Model.extend({
 
     initialize: function(attrs, options){
-      if(!attrs.instance) throw new Error("Missing instance");
-      if(!attrs.instance.get('provider').id) throw new Error("Missing instance.provider.id");
-      if(!attrs.instance.get('identity').id) throw new Error("Missing instance.identity.id");
-      if(!attrs.instance.id) throw new Error("Missing instance.id");
+      var instance = attrs.instance;
+      if(!instance) throw new Error("Missing instance");
+      if(!instance.get('provider').uuid) throw new Error("Missing instance.provider.uuid");
+      if(!instance.get('identity').uuid) throw new Error("Missing instance.identity.uuid");
+      if(!instance.get('uuid')) throw new Error("Missing instance.uuid");
     },
 
     url: function(){
       var instance = this.get('instance'),
-          providerId = instance.get('provider').id,
-          identityId = instance.get('identity').id;
+          instanceId = instance.get('uuid'),
+          providerId = instance.get('provider').uuid,
+          identityId = instance.get('identity').uuid;
 
       return (
         globals.API_ROOT +
         "/provider/" + providerId +
         "/identity/" + identityId +
-        "/instance/" + instance.id +
+        "/instance/" + instanceId +
         "/action"
       )
     }
