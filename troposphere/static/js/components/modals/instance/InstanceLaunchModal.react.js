@@ -75,7 +75,7 @@ define(function (require) {
 
     hasEnoughQuotaForMemory: function(identity, size, sizes, instances){
       var quota = identity.get('quota'),
-          maximumAllowed = quota.mem,
+          maximumAllowed = quota.memory,
           projected = size.get('mem'),
           currentlyUsed = identity.getMemoryUsed(instances, sizes);
 
