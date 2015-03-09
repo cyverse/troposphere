@@ -10,11 +10,9 @@ define(function (require) {
     displayName: "InstanceTable",
 
     propTypes: {
-      project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
       instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
       onResourceSelected: React.PropTypes.func.isRequired,
       onResourceDeselected: React.PropTypes.func.isRequired,
-      providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
       previewedResource: React.PropTypes.instanceOf(Backbone.Model),
       selectedResources: React.PropTypes.instanceOf(Backbone.Collection)
     },
@@ -31,11 +29,9 @@ define(function (require) {
         return (
           <InstanceRow key={instance.id || instance.cid}
                        instance={instance}
-                       project={this.props.project}
                        onResourceSelected={this.props.onResourceSelected}
                        onResourceDeselected={this.props.onResourceDeselected}
                        onPreviewResource={this.props.onPreviewResource}
-                       providers={this.props.providers}
                        isPreviewed={isPreviewed}
                        isChecked={isChecked}
           />

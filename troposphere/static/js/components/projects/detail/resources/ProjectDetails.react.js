@@ -131,13 +131,12 @@ define(function (require) {
       var project = this.props.project,
           projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
           projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project),
-          providers = stores.ProviderStore.getAll(),
           previewedResource = this.state.previewedResource,
           selectedResources = this.state.selectedResources,
           selectedResource = this.state.selectedResource,
           isButtonBarVisible;
 
-      if(!projectInstances || !projectVolumes || !providers) return <div className="loading"></div>;
+      if(!projectInstances || !projectVolumes) return <div className="loading"></div>;
 
       // Only show the action button bar if the user has selected resources
       isButtonBarVisible = this.state.selectedResources.length > 0;
@@ -155,24 +154,19 @@ define(function (require) {
             <div className="scrollable-content">
               <InstanceList
                 instances={projectInstances}
-                project={project}
                 onResourceSelected={this.onResourceSelected}
                 onResourceDeselected={this.onResourceDeselected}
                 onPreviewResource={this.onPreviewResource}
-                providers={providers}
                 previewedResource={previewedResource}
                 selectedResources={selectedResources}
               />
               <VolumeList
                 volumes={projectVolumes}
-                project={project}
                 onResourceSelected={this.onResourceSelected}
                 onResourceDeselected={this.onResourceDeselected}
                 onPreviewResource={this.onPreviewResource}
-                providers={providers}
                 previewedResource={previewedResource}
                 selectedResources={selectedResources}
-                instances={projectInstances}
               />
             </div>
             <PreviewPanel resource={selectedResource}/>

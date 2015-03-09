@@ -8,25 +8,24 @@ define(function (require) {
   return React.createClass({
 
     propTypes: {
-      project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
       volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
     render: function () {
-      var project = this.props.project,
-          volume = this.props.volume;
+      var volume = this.props.volume,
+          projectId = volume.get('projects')[0];
 
-      if(volume.id) {
-        return (
-          <Router.Link to="project-volume-details" params={{projectId: project.id, volumeId: volume.id}}>
-            {volume.get('name')}
-          </Router.Link>
-        );
-      }else{
+      if(!volume.id) {
         return (
           <span>{volume.get('name')}</span>
         );
       }
+
+      return (
+        <Router.Link to="project-volume-details" params={{projectId: projectId, volumeId: volume.id}}>
+          {volume.get('name')}
+        </Router.Link>
+      );
     }
 
   });

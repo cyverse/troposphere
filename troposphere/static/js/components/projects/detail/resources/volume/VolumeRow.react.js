@@ -1,74 +1,64 @@
-/** @jsx React.DOM */
+define(function (require) {
 
-define(
-  [
-    'react',
-    'backbone',
+  var React = require('react'),
+      Backbone = require('backbone'),
+      SelectableRow = require('../SelectableRow.react'),
+      Name = require('../tableData/volume/Name.react'),
+      Status = require('../tableData/volume/Status.react'),
+      Size = require('../tableData/volume/Size.react'),
+      Provider = require('../tableData/volume/Provider.react'),
+      stores = require('stores'),
+      CryptoJS = require('crypto'),
+      Gravatar = require('components/common/Gravatar.react');
 
-    // Base Row
-    '../SelectableRow.react',
+  return React.createClass({
+    displayName: "VolumeRow",
 
-    // Table Data
-    '../tableData/volume/Name.react',
-    '../tableData/volume/Status.react',
-    '../tableData/volume/Size.react',
-    '../tableData/volume/Provider.react',
+    propTypes: {
+      volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+      onResourceSelected: React.PropTypes.func.isRequired,
+      onResourceDeselected: React.PropTypes.func.isRequired,
+      onPreviewResource: React.PropTypes.func.isRequired,
+      isPreviewed: React.PropTypes.bool,
+      isChecked: React.PropTypes.bool
+    },
 
-    'stores',
-    'crypto',
-    'components/common/Gravatar.react'
-  ],
-  function (React, Backbone, SelectableRow, Name, Status, Size, Provider, stores, CryptoJS, Gravatar) {
+    render: function () {
+      var volume = this.props.volume,
+          volumeHash = CryptoJS.MD5(volume.id.toString()).toString(),
+          type = stores.ProfileStore.get().get('icon_set'),
+          iconSize = 18;
 
-    return React.createClass({
-      displayName: "VolumeRow",
-
-      propTypes: {
-        onResourceSelected: React.PropTypes.func.isRequired,
-        onResourceDeselected: React.PropTypes.func.isRequired,
-        onPreviewResource: React.PropTypes.func.isRequired,
-        isPreviewed: React.PropTypes.bool,
-        isChecked: React.PropTypes.bool,
-
-        project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired
-      },
-
-      render: function () {
-        var project = this.props.project;
-        var volume = this.props.volume;
-
-        var instanceHash = CryptoJS.MD5(volume.id.toString()).toString();
-        var type = stores.ProfileStore.get().get('icon_set');
-        var iconSize = 18;
-
-        return (
-          <SelectableRow isActive={this.props.isPreviewed}
-                         isSelected={this.props.isChecked}
-                         onResourceSelected={this.props.onResourceSelected}
-                         onResourceDeselected={this.props.onResourceDeselected}
-                         onPreviewResource={this.props.onPreviewResource}
-                         resource={volume}
-          >
-            <td className="image-preview">
-              <Gravatar hash={instanceHash} size={iconSize} type={type}/>
-              <Name project={project} volume={volume}/>
-            </td>
-            <td>
-              <Status volume={volume} instances={this.props.instances}/>
-            </td>
-            <td>
-              <Size volume={volume}/>
-            </td>
-            <td>
-              <Provider volume={volume} providers={this.props.providers}/>
-            </td>
-          </SelectableRow>
-        );
-      }
-
-    });
+      return (
+        <SelectableRow
+          isActive={this.props.isPreviewed}
+          isSelected={this.props.isChecked}
+          onResourceSelected={this.props.onResourceSelected}
+          onResourceDeselected={this.props.onResourceDeselected}
+          onPreviewResource={this.props.onPreviewResource}
+          resource={volume}
+        >
+          <td className="image-preview">
+            <Gravatar
+              hash={volumeHash}
+              size={iconSize}
+              type={type}
+            />
+            <Name volume={volume}/>
+          </td>
+          <td>
+            <Status volume={volume}/>
+          </td>
+          <td>
+            <Size volume={volume}/>
+          </td>
+          <td>
+            <Provider volume={volume}/>
+          </td>
+        </SelectableRow>
+      );
+    }
 
   });
+
+});

@@ -21,18 +21,14 @@ define(function (require) {
       isPreviewed: React.PropTypes.bool,
       isChecked: React.PropTypes.bool,
 
-      project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
     render: function () {
-      var project = this.props.project;
-      var instance = this.props.instance;
-
-      var instanceHash = CryptoJS.MD5(instance.id.toString()).toString();
-      var type = stores.ProfileStore.get().get('icon_set');
-      var iconSize = 18;
+      var instance = this.props.instance,
+          instanceHash = CryptoJS.MD5(instance.id.toString()).toString(),
+          type = stores.ProfileStore.get().get('icon_set'),
+          iconSize = 18;
 
       return (
         <SelectableRow isActive={this.props.isPreviewed}
@@ -44,7 +40,7 @@ define(function (require) {
         >
           <td className="image-preview">
             <Gravatar hash={instanceHash} size={iconSize} type={type}/>
-            <Name project={project} instance={instance}/>
+            <Name instance={instance}/>
           </td>
           <td>
             <Status instance={instance}/>
@@ -56,7 +52,7 @@ define(function (require) {
             <Size instance={instance}/>
           </td>
           <td>
-            <Provider instance={instance} providers={this.props.providers}/>
+            <Provider instance={instance}/>
           </td>
         </SelectableRow>
       );
