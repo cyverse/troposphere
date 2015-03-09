@@ -6,7 +6,8 @@ define(function (require) {
       Collection = require('collections/ProjectVolumeCollection'),
       Constants = require('constants/ProjectVolumeConstants'),
       VolumeCollection = require('collections/VolumeCollection'),
-      Volume = require('models/Volume');
+      Volume = require('models/Volume'),
+      stores = require('stores');
 
   var _models = new Collection();
   var _isFetching = false;
@@ -92,7 +93,9 @@ define(function (require) {
     },
 
     getVolumesFor: function(project){
+      var allVolumes = stores.VolumeStore.getAll();
       if(!_modelsFor[project.id]) return fetchModelsFor(project.id);
+      if(!allVolumes) return;
 
       // convert ProjectVolume collection to an VolumeCollection
       var projectVolumes = _models.filter(function(pv){
@@ -100,7 +103,7 @@ define(function (require) {
       });
 
       var volumes = projectVolumes.map(function(pv){
-        return new Volume(pv.get('volume'), {parse: true});
+        return allVolumes.get(pv.get('volume').id);
       });
       return new VolumeCollection(volumes);
     }

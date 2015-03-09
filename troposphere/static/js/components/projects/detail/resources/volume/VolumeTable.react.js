@@ -27,11 +27,11 @@ define(function (require) {
       this.setState({isChecked: !this.state.isChecked});
     },
 
-    getVolumeRows: function(){
+    getVolumeRows: function(volumes){
       var previewedResource = this.props.previewedResource,
           selectedResources = this.props.selectedResources;
 
-      return this.props.volumes.map(function(volume){
+      return volumes.map(function(volume){
         var isPreviewed = (previewedResource === volume),
             isChecked = selectedResources.get(volume) ? true : false;
 
@@ -50,11 +50,14 @@ define(function (require) {
     },
 
     render: function () {
+      var volumes = this.props.volumes,
+          volumeRows = this.getVolumeRows(volumes);
+
       return (
         <SelectableTable
-          resources={this.props.volumes}
+          resources={volumes}
           selectedResources={this.props.selectedResources}
-          getResourceRows={this.getVolumeRows}
+          resourceRows={volumeRows}
           onResourceSelected={this.props.onResourceSelected}
           onResourceDeselected={this.props.onResourceDeselected}
         >

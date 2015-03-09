@@ -6,7 +6,8 @@ define(function (require) {
       Collection = require('collections/ProjectInstanceCollection'),
       Constants = require('constants/ProjectInstanceConstants'),
       InstanceCollection = require('collections/InstanceCollection'),
-      Instance = require('models/Instance');
+      Instance = require('models/Instance'),
+      stores = require('stores');
 
   var _models = new Collection();
   var _isFetching = false;
@@ -91,7 +92,9 @@ define(function (require) {
     },
 
     getInstancesFor: function(project){
+      var allInstances = stores.InstanceStore.getAll();
       if(!_modelsFor[project.id]) return fetchModelsFor(project.id);
+      if(!allInstances) return;
 
       // convert ProjectVolume collection to an VolumeCollection
       var projectInstances = _models.filter(function(pi){
@@ -99,7 +102,7 @@ define(function (require) {
       });
 
       var instances = projectInstances.map(function(pi){
-        return new Instance(pi.get('instance'), {parse: true});
+        return allInstances.get(pi.get('instance').id);
       });
       return new InstanceCollection(instances);
     },

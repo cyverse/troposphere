@@ -17,33 +17,34 @@ define(function (require) {
       selectedResources: React.PropTypes.instanceOf(Backbone.Collection)
     },
 
-    getVolumeContent: function(){
+    render: function () {
+      var volumes = this.props.volumes,
+          content;
+
       if(this.props.volumes.length <= 0){
-        return (
+        content = (
           <NoVolumeNotice project={this.props.project}/>
+        );
+      }else{
+        content = (
+          <VolumeTable
+            volumes={volumes}
+            onResourceSelected={this.props.onResourceSelected}
+            onResourceDeselected={this.props.onResourceDeselected}
+            onPreviewResource={this.props.onPreviewResource}
+            previewedResource={this.props.previewedResource}
+            selectedResources={this.props.selectedResources}
+          />
         );
       }
 
-      return (
-        <VolumeTable
-          volumes={this.props.volumes}
-          onResourceSelected={this.props.onResourceSelected}
-          onResourceDeselected={this.props.onResourceDeselected}
-          onPreviewResource={this.props.onPreviewResource}
-          previewedResource={this.props.previewedResource}
-          selectedResources={this.props.selectedResources}
-        />
-      );
-    },
-
-    render: function () {
       return (
         <div>
           <div className="header">
             <i className="glyphicon glyphicon-hdd"></i>
             <h2>Volumes</h2>
           </div>
-          {this.getVolumeContent()}
+          {content}
         </div>
       );
     }

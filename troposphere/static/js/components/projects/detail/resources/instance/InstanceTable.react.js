@@ -17,10 +17,9 @@ define(function (require) {
       selectedResources: React.PropTypes.instanceOf(Backbone.Collection)
     },
 
-    getInstanceRows: function(){
+    getInstanceRows: function(instances){
       var previewedResource = this.props.previewedResource,
-          selectedResources = this.props.selectedResources,
-          instances = this.props.instances;
+          selectedResources = this.props.selectedResources;
 
       return instances.map(function(instance){
         var isPreviewed = (previewedResource === instance);
@@ -40,11 +39,14 @@ define(function (require) {
     },
 
     render: function () {
+      var instances = this.props.instances,
+          instanceRows = this.getInstanceRows(instances);
+
       return (
         <SelectableTable
-          resources={this.props.instances}
+          resources={instances}
           selectedResources={this.props.selectedResources}
-          getResourceRows={this.getInstanceRows}
+          resourceRows={instanceRows}
           onResourceSelected={this.props.onResourceSelected}
           onResourceDeselected={this.props.onResourceDeselected}
         >

@@ -30,6 +30,7 @@ define(function (require) {
       }).done(function () {
         _isFetching = false;
         _models = models;
+        _models.each(pollNowUntilBuildIsFinished);
         ModelStore.emitChange();
       });
     }
@@ -69,7 +70,8 @@ define(function (require) {
 
   var fetchAndRemoveIfFinished = function (volume) {
     setTimeout(function () {
-      volume.fetch().done(function () {
+      volume.fetchFromCloud(function() {
+        update(volume);
         var index = _volumesBuilding.indexOf(volume);
         if (volume.get('state').isInFinalState()) {
           _volumesBuilding.splice(index, 1);
@@ -82,7 +84,8 @@ define(function (require) {
   };
 
   var fetchNowAndRemoveIfFinished = function (volume) {
-    volume.fetch().done(function () {
+    volume.fetchFromCloud(function () {
+      update(volume);
       var index = _volumesBuilding.indexOf(volume);
       if (volume.get('state').isInFinalState()) {
         _volumesBuilding.splice(index, 1);

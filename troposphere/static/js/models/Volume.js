@@ -4,6 +4,20 @@ define(function (require) {
       globals = require('globals'),
       VolumeState = require('./VolumeState');
 
+  var extractAttachData = function(attrs){
+    if (attrs.attach_data && attrs.attach_data.instance_alias) {
+      return {
+        device: attrs.attach_data.device,
+        instance_id: attrs.attach_data.instance_alias
+      };
+    }
+
+    return {
+      device: null,
+      instance_id: null
+    };
+  };
+
   return Backbone.Model.extend({
     urlRoot: globals.API_V2_ROOT + "/volumes",
 
@@ -11,24 +25,34 @@ define(function (require) {
       attributes.start_date = new Date(attributes.start_date);
       attributes.state = new VolumeState({status_raw: attributes.status});
       attributes.status = attributes.status || "Unknown";
-
-      if (attributes.attach_data && attributes.attach_data.instance_alias) {
-        attributes.attach_data = {
-          device: attributes.attach_data.device,
-          instance_id: attributes.attach_data.instance_alias
-        };
-      }else{
-        attributes.attach_data = {
-          device: null,
-          instance_id: null
-        };
-      }
-
+      attributes.attach_data = extractAttachData(attributes);
       return attributes;
     },
 
     isAttached: function () {
       return this.get('status') == 'in-use' || this.get('status') == 'detaching';
+    },
+
+    fetchFromCloud: function(cb){
+      var volumeId = this.get('uuid'),
+          providerId = this.get('provider').uuid,
+          identityId = this.get('identity').uuid;
+
+      var url =  (
+        globals.API_ROOT +
+        "/provider/" + providerId +
+        "/identity/" + identityId +
+        "/volume/" + volumeId
+      );
+
+      Backbone.sync("read", this, {
+        url:url
+      }).done(function(attrs, status, response){
+        this.set('status', attrs.status || "Unknown");
+        this.set('state', new VolumeState({status_raw: attrs.status}));
+        this.set('attach_data', extractAttachData(attrs));
+        cb();
+      }.bind(this));
     }
 
   });
