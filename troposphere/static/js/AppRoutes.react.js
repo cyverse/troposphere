@@ -38,6 +38,7 @@ define(function (require) {
         <Route name="favorites" handler={FavoritedImagesPage}/>
         <Route name="authored" handler={MyImagesPage}/>
         <Route name="tags" handler={ImageTagsPage}/>
+        <Route name="image-details" path=":imageId" handler={ImageDetailsPage}/>
         <DefaultRoute handler={ImageListPage}/>
       </Route>
 
@@ -55,8 +56,6 @@ define(function (require) {
         <Route name="project-volume-details" path="volumes/:volumeId" handler={ProjectVolumePage}/>
         <DefaultRoute handler={ProjectDetailsPage}/>
       </Route>
-
-      <Route name="image" path="images/:imageId" handler={ImageDetailsPage}/>
 
       <DefaultRoute handler={MasterTest}/>
     </Route>

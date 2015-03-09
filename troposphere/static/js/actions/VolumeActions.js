@@ -13,7 +13,6 @@ define(function (require) {
 
       // Modals
       ModalHelpers = require('components/modals/ModalHelpers'),
-      VolumeAttachRulesModal = require('components/modals/volume/VolumeAttachRulesModal.react'),
       VolumeAttachModal = require('components/modals/volume/VolumeAttachModal.react'),
       VolumeDetachModal = require('components/modals/volume/VolumeDetachModal.react'),
       VolumeDeleteModal = require('components/modals/volume/VolumeDeleteModal.react'),

@@ -1,40 +1,36 @@
-/** @jsx React.DOM */
+define(function (require) {
 
-define(
-  [
-    'react',
-    'backbone',
-    'components/projects/common/ResourceDetail.react',
-    'react-router',
-    'stores'
-  ],
-  function (React, Backbone, ResourceDetail, Router, stores) {
+  var React = require('react'),
+      Backbone = require('backbone'),
+      ResourceDetail = require('components/projects/common/ResourceDetail.react'),
+      Router = require('react-router'),
+      stores = require('stores');
 
-    return React.createClass({
+  return React.createClass({
 
-      propTypes: {
-        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    propTypes: {
+      instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
+    },
 
-      render: function () {
-        var instance = this.props.instance,
-            image = stores.ApplicationStore.get(instance.get('image').id);
+    render: function () {
+      var instance = this.props.instance,
+          image = stores.ApplicationStore.get(instance.get('image').id);
 
-        if(!image){
-          return (
-            <div className="loading-tiny-inline"></div>
-          );
-        }
-
+      if(!image){
         return (
-          <ResourceDetail label="Based on">
-            <Router.Link to="image" params={{imageId: image.id}}>
-              {image.get('name')}
-            </Router.Link>
-          </ResourceDetail>
+          <div className="loading-tiny-inline"></div>
         );
       }
 
-    });
+      return (
+        <ResourceDetail label="Based on">
+          <Router.Link to="image-details" params={{imageId: image.id}}>
+            {image.get('name')}
+          </Router.Link>
+        </ResourceDetail>
+      );
+    }
 
   });
+
+});
