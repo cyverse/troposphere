@@ -37,7 +37,7 @@ define(
 
     function getState(project) {
       var state = {
-        instances: stores.InstanceStore.getInstancesInProject(project),
+        instances: stores.ProjectInstanceStore.getInstancesFor(project),
         instanceId: null
       };
 

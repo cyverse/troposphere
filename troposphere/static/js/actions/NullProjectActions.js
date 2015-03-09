@@ -130,21 +130,6 @@ define(function (require) {
       }
     },
 
-    // todo: remove this function or discover why it exists
-    _volumeAllowedToBeMigratedByUser: function(volume, nullProject){
-      // If has no attach data, return true
-      var attached_instance_id = volume.get('attach_data').instance_id;
-      if(!attached_instance_id) return true;
-
-      // If attached to instance in null project, return true
-      var instances = stores.InstanceStore.getInstancesInProject(nullProject);
-      var instance = instances.get(attached_instance_id);
-      if(instance) return true;
-
-      // else return false
-      return false;
-    },
-
     migrateResourcesIntoProject: function (nullProject) {
       var instances = nullProject.get('instances'),
           volumes = nullProject.get('volumes'),
@@ -154,12 +139,6 @@ define(function (require) {
       instances.each(function(instance){
         resources.push(instance);
       });
-
-      //volumes.each(function(volume){
-      //  if(this._volumeAllowedToBeMigratedByUser(volume, nullProject)) {
-      //    resources.push(volume);
-      //  }
-      //}.bind(this));
 
       volumes.each(function(volume){
         resources.push(volume);

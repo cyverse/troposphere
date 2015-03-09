@@ -1,9 +1,9 @@
 define(function (require) {
     'use strict';
 
-    var $ = require('jquery');
-    var React = require('react');
-    var SplashScreen = require('components/SplashScreen.react');
+    var $ = require('jquery'),
+        React = require('react'),
+        SplashScreen = require('components/SplashScreen.react');
 
     // Register which stores the application should use
     var stores = require('stores');
@@ -29,8 +29,9 @@ define(function (require) {
     actions.HelpActions            = require('actions/HelpActions');
     actions.InstanceActions        = require('actions/InstanceActions');
     actions.InstanceTagActions     = require('actions/InstanceTagActions');
-    actions.ProfileActions         = require('actions/ProfileActions');
+    actions.InstanceVolumeActions  = require('actions/InstanceVolumeActions');
     actions.NullProjectActions     = require('actions/NullProjectActions');
+    actions.ProfileActions         = require('actions/ProfileActions');
     actions.ProjectActions         = require('actions/ProjectActions');
     actions.ProjectInstanceActions = require('actions/ProjectInstanceActions');
     actions.ProjectVolumeActions   = require('actions/ProjectVolumeActions');

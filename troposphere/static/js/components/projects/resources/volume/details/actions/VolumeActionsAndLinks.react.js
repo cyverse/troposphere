@@ -14,11 +14,11 @@ define(function (require) {
     },
 
     onAttach: function(){
-      actions.VolumeActions.attach(this.props.volume, this.props.project);
+      actions.InstanceVolumeActions.attach(this.props.volume, this.props.project);
     },
 
     onDetach: function(){
-      actions.VolumeActions.detach(this.props.volume);
+      actions.InstanceVolumeActions.detach(this.props.volume);
     },
 
     onDelete: function(){
