@@ -8,13 +8,6 @@ define(
     return Backbone.Model.extend({
       url: globals.API_ROOT + "/profile" + globals.slash(),
 
-      get_credentials: function () {
-        return {
-          provider_id: this.get('provider_id'),
-          identity_id: this.get('identity_id')
-        };
-      },
-
       parse: function (response) {
         var attributes = response;
 

@@ -10,24 +10,61 @@ define(
 
     return Backbone.Model.extend({
 
-      urlRoot: function(){
-        var creds = this.getCreds();
-        var url = globals.API_ROOT +
-                  '/provider/' + creds.provider_id +
-                  '/identity/' + creds.identity_id +
-                  '/instance' + globals.slash();
-        return url;
-      },
-
-      url: function(){
-        return Backbone.Model.prototype.url.apply(this) + globals.slash();
-      },
+      urlRoot: globals.API_V2_ROOT + "/instances",
 
       parse: function (attributes) {
-        attributes.id = attributes.alias;
         attributes.start_date = new Date(attributes.start_date);
         attributes.state = new InstanceState({status_raw: attributes.status});
         return attributes;
+      },
+
+      fetchFromCloud: function(cb){
+        var instanceId = this.get('uuid'),
+            providerId = this.get('provider').uuid,
+            identityId = this.get('identity').uuid;
+
+        var url =  (
+          globals.API_ROOT +
+          "/provider/" + providerId +
+          "/identity/" + identityId +
+          "/instance/" + instanceId
+        );
+
+        Backbone.sync("read", this, {
+          url:url
+        }).done(function(attrs, status, response){
+          this.set('status', attrs.status);
+          this.set('state', new InstanceState({status_raw: attrs.status}));
+          cb();
+        }.bind(this));
+      },
+
+      createOnV1Endpoint: function(options, cb){
+        if(!options.name) throw new Error("Missing name");
+        if(!options.size_alias) throw new Error("Missing size_alias");
+        if(!options.machine_alias) throw new Error("Missing machine_alias");
+
+        var providerId = this.get('provider').uuid,
+            identityId = this.get('identity').uuid,
+            name = options.name,
+            size = options.size_alias,
+            machine = options.machine_alias;
+
+        var url =  (
+          globals.API_ROOT +
+          "/provider/" + providerId +
+          "/identity/" + identityId +
+          "/instance"
+        );
+
+        return Backbone.sync("create", this, {
+          url: url,
+          attrs: {
+            name: name,
+            machine_alias: machine,
+            size_alias: size
+          }
+        });
       },
 
       getCreds: function () {

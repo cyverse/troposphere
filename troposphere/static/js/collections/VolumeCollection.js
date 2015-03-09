@@ -1,32 +1,26 @@
-/* volumes.js
- * Backbone.js volumes collection.
- */
-define(
-  [
-    'backbone',
-    'underscore',
-    'globals',
-    'models/Volume'
-  ],
-  function (Backbone, _, globals, Volume) {
+define(function (require) {
+  "use strict";
 
-    return Backbone.Collection.extend({
-      model: Volume,
+  var Backbone = require('backbone'),
+      _ = require('underscore'),
+      Volume = require('models/Volume'),
+      globals = require('globals');
 
-      initialize: function (models, options) {
-        if (options && options.provider_id && options.identity_id)
-          this.creds = _.pick(options, 'provider_id', 'identity_id');
-      },
+  return Backbone.Collection.extend({
+    model: Volume,
 
-      url: function(){
-        var creds = this.creds;
-        var url = globals.API_ROOT +
-                  '/provider/' + creds.provider_id +
-                  '/identity/' + creds.identity_id +
-                  '/volume' + globals.slash();
-        return url;
-      }
+    url: globals.API_V2_ROOT + '/volumes',
 
-    });
+    parse: function (response) {
+      this.meta = {
+        count: response.count,
+        next: response.next,
+        previous: response.previous
+      };
+
+      return response.results;
+    }
 
   });
+
+});

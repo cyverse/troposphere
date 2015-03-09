@@ -1,31 +1,26 @@
-/** @jsx React.DOM */
+define(function (require) {
 
-define(
-  [
-    'react',
-    'backbone',
-    './MachineList.react'
-  ],
-  function (React, Backbone, MachineList) {
+  var React = require('react'),
+      Backbone = require('backbone'),
+      MachineList = require('./MachineList.react');
 
-    return React.createClass({
+  return React.createClass({
 
-      propTypes: {
-        application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired
-      },
+    propTypes: {
+      application: React.PropTypes.instanceOf(Backbone.Model).isRequired
+    },
 
-      render: function () {
-        return (
-          <div className="image-versions image-info-segment row">
-            <h2 className="title col-md-2">Versions</h2>
-            <MachineList machines={this.props.application.get('machines')}
-                         identities={this.props.identities}
-            />
-          </div>
-        );
-      }
+    render: function () {
+      var image = this.props.application;
 
-    });
+      return (
+        <div className="image-versions image-info-segment row">
+          <h2 className="title col-md-2">Versions</h2>
+          <MachineList machines={image.get('machines')}/>
+        </div>
+      );
+    }
 
   });
+
+});

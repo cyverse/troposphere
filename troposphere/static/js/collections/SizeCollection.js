@@ -1,27 +1,34 @@
-define(
-  [
-    'backbone',
-    'underscore',
-    'models/Size',
-    'globals'
-  ],
-  function (Backbone, _, Size, globals) {
+define(function (require) {
+  "use strict";
 
-    return Backbone.Collection.extend({
-      model: Size,
+  var Backbone = require('backbone'),
+      _ = require('underscore'),
+      Size = require('models/Size'),
+      globals = require('globals');
 
-      initialize: function(models, options) {
-        this.creds = _.pick(options, 'provider_id', 'identity_id');
-      },
+  return Backbone.Collection.extend({
+    model: Size,
 
-      url: function () {
-        var url = globals.API_ROOT +
-                  "/provider/" + this.creds.provider_id +
-                  "/identity/" + this.creds.identity_id +
-                  "/size" + globals.slash();
-        return url;
-      }
+    url: globals.API_V2_ROOT + "/sizes",
 
-    });
+    parse: function (response) {
+      this.meta = {
+        count: response.count,
+        next: response.next,
+        previous: response.previous
+      };
+
+      return response.results;
+    },
+
+    comparator: function (sizeA, sizeB) {
+      var aliasA = sizeA.get('alias').toLowerCase();
+      var aliasB = sizeB.get('alias').toLowerCase();
+
+      if(aliasA === aliasB) return 0;
+      return aliasA < aliasB ? -1 : 1;
+    }
 
   });
+
+});

@@ -16,6 +16,7 @@ all : npm bower-install gulp-dev virtualenv pip chown
 clean :
 	$(GULP) clean
 	$(BOWER) prune
+	./scripts/rm_all_pyc.sh
 
 delete : delete-javascript delete-virtualenv
 

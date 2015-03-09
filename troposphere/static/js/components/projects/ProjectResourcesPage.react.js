@@ -1,72 +1,31 @@
-/** @jsx React.DOM */
+define(function (require) {
 
-define(
-  [
-    'react',
-    './detail/resources/ProjectResourcesWrapper.react',
-    './detail/resources/ProjectDetails.react',
-    'stores/ProjectStore',
-    'stores/InstanceStore',
-    'stores/VolumeStore'
-  ],
-  function (React, ProjectResourcesWrapper, ProjectDetails, ProjectStore, InstanceStore, VolumeStore) {
+  var React = require('react'),
+      ProjectResourcesWrapper = require('./detail/resources/ProjectResourcesWrapper.react'),
+      ProjectDetails = require('./detail/resources/ProjectDetails.react'),
+      stores = require('stores'),
+      Router = require('react-router');
 
-    function getState(projectId) {
-      return {
-        project: ProjectStore.get(projectId)
-      };
-    }
+  return React.createClass({
 
-    return React.createClass({
+    mixins: [Router.State],
 
-      //
-      // Mounting & State
-      // ----------------
-      //
+    render: function () {
+      var project = stores.ProjectStore.get(this.getParams().projectId);
 
-      propTypes: {
-        projectId: React.PropTypes.string.isRequired
-      },
-
-      getInitialState: function() {
-        return getState(this.props.projectId);
-      },
-
-      updateState: function() {
-        if (this.isMounted()) this.setState(getState(this.props.projectId))
-      },
-
-      componentDidMount: function () {
-        ProjectStore.addChangeListener(this.updateState);
-        //InstanceStore.addChangeListener(this.updateState);
-        //VolumeStore.addChangeListener(this.updateState);
-      },
-
-      componentWillUnmount: function () {
-        ProjectStore.removeChangeListener(this.updateState);
-        //InstanceStore.removeChangeListener(this.updateState);
-        //VolumeStore.removeChangeListener(this.updateState);
-      },
-
-      //
-      // Render
-      // ------
-      //
-
-      render: function () {
-        if (this.state.project) {
-          return (
-            <ProjectResourcesWrapper project={this.state.project}>
-              <ProjectDetails project={this.state.project}/>
-            </ProjectResourcesWrapper>
-          );
-        }
-
+      if(!project){
         return (
           <div className="loading"></div>
         );
       }
 
-    });
+      return (
+        <ProjectResourcesWrapper project={project}>
+          <ProjectDetails project={project}/>
+        </ProjectResourcesWrapper>
+      );
+    }
 
   });
+
+});

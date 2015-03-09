@@ -5,47 +5,64 @@ define(
     'collections/SizeCollection',
     'dispatchers/AppDispatcher'
   ],
-  function (_, Store, SizeCollection, AppDispatcher) {
+  function (_, Store, Collection, AppDispatcher) {
 
-    var _sizes = {};
-    var _isFetching = {};
+    var _models = null;
+    var _isFetching = false;
 
-    function fetchSizesForProviderIdentity(providerId, identityId){
-      addEntriesForProviderIdentityIfNotExists(providerId, identityId);
+    var _modelsFor = {};
+    var _isFetchingFor = {};
 
-      if(!_isFetching[providerId][identityId]) {
-        _isFetching[providerId][identityId] = true;
-        var sizes = new SizeCollection(null, {
-          provider_id: providerId,
-          identity_id: identityId
-        });
-
-        sizes.fetch().done(function () {
-          _isFetching[providerId][identityId] = false;
-           _sizes[providerId][identityId] = sizes;
-          SizeStore.emitChange();
+    var fetchSizes = function () {
+      if(!_isFetching) {
+        _isFetching = true;
+        var models = new Collection();
+        models.fetch({
+          url: models.url + "?page_size=100"
+        }).done(function () {
+          _isFetching = false;
+          _models = models;
+          ModelStore.emitChange();
         });
       }
-    }
+    };
 
-    function addEntriesForProviderIdentityIfNotExists(providerId, identityId){
-      // Add fetching entries, set default state to false
-      _isFetching[providerId] = _isFetching[providerId] || {};
-      _isFetching[providerId][identityId] = _isFetching[providerId][identityId] || false;
+    var fetchModelsFor = function(providerId){
+      if(!_modelsFor[providerId] && !_isFetchingFor[providerId]) {
+        _isFetchingFor[providerId] = true;
+        var models = new Collection();
+        models.fetch({
+          url: models.url + "?provider__id=" + providerId + "&page_size=100"
+        }).done(function () {
+          _isFetchingFor[providerId] = false;
+          _modelsFor[providerId] = models;
+          ModelStore.emitChange();
+        });
+      }
+    };
 
-      // Add size entries (only needed for provider level, identity level can be undefined)
-      _sizes[providerId] = _sizes[providerId] || {};
-    }
+    var ModelStore = {
 
-    var SizeStore = {
-
-      getAllFor: function (providerId, identityId) {
-        addEntriesForProviderIdentityIfNotExists(providerId, identityId);
-
-        if (!_sizes[providerId][identityId]) {
-          fetchSizesForProviderIdentity(providerId, identityId);
+      getAll: function () {
+        if(!_models) {
+          fetchSizes();
+        } else {
+          return _models;
         }
-        return _sizes[providerId][identityId];
+      },
+
+      get: function (modelId) {
+        if(!_models) {
+          fetchSizes();
+        }else{
+          return _models.get(modelId);
+        }
+      },
+
+      getSizesFor: function(provider){
+        if(!_modelsFor[provider.id]) return fetchModelsFor(provider.id);
+
+        return _modelsFor[provider.id];
       }
 
     };
@@ -58,13 +75,13 @@ define(
           return true;
       }
 
-      SizeStore.emitChange();
+      ModelStore.emitChange();
 
       return true;
     });
 
-    _.extend(SizeStore, Store);
+    _.extend(ModelStore, Store);
 
-    return SizeStore;
+    return ModelStore;
 
   });

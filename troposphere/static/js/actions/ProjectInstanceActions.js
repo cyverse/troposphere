@@ -1,90 +1,38 @@
-define(
-  [
-    'react',
-    'dispatchers/AppDispatcher',
-    'constants/ProjectConstants',
-    'constants/ProjectInstanceConstants',
-    'stores/helpers/ProjectInstance'
-  ],
-  function (React, AppDispatcher, ProjectConstants, ProjectInstanceConstants, ProjectInstance) {
+define(function (require) {
 
-    var _isParanoid = false;
+  var AppDispatcher = require('dispatchers/AppDispatcher'),
+      ProjectConstants = require('constants/ProjectConstants'),
+      ProjectInstanceConstants = require('constants/ProjectInstanceConstants'),
+      ProjectInstance = require('models/ProjectInstance'),
+      Utils = require('./Utils'),
+      stores = require('stores');
 
-    return {
+  return {
 
-      dispatch: function(actionType, payload, options){
-        options = options || {};
-        AppDispatcher.handleRouteAction({
-          actionType: actionType,
-          payload: payload,
-          options: options
-        });
-      },
+    // ----------------------------
+    // Add/Remove Project Resources
+    // ----------------------------
 
-      // ----------------------------
-      // Add/Remove Project Resources
-      // ----------------------------
+    addInstanceToProject: function(instance, project, options){
+      var projectInstance = new ProjectInstance(),
+          data = {
+            project: project.id,
+            instance: instance.id
+          };
 
-      addInstanceToProject: function(instance, project, options){
-        var that = this;
+      projectInstance.save(null, { attrs: data }).done(function(){
+        Utils.dispatch(ProjectInstanceConstants.ADD_PROJECT_INSTANCE, {projectInstance: projectInstance}, options);
+      });
+    },
 
-        var projectInstance = new ProjectInstance({
-          instance: instance,
-          project: project
-        });
+    removeInstanceFromProject: function(instance, project, options){
+      var projectInstance = stores.ProjectInstanceStore.getProjectInstanceFor(project, instance);
 
-        this.dispatch(ProjectInstanceConstants.ADD_INSTANCE_TO_PROJECT, {
-          instance: instance,
-          project: project
-        }, options);
+      projectInstance.destroy().done(function(){
+        Utils.dispatch(ProjectInstanceConstants.REMOVE_PROJECT_INSTANCE, {projectInstance: projectInstance}, options);
+      });
+    }
 
-        projectInstance.save().done(function(){
-          // re-fetch the project to make sure the change was also made on the server
-          if(_isParanoid) {
-            project.fetch().then(function () {
-              that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
-            });
-          }
-        }).fail(function(){
-          that.dispatch(ProjectInstanceConstants.REMOVE_INSTANCE_FROM_PROJECT, {
-            instance: instance,
-            project: project
-          });
-        });
-      },
+  };
 
-      removeInstanceFromProject: function(instance, project, options){
-        var that = this;
-
-        var projectInstance = new ProjectInstance({
-          instance: instance,
-          project: project
-        });
-
-        this.dispatch(ProjectInstanceConstants.REMOVE_INSTANCE_FROM_PROJECT, {
-          instance: instance,
-          project: project
-        }, options);
-
-        projectInstance.destroy().done(function(){
-          // re-fetch the project to make sure the change was also made on the server
-          if(_isParanoid) {
-            project.fetch().then(function () {
-              that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
-            });
-          }
-        }).fail(function(){
-          var warning = "API says instance wasn't removed from project, but is likely " +
-                        "lying. False false bug. This message is here until PAG is over.";
-          console.warn(warning);
-
-          //that.dispatch(ProjectInstanceConstants.ADD_INSTANCE_TO_PROJECT, {
-          //  instance: instance,
-          //  project: project
-          //});
-        });
-      }
-
-    };
-
-  });
+});

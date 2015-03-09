@@ -1,41 +1,33 @@
-/** @jsx React.DOM */
+define(function (require) {
+  "use strict";
 
-define(
-  [
-    'react',
-    'backbone',
-    'url'
-  ],
-  function (React, Backbone, URL) {
+  var React = require('react'),
+      Backbone = require('backbone'),
+      Router = require('react-router');
 
-    return React.createClass({
+  return React.createClass({
 
-      propTypes: {
-        project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    propTypes: {
+      volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
+    },
 
-      render: function () {
-        var project = this.props.project,
-            volume = this.props.volume,
-            volumeUrl;
+    render: function () {
+      var volume = this.props.volume,
+          projectId = volume.get('projects')[0];
 
-        if(volume.id) {
-          volumeUrl = URL.projectVolume({
-            project: project,
-            volume: volume
-          });
-
-          return (
-            <a href={volumeUrl}>{volume.get('name')}</a>
-          );
-        }else{
-          return (
-            <span>{volume.get('name')}</span>
-          );
-        }
+      if(!volume.id) {
+        return (
+          <span>{volume.get('name')}</span>
+        );
       }
 
-    });
+      return (
+        <Router.Link to="project-volume-details" params={{projectId: projectId, volumeId: volume.id}}>
+          {volume.get('name')}
+        </Router.Link>
+      );
+    }
 
   });
+
+});

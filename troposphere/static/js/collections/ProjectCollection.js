@@ -1,28 +1,35 @@
-define(
-  [
-    'backbone',
-    'models/Project',
-    'globals'
-  ],
-  function (Backbone, Project, globals) {
+define(function (require) {
+  "use strict";
 
-    return Backbone.Collection.extend({
-      model: Project,
+  var Backbone = require('backbone'),
+      Project = require('models/Project'),
+      globals = require('globals');
 
-      url: function () {
-        return globals.API_ROOT + "/project" + globals.slash();
-      },
+  return Backbone.Collection.extend({
+    model: Project,
 
-      comparator: function (projectA, projectB) {
-        var nameA = projectA.get('name').toLowerCase();
-        var nameB = projectB.get('name').toLowerCase();
+    url: globals.API_V2_ROOT + "/projects",
 
-        if(nameA === "default") return -1;
-        if(nameB === "default") return 1;
-        if(nameA === nameB) return 0;
-        return nameA < nameB ? -1 : 1;
-      }
+    parse: function (response) {
+      this.meta = {
+        count: response.count,
+        next: response.next,
+        previous: response.previous
+      };
 
-    });
+      return response.results;
+    },
+
+    comparator: function (projectA, projectB) {
+      var nameA = projectA.get('name').toLowerCase();
+      var nameB = projectB.get('name').toLowerCase();
+
+      if(nameA === "default") return -1;
+      if(nameB === "default") return 1;
+      if(nameA === nameB) return 0;
+      return nameA < nameB ? -1 : 1;
+    }
 
   });
+
+});

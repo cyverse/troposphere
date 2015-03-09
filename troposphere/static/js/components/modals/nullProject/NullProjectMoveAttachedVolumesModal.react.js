@@ -70,7 +70,7 @@ define(
 
       renderBody: function(){
         return (
-          <form role='form'>
+          <div role='form'>
             <div className='form-group'>
               <p>
                 {
@@ -85,7 +85,7 @@ define(
                 {this.props.movedVolumesArray.map(this.renderMovedVolume)}
               </ul>
             </div>
-          </form>
+          </div>
         );
       },
 

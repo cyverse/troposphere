@@ -1,9 +1,9 @@
 define(function (require) {
     'use strict';
 
-    var $ = require('jquery');
-    var React = require('react');
-    var SplashScreen = require('components/SplashScreen.react');
+    var $ = require('jquery'),
+        React = require('react'),
+        SplashScreen = require('components/SplashScreen.react');
 
     // Register which stores the application should use
     var stores = require('stores');
@@ -11,11 +11,13 @@ define(function (require) {
     stores.IdentityStore           = require('stores/IdentityStore');
     stores.InstanceHistoryStore    = require('stores/InstanceHistoryStore');
     stores.InstanceStore           = require('stores/InstanceStore');
+    stores.InstanceTagStore        = require('stores/InstanceTagStore');
     stores.MachineStore            = require('stores/MachineStore');
     stores.MaintenanceMessageStore = require('stores/MaintenanceMessageStore');
-    stores.NullProjectStore        = require('stores/NullProjectStore');
     stores.ProfileStore            = require('stores/ProfileStore');
     stores.ProjectStore            = require('stores/ProjectStore');
+    stores.ProjectInstanceStore    = require('stores/ProjectInstanceStore');
+    stores.ProjectVolumeStore      = require('stores/ProjectVolumeStore');
     stores.ProviderStore           = require('stores/ProviderStore');
     stores.SizeStore               = require('stores/SizeStore');
     stores.TagStore                = require('stores/TagStore');
@@ -26,7 +28,10 @@ define(function (require) {
     actions.ApplicationActions     = require('actions/ApplicationActions');
     actions.HelpActions            = require('actions/HelpActions');
     actions.InstanceActions        = require('actions/InstanceActions');
+    actions.InstanceTagActions     = require('actions/InstanceTagActions');
+    actions.InstanceVolumeActions  = require('actions/InstanceVolumeActions');
     actions.NullProjectActions     = require('actions/NullProjectActions');
+    actions.ProfileActions         = require('actions/ProfileActions');
     actions.ProjectActions         = require('actions/ProjectActions');
     actions.ProjectInstanceActions = require('actions/ProjectInstanceActions');
     actions.ProjectVolumeActions   = require('actions/ProjectVolumeActions');

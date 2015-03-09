@@ -1,154 +1,91 @@
-define(
-  [
-    'backbone',
-    'underscore',
-    'globals',
-    'models/Instance',
-    './VolumeState'
-  ],
-  function (Backbone, _, globals, Instance, VolumeState) {
+define(function (require) {
 
-    return Backbone.Model.extend({
+  var Backbone = require('backbone'),
+      globals = require('globals'),
+      VolumeState = require('./VolumeState');
 
-      urlRoot: function(){
-        var creds = this.getCreds();
-        var url = globals.API_ROOT +
-                  '/provider/' + creds.provider_id +
-                  '/identity/' + creds.identity_id +
-                  '/volume';
-        return url;
-      },
+  var extractAttachData = function(attrs){
+    if (attrs.attach_data && attrs.attach_data.instance_alias) {
+      return {
+        device: attrs.attach_data.device,
+        instance_id: attrs.attach_data.instance_alias
+      };
+    }
 
-      url: function(){
-        return Backbone.Model.prototype.url.apply(this) + globals.slash();
-      },
+    return {
+      device: null,
+      instance_id: null
+    };
+  };
 
-      parse: function (response) {
+  return Backbone.Model.extend({
+    urlRoot: globals.API_V2_ROOT + "/volumes",
 
-        var attributes = response;
+    parse: function (attributes) {
+      attributes.start_date = new Date(attributes.start_date);
+      attributes.state = new VolumeState({status_raw: attributes.status});
+      attributes.status = attributes.status || "Unknown";
+      attributes.attach_data = extractAttachData(attributes);
+      return attributes;
+    },
 
-        attributes.id = attributes.alias;
-        attributes.start_date = new Date(attributes.start_date);
-        attributes.state = new VolumeState({status_raw: attributes.status});
+    isAttached: function () {
+      return this.get('status') == 'in-use' || this.get('status') == 'detaching';
+    },
 
-        if (response.attach_data && response.attach_data.instance_alias) {
-          attributes.attach_data = {
-            device: response.attach_data.device,
-            instance_id: response.attach_data.instance_alias
-          };
-        }else{
-          attributes.attach_data = {
-            device: null,
-            instance_id: null
-          };
+    fetchFromCloud: function(cb){
+      var volumeId = this.get('uuid'),
+          providerId = this.get('provider').uuid,
+          identityId = this.get('identity').uuid;
+
+      var url =  (
+        globals.API_ROOT +
+        "/provider/" + providerId +
+        "/identity/" + identityId +
+        "/volume/" + volumeId
+      );
+
+      Backbone.sync("read", this, {
+        url:url
+      }).done(function(attrs, status, response){
+        this.set('status', attrs.status || "Unknown");
+        this.set('state', new VolumeState({status_raw: attrs.status}));
+        this.set('attach_data', extractAttachData(attrs));
+        cb();
+      }.bind(this));
+    },
+
+    createOnV1Endpoint: function(options, cb){
+      if(!options.name) throw new Error("Missing name");
+      if(!options.size) throw new Error("Missing size");
+
+      var volumeId = this.get('uuid'),
+          providerId = this.get('provider').uuid,
+          identityId = this.get('identity').uuid,
+          name = options.name,
+          size = options.size;
+
+      var url =  (
+        globals.API_ROOT +
+        "/provider/" + providerId +
+        "/identity/" + identityId +
+        "/volume"
+      );
+
+      return Backbone.sync("create", this, {
+        url: url,
+        attrs: {
+          name: name,
+          size: size
         }
-
-        return attributes;
-      },
-
-      getCreds: function () {
-        return {
-          provider_id: this.get('identity').provider,
-          identity_id: this.get('identity').id
-        };
-      },
-
-      isAttached: function () {
-        return this.get('status') == 'in-use' || this.get('status') == 'detaching';
-      },
-
-      attachTo: function (instance, mount_location, options) {
-        if (!options) options = {};
-        if (!options.success) options.success = function () {
-        };
-        if (!options.error) options.error = function () {
-        };
-
-        this.set({
-          'status': 'attaching'
-        });
-
-        this.get('attach_data').instance_id = instance.get('id');
-
-        var param = {
-          volume_id: this.get('id'),
-          action: "attach_volume",
-          mount_location: mount_location
-        };
-
-        var self = this;
-        var instanceUrl = instance.url();
-        if(instanceUrl.slice(-1) !== "/") instanceUrl += "/";
-        var action_url = instanceUrl + 'action' + globals.slash();
-
-        $.ajax({
-          url: action_url,
-          type: 'POST',
-          data: JSON.stringify(param),
-          dataType: "json",
-          contentType: 'application/json',
-          success: function (response_text, textStatus, jqXHR) {
-            options.success(response_text);
-          },
-          error: function (jqXHR, textStatus, errorThrown) {
-            self.set({
-              'status': 'available'
-            });
-            self.get('attach_data').instance_id = null;
-
-            options.error(jqXHR.responseJSON);
-          }
-        });
-      },
-
-      getAttachedInstance: function () {
-        if (!this.isAttached()) throw "Unattached volume";
-        return new Instance({
-          id: this.get('attach_data').instance_id,
-          identity: this.get('identity')
-        });
-      },
-
-      detach: function (options) {
-        if (!options) options = {};
-        if (!options.success) options.success = function () {
-        };
-        if (!options.error) options.error = function () {
-        };
-
-        var param = {
-          volume_id: this.get('id'),
-          action: "detach_volume"
-        };
-        var instance = this.getAttachedInstance();
-
-        this.set({'status': 'detaching'});
-        var self = this;
-        var instanceUrl = instance.url();
-        if(instanceUrl.slice(-1) !== "/") instanceUrl += "/";
-        var action_url = instanceUrl + 'action' + globals.slash();
-
-        $.ajax({
-          url: action_url,
-          type: 'POST',
-          data: JSON.stringify(param),
-          dataType: 'json',
-          contentType: 'application/json',
-          success: function (response_data) {
-            self.set({
-              'attach_data': {},
-              'status': 'available'
-            });
-            self.trigger('detach');
-            options.success();
-          },
-          error: function (response_data) {
-            options.error('failed to detach volume', response_data);
-            self.set({'status': 'in-use'});
-          }
-        });
-      }
-
-    });
+      });
+      //.done(function(attrs, status, response){
+      //  cb(null, attrs);
+      //}.bind(this)).fail(function(response){
+      //  cb(response);
+      //});
+    }
 
   });
+
+});

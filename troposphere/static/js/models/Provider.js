@@ -1,37 +1,29 @@
 define(
   [
     'underscore',
-    'models/Base'
+    'backbone',
+    'globals',
+    'moment'
   ],
-  function (_, Base) {
+  function (_, Backbone, globals, moment) {
 
-    var Provider = Base.extend({
-      defaults: { 'model_name': 'provider' },
+    var Project = Backbone.Model.extend({
 
-      parse: function (response) {
-        var attributes = response;
-        attributes.name = attributes.location;
-        return attributes;
-      },
+      urlRoot: globals.API_V2_ROOT + "/providers",
 
       url: function () {
-        var url = this.urlRoot
-          + '/' + this.defaults.model_name + '/';
-
-        if (typeof this.get('id') != 'undefined') {
-          url += this.get('id') + '/';
-        }
-
+        var url = Backbone.Model.prototype.url.apply(this) + globals.slash();
         return url;
       },
 
-      isOpenStack: function () {
-        return this.get('type').toLowerCase() === 'openstack';
+      parse: function (response) {
+        response.start_date = moment(response.start_date);
+        response.end_date = moment(response.end_date);
+        return response;
       }
 
     });
 
-    _.extend(Provider.defaults, Base.defaults);
+    return Project;
 
-    return Provider;
   });

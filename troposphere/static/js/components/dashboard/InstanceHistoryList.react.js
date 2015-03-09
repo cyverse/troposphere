@@ -79,7 +79,7 @@ define(
             var now = moment();
             var timeSpan = now.diff(startDate, "days");
 
-            var instanceHistoryHash = CryptoJS.MD5(instance.id).toString();
+            var instanceHistoryHash = CryptoJS.MD5(instance.id.toString()).toString();
             var iconSize = 63;
 
             var application = stores.ApplicationStore.getApplicationWithMachine(instance.get('machine_alias'));

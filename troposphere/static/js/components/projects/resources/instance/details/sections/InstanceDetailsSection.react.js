@@ -20,23 +20,23 @@ define(
     return React.createClass({
 
       propTypes: {
-        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        provider: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        size: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
       render: function () {
+        var instance = this.props.instance;
+
         return (
           <div className="resource-details-section section">
             <h4 className="title">Instance Details</h4>
             <ul>
-              <Status instance={this.props.instance}/>
-              <Size size={this.props.size}/>
-              <IpAddress instance={this.props.instance}/>
-              <LaunchDate instance={this.props.instance}/>
-              <CreatedFrom instance={this.props.instance}/>
-              <Identity instance={this.props.instance} provider={this.props.provider}/>
-              <Id instance={this.props.instance}/>
+              <Status instance={instance}/>
+              <Size instance={instance}/>
+              <IpAddress instance={instance}/>
+              <LaunchDate instance={instance}/>
+              <CreatedFrom instance={instance}/>
+              <Identity instance={instance}/>
+              <Id instance={instance}/>
             </ul>
           </div>
         );

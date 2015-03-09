@@ -134,7 +134,7 @@ define(
         return (
           <div>
             {this.renderIntroduction(volume)}
-            <form role="form">
+            <div role="form">
 
               <div className="form-group">
               <label>{"What problems are you having with this instance?"}</label>
@@ -152,7 +152,7 @@ define(
                 </label>
                 <textarea className="form-control" onChange={this.handleDetailsChange} rows="6"/>
               </div>
-            </form>
+            </div>
           </div>
         );
       },

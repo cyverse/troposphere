@@ -171,7 +171,7 @@ define(
       renderBody: function(){
         if(this.state.projects) {
           return (
-            <form role='form'>
+            <div role='form'>
               <div className='form-group'>
                 <p>{"Looks like you have some resources that aren't in a project!"}</p>
                 <ul>
@@ -181,7 +181,7 @@ define(
               </div>
               {this.renderProjectSelectionForm()}
               {this.renderProjectCreationForm()}
-            </form>
+            </div>
           );
         }
 

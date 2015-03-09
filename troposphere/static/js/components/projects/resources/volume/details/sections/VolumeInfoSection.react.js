@@ -1,83 +1,84 @@
-/** @jsx React.DOM */
+define(function (require) {
 
-define(
-  [
-    'react',
-    'backbone',
-    'components/common/Time.react',
-    'components/common/EditableInputField.react',
-    'actions/VolumeActions',
-    'stores',
-    'crypto',
-    'components/common/Gravatar.react'
-  ],
-  function (React, Backbone, Time, EditableInputField, VolumeActions, stores, CryptoJS, Gravatar) {
+  var React = require('react'),
+      Backbone = require('backbone'),
+      Time = require('components/common/Time.react'),
+      EditableInputField = require('components/common/EditableInputField.react'),
+      VolumeActions = require('actions/VolumeActions'),
+      stores = require('stores'),
+      CryptoJS = require('crypto'),
+      Gravatar = require('components/common/Gravatar.react');
 
-    return React.createClass({
+  return React.createClass({
 
-      propTypes: {
-        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    propTypes: {
+      volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
+    },
 
-      getInitialState: function(){
-        return {
-          name: this.props.volume.get('name'),
-          isEditing: false
-        }
-      },
+    getInitialState: function(){
+      var volume = this.props.volume;
 
-      onEnterEditMode: function(e){
-        this.setState({isEditing: true});
-      },
+      return {
+        name: volume.get('name'),
+        isEditing: false
+      }
+    },
 
-      onDoneEditing: function(text){
-        this.setState({
-          name: text,
-          isEditing: false
-        });
-        VolumeActions.updateVolumeAttributes(this.props.volume, {name: text})
-      },
+    onEnterEditMode: function(e){
+      this.setState({isEditing: true});
+    },
 
-      render: function () {
+    onDoneEditing: function(text){
+      var volume = this.props.volume;
 
-        var nameContent;
-        if(this.state.isEditing){
-          nameContent = (
-            <EditableInputField text={this.state.name} onDoneEditing={this.onDoneEditing}/>
-          );
-        }else{
-          nameContent = (
-            <h4 onClick={this.onEnterEditMode}>
-              {this.state.name}
-              <i className="glyphicon glyphicon-pencil"></i>
-            </h4>
-          );
-        }
+      this.setState({
+        name: text,
+        isEditing: false
+      });
+      VolumeActions.updateVolumeAttributes(volume, {name: text})
+    },
 
-        var instanceHash = CryptoJS.MD5(this.props.volume.id).toString();
-        var type = stores.ProfileStore.get().get('icon_set');
-        var iconSize = 113;
+    render: function () {
+      var volume = this.props.volume,
+          profile = stores.ProfileStore.get(),
+          type = profile.get('icon_set'),
+          instanceHash = CryptoJS.MD5(volume.id.toString()).toString(),
+          iconSize = 113,
+          nameContent;
 
-        return (
-          <div className="resource-info-section section clearfix">
-
-            <div className="resource-image">
-              <Gravatar hash={instanceHash} size={iconSize} type={type}/>
-            </div>
-
-            <div className="resource-info">
-              <div className="resource-name editable">
-                {nameContent}
-              </div>
-              <div className="resource-launch-date">
-                Launched on <Time date={this.props.volume.get('start_date')}/>
-              </div>
-            </div>
-
-          </div>
+      if(this.state.isEditing){
+        nameContent = (
+          <EditableInputField text={this.state.name} onDoneEditing={this.onDoneEditing}/>
+        );
+      }else{
+        nameContent = (
+          <h4 onClick={this.onEnterEditMode}>
+            {this.state.name}
+            <i className="glyphicon glyphicon-pencil"></i>
+          </h4>
         );
       }
 
-    });
+      return (
+        <div className="resource-info-section section clearfix">
+
+          <div className="resource-image">
+            <Gravatar hash={instanceHash} size={iconSize} type={type}/>
+          </div>
+
+          <div className="resource-info">
+            <div className="resource-name editable">
+              {nameContent}
+            </div>
+            <div className="resource-launch-date">
+              Launched on <Time date={volume.get('start_date')}/>
+            </div>
+          </div>
+
+        </div>
+      );
+    }
 
   });
+
+});

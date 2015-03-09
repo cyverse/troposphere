@@ -12,10 +12,10 @@ define(
     './author/AuthorView.react',
     './description/DescriptionView.react',
     './versions/VersionsView.react',
-    'actions/InstanceActions',
+    'actions',
     'stores'
   ],
-  function (React, HeaderView, AvailabilityView, TagsView, ImageLaunchCard, NameView, CreatedView, AuthorView, DescriptionView, VersionsView, InstanceActions, stores) {
+  function (React, HeaderView, AvailabilityView, TagsView, ImageLaunchCard, NameView, CreatedView, AuthorView, DescriptionView, VersionsView, actions, stores) {
 
     return React.createClass({
 
@@ -28,7 +28,7 @@ define(
       },
 
       showModal: function (e) {
-        InstanceActions.launch(this.props.application);
+        actions.InstanceActions.launch(this.props.application);
       },
 
       renderEditLink: function(){
@@ -61,9 +61,7 @@ define(
         // versions on the public page
         if(this.props.identities){
           versionView = (
-            <VersionsView application={this.props.application}
-                          identities={this.props.identities}
-            />
+            <VersionsView application={this.props.application}/>
           );
         }
 

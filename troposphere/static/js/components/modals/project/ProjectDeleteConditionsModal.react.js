@@ -30,7 +30,7 @@ define(
 
       renderBody: function(){
         return (
-          <form role='form'>
+          <div role='form'>
             <div className='form-group'>
               <p className="alert alert-info">
                 <i className="glyphicon glyphicon-info-sign"/>
@@ -45,7 +45,7 @@ define(
               </p>
               <p>Once there are no resources left in the project, you'll be able to delete it.</p>
             </div>
-          </form>
+          </div>
         );
       },
 

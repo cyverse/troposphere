@@ -32,7 +32,7 @@ define(
         return {
           name: "",
           description: "",
-          tags: stores.TagStore.getInstanceTags(this.props.instance),
+          tags: stores.InstanceTagStore.getTagsFor(this.props.instance),
           providerId: this.props.instance.get('identity').provider,
           visibility: "public",
           software: "",

@@ -1,18 +1,25 @@
-define(
-  [
-    'backbone',
-    'models/Identity',
-    'globals'
-  ],
-  function (Backbone, Identity, globals) {
+define(function (require) {
+  "use strict";
 
-    return Backbone.Collection.extend({
-      model: Identity,
+  var Backbone = require('backbone'),
+      Identity = require('models/Identity'),
+      globals = require('globals');
 
-      url: function () {
-        return globals.API_ROOT + '/identity' + globals.slash();
-      }
+  return Backbone.Collection.extend({
+    model: Identity,
 
-    });
+    url: globals.API_V2_ROOT + '/identities',
+
+    parse: function (response) {
+      this.meta = {
+        count: response.count,
+        next: response.next,
+        previous: response.previous
+      };
+
+      return response.results;
+    }
 
   });
+
+});

@@ -5,9 +5,9 @@ define(
     'react',
     'components/common/Glyphicon.react',
     'url',
-    'actions/InstanceActions'
+    'actions'
   ],
-  function (React, Glyphicon, URL, InstanceActions) {
+  function (React, Glyphicon, URL, actions) {
 
     return React.createClass({
 
@@ -17,40 +17,41 @@ define(
       },
 
       onStart: function(){
-        InstanceActions.start(this.props.instance);
+        actions.InstanceActions.start(this.props.instance);
       },
 
       onSuspend: function(){
-        InstanceActions.suspend(this.props.instance);
+        actions.InstanceActions.suspend(this.props.instance);
       },
 
       onStop: function(){
-        InstanceActions.stop(this.props.instance);
+        actions.InstanceActions.stop(this.props.instance);
       },
 
       onResume: function(){
-        InstanceActions.resume(this.props.instance);
+        actions.InstanceActions.resume(this.props.instance);
       },
 
       onReport: function(){
-        InstanceActions.reportInstance(this.props.instance);
+        actions.InstanceActions.reportInstance(this.props.instance);
       },
 
       onImageRequest: function(){
-        InstanceActions.requestImage(this.props.instance);
+        actions.InstanceActions.requestImage(this.props.instance);
       },
 
       onDelete: function(){
         var redirectUrl = URL.projectResources({project: this.props.project}, {relative: true});
-        InstanceActions.terminate({
+        actions.InstanceActions.terminate({
           instance:this.props.instance,
           project: this.props.project,
-          redirectUrl: redirectUrl
+          redirectUrl: redirectUrl,
+          redirectTo: "project-resources"
         });
       },
 
       onReboot: function(){
-        InstanceActions.reboot(this.props.instance);
+        actions.InstanceActions.reboot(this.props.instance);
       },
 
       render: function () {

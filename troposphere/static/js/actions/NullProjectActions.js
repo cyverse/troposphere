@@ -5,32 +5,29 @@ define(function (require) {
   // Dependencies
   //
 
-  var React                  = require('react');
-  var AppDispatcher          = require('dispatchers/AppDispatcher');
-  var stores                 = require('stores');
-  var URL                    = require('url');
-  var NotificationController = require('controllers/NotificationController');
+  var AppDispatcher          = require('dispatchers/AppDispatcher'),
+      stores                 = require('stores'),
+      NotificationController = require('controllers/NotificationController'),
+      Router                 = require('../Router'),
+      Utils                  = require('./Utils'),
+      actions                = require('actions');
 
   // Constants
-  var NullProjectInstanceConstants = require('constants/NullProjectInstanceConstants');
-  var NullProjectVolumeConstants   = require('constants/NullProjectVolumeConstants');
-  var ProjectInstanceConstants     = require('constants/ProjectInstanceConstants');
-  var ProjectVolumeConstants       = require('constants/ProjectVolumeConstants');
-  var ProjectConstants             = require('constants/ProjectConstants');
-
-  // Actions
-  var ProjectActions         = require('actions/ProjectActions');
+  var NullProjectInstanceConstants = require('constants/NullProjectInstanceConstants'),
+      NullProjectVolumeConstants   = require('constants/NullProjectVolumeConstants'),
+      ProjectInstanceConstants     = require('constants/ProjectInstanceConstants'),
+      ProjectVolumeConstants       = require('constants/ProjectVolumeConstants'),
+      ProjectConstants             = require('constants/ProjectConstants');
 
   // Models
-  var Project  = require('models/Project');
-  var Instance = require('models/Instance');
-  var Volume   = require('models/Volume');
+  var Project  = require('models/Project'),
+      Instance = require('models/Instance'),
+      Volume   = require('models/Volume');
 
   // Modals
-  var ModalHelpers                        = require('components/modals/ModalHelpers');
-  var NullProjectMoveAttachedVolumesModal = require('components/modals/nullProject/NullProjectMoveAttachedVolumesModal.react');
-  var NullProjectMigrateResourceModal     = require('components/modals/nullProject/NullProjectMigrateResourceModal.react');
-
+  var ModalHelpers                        = require('components/modals/ModalHelpers'),
+      NullProjectMoveAttachedVolumesModal = require('components/modals/nullProject/NullProjectMoveAttachedVolumesModal.react'),
+      NullProjectMigrateResourceModal     = require('components/modals/nullProject/NullProjectMigrateResourceModal.react');
 
   //
   // Module
@@ -38,44 +35,35 @@ define(function (require) {
 
   return {
 
-    dispatch: function(actionType, payload, options){
-      options = options || {};
-      AppDispatcher.handleRouteAction({
-        actionType: actionType,
-        payload: payload,
-        options: options
-      });
-    },
-
     // ------------------------
     // Standard CRUD Operations
     // ------------------------
 
     _migrateResourceIntoProject: function(resource, project){
-      ProjectActions.addResourceToProject(resource, project);
+      actions.ProjectActions.addResourceToProject(resource, project);
 
       if(resource instanceof Instance){
-        this.dispatch(NullProjectInstanceConstants.REMOVE_INSTANCE_FROM_NULL_PROJECT, {
+        Utils.dispatch(NullProjectInstanceConstants.REMOVE_INSTANCE_FROM_NULL_PROJECT, {
           instance: resource
         });
       }else if(resource instanceof Volume){
-        this.dispatch(NullProjectVolumeConstants.REMOVE_VOLUME_FROM_NULL_PROJECT, {
+        Utils.dispatch(NullProjectVolumeConstants.REMOVE_VOLUME_FROM_NULL_PROJECT, {
           volume: resource
         });
       }
     },
 
     _migrateResourceIntoRealProject: function(resource, oldProject, newProject){
-      ProjectActions.addResourceToProject(resource, newProject);
+      actions.ProjectActions.addResourceToProject(resource, newProject);
 
       if(oldProject) {
         if (resource instanceof Instance) {
-          this.dispatch(ProjectInstanceConstants.REMOVE_INSTANCE_FROM_PROJECT, {
+          Utils.dispatch(ProjectInstanceConstants.REMOVE_PROJECT_INSTANCE, {
             instance: resource,
             project: oldProject
           });
         } else if (resource instanceof Volume) {
-          this.dispatch(ProjectVolumeConstants.REMOVE_VOLUME_FROM_PROJECT, {
+          Utils.dispatch(ProjectVolumeConstants.REMOVE_PROJECT_VOLUME, {
             volume: resource,
             project: oldProject
           });
@@ -88,8 +76,7 @@ define(function (require) {
         this._migrateResourceIntoProject(resource, project);
       }.bind(this));
 
-      var redirectUrl = URL.projectResources({project: project}, {relative: true});
-      Backbone.history.navigate(redirectUrl, {trigger: true});
+      Router.getInstance().transitionTo("project-resources", {projectId: project.id});
     },
 
     // synchronize project resource state
@@ -101,26 +88,31 @@ define(function (require) {
     // the new Atmosphere interface, or by switching back and forth between the old and new UI
     //
     moveAttachedVolumesIntoCorrectProject: function(){
-      var projects = stores.ProjectStore.getAll();
-      var instances = stores.InstanceStore.getAll(projects);
-      var volumes = stores.VolumeStore.getAll(projects);
+      var projects = stores.ProjectStore.getAll(),
+          instances = stores.InstanceStore.getAll(),
+          volumes = stores.VolumeStore.getAll(),
+          volumesInWrongProject = [];
 
       // Move volumes into correct project
-      var volumesInWrongProject = [];
       volumes.each(function(volume){
-        var volumeProjectId = volume.get('projects')[0];
-        var volumeProject = stores.ProjectStore.get(volumeProjectId);
-        var instanceId = volume.get('attach_data').instance_id;
+        var volumeProjectId = volume.get('projects')[0],
+            volumeProject = stores.ProjectStore.get(volumeProjectId),
+            instanceUUID = volume.get('attach_data').instance_id,
+            instance,
+            instanceProjectId,
+            project;
 
-        if (instanceId) {
-          var instance = instances.get(instanceId);
+        if (instanceUUID) {
+          instance = instances.findWhere({uuid: instanceUUID});
+
           if(!instance){
-            console.warn("Instance with id: " + instanceId + " was not found.");
+            console.warn("Instance with uuid: " + instanceUUID + " was not found.");
             return;
           }
-          var instanceProjectId = instance.get('projects')[0];
+
+          instanceProjectId = instance.get('projects')[0];
           if(volumeProjectId !== instanceProjectId){
-            var project = stores.ProjectStore.get(instanceProjectId);
+            project = stores.ProjectStore.get(instanceProjectId);
             this._migrateResourceIntoRealProject(volume, volumeProject, project);
             volumesInWrongProject.push({
               volume: volume,
@@ -143,34 +135,19 @@ define(function (require) {
       }
     },
 
-    _volumeAllowedToBeMigratedByUser: function(volume, nullProject){
-      // If has no attach data, return true
-      var attached_instance_id = volume.get('attach_data').instance_id;
-      if(!attached_instance_id) return true;
-
-      // If attached to instance in null project, return true
-      var instances = stores.InstanceStore.getInstancesInProject(nullProject);
-      var instance = instances.get(attached_instance_id);
-      if(instance) return true;
-
-      // else return false
-      return false;
-    },
-
     migrateResourcesIntoProject: function (nullProject) {
-      var that = this;
-      var instances = stores.InstanceStore.getInstancesInProject(nullProject);
-      var volumes = stores.VolumeStore.getVolumesInProject(nullProject);
+      var instances = nullProject.get('instances'),
+          volumes = nullProject.get('volumes'),
+          resources = new Backbone.Collection(),
+          that = this;
 
-      var resources = new Backbone.Collection();
       instances.each(function(instance){
         resources.push(instance);
       });
+
       volumes.each(function(volume){
-        if(this._volumeAllowedToBeMigratedByUser(volume, nullProject)) {
-          resources.push(volume);
-        }
-      }.bind(this));
+        resources.push(volume);
+      });
 
       if(resources.length > 0){
 
@@ -191,17 +168,17 @@ define(function (require) {
               volumes:[]
             });
 
-            that.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
+            Utils.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
 
             project.save().done(function(){
               //NotificationController.success(null, "Project " + project.get('name') + " created.");
-              that.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
+              Utils.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
               that._migrateResourcesIntoProject(resourcesClone, project);
               that.moveAttachedVolumesIntoCorrectProject();
             }).fail(function(){
               var message = "Error creating Project " + project.get('name') + ".";
               NotificationController.error(null, message);
-              that.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
+              Utils.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
             });
 
           }else if(params.projectId && params.projects){

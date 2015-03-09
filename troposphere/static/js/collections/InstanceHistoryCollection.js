@@ -1,37 +1,29 @@
-/* instances.js
- * Backbone.js instances collection.
- */
-define(
-  [
-    './InstanceCollection',
-    'models/InstanceHistory',
-    'globals'
-  ],
-  function (InstanceCollection, InstanceHistory, globals) {
+define(function (require) {
+  "use strict";
 
-    return InstanceCollection.extend({
-      model: InstanceHistory,
+  var InstanceCollection = require('./InstanceCollection'),
+      InstanceHistory = require('models/InstanceHistory'),
+      globals = require('globals');
 
-      url: function () {
-        var url = globals.API_ROOT +
-                  '/instance_history' + globals.slash();
-        return url;
-      },
+  return InstanceCollection.extend({
+    model: InstanceHistory,
 
-      parse: function (response) {
-        this.meta = {
-          count: response.count,
-          next: response.next,
-          previous: response.previous
-        };
+    url: globals.API_ROOT + '/instance_history',
 
-        return response.results;
-      },
+    parse: function (response) {
+      this.meta = {
+        count: response.count,
+        next: response.next,
+        previous: response.previous
+      };
 
-      comparator: function (a, b) {
-        return b.get('start_date').diff(a.get('start_date'), "seconds");
-      }
+      return response.results;
+    },
 
-    });
+    comparator: function (a, b) {
+      return b.get('start_date').diff(a.get('start_date'), "seconds");
+    }
 
   });
+
+});

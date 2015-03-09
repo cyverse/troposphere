@@ -1,28 +1,26 @@
-/** @jsx React.DOM */
+define(function (require) {
 
-define(
-  [
-    'react',
-    'backbone'
-  ],
-  function (React, Backbone) {
+  var React = require('react'),
+      Backbone = require('backbone'),
+      stores = require('stores');
 
-    return React.createClass({
+  return React.createClass({
 
-      propTypes: {
-        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired
-      },
+    propTypes: {
+      volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
+    },
 
-      render: function () {
-        var volume = this.props.volume;
-        var volumeProvider = this.props.providers.get(volume.get('identity').provider);
+    render: function () {
+      var volume = this.props.volume,
+          provider = stores.ProviderStore.get(volume.get('provider').id);
 
-        return (
-          <span>{volumeProvider.get('name')}</span>
-        );
-      }
+      if(!provider) return <div className="loading"></div>;
 
-    });
+      return (
+        <span>{provider.get('name')}</span>
+      );
+    }
 
   });
+
+});

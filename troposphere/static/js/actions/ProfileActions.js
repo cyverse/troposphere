@@ -1,42 +1,27 @@
-define(
-  [
-    'react',
-    'dispatchers/AppDispatcher',
-    'constants/ProfileConstants',
-    'controllers/NotificationController'
-  ],
-  function (React, AppDispatcher, ProfileConstants, NotificationController) {
+define(function (require) {
 
-    return {
+  var AppDispatcher = require('dispatchers/AppDispatcher'),
+      ProfileConstants = require('constants/ProfileConstants'),
+      NotificationController = require('controllers/NotificationController'),
+      Utils = require('./Utils');
 
-      dispatch: function (actionType, payload, options) {
-        options = options || {};
-        AppDispatcher.handleRouteAction({
-          actionType: actionType,
-          payload: payload,
-          options: options
-        });
-      },
+  return {
 
-      // ------------------------
-      // Standard CRUD Operations
-      // ------------------------
+    updateProfileAttributes: function (profile, newAttributes) {
+      var that = this;
 
-      updateProfileAttributes: function (profile, newAttributes) {
-        var that = this;
+      profile.set(newAttributes);
+      Utils.dispatch(ProfileConstants.UPDATE_PROFILE, {profile: profile});
 
-        profile.set(newAttributes);
-        that.dispatch(ProfileConstants.UPDATE_PROFILE, {profile: profile});
+      profile.save(newAttributes, {patch: true}).done(function () {
+        //NotificationController.success(null, "Settings updated.");
+        Utils.dispatch(ProfileConstants.UPDATE_PROFILE, {profile: profile});
+      }).fail(function () {
+        NotificationController.error(null, "Error updating Settings");
+        Utils.dispatch(ProfileConstants.UPDATE_PROFILE, {profile: profile});
+      });
 
-        profile.save(newAttributes, {patch: true}).done(function () {
-          //NotificationController.success(null, "Settings updated.");
-          that.dispatch(ProfileConstants.UPDATE_PROFILE, {profile: profile});
-        }).fail(function () {
-          NotificationController.error(null, "Error updating Settings");
-          that.dispatch(ProfileConstants.UPDATE_PROFILE, {profile: profile});
-        });
-
-      }
     }
+  }
 
-  });
+});

@@ -7,9 +7,10 @@ define(
     'moment',
     'url',
     './ProjectResource.react',
-    'showdown'
+    'showdown',
+    'react-router'
   ],
-  function (React, Backbone, moment, URL, ProjectResource, Showdown) {
+  function (React, Backbone, moment, URL, ProjectResource, Showdown, Router) {
 
     return React.createClass({
 
@@ -29,7 +30,7 @@ define(
 
           return (
             <li className="project-card">
-              <a href={projectUrl}>
+              <Router.Link to="project-resources" params={{projectId: project.id}}>
                 <div style={{"position": "relative"}}>
                   <div className="content">
                     <h2>{project.get('name')}</h2>
@@ -46,12 +47,12 @@ define(
                                      resourceType={"volumes"}
                     />
                     <ProjectResource icon={"floppy-disk"}
-                                     count={project.get('applications').length}
+                                     count={project.get('images').length}
                                      resourceType={"images"}
                     />
                   </ul>
                 </div>
-              </a>
+              </Router.Link>
             </li>
           );
 

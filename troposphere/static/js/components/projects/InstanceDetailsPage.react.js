@@ -1,68 +1,28 @@
-/** @jsx React.DOM */
+define(function (require) {
 
-define(
-  [
-    'react',
-    './detail/resources/ProjectResourcesWrapper.react',
-    './resources/instance/details/InstanceDetailsView.react',
-    'stores/ProjectStore'
-  ],
-  function (React, ProjectResourcesWrapper, InstanceDetailsView, ProjectStore) {
+    var React = require('react'),
+        stores = require('stores'),
+        ProjectResourcesWrapper = require('./detail/resources/ProjectResourcesWrapper.react'),
+        InstanceDetailsView = require('./resources/instance/details/InstanceDetailsView.react'),
+        Router = require('react-router');
 
-    function getState(projectId) {
-      return {
-        project: ProjectStore.get(projectId)
-      };
+  return React.createClass({
+
+    mixins: [Router.State],
+
+    render: function () {
+      var project = stores.ProjectStore.get(this.getParams().projectId),
+          instance = stores.InstanceStore.get(this.getParams().instanceId);
+
+      if (!project || !instance) return <div className="loading"></div>;
+
+      return (
+        <ProjectResourcesWrapper project={project}>
+          <InstanceDetailsView project={project} instance={instance}/>
+        </ProjectResourcesWrapper>
+      );
     }
 
-    return React.createClass({
-
-      //
-      // Mounting & State
-      // ----------------
-      //
-
-      propTypes: {
-        projectId: React.PropTypes.string.isRequired,
-        instanceId: React.PropTypes.string.isRequired
-      },
-
-      getInitialState: function() {
-        return getState(this.props.projectId);
-      },
-
-      updateState: function() {
-        if (this.isMounted()) this.setState(getState(this.props.projectId))
-      },
-
-      componentDidMount: function () {
-        ProjectStore.addChangeListener(this.updateState);
-      },
-
-      componentWillUnmount: function () {
-        ProjectStore.removeChangeListener(this.updateState);
-      },
-
-      //
-      // Render
-      // ------
-      //
-
-      render: function () {
-
-        if (this.state.project) {
-          return (
-            <ProjectResourcesWrapper project={this.state.project}>
-              <InstanceDetailsView project={this.state.project} instanceId={this.props.instanceId}/>
-            </ProjectResourcesWrapper>
-          );
-        }
-
-        return (
-          <div className="loading"></div>
-        );
-      }
-
-    });
-
   });
+
+});

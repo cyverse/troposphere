@@ -9,81 +9,82 @@ define(
   ],
   function (React, BootstrapModalMixin, stores, IdentitySelect) {
 
-    function getState() {
-      var state = {
-        providers: stores.ProviderStore.getAll(),
-        identities: stores.IdentityStore.getAll(),
-        projects: stores.ProjectStore.getAll(),
-
-        volumes: null,
-        volumeName: null,
-        identityId: null
-      };
-
-      this.state = this.state || {};
-
-      // Use provided volume name or default to nothing
-      state.volumeName = this.state.volumeName || "";
-
-      // Use provided volume size or default to 1 GB
-      state.volumeSize = Number(this.state.volumeSize) || 1;
-
-      // Use selected identity or default to the first one
-      if (state.identities) {
-        state.identityId = this.state.identityId || state.identities.first().id;
-      }
-
-      if(state.projects){
-        state.volumes = stores.VolumeStore.getAll(state.projects)
-      }
-
-      return state;
-    }
 
     return React.createClass({
       mixins: [BootstrapModalMixin],
 
       isSubmittable: function(){
+        var identities = stores.IdentityStore.getAll(),
+            maintenanceMessages = stores.MaintenanceMessageStore.getAll(),
+            volumes = stores.VolumeStore.getAll();
+
+        if(!identities || !maintenanceMessages || !volumes) return false;
+
         // Make sure the selected provider is not in maintenance
-        var selectedIdentity = stores.IdentityStore.get(this.state.identityId);
-        var isProviderInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(selectedIdentity.get('provider_id'));
-        var volumes = this.state.volumes;
+        var selectedIdentity = stores.IdentityStore.get(this.state.identityId),
+            isProviderInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(selectedIdentity.get('provider').id);
 
         // Disable the launch button if the user hasn't provided a name, size or identity for the volume
-        var hasProvider              = !!this.state.identityId;
-        var hasName                  = !!this.state.volumeName;
-        var hasSize                  = !!this.state.volumeSize;
-        var providerNotInMaintenance = !isProviderInMaintenance;
-        var hasEnoughQuotaForStorage = this.hasEnoughQuotaForStorage(selectedIdentity, this.state.volumeSize, volumes);
-        var hasEnoughQuotaForStorageCount = this.hasEnoughQuotaForStorageCount(selectedIdentity, volumes);
+        var hasProvider              = !!this.state.identityId,
+            hasName                  = !!this.state.volumeName,
+            hasSize                  = !!this.state.volumeSize,
+            providerNotInMaintenance = !isProviderInMaintenance,
+            hasEnoughQuotaForStorage = this.hasEnoughQuotaForStorage(selectedIdentity, this.state.volumeSize, volumes),
+            hasEnoughQuotaForStorageCount = this.hasEnoughQuotaForStorageCount(selectedIdentity, volumes);
 
-        return hasProvider && hasName && hasSize && providerNotInMaintenance && hasEnoughQuotaForStorage && hasEnoughQuotaForStorageCount;
+        return (
+          hasProvider &&
+          hasName &&
+          hasSize &&
+          providerNotInMaintenance &&
+          hasEnoughQuotaForStorage &&
+          hasEnoughQuotaForStorageCount
+        );
       },
 
       //
       // Mounting & State
       // ----------------
       //
+
+      getState: function() {
+        var state = this.state,
+            identities = stores.IdentityStore.getAll();
+
+        // Use selected identity or default to the first one
+        if (identities) {
+          state.identityId = state.identityId || identities.first().id;
+        }
+
+        return state;
+      },
+
       getInitialState: function(){
-        return getState.apply(this);
+        var identities = stores.IdentityStore.getAll();
+
+        return {
+          volumeName: "",
+          volumeSize: 1,
+          identityId: identities ? identities.first().id : null
+        };
       },
 
       updateState: function () {
-        if (this.isMounted()) this.setState(getState.apply(this));
+        if (this.isMounted()) this.setState(this.getState());
       },
 
       componentDidMount: function () {
         stores.ProviderStore.addChangeListener(this.updateState);
         stores.IdentityStore.addChangeListener(this.updateState);
-        stores.ProjectStore.addChangeListener(this.updateState);
         stores.VolumeStore.addChangeListener(this.updateState);
+        stores.MaintenanceMessageStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
         stores.ProviderStore.removeChangeListener(this.updateState);
         stores.IdentityStore.removeChangeListener(this.updateState);
-        stores.ProjectStore.removeChangeListener(this.updateState);
         stores.VolumeStore.removeChangeListener(this.updateState);
+        stores.MaintenanceMessageStore.removeChangeListener(this.updateState);
       },
 
       //
@@ -96,9 +97,13 @@ define(
       },
 
       confirm: function () {
+        var name = this.state.volumeName,
+            size = this.state.volumeSize,
+            identityId = this.state.identityId,
+            identity = stores.IdentityStore.get(identityId);
+
         this.hide();
-        var identity = this.state.identities.get(this.state.identityId);
-        this.props.onConfirm(this.state.volumeName, this.state.volumeSize, identity);
+        this.props.onConfirm(name, size, identity);
       },
 
 
@@ -227,57 +232,59 @@ define(
       },
 
       renderBody: function(){
-        if(this.state.identities && this.state.providers && this.state.volumes){
-          var volumes = this.state.volumes;
-          var identity = this.state.identities.get(this.state.identityId);
-          var size = this.state.volumeSize;
+        var identities = stores.IdentityStore.getAll(),
+            providers = stores.ProviderStore.getAll(),
+            volumes = stores.VolumeStore.getAll(),
+            identityId = this.state.identityId,
+            name = this.state.volumeName,
+            size = this.state.volumeSize,
+            identity;
 
-          return (
-            <form role='form'>
+        if(!identities || !providers || !volumes) return <div className="loading"></div>;
 
-              <div className="modal-section form-horizontal">
-                <h4>Volume Details</h4>
+        identity = identities.get(identityId);
 
-                <div className='form-group'>
-                  <label htmlFor='volumeName' className="col-sm-3 control-label">Volume Name</label>
-                  <div className="col-sm-9">
-                    <input type="text" className="form-control" value={this.state.volumeName} onChange={this.onVolumeNameChange}/>
-                  </div>
-                </div>
+        return (
+          <div role='form'>
 
-                <div className='form-group'>
-                  <label htmlFor='volumeSize' className="col-sm-3 control-label">Volume Size</label>
-                  <div className="col-sm-9">
-                    <input type="number" className="form-control" value={this.state.volumeSize} onChange={this.onVolumeSizeChange}/>
-                  </div>
-                </div>
+            <div className="modal-section form-horizontal">
+              <h4>Volume Details</h4>
 
-                <div className='form-group'>
-                  <label htmlFor='identity' className="col-sm-3 control-label">Provider</label>
-                  <div className="col-sm-9">
-                    <IdentitySelect
-                        identityId={this.state.identityId}
-                        identities={this.state.identities}
-                        providers={this.state.providers}
-                        onChange={this.onProviderIdentityChange}
-                    />
-                  </div>
+              <div className='form-group'>
+                <label htmlFor='volumeName' className="col-sm-3 control-label">Volume Name</label>
+                <div className="col-sm-9">
+                  <input type="text" className="form-control" value={name} onChange={this.onVolumeNameChange}/>
                 </div>
               </div>
 
-              <div className="modal-section">
-                <h4>Projected Resource Usage</h4>
-                {this.renderStorageConsumption(identity, size, volumes)}
-                {this.renderStorageCountConsumption(identity, size, volumes)}
+              <div className='form-group'>
+                <label htmlFor='volumeSize' className="col-sm-3 control-label">Volume Size</label>
+                <div className="col-sm-9">
+                  <input type="number" className="form-control" value={size} onChange={this.onVolumeSizeChange}/>
+                </div>
               </div>
 
-            </form>
-          );
-        }else{
-          return (
-            <div className="loading"></div>
-          );
-        }
+              <div className='form-group'>
+                <label htmlFor='identity' className="col-sm-3 control-label">Provider</label>
+                <div className="col-sm-9">
+                  <IdentitySelect
+                      identityId={identityId}
+                      identities={identities}
+                      providers={providers}
+                      onChange={this.onProviderIdentityChange}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="modal-section">
+              <h4>Projected Resource Usage</h4>
+              {this.renderStorageConsumption(identity, size, volumes)}
+              {this.renderStorageCountConsumption(identity, size, volumes)}
+            </div>
+
+          </div>
+        );
       },
 
       render: function () {

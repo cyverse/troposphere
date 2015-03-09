@@ -47,7 +47,7 @@ define(
 
       renderBody: function(){
         return (
-          <form role='form'>
+          <div role='form'>
 
             <div className='form-group'>
               <label htmlFor='volumeSize'>Resources to Remove</label>
@@ -57,7 +57,7 @@ define(
               </ul>
             </div>
 
-          </form>
+          </div>
         )
       },
 

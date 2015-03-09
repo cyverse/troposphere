@@ -1,33 +1,26 @@
-/* instances.js
- * Backbone.js instances collection.
- */
-define(
-  [
-    'backbone',
-    'underscore',
-    'globals',
-    'models/Instance'
-  ],
-  function (Backbone, _, globals, Instance) {
+define(function (require) {
+  "use strict";
 
-    return Backbone.Collection.extend({
-      model: Instance,
+  var Backbone = require('backbone'),
+      _ = require('underscore'),
+      globals = require('globals'),
+      Instance = require('models/Instance');
 
-      initialize: function (models, options) {
-        if (options && options.provider_id && options.identity_id) {
-          this.creds = _.pick(options, 'provider_id', 'identity_id');
-        }
-      },
+  return Backbone.Collection.extend({
+    model: Instance,
 
-      url: function () {
-        var creds = this.creds;
-        var url = globals.API_ROOT +
-                  '/provider/' + creds.provider_id +
-                  '/identity/' + creds.identity_id +
-                  '/instance' + globals.slash();
-        return url;
-      }
+    url: globals.API_V2_ROOT + "/instances",
 
-    });
+    parse: function (response) {
+      this.meta = {
+        count: response.count,
+        next: response.next,
+        previous: response.previous
+      };
+
+      return response.results;
+    }
 
   });
+
+});

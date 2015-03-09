@@ -1,60 +1,23 @@
-/** @jsx React.DOM */
+define(function (require) {
 
-define(
-  [
-    'react',
-    'backbone',
-    'components/projects/resources/instance/preview/InstancePreviewView.react',
-    'components/projects/resources/volume/preview/VolumePreviewView.react',
+    var React = require('react'),
+        Backbone = require('backbone'),
+        InstancePreviewView = require('components/projects/resources/instance/preview/InstancePreviewView.react'),
+        VolumePreviewView = require('components/projects/resources/volume/preview/VolumePreviewView.react'),
+        Instance = require('models/Instance'),
+        Volume = require('models/Volume');
 
-    // Resource Models
-    'models/Instance',
-    'models/Volume'
-  ],
-  function (React, Backbone, InstancePreviewView, VolumePreviewView, Instance, Volume) {
+  return React.createClass({
 
-    return React.createClass({
+    propTypes: {
+      resource: React.PropTypes.instanceOf(Backbone.Model)
+    },
 
-      propTypes: {
-        project: React.PropTypes.instanceOf(Backbone.Model),
-        resource: React.PropTypes.instanceOf(Backbone.Model),
-        instances: React.PropTypes.instanceOf(Backbone.Collection)
-      },
+    render: function () {
+      var resource = this.props.resource,
+          resourcePreview;
 
-      render: function () {
-        //var resource = new Instance();
-        //var resource = new Volume();
-
-        var resourcePreview;
-
-        if(this.props.resource) {
-          if (this.props.resource instanceof Instance) {
-            resourcePreview = (
-              <InstancePreviewView key={this.props.resource.id}
-                                   instance={this.props.resource}
-                                   project={this.props.project}
-              />
-            );
-          } else if (this.props.resource instanceof Volume) {
-            resourcePreview = (
-              <VolumePreviewView key={this.props.resource.id}
-                                 volume={this.props.resource}
-                                 project={this.props.project}
-                                 instances={this.props.instances}
-              />
-            );
-          }
-
-          return (
-            <div className="side-panel">
-              <div className="header">
-                <span className="title">Details</span>
-              </div>
-              {resourcePreview}
-            </div>
-          );
-        }
-
+      if(!resource) {
         return (
           <div className="side-panel">
             <div className="preview-message">
@@ -66,6 +29,32 @@ define(
         );
       }
 
-    });
+      if(resource instanceof Instance) {
+        resourcePreview = (
+          <InstancePreviewView
+            key={resource.id}
+            instance={resource}
+          />
+        );
+      } else if(resource instanceof Volume) {
+        resourcePreview = (
+          <VolumePreviewView
+            key={resource.id}
+            volume={resource}
+          />
+        );
+      }
+
+      return (
+        <div className="side-panel">
+          <div className="header">
+            <span className="title">Details</span>
+          </div>
+          {resourcePreview}
+        </div>
+      );
+    }
 
   });
+
+});

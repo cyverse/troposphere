@@ -2,19 +2,19 @@
   "name": "troposphere",
   "version": "0.0.1",
   "dependencies": {
-    "backbone.marionette": "~2.0.1",
+    "backbone": "~1.1.2",
     "q": "~1.0.1",
     "moment": "~2.6.0",
     "react": "~0.12.0",
+    "react-router": "~0.11.6",
     "chosen": "https://github.com/harvesthq/chosen/releases/download/v1.1.0/chosen_v1.1.0.zip",
     "bootstrap-chosen": "master",
     "bootstrap-sass-official": "~3.2.0",
     "toastr": "~2.0.3",
     "bootstrap": "~3.2.0",
-    "jQuery.dotdotdot": "~1.6.16",
     "highcharts-release": "~4.0.4",
     "crypto": "~3.24.10",
-    "jquery.dotdotdot": "~1.6.16",
-    "sinon": "~1.10.3"
+    "sinon": "~1.10.3",
+    "showdown": "~0.3.1"
   }
 }

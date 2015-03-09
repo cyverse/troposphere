@@ -105,7 +105,7 @@ define(
         }.bind(this));
 
         var content = (
-          <form role='form'>
+          <div role='form'>
 
             <div className='form-group'>
               <p>
@@ -122,7 +122,7 @@ define(
               />
             </div>
 
-          </form>
+          </div>
         );
 
         return (

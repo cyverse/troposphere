@@ -80,7 +80,13 @@
       }
     }
 
+    // used until react-router conversion is complete
     &.active a {
+      border-color: $brand-primary;
+    }
+
+    // used for react-router links
+    a.active {
       border-color: $brand-primary;
     }
   }

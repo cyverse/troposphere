@@ -1,29 +1,31 @@
-define(
-  [
-    'collections/Base',
-    'models/Application'
-  ],
-  function (Base, Application) {
+define(function (require) {
+  "use strict";
 
-    return Base.extend({
-      model: Application,
+  var Backbone = require('backbone'),
+      Application = require('models/Application'),
+      globals = require('globals');
 
-      initialize: function (models, options) {
-        if (options.query) this.query = options.query;
-      },
+  return Backbone.Collection.extend({
+    model: Application,
 
-      url: function () {
-        return this.urlRoot + '/application/search?query=' + encodeURIComponent(this.query);
-      },
+    initialize: function (models, options) {
+      if (options.query) this.query = options.query;
+    },
 
-      parse: function (response) {
-        var count = response.count;
-        var next = response.next;
-        var previous = response.previous;
-        var results = response.results;
-        return results;
-      }
+    url: function () {
+      return globals.API_V2_ROOT + "/images?search=" + encodeURIComponent(this.query);
+    },
 
-    });
+    parse: function (response) {
+      this.meta = {
+        count: response.count,
+        next: response.next,
+        previous: response.previous
+      };
+
+      return response.results;
+    }
 
   });
+
+});

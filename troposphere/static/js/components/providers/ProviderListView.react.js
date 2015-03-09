@@ -1,80 +1,39 @@
-/** @jsx React.DOM */
+define(function(require){
+  "use strict";
 
-define(
-  [
-    'react',
-    'backbone',
-    './ProviderList.react',
-    './ProviderName.react',
-    './ProviderStats.react',
-    './ProviderDescription.react',
-    './ProviderInstances.react',
-    './ProviderResourcesSection.react'
-  ],
-  function (React, Backbone, ProviderList, ProviderName, ProviderStats, ProviderDescription, ProviderInstances, ProviderResourcesSection) {
+  var React = require('react'),
+      Router = require('react-router'),
+      stores = require('stores'),
+      Name = require('./Name.react'),
+      Stats = require('./Stats.react'),
+      Description = require('./Description.react'),
+      Instances = require('./Instances.react'),
+      Resources = require('./Resources.react');
 
-    return React.createClass({
+  return React.createClass({
 
-      propTypes: {
-        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        volumes: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        projects: React.PropTypes.instanceOf(Backbone.Collection)
-      },
+    mixins: [Router.State],
 
-      getInitialState: function(){
-        return {
-          currentProvider: this.props.providers.first()
-        }
-      },
 
-      handleProviderChange: function(provider){
-        this.setState({currentProvider: provider});
-      },
+    render: function () {
+      // we are fetching the provider here (and not in getInitialState) because the component
+      // doesn't get re-mounted when the url changes, so those functions won't run twice
+      var provider = stores.ProviderStore.get(this.getParams().providerId);
 
-      render: function () {
-        var provider = this.state.currentProvider,
-            identities = this.props.identities,
-            instances = this.props.instances,
-            volumes = this.props.volumes,
-            projects = this.props.projects;
+      if(!provider) return <div className="loading"></div>;
 
-        return (
-          <div>
-            <div className="container">
-              <div className="col-md-2">
-                <ProviderList providers={this.props.providers}
-                              selectedProvider={provider}
-                              onSelectedProviderChanged={this.handleProviderChange}
-                />
-              </div>
-              <div className="col-md-10 provider-details">
-                <ProviderName provider={provider}/>
-                <ProviderStats provider={provider}
-                               identities={identities}
-                               instances={instances}
-                />
-                <ProviderDescription provider={provider}/>
-                <ProviderInstances provider={provider}
-                                   identities={identities}
-                                   instances={instances}
-                                   volumes={volumes}
-                                   projects={projects}
-                />
-                <ProviderResourcesSection provider={provider}
-                                          identities={identities}
-                                          instances={instances}
-                                          volumes={volumes}
-                                          projects={projects}
-                />
-              </div>
-            </div>
-          </div>
-        );
+      return (
+        <div className="col-md-10 provider-details">
+          <Name provider={provider}/>
+          <Stats provider={provider}/>
+          <Description provider={provider}/>
+          <Instances provider={provider}/>
+          <Resources provider={provider}/>
+        </div>
+      );
 
-      }
-
-    });
+    }
 
   });
+
+});

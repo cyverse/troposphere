@@ -1,11 +1,9 @@
-define(
-  [
-    'backbone'
-  ],
-  function (Backbone) {
+define(function (require) {
 
-    return Backbone.Model.extend({
-      url: "/version"
-    });
+  var Backbone = require('backbone');
 
+  return Backbone.Model.extend({
+    url: "/version"
   });
+
+});

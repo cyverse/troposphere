@@ -1,30 +1,26 @@
-define(
-  [
-    'backbone',
-    'underscore',
-    'globals',
-    'models/Machine'
-  ],
-  function (Backbone, _, globals, Machine) {
+define(function (require) {
+  "use strict";
 
-    return Backbone.Collection.extend({
-      model: Machine,
+  var Backbone = require('backbone'),
+      _ = require('underscore'),
+      globals = require('globals'),
+      Machine = require('models/Machine');
 
-      initialize: function (models, options) {
-        if (options && options.provider_id && options.identity_id) {
-          this.creds = _.pick(options, 'provider_id', 'identity_id');
-        }
-      },
+  return Backbone.Collection.extend({
+    model: Machine,
 
-      url: function () {
-        var creds = this.creds;
-        var url = globals.API_ROOT +
-                  '/provider/' + creds.provider_id +
-                  '/identity/' + creds.identity_id +
-                  '/machine' + globals.slash();
-        return url;
-      }
+    url: globals.API_V2_ROOT + '/provider_machines',
 
-    });
+    parse: function (response) {
+      this.meta = {
+        count: response.count,
+        next: response.next,
+        previous: response.previous
+      };
+
+      return response.results;
+    }
 
   });
+
+});

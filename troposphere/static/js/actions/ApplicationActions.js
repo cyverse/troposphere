@@ -1,25 +1,23 @@
-define(
-  [
-    'dispatchers/AppDispatcher',
-    'constants/ApplicationConstants'
-  ],
-  function (AppDispatcher, ApplicationConstants) {
+define(function (require) {
 
-    return {
-      updateApplicationAttributes: function (application, newAttributes) {
-        application.set(newAttributes);
-        AppDispatcher.handleRouteAction({
-          actionType: ApplicationConstants.APPLICATION_UPDATE,
-          application: application
-        });
-      },
+  var AppDispatcher = require('dispatchers/AppDispatcher'),
+      ApplicationConstants = require('constants/ApplicationConstants');
 
-      toggleFavorited: function (application) {
-        AppDispatcher.handleRouteAction({
-          actionType: ApplicationConstants.APPLICATION_TOGGLE_FAVORITED,
-          application: application
-        });
-      }
-    };
+  return {
+    updateApplicationAttributes: function (application, newAttributes) {
+      application.set(newAttributes);
+      AppDispatcher.handleRouteAction({
+        actionType: ApplicationConstants.APPLICATION_UPDATE,
+        application: application
+      });
+    },
 
-  });
+    toggleFavorited: function (application) {
+      AppDispatcher.handleRouteAction({
+        actionType: ApplicationConstants.APPLICATION_TOGGLE_FAVORITED,
+        application: application
+      });
+    }
+  };
+
+});

@@ -19,7 +19,7 @@ define(
 
       getOptions: function () {
         var identityOptions = this.props.identities.map(function(identity){
-          var providerId = identity.get('provider_id');
+          var providerId = identity.get('provider').id;
           var provider = this.props.providers.get(providerId);
           var provider_name = provider.get('name');
           var isInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(providerId);
