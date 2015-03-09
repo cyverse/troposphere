@@ -25,6 +25,7 @@ define(function (require) {
         }).done(function () {
           _isFetching = false;
           _models = models;
+          _models.each(pollNowUntilBuildIsFinished);
           ModelStore.emitChange();
         });
       }
@@ -57,7 +58,8 @@ define(function (require) {
 
     var fetchAndRemoveIfFinished = function(instance){
       setTimeout(function(){
-        instance.fetch().done(function(){
+        instance.fetchFromCloud(function(){
+          update(instance);
           var index = _instancesBuilding.indexOf(instance);
           if(instance.get('state').isInFinalState()){
             _instancesBuilding.splice(index, 1);
@@ -70,7 +72,8 @@ define(function (require) {
     };
 
     var fetchNowAndRemoveIfFinished = function(instance){
-      instance.fetch().done(function(){
+      instance.fetchFromCloud(function(){
+        update(instance);
         var index = _instancesBuilding.indexOf(instance);
         if(instance.get('state').isInFinalState()){
           _instancesBuilding.splice(index, 1);

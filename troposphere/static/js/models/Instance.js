@@ -18,6 +18,27 @@ define(
         return attributes;
       },
 
+      fetchFromCloud: function(cb){
+        var instanceId = this.get('uuid'),
+            providerId = this.get('provider').uuid,
+            identityId = this.get('identity').uuid;
+
+        var url =  (
+          globals.API_ROOT +
+          "/provider/" + providerId +
+          "/identity/" + identityId +
+          "/instance/" + instanceId
+        );
+
+        Backbone.sync("read", this, {
+          url:url
+        }).done(function(attrs, status, response){
+          this.set('status', attrs.status);
+          this.set('state', new InstanceState({status_raw: attrs.status}));
+          cb();
+        }.bind(this));
+      },
+
       getCreds: function () {
         return {
           provider_id: this.get('identity').provider,
