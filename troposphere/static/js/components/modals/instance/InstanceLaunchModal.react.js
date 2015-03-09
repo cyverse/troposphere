@@ -20,28 +20,44 @@ define(function (require) {
     },
 
     isSubmittable: function(){
+      var identities = stores.IdentityStore.getAll(),
+          maintenanceMessages = stores.MaintenanceMessageStore.getAll(),
+          sizes = stores.SizeStore.getAll(),
+          instances = stores.InstanceStore.getAll(),
+          identityId = this.state.identityId,
+          sizeId = this.state.sizeId,
+          selectedIdentity,
+          isProviderInMaintenance,
+          size;
+
+      if(!identities || !maintenanceMessages || !sizes || !instances || !identityId || !sizeId) return false;
+
       // Make sure the selected provider is not in maintenance
-      var selectedIdentity = stores.IdentityStore.get(this.state.identityId);
-      var isProviderInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(selectedIdentity.get('provider').id);
-      var size;
+      selectedIdentity = identities.get(identityId);
+      isProviderInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(selectedIdentity.get('provider').id);
+      size = sizes.get(sizeId);
 
-      var hasInstanceName          = !!this.state.instanceName;
-      var hasImageVersion          = !!this.state.machineId;
-      var hasProvider              = !!this.state.identityId;
-      var hasSize                  = !!this.state.sizeId;
-      var hasProject               = !!this.state.projectId || !!this.state.projectName;
-      var hasAllocationAvailable   = this.hasAvailableAllocation(selectedIdentity);
-      var providerNotInMaintenance = !isProviderInMaintenance;
-      var hasEnoughQuotaForCpu = false;
-      var hasEnoughQuotaForMemory = false;
+      var hasInstanceName          = !!this.state.instanceName,
+          hasImageVersion          = !!this.state.machineId,
+          hasProvider              = !!this.state.identityId,
+          hasSize                  = !!this.state.sizeId,
+          hasProject               = !!this.state.projectId || !!this.state.projectName,
+          hasAllocationAvailable   = this.hasAvailableAllocation(selectedIdentity),
+          providerNotInMaintenance = !isProviderInMaintenance,
+          hasEnoughQuotaForCpu     = this.hasEnoughQuotaForCpu(selectedIdentity, size, sizes, instances),
+          hasEnoughQuotaForMemory  = this.hasEnoughQuotaForMemory(selectedIdentity, size, sizes, instances);
 
-      if(this.state.sizes){
-        size = this.state.sizes.get(this.state.sizeId);
-        hasEnoughQuotaForCpu = this.hasEnoughQuotaForCpu(selectedIdentity, size, this.state.sizes, this.state.instances);
-        hasEnoughQuotaForMemory = this.hasEnoughQuotaForMemory(selectedIdentity, size, this.state.sizes, this.state.instances);
-      }
-
-      return hasInstanceName && hasImageVersion && hasProvider && hasSize && providerNotInMaintenance && hasAllocationAvailable && hasEnoughQuotaForCpu && hasEnoughQuotaForMemory && hasProject;
+      return (
+        hasInstanceName &&
+        hasImageVersion &&
+        hasProvider &&
+        hasSize &&
+        providerNotInMaintenance &&
+        hasAllocationAvailable &&
+        hasEnoughQuotaForCpu &&
+        hasEnoughQuotaForMemory &&
+        hasProject
+      );
     },
 
     //
@@ -49,19 +65,19 @@ define(function (require) {
     //
 
     hasEnoughQuotaForCpu: function(identity, size, sizes, instances){
-      var quota = identity.get('quota');
-      var maximumAllowed = quota.cpu;
-      var projected = size.get('cpu');
-      var currentlyUsed = identity.getCpusUsed(instances, sizes);
+      var quota = identity.get('quota'),
+          maximumAllowed = quota.cpu,
+          projected = size.get('cpu'),
+          currentlyUsed = identity.getCpusUsed(instances, sizes);
 
       return (projected + currentlyUsed) <= maximumAllowed;
     },
 
     hasEnoughQuotaForMemory: function(identity, size, sizes, instances){
-      var quota = identity.get('quota');
-      var maximumAllowed = quota.mem;
-      var projected = size.get('mem');
-      var currentlyUsed = identity.getMemoryUsed(instances, sizes);
+      var quota = identity.get('quota'),
+          maximumAllowed = quota.mem,
+          projected = size.get('mem'),
+          currentlyUsed = identity.getMemoryUsed(instances, sizes);
 
       return (projected + currentlyUsed) <= maximumAllowed;
     },
@@ -81,6 +97,8 @@ define(function (require) {
     //
 
     getState: function(){
+      var image = this.props.application;
+
       var state = {
         providers: stores.ProviderStore.getAll(),
         identities: stores.IdentityStore.getAll(),
@@ -112,7 +130,7 @@ define(function (require) {
 
         // Use selected machine (image version) or default to the first one
         // todo: we should be sorting these by date or version number before selecting the first one
-        var machines = this.props.application.get('machines');
+        var machines = image.get('provider_images');
         state.machineId = this.state.machineId || machines.first().id;
 
         // Fetch instance sizes user can launch if required information exists
@@ -148,7 +166,13 @@ define(function (require) {
     },
 
     getInitialState: function(){
-      return this.getState();
+      return {
+        instanceName: null,
+        machineId: null,
+        identityId: null,
+        sizeId: null,
+        projectId: null
+      };
     },
 
     updateState: function () {
@@ -176,20 +200,16 @@ define(function (require) {
     // ------------------------
     //
 
-    // remove the modal from the DOM once we're finished with it
-    //handleHidden: function(){
-    //  document.getElementById('modal').innerHTML = "";
-    //},
-
     cancel: function(){
       this.hide();
-      //this.props.onCancel();
     },
 
     confirm: function () {
+      var identity = stores.IdentityStore.get(this.state.identityId),
+          project = stores.ProjectStore.get(this.state.projectId);
+
       this.hide();
-      var identity = this.state.identities.get(this.state.identityId);
-      var project = this.state.projects.get(this.state.projectId);
+
       if(this.state.projectName){
         this.props.onConfirm(identity, this.state.machineId, this.state.sizeId, this.state.instanceName, this.state.projectName);
       }else{
@@ -259,10 +279,10 @@ define(function (require) {
     },
 
     renderProgressBar: function(message, currentlyUsedPercent, projectedPercent, overQuotaMessage){
-      var currentlyUsedStyle = { width: currentlyUsedPercent + "%" };
-      var projectedUsedStyle = { width: projectedPercent + "%", opacity: "0.6" };
-      var totalPercent = currentlyUsedPercent + projectedPercent;
-      var barTypeClass;
+      var currentlyUsedStyle = { width: currentlyUsedPercent + "%" },
+          projectedUsedStyle = { width: projectedPercent + "%", opacity: "0.6" },
+          totalPercent = currentlyUsedPercent + projectedPercent,
+          barTypeClass;
 
       if(totalPercent <= 50){
         barTypeClass = "progress-bar-success";
@@ -287,43 +307,43 @@ define(function (require) {
     },
 
     renderCpuConsumption: function(identity, size, sizes, instances){
-      var quota = identity.get('quota');
-      var maximumAllowed = quota.cpu;
-      var projected = size.get('cpu');
-      var currentlyUsed = identity.getCpusUsed(instances, sizes);
-
-      // convert to percentages
-      var projectedPercent = projected / maximumAllowed * 100;
-      var currentlyUsedPercent = currentlyUsed / maximumAllowed * 100;
-
-      var message = "You will use " + (Math.round(currentlyUsed + projected)) + " of " + maximumAllowed + " allotted CPUs.";
-      var overQuotaMessage = (
-        <div>
-          <strong>CPU quota exceeded.</strong>
-          <span>{" Choose a smaller size or terminate a running instance."}</span>
-        </div>
-      );
+      var quota = identity.get('quota'),
+          maximumAllowed = quota.cpu,
+          projected = size.get('cpu'),
+          currentlyUsed = identity.getCpusUsed(instances, sizes),
+          // convert to percentages
+          projectedPercent = projected / maximumAllowed * 100,
+          currentlyUsedPercent = currentlyUsed / maximumAllowed * 100,
+          message = (
+            "You will use " + (Math.round(currentlyUsed + projected)) + " of " + maximumAllowed + " allotted CPUs."
+          ),
+          overQuotaMessage = (
+            <div>
+              <strong>CPU quota exceeded.</strong>
+              <span>{" Choose a smaller size or terminate a running instance."}</span>
+            </div>
+          );
 
       return this.renderProgressBar(message, currentlyUsedPercent, projectedPercent, overQuotaMessage);
     },
 
     renderMemoryConsumption: function(identity, size, sizes, instances){
-      var quota = identity.get('quota');
-      var maximumAllowed = quota.mem;
-      var projected = size.get('mem');
-      var currentlyUsed = identity.getMemoryUsed(instances, sizes);
-
-      // convert to percentages
-      var projectedPercent = projected / maximumAllowed * 100;
-      var currentlyUsedPercent = currentlyUsed / maximumAllowed * 100;
-
-      var message = "You will use " + (Math.round(currentlyUsed + projected)) + " of " + maximumAllowed + " allotted GBs of Memory.";
-      var overQuotaMessage = (
-        <div>
-          <strong>Memory quota exceeded.</strong>
-          <span>{" Choose a smaller size or terminate a running instance."}</span>
-        </div>
-      );
+      var quota = identity.get('quota'),
+          maximumAllowed = quota.mem,
+          projected = size.get('mem'),
+          currentlyUsed = identity.getMemoryUsed(instances, sizes),
+          // convert to percentages
+          projectedPercent = projected / maximumAllowed * 100,
+          currentlyUsedPercent = currentlyUsed / maximumAllowed * 100,
+          message = (
+            "You will use " + (Math.round(currentlyUsed + projected)) + " of " + maximumAllowed + " allotted GBs of Memory."
+          ),
+          overQuotaMessage = (
+            <div>
+              <strong>Memory quota exceeded.</strong>
+              <span>{" Choose a smaller size or terminate a running instance."}</span>
+            </div>
+          );
 
       return this.renderProgressBar(message, currentlyUsedPercent, projectedPercent, overQuotaMessage);
     },
@@ -353,96 +373,98 @@ define(function (require) {
     },
 
     renderBody: function(){
-      if(this.state.identities && this.state.providers && this.state.projects && this.state.sizes && this.state.instances){
+      var image = this.props.application,
+          identities = stores.IdentityStore.getAll(),
+          providers = stores.ProviderStore.getAll(),
+          projects = stores.ProjectStore.getAll(),
+          sizes = stores.SizeStore.getAll(),
+          instances = stores.InstanceStore.getAll();
 
-        // Use selected machine (image version) or default to the first one
-        // todo: we should be sorting these by date or version number before selecting the first one
-        var machines = this.props.application.get('machines');
-        var identity = this.state.identities.get(this.state.identityId);
-        var size = this.state.sizes.get(this.state.sizeId);
-        var instances = this.state.instances;
-        var sizes = this.state.sizes;
+      if(!identities || !providers || !projects || !sizes || !instances) return <div className="loading"></div>;
 
-        return (
-          <div role='form'>
-
-            {this.renderAllocationWarning(identity)}
-
-            <div className="modal-section form-horizontal">
-              <h4>Instance Details</h4>
-
-              <div className='form-group'>
-                <label htmlFor='instance-name' className="col-sm-3 control-label">Instance Name</label>
-                <div className="col-sm-9">
-                  <input type='text' className='form-control' id='instance-name' onChange={this.onInstanceNameChange} onKeyDown={this.handleKeyDown}/>
-                </div>
-              </div>
-
-              <div className='form-group'>
-                <label htmlFor='machine' className="col-sm-3 control-label">Version</label>
-                <div className="col-sm-9">
-                  <MachineSelect machineId={this.state.machineId}
-                                 machines={machines}
-                                 onChange={this.onMachineChange}
-                  />
-                </div>
-              </div>
-
-              <div className='form-group'>
-                <label htmlFor='identity' className="col-sm-3 control-label">Provider</label>
-                <div className="col-sm-9">
-                  <IdentitySelect
-                      identityId={this.state.identityId}
-                      identities={this.state.identities}
-                      providers={this.state.providers}
-                      onChange={this.onProviderIdentityChange}
-                  />
-                </div>
-              </div>
-
-              <div className='form-group'>
-                <label htmlFor='size' className="col-sm-3 control-label">Instance Size</label>
-                <div className="col-sm-9">
-                  <InstanceSizeSelect
-                      sizeId={this.state.sizeId}
-                      sizes={this.state.sizes}
-                      onChange={this.onSizeChange}
-                  />
-                </div>
-              </div>
-
-              <div className='form-group'>
-                <label htmlFor='project' className="col-sm-3 control-label">Project</label>
-                <div className="col-sm-9">
-                  {this.renderProjectSelectionForm()}
-                  {this.renderProjectCreationForm()}
-                </div>
-              </div>
-            </div>
-
-            <div className='form-group' className="modal-section">
-              <h4>Projected Resource Usage</h4>
-              {this.renderCpuConsumption(identity, size, sizes, instances)}
-              {this.renderMemoryConsumption(identity, size, sizes, instances)}
-            </div>
-
-          </div>
-        );
-      }
+      // Use selected machine (image version) or default to the first one
+      // todo: we should be sorting these by date or version number before selecting the first one
+      var machines = image.get('provider_images'),
+          identity = identities.get(this.state.identityId),
+          size = sizes.get(this.state.sizeId);
 
       return (
-        <div className="loading"></div>
+        <div role='form'>
+
+          {this.renderAllocationWarning(identity)}
+
+          <div className="modal-section form-horizontal">
+            <h4>Instance Details</h4>
+
+            <div className='form-group'>
+              <label htmlFor='instance-name' className="col-sm-3 control-label">Instance Name</label>
+              <div className="col-sm-9">
+                <input type='text' className='form-control' id='instance-name' onChange={this.onInstanceNameChange} onKeyDown={this.handleKeyDown}/>
+              </div>
+            </div>
+
+            <div className='form-group'>
+              <label htmlFor='machine' className="col-sm-3 control-label">Version</label>
+              <div className="col-sm-9">
+                <MachineSelect machineId={this.state.machineId}
+                               machines={machines}
+                               onChange={this.onMachineChange}
+                />
+              </div>
+            </div>
+
+            <div className='form-group'>
+              <label htmlFor='identity' className="col-sm-3 control-label">Provider</label>
+              <div className="col-sm-9">
+                <IdentitySelect
+                    identityId={this.state.identityId}
+                    identities={identities}
+                    providers={providers}
+                    onChange={this.onProviderIdentityChange}
+                />
+              </div>
+            </div>
+
+            <div className='form-group'>
+              <label htmlFor='size' className="col-sm-3 control-label">Instance Size</label>
+              <div className="col-sm-9">
+                <InstanceSizeSelect
+                    sizeId={this.state.sizeId}
+                    sizes={sizes}
+                    onChange={this.onSizeChange}
+                />
+              </div>
+            </div>
+
+            <div className='form-group'>
+              <label htmlFor='project' className="col-sm-3 control-label">Project</label>
+              <div className="col-sm-9">
+                {this.renderProjectSelectionForm()}
+                {this.renderProjectCreationForm()}
+              </div>
+            </div>
+          </div>
+
+          <div className='form-group' className="modal-section">
+            <h4>Projected Resource Usage</h4>
+            {this.renderCpuConsumption(identity, size, sizes, instances)}
+            {this.renderMemoryConsumption(identity, size, sizes, instances)}
+          </div>
+
+        </div>
       );
     },
 
     render: function () {
+      var image = this.props.application;
+
       return (
         <div className="modal fade">
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
                 {this.renderCloseButton()}
-                <strong>Launch instance of {this.props.application.get('name')}</strong>
+                <strong>Launch instance of {image.get('name')}</strong>
               </div>
               <div className="modal-body">
                 {this.renderBody()}
