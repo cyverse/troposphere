@@ -7,7 +7,7 @@ define(function (require) {
       Instance = require('models/Instance'),
       InstanceState = require('models/InstanceState'),
       Project = require('models/Project'),
-      Router = require('../Router'),
+      Router = require('Router'),
       NotificationController = require('controllers/NotificationController'),
       actions = require('actions'),
       stores = require('stores'),
@@ -18,6 +18,7 @@ define(function (require) {
       Utils = require('../Utils');
 
   return {
+
     launch: function(application){
       var that = this;
 
@@ -118,6 +119,7 @@ define(function (require) {
         }
       })
     }
+
   };
 
 });
