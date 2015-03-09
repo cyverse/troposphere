@@ -9,6 +9,8 @@ NPM	=	npm
 NODE	=	node
 SHELL	=	/bin/bash
 
+jenkins : npm bower-install gulp-dev relativevirtual jenkinspip jenkinschown
+
 all : npm bower-install gulp-dev virtualenv pip chown
 
 clean :
@@ -53,6 +55,15 @@ python : virtualenv pip
 virtualenv :
 	mkdir -p /opt/env
 	-virtualenv /opt/env/troposphere
+
+relativevirtual :
+	-virtualenv env
+
+jenkinspip : relativevirtual
+	source ./env/troposphere/bin/activate;pip install -U -r requirements.txt
+
+jenkinschown :
+	chown -R jenkins:jenkins ./env
 
 chown :
 	chown -R www-data:www-data .
