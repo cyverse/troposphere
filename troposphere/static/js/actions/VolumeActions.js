@@ -157,18 +157,20 @@ define(function (require) {
         }).done(function (attrs, status, response) {
           volume.set('id', attrs.id);
           volume.fetch().done(function(){
-            //NotificationController.success(null, 'Volume created');
+            // todo: remove hack and start using ProjectVolume endpoint to discover
+            // which project an volume is in
+
             volume.set('projects', [project.id]);
             Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
             Utils.dispatch(VolumeConstants.POLL_VOLUME, {volume: volume});
 
-            Utils.dispatch(ProjectVolumeConstants.REMOVE_PENDING_VOLUME_FROM_PROJECT, {
-              volume: volume,
-              project: project
-            });
+            // todo: hook this back up if experience seems to slow...not connected right now
+            // Utils.dispatch(ProjectVolumeConstants.REMOVE_PENDING_VOLUME_FROM_PROJECT, {
+            //   volume: volume,
+            //   project: project
+            // });
 
             ProjectVolumeActions.addVolumeToProject(volume, project);
-            //pollUntilBuildIsFinished(volume);
           });
         }).fail(function (response) {
           var title = "Error creating Volume " + volume.get('name');
@@ -181,10 +183,12 @@ define(function (require) {
            }
 
           Utils.dispatch(VolumeConstants.REMOVE_VOLUME, {volume: volume});
-          Utils.dispatch(ProjectVolumeConstants.REMOVE_PENDING_VOLUME_FROM_PROJECT, {
-            volume: volume,
-            project: project
-          });
+
+          // todo: hook this back up if experience seems to slow...not connected right now
+          // Utils.dispatch(ProjectVolumeConstants.REMOVE_PENDING_VOLUME_FROM_PROJECT, {
+          //   volume: volume,
+          //   project: project
+          // });
         });
       })
 

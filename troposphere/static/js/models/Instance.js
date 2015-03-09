@@ -39,6 +39,34 @@ define(
         }.bind(this));
       },
 
+      createOnV1Endpoint: function(options, cb){
+        if(!options.name) throw new Error("Missing name");
+        if(!options.size_alias) throw new Error("Missing size_alias");
+        if(!options.machine_alias) throw new Error("Missing machine_alias");
+
+        var providerId = this.get('provider').uuid,
+            identityId = this.get('identity').uuid,
+            name = options.name,
+            size = options.size_alias,
+            machine = options.machine_alias;
+
+        var url =  (
+          globals.API_ROOT +
+          "/provider/" + providerId +
+          "/identity/" + identityId +
+          "/instance"
+        );
+
+        return Backbone.sync("create", this, {
+          url: url,
+          attrs: {
+            name: name,
+            machine_alias: machine,
+            size_alias: size
+          }
+        });
+      },
+
       getCreds: function () {
         return {
           provider_id: this.get('identity').provider,

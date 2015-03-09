@@ -27,6 +27,9 @@ define(function (require) {
       });
 
       ModalHelpers.renderModal(modal, function (identity, machineId, sizeId, instanceName, project) {
+        var size = stores.SizeStore.get(sizeId),
+            machine = application.get('machines').get(machineId);
+
         if(typeof project === "string"){
           var projectName = project;
           project = new Project({
@@ -63,52 +66,70 @@ define(function (require) {
         }else{
           var instance = new Instance({
             name: instanceName,
-            size_alias: sizeId,
+            size: {
+              id: sizeId,
+              alias: size.get('alias')
+            },
+            status: "build - scheduling",
+            provider: {
+              id: identity.get('provider').id,
+              uuid: identity.get('provider').uuid
+            },
             identity: {
               id: identity.id,
-              provider: identity.get('provider').id
-            },
-            status: "build - scheduling"
+              uuid: identity.get('uuid')
+            }
           }, {parse: true});
 
-          var params = {
-            machine_alias: machineId,
-            size_alias: sizeId,
-            name: instanceName
-          };
-
           Utils.dispatch(InstanceConstants.ADD_INSTANCE, {instance: instance});
-          Utils.dispatch(ProjectInstanceConstants.ADD_PENDING_INSTANCE_TO_PROJECT, {
-            instance: instance,
-            project: project
-          });
+          // todo: hook this back up if experience seems to slow...not connected right now
+          // Utils.dispatch(ProjectInstanceConstants.ADD_PENDING_INSTANCE_TO_PROJECT, {
+          //   instance: instance,
+          //   project: project
+          // });
 
-          instance.save(null, {
-            data: JSON.stringify(params),
-            success: function (model) {
-              //NotificationController.success(null, 'Instance launching...');
+          instance.createOnV1Endpoint({
+            machine_alias: machine.get('uuid'),
+            size_alias: size.get('alias'),
+            name: instanceName
+          }).done(function(attrs, status, response) {
+            instance.set('id', attrs.id);
+            instance.fetch().done(function(){
+              // todo: remove hack and start using ProjectInstance endpoint to discover
+              // which project an instance is in
+              instance.set('projects', [project.id]);
+
               Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
               Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
-              Utils.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
-                instance: instance,
-                project: project
-              });
-              actions.ProjectInstanceActions.addInstanceToProject(instance, project);
-            },
-            error: function (response) {
-              Utils.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
-              Utils.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
-                instance: instance,
-                project: project
-              });
 
-              if(response && response.responseJSON && response.responseJSON.errors){
-                var errors = response.responseJSON.errors;
-                var error = errors[0];
-                NotificationController.error("Instance could not be launched", error.message);
-             }else{
-                NotificationController.error("Instance could not be launched", "If the problem persists, please report the instance.");
-             }
+              // todo: hook this back up if experience seems to slow...not connected right now
+              // Utils.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
+              //   instance: instance,
+              //   project: project
+              // });
+
+              actions.ProjectInstanceActions.addInstanceToProject(instance, project);
+            });
+          }).fail(function (response) {
+            Utils.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
+
+            // todo: hook this back up if experience seems to slow...not connected right now
+            // Utils.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
+            //   instance: instance,
+            //   project: project
+            // });
+
+            if(response.responseJSON && response.responseJSON.errors) {
+              var error = response.responseJSON.errors[0];
+              NotificationController.error(
+                "Instance could not be launched",
+                error.code + ":" + error.message
+              );
+            } else {
+              NotificationController.error(
+                "Instance could not be launched",
+                "If the problem persists, please report the instance."
+              );
             }
           });
 

@@ -73,7 +73,7 @@ define(function (require) {
       );
 
       return Backbone.sync("create", this, {
-        url:url,
+        url: url,
         attrs: {
           name: name,
           size: size
