@@ -214,7 +214,9 @@ define(function (require) {
           }
         });
       })
-    }
+    },
+
+    poll: require('./volume/poll').poll
 
   };
 

@@ -147,8 +147,7 @@ define(function (require) {
           break;
 
         case Constants.POLL_INSTANCE:
-          //pollNowUntilBuildIsFinished(payload.instance);
-          console.warn("Polling not enabled yet...");
+          pollNowUntilBuildIsFinished(payload.instance);
           break;
 
         default:
