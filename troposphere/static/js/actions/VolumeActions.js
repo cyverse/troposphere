@@ -119,38 +119,58 @@ define(function (require) {
       var modal = VolumeCreateModal();
 
       ModalHelpers.renderModal(modal, function (volumeName, volumeSize, identity) {
+        var identityUUID = identity.get('uuid'),
+            providerUUID = identity.get('provider').uuid,
+            url = (
+              globals.API_ROOT +
+              "/provider" + providerUUID +
+              "/identity" + identityUUID +
+              "/volume"
+            );
+
         var volume = new Volume({
+          name: volumeName,
+          size: volumeSize,
+          description: "",
+          status: "creating",
+          provider: {
+            id: identity.get('provider').id,
+            uuid: identity.get('provider').uuid
+          },
           identity: {
             id: identity.id,
-            provider: identity.get('provider').id
+            uuid: identity.get('uuid')
           },
-          name: volumeName,
-          description: "",
-          size: volumeSize,
-          status: "creating"
+          projects: [project.id]
         }, {parse: true});
 
-        var params = {
-          model_name: "volume",
-          tags: "CF++"
-        };
-
         Utils.dispatch(VolumeConstants.ADD_VOLUME, {volume: volume});
-        Utils.dispatch(ProjectVolumeConstants.ADD_PENDING_VOLUME_TO_PROJECT, {
-          volume: volume,
-          project: project
-        });
 
-        volume.save(params).done(function () {
-          //NotificationController.success(null, 'Volume created');
-          Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
-          Utils.dispatch(VolumeConstants.POLL_VOLUME, {volume: volume});
-          Utils.dispatch(ProjectVolumeConstants.REMOVE_PENDING_VOLUME_FROM_PROJECT, {
-            volume: volume,
-            project: project
+        // todo: hook this back up if experience seems to slow...not connected right now
+        // Utils.dispatch(ProjectVolumeConstants.ADD_PENDING_VOLUME_TO_PROJECT, {
+        //   volume: volume,
+        //   project: project
+        // });
+
+        volume.createOnV1Endpoint({
+          name: volumeName,
+          size: volumeSize
+        }).done(function (attrs, status, response) {
+          volume.set('id', attrs.id);
+          volume.fetch().done(function(){
+            //NotificationController.success(null, 'Volume created');
+            volume.set('projects', [project.id]);
+            Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+            Utils.dispatch(VolumeConstants.POLL_VOLUME, {volume: volume});
+
+            Utils.dispatch(ProjectVolumeConstants.REMOVE_PENDING_VOLUME_FROM_PROJECT, {
+              volume: volume,
+              project: project
+            });
+
+            ProjectVolumeActions.addVolumeToProject(volume, project);
+            //pollUntilBuildIsFinished(volume);
           });
-          ProjectVolumeActions.addVolumeToProject(volume, project);
-          //pollUntilBuildIsFinished(volume);
         }).fail(function (response) {
           var title = "Error creating Volume " + volume.get('name');
           if(response && response.responseJSON && response.responseJSON.errors){

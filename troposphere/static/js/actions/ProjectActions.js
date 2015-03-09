@@ -131,6 +131,12 @@ define(function (require) {
     // ----------------------------
 
     addResourceToProject: function(resource, project, options){
+      // todo: settings projects here is a bad hack - it's because there are a
+      // few places in the code that access instance/volume.get('projects')[0]
+      // Instead we need to change those places to access a resources project
+      // either through stores.ProjectInstanceStore or the route URL (getParams().projectId);
+      resource.set('projects', [project.id]);
+
       if(resource instanceof Instance){
         actions.ProjectInstanceActions.addInstanceToProject(resource, project, options);
       }else if(resource instanceof Volume){

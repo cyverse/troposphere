@@ -53,6 +53,37 @@ define(function (require) {
         this.set('attach_data', extractAttachData(attrs));
         cb();
       }.bind(this));
+    },
+
+    createOnV1Endpoint: function(options, cb){
+      if(!options.name) throw new Error("Missing name");
+      if(!options.size) throw new Error("Missing size");
+
+      var volumeId = this.get('uuid'),
+          providerId = this.get('provider').uuid,
+          identityId = this.get('identity').uuid,
+          name = options.name,
+          size = options.size;
+
+      var url =  (
+        globals.API_ROOT +
+        "/provider/" + providerId +
+        "/identity/" + identityId +
+        "/volume"
+      );
+
+      return Backbone.sync("create", this, {
+        url:url,
+        attrs: {
+          name: name,
+          size: size
+        }
+      });
+      //.done(function(attrs, status, response){
+      //  cb(null, attrs);
+      //}.bind(this)).fail(function(response){
+      //  cb(response);
+      //});
     }
 
   });
