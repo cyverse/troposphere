@@ -35,32 +35,6 @@ define(
     //   this.refs.modal.show();
     // }
 
-    function getState(project) {
-      var state = {
-        instances: stores.ProjectInstanceStore.getInstancesFor(project),
-        instanceId: null
-      };
-
-      this.state = this.state || {};
-
-      // Use selected instance or default to the first one
-      if (state.instances) {
-        var volume = this.props.volume,
-            InstanceCollection = state.instances.constructor;
-
-        // Filter out instances not in the same provider as the volume
-        state.instances = state.instances.filter(function(i){
-          return i.get('identity').provider === volume.get('identity').provider;
-        });
-        state.instances = new InstanceCollection(state.instances);
-
-
-        state.instanceId = this.state.instanceId || state.instances.first().id;
-      }
-
-      return state;
-    }
-
     return React.createClass({
       mixins: [BootstrapModalMixin],
 
@@ -78,20 +52,50 @@ define(
       // Mounting & State
       // ----------------
       //
+
+      getState: function(project) {
+        var project = this.props.project,
+            state = {
+              instances: stores.ProjectInstanceStore.getInstancesFor(project),
+              instanceId: null
+            };
+
+        this.state = this.state || {};
+
+        // Use selected instance or default to the first one
+        if (state.instances) {
+          var volume = this.props.volume,
+              InstanceCollection = state.instances.constructor;
+
+          // Filter out instances not in the same provider as the volume
+          state.instances = state.instances.filter(function(i){
+            return i.get('identity').provider === volume.get('identity').provider;
+          });
+          state.instances = new InstanceCollection(state.instances);
+
+
+          state.instanceId = this.state.instanceId || state.instances.first().id;
+        }
+
+        return state;
+      },
+
       getInitialState: function(){
-        return getState.apply(this, [this.props.project]);
+        return this.getState();
       },
 
       updateState: function () {
-        if (this.isMounted()) this.setState(getState.apply(this, [this.props.project]));
+        if (this.isMounted()) this.setState(this.getState());
       },
 
       componentDidMount: function () {
         stores.InstanceStore.addChangeListener(this.updateState);
+        stores.ProjectInstanceStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
         stores.InstanceStore.removeChangeListener(this.updateState);
+        stores.ProjectInstanceStore.removeChangeListener(this.updateState);
       },
 
       //
@@ -109,7 +113,6 @@ define(
         this.props.onConfirm(instance);
       },
 
-
       //
       // Custom Modal Callbacks
       // ----------------------
@@ -125,52 +128,111 @@ define(
       // ------
       //
 
-      renderBody: function(){
-
-        if(this.state.instances){
-          return (
-            <div role='form'>
-              <p>Select the instance from the list below that you would like to attach the volume to:</p>
-
-              <div className='form-group'>
-                <label htmlFor='instance'>Instance</label>
-                <InstanceSelect
-                    instanceId={this.state.instanceId}
-                    instances={this.state.instances}
-                    onChange={this.onInstanceChange}
-                />
-              </div>
-
+      renderLoadingContent: function(){
+        return (
+          <div className="modal-content">
+            <div className="modal-header">
+              {this.renderCloseButton()}
+              <strong>Attach Volume</strong>
             </div>
-          );
-        }
+            <div className="modal-body">
+              <div className="loading"></div>
+            </div>
+            <div className="modal-footer">
+            </div>
+          </div>
+        )
+      },
+
+      renderAttachRulesContent: function(){
+        return (
+          <div className="modal-content">
+            <div className="modal-header">
+              <strong>Volume Attach Rules</strong>
+            </div>
+            <div className="modal-body">
+              <div role='form'>
+                <div className='form-group'>
+                  <p>
+                    <strong>Uh oh! </strong>
+                    {
+                      "It looks like you don't have any instances in this project that you can attach the volume " +
+                      "to. Volumes can only be attached to instances that are in the same project and on the same " +
+                      "provider as the volume."
+                    }
+                  </p>
+                  <p>
+                    {
+                      "If you'd like to attach this volume to an instance, you'll first need to "
+                    }
+                    <a href="https://pods.iplantcollaborative.org/wiki/display/atmman/Launching+a+New+Instance">create an instance</a>
+                    {
+                      " on the same provider or move an existing instance into this project."
+                    }
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-primary" onClick={this.cancel}>
+                Okay
+              </button>
+            </div>
+          </div>
+        )
+      },
+
+      renderAttachVolumeContent: function(instances){
+        var instanceId = this.state.instanceId;
 
         return (
-          <div className="loading"></div>
-        );
+          <div className="modal-content">
+            <div className="modal-header">
+              {this.renderCloseButton()}
+              <strong>Attach Volume</strong>
+            </div>
+            <div className="modal-body">
+              <div role='form'>
+                <p>Select the instance from the list below that you would like to attach the volume to:</p>
+                <div className='form-group'>
+                  <label htmlFor='instance'>Instance</label>
+                  <InstanceSelect
+                      instanceId={instanceId}
+                      instances={instances}
+                      onChange={this.onInstanceChange}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-danger" onClick={this.cancel}>
+                Cancel
+              </button>
+              <button type="button" className="btn btn-primary" onClick={this.confirm} disabled={!this.isSubmittable()}>
+                Attach volume to instance
+              </button>
+            </div>
+          </div>
+        )
       },
 
       render: function () {
+        var project = this.props.project,
+            instances = stores.ProjectInstanceStore.getInstancesFor(project),
+            content;
+
+        if(!instances) {
+          content = this.renderLoadingContent();
+        }else if(instances.length <= 0){
+          content = this.renderAttachRulesContent();
+        }else{
+          content = this.renderAttachVolumeContent(instances);
+        }
+
         return (
           <div className="modal fade">
             <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  {this.renderCloseButton()}
-                  <strong>Attach Volume</strong>
-                </div>
-                <div className="modal-body">
-                  {this.renderBody()}
-                </div>
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-danger" onClick={this.cancel}>
-                    Cancel
-                  </button>
-                  <button type="button" className="btn btn-primary" onClick={this.confirm} disabled={!this.isSubmittable()}>
-                    Attach volume to instance
-                  </button>
-                </div>
-              </div>
+              {content}
             </div>
           </div>
         );

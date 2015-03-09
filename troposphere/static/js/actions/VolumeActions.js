@@ -84,16 +84,17 @@ define(function (require) {
     },
 
     destroy: function(payload, options){
-      var volume = payload.volume;
-      var redirectUrl = payload.redirectUrl;
-      var that = this;
-      var modal;
-      var isAttached = volume.get('attach_data') && volume.get('attach_data').instance_id;
+      var volume = payload.volume,
+          redirectUrl = payload.redirectUrl,
+          instanceUUID = volume.get('attach_data').instance_id,
+          isAttached = !!instanceUUID,
+          modal,
+          that = this;
 
       if(isAttached){
         modal = ExplainVolumeDeleteConditionsModal({
           volume: volume,
-          instance: stores.InstanceStore.get(volume.get('attach_data').instance_id)
+          instance: stores.InstanceStore.getAll().findWhere({uuid: instanceUUID})
         });
       }else{
         modal = VolumeDeleteModal({

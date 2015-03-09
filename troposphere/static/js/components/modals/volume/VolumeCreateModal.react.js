@@ -46,7 +46,7 @@ define(
       isSubmittable: function(){
         // Make sure the selected provider is not in maintenance
         var selectedIdentity = stores.IdentityStore.get(this.state.identityId);
-        var isProviderInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(selectedIdentity.get('provider_id'));
+        var isProviderInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(selectedIdentity.get('provider').id);
         var volumes = this.state.volumes;
 
         // Disable the launch button if the user hasn't provided a name, size or identity for the volume

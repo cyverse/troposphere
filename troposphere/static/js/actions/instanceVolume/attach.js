@@ -5,26 +5,14 @@ define(function (require) {
       VolumeState = require('models/VolumeState'),
       InstanceVolumeActionRequest = require('models/InstanceVolumeActionRequest'),
       ModalHelpers = require('components/modals/ModalHelpers'),
-      VolumeAttachRulesModal = require('components/modals/volume/VolumeAttachRulesModal.react'),
       VolumeAttachModal = require('components/modals/volume/VolumeAttachModal.react'),
       Utils = require('../Utils'),
-      stores = require('stores'),
       NotificationController = require('controllers/NotificationController'),
       VolumeAttachNotifications = require('components/notifications/VolumeAttachNotifications.react');
 
   return {
 
     attach: function(volume, project){
-      var instances = stores.ProjectInstanceStore.getInstancesForProjectOnProvider(project, volume.get('provider'));
-
-      if(instances.length === 0){
-        var modal = VolumeAttachRulesModal({
-          backdrop: 'static'
-        });
-        ModalHelpers.renderModal(modal, function(){});
-        return;
-      }
-
       var modal = VolumeAttachModal({
         volume: volume,
         project: project

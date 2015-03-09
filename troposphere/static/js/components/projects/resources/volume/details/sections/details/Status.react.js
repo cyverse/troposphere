@@ -22,20 +22,20 @@ define(function (require) {
           activity = volumeState.get('activity'),
           placeholderMessage = status,
           lightStatus = "active",
-          attachData,
+          attachData = volume.get('attach_data'),
+          instanceUUID = attachData.instance_id,
           instance,
           style = {};
 
       if(status === "available"){
         placeholderMessage = "Unattached";
       }else if(status === "in-use"){
-        attachData = volume.get('attach_data');
-        instance = instances.get(attachData.instance_id);
+        instance = instances.findWhere({uuid: instanceUUID});
 
         if(instance) {
           placeholderMessage = "Attached to " + instance.get('name');
         }else{
-          placeholderMessage = "Attached to instance outside project (" + attachData.instance_id + ")";
+          placeholderMessage = "Attached to instance outside project (uuid=" + attachData.instance_id + ")";
           style = {color: "#d44950"}
         }
       }else{

@@ -19,7 +19,8 @@ define(function (require) {
       ModalHelpers.renderModal(modal, function () {
         var volumeState = new VolumeState({status_raw: "detaching"}),
             originalState = volume.get('state'),
-            instance = stores.InstanceStore.get(volume.get('attach_data').instance_id),
+            instanceUUID = volume.get('attach_data').instance_id,
+            instance = stores.InstanceStore.getAll().findWhere({uuid: instanceUUID}),
             actionRequest = new InstanceVolumeActionRequest({
               instance: instance,
               volume: volume

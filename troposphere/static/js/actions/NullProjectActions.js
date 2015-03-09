@@ -88,26 +88,31 @@ define(function (require) {
     // the new Atmosphere interface, or by switching back and forth between the old and new UI
     //
     moveAttachedVolumesIntoCorrectProject: function(){
-      var projects = stores.ProjectStore.getAll();
-      var instances = stores.InstanceStore.getAll(projects);
-      var volumes = stores.VolumeStore.getAll(projects);
+      var projects = stores.ProjectStore.getAll(),
+          instances = stores.InstanceStore.getAll(),
+          volumes = stores.VolumeStore.getAll(),
+          volumesInWrongProject = [];
 
       // Move volumes into correct project
-      var volumesInWrongProject = [];
       volumes.each(function(volume){
-        var volumeProjectId = volume.get('projects')[0];
-        var volumeProject = stores.ProjectStore.get(volumeProjectId);
-        var instanceId = volume.get('attach_data').instance_id;
+        var volumeProjectId = volume.get('projects')[0],
+            volumeProject = stores.ProjectStore.get(volumeProjectId),
+            instanceUUID = volume.get('attach_data').instance_id,
+            instance,
+            instanceProjectId,
+            project;
 
-        if (instanceId) {
-          var instance = instances.get(instanceId);
+        if (instanceUUID) {
+          instance = instances.findWhere({uuid: instanceUUID});
+
           if(!instance){
-            console.warn("Instance with id: " + instanceId + " was not found.");
+            console.warn("Instance with uuid: " + instanceUUID + " was not found.");
             return;
           }
-          var instanceProjectId = instance.get('projects')[0];
+
+          instanceProjectId = instance.get('projects')[0];
           if(volumeProjectId !== instanceProjectId){
-            var project = stores.ProjectStore.get(instanceProjectId);
+            project = stores.ProjectStore.get(instanceProjectId);
             this._migrateResourceIntoRealProject(volume, volumeProject, project);
             volumesInWrongProject.push({
               volume: volume,

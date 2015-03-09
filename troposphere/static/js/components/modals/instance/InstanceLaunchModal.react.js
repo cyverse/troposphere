@@ -54,7 +54,7 @@ define(
         // Fetch instance sizes user can launch if required information exists
         if(state.identities && state.providers && state.identityId){
           var selectedIdentity = state.identities.get(state.identityId);
-          var selectedProvider = state.providers.get(selectedIdentity.get('provider_id'));
+          var selectedProvider = state.providers.get(selectedIdentity.get('provider').id);
           state.sizes = stores.SizeStore.getAllFor(selectedProvider.id, selectedIdentity.id);
         }
 
@@ -93,7 +93,7 @@ define(
       isSubmittable: function(){
         // Make sure the selected provider is not in maintenance
         var selectedIdentity = stores.IdentityStore.get(this.state.identityId);
-        var isProviderInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(selectedIdentity.get('provider_id'));
+        var isProviderInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(selectedIdentity.get('provider').id);
         var size;
 
         var hasInstanceName          = !!this.state.instanceName;
