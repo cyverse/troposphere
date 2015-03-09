@@ -36,9 +36,7 @@ define(
         // versions on the public page
         if(this.props.identities){
           return (
-            <VersionsView application={this.props.image}
-                          identities={this.props.identities}
-            />
+            <VersionsView application={this.props.image}/>
           );
         }
       },

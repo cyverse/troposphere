@@ -27,10 +27,11 @@ define(
         return Backbone.Model.prototype.url.apply(this) + globals.slash();
       },
 
-      parse: function (response) {
-        response.id = response.alias;
-        response.start_date = moment(response.start_date);
-        return response;
+      parse: function (attributes) {
+        attributes.start_date = moment(attributes.start_date);
+        // todo: remove this hack - it just works because there are no images with multiple versions
+        attributes.version = "1.0.0";
+        return attributes;
       },
 
       computed: {

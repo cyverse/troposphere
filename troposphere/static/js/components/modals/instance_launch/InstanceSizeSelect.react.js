@@ -10,7 +10,7 @@ define(
     return React.createClass({
 
       propTypes: {
-        sizeId: React.PropTypes.string.isRequired,
+        sizeId: React.PropTypes.number.isRequired,
         sizes: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         onChange: React.PropTypes.func.isRequired
       },

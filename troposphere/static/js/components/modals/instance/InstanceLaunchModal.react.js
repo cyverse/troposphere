@@ -97,81 +97,82 @@ define(function (require) {
     //
 
     getState: function(){
-      var image = this.props.application;
+      var image = this.props.application,
+          machines = image.get('provider_images'),
+          identities = stores.IdentityStore.getAll(),
+          //maintenanceMessages = stores.MaintenanceMessageStore.getAll(),
+          //sizes = stores.SizeStore.getAll(),
+          //instances = stores.InstanceStore.getAll(),
+          projects = stores.ProjectStore.getAll(),
+          providers = stores.ProviderStore.getAll(),
+          providerSizes,
+          selectedIdentity,
+          selectedProvider,
+          selectedSize;
 
-      var state = {
-        providers: stores.ProviderStore.getAll(),
-        identities: stores.IdentityStore.getAll(),
-        sizes: null,
-        projects: stores.ProjectStore.getAll(),
-
+      var state = this.state || {
         instanceName: null,
         machineId: null,
         identityId: null,
         sizeId: null,
         projectId: null,
-        instances: null
+        projectName: ""
       };
 
-      if(state.projects){
-        state.instances = stores.InstanceStore.getAll(state.projects);
+      // Use provided instance name or default to nothing
+      state.instanceName = state.instanceName || "";
+
+      // Use selected machine (image version) or default to the first one
+      // todo: we should be sorting these by date or version number before selecting the first one
+      if(machines) {
+        state.machineId = state.machineId || machines.first().id;
       }
 
-      this.state = this.state || {};
-      if(this.state) {
-
-        // Use provided instance name or default to nothing
-        state.instanceName = this.state.instanceName || "";
-
-        // Use selected identity or default to the first one
-        if (state.identities) {
-          state.identityId = this.state.identityId || state.identities.first().id;
-        }
-
-        // Use selected machine (image version) or default to the first one
-        // todo: we should be sorting these by date or version number before selecting the first one
-        var machines = image.get('provider_images');
-        state.machineId = this.state.machineId || machines.first().id;
-
-        // Fetch instance sizes user can launch if required information exists
-        if(state.identities && state.providers && state.identityId){
-          var selectedIdentity = state.identities.get(state.identityId);
-          var selectedProvider = state.providers.get(selectedIdentity.get('provider').id);
-          state.sizes = stores.SizeStore.getAllFor(selectedProvider.id, selectedIdentity.id);
-        }
-
-        // If we switch identities, while a size with the previous identity was selected, that size may
-        // not exist in the new collection.  So check to see if it does, and set the sizeId to null if
-        // doesn't exist (forcing the user to select a size in the new list)
-        if(state.sizes){
-          var selectedSize = state.sizes.get(this.state.sizeId);
-          state.sizeId = selectedSize ? selectedSize.id : null;
-        }
-
-        // Use selected machine size or default to the first one
-        if(state.sizes) {
-          state.sizeId = state.sizeId || state.sizes.first().id;
-        }
-
-        // Use selected project or default to the null one
-        if(state.projects) {
-          state.projectId = state.projectId || state.projects.length > 0 ? state.projects.first() : null;
-        }
-
-        // Use provided instance name or default to nothing
-        state.projectName = this.state.projectName || "";
+      // Use selected identity or default to the first one
+      if (identities) {
+        state.identityId = state.identityId || identities.first().id;
       }
+
+      // Fetch instance sizes user can launch if required information exists
+      if(identities && providers && state.identityId){
+        selectedIdentity = identities.get(state.identityId);
+        selectedProvider = providers.get(selectedIdentity.get('provider').id);
+        providerSizes = stores.SizeStore.getSizesFor(selectedProvider);
+      }
+
+      // If we switch identities, while a size with the previous identity was selected, that size may
+      // not exist in the new collection.  So check to see if it does, and set the sizeId to null if
+      // doesn't exist (forcing the user to select a size in the new list)
+      if(providerSizes){
+        selectedSize = providerSizes.get(state.sizeId);
+        state.sizeId = selectedSize ? selectedSize.id : null;
+      }
+
+      // Use selected machine size or default to the first one
+      if(providerSizes) {
+        state.sizeId = state.sizeId || providerSizes.first().id;
+      }
+
+      // Use selected project or default to the null one
+      if(projects) {
+        state.projectId = state.projectId || projects.length > 0 ? projects.first().id : null;
+      }
+
+      // Use provided project name or default to nothing
+      state.projectName = state.projectName || "";
 
       return state;
     },
 
     getInitialState: function(){
+      return this.getState();
       return {
         instanceName: null,
         machineId: null,
         identityId: null,
         sizeId: null,
-        projectId: null
+        projectId: null,
+        projectName: ""
       };
     },
 
@@ -185,6 +186,7 @@ define(function (require) {
       stores.SizeStore.addChangeListener(this.updateState);
       stores.ProjectStore.addChangeListener(this.updateState);
       stores.InstanceStore.addChangeListener(this.updateState);
+      stores.MaintenanceMessageStore.addChangeListener(this.updateState);
     },
 
     componentWillUnmount: function () {
@@ -193,6 +195,7 @@ define(function (require) {
       stores.SizeStore.removeChangeListener(this.updateState);
       stores.ProjectStore.removeChangeListener(this.updateState);
       stores.InstanceStore.removeChangeListener(this.updateState);
+      stores.MaintenanceMessageStore.removeChangeListener(this.updateState);
     },
 
     //
@@ -210,11 +213,13 @@ define(function (require) {
 
       this.hide();
 
-      if(this.state.projectName){
-        this.props.onConfirm(identity, this.state.machineId, this.state.sizeId, this.state.instanceName, this.state.projectName);
-      }else{
-        this.props.onConfirm(identity, this.state.machineId, this.state.sizeId, this.state.instanceName, project);
-      }
+      this.props.onConfirm(
+        identity,
+        this.state.machineId,
+        this.state.sizeId,
+        this.state.instanceName,
+        this.state.projectName || project
+      );
     },
 
     handleKeyDown: function(e){
@@ -348,25 +353,27 @@ define(function (require) {
       return this.renderProgressBar(message, currentlyUsedPercent, projectedPercent, overQuotaMessage);
     },
 
-    renderProjectSelectionForm: function(){
-      if (this.state.projects.length > 0) {
+    renderProjectSelectionForm: function(projects){
+      if (projects.length > 0) {
         return (
-          <ProjectSelect projectId={this.state.projectId}
-                         projects={this.state.projects}
-                         onChange={this.onProjectChange}
+          <ProjectSelect
+            projectId={this.state.projectId}
+            projects={projects}
+            onChange={this.onProjectChange}
           />
         );
       }
     },
 
-    renderProjectCreationForm: function(){
-      if(this.state.projects.length <= 0){
+    renderProjectCreationForm: function(projects){
+      if(projects.length <= 0){
         return (
-          <input type="text"
-                 className="form-control"
-                 value={this.state.projectName}
-                 onChange={this.onProjectNameChange}
-                 placeholder="Enter project name..."
+          <input
+            type="text"
+            className="form-control"
+            value={this.state.projectName}
+            onChange={this.onProjectNameChange}
+            placeholder="Enter project name..."
           />
         )
       }
@@ -399,16 +406,23 @@ define(function (require) {
             <div className='form-group'>
               <label htmlFor='instance-name' className="col-sm-3 control-label">Instance Name</label>
               <div className="col-sm-9">
-                <input type='text' className='form-control' id='instance-name' onChange={this.onInstanceNameChange} onKeyDown={this.handleKeyDown}/>
+                <input
+                  type='text'
+                  className='form-control'
+                  id='instance-name'
+                  onChange={this.onInstanceNameChange}
+                  onKeyDown={this.handleKeyDown}
+                />
               </div>
             </div>
 
             <div className='form-group'>
               <label htmlFor='machine' className="col-sm-3 control-label">Version</label>
               <div className="col-sm-9">
-                <MachineSelect machineId={this.state.machineId}
-                               machines={machines}
-                               onChange={this.onMachineChange}
+                <MachineSelect
+                  machineId={this.state.machineId}
+                  machines={machines}
+                  onChange={this.onMachineChange}
                 />
               </div>
             </div>
@@ -439,8 +453,8 @@ define(function (require) {
             <div className='form-group'>
               <label htmlFor='project' className="col-sm-3 control-label">Project</label>
               <div className="col-sm-9">
-                {this.renderProjectSelectionForm()}
-                {this.renderProjectCreationForm()}
+                {this.renderProjectSelectionForm(projects)}
+                {this.renderProjectCreationForm(projects)}
               </div>
             </div>
           </div>

@@ -82,9 +82,7 @@ define(
         // versions on the public page
         if(this.props.identities){
           versionView = (
-            <VersionsView application={this.props.application}
-                          identities={this.props.identities}
-            />
+            <VersionsView application={this.props.application}/>
           );
         }
 
