@@ -245,8 +245,16 @@ define(function (require) {
     },
 
     onProviderIdentityChange: function(e){
-      var newIdentityId = e.target.value;
-      this.setState({identityId: newIdentityId});
+      var newIdentityId = e.target.value,
+          identity = stores.IdentityStore.get(newIdentityId),
+          providerId = identity.get('provider').id,
+          provider = stores.ProviderStore.get(providerId),
+          sizes = stores.SizeStore.getSizesFor(provider);
+
+      this.setState({
+        identityId: newIdentityId,
+        sizeId: sizes ? sizes.first().id : null
+      });
     },
 
     onSizeChange: function(e){
@@ -334,7 +342,7 @@ define(function (require) {
 
     renderMemoryConsumption: function(identity, size, sizes, instances){
       var quota = identity.get('quota'),
-          maximumAllowed = quota.mem,
+          maximumAllowed = quota.memory,
           projected = size.get('mem'),
           currentlyUsed = identity.getMemoryUsed(instances, sizes),
           // convert to percentages
@@ -385,15 +393,26 @@ define(function (require) {
           providers = stores.ProviderStore.getAll(),
           projects = stores.ProjectStore.getAll(),
           sizes = stores.SizeStore.getAll(),
-          instances = stores.InstanceStore.getAll();
+          instances = stores.InstanceStore.getAll(),
+          selectedIdentity,
+          selectedProvider,
+          providerSizes;
 
       if(!identities || !providers || !projects || !sizes || !instances) return <div className="loading"></div>;
+
+      if(this.state.identityId){
+        selectedIdentity = identities.get(this.state.identityId);
+        selectedProvider = providers.get(selectedIdentity.get('provider').id);
+        providerSizes = stores.SizeStore.getSizesFor(selectedProvider);
+      }
+
+      if(!providerSizes) return <div className="loading"></div>;
 
       // Use selected machine (image version) or default to the first one
       // todo: we should be sorting these by date or version number before selecting the first one
       var machines = image.get('provider_images'),
           identity = identities.get(this.state.identityId),
-          size = sizes.get(this.state.sizeId);
+          size = providerSizes.get(this.state.sizeId);
 
       return (
         <div role='form'>
@@ -444,7 +463,7 @@ define(function (require) {
               <div className="col-sm-9">
                 <InstanceSizeSelect
                     sizeId={this.state.sizeId}
-                    sizes={sizes}
+                    sizes={providerSizes}
                     onChange={this.onSizeChange}
                 />
               </div>
