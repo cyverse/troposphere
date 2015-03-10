@@ -36,7 +36,7 @@ define(function (require) {
     },
 
     favorited: function(isFavorited){
-      var actionUrl = globals.API_ROOT + "/bookmark/application/" + this.id + globals.slash();
+      var actionUrl = globals.API_ROOT + "/bookmark/application/" + this.id;
       var data = {
         marked: isFavorited
       };

@@ -30,7 +30,7 @@ define(function (require) {
         }
       };
 
-      var feedbackUrl = globals.API_ROOT + '/email/feedback' + globals.slash();
+      var feedbackUrl = globals.API_ROOT + '/email/feedback';
 
       $.ajax(feedbackUrl, {
         type: 'POST',
@@ -87,7 +87,7 @@ define(function (require) {
           reason: reason
         };
 
-        var requestUrl = globals.API_ROOT + '/email/request_quota' + globals.slash();
+        var requestUrl = globals.API_ROOT + '/email/request_quota';
 
         $.ajax(requestUrl, {
           type: 'POST',

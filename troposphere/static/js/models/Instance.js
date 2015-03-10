@@ -136,7 +136,7 @@ define(
         action_url: function () {
           var instanceUrl = this.url();
           if(instanceUrl.slice(-1) !== "/") instanceUrl += "/";
-          return instanceUrl + 'action' + globals.slash();
+          return instanceUrl + 'action';
         }
       },
 

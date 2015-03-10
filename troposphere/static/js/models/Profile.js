@@ -6,7 +6,7 @@ define(
   function (Backbone, globals) {
 
     return Backbone.Model.extend({
-      url: globals.API_ROOT + "/profile" + globals.slash(),
+      url: globals.API_ROOT + "/profile",
 
       parse: function (response) {
         var attributes = response;

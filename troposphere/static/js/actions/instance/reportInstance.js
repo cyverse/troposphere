@@ -17,7 +17,7 @@ define(function (require) {
       ModalHelpers.renderModal(modal, function (reportInfo) {
         var profile = stores.ProfileStore.get(),
             username = profile.get('username'),
-            reportUrl = globals.API_ROOT + "/email/support" + globals.slash(),
+            reportUrl = globals.API_ROOT + "/email/support",
             problemText = "",
             reportData = {};
 
