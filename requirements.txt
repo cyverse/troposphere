@@ -2,7 +2,6 @@ python-dateutil==2.2
 requests==2.2.1
 django==1.7.4
 django-jenkins==0.16.2
-django-filter==0.9.2
 djangorestframework==3.0.4
 coverage==3.7.1
 caslib.py==2.1.0
