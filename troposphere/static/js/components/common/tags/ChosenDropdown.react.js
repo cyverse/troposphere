@@ -4,12 +4,10 @@ define(
   [
     'react',
     'backbone',
-    'underscore',
-    'actions/TagActions',
     './ChosenDropdownItem.react',
     './ChosenSelectedTag.react'
   ],
-  function (React, Backbone, _, TagActions, ChosenDropdownItem, ChosenSelectedTag) {
+  function (React, Backbone, ChosenDropdownItem, ChosenSelectedTag) {
 
     return React.createClass({
       display: "ChosenDropdown",

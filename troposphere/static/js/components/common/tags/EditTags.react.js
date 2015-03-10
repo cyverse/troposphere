@@ -4,10 +4,9 @@ define(
   [
     'react',
     'backbone',
-    'actions/TagActions',
     './ChosenDropdown.react'
   ],
-  function (React, Backbone, TagActions, ChosenDropdown) {
+  function (React, Backbone, ChosenDropdown) {
 
     return React.createClass({
       display: "EditTags",

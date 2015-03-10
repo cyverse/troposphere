@@ -4,13 +4,11 @@ define(
   [
     'react',
     'backbone',
-    'actions/ApplicationActions',
-    'stores/ApplicationStore',
     '../list/list/ApplicationCardList.react',
     '../list/grid/ApplicationCardGrid.react',
     'collections/ApplicationCollection'
   ],
-  function (React, Backbone, ApplicationActions, ApplicationStore, ApplicationCardList, ApplicationCardGrid, ApplicationCollection) {
+  function (React, Backbone, ApplicationCardList, ApplicationCardGrid, ApplicationCollection) {
 
     return React.createClass({
 
