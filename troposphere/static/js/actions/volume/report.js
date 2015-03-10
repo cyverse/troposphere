@@ -1,7 +1,6 @@
 define(function (require) {
 
-  var NotificationController = require('controllers/NotificationController'),
-      stores = require('stores'),
+  var stores = require('stores'),
       globals = require('globals'),
       ModalHelpers = require('components/modals/ModalHelpers'),
       VolumeReportModal = require('components/modals/volume/VolumeReportModal.react'),
@@ -9,10 +8,13 @@ define(function (require) {
 
   return {
 
-    report: function(volume){
-      var modal = VolumeReportModal({
-        volume: volume
-      });
+    report: function(params){
+      if(!params.volume) throw new Error("Missing volume");
+
+      var volume = params.volume,
+          modal = VolumeReportModal({
+            volume: volume
+          });
 
       ModalHelpers.renderModal(modal, function (reportInfo) {
         var profile = stores.ProfileStore.get(),
@@ -45,11 +47,11 @@ define(function (require) {
           data: JSON.stringify(reportData),
           dataType: 'json',
           contentType: 'application/json',
-          success: function (model) {
-            NotificationController.info(null, "Your volume report has been sent to support.");
+          success: function(){
+            Utils.displaySuccess({message: "Your volume report has been sent to support."});
           },
-          error: function (response, status, error) {
-            NotificationController.error(null, "Your volume report could not be sent to support");
+          error: function(response, status, error){
+            Utils.displayError({title: "Your volume report could not be sent", response: response});
           }
         });
       })

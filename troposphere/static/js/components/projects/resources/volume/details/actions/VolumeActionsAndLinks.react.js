@@ -36,7 +36,7 @@ define(function (require) {
     },
 
     handleReport: function(){
-      actions.VolumeActions.reportVolume(this.props.volume);
+      actions.VolumeActions.report({volume: this.props.volume});
     },
 
     render: function () {

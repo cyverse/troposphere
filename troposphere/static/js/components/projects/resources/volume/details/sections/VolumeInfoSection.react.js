@@ -4,7 +4,7 @@ define(function (require) {
       Backbone = require('backbone'),
       Time = require('components/common/Time.react'),
       EditableInputField = require('components/common/EditableInputField.react'),
-      VolumeActions = require('actions/VolumeActions'),
+      actions = require('actions'),
       stores = require('stores'),
       CryptoJS = require('crypto'),
       Gravatar = require('components/common/Gravatar.react');
@@ -35,7 +35,7 @@ define(function (require) {
         name: text,
         isEditing: false
       });
-      VolumeActions.updateVolumeAttributes(volume, {name: text})
+      actions.VolumeActions.update(volume, {name: text})
     },
 
     render: function () {

@@ -13,9 +13,10 @@ define(function (require) {
   return {
 
     createAndAddToProject: function(payload){
-      var project = payload.project;
+      if(!payload.project) throw new Error("Missing project");
 
-      var modal = VolumeCreateModal();
+      var project = payload.project,
+          modal = VolumeCreateModal();
 
       ModalHelpers.renderModal(modal, function (volumeName, volumeSize, identity) {
         var identityUUID = identity.get('uuid'),
@@ -59,8 +60,8 @@ define(function (require) {
           volume.fetch().done(function(){
             // todo: remove hack and start using ProjectVolume endpoint to discover
             // which project an volume is in
-
             volume.set('projects', [project.id]);
+
             Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
             Utils.dispatch(VolumeConstants.POLL_VOLUME, {volume: volume});
 
@@ -73,16 +74,8 @@ define(function (require) {
             actions.ProjectVolumeActions.addVolumeToProject(volume, project);
           });
         }).fail(function (response) {
-          var title = "Error creating Volume " + volume.get('name');
-          if(response && response.responseJSON && response.responseJSON.errors){
-              var errors = response.responseJSON.errors;
-              var error = errors[0];
-              NotificationController.error(title, error.message);
-           }else{
-              NotificationController.error(title, "If the problem persists, please let support at support@iplantcollaborative.org.");
-           }
-
           Utils.dispatch(VolumeConstants.REMOVE_VOLUME, {volume: volume});
+          Utils.displayError({title: "Volume could not be created", response: response});
 
           // todo: hook this back up if experience seems to slow...not connected right now
           // Utils.dispatch(ProjectVolumeConstants.REMOVE_PENDING_VOLUME_FROM_PROJECT, {

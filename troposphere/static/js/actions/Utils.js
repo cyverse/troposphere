@@ -15,6 +15,11 @@ define(function (require) {
       });
     },
 
+    displaySuccess: function(options){
+      if(!options.message) throw new Error("Missing message");
+      NotificationController.success(null, options.message);
+    },
+
     displayError: function(options){
       var response = options.response,
           title = options.title;
