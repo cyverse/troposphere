@@ -140,7 +140,7 @@ Atmo.Router = Backbone.Router.extend({
     });
     $.ajax({
       type: 'GET',
-      url: site_root + '/api/v1/version',
+      url: Atmo.API_ROOT + '/version',
       statusCode: {
         200: function (response) {
           $('#version').html('<a href="https://github.com/iPlantCollaborativeOpenSource/atmosphere/tree/'

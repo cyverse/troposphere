@@ -244,27 +244,6 @@
         sessionStorage.clear(); // clear previous sessionStorage values
     </script>
 
-    <script type="text/javascript">
-        {% if access_token %}
-            var access_token = "{{ access_token }}";
-        {% endif %}
-
-        {% if intercom_app_id %}
-            var intercom_app_id = "{{ intercom_app_id }}";
-            var intercom_company_id = "{{ intercom_company_id }}";
-            var intercom_company_name = "{{ intercom_company_name }}";
-        {% endif %}
-
-        {% if API_ROOT %}
-            var API_ROOT = "{{ API_ROOT }}";
-        {% endif %}
-
-        {% if API_V2_ROOT %}
-            var API_V2_ROOT = "{{ API_V2_ROOT }}";
-        {% endif %}
-    </script>
-
-
     <!-- 3rd party dependencies -->
     <script src="https://www.google.com/jsapi"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
@@ -284,7 +263,26 @@
     <script type="text/javascript" src="{{ site_root }}/assets/resources/partials/templates.js"></script>
     <script type="text/javascript" src="{{ site_root }}/assets/resources/js/cf2/globals.js"></script>
 
-    <script>
+    <script type="text/javascript">
+        {% if access_token %}
+            var access_token = "{{ access_token }}";
+        {% endif %}
+
+        {% if intercom_app_id %}
+            var intercom_app_id = "{{ intercom_app_id }}";
+            var intercom_company_id = "{{ intercom_company_id }}";
+            var intercom_company_name = "{{ intercom_company_name }}";
+        {% endif %}
+
+        {% if API_ROOT %}
+            Atmo.API_ROOT = "{{ API_ROOT }}";
+        {% endif %}
+
+        {% if API_V2_ROOT %}
+            Atmo.API_V2_ROOT = "{{ API_V2_ROOT }}";
+        {% endif %}
+
+
         Atmo.Templates["volume_screen_instances"]    = $("#template_volume_screen_instances").html();
         Atmo.Templates["volume_screen"]              = $("#template_volume_screen").html();
         Atmo.Templates["request_imaging_form"]       = $("#template_request_imaging_form").html();
