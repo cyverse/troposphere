@@ -77,7 +77,7 @@ define(function (require) {
 
           if(application){
             applicationLink = (
-              <Router.Link to="image-details" params{{imageId: application.id}}>
+              <Router.Link to="image-details" params={{imageId: application.id}}>
                 {applicationName}
               </Router.Link>
             )
