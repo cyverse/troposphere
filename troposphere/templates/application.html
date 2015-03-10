@@ -46,6 +46,14 @@
             var intercom_company_id = "{{ intercom_company_id }}";
             var intercom_company_name = "{{ intercom_company_name }}";
         {% endif %}
+
+        {% if API_ROOT %}
+            var API_ROOT = "{{ API_ROOT }}";
+        {% endif %}
+
+        {% if API_V2_ROOT %}
+            var API_V2_ROOT = "{{ API_V2_ROOT }}";
+        {% endif %}
     </script>
 
 
