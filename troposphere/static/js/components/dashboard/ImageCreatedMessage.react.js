@@ -1,44 +1,41 @@
-/** @jsx React.DOM */
+define(function (require) {
 
-define(
-  [
-    'react',
-    'backbone',
-    'moment',
-    'url'
-  ],
-  function (React, Backbone, moment, URL) {
+  var React = require('react'),
+      Backbone = require('backbone'),
+      moment = require('moment'),
+      Router = require('react-router');
 
-    return React.createClass({
+  return React.createClass({
 
-      propTypes: {
-        application: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    propTypes: {
+      application: React.PropTypes.instanceOf(Backbone.Model).isRequired
+    },
 
-      render: function () {
-        var application = this.props.application;
-        var startDate = moment(application.get('start_date'));
-        var user = application.get('created_by');
-        var imageUrl = URL.application(application);
+    render: function () {
+      var application = this.props.application,
+          startDate = moment(application.get('start_date')),
+          user = application.get('created_by');
 
-        return (
-          <li>
-            <div className="message activity-message">
+      return (
+        <li>
+          <div className="message activity-message">
+            <div>
+              <i className="glyphicon glyphicon-floppy-disk"></i>
+            </div>
+            <div className="details">
+              <div><strong>{user.username}</strong> created an image</div>
+              <div>{startDate.format("MMM DD, YYYY")}</div>
               <div>
-                <i className="glyphicon glyphicon-floppy-disk"></i>
-              </div>
-              <div className="details">
-                <div><strong>{user.username}</strong> created an image</div>
-                <div>{startDate.format("MMM DD, YYYY")}</div>
-                <div>
-                  <a href={imageUrl}>{application.get('name')}</a>
-                </div>
+                <Router.Link to="image-details" params={{imageId: application.id}}>
+                  {application.get('name')}
+                </Router.Link>
               </div>
             </div>
-          </li>
-        );
-      }
-
-    });
+          </div>
+        </li>
+      );
+    }
 
   });
+
+});
