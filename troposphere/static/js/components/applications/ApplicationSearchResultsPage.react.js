@@ -6,15 +6,14 @@ define(
     './common/SecondaryApplicationNavigation.react',
     './list/SearchContainer.react',
     './search/SearchResults.react',
-    'stores/ApplicationStore',
-    'stores/TagStore'
+    'stores'
   ],
-  function (React, SecondaryApplicationNavigation, SearchContainer, SearchResults, ApplicationStore, TagStore) {
+  function (React, SecondaryApplicationNavigation, SearchContainer, SearchResults, stores) {
 
     function getState(query) {
       return {
-        applications: ApplicationStore.getSearchResultsFor(query),
-        tags: TagStore.getAll()
+        applications: stores.ApplicationStore.getSearchResultsFor(query),
+        tags: stores.TagStore.getAll()
       };
     }
 
@@ -33,13 +32,13 @@ define(
       },
 
       componentDidMount: function () {
-        ApplicationStore.addChangeListener(this.updateState);
-        TagStore.addChangeListener(this.updateState);
+        stores.ApplicationStore.addChangeListener(this.updateState);
+        stores.TagStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
-        ApplicationStore.removeChangeListener(this.updateState);
-        TagStore.removeChangeListener(this.updateState);
+        stores.ApplicationStore.removeChangeListener(this.updateState);
+        stores.TagStore.removeChangeListener(this.updateState);
       },
 
       componentWillReceiveProps: function (nextProps) {

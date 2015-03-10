@@ -4,10 +4,10 @@ define(
   [
     'react',
     'components/mixins/BootstrapModalMixin.react',
-    'stores/VersionStore',
+    'stores',
     'moment'
   ],
-  function (React, BootstrapModalMixin, VersionStore, moment) {
+  function (React, BootstrapModalMixin, stores, moment) {
 
     // Example Usage from http://bl.ocks.org/insin/raw/8449696/
     // render: function(){
@@ -36,7 +36,7 @@ define(
 
     function getState() {
       return {
-        version: VersionStore.getVersion()
+        version: stores.VersionStore.getVersion()
       };
     }
 
@@ -60,11 +60,11 @@ define(
       },
 
       componentDidMount: function () {
-        VersionStore.addChangeListener(this.updateState);
+        stores.VersionStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
-        VersionStore.removeChangeListener(this.updateState);
+        stores.VersionStore.removeChangeListener(this.updateState);
       },
 
       //

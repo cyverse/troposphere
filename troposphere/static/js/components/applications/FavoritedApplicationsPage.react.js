@@ -5,15 +5,14 @@ define(
     'react',
     './common/SecondaryApplicationNavigation.react',
     './list/list/ApplicationCardList.react',
-    'stores/ApplicationStore',
-    'stores/TagStore'
+    'stores'
   ],
-  function (React, SecondaryApplicationNavigation, ApplicationCardList, ApplicationStore, TagStore) {
+  function (React, SecondaryApplicationNavigation, ApplicationCardList, stores) {
 
     function getState() {
       return {
-        applications: ApplicationStore.getFavorited(),
-        tags: TagStore.getAll()
+        applications: stores.ApplicationStore.getFavorited(),
+        tags: stores.TagStore.getAll()
       };
     }
 
@@ -28,13 +27,13 @@ define(
       },
 
       componentDidMount: function () {
-        ApplicationStore.addChangeListener(this.updateState);
-        TagStore.addChangeListener(this.updateState);
+        stores.ApplicationStore.addChangeListener(this.updateState);
+        stores.TagStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
-        ApplicationStore.removeChangeListener(this.updateState);
-        TagStore.removeChangeListener(this.updateState);
+        stores.ApplicationStore.removeChangeListener(this.updateState);
+        stores.TagStore.removeChangeListener(this.updateState);
       },
 
       render: function () {
@@ -47,8 +46,9 @@ define(
             );
           } else {
             content = (
-              <ApplicationCardList applications={this.state.applications}
-                                   tags={this.state.tags}
+              <ApplicationCardList
+                applications={this.state.applications}
+                tags={this.state.tags}
               />
             );
           }
