@@ -1,29 +1,17 @@
-/** @jsx React.DOM */
+define(function (require) {
 
-define(
-  [
-    'react',
-    'backbone'
-  ],
-  function (React, Backbone) {
+  var React = require('react');
 
-    return React.createClass({
+  return React.createClass({
 
-      propTypes: {
-
-      },
-
-      render: function () {
-        return (
-          <p>
-            You have not added any instances to this project.
-            <a href="/application/images">
-              Create an instance.
-            </a>
-          </p>
-        );
-      }
-
-    });
+    render: function () {
+      return (
+        <p>
+          You have not added any instances to this project.
+        </p>
+      );
+    }
 
   });
+
+});
