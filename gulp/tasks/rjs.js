@@ -33,24 +33,24 @@ module.exports = function (gulp) {
       }
     ],
     paths: {
-      jquery: '../bower_components/jquery/dist/jquery',
-      backbone: '../bower_components/backbone/backbone',
-      marionette: '../bower_components/backbone.marionette/lib/core/backbone.marionette',
-      'backbone.wreqr': '../bower_components/backbone.wreqr/lib/backbone.wreqr',
-      'backbone.babysitter': '../bower_components/backbone.babysitter/lib/backbone.babysitter',
-      underscore: '../bower_components/underscore/underscore',
-      bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min',
-      moment: '../bower_components/moment/moment',
-      react: '../bower_components/react/react-with-addons',
-      'react-router': '../bower_components/react-router/dist/react-router',
-      chosen: '../bower_components/chosen/chosen.jquery',
-      toastr: '../bower_components/toastr/toastr',
-      q: '../bower_components/q/q',
-      highchartsBase: '../bower_components/highcharts-release/highcharts',
-      highcharts: '../bower_components/highcharts-release/highcharts-more',
-      crypto: 'lib/md5',
-      sinon: '../bower_components/sinon/lib/sinon',
-      showdown: '../bower_components/showdown/compressed/Showdown'
+      jquery: "empty:",
+      backbone: "empty:",
+      marionette: "empty:",
+      'backbone.wreqr': "empty:",
+      'backbone.babysitter': "empty:",
+      underscore: "empty:",
+      bootstrap: "empty:",
+      moment: "empty:",
+      react: "empty:",
+      'react-router': "empty:",
+      chosen: "empty:",
+      toastr: "empty:",
+      q: "empty:",
+      highchartsBase: "empty:",
+      highcharts: "empty:",
+      crypto: "empty:",
+      sinon: "empty:",
+      showdown: "empty:"
     }
   };
 
