@@ -16,13 +16,12 @@ define(function (require) {
   var AppRoutes = (
     <Route name="root" path="/application" handler={Master}>
       <Route name="images" handler={ImagesMaster}>
-        <Route name="search" handler={ImageListPage}/>
+        <DefaultRoute name="search" handler={ImageListPage}/>
         <Route name="tags" handler={ImageTagsPage}/>
-        <DefaultRoute handler={ImageListPage}/>
+        <Route name="image-details" path=":imageId" handler={ImageDetailsPage}/>
       </Route>
-      <Route name="image" path="images/:imageId" handler={ImageDetailsPage}/>
       <Route name="help" handler={HelpPage}/>
-      <DefaultRoute handler={ImagesMaster}/>
+      <Redirect from="/application" to="/application/images"/>
     </Route>
   );
 
