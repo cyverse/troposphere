@@ -45,12 +45,11 @@ define(function (require) {
       </Route>
 
       <Route name="images" handler={ImagesMaster}>
-        <Route name="search" handler={ImageListPage}/>
+        <DefaultRoute name="search" handler={ImageListPage}/>
         <Route name="favorites" handler={FavoritedImagesPage}/>
         <Route name="authored" handler={MyImagesPage}/>
         <Route name="tags" handler={ImageTagsPage}/>
         <Route name="image-details" path=":imageId" handler={ImageDetailsPage}/>
-        <DefaultRoute handler={ImageListPage}/>
       </Route>
 
       <Route name="providers" handler={ProvidersMaster}>
