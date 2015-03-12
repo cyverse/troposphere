@@ -8,7 +8,8 @@ define(function (require) {
       Tags = require('../../detail/tags/Tags.react'),
       stores = require('stores'),
       ApplicationCardDescription = require('./ApplicationCardDescription.react'),
-      moment = require('moment');
+      moment = require('moment'),
+      Router = require('react-router');
 
   return React.createClass({
 
