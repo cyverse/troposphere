@@ -1,53 +1,49 @@
-/** @jsx React.DOM */
+define(function (require) {
 
-define(
-  [
-    'react',
-    '../common/ApplicationListCard.react'
-  ],
-  function (React, ApplicationListCard) {
+  var React = require('react'),
+      ApplicationListCard = require('../common/ApplicationListCard.react');
 
-    return React.createClass({
+  return React.createClass({
 
-      propTypes: {
-        title: React.PropTypes.string,
-        applications: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
-      },
+    propTypes: {
+      title: React.PropTypes.string,
+      applications: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+      tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+    },
 
-      renderTitle: function(){
-        var title = this.props.title;
-        if(!title) return;
+    renderTitle: function(){
+      var title = this.props.title;
+      if(!title) return;
 
-        return (
-          <h3>{title}</h3>
-        )
-      },
+      return (
+        <h3>{title}</h3>
+      )
+    },
 
-      renderCard: function(application){
-        return (
-          <li key={application.id}>
-            <ApplicationListCard
-              application={application}
-              tags={this.props.tags}/>
-          </li>
-        );
-      },
+    renderCard: function(application){
+      return (
+        <li key={application.id}>
+          <ApplicationListCard
+            application={application}
+            tags={this.props.tags}/>
+        </li>
+      );
+    },
 
-      render: function () {
-        var applications = this.props.applications;
-        var appCards = applications.map(this.renderCard);
+    render: function () {
+      var applications = this.props.applications;
+      var appCards = applications.map(this.renderCard);
 
-        return (
-          <div>
-            {this.renderTitle()}
-            <ul className='app-card-list'>
-              {appCards}
-            </ul>
-          </div>
-        );
-      }
-
-    });
+      return (
+        <div>
+          {this.renderTitle()}
+          <ul className='app-card-list'>
+            {appCards}
+          </ul>
+        </div>
+      );
+    }
 
   });
+
+});
