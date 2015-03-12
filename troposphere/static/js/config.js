@@ -49,12 +49,12 @@ require.config({
       '../bower_components/q/q'
     ],
     highchartsBase: [
-      '//code.highcharts.com/highcharts',
+      '//cdnjs.cloudflare.com/ajax/libs/highcharts/4.1.4/highcharts',
       '../bower_components/highcharts-release/highcharts'
     ],
     highcharts: [
-      '//code.highcharts.com/highcharts-more',
-      '../bower_components/highcharts-release/highcharts-more'
+      '//cdnjs.cloudflare.com/ajax/libs/highcharts/4.1.4/highcharts-more',
+      '../bower_components/highcharts-release/highcharts-more.src'
     ],
     crypto: [
       '//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5',
@@ -109,7 +109,8 @@ require.config({
     },
 
     'globalize-react-hack': {
-      deps: ['react']
+      deps: ['react'],
+      exports: 'React'
     },
 
     'react-router': {
