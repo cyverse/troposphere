@@ -10,9 +10,18 @@ define(
     return React.createClass({
 
       propTypes: {
-        title: React.PropTypes.string.isRequired,
+        title: React.PropTypes.string,
         applications: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      },
+
+      renderTitle: function(){
+        var title = this.props.title;
+        if(!title) return;
+
+        return (
+          <h3>{title}</h3>
+        )
       },
 
       renderCard: function(application){
@@ -26,12 +35,12 @@ define(
       },
 
       render: function () {
-        var applications = this.props.applications;
-        var appCards = applications.map(this.renderCard);
+        var applications = this.props.applications,
+            appCards = applications.map(this.renderCard);
 
         return (
           <div>
-            <h3>{this.props.title}</h3>
+            {this.renderTitle()}
             <ul className='app-card-grid'>
               {appCards}
             </ul>

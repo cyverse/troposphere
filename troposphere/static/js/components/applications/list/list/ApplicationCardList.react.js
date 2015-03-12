@@ -10,9 +10,18 @@ define(
     return React.createClass({
 
       propTypes: {
-        title: React.PropTypes.string.isRequired,
+        title: React.PropTypes.string,
         applications: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      },
+
+      renderTitle: function(){
+        var title = this.props.title;
+        if(!title) return;
+
+        return (
+          <h3>{title}</h3>
+        )
       },
 
       renderCard: function(application){
@@ -31,7 +40,7 @@ define(
 
         return (
           <div>
-            <h3>{this.props.title}</h3>
+            {this.renderTitle()}
             <ul className='app-card-list'>
               {appCards}
             </ul>
