@@ -9,7 +9,6 @@ define(function (require) {
 
   var Master = require('./components/Master.react'),
       PassThroughHandler = require('./components/PassThroughHandler.react'),
-      MasterTest = require('./components/MasterTest.react'),
       DashboardPage = require('./components/dashboard/DashboardPage.react'),
       ProjectListPage = require('./components/projects/ProjectListPage.react'),
       ImageListPage = require('./components/applications/ApplicationListPage.react'),
@@ -57,7 +56,7 @@ define(function (require) {
         <DefaultRoute handler={ProjectDetailsPage}/>
       </Route>
 
-      <DefaultRoute handler={MasterTest}/>
+      <DefaultRoute handler={DashboardPage}/>
     </Route>
   );
 
