@@ -34,6 +34,7 @@ require.config({
     ],
     'react-router': [
       'https://cdnjs.cloudflare.com/ajax/libs/react-router/0.11.6/react-router.min',
+      //'https://cdn.rawgit.com/rackt/react-router/v0.12.4/build/global/ReactRouter.min',
       '../bower_components/react-router/dist/react-router'
     ],
     chosen: [
