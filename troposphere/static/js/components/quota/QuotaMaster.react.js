@@ -18,7 +18,7 @@ define(function (require) {
       return (
         <div>
             <h1>Quota!</h1>
-            <div>{quotaRequests}</div>
+            <div>{quotaRequests.toJSON()}</div>
             <RouteHandler/>
         </div>
       );
