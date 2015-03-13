@@ -21,8 +21,8 @@ define(function (require) {
         <div>
             <h1>Quota Requests!</h1>
             <div>
-                <table>
-                    <tr class = >
+                <table className="td-project-content">
+                    <tr className = "quota-row">
                         <th>
                             <h3>User</h3>
                         </th>
