@@ -18,16 +18,19 @@ define(function (require) {
       var jsonRequests = quotaRequests.toJSON();
 
       return (
-        <div>
+        <div className = "container">
             <h1>Quota Requests!</h1>
             <div>
-                <table className="td-project-content">
+                <table className="table table-hover">
                     <tr className = "quota-row">
                         <th>
                             <h3>User</h3>
                         </th>
                         <th>
                             <h3>Status</h3>
+                        </th>
+                        <th>
+                            <h3>Admin Message</h3>
                         </th>
                         <th>
                             <h3>Quota</h3>
@@ -44,6 +47,7 @@ define(function (require) {
                         <tr>
                             <td className = "user-name">{item['created_by']}</td>
                             <td className = "status">{item['status']}</td>
+                            <td className = "quota-admin-message">{item['admin_message']}</td>
                             <td className = "quota">{item['quota']}</td>
                             <td className = "request">{item['request']}</td>
                             <td className = "description">{item['description']}</td>
