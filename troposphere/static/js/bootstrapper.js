@@ -19,6 +19,7 @@ define(function (require) {
     stores.ProjectInstanceStore    = require('stores/ProjectInstanceStore');
     stores.ProjectVolumeStore      = require('stores/ProjectVolumeStore');
     stores.ProviderStore           = require('stores/ProviderStore');
+    stores.QuotaRequestStore       = require('stores/QuotaRequestStore');
     stores.SizeStore               = require('stores/SizeStore');
     stores.TagStore                = require('stores/TagStore');
     stores.VersionStore            = require('stores/VersionStore');
