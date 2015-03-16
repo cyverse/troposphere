@@ -411,8 +411,7 @@ Atmo.Views.NewInstanceScreen = Backbone.View.extend({
         var params = {
           'machine_alias': image.get('id'),
           'size_alias': $(form.newinst_size).val(),
-          'name': $(form.name).val(),
-          'tags': this.tagger.get_tags()
+          'name': $(form.name).val()
         };
 
         var error_elements = [];
