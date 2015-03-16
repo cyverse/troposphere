@@ -10,8 +10,13 @@ define(function (require) {
 
     mixins: [Router.State],
 
+    openActions: function(){
+        console.log("hi!");
+        console.log(this);
+    },
+
     handleClick: function() {
-        this.props.onClick(this);
+        this.openActions();
     },
 
     render: function () {
@@ -21,9 +26,8 @@ define(function (require) {
       if(!request) return <div className="loading"></div>;
 
       var jsonRequest = request.toJSON();
-
       return (
-          <tr>
+          <tr onClick = {this.handleClick}>
               <td className="user-name">{jsonRequest['created_by']}</td>
               <td className="status">{jsonRequest['status']}</td>
               <td className="quota-admin-message">{jsonRequest['admin_message']}</td>

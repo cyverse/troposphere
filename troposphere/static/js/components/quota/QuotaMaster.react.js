@@ -22,6 +22,8 @@ define(function (require) {
 
       var jsonRequests = requests.toJSON();
 
+      console.log(this);
+
       return (
         <div className = "container">
             <h1>Quota Requests!</h1>
