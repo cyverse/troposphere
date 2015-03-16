@@ -27,7 +27,8 @@ define(function (require) {
       SettingsPage = require('./components/settings/SettingsPage.react'),
       ProjectInstancePage = require("./components/projects/InstanceDetailsPage.react"),
       ProjectVolumePage = require("./components/projects/VolumeDetailsPage.react"),
-      QuotaMaster = require('./components/quota/QuotaMaster.react');
+      QuotaMaster = require('./components/quota/QuotaMaster.react'),
+      QuotaRequests = require('./components/quota/QuotaRequest.react');
 
   var AppRoutes = (
     <Route name="root" path="/application" handler={Master}>

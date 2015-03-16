@@ -4,18 +4,23 @@ define(function (require) {
   var React = require('react'),
       Router = require('react-router'),
       stores = require('stores'),
+      QuotaRequest = require('./QuotaRequest.react'),
       RouteHandler = Router.RouteHandler;
 
   return React.createClass({
 
     mixins: [Router.State],
 
+    handleClick: function(QuotaRequest){
+        console.log("this 1");
+    },
+
     render: function () {
-      var quotaRequests = stores.QuotaRequestStore.getAll();
+      var requests = stores.QuotaRequestStore.getAll();
 
-      if(!quotaRequests) return <div className="loading"></div>;
+      if(!requests) return <div className="loading"></div>;
 
-      var jsonRequests = quotaRequests.toJSON();
+      var jsonRequests = requests.toJSON();
 
       return (
         <div className = "container">
@@ -42,18 +47,12 @@ define(function (require) {
                             <h3>Description</h3>
                         </th>
                     </tr>
-                    {jsonRequests.map(function(item){
+                {jsonRequests.map(function(item){
+                    var id = item['id'];
                     return(
-                        <tr>
-                            <td className = "user-name">{item['created_by']}</td>
-                            <td className = "status">{item['status']}</td>
-                            <td className = "quota-admin-message">{item['admin_message']}</td>
-                            <td className = "quota">{item['quota']}</td>
-                            <td className = "request">{item['request']}</td>
-                            <td className = "description">{item['description']}</td>
-                        </tr>
+                        <QuotaRequest id={id} />
                     );
-                    })}
+                })}
                 </table>
             </div>
             <RouteHandler/>
