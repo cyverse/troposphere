@@ -25,11 +25,13 @@ define(function (require) {
           <div>Request: {quotaRequest.get('request')}</div>
           <div className="quota-description">Description: {quotaRequest.get('description')}</div>
           <form>
+            Send email:<br />
+              <textarea type="text" cols="60" rows="5" name="email" />
           </form>
+          <button type="button">Approve</button>
+          <button type="button">Deny</button>
         </div>
       );
     }
-
   });
-
 });
