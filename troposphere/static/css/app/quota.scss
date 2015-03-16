@@ -2,23 +2,27 @@
 	width: 50%;
 }
 
-.quota-row{
-	width: 100%;
-}
-
 .quota-detail{
 	width: 46%;
-}
-
-.quota-inline{
-	width: 100%;
-}
-
-.quota-inline div{
 	float: right;
+	position: relative;
 	margin: 2%;
+}
+
+.quota-detail div{
+	width: 25%;
+	margin: 2%;
+	display: inline-block;
+}
+
+.quota-row, .quota-inline{
+	width: 100%;
 }
 
 .quota-inline table{
 	float: left;
+}
+
+.quota-description{
+	width: 100% !important;
 }

@@ -16,7 +16,17 @@ define(function (require) {
       if(!quotaRequest) return <div className="loading"></div>;
 
       return(
-        <div className="quota-detail">Hey you clicked id {quotaRequest.id}</div>
+        <div className="quota-detail">
+          <div>ID: {quotaRequest.get('id')}</div>
+          <div>Created by: {quotaRequest.get('created_by')}</div>
+          <div>Status: {quotaRequest.get('status')}</div>
+          <div>Admin message: {quotaRequest.get('admin_message')}</div>
+          <div>Quota: {quotaRequest.get('quota')}</div>
+          <div>Request: {quotaRequest.get('request')}</div>
+          <div className="quota-description">Description: {quotaRequest.get('description')}</div>
+          <form>
+          </form>
+        </div>
       );
     }
 
