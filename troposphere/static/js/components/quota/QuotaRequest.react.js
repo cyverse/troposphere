@@ -4,19 +4,17 @@ define(function (require) {
   var React = require('react'),
       Router = require('react-router'),
       stores = require('stores'),
+      QuotaAdmin = require('./QuotaAdmin.react'),
       RouteHandler = Router.RouteHandler;
 
   return React.createClass({
 
-    mixins: [Router.State],
-
-    openActions: function(){
-        console.log("hi!");
+    openActions: function(id){
         console.log(this);
     },
 
     handleClick: function() {
-        this.openActions();
+        //Router.getInstance().transitionTo("quota-request", {quotaRequestId: this.props.id});
     },
 
     render: function () {
@@ -27,8 +25,12 @@ define(function (require) {
 
       var jsonRequest = request.toJSON();
       return (
-          <tr onClick = {this.handleClick}>
-              <td className="user-name">{jsonRequest['created_by']}</td>
+          <tr>
+              <td className="user-name">
+                <Router.Link to="quota-request" params={{quotaRequestId: request.id}}>
+                  {jsonRequest['created_by']}
+                </Router.Link>
+              </td>
               <td className="status">{jsonRequest['status']}</td>
               <td className="quota-admin-message">{jsonRequest['admin_message']}</td>
               <td className="quota">{jsonRequest['quota']}</td>

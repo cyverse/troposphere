@@ -11,8 +11,10 @@ define(function (require) {
 
     mixins: [Router.State],
 
-    handleClick: function(QuotaRequest){
-        console.log("this 1");
+    onUpdate: function(id){
+        this.setState({
+            id: id
+        });
     },
 
     render: function () {
@@ -22,13 +24,11 @@ define(function (require) {
 
       var jsonRequests = requests.toJSON();
 
-      console.log(this);
-
       return (
         <div className = "container">
-            <h1>Quota Requests!</h1>
-            <div>
-                <table className="table table-hover">
+            <h1>Quota Requests</h1>
+            <div className="quota-inline">
+                <table onUpdate = {this.onUpdate} className="quota-table table table-hover">
                     <tr className = "quota-row">
                         <th>
                             <h3>User</h3>
@@ -52,12 +52,12 @@ define(function (require) {
                 {jsonRequests.map(function(item){
                     var id = item['id'];
                     return(
-                        <QuotaRequest id={id} />
+                        <QuotaRequest id = {id}/>
                     );
                 })}
                 </table>
+              <RouteHandler/>
             </div>
-            <RouteHandler/>
         </div>
       );
     }

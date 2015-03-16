@@ -1,7 +1,24 @@
 .quota-table{
-	width: 100%;
+	width: 50%;
 }
 
 .quota-row{
 	width: 100%;
+}
+
+.quota-detail{
+	width: 46%;
+}
+
+.quota-inline{
+	width: 100%;
+}
+
+.quota-inline div{
+	float: right;
+	margin: 2%;
+}
+
+.quota-inline table{
+	float: left;
 }

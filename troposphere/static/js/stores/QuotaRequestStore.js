@@ -20,7 +20,24 @@ define(function (require) {
       var models = new Collection();
       models.fetch().done(function () {
         _isFetching = false;
-        _models = models;
+        //_models = models;
+        _models = new Collection([{
+          id: 1,
+          request: "Request #1",
+          status: "pending",
+          admin_message: "",
+          description: "I need quota for BAD reasons yo.",
+          created_by: 2495,
+          quota: null
+        },{
+          id: 2,
+          request: "Request #2",
+          status: "pending",
+          admin_message: "",
+          description: "I need quota for GOOD reasons yo.",
+          created_by: 2495,
+          quota: null
+        }]);
         ModelStore.emitChange();
       });
     }
