@@ -8,27 +8,35 @@ define(function (require) {
 
   return {
 
-    // ----------------------------
-    // Add/Remove Project Resources
-    // ----------------------------
+    add: function(params){
+      if(!params.instance) throw new Error("Missing instance");
+      if(!params.tag) throw new Error("Missing tag");
 
-    addTagToInstance: function(tag, instance, options){
-      var instanceTag = new InstanceTag(),
+      var instance = params.instance,
+          tag = params.tag,
+          instanceTag = new InstanceTag(),
           data = {
             instance: instance.id,
             tag: tag.id
           };
 
-      instanceTag.save(null, { attrs: data }).done(function(){
-        Utils.dispatch(InstanceTagConstants.ADD_PROJECT_INSTANCE, {instanceTag: instanceTag}, options);
+      instanceTag.save(null, {
+        attrs: data
+      }).done(function(){
+        Utils.dispatch(InstanceTagConstants.ADD_INSTANCE_TAG, {instanceTag: instanceTag});
       });
     },
 
-    removeTagFromInstance: function(tag, instance, options){
-      var instanceTag = stores.InstanceTagStore.getInstanceTagFor(instance, tag);
+    remove: function(params){
+      if(!params.instance) throw new Error("Missing instance");
+      if(!params.tag) throw new Error("Missing tag");
+
+      var instance = params.instance,
+          tag = params.tag,
+          instanceTag = stores.InstanceTagStore.getInstanceTagFor(instance, tag);
 
       instanceTag.destroy().done(function(){
-        Utils.dispatch(InstanceTagConstants.REMOVE_PROJECT_INSTANCE, {instanceTag: instanceTag}, options);
+        Utils.dispatch(InstanceTagConstants.REMOVE_INSTANCE_TAG, {instanceTag: instanceTag});
       });
     }
 

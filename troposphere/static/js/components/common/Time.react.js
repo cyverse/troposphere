@@ -20,13 +20,12 @@ define(function (require) {
     },
 
     render: function () {
-      var title = Moment(this.props.date).format();
-      var dateTime = Moment(this.props.date).utc().format();
-
-      var text = "";
-      var moment = Moment(this.props.date);
-      var absoluteText = moment.format("MMM D, YYYY");
-      var relativeText = moment.fromNow();
+      var title = Moment(this.props.date).format(),
+          dateTime = Moment(this.props.date).utc().format(),
+          text = "",
+          moment = Moment(this.props.date),
+          absoluteText = moment.format("MMM D, YYYY"),
+          relativeText = moment.fromNow();
 
       if (this.props.showAbsolute) {
         text += absoluteText;

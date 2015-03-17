@@ -53,7 +53,10 @@ define(function (require) {
         tag.save().done(function () {
           Utils.dispatch(TagConstants.UPDATE_TAG, {tag: tag}, {silent: true});
           Utils.dispatch(TagConstants.REMOVE_PENDING_TAG_FROM_INSTANCE, {tag: tag, instance: instance});
-          actions.InstanceActions.addTagToInstance(tag, instance);
+          actions.InstanceTagActions.add({
+            instance: instance,
+            tag: tag
+          });
         }.bind(this)).fail(function () {
           Utils.dispatch(TagConstants.REMOVE_TAG, {tag: tag}, {silent: true});
           Utils.dispatch(TagConstants.REMOVE_PENDING_TAG_FROM_INSTANCE, {tag: tag, instance: instance});

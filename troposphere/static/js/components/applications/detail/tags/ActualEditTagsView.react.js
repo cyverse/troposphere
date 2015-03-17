@@ -16,7 +16,8 @@ define(
       propTypes: {
         activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        onTagsChanged: React.PropTypes.func.isRequired,
+        onTagAdded: React.PropTypes.func.isRequired,
+        onTagRemoved: React.PropTypes.func.isRequired,
         onCreateNewTag: React.PropTypes.func.isRequired
       },
 
@@ -37,10 +38,12 @@ define(
         return (
           <div className="resource-tags">
             <a className="btn btn-primary new-tag" href="#" onClick={this.onCreateNewEmptyTag}>+ New tag</a>
-            <EditTags tags={this.props.tags}
-                      activeTags={this.props.activeTags}
-                      onTagsChanged={this.props.onTagsChanged}
-                      onEnterKeyPressed={this.onEnterKeyPressed}
+            <EditTags
+              tags={this.props.tags}
+              activeTags={this.props.activeTags}
+              onTagAdded={this.props.onTagAdded}
+              onTagRemoved={this.props.onTagRemoved}
+              onEnterKeyPressed={this.onEnterKeyPressed}
             />
           </div>
         );

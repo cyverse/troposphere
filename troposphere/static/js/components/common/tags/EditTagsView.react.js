@@ -13,7 +13,8 @@ define(function (require) {
     propTypes: {
       activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
       tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-      onTagsChanged: React.PropTypes.func.isRequired,
+      onTagAdded: React.PropTypes.func.isRequired,
+      onTagRemoved: React.PropTypes.func.isRequired,
       onCreateNewTag: React.PropTypes.func.isRequired,
       label: React.PropTypes.string.isRequired
     },
@@ -69,14 +70,15 @@ define(function (require) {
           <EditTags
             tags={this.props.tags}
             activeTags={this.props.activeTags}
-            onTagsChanged={this.props.onTagsChanged}
+            onTagAdded={this.props.onTagAdded}
+            onTagRemoved={this.props.onTagRemoved}
             onEnterKeyPressed={this.onEnterKeyPressed}
           />
         );
       }else{
         tagView = (
           <ViewTags activeTags={this.props.activeTags}/>
-        )
+        );
       }
 
       return (

@@ -41,15 +41,24 @@ define(function (require) {
       actions.InstanceActions.updateInstanceAttributes(this.props.instance, {name: text})
     },
 
-    onTagsChanged: function(text){
-      var tags = text || [];
-      actions.InstanceActions.updateInstanceAttributes(this.props.instance, {tags: tags})
+    onTagAdded: function(tag){
+      actions.InstanceTagActions.add({
+        instance: this.props.instance,
+        tag: tag
+      });
+    },
+
+    onTagRemoved: function(tag){
+      actions.InstanceTagActions.remove({
+        instance: this.props.instance,
+        tag: tag
+      });
     },
 
     render: function () {
       var instance = this.props.instance,
           tags = stores.TagStore.getAll(),
-          instanceTags = stores.InstanceTagStore.getTagsFor(this.props.instance),
+          instanceTags = stores.InstanceTagStore.getTagsFor(instance),
           instanceHash = CryptoJS.MD5(instance.id.toString()).toString(),
           type = stores.ProfileStore.get().get('icon_set'),
           iconSize = 113,
@@ -59,7 +68,10 @@ define(function (require) {
 
       if(this.state.isEditing){
         nameContent = (
-          <EditableInputField text={this.state.name} onDoneEditing={this.onDoneEditing}/>
+          <EditableInputField
+            text={this.state.name}
+            onDoneEditing={this.onDoneEditing}
+          />
         );
       }else{
         nameContent = (
@@ -85,7 +97,8 @@ define(function (require) {
             <ResourceTags
               tags={tags}
               activeTags={instanceTags}
-              onTagsChanged={this.onTagsChanged}
+              onTagAdded={this.onTagAdded}
+              onTagRemoved={this.onTagRemoved}
               onCreateNewTag={this.onCreateNewTag}
             />
           </div>

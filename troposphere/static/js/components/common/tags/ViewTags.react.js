@@ -11,18 +11,18 @@ define(function (require) {
       activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
 
+    renderTag: function(tag){
+      return (
+        <Tag key={tag.id || tag.cid} tag={tag}/>
+      );
+    },
+
     render: function () {
       var tags = this.props.activeTags,
           content;
 
-      tags.map(function(tag){
-        return (
-          <Tag key={tag.id || tag.cid} tag={tag}/>
-        );
-      }.bind(this));
-
       if(tags.length > 0){
-        content = tags;
+        content = tags.map(this.renderTag);
       }else{
         content = (
           <span>This resource has not been tagged.</span>

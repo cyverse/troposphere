@@ -18,7 +18,8 @@ define(function (require) {
     propTypes: {
       tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
       activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-      onTagsChanged: React.PropTypes.func.isRequired,
+      onTagAdded: React.PropTypes.func.isRequired,
+      onTagRemoved: React.PropTypes.func.isRequired,
       onEnterKeyPressed: React.PropTypes.func.isRequired,
       width: React.PropTypes.string
     },
@@ -29,29 +30,20 @@ define(function (require) {
     },
 
     setupChosenForm: function(){
-      var el = this.getDOMNode();
-      var $el = $(el);
+      var el = this.getDOMNode(),
+          $el = $(el);
 
       $el.find('.search-field input')
          .keyup(this.props.onEnterKeyPressed);
     },
 
     onTagSelected: function(selectedTag){
-      var tagNames = this.props.activeTags.map(function(tag){
-        return tag.get('name');
-      });
-      tagNames.push(selectedTag.get('name'));
       this.closeDropdown();
-      this.props.onTagsChanged(tagNames);
+      this.props.onTagAdded(selectedTag);
     },
 
     onRemoveTag: function(tagToRemove){
-      var tagNames = this.props.activeTags.map(function(tag){
-        return tag.get('name');
-      });
-      var indexOfTagToRemove = tagNames.indexOf(tagToRemove.get('name'));
-      tagNames.splice(indexOfTagToRemove, 1);
-      this.props.onTagsChanged(tagNames);
+      this.props.onTagRemoved(tagToRemove);
     },
 
     renderTag: function(tag){
@@ -72,8 +64,9 @@ define(function (require) {
     },
 
     _getContainer: function(){
-      var $node = $(this.getDOMNode());
-      var container = $node.find('.chosen-container');
+      var $node = $(this.getDOMNode()),
+          container = $node.find('.chosen-container');
+
       return container;
     },
 

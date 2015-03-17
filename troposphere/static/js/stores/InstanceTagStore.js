@@ -79,7 +79,7 @@ define(function (require) {
 
     getAll: function () {
       if(!_models) {
-        fetchModels()
+        return fetchModels()
       }
       return _models;
     },

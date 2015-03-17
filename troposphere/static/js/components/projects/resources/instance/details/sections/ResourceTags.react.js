@@ -10,7 +10,8 @@ define(function (require) {
     propTypes: {
       tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
       activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-      onTagsChanged: React.PropTypes.func.isRequired,
+      onTagAdded: React.PropTypes.func.isRequired,
+      onTagRemoved: React.PropTypes.func.isRequired,
       onCreateNewTag: React.PropTypes.func.isRequired
     },
 
@@ -36,7 +37,8 @@ define(function (require) {
           <EditTagsView
             activeTags={this.props.activeTags}
             tags={this.props.tags}
-            onTagsChanged={this.props.onTagsChanged}
+            onTagAdded={this.props.onTagAdded}
+            onTagRemoved={this.props.onTagRemoved}
             onCreateNewTag={this.props.onCreateNewTag}
             label={"Instance Tags:"}
           />
