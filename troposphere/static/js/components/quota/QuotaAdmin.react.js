@@ -43,7 +43,7 @@ define(function (require) {
           <div>Request: {quotaRequest.get('request')}</div>
           <div className="quota-description">Description: {quotaRequest.get('description')}</div>
           <div>
-            <label>Quota</label>
+            <label>Quota:&nbsp;</label>
             <select>{quotas.map(function(quota){
               return(
                 <option>
@@ -58,14 +58,15 @@ define(function (require) {
               })}
               </select>
           </div>
-          Response:<br />
-          <textarea type="text" form="admin" value={this.state.value} cols="60" rows="5" name="email" onChange={this.handleChange} />
-          <form id = "admin" onSubmit={this.handleSubmit}>
-            <input type="submit" />
-          </form>
-
-          <button type="button">Approve</button>
-          <button type="button">Deny</button>
+          <div class="form-group">
+            Response:<br />
+            <textarea type="text" form="admin" value={this.state.value} cols="60" rows="5" name="email" onChange={this.handleChange} />
+            <form id = "admin" onSubmit={this.handleSubmit}>
+              <input type="submit" className="btn btn-default btn-sm" />
+            </form>
+          </div>
+          <button type="button" className="btn btn-default btn-sm">Approve</button>
+          <button type="button" className="btn btn-default btn-sm">Deny</button>
         </div>
       );
     }

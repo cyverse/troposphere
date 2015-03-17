@@ -1,4 +1,5 @@
 .quota-table{
+	float: left;
 	width: 50%;
 }
 
@@ -9,25 +10,16 @@
 	border: 5px solid gray;
 }
 
-.quota-detail form, .quota-detail button{
+.quota-detail button{
 	margin: 2%;
 }
 
 .quota-detail div{
-	width: 25%;
 	margin: 2%;
 }
 
 .quota-row, .quota-inline{
 	width: 100%;
-}
-
-.quota-inline table{
-	float: left;
-}
-
-.quota-description{
-	width: 100% !important;
 }
 
 .center{

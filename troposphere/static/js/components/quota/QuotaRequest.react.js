@@ -15,7 +15,7 @@ define(function (require) {
       var request = requests.get(id);
 
       if(!request) return <div className="loading"></div>;
-      
+
       return (
           <tr>
               <td className="user-name">

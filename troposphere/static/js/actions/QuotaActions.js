@@ -26,8 +26,10 @@ define(function (require) {
       update: function(params) {
         var request = params.request;
         var response = params.response;
-        console.log(request);
-        console.log(response);
+        request.set({"admin_message": response});
+        request.save().done(function(){
+          Utils.dispatch(Constants.UPDATE, {model: request});
+        })
       }
   };
 
