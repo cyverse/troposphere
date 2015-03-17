@@ -37,8 +37,7 @@ define(function (require) {
 
       return(
         <div className="quota-detail">
-          <div>Created by: {quotaRequest.get('created_by')}</div>
-          <div>Status: {quotaRequest.get('status')}</div>
+          <div>User: {quotaRequest.get('created_by')}</div>
           <div>Admin message: {quotaRequest.get('admin_message')}</div>
           <div>Request: {quotaRequest.get('request')}</div>
           <div className="quota-description">Description: {quotaRequest.get('description')}</div>
@@ -60,7 +59,7 @@ define(function (require) {
           </div>
           <div class="form-group">
             Response:<br />
-            <textarea type="text" form="admin" value={this.state.value} cols="60" rows="5" name="email" onChange={this.handleChange} />
+            <textarea type="text" form="admin" value={this.state.value} cols="60" rows="8" name="email" onChange={this.handleChange} />
             <form id = "admin" onSubmit={this.handleSubmit}>
               <input type="submit" className="btn btn-default btn-sm" />
             </form>

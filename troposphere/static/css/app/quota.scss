@@ -1,13 +1,17 @@
+textarea, select{
+	width: 95%;
+}
+
 .quota-table{
 	float: left;
 	width: 50%;
 }
 
 .quota-detail{
-	width: 46%;
+	width: 48%;
 	float: right;
 	position: relative;
-	border: 5px solid gray;
+	border: 5px solid #007b89;
 }
 
 .quota-detail button{

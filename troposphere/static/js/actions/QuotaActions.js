@@ -27,7 +27,9 @@ define(function (require) {
         var request = params.request;
         var response = params.response;
         request.set({"admin_message": response});
+        console.log(request);
         request.save().done(function(){
+          console.log("just saved");
           Utils.dispatch(Constants.UPDATE, {model: request});
         })
       }
