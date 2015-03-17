@@ -20,13 +20,13 @@ define(function (require) {
           <tr>
               <td className="user-name">
                 <Router.Link to="quota-request" params={{quotaRequestId: request.id}}>
-                  {request.created_by}
+                  {request.attributes.created_by}
                 </Router.Link>
               </td>
-              <td className="quota-admin-message">{request.admin_message}</td>
-              <td className="quota">{request.quota}</td>
-              <td className="request">{request.request}</td>
-              <td className="description">{request.description}</td>
+              <td className="quota-admin-message">{request.attributes.admin_message}</td>
+              <td className="quota">{request.attributes.quota}</td>
+              <td className="request">{request.attributes.request}</td>
+              <td className="description">{request.attributes.description}</td>
           </tr>
       );
     }

@@ -39,7 +39,7 @@ define(function (require) {
                         </th>
                     </tr>
                     {requests.map(function(item){
-                      var id = item['id'];
+                      var id = item.id;
                       return(
                         <QuotaRequest id = {id} requests = {requests} />
                       );
