@@ -4,18 +4,37 @@ define(function (require) {
   var React = require('react'),
       Router = require('react-router'),
       stores = require('stores'),
+      actions = require('actions'),
+      QuotaActions = require('actions/QuotaActions'),
       RouteHandler = Router.RouteHandler;
 
   return React.createClass({
 
     mixins: [Router.State],
 
+    getInitialState: function() {
+      return{
+        response: ""
+      };
+    },
+
+    handleChange: function(event) {
+      var response = event.target.value;
+      this.setState({response: response})
+    },
+
+    handleSubmit: function(e) {
+      e.preventDefault();
+      QuotaActions.update({request: this.props.request, response: this.state.response})
+    },
+
     render: function () {
       var quotaRequest = stores.QuotaRequestStore.get(this.getParams().quotaRequestId);
+      this.props.request = quotaRequest;
       var quotas = stores.QuotaStore.getAll();
+
       if(!quotaRequest || !quotas) return <div className="loading"></div>;
 
-      console.log(quotas);
       return(
         <div className="quota-detail">
           <div>Created by: {quotaRequest.get('created_by')}</div>
@@ -39,10 +58,12 @@ define(function (require) {
               })}
               </select>
           </div>
-          <form>
-            Send email:<br />
-              <textarea type="text" cols="60" rows="5" name="email" />
+          Response:<br />
+          <textarea type="text" form="admin" value={this.state.value} cols="60" rows="5" name="email" onChange={this.handleChange} />
+          <form id = "admin" onSubmit={this.handleSubmit}>
+            <input type="submit" />
           </form>
+
           <button type="button">Approve</button>
           <button type="button">Deny</button>
         </div>

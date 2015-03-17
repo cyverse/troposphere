@@ -52,6 +52,10 @@ define(function (require) {
     _models.remove(model);
   }
 
+  function update(model){
+    console.log("yooo");
+    _models.update(model);
+  }
 
   //
   // Model Store
