@@ -1,39 +1,35 @@
-/** @jsx React.DOM */
+define(function (require) {
 
-define(
-  [
-    'react',
-    'backbone',
+  var React = require('react'),
+      Backbone = require('backbone'),
+      // plugin: required but not used directly
+      bootstrap = require('bootstrap');
 
-    // plugins
-    'bootstrap'
-  ],
-  function (React, Backbone) {
+  return React.createClass({
+    display: "Tag",
 
-    return React.createClass({
-      display: "Tag",
+    propTypes: {
+      tag: React.PropTypes.instanceOf(Backbone.Model).isRequired
+    },
 
-      propTypes: {
-        tag: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    componentDidMount: function(){
+      var el = this.getDOMNode(),
+          $el = $(el);
 
-      componentDidMount: function(){
-        var el = this.getDOMNode();
-        var $el = $(el);
-        $el.tooltip({
-          title: this.props.tag.get('description')
-        });
-      },
+      $el.tooltip({
+        title: this.props.tag.get('description')
+      });
+    },
 
-      render: function () {
-        return (
-          <li className="tag">
-            <a href="#">{this.props.tag.get('name')}</a>
-          </li>
-        );
+    render: function () {
+      return (
+        <li className="tag">
+          <a href="#">{this.props.tag.get('name')}</a>
+        </li>
+      );
 
-      }
-
-    });
+    }
 
   });
+
+});

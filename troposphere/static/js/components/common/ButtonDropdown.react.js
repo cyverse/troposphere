@@ -1,48 +1,44 @@
-/** @jsx React.DOM */
-
 /* http://getbootstrap.com/components/#btn-dropdowns */
-define(
-  [
-    'react'
-  ],
-  function (React) {
+define(function (require) {
 
-    return React.createClass({
+  var React = require('react');
 
-      getDefaultProps: function () {
-        return {
-          buttonType: 'default',
-          buttonContent: '',
-          disabled: false
-        };
-      },
+  return React.createClass({
 
-      getInitialState: function () {
-        return {open: false};
-      },
+    getDefaultProps: function () {
+      return {
+        buttonType: 'default',
+        buttonContent: '',
+        disabled: false
+      };
+    },
 
-      toggleOpen: function () {
-        this.setState({open: !this.state.open});
-      },
+    getInitialState: function () {
+      return {open: false};
+    },
 
-      render: function () {
-        var className = 'btn-group';
-        var buttonClassName = 'btn btn-' + this.props.buttonType + ' dropdown-toggle';
-        if (this.state.open) className += ' open';
+    toggleOpen: function () {
+      this.setState({open: !this.state.open});
+    },
 
-        return (
-          <div className={className}>
-            <button className={buttonClassName} onClick={this.toggleOpen} disabled={this.props.disabled}>
-              {this.props.buttonContent}
-              <span>{" "}</span>
-              <span className='caret'></span>
-            </button>
-            <ul className='dropdown-menu' role='menu'>
-              {this.props.children}
-            </ul>
-          </div>
-        );
-      }
-    });
+    render: function () {
+      var className = 'btn-group';
+      var buttonClassName = 'btn btn-' + this.props.buttonType + ' dropdown-toggle';
+      if (this.state.open) className += ' open';
 
+      return (
+        <div className={className}>
+          <button className={buttonClassName} onClick={this.toggleOpen} disabled={this.props.disabled}>
+            {this.props.buttonContent}
+            <span>{" "}</span>
+            <span className='caret'></span>
+          </button>
+          <ul className='dropdown-menu' role='menu'>
+            {this.props.children}
+          </ul>
+        </div>
+      );
+    }
   });
+
+});
