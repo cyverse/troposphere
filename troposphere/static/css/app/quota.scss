@@ -16,7 +16,6 @@
 .quota-detail div{
 	width: 25%;
 	margin: 2%;
-	display: inline-block;
 }
 
 .quota-row, .quota-inline{
@@ -29,4 +28,8 @@
 
 .quota-description{
 	width: 100% !important;
+}
+
+.center{
+	text-align: center;
 }

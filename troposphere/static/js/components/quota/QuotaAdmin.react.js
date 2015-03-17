@@ -12,18 +12,33 @@ define(function (require) {
 
     render: function () {
       var quotaRequest = stores.QuotaRequestStore.get(this.getParams().quotaRequestId);
+      var quotas = stores.QuotaStore.getAll();
+      if(!quotaRequest || !quotas) return <div className="loading"></div>;
 
-      if(!quotaRequest) return <div className="loading"></div>;
-
+      console.log(quotas);
       return(
         <div className="quota-detail">
-          <div>ID: {quotaRequest.get('id')}</div>
           <div>Created by: {quotaRequest.get('created_by')}</div>
           <div>Status: {quotaRequest.get('status')}</div>
           <div>Admin message: {quotaRequest.get('admin_message')}</div>
-          <div>Quota: {quotaRequest.get('quota')}</div>
           <div>Request: {quotaRequest.get('request')}</div>
           <div className="quota-description">Description: {quotaRequest.get('description')}</div>
+          <div>
+            <label>Quota</label>
+            <select>{quotas.map(function(quota){
+              return(
+                <option>
+                  CPU: {quota.attributes.cpu}&nbsp;
+                  Memory: {quota.attributes.memory}&nbsp;
+                  Storage: {quota.attributes.storage}&nbsp;
+                  Storage Count: {quota.attributes.storage_count}&nbsp;
+                  Suspended: {quota.attributes.suspended_count}&nbsp;
+                </option>
+              );
+
+              })}
+              </select>
+          </div>
           <form>
             Send email:<br />
               <textarea type="text" cols="60" rows="5" name="email" />

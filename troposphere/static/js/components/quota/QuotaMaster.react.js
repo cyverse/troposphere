@@ -11,12 +11,6 @@ define(function (require) {
 
     mixins: [Router.State],
 
-    onUpdate: function(id){
-        this.setState({
-            id: id
-        });
-    },
-
     render: function () {
       var requests = stores.QuotaRequestStore.getAll();
 
@@ -30,22 +24,19 @@ define(function (require) {
             <div className="quota-inline">
                 <table onUpdate = {this.onUpdate} className="quota-table table table-hover">
                     <tr className = "quota-row">
-                        <th>
+                        <th className="center">
                             <h3>User</h3>
                         </th>
-                        <th>
-                            <h3>Status</h3>
-                        </th>
-                        <th>
+                        <th className="center">
                             <h3>Admin Message</h3>
                         </th>
-                        <th>
+                        <th className="center">
                             <h3>Quota</h3>
                         </th>
-                        <th>
+                        <th className="center">
                             <h3>Request</h3>
                         </th>
-                        <th>
+                        <th className="center">
                             <h3>Description</h3>
                         </th>
                     </tr>

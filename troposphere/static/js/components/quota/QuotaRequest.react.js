@@ -31,7 +31,6 @@ define(function (require) {
                   {jsonRequest['created_by']}
                 </Router.Link>
               </td>
-              <td className="status">{jsonRequest['status']}</td>
               <td className="quota-admin-message">{jsonRequest['admin_message']}</td>
               <td className="quota">{jsonRequest['quota']}</td>
               <td className="request">{jsonRequest['request']}</td>
