@@ -24,6 +24,8 @@ define(function (require) {
         attrs: data
       }).done(function(){
         Utils.dispatch(InstanceTagConstants.ADD_INSTANCE_TAG, {instanceTag: instanceTag});
+      }).fail(function(response){
+        Utils.displayError({title: "Tag could not be added to Instance", response: response});
       });
     },
 
@@ -37,6 +39,8 @@ define(function (require) {
 
       instanceTag.destroy().done(function(){
         Utils.dispatch(InstanceTagConstants.REMOVE_INSTANCE_TAG, {instanceTag: instanceTag});
+      }).fail(function(response){
+        Utils.displayError({title: "Tag could not be removed from Instance", response: response});
       });
     }
 
