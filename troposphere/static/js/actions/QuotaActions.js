@@ -29,7 +29,6 @@ define(function (require) {
         console.log(request);
         console.log(response);
       }
-
   };
 
 });

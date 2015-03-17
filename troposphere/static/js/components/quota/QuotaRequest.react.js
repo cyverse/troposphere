@@ -9,32 +9,24 @@ define(function (require) {
 
   return React.createClass({
 
-    openActions: function(id){
-        console.log(this);
-    },
-
-    handleClick: function() {
-        //Router.getInstance().transitionTo("quota-request", {quotaRequestId: this.props.id});
-    },
-
     render: function () {
       var id = this.props.id;
-      var request = stores.QuotaRequestStore.get(id);
+      var requests = this.props.requests;
+      var request = requests.get(id);
 
       if(!request) return <div className="loading"></div>;
-
-      var jsonRequest = request.toJSON();
+      
       return (
           <tr>
               <td className="user-name">
                 <Router.Link to="quota-request" params={{quotaRequestId: request.id}}>
-                  {jsonRequest['created_by']}
+                  {request.created_by}
                 </Router.Link>
               </td>
-              <td className="quota-admin-message">{jsonRequest['admin_message']}</td>
-              <td className="quota">{jsonRequest['quota']}</td>
-              <td className="request">{jsonRequest['request']}</td>
-              <td className="description">{jsonRequest['description']}</td>
+              <td className="quota-admin-message">{request.admin_message}</td>
+              <td className="quota">{request.quota}</td>
+              <td className="request">{request.request}</td>
+              <td className="description">{request.description}</td>
           </tr>
       );
     }

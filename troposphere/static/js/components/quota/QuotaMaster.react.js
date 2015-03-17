@@ -16,8 +16,6 @@ define(function (require) {
 
       if(!requests) return <div className="loading"></div>;
 
-      var jsonRequests = requests.toJSON();
-
       return (
         <div className = "container">
             <h1>Quota Requests</h1>
@@ -40,12 +38,12 @@ define(function (require) {
                             <h3>Description</h3>
                         </th>
                     </tr>
-                {jsonRequests.map(function(item){
-                    var id = item['id'];
-                    return(
-                        <QuotaRequest id = {id}/>
-                    );
-                })}
+                    {requests.map(function(item){
+                      var id = item['id'];
+                      return(
+                        <QuotaRequest id = {id} requests = {requests} />
+                      );
+                    })}
                 </table>
               <RouteHandler/>
             </div>
