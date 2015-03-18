@@ -12,16 +12,33 @@ define(function (require) {
     mixins: [Router.State],
 
     render: function () {
-      var requests = stores.QuotaRequestStore.getAll();
+      var requests = stores.QuotaRequestStore.getAll(),
+          quotaRequestRows;
 
       if(!requests) return <div className="loading"></div>;
+
+      //if(requests.length > 1){
+      // quotaRequestRows = requests.map(function(request){
+      //    return(
+      //      <QuotaRequest key={request.id} request={request}/>
+      //    );
+      //  });
+      //}else{
+      //  quotaRequestRows = <QuotaRequest key={requests.at(0).id} request={requests.at(0)}/>
+      //}
+      var quotaRequestRows = requests.map(function(request) {
+        return(
+          <QuotaRequest key={request.id} request = {request} />
+        )
+      });
 
       return (
         <div className = "container">
             <h1>Quota Requests</h1>
             <div className="quota-inline">
-                <table onUpdate = {this.onUpdate} className="quota-table table table-hover">
-                    <tr className = "quota-row">
+                <table className="quota-table table table-hover">
+                  <tbody>
+                    <tr className="quota-row">
                         <th className="center">
                             <h3>User</h3>
                         </th>
@@ -38,12 +55,8 @@ define(function (require) {
                             <h3>Description</h3>
                         </th>
                     </tr>
-                    {requests.map(function(item){
-                      var id = item.id;
-                      return(
-                        <QuotaRequest id = {id} requests = {requests} />
-                      );
-                    })}
+                    {quotaRequestRows}
+                    </tbody>
                 </table>
               <RouteHandler/>
             </div>

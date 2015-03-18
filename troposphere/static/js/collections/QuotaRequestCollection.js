@@ -8,17 +8,17 @@ define(function (require) {
   return Backbone.Collection.extend({
     model: QuotaRequest,
 
-    url: globals.API_ROOT + "/admin/quota"
+    url: globals.API_V2_MOCK_ROOT + "/quota_requests",
 
-    //parse: function (response) {
-    //  this.meta = {
-    //    count: response.count,
-    //    next: response.next,
-    //    previous: response.previous
-    //  };
-    //
-    //  return response.results;
-    //}
+    parse: function (response) {
+      this.meta = {
+        count: response.count,
+        next: response.next,
+        previous: response.previous
+      };
+
+      return response.results;
+    }
 
   });
 

@@ -2,6 +2,7 @@ define(function (require) {
   "use strict";
 
   var React = require('react'),
+      Backbone = require('backbone'),
       Router = require('react-router'),
       stores = require('stores'),
       QuotaAdmin = require('./QuotaAdmin.react'),
@@ -9,24 +10,24 @@ define(function (require) {
 
   return React.createClass({
 
-    render: function () {
-      var id = this.props.id;
-      var requests = this.props.requests;
-      var request = requests.get(id);
+    propTypes: {
+      request: React.PropTypes.instanceOf(Backbone.Model).isRequired
+    },
 
-      if(!request) return <div className="loading"></div>;
+    render: function () {
+      var request = this.props.request;
 
       return (
           <tr>
               <td className="user-name">
                 <Router.Link to="quota-request" params={{quotaRequestId: request.id}}>
-                  {request.attributes.created_by}
+                  {request.get('created_by')}
                 </Router.Link>
               </td>
-              <td className="quota-admin-message">{request.attributes.admin_message}</td>
-              <td className="quota">{request.attributes.quota}</td>
-              <td className="request">{request.attributes.request}</td>
-              <td className="description">{request.attributes.description}</td>
+              <td className="quota-admin-message">{request.get('admin_message')}</td>
+              <td className="quota">{request.get('quota')}</td>
+              <td className="request">{request.get('request')}</td>
+              <td className="description">{request.get('description')}</td>
           </tr>
       );
     }

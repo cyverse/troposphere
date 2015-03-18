@@ -13,11 +13,8 @@ define(function (require) {
     mixins: [Router.State],
 
     getInitialState: function() {
-      var quotaRequest = stores.QuotaRequestStore.get(this.getParams().quotaRequestId);
       return{
-        request: quotaRequest,
-        response: quotaRequest.get("admin_message"),
-        quota: quotaRequest.get("quota")
+        response: ""
       };
     },
 
@@ -33,15 +30,15 @@ define(function (require) {
 
     handleQuotaApproval: function(e){
       e.preventDefault();
+      var quotaRequest = stores.QuotaRequestStore.get(this.getParams().quotaRequestId);
       // if there's a new quota set
-      if(this.state.quota != this.state.request.get('quota')) {
-        QuotaActions.update({request: this.state.request, response: this.state.response, quota: this.state.quota, status: "approved"});
-      }
+      QuotaActions.update({request: quotaRequest, response: this.state.response, quota: this.state.quota, status: "approved"});
     },
 
     handleQuotaDenial: function(e){
       e.preventDefault();
-      QuotaActions.update({request: this.state.request, response: this.state.response, quota: this.state.request.get('quota'), status: "denied"});
+      var quotaRequest = stores.QuotaRequestStore.get(this.getParams().quotaRequestId);
+      QuotaActions.update({request: quotaRequest, response: this.state.response, quota: this.state.request.get('quota'), status: "denied"});
     },
 
     render: function () {
@@ -50,36 +47,28 @@ define(function (require) {
 
       if(!quotaRequest || !quotas) return <div className="loading"></div>;
 
-      var currentQuota = (quotas.get(quotaRequest.get('quota')));
       return(
         <div className="quota-detail">
           <div>User: {quotaRequest.get('created_by')}</div>
           <div>Admin message: {quotaRequest.get('admin_message')}</div>
           <div>Request: {quotaRequest.get('request')}</div>
-          <div>Current quota:&nbsp;
-            CPU: {currentQuota.attributes.cpu}&nbsp;
-            Memory: {currentQuota.attributes.memory}&nbsp;
-            Storage: {currentQuota.attributes.storage}&nbsp;
-            Storage Count: {currentQuota.attributes.storage_count}&nbsp;
-            Suspended: {currentQuota.attributes.suspended_count}&nbsp;
-          </div>
           <div className="quota-description">Description: {quotaRequest.get('description')}</div>
           <div>
             <label>New quota:&nbsp;</label>
             <select value = {this.state.quota} onChange={this.handleQuotaChange} ref="selectedQuota">{quotas.map(function(quota){
               return(
-                <option value={quota.id}>
-                  CPU: {quota.attributes.cpu}&nbsp;
-                  Memory: {quota.attributes.memory}&nbsp;
-                  Storage: {quota.attributes.storage}&nbsp;
-                  Storage Count: {quota.attributes.storage_count}&nbsp;
-                  Suspended: {quota.attributes.suspended_count}&nbsp;
+                <option value={quota.id} key={quota.id}>
+                  CPU: {quota.get('cpu')}&nbsp;
+                  Memory: {quota.get('memory')}&nbsp;
+                  Storage: {quota.get('storage')}&nbsp;
+                  Storage Count: {quota.get('storage_count')}&nbsp;
+                  Suspended: {quota.get('suspended_count')}&nbsp;
                 </option>
               );
             })}
             </select>
           </div>
-          <div class="form-group">
+          <div className="form-group">
             Response:
             <br />
             <textarea type="text" form="admin" value={this.state.value} cols="60" rows="8" name="email" onChange={this.handleResponseChange} />

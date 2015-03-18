@@ -17,10 +17,8 @@ define(function (require) {
       //},
       //
       //destroy: function(params){
-      //    var comment = params.comment;
-      //    comment.destroy().done(function(){
-      //        Utils.dispatch(Constants.REMOVE, {model: comment});
-      //    })
+      //    var request = params.request;
+      //    Utils.dispatch(Constants.REMOVE, {model: request});
       //},
 
       update: function(params) {
@@ -31,7 +29,11 @@ define(function (require) {
 
         request.set({"admin_message": response, "quota": quota, "status": status});
         Router.getInstance().transitionTo("admin");
-        Utils.dispatch(Constants.UPDATE, {model: request});
+        request.save().done(function() {
+          Utils.dispatch(Constants.UPDATE, {model: request});
+          console.log(request.get('id'));
+          Utils.dispatch(Constants.REMOVE, {model: request});
+        });
       }
   };
 
