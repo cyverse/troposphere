@@ -138,9 +138,15 @@ define(function (require) {
       resource.set('projects', [project.id]);
 
       if(resource instanceof Instance){
-        actions.ProjectInstanceActions.addInstanceToProject(resource, project, options);
+        actions.ProjectInstanceActions.addInstanceToProject({
+          project: project,
+          instance: resource
+        }, options);
       }else if(resource instanceof Volume){
-        actions.ProjectVolumeActions.addVolumeToProject(resource, project, options);
+        actions.ProjectVolumeActions.addVolumeToProject({
+          project: project,
+          volume: resource
+        }, options);
       }else{
         throw new Error("Unknown resource type");
       }
@@ -148,9 +154,15 @@ define(function (require) {
 
     removeResourceFromProject: function(resource, project, options){
       if(resource instanceof Instance){
-        actions.ProjectInstanceActions.removeInstanceFromProject(resource, project, options);
+        actions.ProjectInstanceActions.removeInstanceFromProject({
+          project: project,
+          instance: resource
+        }, options);
       }else if(resource instanceof Volume){
-        actions.ProjectVolumeActions.removeVolumeFromProject(resource, project, options);
+        actions.ProjectVolumeActions.removeVolumeFromProject({
+          project: project,
+          volume: resource
+        }, options);
       }else{
         throw new Error("Unknown resource type");
       }

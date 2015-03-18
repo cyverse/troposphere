@@ -9,7 +9,9 @@ define(function (require) {
       VolumeDeleteModal = require('components/modals/volume/VolumeDeleteModal.react'),
       ExplainVolumeDeleteConditionsModal = require('components/modals/volume/ExplainVolumeDeleteConditionsModal.react'),
       Utils = require('../Utils'),
-      globals = require('globals');
+      globals = require('globals'),
+      ProjectVolumeConstants = require('constants/ProjectVolumeConstants'),
+      Router = require('Router');
 
   var _destroy = function(payload, options){
     var volume = payload.volume,
@@ -25,18 +27,17 @@ define(function (require) {
           "/volume/"   + volume.get('uuid')
         );
 
-    // todo: change volume state to show that it's being destroyed
-
     volume.set({state: volumeState});
     Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
 
     volume.destroy({
       url: url
     }).done(function () {
+      var projectVolume = stores.ProjectVolumeStore.getProjectVolumeFor(project, volume);
       // todo: the proper thing to do is to poll until the volume is actually destroyed
       // and THEN remove it from the project. Need to find a way to support that.
       Utils.dispatch(VolumeConstants.REMOVE_VOLUME, {volume: volume});
-      actions.ProjectVolumeActions.removeVolumeFromProject(volume, project);
+      Utils.dispatch(ProjectVolumeConstants.REMOVE_PROJECT_VOLUME, {projectVolume: projectVolume}, options);
     }).fail(function (response) {
       volume.set({state: originalState});
       Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
@@ -48,8 +49,12 @@ define(function (require) {
   return {
 
     destroy: function(payload, options){
-      var volume = payload.volume,
-          redirectUrl = payload.redirectUrl,
+      if(!payload.project) throw new Error("Missing project");
+      if(!payload.volume) throw new Error("Missing volume");
+      if(payload.redirectUrl) console.log("redirectUrl: " + payload.redirectUrl);
+
+      var project = payload.project,
+          volume = payload.volume,
           instanceUUID = volume.get('attach_data').instance_id,
           isAttached = !!instanceUUID,
           modal;
@@ -68,7 +73,7 @@ define(function (require) {
       ModalHelpers.renderModal(modal, function () {
         if(isAttached) return;
         _destroy(payload, options);
-        if(redirectUrl) Backbone.history.navigate(redirectUrl, {trigger: true});
+        Router.getInstance().transitionTo("project-resources", {projectId: project.id});
       })
     },
 

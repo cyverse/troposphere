@@ -71,7 +71,10 @@ define(function (require) {
             //   project: project
             // });
 
-            actions.ProjectVolumeActions.addVolumeToProject(volume, project);
+            actions.ProjectVolumeActions.addVolumeToProject({
+              project: project,
+              volume: volume
+            });
           });
         }).fail(function (response) {
           Utils.dispatch(VolumeConstants.REMOVE_VOLUME, {volume: volume});

@@ -102,9 +102,14 @@ define(function (require) {
         return pv.get('volume').projects.indexOf(project.id) >= 0;
       });
 
-      var volumes = projectVolumes.map(function(pv){
+      var volumes = projectVolumes.filter(function(pv){
+        // filter out the volumes that don't exist (not
+        return allVolumes.get(pv.get('volume').id);
+      }).map(function(pv){
+        // return the actual volume
         return allVolumes.get(pv.get('volume').id);
       });
+
       return new VolumeCollection(volumes);
     }
 

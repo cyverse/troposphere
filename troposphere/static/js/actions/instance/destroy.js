@@ -50,7 +50,10 @@ define(function (require) {
 
       instance.destroy().done(function () {
         Utils.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
-        actions.ProjectInstanceActions.removeInstanceFromProject(instance, project);
+        actions.ProjectInstanceActions.removeInstanceFromProject({
+          project: project,
+          instance: instance
+        });
 
       }).fail(function (response) {
         instance.set({state: originalState});
