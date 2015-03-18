@@ -1,7 +1,7 @@
 define(function (require) {
 
   var Utils = require('./Utils');
-      //Router = require('../Router'),
+      Router = require('../Router'),
       Constants = require('constants/QuotaRequestConstants'),
       QuotaRequest = require('models/QuotaRequest');
 
@@ -24,14 +24,14 @@ define(function (require) {
       //},
 
       update: function(params) {
-        var request = params.request;
-        var response = params.response;
-        request.set({"admin_message": response});
-        console.log(request);
-        request.save().done(function(){
-          console.log("just saved");
-          Utils.dispatch(Constants.UPDATE, {model: request});
-        })
+        var request = params.request,
+            response = params.response,
+            quota = params.quota,
+            status = params.status;
+
+        request.set({"admin_message": response, "quota": quota, "status": status});
+        Router.getInstance().transitionTo("admin");
+        Utils.dispatch(Constants.UPDATE, {model: request});
       }
   };
 

@@ -28,7 +28,7 @@ define(function (require) {
           admin_message: "",
           description: "I need quota for BAD reasons yo.",
           created_by: 2495,
-          quota: null
+          quota: 2
         },{
           id: 2,
           request: "Request #2",
@@ -36,7 +36,7 @@ define(function (require) {
           admin_message: "",
           description: "I need quota for GOOD reasons yo.",
           created_by: 2495,
-          quota: null
+          quota: 4
         }]);
         ModelStore.emitChange();
       });
@@ -53,8 +53,9 @@ define(function (require) {
   }
 
   function update(model){
-    console.log("yooo");
-    _models.update(model);
+    var existingModel = _models.get(model);
+    if(!existingModel) throw new Error("Model doesn't exist");
+    _models.add(model, {merge: true});
   }
 
   //
@@ -89,6 +90,10 @@ define(function (require) {
       case Constants.EMIT_CHANGE:
         break;
 
+      case Constants.UPDATE:
+        update(payload.model);
+        break;
+
       default:
         return true;
     }
@@ -101,6 +106,5 @@ define(function (require) {
   });
 
   _.extend(ModelStore, Store);
-
   return ModelStore;
 });
