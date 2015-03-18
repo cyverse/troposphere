@@ -2,8 +2,14 @@ define(function (require) {
     'use strict';
 
     var $ = require('jquery'),
+        Backbone = require('backbone'),
         React = require('react'),
         SplashScreen = require('components/SplashScreen.react');
+
+    // Disconnect all Backbone Events from Models and Collections
+    Object.keys(Backbone.Events).forEach(function(functionName){
+      Backbone.Model.prototype[functionName] = Backbone.Collection.prototype[functionName] = function(){};
+    });
 
     // Register which stores the application should use
     var stores = require('stores');
