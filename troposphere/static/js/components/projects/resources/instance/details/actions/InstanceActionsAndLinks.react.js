@@ -29,7 +29,9 @@ define(function (require) {
     },
 
     onReport: function(){
-      actions.InstanceActions.reportInstance(this.props.instance);
+      actions.InstanceActions.report({
+        instance: this.props.instance
+      });
     },
 
     onImageRequest: function(){

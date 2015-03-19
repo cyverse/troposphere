@@ -1,4 +1,5 @@
 define(function (require) {
+  "use strict";
 
   var stores = require('stores'),
       globals = require('globals'),
