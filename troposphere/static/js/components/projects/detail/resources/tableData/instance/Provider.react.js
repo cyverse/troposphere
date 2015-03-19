@@ -14,7 +14,7 @@ define(function (require) {
       var instance = this.props.instance,
           provider = stores.ProviderStore.get(instance.get('provider').id);
 
-      if(!provider) return <div className="loading"></div>;
+      if(!provider) return <div className="loading-tiny-inline"></div>;
 
       return (
         <span>{provider.get('name')}</span>
