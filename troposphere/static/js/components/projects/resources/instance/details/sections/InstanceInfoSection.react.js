@@ -59,7 +59,7 @@ define(function (require) {
       var instance = this.props.instance,
           tags = stores.TagStore.getAll(),
           instanceTags = stores.InstanceTagStore.getTagsFor(instance),
-          instanceHash = CryptoJS.MD5(instance.id.toString()).toString(),
+          instanceHash = CryptoJS.MD5((instance.id || instance.cid).toString()).toString(),
           type = stores.ProfileStore.get().get('icon_set'),
           iconSize = 113,
           nameContent;

@@ -42,7 +42,7 @@ define(function (require) {
       var volume = this.props.volume,
           profile = stores.ProfileStore.get(),
           type = profile.get('icon_set'),
-          instanceHash = CryptoJS.MD5(volume.id.toString()).toString(),
+          instanceHash = CryptoJS.MD5((volume.id || volume.cid).toString()).toString(),
           iconSize = 113,
           nameContent;
 

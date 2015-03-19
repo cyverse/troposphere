@@ -66,7 +66,7 @@ define(function (require) {
               formattedEndDate = endDate.format("MMM DD, YYYY"),
               now = moment(),
               timeSpan = now.diff(startDate, "days"),
-              instanceHistoryHash = CryptoJS.MD5(instance.id.toString()).toString(),
+              instanceHistoryHash = CryptoJS.MD5((instance.id || instance.cid).toString()).toString(),
               iconSize = 63,
               type = stores.ProfileStore.get().get('icon_set'),
               application = stores.ApplicationStore.getApplicationWithMachine(instance.get('machine_alias')),
