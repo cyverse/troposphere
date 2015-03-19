@@ -81,9 +81,10 @@ define(function (require) {
 
     getAll: function () {
       if(!_models) {
-        fetchModels()
+        return fetchModels();
+      }else{
+        return _models;
       }
-      return _models;
     },
 
     getProjectVolumeFor: function(project, volume){
@@ -97,16 +98,14 @@ define(function (require) {
       if(!_modelsFor[project.id]) return fetchModelsFor(project.id);
       if(!allVolumes) return;
 
-      // convert ProjectVolume collection to an VolumeCollection
-      var projectVolumes = _models.filter(function(pv){
-        return pv.get('volume').projects.indexOf(project.id) >= 0;
-      });
-
-      var volumes = projectVolumes.filter(function(pv){
-        // filter out the volumes that don't exist (not
+      var volumes = _models.filter(function(pv){
+        // filter out irrelevant project volumes (not in target project)
+        return pv.get('project').id === project.id;
+      }).filter(function(pv){
+        // filter out the volumes that don't exist (not in local cache)
         return allVolumes.get(pv.get('volume').id);
       }).map(function(pv){
-        // return the actual volume
+        // return the actual volumes
         return allVolumes.get(pv.get('volume').id);
       });
 
