@@ -3,7 +3,6 @@ define(function (require) {
   var React = require('react'),
       Backbone = require('backbone'),
       Glyphicon = require('components/common/Glyphicon.react'),
-      URL = require('url'),
       actions = require('actions');
 
   return React.createClass({
@@ -25,11 +24,9 @@ define(function (require) {
       var project = this.props.project,
           volume = this.props.volume;
 
-      var redirectUrl = URL.projectResources({project: project}, {relative: true});
       actions.VolumeActions.destroy({
         volume: volume,
         project: project,
-        redirectUrl: redirectUrl,
         linksTo: "project-resources",
         params: {projectId: project.id}
       });

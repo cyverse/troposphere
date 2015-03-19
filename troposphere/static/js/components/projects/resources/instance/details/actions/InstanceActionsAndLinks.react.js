@@ -3,7 +3,6 @@ define(function (require) {
   var React = require('react'),
       Backbone = require('backbone'),
       Glyphicon = require('components/common/Glyphicon.react'),
-      URL = require('url'),
       actions = require('actions');
 
   return React.createClass({
@@ -38,12 +37,14 @@ define(function (require) {
     },
 
     onDelete: function(){
-      var redirectUrl = URL.projectResources({project: this.props.project}, {relative: true});
-      actions.InstanceActions.terminate({
-        instance:this.props.instance,
-        project: this.props.project,
-        redirectUrl: redirectUrl,
-        redirectTo: "project-resources"
+      var project = this.props.project,
+          instance = this.props.instance;
+
+      actions.InstanceActions.destroy({
+        instance:instance,
+        project: project,
+        linksTo: "project-resources",
+        params: {projectId: project.id}
       });
     },
 
