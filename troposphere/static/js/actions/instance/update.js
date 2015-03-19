@@ -5,6 +5,7 @@ define(function (require) {
       Utils = require('../Utils');
 
   return {
+
     update: function (instance, newAttributes) {
       if(!instance) throw new Error("Missing instance");
       if(!newAttributes || !newAttributes.name) throw new Error("Missing attributes.name");
@@ -26,6 +27,7 @@ define(function (require) {
         Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
       });
     }
+
   };
 
 });
