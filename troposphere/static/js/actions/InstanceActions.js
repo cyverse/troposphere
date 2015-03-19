@@ -11,7 +11,8 @@ define(function (require) {
     launch: require('./instance/launch').launch,
     createAndAddToProject: require('./instance/createAndAddToProject').createAndAddToProject,
     launchIntoProject: require('./instance/launch').launchIntoProject,
-    destroy: require('./instance/destroy').destroy
+    destroy: require('./instance/destroy').destroy,
+    update: require('./instance/update').update
   };
 
 });

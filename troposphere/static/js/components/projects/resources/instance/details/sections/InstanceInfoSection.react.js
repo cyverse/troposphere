@@ -18,8 +18,10 @@ define(function (require) {
     },
 
     getInitialState: function(){
+      var instance = this.props.instance;
+
       return {
-        name: this.props.instance.get('name'),
+        name: instance.get('name'),
         isEditing: false,
         isEditingTags: false
       }
@@ -38,7 +40,7 @@ define(function (require) {
         name: text,
         isEditing: false
       });
-      actions.InstanceActions.updateInstanceAttributes(this.props.instance, {name: text})
+      actions.InstanceActions.update(this.props.instance, {name: text});
     },
 
     onTagAdded: function(tag){
