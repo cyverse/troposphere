@@ -1,7 +1,6 @@
-pip==1.4.1
 python-dateutil==2.2
 requests==2.2.1
-django==1.7.4
+django==1.8c1
 django-jenkins==0.16.2
 coverage==3.7.1
 caslib.py==2.1.0
