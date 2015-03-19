@@ -6,48 +6,40 @@ define(function (require) {
       ApplicationCollection = require('collections/ApplicationCollection'),
       ApplicationCardList = require('./list/ApplicationCardList.react'),
       ApplicationCardGrid = require('./grid/ApplicationCardGrid.react'),
-      SecondaryApplicationNavigation = require('../common/SecondaryApplicationNavigation.react');
+      SecondaryApplicationNavigation = require('../common/SecondaryApplicationNavigation.react'),
+      Router = require('react-router');
 
   var timer,
       timerDelay = 100;
 
   return React.createClass({
 
-    propTypes: {
-      query: React.PropTypes.string,
-      tags: React.PropTypes.instanceOf(Backbone.Collection)
-    },
+    mixins: [Router.State],
 
-    getDefaultProps: function(){
-      return {
-        query: ""
-      }
+    propTypes: {
+      tags: React.PropTypes.instanceOf(Backbone.Collection)
     },
 
     getInitialState: function(){
       return {
-        applications: stores.ApplicationStore.getAll(),
-        featuredImages: stores.ApplicationStore.getAllFeatured(),
-        query: this.props.query,
+        query: this.getQuery().query || "",
+        input: this.getQuery().query || "",
         isLoadingMoreResults: false,
         nextUrl: null,
         viewType: 'list'
       }
     },
 
-    getState: function() {
-      return {
-        applications: stores.ApplicationStore.getSearchResultsFor(this.state.query),
-        featuredImages: stores.ApplicationStore.getAllFeatured()
-      }
-    },
-
     updateState: function() {
-      var state = this.getState();
-      if(state.applications.meta.next !== this.state.nextUrl){
+      var query = this.state.query,
+          images = stores.ApplicationStore.getSearchResultsFor(query),
+          state = {};
+
+      if(images && images.meta.next !== this.state.nextUrl){
         state.isLoadingMoreResults = false;
         state.nextUrl = null;
       }
+
       if (this.isMounted()) this.setState(state);
     },
 
@@ -60,12 +52,16 @@ define(function (require) {
     },
 
     onLoadMoreImages: function(){
+      var query = this.state.query,
+          images = stores.ApplicationStore.getSearchResultsFor(query);
+
       this.setState({
         isLoadingMoreResults: true,
-        nextUrl: this.state.applications.meta.next
+        nextUrl: images.meta.next
       });
-      if(this.state.query){
-        stores.ApplicationStore.getMoreSearchResultsFor(this.state.query);
+
+      if(query){
+        stores.ApplicationStore.getMoreSearchResultsFor(query);
       }else{
         stores.ApplicationStore.getMoreImages();
       }
@@ -75,22 +71,19 @@ define(function (require) {
     // Callbacks
     //
 
-    handleSearch: function (query) {
+    handleSearch: function (input) {
+      console.log(input);
       if (timer) clearTimeout(timer);
 
       timer = setTimeout(function(){
-        var query = this.state.query,
-            applications = stores.ApplicationStore.getSearchResultsFor(query);
-        this.setState({applications: applications});
+        this.setState({query: this.state.input});
       }.bind(this), timerDelay);
     },
 
     onSearchChange: function (e) {
-      this.setState({query: e.target.value});
-    },
-
-    onSearchKeyUp: function (e) {
-      this.handleSearch(this.state.query);
+      var input = e.target.value;
+      this.setState({input: input});
+      this.handleSearch(input);
     },
 
     onChangeViewType: function(){
@@ -106,29 +99,29 @@ define(function (require) {
     // --------------
 
     renderFeaturedImages: function(){
-      var images = this.state.featuredImages,
+      var images = stores.ApplicationStore.getAllFeatured(),
           tags = this.props.tags;
 
-      if (images && tags) {
-        if(this.state.viewType === "list") {
-          return (
-            <ApplicationCardList
-              key="featured"
-              title="Featured Images"
-              applications={images}
-              tags={tags}
-            />
-          );
-        }else{
-          return (
-            <ApplicationCardGrid
-              key="featured"
-              title="Featured Images"
-              applications={images}
-              tags={tags}
-            />
-          );
-        }
+      if (!images || !tags || this.state.query) return;
+
+      if(this.state.viewType === "list") {
+        return (
+          <ApplicationCardList
+            key="featured"
+            title="Featured Images"
+            applications={images}
+            tags={tags}
+          />
+        );
+      }else{
+        return (
+          <ApplicationCardGrid
+            key="featured"
+            title="Featured Images"
+            applications={images}
+            tags={tags}
+          />
+        );
       }
     },
 
@@ -205,29 +198,29 @@ define(function (require) {
     },
 
     renderBody: function(){
-      var applications = this.state.applications,
+      var query = this.state.query,
+          applications = stores.ApplicationStore.getSearchResultsFor(query),
           title = "";
 
-      if (applications) {
-        title = "Showing " + applications.length + " of " + applications.meta.count + " images";
-        return (
-          <div>
-            <div className="display-toggles clearfix">
-              <h3>{title}</h3>
-              <div className="btn-group pull-right">
-                {this.renderListButton()}
-                {this.renderGridButton()}
-              </div>
-            </div>
-            {this.renderFeaturedImages()}
-            {this.renderImages(applications)}
-            {this.renderLoadMoreButton(applications)}
-          </div>
-        );
-      }
+      if (!applications) return <div className="loading"></div>;
+
+      title = "Showing " + applications.length + " of " + applications.meta.count + " images";
+
+      if(query) title += " for '" + query + "'";
 
       return (
-        <div className="loading"></div>
+        <div>
+          <div className="display-toggles clearfix">
+            <h3>{title}</h3>
+            <div className="btn-group pull-right">
+              {this.renderListButton()}
+              {this.renderGridButton()}
+            </div>
+          </div>
+          {this.renderFeaturedImages()}
+          {this.renderImages(applications)}
+          {this.renderLoadMoreButton(applications)}
+        </div>
       );
     },
 
@@ -240,8 +233,7 @@ define(function (require) {
               className='form-control search-input'
               placeholder='Search across image name, tag or description'
               onChange={this.onSearchChange}
-              value={this.props.value}
-              onKeyUp={this.onSearchKeyUp}
+              value={this.state.input}
               ref="textField"
             />
             <hr/>
