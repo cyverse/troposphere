@@ -1,7 +1,8 @@
 define(function (require) {
 
   var React = require('react'),
-      actions = require('actions');
+      actions = require('actions'),
+      stores = require('stores');
 
   return React.createClass({
 
@@ -11,10 +12,11 @@ define(function (require) {
     },
 
     render: function () {
-      var isFavorite = this.props.application.get('isFavorited'),
+      var image = this.props.application,
+          isFavorited = stores.ImageBookmarkStore.getImageBookmarkFor(image),
           img;
 
-      if(isFavorite){
+      if(isFavorited){
         img = (
           <img src="/assets/images/filled-star-icon.png"/>
         );

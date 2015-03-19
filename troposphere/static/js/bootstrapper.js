@@ -30,6 +30,7 @@ define(function (require) {
     var stores = require('stores');
     stores.ApplicationStore        = require('stores/ApplicationStore');
     stores.IdentityStore           = require('stores/IdentityStore');
+    stores.ImageBookmarkStore      = require('stores/ImageBookmarkStore');
     stores.InstanceHistoryStore    = require('stores/InstanceHistoryStore');
     stores.InstanceStore           = require('stores/InstanceStore');
     stores.InstanceTagStore        = require('stores/InstanceTagStore');
@@ -48,6 +49,7 @@ define(function (require) {
     var actions = require('actions');
     actions.ApplicationActions     = require('actions/ApplicationActions');
     actions.HelpActions            = require('actions/HelpActions');
+    actions.ImageBookmarkActions   = require('actions/ImageBookmarkActions');
     actions.InstanceActions        = require('actions/InstanceActions');
     actions.InstanceTagActions     = require('actions/InstanceTagActions');
     actions.InstanceVolumeActions  = require('actions/InstanceVolumeActions');
