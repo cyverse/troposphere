@@ -17,7 +17,7 @@ define(function (require) {
     renderProvider: function(provider){
       return (
         <option key={provider.id} value={provider.id}>
-          {provider.get('location')}
+          {provider.get('name')}
         </option>
       )
     },

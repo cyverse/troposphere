@@ -18,33 +18,48 @@ define(function (require) {
             instance: instance
           });
 
-      ModalHelpers.renderModal(modal, function (details) {
-        var tagNames,
-            requestData,
-            providerId,
-            identityId,
-            requestUrl;
+      ModalHelpers.renderModal(modal, function (params) {
+        if(!params.name) throw new Error("Missing name");
+        if(!params.description) throw new Error("Missing description");
+        if(!params.providerId) throw new Error("Missing providerId");
+        if(!params.software) throw new Error("Missing software");
+        if(!params.filesToExclude) throw new Error("Missing filesToExclude");
+        if(!params.systemFiles) throw new Error("Missing systemFiles");
+        if(!params.visibility) throw new Error("Missing visibility");
+        if(!params.tags) throw new Error("Missing tags");
 
-        tagNames = details.tags.map(function(tag){
-          return tag.get('name');
-        });
+        var name = params.name,
+            description = params.description,
+            providerId = params.providerId,
+            software = params.software,
+            filesToExclude = params.filesToExclude,
+            systemFiles = params.systemFiles,
+            visibility = params.visibility,
+            tags = params.tags,
+            tagNames = tags.map(function(tag){
+              return tag.get('name');
+            }),
+            provider = stores.ProviderStore.get(providerId);
 
-        requestData = {
-          instance: instance.id,
+        var requestData = {
+          instance: instance.get('uuid'),
           ip_address: instance.get("ip_address"),
-          name: details.name,
-          description: details.description,
+          name: name,
+          description: description,
           tags: tagNames,
-          provider: details.providerId,
-          software: details.software,
-          exclude: details.filesToExclude,
-          sys: details.systemFiles,
-          vis: "public"
+          provider: provider.get('uuid'),
+          software: software,
+          exclude: filesToExclude,
+          sys: systemFiles,
+          vis: visibility
         };
 
-        providerId = instance.get('provider').uuid;
-        identityId = instance.get('identity').uuid;
-        requestUrl = globals.API_ROOT + "/provider/" + providerId + "/identity/" + identityId + "/request_image";
+        var requestUrl = (
+          globals.API_ROOT +
+          "/provider/" + instance.get('provider').uuid +
+          "/identity/" + instance.get('identity').uuid +
+          "/request_image"
+        );
 
         $.ajax({
           url: requestUrl,

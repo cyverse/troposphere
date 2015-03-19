@@ -18,16 +18,17 @@ define(function (require) {
     mixins: [BootstrapModalMixin],
 
     propTypes: {
-      instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
     getInitialState: function () {
+      var instance = this.props.instance;
+
       return {
         name: "",
         description: "",
-        tags: stores.InstanceTagStore.getTagsFor(this.props.instance),
-        providerId: this.props.instance.get('identity').provider,
+        tags: stores.InstanceTagStore.getTagsFor(instance),
+        providerId: instance.get('provider').id,
         visibility: "public",
         software: "",
         systemFiles: "",
@@ -95,12 +96,20 @@ define(function (require) {
       this.setState({description: description});
     },
 
-    handleTagsChange: function(tags){
+    onTagAdded: function(tag){
+      var tags = this.state.tags;
+      tags.add(tag);
+      this.setState({tags: tags});
+    },
+
+    onTagRemoved: function(tag){
+      var tags = this.state.tags;
+      tags.remove(tag);
       this.setState({tags: tags});
     },
 
     handleProviderChange: function(providerId){
-      this.setState({providerId: providerId});
+      this.setState({providerId: Number(providerId)});
     },
 
     handleVisibilityChange: function(visibility){
@@ -177,15 +186,28 @@ define(function (require) {
 
           <p className="alert alert-info">
             {"Please read the "}
-            <a href="https://pods.iplantcollaborative.org/wiki/x/oIZy" target="_blank">wiki page about requesting an image of your instance</a>
+            <a href="https://pods.iplantcollaborative.org/wiki/x/oIZy" target="_blank">
+                wiki page about requesting an image of your instance
+            </a>
             {" before completing the form below."}
           </p>
 
           <Name onChange={this.handleNameChange}/>
           <Description onChange={this.handleDescriptionChange}/>
-          <Tags instance={instance} tags={this.props.tags} imageTags={this.state.tags} onChange={this.handleTagsChange}/>
-          <Provider value={this.state.providerId} onChange={this.handleProviderChange}/>
-          <Visibility value={this.state.visibility} onChange={this.handleVisibilityChange}/>
+          <Tags
+            instance={instance}
+            imageTags={this.state.tags}
+            onTagAdded={this.onTagAdded}
+            onTagRemoved={this.onTagRemoved}
+          />
+          <Provider
+            providerId={this.state.providerId}
+            onChange={this.handleProviderChange}
+          />
+          <Visibility
+            value={this.state.visibility}
+            onChange={this.handleVisibilityChange}
+          />
           {this.renderAdvancedOptions()}
           <hr/>
           <LicenseAgreement onChange={this.handleLicenseAgreementChange}/>
