@@ -34,7 +34,7 @@ define(function (require) {
           username: username,
           message: "Instance IP: " + instance.get('ip_address') + "\n" +
                    "Instance ID: " + instance.id + "\n" +
-                   "Provider ID: " + instance.get('identity').provider + "\n" +
+                   "Provider ID: " + instance.get('provider').id + "\n" +
                    "\n" +
                    "Problems" + "\n" +
                    problemText + "\n" +

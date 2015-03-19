@@ -35,7 +35,9 @@ define(function (require) {
     },
 
     onImageRequest: function(){
-      actions.InstanceActions.requestImage(this.props.instance);
+      actions.InstanceActions.requestImage({
+        instance: this.props.instance
+      });
     },
 
     onDelete: function(){
