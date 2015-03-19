@@ -101,7 +101,10 @@ define(function (require) {
         //   project: project
         // });
 
-        actions.ProjectInstanceActions.addInstanceToProject(instance, project);
+        actions.ProjectInstanceActions.addInstanceToProject({
+          project: project,
+          instance: instance
+        });
       });
     }).fail(function (response) {
       Utils.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
