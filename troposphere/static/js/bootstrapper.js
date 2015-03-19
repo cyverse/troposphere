@@ -2,14 +2,29 @@ define(function (require) {
     'use strict';
 
     var $ = require('jquery'),
+        _ = require('underscore'),
         Backbone = require('backbone'),
         React = require('react'),
         SplashScreen = require('components/SplashScreen.react');
 
     // Disconnect all Backbone Events from Models and Collections
     Object.keys(Backbone.Events).forEach(function(functionName){
-      Backbone.Model.prototype[functionName] = Backbone.Collection.prototype[functionName] = function(){};
+      Backbone.Model.prototype[functionName] = function(){};
+      Backbone.Collection.prototype[functionName] = function(){};
     });
+
+    //Backbone.Model.prototype.parse = function(resp, options) {
+    //  if(resp.id) resp.id = String(resp.id);
+    //  return resp;
+    //};
+
+    Backbone.Collection.prototype.get = function(obj) {
+      if (obj == null) return void 0;
+      return _.find(this.models, function(model){
+        return model.id == obj || model.id === obj.id || model.cid === obj.cid;
+        //return model.id == String(obj) || model.id === String(obj.id) || model.cid === obj.cid;
+      });
+    };
 
     // Register which stores the application should use
     var stores = require('stores');
