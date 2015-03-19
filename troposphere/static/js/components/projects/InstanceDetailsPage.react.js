@@ -11,8 +11,8 @@ define(function (require) {
     mixins: [Router.State],
 
     render: function () {
-      var project = stores.ProjectStore.get(this.getParams().projectId),
-          instance = stores.InstanceStore.get(this.getParams().instanceId);
+      var project = stores.ProjectStore.get(Number(this.getParams().projectId)),
+          instance = stores.InstanceStore.get(Number(this.getParams().instanceId));
 
       if (!project || !instance) return <div className="loading"></div>;
 
