@@ -12,10 +12,12 @@ define(function (require) {
 
   var _applications = null,
       _featuredImages = null,
+      _userImages = null,
       _searchResults = {},
       _isFetching = false,
       _isFetchingImage = {},
       _isFetchingFeaturedImages = false,
+      _isFetchingUserImages = false,
       _isFetchingMore = false,
       _isSearching = false;
 
@@ -51,6 +53,20 @@ define(function (require) {
       images.fetch({url: url}).done(function () {
         _isFetchingFeaturedImages = false;
         _featuredImages = images;
+        ApplicationStore.emitChange();
+      });
+    }
+  };
+
+  var fetchUserImages = function () {
+    if(!_isFetchingUserImages) {
+      _isFetchingUserImages = true;
+      var images = new ApplicationCollection();
+      images.fetch({
+        url: images.url + "?created_by__username=" + context.profile.get('username')
+      }).done(function () {
+        _isFetchingUserImages = false;
+        _userImages = images;
         ApplicationStore.emitChange();
       });
     }
@@ -176,13 +192,11 @@ define(function (require) {
       }
     },
 
-    getCreated: function(){
-      if (!_applications) {
-        fetchApplications();
+    getUserImages: function(){
+      if (!_userImages) {
+        fetchUserImages();
       } else {
-        return new ApplicationCollection(_applications.filter(function(image){
-          return image.get('created_by').username === context.profile.get('username');
-        }));
+        return _userImages;
       }
     },
 
@@ -199,24 +213,6 @@ define(function (require) {
     getMoreSearchResultsFor: function(query){
       if(!query) throw new Error("query must be specified");
       fetchMoreSearchResultsFor(query);
-    },
-
-    toggleFavorited: function(application){
-      var isFavorited = application.get('isFavorited');
-      var prefix = isFavorited ? " un-" : " ";
-      application.set('isFavorited', !isFavorited);
-
-      application.favorited(!isFavorited).done(function(){
-        var successMessage = "Image " + application.get('name') + prefix + "favorited.";
-        //NotificationController.success(successMessage);
-        ApplicationStore.emitChange();
-      }).fail(function () {
-        var failureMessage = "Image " + application.get('name') + " could not be" + prefix + "favorited.";
-        NotificationController.error(failureMessage);
-        var wasFavorited = application.previousAttributes().isFavorited;
-        application.set('isFavorited', wasFavorited);
-        ApplicationStore.emitChange();
-      });
     },
 
     getApplicationWithMachine: function(machineId){
