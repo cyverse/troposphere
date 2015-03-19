@@ -3,43 +3,45 @@
 define(
   [
     'react',
-    'backbone'
+    'backbone',
+    'stores'
   ],
-  function (React, Backbone) {
+  function (React, Backbone, stores) {
 
     return React.createClass({
 
       propTypes: {
-        application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        application: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
       renderProvider: function(provider){
-
-      },
-
-      renderProviders: function(machines){
-        var providers = machines.map(function(machine){
-          var provider = this.props.providers.get(machine.get('provider'));
-          return (
-            <li key={provider.id}>{provider.get('location')}</li>
-          )
-        }.bind(this));
-
         return (
-          <ul className="list-unstyled">
-            {providers}
-          </ul>
+          <li key={provider.id}>
+            {provider.get('name')}
+          </li>
         )
       },
 
       render: function () {
-        var machines = this.props.application.get('machines');
+        var image = this.props.application,
+            providers = image.get('machines').filter(function(machine){
+              // filter out providers that don't exist
+              var providerId = machine.get('provider').id,
+                  provider = stores.ProviderStore.get(machine.get('provider').id);
+              if(!provider) console.warn("Image " + image.id + " showing availability on non-existent provider " + providerId);
+              return provider;
+            }).map(function(machine){
+              // convert machine to providers
+              return stores.ProviderStore.get(machine.get('provider').id);
+            });
+
         return (
           <div className='image-availability image-info-segment row'>
             <h4 className="title col-md-2">Available on</h4>
             <div className="content col-md-10">
-              {this.renderProviders(machines)}
+              <ul className="list-unstyled">
+                {providers.map(this.renderProvider)}
+              </ul>
             </div>
           </div>
         );
