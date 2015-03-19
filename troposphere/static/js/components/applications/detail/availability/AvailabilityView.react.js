@@ -20,6 +20,7 @@ define(function (require) {
 
     render: function () {
       var image = this.props.application,
+          providerHash = {},
           providers = image.get('machines').filter(function(machine){
             // filter out providers that don't exist
             var providerId = machine.get('provider').id,
@@ -29,6 +30,12 @@ define(function (require) {
           }).map(function(machine){
             // convert machine to providers
             return stores.ProviderStore.get(machine.get('provider').id);
+          }).filter(function(provider){
+            // remove duplicate providers
+            if(!providerHash[provider.id]){
+              providerHash[provider.id] = provider;
+              return true;
+            }
           });
 
       return (
