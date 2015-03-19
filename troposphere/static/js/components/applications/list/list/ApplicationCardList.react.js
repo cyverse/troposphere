@@ -7,8 +7,7 @@ define(function (require) {
 
     propTypes: {
       title: React.PropTypes.string,
-      applications: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-      tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      applications: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
 
     renderTitle: function(){
@@ -23,9 +22,7 @@ define(function (require) {
     renderCard: function(application){
       return (
         <li key={application.id}>
-          <ApplicationListCard
-            application={application}
-            tags={this.props.tags}/>
+          <ApplicationListCard application={application}/>
         </li>
       );
     },

@@ -5,6 +5,7 @@ define(function (require) {
       Store = require('stores/Store'),
       Collection = require('collections/ImageBookmarkCollection'),
       Constants = require('constants/ImageBookmarkConstants'),
+      ImageCollection = require('collections/ApplicationCollection'),
       stores = require('stores');
 
   var _models = null;
@@ -62,6 +63,21 @@ define(function (require) {
       return _models.find(function(ib){
         return ib.get('image').id === image.id;
       });
+    },
+
+    getBookmarkedImages: function(){
+      if(!_models) return fetchModels();
+      var haveAllImages = true;
+
+      var images = _models.map(function(ib){
+        var image = stores.ApplicationStore.get(ib.get('image').id);
+        if(!image) haveAllImages = false;
+        return image;
+      });
+
+      if(!haveAllImages) return null;
+
+      return new ImageCollection(images);
     }
 
   };

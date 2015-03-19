@@ -12,8 +12,7 @@ define(
       display: "Tags",
 
       propTypes: {
-        activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       render: function () {

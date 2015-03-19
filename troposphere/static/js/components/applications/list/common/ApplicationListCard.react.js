@@ -15,8 +15,7 @@ define(function (require) {
   return React.createClass({
 
     propTypes: {
-      application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      application: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
     render: function () {
@@ -63,9 +62,7 @@ define(function (require) {
                 </Router.Link>
               </h4>
               <div><time>{applicationCreationDate}</time> by <strong>{app.get('created_by').username}</strong></div>
-              <Tags activeTags={imageTags}
-                  tags={this.props.tags}
-              />
+              <Tags activeTags={imageTags}/>
             </span>
           </div>
           <div dangerouslySetInnerHTML={{__html: descriptionHtml}}/>
