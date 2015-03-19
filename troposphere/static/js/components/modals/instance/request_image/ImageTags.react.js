@@ -8,7 +8,8 @@ define(function (require) {
   return React.createClass({
 
     propTypes: {
-      onChange: React.PropTypes.func.isRequired,
+      onTagAdded: React.PropTypes.func.isRequired,
+      onTagRemoved: React.PropTypes.func.isRequired,
       imageTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
 
@@ -30,7 +31,8 @@ define(function (require) {
             <ChosenDropdown
               tags={tags}
               activeTags={imageTags}
-              onTagsChanged={this.props.onChange}
+              onTagAdded={this.props.onTagAdded}
+              onTagRemoved={this.props.onTagRemoved}
               onEnterKeyPressed={function(){}}
               width={"100%"}
             />
