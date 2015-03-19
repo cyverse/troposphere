@@ -51,9 +51,10 @@ define(
             </button>
           );
         }else{
-          var loginUrl = URL.login(null, {relative: true});
-          var imageUrl = URL.application(this.props.application);
-          var fullUrl = loginUrl + "?redirect=" + imageUrl + "?beta=true";
+          var loginUrl = URL.login(null, {relative: true}),
+              imageUrl = URL.application(this.props.application),
+              fullUrl = loginUrl + "?redirect=" + imageUrl + "?beta=true";
+
           button = (
             <a className='btn btn-primary launch-button' href={fullUrl}>
               Login to Launch

@@ -11,7 +11,7 @@ define(
     return React.createClass({
 
       propTypes: {
-        projectId: React.PropTypes.string.isRequired,
+        projectId: React.PropTypes.number.isRequired,
         projects: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         onChange: React.PropTypes.func.isRequired
       },

@@ -18,8 +18,10 @@ define(function (require) {
     },
 
     getInitialState: function(){
+      var instance = this.props.instance;
+
       return {
-        name: this.props.instance.get('name'),
+        name: instance.get('name'),
         isEditing: false,
         isEditingTags: false
       }
@@ -38,25 +40,40 @@ define(function (require) {
         name: text,
         isEditing: false
       });
-      actions.InstanceActions.updateInstanceAttributes(this.props.instance, {name: text})
+      actions.InstanceActions.update(this.props.instance, {name: text});
     },
 
-    onTagsChanged: function(text){
-      var tags = text || [];
-      actions.InstanceActions.updateInstanceAttributes(this.props.instance, {tags: tags})
+    onTagAdded: function(tag){
+      actions.InstanceTagActions.add({
+        instance: this.props.instance,
+        tag: tag
+      });
+    },
+
+    onTagRemoved: function(tag){
+      actions.InstanceTagActions.remove({
+        instance: this.props.instance,
+        tag: tag
+      });
     },
 
     render: function () {
       var instance = this.props.instance,
           tags = stores.TagStore.getAll(),
-          instanceTags = stores.InstanceTagStore.getTagsFor(this.props.instance);
+          instanceTags = stores.InstanceTagStore.getTagsFor(instance),
+          instanceHash = CryptoJS.MD5((instance.id || instance.cid).toString()).toString(),
+          type = stores.ProfileStore.get().get('icon_set'),
+          iconSize = 113,
+          nameContent;
 
       if(!tags || !instanceTags) return <div className="loading"></div>;
 
-      var nameContent;
       if(this.state.isEditing){
         nameContent = (
-          <EditableInputField text={this.state.name} onDoneEditing={this.onDoneEditing}/>
+          <EditableInputField
+            text={this.state.name}
+            onDoneEditing={this.onDoneEditing}
+          />
         );
       }else{
         nameContent = (
@@ -66,10 +83,6 @@ define(function (require) {
           </h4>
         );
       }
-
-      var instanceHash = CryptoJS.MD5(instance.id.toString()).toString();
-      var type = stores.ProfileStore.get().get('icon_set');
-      var iconSize = 113;
 
       return (
         <div className="resource-info-section section clearfix">
@@ -83,10 +96,12 @@ define(function (require) {
               {nameContent}
             </div>
             <div className="resource-launch-date">Launched on <Time date={instance.get('start_date')}/></div>
-            <ResourceTags tags={tags}
-                          activeTags={instanceTags}
-                          onTagsChanged={this.onTagsChanged}
-                          onCreateNewTag={this.onCreateNewTag}
+            <ResourceTags
+              tags={tags}
+              activeTags={instanceTags}
+              onTagAdded={this.onTagAdded}
+              onTagRemoved={this.onTagRemoved}
+              onCreateNewTag={this.onCreateNewTag}
             />
           </div>
 

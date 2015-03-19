@@ -68,7 +68,7 @@ define(
 
       handleLaunchImage: function(identity, machineId, sizeId, instanceName){
         this.hide();
-        this.props.onConfirm(identity, machineId, sizeId, instanceName);
+        this.props.onConfirm(this.state.image, identity, machineId, sizeId, instanceName);
       },
 
       //

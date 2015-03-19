@@ -69,17 +69,17 @@ define(function (require) {
 
   var ModelStore = {
 
-    get: function (projectInstanceId) {
+    get: function (modelId) {
       if(!_models) {
         fetchModels();
       } else {
-        return _models.get(projectInstanceId);
+        return _models.get(modelId);
       }
     },
 
     getAll: function () {
       if(!_models) {
-        fetchModels()
+        return fetchModels()
       }
       return _models;
     },

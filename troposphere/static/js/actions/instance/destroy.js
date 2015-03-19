@@ -9,62 +9,76 @@ define(function (require) {
       ModalHelpers = require('components/modals/ModalHelpers'),
       InstanceDeleteModal = require('components/modals/instance/InstanceDeleteModal.react'),
       ExplainInstanceDeleteConditionsModal = require('components/modals/instance/ExplainInstanceDeleteConditionsModal.react'),
-      Utils = require('../Utils');
+      Utils = require('../Utils'),
+      ProjectInstanceConstants = require('constants/ProjectInstanceConstants'),
+      globals = require('globals'),
+      Router = require('Router');
+
+  var _destroy = function(payload, options){
+    var instance = payload.instance,
+        project = payload.project,
+        instanceState = new InstanceState({status_raw: "deleting"}),
+        originalState = instance.get('state'),
+        identity = instance.get('identity'),
+        provider = instance.get('provider'),
+        url = (
+          globals.API_ROOT +
+          "/provider/" + provider.uuid +
+          "/identity/" + identity.uuid +
+          "/instance/"   + instance.get('uuid')
+        );
+
+    instance.set({state: instanceState});
+    Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+
+    instance.destroy({
+      url: url
+    }).done(function () {
+      var projectInstance = stores.ProjectInstanceStore.getProjectInstanceFor(project, instance);
+      // todo: the proper thing to do is to poll until the instance is actually destroyed
+      // and THEN remove it from the project. Need to find a way to support that.
+      Utils.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
+      Utils.dispatch(ProjectInstanceConstants.REMOVE_PROJECT_INSTANCE, {projectInstance: projectInstance}, options);
+    }).fail(function (response) {
+      instance.set({state: originalState});
+      Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+      Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+      Utils.displayError({title: "Your instance could not be deleted", response: response});
+    });
+  };
 
   return {
 
-    terminate: function(payload, options){
-      var instance = payload.instance;
-      var redirectUrl = payload.redirectUrl;
+    destroy: function(payload, options){
+      if(!payload.project) throw new Error("Missing project");
+      if(!payload.instance) throw new Error("Missing instance");
+      if(payload.redirectUrl) console.log("redirectUrl: " + payload.redirectUrl);
 
-      var attachedVolumes = stores.VolumeStore.getVolumesAttachedToInstance(instance);
+      var project = payload.project,
+          instance = payload.instance,
+          attachedVolumes = stores.VolumeStore.getVolumesAttachedToInstance(instance),
+          modal;
+
       if(attachedVolumes.length > 0){
-        var modal = ExplainInstanceDeleteConditionsModal({
+        modal = ExplainInstanceDeleteConditionsModal({
           attachedVolumes: attachedVolumes,
           backdrop: 'static'
         });
-
-        ModalHelpers.renderModal(modal, function(){});
-
       }else{
-        var modal = InstanceDeleteModal({
+        modal = InstanceDeleteModal({
           instance: payload.instance
         });
-
-        ModalHelpers.renderModal(modal, function () {
-          this.terminate_noModal(payload, options);
-          if(redirectUrl) Backbone.history.navigate(redirectUrl, {trigger: true});
-        }.bind(this));
-
       }
+
+      ModalHelpers.renderModal(modal, function () {
+        if(attachedVolumes.length > 0) return;
+        _destroy(payload, options);
+        Router.getInstance().transitionTo("project-resources", {projectId: project.id});
+      })
     },
 
-    terminate_noModal: function(payload, options){
-      var instance = payload.instance;
-      var project = payload.project;
-
-      var instanceState = new InstanceState({status_raw: "deleting"});
-      var originalState = instance.get('state');
-      instance.set({state: instanceState});
-      Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
-
-      instance.destroy().done(function () {
-        Utils.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
-        actions.ProjectInstanceActions.removeInstanceFromProject(instance, project);
-
-      }).fail(function (response) {
-        instance.set({state: originalState});
-        Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
-        Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
-
-        if(response && response.responseJSON && response.responseJSON.errors){
-            var errors = response.responseJSON.errors;
-            var error = errors[0];
-            NotificationController.error("Your instance could not be deleted.", error.message);
-         }else{
-            NotificationController.error("Your instance could not be deleted", "If the problem persists, please report the instance.");
-         }
-      });
+    destroy_noModal: function(payload, options){
+      _destroy(payload, options);
     }
 
   };

@@ -1,20 +1,10 @@
-define(
-  [
-    'underscore',
-    'backbone',
-    'globals'
-  ],
-  function (_, Backbone, globals) {
+define(function (require) {
 
-    return Backbone.Model.extend({
+  var Backbone = require('backbone'),
+      globals = require('globals');
 
-      urlRoot: globals.API_V2_ROOT + "/tags",
-
-      url: function () {
-        var url = Backbone.Model.prototype.url.apply(this) + globals.slash();
-        return url;
-      }
-
-    });
-
+  return Backbone.Model.extend({
+    urlRoot: globals.API_V2_ROOT + "/tags"
   });
+
+});

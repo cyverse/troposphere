@@ -9,13 +9,13 @@ define(function (require) {
 
   var Master = require('./components/Master.react'),
       PassThroughHandler = require('./components/PassThroughHandler.react'),
-      MasterTest = require('./components/MasterTest.react'),
       DashboardPage = require('./components/dashboard/DashboardPage.react'),
       ProjectListPage = require('./components/projects/ProjectListPage.react'),
       ImageListPage = require('./components/applications/ApplicationListPage.react'),
       ImageDetailsPage = require('./components/applications/ApplicationDetailsPage.react'),
       ProviderDetailsPage = require('./components/providers/ProviderListView.react'),
       HelpPage = require('./components/help/HelpPage.react'),
+      ProjectsMaster = require('./components/projects/ProjectsMaster.react'),
       ProjectDetailsMaster = require('./components/projects/detail/ProjectDetailsMaster.react'),
       ProjectDetailsPage = require('./components/projects/ProjectDetailsPage.react'),
       ProjectResourcesPage = require('./components/projects/ProjectResourcesPage.react'),
@@ -31,15 +31,25 @@ define(function (require) {
   var AppRoutes = (
     <Route name="root" path="/application" handler={Master}>
       <Route name="dashboard" handler={DashboardPage}/>
-      <Route name="projects" handler={ProjectListPage}/>
+
+      <Route name="projects" handler={ProjectsMaster}>
+        <Route name="project" path=":projectId" handler={ProjectDetailsMaster}>
+          <Route name="project-details" path="details" handler={ProjectDetailsPage}/>
+          <Route name="project-resources" path="resources" handler={ProjectResourcesPage}/>
+          <Route name="project-instance-details" path="instances/:instanceId" handler={ProjectInstancePage}/>
+          <Route name="project-volume-details" path="volumes/:volumeId" handler={ProjectVolumePage}/>
+          <DefaultRoute handler={ProjectDetailsPage}/>
+        </Route>
+
+        <DefaultRoute handler={ProjectListPage}/>
+      </Route>
 
       <Route name="images" handler={ImagesMaster}>
-        <Route name="search" handler={ImageListPage}/>
+        <DefaultRoute name="search" handler={ImageListPage}/>
         <Route name="favorites" handler={FavoritedImagesPage}/>
         <Route name="authored" handler={MyImagesPage}/>
         <Route name="tags" handler={ImageTagsPage}/>
         <Route name="image-details" path=":imageId" handler={ImageDetailsPage}/>
-        <DefaultRoute handler={ImageListPage}/>
       </Route>
 
       <Route name="providers" handler={ProvidersMaster}>
@@ -49,15 +59,9 @@ define(function (require) {
       <Route name="help" handler={HelpPage}/>
       <Route name="settings" handler={SettingsPage}/>
 
-      <Route name="project" path="projects/:projectId" handler={ProjectDetailsMaster}>
-        <Route name="project-details" path="details" handler={ProjectDetailsPage}/>
-        <Route name="project-resources" path="resources" handler={ProjectResourcesPage}/>
-        <Route name="project-instance-details" path="instances/:instanceId" handler={ProjectInstancePage}/>
-        <Route name="project-volume-details" path="volumes/:volumeId" handler={ProjectVolumePage}/>
-        <DefaultRoute handler={ProjectDetailsPage}/>
-      </Route>
 
-      <DefaultRoute handler={MasterTest}/>
+
+      <DefaultRoute handler={DashboardPage}/>
     </Route>
   );
 

@@ -1,44 +1,46 @@
-/** @jsx React.DOM */
+define(function (require) {
 
-define(
-  [
-    'react',
-    '../common/ApplicationListCard.react'
-  ],
-  function (React, ApplicationListCard) {
+  var React = require('react'),
+      ApplicationListCard = require('../common/ApplicationListCard.react');
 
-    return React.createClass({
+  return React.createClass({
 
-      propTypes: {
-        title: React.PropTypes.string.isRequired,
-        applications: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
-      },
+    propTypes: {
+      title: React.PropTypes.string,
+      applications: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+    },
 
-      renderCard: function(application){
-        return (
-          <li key={application.id}>
-            <ApplicationListCard
-              application={application}
-              tags={this.props.tags}/>
-          </li>
-        );
-      },
+    renderTitle: function(){
+      var title = this.props.title;
+      if(!title) return;
 
-      render: function () {
-        var applications = this.props.applications;
-        var appCards = applications.map(this.renderCard);
+      return (
+        <h3>{title}</h3>
+      )
+    },
 
-        return (
-          <div>
-            <h3>{this.props.title}</h3>
-            <ul className='app-card-list'>
-              {appCards}
-            </ul>
-          </div>
-        );
-      }
+    renderCard: function(application){
+      return (
+        <li key={application.id}>
+          <ApplicationListCard application={application}/>
+        </li>
+      );
+    },
 
-    });
+    render: function () {
+      var applications = this.props.applications;
+      var appCards = applications.map(this.renderCard);
+
+      return (
+        <div>
+          {this.renderTitle()}
+          <ul className='app-card-list'>
+            {appCards}
+          </ul>
+        </div>
+      );
+    }
 
   });
+
+});

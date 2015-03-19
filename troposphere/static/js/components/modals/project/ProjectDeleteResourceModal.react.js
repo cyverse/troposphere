@@ -5,11 +5,10 @@ define(
     'react',
     'backbone',
     'components/mixins/BootstrapModalMixin.react',
-    'stores/ProjectStore',
     '../instance_launch/ProjectSelect.react',
     'components/common/Glyphicon.react'
   ],
-  function (React, Backbone, BootstrapModalMixin, ProjectStore, ProjectSelect, Glyphicon) {
+  function (React, Backbone, BootstrapModalMixin, ProjectSelect, Glyphicon) {
 
     function getState() {
       return {

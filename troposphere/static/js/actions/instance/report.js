@@ -1,23 +1,26 @@
 define(function (require) {
   "use strict";
 
-  var globals = require('globals'),
-      NotificationController = require('controllers/NotificationController'),
-      stores = require('stores'),
+  var stores = require('stores'),
+      globals = require('globals'),
       ModalHelpers = require('components/modals/ModalHelpers'),
       InstanceReportModal = require('components/modals/instance/InstanceReportModal.react'),
       Utils = require('../Utils');
 
   return {
-    reportInstance: function(instance){
-      var modal = InstanceReportModal({
-        instance: instance
-      });
+
+    report: function(params){
+      if(!params.instance) throw new Error("Missing instance");
+
+      var instance = params.instance,
+          modal = InstanceReportModal({
+            instance: instance
+          });
 
       ModalHelpers.renderModal(modal, function (reportInfo) {
         var profile = stores.ProfileStore.get(),
             username = profile.get('username'),
-            reportUrl = globals.API_ROOT + "/email/support" + globals.slash(),
+            reportUrl = globals.API_ROOT + "/email/support",
             problemText = "",
             reportData = {};
 
@@ -46,21 +49,16 @@ define(function (require) {
           data: JSON.stringify(reportData),
           dataType: 'json',
           contentType: 'application/json',
-          success: function (model) {
-            NotificationController.info(null, "Your instance report has been sent to support.");
+          success: function () {
+            Utils.displaySuccess({message: "Your instance report has been sent to support."});
           },
           error: function (response, status, error) {
-            if(response && response.responseJSON && response.responseJSON.errors){
-              var errors = response.responseJSON.errors;
-              var error = errors[0];
-              NotificationController.error("Your instance report could not be sent to support", error.message);
-            }else{
-              NotificationController.error("Your instance report could not be sent to support", "If the problem persists, please send an email to support@iplantcollaborative.org.");
-            }
+            Utils.displayError({title: "Your instance report could not be sent", response: response});
           }
         });
       })
     }
+
   };
 
 });

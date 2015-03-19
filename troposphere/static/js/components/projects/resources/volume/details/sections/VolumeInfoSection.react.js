@@ -4,7 +4,7 @@ define(function (require) {
       Backbone = require('backbone'),
       Time = require('components/common/Time.react'),
       EditableInputField = require('components/common/EditableInputField.react'),
-      VolumeActions = require('actions/VolumeActions'),
+      actions = require('actions'),
       stores = require('stores'),
       CryptoJS = require('crypto'),
       Gravatar = require('components/common/Gravatar.react');
@@ -35,14 +35,14 @@ define(function (require) {
         name: text,
         isEditing: false
       });
-      VolumeActions.updateVolumeAttributes(volume, {name: text})
+      actions.VolumeActions.update(volume, {name: text})
     },
 
     render: function () {
       var volume = this.props.volume,
           profile = stores.ProfileStore.get(),
           type = profile.get('icon_set'),
-          instanceHash = CryptoJS.MD5(volume.id.toString()).toString(),
+          instanceHash = CryptoJS.MD5((volume.id || volume.cid).toString()).toString(),
           iconSize = 113,
           nameContent;
 

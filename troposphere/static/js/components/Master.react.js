@@ -36,6 +36,9 @@ define(function (require) {
         stores[storeName].addChangeListener(this.updateState);
       }.bind(this));
 
+      // The code below is only relevant to logged in users
+      if(!context.profile) return;
+
       // IMPORTANT! We get one shot at this. If the instances and volumes aren't
       // fetched before this component is mounted we miss our opportunity to migrate
       // the users resources (so make sure they're fetched in the Splash Screen)

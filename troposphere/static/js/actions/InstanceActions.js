@@ -8,7 +8,12 @@ define(function (require) {
     start: require('./instance/start').start,
     reboot: require('./instance/reboot').reboot,
     poll: require('./instance/poll').poll,
-    launch: require('./instance/launch').launch
+    launch: require('./instance/launch').launch,
+    createAndAddToProject: require('./instance/createAndAddToProject').createAndAddToProject,
+    launchIntoProject: require('./instance/launch').launchIntoProject,
+    destroy: require('./instance/destroy').destroy,
+    update: require('./instance/update').update,
+    report: require('./instance/report').report
   };
 
 });

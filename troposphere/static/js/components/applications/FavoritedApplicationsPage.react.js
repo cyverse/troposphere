@@ -3,65 +3,34 @@
 define(
   [
     'react',
-    './common/SecondaryApplicationNavigation.react',
     './list/list/ApplicationCardList.react',
-    'stores/ApplicationStore',
-    'stores/TagStore'
+    'stores'
   ],
-  function (React, SecondaryApplicationNavigation, ApplicationCardList, ApplicationStore, TagStore) {
-
-    function getState() {
-      return {
-        applications: ApplicationStore.getFavorited(),
-        tags: TagStore.getAll()
-      };
-    }
+  function (React, ApplicationCardList, stores) {
 
     return React.createClass({
 
-      getInitialState: function () {
-        return getState();
-      },
+      renderBody: function(){
+        var images = stores.ImageBookmarkStore.getBookmarkedImages(),
+            tags = stores.TagStore.getAll();
 
-      updateState: function () {
-        if (this.isMounted()) this.setState(getState());
-      },
+        if(!images || !tags) return <div className='loading'></div>;
 
-      componentDidMount: function () {
-        ApplicationStore.addChangeListener(this.updateState);
-        TagStore.addChangeListener(this.updateState);
-      },
-
-      componentWillUnmount: function () {
-        ApplicationStore.removeChangeListener(this.updateState);
-        TagStore.removeChangeListener(this.updateState);
-      },
-
-      render: function () {
-        var content;
-        if(this.state.applications && this.state.tags) {
-
-          if(this.state.applications.isEmpty()){
-            content = (
-              <p>You have not favorited any images.  Click the bookmark icon in the top right corner of an image to favorite it.</p>
-            );
-          } else {
-            content = (
-              <ApplicationCardList applications={this.state.applications}
-                                   tags={this.state.tags}
-              />
-            );
-          }
-
-        }else{
-          content = (
-            <div className='loading'></div>
+        if(images.length === 0){
+          return (
+            <p>You have not favorited any images.  Click the bookmark icon in the top right corner of an image to favorite it.</p>
           );
         }
 
         return (
+          <ApplicationCardList applications={images}/>
+        );
+      },
+
+      render: function () {
+        return (
           <div className="container">
-            {content}
+            {this.renderBody()}
           </div>
         );
       }

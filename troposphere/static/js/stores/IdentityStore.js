@@ -38,11 +38,11 @@ define(
         return _identities;
       },
 
-      get: function (identityId) {
+      get: function (modelId) {
         if(!_identities) {
           fetchIdentities()
         }else {
-          return _identities.get(identityId);
+          return _identities.get(modelId);
         }
       },
 

@@ -3,15 +3,16 @@
 .PHONY =	all clean delete delete-javascript delete-virtualenv bower-install gulp-dev gulp-prod \
 		javascript js npm pip prod production python virtualenv chown
 
+DJANGO	=	DJANGO_SETTINGS_MODULE='troposphere.settings' ./manage.py
 BOWER	=	$(NODE) ./node_modules/bower/bin/bower --allow-root
 GULP	=	$(NODE) ./node_modules/gulp/bin/gulp.js
 NPM	=	npm
 NODE	=	node
 SHELL	=	/bin/bash
 
-jenkins : npm bower-install gulp-dev relativevirtual jenkinspip jenkinschown
+jenkins : npm bower-install gulp-dev relativevirtual jenkinspip django jenkinschown
 
-all : npm bower-install gulp-dev virtualenv pip chown
+all : npm bower-install gulp-dev virtualenv pip django chown
 
 clean :
 	$(GULP) clean
@@ -52,6 +53,9 @@ prod : gulp-prod
 production : gulp-prod
 
 python : virtualenv pip
+
+django :
+	$(DJANGO) migrate
 
 virtualenv :
 	mkdir -p /opt/env

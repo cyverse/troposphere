@@ -1,40 +1,38 @@
-/** @jsx React.DOM */
+define(function (require) {
 
-define(
-  [
-    'react',
-    'backbone',
-    'actions/TagActions',
-    './ChosenDropdown.react'
-  ],
-  function (React, Backbone, TagActions, ChosenDropdown) {
+  var React = require('react'),
+      Backbone = require('backbone'),
+      ChosenDropdown = require('./ChosenDropdown.react');
 
-    return React.createClass({
-      display: "EditTags",
+  return React.createClass({
+    display: "EditTags",
 
-      propTypes: {
-        tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        onTagsChanged: React.PropTypes.func.isRequired,
-        onEnterKeyPressed: React.PropTypes.func.isRequired
-      },
+    propTypes: {
+      tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+      activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+      onTagAdded: React.PropTypes.func.isRequired,
+      onTagRemoved: React.PropTypes.func.isRequired,
+      onEnterKeyPressed: React.PropTypes.func.isRequired
+    },
 
-      onTagsChanged: function(arrayOfTagNames){
-        this.props.onTagsChanged(arrayOfTagNames);
-      },
+    onTagsChanged: function(arrayOfTagNames){
+      this.props.onTagsChanged(arrayOfTagNames);
+    },
 
-      render: function () {
-        return (
-          <div className="tagger">
-            <ChosenDropdown tags={this.props.tags}
-                            activeTags={this.props.activeTags}
-                            onTagsChanged={this.props.onTagsChanged}
-                            onEnterKeyPressed={this.props.onEnterKeyPressed}
-            />
-          </div>
-        );
-      }
-
-    });
+    render: function () {
+      return (
+        <div className="tagger">
+          <ChosenDropdown
+            tags={this.props.tags}
+            activeTags={this.props.activeTags}
+            onTagAdded={this.props.onTagAdded}
+            onTagRemoved={this.props.onTagRemoved}
+            onEnterKeyPressed={this.props.onEnterKeyPressed}
+          />
+        </div>
+      );
+    }
 
   });
+
+});

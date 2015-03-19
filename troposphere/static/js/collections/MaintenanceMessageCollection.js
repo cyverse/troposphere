@@ -10,7 +10,7 @@ define(function (require) {
     model: MaintenanceMessage,
 
     url: function () {
-      return globals.API_ROOT + "/maintenance" + globals.slash();
+      return globals.API_ROOT + "/maintenance";
     },
 
     parse: function(results){

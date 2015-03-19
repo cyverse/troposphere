@@ -37,11 +37,11 @@ define(function (require) {
       return _providers;
     },
 
-    get: function (providerId) {
+    get: function (modelId) {
       if(!_providers) {
         fetchModels();
       }else{
-        return _providers.get(providerId);
+        return _providers.get(modelId);
       }
     }
   };

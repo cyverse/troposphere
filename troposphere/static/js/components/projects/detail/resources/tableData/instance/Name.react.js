@@ -7,13 +7,14 @@ define(function (require) {
 
   return React.createClass({
 
+    mixins: [Router.State],
+
     propTypes: {
       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
     render: function () {
-      var instance = this.props.instance,
-          projectId = instance.get('projects')[0];
+      var instance = this.props.instance;
 
       if(!instance.id) {
         return (
@@ -22,7 +23,7 @@ define(function (require) {
       }
 
       return (
-        <Router.Link to="project-instance-details" params={{projectId: projectId, instanceId: instance.id}}>
+        <Router.Link to="project-instance-details" params={{projectId: this.getParams().projectId, instanceId: instance.id}}>
           {instance.get('name')}
         </Router.Link>
       );

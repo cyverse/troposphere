@@ -70,17 +70,17 @@ define(function (require) {
 
   var ModelStore = {
 
-    get: function (projectInstanceId) {
+    get: function (modelId) {
       if(!_models) {
         fetchModels();
       } else {
-        return _models.get(projectInstanceId);
+        return _models.get(modelId);
       }
     },
 
     getAll: function () {
       if(!_models) {
-        fetchModels()
+        return fetchModels();
       }
       return _models;
     },
@@ -96,14 +96,17 @@ define(function (require) {
       if(!_modelsFor[project.id]) return fetchModelsFor(project.id);
       if(!allInstances) return;
 
-      // convert ProjectVolume collection to an VolumeCollection
-      var projectInstances = _models.filter(function(pi){
-        return pi.get('instance').projects.indexOf(project.id) >= 0;
-      });
-
-      var instances = projectInstances.map(function(pi){
+      var instances = _models.filter(function(pi){
+        // filter out irrelevant project instances (not in target project)
+        return pi.get('project').id === project.id;
+      }).filter(function(pi){
+        // filter out the instances that don't exist (not in local cache)
+        return allInstances.get(pi.get('instance').id);
+      }).map(function(pi){
+        // return the actual instances
         return allInstances.get(pi.get('instance').id);
       });
+
       return new InstanceCollection(instances);
     },
 

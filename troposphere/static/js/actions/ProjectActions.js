@@ -3,7 +3,6 @@ define(function (require) {
   var AppDispatcher = require('dispatchers/AppDispatcher'),
       Utils = require('./Utils'),
       actions = require('actions'),
-      URL = require('url'),
       NotificationController = require('controllers/NotificationController'),
       Router = require('../Router'),
 
@@ -119,8 +118,8 @@ define(function (require) {
 
       ModalHelpers.renderModal(modal, function(newProject){
         resources.map(function(resource){
-          that.addResourceToProject(resource, newProject, {silent: true});
-          that.removeResourceFromProject(resource, currentProject, {silent: true});
+          that.addResourceToProject(resource, newProject, {silent: false});
+          that.removeResourceFromProject(resource, currentProject, {silent: false});
         });
         Utils.dispatch(ProjectConstants.EMIT_CHANGE);
       });
@@ -138,9 +137,15 @@ define(function (require) {
       resource.set('projects', [project.id]);
 
       if(resource instanceof Instance){
-        actions.ProjectInstanceActions.addInstanceToProject(resource, project, options);
+        actions.ProjectInstanceActions.addInstanceToProject({
+          project: project,
+          instance: resource
+        }, options);
       }else if(resource instanceof Volume){
-        actions.ProjectVolumeActions.addVolumeToProject(resource, project, options);
+        actions.ProjectVolumeActions.addVolumeToProject({
+          project: project,
+          volume: resource
+        }, options);
       }else{
         throw new Error("Unknown resource type");
       }
@@ -148,9 +153,15 @@ define(function (require) {
 
     removeResourceFromProject: function(resource, project, options){
       if(resource instanceof Instance){
-        actions.ProjectInstanceActions.removeInstanceFromProject(resource, project, options);
+        actions.ProjectInstanceActions.removeInstanceFromProject({
+          project: project,
+          instance: resource
+        }, options);
       }else if(resource instanceof Volume){
-        actions.ProjectVolumeActions.removeVolumeFromProject(resource, project, options);
+        actions.ProjectVolumeActions.removeVolumeFromProject({
+          project: project,
+          volume: resource
+        }, options);
       }else{
         throw new Error("Unknown resource type");
       }
@@ -166,7 +177,7 @@ define(function (require) {
 
       ModalHelpers.renderModal(modal, function(){
         resources.map(function(resource){
-          that.removeResourceFromProject(resource, project, {silent: true});
+          that.removeResourceFromProject(resource, project);
           if(resource instanceof Instance){
               Utils.dispatch(NullProjectInstanceConstants.ADD_INSTANCE_TO_NULL_PROJECT, {
                 instance: resource
@@ -198,7 +209,7 @@ define(function (require) {
         var clonedResources = resources.models.slice(0);
 
         clonedResources.map(function(resource){
-            that.deleteResource(resource, project, {silent: true});
+            that.deleteResource(resource, project, {silent: false});
         });
 
         Utils.dispatch(ProjectConstants.EMIT_CHANGE);

@@ -1,75 +1,71 @@
-/** @jsx React.DOM */
+define(function (require) {
 
-define(
-  [
-    'react',
-    'backbone',
-    'moment',
-    'url',
-    './ProjectResource.react',
-    'showdown',
-    'react-router'
-  ],
-  function (React, Backbone, moment, URL, ProjectResource, Showdown, Router) {
+  var React = require('react'),
+      Backbone = require('backbone'),
+      stores = require('stores'),
+      Router = require('react-router'),
+      moment = require('moment'),
+      Showdown = require('showdown'),
+      ProjectResource = require('./ProjectResource.react');
 
-    return React.createClass({
+  return React.createClass({
 
-      propTypes: {
-        project: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    propTypes: {
+      project: React.PropTypes.instanceOf(Backbone.Model).isRequired
+    },
 
-      render: function () {
-        var project = this.props.project,
-            converter = new Showdown.converter(),
-            description = project.get('description'),
-            descriptionHtml = converter.makeHtml(description);
+    render: function () {
+      var project = this.props.project,
+          converter = new Showdown.converter(),
+          description = project.get('description'),
+          descriptionHtml = converter.makeHtml(description),
+          projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
+          projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project),
+          projectCreationDate;
 
-        if(project.id){
-          var projectUrl = URL.projectResources({project: project});
-          var projectCreationDate = moment(project.get('start_date')).format("MMM D, YYYY");
-
-          return (
-            <li className="project-card">
-              <Router.Link to="project-resources" params={{projectId: project.id}}>
-                <div style={{"position": "relative"}}>
-                  <div className="content">
-                    <h2>{project.get('name')}</h2>
-                    <time>{"Created " + projectCreationDate}</time>
-                    <div className="description" dangerouslySetInnerHTML={{__html: descriptionHtml}}/>
-                  </div>
-                  <ul className="project-resource-list">
-                    <ProjectResource icon={"tasks"}
-                                     count={project.get('instances').length}
-                                     resourceType={"instances"}
-                    />
-                    <ProjectResource icon={"hdd"}
-                                     count={project.get('volumes').length}
-                                     resourceType={"volumes"}
-                    />
-                    <ProjectResource icon={"floppy-disk"}
-                                     count={project.get('images').length}
-                                     resourceType={"images"}
-                    />
-                  </ul>
-                </div>
-              </Router.Link>
-            </li>
-          );
-
-        }else{
-          return (
-            <li>
-              <a>
-                <div>
-                  <h2>{project.get('name')}</h2>
-                  <time>{"Creating..."}</time>
-                </div>
-              </a>
-            </li>
-          );
-        }
-
+      if(!project.id || !projectInstances || !projectVolumes) {
+        return (
+          <li>
+            <a>
+              <div>
+                <h2>{project.get('name')}</h2>
+                <div className="loading" style={{marginTop: "65px"}}/>
+              </div>
+            </a>
+          </li>
+        );
       }
-    });
 
+      projectCreationDate = moment(project.get('start_date')).format("MMM D, YYYY");
+
+      return (
+        <li className="project-card">
+          <Router.Link to="project-resources" params={{projectId: project.id}}>
+            <div style={{"position": "relative"}}>
+              <div className="content">
+                <h2>{project.get('name')}</h2>
+                <time>{"Created " + projectCreationDate}</time>
+                <div className="description" dangerouslySetInnerHTML={{__html: descriptionHtml}}/>
+              </div>
+              <ul className="project-resource-list">
+                <ProjectResource icon={"tasks"}
+                                 count={projectInstances.length}
+                                 resourceType={"instances"}
+                />
+                <ProjectResource icon={"hdd"}
+                                 count={projectVolumes.length}
+                                 resourceType={"volumes"}
+                />
+                <ProjectResource icon={"floppy-disk"}
+                                 count={0}
+                                 resourceType={"images"}
+                />
+              </ul>
+            </div>
+          </Router.Link>
+        </li>
+      );
+    }
   });
+
+});

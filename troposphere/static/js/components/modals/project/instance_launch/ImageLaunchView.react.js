@@ -42,7 +42,7 @@ define(
         var image = this.props.image;
 
         return (
-          <InstanceLaunch image={image} onPrevious={this.onBack} onNext={this.onLaunch}/>
+          <InstanceLaunch application={image} onPrevious={this.onBack} onNext={this.onLaunch}/>
         );
       }
 

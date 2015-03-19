@@ -10,7 +10,7 @@ define(function (require) {
     mixins: [Router.State],
 
     render: function () {
-      var project = stores.ProjectStore.get(this.getParams().projectId);
+      var project = stores.ProjectStore.get(Number(this.getParams().projectId));
 
       if(!project) {
         return (

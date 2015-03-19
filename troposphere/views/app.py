@@ -23,6 +23,12 @@ def _handle_public_application_request(request, disabled_login):
         'disable_login': disabled_login
     }
 
+    if hasattr(settings, "API_ROOT"):
+        template_params['API_ROOT'] = settings.API_ROOT
+
+    if hasattr(settings, "API_V2_ROOT"):
+        template_params['API_V2_ROOT'] = settings.API_V2_ROOT
+
     # If beta flag in query params, set the session value to that
     if "beta" in request.GET:
         request.session['beta'] = request.GET['beta'].lower()
@@ -35,6 +41,7 @@ def _handle_public_application_request(request, disabled_login):
     if request.session['beta'] == 'true':
         response = render_to_response(
             'index.html',
+            template_params,
             context_instance=RequestContext(request)
         )
 
@@ -62,6 +69,12 @@ def _handle_authenticated_application_request(request, disabled_login):
         template_params['intercom_app_id'] = settings.INTERCOM_APP_ID
         template_params['intercom_company_id'] = settings.INTERCOM_COMPANY_ID
         template_params['intercom_company_name'] = settings.INTERCOM_COMPANY_NAME
+
+    if hasattr(settings, "API_ROOT"):
+        template_params['API_ROOT'] = settings.API_ROOT
+
+    if hasattr(settings, "API_V2_ROOT"):
+        template_params['API_V2_ROOT'] = settings.API_V2_ROOT
 
     user_preferences, created = UserPreferences.objects.get_or_create(user=request.user)
 

@@ -7,6 +7,8 @@ define(function (require) {
 
   return React.createClass({
 
+    mixins: [Router.State],
+
     propTypes: {
       provider: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
@@ -17,15 +19,10 @@ define(function (require) {
           ausPerCpu = 1,
           burnRate = ausPerCpu*numberOfCpus;
 
-      // todo: should look for this in the ProjectStore instead
-      var projectId = instance.get('projects')[0];
-
       return (
         <tr key={instance.id}>
           <td>
-            <Router.Link to="project" params={{projectId: projectId}}>
-              {instance.get('name')}
-            </Router.Link>
+            <span>{instance.get('name')}</span>
           </td>
           <td>{instance.get('status')}</td>
           <td>{numberOfCpus}</td>

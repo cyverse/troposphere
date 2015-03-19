@@ -18,7 +18,7 @@ define(function (require) {
       var machine = this.props.machine,
           isRecommended = false,
           dateCreated = this.props.machine.get('start_date').format("M/DD/YYYY"),
-          machineHash = CryptoJS.MD5(this.props.machine.id.toString()).toString(),
+          machineHash = CryptoJS.MD5(machine.id.toString()).toString(),
           iconSize = 63,
           type = stores.ProfileStore.get().get('icon_set');
 

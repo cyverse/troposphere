@@ -1,50 +1,55 @@
-/** @jsx React.DOM */
+define(function (require) {
 
-define(
-  [
-    'react',
-    'backbone'
-  ],
-  function (React, Backbone) {
+  var React = require('react'),
+      Backbone = require('backbone'),
+      stores = require('stores');
 
-    return React.createClass({
+  return React.createClass({
 
-      propTypes: {
-        application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired
-      },
+    propTypes: {
+      application: React.PropTypes.instanceOf(Backbone.Model).isRequired
+    },
 
-      renderProvider: function(provider){
+    renderProvider: function(provider){
+      return (
+        <li key={provider.id}>
+          {provider.get('name')}
+        </li>
+      )
+    },
 
-      },
+    render: function () {
+      var image = this.props.application,
+          providerHash = {},
+          providers = image.get('machines').filter(function(machine){
+            // filter out providers that don't exist
+            var providerId = machine.get('provider').id,
+                provider = stores.ProviderStore.get(machine.get('provider').id);
+            if(!provider) console.warn("Image " + image.id + " showing availability on non-existent provider " + providerId);
+            return provider;
+          }).map(function(machine){
+            // convert machine to providers
+            return stores.ProviderStore.get(machine.get('provider').id);
+          }).filter(function(provider){
+            // remove duplicate providers
+            if(!providerHash[provider.id]){
+              providerHash[provider.id] = provider;
+              return true;
+            }
+          });
 
-      renderProviders: function(machines){
-        var providers = machines.map(function(machine){
-          var provider = this.props.providers.get(machine.get('provider'));
-          return (
-            <li key={provider.id}>{provider.get('location')}</li>
-          )
-        }.bind(this));
-
-        return (
-          <ul className="list-unstyled">
-            {providers}
-          </ul>
-        )
-      },
-
-      render: function () {
-        var machines = this.props.application.get('machines');
-        return (
-          <div className='image-availability image-info-segment row'>
-            <h4 className="title col-md-2">Available on</h4>
-            <div className="content col-md-10">
-              {this.renderProviders(machines)}
-            </div>
+      return (
+        <div className='image-availability image-info-segment row'>
+          <h4 className="title col-md-2">Available on</h4>
+          <div className="content col-md-10">
+            <ul className="list-unstyled">
+              {providers.map(this.renderProvider)}
+            </ul>
           </div>
-        );
-      }
-
-    });
+        </div>
+      );
+    }
 
   });
+
+});

@@ -13,8 +13,13 @@ define(function (require) {
     // Add/Remove Project Resources
     // ----------------------------
 
-    addInstanceToProject: function(instance, project, options){
-      var projectInstance = new ProjectInstance(),
+    addInstanceToProject: function(params, options){
+      if(!params.project) throw new Error("Missing project");
+      if(!params.instance) throw new Error("Missing instance");
+
+      var project = params.project,
+          instance = params.instance,
+          projectInstance = new ProjectInstance(),
           data = {
             project: project.id,
             instance: instance.id
@@ -25,8 +30,13 @@ define(function (require) {
       });
     },
 
-    removeInstanceFromProject: function(instance, project, options){
-      var projectInstance = stores.ProjectInstanceStore.getProjectInstanceFor(project, instance);
+    removeInstanceFromProject: function(params, options){
+      if(!params.project) throw new Error("Missing project");
+      if(!params.instance) throw new Error("Missing instance");
+
+      var project = params.project,
+          instance = params.instance,
+          projectInstance = stores.ProjectInstanceStore.getProjectInstanceFor(project, instance);
 
       projectInstance.destroy().done(function(){
         Utils.dispatch(ProjectInstanceConstants.REMOVE_PROJECT_INSTANCE, {projectInstance: projectInstance}, options);

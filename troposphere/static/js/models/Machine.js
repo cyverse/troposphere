@@ -19,12 +19,8 @@ define(
         var url = globals.API_ROOT +
                   '/provider/' + creds.provider_id +
                   '/identity/' + creds.identity_id +
-                  '/machine' + globals.slash();
+                  '/machine';
         return url;
-      },
-
-      url: function(){
-        return Backbone.Model.prototype.url.apply(this) + globals.slash();
       },
 
       parse: function (attributes) {

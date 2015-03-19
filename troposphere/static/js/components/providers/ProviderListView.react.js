@@ -18,7 +18,7 @@ define(function(require){
     render: function () {
       // we are fetching the provider here (and not in getInitialState) because the component
       // doesn't get re-mounted when the url changes, so those functions won't run twice
-      var provider = stores.ProviderStore.get(this.getParams().providerId);
+      var provider = stores.ProviderStore.get(Number(this.getParams().providerId));
 
       if(!provider) return <div className="loading"></div>;
 

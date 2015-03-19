@@ -2,13 +2,16 @@ define(function (require) {
   "use strict";
 
   var React = require('react'),
-      stores = require('stores');
+      Router = require('react-router'),
+      RouteHandler = Router.RouteHandler;
 
   return React.createClass({
 
+    mixins: [Router.State],
+
     render: function () {
       return (
-        <h2>I am sub component</h2>
+        <RouteHandler/>
       );
     }
 

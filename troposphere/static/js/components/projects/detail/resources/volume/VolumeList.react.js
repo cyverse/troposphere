@@ -23,7 +23,7 @@ define(function (require) {
 
       if(this.props.volumes.length <= 0){
         content = (
-          <NoVolumeNotice project={this.props.project}/>
+          <NoVolumeNotice/>
         );
       }else{
         content = (

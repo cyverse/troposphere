@@ -23,13 +23,7 @@ define(
     };
 
     var Project = Backbone.Model.extend({
-
       urlRoot: globals.API_V2_ROOT + "/projects",
-
-      url: function () {
-        var url = Backbone.Model.prototype.url.apply(this) + globals.slash();
-        return url;
-      },
 
       defaults: {
         name: 'No name provided',

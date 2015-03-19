@@ -27,8 +27,9 @@ Atmo.Views.Sidebar = Backbone.View.extend({
     var self = this;
     
     // Show users how much money they've saved using Atmosphere
+    ROOT_API_BASE = Atmo.API_ROOT.replace("/v1","");
     $.ajax({ 
-      url: '/api/leaderboard?username='+Atmo.profile.get('id'),
+      url: ROOT_API_BASE + '/leaderboard?username='+Atmo.profile.get('id'),
       type: 'GET',
       statusCode: {
 	200: function(data) {

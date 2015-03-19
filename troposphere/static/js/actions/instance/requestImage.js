@@ -43,7 +43,7 @@ define(function (require) {
 
         providerId = instance.getCreds().provider_id;
         identityId = instance.getCreds().identity_id;
-        requestUrl = globals.API_ROOT + "/provider/" + providerId + "/identity/" + identityId + "/request_image" + globals.slash();
+        requestUrl = globals.API_ROOT + "/provider/" + providerId + "/identity/" + identityId + "/request_image";
 
         $.ajax({
           url: requestUrl,

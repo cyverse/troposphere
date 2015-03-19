@@ -1,17 +1,13 @@
-/** @jsx React.DOM */
+define(function (require) {
 
-define(
-  [
-    'react'
-  ],
-  function (React) {
+  var React = require('react');
 
-    return React.createClass({
-      render: function () {
-        return (
-          <i className={'glyphicon glyphicon-' + this.props.name}/>
-        );
-      }
-    });
-
+  return React.createClass({
+    render: function () {
+      return (
+        <i className={'glyphicon glyphicon-' + this.props.name}/>
+      );
+    }
   });
+
+});

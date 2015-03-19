@@ -1,40 +1,45 @@
-/** @jsx React.DOM */
+define(function (require) {
 
-define(
-  [
-    'react',
-    'actions/ApplicationActions'
-  ],
-  function (React, ApplicationActions) {
+  var React = require('react'),
+      actions = require('actions'),
+      stores = require('stores');
 
-    return React.createClass({
+  return React.createClass({
 
-      toggleFavorite: function (e) {
-        e.preventDefault();
-        ApplicationActions.toggleFavorited(this.props.application);
-      },
+    toggleFavorite: function (e) {
+      e.preventDefault();
+      var image = this.props.application,
+          imageBookmark = stores.ImageBookmarkStore.getImageBookmarkFor(image);
 
-      render: function () {
-        var isFavorite = this.props.application.get('isFavorited');
+      if(imageBookmark) {
+        actions.ImageBookmarkActions.removeBookmark({image: image});
+      }else{
+        actions.ImageBookmarkActions.addBookmark({image: image});
+      }
+    },
 
-        var img;
-        if(isFavorite){
-          img = (
-            <img src="/assets/images/filled-star-icon.png"/>
-          );
-        }else {
-          img = (
-            <img src="/assets/images/empty-star-icon.png"/>
-          );
-        }
+    render: function () {
+      var image = this.props.application,
+          isFavorited = stores.ImageBookmarkStore.getImageBookmarkFor(image),
+          img;
 
-        return (
-          <a className="bookmark" href="#" onClick={this.toggleFavorite}>
-            {img}
-          </a>
+      if(isFavorited){
+        img = (
+          <img src="/assets/images/filled-star-icon.png"/>
+        );
+      }else {
+        img = (
+          <img src="/assets/images/empty-star-icon.png"/>
         );
       }
 
-    });
+      return (
+        <a className="bookmark" href="#" onClick={this.toggleFavorite}>
+          {img}
+        </a>
+      );
+    }
 
   });
+
+});

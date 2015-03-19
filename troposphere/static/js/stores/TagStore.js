@@ -21,7 +21,9 @@ define(
       if(!_isFetching) {
         _isFetching = true;
         var tags = new TagCollection();
-        tags.fetch().done(function () {
+        tags.fetch({
+          url: tags.url + "?page_size=1000"
+        }).done(function () {
           _isFetching = false;
           _tags = tags;
           TagStore.emitChange();
@@ -67,11 +69,11 @@ define(
 
     var TagStore = {
 
-      get: function (tagId) {
+      get: function (modelId) {
         if(!_tags) {
           fetchTags();
         } else {
-          return _tags.get(tagId);
+          return _tags.get(modelId);
         }
       },
 
