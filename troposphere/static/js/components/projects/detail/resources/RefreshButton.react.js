@@ -43,7 +43,7 @@ define(function (require) {
       // show the user something so they think the resources are polling...
       this.setState({isRefreshing: true});
       setTimeout(function(){
-        this.setState({isRefreshing: false});
+        if (this.isMounted()) this.setState({isRefreshing: false});
       }.bind(this), refreshTime*1000);
 
       // now actually poll the instances and volumes
