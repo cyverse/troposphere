@@ -33,22 +33,6 @@ define(function (require) {
       attributes.is_bookmarked = attributes.isFavorited;
       delete attributes['isFavorited'];
       return attributes;
-    },
-
-    favorited: function(isFavorited){
-      var actionUrl = globals.API_ROOT + "/bookmark/application/" + this.id;
-      var data = {
-        marked: isFavorited
-      };
-
-      var promise = $.ajax({
-        url: actionUrl,
-        type: "PUT",
-        data: JSON.stringify(data),
-        dataType: "json",
-        contentType: 'application/json'
-      });
-      return promise;
     }
 
   });

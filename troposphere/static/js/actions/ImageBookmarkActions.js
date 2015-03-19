@@ -25,7 +25,7 @@ define(function (require) {
     removeBookmark: function(params, options){
       if(!params.image) throw new Error("Missing image");
 
-      var instance = params.instance,
+      var image = params.image,
           imageBookmark = stores.ImageBookmarkStore.getImageBookmarkFor(image);
 
       imageBookmark.destroy().done(function(){

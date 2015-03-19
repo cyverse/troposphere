@@ -8,7 +8,14 @@ define(function (require) {
 
     toggleFavorite: function (e) {
       e.preventDefault();
-      actions.ApplicationActions.toggleFavorited(this.props.application);
+      var image = this.props.application,
+          imageBookmark = stores.ImageBookmarkStore.getImageBookmarkFor(image);
+
+      if(imageBookmark) {
+        actions.ImageBookmarkActions.removeBookmark({image: image});
+      }else{
+        actions.ImageBookmarkActions.addBookmark({image: image});
+      }
     },
 
     render: function () {
