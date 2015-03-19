@@ -7,7 +7,7 @@ define(function (require) {
 
     propTypes: {
       onChange: React.PropTypes.func.isRequired,
-      value: React.PropTypes.string.isRequired
+      providerId: React.PropTypes.number.isRequired
     },
 
     handleChange: function(e){
@@ -16,17 +16,15 @@ define(function (require) {
 
     renderProvider: function(provider){
       return (
-        <option
-          key={provider.id}
-          value={provider.id}
-        >
+        <option key={provider.id} value={provider.id}>
           {provider.get('location')}
         </option>
       )
     },
 
     render: function () {
-      var providers = stores.ProviderStore.getAll(),
+      var providerId = this.props.providerId,
+          providers = stores.ProviderStore.getAll(),
           options = providers.map(this.renderProvider);
 
       return (
@@ -35,7 +33,7 @@ define(function (require) {
           <div className="help-block">
             Select the cloud provider on which you plan to use this image.
           </div>
-          <select value={this.props.value} name="provider" className="form-control" onChange={this.handleChange}>
+          <select value={providerId} name="provider" className="form-control" onChange={this.handleChange}>
             {options}
           </select>
         </div>
