@@ -29,6 +29,7 @@ define(
     var MachineStore = {
 
       get: function (providerId, identityId, machineId) {
+        console.warn("Function shouldn't be used...");
         if (!_machines[machineId]) {
           fetchMachine(providerId, identityId, machineId);
         }
