@@ -3,7 +3,6 @@ define(function (require) {
   var AppDispatcher = require('dispatchers/AppDispatcher'),
       Utils = require('./Utils'),
       actions = require('actions'),
-      URL = require('url'),
       NotificationController = require('controllers/NotificationController'),
       Router = require('../Router'),
 

@@ -8,7 +8,6 @@ define(function (require) {
       ResourceStatusSummaryPlot = require('./plots/ResourceStatusSummaryPlot.react'),
       ProviderSummaryLinePlot = require('./plots/ProviderSummaryLinePlot.react'),
       CallToAction = require('./CallToAction.react'),
-      URL = require('url'),
       stores = require('stores');
 
   return React.createClass({
