@@ -45,11 +45,11 @@ define(function (require) {
 
   var ProjectStore = {
 
-    get: function (projectId) {
+    get: function (modelId) {
       if(!_projects) {
         fetchProjects();
       } else {
-        return _projects.get(projectId);
+        return _projects.get(modelId);
       }
     },
 

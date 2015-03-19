@@ -69,11 +69,11 @@ define(
 
     var TagStore = {
 
-      get: function (tagId) {
+      get: function (modelId) {
         if(!_tags) {
           fetchTags();
         } else {
-          return _tags.get(tagId);
+          return _tags.get(modelId);
         }
       },
 
