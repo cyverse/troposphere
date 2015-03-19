@@ -119,8 +119,8 @@ define(function (require) {
 
       ModalHelpers.renderModal(modal, function(newProject){
         resources.map(function(resource){
-          that.addResourceToProject(resource, newProject, {silent: true});
-          that.removeResourceFromProject(resource, currentProject, {silent: true});
+          that.addResourceToProject(resource, newProject, {silent: false});
+          that.removeResourceFromProject(resource, currentProject, {silent: false});
         });
         Utils.dispatch(ProjectConstants.EMIT_CHANGE);
       });
@@ -178,7 +178,7 @@ define(function (require) {
 
       ModalHelpers.renderModal(modal, function(){
         resources.map(function(resource){
-          that.removeResourceFromProject(resource, project, {silent: true});
+          that.removeResourceFromProject(resource, project);
           if(resource instanceof Instance){
               Utils.dispatch(NullProjectInstanceConstants.ADD_INSTANCE_TO_NULL_PROJECT, {
                 instance: resource
@@ -210,7 +210,7 @@ define(function (require) {
         var clonedResources = resources.models.slice(0);
 
         clonedResources.map(function(resource){
-            that.deleteResource(resource, project, {silent: true});
+            that.deleteResource(resource, project, {silent: false});
         });
 
         Utils.dispatch(ProjectConstants.EMIT_CHANGE);

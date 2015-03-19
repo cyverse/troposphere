@@ -25,11 +25,11 @@ define(function (require) {
         });
 
         // Add the tag optimistically
-        Utils.dispatch(TagConstants.ADD_TAG, {tag: tag}, {silent: true});
+        Utils.dispatch(TagConstants.ADD_TAG, {tag: tag}, {silent: false});
         tag.save().done(function () {
-          Utils.dispatch(TagConstants.UPDATE_TAG, {tag: tag}, {silent: true});
+          Utils.dispatch(TagConstants.UPDATE_TAG, {tag: tag}, {silent: false});
         }.bind(this)).fail(function () {
-          Utils.dispatch(TagConstants.REMOVE_TAG, {tag: tag}, {silent: true});
+          Utils.dispatch(TagConstants.REMOVE_TAG, {tag: tag}, {silent: false});
         }.bind(this));
 
       }.bind(this));
@@ -49,16 +49,16 @@ define(function (require) {
         });
 
         // Add the tag optimistically
-        Utils.dispatch(TagConstants.ADD_TAG, {tag: tag}, {silent: true});
+        Utils.dispatch(TagConstants.ADD_TAG, {tag: tag}, {silent: false});
         tag.save().done(function () {
-          Utils.dispatch(TagConstants.UPDATE_TAG, {tag: tag}, {silent: true});
+          Utils.dispatch(TagConstants.UPDATE_TAG, {tag: tag}, {silent: false});
           Utils.dispatch(TagConstants.REMOVE_PENDING_TAG_FROM_INSTANCE, {tag: tag, instance: instance});
           actions.InstanceTagActions.add({
             instance: instance,
             tag: tag
           });
         }.bind(this)).fail(function () {
-          Utils.dispatch(TagConstants.REMOVE_TAG, {tag: tag}, {silent: true});
+          Utils.dispatch(TagConstants.REMOVE_TAG, {tag: tag}, {silent: false});
           Utils.dispatch(TagConstants.REMOVE_PENDING_TAG_FROM_INSTANCE, {tag: tag, instance: instance});
         }.bind(this));
 
