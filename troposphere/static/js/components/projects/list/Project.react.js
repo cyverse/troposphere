@@ -29,7 +29,7 @@ define(function (require) {
             <a>
               <div>
                 <h2>{project.get('name')}</h2>
-                <div className="loading" style={{"margin-top": "65px"}}/>
+                <div className="loading" style={{marginTop: "65px"}}/>
               </div>
             </a>
           </li>
