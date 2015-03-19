@@ -7,16 +7,12 @@ define(function (require) {
   return React.createClass({
 
     render: function () {
-      var images = stores.ApplicationStore.getAll(),
-          tags = stores.TagStore.getAll();
+      var tags = stores.TagStore.getAll();
 
-      if(!images || !tags) return <div className="loading"></div>;
+      if(!tags) return <div className="loading"></div>;
 
       return (
-        <ApplicationListView
-          applications={images}
-          tags={tags}
-        />
+        <ApplicationListView tags={tags}/>
       );
     }
 

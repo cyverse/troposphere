@@ -22,8 +22,8 @@ define(function (require) {
 
     getInitialState: function(){
       return {
-        query: this.getQuery().query || "",
-        input: this.getQuery().query || "",
+        query: this.getQuery().q || "",
+        input: this.getQuery().q || "",
         isLoadingMoreResults: false,
         nextUrl: null,
         viewType: 'list'
@@ -72,7 +72,6 @@ define(function (require) {
     //
 
     handleSearch: function (input) {
-      console.log(input);
       if (timer) clearTimeout(timer);
 
       timer = setTimeout(function(){

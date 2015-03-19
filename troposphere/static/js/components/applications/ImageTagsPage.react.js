@@ -1,9 +1,6 @@
 define(function (require) {
 
   var React = require('react'),
-      SecondaryApplicationNavigation = require('./common/SecondaryApplicationNavigation.react'),
-      ApplicationCollection = require('collections/ApplicationCollection'),
-      ApplicationCardList = require('./list/list/ApplicationCardList.react'),
       stores = require('stores'),
       Router = require('react-router');
 
@@ -48,7 +45,7 @@ define(function (require) {
       return (
         <li className="tag-item" key={tag.id}>
           <h4>
-            <Router.Link to="search">{name}</Router.Link>
+            <Router.Link to="search" query={{q: name}}>{name}</Router.Link>
           </h4>
           <p>{description}</p>
         </li>
@@ -78,7 +75,7 @@ define(function (require) {
         <tr key={tag.id || tag.cid}>
           <td style={{"verticalAlign":"top","width":"117px"}}>
             <h4 style={{"margin":"0", "color":"#5A5A5A", "fontSize":"18px"}}>
-              <Router.Link to="search">{name}</Router.Link>
+              <Router.Link to="search" query={{q: name}}>{name}</Router.Link>
             </h4>
           </td>
           <td>
