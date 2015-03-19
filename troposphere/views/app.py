@@ -131,7 +131,7 @@ def version(request):
     v = get_version()
     v["commit_date"] = v["commit_date"].isoformat()
     v_json = json.dumps(v)
-    return HttpResponse(v_json, mimetype='application/json')
+    return HttpResponse(v_json, content_type='application/json')
 
 
 def tests(request):
