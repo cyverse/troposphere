@@ -4,13 +4,14 @@ define(
   [
     'react',
     'backbone',
+    'underscore',
     'stores',
     'components/modals/instance_launch/MachineSelect.react',
     'components/modals/instance_launch/IdentitySelect.react',
     'components/modals/instance_launch/InstanceSizeSelect.react',
     'components/common/Glyphicon.react'
   ],
-  function (React, Backbone, stores, MachineSelect, IdentitySelect, InstanceSizeSelect, Glyphicon) {
+  function (React, Backbone, _, stores, MachineSelect, IdentitySelect, InstanceSizeSelect, Glyphicon) {
 
     var ENTER_KEY = 13;
 
@@ -107,6 +108,11 @@ define(
             selectedIdentity,
             selectedProvider,
             selectedSize;
+
+        // don't show duplicate images
+        machines = new machines.constructor(_.uniq(machines.models, function(m){
+          return m.get('uuid');
+        }));
 
         var state = this.state || {
           instanceName: null,
@@ -369,6 +375,11 @@ define(
         var machines = image.get('provider_images'),
             identity = identities.get(this.state.identityId),
             size = providerSizes.get(this.state.sizeId);
+
+        // don't show duplicate images
+        machines = new machines.constructor(_.uniq(machines.models, function(m){
+          return m.get('uuid');
+        }));
 
         return (
           <div role='form'>

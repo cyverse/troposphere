@@ -2,6 +2,7 @@ define(function (require) {
 
   var React = require('react'),
       Backbone = require('backbone'),
+      _ = require('underscore'),
       BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
       stores = require('stores'),
       MachineSelect = require('../instance_launch/MachineSelect.react'),
@@ -109,6 +110,11 @@ define(function (require) {
           selectedIdentity,
           selectedProvider,
           selectedSize;
+
+      // don't show duplicate images
+      machines = new machines.constructor(_.uniq(machines.models, function(m){
+        return m.get('uuid');
+      }));
 
       var state = this.state || {
         instanceName: null,
@@ -413,6 +419,11 @@ define(function (require) {
       var machines = image.get('provider_images'),
           identity = identities.get(this.state.identityId),
           size = providerSizes.get(this.state.sizeId);
+
+      // don't show duplicate images
+      machines = new machines.constructor(_.uniq(machines.models, function(m){
+        return m.get('uuid');
+      }));
 
       return (
         <div role='form'>
