@@ -145,10 +145,12 @@ define(function (require) {
         <div className="project-content">
           <ButtonBar
             isVisible={isButtonBarVisible}
-             onMoveSelectedResources={this.onMoveSelectedResources}
-             onDeleteSelectedResources={this.onDeleteSelectedResources}
-             onReportSelectedResources={this.onReportSelectedResources}
-             onRemoveSelectedResources={this.onRemoveSelectedResources}
+            onMoveSelectedResources={this.onMoveSelectedResources}
+            onDeleteSelectedResources={this.onDeleteSelectedResources}
+            onReportSelectedResources={this.onReportSelectedResources}
+            onRemoveSelectedResources={this.onRemoveSelectedResources}
+            previewedResource={previewedResource}
+            project={project}
           />
           <div className="resource-list">
             <div className="scrollable-content">

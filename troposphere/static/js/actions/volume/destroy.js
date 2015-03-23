@@ -51,7 +51,6 @@ define(function (require) {
     destroy: function(payload, options){
       if(!payload.project) throw new Error("Missing project");
       if(!payload.volume) throw new Error("Missing volume");
-      if(payload.redirectUrl) console.log("redirectUrl: " + payload.redirectUrl);
 
       var project = payload.project,
           volume = payload.volume,

@@ -1,9 +1,11 @@
 define(function (require) {
 
   var React = require('react'),
+      Backbone = require('backbone'),
       context = require('context'),
       Button = require('./Button.react'),
-      RefreshButton = require('./RefreshButton.react');
+      RefreshButton = require('./RefreshButton.react'),
+      ResourceActionButtons = require('./ResourceActionButtons.react');
 
   return React.createClass({
 
@@ -12,7 +14,9 @@ define(function (require) {
       onMoveSelectedResources: React.PropTypes.func.isRequired,
       onDeleteSelectedResources: React.PropTypes.func.isRequired,
       onReportSelectedResources: React.PropTypes.func.isRequired,
-      onRemoveSelectedResources: React.PropTypes.func.isRequired
+      onRemoveSelectedResources: React.PropTypes.func.isRequired,
+      previewedResource: React.PropTypes.instanceOf(Backbone.Model),
+      project: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
     render: function () {
@@ -41,16 +45,22 @@ define(function (require) {
       return (
         <div className="button-bar">
           <RefreshButton/>
-          <Button icon="folder-open"
-                  tooltip="Move selected resources"
-                  onClick={this.props.onMoveSelectedResources}
-                  isVisible={this.props.isVisible}
+          <Button
+            icon="folder-open"
+            tooltip="Move selected resources"
+            onClick={this.props.onMoveSelectedResources}
+            isVisible={this.props.isVisible}
           />
-          <Button icon="export"
-                  tooltip="Remove selected resources (admin only)"
-                  onClick={this.props.onRemoveSelectedResources}
-                  style={{"backgroundColor": "bisque"}}
-                  isVisible={context.profile.get('is_superuser') && this.props.isVisible}
+          <Button
+            icon="export"
+            tooltip="Remove selected resources (admin only)"
+            onClick={this.props.onRemoveSelectedResources}
+            style={{"backgroundColor": "bisque"}}
+            isVisible={context.profile.get('is_superuser') && this.props.isVisible}
+          />
+          <ResourceActionButtons
+            previewedResource={this.props.previewedResource}
+            project={this.props.project}
           />
         </div>
       );
