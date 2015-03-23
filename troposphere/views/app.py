@@ -16,11 +16,14 @@ def root(request):
 
 
 def _handle_public_application_request(request, disabled_login):
+    show_troposphere_only = hasattr(settings, "SHOW_TROPOSPHERE_ONLY") and settings.SHOW_TROPOSPHERE_ONLY is True
+
     template_params = {
         'access_token': request.session.get('access_token'),
         'emulator_token': request.session.get('emulator_token'),
         'emulated_by': request.session.get('emulated_by'),
-        'disable_login': disabled_login
+        'disable_login': disabled_login,
+        'show_troposphere_only': show_troposphere_only
     }
 
     if hasattr(settings, "API_ROOT"):
@@ -38,7 +41,7 @@ def _handle_public_application_request(request, disabled_login):
         request.session['beta'] = 'false'
 
     # Return the new Troposphere UI
-    if request.session['beta'] == 'true':
+    if request.session['beta'] == 'true' or show_troposphere_only:
         response = render_to_response(
             'index.html',
             template_params,
@@ -58,11 +61,14 @@ def _handle_public_application_request(request, disabled_login):
 
 
 def _handle_authenticated_application_request(request, disabled_login):
+    show_troposphere_only = hasattr(settings, "SHOW_TROPOSPHERE_ONLY") and settings.SHOW_TROPOSPHERE_ONLY is True
+
     template_params = {
         'access_token': request.session.get('access_token'),
         'emulator_token': request.session.get('emulator_token'),
         'emulated_by': request.session.get('emulated_by'),
-        'disable_login': disabled_login
+        'disable_login': disabled_login,
+        'show_troposphere_only': show_troposphere_only
     }
 
     if hasattr(settings, "INTERCOM_APP_ID"):
@@ -87,7 +93,7 @@ def _handle_authenticated_application_request(request, disabled_login):
         return redirect('application')
 
     # Return the new Troposphere UI
-    if user_preferences.show_beta_interface:
+    if user_preferences.show_beta_interface or show_troposphere_only:
         response = render_to_response(
             'application.html',
             template_params,

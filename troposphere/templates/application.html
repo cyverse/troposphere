@@ -54,6 +54,12 @@
         {% if API_V2_ROOT %}
             var API_V2_ROOT = "{{ API_V2_ROOT }}";
         {% endif %}
+
+        {% if show_troposphere_only %}
+            var show_troposphere_only = true;
+        {%  else %}
+            var show_troposphere_only = false;
+        {% endif %}
     </script>
 
 
