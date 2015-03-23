@@ -31,7 +31,6 @@ define(function (require) {
         Router.getInstance().transitionTo("admin");
         request.save().done(function() {
           Utils.dispatch(Constants.UPDATE, {model: request});
-          console.log(request.get('id'));
           Utils.dispatch(Constants.REMOVE, {model: request});
         });
       }
