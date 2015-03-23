@@ -35,8 +35,8 @@ define(function (require) {
       return (
         <div className = "container">
             <h1>Quota Requests</h1>
-            <div className="quota-inline">
-                <table className="quota-table table table-hover">
+            <div>
+                <table className="quota-table table table-hover col-md-6">
                   <tbody>
                     <tr className="quota-row">
                         <th className="center">

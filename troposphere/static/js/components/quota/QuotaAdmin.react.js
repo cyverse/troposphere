@@ -49,10 +49,10 @@ define(function (require) {
 
       return(
         <div className="quota-detail">
-          <div>User: {quotaRequest.get('created_by')}</div>
-          <div>Admin message: {quotaRequest.get('admin_message')}</div>
-          <div>Request: {quotaRequest.get('request')}</div>
-          <div className="quota-description">Description: {quotaRequest.get('description')}</div>
+          <div><strong>User:</strong> {quotaRequest.get('created_by')}</div>
+          <div><strong>Admin message:</strong> {quotaRequest.get('admin_message')}</div>
+          <div><strong>Request:</strong> {quotaRequest.get('request')}</div>
+          <div><strong>Description:</strong> {quotaRequest.get('description')}</div>
           <div>
             <label>New quota:&nbsp;</label>
             <select value = {this.state.quota} onChange={this.handleQuotaChange} ref="selectedQuota">{quotas.map(function(quota){
@@ -69,7 +69,7 @@ define(function (require) {
             </select>
           </div>
           <div className="form-group">
-            Response:
+            <strong>Response:</strong>
             <br />
             <textarea type="text" form="admin" value={this.state.value} cols="60" rows="8" name="email" onChange={this.handleResponseChange} />
           </div>
