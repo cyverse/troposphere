@@ -1,6 +1,7 @@
 define(function (require) {
 
   var React = require('react'),
+      _ = require('underscore'),
       Machine = require('./Machine.react'),
       stores = require('stores');
 
@@ -20,10 +21,14 @@ define(function (require) {
     },
 
     render: function () {
+      var machines = _.uniq(this.props.machines.models, function(m){
+        return m.get('uuid');
+      });
+
       return (
         <div className="content col-md-10">
           <ul>
-            {this.props.machines.map(this.renderMachine)}
+            {machines.map(this.renderMachine)}
           </ul>
         </div>
       );

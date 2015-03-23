@@ -216,5 +216,20 @@ $(document).ready(function () {
     Atmo.instances.fetch();
     Atmo.volumes.fetch();
     Atmo.images.fetch();
+
+    $('.beta-toggle').click(function (e) {
+      e.preventDefault();
+      console.log('beta switch clicked');
+
+      var header = 'New UI Preview';
+      var body = "<p>We've been working hard to create an improved experience for Atmosphere. Check out the new features in the video below and try it out for yourself.  We'd love to hear what you think!</p>";
+      body += '<iframe width="560" height="315" src="https://www.youtube.com/embed/oasiNn-6mDw" frameborder="0" allowfullscreen></iframe>';
+      var ok_button = 'Take me to the new UI';
+      var on_confirm = function() {
+        window.location = '/application?beta=true';
+      };
+
+      Atmo.Utils.confirm(header, body, { ok_button: ok_button, on_confirm: on_confirm });
+    });
   }
 });

@@ -2,6 +2,7 @@ define(function (require) {
 
   var React = require('react'),
       Backbone = require('backbone'),
+      _ = require('underscore'),
       BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
       stores = require('stores'),
       MachineSelect = require('../instance_launch/MachineSelect.react'),
@@ -122,15 +123,29 @@ define(function (require) {
       // Use provided instance name or default to nothing
       state.instanceName = state.instanceName || "";
 
+      // Use selected identity or default to the first one
+      if (identities) {
+
+        // remove identities whose provider has no image
+        identities = new identities.constructor(identities.filter(function(i){
+          return machines.find(function(m){
+            return m.get('provider').id === i.get('provider').id;
+          });
+        }));
+
+        state.identityId = state.identityId || identities.first().id;
+      }
+
       // Use selected machine (image version) or default to the first one
       // todo: we should be sorting these by date or version number before selecting the first one
       if(machines) {
-        state.machineId = state.machineId || machines.first().id;
-      }
 
-      // Use selected identity or default to the first one
-      if (identities) {
-        state.identityId = state.identityId || identities.first().id;
+        // don't show duplicate images
+        machines = new machines.constructor(_.uniq(machines.models, function(m){
+          return m.get('uuid');
+        }));
+
+        state.machineId = state.machineId || machines.first().id;
       }
 
       // Fetch instance sizes user can launch if required information exists
@@ -413,6 +428,18 @@ define(function (require) {
       var machines = image.get('provider_images'),
           identity = identities.get(this.state.identityId),
           size = providerSizes.get(this.state.sizeId);
+
+      // remove identities whose provider has no image
+      identities = new identities.constructor(identities.filter(function(i){
+        return machines.find(function(m){
+          return m.get('provider').id === i.get('provider').id;
+        });
+      }));
+
+      // don't show duplicate images
+      machines = new machines.constructor(_.uniq(machines.models, function(m){
+        return m.get('uuid');
+      }));
 
       return (
         <div role='form'>

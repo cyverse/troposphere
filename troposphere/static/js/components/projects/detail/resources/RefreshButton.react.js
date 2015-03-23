@@ -35,10 +35,14 @@ define(function (require) {
       });
     },
 
+    hideTooltip: function(){
+      $(this.getDOMNode()).tooltip('hide');
+    },
+
     handleRefresh: function(){
       var instances = stores.InstanceStore.getAll(),
           volumes = stores.VolumeStore.getAll(),
-          refreshTime = randomIntFromInterval(5,10);
+          refreshTime = randomIntFromInterval(5,7);
 
       // show the user something so they think the resources are polling...
       this.setState({isRefreshing: true});
@@ -54,6 +58,9 @@ define(function (require) {
       volumes.each(function(volume){
         actions.VolumeActions.poll({volume: volume});
       });
+
+      // Fixes a bug in FireFox where the tooltip doesn't go away when button is clicked
+      this.hideTooltip();
     },
 
     render: function () {

@@ -13,7 +13,8 @@ define(function (require) {
     launchIntoProject: require('./instance/launch').launchIntoProject,
     destroy: require('./instance/destroy').destroy,
     update: require('./instance/update').update,
-    report: require('./instance/report').report
+    report: require('./instance/report').report,
+    requestImage: require('./instance/requestImage').requestImage
   };
 
 });

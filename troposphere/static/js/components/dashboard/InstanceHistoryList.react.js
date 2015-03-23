@@ -9,150 +9,158 @@ define(function (require) {
 
   return React.createClass({
 
-    getState: function() {
-      return {
-        instanceHistory: stores.InstanceHistoryStore.getAll(),
-        isLoadingMoreResults: false
-      };
-    },
-
     getInitialState: function () {
-      return this.getState();
+      return {
+        isLoadingMoreResults: false,
+        nextUrl: null
+      }
     },
 
-    updateState: function () {
-      if (this.isMounted()) this.setState(this.getState());
-    },
+    updateState: function() {
+      var instanceHistories = stores.InstanceHistoryStore.getAll(),
+          state = {};
 
-    // todo: find a better way to handle this
-    // we're listening to changes to the store because the *assumption* is that when the store changes we
-    // have a new page of results. This is only true because right now this is the only component that uses
-    // the InstanceHistoryStore.  But if we launch an instance and add it to the store (which we don't
-    // do currently) this would assume that "add" operations was a "oh, new page of results, sweet!"
-    // And that would be an awful lie :(
+      if(instanceHistories && instanceHistories.meta.next !== this.state.nextUrl){
+        state.isLoadingMoreResults = false;
+        state.nextUrl = null;
+      }
+
+      if (this.isMounted()) this.setState(state);
+    },
 
     componentDidMount: function () {
       stores.InstanceHistoryStore.addChangeListener(this.updateState);
     },
 
-    componentWillUnmount: function () {
+    componentWillUnmount: function() {
       stores.InstanceHistoryStore.removeChangeListener(this.updateState);
     },
 
     onLoadMoreInstanceHistory: function(){
-      this.setState({isLoadingMoreResults: true});
+      var instanceHistories = stores.InstanceHistoryStore.getAll();
+
+      this.setState({
+        isLoadingMoreResults: true,
+        nextUrl: instanceHistories.meta.next
+      });
       stores.InstanceHistoryStore.fetchMore();
     },
 
-    render: function () {
-      var instanceHistories = stores.InstanceHistoryStore.getAll();
+    renderTitle: function(){
+      var instanceHistories = stores.InstanceHistoryStore.getAll(),
+          title = "Instance History",
+          historyCount;
 
-      // we're fetching the applications before the app loads because we need to display links to the images
-      // on the dashboard in the instance history, and (at the moment) there's no way to know which image a
-      // machine belongs to without searching through the images
-      var applications = stores.ApplicationStore.getAll();
-
-      var title = "Instance History";
-      var content, instanceHistoryItems;
-
-      if(instanceHistories && applications){
-        var historyCount = " (" + instanceHistories.meta.count + " instances launched)";
+      if(instanceHistories) {
+        historyCount = " (" + instanceHistories.meta.count + " instances launched)";
         title += historyCount;
+      }
 
-        instanceHistoryItems = instanceHistories.map(function (instance) {
-          var startDate = instance.get('start_date'),
-              endDate = instance.get('end_date'),
-              formattedStartDate = startDate.format("MMM DD, YYYY"),
-              formattedEndDate = endDate.format("MMM DD, YYYY"),
-              now = moment(),
-              timeSpan = now.diff(startDate, "days"),
-              instanceHistoryHash = CryptoJS.MD5((instance.id || instance.cid).toString()).toString(),
-              iconSize = 63,
-              type = stores.ProfileStore.get().get('icon_set'),
-              application = stores.ApplicationStore.getApplicationWithMachine(instance.get('machine_alias')),
-              applicationName = application ? application.get('name') : "[image no longer exists]",
-              applicationLink;
+      return title;
+    },
 
-          if(!endDate.isValid()) formattedEndDate = "Present";
+    renderLoadMoreHistoryButton: function(instanceHistories){
+      // Load more instances from history
+      var buttonStyle = {
+            margin: "auto",
+            display: "block"
+          },
+          loadingStyle= {
+            margin: "0px auto"
+          },
+          moreHistoryButton = null;
 
-          if(application){
-            applicationLink = (
-              <Router.Link to="image-details" params={{imageId: application.id}}>
-                {applicationName}
-              </Router.Link>
-            )
-          }else{
-            applicationLink = (
-              <strong>{applicationName}</strong>
-            )
-          }
-
-          return (
-            <div key={instance.id}>
-              <div className="instance-history">
-                <ul>
-                  <li>
-                    <div>
-                      <Gravatar hash={instanceHistoryHash} size={iconSize} type={type}/>
-                      <div className="instance-history-details">
-                        <strong className="name">{instance.get('name')}</strong>
-                        <div>Launched from {applicationLink}</div>
-                        <div>{"Ran: " + formattedStartDate + " - " + formattedEndDate}</div>
-                      </div>
-                      <span className="launch-info">
-                        <strong>{timeSpan + " days ago"}</strong>
-                        {" on " + instance.get('provider')}
-                      </span>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
+      if(instanceHistories.meta.next){
+        if(this.state.isLoadingMoreResults){
+          moreHistoryButton = (
+            <div style={loadingStyle} className="loading"></div>
           );
-        }.bind(this));
+        }else {
+          moreHistoryButton = (
+            <button style={buttonStyle} className="btn btn-default" onClick={this.onLoadMoreInstanceHistory}>
+              Show More History
+            </button>
+          );
+        }
+      }
 
-        // Load more instances from history
-        var buttonStyle = {
-          margin: "auto",
-          display: "block"
-        };
+      return moreHistoryButton;
+    },
 
-        var loadingStyle= {
-          margin: "0px auto"
-        };
+    renderBody: function () {
+      var instanceHistories = stores.InstanceHistoryStore.getAll(),
+          instanceHistoryItems;
 
-        var moreHistoryButton = null;
-        if(instanceHistories.meta.next){
-          if(this.state.isLoadingMoreResults){
-            moreHistoryButton = (
-              <div style={loadingStyle} className="loading"></div>
-            );
-          }else {
-            moreHistoryButton = (
-              <button style={buttonStyle} className="btn btn-default" onClick={this.onLoadMoreInstanceHistory}>
-                Show More History
-              </button>
-            );
-          }
+      if(!instanceHistories) return <div className="loading"></div>;
+
+      instanceHistoryItems = instanceHistories.map(function (instance) {
+        var startDate = instance.get('start_date'),
+            endDate = instance.get('end_date'),
+            formattedStartDate = startDate.format("MMM DD, YYYY"),
+            formattedEndDate = endDate.format("MMM DD, YYYY"),
+            now = moment(),
+            timeSpan = now.diff(startDate, "days"),
+            instanceHistoryHash = CryptoJS.MD5((instance.id || instance.cid).toString()).toString(),
+            iconSize = 63,
+            type = stores.ProfileStore.get().get('icon_set'),
+            imageId = instance.get('application_id'),
+            application = imageId ? stores.ApplicationStore.get(imageId) : null,
+            applicationName = application ? application.get('name') : "[image no longer exists]",
+            applicationLink;
+
+        if(!endDate.isValid()) formattedEndDate = "Present";
+
+        if(application){
+          applicationLink = (
+            <Router.Link to="image-details" params={{imageId: application.id}}>
+              {applicationName}
+            </Router.Link>
+          )
+        }else{
+          applicationLink = (
+            <strong>{applicationName}</strong>
+          )
         }
 
-        content = (
-          <div>
-            {instanceHistoryItems}
-            {moreHistoryButton}
+        return (
+          <div key={instance.id}>
+            <div className="instance-history">
+              <ul>
+                <li>
+                  <div>
+                    <Gravatar hash={instanceHistoryHash} size={iconSize} type={type}/>
+                    <div className="instance-history-details">
+                      <strong className="name">{instance.get('name')}</strong>
+                      <div>Launched from {applicationLink}</div>
+                      <div>{"Ran: " + formattedStartDate + " - " + formattedEndDate}</div>
+                    </div>
+                    <span className="launch-info">
+                      <strong>{timeSpan + " days ago"}</strong>
+                      {" on " + instance.get('provider')}
+                    </span>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
         );
-
-      }else{
-        content = (
-          <div className="loading"></div>
-        );
-      }
+      }.bind(this));
 
       return (
         <div>
-          <h2>{title}</h2>
-          {content}
+          {instanceHistoryItems}
+          {this.renderLoadMoreHistoryButton(instanceHistories)}
+        </div>
+      );
+    },
+
+    render: function () {
+      return (
+        <div>
+          <h2>
+            {this.renderTitle()}
+          </h2>
+          {this.renderBody()}
         </div>
       );
     }

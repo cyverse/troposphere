@@ -219,7 +219,7 @@ define(function (require) {
     deleteResource: function(resource, project, options){
       // todo: remove instance from project after deletion
       if(resource instanceof Instance){
-        actions.InstanceActions.terminate_noModal({
+        actions.InstanceActions.destroy_noModal({
           instance: resource,
           project: project
         }, options);

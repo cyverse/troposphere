@@ -20,7 +20,7 @@ define(
         return (
           <li key={message.id} className="message">
             <strong className="provider-name">{providerName}</strong>
-            <span>{message.get('message')}</span>
+            <span dangerouslySetInnerHTML={{__html: message.get('message')}}/>
           </li>
         )
       },

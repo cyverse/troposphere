@@ -52,7 +52,6 @@ define(function (require) {
     destroy: function(payload, options){
       if(!payload.project) throw new Error("Missing project");
       if(!payload.instance) throw new Error("Missing instance");
-      if(payload.redirectUrl) console.log("redirectUrl: " + payload.redirectUrl);
 
       var project = payload.project,
           instance = payload.instance,

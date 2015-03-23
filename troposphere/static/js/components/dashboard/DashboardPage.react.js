@@ -84,10 +84,7 @@ define(function (require) {
                     />
                   </div>
                 </div>
-
-                {
-                  //<InstanceHistoryList/>
-                }
+                <InstanceHistoryList/>
               </div>
 
               <div className="col-md-3">

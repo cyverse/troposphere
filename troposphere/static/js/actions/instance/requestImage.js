@@ -9,41 +9,57 @@ define(function (require) {
       Utils = require('../Utils');
 
   return {
-    requestImage: function(instance){
-      var tags = stores.TagStore.getAll();
 
-      var modal = InstanceImageModal({
-        instance: instance,
-        tags: tags
-      });
+    requestImage: function(params){
+      if(!params.instance) throw new Error("Missing instance");
 
-      ModalHelpers.renderModal(modal, function (details) {
-        var tagNames,
-            requestData,
-            providerId,
-            identityId,
-            requestUrl;
+      var instance = params.instance,
+          modal = InstanceImageModal({
+            instance: instance
+          });
 
-        tagNames = details.tags.map(function(tag){
-          return tag.get('name');
-        });
+      ModalHelpers.renderModal(modal, function (params) {
+        if(!params.name) throw new Error("Missing name");
+        if(!params.description) throw new Error("Missing description");
+        if(!params.providerId) throw new Error("Missing providerId");
+        if(!params.software) throw new Error("Missing software");
+        if(!params.filesToExclude) throw new Error("Missing filesToExclude");
+        if(!params.systemFiles) throw new Error("Missing systemFiles");
+        if(!params.visibility) throw new Error("Missing visibility");
+        if(!params.tags) throw new Error("Missing tags");
 
-        requestData = {
-          instance: instance.id,
+        var name = params.name,
+            description = params.description,
+            providerId = params.providerId,
+            software = params.software,
+            filesToExclude = params.filesToExclude,
+            systemFiles = params.systemFiles,
+            visibility = params.visibility,
+            tags = params.tags,
+            tagNames = tags.map(function(tag){
+              return tag.get('name');
+            }),
+            provider = stores.ProviderStore.get(providerId);
+
+        var requestData = {
+          instance: instance.get('uuid'),
           ip_address: instance.get("ip_address"),
-          name: details.name,
-          description: details.description,
+          name: name,
+          description: description,
           tags: tagNames,
-          provider: details.providerId,
-          software: details.software,
-          exclude: details.filesToExclude,
-          sys: details.systemFiles,
-          vis: "public"
+          provider: provider.get('uuid'),
+          software: software,
+          exclude: filesToExclude,
+          sys: systemFiles,
+          vis: visibility
         };
 
-        providerId = instance.getCreds().provider_id;
-        identityId = instance.getCreds().identity_id;
-        requestUrl = globals.API_ROOT + "/provider/" + providerId + "/identity/" + identityId + "/request_image";
+        var requestUrl = (
+          globals.API_ROOT +
+          "/provider/" + instance.get('provider').uuid +
+          "/identity/" + instance.get('identity').uuid +
+          "/request_image"
+        );
 
         $.ajax({
           url: requestUrl,
@@ -52,20 +68,15 @@ define(function (require) {
           dataType: 'json',
           contentType: 'application/json',
           success: function (model) {
-            NotificationController.info(null, "An image of your instance has been requested");
+            Utils.displaySuccess({message: "Your image request has been sent to support."});
           },
           error: function (response, status, error) {
-            if(response && response.responseJSON && response.responseJSON.errors){
-              var errors = response.responseJSON.errors;
-              var error = errors[0];
-              NotificationController.error("An image of your instance could not be requested.", error.message);
-            }else{
-              NotificationController.error("An image of your instance could not be requested", "If the problem persists, please report the instance.");
-            }
+            Utils.displayError({title: "Your image request could not be sent", response: response});
           }
         });
       })
     }
+
   };
 
 });
