@@ -36,6 +36,7 @@ define(function (require) {
       if(status === "available"){
         linksArray.push(
           <Button
+            key="Attach"
             icon="save"
             tooltip="Attach"
             onClick={this.onAttach}
@@ -45,6 +46,7 @@ define(function (require) {
       }else if(status === "in-use"){
         linksArray.push(
           <Button
+            key="Detach"
             icon="open"
             tooltip="Detach"
             onClick={this.onDetach}
@@ -55,6 +57,7 @@ define(function (require) {
 
       linksArray.push(
         <Button
+          key="Delete"
           icon="remove"
           tooltip="Delete"
           onClick={this.onDelete}
@@ -63,7 +66,7 @@ define(function (require) {
       );
 
       return (
-        <div style={{"border-left": "1px solid #ddd", "display": "inline-block", "padding-left": "10px", "float": "right"}}>
+        <div style={{borderLeft: "1px solid #ddd", display: "inline-block", paddingLeft: "10px", float: "right"}}>
           {linksArray}
         </div>
       );

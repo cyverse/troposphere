@@ -44,6 +44,7 @@ define(function (require) {
         if (status === "active") {
           linksArray.push(
             <Button
+              key="Suspend"
               icon="pause"
               tooltip="Suspend"
               onClick={this.onSuspend}
@@ -52,6 +53,7 @@ define(function (require) {
           );
           linksArray.push(
             <Button
+              key="Stop"
               icon="stop"
               tooltip="Stop"
               onClick={this.onStop}
@@ -61,6 +63,7 @@ define(function (require) {
         } else if (status === "suspended") {
           linksArray.push(
             <Button
+              key="Resume"
               icon="play"
               tooltip="Resume"
               onClick={this.onResume}
@@ -70,6 +73,7 @@ define(function (require) {
         } else if (status === "shutoff") {
           linksArray.push(
             <Button
+              key="Start"
               icon="play"
               tooltip="Start"
               onClick={this.onStart}
@@ -81,6 +85,7 @@ define(function (require) {
 
       linksArray.push(
         <Button
+          key="Delete"
           icon="remove"
           tooltip="Delete"
           onClick={this.onDelete}
@@ -89,7 +94,7 @@ define(function (require) {
       );
 
       return (
-        <div style={{"border-left": "1px solid #ddd", "display": "inline-block", "padding-left": "10px", "float": "right"}}>
+        <div style={{borderLeft: "1px solid #ddd", display: "inline-block", paddingLeft: "10px", float: "right"}}>
           {linksArray}
         </div>
       );
