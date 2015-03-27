@@ -11,7 +11,6 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
     filter_fields = ('email',)
     http_method_names = ['get', 'head', 'options', 'trace']
 
@@ -22,4 +21,3 @@ class UserPreferenceViewSet(viewsets.ModelViewSet):
     """
     queryset = UserPreferences.objects.all()
     serializer_class = UserPreferenceSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
