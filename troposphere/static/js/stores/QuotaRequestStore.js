@@ -8,6 +8,7 @@ define(function (require) {
       stores = require('stores');
 
   var _models = null;
+  var _pendingModels = null;
   var _isFetching = false;
 
   //
@@ -25,7 +26,6 @@ define(function (require) {
       });
     }
   };
-
 
   function add(model){
     _models.add(model);
@@ -48,7 +48,7 @@ define(function (require) {
   var ModelStore = {
 
     get: function (modelId) {
-      if(!_models) {
+      if (!_models) {
         fetchModels();
       } else {
         return _models.get(modelId);
@@ -56,10 +56,21 @@ define(function (require) {
     },
 
     getAll: function () {
-      if(!_models) {
-        fetchModels()
+      if (!_models) {
+        fetchModels();
       }
       return _models;
+    },
+
+    getAllPending: function () {
+      if (!_models) {
+        return fetchModels();
+      }
+      console.log(_models);
+      var pendingRequests = _models.filter(function(model){
+        return model.get("status").name === "pending";
+      });
+      return new Collection(pendingRequests);
     }
 
   };

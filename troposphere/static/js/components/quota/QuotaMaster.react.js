@@ -12,26 +12,23 @@ define(function (require) {
     mixins: [Router.State],
 
     render: function () {
-      var requests = stores.QuotaRequestStore.getAll(),
-          quotaRequestRows;
+      var requests = stores.QuotaRequestStore.getAllPending(),
+          statuses = stores.QuotaStatusStore.getAll()
 
-      if(!requests) return <div className="loading"></div>;
+      if(!requests || !statuses) return <div className="loading"></div>;
 
-      //if(requests.length > 1){
-      // quotaRequestRows = requests.map(function(request){
-      //    return(
-      //      <QuotaRequest key={request.id} request={request}/>
-      //    );
-      //  });
-      //}else{
-      //  quotaRequestRows = <QuotaRequest key={requests.at(0).id} request={requests.at(0)}/>
-      //}
       var quotaRequestRows = requests.map(function(request) {
         return(
           <QuotaRequest key={request.id} request = {request} />
         )
       });
 
+      //     <th className="center">
+      //     <h3>Admin Message</h3>
+      // </th>
+      // <th className="center">
+      //     <h3>Quota</h3>
+      // </th>
       return (
         <div className = "container">
             <h1>Quota Requests</h1>
@@ -41,12 +38,6 @@ define(function (require) {
                     <tr className="quota-row">
                         <th className="center">
                             <h3>User</h3>
-                        </th>
-                        <th className="center">
-                            <h3>Admin Message</h3>
-                        </th>
-                        <th className="center">
-                            <h3>Quota</h3>
                         </th>
                         <th className="center">
                             <h3>Request</h3>

@@ -31,25 +31,31 @@ define(function (require) {
     handleQuotaApproval: function(e){
       e.preventDefault();
       var quotaRequest = stores.QuotaRequestStore.get(this.getParams().quotaRequestId);
+      var status = stores.QuotaStatusStore.getStatusWithName("approved");
       // if there's a new quota set
-      QuotaActions.update({request: quotaRequest, response: this.state.response, quota: this.state.quota, status: "approved"});
+      QuotaActions.update({request: quotaRequest, response: this.state.response, quota: this.state.quota, status: status.id});
     },
 
     handleQuotaDenial: function(e){
       e.preventDefault();
       var quotaRequest = stores.QuotaRequestStore.get(this.getParams().quotaRequestId);
-      QuotaActions.update({request: quotaRequest, response: this.state.response, quota: this.state.request.get('quota'), status: "denied"});
+      var status = stores.QuotaStatusStore.getStatusWithName("rejected");
+      QuotaActions.update({request: quotaRequest, response: this.state.response, quota: this.state.quota, status: status.id});
     },
 
     render: function () {
       var quotaRequest = stores.QuotaRequestStore.get(this.getParams().quotaRequestId);
       var quotas = stores.QuotaStore.getAll();
+      var statuses = stores.QuotaStatusStore.getAll();
 
-      if(!quotaRequest || !quotas) return <div className="loading"></div>;
+      if(!quotaRequest || !quotas || !statuses) return <div className="loading"></div>;
+
+      console.log(quotaRequest);
 
       return(
         <div className="quota-detail">
-          <div><strong>User:</strong> {quotaRequest.get('created_by')}</div>
+          <div><strong>User:</strong> {quotaRequest.get('user').username}</div>
+          <div><strong>Created by:</strong> {quotaRequest.get('created_by').username}</div>
           <div><strong>Admin message:</strong> {quotaRequest.get('admin_message')}</div>
           <div><strong>Request:</strong> {quotaRequest.get('request')}</div>
           <div><strong>Description:</strong> {quotaRequest.get('description')}</div>
