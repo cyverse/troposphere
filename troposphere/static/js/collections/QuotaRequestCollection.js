@@ -8,7 +8,7 @@ define(function (require) {
   return Backbone.Collection.extend({
     model: QuotaRequest,
 
-    url: globals.API_V2_MOCK_ROOT + "/quota_requests",
+    url: globals.API_V2_ROOT + "/quota_requests",
 
     parse: function (response) {
       this.meta = {
