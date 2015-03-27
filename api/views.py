@@ -27,6 +27,7 @@ class UserPreferenceViewSet(viewsets.ModelViewSet):
     """
     queryset = UserPreferences.objects.all()
     serializer_class = UserPreferenceSerializer
+    http_method_names = ['get', 'put', 'patch', 'head', 'options', 'trace']
 
     def get_queryset(self):
         """

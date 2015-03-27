@@ -3,6 +3,16 @@ from django.contrib.auth.models import User
 from api.models import UserPreferences
 
 
+class UserRelatedField(serializers.PrimaryKeyRelatedField):
+
+    def use_pk_only_optimization(self):
+        return False
+
+    def to_representation(self, value):
+        serializer = UserSerializer(value, context=self.context)
+        return serializer.data
+
+
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
@@ -20,7 +30,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class UserPreferenceSerializer(serializers.HyperlinkedModelSerializer):
-    user = UserSerializer()
+    user = UserRelatedField(read_only=True)
 
     class Meta:
         model = UserPreferences
