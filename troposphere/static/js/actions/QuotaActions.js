@@ -27,9 +27,15 @@ define(function (require) {
             quota = params.quota,
             status = params.status;
 
-        request.set({"admin_message": response, "quota": quota, "status": status});
+        var newAttributes = {
+          admin_message: response,
+          quota: quota,
+          status: status
+        };
+
+        request.set(newAttributes);
         Router.getInstance().transitionTo("admin");
-        request.save().done(function() {
+        request.save(newAttributes, {patch: true}).done(function() {
           Utils.dispatch(Constants.UPDATE, {model: request});
           Utils.dispatch(Constants.REMOVE, {model: request});
         });
