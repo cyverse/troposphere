@@ -50,8 +50,6 @@ define(function (require) {
 
       if(!quotaRequest || !quotas || !statuses) return <div className="loading"></div>;
 
-      console.log(quotaRequest);
-
       return(
         <div className="quota-detail">
           <div><strong>User:</strong> {quotaRequest.get('user').username}</div>
