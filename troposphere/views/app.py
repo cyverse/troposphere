@@ -15,14 +15,14 @@ def root(request):
     return redirect('application')
 
 
-def _handle_public_application_request(request, disabled_login):
+def _handle_public_application_request(request, maintenance_records):
     show_troposphere_only = hasattr(settings, "SHOW_TROPOSPHERE_ONLY") and settings.SHOW_TROPOSPHERE_ONLY is True
 
     template_params = {
         'access_token': request.session.get('access_token'),
         'emulator_token': request.session.get('emulator_token'),
         'emulated_by': request.session.get('emulated_by'),
-        'disable_login': disabled_login,
+        'records': maintenance_records,
         'show_troposphere_only': show_troposphere_only
     }
 
@@ -60,14 +60,14 @@ def _handle_public_application_request(request, disabled_login):
     return response
 
 
-def _handle_authenticated_application_request(request, disabled_login):
+def _handle_authenticated_application_request(request, maintenance_records):
     show_troposphere_only = hasattr(settings, "SHOW_TROPOSPHERE_ONLY") and settings.SHOW_TROPOSPHERE_ONLY is True
 
     template_params = {
         'access_token': request.session.get('access_token'),
         'emulator_token': request.session.get('emulator_token'),
         'emulated_by': request.session.get('emulated_by'),
-        'disable_login': disabled_login,
+        'records': maintenance_records,
         'show_troposphere_only': show_troposphere_only
     }
 
@@ -113,15 +113,15 @@ def _handle_authenticated_application_request(request, disabled_login):
 
 def application(request):
     response = HttpResponse()
-    _, disabled_login = get_maintenance(request)
+    maintenance_records, disabled_login = get_maintenance(request)
 
-    if disabled_login:
+    if disabled_login and request.user.is_staff is not True:
         return redirect('maintenance')
 
     if request.user.is_authenticated():
-        return _handle_authenticated_application_request(request, disabled_login)
+        return _handle_authenticated_application_request(request, maintenance_records)
     else:
-        return _handle_public_application_request(request, disabled_login)
+        return _handle_public_application_request(request, maintenance_records)
 
 
 def forbidden(request):
