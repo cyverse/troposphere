@@ -33,7 +33,7 @@ define(
       },
 
       isProviderInMaintenance: function(providerId){
-        var providerMessages = _messages.where({provider_id: providerId}),
+        var providerMessages = _messages.where({provider: providerId}),
             isInMaintenance = false;
 
         providerMessages.forEach(function(message){
