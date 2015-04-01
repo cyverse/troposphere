@@ -46,7 +46,7 @@ npm : package.json
 	$(NPM) install
 
 pip : virtualenv
-	source /opt/env/troposphere/bin/activate;pip install -U -r requirements.txt
+	source /opt/env/troposphere/bin/activate;pip install -r requirements.txt
 
 prod : gulp-prod
 
@@ -65,7 +65,7 @@ relativevirtual :
 	-virtualenv env
 
 jenkinspip : relativevirtual
-	source ./env/bin/activate;pip install -U -r requirements.txt
+	source ./env/bin/activate;pip install -r requirements.txt
 
 jenkinschown :
 	chown -R jenkins:jenkins ./env
