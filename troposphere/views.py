@@ -32,7 +32,7 @@ def root(request):
 
 def application(request):
     response = HttpResponse()
-    _, disabled_login = get_maintenance(request)
+    records, disabled_login = get_maintenance(request)
 
     if disabled_login:
         return redirect('maintenance')
@@ -43,6 +43,7 @@ def application(request):
         'access_token': request.session.get('access_token'),
         'emulator_token': request.session.get('emulator_token'),
         'emulated_by': request.session.get('emulated_by'),
+        'records': records,
         'disable_login': disabled_login,
         'show_troposphere_only': show_troposphere_only
     }
