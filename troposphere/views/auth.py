@@ -1,4 +1,5 @@
 import logging
+from uuid import uuid4
 
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -10,6 +11,7 @@ from api.models import UserToken
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login
 
+from troposphere.auth_backends import get_or_create_user, generate_token
 
 logger = logging.getLogger(__name__)
 cas_oauth_client = CAS_OAuthClient(settings.CAS_SERVER,
@@ -18,21 +20,40 @@ cas_oauth_client = CAS_OAuthClient(settings.CAS_SERVER,
                                    settings.OAUTH_CLIENT_SECRET,
                                    auth_prefix=settings.CAS_AUTH_PREFIX)
 
+def _mock_login(request):
+    user = authenticate(username=None, request=request)
+    auth_login(request, user)
+    last_token = user.usertoken_set.last()
+    _apply_token_to_session(request, last_token.token)
+
+    if request.session.get('redirect_to'):
+        redirect_url = request.session.pop('redirect_to')
+        return redirect(redirect_url)
+    return redirect('application')
+
+
+def _post_login(request):
+    user = authenticate(username=request.POST.get('username'), password=request.POST.get('password'))
+    # A traditional POST login will likely NOT create a 'UserToken', so lets do that now.
+    if user:
+        new_token = generate_token(user)
+        _apply_token_to_session(request, new_token.token)
+    auth_login(request, user)
+
+
+def _apply_token_to_session(request, token):
+    request.session['access_token'] = token
+
 
 def login(request):
-    import ipdb;ipdb.set_trace()
     all_backends = settings.AUTHENTICATION_BACKENDS
     if "troposphere.auth_backends.MockLoginBackend" in all_backends:
-        user = authenticate(username=None, password=None, request=request)
-        auth_login(request, user)
+        return _mock_login(request)
     elif 'troposphere.auth_backends.OAuthLoginBackend' in all_backends:
-        redirect_url = request.GET.get('redirect')
-        if redirect_url:
-            request.session['redirect_to'] = redirect_url
-        return redirect(cas_oauth_client.authorize_url())
-    else:
-        user = authenticate(request=request)
-        auth_login(request, user)
+        return _oauth_login(request)
+    elif request.META['REQUEST_METHOD'] is 'POST':
+        return _post_login(request)
+    #Uh - Oh.
     return redirect('application')
 
 
@@ -49,8 +70,15 @@ def logout(request):
         return redirect(logout_url)
     return redirect('application')
 
+#Initiate the OAuth login (Authorize)
+def _oauth_login(request):
+    redirect_url = request.GET.get('redirect')
+    if redirect_url:
+        request.session['redirect_to'] = redirect_url
+    return redirect(cas_oauth_client.authorize_url())
 
-# CAS OAuth callback
+
+# CAS OAuth callback ( After the Authorize is OK)
 def cas_oauth_service(request):
     if 'code' not in request.GET:
         #You should not be here, you should be at OAuth-wrapped CAS login.
@@ -66,8 +94,7 @@ def cas_oauth_service(request):
 
     user = authenticate(access_token=access_token)
     auth_login(request, user)
-
-    request.session['access_token'] = access_token
+    _apply_token_to_session(request, access_token)
 
     if request.session.get('redirect_to'):
         redirect_url = request.session.pop('redirect_to')
