@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 user_match = "[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*"
 
@@ -21,3 +22,5 @@ urlpatterns = patterns('',
     url(r'^tests$', 'troposphere.views.tests'),
     url(r'^tropo-api/', include('api.urls')),
 )
+
+urlpatterns += staticfiles_urlpatterns()

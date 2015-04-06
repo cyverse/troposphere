@@ -20,10 +20,20 @@ cas_oauth_client = CAS_OAuthClient(settings.CAS_SERVER,
 
 
 def login(request):
-    redirect_url = request.GET.get('redirect')
-    if redirect_url:
-        request.session['redirect_to'] = redirect_url
-    return redirect(cas_oauth_client.authorize_url())
+    import ipdb;ipdb.set_trace()
+    all_backends = settings.AUTHENTICATION_BACKENDS
+    if "troposphere.auth_backends.MockLoginBackend" in all_backends:
+        user = authenticate(username=None, password=None, request=request)
+        auth_login(request, user)
+    elif 'troposphere.auth_backends.OAuthLoginBackend' in all_backends:
+        redirect_url = request.GET.get('redirect')
+        if redirect_url:
+            request.session['redirect_to'] = redirect_url
+        return redirect(cas_oauth_client.authorize_url())
+    else:
+        user = authenticate(request=request)
+        auth_login(request, user)
+    return redirect('application')
 
 
 def logout(request):

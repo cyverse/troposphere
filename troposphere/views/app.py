@@ -15,7 +15,7 @@ def root(request):
     return redirect('application')
 
 
-def _handle_public_application_request(request, maintenance_records):
+def _handle_public_application_request(request, maintenance_records, disabled_login=False):
     show_troposphere_only = hasattr(settings, "SHOW_TROPOSPHERE_ONLY") and settings.SHOW_TROPOSPHERE_ONLY is True
 
     template_params = {
@@ -23,6 +23,7 @@ def _handle_public_application_request(request, maintenance_records):
         'emulator_token': request.session.get('emulator_token'),
         'emulated_by': request.session.get('emulated_by'),
         'records': maintenance_records,
+        'disable_login': disabled_login,
         'show_troposphere_only': show_troposphere_only
     }
 
@@ -121,7 +122,7 @@ def application(request):
     if request.user.is_authenticated():
         return _handle_authenticated_application_request(request, maintenance_records)
     else:
-        return _handle_public_application_request(request, maintenance_records)
+        return _handle_public_application_request(request, maintenance_records, disabled_login=disabled_login)
 
 
 def forbidden(request):

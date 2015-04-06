@@ -4,7 +4,7 @@ from caslib import OAuthClient as CAS_OAuthClient
 from api.models import UserToken
 from django.contrib.auth.models import User
 from rest_framework import authentication, exceptions
-
+from uuid import uuid4
 
 logger = logging.getLogger(__name__)
 cas_oauth_client = CAS_OAuthClient(settings.CAS_SERVER,
@@ -22,16 +22,17 @@ def create_user_token_from_cas_profile(profile, access_token):
         value = attr[key]
         profile_dict[key] = value
 
-    user, created = User.objects.get_or_create(username=profile_dict['username'])
-    user.first_name = profile_dict['firstName']
-    user.last_name = profile_dict['lastName']
-    user.email = profile_dict['email']
-    user.is_staff = ('staff' in profile_dict['entitlement'])
-    user.save()
-
     user_token = UserToken.objects.create(token=access_token, user=user)
     return user_token
 
+def get_or_create_user(username, profile, access_token=None):
+    user, created = User.objects.get_or_create(username=profile['username'])
+    user.first_name = profile['firstName']
+    user.last_name = profile['lastName']
+    user.email = profile['email']
+    user.is_staff = ('staff' in profile['entitlement'])
+    user.save()
+    return user
 
 class OAuthLoginBackend(object):
     """
@@ -91,3 +92,29 @@ class OAuthTokenLoginBackend(authentication.BaseAuthentication):
 
         user = user_token.user
         return (user, user_token)
+
+class MockLoginBackend(authentication.BaseAuthentication):
+    """
+    AuthenticationBackend for Testing login
+    (Logging in from admin or Django REST framework login)
+    """
+    def authenticate(self, username=None, password=None, request=None):
+        """
+        Return user if Always
+        Return None Never.
+        """
+        return get_or_create_user(username, {
+            'username':settings.ALWAYS_AUTH_USER,
+            'firstName':"Mocky Mock",
+            'lastName':"MockDoodle",
+            'email': '%s@iplantcollaborative.org' % settings.ALWAYS_AUTH_USER,
+            'entitlement': []})
+
+    def get_user(self, user_id):
+        """
+        Get a User object from the username.
+        """
+        try:
+            return User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            return None
