@@ -1,42 +1,41 @@
-/** @jsx React.DOM */
+define(function (stores) {
 
-define(
-  [
-    'react',
-    'backbone',
-    'stores'
-  ],
-  function (React, Backbone, stores) {
+  var React = require('react'),
+      Backbone = require('backbone'),
+      stores = require('stores');
 
-    return React.createClass({
+  return React.createClass({
 
-      propTypes: {
-        maintenanceMessages: React.PropTypes.instanceOf(Backbone.Collection).isRequired
-      },
+    propTypes: {
+      maintenanceMessages: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+    },
 
-      renderMessage: function(message){
-        var provider = stores.ProviderStore.get(message.get('provider_id'));
-        var providerName = provider.get('name');
-        return (
-          <li key={message.id} className="message">
-            <strong className="provider-name">{providerName}</strong>
-            <span dangerouslySetInnerHTML={{__html: message.get('message')}}/>
-          </li>
-        )
-      },
+    renderMessage: function(message){
+      var provider = stores.ProviderStore.get(message.get('provider')),
+          providerName = provider ? provider.get('name') : "";
 
-      render: function () {
-        return (
-          <div className="message-banner-wrapper">
-            <div className="container">
-              <ul className="message-banner">
-                {this.props.maintenanceMessages.map(this.renderMessage)}
-              </ul>
-            </div>
+      return (
+        <li key={message.id} className="message">
+          <strong className="provider-name">{providerName}</strong>
+          <span dangerouslySetInnerHTML={{__html: message.get('message')}}/>
+        </li>
+      );
+    },
+
+    render: function () {
+      var maintenanceMessages = this.props.maintenanceMessages;
+
+      return (
+        <div className="message-banner-wrapper">
+          <div className="container">
+            <ul className="message-banner">
+              {maintenanceMessages.map(this.renderMessage)}
+            </ul>
           </div>
-        );
-      }
-
-    });
+        </div>
+      );
+    }
 
   });
+
+});
