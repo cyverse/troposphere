@@ -16,8 +16,6 @@ define(function (require) {
 
     render: function () {
       var request = this.props.request;
-      //<td className="quota-admin-message">{request.get('admin_message')}</td>
-      //<td className="quota">{request.get('quota')}</td>
       return (
           <tr>
               <td className="user-name">

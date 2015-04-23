@@ -66,9 +66,11 @@ define(function (require) {
       if (!_models) {
         return fetchModels();
       }
+
       var pendingRequests = _models.filter(function(model){
         return model.get("status").name === "pending";
       });
+
       return new Collection(pendingRequests);
     }
 

@@ -19,16 +19,10 @@ define(function (require) {
 
       var quotaRequestRows = requests.map(function(request) {
         return(
-          <QuotaRequest key={request.id} request = {request} />
+          <QuotaRequest key={request.id} request={request} />
         )
       });
 
-      //     <th className="center">
-      //     <h3>Admin Message</h3>
-      // </th>
-      // <th className="center">
-      //     <h3>Quota</h3>
-      // </th>
       return (
         <div className = "container">
             <h1>Quota Requests</h1>

@@ -32,7 +32,6 @@ define(function (require) {
       e.preventDefault();
       var quotaRequest = stores.QuotaRequestStore.get(this.getParams().quotaRequestId);
       var status = stores.QuotaStatusStore.getStatusWithName("approved");
-      // if there's a new quota set
       QuotaActions.update({request: quotaRequest, response: this.state.response, quota: this.state.quota, status: status.id});
     },
 
@@ -59,7 +58,7 @@ define(function (require) {
           <div><strong>Description:</strong> {quotaRequest.get('description')}</div>
           <div>
             <label>New quota:&nbsp;</label>
-            <select value = {this.state.quota} onChange={this.handleQuotaChange} ref="selectedQuota">{quotas.map(function(quota){
+            <select value={this.state.quota} onChange={this.handleQuotaChange} ref="selectedQuota">{quotas.map(function(quota){
               return(
                 <option value={quota.id} key={quota.id}>
                   CPU: {quota.get('cpu')}&nbsp;
@@ -75,7 +74,7 @@ define(function (require) {
           <div className="form-group">
             <strong>Response:</strong>
             <br />
-            <textarea type="text" form="admin" value={this.state.value} cols="60" rows="8" name="email" onChange={this.handleResponseChange} />
+            <textarea type="text" form="admin" value={this.state.value} cols="60" rows="8" onChange={this.handleResponseChange} />
           </div>
           <button onClick={this.handleQuotaApproval} type="button" className="btn btn-default btn-sm">Approve</button>
           <button onClick={this.handleQuotaDenial} type="button" className="btn btn-default btn-sm">Deny</button>
