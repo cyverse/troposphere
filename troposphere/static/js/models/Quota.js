@@ -4,7 +4,7 @@ define(function (require) {
       globals = require('globals');
 
   return Backbone.Model.extend({
-    url: globals.API_ROOT + "/v2/quotas"
+    url: globals.API_V2_ROOT + "/quotas"
   });
 
 });
