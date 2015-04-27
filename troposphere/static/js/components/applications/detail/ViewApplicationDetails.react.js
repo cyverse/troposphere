@@ -35,7 +35,7 @@ define(
         var profile = stores.ProfileStore.get(),
             image = this.props.application;
 
-        if(profile.id && profile.get('username') === image.get('created_by')){
+        if(profile.id && profile.get('username') === image.get('created_by').username){
           return (
             <div className="edit-link-row">
               <a className="edit-link" onClick={this.props.onEditImageDetails}>Edit details</a>
