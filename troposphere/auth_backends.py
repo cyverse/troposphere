@@ -4,7 +4,6 @@ from caslib import OAuthClient as CAS_OAuthClient
 from api.models import UserToken
 from django.contrib.auth.models import User
 from rest_framework import authentication, exceptions
-from uuid import uuid4
 
 logger = logging.getLogger(__name__)
 cas_oauth_client = CAS_OAuthClient(settings.CAS_SERVER,
