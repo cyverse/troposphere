@@ -11,7 +11,7 @@ $(function() {
 	var most_saved = 0;
 	var total_cpu_time = 0;
 
-    ROOT_API_BASE = Atmo.API_ROOT.replace("/v1","");
+    ROOT_API_BASE = API_ROOT.replace("/v1","");
 	$.ajax(ROOT_API_BASE + '/leaderboard', {
 		type: 'GET',
 		dataType: 'jsonp',

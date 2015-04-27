@@ -11,6 +11,12 @@
     <script type="text/javascript"
             src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/bootstrap.min.js"></script>
     <script type="text/javascript" src="{{ site_root }}/assets/resources/js/d3.v3.min.js"></script>
+
+    <script type="text/javascript">
+        {% if API_ROOT %}
+            var API_ROOT = "{{ API_ROOT }}";
+        {% endif %}
+    </script>
     <script type="text/javascript" src="{{ site_root }}/assets/resources/js/viz.js"></script>
     <script type="text/javascript">
         $(function () {
