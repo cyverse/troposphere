@@ -21,10 +21,12 @@ def create_user_token_from_cas_profile(profile, access_token):
         value = attr[key]
         profile_dict[key] = value
 
+    user = get_or_create_user(profile_dict)
     user_token = UserToken.objects.create(token=access_token, user=user)
     return user_token
 
-def get_or_create_user(username, profile, access_token=None):
+
+def get_or_create_user(profile):
     user, created = User.objects.get_or_create(username=profile['username'])
     user.first_name = profile['firstName']
     user.last_name = profile['lastName']
@@ -32,6 +34,7 @@ def get_or_create_user(username, profile, access_token=None):
     user.is_staff = ('staff' in profile['entitlement'])
     user.save()
     return user
+
 
 class OAuthLoginBackend(object):
     """
@@ -102,12 +105,13 @@ class MockLoginBackend(authentication.BaseAuthentication):
         Return user if Always
         Return None Never.
         """
-        return get_or_create_user(username, {
+        return get_or_create_user({
             'username':settings.ALWAYS_AUTH_USER,
             'firstName':"Mocky Mock",
             'lastName':"MockDoodle",
             'email': '%s@iplantcollaborative.org' % settings.ALWAYS_AUTH_USER,
-            'entitlement': []})
+            'entitlement': []
+        })
 
     def get_user(self, user_id):
         """
