@@ -5,6 +5,7 @@ from api.models import UserToken
 
 from django.contrib.auth.models import User
 from rest_framework import authentication, exceptions
+from uuid import uuid4
 
 logger = logging.getLogger(__name__)
 cas_oauth_client = CAS_OAuthClient(settings.CAS_SERVER,
@@ -24,6 +25,12 @@ def create_user_token_from_cas_profile(profile, access_token):
 
     user = get_or_create_user(profile_dict)
     user_token = UserToken.objects.create(token=access_token, user=user)
+    return user_token
+
+
+def generate_token(user):
+    access_token = uuid4()
+    user_token = UserToken.objects.create(user=user, token=access_token)
     return user_token
 
 
