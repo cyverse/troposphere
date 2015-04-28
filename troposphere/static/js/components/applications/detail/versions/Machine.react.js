@@ -10,11 +10,26 @@ define(function (require) {
   return React.createClass({
 
     propTypes: {
-      machine: React.PropTypes.instanceOf(Backbone.Model).isRequired
+      machine: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+      application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+      onEditMachineDetails: React.PropTypes.func.isRequired
     },
 
+    renderEditLink: function(){
+      var profile = stores.ProfileStore.get(),
+          image = this.props.application;
+
+      if(profile.id && profile.get('username') === image.get('created_by').username){
+        return (
+          <div className="edit-link-row">
+            <a className="edit-link" onClick={this.props.onEditMachineDetails}>Edit Version</a>
+          </div>
+        )
+      }
+    },
     render: function () {
       // todo: figure out if anything is ever recommended, or if it's just a concept idea
+            {this.renderEditLink()}
       var machine = this.props.machine,
           isRecommended = false,
           dateCreated = this.props.machine.get('start_date').format("M/DD/YYYY"),
