@@ -65,6 +65,7 @@ define(
                                     providers={this.props.providers}
                                     identities={this.props.identities}
                                     onEditImageDetails={this.handleEditImageDetails}
+                                    onEditMachineDetails={this.handleEditMachineDetails}
             />
           )
         }
