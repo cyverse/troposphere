@@ -24,6 +24,13 @@ module.exports = function (gulp) {
 
     return gulp.src(paths.jsxTemplates)
       .pipe(react())
+      .on('error', function(err){
+        // remove the stack trace for better visibility
+        // all it does is print out the internal React trace anyway, not the file causing problems
+        delete err['stack'];
+        console.error("React error: ");
+        throw JSON.stringify(err, null, 4);
+      })
       .pipe(gulp.dest(dest))
       .pipe(notify({ message: 'Transformed React JSX templates and copied to: ' + dest, onLast: true }));
   });
