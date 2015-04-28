@@ -29,7 +29,6 @@ define(function (require) {
     },
     render: function () {
       // todo: figure out if anything is ever recommended, or if it's just a concept idea
-            {this.renderEditLink()}
       var machine = this.props.machine,
           isRecommended = false,
           dateCreated = this.props.machine.get('start_date').format("M/DD/YYYY"),
@@ -49,6 +48,7 @@ define(function (require) {
               <div>{dateCreated}</div>
               <div>{machine.get('ownerid')}</div>
             </div>
+            {this.renderEditLink()}
           </div>
         </li>
       );
