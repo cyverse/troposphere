@@ -17,7 +17,9 @@ define(function (require) {
       return (
         <div className="image-versions image-info-segment row">
           <h2 className="title col-md-2">Versions</h2>
-          <MachineList application={this.props.application} onEditMachineDetails={this.props.onEditMachineDetails machines={image.get('machines')}/>
+          <MachineList application={this.props.application}
+                       onEditMachineDetails={this.props.onEditMachineDetails}
+                       machines={image.get('machines')}/>
         </div>
       );
     }
