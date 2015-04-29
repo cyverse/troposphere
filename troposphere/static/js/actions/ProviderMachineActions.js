@@ -24,8 +24,8 @@ define(function (require) {
         if(!machine) throw new Error("Missing ProviderMachine");
         if(!newAttributes) throw new Error("No attributes to be updated");
 
-        machine.set(newAttributes)
-        Utils.dispatch(ProviderMachineConstants.UPDATE_MACHINE, {machine: machine});
+        machine.set(newAttributes);
+        Utils.dispatch(ProviderMachineConstants.UPDATE_PROVIDER_MACHINE, {machine: machine});
 
         machine.save().done(function(){
           // UPDATE_MACHINE here if we do NOT want 'optimistic updating'
@@ -33,9 +33,11 @@ define(function (require) {
         }).fail(function(){
           var message = "Error creating ProviderMachine " + machine.get('name') + ".";
           NotificationController.error(null, message);
-          Utils.dispatch(ProviderMachineConstants.REMOVE_MACHINE, {machine: machine});
+          Utils.dispatch(ProviderMachineConstants.REMOVE_PROVIDER_MACHINE, {machine: machine});
         }).always(function(){
-          Utils.dispatch(ProviderMachineConstants.POLL_MACHINE, {machine: machine});
+          // todo: add a POLL_PROVIDER_MACHINE constant if you want this to work (also need
+          // to add a handler in the ProviderMachineStore)
+          //Utils.dispatch(ProviderMachineConstants.POLL_PROVIDER_MACHINE, {machine: machine});
         });
     },
 
