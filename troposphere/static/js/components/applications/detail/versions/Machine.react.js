@@ -20,7 +20,7 @@ define(function (require) {
     },
     //Observation - Should this be in machineList to dictate AT MOST 1?
       showMachineEditModal: function (machine) {
-        actions.ProviderMachineActions.edit(machine);
+        actions.ProviderMachineActions.edit(machine, this.props.application);
       },
 
 

@@ -13,7 +13,8 @@ define(
       mixins: [BootstrapModalMixin],
 
       propTypes: {
-        machine: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        machine: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        application: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
       getInitialState: function () {
@@ -21,6 +22,7 @@ define(
       },
       getState: function() {
         var machine = this.props.machine,
+          current_app = this.props.application,
           applications = stores.ApplicationStore.getAll(),
           //licenses = stores.LicenseStore.getAll(), //Future
           //memberships = stores.MachineMembershipStore.getAll(), //Future
@@ -36,9 +38,9 @@ define(
         };
 
         if (machine) {
-            state.machineVersion = machine.version;
-            state.machineEndDate = machine.end_date;
-            state.machineUncopyable = machine.uncopyable || false;
+            state.machineVersion = machine.get('version');
+            state.machineEndDate = machine.get('end_date');
+            state.machineUncopyable = ! machine.get('allow_imaging');
         }
 
         //if (licenses) {
@@ -48,25 +50,28 @@ define(
         //if (memberships) {
         //    state.machineMemberships = memberships;
         //}
+        if (state.machineApplicationID === null) {
+            state.machineApplicationID = current_app.id
+        }
 
         if (applications) {
-            state.machineApplicationID = machine.application.id
             selectedApplication = applications.get(state.machineApplicationID)
         }
 
         return state;
       },
-    componentDidMount: function () {
-      stores.ApplicationStore.addChangeListener(this.updateState);
-      //stores.LicenseStore.addChangeListener(this.updateState);
-      //stores.MachineMembershipStore.addChangeListener(this.updateState);
-    },
 
-    componentWillUnmount: function () {
-      stores.ApplicationStore.removeChangeListener(this.updateState);
-      //stores.LicenseStore.removeChangeListener(this.updateState);
-      //stores.MachineMembershipStore.removeChangeListener(this.updateState);
-    },
+      componentDidMount: function () {
+        stores.ApplicationStore.addChangeListener(this.updateState);
+        //stores.LicenseStore.addChangeListener(this.updateState);
+        //stores.MachineMembershipStore.addChangeListener(this.updateState);
+      },
+
+      componentWillUnmount: function () {
+        stores.ApplicationStore.removeChangeListener(this.updateState);
+        //stores.LicenseStore.removeChangeListener(this.updateState);
+        //stores.MachineMembershipStore.removeChangeListener(this.updateState);
+      },
 
       //TODO: Pull this out to commons
       valid_date: function (date_stamp) {
@@ -153,7 +158,7 @@ define(
 
             <div className='form-group'>
               <label htmlFor='machine-uncopyable'>Uncopyable</label>
-              <input type='checkbox' className='form-control' value={this.state.machineUncopyable} onChange={this.onUncopyableSelected}/>
+              <input type='checkbox' className='form-control' checked={this.state.machineUncopyable} onChange={this.onUncopyableSelected}/>
             </div>
 
             <Application
