@@ -1,10 +1,5 @@
 /** @jsx React.DOM */
 
-
-
-
-
-
 define(
   [
     'react',
@@ -30,7 +25,6 @@ define(
         identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         onEditImageDetails: React.PropTypes.func.isRequired,
-        onEditMachineDetails: React.PropTypes.func.isRequired
       },
 
       showModal: function (e) {
@@ -67,8 +61,7 @@ define(
         // versions on the public page
         if(this.props.identities){
           versionView = (
-            <VersionsView application={this.props.application}
-                          onEditMachineDetails={this.props.onEditMachineDetails}/>
+            <VersionsView application={this.props.application} />
           );
         }
 

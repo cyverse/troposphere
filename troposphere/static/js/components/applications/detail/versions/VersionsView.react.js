@@ -8,7 +8,6 @@ define(function (require) {
 
     propTypes: {
       application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      onEditMachineDetails: React.PropTypes.func.isRequired,
     },
 
     render: function () {
@@ -18,7 +17,6 @@ define(function (require) {
         <div className="image-versions image-info-segment row">
           <h2 className="title col-md-2">Versions</h2>
           <MachineList application={this.props.application}
-                       onEditMachineDetails={this.props.onEditMachineDetails}
                        machines={image.get('machines')}/>
         </div>
       );
