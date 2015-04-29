@@ -24,7 +24,7 @@ define(function (require) {
 
     render: function () {
       var applicationId = this.props.applicationId,
-          Applications = stores.ApplicationStore.getAll(), //TODO: ".getMyApps()"
+          Applications = stores.ApplicationStore.getUserImages(),
           options = Applications.map(this.renderApplication);
 
       return (

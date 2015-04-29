@@ -20,6 +20,9 @@ define(
       getInitialState: function () {
         return this.getState();
       },
+      updateState: function () {
+        if (this.isMounted()) this.setState(this.getState());
+      },
       getState: function() {
         var machine = this.props.machine,
           current_app = this.props.application,
@@ -128,8 +131,8 @@ define(
       },
 
       onUncopyableSelected: function (e) {
-        boolean value = e.target.value === ? 'on' : false;
-        this.setState({machineUncopyable: value});
+        var uncopyable = (e.target.value === 'on') ? true : false;
+        this.setState({machineUncopyable: uncopyable});
       },
 
       onApplicationSelected: function (e) {

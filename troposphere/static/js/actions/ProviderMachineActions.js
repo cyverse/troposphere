@@ -47,7 +47,7 @@ define(function (require) {
       ModalHelpers.renderModal(modal, function(version, end_date, uncopyable, application, licenses, memberships){
         that.update(machine, {
             version:version,
-            end_date: Date.parse(end_date),
+            end_date: new Date(Date.parse(end_date)),
             allow_imaging: uncopyable,
             application: application,
             licenses: licenses,
