@@ -20,21 +20,40 @@ define(function (require) {
     // Standard CRUD Operations
     // ------------------------
 
+    update: function(machine, newAttributes) {
+        if(!machine) throw new Error("Missing ProviderMachine");
+        if(!newAttributes) throw new Error("No attributes to be updated");
+
+        machine.set(newAttributes)
+        Utils.dispatch(ProviderMachineConstants.UPDATE_MACHINE, {machine: machine});
+
+        machine.save().done(function(){
+          // UPDATE_MACHINE here if we do NOT want 'optimistic updating'
+          // Othewise, do nothing..
+        }).fail(function(){
+          var message = "Error creating ProviderMachine " + machine.get('name') + ".";
+          NotificationController.error(null, message);
+          Utils.dispatch(ProviderMachineConstants.REMOVE_MACHINE, {machine: machine});
+        }).always(function(){
+          Utils.dispatch(ProviderMachineConstants.POLL_MACHINE, {machine: machine});
+        });
+    },
+
     edit: function (machine, application) {
       var that = this;
 
       var modal = ProviderMachineEditModal({machine: machine, application: application});
 
       ModalHelpers.renderModal(modal, function(version, end_date, uncopyable, application, licenses, memberships){
-        //TODO: Add these values into the machine!
-        machine.save().done(function(){
-          Utils.dispatch(ProviderMachineConstants.UPDATE_MACHINE, {machine: machine});
-        }).fail(function(){
-          var message = "Error creating ProviderMachine " + machine.get('name') + ".";
-          NotificationController.error(null, message);
-          Utils.dispatch(ProviderMachineConstants.REMOVE_MACHINE, {machine: machine});
+        that.update(machine, {
+            version:version,
+            end_date: Date.parse(end_date),
+            allow_imaging: uncopyable,
+            application: application,
+            licenses: licenses,
+            memberships: memberships
         });
-      })
+      });
 
     },
 
