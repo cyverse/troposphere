@@ -8,7 +8,7 @@ define(function (require) {
       ProviderMachineConstants = require('constants/ProviderMachineConstants'),
 
       // Models
-      ProviderMachine = require('models/Machine'),
+      ProviderMachine = require('models/ProviderMachine'),
 
       // Modals
       ModalHelpers = require('components/modals/ModalHelpers'),

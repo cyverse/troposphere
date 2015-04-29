@@ -13,7 +13,7 @@ define(function (require) {
 
     render: function () {
       var image = this.props.application,
-          machines = stores.MachineStore.getProviderMachinesFor(image);
+          machines = stores.ProviderMachineStore.getProviderMachinesFor(image);
 
       if(!machines) return <div className="loading"/>;
 

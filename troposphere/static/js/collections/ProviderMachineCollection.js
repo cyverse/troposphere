@@ -4,7 +4,7 @@ define(function (require) {
   var Backbone = require('backbone'),
       _ = require('underscore'),
       globals = require('globals'),
-      Machine = require('models/Machine');
+      Machine = require('models/ProviderMachine');
 
   return Backbone.Collection.extend({
     model: Machine,
