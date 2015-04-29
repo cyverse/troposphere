@@ -35,12 +35,12 @@ define(function (require) {
     stores.InstanceHistoryStore    = require('stores/InstanceHistoryStore');
     stores.InstanceStore           = require('stores/InstanceStore');
     stores.InstanceTagStore        = require('stores/InstanceTagStore');
-    stores.MachineStore            = require('stores/MachineStore');
     stores.MaintenanceMessageStore = require('stores/MaintenanceMessageStore');
     stores.ProfileStore            = require('stores/ProfileStore');
     stores.ProjectStore            = require('stores/ProjectStore');
     stores.ProjectInstanceStore    = require('stores/ProjectInstanceStore');
     stores.ProjectVolumeStore      = require('stores/ProjectVolumeStore');
+    stores.ProviderMachineStore    = require('stores/ProviderMachineStore');
     stores.ProviderStore           = require('stores/ProviderStore');
     stores.QuotaRequestStore       = require('stores/QuotaRequestStore');
     stores.QuotaStatusStore        = require('stores/QuotaStatusStore');

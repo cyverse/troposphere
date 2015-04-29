@@ -3,8 +3,8 @@ define(function (require) {
   var _ = require('underscore'),
       Backbone = require('backbone'),
       globals = require('globals'),
-      Machine = require('models/Machine'),
-      MachineCollection = require('collections/MachineCollection'),
+      ProviderMachine = require('models/ProviderMachine'),
+      ProviderMachineCollection = require('collections/ProviderMachineCollection'),
       moment = require('moment');
 
   return Backbone.Model.extend({
@@ -17,9 +17,9 @@ define(function (require) {
 
       // todo: handle this through the ProviderSnapshot store
       var machines = _.map(attributes.provider_images, function (attrs) {
-        return new Machine(Machine.prototype.parse(attrs));
+        return new ProviderMachine(ProviderMachine.prototype.parse(attrs));
       });
-      machines = new MachineCollection(machines);
+      machines = new ProviderMachineCollection(machines);
       attributes.machines = machines;
       attributes.provider_images = machines;
       attributes.start_date = moment(attributes.start_date);
