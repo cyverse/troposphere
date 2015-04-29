@@ -24,8 +24,12 @@ define(function (require) {
 
     render: function () {
       var applicationId = this.props.applicationId,
-          Applications = stores.ApplicationStore.getUserImages(),
-          options = Applications.map(this.renderApplication);
+          applications = stores.ApplicationStore.getUserImages(),
+          options;
+
+      if(!applications) return <div className="loading"/>;
+
+      options = applications.map(this.renderApplication);
 
       return (
         <div className="form-group">
