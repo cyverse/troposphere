@@ -60,6 +60,7 @@ define(function (require) {
     actions.NullProjectActions     = require('actions/NullProjectActions');
     actions.ProfileActions         = require('actions/ProfileActions');
     actions.ProjectActions         = require('actions/ProjectActions');
+    actions.ProviderMachineActions = require('actions/ProviderMachineActions');
     actions.ProjectInstanceActions = require('actions/ProjectInstanceActions');
     actions.ProjectVolumeActions   = require('actions/ProjectVolumeActions');
     actions.TagActions             = require('actions/TagActions');

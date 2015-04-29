@@ -6,14 +6,23 @@ define(function (require) {
       Gravatar = require('components/common/Gravatar.react'),
       CryptoJS = require('crypto'),
       stores = require('stores');
+      actions = require('actions');
 
   return React.createClass({
 
     propTypes: {
       machine: React.PropTypes.instanceOf(Backbone.Model).isRequired,
       application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      onEditMachineDetails: React.PropTypes.func.isRequired
     },
+
+    handleEditMachineDetails: function(){
+      this.showMachineEditModal(this.props.machine);
+    },
+    //Observation - Should this be in machineList to dictate AT MOST 1?
+      showMachineEditModal: function (machine) {
+        actions.ProviderMachineActions.edit(machine);
+      },
+
 
     renderEditLink: function(){
       var profile = stores.ProfileStore.get(),
@@ -22,7 +31,7 @@ define(function (require) {
       if(profile.id && profile.get('username') === image.get('created_by').username){
         return (
           <div className="edit-link-row">
-            <a className="edit-link" onClick={this.props.onEditMachineDetails}>Edit Version</a>
+            <a className="edit-link" onClick={this.handleEditMachineDetails}>Edit Version</a>
           </div>
         )
       }
