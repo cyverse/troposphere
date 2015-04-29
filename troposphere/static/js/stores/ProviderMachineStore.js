@@ -65,7 +65,7 @@ define(function (require) {
     switch (actionType) {
 
       case Constants.UPDATE_PROVIDER_MACHINE:
-        update(payload.providerMachine);
+        update(payload.machine);
         break;
 
       case Constants.EMIT_CHANGE:
