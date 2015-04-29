@@ -20,20 +20,13 @@ define(function (require) {
     // Standard CRUD Operations
     // ------------------------
 
-    edit: function (machine) {
+    edit: function (machine, application) {
       var that = this;
 
-      var modal = ProviderMachineEditModal(machine);
+      var modal = ProviderMachineEditModal({machine: machine, application: application});
 
       ModalHelpers.renderModal(modal, function(version, end_date, uncopyable, application, licenses, memberships){
-
-        var machine = new ProviderMachine({
-          name: name,
-          description: description
-        });
-
-        Utils.dispatch(ProviderMachineConstants.ADD_MACHINE, {machine: machine});
-
+        //TODO: Add these values into the machine!
         machine.save().done(function(){
           Utils.dispatch(ProviderMachineConstants.UPDATE_MACHINE, {machine: machine});
         }).fail(function(){
