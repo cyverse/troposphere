@@ -128,7 +128,8 @@ define(
       },
 
       onUncopyableSelected: function (e) {
-        this.setState({machineUncopyable: e.target.value});
+        boolean value = e.target.value === ? 'on' : false;
+        this.setState({machineUncopyable: value});
       },
 
       onApplicationSelected: function (e) {
