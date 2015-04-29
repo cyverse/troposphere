@@ -1,42 +1,88 @@
 define(function (require) {
 
   var _ = require('underscore'),
+      Dispatcher = require('dispatchers/Dispatcher'),
       Store = require('stores/Store'),
-      Machine = require('models/Machine');
+      Collection = require('collections/MachineCollection'),
+      Constants = require('constants/ProviderMachineConstants');
 
-  var _machines = {};
-  var _isFetching = {};
+  var _models = new Collection();
+  var _modelsFor = {};
+  var _isFetchingFor = {};
 
-  function fetchMachine(providerId, identityId, machineId){
-    if(!_isFetching[machineId]) {
-      _isFetching[machineId] = true;
-      var machine = new Machine({id: machineId}, {
-        provider_id: providerId,
-        identity_id: identityId
-      });
+  //
+  // CRUD Operations
+  //
 
-      machine.fetch().done(function () {
-        _isFetching[machineId] = false;
-         _machines[machineId] = machine;
-        MachineStore.emitChange();
+  var fetchModelsFor = function(imageId){
+    if(!_modelsFor[imageId] && !_isFetchingFor[imageId]) {
+      _isFetchingFor[imageId] = true;
+      var models = new Collection();
+      models.fetch({
+        url: models.url + "?application__id=" + imageId
+      }).done(function () {
+        _isFetchingFor[imageId] = false;
+
+        // add models to existing cache
+        _models.add(models.models);
+
+        _modelsFor[imageId] = models;
+        ModelStore.emitChange();
       });
     }
+  };
+
+  function update(model) {
+    var existingModel = _models.get(model);
+    if (!existingModel) throw new Error("ProviderMachine doesn't exist.");
+    _models.add(model, {merge: true});
   }
 
-  var MachineStore = {
+  //
+  // Model Store
+  //
 
-    get: function (providerId, identityId, machineId) {
-      console.warn("Function shouldn't be used...");
-      if (!_machines[machineId]) {
-        fetchMachine(providerId, identityId, machineId);
-      }
-      return _machines[machineId];
+  var ModelStore = {
+
+    getProviderMachinesFor: function(image){
+      if(!_modelsFor[image.id]) return fetchModelsFor(image.id);
+
+      var machines = _models.filter(function(m){
+        // filter out the machines not associated with the image
+        return m.get('image').id === image.id;
+      });
+
+      return new Collection(machines);
     }
 
   };
 
-  _.extend(MachineStore, Store);
+  Dispatcher.register(function (dispatch) {
+    var actionType = dispatch.action.actionType;
+    var payload = dispatch.action.payload;
+    var options = dispatch.action.options || options;
 
-  return MachineStore;
+    switch (actionType) {
 
+      case Constants.UPDATE_PROVIDER_MACHINE:
+        update(payload.providerMachine);
+        break;
+
+      case Constants.EMIT_CHANGE:
+        break;
+
+      default:
+        return true;
+    }
+
+    if(!options.silent) {
+      ModelStore.emitChange();
+    }
+
+    return true;
+  });
+
+  _.extend(ModelStore, Store);
+
+  return ModelStore;
 });
