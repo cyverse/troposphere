@@ -42,7 +42,7 @@ define(
 
         if (machine) {
             state.machineVersion = machine.get('version');
-            state.machineEndDate = machine.get('end_date');
+            state.machineEndDate = machine.get('end_date') || "";
             state.machineUncopyable = ! machine.get('allow_imaging');
         }
 
@@ -135,8 +135,8 @@ define(
         this.setState({machineUncopyable: uncopyable});
       },
 
-      onApplicationSelected: function (e) {
-        this.setState({machineApplicationID: e.target.value});
+      onApplicationSelected: function (selection) {
+        this.setState({machineApplicationID: selection});
       },
 
       //TODO: Handle 'many to many' Licenses & Memberships : List current, Add New, Remove Existing
