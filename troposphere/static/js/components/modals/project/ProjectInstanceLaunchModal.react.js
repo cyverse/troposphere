@@ -46,7 +46,7 @@ define(
         // MachineStore.get(providerId, identityId, machineId) called by versions/MachineList
         // is lazy loaded, so I need to re-trigger the render cycle when the machine data
         // returns from the server.
-        stores.MachineStore.addChangeListener(this.updateState);
+        stores.ProviderMachineStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function() {
@@ -54,7 +54,7 @@ define(
         stores.ProviderStore.removeChangeListener(this.updateState);
         stores.IdentityStore.removeChangeListener(this.updateState);
         stores.TagStore.removeChangeListener(this.updateState);
-        stores.MachineStore.removeChangeListener(this.updateState);
+        stores.ProviderMachineStore.removeChangeListener(this.updateState);
       },
 
       //
