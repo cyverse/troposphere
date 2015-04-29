@@ -79,5 +79,7 @@ define(function (require) {
     }
 
 
-  };
+  }
+
+});
 
