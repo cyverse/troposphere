@@ -20,12 +20,12 @@ define(function (require) {
     // Standard CRUD Operations
     // ------------------------
 
-    edit: function (project) {
+    edit: function (machine) {
       var that = this;
 
-      var modal = ProviderMachineEditModal();
+      var modal = ProviderMachineEditModal(machine);
 
-      ModalHelpers.renderModal(modal, function(name, description){
+      ModalHelpers.renderModal(modal, function(version, end_date, uncopyable, application, licenses, memberships){
 
         var machine = new ProviderMachine({
           name: name,
@@ -45,34 +45,34 @@ define(function (require) {
 
     },
 
-    updateProviderMachineAttributes: function (project, newAttributes) {
+    updateProviderMachineAttributes: function (machine, newAttributes) {
       var that = this;
 
-      //project.set(newAttributes);
-      //Utils.dispatch(ProviderMachineConstants.UPDATE_PROJECT, {project: project});
+      //machine.set(newAttributes);
+      //Utils.dispatch(ProviderMachineConstants.UPDATE_machine, {machine: machine});
 
-      //project.save().done(function(){
+      //machine.save().done(function(){
       //}).fail(function(){
-      //  NotificationController.error(null, "Error updating ProviderMachine " + project.get('name') + ".");
-      //  Utils.dispatch(ProviderMachineConstants.UPDATE_PROJECT, {project: project});
+      //  NotificationController.error(null, "Error updating ProviderMachine " + machine.get('name') + ".");
+      //  Utils.dispatch(ProviderMachineConstants.UPDATE_machine, {machine: machine});
       //});
     },
 
-    destroy: function (project) {
+    destroy: function (machine) {
       //var that = this;
 
       //var modal = ProviderMachineDeleteModal({
-      //  project: project
+      //  machine: machine
       //});
 
       //ModalHelpers.renderModal(modal, function(){
-      //  Utils.dispatch(ProviderMachineConstants.REMOVE_PROJECT, {project: project});
+      //  Utils.dispatch(ProviderMachineConstants.REMOVE_machine, {machine: machine});
 
-      //  project.destroy().done(function(){
+      //  machine.destroy().done(function(){
       //  }).fail(function(){
-      //    var failureMessage = "Error deleting ProviderMachine " + project.get('name') + ".";
+      //    var failureMessage = "Error deleting ProviderMachine " + machine.get('name') + ".";
       //    NotificationController.error(failureMessage);
-      //    Utils.dispatch(ProviderMachineConstants.ADD_PROJECT, {project: project});
+      //    Utils.dispatch(ProviderMachineConstants.ADD_machine, {machine: machine});
       //  });
 
       //})
