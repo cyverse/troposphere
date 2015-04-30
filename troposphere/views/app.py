@@ -29,9 +29,6 @@ def _handle_public_application_request(request, disabled_login):
     if hasattr(settings, "API_V2_ROOT"):
         template_params['API_V2_ROOT'] = settings.API_V2_ROOT
 
-    if hasattr(settings, "API_V2_MOCK_ROOT"):
-        template_params['API_V2_MOCK_ROOT'] = settings.API_V2_MOCK_ROOT
-
     # If beta flag in query params, set the session value to that
     if "beta" in request.GET:
         request.session['beta'] = request.GET['beta'].lower()
@@ -78,9 +75,6 @@ def _handle_authenticated_application_request(request, disabled_login):
 
     if hasattr(settings, "API_V2_ROOT"):
         template_params['API_V2_ROOT'] = settings.API_V2_ROOT
-
-    if hasattr(settings, "API_V2_MOCK_ROOT"):
-        template_params['API_V2_MOCK_ROOT'] = settings.API_V2_MOCK_ROOT
 
     user_preferences, created = UserPreferences.objects.get_or_create(user=request.user)
 
