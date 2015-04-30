@@ -46,6 +46,12 @@ define(function(require) {
       href: "/application/help",
       icon: "question-sign",
       requiresLogin: false
+    },
+    {
+      name: "Admin",
+      linksTo: "admin",
+      icon: "cog",
+      requiresLogin: true
     }
   ];
 

@@ -26,7 +26,10 @@ define(function (require) {
       ProvidersMaster = require('./components/providers/ProvidersMaster.react'),
       SettingsPage = require('./components/settings/SettingsPage.react'),
       ProjectInstancePage = require("./components/projects/InstanceDetailsPage.react"),
-      ProjectVolumePage = require("./components/projects/VolumeDetailsPage.react");
+      ProjectVolumePage = require("./components/projects/VolumeDetailsPage.react"),
+      QuotaMaster = require('./components/quota/QuotaMaster.react'),
+      QuotaRequest = require('./components/quota/QuotaRequest.react'),
+      QuotaAdmin = require('./components/quota/QuotaAdmin.react');
 
   var AppRoutes = (
     <Route name="root" path="/application" handler={Master}>
@@ -58,6 +61,9 @@ define(function (require) {
 
       <Route name="help" handler={HelpPage}/>
       <Route name="settings" handler={SettingsPage}/>
+      <Route name="admin" handler={QuotaMaster}>
+          <Route name="quota-request" path=":quotaRequestId" handler={QuotaAdmin}/>
+      </Route>
 
 
 

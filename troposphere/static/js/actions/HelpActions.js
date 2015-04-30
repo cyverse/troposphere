@@ -76,18 +76,18 @@ define(function (require) {
 
       var modal = RequestMoreResourcesModal();
 
-      ModalHelpers.renderModal(modal, function(quota, reason){
+      ModalHelpers.renderModal(modal, function(identity, quota, reason){
 
         var user = stores.ProfileStore.get(),
             username = user.get('username');
 
         var data = {
-          username: username,
-          quota: quota,
-          reason: reason
+          identity: identity,
+          request: quota,
+          description: reason
         };
 
-        var requestUrl = globals.API_ROOT + '/email/request_quota';
+        var requestUrl = globals.API_V2_ROOT + '/quota_requests';
 
         $.ajax(requestUrl, {
           type: 'POST',
