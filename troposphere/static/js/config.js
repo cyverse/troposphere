@@ -29,7 +29,7 @@ require.config({
       '../bower_components/moment/moment'
     ],
     react: [
-      '//cdnjs.cloudflare.com/ajax/libs/react/0.12.0/react-with-addons',
+      '//cdnjs.cloudflare.com/ajax/libs/react/0.12.0/react-with-addons.min',
       '../bower_components/react/react-with-addons'
     ],
     'react-router': [
