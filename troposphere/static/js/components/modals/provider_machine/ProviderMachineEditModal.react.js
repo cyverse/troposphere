@@ -41,8 +41,10 @@ define(
         };
 
         if (machine) {
+            end_date = machine.get('end_date');
+
             state.machineVersion = machine.get('version');
-            state.machineEndDate = machine.get('end_date') || "";
+            state.machineEndDate = isNaN(end_date) ? "" : end_date;
             state.machineUncopyable = ! machine.get('allow_imaging');
         }
 
