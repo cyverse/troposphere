@@ -1,4 +1,4 @@
-textarea, select{
+.quota-admin textarea, select{
 	width: 95%;
 }
 
@@ -11,7 +11,8 @@ textarea, select{
 	width: 48%;
 	float: right;
 	position: relative;
-	border: 5px solid #007b89;
+	border: 5px solid;
+    border-color: $brand-primary;
 }
 
 .quota-detail button{
@@ -27,7 +28,7 @@ textarea, select{
 }
 
 .user-name a.active{
-	color: #007b89;
+	color: $navbar-default-bg;
 	font-weight: bold;
 }
 
