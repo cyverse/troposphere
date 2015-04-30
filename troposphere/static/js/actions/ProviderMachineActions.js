@@ -23,11 +23,13 @@ define(function (require) {
     update: function(machine, newAttributes) {
         if(!machine) throw new Error("Missing ProviderMachine");
         if(!newAttributes) throw new Error("No attributes to be updated");
-
+        
         machine.set(newAttributes);
         Utils.dispatch(ProviderMachineConstants.UPDATE_PROVIDER_MACHINE, {machine: machine});
-
-        machine.save().done(function(){
+        //TODO: 
+        machine.save(newAttributes, {
+            patch:true,
+        }).done(function(){
           // UPDATE_MACHINE here if we do NOT want 'optimistic updating'
           // Othewise, do nothing..
         }).fail(function(){
@@ -47,9 +49,12 @@ define(function (require) {
       var modal = ProviderMachineEditModal({machine: machine, application: application});
 
       ModalHelpers.renderModal(modal, function(version, end_date, uncopyable, application, licenses, memberships){
+        if (end_date !== null) {
+            end_date = new Date(Date.parse(end_date)).toISOString()
+        }
         that.update(machine, {
             version:version,
-            end_date: new Date(Date.parse(end_date)),
+            end_date: end_date,
             allow_imaging: uncopyable,
             application: application,
             licenses: licenses,

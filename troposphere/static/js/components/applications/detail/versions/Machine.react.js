@@ -51,7 +51,7 @@ define(function (require) {
             <Gravatar hash={machineHash} size={iconSize} type={type}/>
             <div className="image-version-details">
               <div className="version">
-                {machine.get('pretty_version')}
+                {machine.get('version')}
                 {isRecommended ? <span className="recommended-tag">Recommended</span> : null}
               </div>
               <div>{dateCreated}</div>
