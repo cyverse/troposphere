@@ -6,21 +6,6 @@ define(function (require) {
       QuotaRequest = require('models/QuotaRequest');
 
   return {
-      //create: function (params) {
-      //    var request = new QuotaRequest({
-      //            author: params.author,
-      //            comment: params.comment
-      //    });
-      //    comment.save().done(function(){
-      //         Utils.dispatch(Constants.ADD, {model: comment});
-      //    });
-      //},
-      //
-      //destroy: function(params){
-      //    var request = params.request;
-      //    Utils.dispatch(Constants.REMOVE, {model: request});
-      //},
-
       update: function(params) {
         var request = params.request,
             response = params.response,
