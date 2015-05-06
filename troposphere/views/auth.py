@@ -24,6 +24,8 @@ def _mock_login(request):
     user = authenticate(username=None, request=request)
     auth_login(request, user)
     last_token = user.usertoken_set.last()
+    if not last_token:
+        last_token = generate_token(user)
     _apply_token_to_session(request, last_token.token)
 
     if request.session.get('redirect_to'):
