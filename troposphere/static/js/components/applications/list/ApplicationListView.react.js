@@ -175,22 +175,32 @@ define(function (require) {
     },
 
     renderListButton: function(){
-      var classValues = "btn btn-default";
-      if(this.state.viewType === "list") classValues += " active";
+      var classValues = "btn btn-default",
+          onClick = this.onChangeViewType;
+
+      if(this.state.viewType === "list") {
+        classValues += " active";
+        onClick = function(){};
+      }
 
       return (
-        <button type="button" className={classValues} onClick={this.onChangeViewType}>
+        <button type="button" className={classValues} onClick={onClick}>
           <span className="glyphicon glyphicon-align-justify"></span> List
         </button>
       );
     },
 
     renderGridButton: function(){
-      var classValues = "btn btn-default";
-      if(this.state.viewType === "grid") classValues += " active";
+      var classValues = "btn btn-default",
+          onClick = this.onChangeViewType;
+
+      if(this.state.viewType === "grid") {
+        classValues += " active";
+        onClick = function(){};
+      }
 
       return (
-        <button type="button" className={classValues} onClick={this.onChangeViewType}>
+        <button type="button" className={classValues} onClick={onClick}>
           <span className="glyphicon glyphicon-th"></span> Grid
         </button>
       );
