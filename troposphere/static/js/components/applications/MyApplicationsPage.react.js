@@ -26,7 +26,13 @@ define(function (require) {
       }
 
       return (
-        <ApplicationCardList applications={images}/>
+        <div>
+          <p style={{marginBottom: "16px"}}>
+            {"Looking for more information about the imaging process? Check out the "}
+            <a href={imagingDocsUrl} target="_blank">documention on imaging</a>.
+          </p>
+          <ApplicationCardList applications={images}/>
+        </div>
       );
     },
 
