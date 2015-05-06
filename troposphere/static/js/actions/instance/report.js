@@ -50,7 +50,10 @@ define(function (require) {
           dataType: 'json',
           contentType: 'application/json',
           success: function () {
-            Utils.displaySuccess({message: "Your instance report has been sent to support."});
+            Utils.displayInfo({
+              message: "We're sorry to hear you're having trouble with your instance. Your report has " +
+                       "been sent to support and someone will contact you through email to help resolve your issue."
+            });
           },
           error: function (response, status, error) {
             Utils.displayError({title: "Your instance report could not be sent", response: response});
