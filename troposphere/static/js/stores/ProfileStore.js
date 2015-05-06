@@ -5,9 +5,10 @@ define(
     'stores/Store',
     'models/Profile',
     'controllers/NotificationController',
-    'constants/ProfileConstants'
+    'constants/ProfileConstants',
+    'actions'
   ],
-  function (_, Dispatcher, Store, Profile, NotificationController, ProfileConstants) {
+  function (_, Dispatcher, Store, Profile, NotificationController, ProfileConstants, actions) {
 
     var _profile = null;
     var _isFetching = false;
@@ -28,6 +29,8 @@ define(
           if(result.status === 403) {
             // Redirect the user to the forbidden page with more info
             window.location.pathname = "/forbidden";
+          }else if(result.status === 503){
+            actions.ServiceUnavailableActions.showMaintenanceModal();
           }else {
             NotificationController.error(
               null,
