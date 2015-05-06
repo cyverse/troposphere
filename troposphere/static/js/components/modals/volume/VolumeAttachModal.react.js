@@ -175,7 +175,7 @@ define(
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-primary" onClick={this.cancel}>
-                Okay
+                OK
               </button>
             </div>
           </div>
