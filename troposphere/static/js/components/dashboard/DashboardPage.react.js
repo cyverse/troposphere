@@ -87,7 +87,8 @@ define(function (require) {
                 <InstanceHistoryList/>
               </div>
 
-              <div className="col-md-3">
+              <div className="col-md-3 community-activity">
+                <h3>Community Activity</h3>
                 <MaintenanceMessageList
                   messages={maintenanceMessages}
                   applications={applications}

@@ -89,7 +89,7 @@ LOGGING = {
     },
     'handlers': {
         'file': {
-            'level': 'DEBUG',
+            'level': 'INFO',
             'class': 'logging.FileHandler',
             'filename': os.path.join(LOGGING_ROOT, 'troposphere.log'),
             'formatter': 'verbose',

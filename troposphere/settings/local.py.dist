@@ -46,9 +46,9 @@ OAUTH_SCOPE = 'scope'
 # MOCK - Uncomment these lines to allow one-user-only access. Useful for debug/development
 # ALWAYS_AUTH_USER = "test_user"
 # # Use MockLoginBackend first!
-# AUTHENTICATION_BACKENDS = (
+# AUTHENTICATION_BACKENDS += (
 #     'troposphere.auth_backends.MockLoginBackend',
-# ) + AUTHENTICATION_BACKENDS
+# )
 
 
 # DATABASE
