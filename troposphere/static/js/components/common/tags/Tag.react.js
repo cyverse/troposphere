@@ -2,6 +2,8 @@ define(function (require) {
 
   var React = require('react'),
       Backbone = require('backbone'),
+      Router = require('react-router'),
+      //Router = require('router'),
       // plugin: required but not used directly
       bootstrap = require('bootstrap');
 
@@ -14,17 +16,24 @@ define(function (require) {
 
     componentDidMount: function(){
       var el = this.getDOMNode(),
-          $el = $(el);
+          $el = $(el),
+          tag = this.props.tag;
 
       $el.tooltip({
-        title: this.props.tag.get('description')
+        title: tag.get('description')
       });
     },
 
+    onClick: function(){
+      Router.getInstance().transitionTo("search", {}, {q: this.props.tag.get('name')});
+    },
+
     render: function () {
+      var tag = this.props.tag;
+
       return (
         <li className="tag">
-          <a href="#">{this.props.tag.get('name')}</a>
+          <Router.Link to="search" query={{q: tag.get('name')}}>{tag.get('name')}</Router.Link>
         </li>
       );
 

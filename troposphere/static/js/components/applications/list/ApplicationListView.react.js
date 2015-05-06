@@ -22,11 +22,19 @@ define(function (require) {
 
     getInitialState: function(){
       return {
+        originalQuery: this.getQuery().q,
         query: this.getQuery().q || "",
         input: this.getQuery().q || "",
         isLoadingMoreResults: false,
         nextUrl: null,
         viewType: 'list'
+      }
+    },
+
+    componentWillReceiveProps: function(nextProps){
+      var query = this.getQuery().q;
+      if(query !== this.state.originalQuery){
+        this.setState({query: query, input: query, originalQuery: query});
       }
     },
 
