@@ -46,7 +46,7 @@ define(
             <div className='form-group'>
               <p>
                 {
-                  "Volumes can only be deleted while they are attached to an instance."
+                  "Volumes cannot be deleted while they are attached to an instance."
                 }
               </p>
               <p>
@@ -76,7 +76,7 @@ define(
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-primary" onClick={this.confirm}>
-                    Okay
+                    OK
                   </button>
                 </div>
               </div>
