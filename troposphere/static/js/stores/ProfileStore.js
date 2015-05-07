@@ -29,8 +29,6 @@ define(
           if(result.status === 403) {
             // Redirect the user to the forbidden page with more info
             window.location.pathname = "/forbidden";
-          }else if(result.status === 503){
-            actions.ServiceUnavailableActions.showMaintenanceModal();
           }else {
             NotificationController.error(
               null,
