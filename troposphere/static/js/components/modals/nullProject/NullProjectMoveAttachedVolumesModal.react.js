@@ -102,7 +102,7 @@ define(
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-primary" onClick={this.confirm}>
-                    Okay
+                    OK
                   </button>
                 </div>
               </div>

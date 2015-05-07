@@ -10,7 +10,8 @@ define(function (require) {
       AuthorView = require('./author/AuthorView.react'),
       EditDescriptionView = require('./description/EditDescriptionView.react'),
       VersionsView = require('./versions/VersionsView.react'),
-      actions = require('actions');
+      actions = require('actions'),
+      stores = require('stores');
 
   return React.createClass({
 
@@ -70,7 +71,7 @@ define(function (require) {
           providers = this.props.providers,
           identities = this.props.identities,
           allTags = this.props.tags,
-          imageTags = stores.ImageTagStore.getAllFor(application),
+          imageTags = stores.TagStore.getImageTags(application),
           availabilityView,
           versionView;
 
