@@ -72,7 +72,7 @@ define(function (require) {
               <div className="version">
                 <h3>Available On</h3>
                 <ul>
-                {providers.forEach(this.renderProvider)}
+                {providers.map(this.renderProvider)}
                 </ul>
                 <h3>Description</h3>
                 {version.description}
