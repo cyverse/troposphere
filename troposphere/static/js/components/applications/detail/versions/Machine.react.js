@@ -38,7 +38,7 @@ define(function (require) {
       }
     },
     renderProvider: function(provider) {
-      return <li>{provider}</li>;
+      return (<li>{provider}</li>);
     },
     render: function () {
         // todo: figure out if anything is ever recommended, or if it's just a concept idea

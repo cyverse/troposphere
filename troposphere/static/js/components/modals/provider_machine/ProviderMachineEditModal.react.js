@@ -38,6 +38,8 @@ define(
           machineVersion: "",
           machineEndDate: "",
           machineUncopyable: "",
+          applicationPrivate: null, //Future
+          applicationMembers: null, //Future
         };
 
         if (machine) {
@@ -62,7 +64,10 @@ define(
         if (applications) {
             selectedApplication = applications.get(state.machineApplicationID)
         }
-
+        if(state.machineVersion && selectedApplication) {
+            state.applicationPrivate = selectedApplication.get('private');
+            state.applicationMembers = state.machineVersion.membership;
+        }
         return state;
       },
 
@@ -137,6 +142,11 @@ define(
         this.setState({machineUncopyable: uncopyable});
       },
 
+      onPrivateSelected: function (e) {
+        var private = (e.target.value === 'on') ? true : false;
+        this.setState({applicationPrivate: private});
+      },
+
       onApplicationSelected: function (selection) {
         this.setState({machineApplicationID: selection});
       },
@@ -163,8 +173,16 @@ define(
             </div>
 
             <div className='form-group'>
-              <label htmlFor='machine-uncopyable'>Uncopyable</label>
-              <input type='checkbox' className='form-control' checked={this.state.machineUncopyable} onChange={this.onUncopyableSelected}/>
+              <label htmlFor='machine-private'>Private</label>
+              <input type='checkbox' className='form-control' checked={this.state.applicationPrivate} onChange={this.onPrivateSelected}/>
+            </div>
+
+            <div className='form-group'>
+              <label htmlFor='machine-members'>Membership List</label>
+              <ul>
+                {this.renderNewMembership}
+                {this.state.applicationMembers.forEach(this.renderMember)}
+              </ul>
             </div>
             <div className='form-group'>
               <label htmlFor='machine-uncopyable'>Uncopyable</label>
@@ -178,7 +196,12 @@ define(
           </div>
         );
       },
-
+      renderMember: function(member) {
+          return (<li> {member} </li>);
+      },
+      renderAddMember: function() {
+          return (<li> "Add New Membership" </li>);
+      },
       render: function () {
 
         return (
