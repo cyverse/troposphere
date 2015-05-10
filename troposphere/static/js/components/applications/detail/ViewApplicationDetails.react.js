@@ -56,7 +56,11 @@ define(
             />
           );
         }
-
+        tagsView = (
+            <TagsView application={this.props.application}
+                      tags={this.props.tags}
+            />
+        )
         // Since identities requires authentication, we can't display the image
         // versions on the public page
         if(this.props.identities){
@@ -72,9 +76,7 @@ define(
               <NameView application={this.props.application}/>
               <CreatedView application={this.props.application}/>
               <AuthorView application={this.props.application}/>
-              <TagsView application={this.props.application} tags={this.props.tags}/>
-              {availabilityView}
-              <DescriptionView application={this.props.application}/>
+              {tagsView}
               {versionView}
             </div>
           </div>

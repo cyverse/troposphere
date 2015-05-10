@@ -88,6 +88,7 @@ define(
       getImageTags: function (image) {
         if(!_tags) throw new Error("Must fetch tags before calling getImageTags");
 
+
         var imageTagArray = image.get('tags').map(function(tag){
           //var tagName = tag.name;
           //var tag = _tags.findWhere({name: tagName}, {parse: true});
@@ -102,7 +103,7 @@ define(
         }
 
         return new TagCollection(imageTagArray);
-      }
+      },
 
     };
 

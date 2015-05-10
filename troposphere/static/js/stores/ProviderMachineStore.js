@@ -19,7 +19,7 @@ define(function (require) {
       _isFetchingFor[imageId] = true;
       var models = new Collection();
       models.fetch({
-        url: models.url + "?application__id=" + imageId
+        url: models.url + "?application_version__application__id=" + imageId
       }).done(function () {
         _isFetchingFor[imageId] = false;
 

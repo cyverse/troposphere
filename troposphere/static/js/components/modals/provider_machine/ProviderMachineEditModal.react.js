@@ -153,15 +153,19 @@ define(
           <div role='form'>
 
             <div className='form-group'>
-              <label htmlFor='machine-version'>Machine Version</label>
-              <input type='text' className='form-control' value={this.state.machineVersion} onChange={this.onVersionChange}/>
+              <label htmlFor='machine-version'>Version Created On</label>
+              <input type='text' className='form-control' value={this.state.machineVersion.start_date} onChange={this.onVersionChange}/>
             </div>
 
             <div className='form-group'>
-              <label htmlFor='machine-end-date'>Removed</label>
+              <label htmlFor='machine-end-date'>Version Removed On</label>
               <input type='text' className='form-control' value={this.state.machineEndDate} onChange={this.onEndDateChange}/>
             </div>
 
+            <div className='form-group'>
+              <label htmlFor='machine-uncopyable'>Uncopyable</label>
+              <input type='checkbox' className='form-control' checked={this.state.machineUncopyable} onChange={this.onUncopyableSelected}/>
+            </div>
             <div className='form-group'>
               <label htmlFor='machine-uncopyable'>Uncopyable</label>
               <input type='checkbox' className='form-control' checked={this.state.machineUncopyable} onChange={this.onUncopyableSelected}/>
