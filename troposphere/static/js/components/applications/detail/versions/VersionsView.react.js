@@ -29,18 +29,20 @@ define(function (require) {
       if (remaining_machines.length == 0) {
           return (
           <div className="image-versions image-info-segment row">
-            <h2 className="title col-md-2">Latest Version</h2>,
-            <Machine application={image} key={first_machine.id} machine={first_machine}
-            />
+            <h2 className="title col-md-2">Latest Version</h2>
+            <ul>
+              <Machine application={image} key={first_machine.id} machine={first_machine}/>
+            </ul>
           </div>
           );
       } else {
           return (
           <div className="image-versions image-info-segment row">
-            <h2 className="title col-md-2">Latest Version</h2>,
-            <Machine application={image} key={first_machine.id} machine={first_machine}
-            />,
-            <h2 className="title col-md-2">Previous Versions</h2>,
+            <h2 className="title col-md-2">Latest Version</h2>
+            <ul>
+              <Machine application={image} key={first_machine.id} machine={first_machine}/>
+            </ul>
+            <h2 className="title col-md-2">Previous Versions</h2>
             <MachineList
                 application={image}
                 machines={remaining_machines}
