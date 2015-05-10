@@ -20,22 +20,82 @@ define(function (require) {
     propTypes: {
       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
+    canUpdate: function(instance, version) {
+      var user = instance.get('user'),
+          image = instance.get('image');
+      if(user.id === image.user) {
+          return true;
+          //The instance owner is the owner of that image.
+      } else if(user.is_staff || user.is_superuser) {
+          //The instance owner is really important
+          return true;
+      } else {
+          //Noone else can update the image.
+          return false;
+      }
+    },
+    canImage: function(instance, version) {
+      var user = instance.get('user'),
+          image = instance.get('image');
+      if(user.id === image.user) {
+          return true;
+          //The instance owner is the owner of that image.
+      } else if(user.is_staff || user.is_superuser) {
+          //The instance owner is really important
+          return true;
+      } else {
+          //Default to whether the version has explicitly enabled/disabled.
+          return version.allow_imaging;
+      }
+    },
+      getInitialState: function () {
+        return this.getState();
+      },
+      updateState: function () {
+        if (this.isMounted()) this.setState(this.getState());
+      },
+    getState: function () {
+      var instance = this.props.instance,
+          version = instance.get('version'),
+          image = instance.get('image'),
+          can_image = false,
+          can_update = false,
+          hasSelectedUpdate = false,
+          instance_tags = null;
 
-    getInitialState: function () {
-      var instance = this.props.instance;
-
-      return {
+      var state = this.state || {
+        allow_imaging: can_image,
+        allow_update: can_update,
         name: "",
         description: "",
-        tags: stores.InstanceTagStore.getTagsFor(instance),
+        tags: instance_tags,
         providerId: instance.get('provider').id,
         visibility: "public",
         software: "",
         systemFiles: "",
         filesToExclude: "",
         hasAgreedToLicense: false,
+        hasSelectedUpdate: false,
         showAdvancedOptions: false
       };
+      if(instance && version) {
+          state.allow_imaging = this.canImage(instance, version),
+          state.allow_update = this.canUpdate(instance, version),
+          state.tags = stores.InstanceTagStore.getTagsFor(instance);
+      }
+      //Based on update_selected value
+      if(hasSelectedUpdate) {
+          state.name = image.name;
+          state.description = version.description;
+          //state.systemFiles = version.system_files;
+          //state.software = version.software_files;
+          //state.filesToExclude = version.excluded_files;
+          state.visibility = image.private ? "select" : "public";
+          state.hasAgreedToLicense = true;
+      }
+
+
+      return state;
     },
 
     isSubmittable: function(){
@@ -191,7 +251,11 @@ define(function (require) {
             </a>
             {" before completing the form below."}
           </p>
-
+          <div className="form-group">
+            <label htmlFor='imaging-fork'>Create or Update</label>
+          <input type="radio" className="form-control" name="create_update_switch" value="create" disabled={!this.state.allow_imaging} checked>Create</input>
+          <input type="radio" className="form-control" name="create_update_switch" value="update" disabled={!this.state.allow_imaging && !this.state.allow_update} >Update</input>
+          </div>
           <Name onChange={this.handleNameChange}/>
           <Description onChange={this.handleDescriptionChange}/>
           <Tags
