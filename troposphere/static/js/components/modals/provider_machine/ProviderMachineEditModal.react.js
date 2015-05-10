@@ -181,7 +181,7 @@ define(
               <label htmlFor='machine-members'>Membership List</label>
               <ul>
                 {this.renderNewMembership}
-                {this.state.applicationMembers.forEach(this.renderMember)}
+                {this.state.applicationMembers.map(this.renderMember)}
               </ul>
             </div>
             <div className='form-group'>
