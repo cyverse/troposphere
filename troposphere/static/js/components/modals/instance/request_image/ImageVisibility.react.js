@@ -1,18 +1,31 @@
 define(function (require) {
 
-  var React = require('react');
+  var React = require('react'),
+      MembershipList = require('./ImageMembership.react');
 
   return React.createClass({
 
     propTypes: {
       onChange: React.PropTypes.func.isRequired,
+      membership_list: React.PropTypes.array.isRequired,
       value: React.PropTypes.string.isRequired
     },
 
     handleChange: function(e){
       this.props.onChange(e.target.value)
     },
-
+    addMemberToList: function(member_name) {
+        console.log("Add ",member_name);
+    },
+    removeMemberFromList: function(member_name) {
+      console.log("Remove",member_name);
+    },
+    renderMembershipList: function () {
+        return (<MembershipList onMembershipAdded={this.addMemberToList}
+      onMembershipRemoved={this.removeMemberFromList}
+      versionMemberships={this.props.membership_list}
+        />);
+    },
     render: function () {
       return (
         <div className="form-group">
@@ -27,6 +40,7 @@ define(function (require) {
             <option value="private">Private</option>
             <option value="select">Specific Users</option>
           </select>
+        {this.renderMembershipList()}
         </div>
       );
     }

@@ -71,6 +71,7 @@ define(function (require) {
         tags: instance_tags,
         providerId: instance.get('provider').id,
         visibility: "public",
+        membership_list: null,
         software: "",
         systemFiles: "",
         filesToExclude: "",
@@ -84,7 +85,20 @@ define(function (require) {
           state.allow_imaging = this.canImage(instance, version),
           state.allow_update = this.canUpdate(instance, version),
           state.tags = stores.InstanceTagStore.getTagsFor(instance);
+          state.membership_list = version.membership;
       }
+
+      //Based on update_selected value
+      if(state.checkUpdate) {
+          state.name = image.name;
+          state.description = version.description;
+          //state.systemFiles = version.system_files;
+          //state.software = version.software_files;
+          //state.filesToExclude = version.excluded_files;
+          state.visibility = image.private ? "select" : "public";
+          state.hasAgreedToLicense = true;
+      }
+
 
 
       return state;
@@ -237,22 +251,6 @@ define(function (require) {
     },
 
     renderBody: function(){
-      var instance = this.props.instance,
-          state = this.state,
-          user = instance.get('user'),
-          image = instance.get('image'),
-          version = instance.get('version');
-      //Based on update_selected value
-      if(state.checkUpdate) {
-          state.name = image.name;
-          state.description = version.description;
-          //state.systemFiles = version.system_files;
-          //state.software = version.software_files;
-          //state.filesToExclude = version.excluded_files;
-          state.visibility = image.private ? "select" : "public";
-          state.hasAgreedToLicense = true;
-      }
-
       return (
         <div>
           <div className="alert alert-danger">
@@ -274,7 +272,7 @@ define(function (require) {
           <Name create={this.state.checkCreate} onChange={this.handleNameChange}/>
           <Description onChange={this.handleDescriptionChange}/>
           <Tags
-            instance={instance}
+            instance={this.state.instance}
             imageTags={this.state.tags}
             onTagAdded={this.onTagAdded}
             onTagRemoved={this.onTagRemoved}
@@ -285,6 +283,7 @@ define(function (require) {
           />
           <Visibility
             value={this.state.visibility}
+            membership_list={this.state.membership_list}
             onChange={this.handleVisibilityChange}
           />
           {this.renderAdvancedOptions()}
