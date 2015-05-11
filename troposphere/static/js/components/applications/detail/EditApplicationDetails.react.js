@@ -114,8 +114,6 @@ define(function (require) {
               onTagAdded={this.onTagAdded}
               onTagRemoved={this.onTagRemoved}
             />
-            {availabilityView}
-
             {versionView}
           </div>
         </div>

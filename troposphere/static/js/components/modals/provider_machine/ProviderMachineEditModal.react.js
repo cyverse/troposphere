@@ -6,10 +6,11 @@ define(
     'stores',
     'components/mixins/BootstrapModalMixin.react',
     'components/core/request_image/ImageVisibility.react',
-    'components/application/detail/description/EditDescriptionView.react',
+    'components/applications/detail/availability/AvailabilityView.react',
+    'components/applications/detail/description/EditDescriptionView.react',
     'components/modals/provider_machine/Application.react'
   ],
-  function (React, stores, BootstrapModalMixin, Visibility, EditDescriptionView, Application) {
+  function (React, stores, BootstrapModalMixin, Visibility, AvailabilityView, EditDescriptionView, Application) {
 
     return React.createClass({
       mixins: [BootstrapModalMixin],
@@ -29,6 +30,7 @@ define(
         var machine = this.props.machine,
           current_app = this.props.application,
           applications = stores.ApplicationStore.getAll(),
+          providers = stores.ProviderStore.getAll(),
           //licenses = stores.LicenseStore.getAll(), //Future
           //memberships = stores.MachineMembershipStore.getAll(), //Future
           selectedApplication;
@@ -51,7 +53,7 @@ define(
             state.machineVersion = machine.get('version');
             state.machineDescription = state.machineVersion.description;
             state.machineEndDate = isNaN(end_date) ? "" : end_date;
-            state.machineUncopyable = ! state.machineVersion.get('allow_imaging');
+            state.machineUncopyable = ! state.machineVersion.allow_imaging;
         }
 
         //if (licenses) {
@@ -65,8 +67,17 @@ define(
             state.machineApplicationID = current_app.id
         }
 
+
+
         if (applications) {
-            selectedApplication = applications.get(state.machineApplicationID)
+            selectedApplication = applications.get(state.machineApplicationID);
+            // Since providers requires authentication, we can't display which providers
+      // the image is available on on the public page
+
+
+        }
+        if(providers) {
+            state.providers = providers;
         }
         if(state.machineVersion && selectedApplication) {
             state.image = selectedApplication;
@@ -164,7 +175,7 @@ define(
         var description = e.target.value;
         this.setState({description: description});
       },
-      renderBody: function(){
+      renderBody: function() {
         return (
           <div role='form'>
 
@@ -178,9 +189,14 @@ define(
               <input type='text' className='form-control' value={this.state.machineEndDate} onChange={this.onEndDateChange}/>
             </div>
             <EditDescriptionView
-              application={application}
+              application={this.props.application}
               value={this.state.description}
               onChange={this.handleDescriptionChange}
+            />
+            <AvailabilityView
+              application={this.props.application}
+              machine={this.props.machine}
+              providers={this.state.providers}
             />
             <Visibility
                 value={this.state.visibility}

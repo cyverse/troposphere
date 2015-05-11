@@ -81,23 +81,6 @@ define(function (require) {
               checkUpdate: false,
         showAdvancedOptions: false
       };
-      if(instance && version) {
-          state.allow_imaging = this.canImage(instance, version),
-          state.allow_update = this.canUpdate(instance, version),
-          state.tags = stores.InstanceTagStore.getTagsFor(instance);
-          state.membership_list = version.membership;
-      }
-
-      //Based on update_selected value
-      if(state.checkUpdate) {
-          state.name = image.name;
-          state.description = version.description;
-          //state.systemFiles = version.system_files;
-          //state.software = version.software_files;
-          //state.filesToExclude = version.excluded_files;
-          state.visibility = image.private ? "select" : "public";
-      }
-
 
 
       return state;
@@ -167,7 +150,7 @@ define(function (require) {
     },
     onUpdateSelected: function(e) {
       this.setState({checkUpdate: true,
-      checkCreate: false})
+      checkCreate: false});
     },
 
     onTagAdded: function(tag){
@@ -250,6 +233,32 @@ define(function (require) {
     },
 
     renderBody: function(){
+        //Do stuff based on other stuff here.
+              //Based on update_selected valu
+
+        var instance = this.props.instance,
+                user = instance.get('user'),
+             version = instance.get('version'),
+               image = instance.get('image');
+        if(instance && version) {
+          this.state.allow_imaging = this.canImage(instance, version),
+          this.state.allow_update = this.canUpdate(instance, version),
+          this.state.tags = stores.InstanceTagStore.getTagsFor(instance);
+          this.state.membership_list = version.membership;
+      }
+      if(this.state.checkUpdate) {
+          this.state.name = image.name;
+          this.state.description = version.description;
+          //this.state.systemFiles = version.system_files;
+          //this.state.software = version.software_files;
+          //this.state.filesToExclude = version.excluded_files;
+          this.state.visibility = image.private ? "select" : "public";
+      }
+
+
+
+
+
       return (
         <div>
           <div className="alert alert-danger">
@@ -265,10 +274,10 @@ define(function (require) {
           </p>
           <div className="form-group">
             <label htmlFor='imaging-fork'>Create or Update</label>
-          <input type="radio" onClick={this.onCreateSelected} className="form-control" name="create_switch" value="create" disabled={!this.state.allow_imaging} checked={this.state.check_create}>Create</input>
-          <input type="radio" onClick={this.onUpdateSelected} className="form-control" name="update_switch" value="update" disabled={!this.state.allow_imaging && !this.state.allow_update} checked={this.state.check_update}>Update</input>
+          <input type="radio" onClick={this.onCreateSelected} className="form-control" name="create_update_switch" value="create" disabled={!this.state.allow_imaging} checked={this.state.check_create}>Create</input>
+          <input type="radio" onClick={this.onUpdateSelected} className="form-control" name="create_update_switch" value="update" disabled={!this.state.allow_imaging && !this.state.allow_update} checked={this.state.check_update}>Update</input>
           </div>
-          <Name create={this.state.checkCreate} onChange={this.handleNameChange}/>
+          <Name create={this.state.checkCreate} value={this.state.name} onChange={this.handleNameChange}/>
           <Description onChange={this.handleDescriptionChange}/>
           <Tags
             instance={this.state.instance}

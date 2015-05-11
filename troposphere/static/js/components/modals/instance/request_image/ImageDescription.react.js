@@ -5,6 +5,7 @@ define(function (require) {
   return React.createClass({
 
     propTypes: {
+      value: React.PropTypes.string.isRequired,
       onChange: React.PropTypes.func.isRequired
     },
 
@@ -22,7 +23,7 @@ define(function (require) {
         <div className="form-group">
           <label htmlFor={name} className="control-label">{label}</label>
           <div className="help-block">{description}</div>
-          <textarea name={name} rows="4" className="form-control"  placeholder="Description..." onChange={this.handleChange}/>
+          <textarea name={name} rows="4" className="form-control"  value={this.props.value} placeholder="Description..." onChange={this.handleChange}/>
         </div>
       );
     }
