@@ -81,7 +81,7 @@ define(
         }
         if(state.machineVersion && selectedApplication) {
             state.image = selectedApplication;
-            state.visibility = selectedApplication.get('private') ? "selected" : "public";
+            state.visibility = selectedApplication.get('private') ? "select" : "public";
             state.applicationMembers = state.machineVersion.membership;
         }
         return state;

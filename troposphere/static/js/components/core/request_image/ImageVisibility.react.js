@@ -23,10 +23,14 @@ define(function (require) {
       console.log("Remove",member_name);
     },
     renderMembershipList: function () {
+        if(this.props.value != "public") {
         return (<MembershipList onMembershipAdded={this.addMemberToList}
       onMembershipRemoved={this.removeMemberFromList}
       existingMemberships={this.props.membership_list}
         />);
+      } else {
+            return(<div className="hidden-membership-list"/>);
+       }
     },
     render: function () {
       return (
