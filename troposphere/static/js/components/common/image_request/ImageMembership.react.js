@@ -1,8 +1,7 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      stores = require('stores');
+      Backbone = require('backbone');
 
   return React.createClass({
 

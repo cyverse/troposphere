@@ -8,7 +8,7 @@ define(function (require) {
       Description = require('./request_image/ImageDescription.react'),
       Tags = require('./request_image/ImageTags.react'),
       Provider = require('./request_image/ImageProvider.react'),
-      Visibility = require('components/core/request_image/ImageVisibility.react'),
+      Visibility = require('components/common/image_request/ImageVisibility.react'),
       Software = require('./request_image/ImageSoftware.react'),
       SystemFiles = require('./request_image/ImageSystemFiles.react'),
       FilesToExclude = require('./request_image/ImageFilesToExclude.react'),
@@ -61,7 +61,8 @@ define(function (require) {
           can_image = false,
           can_update = false,
           hasSelectedUpdate = false,
-          instance_tags = null;
+          instance_tags = null,
+          all_users = stores.UserStore.getAll();
 
       var state = this.state || {
         allow_imaging: can_image,
@@ -82,7 +83,10 @@ define(function (require) {
         showAdvancedOptions: false
       };
 
-
+      if(users) {
+          this.state.users = users;
+          this.state.membership_list = stores.UserStore.getUsersFromList(version.membership);
+      }
       return state;
     },
 
@@ -291,6 +295,7 @@ define(function (require) {
           />
           <Visibility
             value={this.state.visibility}
+            all_users={this.state.all_users}
             membership_list={this.state.membership_list}
             onChange={this.handleVisibilityChange}
           />
