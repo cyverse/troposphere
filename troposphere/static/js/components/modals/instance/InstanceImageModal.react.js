@@ -96,7 +96,6 @@ define(function (require) {
           //state.software = version.software_files;
           //state.filesToExclude = version.excluded_files;
           state.visibility = image.private ? "select" : "public";
-          state.hasAgreedToLicense = true;
       }
 
 

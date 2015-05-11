@@ -15,7 +15,9 @@ define(function (require) {
       this.props.onChange(e.target.value)
     },
     addMemberToList: function(member_name) {
-        console.log("Add ",member_name);
+       var add_list = this.props.membership_list;
+       add_list.push(member_name);
+       this.setState({membership_list: add_list});
     },
     removeMemberFromList: function(member_name) {
       console.log("Remove",member_name);
@@ -23,7 +25,7 @@ define(function (require) {
     renderMembershipList: function () {
         return (<MembershipList onMembershipAdded={this.addMemberToList}
       onMembershipRemoved={this.removeMemberFromList}
-      versionMemberships={this.props.membership_list}
+      existingMemberships={this.props.membership_list}
         />);
     },
     render: function () {
