@@ -47,6 +47,7 @@ define(function (require) {
     stores.QuotaStore              = require('stores/QuotaStore');
     stores.SizeStore               = require('stores/SizeStore');
     stores.TagStore                = require('stores/TagStore');
+    stores.UserStore                = require('stores/UserStore');
     stores.VersionStore            = require('stores/VersionStore');
     stores.VolumeStore             = require('stores/VolumeStore');
 
@@ -64,6 +65,7 @@ define(function (require) {
     actions.ProjectInstanceActions = require('actions/ProjectInstanceActions');
     actions.ProjectVolumeActions   = require('actions/ProjectVolumeActions');
     actions.TagActions             = require('actions/TagActions');
+    //actions.UserActions             = require('actions/UserActions');
     actions.VolumeActions          = require('actions/VolumeActions');
 
     var modals = require('modals');

@@ -5,7 +5,7 @@ define(
     'react',
     'stores',
     'components/mixins/BootstrapModalMixin.react',
-    'components/core/request_image/ImageVisibility.react',
+    'components/common/image_request/ImageVisibility.react',
     'components/applications/detail/availability/AvailabilityView.react',
     'components/applications/detail/description/EditDescriptionView.react',
     'components/modals/provider_machine/Application.react'
@@ -31,12 +31,14 @@ define(
           current_app = this.props.application,
           applications = stores.ApplicationStore.getAll(),
           providers = stores.ProviderStore.getAll(),
+          all_users = stores.UserStore.getAll(),
           //licenses = stores.LicenseStore.getAll(), //Future
           //memberships = stores.MachineMembershipStore.getAll(), //Future
           selectedApplication;
 
         var state = this.state || {
           image: null,
+          all_users: null, //Future
           machineApplicationID: null, //Future
           machineLicenses: null,//Future
           machineMemberships: null, //Future
@@ -79,22 +81,28 @@ define(
         if(providers) {
             state.providers = providers;
         }
+        if(all_users) {
+            state.all_users = all_users;
+            state.applicationMembers = stores.UserStore.getUsersFromList(state.machineVersion.membership);
+        }
         if(state.machineVersion && selectedApplication) {
             state.image = selectedApplication;
             state.visibility = selectedApplication.get('private') ? "select" : "public";
-            state.applicationMembers = state.machineVersion.membership;
         }
         return state;
       },
 
       componentDidMount: function () {
         stores.ApplicationStore.addChangeListener(this.updateState);
+        stores.UserStore.addChangeListener(this.updateState);
         //stores.LicenseStore.addChangeListener(this.updateState);
         //stores.MachineMembershipStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
         stores.ApplicationStore.removeChangeListener(this.updateState);
+        stores.UserStore.removeChangeListener(this.updateState);
+
         //stores.LicenseStore.removeChangeListener(this.updateState);
         //stores.MachineMembershipStore.removeChangeListener(this.updateState);
       },
@@ -200,6 +208,7 @@ define(
             />
             <Visibility
                 value={this.state.visibility}
+                all_users={this.state.all_users}
                 membership_list={this.state.applicationMembers}
                 onChange={this.handleVisibilityChange}
              />
