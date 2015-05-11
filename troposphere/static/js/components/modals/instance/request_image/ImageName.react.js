@@ -6,6 +6,7 @@ define(function (require) {
 
     propTypes: {
       onChange: React.PropTypes.func.isRequired,
+       value: React.PropTypes.string.isRequired,
       create: React.PropTypes.bool.isRequired
     },
 
@@ -33,6 +34,7 @@ define(function (require) {
             maxLength="30"
             size="15"
             placeholder={this.props.init_value || "Name..."}
+            value={this.props.value}
             onChange={this.handleChange}
           />
         </div>
