@@ -8,7 +8,7 @@ define(function (require) {
       Description = require('./request_image/ImageDescription.react'),
       Tags = require('./request_image/ImageTags.react'),
       Provider = require('./request_image/ImageProvider.react'),
-      Visibility = require('./request_image/ImageVisibility.react'),
+      Visibility = require('components/core/request_image/ImageVisibility.react'),
       Software = require('./request_image/ImageSoftware.react'),
       SystemFiles = require('./request_image/ImageSystemFiles.react'),
       FilesToExclude = require('./request_image/ImageFilesToExclude.react'),

@@ -5,9 +5,10 @@ define(
     'react',
     'stores',
     'components/mixins/BootstrapModalMixin.react',
+    'components/core/request_image/ImageVisibility.react',
     'components/modals/provider_machine/Application.react'
   ],
-  function (React, stores, BootstrapModalMixin, Application) {
+  function (React, stores, BootstrapModalMixin, Visibility, Application) {
 
     return React.createClass({
       mixins: [BootstrapModalMixin],
@@ -38,7 +39,7 @@ define(
           machineVersion: "",
           machineEndDate: "",
           machineUncopyable: "",
-          applicationPrivate: null, //Future
+          visibility: "public", //Future
           applicationMembers: null, //Future
         };
 
@@ -65,7 +66,7 @@ define(
             selectedApplication = applications.get(state.machineApplicationID)
         }
         if(state.machineVersion && selectedApplication) {
-            state.applicationPrivate = selectedApplication.get('private');
+            state.visibility = selectedApplication.get('private') ? "selected" : "public";
             state.applicationMembers = state.machineVersion.membership;
         }
         return state;
@@ -142,11 +143,9 @@ define(
         this.setState({machineUncopyable: uncopyable});
       },
 
-      onPrivateSelected: function (e) {
-        var private = (e.target.value === 'on') ? true : false;
-        this.setState({applicationPrivate: private});
+      handleVisibilityChange: function(visibility){
+        this.setState({visibility: visibility});
       },
-
       onApplicationSelected: function (selection) {
         this.setState({machineApplicationID: selection});
       },
@@ -171,19 +170,11 @@ define(
               <label htmlFor='machine-end-date'>Version Removed On</label>
               <input type='text' className='form-control' value={this.state.machineEndDate} onChange={this.onEndDateChange}/>
             </div>
-
-            <div className='form-group'>
-              <label htmlFor='machine-private'>Private</label>
-              <input type='checkbox' className='form-control' checked={this.state.applicationPrivate} onChange={this.onPrivateSelected}/>
-            </div>
-
-            <div className='form-group'>
-              <label htmlFor='machine-members'>Membership List</label>
-              <ul>
-                {this.renderNewMembership}
-                {this.state.applicationMembers.map(this.renderMember)}
-              </ul>
-            </div>
+            <Visibility
+                value={this.state.visibility}
+                membership_list={this.state.applicationMembers}
+                onChange={this.handleVisibilityChange}
+             />
             <div className='form-group'>
               <label htmlFor='machine-uncopyable'>Uncopyable</label>
               <input type='checkbox' className='form-control' checked={this.state.machineUncopyable} onChange={this.onUncopyableSelected}/>
