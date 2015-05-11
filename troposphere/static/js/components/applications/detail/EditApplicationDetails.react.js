@@ -8,7 +8,6 @@ define(function (require) {
       EditNameView = require('./name/EditNameView.react'),
       CreatedView = require('./created/CreatedView.react'),
       AuthorView = require('./author/AuthorView.react'),
-      EditDescriptionView = require('./description/EditDescriptionView.react'),
       VersionsView = require('./versions/VersionsView.react'),
       actions = require('actions'),
       stores = require('stores');
@@ -112,11 +111,7 @@ define(function (require) {
               onTagRemoved={this.onTagRemoved}
             />
             {availabilityView}
-            <EditDescriptionView
-              application={application}
-              value={this.state.description}
-              onChange={this.handleDescriptionChange}
-            />
+
             {versionView}
           </div>
         </div>

@@ -6,9 +6,10 @@ define(
     'stores',
     'components/mixins/BootstrapModalMixin.react',
     'components/core/request_image/ImageVisibility.react',
+    'components/application/detail/description/EditDescriptionView.react',
     'components/modals/provider_machine/Application.react'
   ],
-  function (React, stores, BootstrapModalMixin, Visibility, Application) {
+  function (React, stores, BootstrapModalMixin, Visibility, EditDescriptionView, Application) {
 
     return React.createClass({
       mixins: [BootstrapModalMixin],
@@ -33,9 +34,11 @@ define(
           selectedApplication;
 
         var state = this.state || {
+          image: null,
           machineApplicationID: null, //Future
           machineLicenses: null,//Future
           machineMemberships: null, //Future
+          machineDescription: null, // Future
           machineVersion: "",
           machineEndDate: "",
           machineUncopyable: "",
@@ -45,10 +48,10 @@ define(
 
         if (machine) {
             end_date = machine.get('end_date');
-
             state.machineVersion = machine.get('version');
+            state.machineDescription = state.machineVersion.description;
             state.machineEndDate = isNaN(end_date) ? "" : end_date;
-            state.machineUncopyable = ! machine.get('allow_imaging');
+            state.machineUncopyable = ! state.machineVersion.get('allow_imaging');
         }
 
         //if (licenses) {
@@ -66,6 +69,7 @@ define(
             selectedApplication = applications.get(state.machineApplicationID)
         }
         if(state.machineVersion && selectedApplication) {
+            state.image = selectedApplication;
             state.visibility = selectedApplication.get('private') ? "selected" : "public";
             state.applicationMembers = state.machineVersion.membership;
         }
@@ -156,7 +160,10 @@ define(
       // Render
       // ------
       //
-
+      handleDescriptionChange: function(e){
+        var description = e.target.value;
+        this.setState({description: description});
+      },
       renderBody: function(){
         return (
           <div role='form'>
@@ -170,6 +177,11 @@ define(
               <label htmlFor='machine-end-date'>Version Removed On</label>
               <input type='text' className='form-control' value={this.state.machineEndDate} onChange={this.onEndDateChange}/>
             </div>
+            <EditDescriptionView
+              application={application}
+              value={this.state.description}
+              onChange={this.handleDescriptionChange}
+            />
             <Visibility
                 value={this.state.visibility}
                 membership_list={this.state.applicationMembers}
