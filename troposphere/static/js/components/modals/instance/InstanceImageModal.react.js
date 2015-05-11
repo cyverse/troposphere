@@ -274,8 +274,8 @@ define(function (require) {
           </p>
           <div className="form-group">
             <label htmlFor='imaging-fork'>Create or Update</label>
-          <input type="radio" onClick={this.onCreateSelected} className="form-control" name="create_update_switch" value="create" disabled={!this.state.allow_imaging} checked={this.state.check_create}>Create</input>
-          <input type="radio" onClick={this.onUpdateSelected} className="form-control" name="create_update_switch" value="update" disabled={!this.state.allow_imaging && !this.state.allow_update} checked={this.state.check_update}>Update</input>
+          <input type="radio" onClick={this.onCreateSelected} className="form-control" name="create_update_switch" value="create" disabled={!this.state.allow_imaging} checked={this.state.checkCreate}>Create</input>
+          <input type="radio" onClick={this.onUpdateSelected} className="form-control" name="create_update_switch" value="update" disabled={!this.state.allow_imaging && !this.state.allow_update} checked={this.state.checkUpdate}>Update</input>
           </div>
           <Name create={this.state.checkCreate} value={this.state.name} onChange={this.handleNameChange}/>
           <Description onChange={this.handleDescriptionChange}/>
