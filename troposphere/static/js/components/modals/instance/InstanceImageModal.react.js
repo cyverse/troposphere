@@ -76,22 +76,14 @@ define(function (require) {
         filesToExclude: "",
         hasAgreedToLicense: false,
         hasSelectedUpdate: false,
+              checkCreate: true,
+              checkUpdate: false,
         showAdvancedOptions: false
       };
       if(instance && version) {
           state.allow_imaging = this.canImage(instance, version),
           state.allow_update = this.canUpdate(instance, version),
           state.tags = stores.InstanceTagStore.getTagsFor(instance);
-      }
-      //Based on update_selected value
-      if(hasSelectedUpdate) {
-          state.name = image.name;
-          state.description = version.description;
-          //state.systemFiles = version.system_files;
-          //state.software = version.software_files;
-          //state.filesToExclude = version.excluded_files;
-          state.visibility = image.private ? "select" : "public";
-          state.hasAgreedToLicense = true;
       }
 
 
@@ -137,7 +129,7 @@ define(function (require) {
         software: this.state.software,
         systemFiles: this.state.systemFiles,
         filesToExclude: this.state.filesToExclude,
-        hasAgreedToLicense: this.state.hasAgreedToLicense
+        hasAgreedToLicense: this.state.hasAgreedToLicense,
       };
 
       this.props.onConfirm(details);
@@ -154,6 +146,15 @@ define(function (require) {
 
     handleDescriptionChange: function(description){
       this.setState({description: description});
+    },
+
+    onCreateSelected: function(e) {
+      this.setState({checkUpdate: false,
+        checkCreate: true})
+    },
+    onUpdateSelected: function(e) {
+      this.setState({checkUpdate: true,
+      checkCreate: false})
     },
 
     onTagAdded: function(tag){
@@ -236,7 +237,21 @@ define(function (require) {
     },
 
     renderBody: function(){
-      var instance = this.props.instance;
+      var instance = this.props.instance,
+          state = this.state,
+          user = instance.get('user'),
+          image = instance.get('image'),
+          version = instance.get('version');
+      //Based on update_selected value
+      if(state.checkUpdate) {
+          state.name = image.name;
+          state.description = version.description;
+          //state.systemFiles = version.system_files;
+          //state.software = version.software_files;
+          //state.filesToExclude = version.excluded_files;
+          state.visibility = image.private ? "select" : "public";
+          state.hasAgreedToLicense = true;
+      }
 
       return (
         <div>
@@ -253,10 +268,10 @@ define(function (require) {
           </p>
           <div className="form-group">
             <label htmlFor='imaging-fork'>Create or Update</label>
-          <input type="radio" className="form-control" name="create_update_switch" value="create" disabled={!this.state.allow_imaging} checked>Create</input>
-          <input type="radio" className="form-control" name="create_update_switch" value="update" disabled={!this.state.allow_imaging && !this.state.allow_update} >Update</input>
+          <input type="radio" onClick={this.onCreateSelected} className="form-control" name="create_switch" value="create" disabled={!this.state.allow_imaging} checked={this.state.check_create}>Create</input>
+          <input type="radio" onClick={this.onUpdateSelected} className="form-control" name="update_switch" value="update" disabled={!this.state.allow_imaging && !this.state.allow_update} checked={this.state.check_update}>Update</input>
           </div>
-          <Name onChange={this.handleNameChange}/>
+          <Name create={this.state.checkCreate} onChange={this.handleNameChange}/>
           <Description onChange={this.handleDescriptionChange}/>
           <Tags
             instance={instance}
