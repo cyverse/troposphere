@@ -27,6 +27,7 @@ def create_user_token_from_cas_profile(profile, access_token):
     user.last_name = profile_dict['lastName']
     user.email = profile_dict['email']
     user.is_staff = ('staff' in profile_dict['entitlement'])
+    user.is_superuser = ('staff' in profile_dict['entitlement'])
     user.save()
 
     user_token = UserToken.objects.create(token=access_token, user=user)

@@ -27,7 +27,7 @@ define(
       render: function () {
         var scrollSpy = (
           <ul>
-            <li className="active"><a href="#">Instances</a></li>
+            <li className="active"><a href="javascript: void(0)">Instances (Disabled)</a></li>
             <li><a href="#">Volumes</a></li>
           </ul>
         );
@@ -38,9 +38,9 @@ define(
               <button className="btn btn-primary dropdown-toggle" data-toggle="dropdown">New</button>
               <ul className="dropdown-menu">
                 <li>
-                  <a href="#" onClick={this.onCreateInstance}>
+                  <a href="javascript: void(0)">
                     <i className={'glyphicon glyphicon-tasks'}/>
-                    Instance
+                    Instance(Disabled)
                   </a>
                 </li>
                 <li>
