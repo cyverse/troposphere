@@ -21,11 +21,12 @@ define(
         _isFetching = true;
         var users = new UserCollection();
         users.fetch({
-          url: users.url + "?page_size=1000"
+          url: users.url + "?page_size=5000"
         }).done(function () {
           _isFetching = false;
           _users = users;
           UserStore.emitChange();
+            //TODO: Need to get all pages. Convert to 'whileTrue' loop..?
         });
       }
     };
@@ -87,9 +88,7 @@ define(
 
 
         var versionUserArray = version.membership.map(function(user){
-          //var userName = user.name;
-          //var user = _users.findWhere({name: userName}, {parse: true});
-          //if(!user) throw new Error("Expected to find a user with name '" + userName +"'");
+
           return {"username":user};
         });
 
@@ -106,10 +105,9 @@ define(
 
 
         var UserArray = username_list.map(function(username){
-          //var userName = user.name;
-          //var user = _users.findWhere({name: userName}, {parse: true});
-          //if(!user) throw new Error("Expected to find a user with name '" + userName +"'");
-          return {"username":username};
+          var user = _users.findWhere({name: username}, {parse: true});
+          if(!user) throw new Error("Expected to find a user with name '" + userName +"'");
+          return user;
         });
         return new UserCollection(UserArray);
       },
