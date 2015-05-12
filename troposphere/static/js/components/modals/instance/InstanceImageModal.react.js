@@ -238,7 +238,7 @@ define(function (require) {
 
     renderBody: function(){
         //Do stuff based on other stuff here.
-              //Based on update_selected valu
+        //Based on update_selected value
 
         var instance = this.props.instance,
                 user = instance.get('user'),
@@ -253,9 +253,7 @@ define(function (require) {
       if(this.state.checkUpdate) {
           this.state.name = image.name;
           this.state.description = version.description;
-          //this.state.systemFiles = version.system_files;
-          //this.state.software = version.software_files;
-          //this.state.filesToExclude = version.excluded_files;
+
           this.state.visibility = image.private ? "select" : "public";
       }
 

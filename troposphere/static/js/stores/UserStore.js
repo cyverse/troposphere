@@ -99,7 +99,7 @@ define(
           versionUserArray = versionUserArray.concat(pendingVersionUsers.models);
         }
 
-        return new <U></U>serCollection(versionUserArray);
+        return new UserCollection(versionUserArray);
       },
       getUsersFromList: function (username_list) {
           if(!_users) throw new Error("Must fetch users before calling getUsersFromList");

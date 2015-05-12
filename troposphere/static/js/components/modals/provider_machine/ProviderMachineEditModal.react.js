@@ -83,7 +83,7 @@ define(
         }
         if(all_users) {
             state.all_users = all_users;
-            state.applicationMembers = stores.UserStore.getUsersFromList(state.machineVersion.membership);
+            //state.applicationMembers = stores.UserStore.getUsersFromList(state.machineVersion.membership);
         }
         if(state.machineVersion && selectedApplication) {
             state.image = selectedApplication;
