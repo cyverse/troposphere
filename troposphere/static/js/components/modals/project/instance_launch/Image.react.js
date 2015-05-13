@@ -26,7 +26,7 @@ define(
         var activeTags = stores.TagStore.getImageTags(this.props.image);
 
         return (
-          <Tags tags={tags} activeTags={activeTags}/>
+          <Tags tags={tags} activeTags={activeTags} renderLinks={false}/>
         );
       },
 
