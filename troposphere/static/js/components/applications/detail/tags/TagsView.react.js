@@ -9,7 +9,14 @@ define(function (require) {
 
     propTypes: {
       application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+      renderLinks: React.PropTypes.bool
+    },
+
+    getDefaultProps: function() {
+      return {
+        renderLinks: true
+      }
     },
 
     render: function () {
@@ -19,7 +26,7 @@ define(function (require) {
         <div className="image-tags image-info-segment row">
           <h4 className="title col-md-2">Tags</h4>
           <div className="content col-md-10">
-            <ViewTags activeTags={applicationTags}/>
+            <ViewTags activeTags={applicationTags} renderLinks={this.props.renderLinks}/>
           </div>
         </div>
       );

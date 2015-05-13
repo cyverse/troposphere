@@ -70,7 +70,7 @@ define(
                   </div>
                 </div>
               </div>
-              <TagsView application={this.props.image} tags={this.props.tags}/>
+              <TagsView application={this.props.image} tags={this.props.tags} renderLinks={false}/>
               {this.renderAvailability()}
               <DescriptionView application={this.props.image}/>
               {this.renderVersions()}
