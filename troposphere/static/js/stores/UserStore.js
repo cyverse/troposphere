@@ -10,23 +10,55 @@ define(
 
     var _users = null;
     var _isFetching = false;
+    var _isFetchingMore = false;
     var _pendingVersionUsers = {};
 
     //
     // CRUD Operations
     //
-
     var fetchUsers = function () {
+      if(!_isFetching) {
+        _isFetching = true;
+        var instances = new UserCollection();
+        instances.fetch({
+          url: instances.url + "?page=1"
+        }).done(function () {
+          _isFetching = false;
+          _users = instances;
+          fetchMoreUsers();
+
+        });
+      }
+    };
+
+    var fetchMoreUsers = function () {
+      var nextUrl = _users.meta.next;
+      console.log("Fetching Page ",nextUrl);
+      if(nextUrl && !_isFetchingMore){
+        _isFetchingMore = true;
+        var moreUsers = new UserCollection();
+        moreUsers.fetch({url: nextUrl}).done(function () {
+          _isFetchingMore = false;
+          _users.add(moreUsers.models);
+          _users.meta = moreUsers.meta;
+          fetchMoreUsers();
+        });
+      }
+      //Finished!
+      UserStore.emitChange();
+
+    };
+
+    var fetchUserByUsername = function (username) {
       if(!_isFetching) {
         _isFetching = true;
         var users = new UserCollection();
         users.fetch({
-          url: users.url + "?page_size=5000"
+          url: users.url + "?username=username"
         }).done(function () {
           _isFetching = false;
-          _users = users;
-          UserStore.emitChange();
-            //TODO: Need to get all pages. Convert to 'whileTrue' loop..?
+            //Do something
+            //UserStore.emitChange();
         });
       }
     };
@@ -105,9 +137,8 @@ define(
 
 
         var UserArray = username_list.map(function(username){
-          var user = _users.findWhere({name: username}, {parse: true});
-          if(!user) throw new Error("Expected to find a user with name '" + userName +"'");
-          return user;
+            var user = _users.findWhere({username: username});
+            return user;
         });
         return new UserCollection(UserArray);
       },
