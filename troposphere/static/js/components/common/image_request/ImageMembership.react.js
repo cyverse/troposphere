@@ -1,65 +1,42 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone');
+      Backbone = require('backbone'),
+      ManyToManyList = require('components/common/ManyToManyList.react');
 
   return React.createClass({
 
     propTypes: {
-      onMembershipAdded: React.PropTypes.func.isRequired,
-      onMembershipRemoved: React.PropTypes.func.isRequired,
-      existingMemberships: React.PropTypes.array.isRequired
+      membership_list: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
-    onKeyUp: function(e) {
-        if(e.keyCode == 13 || e.keyCode == 188 || e.keyCode == 32) {
-            if(e.keyCode == 13) {
-                target_value = e.target.value;
-            } else {
-                target_value = e.target.value.slice(0,-1);
-            }
-            this.addMembershipRow(target_value);
-            e.target.value = "";
-        }
+    addMemberToList: function (user) {
+        var add_list = this.props.membership_list;
+        add_list.add(user);
+        this.setState({membership_list: add_list});
     },
-    addMembershipRow: function(username) {
-        username = username.toLocaleLowerCase();
-        this.props.onMembershipAdded(username);
+    removeMemberFromList: function (user) {
+        console.log("Remove", user);
+        var rem_list = this.props.membership_list;
+        rem_list.remove(user);
+        this.setState({membership_list: rem_list});
     },
-    removeMembershipRow: function(e) {
-        var username = e.target.parentNode.innerText;
-        username = username.toLocaleLowerCase();
-        this.props.onMembershipRemoved(username);
+    renderForm: function() {
+      return (<div className="form-group">
+          <div className="search-field">
+              <input type="text" placeholder="Username..." className="default" autoComplete="off"/>
+          </div>
+      </div>);
+
     },
-    renderMembershipRow: function(membership) {
-      return (
-          <li className="search-choice">
-            <span>{membership}</span>
-            <a className="search-choice-close" onClick={this.removeMembershipRow}></a>
-          </li>
-      )
-    },
+
     render: function () {
 
       return (
-        <div className="form-group">
-          <label htmlFor="memberships" className="control-label">Select Membership</label>
-          <div className="membership_container">
-            <div className="help-block">
-              These users will be able to view and launch this version of your application.
-              To add a new user, Enter the EXACT username press [Space], [Enter] or [,]
-            </div>
-            <div className="chosen-container chosen-container-multi chosen-with-drop chosen-container-active">
-                <ul className="chosen-choices">
-                {this.props.existingMemberships.map(this.renderMembershipRow)}
-                <li className="search-field">
-                  <input type="text" placeholder="Username..." className="default" autoComplete="off" onKeyUp={this.onKeyUp}/>
-                </li>
-              </ul>
-
-            </div>
-
-          </div>
-        </div>
+        <ManyToManyList renderForm={this.renderForm}
+            onAddObject={this.addMemberToList}
+            onRemoveObject={this.removeMemberFromList}
+            existing_items={this.props.membership_list}
+            title="Image Membership" />
       );
     }
 

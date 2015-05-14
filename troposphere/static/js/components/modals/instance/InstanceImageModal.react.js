@@ -83,9 +83,9 @@ define(function (require) {
         showAdvancedOptions: false
       };
 
-      if(users) {
-          this.state.users = users;
-          this.state.membership_list = stores.UserStore.getUsersFromList(version.membership);
+      if(all_users) {
+          state.users = all_users;
+          state.membership_list = stores.UserStore.getUsersFromList(version.membership);
       }
       return state;
     },
@@ -293,7 +293,7 @@ define(function (require) {
           />
           <Visibility
             value={this.state.visibility}
-            all_users={this.state.all_users}
+            all_users={this.state.users}
             membership_list={this.state.membership_list}
             onChange={this.handleVisibilityChange}
           />

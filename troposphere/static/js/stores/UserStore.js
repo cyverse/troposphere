@@ -21,7 +21,7 @@ define(
         _isFetching = true;
         var instances = new UserCollection();
         instances.fetch({
-          url: instances.url + "?page=1"
+          url: instances.url + "?page=1&page_size=1000"
         }).done(function () {
           _isFetching = false;
           _users = instances;
@@ -33,8 +33,9 @@ define(
 
     var fetchMoreUsers = function () {
       var nextUrl = _users.meta.next;
-      console.log("Fetching Page ",nextUrl);
       if(nextUrl && !_isFetchingMore){
+        console.log("Fetching Page ",nextUrl);
+
         _isFetchingMore = true;
         var moreUsers = new UserCollection();
         moreUsers.fetch({url: nextUrl}).done(function () {
