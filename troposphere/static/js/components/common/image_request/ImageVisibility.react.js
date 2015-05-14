@@ -16,29 +16,19 @@ define(function (require) {
         handleChange: function (e) {
             this.props.onChange(e.target.value)
         },
-        addMemberToList: function (member_name) {
-            var add_list = this.props.membership_list;
-            add_list.push(member_name);
-            this.setState({membership_list: add_list});
-        },
-        removeMemberFromList: function (member_name) {
-            console.log("Remove", member_name);
-        },
         renderMembershipList: function () {
             if (this.props.value != "public") {
                 if (this.props.all_users == null) {
                     //Wait to render if users aren't available. they will load soon.
                     return (<div className="loading"/>);
                 } else {
-                    return (<MembershipList onMembershipAdded={this.addMemberToList}
-                        onMembershipRemoved={this.removeMemberFromList}
-                        all_users={this.props.all_users}
-                        existingMemberships={this.props.membership_list}
+                    return (<MembershipList
+                        membership_list={this.props.membership_list}
                     />);
 
                 }
             } else {
-                return (<div className="hidden-membership-list"/>);
+                return (<div className="membership-list-hidden"/>);
             }
         },
         render: function () {

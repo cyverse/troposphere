@@ -33,7 +33,6 @@ define(
           providers = stores.ProviderStore.getAll(),
           all_users = stores.UserStore.getAll(),
           //licenses = stores.LicenseStore.getAll(), //Future
-          //memberships = stores.MachineMembershipStore.getAll(), //Future
           selectedApplication;
 
         var state = this.state || {
@@ -47,7 +46,6 @@ define(
           machineEndDate: "",
           machineUncopyable: "",
           visibility: "public", //Future
-          applicationMembers: null, //Future
         };
 
         if (machine) {
@@ -62,32 +60,22 @@ define(
         //    state.machineLicenses = licenses;
         //}
 
-        //if (memberships) {
-        //    state.machineMemberships = memberships;
-        //}
         if (state.machineApplicationID === null) {
             state.machineApplicationID = current_app.id
         }
-
-
-
         if (applications) {
             selectedApplication = applications.get(state.machineApplicationID);
             // Since providers requires authentication, we can't display which providers
-      // the image is available on on the public page
-
-
+            // the image is available on on the public page
+            state.image = selectedApplication;
+            state.visibility = selectedApplication.get('private') ? "select" : "public";
         }
         if(providers) {
             state.providers = providers;
         }
         if(all_users) {
             state.all_users = all_users;
-            state.applicationMembers = stores.UserStore.getUsersFromList(state.machineVersion.membership);
-        }
-        if(state.machineVersion && selectedApplication) {
-            state.image = selectedApplication;
-            state.visibility = selectedApplication.get('private') ? "select" : "public";
+            state.machineMemberships = stores.UserStore.getUsersFromList(state.machineVersion.membership);
         }
         return state;
       },
@@ -209,7 +197,7 @@ define(
             <Visibility
                 value={this.state.visibility}
                 all_users={this.state.all_users}
-                membership_list={this.state.applicationMembers}
+                membership_list={this.state.machineMemberships}
                 onChange={this.handleVisibilityChange}
              />
             <div className='form-group'>

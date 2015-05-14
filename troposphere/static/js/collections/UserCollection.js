@@ -11,7 +11,10 @@ define(function (require) {
     url: globals.API_V2_ROOT + "/users",
 
     comparator: function (model) {
-      return model.get('username').toLowerCase();
+      var username = model.get('username');
+      if(username)
+          return model.get('username').toLowerCase();
+      return username;
     },
 
     parse: function (response) {
