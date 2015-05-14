@@ -8,7 +8,7 @@ define(function (require) {
       Description = require('./request_image/ImageDescription.react'),
       Tags = require('./request_image/ImageTags.react'),
       Provider = require('./request_image/ImageProvider.react'),
-      Visibility = require('./request_image/ImageVisibility.react'),
+      Visibility = require('components/common/image_request/ImageVisibility.react'),
       Software = require('./request_image/ImageSoftware.react'),
       SystemFiles = require('./request_image/ImageSystemFiles.react'),
       FilesToExclude = require('./request_image/ImageFilesToExclude.react'),
@@ -20,22 +20,74 @@ define(function (require) {
     propTypes: {
       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
+    canUpdate: function(instance, version) {
+      var user = instance.get('user'),
+          image = instance.get('image');
+      if(user.id === image.user) {
+          return true;
+          //The instance owner is the owner of that image.
+      } else if(user.is_staff || user.is_superuser) {
+          //The instance owner is really important
+          return true;
+      } else {
+          //Noone else can update the image.
+          return false;
+      }
+    },
+    canImage: function(instance, version) {
+      var user = instance.get('user'),
+          image = instance.get('image');
+      if(user.id === image.user) {
+          return true;
+          //The instance owner is the owner of that image.
+      } else if(user.is_staff || user.is_superuser) {
+          //The instance owner is really important
+          return true;
+      } else {
+          //Default to whether the version has explicitly enabled/disabled.
+          return version.allow_imaging;
+      }
+    },
+      getInitialState: function () {
+        return this.getState();
+      },
+      updateState: function () {
+        if (this.isMounted()) this.setState(this.getState());
+      },
+    getState: function () {
+      var instance = this.props.instance,
+          version = instance.get('version'),
+          image = instance.get('image'),
+          can_image = false,
+          can_update = false,
+          hasSelectedUpdate = false,
+          instance_tags = null,
+          all_users = stores.UserStore.getAll();
 
-    getInitialState: function () {
-      var instance = this.props.instance;
-
-      return {
+      var state = this.state || {
+        allow_imaging: can_image,
+        allow_update: can_update,
         name: "",
         description: "",
-        tags: stores.InstanceTagStore.getTagsFor(instance),
+        tags: instance_tags,
         providerId: instance.get('provider').id,
         visibility: "public",
+        membership_list: null,
         software: "",
         systemFiles: "",
         filesToExclude: "",
         hasAgreedToLicense: false,
+        hasSelectedUpdate: false,
+              checkCreate: true,
+              checkUpdate: false,
         showAdvancedOptions: false
       };
+
+      if(all_users) {
+          state.users = all_users;
+          state.membership_list = stores.UserStore.getUsersFromList(version.membership);
+      }
+      return state;
     },
 
     isSubmittable: function(){
@@ -77,7 +129,7 @@ define(function (require) {
         software: this.state.software,
         systemFiles: this.state.systemFiles,
         filesToExclude: this.state.filesToExclude,
-        hasAgreedToLicense: this.state.hasAgreedToLicense
+        hasAgreedToLicense: this.state.hasAgreedToLicense,
       };
 
       this.props.onConfirm(details);
@@ -94,6 +146,15 @@ define(function (require) {
 
     handleDescriptionChange: function(description){
       this.setState({description: description});
+    },
+
+    onCreateSelected: function(e) {
+      this.setState({checkUpdate: false,
+        checkCreate: true})
+    },
+    onUpdateSelected: function(e) {
+      this.setState({checkUpdate: true,
+      checkCreate: false});
     },
 
     onTagAdded: function(tag){
@@ -176,7 +237,29 @@ define(function (require) {
     },
 
     renderBody: function(){
-      var instance = this.props.instance;
+        //Do stuff based on other stuff here.
+        //Based on update_selected value
+
+        var instance = this.props.instance,
+                user = instance.get('user'),
+             version = instance.get('version'),
+               image = instance.get('image');
+        if(instance && version) {
+          this.state.allow_imaging = this.canImage(instance, version),
+          this.state.allow_update = this.canUpdate(instance, version),
+          this.state.tags = stores.InstanceTagStore.getTagsFor(instance);
+          this.state.membership_list = version.membership;
+      }
+      if(this.state.checkUpdate) {
+          this.state.name = image.name;
+          this.state.description = version.description;
+
+          this.state.visibility = image.private ? "select" : "public";
+      }
+
+
+
+
 
       return (
         <div>
@@ -191,11 +274,15 @@ define(function (require) {
             </a>
             {" before completing the form below."}
           </p>
-
-          <Name onChange={this.handleNameChange}/>
+          <div className="form-group">
+            <label htmlFor='imaging-fork'>Create or Update</label>
+          <input type="radio" onClick={this.onCreateSelected} className="form-control" name="create_update_switch" value="create" disabled={!this.state.allow_imaging} checked={this.state.checkCreate}>Create</input>
+          <input type="radio" onClick={this.onUpdateSelected} className="form-control" name="create_update_switch" value="update" disabled={!this.state.allow_imaging && !this.state.allow_update} checked={this.state.checkUpdate}>Update</input>
+          </div>
+          <Name create={this.state.checkCreate} value={this.state.name} onChange={this.handleNameChange}/>
           <Description onChange={this.handleDescriptionChange}/>
           <Tags
-            instance={instance}
+            instance={this.state.instance}
             imageTags={this.state.tags}
             onTagAdded={this.onTagAdded}
             onTagRemoved={this.onTagRemoved}
@@ -206,6 +293,8 @@ define(function (require) {
           />
           <Visibility
             value={this.state.visibility}
+            all_users={this.state.users}
+            membership_list={this.state.membership_list}
             onChange={this.handleVisibilityChange}
           />
           {this.renderAdvancedOptions()}

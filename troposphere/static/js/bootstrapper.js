@@ -34,7 +34,6 @@ define(function (require) {
     stores.InstanceHistoryStore    = require('stores/InstanceHistoryStore');
     stores.InstanceStore           = require('stores/InstanceStore');
     stores.InstanceTagStore        = require('stores/InstanceTagStore');
-    stores.MachineStore            = require('stores/MachineStore');
     stores.MaintenanceMessageStore = require('stores/MaintenanceMessageStore');
     stores.ProfileStore            = require('stores/ProfileStore');
     stores.ProjectStore            = require('stores/ProjectStore');
@@ -47,6 +46,7 @@ define(function (require) {
     stores.QuotaStore              = require('stores/QuotaStore');
     stores.SizeStore               = require('stores/SizeStore');
     stores.TagStore                = require('stores/TagStore');
+    stores.UserStore                = require('stores/UserStore');
     stores.VersionStore            = require('stores/VersionStore');
     stores.VolumeStore             = require('stores/VolumeStore');
 
@@ -60,9 +60,11 @@ define(function (require) {
     actions.NullProjectActions     = require('actions/NullProjectActions');
     actions.ProfileActions         = require('actions/ProfileActions');
     actions.ProjectActions         = require('actions/ProjectActions');
+    actions.ProviderMachineActions = require('actions/ProviderMachineActions');
     actions.ProjectInstanceActions = require('actions/ProjectInstanceActions');
     actions.ProjectVolumeActions   = require('actions/ProjectVolumeActions');
     actions.TagActions             = require('actions/TagActions');
+    //actions.UserActions             = require('actions/UserActions');
     actions.VersionActions         = require('actions/VersionActions');
     actions.VolumeActions          = require('actions/VolumeActions');
 
