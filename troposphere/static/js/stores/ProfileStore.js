@@ -5,9 +5,10 @@ define(
     'stores/Store',
     'models/Profile',
     'controllers/NotificationController',
-    'constants/ProfileConstants'
+    'constants/ProfileConstants',
+    'actions'
   ],
-  function (_, Dispatcher, Store, Profile, NotificationController, ProfileConstants) {
+  function (_, Dispatcher, Store, Profile, NotificationController, ProfileConstants, actions) {
 
     var _profile = null;
     var _isFetching = false;
