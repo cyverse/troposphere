@@ -51,7 +51,8 @@ define(function(require) {
       name: "Admin",
       linksTo: "admin",
       icon: "cog",
-      requiresLogin: true
+      requiresLogin: true,
+      requiresStaff: true
     }
   ];
 
@@ -135,6 +136,11 @@ define(function(require) {
       if(!profile) {
         links = links.filter(function (link) {
           return !link.requiresLogin;
+        })
+      }else{
+        links = links.filter(function (link) {
+          if(link.requiresStaff) return profile.get('is_staff');
+          return true;
         })
       }
 
