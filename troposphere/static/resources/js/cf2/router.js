@@ -7,6 +7,14 @@ $.ajaxSetup({
   }
 });
 
+// Watch all AJAX requests for 503 responses.  If any request returns a 503,
+// Atmosphere is under maintenance so redirect to the maintenance page
+$(document).ajaxError(function(e, response, xhr){
+  if(response.status === 503){
+    window.location.pathname = "/atmo_maintenance";
+  }
+});
+
 Atmo.Router = Backbone.Router.extend({
   routes: {
     "": "instances",
@@ -38,11 +46,17 @@ Atmo.Router = Backbone.Router.extend({
           //created_at: 1234567890
         });
       },
-      error: function () {
-        // If we end up here, the user has an iPlant account but doesn't
-        // have access to Atmosphere itself.
-        // Redirect the user to the forbidden page with more info
-        window.location.pathname = "/forbidden";
+      error: function (attrs, response, xhr) {
+        if(response.status === 503){
+          // if profile returns a 503, Atmosphere is under maintenance
+          // so redirect to the maintenance page
+          window.location.pathname = "/atmo_maintenance";
+        }else{
+          // If we end up here, the user has an iPlant account but doesn't
+          // have access to Atmosphere itself. Redirect the user to the
+          // forbidden page with more info
+          window.location.pathname = "/forbidden";
+        }
       }
     });
 
