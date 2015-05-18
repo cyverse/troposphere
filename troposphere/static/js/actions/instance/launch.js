@@ -11,7 +11,8 @@ define(function (require) {
       stores = require('stores'),
       ModalHelpers = require('components/modals/ModalHelpers'),
       InstanceLaunchModal = require('components/modals/instance/InstanceLaunchModal.react'),
-      Utils = require('../Utils');
+      Utils = require('../Utils'),
+      ProjectInstance = require('models/ProjectInstance');
 
   var createProjectAndLaunchInstance = function(params){
     if(!params.projectName) throw new Error("Missing projectName");
@@ -74,12 +75,17 @@ define(function (require) {
       }
     }, {parse: true});
 
+    var projectInstance = new ProjectInstance({
+      project: project.toJSON(),
+      instance: instance.toJSON()
+    });
+
     Utils.dispatch(InstanceConstants.ADD_INSTANCE, {instance: instance});
-    // todo: hook this back up if experience seems to slow...not connected right now
-    // Utils.dispatch(ProjectInstanceConstants.ADD_PENDING_INSTANCE_TO_PROJECT, {
-    //   instance: instance,
-    //   project: project
-    // });
+
+    // Add the instance to the project now, so the user can see it being requested
+    Utils.dispatch(ProjectInstanceConstants.ADD_PENDING_PROJECT_INSTANCE, {
+      projectInstance: projectInstance
+    });
 
     instance.createOnV1Endpoint({
       name: instanceName,
@@ -95,12 +101,6 @@ define(function (require) {
         Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
         Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
 
-        // todo: hook this back up if experience seems to slow...not connected right now
-        // Utils.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
-        //   instance: instance,
-        //   project: project
-        // });
-
         actions.ProjectInstanceActions.addInstanceToProject({
           project: project,
           instance: instance
@@ -109,12 +109,11 @@ define(function (require) {
     }).fail(function (response) {
       Utils.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
       Utils.displayError({title: "Instance could not be launched", response: response});
-
-      // todo: hook this back up if experience seems to slow...not connected right now
-      // Utils.dispatch(ProjectInstanceConstants.REMOVE_PENDING_INSTANCE_FROM_PROJECT, {
-      //   instance: instance,
-      //   project: project
-      // });
+    }).always(function(){
+      // Remove the instance from the project now that it's either been created or failed to be created
+      Utils.dispatch(ProjectInstanceConstants.REMOVE_PENDING_PROJECT_INSTANCE, {
+        projectInstance: projectInstance
+      });
     });
 
     // Since this is triggered from the images page, navigate off
