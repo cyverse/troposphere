@@ -3,6 +3,7 @@ define(function (require) {
   var React = require('react'),
       Backbone = require('backbone'),
       Glyphicon = require('components/common/Glyphicon.react'),
+      modals = require('modals'),
       actions = require('actions');
 
   return React.createClass({
@@ -33,7 +34,7 @@ define(function (require) {
     },
 
     handleReport: function(){
-      actions.VolumeActions.report({volume: this.props.volume});
+      modals.VolumeModals.report({volume: this.props.volume});
     },
 
     render: function () {
