@@ -66,6 +66,9 @@ define(function (require) {
     actions.VersionActions         = require('actions/VersionActions');
     actions.VolumeActions          = require('actions/VolumeActions');
 
+    var modals = require('modals');
+    modals.VolumeModals            = require('modals/VolumeModals');
+
     return {
       run: function () {
 
