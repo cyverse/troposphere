@@ -4,7 +4,8 @@ define(function (require) {
     createAndAddToProject: require('./instance/createAndAddToProject').createAndAddToProject,
     destroy: require('./instance/destroy').destroy,
     launch: require('./instance/launch').launch,
-    reboot: require('./instance/reboot').reboot
+    reboot: require('./instance/reboot').reboot,
+    report: require('./instance/report').report
   };
 
 });

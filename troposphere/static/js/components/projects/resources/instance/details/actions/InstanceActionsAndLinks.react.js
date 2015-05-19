@@ -30,7 +30,7 @@ define(function (require) {
     },
 
     onReport: function(){
-      actions.InstanceActions.report({
+      modals.InstanceModals.report({
         instance: this.props.instance
       });
     },
