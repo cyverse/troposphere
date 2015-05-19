@@ -69,6 +69,7 @@ define(function (require) {
     var modals = require('modals');
     modals.InstanceModals          = require('modals/InstanceModals');
     modals.VolumeModals            = require('modals/VolumeModals');
+    modals.InstanceVolumeModals    = require('modals/InstanceVolumeModals');
 
     return {
       run: function () {
