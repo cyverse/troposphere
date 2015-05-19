@@ -33,7 +33,6 @@ define(function (require) {
     // ------------------------
 
     create: function (project) {
-      var that = this;
 
       var modal = ProjectCreateModal();
 
