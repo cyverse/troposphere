@@ -8,7 +8,8 @@ define(function (require) {
     report: require('./instance/report').report,
     requestImage: require('./instance/requestImage').requestImage,
     resume: require('./instance/resume').resume,
-    start: require('./instance/start').start
+    start: require('./instance/start').start,
+    stop: require('./instance/stop').stop
   };
 
 });

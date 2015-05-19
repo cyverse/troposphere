@@ -22,7 +22,7 @@ define(function (require) {
     },
 
     onStop: function(){
-      actions.InstanceActions.stop(this.props.instance);
+      modals.InstanceModals.stop(this.props.instance);
     },
 
     onResume: function(){
