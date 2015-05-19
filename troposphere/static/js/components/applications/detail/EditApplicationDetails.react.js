@@ -33,10 +33,6 @@ define(function (require) {
       }
     },
 
-    showModal: function (e) {
-      actions.InstanceActions.launch(this.props.application);
-    },
-
     handleSave: function(){
       var updatedAttributes = {
         name: this.state.name,
