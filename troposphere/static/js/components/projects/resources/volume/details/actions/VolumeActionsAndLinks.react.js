@@ -14,7 +14,7 @@ define(function (require) {
     },
 
     onAttach: function(){
-      actions.InstanceVolumeActions.attach(this.props.volume, this.props.project);
+      modals.InstanceVolumeModals.attach(this.props.volume, this.props.project);
     },
 
     onDetach: function(){
