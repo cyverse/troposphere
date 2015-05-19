@@ -63,7 +63,6 @@ define(function (require) {
     actions.ProjectInstanceActions = require('actions/ProjectInstanceActions');
     actions.ProjectVolumeActions   = require('actions/ProjectVolumeActions');
     actions.TagActions             = require('actions/TagActions');
-    actions.VersionActions         = require('actions/VersionActions');
     actions.VolumeActions          = require('actions/VolumeActions');
 
     var modals = require('modals');
