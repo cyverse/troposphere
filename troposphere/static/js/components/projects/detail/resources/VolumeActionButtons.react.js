@@ -18,7 +18,7 @@ define(function (require) {
     },
 
     onDetach: function(){
-      actions.InstanceVolumeActions.detach(this.props.volume);
+      modals.InstanceVolumeModals.detach(this.props.volume);
     },
 
     onDelete: function(){
