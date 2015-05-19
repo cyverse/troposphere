@@ -18,7 +18,7 @@ define(function (require) {
     },
 
     onSuspend: function(){
-      actions.InstanceActions.suspend(this.props.instance);
+      modals.InstanceModals.suspend(this.props.instance);
     },
 
     onStop: function(){

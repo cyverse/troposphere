@@ -3,8 +3,6 @@ define(function (require) {
 
   var InstanceConstants = require('constants/InstanceConstants'),
       InstanceState = require('models/InstanceState'),
-      ModalHelpers = require('components/modals/ModalHelpers'),
-      InstanceStopModal = require('components/modals/instance/InstanceStopModal.react'),
       Utils = require('../Utils'),
       InstanceActionRequest = require('models/InstanceActionRequest');
 

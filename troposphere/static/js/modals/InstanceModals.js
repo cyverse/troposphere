@@ -9,7 +9,8 @@ define(function (require) {
     requestImage: require('./instance/requestImage').requestImage,
     resume: require('./instance/resume').resume,
     start: require('./instance/start').start,
-    stop: require('./instance/stop').stop
+    stop: require('./instance/stop').stop,
+    suspend: require('./instance/suspend').suspend
   };
 
 });
