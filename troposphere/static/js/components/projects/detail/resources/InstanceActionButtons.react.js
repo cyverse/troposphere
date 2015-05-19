@@ -26,7 +26,7 @@ define(function (require) {
     },
 
     onResume: function(){
-      actions.InstanceActions.resume(this.props.instance);
+      modals.InstanceModals.resume(this.props.instance);
     },
 
     onDelete: function(){

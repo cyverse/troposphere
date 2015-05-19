@@ -6,7 +6,8 @@ define(function (require) {
     launch: require('./instance/launch').launch,
     reboot: require('./instance/reboot').reboot,
     report: require('./instance/report').report,
-    requestImage: require('./instance/requestImage').requestImage
+    requestImage: require('./instance/requestImage').requestImage,
+    resume: require('./instance/resume').resume
   };
 
 });
