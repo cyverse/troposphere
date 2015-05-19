@@ -19,7 +19,7 @@ define(function (require) {
 
       render: function () {
         var instance = stores.InstanceStore.get(this.props.instance.id),
-            provider = stores.ProviderStore.get(instance.get('provider').id);
+            provider = instance ? stores.ProviderStore.get(instance.get('provider').id) : null;
 
         if(!instance || !provider) return <div className="loading"></div>;
 
