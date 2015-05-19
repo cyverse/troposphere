@@ -36,7 +36,7 @@ define(function (require) {
     },
 
     onImageRequest: function(){
-      actions.InstanceActions.requestImage({
+      modals.InstanceModals.requestImage({
         instance: this.props.instance
       });
     },
