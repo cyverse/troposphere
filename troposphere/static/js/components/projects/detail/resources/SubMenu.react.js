@@ -4,10 +4,9 @@ define(
   [
     'react',
     'backbone',
-    'modals',
-    'actions'
+    'modals'
   ],
-  function (React, Backbone, modals, actions) {
+  function (React, Backbone, modals) {
 
     return React.createClass({
 
@@ -22,7 +21,7 @@ define(
 
       onCreateInstance: function(e){
         e.preventDefault();
-        actions.InstanceActions.createAndAddToProject({project: this.props.project});
+        modals.InstanceActions.createAndAddToProject({project: this.props.project});
       },
 
       render: function () {
