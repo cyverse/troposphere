@@ -7,9 +7,10 @@ define(
     './IconSelect.react',
     './SettingsHeader.react',
     'actions',
+    'modals',
     'stores'
   ],
-  function (React, PageHeader, IconSelect, SettingsHeader, actions, stores) {
+  function (React, PageHeader, IconSelect, SettingsHeader, actions, modals, stores) {
 
     function getState() {
       return {
@@ -46,7 +47,7 @@ define(
 
       handleRequestMoreResources: function(e){
         e.preventDefault();
-        actions.HelpActions.requestMoreResources();
+        modals.HelpModals.requestMoreResources();
       },
 
       render: function () {
