@@ -4,9 +4,6 @@ define(function (require) {
       $ = require('jquery'),
       NotificationController = require('controllers/NotificationController'),
       globals = require('globals'),
-      FeedbackModal = require('components/modals/FeedbackModal.react'),
-      RequestMoreResourcesModal = require('components/modals/RequestMoreResourcesModal.react'),
-      ModalHelpers = require('components/modals/ModalHelpers'),
       stores = require('stores');
 
   return {
