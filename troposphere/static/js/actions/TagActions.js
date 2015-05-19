@@ -11,14 +11,20 @@ define(function (require) {
 
   return {
 
-    create: function(initialTagName){
+    create: function(params){
+
+      if(!params.name) throw new Error("Missing name");
+      if(!params.description) throw new Error("Missing description");
+
+      var initialTagName = params.initialTagName,
+          name = params.name,
+          description = params.description;
 
       var modal = TagCreateModal({
         initialTagName: initialTagName
       });
 
-      ModalHelpers.renderModal(modal, function(name, description){
-
+      //ModalHelpers.renderModal(modal, function(name, description){
         var tag = new Tag({
           name: name,
           description: description
@@ -32,7 +38,7 @@ define(function (require) {
           Utils.dispatch(TagConstants.REMOVE_TAG, {tag: tag}, {silent: false});
         }.bind(this));
 
-      }.bind(this));
+      //}.bind(this));
     },
 
     create_AddToInstance: function(initialTagName, instance){
