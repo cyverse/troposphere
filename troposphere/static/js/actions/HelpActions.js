@@ -48,29 +48,6 @@ define(function (require) {
 
     },
 
-    showFeedbackModal: function(){
-
-      var onConfirm = function (feedback) {
-        this.sendFeedback(feedback);
-      }.bind(this);
-
-      var onCancel = function(){
-        // Important! We need to un-mount the component so it un-registers from Stores and
-        // also so that we can relaunch it again later.
-        React.unmountComponentAtNode(document.getElementById('modal'));
-      };
-
-      var modal = FeedbackModal({
-        header: "Send Feedback",
-        confirmButtonMessage: "Send feedback",
-        onConfirm: onConfirm,
-        onCancel: onCancel,
-        handleHidden: onCancel
-      });
-
-      React.render(modal, document.getElementById('modal'));
-    },
-
     requestMoreResources: function (params) {
       if(!params.identity) throw new Error("Missing identity");
       if(!params.quota) throw new Error("Missing quota");
