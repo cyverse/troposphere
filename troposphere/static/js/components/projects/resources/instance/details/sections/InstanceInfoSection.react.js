@@ -7,6 +7,7 @@ define(function (require) {
       ResourceTags = require('./ResourceTags.react'),
       actions = require('actions'),
       stores = require('stores'),
+      modals = require('modals'),
       CryptoJS = require('crypto'),
       Gravatar = require('components/common/Gravatar.react');
 
@@ -32,7 +33,7 @@ define(function (require) {
     },
 
     onCreateNewTag: function(tagNameSuggestion){
-      actions.TagActions.create_AddToInstance(tagNameSuggestion, this.props.instance);
+      modals.TagModals.create_AddToInstance(tagNameSuggestion, this.props.instance);
     },
 
     onDoneEditing: function(text){
