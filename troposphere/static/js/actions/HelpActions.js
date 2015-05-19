@@ -71,38 +71,39 @@ define(function (require) {
       React.render(modal, document.getElementById('modal'));
     },
 
-    requestMoreResources: function (project) {
-      var that = this;
+    requestMoreResources: function (params) {
+      if(!params.identity) throw new Error("Missing identity");
+      if(!params.quota) throw new Error("Missing quota");
+      if(!params.reason) throw new Error("Missing reason");
 
-      var modal = RequestMoreResourcesModal();
 
-      ModalHelpers.renderModal(modal, function(identity, quota, reason){
+      var user = stores.ProfileStore.get(),
+          identity = params.identity,
+          quota = params.quota,
+          reason = params.description,
+          username = user.get('username');
 
-        var user = stores.ProfileStore.get(),
-            username = user.get('username');
+      var data = {
+        identity: identity,
+        request: quota,
+        description: reason
+      };
 
-        var data = {
-          identity: identity,
-          request: quota,
-          description: reason
-        };
+      var requestUrl = globals.API_V2_ROOT + '/quota_requests';
 
-        var requestUrl = globals.API_V2_ROOT + '/quota_requests';
-
-        $.ajax(requestUrl, {
-          type: 'POST',
-          data: JSON.stringify(data),
-          dataType: 'json',
-          contentType: 'application/json',
-          success: function (data) {
-            NotificationController.info("Resource Request submitted", "Support will be in touch with you shortly.");
-          },
-          error: function (response_text) {
-            var errorMessage = "An error occured while submitting your request for more resources.  Please email your resources request to <a href='mailto:support@iplantcollaborative.org'>support@iplantcollaborative.org</a>.";
-            NotificationController.error("Request resources error", errorMessage);
-          }
-        });
-      })
+      $.ajax(requestUrl, {
+        type: 'POST',
+        data: JSON.stringify(data),
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function (data) {
+          NotificationController.info("Resource Request submitted", "Support will be in touch with you shortly.");
+        },
+        error: function (response_text) {
+          var errorMessage = "An error occured while submitting your request for more resources.  Please email your resources request to <a href='mailto:support@iplantcollaborative.org'>support@iplantcollaborative.org</a>.";
+          NotificationController.error("Request resources error", errorMessage);
+        }
+      });
 
     }
 
