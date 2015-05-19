@@ -3,7 +3,8 @@ define(function (require) {
   var React = require('react'),
       Backbone = require('backbone'),
       Button = require('./Button.react'),
-      actions = require('actions');
+      actions = require('actions'),
+      modals = require('modals');
 
   return React.createClass({
 
@@ -29,7 +30,7 @@ define(function (require) {
     },
 
     onDelete: function(){
-      actions.InstanceActions.destroy({
+      modals.InstanceModals.destroy({
         instance:this.props.instance,
         project: this.props.project
       });

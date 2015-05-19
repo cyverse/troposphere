@@ -21,7 +21,7 @@ define(
 
       onCreateInstance: function(e){
         e.preventDefault();
-        modals.InstanceActions.createAndAddToProject({project: this.props.project});
+        modals.InstanceModals.createAndAddToProject({project: this.props.project});
       },
 
       render: function () {

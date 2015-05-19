@@ -3,7 +3,8 @@ define(function (require) {
   var React = require('react'),
       Backbone = require('backbone'),
       Glyphicon = require('components/common/Glyphicon.react'),
-      actions = require('actions');
+      actions = require('actions'),
+      modals = require('modals');
 
   return React.createClass({
 
@@ -44,7 +45,7 @@ define(function (require) {
       var project = this.props.project,
           instance = this.props.instance;
 
-      actions.InstanceActions.destroy({
+      modals.InstanceModals.destroy({
         instance:instance,
         project: project,
         linksTo: "project-resources",
