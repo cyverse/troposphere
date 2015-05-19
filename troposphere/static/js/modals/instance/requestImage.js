@@ -21,9 +21,9 @@ define(function (require) {
           name: params.name,
           description: params.description,
           providerId: params.providerId,
-          software: params.software,
-          filesToExclude: params.filesToExclude,
-          systemFiles: params.systemFiles,
+          software: params.software || "No software provided",
+          filesToExclude: params.filesToExclude || "No files to exclude",
+          systemFiles: params.systemFiles || "No system files provided",
           visibility: params.visibility,
           tags: params.tags
         });
