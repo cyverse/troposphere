@@ -70,6 +70,7 @@ define(function (require) {
     modals.HelpModals              = require('modals/HelpModals');
     modals.InstanceModals          = require('modals/InstanceModals');
     modals.InstanceVolumeModals    = require('modals/InstanceVolumeModals');
+    modals.TagModals               = require('modals/TagModals');
     modals.VolumeModals            = require('modals/VolumeModals');
 
 
