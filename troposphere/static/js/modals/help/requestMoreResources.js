@@ -1,13 +1,9 @@
 define(function (require) {
   "use strict";
 
-  var React = require('react'),
-      actions = require('actions'),
-      stores = require('stores'),
+  var actions = require('actions'),
       ModalHelpers = require('components/modals/ModalHelpers'),
-      RequestMoreResourcesModal = require('components/modals/RequestMoreResourcesModal.react'),
-      ProjectInstanceLaunchModal = require('components/modals/project/ProjectInstanceLaunchModal.react');
-
+      RequestMoreResourcesModal = require('components/modals/RequestMoreResourcesModal.react')
   return {
 
     requestMoreResources: function(){
