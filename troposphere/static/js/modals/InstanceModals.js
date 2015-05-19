@@ -7,7 +7,8 @@ define(function (require) {
     reboot: require('./instance/reboot').reboot,
     report: require('./instance/report').report,
     requestImage: require('./instance/requestImage').requestImage,
-    resume: require('./instance/resume').resume
+    resume: require('./instance/resume').resume,
+    start: require('./instance/start').start
   };
 
 });
