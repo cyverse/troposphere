@@ -54,7 +54,7 @@ define(function (require) {
     },
 
     onReboot: function(){
-      actions.InstanceActions.reboot(this.props.instance);
+      modals.InstanceModals.reboot(this.props.instance);
     },
 
     render: function () {
