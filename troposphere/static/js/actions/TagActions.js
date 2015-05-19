@@ -41,13 +41,20 @@ define(function (require) {
       //}.bind(this));
     },
 
-    create_AddToInstance: function(initialTagName, instance){
+    create_AddToInstance: function(params){
 
-      var modal = TagCreateModal({
-        initialTagName: initialTagName
-      });
+      if(!params.name) throw new Error("Missing name");
+      if(!params.description) throw new Error("Missing description");
+      if(!params.instance) throw new Error("Missing instance");
 
-      ModalHelpers.renderModal(modal, function(name, description){
+      var name = params.name,
+          instance = params.instance,
+          description = params.description;
+      //var modal = TagCreateModal({
+      //  initialTagName: initialTagName
+      //});
+      //
+      //ModalHelpers.renderModal(modal, function(name, description){
 
         var tag = new Tag({
           name: name,
@@ -70,10 +77,11 @@ define(function (require) {
 
         Utils.dispatch(TagConstants.ADD_PENDING_TAG_TO_INSTANCE, {tag: tag, instance: instance});
 
-      }.bind(this));
+      }
+      //.bind(this));
 
     }
 
-  };
+  //};
 
 });
