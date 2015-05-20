@@ -3,6 +3,7 @@ define(function(require){
   var React = require('react'),
       Backbone = require('backbone'),
       Router = require('react-router'),
+      modals = require('modals'),
       Glyphicon = require('components/common/Glyphicon.react'),
       actions = require('actions'),
       stores = require('stores');
@@ -23,7 +24,7 @@ define(function(require){
       if(projectInstances.length > 0 || projectVolumes.length > 0){
         actions.ProjectActions.explainProjectDeleteConditions();
       }else{
-        actions.ProjectActions.destroy(project);
+        modals.ProjectModals.destroy(project);
       }
     },
 
