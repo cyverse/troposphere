@@ -87,21 +87,17 @@ define(function (require) {
     // Move Project Resources
     // ----------------------
 
-    moveResources: function (resources, currentProject) {
-      var that = this;
-
-      var modal = ProjectMoveResourceModal({
-        currentProject: currentProject,
-        resources: resources
-      });
-
-      ModalHelpers.renderModal(modal, function(newProject){
+    moveResources: function (params) {
+      var that = this,
+          newProject = params.newProject,
+          resources = params.resources,
+          currentProject = params.currentProject;
+      
         resources.map(function(resource){
           that.addResourceToProject(resource, newProject, {silent: false});
           that.removeResourceFromProject(resource, currentProject, {silent: false});
         });
         Utils.dispatch(ProjectConstants.EMIT_CHANGE);
-      });
     },
 
     // ----------------------------
