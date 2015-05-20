@@ -57,8 +57,6 @@ define(function (require) {
     },
 
     updateProjectAttributes: function (project, newAttributes) {
-      var that = this;
-
       project.set(newAttributes);
       Utils.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
 
@@ -71,32 +69,18 @@ define(function (require) {
     },
 
     destroy: function (params) {
-
       var project = params.project;
+      Utils.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
 
-      //ModalHelpers.renderModal(modal, function(){
-        Utils.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
+      project.destroy().done(function(){
+        //NotificationController.success(null, "Project " + project.get('name') + " deleted.");
+      }).fail(function(){
+        var failureMessage = "Error deleting Project " + project.get('name') + ".";
+        NotificationController.error(failureMessage);
+        Utils.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
+      });
 
-        project.destroy().done(function(){
-          //NotificationController.success(null, "Project " + project.get('name') + " deleted.");
-        }).fail(function(){
-          var failureMessage = "Error deleting Project " + project.get('name') + ".";
-          NotificationController.error(failureMessage);
-          Utils.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
-        });
-
-        Router.getInstance().transitionTo("projects");
-      //})
-    },
-
-    // --------------------
-    // Informational Actions
-    // --------------------
-
-    explainProjectDeleteConditions: function(){
-      var modal = ProjectDeleteConditionsModal();
-
-      ModalHelpers.renderModal(modal, function(){});
+      Router.getInstance().transitionTo("projects");
     },
 
     // ----------------------
