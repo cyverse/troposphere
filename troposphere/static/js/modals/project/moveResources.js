@@ -19,11 +19,7 @@ define(function (require) {
           resources: resources,
           newProject: newProject
         });
-      //  resources.map(function(resource){
-      //    that.addResourceToProject(resource, newProject, {silent: false});
-      //    that.removeResourceFromProject(resource, currentProject, {silent: false});
-      //  });
-      //  Utils.dispatch(ProjectConstants.EMIT_CHANGE);
+
       });
     }
 
