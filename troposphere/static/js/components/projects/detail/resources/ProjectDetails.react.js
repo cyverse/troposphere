@@ -122,7 +122,7 @@ define(function (require) {
     },
 
     onRemoveSelectedResources: function(){
-      actions.ProjectActions.removeResources(
+      modals.ProjectModals.removeResources(
         this.state.selectedResources,
         this.props.project
       );
