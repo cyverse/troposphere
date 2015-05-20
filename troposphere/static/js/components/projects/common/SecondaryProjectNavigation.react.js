@@ -22,7 +22,7 @@ define(function(require){
           projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project);
 
       if(projectInstances.length > 0 || projectVolumes.length > 0){
-        actions.ProjectActions.explainProjectDeleteConditions();
+        modals.ProjectModals.explainProjectDeleteConditions();
       }else{
         modals.ProjectModals.destroy(project);
       }
