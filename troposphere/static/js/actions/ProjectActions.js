@@ -32,11 +32,12 @@ define(function (require) {
     // Standard CRUD Operations
     // ------------------------
 
-    create: function (project) {
+    create: function (params) {
+      if(!params.name) throw new Error("Missing name");
+      if(!params.description) throw new Error("Missing description");
 
-      var modal = ProjectCreateModal();
-
-      ModalHelpers.renderModal(modal, function(name, description){
+      var name = params.name,
+          description = params.description;
 
         var project = new Project({
           name: name,
@@ -53,8 +54,6 @@ define(function (require) {
           NotificationController.error(null, message);
           Utils.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
         });
-      })
-
     },
 
     updateProjectAttributes: function (project, newAttributes) {
