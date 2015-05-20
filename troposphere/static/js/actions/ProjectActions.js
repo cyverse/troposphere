@@ -69,6 +69,7 @@ define(function (require) {
     },
 
     destroy: function (params) {
+      if(!params.project) throw new Error("Missing project");
       var project = params.project;
       Utils.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
 
@@ -88,6 +89,10 @@ define(function (require) {
     // ----------------------
 
     moveResources: function (params) {
+      if(!params.newProject) throw new Error("Missing newProject");
+      if(!params.resources) throw new Error("Missing resources");
+      if(!params.currentProject) throw new Error("Missing currentProject");
+
       var that = this,
           newProject = params.newProject,
           resources = params.resources,
@@ -143,6 +148,9 @@ define(function (require) {
     },
 
     removeResources: function(params){
+      if(!params.resources) throw new Error("Missing resources");
+      if(!params.project) throw new Error("Missing params");
+
       var that = this,
           resources = params.resources,
           project = params.project;
