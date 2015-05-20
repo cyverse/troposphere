@@ -18,12 +18,7 @@ define(function (require) {
 
       // Modals
       ModalHelpers = require('components/modals/ModalHelpers'),
-      ProjectCreateModal = require('components/modals/project/ProjectCreateModal.react'),
-      ProjectDeleteModal = require('components/modals/project/ProjectDeleteModal.react'),
-      ProjectDeleteConditionsModal = require('components/modals/project/ProjectDeleteConditionsModal.react'),
-      ProjectMoveResourceModal = require('components/modals/project/ProjectMoveResourceModal.react'),
       ProjectDeleteResourceModal = require('components/modals/project/ProjectDeleteResourceModal.react'),
-      ProjectRemoveResourceModal = require('components/modals/project/ProjectRemoveResourceModal.react'),
       ProjectReportResourceModal = require('components/modals/project/ProjectReportResourceModal.react');
 
   return {
