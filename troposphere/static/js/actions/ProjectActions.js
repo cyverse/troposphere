@@ -92,12 +92,12 @@ define(function (require) {
           newProject = params.newProject,
           resources = params.resources,
           currentProject = params.currentProject;
-      
-        resources.map(function(resource){
-          that.addResourceToProject(resource, newProject, {silent: false});
-          that.removeResourceFromProject(resource, currentProject, {silent: false});
-        });
-        Utils.dispatch(ProjectConstants.EMIT_CHANGE);
+
+      resources.map(function(resource){
+        that.addResourceToProject(resource, newProject, {silent: false});
+        that.removeResourceFromProject(resource, currentProject, {silent: false});
+      });
+      Utils.dispatch(ProjectConstants.EMIT_CHANGE);
     },
 
     // ----------------------------
@@ -142,29 +142,24 @@ define(function (require) {
       }
     },
 
-    removeResources: function(resources, project){
-      var that = this;
+    removeResources: function(params){
+      var that = this,
+          resources = params.resources,
+          project = params.project;
 
-      var modal = ProjectRemoveResourceModal({
-        project: project,
-        resources: resources
+      resources.map(function(resource){
+        that.removeResourceFromProject(resource, project);
+        if(resource instanceof Instance){
+            Utils.dispatch(NullProjectInstanceConstants.ADD_INSTANCE_TO_NULL_PROJECT, {
+              instance: resource
+            });
+          }else if(resource instanceof Volume){
+            Utils.dispatch(NullProjectVolumeConstants.ADD_VOLUME_TO_NULL_PROJECT, {
+              volume: resource
+            });
+          }
       });
-
-      ModalHelpers.renderModal(modal, function(){
-        resources.map(function(resource){
-          that.removeResourceFromProject(resource, project);
-          if(resource instanceof Instance){
-              Utils.dispatch(NullProjectInstanceConstants.ADD_INSTANCE_TO_NULL_PROJECT, {
-                instance: resource
-              });
-            }else if(resource instanceof Volume){
-              Utils.dispatch(NullProjectVolumeConstants.ADD_VOLUME_TO_NULL_PROJECT, {
-                volume: resource
-              });
-            }
-        });
-        Utils.dispatch(ProjectConstants.EMIT_CHANGE);
-      })
+      Utils.dispatch(ProjectConstants.EMIT_CHANGE);
     },
 
     // ------------------------
