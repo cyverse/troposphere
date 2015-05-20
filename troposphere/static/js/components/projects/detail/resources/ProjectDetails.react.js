@@ -6,6 +6,7 @@ define(function (require) {
       ButtonBar = require('./ButtonBar.react'),
       InstanceList = require('./instance/InstanceList.react'),
       VolumeList = require('./volume/VolumeList.react'),
+      modals = require('modals'),
       stores = require('stores'),
       actions = require('actions'),
       Instance = require('models/Instance'),
@@ -100,7 +101,7 @@ define(function (require) {
     },
 
     onMoveSelectedResources: function(){
-      actions.ProjectActions.moveResources(
+      modals.ProjectModals.moveResources(
         this.state.selectedResources,
         this.props.project
       );
