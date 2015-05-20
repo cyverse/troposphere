@@ -70,14 +70,11 @@ define(function (require) {
       });
     },
 
-    destroy: function (project) {
-      var that = this;
+    destroy: function (params) {
 
-      var modal = ProjectDeleteModal({
-        project: project
-      });
+      var project = params.project;
 
-      ModalHelpers.renderModal(modal, function(){
+      //ModalHelpers.renderModal(modal, function(){
         Utils.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
 
         project.destroy().done(function(){
@@ -89,7 +86,7 @@ define(function (require) {
         });
 
         Router.getInstance().transitionTo("projects");
-      })
+      //})
     },
 
     // --------------------
