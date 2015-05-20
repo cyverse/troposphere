@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var Utils = require('./Utils');
+  var Utils = require('./Utils'),
       Router = require('../Router'),
       Constants = require('constants/QuotaRequestConstants'),
       QuotaRequest = require('models/QuotaRequest');
