@@ -213,14 +213,6 @@ define(function (require) {
     getMoreSearchResultsFor: function(query){
       if(!query) throw new Error("query must be specified");
       fetchMoreSearchResultsFor(query);
-    },
-
-    getApplicationWithMachine: function(machineId){
-      var application = _applications.filter(function(application){
-        var machines = application.get('machines');
-        return machines.get(machineId);
-      });
-      return application[0];
     }
 
   };
