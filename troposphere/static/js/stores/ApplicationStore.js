@@ -233,10 +233,6 @@ define(function (require) {
         update(action.application);
         break;
 
-      case ApplicationConstants.APPLICATION_TOGGLE_FAVORITED:
-        ApplicationStore.toggleFavorited(action.application);
-        break;
-
       default:
         return true;
     }
