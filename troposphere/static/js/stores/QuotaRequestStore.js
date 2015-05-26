@@ -7,18 +7,7 @@ define(function (require) {
       stores = require('stores');
 
   var QuotaRequestStore = BaseStore.extend({
-    collection: QuotaRequestCollection,
-
-    getAllPending: function () {
-      if(!this.models) return this.fetchModels();
-
-      var pendingRequests = this.models.filter(function(model){
-        return model.get("status").name === "pending";
-      });
-
-      return new QuotaRequestCollection(pendingRequests);
-    }
-
+    collection: QuotaRequestCollection
   });
 
   var store = new QuotaRequestStore();
