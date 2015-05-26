@@ -135,6 +135,31 @@ define(function(require) {
       return new this.collection(models);
     },
 
+    findOne: function(params){
+      if(!this.models) return this.fetchModels();
+
+      var keys = Object.keys(params);
+
+      var model = this.models.find(function(model){
+        var matchesCriteria = true;
+
+        keys.forEach(function(key){
+          if(!matchesCriteria) return;
+
+          var tokens = key.split('.');
+          if(tokens.length === 1){
+            if(model.get(key) !== params[key]) matchesCriteria = false;
+          }else{
+            if(model.get(tokens[0])[tokens[1]] !== params[key]) matchesCriteria = false;
+          }
+        });
+
+        return matchesCriteria;
+      });
+
+      return model;
+    },
+
     // -----------------
     // Polling functions
     // -----------------
