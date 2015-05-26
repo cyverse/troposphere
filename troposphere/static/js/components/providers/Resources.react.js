@@ -18,7 +18,9 @@ define(function (require) {
       var provider = this.props.provider,
           identity = stores.IdentityStore.getIdentityFor(provider),
           instances = stores.InstanceStore.getInstancesOnProvider(provider),
-          volumes = stores.VolumeStore.getVolumesOnProvider(provider),
+          volumes = stores.VolumeStore.findWhere({
+            'provider.id': provider.id
+          }),
           sizes = stores.SizeStore.getSizesFor(provider);
 
       if(!provider || !identity || !instances || !volumes || !sizes) return <div className="loading"></div>;

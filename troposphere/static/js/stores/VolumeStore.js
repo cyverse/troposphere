@@ -23,16 +23,6 @@ define(function (require) {
     // Custom functions
     //
 
-    getVolumesOnProvider: function (provider) {
-      if(!this.models) return this.fetchModels();
-
-      var volumes = this.models.filter(function(volume){
-        return volume.get('provider').id === provider.id;
-      });
-
-      return new VolumeCollection(volumes);
-    },
-
     getVolumesAttachedToInstance: function (instance) {
       if(!this.models) return this.fetchModels();
 
