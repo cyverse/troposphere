@@ -1,82 +1,49 @@
-define(
-  [
-    'underscore',
-    'dispatchers/Dispatcher',
-    'stores/Store',
-    'collections/InstanceHistoryCollection',
-    'controllers/NotificationController'
-  ],
-  function (_, Dispatcher, Store, InstanceHistoryCollection, NotificationController) {
+define(function(require){
 
-    var _instanceHistories = null;
-    var _isFetching = false;
-    var _isFetchingMore = false;
+  var BaseStore = require('stores/BaseStore'),
+      InstanceHistoryCollection = require('collections/InstanceHistoryCollection');
 
-    //
-    // CRUD Operations
-    //
+  var _isFetchingMore = false;
 
-    var fetchInstanceHistory = function () {
-      if(!_isFetching) {
-        _isFetching = true;
+  var InstanceHistoryStore = BaseStore.extend({
+
+    fetchModels: function () {
+      if(!this.isFetching) {
+        this.isFetching = true;
         var instances = new InstanceHistoryCollection();
         instances.fetch({
           url: instances.url + "?page=1"
         }).done(function () {
-          _isFetching = false;
-          _instanceHistories = instances;
-          InstanceHistoryStore.emitChange();
-        });
+          this.isFetching = false;
+          this.models = instances;
+          this.emitChange();
+        }.bind(this));
       }
-    };
+    },
 
-    var fetchMoreInstanceHistory = function () {
-      var nextUrl = _instanceHistories.meta.next;
+    fetchMoreInstanceHistory: function () {
+      var nextUrl = this.models.meta.next;
+
       if(nextUrl && !_isFetchingMore){
         _isFetchingMore = true;
         var moreHistory = new InstanceHistoryCollection();
         moreHistory.fetch({url: nextUrl}).done(function () {
           _isFetchingMore = false;
-          _instanceHistories.add(moreHistory.models);
-          _instanceHistories.meta = moreHistory.meta;
-          InstanceHistoryStore.emitChange();
-        });
+          this.models.add(moreHistory.models);
+          this.models.meta = moreHistory.meta;
+          this.emitChange();
+        }.bind(this));
       }
-    };
+    },
 
-    //
-    // Instance Store
-    //
-
-    var InstanceHistoryStore = {
-
-      getAll: function () {
-        if(!_instanceHistories) {
-          fetchInstanceHistory();
-        }
-        return _instanceHistories;
-      },
-
-      fetchMore: function(){
-        fetchMoreInstanceHistory();
-      }
-
-    };
-
-    Dispatcher.register(function (payload) {
-      var action = payload.action;
-
-      switch (action.actionType) {
-        default:
-          return true;
-      }
-
-      InstanceHistoryStore.emitChange();
-
-      return true;
-    });
-
-    _.extend(InstanceHistoryStore, Store);
-
-    return InstanceHistoryStore;
+    fetchMore: function(){
+      this.fetchMoreInstanceHistory();
+    }
   });
+
+  var store = new InstanceHistoryStore(null, {
+    collection: InstanceHistoryCollection
+  });
+
+  return store;
+});
