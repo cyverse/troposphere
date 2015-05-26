@@ -1,66 +1,28 @@
 define(function (require) {
 
-  var _ = require('underscore'),
-      Dispatcher = require('dispatchers/Dispatcher'),
-      Store = require('stores/Store'),
-      Collection = require('collections/QuotaCollection'),
-      stores = require('stores');
+  var BaseStore = require('stores/BaseStore'),
+      QuotaCollection = require('collections/QuotaCollection');
 
-  var _models = null;
-  var _isFetching = false;
+  var QuotaStore = BaseStore.extend({
+    collection: QuotaCollection,
 
-  //
-  // CRUD Operations
-  //
-
-  var fetchModels = function () {
-    if(!_models && !_isFetching) {
-      _isFetching = true;
-      var models = new Collection();
-      models.fetch({
-        url: models.url + "?page_size=100"
-      }).done(function () {
-        _isFetching = false;
-        _models = models;
-        ModelStore.emitChange();
-      });
-    }
-  };
-
-
-  function add(model){
-    _models.add(model);
-  }
-
-  function remove(model){
-    _models.remove(model);
-  }
-
-
-  //
-  // Model Store
-  //
-
-  var ModelStore = {
-
-    get: function (modelId) {
-      if(!_models) {
-        fetchModels();
-      } else {
-        return _models.get(modelId);
+    fetchModels: function () {
+      if (!this.models && !this.isFetching) {
+        this.isFetching = true;
+        var models = new this.collection();
+        models.fetch({
+          url: models.url + "?page_size=100"
+        }).done(function(){
+          this.isFetching = false;
+          this.models = models;
+          this.emitChange();
+        }.bind(this));
       }
-    },
-
-    getAll: function () {
-      if(!_models) {
-        fetchModels()
-      }
-      return _models;
     }
 
-  };
+  });
 
-  _.extend(ModelStore, Store);
+  var store = new QuotaStore();
 
-  return ModelStore;
+  return store;
 });
