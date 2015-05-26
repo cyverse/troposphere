@@ -1,16 +1,13 @@
 define(function (require) {
 
   var ApplicationCollection = require('collections/ApplicationCollection'),
-      ApplicationSearchResultCollection = require('collections/ApplicationSearchResultCollection'),
       Dispatcher = require('dispatchers/Dispatcher'),
       Application = require('models/Application'),
       BaseStore = require('stores/BaseStore'),
       ApplicationConstants = require('constants/ApplicationConstants'),
       NotificationController = require('controllers/NotificationController');
 
-  var _searchResults = {},
-      _isFetchingMore = false,
-      _isSearching = false;
+  var _isFetchingMore = false;
 
   var ApplicationStore = BaseStore.extend({
     collection: ApplicationCollection,
@@ -26,44 +23,6 @@ define(function (require) {
           _isFetchingMore = false;
           this.models.add(moreImages.models);
           this.models.meta = moreImages.meta;
-          this.emitChange();
-        }.bind(this));
-      }
-    },
-
-    searchFor: function(query) {
-      if (!_isSearching) {
-        _isSearching = true;
-        var searchResults = new ApplicationSearchResultCollection(null, {
-          query: query
-        });
-
-        searchResults.fetch({
-          success: function () {
-            _isSearching = false;
-            _searchResults[query] = searchResults;
-            this.emitChange();
-          }.bind(this),
-          error: function (coll, response) {
-            NotificationController.error(response.responseText);
-          }.bind(this)
-        });
-      }
-    },
-
-    fetchMoreSearchResultsFor: function (query) {
-      var searchResults = _searchResults[query],
-          nextUrl = searchResults.meta.next;
-
-      if(nextUrl && !_isFetchingMore){
-        _isFetchingMore = true;
-        var moreImages = new ApplicationCollection();
-        moreImages.fetch({
-          url: nextUrl
-        }).done(function(){
-          _isFetchingMore = false;
-          searchResults.add(moreImages.models);
-          searchResults.meta = moreImages.meta;
           this.emitChange();
         }.bind(this));
       }
@@ -86,6 +45,7 @@ define(function (require) {
     },
 
     get: function (imageId) {
+      if(!this.models) return this.fetchModels();
       var image = BaseStore.prototype.get.apply(this, arguments);
       if(!image) return this.fetchModel(imageId);
       return image;
@@ -93,19 +53,6 @@ define(function (require) {
 
     getMoreImages: function(){
       this.fetchMoreImages();
-    },
-
-    getSearchResultsFor: function(query){
-      if(!query) return this.getAll();
-
-      var searchResults = _searchResults[query];
-      if(!searchResults) this.searchFor(query);
-      return searchResults;
-    },
-
-    getMoreSearchResultsFor: function(query){
-      if(!query) throw new Error("query must be specified");
-      this.fetchMoreSearchResultsFor(query);
     }
 
   });

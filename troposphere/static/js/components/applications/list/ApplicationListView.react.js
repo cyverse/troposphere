@@ -40,7 +40,9 @@ define(function (require) {
 
     updateState: function() {
       var query = this.state.query,
-          images = stores.ApplicationStore.getSearchResultsFor(query),
+          images = stores.ApplicationStore.fetchWhere({
+            search: query
+          }),
           state = {};
 
       if(images && images.meta.next !== this.state.nextUrl){
@@ -61,7 +63,9 @@ define(function (require) {
 
     onLoadMoreImages: function(){
       var query = this.state.query,
-          images = stores.ApplicationStore.getSearchResultsFor(query);
+          images = stores.ApplicationStore.fetchWhere({
+            search: query
+          });
 
       this.setState({
         isLoadingMoreResults: true,
@@ -69,7 +73,9 @@ define(function (require) {
       });
 
       if(query){
-        stores.ApplicationStore.getMoreSearchResultsFor(query);
+        stores.ApplicationStore.fetchMoreWhere({
+          search: query
+        });
       }else{
         stores.ApplicationStore.getMoreImages();
       }
@@ -218,7 +224,9 @@ define(function (require) {
 
     renderBody: function(){
       var query = this.state.query,
-          applications = stores.ApplicationStore.getSearchResultsFor(query),
+          applications = stores.ApplicationStore.fetchWhere({
+            search: query
+          }),
           title = "";
 
       if (!applications) return <div className="loading"></div>;
