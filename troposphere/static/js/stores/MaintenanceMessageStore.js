@@ -4,6 +4,7 @@ define(function (require) {
       BaseStore = require('stores/BaseStore');
 
   var MaintenanceMessageStore = BaseStore.extend({
+    collection: MaintenanceMessageCollection,
 
     isProviderInMaintenance: function(providerId){
       var providerMessages = this.models.where({provider: providerId}),
@@ -20,8 +21,8 @@ define(function (require) {
 
   });
 
-  return new MaintenanceMessageStore(null, {
-    collection: MaintenanceMessageCollection
-  });
+  var store = new MaintenanceMessageStore();
+
+  return store;
 
 });
