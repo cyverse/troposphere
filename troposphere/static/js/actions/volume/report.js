@@ -3,8 +3,6 @@ define(function (require) {
 
   var stores = require('stores'),
       globals = require('globals'),
-      ModalHelpers = require('components/modals/ModalHelpers'),
-      VolumeReportModal = require('components/modals/volume/VolumeReportModal.react'),
       Utils = require('../Utils');
 
   return {

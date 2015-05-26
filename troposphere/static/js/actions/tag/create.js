@@ -4,7 +4,7 @@ define(function (require) {
   var TagConstants = require('constants/TagConstants'),
       Tag = require('models/Tag'),
       actions = require('actions'),
-      Utils = require('./Utils');
+      Utils = require('../Utils');
 
   return {
 

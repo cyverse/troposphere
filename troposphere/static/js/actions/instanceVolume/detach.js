@@ -10,12 +10,10 @@ define(function (require) {
   return {
 
     detach: function (params) {
-
       if(!params.volume) throw new Error("Missing volume");
 
-      var volume = params.volume;
-
-      var volumeState = new VolumeState({status_raw: "detaching"}),
+      var volume = params.volume,
+          volumeState = new VolumeState({status_raw: "detaching"}),
           originalState = volume.get('state'),
           instanceUUID = volume.get('attach_data').instance_id,
           instance = stores.InstanceStore.getAll().findWhere({uuid: instanceUUID}),

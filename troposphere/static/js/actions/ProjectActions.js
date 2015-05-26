@@ -34,21 +34,21 @@ define(function (require) {
       var name = params.name,
           description = params.description;
 
-        var project = new Project({
-          name: name,
-          description: description
-        });
+      var project = new Project({
+        name: name,
+        description: description
+      });
 
-        Utils.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
+      Utils.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
 
-        project.save().done(function(){
-          //NotificationController.success(null, "Project " + project.get('name') + " created.");
-          Utils.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
-        }).fail(function(){
-          var message = "Error creating Project " + project.get('name') + ".";
-          NotificationController.error(null, message);
-          Utils.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
-        });
+      project.save().done(function(){
+        //NotificationController.success(null, "Project " + project.get('name') + " created.");
+        Utils.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
+      }).fail(function(){
+        var message = "Error creating Project " + project.get('name') + ".";
+        NotificationController.error(null, message);
+        Utils.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
+      });
     },
 
     updateProjectAttributes: function (project, newAttributes) {

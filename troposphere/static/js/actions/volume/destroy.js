@@ -1,17 +1,11 @@
 define(function (require) {
 
   var VolumeConstants = require('constants/VolumeConstants'),
-      NotificationController = require('controllers/NotificationController'),
       VolumeState = require('models/VolumeState'),
-      actions = require('actions'),
       stores = require('stores'),
-      ModalHelpers = require('components/modals/ModalHelpers'),
-      VolumeDeleteModal = require('components/modals/volume/VolumeDeleteModal.react'),
-      ExplainVolumeDeleteConditionsModal = require('components/modals/volume/ExplainVolumeDeleteConditionsModal.react'),
       Utils = require('../Utils'),
       globals = require('globals'),
-      ProjectVolumeConstants = require('constants/ProjectVolumeConstants'),
-      Router = require('Router');
+      ProjectVolumeConstants = require('constants/ProjectVolumeConstants');
 
   return {
 

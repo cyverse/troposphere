@@ -1,7 +1,6 @@
 define(function (require) {
 
-  var React = require('react'),
-      $ = require('jquery'),
+  var $ = require('jquery'),
       NotificationController = require('controllers/NotificationController'),
       globals = require('globals'),
       stores = require('stores');
@@ -9,7 +8,6 @@ define(function (require) {
   return {
 
     sendFeedback: function (feedback) {
-
       var data = {};
 
       // The message from the use

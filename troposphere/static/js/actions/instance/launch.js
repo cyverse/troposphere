@@ -8,9 +8,6 @@ define(function (require) {
       Project = require('models/Project'),
       Router = require('Router'),
       actions = require('actions'),
-      stores = require('stores'),
-      ModalHelpers = require('components/modals/ModalHelpers'),
-      InstanceLaunchModal = require('components/modals/instance/InstanceLaunchModal.react'),
       Utils = require('../Utils');
 
   function launch(params){

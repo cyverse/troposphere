@@ -17,8 +17,7 @@ define(function (require) {
         actions.TagActions.create({
           name: name,
           description: description
-        })
-
+        });
       });
     }
 

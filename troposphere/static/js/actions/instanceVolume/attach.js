@@ -4,7 +4,6 @@ define(function (require) {
   var VolumeConstants = require('constants/VolumeConstants'),
       VolumeState = require('models/VolumeState'),
       InstanceVolumeActionRequest = require('models/InstanceVolumeActionRequest'),
-      VolumeAttachModal = require('components/modals/volume/VolumeAttachModal.react'),
       Utils = require('../Utils'),
       NotificationController = require('controllers/NotificationController'),
       VolumeAttachNotifications = require('components/notifications/VolumeAttachNotifications.react');
