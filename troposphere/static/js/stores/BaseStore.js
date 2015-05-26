@@ -12,26 +12,37 @@ define(function(require) {
     }.bind(this)).join("&");
     queryString = queryString ? "?" + queryString : queryString;
     return queryString;
-  };
+  }
 
   var Store = function(attributes, options) {
-    //var attrs = attributes || {};
-    options || (options = {});
-    this.attributes = {};
-    if (options.collection) this.collection = options.collection;
-
+    // models: primary local cache, stores a collection of models
     this.models = null;
+
+    // isFetching: True or false depending on whether this.models is being
+    // fetch from the server. Used to prevent multiple server calls for the same data.
     this.isFetching = false;
 
+    // pollingEnabled: True if this store should poll models
+    // modelsBuilding: array of models which are being polled
+    // pollingFrequency: frequency in milliseconds of when the models should be polled
     this.pollingEnabled = false;
     this.modelsBuilding = [];
     this.pollingFrequency = 5*1000;
 
+    // isFetchingQuery: stores query strings as keys and denotes whether that data is already
+    // being fetched from the server. Used to prevent multiple server calls for the same data.
+    //
+    // queryModels: dictionary that uses query strings as keys and stores the resulting
+    // collection as the value
     this.isFetchingQuery = {};
     this.queryModels = {};
 
+    // isFetchingModel: dictionary of ids as keys and individual models as the values.  Used
+    // when we need to make sure to fetch an individual model
     this.isFetchingModel = {};
 
+    // isFetchingMore: True or false depending on whether the next page of data
+    // for this.models is being fetched
     this.isFetchingMore = false;
 
     this.initialize.apply(this, arguments);
@@ -80,8 +91,11 @@ define(function(require) {
     // Core functions
     // --------------
 
+    // called as the last step in the constructor - should be overridden if you need to
+    // modify any of the default store values (this.models, pollingFrequency, etc.)
     initialize: function(){},
 
+    // Fetch the first page of data from the server
     fetchModels: function () {
       if (!this.models && !this.isFetching) {
         this.isFetching = true;
@@ -106,6 +120,7 @@ define(function(require) {
       }
     },
 
+    // Fetch a specific model from the server (based on the provided id)
     fetchModel: function(modelId){
       if(!this.isFetchingModel[modelId]){
         this.isFetchingModel[modelId] = true;
@@ -120,6 +135,7 @@ define(function(require) {
       }
     },
 
+    // Returns the entire local cache, everything in this.models
     getAll: function () {
       if(!this.models) {
         this.fetchModels()
@@ -128,6 +144,7 @@ define(function(require) {
       }
     },
 
+    // Returns a specific model if it exists in the local cache
     get: function (modelId) {
       if(!this.models) {
         this.fetchModels();
@@ -136,6 +153,9 @@ define(function(require) {
       }
     },
 
+    // Looks through the local cache and returns any models matched the provided parameters
+    // params: Object, like {name: 'example'} or {'provider.id': 1}
+    // provided params can be at most 1 extra level deep ('provider.id' or 'provider')
     findWhere: function(params){
       if(!this.models) return this.fetchModels();
 
@@ -161,6 +181,9 @@ define(function(require) {
       return new this.collection(models);
     },
 
+    // Looks through the local cache and returns the first model matching the given params
+    // params: Object, like {name: 'example'} or {'provider.id': 1}
+    // provided params can be at most 1 extra level deep ('provider.id' or 'provider')
     findOne: function(params){
       if(!this.models) return this.fetchModels();
 
@@ -186,6 +209,7 @@ define(function(require) {
       return model;
     },
 
+    // Fetches the next page of data for this.models
     fetchMore: function(){
       var nextUrl = this.models.meta.next;
 
@@ -203,6 +227,9 @@ define(function(require) {
       }
     },
 
+    // Fetches the first page of data for the given set of queryParams
+    // Example: params = {page_size: 1000, search: 'featured'}
+    // will be convereted to ?page_size=1000&search=featured
     fetchWhere: function(queryParams){
       queryParams = queryParams || {};
 
@@ -224,6 +251,9 @@ define(function(require) {
       }
     },
 
+    // Fetches the next page of data for the given set of queryParams
+    // Example: params = {page_size: 1000, search: 'featured'}
+    // will be convereted to ?page_size=1000&search=featured
     fetchMoreWhere: function(queryParams){
       queryParams = queryParams || {};
 
@@ -251,6 +281,7 @@ define(function(require) {
     // Polling functions
     // -----------------
 
+    // Fetches the models state immediately and then sets up to be polled if not in a final state
     pollNowUntilBuildIsFinished: function(model) {
       if (model.id && this.modelsBuilding.indexOf(model) < 0) {
         this.modelsBuilding.push(model);
@@ -258,6 +289,7 @@ define(function(require) {
       }
     },
 
+    // Sets up to be polled if not in a final state
     pollUntilBuildIsFinished: function(model) {
       if (model.id && this.modelsBuilding.indexOf(model) < 0) {
         this.modelsBuilding.push(model);
@@ -265,6 +297,7 @@ define(function(require) {
       }
     },
 
+    // Fetches the model's state from the server then sets up to be polled again if not in a final state
     fetchAndRemoveIfFinished: function(model) {
       if(!model.fetchFromCloud) throw new Error("model missing required method for polling: fetchFromCloud");
       if(!this.isInFinalState) throw new Error("store missing required method for polling: isInFinalState");
@@ -283,6 +316,7 @@ define(function(require) {
       }.bind(this), this.pollingFrequency);
     },
 
+    // Fetches the model's state immediately from the server then sets up to be polled again if not in a final state
     fetchNowAndRemoveIfFinished: function(model) {
       if(!model.fetchFromCloud) throw new Error("model missing required method for polling: fetchFromCloud");
       if(!this.isInFinalState) throw new Error("store missing required method for polling: isInFinalState");
