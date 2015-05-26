@@ -8,20 +8,14 @@ define(function (require) {
       stores = require('stores');
 
   var ImageBookmarkStore = BaseStore.extend({
-
-    getImageBookmarkFor: function(image){
-      if(!this.models) return this.fetchModels();
-
-      return this.models.find(function(ib){
-        return ib.get('image').id === image.id;
-      });
-    },
+    collection: ImageBookmarkCollection,
 
     getBookmarkedImages: function(){
       if(!this.models) return this.fetchModels();
       var haveAllImages = true;
 
       var images = this.models.map(function(ib){
+        // this will cause the image to be fetched if we don't yet have it
         var image = stores.ApplicationStore.get(ib.get('image').id);
         if(!image) haveAllImages = false;
         return image;
@@ -34,9 +28,7 @@ define(function (require) {
 
   });
 
-  var store = new ImageBookmarkStore(null, {
-    collection: ImageBookmarkCollection
-  });
+  var store = new ImageBookmarkStore();
 
   Dispatcher.register(function (dispatch) {
     var actionType = dispatch.action.actionType;

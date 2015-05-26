@@ -9,7 +9,9 @@ define(function (require) {
     toggleFavorite: function (e) {
       e.preventDefault();
       var image = this.props.application,
-          imageBookmark = stores.ImageBookmarkStore.getImageBookmarkFor(image);
+          imageBookmark = stores.ImageBookmarkStore.findOne({
+            'image.id': image.id
+          });
 
       if(imageBookmark) {
         actions.ImageBookmarkActions.removeBookmark({image: image});
@@ -20,7 +22,9 @@ define(function (require) {
 
     render: function () {
       var image = this.props.application,
-          isFavorited = stores.ImageBookmarkStore.getImageBookmarkFor(image),
+          isFavorited = stores.ImageBookmarkStore.findOne({
+            'image.id': image.id
+          }),
           img;
 
       if(isFavorited){
