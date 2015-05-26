@@ -19,6 +19,9 @@ define(function(require) {
     this.modelsBuilding = [];
     this.pollingFrequency = 5*1000;
 
+    this.isFetchingQuery = {};
+    this.queryModels = {};
+
     this.initialize.apply(this, arguments);
   };
 
@@ -158,6 +161,30 @@ define(function(require) {
       });
 
       return model;
+    },
+
+    fetchWhere: function(queryParams){
+      queryParams = queryParams || {};
+
+      // Build the query string
+      var queryString = Object.keys(queryParams).sort().map(function(key, index){
+        return key + "=" + queryParams[key];
+      }.bind(this)).join("&");
+      queryString = queryString ? "?" + queryString : queryString;
+
+      if(this.queryModels[queryString]) return this.queryModels[queryString];
+
+      if(!this.isFetchingQuery[queryString]) {
+        this.isFetchingQuery[queryString] = true;
+        var models = new this.collection();
+        models.fetch({
+          url: models.url + queryString
+        }).done(function () {
+          this.isFetchingQuery[queryString] = false;
+          this.queryModels[queryString] = models;
+          this.emitChange();
+        }.bind(this));
+      }
     },
 
     // -----------------
