@@ -1,57 +1,42 @@
-define(
-  [
-    'underscore',
-    'stores/Store',
-    'models/Machine',
-    'dispatchers/AppDispatcher'
-  ],
-  function (_, Store, Machine, AppDispatcher) {
+define(function (require) {
 
-    var _machines = {};
-    var _isFetching = {};
+  var _ = require('underscore'),
+      Store = require('stores/Store'),
+      Machine = require('models/Machine');
 
-    function fetchMachine(providerId, identityId, machineId){
-      if(!_isFetching[machineId]) {
-        _isFetching[machineId] = true;
-        var machine = new Machine({id: machineId}, {
-          provider_id: providerId,
-          identity_id: identityId
-        });
+  var _machines = {};
+  var _isFetching = {};
 
-        machine.fetch().done(function () {
-          _isFetching[machineId] = false;
-           _machines[machineId] = machine;
-          MachineStore.emitChange();
-        });
+  function fetchMachine(providerId, identityId, machineId){
+    if(!_isFetching[machineId]) {
+      _isFetching[machineId] = true;
+      var machine = new Machine({id: machineId}, {
+        provider_id: providerId,
+        identity_id: identityId
+      });
+
+      machine.fetch().done(function () {
+        _isFetching[machineId] = false;
+         _machines[machineId] = machine;
+        MachineStore.emitChange();
+      });
+    }
+  }
+
+  var MachineStore = {
+
+    get: function (providerId, identityId, machineId) {
+      console.warn("Function shouldn't be used...");
+      if (!_machines[machineId]) {
+        fetchMachine(providerId, identityId, machineId);
       }
+      return _machines[machineId];
     }
 
-    var MachineStore = {
+  };
 
-      get: function (providerId, identityId, machineId) {
-        console.warn("Function shouldn't be used...");
-        if (!_machines[machineId]) {
-          fetchMachine(providerId, identityId, machineId);
-        }
-        return _machines[machineId];
-      }
+  _.extend(MachineStore, Store);
 
-    };
+  return MachineStore;
 
-    AppDispatcher.register(function (payload) {
-      var action = payload.action;
-
-      switch (action.actionType) {
-        // case MachineActions.ACTION:
-        //   action(action.data);
-        //   break;
-      }
-
-      return true;
-    });
-
-    _.extend(MachineStore, Store);
-
-    return MachineStore;
-
-  });
+});
