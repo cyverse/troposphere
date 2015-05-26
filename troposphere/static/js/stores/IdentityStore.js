@@ -1,11 +1,10 @@
 define(function(require) {
 
-  var _ = require('underscore'),
-      BaseStore = require('stores/BaseStore'),
-      IdentityCollection = require('collections/IdentityCollection'),
-      AppDispatcher = require('dispatchers/AppDispatcher');
+  var BaseStore = require('stores/BaseStore'),
+      IdentityCollection = require('collections/IdentityCollection');
 
   var IdentityStore = BaseStore.extend({
+    collection: IdentityCollection,
 
     getIdentityFor: function(provider){
       if(!this.models) return this.fetchModels();
@@ -19,8 +18,8 @@ define(function(require) {
 
   });
 
-  return new IdentityStore(null, {
-    collection: IdentityCollection
-  });
+  var store = new IdentityStore();
+
+  return store;
 
 });
