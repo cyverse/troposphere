@@ -2,65 +2,31 @@ define(function (require) {
 
   var _ = require('underscore'),
       Dispatcher = require('dispatchers/Dispatcher'),
-      Store = require('stores/Store'),
+      BaseStore = require('stores/BaseStore'),
       ProjectCollection = require('collections/ProjectCollection'),
       ProjectConstants = require('constants/ProjectConstants');
 
-  var _projects = null;
-  var _isFetching = false;
+  var store = new BaseStore(null, {
+    collection: ProjectCollection
+  });
 
   //
   // CRUD Operations
   //
 
-  var fetchProjects = function () {
-    if(!_projects && !_isFetching) {
-      _isFetching = true;
-      var projects = new ProjectCollection();
-      projects.fetch().done(function () {
-        _isFetching = false;
-        _projects = projects;
-        ProjectStore.emitChange();
-      });
-    }
-  };
-
   function add(project){
-    _projects.add(project);
+    store.models.add(project);
   }
 
   function update(project){
-    var existingModel = _projects.get(project);
+    var existingModel = store.models.get(project);
     if(!existingModel) throw new Error("Project doesn't exist.");
-    _projects.add(project, {merge: true});
+    store.models.add(project, {merge: true});
   }
 
   function remove(project){
-    _projects.remove(project);
+    store.models.remove(project);
   }
-
-  //
-  // Project Store
-  //
-
-  var ProjectStore = {
-
-    get: function (modelId) {
-      if(!_projects) {
-        fetchProjects();
-      } else {
-        return _projects.get(modelId);
-      }
-    },
-
-    getAll: function () {
-      if(!_projects) {
-        fetchProjects()
-      }
-      return _projects;
-    }
-
-  };
 
   Dispatcher.register(function (dispatch) {
     var actionType = dispatch.action.actionType;
@@ -89,13 +55,11 @@ define(function (require) {
     }
 
     if(!options.silent) {
-      ProjectStore.emitChange();
+      store.emitChange();
     }
 
     return true;
   });
 
-  _.extend(ProjectStore, Store);
-
-  return ProjectStore;
+  return store;
 });
