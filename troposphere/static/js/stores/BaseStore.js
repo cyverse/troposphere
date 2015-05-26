@@ -37,6 +37,27 @@ define(function(require) {
     },
 
     // --------------
+    // CRUD functions
+    // --------------
+
+    add: function(model){
+      this.models.add(model);
+    },
+
+    update: function(model){
+      var existingModel = this.models.get(model);
+      if(existingModel) {
+        this.models.add(model, {merge: true});
+      }else{
+        console.error("Model doesn't exist: " + model.id || model.cid);
+      }
+    },
+
+    remove: function(model){
+      this.models.remove(model);
+    },
+
+    // --------------
     // Core functions
     // --------------
 

@@ -10,24 +10,6 @@ define(function (require) {
     collection: ProjectCollection
   });
 
-  //
-  // CRUD Operations
-  //
-
-  function add(project){
-    store.models.add(project);
-  }
-
-  function update(project){
-    var existingModel = store.models.get(project);
-    if(!existingModel) throw new Error("Project doesn't exist.");
-    store.models.add(project, {merge: true});
-  }
-
-  function remove(project){
-    store.models.remove(project);
-  }
-
   Dispatcher.register(function (dispatch) {
     var actionType = dispatch.action.actionType;
     var payload = dispatch.action.payload;
@@ -36,15 +18,15 @@ define(function (require) {
     switch (actionType) {
 
       case ProjectConstants.ADD_PROJECT:
-        add(payload.project);
+        store.add(payload.project);
         break;
 
       case ProjectConstants.UPDATE_PROJECT:
-        update(payload.project);
+        store.update(payload.project);
         break;
 
       case ProjectConstants.REMOVE_PROJECT:
-        remove(payload.project);
+        store.remove(payload.project);
         break;
 
       case ProjectConstants.EMIT_CHANGE:
