@@ -1,75 +1,27 @@
 define(function (require) {
 
-  var _ = require('underscore'),
-      Dispatcher = require('dispatchers/Dispatcher'),
-      Store = require('stores/Store'),
-      Collection = require('collections/ImageBookmarkCollection'),
-      Constants = require('constants/ImageBookmarkConstants'),
+  var Dispatcher = require('dispatchers/Dispatcher'),
+      BaseStore = require('stores/BaseStore'),
+      ImageBookmarkCollection = require('collections/ImageBookmarkCollection'),
+      ImageBookmarkConstants = require('constants/ImageBookmarkConstants'),
       ImageCollection = require('collections/ApplicationCollection'),
       stores = require('stores');
 
-  var _models = null;
-  var _isFetching = false;
-
-  //
-  // CRUD Operations
-  //
-
-  var fetchModels = function () {
-    if(!_models && !_isFetching) {
-      _isFetching = true;
-      var models = new Collection();
-      models.fetch().done(function () {
-        _isFetching = false;
-        _models = models;
-        ModelStore.emitChange();
-      });
-    }
-  };
-
-  function add(model){
-    _models.add(model);
-  }
-
-  function remove(model){
-    _models.remove(model);
-  }
-
-
-  //
-  // Model Store
-  //
-
-  var ModelStore = {
-
-    get: function (modelId) {
-      if(!_models) {
-        fetchModels();
-      } else {
-        return _models.get(modelId);
-      }
-    },
-
-    getAll: function () {
-      if(!_models) {
-        return fetchModels();
-      }
-      return _models;
-    },
+  var ImageBookmarkStore = BaseStore.extend({
 
     getImageBookmarkFor: function(image){
-      if(!_models) return fetchModels();
+      if(!this.models) return this.fetchModels();
 
-      return _models.find(function(ib){
+      return this.models.find(function(ib){
         return ib.get('image').id === image.id;
       });
     },
 
     getBookmarkedImages: function(){
-      if(!_models) return fetchModels();
+      if(!this.models) return this.fetchModels();
       var haveAllImages = true;
 
-      var images = _models.map(function(ib){
+      var images = this.models.map(function(ib){
         var image = stores.ApplicationStore.get(ib.get('image').id);
         if(!image) haveAllImages = false;
         return image;
@@ -80,7 +32,11 @@ define(function (require) {
       return new ImageCollection(images);
     }
 
-  };
+  });
+
+  var store = new ImageBookmarkStore(null, {
+    collection: ImageBookmarkCollection
+  });
 
   Dispatcher.register(function (dispatch) {
     var actionType = dispatch.action.actionType;
@@ -89,15 +45,15 @@ define(function (require) {
 
     switch (actionType) {
 
-      case Constants.ADD_IMAGE_BOOKMARK:
-        add(payload.imageBookmark);
+      case ImageBookmarkConstants.ADD_IMAGE_BOOKMARK:
+        store.add(payload.imageBookmark);
         break;
 
-      case Constants.REMOVE_IMAGE_BOOKMARK:
-        remove(payload.imageBookmark);
+      case ImageBookmarkConstants.REMOVE_IMAGE_BOOKMARK:
+        store.remove(payload.imageBookmark);
         break;
 
-      case Constants.EMIT_CHANGE:
+      case ImageBookmarkConstants.EMIT_CHANGE:
         break;
 
       default:
@@ -105,13 +61,11 @@ define(function (require) {
     }
 
     if(!options.silent) {
-      ModelStore.emitChange();
+      store.emitChange();
     }
 
     return true;
   });
 
-  _.extend(ModelStore, Store);
-
-  return ModelStore;
+  return store;
 });
