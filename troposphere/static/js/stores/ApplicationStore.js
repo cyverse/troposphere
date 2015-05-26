@@ -95,21 +95,6 @@ define(function (require) {
       this.fetchMoreImages();
     },
 
-    getFeatured: function () {
-      if(!this.models) return this.fetchModels();
-
-      var featuredApplications = this.models.filter(function (app) {
-        return app.get('featured');
-      });
-      return new ApplicationCollection(featuredApplications);
-    },
-
-    getFavorited: function(){
-      if (!this.models) return this.fetchModels();
-      var images = this.models.where({isFavorited: true});
-      return new ApplicationCollection(images);
-    },
-
     getSearchResultsFor: function(query){
       if(!query) return this.getAll();
 
