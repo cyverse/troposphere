@@ -7,32 +7,16 @@ define(function (require) {
       VolumeCollection = require('collections/VolumeCollection'),
       VolumeConstants = require('constants/VolumeConstants');
 
-  var pollingFrequency = 15 * 1000;
-  var _volumesBuilding = [];
-
   var VolumeStore = BaseStore.extend({
     collection: VolumeCollection,
 
-    //queryParams: {
-    //  page_size: 100
-    //},
+    queryParams: {
+      page_size: 100
+    },
 
-    // todo: differences between this and base class implementation
-    // page_size query param
-    // pollNowUntilBuildIsFinished
-    fetchModels: function () {
-      if (!this.models && !this.isFetching) {
-        this.isFetching = true;
-        var models = new this.collection();
-        models.fetch({
-          url: models.url + "?page_size=100"
-        }).done(function(){
-          this.isFetching = false;
-          this.models = models;
-          this.models.each(this.pollNowUntilBuildIsFinished.bind(this));
-          this.emitChange();
-        }.bind(this));
-      }
+    initialize: function(){
+      this.pollingEnabled = true;
+      this.pollingFrequency = 15*1000;
     },
 
     //
@@ -76,46 +60,8 @@ define(function (require) {
     // Polling functions
     //
 
-    pollNowUntilBuildIsFinished: function(volume) {
-      if (volume.id && _volumesBuilding.indexOf(volume) < 0) {
-        _volumesBuilding.push(volume);
-        this.fetchNowAndRemoveIfFinished(volume);
-      }
-    },
-
-    pollUntilBuildIsFinished: function(volume) {
-      if (volume.id && _volumesBuilding.indexOf(volume) < 0) {
-        _volumesBuilding.push(volume);
-        this.fetchAndRemoveIfFinished(volume);
-      }
-    },
-
-    fetchAndRemoveIfFinished: function(volume) {
-      setTimeout(function () {
-        volume.fetchFromCloud(function() {
-          this.update(volume);
-          var index = _volumesBuilding.indexOf(volume);
-          if (volume.get('state').isInFinalState()) {
-            _volumesBuilding.splice(index, 1);
-          } else {
-            this.fetchAndRemoveIfFinished(volume);
-          }
-          this.emitChange();
-        }.bind(this));
-      }.bind(this), pollingFrequency);
-    },
-
-    fetchNowAndRemoveIfFinished: function(volume) {
-      volume.fetchFromCloud(function () {
-        this.update(volume);
-        var index = _volumesBuilding.indexOf(volume);
-        if (volume.get('state').isInFinalState()) {
-          _volumesBuilding.splice(index, 1);
-        } else {
-          this.fetchAndRemoveIfFinished(volume);
-        }
-        this.emitChange();
-      }.bind(this));
+    isInFinalState: function(volume){
+      return volume.get('state').isInFinalState();
     }
 
   });

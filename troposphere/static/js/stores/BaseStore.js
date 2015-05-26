@@ -15,6 +15,10 @@ define(function(require) {
     this.models = null;
     this.isFetching = false;
 
+    this.pollingEnabled = false;
+    this.modelsBuilding = [];
+    this.pollingFrequency = 5*1000;
+
     this.initialize.apply(this, arguments);
   };
 
@@ -82,6 +86,9 @@ define(function(require) {
         }).done(function(){
           this.isFetching = false;
           this.models = models;
+          if(this.pollingEnabled) {
+            this.models.each(this.pollNowUntilBuildIsFinished.bind(this));
+          }
           this.emitChange();
         }.bind(this));
       }
@@ -101,6 +108,58 @@ define(function(require) {
       } else {
         return this.models.get(modelId);
       }
+    },
+
+    // -----------------
+    // Polling functions
+    // -----------------
+
+    pollNowUntilBuildIsFinished: function(model) {
+      if (model.id && this.modelsBuilding.indexOf(model) < 0) {
+        this.modelsBuilding.push(model);
+        this.fetchNowAndRemoveIfFinished(model);
+      }
+    },
+
+    pollUntilBuildIsFinished: function(model) {
+      if (model.id && this.modelsBuilding.indexOf(model) < 0) {
+        this.modelsBuilding.push(model);
+        this.fetchAndRemoveIfFinished(model);
+      }
+    },
+
+    fetchAndRemoveIfFinished: function(model) {
+      if(!model.fetchFromCloud) throw new Error("model missing required method for polling: fetchFromCloud");
+      if(!this.isInFinalState) throw new Error("store missing required method for polling: isInFinalState");
+
+      setTimeout(function () {
+        model.fetchFromCloud(function() {
+          this.update(model);
+          var index = this.modelsBuilding.indexOf(model);
+          if(this.isInFinalState(model)) {
+            this.modelsBuilding.splice(index, 1);
+          } else {
+            this.fetchAndRemoveIfFinished(model);
+          }
+          this.emitChange();
+        }.bind(this));
+      }.bind(this), this.pollingFrequency);
+    },
+
+    fetchNowAndRemoveIfFinished: function(model) {
+      if(!model.fetchFromCloud) throw new Error("model missing required method for polling: fetchFromCloud");
+      if(!this.isInFinalState) throw new Error("store missing required method for polling: isInFinalState");
+
+      model.fetchFromCloud(function () {
+        this.update(model);
+        var index = this.modelsBuilding.indexOf(model);
+        if (this.isInFinalState(model)) {
+          this.modelsBuilding.splice(index, 1);
+        } else {
+          this.fetchAndRemoveIfFinished(model);
+        }
+        this.emitChange();
+      }.bind(this));
     }
 
   });
