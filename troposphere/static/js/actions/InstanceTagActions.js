@@ -35,7 +35,10 @@ define(function (require) {
 
       var instance = params.instance,
           tag = params.tag,
-          instanceTag = stores.InstanceTagStore.getInstanceTagFor(instance, tag);
+          instanceTag = stores.InstanceTagStore.findOne({
+            'instance.id': instance.id,
+            'tag.id': tag.id
+          });
 
       instanceTag.destroy().done(function(){
         Utils.dispatch(InstanceTagConstants.REMOVE_INSTANCE_TAG, {instanceTag: instanceTag});

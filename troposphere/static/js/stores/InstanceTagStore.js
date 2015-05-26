@@ -41,12 +41,6 @@ define(function (require) {
       }
     },
 
-    getInstanceTagFor: function(instance, tag){
-      return this.models.find(function(it){
-        return it.get('instance').id === instance.id && it.get('tag').id === tag.id;
-      });
-    },
-
     getTagsFor: function(instance){
       if(!_modelsFor[instance.id]) return this.fetchModelsFor(instance.id);
 
