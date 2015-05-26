@@ -3,135 +3,53 @@ define(function (require) {
 
   var _ = require('underscore'),
       Dispatcher = require('dispatchers/Dispatcher'),
-      Store = require('stores/Store'),
-      Collection = require('collections/VolumeCollection'),
-      Constants = require('constants/VolumeConstants');
-
-  //
-  // Private variables
-  //
-
-  var _models = null;
-  var _isFetching = false;
+      BaseStore = require('stores/BaseStore'),
+      VolumeCollection = require('collections/VolumeCollection'),
+      VolumeConstants = require('constants/VolumeConstants');
 
   var pollingFrequency = 15 * 1000;
   var _volumesBuilding = [];
 
-  //
-  // CRUD Operations
-  //
+  var VolumeStore = BaseStore.extend({
+    collection: VolumeCollection,
 
-  var fetchModels = function () {
-    if(!_models && !_isFetching) {
-      _isFetching = true;
-      var models = new Collection();
-      models.fetch({
-        url: models.url + "?page_size=100"
-      }).done(function () {
-        _isFetching = false;
-        _models = models;
-        _models.each(pollNowUntilBuildIsFinished);
-        ModelStore.emitChange();
-      });
-    }
-  };
-
-  function add(volume) {
-    _models.add(volume);
-  }
-
-  function update(model) {
-    var existingModel = _models.get(model);
-    if (!existingModel) throw new Error("Volume doesn't exist.");
-    _models.add(model, {merge: true});
-  }
-
-  function remove(model) {
-    _models.remove(model);
-  }
-
-  //
-  // Polling functions
-  //
-
-  var pollNowUntilBuildIsFinished = function (volume) {
-    if (volume.id && _volumesBuilding.indexOf(volume) < 0) {
-      _volumesBuilding.push(volume);
-      fetchNowAndRemoveIfFinished(volume);
-    }
-  };
-
-  var pollUntilBuildIsFinished = function (volume) {
-    if (volume.id && _volumesBuilding.indexOf(volume) < 0) {
-      _volumesBuilding.push(volume);
-      fetchAndRemoveIfFinished(volume);
-    }
-  };
-
-  var fetchAndRemoveIfFinished = function (volume) {
-    setTimeout(function () {
-      volume.fetchFromCloud(function() {
-        update(volume);
-        var index = _volumesBuilding.indexOf(volume);
-        if (volume.get('state').isInFinalState()) {
-          _volumesBuilding.splice(index, 1);
-        } else {
-          fetchAndRemoveIfFinished(volume);
-        }
-        ModelStore.emitChange();
-      });
-    }, pollingFrequency);
-  };
-
-  var fetchNowAndRemoveIfFinished = function (volume) {
-    volume.fetchFromCloud(function () {
-      update(volume);
-      var index = _volumesBuilding.indexOf(volume);
-      if (volume.get('state').isInFinalState()) {
-        _volumesBuilding.splice(index, 1);
-      } else {
-        fetchAndRemoveIfFinished(volume);
-      }
-      ModelStore.emitChange();
-    });
-  };
-
-  //
-  // Volume Store
-  //
-
-  var ModelStore = {
-
-    getAll: function () {
-      if(!_models) {
-        return fetchModels();
-      }
-      return _models;
-    },
-
-    get: function (modelId) {
-      if(!_models) {
-        fetchModels();
-      } else {
-        return _models.get(modelId);
+    // todo: differences between this and base class implementation
+    // page_size query param
+    // pollNowUntilBuildIsFinished
+    fetchModels: function () {
+      if (!this.models && !this.isFetching) {
+        this.isFetching = true;
+        var models = new this.collection();
+        models.fetch({
+          url: models.url + "?page_size=100"
+        }).done(function(){
+          this.isFetching = false;
+          this.models = models;
+          this.models.each(this.pollNowUntilBuildIsFinished.bind(this));
+          this.emitChange();
+        }.bind(this));
       }
     },
+
+    //
+    // Custom functions
+    //
 
     getVolumesOnProvider: function (provider) {
-      if(!_models) return fetchModels();
+      if(!this.models) return this.fetchModels();
 
-      var volumes = _models.filter(function(volume){
+      var volumes = this.models.filter(function(volume){
         return volume.get('provider').id === provider.id;
       });
 
-      return new Collection(volumes);
+      return new VolumeCollection(volumes);
     },
 
     getVolumesAttachedToInstance: function (instance) {
-      if(!_models) return fetchModels();
+      if(!this.models) return this.fetchModels();
 
       var attachedVolumes = [];
-      _models.each(function(volume){
+      this.models.each(function(volume){
         var attachData = volume.get('attach_data');
         if(attachData.instance_id && attachData.instance_id === instance.id){
           attachedVolumes.push(volume);
@@ -141,16 +59,64 @@ define(function (require) {
     },
 
     getVolumesNotInAProject: function () {
-      if(!_models) return fetchModels();
+      if(!this.models) return this.fetchModels();
 
-      var volumes = _models.filter(function(volume){
+      var volumes = this.models.filter(function(volume){
         return volume.get('projects').length === 0
       });
 
-      return new Collection(volumes);
+      return new VolumeCollection(volumes);
+    },
+
+    //
+    // Polling functions
+    //
+
+    pollNowUntilBuildIsFinished: function(volume) {
+      if (volume.id && _volumesBuilding.indexOf(volume) < 0) {
+        _volumesBuilding.push(volume);
+        this.fetchNowAndRemoveIfFinished(volume);
+      }
+    },
+
+    pollUntilBuildIsFinished: function(volume) {
+      if (volume.id && _volumesBuilding.indexOf(volume) < 0) {
+        _volumesBuilding.push(volume);
+        this.fetchAndRemoveIfFinished(volume);
+      }
+    },
+
+    fetchAndRemoveIfFinished: function(volume) {
+      setTimeout(function () {
+        volume.fetchFromCloud(function() {
+          this.update(volume);
+          var index = _volumesBuilding.indexOf(volume);
+          if (volume.get('state').isInFinalState()) {
+            _volumesBuilding.splice(index, 1);
+          } else {
+            this.fetchAndRemoveIfFinished(volume);
+          }
+          this.emitChange();
+        }.bind(this));
+      }.bind(this), pollingFrequency);
+    },
+
+    fetchNowAndRemoveIfFinished: function(volume) {
+      volume.fetchFromCloud(function () {
+        this.update(volume);
+        var index = _volumesBuilding.indexOf(volume);
+        if (volume.get('state').isInFinalState()) {
+          _volumesBuilding.splice(index, 1);
+        } else {
+          this.fetchAndRemoveIfFinished(volume);
+        }
+        this.emitChange();
+      }.bind(this));
     }
 
-  };
+  });
+
+  var store = new VolumeStore();
 
   Dispatcher.register(function (dispatch) {
     var actionType = dispatch.action.actionType;
@@ -159,24 +125,24 @@ define(function (require) {
 
     switch (actionType) {
 
-      case Constants.ADD_VOLUME:
-        add(payload.volume);
+      case VolumeConstants.ADD_VOLUME:
+        store.add(payload.volume);
         break;
 
-      case Constants.UPDATE_VOLUME:
-        update(payload.volume);
+      case VolumeConstants.UPDATE_VOLUME:
+        store.update(payload.volume);
         break;
 
-      case Constants.REMOVE_VOLUME:
-        remove(payload.volume);
+      case VolumeConstants.REMOVE_VOLUME:
+        store.remove(payload.volume);
         break;
 
-      case Constants.POLL_VOLUME:
-        pollNowUntilBuildIsFinished(payload.volume);
+      case VolumeConstants.POLL_VOLUME:
+        store.pollNowUntilBuildIsFinished(payload.volume);
         break;
 
-      case Constants.POLL_VOLUME_WITH_DELAY:
-        pollUntilBuildIsFinished(payload.volume);
+      case VolumeConstants.POLL_VOLUME_WITH_DELAY:
+        store.pollUntilBuildIsFinished(payload.volume);
         break;
 
       default:
@@ -184,13 +150,11 @@ define(function (require) {
     }
 
     if (!options.silent) {
-      ModelStore.emitChange();
+      store.emitChange();
     }
 
     return true;
   });
 
-  _.extend(ModelStore, Store);
-
-  return ModelStore;
+  return store;
 });
