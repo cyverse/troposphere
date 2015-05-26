@@ -33,21 +33,6 @@ define(function (require) {
       }
     },
 
-    fetchFeaturedImages: function(){
-      if(!_isFetchingFeaturedImages) {
-        _isFetchingFeaturedImages = true;
-        var images = new ApplicationCollection();
-        var url = images.url + "?tags__name=Featured";
-        images.fetch({
-          url: url
-        }).done(function () {
-          _isFetchingFeaturedImages = false;
-          _featuredImages = images;
-          this.emitChange();
-        }.bind(this));
-      }
-    },
-
     fetchMoreImages: function () {
       var nextUrl = this.models.meta.next;
       if(nextUrl && !_isFetchingMore){
@@ -123,11 +108,6 @@ define(function (require) {
       var image = this.models.get(appId);
       if(!image) return this.fetchApplication(appId);
       return image;
-    },
-
-    getAllFeatured: function(){
-      if(!_featuredImages) return this.fetchFeaturedImages();
-      return _featuredImages;
     },
 
     getMoreImages: function(){

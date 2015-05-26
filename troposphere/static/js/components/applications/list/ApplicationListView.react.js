@@ -106,7 +106,9 @@ define(function (require) {
     // --------------
 
     renderFeaturedImages: function(){
-      var images = stores.ApplicationStore.getAllFeatured(),
+      var images = stores.ApplicationStore.fetchWhere({
+            tags__name: 'Featured'
+          }),
           tags = this.props.tags;
 
       if (!images || !tags || this.state.query) return;
