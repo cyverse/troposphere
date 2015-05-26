@@ -33,7 +33,7 @@ define(function (require) {
 
     render: function () {
       var provider = this.props.provider,
-          instances = stores.InstanceStore.getInstancesOnProvider(provider),
+          instances = stores.InstanceStore.findWhere({'provider.id': provider.id}),
           sizes = stores.SizeStore.getSizesFor(provider),
           content = null;
 

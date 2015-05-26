@@ -17,7 +17,7 @@ define(function (require) {
     render: function () {
       var provider = this.props.provider,
           identity = stores.IdentityStore.findOne({'provider.id': provider.id}),
-          instances = stores.InstanceStore.getInstancesOnProvider(provider),
+          instances = stores.InstanceStore.findWhere({'provider.id': provider.id}),
           volumes = stores.VolumeStore.findWhere({
             'provider.id': provider.id
           }),
