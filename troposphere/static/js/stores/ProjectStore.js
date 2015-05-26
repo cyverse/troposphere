@@ -6,9 +6,11 @@ define(function (require) {
       ProjectCollection = require('collections/ProjectCollection'),
       ProjectConstants = require('constants/ProjectConstants');
 
-  var store = new BaseStore(null, {
+  var ProjectStore = BaseStore.extend({
     collection: ProjectCollection
   });
+
+  var store = new ProjectStore();
 
   Dispatcher.register(function (dispatch) {
     var actionType = dispatch.action.actionType;
