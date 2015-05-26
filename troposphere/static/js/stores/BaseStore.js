@@ -22,6 +22,8 @@ define(function(require) {
     this.isFetchingQuery = {};
     this.queryModels = {};
 
+    this.isFetchingModel = {};
+
     this.initialize.apply(this, arguments);
   };
 
@@ -92,6 +94,20 @@ define(function(require) {
           if(this.pollingEnabled) {
             this.models.each(this.pollNowUntilBuildIsFinished.bind(this));
           }
+          this.emitChange();
+        }.bind(this));
+      }
+    },
+
+    fetchModel: function(modelId){
+      if(!this.isFetchingModel[modelId]){
+        this.isFetchingModel[modelId] = true;
+        var model = new this.collection.prototype.model({
+          id: modelId
+        });
+        model.fetch().done(function(){
+          this.isFetchingModel[modelId] = false;
+          this.models.add(model);
           this.emitChange();
         }.bind(this));
       }
