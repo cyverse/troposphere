@@ -11,6 +11,10 @@ define(function (require) {
   var InstanceStore = BaseStore.extend({
     collection: InstanceCollection,
 
+    //queryParams: {
+    //  page_size: 100
+    //},
+
     // todo: differences between this and base class implementation
     // page_size query param
     // pollNowUntilBuildIsFinished

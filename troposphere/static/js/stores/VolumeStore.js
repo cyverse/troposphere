@@ -13,6 +13,10 @@ define(function (require) {
   var VolumeStore = BaseStore.extend({
     collection: VolumeCollection,
 
+    //queryParams: {
+    //  page_size: 100
+    //},
+
     // todo: differences between this and base class implementation
     // page_size query param
     // pollNowUntilBuildIsFinished

@@ -11,19 +11,8 @@ define(function (require) {
   var TagStore = BaseStore.extend({
     collection: TagCollection,
 
-    // todo: the only thing different between this and the base class is the page_size query param
-    fetchModels: function () {
-      if (!this.models && !this.isFetching) {
-        this.isFetching = true;
-        var models = new this.collection();
-        models.fetch({
-          url: models.url + "?page_size=1000"
-        }).done(function(){
-          this.isFetching = false;
-          this.models = models;
-          this.emitChange();
-        }.bind(this));
-      }
+    queryParams: {
+      page_size: 1000
     },
 
     getImageTags: function (image) {

@@ -67,7 +67,19 @@ define(function(require) {
       if (!this.models && !this.isFetching) {
         this.isFetching = true;
         var models = new this.collection();
-        models.fetch().done(function(){
+        var queryString = "";
+
+        // Build the query string if queryParameters have been provided
+        if(this.queryParams){
+          queryString = Object.keys(this.queryParams).map(function(key, index){
+            return key + "=" + this.queryParams[key];
+          }.bind(this)).join("&");
+          queryString = queryString ? "?" + queryString : queryString;
+        }
+
+        models.fetch({
+          url: _.result(models, 'url') + queryString
+        }).done(function(){
           this.isFetching = false;
           this.models = models;
           this.emitChange();
