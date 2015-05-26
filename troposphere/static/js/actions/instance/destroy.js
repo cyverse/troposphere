@@ -33,7 +33,10 @@ define(function (require) {
       instance.destroy({
         url: url
       }).done(function () {
-        var projectInstance = stores.ProjectInstanceStore.getProjectInstanceFor(project, instance);
+        var projectInstance = stores.ProjectInstanceStore.findOne({
+          'project.id': project.id,
+          'instance.id': instance.id
+        });
         // todo: the proper thing to do is to poll until the instance is actually destroyed
         // and THEN remove it from the project. Need to find a way to support that.
         Utils.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});

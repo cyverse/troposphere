@@ -47,12 +47,6 @@ define(function (require) {
       }
     },
 
-    getProjectInstanceFor: function(project, instance){
-      return this.models.find(function(pm){
-        return pm.get('project').id === project.id && pm.get('instance').id === instance.id;
-      });
-    },
-
     getInstancesFor: function(project){
       var allInstances = stores.InstanceStore.getAll();
       if(!_modelsFor[project.id]) return this.fetchModelsFor(project.id);
