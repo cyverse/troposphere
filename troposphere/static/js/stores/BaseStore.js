@@ -6,6 +6,14 @@ define(function(require) {
 
   var CHANGE_EVENT = 'change';
 
+  function buildQueryStringFromQueryParams(queryParams){
+    var queryString = Object.keys(queryParams).sort().map(function(key, index){
+      return key + "=" + queryParams[key];
+    }.bind(this)).join("&");
+    queryString = queryString ? "?" + queryString : queryString;
+    return queryString;
+  };
+
   var Store = function(attributes, options) {
     //var attrs = attributes || {};
     options || (options = {});
@@ -80,10 +88,7 @@ define(function(require) {
 
         // Build the query string if queryParameters have been provided
         if(this.queryParams){
-          queryString = Object.keys(this.queryParams).map(function(key, index){
-            return key + "=" + this.queryParams[key];
-          }.bind(this)).join("&");
-          queryString = queryString ? "?" + queryString : queryString;
+          queryString = buildQueryStringFromQueryParams(this.queryParams);
         }
 
         models.fetch({
@@ -183,10 +188,7 @@ define(function(require) {
       queryParams = queryParams || {};
 
       // Build the query string
-      var queryString = Object.keys(queryParams).sort().map(function(key, index){
-        return key + "=" + queryParams[key];
-      }.bind(this)).join("&");
-      queryString = queryString ? "?" + queryString : queryString;
+      var queryString = buildQueryStringFromQueryParams(queryParams);
 
       if(this.queryModels[queryString]) return this.queryModels[queryString];
 
@@ -198,6 +200,29 @@ define(function(require) {
         }).done(function () {
           this.isFetchingQuery[queryString] = false;
           this.queryModels[queryString] = models;
+          this.emitChange();
+        }.bind(this));
+      }
+    },
+
+    fetchMoreWhere: function(queryParams){
+      queryParams = queryParams || {};
+
+      // Build the query string
+      var queryString = buildQueryStringFromQueryParams(queryParams);
+
+      var searchResults = this.queryModels[queryString],
+          nextUrl = searchResults.meta.next;
+
+      if(nextUrl && !this.isFetchingQuery[queryString]){
+        this.isFetchingQuery[queryString] = true;
+        var moreModels = new this.collection();
+        moreModels.fetch({
+          url: nextUrl
+        }).done(function(){
+          this.isFetchingQuery[queryString] = false;
+          searchResults.add(moreModels.models);
+          searchResults.meta = moreModels.meta;
           this.emitChange();
         }.bind(this));
       }
