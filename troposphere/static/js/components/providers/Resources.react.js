@@ -21,7 +21,10 @@ define(function (require) {
           volumes = stores.VolumeStore.findWhere({
             'provider.id': provider.id
           }),
-          sizes = stores.SizeStore.getSizesFor(provider);
+          sizes = stores.SizeStore.fetchWhere({
+            provider__id: provider.id,
+            page_size: 100
+          });
 
       if(!provider || !identity || !instances || !volumes || !sizes) return <div className="loading"></div>;
 

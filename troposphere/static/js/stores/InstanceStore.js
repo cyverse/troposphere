@@ -17,9 +17,9 @@ define(function (require) {
       this.pollingFrequency = 10*1000;
     },
 
-    //
+    // ----------------
     // Custom functions
-    //
+    // ----------------
 
     getInstancesNotInAProject: function (provider) {
       if(!this.models) return this.fetchModels();
@@ -31,9 +31,9 @@ define(function (require) {
       return new InstanceCollection(instances);
     },
 
-    //
+    // -----------------
     // Polling functions
-    //
+    // -----------------
 
     isInFinalState: function(instance){
       return instance.get('state').isInFinalState();

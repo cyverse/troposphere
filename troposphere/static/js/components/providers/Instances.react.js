@@ -34,7 +34,10 @@ define(function (require) {
     render: function () {
       var provider = this.props.provider,
           instances = stores.InstanceStore.findWhere({'provider.id': provider.id}),
-          sizes = stores.SizeStore.getSizesFor(provider),
+          sizes = stores.SizeStore.fetchWhere({
+            provider__id: provider.id,
+            page_size: 100
+          }),
           content = null;
 
       if(!provider || !instances || !sizes) return <div className="loading"></div>;

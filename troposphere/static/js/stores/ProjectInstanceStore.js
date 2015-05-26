@@ -12,10 +12,6 @@ define(function (require) {
   var _modelsFor = {};
   var _isFetchingFor = {};
 
-  //
-  // Model Store
-  //
-
   var ProjectInstanceStore = BaseStore.extend({
     collection: ProjectInstanceCollection,
 
