@@ -2,31 +2,12 @@ define(function (require) {
 
   var ApplicationCollection = require('collections/ApplicationCollection'),
       Dispatcher = require('dispatchers/Dispatcher'),
-      Application = require('models/Application'),
       BaseStore = require('stores/BaseStore'),
       ApplicationConstants = require('constants/ApplicationConstants'),
       NotificationController = require('controllers/NotificationController');
 
-  var _isFetchingMore = false;
-
   var ApplicationStore = BaseStore.extend({
     collection: ApplicationCollection,
-
-    fetchMoreImages: function () {
-      var nextUrl = this.models.meta.next;
-      if(nextUrl && !_isFetchingMore){
-        _isFetchingMore = true;
-        var moreImages = new ApplicationCollection();
-        moreImages.fetch({
-          url: nextUrl
-        }).done(function () {
-          _isFetchingMore = false;
-          this.models.add(moreImages.models);
-          this.models.meta = moreImages.meta;
-          this.emitChange();
-        }.bind(this));
-      }
-    },
 
     update(image){
       image.save({
@@ -49,10 +30,6 @@ define(function (require) {
       var image = BaseStore.prototype.get.apply(this, arguments);
       if(!image) return this.fetchModel(imageId);
       return image;
-    },
-
-    getMoreImages: function(){
-      this.fetchMoreImages();
     }
 
   });
