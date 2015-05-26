@@ -4,14 +4,7 @@ define(function (require) {
       QuotaStatusCollection = require('collections/QuotaStatusCollection');
 
   var QuotaStatusStore = BaseStore.extend({
-
-    collection: QuotaStatusCollection,
-
-    getStatusWithName: function(text) {
-      if(!this.models) return this.fetchModels();
-      return this.models.findWhere({name: text});
-    }
-
+    collection: QuotaStatusCollection
   });
 
   var store = new QuotaStatusStore();

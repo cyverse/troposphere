@@ -31,14 +31,14 @@ define(function (require) {
     handleQuotaApproval: function(e){
       e.preventDefault();
       var quotaRequest = stores.QuotaRequestStore.get(this.getParams().quotaRequestId);
-      var status = stores.QuotaStatusStore.getStatusWithName("approved");
+      var status = stores.QuotaStatusStore.findOne({name: "approved"});
       QuotaActions.update({request: quotaRequest, response: this.state.response, quota: this.state.quota, status: status.id});
     },
 
     handleQuotaDenial: function(e){
       e.preventDefault();
       var quotaRequest = stores.QuotaRequestStore.get(this.getParams().quotaRequestId);
-      var status = stores.QuotaStatusStore.getStatusWithName("rejected");
+      var status = stores.QuotaStatusStore.findOne({name: "rejected"});
       QuotaActions.update({request: quotaRequest, response: this.state.response, quota: this.state.quota, status: status.id});
     },
 
