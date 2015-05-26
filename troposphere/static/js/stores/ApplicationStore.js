@@ -1,7 +1,6 @@
 define(function (require) {
 
-  var _ = require('underscore'),
-      ApplicationCollection = require('collections/ApplicationCollection'),
+  var ApplicationCollection = require('collections/ApplicationCollection'),
       ApplicationSearchResultCollection = require('collections/ApplicationSearchResultCollection'),
       Dispatcher = require('dispatchers/Dispatcher'),
       Application = require('models/Application'),
@@ -9,10 +8,8 @@ define(function (require) {
       ApplicationConstants = require('constants/ApplicationConstants'),
       NotificationController = require('controllers/NotificationController');
 
-  var _featuredImages = null,
-      _searchResults = {},
+  var _searchResults = {},
       _isFetchingImage = {},
-      _isFetchingFeaturedImages = false,
       _isFetchingMore = false,
       _isSearching = false;
 
