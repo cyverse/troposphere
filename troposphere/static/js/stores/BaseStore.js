@@ -32,6 +32,8 @@ define(function(require) {
 
     this.isFetchingModel = {};
 
+    this.isFetchingMore = false;
+
     this.initialize.apply(this, arguments);
   };
 
@@ -182,6 +184,23 @@ define(function(require) {
       });
 
       return model;
+    },
+
+    fetchMore: function(){
+      var nextUrl = this.models.meta.next;
+
+      if(nextUrl && !this.isFetchingMore){
+        this.isFetchingMore = true;
+        var moreModels = new this.collection();
+        moreModels.fetch({
+          url: nextUrl
+        }).done(function(){
+          this.isFetchingMore = false;
+          this.models.add(moreModels.models);
+          this.models.meta = moreModels.meta;
+          this.emitChange();
+        }.bind(this));
+      }
     },
 
     fetchWhere: function(queryParams){
