@@ -9,26 +9,11 @@ define(function (require) {
       NotificationController = require('controllers/NotificationController');
 
   var _searchResults = {},
-      _isFetchingImage = {},
       _isFetchingMore = false,
       _isSearching = false;
 
   var ApplicationStore = BaseStore.extend({
     collection: ApplicationCollection,
-
-    fetchApplication: function(imageId){
-      if(!_isFetchingImage[imageId]){
-        _isFetchingImage[imageId] = true;
-        var image = new Application({
-          id: imageId
-        });
-        image.fetch().done(function(){
-          _isFetchingImage[imageId] = false;
-          this.models.add(image);
-          this.emitChange();
-        }.bind(this));
-      }
-    },
 
     fetchMoreImages: function () {
       var nextUrl = this.models.meta.next;
@@ -100,10 +85,9 @@ define(function (require) {
       }.bind(this));
     },
 
-    get: function (appId) {
-      if(!this.models) return this.fetchModels();
-      var image = this.models.get(appId);
-      if(!image) return this.fetchApplication(appId);
+    get: function (imageId) {
+      var image = BaseStore.prototype.get.apply(this, arguments);
+      if(!image) return this.fetchModel(imageId);
       return image;
     },
 
