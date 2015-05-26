@@ -21,16 +21,6 @@ define(function (require) {
     // Custom functions
     //
 
-    getInstancesOnProvider: function (provider) {
-      if(!this.models) return this.fetchModels();
-
-      var instances = this.models.filter(function(instance){
-        return instance.get('provider').id === provider.id;
-      });
-
-      return new InstanceCollection(instances);
-    },
-
     getInstancesNotInAProject: function (provider) {
       if(!this.models) return this.fetchModels();
 
