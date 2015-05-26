@@ -7,15 +7,12 @@ define(function (require) {
       Application = require('models/Application'),
       BaseStore = require('stores/BaseStore'),
       ApplicationConstants = require('constants/ApplicationConstants'),
-      NotificationController = require('controllers/NotificationController'),
-      context = require('context');
+      NotificationController = require('controllers/NotificationController');
 
   var _featuredImages = null,
-      _userImages = null,
       _searchResults = {},
       _isFetchingImage = {},
       _isFetchingFeaturedImages = false,
-      _isFetchingUserImages = false,
       _isFetchingMore = false,
       _isSearching = false;
 
@@ -46,20 +43,6 @@ define(function (require) {
         }).done(function () {
           _isFetchingFeaturedImages = false;
           _featuredImages = images;
-          this.emitChange();
-        }.bind(this));
-      }
-    },
-
-    fetchUserImages: function () {
-      if(!_isFetchingUserImages) {
-        _isFetchingUserImages = true;
-        var images = new ApplicationCollection();
-        images.fetch({
-          url: images.url + "?created_by__username=" + context.profile.get('username')
-        }).done(function () {
-          _isFetchingUserImages = false;
-          _userImages = images;
           this.emitChange();
         }.bind(this));
       }
@@ -164,11 +147,6 @@ define(function (require) {
       if (!this.models) return this.fetchModels();
       var images = this.models.where({isFavorited: true});
       return new ApplicationCollection(images);
-    },
-
-    getUserImages: function(){
-      if (!_userImages) return this.fetchUserImages();
-      return _userImages;
     },
 
     getSearchResultsFor: function(query){
