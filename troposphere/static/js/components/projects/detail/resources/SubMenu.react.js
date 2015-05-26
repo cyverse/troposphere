@@ -4,9 +4,9 @@ define(
   [
     'react',
     'backbone',
-    'actions'
+    'modals'
   ],
-  function (React, Backbone, actions) {
+  function (React, Backbone, modals) {
 
     return React.createClass({
 
@@ -16,12 +16,12 @@ define(
 
       onCreateVolume: function(e){
         e.preventDefault();
-        actions.VolumeActions.createAndAddToProject({project: this.props.project});
+        modals.VolumeModals.createAndAddToProject({project: this.props.project});
       },
 
       onCreateInstance: function(e){
         e.preventDefault();
-        actions.InstanceActions.createAndAddToProject({project: this.props.project});
+        modals.InstanceModals.createAndAddToProject({project: this.props.project});
       },
 
       render: function () {

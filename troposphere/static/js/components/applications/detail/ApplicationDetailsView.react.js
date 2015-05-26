@@ -8,9 +8,10 @@ define(
     './launch/ImageLaunchCard.react',
     'actions',
     './ViewApplicationDetails.react',
-    './EditApplicationDetails.react'
+    './EditApplicationDetails.react',
+    'modals'
   ],
-  function (React, Backbone, HeaderView, ImageLaunchCard, actions, ViewApplicationDetails, EditApplicationDetails) {
+  function (React, Backbone, HeaderView, ImageLaunchCard, actions, ViewApplicationDetails, EditApplicationDetails, modals) {
 
     return React.createClass({
 
@@ -28,7 +29,7 @@ define(
       },
 
       showModal: function (e) {
-        actions.InstanceActions.launch(this.props.application);
+        modals.InstanceModals.launch(this.props.application);
       },
 
       handleEditImageDetails: function(){

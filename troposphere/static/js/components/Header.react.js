@@ -3,6 +3,7 @@ define(function(require) {
   var React = require('react'),
       Backbone = require('backbone'),
       actions = require('actions'),
+      modals = require('modals'),
       MaintenanceMessageBanner = require('./MaintenanceMessageBanner.react'),
       Router = require('react-router'),
 
@@ -74,7 +75,7 @@ define(function(require) {
 
     onShowVersion: function(e){
       e.preventDefault();
-      actions.VersionActions.showVersion();
+      modals.VersionModals.showVersion();
     },
 
     render: function () {

@@ -43,7 +43,7 @@ define(function (require) {
     stores.ProjectVolumeStore      = require('stores/ProjectVolumeStore');
     stores.ProviderStore           = require('stores/ProviderStore');
     stores.QuotaRequestStore       = require('stores/QuotaRequestStore');
-    stores.QuotaStatusStore        = require('stores/QuotaStatusStore')
+    stores.QuotaStatusStore        = require('stores/QuotaStatusStore');
     stores.QuotaStore              = require('stores/QuotaStore');
     stores.SizeStore               = require('stores/SizeStore');
     stores.TagStore                = require('stores/TagStore');
@@ -63,8 +63,16 @@ define(function (require) {
     actions.ProjectInstanceActions = require('actions/ProjectInstanceActions');
     actions.ProjectVolumeActions   = require('actions/ProjectVolumeActions');
     actions.TagActions             = require('actions/TagActions');
-    actions.VersionActions         = require('actions/VersionActions');
     actions.VolumeActions          = require('actions/VolumeActions');
+
+    var modals = require('modals');
+    modals.HelpModals              = require('modals/HelpModals');
+    modals.InstanceModals          = require('modals/InstanceModals');
+    modals.InstanceVolumeModals    = require('modals/InstanceVolumeModals');
+    modals.ProjectModals           = require('modals/ProjectModals');
+    modals.TagModals               = require('modals/TagModals');
+    modals.VersionModals           = require('modals/VersionModals');
+    modals.VolumeModals            = require('modals/VolumeModals');
 
     return {
       run: function () {

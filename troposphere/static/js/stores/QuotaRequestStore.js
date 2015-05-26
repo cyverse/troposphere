@@ -4,7 +4,7 @@ define(function (require) {
       Dispatcher = require('dispatchers/Dispatcher'),
       Store = require('stores/Store'),
       Collection = require('collections/QuotaRequestCollection'),
-//      Constants = require('constants/ProjectInstanceConstants'),
+      Constants = require('constants/QuotaRequestConstants'),
       stores = require('stores');
 
   var _models = null;

@@ -5,10 +5,11 @@ define(
     'react',
     'backbone',
     './ActualEditTagsView.react',
+    'modals',
     'actions',
     'stores'
   ],
-  function (React, Backbone, EditTagsView, actions, stores) {
+  function (React, Backbone, EditTagsView, modals, actions, stores) {
 
     return React.createClass({
 
@@ -26,7 +27,7 @@ define(
       },
 
       onCreateNewTag: function(tagNameSuggestion){
-        actions.TagActions.create(tagNameSuggestion);
+        modals.TagModals.create(tagNameSuggestion);
       },
 
       render: function () {

@@ -4,7 +4,6 @@ define(function (require) {
       Dispatcher = require('dispatchers/Dispatcher'),
       Store = require('stores/Store'),
       Collection = require('collections/QuotaCollection'),
-//      Constants = require('constants/ProjectInstanceConstants'),
       stores = require('stores');
 
   var _models = null;
@@ -60,26 +59,6 @@ define(function (require) {
     }
 
   };
-
-  Dispatcher.register(function (dispatch) {
-    var actionType = dispatch.action.actionType;
-    var payload = dispatch.action.payload;
-    var options = dispatch.action.options || options;
-
-    switch (actionType) {
-      case Constants.EMIT_CHANGE:
-        break;
-
-      default:
-        return true;
-    }
-
-    if(!options.silent) {
-      ModelStore.emitChange();
-    }
-
-    return true;
-  });
 
   _.extend(ModelStore, Store);
 

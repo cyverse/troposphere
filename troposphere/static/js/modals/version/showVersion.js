@@ -2,6 +2,7 @@ define(function (require) {
 
   var React = require('react'),
       AppDispatcher = require('dispatchers/AppDispatcher'),
+      ModalHelpers = require('components/modals/ModalHelpers'),
       VersionInformationModal = require('components/modals/VersionInformationModal.react');
 
   return {
@@ -13,16 +14,17 @@ define(function (require) {
         // also so that we can relaunch it again later.
         React.unmountComponentAtNode(document.getElementById('modal'));
       };
-
       var headerMessage = "Atmosphere Version";
 
       var modal = VersionInformationModal({
         header: headerMessage,
-        onClose: onClose,
-        handleHidden: onClose
+        onClose: onClose
       });
 
-      React.render(modal, document.getElementById('modal'));
+      ModalHelpers.renderModal(modal, function(){
+      });
+
+      //React.render(modal, document.getElementById('modal'));
     }
 
   };
