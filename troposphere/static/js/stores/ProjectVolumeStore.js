@@ -42,12 +42,6 @@ define(function (require) {
       }
     },
 
-    getProjectVolumeFor: function(project, volume){
-      return this.models.find(function(pm){
-        return pm.get('project').id === project.id && pm.get('volume').id === volume.id;
-      });
-    },
-
     getVolumesFor: function(project){
       var allVolumes = stores.VolumeStore.getAll();
       if(!_modelsFor[project.id]) return this.fetchModelsFor(project.id);
