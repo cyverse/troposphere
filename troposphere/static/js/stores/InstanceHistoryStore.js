@@ -7,6 +7,7 @@ define(function(require){
 
   var InstanceHistoryStore = BaseStore.extend({
 
+    // todo: the only thing different between this and the base class is the page_size query param
     fetchModels: function () {
       if(!this.isFetching) {
         this.isFetching = true;

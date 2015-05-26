@@ -6,6 +6,7 @@ define(function (require) {
   var QuotaStore = BaseStore.extend({
     collection: QuotaCollection,
 
+    // todo: the only thing different between this and the base class is the page_size query param
     fetchModels: function () {
       if (!this.models && !this.isFetching) {
         this.isFetching = true;

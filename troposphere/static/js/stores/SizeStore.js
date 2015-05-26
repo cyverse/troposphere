@@ -1,87 +1,52 @@
-define(
-  [
-    'underscore',
-    'stores/Store',
-    'collections/SizeCollection',
-    'dispatchers/AppDispatcher'
-  ],
-  function (_, Store, Collection, AppDispatcher) {
+define(function (require) {
 
-    var _models = null;
-    var _isFetching = false;
+  var BaseStore = require('stores/BaseStore'),
+      SizeCollection = require('collections/SizeCollection');
 
-    var _modelsFor = {};
-    var _isFetchingFor = {};
+  var _modelsFor = {};
+  var _isFetchingFor = {};
 
-    var fetchSizes = function () {
-      if(!_isFetching) {
-        _isFetching = true;
-        var models = new Collection();
+  var SizeStore = BaseStore.extend({
+    collection: SizeCollection,
+
+    // todo: the only thing different between this and the base class is the page_size query param
+    fetchModels: function(){
+      if (!this.models && !this.isFetching) {
+        this.isFetching = true;
+        var models = new this.collection();
         models.fetch({
           url: models.url + "?page_size=100"
-        }).done(function () {
-          _isFetching = false;
-          _models = models;
-          ModelStore.emitChange();
-        });
+        }).done(function(){
+          this.isFetching = false;
+          this.models = models;
+          this.emitChange();
+        }.bind(this));
       }
-    };
+    },
 
-    var fetchModelsFor = function(providerId){
+    fetchModelsFor: function(providerId){
       if(!_modelsFor[providerId] && !_isFetchingFor[providerId]) {
         _isFetchingFor[providerId] = true;
-        var models = new Collection();
+        var models = new SizeCollection();
         models.fetch({
           url: models.url + "?provider__id=" + providerId + "&page_size=100"
         }).done(function () {
           _isFetchingFor[providerId] = false;
           _modelsFor[providerId] = models;
-          ModelStore.emitChange();
-        });
+          this.emitChange();
+        }.bind(this));
       }
-    };
+    },
 
-    var ModelStore = {
-
-      getAll: function () {
-        if(!_models) {
-          fetchSizes();
-        } else {
-          return _models;
-        }
-      },
-
-      get: function (modelId) {
-        if(!_models) {
-          fetchSizes();
-        }else{
-          return _models.get(modelId);
-        }
-      },
-
-      getSizesFor: function(provider){
-        if(!_modelsFor[provider.id]) return fetchModelsFor(provider.id);
-
-        return _modelsFor[provider.id];
-      }
-
-    };
-
-    AppDispatcher.register(function (payload) {
-      var action = payload.action;
-
-      switch (action.actionType) {
-        default:
-          return true;
-      }
-
-      ModelStore.emitChange();
-
-      return true;
-    });
-
-    _.extend(ModelStore, Store);
-
-    return ModelStore;
+    getSizesFor: function(provider){
+      if(!_modelsFor[provider.id]) return this.fetchModelsFor(provider.id);
+      return _modelsFor[provider.id];
+    }
 
   });
+
+  var store = new SizeStore();
+
+  return store;
+
+});
