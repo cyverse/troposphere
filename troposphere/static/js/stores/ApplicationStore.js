@@ -9,7 +9,7 @@ define(function (require) {
   var ApplicationStore = BaseStore.extend({
     collection: ApplicationCollection,
 
-    update(image){
+    update: function(image){
       image.save({
         name: image.get('name'),
         description: image.get('description'),
