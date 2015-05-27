@@ -34,8 +34,6 @@ define(
     var fetchMoreUsers = function () {
       var nextUrl = _users.meta.next;
       if(nextUrl && !_isFetchingMore){
-        console.log("Fetching Page ",nextUrl);
-
         _isFetchingMore = true;
         var moreUsers = new UserCollection();
         moreUsers.fetch({url: nextUrl}).done(function () {
