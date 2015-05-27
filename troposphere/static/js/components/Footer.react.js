@@ -2,6 +2,7 @@ define(function(require) {
 
   var React = require('react'),
       Backbone = require('backbone'),
+      modals = require('modals'),
       actions = require('actions');
 
   return React.createClass({
@@ -11,7 +12,7 @@ define(function(require) {
     },
 
     onFeedback: function(){
-      actions.HelpActions.showFeedbackModal();
+      modals.HelpModals.showFeedbackModal();
     },
 
     render: function () {

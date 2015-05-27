@@ -3,7 +3,8 @@ define(function (require) {
   var React = require('react'),
       Backbone = require('backbone'),
       Button = require('./Button.react'),
-      actions = require('actions');
+      actions = require('actions'),
+      modals = require('modals');
 
   return React.createClass({
 
@@ -13,15 +14,15 @@ define(function (require) {
     },
 
     onAttach: function(){
-      actions.InstanceVolumeActions.attach(this.props.volume, this.props.project);
+      modals.InstanceVolumeModals.attach(this.props.volume, this.props.project);
     },
 
     onDetach: function(){
-      actions.InstanceVolumeActions.detach(this.props.volume);
+      modals.InstanceVolumeModals.detach(this.props.volume);
     },
 
     onDelete: function(){
-      actions.VolumeActions.destroy({
+      modals.VolumeModals.destroy({
         volume: this.props.volume,
         project: this.props.project
       });

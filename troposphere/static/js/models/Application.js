@@ -24,6 +24,7 @@ define(function (require) {
       attributes.provider_images = machines;
       attributes.start_date = moment(attributes.start_date);
       attributes.end_date = moment(attributes.end_date);
+      attributes.description = attributes.description || "";
 
       return attributes;
     },

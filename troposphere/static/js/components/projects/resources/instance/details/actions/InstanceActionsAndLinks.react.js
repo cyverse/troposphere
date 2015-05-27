@@ -3,7 +3,8 @@ define(function (require) {
   var React = require('react'),
       Backbone = require('backbone'),
       Glyphicon = require('components/common/Glyphicon.react'),
-      actions = require('actions');
+      actions = require('actions'),
+      modals = require('modals');
 
   return React.createClass({
 
@@ -13,29 +14,29 @@ define(function (require) {
     },
 
     onStart: function(){
-      actions.InstanceActions.start(this.props.instance);
+      modals.InstanceModals.start(this.props.instance);
     },
 
     onSuspend: function(){
-      actions.InstanceActions.suspend(this.props.instance);
+      modals.InstanceModals.suspend(this.props.instance);
     },
 
     onStop: function(){
-      actions.InstanceActions.stop(this.props.instance);
+      modals.InstanceModals.stop(this.props.instance);
     },
 
     onResume: function(){
-      actions.InstanceActions.resume(this.props.instance);
+      modals.InstanceModals.resume(this.props.instance);
     },
 
     onReport: function(){
-      actions.InstanceActions.report({
+      modals.InstanceModals.report({
         instance: this.props.instance
       });
     },
 
     onImageRequest: function(){
-      actions.InstanceActions.requestImage({
+      modals.InstanceModals.requestImage({
         instance: this.props.instance
       });
     },
@@ -44,7 +45,7 @@ define(function (require) {
       var project = this.props.project,
           instance = this.props.instance;
 
-      actions.InstanceActions.destroy({
+      modals.InstanceModals.destroy({
         instance:instance,
         project: project,
         linksTo: "project-resources",
@@ -53,7 +54,7 @@ define(function (require) {
     },
 
     onReboot: function(){
-      actions.InstanceActions.reboot(this.props.instance);
+      modals.InstanceModals.reboot(this.props.instance);
     },
 
     render: function () {

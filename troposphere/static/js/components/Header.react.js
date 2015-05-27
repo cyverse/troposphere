@@ -3,6 +3,7 @@ define(function(require) {
   var React = require('react'),
       Backbone = require('backbone'),
       actions = require('actions'),
+      modals = require('modals'),
       MaintenanceMessageBanner = require('./MaintenanceMessageBanner.react'),
       Router = require('react-router'),
 
@@ -51,7 +52,8 @@ define(function(require) {
       name: "Admin",
       linksTo: "admin",
       icon: "cog",
-      requiresLogin: true
+      requiresLogin: true,
+      requiresStaff: true
     }
   ];
 
@@ -73,7 +75,7 @@ define(function(require) {
 
     onShowVersion: function(e){
       e.preventDefault();
-      actions.VersionActions.showVersion();
+      modals.VersionModals.showVersion();
     },
 
     render: function () {
@@ -135,6 +137,11 @@ define(function(require) {
       if(!profile) {
         links = links.filter(function (link) {
           return !link.requiresLogin;
+        })
+      }else{
+        links = links.filter(function (link) {
+          if(link.requiresStaff) return profile.get('is_staff');
+          return true;
         })
       }
 

@@ -8,12 +8,19 @@ define(function (require) {
     display: "ViewTags",
 
     propTypes: {
-      activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+      renderLinks: React.PropTypes.bool
+    },
+
+    getDefaultProps: function(){
+      return {
+        renderLinks: true
+      }
     },
 
     renderTag: function(tag){
       return (
-        <Tag key={tag.id || tag.cid} tag={tag}/>
+        <Tag key={tag.id || tag.cid} tag={tag} renderLinks={this.props.renderLinks}/>
       );
     },
 

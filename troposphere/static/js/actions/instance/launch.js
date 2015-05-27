@@ -8,43 +8,9 @@ define(function (require) {
       Project = require('models/Project'),
       Router = require('Router'),
       actions = require('actions'),
-      stores = require('stores'),
-      ModalHelpers = require('components/modals/ModalHelpers'),
-      InstanceLaunchModal = require('components/modals/instance/InstanceLaunchModal.react'),
       Utils = require('../Utils');
 
-  var createProjectAndLaunchInstance = function(params){
-    if(!params.projectName) throw new Error("Missing projectName");
-
-    var projectName = params.projectName,
-        project = new Project({
-          name: projectName,
-          description: projectName,
-          instances: [],
-          volumes:[]
-        });
-
-    Utils.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
-
-    project.save().done(function(){
-      Utils.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
-
-      // launch the instance into the project
-      params.project = project;
-      delete params['projectName'];
-      launchInstance(params);
-
-      // Since this is triggered from the images page, navigate off
-      // that page and back to the instance list so the user can see
-      // their instance being created
-      Router.getInstance().transitionTo("project-resources", {projectId: project.id});
-    }).fail(function(response){
-      Utils.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
-      Utils.displayError({title: "Project could not be created", response: response});
-    });
-  };
-
-  var launchInstance = function(params){
+  function launch(params){
     if(!params.project) throw new Error("Missing project");
     if(!params.instanceName) throw new Error("Missing instanceName");
     if(!params.identity) throw new Error("Missing identity");
@@ -121,40 +87,42 @@ define(function (require) {
     // that page and back to the instance list so the user can see
     // their instance being created
     Router.getInstance().transitionTo("project-resources", {projectId: project.id});
-  };
+  }
 
   return {
 
-    launch: function(application){
-      var modal = InstanceLaunchModal({
-        application: application
+    createProjectAndLaunchInstance: function(params){
+      if(!params.projectName) throw new Error("Missing projectName");
+
+      var projectName = params.projectName,
+          project = new Project({
+            name: projectName,
+            description: projectName,
+            instances: [],
+            volumes:[]
+          });
+
+      Utils.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
+
+      project.save().done(function(){
+        Utils.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
+
+        // launch the instance into the project
+        params.project = project;
+        delete params['projectName'];
+        launch(params);
+
+        // Since this is triggered from the images page, navigate off
+        // that page and back to the instance list so the user can see
+        // their instance being created
+        Router.getInstance().transitionTo("project-resources", {projectId: project.id});
+      }).fail(function(response){
+        Utils.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
+        Utils.displayError({title: "Project could not be created", response: response});
       });
-
-      ModalHelpers.renderModal(modal, function (identity, machineId, sizeId, instanceName, project) {
-        var size = stores.SizeStore.get(sizeId),
-            machine = application.get('machines').get(machineId);
-
-        if(typeof project === "string"){
-          createProjectAndLaunchInstance({
-            projectName: project,
-            instanceName: instanceName,
-            identity: identity,
-            size: size,
-            machine: machine
-          });
-        }else{
-          launchInstance({
-            project: project,
-            instanceName: instanceName,
-            identity: identity,
-            size: size,
-            machine: machine
-          });
-        }
-      })
     },
 
-    launchIntoProject: launchInstance
+    launch: launch
   };
 
 });

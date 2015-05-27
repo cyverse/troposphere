@@ -12,8 +12,10 @@ define(function (require) {
     mixins: [Router.State],
 
     render: function () {
-      var requests = stores.QuotaRequestStore.getAllPending(),
-          statuses = stores.QuotaStatusStore.getAll()
+      var requests = stores.QuotaRequestStore.findWhere({
+            'status.name': 'pending'
+          }),
+          statuses = stores.QuotaStatusStore.getAll();
 
       if(!requests || !statuses) return <div className="loading"></div>;
 

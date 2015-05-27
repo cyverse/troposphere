@@ -3,7 +3,8 @@ define(function (require) {
   var React = require('react'),
       Backbone = require('backbone'),
       Button = require('./Button.react'),
-      actions = require('actions');
+      actions = require('actions'),
+      modals = require('modals');
 
   return React.createClass({
 
@@ -13,23 +14,23 @@ define(function (require) {
     },
 
     onStart: function(){
-      actions.InstanceActions.start(this.props.instance);
+      modals.InstanceModals.start(this.props.instance);
     },
 
     onSuspend: function(){
-      actions.InstanceActions.suspend(this.props.instance);
+      modals.InstanceModals.suspend(this.props.instance);
     },
 
     onStop: function(){
-      actions.InstanceActions.stop(this.props.instance);
+      modals.InstanceModals.stop(this.props.instance);
     },
 
     onResume: function(){
-      actions.InstanceActions.resume(this.props.instance);
+      modals.InstanceModals.resume(this.props.instance);
     },
 
     onDelete: function(){
-      actions.InstanceActions.destroy({
+      modals.InstanceModals.destroy({
         instance:this.props.instance,
         project: this.props.project
       });

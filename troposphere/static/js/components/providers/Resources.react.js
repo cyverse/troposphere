@@ -16,10 +16,15 @@ define(function (require) {
 
     render: function () {
       var provider = this.props.provider,
-          identity = stores.IdentityStore.getIdentityFor(provider),
-          instances = stores.InstanceStore.getInstancesOnProvider(provider),
-          volumes = stores.VolumeStore.getVolumesOnProvider(provider),
-          sizes = stores.SizeStore.getSizesFor(provider);
+          identity = stores.IdentityStore.findOne({'provider.id': provider.id}),
+          instances = stores.InstanceStore.findWhere({'provider.id': provider.id}),
+          volumes = stores.VolumeStore.findWhere({
+            'provider.id': provider.id
+          }),
+          sizes = stores.SizeStore.fetchWhere({
+            provider__id: provider.id,
+            page_size: 100
+          });
 
       if(!provider || !identity || !instances || !volumes || !sizes) return <div className="loading"></div>;
 

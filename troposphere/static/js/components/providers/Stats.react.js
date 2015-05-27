@@ -66,9 +66,12 @@ define(function (require) {
 
     render: function () {
       var provider = this.props.provider,
-          identity = stores.IdentityStore.getIdentityFor(provider),
-          instances = stores.InstanceStore.getInstancesOnProvider(provider),
-          sizes = stores.SizeStore.getSizesFor(provider);
+          identity = stores.IdentityStore.findOne({'provider.id': provider.id}),
+          instances = stores.InstanceStore.findWhere({'provider.id': provider.id}),
+          sizes = stores.SizeStore.fetchWhere({
+            provider__id: provider.id,
+            page_size: 100
+          });
 
       if(!provider || !identity || !instances || !sizes){
         return (

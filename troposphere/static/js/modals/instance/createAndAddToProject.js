@@ -19,7 +19,7 @@ define(function (require) {
         var size = stores.SizeStore.get(sizeId),
             machine = application.get('machines').get(machineId);
 
-        actions.InstanceActions.launchIntoProject({
+        actions.InstanceActions.launch({
           project: project,
           instanceName: instanceName,
           identity: identity,

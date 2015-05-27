@@ -36,7 +36,10 @@ define(function (require) {
 
       var project = params.project,
           instance = params.instance,
-          projectInstance = stores.ProjectInstanceStore.getProjectInstanceFor(project, instance);
+          projectInstance = stores.ProjectInstanceStore.findOne({
+            'project.id': project.id,
+            'instance.id': instance.id
+          });
 
       projectInstance.destroy().done(function(){
         Utils.dispatch(ProjectInstanceConstants.REMOVE_PROJECT_INSTANCE, {projectInstance: projectInstance}, options);

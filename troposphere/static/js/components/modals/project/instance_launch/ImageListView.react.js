@@ -33,7 +33,9 @@ define(
         var query = this.state ? this.state.query : null,
             images;
         if(query){
-          images = stores.ApplicationStore.getSearchResultsFor(query);
+          images = stores.ApplicationStore.fetchWhere({
+            search: query
+          });
         }else{
           images = stores.ApplicationStore.getAll();
         }
@@ -73,7 +75,9 @@ define(
           query = this.state.query;
           if(query) {
             this.setState({
-              images: stores.ApplicationStore.getSearchResultsFor(query)
+              images: stores.ApplicationStore.fetchWhere({
+                search: query
+              })
             });
           }else{
             this.setState({

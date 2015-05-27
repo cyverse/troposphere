@@ -36,7 +36,10 @@ define(function (require) {
 
       var project = params.project,
           volume = params.volume,
-          projectVolume = stores.ProjectVolumeStore.getProjectVolumeFor(project, volume);
+          projectVolume = stores.ProjectVolumeStore.findOne({
+            'project.id': project.id,
+            'volume.id': volume.id
+          });
 
       projectVolume.destroy().done(function(){
         Utils.dispatch(ProjectVolumeConstants.REMOVE_PROJECT_VOLUME, {projectVolume: projectVolume}, options);

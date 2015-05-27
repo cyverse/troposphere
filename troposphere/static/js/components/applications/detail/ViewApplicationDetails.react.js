@@ -27,10 +27,6 @@ define(
         onEditImageDetails: React.PropTypes.func.isRequired,
       },
 
-      showModal: function (e) {
-        actions.InstanceActions.launch(this.props.application);
-      },
-
       renderEditLink: function(){
         var profile = stores.ProfileStore.get(),
             image = this.props.application;

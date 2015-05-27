@@ -20,3 +20,10 @@ def maintenance(request):
         return redirect("/login")
 
     return render(request, 'login.html', {"records": records, "disable_login": disabled})
+
+
+def atmo_maintenance(request):
+    """
+    Returns a splash screen to show that Atmosphere is currently under maintenance
+    """
+    return render(request, 'atmo_maintenance.html')

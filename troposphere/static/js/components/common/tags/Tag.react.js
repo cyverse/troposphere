@@ -11,7 +11,14 @@ define(function (require) {
     display: "Tag",
 
     propTypes: {
-      tag: React.PropTypes.instanceOf(Backbone.Model).isRequired
+      tag: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+      renderLinks: React.PropTypes.bool
+    },
+
+    getDefaultProps: function(){
+      return {
+        renderLinks: true
+      }
     },
 
     componentDidMount: function(){
@@ -29,11 +36,25 @@ define(function (require) {
     },
 
     render: function () {
-      var tag = this.props.tag;
+      var tag = this.props.tag,
+          tagName = tag.get('name'),
+          link;
+
+      if(this.props.renderLinks){
+        link = (
+          <Router.Link to="search" query={{q: tagName}}>
+            {tagName}
+          </Router.Link>
+        );
+      }else{
+        link = (
+          <a href="javascript:void(0)">{tagName}</a>
+        )
+      }
 
       return (
         <li className="tag">
-          <Router.Link to="search" query={{q: tag.get('name')}}>{tag.get('name')}</Router.Link>
+          {link}
         </li>
       );
 
