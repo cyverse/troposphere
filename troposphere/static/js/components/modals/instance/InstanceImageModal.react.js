@@ -290,12 +290,14 @@ define(function (require) {
           </div>
           <Name create={this.state.checkCreate} value={this.state.name} onChange={this.handleNameChange}/>
           <Description onChange={this.handleDescriptionChange}/>
-          <Tags
-            instance={this.state.instance}
-            imageTags={this.state.tags}
-            onTagAdded={this.onTagAdded}
-            onTagRemoved={this.onTagRemoved}
-          />
+          {
+            //<Tags
+            //  instance={this.state.instance}
+            //  imageTags={this.state.tags}
+            //  onTagAdded={this.onTagAdded}
+            //  onTagRemoved={this.onTagRemoved}
+            ///>
+          }
           <Provider
             providerId={this.state.providerId}
             onChange={this.handleProviderChange}
@@ -308,7 +310,9 @@ define(function (require) {
           />
           {this.renderAdvancedOptions()}
           <hr/>
-          <LicenseAgreement onChange={this.handleLicenseAgreementChange}/>
+          {
+            //<LicenseAgreement onChange={this.handleLicenseAgreementChange}/>
+          }
         </div>
       );
     },
