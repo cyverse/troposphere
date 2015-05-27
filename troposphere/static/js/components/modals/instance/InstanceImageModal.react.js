@@ -20,40 +20,47 @@ define(function (require) {
     propTypes: {
       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
+
     canUpdate: function(instance, version) {
       var user = instance.get('user'),
           image = instance.get('image');
+
       if(user.id === image.user) {
-          return true;
-          //The instance owner is the owner of that image.
+        // The instance owner is the owner of that image.
+        return true;
       } else if(user.is_staff || user.is_superuser) {
-          //The instance owner is really important
-          return true;
+        // The instance owner is really important
+        return true;
       } else {
-          //Noone else can update the image.
-          return false;
+        // No one else can update the image.
+        return false;
       }
     },
+
     canImage: function(instance, version) {
       var user = instance.get('user'),
           image = instance.get('image');
+
       if(user.id === image.user) {
-          return true;
-          //The instance owner is the owner of that image.
+        return true;
+        // The instance owner is the owner of that image.
       } else if(user.is_staff || user.is_superuser) {
-          //The instance owner is really important
-          return true;
+        // The instance owner is really important
+        return true;
       } else {
-          //Default to whether the version has explicitly enabled/disabled.
-          return version.allow_imaging;
+        // Default to whether the version has explicitly enabled/disabled.
+        return version.allow_imaging;
       }
     },
-      getInitialState: function () {
-        return this.getState();
-      },
-      updateState: function () {
-        if (this.isMounted()) this.setState(this.getState());
-      },
+
+    getInitialState: function () {
+      return this.getState();
+    },
+
+    updateState: function () {
+      if (this.isMounted()) this.setState(this.getState());
+    },
+
     getState: function () {
       var instance = this.props.instance,
           version = instance.get('version'),
@@ -78,15 +85,16 @@ define(function (require) {
         filesToExclude: "",
         hasAgreedToLicense: false,
         hasSelectedUpdate: false,
-              checkCreate: true,
-              checkUpdate: false,
+        checkCreate: true,
+        checkUpdate: false,
         showAdvancedOptions: false
       };
 
       if(all_users) {
-          state.users = all_users;
-          state.membership_list = stores.UserStore.getUsersFromList(version.membership);
+        state.users = all_users;
+        state.membership_list = stores.UserStore.getUsersFromList(version.membership);
       }
+
       return state;
     },
 
@@ -149,12 +157,16 @@ define(function (require) {
     },
 
     onCreateSelected: function(e) {
-      this.setState({checkUpdate: false,
-        checkCreate: true})
+      this.setState({
+        checkUpdate: false,
+        checkCreate: true
+      })
     },
     onUpdateSelected: function(e) {
-      this.setState({checkUpdate: true,
-      checkCreate: false});
+      this.setState({
+        checkUpdate: true,
+        checkCreate: false
+      });
     },
 
     onTagAdded: function(tag){
@@ -237,29 +249,26 @@ define(function (require) {
     },
 
     renderBody: function(){
-        //Do stuff based on other stuff here.
-        //Based on update_selected value
+      // Do stuff based on other stuff here.
+      // Based on update_selected value
 
-        var instance = this.props.instance,
-                user = instance.get('user'),
-             version = instance.get('version'),
-               image = instance.get('image');
-        if(instance && version) {
-          this.state.allow_imaging = this.canImage(instance, version),
-          this.state.allow_update = this.canUpdate(instance, version),
-          this.state.tags = stores.InstanceTagStore.getTagsFor(instance);
-          this.state.membership_list = version.membership;
+      var instance = this.props.instance,
+          user = instance.get('user'),
+          version = instance.get('version'),
+          image = instance.get('image');
+
+      if(instance && version) {
+        this.state.allow_imaging = this.canImage(instance, version),
+        this.state.allow_update = this.canUpdate(instance, version),
+        this.state.tags = stores.InstanceTagStore.getTagsFor(instance);
+        this.state.membership_list = version.membership;
       }
+
       if(this.state.checkUpdate) {
-          this.state.name = image.name;
-          this.state.description = version.description;
-
-          this.state.visibility = image.private ? "select" : "public";
+        this.state.name = image.name;
+        this.state.description = version.description;
+        this.state.visibility = image.private ? "select" : "public";
       }
-
-
-
-
 
       return (
         <div>
@@ -270,14 +279,14 @@ define(function (require) {
           <p className="alert alert-info">
             {"Please read the "}
             <a href="https://pods.iplantcollaborative.org/wiki/x/oIZy" target="_blank">
-                wiki page about requesting an image of your instance
+              wiki page about requesting an image of your instance
             </a>
             {" before completing the form below."}
           </p>
           <div className="form-group">
             <label htmlFor='imaging-fork'>Create or Update</label>
-          <input type="radio" onClick={this.onCreateSelected} className="form-control" name="create_update_switch" value="create" disabled={!this.state.allow_imaging} checked={this.state.checkCreate}>Create</input>
-          <input type="radio" onClick={this.onUpdateSelected} className="form-control" name="create_update_switch" value="update" disabled={!this.state.allow_imaging && !this.state.allow_update} checked={this.state.checkUpdate}>Update</input>
+            <input type="radio" onClick={this.onCreateSelected} className="form-control" name="create_update_switch" value="create" disabled={!this.state.allow_imaging} checked={this.state.checkCreate}>Create</input>
+            <input type="radio" onClick={this.onUpdateSelected} className="form-control" name="create_update_switch" value="update" disabled={!this.state.allow_imaging && !this.state.allow_update} checked={this.state.checkUpdate}>Update</input>
           </div>
           <Name create={this.state.checkCreate} value={this.state.name} onChange={this.handleNameChange}/>
           <Description onChange={this.handleDescriptionChange}/>
