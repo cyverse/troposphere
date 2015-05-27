@@ -26,7 +26,9 @@ define(function (require) {
       if(!params.image) throw new Error("Missing image");
 
       var image = params.image,
-          imageBookmark = stores.ImageBookmarkStore.getImageBookmarkFor(image);
+          imageBookmark = stores.ImageBookmarkStore.findOne({
+            'image.id': image.id
+          });
 
       imageBookmark.destroy().done(function(){
         Utils.dispatch(ImageBookmarkConstants.REMOVE_IMAGE_BOOKMARK, {imageBookmark: imageBookmark}, options);

@@ -1,157 +1,105 @@
-define(
-  [
-    'underscore',
-    'collections/TagCollection',
-    'dispatchers/Dispatcher',
-    'stores/Store',
-    'constants/TagConstants'
-  ],
-  function (_, TagCollection, Dispatcher, Store, TagConstants) {
+define(function (require) {
 
-    var _tags = null;
-    var _isFetching = false;
-    var _pendingInstanceTags = {};
-    var _pendingImageTags = {};
+  var TagCollection = require('collections/TagCollection'),
+      Dispatcher = require('dispatchers/Dispatcher'),
+      BaseStore = require('stores/BaseStore'),
+      TagConstants = require('constants/TagConstants');
 
-    //
-    // CRUD Operations
-    //
+  var _pendingInstanceTags = {};
+  var _pendingImageTags = {};
 
-    var fetchTags = function () {
-      if(!_isFetching) {
-        _isFetching = true;
-        var tags = new TagCollection();
-        tags.fetch({
-          url: tags.url + "?page_size=1000"
-        }).done(function () {
-          _isFetching = false;
-          _tags = tags;
-          TagStore.emitChange();
-        });
+  var TagStore = BaseStore.extend({
+    collection: TagCollection,
+
+    queryParams: {
+      page_size: 1000
+    },
+
+    getImageTags: function (image) {
+      if(!this.models) throw new Error("Must fetch tags before calling getImageTags");
+
+      var imageTagArray = image.get('tags').map(function(tag){
+        //var tagName = tag.name;
+        //var tag = _tags.findWhere({name: tagName}, {parse: true});
+        //if(!tag) throw new Error("Expected to find a tag with name '" + tagName +"'");
+        return tag;
+      });
+
+      // Add any pending tags to the result set
+      var pendingImageTags = _pendingImageTags[image.id];
+      if(pendingImageTags){
+        imageTagArray = imageTagArray.concat(pendingImageTags.models);
       }
-    };
 
-    function add(tag, options){
-      _tags.add(tag);
-    }
+      return new TagCollection(imageTagArray);
+    },
 
-    function update(tag, options){
-      var existingModel = _tags.get(tag);
-      if(!existingModel) throw new Error("Tag doesn't exist.");
-      _tags.add(tag, {merge: true});
-    }
-
-    function remove(tag, options){
-      _tags.remove(tag);
-    }
-
-    function addPendingTagToInstance(tag, instance){
+    addPendingTagToInstance: function(tag, instance){
       _pendingInstanceTags[instance.id] = _pendingInstanceTags[instance.id] || new TagCollection();
       _pendingInstanceTags[instance.id].add(tag);
-    }
+    },
 
-    function removePendingTagFromInstance(tag, instance){
+    removePendingTagFromInstance: function(tag, instance){
       _pendingInstanceTags[instance.id].remove(tag);
-    }
+    },
 
-    function addPendingTagToImage(tag, image){
+    addPendingTagToImage: function(tag, image){
       _pendingImageTags[image.id] = _pendingImageTags[image.id] || new TagCollection();
       _pendingImageTags[image.id].add(tag);
-    }
+    },
 
-    function removePendingTagFromImage(tag, image){
+    removePendingTagFromImage: function(tag, image){
       _pendingImageTags[image.id].remove(tag);
     }
 
-    //
-    // Store
-    //
-
-    var TagStore = {
-
-      get: function (modelId) {
-        if(!_tags) {
-          fetchTags();
-        } else {
-          return _tags.get(modelId);
-        }
-      },
-
-      getAll: function () {
-        if(!_tags) {
-          fetchTags();
-        } else {
-          return _tags;
-        }
-      },
-
-      getImageTags: function (image) {
-        if(!_tags) throw new Error("Must fetch tags before calling getImageTags");
-
-        var imageTagArray = image.get('tags').map(function(tag){
-          //var tagName = tag.name;
-          //var tag = _tags.findWhere({name: tagName}, {parse: true});
-          //if(!tag) throw new Error("Expected to find a tag with name '" + tagName +"'");
-          return tag;
-        });
-
-        // Add any pending tags to the result set
-        var pendingImageTags = _pendingImageTags[image.id];
-        if(pendingImageTags){
-          imageTagArray = imageTagArray.concat(pendingImageTags.models);
-        }
-
-        return new TagCollection(imageTagArray);
-      }
-
-    };
-
-    Dispatcher.register(function (dispatch) {
-      var actionType = dispatch.action.actionType;
-      var payload = dispatch.action.payload;
-      var options = dispatch.action.options || options;
-
-      switch (actionType) {
-        case TagConstants.ADD_TAG:
-          add(payload.tag);
-          break;
-
-        case TagConstants.UPDATE_TAG:
-          update(payload.tag);
-          break;
-
-        case TagConstants.REMOVE_TAG:
-          remove(payload.tag);
-          break;
-
-        case TagConstants.ADD_PENDING_TAG_TO_INSTANCE:
-          addPendingTagToInstance(payload.tag, payload.instance);
-          break;
-
-        case TagConstants.REMOVE_PENDING_TAG_FROM_INSTANCE:
-          removePendingTagFromInstance(payload.tag, payload.instance);
-          break;
-
-        case TagConstants.ADD_PENDING_TAG_TO_IMAGE:
-          addPendingTagToImage(payload.tag, payload.image);
-          break;
-
-        case TagConstants.REMOVE_PENDING_TAG_FROM_IMAGE:
-          removePendingTagFromImage(payload.tag, payload.image);
-          break;
-
-         default:
-           return true;
-      }
-
-      if(!options.silent) {
-        TagStore.emitChange();
-      }
-
-      return true;
-    });
-
-    _.extend(TagStore, Store);
-
-    return TagStore;
   });
+
+  var store = new TagStore();
+
+  Dispatcher.register(function (dispatch) {
+    var actionType = dispatch.action.actionType;
+    var payload = dispatch.action.payload;
+    var options = dispatch.action.options || options;
+
+    switch (actionType) {
+      case TagConstants.ADD_TAG:
+        store.add(payload.tag);
+        break;
+
+      case TagConstants.UPDATE_TAG:
+        store.update(payload.tag);
+        break;
+
+      case TagConstants.REMOVE_TAG:
+        store.remove(payload.tag);
+        break;
+
+      case TagConstants.ADD_PENDING_TAG_TO_INSTANCE:
+        store.addPendingTagToInstance(payload.tag, payload.instance);
+        break;
+
+      case TagConstants.REMOVE_PENDING_TAG_FROM_INSTANCE:
+        store.removePendingTagFromInstance(payload.tag, payload.instance);
+        break;
+
+      case TagConstants.ADD_PENDING_TAG_TO_IMAGE:
+        store.addPendingTagToImage(payload.tag, payload.image);
+        break;
+
+      case TagConstants.REMOVE_PENDING_TAG_FROM_IMAGE:
+        store.removePendingTagFromImage(payload.tag, payload.image);
+        break;
+
+       default:
+         return true;
+    }
+
+    if(!options.silent) {
+      store.emitChange();
+    }
+
+    return true;
+  });
+
+  return store;
+});

@@ -40,8 +40,16 @@ define(function (require) {
 
     updateState: function() {
       var query = this.state.query,
-          images = stores.ApplicationStore.getSearchResultsFor(query),
-          state = {};
+          state = {},
+          images;
+
+      if(query){
+        images = stores.ApplicationStore.fetchWhere({
+          search: query
+        })
+      }else{
+        images = stores.ApplicationStore.getAll();
+      }
 
       if(images && images.meta.next !== this.state.nextUrl){
         state.isLoadingMoreResults = false;
@@ -61,17 +69,29 @@ define(function (require) {
 
     onLoadMoreImages: function(){
       var query = this.state.query,
-          images = stores.ApplicationStore.getSearchResultsFor(query);
+          images;
+
+      // Get the current collection
+      if(query){
+        images = stores.ApplicationStore.fetchWhere({
+          search: query
+        });
+      }else{
+        images = stores.ApplicationStore.getAll();
+      }
 
       this.setState({
         isLoadingMoreResults: true,
         nextUrl: images.meta.next
       });
 
+      // Fetch the next page of data
       if(query){
-        stores.ApplicationStore.getMoreSearchResultsFor(query);
+        stores.ApplicationStore.fetchMoreWhere({
+          search: query
+        });
       }else{
-        stores.ApplicationStore.getMoreImages();
+        stores.ApplicationStore.fetchMore();
       }
     },
 
@@ -106,7 +126,9 @@ define(function (require) {
     // --------------
 
     renderFeaturedImages: function(){
-      var images = stores.ApplicationStore.getAllFeatured(),
+      var images = stores.ApplicationStore.fetchWhere({
+            tags__name: 'Featured'
+          }),
           tags = this.props.tags;
 
       if (!images || !tags || this.state.query) return;
@@ -216,12 +238,21 @@ define(function (require) {
 
     renderBody: function(){
       var query = this.state.query,
-          applications = stores.ApplicationStore.getSearchResultsFor(query),
-          title = "";
+          title = "",
+          images;
 
-      if (!applications) return <div className="loading"></div>;
+      if(query){
+        images = stores.ApplicationStore.fetchWhere({
+          search: query
+        });
+      }else{
+        images = stores.ApplicationStore.getAll();
+      }
 
-      title = "Showing " + applications.length + " of " + applications.meta.count + " images";
+
+      if (!images) return <div className="loading"></div>;
+
+      title = "Showing " + images.length + " of " + images.meta.count + " images";
 
       if(query) title += " for '" + query + "'";
 
@@ -235,8 +266,8 @@ define(function (require) {
             </div>
           </div>
           {this.renderFeaturedImages()}
-          {this.renderImages(applications)}
-          {this.renderLoadMoreButton(applications)}
+          {this.renderImages(images)}
+          {this.renderLoadMoreButton(images)}
         </div>
       );
     },

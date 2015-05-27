@@ -29,7 +29,10 @@ define(function (require) {
       volume.destroy({
         url: url
       }).done(function () {
-        var projectVolume = stores.ProjectVolumeStore.getProjectVolumeFor(project, volume);
+        var projectVolume = stores.ProjectVolumeStore.findOne({
+          'project.id': project.id,
+          'volume.id': volume.id
+        });
         // todo: the proper thing to do is to poll until the volume is actually destroyed
         // and THEN remove it from the project. Need to find a way to support that.
         Utils.dispatch(VolumeConstants.REMOVE_VOLUME, {volume: volume});

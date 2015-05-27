@@ -144,7 +144,10 @@ define(function (require) {
       if(identities && providers && state.identityId){
         selectedIdentity = identities.get(state.identityId);
         selectedProvider = providers.get(selectedIdentity.get('provider').id);
-        providerSizes = stores.SizeStore.getSizesFor(selectedProvider);
+        providerSizes = stores.SizeStore.fetchWhere({
+          provider__id: selectedProvider.id,
+          page_size: 100
+        });
       }
 
       // If we switch identities, while a size with the previous identity was selected, that size may
@@ -240,7 +243,10 @@ define(function (require) {
           identity = stores.IdentityStore.get(newIdentityId),
           providerId = identity.get('provider').id,
           provider = stores.ProviderStore.get(providerId),
-          sizes = stores.SizeStore.getSizesFor(provider);
+          sizes = stores.SizeStore.fetchWhere({
+            provider__id: provider.id,
+            page_size: 100
+          });
 
       this.setState({
         identityId: newIdentityId,
@@ -370,7 +376,10 @@ define(function (require) {
       if(this.state.identityId){
         selectedIdentity = identities.get(this.state.identityId);
         selectedProvider = providers.get(selectedIdentity.get('provider').id);
-        providerSizes = stores.SizeStore.getSizesFor(selectedProvider);
+        providerSizes = stores.SizeStore.fetchWhere({
+          provider__id: selectedProvider.id,
+          page_size: 100
+        });
       }
 
       if(!providerSizes) return <div className="loading"></div>;

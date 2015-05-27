@@ -1,86 +1,83 @@
-define(
-  [
-    'underscore',
-    'dispatchers/Dispatcher',
-    'stores/Store',
-    'models/Profile',
-    'controllers/NotificationController',
-    'constants/ProfileConstants',
-    'actions'
-  ],
-  function (_, Dispatcher, Store, Profile, NotificationController, ProfileConstants, actions) {
+define(function (require) {
 
-    var _profile = null;
-    var _isFetching = false;
+  var _ = require('underscore'),
+      Dispatcher = require('dispatchers/Dispatcher'),
+      Store = require('stores/Store'),
+      Profile = require('models/Profile'),
+      NotificationController = require('controllers/NotificationController'),
+      ProfileConstants = require('constants/ProfileConstants');
 
-    //
-    // CRUD Operations
-    //
+  var _profile = null;
+  var _isFetching = false;
 
-    var fetchProfile = function () {
-      if(!_isFetching) {
-        _isFetching = true;
-        var profile = new Profile();
-        profile.fetch().then(function () {
-          _isFetching = false;
-          _profile = profile;
-          ProfileStore.emitChange();
-        }).fail(function(result){
-          if(result.status === 403) {
-            // Redirect the user to the forbidden page with more info
-            window.location.pathname = "/forbidden";
-          }else {
-            NotificationController.error(
-              null,
-              "There was an error logging you in. If this persists, please email <a href='mailto:support@iplantcollaborative.org'>support@iplantcollaborative.org</a>.",
-              {
-                "positionClass": "toast-top-full-width",
-                "timeOut": "0",
-                "extendedTimeOut": "0"
-              }
-            );
-          }
-        });
+  //
+  // CRUD Operations
+  //
+
+  var fetchProfile = function () {
+    if(!_isFetching) {
+      _isFetching = true;
+      var profile = new Profile();
+      profile.fetch().then(function () {
+        _isFetching = false;
+        _profile = profile;
+        ProfileStore.emitChange();
+      }).fail(function(result){
+        if(result.status === 403) {
+          // Redirect the user to the forbidden page with more info
+          window.location.pathname = "/forbidden";
+        }else {
+          NotificationController.error(
+            null,
+            "There was an error logging you in. If this persists, please email <a href='mailto:support@iplantcollaborative.org'>support@iplantcollaborative.org</a>.",
+            {
+              "positionClass": "toast-top-full-width",
+              "timeOut": "0",
+              "extendedTimeOut": "0"
+            }
+          );
+        }
+      });
+    }
+  };
+
+  function update(profile){
+    _profile.set(profile, {merge: true});
+  }
+
+  //
+  // Store
+  //
+
+  var ProfileStore = {
+
+    get: function () {
+      if(!_profile) {
+        fetchProfile();
       }
-    };
-
-    function update(profile){
-      _profile.set(profile, {merge: true});
+      return _profile;
     }
 
-    //
-    // Store
-    //
+  };
 
-    var ProfileStore = {
+  Dispatcher.register(function (payload) {
+    var action = payload.action;
 
-      get: function () {
-        if(!_profile) {
-          fetchProfile();
-        }
-        return _profile;
-      }
+    switch (action.actionType) {
+        case ProfileConstants.UPDATE_PROFILE:
+          update(action.name, action.description);
+          break;
 
-    };
+        default:
+          return true;
+    }
 
-    Dispatcher.register(function (payload) {
-      var action = payload.action;
+    ProfileStore.emitChange();
 
-      switch (action.actionType) {
-          case ProfileConstants.UPDATE_PROFILE:
-            update(action.name, action.description);
-            break;
-
-          default:
-            return true;
-      }
-
-      ProfileStore.emitChange();
-
-      return true;
-    });
-
-    _.extend(ProfileStore, Store);
-
-    return ProfileStore;
+    return true;
   });
+
+  _.extend(ProfileStore, Store);
+
+  return ProfileStore;
+});

@@ -1,167 +1,81 @@
 define(function (require) {
 
-    var _ = require('underscore'),
-        Dispatcher = require('dispatchers/Dispatcher'),
-        Store = require('stores/Store'),
-        Collection = require('collections/InstanceCollection'),
-        Constants = require('constants/InstanceConstants');
+  var Dispatcher = require('dispatchers/Dispatcher'),
+      BaseStore = require('stores/BaseStore'),
+      InstanceCollection = require('collections/InstanceCollection'),
+      InstanceConstants = require('constants/InstanceConstants');
 
-    var _models = null;
-    var _isFetching = false;
+  var InstanceStore = BaseStore.extend({
+    collection: InstanceCollection,
 
-    var pollingFrequency = 10*1000;
-    var _instancesBuilding = [];
+    queryParams: {
+      page_size: 100
+    },
 
-    //
-    // CRUD Operations
-    //
+    initialize: function(){
+      this.pollingEnabled = true;
+      this.pollingFrequency = 10*1000;
+    },
 
-    var fetchModels = function () {
-      if(!_models && !_isFetching) {
-        _isFetching = true;
-        var models = new Collection();
-        models.fetch({
-          url: models.url + "?page_size=100"
-        }).done(function () {
-          _isFetching = false;
-          _models = models;
-          _models.each(pollNowUntilBuildIsFinished);
-          ModelStore.emitChange();
-        });
-      }
-    };
+    // ----------------
+    // Custom functions
+    // ----------------
 
-    function add(model) {
-      _models.add(model);
-    }
+    getInstancesNotInAProject: function (provider) {
+      if(!this.models) return this.fetchModels();
 
-    function update(model) {
-      var existingModel = _models.get(model);
-      if (!existingModel) throw new Error("Instance doesn't exist.");
-      _models.add(model, {merge: true});
-    }
-
-    function remove(model) {
-      _models.remove(model);
-    }
-
-    //
-    // Polling Functions
-    //
-
-    var pollNowUntilBuildIsFinished = function(instance){
-      if(_instancesBuilding.indexOf(instance) < 0) {
-        _instancesBuilding.push(instance);
-        fetchNowAndRemoveIfFinished(instance);
-      }
-    };
-
-    var fetchAndRemoveIfFinished = function(instance){
-      setTimeout(function(){
-        instance.fetchFromCloud(function(){
-          update(instance);
-          var index = _instancesBuilding.indexOf(instance);
-          if(instance.get('state').isInFinalState()){
-            _instancesBuilding.splice(index, 1);
-          }else{
-            fetchAndRemoveIfFinished(instance);
-          }
-          ModelStore.emitChange();
-        });
-      }, pollingFrequency);
-    };
-
-    var fetchNowAndRemoveIfFinished = function(instance){
-      instance.fetchFromCloud(function(){
-        update(instance);
-        var index = _instancesBuilding.indexOf(instance);
-        if(instance.get('state').isInFinalState()){
-          _instancesBuilding.splice(index, 1);
-        }else{
-          fetchAndRemoveIfFinished(instance);
-        }
-        ModelStore.emitChange();
+      var instances = this.models.filter(function(instance){
+        return instance.get('projects').length === 0
       });
-    };
 
-    //
-    // Instance Store
-    //
+      return new InstanceCollection(instances);
+    },
 
-    var ModelStore = {
+    // -----------------
+    // Polling functions
+    // -----------------
 
-      getAll: function () {
-        if(!_models) {
-          fetchModels()
-        }
-        return _models;
-      },
+    isInFinalState: function(instance){
+      return instance.get('state').isInFinalState();
+    }
 
-      get: function (modelId) {
-        if(!_models) {
-          fetchModels();
-        } else {
-          return _models.get(modelId);
-        }
-      },
-
-      getInstancesOnProvider: function (provider) {
-        if(!_models) return fetchModels();
-
-        var instances = _models.filter(function(instance){
-          return instance.get('provider').id === provider.id;
-        });
-
-        return new Collection(instances);
-      },
-
-      getInstancesNotInAProject: function (provider) {
-        if(!_models) return fetchModels();
-
-        var instances = _models.filter(function(instance){
-          return instance.get('projects').length === 0
-        });
-
-        return new Collection(instances);
-      }
-
-    };
-
-    Dispatcher.register(function (dispatch) {
-      var actionType = dispatch.action.actionType;
-      var payload = dispatch.action.payload;
-      var options = dispatch.action.options || options;
-
-      switch (actionType) {
-
-        case Constants.ADD_INSTANCE:
-          add(payload.instance);
-          break;
-
-        case Constants.UPDATE_INSTANCE:
-          update(payload.instance);
-          break;
-
-        case Constants.REMOVE_INSTANCE:
-          remove(payload.instance);
-          break;
-
-        case Constants.POLL_INSTANCE:
-          pollNowUntilBuildIsFinished(payload.instance);
-          break;
-
-        default:
-          return true;
-      }
-
-      if(!options.silent) {
-        ModelStore.emitChange();
-      }
-
-      return true;
-    });
-
-    _.extend(ModelStore, Store);
-
-    return ModelStore;
   });
+
+  var store = new InstanceStore();
+
+  Dispatcher.register(function (dispatch) {
+    var actionType = dispatch.action.actionType;
+    var payload = dispatch.action.payload;
+    var options = dispatch.action.options || options;
+
+    switch (actionType) {
+
+      case InstanceConstants.ADD_INSTANCE:
+        store.add(payload.instance);
+        break;
+
+      case InstanceConstants.UPDATE_INSTANCE:
+        store.update(payload.instance);
+        break;
+
+      case InstanceConstants.REMOVE_INSTANCE:
+        store.remove(payload.instance);
+        break;
+
+      case InstanceConstants.POLL_INSTANCE:
+        store.pollNowUntilBuildIsFinished(payload.instance);
+        break;
+
+      default:
+        return true;
+    }
+
+    if(!options.silent) {
+      store.emitChange();
+    }
+
+    return true;
+  });
+
+  return store;
+});
