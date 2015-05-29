@@ -22,7 +22,8 @@ define(function (require) {
       return {
         providers: stores.ProviderStore.getAll(),
         identities: stores.IdentityStore.getAll(),
-        tags: stores.TagStore.getAll()
+        tags: stores.TagStore.getAll(),
+        step: 1
       };
     },
 
@@ -56,16 +57,14 @@ define(function (require) {
     // Navigation Callbacks
     //
 
-    navigateToListView: function(){
-      this.setState({image: null, configureImage: false});
+    onPrevious: function(){
+      var previousStep = this.state.step - 1;
+      this.setState({step: previousStep});
     },
 
-    navigateToDetailsView: function(image){
-      this.setState({image: image, configureImage: false});
-    },
-
-    navigateToLaunchView: function(image){
-      this.setState({image: image, configureImage: true});
+    onNext: function(image){
+      var nextStep = this.state.step + 1;
+      this.setState({step: nextStep});
     },
 
     //
@@ -74,16 +73,20 @@ define(function (require) {
     //
 
     renderBody: function(){
-      var instance = this.props.instance;
+      var instance = this.props.instance,
+          step = this.state.step;
 
-      if(true){
-        return (
-          <NameDescriptionStep
-            instance={instance}
-            onPrevious={this.navigateToDetailsView}
-            onNext={this.handleLaunchImage}
-          />
-        )
+      switch(step) {
+        case 1:
+          return (
+            <NameDescriptionStep
+              instance={instance}
+              onPrevious={this.onPrevious}
+              onNext={this.onNext}
+            />
+          );
+        case 2:
+          return null;
       }
     },
 
