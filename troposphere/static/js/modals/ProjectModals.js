@@ -6,7 +6,6 @@ define(function (require) {
     explainProjectDeleteConditions: require('./project/explainProjectDeleteConditions').explainProjectDeleteConditions,
     moveResources: require('./project/moveResources').moveResources,
     removeResources: require('./project/removeResources').removeResources
-
   };
 
 });

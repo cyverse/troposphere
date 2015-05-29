@@ -6,20 +6,22 @@ define(function (require) {
 
     propTypes: {
       onChange: React.PropTypes.func.isRequired,
-       value: React.PropTypes.string.isRequired,
+      value: React.PropTypes.string.isRequired,
       create: React.PropTypes.bool.isRequired
     },
 
     handleChange: function(e){
       this.props.onChange(e.target.value)
     },
+
     renderNameLabel: function() {
-        if( this.props.create) {
-            return "New Image Name"
-        } else {
-            return "Update Name of Image"
-        }
+      if (this.props.create) {
+        return "New Image Name"
+      } else {
+        return "Update Name of Image"
+      }
     },
+
     render: function () {
       return (
         <div className="form-group">
