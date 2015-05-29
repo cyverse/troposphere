@@ -4,7 +4,8 @@ define(function (require) {
       Backbone = require('backbone'),
       BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
       stores = require('stores'),
-      NameDescriptionStep = require('./request_image_wizard/NameDescriptionStep.react');
+      NameDescriptionTagsStep = require('./request_image_wizard/NameDescriptionTagsStep.react'),
+      ProviderStep = require('./request_image_wizard/ProviderStep.react');
 
   return React.createClass({
     mixins: [BootstrapModalMixin],
@@ -20,9 +21,6 @@ define(function (require) {
 
     getState: function() {
       return {
-        providers: stores.ProviderStore.getAll(),
-        identities: stores.IdentityStore.getAll(),
-        tags: stores.TagStore.getAll(),
         step: 1
       };
     },
@@ -48,9 +46,15 @@ define(function (require) {
       this.hide();
     },
 
-    handleLaunchImage: function(identity, machineId, sizeId, instanceName){
+    onRequestImage: function(){
+      var params = {
+        name: this.state.name,
+        description: this.state.description,
+        providerId: this.state.providerId,
+        tags: this.state.tags
+      };
       this.hide();
-      this.props.onConfirm(this.state.image, identity, machineId, sizeId, instanceName);
+      this.props.onConfirm(params);
     },
 
     //
@@ -79,14 +83,22 @@ define(function (require) {
       switch(step) {
         case 1:
           return (
-            <NameDescriptionStep
+            <NameDescriptionTagsStep
               instance={instance}
               onPrevious={this.onPrevious}
               onNext={this.onNext}
             />
           );
         case 2:
-          return null;
+          return (
+            <ProviderStep
+              instance={instance}
+              onPrevious={this.onPrevious}
+              onNext={this.onNext}
+            />
+          );
+        case 3:
+          return this.onRequestImage();
       }
     },
 

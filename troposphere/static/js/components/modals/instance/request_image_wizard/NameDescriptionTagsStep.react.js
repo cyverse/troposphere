@@ -23,10 +23,10 @@ define(function(require) {
     },
 
     isSubmittable: function(){
-        var hasName        = !!this.state.name;
-        var hasDescription = !!this.state.description;
-        return hasName && hasDescription;
-      },
+      var hasName        = !!this.state.name;
+      var hasDescription = !!this.state.description;
+      return hasName && hasDescription;
+    },
 
     onNext: function(){
       this.props.onNext({

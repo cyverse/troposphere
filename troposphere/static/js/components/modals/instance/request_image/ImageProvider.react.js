@@ -14,7 +14,7 @@ define(function (require) {
       this.props.onChange(e.target.value)
     },
 
-    renderProvider: function(provider){
+    renderProviderOption: function(provider){
       return (
         <option key={provider.id} value={provider.id}>
           {provider.get('name')}
@@ -24,8 +24,9 @@ define(function (require) {
 
     render: function () {
       var providerId = this.props.providerId,
-          providers = stores.ProviderStore.getAll(),
-          options = providers.map(this.renderProvider);
+          providers = stores.ProviderStore.getAll();
+
+      if(!providers) return <div className="loading"/>;
 
       return (
         <div className="form-group">
@@ -34,7 +35,7 @@ define(function (require) {
             Select the cloud provider on which you plan to use this image.
           </div>
           <select value={providerId} name="provider" className="form-control" onChange={this.handleChange}>
-            {options}
+            {providers.map(this.renderProviderOption)}
           </select>
         </div>
       );
