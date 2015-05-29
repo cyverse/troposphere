@@ -14,9 +14,11 @@ define(function (require) {
     },
 
     render: function () {
-      var label = "Description of the Image";
-      var description = "Concisely describe the tools installed and their purpose. Please include key words that will " +
-                        "help users search for this image and decide whether it will suit their needs.";
+      var label = "*Description of the Image";
+      var description = (
+        "Concisely describe the tools installed and their purpose. Please include key words that will " +
+        "help users search for this image and decide whether it will suit their needs."
+      );
       var name = "description";
 
       return (

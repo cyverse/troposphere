@@ -28,6 +28,9 @@ define(function (require) {
               needs. You can include the operating system, installed software, or configuration information. E.g. Ubuntu,
               NGS Viewers, MAKER, QIIME, etc.
             </div>
+            <div className="help-block">
+              For your convenience, we've automatically added the tags that were already on the instance.
+            </div>
             <ChosenDropdown
               tags={tags}
               activeTags={imageTags}

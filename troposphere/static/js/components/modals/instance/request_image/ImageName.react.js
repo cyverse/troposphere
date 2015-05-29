@@ -16,9 +16,9 @@ define(function (require) {
 
     renderNameLabel: function() {
       if (this.props.create) {
-        return "New Image Name"
+        return "*New Image Name"
       } else {
-        return "Update Name of Image"
+        return "*Update Name of Image"
       }
     },
 

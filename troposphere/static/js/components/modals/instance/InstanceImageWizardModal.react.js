@@ -95,7 +95,7 @@ define(function (require) {
             <div className="modal-content">
               <div className="modal-header">
                 {this.renderCloseButton()}
-                <strong>{" "}</strong>
+                <strong>{"Image Request"}</strong>
               </div>
               {this.renderBody()}
             </div>
