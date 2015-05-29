@@ -3,6 +3,7 @@ define(function (require) {
 
   var ModalHelpers = require('components/modals/ModalHelpers'),
       InstanceImageModal = require('components/modals/instance/InstanceImageModal.react'),
+      InstanceImageWizardModal = require('components/modals/instance/InstanceImageWizardModal.react'),
       actions = require('actions');
 
   return {
@@ -11,12 +12,16 @@ define(function (require) {
       if(!params.instance) throw new Error("Missing instance");
 
       var instance = params.instance,
-          modal = InstanceImageModal({
+          //modal = InstanceImageModal({
+          //  instance: instance
+          //}),
+          modal = InstanceImageWizardModal({
             instance: instance
           });
 
       ModalHelpers.renderModal(modal, function (params) {
-        actions.InstanceActions.requestImage({
+        //actions.InstanceActions.requestImage({
+        console.log({
           instance: instance,
           name: params.name,
           description: params.description,
