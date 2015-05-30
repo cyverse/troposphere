@@ -5,7 +5,10 @@ define(function (require) {
       BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
       stores = require('stores'),
       NameDescriptionTagsStep = require('./request_image_wizard/NameDescriptionTagsStep.react'),
-      ProviderStep = require('./request_image_wizard/ProviderStep.react');
+      ProviderStep = require('./request_image_wizard/ProviderStep.react'),
+      VisibilityStep = require('./request_image_wizard/VisibilityStep.react'),
+      FilesToExcludeStep = require('./request_image_wizard/FilesToExcludeStep.react'),
+      ReviewStep = require('./request_image_wizard/ReviewStep.react');
 
   return React.createClass({
     mixins: [BootstrapModalMixin],
@@ -89,6 +92,7 @@ define(function (require) {
               onNext={this.onNext}
             />
           );
+
         case 2:
           return (
             <ProviderStep
@@ -97,8 +101,31 @@ define(function (require) {
               onNext={this.onNext}
             />
           );
+
         case 3:
-          return this.onRequestImage();
+          return (
+            <VisibilityStep
+              onPrevious={this.onPrevious}
+              onNext={this.onNext}
+            />
+          );
+
+        case 4:
+          return (
+            <FilesToExcludeStep
+              onPrevious={this.onPrevious}
+              onNext={this.onNext}
+            />
+          );
+
+        case 5:
+          return (
+            <ReviewStep
+              imageData={this.state}
+              onPrevious={this.onPrevious}
+              onNext={this.onRequestImage}
+            />
+          );
       }
     },
 
