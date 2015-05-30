@@ -54,25 +54,25 @@ define(function(require) {
     },
 
     render: function () {
-        var instance = this.props.instance;
+      var instance = this.props.instance;
 
-        return (
-          <div>
-            <div className="modal-body">
-              {this.renderBody(instance)}
-            </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-default cancel-button pull-left" onClick={this.props.onPrevious}>
-                <span className="glyphicon glyphicon-chevron-left"></span>
-                Back
-              </button>
-              <button type="button" className="btn btn-primary cancel-button" onClick={this.onNext} disabled={!this.isSubmittable()}>
-                Next
-              </button>
-            </div>
+      return (
+        <div>
+          <div className="modal-body">
+            {this.renderBody(instance)}
           </div>
-        );
-      }
+          <div className="modal-footer">
+            <button type="button" className="btn btn-default cancel-button pull-left" onClick={this.props.onPrevious}>
+              <span className="glyphicon glyphicon-chevron-left"></span>
+              Back
+            </button>
+            <button type="button" className="btn btn-primary cancel-button" onClick={this.onNext} disabled={!this.isSubmittable()}>
+              Next
+            </button>
+          </div>
+        </div>
+      );
+    }
 
   });
 
