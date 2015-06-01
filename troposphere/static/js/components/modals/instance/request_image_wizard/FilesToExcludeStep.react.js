@@ -8,17 +8,30 @@ define(function(require) {
   return React.createClass({
 
     propTypes: {
-      instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
+      instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+      filesToExclude: React.PropTypes.string
+    },
+
+    getDefaultProps: function() {
+      return {
+        filesToExclude: ""
+      };
     },
 
     getInitialState: function(){
       return {
-        filesToExclude: ""
+        filesToExclude: this.props.filesToExclude
       }
     },
 
     isSubmittable: function(){
       return true;
+    },
+
+    onPrevious: function(){
+      this.props.onPrevious({
+        filesToExclude: this.state.filesToExclude
+      });
     },
 
     onNext: function(){
@@ -62,7 +75,7 @@ define(function(require) {
             {this.renderBody()}
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-default cancel-button pull-left" onClick={this.props.onPrevious}>
+            <button type="button" className="btn btn-default cancel-button pull-left" onClick={this.onPrevious}>
               <span className="glyphicon glyphicon-chevron-left"></span>
               Back
             </button>

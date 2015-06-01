@@ -6,7 +6,8 @@ define(function (require) {
 
     propTypes: {
       onChange: React.PropTypes.func.isRequired,
-      styles: React.PropTypes.object.isRequired
+      styles: React.PropTypes.object.isRequired,
+      value: React.PropTypes.string
     },
 
     handleChange: function(e){
@@ -17,7 +18,8 @@ define(function (require) {
       var styles = this.props.styles,
           label = "Files to exclude",
           description = "If your instance has files you'd like to exclude from the image, list them here. Write one path per line.",
-          name = "exclude";
+          name = "exclude",
+          value = this.props.value;
 
       return (
         <div className="form-group" style={styles}>
@@ -28,6 +30,7 @@ define(function (require) {
             {description}
           </div>
           <textarea
+            value={value}
             name={name}
             rows="4"
             className="form-control"

@@ -26,7 +26,7 @@ define(function (require) {
         description: "",
         imageTags: null,
         providerId: null,
-        visibility: "",
+        visibility: "public",
         filesToExclude: ""
       };
     },
@@ -131,6 +131,7 @@ define(function (require) {
         case 4:
           return (
             <FilesToExcludeStep
+              filesToExclude={this.state.filesToExclude}
               onPrevious={this.onPrevious}
               onNext={this.onNext}
             />

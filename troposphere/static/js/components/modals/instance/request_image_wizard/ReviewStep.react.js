@@ -13,12 +13,6 @@ define(function(require) {
       return true;
     },
 
-    onNext: function(){
-      this.props.onNext({
-        visibility: this.state.visibility
-      });
-    },
-
     renderBody: function (imageData) {
       return (
         <div>
@@ -41,7 +35,7 @@ define(function(require) {
               <span className="glyphicon glyphicon-chevron-left"></span>
               Back
             </button>
-            <button type="button" className="btn btn-primary cancel-button" onClick={this.onNext} disabled={!this.isSubmittable()}>
+            <button type="button" className="btn btn-primary cancel-button" onClick={this.props.onNext} disabled={!this.isSubmittable()}>
               Request Image
             </button>
           </div>
