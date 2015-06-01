@@ -2,6 +2,7 @@ define(function (require) {
 
   var React = require('react'),
       Backbone = require('backbone'),
+      _ = require('underscore'),
       BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
       stores = require('stores'),
       NameDescriptionTagsStep = require('./request_image_wizard/NameDescriptionTagsStep.react'),
@@ -19,7 +20,15 @@ define(function (require) {
     //
 
     getInitialState: function(){
-      return this.getState();
+      return {
+        step: 1,
+        name: "",
+        description: "",
+        imageTags: null,
+        providerId: null,
+        visibility: "",
+        filesToExclude: ""
+      };
     },
 
     getState: function() {
@@ -69,9 +78,11 @@ define(function (require) {
       this.setState({step: previousStep});
     },
 
-    onNext: function(image){
-      var nextStep = this.state.step + 1;
-      this.setState({step: nextStep});
+    onNext: function(data){
+      var nextStep = this.state.step + 1,
+          data = data || {},
+          state = _.extend({step: nextStep}, data);
+      this.setState(state);
     },
 
     //
@@ -87,6 +98,9 @@ define(function (require) {
         case 1:
           return (
             <NameDescriptionTagsStep
+              name={this.state.name}
+              description={this.state.description}
+              imageTags={this.state.imageTags}
               instance={instance}
               onPrevious={this.onPrevious}
               onNext={this.onNext}

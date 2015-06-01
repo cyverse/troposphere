@@ -10,15 +10,25 @@ define(function(require) {
   return React.createClass({
 
     propTypes: {
-      instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
+      instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+      name: React.PropTypes.string.isRequired,
+      description: React.PropTypes.string.isRequired
+    },
+
+    getDefaultProps: function() {
+      return {
+        name: "",
+        description: "",
+        imageTags: null
+      };
     },
 
     getInitialState: function(){
       return {
-        name: "",
-        description: "",
+        name: this.props.name,
+        description: this.props.description,
         checkCreate: true,
-        imageTags: stores.InstanceTagStore.getTagsFor(this.props.instance)
+        imageTags: this.props.imageTags || stores.InstanceTagStore.getTagsFor(this.props.instance)
       }
     },
 
@@ -31,7 +41,8 @@ define(function(require) {
     onNext: function(){
       this.props.onNext({
         name: this.state.name,
-        description: this.state.description
+        description: this.state.description,
+        imageTags: this.state.imageTags
       });
     },
 
@@ -73,7 +84,10 @@ define(function(require) {
             value={this.state.name}
             onChange={this.onNameChange}
           />
-          <Description onChange={this.onDescriptionChange}/>
+          <Description
+            value={this.state.description}
+            onChange={this.onDescriptionChange}
+          />
           <Tags
             onTagAdded={this.onTagAdded}
             onTagRemoved={this.onTagRemoved}
