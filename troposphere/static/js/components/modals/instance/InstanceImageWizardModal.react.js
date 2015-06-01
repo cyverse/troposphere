@@ -73,9 +73,11 @@ define(function (require) {
     // Navigation Callbacks
     //
 
-    onPrevious: function(){
-      var previousStep = this.state.step - 1;
-      this.setState({step: previousStep});
+    onPrevious: function(data){
+      var previousStep = this.state.step - 1,
+          data = data || {},
+          state = _.extend({step: previousStep}, data);
+      this.setState(state);
     },
 
     onNext: function(data){
@@ -111,6 +113,7 @@ define(function (require) {
           return (
             <ProviderStep
               instance={instance}
+              providerId={this.state.providerId}
               onPrevious={this.onPrevious}
               onNext={this.onNext}
             />

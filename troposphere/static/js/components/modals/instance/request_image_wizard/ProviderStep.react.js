@@ -14,13 +14,19 @@ define(function(require) {
     getInitialState: function(){
       var instance = this.props.instance;
       return {
-        providerId: instance.get('provider').id
+        providerId: this.props.providerId || instance.get('provider').id
       }
     },
 
     isSubmittable: function(){
       var hasProviderId        = !!this.state.providerId;
       return hasProviderId;
+    },
+
+    onPrevious: function(){
+      this.props.onPrevious({
+        providerId: this.state.providerId
+      });
     },
 
     onNext: function(){
@@ -62,7 +68,7 @@ define(function(require) {
             {this.renderBody(instance)}
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-default cancel-button pull-left" onClick={this.props.onPrevious}>
+            <button type="button" className="btn btn-default cancel-button pull-left" onClick={this.onPrevious}>
               <span className="glyphicon glyphicon-chevron-left"></span>
               Back
             </button>
