@@ -32,9 +32,7 @@ define(function (require) {
     },
 
     getState: function() {
-      return {
-        step: 1
-      };
+      return this.state;
     },
 
     updateState: function () {
@@ -43,10 +41,12 @@ define(function (require) {
 
     componentDidMount: function () {
       stores.InstanceTagStore.addChangeListener(this.updateState);
+      stores.UserStore.addChangeListener(this.updateState);
     },
 
     componentWillUnmount: function() {
       stores.InstanceTagStore.removeChangeListener(this.updateState);
+      stores.UserStore.removeChangeListener(this.updateState);
     },
 
     //
@@ -122,6 +122,7 @@ define(function (require) {
         case 3:
           return (
             <VisibilityStep
+              instance={instance}
               visibility={this.state.visibility}
               onPrevious={this.onPrevious}
               onNext={this.onNext}
