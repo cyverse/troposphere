@@ -11,15 +11,27 @@ define(function(require) {
       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    getInitialState: function(){
+    getDefaultProps: function() {
       return {
         visibility: "public"
+      };
+    },
+
+    getInitialState: function(){
+      return {
+        visibility: this.props.visibility
       }
     },
 
     isSubmittable: function(){
       var hasVisibility = !!this.state.visibility;
       return hasVisibility;
+    },
+
+    onPrevious: function(){
+      this.props.onPrevious({
+        visibility: this.state.visibility
+      });
     },
 
     onNext: function(){
@@ -62,7 +74,7 @@ define(function(require) {
             {this.renderBody()}
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-default cancel-button pull-left" onClick={this.props.onPrevious}>
+            <button type="button" className="btn btn-default cancel-button pull-left" onClick={this.onPrevious}>
               <span className="glyphicon glyphicon-chevron-left"></span>
               Back
             </button>

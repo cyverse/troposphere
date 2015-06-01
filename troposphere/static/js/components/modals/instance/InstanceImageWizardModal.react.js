@@ -122,6 +122,7 @@ define(function (require) {
         case 3:
           return (
             <VisibilityStep
+              visibility={this.state.visibility}
               onPrevious={this.onPrevious}
               onNext={this.onNext}
             />
