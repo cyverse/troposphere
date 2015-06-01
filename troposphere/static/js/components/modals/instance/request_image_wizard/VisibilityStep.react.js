@@ -3,7 +3,8 @@ define(function(require) {
   var React = require('react'),
       Backbone = require('backbone'),
       Visibility = require('../request_image/ImageVisibility.react'),
-      stores = require('stores');
+      stores = require('stores'),
+      Users = require('../request_image/ImageUsers.react');
 
   return React.createClass({
 
@@ -52,6 +53,18 @@ define(function(require) {
       });
     },
 
+    renderUserList: function(){
+      if(this.state.visibility === "select"){
+        return (
+          <Users
+            onTagAdded={function(){}}
+            onTagRemoved={function(){}}
+            imageTags={stores.InstanceTagStore.getTagsFor(this.props.instance)}
+          />
+        )
+      }
+    },
+
     renderBody: function () {
       return (
         <div>
@@ -60,9 +73,11 @@ define(function(require) {
           <p><strong>Private:</strong> Only you will be able to see this image</p>
           <p><strong>Specific Users:</strong> Only you and the users you specify will be able to see this image</p>
           <Visibility
+            instance={this.props.instance}
             value={this.state.visibility}
             onChange={this.onVisibilityChange}
           />
+          {this.renderUserList()}
         </div>
       );
     },
