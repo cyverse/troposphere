@@ -6,6 +6,7 @@ define(function (require) {
       stores = require('stores'),
       MachineSelect = require('components/modals/instance_launch/MachineSelect.react'),
       IdentitySelect = require('components/modals/instance_launch/IdentitySelect.react'),
+      modals = require('modals'),
       InstanceSizeSelect = require('components/modals/instance_launch/InstanceSizeSelect.react'),
       Glyphicon = require('components/common/Glyphicon.react');
 
@@ -340,6 +341,12 @@ define(function (require) {
       return this.renderProgressBar(message, currentlyUsedPercent, projectedPercent, overQuotaMessage);
     },
 
+    //renderRequestMoreResources: function(e){
+    //  e.preventDefault();
+    //  this.hide();
+    //  modals.HelpModals.requestMoreResources();
+    //},
+
     renderMemoryConsumption: function(identity, size, sizes, instances){
       var quota = identity.get('quota'),
           maximumAllowed = quota.memory,
@@ -462,6 +469,7 @@ define(function (require) {
             <h4>Projected Resource Usage</h4>
             {this.renderCpuConsumption(identity, size, sizes, instances)}
             {this.renderMemoryConsumption(identity, size, sizes, instances)}
+            <p><a href="#" onClick={this.props.onRequest}>Need more resources{String.fromCharCode(63)}</a></p>
           </div>
 
         </div>
