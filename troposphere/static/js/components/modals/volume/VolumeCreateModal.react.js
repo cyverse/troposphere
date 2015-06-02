@@ -288,7 +288,7 @@ define(
               <h4>Projected Resource Usage</h4>
               {this.renderStorageConsumption(identity, size, volumes)}
               {this.renderStorageCountConsumption(identity, size, volumes)}
-              <p><a href="#" onClick={this.handleResourceRequest}>Need more resources{String.fromCharCode(63)}</a></p>
+              <a className="modal-link" href="#" onClick={this.handleResourceRequest}>Need more resources{String.fromCharCode(63)}</a>
             </div>
 
           </div>

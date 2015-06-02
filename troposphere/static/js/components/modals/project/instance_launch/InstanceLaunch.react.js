@@ -463,7 +463,7 @@ define(function (require) {
             <h4>Projected Resource Usage</h4>
             {this.renderCpuConsumption(identity, size, sizes, instances)}
             {this.renderMemoryConsumption(identity, size, sizes, instances)}
-            <p><a href="#" onClick={this.props.onRequest}>Need more resources{String.fromCharCode(63)}</a></p>
+            <a className="modal-link" href="#" onClick={this.props.onRequest}>Need more resources{String.fromCharCode(63)}</a>
           </div>
 
         </div>
