@@ -15,7 +15,7 @@ define(function(require) {
     getDefaultProps: function() {
       return {
         visibility: "public",
-        imageUsers: []
+        imageUsers: new Backbone.Collection()
       };
     },
 
@@ -23,7 +23,7 @@ define(function(require) {
       return {
         visibility: this.props.visibility,
         users: this.props.users,
-        imageUsers: new Backbone.Collection()
+        imageUsers: this.props.imageUsers
       }
     },
 
@@ -34,13 +34,15 @@ define(function(require) {
 
     onPrevious: function(){
       this.props.onPrevious({
-        visibility: this.state.visibility
+        visibility: this.state.visibility,
+        imageUsers: this.state.imageUsers
       });
     },
 
     onNext: function(){
       this.props.onNext({
-        visibility: this.state.visibility
+        visibility: this.state.visibility,
+        imageUsers: this.state.imageUsers
       });
     },
 
@@ -51,8 +53,10 @@ define(function(require) {
     },
 
     onVisibilityChange: function(newVisibility){
+      // when we change visibility we should reset the user list to empty
       this.setState({
-        visibility: newVisibility
+        visibility: newVisibility,
+        imageUsers: new Backbone.Collection()
       });
     },
 

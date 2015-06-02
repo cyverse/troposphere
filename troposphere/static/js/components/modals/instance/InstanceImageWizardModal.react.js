@@ -27,6 +27,7 @@ define(function (require) {
         imageTags: null,
         providerId: null,
         visibility: "public",
+        imageUsers: null,
         filesToExclude: ""
       };
     },
@@ -124,6 +125,7 @@ define(function (require) {
             <VisibilityStep
               instance={instance}
               visibility={this.state.visibility}
+              imageUsers={this.state.imageUsers}
               onPrevious={this.onPrevious}
               onNext={this.onNext}
             />
