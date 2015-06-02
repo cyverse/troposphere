@@ -21,7 +21,7 @@ define(function (require) {
 
     getInitialState: function(){
       return {
-        step: 1,
+        step: 3,
         name: "",
         description: "",
         imageTags: null,

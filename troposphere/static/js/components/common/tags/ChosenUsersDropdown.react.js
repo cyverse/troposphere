@@ -9,6 +9,13 @@ define(function (require) {
   return React.createClass({
     mixins: [ChosenMixin],
 
+    propTypes: {
+      tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+      activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+      onTagAdded: React.PropTypes.func.isRequired,
+      onTagRemoved: React.PropTypes.func.isRequired
+    },
+
     //render: function(){
     //  return (
     //    <div>Chosen Users Dropdown</div>
@@ -25,13 +32,22 @@ define(function (require) {
 
     renderTag: function(tag){
       return (
-        <ChosenDropdownItem key={tag.id} tag={tag} onTagSelected={this.onAddUser}/>
+        <ChosenDropdownItem
+          key={tag.id}
+          tag={tag}
+          propertyName={'username'}
+          onTagSelected={this.props.onTagAdded}
+        />
       )
     },
 
     renderSelectedTag: function(tag){
       return (
-        <ChosenSelectedTag key={tag.id} tag={tag} onRemoveTag={this.onRemoveUser}/>
+        <ChosenSelectedTag
+          key={tag.id}
+          tag={tag}
+          onRemoveTag={this.props.onTagRemoved}
+        />
       )
     },
 
@@ -49,7 +65,7 @@ define(function (require) {
           placeholderText = "";
 
       filteredTags = filteredTags.filter(function(tag){
-        return tag.get('name').indexOf(this.state.searchText) > -1;
+        return tag.get('username').indexOf(this.state.searchText) > -1;
       }.bind(this));
 
       tags = filteredTags.map(this.renderTag);
@@ -57,24 +73,24 @@ define(function (require) {
       if(this.state.searchText && tags.length < 1){
         tags = (
           <li className="no-results">
-            No tag found. Press Enter to create a new tag for "<span>{this.state.searchText}</span>"
+            No users found with username "<span>{this.state.searchText}</span>"
           </li>
         )
       }else if(selectedTags.length === 0 && tags.length < 1){
         tags = (
           <li className="no-results">
-            No tags have been created yet.
+            No users exist.
           </li>
         )
       }else if(selectedTags.length > 0 && tags.length < 1){
         tags = (
           <li className="no-results">
-            All available tags have been added.
+            All available users have been added.
           </li>
         )
       }
 
-      placeholderText = selectedTags.length > 0 ? "" : "Select tags to add...";
+      placeholderText = selectedTags.length > 0 ? "" : "Select users to add...";
 
       return (
         <div className={classes} style={{"width": this.props.width || "614px"}}>

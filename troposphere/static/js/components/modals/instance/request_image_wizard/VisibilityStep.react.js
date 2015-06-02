@@ -14,13 +14,16 @@ define(function(require) {
 
     getDefaultProps: function() {
       return {
-        visibility: "public"
+        visibility: "public",
+        imageUsers: []
       };
     },
 
     getInitialState: function(){
       return {
-        visibility: this.props.visibility
+        visibility: this.props.visibility,
+        users: this.props.users,
+        imageUsers: new Backbone.Collection()
       }
     },
 
@@ -53,13 +56,29 @@ define(function(require) {
       });
     },
 
+    onAddUser: function(user){
+      var imageUsers = this.state.imageUsers;
+      imageUsers.add(user);
+      this.setState({
+        imageUsers: imageUsers
+      });
+    },
+
+    onRemoveUser: function(user){
+      var imageUsers = this.state.imageUsers;
+      imageUsers.remove(user);
+      this.setState({
+        imageUsers: imageUsers
+      })
+    },
+
     renderUserList: function(){
       if(this.state.visibility === "select"){
         return (
           <Users
-            onTagAdded={function(){}}
-            onTagRemoved={function(){}}
-            imageTags={stores.InstanceTagStore.getTagsFor(this.props.instance)}
+            imageUsers={this.state.imageUsers}
+            onUserAdded={this.onAddUser}
+            onUserRemoved={this.onRemoveUser}
           />
         )
       }

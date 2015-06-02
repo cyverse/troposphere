@@ -8,19 +8,19 @@ define(function (require) {
   return React.createClass({
 
     propTypes: {
-      onTagAdded: React.PropTypes.func.isRequired,
-      onTagRemoved: React.PropTypes.func.isRequired,
-      imageTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      onUserAdded: React.PropTypes.func.isRequired,
+      onUserRemoved: React.PropTypes.func.isRequired,
+      imageUsers: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
 
     render: function () {
       //var imageUsers = this.props.users,
       //    users = stores.UserStore.getAll();
 
-      var imageTags = this.props.imageTags,
-          tags = stores.TagStore.getAll();
+      var imageUsers = this.props.imageUsers,
+          users = stores.UserStore.getAll();
 
-      if(!tags) return <div className="loading"/>;
+      if(!users) return <div className="loading"/>;
 
       return (
         <div className="form-group">
@@ -30,10 +30,10 @@ define(function (require) {
               Please include users that should be able to launch this image.
             </div>
             <ChosenDropdown
-              tags={tags}
-              activeTags={imageTags}
-              onTagAdded={this.props.onTagAdded}
-              onTagRemoved={this.props.onTagRemoved}
+              tags={users}
+              activeTags={imageUsers}
+              onTagAdded={this.props.onUserAdded}
+              onTagRemoved={this.props.onUserRemoved}
               onEnterKeyPressed={function(){}}
               width={"100%"}
             />
