@@ -46,6 +46,7 @@ define(function (require) {
         <ChosenSelectedTag
           key={tag.id}
           tag={tag}
+          propertyName={'username'}
           onRemoveTag={this.props.onTagRemoved}
         />
       )
