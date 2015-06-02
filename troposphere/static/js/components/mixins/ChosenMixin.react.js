@@ -151,6 +151,84 @@ define(function (require) {
     onKeyUp: function(){
       this.scaleSearchField();
       this.filterSearchResults();
+    },
+
+    //
+    // Result render helpers
+    //
+
+    renderNoResultsForQueryListItem: function(query){
+      return (
+        <li className="no-results">
+          No users found with username "<span>{query}</span>"
+        </li>
+      )
+    },
+
+    renderNoDataListItem: function(){
+      return (
+        <li className="no-results">
+          No users exist.
+        </li>
+      );
+    },
+
+    renderAllAddedListItem: function(){
+      return (
+        <li className="no-results">
+          All available users have been added.
+        </li>
+      );
+    },
+
+    //
+    // Render
+    //
+
+    render: function () {
+      var cx = React.addons.classSet,
+          classes = cx({
+            'chosen-container': true,
+            'chosen-container-multi': true,
+            'chosen-with-drop': this.state.showOptions,
+            'chosen-container-active': this.state.showOptions
+          }),
+          selectedTags = this.props.activeTags.map(this.renderSelectedTag),
+          filteredTags = this.props.tags.difference(this.props.activeTags.models),
+          tags,
+          placeholderText = "";
+
+      filteredTags = filteredTags.filter(function(tag){
+        return tag.get('username').indexOf(this.state.searchText) > -1;
+      }.bind(this));
+
+      tags = filteredTags.map(this.renderTag);
+
+      if(this.state.searchText && tags.length < 1){
+        tags = this.renderNoResultsForQueryListItem();
+      }else if(selectedTags.length === 0 && tags.length < 1){
+        tags = this.renderNoDataListItem();
+      }else if(selectedTags.length > 0 && tags.length < 1){
+        tags = this.renderAllAddedListItem();
+      }
+
+      placeholderText = selectedTags.length > 0 ? "" : "Select users to add...";
+
+      return (
+        <div className={classes} style={{"width": this.props.width || "614px"}}>
+          <ul className="chosen-choices" onFocus={this.onEnterOptions}>
+            {selectedTags}
+            <li className="search-field">
+              <input type="text" placeholder={placeholderText} className="default" autoComplete="off" onKeyUp={this.onKeyUp}/>
+            </li>
+          </ul>
+          <div className="chosen-drop">
+            <ul className="chosen-results">
+              {tags}
+            </ul>
+          </div>
+        </div>
+      );
     }
 
     //render: function () {
