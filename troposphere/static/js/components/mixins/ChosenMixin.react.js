@@ -17,8 +17,8 @@ define(function (require) {
     propTypes: {
       tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
       activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-      onTagAdded: React.PropTypes.func.isRequired,
-      onTagRemoved: React.PropTypes.func.isRequired,
+      onModelAdded: React.PropTypes.func.isRequired,
+      onModelRemoved: React.PropTypes.func.isRequired,
       onEnterKeyPressed: React.PropTypes.func.isRequired,
       width: React.PropTypes.string
     },
@@ -39,12 +39,12 @@ define(function (require) {
     // check
     onTagSelected: function(selectedTag){
       this.closeDropdown();
-      this.props.onTagAdded(selectedTag);
+      this.props.onModelAdded(selectedTag);
     },
 
     // check
     onRemoveTag: function(tagToRemove){
-      this.props.onTagRemoved(tagToRemove);
+      this.props.onModelRemoved(tagToRemove);
     },
 
     // check

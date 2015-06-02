@@ -32,8 +32,8 @@ define(function (require) {
             <ChosenDropdown
               tags={users}
               activeTags={imageUsers}
-              onTagAdded={this.props.onUserAdded}
-              onTagRemoved={this.props.onUserRemoved}
+              onModelAdded={this.props.onUserAdded}
+              onModelRemoved={this.props.onUserRemoved}
               onEnterKeyPressed={function(){}}
               width={"100%"}
             />

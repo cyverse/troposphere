@@ -12,8 +12,8 @@ define(function (require) {
     propTypes: {
       tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
       activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-      onTagAdded: React.PropTypes.func.isRequired,
-      onTagRemoved: React.PropTypes.func.isRequired
+      onModelAdded: React.PropTypes.func.isRequired,
+      onModelRemoved: React.PropTypes.func.isRequired
     },
 
     renderTag: function(tag){
@@ -22,7 +22,7 @@ define(function (require) {
           key={tag.id}
           tag={tag}
           propertyName={'username'}
-          onTagSelected={this.props.onTagAdded}
+          onTagSelected={this.props.onModelAdded}
         />
       )
     },
@@ -33,7 +33,7 @@ define(function (require) {
           key={tag.id}
           tag={tag}
           propertyName={'username'}
-          onRemoveTag={this.props.onTagRemoved}
+          onRemoveTag={this.props.onModelRemoved}
         />
       )
     }
