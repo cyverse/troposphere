@@ -146,6 +146,7 @@ define(function (require) {
       var search_field = $node.find('input');
       var searchText = search_field.val();
       this.setState({searchText: searchText});
+      this.props.onQuery(searchText);
     },
 
     onKeyUp: function(){
@@ -156,6 +157,14 @@ define(function (require) {
     //
     // Result render helpers
     //
+
+    renderLoadingListItem: function(query){
+      return (
+        <li className="no-results">
+          <span>Searching for "{query}"...</span>
+        </li>
+      )
+    },
 
     renderNoResultsForQueryListItem: function(query){
       return (
@@ -187,32 +196,36 @@ define(function (require) {
 
     render: function () {
       var cx = React.addons.classSet,
+          tags = this.props.tags,
+          activeTags = this.props.activeTags,
+          query = this.props.query, // this.state.searchText
           classes = cx({
             'chosen-container': true,
             'chosen-container-multi': true,
-            'chosen-with-drop': this.state.showOptions,
-            'chosen-container-active': this.state.showOptions
+            'chosen-with-drop': !!query, //this.state.showOptions,
+            'chosen-container-active': !!query, //this.state.showOptions
           }),
-          selectedTags = this.props.activeTags.map(this.renderSelectedTag),
-          filteredTags = this.props.tags.difference(this.props.activeTags.models),
-          tags,
-          placeholderText = "";
 
-      filteredTags = filteredTags.filter(function(tag){
-        return tag.get('username').indexOf(this.state.searchText) > -1;
-      }.bind(this));
+          selectedTags = activeTags.map(this.renderSelectedTag),
+          placeholderText = selectedTags.length > 0 ? "" : "Select users to add...",
+          filteredTags,
+          tags;
 
-      tags = filteredTags.map(this.renderTag);
-
-      if(this.state.searchText && tags.length < 1){
-        tags = this.renderNoResultsForQueryListItem();
+      if(!tags){
+        tags = this.renderLoadingListItem(query);
+      }else if(query && tags.length < 1){
+        tags = this.renderNoResultsForQueryListItem(query);
       }else if(selectedTags.length === 0 && tags.length < 1){
         tags = this.renderNoDataListItem();
       }else if(selectedTags.length > 0 && tags.length < 1){
         tags = this.renderAllAddedListItem();
+      }else{
+        filteredTags = tags.difference(activeTags.models);
+        //filteredTags = filteredTags.filter(function(tag){
+        //  return tag.get('username').indexOf(query) > -1;
+        //}.bind(this));
+        tags = filteredTags.map(this.renderTag);
       }
-
-      placeholderText = selectedTags.length > 0 ? "" : "Select users to add...";
 
       return (
         <div className={classes} style={{"width": this.props.width || "614px"}}>
@@ -230,64 +243,6 @@ define(function (require) {
         </div>
       );
     }
-
-    //render: function () {
-    //  var cx = React.addons.classSet,
-    //      classes = cx({
-    //        'chosen-container': true,
-    //        'chosen-container-multi': true,
-    //        'chosen-with-drop': this.state.showOptions,
-    //        'chosen-container-active': this.state.showOptions
-    //      }),
-    //      selectedTags = this.props.activeTags.map(this.renderSelectedTag),
-    //      filteredTags = this.props.tags.difference(this.props.activeTags.models),
-    //      tags,
-    //      placeholderText = "";
-    //
-    //  filteredTags = filteredTags.filter(function(tag){
-    //    return tag.get('name').indexOf(this.state.searchText) > -1;
-    //  }.bind(this));
-    //
-    //  tags = filteredTags.map(this.renderTag);
-    //
-    //  if(this.state.searchText && tags.length < 1){
-    //    tags = (
-    //      <li className="no-results">
-    //        No tag found. Press Enter to create a new tag for "<span>{this.state.searchText}</span>"
-    //      </li>
-    //    )
-    //  }else if(selectedTags.length === 0 && tags.length < 1){
-    //    tags = (
-    //      <li className="no-results">
-    //        No tags have been created yet.
-    //      </li>
-    //    )
-    //  }else if(selectedTags.length > 0 && tags.length < 1){
-    //    tags = (
-    //      <li className="no-results">
-    //        All available tags have been added.
-    //      </li>
-    //    )
-    //  }
-    //
-    //  placeholderText = selectedTags.length > 0 ? "" : "Select tags to add...";
-    //
-    //  return (
-    //    <div className={classes} style={{"width": this.props.width || "614px"}}>
-    //      <ul className="chosen-choices" onFocus={this.onEnterOptions}>
-    //        {selectedTags}
-    //        <li className="search-field">
-    //          <input type="text" placeholder={placeholderText} className="default" autoComplete="off" onKeyUp={this.onKeyUp}/>
-    //        </li>
-    //      </ul>
-    //      <div className="chosen-drop">
-    //        <ul className="chosen-results">
-    //          {tags}
-    //        </ul>
-    //      </div>
-    //    </div>
-    //  );
-    //}
 
   };
 

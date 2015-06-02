@@ -13,14 +13,30 @@ define(function (require) {
       imageUsers: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
 
+    getInitialState: function(){
+      return {
+        query: ""
+      }
+    },
+
+    onQuery: function(query){
+      this.setState({query: query});
+    },
+
     render: function () {
-      //var imageUsers = this.props.users,
-      //    users = stores.UserStore.getAll();
-
       var imageUsers = this.props.imageUsers,
-          users = stores.UserStore.getAll();
+          query = this.state.query,
+          users;
 
-      if(!users) return <div className="loading"/>;
+      if(this.state.query){
+        users = stores.UserStore.fetchWhere({
+          search: query
+        });
+      }else{
+        users = stores.UserStore.getAll();
+      }
+
+      //if(!users) return <div className="loading"/>;
 
       return (
         <div className="form-group">
@@ -36,6 +52,8 @@ define(function (require) {
               onModelRemoved={this.props.onUserRemoved}
               onEnterKeyPressed={function(){}}
               width={"100%"}
+              query={query}
+              onQuery={this.onQuery}
             />
           </div>
         </div>

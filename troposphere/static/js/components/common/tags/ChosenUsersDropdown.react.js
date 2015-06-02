@@ -10,8 +10,10 @@ define(function (require) {
     mixins: [ChosenMixin],
 
     propTypes: {
-      tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+      tags: React.PropTypes.instanceOf(Backbone.Collection),
       activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+      query: React.PropTypes.string,
+      onQuery: React.PropTypes.func.isRequired,
       onModelAdded: React.PropTypes.func.isRequired,
       onModelRemoved: React.PropTypes.func.isRequired
     },
