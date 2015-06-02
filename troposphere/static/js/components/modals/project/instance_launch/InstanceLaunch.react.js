@@ -341,12 +341,6 @@ define(function (require) {
       return this.renderProgressBar(message, currentlyUsedPercent, projectedPercent, overQuotaMessage);
     },
 
-    //renderRequestMoreResources: function(e){
-    //  e.preventDefault();
-    //  this.hide();
-    //  modals.HelpModals.requestMoreResources();
-    //},
-
     renderMemoryConsumption: function(identity, size, sizes, instances){
       var quota = identity.get('quota'),
           maximumAllowed = quota.memory,
