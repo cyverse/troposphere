@@ -131,6 +131,15 @@
 
   }
 
+  .resource-header{
+    font-size: 28px;
+    border-bottom: 1px solid #dddddd;
+    a{
+      font-size: initial;
+      margin-left: 2%;
+    }
+  }
+
   .instance-history {
 
     ul {
