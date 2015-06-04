@@ -117,16 +117,8 @@
 
 .chosen-container-external-multi {
   .chosen-choices {
-    //background-color: $chosen-background;
-    //border: $chosen-border;
-    //@include border-top-radius($chosen-multi-border-radius);
-    //@include border-bottom-radius($chosen-multi-border-radius);
-    //@include box-shadow($chosen-box-shadow);
     cursor: text;
-    //height: auto !important;
-    //height: 1%;
     margin: 0;
-    //overflow: hidden;
     padding: 0;
     position: relative;
     margin-bottom: 3px;
@@ -134,27 +126,6 @@
     li {
       float: left;
       list-style: none;
-    }
-
-    .search-field {
-      margin: 0;
-      padding: 0;
-      white-space: nowrap;
-
-      input[type="text"] {
-        background: transparent !important;
-        border: 0 !important;
-        @include box-shadow(none);
-        color: $gray;
-        height: $chosen-multi-height - 8px;
-        margin: 0;
-        padding: 4px;
-        outline: 0;
-      }
-
-      .default {
-        color: #999;
-      }
     }
 
     .search-choice {
@@ -209,46 +180,6 @@
     .result-selected {
       display: none;
     }
-  }
-}
-
-.chosen-container-external-active {
-  .chosen-single {
-    border: $chosen-focus-border;
-    @include box-shadow($chosen-focus-box-shadow);
-    @include transition($chosen-focus-transition);
-  }
-
-  &.chosen-with-drop .chosen-single {
-    background-color: $input-bg;
-    border: $chosen-focus-border;
-    @include border-bottom-radius(0);
-    @include box-shadow($chosen-focus-box-shadow);
-    @include transition($chosen-focus-transition);
-
-    div {
-      background: transparent;
-      border-left: none;
-
-      b {
-        background-position: -18px 7px;
-      }
-    }
-  }
-
-  .chosen-choices {
-    border: $chosen-focus-border;
-    @include border-bottom-radius(0);
-    @include box-shadow($chosen-focus-box-shadow);
-    @include transition($chosen-focus-transition);
-
-    .search-field input[type="text"] {
-      color: #111 !important;
-    }
-  }
-
-  &.chosen-with-drop .chosen-choices {
-    @include border-bottom-radius(0);
   }
 }
 
