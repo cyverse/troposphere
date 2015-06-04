@@ -4,7 +4,7 @@ define(function (require) {
       Backbone = require('backbone'),
       ChosenDropdownItem = require('./ChosenDropdownItem.react'),
       ChosenSelectedTag = require('./ChosenSelectedTag.react'),
-      ChosenMixin = require('components/mixins/ChosenMixin.react');
+      ChosenMixin = require('components/mixins/ChosenMixinExternal.react');
 
   return React.createClass({
     mixins: [ChosenMixin],
