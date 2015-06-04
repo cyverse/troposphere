@@ -19,7 +19,12 @@ define(function (require) {
       }
     },
 
-    onQuery: function(query){
+    onUserAdded: function(user){
+      this.setState({query: ""});
+      this.props.onUserAdded(user);
+    },
+
+    onQueryChange: function(query){
       this.setState({query: query});
     },
 
@@ -48,12 +53,11 @@ define(function (require) {
             <ChosenDropdown
               tags={users}
               activeTags={imageUsers}
-              onModelAdded={this.props.onUserAdded}
+              onModelAdded={this.onUserAdded}
               onModelRemoved={this.props.onUserRemoved}
               onEnterKeyPressed={function(){}}
               width={"100%"}
-              query={query}
-              onQuery={this.onQuery}
+              onQueryChange={this.onQueryChange}
             />
           </div>
         </div>

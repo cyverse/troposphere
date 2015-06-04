@@ -12,8 +12,7 @@ define(function (require) {
     propTypes: {
       tags: React.PropTypes.instanceOf(Backbone.Collection),
       activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-      query: React.PropTypes.string,
-      onQuery: React.PropTypes.func.isRequired,
+      onQueryChange: React.PropTypes.func.isRequired,
       onModelAdded: React.PropTypes.func.isRequired,
       onModelRemoved: React.PropTypes.func.isRequired
     },
@@ -24,7 +23,7 @@ define(function (require) {
           key={tag.id}
           tag={tag}
           propertyName={'username'}
-          onTagSelected={this.props.onModelAdded}
+          onTagSelected={this.onModelAdded}
         />
       )
     },

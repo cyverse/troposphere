@@ -10,7 +10,7 @@ define(function (require) {
     getInitialState: function(){
       return {
         showOptions: false,
-        searchText: ""
+        query: ""
       }
     },
 
@@ -144,9 +144,22 @@ define(function (require) {
       var node = this.getDOMNode();
       var $node = $(node);
       var search_field = $node.find('input');
-      var searchText = search_field.val();
-      this.setState({searchText: searchText});
-      this.props.onQuery(searchText);
+      var query = search_field.val();
+      this.setState({query: query});
+      this.props.onQueryChange(query);
+    },
+
+    onModelAdded: function(model){
+      //this.setState({query: ""});
+      this.props.onModelAdded(model);
+      this.clearSearchField();
+    },
+
+    clearSearchField: function(){
+      var input = this.refs.searchField.getDOMNode();
+      input.value = "";
+      input.focus();
+      this.setState({query: ""});
     },
 
     onKeyUp: function(){
@@ -170,6 +183,14 @@ define(function (require) {
       return (
         <li className="no-results">
           No users found with username "<span>{query}</span>"
+        </li>
+      )
+    },
+
+    renderAlreadyAddedAllUsersMatchingQueryListItem: function(query){
+      return (
+        <li className="no-results">
+          All users matching "<span>{query}</span>" have been added.
         </li>
       )
     },
@@ -198,12 +219,13 @@ define(function (require) {
       var cx = React.addons.classSet,
           tags = this.props.tags,
           activeTags = this.props.activeTags,
-          query = this.props.query, // this.state.searchText
+          //query = this.props.query,
+          query = this.state.query,
           classes = cx({
             'chosen-container': true,
             'chosen-container-multi': true,
             'chosen-with-drop': !!query, //this.state.showOptions,
-            'chosen-container-active': !!query, //this.state.showOptions
+            'chosen-container-active': !!query //this.state.showOptions
           }),
 
           selectedTags = activeTags.map(this.renderSelectedTag),
@@ -220,11 +242,20 @@ define(function (require) {
       }else if(selectedTags.length > 0 && tags.length < 1){
         tags = this.renderAllAddedListItem();
       }else{
-        filteredTags = tags.difference(activeTags.models);
-        //filteredTags = filteredTags.filter(function(tag){
-        //  return tag.get('username').indexOf(query) > -1;
-        //}.bind(this));
-        tags = filteredTags.map(this.renderTag);
+        //filteredTags = tags.difference(activeTags);
+        filteredTags = tags.filter(function(tag){
+          return activeTags.filter(function(activeTag){
+            return tag.id === activeTag.id;
+          }).length === 0;
+        });
+        if(tags.length > 0 && filteredTags.length === 0){
+          tags = this.renderAlreadyAddedAllUsersMatchingQueryListItem(query);
+        }else{
+          //filteredTags = filteredTags.filter(function(tag){
+          //  return tag.get('username').indexOf(query) > -1;
+          //}.bind(this));
+          tags = filteredTags.map(this.renderTag);
+        }
       }
 
       return (
@@ -232,7 +263,15 @@ define(function (require) {
           <ul className="chosen-choices" onFocus={this.onEnterOptions}>
             {selectedTags}
             <li className="search-field">
-              <input type="text" placeholder={placeholderText} className="default" autoComplete="off" onKeyUp={this.onKeyUp}/>
+              <input
+                ref="searchField"
+                //value={query}
+                type="text"
+                placeholder={placeholderText}
+                className="default"
+                autoComplete="off"
+                onKeyUp={this.onKeyUp}
+              />
             </li>
           </ul>
           <div className="chosen-drop">
