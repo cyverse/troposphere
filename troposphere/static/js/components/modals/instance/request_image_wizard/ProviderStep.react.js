@@ -44,13 +44,6 @@ define(function(require) {
     renderBody: function (instance) {
       return (
         <div>
-          <p>
-            {
-              "Please select the provider you would like this image to be available on. If you would " +
-              "like the image to be available on multiple clouds please contact support through the Feedback " +
-              "button in footer and we will be help you out."
-            }
-          </p>
           <Provider
             providerId={this.state.providerId}
             onChange={this.onProviderChange}

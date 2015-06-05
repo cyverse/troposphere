@@ -32,7 +32,11 @@ define(function (require) {
         <div className="form-group">
           <label htmlFor="provider" className="control-label">Cloud for Deployment</label>
           <div className="help-block">
-            Select the cloud provider on which you plan to use this image.
+            {
+              "Please select the provider you would like this image to be available on. If you would " +
+              "like the image to be available on multiple clouds please contact support through the Feedback " +
+              "button in footer and we will be help you out."
+            }
           </div>
           <select value={providerId} name="provider" className="form-control" onChange={this.handleChange}>
             {providers.map(this.renderProviderOption)}

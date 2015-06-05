@@ -79,6 +79,11 @@ define(function(require) {
               "provide here will be the primary means for others to discover this image."
             }
           </p>
+          <p>
+            {
+              "Fields marked with * are required."
+            }
+          </p>
           <Name
             create={this.state.checkCreate}
             value={this.state.name}
