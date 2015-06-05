@@ -23,52 +23,8 @@ define(function (require) {
       width: React.PropTypes.string
     },
 
-    componentDidMount: function(){
-      //this.setupChosenForm();
-    },
-
-    setupChosenForm: function(){
-      var el = this.getDOMNode(),
-          $el = $(el);
-
-      $el.find('.search-field input')
-         .keyup(this.props.onEnterKeyPressed);
-    },
-
-    // check
-    onTagSelected: function(selectedTag){
-      this.closeDropdown();
-      this.props.onModelAdded(selectedTag);
-    },
-
-    // check
-    onRemoveTag: function(tagToRemove){
-      this.props.onModelRemoved(tagToRemove);
-    },
-
-    // check
-    //renderTag: function(tag){
-    //  return (
-    //    <ChosenDropdownItem key={tag.id} tag={tag} onTagSelected={this.onTagSelected}/>
-    //  )
-    //},
-    //
-    //// check
-    //renderSelectedTag: function(tag){
-    //  return (
-    //    <ChosenSelectedTag key={tag.id} tag={tag} onRemoveTag={this.onRemoveTag}/>
-    //  )
-    //},
-
     closeDropdown: function(){
       this.setState({showOptions: false});
-    },
-
-    _getContainer: function(){
-      var $node = $(this.getDOMNode()),
-          container = $node.find('.chosen-container');
-
-      return container;
     },
 
     onEnterOptions: function(e){
@@ -123,10 +79,6 @@ define(function (require) {
       this.setState({query: ""});
     },
 
-    onKeyUp: function(){
-      this.filterSearchResults();
-    },
-
     //
     // Result render helpers
     //
@@ -176,22 +128,19 @@ define(function (require) {
     //
 
     render: function () {
-      var cx = React.addons.classSet,
-          tags = this.props.tags,
+      var tags = this.props.tags,
           activeTags = this.props.activeTags,
-          //query = this.props.query,
           query = this.state.query,
-          classes = cx({
-            'chosen-container-external': true,
-            'chosen-container-external-multi': true,
-            'chosen-with-drop': !!query, //this.state.showOptions,
-            'chosen-container-external-active': !!query //this.state.showOptions
-          }),
-
           selectedTags = activeTags.map(this.renderSelectedTag),
           placeholderText = selectedTags.length > 0 ? "" : "Select users to add...",
           filteredTags,
-          tags;
+          tags,
+          classes = React.addons.classSet({
+            'chosen-container-external': true,
+            'chosen-container-external-multi': true,
+            'chosen-with-drop': this.state.showOptions && query,
+            'chosen-container-external-active': this.state.showOptions
+          });
 
       if(!tags){
         tags = this.renderLoadingListItem(query);
@@ -202,7 +151,7 @@ define(function (require) {
       }else if(selectedTags.length > 0 && tags.length < 1){
         tags = this.renderAllAddedListItem();
       }else{
-        //filteredTags = tags.difference(activeTags);
+        // filter out results that have already been added
         filteredTags = tags.filter(function(tag){
           return activeTags.filter(function(activeTag){
             return tag.id === activeTag.id;
@@ -211,9 +160,6 @@ define(function (require) {
         if(tags.length > 0 && filteredTags.length === 0){
           tags = this.renderAlreadyAddedAllUsersMatchingQueryListItem(query);
         }else{
-          //filteredTags = filteredTags.filter(function(tag){
-          //  return tag.get('username').indexOf(query) > -1;
-          //}.bind(this));
           tags = filteredTags.map(this.renderTag);
         }
       }
@@ -222,16 +168,6 @@ define(function (require) {
         <div className={classes} style={{"width": this.props.width || "614px"}}>
           <ul className="chosen-choices clearfix" onFocus={this.onEnterOptions}>
             {selectedTags}
-            {
-              //<li className="search-choice">
-              //  <span>jchansen</span>
-              //  <a className="search-choice-close"></a>
-              //</li>
-              //<li className="search-choice">
-              //  <span>dahanr</span>
-              //  <a className="search-choice-close"></a>
-              //</li>
-            }
           </ul>
           <input
             type="text"
@@ -239,43 +175,14 @@ define(function (require) {
             className="form-control"
             placeholder="Search by username..."
             autoComplete="off"
-            onKeyUp={this.onKeyUp}
+            onKeyUp={this.filterSearchResults}
+            onFocus={this.onEnterOptions}
           />
-          {
-            <div className="chosen-drop">
-              <ul className="chosen-results">
-                {tags}
-              </ul>
-            </div>
-          }
-        </div>
-      );
-
-      return (
-        <div className={classes} style={{"width": this.props.width || "614px"}}>
-          <ul className="chosen-choices" onFocus={this.onEnterOptions}>
-            {selectedTags}
-            {
-              //<li className="search-field">
-              //  <input
-              //    ref="searchField"
-              //    //value={query}
-              //    type="text"
-              //    placeholder={placeholderText}
-              //    className="default"
-              //    autoComplete="off"
-              //    onKeyUp={this.onKeyUp}
-              //  />
-              //</li>
-            }
-          </ul>
-          {
-            //<div className="chosen-drop">
-            //  <ul className="chosen-results">
-            //    {tags}
-            //  </ul>
-            //</div>
-          }
+          <div className="chosen-drop">
+            <ul className="chosen-results">
+              {tags}
+            </ul>
+          </div>
         </div>
       );
     }
