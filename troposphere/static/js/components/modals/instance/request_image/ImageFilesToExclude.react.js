@@ -16,27 +16,38 @@ define(function (require) {
 
     render: function () {
       var styles = this.props.styles,
-          label = "Files to exclude",
-          description = "If your instance has files you'd like to exclude from the image, list them here. Write one path per line.",
-          name = "exclude",
           value = this.props.value;
 
       return (
         <div className="form-group" style={styles}>
           <label htmlFor={name} className="control-label">
-            {label}
+            Files to exclude
           </label>
           <div className="help-block">
-            {description}
+            <p>
+              {
+                "The following directories will automatically be excluded from the image:"
+              }
+            </p>
+            <div>/folder1</div>
+            <div>/folder2/sub-folder</div>
+            <div>/folder3/sub-folder/sub-sub-folder</div>
+            <div>/folder4/sub-folder/sub-sub-folder</div>
+          </div>
+          <div className="help-block">
+            {
+              "If your instance has additional files or directories you'd like to " +
+              "exclude, please list them here. Write one path per line."
+            }
           </div>
           <textarea
             value={value}
-            name={name}
+            name={"exclude"}
             rows="4"
             className="form-control"
             placeholder="Files to exclude (if applicable)..."
             onChange={this.handleChange}
-          />
+            />
         </div>
       );
     }

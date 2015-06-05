@@ -49,17 +49,6 @@ define(function(require) {
     renderBody: function () {
       return (
         <div>
-          <p>
-            {
-              "Please list any files or folders you would like to include. Be default, " +
-              "we exclude the following directories during the image process:"
-            }
-          </p>
-          <p>/folder1</p>
-          <p>/folder2/sub-folder</p>
-          <p>/folder3/sub-folder/sub-sub-folder</p>
-          <p>/folder4/sub-folder/sub-sub-folder</p>
-
           <FileToExclude
             value={this.state.filesToExclude}
             onChange={this.onFilesChange}

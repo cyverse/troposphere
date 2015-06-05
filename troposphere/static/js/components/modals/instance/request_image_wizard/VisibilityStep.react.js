@@ -91,10 +91,6 @@ define(function(require) {
     renderBody: function () {
       return (
         <div>
-          <p>Please select the level of visibility this image should have.</p>
-          <p><strong>Public:</strong> All users will be able to see this image</p>
-          <p><strong>Private:</strong> Only you will be able to see this image</p>
-          <p><strong>Specific Users:</strong> Only you and the users you specify will be able to see this image</p>
           <Visibility
             instance={this.props.instance}
             value={this.state.visibility}
