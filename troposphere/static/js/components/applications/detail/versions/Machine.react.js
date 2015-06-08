@@ -41,7 +41,17 @@ define(function (require) {
       return (<li>{provider}</li>);
     },
     render: function () {
-      return <li><h1>FIX ME PLEASE!!</h1></li>;
+      return (
+        <li>
+          <h1>
+            {
+              "FIX ME PLEASE!! " +
+              "Need to implement api/v2/provider_machines?application_version__application__id=902. " +
+              "See ProviderMachineStore."
+            }
+          </h1>
+        </li>
+      );
 
       // todo: figure out if anything is ever recommended, or if it's just a concept idea
       var common_format = "M/DD/YYYY",
