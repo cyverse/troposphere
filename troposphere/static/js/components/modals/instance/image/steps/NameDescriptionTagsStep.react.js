@@ -2,9 +2,9 @@ define(function(require) {
 
   var React = require('react'),
       Backbone = require('backbone'),
-      Name = require('../request_image/Name.react'),
-      Description = require('../request_image/Description.react'),
-      Tags = require('../request_image/Tags.react'),
+      Name = require('../components/Name.react'),
+      Description = require('../components/Description.react'),
+      Tags = require('../components/Tags.react'),
       stores = require('stores');
 
   return React.createClass({

@@ -2,7 +2,7 @@ define(function(require) {
 
   var React = require('react'),
       Backbone = require('backbone'),
-      FileToExclude = require('../request_image/FilesToExclude.react'),
+      FileToExclude = require('../components/FilesToExclude.react'),
       stores = require('stores');
 
   return React.createClass({

@@ -1,15 +1,14 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
       _ = require('underscore'),
       BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
       stores = require('stores'),
-      NameDescriptionTagsStep = require('./request_image_wizard/NameDescriptionTagsStep.react'),
-      ProviderStep = require('./request_image_wizard/ProviderStep.react'),
-      VisibilityStep = require('./request_image_wizard/VisibilityStep.react'),
-      FilesToExcludeStep = require('./request_image_wizard/FilesToExcludeStep.react'),
-      ReviewStep = require('./request_image_wizard/ReviewStep.react');
+      NameDescriptionTagsStep = require('./image/steps/NameDescriptionTagsStep.react'),
+      ProviderStep = require('./image/steps/ProviderStep.react'),
+      VisibilityStep = require('./image/steps/VisibilityStep.react'),
+      FilesToExcludeStep = require('./image/steps/FilesToExcludeStep.react'),
+      ReviewStep = require('./image/steps/ReviewStep.react');
 
   return React.createClass({
     mixins: [BootstrapModalMixin],

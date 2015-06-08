@@ -2,9 +2,9 @@ define(function(require) {
 
   var React = require('react'),
       Backbone = require('backbone'),
-      Visibility = require('../request_image/Visibility.react'),
+      Visibility = require('../components/Visibility.react'),
       stores = require('stores'),
-      Users = require('../request_image/Users.react');
+      Users = require('../components/Users.react');
 
   return React.createClass({
 
