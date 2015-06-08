@@ -29,10 +29,10 @@ define(function (require) {
                 "The following directories will automatically be excluded from the image:"
               }
             </p>
-            <div>/folder1</div>
-            <div>/folder2/sub-folder</div>
-            <div>/folder3/sub-folder/sub-sub-folder</div>
-            <div>/folder4/sub-folder/sub-sub-folder</div>
+            <div>/home/</div>
+            <div>/mnt/</div>
+            <div>/tmp/</div>
+            <div>/root/</div>
           </div>
           <div className="help-block">
             {
