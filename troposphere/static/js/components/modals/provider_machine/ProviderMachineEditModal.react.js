@@ -62,6 +62,7 @@ define(function (require) {
       if (state.machineApplicationID === null) {
         state.machineApplicationID = current_app.id
       }
+
       if (applications) {
         selectedApplication = applications.get(state.machineApplicationID);
         // Since providers requires authentication, we can't display which providers
@@ -69,13 +70,16 @@ define(function (require) {
         state.image = selectedApplication;
         state.visibility = selectedApplication.get('private') ? "select" : "public";
       }
+
       if(providers) {
         state.providers = providers;
       }
+
       if(all_users) {
         state.all_users = all_users;
         state.machineMemberships = stores.UserStore.getUsersFromList(state.machineVersion.membership);
       }
+      
       return state;
     },
 
