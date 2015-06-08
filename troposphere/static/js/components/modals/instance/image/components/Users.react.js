@@ -3,7 +3,7 @@ define(function (require) {
   var React = require('react'),
       Backbone = require('backbone'),
       stores = require('stores'),
-      ChosenDropdown = require('components/common/tags/ChosenUsersDropdown.react');
+      ChosenDropdown = require('components/common/tags/UserMultiSelect.react');
 
   return React.createClass({
 
@@ -58,6 +58,7 @@ define(function (require) {
               onEnterKeyPressed={function(){}}
               width={"100%"}
               onQueryChange={this.onQueryChange}
+              placeholderText="Search by username..."
             />
           </div>
         </div>

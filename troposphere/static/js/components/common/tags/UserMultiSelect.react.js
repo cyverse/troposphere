@@ -17,6 +17,22 @@ define(function (require) {
       onModelRemoved: React.PropTypes.func.isRequired
     },
 
+    getNoResultsPhrase: function(query){
+      return 'No users found matching "' + query + '"';
+    },
+
+    getNoDataPhrase: function(){
+      return "No users exist";
+    },
+
+    getAllResultsAddedPhrase: function(){
+      return "All users have been added";
+    },
+
+    getAllAddedMatchingQueryPhrase: function(query){
+      return 'All users matching "' + query + '" have been added'
+    },
+
     renderTag: function(tag){
       return (
         <ChosenDropdownItem

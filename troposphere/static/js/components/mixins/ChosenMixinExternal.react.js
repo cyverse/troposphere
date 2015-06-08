@@ -5,7 +5,13 @@ define(function (require) {
       //ChosenDropdownItem = require('./ChosenDropdownItem.react'),
       //ChosenSelectedTag = require('./ChosenSelectedTag.react');
 
+  var ENTER_KEY = 13;
+
   return {
+
+    propTypes: {
+      placeholderText: React.PropTypes.string.isRequired
+    },
 
     getInitialState: function(){
       return {
@@ -14,8 +20,14 @@ define(function (require) {
       }
     },
 
+    getDefaultProps: function(){
+      return {
+        placeholderText: "Search..."
+      }
+    },
+
     propTypes: {
-      tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+      models: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
       activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
       onModelAdded: React.PropTypes.func.isRequired,
       onModelRemoved: React.PropTypes.func.isRequired,
@@ -57,6 +69,12 @@ define(function (require) {
       return false;
     },
 
+    onEnter: function(e){
+      if(e.which !== ENTER_KEY) return;
+      if(this.props.onEnterKeyPressed) this.props.onEnterKeyPressed(e);
+      this.clearSearchField();
+    },
+
     filterSearchResults: function() {
       var node = this.getDOMNode();
       var $node = $(node);
@@ -67,7 +85,6 @@ define(function (require) {
     },
 
     onModelAdded: function(model){
-      //this.setState({query: ""});
       this.props.onModelAdded(model);
       this.clearSearchField();
     },
@@ -85,42 +102,32 @@ define(function (require) {
 
     renderLoadingListItem: function(query){
       return (
-        <li className="no-results">
-          <span>Searching for "{query}"...</span>
-        </li>
+        <li className="no-results">Searching for "{query}"...</li>
       )
     },
 
     renderNoResultsForQueryListItem: function(query){
-      return (
-        <li className="no-results">
-          No users found with username "<span>{query}</span>"
-        </li>
-      )
+      var phrase = 'No results found matching "' + query + '"';
+      if(this.getNoResultsPhrase) phrase = this.getNoResultsPhrase(query);
+      return <li className="no-results">{phrase}</li>;
     },
 
     renderAlreadyAddedAllUsersMatchingQueryListItem: function(query){
-      return (
-        <li className="no-results">
-          All users matching "<span>{query}</span>" have been added.
-        </li>
-      )
+      var phrase = 'All results matching "' + query + '" have been added';
+      if(this.getAllAddedMatchingQueryPhrase) phrase = this.getAllAddedMatchingQueryPhrase(query);
+      return <li className="no-results">{phrase}</li>;
     },
 
     renderNoDataListItem: function(){
-      return (
-        <li className="no-results">
-          No users exist.
-        </li>
-      );
+      var phrase = 'No results exist';
+      if(this.getNoDataPhrase) phrase = this.getNoDataPhrase();
+      return <li className="no-results">{phrase}</li>;
     },
 
     renderAllAddedListItem: function(){
-      return (
-        <li className="no-results">
-          All available users have been added.
-        </li>
-      );
+      var phrase = 'All results have been added';
+      if(this.getAllResultsAddedPhrase) phrase = this.getAllResultsAddedPhrase();
+      return <li className="no-results">{phrase}</li>;
     },
 
     //
@@ -128,39 +135,39 @@ define(function (require) {
     //
 
     render: function () {
-      var tags = this.props.tags,
+      var models = this.props.models,
           activeTags = this.props.activeTags,
           query = this.state.query,
           selectedTags = activeTags.map(this.renderSelectedTag),
-          placeholderText = selectedTags.length > 0 ? "" : "Select users to add...",
-          filteredTags,
-          tags,
+          placeholderText = this.props.placeholderText,
+          filteredModels,
           classes = React.addons.classSet({
             'chosen-container-external': true,
             'chosen-container-external-multi': true,
             'chosen-with-drop': this.state.showOptions && query,
             'chosen-container-external-active': this.state.showOptions
-          });
+          }),
+          results;
 
-      if(!tags){
-        tags = this.renderLoadingListItem(query);
-      }else if(query && tags.length < 1){
-        tags = this.renderNoResultsForQueryListItem(query);
-      }else if(selectedTags.length === 0 && tags.length < 1){
-        tags = this.renderNoDataListItem();
-      }else if(selectedTags.length > 0 && tags.length < 1){
-        tags = this.renderAllAddedListItem();
+      if(!models){
+        results = this.renderLoadingListItem(query);
+      }else if(query && models.length < 1){
+        results = this.renderNoResultsForQueryListItem(query);
+      }else if(selectedTags.length === 0 && models.length < 1){
+        results = this.renderNoDataListItem();
+      }else if(selectedTags.length > 0 && models.length < 1){
+        results = this.renderAllAddedListItem();
       }else{
         // filter out results that have already been added
-        filteredTags = tags.filter(function(tag){
+        filteredModels = models.filter(function(model){
           return activeTags.filter(function(activeTag){
-            return tag.id === activeTag.id;
+            return model.id === activeTag.id;
           }).length === 0;
         });
-        if(tags.length > 0 && filteredTags.length === 0){
-          tags = this.renderAlreadyAddedAllUsersMatchingQueryListItem(query);
+        if(models.length > 0 && filteredModels.length === 0){
+          results = this.renderAlreadyAddedAllUsersMatchingQueryListItem(query);
         }else{
-          tags = filteredTags.map(this.renderTag);
+          results = filteredModels.map(this.renderTag);
         }
       }
 
@@ -173,14 +180,15 @@ define(function (require) {
             type="text"
             ref="searchField"
             className="form-control"
-            placeholder="Search by username..."
+            placeholder={placeholderText}
             autoComplete="off"
+            onKeyDown={this.onEnter}
             onKeyUp={this.filterSearchResults}
             onFocus={this.onEnterOptions}
           />
           <div className="chosen-drop">
             <ul className="chosen-results">
-              {tags}
+              {results}
             </ul>
           </div>
         </div>
