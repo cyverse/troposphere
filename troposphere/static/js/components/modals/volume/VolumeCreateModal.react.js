@@ -285,10 +285,14 @@ define(
             </div>
 
             <div className="modal-section">
-              <h4>Projected Resource Usage</h4>
+              <h4>
+                <span>Projected Resource Usage</span>
+                <a className="modal-link" href="#" onClick={this.handleResourceRequest}>
+                  {"Need more resources?"}
+                </a>
+              </h4>
               {this.renderStorageConsumption(identity, size, volumes)}
               {this.renderStorageCountConsumption(identity, size, volumes)}
-              <a className="modal-link" href="#" onClick={this.handleResourceRequest}>Need more resources{String.fromCharCode(63)}</a>
             </div>
 
           </div>

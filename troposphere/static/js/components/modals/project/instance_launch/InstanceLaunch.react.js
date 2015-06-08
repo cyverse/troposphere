@@ -460,10 +460,14 @@ define(function (require) {
           </div>
 
           <div className='form-group' className="modal-section">
-            <h4>Projected Resource Usage</h4>
+            <h4>
+              <span>Projected Resource Usage</span>
+              <a className="modal-link" href="#" onClick={this.props.onRequest}>
+                {"Need more resources?"}
+              </a>
+            </h4>
             {this.renderCpuConsumption(identity, size, sizes, instances)}
             {this.renderMemoryConsumption(identity, size, sizes, instances)}
-            <a className="modal-link" href="#" onClick={this.props.onRequest}>Need more resources{String.fromCharCode(63)}</a>
           </div>
 
         </div>
