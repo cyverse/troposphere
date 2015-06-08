@@ -79,7 +79,7 @@ define(function (require) {
         state.all_users = all_users;
         state.machineMemberships = stores.UserStore.getUsersFromList(state.machineVersion.membership);
       }
-      
+
       return state;
     },
 
