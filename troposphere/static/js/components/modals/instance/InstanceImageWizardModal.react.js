@@ -21,7 +21,7 @@ define(function (require) {
 
     getInitialState: function(){
       return {
-        step: 3,
+        step: 1,
         name: "",
         description: "",
         imageTags: null,
@@ -63,8 +63,11 @@ define(function (require) {
       var params = {
         name: this.state.name,
         description: this.state.description,
+        tags: this.state.imageTags,
         providerId: this.state.providerId,
-        tags: this.state.tags
+        visibility: this.state.visibility,
+        imageUsers: this.state.imageUsers,
+        filesToExclude: this.state.filesToExclude.trim()
       };
       this.hide();
       this.props.onConfirm(params);
