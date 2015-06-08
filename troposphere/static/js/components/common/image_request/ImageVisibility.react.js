@@ -35,7 +35,7 @@ define(function (require) {
             return (
                 <div className="form-group">
                     <label htmlFor="vis" className="control-label">Image Visibility</label>
-                    <div className="help-block" id="vis_help">
+                    <div className="help-block">
                         A VM image can be made visible to you, a select group of users or to
                         everyone. If you want visibility restricted to a select group of users, provide us a list of iPlant
                         usernames. Public visibility means that any user will be able to launch the instance.

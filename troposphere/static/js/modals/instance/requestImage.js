@@ -2,7 +2,7 @@ define(function (require) {
   "use strict";
 
   var ModalHelpers = require('components/modals/ModalHelpers'),
-      InstanceImageModal = require('components/modals/instance/InstanceImageModal.react'),
+      InstanceImageWizardModal = require('components/modals/instance/InstanceImageWizardModal.react'),
       actions = require('actions');
 
   return {
@@ -11,7 +11,7 @@ define(function (require) {
       if(!params.instance) throw new Error("Missing instance");
 
       var instance = params.instance,
-          modal = InstanceImageModal({
+          modal = InstanceImageWizardModal({
             instance: instance
           });
 
@@ -20,12 +20,13 @@ define(function (require) {
           instance: instance,
           name: params.name,
           description: params.description,
+          tags: params.tags,
           providerId: params.providerId,
-          software: params.software || "No software provided",
-          filesToExclude: params.filesToExclude || "No files to exclude",
-          systemFiles: params.systemFiles || "No system files provided",
           visibility: params.visibility,
-          tags: params.tags
+          imageUsers: params.imageUsers,
+          filesToExclude: params.filesToExclude || "",
+          software: params.software || "",
+          systemFiles: params.systemFiles || ""
         });
       })
     }

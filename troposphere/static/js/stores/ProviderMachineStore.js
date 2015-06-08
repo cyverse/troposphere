@@ -52,7 +52,10 @@ define(function (require) {
         return m.get('image').id === image.id;
       });
 
-      return new Collection(machines);
+      // todo: implement api/v2/provider_machines?application_version__application__id=902
+      // Until then return only the first provider machine so the application doesn't blow up
+      return new Collection(_models.first());
+      //return new Collection(machines);
     }
 
   };
