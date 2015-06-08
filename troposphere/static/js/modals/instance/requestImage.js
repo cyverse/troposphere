@@ -2,7 +2,6 @@ define(function (require) {
   "use strict";
 
   var ModalHelpers = require('components/modals/ModalHelpers'),
-      InstanceImageModal = require('components/modals/instance/InstanceImageModal.react'),
       InstanceImageWizardModal = require('components/modals/instance/InstanceImageWizardModal.react'),
       actions = require('actions');
 

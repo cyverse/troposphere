@@ -2,7 +2,7 @@ define(function(require) {
 
   var React = require('react'),
       Backbone = require('backbone'),
-      Provider = require('../request_image/ImageProvider.react'),
+      Provider = require('../request_image/Provider.react'),
       stores = require('stores');
 
   return React.createClass({
