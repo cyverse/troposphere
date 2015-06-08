@@ -11,7 +11,7 @@ define(function (require) {
 
     propTypes: {
       tags: React.PropTypes.instanceOf(Backbone.Collection),
-      activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+      activeModels: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
       onQueryChange: React.PropTypes.func.isRequired,
       onModelAdded: React.PropTypes.func.isRequired,
       onModelRemoved: React.PropTypes.func.isRequired
@@ -33,7 +33,7 @@ define(function (require) {
       return 'All tags matching "' + query + '" have been added'
     },
 
-    renderTag: function(tag){
+    renderModel: function(tag){
       return (
         <ChosenDropdownItem
           key={tag.id}
@@ -44,7 +44,7 @@ define(function (require) {
       )
     },
 
-    renderSelectedTag: function(tag){
+    renderSelectedModel: function(tag){
       return (
         <ChosenSelectedTag
           key={tag.id}

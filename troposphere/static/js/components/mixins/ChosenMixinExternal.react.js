@@ -28,7 +28,7 @@ define(function (require) {
 
     propTypes: {
       models: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-      activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+      activeModels: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
       onModelAdded: React.PropTypes.func.isRequired,
       onModelRemoved: React.PropTypes.func.isRequired,
       onEnterKeyPressed: React.PropTypes.func.isRequired,
@@ -136,9 +136,9 @@ define(function (require) {
 
     render: function () {
       var models = this.props.models,
-          activeTags = this.props.activeTags,
+          activeModels = this.props.activeModels,
           query = this.state.query,
-          selectedTags = activeTags.map(this.renderSelectedTag),
+          selectedModels = activeModels.map(this.renderSelectedModel),
           placeholderText = this.props.placeholderText,
           filteredModels,
           classes = React.addons.classSet({
@@ -153,28 +153,28 @@ define(function (require) {
         results = this.renderLoadingListItem(query);
       }else if(query && models.length < 1){
         results = this.renderNoResultsForQueryListItem(query);
-      }else if(selectedTags.length === 0 && models.length < 1){
+      }else if(selectedModels.length === 0 && models.length < 1){
         results = this.renderNoDataListItem();
-      }else if(selectedTags.length > 0 && models.length < 1){
+      }else if(selectedModels.length > 0 && models.length < 1){
         results = this.renderAllAddedListItem();
       }else{
         // filter out results that have already been added
         filteredModels = models.filter(function(model){
-          return activeTags.filter(function(activeTag){
-            return model.id === activeTag.id;
+          return activeModels.filter(function(activeModel){
+            return model.id === activeModel.id;
           }).length === 0;
         });
         if(models.length > 0 && filteredModels.length === 0){
           results = this.renderAlreadyAddedAllUsersMatchingQueryListItem(query);
         }else{
-          results = filteredModels.map(this.renderTag);
+          results = filteredModels.map(this.renderModel);
         }
       }
 
       return (
         <div className={classes} style={{"width": this.props.width || "614px"}}>
           <ul className="chosen-choices clearfix" onFocus={this.onEnterOptions}>
-            {selectedTags}
+            {selectedModels}
           </ul>
           <input
             type="text"

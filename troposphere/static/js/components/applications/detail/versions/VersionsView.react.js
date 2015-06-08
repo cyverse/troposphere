@@ -25,18 +25,17 @@ define(function (require) {
       var first_machine = machines[0]; //Guaranteed one.
       var remaining_machines =  machines.splice(1);
 
-
       if (remaining_machines.length == 0) {
-          return (
+        return (
           <div className="image-versions image-info-segment row">
             <h2 className="title col-md-2">Latest Version</h2>
             <ul>
               <Machine application={image} key={first_machine.id} machine={first_machine}/>
             </ul>
           </div>
-          );
+        );
       } else {
-          return (
+        return (
           <div className="image-versions image-info-segment row">
             <h2 className="title col-md-2">Latest Version</h2>
             <ul>
@@ -44,11 +43,11 @@ define(function (require) {
             </ul>
             <h2 className="title col-md-2">Previous Versions</h2>
             <MachineList
-                application={image}
-                machines={remaining_machines}
+              application={image}
+              machines={remaining_machines}
             />
           </div>
-          );
+        );
       }
 
 

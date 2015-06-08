@@ -3,7 +3,7 @@ define(function (require) {
   var React = require('react'),
       Backbone = require('backbone'),
       stores = require('stores'),
-      ChosenDropdown = require('components/common/tags/ChosenDropdown.react');
+      TagMultiSelect = require('components/common/tags/TagMultiSelect.react');
 
   return React.createClass({
 
@@ -11,6 +11,10 @@ define(function (require) {
       onTagAdded: React.PropTypes.func.isRequired,
       onTagRemoved: React.PropTypes.func.isRequired,
       imageTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+    },
+
+    onQueryChange: function(query){
+      this.setState({query: query});
     },
 
     render: function () {
@@ -31,13 +35,14 @@ define(function (require) {
             <div className="help-block">
               For your convenience, we've automatically added the tags that were already on the instance.
             </div>
-            <ChosenDropdown
-              tags={tags}
-              activeTags={imageTags}
-              onTagAdded={this.props.onTagAdded}
-              onTagRemoved={this.props.onTagRemoved}
-              onEnterKeyPressed={function(){}}
+            <TagMultiSelect
+              models={tags}
+              activeModels={imageTags}
+              onModelAdded={this.props.onTagAdded}
+              onModelRemoved={this.props.onTagRemoved}
+              onQueryChange={this.onQueryChange}
               width={"100%"}
+              placeholderText="Search by tag name..."
             />
           </div>
         </div>

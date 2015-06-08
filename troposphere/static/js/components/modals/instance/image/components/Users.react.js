@@ -51,11 +51,10 @@ define(function (require) {
               Please include users that should be able to launch this image.
             </div>
             <ChosenDropdown
-              tags={users}
-              activeTags={imageUsers}
+              models={users}
+              activeModels={imageUsers}
               onModelAdded={this.onUserAdded}
               onModelRemoved={this.props.onUserRemoved}
-              onEnterKeyPressed={function(){}}
               width={"100%"}
               onQueryChange={this.onQueryChange}
               placeholderText="Search by username..."
