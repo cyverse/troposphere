@@ -35,18 +35,19 @@ define(function (require) {
     stores.InstanceHistoryStore    = require('stores/InstanceHistoryStore');
     stores.InstanceStore           = require('stores/InstanceStore');
     stores.InstanceTagStore        = require('stores/InstanceTagStore');
-    stores.MachineStore            = require('stores/MachineStore');
     stores.MaintenanceMessageStore = require('stores/MaintenanceMessageStore');
     stores.ProfileStore            = require('stores/ProfileStore');
     stores.ProjectStore            = require('stores/ProjectStore');
     stores.ProjectInstanceStore    = require('stores/ProjectInstanceStore');
     stores.ProjectVolumeStore      = require('stores/ProjectVolumeStore');
+    stores.ProviderMachineStore    = require('stores/ProviderMachineStore');
     stores.ProviderStore           = require('stores/ProviderStore');
     stores.QuotaRequestStore       = require('stores/QuotaRequestStore');
     stores.QuotaStatusStore        = require('stores/QuotaStatusStore');
     stores.QuotaStore              = require('stores/QuotaStore');
     stores.SizeStore               = require('stores/SizeStore');
     stores.TagStore                = require('stores/TagStore');
+    stores.UserStore                = require('stores/UserStore');
     stores.VersionStore            = require('stores/VersionStore');
     stores.VolumeStore             = require('stores/VolumeStore');
 
@@ -60,9 +61,11 @@ define(function (require) {
     actions.NullProjectActions     = require('actions/NullProjectActions');
     actions.ProfileActions         = require('actions/ProfileActions');
     actions.ProjectActions         = require('actions/ProjectActions');
+    actions.ProviderMachineActions = require('actions/ProviderMachineActions');
     actions.ProjectInstanceActions = require('actions/ProjectInstanceActions');
     actions.ProjectVolumeActions   = require('actions/ProjectVolumeActions');
     actions.TagActions             = require('actions/TagActions');
+    //actions.UserActions             = require('actions/UserActions');
     actions.VolumeActions          = require('actions/VolumeActions');
 
     var modals = require('modals');

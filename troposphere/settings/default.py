@@ -104,7 +104,10 @@ LOGGING = {
     },
 }
 
-STATIC_URL = '/static/'
+STATIC_URL = '/assets/'
+STATICFILES_DIRS = (
+        os.path.join(BASE_DIR,'assets/'),
+    )
 
 REST_FRAMEWORK = {
     # 'DEFAULT_RENDERER_CLASSES': (

@@ -24,8 +24,11 @@ define(function (require) {
           imageTags = stores.TagStore.getImageTags(app),
           applicationCreationDate = moment(app.get('start_date')).format("MMM D, YYYY"),
           converter = new Showdown.converter(),
-          description = app.get('description'),
-          descriptionHtml = converter.makeHtml(description),
+          description = app.get('description');
+      if(!description) {
+          description = "No Description Provided."
+      }
+      var descriptionHtml = converter.makeHtml(description),
           iconSize = 67,
           icon;
 

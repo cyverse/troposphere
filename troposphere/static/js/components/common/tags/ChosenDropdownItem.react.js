@@ -8,7 +8,14 @@ define(function (require) {
 
     propTypes: {
       tag: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      onTagSelected: React.PropTypes.func.isRequired
+      onTagSelected: React.PropTypes.func.isRequired,
+      propertyName: React.PropTypes.string
+    },
+
+    getDefaultProps: function(){
+      return {
+        propertyName: "name"
+      }
     },
 
     getInitialState: function(){
@@ -42,7 +49,7 @@ define(function (require) {
             onMouseEnter={this.onMouseEnter}
             onMouseLeave={this.onMouseLeave}
             onClick={this.onTagSelected}>
-          {tag.get('name')}
+          {tag.get(this.props.propertyName)}
         </li>
       );
     }

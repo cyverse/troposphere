@@ -72,8 +72,6 @@ define(
             return i.get('identity').provider === volume.get('identity').provider;
           });
           state.instances = new InstanceCollection(state.instances);
-
-
           state.instanceId = this.state.instanceId || state.instances.first().id;
         }
 

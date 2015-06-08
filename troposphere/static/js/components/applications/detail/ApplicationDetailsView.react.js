@@ -28,7 +28,7 @@ define(
         }
       },
 
-      showModal: function (e) {
+      showLaunchModal: function (e) {
         modals.InstanceModals.launch(this.props.application);
       },
 
@@ -66,6 +66,7 @@ define(
                                     providers={this.props.providers}
                                     identities={this.props.identities}
                                     onEditImageDetails={this.handleEditImageDetails}
+
             />
           )
         }
@@ -81,7 +82,7 @@ define(
                 {view}
               </div>
               <div className="col-md-3">
-                <ImageLaunchCard application={this.props.application} onLaunch={this.showModal}/>
+                <ImageLaunchCard application={this.props.application} onLaunch={this.showLaunchModal}/>
               </div>
             </div>
 
