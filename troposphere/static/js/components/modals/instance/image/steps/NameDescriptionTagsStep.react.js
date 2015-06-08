@@ -73,6 +73,16 @@ define(function(require) {
     renderBody: function (instance) {
       return (
         <div>
+          <div className="alert alert-danger">
+            <strong>Note:</strong> All volumes must be detached from an instance before it can be imaged.
+          </div>
+          <p className="alert alert-info">
+            {"Please read the "}
+            <a href="https://pods.iplantcollaborative.org/wiki/x/oIZy" target="_blank">
+              wiki page about requesting an image of your instance
+            </a>
+            {" before completing the form below."}
+          </p>
           <p>
             {
               "Please provide some information to help others discover this image. The information you " +
