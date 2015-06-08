@@ -31,7 +31,7 @@ define(function (require) {
       activeModels: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
       onModelAdded: React.PropTypes.func.isRequired,
       onModelRemoved: React.PropTypes.func.isRequired,
-      onEnterKeyPressed: React.PropTypes.func.isRequired,
+      onEnterKeyPressed: React.PropTypes.func,
       width: React.PropTypes.string
     },
 
