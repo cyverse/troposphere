@@ -6,6 +6,7 @@ define(function (require) {
       stores = require('stores'),
       MachineSelect = require('components/modals/instance_launch/MachineSelect.react'),
       IdentitySelect = require('components/modals/instance_launch/IdentitySelect.react'),
+      modals = require('modals'),
       InstanceSizeSelect = require('components/modals/instance_launch/InstanceSizeSelect.react'),
       Glyphicon = require('components/common/Glyphicon.react');
 
@@ -459,7 +460,12 @@ define(function (require) {
           </div>
 
           <div className='form-group' className="modal-section">
-            <h4>Projected Resource Usage</h4>
+            <h4>
+              <span>Projected Resource Usage</span>
+              <a className="modal-link" href="#" onClick={this.props.onRequest}>
+                {"Need more resources?"}
+              </a>
+            </h4>
             {this.renderCpuConsumption(identity, size, sizes, instances)}
             {this.renderMemoryConsumption(identity, size, sizes, instances)}
           </div>

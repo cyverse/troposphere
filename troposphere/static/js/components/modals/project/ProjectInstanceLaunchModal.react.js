@@ -8,9 +8,10 @@ define(
     'stores',
     './instance_launch/ImageListView.react',
     './instance_launch/ImageDetailsView.react',
-    './instance_launch/ImageLaunchView.react'
+    './instance_launch/ImageLaunchView.react',
+    'modals'
   ],
-  function (React, Backbone, BootstrapModalMixin, stores, ImageListView, ImageDetailsView, ImageLaunchView) {
+  function (React, Backbone, BootstrapModalMixin, stores, ImageListView, ImageDetailsView, ImageLaunchView, modals) {
 
     return React.createClass({
       mixins: [BootstrapModalMixin],
@@ -71,6 +72,11 @@ define(
         this.props.onConfirm(this.state.image, identity, machineId, sizeId, instanceName);
       },
 
+      handleResourceRequest: function(){
+        this.hide();
+        modals.HelpModals.requestMoreResources();
+      },
+
       //
       // Navigation Callbacks
       //
@@ -123,6 +129,7 @@ define(
                              tags={tags}
                              onPrevious={this.navigateToDetailsView}
                              onNext={this.handleLaunchImage}
+                             onRequest={this.handleResourceRequest}
             />
           )
         }else if(image && !configureImage){

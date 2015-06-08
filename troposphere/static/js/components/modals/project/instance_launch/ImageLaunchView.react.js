@@ -29,6 +29,10 @@ define(
         this.props.onPrevious(this.props.image);
       },
 
+      onRequest: function(){
+        this.props.onRequest();
+      },
+
       onLaunch: function(identity, machineId, sizeId, instanceName){
         this.props.onNext(identity, machineId, sizeId, instanceName);
       },
@@ -42,7 +46,7 @@ define(
         var image = this.props.image;
 
         return (
-          <InstanceLaunch application={image} onPrevious={this.onBack} onNext={this.onLaunch}/>
+          <InstanceLaunch application={image} onPrevious={this.onBack} onNext={this.onLaunch} onRequest={this.onRequest}/>
         );
       }
 

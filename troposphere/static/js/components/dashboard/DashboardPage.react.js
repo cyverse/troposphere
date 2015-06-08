@@ -8,9 +8,14 @@ define(function (require) {
       ResourceStatusSummaryPlot = require('./plots/ResourceStatusSummaryPlot.react'),
       ProviderSummaryLinePlot = require('./plots/ProviderSummaryLinePlot.react'),
       CallToAction = require('./CallToAction.react'),
+      modals = require('modals'),
       stores = require('stores');
 
   return React.createClass({
+    renderRequestMoreResources: function(e){
+      e.preventDefault();
+      modals.HelpModals.requestMoreResources();
+    },
 
     render: function () {
 
@@ -62,7 +67,9 @@ define(function (require) {
                   </div>
                 </div>
 
-                <h2>Resources in Use</h2>
+                <div className="resource-header">
+                  Resources in Use<a href="#" onClick={this.renderRequestMoreResources}>Need more{String.fromCharCode(63)}</a>
+                </div>
                 <div className="row">
                   <div className="col-md-8">
                     <ProviderSummaryLinePlot
