@@ -2,7 +2,6 @@ define(function (require) {
 
   var React = require('react'),
       Backbone = require('backbone'),
-      //EditTags = require('components/common/tags/EditTags.react'),
       TagMultiSelect = require('components/common/tags/TagMultiSelect.react');
 
   var ENTER_KEY = 13;
@@ -55,15 +54,6 @@ define(function (require) {
       return (
         <div className="resource-tags">
           <a className="btn btn-primary new-tag" href="#" onClick={this.onCreateNewEmptyTag}>+ New tag</a>
-          {
-            //<EditTags
-            //  tags={this.props.tags}
-            //  activeTags={this.props.activeTags}
-            //  onTagAdded={this.props.onTagAdded}
-            //  onTagRemoved={this.props.onTagRemoved}
-            //  onEnterKeyPressed={this.onEnterKeyPressed}
-            ///>
-          }
           <TagMultiSelect
             models={tags}
             activeModels={this.props.activeTags}

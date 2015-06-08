@@ -3,7 +3,6 @@ define(function (require) {
   var React = require('react'),
       Backbone = require('backbone'),
       ViewTags = require('./ViewTags.react'),
-      //EditTags = require('./EditTags.react'),
       TagMultiSelect = require('./TagMultiSelect.react');
 
   var ENTER_KEY = 13;
