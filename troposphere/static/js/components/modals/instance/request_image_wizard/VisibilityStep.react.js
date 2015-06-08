@@ -23,7 +23,7 @@ define(function(require) {
       return {
         visibility: this.props.visibility,
         users: this.props.users,
-        imageUsers: this.props.imageUsers
+        imageUsers: this.props.imageUsers || new Backbone.Collection()
       }
     },
 

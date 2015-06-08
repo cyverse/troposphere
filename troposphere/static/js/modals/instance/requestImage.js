@@ -12,25 +12,22 @@ define(function (require) {
       if(!params.instance) throw new Error("Missing instance");
 
       var instance = params.instance,
-          //modal = InstanceImageModal({
-          //  instance: instance
-          //}),
           modal = InstanceImageWizardModal({
             instance: instance
           });
 
       ModalHelpers.renderModal(modal, function (params) {
-        //actions.InstanceActions.requestImage({
-        console.log({
+        actions.InstanceActions.requestImage({
           instance: instance,
           name: params.name,
           description: params.description,
+          tags: params.tags,
           providerId: params.providerId,
-          software: params.software || "No software provided",
-          filesToExclude: params.filesToExclude || "No files to exclude",
-          systemFiles: params.systemFiles || "No system files provided",
           visibility: params.visibility,
-          tags: params.tags
+          imageUsers: params.imageUsers,
+          filesToExclude: params.filesToExclude || "",
+          software: params.software || "",
+          systemFiles: params.systemFiles || ""
         });
       })
     }

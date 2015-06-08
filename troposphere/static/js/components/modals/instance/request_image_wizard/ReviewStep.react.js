@@ -9,8 +9,19 @@ define(function(require) {
       imageData: React.PropTypes.object.isRequired
     },
 
+    getInitialState: function(){
+      return {
+        hasCheckedLicense: false
+      }
+    },
+
     isSubmittable: function(){
-      return true;
+      var hasCheckedLicense = !!this.state.hasCheckedLicense;
+      return hasCheckedLicense;
+    },
+
+    onLicenseChange: function(e){
+      this.setState({hasCheckedLicense: e.target.checked});
     },
 
     renderUsers: function(imageData){
@@ -86,7 +97,12 @@ define(function(require) {
     },
 
     renderBody: function (imageData) {
-      var provider = stores.ProviderStore.get(imageData.providerId);
+      var provider = stores.ProviderStore.get(imageData.providerId),
+          visibilityMap = {
+            'public': 'Public (everyone can see the image)',
+            'private': 'Private (only you can see the image)',
+            'select': 'Select Users (only you and selected users can see the image)'
+          };
 
       return (
         <div className="image-request-summary">
@@ -110,10 +126,21 @@ define(function(require) {
             </div>
             <div className="form-group">
               <label className="control-label col-sm-3">Visibility</label>
-              <div className="help-block col-sm-9">{imageData.visibility}</div>
+              <div className="help-block col-sm-9">{visibilityMap[imageData.visibility]}</div>
             </div>
             {this.renderUsers(imageData)}
             {this.renderFilesToExclude(imageData)}
+          </div>
+          <div className="checkbox col-sm-12">
+            <br />
+            <label className="checkbox">
+              <input type="checkbox" onChange={this.onLicenseChange}/>
+              <div>
+                I certify that this image does not contain license-restricted software that is prohibited from being
+                distributed within a virtual or cloud environment.
+              </div>
+            </label>
+            <br />
           </div>
         </div>
       );
