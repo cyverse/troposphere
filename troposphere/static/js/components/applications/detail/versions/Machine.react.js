@@ -41,24 +41,26 @@ define(function (require) {
       return (<li>{provider}</li>);
     },
     render: function () {
-        // todo: figure out if anything is ever recommended, or if it's just a concept idea
-        var common_format = "M/DD/YYYY",
-            machine = this.props.machine,
-            image = this.props.application,
-            isRecommended = false,
-            version = machine.get('version'),
-            isActive = version.end_date == null,
-            dateCreated = moment(version.start_date),
-            dateDestroyed = isActive ? null : moment(version.end_date), // Avoid 'invalid date'
-            machineHash = CryptoJS.MD5(machine.id.toString()).toString(),
-            iconSize = 63,
-            type = stores.ProfileStore.get().get('icon_set');
+      return <li><h1>FIX ME PLEASE!!</h1></li>;
 
-        var createDate = dateCreated.format(common_format);
-        var providers = image.get("machines").map(function(machine) {
-           var provider =  machine.get("provider");
-           return provider.name;
-        });
+      // todo: figure out if anything is ever recommended, or if it's just a concept idea
+      var common_format = "M/DD/YYYY",
+          machine = this.props.machine,
+          image = this.props.application,
+          isRecommended = false,
+          version = machine.get('version'),
+          isActive = version.end_date == null,
+          dateCreated = moment(version.start_date),
+          dateDestroyed = isActive ? null : moment(version.end_date), // Avoid 'invalid date'
+          machineHash = CryptoJS.MD5(machine.id.toString()).toString(),
+          iconSize = 63,
+          type = stores.ProfileStore.get().get('icon_set');
+
+      var createDate = dateCreated.format(common_format);
+      var providers = image.get("machines").map(function(machine) {
+         var provider =  machine.get("provider");
+         return provider.name;
+      });
 
       return (
         <li>
