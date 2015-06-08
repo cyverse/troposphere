@@ -31,7 +31,8 @@ define(function (require) {
           providers = stores.ProviderStore.getAll(),
           all_users = stores.UserStore.getAll(),
           //licenses = stores.LicenseStore.getAll(), //Future
-          selectedApplication;
+          selectedApplication,
+          end_date;
 
       var state = this.state || {
         image: null,
