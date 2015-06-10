@@ -12,10 +12,9 @@ define(function (require) {
     createAndAddToProject: function(options){
       if(!options.project) throw new Error("Missing project");
 
-      var project = options.project,
-          modal = React.createElement(ProjectInstanceLaunchModal);
+      var project = options.project;
 
-      ModalHelpers.renderModal(modal, function (application, identity, machineId, sizeId, instanceName) {
+      ModalHelpers.renderModal(ProjectInstanceLaunchModal, null, function (application, identity, machineId, sizeId, instanceName) {
         var size = stores.SizeStore.get(sizeId),
             machine = application.get('machines').get(machineId);
 

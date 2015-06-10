@@ -11,11 +11,11 @@ define(function (require) {
       if(!params.instance) throw new Error("Missing instance");
 
       var instance = params.instance,
-          modal = InstanceImageWizardModal({
+          props = {
             instance: instance
-          });
+          };
 
-      ModalHelpers.renderModal(modal, function (params) {
+      ModalHelpers.renderModal(InstanceImageWizardModal, props, function (params) {
         actions.InstanceActions.requestImage({
           instance: instance,
           name: params.name,

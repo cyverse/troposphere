@@ -17,20 +17,23 @@ define(function (require) {
       var project = payload.project,
           instance = payload.instance,
           attachedVolumes = stores.VolumeStore.getVolumesAttachedToInstance(instance),
-          modal;
+          ModalComponent,
+          props;
 
       if(attachedVolumes.length > 0){
-        modal = ExplainInstanceDeleteConditionsModal({
+        ModalComponent = ExplainInstanceDeleteConditionsModal;
+        props = {
           attachedVolumes: attachedVolumes,
           backdrop: 'static'
-        });
+        };
       }else{
-        modal = InstanceDeleteModal({
+        ModalComponent = InstanceDeleteModal;
+        props = {
           instance: payload.instance
-        });
+        };
       }
 
-      ModalHelpers.renderModal(modal, function () {
+      ModalHelpers.renderModal(ModalComponent, props, function () {
         if(attachedVolumes.length > 0) return;
         actions.InstanceActions.destroy(payload, options);
         Router.getInstance().transitionTo("project-resources", {projectId: project.id});

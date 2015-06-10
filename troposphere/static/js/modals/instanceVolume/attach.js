@@ -8,12 +8,12 @@ define(function (require) {
   return {
 
     attach: function(volume, project){
-      var modal = VolumeAttachModal({
+      var props = {
         volume: volume,
         project: project
-      });
+      };
 
-      ModalHelpers.renderModal(modal, function (instance, mountLocation) {
+      ModalHelpers.renderModal(VolumeAttachModal, null, function (instance, mountLocation) {
         actions.InstanceVolumeActions.attach({
           instance: instance,
           volume: volume,

@@ -8,9 +8,7 @@ define(function (require) {
   return {
 
     resume: function(instance){
-      var modal = InstanceResumeModal();
-
-      ModalHelpers.renderModal(modal, function () {
+      ModalHelpers.renderModal(InstanceResumeModal, null, function () {
         actions.InstanceActions.resume({
           instance: instance
         })

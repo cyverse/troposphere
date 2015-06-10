@@ -8,12 +8,11 @@ define(function (require) {
   return {
 
     create_AddToInstance: function(initialTagName, instance){
-
-      var modal = TagCreateModal({
+      var props = {
         initialTagName: initialTagName
-      });
+      };
 
-      ModalHelpers.renderModal(modal, function(name, description){
+      ModalHelpers.renderModal(TagCreateModal, props, function(name, description){
         actions.TagActions.create_AddToInstance({
           name: name,
           description: description,

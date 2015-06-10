@@ -6,9 +6,7 @@ define(function (require) {
 
   return {
     explainProjectDeleteConditions: function(){
-      var modal = ProjectDeleteConditionsModal();
-
-      ModalHelpers.renderModal(modal, function(){});
+      ModalHelpers.renderModal(ProjectDeleteConditionsModal, null, function(){});
     }
   }
 

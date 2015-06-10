@@ -8,9 +8,7 @@ define(function (require) {
   return {
 
     reboot: function (instance) {
-      var modal = InstanceRebootModal();
-
-      ModalHelpers.renderModal(modal, function () {
+      ModalHelpers.renderModal(InstanceRebootModal, null, function () {
         actions.InstanceActions.reboot({
           instance: instance
         });
