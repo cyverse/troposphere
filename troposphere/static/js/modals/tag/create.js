@@ -8,12 +8,11 @@ define(function (require) {
   return {
 
     create: function(initialTagName){
-
       var props = {
         initialTagName: initialTagName
       };
 
-      ModalHelpers.renderModal(TagCreateModal, null, function(name, description){
+      ModalHelpers.renderModal(TagCreateModal, props, function(name, description){
         actions.TagActions.create({
           name: name,
           description: description

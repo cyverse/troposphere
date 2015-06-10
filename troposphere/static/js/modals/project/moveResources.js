@@ -13,7 +13,7 @@ define(function (require) {
         resources: resources
       };
 
-      ModalHelpers.renderModal(ProjectMoveResourceModal, null, function(newProject){
+      ModalHelpers.renderModal(ProjectMoveResourceModal, props, function(newProject){
         actions.ProjectActions.moveResources({
           currentProject: currentProject,
           resources: resources,
