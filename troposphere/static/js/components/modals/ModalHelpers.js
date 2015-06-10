@@ -12,7 +12,9 @@ define(
 
     return {
 
-      renderModal: function(modal, cb){
+      renderModal: function(ModalComponent, props, cb){
+        props = props || {};
+        var modal = React.createFactory(ModalComponent)(props);
         modal.props.onConfirm = cb;
         modal.props.onCancel = onCancel;
         modal.props.handleHidden = onCancel;

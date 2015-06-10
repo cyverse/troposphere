@@ -11,11 +11,11 @@ define(function (require) {
       if(!params.instance) throw new Error("Missing instance");
 
       var instance = params.instance,
-          modal = InstanceReportModal({
+          props = {
             instance: instance
-          });
+          };
 
-      ModalHelpers.renderModal(modal, function (reportInfo) {
+      ModalHelpers.renderModal(InstanceReportModal, props, function (reportInfo) {
         actions.InstanceActions.report({
           instance: instance,
           reportInfo: reportInfo

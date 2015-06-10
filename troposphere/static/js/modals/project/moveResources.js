@@ -8,12 +8,12 @@ define(function (require) {
 
     moveResources: function (resources, currentProject) {
 
-      var modal = ProjectMoveResourceModal({
+      var props = {
         currentProject: currentProject,
         resources: resources
-      });
+      };
 
-      ModalHelpers.renderModal(modal, function(newProject){
+      ModalHelpers.renderModal(ProjectMoveResourceModal, null, function(newProject){
         actions.ProjectActions.moveResources({
           currentProject: currentProject,
           resources: resources,

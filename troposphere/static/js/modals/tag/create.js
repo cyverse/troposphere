@@ -9,11 +9,11 @@ define(function (require) {
 
     create: function(initialTagName){
 
-      var modal = TagCreateModal({
+      var props = {
         initialTagName: initialTagName
-      });
+      };
 
-      ModalHelpers.renderModal(modal, function(name, description){
+      ModalHelpers.renderModal(TagCreateModal, null, function(name, description){
         actions.TagActions.create({
           name: name,
           description: description

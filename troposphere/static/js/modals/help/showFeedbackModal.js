@@ -8,12 +8,12 @@ define(function (require) {
 
     showFeedbackModal: function(){
 
-      var modal = FeedbackModal({
+      var props = {
         header: "Send Feedback",
         confirmButtonMessage: "Send feedback"
-      });
+      };
 
-      ModalHelpers.renderModal(modal, function(feedback){
+      ModalHelpers.renderModal(FeedbackModal, props, function(feedback){
 
         actions.HelpActions.sendFeedback({
           feedback: feedback

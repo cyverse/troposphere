@@ -8,9 +8,7 @@ define(function (require) {
   return {
 
     requestMoreResources: function(){
-      var modal = RequestMoreResourcesModal();
-
-      ModalHelpers.renderModal(modal, function(identity, quota, reason){
+      ModalHelpers.renderModal(RequestMoreResourcesModal, null, function(identity, quota, reason){
         actions.HelpActions.requestMoreResources({
           identity: identity,
           quota: quota,

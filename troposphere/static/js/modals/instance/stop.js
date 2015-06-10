@@ -8,9 +8,7 @@ define(function (require) {
   return {
 
     stop: function(instance){
-      var modal = InstanceStopModal();
-
-      ModalHelpers.renderModal(modal, function () {
+      ModalHelpers.renderModal(InstanceStopModal, null, function () {
         actions.InstanceActions.stop({
           instance: instance
         });

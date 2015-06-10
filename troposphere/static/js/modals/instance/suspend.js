@@ -8,9 +8,7 @@ define(function (require) {
   return {
 
     suspend: function (instance) {
-      var modal = InstanceSuspendModal();
-
-      ModalHelpers.renderModal(modal, function () {
+      ModalHelpers.renderModal(InstanceSuspendModal, null, function () {
         actions.InstanceActions.suspend({
           instance: instance
         })

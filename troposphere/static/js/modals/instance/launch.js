@@ -9,11 +9,11 @@ define(function (require) {
   return {
 
     launch: function(application){
-      var modal = InstanceLaunchModal({
+      var props = {
         application: application
-      });
+      };
 
-      ModalHelpers.renderModal(modal, function (identity, machineId, sizeId, instanceName, project) {
+      ModalHelpers.renderModal(InstanceLaunchModal, props, function (identity, machineId, sizeId, instanceName, project) {
         var size = stores.SizeStore.get(sizeId),
             machine = application.get('machines').get(machineId);
 

@@ -9,10 +9,7 @@ define(function (require) {
   return {
 
     create: function () {
-
-      var modal = ProjectCreateModal();
-
-      ModalHelpers.renderModal(modal, function(name, description){
+      ModalHelpers.renderModal(ProjectCreateModal, null, function(name, description){
         actions.ProjectActions.create({
           name: name,
           description: description

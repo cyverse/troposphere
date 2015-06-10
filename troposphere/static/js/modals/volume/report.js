@@ -11,11 +11,11 @@ define(function (require) {
       if(!params.volume) throw new Error("Missing volume");
 
       var volume = params.volume,
-          modal = VolumeReportModal({
+          props = {
             volume: volume
-          });
+          };
 
-      ModalHelpers.renderModal(modal, function (reportInfo) {
+      ModalHelpers.renderModal(VolumeReportModal, props, function (reportInfo) {
         actions.VolumeActions.report({
           reportInfo: reportInfo,
           volume: volume
