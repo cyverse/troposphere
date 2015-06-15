@@ -3,7 +3,7 @@ define(function (require) {
   var React = require('react'),
       Backbone = require('backbone'),
       ViewTags = require('./ViewTags.react'),
-      EditTags = require('./EditTags.react');
+      TagMultiSelect = require('./TagMultiSelect.react');
 
   var ENTER_KEY = 13;
 
@@ -21,7 +21,8 @@ define(function (require) {
 
     getInitialState: function(){
       return {
-        isEditingTags: false
+        isEditingTags: false,
+        query: ""
       }
     },
 
@@ -46,10 +47,23 @@ define(function (require) {
       this.props.onCreateNewTag("");
     },
 
+    onQueryChange: function(query){
+      this.setState({query: query});
+    },
+
     render: function () {
-      var link,
+      var query = this.state.query,
+          link,
           newTagButton,
-          tagView;
+          tagView,
+          tags = this.props.tags;
+
+      if(query){
+        tags = this.props.tags.filter(function(tag){
+          return tag.get('name').toLowerCase().indexOf(query) >= 0;
+        });
+        tags = new Backbone.Collection(tags);
+      }
 
       if(this.state.isEditingTags){
         link = (
@@ -67,14 +81,16 @@ define(function (require) {
 
       if(this.state.isEditingTags){
         tagView = (
-          <EditTags
-            tags={this.props.tags}
-            activeTags={this.props.activeTags}
-            onTagAdded={this.props.onTagAdded}
-            onTagRemoved={this.props.onTagRemoved}
+          <TagMultiSelect
+            models={tags}
+            activeModels={this.props.activeTags}
+            onModelAdded={this.props.onTagAdded}
+            onModelRemoved={this.props.onTagRemoved}
             onEnterKeyPressed={this.onEnterKeyPressed}
+            onQueryChange={this.onQueryChange}
+            placeholderText="Search by tag name..."
           />
-        );
+        )
       }else{
         tagView = (
           <ViewTags activeTags={this.props.activeTags}/>

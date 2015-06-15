@@ -5,9 +5,10 @@ define(
     'react',
     'components/mixins/BootstrapModalMixin.react',
     'stores',
-    '../instance_launch/IdentitySelect.react'
+    '../instance_launch/IdentitySelect.react',
+    'modals'
   ],
-  function (React, BootstrapModalMixin, stores, IdentitySelect) {
+  function (React, BootstrapModalMixin, stores, IdentitySelect, modals) {
 
 
     return React.createClass({
@@ -147,6 +148,12 @@ define(
         return (projected + currentlyUsed) <= maximumAllowed;
       },
 
+      handleResourceRequest: function(e){
+        e.preventDefault();
+        this.hide();
+        modals.HelpModals.requestMoreResources();
+      },
+
       hasEnoughQuotaForStorageCount: function(identity, volumes){
         var quota = identity.get('quota');
         var maximumAllowed = quota.storage_count;
@@ -278,7 +285,12 @@ define(
             </div>
 
             <div className="modal-section">
-              <h4>Projected Resource Usage</h4>
+              <h4>
+                <span>Projected Resource Usage</span>
+                <a className="modal-link" href="#" onClick={this.handleResourceRequest}>
+                  {"Need more resources?"}
+                </a>
+              </h4>
               {this.renderStorageConsumption(identity, size, volumes)}
               {this.renderStorageCountConsumption(identity, size, volumes)}
             </div>

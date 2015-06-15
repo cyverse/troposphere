@@ -11,7 +11,7 @@ define(function (require) {
     launch: function(application){
       var modal = InstanceLaunchWizardModal({
         application: application
-      });
+      };
 
       ModalHelpers.renderModal(modal, function (launchData) {
         var size = launchData.size,
@@ -19,7 +19,6 @@ define(function (require) {
             identity = launchData.identity,
             name = launchData.name,
             project = launchData.project;
-
 
           actions.InstanceActions.launch({
             project: project,

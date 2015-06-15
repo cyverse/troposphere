@@ -8,11 +8,11 @@ define(function (require) {
 
     destroy: function (project) {
 
-      var modal = ProjectDeleteModal({
+      var props = {
         project: project
-      });
+      };
 
-      ModalHelpers.renderModal(modal, function(){
+      ModalHelpers.renderModal(ProjectDeleteModal, props, function(){
         actions.ProjectActions.destroy({
           project: project
         });

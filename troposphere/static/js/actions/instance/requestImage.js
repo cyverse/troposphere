@@ -11,12 +11,14 @@ define(function (require) {
       if(!params.instance) throw new Error("Missing instance");
       if(!params.name) throw new Error("Missing name");
       if(!params.description) throw new Error("Missing description");
+      if(!params.tags) throw new Error("Missing tags");
       if(!params.providerId) throw new Error("Missing providerId");
       //if(!params.software) throw new Error("Missing software");
       //if(!params.filesToExclude) throw new Error("Missing filesToExclude");
       //if(!params.systemFiles) throw new Error("Missing systemFiles");
       if(!params.visibility) throw new Error("Missing visibility");
-      if(!params.tags) throw new Error("Missing tags");
+      if(!params.imageUsers) throw new Error("Missing imageUsers");
+
 
       var instance = params.instance,
           name = params.name,
@@ -24,8 +26,12 @@ define(function (require) {
           providerId = params.providerId,
           software = params.software,
           filesToExclude = params.filesToExclude,
-          systemFiles = params.systemFiles,
+          systemFiles = params.systemFiles || "[no files specified]",
           visibility = params.visibility,
+          imageUsers = params.imageUsers,
+          userNames = imageUsers.map(function(user){
+            return user.get('username');
+          }),
           tags = params.tags,
           tagNames = tags.map(function(tag){
             return tag.get('name');
@@ -39,10 +45,11 @@ define(function (require) {
         description: description,
         tags: tagNames,
         provider: provider.get('uuid'),
-        software: software,
-        exclude: filesToExclude,
-        sys: systemFiles,
-        vis: visibility
+        vis: visibility,
+        shared_with: userNames,
+        exclude: filesToExclude || "[no files specified]",
+        software: software || "[no software specified]",
+        sys: systemFiles || "[no files specified]"
       };
 
       var requestUrl = (

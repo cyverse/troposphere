@@ -20,7 +20,7 @@ define(
         var options = this.props.machines.map(function (machine) {
           return (
             <option key={machine.id} value={machine.id}>
-              {machine.get('pretty_version')}
+              {machine.get('version')}
             </option>
           );
         });

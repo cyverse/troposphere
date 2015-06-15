@@ -8,7 +8,14 @@ define(function (require) {
 
     propTypes: {
       tag: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      onRemoveTag: React.PropTypes.func.isRequired
+      onRemoveTag: React.PropTypes.func.isRequired,
+      propertyName: React.PropTypes.string
+    },
+
+    getDefaultProps: function(){
+      return {
+        propertyName: "name"
+      }
     },
 
     onRemoveTag: function(){
@@ -20,7 +27,7 @@ define(function (require) {
 
       return (
         <li className="search-choice">
-          <span>{tag.get('name')}</span>
+          <span>{tag.get(this.props.propertyName)}</span>
           <a className="search-choice-close" onClick={this.onRemoveTag}></a>
         </li>
       );

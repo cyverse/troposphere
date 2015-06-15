@@ -2,14 +2,20 @@ define(function (require) {
   "use strict";
 
   var Backbone = require('backbone'),
-      _ = require('underscore'),
-      globals = require('globals'),
-      Machine = require('models/Machine');
+      User = require('models/User'),
+      globals = require('globals');
 
   return Backbone.Collection.extend({
-    model: Machine,
+    model: User,
 
-    url: globals.API_V2_ROOT + '/provider_machines',
+    url: globals.API_V2_ROOT + "/users",
+
+    comparator: function (model) {
+      var username = model.get('username');
+      if(username)
+          return model.get('username').toLowerCase();
+      return username;
+    },
 
     parse: function (response) {
       this.meta = {

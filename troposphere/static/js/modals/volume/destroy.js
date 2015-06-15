@@ -17,20 +17,23 @@ define(function (require) {
           volume = payload.volume,
           instanceUUID = volume.get('attach_data').instance_id,
           isAttached = !!instanceUUID,
-          modal;
+          ModalComponent,
+          props;
 
       if(isAttached){
-        modal = ExplainVolumeDeleteConditionsModal({
+        ModalComponent = ExplainVolumeDeleteConditionsModal;
+        props = {
           volume: volume,
           instance: stores.InstanceStore.getAll().findWhere({uuid: instanceUUID})
-        });
+        };
       }else{
-        modal = VolumeDeleteModal({
+        ModalComponent = VolumeDeleteModal;
+        props = {
           volume: volume
-        });
+        };
       }
 
-      ModalHelpers.renderModal(modal, function () {
+      ModalHelpers.renderModal(ModalComponent, props, function () {
         if(isAttached) return;
         actions.VolumeActions.destroy({
           project: project,

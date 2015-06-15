@@ -3,7 +3,7 @@ define(function (require) {
   var React = require('react'),
       Backbone = require('backbone'),
       stores = require('stores'),
-      ChosenDropdown = require('components/common/tags/ChosenDropdown.react');
+      TagMultiSelect = require('components/common/tags/TagMultiSelect.react');
 
   return React.createClass({
 
@@ -13,11 +13,29 @@ define(function (require) {
       imageTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
 
+    getInitialState: function(){
+      return {
+        query: ""
+      }
+    },
+
+    onQueryChange: function(query){
+      this.setState({query: query});
+    },
+
     render: function () {
       var imageTags = this.props.imageTags,
-          tags = stores.TagStore.getAll();
+          tags = stores.TagStore.getAll(),
+          query = this.state.query;
 
       if(!tags) return <div className="loading"/>;
+
+      if(query){
+        tags = tags.filter(function(tag){
+          return tag.get('name').toLowerCase().indexOf(query) >= 0;
+        });
+        tags = new Backbone.Collection(tags);
+      }
 
       return (
         <div className="form-group">
@@ -28,13 +46,17 @@ define(function (require) {
               needs. You can include the operating system, installed software, or configuration information. E.g. Ubuntu,
               NGS Viewers, MAKER, QIIME, etc.
             </div>
-            <ChosenDropdown
-              tags={tags}
-              activeTags={imageTags}
-              onTagAdded={this.props.onTagAdded}
-              onTagRemoved={this.props.onTagRemoved}
-              onEnterKeyPressed={function(){}}
+            <div className="help-block">
+              For your convenience, we've automatically added the tags that were already on the instance.
+            </div>
+            <TagMultiSelect
+              models={tags}
+              activeModels={imageTags}
+              onModelAdded={this.props.onTagAdded}
+              onModelRemoved={this.props.onTagRemoved}
+              onQueryChange={this.onQueryChange}
               width={"100%"}
+              placeholderText="Search by tag name..."
             />
           </div>
         </div>

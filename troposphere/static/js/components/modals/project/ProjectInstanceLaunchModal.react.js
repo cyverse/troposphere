@@ -8,9 +8,10 @@ define(
     'stores',
     './instance_launch/ImageListView.react',
     './instance_launch/ImageDetailsView.react',
-    './instance_launch/ImageLaunchView.react'
+    './instance_launch/ImageLaunchView.react',
+    'modals'
   ],
-  function (React, Backbone, BootstrapModalMixin, stores, ImageListView, ImageDetailsView, ImageLaunchView) {
+  function (React, Backbone, BootstrapModalMixin, stores, ImageListView, ImageDetailsView, ImageLaunchView, modals) {
 
     return React.createClass({
       mixins: [BootstrapModalMixin],
@@ -46,7 +47,7 @@ define(
         // MachineStore.get(providerId, identityId, machineId) called by versions/MachineList
         // is lazy loaded, so I need to re-trigger the render cycle when the machine data
         // returns from the server.
-        stores.MachineStore.addChangeListener(this.updateState);
+        stores.ProviderMachineStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function() {
@@ -54,7 +55,7 @@ define(
         stores.ProviderStore.removeChangeListener(this.updateState);
         stores.IdentityStore.removeChangeListener(this.updateState);
         stores.TagStore.removeChangeListener(this.updateState);
-        stores.MachineStore.removeChangeListener(this.updateState);
+        stores.ProviderMachineStore.removeChangeListener(this.updateState);
       },
 
       //
@@ -69,6 +70,11 @@ define(
       handleLaunchImage: function(identity, machineId, sizeId, instanceName){
         this.hide();
         this.props.onConfirm(this.state.image, identity, machineId, sizeId, instanceName);
+      },
+
+      handleResourceRequest: function(){
+        this.hide();
+        modals.HelpModals.requestMoreResources();
       },
 
       //
@@ -123,6 +129,7 @@ define(
                              tags={tags}
                              onPrevious={this.navigateToDetailsView}
                              onNext={this.handleLaunchImage}
+                             onRequest={this.handleResourceRequest}
             />
           )
         }else if(image && !configureImage){

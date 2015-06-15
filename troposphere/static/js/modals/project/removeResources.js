@@ -7,13 +7,12 @@ define(function (require) {
   return {
 
     removeResources: function(resources, project){
-
-      var modal = ProjectRemoveResourceModal({
+      var props = {
         project: project,
         resources: resources
-      });
+      };
 
-      ModalHelpers.renderModal(modal, function(){
+      ModalHelpers.renderModal(ProjectRemoveResourceModal, props, function(){
         actions.ProjectActions.removeResources({
           project: project,
           resources: resources

@@ -8,11 +8,11 @@ define(function (require) {
   return {
 
     detach: function (volume) {
-      var modal = VolumeDetachModal({
+      var props = {
         volume: volume
-      });
+      };
 
-      ModalHelpers.renderModal(modal, function () {
+      ModalHelpers.renderModal(VolumeDetachModal, props, function () {
         actions.InstanceVolumeActions.detach({
           volume: volume
         })
