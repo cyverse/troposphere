@@ -29,6 +29,7 @@ define(
           <select value={this.props.machineId} id='machine' className='form-control' onChange={this.props.onChange}>
             {options}
           </select>
+
         );
       }
 

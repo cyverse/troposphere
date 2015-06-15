@@ -22,11 +22,11 @@ define(
       render: function () {
         var self = this,
             projects = this.props.projects.map(function (project) {
-                var className;
+                var className = "col-md-4 col-sm-6 list-group-item";
                 if(this.props.selectedProject && this.props.selectedProject == project) {
-                    className = "active"
+                    className = className + " active";
                 } else {
-                    className = ""
+                    ;
                 }
           return (
             <Project key={project.id || project.cid} project={project} projects={this.props.projects} onClick={self.projectClicked} useRouter={this.props.useRouter} className={className}/>
@@ -34,7 +34,7 @@ define(
         }.bind(this));
 
         return (
-          <ul id="project-list">
+          <ul className="list-group row">
             {projects}
           </ul>
         );

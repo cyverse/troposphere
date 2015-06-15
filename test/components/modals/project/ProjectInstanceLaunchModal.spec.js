@@ -4,7 +4,7 @@ define(
     'components/modals/project/ProjectInstanceLaunchModal.react',
     'test/fixtures/images.fixture',
     'stores',
-    'components/modals/project/instance_launch/ImageList.react',
+    'common/image/ImageList.react',
     'test/fixtures/image.fixture',
     'components/modals/project/instance_launch/ImageDetailsView.react',
     'components/modals/project/instance_launch/ImageLaunchView.react'

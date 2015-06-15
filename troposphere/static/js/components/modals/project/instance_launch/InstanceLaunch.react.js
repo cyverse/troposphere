@@ -144,7 +144,7 @@ define(function (require) {
       if(identities && providers && state.identityId){
         selectedIdentity = identities.get(state.identityId);
         selectedProvider = providers.get(selectedIdentity.get('provider').id);
-        providerSizes = stores.SizeStore.fetchWhere({
+         providerSizes = stores.SizeStore.fetchWhere({
           provider__id: selectedProvider.id,
           page_size: 100
         });

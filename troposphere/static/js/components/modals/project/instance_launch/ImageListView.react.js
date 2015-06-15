@@ -5,7 +5,7 @@ define(
     'react',
     'backbone',
     'stores',
-    './ImageList.react',
+    'components/common/image/ImageList.react',
     'collections/ApplicationCollection'
   ],
   function (React, Backbone, stores, ImageList, ImageCollection) {
@@ -18,7 +18,7 @@ define(
       //
       // Mounting & State
       // ----------------
-      //
+      //a
 
       propTypes: {
         onPrevious: React.PropTypes.func.isRequired,

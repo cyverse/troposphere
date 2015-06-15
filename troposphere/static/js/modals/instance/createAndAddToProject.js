@@ -5,7 +5,7 @@ define(function (require) {
       actions = require('actions'),
       stores = require('stores'),
       ModalHelpers = require('components/modals/ModalHelpers'),
-      ProjectInstanceLaunchModal = require('components/modals/project/ProjectInstanceLaunchModal.react');
+      InstanceLaunchWizardModal = require('components/modals/instance/InstanceLaunchWizardModal.react');
 
   return {
 
@@ -13,18 +13,24 @@ define(function (require) {
       if(!options.project) throw new Error("Missing project");
 
       var project = options.project,
-          modal = React.createElement(ProjectInstanceLaunchModal);
+          modal = InstanceLaunchWizardModal({
+        project: project,
+      }); //NOTE: was 'createElement?'
 
-      ModalHelpers.renderModal(modal, function (application, identity, machineId, sizeId, instanceName) {
-        var size = stores.SizeStore.get(sizeId),
-            machine = application.get('machines').get(machineId);
+      //NOTE: Why do this here? Shouldn't this happen on success of the wizard anyway?
+      ModalHelpers.renderModal(modal, function (launchData) {
+        var size = launchData.size,
+            version = launchData.version,
+            identity = launchData.identity,
+            name = launchData.name,
+            project = launchData.project;
 
         actions.InstanceActions.launch({
           project: project,
-          instanceName: instanceName,
+          instanceName: name,
           identity: identity,
           size: size,
-          machine: machine
+          machine: version
         });
       });
     }

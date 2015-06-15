@@ -27,7 +27,7 @@ define(function (require) {
     // Standard CRUD Operations
     // ------------------------
 
-    create: function (params) {
+    create: function (params, onSuccess, onFailure) {
       if(!params.name) throw new Error("Missing name");
       if(!params.description) throw new Error("Missing description");
 
@@ -44,10 +44,17 @@ define(function (require) {
       project.save().done(function(){
         //NotificationController.success(null, "Project " + project.get('name') + " created.");
         Utils.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
+        if(onSuccess != null) {
+            onSuccess(project);
+        }
+
       }).fail(function(){
         var message = "Error creating Project " + project.get('name') + ".";
         NotificationController.error(null, message);
         Utils.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
+        if(onFailure != null) {
+            onFailure(project);
+        }
       });
     },
 
