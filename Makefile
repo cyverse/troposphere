@@ -71,4 +71,4 @@ jenkinschown :
 	chown -R jenkins:jenkins ./env
 
 chown :
-	chown -R atmosphere:www-data .
+	chown -R www-data:www-data .
