@@ -46,9 +46,9 @@ define(function (require) {
     edit: function (machine, application) {
       var that = this;
 
-      var modal = ProviderMachineEditModal({machine: machine, application: application});
+      var props = {machine: machine, application: application};
 
-      ModalHelpers.renderModal(modal, function(version, end_date, uncopyable, application, licenses, memberships){
+      ModalHelpers.renderModal(ProviderMachineEditModal, props, function(version, end_date, uncopyable, application, licenses, memberships){
         if (end_date !== null) {
             end_date = new Date(Date.parse(end_date)).toISOString()
         }
@@ -80,11 +80,11 @@ define(function (require) {
     destroy: function (machine) {
       //var that = this;
 
-      //var modal = ProviderMachineDeleteModal({
+      //var props = {
       //  machine: machine
-      //});
+      //};
 
-      //ModalHelpers.renderModal(modal, function(){
+      //ModalHelpers.renderModal(ProviderMachineDeleteModal, props, function(){
       //  Utils.dispatch(ProviderMachineConstants.REMOVE_machine, {machine: machine});
 
       //  machine.destroy().done(function(){

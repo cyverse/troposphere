@@ -126,12 +126,12 @@ define(function (require) {
 
       // Let the user know what we just did
       if(volumesInWrongProject.length > 0) {
-        var modal = NullProjectMoveAttachedVolumesModal({
+        var props = {
           movedVolumesArray: volumesInWrongProject,
           backdrop: 'static'
-        });
+        };
 
-        ModalHelpers.renderModal(modal, function(){});
+        ModalHelpers.renderModal(NullProjectMoveAttachedVolumesModal, props, function(){});
       }
     },
 
@@ -151,12 +151,12 @@ define(function (require) {
 
       if(resources.length > 0){
 
-        var modal = NullProjectMigrateResourceModal({
+        var props = {
           resources: resources,
           backdrop: 'static'
-        });
+        };
 
-        ModalHelpers.renderModal(modal, function(params){
+        ModalHelpers.renderModal(NullProjectMigrateResourceModal, props, function(params){
           var resourcesClone = resources.models.slice(0);
           var project;
 

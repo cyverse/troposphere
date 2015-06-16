@@ -11,7 +11,7 @@ define(
     return React.createClass({
 
       propTypes: {
-        machineId: React.PropTypes.number.isRequired,
+        machine: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         machines: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         onChange: React.PropTypes.func.isRequired
       },
@@ -26,7 +26,7 @@ define(
         });
 
         return (
-          <select value={this.props.machineId} id='machine' className='form-control' onChange={this.props.onChange}>
+          <select value={this.props.machine.version} id='machine' className='form-control' onChange={this.props.onChange}>
             {options}
           </select>
 

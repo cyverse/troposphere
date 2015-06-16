@@ -9,11 +9,9 @@ define(function (require) {
   return {
 
     launch: function(application){
-      var modal = InstanceLaunchWizardModal({
-        application: application
-      };
+      var props = {application: application};
 
-      ModalHelpers.renderModal(modal, function (launchData) {
+      ModalHelpers.renderModal(InstanceLaunchWizardModal, props, function (launchData) {
         var size = launchData.size,
             version = launchData.version,
             identity = launchData.identity,

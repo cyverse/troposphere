@@ -179,11 +179,11 @@ define(function (require) {
     deleteResources: function(resources, project){
       var that = this;
 
-      var modal = ProjectDeleteResourceModal({
+      var props = {
         resources: resources
-      });
+      };
 
-      ModalHelpers.renderModal(modal, function(){
+      ModalHelpers.renderModal(modal, props, function(){
         // We need to clone the array because we're going to be destroying
         // the model and that will cause it to be removed from the collection
         var clonedResources = resources.models.slice(0);
@@ -218,12 +218,12 @@ define(function (require) {
     // ------------------------
 
     reportResources: function(project, resources){
-      var modal = ProjectReportResourceModal({
+      var props = {
         project: project,
         resources: resources
-      });
+      };
 
-      ModalHelpers.renderModal(modal, function(){
+      ModalHelpers.renderModal(ProjectReportResourceModal, props, function(){
         // todo: report the resources
         alert("Report resources not yet implemented")
       });

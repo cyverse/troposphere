@@ -10,6 +10,7 @@ define(function (require) {
     propTypes: {
       machines: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
       application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+      simpleView: React.PropTypes.bool
     },
     renderMachine: function(machine){
       return (
@@ -17,6 +18,7 @@ define(function (require) {
           application={this.props.application}
           key={machine.id}
           machine={machine}
+          simpleView={this.props.simpleView}
         />
       );
     },

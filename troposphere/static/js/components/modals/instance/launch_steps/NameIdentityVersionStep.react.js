@@ -41,12 +41,12 @@ define(function (require) {
         },
         componentDidMount: function () {
             stores.IdentityStore.addChangeListener(this.updateState);
-            stores.MachineStore.addChangeListener(this.updateState);
+            stores.ProviderMachineStore.addChangeListener(this.updateState);
         },
 
         componentWillUnmount: function () {
             stores.IdentityStore.removeChangeListener(this.updateState);
-            stores.MachineStore.removeChangeListener(this.updateState);
+            stores.ProviderMachineStore.removeChangeListener(this.updateState);
         },
 
         onNameChange: function (e) {
@@ -180,13 +180,13 @@ define(function (require) {
                             <label htmlFor='machine' className="col-sm-3 control-label">Version</label>
                             <div className="col-sm-9">
                                 <MachineSelect
-                                    machineId={this.state.versionStr}
+                                    machine={this.state.version}
                                     machines={versions}
                                     onChange={this.onVersionChange}
                                 />
                             </div>
                         </div>
-                    {
+                        {
                         //TODO: Include some interesting information about Selected version here?
                         //IDEAS: Description
                         //TODO: Include some interesting information about Selected Identity here?
