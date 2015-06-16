@@ -194,7 +194,7 @@ define(function (require) {
                         <div className='form-group'>
                             <label htmlFor='machine' className="col-sm-3 control-label">Version</label>
                             <div className="col-sm-9 image-versions image-info-segment row">
-                              <MachineList application={this.state.application} machines={versions} simpleView={true} />
+                              <MachineList application={this.state.application} machines={versions} editable={false} />
                             </div>
                         </div>
                         <h5>Resources</h5>
