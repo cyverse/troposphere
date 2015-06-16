@@ -8,17 +8,14 @@ define(function (require) {
   return React.createClass({
 
     propTypes: {
-      machines: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-      application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      simpleView: React.PropTypes.bool
+      machines: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
+
     renderMachine: function(machine){
       return (
         <Machine
-          application={this.props.application}
           key={machine.id}
           machine={machine}
-          simpleView={this.props.simpleView}
         />
       );
     },
