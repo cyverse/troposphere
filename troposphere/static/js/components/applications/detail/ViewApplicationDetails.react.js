@@ -74,6 +74,7 @@ define(
               <AuthorView application={this.props.application}/>
               {tagsView}
               {availabilityView}
+              <DescriptionView application={this.props.application}/>
               {versionView}
             </div>
           </div>

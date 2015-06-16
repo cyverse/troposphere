@@ -9,7 +9,7 @@ define(function (require) {
       application.set(newAttributes);
       AppDispatcher.handleRouteAction({
         actionType: ApplicationConstants.APPLICATION_UPDATE,
-        application: application
+        payload: {application: application}
       });
     }
 
