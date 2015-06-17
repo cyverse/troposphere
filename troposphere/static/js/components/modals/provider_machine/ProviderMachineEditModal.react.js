@@ -41,7 +41,7 @@ define(function (require) {
         machineLicenses: null,//Future
         machineMemberships: null, //Future
         machineDescription: null, // Future
-        machineVersion: "",
+        applicationVersion: null,
         machineEndDate: "",
         machineUncopyable: "",
         visibility: "public" //Future
@@ -49,11 +49,10 @@ define(function (require) {
 
       if (machine) {
         end_date = machine.get('end_date');
-
-        state.machineVersion = machine.get('version');
-        state.machineDescription = state.machineVersion.description;
+        state.applicationVersion = machine.get('version');
+        state.machineDescription = state.applicationVersion.description;
         state.machineEndDate = isNaN(end_date) ? "" : end_date;
-        state.machineUncopyable = ! state.machineVersion.allow_imaging;
+        state.machineUncopyable = ! state.applicationVersion.allow_imaging;
       }
 
       //if (licenses) {
@@ -78,7 +77,7 @@ define(function (require) {
 
       if(all_users) {
         state.all_users = all_users;
-        state.machineMemberships = stores.UserStore.getUsersFromList(state.machineVersion.membership);
+        state.machineMemberships = stores.UserStore.getUsersFromList(state.applicationVersion.membership);
       }
 
       return state;
@@ -106,7 +105,7 @@ define(function (require) {
     },
 
     isSubmittable: function(){
-      var hasVersion   = !!this.state.machineVersion;
+      var hasVersion   = !!this.state.applicationVersion;
       var validEndDate = !!this.valid_date(this.state.machineEndDate);
       return hasVersion && validEndDate;
     },
@@ -123,7 +122,7 @@ define(function (require) {
     confirm: function () {
       this.hide();
       this.props.onConfirm(
-        this.state.machineVersion,
+        this.state.applicationVersion,
         this.state.machineEndDate,
         this.state.machineUncopyable,
         this.state.machineApplicationID,
@@ -141,7 +140,7 @@ define(function (require) {
     // there's a risk of the component being re-rendered by the parent.
     // Should probably verify this behavior, but for now, we play it safe.
     onVersionChange: function (e) {
-      this.setState({machineVersion: e.target.value});
+      this.setState({applicationVersion: e.target.value});
     },
 
     onEndDateChange: function (e) {
@@ -178,7 +177,7 @@ define(function (require) {
 
           <div className='form-group'>
             <label htmlFor='machine-version'>Version Created On</label>
-            <input type='text' className='form-control' value={this.state.machineVersion.start_date} onChange={this.onVersionChange}/>
+            <input type='text' className='form-control' value={this.state.applicationVersion.start_date} onChange={this.onVersionChange}/>
           </div>
 
           <div className='form-group'>

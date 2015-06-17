@@ -14,8 +14,16 @@ define(function (require) {
       var image_version = BaseStore.prototype.get.apply(this, arguments);
       if(!image_version) return this.fetchModel(imageVersionId);
       return image_version;
-    }
-
+    },
+    //getForImage: function(image) {
+    //  if(!this.models) {
+    //      this.fetchModels();
+    //  }  else {
+    //      return this.models.filter(function(version) {
+    //          return version.image.id == image.id;
+    //      });
+    //  }
+    //}
   });
 
   var store = new ApplicationVersionStore();
