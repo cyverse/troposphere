@@ -10,6 +10,7 @@ define(function (require) {
   return React.createClass({
 
     propTypes: {
+      application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
       machine: React.PropTypes.instanceOf(Backbone.Model).isRequired,
       onEditClicked: React.PropTypes.func,
       editable: React.PropTypes.bool
@@ -17,7 +18,7 @@ define(function (require) {
     onEditClicked: function() {
          return this.props.onEditClicked(this.props.machine);
     },
-    renderEditLink: function () {
+    renderEditLink: function (image) {
         //NOTE: Undefined/null/etc. defaults to "TRUE" case.
          if (this.props.editable == false) {
              return;

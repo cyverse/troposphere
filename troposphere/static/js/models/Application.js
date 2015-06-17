@@ -3,6 +3,7 @@ define(function (require) {
   var _ = require('underscore'),
       Backbone = require('backbone'),
       globals = require('globals'),
+      stores = require('stores'),
       ProviderMachine = require('models/ProviderMachine'),
       ProviderMachineCollection = require('collections/ProviderMachineCollection'),
       moment = require('moment');
@@ -15,7 +16,7 @@ define(function (require) {
       // todo: move this feature into ImageBookmarksStore
       attributes.isFavorited = true; //response.is_bookmarked;
 
-      // todo: handle this through the ProviderSnapshot store
+      // todo: handle this through the ProviderMachine store
       var machines = _.map(attributes.provider_images, function (attrs) {
         return new ProviderMachine(ProviderMachine.prototype.parse(attrs));
       });

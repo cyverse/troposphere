@@ -3,11 +3,13 @@ define(function (require) {
   var React = require('react'),
       _ = require('underscore'),
       Machine = require('./Machine.react'),
-      stores = require('stores');
+      stores = require('stores'),
+      actions = require('actions');
 
   return React.createClass({
 
     propTypes: {
+      application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
       machines: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
       editable: React.PropTypes.bool
     },
@@ -16,8 +18,10 @@ define(function (require) {
       return (
         <Machine
           key={machine.id}
+          application={this.props.application}
           machine={machine}
           editable={this.props.editable}
+          onEditClicked={this.showMachineEditModal}
         />
       );
     },

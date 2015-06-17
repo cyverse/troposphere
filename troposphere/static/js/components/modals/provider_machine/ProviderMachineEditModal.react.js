@@ -49,6 +49,7 @@ define(function (require) {
 
       if (machine) {
         end_date = machine.get('end_date');
+
         state.machineVersion = machine.get('version');
         state.machineDescription = state.machineVersion.description;
         state.machineEndDate = isNaN(end_date) ? "" : end_date;
