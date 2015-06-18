@@ -49,10 +49,12 @@ define(function (require) {
 
       if (machine) {
         end_date = machine.get('end_date');
-        state.applicationVersion = machine.get('version');
-        state.machineDescription = state.applicationVersion.description;
+        var versionId = machine.get('version').id;
+        var version = stores.ApplicationVersionStore.get(versionId);
+        if(version) {
+            state.applicationVersion = version;
+        }
         state.machineEndDate = isNaN(end_date) ? "" : end_date;
-        state.machineUncopyable = ! state.applicationVersion.allow_imaging;
       }
 
       //if (licenses) {
@@ -75,25 +77,30 @@ define(function (require) {
         state.providers = providers;
       }
 
-      if(all_users) {
-        state.all_users = all_users;
-        state.machineMemberships = stores.UserStore.getUsersFromList(state.applicationVersion.membership);
-      }
+      if (state.applicationVersion) {
+          state.machineDescription = state.applicationVersion.description;
+          state.machineUncopyable = !state.applicationVersion.allow_imaging;
 
+          if (all_users) {
+              state.all_users = all_users;
+              var member_list = state.applicationVersion.get('membership');
+              state.machineMemberships = stores.UserStore.getUsersFromList(member_list);
+          }
+      }
       return state;
     },
 
     componentDidMount: function () {
       stores.ApplicationStore.addChangeListener(this.updateState);
       stores.UserStore.addChangeListener(this.updateState);
-      //stores.LicenseStore.addChangeListener(this.updateState);
+      stores.ApplicationVersionStore.addChangeListener(this.updateState);
       //stores.MachineMembershipStore.addChangeListener(this.updateState);
     },
 
     componentWillUnmount: function () {
       stores.ApplicationStore.removeChangeListener(this.updateState);
       stores.UserStore.removeChangeListener(this.updateState);
-      //stores.LicenseStore.removeChangeListener(this.updateState);
+      stores.ApplicationVersionStore.removeChangeListener(this.updateState);
       //stores.MachineMembershipStore.removeChangeListener(this.updateState);
     },
 
@@ -172,6 +179,9 @@ define(function (require) {
     },
 
     renderBody: function() {
+      if(!this.state.applicationVersion) {
+          return (<div className="loading"/>);
+      }
       return (
         <div role='form'>
 
@@ -184,6 +194,9 @@ define(function (require) {
             <label htmlFor='machine-end-date'>Version Removed On</label>
             <input type='text' className='form-control' value={this.state.machineEndDate} onChange={this.onEndDateChange}/>
           </div>
+        {
+        //For some reason, This is throwing a 'prop value not specified in <<anonymous>>' warning..
+        }
           <EditDescriptionView
             application={this.props.application}
             value={this.state.description}

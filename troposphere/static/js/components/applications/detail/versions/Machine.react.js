@@ -37,6 +37,7 @@ define(function (require) {
     render: function () {
       // todo: figure out if anything is ever recommended, or if it's just a concept idea
       var machine = this.props.machine,
+          version = machine.get('version'),
           isRecommended = false,
           dateCreated = this.props.machine.get('start_date').format("M/DD/YYYY"),
           machineHash = CryptoJS.MD5(machine.id.toString()).toString(),
@@ -49,7 +50,7 @@ define(function (require) {
             <Gravatar hash={machineHash} size={iconSize} type={type}/>
             <div className="image-version-details">
               <div className="version">
-                {machine.get('version')}
+                {version.name}
                 {isRecommended ? <span className="recommended-tag">Recommended</span> : null}
               </div>
               <div>{dateCreated}</div>
