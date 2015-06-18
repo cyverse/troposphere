@@ -40,12 +40,12 @@ define(function (require) {
             if(!_versions) {
                 return null;
             }
-            //TODO: WHY?!?!!
-            return new ApplicationVersionCollection(_versions.models);
+
+            return _versions;
         },
         getMachines: function() {
             var machineHash = {},
-                machines = new ProviderMachineCollection(),
+                machines = [],
                 partialLoad = false,
                 versions = this.getVersions();
             //Wait for it...
@@ -58,7 +58,7 @@ define(function (require) {
                     partialLoad = true;
                     return;
                 }
-                machines = machines.add(_machines);
+                machines = machines.concat(_machines.models);
             });
 
             //Don't try to render until you are 100% ready
@@ -66,14 +66,14 @@ define(function (require) {
                 return null;
             }
             //TODO: Why??
-            machines = machines.collection.filter(function (machine) {
+            machines = machines.filter(function (machine) {
                 // remove duplicate machines
                 if (!machineHash[machine.id]) {
                     machineHash[machine.id] = machine;
                     return true;
                 }
             });
-            return machines;
+            return new ProviderMachineCollection(machines);
         },
         getProviders: function () {
             /**
