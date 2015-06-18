@@ -9,17 +9,17 @@ define(function (require) {
     propTypes: {
       application: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
-
     render: function () {
-      var image = this.props.application;
-      //TODO: Apply logic in availabilityview here
-      return (<div className="loading" />);
-        //TODO: Apply 'Consolidate this' ------------------------------------------------------------------------------------------------
-        //TODO: Apply 'Consolidate this' ------------------------------------------------------------------------------------------------
+      var image = this.props.application,
+          machines = image.getMachines();
+      if(!machines) {
+          return (<div className="loading" />);
+      }
+      //TODO: Why is MachineList failing to accept the 'machines'
       return (
         <div className="image-versions image-info-segment row">
           <h2 className="title col-md-2">Versions</h2>
-          <MachineList application={image} machines={image.get('machines')} editable={true}/>
+          <MachineList application={image} machines={machines} editable={true}/>
         </div>
       );
     }

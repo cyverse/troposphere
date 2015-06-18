@@ -4,7 +4,7 @@ define(function (require) {
       Backbone = require('backbone'),
       globals = require('globals'),
       stores = require('stores'),
-      Application = require('models/Application'),
+      ProviderMachineCollection = require('../collections/ProviderMachineCollection'),
       moment = require('moment');
 
   return Backbone.Model.extend({
@@ -19,6 +19,16 @@ define(function (require) {
 
       return attributes;
     },
+    getMachines: function() {
+        var _machines = stores.ProviderMachineStore.fetchWhere(
+            {version_id: this.id}
+        );
+        if(!_machines) {
+            return null;
+        }
+        //TODO: WHY?!?!!
+        return new ProviderMachineCollection(_machines.models);
+    }
 
   });
 
