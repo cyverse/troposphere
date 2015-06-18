@@ -8,7 +8,7 @@ define(function (require) {
   return Backbone.Collection.extend({
     model: ApplicationVersion,
 
-    url: globals.API_V2_ROOT + "/image_versions",
+    url: globals.API_V2_ROOT + "/image_version",
 
     parse: function (response) {
       this.meta = {

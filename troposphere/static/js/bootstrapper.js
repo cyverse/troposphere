@@ -30,6 +30,7 @@ define(function (require) {
     // Register which stores the application should use
     var stores = require('stores');
     stores.ApplicationStore        = require('stores/ApplicationStore');
+    stores.ApplicationVersionStore        = require('stores/ApplicationVersionStore');
     stores.IdentityStore           = require('stores/IdentityStore');
     stores.ImageBookmarkStore      = require('stores/ImageBookmarkStore');
     stores.InstanceHistoryStore    = require('stores/InstanceHistoryStore');

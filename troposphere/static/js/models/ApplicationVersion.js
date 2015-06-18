@@ -9,17 +9,10 @@ define(function (require) {
 
   return Backbone.Model.extend({
 
-    urlRoot: globals.API_V2_ROOT + "/image_versions",
+    urlRoot: globals.API_V2_ROOT + "/image_version",
 
     parse: function (attributes) {
-      // todo: move this feature into ImageBookmarksStore
-      attributes.isFavorited = true; //response.is_bookmarked;
 
-      // todo: handle this through the ProviderMachine store
-      var attrs = attributes.image,
-          image = new Application(Application.prototype.parse(attrs));
-
-      attributes.application = image;
       attributes.start_date = moment(attributes.start_date);
       attributes.end_date = moment(attributes.end_date);
       attributes.description = attributes.description || "";
