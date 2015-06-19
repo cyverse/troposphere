@@ -4,7 +4,7 @@ define(function (require) {
         Backbone = require('backbone'),
         _ = require('underscore'),
         stores = require('stores'),
-        MachineList = require('components/applications/detail/versions/MachineList.react'),
+        MachineList = require('components/applications/detail/versions/VersionList.react'),
         Glyphicon = require('components/common/Glyphicon.react');
 
     var ENTER_KEY = 13;

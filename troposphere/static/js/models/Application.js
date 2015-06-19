@@ -97,8 +97,8 @@ define(function (require) {
                 var _providers = machines.filter(
                     function (machine) {
                         // filter out providers that don't exist
-                        var providerId = machine.get('provider').id,
-                            provider = stores.ProviderStore.get(machine.get('provider').id);
+                        var providerId = machine.provider.id,
+                            provider = stores.ProviderStore.get(machine.provider.id);
 
                         if (!provider) console.warn("Machine " + machine.id + " listed on version " + version.id + " showing availability on non-existent provider " + providerId);
 

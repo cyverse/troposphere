@@ -2,7 +2,7 @@ define(function (require) {
 
   var React = require('react'),
       Backbone = require('backbone'),
-      MachineList = require('./MachineList.react');
+      VersionList = require('./VersionList.react');
 
   return React.createClass({
 
@@ -11,15 +11,14 @@ define(function (require) {
     },
     render: function () {
       var image = this.props.application,
-          machines = image.getMachines();
-      if(!machines) {
+          versions = image.getVersions();
+      if(!versions) {
           return (<div className="loading" />);
       }
-      //TODO: Why is MachineList failing to accept the 'machines'
       return (
         <div className="image-versions image-info-segment row">
           <h2 className="title col-md-2">Versions</h2>
-          <MachineList application={image} machines={machines} editable={true}/>
+          <VersionList application={image} versions={versions} editable={true}/>
         </div>
       );
     }

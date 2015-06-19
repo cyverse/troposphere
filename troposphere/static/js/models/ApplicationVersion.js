@@ -19,6 +19,7 @@ define(function (require) {
 
       return attributes;
     },
+
     getMachines: function() {
         var _machines = stores.ProviderMachineStore.fetchWhere(
             {version_id: this.id}
@@ -27,7 +28,8 @@ define(function (require) {
         if(!_machines || _machines.length === 0) {
             return null;
         }
-        return _machines;
+        //MOVE AWAY from backbone!
+        return _machines.toJSON();
     }
 
   });

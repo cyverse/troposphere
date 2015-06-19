@@ -37,24 +37,26 @@ define(function (require) {
     render: function () {
       // todo: figure out if anything is ever recommended, or if it's just a concept idea
       var machine = this.props.machine,
-          version = machine.get('version'),
+          image = this.props.application,
+          version = machine.version,
           isRecommended = false,
-          dateCreated = this.props.machine.get('start_date').format("M/DD/YYYY"),
-          machineHash = CryptoJS.MD5(machine.id.toString()).toString(),
+          dateCreated = this.props.machine.start_date.format("M/DD/YYYY"),
+          versionHash = CryptoJS.MD5(version.id.toString()).toString(),
           iconSize = 63,
-          type = stores.ProfileStore.get().get('icon_set');
+          type = stores.ProfileStore.get().get('icon_set'),
+          owner = image.get('created_by').username;
 
       return (
         <li>
           <div>
-            <Gravatar hash={machineHash} size={iconSize} type={type}/>
+            <Gravatar hash={versionHash} size={iconSize} type={type}/>
             <div className="image-version-details">
               <div className="version">
                 {version.name}
                 {isRecommended ? <span className="recommended-tag">Recommended</span> : null}
               </div>
               <div>{dateCreated}</div>
-              <div>{machine.get('owner')}</div>
+              <div>{owner}</div>
               {this.renderEditLink()}
             </div>
           </div>
