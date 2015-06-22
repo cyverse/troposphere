@@ -139,9 +139,10 @@ define(function (require) {
             var image = this.props.application,
                 identities = stores.IdentityStore.getAll(),
                 providers = stores.ProviderStore.getAll(),
-                versions = image.get('provider_images');
+                versions = image.getVersions();
+                // versions = image.get('provider_images');
 
-            if (!providers || !identities) return <div className="loading"></div>;
+            if (!providers || !identities || !versions) return <div className="loading"></div>;
 
             // don't show duplicate images
             versions = this.cleanVersions(versions);
