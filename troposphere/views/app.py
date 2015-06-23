@@ -69,6 +69,7 @@ def _handle_authenticated_application_request(request, maintenance_records):
         'emulator_token': request.session.get('emulator_token'),
         'emulated_by': request.session.get('emulated_by'),
         'records': maintenance_records,
+        'disable_login': False,
         'show_troposphere_only': show_troposphere_only
     }
 

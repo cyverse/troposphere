@@ -51,6 +51,8 @@ def login(request):
     all_backends = settings.AUTHENTICATION_BACKENDS
     if "troposphere.auth_backends.MockLoginBackend" in all_backends:
         return _mock_login(request)
+    #TODO: The logic here might be preventing a 'normal POST login' from getting in when OAuth is
+    #      an available auth_backend
     elif 'troposphere.auth_backends.OAuthLoginBackend' in all_backends:
         return _oauth_login(request)
     elif request.META['REQUEST_METHOD'] is 'POST':
