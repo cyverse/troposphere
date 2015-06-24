@@ -23,7 +23,7 @@ define(function (require) {
 
     getUsersFromList: function (usernameList) {
       if(!this.models) throw new Error("Must fetch users before calling getUsersFromList");
-
+      //TODO: This will *FAIL* until we can ensure 'this.models.length == meta.count'
       var users = usernameList.map(function(username){
         var user = this.models.findWhere({username: username});
         return user;

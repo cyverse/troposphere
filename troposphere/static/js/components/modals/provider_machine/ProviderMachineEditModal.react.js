@@ -207,12 +207,17 @@ define(function (require) {
             machine={this.props.machine}
             providers={this.state.providers}
           />
-          <Visibility
-            value={this.state.visibility}
-            all_users={this.state.all_users}
-            membership_list={this.state.machineMemberships}
-            onChange={this.handleVisibilityChange}
-           />
+          {
+            /*
+             <Visibility
+             value={this.state.visibility}
+             all_users={this.state.all_users}
+             membership_list={this.state.machineMemberships}
+             onChange={this.handleVisibilityChange}
+             />
+
+            */
+          }
           <div className='form-group'>
             <label htmlFor='machine-uncopyable'>Uncopyable</label>
             <input type='checkbox' className='form-control' checked={this.state.machineUncopyable} onChange={this.onUncopyableSelected}/>
