@@ -1,6 +1,7 @@
 define(function (require) {
 
   var React = require('react'),
+      moment = require('moment'),
       Backbone = require('backbone'),
       Time = require('components/common/Time.react'),
       Gravatar = require('components/common/Gravatar.react'),
@@ -40,7 +41,7 @@ define(function (require) {
           image = this.props.application,
           version = machine.version,
           isRecommended = false,
-          dateCreated = this.props.machine.start_date.format("M/DD/YYYY"),
+          dateCreated = moment(version.start_date).format("M/DD/YYYY"),
           versionHash = CryptoJS.MD5(version.id.toString()).toString(),
           iconSize = 63,
           type = stores.ProfileStore.get().get('icon_set'),

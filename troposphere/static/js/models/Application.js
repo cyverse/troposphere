@@ -29,6 +29,7 @@ define(function (require) {
             delete attributes['isFavorited'];
             return attributes;
         },
+      //TODO: Move all this code to 'stores' @jchansen request
         getVersions: function() {
             /**
              * Returns the list of versions *OR* null && Starts the 'fetch' process.

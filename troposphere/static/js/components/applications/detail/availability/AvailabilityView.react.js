@@ -13,9 +13,10 @@ define(function (require) {
         },
 
         renderProvider: function (provider) {
+          //TODO: 'getProviders' is returning identities?
             return (
-                <li key={provider.id}>
-          {provider.get('name')}
+                <li key={provider.get('provider').id}>
+          {provider.get('provider').name}
                 </li>
             )
         },

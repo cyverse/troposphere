@@ -78,8 +78,8 @@ define(function (require) {
       }
 
       if (state.applicationVersion) {
-          state.machineDescription = state.applicationVersion.description;
-          state.machineUncopyable = !state.applicationVersion.allow_imaging;
+          state.machineDescription = state.applicationVersion.get('description');
+          state.machineUncopyable = !state.applicationVersion.get('allow_imaging');
 
           if (all_users) {
               state.all_users = all_users;
@@ -175,7 +175,7 @@ define(function (require) {
     //
     handleDescriptionChange: function(e){
       var description = e.target.value;
-      this.setState({description: description});
+      this.setState({machineDescription: description});
     },
 
     renderBody: function() {
@@ -187,7 +187,7 @@ define(function (require) {
 
           <div className='form-group'>
             <label htmlFor='machine-version'>Version Created On</label>
-            <input type='text' className='form-control' value={this.state.applicationVersion.start_date} onChange={this.onVersionChange}/>
+            <input type='text' className='form-control' value={this.state.applicationVersion.get('start_date').format("MMMM Do, YYYY")} editable={false}/>
           </div>
 
           <div className='form-group'>
@@ -199,7 +199,7 @@ define(function (require) {
         }
           <EditDescriptionView
             application={this.props.application}
-            value={this.state.description}
+            value={this.state.machineDescription}
             onChange={this.handleDescriptionChange}
           />
           <AvailabilityView
