@@ -12,7 +12,7 @@ define(function (require) {
     mixins: [BootstrapModalMixin],
 
     propTypes: {
-      machine: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+      machine: React.PropTypes.object.isRequired,
       application: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
@@ -48,8 +48,8 @@ define(function (require) {
       };
 
       if (machine) {
-        end_date = machine.get('end_date');
-        var versionId = machine.get('version').id;
+        end_date = machine.end_date;
+        var versionId = machine.version.id;
         var version = stores.ApplicationVersionStore.get(versionId);
         if(version) {
             state.applicationVersion = version;

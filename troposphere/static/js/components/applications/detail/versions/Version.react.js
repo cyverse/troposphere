@@ -11,7 +11,7 @@ define(function (require) {
 
     propTypes: {
       application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      machine: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+      machine: React.PropTypes.object.isRequired,
       onEditClicked: React.PropTypes.func,
       editable: React.PropTypes.bool
     },

@@ -19,6 +19,9 @@ define(function (require) {
                 </li>
             )
         },
+        //TODO: Potential bug here? React throws: Each child in an array should have a unique "key" prop. Check the renderComponent call using <undefined>.
+        //      See http://fb.me/react-warning-keys for more information.
+        //TODO: Warning is Followed by this Error: Uncaught RangeError: Maximum call stack size exceeded
         renderManyToManyList: function() {
             return (
             <div className="many-to-many-list-container">

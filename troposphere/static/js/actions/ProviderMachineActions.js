@@ -11,8 +11,7 @@ define(function (require) {
       ProviderMachine = require('models/ProviderMachine'),
 
       // Modals
-      ModalHelpers = require('components/modals/ModalHelpers'),
-      ProviderMachineEditModal = require('components/modals/provider_machine/ProviderMachineEditModal.react');
+      ModalHelpers = require('components/modals/ModalHelpers');
 
   return {
 
@@ -23,10 +22,10 @@ define(function (require) {
     update: function(machine, newAttributes) {
         if(!machine) throw new Error("Missing ProviderMachine");
         if(!newAttributes) throw new Error("No attributes to be updated");
-        
+
         machine.set(newAttributes);
         Utils.dispatch(ProviderMachineConstants.UPDATE_PROVIDER_MACHINE, {machine: machine});
-        //TODO: 
+        //TODO:
         machine.save(newAttributes, {
             patch:true,
         }).done(function(){
@@ -41,27 +40,6 @@ define(function (require) {
           // to add a handler in the ProviderMachineStore)
           //Utils.dispatch(ProviderMachineConstants.POLL_PROVIDER_MACHINE, {machine: machine});
         });
-    },
-
-    edit: function (machine, application) {
-      var that = this;
-
-      var props = {machine: machine, application: application};
-
-      ModalHelpers.renderModal(ProviderMachineEditModal, props, function(version, end_date, uncopyable, application, licenses, memberships){
-        if (end_date !== null) {
-            end_date = new Date(Date.parse(end_date)).toISOString()
-        }
-        that.update(machine, {
-            version:version,
-            end_date: end_date,
-            allow_imaging: uncopyable,
-            application: application,
-            licenses: licenses,
-            memberships: memberships
-        });
-      });
-
     },
 
     updateProviderMachineAttributes: function (machine, newAttributes) {
