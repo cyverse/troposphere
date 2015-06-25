@@ -63,8 +63,13 @@
     <div id="header" class="row">
         <div class="col-sm-4" id="logo_container">
             <a href="/">
-                <img src="{{ site_root }}/assets/resources/images/mini_logo.png" alt="iPlant Cloud Services"/>
-                <em>Atmosphere: iPlant Cloud Services</em>
+                {% if admin_settings %}
+                  <img src="{{ site_root }}{{ admin_settings.header_logo }}" alt="iPlant Cloud Services"/>
+                  <em> {{ admin_settings.header_text }} </em>
+                {% else %}
+                  <img src="{{ site_root }}/assets/resources/images/mini_logo.png" alt="iPlant Cloud Services"/>
+                  <em>Atmosphere: iPlant Cloud Services</em>
+                {% endif %}
             </a>
         </div>
 
@@ -182,7 +187,7 @@
     </div>
 
     <div class="col-md-6" style="padding-top: 7px"><a href="http://user.iplantcollaborative.org"
-                                                      target="_blank">&copy;{{ year }} iPlant Collaborative</a> <span
+                                                      target="_blank">&copy;{{ year }} {{ admin_settings.footer_text }}</a> <span
             id="version"></span></div>
 
     <div class="col-md-3"><a id="feedback_link" class="btn btn-primary" rel="popover"><i
