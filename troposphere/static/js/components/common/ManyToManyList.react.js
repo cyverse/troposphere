@@ -13,7 +13,7 @@ define(function (require) {
         },
         renderRow: function (item) {
             return (
-                <li className="many-to-many-list-item-choice" key={item.id}>
+                <li className="many-to-many-list-item-choice" key={item.cid}>
                     <span>{item}</span>
                     <a className="many-to-many-list-item-choice-close" onClick={this.onRemoveObject}></a>
                 </li>

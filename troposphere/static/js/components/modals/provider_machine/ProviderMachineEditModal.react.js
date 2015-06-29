@@ -83,8 +83,9 @@ define(function (require) {
 
           if (all_users) {
               state.all_users = all_users;
-              var member_list = state.applicationVersion.get('membership');
-              state.machineMemberships = stores.UserStore.getUsersFromList(member_list);
+              var member_list = state.applicationVersion.get('membership'),
+              memberships = member_list.map(function(username){return {"username":username};})
+              state.machineMemberships = new Backbone.Collection(memberships);
           }
       }
       return state;
@@ -215,8 +216,7 @@ define(function (require) {
              membership_list={this.state.machineMemberships}
              onChange={this.handleVisibilityChange}
              />
-
-            */
+             */
           }
           <div className='form-group'>
             <label htmlFor='machine-uncopyable'>Uncopyable</label>
