@@ -10,8 +10,6 @@ from api.models import UserPreferences
 
 from .maintenance import get_maintenance
 
-from .admin_settings import get_settings
-
 def root(request):
     return redirect('application')
 
@@ -27,6 +25,11 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
         'disable_login': disabled_login,
         'show_troposphere_only': show_troposphere_only
     }
+
+    template_params['HEADER_TEXT'] = settings.HEADER_TEXT
+    template_params['FAVICON'] = settings.FAVICON
+    template_params['CSS_FILE'] = settings.CSS_FILE
+    template_params['FOOTER_TEXT'] = settings.FOOTER_TEXT
 
     if hasattr(settings, "API_ROOT"):
         template_params['API_ROOT'] = settings.API_ROOT
@@ -64,16 +67,19 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
 
 def _handle_authenticated_application_request(request, maintenance_records):
     show_troposphere_only = hasattr(settings, "SHOW_TROPOSPHERE_ONLY") and settings.SHOW_TROPOSPHERE_ONLY is True
-    admin_settings = get_settings()
 
     template_params = {
         'access_token': request.session.get('access_token'),
         'emulator_token': request.session.get('emulator_token'),
         'emulated_by': request.session.get('emulated_by'),
         'records': maintenance_records,
-        'admin_settings': admin_settings,
         'show_troposphere_only': show_troposphere_only
     }
+
+    template_params['HEADER_TEXT'] = settings.HEADER_TEXT
+    template_params['FAVICON'] = settings.FAVICON
+    template_params['CSS_FILE'] = settings.CSS_FILE
+    template_params['FOOTER_TEXT'] = settings.FOOTER_TEXT
 
     if hasattr(settings, "INTERCOM_APP_ID"):
         template_params['intercom_app_id'] = settings.INTERCOM_APP_ID
