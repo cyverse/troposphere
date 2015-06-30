@@ -7,8 +7,8 @@
     <title>Atmosphere</title>
 
     <!--CSS-->
-    <link rel="shortcut icon" href="/assets/images/favicon.ico" />
-    <link href="{{ admin_settings.css_file }}" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" href="{{ FAVICON }}" />
+    <link href="{{ CSS_FILE }}" rel="stylesheet" type="text/css">
 
     <!-- Adobe Typekit (for Myriad Pro) -->
     <script type="text/javascript" src="//use.typekit.net/gty2jpo.js"></script>
@@ -53,6 +53,14 @@
 
         {% if API_V2_ROOT %}
             var API_V2_ROOT = "{{ API_V2_ROOT }}";
+        {% endif %}
+
+        {% if HEADER_TEXT %}
+            var HEADER_TEXT = "{{ HEADER_TEXT }}";
+        {% endif %}
+
+        {% if FOOTER_TEXT %}
+            var FOOTER_TEXT = "{{ FOOTER_TEXT }}";
         {% endif %}
 
         {% if show_troposphere_only %}
