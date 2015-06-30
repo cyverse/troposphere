@@ -20,13 +20,13 @@ define(
         var options = this.props.machines.map(function (machine) {
           return (
             <option key={machine.id} value={machine.id}>
-              {machine.get('version')}
+              {machine.get('name')}
             </option>
           );
         });
 
         return (
-          <select value={this.props.machine.version} id='machine' className='form-control' onChange={this.props.onChange}>
+          <select value={this.props.machine.get('name')} id='machine' className='form-control' onChange={this.props.onChange}>
             {options}
           </select>
 

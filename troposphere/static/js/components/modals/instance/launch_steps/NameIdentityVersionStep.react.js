@@ -148,11 +148,11 @@ define(function (require) {
             versions = this.cleanVersions(versions);
 
             // remove identities whose provider has no versions
-            identities = new identities.constructor(identities.filter(function (i) {
-                return versions.find(function (m) {
-                    return m.get('provider').id === i.get('provider').id;
-                });
-            }));
+            // identities = new identities.constructor(identities.filter(function (i) {
+            //     return versions.find(function (m) {
+            //         return m.get('provider').id === i.get('provider').id;
+            //     });
+            // }));
             if (!this.state.identity) {
                 this.state.identity = identities.first();
             }

@@ -23,7 +23,7 @@ define(function (require) {
             instanceName: name,
             identity: identity,
             size: size,
-            machine: version
+            version: version
           });
       });
     }
