@@ -5,8 +5,10 @@ define(function (require) {
       stores = require('stores'),
       Backbone = require('backbone'),
       context = require('context'),
+      globals = require('globals'),
       Header = require('./Header.react'),
       Footer = require('./Footer.react'),
+      AdminSettings = require('../AdminSettings'),
       actions = require('actions'),
       NullProject = require('models/NullProject');
 
@@ -74,7 +76,7 @@ define(function (require) {
           <div id="main" style={{"marginTop": marginTop}}>
             <RouteHandler/>
           </div>
-          <Footer profile={context.profile}/>
+          <Footer text={globals.FOOTER_TEXT} profile={context.profile}/>
         </div>
       );
     }
