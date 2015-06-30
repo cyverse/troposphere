@@ -29,6 +29,7 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
     template_params['HEADER_TEXT'] = settings.HEADER_TEXT
     template_params['FAVICON'] = settings.FAVICON
     template_params['CSS_FILE'] = settings.CSS_FILE
+    template_params['LOGO'] = settings.LOGO
     template_params['FOOTER_TEXT'] = settings.FOOTER_TEXT
 
     if hasattr(settings, "API_ROOT"):
@@ -79,6 +80,7 @@ def _handle_authenticated_application_request(request, maintenance_records):
     template_params['HEADER_TEXT'] = settings.HEADER_TEXT
     template_params['FAVICON'] = settings.FAVICON
     template_params['CSS_FILE'] = settings.CSS_FILE
+    template_params['LOGO'] = settings.LOGO
     template_params['FOOTER_TEXT'] = settings.FOOTER_TEXT
 
     if hasattr(settings, "INTERCOM_APP_ID"):
