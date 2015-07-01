@@ -125,7 +125,7 @@ define(function (require) {
             if (query) {
                 message = 'Showing results for "' + query + '"';
             } else {
-                message = "Showing all images"
+                message = "Showing first 20 images"
             }
 
             return (
