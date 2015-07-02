@@ -5,7 +5,7 @@ define(function (require) {
       Backbone = require('backbone'),
       Router = require('react-router'),
       stores = require('stores'),
-      QuotaAdmin = require('./QuotaAdmin.react'),
+      QuotaAdmin = require('./ResourceAdmin.react'),
       RouteHandler = Router.RouteHandler;
 
   return React.createClass({

@@ -4,7 +4,7 @@ define(function (require) {
   var React = require('react'),
       Router = require('react-router'),
       stores = require('stores'),
-      QuotaRequest = require('./QuotaRequest.react'),
+      QuotaRequest = require('./ResourceRequest.react'),
       RouteHandler = Router.RouteHandler;
 
   return React.createClass({
