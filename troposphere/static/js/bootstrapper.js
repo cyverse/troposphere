@@ -29,6 +29,7 @@ define(function (require) {
 
     // Register which stores the application should use
     var stores = require('stores');
+    stores.AllocationStore         = require('stores/AllocationStore');
     stores.ApplicationStore        = require('stores/ApplicationStore');
     stores.IdentityStore           = require('stores/IdentityStore');
     stores.ImageBookmarkStore      = require('stores/ImageBookmarkStore');
