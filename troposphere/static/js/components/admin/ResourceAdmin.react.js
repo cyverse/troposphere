@@ -5,8 +5,7 @@ define(function (require) {
       Router = require('react-router'),
       stores = require('stores'),
       actions = require('actions'),
-      QuotaActions = require('actions/QuotaActions'),
-      RouteHandler = Router.RouteHandler;
+      ResourceActions = require('actions/ResourceActions');
 
   return React.createClass({
 
@@ -28,48 +27,51 @@ define(function (require) {
       if(quota) this.setState({quota: quota});
     },
 
-    handleQuotaApproval: function(e){
-      e.preventDefault();
-      var quotaRequest = stores.QuotaRequestStore.get(this.getParams().resourceRequestId);
-      var status = stores.QuotaStatusStore.findOne({name: "approved"});
-      QuotaActions.update({request: quotaRequest, response: this.state.response, quota: this.state.quota, status: status.id});
+    handleAllocationChange: function(event){
+      var allocation = event.target.value;
+      if(allocation) this.setState({allocation: allocation});
     },
 
-    handleQuotaDenial: function(e){
+    handleResponseSubmission: function(e){
       e.preventDefault();
-      var quotaRequest = stores.QuotaRequestStore.get(this.getParams().resourceRequestId);
-      var status = stores.QuotaStatusStore.findOne({name: "rejected"});
-      QuotaActions.update({request: quotaRequest, response: this.state.response, quota: this.state.quota, status: status.id});
+      var quotaRequest = stores.QuotaRequestStore.get(this.getParams().resourceRequestId),
+          quotaToSend = quotaRequest.get('current_quota'),
+          allocationToSend = quotaRequest.get('current_allocation'),
+          status = stores.QuotaStatusStore.findOne({name: "rejected"});
+
+      if(e.target.innerHTML === 'Approve'){
+          quotaToSend = this.state.quota || quotaRequest.get('current_quota');
+          allocationToSend = this.state.allocation || quotaRequest.get('current_allocation');
+          status = stores.QuotaStatusStore.findOne({name: "approved"});
+      }
+
+      ResourceActions.update({request: quotaRequest, response: this.state.response, quota: quotaToSend, allocation: allocationToSend, status: status.id});
     },
 
     render: function () {
 
-      var quotaRequest = stores.QuotaRequestStore.get(this.getParams().resourceRequestId);
       var quotas = stores.QuotaStore.getAll();
       var allocations = stores.AllocationStore.getAll();
       var statuses = stores.QuotaStatusStore.getAll();
+      var quotaRequest = stores.QuotaRequestStore.get(this.getParams().resourceRequestId);
 
-      if(!quotaRequest || !quotas || !allocations || !statuses) return <div className="loading"></div>;
+      if(!quotaRequest || !quotas || !allocations || !statuses) return <div className="loading" />;
 
-      var currentQuota = stores.QuotaStore.get(quotaRequest.get('current_quota'));
-      var currentAllocation = stores.AllocationStore.get(quotaRequest.get('current_allocation'));
+      var currentQuota = stores.QuotaStore.get(quotaRequest.get('current_quota')),
+          currentAllocation = stores.AllocationStore.get(quotaRequest.get('current_allocation'));
 
-      if(!currentQuota || !currentAllocation) return <div className="loading"></div>;
+      if(!currentQuota || !currentAllocation) return <div className="loading" />;
 
       var currentCPU = "  CPU: " + currentQuota.get('cpu'),
           currentMemory = "  Memory: " + currentQuota.get('memory'),
           currentStorage = "  Storage: " + currentQuota.get('storage'),
           currentStorageCount = "  Storage Count: " + currentQuota.get('storage_count'),
           currentSuspendedCount = "  Suspended: " + currentQuota.get('suspended_count'),
-          currentThreshold = "  Threshold: " + currentAllocation.get('threshold'),
+          currentThreshold = "  Threshold: " + currentAllocation.get('threshold') + " (" + (currentAllocation.get('threshold')/60) + " AU)",
           currentDelta = "  Delta: " + currentAllocation.get('delta');
-
 
       var currentQuotaString = currentCPU + currentMemory + currentStorage + currentStorageCount + currentSuspendedCount,
           currentAllocationString = currentThreshold + currentDelta;
-
-      console.log("current quota", currentQuotaString);
-      console.log("current allocation", currentAllocationString);
 
       return(
         <div className="quota-detail">
@@ -97,7 +99,7 @@ define(function (require) {
           </div>
           <div>
             <label>New allocation:&nbsp;</label>
-            <select value={this.state.quota} onChange={this.handleAllocationChange} ref="selectedAllocation">{allocations.map(function(allocation){
+            <select value={this.state.allocation} onChange={this.handleAllocationChange} ref="selectedAllocation">{allocations.map(function(allocation){
               return(
                 <option value={allocation.id} key={allocation.id}>
                   Threshold: {allocation.get('threshold')}&nbsp;
@@ -112,8 +114,8 @@ define(function (require) {
             <br />
             <textarea type="text" form="admin" value={this.state.value} cols="60" rows="8" onChange={this.handleResponseChange} />
           </div>
-          <button onClick={this.handleQuotaApproval} type="button" className="btn btn-default btn-sm">Approve</button>
-          <button onClick={this.handleQuotaDenial} type="button" className="btn btn-default btn-sm">Deny</button>
+          <button onClick={this.handleResponseSubmission} type="button" className="btn btn-default btn-sm">Approve</button>
+          <button onClick={this.handleResponseSubmission} type="button" className="btn btn-default btn-sm">Deny</button>
         </div>
       );
     }
