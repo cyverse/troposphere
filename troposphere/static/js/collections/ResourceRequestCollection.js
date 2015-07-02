@@ -2,11 +2,11 @@ define(function (require) {
   "use strict";
 
   var Backbone = require('backbone'),
-      QuotaRequest = require('models/QuotaRequest'),
+      ResourceRequest = require('models/ResourceRequest'),
       globals = require('globals');
 
   return Backbone.Collection.extend({
-    model: QuotaRequest,
+    model: ResourceRequest,
 
     url: globals.API_V2_ROOT + "/resource_requests",
 
@@ -16,7 +16,6 @@ define(function (require) {
         next: response.next,
         previous: response.previous
       };
-
       return response.results;
     }
 

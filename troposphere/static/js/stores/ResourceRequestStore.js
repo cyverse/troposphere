@@ -2,12 +2,12 @@ define(function (require) {
 
   var Dispatcher = require('dispatchers/Dispatcher'),
       BaseStore = require('stores/BaseStore'),
-      QuotaRequestCollection = require('collections/QuotaRequestCollection'),
-      QuotaRequestConstants = require('constants/QuotaRequestConstants'),
+      ResourceRequestCollection = require('collections/ResourceRequestCollection'),
+      ResourceRequestConstants = require('constants/ResourceRequestConstants'),
       stores = require('stores');
 
   var QuotaRequestStore = BaseStore.extend({
-    collection: QuotaRequestCollection
+    collection: ResourceRequestCollection
   });
 
   var store = new QuotaRequestStore();
@@ -18,15 +18,15 @@ define(function (require) {
     var options = dispatch.action.options || options;
 
     switch (actionType) {
-      case QuotaRequestConstants.UPDATE:
+      case ResourceRequestConstants.UPDATE:
         store.update(payload.model);
         break;
 
-      case QuotaRequestConstants.REMOVE:
+      case ResourceRequestConstants.REMOVE:
         store.remove(payload.model);
         break;
 
-      case QuotaRequestConstants.EMIT_CHANGE:
+      case ResourceRequestConstants.EMIT_CHANGE:
         break;
 
       default:
