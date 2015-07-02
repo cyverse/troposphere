@@ -62,7 +62,7 @@ define(function (require) {
       <Route name="help" handler={HelpPage}/>
       <Route name="settings" handler={SettingsPage}/>
       <Route name="admin" handler={ResourceMaster}>
-          <Route name="quota-request" path=":quotaRequestId" handler={ResourceAdmin}/>
+          <Route name="resource-request" path=":resourceRequestId" handler={ResourceAdmin}/>
       </Route>
 
 

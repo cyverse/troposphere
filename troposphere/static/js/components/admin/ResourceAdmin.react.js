@@ -30,20 +30,20 @@ define(function (require) {
 
     handleQuotaApproval: function(e){
       e.preventDefault();
-      var quotaRequest = stores.QuotaRequestStore.get(this.getParams().quotaRequestId);
+      var quotaRequest = stores.QuotaRequestStore.get(this.getParams().resourceRequestId);
       var status = stores.QuotaStatusStore.findOne({name: "approved"});
       QuotaActions.update({request: quotaRequest, response: this.state.response, quota: this.state.quota, status: status.id});
     },
 
     handleQuotaDenial: function(e){
       e.preventDefault();
-      var quotaRequest = stores.QuotaRequestStore.get(this.getParams().quotaRequestId);
+      var quotaRequest = stores.QuotaRequestStore.get(this.getParams().resourceRequestId);
       var status = stores.QuotaStatusStore.findOne({name: "rejected"});
       QuotaActions.update({request: quotaRequest, response: this.state.response, quota: this.state.quota, status: status.id});
     },
 
     render: function () {
-      var quotaRequest = stores.QuotaRequestStore.get(this.getParams().quotaRequestId);
+      var quotaRequest = stores.QuotaRequestStore.get(this.getParams().resourceRequestId);
       var quotas = stores.QuotaStore.getAll();
       var statuses = stores.QuotaStatusStore.getAll();
 
