@@ -3,6 +3,7 @@ define(function (require) {
   var _ = require('underscore'),
       Dispatcher = require('dispatchers/Dispatcher'),
       Store = require('stores/Store'),
+      Constants = require('constants/ResourceRequestConstants'),
       Collection = require('collections/AllocationCollection'),
       stores = require('stores');
 
