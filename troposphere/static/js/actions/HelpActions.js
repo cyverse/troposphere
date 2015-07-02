@@ -52,7 +52,7 @@ define(function (require) {
       var user = stores.ProfileStore.get(),
           identity = params.identity,
           quota = params.quota,
-          reason = params.description,
+          reason = params.reason,
           username = user.get('username');
 
       var data = {
