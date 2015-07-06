@@ -12,19 +12,12 @@ define(function (require) {
     mixins: [Router.State],
 
     render: function () {
-      var requests = stores.QuotaRequestStore.findWhere({
-            'status.name': 'pending'
+      var requests = stores.ResourceRequestStore.fetchWhere({
+            'status__name': 'pending'
           }),
           statuses = stores.QuotaStatusStore.getAll();
 
       if(!requests || !statuses) return <div className="loading"></div>;
-
-      if(!requests[0]){
-        stores.QuotaRequestStore.fetchMore();
-      }
-      requests = stores.QuotaRequestStore.findWhere({
-            'status.name': 'pending'
-          });
 
       var resourceRequestRows = requests.map(function(request) {
         return(
