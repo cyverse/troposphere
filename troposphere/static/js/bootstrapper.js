@@ -43,12 +43,12 @@ define(function (require) {
     stores.ProjectVolumeStore      = require('stores/ProjectVolumeStore');
     stores.ProviderMachineStore    = require('stores/ProviderMachineStore');
     stores.ProviderStore           = require('stores/ProviderStore');
-    stores.QuotaRequestStore       = require('stores/QuotaRequestStore');
+    stores.ResourceRequestStore    = require('stores/ResourceRequestStore');
     stores.QuotaStatusStore        = require('stores/QuotaStatusStore');
     stores.QuotaStore              = require('stores/QuotaStore');
     stores.SizeStore               = require('stores/SizeStore');
     stores.TagStore                = require('stores/TagStore');
-    stores.UserStore                = require('stores/UserStore');
+    stores.UserStore               = require('stores/UserStore');
     stores.VersionStore            = require('stores/VersionStore');
     stores.VolumeStore             = require('stores/VolumeStore');
 

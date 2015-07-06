@@ -34,18 +34,18 @@ define(function (require) {
 
     handleResponseSubmission: function(e){
       e.preventDefault();
-      var quotaRequest = stores.QuotaRequestStore.get(this.getParams().resourceRequestId),
-          quotaToSend = quotaRequest.get('current_quota'),
-          allocationToSend = quotaRequest.get('current_allocation'),
+      var resourceRequest = stores.ResourceRequestStore.get(this.getParams().resourceRequestId),
+          quotaToSend = resourceRequest.get('current_quota'),
+          allocationToSend = resourceRequest.get('current_allocation'),
           status = stores.QuotaStatusStore.findOne({name: "rejected"});
 
       if(e.target.innerHTML === 'Approve'){
-          quotaToSend = this.state.quota || quotaRequest.get('current_quota');
-          allocationToSend = this.state.allocation || quotaRequest.get('current_allocation');
+          quotaToSend = this.state.quota || resourceRequest.get('current_quota');
+          allocationToSend = this.state.allocation || resourceRequest.get('current_allocation');
           status = stores.QuotaStatusStore.findOne({name: "approved"});
       }
 
-      ResourceActions.update({request: quotaRequest, response: this.state.response, quota: quotaToSend, allocation: allocationToSend, status: status.id});
+      ResourceActions.update({request: resourceRequest, response: this.state.response, quota: quotaToSend, allocation: allocationToSend, status: status.id});
     },
 
     render: function () {
@@ -53,12 +53,12 @@ define(function (require) {
       var quotas = stores.QuotaStore.getAll();
       var allocations = stores.AllocationStore.getAll();
       var statuses = stores.QuotaStatusStore.getAll();
-      var quotaRequest = stores.QuotaRequestStore.get(this.getParams().resourceRequestId);
+      var resourceRequest = stores.ResourceRequestStore.get(this.getParams().resourceRequestId);
 
-      if(!quotaRequest || !quotas || !allocations || !statuses) return <div className="loading" />;
+      if(!resourceRequest || !quotas || !allocations || !statuses) return <div className="loading" />;
 
-      var currentQuota = stores.QuotaStore.get(quotaRequest.get('current_quota')),
-          currentAllocation = stores.AllocationStore.get(quotaRequest.get('current_allocation'));
+      var currentQuota = stores.QuotaStore.get(resourceRequest.get('current_quota')),
+          currentAllocation = stores.AllocationStore.get(resourceRequest.get('current_allocation'));
 
       if(!currentQuota || !currentAllocation) return <div className="loading" />;
 
@@ -75,11 +75,11 @@ define(function (require) {
 
       return(
         <div className="quota-detail">
-          <div><strong>User:</strong> {quotaRequest.get('user').username}</div>
-          <div><strong>Created by:</strong> {quotaRequest.get('created_by').username}</div>
-          <div><strong>Admin message:</strong> {quotaRequest.get('admin_message')}</div>
-          <div><strong>Request:</strong> {quotaRequest.get('request')}</div>
-          <div><strong>Description:</strong> {quotaRequest.get('description')}</div>
+          <div><strong>User:</strong> {resourceRequest.get('user').username}</div>
+          <div><strong>Created by:</strong> {resourceRequest.get('created_by').username}</div>
+          <div><strong>Admin message:</strong> {resourceRequest.get('admin_message')}</div>
+          <div><strong>Request:</strong> {resourceRequest.get('request')}</div>
+          <div><strong>Description:</strong> {resourceRequest.get('description')}</div>
           <div><strong>Current quota:</strong>{currentQuotaString}</div>
           <div><strong>Current allocation:</strong>{currentAllocationString}</div>
           <div>

@@ -6,11 +6,11 @@ define(function (require) {
       ResourceRequestConstants = require('constants/ResourceRequestConstants'),
       stores = require('stores');
 
-  var QuotaRequestStore = BaseStore.extend({
+  var ResourceRequestStore = BaseStore.extend({
     collection: ResourceRequestCollection
   });
 
-  var store = new QuotaRequestStore();
+  var store = new ResourceRequestStore();
 
   Dispatcher.register(function (dispatch) {
     var actionType = dispatch.action.actionType;
