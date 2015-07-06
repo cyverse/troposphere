@@ -40,8 +40,8 @@ define(function (require) {
           status = stores.QuotaStatusStore.findOne({name: "rejected"});
 
       if(e.target.innerHTML === 'Approve'){
-          quotaToSend = this.state.quota || resourceRequest.get('current_quota');
-          allocationToSend = this.state.allocation || resourceRequest.get('current_allocation');
+          quotaToSend = parseInt(this.state.quota) || parseInt(resourceRequest.get('current_quota'));
+          allocationToSend = parseInt(this.state.allocation) || parseInt(resourceRequest.get('current_allocation'));
           status = stores.QuotaStatusStore.findOne({name: "approved"});
       }
 
