@@ -19,6 +19,8 @@ define(function (require) {
 
       if(!requests || !statuses) return <div className="loading"></div>;
 
+      requests = stores.ResourceRequestStore.getAll();
+
       var resourceRequestRows = requests.map(function(request) {
         return(
           <ResourceRequest key={request.id} request={request} />
