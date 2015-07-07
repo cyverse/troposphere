@@ -4,7 +4,7 @@ define(function (require) {
         Backbone = require('backbone'),
         _ = require('underscore'),
         stores = require('stores'),
-        InstanceSizeSelect = require('../components/InstanceSizeSelect.react.js');
+        InstanceSizeSelect = require('../components/InstanceSizeSelect.react');
 
     var ENTER_KEY = 13;
     var selectedSize, selectedIdentity;

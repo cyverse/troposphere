@@ -4,7 +4,7 @@ define(
   [
     'react',
     'backbone',
-    './Image.react.js'
+    './Image.react'
   ],
   function (React, Backbone, Image) {
 

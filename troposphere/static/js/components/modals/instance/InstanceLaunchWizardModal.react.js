@@ -3,18 +3,18 @@ define(function (require) {
   var React = require('react'),
       Backbone = require('backbone'),
       _ = require('underscore'),
-      stores = require('stores')
+      stores = require('stores'),
 
       BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
       BreadcrumbNav = require('components/common/breadcrumb/BreadcrumbNav.react'),
 
       ApplicationSelectStep = require('./launch/steps/ApplicationSelectStep.react'),
-      NameIdentityVersionStep = require('./launch/steps/NameIdentityVersionStep.react.js'),
-      SizeSelectStep = require('./launch/steps/SizeSelectStep.react.js'),
-      ProjectSelectStep = require('./launch/steps/ProjectSelectStep.react.js'),
-      UserOptionsStep = require('./launch/steps/UserOptionsStep.react.js'),
-      AdministratorOptionsStep = require('./launch/steps/AdminOptionsStep.react.js'),
-      ReviewLaunchStep = require('./launch/steps/ReviewLaunchStep.react.js');
+      NameIdentityVersionStep = require('./launch/steps/NameIdentityVersionStep.react'),
+      SizeSelectStep = require('./launch/steps/SizeSelectStep.react'),
+      ProjectSelectStep = require('./launch/steps/ProjectSelectStep.react'),
+      UserOptionsStep = require('./launch/steps/UserOptionsStep.react'),
+      AdministratorOptionsStep = require('./launch/steps/AdminOptionsStep.react'),
+      ReviewLaunchStep = require('./launch/steps/ReviewLaunchStep.react');
 
   var APPLICATION_STEP = 0,
       INFORMATION_STEP = 1,

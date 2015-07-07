@@ -2,7 +2,7 @@ define(function (require) {
 
     var React = require('react'),
         Backbone = require('backbone'),
-        Breadcrumb = require('./Breadcrumb.react.js');
+        Breadcrumb = require('./Breadcrumb.react');
     return React.createClass({
 
       propTypes: {
