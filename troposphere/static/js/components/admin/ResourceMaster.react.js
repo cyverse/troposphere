@@ -27,6 +27,15 @@ define(function (require) {
         )
       });
 
+      if(!resourceRequestRows[0]){
+        resourceRequestRows =
+          <tr>
+              <td className="user-name">No requests</td>
+              <td className="request"></td>
+              <td className="description"></td>
+          </tr>
+      }
+
       return (
         <div className = "container">
             <h1>Resource Requests</h1>
