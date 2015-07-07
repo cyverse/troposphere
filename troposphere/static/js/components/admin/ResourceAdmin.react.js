@@ -57,21 +57,30 @@ define(function (require) {
 
       if(!resourceRequest || !quotas || !allocations || !statuses) return <div className="loading" />;
 
-      var currentQuota = stores.QuotaStore.get(resourceRequest.get('current_quota')),
+      if(resourceRequest.get('current_quota') && resourceRequest.get('current_allocation')) {
+
+        var currentQuota = stores.QuotaStore.get(resourceRequest.get('current_quota')),
           currentAllocation = stores.AllocationStore.get(resourceRequest.get('current_allocation'));
 
-      if(!currentQuota || !currentAllocation) return <div className="loading" />;
+        if (!currentQuota || !currentAllocation) return <div className="loading" />;
 
-      var currentCPU = "  CPU: " + currentQuota.get('cpu'),
+        var currentCPU = "  CPU: " + currentQuota.get('cpu'),
           currentMemory = "  Memory: " + currentQuota.get('memory'),
           currentStorage = "  Storage: " + currentQuota.get('storage'),
           currentStorageCount = "  Storage Count: " + currentQuota.get('storage_count'),
           currentSuspendedCount = "  Suspended: " + currentQuota.get('suspended_count'),
-          currentThreshold = "  Threshold: " + currentAllocation.get('threshold') + " (" + (currentAllocation.get('threshold')/60) + " AU)",
+          currentThreshold = "  Threshold: " + currentAllocation.get('threshold') + " (" + (currentAllocation.get('threshold') / 60) + " AU)",
           currentDelta = "  Delta: " + currentAllocation.get('delta');
 
-      var currentQuotaString = currentCPU + currentMemory + currentStorage + currentStorageCount + currentSuspendedCount,
+        var currentQuotaString = currentCPU + currentMemory + currentStorage + currentStorageCount + currentSuspendedCount,
           currentAllocationString = currentThreshold + currentDelta;
+
+      }
+
+      else{
+        var currentQuotaString = 'N/A',
+            currentAllocationString = 'N/A';
+      }
 
       return(
         <div className="quota-detail">
