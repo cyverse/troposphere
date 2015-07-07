@@ -3,8 +3,8 @@ define(function (require) {
     var React = require('react'),
         Backbone = require('backbone'),
         stores = require('stores'),
-        MachineSelect = require('components/modals/instance_launch/MachineSelect.react'),
-        IdentitySelect = require('components/modals/instance_launch/IdentitySelect.react');
+        MachineSelect = require('../components/MachineSelect.react'),
+        IdentitySelect = require('../components/IdentitySelect.react');
 
     return React.createClass({
 

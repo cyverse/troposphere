@@ -6,7 +6,7 @@ define(function (require) {
         Backbone = require('backbone'),
         _ = require('underscore'),
         ImageCollection = require('collections/ApplicationCollection'),
-        ImageList = require('components/common/image/ImageList.react'),
+        ImageList = require('../components/ImageList.react'),
         stores = require('stores');
     var timer,
         timerDelay = 100;

@@ -3,16 +3,19 @@ define(function (require) {
   var React = require('react'),
       Backbone = require('backbone'),
       _ = require('underscore'),
-      ApplicationSelectStep = require('components/modals/instance/launch_steps/ApplicationSelectStep.react')
+      stores = require('stores')
+
       BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
-      BreadcrumbNav = require('components/common/BreadcrumbNav.react'),
-      NameIdentityVersionStep = require('./launch_steps/NameIdentityVersionStep.react'),
-      SizeSelectStep = require('./launch_steps/SizeSelectStep.react'),
-      ProjectSelectStep = require('./launch_steps/ProjectSelectStep.react'),
-      UserOptionsStep = require('./launch_steps/UserOptionsStep.react'),
-      AdministratorOptionsStep = require('./launch_steps/AdminOptionsStep.react'),
-      ReviewLaunchStep = require('./launch_steps/ReviewLaunchStep.react'),
-      stores = require('stores');
+      BreadcrumbNav = require('components/common/breadcrumb/BreadcrumbNav.react'),
+
+      ApplicationSelectStep = require('./launch/steps/ApplicationSelectStep.react'),
+      NameIdentityVersionStep = require('./launch/steps/NameIdentityVersionStep.react.js'),
+      SizeSelectStep = require('./launch/steps/SizeSelectStep.react.js'),
+      ProjectSelectStep = require('./launch/steps/ProjectSelectStep.react.js'),
+      UserOptionsStep = require('./launch/steps/UserOptionsStep.react.js'),
+      AdministratorOptionsStep = require('./launch/steps/AdminOptionsStep.react.js'),
+      ReviewLaunchStep = require('./launch/steps/ReviewLaunchStep.react.js');
+
   var APPLICATION_STEP = 0,
       INFORMATION_STEP = 1,
       SIZE_STEP = 2,
@@ -20,6 +23,7 @@ define(function (require) {
       OPTIONS_STEP = 4,
       ADMIN_OPTIONS_STEP = 5,
       REVIEW_STEP = 6;
+
   return React.createClass({
     mixins: [BootstrapModalMixin],
 

@@ -5,9 +5,9 @@ define(function (require) {
       _ = require('underscore'),
       BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
       stores = require('stores'),
-      MachineSelect = require('../instance_launch/MachineSelect.react'),
-      IdentitySelect = require('../instance_launch/IdentitySelect.react'),
-      InstanceSizeSelect = require('../instance_launch/InstanceSizeSelect.react'),
+      MachineSelect = require('launch/components/MachineSelect.react.js'),
+      IdentitySelect = require('launch/components/IdentitySelect.react.js'),
+      InstanceSizeSelect = require('launch/components/InstanceSizeSelect.react.js'),
       ProjectSelect = require('../instance_launch/ProjectSelect.react'),
       Glyphicon = require('components/common/Glyphicon.react');
 
