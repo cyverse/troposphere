@@ -27,11 +27,9 @@ define(function (require) {
       SettingsPage = require('./components/settings/SettingsPage.react'),
       ProjectInstancePage = require("./components/projects/InstanceDetailsPage.react"),
       ProjectVolumePage = require("./components/projects/VolumeDetailsPage.react"),
-      QuotaMaster = require('./components/quota/QuotaMaster.react'),
-      QuotaRequest = require('./components/quota/QuotaRequest.react'),
-      QuotaAdmin = require('./components/quota/QuotaAdmin.react'),
-      BadgeMaster = require('./components/badges/BadgeMaster.react'),
-      Badge = require('./components/badges/Badge.react');
+      ResourceMaster = require('./components/admin/ResourceMaster.react'),
+      ResourceRequest = require('./components/admin/ResourceRequest.react'),
+      ResourceAdmin = require('./components/admin/ResourceAdmin.react');
 
   var AppRoutes = (
     <Route name="root" path="/application" handler={Master}>
@@ -64,10 +62,10 @@ define(function (require) {
       <Route name="help" handler={HelpPage}/>
       <Route name="settings" handler={SettingsPage}/>
       <Route name="admin" handler={ResourceMaster}>
-        <Route name="resource-request" path="resource/:resourceRequestId" handler={ResourceAdmin}/>
+          <Route name="resource-request" path="resource/:resourceRequestId" handler={ResourceAdmin}/>
       </Route>
-      <Route name="badges" handler={BadgeMaster}/>
 
+      <Route name="badges" handler={BadgeMaster}/>
 
       <DefaultRoute handler={DashboardPage}/>
     </Route>
