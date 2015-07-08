@@ -10,7 +10,7 @@ define(function (require) {
   return {
     checkInstances: function(){
       if(stores.InstanceHistoryStore.getAll().meta.count >= 10){
-        this.grant({badge: stores.BadgeStore.get(9)});
+        this.grant({badge: stores.BadgeStore.get(1)});
       }
     },
 
@@ -20,8 +20,7 @@ define(function (require) {
 
     grant: function(params){
       var badge = params.badge,
-          email = "prosif@gmail.com"
-            //stores.ProfileStore.get().get('email'),
+          email = stores.ProfileStore.get().get('email'),
           system = globals.BADGE_SYSTEM,
           secret = globals.BADGE_SECRET,
           badgeSlug = badge.get('slug');
