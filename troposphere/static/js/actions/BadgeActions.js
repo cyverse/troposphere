@@ -8,14 +8,40 @@ define(function (require) {
       NotificationController = require('controllers/NotificationController');
 
   return {
+
+    userHasBadge: function(badge){
+      return false;
+    },
+
     checkInstances: function(){
-      if(stores.InstanceHistoryStore.getAll().meta.count >= 10){
-        this.grant({badge: stores.BadgeStore.get(1)});
+      var instanceCount = stores.InstanceHistoryStore.getAll().meta.count;
+
+      if(instanceCount >= 1){
+        this.grant({badge: stores.BadgeStore.get(4)})
+      }
+
+      if(instanceCount >= 10){
+        badgeToGrant = stores.BadgeStore.get(1);
+        if (this.userHasBadge(badgeToGrant)){
+          this.grant({badge: badgeToGrant});
+        }
       }
     },
 
     ask: function(){
       this.checkInstances();
+    },
+
+    askSupport: function(){
+      this.grant({badge: stores.BadgeStore.get(2)});
+    },
+
+    askProject: function(){
+      this.grant({badge: stores.BadgeStore.get(3)})
+    },
+
+    askVolume: function(){
+      this.grant({badge: stores.BadgeStore.get(5)})
     },
 
     grant: function(params){
@@ -37,7 +63,6 @@ define(function (require) {
           secret: secret
         }),
         success: function(response){
-          console.log(response);
           NotificationController.info("You have earned a badge!");
           Utils.dispatch(BadgeConstants.GRANT_BADGE, {badge: badge})
         },
