@@ -25,6 +25,8 @@ define(function (require) {
             };
         },
         isSubmittable: function () {
+            if (!this.state.identity)
+                return false
             var allocation = this.state.identity.get('allocation'),
             // Allocation Usage cannot exceed 100%
                 allocationUsageStats = this.calculateAllocationUsage(allocation);
