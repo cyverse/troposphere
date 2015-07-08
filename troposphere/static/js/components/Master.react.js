@@ -8,7 +8,6 @@ define(function (require) {
       globals = require('globals'),
       Header = require('./Header.react'),
       Footer = require('./Footer.react'),
-      AdminSettings = require('../AdminSettings'),
       actions = require('actions'),
       NullProject = require('models/NullProject');
 
