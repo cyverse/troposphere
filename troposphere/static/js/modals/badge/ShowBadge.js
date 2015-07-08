@@ -8,11 +8,7 @@ define(function (require) {
   return {
 
     ShowBadge: function(badge){
-      var modal = BadgeModal({
-        badge: badge
-      });
-
-      ModalHelpers.renderModal(modal);
+      ModalHelpers.renderModal(BadgeModal, {badge:badge}, function(){});
     }
 
   };
