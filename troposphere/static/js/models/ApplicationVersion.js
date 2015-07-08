@@ -22,7 +22,7 @@ define(function (require) {
 
     getMachines: function() {
         var _machines = stores.ProviderMachineStore.fetchWhere(
-            {version_id: this.id}
+            {application_version__id: this.id}
         );
 
         if(!_machines || _machines.length === 0) {
