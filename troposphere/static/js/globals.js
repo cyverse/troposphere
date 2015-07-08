@@ -6,7 +6,10 @@ define(function (require) {
     API_V2_MOCK_ROOT: window.API_V2_MOCK_ROOT,
     THEME_HEADER_TEXT: window.THEME_HEADER_TEXT || 'Atmosphere',
     THEME_FOOTER_TEXT: window.THEME_FOOTER_TEXT || 'iPlant Collaborative',
-    UI_VERSION: window.UI_VERSION || 'Hawaiian Hawk'
+    UI_VERSION: window.UI_VERSION || 'Hawaiian Hawk',
+    BADGE_HOST: window.BADGE_HOST,
+    BADGE_SYSTEM: 'demo',
+    BADGE_SECRET: 'mysecret'
   }
 
 });
