@@ -15,7 +15,6 @@ define(function (require) {
         next: response.next,
         previous: response.previous
      };
-      console.log("response". response);
       return response.instances.map(function(instance){
         return instance.badge;
       });
