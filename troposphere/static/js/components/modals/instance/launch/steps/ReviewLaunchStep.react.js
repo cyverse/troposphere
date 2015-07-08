@@ -5,18 +5,20 @@ define(function (require) {
         _ = require('underscore'),
         stores = require('stores'),
         MachineList = require('components/applications/detail/versions/VersionList.react'),
+        VersionCollection = require('collections/ApplicationVersionCollection'),
         Glyphicon = require('components/common/Glyphicon.react');
 
     var ENTER_KEY = 13;
 
     return React.createClass({
         propTypes: {
-            name: React.PropTypes.string.isRequired,
-            application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-            version: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-            size: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-            identity: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-            project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+            //name: React.PropTypes.string.isRequired,
+            //application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+            //version: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+            //size: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+            //identity: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+            //project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+            launchData: React.PropTypes.object.isRequired,
             onPrevious: React.PropTypes.func.isRequired,
             onNext: React.PropTypes.func.isRequired
         },
@@ -167,7 +169,7 @@ define(function (require) {
                 size = this.state.size,
                 instances = stores.InstanceStore.getAll(),
                 sizes = stores.SizeStore.getAll(),
-                versions = new Backbone.Collection([this.state.version]);
+                versions = new VersionCollection([this.state.version]);
 
             return (
                 <div role='form'>
