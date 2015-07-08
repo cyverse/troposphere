@@ -45,13 +45,6 @@ define(
         this.props.onConfirm(this.state.badge);
       },
 
-      awardBadge: function(){
-        BadgeActions.grant({
-          badge: this.props.badge
-        });
-        $(this.getDOMNode()).modal('hide');
-      },
-
       render: function () {
         console.log("badge:", this.props.badge);
         var content = (
@@ -72,9 +65,6 @@ define(
                 </div>
                 <div className="modal-body">
                   {content}
-                </div>
-                <div onClick={this.awardBadge} id="get-it">
-                  Get this badge
                 </div>
               </div>
             </div>
