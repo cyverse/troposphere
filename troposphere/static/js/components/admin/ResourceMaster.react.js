@@ -4,7 +4,7 @@ define(function (require) {
   var React = require('react'),
       Router = require('react-router'),
       stores = require('stores'),
-      QuotaRequest = require('./QuotaRequest.react'),
+      ResourceRequest = require('./ResourceRequest.react'),
       RouteHandler = Router.RouteHandler;
 
   return React.createClass({
@@ -12,22 +12,33 @@ define(function (require) {
     mixins: [Router.State],
 
     render: function () {
-      var requests = stores.QuotaRequestStore.findWhere({
-            'status.name': 'pending'
+      var requests = stores.ResourceRequestStore.fetchWhere({
+            'status__name': 'pending'
           }),
           statuses = stores.QuotaStatusStore.getAll();
 
       if(!requests || !statuses) return <div className="loading"></div>;
 
-      var quotaRequestRows = requests.map(function(request) {
+      requests = stores.ResourceRequestStore.getAll();
+
+      var resourceRequestRows = requests.map(function(request) {
         return(
-          <QuotaRequest key={request.id} request={request} />
+          <ResourceRequest key={request.id} request={request} />
         )
       });
 
+      if(!resourceRequestRows[0]){
+        resourceRequestRows =
+          <tr>
+              <td className="user-name">No requests</td>
+              <td className="request"></td>
+              <td className="description"></td>
+          </tr>
+      }
+
       return (
         <div className = "container">
-            <h1>Quota Requests</h1>
+            <h1>Resource Requests</h1>
             <div>
                 <table className="quota-table table table-hover col-md-6">
                   <tbody>
@@ -42,7 +53,7 @@ define(function (require) {
                             <h3>Description</h3>
                         </th>
                     </tr>
-                    {quotaRequestRows}
+                    {resourceRequestRows}
                     </tbody>
                 </table>
               <RouteHandler/>

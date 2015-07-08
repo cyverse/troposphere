@@ -2,19 +2,20 @@ define(function (require) {
 
   var Utils = require('./Utils'),
       Router = require('../Router'),
-      Constants = require('constants/QuotaRequestConstants'),
-      QuotaRequest = require('models/QuotaRequest');
+      Constants = require('constants/ResourceRequestConstants');
 
   return {
     update: function(params) {
       var request = params.request,
           response = params.response,
           quota = params.quota,
+          allocation = params.allocation,
           status = params.status;
 
       var newAttributes = {
         admin_message: response,
         quota: quota,
+        allocation: allocation,
         status: status
       };
 

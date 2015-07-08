@@ -2,24 +2,21 @@ define(function (require) {
   "use strict";
 
   var Backbone = require('backbone'),
-      QuotaRequest = require('models/QuotaRequest'),
+      Allocation = require('models/Allocation'),
       globals = require('globals');
 
   return Backbone.Collection.extend({
-    model: QuotaRequest,
-
-    url: globals.API_V2_ROOT + "/quota_requests",
+    model: Allocation,
+    url: globals.API_V2_ROOT + "/allocations",
 
     parse: function (response) {
       this.meta = {
         count: response.count,
         next: response.next,
         previous: response.previous
-      };
-
+     };
       return response.results;
     }
-
   });
 
 });

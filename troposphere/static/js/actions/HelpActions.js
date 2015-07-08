@@ -52,7 +52,7 @@ define(function (require) {
       var user = stores.ProfileStore.get(),
           identity = params.identity,
           quota = params.quota,
-          reason = params.description,
+          reason = params.reason,
           username = user.get('username');
 
       var data = {
@@ -61,7 +61,7 @@ define(function (require) {
         description: reason
       };
 
-      var requestUrl = globals.API_V2_ROOT + '/quota_requests';
+      var requestUrl = globals.API_V2_ROOT + '/resource_requests';
 
       $.ajax(requestUrl, {
         type: 'POST',

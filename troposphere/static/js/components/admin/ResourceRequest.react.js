@@ -4,9 +4,7 @@ define(function (require) {
   var React = require('react'),
       Backbone = require('backbone'),
       Router = require('react-router'),
-      stores = require('stores'),
-      QuotaAdmin = require('./QuotaAdmin.react'),
-      RouteHandler = Router.RouteHandler;
+      stores = require('stores');
 
   return React.createClass({
 
@@ -19,7 +17,7 @@ define(function (require) {
       return (
           <tr>
               <td className="user-name">
-                <Router.Link to="quota-request" params={{quotaRequestId: request.id}}>
+                <Router.Link to="resource-request" params={{resourceRequestId: request.id}}>
                   {request.get('user').username}
                 </Router.Link>
               </td>

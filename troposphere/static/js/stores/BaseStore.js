@@ -245,6 +245,8 @@ define(function(require) {
           url: models.url + queryString
         }).done(function () {
           this.isFetchingQuery[queryString] = false;
+          if(!this.models) this.models = new this.collection();
+          this.models.add(models.models);
           this.queryModels[queryString] = models;
           this.emitChange();
         }.bind(this));
