@@ -102,6 +102,9 @@ def _handle_authenticated_application_request(request, maintenance_records):
     if hasattr(settings, "API_V2_ROOT"):
         template_params['API_V2_ROOT'] = settings.API_V2_ROOT
 
+    if hasattr(settings, "BADGE_HOST"):
+        template_params['BADGE_HOST'] = settings.BADGE_HOST
+
     user_preferences, created = UserPreferences.objects.get_or_create(user=request.user)
 
     # If beta flag in query params, set the session value to that
