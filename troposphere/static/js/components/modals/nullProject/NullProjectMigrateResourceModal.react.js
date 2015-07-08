@@ -5,7 +5,7 @@ define(
     'react',
     'backbone',
     'components/mixins/BootstrapModalMixin.react',
-    'components/modals/migrate_resources/ProjectSelect.react',
+    'components/common/project/ProjectSelect.react',
     'components/modals/migrate_resources/ResourceListItem.react',
     'stores'
   ],

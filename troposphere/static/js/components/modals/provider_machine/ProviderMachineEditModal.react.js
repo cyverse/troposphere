@@ -12,7 +12,7 @@ define(function (require) {
     mixins: [BootstrapModalMixin],
 
     propTypes: {
-      machine: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+      machine: React.PropTypes.object.isRequired,
       application: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
@@ -41,18 +41,20 @@ define(function (require) {
         machineLicenses: null,//Future
         machineMemberships: null, //Future
         machineDescription: null, // Future
-        machineVersion: "",
+        applicationVersion: null,
         machineEndDate: "",
         machineUncopyable: "",
         visibility: "public" //Future
       };
 
       if (machine) {
-        end_date = machine.get('end_date');
-        state.machineVersion = machine.get('version');
-        state.machineDescription = state.machineVersion.description;
+        end_date = machine.end_date;
+        var versionId = machine.version.id;
+        var version = stores.ApplicationVersionStore.get(versionId);
+        if(version) {
+            state.applicationVersion = version;
+        }
         state.machineEndDate = isNaN(end_date) ? "" : end_date;
-        state.machineUncopyable = ! state.machineVersion.allow_imaging;
       }
 
       //if (licenses) {
@@ -75,25 +77,31 @@ define(function (require) {
         state.providers = providers;
       }
 
-      if(all_users) {
-        state.all_users = all_users;
-        state.machineMemberships = stores.UserStore.getUsersFromList(state.machineVersion.membership);
-      }
+      if (state.applicationVersion) {
+          state.machineDescription = state.applicationVersion.get('description');
+          state.machineUncopyable = !state.applicationVersion.get('allow_imaging');
 
+          if (all_users) {
+              state.all_users = all_users;
+              var member_list = state.applicationVersion.get('membership'),
+              memberships = member_list.map(function(username){return {"username":username};})
+              state.machineMemberships = new Backbone.Collection(memberships);
+          }
+      }
       return state;
     },
 
     componentDidMount: function () {
       stores.ApplicationStore.addChangeListener(this.updateState);
       stores.UserStore.addChangeListener(this.updateState);
-      //stores.LicenseStore.addChangeListener(this.updateState);
+      stores.ApplicationVersionStore.addChangeListener(this.updateState);
       //stores.MachineMembershipStore.addChangeListener(this.updateState);
     },
 
     componentWillUnmount: function () {
       stores.ApplicationStore.removeChangeListener(this.updateState);
       stores.UserStore.removeChangeListener(this.updateState);
-      //stores.LicenseStore.removeChangeListener(this.updateState);
+      stores.ApplicationVersionStore.removeChangeListener(this.updateState);
       //stores.MachineMembershipStore.removeChangeListener(this.updateState);
     },
 
@@ -105,7 +113,7 @@ define(function (require) {
     },
 
     isSubmittable: function(){
-      var hasVersion   = !!this.state.machineVersion;
+      var hasVersion   = !!this.state.applicationVersion;
       var validEndDate = !!this.valid_date(this.state.machineEndDate);
       return hasVersion && validEndDate;
     },
@@ -122,7 +130,7 @@ define(function (require) {
     confirm: function () {
       this.hide();
       this.props.onConfirm(
-        this.state.machineVersion,
+        this.state.applicationVersion,
         this.state.machineEndDate,
         this.state.machineUncopyable,
         this.state.machineApplicationID,
@@ -140,7 +148,7 @@ define(function (require) {
     // there's a risk of the component being re-rendered by the parent.
     // Should probably verify this behavior, but for now, we play it safe.
     onVersionChange: function (e) {
-      this.setState({machineVersion: e.target.value});
+      this.setState({applicationVersion: e.target.value});
     },
 
     onEndDateChange: function (e) {
@@ -168,25 +176,31 @@ define(function (require) {
     //
     handleDescriptionChange: function(e){
       var description = e.target.value;
-      this.setState({description: description});
+      this.setState({machineDescription: description});
     },
 
     renderBody: function() {
+      if(!this.state.applicationVersion) {
+          return (<div className="loading"/>);
+      }
       return (
         <div role='form'>
 
           <div className='form-group'>
             <label htmlFor='machine-version'>Version Created On</label>
-            <input type='text' className='form-control' value={this.state.machineVersion.start_date} onChange={this.onVersionChange}/>
+            <input type='text' className='form-control' value={this.state.applicationVersion.get('start_date').format("MMMM Do, YYYY")} editable={false}/>
           </div>
 
           <div className='form-group'>
             <label htmlFor='machine-end-date'>Version Removed On</label>
             <input type='text' className='form-control' value={this.state.machineEndDate} onChange={this.onEndDateChange}/>
           </div>
+        {
+        //For some reason, This is throwing a 'prop value not specified in <<anonymous>>' warning..
+        }
           <EditDescriptionView
             application={this.props.application}
-            value={this.state.description}
+            value={this.state.machineDescription}
             onChange={this.handleDescriptionChange}
           />
           <AvailabilityView
@@ -194,12 +208,16 @@ define(function (require) {
             machine={this.props.machine}
             providers={this.state.providers}
           />
-          <Visibility
-            value={this.state.visibility}
-            all_users={this.state.all_users}
-            membership_list={this.state.machineMemberships}
-            onChange={this.handleVisibilityChange}
-           />
+          {
+            /*
+             <Visibility
+             value={this.state.visibility}
+             all_users={this.state.all_users}
+             membership_list={this.state.machineMemberships}
+             onChange={this.handleVisibilityChange}
+             />
+             */
+          }
           <div className='form-group'>
             <label htmlFor='machine-uncopyable'>Uncopyable</label>
             <input type='checkbox' className='form-control' checked={this.state.machineUncopyable} onChange={this.onUncopyableSelected}/>

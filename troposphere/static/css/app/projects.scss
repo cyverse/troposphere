@@ -13,7 +13,9 @@
     margin-right: 50px;
     margin-bottom: 50px;
     float: left;
-
+    &.active {
+      border: 1px solid #F00;
+    }
     &:nth-child(3n) {
       margin-right: 0;
     }
@@ -174,11 +176,9 @@ ul.project-resource-list {
   width: 100%;
   border-top: 1px solid #ccc;
   margin-left: -15px;
-
   li {
     display: inline-block;
     margin-left: 29px;
-
     i {
       margin-right: 7px;
     }
@@ -186,6 +186,8 @@ ul.project-resource-list {
       font-size: 23px;
     }
   }
+
+
 }
 
 .project-property {
@@ -226,7 +228,7 @@ ul.project-resource-list {
       font-size: 16px;
     }
   }
-  
+
   .html-wrapper {
     display: inline-block;
     p {
@@ -253,4 +255,30 @@ ul.project-resource-list {
   -moz-animation: rotation 1s infinite linear;
   -o-animation: rotation 1s infinite linear;
   animation: rotation 1s infinite linear;
+}
+
+
+//Creating a 'small' project-list display
+ul.small-project-resource-list {
+  bottom: 0px;
+  font-size: 18px;
+  color: #231F20;
+  list-style-type: none;
+  padding: 0;
+
+  width: 100%;
+  border-top: 1px solid #ccc;
+  margin-left: -15px;
+  li {
+    display: inline-block;
+    margin-left: 29px;
+    i {
+      margin-right: 7px;
+    }
+    span {
+      font-size: 23px;
+    }
+  }
+
+
 }

@@ -6,6 +6,7 @@ define(function (require) {
       EditTagsView = require('./tags/EditTagsView.react'),
       ImageLaunchCard = require('./launch/ImageLaunchCard.react'),
       EditNameView = require('./name/EditNameView.react'),
+      EditDescriptionView = require('./description/EditDescriptionView.react'),
       CreatedView = require('./created/CreatedView.react'),
       AuthorView = require('./author/AuthorView.react'),
       VersionsView = require('./versions/VersionsView.react'),
@@ -110,6 +111,11 @@ define(function (require) {
               onTagAdded={this.onTagAdded}
               onTagRemoved={this.onTagRemoved}
             />
+            <EditDescriptionView
+              application={application}
+              value={this.state.description}
+              onChange={this.handleDescriptionChange}
+                />
             {versionView}
           </div>
         </div>

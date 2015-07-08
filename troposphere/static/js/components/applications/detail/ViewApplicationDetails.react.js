@@ -41,7 +41,7 @@ define(
       },
 
       render: function () {
-        var availabilityView, versionView;
+        var availabilityView, versionView, tagsView;
 
         // Since providers requires authentication, we can't display which providers
         // the image is available on on the public page
@@ -73,6 +73,8 @@ define(
               <CreatedView application={this.props.application}/>
               <AuthorView application={this.props.application}/>
               {tagsView}
+              {availabilityView}
+              <DescriptionView application={this.props.application}/>
               {versionView}
             </div>
           </div>

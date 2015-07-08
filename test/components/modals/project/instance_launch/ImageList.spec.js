@@ -1,7 +1,7 @@
 define(
   [
     'react',
-    'components/modals/project/instance_launch/ImageList.react',
+    'common/image/ImageList.react',
     'test/fixtures/images.fixture',
     'components/modals/project/instance_launch/Image.react'
   ], function(React, ImageList, imageCollectionFixture, Image) {

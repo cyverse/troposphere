@@ -21,6 +21,7 @@ define(function (require) {
 
 
       var instance = params.instance,
+          fork = params.fork || true,
           name = params.name,
           description = params.description,
           providerId = params.providerId,
@@ -39,11 +40,12 @@ define(function (require) {
           provider = stores.ProviderStore.get(providerId);
 
       var requestData = {
-        instance: instance.get('uuid'),
-        ip_address: instance.get("ip_address"),
+        fork: fork,
         name: name,
         description: description,
         tags: tagNames,
+        instance: instance.get('uuid'),
+        ip_address: instance.get("ip_address"),
         provider: provider.get('uuid'),
         vis: visibility,
         shared_with: userNames,

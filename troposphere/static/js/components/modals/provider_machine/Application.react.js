@@ -24,7 +24,10 @@ define(function (require) {
 
     render: function () {
       var applicationId = this.props.applicationId,
-          applications = stores.ApplicationStore.getUserImages(),
+          username = stores.ProfileStore.get().get('username'),
+          applications = stores.ApplicationStore.fetchWhere({
+            created_by__username: username
+          }),
           options;
 
       if(!applications) return <div className="loading"/>;

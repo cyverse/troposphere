@@ -12,7 +12,9 @@ define(function (require) {
 
       var instance = params.instance,
           props = {
-            instance: instance
+            instance: instance,
+            imageOwner: instance.get('image').user == instance.get('user').id
+            //NOTE:onConfirm set in function below, as part of ModalHelpers.renderModal
           };
 
       ModalHelpers.renderModal(InstanceImageWizardModal, props, function (params) {
@@ -21,6 +23,7 @@ define(function (require) {
           name: params.name,
           description: params.description,
           tags: params.tags,
+          fork: params.newImage,
           providerId: params.providerId,
           visibility: params.visibility,
           imageUsers: params.imageUsers,

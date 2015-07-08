@@ -15,6 +15,17 @@ define(function (require) {
     if(!params.instanceName) throw new Error("Missing instanceName");
     if(!params.identity) throw new Error("Missing identity");
     if(!params.size) throw new Error("Missing size");
+    if(params.version) {
+        //Determine 'machine' from selected version and identity
+        var machines = params.version.getMachines(),
+            selected_machines = machines.filter(
+            function(machine) {
+                return machine.provider.uuid === params.identity.get('provider').uuid;
+            });
+        if(!selected_machines.length)
+            throw new Error("Machine could not be filtered-down based on selected version & identity")
+        params.machine = selected_machines[0]
+    }
     if(!params.machine) throw new Error("Missing machine");
 
     var project = params.project,
@@ -50,7 +61,7 @@ define(function (require) {
     instance.createOnV1Endpoint({
       name: instanceName,
       size_alias: size.get('alias'),
-      machine_alias: machine.get('uuid')
+      machine_alias: machine.uuid
     }).done(function(attrs, status, response) {
       instance.set('id', attrs.id);
       instance.fetch().done(function(){

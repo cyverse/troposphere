@@ -1,64 +1,70 @@
 define(function (require) {
 
-  var _ = require('underscore'),
+  var ProviderMachineCollection = require('collections/ProviderMachineCollection'),
       Dispatcher = require('dispatchers/Dispatcher'),
-      Store = require('stores/Store'),
-      Collection = require('collections/ProviderMachineCollection'),
-      Constants = require('constants/ProviderMachineConstants');
+      BaseStore = require('stores/BaseStore'),
+      ProviderMachineConstants = require('constants/ProviderMachineConstants'),
+      NotificationController = require('controllers/NotificationController');
 
-  var _models = new Collection();
-  var _modelsFor = {};
-  var _isFetchingFor = {};
+  var ProviderMachineStore = BaseStore.extend({
+    collection: ProviderMachineCollection,
 
-  //
-  // CRUD Operations
-  //
+    update: function(machine){
+      //machine.save({
+      //  name: machine.get('name'),
+      //  description: machine.get('description'),
+      //  tags: machine.get('tags')
+      //}, {
+      //  patch: true
+      //}).done(function(){
+      //  this.emitChange();
+      //}.bind(this)).fail(function(){
+      //  var failureMessage = "Error updating ProviderMachine " + machine.get('name') + ".";
+      //  NotificationController.error(failureMessage);
+      //  this.emitChange();
+      //}.bind(this));
+    },
 
-  var fetchModelsFor = function(imageId){
-    if(!_modelsFor[imageId] && !_isFetchingFor[imageId]) {
-      _isFetchingFor[imageId] = true;
-      var models = new Collection();
-      models.fetch({
-        url: models.url + "?application_version__application__id=" + imageId
-      }).done(function () {
-        _isFetchingFor[imageId] = false;
+    get: function (machineId) {
+      if(!this.models) return this.fetchModels();
+      var machine = BaseStore.prototype.get.apply(this, arguments);
+      if(!machine) return this.fetchModel(machineId);
+      return machine;
+    },
+    getMachinesFor: function(image) {
+        var image_key = "image=" + image.id;
+        var use_query = "?application_version__application__id="+image.id
+        if(!this.queryModels[image_key]) {
+            this.fetchModelsFor(image_key, use_query);
+        } else {
+            return this.queryModels[image_key];
+        }
+    },
+    fetchModelsFor: function(image_key, use_query) {
+        //Based on 'the key', get all related objects
+        if (!this.queryModels[image_key] && !this.isFetching) {
+            this.isFetching = true;
+            var models = new this.collection();
+            models.fetch({
+                url: _.result(models, 'url') + use_query
+            }).done(function () {
+                this.isFetching = false;
+                //models = models.filter(function(m){
+                //    // filter out the machines not associated with the image
+                //    return m.get('image').id === image.id;
+                //});
+                this.queryModels[image_key] = models;
+                if (this.pollingEnabled) {
+                    this.models.each(this.pollNowUntilBuildIsFinished.bind(this));
+                }
+                this.emitChange();
 
-        // add models to existing cache
-        _models.add(models.models);
-
-        _modelsFor[imageId] = models;
-        ModelStore.emitChange();
-      });
+            }.bind(this));
+        }
     }
-  };
+  });
 
-  function update(model) {
-    var existingModel = _models.get(model);
-    if (!existingModel) throw new Error("ProviderMachine doesn't exist.");
-    _models.add(model, {merge: true});
-  }
-
-  //
-  // Model Store
-  //
-
-  var ModelStore = {
-
-    getProviderMachinesFor: function(image){
-      if(!_modelsFor[image.id]) return fetchModelsFor(image.id);
-
-      var machines = _models.filter(function(m){
-        // filter out the machines not associated with the image
-        return m.get('image').id === image.id;
-      });
-
-      // todo: implement api/v2/provider_machines?application_version__application__id=902
-      // Until then return only the first provider machine so the application doesn't blow up
-      return new Collection(_models.first());
-      //return new Collection(machines);
-    }
-
-  };
+  var store = new ProviderMachineStore();
 
   Dispatcher.register(function (dispatch) {
     var actionType = dispatch.action.actionType;
@@ -66,26 +72,18 @@ define(function (require) {
     var options = dispatch.action.options || options;
 
     switch (actionType) {
-
-      case Constants.UPDATE_PROVIDER_MACHINE:
-        update(payload.machine);
-        break;
-
-      case Constants.EMIT_CHANGE:
+      case ProviderMachineConstants.UPDATE_PROVIDER_MACHINE:
+        store.update(payload);
         break;
 
       default:
         return true;
     }
 
-    if(!options.silent) {
-      ModelStore.emitChange();
-    }
+    store.emitChange();
 
     return true;
   });
 
-  _.extend(ModelStore, Store);
-
-  return ModelStore;
+  return store;
 });
