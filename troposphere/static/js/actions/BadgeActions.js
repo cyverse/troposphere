@@ -5,8 +5,7 @@ define(function (require) {
       stores = require('stores'),
       globals = require('globals'),
       BadgeConstants = require('constants/BadgeConstants'),
-      NotificationController = require('controllers/NotificationController'),
-      QuotaRequest = require('models/QuotaRequest');
+      NotificationController = require('controllers/NotificationController');
 
   return {
     checkInstances: function(){
