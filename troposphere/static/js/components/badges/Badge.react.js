@@ -8,7 +8,6 @@ define(function (require) {
   return React.createClass({
     renderBadgeDetail: function(e){
       e.preventDefault();
-      console.log("ayy");
       modals.BadgeModals.showBadge(this.props.badge);
     },
 
