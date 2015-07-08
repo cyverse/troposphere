@@ -3,6 +3,7 @@ define(function(require) {
   var React = require('react'),
       Backbone = require('backbone'),
       Name = require('../components/Name.react'),
+      CreateUpdateFlag = require('../components/CreateUpdateFlag.react'),
       Description = require('../components/Description.react'),
       Tags = require('../components/Tags.react'),
       stores = require('stores');
@@ -11,15 +12,19 @@ define(function(require) {
 
     propTypes: {
       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+      imageOwner: React.PropTypes.bool.isRequired,
       name: React.PropTypes.string.isRequired,
-      description: React.PropTypes.string.isRequired
+      description: React.PropTypes.string.isRequired,
+      newImage: React.PropTypes.bool.isRequired
     },
 
     getDefaultProps: function() {
       return {
         name: "",
         description: "",
-        imageTags: null
+        imageOwner: false,
+        imageTags: null,
+        newImage: true,
       };
     },
 
@@ -27,7 +32,7 @@ define(function(require) {
       return {
         name: this.props.name,
         description: this.props.description,
-        checkCreate: true,
+        newImage: this.props.newImage,
         imageTags: this.props.imageTags || stores.InstanceTagStore.getTagsFor(this.props.instance)
       }
     },
@@ -42,12 +47,17 @@ define(function(require) {
       this.props.onNext({
         name: this.state.name,
         description: this.state.description,
-        imageTags: this.state.imageTags
+        imageTags: this.state.imageTags,
+        newImage: this.state.newImage
       });
     },
 
     onNameChange: function(newName){
       this.setState({name: newName});
+    },
+
+    onCreateUpdateChange: function(checked){
+      this.setState({newImage: checked});
     },
 
     onDescriptionChange: function(newDescription){
@@ -69,7 +79,18 @@ define(function(require) {
         imageTags: imageTags
       })
     },
-
+    renderCreateUpdateFlag: function() {
+      if(this.props.imageOwner) {
+        return (
+          <CreateUpdateFlag
+            value={this.state.newImage}
+            onChange={this.onCreateUpdateChange}
+          />
+        );
+      } else {
+        return;
+    }
+  },
     renderBody: function (instance) {
       return (
         <div>
@@ -94,8 +115,9 @@ define(function(require) {
               "Fields marked with * are required."
             }
           </p>
+          {this.renderCreateUpdateFlag()}
           <Name
-            create={this.state.checkCreate}
+            create={this.state.newImage}
             value={this.state.name}
             onChange={this.onNameChange}
           />

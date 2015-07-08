@@ -13,6 +13,11 @@ define(function (require) {
   return React.createClass({
     mixins: [BootstrapModalMixin],
 
+    propTypes: {
+      instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+      onConfirm: React.PropTypes.func.isRequired,
+      imageOwner: React.PropTypes.bool.isRequired
+    },
     //
     // Mounting & State
     // ----------------
@@ -21,8 +26,8 @@ define(function (require) {
     getInitialState: function(){
       return {
         step: 1,
-        name: "",
-        description: "",
+        name: this.props.instance.get('image').name,
+        description: this.props.instance.get('image').description,
         imageTags: null,
         providerId: null,
         visibility: "public",
@@ -60,6 +65,7 @@ define(function (require) {
 
     onRequestImage: function(){
       var params = {
+        newImage: this.state.newImage,
         name: this.state.name,
         description: this.state.description,
         tags: this.state.imageTags,
@@ -107,6 +113,7 @@ define(function (require) {
               description={this.state.description}
               imageTags={this.state.imageTags}
               instance={instance}
+              imageOwner={this.props.imageOwner}
               onPrevious={this.onPrevious}
               onNext={this.onNext}
             />
