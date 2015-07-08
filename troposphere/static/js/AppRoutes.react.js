@@ -8,6 +8,7 @@ define(function (require) {
     DefaultRoute = Router.DefaultRoute;
 
   var Master = require('./components/Master.react'),
+      BadgeMaster = require('./components/badges/BadgeMaster.react'),
       PassThroughHandler = require('./components/PassThroughHandler.react'),
       DashboardPage = require('./components/dashboard/DashboardPage.react'),
       ProjectListPage = require('./components/projects/ProjectListPage.react'),
