@@ -8,14 +8,7 @@ define(function (require) {
   return {
 
     ShowMyBadge: function(badge){
-
-      var modal = MyBadgeModal({
-        badge: badge
-      });
-
-      ModalHelpers.renderModal(modal, function(input){
-        console.log(input);
-      });
+      ModalHelpers.renderModal(MyBadgeModal, {badge:badge}, function(){});
     }
 
   };
