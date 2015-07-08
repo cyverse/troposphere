@@ -8,28 +8,30 @@ define(function (require) {
     DefaultRoute = Router.DefaultRoute;
 
   var Master = require('./components/Master.react'),
-    PassThroughHandler = require('./components/PassThroughHandler.react'),
-    DashboardPage = require('./components/dashboard/DashboardPage.react'),
-    ProjectListPage = require('./components/projects/ProjectListPage.react'),
-    ImageListPage = require('./components/images/ImageListPage.react'),
-    ImageDetailsPage = require('./components/images/ImageDetailsPage.react'),
-    ProviderDetailsPage = require('./components/providers/ProviderListView.react'),
-    HelpPage = require('./components/help/HelpPage.react'),
-    ProjectsMaster = require('./components/projects/ProjectsMaster.react'),
-    ProjectDetailsMaster = require('./components/projects/detail/ProjectDetailsMaster.react'),
-    ProjectDetailsPage = require('./components/projects/ProjectDetailsPage.react'),
-    ProjectResourcesPage = require('./components/projects/ProjectResourcesPage.react'),
-    FavoritedImagesPage = require('./components/images/FavoritedImagesPage.react'),
-    MyImagesPage = require('./components/images/MyImagesPage.react'),
-    ImageTagsPage = require('./components/images/ImageTagsPage.react'),
-    ImagesMaster = require('./components/images/ImagesMaster.react'),
-    ProvidersMaster = require('./components/providers/ProvidersMaster.react'),
-    SettingsPage = require('./components/settings/SettingsPage.react'),
-    ProjectInstancePage = require("./components/projects/InstanceDetailsPage.react"),
-    ProjectVolumePage = require("./components/projects/VolumeDetailsPage.react"),
-    ResourceMaster = require('./components/admin/ResourceMaster.react'),
-    ResourceRequest = require('./components/admin/ResourceRequest.react'),
-    ResourceAdmin = require('./components/admin/ResourceAdmin.react');
+      PassThroughHandler = require('./components/PassThroughHandler.react'),
+      DashboardPage = require('./components/dashboard/DashboardPage.react'),
+      ProjectListPage = require('./components/projects/ProjectListPage.react'),
+      ImageListPage = require('./components/applications/ApplicationListPage.react'),
+      ImageDetailsPage = require('./components/applications/ApplicationDetailsPage.react'),
+      ProviderDetailsPage = require('./components/providers/ProviderListView.react'),
+      HelpPage = require('./components/help/HelpPage.react'),
+      ProjectsMaster = require('./components/projects/ProjectsMaster.react'),
+      ProjectDetailsMaster = require('./components/projects/detail/ProjectDetailsMaster.react'),
+      ProjectDetailsPage = require('./components/projects/ProjectDetailsPage.react'),
+      ProjectResourcesPage = require('./components/projects/ProjectResourcesPage.react'),
+      FavoritedImagesPage = require('./components/applications/FavoritedApplicationsPage.react'),
+      MyImagesPage = require('./components/applications/MyApplicationsPage.react'),
+      ImageTagsPage = require('./components/applications/ImageTagsPage.react'),
+      ImagesMaster = require('./components/applications/ImagesMaster.react'),
+      ProvidersMaster = require('./components/providers/ProvidersMaster.react'),
+      SettingsPage = require('./components/settings/SettingsPage.react'),
+      ProjectInstancePage = require("./components/projects/InstanceDetailsPage.react"),
+      ProjectVolumePage = require("./components/projects/VolumeDetailsPage.react"),
+      QuotaMaster = require('./components/quota/QuotaMaster.react'),
+      QuotaRequest = require('./components/quota/QuotaRequest.react'),
+      QuotaAdmin = require('./components/quota/QuotaAdmin.react'),
+      BadgeMaster = require('./components/badges/BadgeMaster.react'),
+      Badge = require('./components/badges/Badge.react');
 
   var AppRoutes = (
     <Route name="root" path="/application" handler={Master}>
@@ -64,6 +66,7 @@ define(function (require) {
       <Route name="admin" handler={ResourceMaster}>
         <Route name="resource-request" path="resource/:resourceRequestId" handler={ResourceAdmin}/>
       </Route>
+      <Route name="badges" handler={BadgeMaster}/>
 
 
       <DefaultRoute handler={DashboardPage}/>
