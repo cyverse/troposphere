@@ -21,23 +21,12 @@ define(function (require) {
     renderLink: function() {
       var class_names = this.props.breadcrumb.state;
       var divStyle = {
-        width: (80) / (this.props.length - 1) + '%'
+        width: this.props.width + '%'
       };
 
-      if(class_names === 'inactive') {
-        divStyle = {
-          width: ((80) / (this.props.length - 1)) / 2 + '%'
-        };
-      }
-
-      else if(class_names === 'active'){
-        divStyle = {
-          width: '20%'
-        }
-      }
       return (
           <div style={divStyle} onMouseOver={this.mouseOver} onMouseOut={this.mouseOut} className={class_names} onClick={this.crumbClicked}>
-            {this.props.breadcrumb.step}
+            {this.props.breadcrumb.step + 1}
           </div>
         );
     },
