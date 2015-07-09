@@ -13,6 +13,7 @@ define(function (require) {
       if(!params.description) throw new Error("Missing description");
       if(!params.tags) throw new Error("Missing tags");
       if(!params.providerId) throw new Error("Missing providerId");
+      if(params.fork == undefined) throw new Error("Missing create/update flag(fork)");
       //if(!params.software) throw new Error("Missing software");
       //if(!params.filesToExclude) throw new Error("Missing filesToExclude");
       //if(!params.systemFiles) throw new Error("Missing systemFiles");
@@ -21,7 +22,6 @@ define(function (require) {
 
 
       var instance = params.instance,
-          fork = params.fork || true,
           name = params.name,
           description = params.description,
           providerId = params.providerId,
@@ -40,7 +40,7 @@ define(function (require) {
           provider = stores.ProviderStore.get(providerId);
 
       var requestData = {
-        fork: fork,
+        fork: params.fork,
         name: name,
         description: description,
         tags: tagNames,
