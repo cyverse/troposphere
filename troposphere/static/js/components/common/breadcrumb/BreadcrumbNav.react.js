@@ -7,17 +7,24 @@ define(function (require) {
 
       propTypes: {
         breadcrumbs: React.PropTypes.array.isRequired,
-        step: React.PropTypes.number.isRequired,
+        //breadcrumb: React.PropTypes.object.isRequired,
+        //step: React.PropTypes.number.isRequired,
         onCrumbClick: React.PropTypes.func.isRequired
       },
 
       renderCrumbs: function() {
-        var step = this.props.step;
+        var onMouseOn = this.props.onMouseOn;
+        var onMouseOff = this.props.onMouseOff;
+        var length = this.props.breadcrumbs.length;
+        //var step = this.props.step;
         var self = this;
         var breadcrumbs = this.props.breadcrumbs.map(function(breadcrumb, index, array){
           return (
             <Breadcrumb key={breadcrumb.name}
+                        onMouseOn={onMouseOn}
+                        onMouseOff={onMouseOff}
                         breadcrumb={breadcrumb}
+                        length={length}
                         onClick={self.crumbClicked}
             />
           )
