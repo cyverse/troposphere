@@ -39,6 +39,15 @@ define(function (require) {
 	    application: this.props.application,
         project: this.props.project,
         step: this.props.application ? INFORMATION_STEP : APPLICATION_STEP,
+        title: "Application",
+        breadcrumbs: [
+            {name:"Application",step:APPLICATION_STEP, inactive:this.props.application ? true : false},
+            {name:"Version & Provider",step:INFORMATION_STEP},
+            {name:"Size",step:SIZE_STEP},
+            {name:"Project",step:PROJECT_STEP, inactive:this.props.project ? true : false},
+            {name:"Options",step:OPTIONS_STEP, inactive:true},
+            {name:"Review",step:REVIEW_STEP}
+        ]
       };
     },
     renderApplicationSelect: function() {
@@ -132,19 +141,20 @@ define(function (require) {
       }
     },
 
+    hoverTitleChange: function(text){
+      this.setState({title: text});
+    },
+
+    changeTitleBack: function(){
+      this.setState({title: this.state.breadcrumbs[this.state.step].name});
+    },
+
     renderBreadCrumbTrail: function() {
         var user = stores.ProfileStore.get();
         var self = this;
-        var breadcrumbs = [
-            {name:"Application",step:APPLICATION_STEP, inactive:this.props.application ? true : false},
-            {name:"Version & Provider",step:INFORMATION_STEP},
-            {name:"Size",step:SIZE_STEP},
-            {name:"Project",step:PROJECT_STEP, inactive:this.props.project ? true : false},
-            {name:"Options",step:OPTIONS_STEP, inactive:true},
-            {name:"Review",step:REVIEW_STEP},
-        ];
+        var breadcrumbs = this.state.breadcrumbs;
 
-        if (user.get('is_staff')) {
+        if (user.get('is_staff') && breadcrumbs[5].step !== 5) {
             breadcrumbs.splice(5, 0, {name: "Admin", step: ADMIN_OPTIONS_STEP, inactive:true});
         }
         breadcrumbs.map(function(breadcrumb, index, array){
@@ -162,7 +172,9 @@ define(function (require) {
         });
         return (<BreadcrumbNav
             breadcrumbs={breadcrumbs}
-            step={this.state.step}
+            onMouseOn={this.hoverTitleChange}
+            onMouseOff={this.changeTitleBack}
+            step = {this.state.step}
             onCrumbClick={self.toStep}
             />
         );
@@ -182,9 +194,9 @@ define(function (require) {
         <div className="modal fade">
           <div className="modal-dialog">
             <div className="modal-content">
-              <div className="modal-header">
+              <div className="modal-header instance-launch">
                 {this.renderCloseButton()}
-                <strong>Instance Launch Wizard</strong>
+                <strong>Instance Launch Wizard- {this.state.title}</strong>
               </div>
               <div className="modal-section">
               {this.renderBreadCrumbTrail()}
@@ -262,6 +274,7 @@ define(function (require) {
                 state.step = PROJECT_STEP;
             }
         }
+        state.title = this.state.breadcrumbs[state.step].name;
         this.setState(state);
     },
     onNext: function(data) {
@@ -275,6 +288,7 @@ define(function (require) {
             //TODO: Remove this line when re-adding User/Admin Options
             state.step = REVIEW_STEP;
         }
+        state.title = this.state.breadcrumbs[state.step].name;
         this.setState(state);
     },
     toReview: function(data) {
@@ -282,6 +296,7 @@ define(function (require) {
         this.setState(state);
     },
     toStep: function(breadcrumb) {
+       this.setState({title: this.state.breadcrumbs[breadcrumb.step].name});
        this.setState({step: breadcrumb.step});
     }
   });

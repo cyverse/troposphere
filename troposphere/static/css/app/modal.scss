@@ -142,6 +142,7 @@ $breadcrumb-box-shadow:  0 0 15px 1px rgba(0, 0, 0, 0.35);
     box-shadow: $breadcrumb-box-shadow;
     overflow: hidden;
     border-radius: 5px;
+    width: 100%;
 }
 .breadcrumb div {
     text-decoration: none;
