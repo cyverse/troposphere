@@ -10,6 +10,15 @@ define(function (require) {
 
   var _modelsFor = {};
   var _isFetchingFor = {};
+  var _pendingProjectVolumes = new Collection();
+
+  function addPending(model){
+    _pendingProjectVolumes.add(model);
+  }
+
+  function removePending(model){
+    _pendingProjectVolumes.remove(model);
+  }
 
   var ProjectStore = BaseStore.extend({
     collection: ProjectVolumeCollection,
@@ -58,7 +67,18 @@ define(function (require) {
         return allVolumes.get(pv.get('volume').id);
       });
 
-      return new VolumeCollection(volumes);
+      var pendingVolumes = _pendingProjectVolumes.filter(function(pv){
+        // filter out irrelevant project volumes (not in target project)
+        return pv.get('project').id === project.id;
+      }).filter(function(pv){
+        // filter out the volumes that don't exist (not in local cache)
+        return allVolumes.get(pv.get('volume'));
+      }).map(function(pv){
+        // return the actual volumes
+        return allVolumes.get(pv.get('volume'));
+      });
+
+      return new VolumeCollection(volumes.concat(pendingVolumes));
     }
   });
 
@@ -77,6 +97,14 @@ define(function (require) {
 
       case ProjectVolumeConstants.REMOVE_PROJECT_VOLUME:
         store.remove(payload.projectVolume);
+        break;
+
+      case ProjectVolumeConstants.ADD_PENDING_PROJECT_VOLUME:
+        addPending(payload.projectVolume);
+        break;
+
+      case ProjectVolumeConstants.REMOVE_PENDING_PROJECT_VOLUME:
+        removePending(payload.projectVolume);
         break;
 
       case ProjectVolumeConstants.EMIT_CHANGE:
