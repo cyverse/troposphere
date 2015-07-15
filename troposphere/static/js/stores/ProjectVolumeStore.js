@@ -10,7 +10,7 @@ define(function (require) {
 
   var _modelsFor = {};
   var _isFetchingFor = {};
-  var _pendingProjectVolumes = new Collection();
+  var _pendingProjectVolumes = new VolumeCollection();
 
   function addPending(model){
     _pendingProjectVolumes.add(model);

@@ -11,7 +11,7 @@ define(function (require) {
 
   var _modelsFor = {};
   var _isFetchingFor = {};
-  var _pendingProjectInstances = new Collection();
+  var _pendingProjectInstances = new InstanceCollection();
 
   function addPending(model){
     _pendingProjectInstances.add(model);
