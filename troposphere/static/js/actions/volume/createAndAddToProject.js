@@ -4,7 +4,9 @@ define(function (require) {
       Volume = require('models/Volume'),
       actions = require('actions'),
       globals = require('globals'),
-      Utils = require('../Utils');
+      Utils = require('../Utils'),
+      ProjectVolume = require('models/ProjectVolume'),
+      ProjectVolumeConstants = require('constants/ProjectVolumeConstants');
 
   return {
 
@@ -44,13 +46,18 @@ define(function (require) {
         projects: [project.id]
       }, {parse: true});
 
+      var projectVolume = new ProjectVolume({
+        project: project.toJSON(),
+        volume: volume.toJSON()
+      });
+
       Utils.dispatch(VolumeConstants.ADD_VOLUME, {volume: volume});
 
-      // todo: hook this back up if experience seems to slow...not connected right now
-      // Utils.dispatch(ProjectVolumeConstants.ADD_PENDING_VOLUME_TO_PROJECT, {
-      //   volume: volume,
-      //   project: project
-      // });
+      // Add the instance to the project now, so the user can see it being requested
+      Utils.dispatch(ProjectVolumeConstants.ADD_PENDING_VOLUME_TO_PROJECT, {
+        volume: volume,
+        project: project
+      });
 
       volume.createOnV1Endpoint({
         name: volumeName,
@@ -65,12 +72,6 @@ define(function (require) {
           Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
           Utils.dispatch(VolumeConstants.POLL_VOLUME, {volume: volume});
 
-          // todo: hook this back up if experience seems to slow...not connected right now
-          // Utils.dispatch(ProjectVolumeConstants.REMOVE_PENDING_VOLUME_FROM_PROJECT, {
-          //   volume: volume,
-          //   project: project
-          // });
-
           actions.ProjectVolumeActions.addVolumeToProject({
             project: project,
             volume: volume
@@ -79,12 +80,10 @@ define(function (require) {
       }).fail(function (response) {
         Utils.dispatch(VolumeConstants.REMOVE_VOLUME, {volume: volume});
         Utils.displayError({title: "Volume could not be created", response: response});
-
-        // todo: hook this back up if experience seems to slow...not connected right now
-        // Utils.dispatch(ProjectVolumeConstants.REMOVE_PENDING_VOLUME_FROM_PROJECT, {
-        //   volume: volume,
-        //   project: project
-        // });
+      }).always(function() {;
+          Utils.dispatch(ProjectVolumeConstants.REMOVE_PENDING_PROJECT_VOLUME, {
+            projectVolume: projectVolume
+          })
       });
 
     }
