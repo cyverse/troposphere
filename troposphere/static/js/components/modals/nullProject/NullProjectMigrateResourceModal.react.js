@@ -34,15 +34,9 @@ define(
       getInitialState: function () {
         var initialState = {
           projectName: "",
-          projects: stores.ProjectStore.getAll(),
-          projectId: null
+          projects: null,
+          projectId: -999
         };
-
-        if(initialState.projects && initialState.projects.length > 0){
-          initialState.projectId = initialState.projects.first().id;
-        }else{
-          initialState.projectId = -999;
-        }
 
         return initialState;
       },
@@ -54,10 +48,10 @@ define(
           projectId: this.state.projectId
         };
 
-        if(!state.projectId || state.projectId == -999){
-          if(state.projects && state.projects.length > 0){
-            state.projectId = state.projects.first().id;
-          }
+        if(state.projects && state.projects.length > 0){
+          state.projectId = state.projects.first().id;
+        } else if (state.projects != null) {
+          state.projectId = -1
         }
 
         return state;
