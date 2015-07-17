@@ -129,6 +129,7 @@ define(
               <ProjectSelect projectId={this.state.projectId}
               projects={this.state.projects}
               onChange={this.onProjectChange}
+              showCreate={true}
               />
             </div>
           );

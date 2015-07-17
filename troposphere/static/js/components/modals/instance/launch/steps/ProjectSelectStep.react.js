@@ -122,14 +122,6 @@ if (!define(function (require) {
                     this.state.projectId = projects.first().id;
                 }
                 if (projects.length > 0) {
-                    //return (
-                    //    <ProjectSelect
-                    //        projectId={this.state.projectId}
-                    //        projects={projects}
-                    //        onChange={this.onProjectIDChange}
-                    //        allowCreate="true"
-                    //    />
-                    //);
                     return (
                         <ProjectListView
                             selectedProject={this.state.project}

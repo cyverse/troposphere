@@ -14,9 +14,17 @@ define(
       propTypes: {
         projectId: React.PropTypes.number.isRequired,
         onChange: React.PropTypes.func.isRequired,
-        allowCreate: React.PropTypes.bool,
+        showCreate: React.PropTypes.bool,
       },
-
+    getInitialState: function() {
+      var showCreate = false
+      if (this.props.showCreate == true) {
+          showCreate = true
+      }
+      return {
+          showCreate: showCreate,
+      }
+    },
     componentDidMount: function () {
       stores.ProjectStore.addChangeListener(this.updateState);
     },
@@ -25,8 +33,7 @@ define(
       stores.ProjectStore.removeChangeListener(this.updateState);
     },
       renderCreateOption: function () {
-        this.props.allowCreate = this.props.allowCreate || false;
-        if(this.props.allowCreate) {
+        if(this.state.showCreate) {
             return (
             <optgroup label="New Project">
               <option value="-1">{"Create new project..."}</option>
