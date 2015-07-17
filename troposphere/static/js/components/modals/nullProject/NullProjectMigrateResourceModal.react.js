@@ -19,10 +19,11 @@ define(
       },
 
       isSubmittable: function(){
-        var hasName        = !!this.state.projectName;
-        var hasTargetProject = (!!this.state.projectId && this.state.projectId !== "-1");
+        var hasLoaded = this.state.projectId !== -999;
+        var hasName = !!this.state.projectName;
+        var hasTargetProject = (!!this.state.projectId && this.state.projectId !== -1);
 
-        return hasName || hasTargetProject;
+        return hasLoaded || hasName || hasTargetProject;
       },
 
       //
@@ -40,7 +41,7 @@ define(
         if(initialState.projects && initialState.projects.length > 0){
           initialState.projectId = initialState.projects.first().id;
         }else{
-          initialState.projectId = "-1";
+          initialState.projectId = -999;
         }
 
         return initialState;
@@ -53,7 +54,7 @@ define(
           projectId: this.state.projectId
         };
 
-        if(!state.projectId){
+        if(!state.projectId || state.projectId == -999){
           if(state.projects && state.projects.length > 0){
             state.projectId = state.projects.first().id;
           }
@@ -85,11 +86,13 @@ define(
 
       confirm: function () {
         this.hide();
-        if(this.state.projectName){
+        if(this.state.projectId == -1){
+          //Create new project using name input
           this.props.onConfirm({
             projectName: this.state.projectName
           });
         }else{
+          //Move to existing, selected project
           this.props.onConfirm({
             projectId: this.state.projectId,
             projects: this.state.projects
@@ -108,7 +111,8 @@ define(
       },
 
       onProjectChange: function (e) {
-        this.setState({projectId: e.target.value});
+        var int_str = e.target.value
+        this.setState({projectId: parseInt(int_str)});
       },
 
       //
@@ -139,7 +143,7 @@ define(
       renderProjectCreationForm: function(){
         // Only render this if the user has requested to create a new project from the dropdown
         // The "new project" option has an id of -1
-        if(this.state.projectId === "-1"){
+        if(this.state.projectId === -1){
           return (
             <div className='form-group'>
               <label>Project Name</label>
@@ -170,7 +174,12 @@ define(
       },
 
       renderBody: function(){
-        if(this.state.projects) {
+        if(!this.state.projects) {
+
+        return (
+          <div className="loading"></div>
+        );
+        }
           return (
             <div role='form'>
               <div className='form-group'>
@@ -184,11 +193,6 @@ define(
               {this.renderProjectCreationForm()}
             </div>
           );
-        }
-
-        return (
-          <div className="loading"></div>
-        );
       },
 
       render: function () {
