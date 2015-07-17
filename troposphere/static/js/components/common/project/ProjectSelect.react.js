@@ -13,6 +13,7 @@ define(
 
       propTypes: {
         projectId: React.PropTypes.number.isRequired,
+        projects: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         onChange: React.PropTypes.func.isRequired,
         showCreate: React.PropTypes.bool,
       },
@@ -41,14 +42,14 @@ define(
         }
       },
       render: function () {
-        var options = this.props.projects.map(function (project) {
+        var projects = this.props.projects;
+        var options = projects.map(function (project) {
           return (
             <ProjectOption key={project.id} project={project}/>
           );
         });
-        var projects = stores.ProviderStore.getAll();
 
-        if (!projects) return (<div className="loading"></div>);
+        if (projects == null) return (<div className="loading"></div>);
 
         return (
         <div>

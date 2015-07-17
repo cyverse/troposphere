@@ -5,7 +5,6 @@ if (!define(function (require) {
             _ = require('underscore'),
             stores = require('stores'),
             ProjectActions = require('actions/ProjectActions'),
-            ProjectSelect = require('components/common/project/ProjectSelect.react'),
             ProjectListView = require('components/common/project/ProjectListView.react');
 
         var ENTER_KEY = 13;

@@ -168,7 +168,7 @@ define(
       },
 
       renderBody: function(){
-        if(!this.state.projects) {
+        if(this.state.projects == null) {
 
         return (
           <div className="loading"></div>
