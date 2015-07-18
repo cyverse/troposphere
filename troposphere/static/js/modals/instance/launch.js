@@ -9,7 +9,7 @@ define(function (require) {
   return {
 
     launch: function(image){
-      var props = {application: image};
+      var props = {image: image};
 
       ModalHelpers.renderModal(InstanceLaunchWizardModal, props, function (launchData) {
         var size = launchData.size,
