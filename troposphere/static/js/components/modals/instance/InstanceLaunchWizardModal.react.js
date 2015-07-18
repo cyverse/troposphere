@@ -8,7 +8,7 @@ define(function (require) {
       BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
       BreadcrumbNav = require('components/common/breadcrumb/BreadcrumbNav.react'),
 
-      ApplicationSelectStep = require('./launch/steps/ApplicationSelectStep.react'),
+      ImageSelectStep = require('./launch/steps/ImageSelectStep.react'),
       NameIdentityVersionStep = require('./launch/steps/NameIdentityVersionStep.react'),
       SizeSelectStep = require('./launch/steps/SizeSelectStep.react'),
       ProjectSelectStep = require('./launch/steps/ProjectSelectStep.react'),
@@ -16,7 +16,7 @@ define(function (require) {
       AdministratorOptionsStep = require('./launch/steps/AdminOptionsStep.react'),
       ReviewLaunchStep = require('./launch/steps/ReviewLaunchStep.react');
 
-  var APPLICATION_STEP = 0,
+  var IMAGE_STEP = 0,
       INFORMATION_STEP = 1,
       SIZE_STEP = 2,
       PROJECT_STEP = 3,
@@ -28,7 +28,7 @@ define(function (require) {
     mixins: [BootstrapModalMixin],
 
     propTypes: {
-      application: React.PropTypes.instanceOf(Backbone.Model),
+      image: React.PropTypes.instanceOf(Backbone.Model),
       project: React.PropTypes.instanceOf(Backbone.Model),
       onConfirm: React.PropTypes.instanceOf(Backbone.Model),
     },
@@ -36,12 +36,12 @@ define(function (require) {
 
     getInitialState: function(){
       return {
-	    application: this.props.application,
+	    image: this.props.image,
         project: this.props.project,
-        step: this.props.application ? INFORMATION_STEP : APPLICATION_STEP,
-        title: "Application",
+        step: this.props.image ? INFORMATION_STEP : IMAGE_STEP,
+        title: "Image",
         breadcrumbs: [
-            {name:"Application",step:APPLICATION_STEP, inactive:this.props.application ? true : false},
+            {name:"Image",step:IMAGE_STEP, inactive:this.props.image ? true : false},
             {name:"Version & Provider",step:INFORMATION_STEP},
             {name:"Size",step:SIZE_STEP},
             {name:"Project",step:PROJECT_STEP, inactive:this.props.project ? true : false},
@@ -50,10 +50,10 @@ define(function (require) {
         ]
       };
     },
-    renderApplicationSelect: function() {
+    renderImageSelect: function() {
         return (
-                <ApplicationSelectStep
-                    application={this.state.application}
+                <ImageSelectStep
+                    image={this.state.image}
                             onPrevious={this.cancel}
                             onNext={this.onNext}
                 />
@@ -62,7 +62,7 @@ define(function (require) {
     renderNameStep: function() {
         return (
                 <NameIdentityVersionStep
-                    application={this.state.application}
+                    image={this.state.image}
                     name={this.state.name}
                     identity={this.state.identity}
                     version={this.state.version}
@@ -74,7 +74,7 @@ define(function (require) {
     renderSizeStep: function() {
         return (
                 <SizeSelectStep
-                    application={this.state.application}
+                    image={this.state.image}
                     identity={this.state.identity}
                     size={this.state.size}
                     onPrevious={this.onPrevious}
@@ -124,8 +124,8 @@ define(function (require) {
     renderBody: function(){
       var step = this.state.step;
       switch(step) {
-	    case APPLICATION_STEP:
-              return this.renderApplicationSelect();
+	    case IMAGE_STEP:
+              return this.renderImageSelect();
         case INFORMATION_STEP:
               return this.renderNameStep();
         case SIZE_STEP:
@@ -180,7 +180,7 @@ define(function (require) {
         );
         //return (
         //    <ul className="breadcrumb">
-        //      <li><a className="crumb" onClick={this.toStep(APPLICATION_STEP)}>Application</a></li>
+        //      <li><a className="crumb" onClick={this.toStep(IMAGE_STEP)}>Image</a></li>
         //      <li><a className="crumb" onClick={this.toStep(INFORMATION_STEP)}>Basic Information</a></li>
         //      <li><a className="crumb" onClick={this.toStep(SIZE_STEP)}>Size</a></li>
         //      <li><a className="crumb" onClick={this.toStep(PROJECT_STEP)}>Project</a></li>
@@ -261,8 +261,8 @@ define(function (require) {
         var previousStep = this.state.step - 1,
             data = data || {},
             state = _.extend({step: previousStep}, data);
-        if(this.props.application && this.state.step == INFORMATION_STEP) {
-            //Don't go to 'Step 0' if application provided.
+        if(this.props.image && this.state.step == INFORMATION_STEP) {
+            //Don't go to 'Step 0' if image provided.
             this.cancel()
         }
         if(this.state.step == REVIEW_STEP) {

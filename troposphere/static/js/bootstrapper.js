@@ -27,11 +27,11 @@ define(function (require) {
       });
     };
 
-    // Register which stores the application should use
+    // Register which stores the image should use
     var stores = require('stores');
     stores.AllocationStore         = require('stores/AllocationStore');
-    stores.ApplicationStore        = require('stores/ApplicationStore');
-    stores.ApplicationVersionStore        = require('stores/ApplicationVersionStore');
+    stores.ImageStore        = require('stores/ImageStore');
+    stores.ImageVersionStore        = require('stores/ImageVersionStore');
     stores.IdentityStore           = require('stores/IdentityStore');
     stores.ImageBookmarkStore      = require('stores/ImageBookmarkStore');
     stores.InstanceHistoryStore    = require('stores/InstanceHistoryStore');
@@ -54,7 +54,7 @@ define(function (require) {
     stores.VolumeStore             = require('stores/VolumeStore');
 
     var actions = require('actions');
-    actions.ApplicationActions     = require('actions/ApplicationActions');
+    actions.ImageActions     = require('actions/ImageActions');
     actions.HelpActions            = require('actions/HelpActions');
     actions.ImageBookmarkActions   = require('actions/ImageBookmarkActions');
     actions.InstanceActions        = require('actions/InstanceActions');
@@ -138,7 +138,7 @@ define(function (require) {
           return dfd.promise();
         };
 
-        // render the splash page which will load the rest of the application
+        // render the splash page which will load the rest of the image
         $(document).ready(function () {
           var SplashScreenComponent = React.createFactory(SplashScreen);
           React.render(SplashScreenComponent(), document.getElementById('application'));

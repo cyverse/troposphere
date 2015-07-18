@@ -36,7 +36,7 @@ function resizeApp() {
 		$('#selected_image').height($('#content').height() - $('#logged_in_data').height() - $('#image_header').height());
 
 		$('#draggable_container').height(
-			$('#content').height() - 
+			$('#content').height() -
 			$('#volume_header').height() -
 			$('#volume_controls').height() - 140
 		);
@@ -46,7 +46,7 @@ function resizeApp() {
         $('#instance_link_list, #volume_link_list').css('max-height', 'auto');
 	}
 }
-        
+
 $(document).ready(function() {
   // Scale necessary divs
   resizeApp();
@@ -86,7 +86,7 @@ function icontains(needle, haystack) {
 
 	if(found)
 		//console.log("Matched on Text");
-	
+
 	return found;
 }
 
@@ -127,7 +127,7 @@ $(function() {
   //Logging out of CAS!!!!!
   $('#logout_button').click(function(){
       var header = "Logging Out of Atmosphere";
-      var body = "You will be logged out of Atmosphere in <span id='countdown_time'></span> seconds.<br\><br\>Would you like to log out of all iPlant applications?";
+      var body = "You will be logged out of Atmosphere in <span id='countdown_time'></span> seconds.<br\><br\>Would you like to log out of all iPlant images?";
 
       var count = 10;
       var timeout = window.setInterval(function() {

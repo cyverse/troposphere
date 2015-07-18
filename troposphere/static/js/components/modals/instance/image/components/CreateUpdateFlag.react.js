@@ -17,8 +17,8 @@ define(function (require) {
      return "Create or Update"
     },
     renderHelpText: function() {
-      return "            'Create' will create a brand new application."
-      +" 'Update' will create a new version for the same application.";
+      return "            'Create' will create a brand new image."
+      +" 'Update' will create a new version for the same image.";
     },
     render: function () {
       return (

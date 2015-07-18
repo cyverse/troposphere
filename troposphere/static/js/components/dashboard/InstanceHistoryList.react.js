@@ -103,22 +103,22 @@ define(function (require) {
             instanceHistoryHash = CryptoJS.MD5((instance.id || instance.cid).toString()).toString(),
             iconSize = 63,
             type = stores.ProfileStore.get().get('icon_set'),
-            imageId = instance.get('application_id'),
-            application = imageId ? stores.ApplicationStore.get(imageId) : null,
-            applicationName = application ? application.get('name') : "[image no longer exists]",
-            applicationLink;
+            imageId = instance.get('image_id'),
+            image = imageId ? stores.ImageStore.get(imageId) : null,
+            imageName = image ? image.get('name') : "[image no longer exists]",
+            imageLink;
 
         if(!endDate.isValid()) formattedEndDate = "Present";
 
-        if(application){
-          applicationLink = (
-            <Router.Link to="image-details" params={{imageId: application.id}}>
-              {applicationName}
+        if(image){
+          imageLink = (
+            <Router.Link to="image-details" params={{imageId: image.id}}>
+              {imageName}
             </Router.Link>
           )
         }else{
-          applicationLink = (
-            <strong>{applicationName}</strong>
+          imageLink = (
+            <strong>{imageName}</strong>
           )
         }
 
@@ -131,7 +131,7 @@ define(function (require) {
                     <Gravatar hash={instanceHistoryHash} size={iconSize} type={type}/>
                     <div className="instance-history-details">
                       <strong className="name">{instance.get('name')}</strong>
-                      <div>Launched from {applicationLink}</div>
+                      <div>Launched from {imageLink}</div>
                       <div>{"Ran: " + formattedStartDate + " - " + formattedEndDate}</div>
                     </div>
                     <span className="launch-info">

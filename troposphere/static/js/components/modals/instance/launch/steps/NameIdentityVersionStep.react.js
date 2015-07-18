@@ -9,7 +9,7 @@ define(function (require) {
     return React.createClass({
 
         propTypes: {
-            application: React.PropTypes.instanceOf(Backbone.Model),
+            image: React.PropTypes.instanceOf(Backbone.Model),
             version: React.PropTypes.instanceOf(Backbone.Model),
             identity: React.PropTypes.instanceOf(Backbone.Model),
             name: React.PropTypes.string,
@@ -58,7 +58,7 @@ define(function (require) {
 
         onVersionChange: function (e) {
             var newVersionId = e.target.value;
-            var versions = this.props.application.get('provider_images');
+            var versions = this.props.image.get('provider_images');
             var selectedVersion = versions.get(newVersionId);
             this.setState({version: selectedVersion});
         },
@@ -138,7 +138,7 @@ define(function (require) {
 
 
         renderBody: function () {
-            var image = this.props.application,
+            var image = this.props.image,
                 identities = stores.IdentityStore.getAll(),
                 providers = stores.ProviderStore.getAll(),
                 versions = image.getVersions();

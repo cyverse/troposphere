@@ -33,7 +33,7 @@ define(function (require) {
     },
     getMachinesFor: function(image) {
         var image_key = "image=" + image.id;
-        var use_query = "?application_version__application__id="+image.id
+        var use_query = "?image_id="+image.id
         if(!this.queryModels[image_key]) {
             this.fetchModelsFor(image_key, use_query);
         } else {
@@ -49,10 +49,7 @@ define(function (require) {
                 url: _.result(models, 'url') + use_query
             }).done(function () {
                 this.isFetching = false;
-                //models = models.filter(function(m){
-                //    // filter out the machines not associated with the image
-                //    return m.get('image').id === image.id;
-                //});
+
                 this.queryModels[image_key] = models;
                 if (this.pollingEnabled) {
                     this.models.each(this.pollNowUntilBuildIsFinished.bind(this));

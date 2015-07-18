@@ -4,16 +4,16 @@ define(function (require) {
       stores = require('stores'),
       BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
       Visibility = require('components/common/image_request/ImageVisibility.react'),
-      AvailabilityView = require('components/applications/detail/availability/AvailabilityView.react'),
-      EditDescriptionView = require('components/applications/detail/description/EditDescriptionView.react'),
-      Application = require('components/modals/provider_machine/Application.react');
+      AvailabilityView = require('components/images/detail/availability/AvailabilityView.react'),
+      EditDescriptionView = require('components/images/detail/description/EditDescriptionView.react'),
+      Image = require('components/modals/provider_machine/Image.react');
 
   return React.createClass({
     mixins: [BootstrapModalMixin],
 
     propTypes: {
       machine: React.PropTypes.object.isRequired,
-      application: React.PropTypes.instanceOf(Backbone.Model).isRequired
+      image: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
     getInitialState: function () {
@@ -26,22 +26,22 @@ define(function (require) {
 
     getState: function() {
       var machine = this.props.machine,
-          current_app = this.props.application,
-          applications = stores.ApplicationStore.getAll(),
+          current_image = this.props.image,
+          images = stores.ImageStore.getAll(),
           providers = stores.ProviderStore.getAll(),
           all_users = stores.UserStore.getAll(),
           //licenses = stores.LicenseStore.getAll(), //Future
-          selectedApplication,
+          selectedImage,
           end_date;
 
       var state = this.state || {
         image: null,
         all_users: null, //Future
-        machineApplicationID: null, //Future
+        machineImageID: null, //Future
         machineLicenses: null,//Future
         machineMemberships: null, //Future
         machineDescription: null, // Future
-        applicationVersion: null,
+        imageVersion: null,
         machineEndDate: "",
         machineUncopyable: "",
         visibility: "public" //Future
@@ -50,9 +50,9 @@ define(function (require) {
       if (machine) {
         end_date = machine.end_date;
         var versionId = machine.version.id;
-        var version = stores.ApplicationVersionStore.get(versionId);
+        var version = stores.ImageVersionStore.get(versionId);
         if(version) {
-            state.applicationVersion = version;
+            state.imageVersion = version;
         }
         state.machineEndDate = isNaN(end_date) ? "" : end_date;
       }
@@ -61,29 +61,29 @@ define(function (require) {
       //    state.machineLicenses = licenses;
       //}
 
-      if (state.machineApplicationID === null) {
-        state.machineApplicationID = current_app.id
+      if (state.machineImageID === null) {
+        state.machineImageID = current_image.id
       }
 
-      if (applications) {
-        selectedApplication = applications.get(state.machineApplicationID);
+      if (images) {
+        selectedImage = images.get(state.machineImageID);
         // Since providers requires authentication, we can't display which providers
         // the image is available on on the public page
-        state.image = selectedApplication;
-        state.visibility = selectedApplication.get('private') ? "select" : "public";
+        state.image = selectedImage;
+        state.visibility = selectedImage.get('private') ? "select" : "public";
       }
 
       if(providers) {
         state.providers = providers;
       }
 
-      if (state.applicationVersion) {
-          state.machineDescription = state.applicationVersion.get('description');
-          state.machineUncopyable = !state.applicationVersion.get('allow_imaging');
+      if (state.imageVersion) {
+          state.machineDescription = state.imageVersion.get('description');
+          state.machineUncopyable = !state.imageVersion.get('allow_imaging');
 
           if (all_users) {
               state.all_users = all_users;
-              var member_list = state.applicationVersion.get('membership'),
+              var member_list = state.imageVersion.get('membership'),
               memberships = member_list.map(function(username){return {"username":username};})
               state.machineMemberships = new Backbone.Collection(memberships);
           }
@@ -92,16 +92,16 @@ define(function (require) {
     },
 
     componentDidMount: function () {
-      stores.ApplicationStore.addChangeListener(this.updateState);
+      stores.ImageStore.addChangeListener(this.updateState);
       stores.UserStore.addChangeListener(this.updateState);
-      stores.ApplicationVersionStore.addChangeListener(this.updateState);
+      stores.ImageVersionStore.addChangeListener(this.updateState);
       //stores.MachineMembershipStore.addChangeListener(this.updateState);
     },
 
     componentWillUnmount: function () {
-      stores.ApplicationStore.removeChangeListener(this.updateState);
+      stores.ImageStore.removeChangeListener(this.updateState);
       stores.UserStore.removeChangeListener(this.updateState);
-      stores.ApplicationVersionStore.removeChangeListener(this.updateState);
+      stores.ImageVersionStore.removeChangeListener(this.updateState);
       //stores.MachineMembershipStore.removeChangeListener(this.updateState);
     },
 
@@ -113,7 +113,7 @@ define(function (require) {
     },
 
     isSubmittable: function(){
-      var hasVersion   = !!this.state.applicationVersion;
+      var hasVersion   = !!this.state.imageVersion;
       var validEndDate = !!this.valid_date(this.state.machineEndDate);
       return hasVersion && validEndDate;
     },
@@ -130,10 +130,10 @@ define(function (require) {
     confirm: function () {
       this.hide();
       this.props.onConfirm(
-        this.state.applicationVersion,
+        this.state.imageVersion,
         this.state.machineEndDate,
         this.state.machineUncopyable,
-        this.state.machineApplicationID,
+        this.state.machineImageID,
         this.state.machineLicenses,
         this.state.machineMemberships
       );
@@ -148,7 +148,7 @@ define(function (require) {
     // there's a risk of the component being re-rendered by the parent.
     // Should probably verify this behavior, but for now, we play it safe.
     onVersionChange: function (e) {
-      this.setState({applicationVersion: e.target.value});
+      this.setState({imageVersion: e.target.value});
     },
 
     onEndDateChange: function (e) {
@@ -164,8 +164,8 @@ define(function (require) {
       this.setState({visibility: visibility});
     },
 
-    onApplicationSelected: function (selection) {
-      this.setState({machineApplicationID: selection});
+    onImageSelected: function (selection) {
+      this.setState({machineImageID: selection});
     },
 
     //TODO: Handle 'many to many' Licenses & Memberships : List current, Add New, Remove Existing
@@ -180,7 +180,7 @@ define(function (require) {
     },
 
     renderBody: function() {
-      if(!this.state.applicationVersion) {
+      if(!this.state.imageVersion) {
           return (<div className="loading"/>);
       }
       return (
@@ -188,7 +188,7 @@ define(function (require) {
 
           <div className='form-group'>
             <label htmlFor='machine-version'>Version Created On</label>
-            <input type='text' className='form-control' value={this.state.applicationVersion.get('start_date').format("MMMM Do, YYYY")} editable={false}/>
+            <input type='text' className='form-control' value={this.state.imageVersion.get('start_date').format("MMMM Do, YYYY")} editable={false}/>
           </div>
 
           <div className='form-group'>
@@ -199,12 +199,12 @@ define(function (require) {
         //For some reason, This is throwing a 'prop value not specified in <<anonymous>>' warning..
         }
           <EditDescriptionView
-            application={this.props.application}
+            image={this.props.image}
             value={this.state.machineDescription}
             onChange={this.handleDescriptionChange}
           />
           <AvailabilityView
-            application={this.props.application}
+            image={this.props.image}
             machine={this.props.machine}
             providers={this.state.providers}
           />
@@ -223,9 +223,9 @@ define(function (require) {
             <input type='checkbox' className='form-control' checked={this.state.machineUncopyable} onChange={this.onUncopyableSelected}/>
           </div>
 
-          <Application
-            applicationId={this.state.machineApplicationID}
-            onChange={this.onApplicationSelected}
+          <Image
+            imageId={this.state.machineImageID}
+            onChange={this.onImageSelected}
           />
         </div>
       );
