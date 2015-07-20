@@ -4,8 +4,9 @@ try:
 except ImportError:
     raise Exception("No local settings module found. Refer to README.md")
 
-HEADER_TEXT = 'Atmosphere'
-LOGO = '/assets/images/mini_logo.png'
-FAVICON = '/assets/images/favicon.ico'
-CSS_FILE = '/assets/css/app/app.css'
-FOOTER_TEXT = "iPlant Collaborative"
+THEME_HEADER_TEXT = 'Atmosphere'
+THEME_LOGO = '/assets/images/mini_logo.png'
+THEME_FAVICON = '/assets/images/favicon.ico'
+THEME_CSS_FILE = '/assets/css/app/app.css'
+THEME_FOOTER_TEXT = "iPlant Collaborative"
+UI_VERSION = 'Hawaiian Hawk'
