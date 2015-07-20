@@ -26,11 +26,12 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
         'show_troposphere_only': show_troposphere_only
     }
 
-    template_params['HEADER_TEXT'] = settings.HEADER_TEXT
-    template_params['FAVICON'] = settings.FAVICON
-    template_params['CSS_FILE'] = settings.CSS_FILE
-    template_params['LOGO'] = settings.LOGO
-    template_params['FOOTER_TEXT'] = settings.FOOTER_TEXT
+    template_params['THEME_HEADER_TEXT'] = settings.THEME_HEADER_TEXT
+    template_params['THEME_FAVICON'] = settings.THEME_FAVICON
+    template_params['THEME_CSS_FILE'] = settings.THEME_CSS_FILE
+    template_params['THEME_LOGO'] = settings.THEME_LOGO
+    template_params['THEME_FOOTER_TEXT'] = settings.THEME_FOOTER_TEXT
+    template_params['UI_VERSION'] = settings.UI_VERSION
 
     if hasattr(settings, "API_ROOT"):
         template_params['API_ROOT'] = settings.API_ROOT
@@ -77,11 +78,12 @@ def _handle_authenticated_application_request(request, maintenance_records):
         'show_troposphere_only': show_troposphere_only
     }
 
-    template_params['HEADER_TEXT'] = settings.HEADER_TEXT
-    template_params['FAVICON'] = settings.FAVICON
-    template_params['CSS_FILE'] = settings.CSS_FILE
-    template_params['LOGO'] = settings.LOGO
-    template_params['FOOTER_TEXT'] = settings.FOOTER_TEXT
+    template_params['THEME_HEADER_TEXT'] = settings.THEME_HEADER_TEXT
+    template_params['THEME_FAVICON'] = settings.THEME_FAVICON
+    template_params['THEME_CSS_FILE'] = settings.THEME_CSS_FILE
+    template_params['THEME_LOGO'] = settings.THEME_LOGO
+    template_params['THEME_FOOTER_TEXT'] = settings.THEME_FOOTER_TEXT
+    template_params['UI_VERSION'] = settings.UI_VERSION
 
     if hasattr(settings, "INTERCOM_APP_ID"):
         template_params['intercom_app_id'] = settings.INTERCOM_APP_ID

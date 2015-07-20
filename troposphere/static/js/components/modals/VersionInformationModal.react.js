@@ -5,9 +5,10 @@ define(
     'react',
     'components/mixins/BootstrapModalMixin.react',
     'stores',
-    'moment'
+    'moment',
+    'globals'
   ],
-  function (React, BootstrapModalMixin, stores, moment) {
+  function (React, BootstrapModalMixin, stores, moment, globals) {
 
     // Example Usage from http://bl.ocks.org/insin/raw/8449696/
     // render: function(){
@@ -105,10 +106,16 @@ define(
           var serverVersion = server.get("git_branch") + " " + server.get("git_sha_abbrev");
           var serverLastUpdated = moment(server.get('commit_date')).format("MMM Do YYYY");
 
+          var versionName = ' ' + globals.UI_VERSION;
+
           content = (
             <div role='form'>
 
               <div className='form-group'>
+                <div>
+                  <label>Version:</label>
+                  {versionName}
+                </div>
                 <div>
                   <label>Client</label>
                   {", " + clientLastUpdated}
