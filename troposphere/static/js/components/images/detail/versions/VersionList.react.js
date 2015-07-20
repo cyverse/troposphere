@@ -5,7 +5,7 @@ define(function (require) {
     Version = require('./Version.react'),
     stores = require('stores'),
     //Modals
-    ProviderMachineEditModal = require('components/modals/provider_machine/ProviderMachineEditModal.react'),
+    ImageVersionEditModal = require('components/modals/image_version/ImageVersionEditModal.react'),
     ModalHelpers = require('components/modals/ModalHelpers'),
     actions = require('actions');
 
@@ -21,82 +21,62 @@ define(function (require) {
 
         var props = {version: version, image: this.props.image};
 
-        ModalHelpers.renderModal(ProviderMachineEditModal, props, this.onCompletedEdit);
+        ModalHelpers.renderModal(ImageVersionEditModal, props, this.onCompletedEdit);
 
       },
       onCompletedEdit: function (version, end_date, uncopyable, image, licenses, memberships) {
         if (end_date !== null) {
           end_date = new Date(Date.parse(end_date)).toISOString()
         }
-        actions.ProviderMachineActions.update(machine, {
-          version: version,
+        actions.ImageVersionActions.update(version, {
           end_date: end_date,
           allow_imaging: uncopyable,
-          image: image,
           licenses: licenses,
           memberships: memberships
         });
       },
-      //TODO: Next Refactor should remove 'machine' from this equation.
       renderVersion: function (version) {
         return (
           <Version
-            key={machine.id}
+            key={version.id}
             version={version}
             image={this.props.image}
             editable={this.props.editable}
             onEditClicked={this.openEditVersion}
             />
         );
-      }
-
-      ,
-
-      getMachines: function (versions) {
-        var machines = [],
+      },
+      getVersions: function (versions) {
+        var versions = [],
           partialLoad = false;
         //Wait for it...
         if (!versions) {
           return null;
         }
         versions.map(function (version) {
-          var _machines = stores.ImageVersionStore.getMachines(version.id);
-          if (!_machines) {
+          var _versions = stores.ImageVersionStore.getVersions(version.id);
+          if (!_versions) {
             partialLoad = true;
             return;
           }
-          machines = machines.concat(_machines);
+          versions = versions.concat(_versions);
         });
 
         //Don't try to render until you are 100% ready
         if (partialLoad) {
           return null;
         }
-        machines = this.removeDuplicateMachines(machines);
 
-        return machines;
-      }
-      ,
-      removeDuplicateMachines: function (machines) {
-        var machineHash = {};
-
-        return machines.filter(function (machine) {
-          // remove duplicate machines
-          if (!machineHash[machine.id]) {
-            machineHash[machine.id] = machine;
-            return true;
-          }
-        });
+        return versions;
       }
       ,
       render: function () {
-        var versions = _.uniq(this.props.versions.models, function (m) {
-          return m.get('uuid');
-        });
+        //TODO: Add 'sort by' && '+/-'
+        //      API ordering filters: Start Date _OR_ parent-hierarchy
         return (
           <div className="content col-md-10">
             <ul>
-              {versions.map(this.renderVersion)}
+              {this.props.versions.map(this.renderVersion)}
             </ul>
           </div>
         );

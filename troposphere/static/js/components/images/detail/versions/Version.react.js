@@ -12,12 +12,12 @@ define(function (require) {
 
     propTypes: {
       image: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      machine: React.PropTypes.object.isRequired,
+      version: React.PropTypes.object.isRequired,
       onEditClicked: React.PropTypes.func,
       editable: React.PropTypes.bool
     },
     onEditClicked: function() {
-         return this.props.onEditClicked(this.props.machine);
+         return this.props.onEditClicked(this.props.version);
     },
     renderEditLink: function (image) {
         //NOTE: Undefined/null/etc. defaults to "TRUE" case.
@@ -36,12 +36,16 @@ define(function (require) {
          }
     },
     renderDateString: function(version) {
-      var dateCreated = moment(version.start_date).format("M/DD/YYYY"),
-          dateArchived = moment(version.end_date).format("M/DD/YYYY"),
-          date_str;
-      if(version.end_date) {
+      var date_str;
+
+      if(version.get('end_date')) {
+        var dateCreated = moment(version.get('start_date')).format("M/DD/YYYY"),
+          dateArchived = moment(version.get('end_date')).format("M/DD/YYYY");
+
           date_str = dateCreated + " - " + dateArchived;
       } else {
+        var dateCreated = moment(version.get('start_date')).format("M/DD/YYYY");
+
           date_str = dateCreated;
       }
       return (<div> {date_str} </div>);
@@ -49,9 +53,8 @@ define(function (require) {
     },
     render: function () {
       // todo: figure out if anything is ever recommended, or if it's just a concept idea
-      var machine = this.props.machine,
+      var version = this.props.version,
           image = this.props.image,
-          version = machine.version,
           isRecommended = false,
           dateCreated = moment(version.start_date).format("M/DD/YYYY"),
           versionHash = CryptoJS.MD5(version.id.toString()).toString(),

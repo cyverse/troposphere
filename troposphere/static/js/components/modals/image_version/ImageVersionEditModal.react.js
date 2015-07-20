@@ -6,18 +6,28 @@ define(function (require) {
       Visibility = require('components/common/image_request/ImageVisibility.react'),
       AvailabilityView = require('components/images/detail/availability/AvailabilityView.react'),
       EditDescriptionView = require('components/images/detail/description/EditDescriptionView.react'),
-      Image = require('components/modals/provider_machine/Image.react');
+      MembershipView = require('./MembershipView.react'),
+      Image = require('components/modals/image_version/Image.react');
 
   return React.createClass({
     mixins: [BootstrapModalMixin],
 
     propTypes: {
-      machine: React.PropTypes.object.isRequired,
+      version: React.PropTypes.object.isRequired,
       image: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
-
     getInitialState: function () {
-      return this.getState();
+      var version = this.props.version;
+
+      return {
+        versionName: version.get('name'),
+        versionChangeLog: version.get('change_log'),
+        versionEndDate: isNull(version.get('end_date')) ? "" : version.get('end_date'),
+        versionCanImage: version.get('allow_imaging'),
+        versionParentID: version.get('parent').id,
+        versionLicenses: null,
+        versionMemberships: null,
+      }
     },
 
     updateState: function () {
@@ -25,84 +35,21 @@ define(function (require) {
     },
 
     getState: function() {
-      var machine = this.props.machine,
-          current_image = this.props.image,
-          images = stores.ImageStore.getAll(),
-          providers = stores.ProviderStore.getAll(),
-          all_users = stores.UserStore.getAll(),
-          //licenses = stores.LicenseStore.getAll(), //Future
-          selectedImage,
-          end_date;
-
-      var state = this.state || {
-        image: null,
-        all_users: null, //Future
-        machineImageID: null, //Future
-        machineLicenses: null,//Future
-        machineMemberships: null, //Future
-        machineDescription: null, // Future
-        imageVersion: null,
-        machineEndDate: "",
-        machineUncopyable: "",
-        visibility: "public" //Future
-      };
-
-      if (machine) {
-        end_date = machine.end_date;
-        var versionId = machine.version.id;
-        var version = stores.ImageVersionStore.get(versionId);
-        if(version) {
-            state.imageVersion = version;
-        }
-        state.machineEndDate = isNaN(end_date) ? "" : end_date;
-      }
-
-      //if (licenses) {
-      //    state.machineLicenses = licenses;
-      //}
-
-      if (state.machineImageID === null) {
-        state.machineImageID = current_image.id
-      }
-
-      if (images) {
-        selectedImage = images.get(state.machineImageID);
-        // Since providers requires authentication, we can't display which providers
-        // the image is available on on the public page
-        state.image = selectedImage;
-        state.visibility = selectedImage.get('private') ? "select" : "public";
-      }
-
-      if(providers) {
-        state.providers = providers;
-      }
-
-      if (state.imageVersion) {
-          state.machineDescription = state.imageVersion.get('description');
-          state.machineUncopyable = !state.imageVersion.get('allow_imaging');
-
-          if (all_users) {
-              state.all_users = all_users;
-              var member_list = state.imageVersion.get('membership'),
-              memberships = member_list.map(function(username){return {"username":username};})
-              state.machineMemberships = new Backbone.Collection(memberships);
-          }
-      }
-      return state;
+      return this.state;
     },
 
     componentDidMount: function () {
       stores.ImageStore.addChangeListener(this.updateState);
       stores.UserStore.addChangeListener(this.updateState);
       stores.ImageVersionStore.addChangeListener(this.updateState);
-      //stores.MachineMembershipStore.addChangeListener(this.updateState);
+      //stores.VersionMembershipStore.addChangeListener(this.updateState);
     },
 
     componentWillUnmount: function () {
       stores.ImageStore.removeChangeListener(this.updateState);
       stores.UserStore.removeChangeListener(this.updateState);
       stores.ImageVersionStore.removeChangeListener(this.updateState);
-      //stores.MachineMembershipStore.removeChangeListener(this.updateState);
+      //stores.VersionMembershipStore.removeChangeListener(this.updateState);
     },
 
     //TODO: Pull this out to commons
@@ -113,9 +60,10 @@ define(function (require) {
     },
 
     isSubmittable: function(){
-      var hasVersion   = !!this.state.imageVersion;
-      var validEndDate = !!this.valid_date(this.state.machineEndDate);
-      return hasVersion && validEndDate;
+      var hasVersionName   = !!this.state.versionName;
+      var hasChangeLog = !!this.state.versionChangeLog;
+      var validEndDate = !!this.valid_date(this.state.versionEndDate);
+      return hasVersionName && hasChangeLog && validEndDate;
     },
 
     //
@@ -130,12 +78,13 @@ define(function (require) {
     confirm: function () {
       this.hide();
       this.props.onConfirm(
-        this.state.imageVersion,
-        this.state.machineEndDate,
-        this.state.machineUncopyable,
-        this.state.machineImageID,
-        this.state.machineLicenses,
-        this.state.machineMemberships
+        this.state.versionName,
+        this.state.versionChangeLog,
+        this.state.versionEndDate,
+        this.state.versionCanImage,
+        this.state.versionImageID,
+        this.state.versionLicenses,
+        this.state.versionMemberships
       );
     },
 
@@ -148,16 +97,16 @@ define(function (require) {
     // there's a risk of the component being re-rendered by the parent.
     // Should probably verify this behavior, but for now, we play it safe.
     onVersionChange: function (e) {
-      this.setState({imageVersion: e.target.value});
+      this.setState({versionName: e.target.value});
     },
 
     onEndDateChange: function (e) {
-      this.setState({machineEndDate: e.target.value});
+      this.setState({versionEndDate: e.target.value});
     },
 
     onUncopyableSelected: function (e) {
       var uncopyable = (e.target.value === 'on');
-      this.setState({machineUncopyable: uncopyable});
+      this.setState({versionCanImage: uncopyable});
     },
 
     handleVisibilityChange: function(visibility){
@@ -165,7 +114,7 @@ define(function (require) {
     },
 
     onImageSelected: function (selection) {
-      this.setState({machineImageID: selection});
+      this.setState({versionImageID: selection});
     },
 
     //TODO: Handle 'many to many' Licenses & Memberships : List current, Add New, Remove Existing
@@ -176,55 +125,51 @@ define(function (require) {
     //
     handleDescriptionChange: function(e){
       var description = e.target.value;
-      this.setState({machineDescription: description});
+      this.setState({versionDescription: description});
     },
 
     renderBody: function() {
-      if(!this.state.imageVersion) {
+      if(!this.state.versionName) {
           return (<div className="loading"/>);
       }
       return (
         <div role='form'>
 
           <div className='form-group'>
-            <label htmlFor='machine-version'>Version Created On</label>
-            <input type='text' className='form-control' value={this.state.imageVersion.get('start_date').format("MMMM Do, YYYY")} editable={false}/>
+            <label htmlFor='version-version'>Version Created On</label>
+            <input type='text' className='form-control' value={this.state.versionName.get('start_date').format("MMMM Do, YYYY")} editable={false}/>
           </div>
 
           <div className='form-group'>
-            <label htmlFor='machine-end-date'>Version Removed On</label>
-            <input type='text' className='form-control' value={this.state.machineEndDate} onChange={this.onEndDateChange}/>
+            <label htmlFor='version-end-date'>Version Removed On</label>
+            <input type='text' className='form-control' value={this.state.versionEndDate} onChange={this.onEndDateChange}/>
           </div>
         {
         //For some reason, This is throwing a 'prop value not specified in <<anonymous>>' warning..
         }
           <EditDescriptionView
             image={this.props.image}
-            value={this.state.machineDescription}
+            value={this.state.versionDescription}
             onChange={this.handleDescriptionChange}
           />
           <AvailabilityView
             image={this.props.image}
-            machine={this.props.machine}
+            version={this.props.version}
             providers={this.state.providers}
           />
-          {
-            /*
-             <Visibility
-             value={this.state.visibility}
-             all_users={this.state.all_users}
-             membership_list={this.state.machineMemberships}
-             onChange={this.handleVisibilityChange}
-             />
-             */
-          }
+           <Visibility
+           value={this.state.visibility}
+           all_users={this.state.all_users}
+           membership_list={this.state.versionMemberships}
+           onChange={this.handleVisibilityChange}
+           />
           <div className='form-group'>
-            <label htmlFor='machine-uncopyable'>Uncopyable</label>
-            <input type='checkbox' className='form-control' checked={this.state.machineUncopyable} onChange={this.onUncopyableSelected}/>
+            <label htmlFor='version-uncopyable'>Uncopyable</label>
+            <input type='checkbox' className='form-control' checked={this.state.versionCanImage} onChange={this.onUncopyableSelected}/>
           </div>
 
           <Image
-            imageId={this.state.machineImageID}
+            imageId={this.state.versionImageID}
             onChange={this.onImageSelected}
           />
         </div>
@@ -240,6 +185,20 @@ define(function (require) {
     },
 
     render: function () {
+      var images = stores.ImageStore.getAll(),
+        providers = stores.ProviderStore.getAll(),
+        all_users = stores.UserStore.getAll();
+        //licenses = stores.LicenseStore.getAll(); //Future
+
+
+      var version = this.props.version,
+        end_date = version.get('end_date'),
+        versionId = version.id;
+
+      if (!end_date) {
+      end_date =""
+      }
+
       return (
         <div className="modal fade">
           <div className="modal-dialog">
