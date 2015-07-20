@@ -103,7 +103,7 @@ define(function (require) {
             instanceHistoryHash = CryptoJS.MD5((instance.id || instance.cid).toString()).toString(),
             iconSize = 63,
             type = stores.ProfileStore.get().get('icon_set'),
-            imageId = instance.get('image_id'),
+            imageId = instance.get('application_id'),
             image = imageId ? stores.ImageStore.get(imageId) : null,
             imageName = image ? image.get('name') : "[image no longer exists]",
             imageLink;

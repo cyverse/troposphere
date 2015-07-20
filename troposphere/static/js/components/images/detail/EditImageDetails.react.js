@@ -104,6 +104,11 @@ define(function (require) {
             />
             <CreatedView image={image}/>
             <AuthorView image={image}/>
+            <EditDescriptionView
+              image={image}
+              value={this.state.description}
+              onChange={this.handleDescriptionChange}
+                />
             <EditTagsView
               image={image}
               tags={allTags}
@@ -111,11 +116,6 @@ define(function (require) {
               onTagAdded={this.onTagAdded}
               onTagRemoved={this.onTagRemoved}
             />
-            <EditDescriptionView
-              image={image}
-              value={this.state.description}
-              onChange={this.handleDescriptionChange}
-                />
             {versionView}
           </div>
         </div>

@@ -72,9 +72,9 @@ define(
               <NameView image={this.props.image}/>
               <CreatedView image={this.props.image}/>
               <AuthorView image={this.props.image}/>
+              <DescriptionView image={this.props.image}/>
               {tagsView}
               {availabilityView}
-              <DescriptionView image={this.props.image}/>
               {versionView}
             </div>
           </div>
