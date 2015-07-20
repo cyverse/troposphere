@@ -141,7 +141,7 @@ define(function (require) {
             var image = this.props.image,
                 identities = stores.IdentityStore.getAll(),
                 providers = stores.ProviderStore.getAll(),
-                versions = image.getVersions();
+                versions = stores.ImageStore.getVersions(image.id);
                 // versions = image.get('provider_images');
 
             if (!providers || !identities || !versions) return <div className="loading"></div>;

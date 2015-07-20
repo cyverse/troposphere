@@ -35,6 +35,18 @@ define(function (require) {
              )
          }
     },
+    renderDateString: function(version) {
+      var dateCreated = moment(version.start_date).format("M/DD/YYYY"),
+          dateArchived = moment(version.end_date).format("M/DD/YYYY"),
+          date_str;
+      if(version.end_date) {
+          date_str = dateCreated + " - " + dateArchived;
+      } else {
+          date_str = dateCreated;
+      }
+      return (<div> {date_str} </div>);
+
+    },
     render: function () {
       // todo: figure out if anything is ever recommended, or if it's just a concept idea
       var machine = this.props.machine,
@@ -56,7 +68,7 @@ define(function (require) {
                 {version.name}
                 {isRecommended ? <span className="recommended-tag">Recommended</span> : null}
               </div>
-              <div>{dateCreated}</div>
+              {this.renderDateString(version)}
               <div>{owner}</div>
               {this.renderEditLink()}
             </div>

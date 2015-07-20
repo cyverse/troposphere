@@ -40,7 +40,7 @@ define(function (require) {
             );
         },
         getProvidersForImage: function(image) {
-            return image.getProviders();
+            return stores.ImageStore.getProviders(image.id);
         }
 
     });

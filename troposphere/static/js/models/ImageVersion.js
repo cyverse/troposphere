@@ -20,18 +20,6 @@ define(function (require) {
       return attributes;
     },
 
-    getMachines: function() {
-        var _machines = stores.ProviderMachineStore.fetchWhere(
-            {version_id: this.id}
-        );
-
-        if(!_machines || _machines.length === 0) {
-            return null;
-        }
-        //MOVE AWAY from backbone!
-        return _machines.toJSON();
-    }
-
   });
 
 });

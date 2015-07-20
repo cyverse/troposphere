@@ -4,8 +4,6 @@ define(function (require) {
     _ = require('underscore'),
     Version = require('./Version.react'),
     stores = require('stores'),
-    //Collections
-    ProviderMachineCollection = require('collections/ProviderMachineCollection'),
     //Modals
     ProviderMachineEditModal = require('components/modals/provider_machine/ProviderMachineEditModal.react'),
     ModalHelpers = require('components/modals/ModalHelpers'),
@@ -19,9 +17,9 @@ define(function (require) {
         editable: React.PropTypes.bool
       },
       //TODO: Next refactor should convert this into 'edit version'
-      editMachine: function (machine) {
+      openEditVersion: function (version) {
 
-        var props = {machine: machine, image: this.props.image};
+        var props = {version: version, image: this.props.image};
 
         ModalHelpers.renderModal(ProviderMachineEditModal, props, this.onCompletedEdit);
 
@@ -40,14 +38,14 @@ define(function (require) {
         });
       },
       //TODO: Next Refactor should remove 'machine' from this equation.
-      renderMachine: function (machine) {
+      renderVersion: function (version) {
         return (
           <Version
             key={machine.id}
+            version={version}
             image={this.props.image}
-            machine={machine}
             editable={this.props.editable}
-            onEditClicked={this.editMachine}
+            onEditClicked={this.openEditVersion}
             />
         );
       }
@@ -62,7 +60,7 @@ define(function (require) {
           return null;
         }
         versions.map(function (version) {
-          var _machines = version.getMachines();
+          var _machines = stores.ImageVersionStore.getMachines(version.id);
           if (!_machines) {
             partialLoad = true;
             return;
@@ -95,23 +93,10 @@ define(function (require) {
         var versions = _.uniq(this.props.versions.models, function (m) {
           return m.get('uuid');
         });
-        var allMachines = this.getMachines(this.props.versions.models);
-        if (!allMachines) {
-          return (<div className="loading"/>);
-        }
-
-        var machineHash = {},
-          machines = allMachines.filter(function (machine) {
-            // remove duplicate machines
-            if (!machineHash[machine.version.id]) {
-              machineHash[machine.version.id] = machine;
-              return true;
-            }
-          });
         return (
           <div className="content col-md-10">
             <ul>
-              {machines.map(this.renderMachine)}
+              {versions.map(this.renderVersion)}
             </ul>
           </div>
         );

@@ -2,6 +2,7 @@ define(function (require) {
 
   var ImageVersionCollection = require('collections/ImageVersionCollection'),
       Dispatcher = require('dispatchers/Dispatcher'),
+      stores = require('stores'),
       BaseStore = require('stores/BaseStore'),
       ImageVersionConstants = require('constants/ImageVersionConstants'),
       NotificationController = require('controllers/NotificationController');
@@ -15,6 +16,18 @@ define(function (require) {
       if(!image_version) return this.fetchModel(imageVersionId);
       return image_version;
     },
+
+    getMachines: function(versionId) {
+        var _machines = stores.ProviderMachineStore.fetchWhere(
+            {version_id: versionId}
+        );
+
+        if(_machines == null) {
+            return null;
+        }
+        //MOVE AWAY from backbone!
+        return _machines.toJSON();
+    }
   });
 
   var store = new ImageVersionStore();

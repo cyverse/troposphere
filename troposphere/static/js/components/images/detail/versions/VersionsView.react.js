@@ -2,6 +2,7 @@ define(function (require) {
 
   var React = require('react'),
       Backbone = require('backbone'),
+    stores = require('stores'),
       VersionList = require('./VersionList.react');
 
   return React.createClass({
@@ -11,7 +12,7 @@ define(function (require) {
     },
     render: function () {
       var image = this.props.image,
-          versions = image.getVersions();
+          versions = stores.ImageStore.getVersions(image.id);
       if(!versions) {
           return (<div className="loading" />);
       }

@@ -18,7 +18,7 @@ define(function (require) {
     if(!params.size) throw new Error("Missing size");
     if(params.version) {
         //Determine 'machine' from selected version and identity
-        var machines = params.version.getMachines(),
+        var machines = stores.ImageVersionStore.getMachines(params.version.id),
             selected_machines = machines.filter(
             function(machine) {
                 return machine.provider.uuid === params.identity.get('provider').uuid;
