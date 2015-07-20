@@ -10,22 +10,25 @@ define(function (require) {
   return {
 
     userHasBadge: function(badge){
+      if(stores.MyBadgeStore.get(badge)) return true;
       return false;
     },
 
     checkInstances: function(){
       var instanceCount = stores.InstanceHistoryStore.getAll().meta.count;
-
       if(instanceCount >= 1){
-        this.grant({badge: stores.BadgeStore.get(4)})
-      }
-
-      if(instanceCount >= 10){
-        badgeToGrant = stores.BadgeStore.get(1);
-        if (this.userHasBadge(badgeToGrant)){
-          this.grant({badge: badgeToGrant});
+        if(!this.userHasBadge(4)){
+          this.grant({badge: stores.BadgeStore.get(4)})
         }
       }
+
+
+      if(instanceCount >= 10){
+        if(!this.userHasBadge(1)){
+          this.grant({badge: stores.BadgeStore.get(1)});
+        }
+      }
+
     },
 
     ask: function(){
