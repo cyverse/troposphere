@@ -2,148 +2,147 @@
   ul {
     list-style-type: none;
   }
-}
 
-.modal-section {
-  padding-bottom: 5px;
+  .modal-section {
+    padding-bottom: 5px;
 
-  h4 {
-    font-size: 19px;
-    border-bottom: 1px solid #ddd;
-  }
-}
-
-.quota-consumption-bars {
-  margin-top: 10px;
-  width: 50%;
-  display: inline-block;
-  vertical-align: top;
-  padding-left: 15px;
-  padding-right: 15px;
-  
-  .progress {
-    height: 25px;
-  }
-  
-  .progress-bar {
-    line-height: 25px;
-    font-size: 13px;
+    h4 {
+      font-size: 19px;
+      border-bottom: 1px solid #ddd;
+    }
   }
 
-  .value {
-    position: absolute;
-    z-index: 1;
-    margin-top: 3px;
-    margin-left: 7px;
+  .quota-consumption-bars {
+    margin-top: 10px;
+    width: 50%;
+    display: inline-block;
+    vertical-align: top;
+    padding-left: 15px;
+    padding-right: 15px;
+
+    .progress {
+      height: 25px;
+    }
+
+    .progress-bar {
+      line-height: 25px;
+      font-size: 13px;
+    }
+
+    .value {
+      position: absolute;
+      z-index: 1;
+      margin-top: 3px;
+      margin-left: 7px;
+    }
   }
-}
 
-.allocation-consumption-bar {
-  margin-top: 10px;
-  width: 100%;
-  display: inline-block;
-  vertical-align: top;
-  padding-left: 15px;
-  padding-right: 15px;
+  .allocation-consumption-bar {
+    margin-top: 10px;
+    width: 100%;
+    display: inline-block;
+    vertical-align: top;
+    padding-left: 15px;
+    padding-right: 15px;
 
-  .progress {
-    height: 25px;
+    .progress {
+      height: 25px;
+    }
+
+    .progress-bar {
+      line-height: 25px;
+      font-size: 13px;
+    }
+
+    .value {
+      position: absolute;
+      z-index: 1;
+      margin-top: 3px;
+      margin-left: 7px;
+    }
   }
 
-  .progress-bar {
-    line-height: 25px;
-    font-size: 13px;
-  }
+  // Modal image list
 
-  .value {
-    position: absolute;
-    z-index: 1;
-    margin-top: 3px;
-    margin-left: 7px;
-  }
-}
+  .app-card-list.modal-list {
+    margin-bottom: 15px;
+    max-height: 550px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: 1px solid black;
 
-// Modal image list
+    .app-card {
+      border-radius: 0;
+      padding: 14px 0px 12px 0px;
+      border: none;
+    }
 
-.app-card-list.modal-list {
-  margin-bottom: 15px;
-  max-height: 550px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  border: 1px solid black;
+    li {
+      margin: 0;
+      border: 1px solid #ccc;
+      border-top: 0;
 
-  .app-card {
-    border-radius: 0;
-    padding: 14px 0px 12px 0px;
-    border: none;
-  }
-  
-  li {
-    margin: 0;
-    border: 1px solid #ccc;
-    border-top: 0;
+      &:hover {
+        cursor: pointer;
 
-    &:hover {
-      cursor: pointer;
+        .app-card {
+          background-color: #eee;
+        }
+      }
+    }
 
-      .app-card {
-        background-color: #eee;
+    li:first-child {
+      border-top: 1px solid #ccc;
+    }
+
+    ul.tags {
+      max-width: 430px;
+
+      li {
+        float: left;
       }
     }
   }
-  
-  li:first-child {
-    border-top: 1px solid #ccc;
+
+  // Project instance launch modal
+  .filter-description {
+    font-size: 17px;
+    margin-bottom: 10px;
+    margin-top: -10px;
   }
 
-  ul.tags {
-    max-width: 430px;
+  //Breadbreadcrumb for *WizardModals
+  $breadcrumb-color-main-1: #aaddcc;
+  $breadcrumb-color-main-2: #0098aa;
+  $breadcrumb-color-main-3: #0098aa;
+  $breadcrumb-color-main-4: #aabbcc;
+  $breadcrumb-color-inactive-1: #333;
+  $breadcrumb-color-inactive-2: #666;
 
-    li {
-      float: left;
-    }
-  }
-}
+  $breadcrumb-bg-fallback: $breadcrumb-color-main-2;
+  $breadcrumb-text: $breadcrumb-color-main-1;
+  $breadcrumb-bg-inactive: linear-gradient($breadcrumb-color-inactive-1, $breadcrumb-color-inactive-2);
 
-// Project instance launch modal
-.filter-description {
-  font-size: 17px;
-  margin-bottom: 10px;
-  margin-top: -10px;
-}
+  $breadcrumb-color: linear-gradient($breadcrumb-color-main-1, $breadcrumb-color-main-2);
+  $breadcrumb-active: linear-gradient($breadcrumb-color-main-3, $breadcrumb-color-main-4);
+  $breadcrumb_arrow-active-color: linear-gradient(135deg, $breadcrumb-color-main-3, $breadcrumb-color-main-4);
+  $breadcrumb_arrow-inactive-color: linear-gradient(135deg, $breadcrumb-color-inactive-1, $breadcrumb-color-inactive-2);
+  $breadcrumb_arrow-color: linear-gradient(135deg, $breadcrumb-color-main-1, $breadcrumb-color-main-2);
+  $breadcrumb_arrow-width: 36px;
+  $breadcrumb_arrow-height: 36px;
+  $breadcrumb-box-shadow:  0 0 15px 1px rgba(0, 0, 0, 0.35);
+  /*as you see the rotated square takes a larger height. which makes it tough to position it properly. So we are going to scale it down so that the diagonals become equal to the line-height of the link. We scale it to 70.7% because if square's:
+  length = 1; diagonal = (1^2 + 1^2)^0.5 = 1.414 (pythagoras theorem)
+  if diagonal required = 1; length = 1/1.414 = 0.707*/
 
-//Breadbreadcrumb for *WizardModals
-$breadcrumb-color-main-1: #aaddcc;
-$breadcrumb-color-main-2: #0098aa;
-$breadcrumb-color-main-3: #0098aa;
-$breadcrumb-color-main-4: #aabbcc;
-$breadcrumb-color-inactive-1: #333;
-$breadcrumb-color-inactive-2: #666;
-
-$breadcrumb-bg-fallback: $breadcrumb-color-main-2;
-$breadcrumb-text: $breadcrumb-color-main-1;
-$breadcrumb-bg-inactive: linear-gradient($breadcrumb-color-inactive-1, $breadcrumb-color-inactive-2);
-
-$breadcrumb-color: linear-gradient($breadcrumb-color-main-1, $breadcrumb-color-main-2);
-$breadcrumb-active: linear-gradient($breadcrumb-color-main-3, $breadcrumb-color-main-4);
-$breadcrumb_arrow-active-color: linear-gradient(135deg, $breadcrumb-color-main-3, $breadcrumb-color-main-4);
-$breadcrumb_arrow-inactive-color: linear-gradient(135deg, $breadcrumb-color-inactive-1, $breadcrumb-color-inactive-2);
-$breadcrumb_arrow-color: linear-gradient(135deg, $breadcrumb-color-main-1, $breadcrumb-color-main-2);
-$breadcrumb_arrow-width: 36px;
-$breadcrumb_arrow-height: 36px;
-$breadcrumb-box-shadow:  0 0 15px 1px rgba(0, 0, 0, 0.35);
-/*as you see the rotated square takes a larger height. which makes it tough to position it properly. So we are going to scale it down so that the diagonals become equal to the line-height of the link. We scale it to 70.7% because if square's:
-    length = 1; diagonal = (1^2 + 1^2)^0.5 = 1.414 (pythagoras theorem)
-    if diagonal required = 1; length = 1/1.414 = 0.707*/
-
-.breadcrumb {
+  .breadcrumb {
     /*centering*/
     display: inline-block;
     box-shadow: $breadcrumb-box-shadow;
     overflow: hidden;
     border-radius: 5px;
-}
-.breadcrumb div {
+  }
+  .breadcrumb div {
     text-decoration: none;
     cursor: default;
     outline: none;
@@ -156,46 +155,46 @@ $breadcrumb-box-shadow:  0 0 15px 1px rgba(0, 0, 0, 0.35);
     background: $breadcrumb-bg-fallback;
     background: $breadcrumb-color;
     position: relative;
-}
-.breadcrumb div.inactive {
-  background: $breadcrumb-bg-inactive;
-}
-.breadcrumb div.inactive:after {
-  background: $breadcrumb_arrow-inactive-color;
-}
-.breadcrumb div.available {
-  cursor: pointer;
-}
-.breadcrumb div.available, .breadcrumb div.active {
+  }
+  .breadcrumb div.inactive {
+    background: $breadcrumb-bg-inactive;
+  }
+  .breadcrumb div.inactive:after {
+    background: $breadcrumb_arrow-inactive-color;
+  }
+  .breadcrumb div.available {
+    cursor: pointer;
+  }
+  .breadcrumb div.available, .breadcrumb div.active {
     background: $breadcrumb-bg-fallback;
     background: $breadcrumb-active;
-}
-.breadcrumb > div.active {
+  }
+  .breadcrumb > div.active {
     color: white;
     font-size: 14px;
-}
-.breadcrumb div.active:after, .breadcrumb div.available:after {
+  }
+  .breadcrumb div.active:after, .breadcrumb div.available:after {
     background: $breadcrumb-bg-fallback;
     background: $breadcrumb_arrow-active-color;
-}
-.breadcrumb div:first-child {
+  }
+  .breadcrumb div:first-child {
     padding-left: 20px;
     border-radius: 5px 0 0 5px;
-}
-.breadcrumb div:first-child:before {
+  }
+  .breadcrumb div:first-child:before {
     left: 14px;
-}
-.breadcrumb div:last-child {
+  }
+  .breadcrumb div:last-child {
     border-radius: 0 5px 5px 0; /*prevents glitches on hover*/
     padding-right: 20px;
-}
+  }
 
-.breadcrumb div.active:after, .breadcrumb div.available:hover:after {
+  .breadcrumb div.active:after, .breadcrumb div.available:hover:after {
     background: $breadcrumb-bg-fallback;
     background: $breadcrumb_arrow-active-color;
-}
-/*adding the arrows for the breadcrumbs using rotated pseudo elements*/
-.breadcrumb div:after {
+  }
+  /*adding the arrows for the breadcrumbs using rotated pseudo elements*/
+  .breadcrumb div:after {
     content: "";
     position: absolute;
     top: 0;
@@ -212,19 +211,20 @@ $breadcrumb-box-shadow:  0 0 15px 1px rgba(0, 0, 0, 0.35);
     background: $breadcrumb_arrow-color;
     /*stylish arrow design using box shadow*/
     box-shadow:
-        2px -2px 0 2px rgba(0, 0, 0, 0.4),
-        3px -3px 0 2px rgba(255, 255, 255, 0.1);
+    2px -2px 0 2px rgba(0, 0, 0, 0.4),
+    3px -3px 0 2px rgba(255, 255, 255, 0.1);
     /*
-        5px - for rounded arrows and
-        50px - to prevent hover glitches on the border created using shadows*/
+    5px - for rounded arrows and
+    50px - to prevent hover glitches on the border created using shadows*/
     border-radius: 0 5px 0 50px;
-}
-/*we dont need an arrow after the last link*/
-.breadcrumb div:last-child:after {
+  }
+  /*we dont need an arrow after the last link*/
+  .breadcrumb div:last-child:after {
     content: none;
-}
+  }
 
-.modal-link {
-  float: right;
-  font-size: 15px;
+  .modal-link {
+    float: right;
+    font-size: 15px;
+  }
 }
