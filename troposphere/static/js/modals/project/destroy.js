@@ -1,8 +1,8 @@
 define(function (require) {
 
   var actions = require('actions'),
-      ModalHelpers = require('components/modals/ModalHelpers'),
-      ProjectDeleteModal = require('components/modals/project/ProjectDeleteModal.react');
+    ModalHelpers = require('components/modals/ModalHelpers'),
+    ProjectDeleteModal = require('components/modals/project/ProjectDeleteModal.react');
 
   return {
 
@@ -12,7 +12,7 @@ define(function (require) {
         project: project
       };
 
-      ModalHelpers.renderModal(ProjectDeleteModal, props, function(){
+      ModalHelpers.renderModal(ProjectDeleteModal, props, function () {
         actions.ProjectActions.destroy({
           project: project
         });

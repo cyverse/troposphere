@@ -2,10 +2,10 @@ define(function (require) {
   "use strict";
 
   var React = require('react'),
-      Router = require('react-router'),
-      RouteHandler = Router.RouteHandler,
-      stores = require('stores'),
-      SecondaryProjectNavigation = require('../common/SecondaryProjectNavigation.react');
+    Router = require('react-router'),
+    RouteHandler = Router.RouteHandler,
+    stores = require('stores'),
+    SecondaryProjectNavigation = require('../common/SecondaryProjectNavigation.react');
 
   return React.createClass({
 
@@ -14,7 +14,7 @@ define(function (require) {
     render: function () {
       var project = stores.ProjectStore.get(Number(this.getParams().projectId));
 
-      if(!project) {
+      if (!project) {
         return (
           <div className="loading"></div>
         )

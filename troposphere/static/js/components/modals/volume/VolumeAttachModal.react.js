@@ -43,7 +43,7 @@ define(
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
-      isSubmittable: function(){
+      isSubmittable: function () {
         var hasInstanceId = !!this.state.instanceId;
         return hasInstanceId;
       },
@@ -53,22 +53,22 @@ define(
       // ----------------
       //
 
-      getState: function(project) {
+      getState: function (project) {
         var project = this.props.project,
-            state = {
-              instances: stores.ProjectInstanceStore.getInstancesFor(project),
-              instanceId: null
-            };
+          state = {
+            instances: stores.ProjectInstanceStore.getInstancesFor(project),
+            instanceId: null
+          };
 
         this.state = this.state || {};
 
         // Use selected instance or default to the first one
         if (state.instances) {
           var volume = this.props.volume,
-              InstanceCollection = state.instances.constructor;
+            InstanceCollection = state.instances.constructor;
 
           // Filter out instances not in the same provider as the volume
-          state.instances = state.instances.filter(function(i){
+          state.instances = state.instances.filter(function (i) {
             return i.get('identity').provider === volume.get('identity').provider;
           });
           state.instances = new InstanceCollection(state.instances);
@@ -78,7 +78,7 @@ define(
         return state;
       },
 
-      getInitialState: function(){
+      getInitialState: function () {
         return this.getState();
       },
 
@@ -101,7 +101,7 @@ define(
       // ------------------------
       //
 
-      cancel: function(){
+      cancel: function () {
         this.hide();
       },
 
@@ -116,7 +116,7 @@ define(
       // ----------------------
       //
 
-      onInstanceChange: function(e){
+      onInstanceChange: function (e) {
         var newInstanceId = e.target.value;
         this.setState({instanceId: newInstanceId});
       },
@@ -126,7 +126,7 @@ define(
       // ------
       //
 
-      renderLoadingContent: function(){
+      renderLoadingContent: function () {
         return (
           <div className="modal-content">
             <div className="modal-header">
@@ -142,7 +142,7 @@ define(
         )
       },
 
-      renderAttachRulesContent: function(){
+      renderAttachRulesContent: function () {
         return (
           <div className="modal-content">
             <div className="modal-header">
@@ -159,11 +159,13 @@ define(
                       "provider as the volume."
                     }
                   </p>
+
                   <p>
                     {
                       "If you'd like to attach this volume to an instance, you'll first need to "
                     }
-                    <a href="https://pods.iplantcollaborative.org/wiki/display/atmman/Launching+a+New+Instance">create an instance</a>
+                    <a href="https://pods.iplantcollaborative.org/wiki/display/atmman/Launching+a+New+Instance">create
+                      an instance</a>
                     {
                       " on the same provider or move an existing instance into this project."
                     }
@@ -180,7 +182,7 @@ define(
         )
       },
 
-      renderAttachVolumeContent: function(instances){
+      renderAttachVolumeContent: function (instances) {
         var instanceId = this.state.instanceId;
 
         return (
@@ -192,13 +194,14 @@ define(
             <div className="modal-body">
               <div role='form'>
                 <p>Select the instance from the list below that you would like to attach the volume to:</p>
+
                 <div className='form-group'>
                   <label htmlFor='instance'>Instance</label>
                   <InstanceSelect
-                      instanceId={instanceId}
-                      instances={instances}
-                      onChange={this.onInstanceChange}
-                  />
+                    instanceId={instanceId}
+                    instances={instances}
+                    onChange={this.onInstanceChange}
+                    />
                 </div>
               </div>
             </div>
@@ -216,14 +219,14 @@ define(
 
       render: function () {
         var project = this.props.project,
-            instances = stores.ProjectInstanceStore.getInstancesFor(project),
-            content;
+          instances = stores.ProjectInstanceStore.getInstancesFor(project),
+          content;
 
-        if(!instances) {
+        if (!instances) {
           content = this.renderLoadingContent();
-        }else if(instances.length <= 0){
+        } else if (instances.length <= 0) {
           content = this.renderAttachRulesContent();
-        }else{
+        } else {
           content = this.renderAttachVolumeContent(instances);
         }
 

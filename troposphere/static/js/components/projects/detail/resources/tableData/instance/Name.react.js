@@ -2,8 +2,8 @@ define(function (require) {
   "use strict";
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      Router = require('react-router');
+    Backbone = require('backbone'),
+    Router = require('react-router');
 
   return React.createClass({
 
@@ -16,14 +16,15 @@ define(function (require) {
     render: function () {
       var instance = this.props.instance;
 
-      if(!instance.id) {
+      if (!instance.id) {
         return (
           <span>{instance.get('name')}</span>
         );
       }
 
       return (
-        <Router.Link to="project-instance-details" params={{projectId: this.getParams().projectId, instanceId: instance.id}}>
+        <Router.Link to="project-instance-details"
+                     params={{projectId: this.getParams().projectId, instanceId: instance.id}}>
           {instance.get('name')}
         </Router.Link>
       );

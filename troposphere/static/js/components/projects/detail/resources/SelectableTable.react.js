@@ -1,8 +1,8 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      Checkbox = require('./Checkbox.react');
+    Backbone = require('backbone'),
+    Checkbox = require('./Checkbox.react');
 
   return React.createClass({
 
@@ -15,10 +15,10 @@ define(function (require) {
       children: React.PropTypes.node.isRequired
     },
 
-    toggleCheckbox: function(e){
+    toggleCheckbox: function (e) {
       var isChecked = this.areAllResourcesSelected();
 
-      this.props.resources.each(function(resource){
+      this.props.resources.each(function (resource) {
         if (!isChecked) {
           this.props.onResourceSelected(resource);
         } else {
@@ -27,10 +27,10 @@ define(function (require) {
       }.bind(this));
     },
 
-    areAllResourcesSelected: function(){
+    areAllResourcesSelected: function () {
       var allResourcesSelected = true;
-      this.props.resources.each(function(resource){
-        if(!this.props.selectedResources.get(resource)) allResourcesSelected = false;
+      this.props.resources.each(function (resource) {
+        if (!this.props.selectedResources.get(resource)) allResourcesSelected = false;
       }.bind(this));
       return allResourcesSelected;
     },
@@ -41,13 +41,13 @@ define(function (require) {
       return (
         <table className="table table-hover">
           <thead>
-            <tr onClick={this.toggleCheckbox}>
-              <th><Checkbox isChecked={this.areAllResourcesSelected()}/></th>
-              {this.props.children}
-            </tr>
+          <tr onClick={this.toggleCheckbox}>
+            <th><Checkbox isChecked={this.areAllResourcesSelected()}/></th>
+            {this.props.children}
+          </tr>
           </thead>
           <tbody>
-            {resourceRows}
+          {resourceRows}
           </tbody>
         </table>
       );

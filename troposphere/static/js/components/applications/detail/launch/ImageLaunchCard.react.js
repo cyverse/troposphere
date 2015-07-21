@@ -37,23 +37,23 @@ define(
 
         // Hide bookmarking on the public page
         var bookmark;
-        if(context.profile){
+        if (context.profile) {
           bookmark = (
             <Bookmark application={app}/>
           );
         }
 
         var button;
-        if(context.profile){
+        if (context.profile) {
           button = (
             <button className='btn btn-primary launch-button' onClick={this.props.onLaunch}>
               Launch
             </button>
           );
-        }else{
+        } else {
           var loginUrl = URL.login(null, {relative: true}),
-              imageUrl = URL.application(this.props.application),
-              fullUrl = loginUrl + "?redirect=" + imageUrl + "?beta=true";
+            imageUrl = URL.application(this.props.application),
+            fullUrl = loginUrl + "?redirect=" + imageUrl + "?beta=true";
 
           button = (
             <a className='btn btn-primary launch-button' href={fullUrl}>

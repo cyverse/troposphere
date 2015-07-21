@@ -1,10 +1,10 @@
 define(function (require) {
 
   var Dispatcher = require('dispatchers/Dispatcher'),
-      BaseStore = require('stores/BaseStore'),
-      ResourceRequestCollection = require('collections/ResourceRequestCollection'),
-      ResourceRequestConstants = require('constants/ResourceRequestConstants'),
-      stores = require('stores');
+    BaseStore = require('stores/BaseStore'),
+    ResourceRequestCollection = require('collections/ResourceRequestCollection'),
+    ResourceRequestConstants = require('constants/ResourceRequestConstants'),
+    stores = require('stores');
 
   var ResourceRequestStore = BaseStore.extend({
     collection: ResourceRequestCollection
@@ -33,7 +33,7 @@ define(function (require) {
         return true;
     }
 
-    if(!options.silent) {
+    if (!options.silent) {
       store.emitChange();
     }
 

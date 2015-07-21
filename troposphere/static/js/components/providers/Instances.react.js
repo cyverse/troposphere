@@ -1,9 +1,9 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      stores = require('stores'),
-      Router = require('react-router');
+    Backbone = require('backbone'),
+    stores = require('stores'),
+    Router = require('react-router');
 
   return React.createClass({
 
@@ -13,11 +13,11 @@ define(function (require) {
       provider: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    renderInstanceTableRow: function(instance, sizes){
+    renderInstanceTableRow: function (instance, sizes) {
       var size = sizes.get(instance.get('size').id),
-          numberOfCpus = Number(size.get('cpu')),
-          ausPerCpu = 1,
-          burnRate = ausPerCpu*numberOfCpus;
+        numberOfCpus = Number(size.get('cpu')),
+        ausPerCpu = 1,
+        burnRate = ausPerCpu * numberOfCpus;
 
       return (
         <tr key={instance.id}>
@@ -33,39 +33,39 @@ define(function (require) {
 
     render: function () {
       var provider = this.props.provider,
-          instances = stores.InstanceStore.findWhere({'provider.id': provider.id}),
-          sizes = stores.SizeStore.fetchWhere({
-            provider__id: provider.id,
-            page_size: 100
-          }),
-          content = null;
+        instances = stores.InstanceStore.findWhere({'provider.id': provider.id}),
+        sizes = stores.SizeStore.fetchWhere({
+          provider__id: provider.id,
+          page_size: 100
+        }),
+        content = null;
 
-      if(!provider || !instances || !sizes) return <div className="loading"></div>;
+      if (!provider || !instances || !sizes) return <div className="loading"></div>;
 
-      if(instances.length > 0) {
+      if (instances.length > 0) {
         content = (
           <div>
             <p>The following instances are currently consuming allocation on this provider:</p>
             <table className="table table-striped table-condensed">
               <thead>
-                <tr>
-                  <th>Instance</th>
-                  <th>Status</th>
-                  <th>CPUs</th>
-                  <th>AUs/hour</th>
-                </tr>
+              <tr>
+                <th>Instance</th>
+                <th>Status</th>
+                <th>CPUs</th>
+                <th>AUs/hour</th>
+              </tr>
               </thead>
               <tbody>
-                {
-                  instances.map(function(instance){
-                    return this.renderInstanceTableRow(instance, sizes);
-                  }.bind(this))
-                }
+              {
+                instances.map(function (instance) {
+                  return this.renderInstanceTableRow(instance, sizes);
+                }.bind(this))
+              }
               </tbody>
             </table>
           </div>
         );
-      }else{
+      } else {
         content = (
           <div>
             <p>You currently have no instances using allocation.</p>

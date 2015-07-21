@@ -14,12 +14,12 @@ define(
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
-      onCreateVolume: function(e){
+      onCreateVolume: function (e) {
         e.preventDefault();
         modals.VolumeModals.createAndAddToProject({project: this.props.project});
       },
 
-      onCreateInstance: function(e){
+      onCreateInstance: function (e) {
         e.preventDefault();
         modals.InstanceModals.createAndAddToProject({project: this.props.project});
       },

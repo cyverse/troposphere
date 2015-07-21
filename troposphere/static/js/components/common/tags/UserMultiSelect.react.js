@@ -1,10 +1,10 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      ChosenDropdownItem = require('./ChosenDropdownItem.react'),
-      ChosenSelectedTag = require('./ChosenSelectedTag.react'),
-      ChosenMixin = require('components/mixins/ChosenMixinExternal.react');
+    Backbone = require('backbone'),
+    ChosenDropdownItem = require('./ChosenDropdownItem.react'),
+    ChosenSelectedTag = require('./ChosenSelectedTag.react'),
+    ChosenMixin = require('components/mixins/ChosenMixinExternal.react');
 
   return React.createClass({
     mixins: [ChosenMixin],
@@ -17,41 +17,41 @@ define(function (require) {
       onModelRemoved: React.PropTypes.func.isRequired
     },
 
-    getNoResultsPhrase: function(query){
+    getNoResultsPhrase: function (query) {
       return 'No users found matching "' + query + '"';
     },
 
-    getNoDataPhrase: function(){
+    getNoDataPhrase: function () {
       return "No users exist";
     },
 
-    getAllResultsAddedPhrase: function(){
+    getAllResultsAddedPhrase: function () {
       return "All users have been added";
     },
 
-    getAllAddedMatchingQueryPhrase: function(query){
+    getAllAddedMatchingQueryPhrase: function (query) {
       return 'All users matching "' + query + '" have been added'
     },
 
-    renderModel: function(tag){
+    renderModel: function (tag) {
       return (
         <ChosenDropdownItem
           key={tag.id}
           tag={tag}
           propertyName={'username'}
           onTagSelected={this.onModelAdded}
-        />
+          />
       )
     },
 
-    renderSelectedModel: function(tag){
+    renderSelectedModel: function (tag) {
       return (
         <ChosenSelectedTag
           key={tag.id}
           tag={tag}
           propertyName={'username'}
           onRemoveTag={this.props.onModelRemoved}
-        />
+          />
       )
     }
 

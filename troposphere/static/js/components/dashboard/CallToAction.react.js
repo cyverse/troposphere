@@ -1,7 +1,7 @@
 define(function (require) {
 
   var React = require('react'),
-      Router = require('react-router');
+    Router = require('react-router');
 
   return React.createClass({
 

@@ -16,7 +16,7 @@ define(
       // ------------------------
       //
 
-      cancel: function(){
+      cancel: function () {
         this.hide();
       },
 
@@ -30,7 +30,7 @@ define(
       // ------
       //
 
-      renderBody: function(){
+      renderBody: function () {
         return (
           <div>
             <p className='alert alert-warning'>
@@ -39,6 +39,7 @@ define(
               <strong>WARNING</strong>
               {' In order to start a stopped instance, you must have sufficient quota and the cloud must have enough room to support your instance\'s size.'}
             </p>
+
             <p>{"Would you like to start this instance?"}</p>
           </div>
         );

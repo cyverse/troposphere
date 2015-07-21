@@ -1,9 +1,9 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      stores = require('stores'),
-      ChosenDropdown = require('components/common/tags/UserMultiSelect.react');
+    Backbone = require('backbone'),
+    stores = require('stores'),
+    ChosenDropdown = require('components/common/tags/UserMultiSelect.react');
 
   return React.createClass({
 
@@ -13,31 +13,31 @@ define(function (require) {
       imageUsers: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
 
-    getInitialState: function(){
+    getInitialState: function () {
       return {
         query: ""
       }
     },
 
-    onUserAdded: function(user){
+    onUserAdded: function (user) {
       this.setState({query: ""});
       this.props.onUserAdded(user);
     },
 
-    onQueryChange: function(query){
+    onQueryChange: function (query) {
       this.setState({query: query});
     },
 
     render: function () {
       var imageUsers = this.props.imageUsers,
-          query = this.state.query,
-          users;
+        query = this.state.query,
+        users;
 
-      if(this.state.query){
+      if (this.state.query) {
         users = stores.UserStore.fetchWhere({
           search: query
         });
-      }else{
+      } else {
         users = stores.UserStore.getAll();
       }
 
@@ -46,6 +46,7 @@ define(function (require) {
       return (
         <div className="form-group">
           <label htmlFor="tags" className="control-label">Users</label>
+
           <div className="tagger_container">
             <div className="help-block">
               Please include users that should be able to launch this image.
@@ -58,7 +59,7 @@ define(function (require) {
               width={"100%"}
               onQueryChange={this.onQueryChange}
               placeholderText="Search by username..."
-            />
+              />
           </div>
         </div>
       );

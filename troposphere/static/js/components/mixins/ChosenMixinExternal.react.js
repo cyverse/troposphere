@@ -1,9 +1,9 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone');
-      //ChosenDropdownItem = require('./ChosenDropdownItem.react'),
-      //ChosenSelectedTag = require('./ChosenSelectedTag.react');
+    Backbone = require('backbone');
+  //ChosenDropdownItem = require('./ChosenDropdownItem.react'),
+  //ChosenSelectedTag = require('./ChosenSelectedTag.react');
 
   var ENTER_KEY = 13;
 
@@ -13,14 +13,14 @@ define(function (require) {
       placeholderText: React.PropTypes.string.isRequired
     },
 
-    getInitialState: function(){
+    getInitialState: function () {
       return {
         showOptions: false,
         query: ""
       }
     },
 
-    getDefaultProps: function(){
+    getDefaultProps: function () {
       return {
         placeholderText: "Search..."
       }
@@ -35,28 +35,28 @@ define(function (require) {
       width: React.PropTypes.string
     },
 
-    closeDropdown: function(){
+    closeDropdown: function () {
       this.setState({showOptions: false});
     },
 
-    onEnterOptions: function(e){
+    onEnterOptions: function (e) {
       this.setState({showOptions: true});
 
       $(document).bind("mouseup", this._checkIfApplies);
     },
 
-    _checkIfApplies: function(e){
-      if(this.isOutsideClick(e)){
+    _checkIfApplies: function (e) {
+      if (this.isOutsideClick(e)) {
         this.onLeaveOptions();
         $(document).unbind("mouseup", this._checkIfApplies);
       }
     },
 
-    onLeaveOptions: function(e){
+    onLeaveOptions: function (e) {
       this.closeDropdown();
     },
 
-    isOutsideClick: function(e){
+    isOutsideClick: function (e) {
       var node = this.getDOMNode();
       var $node = $(node);
       var container = $node;//.find('.chosen-container');
@@ -69,13 +69,13 @@ define(function (require) {
       return false;
     },
 
-    onEnter: function(e){
-      if(e.which !== ENTER_KEY) return;
-      if(this.props.onEnterKeyPressed) this.props.onEnterKeyPressed(e);
+    onEnter: function (e) {
+      if (e.which !== ENTER_KEY) return;
+      if (this.props.onEnterKeyPressed) this.props.onEnterKeyPressed(e);
       this.clearSearchField();
     },
 
-    filterSearchResults: function() {
+    filterSearchResults: function () {
       var node = this.getDOMNode();
       var $node = $(node);
       var search_field = $node.find('input');
@@ -84,12 +84,12 @@ define(function (require) {
       this.props.onQueryChange(query);
     },
 
-    onModelAdded: function(model){
+    onModelAdded: function (model) {
       this.props.onModelAdded(model);
       this.clearSearchField();
     },
 
-    clearSearchField: function(){
+    clearSearchField: function () {
       var input = this.refs.searchField.getDOMNode();
       input.value = "";
       input.focus();
@@ -100,33 +100,33 @@ define(function (require) {
     // Result render helpers
     //
 
-    renderLoadingListItem: function(query){
+    renderLoadingListItem: function (query) {
       return (
         <li className="no-results">Searching for "{query}"...</li>
       )
     },
 
-    renderNoResultsForQueryListItem: function(query){
+    renderNoResultsForQueryListItem: function (query) {
       var phrase = 'No results found matching "' + query + '"';
-      if(this.getNoResultsPhrase) phrase = this.getNoResultsPhrase(query);
+      if (this.getNoResultsPhrase) phrase = this.getNoResultsPhrase(query);
       return <li className="no-results">{phrase}</li>;
     },
 
-    renderAlreadyAddedAllUsersMatchingQueryListItem: function(query){
+    renderAlreadyAddedAllUsersMatchingQueryListItem: function (query) {
       var phrase = 'All results matching "' + query + '" have been added';
-      if(this.getAllAddedMatchingQueryPhrase) phrase = this.getAllAddedMatchingQueryPhrase(query);
+      if (this.getAllAddedMatchingQueryPhrase) phrase = this.getAllAddedMatchingQueryPhrase(query);
       return <li className="no-results">{phrase}</li>;
     },
 
-    renderNoDataListItem: function(){
+    renderNoDataListItem: function () {
       var phrase = 'No results exist';
-      if(this.getNoDataPhrase) phrase = this.getNoDataPhrase();
+      if (this.getNoDataPhrase) phrase = this.getNoDataPhrase();
       return <li className="no-results">{phrase}</li>;
     },
 
-    renderAllAddedListItem: function(){
+    renderAllAddedListItem: function () {
       var phrase = 'All results have been added';
-      if(this.getAllResultsAddedPhrase) phrase = this.getAllResultsAddedPhrase();
+      if (this.getAllResultsAddedPhrase) phrase = this.getAllResultsAddedPhrase();
       return <li className="no-results">{phrase}</li>;
     },
 
@@ -136,37 +136,37 @@ define(function (require) {
 
     render: function () {
       var models = this.props.models,
-          activeModels = this.props.activeModels,
-          query = this.state.query,
-          selectedModels = activeModels.map(this.renderSelectedModel),
-          placeholderText = this.props.placeholderText,
-          filteredModels,
-          classes = React.addons.classSet({
-            'chosen-container-external': true,
-            'chosen-container-external-multi': true,
-            'chosen-with-drop': this.state.showOptions && query,
-            'chosen-container-external-active': this.state.showOptions
-          }),
-          results;
+        activeModels = this.props.activeModels,
+        query = this.state.query,
+        selectedModels = activeModels.map(this.renderSelectedModel),
+        placeholderText = this.props.placeholderText,
+        filteredModels,
+        classes = React.addons.classSet({
+          'chosen-container-external': true,
+          'chosen-container-external-multi': true,
+          'chosen-with-drop': this.state.showOptions && query,
+          'chosen-container-external-active': this.state.showOptions
+        }),
+        results;
 
-      if(!models){
+      if (!models) {
         results = this.renderLoadingListItem(query);
-      }else if(query && models.length < 1){
+      } else if (query && models.length < 1) {
         results = this.renderNoResultsForQueryListItem(query);
-      }else if(selectedModels.length === 0 && models.length < 1){
+      } else if (selectedModels.length === 0 && models.length < 1) {
         results = this.renderNoDataListItem();
-      }else if(selectedModels.length > 0 && models.length < 1){
+      } else if (selectedModels.length > 0 && models.length < 1) {
         results = this.renderAllAddedListItem();
-      }else{
+      } else {
         // filter out results that have already been added
-        filteredModels = models.filter(function(model){
-          return activeModels.filter(function(activeModel){
-            return model.id === activeModel.id;
-          }).length === 0;
+        filteredModels = models.filter(function (model) {
+          return activeModels.filter(function (activeModel) {
+              return model.id === activeModel.id;
+            }).length === 0;
         });
-        if(models.length > 0 && filteredModels.length === 0){
+        if (models.length > 0 && filteredModels.length === 0) {
           results = this.renderAlreadyAddedAllUsersMatchingQueryListItem(query);
-        }else{
+        } else {
           results = filteredModels.map(this.renderModel);
         }
       }
@@ -185,7 +185,8 @@ define(function (require) {
             onKeyDown={this.onEnter}
             onKeyUp={this.filterSearchResults}
             onFocus={this.onEnterOptions}
-          />
+            />
+
           <div className="chosen-drop">
             <ul className="chosen-results">
               {results}

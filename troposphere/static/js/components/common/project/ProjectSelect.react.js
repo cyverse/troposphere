@@ -17,25 +17,25 @@ define(
         onChange: React.PropTypes.func.isRequired,
         showCreate: React.PropTypes.bool,
       },
-    getInitialState: function() {
-      var showCreate = false
-      if (this.props.showCreate == true) {
+      getInitialState: function () {
+        var showCreate = false;
+        if (this.props.showCreate == true) {
           showCreate = true
-      }
-      return {
+        }
+        return {
           showCreate: showCreate,
-      }
-    },
-    componentDidMount: function () {
-      stores.ProjectStore.addChangeListener(this.updateState);
-    },
+        }
+      },
+      componentDidMount: function () {
+        stores.ProjectStore.addChangeListener(this.updateState);
+      },
 
-    componentWillUnmount: function () {
-      stores.ProjectStore.removeChangeListener(this.updateState);
-    },
+      componentWillUnmount: function () {
+        stores.ProjectStore.removeChangeListener(this.updateState);
+      },
       renderCreateOption: function () {
-        if(this.state.showCreate) {
-            return (
+        if (this.state.showCreate) {
+          return (
             <optgroup label="New Project">
               <option value="-1">{"Create new project..."}</option>
             </optgroup>);
@@ -52,15 +52,15 @@ define(
         if (projects == null) return (<div className="loading"></div>);
 
         return (
-        <div>
-          <select value={this.props.projectId} className='form-control' id='project' onChange={this.props.onChange}>
-            <optgroup label="Projects">
-              {options}
-            </optgroup>
+          <div>
+            <select value={this.props.projectId} className='form-control' id='project' onChange={this.props.onChange}>
+              <optgroup label="Projects">
+                {options}
+              </optgroup>
 
-          {this.renderCreateOption()}
-          </select>
-        </div>
+              {this.renderCreateOption()}
+            </select>
+          </div>
         );
       }
     });

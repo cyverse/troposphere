@@ -1,11 +1,11 @@
 define(function (require) {
 
   var _ = require('underscore'),
-      Backbone = require('backbone'),
-      globals = require('globals'),
-      stores = require('stores'),
-      ProviderMachineCollection = require('../collections/ProviderMachineCollection'),
-      moment = require('moment');
+    Backbone = require('backbone'),
+    globals = require('globals'),
+    stores = require('stores'),
+    ProviderMachineCollection = require('../collections/ProviderMachineCollection'),
+    moment = require('moment');
 
   return Backbone.Model.extend({
 
@@ -20,16 +20,16 @@ define(function (require) {
       return attributes;
     },
 
-    getMachines: function() {
-        var _machines = stores.ProviderMachineStore.fetchWhere(
-            {application_version__id: this.id}
-        );
+    getMachines: function () {
+      var _machines = stores.ProviderMachineStore.fetchWhere(
+        {application_version__id: this.id}
+      );
 
-        if(!_machines || _machines.length === 0) {
-            return null;
-        }
-        //MOVE AWAY from backbone!
-        return _machines.toJSON();
+      if (!_machines || _machines.length === 0) {
+        return null;
+      }
+      //MOVE AWAY from backbone!
+      return _machines.toJSON();
     }
 
   });

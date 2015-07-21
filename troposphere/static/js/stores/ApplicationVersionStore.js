@@ -1,18 +1,18 @@
 define(function (require) {
 
   var ApplicationVersionCollection = require('collections/ApplicationVersionCollection'),
-      Dispatcher = require('dispatchers/Dispatcher'),
-      BaseStore = require('stores/BaseStore'),
-      ApplicationVersionConstants = require('constants/ApplicationVersionConstants'),
-      NotificationController = require('controllers/NotificationController');
+    Dispatcher = require('dispatchers/Dispatcher'),
+    BaseStore = require('stores/BaseStore'),
+    ApplicationVersionConstants = require('constants/ApplicationVersionConstants'),
+    NotificationController = require('controllers/NotificationController');
 
   var ApplicationVersionStore = BaseStore.extend({
     collection: ApplicationVersionCollection,
 
     get: function (imageVersionId) {
-      if(!this.models) return this.fetchModels();
+      if (!this.models) return this.fetchModels();
       var image_version = BaseStore.prototype.get.apply(this, arguments);
-      if(!image_version) return this.fetchModel(imageVersionId);
+      if (!image_version) return this.fetchModel(imageVersionId);
       return image_version;
     },
     //getForImage: function(image) {

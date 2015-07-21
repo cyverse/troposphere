@@ -267,7 +267,7 @@ Atmo.Views.NewInstanceScreen = Backbone.View.extend({
             $.each(tags, function(idx, el_tag) {
                 found = found || (el_tag == tag);
                 if(found){
-                    return;
+
                 }
             });
 
@@ -333,14 +333,14 @@ Atmo.Views.NewInstanceScreen = Backbone.View.extend({
                     }
                     if (!found_one) {
                         found = false;
-                        return;
+
                     }
                 });
                 $.each(words, function(idx,word) {
                     word = word.toLowerCase();
                     if (! test_name.toLowerCase().find(word) && ! test_desc.toLowerCase().find(word) && ! test_id.toLowerCase().find(word)) {
                         found = false;
-                        return;
+
                     }
                 });
                 if (found) $(e).show();

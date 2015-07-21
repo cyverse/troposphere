@@ -2,10 +2,10 @@ define(function (require) {
   'use strict';
 
   var _ = require('underscore'),
-      Dispatcher = require('dispatchers/Dispatcher'),
-      BaseStore = require('stores/BaseStore'),
-      VolumeCollection = require('collections/VolumeCollection'),
-      VolumeConstants = require('constants/VolumeConstants');
+    Dispatcher = require('dispatchers/Dispatcher'),
+    BaseStore = require('stores/BaseStore'),
+    VolumeCollection = require('collections/VolumeCollection'),
+    VolumeConstants = require('constants/VolumeConstants');
 
   var VolumeStore = BaseStore.extend({
     collection: VolumeCollection,
@@ -14,9 +14,9 @@ define(function (require) {
       page_size: 100
     },
 
-    initialize: function(){
+    initialize: function () {
       this.pollingEnabled = true;
-      this.pollingFrequency = 15*1000;
+      this.pollingFrequency = 15 * 1000;
     },
 
     //
@@ -24,12 +24,12 @@ define(function (require) {
     //
 
     getVolumesAttachedToInstance: function (instance) {
-      if(!this.models) return this.fetchModels();
+      if (!this.models) return this.fetchModels();
 
       var attachedVolumes = [];
-      this.models.each(function(volume){
+      this.models.each(function (volume) {
         var attachData = volume.get('attach_data');
-        if(attachData.instance_id && attachData.instance_id === instance.id){
+        if (attachData.instance_id && attachData.instance_id === instance.id) {
           attachedVolumes.push(volume);
         }
       });
@@ -37,9 +37,9 @@ define(function (require) {
     },
 
     getVolumesNotInAProject: function () {
-      if(!this.models) return this.fetchModels();
+      if (!this.models) return this.fetchModels();
 
-      var volumes = this.models.filter(function(volume){
+      var volumes = this.models.filter(function (volume) {
         return volume.get('projects').length === 0
       });
 
@@ -50,7 +50,7 @@ define(function (require) {
     // Polling functions
     //
 
-    isInFinalState: function(volume){
+    isInFinalState: function (volume) {
       return volume.get('state').isInFinalState();
     }
 

@@ -1,9 +1,9 @@
 define(function (require) {
 
   var AppDispatcher = require('dispatchers/AppDispatcher'),
-      ProfileConstants = require('constants/ProfileConstants'),
-      NotificationController = require('controllers/NotificationController'),
-      Utils = require('./Utils');
+    ProfileConstants = require('constants/ProfileConstants'),
+    NotificationController = require('controllers/NotificationController'),
+    Utils = require('./Utils');
 
   return {
 

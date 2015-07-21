@@ -1,10 +1,10 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      InstanceRow = require('./InstanceRow.react'),
-      InstanceNotRealRow = require('./InstanceNotRealRow.react'),
-      SelectableTable = require('../SelectableTable.react');
+    Backbone = require('backbone'),
+    InstanceRow = require('./InstanceRow.react'),
+    InstanceNotRealRow = require('./InstanceNotRealRow.react'),
+    SelectableTable = require('../SelectableTable.react');
 
   return React.createClass({
     displayName: "InstanceTable",
@@ -17,11 +17,11 @@ define(function (require) {
       selectedResources: React.PropTypes.instanceOf(Backbone.Collection)
     },
 
-    getInstanceRows: function(instances){
+    getInstanceRows: function (instances) {
       var previewedResource = this.props.previewedResource,
-          selectedResources = this.props.selectedResources;
+        selectedResources = this.props.selectedResources;
 
-      return instances.map(function(instance){
+      return instances.map(function (instance) {
         var isPreviewed = (previewedResource === instance);
         var isChecked = selectedResources.get(instance) ? true : false;
 
@@ -33,14 +33,14 @@ define(function (require) {
                        onPreviewResource={this.props.onPreviewResource}
                        isPreviewed={isPreviewed}
                        isChecked={isChecked}
-          />
+            />
         );
       }.bind(this));
     },
 
     render: function () {
       var instances = this.props.instances,
-          instanceRows = this.getInstanceRows(instances);
+        instanceRows = this.getInstanceRows(instances);
 
       return (
         <SelectableTable
@@ -49,7 +49,7 @@ define(function (require) {
           resourceRows={instanceRows}
           onResourceSelected={this.props.onResourceSelected}
           onResourceDeselected={this.props.onResourceDeselected}
-        >
+          >
           <th>Name</th>
           <th>Status</th>
           <th>IP Address</th>

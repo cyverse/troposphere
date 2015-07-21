@@ -41,7 +41,7 @@ Atmo.Views.RequestResourcesModal = Backbone.View.extend({
                 this.$el.find('.modal-footer a').eq(1).trigger('click');
             }
         });
-        
+
         this.$el.find('.modal-footer a').show();
         this.$el.find('.modal-footer a').eq(0).click(function() { self.button_listener() });
     },
@@ -50,12 +50,12 @@ Atmo.Views.RequestResourcesModal = Backbone.View.extend({
 
 		self.$el.modal('hide');
 		$('.modal-backdrop').remove();
-		if (callback != undefined) 
+		if (callback != undefined)
 			callback();
 		$(window).unbind('keyup');
 
 		// Prepare form for next launch
-		this.render();		
+		this.render();
 	},
 	request_resources: function(e) {
 		var self = this;
@@ -84,7 +84,7 @@ Atmo.Views.RequestResourcesModal = Backbone.View.extend({
 			// Return false to prevent the modal from closing
 			return false;
 
-		} else {	
+		} else {
 			var success = this.submit_resource_request();
 
 			if (!success) {
@@ -107,8 +107,8 @@ Atmo.Views.RequestResourcesModal = Backbone.View.extend({
 			username: username,
 			quota: quota,
 			reason: reason
-		}
-		
+		};
+
 		var success;
 
 		var self = this;

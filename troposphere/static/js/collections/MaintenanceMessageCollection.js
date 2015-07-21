@@ -2,9 +2,9 @@ define(function (require) {
   "use strict";
 
   var Backbone = require('backbone'),
-      MaintenanceMessage = require('models/MaintenanceMessage'),
-      globals = require('globals'),
-      moment = require('moment');
+    MaintenanceMessage = require('models/MaintenanceMessage'),
+    globals = require('globals'),
+    moment = require('moment');
 
   return Backbone.Collection.extend({
     model: MaintenanceMessage,
@@ -13,9 +13,9 @@ define(function (require) {
       return globals.API_ROOT + "/maintenance";
     },
 
-    parse: function(results){
+    parse: function (results) {
       var currentDate = moment();
-      results = results.filter(function(result){
+      results = results.filter(function (result) {
         var hasProvider = result.provider_id;
         var endDate = moment(result.end_date);
         var isCurrentOrFutureMaintenance = currentDate.diff(endDate) < 0;

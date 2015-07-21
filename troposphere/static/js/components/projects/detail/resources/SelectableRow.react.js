@@ -1,8 +1,8 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      Checkbox = require('./Checkbox.react');
+    Backbone = require('backbone'),
+    Checkbox = require('./Checkbox.react');
 
   return React.createClass({
 
@@ -16,19 +16,19 @@ define(function (require) {
       resource: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    toggleCheckbox: function(e){
+    toggleCheckbox: function (e) {
       e.stopPropagation();
-      if(!this.props.resource.id) return;
+      if (!this.props.resource.id) return;
 
-      if(this.props.isSelected){
+      if (this.props.isSelected) {
         this.props.onResourceDeselected(this.props.resource);
-      }else{
+      } else {
         this.props.onResourceSelected(this.props.resource);
       }
     },
 
-    previewResource: function(e){
-      if(this.props.onPreviewResource && this.props.resource.id){
+    previewResource: function (e) {
+      if (this.props.onPreviewResource && this.props.resource.id) {
         this.props.onPreviewResource(this.props.resource);
       }
     },

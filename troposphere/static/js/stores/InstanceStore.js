@@ -1,9 +1,9 @@
 define(function (require) {
 
   var Dispatcher = require('dispatchers/Dispatcher'),
-      BaseStore = require('stores/BaseStore'),
-      InstanceCollection = require('collections/InstanceCollection'),
-      InstanceConstants = require('constants/InstanceConstants');
+    BaseStore = require('stores/BaseStore'),
+    InstanceCollection = require('collections/InstanceCollection'),
+    InstanceConstants = require('constants/InstanceConstants');
 
   var InstanceStore = BaseStore.extend({
     collection: InstanceCollection,
@@ -12,9 +12,9 @@ define(function (require) {
       page_size: 100
     },
 
-    initialize: function(){
+    initialize: function () {
       this.pollingEnabled = true;
-      this.pollingFrequency = 10*1000;
+      this.pollingFrequency = 10 * 1000;
     },
 
     // ----------------
@@ -22,9 +22,9 @@ define(function (require) {
     // ----------------
 
     getInstancesNotInAProject: function (provider) {
-      if(!this.models) return this.fetchModels();
+      if (!this.models) return this.fetchModels();
 
-      var instances = this.models.filter(function(instance){
+      var instances = this.models.filter(function (instance) {
         return instance.get('projects').length === 0
       });
 
@@ -35,7 +35,7 @@ define(function (require) {
     // Polling functions
     // -----------------
 
-    isInFinalState: function(instance){
+    isInFinalState: function (instance) {
       return instance.get('state').isInFinalState();
     }
 
@@ -70,7 +70,7 @@ define(function (require) {
         return true;
     }
 
-    if(!options.silent) {
+    if (!options.silent) {
       store.emitChange();
     }
 

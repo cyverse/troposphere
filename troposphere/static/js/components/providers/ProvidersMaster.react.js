@@ -2,9 +2,9 @@ define(function (require) {
   "use strict";
 
   var React = require('react'),
-      Router = require('react-router'),
-      RouteHandler = Router.RouteHandler,
-      stores = require('stores');
+    Router = require('react-router'),
+    RouteHandler = Router.RouteHandler,
+    stores = require('stores');
 
   return React.createClass({
 
@@ -15,17 +15,17 @@ define(function (require) {
     // ----------------
     //
 
-    getState: function() {
+    getState: function () {
       return {
         providers: stores.ProviderStore.getAll()
       };
     },
 
-    getInitialState: function() {
+    getInitialState: function () {
       return this.getState();
     },
 
-    updateState: function() {
+    updateState: function () {
       if (this.isMounted()) this.setState(this.getState())
     },
 
@@ -37,7 +37,7 @@ define(function (require) {
       stores.ProviderStore.removeChangeListener(this.updateState);
     },
 
-    renderProvider: function(provider){
+    renderProvider: function (provider) {
       return (
         <li key={provider.id}>
           <Router.Link to="provider" params={{providerId: provider.id}}>
@@ -50,7 +50,7 @@ define(function (require) {
     render: function () {
       var providers = this.state.providers;
 
-      if(!providers) return <div className="loading"></div>;
+      if (!providers) return <div className="loading"></div>;
 
       return (
         <div>

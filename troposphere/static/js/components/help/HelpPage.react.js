@@ -50,6 +50,7 @@ define(
             </ul>
             <div>
               <h2>Contact</h2>
+
               <p>
                 {"You can contact the Atmosphere support staff by clicking on the "}
                 <strong>{"Feedback & Support"}</strong>

@@ -1,23 +1,23 @@
 define(function (require) {
 
   var _ = require('underscore'),
-      Dispatcher = require('dispatchers/Dispatcher'),
-      BaseStore = require('stores/BaseStore'),
-      ProjectInstanceCollection = require('collections/ProjectInstanceCollection'),
-      Constants = require('constants/ProjectInstanceConstants'),
-      InstanceCollection = require('collections/InstanceCollection'),
-      Instance = require('models/Instance'),
-      stores = require('stores');
+    Dispatcher = require('dispatchers/Dispatcher'),
+    BaseStore = require('stores/BaseStore'),
+    ProjectInstanceCollection = require('collections/ProjectInstanceCollection'),
+    Constants = require('constants/ProjectInstanceConstants'),
+    InstanceCollection = require('collections/InstanceCollection'),
+    Instance = require('models/Instance'),
+    stores = require('stores');
 
   var _modelsFor = {};
   var _isFetchingFor = {};
   var _pendingProjectInstances = new InstanceCollection();
 
-  function addPending(model){
+  function addPending(model) {
     _pendingProjectInstances.add(model);
   }
 
-  function removePending(model){
+  function removePending(model) {
     _pendingProjectInstances.remove(model);
   }
 
@@ -29,12 +29,12 @@ define(function (require) {
   var ProjectInstanceStore = BaseStore.extend({
     collection: ProjectInstanceCollection,
 
-    initialize: function(){
+    initialize: function () {
       this.models = new ProjectInstanceCollection();
     },
 
-    fetchModelsFor: function(projectId){
-      if(!_modelsFor[projectId] && !_isFetchingFor[projectId]) {
+    fetchModelsFor: function (projectId) {
+      if (!_modelsFor[projectId] && !_isFetchingFor[projectId]) {
         _isFetchingFor[projectId] = true;
         var models = new ProjectInstanceCollection();
         models.fetch({
@@ -46,7 +46,7 @@ define(function (require) {
           this.models.add(models.models);
 
           // convert ProjectInstance collection to an InstanceCollection
-          var instances = models.map(function(pi){
+          var instances = models.map(function (pi) {
             return new Instance(pi.get('instance'), {parse: true});
           });
           instances = new InstanceCollection(instances);
@@ -57,29 +57,29 @@ define(function (require) {
       }
     },
 
-    getInstancesFor: function(project){
+    getInstancesFor: function (project) {
       var allInstances = stores.InstanceStore.getAll();
-      if(!_modelsFor[project.id]) return this.fetchModelsFor(project.id);
-      if(!allInstances) return;
+      if (!_modelsFor[project.id]) return this.fetchModelsFor(project.id);
+      if (!allInstances) return;
 
-      var instances = this.models.filter(function(pi){
+      var instances = this.models.filter(function (pi) {
         // filter out irrelevant project instances (not in target project)
         return pi.get('project').id === project.id;
-      }).filter(function(pi){
+      }).filter(function (pi) {
         // filter out the instances that don't exist (not in local cache)
         return allInstances.get(pi.get('instance').id);
-      }).map(function(pi){
+      }).map(function (pi) {
         // return the actual instances
         return allInstances.get(pi.get('instance').id);
       });
 
-      var pendingInstances = _pendingProjectInstances.filter(function(pi){
+      var pendingInstances = _pendingProjectInstances.filter(function (pi) {
         // filter out irrelevant project instances (not in target project)
         return pi.get('project').id === project.id;
-      }).filter(function(pi){
+      }).filter(function (pi) {
         // filter out the instances that don't exist (not in local cache)
         return allInstances.get(pi.get('instance'));
-      }).map(function(pi){
+      }).map(function (pi) {
         // return the actual instances
         return allInstances.get(pi.get('instance'));
       });
@@ -87,12 +87,12 @@ define(function (require) {
       return new InstanceCollection(instances.concat(pendingInstances));
     },
 
-    getInstancesForProjectOnProvider: function(project, provider){
+    getInstancesForProjectOnProvider: function (project, provider) {
       // get instances in project
       var instances = this.getInstancesFor(project);
 
       // filter out instances not on provider
-      var instances = instances.filter(function(i){
+      var instances = instances.filter(function (i) {
         return i.get('provider').id === provider.id;
       });
 
@@ -133,7 +133,7 @@ define(function (require) {
         return true;
     }
 
-    if(!options.silent) {
+    if (!options.silent) {
       store.emitChange();
     }
 

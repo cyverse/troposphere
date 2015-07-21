@@ -1,7 +1,7 @@
 define(function (require) {
 
   var AppDispatcher = require('dispatchers/AppDispatcher'),
-      ApplicationConstants = require('constants/ApplicationConstants');
+    ApplicationConstants = require('constants/ApplicationConstants');
 
   return {
 

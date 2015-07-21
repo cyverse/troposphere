@@ -10,25 +10,27 @@ define(function (require) {
       value: React.PropTypes.string
     },
 
-    handleChange: function(e){
+    handleChange: function (e) {
       this.props.onChange(e.target.value)
     },
 
     render: function () {
       var styles = this.props.styles,
-          value = this.props.value;
+        value = this.props.value;
 
       return (
         <div className="form-group" style={styles}>
           <label htmlFor={name} className="control-label">
             Files to exclude
           </label>
+
           <div className="help-block">
             <p>
               {
                 "The following directories will automatically be excluded from the image:"
               }
             </p>
+
             <div>/home/</div>
             <div>/mnt/</div>
             <div>/tmp/</div>

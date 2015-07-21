@@ -1,17 +1,17 @@
 define(function (require) {
 
   var AppDispatcher = require('dispatchers/AppDispatcher'),
-      Utils = require('./Utils'),
-      NotificationController = require('controllers/NotificationController'),
+    Utils = require('./Utils'),
+    NotificationController = require('controllers/NotificationController'),
 
-      // Constants
-      ProviderMachineConstants = require('constants/ProviderMachineConstants'),
+  // Constants
+    ProviderMachineConstants = require('constants/ProviderMachineConstants'),
 
-      // Models
-      ProviderMachine = require('models/ProviderMachine'),
+  // Models
+    ProviderMachine = require('models/ProviderMachine'),
 
-      // Modals
-      ModalHelpers = require('components/modals/ModalHelpers');
+  // Modals
+    ModalHelpers = require('components/modals/ModalHelpers');
 
   return {
 
@@ -19,27 +19,27 @@ define(function (require) {
     // Standard CRUD Operations
     // ------------------------
 
-    update: function(machine, newAttributes) {
-        if(!machine) throw new Error("Missing ProviderMachine");
-        if(!newAttributes) throw new Error("No attributes to be updated");
+    update: function (machine, newAttributes) {
+      if (!machine) throw new Error("Missing ProviderMachine");
+      if (!newAttributes) throw new Error("No attributes to be updated");
 
-        machine.set(newAttributes);
-        Utils.dispatch(ProviderMachineConstants.UPDATE_PROVIDER_MACHINE, {machine: machine});
-        //TODO:
-        machine.save(newAttributes, {
-            patch:true,
-        }).done(function(){
-          // UPDATE_MACHINE here if we do NOT want 'optimistic updating'
-          // Othewise, do nothing..
-        }).fail(function(){
-          var message = "Error creating ProviderMachine " + machine.get('name') + ".";
-          NotificationController.error(null, message);
-          Utils.dispatch(ProviderMachineConstants.REMOVE_PROVIDER_MACHINE, {machine: machine});
-        }).always(function(){
-          // todo: add a POLL_PROVIDER_MACHINE constant if you want this to work (also need
-          // to add a handler in the ProviderMachineStore)
-          //Utils.dispatch(ProviderMachineConstants.POLL_PROVIDER_MACHINE, {machine: machine});
-        });
+      machine.set(newAttributes);
+      Utils.dispatch(ProviderMachineConstants.UPDATE_PROVIDER_MACHINE, {machine: machine});
+      //TODO:
+      machine.save(newAttributes, {
+        patch: true,
+      }).done(function () {
+        // UPDATE_MACHINE here if we do NOT want 'optimistic updating'
+        // Othewise, do nothing..
+      }).fail(function () {
+        var message = "Error creating ProviderMachine " + machine.get('name') + ".";
+        NotificationController.error(null, message);
+        Utils.dispatch(ProviderMachineConstants.REMOVE_PROVIDER_MACHINE, {machine: machine});
+      }).always(function () {
+        // todo: add a POLL_PROVIDER_MACHINE constant if you want this to work (also need
+        // to add a handler in the ProviderMachineStore)
+        //Utils.dispatch(ProviderMachineConstants.POLL_PROVIDER_MACHINE, {machine: machine});
+      });
     },
 
     updateProviderMachineAttributes: function (machine, newAttributes) {

@@ -5,7 +5,7 @@ define(
   ],
   function (_, Backbone) {
 
-    var get_percent_complete = function(state) {
+    var get_percent_complete = function (state) {
 
       // Number represents percent task *completed* when in this state
       var states = {
@@ -20,7 +20,7 @@ define(
 
     return Backbone.Model.extend({
 
-      isInFinalState: function(){
+      isInFinalState: function () {
         var finalStates = [
           'available',
           'in-use'
@@ -30,20 +30,20 @@ define(
         return isInFinalState;
       },
 
-      isDeployError: function(){
+      isDeployError: function () {
         return false;
       },
 
-      getPercentComplete: function(){
+      getPercentComplete: function () {
         var status = this.get('status');
         var percentComplete = 100;
-        if(status) {
+        if (status) {
           percentComplete = get_percent_complete(status);
         }
         return percentComplete;
       },
 
-      initialize: function(attributes, options){
+      initialize: function (attributes, options) {
         this.set('status', attributes.status_raw);
       }
 

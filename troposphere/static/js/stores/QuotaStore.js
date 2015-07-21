@@ -1,7 +1,7 @@
 define(function (require) {
 
   var BaseStore = require('stores/BaseStore'),
-      QuotaCollection = require('collections/QuotaCollection');
+    QuotaCollection = require('collections/QuotaCollection');
 
   var QuotaStore = BaseStore.extend({
     collection: QuotaCollection,

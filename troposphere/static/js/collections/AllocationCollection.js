@@ -2,8 +2,8 @@ define(function (require) {
   "use strict";
 
   var Backbone = require('backbone'),
-      Allocation = require('models/Allocation'),
-      globals = require('globals');
+    Allocation = require('models/Allocation'),
+    globals = require('globals');
 
   return Backbone.Collection.extend({
     model: Allocation,
@@ -14,7 +14,7 @@ define(function (require) {
         count: response.count,
         next: response.next,
         previous: response.previous
-     };
+      };
       return response.results;
     }
   });

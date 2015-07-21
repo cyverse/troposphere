@@ -1,10 +1,10 @@
 define(function (require) {
 
   var Backbone = require('backbone'),
-      globals = require('globals'),
-      VolumeState = require('./VolumeState');
+    globals = require('globals'),
+    VolumeState = require('./VolumeState');
 
-  var extractAttachData = function(attrs){
+  var extractAttachData = function (attrs) {
     if (attrs.attach_data && attrs.attach_data.instance_alias) {
       return {
         device: attrs.attach_data.device,
@@ -33,12 +33,12 @@ define(function (require) {
       return this.get('status') == 'in-use' || this.get('status') == 'detaching';
     },
 
-    fetchFromCloud: function(cb){
+    fetchFromCloud: function (cb) {
       var volumeId = this.get('uuid'),
-          providerId = this.get('provider').uuid,
-          identityId = this.get('identity').uuid;
+        providerId = this.get('provider').uuid,
+        identityId = this.get('identity').uuid;
 
-      var url =  (
+      var url = (
         globals.API_ROOT +
         "/provider/" + providerId +
         "/identity/" + identityId +
@@ -46,8 +46,8 @@ define(function (require) {
       );
 
       Backbone.sync("read", this, {
-        url:url
-      }).done(function(attrs, status, response){
+        url: url
+      }).done(function (attrs, status, response) {
         this.set('status', attrs.status || "Unknown");
         this.set('state', new VolumeState({status_raw: attrs.status}));
         this.set('attach_data', extractAttachData(attrs));
@@ -55,17 +55,17 @@ define(function (require) {
       }.bind(this));
     },
 
-    createOnV1Endpoint: function(options, cb){
-      if(!options.name) throw new Error("Missing name");
-      if(!options.size) throw new Error("Missing size");
+    createOnV1Endpoint: function (options, cb) {
+      if (!options.name) throw new Error("Missing name");
+      if (!options.size) throw new Error("Missing size");
 
       var volumeId = this.get('uuid'),
-          providerId = this.get('provider').uuid,
-          identityId = this.get('identity').uuid,
-          name = options.name,
-          size = options.size;
+        providerId = this.get('provider').uuid,
+        identityId = this.get('identity').uuid,
+        name = options.name,
+        size = options.size;
 
-      var url =  (
+      var url = (
         globals.API_ROOT +
         "/provider/" + providerId +
         "/identity/" + identityId +

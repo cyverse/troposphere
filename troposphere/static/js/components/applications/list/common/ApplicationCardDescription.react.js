@@ -1,10 +1,10 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      $ = require('jquery'),
-      // plugin: required but not used directly
-      bootstrap = require('bootstrap');
+    Backbone = require('backbone'),
+    $ = require('jquery'),
+  // plugin: required but not used directly
+    bootstrap = require('bootstrap');
 
   var maxDescriptionLength = 200;
 
@@ -16,9 +16,9 @@ define(function (require) {
 
     componentDidMount: function (e) {
       var app = this.props.application,
-          description = app.get('description');
+        description = app.get('description');
 
-      if(description.length > maxDescriptionLength){
+      if (description.length > maxDescriptionLength) {
         var el = this.getDOMNode();
         var $el = $(el);
         $el.tooltip({
@@ -29,9 +29,9 @@ define(function (require) {
 
     render: function () {
       var app = this.props.application,
-          description = app.get('description');
+        description = app.get('description');
 
-      if(description.length > maxDescriptionLength){
+      if (description.length > maxDescriptionLength) {
         description = app.get('description').slice(0, maxDescriptionLength - 3) + "..."
       }
 

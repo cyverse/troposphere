@@ -1,7 +1,7 @@
 define(function (require) {
 
   var React = require('react'),
-      ApplicationCard = require('../common/ApplicationCard.react');
+    ApplicationCard = require('../common/ApplicationCard.react');
 
   return React.createClass({
 
@@ -11,16 +11,16 @@ define(function (require) {
       tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
 
-    renderTitle: function(){
+    renderTitle: function () {
       var title = this.props.title;
-      if(!title) return;
+      if (!title) return;
 
       return (
         <h3>{title}</h3>
       )
     },
 
-    renderCard: function(application){
+    renderCard: function (application) {
       return (
         <li key={application.id}>
           <ApplicationCard
@@ -32,7 +32,7 @@ define(function (require) {
 
     render: function () {
       var applications = this.props.applications,
-          appCards = applications.map(this.renderCard);
+        appCards = applications.map(this.renderCard);
 
       return (
         <div>

@@ -1,4 +1,4 @@
-define(function(require) {
+define(function (require) {
   "use strict";
 
   var MockStore = function () {
@@ -16,9 +16,12 @@ define(function(require) {
       // Inherited methods
       //
 
-      addChangeListener: function (callback) { },
-      removeChangeListener: function (callback) { },
-      emitChange: function () { }
+      addChangeListener: function (callback) {
+      },
+      removeChangeListener: function (callback) {
+      },
+      emitChange: function () {
+      }
     }
   };
 

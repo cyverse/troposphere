@@ -1,10 +1,10 @@
 define(function (require) {
 
   var _ = require('underscore'),
-      Dispatcher = require('dispatchers/Dispatcher'),
-      BaseStore = require('stores/BaseStore'),
-      ProjectCollection = require('collections/ProjectCollection'),
-      ProjectConstants = require('constants/ProjectConstants');
+    Dispatcher = require('dispatchers/Dispatcher'),
+    BaseStore = require('stores/BaseStore'),
+    ProjectCollection = require('collections/ProjectCollection'),
+    ProjectConstants = require('constants/ProjectConstants');
 
   var ProjectStore = BaseStore.extend({
     collection: ProjectCollection
@@ -38,7 +38,7 @@ define(function (require) {
         return true;
     }
 
-    if(!options.silent) {
+    if (!options.silent) {
       store.emitChange();
     }
 

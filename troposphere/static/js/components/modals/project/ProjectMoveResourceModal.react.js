@@ -17,13 +17,13 @@ define(
       };
 
       // Use selected project or default to the null one
-      if(state.projects) {
+      if (state.projects) {
         state.projects = state.projects.clone();
         state.projects.remove(currentProject);
 
         // todo: Account for the scenario when the only project is the current one
         // and the length of projects will now be zero
-        if(state.projects.models.length > 0) {
+        if (state.projects.models.length > 0) {
           state.projectId = currentState.projectId || state.projects.first().id;
         }
       }
@@ -39,7 +39,7 @@ define(
         resources: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
-      isSubmittable: function(){
+      isSubmittable: function () {
         var hasProject = !!this.state.projectId;
         return hasProject;
       },
@@ -49,7 +49,7 @@ define(
       // ----------------
       //
 
-      getInitialState: function(){
+      getInitialState: function () {
         return getState(this.props.currentProject, this.state || {});
       },
 
@@ -70,7 +70,7 @@ define(
       // ------------------------
       //
 
-      cancel: function(){
+      cancel: function () {
         this.hide();
       },
 
@@ -86,7 +86,7 @@ define(
       // ----------------------
       //
 
-      onProjectChange: function(e){
+      onProjectChange: function (e) {
         var newProjectId = e.target.value;
         this.setState({projectId: newProjectId});
       },
@@ -97,20 +97,21 @@ define(
       // ------
       //
 
-      renderResource: function(resource){
+      renderResource: function (resource) {
         return (
           <li key={resource.id}>{resource.get('name')}</li>
         );
       },
 
-      renderBody: function(){
-        if(this.state.projects){
-          if(this.state.projects.models.length > 0){
+      renderBody: function () {
+        if (this.state.projects) {
+          if (this.state.projects.models.length > 0) {
             return (
               <div role='form'>
 
                 <div className='form-group'>
                   <label htmlFor='volumeSize'>Resources to Move</label>
+
                   <p>The following resources will be moved to the selected project</p>
                   <ul>
                     {this.props.resources.map(this.renderResource)}
@@ -120,20 +121,21 @@ define(
                 <div className='form-group'>
                   <label htmlFor='project'>Project</label>
                   <ProjectSelect
-                      projectId={this.state.projectId}
-                      projects={this.state.projects}
-                      onChange={this.onProjectChange}
-                  />
+                    projectId={this.state.projectId}
+                    projects={this.state.projects}
+                    onChange={this.onProjectChange}
+                    />
                 </div>
 
               </div>
             );
-          }else{
+          } else {
             return (
               <div role='form'>
 
                 <div className='form-group'>
                   <p>Looks like you only have one project.</p>
+
                   <p>In order to move resources between projects, you will first need to create a second project.</p>
                 </div>
 
@@ -165,7 +167,8 @@ define(
                   <button type="button" className="btn btn-danger" onClick={this.cancel}>
                     Cancel
                   </button>
-                  <button type="button" className="btn btn-primary" onClick={this.confirm} disabled={!this.isSubmittable()}>
+                  <button type="button" className="btn btn-primary" onClick={this.confirm}
+                          disabled={!this.isSubmittable()}>
                     Move resources
                   </button>
                 </div>

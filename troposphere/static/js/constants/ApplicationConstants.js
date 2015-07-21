@@ -1,4 +1,4 @@
-define(function(require) {
+define(function (require) {
 
   return {
     APPLICATION_FETCH_DETAIL: "APPLICATION_FETCH_DETAIL",

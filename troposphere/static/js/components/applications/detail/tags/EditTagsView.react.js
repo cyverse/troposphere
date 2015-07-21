@@ -1,11 +1,11 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      EditTagsView = require('./ActualEditTagsView.react'),
-      modals = require('modals'),
-      actions = require('actions'),
-      stores = require('stores');
+    Backbone = require('backbone'),
+    EditTagsView = require('./ActualEditTagsView.react'),
+    modals = require('modals'),
+    actions = require('actions'),
+    stores = require('stores');
 
   return React.createClass({
 
@@ -16,13 +16,13 @@ define(function (require) {
       onTagRemoved: React.PropTypes.func.isRequired
     },
 
-    getInitialState: function(){
+    getInitialState: function () {
       return {
         tags: this.props.application.get('tags')
       }
     },
 
-    onCreateNewTag: function(tagNameSuggestion){
+    onCreateNewTag: function (tagNameSuggestion) {
       modals.TagModals.create(tagNameSuggestion);
     },
 
@@ -37,6 +37,7 @@ define(function (require) {
       return (
         <div className="image-tags image-info-segment row">
           <h4 className="title col-md-2">Tags</h4>
+
           <div className="content col-md-10">
             <EditTagsView
               tags={this.props.tags}
@@ -44,7 +45,7 @@ define(function (require) {
               onTagAdded={this.props.onTagAdded}
               onTagRemoved={this.props.onTagRemoved}
               onCreateNewTag={this.onCreateNewTag}
-            />
+              />
           </div>
         </div>
       );

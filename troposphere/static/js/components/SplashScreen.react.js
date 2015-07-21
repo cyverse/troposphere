@@ -1,11 +1,11 @@
 define(function (require) {
 
   var $ = require('jquery'),
-      React = require('react'),
-      context = require('context'),
-      stores = require('stores'),
-      Router = require('../Router'),
-      routes = require('../AppRoutes.react');
+    React = require('react'),
+    context = require('context'),
+    stores = require('stores'),
+    Router = require('../Router'),
+    routes = require('../AppRoutes.react');
 
   return React.createClass({
 
@@ -14,7 +14,7 @@ define(function (require) {
     // ----------------
     //
 
-    getInitialState: function() {
+    getInitialState: function () {
       return {
         profile: stores.ProfileStore.get(),
         instances: stores.InstanceStore.getAll(),
@@ -22,13 +22,13 @@ define(function (require) {
       };
     },
 
-    updateState: function() {
+    updateState: function () {
       var profile = stores.ProfileStore.get(),
-          instances = stores.InstanceStore.getAll(),
-          volumes = stores.VolumeStore.getAll(),
-          isEmulatedUser;
+        instances = stores.InstanceStore.getAll(),
+        volumes = stores.VolumeStore.getAll(),
+        isEmulatedUser;
 
-      if(profile && instances && volumes){
+      if (profile && instances && volumes) {
 
         // set user context
         context.profile = profile;
@@ -39,7 +39,7 @@ define(function (require) {
         // it to Intercom.
         isEmulatedUser = !!window.emulator_token;
 
-        if(!isEmulatedUser) {
+        if (!isEmulatedUser) {
           window.Intercom('boot', {
             app_id: window.intercom_app_id,
             name: profile.get("username"),
@@ -70,7 +70,7 @@ define(function (require) {
       stores.VolumeStore.removeChangeListener(this.updateState);
     },
 
-    startApplication: function(){
+    startApplication: function () {
 
       $('body').removeClass('splash-screen');
 

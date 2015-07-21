@@ -1,13 +1,13 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      Time = require('components/common/Time.react'),
-      EditableInputField = require('components/common/EditableInputField.react'),
-      actions = require('actions'),
-      stores = require('stores'),
-      CryptoJS = require('crypto'),
-      Gravatar = require('components/common/Gravatar.react');
+    Backbone = require('backbone'),
+    Time = require('components/common/Time.react'),
+    EditableInputField = require('components/common/EditableInputField.react'),
+    actions = require('actions'),
+    stores = require('stores'),
+    CryptoJS = require('crypto'),
+    Gravatar = require('components/common/Gravatar.react');
 
   return React.createClass({
 
@@ -15,7 +15,7 @@ define(function (require) {
       volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    getInitialState: function(){
+    getInitialState: function () {
       var volume = this.props.volume;
 
       return {
@@ -24,11 +24,11 @@ define(function (require) {
       }
     },
 
-    onEnterEditMode: function(e){
+    onEnterEditMode: function (e) {
       this.setState({isEditing: true});
     },
 
-    onDoneEditing: function(text){
+    onDoneEditing: function (text) {
       var volume = this.props.volume;
 
       this.setState({
@@ -40,17 +40,17 @@ define(function (require) {
 
     render: function () {
       var volume = this.props.volume,
-          profile = stores.ProfileStore.get(),
-          type = profile.get('icon_set'),
-          instanceHash = CryptoJS.MD5((volume.id || volume.cid).toString()).toString(),
-          iconSize = 113,
-          nameContent;
+        profile = stores.ProfileStore.get(),
+        type = profile.get('icon_set'),
+        instanceHash = CryptoJS.MD5((volume.id || volume.cid).toString()).toString(),
+        iconSize = 113,
+        nameContent;
 
-      if(this.state.isEditing){
+      if (this.state.isEditing) {
         nameContent = (
           <EditableInputField text={this.state.name} onDoneEditing={this.onDoneEditing}/>
         );
-      }else{
+      } else {
         nameContent = (
           <h4 onClick={this.onEnterEditMode}>
             {this.state.name}

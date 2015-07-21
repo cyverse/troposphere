@@ -2,16 +2,16 @@ define(function (require) {
   "use strict";
 
   var Router = require('react-router'),
-      Route = Router.Route,
-      Redirect = Router.Redirect,
-      DefaultRoute = Router.DefaultRoute;
+    Route = Router.Route,
+    Redirect = Router.Redirect,
+    DefaultRoute = Router.DefaultRoute;
 
   var Master = require('components/Master.react'),
-      ImageListPage = require('components/applications/ApplicationListPage.react'),
-      ImageDetailsPage = require('components/applications/ApplicationDetailsPage.react'),
-      HelpPage = require('components/help/HelpPage.react'),
-      ImageTagsPage = require('components/applications/ImageTagsPage.react'),
-      ImagesMaster = require('components/applications/ImagesMaster.react');
+    ImageListPage = require('components/applications/ApplicationListPage.react'),
+    ImageDetailsPage = require('components/applications/ApplicationDetailsPage.react'),
+    HelpPage = require('components/help/HelpPage.react'),
+    ImageTagsPage = require('components/applications/ImageTagsPage.react'),
+    ImagesMaster = require('components/applications/ImagesMaster.react');
 
   var AppRoutes = (
     <Route name="root" path="/application" handler={Master}>

@@ -2,8 +2,8 @@ define(function (require) {
   "use strict";
 
   var Backbone = require('backbone'),
-      QuotaStatus = require('models/QuotaStatus'),
-      globals = require('globals');
+    QuotaStatus = require('models/QuotaStatus'),
+    globals = require('globals');
 
   return Backbone.Collection.extend({
     model: QuotaStatus,

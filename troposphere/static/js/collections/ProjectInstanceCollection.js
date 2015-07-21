@@ -1,9 +1,9 @@
-define(function(require){
+define(function (require) {
   "use strict";
 
   var Backbone = require('backbone'),
-      ProjectInstance = require('models/ProjectInstance'),
-      globals = require('globals');
+    ProjectInstance = require('models/ProjectInstance'),
+    globals = require('globals');
 
   return Backbone.Collection.extend({
     model: ProjectInstance,

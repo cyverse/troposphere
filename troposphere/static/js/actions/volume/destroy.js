@@ -1,27 +1,27 @@
 define(function (require) {
 
   var VolumeConstants = require('constants/VolumeConstants'),
-      VolumeState = require('models/VolumeState'),
-      stores = require('stores'),
-      Utils = require('../Utils'),
-      globals = require('globals'),
-      ProjectVolumeConstants = require('constants/ProjectVolumeConstants');
+    VolumeState = require('models/VolumeState'),
+    stores = require('stores'),
+    Utils = require('../Utils'),
+    globals = require('globals'),
+    ProjectVolumeConstants = require('constants/ProjectVolumeConstants');
 
   return {
 
-    destroy: function(payload, options){
+    destroy: function (payload, options) {
       var volume = payload.volume,
-          project = payload.project,
-          volumeState = new VolumeState({status_raw: "deleting"}),
-          originalState = volume.get('state'),
-          identity = volume.get('identity'),
-          provider = volume.get('provider'),
-          url = (
-            globals.API_ROOT +
-            "/provider/" + provider.uuid +
-            "/identity/" + identity.uuid +
-            "/volume/"   + volume.get('uuid')
-          );
+        project = payload.project,
+        volumeState = new VolumeState({status_raw: "deleting"}),
+        originalState = volume.get('state'),
+        identity = volume.get('identity'),
+        provider = volume.get('provider'),
+        url = (
+          globals.API_ROOT +
+          "/provider/" + provider.uuid +
+          "/identity/" + identity.uuid +
+          "/volume/" + volume.get('uuid')
+        );
 
       volume.set({state: volumeState});
       Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
@@ -45,7 +45,7 @@ define(function (require) {
       });
     },
 
-    destroy_noModal: function(payload, options){
+    destroy_noModal: function (payload, options) {
       this.destroy(payload, options);
     }
   };

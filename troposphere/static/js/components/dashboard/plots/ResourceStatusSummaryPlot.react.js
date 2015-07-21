@@ -20,11 +20,11 @@ define(
         resources: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
-      componentDidMount: function(){
+      componentDidMount: function () {
         this.appendPlot({animation: false});
       },
 
-      componentDidUpdate: function(){
+      componentDidUpdate: function () {
         var el = this.getDOMNode();
         var $el = $(el);
         var chart = $el.highcharts();
@@ -40,7 +40,7 @@ define(
         });
       },
 
-      getChartData: function(){
+      getChartData: function () {
         var statusGroups = this.getStatusGroups();
         var categories = Object.keys(statusGroups);
 
@@ -55,7 +55,7 @@ define(
         return data;
       },
 
-      getStatusGroups: function(options){
+      getStatusGroups: function (options) {
         var statusGroups = {};
         this.props.resources.map(function (resource) {
           var status = resource.get('state').get('status_raw');
@@ -66,12 +66,12 @@ define(
         return statusGroups;
       },
 
-      appendPlot: function(options){
+      appendPlot: function (options) {
         var title = this.props.title;
         var data = this.getChartData();
 
         var formatterComponent = React.createClass({
-          render: function(){
+          render: function () {
 
             return (
               <div>
@@ -90,10 +90,10 @@ define(
         $el.highcharts({
           chart: {
             type: 'pie',
-            backgroundColor:'transparent',
+            backgroundColor: 'transparent',
             height: 200
           },
-          title:{
+          title: {
             text: this.props.resources.length + " " + this.props.title
           },
           plotOptions: {
@@ -116,7 +116,7 @@ define(
             }
           ],
           tooltip: {
-            formatter: function() {
+            formatter: function () {
               var formatterComponent = ResourceStatusTooltip({
                 resourceName: title,
                 status: this.key,
