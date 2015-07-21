@@ -89,11 +89,19 @@ define(function (require) {
 
     renderBody: function () {
       var instanceHistories = stores.InstanceHistoryStore.getAll(),
+          instances = stores.InstanceStore.fetchWhere({'archived': 'true'}),
+          providers = stores.ProviderStore.getAll(),
           instanceHistoryItems;
 
-      if(!instanceHistories) return <div className="loading"></div>;
+      if(!instanceHistories || !instances || !providers) return <div className="loading"></div>;
 
       instanceHistoryItems = instanceHistories.map(function (instance) {
+        var instanceId = instance.get('instance').id,
+            instanceImage = stores.InstanceStore.get(instanceId).get('image'),
+            providerId = stores.InstanceStore.get(instanceId).get('provider'),
+            imageId = instanceImage.id,
+            provider = stores.ProviderStore.get(providerId).get('name');
+
         var startDate = instance.get('start_date'),
             endDate = instance.get('end_date'),
             formattedStartDate = startDate.format("MMM DD, YYYY"),
@@ -103,7 +111,6 @@ define(function (require) {
             instanceHistoryHash = CryptoJS.MD5((instance.id || instance.cid).toString()).toString(),
             iconSize = 63,
             type = stores.ProfileStore.get().get('icon_set'),
-            imageId = instance.get('application_id'),
             image = imageId ? stores.ImageStore.get(imageId) : null,
             imageName = image ? image.get('name') : "[image no longer exists]",
             imageLink;
@@ -136,7 +143,7 @@ define(function (require) {
                     </div>
                     <span className="launch-info">
                       <strong>{timeSpan + " days ago"}</strong>
-                      {" on " + instance.get('provider')}
+                      {" on " + provider}
                     </span>
                   </div>
                 </li>
