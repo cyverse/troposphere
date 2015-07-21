@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "jasmine": "^2.0.1",
+    "jsxhint": "^0.15.1",
     "karma": "^0.12.24",
     "karma-chrome-launcher": "^0.1.5",
     "karma-jasmine": "^0.2.3",
@@ -39,7 +40,8 @@
     "karma-sinon": "^1.0.3"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "jsxhint": "jsxhint -c .jshintrc"
   },
   "repository": {
     "type": "git",

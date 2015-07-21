@@ -47,3 +47,16 @@ service apache2 reload
 ```
 
 Troposphere should then be running on port `5000`.
+
+# Contributing
+Setup your environment by install all dependencies
+
+```bash
+npm install --dev
+```
+
+It is recommended that you install the git `pre-commit` hook to ensure your code follows good style guidelines.
+
+```bash
+ln -s extras/pre-commit .git/hooks/pre-commit
+```
