@@ -7,7 +7,7 @@ define(function (require) {
       EditAvailabilityView = require('components/images/detail/availability/EditAvailabilityView.react'),
       EditDescriptionView = require('components/images/detail/description/EditDescriptionView.react'),
       EditMembershipView = require('./membership/EditMembershipView.react'),
-      Image = require('components/modals/image_version/Image.react');
+      ImageSelect = require('components/modals/image_version/ImageSelect.react');
 
   return React.createClass({
     mixins: [BootstrapModalMixin],
@@ -20,8 +20,10 @@ define(function (require) {
       var version = this.props.version;
 
       return {
+        versionImageID: this.props.image.id,
         versionName: version.get('name'),
         versionChangeLog: version.get('change_log'),
+        versionStartDate: (version.get('start_date') == null) ? "" : version.get('start_date'),
         versionEndDate: (version.get('end_date') == null) ? "" : version.get('end_date'),
         versionCanImage: version.get('allow_imaging'),
         versionParentID: version.get('parent').id,
@@ -80,6 +82,7 @@ define(function (require) {
       this.props.onConfirm(
         this.state.versionName,
         this.state.versionChangeLog,
+        this.state.versionStartDate,
         this.state.versionEndDate,
         this.state.versionCanImage,
         this.state.versionImageID,
@@ -130,13 +133,15 @@ define(function (require) {
     //
     handleDescriptionChange: function(e){
       var description = e.target.value;
-      this.setState({versionDescription: description});
+      this.setState({versionChangeLog: description});
     },
 
     renderBody: function() {
-      var machines = stores.ImageVersionStore.getMachines(this.props.version.id);
+      var machines = stores.ImageVersionStore.getMachines(this.props.version.id),
+        name = this.state.versionName,
+        created = this.state.versionStartDate.format("MMMM Do, YYYY");
 
-      if(!this.state.versionName || !machines) {
+      if(!name || !machines) {
           return (<div className="loading"/>);
       }
       return (
@@ -144,7 +149,7 @@ define(function (require) {
 
           <div className='form-group'>
             <label htmlFor='version-version'>Version Created On</label>
-            <input type='text' className='form-control' value={this.state.versionName.get('start_date').format("MMMM Do, YYYY")} editable={false}/>
+            <input type='text' className='form-control' value={created} readOnly={true} editable={false}/>
           </div>
 
           <div className='form-group'>
@@ -156,24 +161,30 @@ define(function (require) {
         }
           <EditDescriptionView
             image={this.props.image}
-            value={this.state.versionDescription}
+            value={this.state.versionChangeLog}
             onChange={this.handleDescriptionChange}
           />
-          <EditMembershipView
-            image={this.props.image}
-            version={this.props.version}
+          {
+          /**
+           <EditMembershipView
+           image={this.props.image}
+           version={this.props.version}
 
-          />
-           <EditAvailabilityView
-             machines={this.props.machines}
-             onChange={this.handleAvailabilityChange}
            />
+         <EditAvailabilityView
+         machines={this.props.machines}
+         onChange={this.handleAvailabilityChange}
+         />
+         */
+        }
           <div className='form-group'>
             <label htmlFor='version-uncopyable'>Uncopyable</label>
-            <input type='checkbox' className='form-control' checked={this.state.versionCanImage} onChange={this.onUncopyableSelected}/>
+            <input type='checkbox' className='form-control'
+                   checked={this.state.versionCanImage}
+                   onChange={this.onUncopyableSelected}/>
           </div>
 
-          <Image
+          <ImageSelect
             imageId={this.state.versionImageID}
             onChange={this.onImageSelected}
           />
