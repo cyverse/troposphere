@@ -41,7 +41,7 @@ define(function (require) {
         id: size.id,
         alias: size.get('alias')
       },
-      status: "build - scheduling",
+      status: "build - requesting_launch",
       provider: {
         id: identity.get('provider').id,
         uuid: identity.get('provider').uuid
