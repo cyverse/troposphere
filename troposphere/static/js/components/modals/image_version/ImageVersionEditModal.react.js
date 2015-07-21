@@ -14,7 +14,8 @@ define(function (require) {
 
     propTypes: {
       version: React.PropTypes.object.isRequired,
-      image: React.PropTypes.instanceOf(Backbone.Model).isRequired
+      image: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+      machines: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
     getInitialState: function () {
       var version = this.props.version;
@@ -171,10 +172,10 @@ define(function (require) {
            version={this.props.version}
 
            />
-         <EditAvailabilityView
-         machines={this.props.machines}
-         onChange={this.handleAvailabilityChange}
          />
+           <EditAvailabilityView
+           machines={this.props.machines}
+           onChange={this.handleAvailabilityChange} />
          */
         }
           <div className='form-group'>
