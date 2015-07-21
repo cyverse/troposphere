@@ -4,9 +4,9 @@ define(function (require) {
       stores = require('stores'),
       BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
       Visibility = require('components/common/image_request/ImageVisibility.react'),
-      AvailabilityView = require('components/images/detail/availability/AvailabilityView.react'),
+      EditAvailabilityView = require('components/images/detail/availability/EditAvailabilityView.react'),
       EditDescriptionView = require('components/images/detail/description/EditDescriptionView.react'),
-      MembershipView = require('./MembershipView.react'),
+      EditMembershipView = require('./membership/EditMembershipView.react'),
       Image = require('components/modals/image_version/Image.react');
 
   return React.createClass({
@@ -22,7 +22,7 @@ define(function (require) {
       return {
         versionName: version.get('name'),
         versionChangeLog: version.get('change_log'),
-        versionEndDate: isNull(version.get('end_date')) ? "" : version.get('end_date'),
+        versionEndDate: (version.get('end_date') == null) ? "" : version.get('end_date'),
         versionCanImage: version.get('allow_imaging'),
         versionParentID: version.get('parent').id,
         versionLicenses: null,
@@ -109,12 +109,17 @@ define(function (require) {
       this.setState({versionCanImage: uncopyable});
     },
 
-    handleVisibilityChange: function(visibility){
-      this.setState({visibility: visibility});
+    handleAvailabilityChange: function(machines){
+      //NOTE: we may want to handle this internally in 'EditAvailability' and re-render instead..
+      this.setState({machines: machines});
     },
 
     onImageSelected: function (selection) {
       this.setState({versionImageID: selection});
+    },
+
+    onMembershipChanged: function (membership_list) {
+      this.setState({versionMembership: membership_list});
     },
 
     //TODO: Handle 'many to many' Licenses & Memberships : List current, Add New, Remove Existing
@@ -129,7 +134,9 @@ define(function (require) {
     },
 
     renderBody: function() {
-      if(!this.state.versionName) {
+      var machines = stores.ImageVersionStore.getMachines(this.props.version.id);
+
+      if(!this.state.versionName || !machines) {
           return (<div className="loading"/>);
       }
       return (
@@ -152,16 +159,14 @@ define(function (require) {
             value={this.state.versionDescription}
             onChange={this.handleDescriptionChange}
           />
-          <AvailabilityView
+          <EditMembershipView
             image={this.props.image}
             version={this.props.version}
-            providers={this.state.providers}
+
           />
-           <Visibility
-           value={this.state.visibility}
-           all_users={this.state.all_users}
-           membership_list={this.state.versionMemberships}
-           onChange={this.handleVisibilityChange}
+           <EditAvailabilityView
+             machines={this.props.machines}
+             onChange={this.handleAvailabilityChange}
            />
           <div className='form-group'>
             <label htmlFor='version-uncopyable'>Uncopyable</label>

@@ -2,7 +2,6 @@ define(function (require) {
 
   var React = require('react'),
       Backbone = require('backbone'),
-      ViewUsers = require('./ViewUsers.react'),
       UserMultiSelect = require('./UserMultiSelect.react');
 
   var ENTER_KEY = 13;
@@ -26,15 +25,6 @@ define(function (require) {
       }
     },
 
-    onEditMembership: function(e){
-      e.preventDefault();
-      this.setState({isEditingUsers: true});
-    },
-
-    onDoneEditingUsers: function(e){
-      e.preventDefault();
-      this.setState({isEditingUsers: false});
-    },
 
     onEnterKeyPressed: function(e){
       var text = e.target.value;
@@ -65,7 +55,6 @@ define(function (require) {
         users = new Backbone.Collection(users);
       }
 
-      if(this.state.isEditingUsers){
         link = (
           <a className="toggle-editing-link" href="#" onClick={this.onDoneEditingUsers}>Done editing</a>
         );
@@ -73,13 +62,7 @@ define(function (require) {
         newUserButton = (
           <a className="btn btn-primary new-user" href="#" onClick={this.onCreateNewEmptyUser}>+ New user</a>
         );
-      }else{
-        link = (
-          <a className="toggle-editing-link" href="#" onClick={this.onEditMembership}>Create/Edit users</a>
-        );
-      }
 
-      if(this.state.isEditingUsers){
         userView = (
           <UserMultiSelect
             models={users}
@@ -91,11 +74,6 @@ define(function (require) {
             placeholderText="Search by user name..."
           />
         )
-      }else{
-        userView = (
-          <ViewUsers activeUsers={this.props.activeUsers}/>
-        );
-      }
 
       return (
         <div className="resource-users">

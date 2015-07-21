@@ -7,8 +7,8 @@ define(function (require) {
     display: "ChosenDropdownItem",
 
     propTypes: {
-      tag: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      onRemoveTag: React.PropTypes.func.isRequired,
+      user: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+      onRemoveUser: React.PropTypes.func.isRequired,
       propertyName: React.PropTypes.string
     },
 
@@ -18,17 +18,17 @@ define(function (require) {
       }
     },
 
-    onRemoveTag: function(){
-      this.props.onRemoveTag(this.props.tag);
+    onRemoveUser: function(){
+      this.props.onRemoveUser(this.props.user);
     },
 
     render: function () {
-      var tag = this.props.tag;
+      var user = this.props.user;
 
       return (
         <li className="search-choice">
-          <span>{tag.get(this.props.propertyName)}</span>
-          <a className="search-choice-close" onClick={this.onRemoveTag}></a>
+          <span>{user.get(this.props.propertyName)}</span>
+          <a className="search-choice-close" onClick={this.onRemoveUser}></a>
         </li>
       );
     }
