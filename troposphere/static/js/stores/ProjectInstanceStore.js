@@ -11,6 +11,20 @@ define(function (require) {
 
   var _modelsFor = {};
   var _isFetchingFor = {};
+  var _pendingProjectInstances = new InstanceCollection();
+
+  function addPending(model){
+    _pendingProjectInstances.add(model);
+  }
+
+  function removePending(model){
+    _pendingProjectInstances.remove(model);
+  }
+
+
+  //
+  // Model Store
+  //
 
   var ProjectInstanceStore = BaseStore.extend({
     collection: ProjectInstanceCollection,
@@ -59,7 +73,18 @@ define(function (require) {
         return allInstances.get(pi.get('instance').id);
       });
 
-      return new InstanceCollection(instances);
+      var pendingInstances = _pendingProjectInstances.filter(function(pi){
+        // filter out irrelevant project instances (not in target project)
+        return pi.get('project').id === project.id;
+      }).filter(function(pi){
+        // filter out the instances that don't exist (not in local cache)
+        return allInstances.get(pi.get('instance'));
+      }).map(function(pi){
+        // return the actual instances
+        return allInstances.get(pi.get('instance'));
+      });
+
+      return new InstanceCollection(instances.concat(pendingInstances));
     },
 
     getInstancesForProjectOnProvider: function(project, provider){
@@ -91,6 +116,14 @@ define(function (require) {
 
       case Constants.REMOVE_PROJECT_INSTANCE:
         store.remove(payload.projectInstance);
+        break;
+
+      case Constants.ADD_PENDING_PROJECT_INSTANCE:
+        addPending(payload.projectInstance);
+        break;
+
+      case Constants.REMOVE_PENDING_PROJECT_INSTANCE:
+        removePending(payload.projectInstance);
         break;
 
       case Constants.EMIT_CHANGE:

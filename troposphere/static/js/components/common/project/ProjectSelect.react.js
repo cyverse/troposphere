@@ -13,10 +13,19 @@ define(
 
       propTypes: {
         projectId: React.PropTypes.number.isRequired,
+        projects: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         onChange: React.PropTypes.func.isRequired,
-        allowCreate: React.PropTypes.bool,
+        showCreate: React.PropTypes.bool,
       },
-
+    getInitialState: function() {
+      var showCreate = false
+      if (this.props.showCreate == true) {
+          showCreate = true
+      }
+      return {
+          showCreate: showCreate,
+      }
+    },
     componentDidMount: function () {
       stores.ProjectStore.addChangeListener(this.updateState);
     },
@@ -25,8 +34,7 @@ define(
       stores.ProjectStore.removeChangeListener(this.updateState);
     },
       renderCreateOption: function () {
-        this.props.allowCreate = this.props.allowCreate || false;
-        if(this.props.allowCreate) {
+        if(this.state.showCreate) {
             return (
             <optgroup label="New Project">
               <option value="-1">{"Create new project..."}</option>
@@ -34,14 +42,14 @@ define(
         }
       },
       render: function () {
-        var options = this.props.projects.map(function (project) {
+        var projects = this.props.projects;
+        var options = projects.map(function (project) {
           return (
             <ProjectOption key={project.id} project={project}/>
           );
         });
-        var projects = stores.ProviderStore.getAll();
 
-        if (!projects) return (<div className="loading"></div>);
+        if (projects == null) return (<div className="loading"></div>);
 
         return (
         <div>
