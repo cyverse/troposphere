@@ -21,13 +21,14 @@ define(function (require) {
         updateAvailability: function(e) {
           var checked = e.target.checked,
             now_time = moment(new Date);
+
           actions.ProviderMachineActions.update(this.props.provider_machine, {end_date: now_time});
           //TODO: Update the individual provider machine
           //TODO: Save and redraw
         },
         render: function () {
           var provider_machine = this.props.provider_machine,
-              availableText = (!provider_machine.end_date.isValid()) ? "Enabled" : "Disabled as of "+ provider_machine.end_date;
+              availableText = (this.state.machineEnabled) ? "Enabled" : "Disabled as of "+ provider_machine.end_date;
             return (
                 <li key={provider_machine.provider.id}>
                   {provider_machine.provider.name}

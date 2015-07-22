@@ -21,9 +21,11 @@ define(function (require) {
 
     update: function(machine, newAttributes) {
         if(!machine) throw new Error("Missing ProviderMachine");
+
         if(typeof machine == "object") {
           machine = new ProviderMachine(machine);
         }
+
         if(!newAttributes) throw new Error("No attributes to be updated");
 
         machine.set(newAttributes);
@@ -35,7 +37,7 @@ define(function (require) {
           // UPDATE_MACHINE here if we do NOT want 'optimistic updating'
           // Othewise, do nothing..
         }).fail(function(){
-          var message = "Error creating ProviderMachine " + machine.get('name') + ".";
+          var message = "Error updating ProviderMachine " + machine.get('name') + ".";
           NotificationController.error(null, message);
           Utils.dispatch(ProviderMachineConstants.REMOVE_PROVIDER_MACHINE, {machine: machine});
         }).always(function(){
