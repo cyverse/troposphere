@@ -21,6 +21,9 @@ define(function (require) {
 
     update: function(machine, newAttributes) {
         if(!machine) throw new Error("Missing ProviderMachine");
+        if(typeof machine == "object") {
+          machine = new ProviderMachine(machine);
+        }
         if(!newAttributes) throw new Error("No attributes to be updated");
 
         machine.set(newAttributes);

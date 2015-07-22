@@ -14,16 +14,18 @@ define(function (require) {
 
     propTypes: {
       version: React.PropTypes.object.isRequired,
-      image: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      machines: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      image: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
     getInitialState: function () {
       var version = this.props.version;
+      var machines = stores.ImageVersionStore.getMachines(version.id);
+
 
       return {
+        machines: machines,
         versionImageID: this.props.image.id,
         versionName: version.get('name'),
-        versionChangeLog: version.get('change_log'),
+        versionChangeLog: (version.get('change_log') == null) ? "" : version.get('change_log'),
         versionStartDate: (version.get('start_date') == null) ? "" : version.get('start_date'),
         versionEndDate: (version.get('end_date') == null) ? "" : version.get('end_date'),
         versionCanImage: version.get('allow_imaging'),
@@ -113,11 +115,6 @@ define(function (require) {
       this.setState({versionCanImage: uncopyable});
     },
 
-    handleAvailabilityChange: function(machines){
-      //NOTE: we may want to handle this internally in 'EditAvailability' and re-render instead..
-      this.setState({machines: machines});
-    },
-
     onImageSelected: function (selection) {
       this.setState({versionImageID: selection});
     },
@@ -132,6 +129,7 @@ define(function (require) {
     // Render
     // ------
     //
+
     handleDescriptionChange: function(e){
       var description = e.target.value;
       this.setState({versionChangeLog: description});
@@ -157,9 +155,6 @@ define(function (require) {
             <label htmlFor='version-end-date'>Version Removed On</label>
             <input type='text' className='form-control' value={this.state.versionEndDate} onChange={this.onEndDateChange}/>
           </div>
-        {
-        //For some reason, This is throwing a 'prop value not specified in <<anonymous>>' warning..
-        }
           <EditDescriptionView
             image={this.props.image}
             value={this.state.versionChangeLog}
@@ -173,11 +168,13 @@ define(function (require) {
 
            />
          />
-           <EditAvailabilityView
-           machines={this.props.machines}
-           onChange={this.handleAvailabilityChange} />
          */
         }
+          <EditAvailabilityView
+            image={this.props.image}
+            version={this.props.version}
+          />
+
           <div className='form-group'>
             <label htmlFor='version-uncopyable'>Uncopyable</label>
             <input type='checkbox' className='form-control'
