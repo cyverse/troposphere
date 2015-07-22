@@ -4,9 +4,9 @@ define(function (require) {
     _ = require('underscore'),
     Version = require('./Version.react'),
     stores = require('stores'),
-    //Collections
+  //Collections
     ProviderMachineCollection = require('collections/ProviderMachineCollection'),
-    //Modals
+  //Modals
     ProviderMachineEditModal = require('components/modals/provider_machine/ProviderMachineEditModal.react'),
     ModalHelpers = require('components/modals/ModalHelpers'),
     actions = require('actions');

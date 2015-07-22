@@ -23,7 +23,7 @@ Atmo.Views.SettingsScreen = Backbone.View.extend({
 
         // Select all of the form elements based on their profile settings
         var settings = Atmo.profile.attributes.settings;
-        
+
         this.$el.find('select[name="default_vnc"]').val(settings.default_vnc);
         this.$el.find('input[name="quick_launch"]').prop('checked', settings.quick_launch);
         this.$el.find('input[name="send_emails"]').prop('checked', settings.send_emails);
@@ -41,13 +41,13 @@ Atmo.Views.SettingsScreen = Backbone.View.extend({
 
 		// Show user's available identities
 		var self = this;
-	
+
 		for (var i = 0; i < Atmo.identities.length; i++) {
 			var identity = Atmo.identities.models[i];
 
 			// Create a summary for each view and identity
 			var identity_view = new Atmo.Views.SettingsScreenIdentitySummary({
-				provider: identity.get('provider_id'), 
+				provider: identity.get('provider_id'),
 				identity_id: identity.get('id')
 			});
 			self.$el.find('#providers').prepend(identity_view.render().el);
@@ -111,7 +111,7 @@ Atmo.Views.SettingsScreen = Backbone.View.extend({
                     }
                     instance.start_date_p = Date.parse(instance.start_date);
                     if (instance.start_date_p != null)
-                        instance.start_date =instance.start_date_p.format("MM/dd/yyyy II:mm p")
+                        instance.start_date =instance.start_date_p.format("MM/dd/yyyy II:mm p");
                     if (instance.end_date != null) {
                         if (instance.end_date.length == 24) {
                             instance.end_date = instance.end_date.split('.')[0] + 'Z'
@@ -134,10 +134,10 @@ Atmo.Views.SettingsScreen = Backbone.View.extend({
 		var id = parseInt(self.$el.find('input[name="selected_identity"]:checked').val());
 		Atmo.profile.save(
 			{ 'selected_identity' : id },
-			{ async : false, 
-			patch: true, 
+			{ async : false,
+			patch: true,
 			success: location.reload() }
-		);	
+		);
 		location.reload();
 	},
 	add_new_identity: function(e) {
@@ -182,7 +182,7 @@ Atmo.Views.SettingsScreen = Backbone.View.extend({
 
             Atmo.Utils.confirm(header, content, { on_confirm: function() {
                 // Update stuff
-            }, 
+            },
                 ok_button: 'Update Identity'
             });
 
@@ -201,7 +201,7 @@ Atmo.Views.SettingsScreen = Backbone.View.extend({
 
 		// Need this incase user clicks on image instead of link
         var val = $(e.target).data('iconset') || $(e.target).parent().data('iconset');
-        var self = this;   
+        var self = this;
 
 		if (typeof(val) != 'undefined') {
 			Atmo.profile.save(
@@ -212,17 +212,17 @@ Atmo.Views.SettingsScreen = Backbone.View.extend({
                     loader.html('<i class="icon-ok"></i> Updated. Application will refresh with changes.');
                     setTimeout(function() {
                         loader.fadeOut('fast', function() {
-                            $(this).remove(); 
+                            $(this).remove();
 							location.reload();
                         });
                     }, 5 * 1000);
-				}, 
+				},
 				error: function() {
                     // Inform user that the setting was NOT successfully updated.
-                    loader.html('<i class="icon-warning-sign"></i> Update Failed. Please contact support.');                    
+                    loader.html('<i class="icon-warning-sign"></i> Update Failed. Please contact support.');
                     setTimeout(function() {
                         loader.fadeOut('fast', function() {
-                            $(this).remove(); 
+                            $(this).remove();
                             self.rendered = false;
                             self.render();
                         });
@@ -231,9 +231,9 @@ Atmo.Views.SettingsScreen = Backbone.View.extend({
 			});
 		}
 		else {
-			loader.html('<i class="icon-warning-sign"></i> Invalid icon selection.');                    
+			loader.html('<i class="icon-warning-sign"></i> Invalid icon selection.');
 		}
-    }, 
+    },
     update_settings: function(e) {
         var val, input;
         var setting = e.target.name;
@@ -274,23 +274,23 @@ Atmo.Views.SettingsScreen = Backbone.View.extend({
 
 
         var self = this;
-        
+
         if (val != undefined) {
 			Atmo.profile.save(data, {
 				patch: true,
 				success: function() {
-                    loader.html('<i class="icon-ok"></i> Updated');                    
+                    loader.html('<i class="icon-ok"></i> Updated');
                     setTimeout(function() {
                         loader.fadeOut('fast', function() {
-                            $(this).remove(); 
+                            $(this).remove();
                         });
                     }, 5 * 1000);
 				},
 				error: function() {
-                    loader.html('<i class="icon-warning-sign"></i> Update Failed. Please contact support.');                    
+                    loader.html('<i class="icon-warning-sign"></i> Update Failed. Please contact support.');
                     setTimeout(function() {
                         loader.fadeOut('fast', function() {
-                            $(this).remove(); 
+                            $(this).remove();
                             self.rendered = false;
                             self.render();
                         });

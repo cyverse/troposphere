@@ -2,42 +2,42 @@ define(function (require) {
   "use strict";
 
   var globals = require('globals'),
-      stores = require('stores'),
-      Utils = require('../Utils');
+    stores = require('stores'),
+    Utils = require('../Utils');
 
   return {
 
-    requestImage: function(params){
-      if(!params.instance) throw new Error("Missing instance");
-      if(!params.name) throw new Error("Missing name");
-      if(!params.description) throw new Error("Missing description");
-      if(!params.tags) throw new Error("Missing tags");
-      if(!params.providerId) throw new Error("Missing providerId");
-      if(params.fork == undefined) throw new Error("Missing create/update flag(fork)");
+    requestImage: function (params) {
+      if (!params.instance) throw new Error("Missing instance");
+      if (!params.name) throw new Error("Missing name");
+      if (!params.description) throw new Error("Missing description");
+      if (!params.tags) throw new Error("Missing tags");
+      if (!params.providerId) throw new Error("Missing providerId");
+      if (params.fork == undefined) throw new Error("Missing create/update flag(fork)");
       //if(!params.software) throw new Error("Missing software");
       //if(!params.filesToExclude) throw new Error("Missing filesToExclude");
       //if(!params.systemFiles) throw new Error("Missing systemFiles");
-      if(!params.visibility) throw new Error("Missing visibility");
-      if(!params.imageUsers) throw new Error("Missing imageUsers");
+      if (!params.visibility) throw new Error("Missing visibility");
+      if (!params.imageUsers) throw new Error("Missing imageUsers");
 
 
       var instance = params.instance,
-          name = params.name,
-          description = params.description,
-          providerId = params.providerId,
-          software = params.software,
-          filesToExclude = params.filesToExclude,
-          systemFiles = params.systemFiles || "[no files specified]",
-          visibility = params.visibility,
-          imageUsers = params.imageUsers,
-          userNames = imageUsers.map(function(user){
-            return user.get('username');
-          }),
-          tags = params.tags,
-          tagNames = tags.map(function(tag){
-            return tag.get('name');
-          }),
-          provider = stores.ProviderStore.get(providerId);
+        name = params.name,
+        description = params.description,
+        providerId = params.providerId,
+        software = params.software,
+        filesToExclude = params.filesToExclude,
+        systemFiles = params.systemFiles || "[no files specified]",
+        visibility = params.visibility,
+        imageUsers = params.imageUsers,
+        userNames = imageUsers.map(function (user) {
+          return user.get('username');
+        }),
+        tags = params.tags,
+        tagNames = tags.map(function (tag) {
+          return tag.get('name');
+        }),
+        provider = stores.ProviderStore.get(providerId);
 
       var requestData = {
         fork: params.fork,

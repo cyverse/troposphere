@@ -67,7 +67,7 @@ define(
         },
 
         componentWillUnmount: function () {
-          var $modal = $(this.getDOMNode())
+          var $modal = $(this.getDOMNode());
           handlerProps.forEach(function (prop) {
             if (this[prop]) {
               $modal.off(bsModalEvents[prop], this[prop])
@@ -95,7 +95,7 @@ define(
             <button type="button"
                     className="close"
                     onClick={this.hide}
-            >
+              >
               {'\u00d7'}
             </button>
           );

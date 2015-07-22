@@ -18,7 +18,7 @@ define(
         application: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
-      componentDidMount: function(){
+      componentDidMount: function () {
         var el = this.getDOMNode();
         var $el = $(el).find('.tooltip-wrapper');
         $el.tooltip({
@@ -27,17 +27,17 @@ define(
         });
       },
 
-      onReturnToPreviousPage: function(e){
+      onReturnToPreviousPage: function (e) {
         e.preventDefault();
         Backbone.history.history.back();
       },
 
       render: function () {
         var profile = stores.ProfileStore.get(),
-            addToProjectButton;
+          addToProjectButton;
 
 
-        if(profile.id) {
+        if (profile.id) {
           addToProjectButton = (
             <div className="tooltip-wrapper" style={{display: "inline-block", float: "right"}}>
               <button className="btn" disabled>
@@ -53,6 +53,7 @@ define(
             <a className='nav-back btn btn-default' onClick={this.onReturnToPreviousPage}>
               <span className='glyphicon glyphicon-arrow-left'>{''}</span>
             </a>
+
             <h1>{this.props.application.get('name')}</h1>
             {addToProjectButton}
           </div>

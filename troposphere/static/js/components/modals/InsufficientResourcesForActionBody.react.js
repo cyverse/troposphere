@@ -8,7 +8,7 @@ define(
   function (React, Glyphicon) {
 
     return {
-      build: function(){
+      build: function () {
         return (
           <div>
             <p className='alert alert-error'>

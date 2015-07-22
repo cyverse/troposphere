@@ -9,9 +9,7 @@ define(
 
     return React.createClass({
 
-      propTypes: {
-
-      },
+      propTypes: {},
 
       render: function () {
         return (

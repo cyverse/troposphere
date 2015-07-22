@@ -1,10 +1,10 @@
 define(function (require) {
 
   var React = require('react'),
-      ProjectResourcesWrapper = require('./detail/resources/ProjectResourcesWrapper.react'),
-      VolumeDetailsView = require('./resources/volume/details/VolumeDetailsView.react'),
-      Router = require('react-router'),
-      stores = require('stores');
+    ProjectResourcesWrapper = require('./detail/resources/ProjectResourcesWrapper.react'),
+    VolumeDetailsView = require('./resources/volume/details/VolumeDetailsView.react'),
+    Router = require('react-router'),
+    stores = require('stores');
 
   return React.createClass({
 
@@ -12,7 +12,7 @@ define(function (require) {
 
     render: function () {
       var project = stores.ProjectStore.get(Number(this.getParams().projectId)),
-          volume = stores.VolumeStore.get(Number(this.getParams().volumeId));
+        volume = stores.VolumeStore.get(Number(this.getParams().volumeId));
 
       if (!project || !volume) return <div className="loading"></div>;
 

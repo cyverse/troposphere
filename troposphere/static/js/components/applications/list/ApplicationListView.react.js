@@ -1,16 +1,16 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      stores = require('stores'),
-      ApplicationCollection = require('collections/ApplicationCollection'),
-      ApplicationCardList = require('./list/ApplicationCardList.react'),
-      ApplicationCardGrid = require('./grid/ApplicationCardGrid.react'),
-      SecondaryApplicationNavigation = require('../common/SecondaryApplicationNavigation.react'),
-      Router = require('react-router');
+    Backbone = require('backbone'),
+    stores = require('stores'),
+    ApplicationCollection = require('collections/ApplicationCollection'),
+    ApplicationCardList = require('./list/ApplicationCardList.react'),
+    ApplicationCardGrid = require('./grid/ApplicationCardGrid.react'),
+    SecondaryApplicationNavigation = require('../common/SecondaryApplicationNavigation.react'),
+    Router = require('react-router');
 
   var timer,
-      timerDelay = 100;
+    timerDelay = 100;
 
   return React.createClass({
 
@@ -20,7 +20,7 @@ define(function (require) {
       tags: React.PropTypes.instanceOf(Backbone.Collection)
     },
 
-    getInitialState: function(){
+    getInitialState: function () {
       return {
         originalQuery: this.getQuery().q,
         query: this.getQuery().q || "",
@@ -31,27 +31,27 @@ define(function (require) {
       }
     },
 
-    componentWillReceiveProps: function(nextProps){
+    componentWillReceiveProps: function (nextProps) {
       var query = this.getQuery().q;
-      if(query !== this.state.originalQuery){
+      if (query !== this.state.originalQuery) {
         this.setState({query: query, input: query, originalQuery: query});
       }
     },
 
-    updateState: function() {
+    updateState: function () {
       var query = this.state.query,
-          state = {},
-          images;
+        state = {},
+        images;
 
-      if(query){
+      if (query) {
         images = stores.ApplicationStore.fetchWhere({
           search: query
         })
-      }else{
+      } else {
         images = stores.ApplicationStore.getAll();
       }
 
-      if(images && images.meta.next !== this.state.nextUrl){
+      if (images && images.meta.next !== this.state.nextUrl) {
         state.isLoadingMoreResults = false;
         state.nextUrl = null;
       }
@@ -63,20 +63,20 @@ define(function (require) {
       stores.ApplicationStore.addChangeListener(this.updateState);
     },
 
-    componentWillUnmount: function() {
+    componentWillUnmount: function () {
       stores.ApplicationStore.removeChangeListener(this.updateState);
     },
 
-    onLoadMoreImages: function(){
+    onLoadMoreImages: function () {
       var query = this.state.query,
-          images;
+        images;
 
       // Get the current collection
-      if(query){
+      if (query) {
         images = stores.ApplicationStore.fetchWhere({
           search: query
         });
-      }else{
+      } else {
         images = stores.ApplicationStore.getAll();
       }
 
@@ -86,11 +86,11 @@ define(function (require) {
       });
 
       // Fetch the next page of data
-      if(query){
+      if (query) {
         stores.ApplicationStore.fetchMoreWhere({
           search: query
         });
-      }else{
+      } else {
         stores.ApplicationStore.fetchMore();
       }
     },
@@ -102,7 +102,7 @@ define(function (require) {
     handleSearch: function (input) {
       if (timer) clearTimeout(timer);
 
-      timer = setTimeout(function(){
+      timer = setTimeout(function () {
         this.setState({query: this.state.input});
       }.bind(this), timerDelay);
     },
@@ -113,10 +113,10 @@ define(function (require) {
       this.handleSearch(input);
     },
 
-    onChangeViewType: function(){
-      if(this.state.viewType === "list"){
+    onChangeViewType: function () {
+      if (this.state.viewType === "list") {
         this.setState({viewType: 'grid'});
-      }else{
+      } else {
         this.setState({viewType: 'list'});
       }
     },
@@ -125,56 +125,56 @@ define(function (require) {
     // Render methods
     // --------------
 
-    renderFeaturedImages: function(){
+    renderFeaturedImages: function () {
       var images = stores.ApplicationStore.fetchWhere({
-            tags__name: 'Featured'
-          }),
-          tags = this.props.tags;
+          tags__name: 'Featured'
+        }),
+        tags = this.props.tags;
 
       if (!images || !tags || this.state.query) return;
 
-      if(this.state.viewType === "list") {
+      if (this.state.viewType === "list") {
         return (
           <ApplicationCardList
             key="featured"
             title="Featured Images"
             applications={images}
             tags={tags}
-          />
+            />
         );
-      }else{
+      } else {
         return (
           <ApplicationCardGrid
             key="featured"
             title="Featured Images"
             applications={images}
             tags={tags}
-          />
+            />
         );
       }
     },
 
-    renderImages: function(applications){
+    renderImages: function (applications) {
       var tags = this.props.tags;
 
       if (applications && tags) {
-        if(this.state.viewType === "list") {
+        if (this.state.viewType === "list") {
           return (
             <ApplicationCardList
               key="all"
               title="All Images"
               applications={applications}
               tags={tags}
-            />
+              />
           );
-        }else{
+        } else {
           return (
             <ApplicationCardGrid
               key="all"
               title="All Images"
               applications={applications}
               tags={tags}
-            />
+              />
           );
         }
       }
@@ -184,33 +184,34 @@ define(function (require) {
       );
     },
 
-    renderLoadMoreButton: function(applications){
-      if(this.state.isLoadingMoreResults){
+    renderLoadMoreButton: function (applications) {
+      if (this.state.isLoadingMoreResults) {
         return (
           <div style={{"margin": "auto", "display": "block"}} className="loading"/>
         )
       }
 
-      if(applications.meta.next) {
+      if (applications.meta.next) {
         return (
           <button
             style={{"margin": "auto", "display": "block"}}
             className="btn btn-default"
             onClick={this.onLoadMoreImages}
-          >
+            >
             Show more images...
           </button>
         )
       }
     },
 
-    renderListButton: function(){
+    renderListButton: function () {
       var classValues = "btn btn-default",
-          onClick = this.onChangeViewType;
+        onClick = this.onChangeViewType;
 
-      if(this.state.viewType === "list") {
+      if (this.state.viewType === "list") {
         classValues += " active";
-        onClick = function(){};
+        onClick = function () {
+        };
       }
 
       return (
@@ -220,13 +221,14 @@ define(function (require) {
       );
     },
 
-    renderGridButton: function(){
+    renderGridButton: function () {
       var classValues = "btn btn-default",
-          onClick = this.onChangeViewType;
+        onClick = this.onChangeViewType;
 
-      if(this.state.viewType === "grid") {
+      if (this.state.viewType === "grid") {
         classValues += " active";
-        onClick = function(){};
+        onClick = function () {
+        };
       }
 
       return (
@@ -236,16 +238,16 @@ define(function (require) {
       );
     },
 
-    renderBody: function(){
+    renderBody: function () {
       var query = this.state.query,
-          title = "",
-          images;
+        title = "",
+        images;
 
-      if(query){
+      if (query) {
         images = stores.ApplicationStore.fetchWhere({
           search: query
         });
-      }else{
+      } else {
         images = stores.ApplicationStore.getAll();
       }
 
@@ -254,12 +256,13 @@ define(function (require) {
 
       title = "Showing " + images.length + " of " + images.meta.count + " images";
 
-      if(query) title += " for '" + query + "'";
+      if (query) title += " for '" + query + "'";
 
       return (
         <div>
           <div className="display-toggles clearfix">
             <h3>{title}</h3>
+
             <div className="btn-group pull-right">
               {this.renderListButton()}
               {this.renderGridButton()}
@@ -283,7 +286,7 @@ define(function (require) {
               onChange={this.onSearchChange}
               value={this.state.input}
               ref="textField"
-            />
+              />
             <hr/>
           </div>
           {this.renderBody()}

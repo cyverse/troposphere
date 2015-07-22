@@ -1,12 +1,12 @@
-define(function(require){
+define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      Router = require('react-router'),
-      modals = require('modals'),
-      Glyphicon = require('components/common/Glyphicon.react'),
-      actions = require('actions'),
-      stores = require('stores');
+    Backbone = require('backbone'),
+    Router = require('react-router'),
+    modals = require('modals'),
+    Glyphicon = require('components/common/Glyphicon.react'),
+    actions = require('actions'),
+    stores = require('stores');
 
   return React.createClass({
 
@@ -14,21 +14,21 @@ define(function(require){
       project: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    onDeleteProject: function(e){
+    onDeleteProject: function (e) {
       e.preventDefault();
 
       var project = this.props.project,
-          projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
-          projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project);
+        projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
+        projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project);
 
-      if(projectInstances.length > 0 || projectVolumes.length > 0){
+      if (projectInstances.length > 0 || projectVolumes.length > 0) {
         modals.ProjectModals.explainProjectDeleteConditions();
-      }else{
+      } else {
         modals.ProjectModals.destroy(project);
       }
     },
 
-    renderRoute: function(name, linksTo, icon, params){
+    renderRoute: function (name, linksTo, icon, params) {
       return (
         <li key={name}>
           <Router.Link to={linksTo} params={params}>

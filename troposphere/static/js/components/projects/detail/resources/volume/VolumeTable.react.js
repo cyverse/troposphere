@@ -1,9 +1,9 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      VolumeRow = require('./VolumeRow.react'),
-      SelectableTable = require('../SelectableTable.react');
+    Backbone = require('backbone'),
+    VolumeRow = require('./VolumeRow.react'),
+    SelectableTable = require('../SelectableTable.react');
 
   return React.createClass({
     displayName: "VolumeTable",
@@ -17,23 +17,23 @@ define(function (require) {
       selectedResources: React.PropTypes.instanceOf(Backbone.Collection)
     },
 
-    getInitialState: function(){
+    getInitialState: function () {
       return {
         isChecked: false
       }
     },
 
-    toggleCheckbox: function(e){
+    toggleCheckbox: function (e) {
       this.setState({isChecked: !this.state.isChecked});
     },
 
-    getVolumeRows: function(volumes){
+    getVolumeRows: function (volumes) {
       var previewedResource = this.props.previewedResource,
-          selectedResources = this.props.selectedResources;
+        selectedResources = this.props.selectedResources;
 
-      return volumes.map(function(volume){
+      return volumes.map(function (volume) {
         var isPreviewed = (previewedResource === volume),
-            isChecked = selectedResources.get(volume) ? true : false;
+          isChecked = selectedResources.get(volume) ? true : false;
 
         return (
           <VolumeRow
@@ -44,14 +44,14 @@ define(function (require) {
             onPreviewResource={this.props.onPreviewResource}
             isPreviewed={isPreviewed}
             isChecked={isChecked}
-          />
+            />
         );
       }.bind(this));
     },
 
     render: function () {
       var volumes = this.props.volumes,
-          volumeRows = this.getVolumeRows(volumes);
+        volumeRows = this.getVolumeRows(volumes);
 
       return (
         <SelectableTable
@@ -60,7 +60,7 @@ define(function (require) {
           resourceRows={volumeRows}
           onResourceSelected={this.props.onResourceSelected}
           onResourceDeselected={this.props.onResourceDeselected}
-        >
+          >
           <th>Name</th>
           <th>Status</th>
           <th>Size</th>

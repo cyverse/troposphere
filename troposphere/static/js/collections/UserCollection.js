@@ -2,8 +2,8 @@ define(function (require) {
   "use strict";
 
   var Backbone = require('backbone'),
-      User = require('models/User'),
-      globals = require('globals');
+    User = require('models/User'),
+    globals = require('globals');
 
   return Backbone.Collection.extend({
     model: User,
@@ -12,8 +12,8 @@ define(function (require) {
 
     comparator: function (model) {
       var username = model.get('username');
-      if(username)
-          return model.get('username').toLowerCase();
+      if (username)
+        return model.get('username').toLowerCase();
       return username;
     },
 

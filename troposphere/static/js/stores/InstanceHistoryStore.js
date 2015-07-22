@@ -1,7 +1,7 @@
-define(function(require){
+define(function (require) {
 
   var BaseStore = require('stores/BaseStore'),
-      InstanceHistoryCollection = require('collections/InstanceHistoryCollection');
+    InstanceHistoryCollection = require('collections/InstanceHistoryCollection');
 
   var InstanceHistoryStore = BaseStore.extend({
     collection: InstanceHistoryCollection,

@@ -1,14 +1,14 @@
 define(function (require) {
 
   var React = require('react'),
-      _ = require('underscore'),
-      BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
-      stores = require('stores'),
-      NameDescriptionTagsStep = require('./image/steps/NameDescriptionTagsStep.react'),
-      ProviderStep = require('./image/steps/ProviderStep.react'),
-      VisibilityStep = require('./image/steps/VisibilityStep.react'),
-      FilesToExcludeStep = require('./image/steps/FilesToExcludeStep.react'),
-      ReviewStep = require('./image/steps/ReviewStep.react');
+    _ = require('underscore'),
+    BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
+    stores = require('stores'),
+    NameDescriptionTagsStep = require('./image/steps/NameDescriptionTagsStep.react'),
+    ProviderStep = require('./image/steps/ProviderStep.react'),
+    VisibilityStep = require('./image/steps/VisibilityStep.react'),
+    FilesToExcludeStep = require('./image/steps/FilesToExcludeStep.react'),
+    ReviewStep = require('./image/steps/ReviewStep.react');
 
   return React.createClass({
     mixins: [BootstrapModalMixin],
@@ -23,7 +23,7 @@ define(function (require) {
     // ----------------
     //
 
-    getInitialState: function(){
+    getInitialState: function () {
       return {
         step: 1,
         name: this.props.instance.get('image').name,
@@ -36,7 +36,7 @@ define(function (require) {
       };
     },
 
-    getState: function() {
+    getState: function () {
       return this.state;
     },
 
@@ -49,7 +49,7 @@ define(function (require) {
       stores.UserStore.addChangeListener(this.updateState);
     },
 
-    componentWillUnmount: function() {
+    componentWillUnmount: function () {
       stores.InstanceTagStore.removeChangeListener(this.updateState);
       stores.UserStore.removeChangeListener(this.updateState);
     },
@@ -59,11 +59,11 @@ define(function (require) {
     // ------------------------
     //
 
-    cancel: function(){
+    cancel: function () {
       this.hide();
     },
 
-    onRequestImage: function(){
+    onRequestImage: function () {
       var params = {
         newImage: this.state.newImage,
         name: this.state.name,
@@ -82,17 +82,17 @@ define(function (require) {
     // Navigation Callbacks
     //
 
-    onPrevious: function(data){
+    onPrevious: function (data) {
       var previousStep = this.state.step - 1,
-          data = data || {},
-          state = _.extend({step: previousStep}, data);
+        data = data || {},
+        state = _.extend({step: previousStep}, data);
       this.setState(state);
     },
 
-    onNext: function(data){
+    onNext: function (data) {
       var nextStep = this.state.step + 1,
-          data = data || {},
-          state = _.extend({step: nextStep}, data);
+        data = data || {},
+        state = _.extend({step: nextStep}, data);
       this.setState(state);
     },
 
@@ -101,11 +101,11 @@ define(function (require) {
     // ------
     //
 
-    renderBody: function(){
+    renderBody: function () {
       var instance = this.props.instance,
-          step = this.state.step;
+        step = this.state.step;
 
-      switch(step) {
+      switch (step) {
         case 1:
           return (
             <NameDescriptionTagsStep
@@ -116,7 +116,7 @@ define(function (require) {
               imageOwner={this.props.imageOwner}
               onPrevious={this.onPrevious}
               onNext={this.onNext}
-            />
+              />
           );
 
         case 2:
@@ -126,7 +126,7 @@ define(function (require) {
               providerId={this.state.providerId}
               onPrevious={this.onPrevious}
               onNext={this.onNext}
-            />
+              />
           );
 
         case 3:
@@ -137,7 +137,7 @@ define(function (require) {
               imageUsers={this.state.imageUsers}
               onPrevious={this.onPrevious}
               onNext={this.onNext}
-            />
+              />
           );
 
         case 4:
@@ -146,7 +146,7 @@ define(function (require) {
               filesToExclude={this.state.filesToExclude}
               onPrevious={this.onPrevious}
               onNext={this.onNext}
-            />
+              />
           );
 
         case 5:
@@ -155,7 +155,7 @@ define(function (require) {
               imageData={this.state}
               onPrevious={this.onPrevious}
               onNext={this.onRequestImage}
-            />
+              />
           );
       }
     },

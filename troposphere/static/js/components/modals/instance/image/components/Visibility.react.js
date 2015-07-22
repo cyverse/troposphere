@@ -17,20 +17,24 @@ define(function (require) {
       return (
         <div className="form-group">
           <label htmlFor="vis" className="control-label">Image Visibility</label>
+
           <div className="help-block">
             <p>Please select the level of visibility this image should have.</p>
+
             <p>
               <em>Public - </em>
               {
                 " The image will be visible to all users and anyone will be able to launch it."
               }
             </p>
+
             <p>
               <em>Private - </em>
               {
                 " The image will be visible only to you and only you will be able to launch it."
               }
             </p>
+
             <p>
               <em>Specific Users - </em>
               {

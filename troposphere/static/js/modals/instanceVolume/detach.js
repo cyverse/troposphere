@@ -2,8 +2,8 @@ define(function (require) {
   "use strict";
 
   var actions = require('actions'),
-      ModalHelpers = require('components/modals/ModalHelpers'),
-      VolumeDetachModal = require('components/modals/volume/VolumeDetachModal.react');
+    ModalHelpers = require('components/modals/ModalHelpers'),
+    VolumeDetachModal = require('components/modals/volume/VolumeDetachModal.react');
 
   return {
 

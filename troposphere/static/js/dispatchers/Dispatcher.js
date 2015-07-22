@@ -10,8 +10,6 @@ define(
 
     var _addPromise = function (cb, payload) {
       var defer = Q.defer();
-      ;
-
       if (cb(payload)) {
         defer.resolve(payload);
       } else {

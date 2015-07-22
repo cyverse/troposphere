@@ -1,12 +1,12 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      ResourceDetail = require('components/projects/common/ResourceDetail.react'),
-      Id = require('./details/Id.react'),
-      Status = require('./details/Status.react'),
-      Size = require('./details/Size.react'),
-      Identity = require('./details/Identity.react');
+    Backbone = require('backbone'),
+    ResourceDetail = require('components/projects/common/ResourceDetail.react'),
+    Id = require('./details/Id.react'),
+    Status = require('./details/Status.react'),
+    Size = require('./details/Size.react'),
+    Identity = require('./details/Identity.react');
 
   return React.createClass({
     displayName: "VolumeDetailsSection",

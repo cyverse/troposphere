@@ -1,8 +1,8 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      VersionList = require('./VersionList.react');
+    Backbone = require('backbone'),
+    VersionList = require('./VersionList.react');
 
   return React.createClass({
 
@@ -11,9 +11,9 @@ define(function (require) {
     },
     render: function () {
       var image = this.props.application,
-          versions = image.getVersions();
-      if(!versions) {
-          return (<div className="loading" />);
+        versions = image.getVersions();
+      if (!versions) {
+        return (<div className="loading"/>);
       }
       return (
         <div className="image-versions image-info-segment row">

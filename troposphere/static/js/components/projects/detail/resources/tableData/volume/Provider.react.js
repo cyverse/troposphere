@@ -1,8 +1,8 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      stores = require('stores');
+    Backbone = require('backbone'),
+    stores = require('stores');
 
   return React.createClass({
 
@@ -12,9 +12,9 @@ define(function (require) {
 
     render: function () {
       var volume = this.props.volume,
-          provider = stores.ProviderStore.get(volume.get('provider').id);
+        provider = stores.ProviderStore.get(volume.get('provider').id);
 
-      if(!provider) return <div className="loading-tiny-inline"></div>;
+      if (!provider) return <div className="loading-tiny-inline"></div>;
 
       return (
         <span>{provider.get('name')}</span>

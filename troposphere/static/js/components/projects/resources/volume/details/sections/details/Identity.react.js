@@ -1,9 +1,9 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      ResourceDetail = require('components/projects/common/ResourceDetail.react'),
-      stores = require('stores');
+    Backbone = require('backbone'),
+    ResourceDetail = require('components/projects/common/ResourceDetail.react'),
+    stores = require('stores');
 
   return React.createClass({
 
@@ -13,9 +13,9 @@ define(function (require) {
 
     render: function () {
       var volume = this.props.volume,
-          provider = stores.ProviderStore.get(volume.get('provider'));
+        provider = stores.ProviderStore.get(volume.get('provider'));
 
-      if(!provider) return <div className="loading"></div>;
+      if (!provider) return <div className="loading"></div>;
 
       return (
         <ResourceDetail label="Provider">

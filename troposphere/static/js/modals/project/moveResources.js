@@ -1,8 +1,8 @@
 define(function (require) {
 
   var actions = require('actions'),
-      ModalHelpers = require('components/modals/ModalHelpers'),
-      ProjectMoveResourceModal = require('components/modals/project/ProjectMoveResourceModal.react');
+    ModalHelpers = require('components/modals/ModalHelpers'),
+    ProjectMoveResourceModal = require('components/modals/project/ProjectMoveResourceModal.react');
 
   return {
 
@@ -13,7 +13,7 @@ define(function (require) {
         resources: resources
       };
 
-      ModalHelpers.renderModal(ProjectMoveResourceModal, props, function(newProject){
+      ModalHelpers.renderModal(ProjectMoveResourceModal, props, function (newProject) {
         actions.ProjectActions.moveResources({
           currentProject: currentProject,
           resources: resources,

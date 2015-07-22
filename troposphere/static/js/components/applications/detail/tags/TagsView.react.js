@@ -1,9 +1,9 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      ViewTags = require('components/common/tags/ViewTags.react'),
-      stores = require('stores');
+    Backbone = require('backbone'),
+    ViewTags = require('components/common/tags/ViewTags.react'),
+    stores = require('stores');
 
   return React.createClass({
 
@@ -13,7 +13,7 @@ define(function (require) {
       renderLinks: React.PropTypes.bool
     },
 
-    getDefaultProps: function() {
+    getDefaultProps: function () {
       return {
         renderLinks: true
       }
@@ -25,6 +25,7 @@ define(function (require) {
       return (
         <div className="image-tags image-info-segment row">
           <h4 className="title col-md-2">Tags</h4>
+
           <div className="content col-md-10">
             <ViewTags activeTags={applicationTags} renderLinks={this.props.renderLinks}/>
           </div>

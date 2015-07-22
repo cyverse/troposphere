@@ -1,7 +1,7 @@
 define(function (require) {
 
   var React = require('react'),
-      Router = require('react-router');
+    Router = require('react-router');
 
   return React.createClass({
 
@@ -13,7 +13,7 @@ define(function (require) {
     render: function () {
       var breadcrumb = this.props.breadcrumb;
 
-      if(this.props.isCurrentLocation){
+      if (this.props.isCurrentLocation) {
         return (
           <span>{breadcrumb.name}</span>
         );

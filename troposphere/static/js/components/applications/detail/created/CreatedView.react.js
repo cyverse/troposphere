@@ -16,11 +16,12 @@ define(
 
       render: function () {
         var image = this.props.application,
-            startDate = moment(image.get('start_date')).format("MMM D, YYYY");
+          startDate = moment(image.get('start_date')).format("MMM D, YYYY");
 
         return (
           <div className="image-info-segment row">
             <h4 className="title col-md-2">Created</h4>
+
             <p className="content col-md-10">{startDate}</p>
           </div>
         );

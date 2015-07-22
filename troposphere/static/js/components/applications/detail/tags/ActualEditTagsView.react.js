@@ -1,8 +1,8 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      TagMultiSelect = require('components/common/tags/TagMultiSelect.react');
+    Backbone = require('backbone'),
+    TagMultiSelect = require('components/common/tags/TagMultiSelect.react');
 
   var ENTER_KEY = 13;
 
@@ -17,13 +17,13 @@ define(function (require) {
       onCreateNewTag: React.PropTypes.func.isRequired
     },
 
-    getInitialState: function(){
+    getInitialState: function () {
       return {
         query: ""
       }
     },
 
-    onEnterKeyPressed: function(e){
+    onEnterKeyPressed: function (e) {
       e.preventDefault();
       var text = e.target.value;
       if (e.which === ENTER_KEY && text.trim()) {
@@ -31,21 +31,21 @@ define(function (require) {
       }
     },
 
-    onCreateNewEmptyTag: function(e){
+    onCreateNewEmptyTag: function (e) {
       e.preventDefault();
       this.props.onCreateNewTag("");
     },
 
-    onQueryChange: function(query){
+    onQueryChange: function (query) {
       this.setState({query: query});
     },
 
     render: function () {
       var query = this.state.query,
-          tags;
+        tags;
 
-      if(query){
-        tags = this.props.tags.filter(function(tag){
+      if (query) {
+        tags = this.props.tags.filter(function (tag) {
           return tag.get('name').toLowerCase().indexOf(query) >= 0;
         });
         tags = new Backbone.Collection(tags);
@@ -62,7 +62,7 @@ define(function (require) {
             onEnterKeyPressed={this.onEnterKeyPressed}
             onQueryChange={this.onQueryChange}
             placeholderText="Search by tag name..."
-          />
+            />
         </div>
       );
     }

@@ -1,9 +1,9 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      InstanceTable = require('./InstanceTable.react'),
-      NoInstanceNotice = require('./NoInstanceNotice.react');
+    Backbone = require('backbone'),
+    InstanceTable = require('./InstanceTable.react'),
+    NoInstanceNotice = require('./NoInstanceNotice.react');
 
   return React.createClass({
     displayName: "InstanceList",
@@ -16,8 +16,8 @@ define(function (require) {
       selectedResources: React.PropTypes.instanceOf(Backbone.Collection)
     },
 
-    getInstanceContent: function(){
-      if(this.props.instances.length > 0){
+    getInstanceContent: function () {
+      if (this.props.instances.length > 0) {
         return (
           <InstanceTable
             instances={this.props.instances}
@@ -26,9 +26,9 @@ define(function (require) {
             onPreviewResource={this.props.onPreviewResource}
             previewedResource={this.props.previewedResource}
             selectedResources={this.props.selectedResources}
-          />
+            />
         );
-      }else{
+      } else {
         return (
           <NoInstanceNotice/>
         );
@@ -40,6 +40,7 @@ define(function (require) {
         <div>
           <div className="header">
             <i className="glyphicon glyphicon-tasks"></i>
+
             <h2>Instances</h2>
           </div>
           {this.getInstanceContent()}

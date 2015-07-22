@@ -1,11 +1,11 @@
 define(function (require) {
 
   var Dispatcher = require('dispatchers/Dispatcher'),
-      BaseStore = require('stores/BaseStore'),
-      ProviderMachineVersionCollection = require('collections/ProviderMachineVersionCollection'),
-      ProviderMachineVersionConstants = require('constants/ProviderMachineVersionConstants'),
-      TagCollection = require('collections/TagCollection'),
-      Tag = require('models/Tag');
+    BaseStore = require('stores/BaseStore'),
+    ProviderMachineVersionCollection = require('collections/ProviderMachineVersionCollection'),
+    ProviderMachineVersionConstants = require('constants/ProviderMachineVersionConstants'),
+    TagCollection = require('collections/TagCollection'),
+    Tag = require('models/Tag');
 
   var _modelsFor = {};
   var _isFetchingFor = {};
@@ -13,12 +13,12 @@ define(function (require) {
   var ProviderMachineVersionStore = BaseStore.extend({
     collection: ProviderMachineVersionCollection,
 
-    initialize: function(){
+    initialize: function () {
       this.models = new ProviderMachineVersionCollection();
     },
 
-    fetchModelsFor: function(instanceId){
-      if(!_modelsFor[instanceId] && !_isFetchingFor[instanceId]) {
+    fetchModelsFor: function (instanceId) {
+      if (!_modelsFor[instanceId] && !_isFetchingFor[instanceId]) {
         _isFetchingFor[instanceId] = true;
         var models = new ProviderMachineVersionCollection();
         models.fetch({
@@ -30,7 +30,7 @@ define(function (require) {
           this.models.add(models.models);
 
           // convert ProviderMachineVersion collection to a TagCollection
-          var tags = models.map(function(it){
+          var tags = models.map(function (it) {
             return new Tag(it.get('tag'), {parse: true});
           });
           tags = new TagCollection(tags);
@@ -41,15 +41,15 @@ define(function (require) {
       }
     },
 
-    getTagsFor: function(instance){
-      if(!_modelsFor[instance.id]) return this.fetchModelsFor(instance.id);
+    getTagsFor: function (instance) {
+      if (!_modelsFor[instance.id]) return this.fetchModelsFor(instance.id);
 
       // convert ProviderMachineVersion collection to an TagCollection
-      var providerMachineVersions = this.models.filter(function(it){
+      var providerMachineVersions = this.models.filter(function (it) {
         return it.get('instance').id === instance.id;
       });
 
-      var tags = providerMachineVersions.map(function(it){
+      var tags = providerMachineVersions.map(function (it) {
         return new Tag(it.get('tag'), {parse: true});
       });
       return new TagCollection(tags);
@@ -81,7 +81,7 @@ define(function (require) {
         return true;
     }
 
-    if(!options.silent) {
+    if (!options.silent) {
       store.emitChange();
     }
 

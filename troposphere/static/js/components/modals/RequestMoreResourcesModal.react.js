@@ -22,13 +22,13 @@ define(
 
       getState: function () {
         var identities = stores.IdentityStore.getAll(),
-            identityId = null;
+          identityId = null;
 
-        if(identities){
+        if (identities) {
           identityId = this.state.identity ? this.state.identity : identities.first().id;
         }
 
-        return{
+        return {
           identity: identityId
         }
       },
@@ -45,9 +45,9 @@ define(
         stores.IdentityStore.removeChangeListener(this.updateState);
       },
 
-      isSubmittable: function(){
+      isSubmittable: function () {
         var hasIdentity = !!this.state.identity;
-        var hasResources     = !!this.state.resources;
+        var hasResources = !!this.state.resources;
         var hasReason = !!this.state.reason;
         return hasResources && hasReason;
       },
@@ -57,7 +57,7 @@ define(
       // ------------------------
       //
 
-      cancel: function(){
+      cancel: function () {
         this.hide();
       },
 
@@ -74,7 +74,7 @@ define(
       // todo: I don't think there's a reason to update state unless
       // there's a risk of the component being re-rendered by the parent.
       // Should probably verify this behavior, but for now, we play it safe.
-      handleIdentityChange: function(e) {
+      handleIdentityChange: function (e) {
         this.setState({identity: Number(e.target.value)});
       },
 
@@ -91,16 +91,16 @@ define(
       // ------
       //
 
-      renderIdentity: function(identity){
-        return(
+      renderIdentity: function (identity) {
+        return (
           <option value={identity.id}>{identity.get('provider').name}</option>
         )
       },
 
-      renderBody: function(){
+      renderBody: function () {
         var identities = stores.IdentityStore.getAll();
 
-        if(!identities) return <div className="loading"/>;
+        if (!identities) return <div className="loading"/>;
 
         return (
           <div role='form'>
@@ -120,7 +120,7 @@ define(
                         placeholder="E.g 4 CPUs and 8GB memory, running 4 cores for 1 week, an additional 5400 cpu hours, etc."
                         value={this.state.resources}
                         onChange={this.handleResourcesChange}
-              />
+                />
             </div>
 
             <div className='form-group'>
@@ -131,7 +131,7 @@ define(
                         placeholder="E.g. To run a program or analysis, store larger output, etc."
                         value={this.state.reason}
                         onChange={this.handleReasonChange}
-              />
+                />
             </div>
           </div>
         );
@@ -154,7 +154,8 @@ define(
                   <button type="button" className="btn btn-danger" onClick={this.cancel}>
                     Cancel
                   </button>
-                  <button type="button" className="btn btn-primary" onClick={this.confirm} disabled={!this.isSubmittable()}>
+                  <button type="button" className="btn btn-primary" onClick={this.confirm}
+                          disabled={!this.isSubmittable()}>
                     Request Resources
                   </button>
                 </div>

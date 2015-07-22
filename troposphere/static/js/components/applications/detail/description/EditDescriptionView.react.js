@@ -19,6 +19,7 @@ define(
         return (
           <div className="image-info-segment row">
             <h4 className="title col-md-2">Description</h4>
+
             <div className="content col-md-10">
               <textarea value={this.props.value} onChange={this.props.onChange}/>
             </div>

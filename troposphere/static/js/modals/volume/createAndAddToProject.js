@@ -1,13 +1,13 @@
 define(function (require) {
 
   var actions = require('actions'),
-      ModalHelpers = require('components/modals/ModalHelpers'),
-      VolumeCreateModal = require('components/modals/volume/VolumeCreateModal.react');
+    ModalHelpers = require('components/modals/ModalHelpers'),
+    VolumeCreateModal = require('components/modals/volume/VolumeCreateModal.react');
 
   return {
 
-    createAndAddToProject: function(payload){
-      if(!payload.project) throw new Error("Missing project");
+    createAndAddToProject: function (payload) {
+      if (!payload.project) throw new Error("Missing project");
 
       var project = payload.project;
 

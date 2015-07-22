@@ -22,7 +22,7 @@ define(
         };
       },
 
-      isSubmittable: function(){
+      isSubmittable: function () {
         var hasDetails = !!this.state.details && this.state.details.length > 0;
         return hasDetails;
       },
@@ -54,7 +54,7 @@ define(
       // ------------------------
       //
 
-      cancel: function(){
+      cancel: function () {
         this.hide();
       },
 
@@ -104,7 +104,7 @@ define(
                      value={value}
                      checked={this.state[value]}
                      onChange={onChange}
-              />
+                />
               {this.problemText[value]}
             </label>
           </div>
@@ -126,7 +126,7 @@ define(
         );
       },
 
-      renderBody: function(){
+      renderBody: function () {
         var volume = this.props.volume;
 
         return (
@@ -171,7 +171,8 @@ define(
                   <button type="button" className="btn btn-danger" onClick={this.cancel}>
                     Cancel
                   </button>
-                  <button type="button" className="btn btn-primary" onClick={this.confirm} disabled={!this.isSubmittable()}>
+                  <button type="button" className="btn btn-primary" onClick={this.confirm}
+                          disabled={!this.isSubmittable()}>
                     Report Volume
                   </button>
                 </div>

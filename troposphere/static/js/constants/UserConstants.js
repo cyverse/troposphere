@@ -1,4 +1,4 @@
-define(function(require) {
+define(function (require) {
 
   return {
     ADD_USER: "ADD_USER",

@@ -14,24 +14,24 @@ define(
     return React.createClass({
       mixins: [BootstrapModalMixin],
 
-      isSubmittable: function(){
+      isSubmittable: function () {
         var identities = stores.IdentityStore.getAll(),
-            maintenanceMessages = stores.MaintenanceMessageStore.getAll(),
-            volumes = stores.VolumeStore.getAll();
+          maintenanceMessages = stores.MaintenanceMessageStore.getAll(),
+          volumes = stores.VolumeStore.getAll();
 
-        if(!identities || !maintenanceMessages || !volumes) return false;
+        if (!identities || !maintenanceMessages || !volumes) return false;
 
         // Make sure the selected provider is not in maintenance
         var selectedIdentity = stores.IdentityStore.get(this.state.identityId),
-            isProviderInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(selectedIdentity.get('provider').id);
+          isProviderInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(selectedIdentity.get('provider').id);
 
         // Disable the launch button if the user hasn't provided a name, size or identity for the volume
-        var hasProvider              = !!this.state.identityId,
-            hasName                  = !!this.state.volumeName,
-            hasSize                  = !!this.state.volumeSize,
-            providerNotInMaintenance = !isProviderInMaintenance,
-            hasEnoughQuotaForStorage = this.hasEnoughQuotaForStorage(selectedIdentity, this.state.volumeSize, volumes),
-            hasEnoughQuotaForStorageCount = this.hasEnoughQuotaForStorageCount(selectedIdentity, volumes);
+        var hasProvider = !!this.state.identityId,
+          hasName = !!this.state.volumeName,
+          hasSize = !!this.state.volumeSize,
+          providerNotInMaintenance = !isProviderInMaintenance,
+          hasEnoughQuotaForStorage = this.hasEnoughQuotaForStorage(selectedIdentity, this.state.volumeSize, volumes),
+          hasEnoughQuotaForStorageCount = this.hasEnoughQuotaForStorageCount(selectedIdentity, volumes);
 
         return (
           hasProvider &&
@@ -48,9 +48,9 @@ define(
       // ----------------
       //
 
-      getState: function() {
+      getState: function () {
         var state = this.state,
-            identities = stores.IdentityStore.getAll();
+          identities = stores.IdentityStore.getAll();
 
         // Use selected identity or default to the first one
         if (identities) {
@@ -60,7 +60,7 @@ define(
         return state;
       },
 
-      getInitialState: function(){
+      getInitialState: function () {
         var identities = stores.IdentityStore.getAll();
 
         return {
@@ -93,15 +93,15 @@ define(
       // ------------------------
       //
 
-      cancel: function(){
+      cancel: function () {
         this.hide();
       },
 
       confirm: function () {
         var name = this.state.volumeName,
-            size = this.state.volumeSize,
-            identityId = this.state.identityId,
-            identity = stores.IdentityStore.get(identityId);
+          size = this.state.volumeSize,
+          identityId = this.state.identityId,
+          identity = stores.IdentityStore.get(identityId);
 
         this.hide();
         this.props.onConfirm(name, size, identity);
@@ -113,17 +113,17 @@ define(
       // ----------------------
       //
 
-      onProviderIdentityChange: function(e){
+      onProviderIdentityChange: function (e) {
         var newIdentityId = e.target.value;
         this.setState({identityId: newIdentityId});
       },
 
-      onVolumeNameChange: function(e){
+      onVolumeNameChange: function (e) {
         var newVolumeName = e.target.value;
         this.setState({volumeName: newVolumeName});
       },
 
-      onVolumeSizeChange: function(e){
+      onVolumeSizeChange: function (e) {
         // todo: Don't let the user enter a value < 1, but doing it this way
         // doesn't let them hit backspace to remove the default 1 and start
         // typing a number.  Instead we should check for the onBlur event and
@@ -139,7 +139,7 @@ define(
       // Helper Functions
       //
 
-      hasEnoughQuotaForStorage: function(identity, size, volumes){
+      hasEnoughQuotaForStorage: function (identity, size, volumes) {
         var quota = identity.get('quota');
         var maximumAllowed = quota.storage;
         var projected = size;
@@ -148,13 +148,13 @@ define(
         return (projected + currentlyUsed) <= maximumAllowed;
       },
 
-      handleResourceRequest: function(e){
+      handleResourceRequest: function (e) {
         e.preventDefault();
         this.hide();
         modals.HelpModals.requestMoreResources();
       },
 
-      hasEnoughQuotaForStorageCount: function(identity, volumes){
+      hasEnoughQuotaForStorageCount: function (identity, volumes) {
         var quota = identity.get('quota');
         var maximumAllowed = quota.storage_count;
         var projected = 1;
@@ -168,17 +168,17 @@ define(
       // ------
       //
 
-      renderProgressBar: function(message, currentlyUsedPercent, projectedPercent, overQuotaMessage){
-        var currentlyUsedStyle = { width: currentlyUsedPercent + "%" };
-        var projectedUsedStyle = { width: projectedPercent + "%", opacity: "0.6" };
+      renderProgressBar: function (message, currentlyUsedPercent, projectedPercent, overQuotaMessage) {
+        var currentlyUsedStyle = {width: currentlyUsedPercent + "%"};
+        var projectedUsedStyle = {width: projectedPercent + "%", opacity: "0.6"};
         var totalPercent = currentlyUsedPercent + projectedPercent;
         var barTypeClass;
 
-        if(totalPercent <= 50){
+        if (totalPercent <= 50) {
           barTypeClass = "progress-bar-success";
-        }else if(totalPercent <= 100){
+        } else if (totalPercent <= 100) {
           barTypeClass = "progress-bar-warning";
-        }else{
+        } else {
           barTypeClass = "progress-bar-danger";
           projectedUsedStyle.width = (100 - currentlyUsedPercent) + "%";
           message = overQuotaMessage;
@@ -196,7 +196,7 @@ define(
         );
       },
 
-      renderStorageConsumption: function(identity, size, volumes){
+      renderStorageConsumption: function (identity, size, volumes) {
         var quota = identity.get('quota');
         var maximumAllowed = quota.storage;
         var projected = size;
@@ -217,7 +217,7 @@ define(
         return this.renderProgressBar(message, currentlyUsedPercent, projectedPercent, overQuotaMessage);
       },
 
-      renderStorageCountConsumption: function(identity, size, volumes){
+      renderStorageCountConsumption: function (identity, size, volumes) {
         var quota = identity.get('quota');
         var maximumAllowed = quota.storage_count;
         var projected = 1;
@@ -238,16 +238,16 @@ define(
         return this.renderProgressBar(message, currentlyUsedPercent, projectedPercent, overQuotaMessage);
       },
 
-      renderBody: function(){
+      renderBody: function () {
         var identities = stores.IdentityStore.getAll(),
-            providers = stores.ProviderStore.getAll(),
-            volumes = stores.VolumeStore.getAll(),
-            identityId = this.state.identityId,
-            name = this.state.volumeName,
-            size = this.state.volumeSize,
-            identity;
+          providers = stores.ProviderStore.getAll(),
+          volumes = stores.VolumeStore.getAll(),
+          identityId = this.state.identityId,
+          name = this.state.volumeName,
+          size = this.state.volumeSize,
+          identity;
 
-        if(!identities || !providers || !volumes) return <div className="loading"></div>;
+        if (!identities || !providers || !volumes) return <div className="loading"></div>;
 
         identity = identities.get(identityId);
 
@@ -259,6 +259,7 @@ define(
 
               <div className='form-group'>
                 <label htmlFor='volumeName' className="col-sm-3 control-label">Volume Name</label>
+
                 <div className="col-sm-9">
                   <input type="text" className="form-control" value={name} onChange={this.onVolumeNameChange}/>
                 </div>
@@ -266,6 +267,7 @@ define(
 
               <div className='form-group'>
                 <label htmlFor='volumeSize' className="col-sm-3 control-label">Volume Size</label>
+
                 <div className="col-sm-9">
                   <input type="number" className="form-control" value={size} onChange={this.onVolumeSizeChange}/>
                 </div>
@@ -273,13 +275,14 @@ define(
 
               <div className='form-group'>
                 <label htmlFor='identity' className="col-sm-3 control-label">Provider</label>
+
                 <div className="col-sm-9">
                   <IdentitySelect
-                      identityId={identityId}
-                      identities={identities}
-                      providers={providers}
-                      onChange={this.onProviderIdentityChange}
-                  />
+                    identityId={identityId}
+                    identities={identities}
+                    providers={providers}
+                    onChange={this.onProviderIdentityChange}
+                    />
                 </div>
               </div>
             </div>
@@ -315,7 +318,8 @@ define(
                   <button type="button" className="btn btn-danger" onClick={this.cancel}>
                     Cancel
                   </button>
-                  <button type="button" className="btn btn-primary" onClick={this.confirm} disabled={!this.isSubmittable()}>
+                  <button type="button" className="btn btn-primary" onClick={this.confirm}
+                          disabled={!this.isSubmittable()}>
                     Create volume
                   </button>
                 </div>

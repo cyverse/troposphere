@@ -18,10 +18,10 @@ define(
 
       render: function () {
         var machine_name;
-        if(this.props.machine) {
-            machine_name = this.props.machine.get('name')
+        if (this.props.machine) {
+          machine_name = this.props.machine.get('name')
         } else {
-            machine_name = ""
+          machine_name = ""
         }
         var options = this.props.machines.map(function (machine) {
           return (

@@ -2,8 +2,8 @@ define(function (require) {
   "use strict";
 
   var Backbone = require('backbone'),
-      ApplicationVersion = require('models/ApplicationVersion'),
-      globals = require('globals');
+    ApplicationVersion = require('models/ApplicationVersion'),
+    globals = require('globals');
 
   return Backbone.Collection.extend({
     model: ApplicationVersion,

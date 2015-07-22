@@ -1,11 +1,11 @@
 define(function (require) {
 
   var _ = require('underscore'),
-      Dispatcher = require('dispatchers/Dispatcher'),
-      Store = require('stores/Store'),
-      Constants = require('constants/ResourceRequestConstants'),
-      Collection = require('collections/AllocationCollection'),
-      stores = require('stores');
+    Dispatcher = require('dispatchers/Dispatcher'),
+    Store = require('stores/Store'),
+    Constants = require('constants/ResourceRequestConstants'),
+    Collection = require('collections/AllocationCollection'),
+    stores = require('stores');
 
   var _models = null;
   var _isFetching = false;
@@ -15,7 +15,7 @@ define(function (require) {
   //
 
   var fetchModels = function () {
-    if(!_models && !_isFetching) {
+    if (!_models && !_isFetching) {
       _isFetching = true;
       var models = new Collection();
       models.fetch({
@@ -36,7 +36,7 @@ define(function (require) {
   var ModelStore = {
 
     get: function (modelId) {
-      if(!_models) {
+      if (!_models) {
         fetchModels();
       } else {
         return _models.get(modelId);
@@ -44,7 +44,7 @@ define(function (require) {
     },
 
     getAll: function () {
-      if(!_models) {
+      if (!_models) {
         fetchModels()
       }
       return _models;
@@ -65,7 +65,7 @@ define(function (require) {
         return true;
     }
 
-    if(!options.silent) {
+    if (!options.silent) {
       ModelStore.emitChange();
     }
 

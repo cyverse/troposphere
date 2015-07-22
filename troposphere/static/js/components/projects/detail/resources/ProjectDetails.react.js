@@ -1,16 +1,16 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      PreviewPanel = require('./PreviewPanel.react'),
-      ButtonBar = require('./ButtonBar.react'),
-      InstanceList = require('./instance/InstanceList.react'),
-      VolumeList = require('./volume/VolumeList.react'),
-      modals = require('modals'),
-      stores = require('stores'),
-      actions = require('actions'),
-      Instance = require('models/Instance'),
-      Volume = require('models/Volume');
+    Backbone = require('backbone'),
+    PreviewPanel = require('./PreviewPanel.react'),
+    ButtonBar = require('./ButtonBar.react'),
+    InstanceList = require('./instance/InstanceList.react'),
+    VolumeList = require('./volume/VolumeList.react'),
+    modals = require('modals'),
+    stores = require('stores'),
+    actions = require('actions'),
+    Instance = require('models/Instance'),
+    Volume = require('models/Volume');
 
   return React.createClass({
 
@@ -18,7 +18,7 @@ define(function (require) {
       project: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    getInitialState: function(){
+    getInitialState: function () {
       return {
         selectedResource: null,
         previewedResource: null,
@@ -26,25 +26,25 @@ define(function (require) {
       }
     },
 
-    updateState: function(){
+    updateState: function () {
       var project = this.props.project,
-          projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
-          projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project),
-          selectedResourcesClone = this.state.selectedResources.models.slice(0),
-          state = this.getInitialState();
+        projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
+        projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project),
+        selectedResourcesClone = this.state.selectedResources.models.slice(0),
+        state = this.getInitialState();
 
       if (this.isMounted()) {
         // Remove any selected resources that are no longer in the project
-        selectedResourcesClone.map(function(selectedResource){
+        selectedResourcesClone.map(function (selectedResource) {
           var instanceInProject = selectedResource instanceof Instance && projectInstances.get(selectedResource),
-              volumeInProject = selectedResource instanceof Volume && projectVolumes.get(selectedResource),
-              resourceInProject = instanceInProject || volumeInProject;
+            volumeInProject = selectedResource instanceof Volume && projectVolumes.get(selectedResource),
+            resourceInProject = instanceInProject || volumeInProject;
 
-          if(resourceInProject) state.selectedResources.add(selectedResource);
+          if (resourceInProject) state.selectedResources.add(selectedResource);
         });
 
         // Hold onto selected resource if it still exists in the project
-        if(state.selectedResources.indexOf(this.state.selectedResource) >= 0) {
+        if (state.selectedResources.indexOf(this.state.selectedResource) >= 0) {
           state.selectedResource = this.state.selectedResource;
           state.previewedResource = this.state.previewedResource;
         }
@@ -53,7 +53,7 @@ define(function (require) {
       }
     },
 
-    onResourceSelected: function(resource){
+    onResourceSelected: function (resource) {
       var selectedResources = this.state.selectedResources;
 
       // Add the resource to the list of selected resources
@@ -66,16 +66,16 @@ define(function (require) {
       });
     },
 
-    onResourceDeselected: function(resource){
+    onResourceDeselected: function (resource) {
       var selectedResources = this.state.selectedResources,
-          previewedResource = this.state.previewedResource;
+        previewedResource = this.state.previewedResource;
 
       // Remove the resources from the list of selected resources
       selectedResources.remove(resource);
 
       // If the resource is equal to the currently previewed resource, change
       // the previewed resource to the last resource the user selected
-      if(previewedResource === resource){
+      if (previewedResource === resource) {
         previewedResource = selectedResources.last();
       }
 
@@ -86,7 +86,7 @@ define(function (require) {
       });
     },
 
-    onPreviewResource: function(resource){
+    onPreviewResource: function (resource) {
       var selectedResources = this.state.selectedResources;
 
       // todo: figure out why I did this...
@@ -100,28 +100,28 @@ define(function (require) {
       });
     },
 
-    onMoveSelectedResources: function(){
+    onMoveSelectedResources: function () {
       modals.ProjectModals.moveResources(
         this.state.selectedResources,
         this.props.project
       );
     },
 
-    onDeleteSelectedResources: function(){
+    onDeleteSelectedResources: function () {
       actions.ProjectActions.deleteResources(
         this.state.selectedResources,
         this.props.project
       );
     },
 
-    onReportSelectedResources: function(){
+    onReportSelectedResources: function () {
       actions.ProjectActions.reportResources(
         this.props.project,
         this.state.selectedResources
       );
     },
 
-    onRemoveSelectedResources: function(){
+    onRemoveSelectedResources: function () {
       modals.ProjectModals.removeResources(
         this.state.selectedResources,
         this.props.project
@@ -130,14 +130,14 @@ define(function (require) {
 
     render: function () {
       var project = this.props.project,
-          projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
-          projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project),
-          previewedResource = this.state.previewedResource,
-          selectedResources = this.state.selectedResources,
-          selectedResource = this.state.selectedResource,
-          isButtonBarVisible;
+        projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
+        projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project),
+        previewedResource = this.state.previewedResource,
+        selectedResources = this.state.selectedResources,
+        selectedResource = this.state.selectedResource,
+        isButtonBarVisible;
 
-      if(!projectInstances || !projectVolumes) return <div className="loading"></div>;
+      if (!projectInstances || !projectVolumes) return <div className="loading"></div>;
 
       // Only show the action button bar if the user has selected resources
       isButtonBarVisible = this.state.selectedResources.length > 0;
@@ -152,7 +152,8 @@ define(function (require) {
             onRemoveSelectedResources={this.onRemoveSelectedResources}
             previewedResource={previewedResource}
             project={project}
-          />
+            />
+
           <div className="resource-list">
             <div className="scrollable-content">
               <InstanceList
@@ -162,7 +163,7 @@ define(function (require) {
                 onPreviewResource={this.onPreviewResource}
                 previewedResource={previewedResource}
                 selectedResources={selectedResources}
-              />
+                />
               <VolumeList
                 volumes={projectVolumes}
                 onResourceSelected={this.onResourceSelected}
@@ -170,7 +171,7 @@ define(function (require) {
                 onPreviewResource={this.onPreviewResource}
                 previewedResource={previewedResource}
                 selectedResources={selectedResources}
-              />
+                />
             </div>
             <PreviewPanel resource={selectedResource}/>
           </div>

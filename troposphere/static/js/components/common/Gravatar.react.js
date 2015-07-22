@@ -1,7 +1,7 @@
 define(function (require) {
 
   var React = require('react'),
-      stores = require('stores');
+    stores = require('stores');
 
   return React.createClass({
 

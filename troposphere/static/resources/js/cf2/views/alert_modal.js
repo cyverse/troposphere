@@ -10,7 +10,7 @@ Atmo.Views.AlertModal = Backbone.View.extend({
     className: 'modal fade',
     template: _.template(Atmo.Templates.alert_modal),
     initialize: function() {
-        
+
     },
     render: function() {
         this.$el.html(this.template());
@@ -21,7 +21,7 @@ Atmo.Views.AlertModal = Backbone.View.extend({
         /* Options:
 			on_confirm: Function to execute if user confirms modal.
 			on_cancel: If user cancels.
-			ok_button: Alternate text for 'ok' button on modal. 
+			ok_button: Alternate text for 'ok' button on modal.
 		*/
 
         $('#alert_modal').modal({
@@ -46,11 +46,11 @@ Atmo.Views.AlertModal = Backbone.View.extend({
                 e.preventDefault();
                 $('#alert_modal').modal('hide');
                 $('.modal-backdrop').remove();
-                if (callback != undefined) 
+                if (callback != undefined)
                     callback();
                 $(window).unbind('keyup');
             }
-        }
+        };
 
 		// Allow user to hit enter to confirm
         $(window).on('keyup', function(e) {
@@ -69,7 +69,7 @@ Atmo.Views.AlertModal = Backbone.View.extend({
             $('#alert_modal .modal-footer a').eq(1).html(options.ok_button);
         else
             $('#alert_modal .modal-footer a').eq(1).html("Ok");
-        
+
         $('#alert_modal .modal-footer a').eq(0).click(button_listener(options.on_cancel));
         $('#alert_modal .modal-footer a').eq(1).click(button_listener(options.on_confirm));
     }

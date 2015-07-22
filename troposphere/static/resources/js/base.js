@@ -18,7 +18,7 @@ Number.prototype.toNumberCommaString = function() {
 // 		url: api+param,
 // 		dataType: 'json',
 // 		type: "POST",
-// 		data: data, 
+// 		data: data,
 //  		headers: {
 // 			'X-Auth-User':user,
 // 			'X-Auth-Token':token,
@@ -87,14 +87,14 @@ Number.prototype.toNumberCommaString = function() {
 // 				break;
 // 			case "getVolumeList":
 // 				single = {
-// 					name:val.name, 
-// 					desc:val.description, 
-// 					id: val.id, 
-// 					size:val.size, 
-// 					status:val.status, 
-// 					createtime: val.create_time, 
-// 					attached_instanceid: (val.attach_data_instance_id === "None") ? "N/A" : val.attach_data_instance_id, 
-// 					attached_device: (val.attach_data_device === "None") ? "N/A" : val.attach_data_device, 
+// 					name:val.name,
+// 					desc:val.description,
+// 					id: val.id,
+// 					size:val.size,
+// 					status:val.status,
+// 					createtime: val.create_time,
+// 					attached_instanceid: (val.attach_data_instance_id === "None") ? "N/A" : val.attach_data_instance_id,
+// 					attached_device: (val.attach_data_device === "None") ? "N/A" : val.attach_data_device,
 // 					attached_time: (val.attach_data_attach_time === "None") ? "N/A" : val.attach_data_time,
 // 					tags: (val.tags === "") ? "N/A" : val.tags
 // 				};
@@ -111,4 +111,4 @@ Atmo.get_credentials = function() {
     creds[key] = value;
   });
   return creds;
-}
+};

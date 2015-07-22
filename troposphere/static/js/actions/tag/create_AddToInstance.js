@@ -2,21 +2,21 @@ define(function (require) {
   'use strict';
 
   var TagConstants = require('constants/TagConstants'),
-      Tag = require('models/Tag'),
-      actions = require('actions'),
-      Utils = require('../Utils');
+    Tag = require('models/Tag'),
+    actions = require('actions'),
+    Utils = require('../Utils');
 
   return {
 
-    create_AddToInstance: function(params){
+    create_AddToInstance: function (params) {
 
-      if(!params.name) throw new Error("Missing name");
-      if(!params.description) throw new Error("Missing description");
-      if(!params.instance) throw new Error("Missing instance");
+      if (!params.name) throw new Error("Missing name");
+      if (!params.description) throw new Error("Missing description");
+      if (!params.instance) throw new Error("Missing instance");
 
       var name = params.name,
-          instance = params.instance,
-          description = params.description;
+        instance = params.instance,
+        description = params.description;
 
       var tag = new Tag({
         name: name,

@@ -1,9 +1,9 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      moment = require('moment'),
-      Router = require('react-router');
+    Backbone = require('backbone'),
+    moment = require('moment'),
+    Router = require('react-router');
 
   return React.createClass({
 
@@ -13,8 +13,8 @@ define(function (require) {
 
     render: function () {
       var application = this.props.application,
-          startDate = moment(application.get('start_date')),
-          user = application.get('created_by');
+        startDate = moment(application.get('start_date')),
+        user = application.get('created_by');
 
       return (
         <li>

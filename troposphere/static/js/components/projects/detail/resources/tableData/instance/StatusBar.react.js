@@ -21,7 +21,7 @@ define(
 
         style.width = percentComplete + "%";
 
-        if(!percentComplete || percentComplete === 100){
+        if (!percentComplete || percentComplete === 100) {
           return (
             null
           );

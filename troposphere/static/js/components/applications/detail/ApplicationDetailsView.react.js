@@ -22,7 +22,7 @@ define(
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
-      getInitialState: function(){
+      getInitialState: function () {
         return {
           isEditing: false
         }
@@ -32,24 +32,24 @@ define(
         modals.InstanceModals.launch(this.props.application);
       },
 
-      handleEditImageDetails: function(){
+      handleEditImageDetails: function () {
         this.setState({isEditing: true})
       },
 
-      handleSaveImageDetails: function(newAttributes){
+      handleSaveImageDetails: function (newAttributes) {
         var application = this.props.application;
         this.setState({isEditing: false});
         actions.ApplicationActions.updateApplicationAttributes(application, newAttributes);
       },
 
-      handleCancelEditing: function(){
+      handleCancelEditing: function () {
         this.setState({isEditing: false})
       },
 
       render: function () {
         var view;
 
-        if(this.state.isEditing){
+        if (this.state.isEditing) {
           view = (
             <EditApplicationDetails application={this.props.application}
                                     tags={this.props.tags}
@@ -57,9 +57,9 @@ define(
                                     identities={this.props.identities}
                                     onSave={this.handleSaveImageDetails}
                                     onCancel={this.handleCancelEditing}
-            />
+              />
           )
-        }else{
+        } else {
           view = (
             <ViewApplicationDetails application={this.props.application}
                                     tags={this.props.tags}
@@ -67,7 +67,7 @@ define(
                                     identities={this.props.identities}
                                     onEditImageDetails={this.handleEditImageDetails}
 
-            />
+              />
           )
         }
         return (

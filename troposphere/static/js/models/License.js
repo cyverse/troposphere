@@ -17,9 +17,9 @@ define(
       urlRoot: function () {
         var creds = this.creds;
         var url = globals.API_ROOT +
-                  '/provider/' + creds.provider_id +
-                  '/identity/' + creds.identity_id +
-                  '/machine';
+          '/provider/' + creds.provider_id +
+          '/identity/' + creds.identity_id +
+          '/machine';
         return url;
       },
 

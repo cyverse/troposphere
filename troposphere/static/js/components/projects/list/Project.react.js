@@ -1,12 +1,12 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      stores = require('stores'),
-      Router = require('react-router'),
-      moment = require('moment'),
-      Showdown = require('showdown'),
-      ProjectResource = require('./ProjectResource.react');
+    Backbone = require('backbone'),
+    stores = require('stores'),
+    Router = require('react-router'),
+    moment = require('moment'),
+    Showdown = require('showdown'),
+    ProjectResource = require('./ProjectResource.react');
 
   return React.createClass({
 
@@ -16,23 +16,23 @@ define(function (require) {
       className: React.PropTypes.string,
       useRouter: React.PropTypes.bool
     },
-    clicked: function() {
-        //Not required by default.. Add-on implementation.
-        if(!this.props.onClick) {
-            return;
-        }
-        return this.props.onClick(this.props.project);
+    clicked: function () {
+      //Not required by default.. Add-on implementation.
+      if (!this.props.onClick) {
+        return;
+      }
+      return this.props.onClick(this.props.project);
     },
-    renderForRouter: function() {
+    renderForRouter: function () {
       var project = this.props.project;
       return (
         <li className="project-card" className={this.props.className}>
           <Router.Link to="project-resources" params={{projectId: project.id}}>
-          {this.renderBody()}
+            {this.renderBody()}
           </Router.Link>
         </li>);
     },
-    renderForClick: function() {
+    renderForClick: function () {
       var project = this.props.project;
       return (
         <li className="project-card" className={this.props.className} onClick={this.clicked}>
@@ -41,15 +41,16 @@ define(function (require) {
     },
     render: function () {
       var project = this.props.project,
-          projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
-          projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project);
+        projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
+        projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project);
 
-      if(!project.id || !projectInstances || !projectVolumes) {
+      if (!project.id || !projectInstances || !projectVolumes) {
         return (
           <li>
             <a>
               <div>
                 <h2>{project.get('name')}</h2>
+
                 <div className="loading" style={{marginTop: "65px"}}/>
               </div>
             </a>
@@ -57,20 +58,20 @@ define(function (require) {
         );
       }
 
-      if(this.props.useRouter == false) {
-          return this.renderForClick();
+      if (this.props.useRouter == false) {
+        return this.renderForClick();
       } else {
-          return this.renderForRouter();
+        return this.renderForRouter();
       }
     },
     renderBody: function () {
       var project = this.props.project,
-          converter = new Showdown.converter(),
-          description = project.get('description'),
-          descriptionHtml = converter.makeHtml(description),
-          projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
-          projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project),
-          projectCreationDate = moment(project.get('start_date')).format("MMM D, YYYY");
+        converter = new Showdown.converter(),
+        description = project.get('description'),
+        descriptionHtml = converter.makeHtml(description),
+        projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
+        projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project),
+        projectCreationDate = moment(project.get('start_date')).format("MMM D, YYYY");
 
       return (
         <div style={{"position": "relative"}}>
@@ -83,15 +84,15 @@ define(function (require) {
             <ProjectResource icon={"tasks"}
                              count={projectInstances.length}
                              resourceType={"instances"}
-            />
+              />
             <ProjectResource icon={"hdd"}
                              count={projectVolumes.length}
                              resourceType={"volumes"}
-            />
+              />
             <ProjectResource icon={"floppy-disk"}
                              count={0}
                              resourceType={"images"}
-            />
+              />
           </ul>
         </div>
       );

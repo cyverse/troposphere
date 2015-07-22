@@ -1,24 +1,24 @@
 define(function (require) {
 
   var ApplicationCollection = require('collections/ApplicationCollection'),
-      Dispatcher = require('dispatchers/Dispatcher'),
-      BaseStore = require('stores/BaseStore'),
-      ApplicationConstants = require('constants/ApplicationConstants'),
-      NotificationController = require('controllers/NotificationController');
+    Dispatcher = require('dispatchers/Dispatcher'),
+    BaseStore = require('stores/BaseStore'),
+    ApplicationConstants = require('constants/ApplicationConstants'),
+    NotificationController = require('controllers/NotificationController');
 
   var ApplicationStore = BaseStore.extend({
     collection: ApplicationCollection,
 
-    update: function(image){
+    update: function (image) {
       image.save({
         name: image.get('name'),
         description: image.get('description'),
         tags: image.get('tags')
       }, {
         patch: true
-      }).done(function(){
+      }).done(function () {
         this.emitChange();
-      }.bind(this)).fail(function(){
+      }.bind(this)).fail(function () {
         var failureMessage = "Error updating Application " + image.get('name') + ".";
         NotificationController.error(failureMessage);
         this.emitChange();
@@ -26,9 +26,9 @@ define(function (require) {
     },
 
     get: function (imageId) {
-      if(!this.models) return this.fetchModels();
+      if (!this.models) return this.fetchModels();
       var image = BaseStore.prototype.get.apply(this, arguments);
-      if(!image) return this.fetchModel(imageId);
+      if (!image) return this.fetchModel(imageId);
       return image;
     }
 

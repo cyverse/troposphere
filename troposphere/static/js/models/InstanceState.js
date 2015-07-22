@@ -5,7 +5,7 @@ define(
   ],
   function (_, Backbone) {
 
-    var get_percent_complete = function(state, activiy) {
+    var get_percent_complete = function (state, activiy) {
 
       // Number represents percent task *completed* when in this state
       var states = {
@@ -57,7 +57,7 @@ define(
 
     return Backbone.Model.extend({
 
-      isInFinalState: function(){
+      isInFinalState: function () {
         var validStates = [
           "active",
           "error",
@@ -66,43 +66,43 @@ define(
           "shutoff"
         ];
 
-        if(this.get('status') === "build") return false;
+        if (this.get('status') === "build") return false;
 
         var isInFinalState = validStates.indexOf(this.get('status_raw')) >= 0;
         return isInFinalState;
       },
 
-      isDeployError: function(){
+      isDeployError: function () {
         return false;
         var status = this.get('status');
         var activity = this.get('activity');
 
-        if(status === "active" && activity === "deploy_error"){
+        if (status === "active" && activity === "deploy_error") {
           return true;
-        }else {
+        } else {
           return false;
         }
       },
 
-      getPercentComplete: function(){
+      getPercentComplete: function () {
         var status = this.get('status');
         var activity = this.get('activity');
         var percentComplete = 100;
-        if(status && activity) {
+        if (status && activity) {
           percentComplete = get_percent_complete(status, activity);
         }
         return percentComplete;
       },
 
-      initialize: function(attributes, options){
+      initialize: function (attributes, options) {
 
         var statusTokens = attributes.status_raw.split('-');
         var state = statusTokens[0].trim();
         var activity = null;
 
-        if(statusTokens.length === 2){
+        if (statusTokens.length === 2) {
           activity = statusTokens[1].trim();
-        }else if(statusTokens.length === 3){
+        } else if (statusTokens.length === 3) {
           // Deal with Openstack Grizzly's hyphenated states "powering-on" and "powering-off"
           activity = statusTokens[1].trim() + '-' + statusTokens[2].trim();
         }

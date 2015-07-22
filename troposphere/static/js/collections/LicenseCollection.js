@@ -2,9 +2,9 @@ define(function (require) {
   "use strict";
 
   var Backbone = require('backbone'),
-      _ = require('underscore'),
-      globals = require('globals'),
-      Machine = require('models/License');
+    _ = require('underscore'),
+    globals = require('globals'),
+    Machine = require('models/License');
 
   return Backbone.Collection.extend({
     model: Machine,

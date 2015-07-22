@@ -1,7 +1,7 @@
 define(function (require) {
 
   var React = require('react'),
-      stores = require('stores');
+    stores = require('stores');
 
   return React.createClass({
 
@@ -10,11 +10,11 @@ define(function (require) {
       providerId: React.PropTypes.number.isRequired
     },
 
-    handleChange: function(e){
+    handleChange: function (e) {
       this.props.onChange(e.target.value)
     },
 
-    renderProviderOption: function(provider){
+    renderProviderOption: function (provider) {
       return (
         <option key={provider.id} value={provider.id}>
           {provider.get('name')}
@@ -24,13 +24,14 @@ define(function (require) {
 
     render: function () {
       var providerId = this.props.providerId,
-          providers = stores.ProviderStore.getAll();
+        providers = stores.ProviderStore.getAll();
 
-      if(!providers) return <div className="loading"/>;
+      if (!providers) return <div className="loading"/>;
 
       return (
         <div className="form-group">
           <label htmlFor="provider" className="control-label">Cloud for Deployment</label>
+
           <div className="help-block">
             {
               "Please select the provider you would like this image to be available on. If you would " +

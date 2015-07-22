@@ -1,29 +1,29 @@
 Atmo.Models.Volume = Atmo.Models.Base.extend({
 	defaults: { 'model_name': 'volume' },
 	parse: function(response) {
-		
+
 		var attributes = response;
-		
+
 		attributes.id = response.alias;
 		attributes.name_or_id = response.name.length == 0 ? response.alias : response.name;
 		attributes.create_time = new Date(response.start_date);
 		attributes.create_relative = Atmo.Utils.relative_time(attributes.create_time);
-		
+
 		var attach_data = response.attach_data;
-		
+
 		if (!jQuery.isEmptyObject(attach_data)) {
 			attributes.attach_data_attach_time = new Date(attach_data.attachTime);
 			attributes.attach_data_attach_relative = Atmo.Utils.relative_time(attributes.attach_data_attach_time);
 			attach_data.attachRelative = attributes.attach_data_attach_relative;
 			attributes.attach_data_device = attach_data.device;
 			attributes.attach_data_instance_id = attach_data.instance_alias;
-		} 
+		}
 		else {
 			attributes.attach_data_attach_time = null;
 			attributes.attach_data_device = null;
 			attributes.attach_data_instance_id = null;
 		}
-		
+
 		return attributes;
 	},
 	get_available: function() {
@@ -40,24 +40,24 @@ Atmo.Models.Volume = Atmo.Models.Base.extend({
 			var body = 'You can refresh the page and try to perform this operation again. If the problem persists, please email '
 				+ '<a href="mailto:support@iplantcollaborative.org">support@iplantcollaborative.org</a>. <br /><br />We apologize for the inconvenience.';
 			Atmo.Utils.notify(header, body);
-		}
-		
+		};
+
 		this.set({
 			'status': 'attaching',
 			'attach_data_instance_id': instance.get('id')
 		});
-		
+
 		var param = {
 			volume_id: this.get('id'),
 			action: "attach_volume",
 			mount_location: mount_location
 		};
-  
+
 		var self = this;
 		var action_url = instance.url() + '/action';
 
 		$.ajax({
-			url: action_url, 
+			url: action_url,
 			type : 'POST',
       data: JSON.stringify(param),
       dataType: 'json',
@@ -66,20 +66,20 @@ Atmo.Models.Volume = Atmo.Models.Base.extend({
 			success:function(response_text, textStatus, jqXHR) {
 				self.set({
 					'attach_data_attach_time': null,
-					'attach_data_device': response_text.object.attach_data.device, 
+					'attach_data_device': response_text.object.attach_data.device,
 					'attach_data_instance_id': instance.get('id'),
 					'status': 'in-use'
 				});
-				
+
 				self.trigger('attach');
 				options.success(response_text);
-			}, 
+			},
 			error: function (jqXHR, textStatus, errorThrown) {
 				self.set({
 					'status': 'available',
 					'attach_data_instance_id': null
 				});
-				
+
 				options.error('failed to attach volume');
 			}
 		});
@@ -93,18 +93,18 @@ Atmo.Models.Volume = Atmo.Models.Base.extend({
 				'<a href="mailto:support@iplantcollaborative.org">support@iplantcollaborative.org</a>. <br /><br />We apologize for the inconvenience.';
 			Atmo.Utils.notify(header, body);
 		};
-	
+
 		var param = {
 			volume_id: this.get('id'),
 			action: "detach_volume"
 		};
-		
+
 		this.set({'status': 'detaching'});
 		var self = this;
 		var action_url = instance.url() + '/action';
-		
+
 		$.ajax({
-			url: action_url, 
+			url: action_url,
 			type: "POST",
       data: JSON.stringify(param),
       dataType: 'json',
@@ -138,8 +138,8 @@ Atmo.Models.Volume = Atmo.Models.Base.extend({
 		var self = this;
 		var header = "Do you want to destroy this volume?";
 		var body = "Your volume <strong>" + volname + "</strong> will be destroyed and all data will be permanently lost!";
-		
-		Atmo.Utils.confirm(header, body, { 
+
+		Atmo.Utils.confirm(header, body, {
 			on_confirm: function() {
 				self.destroy({
 					wait: true,
@@ -148,7 +148,7 @@ Atmo.Models.Volume = Atmo.Models.Base.extend({
 				});
 			},
 			ok_button: 'Yes, destroy this volume'
-		}); 
+		});
 	}
 });
 

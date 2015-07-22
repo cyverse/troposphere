@@ -1,13 +1,13 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone');
-      //ChosenDropdownItem = require('./ChosenDropdownItem.react'),
-      //ChosenSelectedTag = require('./ChosenSelectedTag.react');
+    Backbone = require('backbone');
+  //ChosenDropdownItem = require('./ChosenDropdownItem.react'),
+  //ChosenSelectedTag = require('./ChosenSelectedTag.react');
 
   return {
 
-    getInitialState: function(){
+    getInitialState: function () {
       return {
         showOptions: false,
         query: ""
@@ -23,27 +23,27 @@ define(function (require) {
       width: React.PropTypes.string
     },
 
-    componentDidMount: function(){
+    componentDidMount: function () {
       this.scaleSearchField();
       this.setupChosenForm();
     },
 
-    setupChosenForm: function(){
+    setupChosenForm: function () {
       var el = this.getDOMNode(),
-          $el = $(el);
+        $el = $(el);
 
       $el.find('.search-field input')
-         .keyup(this.props.onEnterKeyPressed);
+        .keyup(this.props.onEnterKeyPressed);
     },
 
     // check
-    onTagSelected: function(selectedTag){
+    onTagSelected: function (selectedTag) {
       this.closeDropdown();
       this.props.onModelAdded(selectedTag);
     },
 
     // check
-    onRemoveTag: function(tagToRemove){
+    onRemoveTag: function (tagToRemove) {
       this.props.onModelRemoved(tagToRemove);
     },
 
@@ -61,35 +61,35 @@ define(function (require) {
     //  )
     //},
 
-    closeDropdown: function(){
+    closeDropdown: function () {
       this.setState({showOptions: false});
     },
 
-    _getContainer: function(){
+    _getContainer: function () {
       var $node = $(this.getDOMNode()),
-          container = $node.find('.chosen-container');
+        container = $node.find('.chosen-container');
 
       return container;
     },
 
-    onEnterOptions: function(e){
+    onEnterOptions: function (e) {
       this.setState({showOptions: true});
 
       $(document).bind("mouseup", this._checkIfApplies);
     },
 
-    _checkIfApplies: function(e){
-      if(this.isOutsideClick(e)){
+    _checkIfApplies: function (e) {
+      if (this.isOutsideClick(e)) {
         this.onLeaveOptions();
         $(document).unbind("mouseup", this._checkIfApplies);
       }
     },
 
-    onLeaveOptions: function(e){
+    onLeaveOptions: function (e) {
       this.closeDropdown();
     },
 
-    isOutsideClick: function(e){
+    isOutsideClick: function (e) {
       var node = this.getDOMNode();
       var $node = $(node);
       var container = $node;//.find('.chosen-container');
@@ -102,7 +102,7 @@ define(function (require) {
       return false;
     },
 
-    scaleSearchField: function() {
+    scaleSearchField: function () {
       var div, f_width, h, style, style_block, styles, w, _i, _len;
 
       var node = this.getDOMNode();
@@ -132,7 +132,7 @@ define(function (require) {
       }
 
       // set the width of the input
-      if(w < 150) w = 150;
+      if (w < 150) w = 150;
 
       search_field.css({
         'width': w + 'px'
@@ -140,7 +140,7 @@ define(function (require) {
 
     },
 
-    filterSearchResults: function() {
+    filterSearchResults: function () {
       var node = this.getDOMNode();
       var $node = $(node);
       var search_field = $node.find('input');
@@ -149,20 +149,20 @@ define(function (require) {
       this.props.onQueryChange(query);
     },
 
-    onModelAdded: function(model){
+    onModelAdded: function (model) {
       //this.setState({query: ""});
       this.props.onModelAdded(model);
       this.clearSearchField();
     },
 
-    clearSearchField: function(){
+    clearSearchField: function () {
       var input = this.refs.searchField.getDOMNode();
       input.value = "";
       input.focus();
       this.setState({query: ""});
     },
 
-    onKeyUp: function(){
+    onKeyUp: function () {
       this.scaleSearchField();
       this.filterSearchResults();
     },
@@ -171,7 +171,7 @@ define(function (require) {
     // Result render helpers
     //
 
-    renderLoadingListItem: function(query){
+    renderLoadingListItem: function (query) {
       return (
         <li className="no-results">
           <span>Searching for "{query}"...</span>
@@ -179,7 +179,7 @@ define(function (require) {
       )
     },
 
-    renderNoResultsForQueryListItem: function(query){
+    renderNoResultsForQueryListItem: function (query) {
       return (
         <li className="no-results">
           No users found with username "<span>{query}</span>"
@@ -187,7 +187,7 @@ define(function (require) {
       )
     },
 
-    renderAlreadyAddedAllUsersMatchingQueryListItem: function(query){
+    renderAlreadyAddedAllUsersMatchingQueryListItem: function (query) {
       return (
         <li className="no-results">
           All users matching "<span>{query}</span>" have been added.
@@ -195,7 +195,7 @@ define(function (require) {
       )
     },
 
-    renderNoDataListItem: function(){
+    renderNoDataListItem: function () {
       return (
         <li className="no-results">
           No users exist.
@@ -203,7 +203,7 @@ define(function (require) {
       );
     },
 
-    renderAllAddedListItem: function(){
+    renderAllAddedListItem: function () {
       return (
         <li className="no-results">
           All available users have been added.
@@ -217,40 +217,40 @@ define(function (require) {
 
     render: function () {
       var cx = React.addons.classSet,
-          tags = this.props.tags,
-          activeTags = this.props.activeTags,
-          //query = this.props.query,
-          query = this.state.query,
-          classes = cx({
-            'chosen-container': true,
-            'chosen-container-multi': true,
-            'chosen-with-drop': !!query, //this.state.showOptions,
-            'chosen-container-active': !!query //this.state.showOptions
-          }),
+        tags = this.props.tags,
+        activeTags = this.props.activeTags,
+      //query = this.props.query,
+        query = this.state.query,
+        classes = cx({
+          'chosen-container': true,
+          'chosen-container-multi': true,
+          'chosen-with-drop': !!query, //this.state.showOptions,
+          'chosen-container-active': !!query //this.state.showOptions
+        }),
 
-          selectedTags = activeTags.map(this.renderSelectedTag),
-          placeholderText = selectedTags.length > 0 ? "" : "Select users to add...",
-          filteredTags,
-          tags;
+        selectedTags = activeTags.map(this.renderSelectedTag),
+        placeholderText = selectedTags.length > 0 ? "" : "Select users to add...",
+        filteredTags,
+        tags;
 
-      if(!tags){
+      if (!tags) {
         tags = this.renderLoadingListItem(query);
-      }else if(query && tags.length < 1){
+      } else if (query && tags.length < 1) {
         tags = this.renderNoResultsForQueryListItem(query);
-      }else if(selectedTags.length === 0 && tags.length < 1){
+      } else if (selectedTags.length === 0 && tags.length < 1) {
         tags = this.renderNoDataListItem();
-      }else if(selectedTags.length > 0 && tags.length < 1){
+      } else if (selectedTags.length > 0 && tags.length < 1) {
         tags = this.renderAllAddedListItem();
-      }else{
+      } else {
         //filteredTags = tags.difference(activeTags);
-        filteredTags = tags.filter(function(tag){
-          return activeTags.filter(function(activeTag){
-            return tag.id === activeTag.id;
-          }).length === 0;
+        filteredTags = tags.filter(function (tag) {
+          return activeTags.filter(function (activeTag) {
+              return tag.id === activeTag.id;
+            }).length === 0;
         });
-        if(tags.length > 0 && filteredTags.length === 0){
+        if (tags.length > 0 && filteredTags.length === 0) {
           tags = this.renderAlreadyAddedAllUsersMatchingQueryListItem(query);
-        }else{
+        } else {
           //filteredTags = filteredTags.filter(function(tag){
           //  return tag.get('username').indexOf(query) > -1;
           //}.bind(this));
@@ -271,7 +271,7 @@ define(function (require) {
                 className="default"
                 autoComplete="off"
                 onKeyUp={this.onKeyUp}
-              />
+                />
             </li>
           </ul>
           <div className="chosen-drop">

@@ -1,7 +1,7 @@
 define(function (require) {
 
   return {
-    navigateTo: function(url){
+    navigateTo: function (url) {
       Backbone.history.navigate(url, {trigger: true});
     }
   }

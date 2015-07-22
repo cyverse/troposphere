@@ -2,12 +2,12 @@ define(function (require) {
   "use strict";
 
   var ModalHelpers = require('components/modals/ModalHelpers'),
-      VolumeAttachModal = require('components/modals/volume/VolumeAttachModal.react'),
-      actions = require('actions');
+    VolumeAttachModal = require('components/modals/volume/VolumeAttachModal.react'),
+    actions = require('actions');
 
   return {
 
-    attach: function(volume, project){
+    attach: function (volume, project) {
       var props = {
         volume: volume,
         project: project

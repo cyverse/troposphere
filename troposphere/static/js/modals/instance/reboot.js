@@ -2,8 +2,8 @@ define(function (require) {
   "use strict";
 
   var ModalHelpers = require('components/modals/ModalHelpers'),
-      InstanceRebootModal = require('components/modals/instance/InstanceRebootModal.react'),
-      actions = require('actions');
+    InstanceRebootModal = require('components/modals/instance/InstanceRebootModal.react'),
+    actions = require('actions');
 
   return {
 
