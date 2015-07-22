@@ -4,7 +4,6 @@ define(
   [
     'react',
     './header/HeaderView.react',
-    './availability/AvailabilityView.react',
     './tags/TagsView.react',
     './launch/ImageLaunchCard.react',
     './name/NameView.react',
@@ -15,7 +14,7 @@ define(
     'actions',
     'stores'
   ],
-  function (React, HeaderView, AvailabilityView, TagsView, ImageLaunchCard, NameView, CreatedView, AuthorView, DescriptionView, VersionsView, actions, stores) {
+  function (React, HeaderView, TagsView, ImageLaunchCard, NameView, CreatedView, AuthorView, DescriptionView, VersionsView, actions, stores) {
 
     return React.createClass({
 
@@ -41,30 +40,13 @@ define(
       },
 
       render: function () {
-        var availabilityView, versionView, tagsView;
+        var versionView, tagsView;
 
-        // Since providers requires authentication, we can't display which providers
-        // the image is available on on the public page
-        if(this.props.providers){
-          availabilityView = (
-            <AvailabilityView image={this.props.image}
-                              providers={this.props.providers}
-            />
-          );
-        }
         tagsView = (
             <TagsView image={this.props.image}
                       tags={this.props.tags}
             />
         )
-        // Since identities requires authentication, we can't display the image
-        // versions on the public page
-        if(this.props.identities){
-          versionView = (
-            <VersionsView image={this.props.image} />
-          );
-        }
-
         return (
           <div>
             {this.renderEditLink()}
@@ -74,8 +56,6 @@ define(
               <AuthorView image={this.props.image}/>
               <DescriptionView image={this.props.image}/>
               {tagsView}
-              {availabilityView}
-              {versionView}
             </div>
           </div>
         );

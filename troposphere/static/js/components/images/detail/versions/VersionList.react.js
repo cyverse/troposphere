@@ -71,6 +71,7 @@ define(function (require) {
       }
       ,
       render: function () {
+
         //TODO: Add 'sort by' && '+/-'
         //      API ordering filters: Start Date _OR_ parent-hierarchy
         return (

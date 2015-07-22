@@ -5,6 +5,7 @@ define(function (require) {
       Backbone = require('backbone'),
       Time = require('components/common/Time.react'),
       Gravatar = require('components/common/Gravatar.react'),
+      AvailabilityView = require('../availability/AvailabilityView.react'),
       CryptoJS = require('crypto'),
       stores = require('stores');
 
@@ -12,22 +13,28 @@ define(function (require) {
 
     propTypes: {
       image: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      version: React.PropTypes.object.isRequired,
+      version: React.PropTypes.instanceOf(Backbone.Model).isRequired,
       onEditClicked: React.PropTypes.func,
       editable: React.PropTypes.bool
     },
     onEditClicked: function() {
          return this.props.onEditClicked(this.props.version);
     },
-    renderEditLink: function (image) {
+
+    renderEditLink: function () {
         //NOTE: Undefined/null/etc. defaults to "TRUE" case.
          if (this.props.editable == false) {
              return;
          }
          var profile = stores.ProfileStore.get(),
-             image = this.props.image;
-
-         if (profile.id && profile.get('username') === image.get('created_by').username) {
+           version = this.props.version,
+           image = this.props.image;
+         if(!profile.id || !profile.get('username')) {
+           return;
+         }
+         var username = profile.get('username');
+         //TODO: Bring up discrepencies in the API here..
+         if (username === version.get('user').username || username === image.get('created_by').username) {
              return (
                  <div className="edit-link-row">
                      <a className="edit-link" onClick={this.onEditClicked}>Edit Version</a>
@@ -68,13 +75,16 @@ define(function (require) {
             <Gravatar hash={versionHash} size={iconSize} type={type}/>
             <div className="image-version-details">
               <div className="version">
-                {version.name}
+                {version.get('name')}
                 {isRecommended ? <span className="recommended-tag">Recommended</span> : null}
               </div>
               {this.renderDateString(version)}
               <div>{owner}</div>
               {this.renderEditLink()}
             </div>
+            <AvailabilityView
+              version={version}
+              />
           </div>
         </li>
       );

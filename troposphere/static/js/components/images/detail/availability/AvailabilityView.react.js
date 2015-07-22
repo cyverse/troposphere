@@ -3,46 +3,44 @@ define(function (require) {
     var _ = require('underscore'),
         React = require('react'),
         Backbone = require('backbone'),
-        stores = require('stores'),
-        ProviderCollection = require('collections/ProviderCollection');
+        stores = require('stores');
 
     return React.createClass({
 
         propTypes: {
-            image: React.PropTypes.instanceOf(Backbone.Model).isRequired
+            version: React.PropTypes.instanceOf(Backbone.Model).isRequired
         },
 
-        renderProvider: function (provider) {
-          //TODO: 'getProviders' is returning identities?
-            return (
-                <li key={provider.get('provider').id}>
-          {provider.get('provider').name}
-                </li>
-            )
-        },
-        render: function () {
-            var image = this.props.image,
-            providers = this.getProvidersForImage(image);
+      renderProviderMachine: function (provider_machine) {
+        return (
+          <div key={provider_machine.id}>
+            {provider_machine.provider.name} - {provider_machine.uuid}
+          </div>
+        )
+      },
+      renderBody: function () {
+        var machines = stores.ImageVersionStore.getMachines(this.props.version.id);
 
-            if (!providers) {
-                return <div className="loading" />
-            }
-
-            return (
-                <div className='image-availability image-info-segment row'>
-                    <h4 className="title col-md-2">Available on</h4>
-                    <div className="content col-md-10">
-                        <ul className="list-unstyled">
-                          {providers.map(this.renderProvider)}
-                        </ul>
-                    </div>
-                </div>
-            );
-        },
-        getProvidersForImage: function(image) {
-            return stores.ImageStore.getProviders(image.id);
+        if(machines == null) {
+          return (<div className="content col-md-10">
+            <div className="loading"/>
+          </div>);
         }
+        return (
+          <div className="content col-md-10">
+              {machines.map(this.renderProviderMachine)}
+          </div>
+        );
+      },
+      render: function() {
+        return (
+          <div className='version-availability image-info-segment row'>
+            <h4 className="title col-md-2">Available on</h4>
+              {this.renderBody()}
+          </div>
+        );
 
+      }
     });
 
 });

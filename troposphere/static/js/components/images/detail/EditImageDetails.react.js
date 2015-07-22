@@ -2,14 +2,12 @@ define(function (require) {
 
   var React = require('react'),
       HeaderView = require('./header/HeaderView.react'),
-      AvailabilityView = require('./availability/AvailabilityView.react'),
       EditTagsView = require('./tags/EditTagsView.react'),
       ImageLaunchCard = require('./launch/ImageLaunchCard.react'),
       EditNameView = require('./name/EditNameView.react'),
       EditDescriptionView = require('./description/EditDescriptionView.react'),
       CreatedView = require('./created/CreatedView.react'),
       AuthorView = require('./author/AuthorView.react'),
-      VersionsView = require('./versions/VersionsView.react'),
       actions = require('actions'),
       stores = require('stores');
 
@@ -67,28 +65,10 @@ define(function (require) {
           providers = this.props.providers,
           identities = this.props.identities,
           allTags = this.props.tags,
-          imageTags = stores.TagStore.getImageTags(image),
-          availabilityView,
-          versionView;
+          imageTags = stores.TagStore.getImageTags(image);
 
       // Since providers requires authentication, we can't display which providers
       // the image is available on on the public page
-      if(providers){
-        availabilityView = (
-          <AvailabilityView
-            image={image}
-            providers={providers}
-          />
-        );
-      }
-
-      // Since identities requires authentication, we can't display the image
-      // versions on the public page
-      if(identities){
-        versionView = (
-          <VersionsView image={image}/>
-        );
-      }
 
       return (
         <div>
@@ -116,7 +96,6 @@ define(function (require) {
               onTagAdded={this.onTagAdded}
               onTagRemoved={this.onTagRemoved}
             />
-            {versionView}
           </div>
         </div>
       );

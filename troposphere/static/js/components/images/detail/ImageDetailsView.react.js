@@ -9,9 +9,10 @@ define(
     'actions',
     './ViewImageDetails.react',
     './EditImageDetails.react',
+    './versions/VersionsView.react',
     'modals'
   ],
-  function (React, Backbone, HeaderView, ImageLaunchCard, actions, ViewImageDetails, EditImageDetails, modals) {
+  function (React, Backbone, HeaderView, ImageLaunchCard, actions, ViewImageDetails, EditImageDetails, VersionsView, modals) {
 
     return React.createClass({
 
@@ -47,8 +48,10 @@ define(
       },
 
       render: function () {
-        var view;
-
+        var view, versionView;
+        versionView = (
+          <VersionsView image={this.props.image} />
+        );
         if(this.state.isEditing){
           view = (
             <EditImageDetails image={this.props.image}
@@ -80,6 +83,7 @@ define(
             <div className="row image-content">
               <div className="col-md-9">
                 {view}
+                {versionView}
               </div>
               <div className="col-md-3">
                 <ImageLaunchCard image={this.props.image} onLaunch={this.showLaunchModal}/>
