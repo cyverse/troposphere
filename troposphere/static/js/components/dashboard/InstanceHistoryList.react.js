@@ -96,11 +96,25 @@ define(function (require) {
       if(!instanceHistories || !instances || !providers) return <div className="loading"></div>;
 
       instanceHistoryItems = instanceHistories.map(function (instance) {
-        var instanceId = instance.get('instance').id,
-            instanceImage = stores.InstanceStore.get(instanceId).get('image'),
-            providerId = stores.InstanceStore.get(instanceId).get('provider'),
-            imageId = instanceImage.id,
-            provider = stores.ProviderStore.get(providerId).get('name');
+        var providerId = null,
+            imageId = null,
+            provider = null,
+            instanceId = instance.get('instance').id,
+            _instance= stores.InstanceStore.get(instanceId);
+        if(_instance) {
+            var instanceImage = _instance.get('image');
+            providerId = _instance.get('provider');
+            imageId = instanceImage.id;
+        } else {
+            providerId = null;
+            imageId = null;
+        }
+        if(providerId) {
+          provider = providerId ? stores.ProviderStore.get(providerId) : null;
+          provider = provider.get('name');
+        } else {
+          provider = null;
+        }
 
         var startDate = instance.get('start_date'),
             endDate = instance.get('end_date'),
