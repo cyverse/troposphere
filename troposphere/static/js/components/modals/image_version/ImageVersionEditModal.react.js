@@ -219,7 +219,7 @@ define(function (require) {
             <div className="modal-content">
               <div className="modal-header">
                 {this.renderCloseButton()}
-                <strong>Create Project</strong>
+                <strong>Edit Image Version</strong>
               </div>
               <div className="modal-body">
                 {this.renderBody()}
