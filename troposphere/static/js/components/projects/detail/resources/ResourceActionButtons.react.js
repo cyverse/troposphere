@@ -30,6 +30,7 @@ define(function (require) {
       }else if (resource instanceof Volume){
         return (
           <VolumeActionButtons
+            onUnselect={this.props.onUnselect}
             volume={resource}
             project={project}
           />
