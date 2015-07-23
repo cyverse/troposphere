@@ -32,6 +32,7 @@ define(function (require) {
     stores.AllocationStore         = require('stores/AllocationStore');
     stores.ImageStore        = require('stores/ImageStore');
     stores.ImageVersionStore        = require('stores/ImageVersionStore');
+    stores.ImageVersionMembershipStore = require('stores/ImageVersionMembershipStore');
     stores.IdentityStore           = require('stores/IdentityStore');
     stores.ImageBookmarkStore      = require('stores/ImageBookmarkStore');
     stores.InstanceHistoryStore    = require('stores/InstanceHistoryStore');
@@ -55,6 +56,8 @@ define(function (require) {
 
     var actions = require('actions');
     actions.ImageActions     = require('actions/ImageActions');
+    actions.ImageVersionActions     = require('actions/ImageVersionActions');
+    actions.ImageVersionMembershipActions     = require('actions/ImageVersionMembershipActions');
     actions.HelpActions            = require('actions/HelpActions');
     actions.ImageBookmarkActions   = require('actions/ImageBookmarkActions');
     actions.InstanceActions        = require('actions/InstanceActions');

@@ -35,7 +35,7 @@ define(function (require) {
         },
         render: function () {
           var provider_machine = this.props.provider_machine,
-              availableText = (this.state.machineEnabled) ? "Enabled" : "Disabled as of "+ provider_machine.end_date.format("MMM D, YYYY hh:MMa");
+              availableText = (this.state.machineEnabled) ? "Enabled" : "Disabled as of "+ provider_machine.end_date.format("MMM Do, YYYY hh:MMa");
           //TODO: Stylize this component
             return (
                 <li key={provider_machine.provider.id}>

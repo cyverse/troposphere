@@ -38,7 +38,7 @@ define(function (require) {
         <ChosenDropdownItem
           key={user.id}
           user={user}
-          propertyName={'name'}
+          propertyName={'username'}
           onUserSelected={this.onModelAdded}
         />
       )

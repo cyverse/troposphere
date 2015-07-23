@@ -2,17 +2,10 @@ define(function (require) {
 
   var React = require('react'),
       Backbone = require('backbone');
-      //ChosenDropdownItem = require('./ChosenDropdownItem.react'),
-      //ChosenSelectedTag = require('./ChosenSelectedTag.react');
 
   var ENTER_KEY = 13;
 
   return {
-
-    propTypes: {
-      placeholderText: React.PropTypes.string.isRequired
-    },
-
     getInitialState: function(){
       return {
         showOptions: false,
@@ -20,19 +13,22 @@ define(function (require) {
       }
     },
 
-    getDefaultProps: function(){
-      return {
-        placeholderText: "Search..."
-      }
-    },
-
     propTypes: {
-      models: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-      activeModels: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+      placeholderText: React.PropTypes.string,
+      models: React.PropTypes.instanceOf(Backbone.Collection),
+      activeModels: React.PropTypes.instanceOf(Backbone.Collection),
       onModelAdded: React.PropTypes.func.isRequired,
       onModelRemoved: React.PropTypes.func.isRequired,
       onEnterKeyPressed: React.PropTypes.func,
       width: React.PropTypes.string
+    },
+
+    getDefaultProps: function(){
+      return {
+        models: new Backbone.Collection(),
+        activeModels: new Backbone.Collection(),
+        placeholderText: "Search..."
+      }
     },
 
     closeDropdown: function(){
@@ -166,7 +162,7 @@ define(function (require) {
         });
         if(models.length > 0 && filteredModels.length === 0){
           results = this.renderAlreadyAddedAllUsersMatchingQueryListItem(query);
-        }else{
+        }else {
           results = filteredModels.map(this.renderModel);
         }
       }

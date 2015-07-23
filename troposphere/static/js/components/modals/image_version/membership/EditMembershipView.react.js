@@ -14,7 +14,7 @@ define(function (require) {
       users: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
       onUserAdded: React.PropTypes.func.isRequired,
       onUserRemoved: React.PropTypes.func.isRequired,
-      onCreateNewUser: React.PropTypes.func.isRequired,
+      onCreateNewUser: React.PropTypes.func,
       label: React.PropTypes.string.isRequired
     },
 
@@ -33,9 +33,6 @@ define(function (require) {
       }
     },
 
-    onCreateNewEmptyUser: function(e){
-      this.props.onCreateNewUser("");
-    },
 
     onQueryChange: function(query){
       this.setState({query: query});
@@ -50,20 +47,20 @@ define(function (require) {
 
       if(query){
         users = this.props.users.filter(function(user){
-          return user.get('name').toLowerCase().indexOf(query) >= 0;
+          return user.get('username').toLowerCase().indexOf(query) >= 0;
         });
         users = new Backbone.Collection(users);
       }
 
-        link = (
-          <a className="toggle-editing-link" href="#" onClick={this.onDoneEditingUsers}>Done editing</a>
+        var updateLink = (
+          <a className="toggle-editing-link" href="#" onClick={this.onDoneEditingUsers}>Save Changes</a>
         );
 
-        newUserButton = (
-          <a className="btn btn-primary new-user" href="#" onClick={this.onCreateNewEmptyUser}>+ New user</a>
+        var newUserButton = (
+          <a className="btn btn-primary new-user" href="#" >+ New user</a>
         );
 
-        userView = (
+        var userView = (
           <UserMultiSelect
             models={users}
             activeModels={this.props.activeUsers}
@@ -73,13 +70,12 @@ define(function (require) {
             onQueryChange={this.onQueryChange}
             placeholderText="Search by user name..."
           />
-        )
+        );
 
       return (
         <div className="resource-users">
           <span className='user-title'>{this.props.label}</span>
-          {link}
-          {newUserButton}
+          {updateLink}
           {userView}
         </div>
       );

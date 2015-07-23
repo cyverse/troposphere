@@ -4,7 +4,7 @@ define(function (require) {
       stores = require('stores'),
       BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
       Visibility = require('components/common/image_request/ImageVisibility.react'),
-      EditAvailabilityView = require('components/images/detail/availability/EditAvailabilityView.react'),
+      EditAvailabilityView = require('./availability/EditAvailabilityView.react'),
       EditDescriptionView = require('components/images/detail/description/EditDescriptionView.react'),
       EditMembershipView = require('./membership/EditMembershipView.react'),
       ImageSelect = require('components/modals/image_version/ImageSelect.react');
@@ -47,14 +47,14 @@ define(function (require) {
       stores.ImageStore.addChangeListener(this.updateState);
       stores.UserStore.addChangeListener(this.updateState);
       stores.ImageVersionStore.addChangeListener(this.updateState);
-      //stores.VersionMembershipStore.addChangeListener(this.updateState);
+      stores.ImageVersionMembershipStore.addChangeListener(this.updateState);
     },
 
     componentWillUnmount: function () {
       stores.ImageStore.removeChangeListener(this.updateState);
       stores.UserStore.removeChangeListener(this.updateState);
       stores.ImageVersionStore.removeChangeListener(this.updateState);
-      //stores.VersionMembershipStore.removeChangeListener(this.updateState);
+      stores.ImageVersionMembershipStore.removeChangeListener(this.updateState);
     },
 
     //TODO: Pull this out to commons
@@ -135,10 +135,39 @@ define(function (require) {
       this.setState({versionChangeLog: description});
     },
 
+    onUserAdded: function(user){
+      actions.ImageVersionMembershipActions.add({
+        version: this.props.version,
+        user: user
+      });
+    },
+
+    onUserRemoved: function(user){
+      actions.ImageVersionMembershipActions.remove({
+        version: this.props.version,
+        user: user
+      });
+    },
+    renderMembershipView: function(usersList, versionMembers, onUserAdded, onUserRemoved) {
+      return (<EditMembershipView
+        users={usersList}
+        activeUsers={versionMembers}
+        onUserAdded={onUserAdded}
+        onUserRemoved={onUserRemoved}
+        label={"Version Membership:"}
+        />)
+
+    },
     renderBody: function() {
       var machines = stores.ImageVersionStore.getMachines(this.props.version.id),
         name = this.state.versionName,
-        created = this.state.versionStartDate.format("MMMM Do, YYYY");
+        created = this.state.versionStartDate.format("MMMM Do, YYYY hh:mma"),
+        usersList = stores.UserStore.getAll(),
+        versionMembers = stores.ImageVersionMembershipStore.getMembershipsFor(this.props.version);
+
+      if(this.state.versionEndDate && this.state.versionEndDate.isValid()) {
+        ended  = this.state.versionEndDate.format("MMMM Do, YYYY hh:mma")
+      }
 
       if(!name || !machines) {
           return (<div className="loading"/>);
@@ -156,20 +185,12 @@ define(function (require) {
             <input type='text' className='form-control' value={this.state.versionEndDate} onChange={this.onEndDateChange}/>
           </div>
           <EditDescriptionView
+            title={"Change Log"}
             image={this.props.image}
             value={this.state.versionChangeLog}
             onChange={this.handleDescriptionChange}
           />
-          {
-          /**
-           <EditMembershipView
-           image={this.props.image}
-           version={this.props.version}
-
-           />
-         />
-         */
-        }
+          {this.renderMembershipView(usersList, versionMembers, this.onUserAdded, this.onUserRemoved)}
           <EditAvailabilityView
             image={this.props.image}
             version={this.props.version}
@@ -200,9 +221,7 @@ define(function (require) {
 
     render: function () {
       var images = stores.ImageStore.getAll(),
-        providers = stores.ProviderStore.getAll(),
-        all_users = stores.UserStore.getAll();
-        //licenses = stores.LicenseStore.getAll(); //Future
+        providers = stores.ProviderStore.getAll();
 
 
       var version = this.props.version,
