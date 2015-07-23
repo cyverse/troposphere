@@ -265,7 +265,7 @@ define(
               </div>
 
               <div className='form-group'>
-                <label htmlFor='volumeSize' className="col-sm-3 control-label">Volume Size</label>
+                <label htmlFor='volumeSize' className="col-sm-3 control-label">Volume Size (GB)</label>
                 <div className="col-sm-9">
                   <input type="number" className="form-control" value={size} onChange={this.onVolumeSizeChange}/>
                 </div>
