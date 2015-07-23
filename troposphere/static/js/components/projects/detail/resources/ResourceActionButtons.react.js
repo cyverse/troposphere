@@ -23,6 +23,7 @@ define(function (require) {
       if (resource instanceof Instance) {
         return (
           <InstanceActionButtons
+            onUnselect={this.props.onUnselect}
             instance={resource}
             project={project}
           />
