@@ -29,7 +29,8 @@ define(function (require) {
       modals.InstanceModals.resume(this.props.instance);
     },
 
-    onDelete: function(){
+    onDelete: function () {
+      this.props.onUnselect(this.props.instance);
       modals.InstanceModals.destroy({
         instance:this.props.instance,
         project: this.props.project

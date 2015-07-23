@@ -59,6 +59,7 @@ define(function (require) {
             isVisible={context.profile.get('is_superuser') && this.props.isVisible}
           />
           <ResourceActionButtons
+            onUnselect={this.props.onUnselect}
             previewedResource={this.props.previewedResource}
             project={this.props.project}
           />
