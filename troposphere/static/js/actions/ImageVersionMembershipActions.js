@@ -17,7 +17,7 @@ define(function (require) {
           imageVersionMembership = new ImageVersionMembership(),
           data = {
             image_version: image_version.id,
-            membership: membership.id
+            group: membership.id
           };
 
       imageVersionMembership.save(null, {

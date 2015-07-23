@@ -2,25 +2,30 @@ define(function (require) {
 
   var React = require('react'),
       Backbone = require('backbone'),
-      UserMultiSelect = require('./UserMultiSelect.react');
+      MembershipMultiSelect = require('./MembershipMultiSelect.react');
 
   var ENTER_KEY = 13;
 
   return React.createClass({
     display: "EditMembershipView",
-
     propTypes: {
-      activeUsers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-      users: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-      onUserAdded: React.PropTypes.func.isRequired,
-      onUserRemoved: React.PropTypes.func.isRequired,
-      onCreateNewUser: React.PropTypes.func,
+      activeMemberships: React.PropTypes.instanceOf(Backbone.Collection),
+      memberships: React.PropTypes.instanceOf(Backbone.Collection),
+      onMembershipAdded: React.PropTypes.func.isRequired,
+      onMembershipRemoved: React.PropTypes.func.isRequired,
+      onCreateNewMembership: React.PropTypes.func,
       label: React.PropTypes.string.isRequired
     },
 
+    getDefaultProps: function() {
+      return {
+        activeMemberships: new Backbone.Collection(),
+        memberships: new Backbone.Collection()
+      }
+    },
     getInitialState: function(){
       return {
-        isEditingUsers: false,
+        isEditingMemberships: false,
         query: ""
       }
     },
@@ -29,7 +34,7 @@ define(function (require) {
     onEnterKeyPressed: function(e){
       var text = e.target.value;
       if (e.which === ENTER_KEY && text.trim()) {
-        this.props.onCreateNewUser(text);
+        this.props.onCreateNewMembership(text);
       }
     },
 
@@ -41,31 +46,26 @@ define(function (require) {
     render: function () {
       var query = this.state.query,
           link,
-          newUserButton,
-          userView,
-          users = this.props.users;
+          membershipView,
+          memberships = this.props.memberships;
 
       if(query){
-        users = this.props.users.filter(function(user){
-          return user.get('username').toLowerCase().indexOf(query) >= 0;
+        memberships = this.props.memberships.filter(function(membership){
+          return membership.get('name').toLowerCase().indexOf(query) >= 0;
         });
-        users = new Backbone.Collection(users);
+        memberships = new Backbone.Collection(memberships);
       }
 
         var updateLink = (
-          <a className="toggle-editing-link" href="#" onClick={this.onDoneEditingUsers}>Save Changes</a>
+          <a className="toggle-editing-link" href="#" onClick={this.onDoneEditingMemberships}>Save Changes</a>
         );
 
-        var newUserButton = (
-          <a className="btn btn-primary new-user" href="#" >+ New user</a>
-        );
-
-        var userView = (
-          <UserMultiSelect
-            models={users}
-            activeModels={this.props.activeUsers}
-            onModelAdded={this.props.onUserAdded}
-            onModelRemoved={this.props.onUserRemoved}
+        membershipView = (
+          <MembershipMultiSelect
+            models={memberships}
+            activeModels={this.props.activeMemberships}
+            onModelAdded={this.props.onMembershipAdded}
+            onModelRemoved={this.props.onMembershipRemoved}
             onEnterKeyPressed={this.onEnterKeyPressed}
             onQueryChange={this.onQueryChange}
             placeholderText="Search by user name..."
@@ -76,7 +76,7 @@ define(function (require) {
         <div className="resource-users">
           <span className='user-title'>{this.props.label}</span>
           {updateLink}
-          {userView}
+          {membershipView}
         </div>
       );
     }

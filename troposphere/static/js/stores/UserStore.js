@@ -11,6 +11,11 @@ define(function (require) {
       return this.models.get(modelId) != null;
     },
 
+    queryParams: {
+      page_size: 3000
+    },
+
+
     getUsersForVersion: function(version) {
       if(!this.models) throw new Error("Must fetch users before calling getUsersFromList");
 

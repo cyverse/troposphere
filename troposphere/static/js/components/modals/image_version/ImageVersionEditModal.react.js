@@ -2,8 +2,8 @@ define(function (require) {
 
   var React = require('react'),
       stores = require('stores'),
+      actions = require('actions'),
       BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
-      Visibility = require('components/common/image_request/ImageVisibility.react'),
       EditAvailabilityView = require('./availability/EditAvailabilityView.react'),
       EditDescriptionView = require('components/images/detail/description/EditDescriptionView.react'),
       EditMembershipView = require('./membership/EditMembershipView.react'),
@@ -23,6 +23,7 @@ define(function (require) {
 
       return {
         machines: machines,
+        version: version,
         versionImageID: this.props.image.id,
         versionName: version.get('name'),
         versionChangeLog: (version.get('change_log') == null) ? "" : version.get('change_log'),
@@ -46,6 +47,7 @@ define(function (require) {
     componentDidMount: function () {
       stores.ImageStore.addChangeListener(this.updateState);
       stores.UserStore.addChangeListener(this.updateState);
+      stores.MembershipStore.addChangeListener(this.updateState);
       stores.ImageVersionStore.addChangeListener(this.updateState);
       stores.ImageVersionMembershipStore.addChangeListener(this.updateState);
     },
@@ -53,6 +55,7 @@ define(function (require) {
     componentWillUnmount: function () {
       stores.ImageStore.removeChangeListener(this.updateState);
       stores.UserStore.removeChangeListener(this.updateState);
+      stores.MembershipStore.removeChangeListener(this.updateState);
       stores.ImageVersionStore.removeChangeListener(this.updateState);
       stores.ImageVersionMembershipStore.removeChangeListener(this.updateState);
     },
@@ -135,34 +138,26 @@ define(function (require) {
       this.setState({versionChangeLog: description});
     },
 
-    onUserAdded: function(user){
+    onMembershipAdded: function(membership){
       actions.ImageVersionMembershipActions.add({
-        version: this.props.version,
-        user: user
+        image_version: this.props.version,
+        membership: new Backbone.Model(membership)
       });
     },
 
-    onUserRemoved: function(user){
+    onMembershipRemoved: function(membership){
       actions.ImageVersionMembershipActions.remove({
-        version: this.props.version,
-        user: user
+        image_version: this.props.version,
+        membership: new Backbone.Model(membership)
       });
-    },
-    renderMembershipView: function(usersList, versionMembers, onUserAdded, onUserRemoved) {
-      return (<EditMembershipView
-        users={usersList}
-        activeUsers={versionMembers}
-        onUserAdded={onUserAdded}
-        onUserRemoved={onUserRemoved}
-        label={"Version Membership:"}
-        />)
-
     },
     renderBody: function() {
+      var applicationView, availabilityView, descriptionView, membershipView;
+
       var machines = stores.ImageVersionStore.getMachines(this.props.version.id),
         name = this.state.versionName,
         created = this.state.versionStartDate.format("MMMM Do, YYYY hh:mma"),
-        usersList = stores.UserStore.getAll(),
+        membershipsList = stores.MembershipStore.getAll(),
         versionMembers = stores.ImageVersionMembershipStore.getMembershipsFor(this.props.version);
 
       if(this.state.versionEndDate && this.state.versionEndDate.isValid()) {
@@ -172,6 +167,38 @@ define(function (require) {
       if(!name || !machines) {
           return (<div className="loading"/>);
       }
+      descriptionView = (
+        <EditDescriptionView
+          title={"Change Log"}
+          image={this.props.image}
+          value={this.state.versionChangeLog}
+          onChange={this.handleDescriptionChange}
+          />
+      );
+      availabilityView = (<EditAvailabilityView
+        image={this.props.image}
+        version={this.props.version}
+        />);
+      if(this.props.image.get('is_public')) {
+        membershipView = (<div>
+          Here lies a pretty view telling users
+          they can add/edit/remove users they shared a
+          specific version with.. ONLY IF that image is private
+        </div>)
+      } else {
+        membershipView = (<EditMembershipView
+          memberships={membershipsList}
+          activeMemberships={versionMembers}
+          onMembershipAdded={this.onMembershipAdded}
+          onMembershipRemoved={this.onMembershipRemoved}
+          label={"Version Shared With:"}
+          />);
+      }
+      applicationView = (<ImageSelect
+          imageId={this.state.versionImageID}
+          onChange={this.onImageSelected}
+          />
+      );
       return (
         <div role='form'>
 
@@ -184,18 +211,10 @@ define(function (require) {
             <label htmlFor='version-end-date'>Version Removed On</label>
             <input type='text' className='form-control' value={this.state.versionEndDate} onChange={this.onEndDateChange}/>
           </div>
-          <EditDescriptionView
-            title={"Change Log"}
-            image={this.props.image}
-            value={this.state.versionChangeLog}
-            onChange={this.handleDescriptionChange}
-          />
-          {this.renderMembershipView(usersList, versionMembers, this.onUserAdded, this.onUserRemoved)}
-          <EditAvailabilityView
-            image={this.props.image}
-            version={this.props.version}
-          />
-
+          {descriptionView}
+          {availabilityView}
+          {membershipView}
+          {applicationView}
           <div className='form-group'>
             <label htmlFor='version-uncopyable'>Uncopyable</label>
             <input type='checkbox' className='form-control'
@@ -203,10 +222,6 @@ define(function (require) {
                    onChange={this.onUncopyableSelected}/>
           </div>
 
-          <ImageSelect
-            imageId={this.state.versionImageID}
-            onChange={this.onImageSelected}
-          />
         </div>
       );
     },

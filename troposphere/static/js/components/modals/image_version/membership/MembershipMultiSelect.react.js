@@ -3,14 +3,14 @@ define(function (require) {
   var React = require('react'),
       Backbone = require('backbone'),
       ChosenDropdownItem = require('./ChosenDropdownItem.react'),
-      ChosenSelectedUser = require('./ChosenSelectedUser.react'),
+      ChosenSelectedMembership = require('./ChosenSelectedMembership.react'),
       ChosenMixin = require('components/mixins/ChosenMixinExternal.react');
 
   return React.createClass({
     mixins: [ChosenMixin],
 
     propTypes: {
-      users: React.PropTypes.instanceOf(Backbone.Collection),
+      memberships: React.PropTypes.instanceOf(Backbone.Collection),
       activeModels: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
       onQueryChange: React.PropTypes.func.isRequired,
       onModelAdded: React.PropTypes.func.isRequired,
@@ -18,39 +18,39 @@ define(function (require) {
     },
 
     getNoResultsPhrase: function(query){
-      return 'No users found matching "' + query + '". Press enter to create a new user.';
+      return 'No memberships found matching "' + query + '". Press enter to create a new membership.';
     },
 
     getNoDataPhrase: function(){
-      return "No users exist";
+      return "No memberships exist";
     },
 
     getAllResultsAddedPhrase: function(){
-      return "All users have been added";
+      return "All memberships have been added";
     },
 
     getAllAddedMatchingQueryPhrase: function(query){
-      return 'All users matching "' + query + '" have been added'
+      return 'All memberships matching "' + query + '" have been added'
     },
 
-    renderModel: function(user){
+    renderModel: function(membership){
       return (
         <ChosenDropdownItem
-          key={user.id}
-          user={user}
-          propertyName={'username'}
-          onUserSelected={this.onModelAdded}
+          key={membership.id}
+          membership={membership}
+          propertyName={'name'}
+          onMembershipSelected={this.onModelAdded}
         />
       )
     },
 
-    renderSelectedModel: function(user){
+    renderSelectedModel: function(membership){
       return (
-        <ChosenSelectedUser
-          key={user.id}
-          user={user}
+        <ChosenSelectedMembership
+          key={membership.id}
+          membership={membership}
           propertyName={'name'}
-          onRemoveUser={this.props.onModelRemoved}
+          onRemoveMembership={this.props.onModelRemoved}
         />
       )
     }

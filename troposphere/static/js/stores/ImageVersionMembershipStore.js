@@ -4,8 +4,8 @@ define(function (require) {
       BaseStore = require('stores/BaseStore'),
       ImageVersionMembershipCollection = require('collections/ImageVersionMembershipCollection'),
       ImageVersionMembershipConstants = require('constants/ImageVersionMembershipConstants'),
-      MembershipCollection = require('collections/UserCollection'),
-      Membership = require('models/User');
+      MembershipCollection = require('collections/MembershipCollection'),
+      Membership = require('models/Membership');
 
   var _modelsFor = {};
   var _isFetchingFor = {};

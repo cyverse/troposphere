@@ -8,10 +8,10 @@ define(function (require) {
       bootstrap = require('bootstrap');
 
   return React.createClass({
-    display: "User",
+    display: "Membership",
 
     propTypes: {
-      user: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+      membership: React.PropTypes.instanceOf(Backbone.Model).isRequired,
       renderLinks: React.PropTypes.bool
     },
 
@@ -24,36 +24,36 @@ define(function (require) {
     componentDidMount: function(){
       var el = this.getDOMNode(),
           $el = $(el),
-          user = this.props.user;
+          membership = this.props.membership;
 
       $el.tooltip({
-        title: user.get('description')
+        title: membership.get('name')
       });
     },
 
     onClick: function(){
-      Router.getInstance().transitionTo("search", {}, {q: this.props.user.get('name')});
+      Router.getInstance().transitionTo("search", {}, {q: this.props.membership.get('name')});
     },
 
     render: function () {
-      var user = this.props.user,
-          userName = user.get('name'),
+      var membership = this.props.membership,
+          membershipName = membership.get('name'),
           link;
 
       if(this.props.renderLinks){
         link = (
-          <Router.Link to="search" query={{q: userName}}>
-            {userName}
+          <Router.Link to="search" query={{q: membershipName}}>
+            {membershipName}
           </Router.Link>
         );
       }else{
         link = (
-          <a href="javascript:void(0)">{userName}</a>
+          <a href="javascript:void(0)">{membershipName}</a>
         )
       }
 
       return (
-        <li className="user">
+        <li className="membership">
           {link}
         </li>
       );
