@@ -151,6 +151,7 @@ define(function (require) {
             onReportSelectedResources={this.onReportSelectedResources}
             onRemoveSelectedResources={this.onRemoveSelectedResources}
             previewedResource={previewedResource}
+            onUnselect={this.onResourceDeselected}
             project={project}
             />
 
