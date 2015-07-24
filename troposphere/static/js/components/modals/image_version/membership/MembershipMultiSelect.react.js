@@ -39,7 +39,7 @@ define(function (require) {
           key={membership.id}
           membership={membership}
           propertyName={'name'}
-          onMembershipSelected={this.props.onModelAdded}
+          onMembershipSelected={this.onModelAdded}
         />
       )
     },

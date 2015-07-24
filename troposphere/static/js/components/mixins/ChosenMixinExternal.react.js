@@ -86,10 +86,12 @@ define(function (require) {
     },
 
     clearSearchField: function(){
-      var input = this.refs.searchField.getDOMNode();
-      input.value = "";
+      var query = "",
+          input = this.refs.searchField.getDOMNode();
+      input.value = query;
       input.focus();
-      this.setState({query: ""});
+      this.setState({query: query});
+      this.props.onQueryChange(query);
     },
 
     //

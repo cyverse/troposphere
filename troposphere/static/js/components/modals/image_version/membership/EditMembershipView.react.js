@@ -29,27 +29,6 @@ define(function (require) {
         query: ""
       }
     },
-    //NOTE: These two functions copied OUT of ChosenMixinExternal.. Why not inherited??
-    clearSearchField: function(){
-      var input = this.refs.searchField.getDOMNode(); //TODO: This ref doesn't exist .. but its made in ChosenMixinExternal:render
-      input.value = "";
-      input.focus();
-      this.setState({query: ""});
-    },
-
-    onModelAdded: function(membership){
-      this.props.onMembershipAdded(membership);
-      this.clearSearchField();
-    },
-    //ENDNOTE: See above for notes!
-
-    onEnterKeyPressed: function(e){
-      var text = e.target.value;
-      if (e.which === ENTER_KEY && text.trim()) {
-        this.props.onCreateNewMembership(text);
-      }
-    },
-
 
     onQueryChange: function(query){
       this.setState({query: query});
@@ -71,9 +50,8 @@ define(function (require) {
           <MembershipMultiSelect
             models={memberships}
             activeModels={this.props.activeMemberships}
-            onModelAdded={this.onModelAdded}
+            onModelAdded={this.props.onMembershipAdded}
             onModelRemoved={this.props.onMembershipRemoved}
-            onEnterKeyPressed={this.onEnterKeyPressed}
             onQueryChange={this.onQueryChange}
             placeholderText="Search by user name..."
           />
