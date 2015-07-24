@@ -67,11 +67,11 @@ define(function (require) {
     switch (actionType) {
 
       case ImageVersionMembershipConstants.ADD_IMAGEVERSION_MEMBERSHIP:
-        store.add(payload.membership);
+        store.add(payload.image_versionMembership);
         break;
 
       case ImageVersionMembershipConstants.REMOVE_IMAGEVERSION_MEMBERSHIP:
-        store.remove(payload.membership);
+        store.remove(payload.image_versionMembership);
         break;
 
       case ImageVersionMembershipConstants.EMIT_CHANGE:

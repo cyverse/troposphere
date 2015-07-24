@@ -10,10 +10,10 @@ define(function (require) {
 
     add: function(params){
       if(!params.image_version) throw new Error("Missing image_version");
-      if(!params.membership) throw new Error("Missing membership");
+      if(!params.group) throw new Error("Missing group");
 
       var image_version = params.image_version,
-          membership = params.membership,
+          membership = params.group,
           imageVersionMembership = new ImageVersionMembership(),
           data = {
             image_version: image_version.id,
@@ -31,10 +31,10 @@ define(function (require) {
 
     remove: function(params){
       if(!params.image_version) throw new Error("Missing image_version");
-      if(!params.membership) throw new Error("Missing membership");
+      if(!params.group) throw new Error("Missing group");
 
       var image_version = params.image_version,
-          membership = params.membership,
+          membership = params.group,
           imageVersionMembership = stores.ImageVersionMembershipStore.findOne({
             'image_version.id': image_version.id,
             'group.id': membership.id

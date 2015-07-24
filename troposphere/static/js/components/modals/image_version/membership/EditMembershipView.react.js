@@ -29,7 +29,19 @@ define(function (require) {
         query: ""
       }
     },
+    //NOTE: These two functions copied OUT of ChosenMixinExternal.. Why not inherited??
+    clearSearchField: function(){
+      var input = this.refs.searchField.getDOMNode(); //TODO: This ref doesn't exist .. but its made in ChosenMixinExternal:render
+      input.value = "";
+      input.focus();
+      this.setState({query: ""});
+    },
 
+    onModelAdded: function(membership){
+      this.props.onMembershipAdded(membership);
+      this.clearSearchField();
+    },
+    //ENDNOTE: See above for notes!
 
     onEnterKeyPressed: function(e){
       var text = e.target.value;
@@ -42,7 +54,6 @@ define(function (require) {
     onQueryChange: function(query){
       this.setState({query: query});
     },
-
     render: function () {
       var query = this.state.query,
           link,
@@ -56,15 +67,11 @@ define(function (require) {
         memberships = new Backbone.Collection(memberships);
       }
 
-        var updateLink = (
-          <a className="toggle-editing-link" href="#" onClick={this.onDoneEditingMemberships}>Save Changes</a>
-        );
-
         membershipView = (
           <MembershipMultiSelect
             models={memberships}
             activeModels={this.props.activeMemberships}
-            onModelAdded={this.props.onMembershipAdded}
+            onModelAdded={this.onModelAdded}
             onModelRemoved={this.props.onMembershipRemoved}
             onEnterKeyPressed={this.onEnterKeyPressed}
             onQueryChange={this.onQueryChange}
@@ -75,7 +82,6 @@ define(function (require) {
       return (
         <div className="resource-users">
           <span className='user-title'>{this.props.label}</span>
-          {updateLink}
           {membershipView}
         </div>
       );

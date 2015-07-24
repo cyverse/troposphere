@@ -141,14 +141,14 @@ define(function (require) {
     onMembershipAdded: function(membership){
       actions.ImageVersionMembershipActions.add({
         image_version: this.props.version,
-        membership: new Backbone.Model(membership)
+        group: membership
       });
     },
 
     onMembershipRemoved: function(membership){
       actions.ImageVersionMembershipActions.remove({
         image_version: this.props.version,
-        membership: new Backbone.Model(membership)
+        group: membership
       });
     },
     renderBody: function() {
