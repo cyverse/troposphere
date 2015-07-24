@@ -46,11 +46,11 @@ define(function (require) {
 
       // convert ImageVersionMembership collection to an MembershipCollection
       var imageVersionMemberships = this.models.filter(function(version_membership){
-        return version_membership.get('version').id === imageversion.id;
+        return version_membership.get('image_version').id === imageversion.id;
       });
 
       var memberships = imageVersionMemberships.map(function(version_membership){
-        return new Membership(version_membership.get('membership'), {parse: true});
+        return new Membership(version_membership.get('group'), {parse: true});
       });
       return new MembershipCollection(memberships);
     }

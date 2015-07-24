@@ -37,7 +37,7 @@ define(function (require) {
           membership = params.membership,
           imageVersionMembership = stores.ImageVersionMembershipStore.findOne({
             'image_version.id': image_version.id,
-            'membership.id': membership.id
+            'group.id': membership.id
           });
 
       imageVersionMembership.destroy().done(function(){
