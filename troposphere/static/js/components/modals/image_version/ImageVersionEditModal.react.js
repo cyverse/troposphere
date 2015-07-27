@@ -49,16 +49,20 @@ define(function (require) {
       stores.ImageStore.addChangeListener(this.updateState);
       stores.UserStore.addChangeListener(this.updateState);
       stores.MembershipStore.addChangeListener(this.updateState);
+      stores.LicenseStore.addChangeListener(this.updateState);
       stores.ImageVersionStore.addChangeListener(this.updateState);
       stores.ImageVersionMembershipStore.addChangeListener(this.updateState);
+      stores.ImageVersionLicenseStore.addChangeListener(this.updateState);
     },
 
     componentWillUnmount: function () {
       stores.ImageStore.removeChangeListener(this.updateState);
       stores.UserStore.removeChangeListener(this.updateState);
       stores.MembershipStore.removeChangeListener(this.updateState);
+      stores.LicenseStore.removeChangeListener(this.updateState);
       stores.ImageVersionStore.removeChangeListener(this.updateState);
       stores.ImageVersionMembershipStore.removeChangeListener(this.updateState);
+      stores.ImageVersionLicenseStore.removeChangeListener(this.updateState);
     },
 
     //TODO: Pull this out to commons
@@ -160,7 +164,7 @@ define(function (require) {
         created = this.state.versionStartDate.format("MMMM Do, YYYY hh:mma"),
         membershipsList = stores.MembershipStore.getAll(),
         licensesList = stores.LicenseStore.getAll(),
-        activeLicensesList = stores.ImageVersionLicenseStore.getAll(),
+        activeLicensesList = stores.ImageVersionLicenseStore.getLicensesFor(this.props.version),
         versionMembers = stores.ImageVersionMembershipStore.getMembershipsFor(this.props.version);
 
       if(this.state.versionEndDate && this.state.versionEndDate.isValid()) {

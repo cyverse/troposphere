@@ -1,4 +1,4 @@
-ggdefine(function (require) {
+define(function (require) {
 
   var React = require('react'),
       Backbone = require('backbone'),
