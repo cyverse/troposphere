@@ -7,6 +7,7 @@ define(function (require) {
       EditAvailabilityView = require('./availability/EditAvailabilityView.react'),
       EditDescriptionView = require('components/images/detail/description/EditDescriptionView.react'),
       EditMembershipView = require('./membership/EditMembershipView.react'),
+      EditLicensesView = require('./licenses/EditLicensesView.react')
       ImageSelect = require('components/modals/image_version/ImageSelect.react');
 
   return React.createClass({
@@ -152,12 +153,14 @@ define(function (require) {
       });
     },
     renderBody: function() {
-      var applicationView, availabilityView, descriptionView, membershipView;
+      var applicationView, availabilityView, descriptionView, membershipView, licensesView;
 
       var machines = stores.ImageVersionStore.getMachines(this.props.version.id),
         name = this.state.versionName,
         created = this.state.versionStartDate.format("MMMM Do, YYYY hh:mma"),
         membershipsList = stores.MembershipStore.getAll(),
+        licensesList = stores.LicenseStore.getAll(),
+        activeLicensesList = stores.ImageVersionLicenseStore.getAll(),
         versionMembers = stores.ImageVersionMembershipStore.getMembershipsFor(this.props.version);
 
       if(this.state.versionEndDate && this.state.versionEndDate.isValid()) {
@@ -167,6 +170,16 @@ define(function (require) {
       if(!name || !machines) {
           return (<div className="loading"/>);
       }
+      licensesView = (
+        <EditLicensesView
+            activeLicenses={activeLicensesList}
+            licenses={licensesList}
+            onLicenseAdded={this.onLicenseAdded}
+            onLicenseRemoved={this.onLicenseRemoved}
+            onCreateNewLicense={this.onLicenseCreate}
+            label={"Licenses Required"}
+          />
+      );
       descriptionView = (
         <EditDescriptionView
           title={"Change Log"}
@@ -214,6 +227,7 @@ define(function (require) {
           {descriptionView}
           {availabilityView}
           {membershipView}
+          {licensesView}
           {applicationView}
           <div className='form-group'>
             <label htmlFor='version-uncopyable'>Uncopyable</label>

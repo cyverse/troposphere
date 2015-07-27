@@ -14,15 +14,19 @@ define(
           title: "Description"
         }
       },
+      getDefaultPropTypes: function() {
+        return {
+          className: "image-info-segment row"
+        }
+      },
       propTypes: {
         title: React.PropTypes.string,
-        image: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         value: React.PropTypes.string.isRequired,
         onChange: React.PropTypes.func.isRequired
       },
       render: function () {
         return (
-          <div className="image-info-segment row">
+          <div className={this.props.className}>
             <h4 className="title col-md-2">{this.props.title}</h4>
             <div className="content col-md-10">
               <textarea value={this.props.value} onChange={this.props.onChange}/>
