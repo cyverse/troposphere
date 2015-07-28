@@ -1,11 +1,11 @@
 define(function (require) {
 
-  var React = require('react'),
-    Backbone = require('backbone'),
-    stores = require('stores'),
-    MachineSelect = require('../components/MachineSelect.react'),
-      IdentitySelect = require('../components/IdentitySelect.react'),
-      _ = require("underscore");
+  var _ = require("underscore"),
+      React = require('react'),
+      Backbone = require('backbone'),
+      stores = require('stores'),
+      MachineSelect = require('../components/MachineSelect.react'),
+      IdentitySelect = require('../components/IdentitySelect.react');
 
   return React.createClass({
 

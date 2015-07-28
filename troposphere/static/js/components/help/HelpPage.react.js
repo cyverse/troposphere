@@ -1,11 +1,8 @@
 /** @jsx React.DOM */
 
-define(
-  [
-    'react'
-  ],
-  function (React) {
-    var _ = require("underscore");
+define(function (require) {
+    var _ = require("underscore"),
+        React = require('react');
 
     var resources = [
       {

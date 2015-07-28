@@ -1,13 +1,10 @@
 /** @jsx React.DOM */
 
-define(
-  [
-    'react',
-    'components/mixins/BootstrapModalMixin.react',
-    'components/common/Glyphicon.react'
-  ],
-  function (React, BootstrapModalMixin, Glyphicon) {
-    var _ = require("underscore");
+define(function (require) {
+    var _ = require("underscore"),
+        React = require('react'),
+        BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
+        Glyphicon = require('components/common/Glyphicon.react');
 
     return React.createClass({
       mixins: [BootstrapModalMixin],
