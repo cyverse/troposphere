@@ -7,21 +7,31 @@ define(function (require) {
 
   return {
     getInitialState: function(){
+      var showCreate;
+      if(! this.props.renderCreateForm) {
+        showCreate = false;
+      } else {
+        showCreate = this.props.showCreateForm;
+      }
+
       return {
-        showCreateForm: true,
+        showCreateForm: showCreate,
         showOptions: false,
         query: ""
       }
     },
 
     propTypes: {
-      placeholderText: React.PropTypes.string,
-      titleText: React.PropTypes.string,
       models: React.PropTypes.instanceOf(Backbone.Collection),
       activeModels: React.PropTypes.instanceOf(Backbone.Collection),
       onModelAdded: React.PropTypes.func.isRequired,
       onModelRemoved: React.PropTypes.func.isRequired,
       renderCreateForm: React.PropTypes.func,
+      //Styling-related
+      titleText: React.PropTypes.string,
+      hideCreateText: React.PropTypes.string,
+      showCreateText: React.PropTypes.string,
+      placeholderText: React.PropTypes.string,
     },
 
     getDefaultProps: function(){
@@ -29,7 +39,10 @@ define(function (require) {
         models: new Backbone.Collection(),
         activeModels: new Backbone.Collection(),
         titleText: "Title",
-        placeholderText: "Search..."
+        placeholderText: "Search...",
+        showCreateText: "Create New Item",
+        hideCreateText: "Cancel",
+        showCreateForm: false,
       }
     },
 
@@ -82,10 +95,10 @@ define(function (require) {
       this.props.onQueryChange(query);
     },
     onShowCreateForm: function(e) {
-      if(this.state.showCreate == false) {
-        this.setState({showCreate: true})
+      if(this.state.showCreateForm) {
+        this.setState({showCreateForm: false})
       } else {
-        this.setState({showCreate: false})
+        this.setState({showCreateForm: true})
       }
     },
     onModelAdded: function(model){
@@ -141,7 +154,7 @@ define(function (require) {
           {"You should renderCreateForm"}
         </div>);
       } else if (this.state.showCreateForm == false) {
-        return;
+        return (<div className="new-item-form" style={{"visibility": "hidden"}}/>);
       } else {
         return (<div className="new-item-form">
           {this.props.renderCreateForm()}
@@ -157,7 +170,7 @@ define(function (require) {
           activeModels = this.props.activeModels,
           query = this.state.query,
           createShowing = this.state.showCreateForm,
-          showCreateText = (createShowing == false) ? "Create New License" : "Hide License Form",
+          buttonText = (!createShowing) ? this.props.showCreateText : this.props.hideCreateText,
           selectedModels = activeModels.map(this.renderSelectedModel),
           placeholderText = this.props.placeholderText,
           filteredModels,
@@ -194,7 +207,6 @@ define(function (require) {
       return (
         <div className={classes} style={{"width": this.props.width || "614px"}}>
           <h3>{this.props.titleText}</h3>
-          <button onClick={this.onShowCreateForm} type="button" className="btn btn-default btn-sm">{showCreateText}</button>
           <ul className="chosen-choices clearfix" onFocus={this.onEnterOptions}>
             {selectedModels}
           </ul>
@@ -213,7 +225,8 @@ define(function (require) {
               {results}
             </ul>
           </div>
-          {this.renderCreateForm}
+          <button onClick={this.onShowCreateForm} type="button" className="btn btn-default btn-sm">{buttonText}</button>
+          {this.renderCreateForm()}
         </div>
       );
     }

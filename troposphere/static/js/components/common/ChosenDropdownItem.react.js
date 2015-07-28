@@ -7,8 +7,8 @@ define(function (require) {
     display: "ChosenDropdownItem",
 
     propTypes: {
-      tag: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      onTagSelected: React.PropTypes.func.isRequired,
+      item: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+      onItemSelected: React.PropTypes.func.isRequired,
       propertyName: React.PropTypes.string
     },
 
@@ -32,12 +32,12 @@ define(function (require) {
       this.setState({isMouseOver: false})
     },
 
-    onTagSelected: function(){
-      this.props.onTagSelected(this.props.tag);
+    onItemSelected: function(){
+      this.props.onItemSelected(this.props.item);
     },
 
     render: function () {
-      var tag = this.props.tag,
+      var item = this.props.item,
           cx = React.addons.classSet,
           classes = cx({
             'active-result': true,
@@ -48,8 +48,8 @@ define(function (require) {
         <li className={classes}
             onMouseEnter={this.onMouseEnter}
             onMouseLeave={this.onMouseLeave}
-            onClick={this.onTagSelected}>
-          {tag.get(this.props.propertyName)}
+            onClick={this.onItemSelected}>
+          {item.get(this.props.propertyName)}
         </li>
       );
     }

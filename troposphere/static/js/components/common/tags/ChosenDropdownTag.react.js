@@ -4,11 +4,11 @@ define(function (require) {
       Backbone = require('backbone');
 
   return React.createClass({
-    display: "ChosenDropdownItem",
+    display: "ChosenDropdownTag",
 
     propTypes: {
-      membership: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      onMembershipSelected: React.PropTypes.func.isRequired,
+      tag: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+      onTagSelected: React.PropTypes.func.isRequired,
       propertyName: React.PropTypes.string
     },
 
@@ -32,12 +32,12 @@ define(function (require) {
       this.setState({isMouseOver: false})
     },
 
-    onMembershipSelected: function(){
-      this.props.onMembershipSelected(this.props.membership);
+    onTagSelected: function(){
+      this.props.onTagSelected(this.props.tag);
     },
 
     render: function () {
-      var membership = this.props.membership,
+      var tag = this.props.tag,
           cx = React.addons.classSet,
           classes = cx({
             'active-result': true,
@@ -48,8 +48,8 @@ define(function (require) {
         <li className={classes}
             onMouseEnter={this.onMouseEnter}
             onMouseLeave={this.onMouseLeave}
-            onClick={this.onMembershipSelected}>
-          {membership.get(this.props.propertyName)}
+            onClick={this.onTagSelected}>
+          {tag.get(this.props.propertyName)}
         </li>
       );
     }

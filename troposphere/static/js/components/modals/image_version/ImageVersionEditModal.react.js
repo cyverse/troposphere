@@ -142,6 +142,27 @@ define(function (require) {
       var description = e.target.value;
       this.setState({versionChangeLog: description});
     },
+    onLicenseCreate: function(licenseObj){
+      actions.LicenseActions.create({
+        title: licenseObj.title,
+        type: licenseObj.type,
+        text: licenseObj.text
+      })
+    },
+
+    onLicenseAdded: function(license){
+      actions.ImageVersionLicenseActions.add({
+        image_version: this.props.version,
+        license: license
+      });
+    },
+
+    onLicenseRemoved: function(license){
+      actions.ImageVersionLicenseActions.remove({
+        image_version: this.props.version,
+        license: license
+      });
+    },
 
     onMembershipAdded: function(membership){
       actions.ImageVersionMembershipActions.add({

@@ -2,14 +2,17 @@ define(function (require) {
 
   var React = require('react'),
       Backbone = require('backbone'),
+      ChosenDropdownItem = require('./ChosenDropdownItem.react')
+      ChosenSelectedItem = require('./ChosenSelectedItem.react')
       MultiFormMixin = require('components/mixins/MultiFormMixin.react');
 
   return React.createClass({
     mixins: [MultiFormMixin],
 
     propTypes: {
-      memberships: React.PropTypes.instanceOf(Backbone.Collection),
+      models: React.PropTypes.instanceOf(Backbone.Collection),
       activeModels: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+      propertyName: React.PropTypes.string.isRequired,
       renderCreateForm: React.PropTypes.func.isRequired,
       onQueryChange: React.PropTypes.func.isRequired,
       onModelAdded: React.PropTypes.func.isRequired,
@@ -17,39 +20,39 @@ define(function (require) {
     },
 
     getNoResultsPhrase: function(query){
-      return 'No memberships found matching "' + query + '". Press enter to create a new membership.';
+      return 'No items found matching "' + query + '". Press enter to create a new item.';
     },
 
     getNoDataPhrase: function(){
-      return "No memberships exist";
+      return "No items exist";
     },
 
     getAllResultsAddedPhrase: function(){
-      return "All memberships have been added";
+      return "All items have been added";
     },
 
     getAllAddedMatchingQueryPhrase: function(query){
-      return 'All memberships matching "' + query + '" have been added'
+      return 'All items matching "' + query + '" have been added'
     },
 
-    renderModel: function(membership){
+    renderModel: function(item){
       return (
         <ChosenDropdownItem
-          key={membership.id}
-          membership={membership}
-          propertyName={'name'}
-          onMembershipSelected={this.onModelAdded}
+          key={item.id}
+          item={item}
+          propertyName={this.props.propertyName}
+          onItemSelected={this.onModelAdded}
         />
       )
     },
 
-    renderSelectedModel: function(membership){
+    renderSelectedModel: function(item){
       return (
-        <ChosenSelectedMembership
-          key={membership.id}
-          membership={membership}
-          propertyName={'name'}
-          onRemoveMembership={this.props.onModelRemoved}
+        <ChosenSelectedItem
+          key={item.id}
+          item={item}
+          propertyName={this.props.propertyName}
+          onRemoveItem={this.props.onModelRemoved}
         />
       )
     }

@@ -10,14 +10,14 @@ define(function (require) {
 
     add: function(params){
       if(!params.image_version) throw new Error("Missing image_version");
-      if(!params.group) throw new Error("Missing group");
+      if(!params.license) throw new Error("Missing license");
 
       var image_version = params.image_version,
-          license = params.group,
+          license = params.license,
           imageVersionLicense = new ImageVersionLicense(),
           data = {
             image_version: image_version.id,
-            group: license.id
+            license: license.id
           };
 
       imageVersionLicense.save(null, {
@@ -31,13 +31,13 @@ define(function (require) {
 
     remove: function(params){
       if(!params.image_version) throw new Error("Missing image_version");
-      if(!params.group) throw new Error("Missing group");
+      if(!params.license) throw new Error("Missing license");
 
       var image_version = params.image_version,
-          license = params.group,
+          license = params.license,
           imageVersionLicense = stores.ImageVersionLicenseStore.findOne({
             'image_version.id': image_version.id,
-            'group.id': license.id
+            'license.id': license.id
           });
 
       imageVersionLicense.destroy().done(function(){

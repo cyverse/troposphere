@@ -9,15 +9,18 @@ define(function (require) {
   return {
 
     create: function(params){
-      if(!params.name) throw new Error("Missing name");
-      if(!params.description) throw new Error("Missing description");
+      if(!params.title) throw new Error("Missing title");
+      if(!params.type) throw new Error("Missing type");
+      if(!params.text) throw new Error("Missing text");
 
-      var name = params.name,
-          description = params.description;
+      var title = params.title,
+          license_type = params.type,
+          text = params.text;
 
       var license = new License({
-        name: name,
-        description: description
+        title: title,
+        type: license_type,
+        text: text
       });
 
       // Add the license optimistically

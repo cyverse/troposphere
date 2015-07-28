@@ -2,7 +2,7 @@ define(function (require) {
 
   var React = require('react'),
       Backbone = require('backbone'),
-      ChosenDropdownItem = require('./ChosenDropdownItem.react'),
+      ChosenDropdownMembership = require('./ChosenDropdownMembership.react'),
       ChosenSelectedMembership = require('./ChosenSelectedMembership.react'),
       ChosenMixin = require('components/mixins/ChosenMixinExternal.react');
 
@@ -35,7 +35,7 @@ define(function (require) {
 
     renderModel: function(membership){
       return (
-        <ChosenDropdownItem
+        <ChosenDropdownMembership
           key={membership.id}
           membership={membership}
           propertyName={'name'}

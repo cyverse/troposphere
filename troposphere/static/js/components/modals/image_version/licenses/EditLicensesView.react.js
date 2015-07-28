@@ -3,7 +3,7 @@ define(function (require) {
   var React = require('react'),
       Backbone = require('backbone'),
       EditDescriptionView = require('components/images/detail/description/EditDescriptionView.react'),
-      LicenseMultiSelect = require('./LicenseMultiSelect.react');
+      LicenseMultiSelect = require('components/common/ChosenMultiFormSelect.react');
 
   var ENTER_KEY = 13;
 
@@ -66,7 +66,7 @@ define(function (require) {
         }
     },
     renderLicenseInputRadio: function() {
-      returng (
+      return (
           <div className="form-group">
             <label for="licenseTypeSelect">Input Type</label>
             <label className="radio-inline">
@@ -116,6 +116,8 @@ define(function (require) {
             onModelAdded={this.props.onLicenseAdded}
             onModelRemoved={this.props.onLicenseRemoved}
             onQueryChange={this.onQueryChange}
+            propertyName={"title"}
+            showCreateText="Create New License"
             placeholderText="Search by License title..."
             renderCreateForm={this.renderLicenseCreateForm}
           />

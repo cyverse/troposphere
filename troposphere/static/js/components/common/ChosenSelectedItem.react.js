@@ -4,11 +4,11 @@ define(function (require) {
       Backbone = require('backbone');
 
   return React.createClass({
-    display: "ChosenDropdownTag",
+    display: "ChosenDropdownItem",
 
     propTypes: {
-      tag: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      onRemoveTag: React.PropTypes.func.isRequired,
+      item: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+      onRemoveItem: React.PropTypes.func.isRequired,
       propertyName: React.PropTypes.string
     },
 
@@ -18,17 +18,17 @@ define(function (require) {
       }
     },
 
-    onRemoveTag: function(){
-      this.props.onRemoveTag(this.props.tag);
+    onRemoveItem: function(){
+      this.props.onRemoveItem(this.props.item);
     },
 
     render: function () {
-      var tag = this.props.tag;
+      var item = this.props.item;
 
       return (
         <li className="search-choice">
-          <span>{tag.get(this.props.propertyName)}</span>
-          <a className="search-choice-close" onClick={this.onRemoveTag}></a>
+          <span>{item.get(this.props.propertyName)}</span>
+          <a className="search-choice-close" onClick={this.onRemoveItem}></a>
         </li>
       );
     }

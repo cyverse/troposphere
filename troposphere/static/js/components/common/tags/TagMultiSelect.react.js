@@ -2,7 +2,7 @@ define(function (require) {
 
   var React = require('react'),
       Backbone = require('backbone'),
-      ChosenDropdownItem = require('./ChosenDropdownItem.react'),
+      ChosenDropdownTag = require('./ChosenDropdownTag.react'),
       ChosenSelectedTag = require('./ChosenSelectedTag.react'),
       ChosenMixin = require('components/mixins/ChosenMixinExternal.react');
 
@@ -35,7 +35,7 @@ define(function (require) {
 
     renderModel: function(tag){
       return (
-        <ChosenDropdownItem
+        <ChosenDropdownTag
           key={tag.id}
           tag={tag}
           propertyName={'name'}
