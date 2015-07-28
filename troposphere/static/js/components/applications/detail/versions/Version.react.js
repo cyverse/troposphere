@@ -5,7 +5,7 @@ define(function (require) {
     Backbone = require('backbone'),
     Time = require('components/common/Time.react'),
     Gravatar = require('components/common/Gravatar.react'),
-    CryptoJS = require('crypto'),
+    CryptoJS = require('crypto-js'),
     stores = require('stores');
 
   return React.createClass({

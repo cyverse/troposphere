@@ -8,7 +8,7 @@ define(function (require) {
     actions = require('actions'),
     stores = require('stores'),
     modals = require('modals'),
-    CryptoJS = require('crypto'),
+    CryptoJS = require('crypto-js'),
     Gravatar = require('components/common/Gravatar.react');
 
   return React.createClass({

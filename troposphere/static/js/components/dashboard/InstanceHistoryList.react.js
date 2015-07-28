@@ -3,7 +3,7 @@ define(function (require) {
   var React = require('react'),
     stores = require('stores'),
     moment = require('moment'),
-    CryptoJS = require('crypto'),
+    CryptoJS = require('crypto-js'),
     Gravatar = require('components/common/Gravatar.react'),
     Router = require('react-router');
 

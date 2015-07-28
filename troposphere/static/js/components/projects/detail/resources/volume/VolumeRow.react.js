@@ -8,7 +8,7 @@ define(function (require) {
     Size = require('../tableData/volume/Size.react'),
     Provider = require('../tableData/volume/Provider.react'),
     stores = require('stores'),
-    CryptoJS = require('crypto'),
+    CryptoJS = require('crypto-js'),
     Gravatar = require('components/common/Gravatar.react');
 
   return React.createClass({

@@ -57,7 +57,7 @@ require.config({
       '//cdnjs.cloudflare.com/ajax/libs/highcharts/4.1.4/highcharts-more',
       '../bower_components/highcharts-release/highcharts-more.src'
     ],
-    crypto: [
+    "crypto-js": [
       '//crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5',
       'lib/md5'
     ],
@@ -97,7 +97,7 @@ require.config({
       exports: 'Highcharts'
     },
 
-    crypto: {
+    "crypto-js": {
       exports: 'CryptoJS'
     },
 
