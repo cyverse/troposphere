@@ -5,10 +5,6 @@ define(function (require) {
 
   return React.createClass({
 
-    propTypes: {
-      type: React.PropTypes.string
-    },
-
     getDefaultProps: function () {
       return {
         //type: profile ? profile.get('settings')['icon_set'] : 'default',

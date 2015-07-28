@@ -27,7 +27,7 @@ define(function (require) {
       var project = this.props.project,
         renderClasses = this.props.className + "list-group-item";
       return (
-        <li className="project-card" className={this.props.className}>
+        <li  className={"project-card " + this.props.className}>
           <Router.Link to="project-resources" params={{projectId: project.id}}>
             {this.renderBody()}
           </Router.Link>
@@ -37,7 +37,7 @@ define(function (require) {
       var project = this.props.project,
         renderClasses = this.props.className + "list-group-item";
       return (
-        <li className="project-card" className={this.props.className} onClick={this.clicked}>
+        <li className={"project-card" + this.props.className} onClick={this.clicked}>
           {this.renderBody()}
         </li>);
     },

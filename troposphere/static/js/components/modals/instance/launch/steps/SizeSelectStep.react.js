@@ -256,7 +256,7 @@ define(function (require) {
                 </div>
               </div>
 
-              <div className='form-group' className="modal-section">
+              <div className="form-group modal-section">
                 <h4>Projected Resource Usage</h4>
                 {this.renderCpuConsumption(selectedIdentity, size, sizes, instances)}
                 {this.renderMemoryConsumption(selectedIdentity, size, sizes, instances)}

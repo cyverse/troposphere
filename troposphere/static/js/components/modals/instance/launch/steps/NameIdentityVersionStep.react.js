@@ -210,7 +210,7 @@ define(function (require) {
                   />
               </div>
             </div>
-            <div className='form-group' className="modal-section">
+            <div className="form-group modal-section">
               <h4>Project Allocation Usage</h4>
               {this.renderAllocationConsumption(this.state.identity)}
             </div>

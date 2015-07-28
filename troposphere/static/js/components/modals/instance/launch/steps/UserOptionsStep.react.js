@@ -43,9 +43,6 @@ define(function (require) {
       this.props.onPrevious(this.state);
     },
 
-    confirm: function () {
-      this.props.onNext(this.state);
-    },
     renderBootScriptsForm: function () {
       return (<div></div>);
     },

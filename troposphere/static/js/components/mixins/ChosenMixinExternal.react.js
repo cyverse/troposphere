@@ -9,10 +9,6 @@ define(function (require) {
 
   return {
 
-    propTypes: {
-      placeholderText: React.PropTypes.string.isRequired
-    },
-
     getInitialState: function () {
       return {
         showOptions: false,
@@ -27,6 +23,7 @@ define(function (require) {
     },
 
     propTypes: {
+      placeholderText: React.PropTypes.string.isRequired,
       models: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
       activeModels: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
       onModelAdded: React.PropTypes.func.isRequired,

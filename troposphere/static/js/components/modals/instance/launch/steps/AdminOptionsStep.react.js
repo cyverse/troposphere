@@ -25,9 +25,6 @@ define(function (require) {
     isSubmittable: function () {
       return true;
     },
-    confirm: function () {
-      this.props.onNext(this.state);
-    },
     componentDidMount: function () {
     },
 
