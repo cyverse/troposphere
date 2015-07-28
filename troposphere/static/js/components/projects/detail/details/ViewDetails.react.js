@@ -39,7 +39,7 @@ define(
       },
 
       renderDescription: function (project) {
-        var converter = new Showdown.converter(),
+        var converter = new Showdown.Converter(),
           description = project.get('description'),
           descriptionHtml = converter.makeHtml(description);
 

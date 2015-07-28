@@ -66,7 +66,7 @@ define(function (require) {
     },
     renderBody: function () {
       var project = this.props.project,
-        converter = new Showdown.converter(),
+        converter = new Showdown.Converter(),
         description = project.get('description'),
         descriptionHtml = converter.makeHtml(description),
         projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),

@@ -32,7 +32,7 @@ define(function (require) {
     },
 
     render: function () {
-      var converter = new Showdown.converter(),
+      var converter = new Showdown.Converter(),
         textHtml,
         titleContent;
 
