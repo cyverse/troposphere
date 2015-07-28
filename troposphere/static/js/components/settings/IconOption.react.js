@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(function (require) {
     var _ = require("underscore"),
