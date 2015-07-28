@@ -3,7 +3,7 @@
 define(function (require) {
     var _ = require("underscore"),
         React = require("react"),
-        IconOption = require("./IconOption.react);
+        IconOption = require("./IconOption.react");
 
     return React.createClass({
 
