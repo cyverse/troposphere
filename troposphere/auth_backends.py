@@ -30,7 +30,7 @@ def create_user_token_from_cas_profile(profile, access_token):
 
 def generate_token(user):
     access_token = uuid4()
-    user_token = UserToken.objects.create(user=user, token=access_token)
+    user_token = UserToken.objects.create(user=user, token=str(access_token))
     return user_token
 
 

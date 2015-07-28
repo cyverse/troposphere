@@ -50,7 +50,7 @@ define(function (require) {
       });
 
       var licenses = imageVersionLicenses.map(function(version_license){
-        return new License(version_license.get('group'), {parse: true});
+        return new License(version_license.get('license'), {parse: true});
       });
       return new LicenseCollection(licenses);
     }

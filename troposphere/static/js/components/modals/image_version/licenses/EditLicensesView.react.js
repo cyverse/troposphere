@@ -3,7 +3,8 @@ define(function (require) {
   var React = require('react'),
       Backbone = require('backbone'),
       EditDescriptionView = require('components/images/detail/description/EditDescriptionView.react'),
-      LicenseMultiSelect = require('components/common/ChosenMultiFormSelect.react');
+      CreateLicenseView = require('./CreateLicenseView.react'),
+      LicenseMultiSelect = require('components/common/chosen/ChosenMultiFormSelect.react');
 
   var ENTER_KEY = 13;
 
@@ -28,9 +29,6 @@ define(function (require) {
       return {
         isEditingLicenses: false,
         query: "",
-        licenseType: "URL",
-        licenseURL: "",
-        licenseText: "",
       }
     },
 
@@ -38,62 +36,9 @@ define(function (require) {
       this.setState({query: query});
     },
 
-    onLicenseTypeChange: function(e) {
-      //console.log(e);
-    },
-    onLicenseURLChange: function(e) {
-      //console.log(e);
-    },
-    onLicenseTextChange: function(e) {
-      //console.log(e);
-    },
-    renderLicenseSelection: function() {
-        if(this.state.licenseType == "URL") {
-          return (
-            <div className='form-group'>
-              <label htmlFor='version-version'>License URL</label>
-              <input type='text' className='form-control'
-                     value={this.state.licenseURL} onChange={this.onLicenseURLChange}/>
-            </div>
-          );
-        } else {
-          return (<EditDescriptionView
-            title={"Full Text"}
-            image={this.props.image}
-            value={this.state.licenseText}
-            onChange={this.onLicenseTextChange}
-            />)
-        }
-    },
-    renderLicenseInputRadio: function() {
-      return (
-          <div className="form-group">
-            <label for="licenseTypeSelect">Input Type</label>
-            <label className="radio-inline">
-            <input type="radio" name="inlineRadioOptions" id="licenseTypeURL" value="URL" onChange={this.onLicenseInputTypeChange} />
-              URL
-            </label>
-            <label className="radio-inline">
-              <input type="radio" name="inlineRadioOptions" id="LicenseTypeText" value="full_text"  onChange={this.onLicenseInputTypeChange} />
-                Full Text
-            </label>
-            </div>
-            );
-    },
-    renderLicenseTitle: function() {
-      return (        <div class="form-group">
-          <label for="licenseTitle">License Title</label>
-          <input type="email" class="form-control" id="licenseTitle" placeholder="Title" />
-        </div>
-      );
-    },
     renderLicenseCreateForm: function() {
       return (
-        <div className="license-input-type-container">
-          {this.renderLicenseTitle}
-          {this.renderLicenseInputRadio()}
-          {this.renderLicenseSelection()}
-        </div>
+        <CreateLicenseView />
       );
     },
     render: function () {
@@ -104,7 +49,7 @@ define(function (require) {
 
       if(query){
         licenses = this.props.licenses.filter(function(license){
-          return license.get('name').toLowerCase().indexOf(query) >= 0;
+          return license.get('title').toLowerCase().indexOf(query) >= 0;
         });
         licenses = new Backbone.Collection(licenses);
       }
