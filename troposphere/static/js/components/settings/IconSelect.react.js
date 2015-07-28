@@ -6,6 +6,7 @@ define(
     './IconOption.react'
   ],
   function (React, IconOption) {
+    var _ = require("underscore");
 
     return React.createClass({
 

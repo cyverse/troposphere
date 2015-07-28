@@ -7,6 +7,7 @@ define(
     'components/common/Glyphicon.react'
   ],
   function (React, BootstrapModalMixin, Glyphicon) {
+    var _ = require("underscore");
 
     return React.createClass({
       mixins: [BootstrapModalMixin],

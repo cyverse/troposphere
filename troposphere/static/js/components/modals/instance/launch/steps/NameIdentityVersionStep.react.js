@@ -4,7 +4,8 @@ define(function (require) {
     Backbone = require('backbone'),
     stores = require('stores'),
     MachineSelect = require('../components/MachineSelect.react'),
-    IdentitySelect = require('../components/IdentitySelect.react');
+      IdentitySelect = require('../components/IdentitySelect.react'),
+      _ = require("underscore");
 
   return React.createClass({
 

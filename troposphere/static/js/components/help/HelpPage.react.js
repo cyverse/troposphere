@@ -5,6 +5,7 @@ define(
     'react'
   ],
   function (React) {
+    var _ = require("underscore");
 
     var resources = [
       {

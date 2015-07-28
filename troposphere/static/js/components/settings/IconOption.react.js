@@ -6,6 +6,7 @@ define(
     'components/common/Gravatar.react'
   ],
   function (React, Gravatar) {
+    var _ = require("underscore");
 
     return React.createClass({
       render: function () {
