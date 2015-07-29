@@ -25,13 +25,6 @@ if (process.env.NODE_ENV === "production") {
   );
 }
 
-var plugins = [
-  new webpack.ProvidePlugin({
-      jQuery: "jquery",
-      $: "jquery"
-  })
-];
-
 module.exports = {
   entry: "./main",
   context: path.join(__dirname, "/troposphere/static/js"),
@@ -43,7 +36,7 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.js$/, loader: "babel", exclude: /node_modules/ },
-      { test: /\.(scss|sass)/, loader: ExtractTextPlugin.extract("style", "css!sass") },
+      { test: /\.(scss|sass)$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader!sass-loader") },
       { test: /\.woff$/ , loader: "url?limit=10000&mimetype=application/font-woff" },
       { test: /\.woff2$/, loader: "url?limit=10000&mimetype=application/font-woff2" },
       { test: /\.ttf$/  , loader: "file?mimetype=application/vnd.ms-fontobject" },
