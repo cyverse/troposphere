@@ -43,7 +43,12 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.js$/, loader: "babel", exclude: /node_modules/ },
-      { test: /\.(scss|sass)/, loader: ExtractTextPlugin.extract("style", "css!sass") }
+      { test: /\.(scss|sass)/, loader: ExtractTextPlugin.extract("style", "css!sass") },
+      { test: /\.woff$/ , loader: "url?limit=10000&mimetype=application/font-woff" },
+      { test: /\.woff2$/, loader: "url?limit=10000&mimetype=application/font-woff2" },
+      { test: /\.ttf$/  , loader: "file?mimetype=application/vnd.ms-fontobject" },
+      { test: /\.eot$/  , loader: "file?mimetype=application/x-font-ttf" },
+      { test: /\.svg$/  , loader: "file?mimetype=image/svg+xml" }
     ]
   },
   plugins: plugins,
