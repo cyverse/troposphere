@@ -1,7 +1,15 @@
-var webpack = require("webpack");
+"use strict";
 var path = require("path");
+var webpack = require("webpack");
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-var excluded = /(node_modules|bower_components)/;
+
+var plugins = [
+    new webpack.ProvidePlugin({
+      "jQuery": "jquery"
+    }),
+    new ExtractTextPlugin("app.css", { allChunks: true})
+];
 
 var definePlugin = new webpack.DefinePlugin({
   __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true')),
@@ -25,17 +33,20 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.jsx?$/, loader: "babel", exclude: excluded }
+      { test: /\.js$/, loader: "babel", exclude: /node_modules/ },
+      { test: /\.(scss|sass)/, loader: ExtractTextPlugin.extract("style", "css!sass") }
     ]
   },
   plugins: plugins,
   resolve: {
     alias: {
       bootstrap: "bootstrap-sass",
+      css: path.join(__dirname, "/troposphere/static/css/app"),
       highcharts: "highcharts-commonjs"
     },
     root: [
-      path.join(__dirname, "/troposphere/static/js")
+      path.join(__dirname, "/troposphere/static/js"),
+      path.join(__dirname, "/troposphere/static/css/app")
     ],
     extensions: ["", ".js", ".scss", ".sass"]
   }
