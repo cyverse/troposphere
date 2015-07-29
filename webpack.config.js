@@ -2,6 +2,7 @@ var webpack = require("webpack");
 var path = require("path");
 
 var extensions = ["", ".jsx", ".js", ".scss", ".sass"];
+var excluded = /(node_modules|bower_components)/;
 
 var definePlugin = new webpack.DefinePlugin({
   __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true')),
@@ -18,11 +19,7 @@ module.exports = {
   },
   module: {
     loaders: [
-      {
-        test: /\.jsx?$/,
-        exclude: /(node_modules|bower_components)/,
-        loader: 'babel?optional[]=runtime&stage=0'
-      },
+      { test: /\.jsx?$/, loader: "babel", exclude: excluded }
     ]
   },
   plugins: [
