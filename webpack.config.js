@@ -1,7 +1,6 @@
 var webpack = require("webpack");
 var path = require("path");
 
-var extensions = ["", ".jsx", ".js", ".scss", ".sass"];
 var excluded = /(node_modules|bower_components)/;
 
 var definePlugin = new webpack.DefinePlugin({
@@ -40,6 +39,6 @@ module.exports = {
     root: [
       path.join(__dirname, "/troposphere/static/js")
     ],
-    extensions: extensions
+    extensions: ["", ".js", ".scss", ".sass"]
   }
 };
