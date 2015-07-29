@@ -8,6 +8,13 @@ var definePlugin = new webpack.DefinePlugin({
   __PRERELEASE__: JSON.stringify(JSON.parse(process.env.BUILD_PRERELEASE || 'false'))
 });
 
+var plugins = [
+  new webpack.ProvidePlugin({
+      jQuery: "jquery",
+      $: "jquery"
+  })
+];
+
 module.exports = {
   entry: "./main",
   context: path.join(__dirname, "/troposphere/static/js"),
@@ -21,12 +28,7 @@ module.exports = {
       { test: /\.jsx?$/, loader: "babel", exclude: excluded }
     ]
   },
-  plugins: [
-    new webpack.ProvidePlugin({
-        jQuery: "jquery",
-        $: "jquery"
-    })
-  ],
+  plugins: plugins,
   resolve: {
     alias: {
       highcharts: "highcharts-commonjs"
