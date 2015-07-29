@@ -48,7 +48,7 @@ $tag-color: $brand-primary;
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
 
 // toastr, for showing toast notifications
-@import "../../bower_components/toastr/toastr";
+@import "~toastr/toastr";
 
 //
 // Application specific styles
