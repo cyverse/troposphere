@@ -31,6 +31,7 @@ module.exports = {
   plugins: plugins,
   resolve: {
     alias: {
+      bootstrap: "bootstrap-sass",
       highcharts: "highcharts-commonjs"
     },
     root: [
