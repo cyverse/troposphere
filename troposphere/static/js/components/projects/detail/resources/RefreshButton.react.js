@@ -1,6 +1,7 @@
 define(function (require) {
 
   var React = require('react'),
+      $ = require("jquery"),
     Backbone = require('backbone'),
     stores = require('stores'),
     actions = require('actions'),
