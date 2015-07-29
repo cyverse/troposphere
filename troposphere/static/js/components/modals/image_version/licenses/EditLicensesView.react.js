@@ -32,7 +32,12 @@ define(function (require) {
         query: "",
       }
     },
-
+    onEnter: function(query) {
+      this.setState({
+        isEditingLicenses: true,
+        query: query
+      });
+    },
     onQueryChange: function(query){
       this.setState({query: query});
     },
@@ -47,6 +52,7 @@ define(function (require) {
       return (
         <CreateLicenseView
             onCreateLicense={this.onCreateLicense}
+            licenseTitle={this.state.query}
                 />
       );
     },
@@ -69,6 +75,9 @@ define(function (require) {
             activeModels={this.props.activeLicenses}
             onModelAdded={this.props.onLicenseAdded}
             onModelRemoved={this.props.onLicenseRemoved}
+            onModelCreated={this.onCreateLicense}
+            onEnterKeyPressed={this.onEnter}
+            showCreateForm={this.state.isEditingLicenses}
             onQueryChange={this.onQueryChange}
             onShowingChange={this.onEditChange}
             propertyName={"title"}

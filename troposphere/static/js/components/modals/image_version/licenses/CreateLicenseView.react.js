@@ -12,11 +12,12 @@ define(function (require) {
 
     propTypes: {
       onCreateLicense: React.PropTypes.func.isRequired,
+      licenseTitle: React.PropTypes.string.isRequired
     },
 
     getInitialState: function () {
       return {
-        licenseTitle: "",
+        licenseTitle: this.props.licenseTitle || "",
         licenseType: "URL",
         licenseURL: "",
         licenseText: "",
@@ -26,7 +27,7 @@ define(function (require) {
       if (!this.state.licenseTitle) {
         return false;
       } else if (this.state.licenseType == "URL") {
-        if( this.state.licenseURL.indexOf("http://") < 0) {
+        if( this.state.licenseURL.search("https?://") < 0) {
           return false
         }
         //NOTE: Implicit 'full-text' type test
@@ -135,7 +136,7 @@ define(function (require) {
 
         <div className="new-item-form">
           <div className="new-item-form-header" style={{"border": "black 1px"}}>
-            <button disabled={!this.isSubmittable()} onClick={this.onCreateModel} type="button"
+            <button disabled={!this.isSubmittable()} onClick={this.onCreateLicense} type="button"
                     className="btn btn-default btn-sm">{"Create and Add"}</button>
           </div>
           <div className="license-input-type-container">

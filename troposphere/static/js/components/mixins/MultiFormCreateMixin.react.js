@@ -26,6 +26,7 @@ define(function (require) {
       onModelRemoved: React.PropTypes.func.isRequired,
       onQueryChange: React.PropTypes.func.isRequired,
       onShowingChange: React.PropTypes.func.isRequired,
+      onEnterKeyPressed: React.PropTypes.func.isRequired,
       //Theme-related
       titleText: React.PropTypes.string,
       hideButtonText: React.PropTypes.string,
@@ -83,8 +84,24 @@ define(function (require) {
 
     onEnter: function(e){
       if(e.which !== ENTER_KEY) return;
-      if(this.props.onEnterKeyPressed) this.props.onEnterKeyPressed(e);
-      this.clearSearchField();
+
+      if(this.state.showOptions) {
+        //IF options are showing and results are listed, pick the first one on Enter-pressed.
+        var filtered_results = this.getFilteredResults(
+          this.props.models,
+          this.props.activeModels)
+        if (filtered_results && filtered_results.length > 0) {
+          this.onModelAdded(filtered_results[0])
+        } else {
+          //TODO: Add the title to 'CreateLicense'
+          if(this.props.onEnterKeyPressed) {
+            this.props.onEnterKeyPressed(e.target.value);
+            this.clearSearchField();
+          }
+
+        }
+      }
+
     },
 
     filterSearchResults: function() {
@@ -162,13 +179,21 @@ define(function (require) {
       } else if (this.state.showCreateForm == false) {
         return (<div className="new-item-form" style={{"visibility": "hidden"}}/>);
       } else {
-        return this.props.renderCreateForm();
+        return this.props.renderCreateForm(createButtonText);
       }
     },
     //
     // Render
     //
+    getFilteredResults: function(models, activeModels) {
 
+      var filteredResults = models.filter(function(model){
+        return activeModels.filter(function(activeModel){
+            return model.id === activeModel.id;
+          }).length === 0;
+      });
+      return filteredResults;
+    },
     render: function () {
       var models = this.props.models,
           activeModels = this.props.activeModels,
@@ -197,11 +222,7 @@ define(function (require) {
         results = this.renderAllAddedListItem();
       }else{
         // filter out results that have already been added
-        filteredModels = models.filter(function(model){
-          return activeModels.filter(function(activeModel){
-            return model.id === activeModel.id;
-          }).length === 0;
-        });
+        filteredModels = this.getFilteredResults(models, activeModels);
         if(models.length > 0 && filteredModels.length === 0){
           results = this.renderAlreadyAddedAllUsersMatchingQueryListItem(query);
         }else {

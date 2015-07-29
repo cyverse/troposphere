@@ -15,6 +15,7 @@ define(function (require) {
       propertyName: React.PropTypes.string.isRequired,
       renderCreateForm: React.PropTypes.func.isRequired,
       onQueryChange: React.PropTypes.func.isRequired,
+      onModelCreated: React.PropTypes.func.isRequired,
       onModelAdded: React.PropTypes.func.isRequired,
       onModelRemoved: React.PropTypes.func.isRequired,
     },
