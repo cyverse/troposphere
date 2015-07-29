@@ -7,15 +7,8 @@ define(function (require) {
 
   return {
     getInitialState: function(){
-      var showCreate;
-      if(! this.props.renderCreateForm) {
-        showCreate = false;
-      } else {
-        showCreate = this.props.showCreateForm;
-      }
-
       return {
-        showCreateForm: showCreate,
+        showCreateForm: this.props.showCreateForm,
         showOptions: false,
         query: ""
       }
@@ -24,13 +17,15 @@ define(function (require) {
     propTypes: {
       models: React.PropTypes.instanceOf(Backbone.Collection),
       activeModels: React.PropTypes.instanceOf(Backbone.Collection),
+      onModelCreated: React.PropTypes.func.isRequired,
       onModelAdded: React.PropTypes.func.isRequired,
       onModelRemoved: React.PropTypes.func.isRequired,
-      renderCreateForm: React.PropTypes.func,
+      renderCreateForm: React.PropTypes.func.isRequired,
       //Styling-related
       titleText: React.PropTypes.string,
-      hideCreateText: React.PropTypes.string,
-      showCreateText: React.PropTypes.string,
+      hideButtonText: React.PropTypes.string,
+      showButtonText: React.PropTypes.string,
+      createButtonText: React.PropTypes.string,
       placeholderText: React.PropTypes.string,
     },
 
@@ -40,8 +35,9 @@ define(function (require) {
         activeModels: new Backbone.Collection(),
         titleText: "Title",
         placeholderText: "Search...",
-        showCreateText: "Create New Item",
-        hideCreateText: "Cancel",
+        createButtonText: "Add to list",
+        showButtonText: "Create New Item",
+        hideButtonText: "Cancel",
         showCreateForm: false,
       }
     },
@@ -101,8 +97,12 @@ define(function (require) {
         this.setState({showCreateForm: true})
       }
     },
+    onModelCreated: function(model) {
+      this.props.onModelCreated(model);
+      this.setState({showCreateForm: false});
+    },
     onModelAdded: function(model){
-      this.props.onModelAdded(model);
+        this.props.onModelAdded(model);
       this.clearSearchField();
     },
 
@@ -148,7 +148,7 @@ define(function (require) {
       if(this.getAllResultsAddedPhrase) phrase = this.getAllResultsAddedPhrase();
       return <li className="no-results">{phrase}</li>;
     },
-    renderCreateForm: function() {
+    renderCreateForm: function(createButtonText) {
       if(!this.props.renderCreateForm) {
         return (<div className="new-item-form">
           {"You should renderCreateForm"}
@@ -157,6 +157,10 @@ define(function (require) {
         return (<div className="new-item-form" style={{"visibility": "hidden"}}/>);
       } else {
         return (<div className="new-item-form">
+          <div className="new-item-form-header" style={{"border": "black 1px"}}>
+          <button onClick={this.onModelCreated} type="button" className="btn btn-default btn-sm">{createButtonText}</button>
+          </div>
+
           {this.props.renderCreateForm()}
         </div>);
       }
@@ -170,7 +174,8 @@ define(function (require) {
           activeModels = this.props.activeModels,
           query = this.state.query,
           createShowing = this.state.showCreateForm,
-          buttonText = (!createShowing) ? this.props.showCreateText : this.props.hideCreateText,
+          createButtonText = this.props.createButtonText,
+          showFormButtonText = (!createShowing) ? this.props.showButtonText : this.props.hideButtonText,
           selectedModels = activeModels.map(this.renderSelectedModel),
           placeholderText = this.props.placeholderText,
           filteredModels,
@@ -225,8 +230,8 @@ define(function (require) {
               {results}
             </ul>
           </div>
-          <button onClick={this.onShowCreateForm} type="button" className="btn btn-default btn-sm">{buttonText}</button>
-          {this.renderCreateForm()}
+          <button onClick={this.onShowCreateForm} type="button" className="btn btn-default btn-sm">{showFormButtonText}</button>
+          {this.renderCreateForm(createButtonText)}
         </div>
       );
     }

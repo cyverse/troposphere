@@ -4,10 +4,10 @@ define(function (require) {
       Backbone = require('backbone'),
       ChosenDropdownItem = require('./ChosenDropdownItem.react')
       ChosenSelectedItem = require('./ChosenSelectedItem.react')
-      MultiFormMixin = require('components/mixins/MultiFormMixin.react');
+      MultiFormCreateMixin = require('components/mixins/MultiFormCreateMixin.react');
 
   return React.createClass({
-    mixins: [MultiFormMixin],
+    mixins: [MultiFormCreateMixin],
 
     propTypes: {
       models: React.PropTypes.instanceOf(Backbone.Collection),
@@ -16,7 +16,8 @@ define(function (require) {
       renderCreateForm: React.PropTypes.func.isRequired,
       onQueryChange: React.PropTypes.func.isRequired,
       onModelAdded: React.PropTypes.func.isRequired,
-      onModelRemoved: React.PropTypes.func.isRequired
+      onModelRemoved: React.PropTypes.func.isRequired,
+      onModelCreated: React.PropTypes.func.isRequired
     },
 
     getNoResultsPhrase: function(query){

@@ -62,7 +62,7 @@ define(function (require) {
             onModelRemoved={this.props.onLicenseRemoved}
             onQueryChange={this.onQueryChange}
             propertyName={"title"}
-            showCreateText="Create New License"
+            showButtonText="Create New License"
             placeholderText="Search by License title..."
             renderCreateForm={this.renderLicenseCreateForm}
           />
