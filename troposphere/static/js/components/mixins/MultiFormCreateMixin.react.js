@@ -15,13 +15,18 @@ define(function (require) {
     },
 
     propTypes: {
+      //Collections
       models: React.PropTypes.instanceOf(Backbone.Collection),
       activeModels: React.PropTypes.instanceOf(Backbone.Collection),
+      //Renderers
+      renderCreateForm: React.PropTypes.func.isRequired,
+      //Listeners
       onModelCreated: React.PropTypes.func.isRequired,
       onModelAdded: React.PropTypes.func.isRequired,
       onModelRemoved: React.PropTypes.func.isRequired,
-      renderCreateForm: React.PropTypes.func.isRequired,
-      //Styling-related
+      onQueryChange: React.PropTypes.func.isRequired,
+      onShowingChange: React.PropTypes.func.isRequired,
+      //Theme-related
       titleText: React.PropTypes.string,
       hideButtonText: React.PropTypes.string,
       showButtonText: React.PropTypes.string,
@@ -91,11 +96,12 @@ define(function (require) {
       this.props.onQueryChange(query);
     },
     onShowCreateForm: function(e) {
-      if(this.state.showCreateForm) {
-        this.setState({showCreateForm: false})
-      } else {
-        this.setState({showCreateForm: true})
-      }
+      var truth_value = (this.state.showCreateForm) ? false : true;
+      this.setState({showCreateForm: truth_value});
+      this.props.onShowingChange(truth_value);
+    },
+    isSubmittable: function() {
+      return this.props.isSubmittable(this.state);
     },
     onModelCreated: function(model) {
       this.props.onModelCreated(model);
@@ -156,13 +162,7 @@ define(function (require) {
       } else if (this.state.showCreateForm == false) {
         return (<div className="new-item-form" style={{"visibility": "hidden"}}/>);
       } else {
-        return (<div className="new-item-form">
-          <div className="new-item-form-header" style={{"border": "black 1px"}}>
-          <button onClick={this.onModelCreated} type="button" className="btn btn-default btn-sm">{createButtonText}</button>
-          </div>
-
-          {this.props.renderCreateForm()}
-        </div>);
+        return this.props.renderCreateForm();
       }
     },
     //

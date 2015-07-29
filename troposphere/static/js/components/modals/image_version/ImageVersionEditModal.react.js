@@ -143,11 +143,11 @@ define(function (require) {
       this.setState({versionChangeLog: description});
     },
     onLicenseCreate: function(licenseObj){
-      actions.LicenseActions.create({
+      actions.LicenseActions.create_AddToImageVersion(this.props.version, {
         title: licenseObj.title,
         type: licenseObj.type,
         text: licenseObj.text
-      })
+      });
     },
 
     onLicenseAdded: function(license){

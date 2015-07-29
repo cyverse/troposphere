@@ -17,7 +17,6 @@ define(function (require) {
       onQueryChange: React.PropTypes.func.isRequired,
       onModelAdded: React.PropTypes.func.isRequired,
       onModelRemoved: React.PropTypes.func.isRequired,
-      onModelCreated: React.PropTypes.func.isRequired
     },
 
     getNoResultsPhrase: function(query){

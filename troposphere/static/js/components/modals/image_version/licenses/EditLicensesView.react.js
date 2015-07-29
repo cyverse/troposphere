@@ -11,11 +11,12 @@ define(function (require) {
   return React.createClass({
     display: "EditLicenseView",
     propTypes: {
+      image_version: React.PropTypes.instanceOf(Backbone.Model),
       activeLicenses: React.PropTypes.instanceOf(Backbone.Collection),
       licenses: React.PropTypes.instanceOf(Backbone.Collection),
       onLicenseAdded: React.PropTypes.func.isRequired,
       onLicenseRemoved: React.PropTypes.func.isRequired,
-      onCreateNewLicense: React.PropTypes.func,
+      onCreateNewLicense: React.PropTypes.func.isRequired,
       label: React.PropTypes.string.isRequired
     },
 
@@ -35,10 +36,18 @@ define(function (require) {
     onQueryChange: function(query){
       this.setState({query: query});
     },
-
+    onEditChange: function(truth_value){
+      this.setState({isEditingLicenses: truth_value});
+    },
+    onCreateLicense: function(params) {
+      this.setState({isEditingLicenses: false});
+      this.params.onCreateNewLicense(params);
+    },
     renderLicenseCreateForm: function() {
       return (
-        <CreateLicenseView />
+        <CreateLicenseView
+            onCreateLicense={this.onCreateLicense}
+                />
       );
     },
     render: function () {
@@ -61,6 +70,7 @@ define(function (require) {
             onModelAdded={this.props.onLicenseAdded}
             onModelRemoved={this.props.onLicenseRemoved}
             onQueryChange={this.onQueryChange}
+            onShowingChange={this.onEditChange}
             propertyName={"title"}
             showButtonText="Create New License"
             placeholderText="Search by License title..."
