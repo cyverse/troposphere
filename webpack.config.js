@@ -31,7 +31,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, "/troposphere/assets"),
     publicPath: "/assets/",
-   filename: "app.js"
+    filename: "app.js"
   },
   module: {
     loaders: [

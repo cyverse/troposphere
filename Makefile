@@ -4,19 +4,17 @@
 		javascript js npm pip prod production python virtualenv chown
 
 DJANGO	=	DJANGO_SETTINGS_MODULE='troposphere.settings' ./manage.py
-BOWER	=	$(NODE) ./node_modules/bower/bin/bower --allow-root
-GULP	=	$(NODE) ./node_modules/gulp/bin/gulp.js
-NPM	=	npm
+WEBPACK =	$(NPM) run build
+NPM	    =	npm
 NODE	=	node
 SHELL	=	/bin/bash
 
-jenkins : npm bower-install gulp-dev relativevirtual jenkinspip django jenkinschown
+jenkins : npm webpack-dev relativevirtual jenkinspip django jenkinschown
 
-all : npm bower-install gulp-dev virtualenv pip django chown
+all : npm webpack-dev virtualenv pip django chown
 
 clean :
 	$(GULP) clean
-	$(BOWER) prune
 	./scripts/rm_all_pyc.sh
 
 delete : delete-javascript delete-virtualenv
@@ -29,16 +27,13 @@ delete-javascript :
 delete-virtualenv :
 	rm -rf /opt/env/troposphere/
 
-bower-install : .bowerrc bower.json
-	$(BOWER) install --config.interactive=false
+webpack-dev : npm
+	$(WEBPACK)
 
-gulp-dev : npm bower-install
-	$(GULP)
+webpack-prod : npm
+	$(WEBPACK) --production
 
-gulp-prod : npm bower-install
-	$(GULP) prod
-
-javascript : npm bower-install gulp-dev
+javascript : npm
 
 js : javascript
 
@@ -48,9 +43,9 @@ npm : package.json
 pip : virtualenv
 	source /opt/env/troposphere/bin/activate;pip install -r requirements.txt
 
-prod : gulp-prod
+prod : webpack-prod
 
-production : gulp-prod
+production : webpack-prod
 
 python : virtualenv pip
 
