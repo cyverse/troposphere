@@ -1,9 +1,4 @@
-require(
-  [
-    'bootstrapper'
-  ],
-  function (bootstrapper) {
-    'use strict';
+import bootstrapper from "bootstrapper";
+import "css/app.scss";
 
-    bootstrapper.run();
-  });
+bootstrapper.run();
