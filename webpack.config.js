@@ -26,12 +26,15 @@ if (process.env.NODE_ENV === "production") {
 }
 
 module.exports = {
-  entry: "./main",
+  entry: {
+    main: "./main",
+    analytics: "./analytics"
+  },
   context: path.join(__dirname, "/troposphere/static/js"),
   output: {
     path: path.join(__dirname, "/troposphere/assets"),
     publicPath: "/assets/",
-    filename: "app.js"
+    filename: "[name].js"
   },
   module: {
     loaders: [
