@@ -1,6 +1,6 @@
 .DEFAULT_GOAL =	all
 
-.PHONY =	all clean delete delete-javascript delete-virtualenv bower-install gulp-dev gulp-prod \
+.PHONY =	all clean delete delete-javascript delete-virtualenv webpack-dev webpack-prod \
 		javascript js npm pip prod production python virtualenv chown
 
 DJANGO	=	DJANGO_SETTINGS_MODULE='troposphere.settings' ./manage.py
@@ -14,7 +14,6 @@ jenkins : npm webpack-dev relativevirtual jenkinspip django jenkinschown
 all : npm webpack-dev virtualenv pip django chown
 
 clean :
-	$(GULP) clean
 	./scripts/rm_all_pyc.sh
 
 delete : delete-javascript delete-virtualenv
@@ -22,7 +21,6 @@ delete : delete-javascript delete-virtualenv
 delete-javascript :
 	rm -rf ./node_modules/
 	rm -rf ./troposphere/assets/
-	rm -rf troposphere/static/bower_components/
 
 delete-virtualenv :
 	rm -rf /opt/env/troposphere/
