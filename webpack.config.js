@@ -34,6 +34,9 @@ module.exports = {
     child_process: "empty"
   },
   resolve: {
+    alias: {
+      highcharts: "highcharts-commonjs"
+    },
     root: [
       path.join(__dirname, "/troposphere/static/js")
     ],

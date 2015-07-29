@@ -1,15 +1,10 @@
 
-define(
-  [
-    'react',
-    'backbone',
-    'jquery',
-    './tooltips/ResourceUseTooltip.react',
-
-    // jquery plugins
-    'highcharts'
-  ],
-  function (React, Backbone, $, ResourceUseTooltip) {
+define(function (require) {
+    var React = require("react"),
+        $ = require("jquery"),
+        Backbone = require("backbone"),
+        Highcharts = require("highcharts"),
+        ResourceUseTooltip = require("./tooltips/ResourceUseTooltip.react");
 
     return React.createClass({
 
@@ -41,7 +36,7 @@ define(
           return;
         }
 
-        $el.highcharts({
+        new Highcharts.createChart(el, {
           chart: {
             type: 'column',
             backgroundColor: 'transparent',

@@ -1,18 +1,17 @@
 
-define(
-  [
-    'react',
-    'backbone',
-    'jquery',
-    './tooltips/ResourceStatusTooltip.react',
-
-    // jquery plugins
-    'highcharts'
-
-  ],
-  function (React, Backbone, $, ResourceStatusTooltip, Highcharts) {
+define(function (require) {
+    var React = require("react"),
+        $ = require("jquery"),
+        Backbone = require("backbone"),
+        Highcharts = require("highcharts"),
+        ResourceStatusTooltip= require("./tooltips/ResourceStatusTooltip.react");
 
     return React.createClass({
+      getInitialState: function () {
+          return  {
+              chart: undefined
+          };
+      },
 
       propTypes: {
         title: React.PropTypes.string.isRequired,
@@ -24,15 +23,10 @@ define(
       },
 
       componentDidUpdate: function () {
-        var el = this.getDOMNode();
-        var $el = $(el);
-        var chart = $el.highcharts();
-
+        var chart = this.state.chart
         var newChartTitle = this.props.resources.length + " " + this.props.title;
-        chart.setTitle({text: newChartTitle});
-
         var data = this.getChartData();
-
+        chart.setTitle({text: newChartTitle});
         chart.series[0].update({
           data: data,
           animation: false
@@ -85,8 +79,7 @@ define(
 
         // Create the chart
         var el = this.getDOMNode();
-        var $el = $(el);
-        $el.highcharts({
+        var chart = Highcharts.createChart(el, {
           chart: {
             type: 'pie',
             backgroundColor: 'transparent',
@@ -133,6 +126,7 @@ define(
             enabled: false
           }
         });
+        this.setState({chart: chart});
       },
 
       render: function () {
