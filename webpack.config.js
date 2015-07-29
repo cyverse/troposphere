@@ -27,11 +27,6 @@ module.exports = {
         $: "jquery"
     })
   ],
-  // HACK: Workaround for the fs module being loaded
-  node: {
-    fs: "empty",
-    child_process: "empty"
-  },
   resolve: {
     alias: {
       highcharts: "highcharts-commonjs"
