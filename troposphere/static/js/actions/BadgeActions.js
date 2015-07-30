@@ -55,7 +55,7 @@ define(function (require) {
           badgeSlug = badge.get('slug');
 
       $.ajax({
-        url: globals.BADGE_HOST + "/1",
+        url: globals.BADGE_HOST,
         type: "POST",
         dataType: 'json',
         contentType: 'application/json',
