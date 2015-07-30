@@ -53,14 +53,16 @@ class BadgeViewSet(viewsets.GenericViewSet):
         slug = settings.BADGE_SYSTEM_SLUG
         secret = settings.BADGE_SECRET
         badge = 1
+
         path = '/systems/' + slug + '/badges/' + badge + "/instance"
         header = {"typ": "JWT", "alg": 'HS256'}
         body = {'email': email}
+
         computed_hash = SHA256.new()
         computed_hash.update(body)
+
         payload = {'key': "master", 'method': "POST", 'path': path, "body": {"alg": "sha256", "hash": computed_hash.hexdigest()}}
         token = jwt.encode(payload, secret, headers=header)
-
 
         options = {
             'method': 'POST',
@@ -74,21 +76,22 @@ class BadgeViewSet(viewsets.GenericViewSet):
         r = requests.post(url + path, data=body, headers=options['headers'])
         return Response(data=r.json(), status=status.HTTP_201_CREATED)
 
-
     def retrieve(self, request, *args, **kwargs):
         url = settings.BADGE_API_HOST
         email = User.objects.get(username=self.request.user).email
         slug = settings.BADGE_SYSTEM_SLUG
         name = settings.BADGE_SYSTEM_NAME
         secret = settings.BADGE_SECRET
+
         path = '/systems/' + slug + '/instances/' + email
         header = {"typ": "JWT", "alg": 'HS256'}
         body = str({"slug": slug, "name": name, "url": url + path})
+
         computed_hash = SHA256.new()
         computed_hash.update(body)
+
         payload = {'key': "master", 'method': "GET", 'path': path, "body": {"alg": "sha256", "hash": computed_hash.hexdigest()}}
         token = jwt.encode(payload, secret, headers=header)
-
 
         options = {
             'method': 'GET',
@@ -102,20 +105,21 @@ class BadgeViewSet(viewsets.GenericViewSet):
         r = requests.get(url + path, headers=options['headers'])
         return Response(data=r.json(), status=status.HTTP_200_OK)
 
-
     def list(self, request, *args, **kwargs):
         url = settings.BADGE_API_HOST
         slug = settings.BADGE_SYSTEM_SLUG
         name = settings.BADGE_SYSTEM_NAME
         secret = settings.BADGE_SECRET
+
         path = '/systems/' + slug + '/badges'
         header = {"typ": "JWT", "alg": 'HS256'}
         body = str({"slug": slug, "name": name, "url": url + path})
+
         computed_hash = SHA256.new()
         computed_hash.update(body)
+
         payload = {'key': "master", 'method': "GET", 'path': path, "body": {"alg": "sha256", "hash": computed_hash.hexdigest()}}
         token = jwt.encode(payload, secret, headers=header)
-
 
         options = {
             'method': 'GET',
