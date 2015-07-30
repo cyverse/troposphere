@@ -8,13 +8,7 @@ define(function (require) {
       MyBadgeCollection = require('collections/MyBadgeCollection');
 
   var MyBadgeStore = BaseStore.extend({
-    collection: MyBadgeCollection,
-
-    queryParams: {
-      system: globals.BADGE_SYSTEM,
-      secret: globals.BADGE_SECRET,
-      email: "josephgarcia@iplantcollaborative.org"
-    }
+    collection: MyBadgeCollection
   });
 
   var store = new MyBadgeStore();

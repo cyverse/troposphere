@@ -5,12 +5,7 @@ define(function (require) {
       BadgeCollection = require('collections/BadgeCollection');
 
   var  BadgeStore = BaseStore.extend({
-    collection: BadgeCollection,
-
-    queryParams: {
-      system: globals.BADGE_SYSTEM,
-      secret: globals.BADGE_SECRET
-    }
+    collection: BadgeCollection
   });
 
   var store = new BadgeStore();
