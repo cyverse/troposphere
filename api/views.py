@@ -2,6 +2,7 @@ from rest_framework import viewsets
 import requests
 from rest_framework import status
 import jwt
+import json
 from troposphere import settings
 from Crypto.Hash import SHA256
 from rest_framework.response import Response
@@ -46,17 +47,18 @@ class UserPreferenceViewSet(viewsets.ModelViewSet):
 class BadgeViewSet(viewsets.GenericViewSet):
     queryset = UserPreferences.objects.none()
     serializer_class = UserPreferenceSerializer
+    http_method_names = ['get', 'post', 'head', 'options', 'trace']
 
     def create(self, request, *args, **kwargs):
         url = settings.BADGE_API_HOST
-        email = User.objects.get(username=self.request.user).email
+        email_address = str(User.objects.get(username=self.request.user).email)
         slug = settings.BADGE_SYSTEM_SLUG
         secret = settings.BADGE_SECRET
-        badge = 1
+        badge = self.request.badgeSlug
 
-        path = '/systems/' + slug + '/badges/' + badge + "/instance"
+        path = '/systems/' + slug + '/badges/' + badge + '/instances'
         header = {"typ": "JWT", "alg": 'HS256'}
-        body = {'email': email}
+        body = json.dumps({"email": email_address})
 
         computed_hash = SHA256.new()
         computed_hash.update(body)
@@ -72,8 +74,12 @@ class BadgeViewSet(viewsets.GenericViewSet):
                 'Content-Type': 'application/json'
             }
         }
-
+        print url
+        print path
+        print options
+        print body
         r = requests.post(url + path, data=body, headers=options['headers'])
+        print r.json()
         return Response(data=r.json(), status=status.HTTP_201_CREATED)
 
     def retrieve(self, request, *args, **kwargs):
