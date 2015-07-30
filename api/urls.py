@@ -4,6 +4,7 @@ from api import views
 
 router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'users', views.UserViewSet)
+router.register(r'badges', views.BadgeViewSet, base_name='badges')
 router.register(r'user_preferences', views.UserPreferenceViewSet)
 
 urlpatterns = patterns('',
