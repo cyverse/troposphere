@@ -76,7 +76,7 @@ define(function (require) {
           <div id="main" style={{"marginTop": marginTop}}>
             <RouteHandler/>
           </div>
-          <Footer text={globals.FOOTER_TEXT} profile={context.profile}/>
+          <Footer text={globals.THEME_FOOTER_TEXT} profile={context.profile}/>
         </div>
       );
     }
