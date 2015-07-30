@@ -197,6 +197,8 @@ define(function (require) {
         && this.state.versionEndDate._isAMomentObject
         && this.state.versionEndDate.isValid()) {
         ended = this.state.versionEndDate.format("MMMM D, YYYY hh:mm a");
+      } else {
+        ended = this.state.versionEndDate;
       }
 
       if(!name || !machines) {
