@@ -1,110 +1,63 @@
 define(function (require) {
 
-  var _ = require('underscore'),
-      Dispatcher = require('dispatchers/Dispatcher'),
-      Store = require('stores/Store'),
-      Collection = require('collections/InstanceTagCollection'),
-      Constants = require('constants/InstanceTagConstants'),
-      TagCollection = require('collections/TagCollection'),
-      Tag = require('models/Tag');
-
-  var _models = new Collection();
-  var _isFetching = false;
+  var Dispatcher = require('dispatchers/Dispatcher'),
+    BaseStore = require('stores/BaseStore'),
+    InstanceTagCollection = require('collections/InstanceTagCollection'),
+    InstanceTagConstants = require('constants/InstanceTagConstants'),
+    TagCollection = require('collections/TagCollection'),
+    Tag = require('models/Tag');
 
   var _modelsFor = {};
   var _isFetchingFor = {};
 
-  //
-  // CRUD Operations
-  //
+  var InstanceTagStore = BaseStore.extend({
+    collection: InstanceTagCollection,
 
-  var fetchModels = function () {
-    if(!_models && !_isFetching) {
-      _isFetching = true;
-      var models = new Collection();
-      models.fetch().done(function () {
-        _isFetching = false;
-        _models = models;
-        ModelStore.emitChange();
-      });
-    }
-  };
+    initialize: function () {
+      this.models = new InstanceTagCollection();
+    },
 
-  var fetchModelsFor = function(instanceId){
-    if(!_modelsFor[instanceId] && !_isFetchingFor[instanceId]) {
-      _isFetchingFor[instanceId] = true;
-      var models = new Collection();
-      models.fetch({
-        url: models.url + "?instance__id=" + instanceId
-      }).done(function () {
-        _isFetchingFor[instanceId] = false;
+    fetchModelsFor: function (instanceId) {
+      if (!_modelsFor[instanceId] && !_isFetchingFor[instanceId]) {
+        _isFetchingFor[instanceId] = true;
+        var models = new InstanceTagCollection();
+        models.fetch({
+          url: models.url + "?instance__id=" + instanceId
+        }).done(function () {
+          _isFetchingFor[instanceId] = false;
 
-        // add models to existing cache
-        _models.add(models.models);
+          // add models to existing cache
+          this.models.add(models.models);
 
-        // convert InstanceTag collection to a TagCollection
-        var tags = models.map(function(it){
-          return new Tag(it.get('tag'), {parse: true});
-        });
-        tags = new TagCollection(tags);
+          // convert InstanceTag collection to a TagCollection
+          var tags = models.map(function (it) {
+            return new Tag(it.get('tag'), {parse: true});
+          });
+          tags = new TagCollection(tags);
 
-        _modelsFor[instanceId] = tags;
-        ModelStore.emitChange();
-      });
-    }
-  };
-
-  function add(model){
-    _models.add(model);
-  }
-
-  function remove(model){
-    _models.remove(model);
-  }
-
-
-  //
-  // Model Store
-  //
-
-  var ModelStore = {
-
-    get: function (modelId) {
-      if(!_models) {
-        fetchModels();
-      } else {
-        return _models.get(modelId);
+          _modelsFor[instanceId] = tags;
+          this.emitChange();
+        }.bind(this));
       }
     },
 
-    getAll: function () {
-      if(!_models) {
-        return fetchModels()
-      }
-      return _models;
-    },
-
-    getInstanceTagFor: function(instance, tag){
-      return _models.find(function(it){
-        return it.get('instance').id === instance.id && it.get('tag').id === tag.id;
-      });
-    },
-
-    getTagsFor: function(instance){
-      if(!_modelsFor[instance.id]) return fetchModelsFor(instance.id);
+    getTagsFor: function (instance) {
+      if (!_modelsFor[instance.id]) return this.fetchModelsFor(instance.id);
 
       // convert InstanceTag collection to an TagCollection
-      var instanceTags = _models.filter(function(it){
+      var instanceTags = this.models.filter(function (it) {
         return it.get('instance').id === instance.id;
       });
 
-      var tags = instanceTags.map(function(it){
+      var tags = instanceTags.map(function (it) {
         return new Tag(it.get('tag'), {parse: true});
       });
       return new TagCollection(tags);
     }
 
-  };
+  });
+
+  var store = new InstanceTagStore();
 
   Dispatcher.register(function (dispatch) {
     var actionType = dispatch.action.actionType;
@@ -113,29 +66,27 @@ define(function (require) {
 
     switch (actionType) {
 
-      case Constants.ADD_INSTANCE_TAG:
-        add(payload.instanceTag);
+      case InstanceTagConstants.ADD_INSTANCE_TAG:
+        store.add(payload.instanceTag);
         break;
 
-      case Constants.REMOVE_INSTANCE_TAG:
-        remove(payload.instanceTag);
+      case InstanceTagConstants.REMOVE_INSTANCE_TAG:
+        store.remove(payload.instanceTag);
         break;
 
-      case Constants.EMIT_CHANGE:
+      case InstanceTagConstants.EMIT_CHANGE:
         break;
 
       default:
         return true;
     }
 
-    if(!options.silent) {
-      ModelStore.emitChange();
+    if (!options.silent) {
+      store.emitChange();
     }
 
     return true;
   });
 
-  _.extend(ModelStore, Store);
-
-  return ModelStore;
+  return store;
 });

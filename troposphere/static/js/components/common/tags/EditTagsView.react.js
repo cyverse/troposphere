@@ -1,9 +1,9 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      ViewTags = require('./ViewTags.react'),
-      EditTags = require('./EditTags.react');
+    Backbone = require('backbone'),
+    ViewTags = require('./ViewTags.react'),
+    TagMultiSelect = require('./TagMultiSelect.react');
 
   var ENTER_KEY = 13;
 
@@ -19,39 +19,53 @@ define(function (require) {
       label: React.PropTypes.string.isRequired
     },
 
-    getInitialState: function(){
+    getInitialState: function () {
       return {
-        isEditingTags: false
+        isEditingTags: false,
+        query: ""
       }
     },
 
-    onEditTags: function(e){
+    onEditTags: function (e) {
       e.preventDefault();
       this.setState({isEditingTags: true});
     },
 
-    onDoneEditingTags: function(e){
+    onDoneEditingTags: function (e) {
       e.preventDefault();
       this.setState({isEditingTags: false});
     },
 
-    onEnterKeyPressed: function(e){
+    onEnterKeyPressed: function (e) {
       var text = e.target.value;
       if (e.which === ENTER_KEY && text.trim()) {
         this.props.onCreateNewTag(text);
       }
     },
 
-    onCreateNewEmptyTag: function(e){
+    onCreateNewEmptyTag: function (e) {
       this.props.onCreateNewTag("");
     },
 
-    render: function () {
-      var link,
-          newTagButton,
-          tagView;
+    onQueryChange: function (query) {
+      this.setState({query: query});
+    },
 
-      if(this.state.isEditingTags){
+    render: function () {
+      var query = this.state.query,
+        link,
+        newTagButton,
+        tagView,
+        tags = this.props.tags;
+
+      if (query) {
+        tags = this.props.tags.filter(function (tag) {
+          return tag.get('name').toLowerCase().indexOf(query) >= 0;
+        });
+        tags = new Backbone.Collection(tags);
+      }
+
+      if (this.state.isEditingTags) {
         link = (
           <a className="toggle-editing-link" href="#" onClick={this.onDoneEditingTags}>Done editing</a>
         );
@@ -59,23 +73,25 @@ define(function (require) {
         newTagButton = (
           <a className="btn btn-primary new-tag" href="#" onClick={this.onCreateNewEmptyTag}>+ New tag</a>
         );
-      }else{
+      } else {
         link = (
           <a className="toggle-editing-link" href="#" onClick={this.onEditTags}>Create/Edit tags</a>
         );
       }
 
-      if(this.state.isEditingTags){
+      if (this.state.isEditingTags) {
         tagView = (
-          <EditTags
-            tags={this.props.tags}
-            activeTags={this.props.activeTags}
-            onTagAdded={this.props.onTagAdded}
-            onTagRemoved={this.props.onTagRemoved}
+          <TagMultiSelect
+            models={tags}
+            activeModels={this.props.activeTags}
+            onModelAdded={this.props.onTagAdded}
+            onModelRemoved={this.props.onTagRemoved}
             onEnterKeyPressed={this.onEnterKeyPressed}
-          />
-        );
-      }else{
+            onQueryChange={this.onQueryChange}
+            placeholderText="Search by tag name..."
+            />
+        )
+      } else {
         tagView = (
           <ViewTags activeTags={this.props.activeTags}/>
         );

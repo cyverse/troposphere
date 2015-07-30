@@ -2,8 +2,8 @@ define(function (require) {
   "use strict";
 
   var Backbone = require('backbone'),
-      Identity = require('models/Identity'),
-      globals = require('globals');
+    Identity = require('models/Identity'),
+    globals = require('globals');
 
   return Backbone.Collection.extend({
     model: Identity,

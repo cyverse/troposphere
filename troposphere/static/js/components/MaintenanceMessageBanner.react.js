@@ -1,8 +1,8 @@
 define(function (stores) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      stores = require('stores');
+    Backbone = require('backbone'),
+    stores = require('stores');
 
   return React.createClass({
 
@@ -10,9 +10,9 @@ define(function (stores) {
       maintenanceMessages: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
 
-    renderMessage: function(message){
+    renderMessage: function (message) {
       var provider = stores.ProviderStore.get(message.get('provider')),
-          providerName = provider ? provider.get('name') : "";
+        providerName = provider ? provider.get('name') : "";
 
       return (
         <li key={message.id} className="message">

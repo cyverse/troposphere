@@ -1,15 +1,15 @@
 define(function (require) {
 
   var React = require('react'),
-      Gravatar = require('components/common/Gravatar.react'),
-      Backbone = require('backbone'),
-      Bookmark = require('../../common/Bookmark.react'),
-      context = require('context'),
-      Tags = require('../../detail/tags/Tags.react'),
-      stores = require('stores'),
-      ApplicationCardDescription = require('./ApplicationCardDescription.react'),
-      moment = require('moment'),
-      Router = require('react-router');
+    Gravatar = require('components/common/Gravatar.react'),
+    Backbone = require('backbone'),
+    Bookmark = require('../../common/Bookmark.react'),
+    context = require('context'),
+    Tags = require('../../detail/tags/Tags.react'),
+    stores = require('stores'),
+    ApplicationCardDescription = require('./ApplicationCardDescription.react'),
+    moment = require('moment'),
+    Router = require('react-router');
 
   return React.createClass({
 
@@ -20,11 +20,11 @@ define(function (require) {
 
     render: function () {
       var app = this.props.application,
-          type = stores.ProfileStore.get().get('icon_set'),
-          imageTags = stores.TagStore.getImageTags(app),
-          applicationCreationDate = moment(app.get('start_date')).format("MMM D, YYYY"),
-          iconSize = 145,
-          icon;
+        type = stores.ProfileStore.get().get('icon_set'),
+        imageTags = stores.TagStore.getImageTags(app),
+        applicationCreationDate = moment(app.get('start_date')).format("MMM D, YYYY"),
+        iconSize = 145,
+        icon;
 
       if (app.get('icon')) {
         icon = (
@@ -38,7 +38,7 @@ define(function (require) {
 
       // Hide bookmarking on the public page
       var bookmark;
-      if(context.profile){
+      if (context.profile) {
         bookmark = (
           <Bookmark application={app}/>
         );
@@ -57,12 +57,13 @@ define(function (require) {
             </Router.Link>
           </div>
           <div className="creation-details">
-            <time>{applicationCreationDate}</time> by <strong>{app.get('created_by').username}</strong>
+            <time>{applicationCreationDate}</time>
+            by <strong>{app.get('created_by').username}</strong>
           </div>
           {bookmark}
           <Tags activeTags={imageTags}
                 tags={this.props.tags}
-          />
+            />
           <ApplicationCardDescription application={app}/>
         </div>
       );

@@ -1,12 +1,12 @@
-define(function(require) {
+define(function (require) {
 
-var React = require('react'),
+  var React = require('react'),
     BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react');
 
   return React.createClass({
     mixins: [BootstrapModalMixin],
 
-    cancel: function(){
+    cancel: function () {
       this.hide();
     },
 
@@ -15,7 +15,7 @@ var React = require('react'),
       this.props.onConfirm();
     },
 
-    renderBody: function(){
+    renderBody: function () {
       return (
         <div role='form'>
           <div className='form-group'>

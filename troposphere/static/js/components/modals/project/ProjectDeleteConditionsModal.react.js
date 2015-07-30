@@ -15,7 +15,7 @@ define(
       // ------------------------
       //
 
-      cancel: function(){
+      cancel: function () {
         this.hide();
       },
 
@@ -28,7 +28,7 @@ define(
       // ------
       //
 
-      renderBody: function(){
+      renderBody: function () {
         return (
           <div role='form'>
             <div className='form-group'>
@@ -40,9 +40,13 @@ define(
                   "deleting projects that have resources in them."
                 }
               </p>
+
               <p>
-                Before you can delete this project, you first need to either <strong>DELETE</strong> all resources in this project <span style={{"textDecoration":"underline"}}>or</span> <strong>MOVE</strong> them into another project.
+                Before you can delete this project, you first need to either <strong>DELETE</strong> all resources in
+                this project <span style={{"textDecoration":"underline"}}>or</span> <strong>MOVE</strong> them into
+                another project.
               </p>
+
               <p>Once there are no resources left in the project, you'll be able to delete it.</p>
             </div>
           </div>

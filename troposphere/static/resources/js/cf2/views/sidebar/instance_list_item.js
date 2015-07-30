@@ -39,7 +39,7 @@ Atmo.Views.SidebarInstanceListItem = Backbone.View.extend({
             if (this.$el.find('.media-body span').html() != this.model.get('public_dns_name')) {
                 this.$el.find('.media-body span').html(this.model.get('public_dns_name'));
             }
-            
+
             // Update running state if needed
             this.$el.find('.instance_state').attr('class', 'instance_state');
             this.$el.find('.instance_state').html('Instance status: ' + this.model.get('state'));
@@ -79,11 +79,11 @@ Atmo.Views.SidebarInstanceListItem = Backbone.View.extend({
     highlight: function(model) {
         if (this.model == model)
             this.$el.addClass('active');
-        else 
+        else
             this.$el.removeClass('active');
     },
     rect_clicked: function() {
-        this.model.select();    
+        this.model.select();
     },
     close_shell: function() {
         this.model.set('running_shell', false);
@@ -100,7 +100,7 @@ Atmo.Views.SidebarInstanceListItem = Backbone.View.extend({
                 $('<li/>', {
                     'class': 'instance_service',
                     html: service + ' is running'
-                }).append($('<img/>', { 
+                }).append($('<img/>', {
                         src: site_root+'/assets/resources/images/x_close.png',
                         'class': 'terminate_' + service_lower
                 })).appendTo(self.$el.find('.instance_state_indicators'));
@@ -110,7 +110,7 @@ Atmo.Views.SidebarInstanceListItem = Backbone.View.extend({
         e.stopPropagation();
 
         var instances = this.model.collection;
-        
+
         if (this.model.get('state_is_delete') == true) {
             Atmo.Utils.notify("Please wait", "Instance status is already " + this.model.get('state') + ".");
             return false;
@@ -162,7 +162,7 @@ Atmo.Views.SidebarInstanceListItem = Backbone.View.extend({
             return;
         }
 
-        // Now, deal with task states -- initialize task format: 'state - task' 
+        // Now, deal with task states -- initialize task format: 'state - task'
         if (this.model.get('state').indexOf('-') != -1) {
             this.add_instance_task();
 
@@ -200,7 +200,7 @@ Atmo.Views.SidebarInstanceListItem = Backbone.View.extend({
         var percent = 0;
 
         if (this.model.get('state').indexOf('-') == -1) {
-            /* This can mean one of two things: 
+            /* This can mean one of two things:
                 1. Instance has reached final state (it's 100% done)
                 2. The instance hasn't been reached in the queue (it's 5% done)
             */
@@ -264,7 +264,7 @@ Atmo.Views.SidebarInstanceListItem = Backbone.View.extend({
             // Allow animation to complete, then hide graph bar
             setTimeout(function() {
                 self.$el.find('.graphBar').slideUp('fast', function() {
-                    $(this).remove();    
+                    $(this).remove();
                 });
             }, 2 * 1000);
 
@@ -337,9 +337,9 @@ Atmo.Views.SidebarInstanceListItem = Backbone.View.extend({
 
                         // Instance was deleted
                         if (textStatus.status == 404) {
-                            self.update_percent_complete(100)
+                            self.update_percent_complete(100);
                             Atmo.instances.update();
-                            return;
+
                         }
                         else {
                             self.update_percent_complete(0);

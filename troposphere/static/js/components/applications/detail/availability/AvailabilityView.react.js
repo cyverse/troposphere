@@ -1,8 +1,10 @@
 define(function (require) {
 
-  var React = require('react'),
-      Backbone = require('backbone'),
-      stores = require('stores');
+  var _ = require('underscore'),
+    React = require('react'),
+    Backbone = require('backbone'),
+    stores = require('stores'),
+    ProviderCollection = require('collections/ProviderCollection');
 
   return React.createClass({
 
@@ -10,37 +12,26 @@ define(function (require) {
       application: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    renderProvider: function(provider){
+    renderProvider: function (provider) {
+      //TODO: 'getProviders' is returning identities?
       return (
-        <li key={provider.id}>
-          {provider.get('name')}
+        <li key={provider.get('provider').id}>
+          {provider.get('provider').name}
         </li>
       )
     },
-
     render: function () {
       var image = this.props.application,
-          providerHash = {},
-          providers = image.get('machines').filter(function(machine){
-            // filter out providers that don't exist
-            var providerId = machine.get('provider').id,
-                provider = stores.ProviderStore.get(machine.get('provider').id);
-            if(!provider) console.warn("Image " + image.id + " showing availability on non-existent provider " + providerId);
-            return provider;
-          }).map(function(machine){
-            // convert machine to providers
-            return stores.ProviderStore.get(machine.get('provider').id);
-          }).filter(function(provider){
-            // remove duplicate providers
-            if(!providerHash[provider.id]){
-              providerHash[provider.id] = provider;
-              return true;
-            }
-          });
+        providers = this.getProvidersForImage(image);
+
+      if (!providers) {
+        return <div className="loading"/>
+      }
 
       return (
         <div className='image-availability image-info-segment row'>
           <h4 className="title col-md-2">Available on</h4>
+
           <div className="content col-md-10">
             <ul className="list-unstyled">
               {providers.map(this.renderProvider)}
@@ -48,6 +39,9 @@ define(function (require) {
           </div>
         </div>
       );
+    },
+    getProvidersForImage: function (image) {
+      return image.getProviders();
     }
 
   });

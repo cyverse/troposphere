@@ -346,6 +346,20 @@ ul.tags {
   }
 }
 
+.image-version-details {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 12px;
+
+  //height: 75px;
+  line-height: 21px;
+
+  .version {
+    font-size: 15px;
+  }
+}
+
+
 .image-versions {
   .loading {
     margin-top: 10px !important;

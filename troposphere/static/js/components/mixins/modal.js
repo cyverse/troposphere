@@ -29,7 +29,7 @@ define(
                 },
                 '\u00d7'
               ),
-              React.DOM.h4({ className: 'modal-title'},
+              React.DOM.h4({className: 'modal-title'},
                 this.renderTitle()
               )
             ),

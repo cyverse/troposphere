@@ -1,34 +1,30 @@
-define(
-  [
-    // dependencies go here
-  ],
-  function () {
+define(function (require) {
+  "use strict";
 
-    var MockStore = function () {
-      return {
+  var MockStore = function () {
+    return {
 
-        //
-        // Common methods
-        //
+      get: function () {
+        return null;
+      },
 
-        get: function () {
-          return null;
-        },
+      getAll: function () {
+        return null;
+      },
 
-        getAll: function () {
-          return null;
-        },
+      //
+      // Inherited methods
+      //
 
-        //
-        // Inherited methods
-        //
-
-        addChangeListener: function (callback) { },
-        removeChangeListener: function (callback) { },
-        emitChange: function () { }
+      addChangeListener: function (callback) {
+      },
+      removeChangeListener: function (callback) {
+      },
+      emitChange: function () {
       }
-    };
+    }
+  };
 
-    return MockStore;
+  return MockStore;
 
-  });
+});

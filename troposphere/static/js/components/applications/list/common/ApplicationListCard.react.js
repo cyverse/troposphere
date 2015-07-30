@@ -1,16 +1,16 @@
 define(function (require) {
 
   var React = require('react'),
-      Gravatar = require('components/common/Gravatar.react'),
-      Backbone = require('backbone'),
-      Bookmark = require('../../common/Bookmark.react'),
-      context = require('context'),
-      Tags = require('../../detail/tags/Tags.react'),
-      stores = require('stores'),
-      navigator = require('navigator'),
-      Showdown = require('showdown'),
-      moment = require('moment'),
-      Router = require('react-router');
+    Gravatar = require('components/common/Gravatar.react'),
+    Backbone = require('backbone'),
+    Bookmark = require('../../common/Bookmark.react'),
+    context = require('context'),
+    Tags = require('../../detail/tags/Tags.react'),
+    stores = require('stores'),
+    navigator = require('navigator'),
+    Showdown = require('showdown'),
+    moment = require('moment'),
+    Router = require('react-router');
 
   return React.createClass({
 
@@ -20,16 +20,19 @@ define(function (require) {
 
     render: function () {
       var app = this.props.application,
-          type = stores.ProfileStore.get().get('icon_set'),
-          imageTags = stores.TagStore.getImageTags(app),
-          applicationCreationDate = moment(app.get('start_date')).format("MMM D, YYYY"),
-          converter = new Showdown.converter(),
-          description = app.get('description'),
-          descriptionHtml = converter.makeHtml(description),
-          iconSize = 67,
-          icon;
+        type = stores.ProfileStore.get().get('icon_set'),
+        imageTags = stores.TagStore.getImageTags(app),
+        applicationCreationDate = moment(app.get('start_date')).format("MMM D, YYYY"),
+        converter = new Showdown.converter(),
+        description = app.get('description');
+      if (!description) {
+        description = "No Description Provided."
+      }
+      var descriptionHtml = converter.makeHtml(description),
+        iconSize = 67,
+        icon;
 
-      if(app.get('icon')) {
+      if (app.get('icon')) {
         icon = (
           <img src={app.get('icon')} width={iconSize} height={iconSize}/>
         );
@@ -41,7 +44,7 @@ define(function (require) {
 
       // Hide bookmarking on the public page
       var bookmark;
-      if(context.profile){
+      if (context.profile) {
         bookmark = (
           <Bookmark application={app}/>
         );
@@ -61,7 +64,9 @@ define(function (require) {
                   {app.get('name')}
                 </Router.Link>
               </h4>
-              <div><time>{applicationCreationDate}</time> by <strong>{app.get('created_by').username}</strong></div>
+              <div>
+                <time>{applicationCreationDate}</time>
+                by <strong>{app.get('created_by').username}</strong></div>
               <Tags activeTags={imageTags}/>
             </span>
           </div>

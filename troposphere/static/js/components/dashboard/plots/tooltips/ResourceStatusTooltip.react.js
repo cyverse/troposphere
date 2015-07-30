@@ -15,7 +15,7 @@ define(
         count: React.PropTypes.number.isRequired
       },
 
-      render: function(){
+      render: function () {
         // Example Output:
         //
         // There are 6 Volumes with

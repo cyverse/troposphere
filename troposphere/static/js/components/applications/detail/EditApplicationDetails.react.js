@@ -1,17 +1,17 @@
 define(function (require) {
 
   var React = require('react'),
-      HeaderView = require('./header/HeaderView.react'),
-      AvailabilityView = require('./availability/AvailabilityView.react'),
-      EditTagsView = require('./tags/EditTagsView.react'),
-      ImageLaunchCard = require('./launch/ImageLaunchCard.react'),
-      EditNameView = require('./name/EditNameView.react'),
-      CreatedView = require('./created/CreatedView.react'),
-      AuthorView = require('./author/AuthorView.react'),
-      EditDescriptionView = require('./description/EditDescriptionView.react'),
-      VersionsView = require('./versions/VersionsView.react'),
-      actions = require('actions'),
-      stores = require('stores');
+    HeaderView = require('./header/HeaderView.react'),
+    AvailabilityView = require('./availability/AvailabilityView.react'),
+    EditTagsView = require('./tags/EditTagsView.react'),
+    ImageLaunchCard = require('./launch/ImageLaunchCard.react'),
+    EditNameView = require('./name/EditNameView.react'),
+    EditDescriptionView = require('./description/EditDescriptionView.react'),
+    CreatedView = require('./created/CreatedView.react'),
+    AuthorView = require('./author/AuthorView.react'),
+    VersionsView = require('./versions/VersionsView.react'),
+    actions = require('actions'),
+    stores = require('stores');
 
   return React.createClass({
 
@@ -24,7 +24,7 @@ define(function (require) {
       onCancel: React.PropTypes.func.isRequired
     },
 
-    getInitialState: function(){
+    getInitialState: function () {
       var image = this.props.application;
 
       return {
@@ -33,11 +33,7 @@ define(function (require) {
       }
     },
 
-    showModal: function (e) {
-      actions.InstanceActions.launch(this.props.application);
-    },
-
-    handleSave: function(){
+    handleSave: function () {
       var updatedAttributes = {
         name: this.state.name,
         description: this.state.description
@@ -46,49 +42,49 @@ define(function (require) {
       this.props.onSave(updatedAttributes);
     },
 
-    handleNameChange: function(e){
+    handleNameChange: function (e) {
       var name = e.target.value;
       this.setState({name: name});
     },
 
-    handleDescriptionChange: function(e){
+    handleDescriptionChange: function (e) {
       var description = e.target.value;
       this.setState({description: description});
     },
 
-    onTagAdded: function(tags){
+    onTagAdded: function (tags) {
       alert("ImageTag actions not connected");
       //this.setState({tags: tags});
     },
 
-    onTagRemoved: function(tags){
+    onTagRemoved: function (tags) {
       alert("ImageTag actions not connected");
       //this.setState({tags: tags});
     },
 
     render: function () {
       var application = this.props.application,
-          providers = this.props.providers,
-          identities = this.props.identities,
-          allTags = this.props.tags,
-          imageTags = stores.TagStore.getImageTags(application),
-          availabilityView,
-          versionView;
+        providers = this.props.providers,
+        identities = this.props.identities,
+        allTags = this.props.tags,
+        imageTags = stores.TagStore.getImageTags(application),
+        availabilityView,
+        versionView;
 
       // Since providers requires authentication, we can't display which providers
       // the image is available on on the public page
-      if(providers){
+      if (providers) {
         availabilityView = (
           <AvailabilityView
             application={application}
             providers={providers}
-          />
+            />
         );
       }
 
       // Since identities requires authentication, we can't display the image
       // versions on the public page
-      if(identities){
+      if (identities) {
         versionView = (
           <VersionsView application={application}/>
         );
@@ -105,7 +101,7 @@ define(function (require) {
               application={application}
               value={this.state.name}
               onChange={this.handleNameChange}
-            />
+              />
             <CreatedView application={application}/>
             <AuthorView application={application}/>
             <EditTagsView
@@ -114,13 +110,12 @@ define(function (require) {
               value={imageTags}
               onTagAdded={this.onTagAdded}
               onTagRemoved={this.onTagRemoved}
-            />
-            {availabilityView}
+              />
             <EditDescriptionView
               application={application}
               value={this.state.description}
               onChange={this.handleDescriptionChange}
-            />
+              />
             {versionView}
           </div>
         </div>

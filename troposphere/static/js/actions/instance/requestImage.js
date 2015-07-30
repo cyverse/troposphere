@@ -2,79 +2,78 @@ define(function (require) {
   "use strict";
 
   var globals = require('globals'),
-      NotificationController = require('controllers/NotificationController'),
-      stores = require('stores'),
-      ModalHelpers = require('components/modals/ModalHelpers'),
-      InstanceImageModal = require('components/modals/instance/InstanceImageModal.react'),
-      Utils = require('../Utils');
+    stores = require('stores'),
+    Utils = require('../Utils');
 
   return {
 
-    requestImage: function(params){
-      if(!params.instance) throw new Error("Missing instance");
+    requestImage: function (params) {
+      if (!params.instance) throw new Error("Missing instance");
+      if (!params.name) throw new Error("Missing name");
+      if (!params.description) throw new Error("Missing description");
+      if (!params.tags) throw new Error("Missing tags");
+      if (!params.providerId) throw new Error("Missing providerId");
+      if (params.fork == undefined) throw new Error("Missing create/update flag(fork)");
+      //if(!params.software) throw new Error("Missing software");
+      //if(!params.filesToExclude) throw new Error("Missing filesToExclude");
+      //if(!params.systemFiles) throw new Error("Missing systemFiles");
+      if (!params.visibility) throw new Error("Missing visibility");
+      if (!params.imageUsers) throw new Error("Missing imageUsers");
+
 
       var instance = params.instance,
-          modal = InstanceImageModal({
-            instance: instance
-          });
+        name = params.name,
+        description = params.description,
+        providerId = params.providerId,
+        software = params.software,
+        filesToExclude = params.filesToExclude,
+        systemFiles = params.systemFiles || "[no files specified]",
+        visibility = params.visibility,
+        imageUsers = params.imageUsers,
+        userNames = imageUsers.map(function (user) {
+          return user.get('username');
+        }),
+        tags = params.tags,
+        tagNames = tags.map(function (tag) {
+          return tag.get('name');
+        }),
+        provider = stores.ProviderStore.get(providerId);
 
-      ModalHelpers.renderModal(modal, function (params) {
-        if(!params.name) throw new Error("Missing name");
-        if(!params.description) throw new Error("Missing description");
-        if(!params.providerId) throw new Error("Missing providerId");
-        if(!params.software) throw new Error("Missing software");
-        if(!params.filesToExclude) throw new Error("Missing filesToExclude");
-        if(!params.systemFiles) throw new Error("Missing systemFiles");
-        if(!params.visibility) throw new Error("Missing visibility");
-        if(!params.tags) throw new Error("Missing tags");
+      var requestData = {
+        fork: params.fork,
+        name: name,
+        description: description,
+        tags: tagNames,
+        instance: instance.get('uuid'),
+        ip_address: instance.get("ip_address"),
+        provider: provider.get('uuid'),
+        vis: visibility,
+        shared_with: userNames,
+        exclude: filesToExclude || "[no files specified]",
+        software: software || "[no software specified]",
+        sys: systemFiles || "[no files specified]"
+      };
 
-        var name = params.name,
-            description = params.description,
-            providerId = params.providerId,
-            software = params.software,
-            filesToExclude = params.filesToExclude,
-            systemFiles = params.systemFiles,
-            visibility = params.visibility,
-            tags = params.tags,
-            tagNames = tags.map(function(tag){
-              return tag.get('name');
-            }),
-            provider = stores.ProviderStore.get(providerId);
+      var requestUrl = (
+        globals.API_ROOT +
+        "/provider/" + instance.get('provider').uuid +
+        "/identity/" + instance.get('identity').uuid +
+        "/request_image"
+      );
 
-        var requestData = {
-          instance: instance.get('uuid'),
-          ip_address: instance.get("ip_address"),
-          name: name,
-          description: description,
-          tags: tagNames,
-          provider: provider.get('uuid'),
-          software: software,
-          exclude: filesToExclude,
-          sys: systemFiles,
-          vis: visibility
-        };
-
-        var requestUrl = (
-          globals.API_ROOT +
-          "/provider/" + instance.get('provider').uuid +
-          "/identity/" + instance.get('identity').uuid +
-          "/request_image"
-        );
-
-        $.ajax({
-          url: requestUrl,
-          type: 'POST',
-          data: JSON.stringify(requestData),
-          dataType: 'json',
-          contentType: 'application/json',
-          success: function (model) {
-            Utils.displaySuccess({message: "Your image request has been sent to support."});
-          },
-          error: function (response, status, error) {
-            Utils.displayError({title: "Your image request could not be sent", response: response});
-          }
-        });
-      })
+      $.ajax({
+        url: requestUrl,
+        type: 'POST',
+        data: JSON.stringify(requestData),
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function (model) {
+          Utils.displaySuccess({message: "Your image request has been sent to support."});
+        },
+        error: function (response, status, error) {
+          Utils.displayError({title: "Your image request could not be sent", response: response});
+        }
+      });
     }
 
   };

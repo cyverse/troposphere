@@ -1,66 +1,24 @@
 define(function (require) {
 
   var _ = require('underscore'),
-      Dispatcher = require('dispatchers/Dispatcher'),
-      Store = require('stores/Store'),
-      Collection = require('collections/ProjectInstanceCollection'),
-      Constants = require('constants/ProjectInstanceConstants'),
-      InstanceCollection = require('collections/InstanceCollection'),
-      Instance = require('models/Instance'),
-      stores = require('stores');
-
-  var _models = new Collection();
-  var _isFetching = false;
+    Dispatcher = require('dispatchers/Dispatcher'),
+    BaseStore = require('stores/BaseStore'),
+    ProjectInstanceCollection = require('collections/ProjectInstanceCollection'),
+    Constants = require('constants/ProjectInstanceConstants'),
+    InstanceCollection = require('collections/InstanceCollection'),
+    Instance = require('models/Instance'),
+    stores = require('stores');
 
   var _modelsFor = {};
   var _isFetchingFor = {};
+  var _pendingProjectInstances = new InstanceCollection();
 
-  //
-  // CRUD Operations
-  //
-
-  var fetchModels = function () {
-    if(!_models && !_isFetching) {
-      _isFetching = true;
-      var models = new Collection();
-      models.fetch().done(function () {
-        _isFetching = false;
-        _models = models;
-        ModelStore.emitChange();
-      });
-    }
-  };
-
-  var fetchModelsFor = function(projectId){
-    if(!_modelsFor[projectId] && !_isFetchingFor[projectId]) {
-      _isFetchingFor[projectId] = true;
-      var models = new Collection();
-      models.fetch({
-        url: models.url + "?project__id=" + projectId
-      }).done(function () {
-        _isFetchingFor[projectId] = false;
-
-        // add models to existing cache
-        _models.add(models.models);
-
-        // convert ProjectInstance collection to an InstanceCollection
-        var instances = models.map(function(pi){
-          return new Instance(pi.get('instance'), {parse: true});
-        });
-        instances = new InstanceCollection(instances);
-
-        _modelsFor[projectId] = instances;
-        ModelStore.emitChange();
-      });
-    }
-  };
-
-  function add(model){
-    _models.add(model);
+  function addPending(model) {
+    _pendingProjectInstances.add(model);
   }
 
-  function remove(model){
-    _models.remove(model);
+  function removePending(model) {
+    _pendingProjectInstances.remove(model);
   }
 
 
@@ -68,61 +26,82 @@ define(function (require) {
   // Model Store
   //
 
-  var ModelStore = {
+  var ProjectInstanceStore = BaseStore.extend({
+    collection: ProjectInstanceCollection,
 
-    get: function (modelId) {
-      if(!_models) {
-        fetchModels();
-      } else {
-        return _models.get(modelId);
+    initialize: function () {
+      this.models = new ProjectInstanceCollection();
+    },
+
+    fetchModelsFor: function (projectId) {
+      if (!_modelsFor[projectId] && !_isFetchingFor[projectId]) {
+        _isFetchingFor[projectId] = true;
+        var models = new ProjectInstanceCollection();
+        models.fetch({
+          url: models.url + "?project__id=" + projectId
+        }).done(function () {
+          _isFetchingFor[projectId] = false;
+
+          // add models to existing cache
+          this.models.add(models.models);
+
+          // convert ProjectInstance collection to an InstanceCollection
+          var instances = models.map(function (pi) {
+            return new Instance(pi.get('instance'), {parse: true});
+          });
+          instances = new InstanceCollection(instances);
+
+          _modelsFor[projectId] = instances;
+          this.emitChange();
+        }.bind(this));
       }
     },
 
-    getAll: function () {
-      if(!_models) {
-        return fetchModels();
-      }
-      return _models;
-    },
-
-    getProjectInstanceFor: function(project, instance){
-      return _models.find(function(pm){
-        return pm.get('project').id === project.id && pm.get('instance').id === instance.id;
-      });
-    },
-
-    getInstancesFor: function(project){
+    getInstancesFor: function (project) {
       var allInstances = stores.InstanceStore.getAll();
-      if(!_modelsFor[project.id]) return fetchModelsFor(project.id);
-      if(!allInstances) return;
+      if (!_modelsFor[project.id]) return this.fetchModelsFor(project.id);
+      if (!allInstances) return;
 
-      var instances = _models.filter(function(pi){
+      var instances = this.models.filter(function (pi) {
         // filter out irrelevant project instances (not in target project)
         return pi.get('project').id === project.id;
-      }).filter(function(pi){
+      }).filter(function (pi) {
         // filter out the instances that don't exist (not in local cache)
         return allInstances.get(pi.get('instance').id);
-      }).map(function(pi){
+      }).map(function (pi) {
         // return the actual instances
         return allInstances.get(pi.get('instance').id);
       });
 
-      return new InstanceCollection(instances);
+      var pendingInstances = _pendingProjectInstances.filter(function (pi) {
+        // filter out irrelevant project instances (not in target project)
+        return pi.get('project').id === project.id;
+      }).filter(function (pi) {
+        // filter out the instances that don't exist (not in local cache)
+        return allInstances.get(pi.get('instance'));
+      }).map(function (pi) {
+        // return the actual instances
+        return allInstances.get(pi.get('instance'));
+      });
+
+      return new InstanceCollection(instances.concat(pendingInstances));
     },
 
-    getInstancesForProjectOnProvider: function(project, provider){
+    getInstancesForProjectOnProvider: function (project, provider) {
       // get instances in project
       var instances = this.getInstancesFor(project);
 
       // filter out instances not on provider
-      var instances = instances.filter(function(i){
+      var instances = instances.filter(function (i) {
         return i.get('provider').id === provider.id;
       });
 
       return new InstanceCollection(instances);
     }
 
-  };
+  });
+
+  var store = new ProjectInstanceStore();
 
   Dispatcher.register(function (dispatch) {
     var actionType = dispatch.action.actionType;
@@ -132,11 +111,19 @@ define(function (require) {
     switch (actionType) {
 
       case Constants.ADD_PROJECT_INSTANCE:
-        add(payload.projectInstance);
+        store.add(payload.projectInstance);
         break;
 
       case Constants.REMOVE_PROJECT_INSTANCE:
-        remove(payload.projectInstance);
+        store.remove(payload.projectInstance);
+        break;
+
+      case Constants.ADD_PENDING_PROJECT_INSTANCE:
+        addPending(payload.projectInstance);
+        break;
+
+      case Constants.REMOVE_PENDING_PROJECT_INSTANCE:
+        removePending(payload.projectInstance);
         break;
 
       case Constants.EMIT_CHANGE:
@@ -146,14 +133,12 @@ define(function (require) {
         return true;
     }
 
-    if(!options.silent) {
-      ModelStore.emitChange();
+    if (!options.silent) {
+      store.emitChange();
     }
 
     return true;
   });
 
-  _.extend(ModelStore, Store);
-
-  return ModelStore;
+  return store;
 });

@@ -1,8 +1,8 @@
 define(function (require) {
 
   var React = require('react'),
-      // plugin: required but not used directly
-      bootstrap = require('bootstrap');
+  // plugin: required but not used directly
+    bootstrap = require('bootstrap');
 
   return React.createClass({
 
@@ -14,15 +14,15 @@ define(function (require) {
       style: React.PropTypes.object
     },
 
-    componentDidMount: function(){
+    componentDidMount: function () {
       this.generateTooltip();
     },
 
-    componentDidUpdate: function(){
+    componentDidUpdate: function () {
       this.generateTooltip();
     },
 
-    generateTooltip: function(){
+    generateTooltip: function () {
       var el = this.getDOMNode();
       var $el = $(el);
       $el.tooltip({
@@ -32,7 +32,7 @@ define(function (require) {
 
     render: function () {
       var style = this.props.style || {};
-      if(this.props.isVisible) {
+      if (this.props.isVisible) {
         return (
           <button className="btn btn-default" style={style} onClick={this.props.onClick}>
             <i className={"glyphicon glyphicon-" + this.props.icon}/>

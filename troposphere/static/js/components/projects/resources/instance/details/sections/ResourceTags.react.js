@@ -1,8 +1,8 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      EditTagsView = require('components/common/tags/EditTagsView.react');
+    Backbone = require('backbone'),
+    EditTagsView = require('components/common/tags/EditTagsView.react');
 
   return React.createClass({
     display: "ResourceTags",
@@ -15,18 +15,18 @@ define(function (require) {
       onCreateNewTag: React.PropTypes.func.isRequired
     },
 
-    getInitialState: function(){
+    getInitialState: function () {
       return {
         isEditingTags: false
       }
     },
 
-    onEditTags: function(e){
+    onEditTags: function (e) {
       e.preventDefault();
       this.setState({isEditingTags: true});
     },
 
-    onDoneEditingTags: function(e){
+    onDoneEditingTags: function (e) {
       e.preventDefault();
       this.setState({isEditingTags: false});
     },
@@ -41,7 +41,7 @@ define(function (require) {
             onTagRemoved={this.props.onTagRemoved}
             onCreateNewTag={this.props.onCreateNewTag}
             label={"Instance Tags:"}
-          />
+            />
         </div>
       );
     }

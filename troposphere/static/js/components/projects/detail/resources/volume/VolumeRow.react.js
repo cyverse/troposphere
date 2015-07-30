@@ -1,15 +1,15 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      SelectableRow = require('../SelectableRow.react'),
-      Name = require('../tableData/volume/Name.react'),
-      Status = require('../tableData/volume/Status.react'),
-      Size = require('../tableData/volume/Size.react'),
-      Provider = require('../tableData/volume/Provider.react'),
-      stores = require('stores'),
-      CryptoJS = require('crypto'),
-      Gravatar = require('components/common/Gravatar.react');
+    Backbone = require('backbone'),
+    SelectableRow = require('../SelectableRow.react'),
+    Name = require('../tableData/volume/Name.react'),
+    Status = require('../tableData/volume/Status.react'),
+    Size = require('../tableData/volume/Size.react'),
+    Provider = require('../tableData/volume/Provider.react'),
+    stores = require('stores'),
+    CryptoJS = require('crypto-js'),
+    Gravatar = require('components/common/Gravatar.react');
 
   return React.createClass({
     displayName: "VolumeRow",
@@ -25,9 +25,9 @@ define(function (require) {
 
     render: function () {
       var volume = this.props.volume,
-          volumeHash = CryptoJS.MD5((volume.id || volume.cid).toString()).toString(),
-          type = stores.ProfileStore.get().get('icon_set'),
-          iconSize = 18;
+        volumeHash = CryptoJS.MD5((volume.id || volume.cid).toString()).toString(),
+        type = stores.ProfileStore.get().get('icon_set'),
+        iconSize = 18;
 
       return (
         <SelectableRow
@@ -37,13 +37,13 @@ define(function (require) {
           onResourceDeselected={this.props.onResourceDeselected}
           onPreviewResource={this.props.onPreviewResource}
           resource={volume}
-        >
+          >
           <td className="image-preview">
             <Gravatar
               hash={volumeHash}
               size={iconSize}
               type={type}
-            />
+              />
             <Name volume={volume}/>
           </td>
           <td>

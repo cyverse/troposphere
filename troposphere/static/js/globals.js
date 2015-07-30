@@ -1,4 +1,4 @@
-define(function(require){
+define(function (require) {
 
   return {
     API_ROOT: window.API_ROOT || '/api/v1',

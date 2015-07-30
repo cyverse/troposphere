@@ -19,32 +19,35 @@ define(
       // Render
       // ------
 
-      renderName: function(project){
+      renderName: function (project) {
         return (
           <div className="project-info-segment row">
             <h4 className="col-md-3">Name</h4>
+
             <p className="col-md-9">{project.get('name')}</p>
           </div>
         );
       },
 
-      renderDateCreated: function(project){
+      renderDateCreated: function (project) {
         return (
           <div className="project-info-segment row">
             <h4 className="col-md-3">Created</h4>
+
             <p className="col-md-9">{project.get('start_date').format("MMMM Do, YYYY")}</p>
           </div>
         );
       },
 
-      renderDescription: function(project){
+      renderDescription: function (project) {
         var converter = new Showdown.converter(),
-            description = project.get('description'),
-            descriptionHtml = converter.makeHtml(description);
+          description = project.get('description'),
+          descriptionHtml = converter.makeHtml(description);
 
         return (
           <div className="project-info-segment row">
             <h4 className="col-md-3">Description</h4>
+
             <div className="col-md-9" dangerouslySetInnerHTML={{__html: descriptionHtml}}/>
           </div>
         )

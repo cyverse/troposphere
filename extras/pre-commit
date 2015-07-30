@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+
+get_files() {
+    git diff --cached --name-only --diff-filter=ACM | grep -E .jsx?$
+}
+
+for f in `get_files`; do
+    npm run jsxhint $f --silent
+done

@@ -14,7 +14,7 @@ define(
       },
 
       render: function () {
-        var provider = this.props.provider
+        var provider = this.props.provider;
         return (
           <div className="row">
             <h2>{provider.get('name')}</h2>

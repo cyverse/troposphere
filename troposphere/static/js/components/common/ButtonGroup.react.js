@@ -1,9 +1,9 @@
 define(function (require) {
 
   var React = require('react'),
-      _ = require('underscore'),
-      // plugin: required but not used directly
-      bootstrap = require('bootstrap');
+    _ = require('underscore'),
+  // plugin: required but not used directly
+    bootstrap = require('bootstrap');
 
   return React.createClass({
     render: function () {

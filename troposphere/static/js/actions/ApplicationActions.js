@@ -1,7 +1,7 @@
 define(function (require) {
 
   var AppDispatcher = require('dispatchers/AppDispatcher'),
-      ApplicationConstants = require('constants/ApplicationConstants');
+    ApplicationConstants = require('constants/ApplicationConstants');
 
   return {
 
@@ -9,7 +9,7 @@ define(function (require) {
       application.set(newAttributes);
       AppDispatcher.handleRouteAction({
         actionType: ApplicationConstants.APPLICATION_UPDATE,
-        application: application
+        payload: {application: application}
       });
     }
 

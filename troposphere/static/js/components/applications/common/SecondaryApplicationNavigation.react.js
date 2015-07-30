@@ -1,14 +1,14 @@
-define(function(require){
+define(function (require) {
 
   var React = require('react'),
-      Router = require('react-router'),
-      Glyphicon = require('components/common/Glyphicon.react'),
-      context = require('context');
+    Router = require('react-router'),
+    Glyphicon = require('components/common/Glyphicon.react'),
+    context = require('context');
 
   return React.createClass({
 
-    renderRoute: function(name, linksTo, icon, requiresLogin){
-      if(requiresLogin && !context.profile) return null;
+    renderRoute: function (name, linksTo, icon, requiresLogin) {
+      if (requiresLogin && !context.profile) return null;
 
       return (
         <li key={name}>

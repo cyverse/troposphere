@@ -1,9 +1,10 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      Button = require('./Button.react'),
-      actions = require('actions');
+    Backbone = require('backbone'),
+    Button = require('./Button.react'),
+    actions = require('actions'),
+    modals = require('modals');
 
   return React.createClass({
 
@@ -12,16 +13,17 @@ define(function (require) {
       project: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    onAttach: function(){
-      actions.InstanceVolumeActions.attach(this.props.volume, this.props.project);
+    onAttach: function () {
+      modals.InstanceVolumeModals.attach(this.props.volume, this.props.project);
     },
 
-    onDetach: function(){
-      actions.InstanceVolumeActions.detach(this.props.volume);
+    onDetach: function () {
+      modals.InstanceVolumeModals.detach(this.props.volume);
     },
 
-    onDelete: function(){
-      actions.VolumeActions.destroy({
+    onDelete: function () {
+      this.props.onUnselect(this.props.volume);
+      modals.VolumeModals.destroy({
         volume: this.props.volume,
         project: this.props.project
       });
@@ -29,11 +31,11 @@ define(function (require) {
 
     render: function () {
       var volume = this.props.volume,
-          status = volume.get('state').get('status'),
-          linksArray = [];
+        status = volume.get('state').get('status'),
+        linksArray = [];
 
       // Add in the conditional links based on current machine state
-      if(status === "available"){
+      if (status === "available") {
         linksArray.push(
           <Button
             key="Attach"
@@ -41,9 +43,9 @@ define(function (require) {
             tooltip="Attach"
             onClick={this.onAttach}
             isVisible={true}
-          />
+            />
         );
-      }else if(status === "in-use"){
+      } else if (status === "in-use") {
         linksArray.push(
           <Button
             key="Detach"
@@ -51,7 +53,7 @@ define(function (require) {
             tooltip="Detach"
             onClick={this.onDetach}
             isVisible={true}
-          />
+            />
         );
       }
 
@@ -62,7 +64,7 @@ define(function (require) {
           tooltip="Delete"
           onClick={this.onDelete}
           isVisible={true}
-        />
+          />
       );
 
       return (

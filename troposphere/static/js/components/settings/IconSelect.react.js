@@ -1,11 +1,9 @@
 /** @jsx React.DOM */
 
-define(
-  [
-    'react',
-    './IconOption.react'
-  ],
-  function (React, IconOption) {
+define(function (require) {
+    var _ = require("underscore"),
+        React = require("react"),
+        IconOption = require("./IconOption.react");
 
     return React.createClass({
 

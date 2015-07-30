@@ -1,6 +1,6 @@
 /**
  *
- * Reports a broken volume to Atmosphere's support team. 
+ * Reports a broken volume to Atmosphere's support team.
  *
  */
 Atmo.Views.ReportVolumeModal = Backbone.View.extend({
@@ -41,7 +41,7 @@ Atmo.Views.ReportVolumeModal = Backbone.View.extend({
 			}
 		}
 		else {
-            var body = '<p class="alert alert-info"><i class="glyphicon glyphicon-info-sign"></i> You don\'t have any volumes.</p>'
+            var body = '<p class="alert alert-info"><i class="glyphicon glyphicon-info-sign"></i> You don\'t have any volumes.</p>';
             body += 'If you need help with something else, please contact the Atmosphere support team. You can: ';
             body += '<ul><li>Email <a href="mailto:atmo@iplantcollaborative.org">atmo@iplantcollaborative.org</a></li>';
             body += '<li>Use the feedback form by clicking the "Feedback &amp; Support" button in the footer</li></ul>';
@@ -73,7 +73,7 @@ Atmo.Views.ReportVolumeModal = Backbone.View.extend({
                 this.$el.find('.modal-footer a').eq(1).trigger('click');
             }
         });
-        
+
         this.$el.find('.modal-footer a').show();
         this.$el.find('.modal-footer a').eq(0).click(function() { self.button_listener() });
     },
@@ -82,7 +82,7 @@ Atmo.Views.ReportVolumeModal = Backbone.View.extend({
 
 		self.$el.modal('hide');
 		$('.modal-backdrop').remove();
-		if (callback != undefined) 
+		if (callback != undefined)
 			callback();
 		$(window).unbind('keyup');
 	},
@@ -126,7 +126,7 @@ Atmo.Views.ReportVolumeModal = Backbone.View.extend({
 			return false;
 
 		}
-		else {	
+		else {
 			// Add all inputs to outgoing message
 			data["message"] = '';
 			data["username"] = Atmo.profile.get('id');
@@ -160,7 +160,7 @@ Atmo.Views.ReportVolumeModal = Backbone.View.extend({
 			data["message"] += '\n\n';
 
 			data['location'] = window.location.href,
-			data['resolution'] = { 
+			data['resolution'] = {
 				'viewport': {
 					'width': $(window).width(),
 					'height': $(window).height()
@@ -194,7 +194,7 @@ Atmo.Views.ReportVolumeModal = Backbone.View.extend({
 
 					// Allow user to copy their message into an email since API failed
 					succeeded = false;
-					
+
 				},
 				dataType: 'json'
 			});

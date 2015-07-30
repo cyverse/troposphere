@@ -1,12 +1,12 @@
 define(function (require) {
 
   var React = require('react'),
-      stores = require('stores'),
-      Router = require('react-router');
+    stores = require('stores'),
+    Router = require('react-router');
 
   return React.createClass({
 
-    getState: function() {
+    getState: function () {
       return {
         applications: stores.ApplicationStore.getAll(),
         tags: stores.TagStore.getAll()
@@ -33,28 +33,29 @@ define(function (require) {
       stores.TagStore.removeChangeListener(this.updateState);
     },
 
-    handleFilterChange: function(e){
+    handleFilterChange: function (e) {
       var searchTerm = e.target.value;
       this.setState({searchTerm: searchTerm});
     },
 
-    renderTag: function(tag){
+    renderTag: function (tag) {
       var name = tag.get('name'),
-          description = tag.get('description');
+        description = tag.get('description');
 
       return (
         <li className="tag-item" key={tag.id}>
           <h4>
             <Router.Link to="search" query={{q: name}}>{name}</Router.Link>
           </h4>
+
           <p>{description}</p>
         </li>
       )
     },
 
-    renderTags: function(){
+    renderTags: function () {
       var tags = this.state.tags;
-      if(tags){
+      if (tags) {
         return (
           <ul className="tag-list">
             {tags.map(this.renderTag)}
@@ -67,9 +68,9 @@ define(function (require) {
       )
     },
 
-    renderTagRow: function(tag){
+    renderTagRow: function (tag) {
       var name = tag.get('name'),
-          description = tag.get('description');
+        description = tag.get('description');
 
       return (
         <tr key={tag.id || tag.cid}>
@@ -87,14 +88,14 @@ define(function (require) {
       )
     },
 
-    getFilteredTags: function(tags, searchTerm){
+    getFilteredTags: function (tags, searchTerm) {
       var filteredTags = tags;
       searchTerm = searchTerm.trim().toLowerCase();
 
-      if(searchTerm){
-        filteredTags = tags.filter(function(tag){
+      if (searchTerm) {
+        filteredTags = tags.filter(function (tag) {
           var name = tag.get("name").toLowerCase(),
-              description = tag.get("description").toLowerCase();
+            description = tag.get("description").toLowerCase();
 
           return name.indexOf(searchTerm) >= 0 || description.indexOf(searchTerm) >= 0;
         });
@@ -105,12 +106,12 @@ define(function (require) {
       return filteredTags;
     },
 
-    renderTagsAsTable: function(tags){
-      if(tags) {
+    renderTagsAsTable: function (tags) {
+      if (tags) {
         return (
           <table className="table">
             <tbody>
-              {tags.map(this.renderTagRow)}
+            {tags.map(this.renderTagRow)}
             </tbody>
           </table>
         )
@@ -123,20 +124,20 @@ define(function (require) {
 
     render: function () {
       var tags = this.state.tags,
-          searchTerm = this.state.searchTerm,
-          text = "";
+        searchTerm = this.state.searchTerm,
+        text = "";
 
-      if(tags) {
+      if (tags) {
         tags = this.getFilteredTags(tags, searchTerm);
       }
 
-      if(tags && this.state.searchTerm){
-        if(tags.length > 0) {
+      if (tags && this.state.searchTerm) {
+        if (tags.length > 0) {
           text = 'Showing tags matching "' + searchTerm + '"';
-        }else{
+        } else {
           text = 'No tags matching "' + searchTerm + '"';
         }
-      }else{
+      } else {
         text = "Showing all tags"
       }
 
@@ -148,7 +149,7 @@ define(function (require) {
                    placeholder="Filter by tag name or description"
                    value={this.state.searchTerm}
                    onChange={this.handleFilterChange}
-            />
+              />
             <hr/>
             <h3 style={{textAlign: "left", fontSize: "24px"}}>
               {text}

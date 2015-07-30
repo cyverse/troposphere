@@ -1,11 +1,9 @@
 /** @jsx React.DOM */
 
-define(
-  [
-    'react',
-    'components/common/Gravatar.react'
-  ],
-  function (React, Gravatar) {
+define(function (require) {
+    var _ = require("underscore"),
+        React = require("react"),
+        Gravatar = require('components/common/Gravatar.react');
 
     return React.createClass({
       render: function () {

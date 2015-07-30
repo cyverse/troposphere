@@ -8,8 +8,8 @@ Atmo.Views.InstanceGraph = Backbone.View.extend({
         this.range = 7*24*60*60*1000; // seven days
         this.start = new Date(this.stop.valueOf() - this.range);
 
-        var provider_id = Atmo.profile.get('selected_identity').get('provider_id')
-        this.selected_provider = Atmo.providers.get(provider_id)
+        var provider_id = Atmo.profile.get('selected_identity').get('provider_id');
+        this.selected_provider = Atmo.providers.get(provider_id);
         $(window).bind('resize', _.bind(this.draw, this));
         this.data = null;
 
@@ -54,7 +54,7 @@ Atmo.Views.InstanceGraph = Backbone.View.extend({
                 contentType: 'application/json',
                 success: function(data, textStatus) {
                     self.data = data;
-                    if (self.data.length >= 3) 
+                    if (self.data.length >= 3)
                         callback(self.data);
                     else
                         self.on_failure();
@@ -129,7 +129,7 @@ Atmo.Views.InstanceGraph = Backbone.View.extend({
 
         var self = this;
         this.data_request(this.type, function(data) {
-            //console.log(data); 
+            //console.log(data);
             self.table = new google.visualization.DataTable();
             self.table.addColumn('date', 'Date');
             _.each(self.columns, function(d) {
@@ -137,7 +137,7 @@ Atmo.Views.InstanceGraph = Backbone.View.extend({
             });
 
             var rows = _.map(data, _.bind(self.format_rows, self));
-            
+
             self.table.addRows(rows);
 
             var date_formatter = new google.visualization.DateFormat({pattern: 'MMM d h:mm a'});
@@ -157,15 +157,15 @@ Atmo.Views.InstanceMemoryGraph = Atmo.Views.InstanceGraph.extend({
     type: 'memory',
     vaxis_title: 'Memory (%)',
     columns: [
-        ['number', 'Active'], 
-        ['number', 'Inactive'], 
+        ['number', 'Active'],
+        ['number', 'Inactive'],
         ['number', 'Free']
     ],
     format_rows: function(d) {
         return [
-            new Date(d.time * 1000), 
-            (d['memory.active'] / 1024 / this.available_memory) * 100, 
-            (d['memory.inactive'] / 1024 / this.available_memory) * 100, 
+            new Date(d.time * 1000),
+            (d['memory.active'] / 1024 / this.available_memory) * 100,
+            (d['memory.inactive'] / 1024 / this.available_memory) * 100,
             (d['memory.free'] / 1024 / this.available_memory) * 100
         ];
     },
@@ -177,9 +177,9 @@ Atmo.Views.InstanceCPUGraph = Atmo.Views.InstanceGraph.extend({
     type: 'cpu',
     vaxis_title: 'CPU time (%)',
     columns: [
-        ['number', 'User'], 
-        ['number', 'System'], 
-        ['number', 'Idle'], 
+        ['number', 'User'],
+        ['number', 'System'],
+        ['number', 'Idle'],
         ['number', 'Waiting for IO']
     ],
     format_rows: function(d) {

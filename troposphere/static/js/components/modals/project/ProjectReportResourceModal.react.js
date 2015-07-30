@@ -22,7 +22,7 @@ define(
         resources: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
-      isSubmittable: function(){
+      isSubmittable: function () {
         var hasFeedback = !!this.state.feedback;
         return hasFeedback;
       },
@@ -32,7 +32,7 @@ define(
       // ----------------
       //
 
-      getInitialState: function(){
+      getInitialState: function () {
         return getState();
       },
 
@@ -45,7 +45,7 @@ define(
       // ------------------------
       //
 
-      cancel: function(){
+      cancel: function () {
         this.hide();
       },
 
@@ -60,7 +60,7 @@ define(
       // ----------------------
       //
 
-      onFeedbackChange: function(e){
+      onFeedbackChange: function (e) {
         var newFeedback = e.target.value;
         this.setState({feedback: newFeedback});
       },
@@ -71,13 +71,13 @@ define(
       // ------
       //
 
-      renderResource: function(resource){
+      renderResource: function (resource) {
         return (
           <li key={resource.id}>{resource.get('name')}</li>
         );
       },
 
-      renderBody: function(){
+      renderBody: function () {
         var project = this.props.project;
         return (
           <div role='form'>
@@ -87,6 +87,7 @@ define(
                 {"Are you experiencing a problem with your project or its resources? Let us know!"}
               </p>
               <label htmlFor='volumeSize'>Additional information</label>
+
               <p>
                 {"Information about your project and any selected resources will be sent with your comments."}
               </p>
@@ -100,7 +101,7 @@ define(
                         rows="7"
                         value={this.state.feedback}
                         onChange={this.onFeedbackChange}
-              />
+                />
             </div>
 
           </div>
@@ -123,7 +124,8 @@ define(
                   <button type="button" className="btn btn-danger" onClick={this.cancel}>
                     Cancel
                   </button>
-                  <button type="button" className="btn btn-primary" onClick={this.confirm} disabled={!this.isSubmittable()}>
+                  <button type="button" className="btn btn-primary" onClick={this.confirm}
+                          disabled={!this.isSubmittable()}>
                     Send
                   </button>
                 </div>

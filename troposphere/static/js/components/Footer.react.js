@@ -1,8 +1,9 @@
-define(function(require) {
+define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      actions = require('actions');
+    Backbone = require('backbone'),
+    modals = require('modals'),
+    actions = require('actions');
 
   return React.createClass({
 
@@ -10,15 +11,15 @@ define(function(require) {
       profile: React.PropTypes.instanceOf(Backbone.Model)
     },
 
-    onFeedback: function(){
-      actions.HelpActions.showFeedbackModal();
+    onFeedback: function () {
+      modals.HelpModals.showFeedbackModal();
     },
 
     render: function () {
       var year = new Date().getFullYear();
 
       var feedbackButton = null;
-      if(this.props.profile){
+      if (this.props.profile) {
         feedbackButton = (
           <button className="btn btn-primary" onClick={this.onFeedback}>
             {"Feedback & Support"}

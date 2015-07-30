@@ -18,12 +18,12 @@ define(
         return attributes;
       },
 
-      fetchFromCloud: function(cb){
+      fetchFromCloud: function (cb) {
         var instanceId = this.get('uuid'),
-            providerId = this.get('provider').uuid,
-            identityId = this.get('identity').uuid;
+          providerId = this.get('provider').uuid,
+          identityId = this.get('identity').uuid;
 
-        var url =  (
+        var url = (
           globals.API_ROOT +
           "/provider/" + providerId +
           "/identity/" + identityId +
@@ -31,26 +31,26 @@ define(
         );
 
         Backbone.sync("read", this, {
-          url:url
-        }).done(function(attrs, status, response){
+          url: url
+        }).done(function (attrs, status, response) {
           this.set('status', attrs.status);
           this.set('state', new InstanceState({status_raw: attrs.status}));
           cb();
         }.bind(this));
       },
 
-      createOnV1Endpoint: function(options, cb){
-        if(!options.name) throw new Error("Missing name");
-        if(!options.size_alias) throw new Error("Missing size_alias");
-        if(!options.machine_alias) throw new Error("Missing machine_alias");
+      createOnV1Endpoint: function (options, cb) {
+        if (!options.name) throw new Error("Missing name");
+        if (!options.size_alias) throw new Error("Missing size_alias");
+        if (!options.machine_alias) throw new Error("Missing machine_alias");
 
         var providerId = this.get('provider').uuid,
-            identityId = this.get('identity').uuid,
-            name = options.name,
-            size = options.size_alias,
-            machine = options.machine_alias;
+          identityId = this.get('identity').uuid,
+          name = options.name,
+          size = options.size_alias,
+          machine = options.machine_alias;
 
-        var url =  (
+        var url = (
           globals.API_ROOT +
           "/provider/" + providerId +
           "/identity/" + identityId +
@@ -78,8 +78,8 @@ define(
 
         shell_url: function () {
           var username = context.profile.get('username'),
-              ip = this.get('ip_address'),
-              location = ip.split(".").join("-");
+            ip = this.get('ip_address'),
+            location = ip.split(".").join("-");
           return "https://atmo-proxy.iplantcollaborative.org/?location=" + location + "&ssh=ssh://" + username + "@" + ip + ":22";
         },
 
@@ -95,10 +95,11 @@ define(
         is_build: function () {
           var states = [
             'build',
+            'build - requesting_launch',
             'build - block_device_mapping',
             'build - scheduling',
             'build - spawning',
-            'build - networking' ,
+            'build - networking',
             'active - powering-off',
             'active - image_uploading',
             'shutoff - powering-on',
@@ -135,7 +136,7 @@ define(
 
         action_url: function () {
           var instanceUrl = this.url();
-          if(instanceUrl.slice(-1) !== "/") instanceUrl += "/";
+          if (instanceUrl.slice(-1) !== "/") instanceUrl += "/";
           return instanceUrl + 'action';
         }
       },

@@ -1,14 +1,14 @@
-define(function(require){
+define(function (require) {
   "use strict";
 
   var React = require('react'),
-      Router = require('react-router'),
-      stores = require('stores'),
-      Name = require('./Name.react'),
-      Stats = require('./Stats.react'),
-      Description = require('./Description.react'),
-      Instances = require('./Instances.react'),
-      Resources = require('./Resources.react');
+    Router = require('react-router'),
+    stores = require('stores'),
+    Name = require('./Name.react'),
+    Stats = require('./Stats.react'),
+    Description = require('./Description.react'),
+    Instances = require('./Instances.react'),
+    Resources = require('./Resources.react');
 
   return React.createClass({
 
@@ -20,7 +20,7 @@ define(function(require){
       // doesn't get re-mounted when the url changes, so those functions won't run twice
       var provider = stores.ProviderStore.get(Number(this.getParams().providerId));
 
-      if(!provider) return <div className="loading"></div>;
+      if (!provider) return <div className="loading"></div>;
 
       return (
         <div className="col-md-10 provider-details">

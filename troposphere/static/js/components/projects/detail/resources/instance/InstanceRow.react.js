@@ -1,16 +1,16 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      SelectableRow = require('../SelectableRow.react'),
-      Name = require('../tableData/instance/Name.react'),
-      Status = require('../tableData/instance/Status.react'),
-      IpAddress = require('../tableData/instance/IpAddress.react'),
-      Size = require('../tableData/instance/Size.react'),
-      Provider = require('../tableData/instance/Provider.react'),
-      stores = require('stores'),
-      CryptoJS = require('crypto'),
-      Gravatar = require('components/common/Gravatar.react');
+    Backbone = require('backbone'),
+    SelectableRow = require('../SelectableRow.react'),
+    Name = require('../tableData/instance/Name.react'),
+    Status = require('../tableData/instance/Status.react'),
+    IpAddress = require('../tableData/instance/IpAddress.react'),
+    Size = require('../tableData/instance/Size.react'),
+    Provider = require('../tableData/instance/Provider.react'),
+    stores = require('stores'),
+    CryptoJS = require('crypto-js'),
+    Gravatar = require('components/common/Gravatar.react');
 
   return React.createClass({
 
@@ -26,9 +26,9 @@ define(function (require) {
 
     render: function () {
       var instance = this.props.instance,
-          instanceHash = CryptoJS.MD5((instance.id || instance.cid).toString()).toString(),
-          type = stores.ProfileStore.get().get('icon_set'),
-          iconSize = 18;
+        instanceHash = CryptoJS.MD5((instance.id || instance.cid).toString()).toString(),
+        type = stores.ProfileStore.get().get('icon_set'),
+        iconSize = 18;
 
       return (
         <SelectableRow isActive={this.props.isPreviewed}
@@ -37,7 +37,7 @@ define(function (require) {
                        onResourceDeselected={this.props.onResourceDeselected}
                        resource={this.props.instance}
                        onPreviewResource={this.props.onPreviewResource}
-        >
+          >
           <td className="image-preview">
             <Gravatar hash={instanceHash} size={iconSize} type={type}/>
             <Name instance={instance}/>

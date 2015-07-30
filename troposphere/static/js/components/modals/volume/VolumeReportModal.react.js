@@ -1,12 +1,10 @@
 /** @jsx React.DOM */
 
-define(
-  [
-    'react',
-    'components/mixins/BootstrapModalMixin.react',
-    'components/common/Glyphicon.react'
-  ],
-  function (React, BootstrapModalMixin, Glyphicon) {
+define(function (require) {
+    var _ = require("underscore"),
+        React = require('react'),
+        BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
+        Glyphicon = require('components/common/Glyphicon.react');
 
     return React.createClass({
       mixins: [BootstrapModalMixin],
@@ -22,7 +20,7 @@ define(
         };
       },
 
-      isSubmittable: function(){
+      isSubmittable: function () {
         var hasDetails = !!this.state.details && this.state.details.length > 0;
         return hasDetails;
       },
@@ -54,7 +52,7 @@ define(
       // ------------------------
       //
 
-      cancel: function(){
+      cancel: function () {
         this.hide();
       },
 
@@ -104,7 +102,7 @@ define(
                      value={value}
                      checked={this.state[value]}
                      onChange={onChange}
-              />
+                />
               {this.problemText[value]}
             </label>
           </div>
@@ -126,7 +124,7 @@ define(
         );
       },
 
-      renderBody: function(){
+      renderBody: function () {
         var volume = this.props.volume;
 
         return (
@@ -171,7 +169,8 @@ define(
                   <button type="button" className="btn btn-danger" onClick={this.cancel}>
                     Cancel
                   </button>
-                  <button type="button" className="btn btn-primary" onClick={this.confirm} disabled={!this.isSubmittable()}>
+                  <button type="button" className="btn btn-primary" onClick={this.confirm}
+                          disabled={!this.isSubmittable()}>
                     Report Volume
                   </button>
                 </div>

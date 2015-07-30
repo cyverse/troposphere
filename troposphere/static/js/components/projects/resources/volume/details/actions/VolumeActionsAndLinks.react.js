@@ -1,9 +1,10 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      Glyphicon = require('components/common/Glyphicon.react'),
-      actions = require('actions');
+    Backbone = require('backbone'),
+    Glyphicon = require('components/common/Glyphicon.react'),
+    modals = require('modals'),
+    actions = require('actions');
 
   return React.createClass({
 
@@ -12,17 +13,17 @@ define(function (require) {
       project: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    onAttach: function(){
-      actions.InstanceVolumeActions.attach(this.props.volume, this.props.project);
+    onAttach: function () {
+      modals.InstanceVolumeModals.attach(this.props.volume, this.props.project);
     },
 
-    onDetach: function(){
-      actions.InstanceVolumeActions.detach(this.props.volume);
+    onDetach: function () {
+      modals.InstanceVolumeModals.detach(this.props.volume);
     },
 
-    onDelete: function(){
+    onDelete: function () {
       var project = this.props.project,
-          volume = this.props.volume;
+        volume = this.props.volume;
 
       actions.VolumeActions.destroy({
         volume: volume,
@@ -32,13 +33,13 @@ define(function (require) {
       });
     },
 
-    handleReport: function(){
-      actions.VolumeActions.report({volume: this.props.volume});
+    handleReport: function () {
+      modals.VolumeModals.report({volume: this.props.volume});
     },
 
     render: function () {
       var volume = this.props.volume,
-          status = volume.get('state').get('status');
+        status = volume.get('state').get('status');
 
       var linksArray = [
         {label: 'Actions', icon: null},
@@ -46,9 +47,9 @@ define(function (require) {
       ];
 
       // Add in the conditional links based on current machine state
-      if(status === "available"){
+      if (status === "available") {
         linksArray.push({label: 'Attach', icon: 'save', onClick: this.onAttach});
-      }else if(status === "in-use"){
+      } else if (status === "in-use") {
         linksArray.push({label: 'Detach', icon: 'open', onClick: this.onDetach});
       }
 
@@ -56,22 +57,22 @@ define(function (require) {
         {label: 'Delete', icon: 'remove', onClick: this.onDelete, isDangerLink: true}
       ]);
 
-      var links = linksArray.map(function(link){
+      var links = linksArray.map(function (link) {
         // Links without icons are generally section headings
-        if(!link.icon) return (
+        if (!link.icon) return (
           <li key={link.label} className="section-label">{link.label}</li>
         );
 
         var className = "section-link";
-        if(link.isDangerLink) className += " danger";
+        if (link.isDangerLink) className += " danger";
         // todo: This isn't implemented well at all.  We should be disabling these
         // buttons if there isn't a valid href for the link, or (perhaps) not even
         // showing the buttons at all...but I think it's better communication to
         // disable the buttons with a message explaining why on rollover.
         //
-        if(link.openInNewWindow) {
+        if (link.openInNewWindow) {
           var style = {};
-          if(!link.href) style.cursor = 'not-allowed';
+          if (!link.href) style.cursor = 'not-allowed';
           return (
             <li key={link.label} className={className + " link"} style={style}>
               <a href={link.href} target="_blank">
@@ -88,7 +89,7 @@ define(function (require) {
         // Backbone.history.navigate from an onClick callback, we want all url
         // changes to pass through our Backbone catcher in main.js that we can use
         // to log requests to Google Analytics
-        if(link.href) return (
+        if (link.href) return (
           <li key={link.label} className={className + " link"}>
             <a href={link.href}>
             <span>

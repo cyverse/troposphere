@@ -14,7 +14,7 @@ Date.prototype.format = function(format) {
     "s+" : this.getSeconds(), //second
     "q+" : Math.floor((this.getMonth()+3)/3),  //quarter
     "S" : this.getMilliseconds() //millisecond
-  }
+  };
 
   if(/(y+)/.test(format)) format=format.replace(RegExp.$1,
     (this.getFullYear()+"").substr(4 - RegExp.$1.length));
@@ -23,7 +23,7 @@ Date.prototype.format = function(format) {
       RegExp.$1.length==1 ? o[k] :
         ("00"+ o[k]).substr((""+ o[k]).length));
   return format;
-}
+};
 Atmo.Utils.minutes_to_pretty_time = function(minutes, precision) {
     return Atmo.Utils.seconds_to_pretty_time(minutes*60, precision)
 };
@@ -125,8 +125,7 @@ Atmo.Utils.update_weather = function() {
               break;
             default:
               weather = weather_classes[0];
-          };
-
+          }
           if (!$('#weather_report').hasClass(weather)) {
             $.each(weather_classes, function(k, v) {
               $('body').removeClass(v);
@@ -254,7 +253,7 @@ Atmo.Utils.get_profile = function() {
     },
   });
   return profile;
-}
+};
 
 // deprecated.   Use Atmo.profile.get('selected_identity')
 Atmo.Utils.current_credentials = function() {
@@ -262,7 +261,7 @@ Atmo.Utils.current_credentials = function() {
   return { "provider_id": Atmo.profile.get('selected_identity').get('provider_id'),
            "identity_id": Atmo.profile.get('selected_identity').id
          };
-}
+};
 Atmo.Utils.attach_volume = function(volume, instance, mount_location, options) {
     var options = options || {};
 
@@ -278,7 +277,7 @@ Atmo.Utils.attach_volume = function(volume, instance, mount_location, options) {
         },
         error: function() {
             var header = "Volume attachment failed.";
-            var body = "If this problem persists, contact support at <a href=\"mailto:support@iplantcollaborative.org\">support@iplantcollaborative.org</a>"
+            var body = "If this problem persists, contact support at <a href=\"mailto:support@iplantcollaborative.org\">support@iplantcollaborative.org</a>";
             Atmo.Utils.notify(header, body, { no_timeout: true});
         }
     });
@@ -309,9 +308,9 @@ Atmo.Utils.confirm_detach_volume = function(volume, instance, options) {
                 },
                 error: function(message, response) {
                     if (provider_name.toLowerCase() === 'openstack' || provider_name.toLowerCase() === 'iplant' ) {
-                        errors = $.parseJSON(response.responseText).errors
-                        var body = '<p class="alert alert-error">' + errors[0].message.replace(/\n/g, '<br />') + '</p>'
-                        body += "<p>Please correct the problem and try again. If the problem persists, or you are unsure how to fix the problem, please email <a href=\"mailto:support@iplantcollaborative.org\">support@iplantcollaborative.org</a>.</p>"
+                        errors = $.parseJSON(response.responseText).errors;
+                        var body = '<p class="alert alert-error">' + errors[0].message.replace(/\n/g, '<br />') + '</p>';
+                        body += "<p>Please correct the problem and try again. If the problem persists, or you are unsure how to fix the problem, please email <a href=\"mailto:support@iplantcollaborative.org\">support@iplantcollaborative.org</a>.</p>";
                         Atmo.Utils.confirm("Volume failed to detach", body, {
                             //TODO: Remove the 'Cancel' button on this box
                         });
@@ -335,15 +334,15 @@ Number.prototype.toCurrencyString = function() {
 };
 
 //Helper function that will string together responses in the result of a 400 level error. Then will call Utils.notify method to display it
-Atmo.Utils.notifyErrors = function(request, notificationString) { 
+Atmo.Utils.notifyErrors = function(request, notificationString) {
   var responseText = jQuery.parseJSON(request.responseText);
   var errorString = "";
-  for (error in responseText.errors){ 
+  for (error in responseText.errors){
     errorString = errorString + "\n" + responseText.errors[error].message;
   }
   Atmo.Utils.notify(
-    notificationString, 
-    '' + errorString  + ' If the problem persists, please contact <a href="mailto:support@iplantcollaborative.org">support@iplantcollaborative.org</a>', 
+    notificationString,
+    '' + errorString  + ' If the problem persists, please contact <a href="mailto:support@iplantcollaborative.org">support@iplantcollaborative.org</a>',
     { no_timeout: true }
   );
-}
+};

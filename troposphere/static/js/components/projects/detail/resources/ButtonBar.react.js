@@ -1,11 +1,11 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      context = require('context'),
-      Button = require('./Button.react'),
-      RefreshButton = require('./RefreshButton.react'),
-      ResourceActionButtons = require('./ResourceActionButtons.react');
+    Backbone = require('backbone'),
+    context = require('context'),
+    Button = require('./Button.react'),
+    RefreshButton = require('./RefreshButton.react'),
+    ResourceActionButtons = require('./ResourceActionButtons.react');
 
   return React.createClass({
 
@@ -50,18 +50,19 @@ define(function (require) {
             tooltip="Move selected resources"
             onClick={this.props.onMoveSelectedResources}
             isVisible={this.props.isVisible}
-          />
+            />
           <Button
             icon="export"
             tooltip="Remove selected resources (admin only)"
             onClick={this.props.onRemoveSelectedResources}
             style={{"backgroundColor": "bisque"}}
             isVisible={context.profile.get('is_superuser') && this.props.isVisible}
-          />
+            />
           <ResourceActionButtons
+            onUnselect={this.props.onUnselect}
             previewedResource={this.props.previewedResource}
             project={this.props.project}
-          />
+            />
         </div>
       );
     }

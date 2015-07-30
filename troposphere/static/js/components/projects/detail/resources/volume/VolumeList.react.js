@@ -1,9 +1,9 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      VolumeTable = require('./VolumeTable.react'),
-      NoVolumeNotice = require('./NoVolumeNotice.react');
+    Backbone = require('backbone'),
+    VolumeTable = require('./VolumeTable.react'),
+    NoVolumeNotice = require('./NoVolumeNotice.react');
 
   return React.createClass({
     displayName: "VolumeList",
@@ -19,13 +19,13 @@ define(function (require) {
 
     render: function () {
       var volumes = this.props.volumes,
-          content;
+        content;
 
-      if(this.props.volumes.length <= 0){
+      if (this.props.volumes.length <= 0) {
         content = (
           <NoVolumeNotice/>
         );
-      }else{
+      } else {
         content = (
           <VolumeTable
             volumes={volumes}
@@ -34,7 +34,7 @@ define(function (require) {
             onPreviewResource={this.props.onPreviewResource}
             previewedResource={this.props.previewedResource}
             selectedResources={this.props.selectedResources}
-          />
+            />
         );
       }
 
@@ -42,6 +42,7 @@ define(function (require) {
         <div>
           <div className="header">
             <i className="glyphicon glyphicon-hdd"></i>
+
             <h2>Volumes</h2>
           </div>
           {content}

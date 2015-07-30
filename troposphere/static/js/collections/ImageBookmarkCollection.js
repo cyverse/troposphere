@@ -1,9 +1,9 @@
-define(function(require){
+define(function (require) {
   "use strict";
 
   var Backbone = require('backbone'),
-      ImageBookmark = require('models/ImageBookmark'),
-      globals = require('globals');
+    ImageBookmark = require('models/ImageBookmark'),
+    globals = require('globals');
 
   return Backbone.Collection.extend({
     model: ImageBookmark,

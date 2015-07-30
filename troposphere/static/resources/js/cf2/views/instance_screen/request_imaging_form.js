@@ -26,14 +26,14 @@ Atmo.Views.RequestImagingForm = Backbone.View.extend({
 
 		// Populate cloud for deployment only with user's available providers
 
-		// Populate the top menu with a provider switcher 
+		// Populate the top menu with a provider switcher
 		for (var i = 0; i < Atmo.identities.length; i++) {
 
 			var identity = Atmo.identities.models[i];
 			var name = Atmo.identities.models[i].get('provider').get('location');
             // Skip eucalyptus
             if (name.match(/eucalyptus/i))
-                continue
+                continue;
 			if (identity.get('selected'))
 				this.$el.find('select[name="provider"]').prepend('<option value="' + identity.get('provider_id') + '">' + name + '</option>');
 			else
@@ -64,7 +64,7 @@ Atmo.Views.RequestImagingForm = Backbone.View.extend({
 		this.$el.find('#licensed_software').closest('.controls').addClass('alert-error').addClass('alert');
 		return false;
 	}
-        
+
         var form = this.$el.find('.request_imaging_form');
         var formData = form.serializeArray();
 

@@ -5,10 +5,11 @@ define(
     'react',
     'backbone',
     './ProjectList.react',
+    'modals',
     '../common/ProjectListHeader.react',
     'actions'
   ],
-  function (React, Backbone, ProjectList, ProjectListHeader, actions) {
+  function (React, Backbone, ProjectList, modals, ProjectListHeader, actions) {
 
     return React.createClass({
 
@@ -17,7 +18,7 @@ define(
       },
 
       launchNewProjectModal: function () {
-        actions.ProjectActions.create();
+        modals.ProjectModals.create();
       },
 
       render: function () {
@@ -28,6 +29,7 @@ define(
                 Create New Project
               </button>
             </ProjectListHeader>
+
             <div className="container">
               <ProjectList projects={this.props.projects}/>
             </div>

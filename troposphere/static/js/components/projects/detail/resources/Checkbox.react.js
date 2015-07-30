@@ -1,4 +1,4 @@
-define(function(require) {
+define(function (require) {
 
   var React = require('react');
 
@@ -10,7 +10,7 @@ define(function(require) {
 
     render: function () {
       var className = "resource-checkbox";
-      if(this.props.isChecked){
+      if (this.props.isChecked) {
         className += " checked";
       }
       return (

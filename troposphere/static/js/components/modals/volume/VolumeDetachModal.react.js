@@ -21,7 +21,7 @@ define(
       // ------------------------
       //
 
-      cancel: function(){
+      cancel: function () {
         this.hide();
       },
 
@@ -35,7 +35,7 @@ define(
       // ------
       //
 
-      renderBody: function(){
+      renderBody: function () {
         var volume = this.props.volume;
         return (
           <div>
@@ -47,14 +47,18 @@ define(
                 "we recommend you make sure there is no data being written to the volume before detaching it."
               }
             </p>
+
             <p>
               {"Would you like to detach the volume "}
               <strong>{volume.get('name')}</strong>
               {"?"}
             </p>
+
             <p>
-              <a href="https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachinganEBSVolumetoanInstance-Step7%3AUnmountanddetachthevolume." target="_blank">
-              {"Learn more about unmounting and detaching a volume"}
+              <a
+                href="https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachinganEBSVolumetoanInstance-Step7%3AUnmountanddetachthevolume."
+                target="_blank">
+                {"Learn more about unmounting and detaching a volume"}
               </a>
             </p>
           </div>

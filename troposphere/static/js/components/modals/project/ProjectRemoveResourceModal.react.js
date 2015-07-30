@@ -16,7 +16,7 @@ define(
         resources: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
-      isSubmittable: function(){
+      isSubmittable: function () {
         return true;
       },
 
@@ -25,7 +25,7 @@ define(
       // ------------------------
       //
 
-      cancel: function(){
+      cancel: function () {
         this.hide();
       },
 
@@ -39,19 +39,21 @@ define(
       // ------
       //
 
-      renderResource: function(resource){
+      renderResource: function (resource) {
         return (
           <li key={resource.id}>{resource.get('name')}</li>
         );
       },
 
-      renderBody: function(){
+      renderBody: function () {
         return (
           <div role='form'>
 
             <div className='form-group'>
               <label htmlFor='volumeSize'>Resources to Remove</label>
-              <p>If you are viewing this you have administrative rights for Atmosphere. The following resources will be removed from the project:</p>
+
+              <p>If you are viewing this you have administrative rights for Atmosphere. The following resources will be
+                removed from the project:</p>
               <ul>
                 {this.props.resources.map(this.renderResource)}
               </ul>
@@ -77,7 +79,8 @@ define(
                   <button type="button" className="btn btn-danger" onClick={this.cancel}>
                     Cancel
                   </button>
-                  <button type="button" className="btn btn-primary" onClick={this.confirm} disabled={!this.isSubmittable()}>
+                  <button type="button" className="btn btn-primary" onClick={this.confirm}
+                          disabled={!this.isSubmittable()}>
                     Remove resources
                   </button>
                 </div>

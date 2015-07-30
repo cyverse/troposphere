@@ -21,7 +21,7 @@ define(
       // ------------------------
       //
 
-      cancel: function(){
+      cancel: function () {
         this.hide();
       },
 
@@ -35,7 +35,7 @@ define(
       // ------
       //
 
-      renderBody: function(){
+      renderBody: function () {
         var volume = this.props.volume;
         return (
           <div>
@@ -44,6 +44,7 @@ define(
               <strong>{volume.get('name')}</strong>
               {"?"}
             </p>
+
             <p>
               {"The volume will be destroyed and "}
               <strong style={{"textDecoration":"underline"}}>all data will be permanently lost</strong>

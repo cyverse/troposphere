@@ -1,6 +1,5 @@
 define(
-  [
-  ],
+  [],
   function () {
 
     return {

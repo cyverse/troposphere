@@ -2,9 +2,9 @@ define(function (require) {
   "use strict";
 
   var Backbone = require('backbone'),
-      _ = require('underscore'),
-      Size = require('models/Size'),
-      globals = require('globals');
+    _ = require('underscore'),
+    Size = require('models/Size'),
+    globals = require('globals');
 
   return Backbone.Collection.extend({
     model: Size,
@@ -25,7 +25,7 @@ define(function (require) {
       var aliasA = sizeA.get('alias').toLowerCase();
       var aliasB = sizeB.get('alias').toLowerCase();
 
-      if(aliasA === aliasB) return 0;
+      if (aliasA === aliasB) return 0;
       return aliasA < aliasB ? -1 : 1;
     }
 

@@ -36,7 +36,7 @@ function resizeApp() {
 		$('#selected_image').height($('#content').height() - $('#logged_in_data').height() - $('#image_header').height());
 
 		$('#draggable_container').height(
-			$('#content').height() - 
+			$('#content').height() -
 			$('#volume_header').height() -
 			$('#volume_controls').height() - 140
 		);
@@ -46,7 +46,7 @@ function resizeApp() {
         $('#instance_link_list, #volume_link_list').css('max-height', 'auto');
 	}
 }
-        
+
 $(document).ready(function() {
   // Scale necessary divs
   resizeApp();
@@ -68,7 +68,7 @@ String.prototype.find = function(needle) {
 //icontains - Case Insensitive Contains
 $.expr[":"].icontains = function(obj, i, m) {
   return icontains(m[3], $(obj).text());
-}
+};
 
 function icontains(needle, haystack) {
 	var found = false;
@@ -86,7 +86,7 @@ function icontains(needle, haystack) {
 
 	if(found)
 		//console.log("Matched on Text");
-	
+
 	return found;
 }
 
