@@ -25,6 +25,7 @@ define(function (require) {
 
 
       return {
+        showOptions: false,
         machines: machines,
         version: version,
         versionImageID: this.props.image.id,
@@ -146,6 +147,9 @@ define(function (require) {
       var description = e.target.value;
       this.setState({versionChangeLog: description});
     },
+    onOptionsChange: function() {
+      this.setState({showOptions: !this.state.showOptions});
+    },
     onLicenseCreate: function(licenseObj){
       actions.LicenseActions.create_AddToImageVersion(this.props.version, {
         title: licenseObj.title,
@@ -188,6 +192,8 @@ define(function (require) {
         name = this.state.versionName,
         created = this.state.versionStartDate.format("MMMM D, YYYY hh:mm a"),
         ended,
+        advancedOptions,
+        optionsButtonText = (this.state.showOptions) ? "Hide Options" : "Show Options",
         membershipsList = stores.MembershipStore.getAll(),
         licensesList = stores.LicenseStore.getAll(),
         activeLicensesList = stores.ImageVersionLicenseStore.getLicensesFor(this.props.version),
@@ -215,7 +221,7 @@ define(function (require) {
           />
       );
       nameView = (
-        <div class="form-group">
+        <div className="form-group">
           <label for="version_name">Version Title</label>
           <input type="text" name="version_name"
                className="form-control" id="version_name"
@@ -252,7 +258,7 @@ define(function (require) {
       }
       applicationView = (
         <div className="application-select-container">
-          <div class="alert alert-danger">
+          <div className="alert alert-danger">
             <strong>Warning:</strong>
             Changing this value will move this version to a different image you own.
           </div>
@@ -278,6 +284,19 @@ define(function (require) {
                  onChange={this.onUncopyableSelected}/>
         </div>
       );
+      if(this.state.showOptions) {
+        advancedOptions = (
+          <div className='advanced-options' >
+            {availabilityView}
+            {membershipView}
+            {licensesView}
+            {applicationView}
+          </div>
+        );
+      } else {
+        advancedOptions = null;
+      }
+
       return (
         <div role='form'>
           {nameView}
@@ -285,10 +304,12 @@ define(function (require) {
           {canImageView}
           {startDateView}
           {endDateView}
-          {availabilityView}
-          {membershipView}
-          {licensesView}
-          {applicationView}
+          <button type="button" className="btn btn-primary"
+                  onClick={this.onOptionsChange}>
+            {optionsButtonText}
+          </button>
+          <hr />
+          {advancedOptions}
         </div>
       );
     },
