@@ -25,15 +25,20 @@ define(function (require) {
         ModalHelpers.renderModal(ImageVersionEditModal, props, this.onCompletedEdit);
 
       },
-      onCompletedEdit: function (version, end_date, uncopyable, image, licenses, memberships) {
-        if (end_date !== null) {
+      onCompletedEdit: function (version, name, changeLog, end_date,
+                                 canImage, image) {
+        if (end_date) {
+          // Move from datestring to ISO string
           end_date = new Date(Date.parse(end_date)).toISOString()
+        } else {
+          end_date = null;
         }
         actions.ImageVersionActions.update(version, {
+          name: name,
+          change_log: changeLog,
           end_date: end_date,
-          allow_imaging: uncopyable,
-          licenses: licenses,
-          memberships: memberships
+          allow_imaging: canImage,
+          image: image
         });
       },
       renderVersion: function (version) {

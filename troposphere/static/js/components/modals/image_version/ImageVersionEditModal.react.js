@@ -93,14 +93,12 @@ define(function (require) {
     confirm: function () {
       this.hide();
       this.props.onConfirm(
+        this.props.version,
         this.state.versionName,
         this.state.versionChangeLog,
-        this.state.versionStartDate,
         this.state.versionEndDate,
         this.state.versionCanImage,
-        this.state.versionImageID,
-        this.state.versionLicenses,
-        this.state.versionMemberships
+        this.state.versionImageID
       );
     },
 
@@ -140,6 +138,10 @@ define(function (require) {
     // ------
     //
 
+    handleNameChange: function(e){
+      var name = e.target.value;
+      this.setState({versionName: name});
+    },
     handleDescriptionChange: function(e){
       var description = e.target.value;
       this.setState({versionChangeLog: description});
@@ -180,18 +182,21 @@ define(function (require) {
       });
     },
     renderBody: function() {
-      var applicationView, availabilityView, descriptionView, membershipView, licensesView;
+      var applicationView, availabilityView, canImageView, nameView, descriptionView, startDateView, endDateView, membershipView, licensesView;
 
       var machines = stores.ImageVersionStore.getMachines(this.props.version.id),
         name = this.state.versionName,
-        created = this.state.versionStartDate.format("MMMM Do, YYYY hh:mma"),
+        created = this.state.versionStartDate.format("MMMM D, YYYY hh:mm a"),
+        ended,
         membershipsList = stores.MembershipStore.getAll(),
         licensesList = stores.LicenseStore.getAll(),
         activeLicensesList = stores.ImageVersionLicenseStore.getLicensesFor(this.props.version),
         versionMembers = stores.ImageVersionMembershipStore.getMembershipsFor(this.props.version);
 
-      if(this.state.versionEndDate && this.state.versionEndDate.isValid()) {
-        ended  = this.state.versionEndDate.format("MMMM Do, YYYY hh:mma")
+      if(this.state.versionEndDate
+        && this.state.versionEndDate._isAMomentObject
+        && this.state.versionEndDate.isValid()) {
+        ended = this.state.versionEndDate.format("MMMM D, YYYY hh:mm a");
       }
 
       if(!name || !machines) {
@@ -207,10 +212,19 @@ define(function (require) {
             label={"Licenses Required"}
           />
       );
+      nameView = (
+        <div class="form-group">
+          <label for="version_name">Version Title</label>
+          <input type="text" name="version_name"
+               className="form-control" id="version_name"
+               value={this.state.versionName}
+               onChange={this.handleNameChange}
+            />
+          </div>
+      );
       descriptionView = (
         <EditDescriptionView
           title={"Change Log"}
-          image={this.props.image}
           value={this.state.versionChangeLog}
           onChange={this.handleDescriptionChange}
           />
@@ -234,35 +248,45 @@ define(function (require) {
           label={"Version Shared With:"}
           />);
       }
-      applicationView = (<ImageSelect
+      applicationView = (
+        <div className="application-select-container">
+          <div class="alert alert-danger">
+            <strong>Warning:</strong>
+            Changing this value will move this version to a different image you own.
+          </div>
+        <ImageSelect
           imageId={this.state.versionImageID}
           onChange={this.onImageSelected}
           />
+        </div>
+      );
+      endDateView = (<div className='form-group'>
+        <label htmlFor='version-end-date'>Version Removed On</label>
+        <input type='text' className='form-control' value={ended} onChange={this.onEndDateChange}/>
+      </div>);
+      startDateView = (<div className='form-group'>
+          <label htmlFor='version-version'>Version Created On</label>
+          <input type='text' className='form-control' value={created} readOnly={true} editable={false}/>
+        </div>
+      );
+      canImageView = (<div className='form-group'>
+          <label htmlFor='version-uncopyable'>Uncopyable</label>
+          <input type='checkbox' className='form-control'
+                 checked={this.state.versionCanImage}
+                 onChange={this.onUncopyableSelected}/>
+        </div>
       );
       return (
         <div role='form'>
-
-          <div className='form-group'>
-            <label htmlFor='version-version'>Version Created On</label>
-            <input type='text' className='form-control' value={created} readOnly={true} editable={false}/>
-          </div>
-
-          <div className='form-group'>
-            <label htmlFor='version-end-date'>Version Removed On</label>
-            <input type='text' className='form-control' value={this.state.versionEndDate} onChange={this.onEndDateChange}/>
-          </div>
+          {nameView}
           {descriptionView}
+          {canImageView}
+          {startDateView}
+          {endDateView}
           {availabilityView}
           {membershipView}
           {licensesView}
           {applicationView}
-          <div className='form-group'>
-            <label htmlFor='version-uncopyable'>Uncopyable</label>
-            <input type='checkbox' className='form-control'
-                   checked={this.state.versionCanImage}
-                   onChange={this.onUncopyableSelected}/>
-          </div>
-
         </div>
       );
     },
@@ -300,11 +324,8 @@ define(function (require) {
                 {this.renderBody()}
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-danger" onClick={this.cancel}>
-                  Cancel
-                </button>
                 <button type="button" className="btn btn-primary" onClick={this.confirm} disabled={!this.isSubmittable()}>
-                  Create
+                  Save Changes
                 </button>
               </div>
             </div>

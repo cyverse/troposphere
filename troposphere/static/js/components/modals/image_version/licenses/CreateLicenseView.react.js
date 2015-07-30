@@ -127,7 +127,7 @@ define(function (require) {
       return (<div class="form-group">
           <label for="licenseTitle">License Title</label>
           <input type="text" class="form-control" id="licenseTitle" placeholder="Title" value={this.state.licenseTitle}
-                 onChange={this.onLicenseTitleChange}/>
+                 onChange={this.onLicenseTitlfeChange}/>
         </div>
       );
     },
