@@ -53,6 +53,9 @@ define(function (require) {
           onRemoveTag={this.props.onModelRemoved}
         />
       )
+    },
+    render: function() {
+      return this.renderChosenSearchSelect();
     }
 
   })

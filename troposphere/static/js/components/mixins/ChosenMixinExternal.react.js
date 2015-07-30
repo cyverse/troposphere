@@ -67,7 +67,16 @@ define(function (require) {
 
     onEnter: function(e){
       if(e.which !== ENTER_KEY) return;
-      if(this.props.onEnterKeyPressed) this.props.onEnterKeyPressed(e);
+      var value = e.target.value;
+      if(this.onEnterKeyPressed) {
+        this.onEnterKeyPressed(value);
+      } else if(this.props.onEnterKeyPressed) {
+        this.props.onEnterKeyPressed(e);
+      } else {
+        //Enter does nothing if neither value is defined..
+        return;
+      }
+      //After callback, assume action Completed clear search.
       this.clearSearchField();
     },
 
@@ -131,8 +140,7 @@ define(function (require) {
     //
     // Render
     //
-
-    render: function () {
+    renderChosenSearchSelect: function () {
       var models = this.props.models,
           activeModels = this.props.activeModels,
           query = this.state.query,

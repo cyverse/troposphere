@@ -3,8 +3,7 @@ define(function (require) {
   var React = require('react'),
       Backbone = require('backbone'),
       EditDescriptionView = require('components/images/detail/description/EditDescriptionView.react'),
-      CreateLicenseView = require('./CreateLicenseView.react'),
-      LicenseMultiSelect = require('components/common/chosen/ChosenMultiFormSelect.react');
+      LicenseMultiSelect = require('./LicenseMultiSelectAndCreate.react');
 
   var ENTER_KEY = 13;
 
@@ -28,32 +27,18 @@ define(function (require) {
     },
     getInitialState: function(){
       return {
-        isEditingLicenses: false,
         query: "",
       }
-    },
-    onEnter: function(query) {
-      this.setState({
-        isEditingLicenses: true,
-        query: query
-      });
     },
     onQueryChange: function(query){
       this.setState({query: query});
     },
-    onEditChange: function(truth_value){
-      this.setState({isEditingLicenses: truth_value});
-    },
     onCreateLicense: function(params) {
-      this.setState({isEditingLicenses: false});
-      this.params.onCreateNewLicense(params);
+      this.props.onCreateNewLicense(params);
     },
     renderLicenseCreateForm: function() {
       return (
-        <CreateLicenseView
-            onCreateLicense={this.onCreateLicense}
-            licenseTitle={this.state.query}
-                />
+
       );
     },
     render: function () {
@@ -64,7 +49,7 @@ define(function (require) {
 
       if(query){
         licenses = this.props.licenses.filter(function(license){
-          return license.get('title').toLowerCase().indexOf(query) >= 0;
+          return license.get('title').toLowerCase().indexOf(query.toLowerCase()) >= 0;
         });
         licenses = new Backbone.Collection(licenses);
       }
@@ -76,10 +61,7 @@ define(function (require) {
             onModelAdded={this.props.onLicenseAdded}
             onModelRemoved={this.props.onLicenseRemoved}
             onModelCreated={this.onCreateLicense}
-            onEnterKeyPressed={this.onEnter}
-            showCreateForm={this.state.isEditingLicenses}
             onQueryChange={this.onQueryChange}
-            onShowingChange={this.onEditChange}
             propertyName={"title"}
             showButtonText="Create New License"
             placeholderText="Search by License title..."

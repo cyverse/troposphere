@@ -53,7 +53,11 @@ define(function (require) {
           onRemoveMembership={this.props.onModelRemoved}
         />
       )
+    },
+    render: function() {
+      return this.renderChosenSearchSelect();
     }
+
 
   })
 
