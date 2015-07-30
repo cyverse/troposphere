@@ -121,7 +121,7 @@ define(function (require) {
     },
 
     onUncopyableSelected: function (e) {
-      var uncopyable = (e.target.value === 'on');
+      var uncopyable = (e.target.checked);
       this.setState({versionCanImage: uncopyable});
     },
 

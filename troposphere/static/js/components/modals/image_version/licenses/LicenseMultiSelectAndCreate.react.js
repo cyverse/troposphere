@@ -35,6 +35,7 @@ define(function (require) {
     getInitialState: function(){
       return {
         showCreateForm: this.props.showCreateForm,
+        licenseTitle: "",
       }
     },
 
@@ -58,7 +59,7 @@ define(function (require) {
         } else {
           this.setState({
             showCreateForm: true,
-            query: value
+            licenseTitle: value
           });
           if(this.props.onEnterKeyPressed) {
             this.props.onEnterKeyPressed(value);
@@ -76,7 +77,7 @@ define(function (require) {
       } else {
         return (<CreateLicenseView
           onCreateLicense={this.onCreateLicense}
-          licenseTitle={this.state.query}
+          licenseTitle={this.state.licenseTitle}
           />);
       }
     },
