@@ -9,6 +9,8 @@ define(function (require) {
       CreateLicenseView = require('./CreateLicenseView.react');
 
   return React.createClass({
+    displayName: "LicenseMultiSelectAndCreate",
+
     mixins: [ChosenMixinExternal],
 
     propTypes: {
@@ -16,7 +18,6 @@ define(function (require) {
       models: React.PropTypes.instanceOf(Backbone.Collection),
       activeModels: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
       propertyName: React.PropTypes.string.isRequired,
-      renderCreateForm: React.PropTypes.func.isRequired,
       onQueryChange: React.PropTypes.func.isRequired,
       onModelAdded: React.PropTypes.func.isRequired,
       onModelRemoved: React.PropTypes.func.isRequired,
@@ -69,12 +70,9 @@ define(function (require) {
 
     },
     renderCreateForm: function(createButtonText) {
-      if(!this.props.renderCreateForm) {
-        return (<div className="new-item-form">
-          {"You should renderCreateForm"}
-        </div>);
-      } else if (this.state.showCreateForm == false) {
-        return (<div className="new-item-form" style={{"visibility": "hidden"}}/>);
+      if (this.state.showCreateForm == false) {
+        return (<div className="new-license-form new-item-form"
+                     style={{"visibility": "hidden"}}/>);
       } else {
         return (<CreateLicenseView
           onCreateLicense={this.onCreateLicense}
@@ -98,11 +96,10 @@ define(function (require) {
     isSubmittable: function() {
       return this.props.isSubmittable(this.state);
     },
-    onModelCreated: function(model) {
+    onCreateLicense: function(model) {
       this.props.onModelCreated(model);
       this.setState({showCreateForm: false});
     },
-
 
     getNoResultsPhrase: function(query){
       return 'No licenses found matching "' + query + '". Press enter to create a new license.';

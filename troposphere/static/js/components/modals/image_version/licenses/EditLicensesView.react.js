@@ -8,7 +8,8 @@ define(function (require) {
   var ENTER_KEY = 13;
 
   return React.createClass({
-    display: "EditLicenseView",
+    displayName: "EditLicenseView",
+
     propTypes: {
       image_version: React.PropTypes.instanceOf(Backbone.Model),
       activeLicenses: React.PropTypes.instanceOf(Backbone.Collection),
@@ -36,11 +37,7 @@ define(function (require) {
     onCreateLicense: function(params) {
       this.props.onCreateNewLicense(params);
     },
-    renderLicenseCreateForm: function() {
-      return (
 
-      );
-    },
     render: function () {
       var query = this.state.query,
           link,
@@ -65,7 +62,6 @@ define(function (require) {
             propertyName={"title"}
             showButtonText="Create New License"
             placeholderText="Search by License title..."
-            renderCreateForm={this.renderLicenseCreateForm}
           />
         );
 

@@ -8,7 +8,7 @@ define(function (require) {
   var ENTER_KEY = 13;
 
   return React.createClass({
-    display: "CreateLicenseView",
+    displayName: "CreateLicenseView",
 
     propTypes: {
       onCreateLicense: React.PropTypes.func.isRequired,
@@ -134,7 +134,7 @@ define(function (require) {
     render: function () {
       return (
 
-        <div className="new-item-form">
+        <div className="new-license-form new-item-form">
           <div className="new-item-form-header" style={{"border": "black 1px"}}>
             <button disabled={!this.isSubmittable()} onClick={this.onCreateLicense} type="button"
                     className="btn btn-default btn-sm">{"Create and Add"}</button>

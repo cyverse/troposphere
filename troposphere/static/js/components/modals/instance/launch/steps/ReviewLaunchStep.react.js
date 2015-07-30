@@ -11,7 +11,9 @@ define(function (require) {
     var ENTER_KEY = 13;
 
     return React.createClass({
-        propTypes: {
+      displayName: "ReviewLaunchStep",
+
+      propTypes: {
             //name: React.PropTypes.string.isRequired,
             //image: React.PropTypes.instanceOf(Backbone.Model).isRequired,
             //version: React.PropTypes.instanceOf(Backbone.Model).isRequired,

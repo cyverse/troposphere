@@ -7,6 +7,7 @@ define(function (require) {
         IdentitySelect = require('../components/IdentitySelect.react');
 
     return React.createClass({
+        displayName: "NameIdentityVersionStep",
 
         propTypes: {
             image: React.PropTypes.instanceOf(Backbone.Model),

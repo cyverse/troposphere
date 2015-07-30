@@ -10,6 +10,7 @@ define(function (require) {
     actions = require('actions');
 
   return React.createClass({
+      displayName: "VersionList",
 
       propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired,

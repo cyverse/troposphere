@@ -10,6 +10,7 @@ define(function (require) {
       stores = require('stores');
 
   return React.createClass({
+    displayName: 'Version',
 
     propTypes: {
       image: React.PropTypes.instanceOf(Backbone.Model).isRequired,

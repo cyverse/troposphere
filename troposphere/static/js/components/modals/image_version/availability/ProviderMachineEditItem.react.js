@@ -8,6 +8,7 @@ define(function (require) {
         actions = require('actions');
 
     return React.createClass({
+        displayName: "ProviderMachineEditItem",
 
         propTypes: {
             provider_machine: React.PropTypes.object.isRequired,

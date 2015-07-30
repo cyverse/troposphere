@@ -11,6 +11,8 @@ define(function (require) {
       ImageSelect = require('components/modals/image_version/ImageSelect.react');
 
   return React.createClass({
+    displayName: "ImageVersionEditModal",
+
     mixins: [BootstrapModalMixin],
 
     propTypes: {

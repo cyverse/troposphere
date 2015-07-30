@@ -7,6 +7,7 @@ define(function (require) {
         ProviderMachineEditItem = require('./ProviderMachineEditItem.react');
 
     return React.createClass({
+        displayName: "EditAvailabilityVersion",
 
         propTypes: {
             image: React.PropTypes.instanceOf(Backbone.Model).isRequired,
@@ -16,7 +17,9 @@ define(function (require) {
           var availableText = provider_machine.end_date ? "Enabled" : "Disabled";
             return (
                 <ProviderMachineEditItem
+                  key={provider_machine.id}
                   provider_machine={provider_machine}
+                  version={this.props.version}
                 />
             )
         },
