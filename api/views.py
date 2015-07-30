@@ -2,6 +2,7 @@ from rest_framework import viewsets
 import requests
 from rest_framework import status
 import jwt
+from troposphere import settings
 from Crypto.Hash import SHA256
 from rest_framework.response import Response
 from django.contrib.auth.models import User
@@ -47,69 +48,83 @@ class BadgeViewSet(viewsets.GenericViewSet):
     serializer_class = UserPreferenceSerializer
 
     def create(self, request, *args, **kwargs):
+        url = settings.BADGE_API_HOST
         email = User.objects.get(username=self.request.user).email
+        slug = settings.BADGE_SYSTEM_SLUG
+        secret = settings.BADGE_SECRET
         badge = 1
-        system = 'demo'
+        path = '/systems/' + slug + '/badges/' + badge + "/instance"
         header = {"typ": "JWT", "alg": 'HS256'}
         body = {'email': email}
         computed_hash = SHA256.new()
         computed_hash.update(body)
-        payload = {'key': "master", 'method': "POST", 'path': "/systems/" + system + "/badges/" + badge + "/instance", "body": {"alg": "sha256", "hash": computed_hash.hexdigest()}}
-        token = jwt.encode(payload, 'mysecret', headers=header)
+        payload = {'key': "master", 'method': "POST", 'path': path, "body": {"alg": "sha256", "hash": computed_hash.hexdigest()}}
+        token = jwt.encode(payload, secret, headers=header)
 
 
         options = {
             'method': 'POST',
-            'url': "http://128.196.64.125:8080/systems/" + system + "/badges/" + badge + "/instances/",
+            'url': url + path,
             'headers': {
                 'Authorization': 'JWT token="' + token + '"',
                 'Content-Type': 'application/json'
             }
         }
 
-        r = requests.post('http://128.196.64.125:8080/systems/' + system + "/badges/" + badge + "/instances", data=body, headers=options['headers'])
-        return Response(data=None, status=status.HTTP_201_CREATED)
+        r = requests.post(url + path, data=body, headers=options['headers'])
+        return Response(data=r.json(), status=status.HTTP_201_CREATED)
+
 
     def retrieve(self, request, *args, **kwargs):
+        url = settings.BADGE_API_HOST
         email = User.objects.get(username=self.request.user).email
+        slug = settings.BADGE_SYSTEM_SLUG
+        name = settings.BADGE_SYSTEM_NAME
+        secret = settings.BADGE_SECRET
+        path = '/systems/' + slug + '/instances/' + email
         header = {"typ": "JWT", "alg": 'HS256'}
-        body = '{"slug": "demo", "name": "Demo", "url": "http://128.196.64.125:8080/systems/demo/instances/"' + email +'"}'
+        body = str({"slug": slug, "name": name, "url": url + path})
         computed_hash = SHA256.new()
         computed_hash.update(body)
-        payload = {'key': "master", 'method': "GET", 'path': "/systems/demo/instances/" + email, "body": {"alg": "sha256", "hash": computed_hash.hexdigest()}}
-        token = jwt.encode(payload, 'mysecret', headers=header)
+        payload = {'key': "master", 'method': "GET", 'path': path, "body": {"alg": "sha256", "hash": computed_hash.hexdigest()}}
+        token = jwt.encode(payload, secret, headers=header)
 
 
         options = {
             'method': 'GET',
-            'url': "http://128.196.64.125:8080/systems/demo/instances/" + email,
+            'url': url + path,
             'headers': {
                 'Authorization': 'JWT token="' + token + '"',
                 'Content-Type': 'application/json'
             }
         }
 
-        r = requests.get('http://128.196.64.125:8080/systems/demo/instances/' + email, headers=options['headers'])
+        r = requests.get(url + path, headers=options['headers'])
         return Response(data=r.json(), status=status.HTTP_200_OK)
 
+
     def list(self, request, *args, **kwargs):
-        email = User.objects.get(username=self.request.user).email
+        url = settings.BADGE_API_HOST
+        slug = settings.BADGE_SYSTEM_SLUG
+        name = settings.BADGE_SYSTEM_NAME
+        secret = settings.BADGE_SECRET
+        path = '/systems/' + slug + '/badges'
         header = {"typ": "JWT", "alg": 'HS256'}
-        body = '{"slug": "demo", "name": "Demo", "url": "http://128.196.64.125:8080/systems/demo/badges"}'
+        body = str({"slug": slug, "name": name, "url": url + path})
         computed_hash = SHA256.new()
         computed_hash.update(body)
-        payload = {'key': "master", 'method': "GET", 'path': "/systems/demo/badges", "body": {"alg": "sha256", "hash": computed_hash.hexdigest()}}
-        token = jwt.encode(payload, 'mysecret', headers=header)
+        payload = {'key': "master", 'method': "GET", 'path': path, "body": {"alg": "sha256", "hash": computed_hash.hexdigest()}}
+        token = jwt.encode(payload, secret, headers=header)
 
 
         options = {
             'method': 'GET',
-            'url': "http://128.196.64.125:8080/systems/demo/badges",
+            'url': url + path,
             'headers': {
                 'Authorization': 'JWT token="' + token + '"',
                 'Content-Type': 'application/json'
             }
         }
 
-        r = requests.get('http://128.196.64.125:8080/systems/demo/badges', headers=options['headers'])
+        r = requests.get(url + path, headers=options['headers'])
         return Response(data=r.json(), status=status.HTTP_200_OK)
