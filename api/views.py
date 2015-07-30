@@ -5,6 +5,7 @@ import jwt
 import json
 from troposphere import settings
 from Crypto.Hash import SHA256
+import ipdb
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 from api.models import UserPreferences
@@ -54,8 +55,7 @@ class BadgeViewSet(viewsets.GenericViewSet):
         email_address = str(User.objects.get(username=self.request.user).email)
         slug = settings.BADGE_SYSTEM_SLUG
         secret = settings.BADGE_SECRET
-        badge = self.request.badgeSlug
-
+        badge = str(self.request.data['badgeSlug'])
         path = '/systems/' + slug + '/badges/' + badge + '/instances'
         header = {"typ": "JWT", "alg": 'HS256'}
         body = json.dumps({"email": email_address})
@@ -74,12 +74,7 @@ class BadgeViewSet(viewsets.GenericViewSet):
                 'Content-Type': 'application/json'
             }
         }
-        print url
-        print path
-        print options
-        print body
         r = requests.post(url + path, data=body, headers=options['headers'])
-        print r.json()
         return Response(data=r.json(), status=status.HTTP_201_CREATED)
 
     def retrieve(self, request, *args, **kwargs):
