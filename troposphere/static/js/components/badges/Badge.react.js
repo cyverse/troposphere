@@ -24,9 +24,9 @@ define(function (require) {
 
       return(
         <li onClick={this.renderBadgeDetail} className='badge-li'>
-          <img className='badge-image' src={badge.get('imageUrl')} />
+          <img className='image' src={badge.get('imageUrl')} />
           <h4 className='badge-name'>{badge.get('name')}</h4>
-          <p className='badge-text'>
+          <p className='text'>
           {this.state.text}
           </p>
         </li>

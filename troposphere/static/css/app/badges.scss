@@ -1,47 +1,45 @@
-.badge-image{
-  width: 100%;
-}
-
-.badge-text{
-  text-align: center;
-  overflow-y: scroll;
-  height: 40px;
-}
-
-.badge-li{
-  display: inline-block;
-  width: 20%;
-  margin: 1%;
-
-  h4{
-    text-align: center;
-  }
-}
-
-#all-badges, #my-badges{
-  list-style-type: none;
-  width: 50%;
-}
-
-#all-badges{
-  float: left;
-}
-
-#my-badges{
-  float: right;
-}
-
-.badge-page{
+.badges{
   h1{
     text-align: center;
   }
   ul{
     padding: 0;
   }
-}
+  .image{
+    width: 100%;
+  }
+  .text{
+    text-align: center;
+    overflow-y: scroll;
+    height: 40px;
+  }
+  li{
+    display: inline-block;
+    width: 20%;
+    margin: 1%;
 
-.badge-modal-image{
-  width: 50%;
-  margin: 0 auto;
-  display: block;
+    h4{
+      text-align: center;
+    }
+  }
+  .all{
+    list-style-type: none;
+    width: 50%;
+    float: left;
+  }
+  .mine{
+    list-style-type: none;
+    width: 50%;
+    float: right;
+  }
+  modal-image{
+    width: 50%;
+    margin: 0 auto;
+    display: block;
+  }
+  description{
+    p, strong{
+      display: inline-block;
+    }
+  }
 }
