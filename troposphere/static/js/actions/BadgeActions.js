@@ -11,8 +11,8 @@ define(function (require) {
 
     userHasBadge: function(badge){
       if(stores.MyBadgeStore.get(badge)) return true;
-      return false;
-    },
+        return false;
+      },
 
     checkInstances: function(){
       var instanceCount = stores.InstanceHistoryStore.getAll().meta.count;
