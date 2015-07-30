@@ -3,7 +3,8 @@ define(function (require) {
   var React = require('react'),
     BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
     stores = require('stores'),
-    moment = require('moment');
+    moment = require('moment'),
+    globals = require('globals');
 
   return React.createClass({
     mixins: [BootstrapModalMixin],
@@ -67,7 +68,7 @@ define(function (require) {
         var clientVersion = client.get("git_branch") + " " + client.get("git_sha_abbrev");
         var clientLastUpdated = moment(client.get('commit_date')).format("MMM Do YYYY");
 
-        var serverDeploy = this.state.version.serverDeploy;
+        var serverDeploy = this.state.version.deploy;
         var serverDeployVersion = serverDeploy.get("git_branch") + " " + serverDeploy.get("git_sha_abbrev");
         var serverDeployLastUpdated = moment(serverDeploy.get('commit_date')).format("MMM Do YYYY");
 

@@ -31,7 +31,7 @@ define(function (require) {
         <footer className="footer">
           <div className="container">
             <a href="http://user.iplantcollaborative.org" target="_blank">
-              {"\u00a9" + year + " iPlant Collaborative"}
+                  {"\u00a9" + year + " " + this.props.text}
             </a>
             {feedbackButton}
           </div>

@@ -2,13 +2,14 @@ define(function (require) {
   "use strict";
 
   var React = require('react'),
-    stores = require('stores'),
-    Backbone = require('backbone'),
-    context = require('context'),
-    Header = require('./Header.react'),
-    Footer = require('./Footer.react'),
-    actions = require('actions'),
-    NullProject = require('models/NullProject');
+      stores = require('stores'),
+      Backbone = require('backbone'),
+      context = require('context'),
+      globals = require('globals'),
+      Header = require('./Header.react'),
+      Footer = require('./Footer.react'),
+      actions = require('actions'),
+      NullProject = require('models/NullProject');
 
   // Routing
   var Router = require('react-router'),
@@ -75,7 +76,7 @@ define(function (require) {
           <div id="main" style={{"marginTop": marginTop}}>
             <RouteHandler/>
           </div>
-          <Footer profile={context.profile}/>
+          <Footer text={globals.THEME_FOOTER_TEXT} profile={context.profile}/>
         </div>
       );
     }

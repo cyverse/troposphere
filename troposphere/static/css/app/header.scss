@@ -11,7 +11,7 @@
 
   // Add BETA label after the brand name
   &::after {
-    content: "BETA";
+    content: $application-label;
     background-color: lighten($navbar-default-bg, 5%);
     padding: 6px;
     border-radius: 3px;
