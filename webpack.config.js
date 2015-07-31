@@ -8,7 +8,7 @@ var plugins = [
     new webpack.ProvidePlugin({
       "jQuery": "jquery"
     }),
-    new ExtractTextPlugin("app.css", { allChunks: true})
+    new ExtractTextPlugin("[name].css", { allChunks: true})
 ];
 
 if (process.env.NODE_ENV === "production") {
@@ -27,7 +27,8 @@ if (process.env.NODE_ENV === "production") {
 
 module.exports = {
   entry: {
-    main: "./main",
+    app: "./main",
+    no_user: "./no_user",
     analytics: "./analytics"
   },
   context: path.join(__dirname, "/troposphere/static/js"),
@@ -52,13 +53,13 @@ module.exports = {
   resolve: {
     alias: {
       bootstrap: "bootstrap-sass",
-      css: path.join(__dirname, "/troposphere/static/css/app"),
+      css: path.join(__dirname, "/troposphere/static/css/"),
       images: path.join(__dirname, "/troposphere/static/images"),
       highcharts: "highcharts-commonjs"
     },
     root: [
       path.join(__dirname, "/troposphere/static/js"),
-      path.join(__dirname, "/troposphere/static/css/app"),
+      path.join(__dirname, "/troposphere/static/css"),
       path.join(__dirname, "/troposphere/static/images")
     ],
     extensions: ["", ".js", ".scss", ".sass"]

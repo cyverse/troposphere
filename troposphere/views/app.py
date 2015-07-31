@@ -109,7 +109,7 @@ def _handle_authenticated_application_request(request, maintenance_records):
     # Return the new Troposphere UI
     if user_preferences.show_beta_interface or show_troposphere_only:
         response = render_to_response(
-            'application.html',
+            'index.html',
             template_params,
             context_instance=RequestContext(request)
         )
