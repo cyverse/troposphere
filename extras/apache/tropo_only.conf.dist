@@ -79,7 +79,7 @@
         SSLCipherSuite ALL:!ADH:!EXPORT:!SSLv2:RC4+RSA:+HIGH:+MEDIUM:+LOW
         SSLCertificateFile $BASECERTHERE
         SSLCertificateKeyFile $KEYHERE
-        SSLCertificateChainFile /etc/ssl/certs/$BUNDLECERTHERE
+        SSLCertificateChainFile $BUNDLECERTHERE
 
         <Files ~ "\.(cgi|shtml|phtml|php3?)$">
             SSLOptions +StdEnvVars
