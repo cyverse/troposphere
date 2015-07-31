@@ -90,26 +90,32 @@ define(function (require) {
       if (this.state.licenseType == "URL") {
         urlRadio = (
           <label className="radio-inline">
-            <input checked="checked" type="radio" name="inlineRadioOptions" id="licenseTypeURL" value="URL"
+            <input checked="checked"
+                   type="radio" name="inlineLicenseOptions"
+                   id="licenseTypeURL" value="URL"
                    onChange={this.onLicenseInputTypeChange}/>
             URL
           </label>);
         fullTextRadio = (
           <label className="radio-inline">
-            <input type="radio" name="inlineRadioOptions" id="LicenseTypeText" value="full_text"
+            <input type="radio" name="inlineLicenseOptions"
+                   id="licenseTypeText" value="full_text"
                    onChange={this.onLicenseInputTypeChange}/>
             Full Text
           </label>);
       } else {
         urlRadio = (
           <label className="radio-inline">
-            <input type="radio" name="inlineRadioOptions" id="licenseTypeURL" value="URL"
+            <input type="radio" name="inlineLicenseOptions"
+                   id="licenseTypeURL" value="URL"
                    onChange={this.onLicenseInputTypeChange}/>
             URL
           </label>);
         fullTextRadio = (
           <label className="radio-inline">
-            <input checked="checked" type="radio" name="inlineRadioOptions" id="LicenseTypeText" value="full_text"
+            <input checked="checked"
+                   type="radio" name="inlineLicenseOptions"
+                   id="LicenseTypeText" value="full_text"
                    onChange={this.onLicenseInputTypeChange}/>
             Full Text
           </label>);
@@ -127,7 +133,7 @@ define(function (require) {
       return (<div class="form-group">
           <label for="licenseTitle">License Title</label>
           <input type="text" class="form-control" id="licenseTitle" placeholder="Title" value={this.state.licenseTitle}
-                 onChange={this.onLicenseTitlfeChange}/>
+                 onChange={this.onLicenseTitleChange}/>
         </div>
       );
     },

@@ -7,7 +7,8 @@ define(function (require) {
       EditAvailabilityView = require('./availability/EditAvailabilityView.react'),
       EditDescriptionView = require('components/images/detail/description/EditDescriptionView.react'),
       EditMembershipView = require('./membership/EditMembershipView.react'),
-      EditLicensesView = require('./licenses/EditLicensesView.react')
+      EditLicensesView = require('./licenses/EditLicensesView.react'),
+      EditScriptsView = require('./scripts/EditScriptsView.react'),
       ImageSelect = require('components/modals/image_version/ImageSelect.react');
 
   return React.createClass({
@@ -36,6 +37,7 @@ define(function (require) {
         versionCanImage: version.get('allow_imaging'),
         versionParentID: version.get('parent').id,
         versionLicenses: null,
+        versionScripts: null,
         versionMemberships: null,
       }
     },
@@ -52,9 +54,11 @@ define(function (require) {
       stores.ImageStore.addChangeListener(this.updateState);
       stores.UserStore.addChangeListener(this.updateState);
       stores.MembershipStore.addChangeListener(this.updateState);
+      stores.ScriptStore.addChangeListener(this.updateState);
       stores.LicenseStore.addChangeListener(this.updateState);
       stores.ImageVersionStore.addChangeListener(this.updateState);
       stores.ImageVersionMembershipStore.addChangeListener(this.updateState);
+      stores.ImageVersionScriptStore.addChangeListener(this.updateState);
       stores.ImageVersionLicenseStore.addChangeListener(this.updateState);
     },
 
@@ -63,9 +67,11 @@ define(function (require) {
       stores.UserStore.removeChangeListener(this.updateState);
       stores.MembershipStore.removeChangeListener(this.updateState);
       stores.LicenseStore.removeChangeListener(this.updateState);
+      stores.ScriptStore.removeChangeListener(this.updateState);
       stores.ImageVersionStore.removeChangeListener(this.updateState);
       stores.ImageVersionMembershipStore.removeChangeListener(this.updateState);
       stores.ImageVersionLicenseStore.removeChangeListener(this.updateState);
+      stores.ImageVersionScriptStore.removeChangeListener(this.updateState);
     },
 
     //TODO: Pull this out to commons
@@ -132,7 +138,6 @@ define(function (require) {
       this.setState({versionMembership: membership_list});
     },
 
-    //TODO: Handle 'many to many' Licenses & Memberships : List current, Add New, Remove Existing
     //
     //
     // Render
@@ -150,6 +155,28 @@ define(function (require) {
     onOptionsChange: function() {
       this.setState({showOptions: !this.state.showOptions});
     },
+    onScriptCreate: function(scriptObj){
+      actions.ScriptActions.create_AddToImageVersion(this.props.version, {
+        title: scriptObj.title,
+        type: scriptObj.type,
+        text: scriptObj.text
+      });
+    },
+
+    onScriptAdded: function(script){
+      actions.ImageVersionScriptActions.add({
+        image_version: this.props.version,
+        script: script
+      });
+    },
+
+    onScriptRemoved: function(script){
+      actions.ImageVersionScriptActions.remove({
+        image_version: this.props.version,
+        script: script
+      });
+    },
+
     onLicenseCreate: function(licenseObj){
       actions.LicenseActions.create_AddToImageVersion(this.props.version, {
         title: licenseObj.title,
@@ -186,7 +213,7 @@ define(function (require) {
       });
     },
     renderBody: function() {
-      var applicationView, availabilityView, canImageView, nameView, descriptionView, startDateView, endDateView, membershipView, licensesView;
+      var applicationView, availabilityView, canImageView, nameView, descriptionView, startDateView, endDateView, membershipView, licensesView, scriptsView;
 
       var machines = stores.ImageVersionStore.getMachines(this.props.version.id),
         name = this.state.versionName,
@@ -197,6 +224,8 @@ define(function (require) {
         membershipsList = stores.MembershipStore.getAll(),
         licensesList = stores.LicenseStore.getAll(),
         activeLicensesList = stores.ImageVersionLicenseStore.getLicensesFor(this.props.version),
+        scriptsList = stores.ScriptStore.getAll(),
+        activeScriptsList = stores.ImageVersionScriptStore.getScriptsFor(this.props.version),
         versionMembers = stores.ImageVersionMembershipStore.getMembershipsFor(this.props.version);
 
       if(this.state.versionEndDate
@@ -212,12 +241,22 @@ define(function (require) {
       }
       licensesView = (
         <EditLicensesView
-            activeLicenses={activeLicensesList}
-            licenses={licensesList}
-            onLicenseAdded={this.onLicenseAdded}
-            onLicenseRemoved={this.onLicenseRemoved}
-            onCreateNewLicense={this.onLicenseCreate}
-            label={"Licenses Required"}
+          activeLicenses={activeLicensesList}
+          licenses={licensesList}
+          onLicenseAdded={this.onLicenseAdded}
+          onLicenseRemoved={this.onLicenseRemoved}
+          onCreateNewLicense={this.onLicenseCreate}
+          label={"Licenses Required"}
+          />
+      );
+      scriptsView = (
+        <EditScriptsView
+          activeScripts={activeScriptsList}
+          scripts={scriptsList}
+          onScriptAdded={this.onScriptAdded}
+          onScriptRemoved={this.onScriptRemoved}
+          onCreateNewScript={this.onScriptCreate}
+          label={"Scripts Required"}
           />
       );
       nameView = (
@@ -290,6 +329,7 @@ define(function (require) {
             {availabilityView}
             {membershipView}
             {licensesView}
+            {scriptsView}
             {applicationView}
           </div>
         );
