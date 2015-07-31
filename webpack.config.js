@@ -44,7 +44,8 @@ module.exports = {
       { test: /\.woff2$/, loader: "url?limit=10000&mimetype=application/font-woff2" },
       { test: /\.ttf$/  , loader: "file?mimetype=application/vnd.ms-fontobject" },
       { test: /\.eot$/  , loader: "file?mimetype=application/x-font-ttf" },
-      { test: /\.svg$/  , loader: "file?mimetype=image/svg+xml" }
+      { test: /\.svg$/  , loader: "file?mimetype=image/svg+xml" },
+      { test: /\.(jpe?g|png|gif)$/, loader: "file" }
     ]
   },
   plugins: plugins,
@@ -52,11 +53,13 @@ module.exports = {
     alias: {
       bootstrap: "bootstrap-sass",
       css: path.join(__dirname, "/troposphere/static/css/app"),
+      images: path.join(__dirname, "/troposphere/static/images"),
       highcharts: "highcharts-commonjs"
     },
     root: [
       path.join(__dirname, "/troposphere/static/js"),
-      path.join(__dirname, "/troposphere/static/css/app")
+      path.join(__dirname, "/troposphere/static/css/app"),
+      path.join(__dirname, "/troposphere/static/images")
     ],
     extensions: ["", ".js", ".scss", ".sass"]
   }
