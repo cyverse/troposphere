@@ -21,7 +21,8 @@ define(function (require) {
       modals.InstanceVolumeModals.detach(this.props.volume);
     },
 
-    onDelete: function(){
+    onDelete: function () {
+      this.props.onUnselect(this.props.volume);
       modals.VolumeModals.destroy({
         volume: this.props.volume,
         project: this.props.project

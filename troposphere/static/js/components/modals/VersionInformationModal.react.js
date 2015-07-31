@@ -67,6 +67,10 @@ define(function (require) {
         var clientVersion = client.get("git_branch") + " " + client.get("git_sha_abbrev");
         var clientLastUpdated = moment(client.get('commit_date')).format("MMM Do YYYY");
 
+        var serverDeploy = this.state.version.serverDeploy;
+        var serverDeployVersion = serverDeploy.get("git_branch") + " " + serverDeploy.get("git_sha_abbrev");
+        var serverDeployLastUpdated = moment(serverDeploy.get('commit_date')).format("MMM Do YYYY");
+
         var server = this.state.version.server;
         var serverVersion = server.get("git_branch") + " " + server.get("git_sha_abbrev");
         var serverLastUpdated = moment(server.get('commit_date')).format("MMM Do YYYY");
@@ -84,6 +88,11 @@ define(function (require) {
                 <label>Server</label>
                 {", " + serverLastUpdated}
                 <p>{serverVersion}</p>
+              </div>
+              <div>
+                <label>Deployment (Ansible)</label>
+                {", " + serverDeployLastUpdated}
+                <p>{serverDeployVersion}</p>
               </div>
             </div>
 

@@ -5,7 +5,6 @@ if (!define(function (require) {
             _ = require('underscore'),
             stores = require('stores'),
             ProjectActions = require('actions/ProjectActions'),
-            ProjectSelect = require('components/common/project/ProjectSelect.react'),
             ProjectListView = require('components/common/project/ProjectListView.react');
 
         var ENTER_KEY = 13;
@@ -122,14 +121,6 @@ if (!define(function (require) {
                     this.state.projectId = projects.first().id;
                 }
                 if (projects.length > 0) {
-                    //return (
-                    //    <ProjectSelect
-                    //        projectId={this.state.projectId}
-                    //        projects={projects}
-                    //        onChange={this.onProjectIDChange}
-                    //        allowCreate="true"
-                    //    />
-                    //);
                     return (
                         <ProjectListView
                             selectedProject={this.state.project}

@@ -4,6 +4,7 @@ define(function (require) {
       _ = require('underscore'),
       Store = require('stores/Store'),
       ClientVersion = require('models/ClientVersion'),
+      ServerDeployVersion = require('models/ServerDeployVersion'),
       ServerVersion = require('models/ServerVersion');
 
   var _version;
@@ -17,13 +18,15 @@ define(function (require) {
     if (!_isFetching) {
       _isFetching = true;
       var clientVersion = new ClientVersion();
+      var serverDeployVersion = new ServerDeployVersion();
       var serverVersion = new ServerVersion();
 
-      $.when(clientVersion.fetch(), serverVersion.fetch())
+      $.when(clientVersion.fetch(), serverVersion.fetch(), serverDeployVersion.fetch())
         .done(function(client, server){
         _isFetching = false;
         _version = {
           client: clientVersion,
+          deploy: serverDeployVersion,
           server: serverVersion
         };
         VersionStore.emitChange();

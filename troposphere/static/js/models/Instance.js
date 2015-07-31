@@ -95,6 +95,7 @@ define(
         is_build: function () {
           var states = [
             'build',
+            'build - requesting_launch',
             'build - block_device_mapping',
             'build - scheduling',
             'build - spawning',
