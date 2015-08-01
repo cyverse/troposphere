@@ -31,7 +31,7 @@ webpack-dev : npm
 webpack-prod : npm
 	$(WEBPACK) --production
 
-javascript : npm cf2
+javascript : webpack-dev cf2
 
 js : javascript
 
