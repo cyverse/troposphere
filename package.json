@@ -1,9 +1,24 @@
 {
   "name": "troposphere",
-  "version": "0.0.1",
   "description": "Atmosphere Web Client",
+  "version": "0.0.1",
+  "author": "iPlant Collaborative",
+  "license": "BSD",
+  "homepage": "https://github.com/iPlantCollaborativeOpenSource/troposphere",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/iPlantCollaborativeOpenSource/troposphere.git"
+  },
+  "bugs": {
+    "url": "https://github.com/iPlantCollaborativeOpenSource/troposphere/issues"
+  },
   "config": {
     "unsafe-perm": true
+  },
+  "scripts": {
+    "build": "webpack --progress --profile --colors --",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint"
   },
   "dependencies": {
     "babel-runtime": "^5.8.12",
@@ -36,20 +51,5 @@
     "url-loader": "^0.5.6",
     "webpack": "^1.10.5",
     "yuglify": "~0.1.4"
-  },
-  "scripts": {
-    "build": "webpack --progress --profile --colors --",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/iPlantCollaborativeOpenSource/troposphere.git"
-  },
-  "author": "iPlant Collaborative",
-  "license": "BSD",
-  "bugs": {
-    "url": "https://github.com/iPlantCollaborativeOpenSource/troposphere/issues"
-  },
-  "homepage": "https://github.com/iPlantCollaborativeOpenSource/troposphere"
+  }
 }
