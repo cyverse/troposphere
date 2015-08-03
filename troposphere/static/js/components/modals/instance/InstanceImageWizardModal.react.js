@@ -8,9 +8,12 @@ define(function (require) {
       ProviderStep = require('./image/steps/ProviderStep.react'),
       VisibilityStep = require('./image/steps/VisibilityStep.react'),
       FilesToExcludeStep = require('./image/steps/FilesToExcludeStep.react'),
+      BootScriptsStep = require('./image/steps/BootScriptsStep.react'),
       ReviewStep = require('./image/steps/ReviewStep.react');
 
   return React.createClass({
+    displayName: "InstanceImageWizardModal",
+
     mixins: [BootstrapModalMixin],
 
     propTypes: {
@@ -32,6 +35,7 @@ define(function (require) {
         providerId: null,
         visibility: "public",
         imageUsers: null,
+        activeScripts: new Backbone.Collection(),
         filesToExclude: ""
       };
     },
@@ -103,7 +107,9 @@ define(function (require) {
 
     renderBody: function(){
       var instance = this.props.instance,
-          step = this.state.step;
+          step = this.state.step,
+          allScripts = stores.ScriptStore.getAll(),
+          activeScripts = this.state.activeScripts;
 
       switch(step) {
         case 1:
@@ -146,10 +152,21 @@ define(function (require) {
               filesToExclude={this.state.filesToExclude}
               onPrevious={this.onPrevious}
               onNext={this.onNext}
-            />
+              />
           );
 
         case 5:
+          return (
+            <BootScriptsStep
+              instance={instance}
+              activeScripts={activeScripts}
+              scripts={allScripts}
+              onPrevious={this.onPrevious}
+              onNext={this.onNext}
+              />
+          );
+
+        case 6:
           return (
             <ReviewStep
               imageData={this.state}

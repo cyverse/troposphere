@@ -72,17 +72,17 @@ define(function(require) {
     },
 
     renderFilesToExclude: function(imageData){
-      var filesToExclude = imageData.filesToExclude || "",
-          files = filesToExclude.split("\n").map(function(file){
-            return <div>{file}</div>;
-          });
+      var scripts = imageData.scripts || "",
+        files = scripts.split("\n").map(function(file){
+          return <div>{file}</div>;
+        });
 
-      if(!filesToExclude) {
+      if(!scripts) {
         return (
           <div className="form-group">
-          <label className="control-label col-sm-3">Files to Exclude</label>
-          <div className="help-block col-sm-9">[no files selected]</div>
-        </div>
+            <label className="control-label col-sm-3">Files to Exclude</label>
+            <div className="help-block col-sm-9">[no files selected]</div>
+          </div>
         )
       }
 
@@ -91,6 +91,31 @@ define(function(require) {
           <label className="control-label col-sm-3">Files to Exclude</label>
           <div className="help-block col-sm-9">
             {files}
+          </div>
+        </div>
+      )
+    },
+
+    renderBootScripts: function(imageData){
+      var scripts = imageData.scripts || "",
+        scripts_list = scripts.map(function(script){
+          return <div>{script.title}</div>;
+        });
+
+      if(!scripts) {
+        return (
+          <div className="form-group">
+            <label className="control-label col-sm-3">Boot Scripts</label>
+            <div className="help-block col-sm-9">[no scripts selected]</div>
+          </div>
+        )
+      }
+
+      return (
+        <div className="form-group">
+          <label className="control-label col-sm-3">Boot Scripts</label>
+          <div className="help-block col-sm-9">
+            {scripts_list}
           </div>
         </div>
       )
@@ -130,6 +155,7 @@ define(function(require) {
             </div>
             {this.renderUsers(imageData)}
             {this.renderFilesToExclude(imageData)}
+            {this.renderBootScripts(imageData)}
           </div>
           <div className="checkbox col-sm-12">
             <br />
