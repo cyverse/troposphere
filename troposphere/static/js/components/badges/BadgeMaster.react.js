@@ -38,6 +38,7 @@ define(function (require) {
       var badges = stores.BadgeStore.getAll();
       var myBadges = stores.MyBadgeStore.getAll();
       var instanceHistory = stores.InstanceHistoryStore.getAll();
+      var myBadgeIds = {};
 
       if(!badges || !myBadges || !instanceHistory){
         return(
@@ -45,16 +46,20 @@ define(function (require) {
         )
       }
 
-      var badgeDisplay = badges.map(function(badge) {
-        return(
-          <Badge badge={badge} />
-        )
-      });
-
       var myBadgeDisplay = myBadges.map(function (badge) {
+        myBadgeIds[badge.id] = 1;
         return (
           <EarnedBadge badge={badge} />
         )
+      });
+
+      var badgeDisplay = badges.map(function(badge) {
+        var badgeId = badge.id;
+        if (!myBadgeIds[badgeId]) {
+          return (
+            <Badge badge={badge} />
+          )
+        }
       });
 
       return (

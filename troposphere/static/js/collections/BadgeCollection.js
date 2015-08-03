@@ -7,7 +7,7 @@ define(function (require) {
 
   return Backbone.Collection.extend({
     model: Badge,
-    url: globals.BADGE_HOST + "/",
+    url: globals.BADGE_HOST,
 
     parse: function (response) {
       this.meta = {
