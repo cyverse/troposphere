@@ -1,6 +1,7 @@
 define(function (require) {
 
-  var React = require('react');
+  var React = require('react'),
+      checkmark = require("images/checkmark.png");
 
   return React.createClass({
 
@@ -15,7 +16,7 @@ define(function (require) {
       }
       return (
         <div className={className}>
-          <img src="/assets/images/checkmark.png"/>
+        <img src={{ checkmark }}/>
         </div>
       );
     }

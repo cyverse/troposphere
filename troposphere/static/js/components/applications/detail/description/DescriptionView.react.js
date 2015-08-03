@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -16,7 +15,7 @@ define(
 
       render: function () {
         var application = this.props.application,
-          converter = new Showdown.converter(),
+          converter = new Showdown.Converter(),
           description = application.get('description'),
           descriptionHtml = converter.makeHtml(description);
 

@@ -1,6 +1,7 @@
 define(function (require) {
 
   var React = require('react'),
+      $ = require("jquery"),
   // plugin: required but not used directly
     bootstrap = require('bootstrap');
 

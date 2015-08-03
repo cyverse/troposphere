@@ -22,7 +22,8 @@ make
 
 ### Static asset compilation
 ```bash
-gulp
+npm install --dev
+npm run build
 ```
 
 Development Server

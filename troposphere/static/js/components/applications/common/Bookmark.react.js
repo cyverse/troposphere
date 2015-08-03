@@ -2,7 +2,9 @@ define(function (require) {
 
   var React = require('react'),
     actions = require('actions'),
-    stores = require('stores');
+    stores = require('stores'),
+    filled_star = require("images/filled-star-icon.png"),
+    empty_star = require("images/empty-star-icon.png");
 
   return React.createClass({
 
@@ -29,11 +31,11 @@ define(function (require) {
 
       if (isFavorited) {
         img = (
-          <img src="/assets/images/filled-star-icon.png"/>
+          <img src={filled_star}/>
         );
       } else {
         img = (
-          <img src="/assets/images/empty-star-icon.png"/>
+          <img src={empty_star}/>
         );
       }
 

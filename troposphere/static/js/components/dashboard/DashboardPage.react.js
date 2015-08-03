@@ -10,6 +10,10 @@ define(function (require) {
     CallToAction = require('./CallToAction.react'),
     modals = require('modals'),
     stores = require('stores');
+    // images
+    var launch_instance = require("images/icon_launchnewinstance.png"),
+        settings = require("images/icon_settings.png"),
+        help = require("images/icon_gethelp.png");
 
   return React.createClass({
     renderRequestMoreResources: function (e) {
@@ -45,7 +49,7 @@ define(function (require) {
                   <div className="col-md-3 col-sm-4">
                     <CallToAction
                       title="Launch New Instance"
-                      image="/assets/images/icon_launchnewinstance.png"
+                      image={launch_instance}
                       description="Browse Atmosphere's list of available images and select one to launch a new instance."
                       linksTo="images"
                       />
@@ -53,7 +57,7 @@ define(function (require) {
                   <div className="col-md-3 col-sm-4">
                     <CallToAction
                       title="Browse Help Resources"
-                      image="/assets/images/icon_gethelp.png"
+                      image={help}
                       description="View a video tutorial, read the how-to guides, or email the Atmosphere support team."
                       linksTo="help"
                       />
@@ -61,7 +65,7 @@ define(function (require) {
                   <div className="col-md-3 col-sm-4">
                     <CallToAction
                       title="Change Your Settings"
-                      image="/assets/images/icon_settings.png"
+                      image={settings}
                       description="Modify your account settings, view your resource quota, or request more resources."
                       linksTo="settings"
                       />

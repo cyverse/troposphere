@@ -63,14 +63,8 @@ node_modules
 # JetBrains IDEs
 .idea
 
-#  gulp-ruby-sass caches files here
-.sass-cache
-
 # Bower JavaScript components
 troposphere/static/bower_components
-
-# Temporary storage during Gulp production build process
-.tmp
 
 # Include the lib folder for 3rd party files that need to be commited to git
 !troposphere/static/js/lib
