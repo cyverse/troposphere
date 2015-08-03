@@ -72,12 +72,9 @@ define(function(require) {
     },
 
     renderFilesToExclude: function(imageData){
-      var scripts = imageData.scripts || "",
-        files = scripts.split("\n").map(function(file){
-          return <div>{file}</div>;
-        });
+      var files_str = imageData.filesToExclude || "";
 
-      if(!scripts) {
+      if(!files_str) {
         return (
           <div className="form-group">
             <label className="control-label col-sm-3">Files to Exclude</label>
@@ -85,6 +82,10 @@ define(function(require) {
           </div>
         )
       }
+
+      var  files = files_str.split("\n").map(function(file){
+        return <div>{file}</div>;
+      });
 
       return (
         <div className="form-group">
@@ -97,12 +98,8 @@ define(function(require) {
     },
 
     renderBootScripts: function(imageData){
-      var scripts = imageData.scripts || "",
-        scripts_list = scripts.map(function(script){
-          return <div>{script.title}</div>;
-        });
-
-      if(!scripts) {
+      var scripts = imageData.activeScripts;
+      if(!scripts || scripts.length == 0) {
         return (
           <div className="form-group">
             <label className="control-label col-sm-3">Boot Scripts</label>
@@ -111,11 +108,41 @@ define(function(require) {
         )
       }
 
+      var scripts_list = scripts.map(function(script){
+        return <div>{script.get('title')}</div>;
+      });
+
       return (
         <div className="form-group">
           <label className="control-label col-sm-3">Boot Scripts</label>
           <div className="help-block col-sm-9">
             {scripts_list}
+          </div>
+        </div>
+      )
+    },
+
+    renderLicenses: function(imageData){
+      var licenses = imageData.activeLicenses;
+
+      if(!licenses || licenses.length == 0) {
+        return (
+          <div className="form-group">
+            <label className="control-label col-sm-3">Licenses</label>
+            <div className="help-block col-sm-9">[no licenses selected]</div>
+          </div>
+        )
+      }
+
+      var licenses_list = licenses.map(function(license){
+        return <div>{license.get('title')}</div>;
+      });
+
+      return (
+        <div className="form-group">
+          <label className="control-label col-sm-3">Licenses</label>
+          <div className="help-block col-sm-9">
+            {licenses_list}
           </div>
         </div>
       )
@@ -156,6 +183,7 @@ define(function(require) {
             {this.renderUsers(imageData)}
             {this.renderFilesToExclude(imageData)}
             {this.renderBootScripts(imageData)}
+            {this.renderLicenses(imageData)}
           </div>
           <div className="checkbox col-sm-12">
             <br />

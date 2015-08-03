@@ -9,6 +9,7 @@ define(function (require) {
       VisibilityStep = require('./image/steps/VisibilityStep.react'),
       FilesToExcludeStep = require('./image/steps/FilesToExcludeStep.react'),
       BootScriptsStep = require('./image/steps/BootScriptsStep.react'),
+      LicensingStep = require('./image/steps/LicensingStep.react'),
       ReviewStep = require('./image/steps/ReviewStep.react');
 
   return React.createClass({
@@ -31,6 +32,7 @@ define(function (require) {
         step: 1,
         name: this.props.instance.get('image').name,
         description: this.props.instance.get('image').description,
+        versionName: this.props.versionName || "1.0",
         imageTags: null,
         providerId: null,
         visibility: "public",
@@ -68,6 +70,13 @@ define(function (require) {
     },
 
     onRequestImage: function(){
+      var scriptIDs, licenseIDs;
+      scriptIDs = this.state.activeScripts.map(function(script) {
+        return script.id;
+      }),
+      licenseIDs = this.state.activeLicenses.map(function(license) {
+        return license.id;
+      });
       var params = {
         newImage: this.state.newImage,
         name: this.state.name,
@@ -76,7 +85,9 @@ define(function (require) {
         providerId: this.state.providerId,
         visibility: this.state.visibility,
         imageUsers: this.state.imageUsers,
-        filesToExclude: this.state.filesToExclude.trim()
+        filesToExclude: this.state.filesToExclude.trim(),
+        scripts: scriptIDs,
+        licenses: licenseIDs
       };
       this.hide();
       this.props.onConfirm(params);
@@ -108,6 +119,8 @@ define(function (require) {
     renderBody: function(){
       var instance = this.props.instance,
           step = this.state.step,
+          allLicenses = stores.LicenseStore.getAll(),
+          activeLicenses = this.state.activeLicenses,
           allScripts = stores.ScriptStore.getAll(),
           activeScripts = this.state.activeScripts;
 
@@ -116,6 +129,7 @@ define(function (require) {
           return (
             <NameDescriptionTagsStep
               name={this.state.name}
+              versionName={this.state.versionName}
               description={this.state.description}
               imageTags={this.state.imageTags}
               instance={instance}
@@ -167,6 +181,17 @@ define(function (require) {
           );
 
         case 6:
+          return (
+            <LicensingStep
+              instance={instance}
+              activeLicenses={activeLicenses}
+              licenses={allLicenses}
+              onPrevious={this.onPrevious}
+              onNext={this.onNext}
+              />
+          );
+
+        case 7:
           return (
             <ReviewStep
               imageData={this.state}

@@ -29,7 +29,9 @@ define(function (require) {
           imageUsers: params.imageUsers,
           filesToExclude: params.filesToExclude || "",
           software: params.software || "",
-          systemFiles: params.systemFiles || ""
+          systemFiles: params.systemFiles || "",
+          scripts: params.scripts,
+          licenses: params.licenses
         });
       })
     }

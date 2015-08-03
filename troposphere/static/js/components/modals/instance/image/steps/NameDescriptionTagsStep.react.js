@@ -3,12 +3,14 @@ define(function(require) {
   var React = require('react'),
       Backbone = require('backbone'),
       Name = require('../components/Name.react'),
+      VersionName = require('../components/VersionName.react'),
       CreateUpdateFlag = require('../components/CreateUpdateFlag.react'),
       Description = require('../components/Description.react'),
       Tags = require('../components/Tags.react'),
       stores = require('stores');
 
   return React.createClass({
+    displayName: "NameDescriptionTagsStep",
 
     propTypes: {
       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
@@ -21,6 +23,7 @@ define(function(require) {
     getDefaultProps: function() {
       return {
         name: "",
+        versionName: "",
         description: "",
         imageOwner: false,
         imageTags: null,
@@ -33,7 +36,8 @@ define(function(require) {
         name: this.props.name,
         description: this.props.description,
         newImage: this.props.newImage,
-        imageTags: this.props.imageTags || stores.InstanceTagStore.getTagsFor(this.props.instance)
+        imageTags: this.props.imageTags || stores.InstanceTagStore.getTagsFor(this.props.instance),
+        versionName: this.props.versionName
       }
     },
 
@@ -54,6 +58,9 @@ define(function(require) {
 
     onNameChange: function(newName){
       this.setState({name: newName});
+    },
+    onVersionNameChange: function(newName){
+      this.setState({versionName: newName});
     },
 
     onCreateUpdateChange: function(checked){
@@ -121,6 +128,11 @@ define(function(require) {
             value={this.state.name}
             onChange={this.onNameChange}
           />
+          <VersionName
+            create={this.state.newImage}
+            value={this.state.versionName}
+            onChange={this.onVersionNameChange}
+            />
           <Description
             value={this.state.description}
             onChange={this.onDescriptionChange}

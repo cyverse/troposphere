@@ -3,10 +3,11 @@ define(function (require) {
   var React = require('react');
 
   return React.createClass({
+    displayName: "CreateUpdateFlag",
 
     propTypes: {
       onChange: React.PropTypes.func.isRequired,
-      value: React.PropTypes.string.isRequired,
+      value: React.PropTypes.bool.isRequired,
     },
 
     handleChange: function(e){

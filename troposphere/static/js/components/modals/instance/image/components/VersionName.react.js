@@ -3,7 +3,7 @@ define(function (require) {
   var React = require('react');
 
   return React.createClass({
-    displayName: "Name",
+    displayName: "VersionName",
 
     propTypes: {
       onChange: React.PropTypes.func.isRequired,
@@ -17,9 +17,9 @@ define(function (require) {
 
     renderNameLabel: function() {
       if (this.props.create) {
-        return "*New Image Name"
+        return "*Version Name"
       } else {
-        return "*Update Name of Image"
+        return "*Version Name"
       }
     },
 

@@ -2,6 +2,7 @@ define(function(require) {
 
   var React = require('react'),
       Backbone = require('backbone'),
+      actions = require('actions'),
       EditScriptsView = require('components/modals/image_version/scripts/EditScriptsView.react'),
       stores = require('stores');
 
@@ -35,13 +36,13 @@ define(function(require) {
 
     onPrevious: function(){
       this.props.onPrevious({
-        scripts: this.state.scripts
+        activeScripts: this.state.activeScripts
       });
     },
 
     onNext: function(){
       this.props.onNext({
-        scripts: this.state.scripts
+        activeScripts: this.state.activeScripts
       });
     },
 

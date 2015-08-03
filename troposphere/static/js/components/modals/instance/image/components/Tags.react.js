@@ -6,6 +6,7 @@ define(function (require) {
       TagMultiSelect = require('components/common/tags/TagMultiSelect.react');
 
   return React.createClass({
+    displayName: "Tags",
 
     propTypes: {
       onTagAdded: React.PropTypes.func.isRequired,

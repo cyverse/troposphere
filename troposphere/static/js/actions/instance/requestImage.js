@@ -17,6 +17,8 @@ define(function (require) {
       //if(!params.software) throw new Error("Missing software");
       //if(!params.filesToExclude) throw new Error("Missing filesToExclude");
       //if(!params.systemFiles) throw new Error("Missing systemFiles");
+      if(!params.scripts) throw new Error("Missing scripts");
+      if(!params.licenses) throw new Error("Missing licenses");
       if(!params.visibility) throw new Error("Missing visibility");
       if(!params.imageUsers) throw new Error("Missing imageUsers");
 
@@ -29,6 +31,8 @@ define(function (require) {
           filesToExclude = params.filesToExclude,
           systemFiles = params.systemFiles || "[no files specified]",
           visibility = params.visibility,
+          scripts = params.scripts,
+          licenses = params.licenses,
           imageUsers = params.imageUsers,
           userNames = imageUsers.map(function(user){
             return user.get('username');
@@ -51,7 +55,9 @@ define(function (require) {
         shared_with: userNames,
         exclude: filesToExclude || "[no files specified]",
         software: software || "[no software specified]",
-        sys: systemFiles || "[no files specified]"
+        sys: systemFiles || "[no files specified]",
+        licenses: licenses,
+        scripts: scripts
       };
 
       var requestUrl = (
