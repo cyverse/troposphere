@@ -65,17 +65,17 @@ define(function (require) {
       return (
         <div className="container badges">
           <div id="check" onClick={this.check}>Check badges</div>
-          <div className="all">
-            <h1>All Badges</h1>
-              <ul id="all-badges-list">
-              {badgeDisplay}
-              </ul>
-          </div>
           <div className="mine">
             <h1>My Badges</h1>
             <ul id="my-badges-list">
             {myBadgeDisplay}
             </ul>
+          </div>
+          <div className="all">
+            <h1>Badges to Earn</h1>
+              <ul id="all-badges-list">
+              {badgeDisplay}
+              </ul>
           </div>
         </div>
       );
