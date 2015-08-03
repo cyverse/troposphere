@@ -76,14 +76,14 @@ define(function (require) {
   actions.VolumeActions          = require('actions/VolumeActions');
 
   var modals = require('modals');
-  modals.HelpModals              = require('modals/HelpModals');
-  modals.InstanceModals          = require('modals/InstanceModals');
-  modals.InstanceVolumeModals    = require('modals/InstanceVolumeModals');
-  modals.ProjectModals           = require('modals/ProjectModals');
-  modals.TagModals               = require('modals/TagModals');
-  modals.VersionModals           = require('modals/VersionModals');
-  modals.VolumeModals            = require('modals/VolumeModals');
-  modals.BadgeModals             = require('modals/BadgeModals');
+      modals.BadgeModals = require('modals/BadgeModals');
+      modals.HelpModals = require('modals/HelpModals');
+      modals.InstanceModals = require('modals/InstanceModals');
+      modals.InstanceVolumeModals = require('modals/InstanceVolumeModals');
+      modals.ProjectModals = require('modals/ProjectModals');
+      modals.TagModals = require('modals/TagModals');
+      modals.VersionModals = require('modals/VersionModals');
+      modals.VolumeModals = require('modals/VolumeModals');
 
   return {
     run: function () {
