@@ -22,7 +22,7 @@ make
 
 ### Static asset compilation
 ```bash
-npm install --dev
+npm install
 npm run build
 ```
 
@@ -53,7 +53,7 @@ Troposphere should then be running on port `5000`.
 Setup your environment by install all dependencies
 
 ```bash
-npm install --dev
+npm install
 ```
 
 It is recommended that you install the git `pre-commit` hook to ensure your code follows good style guidelines.
