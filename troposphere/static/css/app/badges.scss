@@ -28,14 +28,15 @@
   .mine{
     list-style-type: none;
   }
-  .modal-image{
-    width: 50%;
-    margin: 0 auto;
-    display: block;
-  }
-  .description{
-    p, strong{
-      display: inline-block;
-    }
+}
+.badge-modal .modal-image{
+  width: 100%;
+  margin: 0 auto;
+  display: block;
+}
+
+.badge-modal .description {
+  p, strong {
+    display: inline-block;
   }
 }

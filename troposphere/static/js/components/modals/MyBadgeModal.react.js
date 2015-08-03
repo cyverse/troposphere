@@ -46,11 +46,9 @@ define(
       },
 
       render: function () {
-        console.log("badge:", this.props.badge);
         var content = (
           <div>
             <img className="badge-modal-image" src={this.props.badge.get('imageUrl')} />
-            <p>Awarded on:{this.props.badge.get('issuedOn')}</p>
             <p>{this.props.badge.get('strapline')}</p>
           </div>
         );
