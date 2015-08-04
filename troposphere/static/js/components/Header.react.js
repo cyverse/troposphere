@@ -57,7 +57,7 @@ define(function (require) {
     },
     {
       name: "Badges",
-      linksTo: "badges",
+      linksTo: "my-badges",
       href: "/application/badges",
       icon: "star",
       requiresLogin: true,
