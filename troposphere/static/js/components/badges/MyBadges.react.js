@@ -7,6 +7,7 @@ define(function (require) {
       actions = require('actions'),
       EarnedBadge = require('./EarnedBadge.react'),
       stores = require('stores'),
+      actions = require('actions'),
       RouteHandler = Router.RouteHandler;
 
   return React.createClass({
@@ -20,10 +21,6 @@ define(function (require) {
         badges: "",
         myBadges: ""
       };
-    },
-
-    check: function(){
-      actions.BadgeActions.ask();
     },
 
     render: function () {
@@ -44,6 +41,7 @@ define(function (require) {
           <div className="loading" />
         )
       }
+      actions.BadgeActions.ask();
 
       var myBadgeDisplay = myBadges.map(function (badge) {
         return (
