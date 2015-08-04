@@ -9,6 +9,9 @@ define(function (require) {
 
   var Master = require('./components/Master.react'),
       BadgeMaster = require('./components/badges/BadgeMaster.react'),
+      MyBadges = require('./components/badges/MyBadges.react'),
+      AllBadges = require('./components/badges/AllBadges.react'),
+      UnearnedBadges = require('./components/badges/UnearnedBadges.react'),
       PassThroughHandler = require('./components/PassThroughHandler.react'),
       DashboardPage = require('./components/dashboard/DashboardPage.react'),
       ProjectListPage = require('./components/projects/ProjectListPage.react'),
@@ -62,13 +65,19 @@ define(function (require) {
 
       <Route name="help" handler={HelpPage}/>
       <Route name="settings" handler={SettingsPage}/>
+
       <Route name="admin" handler={ResourceMaster}>
           <Route name="resource-request" path="resource/:resourceRequestId" handler={ResourceAdmin}/>
       </Route>
 
-      <Route name="badges" handler={BadgeMaster}/>
+      <Route name="badges" handler={BadgeMaster}>
+        <Route name="my-badges" path="my-badges" handler={MyBadges} />
+        <Route name="all-badges" path="all-badges" handler={AllBadges} />
+        <Route name="unearned-badges" path="unearned-badges" handler={UnearnedBadges} />
+      </Route>
 
       <DefaultRoute handler={DashboardPage}/>
+
     </Route>
   );
 
