@@ -53,6 +53,10 @@ define(function (require) {
     },
 
     isOutsideClick: function(e){
+      if(!this.isMounted()) {
+        return false;
+      }
+
       var node = this.getDOMNode();
       var $node = $(node);
       var container = $node;//.find('.chosen-container');

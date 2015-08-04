@@ -36,10 +36,17 @@ define(function (require) {
         },
         render: function () {
           var provider_machine = this.props.provider_machine,
-              availableText = (this.state.machineEnabled) ? "Enabled" : "Disabled as of "+ provider_machine.end_date.format("MMM Do, YYYY hh:MMa");
+              classes, availableText;
           //TODO: Stylize this component
+          if (this.state.machineEnabled) {
+            availableText = "Enabled";
+            classes = "list-group-item";
+          } else {
+            availableText = "Disabled as of " + provider_machine.end_dat.format("MMM D, YYYY hh:MMa");
+            classes = "list-group-item list-group-item-danger"
+          }
             return (
-                <li key={provider_machine.provider.id}>
+                <li className={classes} key={provider_machine.provider.id}>
                   <div className="edit-machine-container">
                     <span>{provider_machine.provider.name}</span><span>|</span>
                     <span>{availableText}</span><span>|</span>

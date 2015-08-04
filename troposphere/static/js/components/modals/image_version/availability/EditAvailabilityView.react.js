@@ -33,9 +33,9 @@ define(function (require) {
 
             return (
                 <div className='image-availability image-info-segment row'>
-                    <h4 className="title col-md-2">Available on</h4>
-                    <div className="content col-md-10">
-                        <ul className="list-unstyled">
+                    <h4 className="title">Available on Providers</h4>
+                    <div className="content">
+                        <ul className="list-group">
                           {provider_machines.map(this.renderProviderMachineItem)}
                         </ul>
                     </div>
