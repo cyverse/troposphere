@@ -23,6 +23,10 @@ define(function (require) {
       };
     },
 
+    check: function(){
+      actions.BadgeActions.ask();
+    },
+
     render: function () {
       // get around undefined email when calling from MyBadgeStore
       var email = stores.ProfileStore.get().get('email');
@@ -41,7 +45,15 @@ define(function (require) {
           <div className="loading" />
         )
       }
-      actions.BadgeActions.ask();
+
+      if(myBadges.length == 0){
+        return (
+          <div className="mine">
+            <h4 onClick={this.check}>Check badges</h4>
+            You haven't earned any badges yet.
+          </div>
+        )
+      }
 
       var myBadgeDisplay = myBadges.map(function (badge) {
         return (
@@ -51,6 +63,7 @@ define(function (require) {
 
       return (
         <div className="mine">
+          <h4 onClick={this.check}>Check badges</h4>
           <ul id="my-badges-list">
           {myBadgeDisplay}
           </ul>
