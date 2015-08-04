@@ -14,6 +14,7 @@ KEY_FILE=iplantc.key
 KEY_PATH=/etc/ssl/private/$(KEY_FILE)
 
 TROPOSPHERE_PATH=/opt/dev/troposphere
+ASSETS_PATH=$(TROPOSPHERE_PATH)/troposphere/assets
 
 SITES_AVAILABLE_DIR=/etc/nginx/sites-available
 SITES_ENABLED_DIR=/etc/nginx/sites-enabled
@@ -45,7 +46,7 @@ setup: copy setup-tropo
 	sed -i "s#@DHPARAM#$(DHPARAM)#g" $(SITE_CONFIG)
 
 setup-tropo:
-	sed -i "s#@TROPOSPHERE_PATH#$(TROPOSPHERE_PATH)#g" $(TROPO_CONFIG)
+	sed -i "s#@ASSETS_PATH#$(ASSETS_PATH)#g" $(TROPO_CONFIG)
 
 $(COMBINED_CERT_PATH):
 	cat $(CERT_PATH) $(BUNDLE_PATH) > $(COMBINED_CERT_PATH)

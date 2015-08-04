@@ -1,5 +1,5 @@
 location /assets {
-    alias @TROPOSPHERE_PATH/troposphere/assets;
+    alias @ASSETS_PATH;
 }
 
 location ~^/(application|maintenance|login|logout|forbidden|version|cf2) {
