@@ -14,7 +14,7 @@ define(
           title: "Description"
         }
       },
-      getDefaultPropTypes: function() {
+      getDefaultProps: function() {
         return {
           className: "image-info-segment row"
         }

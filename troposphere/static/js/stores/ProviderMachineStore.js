@@ -9,22 +9,28 @@ define(function (require) {
   var ProviderMachineStore = BaseStore.extend({
     collection: ProviderMachineCollection,
 
-    update: function(machine){
-      //machine.save({
-      //  name: machine.get('name'),
-      //  description: machine.get('description'),
-      //  tags: machine.get('tags')
-      //}, {
-      //  patch: true
-      //}).done(function(){
-      //  this.emitChange();
-      //}.bind(this)).fail(function(){
-      //  var failureMessage = "Error updating ProviderMachine " + machine.get('name') + ".";
-      //  NotificationController.error(failureMessage);
-      //  this.emitChange();
-      //}.bind(this));
-    },
+    //update: function(payload){
+    //  //TODO: This is a duplicate of 'ProviderMachineActions' which one is right?
+    //  var machine = payload.machine;
+    //  machine.save({
+    //    end_date: machine.get('end_date'),
+    //  }, {
+    //    patch: true
+    //  }).done(function(){
+    //    this.emitChange();
+    //  }.bind(this)).fail(function(){
+    //    var failureMessage = "Error updating ProviderMachine " + machine.get('uuid') + ".";
+    //    NotificationController.error(failureMessage);
+    //    this.emitChange();
+    //  }.bind(this));
+    //},
+    removeVersionCache: function(version) {
+      var queryParams = {version_id: version.id},
+          queryString = this.generateQueryString(queryParams);
 
+      this.queryModels[queryString] = null;
+
+    },
     get: function (machineId) {
       if(!this.models) return this.fetchModels();
       var machine = BaseStore.prototype.get.apply(this, arguments);

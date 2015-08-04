@@ -11,7 +11,7 @@ define(function (require) {
       create: React.PropTypes.bool,
       update: React.PropTypes.bool
     },
-    getDefaultPropTypes: function() {
+    getDefaultProps: function() {
       return {
         create: true,
         update: false,

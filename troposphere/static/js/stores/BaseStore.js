@@ -65,7 +65,9 @@ define(function(require) {
     emitChange: function() {
       this.trigger(CHANGE_EVENT);
     },
-
+    generateQueryString: function(query_params) {
+      return buildQueryStringFromQueryParams(query_params);
+    },
     // --------------
     // CRUD functions
     // --------------

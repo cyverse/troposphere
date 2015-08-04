@@ -6,7 +6,10 @@ define(function (require) {
   return {
 
     updateImageAttributes: function (image, newAttributes) {
-      image.set(newAttributes);
+      image.set({
+        name: newAttributes.name,
+        description: newAttributes.description,
+      });
       AppDispatcher.handleRouteAction({
         actionType: ImageConstants.IMAGE_UPDATE,
         payload: {image: image}

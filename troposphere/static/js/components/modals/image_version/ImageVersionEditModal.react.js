@@ -1,6 +1,7 @@
 define(function (require) {
 
   var React = require('react'),
+      moment = require('moment'),
       stores = require('stores'),
       actions = require('actions'),
       BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
@@ -24,12 +25,10 @@ define(function (require) {
     },
     getInitialState: function () {
       var version = this.props.version;
-      var machines = stores.ImageVersionStore.getMachines(version.id);
 
 
       return {
         showOptions: false,
-        machines: machines,
         version: version,
         versionImageID: this.props.image.id,
         versionName: version.get('name'),
@@ -62,6 +61,7 @@ define(function (require) {
       stores.ImageVersionMembershipStore.addChangeListener(this.updateState);
       stores.ImageVersionScriptStore.addChangeListener(this.updateState);
       stores.ImageVersionLicenseStore.addChangeListener(this.updateState);
+      stores.ProviderMachineStore.addChangeListener(this.updateState);
     },
 
     componentWillUnmount: function () {
@@ -74,6 +74,7 @@ define(function (require) {
       stores.ImageVersionMembershipStore.removeChangeListener(this.updateState);
       stores.ImageVersionLicenseStore.removeChangeListener(this.updateState);
       stores.ImageVersionScriptStore.removeChangeListener(this.updateState);
+      stores.ProviderMachineStore.removeChangeListener(this.updateState);
     },
 
     //TODO: Pull this out to commons
@@ -126,6 +127,14 @@ define(function (require) {
     onEndDateChange: function (e) {
       this.setState({versionEndDate: e.target.value});
     },
+    setEndDateNow: function (e) {
+      var now_time = moment(new Date());
+      this.setState({versionEndDate: now_time.format("MMM D, YYYY hh:mm a")});
+    },
+
+    unsetEndDateNow: function (e) {
+      this.setState({versionEndDate: ""});
+    },
 
     onUncopyableSelected: function (e) {
       var uncopyable = (e.target.checked);
@@ -146,12 +155,10 @@ define(function (require) {
     // ------
     //
 
-    handleNameChange: function(e){
-      var name = e.target.value;
+    handleNameChange: function(name){
       this.setState({versionName: name});
     },
-    handleDescriptionChange: function(e){
-      var description = e.target.value;
+    handleDescriptionChange: function(description){
       this.setState({versionChangeLog: description});
     },
     onOptionsChange: function() {
@@ -217,9 +224,8 @@ define(function (require) {
     renderBody: function() {
       var applicationView, availabilityView, canImageView, nameView, descriptionView, startDateView, endDateView, membershipView, licensesView, scriptsView;
 
-      var machines = stores.ImageVersionStore.getMachines(this.props.version.id),
-        name = this.state.versionName,
-        created = this.state.versionStartDate.format("MMMM D, YYYY hh:mm a"),
+      var name = this.state.versionName,
+        created = this.state.versionStartDate.format("MMM D, YYYY hh:mm a"),
         ended,
         advancedOptions,
         optionsButtonText = (this.state.showOptions) ? "Hide Options" : "Show Options",
@@ -233,12 +239,12 @@ define(function (require) {
       if(this.state.versionEndDate
         && this.state.versionEndDate._isAMomentObject
         && this.state.versionEndDate.isValid()) {
-        ended = this.state.versionEndDate.format("MMMM D, YYYY hh:mm a");
+        ended = this.state.versionEndDate.format("MMM D, YYYY hh:mm a");
       } else {
         ended = this.state.versionEndDate;
       }
 
-      if(!name || !machines) {
+      if(!name) {
           return (<div className="loading"/>);
       }
       licensesView = (
@@ -305,20 +311,26 @@ define(function (require) {
           />
         </div>
       );
+      //FUTURE_keyTODO: Pull this functionality out if you use it anywhere else..
       endDateView = (<div className='form-group'>
         <label htmlFor='version-end-date'>Version Removed On</label>
-        <input type='text' className='form-control' value={ended} onChange={this.onEndDateChange}/>
+        <div className="input-group">
+          <input type='text' className='form-control' value={ended} onChange={this.onEndDateChange}/>
+          <span className="input-group-addon" id="enddate-set-addon" onClick={this.setEndDateNow}>Set</span>
+          <span className="input-group-addon" id="enddate-clear-addon" onClick={this.unsetEndDateNow}>Clear</span>
+        </div>
       </div>);
       startDateView = (<div className='form-group'>
           <label htmlFor='version-version'>Version Created On</label>
           <input type='text' className='form-control' value={created} readOnly={true} editable={false}/>
         </div>
       );
-      canImageView = (<div className='form-group'>
-          <label htmlFor='version-uncopyable'>Uncopyable</label>
-          <input type='checkbox' className='form-control'
-                 checked={this.state.versionCanImage}
-                 onChange={this.onUncopyableSelected}/>
+      canImageView = (<div className='form-group checkbox'>
+          <label htmlFor='version-uncopyable'>
+            <input type='checkbox' className='form-control'
+                   checked={this.state.versionCanImage}
+                   onChange={this.onUncopyableSelected}/>
+          </label>
         </div>
       );
       if(this.state.showOptions) {
@@ -339,7 +351,10 @@ define(function (require) {
         <div role='form'>
           {nameView}
           {descriptionView}
-          {canImageView}
+          {
+            //TODO: implement 'allow Imaging' in the next iteration
+            //canImageView
+          }
           {startDateView}
           {endDateView}
           <button type="button" className="btn btn-primary"

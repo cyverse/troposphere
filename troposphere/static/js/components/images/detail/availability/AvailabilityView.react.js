@@ -13,6 +13,10 @@ define(function (require) {
         },
 
       renderProviderMachine: function (provider_machine) {
+        if(!provider_machine.end_date || !provider_machine.end_date.isValid()) {
+          return;
+        }
+
         return (
           <div key={provider_machine.id}>
             {provider_machine.provider.name} - {provider_machine.uuid}

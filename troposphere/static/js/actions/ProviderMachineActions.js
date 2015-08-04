@@ -1,3 +1,4 @@
+
 define(function (require) {
 
   var AppDispatcher = require('dispatchers/AppDispatcher'),
@@ -6,6 +7,9 @@ define(function (require) {
 
       // Constants
       ProviderMachineConstants = require('constants/ProviderMachineConstants'),
+
+      // Stores
+      stores = require('stores'),
 
       // Models
       ProviderMachine = require('models/ProviderMachine'),
@@ -29,13 +33,17 @@ define(function (require) {
         if(!newAttributes) throw new Error("No attributes to be updated");
 
         machine.set(newAttributes);
-        Utils.dispatch(ProviderMachineConstants.UPDATE_PROVIDER_MACHINE, {machine: machine});
-        //TODO:
+        stores.ProviderMachineStore.removeVersionCache(machine.get('version'));
+        Utils.dispatch(ProviderMachineConstants.UPDATE_PROVIDER_MACHINE, machine);
+
         machine.save(newAttributes, {
             patch:true,
         }).done(function(){
           // UPDATE_MACHINE here if we do NOT want 'optimistic updating'
           // Othewise, do nothing..
+          stores.ProviderMachineStore.removeVersionCache(machine.get('version'));
+          Utils.dispatch(ProviderMachineConstants.UPDATE_PROVIDER_MACHINE, machine);
+
         }).fail(function(){
           var message = "Error updating ProviderMachine " + machine.get('name') + ".";
           NotificationController.error(null, message);
