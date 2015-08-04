@@ -27,15 +27,14 @@ define(function (require) {
       var email = stores.ProfileStore.get().get('email');
       if(!email){
         return(
-          <div>
+          <div>h
             <h1>Loading</h1>
           </div>
         )
       }
       var badges = stores.BadgeStore.getAll();
-      var instanceHistory = stores.InstanceHistoryStore.getAll();
 
-      if(!badges || !instanceHistory){
+      if(!badges){
         return(
           <div className="loading" />
         )

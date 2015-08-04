@@ -18,15 +18,14 @@ define(function (require) {
     checkInstances: function(){
       var instanceCount = stores.InstanceHistoryStore.getAll().meta.count;
       if(instanceCount >= 1){
-        if(!this.userHasBadge(4)){
-          this.grant({badge: stores.BadgeStore.get(4)})
+        if(!this.userHasBadge(3)){
+          this.grant({badge: stores.BadgeStore.get(3)})
         }
       }
 
-
       if(instanceCount >= 10){
-        if(!this.userHasBadge(1)){
-          this.grant({badge: stores.BadgeStore.get(1)});
+        if(!this.userHasBadge(4)){
+          this.grant({badge: stores.BadgeStore.get(4)});
         }
       }
 
@@ -37,15 +36,21 @@ define(function (require) {
     },
 
     askSupport: function(){
-      this.grant({badge: stores.BadgeStore.get(2)});
+      if(!this.userHasBadge(2)) {
+        this.grant({badge: stores.BadgeStore.get(2)});
+      }
     },
 
     askProject: function(){
-      this.grant({badge: stores.BadgeStore.get(3)})
+      if(!this.userHasBadge(6)) {
+        this.grant({badge: stores.BadgeStore.get(6)});
+      }
     },
 
     askVolume: function(){
-      this.grant({badge: stores.BadgeStore.get(5)})
+      if(!this.userHasBadge(4)) {
+        this.grant({badge: stores.BadgeStore.get(4)});
+      }
     },
 
     getCookie: function(name) {
