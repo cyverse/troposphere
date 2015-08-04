@@ -4,6 +4,8 @@ define(function (require) {
       stores = require('stores'),
       actions = require('actions'),
       BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
+      VersionName = require('../instance/image/components/VersionName.react'),
+      VersionChanges = require('../instance/image/components/VersionChangeLog.react'),
       EditAvailabilityView = require('./availability/EditAvailabilityView.react'),
       EditDescriptionView = require('components/images/detail/description/EditDescriptionView.react'),
       EditMembershipView = require('./membership/EditMembershipView.react'),
@@ -260,18 +262,14 @@ define(function (require) {
           />
       );
       nameView = (
-        <div className="form-group">
-          <label for="version_name">Version Title</label>
-          <input type="text" name="version_name"
-               className="form-control" id="version_name"
+        <VersionName
+               update={true}
                value={this.state.versionName}
                onChange={this.handleNameChange}
             />
-          </div>
       );
       descriptionView = (
-        <EditDescriptionView
-          title={"Change Log"}
+        <VersionChanges
           value={this.state.versionChangeLog}
           onChange={this.handleDescriptionChange}
           />

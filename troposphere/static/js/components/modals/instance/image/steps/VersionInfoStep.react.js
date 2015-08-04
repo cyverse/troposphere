@@ -36,6 +36,12 @@ define(function(require) {
       var hasVersionChanges = !!this.state.versionChanges;
       return hasName && hasVersionChanges;
     },
+    onPrevious: function(){
+      this.props.onPrevious({
+        versionName: this.state.versionName,
+        versionChanges: this.state.versionChanges,
+      });
+    },
 
     onNext: function(){
       this.props.onNext({
@@ -86,6 +92,10 @@ define(function(require) {
             {this.renderBody(instance)}
           </div>
           <div className="modal-footer">
+            <button type="button" className="btn btn-default cancel-button pull-left" onClick={this.onPrevious}>
+              <span className="glyphicon glyphicon-chevron-left"></span>
+              Back
+            </button>
             <button type="button" className="btn btn-primary cancel-button"
                     onClick={this.onNext} disabled={!this.isSubmittable()}>
               Next

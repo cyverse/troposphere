@@ -25,7 +25,7 @@ define(function (require) {
           tags: params.tags,
           versionName: params.versionName,
           versionChanges: params.versionChanges,
-          fork: params.newImage,
+          versionFork: params.newImage,
           providerId: params.providerId,
           visibility: params.visibility,
           imageUsers: params.imageUsers,

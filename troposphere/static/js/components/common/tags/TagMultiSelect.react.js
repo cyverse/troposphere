@@ -17,6 +17,12 @@ define(function (require) {
       onModelRemoved: React.PropTypes.func.isRequired
     },
 
+    //getDefaultProps: function() {
+    //  return {
+    //    width: "614px"
+    //  };
+    //},
+
     getNoResultsPhrase: function(query){
       return 'No tags found matching "' + query + '". Press enter to create a new tag.';
     },

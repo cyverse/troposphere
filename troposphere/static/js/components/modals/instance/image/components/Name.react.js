@@ -19,7 +19,7 @@ define(function (require) {
       if (this.props.create) {
         return "*New Image Name"
       } else {
-        return "*Update Name of Image"
+        return "*Edit Name of Existing Image"
       }
     },
 

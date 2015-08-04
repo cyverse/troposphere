@@ -123,16 +123,17 @@ define(function (require) {
 
       return (
         <div className="form-group">
-          <label for="scriptTypeSelect">Input Type</label>
+          <label htmlFor="scriptTypeSelect">Input Type</label>
           {urlRadio}
           {fullTextRadio}
         </div>
       );
     },
     renderScriptTitle: function () {
-      return (<div class="form-group">
-          <label for="scriptTitle">Script Title</label>
-          <input type="text" class="form-control" id="scriptTitle" placeholder="Title" value={this.state.scriptTitle}
+      return (<div className="form-group">
+          <label htmlFor="scriptTitle">Script Title</label>
+          <input type="text" className="form-control" id="scriptTitle"
+                 placeholder="Title" value={this.state.scriptTitle}
                  onChange={this.onScriptTitleChange}/>
         </div>
       );

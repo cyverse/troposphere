@@ -46,6 +46,7 @@ define(function (require) {
         showButtonText: "Create New License",
         hideButtonText: "Cancel",
         showCreateForm: false,
+        width: "550px",
       }
     },
     onEnterKeyPressed: function(value){
@@ -147,6 +148,11 @@ define(function (require) {
       return (
         <div className="license-multi-select-and-create">
           <h3>{this.props.titleText}</h3>
+          <div className="help-block">
+            All licensed software should be documented here. Any user who wishes to use an image with
+            license restrictions will be required to view and agree the license prior to launching.
+          </div>
+
           {this.renderChosenSearchSelect()}
           <button onClick={this.onEditChange} type="button" className="btn btn-default btn-sm">{showFormButtonText}</button>
           {this.renderCreateForm(createButtonText)}

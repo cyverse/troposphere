@@ -164,6 +164,10 @@ define(function(require) {
           }
           <div className="form-horizontal">
             <div className="form-group">
+              <label className="control-label col-sm-3">New/Update</label>
+              <div className="help-block col-sm-9">{(imageData.newImage) ? "New Image" : "Update Image" }</div>
+            </div>
+            <div className="form-group">
               <label className="control-label col-sm-3">Name</label>
               <div className="help-block col-sm-9">{imageData.name}</div>
             </div>

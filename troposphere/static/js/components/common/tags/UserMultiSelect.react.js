@@ -17,6 +17,13 @@ define(function (require) {
       onModelRemoved: React.PropTypes.func.isRequired
     },
 
+
+    //getDefaultProps: function() {
+    //  return {
+    //    width: "614px"
+    //  };
+    //},
+
     getNoResultsPhrase: function(query){
       return 'No users found matching "' + query + '"';
     },

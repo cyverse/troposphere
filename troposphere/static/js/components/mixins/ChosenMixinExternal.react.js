@@ -178,7 +178,7 @@ define(function (require) {
       }
 
       return (
-        <div className={classes} style={{"width": this.props.width || "614px"}}>
+        <div className={classes} style={{"width": this.props.width || "100%"}}>
           <ul className="chosen-choices clearfix" onFocus={this.onEnterOptions}>
             {selectedModels}
           </ul>

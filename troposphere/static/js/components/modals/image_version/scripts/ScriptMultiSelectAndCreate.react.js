@@ -41,7 +41,7 @@ define(function (require) {
 
     getDefaultProps: function(){
       return {
-        titleText: "Software Scripts",
+        titleText: "Deployment Scripts",
         createButtonText: "Add to Scripts",
         showButtonText: "Create New Script",
         hideButtonText: "Cancel",
@@ -147,6 +147,12 @@ define(function (require) {
       return (
         <div className="script-multi-select-and-create">
           <h3>{this.props.titleText}</h3>
+          <div className="help-block">
+            Deployment scripts will be executed when a user has launched their instance.
+            They will also be executed each time an instance is "Started", "Resumed", or "Restarted".
+            As such, these scripts should be able to handle being run multiple times without adverse effects.
+          </div>
+
           {this.renderChosenSearchSelect()}
           <button onClick={this.onEditChange} type="button" className="btn btn-default btn-sm">{showFormButtonText}</button>
           {this.renderCreateForm(createButtonText)}

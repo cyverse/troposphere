@@ -13,6 +13,15 @@ define(function (require) {
       LicensingStep = require('./image/steps/LicensingStep.react'),
       ReviewStep = require('./image/steps/ReviewStep.react');
 
+  var IMAGE_INFO_STEP = 1,
+      VERSION_INFO_STEP = 2,
+      PROVIDER_STEP = 3,
+      VISIBILITY_STEP = 4,
+      EXCLUDE_FILES_STEP = 5,
+      SCRIPTS_STEP = 6,
+      LICENSING_STEP = 7,
+      REVIEW_STEP = 8;
+
   return React.createClass({
     displayName: "InstanceImageWizardModal",
 
@@ -38,8 +47,9 @@ define(function (require) {
         imageTags: null,
         providerId: null,
         visibility: "public",
-        imageUsers: null,
+        imageUsers: new Backbone.Collection(),
         activeScripts: new Backbone.Collection(),
+        activeLicenses: new Backbone.Collection(),
         filesToExclude: ""
       };
     },
@@ -71,7 +81,14 @@ define(function (require) {
       this.hide();
     },
 
-    onRequestImage: function(){
+    onReviewImage: function() {
+      var step = REVIEW_STEP,
+        data = data || {},
+        state = _.extend({step: step}, data);
+      this.setState(state);
+    },
+
+    onRequestImage: function() {
       var scriptIDs, licenseIDs;
       scriptIDs = this.state.activeScripts.map(function(script) {
         return script.id;
@@ -84,6 +101,8 @@ define(function (require) {
         name: this.state.name,
         description: this.state.description,
         tags: this.state.imageTags,
+        versionName: this.state.versionName,
+        versionChanges: this.state.versionChanges,
         providerId: this.state.providerId,
         visibility: this.state.visibility,
         imageUsers: this.state.imageUsers,
@@ -127,7 +146,7 @@ define(function (require) {
           activeScripts = this.state.activeScripts;
 
       switch(step) {
-        case 1:
+        case IMAGE_INFO_STEP:
           return (
             <ImageInfoStep
               name={this.state.name}
@@ -140,7 +159,7 @@ define(function (require) {
               />
           );
 
-        case 2:
+        case VERSION_INFO_STEP:
           return (
             <VersionInfoStep
               versionName={this.state.versionName}
@@ -151,7 +170,7 @@ define(function (require) {
               />
           );
 
-        case 3:
+        case PROVIDER_STEP:
           return (
             <ProviderStep
               instance={instance}
@@ -161,7 +180,7 @@ define(function (require) {
             />
           );
 
-        case 4:
+        case VISIBILITY_STEP:
           return (
             <VisibilityStep
               instance={instance}
@@ -169,10 +188,11 @@ define(function (require) {
               imageUsers={this.state.imageUsers}
               onPrevious={this.onPrevious}
               onNext={this.onNext}
+              onSubmit={this.onReviewImage}
             />
           );
 
-        case 5:
+        case EXCLUDE_FILES_STEP:
           return (
             <FilesToExcludeStep
               filesToExclude={this.state.filesToExclude}
@@ -181,7 +201,7 @@ define(function (require) {
               />
           );
 
-        case 6:
+        case SCRIPTS_STEP:
           return (
             <BootScriptsStep
               instance={instance}
@@ -192,7 +212,7 @@ define(function (require) {
               />
           );
 
-        case 7:
+        case LICENSING_STEP:
           return (
             <LicensingStep
               instance={instance}
@@ -203,7 +223,7 @@ define(function (require) {
               />
           );
 
-        case 8:
+        case REVIEW_STEP:
           return (
             <ReviewStep
               imageData={this.state}
