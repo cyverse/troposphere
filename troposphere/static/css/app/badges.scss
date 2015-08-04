@@ -1,34 +1,38 @@
-.badges{
-  h1{
+.badges {
+  h1 {
     text-align: center;
   }
-  ul{
+  ul {
     padding: 0;
   }
-  .image{
+  .image {
     width: 100%;
   }
-  .text{
+  .text {
     text-align: center;
     overflow-y: scroll;
     height: 40px;
   }
-  li{
+  li {
     display: inline-block;
     width: 10.5%;
     margin: 1%;
 
-    h4{
+    h4 {
       text-align: center;
     }
   }
-  .all{
+  .all {
     list-style-type: none;
   }
-  .mine{
+  .mine {
     list-style-type: none;
+  }
+  .btn{
+    width: 25%;
   }
 }
+
 .badge-modal .modal-image{
   width: 100%;
   margin: 0 auto;
