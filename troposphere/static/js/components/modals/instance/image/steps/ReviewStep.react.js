@@ -172,6 +172,19 @@ define(function(require) {
               <div className="help-block col-sm-9">{imageData.description}</div>
             </div>
             {this.renderTags(imageData)}
+            <hr/>
+
+            <div className="form-group">
+              <label className="control-label col-sm-3">Version Name</label>
+              <div className="help-block col-sm-9">{imageData.versionName}</div>
+            </div>
+            <div className="form-group">
+              <label className="control-label col-sm-3">Version Changes</label>
+              <div className="help-block col-sm-9">{imageData.versionChanges}</div>
+            </div>
+
+            <hr/>
+
             <div className="form-group">
               <label className="control-label col-sm-3">Provider</label>
               <div className="help-block col-sm-9">{provider.get('name')}</div>

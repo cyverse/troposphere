@@ -4,7 +4,8 @@ define(function (require) {
       _ = require('underscore'),
       BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
       stores = require('stores'),
-      NameDescriptionTagsStep = require('./image/steps/NameDescriptionTagsStep.react'),
+      ImageInfoStep = require('./image/steps/ImageInfoStep.react'),
+      VersionInfoStep = require('./image/steps/VersionInfoStep.react'),
       ProviderStep = require('./image/steps/ProviderStep.react'),
       VisibilityStep = require('./image/steps/VisibilityStep.react'),
       FilesToExcludeStep = require('./image/steps/FilesToExcludeStep.react'),
@@ -33,6 +34,7 @@ define(function (require) {
         name: this.props.instance.get('image').name,
         description: this.props.instance.get('image').description,
         versionName: this.props.versionName || "1.0",
+        versionChanges: "",
         imageTags: null,
         providerId: null,
         visibility: "public",
@@ -127,19 +129,29 @@ define(function (require) {
       switch(step) {
         case 1:
           return (
-            <NameDescriptionTagsStep
+            <ImageInfoStep
               name={this.state.name}
-              versionName={this.state.versionName}
               description={this.state.description}
               imageTags={this.state.imageTags}
               instance={instance}
               imageOwner={this.props.imageOwner}
               onPrevious={this.onPrevious}
               onNext={this.onNext}
-            />
+              />
           );
 
         case 2:
+          return (
+            <VersionInfoStep
+              versionName={this.state.versionName}
+              versionChanges={this.state.versionChanges}
+              instance={instance}
+              onPrevious={this.onPrevious}
+              onNext={this.onNext}
+              />
+          );
+
+        case 3:
           return (
             <ProviderStep
               instance={instance}
@@ -149,7 +161,7 @@ define(function (require) {
             />
           );
 
-        case 3:
+        case 4:
           return (
             <VisibilityStep
               instance={instance}
@@ -160,7 +172,7 @@ define(function (require) {
             />
           );
 
-        case 4:
+        case 5:
           return (
             <FilesToExcludeStep
               filesToExclude={this.state.filesToExclude}
@@ -169,7 +181,7 @@ define(function (require) {
               />
           );
 
-        case 5:
+        case 6:
           return (
             <BootScriptsStep
               instance={instance}
@@ -180,7 +192,7 @@ define(function (require) {
               />
           );
 
-        case 6:
+        case 7:
           return (
             <LicensingStep
               instance={instance}
@@ -191,7 +203,7 @@ define(function (require) {
               />
           );
 
-        case 7:
+        case 8:
           return (
             <ReviewStep
               imageData={this.state}

@@ -23,6 +23,8 @@ define(function (require) {
           name: params.name,
           description: params.description,
           tags: params.tags,
+          versionName: params.versionName,
+          versionChanges: params.versionChanges,
           fork: params.newImage,
           providerId: params.providerId,
           visibility: params.visibility,

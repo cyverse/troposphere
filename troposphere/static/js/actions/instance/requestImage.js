@@ -12,6 +12,8 @@ define(function (require) {
       if(!params.name) throw new Error("Missing name");
       if(!params.description) throw new Error("Missing description");
       if(!params.tags) throw new Error("Missing tags");
+      if(!params.versionName) throw new Error("Missing name");
+      if(!params.versionChanges) throw new Error("Missing description");
       if(!params.providerId) throw new Error("Missing providerId");
       if(params.fork == undefined) throw new Error("Missing create/update flag(fork)");
       //if(!params.software) throw new Error("Missing software");
@@ -29,6 +31,8 @@ define(function (require) {
           providerId = params.providerId,
           software = params.software,
           filesToExclude = params.filesToExclude,
+          versionName = params.versionName,
+          versionChanges = params.versionChanges,
           systemFiles = params.systemFiles || "[no files specified]",
           visibility = params.visibility,
           scripts = params.scripts,
@@ -51,6 +55,8 @@ define(function (require) {
         instance: instance.get('uuid'),
         ip_address: instance.get("ip_address"),
         provider: provider.get('uuid'),
+        version_name: versionName,
+        version_changes: versionChanges,
         vis: visibility,
         shared_with: userNames,
         exclude: filesToExclude || "[no files specified]",
