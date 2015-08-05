@@ -59,7 +59,7 @@ define(function (require) {
 
       return (
         <div className="resource-users">
-          <span className='user-title'>{this.props.label}</span>
+          <h4 className='user-title'>{this.props.label}</h4>
           {membershipView}
         </div>
       );

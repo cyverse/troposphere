@@ -337,9 +337,13 @@ define(function (require) {
         advancedOptions = (
           <div className='advanced-options' >
             {availabilityView}
+            <hr />
             {membershipView}
+            <hr />
             {licensesView}
+            <hr />
             {scriptsView}
+            <hr />
             {applicationView}
           </div>
         );
@@ -350,7 +354,9 @@ define(function (require) {
       return (
         <div role='form'>
           {nameView}
+          <hr />
           {descriptionView}
+          <hr />
           {
             //TODO: implement 'allow Imaging' in the next iteration
             //canImageView
@@ -391,7 +397,7 @@ define(function (require) {
       return (
         <div className="modal fade">
           <div className="modal-dialog">
-            <div className="modal-content">
+            <div id="ImageVersionEditModal" className="modal-content">
               <div className="modal-header">
                 {this.renderCloseButton()}
                 <strong>Edit Image Version</strong>

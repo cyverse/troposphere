@@ -147,14 +147,17 @@ define(function (require) {
 
       return (
         <div className="license-multi-select-and-create">
-          <h3>{this.props.titleText}</h3>
+          <h4>{this.props.titleText}</h4>
           <div className="help-block">
             All licensed software should be documented here. Any user who wishes to use an image with
             license restrictions will be required to view and agree the license prior to launching.
           </div>
-
-          {this.renderChosenSearchSelect()}
-          <button onClick={this.onEditChange} type="button" className="btn btn-default btn-sm">{showFormButtonText}</button>
+          <div className="form-group">
+            {this.renderChosenSearchSelect()}
+          </div>
+          <div className="form-group clearfix">
+            <button onClick={this.onEditChange} type="button" className="btn btn-default btn-sm pull-right">{showFormButtonText}</button>
+          </div>
           {this.renderCreateForm(createButtonText)}
         </div>
       );

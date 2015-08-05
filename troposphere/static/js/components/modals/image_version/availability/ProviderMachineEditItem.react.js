@@ -73,9 +73,9 @@ define(function (require) {
             return (
                 <li className={classes} key={provider_machine.provider.id}>
                   <div className="container-fluid container-edit-provider-machine">
-                    <div className="col-xs-3" >{provider_machine.provider.name}</div>
-                    <div className="col-xs-6">{availableText}</div>
-                    <div className="col-xs-3">
+                    <div className="col-sm-6" >{provider_machine.provider.name}</div>
+                    <div className="col-sm-3">{availableText}</div>
+                    <div className="col-sm-3">
                       <button className="btn btn-xs btn-primary" style={{padding: "1px 5px"}} onClick={this.updateAvailability} disabled={isDisabled} >
                         {activateText}
                       </button>

@@ -81,8 +81,8 @@ define(function (require) {
         //TODO: Add 'sort by' && '+/-'
         //      API ordering filters: Start Date _OR_ parent-hierarchy
         return (
-          <div className="content col-md-10">
-            <ul>
+          <div className="content">
+            <ul className="app-card-list">
               {this.props.versions.map(this.renderVersion)}
             </ul>
           </div>

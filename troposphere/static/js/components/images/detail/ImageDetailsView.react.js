@@ -80,13 +80,17 @@ define(
                 <HeaderView image={this.props.image}/>
               </div>
             </div>
-            <div className="row image-content">
-              <div className="col-md-9">
-                {view}
-                {versionView}
+            <div className="image-content">
+              <div className="row">
+                <div className="col-sm-8">
+                  {view}
+                </div>
+                <div className="col-sm-4">
+                  <ImageLaunchCard image={this.props.image} onLaunch={this.showLaunchModal}/>
+                </div>
               </div>
-              <div className="col-md-3">
-                <ImageLaunchCard image={this.props.image} onLaunch={this.showLaunchModal}/>
+              <div className="versionView">
+                {versionView}
               </div>
             </div>
 

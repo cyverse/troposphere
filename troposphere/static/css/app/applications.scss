@@ -349,14 +349,10 @@ ul.tags {
 .image-version-details {
   display: inline-block;
   vertical-align: middle;
-  font-size: 12px;
 
   //height: 75px;
   line-height: 21px;
 
-  .version {
-    font-size: 15px;
-  }
 }
 
 
@@ -538,14 +534,6 @@ ul.tag-list {
   .btn.new-tag {
     margin-left: 0px;
     margin-bottom: 5px;
-  }
-
-  .title {
-    color: #5A5A5A;
-    font-size: 16px;
-    margin-bottom: 5px;
-    //text-align: right;
-    margin-top: 0;
   }
 
   .content {

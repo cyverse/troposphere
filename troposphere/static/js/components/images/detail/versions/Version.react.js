@@ -56,7 +56,7 @@ define(function (require) {
 
           date_str = dateCreated;
       }
-      return (<div> {date_str} </div>);
+      return ({date_str});
 
     },
     render: function () {
@@ -71,21 +71,26 @@ define(function (require) {
           owner = image.get('created_by').username;
 
       return (
-        <li>
+        <li className="app-card">
           <div>
-            <Gravatar hash={versionHash} size={iconSize} type={type}/>
-            <div className="image-version-details">
+            <span className="icon-container">
+              <Gravatar iconhash={versionHash} size={iconSize} type={type}/>
+            </span>
+            <div className="image-version-details app-name">
               <div className="version">
-                {version.get('name')}
+                <h4>
+                  {version.get('name')}
+                </h4>
                 {isRecommended ? <span className="recommended-tag">Recommended</span> : null}
+
+                {this.renderDateString(version)} by {owner} <br />
               </div>
-              {this.renderDateString(version)}
-              <div>{owner}</div>
-              {this.renderEditLink()}
+                {this.renderEditLink()}
+                <AvailabilityView
+                version={version}
+                />
             </div>
-            <AvailabilityView
-              version={version}
-              />
+
           </div>
         </li>
       );
