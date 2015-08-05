@@ -5,7 +5,6 @@ import jwt
 import json
 from troposphere import settings
 from Crypto.Hash import SHA256
-import ipdb
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 from api.models import UserPreferences
