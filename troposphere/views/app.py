@@ -32,6 +32,7 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
     template_params['THEME_LOGO'] = settings.THEME_LOGO
     template_params['THEME_FOOTER_TEXT'] = settings.THEME_FOOTER_TEXT
     template_params['UI_VERSION'] = settings.UI_VERSION
+    template_params['BADGE_HOST'] = settings.BADGE_HOST
 
     if hasattr(settings, "BASE_URL"):
         template_params['BASE_URL'] = settings.BASE_URL
@@ -87,6 +88,7 @@ def _handle_authenticated_application_request(request, maintenance_records):
     template_params['THEME_LOGO'] = settings.THEME_LOGO
     template_params['THEME_FOOTER_TEXT'] = settings.THEME_FOOTER_TEXT
     template_params['UI_VERSION'] = settings.UI_VERSION
+    template_params['BADGE_HOST'] = settings.BADGE_HOST
 
     if hasattr(settings, "INTERCOM_APP_ID"):
         template_params['intercom_app_id'] = settings.INTERCOM_APP_ID
