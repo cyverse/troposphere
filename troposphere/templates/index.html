@@ -8,7 +8,7 @@
 
     <!--CSS-->
     <link rel="shortcut icon" href="{{ THEME_FAVICON }}" />
-    <link rel="stylesheet" href="/assets/app.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{ BASE_URL }}/assets/app.css" rel="stylesheet" type="text/css">
 
     <!-- Adobe Typekit (for Myriad Pro) -->
     <script type="text/javascript" src="//use.typekit.net/gty2jpo.js"></script>
@@ -23,7 +23,7 @@
 <body class="tk-myriad-pro splash-screen">
 
     <div class="splash-image">
-        <img src="/assets/images/login_mainimage.png">
+        <img src="{{BASE_URL}}/assets/images/login_mainimage.png">
         <div class="loading"></div>
         <h4>Loading Atmosphere...</h4>
     </div>
@@ -46,6 +46,8 @@
             var intercom_company_id = "{{ intercom_company_id }}";
             var intercom_company_name = "{{ intercom_company_name }}";
         {% endif %}
+
+        var BASE_URL = "{{ BASE_URL }}";
 
         {% if API_ROOT %}
             var API_ROOT = "{{ API_ROOT }}";
@@ -75,9 +77,9 @@
     </script>
 
     <!-- Application dependencies -->
-    <script src="/assets/app.js"></script>
+    <script src="{{ BASE_URL }}/assets/app.js"></script>
 
     <!-- Google Analtics -->
-    <script src="/assets/analytics.js"></script>
+    <script src="{{ BASE_URL }}/assets/analytics.js"></script>
 </body>
 </html>

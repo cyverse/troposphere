@@ -4,20 +4,22 @@
     <title>
         Atmosphere Airport | iPlant Collaborative
     </title>
-    <link rel="shortcut icon" href="{{ site_root }}{{ FAVICON }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ BASE_URL }}{{ FAVICON }}" type="image/x-icon">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="{{ site_root }}/assets/resources/css/login.css"/>
+    <link rel="stylesheet" href="{{ BASE_URL }}/assets/resources/css/login.css"/>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
     <script type="text/javascript"
             src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/bootstrap.min.js"></script>
-    <script type="text/javascript" src="{{ site_root }}/assets/resources/js/d3.v3.min.js"></script>
+    <script type="text/javascript" src="{{ BASE_URL }}/assets/resources/js/d3.v3.min.js"></script>
 
     <script type="text/javascript">
+        var BASE_URL = "{{ BASE_URL }}";
+
         {% if API_ROOT %}
             var API_ROOT = "{{ API_ROOT }}";
         {% endif %}
     </script>
-    <script type="text/javascript" src="{{ site_root }}/assets/resources/js/viz.js"></script>
+    <script type="text/javascript" src="{{ BASE_URL }}/assets/resources/js/viz.js"></script>
     <script type="text/javascript">
         $(function () {
             $('[data-toggle="modal"]').click(function () {
@@ -29,7 +31,7 @@
 <body>
 <div id="wrapper">
     <div id="imgcontainer" class="center">
-        <img src="{{ site_root }}/assets/resources/images/login_mainimage.png" style="max-width: none"
+        <img src="{{ BASE_URL }}/assets/resources/images/login_mainimage.png" style="max-width: none"
              alt="Log in to Atmosphere"/>
     </div>
 
@@ -81,7 +83,7 @@
 
                 {% csrf_token %}
                 {% if disable_login == False %}
-                    <a class="submitButton" href="/login">
+                <a class="submitButton" href="{{ BASE_URL }}/login">
                         Log in with your iPlant ID
                     </a>
                 {% else %}

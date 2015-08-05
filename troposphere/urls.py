@@ -24,7 +24,13 @@ ui_urlpatterns = patterns('',
     url(r'^tropo-api/', include('api.urls')),
 )
 
+# NOTE: Have to remove the leading slash on 'BASE_URL'
+base_url = settings.BASE_URL.lstrip("/")
+
 urlpatterns = patterns('',
-    url(r'^%s' % settings.BASE_URL, include(ui_urlpatterns))
+    url(r'^%s/' % base_url,
+        include(ui_urlpatterns)),
     )
+#NOTE: For backward-compatibility... leave the 'non-base-url' endpoints available..
+urlpatterns += ui_urlpatterns
 urlpatterns += staticfiles_urlpatterns()
