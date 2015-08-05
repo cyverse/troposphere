@@ -1,4 +1,8 @@
 .badges {
+  .buttons{
+    margin-left: 12.5%;
+    margin-right: 12.5%;
+  }
   h1 {
     text-align: center;
   }
@@ -17,6 +21,7 @@
     display: inline-block;
     width: 10.5%;
     margin: 1%;
+    float: left;
 
     h4 {
       text-align: center;
