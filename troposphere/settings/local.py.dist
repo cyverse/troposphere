@@ -25,6 +25,7 @@ DEBUG = False
 
 TEMPLATE_DEBUG = False
 SERVER_URL = 'https://SERVERNAME'
+BASE_URL = ''  # ex: "ui"
 
 ALLOWED_HOSTS = [SERVER_URL.replace("https://",""), "localhost"]
 

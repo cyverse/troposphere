@@ -1,10 +1,10 @@
 from django.conf.urls import patterns, include, url
+from troposphere import settings
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 user_match = "[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*"
-
-urlpatterns = patterns('',
+ui_urlpatterns = patterns('',
     url(r'^tropo-admin/', include(admin.site.urls)),
     url(r'^$', 'troposphere.views.root'),
     url(r'^application/emulate$', 'troposphere.views.unemulate',
@@ -24,4 +24,7 @@ urlpatterns = patterns('',
     url(r'^tropo-api/', include('api.urls')),
 )
 
+urlpatterns = patterns('',
+    url(r'^%s' % settings.BASE_URL, include(ui_urlpatterns))
+    )
 urlpatterns += staticfiles_urlpatterns()
