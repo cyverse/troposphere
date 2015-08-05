@@ -52,7 +52,6 @@ define(function (require) {
       });
 
       Utils.dispatch(VolumeConstants.ADD_VOLUME, {volume: volume});
-      actions.BadgeActions.askVolume();
 
       // Add the instance to the project now, so the user can see it being requested
       Utils.dispatch(ProjectVolumeConstants.ADD_PENDING_VOLUME_TO_PROJECT, {

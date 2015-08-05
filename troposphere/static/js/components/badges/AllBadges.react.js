@@ -23,15 +23,6 @@ define(function (require) {
     },
 
     render: function () {
-      // get around undefined email when calling from MyBadgeStore
-      var email = stores.ProfileStore.get().get('email');
-      if(!email){
-        return(
-          <div>h
-            <h1>Loading</h1>
-          </div>
-        )
-      }
       var badges = stores.BadgeStore.getAll();
 
       if(!badges){

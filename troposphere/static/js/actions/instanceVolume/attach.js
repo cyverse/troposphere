@@ -3,6 +3,8 @@ define(function (require) {
 
   var VolumeConstants = require('constants/VolumeConstants'),
     VolumeState = require('models/VolumeState'),
+    actions = require('actions'),
+    Badges = require('Badges'),
     InstanceVolumeActionRequest = require('models/InstanceVolumeActionRequest'),
     Utils = require('../Utils'),
     NotificationController = require('controllers/NotificationController'),
@@ -42,6 +44,7 @@ define(function (require) {
 
         Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
         Utils.dispatch(VolumeConstants.POLL_VOLUME_WITH_DELAY, {volume: volume});
+        actions.BadgeActions.checkOrGrant(Badges.ATTACH_VOLUME_BADGE);
       }).fail(function (response) {
         var title = "Error attaching volume",
           message,

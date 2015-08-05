@@ -6,51 +6,40 @@ define(function (require) {
       globals = require('globals'),
       Badge = require('models/Badge'),
       BadgeConstants = require('constants/BadgeConstants'),
+      Badges = require("Badges"),
       NotificationController = require('controllers/NotificationController');
 
   return {
 
-    userHasBadge: function(badge){
-      if(stores.MyBadgeStore.get(badge)) return true;
-        return false;
-      },
-
     checkInstances: function(){
       var instanceCount = stores.InstanceHistoryStore.getAll().meta.count;
       if(instanceCount >= 1){
-        if(!this.userHasBadge(3)){
-          this.grant({badge: stores.BadgeStore.get(3)})
-        }
+        this.checkOrGrant(Badges.LAUNCH_1_INSTANCE_BADGE);
       }
 
       if(instanceCount >= 10){
-        if(!this.userHasBadge(4)){
-          this.grant({badge: stores.BadgeStore.get(4)});
-        }
+        this.checkOrGrant(Badges.LAUNCH_10_INSTANCES_BADGE);
       }
 
     },
 
+    checkBookmarks(){
+      var favoritedImageCount = stores.ImageBookmarkStore.getBookmarkedImages().length;
+      if(favoritedImageCount >= 5){
+        this.checkOrGrant(Badges.FAVORITE_5_IMAGES_BADGE);
+      }
+    },
+
+    checkOrGrant: function(badgeId){
+      if(!stores.MyBadgeStore.get(badgeId)){
+        this.grant({badge: stores.BadgeStore.get(badgeId)});
+      }
+    },
+
+    // Ask if user deserves badge for something not directly linked to an action
     ask: function(){
       this.checkInstances();
-    },
-
-    askSupport: function(){
-      if(!this.userHasBadge(2)) {
-        this.grant({badge: stores.BadgeStore.get(2)});
-      }
-    },
-
-    askProject: function(){
-      if(!this.userHasBadge(6)) {
-        this.grant({badge: stores.BadgeStore.get(6)});
-      }
-    },
-
-    askVolume: function(){
-      if(!this.userHasBadge(4)) {
-        this.grant({badge: stores.BadgeStore.get(4)});
-      }
+      this.checkBookmarks();
     },
 
     getCookie: function(name) {

@@ -3,6 +3,7 @@ define(function (require) {
   var $ = require('jquery'),
       NotificationController = require('controllers/NotificationController'),
       globals = require('globals'),
+      Badges = require('Badges'),
       actions = require('actions'),
       stores = require('stores');
 
@@ -73,7 +74,7 @@ define(function (require) {
         contentType: 'application/json',
         success: function (data) {
           NotificationController.info("Resource Request submitted", "Support will be in touch with you shortly.");
-          actions.BadgeActions.askSupport();
+          actions.BadgeActions.checkOrGrant(Badges.RESOURCE_REQUEST_BADGE);
         },
         error: function (response_text) {
           var errorMessage = "An error occured while submitting your request for more resources.  Please email your resources request to <a href='mailto:support@iplantcollaborative.org'>support@iplantcollaborative.org</a>.";

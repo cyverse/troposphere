@@ -7,6 +7,7 @@ define(function (require) {
     Router = require('../Router'),
 
   // Constants
+    Badges = require("Badges"),
     ProjectConstants = require('constants/ProjectConstants'),
     NullProjectInstanceConstants = require('constants/NullProjectInstanceConstants'),
     NullProjectVolumeConstants = require('constants/NullProjectVolumeConstants'),
@@ -43,7 +44,7 @@ define(function (require) {
 
       project.save().done(function () {
         //NotificationController.success(null, "Project " + project.get('name') + " created.");
-        actions.BadgeActions.askProject();
+        actions.BadgeActions.checkOrGrant(Badges.FIRST_PROJECT_BADGE);
         Utils.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
         if (onSuccess != null) {
           onSuccess(project);
