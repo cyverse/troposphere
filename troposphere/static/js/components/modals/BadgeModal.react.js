@@ -54,7 +54,7 @@ define(
 
         var content = (
           <div>
-            <img className="badge-modal modal-image" src={this.props.badge.get('imageUrl')} />
+            <img className="badge-modal-image" src={this.props.badge.get('imageUrl')} />
             <span className="badge-modal description"><strong>Criteria: </strong>{criteria}</span>
           </div>
         );
