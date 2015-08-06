@@ -36,7 +36,8 @@ define(function (require) {
       Object.keys(stores).forEach(function (storeName) {
         stores[storeName].addChangeListener(this.updateState);
       }.bind(this));
-
+      var BadgeStore = stores.BadgeStore.getAll();
+      var MyBadgeStore = stores.MyBadgeStore.getAll();
       // The code below is only relevant to logged in users
       if (!context.profile) return;
 
