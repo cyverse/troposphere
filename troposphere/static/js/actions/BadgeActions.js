@@ -1,6 +1,7 @@
 define(function (require) {
 
   var Utils = require('./Utils'),
+      $ = require('jquery'),
       Router = require('../Router'),
       stores = require('stores'),
       globals = require('globals'),
