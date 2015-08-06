@@ -228,7 +228,7 @@ define(function (require) {
         created = this.state.versionStartDate.format("MMM D, YYYY hh:mm a"),
         ended,
         advancedOptions,
-        optionsButtonText = (this.state.showOptions) ? "Hide Options" : "Show Options",
+        optionsButtonText = (this.state.showOptions) ? "Hide Options" : "Advanced Options",
         membershipsList = stores.MembershipStore.getAll(),
         licensesList = stores.LicenseStore.getAll(),
         activeLicensesList = stores.ImageVersionLicenseStore.getLicensesFor(this.props.version),
@@ -359,7 +359,7 @@ define(function (require) {
           }
           {startDateView}
           {endDateView}
-          <button type="button" className="btn btn-primary"
+          <button type="button" className="btn btn-primary pull-right"
                   onClick={this.onOptionsChange}>
             {optionsButtonText}
           </button>
