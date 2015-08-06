@@ -4,7 +4,7 @@ define(function (require) {
         Backbone = require('backbone'),
         _ = require('underscore'),
         stores = require('stores'),
-        MachineList = require('components/images/detail/versions/VersionList.react'),
+        VersionList = require('components/images/detail/versions/VersionList.react'),
         VersionCollection = require('collections/ImageVersionCollection'),
         Glyphicon = require('components/common/Glyphicon.react');
 
@@ -198,7 +198,7 @@ define(function (require) {
                         <div className='form-group'>
                             <label htmlFor='machine' className="col-sm-3 control-label">Version</label>
                             <div className="col-sm-9 image-versions image-info-segment row">
-                              <MachineList image={this.state.image} versions={versions} editable={false} />
+                              <VersionList image={this.state.image} versions={versions} editable={false} showAvailability={false} readonly />
                             </div>
                         </div>
                         <h5>Resources</h5>

@@ -18,30 +18,22 @@ define(
       },
 
       render: function () {
-        var version_name;
+        var version_id;
         if(this.props.version) {
-            version_name = this.props.version.get('name')
+            version_id = this.props.version.id
         } else {
-            version_name = ""
+            version_id = ""
         }
         var options = this.props.versions.map(function (version) {
-          if(version.id == this.props.version.id) {
-            return (
-              <option key={version.id} value={version.id} selected>
-                {version.get('name')}
-              </option>
-            );
-          } else {
             return (
               <option key={version.id} value={version.id}>
                 {version.get('name')}
               </option>
             );
-          }
-        }.bind(this));
+        });
 
         return (
-          <select value={version_name} id='version' className='form-control' onChange={this.props.onChange}>
+          <select value={version_id} id='version' className='form-control' onChange={this.props.onChange}>
             {options}
           </select>
 

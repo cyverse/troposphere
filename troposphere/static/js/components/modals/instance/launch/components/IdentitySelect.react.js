@@ -25,19 +25,11 @@ define(
           var provider_name = provider.get('name');
           var isInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(providerId);
           if(isInMaintenance) provider_name += " (disabled - in maintenance)";
-          if(this.props.identityId == identity.id) {
-            return (
-              <option key={identity.id} value={identity.id} selected disabled={isInMaintenance}>
-                {provider_name}
-              </option>
-            );
-          } else {
-            return (
-              <option key={identity.id} value={identity.id} disabled={isInMaintenance}>
-                {provider_name}
-              </option>
-            );
-          }
+          return (
+            <option key={identity.id} value={identity.id} disabled={isInMaintenance}>
+              {provider_name}
+            </option>
+          );
         }.bind(this));
 
         return identityOptions;

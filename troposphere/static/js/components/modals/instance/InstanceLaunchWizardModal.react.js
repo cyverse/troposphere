@@ -231,6 +231,7 @@ define(function (require) {
       stores.ProjectVolumeStore.addChangeListener(this.updateState);
       stores.ProjectInstanceStore.addChangeListener(this.updateState);
       stores.InstanceStore.addChangeListener(this.updateState);
+      stores.ImageVersionStore.addChangeListener(this.updateState);
       stores.MaintenanceMessageStore.addChangeListener(this.updateState);
     },
 
@@ -242,6 +243,7 @@ define(function (require) {
       stores.ProjectVolumeStore.removeChangeListener(this.updateState);
       stores.ProjectInstanceStore.removeChangeListener(this.updateState);
       stores.InstanceStore.removeChangeListener(this.updateState);
+      stores.ImageVersionStore.removeChangeListener(this.updateState);
       stores.MaintenanceMessageStore.removeChangeListener(this.updateState);
     },
 

@@ -13,7 +13,9 @@ define(function (require) {
         },
 
       renderProviderMachine: function (provider_machine) {
-        if(!provider_machine.end_date || !provider_machine.end_date.isValid()) {
+        //Hide 'end-dated' provider_machines
+        //TODO: Only hide when end_date > now
+        if(provider_machine.end_date && provider_machine.end_date.isValid()) {
           return;
         }
 
