@@ -16,7 +16,7 @@ define(
       },
       getDefaultProps: function() {
         return {
-          className: "image-info-segment row"
+          className: "image-info-segment"
         }
       },
       propTypes: {
@@ -27,9 +27,9 @@ define(
       render: function () {
         return (
           <div className={this.props.className}>
-            <h4 className="title col-md-2">{this.props.title}</h4>
-            <div className="content col-md-10">
-              <textarea value={this.props.value} onChange={this.props.onChange}/>
+            <label className="title">{this.props.title}</label>
+            <div className="form-group">
+              <textarea className="form-control" value={this.props.value} onChange={this.props.onChange}/>
             </div>
           </div>
         );

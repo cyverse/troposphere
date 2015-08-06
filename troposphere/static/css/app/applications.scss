@@ -519,10 +519,19 @@ ul.tag-list {
 
 .image-info-segment {
   margin-top: 12px;
+  border-bottom:solid 1px lightgrey;
+
+  h4, p{
+    margin-top:0;
+    margin-bottom:10px;
+  }
+
+  p {
+    color: #7D7D7D;
+  }
 
   textarea {
     font-size: 16px;
-    width: 95%;
     height: 215px;
   }
 

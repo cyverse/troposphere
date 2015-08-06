@@ -186,20 +186,22 @@ define(function (require) {
           <ul className="chosen-choices clearfix" onFocus={this.onEnterOptions}>
             {selectedModels}
           </ul>
-          <input
-            type="text"
-            ref="searchField"
-            className="form-control"
-            placeholder={placeholderText}
-            autoComplete="off"
-            onKeyDown={this.onEnter}
-            onKeyUp={this.filterSearchResults}
-            onFocus={this.onEnterOptions}
-          />
-          <div className="chosen-drop">
-            <ul className="chosen-results">
-              {results}
-            </ul>
+          <div className="form-group">
+            <input
+              type="text"
+              ref="searchField"
+              className="form-control"
+              placeholder={placeholderText}
+              autoComplete="off"
+              onKeyDown={this.onEnter}
+              onKeyUp={this.filterSearchResults}
+              onFocus={this.onEnterOptions}
+            />
+            <div className="chosen-drop">
+              <ul className="chosen-results">
+                {results}
+              </ul>
+            </div>
           </div>
         </div>
       );

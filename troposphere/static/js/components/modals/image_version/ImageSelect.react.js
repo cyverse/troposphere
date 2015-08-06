@@ -36,7 +36,11 @@ define(function (require) {
 
       return (
         <div className="form-group">
-          <label htmlFor="Image" className="control-label">Change Image</label>
+          <h4 htmlFor="Image" className="control-label">Change Image</h4>
+          <div className="alert alert-danger">
+            <strong>Warning: </strong>
+            Changing this value will move this version to a different image you own.
+          </div>
           <div className="help-block">
             Select the Image that best describes this image.
           </div>

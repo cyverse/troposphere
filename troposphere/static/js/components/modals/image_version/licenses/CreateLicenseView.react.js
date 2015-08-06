@@ -122,15 +122,18 @@ define(function (require) {
       }
 
       return (
-        <div className="form-group">
-          <label htmlFor="licenseTypeSelect">Input Type</label>
-          {urlRadio}
-          {fullTextRadio}
-        </div>
+          <div>
+            <label htmlFor="licenseTypeSelect">Input Type</label>
+            <div className="form-group">
+              {urlRadio}
+              {fullTextRadio}
+            </div>
+          </div>
       );
     },
     renderLicenseTitle: function () {
-      return (<div className="form-group">
+      return (
+        <div className="form-group">
           <label htmlFor="licenseTitle">License Title</label>
           <input type="text" className="form-control" id="licenseTitle"
                  placeholder="Title" value={this.state.licenseTitle}
@@ -140,16 +143,15 @@ define(function (require) {
     },
     render: function () {
       return (
-
-        <div className="new-license-form new-item-form">
-          <div className="new-item-form-header" style={{"border": "black 1px"}}>
-            <button disabled={!this.isSubmittable()} onClick={this.onCreateLicense} type="button"
-                    className="btn btn-default btn-sm">{"Create and Add"}</button>
-          </div>
+        <div className="new-license-form new-item-form CreateLicenseView">
           <div className="license-input-type-container">
             {this.renderLicenseTitle()}
             {this.renderLicenseInputRadio()}
             {this.renderLicenseSelection()}
+          </div>
+          <div className="new-item-form-header form-group clearfix" style={{"border": "black 1px"}}>
+            <button disabled={!this.isSubmittable()} onClick={this.onCreateLicense} type="button"
+                    className="btn btn-primary btn-sm pull-right">{"Create and Add"}</button>
           </div>
         </div>
       );

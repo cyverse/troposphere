@@ -18,7 +18,7 @@ define(function (require) {
       }
       return (
         <div className="image-versions image-info-segment row">
-          <h2 className="title col-md-2">Versions</h2>
+          <h4 className="title col-md-2">Versions:</h4>
           <VersionList image={image} versions={versions} editable={true}/>
         </div>
       );

@@ -27,8 +27,9 @@ define(function (require) {
 
       return (
         <li className="search-choice">
-          <span>{item.get(this.props.propertyName)}</span>
-          <a className="search-choice-close" onClick={this.onRemoveItem}></a>
+          <span className="search-choice-close" onClick={this.onRemoveItem}>
+            {item.get(this.props.propertyName)} <i className="glyphicon glyphicon-remove"></i>
+         </span>
         </li>
       );
     }

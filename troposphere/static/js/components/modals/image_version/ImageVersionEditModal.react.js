@@ -301,10 +301,6 @@ define(function (require) {
       }
       applicationView = (
         <div className="application-select-container">
-          <div className="alert alert-danger">
-            <strong>Warning:</strong>
-            Changing this value will move this version to a different image you own.
-          </div>
         <ImageSelect
           imageId={this.state.versionImageID}
           onChange={this.onImageSelected}
@@ -400,7 +396,7 @@ define(function (require) {
             <div id="ImageVersionEditModal" className="modal-content">
               <div className="modal-header">
                 {this.renderCloseButton()}
-                <strong>Edit Image Version</strong>
+                <h2>Edit Image Version</h2>
               </div>
               <div className="modal-body">
                 {this.renderBody()}

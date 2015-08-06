@@ -145,17 +145,18 @@ define(function (require) {
         showFormButtonText = (!createShowing) ? this.props.showButtonText : this.props.hideButtonText;
 
       return (
-        <div className="script-multi-select-and-create">
-          <h3>{this.props.titleText}</h3>
+        <div className="scriptMultiSelectAndCreate">
+          <h4>{this.props.titleText}</h4>
           <div className="help-block">
             Deployment scripts will be executed when a user has launched their instance.
             They will also be executed each time an instance is "Started", "Resumed", or "Restarted".
             As such, these scripts should be able to handle being run multiple times without adverse effects.
           </div>
-
           {this.renderChosenSearchSelect()}
-          <button onClick={this.onEditChange} type="button" className="btn btn-default btn-sm">{showFormButtonText}</button>
-          {this.renderCreateForm(createButtonText)}
+          <div className="form-group clearfix">
+            <button onClick={this.onEditChange} type="button" className="btn btn-default btn-sm pull-right">{showFormButtonText}</button>
+          </div>
+            {this.renderCreateForm(createButtonText)}
         </div>
       );
     }

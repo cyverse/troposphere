@@ -122,11 +122,13 @@ define(function (require) {
       }
 
       return (
+      <div className="scriptRenderRadio">
+        <label htmlFor="scriptTypeSelect">Input Type</label>
         <div className="form-group">
-          <label htmlFor="scriptTypeSelect">Input Type</label>
           {urlRadio}
           {fullTextRadio}
         </div>
+      </div>
       );
     },
     renderScriptTitle: function () {
@@ -142,14 +144,15 @@ define(function (require) {
       return (
 
         <div className="new-script-form new-item-form">
-          <div className="new-item-form-header" style={{"border": "black 1px"}}>
-            <button disabled={!this.isSubmittable()} onClick={this.onCreateScript} type="button"
-                    className="btn btn-default btn-sm">{"Create and Add"}</button>
-          </div>
+
           <div className="script-input-type-container">
             {this.renderScriptTitle()}
             {this.renderScriptInputRadio()}
             {this.renderScriptSelection()}
+          </div>
+          <div className="new-item-form-header form-group clearfix" style={{"border": "black 1px"}}>
+            <button disabled={!this.isSubmittable()} onClick={this.onCreateScript} type="button"
+                    className="btn btn-primary btn-sm pull-right">{"Create and Add"}</button>
           </div>
         </div>
       );
