@@ -33,7 +33,8 @@ define(
         if(profile.id && profile.get('username') === image.get('created_by').username){
           return (
             <div className="edit-link-row">
-              <a className="edit-link" onClick={this.props.onEditImageDetails}>Edit details</a>
+              <a className="btn btn-primary btn-sm"
+                 onClick={this.props.onEditImageDetails}>Edit details</a>
             </div>
           )
         }
