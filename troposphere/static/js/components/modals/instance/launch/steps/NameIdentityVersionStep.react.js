@@ -3,6 +3,7 @@ define(function (require) {
     var React = require('react'),
         Backbone = require('backbone'),
         stores = require('stores'),
+        ImageVersionCollection = require('collections/ImageVersionCollection'),
         VersionSelect = require('../components/VersionSelect.react'),
         IdentitySelect = require('../components/IdentitySelect.react');
 
@@ -13,6 +14,7 @@ define(function (require) {
             image: React.PropTypes.instanceOf(Backbone.Model),
             version: React.PropTypes.instanceOf(Backbone.Model),
             identity: React.PropTypes.instanceOf(Backbone.Model),
+            allVersions: React.PropTypes.instanceOf(Backbone.Collection),
             name: React.PropTypes.string,
             onPrevious: React.PropTypes.func.isRequired,
             onNext: React.PropTypes.func.isRequired
@@ -22,7 +24,8 @@ define(function (require) {
             return {
                 name: this.props.name,
                 version: this.props.version,
-                identity: this.props.identity
+                identity: this.props.identity,
+                allVersions: stores.ImageStore.getVersions(this.props.image.id),
             };
         },
         isSubmittable: function () {
@@ -59,7 +62,12 @@ define(function (require) {
 
         onVersionChange: function (e) {
             var newVersionId = e.target.value;
-            var versions = this.props.image.get('provider_images');
+            if(!this.state.allVersions) {
+              var versions = stores.ImageStore.getVersions(this.props.image.id);
+              this.setState({allVersions:versions});
+            } else {
+              versions = this.state.allVersions
+            }
             var selectedVersion = versions.get(newVersionId);
             this.setState({version: selectedVersion});
         },
@@ -71,8 +79,8 @@ define(function (require) {
         },
         cleanVersions: function (versions) {
             // don't show duplicate images
-            versions = new versions.constructor(_.uniq(versions.models, function (m) {
-                return m.get('uuid');
+            versions = new versions.constructor(_.uniq(versions.models, function (v) {
+                return v.id;
             }));
             //TODO: Sort Me!
             return versions;

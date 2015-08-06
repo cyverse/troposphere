@@ -4,6 +4,7 @@ define(function (require) {
         Backbone = require('backbone'),
         globals = require('globals'),
         stores = require('stores'),
+        CryptoJS = require('crypto'),
         ImageVersionCollection = require('../collections/ImageVersionCollection'),
         ProviderCollection = require('../collections/ProviderCollection'),
         ProviderMachineCollection = require('../collections/ProviderMachineCollection'),
@@ -19,8 +20,10 @@ define(function (require) {
             attributes.start_date = moment(attributes.start_date);
             attributes.end_date = moment(attributes.end_date);
             attributes.description = attributes.description || "";
+            attributes.uuid_hash = attributes.uuid_hash || CryptoJS.MD5((attributes.uuid).toString()).toString();
 
-            return attributes;
+
+          return attributes;
         },
 
         toJSON: function (options) {

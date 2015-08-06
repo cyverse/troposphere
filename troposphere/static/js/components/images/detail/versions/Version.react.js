@@ -16,10 +16,27 @@ define(function (require) {
       image: React.PropTypes.instanceOf(Backbone.Model).isRequired,
       version: React.PropTypes.instanceOf(Backbone.Model).isRequired,
       onEditClicked: React.PropTypes.func,
-      editable: React.PropTypes.bool
+      editable: React.PropTypes.bool,
+      showAvailability: React.PropTypes.bool,
+    },
+    getDefaultPropTypes: function(){
+      return {
+        showAvailability: true,
+        editable: true
+      }
     },
     onEditClicked: function() {
          return this.props.onEditClicked(this.props.version);
+    },
+    renderAvailability: function() {
+      var version = this.props.version;
+      if (!this.props.showAvailability) {
+        return;
+      }
+
+      return (<AvailabilityView
+        version={version}
+        />);
     },
 
     renderEditLink: function () {
@@ -74,7 +91,7 @@ define(function (require) {
         <li className="app-card">
           <div>
             <span className="icon-container">
-              <Gravatar iconhash={versionHash} size={iconSize} type={type}/>
+              <Gravatar hash={versionHash} size={iconSize} type={type}/>
             </span>
             <div className="image-version-details app-name">
               <div className="version">
@@ -86,9 +103,7 @@ define(function (require) {
                 {this.renderDateString(version)} by {owner} <br />
               </div>
                 {this.renderEditLink()}
-                <AvailabilityView
-                version={version}
-                />
+                {this.renderAvailability()}
             </div>
 
           </div>
