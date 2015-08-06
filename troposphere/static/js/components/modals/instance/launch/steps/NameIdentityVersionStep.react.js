@@ -3,7 +3,7 @@ define(function (require) {
     var React = require('react'),
         Backbone = require('backbone'),
         stores = require('stores'),
-        MachineSelect = require('../components/MachineSelect.react'),
+        VersionSelect = require('../components/VersionSelect.react'),
         IdentitySelect = require('../components/IdentitySelect.react');
 
     return React.createClass({
@@ -183,9 +183,9 @@ define(function (require) {
                         <div className='form-group'>
                             <label htmlFor='machine' className="col-sm-3 control-label">Version</label>
                             <div className="col-sm-9">
-                                <MachineSelect
-                                    machine={this.state.version}
-                                    machines={versions}
+                                <VersionSelect
+                                    version={this.state.version}
+                                    versions={versions}
                                     onChange={this.onVersionChange}
                                 />
                             </div>
@@ -200,7 +200,7 @@ define(function (require) {
                             <label htmlFor='identity' className="col-sm-3 control-label">Provider</label>
                             <div className="col-sm-9">
                                 <IdentitySelect
-                                    identityId={this.state.identityId}
+                                    identityId={this.state.identity.id}
                                     identities={identities}
                                     providers={providers}
                                     onChange={this.onIdentityChange}
