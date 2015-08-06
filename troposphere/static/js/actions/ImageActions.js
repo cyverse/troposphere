@@ -9,6 +9,7 @@ define(function (require) {
       image.set({
         name: newAttributes.name,
         description: newAttributes.description,
+        tags: newAttributes.tags
       });
       AppDispatcher.handleRouteAction({
         actionType: ImageConstants.IMAGE_UPDATE,

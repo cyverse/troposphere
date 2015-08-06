@@ -25,16 +25,19 @@ define(function (require) {
     getInitialState: function(){
       var image = this.props.image;
 
+      var imageTags = stores.TagStore.getImageTags(image);
       return {
         name: image.get('name'),
-        description: image.get('description')
+        description: image.get('description'),
+        tags: imageTags
       }
     },
 
     handleSave: function(){
       var updatedAttributes = {
         name: this.state.name,
-        description: this.state.description
+        description: this.state.description,
+        tags: tags
       };
 
       this.props.onSave(updatedAttributes);
@@ -50,14 +53,16 @@ define(function (require) {
       this.setState({description: description});
     },
 
-    onTagAdded: function(tags){
-      alert("ImageTag actions not connected");
-      //this.setState({tags: tags});
+    onTagAdded: function(tag){
+      tags = this.state.tags
+      tags.add(tag)
+      this.setState({tags: tags});
     },
 
-    onTagRemoved: function(tags){
-      alert("ImageTag actions not connected");
-      //this.setState({tags: tags});
+    onTagRemoved: function(tag){
+      tags = this.state.tags
+      tags.remove(tag)
+      this.setState({tags: tags});
     },
 
     render: function () {
@@ -65,7 +70,7 @@ define(function (require) {
           providers = this.props.providers,
           identities = this.props.identities,
           allTags = this.props.tags,
-          imageTags = stores.TagStore.getImageTags(image);
+          imageTags = this.state.tags;
 
       // Since providers requires authentication, we can't display which providers
       // the image is available on on the public page

@@ -12,10 +12,13 @@ define(function (require) {
     collection: ImageCollection,
 
     update: function(image){
+      var tagIds = image.get('tags').map(function(tag){
+          return tag.id;
+      });
       image.save({
         name: image.get('name'),
         description: image.get('description'),
-        tags: image.get('tags')
+        tags: tagIds
       }, {
         patch: true
       }).done(function(){
