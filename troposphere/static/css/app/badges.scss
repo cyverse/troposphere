@@ -7,6 +7,7 @@
     text-align: center;
   }
   ul {
+    position: relative;
     padding: 0;
   }
   .image {
@@ -16,12 +17,18 @@
     text-align: center;
     overflow-y: scroll;
     height: 40px;
+    position: relative;
   }
+
+  li:hover{
+    cursor: pointer;
+  }
+
   li {
+    position: relative;
     display: inline-block;
     width: 10.5%;
-    margin: 1%;
-    float: left;
+    margin: 1%;   
 
     h4 {
       text-align: center;
@@ -34,18 +41,27 @@
     list-style-type: none;
   }
   .btn{
+    margin-top: 2%;
+    margin-bottom: 2%;
     width: 25%;
   }
 }
 
 .badge-modal-image{
-  width: 100%;
-  margin: 0 auto;
-  display: block;
+  width: 50%;
+  float: left;
 }
 
-.badge-modal .description {
-  p, strong {
-    display: inline-block;
-  }
+.badge-modal-text {
+  width: 50%;
+  display: inline-block;
+  float: right;
+}
+
+.badge-li{
+  vertical-align: middle;
+}
+
+.badge-modal-content{
+  height: 400px;
 }
