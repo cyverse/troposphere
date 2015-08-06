@@ -12,7 +12,8 @@ define(function (require) {
     collection: ImageCollection,
 
     update: function(image){
-      var tagIds = image.get('tags').map(function(tag){
+      var tags = image.get('tags')
+      var tagIds = tags.map(function(tag){
           return tag.id;
       });
       image.save({
@@ -22,6 +23,7 @@ define(function (require) {
       }, {
         patch: true
       }).done(function(){
+        image.set({tags:tags});
         this.emitChange();
       }.bind(this)).fail(function(){
         var failureMessage = "Error updating Image " + image.get('name') + ".";

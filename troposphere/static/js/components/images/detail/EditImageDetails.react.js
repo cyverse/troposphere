@@ -37,7 +37,7 @@ define(function (require) {
       var updatedAttributes = {
         name: this.state.name,
         description: this.state.description,
-        tags: tags
+        tags: this.state.tags
       };
 
       this.props.onSave(updatedAttributes);

@@ -39,18 +39,19 @@ define(
 
       handleSaveImageDetails: function(newAttributes){
         var image = this.props.image;
-        this.setState({isEditing: false});
         actions.ImageActions.updateImageAttributes(image, newAttributes);
+        this.setState({isEditing: false});
       },
 
       handleCancelEditing: function(){
-        this.setState({isEditing: false})
+        this.setState({isEditing: false});
       },
 
       render: function () {
         var view, versionView;
         versionView = (
-          <VersionsView image={this.props.image} />
+          <VersionsView image={this.props.image}
+          />
         );
         if(this.state.isEditing){
           view = (
