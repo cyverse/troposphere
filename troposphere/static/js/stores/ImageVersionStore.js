@@ -43,7 +43,7 @@ define(function (require) {
         break;
 
       default:
-        return true;
+        break;
     }
 
     store.emitChange();
