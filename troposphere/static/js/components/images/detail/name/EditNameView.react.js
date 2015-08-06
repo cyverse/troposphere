@@ -24,8 +24,8 @@ define(
         return (
           <div className="image-info-segment row">
             <h4 className="title col-md-2">Name</h4>
-            <div className="content col-md-10">
-              <input value={name} onChange={this.props.onChange}/>
+            <div className="form-group col-md-10">
+              <input className="form-control" value={name} onChange={this.props.onChange}/>
             </div>
           </div>
         );

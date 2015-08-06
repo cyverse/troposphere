@@ -235,14 +235,16 @@ define(function (require) {
     },
 
     render: function () {
-
+      var modalStyle ={
+        minHeight: "700px"
+      };
       return (
         <div className="modal fade">
           <div className="modal-dialog">
-            <div className="modal-content">
+            <div className="modal-content" style={modalStyle}>
               <div className="modal-header">
                 {this.renderCloseButton()}
-                <strong>{"Image Request"}</strong>
+                <h3>{"Image Request"}</h3>
               </div>
               {this.renderBody()}
             </div>

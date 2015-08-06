@@ -77,10 +77,6 @@ define(function (require) {
 
       return (
         <div>
-          <div className="edit-link-row">
-            <a className="edit-link" onClick={this.props.onCancel}>Cancel</a>
-            <a className="edit-link" onClick={this.handleSave}>Save</a>
-          </div>
           <div>
             <EditNameView
               image={image}
@@ -101,6 +97,10 @@ define(function (require) {
               onTagAdded={this.onTagAdded}
               onTagRemoved={this.onTagRemoved}
             />
+          </div>
+          <div className="edit-link-row clearfix">
+            <a className="btn btn-primary btn-sm pull-right" onClick={this.handleSave}>Save</a>
+            <a className="btn btn-default btn-sm pull-right"  onClick={this.props.onCancel}>Cancel</a>
           </div>
         </div>
       );

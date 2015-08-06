@@ -18,21 +18,26 @@ define(function (require) {
      return "Create or Update"
     },
     renderHelpText: function() {
-      return "            'Create' will create a brand new image."
-      +" 'Update' will create a new version for the same image.";
+      return "Checking 'New Image' will create a brand new image."
+      +" Or un-check to create a new version for the same image.";
     },
     render: function () {
       return (
         <div className="form-group">
           <label htmlFor="update" className="control-label">{this.renderNameLabel()}</label>
           <div className="help-block">{this.renderHelpText()}</div>
-          <input
-            type="checkbox"
-            name="update"
-            className="form-control"
-            checked={this.props.value}
-            onChange={this.handleChange}
-            />
+          <div className="form-group">
+            <div className="checkbox">
+              <label>
+                <input
+                  type="checkbox"
+                  name="update"
+                  checked={this.props.value}
+                  onChange={this.handleChange}
+                  />New Image?
+              </label>
+            </div>
+          </div>
         </div>
 
       );

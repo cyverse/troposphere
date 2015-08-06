@@ -16,7 +16,7 @@ define(
       },
       getDefaultProps: function() {
         return {
-          className: "image-info-segment"
+          className: "image-description"
         }
       },
       propTypes: {
@@ -29,7 +29,7 @@ define(
           <div className={this.props.className}>
             <label className="title">{this.props.title}</label>
             <div className="form-group">
-              <textarea className="form-control" value={this.props.value} onChange={this.props.onChange}/>
+              <textarea className="form-control" rows="7" value={this.props.value} onChange={this.props.onChange}/>
             </div>
           </div>
         );

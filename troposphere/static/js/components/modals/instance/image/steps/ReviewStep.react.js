@@ -202,16 +202,14 @@ define(function(require) {
             {this.renderBootScripts(imageData)}
             {this.renderLicenses(imageData)}
           </div>
-          <div className="checkbox col-sm-12">
-            <br />
-            <label className="checkbox">
-              <input type="checkbox" onChange={this.onLicenseChange}/>
-              <div>
+          <div className="form-group">
+            <div className="checkbox">
+              <label className="checkbox">
+                <input type="checkbox" onChange={this.onLicenseChange}/>
                 I certify that this image does not contain license-restricted software that is prohibited from being
                 distributed within a virtual or cloud environment.
-              </div>
-            </label>
-            <br />
+              </label>
+            </div>
           </div>
         </div>
       );
