@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -15,7 +14,7 @@ define(
       // ------------------------
       //
 
-      cancel: function(){
+      cancel: function () {
         this.hide();
       },
 
@@ -29,7 +28,7 @@ define(
       // --------------
       //
 
-      renderAttachedVolumes: function(volume){
+      renderAttachedVolumes: function (volume) {
         return (
           <li><strong>{volume.get('name')}</strong></li>
         )
@@ -40,7 +39,7 @@ define(
       // ------
       //
 
-      renderBody: function(){
+      renderBody: function () {
         return (
           <div role='form'>
             <div className='form-group'>
@@ -49,6 +48,7 @@ define(
                   "Instances can only be deleted if they have no volumes attached to them."
                 }
               </p>
+
               <p>
                 {
                   "This instance currently has the following volumes attached to it:"

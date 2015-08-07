@@ -1,9 +1,9 @@
-define(function(require) {
+define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      Provider = require('../components/Provider.react'),
-      stores = require('stores');
+    Backbone = require('backbone'),
+    Provider = require('../components/Provider.react'),
+    stores = require('stores');
 
   return React.createClass({
 
@@ -11,31 +11,31 @@ define(function(require) {
       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    getInitialState: function(){
+    getInitialState: function () {
       var instance = this.props.instance;
       return {
         providerId: this.props.providerId || instance.get('provider').id
       }
     },
 
-    isSubmittable: function(){
-      var hasProviderId        = !!this.state.providerId;
+    isSubmittable: function () {
+      var hasProviderId = !!this.state.providerId;
       return hasProviderId;
     },
 
-    onPrevious: function(){
+    onPrevious: function () {
       this.props.onPrevious({
         providerId: this.state.providerId
       });
     },
 
-    onNext: function(){
+    onNext: function () {
       this.props.onNext({
         providerId: this.state.providerId
       });
     },
 
-    onProviderChange: function(newProviderId){
+    onProviderChange: function (newProviderId) {
       this.setState({
         providerId: newProviderId
       });
@@ -47,7 +47,7 @@ define(function(require) {
           <Provider
             providerId={this.state.providerId}
             onChange={this.onProviderChange}
-          />
+            />
         </div>
       );
     },
@@ -65,7 +65,8 @@ define(function(require) {
               <span className="glyphicon glyphicon-chevron-left"></span>
               Back
             </button>
-            <button type="button" className="btn btn-primary cancel-button" onClick={this.onNext} disabled={!this.isSubmittable()}>
+            <button type="button" className="btn btn-primary cancel-button" onClick={this.onNext}
+                    disabled={!this.isSubmittable()}>
               Next
             </button>
           </div>

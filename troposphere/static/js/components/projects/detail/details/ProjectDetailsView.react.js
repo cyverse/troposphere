@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -20,22 +19,22 @@ define(
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
-      getInitialState: function(){
+      getInitialState: function () {
         return {
           isEditing: false
         }
       },
 
-      handleCancel: function(){
+      handleCancel: function () {
         this.setState({isEditing: false})
       },
 
-      handleSave: function(params){
+      handleSave: function (params) {
         this.setState({isEditing: false});
         actions.ProjectActions.updateProjectAttributes(this.props.project, params)
       },
 
-      handleEdit: function(){
+      handleEdit: function () {
         this.setState({isEditing: true})
       },
 
@@ -43,7 +42,7 @@ define(
       // Render
       // ------
 
-      renderDetailsView: function(project){
+      renderDetailsView: function (project) {
         return (
           <div className="container">
             <div className="row edit-link-row">
@@ -56,24 +55,24 @@ define(
         )
       },
 
-      renderEditDetailsView: function(project){
+      renderEditDetailsView: function (project) {
         return (
           <div className="container">
             <EditDetails project={project}
                          onSave={this.handleSave}
                          onCancel={this.handleCancel}
-            />
+              />
           </div>
         )
       },
 
       render: function () {
         var project = this.props.project,
-            view;
+          view;
 
-        if(this.state.isEditing){
+        if (this.state.isEditing) {
           view = this.renderEditDetailsView(project);
-        }else{
+        } else {
           view = this.renderDetailsView(project);
         }
 

@@ -1,9 +1,9 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      context = require('context'),
-      ViewTags = require('./ViewTags.react');
+    Backbone = require('backbone'),
+    context = require('context'),
+    ViewTags = require('./ViewTags.react');
 
   return React.createClass({
     display: "ViewTagsView",
@@ -12,11 +12,11 @@ define(function (require) {
       activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
 
-    onSuggestTag: function(e){
+    onSuggestTag: function (e) {
       e.preventDefault();
       // todo: I have NO IDEA how this is getting triggered when clicking on an image and
       // navigating to the detail page.  Figure it out and remove the isMounted check.
-      if(e.target.tagName === "A") {
+      if (e.target.tagName === "A") {
         alert("Tag suggestion featured not implemented yet.");
       }
     },
@@ -25,7 +25,7 @@ define(function (require) {
       var suggestTag;
 
       // todo: enable suggest-a-tag when it's a supported feature
-      if(context.profile && false){
+      if (context.profile && false) {
         suggestTag = (
           <a href='#' onClick={this.onSuggestTag}>Suggest a Tag</a>
         );

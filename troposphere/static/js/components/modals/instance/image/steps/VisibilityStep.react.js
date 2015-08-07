@@ -1,10 +1,10 @@
-define(function(require) {
+define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      Visibility = require('../components/Visibility.react'),
-      stores = require('stores'),
-      Users = require('../components/Users.react');
+    Backbone = require('backbone'),
+    Visibility = require('../components/Visibility.react'),
+    stores = require('stores'),
+    Users = require('../components/Users.react');
 
   return React.createClass({
 
@@ -12,14 +12,14 @@ define(function(require) {
       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    getDefaultProps: function() {
+    getDefaultProps: function () {
       return {
         visibility: "public",
         imageUsers: new Backbone.Collection()
       };
     },
 
-    getInitialState: function(){
+    getInitialState: function () {
       return {
         visibility: this.props.visibility,
         users: this.props.users,
@@ -27,19 +27,19 @@ define(function(require) {
       }
     },
 
-    isSubmittable: function(){
+    isSubmittable: function () {
       var hasVisibility = !!this.state.visibility;
       return hasVisibility;
     },
 
-    onPrevious: function(){
+    onPrevious: function () {
       this.props.onPrevious({
         visibility: this.state.visibility,
         imageUsers: this.state.imageUsers
       });
     },
 
-    onNext: function(){
+    onNext: function () {
       this.props.onNext({
         visibility: this.state.visibility,
         imageUsers: this.state.imageUsers
@@ -59,7 +59,7 @@ define(function(require) {
       });
     },
 
-    onVisibilityChange: function(newVisibility){
+    onVisibilityChange: function (newVisibility) {
       // when we change visibility we should reset the user list to empty
       this.setState({
         visibility: newVisibility,
@@ -67,7 +67,7 @@ define(function(require) {
       });
     },
 
-    onAddUser: function(user){
+    onAddUser: function (user) {
       var imageUsers = this.state.imageUsers;
       imageUsers.add(user);
       this.setState({
@@ -75,7 +75,7 @@ define(function(require) {
       });
     },
 
-    onRemoveUser: function(user){
+    onRemoveUser: function (user) {
       var imageUsers = this.state.imageUsers;
       imageUsers.remove(user);
       this.setState({
@@ -83,14 +83,14 @@ define(function(require) {
       })
     },
 
-    renderUserList: function(){
-      if(this.state.visibility === "select"){
+    renderUserList: function () {
+      if (this.state.visibility === "select") {
         return (
           <Users
             imageUsers={this.state.imageUsers}
             onUserAdded={this.onAddUser}
             onUserRemoved={this.onRemoveUser}
-          />
+            />
         )
       }
     },
@@ -102,7 +102,7 @@ define(function(require) {
             instance={this.props.instance}
             value={this.state.visibility}
             onChange={this.onVisibilityChange}
-          />
+            />
           {this.renderUserList()}
         </div>
       );

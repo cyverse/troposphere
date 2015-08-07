@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -15,7 +14,7 @@ define(
         max: React.PropTypes.number.isRequired
       },
 
-      render: function(){
+      render: function () {
         // Example Output:
         //
         // You are using 12 of 32 allocated CPUs

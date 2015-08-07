@@ -1,8 +1,8 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      ResourceDetail = require('components/projects/common/ResourceDetail.react');
+    Backbone = require('backbone'),
+    ResourceDetail = require('components/projects/common/ResourceDetail.react');
 
   return React.createClass({
 

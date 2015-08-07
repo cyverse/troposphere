@@ -1,15 +1,15 @@
 define(function (require) {
 
   var React = require('react'),
-      HeaderView = require('./header/HeaderView.react'),
-      EditTagsView = require('./tags/EditTagsView.react'),
-      ImageLaunchCard = require('./launch/ImageLaunchCard.react'),
-      EditNameView = require('./name/EditNameView.react'),
-      EditDescriptionView = require('./description/EditDescriptionView.react'),
-      CreatedView = require('./created/CreatedView.react'),
-      AuthorView = require('./author/AuthorView.react'),
-      actions = require('actions'),
-      stores = require('stores');
+    HeaderView = require('./header/HeaderView.react'),
+    EditTagsView = require('./tags/EditTagsView.react'),
+    ImageLaunchCard = require('./launch/ImageLaunchCard.react'),
+    EditNameView = require('./name/EditNameView.react'),
+    EditDescriptionView = require('./description/EditDescriptionView.react'),
+    CreatedView = require('./created/CreatedView.react'),
+    AuthorView = require('./author/AuthorView.react'),
+    actions = require('actions'),
+    stores = require('stores');
 
   return React.createClass({
 
@@ -33,7 +33,7 @@ define(function (require) {
       }
     },
 
-    handleSave: function(){
+    handleSave: function () {
       var updatedAttributes = {
         name: this.state.name,
         description: this.state.description,
@@ -43,12 +43,12 @@ define(function (require) {
       this.props.onSave(updatedAttributes);
     },
 
-    handleNameChange: function(e){
+    handleNameChange: function (e) {
       var name = e.target.value;
       this.setState({name: name});
     },
 
-    handleDescriptionChange: function(e){
+    handleDescriptionChange: function (e) {
       var description = e.target.value;
       this.setState({description: description});
     },

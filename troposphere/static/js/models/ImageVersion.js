@@ -1,11 +1,11 @@
 define(function (require) {
 
   var _ = require('underscore'),
-      Backbone = require('backbone'),
-      globals = require('globals'),
-      stores = require('stores'),
-      ProviderMachineCollection = require('../collections/ProviderMachineCollection'),
-      moment = require('moment');
+    Backbone = require('backbone'),
+    globals = require('globals'),
+    stores = require('stores'),
+    ProviderMachineCollection = require('../collections/ProviderMachineCollection'),
+    moment = require('moment');
 
   return Backbone.Model.extend({
 

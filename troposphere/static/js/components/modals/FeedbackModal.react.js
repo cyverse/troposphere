@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -45,7 +44,7 @@ define(
       // Mounting & State
       // ----------------
       //
-      getInitialState: function(){
+      getInitialState: function () {
         return getState();
       },
 
@@ -58,7 +57,7 @@ define(
       // ------------------------
       //
 
-      cancel: function(){
+      cancel: function () {
         this.hide();
       },
 
@@ -73,7 +72,7 @@ define(
       // ----------------------
       //
 
-      onFeedbackChange: function(e){
+      onFeedbackChange: function (e) {
         var newFeedback = e.target.value;
         this.setState({feedback: newFeedback});
       },
@@ -95,10 +94,11 @@ define(
 
           // Disable the launch button if the user hasn't provided a name, size or identity for the volume
           var stateIsValid = this.state.feedback;
-          if(button.type === "primary" && !stateIsValid ) isDisabled = true;
+          if (button.type === "primary" && !stateIsValid) isDisabled = true;
 
           return (
-            <button key={button.text} type="button" className={'btn btn-' + button.type} onClick={button.handler} disabled={isDisabled}>
+            <button key={button.text} type="button" className={'btn btn-' + button.type} onClick={button.handler}
+                    disabled={isDisabled}>
               {button.text}
             </button>
           );
@@ -119,7 +119,7 @@ define(
                         rows="7"
                         value={this.state.feedback}
                         onChange={this.onFeedbackChange}
-              />
+                />
             </div>
 
           </div>

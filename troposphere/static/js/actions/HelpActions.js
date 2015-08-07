@@ -1,9 +1,9 @@
 define(function (require) {
 
   var $ = require('jquery'),
-      NotificationController = require('controllers/NotificationController'),
-      globals = require('globals'),
-      stores = require('stores');
+    NotificationController = require('controllers/NotificationController'),
+    globals = require('globals'),
+    stores = require('stores');
 
   return {
 
@@ -44,16 +44,16 @@ define(function (require) {
     },
 
     requestMoreResources: function (params) {
-      if(!params.identity) throw new Error("Missing identity");
-      if(!params.quota) throw new Error("Missing quota");
-      if(!params.reason) throw new Error("Missing reason");
+      if (!params.identity) throw new Error("Missing identity");
+      if (!params.quota) throw new Error("Missing quota");
+      if (!params.reason) throw new Error("Missing reason");
 
 
       var user = stores.ProfileStore.get(),
-          identity = params.identity,
-          quota = params.quota,
-          reason = params.reason,
-          username = user.get('username');
+        identity = params.identity,
+        quota = params.quota,
+        reason = params.reason,
+        username = user.get('username');
 
       var data = {
         identity: identity,

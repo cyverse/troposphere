@@ -41,7 +41,7 @@ Atmo.Views.ReportInstanceForm = Backbone.View.extend({
             this.$el.find('label[for="problem_type"]').closest('.control-group').addClass('error');
             valid = false;
         }
-        
+
         return valid;
 
     },
@@ -83,7 +83,7 @@ Atmo.Views.ReportInstanceForm = Backbone.View.extend({
 			data["message"] += '\n\n';
 
 			data['location'] = window.location.href,
-			data['resolution'] = { 
+			data['resolution'] = {
 				'viewport': {
 					'width': $(window).width(),
 					'height': $(window).height()
@@ -129,7 +129,7 @@ Atmo.Views.ReportInstanceForm = Backbone.View.extend({
 				error: function() {
 					loader.remove();
 					btn.val("Report Submitted")
-						.attr("disabled", "disabled")
+						.attr("disabled", "disabled");
 					Atmo.Utils.notify('Could not send report', 'Please email your issue directly to <a href="mailto:support@iplantcollaborative.org">support@iplantcollaborative.org</a>.');
 				},
             });

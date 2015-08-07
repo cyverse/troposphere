@@ -1,10 +1,10 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      StatusLight = require('components/projects/common/StatusLight.react'),
-      StatusBar = require('../instance/StatusBar.react'),
-      stores = require('stores');
+    Backbone = require('backbone'),
+    StatusLight = require('components/projects/common/StatusLight.react'),
+    StatusBar = require('../instance/StatusBar.react'),
+    stores = require('stores');
 
   return React.createClass({
     displayName: "Status",
@@ -15,30 +15,30 @@ define(function (require) {
 
     render: function () {
       var volume = this.props.volume,
-          instances = stores.InstanceStore.getAll(),
-          volumeState = volume.get('state'),
-          attachData = volume.get('attach_data'),
-          status = volumeState.get('status'),
-          activity = volumeState.get('activity'),
-          placeholderMessage = status,
-          lightStatus = "active",
-          style = {},
-          instance;
+        instances = stores.InstanceStore.getAll(),
+        volumeState = volume.get('state'),
+        attachData = volume.get('attach_data'),
+        status = volumeState.get('status'),
+        activity = volumeState.get('activity'),
+        placeholderMessage = status,
+        lightStatus = "active",
+        style = {},
+        instance;
 
-      if(status === "available"){
+      if (status === "available") {
         placeholderMessage = "Unattached";
-      }else if(status === "in-use"){
-        instance = instances.find(function(i){
+      } else if (status === "in-use") {
+        instance = instances.find(function (i) {
           return i.get('uuid') === attachData.instance_id;
         });
 
-        if(instance) {
+        if (instance) {
           placeholderMessage = "Attached to " + instance.get('name');
-        }else{
+        } else {
           placeholderMessage = "Attached to instance outside project (" + attachData.instance_id + ")";
           style = {color: "#d44950"}
         }
-      }else{
+      } else {
         lightStatus = "transition";
       }
 

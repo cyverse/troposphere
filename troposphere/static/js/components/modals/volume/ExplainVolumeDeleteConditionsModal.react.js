@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -15,7 +14,7 @@ define(
       // ------------------------
       //
 
-      cancel: function(){
+      cancel: function () {
         this.hide();
       },
 
@@ -29,7 +28,7 @@ define(
       // --------------
       //
 
-      renderAttachedInstance: function(instance){
+      renderAttachedInstance: function (instance) {
         return (
           <li><strong>{instance.get('name')}</strong></li>
         )
@@ -40,7 +39,7 @@ define(
       // ------
       //
 
-      renderBody: function(){
+      renderBody: function () {
         return (
           <div role='form'>
             <div className='form-group'>
@@ -49,6 +48,7 @@ define(
                   "Volumes cannot be deleted while they are attached to an instance."
                 }
               </p>
+
               <p>
                 {
                   "This volume is currently attached to the following instance:"

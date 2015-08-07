@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -46,8 +45,8 @@ define(
         initialTagName: React.PropTypes.string
       },
 
-      isSubmittable: function(){
-        var hasName        = !!this.state.name;
+      isSubmittable: function () {
+        var hasName = !!this.state.name;
         var hasDescription = !!this.state.description;
         return hasName && hasDescription;
       },
@@ -57,7 +56,7 @@ define(
       // ----------------
       //
 
-      getInitialState: function(){
+      getInitialState: function () {
         return {
           name: this.props.initialTagName,
           description: null
@@ -73,7 +72,7 @@ define(
       // ------------------------
       //
 
-      cancel: function(){
+      cancel: function () {
         this.hide();
       },
 
@@ -88,12 +87,12 @@ define(
       // ----------------------
       //
 
-      onNameChange: function(e){
+      onNameChange: function (e) {
         var newName = e.target.value;
         this.setState({name: newName});
       },
 
-      onDescriptionChange: function(e){
+      onDescriptionChange: function (e) {
         var newDescription = e.target.value;
         this.setState({description: newDescription});
       },
@@ -103,7 +102,7 @@ define(
       // ------
       //
 
-      renderBody: function(){
+      renderBody: function () {
         return (
           <div role='form'>
 
@@ -113,7 +112,7 @@ define(
                      className="form-control"
                      value={this.state.name}
                      onChange={this.onNameChange}
-              />
+                />
             </div>
 
             <div className='form-group'>
@@ -124,7 +123,7 @@ define(
                         rows="7"
                         value={this.state.description}
                         onChange={this.onDescriptionChange}
-              />
+                />
             </div>
 
           </div>
@@ -147,7 +146,8 @@ define(
                   <button type="button" className="btn btn-danger" onClick={this.cancel}>
                     Cancel
                   </button>
-                  <button type="button" className="btn btn-primary" onClick={this.confirm} disabled={!this.isSubmittable()}>
+                  <button type="button" className="btn btn-primary" onClick={this.confirm}
+                          disabled={!this.isSubmittable()}>
                     Create tag
                   </button>
                 </div>

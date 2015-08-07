@@ -1,17 +1,17 @@
 define(function (require) {
 
   var MaintenanceMessageCollection = require('collections/MaintenanceMessageCollection'),
-      BaseStore = require('stores/BaseStore');
+    BaseStore = require('stores/BaseStore');
 
   var MaintenanceMessageStore = BaseStore.extend({
     collection: MaintenanceMessageCollection,
 
-    isProviderInMaintenance: function(providerId){
+    isProviderInMaintenance: function (providerId) {
       var providerMessages = this.models.where({provider: providerId}),
-          isInMaintenance = false;
+        isInMaintenance = false;
 
-      providerMessages.forEach(function(message){
-        if(message.get('disable_login') === true) {
+      providerMessages.forEach(function (message) {
+        if (message.get('disable_login') === true) {
           isInMaintenance = true;
         }
       });

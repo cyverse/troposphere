@@ -2,13 +2,13 @@ define(function (require) {
   "use strict";
 
   var VolumeConstants = require('constants/VolumeConstants'),
-      Utils = require('../Utils');
+    Utils = require('../Utils');
 
   return {
 
-    poll: function(params){
+    poll: function (params) {
       var volume = params.volume;
-      if(!volume) throw new Error("Missing volume");
+      if (!volume) throw new Error("Missing volume");
       Utils.dispatch(VolumeConstants.POLL_VOLUME, {volume: volume});
     }
 

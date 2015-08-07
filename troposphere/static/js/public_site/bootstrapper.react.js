@@ -42,11 +42,29 @@ define(function (require) {
         });
       });
     }
+  };
 
-    return {
-      run: function () {
-        startApplication();
-      }
+  function startApplication() {
+
+    $(document).ready(function () {
+
+      $('body').removeClass('splash-screen');
+
+      // Start the application router
+      Router.getInstance(routes).run(function (Handler, state) {
+        // you might want to push the state of the router to a store for whatever reason
+        // RouterActions.routeChange({routerState: state});
+
+        // whenever the url changes, this callback is called again
+        React.render(<Handler/>, document.getElementById("application"));
+      });
+    });
+  }
+
+  return {
+    run: function () {
+      startApplication();
     }
+  }
 
-  });
+});

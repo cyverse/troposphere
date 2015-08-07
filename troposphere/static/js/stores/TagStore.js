@@ -1,9 +1,9 @@
 define(function (require) {
 
   var TagCollection = require('collections/TagCollection'),
-      Dispatcher = require('dispatchers/Dispatcher'),
-      BaseStore = require('stores/BaseStore'),
-      TagConstants = require('constants/TagConstants');
+    Dispatcher = require('dispatchers/Dispatcher'),
+    BaseStore = require('stores/BaseStore'),
+    TagConstants = require('constants/TagConstants');
 
   var _pendingInstanceTags = {};
   var _pendingImageTags = {};
@@ -16,9 +16,9 @@ define(function (require) {
     },
 
     getImageTags: function (image) {
-      if(!this.models) throw new Error("Must fetch tags before calling getImageTags");
+      if (!this.models) throw new Error("Must fetch tags before calling getImageTags");
 
-      var imageTagArray = image.get('tags').map(function(tag){
+      var imageTagArray = image.get('tags').map(function (tag) {
         //var tagName = tag.name;
         //var tag = _tags.findWhere({name: tagName}, {parse: true});
         //if(!tag) throw new Error("Expected to find a tag with name '" + tagName +"'");
@@ -27,28 +27,28 @@ define(function (require) {
 
       // Add any pending tags to the result set
       var pendingImageTags = _pendingImageTags[image.id];
-      if(pendingImageTags){
+      if (pendingImageTags) {
         imageTagArray = imageTagArray.concat(pendingImageTags.models);
       }
 
       return new TagCollection(imageTagArray);
     },
 
-    addPendingTagToInstance: function(tag, instance){
+    addPendingTagToInstance: function (tag, instance) {
       _pendingInstanceTags[instance.id] = _pendingInstanceTags[instance.id] || new TagCollection();
       _pendingInstanceTags[instance.id].add(tag);
     },
 
-    removePendingTagFromInstance: function(tag, instance){
+    removePendingTagFromInstance: function (tag, instance) {
       _pendingInstanceTags[instance.id].remove(tag);
     },
 
-    addPendingTagToImage: function(tag, image){
+    addPendingTagToImage: function (tag, image) {
       _pendingImageTags[image.id] = _pendingImageTags[image.id] || new TagCollection();
       _pendingImageTags[image.id].add(tag);
     },
 
-    removePendingTagFromImage: function(tag, image){
+    removePendingTagFromImage: function (tag, image) {
       _pendingImageTags[image.id].remove(tag);
     }
 
@@ -90,11 +90,11 @@ define(function (require) {
         store.removePendingTagFromImage(payload.tag, payload.image);
         break;
 
-       default:
-         return true;
+      default:
+        return true;
     }
 
-    if(!options.silent) {
+    if (!options.silent) {
       store.emitChange();
     }
 

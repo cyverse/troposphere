@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -18,7 +17,7 @@ define(
         resourceType: React.PropTypes.string.isRequired
       },
 
-      componentDidMount: function(){
+      componentDidMount: function () {
         var el = this.getDOMNode();
         var $el = $(el);
         $el.tooltip({

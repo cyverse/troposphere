@@ -11,11 +11,11 @@ define(function (require) {
       create: React.PropTypes.bool.isRequired
     },
 
-    handleChange: function(e){
+    handleChange: function (e) {
       this.props.onChange(e.target.value)
     },
 
-    renderNameLabel: function() {
+    renderNameLabel: function () {
       if (this.props.create) {
         return "*New Image Name"
       } else {
@@ -27,6 +27,7 @@ define(function (require) {
       return (
         <div className="form-group">
           <label htmlFor="name" className="control-label">{this.renderNameLabel()}</label>
+
           <div className="help-block">
             Something meaningful to help users find this image. Please limit name to 30 characters.
           </div>
@@ -39,7 +40,7 @@ define(function (require) {
             placeholder={this.props.init_value || "Name..."}
             value={this.props.value}
             onChange={this.handleChange}
-          />
+            />
         </div>
       );
     }

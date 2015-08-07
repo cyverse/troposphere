@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -21,7 +20,7 @@ define(
       // ------------------------
       //
 
-      cancel: function(){
+      cancel: function () {
         this.hide();
       },
 
@@ -35,7 +34,7 @@ define(
       // ------
       //
 
-      renderBody: function(){
+      renderBody: function () {
         var instance = this.props.instance;
 
         return (
@@ -48,11 +47,13 @@ define(
                 'before deleting the instance or risk corrupting your data and the volume'
               }
             </p>
+
             <p>
               {'Your instance '}
               <strong>{instance.get('name') + ' #' + instance.get('id')}</strong>
               {' will be shut down and all data will be permanently lost!'}
             </p>
+
             <p>
               <em>Note:</em>
               {

@@ -68,7 +68,7 @@ String.prototype.find = function(needle) {
 //icontains - Case Insensitive Contains
 $.expr[":"].icontains = function(obj, i, m) {
   return icontains(m[3], $(obj).text());
-}
+};
 
 function icontains(needle, haystack) {
 	var found = false;

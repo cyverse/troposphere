@@ -1,11 +1,11 @@
 define(function (require) {
 
   var _ = require('underscore'),
-      Dispatcher = require('dispatchers/Dispatcher'),
-      Store = require('stores/Store'),
-      Profile = require('models/Profile'),
-      NotificationController = require('controllers/NotificationController'),
-      ProfileConstants = require('constants/ProfileConstants');
+    Dispatcher = require('dispatchers/Dispatcher'),
+    Store = require('stores/Store'),
+    Profile = require('models/Profile'),
+    NotificationController = require('controllers/NotificationController'),
+    ProfileConstants = require('constants/ProfileConstants');
 
   var _profile = null;
   var _isFetching = false;
@@ -15,18 +15,18 @@ define(function (require) {
   //
 
   var fetchProfile = function () {
-    if(!_isFetching) {
+    if (!_isFetching) {
       _isFetching = true;
       var profile = new Profile();
       profile.fetch().then(function () {
         _isFetching = false;
         _profile = profile;
         ProfileStore.emitChange();
-      }).fail(function(result){
-        if(result.status === 403) {
+      }).fail(function (result) {
+        if (result.status === 403) {
           // Redirect the user to the forbidden page with more info
           window.location.pathname = "/forbidden";
-        }else {
+        } else {
           NotificationController.error(
             null,
             "There was an error logging you in. If this persists, please email <a href='mailto:support@iplantcollaborative.org'>support@iplantcollaborative.org</a>.",
@@ -41,7 +41,7 @@ define(function (require) {
     }
   };
 
-  function update(profile){
+  function update(profile) {
     _profile.set(profile, {merge: true});
   }
 
@@ -52,7 +52,7 @@ define(function (require) {
   var ProfileStore = {
 
     get: function () {
-      if(!_profile) {
+      if (!_profile) {
         fetchProfile();
       }
       return _profile;
@@ -64,12 +64,12 @@ define(function (require) {
     var action = payload.action;
 
     switch (action.actionType) {
-        case ProfileConstants.UPDATE_PROFILE:
-          update(action.name, action.description);
-          break;
+      case ProfileConstants.UPDATE_PROFILE:
+        update(action.name, action.description);
+        break;
 
-        default:
-          return true;
+      default:
+        return true;
     }
 
     ProfileStore.emitChange();

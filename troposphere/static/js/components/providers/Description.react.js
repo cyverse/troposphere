@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -19,6 +18,7 @@ define(
         return (
           <div className="row provider-info-section">
             <h4>Description</h4>
+
             <p>{provider.get('description')}</p>
           </div>
         );

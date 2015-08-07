@@ -1,0 +1,13 @@
+location /assets {
+    alias @ASSETS_PATH;
+}
+
+location ~^/(application|maintenance|login|logout|forbidden|version|cf2) {
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    uwsgi_pass unix:///tmp/troposphere.sock;
+}
+
+location ~^/cas/(oauth2.0|service) {
+    uwsgi_pass unix:///tmp/troposphere.sock;
+}

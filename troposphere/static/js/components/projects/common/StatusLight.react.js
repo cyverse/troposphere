@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -17,13 +16,13 @@ define(
         var status = this.props.status;
         var statusLight;
 
-        if(status === "active"){
+        if (status === "active") {
           statusLight = <span className="instance-status-light active"></span>;
-        }else if(status === "transition"){
+        } else if (status === "transition") {
           statusLight = <span className="instance-status-light transition"></span>;
-        }else if(status === "inactive"){
+        } else if (status === "inactive") {
           statusLight = <span className="instance-status-light inactive"></span>;
-        }else{
+        } else {
           statusLight = <span className="instance-status-light"></span>;
         }
 

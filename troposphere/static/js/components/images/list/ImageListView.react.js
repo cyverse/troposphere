@@ -1,16 +1,16 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      stores = require('stores'),
-      ImageCollection = require('collections/ImageCollection'),
-      ImageCardList = require('./list/ImageCardList.react'),
-      ImageCardGrid = require('./grid/ImageCardGrid.react'),
-      SecondaryImageNavigation = require('../common/SecondaryImageNavigation.react'),
-      Router = require('react-router');
+    Backbone = require('backbone'),
+    stores = require('stores'),
+    ImageCollection = require('collections/ImageCollection'),
+    ImageCardList = require('./list/ImageCardList.react'),
+    ImageCardGrid = require('./grid/ImageCardGrid.react'),
+    SecondaryImageNavigation = require('../common/SecondaryImageNavigation.react'),
+    Router = require('react-router');
 
   var timer,
-      timerDelay = 100;
+    timerDelay = 100;
 
   return React.createClass({
 
@@ -20,7 +20,7 @@ define(function (require) {
       tags: React.PropTypes.instanceOf(Backbone.Collection)
     },
 
-    getInitialState: function(){
+    getInitialState: function () {
       return {
         originalQuery: this.getQuery().q,
         query: this.getQuery().q || "",
@@ -31,17 +31,17 @@ define(function (require) {
       }
     },
 
-    componentWillReceiveProps: function(nextProps){
+    componentWillReceiveProps: function (nextProps) {
       var query = this.getQuery().q;
-      if(query !== this.state.originalQuery){
+      if (query !== this.state.originalQuery) {
         this.setState({query: query, input: query, originalQuery: query});
       }
     },
 
-    updateState: function() {
+    updateState: function () {
       var query = this.state.query,
-          state = {},
-          images;
+        state = {},
+        images;
 
       if(query){
         images = stores.ImageStore.fetchWhere({
@@ -51,7 +51,7 @@ define(function (require) {
         images = stores.ImageStore.getAll();
       }
 
-      if(images && images.meta.next !== this.state.nextUrl){
+      if (images && images.meta.next !== this.state.nextUrl) {
         state.isLoadingMoreResults = false;
         state.nextUrl = null;
       }
@@ -67,9 +67,9 @@ define(function (require) {
       stores.ImageStore.removeChangeListener(this.updateState);
     },
 
-    onLoadMoreImages: function(){
+    onLoadMoreImages: function () {
       var query = this.state.query,
-          images;
+        images;
 
       // Get the current collection
       if(query){
@@ -102,7 +102,7 @@ define(function (require) {
     handleSearch: function (input) {
       if (timer) clearTimeout(timer);
 
-      timer = setTimeout(function(){
+      timer = setTimeout(function () {
         this.setState({query: this.state.input});
       }.bind(this), timerDelay);
     },
@@ -113,10 +113,10 @@ define(function (require) {
       this.handleSearch(input);
     },
 
-    onChangeViewType: function(){
-      if(this.state.viewType === "list"){
+    onChangeViewType: function () {
+      if (this.state.viewType === "list") {
         this.setState({viewType: 'grid'});
-      }else{
+      } else {
         this.setState({viewType: 'list'});
       }
     },
@@ -133,23 +133,23 @@ define(function (require) {
 
       if (!images || !tags || this.state.query) return;
 
-      if(this.state.viewType === "list") {
+      if (this.state.viewType === "list") {
         return (
           <ImageCardList
             key="featured"
             title="Featured Images"
             images={images}
             tags={tags}
-          />
+            />
         );
-      }else{
+      } else {
         return (
           <ImageCardGrid
             key="featured"
             title="Featured Images"
             images={images}
             tags={tags}
-          />
+            />
         );
       }
     },
@@ -165,16 +165,16 @@ define(function (require) {
               title="All Images"
               images={images}
               tags={tags}
-            />
+              />
           );
-        }else{
+        } else {
           return (
             <ImageCardGrid
               key="all"
               title="All Images"
               images={images}
               tags={tags}
-            />
+              />
           );
         }
       }
@@ -197,20 +197,21 @@ define(function (require) {
             style={{"margin": "auto", "display": "block"}}
             className="btn btn-default"
             onClick={this.onLoadMoreImages}
-          >
+            >
             Show more images...
           </button>
         )
       }
     },
 
-    renderListButton: function(){
+    renderListButton: function () {
       var classValues = "btn btn-default",
-          onClick = this.onChangeViewType;
+        onClick = this.onChangeViewType;
 
-      if(this.state.viewType === "list") {
+      if (this.state.viewType === "list") {
         classValues += " active";
-        onClick = function(){};
+        onClick = function () {
+        };
       }
 
       return (
@@ -220,13 +221,14 @@ define(function (require) {
       );
     },
 
-    renderGridButton: function(){
+    renderGridButton: function () {
       var classValues = "btn btn-default",
-          onClick = this.onChangeViewType;
+        onClick = this.onChangeViewType;
 
-      if(this.state.viewType === "grid") {
+      if (this.state.viewType === "grid") {
         classValues += " active";
-        onClick = function(){};
+        onClick = function () {
+        };
       }
 
       return (
@@ -236,10 +238,10 @@ define(function (require) {
       );
     },
 
-    renderBody: function(){
+    renderBody: function () {
       var query = this.state.query,
-          title = "",
-          images;
+        title = "",
+        images;
 
       if(query){
         images = stores.ImageStore.fetchWhere({
@@ -254,12 +256,13 @@ define(function (require) {
 
       title = "Showing " + images.length + " of " + images.meta.count + " images";
 
-      if(query) title += " for '" + query + "'";
+      if (query) title += " for '" + query + "'";
 
       return (
         <div>
           <div className="display-toggles clearfix">
             <h3>{title}</h3>
+
             <div className="btn-group pull-right">
               {this.renderListButton()}
               {this.renderGridButton()}
@@ -283,7 +286,7 @@ define(function (require) {
               onChange={this.onSearchChange}
               value={this.state.input}
               ref="textField"
-            />
+              />
             <hr/>
           </div>
           {this.renderBody()}

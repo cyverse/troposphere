@@ -2,8 +2,8 @@ define(function (require) {
   "use strict";
 
   var globals = require('globals'),
-      stores = require('stores'),
-      Utils = require('../Utils');
+    stores = require('stores'),
+    Utils = require('../Utils');
 
   return {
 

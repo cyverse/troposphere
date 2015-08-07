@@ -1,15 +1,15 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      Time = require('components/common/Time.react'),
-      EditableInputField = require('components/common/EditableInputField.react'),
-      ResourceTags = require('./ResourceTags.react'),
-      actions = require('actions'),
-      stores = require('stores'),
-      modals = require('modals'),
-      CryptoJS = require('crypto'),
-      Gravatar = require('components/common/Gravatar.react');
+    Backbone = require('backbone'),
+    Time = require('components/common/Time.react'),
+    EditableInputField = require('components/common/EditableInputField.react'),
+    ResourceTags = require('./ResourceTags.react'),
+    actions = require('actions'),
+    stores = require('stores'),
+    modals = require('modals'),
+    CryptoJS = require('crypto-js'),
+    Gravatar = require('components/common/Gravatar.react');
 
   return React.createClass({
     display: "InstanceInfoSection",
@@ -18,7 +18,7 @@ define(function (require) {
       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    getInitialState: function(){
+    getInitialState: function () {
       var instance = this.props.instance;
 
       return {
@@ -28,15 +28,15 @@ define(function (require) {
       }
     },
 
-    onEnterEditMode: function(e){
+    onEnterEditMode: function (e) {
       this.setState({isEditing: true});
     },
 
-    onCreateNewTag: function(tagNameSuggestion){
+    onCreateNewTag: function (tagNameSuggestion) {
       modals.TagModals.create_AddToInstance(tagNameSuggestion, this.props.instance);
     },
 
-    onDoneEditing: function(text){
+    onDoneEditing: function (text) {
       this.setState({
         name: text,
         isEditing: false
@@ -44,14 +44,14 @@ define(function (require) {
       actions.InstanceActions.update(this.props.instance, {name: text});
     },
 
-    onTagAdded: function(tag){
+    onTagAdded: function (tag) {
       actions.InstanceTagActions.add({
         instance: this.props.instance,
         tag: tag
       });
     },
 
-    onTagRemoved: function(tag){
+    onTagRemoved: function (tag) {
       actions.InstanceTagActions.remove({
         instance: this.props.instance,
         tag: tag
@@ -60,23 +60,23 @@ define(function (require) {
 
     render: function () {
       var instance = this.props.instance,
-          tags = stores.TagStore.getAll(),
-          instanceTags = stores.InstanceTagStore.getTagsFor(instance),
-          instanceHash = CryptoJS.MD5((instance.id || instance.cid).toString()).toString(),
-          type = stores.ProfileStore.get().get('icon_set'),
-          iconSize = 113,
-          nameContent;
+        tags = stores.TagStore.getAll(),
+        instanceTags = stores.InstanceTagStore.getTagsFor(instance),
+        instanceHash = CryptoJS.MD5((instance.id || instance.cid).toString()).toString(),
+        type = stores.ProfileStore.get().get('icon_set'),
+        iconSize = 113,
+        nameContent;
 
-      if(!tags || !instanceTags) return <div className="loading"></div>;
+      if (!tags || !instanceTags) return <div className="loading"></div>;
 
-      if(this.state.isEditing){
+      if (this.state.isEditing) {
         nameContent = (
           <EditableInputField
             text={this.state.name}
             onDoneEditing={this.onDoneEditing}
-          />
+            />
         );
-      }else{
+      } else {
         nameContent = (
           <h4 onClick={this.onEnterEditMode}>
             {this.state.name}
@@ -103,7 +103,7 @@ define(function (require) {
               onTagAdded={this.onTagAdded}
               onTagRemoved={this.onTagRemoved}
               onCreateNewTag={this.onCreateNewTag}
-            />
+              />
           </div>
 
         </div>

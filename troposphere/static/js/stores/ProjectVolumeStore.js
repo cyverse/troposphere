@@ -1,34 +1,34 @@
 define(function (require) {
 
   var Dispatcher = require('dispatchers/Dispatcher'),
-      BaseStore = require('stores/BaseStore'),
-      ProjectVolumeCollection = require('collections/ProjectVolumeCollection'),
-      ProjectVolumeConstants = require('constants/ProjectVolumeConstants'),
-      VolumeCollection = require('collections/VolumeCollection'),
-      Volume = require('models/Volume'),
-      stores = require('stores');
+    BaseStore = require('stores/BaseStore'),
+    ProjectVolumeCollection = require('collections/ProjectVolumeCollection'),
+    ProjectVolumeConstants = require('constants/ProjectVolumeConstants'),
+    VolumeCollection = require('collections/VolumeCollection'),
+    Volume = require('models/Volume'),
+    stores = require('stores');
 
   var _modelsFor = {};
   var _isFetchingFor = {};
   var _pendingProjectVolumes = new VolumeCollection();
 
-  function addPending(model){
+  function addPending(model) {
     _pendingProjectVolumes.add(model);
   }
 
-  function removePending(model){
+  function removePending(model) {
     _pendingProjectVolumes.remove(model);
   }
 
   var ProjectStore = BaseStore.extend({
     collection: ProjectVolumeCollection,
 
-    initialize: function(){
+    initialize: function () {
       this.models = new ProjectVolumeCollection();
     },
 
-    fetchModelsFor: function(projectId){
-      if(!_modelsFor[projectId] && !_isFetchingFor[projectId]) {
+    fetchModelsFor: function (projectId) {
+      if (!_modelsFor[projectId] && !_isFetchingFor[projectId]) {
         _isFetchingFor[projectId] = true;
         var models = new ProjectVolumeCollection();
         models.fetch({
@@ -40,7 +40,7 @@ define(function (require) {
           this.models.add(models.models);
 
           // convert ProjectVolume collection to an VolumeCollection
-          var volumes = models.map(function(pv){
+          var volumes = models.map(function (pv) {
             return new Volume(pv.get('volume'), {parse: true});
           });
           volumes = new VolumeCollection(volumes);
@@ -51,29 +51,29 @@ define(function (require) {
       }
     },
 
-    getVolumesFor: function(project){
+    getVolumesFor: function (project) {
       var allVolumes = stores.VolumeStore.getAll();
-      if(!_modelsFor[project.id]) return this.fetchModelsFor(project.id);
-      if(!allVolumes) return;
+      if (!_modelsFor[project.id]) return this.fetchModelsFor(project.id);
+      if (!allVolumes) return;
 
-      var volumes = this.models.filter(function(pv){
+      var volumes = this.models.filter(function (pv) {
         // filter out irrelevant project volumes (not in target project)
         return pv.get('project').id === project.id;
-      }).filter(function(pv){
+      }).filter(function (pv) {
         // filter out the volumes that don't exist (not in local cache)
         return allVolumes.get(pv.get('volume').id);
-      }).map(function(pv){
+      }).map(function (pv) {
         // return the actual volumes
         return allVolumes.get(pv.get('volume').id);
       });
 
-      var pendingVolumes = _pendingProjectVolumes.filter(function(pv){
+      var pendingVolumes = _pendingProjectVolumes.filter(function (pv) {
         // filter out irrelevant project volumes (not in target project)
         return pv.get('project').id === project.id;
-      }).filter(function(pv){
+      }).filter(function (pv) {
         // filter out the volumes that don't exist (not in local cache)
         return allVolumes.get(pv.get('volume'));
-      }).map(function(pv){
+      }).map(function (pv) {
         // return the actual volumes
         return allVolumes.get(pv.get('volume'));
       });
@@ -114,7 +114,7 @@ define(function (require) {
         return true;
     }
 
-    if(!options.silent) {
+    if (!options.silent) {
       store.emitChange();
     }
 

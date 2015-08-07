@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -15,7 +14,7 @@ define(
       // ------------------------
       //
 
-      cancel: function(){
+      cancel: function () {
         this.hide();
       },
 
@@ -29,10 +28,11 @@ define(
       // ------
       //
 
-      renderBody: function(){
+      renderBody: function () {
         return (
           <div>
             <p>{"Would you like to resume this instance?"}</p>
+
             <p>Your instance's IP address may change once it resumes.</p>
           </div>
         );

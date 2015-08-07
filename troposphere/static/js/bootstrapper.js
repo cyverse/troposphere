@@ -62,7 +62,6 @@ define(function (require) {
   stores.VolumeStore = require('stores/VolumeStore');
 
   var actions = require('actions');
-  actions.HelpActions = require('actions/HelpActions');
   actions.ImageActions = require('actions/ImageActions');
   actions.ImageVersionActions = require('actions/ImageVersionActions');
   actions.ImageVersionMembershipActions = require('actions/ImageVersionMembershipActions');
@@ -153,7 +152,7 @@ define(function (require) {
         return dfd.promise();
       };
 
-      // render the splash page which will load the rest of the image
+      // render the splash page which will load the rest of the application
       $(document).ready(function () {
         var SplashScreenComponent = React.createFactory(SplashScreen);
         React.render(SplashScreenComponent(), document.getElementById('application'));

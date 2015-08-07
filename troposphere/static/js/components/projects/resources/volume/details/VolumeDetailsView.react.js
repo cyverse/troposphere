@@ -1,11 +1,11 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      VolumeDetailsSection = require('./sections/VolumeDetailsSection.react'),
-      VolumeInfoSection = require('./sections/VolumeInfoSection.react'),
-      BreadcrumbBar = require('components/projects/common/BreadcrumbBar.react'),
-      VolumeActionsAndLinks = require('./actions/VolumeActionsAndLinks.react');
+    Backbone = require('backbone'),
+    VolumeDetailsSection = require('./sections/VolumeDetailsSection.react'),
+    VolumeInfoSection = require('./sections/VolumeInfoSection.react'),
+    BreadcrumbBar = require('components/projects/common/BreadcrumbBar.react'),
+    VolumeActionsAndLinks = require('./actions/VolumeActionsAndLinks.react');
 
   // var p1 = (
   //   <p>
@@ -34,7 +34,7 @@ define(function (require) {
 
     render: function () {
       var project = this.props.project,
-          volume = this.props.volume;
+        volume = this.props.volume;
 
       var breadcrumbs = [
         {
@@ -52,6 +52,7 @@ define(function (require) {
       return (
         <div>
           <BreadcrumbBar breadcrumbs={breadcrumbs}/>
+
           <div className="row resource-details-content">
             <div className="col-md-9 resource-detail-sections">
               <VolumeInfoSection volume={volume}/>

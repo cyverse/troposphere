@@ -2,8 +2,8 @@ define(function (require) {
   "use strict";
 
   var Backbone = require('backbone'),
-      Quota = require('models/Quota'),
-      globals = require('globals');
+    Quota = require('models/Quota'),
+    globals = require('globals');
 
   return Backbone.Collection.extend({
     model: Quota,
@@ -14,7 +14,7 @@ define(function (require) {
         count: response.count,
         next: response.next,
         previous: response.previous
-     };
+      };
 
       return response.results;
     }

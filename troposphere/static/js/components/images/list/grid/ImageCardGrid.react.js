@@ -11,9 +11,9 @@ define(function (require) {
       tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
 
-    renderTitle: function(){
+    renderTitle: function () {
       var title = this.props.title;
-      if(!title) return;
+      if (!title) return;
 
       return (
         <h3>{title}</h3>
@@ -32,7 +32,7 @@ define(function (require) {
 
     render: function () {
       var images = this.props.images,
-          imageCards = images.map(this.renderCard);
+        imageCards = images.map(this.renderCard);
 
       return (
         <div>

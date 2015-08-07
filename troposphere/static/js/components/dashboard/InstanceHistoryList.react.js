@@ -1,11 +1,11 @@
 define(function (require) {
 
   var React = require('react'),
-      stores = require('stores'),
-      moment = require('moment'),
-      CryptoJS = require('crypto'),
-      Gravatar = require('components/common/Gravatar.react'),
-      Router = require('react-router');
+    stores = require('stores'),
+    moment = require('moment'),
+    CryptoJS = require('crypto-js'),
+    Gravatar = require('components/common/Gravatar.react'),
+    Router = require('react-router');
 
   return React.createClass({
 
@@ -16,11 +16,11 @@ define(function (require) {
       }
     },
 
-    updateState: function() {
+    updateState: function () {
       var instanceHistories = stores.InstanceHistoryStore.getAll(),
-          state = {};
+        state = {};
 
-      if(instanceHistories && instanceHistories.meta.next !== this.state.nextUrl){
+      if (instanceHistories && instanceHistories.meta.next !== this.state.nextUrl) {
         state.isLoadingMoreResults = false;
         state.nextUrl = null;
       }
@@ -32,11 +32,11 @@ define(function (require) {
       stores.InstanceHistoryStore.addChangeListener(this.updateState);
     },
 
-    componentWillUnmount: function() {
+    componentWillUnmount: function () {
       stores.InstanceHistoryStore.removeChangeListener(this.updateState);
     },
 
-    onLoadMoreInstanceHistory: function(){
+    onLoadMoreInstanceHistory: function () {
       var instanceHistories = stores.InstanceHistoryStore.getAll();
 
       this.setState({
@@ -46,12 +46,12 @@ define(function (require) {
       stores.InstanceHistoryStore.fetchMore();
     },
 
-    renderTitle: function(){
+    renderTitle: function () {
       var instanceHistories = stores.InstanceHistoryStore.getAll(),
-          title = "Instance History",
-          historyCount;
+        title = "Instance History",
+        historyCount;
 
-      if(instanceHistories) {
+      if (instanceHistories) {
         historyCount = " (" + instanceHistories.meta.count + " instances launched)";
         title += historyCount;
       }
@@ -59,23 +59,23 @@ define(function (require) {
       return title;
     },
 
-    renderLoadMoreHistoryButton: function(instanceHistories){
+    renderLoadMoreHistoryButton: function (instanceHistories) {
       // Load more instances from history
       var buttonStyle = {
-            margin: "auto",
-            display: "block"
-          },
-          loadingStyle= {
-            margin: "0px auto"
-          },
-          moreHistoryButton = null;
+          margin: "auto",
+          display: "block"
+        },
+        loadingStyle = {
+          margin: "0px auto"
+        },
+        moreHistoryButton = null;
 
-      if(instanceHistories.meta.next){
-        if(this.state.isLoadingMoreResults){
+      if (instanceHistories.meta.next) {
+        if (this.state.isLoadingMoreResults) {
           moreHistoryButton = (
             <div style={loadingStyle} className="loading"></div>
           );
-        }else {
+        } else {
           moreHistoryButton = (
             <button style={buttonStyle} className="btn btn-default" onClick={this.onLoadMoreInstanceHistory}>
               Show More History
@@ -89,9 +89,9 @@ define(function (require) {
 
     renderBody: function () {
       var instanceHistories = stores.InstanceHistoryStore.getAll(),
-          instances = stores.InstanceStore.fetchWhere({'archived': 'true'}),
-          providers = stores.ProviderStore.getAll(),
-          instanceHistoryItems;
+        instances = stores.InstanceStore.fetchWhere({'archived': 'true'}),
+        providers = stores.ProviderStore.getAll(),
+        instanceHistoryItems;
 
       if(!instanceHistories || !instances || !providers) return <div className="loading"></div>;
 
@@ -117,17 +117,17 @@ define(function (require) {
         }
 
         var startDate = instance.get('start_date'),
-            endDate = instance.get('end_date'),
-            formattedStartDate = startDate.format("MMM DD, YYYY"),
-            formattedEndDate = endDate.format("MMM DD, YYYY"),
-            now = moment(),
-            timeSpan = now.diff(startDate, "days"),
-            instanceHistoryHash = CryptoJS.MD5((instance.id || instance.cid).toString()).toString(),
-            iconSize = 63,
-            type = stores.ProfileStore.get().get('icon_set'),
-            image = imageId ? stores.ImageStore.get(imageId) : null,
-            imageName = image ? image.get('name') : "[image no longer exists]",
-            imageLink;
+          endDate = instance.get('end_date'),
+          formattedStartDate = startDate.format("MMM DD, YYYY"),
+          formattedEndDate = endDate.format("MMM DD, YYYY"),
+          now = moment(),
+          timeSpan = now.diff(startDate, "days"),
+          instanceHistoryHash = CryptoJS.MD5((instance.id || instance.cid).toString()).toString(),
+          iconSize = 63,
+          type = stores.ProfileStore.get().get('icon_set'),
+          image = imageId ? stores.ImageStore.get(imageId) : null,
+          imageName = image ? image.get('name') : "[image no longer exists]",
+          imageLink;
 
         if(!endDate.isValid()) formattedEndDate = "Present";
 
@@ -150,6 +150,7 @@ define(function (require) {
                 <li>
                   <div>
                     <Gravatar hash={instanceHistoryHash} size={iconSize} type={type}/>
+
                     <div className="instance-history-details">
                       <strong className="name">{instance.get('name')}</strong>
                       <div>Launched from {imageLink}</div>

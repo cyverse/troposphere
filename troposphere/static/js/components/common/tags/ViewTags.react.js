@@ -1,8 +1,8 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      Tag = require('./Tag.react');
+    Backbone = require('backbone'),
+    Tag = require('./Tag.react');
 
   return React.createClass({
     display: "ViewTags",
@@ -12,13 +12,13 @@ define(function (require) {
       renderLinks: React.PropTypes.bool
     },
 
-    getDefaultProps: function(){
+    getDefaultProps: function () {
       return {
         renderLinks: true
       }
     },
 
-    renderTag: function(tag){
+    renderTag: function (tag) {
       return (
         <Tag key={tag.id || tag.cid} tag={tag} renderLinks={this.props.renderLinks}/>
       );
@@ -26,11 +26,11 @@ define(function (require) {
 
     render: function () {
       var tags = this.props.activeTags,
-          content;
+        content;
 
-      if(tags.length > 0){
+      if (tags.length > 0) {
         content = tags.map(this.renderTag);
-      }else{
+      } else {
         content = (
           <p>This resource has not been tagged.</p>
         )

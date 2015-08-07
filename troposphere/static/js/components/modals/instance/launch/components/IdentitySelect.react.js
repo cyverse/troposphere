@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -19,12 +18,12 @@ define(
       },
 
       getOptions: function () {
-        var identityOptions = this.props.identities.map(function(identity){
+        var identityOptions = this.props.identities.map(function (identity) {
           var providerId = identity.get('provider').id;
           var provider = this.props.providers.get(providerId);
           var provider_name = provider.get('name');
           var isInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(providerId);
-          if(isInMaintenance) provider_name += " (disabled - in maintenance)";
+          if (isInMaintenance) provider_name += " (disabled - in maintenance)";
           return (
             <option key={identity.id} value={identity.id} disabled={isInMaintenance}>
               {provider_name}

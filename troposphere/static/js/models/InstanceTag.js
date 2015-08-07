@@ -1,8 +1,8 @@
-define(function(require){
+define(function (require) {
   "use strict";
 
   var Backbone = require('backbone'),
-      globals = require('globals');
+    globals = require('globals');
 
   return Backbone.Model.extend({
     urlRoot: globals.API_V2_ROOT + "/instance_tags"

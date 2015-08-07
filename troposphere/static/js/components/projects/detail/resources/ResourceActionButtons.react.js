@@ -1,12 +1,12 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      Button = require('./Button.react'),
-      Instance = require('models/Instance'),
-      Volume = require('models/Volume'),
-      InstanceActionButtons = require('./InstanceActionButtons.react'),
-      VolumeActionButtons = require('./VolumeActionButtons.react');
+    Backbone = require('backbone'),
+    Button = require('./Button.react'),
+    Instance = require('models/Instance'),
+    Volume = require('models/Volume'),
+    InstanceActionButtons = require('./InstanceActionButtons.react'),
+    VolumeActionButtons = require('./VolumeActionButtons.react');
 
   return React.createClass({
 
@@ -16,9 +16,9 @@ define(function (require) {
 
     render: function () {
       var resource = this.props.previewedResource,
-          project = this.props.project;
+        project = this.props.project;
 
-      if(!resource) return <span/>;
+      if (!resource) return <span/>;
 
       if (resource instanceof Instance) {
         return (
@@ -26,17 +26,17 @@ define(function (require) {
             onUnselect={this.props.onUnselect}
             instance={resource}
             project={project}
-          />
+            />
         );
-      }else if (resource instanceof Volume){
+      } else if (resource instanceof Volume) {
         return (
           <VolumeActionButtons
             onUnselect={this.props.onUnselect}
             volume={resource}
             project={project}
-          />
+            />
         );
-      }else{
+      } else {
         return <span/>;
       }
     }

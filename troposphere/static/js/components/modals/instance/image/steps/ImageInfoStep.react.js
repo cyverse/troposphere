@@ -1,12 +1,12 @@
-define(function(require) {
+define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      Name = require('../components/Name.react'),
-      CreateUpdateFlag = require('../components/CreateUpdateFlag.react'),
-      Description = require('../components/Description.react'),
-      Tags = require('../components/Tags.react'),
-      stores = require('stores');
+    Backbone = require('backbone'),
+    Name = require('../components/Name.react'),
+    CreateUpdateFlag = require('../components/CreateUpdateFlag.react'),
+    Description = require('../components/Description.react'),
+    Tags = require('../components/Tags.react'),
+    stores = require('stores');
 
   return React.createClass({
     displayName: "ImageInfoStep",
@@ -19,7 +19,7 @@ define(function(require) {
       newImage: React.PropTypes.bool.isRequired
     },
 
-    getDefaultProps: function() {
+    getDefaultProps: function () {
       return {
         name: "",
         description: "",
@@ -29,7 +29,7 @@ define(function(require) {
       };
     },
 
-    getInitialState: function(){
+    getInitialState: function () {
       return {
         name: this.props.name,
         description: this.props.description,
@@ -38,13 +38,13 @@ define(function(require) {
       }
     },
 
-    isSubmittable: function(){
-      var hasName        = !!this.state.name;
+    isSubmittable: function () {
+      var hasName = !!this.state.name;
       var hasDescription = !!this.state.description;
       return hasName && hasDescription;
     },
 
-    onNext: function(){
+    onNext: function () {
       this.props.onNext({
         name: this.state.name,
         description: this.state.description,
@@ -53,18 +53,18 @@ define(function(require) {
       });
     },
 
-    onNameChange: function(newName){
+    onNameChange: function (newName) {
       this.setState({name: newName});
     },
     onCreateUpdateChange: function(checked){
       this.setState({newImage: checked});
     },
 
-    onDescriptionChange: function(newDescription){
+    onDescriptionChange: function (newDescription) {
       this.setState({description: newDescription});
     },
 
-    onTagAdded: function(addedTag){
+    onTagAdded: function (addedTag) {
       var imageTags = this.state.imageTags;
       imageTags.add(addedTag);
       this.setState({
@@ -72,25 +72,25 @@ define(function(require) {
       })
     },
 
-    onTagRemoved: function(removedTag){
+    onTagRemoved: function (removedTag) {
       var imageTags = this.state.imageTags;
       imageTags.remove(removedTag);
       this.setState({
         imageTags: imageTags
       })
     },
-    renderCreateUpdateFlag: function() {
-      if(this.props.imageOwner) {
+    renderCreateUpdateFlag: function () {
+      if (this.props.imageOwner) {
         return (
           <CreateUpdateFlag
             value={this.state.newImage}
             onChange={this.onCreateUpdateChange}
-          />
+            />
         );
       } else {
-        return;
-    }
-  },
+
+      }
+    },
     renderBody: function (instance) {
       return (
         <div>
@@ -104,12 +104,14 @@ define(function(require) {
             </a>
             {" before completing the form below."}
           </p>
+
           <p>
             {
               "Please provide some information to help others discover this image. The information you " +
               "provide here will be the primary means for others to discover this image."
             }
           </p>
+
           <p>
             {
               "Fields marked with * are required."
@@ -120,16 +122,16 @@ define(function(require) {
             create={this.state.newImage}
             value={this.state.name}
             onChange={this.onNameChange}
-          />
+            />
           <Description
             value={this.state.description}
             onChange={this.onDescriptionChange}
-          />
+            />
           <Tags
             onTagAdded={this.onTagAdded}
             onTagRemoved={this.onTagRemoved}
             imageTags={this.state.imageTags}
-          />
+            />
         </div>
       );
     },
@@ -143,7 +145,8 @@ define(function(require) {
             {this.renderBody(instance)}
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-primary cancel-button" onClick={this.onNext} disabled={!this.isSubmittable()}>
+            <button type="button" className="btn btn-primary cancel-button" onClick={this.onNext}
+                    disabled={!this.isSubmittable()}>
               Next
             </button>
           </div>

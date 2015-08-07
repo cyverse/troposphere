@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -17,11 +16,11 @@ define(
         onClick: React.PropTypes.func
       },
 
-      handleClick: function(){
-        if(this.props.onClick) this.props.onClick(this.props.image);
+      handleClick: function () {
+        if (this.props.onClick) this.props.onClick(this.props.image);
       },
 
-      renderTags: function(){
+      renderTags: function () {
         var tags = stores.TagStore.getAll();
         var activeTags = stores.TagStore.getImageTags(this.props.image);
 
@@ -32,9 +31,9 @@ define(
 
       render: function () {
         var image = this.props.image,
-            type = stores.ProfileStore.get().get('icon_set'),
-            iconSize = 67,
-            icon;
+          type = stores.ProfileStore.get().get('icon_set'),
+          iconSize = 67,
+          icon;
 
         if (image.get('icon')) {
           icon = (

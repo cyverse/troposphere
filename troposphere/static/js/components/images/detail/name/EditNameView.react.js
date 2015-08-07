@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -19,7 +18,7 @@ define(
 
       render: function () {
         var image = this.props.image,
-            name = this.props.value;
+          name = this.props.value;
 
         return (
           <div className="image-info-segment row">

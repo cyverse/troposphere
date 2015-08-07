@@ -12,11 +12,11 @@ define(function (require) {
       this.getDOMNode().focus();
     },
 
-    onDoneEditing: function(e){
+    onDoneEditing: function (e) {
       var text = $(this.getDOMNode()).find("textarea")[0].value;
       if (text.trim()) {
         this.props.onDoneEditing(text);
-      }else{
+      } else {
         this.props.onDoneEditing(this.props.text);
       }
     },

@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -29,6 +28,7 @@ define(
                 Create New Project
               </button>
             </ProjectListHeader>
+
             <div className="container">
               <ProjectList projects={this.props.projects}/>
             </div>

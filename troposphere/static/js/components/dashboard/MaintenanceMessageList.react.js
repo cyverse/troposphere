@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -22,7 +21,7 @@ define(
         );
       },
 
-      renderMaintenanceNotification: function(message){
+      renderMaintenanceNotification: function (message) {
         return (
           <MaintenanceMessage key={message.id} message={message}/>
         );
@@ -40,7 +39,7 @@ define(
               {notifications}
             </ul>
           );
-        }else{
+        } else {
           return (
             <ul className="notifications">
               <div className="preview-message">

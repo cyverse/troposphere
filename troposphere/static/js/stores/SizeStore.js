@@ -1,7 +1,7 @@
 define(function (require) {
 
   var BaseStore = require('stores/BaseStore'),
-      SizeCollection = require('collections/SizeCollection');
+    SizeCollection = require('collections/SizeCollection');
 
   var SizeStore = BaseStore.extend({
     collection: SizeCollection,

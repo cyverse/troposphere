@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -23,7 +22,7 @@ define(
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
-      getInitialState: function(){
+      getInitialState: function () {
         return {
           isEditing: false
         }
@@ -33,7 +32,7 @@ define(
         modals.InstanceModals.launch(this.props.image);
       },
 
-      handleEditImageDetails: function(){
+      handleEditImageDetails: function () {
         this.setState({isEditing: true})
       },
 
@@ -61,9 +60,9 @@ define(
                                     identities={this.props.identities}
                                     onSave={this.handleSaveImageDetails}
                                     onCancel={this.handleCancelEditing}
-            />
+              />
           )
-        }else{
+        } else {
           view = (
             <ViewImageDetails image={this.props.image}
                                     tags={this.props.tags}
@@ -71,7 +70,7 @@ define(
                                     identities={this.props.identities}
                                     onEditImageDetails={this.handleEditImageDetails}
 
-            />
+              />
           )
         }
         return (

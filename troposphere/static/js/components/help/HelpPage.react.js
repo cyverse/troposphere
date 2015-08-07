@@ -1,10 +1,7 @@
-/** @jsx React.DOM */
 
-define(
-  [
-    'react'
-  ],
-  function (React) {
+define(function (require) {
+    var _ = require("underscore"),
+        React = require('react');
 
     var resources = [
       {
@@ -50,6 +47,7 @@ define(
             </ul>
             <div>
               <h2>Contact</h2>
+
               <p>
                 {"You can contact the Atmosphere support staff by clicking on the "}
                 <strong>{"Feedback & Support"}</strong>

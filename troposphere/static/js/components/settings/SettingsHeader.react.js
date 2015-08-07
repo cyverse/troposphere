@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -9,9 +8,7 @@ define(
 
     return React.createClass({
 
-      propTypes: {
-
-      },
+      propTypes: {},
 
       render: function () {
         return (

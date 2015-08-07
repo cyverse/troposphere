@@ -1,11 +1,11 @@
 define(function (require) {
 
-    var React = require('react'),
-        Backbone = require('backbone'),
-        InstancePreviewView = require('components/projects/resources/instance/preview/InstancePreviewView.react'),
-        VolumePreviewView = require('components/projects/resources/volume/preview/VolumePreviewView.react'),
-        Instance = require('models/Instance'),
-        Volume = require('models/Volume');
+  var React = require('react'),
+    Backbone = require('backbone'),
+    InstancePreviewView = require('components/projects/resources/instance/preview/InstancePreviewView.react'),
+    VolumePreviewView = require('components/projects/resources/volume/preview/VolumePreviewView.react'),
+    Instance = require('models/Instance'),
+    Volume = require('models/Volume');
 
   return React.createClass({
 
@@ -15,9 +15,9 @@ define(function (require) {
 
     render: function () {
       var resource = this.props.resource,
-          resourcePreview;
+        resourcePreview;
 
-      if(!resource) {
+      if (!resource) {
         return (
           <div className="side-panel">
             <div className="preview-message">
@@ -29,19 +29,19 @@ define(function (require) {
         );
       }
 
-      if(resource instanceof Instance) {
+      if (resource instanceof Instance) {
         resourcePreview = (
           <InstancePreviewView
             key={resource.id}
             instance={resource}
-          />
+            />
         );
-      } else if(resource instanceof Volume) {
+      } else if (resource instanceof Volume) {
         resourcePreview = (
           <VolumePreviewView
             key={resource.id}
             volume={resource}
-          />
+            />
         );
       }
 

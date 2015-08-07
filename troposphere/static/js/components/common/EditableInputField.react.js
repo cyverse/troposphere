@@ -14,16 +14,16 @@ define(function (require) {
       this.getDOMNode().focus();
     },
 
-    onDoneEditing: function(e){
+    onDoneEditing: function (e) {
       var text = e.target.value;
       if (text.trim()) {
         this.props.onDoneEditing(text);
-      }else{
+      } else {
         this.props.onDoneEditing(this.props.text);
       }
     },
 
-    onEnterKey: function(e){
+    onEnterKey: function (e) {
       var text = e.target.value;
       if (e.which === ENTER_KEY && text.trim()) {
         this.props.onDoneEditing(text);

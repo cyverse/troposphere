@@ -1,10 +1,10 @@
 define(function (require) {
 
-    var React = require('react'),
-        stores = require('stores'),
-        ProjectResourcesWrapper = require('./detail/resources/ProjectResourcesWrapper.react'),
-        InstanceDetailsView = require('./resources/instance/details/InstanceDetailsView.react'),
-        Router = require('react-router');
+  var React = require('react'),
+    stores = require('stores'),
+    ProjectResourcesWrapper = require('./detail/resources/ProjectResourcesWrapper.react'),
+    InstanceDetailsView = require('./resources/instance/details/InstanceDetailsView.react'),
+    Router = require('react-router');
 
   return React.createClass({
 
@@ -12,7 +12,7 @@ define(function (require) {
 
     render: function () {
       var project = stores.ProjectStore.get(Number(this.getParams().projectId)),
-          instance = stores.InstanceStore.get(Number(this.getParams().instanceId));
+        instance = stores.InstanceStore.get(Number(this.getParams().instanceId));
 
       if (!project || !instance) return <div className="loading"></div>;
 

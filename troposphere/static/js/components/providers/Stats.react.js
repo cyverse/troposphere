@@ -1,8 +1,8 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      stores = require('stores');
+    Backbone = require('backbone'),
+    stores = require('stores');
 
   return React.createClass({
 
@@ -14,9 +14,9 @@ define(function (require) {
     // Helper Functions
     //
 
-    _getIdentity: function(){
+    _getIdentity: function () {
       var provider = this.props.provider;
-      return this.props.identities.find(function(identity){
+      return this.props.identities.find(function (identity) {
         return identity.get('provider').id === provider.id;
       });
     },
@@ -25,7 +25,7 @@ define(function (require) {
     // Render
     //
 
-    renderStat: function(value, subText, moreInfo){
+    renderStat: function (value, subText, moreInfo) {
       return (
         <div className="col-md-3 provider-stat">
           <div>
@@ -37,22 +37,22 @@ define(function (require) {
       )
     },
 
-    renderAllocationStat: function(allocationConsumedPercent, allocationConsumed, allocationTotal){
+    renderAllocationStat: function (allocationConsumedPercent, allocationConsumed, allocationTotal) {
       var allocationPercent = allocationConsumedPercent + "%";
       var usedOverTotal = "(" + allocationConsumed + "/" + allocationTotal + ") AUs";
 
       return this.renderStat(allocationPercent, usedOverTotal, "AUs currently used");
     },
 
-    renderStats: function(identity, instances, sizes){
+    renderStats: function (identity, instances, sizes) {
       var allocation = identity.get('allocation');
       var allocationConsumed = allocation.current;
       var allocationTotal = allocation.threshold;
       var allocationRemaining = allocationTotal - allocationConsumed;
-      var allocationConsumedPercent = Math.round(allocationConsumed/allocationTotal*100);
+      var allocationConsumedPercent = Math.round(allocationConsumed / allocationTotal * 100);
       var instancesConsumingAllocation = identity.getInstancesConsumingAllocation(instances);
       var allocationBurnRate = identity.getCpusUsed(instancesConsumingAllocation, sizes);
-      var timeRemaining = allocationRemaining/allocationBurnRate;
+      var timeRemaining = allocationRemaining / allocationBurnRate;
 
       return (
         <div className="row provider-info-section provider-stats">
@@ -66,14 +66,14 @@ define(function (require) {
 
     render: function () {
       var provider = this.props.provider,
-          identity = stores.IdentityStore.findOne({'provider.id': provider.id}),
-          instances = stores.InstanceStore.findWhere({'provider.id': provider.id}),
-          sizes = stores.SizeStore.fetchWhere({
-            provider__id: provider.id,
-            page_size: 100
-          });
+        identity = stores.IdentityStore.findOne({'provider.id': provider.id}),
+        instances = stores.InstanceStore.findWhere({'provider.id': provider.id}),
+        sizes = stores.SizeStore.fetchWhere({
+          provider__id: provider.id,
+          page_size: 100
+        });
 
-      if(!provider || !identity || !instances || !sizes){
+      if (!provider || !identity || !instances || !sizes) {
         return (
           <div className="loading"></div>
         )

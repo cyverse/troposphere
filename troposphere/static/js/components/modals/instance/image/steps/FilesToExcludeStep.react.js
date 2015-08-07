@@ -1,9 +1,9 @@
-define(function(require) {
+define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      FileToExclude = require('../components/FilesToExclude.react'),
-      stores = require('stores');
+    Backbone = require('backbone'),
+    FileToExclude = require('../components/FilesToExclude.react'),
+    stores = require('stores');
 
   return React.createClass({
 
@@ -12,35 +12,35 @@ define(function(require) {
       filesToExclude: React.PropTypes.string
     },
 
-    getDefaultProps: function() {
+    getDefaultProps: function () {
       return {
         filesToExclude: ""
       };
     },
 
-    getInitialState: function(){
+    getInitialState: function () {
       return {
         filesToExclude: this.props.filesToExclude
       }
     },
 
-    isSubmittable: function(){
+    isSubmittable: function () {
       return true;
     },
 
-    onPrevious: function(){
+    onPrevious: function () {
       this.props.onPrevious({
         filesToExclude: this.state.filesToExclude
       });
     },
 
-    onNext: function(){
+    onNext: function () {
       this.props.onNext({
         filesToExclude: this.state.filesToExclude
       });
     },
 
-    onFilesChange: function(newFilesToExclude){
+    onFilesChange: function (newFilesToExclude) {
       this.setState({
         filesToExclude: newFilesToExclude
       });
@@ -52,7 +52,7 @@ define(function(require) {
           <FileToExclude
             value={this.state.filesToExclude}
             onChange={this.onFilesChange}
-          />
+            />
         </div>
       );
     },
@@ -68,7 +68,8 @@ define(function(require) {
               <span className="glyphicon glyphicon-chevron-left"></span>
               Back
             </button>
-            <button type="button" className="btn btn-primary cancel-button" onClick={this.onNext} disabled={!this.isSubmittable()}>
+            <button type="button" className="btn btn-primary cancel-button" onClick={this.onNext}
+                    disabled={!this.isSubmittable()}>
               Next
             </button>
           </div>

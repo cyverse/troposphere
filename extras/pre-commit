@@ -6,5 +6,5 @@ get_files() {
 }
 
 for f in `get_files`; do
-    npm run jsxhint $f
+    npm run lint $f --silent
 done

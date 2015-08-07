@@ -1,6 +1,7 @@
-define(function(require) {
+define(function (require) {
 
-  var React = require('react');
+  var React = require('react'),
+      checkmark = require("images/checkmark.png");
 
   return React.createClass({
 
@@ -10,12 +11,12 @@ define(function(require) {
 
     render: function () {
       var className = "resource-checkbox";
-      if(this.props.isChecked){
+      if (this.props.isChecked) {
         className += " checked";
       }
       return (
         <div className={className}>
-          <img src="/assets/images/checkmark.png"/>
+        <img src={{ checkmark }}/>
         </div>
       );
     }

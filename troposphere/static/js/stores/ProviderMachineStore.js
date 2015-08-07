@@ -1,29 +1,14 @@
 define(function (require) {
 
   var ProviderMachineCollection = require('collections/ProviderMachineCollection'),
-      Dispatcher = require('dispatchers/Dispatcher'),
-      BaseStore = require('stores/BaseStore'),
-      ProviderMachineConstants = require('constants/ProviderMachineConstants'),
-      NotificationController = require('controllers/NotificationController');
+    Dispatcher = require('dispatchers/Dispatcher'),
+    BaseStore = require('stores/BaseStore'),
+    ProviderMachineConstants = require('constants/ProviderMachineConstants'),
+    NotificationController = require('controllers/NotificationController');
 
   var ProviderMachineStore = BaseStore.extend({
     collection: ProviderMachineCollection,
 
-    //update: function(payload){
-    //  //TODO: This is a duplicate of 'ProviderMachineActions' which one is right?
-    //  var machine = payload.machine;
-    //  machine.save({
-    //    end_date: machine.get('end_date'),
-    //  }, {
-    //    patch: true
-    //  }).done(function(){
-    //    this.emitChange();
-    //  }.bind(this)).fail(function(){
-    //    var failureMessage = "Error updating ProviderMachine " + machine.get('uuid') + ".";
-    //    NotificationController.error(failureMessage);
-    //    this.emitChange();
-    //  }.bind(this));
-    //},
     removeVersionCache: function(version) {
       var queryParams = {version_id: version.id},
           queryString = this.generateQueryString(queryParams);
@@ -32,9 +17,9 @@ define(function (require) {
 
     },
     get: function (machineId) {
-      if(!this.models) return this.fetchModels();
+      if (!this.models) return this.fetchModels();
       var machine = BaseStore.prototype.get.apply(this, arguments);
-      if(!machine) return this.fetchModel(machineId);
+      if (!machine) return this.fetchModel(machineId);
       return machine;
     },
     getMachinesFor: function(image) {
@@ -62,8 +47,8 @@ define(function (require) {
                 }
                 this.emitChange();
 
-            }.bind(this));
-        }
+        }.bind(this));
+      }
     }
   });
 

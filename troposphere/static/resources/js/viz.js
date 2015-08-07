@@ -7,7 +7,7 @@ $(function() {
 
 	//$('.carousel').carousel();
 
-	var data = new Array();
+	var data = [];
 	var most_saved = 0;
 	var total_cpu_time = 0;
 

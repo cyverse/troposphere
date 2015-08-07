@@ -1,7 +1,7 @@
 define(function (require) {
 
   var ModalHelpers = require('components/modals/ModalHelpers'),
-      VersionInformationModal = require('components/modals/VersionInformationModal.react');
+    VersionInformationModal = require('components/modals/VersionInformationModal.react');
 
   return {
 
@@ -10,7 +10,8 @@ define(function (require) {
         header: "Atmosphere Version"
       };
 
-      ModalHelpers.renderModal(VersionInformationModal, props, function(){});
+      ModalHelpers.renderModal(VersionInformationModal, props, function () {
+      });
     }
 
   };

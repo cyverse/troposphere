@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -14,7 +13,7 @@ define(
         onClick: React.PropTypes.func
       },
 
-      renderImage: function(image){
+      renderImage: function (image) {
         return (
           <Image key={image.id} image={image} onClick={this.props.onClick}/>
         )

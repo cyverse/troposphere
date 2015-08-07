@@ -1,7 +1,7 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone');
+    Backbone = require('backbone');
 
   return React.createClass({
     display: "ChosenDropdownTag",
@@ -12,37 +12,37 @@ define(function (require) {
       propertyName: React.PropTypes.string
     },
 
-    getDefaultProps: function(){
+    getDefaultProps: function () {
       return {
         propertyName: "name"
       }
     },
 
-    getInitialState: function(){
+    getInitialState: function () {
       return {
         isMouseOver: false
       }
     },
 
-    onMouseEnter: function(){
+    onMouseEnter: function () {
       this.setState({isMouseOver: true})
     },
 
-    onMouseLeave: function(){
+    onMouseLeave: function () {
       this.setState({isMouseOver: false})
     },
 
-    onTagSelected: function(){
+    onTagSelected: function () {
       this.props.onTagSelected(this.props.tag);
     },
 
     render: function () {
       var tag = this.props.tag,
-          cx = React.addons.classSet,
-          classes = cx({
-            'active-result': true,
-            'highlighted': this.state.isMouseOver
-          });
+        cx = React.addons.classSet,
+        classes = cx({
+          'active-result': true,
+          'highlighted': this.state.isMouseOver
+        });
 
       return (
         <li className={classes}

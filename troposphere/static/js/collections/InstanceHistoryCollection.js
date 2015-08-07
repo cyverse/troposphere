@@ -2,8 +2,8 @@ define(function (require) {
   "use strict";
 
   var InstanceCollection = require('./InstanceCollection'),
-      InstanceHistory = require('models/InstanceHistory'),
-      globals = require('globals');
+    InstanceHistory = require('models/InstanceHistory'),
+    globals = require('globals');
 
   return InstanceCollection.extend({
     model: InstanceHistory,

@@ -2,30 +2,30 @@ define(function (require) {
   "use strict";
 
   var InstanceConstants = require('constants/InstanceConstants'),
-      InstanceState = require('models/InstanceState'),
-      stores = require('stores'),
-      Utils = require('../Utils'),
-      ProjectInstanceConstants = require('constants/ProjectInstanceConstants'),
-      globals = require('globals');
+    InstanceState = require('models/InstanceState'),
+    stores = require('stores'),
+    Utils = require('../Utils'),
+    ProjectInstanceConstants = require('constants/ProjectInstanceConstants'),
+    globals = require('globals');
 
   return {
 
-    destroy: function(payload, options){
-      if(!payload.project) throw new Error("Missing project");
-      if(!payload.instance) throw new Error("Missing instance");
+    destroy: function (payload, options) {
+      if (!payload.project) throw new Error("Missing project");
+      if (!payload.instance) throw new Error("Missing instance");
 
       var instance = payload.instance,
-          project = payload.project,
-          instanceState = new InstanceState({status_raw: "deleting"}),
-          originalState = instance.get('state'),
-          identity = instance.get('identity'),
-          provider = instance.get('provider'),
-          url = (
-            globals.API_ROOT +
-            "/provider/" + provider.uuid +
-            "/identity/" + identity.uuid +
-            "/instance/"   + instance.get('uuid')
-          );
+        project = payload.project,
+        instanceState = new InstanceState({status_raw: "deleting"}),
+        originalState = instance.get('state'),
+        identity = instance.get('identity'),
+        provider = instance.get('provider'),
+        url = (
+          globals.API_ROOT +
+          "/provider/" + provider.uuid +
+          "/identity/" + identity.uuid +
+          "/instance/" + instance.get('uuid')
+        );
 
       instance.set({state: instanceState});
       Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});

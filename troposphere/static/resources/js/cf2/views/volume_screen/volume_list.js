@@ -40,8 +40,8 @@ Atmo.Views.VolumeScreenDraggableVolumes = Backbone.View.extend({
     render: function() {
         //console.log("render volume screen volumes");
         this.$el.html(this.template());
-        this.$container = this.$el.find('#draggable_volume_list');    
-        
+        this.$container = this.$el.find('#draggable_volume_list');
+
         var self = this;
 
         var available_volumes = Atmo.volumes.get_available();
@@ -58,7 +58,7 @@ Atmo.Views.VolumeScreenDraggableVolumes = Backbone.View.extend({
             drop: function(event, ui) {
                 var volume = $(ui.draggable).data('volume');
                 var instance_id = volume.attributes.attach_data_instance_id;
-                var instance = Atmo.instances.get(instance_id)
+                var instance = Atmo.instances.get(instance_id);
                 Atmo.Utils.confirm_detach_volume(volume, instance, {
                     success: function() {
                         Atmo.volumes.fetch();

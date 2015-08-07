@@ -46,9 +46,9 @@ Atmo.Views.ResourceCharts = Backbone.View.extend({
                     quota_obj = total;
                     used = quota_obj['current']; //THIS IS A LIE!
                     total = quota_obj['threshold'];
-                    alloc_obj = new Object();
-                    alloc_obj.burn_time = quota_obj['burn'] //THIS IS ALSO A LIE! Damn.
-                    alloc_obj.delta_time = quota_obj['delta']
+                    alloc_obj = {};
+                    alloc_obj.burn_time = quota_obj['burn']; //THIS IS ALSO A LIE! Damn.
+                    alloc_obj.delta_time = quota_obj['delta'];
                     // Make chart with our data and return
                     //TODO: true will instead be -1, 0, 1 to denote direction
                     this.make_chart(used, total, true, alloc_obj);
@@ -84,7 +84,7 @@ Atmo.Views.ResourceCharts = Backbone.View.extend({
             // Make chart with our data
             this.make_chart(used, total, false);
         }
-        
+
         return this;
 
     },
@@ -338,8 +338,8 @@ Atmo.Views.ResourceCharts = Backbone.View.extend({
         if (quota.allocation !== null && quota.allocation !== undefined) {
             time_quota_left = quota.allocation.ttz,
             end_date = time_quota_left ? new Date(time_quota_left) : null;
-        } 
-        
+        }
+
         if (this.quota_type == 'cpu') {
             quota_title = "Processor Unit";
             quota_desc = "aproximation of CPU hours";
@@ -371,7 +371,7 @@ Atmo.Views.ResourceCharts = Backbone.View.extend({
         else if (this.quota_type == 'allocation') {
             quota_title = "Time";
             d = new Date();
-            d.setTime(d.getTime() - (time_obj.delta_time * 60 * 1000)) // ms to minutes
+            d.setTime(d.getTime() - (time_obj.delta_time * 60 * 1000)); // ms to minutes
             quota_desc = "total number of Atmosphere Units used since "+d.toString('MMMM dS, yyyy');
             quota_unit = "AU";
             this.$el.data('unit', 'AU');

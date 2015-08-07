@@ -2,8 +2,8 @@ define(function (require) {
   "use strict";
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      Router = require('react-router');
+    Backbone = require('backbone'),
+    Router = require('react-router');
 
   return React.createClass({
 
@@ -16,7 +16,7 @@ define(function (require) {
     render: function () {
       var volume = this.props.volume;
 
-      if(!volume.id) {
+      if (!volume.id) {
         return (
           <span>{volume.get('name')}</span>
         );

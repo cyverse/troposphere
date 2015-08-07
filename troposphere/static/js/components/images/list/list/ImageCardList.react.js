@@ -1,7 +1,7 @@
 define(function (require) {
 
   var React = require('react'),
-      ImageListCard = require('../common/ImageListCard.react');
+    ImageListCard = require('../common/ImageListCard.react');
 
   return React.createClass({
 
@@ -10,9 +10,9 @@ define(function (require) {
       images: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
 
-    renderTitle: function(){
+    renderTitle: function () {
       var title = this.props.title;
-      if(!title) return;
+      if (!title) return;
 
       return (
         <h3>{title}</h3>

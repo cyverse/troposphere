@@ -1,16 +1,16 @@
 define(function (require) {
 
   var React = require('react'),
-      Gravatar = require('components/common/Gravatar.react'),
-      Backbone = require('backbone'),
-      Bookmark = require('../../common/Bookmark.react'),
-      context = require('context'),
-      Tags = require('../../detail/tags/Tags.react'),
-      stores = require('stores'),
-      navigator = require('navigator'),
-      Showdown = require('showdown'),
-      moment = require('moment'),
-      Router = require('react-router');
+    Gravatar = require('components/common/Gravatar.react'),
+    Backbone = require('backbone'),
+    Bookmark = require('../../common/Bookmark.react'),
+    context = require('context'),
+    Tags = require('../../detail/tags/Tags.react'),
+    stores = require('stores'),
+    navigator = require('navigator'),
+    Showdown = require('showdown'),
+    moment = require('moment'),
+    Router = require('react-router');
 
   return React.createClass({
 
@@ -20,17 +20,17 @@ define(function (require) {
 
     render: function () {
       var image = this.props.image,
-          type = stores.ProfileStore.get().get('icon_set'),
-          imageTags = stores.TagStore.getImageTags(image),
-          imageCreationDate = moment(image.get('start_date')).format("MMM D, YYYY"),
-          converter = new Showdown.converter(),
-          description = image.get('description');
+        type = stores.ProfileStore.get().get('icon_set'),
+        imageTags = stores.TagStore.getImageTags(image),
+        imageCreationDate = moment(image.get('start_date')).format("MMM D, YYYY"),
+        converter = new Showdown.converter(),
+        description = image.get('description');
       if(!description) {
           description = "No Description Provided."
       }
       var descriptionHtml = converter.makeHtml(description),
-          iconSize = 67,
-          icon;
+        iconSize = 67,
+        icon;
 
       if(image.get('icon')) {
         icon = (
@@ -44,7 +44,7 @@ define(function (require) {
 
       // Hide bookmarking on the public page
       var bookmark;
-      if(context.profile){
+      if (context.profile) {
         bookmark = (
           <Bookmark image={image}/>
         );

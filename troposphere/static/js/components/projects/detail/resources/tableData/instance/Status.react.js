@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -21,11 +20,11 @@ define(
         var activity = instanceState.get('activity');
         var lightStatus = "transition";
 
-        if(status === "active" && !activity){
+        if (status === "active" && !activity) {
           lightStatus = "active";
-        }else if(status === "suspended" && !activity){
+        } else if (status === "suspended" && !activity) {
           lightStatus = "inactive";
-        }else if(status === "shutoff" && !activity){
+        } else if (status === "shutoff" && !activity) {
           lightStatus = "inactive";
         }
 
@@ -34,7 +33,7 @@ define(
         var style = {};
         var capitalizedStatus = rawStatus.charAt(0).toUpperCase() + rawStatus.slice(1);
 
-        if(instanceState.isDeployError()) {
+        if (instanceState.isDeployError()) {
           return (
             <span>
               <div>

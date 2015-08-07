@@ -141,6 +141,9 @@
     box-shadow: $breadcrumb-box-shadow;
     overflow: hidden;
     border-radius: 5px;
+  }
+  /*STEVE-TODO: if this needs to be used or was removed in master*/
+  .breadcrumb div {
     width: 100%;
   }
 

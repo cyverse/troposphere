@@ -1,11 +1,11 @@
 define(function (require) {
 
   var $ = require('jquery'),
-      _ = require('underscore'),
-      Store = require('stores/Store'),
-      ClientVersion = require('models/ClientVersion'),
-      ServerDeployVersion = require('models/ServerDeployVersion'),
-      ServerVersion = require('models/ServerVersion');
+    _ = require('underscore'),
+    Store = require('stores/Store'),
+    ClientVersion = require('models/ClientVersion'),
+    ServerDeployVersion = require('models/ServerDeployVersion'),
+    ServerVersion = require('models/ServerVersion');
 
   var _version;
   var _isFetching = false;
@@ -22,15 +22,15 @@ define(function (require) {
       var serverVersion = new ServerVersion();
 
       $.when(clientVersion.fetch(), serverVersion.fetch(), serverDeployVersion.fetch())
-        .done(function(client, server){
-        _isFetching = false;
-        _version = {
-          client: clientVersion,
-          deploy: serverDeployVersion,
-          server: serverVersion
-        };
-        VersionStore.emitChange();
-      })
+        .done(function (client, server) {
+          _isFetching = false;
+          _version = {
+            client: clientVersion,
+            deploy: serverDeployVersion,
+            server: serverVersion
+          };
+          VersionStore.emitChange();
+        })
     }
   };
 

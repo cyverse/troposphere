@@ -1,46 +1,39 @@
-/** @jsx React.DOM */
 
-define(
-  [
-    'react',
-    'backbone',
-    'jquery',
-    './tooltips/ResourceStatusTooltip.react',
-
-    // jquery plugins
-    'highcharts'
-
-  ],
-  function (React, Backbone, $, ResourceStatusTooltip, Highcharts) {
+define(function (require) {
+    var React = require("react"),
+        $ = require("jquery"),
+        Backbone = require("backbone"),
+        Highcharts = require("highcharts"),
+        ResourceStatusTooltip= require("./tooltips/ResourceStatusTooltip.react");
 
     return React.createClass({
+      getInitialState: function () {
+          return  {
+              chart: undefined
+          };
+      },
 
       propTypes: {
         title: React.PropTypes.string.isRequired,
         resources: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
-      componentDidMount: function(){
+      componentDidMount: function () {
         this.appendPlot({animation: false});
       },
 
-      componentDidUpdate: function(){
-        var el = this.getDOMNode();
-        var $el = $(el);
-        var chart = $el.highcharts();
-
+      componentDidUpdate: function () {
+        var chart = this.state.chart
         var newChartTitle = this.props.resources.length + " " + this.props.title;
-        chart.setTitle({text: newChartTitle});
-
         var data = this.getChartData();
-
+        chart.setTitle({text: newChartTitle});
         chart.series[0].update({
           data: data,
           animation: false
         });
       },
 
-      getChartData: function(){
+      getChartData: function () {
         var statusGroups = this.getStatusGroups();
         var categories = Object.keys(statusGroups);
 
@@ -55,7 +48,7 @@ define(
         return data;
       },
 
-      getStatusGroups: function(options){
+      getStatusGroups: function (options) {
         var statusGroups = {};
         this.props.resources.map(function (resource) {
           var status = resource.get('state').get('status_raw');
@@ -66,12 +59,12 @@ define(
         return statusGroups;
       },
 
-      appendPlot: function(options){
+      appendPlot: function (options) {
         var title = this.props.title;
         var data = this.getChartData();
 
         var formatterComponent = React.createClass({
-          render: function(){
+          render: function () {
 
             return (
               <div>
@@ -86,14 +79,13 @@ define(
 
         // Create the chart
         var el = this.getDOMNode();
-        var $el = $(el);
-        $el.highcharts({
+        var chart = Highcharts.createChart(el, {
           chart: {
             type: 'pie',
-            backgroundColor:'transparent',
+            backgroundColor: 'transparent',
             height: 200
           },
-          title:{
+          title: {
             text: this.props.resources.length + " " + this.props.title
           },
           plotOptions: {
@@ -116,7 +108,7 @@ define(
             }
           ],
           tooltip: {
-            formatter: function() {
+            formatter: function () {
               var formatterComponent = ResourceStatusTooltip({
                 resourceName: title,
                 status: this.key,
@@ -134,6 +126,7 @@ define(
             enabled: false
           }
         });
+        this.setState({chart: chart});
       },
 
       render: function () {

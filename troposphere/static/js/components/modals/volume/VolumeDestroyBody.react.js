@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -8,7 +7,7 @@ define(
   function (React, Glyphicon) {
 
     return {
-      build: function(volume){
+      build: function (volume) {
 
       }
     }

@@ -1,7 +1,7 @@
 define(function (require) {
 
   var React = require('react'),
-      Glyphicon = require('components/common/Glyphicon.react');
+    Glyphicon = require('components/common/Glyphicon.react');
 
   return React.createClass({
 

@@ -1,10 +1,10 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      ResourceDetail = require('components/projects/common/ResourceDetail.react'),
-      Router = require('react-router'),
-      stores = require('stores');
+    Backbone = require('backbone'),
+    ResourceDetail = require('components/projects/common/ResourceDetail.react'),
+    Router = require('react-router'),
+    stores = require('stores');
 
   return React.createClass({
 
@@ -14,9 +14,9 @@ define(function (require) {
 
     render: function () {
       var instance = this.props.instance,
-          image = stores.ImageStore.get(instance.get('image').id);
+        image = stores.ImageStore.get(instance.get('image').id);
 
-      if(!image){
+      if (!image) {
         return (
           <div className="loading-tiny-inline"></div>
         );

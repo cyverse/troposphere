@@ -47,7 +47,7 @@ define(
         return 'login'
       },
 
-      projects: function ( ) {
+      projects: function () {
         return 'projects';
       },
 
@@ -63,7 +63,7 @@ define(
         return generators.project(data.project) + '/volumes/' + data.volume.id;
       },
 
-      projectResources: function(data){
+      projectResources: function (data) {
         return generators.project(data.project) + '/resources';
       }
     };

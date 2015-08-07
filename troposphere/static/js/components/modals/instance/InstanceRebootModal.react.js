@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -16,7 +15,7 @@ define(
       // ------------------------
       //
 
-      cancel: function(){
+      cancel: function () {
         this.hide();
       },
 
@@ -30,7 +29,7 @@ define(
       // ------
       //
 
-      renderBody: function(){
+      renderBody: function () {
         return (
           <div>
             <p className='alert alert-warning'>
@@ -39,6 +38,7 @@ define(
               <strong>WARNING</strong>
               {" Rebooting an instance will cause it to temporarily shut down and become inaccessible during that time."}
             </p>
+
             <p>{"Would you like to reboot this instance?"}</p>
           </div>
         );

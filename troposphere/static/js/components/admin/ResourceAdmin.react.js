@@ -2,50 +2,56 @@ define(function (require) {
   "use strict";
 
   var React = require('react'),
-      Router = require('react-router'),
-      stores = require('stores'),
-      actions = require('actions'),
-      ResourceActions = require('actions/ResourceActions');
+    Router = require('react-router'),
+    stores = require('stores'),
+    actions = require('actions'),
+    ResourceActions = require('actions/ResourceActions');
 
   return React.createClass({
 
     mixins: [Router.State],
 
-    getInitialState: function() {
-      return{
+    getInitialState: function () {
+      return {
         response: ""
       };
     },
 
-    handleResponseChange: function(event) {
+    handleResponseChange: function (event) {
       var response = event.target.value;
-      if(response) this.setState({response: response});
+      if (response) this.setState({response: response});
     },
 
-    handleQuotaChange: function(event){
+    handleQuotaChange: function (event) {
       var quota = event.target.value;
-      if(quota) this.setState({quota: quota});
+      if (quota) this.setState({quota: quota});
     },
 
-    handleAllocationChange: function(event){
+    handleAllocationChange: function (event) {
       var allocation = event.target.value;
-      if(allocation) this.setState({allocation: allocation});
+      if (allocation) this.setState({allocation: allocation});
     },
 
-    handleResponseSubmission: function(e){
+    handleResponseSubmission: function (e) {
       e.preventDefault();
       var resourceRequest = stores.ResourceRequestStore.get(this.getParams().resourceRequestId),
-          quotaToSend = resourceRequest.get('current_quota'),
-          allocationToSend = resourceRequest.get('current_allocation'),
-          status = stores.QuotaStatusStore.findOne({name: "rejected"});
+        quotaToSend = resourceRequest.get('current_quota'),
+        allocationToSend = resourceRequest.get('current_allocation'),
+        status = stores.QuotaStatusStore.findOne({name: "rejected"});
 
-      if(e.target.innerHTML === 'Approve'){
-          quotaToSend = parseInt(this.state.quota) || parseInt(resourceRequest.get('current_quota'));
-          allocationToSend = parseInt(this.state.allocation) || parseInt(resourceRequest.get('current_allocation'));
-          status = stores.QuotaStatusStore.findOne({name: "approved"});
+      if (e.target.innerHTML === 'Approve') {
+        quotaToSend = parseInt(this.state.quota) || parseInt(resourceRequest.get('current_quota'));
+        allocationToSend = parseInt(this.state.allocation) || parseInt(resourceRequest.get('current_allocation'));
+        status = stores.QuotaStatusStore.findOne({name: "approved"});
       }
 
-      ResourceActions.update({request: resourceRequest, response: this.state.response, quota: quotaToSend, allocation: allocationToSend, status: status.id});
+      ResourceActions.update({
+        request: resourceRequest,
+        response: this.state.response,
+        quota: quotaToSend,
+        allocation: allocationToSend,
+        status: status.id
+      });
     },
 
     render: function () {
@@ -55,14 +61,14 @@ define(function (require) {
       var statuses = stores.QuotaStatusStore.getAll();
       var resourceRequest = stores.ResourceRequestStore.get(this.getParams().resourceRequestId);
 
-      if(!resourceRequest || !quotas || !allocations || !statuses) return <div className="loading" />;
+      if (!resourceRequest || !quotas || !allocations || !statuses) return <div className="loading"/>;
 
-      if(resourceRequest.get('current_quota') && resourceRequest.get('current_allocation')) {
+      if (resourceRequest.get('current_quota') && resourceRequest.get('current_allocation')) {
 
         var currentQuota = stores.QuotaStore.get(resourceRequest.get('current_quota')),
           currentAllocation = stores.AllocationStore.get(resourceRequest.get('current_allocation'));
 
-        if (!currentQuota || !currentAllocation) return <div className="loading" />;
+        if (!currentQuota || !currentAllocation) return <div className="loading"/>;
 
         var currentCPU = "  CPU: " + currentQuota.get('cpu'),
           currentMemory = "  Memory: " + currentQuota.get('memory'),
@@ -77,12 +83,12 @@ define(function (require) {
 
       }
 
-      else{
+      else {
         var currentQuotaString = 'N/A',
-            currentAllocationString = 'N/A';
+          currentAllocationString = 'N/A';
       }
 
-      return(
+      return (
         <div className="quota-detail">
           <div><strong>User:</strong> {resourceRequest.get('user').username}</div>
           <div><strong>Created by:</strong> {resourceRequest.get('created_by').username}</div>
@@ -93,8 +99,9 @@ define(function (require) {
           <div><strong>Current allocation:</strong>{currentAllocationString}</div>
           <div>
             <label>New quota:&nbsp;</label>
-            <select value={this.state.quota} onChange={this.handleQuotaChange} ref="selectedQuota">{quotas.map(function(quota){
-              return(
+            <select value={this.state.quota} onChange={this.handleQuotaChange}
+                    ref="selectedQuota">{quotas.map(function (quota) {
+              return (
                 <option value={quota.id} key={quota.id}>
                   CPU: {quota.get('cpu')}&nbsp;
                   Memory: {quota.get('memory')}&nbsp;
@@ -108,8 +115,9 @@ define(function (require) {
           </div>
           <div>
             <label>New allocation:&nbsp;</label>
-            <select value={this.state.allocation} onChange={this.handleAllocationChange} ref="selectedAllocation">{allocations.map(function(allocation){
-              return(
+            <select value={this.state.allocation} onChange={this.handleAllocationChange}
+                    ref="selectedAllocation">{allocations.map(function (allocation) {
+              return (
                 <option value={allocation.id} key={allocation.id}>
                   Threshold: {allocation.get('threshold')}&nbsp;
                   Delta: {allocation.get('delta')}&nbsp;
@@ -121,9 +129,11 @@ define(function (require) {
           <div className="form-group">
             <strong>Response:</strong>
             <br />
-            <textarea type="text" form="admin" value={this.state.value} cols="60" rows="8" onChange={this.handleResponseChange} />
+            <textarea type="text" form="admin" value={this.state.value} cols="60" rows="8"
+                      onChange={this.handleResponseChange}/>
           </div>
-          <button onClick={this.handleResponseSubmission} type="button" className="btn btn-default btn-sm">Approve</button>
+          <button onClick={this.handleResponseSubmission} type="button" className="btn btn-default btn-sm">Approve
+          </button>
           <button onClick={this.handleResponseSubmission} type="button" className="btn btn-default btn-sm">Deny</button>
         </div>
       );

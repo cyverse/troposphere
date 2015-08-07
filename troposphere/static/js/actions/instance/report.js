@@ -2,26 +2,26 @@ define(function (require) {
   "use strict";
 
   var stores = require('stores'),
-      globals = require('globals'),
-      Utils = require('../Utils');
+    globals = require('globals'),
+    Utils = require('../Utils');
 
   return {
 
-    report: function(params){
-      if(!params.instance) throw new Error("Missing instance");
-      if(!params.reportInfo) throw new Error("Missing reportInfo");
+    report: function (params) {
+      if (!params.instance) throw new Error("Missing instance");
+      if (!params.reportInfo) throw new Error("Missing reportInfo");
 
       var instance = params.instance,
-          reportInfo = params.reportInfo;
+        reportInfo = params.reportInfo;
 
       var profile = stores.ProfileStore.get(),
-          username = profile.get('username'),
-          reportUrl = globals.API_ROOT + "/email/support",
-          problemText = "",
-          reportData = {};
+        username = profile.get('username'),
+        reportUrl = globals.API_ROOT + "/email/support",
+        problemText = "",
+        reportData = {};
 
-      if(reportInfo.problems){
-        _.each(reportInfo.problems, function(problem){
+      if (reportInfo.problems) {
+        _.each(reportInfo.problems, function (problem) {
           problemText = problemText + "  -" + problem + "\n";
         })
       }
@@ -29,13 +29,13 @@ define(function (require) {
       reportData = {
         username: username,
         message: "Instance IP: " + instance.get('ip_address') + "\n" +
-                 "Instance ID: " + instance.id + "\n" +
-                 "Provider ID: " + instance.get('provider').id + "\n" +
-                 "\n" +
-                 "Problems" + "\n" +
-                 problemText + "\n" +
-                 "Details \n" +
-                 reportInfo.details + "\n",
+        "Instance ID: " + instance.id + "\n" +
+        "Provider ID: " + instance.get('provider').id + "\n" +
+        "\n" +
+        "Problems" + "\n" +
+        problemText + "\n" +
+        "Details \n" +
+        reportInfo.details + "\n",
         subject: "Atmosphere Instance Report from " + username
       };
 
@@ -48,7 +48,7 @@ define(function (require) {
         success: function () {
           Utils.displayInfo({
             message: "We're sorry to hear you're having trouble with your instance. Your report has " +
-                     "been sent to support and someone will contact you through email to help resolve your issue."
+            "been sent to support and someone will contact you through email to help resolve your issue."
           });
         },
         error: function (response, status, error) {

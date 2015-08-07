@@ -6,7 +6,7 @@ define(
   function (Backbone, globals) {
 
     return Backbone.Model.extend({
-      url: globals.API_ROOT + "/deploy_version"
+      url: globals.API_ROOT + "/version"
     });
 
   });

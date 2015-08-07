@@ -2,8 +2,13 @@ define(function (require) {
   "use strict";
 
   var Backbone = require('backbone'),
+<<<<<<< HEAD:troposphere/static/js/collections/ImageVersionCollection.js
       ImageVersion = require('models/ImageVersion'),
       globals = require('globals');
+=======
+    ApplicationVersion = require('models/ApplicationVersion'),
+    globals = require('globals');
+>>>>>>> master:troposphere/static/js/collections/ApplicationVersionCollection.js
 
   return Backbone.Collection.extend({
     model: ImageVersion,

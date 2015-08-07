@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -16,9 +15,9 @@ define(
 
       render: function () {
         var instance = this.props.instance,
-            size = stores.SizeStore.get(instance.get('size').id);
+          size = stores.SizeStore.get(instance.get('size').id);
 
-        if(!size){
+        if (!size) {
           return (
             <div className="loading-tiny-inline"></div>
           );

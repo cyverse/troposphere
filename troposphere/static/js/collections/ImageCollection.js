@@ -2,8 +2,8 @@ define(function (require) {
   "use strict";
 
   var Backbone = require('backbone'),
-      Image = require('models/Image'),
-      globals = require('globals');
+    Image = require('models/Image'),
+    globals = require('globals');
 
   return Backbone.Collection.extend({
     model: Image,

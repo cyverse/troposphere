@@ -1,15 +1,14 @@
-/** @jsx React.DOM */
 
 define(function (require) {
 
     var React = require('react'),
-        Backbone = require('backbone'),
-        _ = require('underscore'),
-        ImageCollection = require('collections/ImageCollection'),
-        ImageList = require('../components/ImageList.react'),
-        stores = require('stores');
+      Backbone = require('backbone'),
+      _ = require('underscore'),
+      ImageCollection = require('collections/ImageCollection'),
+      ImageList = require('../components/ImageList.react'),
+      stores = require('stores');
     var timer,
-        timerDelay = 100;
+      timerDelay = 100;
 
     return React.createClass({
 
@@ -149,80 +148,80 @@ define(function (require) {
                             "margin": "15px auto",
                             "display": "block"
                         }} className="btn btn-default" onClick={this.handleLoadMoreImages}>
-                            Show more images...
-                        </button>
-                    </li>
-                )
-            }
-        },
-        focusSearchInput: function() {
-            this.refs.searchField.getDOMNode().focus();
-        },
-        renderSearchInput: function () {
-            return (
-              <input
-                ref="searchField"
-                type="text"
-                placeholder="Search across image name, tag or description"
-                className="form-control search-input"
-                onChange={this.handleChange}
-                onKeyUp={this.handleKeyUp}
-              />
-            );
-        },
-        renderImages: function (query, images) {
-            var imageCount = images.models.length;
+              Show more images...
+            </button>
+          </li>
+        )
+      }
+    },
+    focusSearchInput: function () {
+      this.refs.searchField.getDOMNode().focus();
+    },
+    renderSearchInput: function () {
+      return (
+        <input
+          ref="searchField"
+          type="text"
+          placeholder="Search across image name, tag or description"
+          className="form-control search-input"
+          onChange={this.handleChange}
+          onKeyUp={this.handleKeyUp}
+          />
+      );
+    },
+    renderImages: function (query, images) {
+      var imageCount = images.models.length;
 
-            return (
-                <div>
-                    {this.renderSearchInput()}
-                    {this.renderFilterDescription(query)}
-                    <ImageList images={images} onClick={this.showImageDetails}>
-                    {this.renderMoreImagesButton(images, imageCount)}
-                    </ImageList>
-                </div>
-            );
-        },
-        renderZeroImages: function (query) {
-            return (
-                <div>
-                    {this.renderSearchInput()}
-                    {this.renderNoResultsFor(query)}
-                </div>
-            );
-        },
-        renderLoadingImages: function (query) {
-            return (
-                <div>
-                    {this.renderSearchInput()}
-                    {this.renderFilterDescription(query)}
-                    <div className="loading"/>
-                </div>
-            );
-        },
-        renderBody: function () {
-            var images = this.state.images,
-                tags = this.state.tags,
-                query = this.state.query,
-                numberOfResults,
-                totalNumberOfImages;
+      return (
+        <div>
+          {this.renderSearchInput()}
+          {this.renderFilterDescription(query)}
+          <ImageList images={images} onClick={this.showImageDetails}>
+            {this.renderMoreImagesButton(images, imageCount)}
+          </ImageList>
+        </div>
+      );
+    },
+    renderZeroImages: function (query) {
+      return (
+        <div>
+          {this.renderSearchInput()}
+          {this.renderNoResultsFor(query)}
+        </div>
+      );
+    },
+    renderLoadingImages: function (query) {
+      return (
+        <div>
+          {this.renderSearchInput()}
+          {this.renderFilterDescription(query)}
+          <div className="loading"/>
+        </div>
+      );
+    },
+    renderBody: function () {
+      var images = this.state.images,
+        tags = this.state.tags,
+        query = this.state.query,
+        numberOfResults,
+        totalNumberOfImages;
 
-            if (images && tags) {
-                numberOfResults = this.state.page * this.state.resultsPerPage;
+      if (images && tags) {
+        numberOfResults = this.state.page * this.state.resultsPerPage;
 
-                images = images.first(numberOfResults);
-                images = new ImageCollection(images);
+        images = images.first(numberOfResults);
+        images = new ImageCollection(images);
 
-                if (images.length > 0) {
-                    return this.renderImages(query, images);
-                } else {
-                    return this.renderZeroImages(query);
-                }
-            }
-            return this.renderLoadingImages(query);
-        },
-        render: function() {
-                  return (
+        if (images.length > 0) {
+          return this.renderImages(query, images);
+        } else {
+          return this.renderZeroImages(query);
+        }
+      }
+      return this.renderLoadingImages(query);
+    },
+    render: function () {
+      return (
         <div>
           <div className="modal-section">
             {this.renderBody()}
@@ -236,8 +235,8 @@ define(function (require) {
         </div>
       );
 
-        }
+    }
 
-    });
+  });
 
 });

@@ -1,28 +1,28 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      Router = require('Router');
+    Backbone = require('backbone'),
+    Router = require('Router');
 
   var timer,
-      timerDelay = 100;
+    timerDelay = 100;
 
   var ReactInput = React.createClass({
-    componentDidMount: function() {
+    componentDidMount: function () {
       this.refs.textField.getDOMNode().value = this.props.value;
     },
-    componentDidUpdate: function() {
+    componentDidUpdate: function () {
       this.refs.textField.getDOMNode().value = this.props.value;
     },
     render: function () {
       return (
-          <input type='text'
-                 className='form-control search-input'
-                 placeholder='Search across image name, tag or description'
-                 onChange={this.props.onChange}
-                 value={this.props.value}
-                 onKeyUp={this.props.onKeyUp}
-                ref="textField"
+        <input type='text'
+               className='form-control search-input'
+               placeholder='Search across image name, tag or description'
+               onChange={this.props.onChange}
+               value={this.props.value}
+               onKeyUp={this.props.onKeyUp}
+               ref="textField"
           />
       );
     }
@@ -43,7 +43,7 @@ define(function (require) {
       }
     },
 
-    componentDidMount: function(){
+    componentDidMount: function () {
       Backbone.$(this.getDOMNode()).find("input").focus();
     },
 
@@ -51,12 +51,12 @@ define(function (require) {
       var queryUrl;
 
       if (timer) clearTimeout(timer);
-      timer = setTimeout(function(){
+      timer = setTimeout(function () {
         query = this.state.query;
-        if(query) {
+        if (query) {
           queryUrl = "images/search/" + encodeURIComponent(query);
           Backbone.history.navigate(queryUrl, {trigger: true});
-        }else{
+        } else {
           Router.getInstance().transitionTo("images", {projectId: project.id});
         }
       }.bind(this), timerDelay);
@@ -69,7 +69,7 @@ define(function (require) {
     handleKeyUp: function (e) {
       //if (e.keyCode == 13 && this.state.query.length) {
       //if (this.state.query.length) {
-        this.handleSearch(this.state.query);
+      this.handleSearch(this.state.query);
       //}
     },
 
@@ -80,7 +80,7 @@ define(function (require) {
           <ReactInput value={this.state.query}
                       onChange={this.handleChange}
                       onKeyUp={this.handleKeyUp}
-          />
+            />
           <hr/>
         </div>
       );

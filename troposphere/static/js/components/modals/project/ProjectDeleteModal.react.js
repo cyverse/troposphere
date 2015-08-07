@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -15,7 +14,7 @@ define(
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
-      isSubmittable: function(){
+      isSubmittable: function () {
         return true;
       },
 
@@ -24,7 +23,7 @@ define(
       // ------------------------
       //
 
-      cancel: function(){
+      cancel: function () {
         this.hide();
       },
 
@@ -38,7 +37,7 @@ define(
       // ------
       //
 
-      renderBody: function(){
+      renderBody: function () {
         var project = this.props.project;
         return (
           <p>
@@ -66,7 +65,8 @@ define(
                   <button type="button" className="btn btn-danger" onClick={this.cancel}>
                     Cancel
                   </button>
-                  <button type="button" className="btn btn-primary" onClick={this.confirm} disabled={!this.isSubmittable()}>
+                  <button type="button" className="btn btn-primary" onClick={this.confirm}
+                          disabled={!this.isSubmittable()}>
                     Yes, delete the project
                   </button>
                 </div>

@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -16,22 +15,22 @@ define(
         useRouter: React.PropTypes.bool,
         onProjectClicked: React.PropTypes.func
       },
-      projectClicked: function(project){
-          return this.props.onProjectClicked(project);
+      projectClicked: function (project) {
+        return this.props.onProjectClicked(project);
       },
       render: function () {
         var self = this,
-            projects = this.props.projects.map(function (project) {
-                var className = "col-md-4 col-sm-6 list-group-item";
-                if(this.props.selectedProject && this.props.selectedProject == project) {
-                    className = className + " active";
-                } else {
-                    ;
-                }
-          return (
-            <Project key={project.id || project.cid} project={project} projects={this.props.projects} onClick={self.projectClicked} useRouter={this.props.useRouter} className={className}/>
-          );
-        }.bind(this));
+          projects = this.props.projects.map(function (project) {
+            var className = "col-md-4 col-sm-6 list-group-item";
+            if (this.props.selectedProject && this.props.selectedProject == project) {
+              className = className + " active";
+            } else {
+            }
+            return (
+              <Project key={project.id || project.cid} project={project} projects={this.props.projects}
+                       onClick={self.projectClicked} useRouter={this.props.useRouter} className={className}/>
+            );
+          }.bind(this));
 
         return (
           <ul className="list-group row">

@@ -1,22 +1,19 @@
 .DEFAULT_GOAL =	all
 
-.PHONY =	all clean delete delete-javascript delete-virtualenv bower-install gulp-dev gulp-prod \
-		javascript js npm pip prod production python virtualenv chown
+.PHONY =	all clean delete delete-javascript delete-virtualenv webpack-dev webpack-prod \
+		javascript js cf2 npm pip prod production python virtualenv chown
 
 DJANGO	=	DJANGO_SETTINGS_MODULE='troposphere.settings' ./manage.py
-BOWER	=	$(NODE) ./node_modules/bower/bin/bower --allow-root
-GULP	=	$(NODE) ./node_modules/gulp/bin/gulp.js
-NPM	=	npm
+WEBPACK =	$(NPM) run build
+NPM	    =	npm
 NODE	=	node
 SHELL	=	/bin/bash
 
-jenkins : npm bower-install gulp-dev relativevirtual jenkinspip django jenkinschown
+jenkins : npm webpack-dev cf2 relativevirtual jenkinspip django jenkinschown
 
-all : npm bower-install gulp-dev virtualenv pip django chown
+all : npm webpack-dev cf2 virtualenv pip django chown
 
 clean :
-	$(GULP) clean
-	$(BOWER) prune
 	./scripts/rm_all_pyc.sh
 
 delete : delete-javascript delete-virtualenv
@@ -24,23 +21,22 @@ delete : delete-javascript delete-virtualenv
 delete-javascript :
 	rm -rf ./node_modules/
 	rm -rf ./troposphere/assets/
-	rm -rf troposphere/static/bower_components/
 
 delete-virtualenv :
 	rm -rf /opt/env/troposphere/
 
-bower-install : .bowerrc bower.json
-	$(BOWER) install --config.interactive=false
+webpack-dev : npm
+	$(WEBPACK)
 
-gulp-dev : npm bower-install
-	$(GULP)
+webpack-prod : npm
+	$(WEBPACK) --production
 
-gulp-prod : npm bower-install
-	$(GULP) prod
-
-javascript : npm bower-install gulp-dev
+javascript : webpack-dev cf2
 
 js : javascript
+
+cf2 :
+	cp -r ./troposphere/static/resources ./troposphere/assets/
 
 npm : package.json
 	$(NPM) install
@@ -48,9 +44,9 @@ npm : package.json
 pip : virtualenv
 	source /opt/env/troposphere/bin/activate;pip install -r requirements.txt
 
-prod : gulp-prod
+prod : webpack-prod cf2
 
-production : gulp-prod
+production : webpack-prod cf2
 
 python : virtualenv pip
 

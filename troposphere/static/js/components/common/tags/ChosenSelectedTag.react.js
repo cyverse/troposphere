@@ -1,7 +1,7 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone');
+    Backbone = require('backbone');
 
   return React.createClass({
     display: "ChosenDropdownTag",
@@ -12,13 +12,13 @@ define(function (require) {
       propertyName: React.PropTypes.string
     },
 
-    getDefaultProps: function(){
+    getDefaultProps: function () {
       return {
         propertyName: "name"
       }
     },
 
-    onRemoveTag: function(){
+    onRemoveTag: function () {
       this.props.onRemoveTag(this.props.tag);
     },
 

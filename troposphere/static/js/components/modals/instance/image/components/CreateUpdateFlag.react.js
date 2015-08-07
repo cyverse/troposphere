@@ -10,12 +10,12 @@ define(function (require) {
       value: React.PropTypes.bool.isRequired,
     },
 
-    handleChange: function(e){
+    handleChange: function (e) {
       this.props.onChange(e.target.checked)
     },
 
-    renderNameLabel: function() {
-     return "Create or Update"
+    renderNameLabel: function () {
+      return "Create or Update"
     },
     renderHelpText: function() {
       return "Checking 'New Image' will create a brand new image."
@@ -25,6 +25,7 @@ define(function (require) {
       return (
         <div className="form-group">
           <label htmlFor="update" className="control-label">{this.renderNameLabel()}</label>
+
           <div className="help-block">{this.renderHelpText()}</div>
           <div className="form-group">
             <div className="checkbox">

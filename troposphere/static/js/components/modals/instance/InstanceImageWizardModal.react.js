@@ -1,17 +1,17 @@
 define(function (require) {
 
   var React = require('react'),
-      _ = require('underscore'),
-      BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
-      stores = require('stores'),
-      ImageInfoStep = require('./image/steps/ImageInfoStep.react'),
-      VersionInfoStep = require('./image/steps/VersionInfoStep.react'),
-      ProviderStep = require('./image/steps/ProviderStep.react'),
-      VisibilityStep = require('./image/steps/VisibilityStep.react'),
-      FilesToExcludeStep = require('./image/steps/FilesToExcludeStep.react'),
-      BootScriptsStep = require('./image/steps/BootScriptsStep.react'),
-      LicensingStep = require('./image/steps/LicensingStep.react'),
-      ReviewStep = require('./image/steps/ReviewStep.react');
+    _ = require('underscore'),
+    BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
+    stores = require('stores'),
+    ImageInfoStep = require('./image/steps/ImageInfoStep.react'),
+    VersionInfoStep = require('./image/steps/VersionInfoStep.react'),
+    ProviderStep = require('./image/steps/ProviderStep.react'),
+    VisibilityStep = require('./image/steps/VisibilityStep.react'),
+    FilesToExcludeStep = require('./image/steps/FilesToExcludeStep.react'),
+    BootScriptsStep = require('./image/steps/BootScriptsStep.react'),
+    LicensingStep = require('./image/steps/LicensingStep.react'),
+    ReviewStep = require('./image/steps/ReviewStep.react');
 
   var IMAGE_INFO_STEP = 1,
       VERSION_INFO_STEP = 2,
@@ -37,7 +37,7 @@ define(function (require) {
     // ----------------
     //
 
-    getInitialState: function(){
+    getInitialState: function () {
       return {
         step: 1,
         name: this.props.instance.get('image').name,
@@ -54,7 +54,7 @@ define(function (require) {
       };
     },
 
-    getState: function() {
+    getState: function () {
       return this.state;
     },
 
@@ -67,7 +67,7 @@ define(function (require) {
       stores.UserStore.addChangeListener(this.updateState);
     },
 
-    componentWillUnmount: function() {
+    componentWillUnmount: function () {
       stores.InstanceTagStore.removeChangeListener(this.updateState);
       stores.UserStore.removeChangeListener(this.updateState);
     },
@@ -77,7 +77,7 @@ define(function (require) {
     // ------------------------
     //
 
-    cancel: function(){
+    cancel: function () {
       this.hide();
     },
 
@@ -118,17 +118,17 @@ define(function (require) {
     // Navigation Callbacks
     //
 
-    onPrevious: function(data){
+    onPrevious: function (data) {
       var previousStep = this.state.step - 1,
-          data = data || {},
-          state = _.extend({step: previousStep}, data);
+        data = data || {},
+        state = _.extend({step: previousStep}, data);
       this.setState(state);
     },
 
-    onNext: function(data){
+    onNext: function (data) {
       var nextStep = this.state.step + 1,
-          data = data || {},
-          state = _.extend({step: nextStep}, data);
+        data = data || {},
+        state = _.extend({step: nextStep}, data);
       this.setState(state);
     },
 
@@ -137,7 +137,7 @@ define(function (require) {
     // ------
     //
 
-    renderBody: function(){
+    renderBody: function () {
       var instance = this.props.instance,
           step = this.state.step,
           allLicenses = stores.LicenseStore.getAll(),
@@ -177,7 +177,7 @@ define(function (require) {
               providerId={this.state.providerId}
               onPrevious={this.onPrevious}
               onNext={this.onNext}
-            />
+              />
           );
 
         case VISIBILITY_STEP:
@@ -189,7 +189,7 @@ define(function (require) {
               onPrevious={this.onPrevious}
               onNext={this.onNext}
               onSubmit={this.onReviewImage}
-            />
+              />
           );
 
         case EXCLUDE_FILES_STEP:
@@ -229,7 +229,7 @@ define(function (require) {
               imageData={this.state}
               onPrevious={this.onPrevious}
               onNext={this.onRequestImage}
-            />
+              />
           );
       }
     },

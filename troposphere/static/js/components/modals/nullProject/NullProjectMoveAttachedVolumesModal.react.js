@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -15,7 +14,7 @@ define(
       // ------------------------
       //
 
-      cancel: function(){
+      cancel: function () {
         this.hide();
       },
 
@@ -29,14 +28,14 @@ define(
       // --------------
       //
 
-      renderMovedVolume: function(movedVolumeData){
+      renderMovedVolume: function (movedVolumeData) {
         var volume = movedVolumeData.volume;
         var instance = movedVolumeData.instance;
         var oldProject = movedVolumeData.oldProject;
         var newProject = movedVolumeData.newProject;
         var message;
 
-        if(oldProject){
+        if (oldProject) {
           message = (
             <div>
               <span>{"Moved the volume "}</span>
@@ -47,7 +46,7 @@ define(
               <strong>{newProject.get('name')}</strong>
             </div>
           );
-        }else{
+        } else {
           message = (
             <div>
               <span>{"Moved the volume "}</span>
@@ -68,7 +67,7 @@ define(
       // ------
       //
 
-      renderBody: function(){
+      renderBody: function () {
         return (
           <div role='form'>
             <div className='form-group'>
@@ -80,6 +79,7 @@ define(
                   "worries though!  We've detected the problem and fixed it for you."
                 }
               </p>
+
               <p>{"Here are a list of the changes we've made for you:"}</p>
               <ul>
                 {this.props.movedVolumesArray.map(this.renderMovedVolume)}

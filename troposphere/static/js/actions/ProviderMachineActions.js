@@ -2,20 +2,20 @@
 define(function (require) {
 
   var AppDispatcher = require('dispatchers/AppDispatcher'),
-      Utils = require('./Utils'),
-      NotificationController = require('controllers/NotificationController'),
+    Utils = require('./Utils'),
+    NotificationController = require('controllers/NotificationController'),
 
-      // Constants
-      ProviderMachineConstants = require('constants/ProviderMachineConstants'),
+  // Constants
+    ProviderMachineConstants = require('constants/ProviderMachineConstants'),
 
-      // Stores
-      stores = require('stores'),
+  // Stores
+  stores = require('stores'),
 
-      // Models
-      ProviderMachine = require('models/ProviderMachine'),
+  // Models
+  ProviderMachine = require('models/ProviderMachine'),
 
-      // Modals
-      ModalHelpers = require('components/modals/ModalHelpers');
+  // Modals
+    ModalHelpers = require('components/modals/ModalHelpers');
 
   return {
 

@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -10,7 +9,7 @@ define(
     var createFileSystemDocumentationUrl = "https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachinganEBSVolumetoanInstance-Step5%3ACreatethefilesystem%28onetimeonly%29.";
 
     return {
-      success: function(){
+      success: function () {
 
         var message = (
           <div>
@@ -31,7 +30,7 @@ define(
         return React.renderToString(message);
       },
 
-      error: function(){
+      error: function () {
         var message = (
           <div>
             {"If this problem persists, contact support at "}
@@ -44,7 +43,7 @@ define(
         return React.renderComponentToString(message);
       },
 
-      attachError: function(volume, instance){
+      attachError: function (volume, instance) {
         var volumeName = volume.get('name');
         var instanceName = instance.get('name');
 

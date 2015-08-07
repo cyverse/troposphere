@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -14,7 +13,7 @@ define(
         breadcrumbs: React.PropTypes.array.isRequired
       },
 
-      onReturnToPreviousPage: function(e){
+      onReturnToPreviousPage: function (e) {
         e.preventDefault();
         Backbone.history.history.back();
       },
@@ -30,19 +29,20 @@ define(
 //          ))
 //        }
 
-        var breadcrumbs = this.props.breadcrumbs.map(function(breadcrumb, index, array){
+        var breadcrumbs = this.props.breadcrumbs.map(function (breadcrumb, index, array) {
           var isCurrentLocation = (array.length - 1) === index ? true : false;
           return (
             <Breadcrumb key={breadcrumb.name}
                         breadcrumb={breadcrumb}
                         isCurrentLocation={isCurrentLocation}
-            />
+              />
           )
         });
 
         return (
           <div className="button-bar" style={{padding: "17px 0px"}}>
-            <a className="nav-back btn btn-default" style={{"padding":"3px 10px 5px 11px !important"}} onClick={this.onReturnToPreviousPage}>
+            <a className="nav-back btn btn-default" style={{"padding":"3px 10px 5px 11px !important"}}
+               onClick={this.onReturnToPreviousPage}>
               <span className="glyphicon glyphicon-arrow-left" style={{"fontSize":"11px"}}></span>
             </a>
             {breadcrumbs}

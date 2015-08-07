@@ -1,15 +1,15 @@
 define(function (require) {
 
   var React = require('react'),
-      Gravatar = require('components/common/Gravatar.react'),
-      Backbone = require('backbone'),
-      Bookmark = require('../../common/Bookmark.react'),
-      context = require('context'),
-      Tags = require('../../detail/tags/Tags.react'),
-      stores = require('stores'),
-      ImageCardDescription = require('./ImageCardDescription.react'),
-      moment = require('moment'),
-      Router = require('react-router');
+    Gravatar = require('components/common/Gravatar.react'),
+    Backbone = require('backbone'),
+    Bookmark = require('../../common/Bookmark.react'),
+    context = require('context'),
+    Tags = require('../../detail/tags/Tags.react'),
+    stores = require('stores'),
+    ImageCardDescription = require('./ImageCardDescription.react'),
+    moment = require('moment'),
+    Router = require('react-router');
 
   return React.createClass({
 
@@ -20,11 +20,11 @@ define(function (require) {
 
     render: function () {
       var image = this.props.image,
-          type = stores.ProfileStore.get().get('icon_set'),
-          imageTags = stores.TagStore.getImageTags(image),
-          imageCreationDate = moment(image.get('start_date')).format("MMM D, YYYY"),
-          iconSize = 145,
-          icon;
+        type = stores.ProfileStore.get().get('icon_set'),
+        imageTags = stores.TagStore.getImageTags(image),
+        imageCreationDate = moment(image.get('start_date')).format("MMM D, YYYY"),
+        iconSize = 145,
+        icon;
 
       if (image.get('icon')) {
         icon = (
@@ -38,7 +38,7 @@ define(function (require) {
 
       // Hide bookmarking on the public page
       var bookmark;
-      if(context.profile){
+      if (context.profile) {
         bookmark = (
           <Bookmark image={image}/>
         );
@@ -62,7 +62,7 @@ define(function (require) {
           {bookmark}
           <Tags activeTags={imageTags}
                 tags={this.props.tags}
-          />
+            />
           <ImageCardDescription image={image}/>
         </div>
       );

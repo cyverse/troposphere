@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -17,8 +16,8 @@ define(
         };
       },
 
-      isSubmittable: function(){
-        var hasName        = !!this.state.projectName;
+      isSubmittable: function () {
+        var hasName = !!this.state.projectName;
         var hasDescription = !!this.state.projectDescription;
         return hasName && hasDescription;
       },
@@ -28,7 +27,7 @@ define(
       // ------------------------
       //
 
-      cancel: function(){
+      cancel: function () {
         this.hide();
       },
 
@@ -58,7 +57,7 @@ define(
       // ------
       //
 
-      renderBody: function(){
+      renderBody: function () {
         return (
           <div role='form'>
 
@@ -74,7 +73,7 @@ define(
                         rows="7"
                         value={this.state.projectDescription}
                         onChange={this.onDescriptionChange}
-              />
+                />
             </div>
           </div>
         );
@@ -97,7 +96,8 @@ define(
                   <button type="button" className="btn btn-danger" onClick={this.cancel}>
                     Cancel
                   </button>
-                  <button type="button" className="btn btn-primary" onClick={this.confirm} disabled={!this.isSubmittable()}>
+                  <button type="button" className="btn btn-primary" onClick={this.confirm}
+                          disabled={!this.isSubmittable()}>
                     Create
                   </button>
                 </div>

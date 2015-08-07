@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -15,7 +14,7 @@ define(
       // ------------------------
       //
 
-      cancel: function(){
+      cancel: function () {
         this.hide();
       },
 
@@ -29,11 +28,13 @@ define(
       // ------
       //
 
-      renderBody: function(){
+      renderBody: function () {
         return (
           <div>
             <p>{"Would you like to stop this instance?"}</p>
-            <p><strong>NOTE:</strong> This will NOT affect your resources. To preserve resources and time allocation you must suspend your instance.</p>
+
+            <p><strong>NOTE:</strong> This will NOT affect your resources. To preserve resources and time allocation you
+              must suspend your instance.</p>
           </div>
         );
       },

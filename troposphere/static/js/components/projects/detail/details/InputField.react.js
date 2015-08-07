@@ -1,7 +1,7 @@
 define(function (require) {
 
   var React = require('react'),
-      EditableInputField = require('components/common/EditableInputField.react');
+    EditableInputField = require('components/common/EditableInputField.react');
 
   return React.createClass({
 
@@ -11,14 +11,14 @@ define(function (require) {
       onTitleChanged: React.PropTypes.func
     },
 
-    getInitialState: function(){
+    getInitialState: function () {
       return {
         isEditing: false,
         title: this.props.title
       }
     },
 
-    onDoneEditing: function(text){
+    onDoneEditing: function (text) {
       this.setState({
         title: text,
         isEditing: false
@@ -26,18 +26,18 @@ define(function (require) {
       this.props.onTitleChanged(text);
     },
 
-    onEnterEditMode: function(e){
+    onEnterEditMode: function (e) {
       this.setState({isEditing: true});
     },
 
     render: function () {
 
       var titleContent;
-      if(this.props.title) {
+      if (this.props.title) {
         if (this.props.canEditTitle && this.state.isEditing) {
           titleContent = (
             <EditableInputField text={this.state.title} onDoneEditing={this.onDoneEditing}/>
-            );
+          );
         } else {
           titleContent = (
             <p onClick={this.onEnterEditMode}>
@@ -46,12 +46,12 @@ define(function (require) {
             </p>
           );
         }
-      }else{
+      } else {
         titleContent = null;
       }
 
       var titleClassName = "project-property col-md-9";
-      if(this.props.canEditTitle) titleClassName += " editable";
+      if (this.props.canEditTitle) titleClassName += " editable";
 
       return (
         <div className={titleClassName}>

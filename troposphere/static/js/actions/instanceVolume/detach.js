@@ -2,25 +2,25 @@ define(function (require) {
   "use strict";
 
   var VolumeConstants = require('constants/VolumeConstants'),
-      VolumeState = require('models/VolumeState'),
-      InstanceVolumeActionRequest = require('models/InstanceVolumeActionRequest'),
-      Utils = require('../Utils'),
-      stores = require('stores');
+    VolumeState = require('models/VolumeState'),
+    InstanceVolumeActionRequest = require('models/InstanceVolumeActionRequest'),
+    Utils = require('../Utils'),
+    stores = require('stores');
 
   return {
 
     detach: function (params) {
-      if(!params.volume) throw new Error("Missing volume");
+      if (!params.volume) throw new Error("Missing volume");
 
       var volume = params.volume,
-          volumeState = new VolumeState({status_raw: "detaching"}),
-          originalState = volume.get('state'),
-          instanceUUID = volume.get('attach_data').instance_id,
-          instance = stores.InstanceStore.getAll().findWhere({uuid: instanceUUID}),
-          actionRequest = new InstanceVolumeActionRequest({
-            instance: instance,
-            volume: volume
-          });
+        volumeState = new VolumeState({status_raw: "detaching"}),
+        originalState = volume.get('state'),
+        instanceUUID = volume.get('attach_data').instance_id,
+        instance = stores.InstanceStore.getAll().findWhere({uuid: instanceUUID}),
+        actionRequest = new InstanceVolumeActionRequest({
+          instance: instance,
+          volume: volume
+        });
 
       volume.set({state: volumeState});
       Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
@@ -30,7 +30,7 @@ define(function (require) {
           action: "detach_volume",
           volume_id: volume.get('uuid')
         }
-      }).done(function(){
+      }).done(function () {
         // todo: volume detach happens quickly once the cloud gets the request. The problem is that
         // at this moment, all that's happened is that the *request* to detach has been received. If
         // we tell the user the volume was detached, we're lying - it hasn't been.
@@ -42,7 +42,7 @@ define(function (require) {
         volume.set('state', volumeState);
         Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
         Utils.dispatch(VolumeConstants.POLL_VOLUME_WITH_DELAY, {volume: volume});
-      }).fail(function(response){
+      }).fail(function (response) {
         Utils.displayError({title: "Volume could not be detached", response: response});
         Utils.dispatch(VolumeConstants.POLL_VOLUME, {volume: volume});
       });

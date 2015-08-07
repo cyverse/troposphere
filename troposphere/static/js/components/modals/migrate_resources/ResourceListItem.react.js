@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -18,21 +17,21 @@ define(
       render: function () {
         var resource = this.props.resource;
 
-        if(resource instanceof Instance){
+        if (resource instanceof Instance) {
           return (
             <li>
               <strong>{"Instance: "}</strong>
               {resource.get('name')}
             </li>
           )
-        }else if(resource instanceof Volume){
+        } else if (resource instanceof Volume) {
           return (
             <li>
               <strong>{"Volume: "}</strong>
               {resource.get('name')}
             </li>
           )
-        }else{
+        } else {
           return (
             <li>{resource.get('name')}</li>
           )

@@ -1,9 +1,9 @@
 define(function (require) {
 
   var React = require('react'),
-      Backbone = require('backbone'),
-      ViewTags = require('components/common/tags/ViewTags.react'),
-      stores = require('stores');
+    Backbone = require('backbone'),
+    ViewTags = require('components/common/tags/ViewTags.react'),
+    stores = require('stores');
 
   return React.createClass({
 
@@ -13,7 +13,7 @@ define(function (require) {
       renderLinks: React.PropTypes.bool
     },
 
-    getDefaultProps: function() {
+    getDefaultProps: function () {
       return {
         renderLinks: true
       }

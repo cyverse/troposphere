@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 define(
   [
@@ -16,7 +15,7 @@ define(
       },
 
       render: function () {
-        var tags = this.props.activeTags.map(function(tag) {
+        var tags = this.props.activeTags.map(function (tag) {
           return (
             <Tag key={tag.id || tag.cid} tag={tag}/>
           );
