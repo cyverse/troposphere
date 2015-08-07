@@ -15,6 +15,10 @@ define(function (require) {
     },
 
     renderProviderOption: function(provider){
+      if(! provider.get('public')) {
+        return;
+      }
+      
       return (
         <option key={provider.id} value={provider.id}>
           {provider.get('name')}

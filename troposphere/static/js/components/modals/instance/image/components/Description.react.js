@@ -3,6 +3,7 @@ define(function (require) {
   var React = require('react');
 
   return React.createClass({
+    displayName: "Description",
 
     propTypes: {
       value: React.PropTypes.string.isRequired,

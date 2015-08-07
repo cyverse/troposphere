@@ -3,7 +3,7 @@ define(function(require) {
     var React = require('react');
     var actions = require('actions');
     var stores = require('stores');
-    var ImageListCard = require('components/applications/common/ApplicationListCard.react');
+    var ImageListCard = require('components/images/common/ApplicationListCard.react');
     var imageFixture = require('test/fixtures/image.fixture');
     var profileFixture = require('test/fixtures/profile.fixture');
     var tagCollectionFixture = require('test/fixtures/tags.fixture');

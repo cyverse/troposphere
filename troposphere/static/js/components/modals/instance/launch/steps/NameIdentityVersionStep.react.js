@@ -3,15 +3,18 @@ define(function (require) {
     var React = require('react'),
         Backbone = require('backbone'),
         stores = require('stores'),
-        MachineSelect = require('../components/MachineSelect.react'),
+        ImageVersionCollection = require('collections/ImageVersionCollection'),
+        VersionSelect = require('../components/VersionSelect.react'),
         IdentitySelect = require('../components/IdentitySelect.react');
 
     return React.createClass({
+        displayName: "NameIdentityVersionStep",
 
         propTypes: {
-            application: React.PropTypes.instanceOf(Backbone.Model),
+            image: React.PropTypes.instanceOf(Backbone.Model),
             version: React.PropTypes.instanceOf(Backbone.Model),
             identity: React.PropTypes.instanceOf(Backbone.Model),
+            allVersions: React.PropTypes.instanceOf(Backbone.Collection),
             name: React.PropTypes.string,
             onPrevious: React.PropTypes.func.isRequired,
             onNext: React.PropTypes.func.isRequired
@@ -21,7 +24,8 @@ define(function (require) {
             return {
                 name: this.props.name,
                 version: this.props.version,
-                identity: this.props.identity
+                identity: this.props.identity,
+                allVersions: stores.ImageStore.getVersions(this.props.image.id),
             };
         },
         isSubmittable: function () {
@@ -58,7 +62,12 @@ define(function (require) {
 
         onVersionChange: function (e) {
             var newVersionId = e.target.value;
-            var versions = this.props.application.get('provider_images');
+            if(!this.state.allVersions) {
+              var versions = stores.ImageStore.getVersions(this.props.image.id);
+              this.setState({allVersions:versions});
+            } else {
+              versions = this.state.allVersions
+            }
             var selectedVersion = versions.get(newVersionId);
             this.setState({version: selectedVersion});
         },
@@ -70,8 +79,8 @@ define(function (require) {
         },
         cleanVersions: function (versions) {
             // don't show duplicate images
-            versions = new versions.constructor(_.uniq(versions.models, function (m) {
-                return m.get('uuid');
+            versions = new versions.constructor(_.uniq(versions.models, function (v) {
+                return v.id;
             }));
             //TODO: Sort Me!
             return versions;
@@ -138,10 +147,10 @@ define(function (require) {
 
 
         renderBody: function () {
-            var image = this.props.application,
+            var image = this.props.image,
                 identities = stores.IdentityStore.getAll(),
                 providers = stores.ProviderStore.getAll(),
-                versions = image.getVersions();
+                versions = stores.ImageStore.getVersions(image.id);
                 // versions = image.get('provider_images');
 
             if (!providers || !identities || !versions) return <div className="loading"></div>;
@@ -182,9 +191,9 @@ define(function (require) {
                         <div className='form-group'>
                             <label htmlFor='machine' className="col-sm-3 control-label">Version</label>
                             <div className="col-sm-9">
-                                <MachineSelect
-                                    machine={this.state.version}
-                                    machines={versions}
+                                <VersionSelect
+                                    version={this.state.version}
+                                    versions={versions}
                                     onChange={this.onVersionChange}
                                 />
                             </div>
@@ -199,7 +208,7 @@ define(function (require) {
                             <label htmlFor='identity' className="col-sm-3 control-label">Provider</label>
                             <div className="col-sm-9">
                                 <IdentitySelect
-                                    identityId={this.state.identityId}
+                                    identityId={this.state.identity.id}
                                     identities={identities}
                                     providers={providers}
                                     onChange={this.onIdentityChange}

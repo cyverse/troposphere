@@ -18,11 +18,12 @@ define(function (require) {
     if(!params.size) throw new Error("Missing size");
     if(params.version) {
         //Determine 'machine' from selected version and identity
-        var machines = params.version.getMachines(),
-            selected_machines = machines.filter(
-            function(machine) {
-                return machine.provider.uuid === params.identity.get('provider').uuid;
-            });
+        //var machines = stores.ImageVersionStore.getMachines(params.version.id),
+
+        var machines = params.version.get('machines'),
+        selected_machines = machines.filter(function(machine) {
+          return machine.provider.uuid === params.identity.get('provider').uuid;
+        });
         if(!selected_machines.length)
             throw new Error("Machine could not be filtered-down based on selected version & identity")
         params.machine = selected_machines[0]

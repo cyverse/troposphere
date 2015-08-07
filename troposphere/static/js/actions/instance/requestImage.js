@@ -12,11 +12,15 @@ define(function (require) {
       if(!params.name) throw new Error("Missing name");
       if(!params.description) throw new Error("Missing description");
       if(!params.tags) throw new Error("Missing tags");
+      if(params.versionFork == undefined) throw new Error("Missing create/update flag(fork)");
+      if(!params.versionName) throw new Error("Missing name");
+      if(!params.versionChanges) throw new Error("Missing description");
       if(!params.providerId) throw new Error("Missing providerId");
-      if(params.fork == undefined) throw new Error("Missing create/update flag(fork)");
       //if(!params.software) throw new Error("Missing software");
       //if(!params.filesToExclude) throw new Error("Missing filesToExclude");
       //if(!params.systemFiles) throw new Error("Missing systemFiles");
+      if(!params.scripts) throw new Error("Missing scripts");
+      if(!params.licenses) throw new Error("Missing licenses");
       if(!params.visibility) throw new Error("Missing visibility");
       if(!params.imageUsers) throw new Error("Missing imageUsers");
 
@@ -27,8 +31,13 @@ define(function (require) {
           providerId = params.providerId,
           software = params.software,
           filesToExclude = params.filesToExclude,
+          fork = params.versionFork,
+          versionName = params.versionName,
+          versionChanges = params.versionChanges,
           systemFiles = params.systemFiles || "[no files specified]",
           visibility = params.visibility,
+          scripts = params.scripts,
+          licenses = params.licenses,
           imageUsers = params.imageUsers,
           userNames = imageUsers.map(function(user){
             return user.get('username');
@@ -40,18 +49,22 @@ define(function (require) {
           provider = stores.ProviderStore.get(providerId);
 
       var requestData = {
-        fork: params.fork,
+        fork: fork,
         name: name,
         description: description,
         tags: tagNames,
         instance: instance.get('uuid'),
         ip_address: instance.get("ip_address"),
         provider: provider.get('uuid'),
+        version_name: versionName,
+        version_changes: versionChanges,
         vis: visibility,
         shared_with: userNames,
         exclude: filesToExclude || "[no files specified]",
         software: software || "[no software specified]",
-        sys: systemFiles || "[no files specified]"
+        sys: systemFiles || "[no files specified]",
+        licenses: licenses,
+        scripts: scripts
       };
 
       var requestUrl = (

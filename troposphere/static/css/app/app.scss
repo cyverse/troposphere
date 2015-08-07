@@ -39,6 +39,15 @@ $icon-font-path: "/assets/bower_components/bootstrap-sass-official/assets/fonts/
 $link-color: $brand-primary;
 $tag-color: $brand-primary;
 
+// Bootstrap hack to keep Modal footer at bottom on min-height modals
+.modal-footer {
+  position:absolute;
+  width:100%;
+  bottom:0;
+}
+.modal-content {
+  padding-bottom:75px;
+}
 //
 // Vendor Stylesheets
 // ------------------

@@ -9,7 +9,7 @@ define(function (require) {
 
     // Register which stores the application should use
     var stores = require('stores');
-    stores.ApplicationStore = require('stores/ApplicationStore');
+    stores.ImageStore = require('stores/ImageStore');
     stores.TagStore         = require('stores/TagStore');
     // Mock out the profile store with an empty profile
     stores.ProfileStore = {

@@ -4,16 +4,18 @@ define(function (require) {
         Backbone = require('backbone'),
         _ = require('underscore'),
         stores = require('stores'),
-        MachineList = require('components/applications/detail/versions/VersionList.react'),
-        VersionCollection = require('collections/ApplicationVersionCollection'),
+        VersionList = require('components/images/detail/versions/VersionList.react'),
+        VersionCollection = require('collections/ImageVersionCollection'),
         Glyphicon = require('components/common/Glyphicon.react');
 
     var ENTER_KEY = 13;
 
     return React.createClass({
-        propTypes: {
+      displayName: "ReviewLaunchStep",
+
+      propTypes: {
             //name: React.PropTypes.string.isRequired,
-            //application: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+            //image: React.PropTypes.instanceOf(Backbone.Model).isRequired,
             //version: React.PropTypes.instanceOf(Backbone.Model).isRequired,
             //size: React.PropTypes.instanceOf(Backbone.Model).isRequired,
             //identity: React.PropTypes.instanceOf(Backbone.Model).isRequired,
@@ -196,7 +198,7 @@ define(function (require) {
                         <div className='form-group'>
                             <label htmlFor='machine' className="col-sm-3 control-label">Version</label>
                             <div className="col-sm-9 image-versions image-info-segment row">
-                              <MachineList application={this.state.application} versions={versions} editable={false} />
+                              <VersionList image={this.state.image} versions={versions} editable={false} showAvailability={false} readonly />
                             </div>
                         </div>
                         <h5>Resources</h5>

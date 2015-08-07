@@ -3,10 +3,10 @@ define(function(require) {
     var React = require('react');
     var actions = require('actions');
     var stores = require('stores');
-    var ImageListView = require('components/applications/list/ApplicationListView.react');
-    var ApplicationCardList = require('components/applications/list/ApplicationCardList.react');
-    var ApplicationCardGrid = require('components/applications/list/ApplicationCardGrid.react');
-    var SecondaryApplicationNavigation = require('components/applications/common/SecondaryApplicationNavigation.react');
+    var ImageListView = require('components/images/list/ApplicationListView.react');
+    var ApplicationCardList = require('components/images/list/ApplicationCardList.react');
+    var ApplicationCardGrid = require('components/images/list/ApplicationCardGrid.react');
+    var SecondaryApplicationNavigation = require('components/images/common/SecondaryApplicationNavigation.react');
 
     var imageCollectionFixture = require('test/fixtures/projects.fixture');
     var tagCollectionFixture = require('test/fixtures/tags.fixture');

@@ -12,6 +12,7 @@ define(
     return React.createClass({
 
       propTypes: {
+        identityId: React.PropTypes.number.isRequired,
         providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         onChange: React.PropTypes.func.isRequired
@@ -24,7 +25,6 @@ define(
           var provider_name = provider.get('name');
           var isInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(providerId);
           if(isInMaintenance) provider_name += " (disabled - in maintenance)";
-
           return (
             <option key={identity.id} value={identity.id} disabled={isInMaintenance}>
               {provider_name}
