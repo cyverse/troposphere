@@ -23,7 +23,7 @@ define(
         providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        onEditImageDetails: React.PropTypes.func.isRequired,
+        onEditImageDetails: React.PropTypes.func.isRequired
       },
 
       renderEditLink: function(){
@@ -32,8 +32,8 @@ define(
 
         if(profile.id && profile.get('username') === image.get('created_by').username){
           return (
-            <div className="edit-link-row">
-              <a className="btn btn-primary btn-sm"
+            <div className="form-group clearfix">
+              <a className="pull-right"
                  onClick={this.props.onEditImageDetails}>Edit details</a>
             </div>
           )
@@ -50,14 +50,15 @@ define(
         )
         return (
           <div>
-            {this.renderEditLink()}
-            <div>
+
+            <div style={{marginBottom:"20px"}}>
               <NameView image={this.props.image}/>
               <CreatedView image={this.props.image}/>
               <AuthorView image={this.props.image}/>
               <DescriptionView image={this.props.image}/>
               {tagsView}
             </div>
+            {this.renderEditLink()}
           </div>
         );
       }
