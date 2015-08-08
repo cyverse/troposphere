@@ -23,7 +23,7 @@ define(function (require) {
         type = stores.ProfileStore.get().get('icon_set'),
         imageTags = stores.TagStore.getImageTags(image),
         imageCreationDate = moment(image.get('start_date')).format("MMM D, YYYY"),
-        converter = new Showdown.converter(),
+        converter = new Showdown.Converter(),
         description = image.get('description');
       if(!description) {
           description = "No Description Provided."

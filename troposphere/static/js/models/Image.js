@@ -4,7 +4,7 @@ define(function (require) {
         Backbone = require('backbone'),
         globals = require('globals'),
         stores = require('stores'),
-        CryptoJS = require('crypto'),
+        CryptoJS = require('crypto-js'),
         ImageVersionCollection = require('../collections/ImageVersionCollection'),
         ProviderCollection = require('../collections/ProviderCollection'),
         ProviderMachineCollection = require('../collections/ProviderMachineCollection'),

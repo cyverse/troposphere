@@ -2,8 +2,9 @@ define(function (require) {
 
   var React = require('react'),
     actions = require('actions'),
-    stores = require('stores'),
-    filled_star = require("images/filled-star-icon.png"),
+    stores = require('stores');
+  // images
+  var filled_star = require("images/filled-star-icon.png"),
     empty_star = require("images/empty-star-icon.png");
 
   return React.createClass({
@@ -35,7 +36,7 @@ define(function (require) {
         );
       } else {
         img = (
-          <img src{empty_star}/>
+          <img src={empty_star}/>
         );
       }
 

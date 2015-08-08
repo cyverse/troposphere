@@ -6,7 +6,7 @@ define(function (require) {
       Time = require('components/common/Time.react'),
       Gravatar = require('components/common/Gravatar.react'),
       AvailabilityView = require('../availability/AvailabilityView.react'),
-      CryptoJS = require('crypto'),
+      CryptoJS = require('crypto-js'),
       stores = require('stores');
 
   return React.createClass({

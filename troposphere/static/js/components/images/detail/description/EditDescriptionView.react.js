@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 define(
   [
     'react',
@@ -11,11 +9,7 @@ define(
     return React.createClass({
       getDefaultProps: function() {
         return {
-          title: "Description"
-        }
-      },
-      getDefaultProps: function() {
-        return {
+          title: "Description",
           className: "image-description"
         }
       },

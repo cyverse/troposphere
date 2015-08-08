@@ -3,6 +3,7 @@ define(function (require) {
     var React = require('react'),
         Backbone = require('backbone'),
         stores = require('stores'),
+        _ = require('underscore'),
         ImageVersionCollection = require('collections/ImageVersionCollection'),
         VersionSelect = require('../components/VersionSelect.react'),
         IdentitySelect = require('../components/IdentitySelect.react');
@@ -215,7 +216,7 @@ define(function (require) {
                                 />
                             </div>
                         </div>
-                        <div className='form-group' className="modal-section">
+                        <div className="form-group">
                             <h4>Project Allocation Usage</h4>
                             {this.renderAllocationConsumption(this.state.identity)}
                         </div>

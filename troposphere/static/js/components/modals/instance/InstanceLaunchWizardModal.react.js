@@ -157,50 +157,27 @@ define(function (require) {
       if (user.get('is_staff') && breadcrumbs[5].step !== 5) {
         breadcrumbs.splice(5, 0, {name: "Admin", step: ADMIN_OPTIONS_STEP, inactive: true});
       }
-      breadcrumbs.map(function (breadcrumb, index, array) {
-        var state;
-        if (breadcrumb.inactive) {
-          state = "inactive"
-        } else if (breadcrumb.step === self.state.step) {
-          state = "active"
-        } else if (breadcrumb.step < self.state.step) {
-          state = "available"
-        } else {
-          state = ""
-        }
-      // STEVE-TODO: TO replace or not to replace?
-        breadcrumbs.map(function(breadcrumb, index, array){
-            var state;
-            if(breadcrumb.inactive){
-                state = "inactive"
-            } else if(breadcrumb.step === self.state.step) {
-                state = "active"
-            } else if (breadcrumb.step < self.state.step) {
-                state = "available"
-            } else {
-                state = ""
-            }
-            breadcrumb.state = state;
-        });
-        return (<BreadcrumbNav
-            breadcrumbs={breadcrumbs}
-            onMouseOn={this.hoverTitleChange}
-            onMouseOff={this.changeTitleBack}
-            step = {this.state.step}
-            onCrumbClick={self.toStep}
-            />
-        );
-      // STEVE-TODO: TO keep or not to keep?
-      //   breadcrumb.state = state;
-      // });
-      // return (<BreadcrumbNav
-      //     breadcrumbs={breadcrumbs}
-      //     onMouseOn={this.hoverTitleChange}
-      //     onMouseOff={this.changeTitleBack}
-      //     step={this.state.step}
-      //     onCrumbClick={self.toStep}
-      //     />
-      // );
+      breadcrumbs.map(function(breadcrumb, index, array){
+          var state;
+          if(breadcrumb.inactive){
+              state = "inactive"
+          } else if(breadcrumb.step === self.state.step) {
+              state = "active"
+          } else if (breadcrumb.step < self.state.step) {
+              state = "available"
+          } else {
+              state = ""
+          }
+         breadcrumb.state = state;
+      });
+      return (<BreadcrumbNav
+          breadcrumbs={breadcrumbs}
+          onMouseOn={this.hoverTitleChange}
+          onMouseOff={this.changeTitleBack}
+          step = {this.state.step}
+          onCrumbClick={self.toStep}
+          />
+      );
     },
     render: function () {
       return (
@@ -288,7 +265,6 @@ define(function (require) {
             } else {
                 state.step = PROJECT_STEP;
             }
-        }
       }
       state.title = this.state.breadcrumbs[state.step].name;
       this.setState(state);

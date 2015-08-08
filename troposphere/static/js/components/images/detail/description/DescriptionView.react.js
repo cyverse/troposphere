@@ -15,7 +15,7 @@ define(
 
       render: function () {
         var image = this.props.image,
-          converter = new Showdown.converter(),
+          converter = new Showdown.Converter(),
           description = image.get('description'),
           descriptionHtml = converter.makeHtml(description);
 
