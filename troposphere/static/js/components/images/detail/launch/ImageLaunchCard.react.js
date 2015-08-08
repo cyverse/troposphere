@@ -5,7 +5,7 @@ define(
     'components/common/Gravatar.react',
     'backbone',
     'url',
-    '../../common/Bookmark.react',
+    'components/images/common/Bookmark.react',
     'context',
     'stores'
   ],
