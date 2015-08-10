@@ -39,7 +39,7 @@ The virtualenv directory is set to `/opt/env/troposphere/lib/python2.7/site-pack
 ### nginx and uWSGI
 
 **NOTE**: The setup below expects uWSGI is running in Emperor mode with
-the vassals directory set to `/etc/uwsig/apps-enable`.
+the vassals directory set to `/etc/uwsgi/apps-enabled`.
 
 ```bash
 cd extras
