@@ -10,8 +10,8 @@ define(function (require) {
       ImageListPage = require('components/applications/ImageListPage.react'),
       ImageDetailsPage = require('components/applications/ImageDetailsPage.react'),
       HelpPage = require('components/help/HelpPage.react'),
-      ImageTagsPage = require('components/applications/ImageTagsPage.react'),
-      ImagesMaster = require('components/applications/ImagesMaster.react');
+      ImageTagsPage = require('components/images/ImageTagsPage.react'),
+      ImagesMaster = require('components/images/ImagesMaster.react');
 
   var AppRoutes = (
     <Route name="root" path="/application" handler={Master}>

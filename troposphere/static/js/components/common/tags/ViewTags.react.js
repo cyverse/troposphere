@@ -32,7 +32,7 @@ define(function (require) {
         content = tags.map(this.renderTag);
       }else{
         content = (
-          <span>This resource has not been tagged.</span>
+          <p>This resource has not been tagged.</p>
         )
       }
 

@@ -23,12 +23,12 @@ define(function (require) {
           identities = stores.IdentityStore.getAll(),
           projects = stores.ProjectStore.getAll(),
           maintenanceMessages = stores.MaintenanceMessageStore.getAll(),
-          applications = stores.ApplicationStore.getAll(),
+          images = stores.ImageStore.getAll(),
           instances = stores.InstanceStore.getAll(),
           volumes = stores.VolumeStore.getAll(),
           sizes = stores.SizeStore.getAll();
 
-      if (!providers || !identities || !projects || !maintenanceMessages || !applications || !instances || !volumes || !sizes) {
+      if (!providers || !identities || !projects || !maintenanceMessages || !images || !instances || !volumes || !sizes) {
         return <div className='loading'></div>;
       }
 
@@ -98,7 +98,7 @@ define(function (require) {
                 <h3>Community Activity</h3>
                 <MaintenanceMessageList
                   messages={maintenanceMessages}
-                  applications={applications}
+                  images={images}
                 />
               </div>
 

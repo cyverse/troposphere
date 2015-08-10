@@ -89,11 +89,33 @@ define(function (require) {
 
     renderBody: function () {
       var instanceHistories = stores.InstanceHistoryStore.getAll(),
+          instances = stores.InstanceStore.fetchWhere({'archived': 'true'}),
+          providers = stores.ProviderStore.getAll(),
           instanceHistoryItems;
 
-      if(!instanceHistories) return <div className="loading"></div>;
+      if(!instanceHistories || !instances || !providers) return <div className="loading"></div>;
 
       instanceHistoryItems = instanceHistories.map(function (instance) {
+        var providerId = null,
+            imageId = null,
+            provider = null,
+            instanceId = instance.get('instance').id,
+            _instance= stores.InstanceStore.get(instanceId);
+        if(_instance) {
+            var instanceImage = _instance.get('image');
+            providerId = _instance.get('provider');
+            imageId = instanceImage.id;
+        } else {
+            providerId = null;
+            imageId = null;
+        }
+        if(providerId) {
+          provider = providerId ? stores.ProviderStore.get(providerId) : null;
+          provider = provider.get('name');
+        } else {
+          provider = null;
+        }
+
         var startDate = instance.get('start_date'),
             endDate = instance.get('end_date'),
             formattedStartDate = startDate.format("MMM DD, YYYY"),
@@ -103,22 +125,21 @@ define(function (require) {
             instanceHistoryHash = CryptoJS.MD5((instance.id || instance.cid).toString()).toString(),
             iconSize = 63,
             type = stores.ProfileStore.get().get('icon_set'),
-            imageId = instance.get('application_id'),
-            application = imageId ? stores.ApplicationStore.get(imageId) : null,
-            applicationName = application ? application.get('name') : "[image no longer exists]",
-            applicationLink;
+            image = imageId ? stores.ImageStore.get(imageId) : null,
+            imageName = image ? image.get('name') : "[image no longer exists]",
+            imageLink;
 
         if(!endDate.isValid()) formattedEndDate = "Present";
 
-        if(application){
-          applicationLink = (
-            <Router.Link to="image-details" params={{imageId: application.id}}>
-              {applicationName}
+        if(image){
+          imageLink = (
+            <Router.Link to="image-details" params={{imageId: image.id}}>
+              {imageName}
             </Router.Link>
           )
         }else{
-          applicationLink = (
-            <strong>{applicationName}</strong>
+          imageLink = (
+            <strong>{imageName}</strong>
           )
         }
 
@@ -131,12 +152,12 @@ define(function (require) {
                     <Gravatar hash={instanceHistoryHash} size={iconSize} type={type}/>
                     <div className="instance-history-details">
                       <strong className="name">{instance.get('name')}</strong>
-                      <div>Launched from {applicationLink}</div>
+                      <div>Launched from {imageLink}</div>
                       <div>{"Ran: " + formattedStartDate + " - " + formattedEndDate}</div>
                     </div>
                     <span className="launch-info">
                       <strong>{timeSpan + " days ago"}</strong>
-                      {" on " + instance.get('provider')}
+                      {" on " + provider}
                     </span>
                   </div>
                 </li>

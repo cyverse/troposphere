@@ -2,17 +2,10 @@ define(function (require) {
 
   var React = require('react'),
       Backbone = require('backbone');
-      //ChosenDropdownItem = require('./ChosenDropdownItem.react'),
-      //ChosenSelectedTag = require('./ChosenSelectedTag.react');
 
   var ENTER_KEY = 13;
 
   return {
-
-    propTypes: {
-      placeholderText: React.PropTypes.string.isRequired
-    },
-
     getInitialState: function(){
       return {
         showOptions: false,
@@ -20,19 +13,22 @@ define(function (require) {
       }
     },
 
-    getDefaultProps: function(){
-      return {
-        placeholderText: "Search..."
-      }
-    },
-
     propTypes: {
-      models: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-      activeModels: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+      placeholderText: React.PropTypes.string,
+      models: React.PropTypes.instanceOf(Backbone.Collection),
+      activeModels: React.PropTypes.instanceOf(Backbone.Collection),
       onModelAdded: React.PropTypes.func.isRequired,
       onModelRemoved: React.PropTypes.func.isRequired,
       onEnterKeyPressed: React.PropTypes.func,
       width: React.PropTypes.string
+    },
+
+    getDefaultProps: function(){
+      return {
+        models: new Backbone.Collection(),
+        activeModels: new Backbone.Collection(),
+        placeholderText: "Search..."
+      }
     },
 
     closeDropdown: function(){
@@ -57,6 +53,10 @@ define(function (require) {
     },
 
     isOutsideClick: function(e){
+      if(!this.isMounted()) {
+        return false;
+      }
+
       var node = this.getDOMNode();
       var $node = $(node);
       var container = $node;//.find('.chosen-container');
@@ -71,7 +71,16 @@ define(function (require) {
 
     onEnter: function(e){
       if(e.which !== ENTER_KEY) return;
-      if(this.props.onEnterKeyPressed) this.props.onEnterKeyPressed(e);
+      var value = e.target.value;
+      if(this.onEnterKeyPressed) {
+        this.onEnterKeyPressed(value);
+      } else if(this.props.onEnterKeyPressed) {
+        this.props.onEnterKeyPressed(e);
+      } else {
+        //Enter does nothing if neither value is defined..
+        return;
+      }
+      //After callback, assume action Completed clear search.
       this.clearSearchField();
     },
 
@@ -90,10 +99,12 @@ define(function (require) {
     },
 
     clearSearchField: function(){
-      var input = this.refs.searchField.getDOMNode();
-      input.value = "";
+      var query = "",
+          input = this.refs.searchField.getDOMNode();
+      input.value = query;
       input.focus();
-      this.setState({query: ""});
+      this.setState({query: query});
+      this.props.onQueryChange(query);
     },
 
     //
@@ -133,8 +144,7 @@ define(function (require) {
     //
     // Render
     //
-
-    render: function () {
+    renderChosenSearchSelect: function () {
       var models = this.props.models,
           activeModels = this.props.activeModels,
           query = this.state.query,
@@ -166,30 +176,32 @@ define(function (require) {
         });
         if(models.length > 0 && filteredModels.length === 0){
           results = this.renderAlreadyAddedAllUsersMatchingQueryListItem(query);
-        }else{
+        }else {
           results = filteredModels.map(this.renderModel);
         }
       }
 
       return (
-        <div className={classes} style={{"width": this.props.width || "614px"}}>
+        <div className={classes}>
           <ul className="chosen-choices clearfix" onFocus={this.onEnterOptions}>
             {selectedModels}
           </ul>
-          <input
-            type="text"
-            ref="searchField"
-            className="form-control"
-            placeholder={placeholderText}
-            autoComplete="off"
-            onKeyDown={this.onEnter}
-            onKeyUp={this.filterSearchResults}
-            onFocus={this.onEnterOptions}
-          />
-          <div className="chosen-drop">
-            <ul className="chosen-results">
-              {results}
-            </ul>
+          <div className="form-group">
+            <input
+              type="text"
+              ref="searchField"
+              className="form-control"
+              placeholder={placeholderText}
+              autoComplete="off"
+              onKeyDown={this.onEnter}
+              onKeyUp={this.filterSearchResults}
+              onFocus={this.onEnterOptions}
+            />
+            <div className="chosen-drop">
+              <ul className="chosen-results">
+                {results}
+              </ul>
+            </div>
           </div>
         </div>
       );

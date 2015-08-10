@@ -2,11 +2,12 @@ define(function (require) {
 
   var React = require('react'),
       Backbone = require('backbone'),
-      ChosenDropdownItem = require('./ChosenDropdownItem.react'),
+      ChosenDropdownTag = require('./ChosenDropdownTag.react'),
       ChosenSelectedTag = require('./ChosenSelectedTag.react'),
       ChosenMixin = require('components/mixins/ChosenMixinExternal.react');
 
   return React.createClass({
+    displayName: "TagMultiSelect",
     mixins: [ChosenMixin],
 
     propTypes: {
@@ -16,6 +17,12 @@ define(function (require) {
       onModelAdded: React.PropTypes.func.isRequired,
       onModelRemoved: React.PropTypes.func.isRequired
     },
+
+    //getDefaultProps: function() {
+    //  return {
+    //    width: "614px"
+    //  };
+    //},
 
     getNoResultsPhrase: function(query){
       return 'No tags found matching "' + query + '". Press enter to create a new tag.';
@@ -35,7 +42,7 @@ define(function (require) {
 
     renderModel: function(tag){
       return (
-        <ChosenDropdownItem
+        <ChosenDropdownTag
           key={tag.id}
           tag={tag}
           propertyName={'name'}
@@ -53,7 +60,11 @@ define(function (require) {
           onRemoveTag={this.props.onModelRemoved}
         />
       )
+    },
+    render: function() {
+      return this.renderChosenSearchSelect();
     }
+
 
   })
 

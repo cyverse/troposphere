@@ -14,7 +14,7 @@ define(function (require) {
 
     onSuggestTag: function(e){
       e.preventDefault();
-      // todo: I have NO IDEA how this is getting triggered when clicking on an application and
+      // todo: I have NO IDEA how this is getting triggered when clicking on an image and
       // navigating to the detail page.  Figure it out and remove the isMounted check.
       if(e.target.tagName === "A") {
         alert("Tag suggestion featured not implemented yet.");

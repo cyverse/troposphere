@@ -104,9 +104,10 @@ LOGGING = {
     },
 }
 
-STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR,"assets/")
+STATIC_URL = '/assets/'
 STATICFILES_DIRS = (
-        os.path.join(BASE_DIR,'assets/'),
+        os.path.join(BASE_DIR,'static/'),
 
     )
 
