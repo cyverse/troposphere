@@ -17,6 +17,16 @@ define(function (require) {
       modals.HelpModals.requestMoreResources();
     },
 
+    updateState: function() {
+      if (this.isMounted()) this.setState(this.getState());
+    },
+    componentDidMount: function () {
+      stores.SizeStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+      stores.SizeStore.removeChangeListener(this.updateState);
+    },
     render: function () {
 
       var providers = stores.ProviderStore.getAll(),
@@ -26,7 +36,7 @@ define(function (require) {
           images = stores.ImageStore.getAll(),
           instances = stores.InstanceStore.getAll(),
           volumes = stores.VolumeStore.getAll(),
-          sizes = stores.SizeStore.getAll();
+          sizes = stores.SizeStore.fetchWhere({'archived': 'true'});
 
       if (!providers || !identities || !projects || !maintenanceMessages || !images || !instances || !volumes || !sizes) {
         return <div className='loading'></div>;
