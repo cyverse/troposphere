@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
       moment = require('moment'),
       stores = require('stores'),
       actions = require('actions'),

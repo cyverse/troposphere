@@ -1,7 +1,7 @@
 
 define(function (require) {
     var _ = require("underscore"),
-        React = require('react');
+        React = require('react/addons');
 
     var resources = [
       {

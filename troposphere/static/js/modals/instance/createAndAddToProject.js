@@ -1,7 +1,7 @@
 define(function (require) {
   "use strict";
 
-  var React = require('react'),
+  var React = require('react/addons'),
     actions = require('actions'),
     stores = require('stores'),
     ModalHelpers = require('components/modals/ModalHelpers'),

@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
     Router = require('react-router'),
     Glyphicon = require('components/common/Glyphicon.react'),
     context = require('context');

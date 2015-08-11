@@ -1,7 +1,7 @@
 define(function (require) {
 
     var _ = require('underscore'),
-        React = require('react'),
+        React = require('react/addons'),
         Backbone = require('backbone'),
         stores = require('stores'),
         ProviderMachineEditItem = require('./ProviderMachineEditItem.react');

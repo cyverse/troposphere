@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
       Backbone = require('backbone'),
       EditDescriptionView = require('components/images/detail/description/EditDescriptionView.react'),
       LicenseMultiSelect = require('./LicenseMultiSelectAndCreate.react');

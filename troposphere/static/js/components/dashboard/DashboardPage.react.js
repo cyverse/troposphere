@@ -1,7 +1,7 @@
 define(function (require) {
   "use strict";
 
-  var React = require('react'),
+  var React = require('react/addons'),
     Backbone = require('backbone'),
     InstanceHistoryList = require('./InstanceHistoryList.react'),
     MaintenanceMessageList = require('./MaintenanceMessageList.react'),

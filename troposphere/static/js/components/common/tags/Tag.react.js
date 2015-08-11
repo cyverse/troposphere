@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
       $ = require("jquery"),
     Backbone = require('backbone'),
     Router = require('react-router'),

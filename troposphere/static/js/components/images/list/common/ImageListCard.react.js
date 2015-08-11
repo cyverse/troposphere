@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
     Gravatar = require('components/common/Gravatar.react'),
     Backbone = require('backbone'),
     Bookmark = require('components/images/common/Bookmark.react'),

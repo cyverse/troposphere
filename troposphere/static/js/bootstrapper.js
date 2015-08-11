@@ -4,7 +4,7 @@ define(function (require) {
   var $ = require('jquery'),
     _ = require('underscore'),
     Backbone = require('backbone'),
-    React = require('react'),
+    React = require('react/addons'),
     SplashScreen = require('components/SplashScreen.react'),
     MaintenanceScreen = require('components/MaintenanceScreen.react');
 

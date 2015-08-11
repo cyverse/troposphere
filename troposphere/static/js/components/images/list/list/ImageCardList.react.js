@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
     ImageListCard = require('../common/ImageListCard.react');
 
   return React.createClass({

@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
     HeaderView = require('./header/HeaderView.react'),
     EditTagsView = require('./tags/EditTagsView.react'),
     ImageLaunchCard = require('./launch/ImageLaunchCard.react'),

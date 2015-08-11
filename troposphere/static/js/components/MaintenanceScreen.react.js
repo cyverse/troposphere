@@ -1,7 +1,7 @@
 define(function (require) {
   "use strict";
 
-  var React = require('react'),
+  var React = require('react/addons'),
     stores = require('stores'),
     login = require("images/login_mainimage.png");
 

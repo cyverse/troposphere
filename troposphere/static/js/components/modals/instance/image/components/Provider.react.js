@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
     stores = require('stores');
 
   return React.createClass({
@@ -18,7 +18,7 @@ define(function (require) {
       if(! provider.get('public')) {
         return;
       }
-      
+
       return (
         <option key={provider.id} value={provider.id}>
           {provider.get('name')}

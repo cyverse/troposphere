@@ -1,6 +1,6 @@
 define(function (stores) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
     Backbone = require('backbone'),
     stores = require('stores');
 

@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
       checkmark = require("images/checkmark.png");
 
   return React.createClass({

@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
     Backbone = require('backbone'),
     ResourceDetail = require('components/projects/common/ResourceDetail.react'),
     StatusLight = require('components/projects/common/StatusLight.react'),

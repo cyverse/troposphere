@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
     _ = require('underscore'),
     BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
     stores = require('stores'),

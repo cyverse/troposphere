@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
     Backbone = require('backbone'),
     PreviewPanel = require('./PreviewPanel.react'),
     ButtonBar = require('./ButtonBar.react'),

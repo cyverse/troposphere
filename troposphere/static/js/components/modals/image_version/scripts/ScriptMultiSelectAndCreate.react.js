@@ -1,7 +1,7 @@
 define(function (require) {
   var ENTER_KEY = 13;
 
-  var React = require('react'),
+  var React = require('react/addons'),
       Backbone = require('backbone'),
       ChosenDropdownItem = require('components/common/chosen/ChosenDropdownItem.react'),
       ChosenSelectedItem = require('components/common/chosen/ChosenSelectedItem.react'),

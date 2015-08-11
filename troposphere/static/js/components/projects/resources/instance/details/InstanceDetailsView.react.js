@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
     Backbone = require('backbone'),
     BreadcrumbBar = require('components/projects/common/BreadcrumbBar.react'),
     InstanceInfoSection = require('./sections/InstanceInfoSection.react'),

@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
       Backbone = require('backbone'),
       ChosenDropdownMembership = require('./ChosenDropdownMembership.react'),
       ChosenSelectedMembership = require('./ChosenSelectedMembership.react'),

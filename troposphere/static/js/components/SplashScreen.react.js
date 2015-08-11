@@ -1,7 +1,7 @@
 define(function (require) {
 
   var $ = require('jquery'),
-    React = require('react'),
+    React = require('react/addons'),
     context = require('context'),
     stores = require('stores'),
     Router = require('../Router'),

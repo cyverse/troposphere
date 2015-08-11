@@ -1,7 +1,7 @@
 define(function (require) {
   "use strict";
 
-  var React = require('react'),
+  var React = require('react/addons'),
     Router = require('react-router'),
     Route = Router.Route,
     Redirect = Router.Redirect,

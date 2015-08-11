@@ -1,7 +1,7 @@
 /* http://getbootstrap.com/components/#btn-dropdowns */
 define(function (require) {
 
-  var React = require('react');
+  var React = require('react/addons');
 
   return React.createClass({
 

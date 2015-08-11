@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
     SecondaryImageNavigation = require('./common/SecondaryImageNavigation.react'),
     ImageCardList = require('./list/list/ImageCardList.react'),
     stores = require('stores');

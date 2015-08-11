@@ -1,6 +1,6 @@
 define(function(require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
       Backbone = require('backbone'),
       actions = require('actions'),
       EditLicensesView = require('components/modals/image_version/licenses/EditLicensesView.react'),

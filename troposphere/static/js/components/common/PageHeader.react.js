@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
     Glyphicon = require('components/common/Glyphicon.react');
 
   return React.createClass({
