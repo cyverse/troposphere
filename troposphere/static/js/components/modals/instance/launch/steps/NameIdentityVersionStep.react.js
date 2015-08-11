@@ -96,7 +96,7 @@ define(function (require) {
             };
         },
         renderAllocationConsumption: function (identity) {
-            var allocation = identity.get('allocation'),
+            var allocation = identity.get('usage'),
             // Allocation Usage
                 allocationUsageStats = this.calculateAllocationUsage(allocation),
 
