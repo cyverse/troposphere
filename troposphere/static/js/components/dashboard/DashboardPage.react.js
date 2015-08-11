@@ -18,7 +18,7 @@ define(function (require) {
     },
     getState: function() {
         return {};
-    }
+    },
     updateState: function() {
       if (this.isMounted()) this.setState(this.getState());
     },
