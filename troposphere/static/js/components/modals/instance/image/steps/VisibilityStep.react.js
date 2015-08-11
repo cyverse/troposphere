@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
     Backbone = require('backbone'),
     Visibility = require('../components/Visibility.react'),
     stores = require('stores'),
@@ -46,7 +46,14 @@ define(function (require) {
       });
     },
 
-    onProviderChange: function (newProviderId) {
+    onSubmit: function() {
+      this.props.onSubmit({
+        visibility: this.state.visibility,
+        imageUsers: this.state.imageUsers
+      });
+    },
+
+    onProviderChange: function(newProviderId){
       this.setState({
         providerId: newProviderId
       });
@@ -112,9 +119,11 @@ define(function (require) {
               <span className="glyphicon glyphicon-chevron-left"></span>
               Back
             </button>
-            <button type="button" className="btn btn-primary cancel-button" onClick={this.onNext}
-                    disabled={!this.isSubmittable()}>
-              Next
+            <button type="button" className="btn btn-info next-button" onClick={this.onNext} disabled={!this.isSubmittable()}>
+              Advanced Options
+            </button>
+            <button type="button" className="btn btn-primary submit-button" onClick={this.onSubmit} disabled={!this.isSubmittable()}>
+              Submit
             </button>
           </div>
         </div>

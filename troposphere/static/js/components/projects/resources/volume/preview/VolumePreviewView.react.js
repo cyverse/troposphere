@@ -1,7 +1,7 @@
 define(function (require) {
   'use strict';
 
-  var React = require('react'),
+  var React = require('react/addons'),
     stores = require('stores'),
     Id = require('../details/sections/details/Id.react'),
     Status = require('../details/sections/details/Status.react'),

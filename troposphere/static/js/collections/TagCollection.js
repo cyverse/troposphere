@@ -11,7 +11,11 @@ define(function (require) {
     url: globals.API_V2_ROOT + "/tags",
 
     comparator: function (model) {
-      return model.get('name').toLowerCase();
+      name = model.get('name')
+      if(!name) {
+          return name;
+      }
+      return name.toLowerCase();
     },
 
     parse: function (response) {

@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
     Backbone = require('backbone'),
     VolumeTable = require('./VolumeTable.react'),
     NoVolumeNotice = require('./NoVolumeNotice.react');

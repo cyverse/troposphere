@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
     Backbone = require('backbone'),
     ResourceDetail = require('components/projects/common/ResourceDetail.react'),
     Router = require('react-router'),
@@ -14,7 +14,7 @@ define(function (require) {
 
     render: function () {
       var instance = this.props.instance,
-        image = stores.ApplicationStore.get(instance.get('image').id);
+        image = stores.ImageStore.get(instance.get('image').id);
 
       if (!image) {
         return (

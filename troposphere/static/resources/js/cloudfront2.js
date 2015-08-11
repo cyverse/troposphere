@@ -127,7 +127,7 @@ $(function() {
   //Logging out of CAS!!!!!
   $('#logout_button').click(function(){
       var header = "Logging Out of Atmosphere";
-      var body = "You will be logged out of Atmosphere in <span id='countdown_time'></span> seconds.<br\><br\>Would you like to log out of all iPlant applications?";
+      var body = "You will be logged out of Atmosphere in <span id='countdown_time'></span> seconds.<br\><br\>Would you like to log out of all iPlant images?";
 
       var count = 10;
       var timeout = window.setInterval(function() {

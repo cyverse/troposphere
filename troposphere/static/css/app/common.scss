@@ -149,26 +149,19 @@ $chosen-sprite-retina-path: $chosen-sprite-path;
       @include gradient-vertical(white, $gray-lighter);
       @include box-shadow($chosen-box-shadow);
       color: $gray-dark;
-      cursor: default;
+      cursor: pointer;
       line-height: 13px;
       margin: 0px 5px 5px 0px;
-      padding: 3px 20px 3px 5px;
+      padding: 5px;
       position: relative;
 
-      .search-choice-close {
-        background: url($chosen-sprite-path) right top no-repeat;
-        display: block;
-        font-size: 1px;
-        height: 10px;
-        position: absolute;
-        right: 4px;
-        top: 5px;
-        width: 12px;
-        cursor: pointer;
+      .glyphicon-remove {
+        font-size: 10px;
+        color: #cccccc;
+      }
 
-        &:hover {
-          background-position: right -11px;
-        }
+      &:hover > span > .glyphicon-remove {
+        color: #3d3d3d;
       }
     }
 

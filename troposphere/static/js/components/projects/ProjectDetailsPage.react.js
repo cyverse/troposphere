@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
     stores = require('stores'),
     ProjectDetailsView = require('./detail/details/ProjectDetailsView.react'),
     Router = require('react-router');

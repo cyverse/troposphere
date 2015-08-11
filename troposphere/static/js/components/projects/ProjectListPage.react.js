@@ -23,16 +23,16 @@ define(
         return getProjectState();
       },
 
-      updateApps: function () {
+      updateImages: function () {
         if (this.isMounted()) this.setState(getProjectState());
       },
 
       componentDidMount: function () {
-        stores.ProjectStore.addChangeListener(this.updateApps);
+        stores.ProjectStore.addChangeListener(this.updateImages);
       },
 
       componentWillUnmount: function () {
-        stores.ProjectStore.removeChangeListener(this.updateApps);
+        stores.ProjectStore.removeChangeListener(this.updateImages);
       },
 
       //

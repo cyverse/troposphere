@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
     Backbone = require('backbone'),
     Time = require('components/common/Time.react'),
     EditableInputField = require('components/common/EditableInputField.react'),

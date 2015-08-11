@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
     _ = require('underscore'),
   // plugin: required but not used directly
     bootstrap = require('bootstrap');

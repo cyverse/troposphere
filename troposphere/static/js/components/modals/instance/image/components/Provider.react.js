@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
     stores = require('stores');
 
   return React.createClass({
@@ -14,7 +14,11 @@ define(function (require) {
       this.props.onChange(e.target.value)
     },
 
-    renderProviderOption: function (provider) {
+    renderProviderOption: function(provider){
+      if(! provider.get('public')) {
+        return;
+      }
+
       return (
         <option key={provider.id} value={provider.id}>
           {provider.get('name')}

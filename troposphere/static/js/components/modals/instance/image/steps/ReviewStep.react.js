@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
     stores = require('stores');
 
   return React.createClass({
@@ -74,21 +74,21 @@ define(function (require) {
       );
     },
 
-    renderFilesToExclude: function (imageData) {
-      var filesToExclude = imageData.filesToExclude || "",
-        files = filesToExclude.split("\n").map(function (file) {
-          return <div>{file}</div>;
-        });
+    renderFilesToExclude: function(imageData){
+      var files_str = imageData.filesToExclude || "";
 
-      if (!filesToExclude) {
+      if(!files_str) {
         return (
           <div className="form-group">
             <label className="control-label col-sm-3">Files to Exclude</label>
-
             <div className="help-block col-sm-9">[no files selected]</div>
           </div>
         )
       }
+
+      var  files = files_str.split("\n").map(function(file){
+        return <div>{file}</div>;
+      });
 
       return (
         <div className="form-group">
@@ -96,6 +96,57 @@ define(function (require) {
 
           <div className="help-block col-sm-9">
             {files}
+          </div>
+        </div>
+      )
+    },
+
+    renderBootScripts: function(imageData){
+      var scripts = imageData.activeScripts;
+      if(!scripts || scripts.length == 0) {
+        return (
+          <div className="form-group">
+            <label className="control-label col-sm-3">Boot Scripts</label>
+            <div className="help-block col-sm-9">[no scripts selected]</div>
+          </div>
+        )
+      }
+
+      var scripts_list = scripts.map(function(script){
+        return <div>{script.get('title')}</div>;
+      });
+
+      return (
+        <div className="form-group">
+          <label className="control-label col-sm-3">Boot Scripts</label>
+          <div className="help-block col-sm-9">
+            {scripts_list}
+          </div>
+        </div>
+      )
+    },
+
+    renderLicenses: function(imageData){
+      var licenses = imageData.activeLicenses;
+
+      if(!licenses || licenses.length == 0) {
+        return (
+          <div className="form-group">
+            <label className="control-label col-sm-3">Licenses</label>
+            <div className="help-block col-sm-9">[no licenses selected]</div>
+          </div>
+        )
+      }
+
+      var licenses_list = licenses.map(function(license){
+        return <div>{license.get('title')}</div>;
+      });
+
+      return (
+        <div className="form-group">
+          <label className="control-label col-sm-3">Licenses</label>
+          <div className="help-block col-sm-9">
+            {licenses_list}
           </div>
         </div>
       )
@@ -117,6 +168,10 @@ define(function (require) {
           }
           <div className="form-horizontal">
             <div className="form-group">
+              <label className="control-label col-sm-3">New/Update</label>
+              <div className="help-block col-sm-9">{(imageData.newImage) ? "New Image" : "Update Image" }</div>
+            </div>
+            <div className="form-group">
               <label className="control-label col-sm-3">Name</label>
 
               <div className="help-block col-sm-9">{imageData.name}</div>
@@ -127,6 +182,19 @@ define(function (require) {
               <div className="help-block col-sm-9">{imageData.description}</div>
             </div>
             {this.renderTags(imageData)}
+            <hr/>
+
+            <div className="form-group">
+              <label className="control-label col-sm-3">Version Name</label>
+              <div className="help-block col-sm-9">{imageData.versionName}</div>
+            </div>
+            <div className="form-group">
+              <label className="control-label col-sm-3">Version Changes</label>
+              <div className="help-block col-sm-9">{imageData.versionChanges}</div>
+            </div>
+
+            <hr/>
+
             <div className="form-group">
               <label className="control-label col-sm-3">Provider</label>
 
@@ -139,18 +207,17 @@ define(function (require) {
             </div>
             {this.renderUsers(imageData)}
             {this.renderFilesToExclude(imageData)}
+            {this.renderBootScripts(imageData)}
+            {this.renderLicenses(imageData)}
           </div>
-          <div className="checkbox col-sm-12">
-            <br />
-            <label className="checkbox">
-              <input type="checkbox" onChange={this.onLicenseChange}/>
-
-              <div>
+          <div className="form-group">
+            <div className="checkbox">
+              <label className="checkbox">
+                <input type="checkbox" onChange={this.onLicenseChange}/>
                 I certify that this image does not contain license-restricted software that is prohibited from being
                 distributed within a virtual or cloud environment.
-              </div>
-            </label>
-            <br />
+              </label>
+            </div>
           </div>
         </div>
       );

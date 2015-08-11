@@ -23,13 +23,17 @@ define(function (require) {
           name: params.name,
           description: params.description,
           tags: params.tags,
-          fork: params.newImage,
+          versionName: params.versionName,
+          versionChanges: params.versionChanges,
+          versionFork: params.newImage,
           providerId: params.providerId,
           visibility: params.visibility,
           imageUsers: params.imageUsers,
           filesToExclude: params.filesToExclude || "",
           software: params.software || "",
-          systemFiles: params.systemFiles || ""
+          systemFiles: params.systemFiles || "",
+          scripts: params.scripts,
+          licenses: params.licenses
         });
       })
     }

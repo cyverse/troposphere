@@ -8,7 +8,7 @@ define(function (require) {
   return InstanceCollection.extend({
     model: InstanceHistory,
 
-    url: globals.API_ROOT + '/instance_history',
+    url: globals.API_V2_ROOT + '/instance_histories',
 
     parse: function (response) {
       this.meta = {

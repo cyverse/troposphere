@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
     Backbone = require('backbone'),
     Tag = require('./Tag.react');
 
@@ -32,7 +32,7 @@ define(function (require) {
         content = tags.map(this.renderTag);
       } else {
         content = (
-          <span>This resource has not been tagged.</span>
+          <p>This resource has not been tagged.</p>
         )
       }
 

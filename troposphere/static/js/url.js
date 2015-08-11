@@ -23,7 +23,7 @@ define(
         return 'provider/' + providerId + '/identity/' + identityId + '/volumes/' + model.id;
       },
 
-      application: function (model) {
+      image: function (model) {
         return 'images/' + model.id;
       },
 
@@ -75,7 +75,7 @@ define(
       if (options.relative) {
         url = '/' + url;
       } else {
-        url = '/application/' + url;
+        url = '/image/' + url;
       }
       return url;
     };
@@ -84,7 +84,7 @@ define(
       instance: _.partial(generateUrl, 'instance'),
       reportInstance: _.partial(generateUrl, 'reportInstance'),
       volume: _.partial(generateUrl, 'volume'),
-      application: _.partial(generateUrl, 'application'),
+      image: _.partial(generateUrl, 'image'),
       images: _.partial(generateUrl, 'images'),
       imageSearch: _.partial(generateUrl, 'imageSearch'),
       help: _.partial(generateUrl, 'help'),

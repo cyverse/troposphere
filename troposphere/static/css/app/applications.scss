@@ -349,14 +349,10 @@ ul.tags {
 .image-version-details {
   display: inline-block;
   vertical-align: middle;
-  font-size: 12px;
 
   //height: 75px;
   line-height: 21px;
 
-  .version {
-    font-size: 15px;
-  }
 }
 
 
@@ -523,29 +519,29 @@ ul.tag-list {
 
 .image-info-segment {
   margin-top: 12px;
+  border-bottom:solid 1px lightgrey;
+
+  h4, p{
+    margin-top:0;
+    margin-bottom:10px;
+  }
+
+  p {
+    color: #7D7D7D;
+  }
 
   textarea {
     font-size: 16px;
-    width: 95%;
     height: 215px;
   }
 
   input {
     font-size: 16px;
-    width: 95%;
   }
 
   .btn.new-tag {
     margin-left: 0px;
     margin-bottom: 5px;
-  }
-
-  .title {
-    color: #5A5A5A;
-    font-size: 16px;
-    margin-bottom: 5px;
-    //text-align: right;
-    margin-top: 0;
   }
 
   .content {

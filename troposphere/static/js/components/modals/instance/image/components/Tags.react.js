@@ -1,11 +1,12 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
     Backbone = require('backbone'),
     stores = require('stores'),
     TagMultiSelect = require('components/common/tags/TagMultiSelect.react');
 
   return React.createClass({
+    displayName: "Tags",
 
     propTypes: {
       onTagAdded: React.PropTypes.func.isRequired,

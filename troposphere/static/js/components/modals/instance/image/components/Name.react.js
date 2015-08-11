@@ -1,8 +1,9 @@
 define(function (require) {
 
-  var React = require('react');
+  var React = require('react/addons');
 
   return React.createClass({
+    displayName: "Name",
 
     propTypes: {
       onChange: React.PropTypes.func.isRequired,
@@ -18,7 +19,7 @@ define(function (require) {
       if (this.props.create) {
         return "*New Image Name"
       } else {
-        return "*Update Name of Image"
+        return "*Edit Name of Existing Image"
       }
     },
 

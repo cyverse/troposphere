@@ -1,16 +1,30 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
     _ = require('underscore'),
     BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
     stores = require('stores'),
-    NameDescriptionTagsStep = require('./image/steps/NameDescriptionTagsStep.react'),
+    ImageInfoStep = require('./image/steps/ImageInfoStep.react'),
+    VersionInfoStep = require('./image/steps/VersionInfoStep.react'),
     ProviderStep = require('./image/steps/ProviderStep.react'),
     VisibilityStep = require('./image/steps/VisibilityStep.react'),
     FilesToExcludeStep = require('./image/steps/FilesToExcludeStep.react'),
+    BootScriptsStep = require('./image/steps/BootScriptsStep.react'),
+    LicensingStep = require('./image/steps/LicensingStep.react'),
     ReviewStep = require('./image/steps/ReviewStep.react');
 
+  var IMAGE_INFO_STEP = 1,
+      VERSION_INFO_STEP = 2,
+      PROVIDER_STEP = 3,
+      VISIBILITY_STEP = 4,
+      EXCLUDE_FILES_STEP = 5,
+      SCRIPTS_STEP = 6,
+      LICENSING_STEP = 7,
+      REVIEW_STEP = 8;
+
   return React.createClass({
+    displayName: "InstanceImageWizardModal",
+
     mixins: [BootstrapModalMixin],
 
     propTypes: {
@@ -28,10 +42,14 @@ define(function (require) {
         step: 1,
         name: this.props.instance.get('image').name,
         description: this.props.instance.get('image').description,
+        versionName: this.props.versionName || "1.0",
+        versionChanges: "",
         imageTags: null,
         providerId: null,
         visibility: "public",
-        imageUsers: null,
+        imageUsers: new Backbone.Collection(),
+        activeScripts: new Backbone.Collection(),
+        activeLicenses: new Backbone.Collection(),
         filesToExclude: ""
       };
     },
@@ -63,16 +81,34 @@ define(function (require) {
       this.hide();
     },
 
-    onRequestImage: function () {
+    onReviewImage: function() {
+      var step = REVIEW_STEP,
+        data = data || {},
+        state = _.extend({step: step}, data);
+      this.setState(state);
+    },
+
+    onRequestImage: function() {
+      var scriptIDs, licenseIDs;
+      scriptIDs = this.state.activeScripts.map(function(script) {
+        return script.id;
+      }),
+      licenseIDs = this.state.activeLicenses.map(function(license) {
+        return license.id;
+      });
       var params = {
         newImage: this.state.newImage,
         name: this.state.name,
         description: this.state.description,
         tags: this.state.imageTags,
+        versionName: this.state.versionName,
+        versionChanges: this.state.versionChanges,
         providerId: this.state.providerId,
         visibility: this.state.visibility,
         imageUsers: this.state.imageUsers,
-        filesToExclude: this.state.filesToExclude.trim()
+        filesToExclude: this.state.filesToExclude.trim(),
+        scripts: scriptIDs,
+        licenses: licenseIDs
       };
       this.hide();
       this.props.onConfirm(params);
@@ -103,12 +139,16 @@ define(function (require) {
 
     renderBody: function () {
       var instance = this.props.instance,
-        step = this.state.step;
+          step = this.state.step,
+          allLicenses = stores.LicenseStore.getAll(),
+          activeLicenses = this.state.activeLicenses,
+          allScripts = stores.ScriptStore.getAll(),
+          activeScripts = this.state.activeScripts;
 
-      switch (step) {
-        case 1:
+      switch(step) {
+        case IMAGE_INFO_STEP:
           return (
-            <NameDescriptionTagsStep
+            <ImageInfoStep
               name={this.state.name}
               description={this.state.description}
               imageTags={this.state.imageTags}
@@ -119,7 +159,18 @@ define(function (require) {
               />
           );
 
-        case 2:
+        case VERSION_INFO_STEP:
+          return (
+            <VersionInfoStep
+              versionName={this.state.versionName}
+              versionChanges={this.state.versionChanges}
+              instance={instance}
+              onPrevious={this.onPrevious}
+              onNext={this.onNext}
+              />
+          );
+
+        case PROVIDER_STEP:
           return (
             <ProviderStep
               instance={instance}
@@ -129,7 +180,7 @@ define(function (require) {
               />
           );
 
-        case 3:
+        case VISIBILITY_STEP:
           return (
             <VisibilityStep
               instance={instance}
@@ -137,10 +188,11 @@ define(function (require) {
               imageUsers={this.state.imageUsers}
               onPrevious={this.onPrevious}
               onNext={this.onNext}
+              onSubmit={this.onReviewImage}
               />
           );
 
-        case 4:
+        case EXCLUDE_FILES_STEP:
           return (
             <FilesToExcludeStep
               filesToExclude={this.state.filesToExclude}
@@ -149,7 +201,29 @@ define(function (require) {
               />
           );
 
-        case 5:
+        case SCRIPTS_STEP:
+          return (
+            <BootScriptsStep
+              instance={instance}
+              activeScripts={activeScripts}
+              scripts={allScripts}
+              onPrevious={this.onPrevious}
+              onNext={this.onNext}
+              />
+          );
+
+        case LICENSING_STEP:
+          return (
+            <LicensingStep
+              instance={instance}
+              activeLicenses={activeLicenses}
+              licenses={allLicenses}
+              onPrevious={this.onPrevious}
+              onNext={this.onNext}
+              />
+          );
+
+        case REVIEW_STEP:
           return (
             <ReviewStep
               imageData={this.state}
@@ -161,14 +235,16 @@ define(function (require) {
     },
 
     render: function () {
-
+      var modalStyle ={
+        minHeight: "700px"
+      };
       return (
         <div className="modal fade">
           <div className="modal-dialog">
-            <div className="modal-content">
+            <div className="modal-content" style={modalStyle}>
               <div className="modal-header">
                 {this.renderCloseButton()}
-                <strong>{"Image Request"}</strong>
+                <h3>{"Image Request"}</h3>
               </div>
               {this.renderBody()}
             </div>

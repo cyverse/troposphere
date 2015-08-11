@@ -1,7 +1,7 @@
 define(
   [
-    'collections/ApplicationCollection',
-    'models/Application'
+    'collections/ImageCollection',
+    'models/Image'
   ], function(ImageCollection, Image) {
 
     return  new Image({

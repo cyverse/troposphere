@@ -108,8 +108,8 @@ LOGGING = {
 # STATIC_URL && DIRS == assets; where post-processed files go..
 STATIC_URL = '%s/assets/' % BASE_URL
 STATICFILES_DIRS = (
-        os.path.join(BASE_DIR,'assets/'),
-    )
+    os.path.join(BASE_DIR, 'assets/'),
+)
 # STATIC_ROOT must != assets
 # Additionally, the folder should be empty & outside of Version Control
 STATIC_ROOT = '/tmp_static/'

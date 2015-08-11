@@ -12,12 +12,12 @@ define(
 
       propTypes: {
         messages: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        applications: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        images: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
-      renderApplicationNotification: function (application) {
+      renderImageNotification: function(image){
         return (
-          <ImageCreatedMessage key={application.id} application={application}/>
+          <ImageCreatedMessage key={image.id} image={image}/>
         );
       },
 
@@ -30,8 +30,8 @@ define(
       render: function () {
         var notifications = [];
         var maintenanceNotifications = this.props.messages.map(this.renderMaintenanceNotification);
-        var applicationNotifications = this.props.applications.slice(0, 11).map(this.renderApplicationNotification);
-        notifications = notifications.concat(maintenanceNotifications, applicationNotifications);
+        var imageNotifications = this.props.images.slice(0,11).map(this.renderImageNotification);
+        notifications = notifications.concat(maintenanceNotifications, imageNotifications);
 
         if (notifications.length > 0) {
           return (

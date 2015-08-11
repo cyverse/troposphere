@@ -1,12 +1,13 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
     Backbone = require('backbone'),
-    ChosenDropdownItem = require('./ChosenDropdownItem.react'),
+    ChosenDropdownTag = require('./ChosenDropdownTag.react'),
     ChosenSelectedTag = require('./ChosenSelectedTag.react'),
     ChosenMixin = require('components/mixins/ChosenMixinExternal.react');
 
   return React.createClass({
+    displayName: "TagMultiSelect",
     mixins: [ChosenMixin],
 
     propTypes: {
@@ -35,7 +36,7 @@ define(function (require) {
 
     renderModel: function (tag) {
       return (
-        <ChosenDropdownItem
+        <ChosenDropdownTag
           key={tag.id}
           tag={tag}
           propertyName={'name'}
@@ -53,7 +54,11 @@ define(function (require) {
           onRemoveTag={this.props.onModelRemoved}
           />
       )
+    },
+    render: function() {
+      return this.renderChosenSearchSelect();
     }
+
 
   })
 

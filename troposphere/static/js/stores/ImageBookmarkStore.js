@@ -4,7 +4,7 @@ define(function (require) {
     BaseStore = require('stores/BaseStore'),
     ImageBookmarkCollection = require('collections/ImageBookmarkCollection'),
     ImageBookmarkConstants = require('constants/ImageBookmarkConstants'),
-    ImageCollection = require('collections/ApplicationCollection'),
+    ImageCollection = require('collections/ImageCollection'),
     stores = require('stores');
 
   var ImageBookmarkStore = BaseStore.extend({
@@ -16,8 +16,8 @@ define(function (require) {
 
       var images = this.models.map(function (ib) {
         // this will cause the image to be fetched if we don't yet have it
-        var image = stores.ApplicationStore.get(ib.get('image').id);
-        if (!image) haveAllImages = false;
+        var image = stores.ImageStore.get(ib.get('image').id);
+        if(!image) haveAllImages = false;
         return image;
       });
 

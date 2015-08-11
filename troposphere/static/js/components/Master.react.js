@@ -1,7 +1,7 @@
 define(function (require) {
   "use strict";
 
-  var React = require('react'),
+  var React = require('react/addons'),
       stores = require('stores'),
       Backbone = require('backbone'),
       context = require('context'),

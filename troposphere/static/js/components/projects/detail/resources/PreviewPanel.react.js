@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react'),
+  var React = require('react/addons'),
     Backbone = require('backbone'),
     InstancePreviewView = require('components/projects/resources/instance/preview/InstancePreviewView.react'),
     VolumePreviewView = require('components/projects/resources/volume/preview/VolumePreviewView.react'),
