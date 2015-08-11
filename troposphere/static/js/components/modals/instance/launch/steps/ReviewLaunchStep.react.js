@@ -98,16 +98,16 @@ define(function (require) {
             var maxAllocation = allocation.threshold;
             var currentAllocation = allocation.current;
 
-            return {
-                currentUsage: currentAllocation,
-                maxAllocation: maxAllocation,
-                percentUsed: currentAllocation / maxAllocation
-            };
-        },
-        renderAllocationConsumption: function (identity) {
-            var allocation = identity.get('allocation'),
-            // Allocation Usage
-                allocationUsageStats = this.calculateAllocationUsage(allocation),
+          return {
+              currentUsage: currentAllocation,
+              maxAllocation: maxAllocation,
+              percentUsed: currentAllocation / maxAllocation
+          };
+      },
+      renderAllocationConsumption: function (identity) {
+          var allocation = identity.get('usage'),
+          // Allocation Usage
+              allocationUsageStats = this.calculateAllocationUsage(allocation),
 
             // convert to percentages
                 currentlyUsed = allocationUsageStats.currentUsage,
