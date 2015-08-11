@@ -16,7 +16,9 @@ define(function (require) {
       e.preventDefault();
       modals.HelpModals.requestMoreResources();
     },
-
+    getState: function() {
+        return {};
+    }
     updateState: function() {
       if (this.isMounted()) this.setState(this.getState());
     },
