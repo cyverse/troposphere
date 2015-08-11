@@ -28,16 +28,22 @@ define(function (require) {
     },
 
     updateState: function () {
+      console.log("YO YO YO");
       if (this.isMounted()) this.setState(this.getState())
     },
 
-    componentDidMount: function () {
+    loadBadgeData: function(){
+      stores.BadgeStore.getAll(),
+      stores.MyBadgeStore.getAll(),
+      stores.InstanceHistoryStore.getAllAndCheckBadges(); 
+    },
+
+    componentDidMount: function () { 
+      this.loadBadgeData();  
       // subscribe to all Stores
       Object.keys(stores).forEach(function (storeName) {
         stores[storeName].addChangeListener(this.updateState);
       }.bind(this));
-      var BadgeStore = stores.BadgeStore.getAll();
-      var MyBadgeStore = stores.MyBadgeStore.getAll();
       // The code below is only relevant to logged in users
       if (!context.profile) return;
 
@@ -68,7 +74,7 @@ define(function (require) {
 
     render: function () {
       var maintenanceMessages = stores.MaintenanceMessageStore.getAll() || new Backbone.Collection(),
-        marginTop = maintenanceMessages.length * 24 + "px";
+      marginTop = maintenanceMessages.length * 24 + "px";
 
       return (
         <div>

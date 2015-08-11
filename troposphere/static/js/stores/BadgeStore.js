@@ -6,7 +6,7 @@ define(function (require) {
 
   var  BadgeStore = BaseStore.extend({
     collection: BadgeCollection
-  });
+  }); 
 
   var store = new BadgeStore();
 

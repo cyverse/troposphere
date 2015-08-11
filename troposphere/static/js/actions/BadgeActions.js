@@ -12,7 +12,8 @@ define(function (require) {
 
   return {
 
-    checkInstances: function(){
+    checkInstanceBadges: function(){
+      console.log("YOOOO");
       var instanceCount = stores.InstanceHistoryStore.getAll().meta.count;
       if(instanceCount >= 1){
         this.checkOrGrant(Badges.LAUNCH_1_INSTANCE_BADGE);
@@ -33,6 +34,7 @@ define(function (require) {
 
     checkOrGrant: function(badgeId){
       if(!stores.MyBadgeStore.get(badgeId)){
+        console.log(stores.BadgeStore.getAll());
         this.grant({badge: stores.BadgeStore.get(badgeId)});
       }
     },
