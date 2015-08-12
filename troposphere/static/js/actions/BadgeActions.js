@@ -21,11 +21,10 @@ define(function (require) {
       if(instanceCount >= 10){
         this.checkOrGrant(Badges.LAUNCH_10_INSTANCES_BADGE);
       }
-
     },
 
     checkBookmarkBadges: function(){
-      var favoritedImageCount = stores.ImageBookmarkStore.getBookmarkedImages().length;
+      var favoritedImageCount = stores.ImageBookmarkStore.getAll().meta.count;
       if(favoritedImageCount >= 1){
         this.checkOrGrant(Badges.FAVORITE_1_IMAGE_BADGE); 
       }
@@ -36,15 +35,8 @@ define(function (require) {
 
     checkOrGrant: function(badgeId){
       if(!stores.MyBadgeStore.get(badgeId)){
-        console.log(stores.BadgeStore.getAll());
         this.grant({badge: stores.BadgeStore.get(badgeId)});
       }
-    },
-
-    // Ask if user deserves badge for something not directly linked to an action
-    ask: function(){
-      this.checkInstances();
-      this.checkBookmarks();
     },
 
     getCookie: function(name) {
