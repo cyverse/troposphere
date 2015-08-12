@@ -28,7 +28,6 @@ define(function (require) {
     },
 
     updateState: function () {
-      console.log("YO YO YO");
       if (this.isMounted()) this.setState(this.getState())
     },
 
@@ -36,6 +35,7 @@ define(function (require) {
       stores.BadgeStore.getAll(),
       stores.MyBadgeStore.getAll(),
       stores.InstanceHistoryStore.getAllAndCheckBadges(); 
+      stores.ImageBookmarkStore.getAllAndCheckBadges();
     },
 
     componentDidMount: function () { 
