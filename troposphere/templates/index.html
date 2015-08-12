@@ -74,6 +74,13 @@
         {%  else %}
             var show_troposphere_only = false;
         {% endif %}
+
+        {% if show_instance_metrics %}
+            var show_instance_metrics = true;
+        {%  else %}
+            var show_instance_metrics = false;
+        {% endif %}
+
     </script>
 
     <!-- Application dependencies -->

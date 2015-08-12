@@ -40,6 +40,9 @@ BASE_URL = ''  # ex: "ui"
 ALLOWED_HOSTS = [SERVER_URL.replace("https://",""), "localhost"]
 
 
+# Uncomment to include instance metrics, 
+# the version of atmosphere must include the metrics endpoint 
+# SHOW_INSTANCE_METRICS = True
 
 # CAS
 CAS_SERVER = 'https://cas.example.com'

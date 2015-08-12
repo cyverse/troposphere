@@ -1,4 +1,5 @@
 import json
+import logging
 
 from django.conf import settings
 from django.http import HttpResponse
@@ -71,14 +72,16 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
 
 
 def _handle_authenticated_application_request(request, maintenance_records):
-    show_troposphere_only = hasattr(settings, "SHOW_TROPOSPHERE_ONLY") and settings.SHOW_TROPOSPHERE_ONLY is True
+    show_troposphere_only = getattr(settings, "SHOW_TROPOSPHERE_ONLY", False)
+    show_instance_metrics = getattr(settings, "SHOW_INSTANCE_METRICS", False)
 
     template_params = {
         'access_token': request.session.get('access_token'),
         'emulator_token': request.session.get('emulator_token'),
         'emulated_by': request.session.get('emulated_by'),
         'records': maintenance_records,
-        'show_troposphere_only': show_troposphere_only
+        'show_troposphere_only': show_troposphere_only,
+        'show_instance_metrics': show_instance_metrics
     }
 
     template_params['THEME_HEADER_TEXT'] = settings.THEME_HEADER_TEXT
