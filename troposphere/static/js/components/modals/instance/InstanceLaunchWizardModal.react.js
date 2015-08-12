@@ -279,19 +279,20 @@ define(function (require) {
         state.title = this.state.breadcrumbs[state.step].name;
         this.setState(state);
     },
-    onNext: function(data) {
-        var nextStep = this.state.step + 1,
-            data = data || {},
-            state = _.extend({step: nextStep}, data);
-        if(this.props.project && state.step == PROJECT_STEP) {
-            //Skip to the review step.
-            state.step = REVIEW_STEP;
-        } else if(this.state.step == PROJECT_STEP) {
-            //TODO: Remove this line when re-adding User/Admin Options
-            state.step = REVIEW_STEP;
-        }
-        state.title = this.state.breadcrumbs[state.step].name;
-        this.setState(state);
+
+    onNext: function (data) {
+      var nextStep = this.state.step + 1,
+        data = data || {},
+        state = _.extend({step: nextStep}, data);
+      if (this.props.project && state.step == PROJECT_STEP) {
+        //Skip to the review step.
+        state.step = REVIEW_STEP - 1;
+      } else if (this.state.step == PROJECT_STEP) {
+        //TODO: Remove this line when re-adding User/Admin Options
+        state.step = REVIEW_STEP - 1;
+      }
+      state.title = this.state.breadcrumbs[state.step].name;
+      this.setState(state);
     },
     toReview: function(data) {
         var state = _.extend({step: REVIEW_STEP}, data);

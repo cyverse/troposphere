@@ -41,7 +41,7 @@ $tag-color: $brand-primary;
 
 // Bootstrap hack to keep Modal footer at bottom on min-height modals
 .modal-footer {
-  position:absolute;
+  position:relative;
   width:100%;
   bottom:0;
 }
