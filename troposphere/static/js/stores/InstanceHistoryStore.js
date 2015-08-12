@@ -14,7 +14,7 @@ define(function (require) {
 
   // Fetch models and check badges when data is retreived 
   InstanceHistoryStore.prototype.getAllAndCheckBadges = function () {
-    this.fetchModels();
+    this.getAll();
     this.addChangeListener(function(){
         actions.BadgeActions.checkInstanceBadges();
     });
