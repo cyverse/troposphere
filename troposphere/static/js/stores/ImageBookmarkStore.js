@@ -12,13 +12,12 @@ define(function (require) {
     collection: ImageBookmarkCollection,
 
     getAllAndCheckBadges: function () {
-      this.getBookmarkedImages();
-      //this.addChangeListener(function(){
-          //this.getBookmarkedImages();
-          //actions.BadgeActions.checkBookmarkBadges();
-      //});
+      this.getAll();
+      this.addChangeListener(function(){
+        actions.BadgeActions.checkBookmarkBadges();
+      });
     },
-
+  
     getBookmarkedImages: function () {
       if (!this.models) return this.fetchModels();
       var haveAllImages = true;
@@ -32,7 +31,6 @@ define(function (require) {
 
       if (!haveAllImages) return null;
       // Check the user's badges when we know we have all of their bookmarked images
-      actions.BadgeActions.checkBookmarkBadges();
       return new ImageCollection(images);
     }
 
