@@ -4,8 +4,8 @@ define(function (require) {
     BaseStore = require('stores/BaseStore'),
     ImageBookmarkCollection = require('collections/ImageBookmarkCollection'),
     ImageBookmarkConstants = require('constants/ImageBookmarkConstants'),
-    ImageCollection = require('collections/ApplicationCollection'),
     actions = require('actions'),
+    ImageCollection = require('collections/ImageCollection'),
     stores = require('stores');
 
   var ImageBookmarkStore = BaseStore.extend({

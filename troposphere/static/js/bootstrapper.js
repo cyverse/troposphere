@@ -29,19 +29,25 @@ define(function (require) {
     });
   };
 
-  // Register which stores the application should use
+  // Register which stores the image should use
   var stores = require('stores');
   stores.AllocationStore = require('stores/AllocationStore');
-  stores.ApplicationStore = require('stores/ApplicationStore');
-  stores.ApplicationVersionStore = require('stores/ApplicationVersionStore');
   stores.BadgeStore = require('stores/BadgeStore');
+  stores.ImageStore = require('stores/ImageStore');
+  stores.ImageVersionStore = require('stores/ImageVersionStore');
+  stores.ImageVersionMembershipStore = require('stores/ImageVersionMembershipStore');
+  stores.ImageVersionLicenseStore = require('stores/ImageVersionLicenseStore');
+  stores.ImageVersionScriptStore = require('stores/ImageVersionScriptStore');
   stores.IdentityStore = require('stores/IdentityStore');
   stores.ImageBookmarkStore = require('stores/ImageBookmarkStore');
   stores.InstanceHistoryStore = require('stores/InstanceHistoryStore');
   stores.InstanceStore = require('stores/InstanceStore');
   stores.InstanceTagStore = require('stores/InstanceTagStore');
+  stores.LicenseStore = require('stores/LicenseStore');
+  stores.ScriptStore = require('stores/ScriptStore');
   stores.MaintenanceMessageStore = require('stores/MaintenanceMessageStore');
   stores.MyBadgeStore = require('stores/MyBadgeStore');
+  stores.MembershipStore = require('stores/MembershipStore');
   stores.ProfileStore = require('stores/ProfileStore');
   stores.ProjectStore = require('stores/ProjectStore');
   stores.ProjectInstanceStore = require('stores/ProjectInstanceStore');
@@ -58,32 +64,39 @@ define(function (require) {
   stores.VolumeStore = require('stores/VolumeStore');
 
   var actions = require('actions');
-  actions.ApplicationActions = require('actions/ApplicationActions');
   actions.BadgeActions = require('actions/BadgeActions');
   actions.HelpActions = require('actions/HelpActions');
+  actions.ImageActions = require('actions/ImageActions');
+  actions.ImageVersionActions = require('actions/ImageVersionActions');
+  actions.ImageVersionMembershipActions = require('actions/ImageVersionMembershipActions');
+  actions.ImageVersionLicenseActions = require('actions/ImageVersionLicenseActions');
+  actions.ImageVersionScriptActions = require('actions/ImageVersionScriptActions');
   actions.ImageBookmarkActions = require('actions/ImageBookmarkActions');
   actions.InstanceActions = require('actions/InstanceActions');
   actions.InstanceTagActions = require('actions/InstanceTagActions');
   actions.InstanceVolumeActions = require('actions/InstanceVolumeActions');
+  //actions.MembershipActions     = require('actions/MembershipActions');
+  actions.LicenseActions = require('actions/LicenseActions');
+  actions.ScriptActions = require('actions/ScriptActions');
   actions.NullProjectActions = require('actions/NullProjectActions');
   actions.ProfileActions = require('actions/ProfileActions');
   actions.ProjectActions = require('actions/ProjectActions');
   actions.ProviderMachineActions = require('actions/ProviderMachineActions');
   actions.ProjectInstanceActions = require('actions/ProjectInstanceActions');
-  actions.ProjectVolumeActions   = require('actions/ProjectVolumeActions');
-  actions.TagActions             = require('actions/TagActions');
+  actions.ProjectVolumeActions = require('actions/ProjectVolumeActions');
+  actions.TagActions = require('actions/TagActions');
   //actions.UserActions             = require('actions/UserActions');
-  actions.VolumeActions          = require('actions/VolumeActions');
+  actions.VolumeActions = require('actions/VolumeActions');
 
   var modals = require('modals');
-      modals.BadgeModals = require('modals/BadgeModals');
-      modals.HelpModals = require('modals/HelpModals');
-      modals.InstanceModals = require('modals/InstanceModals');
-      modals.InstanceVolumeModals = require('modals/InstanceVolumeModals');
-      modals.ProjectModals = require('modals/ProjectModals');
-      modals.TagModals = require('modals/TagModals');
-      modals.VersionModals = require('modals/VersionModals');
-      modals.VolumeModals = require('modals/VolumeModals');
+  modals.BadgeModals = require('modals/BadgeModals');
+  modals.HelpModals = require('modals/HelpModals');
+  modals.InstanceModals = require('modals/InstanceModals');
+  modals.InstanceVolumeModals = require('modals/InstanceVolumeModals');
+  modals.ProjectModals = require('modals/ProjectModals');
+  modals.TagModals = require('modals/TagModals');
+  modals.VersionModals = require('modals/VersionModals');
+  modals.VolumeModals = require('modals/VolumeModals');
 
   return {
     run: function () {
