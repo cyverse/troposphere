@@ -13,7 +13,6 @@ define(function (require) {
   return {
 
     checkInstanceBadges: function(){
-      console.log("YOOOO");
       var instanceCount = stores.InstanceHistoryStore.getAll().meta.count;
       if(instanceCount >= 1){
         this.checkOrGrant(Badges.LAUNCH_1_INSTANCE_BADGE);
@@ -25,8 +24,11 @@ define(function (require) {
 
     },
 
-    checkBookmarks(){
+    checkBookmarkBadges: function(){
       var favoritedImageCount = stores.ImageBookmarkStore.getBookmarkedImages().length;
+      if(favoritedImageCount >= 1){
+        this.checkOrGrant(Badges.FAVORITE_1_IMAGE_BADGE); 
+      }
       if(favoritedImageCount >= 5){
         this.checkOrGrant(Badges.FAVORITE_5_IMAGES_BADGE);
       }
