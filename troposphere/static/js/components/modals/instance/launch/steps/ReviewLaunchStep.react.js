@@ -190,7 +190,7 @@ define(function (require) {
                                     className='form-control'
                                     id='instance-name'
                                     value={this.state.name}
-                                    readonly
+                                    readOnly
                                 />
                             </div>
                         </div>
@@ -198,7 +198,7 @@ define(function (require) {
                         <div className='form-group'>
                             <label htmlFor='machine' className="col-sm-3 control-label">Version</label>
                             <div className="col-sm-9 image-versions image-info-segment row">
-                              <VersionList image={this.state.image} versions={versions} editable={false} showAvailability={false} readonly />
+                              <VersionList image={this.state.image} versions={versions} editable={false} showAvailability={false} readOnly />
                             </div>
                         </div>
                         <h5>Resources</h5>
@@ -210,7 +210,7 @@ define(function (require) {
                                     className='form-control'
                                     id='identity'
                                     value={this.state.identity.get('provider').name}
-                                    readonly
+                                    readOnly
                                 />
                             </div>
                         </div>
@@ -223,7 +223,7 @@ define(function (require) {
                                     className='form-control'
                                     id='size'
                                     value={this.state.size.formattedDetails()}
-                                    readonly
+                                    readOnly
                                 />
                             </div>
                         </div>
@@ -236,7 +236,7 @@ define(function (require) {
                                     className='form-control'
                                     id='project'
                                     value={this.state.project.get('name')}
-                                    readonly
+                                    readOnly
                                 />
                             </div>
                         </div>
