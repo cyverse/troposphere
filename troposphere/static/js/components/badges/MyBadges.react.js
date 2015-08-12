@@ -58,7 +58,6 @@ define(function (require) {
 
       return (
         <div className="mine">
-          <h4 onClick={this.check}>Check badges</h4>
           <ul id="my-badges-list">
           {myBadgeDisplay}
           </ul>
