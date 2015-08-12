@@ -96,6 +96,15 @@ define(function (require) {
             };
         },
         renderAllocationConsumption: function (identity) {
+            if(!identity) {
+                var overage_message = (
+                    <div>
+                        <strong>Select another Provider.</strong>
+                        <span>{" Choose another provider to launch a new instance."}</span>
+                    </div>
+                );
+                return this.renderProgressBar("No Identity Selected", 101, 0, overage_message);
+            }
             var allocation = identity.get('allocation'),
             // Allocation Usage
                 allocationUsageStats = this.calculateAllocationUsage(allocation),
@@ -148,27 +157,29 @@ define(function (require) {
 
         renderBody: function () {
             var image = this.props.image,
+                identityID,
                 identities = stores.IdentityStore.getAll(),
                 providers = stores.ProviderStore.getAll(),
                 versions = stores.ImageStore.getVersions(image.id);
-                // versions = image.get('provider_images');
 
             if (!providers || !identities || !versions) return <div className="loading"></div>;
 
             // don't show duplicate images
             versions = this.cleanVersions(versions);
-
-            // remove identities whose provider has no versions
-            // identities = new identities.constructor(identities.filter(function (i) {
-            //     return versions.find(function (m) {
-            //         return m.get('provider').id === i.get('provider').id;
-            //     });
-            // }));
-            if (!this.state.identity) {
-                this.state.identity = identities.first();
-            }
+            //Keep things in order
+            versions = versions.sort();
+            identities = identities.sort();
             if (!this.state.version) {
-                this.state.version = versions.first();
+                this.state.version = versions.last();
+            }
+            if (!this.state.identity) {
+                //NOTE: DO NOT set an identity if no version can be found.
+                if(this.state.version) {
+                    this.state.identity = identities.first();
+                    identityID = this.state.identity.id;
+                } else {
+                    identityID = -1;
+                }
             }
 
             return (
@@ -198,17 +209,11 @@ define(function (require) {
                                 />
                             </div>
                         </div>
-                        {
-                        //TODO: Include some interesting information about Selected version here?
-                        //IDEAS: Description
-                        //TODO: Include some interesting information about Selected Identity here?
-                        // IDEAS: Current Allocation Usage?
-                        }
                         <div className='form-group'>
                             <label htmlFor='identity' className="col-sm-3 control-label">Provider</label>
                             <div className="col-sm-9">
                                 <IdentitySelect
-                                    identityId={this.state.identity.id}
+                                    identityId={identityID}
                                     identities={identities}
                                     providers={providers}
                                     onChange={this.onIdentityChange}

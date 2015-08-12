@@ -23,7 +23,7 @@ define(function (require) {
         _profile = profile;
         ProfileStore.emitChange();
       }).fail(function(result){
-        if(result.status === 403) {
+        if(result.status === 403 || result.status === 500) {
           // Redirect the user to the forbidden page with more info
           window.location.pathname = "/forbidden";
         }else {
