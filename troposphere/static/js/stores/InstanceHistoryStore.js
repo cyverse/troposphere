@@ -12,14 +12,12 @@ define(function (require) {
     }
   });
 
-  // Returns the entire local cache, everything in this.models
+  // Fetch models and check badges when data is retreived 
   InstanceHistoryStore.prototype.getAllAndCheckBadges = function () {
-    if (!this.models) {
-      this.fetchModels();//done(function(){console.log("done!");});
-    } else {
-      actions.BadgeActions.checkInstanceBadges();  
-      return this.models;
-    }
+    this.fetchModels();
+    this.addChangeListener(function(){
+        actions.BadgeActions.checkInstanceBadges();
+    });
   };
 
   var store = new InstanceHistoryStore();
