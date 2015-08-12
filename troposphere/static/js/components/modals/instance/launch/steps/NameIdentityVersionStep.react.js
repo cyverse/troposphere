@@ -32,7 +32,7 @@ define(function (require) {
         isSubmittable: function () {
             if (!this.state.identity)
                 return false
-            var allocation = this.state.identity.get('allocation'),
+            var allocation = this.state.identity.get('usage'),
             // Allocation Usage cannot exceed 100%
                 allocationUsageStats = this.calculateAllocationUsage(allocation);
             //TODO: Short-circuit on isStaff
@@ -97,7 +97,7 @@ define(function (require) {
             };
         },
         renderAllocationConsumption: function (identity) {
-            var allocation = identity.get('allocation'),
+            var allocation = identity.get('usage'),
             // Allocation Usage
                 allocationUsageStats = this.calculateAllocationUsage(allocation),
 
