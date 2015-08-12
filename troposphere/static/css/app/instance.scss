@@ -3,6 +3,9 @@
 // todo: make this inherit from a resource version so we can reuse for volumes
 //
 
+// Styling for instance metrics component
+@import "instance_metrics";
+
 .instance-status-light {
   width: 12px;
   height: 12px;

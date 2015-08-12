@@ -89,6 +89,9 @@ def cas_oauth_service(request):
     code_service_ticket = request.GET['code']
     access_token, expiry_date = cas_oauth_client.get_access_token(code_service_ticket)
 
+    if hasattr(settings, "CAS_DEV_TOKEN"):
+        access_token = settings.CAS_DEV_TOKEN
+
     if not access_token:
         #code_service_ticket has expired (They don't last very long...)
         #Lets try again (Redirect to OAuth-wrapped CAS login)

@@ -1,4 +1,5 @@
 import json
+import logging
 
 from django.conf import settings
 from django.http import HttpResponse
@@ -95,6 +96,15 @@ def _handle_authenticated_application_request(request, maintenance_records):
 
     if hasattr(settings, "API_V2_ROOT"):
         template_params['API_V2_ROOT'] = settings.API_V2_ROOT
+
+    template_params["show_instance_metrics"] = getattr(settings, "SHOW_INSTANCE_METRICS", False)
+
+    if settings.SHOW_INSTANCE_METRICS:
+        try: 
+            template_params["hyper_stats_url"] = settings.HYPER_STATS_URL
+        except AttributeError:
+            logger.warn("SHOW_INSTANCE_METRICS disabled: requires HYPER_STATS_URL to be set")
+            template_params["show_instance_metrics"] = False
 
     user_preferences, created = UserPreferences.objects.get_or_create(user=request.user)
 
