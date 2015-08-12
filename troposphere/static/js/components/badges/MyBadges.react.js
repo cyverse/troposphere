@@ -38,10 +38,8 @@ define(function (require) {
         )
       }
       var myBadges = stores.MyBadgeStore.getAll();
-      var instanceHistory = stores.InstanceHistoryStore.getAll();
-      var bookmarkedImages = stores.ImageBookmarkStore.getBookmarkedImages();
 
-      if(!myBadges || !instanceHistory || !bookmarkedImages){
+      if(!myBadges){
         return(
           <div className="loading" />
         )
