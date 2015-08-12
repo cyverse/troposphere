@@ -23,10 +23,6 @@ define(function (require) {
       };
     },
 
-    check: function(){
-      actions.BadgeActions.ask();
-    },
-
     render: function () {
       // get around undefined email when calling from MyBadgeStore
       var email = stores.ProfileStore.get().get('email');
