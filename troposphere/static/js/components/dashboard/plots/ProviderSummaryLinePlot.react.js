@@ -112,11 +112,11 @@ define(function (require) {
 
       getDataForIdentity: function (identity) {
         var provider = this.props.providers.get(identity.get("provider").id),
-          sizes = this.props.sizes,
-          instances = this.props.instances,
-          volumes = this.props.volumes,
-          quota = identity.get('quota'),
-          allocation = identity.get('allocation');
+            sizes = this.props.sizes,
+            instances = this.props.instances,
+            volumes = this.props.volumes,
+            quota = identity.get('quota'),
+            allocation = identity.get('usage');
 
         var providerInstances = this.getProviderInstances(instances, provider);
         var providerVolumes = this.getProviderVolumes(volumes, provider);
