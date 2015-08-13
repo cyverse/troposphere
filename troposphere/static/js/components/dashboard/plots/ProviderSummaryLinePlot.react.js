@@ -122,7 +122,7 @@ define(
             instances = this.props.instances,
             volumes = this.props.volumes,
             quota = identity.get('quota'),
-            allocation = identity.get('allocation');
+            allocation = identity.get('usage');
 
         var providerInstances = this.getProviderInstances(instances, provider);
         var providerVolumes = this.getProviderVolumes(volumes, provider);
