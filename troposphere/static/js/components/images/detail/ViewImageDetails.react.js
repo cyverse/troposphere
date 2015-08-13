@@ -32,9 +32,9 @@ define(
 
         if(profile.id && profile.get('username') === image.get('created_by').username || profile.get('is_staff')){
           return (
-            <div className="edit-link-row">
-              <a className="btn btn-primary btn-sm"
-                 onClick={this.props.onEditImageDetails}>Edit details</a>
+            <div className="edit-link-row clearfix">
+              <a className="pull-right"
+                 onClick={this.props.onEditImageDetails}><span className="glyphicon glyphicon-pencil"></span> Edit details</a>
             </div>
           )
         }
@@ -50,7 +50,6 @@ define(
         )
         return (
           <div>
-            {this.renderEditLink()}
             <div>
               <NameView image={this.props.image}/>
               <CreatedView image={this.props.image}/>
@@ -58,6 +57,7 @@ define(
               <DescriptionView image={this.props.image}/>
               {tagsView}
             </div>
+            {this.renderEditLink()}
           </div>
         );
       }

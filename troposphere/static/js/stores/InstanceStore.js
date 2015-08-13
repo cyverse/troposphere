@@ -36,7 +36,11 @@ define(function (require) {
     // -----------------
 
     isInFinalState: function(instance){
-      return instance.get('state').isInFinalState();
+        if(instance.get('state').get('status') == 'active' && instance.get('ip_address').charAt(0) == '0'){
+            return false;
+        }
+    
+        return instance.get('state').isInFinalState();
     }
 
   });
