@@ -54,7 +54,7 @@ define(
         return (
           <div className="modal fade">
             <div className="modal-dialog">
-              <div className="modal-content">
+              <div className="modal-content badge-modal-content">
                 <div className="modal-header">
                   {this.renderCloseButton()}
                   <strong>{this.props.badge.get('name')}</strong>
