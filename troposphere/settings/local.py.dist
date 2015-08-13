@@ -83,8 +83,13 @@ THEME_FAVICON = '/assets/images/favicon.ico'
 THEME_CSS_FILE = '/assets/css/app/app.css'
 THEME_FOOTER_TEXT = "iPlant Collaborative"
 UI_VERSION = 'Hawaiian Hawk'
+# Host for authenticating a badge request
 #BADGE_HOST = "https://proxy_host"
+# Host for Badgekit API
 #BADGE_API_HOST = "https://badge_api_host"
+# Badgekit slug for the system your badges belong to
 #BADGE_SYSTEM_SLUG = "my_system"
+# Readable name of your badge system
 #BADGE_SYSTEM_NAME = "My System"
+# Badge secret used for badge authentication server
 #BADGE_SECRET = "secret_here"
