@@ -73,7 +73,7 @@ class BadgeViewSet(viewsets.GenericViewSet):
                 'Content-Type': 'application/json'
             }
         }
-        r = requests.post(url + path, data=body, headers=options['headers'])
+        r = requests.post(url + path, data=body, headers=options['headers'], verify=False)
         return Response(data=r.json(), status=status.HTTP_201_CREATED)
 
     def retrieve(self, request, *args, **kwargs):
@@ -102,7 +102,7 @@ class BadgeViewSet(viewsets.GenericViewSet):
             }
         }
 
-        r = requests.get(url + path, headers=options['headers'])
+        r = requests.get(url + path, headers=options['headers'], verify=False)
         return Response(data=r.json(), status=status.HTTP_200_OK)
 
     def list(self, request, *args, **kwargs):
@@ -130,5 +130,5 @@ class BadgeViewSet(viewsets.GenericViewSet):
             }
         }
 
-        r = requests.get(url + path, headers=options['headers'])
+        r = requests.get(url + path, headers=options['headers'], verify=False)
         return Response(data=r.json(), status=status.HTTP_200_OK)
