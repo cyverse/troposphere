@@ -1,0 +1,67 @@
+.badges {
+  .buttons{
+    margin-left: 12.5%;
+    margin-right: 12.5%;
+  }
+  h1 {
+    text-align: center;
+  }
+  ul {
+    position: relative;
+    padding: 0;
+  }
+  .image {
+    width: 100%;
+  }
+  .text {
+    text-align: center;
+    overflow-y: scroll;
+    height: 40px;
+    position: relative;
+  }
+
+  li:hover{
+    cursor: pointer;
+  }
+
+  li {
+    position: relative;
+    display: inline-block;
+    width: 10.5%;
+    margin: 1%;   
+
+    h4 {
+      text-align: center;
+    }
+  }
+  .all {
+    list-style-type: none;
+  }
+  .mine {
+    list-style-type: none;
+  }
+  .btn{
+    margin-top: 2%;
+    margin-bottom: 2%;
+    width: 25%;
+  }
+}
+
+.badge-modal-image{
+  width: 50%;
+  float: left;
+}
+
+.badge-modal-text {
+  width: 50%;
+  display: inline-block;
+  float: right;
+}
+
+.badge-li{
+  vertical-align: middle;
+}
+
+.badge-modal-content{
+  height: 400px;
+}

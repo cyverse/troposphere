@@ -32,6 +32,7 @@ define(function (require) {
   // Register which stores the image should use
   var stores = require('stores');
   stores.AllocationStore = require('stores/AllocationStore');
+  stores.BadgeStore = require('stores/BadgeStore');
   stores.ImageStore = require('stores/ImageStore');
   stores.ImageVersionStore = require('stores/ImageVersionStore');
   stores.ImageVersionMembershipStore = require('stores/ImageVersionMembershipStore');
@@ -45,6 +46,7 @@ define(function (require) {
   stores.LicenseStore = require('stores/LicenseStore');
   stores.ScriptStore = require('stores/ScriptStore');
   stores.MaintenanceMessageStore = require('stores/MaintenanceMessageStore');
+  stores.MyBadgeStore = require('stores/MyBadgeStore');
   stores.MembershipStore = require('stores/MembershipStore');
   stores.ProfileStore = require('stores/ProfileStore');
   stores.ProjectStore = require('stores/ProjectStore');
@@ -62,6 +64,8 @@ define(function (require) {
   stores.VolumeStore = require('stores/VolumeStore');
 
   var actions = require('actions');
+  actions.BadgeActions = require('actions/BadgeActions');
+  actions.HelpActions = require('actions/HelpActions');
   actions.ImageActions = require('actions/ImageActions');
   actions.ImageVersionActions = require('actions/ImageVersionActions');
   actions.ImageVersionMembershipActions = require('actions/ImageVersionMembershipActions');
@@ -85,6 +89,7 @@ define(function (require) {
   actions.VolumeActions = require('actions/VolumeActions');
 
   var modals = require('modals');
+  modals.BadgeModals = require('modals/BadgeModals');
   modals.HelpModals = require('modals/HelpModals');
   modals.InstanceModals = require('modals/InstanceModals');
   modals.InstanceVolumeModals = require('modals/InstanceVolumeModals');

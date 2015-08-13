@@ -4,12 +4,20 @@ define(function (require) {
     BaseStore = require('stores/BaseStore'),
     ImageBookmarkCollection = require('collections/ImageBookmarkCollection'),
     ImageBookmarkConstants = require('constants/ImageBookmarkConstants'),
+    actions = require('actions'),
     ImageCollection = require('collections/ImageCollection'),
     stores = require('stores');
 
   var ImageBookmarkStore = BaseStore.extend({
     collection: ImageBookmarkCollection,
 
+    getAllAndCheckBadges: function () {
+      this.getAll();
+      this.addChangeListener(function(){
+        actions.BadgeActions.checkBookmarkBadges();
+      });
+    },
+  
     getBookmarkedImages: function () {
       if (!this.models) return this.fetchModels();
       var haveAllImages = true;
@@ -22,7 +30,7 @@ define(function (require) {
       });
 
       if (!haveAllImages) return null;
-
+      // Check the user's badges when we know we have all of their bookmarked images
       return new ImageCollection(images);
     }
 

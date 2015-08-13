@@ -1,4 +1,11 @@
 from rest_framework import viewsets
+import requests
+from rest_framework import status
+import jwt
+import json
+from troposphere import settings
+from Crypto.Hash import SHA256
+from rest_framework.response import Response
 from django.contrib.auth.models import User
 from api.models import UserPreferences
 from .serializers import UserSerializer, UserPreferenceSerializer
@@ -35,3 +42,93 @@ class UserPreferenceViewSet(viewsets.ModelViewSet):
         """
         user = self.request.user
         return UserPreferences.objects.filter(user=user)
+
+
+class BadgeViewSet(viewsets.GenericViewSet):
+    queryset = UserPreferences.objects.none()
+    serializer_class = UserPreferenceSerializer
+    http_method_names = ['get', 'post', 'head', 'options', 'trace']
+
+    def create(self, request, *args, **kwargs):
+        url = settings.BADGE_API_HOST
+        email_address = str(User.objects.get(username=self.request.user).email)
+        slug = settings.BADGE_SYSTEM_SLUG
+        secret = settings.BADGE_SECRET
+        badge = str(self.request.data['badgeSlug'])
+        path = '/systems/' + slug + '/badges/' + badge + '/instances'
+        header = {"typ": "JWT", "alg": 'HS256'}
+        body = json.dumps({"email": email_address})
+
+        computed_hash = SHA256.new()
+        computed_hash.update(body)
+
+        payload = {'key': "master", 'method': "POST", 'path': path, "body": {"alg": "sha256", "hash": computed_hash.hexdigest()}}
+        token = jwt.encode(payload, secret, headers=header)
+
+        options = {
+            'method': 'POST',
+            'url': url + path,
+            'headers': {
+                'Authorization': 'JWT token="' + token + '"',
+                'Content-Type': 'application/json'
+            }
+        }
+        r = requests.post(url + path, data=body, headers=options['headers'])
+        return Response(data=r.json(), status=status.HTTP_201_CREATED)
+
+    def retrieve(self, request, *args, **kwargs):
+        url = settings.BADGE_API_HOST
+        email = User.objects.get(username=self.request.user).email
+        slug = settings.BADGE_SYSTEM_SLUG
+        name = settings.BADGE_SYSTEM_NAME
+        secret = settings.BADGE_SECRET
+
+        path = '/systems/' + slug + '/instances/' + email
+        header = {"typ": "JWT", "alg": 'HS256'}
+        body = str({"slug": slug, "name": name, "url": url + path})
+
+        computed_hash = SHA256.new()
+        computed_hash.update(body)
+
+        payload = {'key': "master", 'method': "GET", 'path': path, "body": {"alg": "sha256", "hash": computed_hash.hexdigest()}}
+        token = jwt.encode(payload, secret, headers=header)
+
+        options = {
+            'method': 'GET',
+            'url': url + path,
+            'headers': {
+                'Authorization': 'JWT token="' + token + '"',
+                'Content-Type': 'application/json'
+            }
+        }
+
+        r = requests.get(url + path, headers=options['headers'])
+        return Response(data=r.json(), status=status.HTTP_200_OK)
+
+    def list(self, request, *args, **kwargs):
+        url = settings.BADGE_API_HOST
+        slug = settings.BADGE_SYSTEM_SLUG
+        name = settings.BADGE_SYSTEM_NAME
+        secret = settings.BADGE_SECRET
+
+        path = '/systems/' + slug + '/badges'
+        header = {"typ": "JWT", "alg": 'HS256'}
+        body = str({"slug": slug, "name": name, "url": url + path})
+
+        computed_hash = SHA256.new()
+        computed_hash.update(body)
+
+        payload = {'key': "master", 'method': "GET", 'path': path, "body": {"alg": "sha256", "hash": computed_hash.hexdigest()}}
+        token = jwt.encode(payload, secret, headers=header)
+
+        options = {
+            'method': 'GET',
+            'url': url + path,
+            'headers': {
+                'Authorization': 'JWT token="' + token + '"',
+                'Content-Type': 'application/json'
+            }
+        }
+
+        r = requests.get(url + path, headers=options['headers'])
+        return Response(data=r.json(), status=status.HTTP_200_OK)

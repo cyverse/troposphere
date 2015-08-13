@@ -3,6 +3,8 @@ define(function (require) {
   var AppDispatcher = require('dispatchers/AppDispatcher'),
     ImageBookmarkConstants = require('constants/ImageBookmarkConstants'),
     ImageBookmark = require('models/ImageBookmark'),
+    Badges = require('Badges'),
+    actions = require('actions'),
     Utils = require('./Utils'),
     stores = require('stores');
 
@@ -18,6 +20,7 @@ define(function (require) {
         };
 
       imageBookmark.save(null, {attrs: data}).done(function () {
+        actions.BadgeActions.checkOrGrant(Badges.FAVORITE_IMAGE_BADGE);
         Utils.dispatch(ImageBookmarkConstants.ADD_IMAGE_BOOKMARK, {imageBookmark: imageBookmark}, options);
       });
     },

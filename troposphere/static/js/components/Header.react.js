@@ -54,6 +54,14 @@ define(function (require) {
       icon: "cog",
       requiresLogin: true,
       requiresStaff: true
+    },
+    {
+      name: "Badges",
+      linksTo: "my-badges",
+      href: "/application/badges",
+      icon: "star",
+      requiresLogin: true,
+      requiresStaff: false
     }
   ];
 
