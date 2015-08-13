@@ -30,7 +30,7 @@ define(
         var profile = stores.ProfileStore.get(),
             image = this.props.image;
 
-        if(profile.id && profile.get('username') === image.get('created_by').username){
+        if(profile.id && profile.get('username') === image.get('created_by').username || profile.get('is_staff')){
           return (
             <div className="edit-link-row">
               <a className="btn btn-primary btn-sm"
