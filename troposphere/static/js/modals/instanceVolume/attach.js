@@ -13,7 +13,7 @@ define(function (require) {
         project: project
       };
 
-      ModalHelpers.renderModal(VolumeAttachModal, null, function (instance, mountLocation) {
+      ModalHelpers.renderModal(VolumeAttachModal, props, function (instance, mountLocation) {
         actions.InstanceVolumeActions.attach({
           instance: instance,
           volume: volume,
