@@ -32,7 +32,7 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
     template_params['THEME_LOGO'] = settings.THEME_LOGO
     template_params['THEME_FOOTER_TEXT'] = settings.THEME_FOOTER_TEXT
     template_params['UI_VERSION'] = settings.UI_VERSION
-    template_params['BADGE_HOST'] = settings.BADGE_HOST
+    template_params['BADGE_HOST'] = getattr(settings, "BADGE_HOST", None)
 
     if hasattr(settings, "BASE_URL"):
         template_params['BASE_URL'] = settings.BASE_URL
@@ -88,7 +88,7 @@ def _handle_authenticated_application_request(request, maintenance_records):
     template_params['THEME_LOGO'] = settings.THEME_LOGO
     template_params['THEME_FOOTER_TEXT'] = settings.THEME_FOOTER_TEXT
     template_params['UI_VERSION'] = settings.UI_VERSION
-    template_params['BADGE_HOST'] = settings.BADGE_HOST
+    template_params['BADGE_HOST'] = getattr(settings, "BADGE_HOST", None)
 
     if hasattr(settings, "INTERCOM_APP_ID"):
         template_params['intercom_app_id'] = settings.INTERCOM_APP_ID
@@ -103,9 +103,6 @@ def _handle_authenticated_application_request(request, maintenance_records):
 
     if hasattr(settings, "API_V2_ROOT"):
         template_params['API_V2_ROOT'] = settings.API_V2_ROOT
-
-    if hasattr(settings, "BADGE_HOST"):
-        template_params['BADGE_HOST'] = settings.BADGE_HOST
 
     user_preferences, created = UserPreferences.objects.get_or_create(user=request.user)
 
