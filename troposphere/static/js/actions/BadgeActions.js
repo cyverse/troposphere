@@ -57,13 +57,17 @@ define(function (require) {
 
 
     grant: function(params){
-      var badge = params.badge,
+      try{
+        var badge = params.badge,
           email = stores.ProfileStore.get().get('email'),
           system = globals.BADGE_SYSTEM,
           secret = globals.BADGE_SECRET,
           csrftoken = this.getCookie('csrftoken'),
           badgeSlug = badge.get('slug');
-
+      }
+      catch(err) {
+          return;
+      }
       $.ajax({
         url: globals.BADGE_HOST,
         type: "POST",
