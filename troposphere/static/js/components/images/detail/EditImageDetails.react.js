@@ -86,6 +86,10 @@ define(function (require) {
             <CreatedView image={image}/>
             <AuthorView image={image}/>
             <EditDescriptionView
+              titleClassName="title col-md-2"
+              formClassName="form-group col-md-10"
+              className="image-info-segment row"
+              title="Description:"
               image={image}
               value={this.state.description}
               onChange={this.handleDescriptionChange}
@@ -100,7 +104,7 @@ define(function (require) {
           </div>
           <div className="edit-link-row clearfix">
             <a className="btn btn-primary btn-sm pull-right" onClick={this.handleSave}>Save</a>
-            <a className="btn btn-default btn-sm pull-right"  onClick={this.props.onCancel}>Cancel</a>
+            <a className="btn btn-default btn-sm pull-right" style={{marginRight:'20px'}} onClick={this.props.onCancel}>Cancel</a>
           </div>
         </div>
       );

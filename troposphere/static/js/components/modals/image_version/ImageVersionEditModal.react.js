@@ -359,11 +359,12 @@ define(function (require) {
           }
           {startDateView}
           {endDateView}
-          <button type="button" className="btn btn-primary pull-right"
-                  onClick={this.onOptionsChange}>
-            {optionsButtonText}
-          </button>
-          <hr />
+          <div className="form-group clearfix">
+            <button type="button" className="btn btn-default pull-right"
+                    onClick={this.onOptionsChange}>
+              {optionsButtonText} <span className="caret"></span>
+            </button>
+          </div>
           {advancedOptions}
         </div>
       );
