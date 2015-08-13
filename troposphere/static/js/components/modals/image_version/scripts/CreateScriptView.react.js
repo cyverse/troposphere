@@ -152,7 +152,10 @@ define(function (require) {
           </div>
           <div className="new-item-form-header form-group clearfix" style={{"border": "black 1px"}}>
             <button disabled={!this.isSubmittable()} onClick={this.onCreateScript} type="button"
-                    className="btn btn-primary btn-sm pull-right">{"Create and Add"}</button>
+                    className="btn btn-primary btn-sm pull-right"
+                    style={{marginTop:"20px"}}>
+                    {"Create and Add"}
+            </button>
           </div>
         </div>
       );

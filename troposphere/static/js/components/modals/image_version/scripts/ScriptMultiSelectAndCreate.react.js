@@ -154,7 +154,10 @@ define(function (require) {
           </div>
           {this.renderChosenSearchSelect()}
           <div className="form-group clearfix">
-            <button onClick={this.onEditChange} type="button" className="btn btn-default btn-sm pull-right">{showFormButtonText}</button>
+            <button onClick={this.onEditChange} type="button"
+                    className="btn btn-default btn-sm pull-right">
+                    {showFormButtonText}
+            </button>
           </div>
             {this.renderCreateForm(createButtonText)}
         </div>

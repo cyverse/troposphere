@@ -55,7 +55,7 @@ define(function (require) {
          if (username === version.get('user').username || username === image.get('created_by').username) {
              return (
                  <div className="edit-link-row">
-                     <a className="edit-link" onClick={this.onEditClicked}>Edit Version</a>
+                     <a className="edit-link" onClick={this.onEditClicked}><span className="glyphicon glyphicon-pencil"></span> Edit Version</a>
                  </div>
              )
          }
