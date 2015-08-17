@@ -208,16 +208,6 @@ define(function (require) {
             onCrumbClick={self.toStep}
             />
         );
-        //return (
-        //    <ul className="breadcrumb">
-        //      <li><a className="crumb" onClick={this.toStep(IMAGE_STEP)}>Image</a></li>
-        //      <li><a className="crumb" onClick={this.toStep(INFORMATION_STEP)}>Basic Information</a></li>
-        //      <li><a className="crumb" onClick={this.toStep(SIZE_STEP)}>Size</a></li>
-        //      <li><a className="crumb" onClick={this.toStep(PROJECT_STEP)}>Project</a></li>
-        //      <li><a className="crumb" onClick={this.toStep(OPTIONS_STEP)}>Options</a></li>
-        //      <li><a className="crumb" onClick={this.toStep(REVIEW_STEP)}>Review</a></li>
-        //    </ul>
-        //);
     },
     render: function () {
       return (
@@ -367,7 +357,7 @@ define(function (require) {
         this.setState(state);
     },
     toStep: function(breadcrumb) {
-       this.setState({title: this.state.breadcrumbs[breadcrumb.step].name});
+       this.setState({title: breadcrumb.name});
        this.setState({step: breadcrumb.step});
     }
   });

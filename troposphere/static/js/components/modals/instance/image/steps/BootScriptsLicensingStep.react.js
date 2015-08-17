@@ -4,6 +4,7 @@ define(function(require) {
       Backbone = require('backbone'),
       actions = require('actions'),
       EditScriptsView = require('components/modals/image_version/scripts/EditScriptsView.react'),
+      EditLicensesView = require('components/modals/image_version/licenses/EditLicensesView.react'),
       stores = require('stores');
 
   return React.createClass({
