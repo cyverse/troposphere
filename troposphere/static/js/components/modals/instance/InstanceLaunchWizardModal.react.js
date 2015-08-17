@@ -54,8 +54,8 @@ define(function (require) {
         return (
                 <ImageSelectStep
                     image={this.state.image}
-                            onPrevious={this.cancel}
-                            onNext={this.onNext}
+                    onPrevious={this.cancel}
+                    onNext={this.onNext}
                 />
               );
     },
@@ -256,43 +256,44 @@ define(function (require) {
       this.hide();
     },
     onCompleted: function(launch_data) {
-        this.hide();
-        this.props.onConfirm(launch_data);
+      this.hide();
+      this.props.onConfirm(launch_data);
     },
     onPrevious: function(data) {
-        var previousStep = this.state.step - 1,
-            data = data || {},
-            state = _.extend({step: previousStep}, data);
-        if(this.props.image && this.state.step == INFORMATION_STEP) {
-            //Don't go to 'Step 0' if image provided.
-            this.cancel()
-        }
-        if(this.state.step == REVIEW_STEP) {
-            //TODO: Remove this when re-adding User/Admin Options
-            if(this.props.project) {
-                //Skip 'Project Selection' step if project provided.
-                state.step = SIZE_STEP;
-            } else {
-                state.step = PROJECT_STEP;
-            }
-        }
-        state.title = this.state.breadcrumbs[state.step].name;
-        this.setState(state);
+      var previousStep = this.state.step - 1,
+          data = data || {},
+          title = "";
+      // if (this.props.image && this.state.step === INFORMATION_STEP) {
+      //     //Don't go to 'Step 0' if image provided.
+      //     console.log("close", this.props.image
+      //     this.cancel()
+      //     return;
+      // }
+      if (this.state.step === REVIEW_STEP) {
+          //Jump back to size step
+          previousStep = SIZE_STEP;
+      }
+      title = this.state.breadcrumbs[previousStep].name;
+      this.setState(_.extend(data, {
+          step: previousStep,
+          title: title,
+      }));
     },
 
     onNext: function (data) {
       var nextStep = this.state.step + 1,
         data = data || {},
-        state = _.extend({step: nextStep}, data);
-      if (this.props.project && state.step == PROJECT_STEP) {
+        title = "";
+
+      if (nextStep == PROJECT_STEP) {
         //Skip to the review step.
-        state.step = REVIEW_STEP - 1;
-      } else if (this.state.step == PROJECT_STEP) {
-        //TODO: Remove this line when re-adding User/Admin Options
-        state.step = REVIEW_STEP - 1;
+        nextStep = REVIEW_STEP;
       }
-      state.title = this.state.breadcrumbs[state.step].name;
-      this.setState(state);
+      title = this.state.breadcrumbs[nextStep].name;
+      this.setState(_.extend(data, {
+          step: nextStep,
+          title: title,
+      }));
     },
     toReview: function(data) {
         var state = _.extend({step: REVIEW_STEP}, data);
