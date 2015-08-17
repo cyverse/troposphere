@@ -248,8 +248,6 @@ define(function (require) {
                             <h4>Current Allocation Usage</h4>
                             {this.renderAllocationConsumption(identity)}
                         </div>
-                        {<h6>Additional Information</h6>}
-
                     </div>
                 </div>
             );
