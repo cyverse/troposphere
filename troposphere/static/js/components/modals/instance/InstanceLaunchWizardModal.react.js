@@ -14,6 +14,7 @@ define(function (require) {
       ProjectSelectStep = require('./launch/steps/ProjectSelectStep.react'),
       UserOptionsStep = require('./launch/steps/UserOptionsStep.react'),
       AdministratorOptionsStep = require('./launch/steps/AdminOptionsStep.react'),
+      LicensingStep = require('./launch/steps/LicensingStep.react'),
       ReviewLaunchStep = require('./launch/steps/ReviewLaunchStep.react');
 
   var IMAGE_STEP = 0,
@@ -22,7 +23,8 @@ define(function (require) {
       PROJECT_STEP = 3,
       OPTIONS_STEP = 4,
       ADMIN_OPTIONS_STEP = 5,
-      REVIEW_STEP = 6;
+      LICENSE_STEP = 6,
+      REVIEW_STEP = 7;
 
   return React.createClass({
     mixins: [BootstrapModalMixin],
@@ -35,20 +37,36 @@ define(function (require) {
 
 
     getInitialState: function(){
+      var image = this.props.image,
+        project = this.props.project;
       return {
-	    image: this.props.image,
-        project: this.props.project,
-        step: this.props.image ? INFORMATION_STEP : IMAGE_STEP,
+	    image: image,
+        project: project,
+        step: image ? INFORMATION_STEP : IMAGE_STEP,
         title: "Image",
         breadcrumbs: [
-            {name:"Image",step:IMAGE_STEP, inactive:this.props.image ? true : false},
+            {name:"Image",step:IMAGE_STEP, active:this.props.image ? false : true},
             {name:"Version & Provider",step:INFORMATION_STEP},
             {name:"Size",step:SIZE_STEP},
-            {name:"Project",step:PROJECT_STEP, inactive:this.props.project ? true : false},
-            {name:"Options",step:OPTIONS_STEP, inactive:true},
+            {name:"Project",step:PROJECT_STEP, active:this.props.project ? false : true},
+            {name:"Options",step:OPTIONS_STEP, active:this.isOptionsStepActive},
+            {name:"Licensing",step:LICENSE_STEP, active:this.isLicenseStepActive},
             {name:"Review",step:REVIEW_STEP}
         ]
       };
+    },
+    isOptionsStepActive: function() {
+      return false;
+    },
+    isLicenseStepActive: function() {
+      state = this.getState();
+      if (state.version
+        && state.version.get('licenses')
+        && state.version.get('licenses').length > 0) {
+        return true;
+      } else {
+        return false;
+      }
     },
     renderImageSelect: function() {
         return (
@@ -113,13 +131,22 @@ define(function (require) {
               );
     },
     renderReviewLaunchStep: function() {
-        return (
-                <ReviewLaunchStep
-                    launchData={this.state}
-                    onPrevious={this.onPrevious}
-                    onNext={this.onCompleted}
-                />
-              );
+      return (
+        <ReviewLaunchStep
+          launchData={this.state}
+          onPrevious={this.onPrevious}
+          onNext={this.onCompleted}
+          />
+      );
+    },
+    renderLicenseStep: function() {
+      return (
+        <LicensingStep
+          version={this.state.version}
+          onPrevious={this.onPrevious}
+          onNext={this.onNext}
+          />
+      );
     },
     renderBody: function(){
       var step = this.state.step;
@@ -136,8 +163,10 @@ define(function (require) {
               //return this.renderUserOptionsStep(); //TODO: Re-enable when 'Boot Scripts', 'Licenses' are added.
         case ADMIN_OPTIONS_STEP:
               //return this.renderStaffOptionsStep(); //TODO: Re-enable when 'Hypervisor-Select', 'No-Deploy' are added.
+        case LICENSE_STEP:
+          return this.renderLicenseStep();
         case REVIEW_STEP:
-              return this.renderReviewLaunchStep();
+          return this.renderReviewLaunchStep();
       }
     },
 
@@ -154,12 +183,13 @@ define(function (require) {
         var self = this;
         var breadcrumbs = this.state.breadcrumbs;
 
-        if (user.get('is_staff') && breadcrumbs[5].step !== 5) {
-            breadcrumbs.splice(5, 0, {name: "Admin", step: ADMIN_OPTIONS_STEP, inactive:true});
-        }
+        //Add pseudo-property 'state'
         breadcrumbs.map(function(breadcrumb, index, array){
             var state;
-            if(breadcrumb.inactive){
+            if(
+                (typeof breadcrumb.active === "boolean" && !breadcrumb.active) ||
+                (typeof breadcrumb.active === "function" && !breadcrumb.active())
+              ) {
                 state = "inactive"
             } else if(breadcrumb.step === self.state.step) {
                 state = "active"
@@ -260,7 +290,7 @@ define(function (require) {
         this.props.onConfirm(launch_data);
     },
     onPrevious: function(data) {
-        var previousStep = this.state.step - 1,
+        var previousStep = this.getPrevStep(this.state.step),
             data = data || {},
             state = _.extend({step: previousStep}, data);
         if(this.props.image && this.state.step == INFORMATION_STEP) {
@@ -279,9 +309,47 @@ define(function (require) {
         state.title = this.state.breadcrumbs[state.step].name;
         this.setState(state);
     },
-
+    getPrevStep: function(current_step) {
+      var prevStep = current_step,
+          breadcrumb;
+      while(true) {
+        prevStep = prevStep - 1;
+        if (prevStep <= 0) {
+          throw "Unexpected behavior: prev step < 0";
+        }
+        breadcrumb = this.state.breadcrumbs[prevStep];
+        if(
+          (typeof breadcrumb.active === "boolean" && !breadcrumb.active) ||
+          (typeof breadcrumb.active === "function" && !breadcrumb.active())
+        ) {
+          //Skip this, it's inactive
+          continue;
+        }
+        return breadcrumb.step;
+      }
+    },
+    getNextStep: function(current_step) {
+      var nextStep = current_step,
+          final_step = this.state.breadcrumbs.length,
+          breadcrumb;
+      while(true) {
+        nextStep = nextStep + 1;
+        if (nextStep >= final_step) {
+          throw "Unexpected behavior: 'next' step > final step";
+        }
+        breadcrumb = this.state.breadcrumbs[nextStep];
+        if(
+          (typeof breadcrumb.active === "boolean" && !breadcrumb.active) ||
+          (typeof breadcrumb.active === "function" && !breadcrumb.active())
+        ) {
+          //Skip this, it's inactive
+          continue;
+        }
+        return breadcrumb.step;
+      }
+    },
     onNext: function (data) {
-      var nextStep = this.state.step + 1,
+      var nextStep = this.getNextStep(this.state.step),
         data = data || {},
         state = _.extend({step: nextStep}, data);
       if (this.props.project && state.step == PROJECT_STEP) {

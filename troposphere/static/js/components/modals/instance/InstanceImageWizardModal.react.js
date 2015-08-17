@@ -9,8 +9,7 @@ define(function (require) {
       ProviderStep = require('./image/steps/ProviderStep.react'),
       VisibilityStep = require('./image/steps/VisibilityStep.react'),
       FilesToExcludeStep = require('./image/steps/FilesToExcludeStep.react'),
-      BootScriptsStep = require('./image/steps/BootScriptsStep.react'),
-      LicensingStep = require('./image/steps/LicensingStep.react'),
+      BootScriptsAndLicenseStep = require('./image/steps/BootScriptsLicensingStep.react'),
       ReviewStep = require('./image/steps/ReviewStep.react');
 
   var IMAGE_INFO_STEP = 1,
@@ -18,9 +17,8 @@ define(function (require) {
       PROVIDER_STEP = 3,
       VISIBILITY_STEP = 4,
       EXCLUDE_FILES_STEP = 5,
-      SCRIPTS_STEP = 6,
-      LICENSING_STEP = 7,
-      REVIEW_STEP = 8;
+      SCRIPTS_LICENSE_STEP = 6,
+      REVIEW_STEP = 7;
 
   return React.createClass({
     displayName: "InstanceImageWizardModal",
@@ -201,21 +199,12 @@ define(function (require) {
               />
           );
 
-        case SCRIPTS_STEP:
+        case SCRIPTS_LICENSE_STEP:
           return (
-            <BootScriptsStep
+            <BootScriptsAndLicenseStep
               instance={instance}
               activeScripts={activeScripts}
               scripts={allScripts}
-              onPrevious={this.onPrevious}
-              onNext={this.onNext}
-              />
-          );
-
-        case LICENSING_STEP:
-          return (
-            <LicensingStep
-              instance={instance}
               activeLicenses={activeLicenses}
               licenses={allLicenses}
               onPrevious={this.onPrevious}
