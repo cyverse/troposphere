@@ -16,7 +16,7 @@ require.config({
   // Karma serves files under /base, which is the basePath from your config file
   baseUrl: '/base/troposphere/assets/js',
 
-  paths: {
+  paths:{
     test: '/base/test',
     react: '../bower_components/react/react-with-addons',
     backbone: '../bower_components/backbone/backbone',
@@ -26,7 +26,7 @@ require.config({
     toastr: '../bower_components/toastr/toastr',
     moment: '../bower_components/moment/moment',
     q: '../bower_components/q/q'
-  },
+  } ,
 
   shim: {
     underscore: {

@@ -28,12 +28,14 @@ define(function (require) {
             restCount++;
           }
         }
+        //Dynamic width calculation
         var baseWidth = (100 / length);
         var activeWidth = baseWidth * 2;
         var standardWidth = ((100 - activeWidth) * (2/3)) / restCount;
         var inactiveWidth = ((100 - activeWidth) * (1/3)) / inactiveCount;
-
-        var breadcrumbs = this.props.breadcrumbs.map(function(breadcrumb, index, array){
+        //Counting # of 'actual' steps
+        var activeStepCount = 0;
+        var breadcrumbs = this.props.breadcrumbs.map(function(breadcrumb){
           switch(breadcrumb.state){
             case 'inactive':
               width = inactiveWidth;
@@ -44,11 +46,17 @@ define(function (require) {
             default:
               width = standardWidth;
           }
+          if(breadcrumb.state == 'inactive') {
+            return ;
+          }
+          activeStepCount = activeStepCount+1;
+          var breadcrumbText = "Step "+activeStepCount;
           return (
             <Breadcrumb key={breadcrumb.name}
                         onMouseOn={onMouseOn}
                         onMouseOff={onMouseOff}
                         breadcrumb={breadcrumb}
+                        breadcrumbText={breadcrumbText}
                         width={width}
                         onClick={self.crumbClicked}
             />

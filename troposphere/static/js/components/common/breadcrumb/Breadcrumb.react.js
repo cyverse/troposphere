@@ -5,9 +5,12 @@ define(function (require) {
 
   return React.createClass({
 
+    displayName: "Breadcrumb",
+
     propTypes: {
       breadcrumb: React.PropTypes.object.isRequired,
       onClick: React.PropTypes.func.isRequired,
+      breadcrumbText :React.PropTypes.string.isRequired,
     },
 
     mouseOver: function(){
@@ -25,8 +28,8 @@ define(function (require) {
       };
 
       return (
-          <div style={divStyle} onMouseOver={this.mouseOver} onMouseOut={this.mouseOut} className={class_names} onClick={this.crumbClicked}>
-            {this.props.breadcrumb.step + 1}
+          <div /* style={divStyle} */ onMouseOver={this.mouseOver} onMouseOut={this.mouseOut} className={class_names} onClick={this.crumbClicked}>
+            {this.props.breadcrumbText}
           </div>
         );
     },
