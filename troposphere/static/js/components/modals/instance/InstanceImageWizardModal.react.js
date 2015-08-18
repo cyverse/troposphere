@@ -295,7 +295,7 @@ define(function (require) {
               <div className="modal-section">
                 {this.renderBreadCrumbTrail()}
               </div>
-              <div className="modal-body">
+              <div className="modal-container-body">
                 {this.renderBody()}
               </div>
             </div>
