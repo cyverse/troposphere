@@ -4,19 +4,25 @@ define(function(require) {
       Backbone = require('backbone'),
       actions = require('actions'),
       EditScriptsView = require('components/modals/image_version/scripts/EditScriptsView.react'),
+      EditLicensesView = require('components/modals/image_version/licenses/EditLicensesView.react'),
       stores = require('stores');
 
   return React.createClass({
-    displayName: "BootScriptsStep",
+    displayName: "BootScriptsLicensingStep",
 
     propTypes: {
       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
       scripts: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-      activeScripts: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+      activeScripts: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+      licenses: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+      activeLicenses: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+
     },
 
     getDefaultProps: function() {
       return {
+        licenses: new Backbone.Collection(),
+        activeLicenses: new Backbone.Collection(),
         scripts: new Backbone.Collection(),
         activeScripts: new Backbone.Collection(),
       };
@@ -24,6 +30,8 @@ define(function(require) {
 
     getInitialState: function(){
       return {
+        licenses: this.props.licenses,
+        activeLicenses: this.props.activeLicenses,
         scripts: this.props.scripts,
         activeScripts: this.props.activeScripts,
 
@@ -36,12 +44,14 @@ define(function(require) {
 
     onPrevious: function(){
       this.props.onPrevious({
+        activeLicenses: this.state.activeLicenses,
         activeScripts: this.state.activeScripts
       });
     },
 
     onNext: function(){
       this.props.onNext({
+        activeLicenses: this.state.activeLicenses,
         activeScripts: this.state.activeScripts
       });
     },
@@ -75,6 +85,29 @@ define(function(require) {
       //});
     },
 
+    onLicenseCreate: function(licenseObj){
+      actions.LicenseActions.create({
+        title: licenseObj.title,
+        type: licenseObj.type,
+        text: licenseObj.text
+      });
+    },
+
+    onLicenseAdded: function(license){
+      var licenses = this.state.activeLicenses;
+      licenses.add(license);
+      this.setState({activeLicenses:licenses});
+
+    },
+
+    onLicenseRemoved: function(license_removed){
+      var filteredLicenses = this.state.activeLicenses.filter(function(license) {
+        return license.id !== license_removed.id;
+      });
+      this.setState({activeLicenses:filteredLicenses});
+
+    },
+
     renderBody: function () {
       return (
         <div>
@@ -86,6 +119,15 @@ define(function(require) {
             onCreateNewScript={this.onScriptCreate}
             label={"Scripts Required"}
           />
+          <hr/>
+          <EditLicensesView
+            activeLicenses={this.state.activeLicenses}
+            licenses={this.state.licenses}
+            onLicenseAdded={this.onLicenseAdded}
+            onLicenseRemoved={this.onLicenseRemoved}
+            onCreateNewLicense={this.onLicenseCreate}
+            label={"Licenses Required"}
+            />
         </div>
       );
     },

@@ -3,14 +3,15 @@ define(function (require) {
   var React = require('react'),
       _ = require('underscore'),
       BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
-      stores = require('stores'),
+    BreadcrumbNav = require('components/common/breadcrumb/BreadcrumbNav.react'),
+
+    stores = require('stores'),
       ImageInfoStep = require('./image/steps/ImageInfoStep.react'),
       VersionInfoStep = require('./image/steps/VersionInfoStep.react'),
       ProviderStep = require('./image/steps/ProviderStep.react'),
       VisibilityStep = require('./image/steps/VisibilityStep.react'),
       FilesToExcludeStep = require('./image/steps/FilesToExcludeStep.react'),
-      BootScriptsStep = require('./image/steps/BootScriptsStep.react'),
-      LicensingStep = require('./image/steps/LicensingStep.react'),
+      BootScriptsAndLicenseStep = require('./image/steps/BootScriptsLicensingStep.react'),
       ReviewStep = require('./image/steps/ReviewStep.react');
 
   var IMAGE_INFO_STEP = 1,
@@ -18,9 +19,8 @@ define(function (require) {
       PROVIDER_STEP = 3,
       VISIBILITY_STEP = 4,
       EXCLUDE_FILES_STEP = 5,
-      SCRIPTS_STEP = 6,
-      LICENSING_STEP = 7,
-      REVIEW_STEP = 8;
+      SCRIPTS_LICENSE_STEP = 6,
+      REVIEW_STEP = 7;
 
   return React.createClass({
     displayName: "InstanceImageWizardModal",
@@ -40,6 +40,7 @@ define(function (require) {
     getInitialState: function(){
       return {
         step: 1,
+        title: "Image Info", // Identical to first breadcrumb name
         name: this.props.instance.get('image').name,
         description: this.props.instance.get('image').description,
         versionName: this.props.versionName || "1.0",
@@ -50,7 +51,17 @@ define(function (require) {
         imageUsers: new Backbone.Collection(),
         activeScripts: new Backbone.Collection(),
         activeLicenses: new Backbone.Collection(),
-        filesToExclude: ""
+        filesToExclude: "",
+        breadcrumbs: [
+          {name:"Image Info",step:IMAGE_INFO_STEP},
+          {name:"Version Info",step:VERSION_INFO_STEP},
+          {name:"Provider",step:PROVIDER_STEP},
+          {name:"Privacy",step:VISIBILITY_STEP},
+          {name:"Exclude Files",step:EXCLUDE_FILES_STEP},
+          {name:"Boot Scripts & Licenses",step:SCRIPTS_LICENSE_STEP},
+          {name:"Review",step:REVIEW_STEP}
+        ]
+
       };
     },
 
@@ -117,18 +128,22 @@ define(function (require) {
     //
     // Navigation Callbacks
     //
+    toStep: function(breadcrumb) {
+      this.setState({title: breadcrumb.name});
+      this.setState({step: breadcrumb.step});
+    },
 
     onPrevious: function(data){
       var previousStep = this.state.step - 1,
           data = data || {},
-          state = _.extend({step: previousStep}, data);
+          state = _.extend({step: previousStep, title: previousStep.name}, data);
       this.setState(state);
     },
 
     onNext: function(data){
       var nextStep = this.state.step + 1,
           data = data || {},
-          state = _.extend({step: nextStep}, data);
+          state = _.extend({step: nextStep, title: nextStep.name}, data);
       this.setState(state);
     },
 
@@ -201,21 +216,12 @@ define(function (require) {
               />
           );
 
-        case SCRIPTS_STEP:
+        case SCRIPTS_LICENSE_STEP:
           return (
-            <BootScriptsStep
+            <BootScriptsAndLicenseStep
               instance={instance}
               activeScripts={activeScripts}
               scripts={allScripts}
-              onPrevious={this.onPrevious}
-              onNext={this.onNext}
-              />
-          );
-
-        case LICENSING_STEP:
-          return (
-            <LicensingStep
-              instance={instance}
               activeLicenses={activeLicenses}
               licenses={allLicenses}
               onPrevious={this.onPrevious}
@@ -233,6 +239,46 @@ define(function (require) {
           );
       }
     },
+    renderBreadCrumbTrail: function() {
+      var user = stores.ProfileStore.get();
+      var self = this;
+      var breadcrumbs = this.state.breadcrumbs;
+
+      //Add pseudo-property 'state'
+      breadcrumbs.map(function(breadcrumb, index, array){
+        var state;
+        if(
+          (typeof breadcrumb.active === "boolean" && !breadcrumb.active) ||
+          (typeof breadcrumb.active === "function" && !breadcrumb.active())
+        ) {
+          state = "inactive"
+        } else if(breadcrumb.step === self.state.step) {
+          state = "active"
+        } else if (breadcrumb.step < self.state.step) {
+          state = "available"
+        } else {
+          state = ""
+        }
+        breadcrumb.state = state;
+      });
+      return (<BreadcrumbNav
+          breadcrumbs={breadcrumbs}
+          onMouseOn={this.hoverTitleChange}
+          onMouseOff={this.changeTitleBack}
+          step = {this.state.step}
+          onCrumbClick={self.toStep}
+          />
+      );
+    },
+
+    hoverTitleChange: function(text){
+      this.setState({title: text});
+    },
+
+    changeTitleBack: function(){
+      var breadcrumb = this.state.breadcrumbs[this.state.step];
+      this.setState({title: breadcrumb.name});
+    },
 
     render: function () {
       var modalStyle ={
@@ -244,9 +290,14 @@ define(function (require) {
             <div className="modal-content" style={modalStyle}>
               <div className="modal-header">
                 {this.renderCloseButton()}
-                <h3>{"Image Request"}</h3>
+                <h3>{"Image Request - "+this.state.title}</h3>
               </div>
-              {this.renderBody()}
+              <div className="modal-section">
+                {this.renderBreadCrumbTrail()}
+              </div>
+              <div className="modal-body">
+                {this.renderBody()}
+              </div>
             </div>
           </div>
         </div>
