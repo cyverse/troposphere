@@ -53,12 +53,17 @@ define(
       // ----------------
       //
 
-      getState: function(project) {
-        var project = this.props.project,
-            state = {
-              instances: stores.ProjectInstanceStore.getInstancesFor(project),
-              instanceId: null
-            };
+      getState: function() {
+        if (this.props.project === undefined)
+            throw new Error("Volume attach modal lacks a project");
+
+        var project = this.props.project;
+
+        // TODO: remove ambiguity between state/this.state
+        var state = {
+            instances: stores.ProjectInstanceStore.getInstancesFor(project),
+            instanceId: null
+        };
 
         this.state = this.state || {};
 
@@ -108,6 +113,7 @@ define(
       confirm: function () {
         this.hide();
         var instance = this.state.instances.get(this.state.instanceId);
+        if (instance === undefined) throw new Error("Instance not found in modal's instances store");
         this.props.onConfirm(instance);
       },
 
@@ -153,11 +159,10 @@ define(
                 <div className='form-group'>
                   <p>
                     <strong>Uh oh! </strong>
-                    {
-                      "It looks like you don't have any instances in this project that you can attach the volume " +
-                      "to. Volumes can only be attached to instances that are in the same project and on the same " +
-                      "provider as the volume."
-                    }
+                    It looks like you don't have any instances in this project
+                    that you can attach the volume to. Volumes can only be
+                    attached to instances that are in the <strong>same project</strong> and
+                    on the <strong>same provider</strong> as the volume.
                   </p>
                   <p>
                     {
@@ -216,14 +221,14 @@ define(
 
       render: function () {
         var project = this.props.project,
-            instances = stores.ProjectInstanceStore.getInstancesFor(project),
+            instances = this.state.instances,
             content;
 
-        if(!instances) {
+        if (!instances) {
           content = this.renderLoadingContent();
-        }else if(instances.length <= 0){
+        } else if (instances.length <= 0) {
           content = this.renderAttachRulesContent();
-        }else{
+        } else {
           content = this.renderAttachVolumeContent(instances);
         }
 
