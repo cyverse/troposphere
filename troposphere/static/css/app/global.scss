@@ -70,3 +70,12 @@ a[target="_blank"]::after {
 .tooltip-inner {
   white-space: pre-wrap;
 }
+
+.callout-info {
+    padding:20px;
+    margin:20px 0;
+    border:1px solid lightgrey;
+    border-left-width:5px;
+    border-left-color:#1b809e;
+    border-radius:3px;
+}

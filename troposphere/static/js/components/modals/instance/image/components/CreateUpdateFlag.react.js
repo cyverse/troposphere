@@ -23,7 +23,7 @@ define(function (require) {
     },
     render: function () {
       return (
-        <div className="form-group">
+        <div className="form-group callout-info">
           <label htmlFor="update" className="control-label">{this.renderNameLabel()}</label>
           <div className="help-block">{this.renderHelpText()}</div>
           <div className="form-group">
