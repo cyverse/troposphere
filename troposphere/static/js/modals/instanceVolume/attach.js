@@ -7,21 +7,27 @@ define(function (require) {
 
   return {
 
-    attach: function(volume, project){
-      var props = {
-        volume: volume,
-        project: project
-      };
+    attach: function(volume, project) {
+      ModalHelpers.renderModal(
+          // Modal to create
+          VolumeAttachModal, 
 
-      ModalHelpers.renderModal(VolumeAttachModal, props, function (instance, mountLocation) {
-        actions.InstanceVolumeActions.attach({
-          instance: instance,
-          volume: volume,
-          project: project,
-          mountLocation: mountLocation
-        })
-      })
+          // Modal properties
+          {
+              volume: volume,
+              project: project
+          }, 
 
+          // This callback is the action fired in the modal
+          function (instance, mountLocation) {
+            actions.InstanceVolumeActions.attach({
+              instance: instance,
+              volume: volume,
+              project: project,
+              mountLocation: mountLocation
+            })
+          }
+      )
     }
 
   };
