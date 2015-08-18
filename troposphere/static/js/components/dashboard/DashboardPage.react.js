@@ -38,7 +38,7 @@ define(function (require) {
           images = stores.ImageStore.getAll(),
           instances = stores.InstanceStore.getAll(),
           volumes = stores.VolumeStore.getAll(),
-          sizes = stores.SizeStore.fetchWhere({'archived': 'true', 'page_size': 250});
+          sizes = stores.SizeStore.fetchWhereNoCache({'archived': 'true', 'page_size': 250});
 
       if (!providers || !identities || !projects || !maintenanceMessages || !images || !instances || !volumes || !sizes) {
         return <div className='loading'></div>;

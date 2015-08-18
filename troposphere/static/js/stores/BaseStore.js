@@ -234,6 +234,27 @@ define(function(require) {
     // Fetches the first page of data for the given set of queryParams
     // Example: params = {page_size: 1000, search: 'featured'}
     // will be convereted to ?page_size=1000&search=featured
+    fetchWhereNoCache: function(queryParams){
+      queryParams = queryParams || {};
+
+      // Build the query string
+      var queryString = buildQueryStringFromQueryParams(queryParams);
+
+      if(this.queryModels[queryString]) return this.queryModels[queryString];
+
+      if(!this.isFetchingQuery[queryString]) {
+        this.isFetchingQuery[queryString] = true;
+        var models = new this.collection();
+        models.fetch({
+          url: models.url + queryString
+        }).done(function () {
+          this.isFetchingQuery[queryString] = false;
+          this.queryModels[queryString] = models;
+          this.emitChange();
+        }.bind(this));
+      }
+    },
+
     fetchWhere: function(queryParams){
       queryParams = queryParams || {};
 

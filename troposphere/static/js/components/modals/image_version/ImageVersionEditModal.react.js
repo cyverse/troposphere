@@ -228,7 +228,7 @@ define(function (require) {
         created = this.state.versionStartDate.format("MMM D, YYYY hh:mm a"),
         ended,
         advancedOptions,
-        optionsButtonText = (this.state.showOptions) ? "Hide Options" : "Advanced Options",
+        optionsButtonText = (this.state.showOptions) ? "Hide Advanced Options" : "Advanced Options",
         membershipsList = stores.MembershipStore.getAll(),
         licensesList = stores.LicenseStore.getAll(),
         activeLicensesList = stores.ImageVersionLicenseStore.getLicensesFor(this.props.version),
@@ -309,7 +309,7 @@ define(function (require) {
       );
       //FUTURE_keyTODO: Pull this functionality out if you use it anywhere else..
       endDateView = (<div className='form-group'>
-        <label htmlFor='version-end-date'>Version Removed On</label>
+        <label htmlFor='version-end-date'>Date to hide image from public view</label>
         <div className="input-group">
           <input type='text' className='form-control' value={ended} onChange={this.onEndDateChange}/>
           <span className="input-group-addon" id="enddate-set-addon" onClick={this.setEndDateNow}>Set</span>

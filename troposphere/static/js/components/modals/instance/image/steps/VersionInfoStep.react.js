@@ -75,6 +75,7 @@ define(function(require) {
             value={this.state.versionName}
             onChange={this.onVersionNameChange}
             />
+            <hr />
           <VersionChanges
             value={this.state.versionChanges}
             onChange={this.onDescriptionChange}

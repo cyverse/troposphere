@@ -121,10 +121,12 @@ define(function(require) {
             value={this.state.name}
             onChange={this.onNameChange}
           />
+          <hr />
           <Description
             value={this.state.description}
             onChange={this.onDescriptionChange}
           />
+          <hr />
           <Tags
             onTagAdded={this.onTagAdded}
             onTagRemoved={this.onTagRemoved}

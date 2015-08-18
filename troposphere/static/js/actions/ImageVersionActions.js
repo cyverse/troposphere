@@ -20,7 +20,6 @@ define(function (require) {
       if(!newAttributes) throw new Error("No attributes to be updated");
 
       version.set(newAttributes);
-      Utils.dispatch(ImageVersionConstants.UPDATE_IMAGE_VERSION, {version: version});
       //TODO:
       version.save(newAttributes, {
         patch:true,

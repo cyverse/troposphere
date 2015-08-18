@@ -89,7 +89,7 @@ define(function (require) {
 
     renderBody: function () {
       var instanceHistories = stores.InstanceHistoryStore.getAll(),
-          instances = stores.InstanceStore.fetchWhere({'archived': 'true'}),
+          instances = stores.InstanceStore.fetchWhereNoCache({'archived': 'true'}),
           providers = stores.ProviderStore.getAll(),
           instanceHistoryItems;
 
