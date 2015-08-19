@@ -145,10 +145,3 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'troposphere.auth_backends.OAuthLoginBackend'
 )
-
-THEME_HEADER_TEXT = 'Atmosphere'
-THEME_LOGO = '/assets/images/mini_logo.png'
-THEME_FAVICON = '/assets/images/favicon.ico'
-THEME_CSS_FILE = '/assets/css/app/app.css'
-THEME_FOOTER_TEXT = "iPlant Collaborative"
-UI_VERSION = 'Hawaiian Hawk'

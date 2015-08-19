@@ -7,8 +7,8 @@
     <title>Atmosphere</title>
 
     <!--CSS-->
-    <link rel="shortcut icon" href="{{ THEME_FAVICON }}" />
-    <link rel="stylesheet" href="{{ BASE_URL }}/assets/app.css" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" href="{{ BASE_URL }}/{{ THEME_URL }}/favicon.ico" />
+    <link rel="stylesheet" href="{{ BASE_URL }}/{{THEME_URL}}/app.css" rel="stylesheet" type="text/css">
 
     <!-- Adobe Typekit (for Myriad Pro) -->
     <script type="text/javascript" src="//use.typekit.net/gty2jpo.js"></script>
@@ -23,7 +23,7 @@
 <body class="tk-myriad-pro splash-screen">
 
     <div class="splash-image">
-        <img src="{{BASE_URL}}/assets/images/login_mainimage.png">
+      <img src="{{BASE_URL}}/{{ THEME_URL }}/images/login_mainimage.png">
         <div class="loading"></div>
         <h4>Loading Atmosphere...</h4>
     </div>
@@ -65,17 +65,18 @@
             var BADGE_HOST = "{{ BADGE_HOST }}";
         {% endif %}
 
-        {% if THEME_HEADER_TEXT %}
-            var THEME_HEADER_TEXT = "{{ THEME_HEADER_TEXT }}";
+        {% if SITE_TITLE %}
+            var SITE_TITLE = "{{ SITE_TITLE }}";
         {% endif %}
 
-        {% if THEME_FOOTER_TEXT %}
-            var THEME_FOOTER_TEXT = "{{ THEME_FOOTER_TEXT }}";
+        {% if SITE_FOOTER %}
+            var SITE_FOOTER = "{{ SITE_FOOTER }}";
         {% endif %}
 
         {% if UI_VERSION %}
             var UI_VERSION = "{{ UI_VERSION }}";
         {% endif %}
+
         {% if BADGE_HOST %}
             var BADGE_HOST = "{{ BADGE_HOST }}";
         {% endif %}

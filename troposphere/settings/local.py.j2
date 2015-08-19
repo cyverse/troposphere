@@ -52,20 +52,9 @@ BADGE_SYSTEM_NAME = "{{ BADGE_SYSTEM_NAME }}"
 BADGE_SECRET = "{{ BADGE_SECRET }}"
 {% endif %}
 
-#STATIC_URL && DIRS == assets; where post-processed files go..
-#STATIC_URL = '%s/assets/' % BASE_URL
-#STATICFILES_DIRS = (
-#        os.path.join(BASE_DIR,'assets/'),
-#    )
-
-# STATIC_ROOT must != assets
-# Additionally, the folder should be empty & outside of Version Control
-#STATIC_ROOT = '/tmp_static/'
-
 # MOCK - Uncomment these lines to allow one-user-only access. Useful for debug/development
 # ALWAYS_AUTH_USER = "test_user"
 # # Use MockLoginBackend first!
 # AUTHENTICATION_BACKENDS += (
 #     'troposphere.auth_backends.MockLoginBackend',
 # )
-#
