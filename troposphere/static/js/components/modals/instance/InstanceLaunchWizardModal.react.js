@@ -22,9 +22,8 @@ define(function (require) {
       SIZE_STEP = 2,
       PROJECT_STEP = 3,
       OPTIONS_STEP = 4,
-      ADMIN_OPTIONS_STEP = 5,
-      LICENSE_STEP = 6,
-      REVIEW_STEP = 7;
+      LICENSE_STEP = 5,
+      REVIEW_STEP = 6;
 
   return React.createClass({
     mixins: [BootstrapModalMixin],
@@ -46,17 +45,14 @@ define(function (require) {
         title: "Image",
         breadcrumbs: [
             {name:"Image",step:IMAGE_STEP, active:this.props.image ? false : true},
-            {name:"Version & Provider",step:INFORMATION_STEP},
-            {name:"Size",step:SIZE_STEP},
+            {name:"Version & Provider",step:INFORMATION_STEP, active: true},
+            {name:"Size",step:SIZE_STEP, active: true},
             {name:"Project",step:PROJECT_STEP, active:this.props.project ? false : true},
-            {name:"Options",step:OPTIONS_STEP, active:this.isOptionsStepActive},
+            {name:"Options",step:OPTIONS_STEP, active: false },
             {name:"Licensing",step:LICENSE_STEP, active:this.isLicenseStepActive},
-            {name:"Review",step:REVIEW_STEP}
+            {name:"Review",step:REVIEW_STEP, active: true}
         ]
       };
-    },
-    isOptionsStepActive: function() {
-      return false;
     },
     isLicenseStepActive: function() {
       state = this.getState();
@@ -161,8 +157,8 @@ define(function (require) {
               return this.renderProjectStep();
         case OPTIONS_STEP:
               //return this.renderUserOptionsStep(); //TODO: Re-enable when 'Boot Scripts', 'Licenses' are added.
-        case ADMIN_OPTIONS_STEP:
-              //return this.renderStaffOptionsStep(); //TODO: Re-enable when 'Hypervisor-Select', 'No-Deploy' are added.
+        // case ADMIN_OPTIONS_STEP:
+        //       //return this.renderStaffOptionsStep(); //TODO: Re-enable when 'Hypervisor-Select', 'No-Deploy' are added.
         case LICENSE_STEP:
           return this.renderLicenseStep();
         case REVIEW_STEP:
@@ -179,7 +175,6 @@ define(function (require) {
     },
 
     renderBreadCrumbTrail: function() {
-        var user = stores.ProfileStore.get();
         var self = this;
         var breadcrumbs = this.state.breadcrumbs;
 
@@ -283,10 +278,6 @@ define(function (require) {
         var previousStep = this.getPrevStep(this.state.step),
             data = data || {},
             state = _.extend({step: previousStep}, data);
-        if(this.props.image && this.state.step == INFORMATION_STEP) {
-            //Don't go to 'Step 0' if image provided.
-            this.cancel()
-        }
         if(this.state.step == REVIEW_STEP) {
             //TODO: Remove this when re-adding User/Admin Options
             if(this.props.project) {
@@ -304,7 +295,7 @@ define(function (require) {
           breadcrumb;
       while(true) {
         prevStep = prevStep - 1;
-        if (prevStep <= 0) {
+        if (prevStep < 0) {
           throw "Unexpected behavior: prev step < 0";
         }
         breadcrumb = this.state.breadcrumbs[prevStep];
@@ -319,37 +310,32 @@ define(function (require) {
       }
     },
     getNextStep: function(current_step) {
-      var nextStep = current_step,
-          final_step = this.state.breadcrumbs.length,
-          breadcrumb;
-      while(true) {
-        nextStep = nextStep + 1;
-        if (nextStep >= final_step) {
+      var nextStep = current_step + 1,
+          final_step = this.state.breadcrumbs.length - 1,
+          breadcrumb,
+          active;
+
+      do {
+        if (nextStep > final_step) {
           throw "Unexpected behavior: 'next' step > final step";
         }
         breadcrumb = this.state.breadcrumbs[nextStep];
-        if(
-          (typeof breadcrumb.active === "boolean" && !breadcrumb.active) ||
-          (typeof breadcrumb.active === "function" && !breadcrumb.active())
-        ) {
-          //Skip this, it's inactive
-          continue;
-        }
-        return breadcrumb.step;
-      }
+        active =
+            typeof breadcrumb.active === "boolean"
+            ? breadcrumb.active
+            : breadcrumb.active();
+
+        if (active)
+            return breadcrumb.step;
+      } while (nextStep++)
+
     },
     onNext: function (data) {
       var nextStep = this.getNextStep(this.state.step),
         data = data || {},
         state = _.extend({step: nextStep}, data);
-      if (this.props.project && state.step == PROJECT_STEP) {
-        //Skip to the review step.
-        state.step = REVIEW_STEP - 1;
-      } else if (this.state.step == PROJECT_STEP) {
-        //TODO: Remove this line when re-adding User/Admin Options
-        state.step = REVIEW_STEP - 1;
-      }
-      state.title = this.state.breadcrumbs[state.step].name;
+
+      state.title = this.state.breadcrumbs[nextStep].name;
       this.setState(state);
     },
     toReview: function(data) {
