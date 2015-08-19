@@ -59,6 +59,7 @@ troposphere.key
 troposphere/settings/local.py
 troposphere/assets
 node_modules
+variables.ini
 
 # JetBrains IDEs
 .idea
