@@ -1,10 +1,10 @@
-python-dateutil==2.2
-requests==2.2.1
+caslib.py==2.1.0
+coverage==3.7.1
 django==1.7.4
 django-jenkins==0.16.2
 djangorestframework==3.0.4
-coverage==3.7.1
-caslib.py==2.1.0
 psycopg2==2.5.2
-pycrypto == 2.6.1
-PyJWT
+pycrypto==2.6.1
+PyJWT==1.4.0
+python-dateutil==2.2
+requests==2.2.1
