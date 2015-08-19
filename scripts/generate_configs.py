@@ -26,9 +26,7 @@ config_files = {
     'nginx-site': ('extras/nginx/site.conf.j2',
                    'extras/nginx/site.conf'),
     'nginx-tropo': ('extras/nginx/locations/tropo.conf.j2',
-                   'extras/nginx/locations/atmo.conf'),
-    'secrets.py': ('troposphere/settings/secrets.py.j2',
-                   'troposphere/settings/secrets.py')}
+                   'extras/nginx/locations/tropo.conf')}
 
 
 projectpath = os.path.abspath(
