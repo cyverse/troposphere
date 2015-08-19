@@ -15,7 +15,7 @@ define(function (require) {
     },
 
     renderNameLabel: function() {
-     return "Create or Update"
+     return "Create or Update?"
     },
     renderHelpText: function() {
       return "Checking 'New Image' will create a brand new image."
@@ -23,8 +23,9 @@ define(function (require) {
     },
     render: function () {
       return (
+        <div id="CreateUpdateFlag">
+        <h4 htmlFor="update" className="control-label">{this.renderNameLabel()}</h4>
         <div className="form-group callout-info">
-          <label htmlFor="update" className="control-label">{this.renderNameLabel()}</label>
           <div className="help-block">{this.renderHelpText()}</div>
           <div className="form-group">
             <div className="checkbox">
@@ -39,10 +40,11 @@ define(function (require) {
             </div>
           </div>
         </div>
-
+        <hr />
+        </div>
       );
     }
 
   });
 
-});
+})
