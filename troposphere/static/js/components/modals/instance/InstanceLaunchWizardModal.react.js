@@ -51,7 +51,7 @@ define(function (require) {
             {name:"Options",step:OPTIONS_STEP, active: false },
             {name:"Licensing",step:LICENSE_STEP, active:this.isLicenseStepActive},
             {name:"Review",step:REVIEW_STEP, active: true}
-        ]
+        ],
       };
     },
     isLicenseStepActive: function() {
@@ -275,8 +275,12 @@ define(function (require) {
         this.props.onConfirm(launch_data);
     },
     onPrevious: function(data) {
-        var previousStep = this.getPrevStep(this.state.step),
-            data = data || {},
+        var previousStep = this.getPrevStep(this.state.step);
+        if (previousStep === undefined) {
+            this.cancel();
+            return;
+        }
+        var data = data || {},
             state = _.extend({step: previousStep}, data);
         if(this.state.step == REVIEW_STEP) {
             //TODO: Remove this when re-adding User/Admin Options
@@ -293,10 +297,12 @@ define(function (require) {
     getPrevStep: function(current_step) {
       var prevStep = current_step,
           breadcrumb;
+
       while(true) {
         prevStep = prevStep - 1;
         if (prevStep < 0) {
-          throw "Unexpected behavior: prev step < 0";
+            return undefined;
+          // throw "Unexpected behavior: prev step < 0";
         }
         breadcrumb = this.state.breadcrumbs[prevStep];
         if(
