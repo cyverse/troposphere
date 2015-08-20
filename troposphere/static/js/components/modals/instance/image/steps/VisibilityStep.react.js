@@ -7,6 +7,7 @@ define(function(require) {
       Users = require('../components/Users.react');
 
   return React.createClass({
+    displayName: "ImageWizard-VisibilityStep",
 
     propTypes: {
       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired

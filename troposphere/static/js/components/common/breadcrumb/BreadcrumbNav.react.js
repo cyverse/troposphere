@@ -4,6 +4,7 @@ define(function (require) {
         Backbone = require('backbone'),
         Breadcrumb = require('./Breadcrumb.react');
     return React.createClass({
+      displayName: "BreadcrumbNav",
 
       propTypes: {
         breadcrumbs: React.PropTypes.array.isRequired,

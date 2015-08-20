@@ -8,7 +8,7 @@ define(function(require) {
       stores = require('stores');
 
   return React.createClass({
-    displayName: "BootScriptsLicensingStep",
+    displayName: "ImageWizard-BootScriptsLicensingStep",
 
     propTypes: {
       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
@@ -57,11 +57,14 @@ define(function(require) {
     },
 
     onScriptCreate: function(scriptObj){
-      actions.ScriptActions.create({
+      var script = actions.ScriptActions.create({
         title: scriptObj.title,
         type: scriptObj.type,
         text: scriptObj.text
       });
+      var scripts = this.state.activeScripts;
+      scripts.add(script);
+      this.setState({activeScripts: scripts});
     },
 
     onScriptAdded: function(script){

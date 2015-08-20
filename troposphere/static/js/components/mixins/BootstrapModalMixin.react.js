@@ -28,6 +28,8 @@ define(
       };
 
       return {
+        displayName: "BreadcrumbModalMixin",
+
         propTypes: {
           handleShow: React.PropTypes.func,
           handleShown: React.PropTypes.func,

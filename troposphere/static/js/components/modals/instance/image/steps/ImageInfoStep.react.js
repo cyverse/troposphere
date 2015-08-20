@@ -9,7 +9,7 @@ define(function(require) {
       stores = require('stores');
 
   return React.createClass({
-    displayName: "ImageInfoStep",
+    displayName: "ImageWizard-ImageInfoStep",
 
     propTypes: {
       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,

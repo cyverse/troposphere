@@ -7,7 +7,7 @@ define(function(require) {
       stores = require('stores');
 
   return React.createClass({
-    displayName: "VersionInfoStep",
+    displayName: "ImageWizard-VersionInfoStep",
 
     propTypes: {
       versionName: React.PropTypes.string.isRequired,
