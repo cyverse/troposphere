@@ -57,6 +57,7 @@ define(function (require) {
 
       <Route name="providers" handler={ProvidersMaster}>
         <Route name="provider" path=":providerId" handler={ProviderDetailsPage}/>
+        <DefaultRoute handler={ProviderDetailsPage}/>
       </Route>
 
       <Route name="help" handler={HelpPage}/>
