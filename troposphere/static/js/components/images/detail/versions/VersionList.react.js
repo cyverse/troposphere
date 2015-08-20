@@ -38,7 +38,7 @@ define(function (require) {
           change_log: changeLog,
           end_date: end_date,
           allow_imaging: canImage,
-          image: image
+          image: image.id
         });
       },
       renderVersion: function (version) {
