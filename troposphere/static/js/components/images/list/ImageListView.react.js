@@ -260,7 +260,7 @@ define(function (require) {
         <div>
           <div className="display-toggles clearfix">
             <h3>{title}</h3>
-            <div className="btn-group pull-right">
+            <div className="btn-group pull-right hidden-xs hiddin-sm">
               {this.renderListButton()}
               {this.renderGridButton()}
             </div>

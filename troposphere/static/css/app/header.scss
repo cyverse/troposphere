@@ -18,6 +18,15 @@
     font-size: 80%;
     margin-left: 8px;
     letter-spacing: .1em;
+    @media (max-width:500px){
+        content:"/ BETA";
+        position:absolute;
+        top:21px;
+        left: 36px;
+        background:none;
+        font-size:10px;
+    }
+
   }
 }
 
