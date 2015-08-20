@@ -48,17 +48,18 @@ coverage.xml
 # Django stuff:
 *.log
 *.pot
-
 # Sphinx documentation
 docs/_build/
 
 # vim
 *.swp
+*.bak
 
 troposphere.key
 troposphere/settings/local.py
 troposphere/assets
 node_modules
+variables.ini
 
 # JetBrains IDEs
 .idea
@@ -76,5 +77,6 @@ extras/newrelic
 *~
 
 # generated files
+extras/nginx/Makefile
 extras/nginx/site.conf
 extras/nginx/locations/tropo.conf

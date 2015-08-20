@@ -7,6 +7,7 @@ https://docs.djangoproject.com/en/1.6/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
+UI_VERSION = "Hawaiian Hawk"
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
@@ -144,10 +145,3 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'troposphere.auth_backends.OAuthLoginBackend'
 )
-
-THEME_HEADER_TEXT = 'Atmosphere'
-THEME_LOGO = '/assets/images/mini_logo.png'
-THEME_FAVICON = '/assets/images/favicon.ico'
-THEME_CSS_FILE = '/assets/css/app/app.css'
-THEME_FOOTER_TEXT = "iPlant Collaborative"
-UI_VERSION = 'Hawaiian Hawk'

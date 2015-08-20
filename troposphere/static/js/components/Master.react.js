@@ -34,12 +34,12 @@ define(function (require) {
     loadBadgeData: function(){
       stores.BadgeStore.getAll(),
       stores.MyBadgeStore.getAll(),
-      stores.InstanceHistoryStore.getAllAndCheckBadges(); 
+      stores.InstanceHistoryStore.getAllAndCheckBadges();
       stores.ImageBookmarkStore.getAllAndCheckBadges();
     },
 
-    componentDidMount: function () { 
-      this.loadBadgeData();  
+    componentDidMount: function () {
+      this.loadBadgeData();
       // subscribe to all Stores
       Object.keys(stores).forEach(function (storeName) {
         stores[storeName].addChangeListener(this.updateState);
@@ -83,7 +83,7 @@ define(function (require) {
           <div id="main" style={{"marginTop": marginTop}}>
             <RouteHandler/>
           </div>
-          <Footer text={globals.THEME_FOOTER_TEXT} profile={context.profile}/>
+          <Footer text={globals.SITE_FOOTER} profile={context.profile}/>
         </div>
       );
     }
