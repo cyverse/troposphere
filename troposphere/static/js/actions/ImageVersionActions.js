@@ -26,8 +26,14 @@ define(function (require) {
       }).done(function(){
         // UPDATE_VERSION here if we do NOT want 'optimistic updating'
         // Othewise, do nothing..
-      }).fail(function(){
-        var message = "Error creating Image Version " + version.get('name') + ".";
+      }).fail(function(err_resp){
+        var error_json = err_resp.responseJSON;
+        if (error_json.hasOwnProperty('non_field_errors')) {
+            err_message = error_json.non_field_errors.join(" , ");
+        } else {
+            err_message = error_json;
+        }
+        var message = "Error updating Image Version " + version.get('name') + ": "+ err_message;
         NotificationController.error(null, message);
         Utils.dispatch(ImageVersionConstants.REMOVE_IMAGE_VERSION, {version: version});
       }).always(function(){
