@@ -17,11 +17,6 @@ define(function (require) {
           script_type = params.type,
           text = params.text;
 
-      //Data cleaning..
-      if(script_type == "full_text") {
-        script_type = "Raw Text";
-      }
-
       var script = new Script({
         title: title,
         type: script_type,

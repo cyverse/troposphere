@@ -50,7 +50,7 @@ define(function (require) {
       if (script_type == "URL") {
         this.setState({scriptType: script_type});
       } else {
-        this.setState({scriptType: "full_text"});
+        this.setState({scriptType: "Full Text"});
       }
     },
     onScriptURLChange: function (e) {
@@ -75,7 +75,7 @@ define(function (require) {
           </div>
         );
       } else {
-        //"full_text"
+        //"Full Text"
         return (<EditDescriptionView
           title={"Full Text"}
           value={this.state.scriptText}
@@ -99,7 +99,7 @@ define(function (require) {
         fullTextRadio = (
           <label className="radio-inline">
             <input type="radio" name="inlineScriptOptions"
-                   id="scriptTypeText" value="full_text"
+                   id="scriptTypeText" value="Full Text"
                    onChange={this.onScriptInputTypeChange}/>
             Full Text
           </label>);
@@ -115,7 +115,7 @@ define(function (require) {
           <label className="radio-inline">
             <input checked="checked"
                    type="radio" name="inlineScriptOptions"
-                   id="scriptTypeText" value="full_text"
+                   id="scriptTypeText" value="Full Text"
                    onChange={this.onScriptInputTypeChange}/>
             Full Text
           </label>);
