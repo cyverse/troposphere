@@ -91,7 +91,7 @@ define(function (require) {
                 <ProjectSelectStep
                     project={this.state.project}
                     onPrevious={this.onPrevious}
-                    onFinished={this.toReview}
+                    onFinished={this.onNext}
                 />
               );
     },
@@ -359,7 +359,7 @@ define(function (require) {
       this.setState(state);
     },
     toReview: function(data) {
-        var state = _.extend({step: OPTIONS_STEP}, data);
+        var state = _.extend({step: REVIEW_STEP}, data);
         this.setState(state);
     },
     activateBreadcrumb: function(index, activeTruth) {
