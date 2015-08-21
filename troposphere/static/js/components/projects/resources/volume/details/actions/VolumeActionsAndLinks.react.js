@@ -25,11 +25,9 @@ define(function (require) {
       var project = this.props.project,
           volume = this.props.volume;
 
-      actions.VolumeActions.destroy({
-        volume: volume,
-        project: project,
-        linksTo: "project-resources",
-        params: {projectId: project.id}
+      modals.VolumeModals.destroy({
+        volume: this.props.volume,
+        project: this.props.project
       });
     },
 
