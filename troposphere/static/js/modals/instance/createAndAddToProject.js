@@ -20,14 +20,16 @@ define(function (require) {
             version = launchData.version,
             identity = launchData.identity,
             name = launchData.name,
-            project = launchData.project;
+            project = launchData.project,
+            scripts = launchData.activeScripts;
 
         actions.InstanceActions.launch({
           project: project,
           instanceName: name,
           identity: identity,
           size: size,
-          version: version
+          version: version,
+          scripts: scripts
         });
       });
     }

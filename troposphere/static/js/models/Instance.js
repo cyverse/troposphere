@@ -48,7 +48,8 @@ define(
             identityId = this.get('identity').uuid,
             name = options.name,
             size = options.size_alias,
-            machine = options.machine_alias;
+            machine = options.machine_alias,
+            scriptIDs = (options.scripts) ? options.scripts.map(function(script) {return script.id;}) : [];
 
         var url =  (
           globals.API_ROOT +
@@ -62,7 +63,8 @@ define(
           attrs: {
             name: name,
             machine_alias: machine,
-            size_alias: size
+            size_alias: size,
+            scripts: scriptIDs
           }
         });
       },

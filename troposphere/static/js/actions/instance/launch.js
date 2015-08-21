@@ -11,7 +11,7 @@ define(function (require) {
       Utils = require('../Utils'),
       ProjectInstance = require('models/ProjectInstance');
 
-  function launch(params){
+  function launch(params) {
     if(!params.project) throw new Error("Missing project");
     if(!params.instanceName) throw new Error("Missing instanceName");
     if(!params.identity) throw new Error("Missing identity");
@@ -34,7 +34,8 @@ define(function (require) {
         instanceName = params.instanceName,
         identity = params.identity,
         size = params.size,
-        machine = params.machine;
+        machine = params.machine,
+        scripts = params.scripts;
 
     var instance = new Instance({
       name: instanceName,
@@ -50,7 +51,7 @@ define(function (require) {
       identity: {
         id: identity.id,
         uuid: identity.get('uuid')
-      }
+      },
     }, {parse: true});
 
     var projectInstance = new ProjectInstance({
@@ -68,7 +69,8 @@ define(function (require) {
     instance.createOnV1Endpoint({
       name: instanceName,
       size_alias: size.get('alias'),
-      machine_alias: machine.uuid
+      machine_alias: machine.uuid,
+      scripts: scripts,
     }).done(function(attrs, status, response) {
       instance.set('id', attrs.id);
       instance.fetch().done(function(){
