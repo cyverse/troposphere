@@ -53,6 +53,10 @@ define(function (require) {
       });
     },
 
+    onRedeploy: function(){
+      modals.InstanceModals.redeploy(this.props.instance);
+    },
+
     onReboot: function(){
       modals.InstanceModals.reboot(this.props.instance);
     },
@@ -61,6 +65,7 @@ define(function (require) {
       var webShellUrl = this.props.instance.get('shell_url'),
           remoteDesktopUrl = this.props.instance.get('vnc_url'),
           status = this.props.instance.get('state').get('status'),
+          activity = this.props.instance.get('state').get('activity'),
           ip_address = this.props.instance.get('ip_address'),
           webLinksDisabled = !ip_address || ip_address === "0.0.0.0";
 
@@ -84,11 +89,18 @@ define(function (require) {
           linksArray.push({label: 'Suspend', icon: 'pause', onClick: this.onSuspend});
           linksArray.push({label: 'Stop', icon: 'stop', onClick: this.onStop});
           linksArray.push({label: 'Reboot', icon: 'repeat', onClick: this.onReboot});
+          linksArray.push({label: 'Redeploy', icon: 'repeat', onClick: this.onRedeploy});
         } else if (status === "suspended") {
           linksArray.push({label: 'Resume', icon: 'play', onClick: this.onResume});
         } else if (status === "shutoff") {
           linksArray.push({label: 'Start', icon: 'play', onClick: this.onStart});
         }
+      }
+
+      if ( activity === "deploying" || status === "deploying"
+        || activity === "deploy_error"|| status === "deploy_error"
+        || activity === "boot_script_error") {
+        linksArray.push({label: 'Redeploy', icon: 'repeat', onClick: this.onRedeploy});
       }
 
       linksArray = linksArray.concat([
