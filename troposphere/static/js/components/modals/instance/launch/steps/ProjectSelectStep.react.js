@@ -10,7 +10,9 @@ if (!define(function (require) {
         var ENTER_KEY = 13;
 
         return React.createClass({
-            propTypes: {
+          displayName: "InstanceLaunchWizardModal-ProjectSelectStep",
+
+          propTypes: {
                 project: React.PropTypes.instanceOf(Backbone.Model),
                 onPrevious: React.PropTypes.func.isRequired,
                 onNext: React.PropTypes.func.isRequired,
@@ -65,9 +67,6 @@ if (!define(function (require) {
             //
             confirmLaunch: function () {
                 this.confirm(this.props.onFinished, {project:this.state.project});
-            },
-            confirmNext: function () {
-                this.confirm(this.props.onNext, {project:this.state.project});
             },
             confirmCreate: function(new_project) {
                 this.setState({project:new_project, projectId: new_project.id});
@@ -206,9 +205,6 @@ if (!define(function (require) {
                             </button>
                             <button type="button" className="btn btn-primary" onClick={this.confirmLaunch} disabled={!this.isSubmittable()}>
                                 Launch
-                            </button>
-                            <button type="button" className="btn btn-danger" onClick={this.confirmNext} disabled={!this.isSubmittable()}>
-                                Advanced Configuration
                             </button>
                         </div>
                     </div>

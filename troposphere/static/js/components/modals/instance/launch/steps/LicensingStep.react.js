@@ -8,7 +8,7 @@ define(function (require) {
     var ENTER_KEY = 13;
 
     return React.createClass({
-      displayName: "LicensingStep",
+      displayName: "InstanceLaunchWizardModal-LicensingStep",
 
       propTypes: {
             licensingAccepted: React.PropTypes.bool.isRequired,

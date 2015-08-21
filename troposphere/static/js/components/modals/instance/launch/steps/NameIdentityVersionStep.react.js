@@ -8,7 +8,7 @@ define(function (require) {
         IdentitySelect = require('../components/IdentitySelect.react');
 
     return React.createClass({
-        displayName: "NameIdentityVersionStep",
+      displayName: "InstanceLaunchWizardModal-NameIdentityVersionStep",
 
         propTypes: {
             image: React.PropTypes.instanceOf(Backbone.Model),
@@ -48,6 +48,7 @@ define(function (require) {
         componentDidMount: function () {
             stores.IdentityStore.addChangeListener(this.updateState);
             stores.ProviderMachineStore.addChangeListener(this.updateState);
+            this.focusInput();
         },
 
         componentWillUnmount: function () {
@@ -154,7 +155,12 @@ define(function (require) {
             );
         },
 
-
+        focusInput: function() {
+          var nameField = this.refs.nameField;
+          if(nameField) {
+            nameField.getDOMNode().focus();
+          }
+        },
         renderBody: function () {
             var image = this.props.image,
                 identityID,
@@ -190,6 +196,7 @@ define(function (require) {
                             <label htmlFor='instance-launch-name' className="col-sm-3 control-label">Instance Name</label>
                             <div className="col-sm-9">
                                 <input
+                                    ref="nameField"
                                     type='text'
                                     className='form-control'
                                     id='instance-launch-name'

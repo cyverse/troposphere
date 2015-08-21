@@ -2,37 +2,97 @@ define(function (require) {
 
   var React = require('react'),
       Backbone = require('backbone'),
-      _ = require('underscore'),
+    actions = require('actions'),
+    EditScriptsView = require('components/modals/image_version/scripts/EditScriptsView.react'),
+    _ = require('underscore'),
       stores = require('stores');
 
   return React.createClass({
+    displayName: "InstanceLaunchWizardModal-UserOptionsStep",
+
     propTypes: {
-        /**
-         * TODO: Add Boot scripts
-         * TODO: Other user options?
-         *
-         */
-        launchOptions: React.PropTypes.object.isRequired,
+        scripts: React.PropTypes.instanceOf(Backbone.Collection),
+        activeScripts: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        launchOptions: React.PropTypes.object,
         onPrevious: React.PropTypes.func.isRequired,
         onNext: React.PropTypes.func.isRequired
     },
 
-    getInitialState: function(){
-      var state = this.props.launchOptions || {
+    getDefaultProps: function() {
+      return {
+        scripts: null,
+        activeScripts: new Backbone.Collection(),
+        launchOptions: {},
       };
+    },
+
+    getState: function() {
+      var state = this.state;
+      if (!state.scripts) {
+        state.scripts = stores.ScriptStore.getAll();
+      }
+
+      return state;
+    },
+    updateState: function() {
+      if(this.isMounted()) this.setState(this.getState());
+    },
+    getInitialState: function(){
+      var state = {
+          scripts: this.props.scripts,
+          activeScripts: this.props.activeScripts,
+          options: this.props.launchOptions
+        };
       return state;
     },
 
     isSubmittable: function() {
         return true;
     },
-      confirm: function() {
-          this.props.onNext(this.state);
-      },
+    confirm: function() {
+        this.props.onNext({
+          activeScripts: this.state.activeScripts
+        });
+    },
+    onScriptCreate: function(scriptObj){
+      var script = actions.ScriptActions.create({
+        title: scriptObj.title,
+        type: scriptObj.type,
+        text: scriptObj.text
+      });
+      var scripts = this.state.activeScripts;
+      scripts.add(script);
+      this.setState({activeScripts: scripts});
+    },
+
+    onScriptAdded: function(script){
+      var scripts = this.state.activeScripts;
+      scripts.add(script);
+      this.setState({activeScripts:scripts});
+      //actions.ImageVersionScriptActions.add({
+      //  image_version: this.props.version,
+      //  script: script
+      //});
+    },
+
+    onScriptRemoved: function(script){
+      var filteredScripts = this.state.activeScripts.filter(function(bootscript) {
+        return bootscript.id !== script.id;
+      });
+      this.setState({activeScripts:filteredScripts});
+      //actions.ImageVersionScriptActions.remove({
+      //  image_version: this.props.version,
+      //  script: script
+      //});
+    },
     componentDidMount: function () {
+      stores.ScriptStore.addChangeListener(this.updateState);
+
     },
 
     componentWillUnmount: function () {
+      stores.ScriptStore.removeChangeListener(this.updateState);
+
     },
 
     //
@@ -41,29 +101,26 @@ define(function (require) {
     //
 
     cancel: function(){
-      this.props.onPrevious(this.state);
+      this.props.onPrevious({
+        activeScripts: this.state.activeScripts
+      });
     },
 
-    confirm: function () {
-      this.props.onNext(this.state);
-    },
-    renderBootScriptsForm: function() {
-        return (<div></div>);
-    },
     renderBody: function(){
+      if(!this.state.scripts) {
+        return (<div className="loading"/>);
+      }
 
       return (
-        <div role='form'>
-
-          <div className="modal-section form-horizontal">
-            <h4>Instance Options</h4>
-            <div className='form-group'>
-              <label htmlFor='boot_scripts' className="col-sm-3 control-label">Boot Scripts</label>
-              <div className="col-sm-9">
-                {this.renderBootScriptForm()}
-              </div>
-            </div>
-          </div>
+        <div>
+          <EditScriptsView
+            activeScripts={this.state.activeScripts}
+            scripts={this.state.scripts}
+            onScriptAdded={this.onScriptAdded}
+            onScriptRemoved={this.onScriptRemoved}
+            onCreateNewScript={this.onScriptCreate}
+            label={"Scripts Required"}
+            />
         </div>
       );
     },

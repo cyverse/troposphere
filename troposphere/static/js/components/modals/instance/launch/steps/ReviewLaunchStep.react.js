@@ -11,7 +11,7 @@ define(function (require) {
     var ENTER_KEY = 13;
 
     return React.createClass({
-      displayName: "ReviewLaunchStep",
+      displayName: "InstanceLaunchWizardModal-ReviewLaunchStep",
 
       propTypes: {
             //name: React.PropTypes.string.isRequired,
@@ -22,7 +22,8 @@ define(function (require) {
             //project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
             launchData: React.PropTypes.object.isRequired,
             onPrevious: React.PropTypes.func.isRequired,
-            onNext: React.PropTypes.func.isRequired
+            onNext: React.PropTypes.func.isRequired,
+            toAdvancedOptions: React.PropTypes.func.isRequired
         },
 
         getInitialState: function () {
@@ -47,6 +48,9 @@ define(function (require) {
         },
         confirm: function () {
             this.props.onNext(this.state);
+        },
+        confirmAdvanced: function () {
+          this.props.toAdvancedOptions(this.state);
         },
 
         renderAllocationWarning: function (identity) {
@@ -124,6 +128,30 @@ define(function (require) {
                 );
 
             return this.renderProgressBar(message, currentlyUsedPercent, 0, overQuotaMessage, "allocation-consumption-bar");
+        },
+        renderBootScripts: function(boot_scripts) {
+          return boot_scripts.map(function(boot_script) {
+            return (<li className="search-choice">
+              {boot_script.get('title')}
+              </li>);
+          });
+        },
+        renderAdvancedOptions: function() {
+          if(!this.state.activeScripts || this.state.activeScripts.length == 0) {
+            return;
+          }
+          return (
+          <div className='form-group'>
+            <label htmlFor='identity'
+                   className="col-sm-3 control-label">Boot Scripts</label>
+            <div className="col-sm-9">
+              <div className="chosen-container-external chosen-container-external-multi" >
+                <ul className="chosen-choices">
+                {this.renderBootScripts(this.state.activeScripts)}
+                  </ul>
+              </div>
+            </div>
+          </div>);
         },
         renderCpuConsumption: function (identity, size, sizes, instances) {
             var quota = identity.get('quota'),
@@ -240,7 +268,7 @@ define(function (require) {
                                 />
                             </div>
                         </div>
-
+                        {this.renderAdvancedOptions()}
                         <div className='form-group' className="modal-section">
                             <h4>Projected Resource Usage</h4>
                             {this.renderCpuConsumption(identity, size, sizes, instances)}
@@ -261,6 +289,9 @@ define(function (require) {
                         <button type="button" className="btn btn-default pull-left" onClick={this.props.onPrevious}>
                             <span className="glyphicon glyphicon-chevron-left"></span>
                             Back
+                        </button>
+                        <button type="button" className="btn btn-danger" onClick={this.confirmAdvanced} disabled={!this.isSubmittable()}>
+                          Advanced Configuration
                         </button>
                         <button type="button" className="btn btn-primary" onClick={this.confirm} disabled={!this.isSubmittable()}>
                             Launch Instance

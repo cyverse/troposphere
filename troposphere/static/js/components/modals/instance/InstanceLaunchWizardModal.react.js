@@ -27,6 +27,7 @@ define(function (require) {
 
   return React.createClass({
     mixins: [BootstrapModalMixin],
+    displayName: "InstanceLaunchWizardModal",
 
     propTypes: {
       image: React.PropTypes.instanceOf(Backbone.Model),
@@ -35,30 +36,19 @@ define(function (require) {
     },
 
 
-    getInitialState: function(){
-      var image = this.props.image,
-        project = this.props.project;
-      return {
-	    image: image,
-        project: project,
-        step: image ? INFORMATION_STEP : IMAGE_STEP,
-        title: "Image",
-        breadcrumbs: [
-            {name:"Image",step:IMAGE_STEP, active:this.props.image ? false : true},
-            {name:"Version & Provider",step:INFORMATION_STEP, active: true},
-            {name:"Size",step:SIZE_STEP, active: true},
-            {name:"Project",step:PROJECT_STEP, active:this.props.project ? false : true},
-            {name:"Options",step:OPTIONS_STEP, active: false },
-            {name:"Licensing",step:LICENSE_STEP, active:this.isLicenseStepActive},
-            {name:"Review",step:REVIEW_STEP, active: true}
-        ],
-      };
-    },
     isLicenseStepActive: function() {
       state = this.getState();
       if (state.version
         && state.version.get('licenses')
         && state.version.get('licenses').length > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    isOptionsStepActive: function() {
+      state = this.getState();
+      if (state.showOptions === true) {
         return true;
       } else {
         return false;
@@ -101,18 +91,20 @@ define(function (require) {
                 <ProjectSelectStep
                     project={this.state.project}
                     onPrevious={this.onPrevious}
-                    onNext={this.onNext}
                     onFinished={this.toReview}
                 />
               );
     },
     renderUserOptionsStep: function() {
-          return (
+      var allScripts = this.state.scripts || stores.ScriptStore.getAll(),
+      activeScripts = this.state.activeScripts || new Backbone.Collection();
+      return (
                 <UserOptionsStep
                     launchOptions={this.state.launchOptions}
+                    scripts={allScripts}
+                    activeScripts={activeScripts}
                     onPrevious={this.onPrevious}
                     onNext={this.onNext}
-                    onFinished={this.toReview}
                 />
               );
     },
@@ -132,6 +124,7 @@ define(function (require) {
           launchData={this.state}
           onPrevious={this.onPrevious}
           onNext={this.onCompleted}
+          toAdvancedOptions={this.toAdvancedOptions}
           />
       );
     },
@@ -156,7 +149,7 @@ define(function (require) {
         case PROJECT_STEP:
               return this.renderProjectStep();
         case OPTIONS_STEP:
-              //return this.renderUserOptionsStep(); //TODO: Re-enable when 'Boot Scripts', 'Licenses' are added.
+            return this.renderUserOptionsStep();
         // case ADMIN_OPTIONS_STEP:
         //       //return this.renderStaffOptionsStep(); //TODO: Re-enable when 'Hypervisor-Select', 'No-Deploy' are added.
         case LICENSE_STEP:
@@ -229,6 +222,25 @@ define(function (require) {
     // Mounting & State
     // ----------------
     //
+    getInitialState: function(){
+      var image = this.props.image,
+        project = this.props.project;
+      return {
+        image: image,
+        project: project,
+        step: image ? INFORMATION_STEP : IMAGE_STEP,
+        title: "Image",
+        breadcrumbs: [
+          {name:"Image",step:IMAGE_STEP, active:this.props.image ? false : true},
+          {name:"Version & Provider",step:INFORMATION_STEP, active: true},
+          {name:"Size",step:SIZE_STEP, active: true},
+          {name:"Project",step:PROJECT_STEP, active:this.props.project ? false : true},
+          {name:"Options",step:OPTIONS_STEP, active: false},
+          {name:"Licensing",step:LICENSE_STEP, active:this.isLicenseStepActive},
+          {name:"Review",step:REVIEW_STEP, active: true}
+        ],
+      };
+    },
 
     getState: function(){
       return this.state;
@@ -248,6 +260,7 @@ define(function (require) {
       stores.InstanceStore.addChangeListener(this.updateState);
       stores.ImageVersionStore.addChangeListener(this.updateState);
       stores.MaintenanceMessageStore.addChangeListener(this.updateState);
+      stores.ScriptStore.addChangeListener(this.updateState);
     },
 
     componentWillUnmount: function () {
@@ -260,6 +273,7 @@ define(function (require) {
       stores.InstanceStore.removeChangeListener(this.updateState);
       stores.ImageVersionStore.removeChangeListener(this.updateState);
       stores.MaintenanceMessageStore.removeChangeListener(this.updateState);
+      stores.ScriptStore.removeChangeListener(this.updateState);
     },
 
     //
@@ -345,8 +359,20 @@ define(function (require) {
       this.setState(state);
     },
     toReview: function(data) {
-        var state = _.extend({step: REVIEW_STEP}, data);
+        var state = _.extend({step: OPTIONS_STEP}, data);
         this.setState(state);
+    },
+    activateBreadcrumb: function(index, activeTruth) {
+      var breadcrumbs = this.state.breadcrumbs,
+      crumb = breadcrumbs[index];
+      crumb.state = activeTruth ? "active" : "inactive";
+      this.state.breadcrumbs[index] = crumb;
+      return crumb;
+    },
+    toAdvancedOptions: function(data) {
+      var crumb = this.activateBreadcrumb(OPTIONS_STEP, true);
+      var state = _.extend(data, {step: OPTIONS_STEP, title: crumb.name});
+      this.setState(state);
     },
     toStep: function(breadcrumb) {
        this.setState({title: breadcrumb.name});

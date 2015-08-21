@@ -10,7 +10,9 @@ define(function (require) {
     var selectedSize, selectedIdentity;
 
     return React.createClass({
-        propTypes: {
+      displayName: "InstanceLaunchWizardModal-SizeSelectStep",
+
+      propTypes: {
             identity: React.PropTypes.instanceOf(Backbone.Model).isRequired,
             size: React.PropTypes.instanceOf(Backbone.Model),
             onPrevious: React.PropTypes.func.isRequired,

@@ -10,9 +10,10 @@ define(
   function (React, Backbone, ModalMixin, stores) {
 
     return React.createClass({
+      displayName: "IdentitySelect",
 
       propTypes: {
-        identityId: React.PropTypes.number.isRequired,
+        identityId: React.PropTypes.number,
         providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         onChange: React.PropTypes.func.isRequired
@@ -37,8 +38,9 @@ define(
 
       render: function () {
         var options = this.getOptions();
+        var identityId = (this.props.identityId !== null) ? this.props.identityId : this.props.identities.first().id;
         return (
-          <select value={this.props.identityId} id='identity' className='form-control' onChange={this.props.onChange}>
+          <select value={identityId} id='identity' className='form-control' onChange={this.props.onChange}>
             {options}
           </select>
         );
