@@ -2,7 +2,8 @@ define(function (require) {
 
   var React = require('react'),
       Backbone = require('backbone'),
-    actions = require('actions'),
+      actions = require('actions'),
+      ActionUtils = require('actions/Utils'),
     EditScriptsView = require('components/modals/image_version/scripts/EditScriptsView.react'),
     _ = require('underscore'),
       stores = require('stores');
@@ -12,6 +13,7 @@ define(function (require) {
 
     propTypes: {
         scripts: React.PropTypes.instanceOf(Backbone.Collection),
+        requiredScripts: React.PropTypes.array,
         activeScripts: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         launchOptions: React.PropTypes.object,
         onPrevious: React.PropTypes.func.isRequired,
@@ -22,6 +24,7 @@ define(function (require) {
       return {
         scripts: null,
         activeScripts: new Backbone.Collection(),
+        requiredScripts: [],
         launchOptions: {},
       };
     },
@@ -76,14 +79,17 @@ define(function (require) {
     },
 
     onScriptRemoved: function(script){
+      if(this.props.requiredScripts &&
+        this.props.requiredScripts.map(function (test_script) {test_script.id === script.id})
+        ) {
+            ActionUtils.displayInfo({message:
+                "You cannot remove this script, it is required to run the image."});
+            return
+        }
       var filteredScripts = this.state.activeScripts.filter(function(bootscript) {
         return bootscript.id !== script.id;
       });
       this.setState({activeScripts:filteredScripts});
-      //actions.ImageVersionScriptActions.remove({
-      //  image_version: this.props.version,
-      //  script: script
-      //});
     },
     componentDidMount: function () {
       stores.ScriptStore.addChangeListener(this.updateState);
@@ -114,6 +120,7 @@ define(function (require) {
       return (
         <div>
           <EditScriptsView
+            requiredScripts={this.props.requiredScripts}
             activeScripts={this.state.activeScripts}
             scripts={this.state.scripts}
             onScriptAdded={this.onScriptAdded}

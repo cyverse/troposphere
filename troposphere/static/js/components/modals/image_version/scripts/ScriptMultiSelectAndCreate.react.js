@@ -3,6 +3,7 @@ define(function (require) {
 
   var React = require('react'),
       Backbone = require('backbone'),
+      _ = require('underscore'),
       ChosenDropdownItem = require('components/common/chosen/ChosenDropdownItem.react'),
       ChosenSelectedItem = require('components/common/chosen/ChosenSelectedItem.react'),
       ChosenMixinExternal = require('components/mixins/ChosenMixinExternal.react'),
@@ -17,6 +18,7 @@ define(function (require) {
       //Mixin-requires:
       models: React.PropTypes.instanceOf(Backbone.Collection),
       activeModels: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+      requiredModels: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
       propertyName: React.PropTypes.string.isRequired,
       onQueryChange: React.PropTypes.func.isRequired,
       onModelAdded: React.PropTypes.func.isRequired,

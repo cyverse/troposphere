@@ -14,12 +14,6 @@ define(function (require) {
       displayName: "InstanceLaunchWizardModal-ReviewLaunchStep",
 
       propTypes: {
-            //name: React.PropTypes.string.isRequired,
-            //image: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-            //version: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-            //size: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-            //identity: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-            //project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
             launchData: React.PropTypes.object.isRequired,
             onPrevious: React.PropTypes.func.isRequired,
             onNext: React.PropTypes.func.isRequired,
@@ -129,15 +123,28 @@ define(function (require) {
 
             return this.renderProgressBar(message, currentlyUsedPercent, 0, overQuotaMessage, "allocation-consumption-bar");
         },
-        renderBootScripts: function(boot_scripts) {
-          return boot_scripts.map(function(boot_script) {
-            return (<li className="search-choice">
-              {boot_script.get('title')}
-              </li>);
-          });
+        renderBootScripts: function(required_scripts, boot_scripts) {
+          var script_list = [], required_script_list = [];
+          if(required_scripts) {
+            required_script_list = required_scripts.map(function(boot_script) {
+              return (<li className="search-choice required-choice">
+                {boot_script.title} (Required)
+                </li>);
+            });
+          }
+          if(boot_scripts) {
+             script_list = boot_scripts.map(function(boot_script) {
+               return (<li className="search-choice">
+                 {boot_script.title}
+                 </li>);
+             });
+          }
+          return _.flatten(required_script_list, script_list)
         },
         renderAdvancedOptions: function() {
-          if(!this.state.activeScripts || this.state.activeScripts.length == 0) {
+          var version_scripts = this.state.version.get('scripts');
+          if((!this.state.activeScripts || this.state.activeScripts.length == 0) &&
+             (!version_scripts || version_scripts.length == 0)) {
             return;
           }
           return (
@@ -147,8 +154,8 @@ define(function (require) {
             <div className="col-sm-9">
               <div className="chosen-container-external chosen-container-external-multi" >
                 <ul className="chosen-choices">
-                {this.renderBootScripts(this.state.activeScripts)}
-                  </ul>
+                  {this.renderBootScripts(version_scripts, this.state.activeScripts)}
+                </ul>
               </div>
             </div>
           </div>);

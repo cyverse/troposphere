@@ -12,6 +12,7 @@ define(function (require) {
 
     propTypes: {
       image_version: React.PropTypes.instanceOf(Backbone.Model),
+      requiredScripts: React.PropTypes.instanceOf(Backbone.Collection),
       activeScripts: React.PropTypes.instanceOf(Backbone.Collection),
       scripts: React.PropTypes.instanceOf(Backbone.Collection),
       onScriptAdded: React.PropTypes.func.isRequired,
@@ -22,6 +23,7 @@ define(function (require) {
 
     getDefaultProps: function() {
       return {
+        requiredScripts: new Backbone.Collection(),
         activeScripts: new Backbone.Collection(),
         scripts: new Backbone.Collection()
       }
@@ -55,6 +57,7 @@ define(function (require) {
           <ScriptMultiSelect
             models={scripts}
             activeModels={this.props.activeScripts}
+            requiredModels={this.props.requiredScripts}
             onModelAdded={this.props.onScriptAdded}
             onModelRemoved={this.props.onScriptRemoved}
             onModelCreated={this.onCreateScript}

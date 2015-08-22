@@ -97,12 +97,14 @@ define(function (require) {
     },
     renderUserOptionsStep: function() {
       var allScripts = this.state.scripts || stores.ScriptStore.getAll(),
+      requiredScripts = (this.state.version ? this.state.version.get('scripts') : null) || [],
       activeScripts = this.state.activeScripts || new Backbone.Collection();
       return (
                 <UserOptionsStep
                     launchOptions={this.state.launchOptions}
                     scripts={allScripts}
                     activeScripts={activeScripts}
+                    requiredScripts={requiredScripts}
                     onPrevious={this.onPrevious}
                     onNext={this.onNext}
                 />
@@ -131,7 +133,7 @@ define(function (require) {
     renderLicenseStep: function() {
       return (
         <LicensingStep
-          version={this.state.version}
+          licenses={this.state.version.get('licenses')}
           onPrevious={this.onPrevious}
           onNext={this.onNext}
           />
@@ -261,6 +263,7 @@ define(function (require) {
       stores.ImageVersionStore.addChangeListener(this.updateState);
       stores.MaintenanceMessageStore.addChangeListener(this.updateState);
       stores.ScriptStore.addChangeListener(this.updateState);
+      stores.LicenseStore.addChangeListener(this.updateState);
     },
 
     componentWillUnmount: function () {
@@ -274,6 +277,7 @@ define(function (require) {
       stores.ImageVersionStore.removeChangeListener(this.updateState);
       stores.MaintenanceMessageStore.removeChangeListener(this.updateState);
       stores.ScriptStore.removeChangeListener(this.updateState);
+      stores.LicenseStore.removeChangeListener(this.updateState);
     },
 
     //

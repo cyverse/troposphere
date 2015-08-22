@@ -38,19 +38,19 @@ define(function (require) {
         },
         renderLicenseText: function(license_type, license_text) {
           if(license_type == "URL") {
-            <a href="{license_text}">{"See Link for license details."} </a>
+            return (<a href={license_text} target="_blank">{"See Link (In a new window) for license details."} </a>);
           } else {
-            <textarea rows="5" cols="80" readOnly>{license_text}</textarea>
+            return (<textarea rows="7" className="form-control" readOnly>{license_text}</textarea>);
           }
         },
         renderLicense: function (license) {
-            var license_type = license.get('type'),
-                license_text = license.get('text'),
-                license_title = license.get('title'),
+            var license_type = license.type,
+                license_text = license.text,
+                license_title = license.title,
                 license_div = (
-                    <div className="form-group">
-                      <strong>{license_title}</strong>
-                      {this.renderLicenseText(license_type, license_text)}
+                    <div className="row">
+                      <h4 className="col-sm-2">{license_title}</h4>
+                      <div className="col-sm-10"> {this.renderLicenseText(license_type, license_text)} </div>
                     </div>
                 );
 
@@ -69,7 +69,7 @@ define(function (require) {
                       {licenseDivs}
                     </div>
                   <div className="form-group">
-                    <div className="checkbox">
+                    <div className="callout-info checkbox">
                       <label className="checkbox">
                         <input type="checkbox" onChange={this.onLicenseChange}/>
                         I agree to abide by the license(s) found on this Virtual Machine,

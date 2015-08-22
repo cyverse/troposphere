@@ -17,6 +17,7 @@ define(function (require) {
       placeholderText: React.PropTypes.string,
       models: React.PropTypes.instanceOf(Backbone.Collection),
       activeModels: React.PropTypes.instanceOf(Backbone.Collection),
+      requiredModels: React.PropTypes.array,
       onModelAdded: React.PropTypes.func.isRequired,
       onModelRemoved: React.PropTypes.func.isRequired,
       onEnterKeyPressed: React.PropTypes.func,
@@ -27,6 +28,7 @@ define(function (require) {
       return {
         models: new Backbone.Collection(),
         activeModels: new Backbone.Collection(),
+        requiredModels: [],
         placeholderText: "Search..."
       }
     },
@@ -146,9 +148,13 @@ define(function (require) {
     //
     renderChosenSearchSelect: function () {
       var models = this.props.models,
-          activeModels = this.props.activeModels,
+          activeModels = _.flatten(
+                this.props.requiredModels,
+                (this.props.activeModels instanceof Array) ? this.props.activeModels : this.props.activeModels.toJSON()
+            ),
+          activeCollection = new Backbone.Collection(activeModels),
           query = this.state.query,
-          selectedModels = activeModels.map(this.renderSelectedModel),
+          selectedModels = activeCollection.map(this.renderSelectedModel),
           placeholderText = this.props.placeholderText,
           filteredModels,
           classes = React.addons.classSet({
@@ -170,7 +176,7 @@ define(function (require) {
       }else{
         // filter out results that have already been added
         filteredModels = models.filter(function(model){
-          return activeModels.filter(function(activeModel){
+          return activeCollection.filter(function(activeModel){
             return model.id === activeModel.id;
           }).length === 0;
         });

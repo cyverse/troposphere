@@ -17,6 +17,17 @@ define(function (require) {
       return image_version;
     },
 
+    getScripts: function(versionId) {
+        var _scripts = stores.ScriptStore.fetchWhere(
+            {version_id: versionId}
+        );
+
+        if(_scripts == null) {
+            return null;
+        }
+
+        return _scripts;
+    },
     getMachines: function(versionId) {
         var _machines = stores.ProviderMachineStore.fetchWhere(
             {version_id: versionId}
