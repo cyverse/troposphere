@@ -10,6 +10,7 @@ define(function (require) {
 
     reboot: function (params) {
       if(!params.instance) throw new Error("Missing instance");
+      if(!params.reboot_type) throw new Error("Missing reboot Type (soft/hard)");
 
       // If user desires a hard reboot, need to pass an additional argument of reboot_type
       // action: "reboot"
@@ -24,7 +25,7 @@ define(function (require) {
       Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
 
       actionRequest.save(null, {
-        attrs: {action: "reboot"}
+          attrs: {action: "reboot", reboot_type: params.reboot_type}
       }).done(function(){
         instance.set({
           state: new InstanceState({status_raw: "active - rebooting"})

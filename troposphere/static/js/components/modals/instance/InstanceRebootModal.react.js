@@ -20,9 +20,17 @@ define(
         this.hide();
       },
 
-      confirm: function () {
+      confirm: function (reboot_type) {
         this.hide();
-        this.props.onConfirm();
+        this.props.onConfirm(reboot_type);
+      },
+      confirmReboot: function () {
+        this.hide();
+        this.props.onConfirm("SOFT");
+      },
+      confirmHardReboot: function () {
+        this.hide();
+        this.props.onConfirm("HARD");
       },
 
       //
@@ -39,7 +47,9 @@ define(
               <strong>WARNING</strong>
               {" Rebooting an instance will cause it to temporarily shut down and become inaccessible during that time."}
             </p>
-            <p>{"Would you like to reboot this instance?"}</p>
+            <p>{"A 'Reboot' will send an 'ACPI Restart' request to the VM that will start the reboot process for your VM."}</p>
+            <p>{"If your VM does not respond to a 'Reboot', there is also the option to send a 'Hard Reboot' which will forceably restart your VM."}</p>
+            <p>{"Select one of the two options below to reboot your instance."}</p>
           </div>
         );
       },
@@ -61,8 +71,11 @@ define(
                   <button type="button" className="btn btn-danger" onClick={this.cancel}>
                     Cancel
                   </button>
-                  <button type="button" className="btn btn-primary" onClick={this.confirm}>
-                    Yes, reboot instance
+                  <button type="button" className="btn btn-primary" onClick={this.confirmReboot}>
+                    Reboot
+                  </button>
+                  <button type="button" className="btn btn-primary" onClick={this.confirmHardReboot}>
+                    Hard Reboot
                   </button>
                 </div>
               </div>
