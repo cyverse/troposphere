@@ -142,18 +142,32 @@ define(function (require) {
       if(this.getAllResultsAddedPhrase) phrase = this.getAllResultsAddedPhrase();
       return <li className="no-results">{phrase}</li>;
     },
+    _mergeModels: function(required_models, active_models) {
+      //Required models is a list, active models is a collection..
+      //ChosenMixinExternal will expect a collection.
+      if(!required_models || required_models.length == 0) {
+        if (this.props.activeModels instanceof Array)
+            return new Backbone.Collection(activeModels);
+        else 
+            return active_models;
+      }
 
+      var activeModels = _.flatten(
+            this.props.requiredModels,
+            (this.props.activeModels instanceof Array) ? this.props.activeModels : this.props.activeModels.toJSON()
+        ),
+      activeCollection = new Backbone.Collection(activeModels);
+      return activeCollection;
+    },
     //
     // Render
     //
     renderChosenSearchSelect: function () {
       var models = this.props.models,
-          activeModels = _.flatten(
-                this.props.requiredModels,
-                (this.props.activeModels instanceof Array) ? this.props.activeModels : this.props.activeModels.toJSON()
-            ),
-          activeCollection = new Backbone.Collection(activeModels),
           query = this.state.query,
+          activeCollection = this._mergeModels(
+              this.props.requiredModels,
+              this.props.activeModels),
           selectedModels = activeCollection.map(this.renderSelectedModel),
           placeholderText = this.props.placeholderText,
           filteredModels,

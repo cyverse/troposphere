@@ -89,11 +89,14 @@ define(function(require) {
     },
 
     onLicenseCreate: function(licenseObj){
-      actions.LicenseActions.create({
+      var license = actions.LicenseActions.create({
         title: licenseObj.title,
         type: licenseObj.type,
         text: licenseObj.text
       });
+      var licenses = this.state.activeLicenses;
+      licenses.add(license);
+      this.setState({activeLicenses: licenses});
     },
 
     onLicenseAdded: function(license){

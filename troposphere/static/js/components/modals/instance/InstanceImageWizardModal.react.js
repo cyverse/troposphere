@@ -77,6 +77,7 @@ define(function (require) {
       stores.InstanceTagStore.addChangeListener(this.updateState);
       stores.UserStore.addChangeListener(this.updateState);
       stores.ScriptStore.addChangeListener(this.updateState);
+      stores.LicenseStore.addChangeListener(this.updateState);
 
     },
 
@@ -84,6 +85,7 @@ define(function (require) {
       stores.InstanceTagStore.removeChangeListener(this.updateState);
       stores.UserStore.removeChangeListener(this.updateState);
       stores.ScriptStore.removeChangeListener(this.updateState);
+      stores.LicenseStore.removeChangeListener(this.updateState);
 
     },
 
