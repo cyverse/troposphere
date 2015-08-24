@@ -9,7 +9,7 @@ define(function (require) {
     stores = require('stores');
 
   return React.createClass({
-    displayName: "ImageInfoStep",
+    displayName: "ImageWizard-ImageInfoStep",
 
     propTypes: {
       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
@@ -122,11 +122,13 @@ define(function (require) {
             create={this.state.newImage}
             value={this.state.name}
             onChange={this.onNameChange}
-            />
+          />
+          <hr />
           <Description
             value={this.state.description}
             onChange={this.onDescriptionChange}
-            />
+          />
+          <hr />
           <Tags
             onTagAdded={this.onTagAdded}
             onTagRemoved={this.onTagRemoved}

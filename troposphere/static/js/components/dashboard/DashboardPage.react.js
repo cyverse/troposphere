@@ -1,4 +1,4 @@
-define(function (require) {
+define(function(require) {
   "use strict";
 
   var React = require('react/addons'),
@@ -16,12 +16,24 @@ define(function (require) {
         help = require("images/icon_gethelp.png");
 
   return React.createClass({
-    renderRequestMoreResources: function (e) {
+    renderRequestMoreResources: function(e) {
       e.preventDefault();
       modals.HelpModals.requestMoreResources();
     },
+    getState: function() {
+        return {};
+    },
+    updateState: function() {
+      if (this.isMounted()) this.setState(this.getState());
+    },
+    componentDidMount: function() {
+      stores.SizeStore.addChangeListener(this.updateState);
+    },
 
-    render: function () {
+    componentWillUnmount: function() {
+      stores.SizeStore.removeChangeListener(this.updateState);
+    },
+    render: function() {
 
       var providers = stores.ProviderStore.getAll(),
         identities = stores.IdentityStore.getAll(),
@@ -30,7 +42,7 @@ define(function (require) {
         images = stores.ImageStore.getAll(),
         instances = stores.InstanceStore.getAll(),
         volumes = stores.VolumeStore.getAll(),
-        sizes = stores.SizeStore.getAll();
+        sizes = stores.SizeStore.fetchWhereNoCache({'archived': 'true', 'page_size': 250});
 
       if (!providers || !identities || !projects || !maintenanceMessages || !images || !instances || !volumes || !sizes) {
         return <div className='loading'></div>;
@@ -44,7 +56,6 @@ define(function (require) {
               <div className="col-md-9">
 
                 <h2>Getting Started</h2>
-
                 <div className="row calls-to-action">
                   <div className="col-md-3 col-sm-4">
                     <CallToAction
@@ -52,7 +63,7 @@ define(function (require) {
                       image={launch_instance}
                       description="Browse Atmosphere's list of available images and select one to launch a new instance."
                       linksTo="images"
-                      />
+                    />
                   </div>
                   <div className="col-md-3 col-sm-4">
                     <CallToAction
@@ -60,7 +71,7 @@ define(function (require) {
                       image={help}
                       description="View a video tutorial, read the how-to guides, or email the Atmosphere support team."
                       linksTo="help"
-                      />
+                    />
                   </div>
                   <div className="col-md-3 col-sm-4">
                     <CallToAction
@@ -68,7 +79,7 @@ define(function (require) {
                       image={settings}
                       description="Modify your account settings, view your resource quota, or request more resources."
                       linksTo="settings"
-                      />
+                    />
                   </div>
                 </div>
 
@@ -84,13 +95,13 @@ define(function (require) {
                       instances={instances}
                       volumes={volumes}
                       sizes={sizes}
-                      />
+                    />
                   </div>
                   <div className="col-md-4">
                     <ResourceStatusSummaryPlot
                       title="Instances"
                       resources={instances}
-                      />
+                    />
                     <ResourceStatusSummaryPlot
                       title="Volumes"
                       resources={volumes}

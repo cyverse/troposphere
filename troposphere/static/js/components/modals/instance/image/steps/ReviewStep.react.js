@@ -5,6 +5,8 @@ define(function (require) {
 
   return React.createClass({
 
+    displayName: "ImageWizard-ReviewStep",
+
     propTypes: {
       imageData: React.PropTypes.object.isRequired
     },

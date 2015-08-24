@@ -18,6 +18,9 @@ define(function (require) {
       };
 
       return response.results;
+    },
+    comparator: function(a, b) {
+        return a.id - b.id;
     }
 
   });

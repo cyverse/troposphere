@@ -9,9 +9,12 @@ define(function (require) {
     VolumeActionButtons = require('./VolumeActionButtons.react');
 
   return React.createClass({
+    displayName: "ResourceActionButtons",
 
     propTypes: {
-      previewedResource: React.PropTypes.instanceOf(Backbone.Model)
+      previewedResource: React.PropTypes.instanceOf(Backbone.Model),
+      project: React.PropTypes.instanceOf(Backbone.Model),
+      volume: React.PropTypes.instanceOf(Backbone.Model),
     },
 
     render: function () {

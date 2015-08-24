@@ -1,8 +1,9 @@
 define(
   [
-    'react'
+    'react',
+    'underscore'
   ],
-  function (React) {
+  function (React, _) {
 
     function onCancel() {
       // Important! We need to un-mount the component so it un-registers from Stores and
@@ -12,16 +13,17 @@ define(
 
     return {
 
-      renderModal: function (ModalComponent, props, cb) {
-        props = props || {};
-        var modal = React.createFactory(ModalComponent)(props);
-        modal.props.onConfirm = cb;
-        modal.props.onCancel = onCancel;
-        modal.props.handleHidden = onCancel;
+      renderModal: function(ModalComponent, props, cb){
+        props = _.extend(props || {}, {
+          onConfirm: cb,
+          onCancel: onCancel,
+          handleHidden: onCancel,
+        });
 
+        var modal = React.createElement(ModalComponent, props);
         React.render(modal, document.getElementById('modal'));
       }
 
     }
 
-  });
+});

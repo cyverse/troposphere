@@ -24,19 +24,20 @@ define(function (require) {
       image: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
     getInitialState: function () {
-      var version = this.props.version;
+      var version = this.props.version,
+         parent_version = version.get('parent');
 
 
       return {
         showOptions: false,
         version: version,
-        versionImageID: this.props.image.id,
+        versionImage: this.props.image,
         versionName: version.get('name'),
         versionChangeLog: (version.get('change_log') == null) ? "" : version.get('change_log'),
         versionStartDate: (version.get('start_date') == null) ? "" : version.get('start_date'),
         versionEndDate: (version.get('end_date') == null) ? "" : version.get('end_date'),
         versionCanImage: version.get('allow_imaging'),
-        versionParentID: version.get('parent').id,
+        versionParentID: (parent_version == null) ? "" : parent_version.id,
         versionLicenses: null,
         versionScripts: null,
         versionMemberships: null,
@@ -108,7 +109,7 @@ define(function (require) {
         this.state.versionChangeLog,
         this.state.versionEndDate,
         this.state.versionCanImage,
-        this.state.versionImageID
+        this.state.versionImage
       );
     },
 
@@ -141,8 +142,9 @@ define(function (require) {
       this.setState({versionCanImage: uncopyable});
     },
 
-    onImageSelected: function (selection) {
-      this.setState({versionImageID: selection});
+    onImageSelected: function (image_id) {
+      var image = stores.ImageStore.get(image_id);
+      this.setState({versionImage: image});
     },
 
     onMembershipChanged: function (membership_list) {
@@ -228,7 +230,7 @@ define(function (require) {
         created = this.state.versionStartDate.format("MMM D, YYYY hh:mm a"),
         ended,
         advancedOptions,
-        optionsButtonText = (this.state.showOptions) ? "Hide Options" : "Advanced Options",
+        optionsButtonText = (this.state.showOptions) ? "Hide Advanced Options" : "Advanced Options",
         membershipsList = stores.MembershipStore.getAll(),
         licensesList = stores.LicenseStore.getAll(),
         activeLicensesList = stores.ImageVersionLicenseStore.getLicensesFor(this.props.version),
@@ -302,14 +304,14 @@ define(function (require) {
       applicationView = (
         <div className="application-select-container">
         <ImageSelect
-          imageId={this.state.versionImageID}
+          imageId={this.state.versionImage.id}
           onChange={this.onImageSelected}
           />
         </div>
       );
       //FUTURE_keyTODO: Pull this functionality out if you use it anywhere else..
       endDateView = (<div className='form-group'>
-        <label htmlFor='version-end-date'>Version Removed On</label>
+        <label htmlFor='version-end-date'>Date to hide image from public view</label>
         <div className="input-group">
           <input type='text' className='form-control' value={ended} onChange={this.onEndDateChange}/>
           <span className="input-group-addon" id="enddate-set-addon" onClick={this.setEndDateNow}>Set</span>
@@ -360,10 +362,10 @@ define(function (require) {
           {startDateView}
           {endDateView}
           <div className="form-group clearfix">
-          <button type="button" className="btn btn-default pull-right"
-                  onClick={this.onOptionsChange}>
-            {optionsButtonText} <span className="caret"></span>
-          </button>
+            <button type="button" className="btn btn-default pull-right"
+                    onClick={this.onOptionsChange}>
+              {optionsButtonText} <span className="caret"></span>
+            </button>
           </div>
           {advancedOptions}
         </div>

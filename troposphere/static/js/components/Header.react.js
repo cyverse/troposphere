@@ -123,8 +123,8 @@ define(function (require) {
     renderBetaToggle: function () {
       if (!window.show_troposphere_only) {
         return (
-          <li>
-            <a className="beta-toggle" href="/application?beta=false">
+          <div className="beta-toggle">
+            <a href="/application?beta=false">
               <div className="toggle-wrapper">
                 <div className="toggle-background">
                   <div className="toggle-text">View Old UI</div>
@@ -132,7 +132,7 @@ define(function (require) {
                 <div className="toggle-switch"></div>
               </div>
             </a>
-          </li>
+          </div>
         )
       }
     },
@@ -194,11 +194,12 @@ define(function (require) {
                 {navLinks}
               </ul>
               <ul className="nav navbar-nav navbar-right">
-                {this.renderBetaToggle()}
                 {loginLogoutDropdown}
               </ul>
             </div>
+            {this.renderBetaToggle()}
           </div>
+
         </div>
       );
 

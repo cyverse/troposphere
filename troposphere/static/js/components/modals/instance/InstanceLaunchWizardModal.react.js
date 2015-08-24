@@ -1,4 +1,4 @@
-define(function (require) {
+define(function(require) {
 
   var React = require('react/addons'),
     Backbone = require('backbone'),
@@ -14,18 +14,20 @@ define(function (require) {
     ProjectSelectStep = require('./launch/steps/ProjectSelectStep.react'),
     UserOptionsStep = require('./launch/steps/UserOptionsStep.react'),
     AdministratorOptionsStep = require('./launch/steps/AdminOptionsStep.react'),
+    LicensingStep = require('./launch/steps/LicensingStep.react'),
     ReviewLaunchStep = require('./launch/steps/ReviewLaunchStep.react');
 
   var IMAGE_STEP = 0,
-    INFORMATION_STEP = 1,
-    SIZE_STEP = 2,
-    PROJECT_STEP = 3,
-    OPTIONS_STEP = 4,
-    ADMIN_OPTIONS_STEP = 5,
-    REVIEW_STEP = 6;
+      INFORMATION_STEP = 1,
+      SIZE_STEP = 2,
+      PROJECT_STEP = 3,
+      OPTIONS_STEP = 4,
+      LICENSE_STEP = 5,
+      REVIEW_STEP = 6;
 
   return React.createClass({
     mixins: [BootstrapModalMixin],
+    displayName: "InstanceLaunchWizardModal",
 
     propTypes: {
       image: React.PropTypes.instanceOf(Backbone.Model),
@@ -34,24 +36,26 @@ define(function (require) {
     },
 
 
-    getInitialState: function () {
-      return {
-	image: this.props.image,
-        project: this.props.project,
-        step: this.props.image ? INFORMATION_STEP : IMAGE_STEP,
-        title: "Image",
-        breadcrumbs: [
-            {name:"Image",step:IMAGE_STEP, inactive:this.props.image ? true : false},
-            {name:"Version & Provider",step:INFORMATION_STEP},
-            {name:"Size",step:SIZE_STEP},
-            {name:"Project",step:PROJECT_STEP, inactive:this.props.project ? true : false},
-            {name:"Options",step:OPTIONS_STEP, inactive:true},
-            {name:"Review",step:REVIEW_STEP}
-        ]
-      };
+    isLicenseStepActive: function() {
+      state = this.getState();
+      if (state.version
+        && state.version.get('licenses')
+        && state.version.get('licenses').length > 0) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    isOptionsStepActive: function() {
+      state = this.getState();
+      if (state.showOptions === true) {
+        return true;
+      } else {
+        return false;
+      }
     },
     renderImageSelect: function() {
-        return (
+      return (
                 <ImageSelectStep
                     image={this.state.image}
                             onPrevious={this.cancel}
@@ -60,7 +64,7 @@ define(function (require) {
       );
     },
     renderNameStep: function() {
-        return (
+      return (
                 <NameIdentityVersionStep
                     image={this.state.image}
                     name={this.state.name}
@@ -82,27 +86,27 @@ define(function (require) {
                 />
       );
     },
-    renderProjectStep: function () {
+    renderProjectStep: function() {
       return (
         <ProjectSelectStep
           project={this.state.project}
           onPrevious={this.onPrevious}
-          onNext={this.onNext}
-          onFinished={this.toReview}
-          />
+          onFinished={this.onNext}
+        />
       );
     },
-    renderUserOptionsStep: function () {
+    renderUserOptionsStep: function() {
       return (
-        <UserOptionsStep
-          launchOptions={this.state.launchOptions}
-          onPrevious={this.onPrevious}
-          onNext={this.onNext}
-          onFinished={this.toReview}
-          />
-      );
+                <UserOptionsStep
+                    launchOptions={this.state.launchOptions}
+                    scripts={allScripts}
+                    activeScripts={activeScripts}
+                    onPrevious={this.onPrevious}
+                    onNext={this.onNext}
+                />
+              );
     },
-    renderStaffOptionsStep: function () {
+    renderStaffOptionsStep: function() {
       return (
         <AdministratorOptionsStep
           launchOptions={this.state.launchOptions}
@@ -112,16 +116,26 @@ define(function (require) {
           />
       );
     },
-    renderReviewLaunchStep: function () {
+    renderReviewLaunchStep: function() {
       return (
         <ReviewLaunchStep
           launchData={this.state}
           onPrevious={this.onPrevious}
           onNext={this.onCompleted}
+          toAdvancedOptions={this.toAdvancedOptions}
           />
       );
     },
-    renderBody: function () {
+    renderLicenseStep: function() {
+      return (
+        <LicensingStep
+          version={this.state.version}
+          onPrevious={this.onPrevious}
+          onNext={this.onNext}
+          />
+      );
+    },
+    renderBody: function() {
       var step = this.state.step;
       switch(step) {
 	case IMAGE_STEP:
@@ -133,53 +147,55 @@ define(function (require) {
         case PROJECT_STEP:
           return this.renderProjectStep();
         case OPTIONS_STEP:
-        //return this.renderUserOptionsStep(); //TODO: Re-enable when 'Boot Scripts', 'Licenses' are added.
-        case ADMIN_OPTIONS_STEP:
-        //return this.renderStaffOptionsStep(); //TODO: Re-enable when 'Hypervisor-Select', 'No-Deploy' are added.
+            return this.renderUserOptionsStep();
+        // case ADMIN_OPTIONS_STEP:
+        //       //return this.renderStaffOptionsStep(); //TODO: Re-enable when 'Hypervisor-Select', 'No-Deploy' are added.
+        case LICENSE_STEP:
+          return this.renderLicenseStep();
         case REVIEW_STEP:
           return this.renderReviewLaunchStep();
       }
     },
 
-    hoverTitleChange: function (text) {
+    hoverTitleChange: function(text) {
       this.setState({title: text});
     },
 
-    changeTitleBack: function () {
+    changeTitleBack: function() {
       this.setState({title: this.state.breadcrumbs[this.state.step].name});
     },
 
-    renderBreadCrumbTrail: function () {
-      var user = stores.ProfileStore.get();
-      var self = this;
-      var breadcrumbs = this.state.breadcrumbs;
+    renderBreadCrumbTrail: function() {
+        var self = this;
+        var breadcrumbs = this.state.breadcrumbs;
 
-      if (user.get('is_staff') && breadcrumbs[5].step !== 5) {
-        breadcrumbs.splice(5, 0, {name: "Admin", step: ADMIN_OPTIONS_STEP, inactive: true});
-      }
-      breadcrumbs.map(function(breadcrumb, index, array){
-          var state;
-          if(breadcrumb.inactive){
-              state = "inactive"
-          } else if(breadcrumb.step === self.state.step) {
-              state = "active"
-          } else if (breadcrumb.step < self.state.step) {
-              state = "available"
-          } else {
-              state = ""
-          }
-         breadcrumb.state = state;
-      });
-      return (<BreadcrumbNav
-          breadcrumbs={breadcrumbs}
-          onMouseOn={this.hoverTitleChange}
-          onMouseOff={this.changeTitleBack}
-          step = {this.state.step}
-          onCrumbClick={self.toStep}
-          />
-      );
+        //Add pseudo-property 'state'
+        breadcrumbs.map(function(breadcrumb, index, array){
+            var state;
+            if(
+                (typeof breadcrumb.active === "boolean" && !breadcrumb.active) ||
+                (typeof breadcrumb.active === "function" && !breadcrumb.active())
+              ) {
+                state = "inactive"
+            } else if(breadcrumb.step === self.state.step) {
+                state = "active"
+            } else if (breadcrumb.step < self.state.step) {
+                state = "available"
+            } else {
+                state = ""
+            }
+            breadcrumb.state = state;
+        });
+        return (<BreadcrumbNav
+            breadcrumbs={breadcrumbs}
+            onMouseOn={this.hoverTitleChange}
+            onMouseOff={this.changeTitleBack}
+            step = {this.state.step}
+            onCrumbClick={self.toStep}
+            />
+        );
     },
-    render: function () {
+    render: function() {
       return (
         <div className="modal fade">
           <div className="modal-dialog">
@@ -204,16 +220,35 @@ define(function (require) {
     // Mounting & State
     // ----------------
     //
+    getInitialState: function(){
+      var image = this.props.image,
+        project = this.props.project;
+      return {
+        image: image,
+        project: project,
+        step: image ? INFORMATION_STEP : IMAGE_STEP,
+        title: "Image",
+        breadcrumbs: [
+          {name:"Image",step:IMAGE_STEP, active:this.props.image ? false : true},
+          {name:"Version & Provider",step:INFORMATION_STEP, active: true},
+          {name:"Size",step:SIZE_STEP, active: true},
+          {name:"Project",step:PROJECT_STEP, active:this.props.project ? false : true},
+          {name:"Options",step:OPTIONS_STEP, active: false},
+          {name:"Licensing",step:LICENSE_STEP, active:this.isLicenseStepActive},
+          {name:"Review",step:REVIEW_STEP, active: true}
+        ],
+      };
+    },
 
-    getState: function () {
+    getState: function() {
       return this.state;
     },
 
-    updateState: function () {
+    updateState: function() {
       if (this.isMounted()) this.setState(this.getState());
     },
 
-    componentDidMount: function () {
+    componentDidMount: function() {
       stores.ProviderStore.addChangeListener(this.updateState);
       stores.IdentityStore.addChangeListener(this.updateState);
       stores.SizeStore.addChangeListener(this.updateState);
@@ -223,9 +258,10 @@ define(function (require) {
       stores.InstanceStore.addChangeListener(this.updateState);
       stores.ImageVersionStore.addChangeListener(this.updateState);
       stores.MaintenanceMessageStore.addChangeListener(this.updateState);
+      stores.ScriptStore.addChangeListener(this.updateState);
     },
 
-    componentWillUnmount: function () {
+    componentWillUnmount: function() {
       stores.ProviderStore.removeChangeListener(this.updateState);
       stores.IdentityStore.removeChangeListener(this.updateState);
       stores.SizeStore.removeChangeListener(this.updateState);
@@ -235,6 +271,7 @@ define(function (require) {
       stores.InstanceStore.removeChangeListener(this.updateState);
       stores.ImageVersionStore.removeChangeListener(this.updateState);
       stores.MaintenanceMessageStore.removeChangeListener(this.updateState);
+      stores.ScriptStore.removeChangeListener(this.updateState);
     },
 
     //
@@ -242,21 +279,21 @@ define(function (require) {
     // ------------------------
     //
 
-    cancel: function () {
+    cancel: function() {
       this.hide();
     },
-    onCompleted: function (launch_data) {
+    onCompleted: function(launch_data) {
       this.hide();
       this.props.onConfirm(launch_data);
     },
     onPrevious: function(data) {
-        var previousStep = this.state.step - 1,
-            data = data || {},
-            state = _.extend({step: previousStep}, data);
-        if(this.props.image && this.state.step == INFORMATION_STEP) {
-            //Don't go to 'Step 0' if image provided.
-            this.cancel()
+        var previousStep = this.getPrevStep(this.state.step);
+        if (previousStep === undefined) {
+            this.cancel();
+            return;
         }
+        var data = data || {},
+            state = _.extend({step: previousStep}, data);
         if(this.state.step == REVIEW_STEP) {
             //TODO: Remove this when re-adding User/Admin Options
             if(this.props.project) {
@@ -270,26 +307,32 @@ define(function (require) {
       this.setState(state);
     },
     onNext: function (data) {
-      var nextStep = this.state.step + 1,
+      var nextStep = this.getNextStep(this.state.step),
         data = data || {},
         state = _.extend({step: nextStep}, data);
-      if (this.props.project && state.step == PROJECT_STEP) {
-        //Skip to the review step.
-        state.step = REVIEW_STEP - 1;
-      } else if (this.state.step == PROJECT_STEP) {
-        //TODO: Remove this line when re-adding User/Admin Options
-        state.step = REVIEW_STEP - 1;
-      }
-      state.title = this.state.breadcrumbs[state.step].name;
+
+      state.title = this.state.breadcrumbs[nextStep].name;
       this.setState(state);
     },
-    toReview: function (data) {
-      var state = _.extend({step: REVIEW_STEP}, data);
+    toReview: function(data) {
+        var state = _.extend({step: REVIEW_STEP}, data);
+        this.setState(state);
+    },
+    activateBreadcrumb: function(index, activeTruth) {
+      var breadcrumbs = this.state.breadcrumbs,
+      crumb = breadcrumbs[index];
+      crumb.state = activeTruth ? "active" : "inactive";
+      this.state.breadcrumbs[index] = crumb;
+      return crumb;
+    },
+    toAdvancedOptions: function(data) {
+      var crumb = this.activateBreadcrumb(OPTIONS_STEP, true);
+      var state = _.extend(data, {step: OPTIONS_STEP, title: crumb.name});
       this.setState(state);
     },
-    toStep: function (breadcrumb) {
-      this.setState({title: this.state.breadcrumbs[breadcrumb.step].name});
-      this.setState({step: breadcrumb.step});
+    toStep: function(breadcrumb) {
+       this.setState({title: breadcrumb.name});
+       this.setState({step: breadcrumb.step});
     }
   });
 

@@ -36,6 +36,7 @@ define(function (require) {
       }).fail(function () {
         Utils.dispatch(ScriptConstants.REMOVE_SCRIPT, {script: script}, {silent: false});
       });
+      return script;
     }
 
   };
