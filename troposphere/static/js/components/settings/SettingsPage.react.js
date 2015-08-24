@@ -39,6 +39,11 @@ define(
         actions.ProfileActions.updateProfileAttributes(this.state.profile, {icon_set: iconType});
       },
 
+      handleChangeBadgePreference: function(event){
+        var isChecked = event.target.checked;
+        actions.ProfileActions.updateProfileAttributes(this.state.profile, {badges_enabled: isChecked});
+      },
+
       handleChangeEmailPreference: function (event) {
         var isChecked = event.target.checked;
         actions.ProfileActions.updateProfileAttributes(this.state.profile, {send_emails: isChecked});
@@ -53,7 +58,8 @@ define(
         var profile = this.state.profile;
         var selectedIconSet = profile.get('settings')['icon_set'];
         var wantsEmails = profile.get('settings')['send_emails'];
-
+        var wantsBadges = profile.get('badges_enabled');
+ 
         return (
           <div className="settings-view">
             <SettingsHeader/>
@@ -74,6 +80,12 @@ define(
                   <p>If you need a temporary or permanent boost in your allocation (more CPUs, etc.) you may <a href="#"
                                                                                                                 onClick={this.handleRequestMoreResources}>request
                     more resources.</a></p>
+                </div>
+              </div>
+              <div>
+                <h3>Badges</h3>
+                <div>
+                <input type="checkbox" checked={wantsBadges} onChange={this.handleChangeBadgePreference}/> Enable badges
                 </div>
               </div>
               <div>
