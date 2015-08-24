@@ -52,10 +52,16 @@ class BadgeViewSet(viewsets.GenericViewSet):
     def create(self, request, *args, **kwargs):
         url = settings.BADGE_API_HOST
         email_address = str(User.objects.get(username=self.request.user).email)
-        slug = settings.BADGE_SYSTEM_SLUG
+        system_slug = settings.BADGE_SYSTEM_SLUG
+        system_name = settings.BADGE_SYSTEM_NAME
+        issuer_slug = settings.BADGE_ISSUER_SLUG
+        issuer_name = settings.BADGE_ISSUER_NAME
+        program_slug = settings.BADGE_PROGRAM_SLUG
+        program_name = settings.BADGE_PROGRAM_NAME
         secret = settings.BADGE_SECRET
+
         badge = str(self.request.data['badgeSlug'])
-        path = '/systems/' + slug + '/badges/' + badge + '/instances'
+        path = '/systems/' + system_slug + '/programs/' + program_slug + '/badges/' + badge + '/instances'
         header = {"typ": "JWT", "alg": 'HS256'}
         body = json.dumps({"email": email_address})
 
@@ -79,13 +85,17 @@ class BadgeViewSet(viewsets.GenericViewSet):
     def retrieve(self, request, *args, **kwargs):
         url = settings.BADGE_API_HOST
         email = User.objects.get(username=self.request.user).email
-        slug = settings.BADGE_SYSTEM_SLUG
-        name = settings.BADGE_SYSTEM_NAME
+        system_slug = settings.BADGE_SYSTEM_SLUG
+        system_name = settings.BADGE_SYSTEM_NAME
+        issuer_slug = settings.BADGE_ISSUER_SLUG
+        issuer_name = settings.BADGE_ISSUER_NAME
+        program_slug = settings.BADGE_PROGRAM_SLUG
+        program_name = settings.BADGE_PROGRAM_NAME
         secret = settings.BADGE_SECRET
 
-        path = '/systems/' + slug + '/instances/' + email
+        path = '/systems/' + system_slug + '/issuers/' + issuer_slug + '/programs/' + program_slug + '/instances/' + email
         header = {"typ": "JWT", "alg": 'HS256'}
-        body = str({"slug": slug, "name": name, "url": url + path})
+        body = str({"system_slug": system_slug, "name": system_name, "url": url + path})
 
         computed_hash = SHA256.new()
         computed_hash.update(body)
@@ -107,13 +117,17 @@ class BadgeViewSet(viewsets.GenericViewSet):
 
     def list(self, request, *args, **kwargs):
         url = settings.BADGE_API_HOST
-        slug = settings.BADGE_SYSTEM_SLUG
-        name = settings.BADGE_SYSTEM_NAME
+        system_slug = settings.BADGE_SYSTEM_SLUG
+        system_name = settings.BADGE_SYSTEM_NAME
+        issuer_slug = settings.BADGE_ISSUER_SLUG
+        issuer_name = settings.BADGE_ISSUER_NAME
+        program_slug = settings.BADGE_PROGRAM_SLUG
+        program_name = settings.BADGE_PROGRAM_NAME
         secret = settings.BADGE_SECRET
 
-        path = '/systems/' + slug + '/badges'
+        path = '/systems/' + system_slug + '/issuers/' + issuer_slug + '/programs/' + program_slug + '/badges'
         header = {"typ": "JWT", "alg": 'HS256'}
-        body = str({"slug": slug, "name": name, "url": url + path})
+        body = str({"system_slug": system_slug, "system_name": system_name, "url": url + path})
 
         computed_hash = SHA256.new()
         computed_hash.update(body)
