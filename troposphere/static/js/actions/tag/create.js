@@ -28,6 +28,7 @@ define(function (require) {
       }).fail(function () {
         Utils.dispatch(TagConstants.REMOVE_TAG, {tag: tag}, {silent: false});
       });
+      return tag;
     }
 
   };

@@ -36,11 +36,9 @@ define(function (require) {
       this.setState({isEditingTags: false});
     },
 
-    onEnterKeyPressed: function(e){
-      var text = e.target.value;
-      if (e.which === ENTER_KEY && text.trim()) {
-        this.props.onCreateNewTag(text);
-      }
+    onEnterKeyPressed: function(value){
+      var text = value;
+      this.props.onCreateNewTag(text);
     },
 
     onCreateNewEmptyTag: function(e){
@@ -86,6 +84,7 @@ define(function (require) {
             activeModels={this.props.activeTags}
             onModelAdded={this.props.onTagAdded}
             onModelRemoved={this.props.onTagRemoved}
+            onModelCreated={this.props.onTagCreated}
             onEnterKeyPressed={this.onEnterKeyPressed}
             onQueryChange={this.onQueryChange}
             placeholderText="Search by tag name..."

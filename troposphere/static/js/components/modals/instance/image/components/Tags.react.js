@@ -11,6 +11,7 @@ define(function (require) {
     propTypes: {
       onTagAdded: React.PropTypes.func.isRequired,
       onTagRemoved: React.PropTypes.func.isRequired,
+      onTagCreated: React.PropTypes.func.isRequired,
       imageTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
 
@@ -55,6 +56,7 @@ define(function (require) {
               activeModels={imageTags}
               onModelAdded={this.props.onTagAdded}
               onModelRemoved={this.props.onTagRemoved}
+              onModelCreated={this.props.onTagCreated}
               onQueryChange={this.onQueryChange}
               width={"100%"}
               placeholderText="Search by tag name..."

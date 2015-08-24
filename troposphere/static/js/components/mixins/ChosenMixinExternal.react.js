@@ -85,6 +85,15 @@ define(function (require) {
       //After callback, assume action Completed clear search.
       this.clearSearchField();
     },
+    getFilteredResults: function(models, activeModels) {
+
+      var filteredResults = models.filter(function(model){
+        return activeModels.filter(function(activeModel){
+            return model.id === activeModel.id;
+          }).length === 0;
+      });
+      return filteredResults;
+    },
 
     filterSearchResults: function() {
       var node = this.getDOMNode();

@@ -72,6 +72,18 @@ define(function(require) {
       })
     },
 
+    onTagCreated: function(tagObj){
+      var newTag = actions.tagActions.create({
+        title: tagObj.title,
+        type: tagObj.type,
+        text: tagObj.text
+      });
+      var imageTags = this.state.imageTags;
+      imageTags.add(newTag);
+      this.setState({
+        imageTags: imageTags
+      })
+    },
     onTagRemoved: function(removedTag){
       var imageTags = this.state.imageTags;
       imageTags.remove(removedTag);
@@ -130,6 +142,7 @@ define(function(require) {
           <Tags
             onTagAdded={this.onTagAdded}
             onTagRemoved={this.onTagRemoved}
+            onTagCreated={this.onTagCreated}
             imageTags={this.state.imageTags}
           />
         </div>
