@@ -1,6 +1,7 @@
 define(function(require) {
 
   var React = require('react'),
+      actions = require('actions'),
       Backbone = require('backbone'),
       Name = require('../components/Name.react'),
       CreateUpdateFlag = require('../components/CreateUpdateFlag.react'),
@@ -73,11 +74,7 @@ define(function(require) {
     },
 
     onTagCreated: function(tagObj){
-      var newTag = actions.tagActions.create({
-        title: tagObj.title,
-        type: tagObj.type,
-        text: tagObj.text
-      });
+      var newTag = actions.TagActions.create(tagObj);
       var imageTags = this.state.imageTags;
       imageTags.add(newTag);
       this.setState({
