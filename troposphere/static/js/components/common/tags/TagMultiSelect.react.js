@@ -17,6 +17,8 @@ define(function (require) {
       onQueryChange: React.PropTypes.func.isRequired,
       onModelAdded: React.PropTypes.func.isRequired,
       onModelRemoved: React.PropTypes.func.isRequired,
+      //Necessary for modal creation (Where available)
+      onCreateNewTag: React.PropTypes.func,
       //Necessary for inline creation (when modals aren't an option)
       onModelCreated: React.PropTypes.func,
     },
@@ -110,16 +112,19 @@ define(function (require) {
         this.props.activeModels)
       if (filtered_results && filtered_results.length > 0) {
         this.onModelAdded(filtered_results[0])
+        return;
       } else {
         //IF options are showing and NO results are listed, 
         // Populate the beginning of the create modal
-        this.setState({
-          showCreateForm: true,
-          tagName: value
-        });
-      }
-      if(this.props.onEnterKeyPressed) {
-        this.props.onEnterKeyPressed(value);
+        if(this.props.onCreateNewTag) {
+            this.props.onCreateNewTag(value);
+        } else if(this.props.onEnterKeyPressed) {
+          this.setState({
+            showCreateForm: true,
+            tagName: value
+          });
+          this.props.onEnterKeyPressed(value);
+        }
       }
       this.clearSearchField();
 

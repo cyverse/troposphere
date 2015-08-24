@@ -25,8 +25,9 @@ define(function (require) {
 
       tag.save().done(function () {
         Utils.dispatch(TagConstants.UPDATE_TAG, {tag: tag}, {silent: false});
-      }).fail(function () {
+      }).fail(function (response) {
         Utils.dispatch(TagConstants.REMOVE_TAG, {tag: tag}, {silent: false});
+        Utils.displayError({title: "Tag could not be created", response: response});
       });
       return tag;
     }
