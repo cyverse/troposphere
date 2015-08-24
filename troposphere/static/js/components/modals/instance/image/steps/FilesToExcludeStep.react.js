@@ -9,7 +9,6 @@ define(function(require) {
     displayName: "ImageWizard-FilesToExcludeStep",
 
     propTypes: {
-      instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
       filesToExclude: React.PropTypes.string
     },
 

@@ -3,13 +3,20 @@ define(function (require) {
   var React = require('react');
 
   return React.createClass({
+    displayName: "FilesToExclude",
 
     propTypes: {
       onChange: React.PropTypes.func.isRequired,
-      styles: React.PropTypes.object.isRequired,
+      styles: React.PropTypes.object,
       value: React.PropTypes.string
     },
-
+    getDefaultProps: function() {
+        return {
+            //Add default styling here..?
+            styles: {
+            },
+        };
+    },
     handleChange: function(e){
       this.props.onChange(e.target.value)
     },
