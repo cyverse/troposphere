@@ -12,7 +12,7 @@ define(function (require) {
 
     propTypes: {
       image_version: React.PropTypes.instanceOf(Backbone.Model),
-      requiredScripts: React.PropTypes.instanceOf(Backbone.Collection),
+      requiredScripts: React.PropTypes.array,
       activeScripts: React.PropTypes.instanceOf(Backbone.Collection),
       scripts: React.PropTypes.instanceOf(Backbone.Collection),
       onScriptAdded: React.PropTypes.func.isRequired,
@@ -23,7 +23,7 @@ define(function (require) {
 
     getDefaultProps: function() {
       return {
-        requiredScripts: new Backbone.Collection(),
+        requiredScripts: [],
         activeScripts: new Backbone.Collection(),
         scripts: new Backbone.Collection()
       }

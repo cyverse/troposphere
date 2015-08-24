@@ -127,19 +127,19 @@ define(function (require) {
           var script_list = [], required_script_list = [];
           if(required_scripts) {
             required_script_list = required_scripts.map(function(boot_script) {
-              return (<li className="search-choice required-choice">
+              return (<li key={boot_script.id} className="search-choice required-choice">
                 {boot_script.title} (Required)
                 </li>);
             });
           }
           if(boot_scripts) {
              script_list = boot_scripts.map(function(boot_script) {
-               return (<li className="search-choice">
-                 {boot_script.title}
+               return (<li key={boot_script.id} className="search-choice">
+                 {boot_script.get('title') || boot_script.title}
                  </li>);
              });
           }
-          return _.flatten(required_script_list, script_list)
+          return _.union(required_script_list, script_list)
         },
         renderAdvancedOptions: function() {
           var version_scripts = this.state.version.get('scripts');

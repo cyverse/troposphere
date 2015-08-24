@@ -12,15 +12,15 @@ define(function (require) {
 
       propTypes: {
             licensingAccepted: React.PropTypes.bool.isRequired,
-            licenses: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+            licenses: React.PropTypes.array.isRequired,
             onPrevious: React.PropTypes.func.isRequired,
             onNext: React.PropTypes.func.isRequired
         },
-        getDefaultPropTypes: function() {
-          return {
-            licensingAccepted: false,
-          };
-        },
+      getDefaultProps: function() {
+        return {
+          licensingAccepted: false,
+        };
+      },
       onLicenseChange: function(e){
         this.setState({licensingAccepted: e.target.checked});
       },
@@ -40,7 +40,7 @@ define(function (require) {
           if(license_type == "URL") {
             return (<a href={license_text} target="_blank">{"See Link (In a new window) for license details."} </a>);
           } else {
-            return (<textarea rows="7" className="form-control" readOnly>{license_text}</textarea>);
+            return (<textarea rows="7" className="form-control" readOnly value={license_text} />);
           }
         },
         renderLicense: function (license) {
@@ -48,7 +48,7 @@ define(function (require) {
                 license_text = license.text,
                 license_title = license.title,
                 license_div = (
-                    <div className="row">
+                    <div className="row" key={license.id}>
                       <h4 className="col-sm-2">{license_title}</h4>
                       <div className="col-sm-10"> {this.renderLicenseText(license_type, license_text)} </div>
                     </div>

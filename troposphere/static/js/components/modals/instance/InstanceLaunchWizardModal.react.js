@@ -32,7 +32,7 @@ define(function (require) {
     propTypes: {
       image: React.PropTypes.instanceOf(Backbone.Model),
       project: React.PropTypes.instanceOf(Backbone.Model),
-      onConfirm: React.PropTypes.instanceOf(Backbone.Model),
+      onConfirm: React.PropTypes.func.isRequired,
     },
 
 
@@ -91,7 +91,7 @@ define(function (require) {
                 <ProjectSelectStep
                     project={this.state.project}
                     onPrevious={this.onPrevious}
-                    onFinished={this.onNext}
+                    onNext={this.onNext}
                 />
               );
     },

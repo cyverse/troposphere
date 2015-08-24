@@ -18,7 +18,7 @@ define(function (require) {
       //Mixin-requires:
       models: React.PropTypes.instanceOf(Backbone.Collection),
       activeModels: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-      requiredModels: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+      requiredModels: React.PropTypes.array,
       propertyName: React.PropTypes.string.isRequired,
       onQueryChange: React.PropTypes.func.isRequired,
       onModelAdded: React.PropTypes.func.isRequired,

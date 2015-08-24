@@ -13,8 +13,8 @@ define(function (require) {
 
     propTypes: {
         scripts: React.PropTypes.instanceOf(Backbone.Collection),
-        requiredScripts: React.PropTypes.array,
         activeScripts: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        requiredScripts: React.PropTypes.array,
         launchOptions: React.PropTypes.object,
         onPrevious: React.PropTypes.func.isRequired,
         onNext: React.PropTypes.func.isRequired

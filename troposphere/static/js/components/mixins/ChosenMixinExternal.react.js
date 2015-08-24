@@ -161,7 +161,7 @@ define(function (require) {
             return active_models;
       }
 
-      var activeModels = _.flatten(
+      var activeModels = _.union(
             this.props.requiredModels,
             (this.props.activeModels instanceof Array) ? this.props.activeModels : this.props.activeModels.toJSON()
         ),
