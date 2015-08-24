@@ -10,6 +10,7 @@ define(
   function (React, Backbone, MaintenanceMessage, ImageCreatedMessage) {
 
     return React.createClass({
+      displayName: "MaintenanceMessageList",
 
       propTypes: {
         messages: React.PropTypes.instanceOf(Backbone.Collection).isRequired,

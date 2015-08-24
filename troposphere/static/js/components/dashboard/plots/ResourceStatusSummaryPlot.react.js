@@ -14,6 +14,7 @@ define(
   function (React, Backbone, $, ResourceStatusTooltip, Highcharts) {
 
     return React.createClass({
+      displayName: "ResourceStatusSummaryPlot",
 
       propTypes: {
         title: React.PropTypes.string.isRequired,
@@ -117,11 +118,12 @@ define(
           ],
           tooltip: {
             formatter: function() {
-              var formatterComponent = ResourceStatusTooltip({
-                resourceName: title,
-                status: this.key,
-                count: this.y
-              });
+              var formatterComponent = (
+                <ResourceStatusTooltip
+                    resourceName={title}
+                    status={this.key}
+                    count={this.y}
+                />);
               return React.renderToStaticMarkup(formatterComponent);
             }
           },

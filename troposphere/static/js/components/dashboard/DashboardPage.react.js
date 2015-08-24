@@ -12,6 +12,8 @@ define(function (require) {
       stores = require('stores');
 
   return React.createClass({
+    displayName: "DashboardPage",
+
     renderRequestMoreResources: function(e){
       e.preventDefault();
       modals.HelpModals.requestMoreResources();

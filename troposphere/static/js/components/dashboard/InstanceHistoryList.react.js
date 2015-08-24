@@ -8,6 +8,7 @@ define(function (require) {
       Router = require('react-router');
 
   return React.createClass({
+    displayName: "InstanceHistoryList",
 
     getInitialState: function () {
       return {
@@ -144,7 +145,7 @@ define(function (require) {
         }
 
         return (
-          <div key={instance.id}>
+          <div key={instance.cid}>
             <div className="instance-history">
               <ul>
                 <li>

@@ -9,6 +9,7 @@ define(
   function (React, Backbone, moment) {
 
     return React.createClass({
+      displayName: "MaintenanceMessageList",
 
       propTypes: {
         message: React.PropTypes.instanceOf(Backbone.Model).isRequired
