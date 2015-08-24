@@ -12,48 +12,54 @@ define(function (require) {
 
   var Link = Router.Link;
 
-  var links = [
+  var all_links = [
     {
       name: "Dashboard",
       linksTo: "dashboard",
       href: "/application/dashboard",
       icon: "stats",
-      requiresLogin: true
+      requiresLogin: true,
+      isEnabled: true
     },
     {
       name: "Projects",
       linksTo: "projects",
       href: "/application/projects",
       icon: "folder-open",
-      requiresLogin: true
+      requiresLogin: true,
+      isEnabled: true
     },
     {
       name: "Images",
       linksTo: "images",
       href: "/application/images",
       icon: "floppy-disk",
-      requiresLogin: false
+      requiresLogin: false,
+      isEnabled: true
     },
     {
       name: "Providers",
       linksTo: "providers",
       href: "/application/providers",
       icon: "cloud",
-      requiresLogin: true
+      requiresLogin: true,
+      isEnabled: true
     },
     {
       name: "Help",
       linksTo: "help",
       href: "/application/help",
       icon: "question-sign",
-      requiresLogin: false
+      requiresLogin: false,
+      isEnabled: true
     },
     {
       name: "Admin",
       linksTo: "admin",
       icon: "cog",
       requiresLogin: true,
-      requiresStaff: true
+      requiresStaff: true,
+      isEnabled: true
     },
     {
       name: "Badges",
@@ -61,7 +67,8 @@ define(function (require) {
       href: "/application/badges",
       icon: "star",
       requiresLogin: true,
-      requiresStaff: false
+      requiresStaff: false,
+      isEnabled: true
     }
   ];
 
@@ -138,19 +145,24 @@ define(function (require) {
     },
 
     render: function () {
-
       var profile = this.props.profile;
       var loginLogoutDropdown = profile ? <LogoutLink username={profile.get('username')}/> : <LoginLink/>;
+      var badgesEnabled = profile.get('badges_enabled');
 
       if (!profile) {
-        links = links.filter(function (link) {
-          return !link.requiresLogin;
+        links = all_links.filter(function (link) {
+          return !link.requiresLogin && link.isEnabled;
         })
       } else {
-        links = links.filter(function (link) {
+        links = all_links.filter(function (link) {
           if (link.requiresStaff) return profile.get('is_staff');
-          return true;
+          return link.isEnabled;
         })
+      }
+      for (link in all_links){
+        if (all_links[link].name == "Badges"){
+            all_links[link].isEnabled = badgesEnabled;
+        }
       }
 
       var navLinks = links.map(function (link) {
@@ -188,7 +200,6 @@ define(function (require) {
               </button>
               {brandLink}
             </div>
-
             <div className="navbar-collapse collapse">
               <ul className="nav navbar-nav">
                 {navLinks}
