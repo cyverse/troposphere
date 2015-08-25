@@ -48,7 +48,7 @@ define(
               {" Rebooting an instance will cause it to temporarily shut down and become inaccessible during that time."}
             </p>
             <p>{"A 'Reboot' will send an 'ACPI Restart' request to the VM that will start the reboot process for your VM."}</p>
-            <p>{"If your VM does not respond to a 'Reboot', there is also the option to send a 'Hard Reboot' which will forceably restart your VM."}</p>
+            <p>{"If your VM does not respond to a 'Reboot', there is also the option to send a 'Hard Reboot' which will forcibly restart your VM."}</p>
             <p>{"Select one of the two options below to reboot your instance."}</p>
           </div>
         );
