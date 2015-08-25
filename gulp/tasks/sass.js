@@ -15,6 +15,7 @@ var notify = require('gulp-notify');
 var sass = require('gulp-sass');
 var paths = require('../paths');
 var gutil = require('gulp-util');
+var prefix = require('gulp-autoprefixer');
 
 module.exports = function (gulp) {
 
@@ -25,6 +26,9 @@ module.exports = function (gulp) {
       .pipe(sass({
         sourceMap: 'sass',
         sourceComments: 'map'
+      }))
+      .pipe(prefix({
+        browsers:['last 3 versions']
       }))
       .pipe(gulp.dest(dest))
       .pipe(notify({ message: 'Transformed SCSS to CSS and copied files to: ' + dest, onLast: true }))
