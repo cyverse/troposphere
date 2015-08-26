@@ -116,7 +116,7 @@ if (!define(function (require) {
             renderProjectSelectionForm: function (projects) {
                 if (this.state.projectId == -999) {
                     this.state.project = projects.first();
-                    this.state.projectId = projects.first().id;
+                    this.state.projectId = (this.state.project) ? this.state.project.id : -1;
                 }
                 if (projects.length > 0) {
                     return (
@@ -140,6 +140,13 @@ if (!define(function (require) {
             },
 
             renderProjectCreationForm: function (projects) {
+                if (this.state.projectId == -999) {
+                    this.state.project = projects.first();
+                    this.state.projectId = (this.state.project) ? this.state.project.id : -1;
+                }
+                if(this.state.projectId == -1) {
+                    this.state.createSelected = true;
+                }
                 if (this.state.createSelected) {
                     return (
                         <div className='form-group'>
@@ -180,7 +187,7 @@ if (!define(function (require) {
                     <div role='form'>
                         <div className="modal-section form-horizontal">
                             <h4>Select a Project for your new Instance</h4>
-                       {this.renderProjectCreationForm(projects)}
+                            {this.renderProjectCreationForm(projects)}
 
                             <div className='form-group'>
                                 <div className="col-sm-12">
