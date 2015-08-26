@@ -39,11 +39,12 @@ define(function (require) {
             return (this.state.name.trim() && this.state.version && this.state.identity && allocationUsageStats.percentUsed < 1);
         },
         confirm: function () {
-            // get around calling this.state directly. setState does not guarantee synchronous operation and we need to send the trimmed name.
-            var trimmedName = this.state.name.trim();
-            var stateCopy = this.state;
-            stateCopy.name = trimmedName;
-            this.props.onNext(stateCopy);
+            var name = this.state.name.trim(),
+                version = this.state.version,
+                identity = this.state.identity,
+                allVersions = this.state.allVersions;
+            
+            this.props.onNext({name: name, version: version, identity: identity, allVersions: allVersions});
         },
         onBack: function () {
             this.props.onPrevious(this.state);
