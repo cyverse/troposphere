@@ -43,11 +43,16 @@ define(
         this.props.onConfirm(this.state.badge);
       },
 
+      addToBackpack: function(){
+        console.log(this.props.badge);
+      },
+
       render: function () {
         var content = (
           <div>
             <img className="badge-modal-image" src={this.props.badge.get('imageUrl')} />
             <p>{this.props.badge.get('strapline')}</p>
+            <div className="btn btn-default" onClick = {this.addToBackpack}>Add this badge to your backpack!</div>
           </div>
         );
 
