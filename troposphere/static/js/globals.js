@@ -7,7 +7,8 @@ define(function (require) {
     THEME_HEADER_TEXT: window.THEME_HEADER_TEXT || 'Atmosphere',
     THEME_FOOTER_TEXT: window.THEME_FOOTER_TEXT || 'iPlant Collaborative',
     UI_VERSION: window.UI_VERSION || 'Hawaiian Hawk',
-    BADGE_HOST: window.BADGE_HOST
+    BADGE_HOST: window.BADGE_HOST,
+    BADGES_ENABLED: window.BADGES_ENABLED
   }
 
 });
