@@ -44,7 +44,6 @@ define(function (require) {
       if(myBadges.length == 0){
         return (
           <div className="mine">
-            <h4 onClick={this.check}>Check badges</h4>
             You haven't earned any badges yet.
           </div>
         )
