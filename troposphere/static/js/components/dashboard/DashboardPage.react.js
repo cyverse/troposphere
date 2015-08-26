@@ -26,10 +26,16 @@ define(function (require) {
     },
     componentDidMount: function () {
       stores.SizeStore.addChangeListener(this.updateState);
+      stores.InstanceStore.addChangeListener(this.updateState);
+      stores.ProviderStore.addChangeListener(this.updateState);
+      stores.ImageStore.addChangeListener(this.updateState);
     },
 
     componentWillUnmount: function() {
       stores.SizeStore.removeChangeListener(this.updateState);
+      stores.InstanceStore.removeChangeListener(this.updateState);
+      stores.ProviderStore.removeChangeListener(this.updateState);
+      stores.ImageStore.removeChangeListener(this.updateState);
     },
     render: function () {
 
