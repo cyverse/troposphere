@@ -22,7 +22,7 @@ define(function (require) {
 
         getInitialState: function () {
             return {
-                name: this.props.name,
+                name: this.props.name || "",
                 version: this.props.version,
                 identity: this.props.identity,
                 allVersions: stores.ImageStore.getVersions(this.props.image.id),
@@ -36,11 +36,14 @@ define(function (require) {
                 allocationUsageStats = this.calculateAllocationUsage(allocation);
             //TODO: Short-circuit on isStaff
 
-            return (this.state.name && this.state.version && this.state.identity && allocationUsageStats.percentUsed < 1);
+            return (this.state.name.trim() && this.state.version && this.state.identity && allocationUsageStats.percentUsed < 1);
         },
         confirm: function () {
-            //Test if information is valid before continuing
-            this.props.onNext(this.state);
+            // get around calling this.state directly. setState does not guarantee synchronous operation and we need to send the trimmed name.
+            var trimmedName = this.state.name.trim();
+            var stateCopy = this.state;
+            stateCopy.name = trimmedName;
+            this.props.onNext(stateCopy);
         },
         onBack: function () {
             this.props.onPrevious(this.state);

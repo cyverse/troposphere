@@ -27,7 +27,7 @@ define(
 
         // Disable the launch button if the user hasn't provided a name, size or identity for the volume
         var hasProvider              = !!this.state.identityId,
-            hasName                  = !!this.state.volumeName,
+            hasName                  = !!this.state.volumeName.trim(),
             hasSize                  = !!this.state.volumeSize,
             providerNotInMaintenance = !isProviderInMaintenance,
             hasEnoughQuotaForStorage = this.hasEnoughQuotaForStorage(selectedIdentity, this.state.volumeSize, volumes),
@@ -98,7 +98,7 @@ define(
       },
 
       confirm: function () {
-        var name = this.state.volumeName,
+        var name = this.state.volumeName.trim(),
             size = this.state.volumeSize,
             identityId = this.state.identityId,
             identity = stores.IdentityStore.get(identityId);
