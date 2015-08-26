@@ -58,8 +58,8 @@ define(
         var profile = this.state.profile;
         var selectedIconSet = profile.get('settings')['icon_set'];
         var wantsEmails = profile.get('settings')['send_emails'];
-        var wantsBadges = profile.get('badges_enabled');
- 
+        var wantsBadges = window.BADGES_ENABLED; 
+
         return (
           <div className="settings-view">
             <SettingsHeader/>

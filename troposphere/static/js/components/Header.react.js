@@ -147,7 +147,7 @@ define(function (require) {
     render: function () {
       var profile = this.props.profile;
       var loginLogoutDropdown = profile ? <LogoutLink username={profile.get('username')}/> : <LoginLink/>;
-      var badgesEnabled = profile.get('badges_enabled');
+      var badgesEnabled = window.BADGES_ENABLED;
 
       if (!profile) {
         links = all_links.filter(function (link) {
