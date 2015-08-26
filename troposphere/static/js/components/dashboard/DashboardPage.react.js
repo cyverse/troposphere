@@ -16,7 +16,9 @@ define(function(require) {
         help = require("images/icon_gethelp.png");
 
   return React.createClass({
-    renderRequestMoreResources: function(e) {
+    displayName: "DashboardPage",
+
+    renderRequestMoreResources: function(e){
       e.preventDefault();
       modals.HelpModals.requestMoreResources();
     },
@@ -36,13 +38,13 @@ define(function(require) {
     render: function() {
 
       var providers = stores.ProviderStore.getAll(),
-        identities = stores.IdentityStore.getAll(),
-        projects = stores.ProjectStore.getAll(),
-        maintenanceMessages = stores.MaintenanceMessageStore.getAll(),
-        images = stores.ImageStore.getAll(),
-        instances = stores.InstanceStore.getAll(),
-        volumes = stores.VolumeStore.getAll(),
-        sizes = stores.SizeStore.fetchWhereNoCache({'archived': 'true', 'page_size': 250});
+          identities = stores.IdentityStore.getAll(),
+          projects = stores.ProjectStore.getAll(),
+          maintenanceMessages = stores.MaintenanceMessageStore.getAll(),
+          images = stores.ImageStore.getAll(),
+          instances = stores.InstanceStore.getAll(),
+          volumes = stores.VolumeStore.getAll(),
+          sizes = stores.SizeStore.fetchWhereNoCache({'archived': 'true', 'page_size': 250});
 
       if (!providers || !identities || !projects || !maintenanceMessages || !images || !instances || !volumes || !sizes) {
         return <div className='loading'></div>;
@@ -84,8 +86,7 @@ define(function(require) {
                 </div>
 
                 <div className="resource-header">
-                  Resources in Use<a href="#" onClick={this.renderRequestMoreResources}>Need
-                  more{String.fromCharCode(63)}</a>
+                  Resources in Use<a href="#" onClick={this.renderRequestMoreResources}>Need more{String.fromCharCode(63)}</a>
                 </div>
                 <div className="row">
                   <div className="col-md-8">
@@ -105,7 +106,7 @@ define(function(require) {
                     <ResourceStatusSummaryPlot
                       title="Volumes"
                       resources={volumes}
-                      />
+                    />
                   </div>
                 </div>
                 <InstanceHistoryList/>

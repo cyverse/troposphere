@@ -19,7 +19,7 @@ define(function (require) {
       editable: React.PropTypes.bool,
       showAvailability: React.PropTypes.bool,
     },
-    getDefaultPropTypes: function(){
+    getDefaultProps: function(){
       return {
         showAvailability: true,
         editable: true

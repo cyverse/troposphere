@@ -3,14 +3,21 @@ define(function (require) {
   var React = require('react/addons');
 
   return React.createClass({
+    displayName: "FilesToExclude",
 
     propTypes: {
       onChange: React.PropTypes.func.isRequired,
-      styles: React.PropTypes.object.isRequired,
+      styles: React.PropTypes.object,
       value: React.PropTypes.string
     },
-
-    handleChange: function (e) {
+    getDefaultProps: function() {
+        return {
+            //Add default styling here..?
+            styles: {
+            },
+        };
+    },
+    handleChange: function(e){
       this.props.onChange(e.target.value)
     },
 
@@ -23,14 +30,12 @@ define(function (require) {
           <label htmlFor={name} className="control-label">
             Files to exclude
           </label>
-
           <div className="help-block">
             <p>
               {
                 "The following directories will automatically be excluded from the image:"
               }
             </p>
-
             <div>/home/</div>
             <div>/mnt/</div>
             <div>/tmp/</div>

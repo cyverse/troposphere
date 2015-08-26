@@ -71,29 +71,23 @@ define(function(require) {
       var scripts = this.state.activeScripts;
       scripts.add(script);
       this.setState({activeScripts:scripts});
-      //actions.ImageVersionScriptActions.add({
-      //  image_version: this.props.version,
-      //  script: script
-      //});
     },
 
     onScriptRemoved: function(script){
-      var filteredScripts = this.state.activeScripts.filter(function(bootscript) {
-        return bootscript.id !== script.id;
-      });
+      var filteredScripts = this.state.activeScripts;
+      filteredScripts.remove(script);
       this.setState({activeScripts:filteredScripts});
-      //actions.ImageVersionScriptActions.remove({
-      //  image_version: this.props.version,
-      //  script: script
-      //});
     },
 
     onLicenseCreate: function(licenseObj){
-      actions.LicenseActions.create({
+      var license = actions.LicenseActions.create({
         title: licenseObj.title,
         type: licenseObj.type,
         text: licenseObj.text
       });
+      var licenses = this.state.activeLicenses;
+      licenses.add(license);
+      this.setState({activeLicenses: licenses});
     },
 
     onLicenseAdded: function(license){
@@ -104,9 +98,8 @@ define(function(require) {
     },
 
     onLicenseRemoved: function(license_removed){
-      var filteredLicenses = this.state.activeLicenses.filter(function(license) {
-        return license.id !== license_removed.id;
-      });
+      var filteredLicenses = this.state.activeLicenses;
+      filteredLicenses.remove(license_removed);
       this.setState({activeLicenses:filteredLicenses});
 
     },

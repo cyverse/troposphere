@@ -15,7 +15,14 @@ define(function (require) {
       propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         versions: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        editable: React.PropTypes.bool
+        editable: React.PropTypes.bool,
+        showAvailability: React.PropTypes.bool
+      },
+      getDefaultProps: function(){
+        return {
+           showAvailability: true,
+           editable: true
+        }
       },
       //TODO: Next refactor should convert this into 'edit version'
       openEditVersion: function (version) {
@@ -48,6 +55,7 @@ define(function (require) {
             version={version}
             image={this.props.image}
             editable={this.props.editable}
+            showAvailability={this.props.showAvailability}
             onEditClicked={this.openEditVersion}
             />
         );

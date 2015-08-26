@@ -82,15 +82,6 @@ define(function (require) {
           />);
       }
     },
-    getFilteredResults: function(models, activeModels) {
-
-      var filteredResults = models.filter(function(model){
-        return activeModels.filter(function(activeModel){
-            return model.id === activeModel.id;
-          }).length === 0;
-      });
-      return filteredResults;
-    },
     onEditChange: function(e) {
       var truth_value = (this.state.showCreateForm) ? false : true;
       this.setState({showCreateForm: truth_value});

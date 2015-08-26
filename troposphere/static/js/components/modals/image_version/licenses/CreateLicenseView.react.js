@@ -50,7 +50,7 @@ define(function (require) {
       if (license_type == "URL") {
         this.setState({licenseType: license_type});
       } else {
-        this.setState({licenseType: "full_text"});
+        this.setState({licenseType: "Full Text"});
       }
     },
     onLicenseURLChange: function (e) {
@@ -75,7 +75,7 @@ define(function (require) {
           </div>
         );
       } else {
-        //"full_text"
+        //"Full Text"
         return (<EditDescriptionView
           title={"Full Text"}
           value={this.state.licenseText}
@@ -99,7 +99,7 @@ define(function (require) {
         fullTextRadio = (
           <label className="radio-inline">
             <input type="radio" name="inlineLicenseOptions"
-                   id="licenseTypeText" value="full_text"
+                   id="licenseTypeText" value="Full Text"
                    onChange={this.onLicenseInputTypeChange}/>
             Full Text
           </label>);
@@ -115,7 +115,7 @@ define(function (require) {
           <label className="radio-inline">
             <input checked="checked"
                    type="radio" name="inlineLicenseOptions"
-                   id="LicenseTypeText" value="full_text"
+                   id="LicenseTypeText" value="Full Text"
                    onChange={this.onLicenseInputTypeChange}/>
             Full Text
           </label>);

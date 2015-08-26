@@ -115,7 +115,7 @@ define(function (require) {
       }
 
       var scripts_list = scripts.map(function(script){
-        return <div>{script.get('title')}</div>;
+        return <div key={script.id}>{script.get('title')}</div>;
       });
 
       return (
@@ -141,7 +141,7 @@ define(function (require) {
       }
 
       var licenses_list = licenses.map(function(license){
-        return <div>{license.get('title')}</div>;
+        return <div key={license.id}>{license.get('title')}</div>;
       });
 
       return (

@@ -262,16 +262,16 @@ define(function (require) {
       // Build the query string
       var queryString = buildQueryStringFromQueryParams(queryParams);
 
-      if (this.queryModels[queryString]) return this.queryModels[queryString];
+      if(this.queryModels[queryString]) return this.queryModels[queryString];
 
-      if (!this.isFetchingQuery[queryString]) {
+      if(!this.isFetchingQuery[queryString]) {
         this.isFetchingQuery[queryString] = true;
         var models = new this.collection();
         models.fetch({
           url: models.url + queryString
         }).done(function () {
           this.isFetchingQuery[queryString] = false;
-          if (!this.models) this.models = new this.collection();
+          if(!this.models) this.models = new this.collection();
           this.models.add(models.models);
           this.queryModels[queryString] = models;
           this.emitChange();

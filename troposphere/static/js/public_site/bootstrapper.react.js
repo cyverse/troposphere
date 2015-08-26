@@ -1,9 +1,9 @@
 define(function (require) {
     'use strict';
 
-    var $ = require('jquery'),
-        React = require('react/addons'),
+    var React = require('react/addons'),
         Profile = require('models/Profile'),
+        $ = require('jquery'),
         Router = require('../Router'),
         routes = require('./AppRoutes.react');
 

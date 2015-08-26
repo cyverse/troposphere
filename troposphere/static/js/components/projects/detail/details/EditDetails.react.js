@@ -1,4 +1,3 @@
-
 define(
   [
     'react',
@@ -23,7 +22,13 @@ define(
         }
       },
 
-      handleCancel: function () {
+      isSubmittable: function(){
+        var hasName        = !!this.state.name.trim();
+        var hasDescription = !!this.state.description.trim();
+        return hasName && hasDescription;
+      },
+
+      handleCancel: function(){
         this.props.onCancel();
       },
 
@@ -79,7 +84,7 @@ define(
 
             <div className="buttons">
               <button className="btn btn-default cancel-button" onClick={this.handleCancel}>Cancel</button>
-              <button className="btn btn-primary save-button" onClick={this.handleSave}>Save</button>
+              <button className="btn btn-primary save-button" onClick={this.handleSave} disabled={!this.isSubmittable()}>Save</button>
             </div>
           </div>
         );
@@ -87,4 +92,4 @@ define(
 
     });
 
-  });
+});

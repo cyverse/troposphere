@@ -1,73 +1,68 @@
-define(function(require) {
+define(function (require) {
 
-  var React = require('react/addons'),
-      Backbone = require('backbone'),
-      _ = require('underscore'),
-      stores = require('stores'),
-      VersionList = require('components/images/detail/versions/VersionList.react'),
-      VersionCollection = require('collections/ImageVersionCollection'),
-      Glyphicon = require('components/common/Glyphicon.react');
+    var React = require('react/addons'),
+        Backbone = require('backbone'),
+        _ = require('underscore'),
+        stores = require('stores'),
+        VersionList = require('components/images/detail/versions/VersionList.react'),
+        VersionCollection = require('collections/ImageVersionCollection'),
+        Glyphicon = require('components/common/Glyphicon.react');
 
-  var ENTER_KEY = 13;
+    var ENTER_KEY = 13;
 
-  return React.createClass({
-    displayName: "InstanceLaunchWizardModal-ReviewLaunchStep",
+    return React.createClass({
+      displayName: "InstanceLaunchWizardModal-ReviewLaunchStep",
 
-    propTypes: {
-      //name: React.PropTypes.string.isRequired,
-      //image: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      //version: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      //size: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      //identity: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      //project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      launchData: React.PropTypes.object.isRequired,
-      onPrevious: React.PropTypes.func.isRequired,
-      onNext: React.PropTypes.func.isRequired,
-      toAdvancedOptions: React.PropTypes.func.isRequired
-    },
+      propTypes: {
+            launchData: React.PropTypes.object.isRequired,
+            onPrevious: React.PropTypes.func.isRequired,
+            onNext: React.PropTypes.func.isRequired,
+            toAdvancedOptions: React.PropTypes.func.isRequired
+        },
 
-    getInitialState: function() {
-      var state = this.props.launchData;
-      return state;
-    },
-    isSubmittable: function() {
-      var maintenanceMessages = stores.MaintenanceMessageStore.getAll(),
-          isProviderInMaintenance;
+        getInitialState: function () {
+            var state = this.props.launchData;
+            return state;
+        },
+        isSubmittable: function () {
+            var maintenanceMessages = stores.MaintenanceMessageStore.getAll(),
+                isProviderInMaintenance;
 
-      if (!maintenanceMessages) return false;
+            if (!maintenanceMessages) return false;
 
-      // Make sure the selected provider is not in maintenance
-      isProviderInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(
-          this.state.identity.get('provider').id);
+            // Make sure the selected provider is not in maintenance
+            isProviderInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(
+                this.state.identity.get('provider').id);
 
-      var providerNotInMaintenance = !isProviderInMaintenance;
-      return (
-          providerNotInMaintenance
-      );
-    },
+            var providerNotInMaintenance = !isProviderInMaintenance;
 
-    confirm: function() {
-      this.props.onNext(this.state);
-    },
+            return (
+                providerNotInMaintenance
+            );
+        },
+        confirm: function () {
+            this.props.onNext(this.state);
+        },
+        confirmAdvanced: function () {
+          this.props.toAdvancedOptions(this.state);
+        },
 
-    confirmAdvanced: function() {
-      this.props.toAdvancedOptions(this.state);
-    },
-
-    renderAllocationWarning: function(identity) {
-      if (!this.hasAvailableAllocation(identity)) {
-        return (
-          <div className="alert alert-danger">
-            <Glyphicon name='warning-sign'/>
-            <strong>{"Uh oh!"}</strong>
+        renderAllocationWarning: function (identity) {
+            if (!this.hasAvailableAllocation(identity)) {
+                return (
+                    <div className="alert alert-danger">
+                        <Glyphicon name='warning-sign'/>
+                        <strong>{"Uh oh!"}</strong>
             {
-              " Looks like you don't have any AUs available.  In order to launch instances, you need " +
-              "to have AUs free.  You will be able to launch again once your AUs have been reset."
+            " Looks like you don't have any AUs available.  In order to launch instances, you need " +
+            "to have AUs free.  You will be able to launch again once your AUs have been reset."
+                }
+                    </div>
+                );
             }
         },
-    },
 
-    renderProgressBar: function (message, currentlyUsedPercent, projectedPercent, overQuotaMessage, mainClassName) {
+        renderProgressBar: function (message, currentlyUsedPercent, projectedPercent, overQuotaMessage, mainClassName) {
             var currentlyUsedStyle = {width: currentlyUsedPercent + "%"},
                 projectedUsedStyle = {width: projectedPercent + "%", opacity: "0.6"},
                 totalPercent = currentlyUsedPercent + projectedPercent,
@@ -128,15 +123,28 @@ define(function(require) {
 
             return this.renderProgressBar(message, currentlyUsedPercent, 0, overQuotaMessage, "allocation-consumption-bar");
         },
-        renderBootScripts: function(boot_scripts) {
-          return boot_scripts.map(function(boot_script) {
-            return (<li className="search-choice">
-              {boot_script.get('title')}
-              </li>);
-          });
+        renderBootScripts: function(required_scripts, boot_scripts) {
+          var script_list = [], required_script_list = [];
+          if(required_scripts) {
+            required_script_list = required_scripts.map(function(boot_script) {
+              return (<li key={boot_script.id} className="search-choice required-choice">
+                {boot_script.title} (Required)
+                </li>);
+            });
+          }
+          if(boot_scripts) {
+             script_list = boot_scripts.map(function(boot_script) {
+               return (<li key={boot_script.id} className="search-choice">
+                 {boot_script.get('title') || boot_script.title}
+                 </li>);
+             });
+          }
+          return _.union(required_script_list, script_list)
         },
         renderAdvancedOptions: function() {
-          if(!this.state.activeScripts || this.state.activeScripts.length == 0) {
+          var version_scripts = this.state.version.get('scripts');
+          if((!this.state.activeScripts || this.state.activeScripts.length == 0) &&
+             (!version_scripts || version_scripts.length == 0)) {
             return;
           }
           return (
@@ -146,8 +154,8 @@ define(function(require) {
             <div className="col-sm-9">
               <div className="chosen-container-external chosen-container-external-multi" >
                 <ul className="chosen-choices">
-                {this.renderBootScripts(this.state.activeScripts)}
-                  </ul>
+                  {this.renderBootScripts(version_scripts, this.state.activeScripts)}
+                </ul>
               </div>
             </div>
           </div>);
@@ -268,7 +276,7 @@ define(function(require) {
                             </div>
                         </div>
                         {this.renderAdvancedOptions()}
-                        <div className='form-group' className="modal-section">
+                        <div className="form-group modal-section">
                             <h4>Projected Resource Usage</h4>
                             {this.renderCpuConsumption(identity, size, sizes, instances)}
                             {this.renderMemoryConsumption(identity, size, sizes, instances)}

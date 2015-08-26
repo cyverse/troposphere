@@ -76,6 +76,7 @@ define(function (require) {
       stores.InstanceTagStore.addChangeListener(this.updateState);
       stores.UserStore.addChangeListener(this.updateState);
       stores.ScriptStore.addChangeListener(this.updateState);
+      stores.LicenseStore.addChangeListener(this.updateState);
 
     },
 
@@ -83,6 +84,7 @@ define(function (require) {
       stores.InstanceTagStore.removeChangeListener(this.updateState);
       stores.UserStore.removeChangeListener(this.updateState);
       stores.ScriptStore.removeChangeListener(this.updateState);
+      stores.LicenseStore.removeChangeListener(this.updateState);
 
     },
 
@@ -138,15 +140,15 @@ define(function (require) {
 
     onPrevious: function (data) {
       var previousStep = this.state.step - 1,
-        data = data || {},
-        state = _.extend({step: previousStep, title: previousStep.name}, data);
+          data = data || {},
+          state = _.extend({step: previousStep, title: previousStep.name}, data);
       this.setState(state);
     },
 
     onNext: function (data) {
       var nextStep = this.state.step + 1,
-        data = data || {},
-        state = _.extend({step: nextStep, title: nextStep.name}, data);
+          data = data || {},
+          state = _.extend({step: nextStep, title: nextStep.name}, data);
       this.setState(state);
     },
 

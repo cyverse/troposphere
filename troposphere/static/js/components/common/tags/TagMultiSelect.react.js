@@ -1,10 +1,11 @@
 define(function (require) {
 
   var React = require('react/addons'),
-    Backbone = require('backbone'),
-    ChosenDropdownTag = require('./ChosenDropdownTag.react'),
-    ChosenSelectedTag = require('./ChosenSelectedTag.react'),
-    ChosenMixin = require('components/mixins/ChosenMixinExternal.react');
+      Backbone = require('backbone'),
+      ChosenDropdownTag = require('./ChosenDropdownTag.react'),
+      ChosenSelectedTag = require('./ChosenSelectedTag.react'),
+      CreateTagView = require('./CreateTagView.react');
+      ChosenMixin = require('components/mixins/ChosenMixinExternal.react');
 
   return React.createClass({
     displayName: "TagMultiSelect",
@@ -15,10 +16,31 @@ define(function (require) {
       activeModels: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
       onQueryChange: React.PropTypes.func.isRequired,
       onModelAdded: React.PropTypes.func.isRequired,
-      onModelRemoved: React.PropTypes.func.isRequired
+      onModelRemoved: React.PropTypes.func.isRequired,
+      //Necessary for modal creation (Where available)
+      onCreateNewTag: React.PropTypes.func,
+      //Necessary for inline creation (when modals aren't an option)
+      onModelCreated: React.PropTypes.func,
     },
 
-    getNoResultsPhrase: function (query) {
+    getInitialState: function(){
+      return {
+        showCreateForm: false,
+        tagName: "",
+      }
+    },
+
+
+    onEditChange: function(e) {
+      var truth_value = (this.state.showCreateForm) ? false : true;
+      this.setState({showCreateForm: truth_value});
+    },
+    onCreateTag: function(model) {
+      this.props.onModelCreated(model);
+      this.setState({showCreateForm: false});
+    },
+
+    getNoResultsPhrase: function(query){
       return 'No tags found matching "' + query + '". Press enter to create a new tag.';
     },
 
@@ -56,9 +78,52 @@ define(function (require) {
       )
     },
     render: function() {
-      return this.renderChosenSearchSelect();
-    }
+      return (
+        <div className="scriptMultiSelectAndCreate">
+          {this.renderChosenSearchSelect()}
+          {this.renderCreateForm()}
+        </div>
+        );
+    },
 
+    renderCreateForm: function() {
+      if (this.state.showCreateForm == false) {
+        return (<div className="new-script-form new-item-form"
+                     style={{"visibility": "hidden"}}/>);
+      } else {
+        return (<CreateTagView
+          onCreateTag={this.onCreateTag}
+          tagName={this.state.tagName}
+          />);
+      }
+    },
+    onEnterKeyPressed: function(value){
+      if(!this.state.showOptions) {
+          return ;
+      }
+      //IF options are showing and results are listed, pick the first one on Enter-pressed.
+      var filtered_results = this.getFilteredResults(
+        this.props.models,
+        this.props.activeModels)
+      if (filtered_results && filtered_results.length > 0) {
+        this.onModelAdded(filtered_results[0])
+        return;
+      } else {
+        //IF options are showing and NO results are listed, 
+        // Populate the beginning of the create modal
+        if(this.props.onCreateNewTag) {
+            this.props.onCreateNewTag(value);
+        } else if(this.props.onEnterKeyPressed) {
+          this.setState({
+            showCreateForm: true,
+            tagName: value
+          });
+          this.props.onEnterKeyPressed(value);
+        }
+      }
+      this.clearSearchField();
+
+    },
 
   })
 

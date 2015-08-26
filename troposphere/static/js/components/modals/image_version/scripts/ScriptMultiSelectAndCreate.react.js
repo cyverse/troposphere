@@ -3,6 +3,7 @@ define(function (require) {
 
   var React = require('react/addons'),
       Backbone = require('backbone'),
+      _ = require('underscore'),
       ChosenDropdownItem = require('components/common/chosen/ChosenDropdownItem.react'),
       ChosenSelectedItem = require('components/common/chosen/ChosenSelectedItem.react'),
       ChosenMixinExternal = require('components/mixins/ChosenMixinExternal.react'),
@@ -17,6 +18,7 @@ define(function (require) {
       //Mixin-requires:
       models: React.PropTypes.instanceOf(Backbone.Collection),
       activeModels: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+      requiredModels: React.PropTypes.array,
       propertyName: React.PropTypes.string.isRequired,
       onQueryChange: React.PropTypes.func.isRequired,
       onModelAdded: React.PropTypes.func.isRequired,
@@ -80,15 +82,6 @@ define(function (require) {
           scriptTitle={this.state.scriptTitle}
           />);
       }
-    },
-    getFilteredResults: function(models, activeModels) {
-
-      var filteredResults = models.filter(function(model){
-        return activeModels.filter(function(activeModel){
-            return model.id === activeModel.id;
-          }).length === 0;
-      });
-      return filteredResults;
     },
     onEditChange: function(e) {
       var truth_value = (this.state.showCreateForm) ? false : true;
@@ -159,7 +152,7 @@ define(function (require) {
                     {showFormButtonText}
             </button>
           </div>
-            {this.renderCreateForm(createButtonText)}
+          {this.renderCreateForm(createButtonText)}
         </div>
       );
     }

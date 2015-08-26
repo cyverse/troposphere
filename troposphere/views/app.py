@@ -82,7 +82,8 @@ def _handle_authenticated_application_request(request, maintenance_records):
         'emulated_by': request.session.get('emulated_by'),
         'records': maintenance_records,
         'show_troposphere_only': show_troposphere_only,
-        'show_instance_metrics': show_instance_metrics
+        'show_instance_metrics': show_instance_metrics,
+        'disable_login': False,
     }
 
     template_params['THEME_HEADER_TEXT'] = settings.THEME_HEADER_TEXT

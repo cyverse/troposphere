@@ -32,7 +32,7 @@ define(function(require) {
     propTypes: {
       image: React.PropTypes.instanceOf(Backbone.Model),
       project: React.PropTypes.instanceOf(Backbone.Model),
-      onConfirm: React.PropTypes.instanceOf(Backbone.Model),
+      onConfirm: React.PropTypes.func.isRequired,
     },
 
 
@@ -87,20 +87,24 @@ define(function(require) {
       );
     },
     renderProjectStep: function() {
-      return (
-        <ProjectSelectStep
-          project={this.state.project}
-          onPrevious={this.onPrevious}
-          onFinished={this.onNext}
-        />
-      );
+        return (
+                <ProjectSelectStep
+                    project={this.state.project}
+                    onPrevious={this.onPrevious}
+                    onNext={this.onNext}
+                />
+              );
     },
     renderUserOptionsStep: function() {
+      var allScripts = this.state.scripts || stores.ScriptStore.getAll(),
+      requiredScripts = (this.state.version ? this.state.version.get('scripts') : null) || [],
+      activeScripts = this.state.activeScripts || new Backbone.Collection();
       return (
                 <UserOptionsStep
                     launchOptions={this.state.launchOptions}
                     scripts={allScripts}
                     activeScripts={activeScripts}
+                    requiredScripts={requiredScripts}
                     onPrevious={this.onPrevious}
                     onNext={this.onNext}
                 />
@@ -113,7 +117,7 @@ define(function(require) {
           onPrevious={this.onPrevious}
           onNext={this.onNext}
           onFinished={this.toReview}
-          />
+        />
       );
     },
     renderReviewLaunchStep: function() {
@@ -123,16 +127,16 @@ define(function(require) {
           onPrevious={this.onPrevious}
           onNext={this.onCompleted}
           toAdvancedOptions={this.toAdvancedOptions}
-          />
+        />
       );
     },
     renderLicenseStep: function() {
       return (
         <LicensingStep
-          version={this.state.version}
+          licenses={this.state.version.get('licenses')}
           onPrevious={this.onPrevious}
           onNext={this.onNext}
-          />
+        />
       );
     },
     renderBody: function() {
@@ -148,8 +152,6 @@ define(function(require) {
           return this.renderProjectStep();
         case OPTIONS_STEP:
             return this.renderUserOptionsStep();
-        // case ADMIN_OPTIONS_STEP:
-        //       //return this.renderStaffOptionsStep(); //TODO: Re-enable when 'Hypervisor-Select', 'No-Deploy' are added.
         case LICENSE_STEP:
           return this.renderLicenseStep();
         case REVIEW_STEP:
@@ -259,6 +261,7 @@ define(function(require) {
       stores.ImageVersionStore.addChangeListener(this.updateState);
       stores.MaintenanceMessageStore.addChangeListener(this.updateState);
       stores.ScriptStore.addChangeListener(this.updateState);
+      stores.LicenseStore.addChangeListener(this.updateState);
     },
 
     componentWillUnmount: function() {
@@ -272,6 +275,7 @@ define(function(require) {
       stores.ImageVersionStore.removeChangeListener(this.updateState);
       stores.MaintenanceMessageStore.removeChangeListener(this.updateState);
       stores.ScriptStore.removeChangeListener(this.updateState);
+      stores.LicenseStore.removeChangeListener(this.updateState);
     },
 
     //
@@ -302,9 +306,51 @@ define(function(require) {
             } else {
                 state.step = PROJECT_STEP;
             }
+        }
+        state.title = this.state.breadcrumbs[state.step].name;
+        this.setState(state);
+    },
+    getPrevStep: function(current_step) {
+      var prevStep = current_step,
+          breadcrumb;
+
+      while(true) {
+        prevStep = prevStep - 1;
+        if (prevStep < 0) {
+            return undefined;
+          // throw "Unexpected behavior: prev step < 0";
+        }
+        breadcrumb = this.state.breadcrumbs[prevStep];
+        if(
+          (typeof breadcrumb.active === "boolean" && !breadcrumb.active) ||
+          (typeof breadcrumb.active === "function" && !breadcrumb.active())
+        ) {
+          //Skip this, it's inactive
+          continue;
+        }
+        return breadcrumb.step;
       }
-      state.title = this.state.breadcrumbs[state.step].name;
-      this.setState(state);
+    },
+    getNextStep: function(current_step) {
+      var nextStep = current_step + 1,
+          final_step = this.state.breadcrumbs.length - 1,
+          breadcrumb,
+          active;
+
+      do {
+        if (nextStep > final_step) {
+          throw "Unexpected behavior: 'next' step > final step";
+        }
+        breadcrumb = this.state.breadcrumbs[nextStep];
+        active =
+            typeof breadcrumb.active === "boolean"
+            ? breadcrumb.active
+            : breadcrumb.active();
+
+        if (active)
+            return breadcrumb.step;
+      } while (nextStep++)
+
     },
     onNext: function (data) {
       var nextStep = this.getNextStep(this.state.step),

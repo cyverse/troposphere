@@ -1,11 +1,11 @@
-if (!define(function (require) {
+define(function (require) {
 
-    var React = require('react/addons'),
-      Backbone = require('backbone'),
-      _ = require('underscore'),
-      stores = require('stores'),
-      ProjectActions = require('actions/ProjectActions'),
-      ProjectListView = require('components/common/project/ProjectListView.react');
+    var React = require('react'),
+        Backbone = require('backbone'),
+        _ = require('underscore'),
+        stores = require('stores'),
+        ProjectActions = require('actions/ProjectActions'),
+        ProjectListView = require('components/common/project/ProjectListView.react');
 
     var ENTER_KEY = 13;
 
@@ -15,8 +15,7 @@ if (!define(function (require) {
       propTypes: {
             project: React.PropTypes.instanceOf(Backbone.Model),
             onPrevious: React.PropTypes.func.isRequired,
-            onNext: React.PropTypes.func.isRequired,
-            onFinished: React.PropTypes.func.isRequired,
+            onNext: React.PropTypes.func.isRequired
         },
 
         //
@@ -66,7 +65,7 @@ if (!define(function (require) {
         // ------------------------
         //
         confirmLaunch: function () {
-            this.confirm(this.props.onFinished, {project:this.state.project});
+            this.confirm(this.props.onNext, {project:this.state.project});
         },
         confirmCreate: function(new_project) {
             this.setState({project:new_project, projectId: new_project.id});
@@ -211,6 +210,4 @@ if (!define(function (require) {
             );
         }
     });
-    })) {
-
-}
+})

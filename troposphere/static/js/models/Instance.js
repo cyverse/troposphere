@@ -2,11 +2,12 @@ define(
   [
     'backbone',
     'underscore',
+    'jquery',
     'globals',
     'context',
     './InstanceState'
   ],
-  function (Backbone, _, globals, context, InstanceState) {
+  function (Backbone, _, $, globals, context, InstanceState) {
 
     return Backbone.Model.extend({
 
@@ -31,8 +32,9 @@ define(
         );
 
         Backbone.sync("read", this, {
-          url: url
-        }).done(function (attrs, status, response) {
+          url:url
+        }).done(function(attrs, status, response){
+          this.set('ip_address', attrs.ip_address);
           this.set('status', attrs.status);
           this.set('state', new InstanceState({status_raw: attrs.status}));
           cb();

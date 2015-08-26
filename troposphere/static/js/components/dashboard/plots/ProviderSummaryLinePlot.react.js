@@ -76,11 +76,11 @@ define(function (require) {
               var appendMessages = this.series.options.appendMessages;
               var appendMessage = appendMessages[this.x];
 
-              var formatterComponent = ResourceUseTooltip({
-                resourceName: appendMessage,
-                used: currentUsage,
-                max: currentLimit
-              });
+              var formatterComponent = (<ResourceUseTooltip
+                  resourceName={appendMessage}
+                  used={currentUsage}
+                  max={currentLimit}
+                />);
 
               return React.renderToStaticMarkup(formatterComponent);
             }
