@@ -109,6 +109,8 @@ def _handle_authenticated_application_request(request, maintenance_records):
 
     user_preferences, created = UserPreferences.objects.get_or_create(user=request.user)
 
+    template_params['BADGES_ENABLED'] = user_preferences.badges_enabled
+    
     # If beta flag in query params, set the session value to that
     if "beta" in request.GET:
         request.session['beta'] = request.GET['beta'].lower()

@@ -80,6 +80,12 @@
             var BADGE_HOST = "{{ BADGE_HOST }}";
         {% endif %}
 
+        {% if BADGES_ENABLED %}
+            var BADGES_ENABLED = true;
+        {% else %}
+            var BADGES_ENABLED = false;
+        {% endif %}
+
         {% if show_troposphere_only %}
             var show_troposphere_only = true;
         {%  else %}
