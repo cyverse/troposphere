@@ -48,5 +48,6 @@ class UserToken(models.Model):
 class UserPreferences(models.Model):
     user = models.ForeignKey(User)
     show_beta_interface = models.BooleanField(default=False)
+    badges_enabled = models.BooleanField(default=True)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)

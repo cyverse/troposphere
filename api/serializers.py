@@ -38,6 +38,7 @@ class UserPreferenceSerializer(serializers.HyperlinkedModelSerializer):
             'id',
             'url',
             'show_beta_interface',
+            'badges_enabled',
             'user',
             'created_date',
             'modified_date'
