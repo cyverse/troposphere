@@ -28,7 +28,7 @@ define(function(require) {
       };
 
       return (
-          <div /* style={divStyle} */ onMouseOver={this.mouseOver} onMouseOut={this.mouseOut} className={class_names} onClick={this.crumbClicked}>
+          <div style={divStyle} onMouseOver={this.mouseOver} onMouseOut={this.mouseOut} className={class_names} onClick={this.crumbClicked}>
             {this.props.breadcrumbText}
           </div>
         );
