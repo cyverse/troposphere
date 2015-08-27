@@ -43,11 +43,11 @@ define(function (require) {
         state = {},
         images;
 
-      if(query){
+      if (query) {
         images = stores.ImageStore.fetchWhere({
           search: query
         })
-      }else{
+      } else {
         images = stores.ImageStore.getAll();
       }
 
@@ -72,11 +72,11 @@ define(function (require) {
         images;
 
       // Get the current collection
-      if(query){
+      if (query) {
         images = stores.ImageStore.fetchWhere({
           search: query
         });
-      }else{
+      } else {
         images = stores.ImageStore.getAll();
       }
 
@@ -86,11 +86,11 @@ define(function (require) {
       });
 
       // Fetch the next page of data
-      if(query){
+      if (query) {
         stores.ImageStore.fetchMoreWhere({
           search: query
         });
-      }else{
+      } else {
         stores.ImageStore.fetchMore();
       }
     },
@@ -125,7 +125,7 @@ define(function (require) {
     // Render methods
     // --------------
 
-    renderFeaturedImages: function(){
+    renderFeaturedImages: function() {
       var images = stores.ImageStore.fetchWhere({
             tags__name: 'Featured'
           }),
@@ -154,11 +154,11 @@ define(function (require) {
       }
     },
 
-    renderImages: function(images){
+    renderImages: function(images) {
       var tags = this.props.tags;
 
       if (images && tags) {
-        if(this.state.viewType === "list") {
+        if (this.state.viewType === "list") {
           return (
             <ImageCardList
               key="all"
@@ -184,14 +184,14 @@ define(function (require) {
       );
     },
 
-    renderLoadMoreButton: function(images){
-      if(this.state.isLoadingMoreResults){
+    renderLoadMoreButton: function(images) {
+      if (this.state.isLoadingMoreResults) {
         return (
           <div style={{"margin": "auto", "display": "block"}} className="loading"/>
         )
       }
 
-      if(images.meta.next) {
+      if (images.meta.next) {
         return (
           <button
             style={{"margin": "auto", "display": "block"}}
@@ -243,11 +243,11 @@ define(function (require) {
         title = "",
         images;
 
-      if(query){
+      if (query) {
         images = stores.ImageStore.fetchWhere({
           search: query
         });
-      }else{
+      } else {
         images = stores.ImageStore.getAll();
       }
 
@@ -262,8 +262,7 @@ define(function (require) {
         <div>
           <div className="display-toggles clearfix">
             <h3>{title}</h3>
-
-            <div className="btn-group pull-right">
+            <div className="btn-group pull-right hidden-xs hiddin-sm">
               {this.renderListButton()}
               {this.renderGridButton()}
             </div>

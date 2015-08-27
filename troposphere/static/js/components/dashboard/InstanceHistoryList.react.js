@@ -1,4 +1,4 @@
-define(function (require) {
+define(function(require) {
 
   var React = require('react/addons'),
     stores = require('stores'),
@@ -8,15 +8,16 @@ define(function (require) {
     Router = require('react-router');
 
   return React.createClass({
+    displayName: "InstanceHistoryList",
 
-    getInitialState: function () {
+    getInitialState: function() {
       return {
         isLoadingMoreResults: false,
         nextUrl: null
       }
     },
 
-    updateState: function () {
+    updateState: function() {
       var instanceHistories = stores.InstanceHistoryStore.getAll(),
         state = {};
 
@@ -28,15 +29,15 @@ define(function (require) {
       if (this.isMounted()) this.setState(state);
     },
 
-    componentDidMount: function () {
+    componentDidMount: function() {
       stores.InstanceHistoryStore.addChangeListener(this.updateState);
     },
 
-    componentWillUnmount: function () {
+    componentWillUnmount: function() {
       stores.InstanceHistoryStore.removeChangeListener(this.updateState);
     },
 
-    onLoadMoreInstanceHistory: function () {
+    onLoadMoreInstanceHistory: function() {
       var instanceHistories = stores.InstanceHistoryStore.getAll();
 
       this.setState({
@@ -46,7 +47,7 @@ define(function (require) {
       stores.InstanceHistoryStore.fetchMore();
     },
 
-    renderTitle: function () {
+    renderTitle: function() {
       var instanceHistories = stores.InstanceHistoryStore.getAll(),
         title = "Instance History",
         historyCount;
@@ -59,7 +60,7 @@ define(function (require) {
       return title;
     },
 
-    renderLoadMoreHistoryButton: function (instanceHistories) {
+    renderLoadMoreHistoryButton: function(instanceHistories) {
       // Load more instances from history
       var buttonStyle = {
           margin: "auto",
@@ -87,15 +88,15 @@ define(function (require) {
       return moreHistoryButton;
     },
 
-    renderBody: function () {
+    renderBody: function() {
       var instanceHistories = stores.InstanceHistoryStore.getAll(),
-        instances = stores.InstanceStore.fetchWhere({'archived': 'true'}),
-        providers = stores.ProviderStore.getAll(),
-        instanceHistoryItems;
+          instances = stores.InstanceStore.fetchWhereNoCache({'archived': 'true'}),
+          providers = stores.ProviderStore.getAll(),
+          instanceHistoryItems;
 
       if(!instanceHistories || !instances || !providers) return <div className="loading"></div>;
 
-      instanceHistoryItems = instanceHistories.map(function (instance) {
+      instanceHistoryItems = instanceHistories.map(function(instance) {
         var providerId = null,
             imageId = null,
             provider = null,
@@ -144,13 +145,12 @@ define(function (require) {
         }
 
         return (
-          <div key={instance.id}>
+          <div key={instance.cid}>
             <div className="instance-history">
               <ul>
                 <li>
                   <div>
                     <Gravatar hash={instanceHistoryHash} size={iconSize} type={type}/>
-
                     <div className="instance-history-details">
                       <strong className="name">{instance.get('name')}</strong>
                       <div>Launched from {imageLink}</div>
@@ -176,7 +176,7 @@ define(function (require) {
       );
     },
 
-    render: function () {
+    render: function() {
       return (
         <div>
           <h2>

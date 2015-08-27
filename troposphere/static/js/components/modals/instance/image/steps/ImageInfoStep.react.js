@@ -1,15 +1,16 @@
 define(function (require) {
 
   var React = require('react/addons'),
-    Backbone = require('backbone'),
-    Name = require('../components/Name.react'),
-    CreateUpdateFlag = require('../components/CreateUpdateFlag.react'),
-    Description = require('../components/Description.react'),
-    Tags = require('../components/Tags.react'),
-    stores = require('stores');
+      actions = require('actions'),
+      Backbone = require('backbone'),
+      Name = require('../components/Name.react'),
+      CreateUpdateFlag = require('../components/CreateUpdateFlag.react'),
+      Description = require('../components/Description.react'),
+      Tags = require('../components/Tags.react'),
+      stores = require('stores');
 
   return React.createClass({
-    displayName: "ImageInfoStep",
+    displayName: "ImageWizard-ImageInfoStep",
 
     propTypes: {
       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
@@ -72,7 +73,15 @@ define(function (require) {
       })
     },
 
-    onTagRemoved: function (removedTag) {
+    onTagCreated: function(tagObj){
+      var newTag = actions.TagActions.create(tagObj);
+      var imageTags = this.state.imageTags;
+      imageTags.add(newTag);
+      this.setState({
+        imageTags: imageTags
+      })
+    },
+    onTagRemoved: function(removedTag){
       var imageTags = this.state.imageTags;
       imageTags.remove(removedTag);
       this.setState({
@@ -122,14 +131,17 @@ define(function (require) {
             create={this.state.newImage}
             value={this.state.name}
             onChange={this.onNameChange}
-            />
+          />
+          <hr />
           <Description
             value={this.state.description}
             onChange={this.onDescriptionChange}
-            />
+          />
+          <hr />
           <Tags
             onTagAdded={this.onTagAdded}
             onTagRemoved={this.onTagRemoved}
+            onTagCreated={this.onTagCreated}
             imageTags={this.state.imageTags}
             />
         </div>

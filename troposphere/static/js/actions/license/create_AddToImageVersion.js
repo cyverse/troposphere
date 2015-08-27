@@ -18,11 +18,6 @@ define(function (require) {
         license_type = params.type,
         text = params.text;
 
-      //Data cleaning..
-      if(license_type == "full_text") {
-        license_type = "Full Text";
-      }
-
       var license = new License({
         title: title,
         type: license_type,

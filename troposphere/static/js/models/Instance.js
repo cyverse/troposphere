@@ -2,11 +2,12 @@ define(
   [
     'backbone',
     'underscore',
+    'jquery',
     'globals',
     'context',
     './InstanceState'
   ],
-  function (Backbone, _, globals, context, InstanceState) {
+  function (Backbone, _, $, globals, context, InstanceState) {
 
     return Backbone.Model.extend({
 
@@ -31,8 +32,9 @@ define(
         );
 
         Backbone.sync("read", this, {
-          url: url
-        }).done(function (attrs, status, response) {
+          url:url
+        }).done(function(attrs, status, response){
+          this.set('ip_address', attrs.ip_address);
           this.set('status', attrs.status);
           this.set('state', new InstanceState({status_raw: attrs.status}));
           cb();
@@ -45,10 +47,11 @@ define(
         if (!options.machine_alias) throw new Error("Missing machine_alias");
 
         var providerId = this.get('provider').uuid,
-          identityId = this.get('identity').uuid,
-          name = options.name,
-          size = options.size_alias,
-          machine = options.machine_alias;
+            identityId = this.get('identity').uuid,
+            name = options.name,
+            size = options.size_alias,
+            machine = options.machine_alias,
+            scriptIDs = (options.scripts) ? options.scripts.map(function(script) {return script.id;}) : [];
 
         var url = (
           globals.API_ROOT +
@@ -62,7 +65,8 @@ define(
           attrs: {
             name: name,
             machine_alias: machine,
-            size_alias: size
+            size_alias: size,
+            scripts: scriptIDs
           }
         });
       },
@@ -231,8 +235,12 @@ define(
         this.performAction('resume', options);
       },
 
+      redeploy: function (options) {
+        this.set({status: 'active - initializing'});
+        this.performAction('redeploying', options);
+      },
+
       reboot: function (options) {
-        // Prevent user from being able to quickly resume multiple instances and go over quota
         this.set({status: 'active - rebooting'});
         this.performAction('reboot', options);
       },
@@ -248,4 +256,4 @@ define(
       }
     });
 
-  });
+});

@@ -7,6 +7,7 @@ define(
   function (React, Backbone) {
 
     return React.createClass({
+      displayName: "ResourceStatusTooltip",
 
       propTypes: {
         resourceName: React.PropTypes.string.isRequired,

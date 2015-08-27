@@ -20,6 +20,7 @@ define(
 
       render: function () {
         var image = this.props.image;
+        var versions = stores.ImageStore.getVersions(image.id);
         var type = stores.ProfileStore.get().get('icon_set');
 
         var iconSize = 145;
@@ -41,11 +42,12 @@ define(
             <Bookmark image={image}/>
           );
         }
-
+        //When versions is 'not loaded' OR 'has length > 0', you can launch.
+        var canLaunch = (versions !== null && versions.length !== 0) ? true : false;
         var button;
         if (context.profile) {
           button = (
-            <button className='btn btn-primary launch-button' onClick={this.props.onLaunch}>
+            <button className='btn btn-primary launch-button' onClick={this.props.onLaunch} disabled={!canLaunch}>
               Launch
             </button>
           );

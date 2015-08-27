@@ -11,7 +11,7 @@ define(function (require) {
     Utils = require('../Utils'),
     ProjectInstance = require('models/ProjectInstance');
 
-  function launch(params){
+  function launch(params) {
     if(!params.project) throw new Error("Missing project");
     if(!params.instanceName) throw new Error("Missing instanceName");
     if(!params.identity) throw new Error("Missing identity");
@@ -31,10 +31,11 @@ define(function (require) {
     if (!params.machine) throw new Error("Missing machine");
 
     var project = params.project,
-      instanceName = params.instanceName,
-      identity = params.identity,
-      size = params.size,
-      machine = params.machine;
+        instanceName = params.instanceName,
+        identity = params.identity,
+        size = params.size,
+        machine = params.machine,
+        scripts = params.scripts;
 
     var instance = new Instance({
       name: instanceName,
@@ -50,7 +51,7 @@ define(function (require) {
       identity: {
         id: identity.id,
         uuid: identity.get('uuid')
-      }
+      },
     }, {parse: true});
 
     var projectInstance = new ProjectInstance({
@@ -68,10 +69,11 @@ define(function (require) {
     instance.createOnV1Endpoint({
       name: instanceName,
       size_alias: size.get('alias'),
-      machine_alias: machine.uuid
-    }).done(function (attrs, status, response) {
+      machine_alias: machine.uuid,
+      scripts: scripts,
+    }).done(function(attrs, status, response) {
       instance.set('id', attrs.id);
-      instance.fetch().done(function () {
+      instance.fetch().done(function() {
         // todo: remove hack and start using ProjectInstance endpoint to discover
         // which project an instance is in
         instance.set('projects', [project.id]);
@@ -87,7 +89,7 @@ define(function (require) {
     }).fail(function (response) {
       Utils.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
       Utils.displayError({title: "Instance could not be launched", response: response});
-    }).always(function () {
+    }).always(function() {
       // Remove the instance from the project now that it's either been created or failed to be created
       Utils.dispatch(ProjectInstanceConstants.REMOVE_PENDING_PROJECT_INSTANCE, {
         projectInstance: projectInstance
@@ -115,7 +117,7 @@ define(function (require) {
 
       Utils.dispatch(ProjectConstants.ADD_PROJECT, {project: project});
 
-      project.save().done(function () {
+      project.save().done(function() {
         Utils.dispatch(ProjectConstants.UPDATE_PROJECT, {project: project});
 
         // launch the instance into the project
@@ -127,7 +129,7 @@ define(function (require) {
         // that page and back to the instance list so the user can see
         // their instance being created
         Router.getInstance().transitionTo("project-resources", {projectId: project.id});
-      }).fail(function (response) {
+      }).fail(function(response) {
         Utils.dispatch(ProjectConstants.REMOVE_PROJECT, {project: project});
         Utils.displayError({title: "Project could not be created", response: response});
       });

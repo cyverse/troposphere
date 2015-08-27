@@ -1,4 +1,4 @@
-define(function (require) {
+define(function(require) {
 
   var React = require('react/addons'),
     Backbone = require('backbone'),
@@ -13,35 +13,35 @@ define(function (require) {
       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    onStart: function () {
+    onStart: function() {
       modals.InstanceModals.start(this.props.instance);
     },
 
-    onSuspend: function () {
+    onSuspend: function() {
       modals.InstanceModals.suspend(this.props.instance);
     },
 
-    onStop: function () {
+    onStop: function() {
       modals.InstanceModals.stop(this.props.instance);
     },
 
-    onResume: function () {
+    onResume: function() {
       modals.InstanceModals.resume(this.props.instance);
     },
 
-    onReport: function () {
+    onReport: function() {
       modals.InstanceModals.report({
         instance: this.props.instance
       });
     },
 
-    onImageRequest: function () {
+    onImageRequest: function() {
       modals.InstanceModals.requestImage({
         instance: this.props.instance
       });
     },
 
-    onDelete: function () {
+    onDelete: function() {
       var project = this.props.project,
         instance = this.props.instance;
 
@@ -53,16 +53,21 @@ define(function (require) {
       });
     },
 
-    onReboot: function () {
+    onRedeploy: function(){
+      modals.InstanceModals.redeploy(this.props.instance);
+    },
+
+    onReboot: function(){
       modals.InstanceModals.reboot(this.props.instance);
     },
 
-    render: function () {
+    render: function() {
       var webShellUrl = this.props.instance.get('shell_url'),
-        remoteDesktopUrl = this.props.instance.get('vnc_url'),
-        status = this.props.instance.get('state').get('status'),
-        ip_address = this.props.instance.get('ip_address'),
-        webLinksDisabled = !ip_address || ip_address === "0.0.0.0";
+          remoteDesktopUrl = this.props.instance.get('vnc_url'),
+          status = this.props.instance.get('state').get('status'),
+          activity = this.props.instance.get('state').get('activity'),
+          ip_address = this.props.instance.get('ip_address'),
+          webLinksDisabled = !ip_address || ip_address === "0.0.0.0";
 
       // todo: Add back and implement reboot and resize once it's understood how to
       // I'm hiding from the display for now so as not to show users functionality
@@ -84,11 +89,18 @@ define(function (require) {
           linksArray.push({label: 'Suspend', icon: 'pause', onClick: this.onSuspend});
           linksArray.push({label: 'Stop', icon: 'stop', onClick: this.onStop});
           linksArray.push({label: 'Reboot', icon: 'repeat', onClick: this.onReboot});
+          linksArray.push({label: 'Redeploy', icon: 'repeat', onClick: this.onRedeploy});
         } else if (status === "suspended") {
           linksArray.push({label: 'Resume', icon: 'play', onClick: this.onResume});
         } else if (status === "shutoff") {
           linksArray.push({label: 'Start', icon: 'play', onClick: this.onStart});
         }
+      }
+
+      if ( activity === "deploying" || status === "deploying"
+        || activity === "deploy_error"|| status === "deploy_error"
+        || activity === "boot_script_error") {
+        linksArray.push({label: 'Redeploy', icon: 'repeat', onClick: this.onRedeploy});
       }
 
       linksArray = linksArray.concat([
@@ -110,7 +122,7 @@ define(function (require) {
         }
       ]);
 
-      var links = linksArray.map(function (link) {
+      var links = linksArray.map(function(link) {
         // Links without icons are generally section headings
         if (!link.icon) return (
           <li key={link.label} className="section-label">{link.label}</li>

@@ -5,6 +5,7 @@ define(function (require) {
     destroy: require('./instance/destroy').destroy,
     launch: require('./instance/launch').launch,
     reboot: require('./instance/reboot').reboot,
+    redeploy: require('./instance/redeploy').redeploy,
     report: require('./instance/report').report,
     requestImage: require('./instance/requestImage').requestImage,
     resume: require('./instance/resume').resume,

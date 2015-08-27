@@ -24,6 +24,12 @@ define(
           'networking': 60,
           'deploying': 70
         },
+        'hard_reboot': {
+          'rebooting-hard': 50
+        },
+        'reboot': {
+          'rebooting': 50
+        },
         'shutoff': {
           'powering-on': 50
         },

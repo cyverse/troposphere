@@ -33,9 +33,10 @@ define(function (require) {
           instance: instance,
           tag: tag
         });
-      }).fail(function () {
+      }).fail(function (response) {
         Utils.dispatch(TagConstants.REMOVE_TAG, {tag: tag}, {silent: false});
         Utils.dispatch(TagConstants.REMOVE_PENDING_TAG_FROM_INSTANCE, {tag: tag, instance: instance});
+        Utils.displayError({title: "Tag could not be created", response: response});
       });
 
       Utils.dispatch(TagConstants.ADD_PENDING_TAG_TO_INSTANCE, {tag: tag, instance: instance});

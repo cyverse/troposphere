@@ -1,6 +1,7 @@
 define(function (require) {
 
   var React = require('react/addons'),
+    $ = require('jquery'),
     Backbone = require('backbone');
 
   var ENTER_KEY = 13;
@@ -17,6 +18,7 @@ define(function (require) {
       placeholderText: React.PropTypes.string,
       models: React.PropTypes.instanceOf(Backbone.Collection),
       activeModels: React.PropTypes.instanceOf(Backbone.Collection),
+      requiredModels: React.PropTypes.array,
       onModelAdded: React.PropTypes.func.isRequired,
       onModelRemoved: React.PropTypes.func.isRequired,
       onEnterKeyPressed: React.PropTypes.func,
@@ -27,6 +29,7 @@ define(function (require) {
       return {
         models: new Backbone.Collection(),
         activeModels: new Backbone.Collection(),
+        requiredModels: [],
         placeholderText: "Search..."
       }
     },
@@ -82,6 +85,14 @@ define(function (require) {
       }
       //After callback, assume action Completed clear search.
       this.clearSearchField();
+    },
+    getFilteredResults: function(models, activeModels) {
+      var filteredResults = models.filter(function(model){
+        return activeModels.filter(function(activeModel){
+            return model.id === activeModel.id;
+          }).length === 0;
+      });
+      return filteredResults;
     },
 
     filterSearchResults: function () {
@@ -140,24 +151,42 @@ define(function (require) {
       if (this.getAllResultsAddedPhrase) phrase = this.getAllResultsAddedPhrase();
       return <li className="no-results">{phrase}</li>;
     },
+    _mergeModels: function(required_models, active_models) {
+      //Required models is a list, active models is a collection..
+      //ChosenMixinExternal will expect a collection.
+      if(!required_models || required_models.length == 0) {
+        if (this.props.activeModels instanceof Array)
+            return new Backbone.Collection(activeModels);
+        else 
+            return active_models;
+      }
 
+      var activeModels = _.union(
+            this.props.requiredModels,
+            (this.props.activeModels instanceof Array) ? this.props.activeModels : this.props.activeModels.toJSON()
+        ),
+      activeCollection = new Backbone.Collection(activeModels);
+      return activeCollection;
+    },
     //
     // Render
     //
     renderChosenSearchSelect: function () {
       var models = this.props.models,
-        activeModels = this.props.activeModels,
-        query = this.state.query,
-        selectedModels = activeModels.map(this.renderSelectedModel),
-        placeholderText = this.props.placeholderText,
-        filteredModels,
-        classes = React.addons.classSet({
-          'chosen-container-external': true,
-          'chosen-container-external-multi': true,
-          'chosen-with-drop': this.state.showOptions && query,
-          'chosen-container-external-active': this.state.showOptions
-        }),
-        results;
+          query = this.state.query,
+          activeCollection = this._mergeModels(
+              this.props.requiredModels,
+              this.props.activeModels),
+          selectedModels = activeCollection.map(this.renderSelectedModel),
+          placeholderText = this.props.placeholderText,
+          filteredModels,
+          classes = React.addons.classSet({
+            'chosen-container-external': true,
+            'chosen-container-external-multi': true,
+            'chosen-with-drop': this.state.showOptions && query,
+            'chosen-container-external-active': this.state.showOptions
+          }),
+          results;
 
       if (!models) {
         results = this.renderLoadingListItem(query);
@@ -169,10 +198,10 @@ define(function (require) {
         results = this.renderAllAddedListItem();
       } else {
         // filter out results that have already been added
-        filteredModels = models.filter(function (model) {
-          return activeModels.filter(function (activeModel) {
-              return model.id === activeModel.id;
-            }).length === 0;
+        filteredModels = models.filter(function(model){
+          return activeCollection.filter(function(activeModel){
+            return model.id === activeModel.id;
+          }).length === 0;
         });
         if (models.length > 0 && filteredModels.length === 0) {
           results = this.renderAlreadyAddedAllUsersMatchingQueryListItem(query);

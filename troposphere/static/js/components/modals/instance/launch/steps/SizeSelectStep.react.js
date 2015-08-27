@@ -1,140 +1,142 @@
 define(function (require) {
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    _ = require('underscore'),
-    stores = require('stores'),
-    InstanceSizeSelect = require('../components/InstanceSizeSelect.react');
+    var React = require('react/addons'),
+      Backbone = require('backbone'),
+      _ = require('underscore'),
+      stores = require('stores'),
+      InstanceSizeSelect = require('../components/InstanceSizeSelect.react');
 
-  var ENTER_KEY = 13;
-  var selectedSize, selectedIdentity;
+    var ENTER_KEY = 13;
+    var selectedSize, selectedIdentity;
 
-  return React.createClass({
-    propTypes: {
-      identity: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      size: React.PropTypes.instanceOf(Backbone.Model),
-      onPrevious: React.PropTypes.func.isRequired,
-      onNext: React.PropTypes.func.isRequired,
-    },
+    return React.createClass({
+      displayName: "InstanceLaunchWizardModal-SizeSelectStep",
 
-
-    getInitialState: function () {
-      return {
-        size: this.props.size
-      };
-    },
-    isSubmittable: function () {
-      var sizes = stores.SizeStore.getAll(),
-        providers = stores.ProviderStore.getAll(),
-        instances = stores.InstanceStore.getAll(),
-        identity = this.props.identity,
-        providerSizes,
-        size;
-
-      providerSizes = stores.SizeStore.fetchWhere({
-        provider__id: identity.get('provider').id,
-        page_size: 100
-      });
-
-      if (!providers || !sizes || !providerSizes || !instances) {
-        return false;
-      }
-
-      if (!this.state.size) {
-        return false;
-      }
-      var selectedSize = this.state.size;
-      var hasAllocationAvailable = this.hasAvailableAllocation(identity),
-        hasEnoughQuotaForCpu = this.hasEnoughQuotaForCpu(identity, selectedSize, sizes, instances),
-        hasEnoughQuotaForMemory = this.hasEnoughQuotaForMemory(identity, selectedSize, sizes, instances);
-
-      return (
-        hasAllocationAvailable &&
-        hasEnoughQuotaForCpu &&
-        hasEnoughQuotaForMemory
-      );
-    },
-
-    hasEnoughQuotaForCpu: function (identity, size, sizes, instances) {
-      var quota = identity.get('quota'),
-        maximumAllowed = quota.cpu,
-        projected = size.get('cpu'),
-        currentlyUsed = identity.getCpusUsed(instances, sizes);
-
-      return (projected + currentlyUsed) <= maximumAllowed;
-    },
-
-    hasEnoughQuotaForMemory: function (identity, size, sizes, instances) {
-      var quota = identity.get('quota'),
-        maximumAllowed = quota.memory,
-        projected = size.get('mem'),
-        currentlyUsed = identity.getMemoryUsed(instances, sizes);
-
-      return (projected + currentlyUsed) <= maximumAllowed;
-    },
-
-    hasAvailableAllocation: function (identity) {
-      var allocation = identity.get('allocation'),
-        allocationConsumed = allocation.current,
-        allocationTotal = allocation.threshold,
-        allocationRemaining = allocationTotal - allocationConsumed;
-
-      return allocationRemaining > 0;
-    },
+      propTypes: {
+            identity: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+            size: React.PropTypes.instanceOf(Backbone.Model),
+            onPrevious: React.PropTypes.func.isRequired,
+            onNext: React.PropTypes.func.isRequired,
+        },
 
 
-    componentDidMount: function () {
-      stores.ProviderStore.addChangeListener(this.updateState);
-      stores.IdentityStore.addChangeListener(this.updateState);
-      stores.SizeStore.addChangeListener(this.updateState);
-    },
+        getInitialState: function () {
+            return {
+                size: this.props.size
+            };
+        },
+        isSubmittable: function () {
+            var sizes = stores.SizeStore.getAll(),
+                providers = stores.ProviderStore.getAll(),
+                instances = stores.InstanceStore.getAll(),
+                identity = this.props.identity,
+                providerSizes,
+                size;
 
-    componentWillUnmount: function () {
-      stores.ProviderStore.removeChangeListener(this.updateState);
-      stores.IdentityStore.removeChangeListener(this.updateState);
-      stores.SizeStore.removeChangeListener(this.updateState);
-    },
+            providerSizes = stores.SizeStore.fetchWhere({
+                provider__id: identity.get('provider').id,
+                page_size: 100
+            });
 
-    //
-    // Internal Modal Callbacks
-    // ------------------------
-    //
+            if (!providers || !sizes || !providerSizes || !instances) {
+                return false;
+            }
 
-    confirm: function () {
-      //Test if information is valid before continuing
-      this.props.onNext(this.state)
-    },
-    onBack: function () {
-      this.props.onPrevious(this.state);
-    },
-    handleKeyDown: function (e) {
-      var text = e.target.value;
-      if (e.which === ENTER_KEY) {
-        e.preventDefault();
-      }
-    },
+            if(!this.state.size) {
+                return false;
+            }
+            var selectedSize = this.state.size;
+            var hasAllocationAvailable = this.hasAvailableAllocation(identity),
+                hasEnoughQuotaForCpu = this.hasEnoughQuotaForCpu(identity, selectedSize, sizes, instances),
+                hasEnoughQuotaForMemory = this.hasEnoughQuotaForMemory(identity, selectedSize, sizes, instances);
 
-    onSizeChange: function (e) {
-      var newSizeId = e.target.value;
-      var providerSizes = stores.SizeStore.fetchWhere({
-        provider__id: this.props.identity.get('provider').id,
-        page_size: 100
-      });
-      selectedSize = providerSizes.get(newSizeId);
-      this.setState({size: selectedSize});
-    },
+            return (
+            hasAllocationAvailable &&
+            hasEnoughQuotaForCpu &&
+            hasEnoughQuotaForMemory
+            );
+        },
 
-    //
-    // Render
-    // ------
-    //
+        hasEnoughQuotaForCpu: function (identity, size, sizes, instances) {
+            var quota = identity.get('quota'),
+                maximumAllowed = quota.cpu,
+                projected = size.get('cpu'),
+                currentlyUsed = identity.getCpusUsed(instances, sizes);
 
-    renderAllocationWarning: function (identity) {
-      if (!this.hasAvailableAllocation(identity)) {
-        return (
-          <div className="alert alert-danger">
-            <Glyphicon name='warning-sign'/>
-            <strong>{"Uh oh!"}</strong>
+            return (projected + currentlyUsed) <= maximumAllowed;
+        },
+
+        hasEnoughQuotaForMemory: function (identity, size, sizes, instances) {
+            var quota = identity.get('quota'),
+                maximumAllowed = quota.memory,
+                projected = size.get('mem'),
+                currentlyUsed = identity.getMemoryUsed(instances, sizes);
+
+            return (projected + currentlyUsed) <= maximumAllowed;
+        },
+
+        hasAvailableAllocation: function (identity) {
+            var allocation = identity.get('allocation'),
+                allocationConsumed = allocation.current,
+                allocationTotal = allocation.threshold,
+                allocationRemaining = allocationTotal - allocationConsumed;
+
+            return allocationRemaining > 0;
+        },
+
+
+        componentDidMount: function () {
+            stores.ProviderStore.addChangeListener(this.updateState);
+            stores.IdentityStore.addChangeListener(this.updateState);
+            stores.SizeStore.addChangeListener(this.updateState);
+        },
+
+        componentWillUnmount: function () {
+            stores.ProviderStore.removeChangeListener(this.updateState);
+            stores.IdentityStore.removeChangeListener(this.updateState);
+            stores.SizeStore.removeChangeListener(this.updateState);
+        },
+
+        //
+        // Internal Modal Callbacks
+        // ------------------------
+        //
+
+        confirm: function () {
+            //Test if information is valid before continuing
+            this.props.onNext(this.state)
+        },
+        onBack: function() {
+            this.props.onPrevious(this.state);
+        },
+        handleKeyDown: function (e) {
+            var text = e.target.value;
+            if (e.which === ENTER_KEY) {
+                e.preventDefault();
+            }
+        },
+
+        onSizeChange: function (e) {
+            var newSizeId = e.target.value;
+            var providerSizes = stores.SizeStore.fetchWhere({
+                provider__id: this.props.identity.get('provider').id,
+                page_size: 100
+            });
+            selectedSize = providerSizes.get(newSizeId);
+            this.setState({size: selectedSize});
+        },
+
+        //
+        // Render
+        // ------
+        //
+
+        renderAllocationWarning: function (identity) {
+            if (!this.hasAvailableAllocation(identity)) {
+                return (
+                    <div className="alert alert-danger">
+                        <Glyphicon name='warning-sign'/>
+                        <strong>{"Uh oh!"}</strong>
             {
               " Looks like you don't have any AUs available.  In order to launch instances, you need " +
               "to have AUs free.  You will be able to launch again once your AUs have been reset."

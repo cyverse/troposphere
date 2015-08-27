@@ -1,15 +1,16 @@
 define(function (require) {
     'use strict';
 
-    var $ = require('jquery'),
-        React = require('react/addons'),
+    var React = require('react/addons'),
         Profile = require('models/Profile'),
+        $ = require('jquery'),
         Router = require('../Router'),
         routes = require('./AppRoutes.react');
 
     // Register which stores the application should use
     var stores = require('stores');
     stores.ImageStore = require('stores/ImageStore');
+    stores.ImageVersionStore = require('stores/ImageVersionStore');
     stores.TagStore         = require('stores/TagStore');
     // Mock out the profile store with an empty profile
     stores.ProfileStore = {

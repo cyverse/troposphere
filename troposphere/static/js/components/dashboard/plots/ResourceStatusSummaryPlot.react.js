@@ -1,13 +1,13 @@
 
-define(function (require) {
-    var React = require("react"),
+define(function(require) {
+    var React = require("react/addons"),
         $ = require("jquery"),
         Backbone = require("backbone"),
         Highcharts = require("highcharts"),
         ResourceStatusTooltip= require("./tooltips/ResourceStatusTooltip.react");
 
     return React.createClass({
-      getInitialState: function () {
+      getInitialState: function() {
           return  {
               chart: undefined
           };
@@ -18,11 +18,11 @@ define(function (require) {
         resources: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
-      componentDidMount: function () {
+      componentDidMount: function() {
         this.appendPlot({animation: false});
       },
 
-      componentDidUpdate: function () {
+      componentDidUpdate: function() {
         var chart = this.state.chart
         var newChartTitle = this.props.resources.length + " " + this.props.title;
         var data = this.getChartData();
@@ -33,7 +33,7 @@ define(function (require) {
         });
       },
 
-      getChartData: function () {
+      getChartData: function() {
         var statusGroups = this.getStatusGroups();
         var categories = Object.keys(statusGroups);
 
@@ -48,9 +48,9 @@ define(function (require) {
         return data;
       },
 
-      getStatusGroups: function (options) {
+      getStatusGroups: function(options) {
         var statusGroups = {};
-        this.props.resources.map(function (resource) {
+        this.props.resources.map(function(resource) {
           var status = resource.get('state').get('status_raw');
           statusGroups[status] = (statusGroups[status] || 0);
           statusGroups[status] += 1;
@@ -59,12 +59,12 @@ define(function (require) {
         return statusGroups;
       },
 
-      appendPlot: function (options) {
+      appendPlot: function(options) {
         var title = this.props.title;
         var data = this.getChartData();
 
         var formatterComponent = React.createClass({
-          render: function () {
+          render: function() {
 
             return (
               <div>
@@ -129,7 +129,7 @@ define(function (require) {
         this.setState({chart: chart});
       },
 
-      render: function () {
+      render: function() {
         return (
           <div>
           </div>

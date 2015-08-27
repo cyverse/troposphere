@@ -2,6 +2,7 @@ define(function (require) {
 
   var React = require('react/addons'),
       Backbone = require('backbone'),
+      $ = require('jquery'),
       Router = require('react-router'),
       //Router = require('router'),
       // plugin: required but not used directly

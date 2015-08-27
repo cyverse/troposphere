@@ -40,15 +40,7 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 $link-color: $brand-primary;
 $tag-color: $brand-primary;
 
-// Bootstrap hack to keep Modal footer at bottom on min-height modals
-.modal-footer {
-  position:relative;
-  width:100%;
-  bottom:0;
-}
-.modal-content {
-  padding-bottom:75px;
-}
+
 //
 // Vendor Stylesheets
 // ------------------
@@ -59,6 +51,19 @@ $tag-color: $brand-primary;
 // toastr, for showing toast notifications
 @import "~toastr/toastr";
 
+// Bootstrap hack to keep Modal footer at bottom on min-height modals
+#modal {
+  .modal-footer {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+  }
+  .modal-body {
+    padding-bottom: 75px;
+    min-height: 600px;
+  }
+}
 //
 // Application specific styles
 // ---------------------------

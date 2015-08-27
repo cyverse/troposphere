@@ -1,4 +1,3 @@
-
 define(
   [
     'react',
@@ -16,9 +15,9 @@ define(
         };
       },
 
-      isSubmittable: function () {
-        var hasName = !!this.state.projectName;
-        var hasDescription = !!this.state.projectDescription;
+      isSubmittable: function(){
+        var hasName        = !!this.state.projectName.trim();
+        var hasDescription = !!this.state.projectDescription.trim();
         return hasName && hasDescription;
       },
 
@@ -109,4 +108,4 @@ define(
 
     });
 
-  });
+});

@@ -1,11 +1,10 @@
-
 define(
   [
     'react',
     'components/mixins/BootstrapModalMixin.react',
     'components/common/Glyphicon.react'
   ],
-  function(React, BootstrapModalMixin, Glyphicon) {
+  function (React, BootstrapModalMixin, Glyphicon) {
 
     return React.createClass({
       mixins: [BootstrapModalMixin],
@@ -15,21 +14,13 @@ define(
       // ------------------------
       //
 
-      cancel: function() {
+      cancel: function(){
         this.hide();
       },
 
-      confirm: function(reboot_type) {
+      confirm: function () {
         this.hide();
-        this.props.onConfirm(reboot_type);
-      },
-      confirmReboot: function() {
-        this.hide();
-        this.props.onConfirm("SOFT");
-      },
-      confirmHardReboot: function() {
-        this.hide();
-        this.props.onConfirm("HARD");
+        this.props.onConfirm();
       },
 
       //
@@ -37,23 +28,21 @@ define(
       // ------
       //
 
-      renderBody: function() {
+      renderBody: function(){
         return (
           <div>
             <p className='alert alert-warning'>
               <Glyphicon name='warning-sign'/>
               {" "}
-              <strong>WARNING</strong>
-              {" Rebooting an instance will cause it to temporarily shut down and become inaccessible during that time."}
+              <strong>NOTE</strong>
+              {" Redeploying an instance will allow you to fix intances that show up as 'active - deploy_error'. If after executing a 'redeploy' you find that your VM returns to the deploy_error state, please contact support."}
             </p>
-            <p>{"A 'Reboot' will send an 'ACPI Restart' request to the VM that will start the reboot process for your VM."}</p>
-            <p>{"If your VM does not respond to a 'Reboot', there is also the option to send a 'Hard Reboot' which will forcibly restart your VM."}</p>
-            <p>{"Select one of the two options below to reboot your instance."}</p>
+            <p>{"Would you like to redeploy this instance?"}</p>
           </div>
         );
       },
 
-      render: function() {
+      render: function () {
 
         return (
           <div className="modal fade">
@@ -61,7 +50,7 @@ define(
               <div className="modal-content">
                 <div className="modal-header">
                   {this.renderCloseButton()}
-                  <strong>Reboot Instance</strong>
+                  <strong>Redeploy Instance</strong>
                 </div>
                 <div className="modal-body">
                   {this.renderBody()}
@@ -70,11 +59,8 @@ define(
                   <button type="button" className="btn btn-danger" onClick={this.cancel}>
                     Cancel
                   </button>
-                  <button type="button" className="btn btn-primary" onClick={this.confirmReboot}>
-                    Reboot
-                  </button>
-                  <button type="button" className="btn btn-primary" onClick={this.confirmHardReboot}>
-                    Hard Reboot
+                  <button type="button" className="btn btn-primary" onClick={this.confirm}>
+                    Yes, Redeploy Instance
                   </button>
                 </div>
               </div>

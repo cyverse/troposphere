@@ -3,11 +3,7 @@ var path = require("path");
 var webpack = require("webpack");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-
 var plugins = [
-    new webpack.ProvidePlugin({
-      "jQuery": "jquery"
-    }),
     new ExtractTextPlugin("[name].css", { allChunks: true})
 ];
 
@@ -39,6 +35,7 @@ module.exports = {
   },
   module: {
     loaders: [
+      { test: /bootstrap-sass/, loader: "imports?jQuery=jquery" },
       { test: /\.js$/, loader: "babel", exclude: /node_modules/ },
       { test: /\.(scss|sass)$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader!sass-loader") },
       { test: /\.woff$/ , loader: "url?limit=10000&mimetype=application/font-woff" },

@@ -4,6 +4,7 @@ define(function (require) {
     Router = require('react-router');
 
   return React.createClass({
+    displayName: "CallToAction",
 
     propTypes: {
       title: React.PropTypes.string.isRequired,

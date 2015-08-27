@@ -28,11 +28,11 @@ define(
         var profile = stores.ProfileStore.get(),
             image = this.props.image;
 
-        if(profile.id && profile.get('username') === image.get('created_by').username){
+        if(profile.id && profile.get('username') === image.get('created_by').username || profile.get('is_staff')){
           return (
-            <div className="form-group clearfix">
-              <a className="pull-right"
-                 onClick={this.props.onEditImageDetails}>Edit details</a>
+            <div className="edit-link-row clearfix">
+              <a className="pull-right" onClick={this.props.onEditImageDetails}>
+                <span className="glyphicon glyphicon-pencil"></span> Edit details</a>
             </div>
           )
         }
@@ -46,10 +46,10 @@ define(
                       tags={this.props.tags}
             />
         )
+
         return (
           <div>
-
-            <div style={{marginBottom:"20px"}}>
+            <div>
               <NameView image={this.props.image}/>
               <CreatedView image={this.props.image}/>
               <AuthorView image={this.props.image}/>
@@ -63,4 +63,4 @@ define(
 
     });
 
-  });
+});

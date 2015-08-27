@@ -86,7 +86,9 @@ define(function (require) {
             activeModels={this.props.activeTags}
             onModelAdded={this.props.onTagAdded}
             onModelRemoved={this.props.onTagRemoved}
+            onModelCreated={this.props.onTagCreated}
             onEnterKeyPressed={this.onEnterKeyPressed}
+            onCreateNewTag={this.props.onCreateNewTag}
             onQueryChange={this.onQueryChange}
             placeholderText="Search by tag name..."
             />
