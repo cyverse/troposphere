@@ -30,11 +30,11 @@ define(function (require) {
       }
     },
 
-
     onEditChange: function(e) {
       var truth_value = (this.state.showCreateForm) ? false : true;
       this.setState({showCreateForm: truth_value});
     },
+
     onCreateTag: function(model) {
       this.props.onModelCreated(model);
       this.setState({showCreateForm: false});

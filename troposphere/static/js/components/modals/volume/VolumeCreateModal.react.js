@@ -25,12 +25,12 @@ define(
           isProviderInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(selectedIdentity.get('provider').id);
 
         // Disable the launch button if the user hasn't provided a name, size or identity for the volume
-        var hasProvider = !!this.state.identityId,
-          hasName = !!this.state.volumeName,
-          hasSize = !!this.state.volumeSize,
-          providerNotInMaintenance = !isProviderInMaintenance,
-          hasEnoughQuotaForStorage = this.hasEnoughQuotaForStorage(selectedIdentity, this.state.volumeSize, volumes),
-          hasEnoughQuotaForStorageCount = this.hasEnoughQuotaForStorageCount(selectedIdentity, volumes);
+        var hasProvider              = !!this.state.identityId,
+            hasName                  = !!this.state.volumeName.trim(),
+            hasSize                  = !!this.state.volumeSize,
+            providerNotInMaintenance = !isProviderInMaintenance,
+            hasEnoughQuotaForStorage = this.hasEnoughQuotaForStorage(selectedIdentity, this.state.volumeSize, volumes),
+            hasEnoughQuotaForStorageCount = this.hasEnoughQuotaForStorageCount(selectedIdentity, volumes);
 
         return (
           hasProvider &&
@@ -97,10 +97,10 @@ define(
       },
 
       confirm: function () {
-        var name = this.state.volumeName,
-          size = this.state.volumeSize,
-          identityId = this.state.identityId,
-          identity = stores.IdentityStore.get(identityId);
+        var name = this.state.volumeName.trim(),
+            size = this.state.volumeSize,
+            identityId = this.state.identityId,
+            identity = stores.IdentityStore.get(identityId);
 
         this.hide();
         this.props.onConfirm(name, size, identity);

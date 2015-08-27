@@ -98,37 +98,21 @@ define(function(require) {
 
       instanceHistoryItems = instanceHistories.map(function(instance) {
         var providerId = null,
-            imageId = null,
-            provider = null,
-            instanceId = instance.get('instance').id,
-            _instance= stores.InstanceStore.get(instanceId);
-        if(_instance) {
-            var instanceImage = _instance.get('image');
-            providerId = _instance.get('provider');
-            imageId = instanceImage.id;
-        } else {
-            providerId = null;
-            imageId = null;
-        }
-        if(providerId) {
-          provider = providerId ? stores.ProviderStore.get(providerId) : null;
-          provider = provider.get('name');
-        } else {
-          provider = null;
-        }
+            image = instance.get('image'),
+            provider = instance.get('provider'),
+            instanceId = instance.get('instance').id;
 
         var startDate = instance.get('start_date'),
-          endDate = instance.get('end_date'),
-          formattedStartDate = startDate.format("MMM DD, YYYY"),
-          formattedEndDate = endDate.format("MMM DD, YYYY"),
-          now = moment(),
-          timeSpan = now.diff(startDate, "days"),
-          instanceHistoryHash = CryptoJS.MD5((instance.id || instance.cid).toString()).toString(),
-          iconSize = 63,
-          type = stores.ProfileStore.get().get('icon_set'),
-          image = imageId ? stores.ImageStore.get(imageId) : null,
-          imageName = image ? image.get('name') : "[image no longer exists]",
-          imageLink;
+            endDate = instance.get('end_date'),
+            formattedStartDate = startDate.format("MMM DD, YYYY"),
+            formattedEndDate = endDate.format("MMM DD, YYYY"),
+            now = moment(),
+            timeSpan = now.diff(startDate, "days"),
+            instanceHistoryHash = CryptoJS.MD5((instance.id || instance.cid).toString()).toString(),
+            iconSize = 63,
+            type = stores.ProfileStore.get().get('icon_set'),
+            imageName = image ? image.name : "[image no longer exists]",
+            imageLink;
 
         if(!endDate.isValid()) formattedEndDate = "Present";
 
@@ -158,7 +142,7 @@ define(function(require) {
                     </div>
                     <span className="launch-info">
                       <strong>{timeSpan + " days ago"}</strong>
-                      {" on " + provider}
+                      {" on " + provider.name}
                     </span>
                   </div>
                 </li>

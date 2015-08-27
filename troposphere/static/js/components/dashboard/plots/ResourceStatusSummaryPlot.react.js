@@ -7,11 +7,7 @@ define(function(require) {
         ResourceStatusTooltip= require("./tooltips/ResourceStatusTooltip.react");
 
     return React.createClass({
-      getInitialState: function() {
-          return  {
-              chart: undefined
-          };
-      },
+      displayName: "ResourceStatusSummaryPlot",
 
       propTypes: {
         title: React.PropTypes.string.isRequired,
@@ -31,6 +27,12 @@ define(function(require) {
           data: data,
           animation: false
         });
+      },
+
+      getInitialState: function() {
+          return  {
+              chart: undefined
+          };
       },
 
       getChartData: function() {
@@ -108,12 +110,22 @@ define(function(require) {
             }
           ],
           tooltip: {
+<<<<<<< HEAD
             formatter: function () {
               var formatterComponent = ResourceStatusTooltip({
                 resourceName: title,
                 status: this.key,
                 count: this.y
               });
+=======
+            formatter: function() {
+              var formatterComponent = (
+                <ResourceStatusTooltip
+                    resourceName={title}
+                    status={this.key}
+                    count={this.y}
+                />);
+>>>>>>> hawaiian-hawk
               return React.renderToStaticMarkup(formatterComponent);
             }
           },

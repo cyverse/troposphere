@@ -23,7 +23,7 @@ define(function (require) {
 
         getInitialState: function () {
             return {
-                name: this.props.name,
+                name: this.props.name || "",
                 version: this.props.version,
                 identity: this.props.identity,
                 allVersions: stores.ImageStore.getVersions(this.props.image.id),
@@ -37,11 +37,15 @@ define(function (require) {
                 allocationUsageStats = this.calculateAllocationUsage(allocation);
             //TODO: Short-circuit on isStaff
 
-            return (this.state.name && this.state.version && this.state.identity && allocationUsageStats.percentUsed < 1);
+            return (this.state.name.trim() && this.state.version && this.state.identity && allocationUsageStats.percentUsed < 1);
         },
         confirm: function () {
-            //Test if information is valid before continuing
-            this.props.onNext(this.state);
+            var name = this.state.name.trim(),
+                version = this.state.version,
+                identity = this.state.identity,
+                allVersions = this.state.allVersions;
+            
+            this.props.onNext({name: name, version: version, identity: identity, allVersions: allVersions});
         },
         onBack: function () {
             this.props.onPrevious(this.state);
