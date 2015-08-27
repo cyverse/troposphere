@@ -50,3 +50,6 @@ class UserPreferences(models.Model):
     show_beta_interface = models.BooleanField(default=False)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return "%s" % self.user.username
