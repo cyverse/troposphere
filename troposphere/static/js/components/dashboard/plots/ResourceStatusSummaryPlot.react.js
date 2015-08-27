@@ -110,14 +110,6 @@ define(function(require) {
             }
           ],
           tooltip: {
-<<<<<<< HEAD
-            formatter: function () {
-              var formatterComponent = ResourceStatusTooltip({
-                resourceName: title,
-                status: this.key,
-                count: this.y
-              });
-=======
             formatter: function() {
               var formatterComponent = (
                 <ResourceStatusTooltip
@@ -125,7 +117,6 @@ define(function(require) {
                     status={this.key}
                     count={this.y}
                 />);
->>>>>>> hawaiian-hawk
               return React.renderToStaticMarkup(formatterComponent);
             }
           },
