@@ -1,7 +1,9 @@
 define(function (require) {
 
-  var BaseStore = require('stores/BaseStore'),
-      LicenseCollection = require('collections/LicenseCollection');
+  var Dispatcher = require('dispatchers/Dispatcher'),
+    BaseStore = require('stores/BaseStore'),
+    LicenseConstants= require('constants/LicenseConstants'),
+    LicenseCollection = require('collections/LicenseCollection');
 
   var LicenseStore = BaseStore.extend({
     collection: LicenseCollection,
@@ -39,6 +41,36 @@ define(function (require) {
   });
 
   var store = new LicenseStore();
+
+  Dispatcher.register(function (dispatch) {
+    var actionType = dispatch.action.actionType;
+    var payload = dispatch.action.payload;
+    var options = dispatch.action.options || options;
+
+    switch (actionType) {
+
+      case LicenseConstants.ADD_LICENSE:
+        store.add(payload.license);
+        break;
+
+      case LicenseConstants.UPDATE_LICENSE:
+        store.update(payload.license);
+        break;
+
+      case LicenseConstants.REMOVE_LICENSE:
+        store.remove(payload.license);
+        break;
+
+      default:
+        return true;
+    }
+
+    if(!options.silent) {
+      store.emitChange();
+    }
+
+    return true;
+  });
 
   return store;
 });

@@ -6,9 +6,9 @@ define(function (require) {
     stores = require('stores');
 
   return React.createClass({
+    displayName: "ImageWizard-FilesToExcludeStep",
 
     propTypes: {
-      instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
       filesToExclude: React.PropTypes.string
     },
 

@@ -7,7 +7,7 @@ define(function(require) {
       stores = require('stores');
 
   return React.createClass({
-    displayName: "VersionInfoStep",
+    displayName: "ImageWizard-VersionInfoStep",
 
     propTypes: {
       versionName: React.PropTypes.string.isRequired,
@@ -75,6 +75,7 @@ define(function(require) {
             value={this.state.versionName}
             onChange={this.onVersionNameChange}
             />
+            <hr />
           <VersionChanges
             value={this.state.versionChanges}
             onChange={this.onDescriptionChange}

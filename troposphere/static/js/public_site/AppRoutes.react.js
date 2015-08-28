@@ -7,11 +7,11 @@ define(function (require) {
     DefaultRoute = Router.DefaultRoute;
 
   var Master = require('components/Master.react'),
-    ImageListPage = require('components/images/ImageListPage.react'),
-    ImageDetailsPage = require('components/images/ImageDetailsPage.react'),
-    HelpPage = require('components/help/HelpPage.react'),
-    ImageTagsPage = require('components/images/ImageTagsPage.react'),
-    ImagesMaster = require('components/images/ImagesMaster.react');
+      HelpPage = require('components/help/HelpPage.react'),
+      ImageListPage = require('components/images/ImageListPage.react'),
+      ImageDetailsPage = require('components/images/ImageDetailsPage.react'),
+      ImageTagsPage = require('components/images/ImageTagsPage.react'),
+      ImagesMaster = require('components/images/ImagesMaster.react');
 
   var AppRoutes = (
     <Route name="root" path="/image" handler={Master}>

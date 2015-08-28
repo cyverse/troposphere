@@ -1,0 +1,60 @@
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = {{ DEBUG }}
+TEMPLATE_DEBUG = {{ DEBUG }}
+
+SECRET_KEY="{{ SECRET_KEY }}"
+SERVER_URL="{{ SERVER_URL }}"
+BASE_URL= "{{ BASE_URL }}"
+ALLOWED_HOSTS = [SERVER_URL.replace("https://",""), "localhost"]
+
+SITE_TITLE= "{{ SITE_TITLE}}"
+SITE_FOOTER= "{{ SITE_FOOTER }}"
+THEME_NAME="{{ THEME_NAME }}"
+
+# DATABASE
+DATABASES = {
+    "default": {
+        'NAME': '{{ DATABASE_NAME }}',
+        'ENGINE': '{{ DATABASE_ENGINE }}',
+        'USER': '{{ DATABASE_USER }}',
+        'CONN_MAX_AGE': {{ DATABASE_CONN_MAX_AGE }},
+        'PASSWORD': '{{ DATABASE_PASSWORD }}',
+        'HOST': '{{ DATABASE_HOST }}',
+        'PORT': {{ DATABASE_PORT }}
+    },
+}
+
+# Authentication
+CAS_SERVER = "{{ CAS_SERVER }}"
+CAS_AUTH_PREFIX = "{{ CAS_AUTH_PREFIX }}"
+
+OAUTH_CLIENT_KEY = "{{ OAUTH_CLIENT_KEY }}"
+OAUTH_CLIENT_SECRET = "{{ OAUTH_CLIENT_SECRET }}"
+OAUTH_CLIENT_CALLBACK = "{{ OAUTH_CLIENT_CALLBACK }}"
+
+# atmosphere must include the metrics endpoint
+SHOW_INSTANCE_METRICS = {{ SHOW_INSTANCE_METRICS }}
+{% if BADGE_HOST %}
+
+# Host for authenticating a badge request
+BADGE_HOST = "{{ BADGE_HOST }}"
+
+# Host for Badgekit API
+BADGE_API_HOST = "{{ BADGE_API_HOST }}"
+
+# Badgekit slug for the system your badges belong to
+BADGE_SYSTEM_SLUG = "{{ BADGE_SYSTEM_SLUG }}"
+
+# Readable name of your badge system
+BADGE_SYSTEM_NAME = "{{ BADGE_SYSTEM_NAME }}"
+
+# Badge secret used for badge authentication server
+BADGE_SECRET = "{{ BADGE_SECRET }}"
+{% endif %}
+
+# MOCK - Uncomment these lines to allow one-user-only access. Useful for debug/development
+# ALWAYS_AUTH_USER = "test_user"
+# # Use MockLoginBackend first!
+# AUTHENTICATION_BACKENDS += (
+#     'troposphere.auth_backends.MockLoginBackend',
+# )

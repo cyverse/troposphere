@@ -44,8 +44,8 @@ define(function (require) {
       return this.renderStat(allocationPercent, usedOverTotal, "AUs currently used");
     },
 
-    renderStats: function (identity, instances, sizes) {
-      var allocation = identity.get('allocation');
+    renderStats: function(identity, instances, sizes){
+      var allocation = identity.get('usage');
       var allocationConsumed = allocation.current;
       var allocationTotal = allocation.threshold;
       var allocationRemaining = allocationTotal - allocationConsumed;

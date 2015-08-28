@@ -17,17 +17,19 @@ define(function (require) {
 
       ModalHelpers.renderModal(InstanceLaunchWizardModal, props, function (launchData) {
         var size = launchData.size,
-          version = launchData.version,
-          identity = launchData.identity,
-          name = launchData.name,
-          project = launchData.project;
+            version = launchData.version,
+            identity = launchData.identity,
+            name = launchData.name,
+            project = launchData.project,
+            scripts = launchData.activeScripts;
 
         actions.InstanceActions.launch({
           project: project,
           instanceName: name,
           identity: identity,
           size: size,
-          version: version
+          version: version,
+          scripts: scripts
         });
       });
     }

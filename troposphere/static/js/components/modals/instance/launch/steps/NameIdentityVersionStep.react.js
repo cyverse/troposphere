@@ -9,7 +9,7 @@ define(function (require) {
         IdentitySelect = require('../components/IdentitySelect.react');
 
     return React.createClass({
-        displayName: "NameIdentityVersionStep",
+      displayName: "InstanceLaunchWizardModal-NameIdentityVersionStep",
 
         propTypes: {
             image: React.PropTypes.instanceOf(Backbone.Model),
@@ -23,7 +23,7 @@ define(function (require) {
 
         getInitialState: function () {
             return {
-                name: this.props.name,
+                name: this.props.name || "",
                 version: this.props.version,
                 identity: this.props.identity,
                 allVersions: stores.ImageStore.getVersions(this.props.image.id),
@@ -37,11 +37,15 @@ define(function (require) {
                 allocationUsageStats = this.calculateAllocationUsage(allocation);
             //TODO: Short-circuit on isStaff
 
-            return (this.state.name && this.state.version && this.state.identity && allocationUsageStats.percentUsed < 1);
+            return (this.state.name.trim() && this.state.version && this.state.identity && allocationUsageStats.percentUsed < 1);
         },
         confirm: function () {
-            //Test if information is valid before continuing
-            this.props.onNext(this.state);
+            var name = this.state.name.trim(),
+                version = this.state.version,
+                identity = this.state.identity,
+                allVersions = this.state.allVersions;
+            
+            this.props.onNext({name: name, version: version, identity: identity, allVersions: allVersions});
         },
         onBack: function () {
             this.props.onPrevious(this.state);
@@ -49,6 +53,7 @@ define(function (require) {
         componentDidMount: function () {
             stores.IdentityStore.addChangeListener(this.updateState);
             stores.ProviderMachineStore.addChangeListener(this.updateState);
+            this.focusInput();
         },
 
         componentWillUnmount: function () {
@@ -97,6 +102,15 @@ define(function (require) {
             };
         },
         renderAllocationConsumption: function (identity) {
+            if (!identity) {
+                var overage_message = (
+                    <div>
+                        <strong>Select another Provider.</strong>
+                        <span>{" Choose another provider to launch a new instance."}</span>
+                    </div>
+                );
+                return this.renderProgressBar("No Identity Selected", 101, 0, overage_message);
+            }
             var allocation = identity.get('usage'),
             // Allocation Usage
                 allocationUsageStats = this.calculateAllocationUsage(allocation),
@@ -146,30 +160,37 @@ define(function (require) {
             );
         },
 
-
+        focusInput: function() {
+          var nameField = this.refs.nameField;
+          if(nameField) {
+            nameField.getDOMNode().focus();
+          }
+        },
         renderBody: function () {
             var image = this.props.image,
+                identityID,
                 identities = stores.IdentityStore.getAll(),
                 providers = stores.ProviderStore.getAll(),
                 versions = stores.ImageStore.getVersions(image.id);
-                // versions = image.get('provider_images');
 
             if (!providers || !identities || !versions) return <div className="loading"></div>;
 
             // don't show duplicate images
             versions = this.cleanVersions(versions);
-
-            // remove identities whose provider has no versions
-            // identities = new identities.constructor(identities.filter(function (i) {
-            //     return versions.find(function (m) {
-            //         return m.get('provider').id === i.get('provider').id;
-            //     });
-            // }));
-            if (!this.state.identity) {
-                this.state.identity = identities.first();
-            }
+            //Keep things in order
+            versions = versions.sort();
+            identities = identities.sort();
             if (!this.state.version) {
-                this.state.version = versions.first();
+                this.state.version = versions.last();
+            }
+            if (!this.state.identity) {
+                //NOTE: DO NOT set an identity if no version can be found.
+                if(this.state.version) {
+                    this.state.identity = identities.first();
+                    identityID = this.state.identity.id;
+                } else {
+                    identityID = -1;
+                }
             }
 
             return (
@@ -180,6 +201,7 @@ define(function (require) {
                             <label htmlFor='instance-launch-name' className="col-sm-3 control-label">Instance Name</label>
                             <div className="col-sm-9">
                                 <input
+                                    ref="nameField"
                                     type='text'
                                     className='form-control'
                                     id='instance-launch-name'
@@ -199,17 +221,11 @@ define(function (require) {
                                 />
                             </div>
                         </div>
-                        {
-                        //TODO: Include some interesting information about Selected version here?
-                        //IDEAS: Description
-                        //TODO: Include some interesting information about Selected Identity here?
-                        // IDEAS: Current Allocation Usage?
-                        }
                         <div className='form-group'>
                             <label htmlFor='identity' className="col-sm-3 control-label">Provider</label>
                             <div className="col-sm-9">
                                 <IdentitySelect
-                                    identityId={this.state.identity.id}
+                                    identityId={identityID}
                                     identities={identities}
                                     providers={providers}
                                     onChange={this.onIdentityChange}

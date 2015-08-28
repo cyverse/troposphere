@@ -1,6 +1,8 @@
 define(function (require) {
 
-  var BaseStore = require('stores/BaseStore'),
+  var Dispatcher = require('dispatchers/Dispatcher'),
+      BaseStore = require('stores/BaseStore'),
+      ScriptConstants= require('constants/ScriptConstants'),
       ScriptCollection = require('collections/ScriptCollection');
 
   var ScriptStore = BaseStore.extend({
@@ -39,6 +41,36 @@ define(function (require) {
   });
 
   var store = new ScriptStore();
+
+  Dispatcher.register(function (dispatch) {
+    var actionType = dispatch.action.actionType;
+    var payload = dispatch.action.payload;
+    var options = dispatch.action.options || options;
+
+    switch (actionType) {
+
+      case ScriptConstants.ADD_SCRIPT:
+        store.add(payload.script);
+        break;
+
+      case ScriptConstants.UPDATE_SCRIPT:
+        store.update(payload.script);
+        break;
+
+      case ScriptConstants.REMOVE_SCRIPT:
+        store.remove(payload.script);
+        break;
+
+      default:
+        return true;
+    }
+
+    if(!options.silent) {
+      store.emitChange();
+    }
+
+    return true;
+  });
 
   return store;
 });

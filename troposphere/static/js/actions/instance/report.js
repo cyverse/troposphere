@@ -3,6 +3,7 @@ define(function (require) {
 
   var stores = require('stores'),
     globals = require('globals'),
+    $ = require('jquery'),
     Utils = require('../Utils');
 
   return {

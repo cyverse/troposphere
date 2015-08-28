@@ -18,13 +18,30 @@
     font-size: 80%;
     margin-left: 8px;
     letter-spacing: .1em;
+    @media (max-width:500px){
+        content:"/ BETA";
+        position:absolute;
+        top:21px;
+        left: 36px;
+        background:none;
+        font-size:10px;
+    }
+
   }
 }
 
-.navbar-nav > li > a.beta-toggle {
+.beta-toggle {
+  position: absolute;
+  right:120px;
+  top:0;
   padding-top: 16px;
   padding-bottom: 9px;
-
+  @media (max-width:1200px) {
+    right:0;
+  }
+  @media (max-width:762px) {
+    right:72px;
+  }
   .toggle-wrapper {
     position: relative;
     padding-top: 1px;
@@ -78,4 +95,14 @@
 .navbar-default .navbar-nav > li > a.active:focus {
   color: $navbar-default-link-active-color;
   background-color: $navbar-default-link-active-bg;
+}
+.container > .navbar-header {
+  @media (min-width:768px) and (max-width:1200px) {
+    width:100%;
+  }
+}
+.navbar-default {
+  .container {
+    position: relative;
+  }
 }

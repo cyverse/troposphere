@@ -7,6 +7,7 @@ define(
 
     // Resource Details
     './details/Id.react',
+    './details/Alias.react',
     './details/Status.react',
     './details/Size.react',
     './details/IpAddress.react',
@@ -14,7 +15,7 @@ define(
     './details/CreatedFrom.react',
     './details/Identity.react'
   ],
-  function (React, Backbone, ResourceDetail, Id, Status, Size, IpAddress, LaunchDate, CreatedFrom, Identity) {
+  function (React, Backbone, ResourceDetail, Id, Alias, Status, Size, IpAddress, LaunchDate, CreatedFrom, Identity) {
 
     return React.createClass({
 
@@ -36,6 +37,7 @@ define(
               <CreatedFrom instance={instance}/>
               <Identity instance={instance}/>
               <Id instance={instance}/>
+              <Alias instance={instance}/>
             </ul>
           </div>
         );

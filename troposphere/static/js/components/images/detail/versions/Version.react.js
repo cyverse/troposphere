@@ -19,7 +19,7 @@ define(function (require) {
       editable: React.PropTypes.bool,
       showAvailability: React.PropTypes.bool,
     },
-    getDefaultPropTypes: function(){
+    getDefaultProps: function(){
       return {
         showAvailability: true,
         editable: true
@@ -52,10 +52,10 @@ define(function (require) {
          }
          var username = profile.get('username');
          //TODO: Bring up discrepencies in the API here..
-         if (username === version.get('user').username || username === image.get('created_by').username) {
+         if (username === version.get('user').username || username === image.get('created_by').username || profile.get('is_staff')) {
              return (
                  <div className="edit-link-row">
-                     <a className="edit-link" onClick={this.onEditClicked}>Edit Version</a>
+                     <a className="edit-link" onClick={this.onEditClicked}><span className="glyphicon glyphicon-pencil"></span> Edit Version</a>
                  </div>
              )
          }

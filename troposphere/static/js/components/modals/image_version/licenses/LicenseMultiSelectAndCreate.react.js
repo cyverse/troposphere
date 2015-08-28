@@ -82,15 +82,6 @@ define(function (require) {
           />);
       }
     },
-    getFilteredResults: function(models, activeModels) {
-
-      var filteredResults = models.filter(function(model){
-        return activeModels.filter(function(activeModel){
-            return model.id === activeModel.id;
-          }).length === 0;
-      });
-      return filteredResults;
-    },
     onEditChange: function(e) {
       var truth_value = (this.state.showCreateForm) ? false : true;
       this.setState({showCreateForm: truth_value});
@@ -156,7 +147,10 @@ define(function (require) {
             {this.renderChosenSearchSelect()}
           </div>
           <div className="form-group clearfix">
-            <button onClick={this.onEditChange} type="button" className="btn btn-default btn-sm pull-right">{showFormButtonText}</button>
+            <button onClick={this.onEditChange} type="button" 
+                    className="btn btn-default btn-sm pull-right">
+                    {showFormButtonText}
+            </button>
           </div>
           {this.renderCreateForm(createButtonText)}
         </div>

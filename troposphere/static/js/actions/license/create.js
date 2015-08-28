@@ -31,6 +31,7 @@ define(function (require) {
       }).fail(function () {
         Utils.dispatch(LicenseConstants.REMOVE_LICENSE, {license: license}, {silent: false});
       });
+      return license;
     }
 
   };

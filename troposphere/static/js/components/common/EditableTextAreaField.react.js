@@ -1,6 +1,7 @@
 define(function (require) {
 
-  var React = require('react/addons');
+  var React = require('react/addons'),
+    $ = require('jquery');
 
   return React.createClass({
 

@@ -26,14 +26,14 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
         'disable_login': disabled_login,
         'show_troposphere_only': show_troposphere_only
     }
-
-    template_params['THEME_HEADER_TEXT'] = settings.THEME_HEADER_TEXT
-    template_params['THEME_FAVICON'] = settings.THEME_FAVICON
-    template_params['THEME_CSS_FILE'] = settings.THEME_CSS_FILE
-    template_params['THEME_LOGO'] = settings.THEME_LOGO
-    template_params['THEME_FOOTER_TEXT'] = settings.THEME_FOOTER_TEXT
+    template_params['SITE_TITLE'] = settings.SITE_TITLE
+    template_params['SITE_FOOTER'] = settings.SITE_FOOTER
     template_params['UI_VERSION'] = settings.UI_VERSION
     template_params['BADGE_HOST'] = getattr(settings, "BADGE_HOST", None)
+
+    #TODO: Replace this line when theme support is re-enabled.
+    template_params["THEME_URL"] = "assets/"
+    #template_params["THEME_URL"] = "assets/themes/%s" % settings.THEME_NAME
 
     if hasattr(settings, "BASE_URL"):
         template_params['BASE_URL'] = settings.BASE_URL
@@ -82,14 +82,12 @@ def _handle_authenticated_application_request(request, maintenance_records):
         'emulated_by': request.session.get('emulated_by'),
         'records': maintenance_records,
         'show_troposphere_only': show_troposphere_only,
-        'show_instance_metrics': show_instance_metrics
+        'show_instance_metrics': show_instance_metrics,
+        'disable_login': False,
     }
 
-    template_params['THEME_HEADER_TEXT'] = settings.THEME_HEADER_TEXT
-    template_params['THEME_FAVICON'] = settings.THEME_FAVICON
-    template_params['THEME_CSS_FILE'] = settings.THEME_CSS_FILE
-    template_params['THEME_LOGO'] = settings.THEME_LOGO
-    template_params['THEME_FOOTER_TEXT'] = settings.THEME_FOOTER_TEXT
+    template_params['SITE_TITLE'] = settings.SITE_TITLE
+    template_params['SITE_FOOTER'] = settings.SITE_FOOTER
     template_params['UI_VERSION'] = settings.UI_VERSION
     template_params['BADGE_HOST'] = getattr(settings, "BADGE_HOST", None)
     template_params['BADGES_ENABLED'] = settings.BADGES_ENABLED
@@ -99,6 +97,9 @@ def _handle_authenticated_application_request(request, maintenance_records):
         template_params['intercom_company_id'] = settings.INTERCOM_COMPANY_ID
         template_params['intercom_company_name'] = settings.INTERCOM_COMPANY_NAME
 
+    #TODO: Replace this line when theme support is re-enabled.
+    template_params["THEME_URL"] = "assets"
+    #template_params["THEME_URL"] = "assets/themes/%s" % settings.THEME_NAME
     if hasattr(settings, "BASE_URL"):
         template_params['BASE_URL'] = settings.BASE_URL
 

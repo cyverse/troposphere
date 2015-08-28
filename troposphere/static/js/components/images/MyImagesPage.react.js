@@ -1,4 +1,4 @@
-define(function (require) {
+define(function(require) {
 
   var React = require('react/addons'),
     SecondaryImageNavigation = require('./common/SecondaryImageNavigation.react'),
@@ -7,7 +7,7 @@ define(function (require) {
 
   return React.createClass({
 
-    renderBody: function () {
+    renderBody: function() {
       var profile = stores.ProfileStore.get(),
         images = stores.ImageStore.fetchWhere({
           created_by__username: profile.get('username')
@@ -38,7 +38,7 @@ define(function (require) {
       );
     },
 
-    render: function () {
+    render: function() {
       return (
         <div className="container">
           {this.renderBody()}

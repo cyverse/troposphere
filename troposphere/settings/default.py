@@ -7,6 +7,7 @@ https://docs.djangoproject.com/en/1.6/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
+UI_VERSION = "Hawaiian Hawk"
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
@@ -105,14 +106,16 @@ LOGGING = {
     },
 }
 
-# STATIC_URL && DIRS == assets; where post-processed files go..
-STATIC_URL = '%s/assets/' % BASE_URL
+# The ROOT PATH for ALL (app + dependencies) static files.
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+# The SERVER PATH for ALL (app + dependencies) static files.
+STATIC_URL = '/assets/'
+
+#STATIC generated files from troposphere to be added to STATIC_ROOT
+#STATICFILES_DIRS should NOT contain the STATIC_ROOT
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'assets/'),
-)
-# STATIC_ROOT must != assets
-# Additionally, the folder should be empty & outside of Version Control
-STATIC_ROOT = '/tmp_static/'
+        os.path.join(BASE_DIR, 'assets/'),
+    )
 
 REST_FRAMEWORK = {
     # 'DEFAULT_RENDERER_CLASSES': (
@@ -144,10 +147,3 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'troposphere.auth_backends.OAuthLoginBackend'
 )
-
-THEME_HEADER_TEXT = 'Atmosphere'
-THEME_LOGO = '/assets/images/mini_logo.png'
-THEME_FAVICON = '/assets/images/favicon.ico'
-THEME_CSS_FILE = '/assets/css/app/app.css'
-THEME_FOOTER_TEXT = "iPlant Collaborative"
-UI_VERSION = 'Hawaiian Hawk'

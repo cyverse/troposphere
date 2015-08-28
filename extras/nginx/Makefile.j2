@@ -1,52 +1,37 @@
-SERVER_URL=$(shell hostname -f)
+TROPOSPHERE_PATH={{TROPOSPHERE_PATH}}
+BUNDLE_PATH={{ CERT_DIR }}/{{ BUNDLE_FILE }}
+CERT_PATH={{ CERT_DIR }}/{{ CERT_FILE }}
+COMBINED_CERT_PATH={{ CERT_DIR }}/{{ COMBINED_CERT_FILE }}
+DHPARAM={{ DHPARAM }}
+LOCATIONS_DIR={{ LOCATIONS_DIR }}
+KEY_PATH={{ KEY_PATH }}/{{ KEY_FILE }}
+KEY_SIZE={{ KEY_SIZE }}
+SERVER_URL={{ SERVER_URL }}
+SITES_AVAILABLE_DIR={{ SITES_AVAILABLE_DIR }}
+SITES_ENABLED_DIR= {{ SITES_ENABLED_DIR }}
+VIRTUALENV_PATH={{ VIRTUALENV_PATH }}
 
-CERT_DIR=/etc/ssl/certs
-CERT_FILE=iplantc.org.crt
-CERT_PATH=$(CERT_DIR)/$(CERT_FILE)
-
-COMBINED_CERT_FILE=iplantc_combined.crt
-COMBINED_CERT_PATH=$(CERT_DIR)/$(COMBINED_CERT_FILE)
-
-BUNDLE_FILE=gd_bundle.crt
-BUNDLE_PATH=$(CERT_DIR)/$(BUNDLE_FILE)
-
-KEY_FILE=iplantc.key
-KEY_PATH=/etc/ssl/private/$(KEY_FILE)
-
-TROPOSPHERE_PATH=/opt/dev/troposphere
 ASSETS_PATH=$(TROPOSPHERE_PATH)/troposphere/assets
-
-SITES_AVAILABLE_DIR=/etc/nginx/sites-available
-SITES_ENABLED_DIR=/etc/nginx/sites-enabled
-LOCATIONS_DIR=/etc/nginx/locations
-
-DHPARAM=/etc/ssl/certs/dhparam.pem
-KEY_SIZE=2048
 
 SITE_FILE=site.conf
 SITE_CONFIG=$(TROPOSPHERE_PATH)/extras/nginx/$(SITE_FILE)
 TROPO_FILE=tropo.conf
 TROPO_CONFIG=$(TROPOSPHERE_PATH)/extras/nginx/locations/$(TROPO_FILE)
 
-.PHONY: all clean
+.PHONY: all clean setup setup-site setup-tropo deploy deploy-tropo
 
 all: deploy
-
-copy:
-	cp $(SITE_CONFIG).dist $(SITE_CONFIG)
-	cp $(TROPO_CONFIG).dist $(TROPO_CONFIG)
 
 $(DHPARAM):
 	openssl dhparam -out $(DHPARAM) $(KEY_SIZE)
 
-setup: copy setup-tropo
-	sed -i "s#@SERVER_URL#$(SERVER_URL)#g" $(SITE_CONFIG)
-	sed -i "s#@COMBINED_CERT_PATH#$(COMBINED_CERT_PATH)#g" $(SITE_CONFIG)
-	sed -i "s#@KEY_PATH#$(KEY_PATH)#g" $(SITE_CONFIG)
-	sed -i "s#@DHPARAM#$(DHPARAM)#g" $(SITE_CONFIG)
+setup: setup-site setup-tropo
+
+setup-site:
+	$(VIRTUALENV_PATH)/bin/python $(TROPOSPHERE_PATH)/scripts/generate_configs.py -c nginx-site
 
 setup-tropo:
-	sed -i "s#@ASSETS_PATH#$(ASSETS_PATH)#g" $(TROPO_CONFIG)
+	$(VIRTUALENV_PATH)/bin/python $(TROPOSPHERE_PATH)/scripts/generate_configs.py -c nginx-tropo
 
 $(COMBINED_CERT_PATH):
 	cat $(CERT_PATH) $(BUNDLE_PATH) > $(COMBINED_CERT_PATH)

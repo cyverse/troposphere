@@ -11,9 +11,10 @@ define(function (require) {
       timerDelay = 100;
 
     return React.createClass({
+      displayName: "InstanceLaunchWizardModal-ImageSelectStep",
 
 
-        //
+      //
         // Mounting & State
         // ----------------
         //a
