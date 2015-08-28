@@ -104,10 +104,15 @@ LOGGING = {
     },
 }
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
-STATIC_URL = '/assets/'
+# The ROOT PATH for ALL (app + dependencies) static files.
+STATIC_ROOT = os.path.join(BASE_DIR, "tropo-static")
+# The SERVER PATH for ALL (app + dependencies) static files.
+STATIC_URL = '/tropo-static/'
+
+#STATIC generated files from troposphere to be added to STATIC_ROOT
+#STATICFILES_DIRS should NOT contain the STATIC_ROOT
 STATICFILES_DIRS = (
-        os.path.join(BASE_DIR,'assets/'),
+        os.path.join(BASE_DIR, 'assets/'),
     )
 
 REST_FRAMEWORK = {

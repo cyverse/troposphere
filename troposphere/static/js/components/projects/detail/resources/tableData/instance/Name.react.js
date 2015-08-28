@@ -14,7 +14,8 @@ define(function (require) {
     },
 
     render: function () {
-      var instance = this.props.instance;
+      var instance = this.props.instance,
+          name = instance.get('name').trim() || "[no instance name]";
 
       if(!instance.id) {
         return (
@@ -24,7 +25,7 @@ define(function (require) {
 
       return (
         <Router.Link to="project-instance-details" params={{projectId: this.getParams().projectId, instanceId: instance.id}}>
-          {instance.get('name')}
+          {name}
         </Router.Link>
       );
     }
