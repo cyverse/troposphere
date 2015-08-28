@@ -16,6 +16,8 @@ define(function (require) {
         previous: response.previous
      };
       return response.instances.map(function(instance){
+        instance.badge.assertionUrl = instance.assertionUrl;
+        instance.badge.issuedOn = instance.issuedOn;
         return instance.badge;
       });
     }
