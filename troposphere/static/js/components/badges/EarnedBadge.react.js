@@ -11,6 +11,11 @@ define(function (require) {
     renderBadgeDetail: function(e){
       e.preventDefault();
       modals.BadgeModals.showMyBadge(this.props.badge);
+    
+    },
+    
+    handleClick: function(e){
+      this.setState({selected: !this.state.selected});
     },
 
     handleClick: function(e){ 
@@ -18,12 +23,13 @@ define(function (require) {
     },
 
     getInitialState: function(){
-      var badgeText = this.props.badge.get('strapline');
-
       return({
-        text: badgeText,
-        badgeSlug: this.props.badge.get('slug')
-      });
+            selected: false
+        });
+    },
+
+    addToBackpack: function(){
+        OpenBadges.issue(this.props.badge.get('assertionUrl'));
     },
 
     render: function () {
@@ -42,12 +48,10 @@ define(function (require) {
       }
 
       return(
-        <li onClick={this.renderBadgeDetail} className='badge-li'>
+        <li onClick={this.handleClick} className='badge-li'>
           <img className='image' src={badge.get('imageUrl')} />
           <h4 className='badge-name'>{badge.get('name')}</h4>
-          <p className='text'>
-          {this.state.text}
-          </p>
+          {content}
         </li>
       );
     }
