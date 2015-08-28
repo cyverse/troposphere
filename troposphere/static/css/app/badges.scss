@@ -15,11 +15,15 @@
   }
   .text {
     text-align: center;
-    overflow-y: scroll;
-    height: 40px;
     position: relative;
+    
+    .btn{
+      width: 100%;   
+      margin: 0;
+      padding: 5%;
+    }
   }
-
+    
   li:hover{
     cursor: pointer;
   }
