@@ -3,11 +3,12 @@ define(function (require) {
 
   var React = require('react'),
       modals = require('modals'),
+      moment = require('moment'),
       stores = require('stores');
 
   return React.createClass({
-    handleClick: function(e){
-      this.setState({selected: !this.state.selected});
+    handleClick: function(e){ 
+        this.setState({selected: !this.state.selected});
     },
 
     getInitialState: function(){
@@ -30,7 +31,7 @@ define(function (require) {
         content = (
             <div className="text">
             <p>{badge.get('strapline')}</p>
-            <p>Awarded on: {badge.get('issuedOn')}</p>
+            <p>Awarded on:<br />{moment(this.props.badge.get('issuedOn')).format("MMM MM, YYYY hh:mm")} </p>
             <div className = "btn btn-default" onClick={this.addToBackpack}>Add to backpack!</div>
             </div>
         );
