@@ -455,7 +455,7 @@ a.context-holder:hover, .context-helper:hover {
 	border: 0 !important;
 }
 
-a.vnc_iframe {
+a.vnc_iframe, a.shell_iframe {
     display: block;
     padding: 10px;
     border-radius: 10px;
