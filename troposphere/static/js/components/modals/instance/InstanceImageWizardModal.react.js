@@ -139,17 +139,19 @@ define(function (require) {
     },
 
     onPrevious: function (data) {
-      var previousStep = this.state.step - 1,
+      // Breadcrumbs still starts at 0 even though steps starts at 1. this.state.step - 2 == current breadcrumb - 1
+      var previousStep = this.state.breadcrumbs[this.state.step - 2],
           data = data || {},
-          state = _.extend({step: previousStep, title: previousStep.name}, data);
+          state = _.extend({step: previousStep.step, title: previousStep.name}, data);
       this.setState(state);
     },
 
     onNext: function (data) {
-      var nextStep = this.state.step + 1,
-          data = data || {},
-          state = _.extend({step: nextStep, title: nextStep.name}, data);
-      this.setState(state);
+        // Similar logic to onPrevious. this.state.step == breadcrumbs + 1 
+        var nextStep = this.state.breadcrumbs[this.state.step],
+            data = data || {},
+            state = _.extend({step: nextStep.step, title: nextStep.name}, data);
+        this.setState(state);
     },
 
     //
