@@ -4,6 +4,7 @@ define(function (require) {
   var React = require('react/addons'),
     Router = require('react-router'),
     stores = require('stores'),
+    ResourceAdmin = require('./ResourceAdmin.react'),
     ResourceRequest = require('./ResourceRequest.react'),
     RouteHandler = Router.RouteHandler;
 
@@ -37,28 +38,25 @@ define(function (require) {
       }
 
       return (
-        <div className="container">
+        <div className="resource-master">
           <h1>Resource Requests</h1>
-
-          <div>
             <table className="quota-table table table-hover col-md-6">
               <tbody>
-              <tr className="quota-row">
-                <th className="center">
-                  <h3>User</h3>
-                </th>
-                <th className="center">
-                  <h3>Request</h3>
-                </th>
-                <th className="center">
-                  <h3>Description</h3>
-                </th>
-              </tr>
-              {resourceRequestRows}
+                <tr className="quota-row">
+                  <th className="center">
+                      <h3>User</h3>
+                  </th>
+                  <th className="center">
+                      <h3>Request</h3>
+                  </th>
+                  <th className="center">
+                      <h3>Description</h3>
+                  </th>
+                </tr>
+                {resourceRequestRows}
               </tbody>
             </table>
-            <RouteHandler/>
-          </div>
+            <RouteHandler />
         </div>
       );
     }
