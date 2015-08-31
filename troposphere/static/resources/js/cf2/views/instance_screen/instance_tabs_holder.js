@@ -87,7 +87,9 @@ Atmo.Views.InstanceTabsHolder = Backbone.View.extend({
         var self = this;
 
 		// if shell is available, show it. Otherwise, disable it
-		if (this.model.get('state_is_active') && this.model.get('has_shell') == true) {
+        var has_shell = true;
+        //var has_shell = this.model.get('has_shell')
+		if (this.model.get('state_is_active') && has_shell == true) {
 			this.$el.find('.instance_tabs a.instance_shell_tab')
 				.show()
 				.removeClass("disabled")
@@ -97,7 +99,7 @@ Atmo.Views.InstanceTabsHolder = Backbone.View.extend({
 			this.$el.find('.instance_tabs a.instance_shell_tab').html("Access by Shell");
 			this.$el.find('.instance_tabs a.instance_shell_tab i').remove();
 		} 
-		else if (this.model.get('has_shell') == false || this.model.get('has_shell') == undefined) {
+		else if (has_shell == false || has_shell == undefined) {
 			this.$el.find('.instance_tabs a.instance_shell_tab')
 				.addClass("disabled")
 				.attr("title", "This instance does not support shell.");
@@ -348,7 +350,9 @@ Atmo.Views.InstanceTabsHolder = Backbone.View.extend({
 	},
 	open_shell: function(e) {
 		e.preventDefault();
-		if (this.model.get('has_shell')) { 
+        var has_shell = true;
+        //var has_shell = this.model.get('has_shell');
+		if (has_shell) { 
 			this.model.set('running_shell', true);
 			this.$el.find('.shell_iframe').hide();
 			var ipaddr = this.model.get('public_dns_name');
@@ -403,12 +407,18 @@ Atmo.Views.InstanceTabsHolder = Backbone.View.extend({
 		} else {
 			var currentShell = this.$el.find('.shell_iframe[data-ip="'+ipaddr+'"]');
 			if (currentShell.length == 0) {	
-				this.$el.find('.shell_iframe').hide();
-				var iframe = $('<iframe>', {
-					src: '/shell/' + ipaddr,
-					'class': 'shell_iframe'
-				}).css({height: '100%', width:  '100%'}).attr('data-ip', ipaddr);
+                var iframe = $('<a>', {href: '/shell/' + ipaddr})
+                    .addClass('shell_iframe')
+                    .attr('target', '_blank')
+                    .append("Launch GateOne @ "+ipaddr)
+                    .attr('data-ip', ipaddr);
 				this.$el.find('.instance_shell').append(iframe);
+				//this.$el.find('.shell_iframe').hide();
+				//var iframe = $('<iframe>', {
+				//	src: '/shell/' + ipaddr,
+				//	'class': 'shell_iframe'
+				//}).css({height: '100%', width:  '100%'}).attr('data-ip', ipaddr);
+				//this.$el.find('.instance_shell').append(iframe);
 			} else {
 				this.$el.find('.shell_iframe').hide();
 				currentShell.fadeIn('fast');
