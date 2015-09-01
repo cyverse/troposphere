@@ -5,6 +5,7 @@
 
 DJANGO	=	DJANGO_SETTINGS_MODULE='troposphere.settings' ./manage.py
 WEBPACK =	$(NPM) run build
+JENKINS_WEBPACK =	$(NPM) run jenkins
 NPM	    =	npm
 NODE	=	node
 SHELL	=	/bin/bash
@@ -26,7 +27,10 @@ delete-virtualenv :
 	rm -rf /opt/env/troposphere/
 
 webpack-dev : npm
-	$(WEBPACK)
+	$(WEBPACK) --progress
+
+webpack-jenkins : npm
+	$(JENKINS_WEBPACK)
 
 webpack-prod : npm
 	$(WEBPACK) --production
