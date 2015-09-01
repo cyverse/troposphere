@@ -10,7 +10,7 @@ NPM	    =	npm
 NODE	=	node
 SHELL	=	/bin/bash
 
-jenkins : npm webpack-dev cf2 relativevirtual jenkinspip django jenkinschown
+jenkins : npm webpack-jenkins cf2 relativevirtual jenkinspip django jenkinschown
 
 all : npm webpack-dev cf2 virtualenv pip django chown
 

@@ -1,4 +1,7 @@
 # SECURITY WARNING: don't run with debug turned on in production!
+import sys
+globals().update(vars(sys.modules['troposphere.settings']))
+
 DEBUG = {{ DEBUG }}
 TEMPLATE_DEBUG = {{ DEBUG }}
 
@@ -52,6 +55,11 @@ BADGE_SYSTEM_NAME = "{{ BADGE_SYSTEM_NAME }}"
 BADGE_SECRET = "{{ BADGE_SECRET }}"
 {% endif %}
 
+{% if DJANGO_JENKINS %}
+INSTALLED_APPS += (
+    'django_jenkins',
+)
+{% endif %}
 # MOCK - Uncomment these lines to allow one-user-only access. Useful for debug/development
 # ALWAYS_AUTH_USER = "test_user"
 # # Use MockLoginBackend first!
