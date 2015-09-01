@@ -31,8 +31,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'rest_framework',
-    'django_jenkins',
-    'sslserver',
     'api'
 )
 
