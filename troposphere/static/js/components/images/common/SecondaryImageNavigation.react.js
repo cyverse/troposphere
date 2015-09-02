@@ -25,13 +25,15 @@ define(function (require) {
       var profile = stores.ProfileStore.get(),
           images = stores.ImageStore.fetchWhere({
             created_by__username: profile.get('username')
-          });
+          }),
+          favoritedImages = stores.ImageBookmarkStore.getBookmarkedImages();
 
-      if(!images){
+      if(!images || !favoritedImages){
         return <div className="loading"></div>
       }
 
       var myImagesText = "My Images (" + images.length + ")";
+      var myFavoritedImagesText = "Favorites (" + favoritedImages.length + ")";
 
       return (
         <div>
@@ -39,7 +41,7 @@ define(function (require) {
             <div className="container">
               <ul className="secondary-nav-links">
                 {this.renderRoute("Search", "search", "search", false)}
-                {this.renderRoute("Favorites", "favorites", "bookmark", true)}
+                {this.renderRoute(myFavoritedImagesText, "favorites", "bookmark", true)}
                 {this.renderRoute(myImagesText, "authored", "user", true)}
                 {this.renderRoute("Tags", "tags", "tags", false)}
               </ul>
