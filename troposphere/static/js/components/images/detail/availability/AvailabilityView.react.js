@@ -34,15 +34,15 @@ define(function (require) {
           </div>);
         }
         return (
-          <div className="content col-md-10">
+          <div className="content">
               {machines.map(this.renderProviderMachine)}
           </div>
         );
       },
       render: function() {
         return (
-          <div className='version-availability image-info-segment row'>
-            <h4 className="title col-md-2">Available on</h4>
+          <div className='version-availability' style={{marginTop:"20px"}}>
+            <h4 className="title" style={{marginBottom:"10px"}}>Available on: </h4>
               {this.renderBody()}
           </div>
         );
