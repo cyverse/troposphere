@@ -8,7 +8,7 @@ define(function (require) {
     SITE_FOOTER: window.SITE_FOOTER || 'iPlant Collaborative',
     UI_VERSION: window.UI_VERSION || 'Hawaiian Hawk',
     BADGE_HOST: window.BADGE_HOST,
-    BADGES_ENABLED: window.BADGES_ENABLED
+    BADGES_ENABLED: window.BADGES_ENABLED || false
   }
 
 });

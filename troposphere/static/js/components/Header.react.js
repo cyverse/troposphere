@@ -5,6 +5,7 @@ define(function (require) {
     actions = require('actions'),
     modals = require('modals'),
     MaintenanceMessageBanner = require('./MaintenanceMessageBanner.react'),
+    globals = require('globals'),
     Router = require('react-router'),
 
   // plugin: required to enable the drop-down, but not used directly
@@ -68,7 +69,7 @@ define(function (require) {
       icon: "star",
       requiresLogin: true,
       requiresStaff: false,
-      isEnabled: true
+      isEnabled: globals.BADGES_ENABLED
     }
   ];
 
@@ -150,7 +151,11 @@ define(function (require) {
       var badgesEnabled = window.BADGES_ENABLED;
 
       if (!profile) {
+<<<<<<< HEAD
         links = all_links.filter(function (link) {
+=======
+        links = links.filter(function (link) {
+>>>>>>> f7c9ea2385cc5395b47010d874b650771e0147c7
           return !link.requiresLogin && link.isEnabled;
         })
       } else {
