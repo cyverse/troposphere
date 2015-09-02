@@ -39,7 +39,9 @@ define(function (require) {
     },
 
     componentDidMount: function () {
-      this.loadBadgeData();
+      if(globals.BADGES_ENABLED){
+        this.loadBadgeData();
+      }
       // subscribe to all Stores
       Object.keys(stores).forEach(function (storeName) {
         stores[storeName].addChangeListener(this.updateState);
