@@ -151,11 +151,7 @@ define(function (require) {
       var badgesEnabled = window.BADGES_ENABLED;
 
       if (!profile) {
-<<<<<<< HEAD
         links = all_links.filter(function (link) {
-=======
-        links = links.filter(function (link) {
->>>>>>> f7c9ea2385cc5395b47010d874b650771e0147c7
           return !link.requiresLogin && link.isEnabled;
         })
       } else {
@@ -163,12 +159,7 @@ define(function (require) {
           if (link.requiresStaff) return profile.get('is_staff');
           return link.isEnabled;
         })
-      }
-      for (link in all_links){
-        if (all_links[link].name == "Badges"){
-            all_links[link].isEnabled = badgesEnabled;
-        }
-      }
+      } 
 
       var navLinks = links.map(function (link) {
         var isCurrentRoute = (link.name.toLowerCase() === this.props.currentRoute[0]);
