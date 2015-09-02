@@ -34,6 +34,7 @@ OAUTH_CLIENT_CALLBACK = "{{ OAUTH_CLIENT_CALLBACK }}"
 
 # atmosphere must include the metrics endpoint
 SHOW_INSTANCE_METRICS = {{ SHOW_INSTANCE_METRICS }}
+
 {% if BADGES_ENABLED %}
 
 # Host for authenticating a badge request
@@ -51,7 +52,6 @@ BADGE_SYSTEM_NAME = "{{ BADGE_SYSTEM_NAME }}"
 # Badge secret used for badge authentication server
 BADGE_SECRET = "{{ BADGE_SECRET }}"
 {% endif %}
-
 # MOCK - Uncomment these lines to allow one-user-only access. Useful for debug/development
 # ALWAYS_AUTH_USER = "test_user"
 # # Use MockLoginBackend first!
