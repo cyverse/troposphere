@@ -7,7 +7,7 @@ var React = require('react'),
 
 var ENTER_KEY = 13;
 
-module.export = React.createClass({
+module.exports = React.createClass({
       displayName: "InstanceLaunchWizardModal-ProjectSelectStep",
 
       propTypes: {
@@ -21,7 +21,7 @@ module.export = React.createClass({
         // ----------------
         //
         getInitialState: function () {
-            var projectId, projectName;
+            var project, projectId, projectName;
             if (this.props.project) {
                 project = this.props.project
                 projectId = project.id;
