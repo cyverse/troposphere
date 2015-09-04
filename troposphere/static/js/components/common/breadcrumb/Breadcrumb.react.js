@@ -10,7 +10,7 @@ define(function(require) {
     propTypes: {
       breadcrumb: React.PropTypes.object.isRequired,
       onClick: React.PropTypes.func.isRequired,
-      breadcrumbText :React.PropTypes.string.isRequired,
+      breadcrumbText :React.PropTypes.number.isRequired,
     },
 
     mouseOver: function() {
@@ -23,13 +23,10 @@ define(function(require) {
 
     renderLink: function() {
       var class_names = this.props.breadcrumb.state;
-      var divStyle = {
-        width: this.props.width + '%'
-      };
 
       return (
-          <div style={divStyle} onMouseOver={this.mouseOver} onMouseOut={this.mouseOut} className={class_names} onClick={this.crumbClicked}>
-            {this.props.breadcrumbText}
+          <div onMouseOver={this.mouseOver} onMouseOut={this.mouseOut} className={class_names} onClick={this.crumbClicked}>
+            <span className="hidden-xs">Step </span> {this.props.breadcrumbText}
           </div>
         );
     },
