@@ -1,16 +1,14 @@
-define(function (require) {
-
-    var React = require('react'),
-        Backbone = require('backbone'),
-        _ = require('underscore'),
-        stores = require('stores'),
-        ProjectModel = require('models/Project'),
-        ProjectActions = require('actions/ProjectActions'),
-        ProjectListView = require('components/common/project/ProjectListView.react');
+var React = require('react'),
+    Backbone = require('backbone'),
+    _ = require('underscore'),
+    stores = require('stores'),
+    ProjectModel = require('models/Project'),
+    ProjectActions = require('actions/ProjectActions'),
+    ProjectListView = require('components/common/project/ProjectListView.react');
 
     var ENTER_KEY = 13;
-
-    return React.createClass({
+    
+    module.exports = React.createClass({
         displayName: "InstanceLaunchWizardModal-ProjectSelectStep",
 
         propTypes: {
@@ -24,7 +22,7 @@ define(function (require) {
         // ----------------
         //
         getInitialState: function () {
-            var projectId, projectName;
+            var project, projectId, projectName;
             if (this.props.project) {
                 project = this.props.project
                 projectId = project.id;
@@ -216,6 +214,4 @@ define(function (require) {
             </div>
         );
     }
-
-    });
 });
