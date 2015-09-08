@@ -195,3 +195,13 @@ $chosen-sprite-retina-path: $chosen-sprite-path;
     background-repeat: no-repeat !important;
   }
 }
+
+//Bootstrap hack for list-group-item
+
+.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
+     z-index: 2;
+     color:#333333;
+     background:white;
+     border-color: #56AA21;
+     box-shadow: 0 0 6px #56aa21;
+ }

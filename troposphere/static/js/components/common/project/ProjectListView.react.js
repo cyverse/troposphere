@@ -50,7 +50,7 @@ define(
           <div>
             <div className="secondary-nav half-height">
               <div className="modal-section">
-                <div className="project-name">
+                <div className="project-name clearfix">
                   <h1>Select or Create a Project</h1>
                   {this.renderCreateButton()}
                 </div>
