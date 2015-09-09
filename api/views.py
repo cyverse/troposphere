@@ -61,7 +61,7 @@ class BadgeViewSet(viewsets.GenericViewSet):
         secret = settings.BADGE_SECRET
 
         badge = str(self.request.data['badgeSlug'])
-        path = '/systems/' + system_slug + '/programs/' + program_slug + '/badges/' + badge + '/instances'
+        path = '/systems/' + system_slug + '/issuers/' + issuer_slug + '/programs/' + program_slug + '/badges/' + badge + '/instances'
         header = {"typ": "JWT", "alg": 'HS256'}
         body = json.dumps({"email": email_address})
 
