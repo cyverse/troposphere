@@ -13,7 +13,8 @@ define(function(require) {
     getInitialState: function() {
       return {
         isLoadingMoreResults: false,
-        nextUrl: null
+        nextUrl: null,
+        lastUpdated: moment()
       }
     },
 
@@ -45,6 +46,67 @@ define(function(require) {
         nextUrl: instanceHistories.meta.next
       });
       stores.InstanceHistoryStore.fetchMore();
+    },
+
+    refreshHistory: function(){
+        //console.log(stores.InstanceHistoryStore.getAll());
+        //console.log(this.state.lastUpdated);
+        this.forceUpdate();
+    },
+
+    renderRefreshButton: function(){
+      var me = this;
+      var updateInterval = 5*1000;
+      //var id = setInterval(function() {
+      //  me.forceUpdate();
+      //}, updateInterval);
+      return (       
+          <div onClick={this.refreshHistory} className="glyphicon glyphicon-refresh"></div>
+      );
+       // var me = this;
+
+       // Refresh the timestamp, update whether refresh is active, every
+       // updateInterval
+       // var updateInterval = 5 * 1000;
+    
+       // var id = setInterval(function() {
+       //   if (!me.isMounted()) {
+       //     window.clearInterval(id);
+       //  } else {
+       //     me.forceUpdate();
+       //  }
+       // }, updateInterval);
+    // },
+
+    // getTimeMessage: function() {
+      // var a = moment(this.props.timestamp);
+      // var b = moment(Date.now());
+      // var diff = b.diff(a, "seconds");
+
+      // // momentjs js is eager in saying a minute ago, this way when a
+      // // minute has passed getTimeMessage emits 'Updated a minute ago' in
+      // // sync with the refresh being available. (also in sync with fresh
+      // // metrics being available
+      // if (diff > 44 && diff < 60) {
+       //  return "Updated a few seconds ago"
+      // }
+      // return "Updated " + a.fromNow();
+    // },
+
+    // render: function() {
+
+     // var canRefresh =
+       // (Date.now() - this.props.timestamp) > this.props.delay;
+
+     // var controlsClass =
+       // "glyphicon glyphicon-refresh" + (canRefresh ? "" : " disabled");
+
+     // return (
+       //   <div>
+       //     <span
+       //       id="refresh"
+       //       className={ controlsClass }
+       //  return <div className="glyphicon" onClick={this.refreshHistory}>YOOOO</div>
     },
 
     renderTitle: function() {
@@ -161,10 +223,12 @@ define(function(require) {
     },
 
     render: function() {
+      console.log("rendering history");
       return (
         <div>
           <h2>
             {this.renderTitle()}
+            {this.renderRefreshButton()}
           </h2>
           {this.renderBody()}
         </div>
