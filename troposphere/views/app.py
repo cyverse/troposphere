@@ -89,6 +89,7 @@ def _handle_authenticated_application_request(request, maintenance_records):
     template_params['SITE_TITLE'] = settings.SITE_TITLE
     template_params['SITE_FOOTER'] = settings.SITE_FOOTER
     template_params['UI_VERSION'] = settings.UI_VERSION
+    template_params['BADGES_ENABLED'] = getattr(settings, "BADGES_ENABLED", None)
     template_params['BADGE_HOST'] = getattr(settings, "BADGE_HOST", None)
 
     if hasattr(settings, "INTERCOM_APP_ID"):
