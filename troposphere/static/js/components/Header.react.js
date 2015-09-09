@@ -20,7 +20,6 @@ define(function (require) {
       href: "/application/dashboard",
       icon: "stats",
       requiresLogin: true,
-      isEnabled: true
     },
     {
       name: "Projects",
@@ -28,7 +27,6 @@ define(function (require) {
       href: "/application/projects",
       icon: "folder-open",
       requiresLogin: true,
-      isEnabled: true
     },
     {
       name: "Images",
@@ -36,7 +34,6 @@ define(function (require) {
       href: "/application/images",
       icon: "floppy-disk",
       requiresLogin: false,
-      isEnabled: true
     },
     {
       name: "Providers",
@@ -44,7 +41,6 @@ define(function (require) {
       href: "/application/providers",
       icon: "cloud",
       requiresLogin: true,
-      isEnabled: true
     },
     {
       name: "Help",
@@ -52,7 +48,6 @@ define(function (require) {
       href: "/application/help",
       icon: "question-sign",
       requiresLogin: false,
-      isEnabled: true
     },
     {
       name: "Admin",
@@ -60,16 +55,6 @@ define(function (require) {
       icon: "cog",
       requiresLogin: true,
       requiresStaff: true,
-      isEnabled: true
-    },
-    {
-      name: "Badges",
-      linksTo: "my-badges",
-      href: "/application/badges",
-      icon: "star",
-      requiresLogin: true,
-      requiresStaff: false,
-      isEnabled: globals.BADGES_ENABLED
     }
   ];
 
@@ -95,6 +80,16 @@ define(function (require) {
     },
 
     render: function () {
+      if(globals.BADGES_ENABLED){
+        var badgeLink = (
+            <li>
+              <Link to="badges">Badges</Link>
+            </li>
+        );
+      }
+      else{
+        var badgeLink = null;
+      }
       return (
         <li className="dropdown">
           <a className="dropdown-toggle" href="#" data-toggle="dropdown">
@@ -106,6 +101,7 @@ define(function (require) {
               <Link to="settings">Settings</Link>
             </li>
             <li className="divider"></li>
+            {badgeLink}
             <li>
               <a href="#" onClick={this.onShowVersion}>Version</a>
             </li>
@@ -152,12 +148,12 @@ define(function (require) {
 
       if (!profile) {
         links = all_links.filter(function (link) {
-          return !link.requiresLogin && link.isEnabled;
+          return !link.requiresLogin;
         })
       } else {
         links = all_links.filter(function (link) {
           if (link.requiresStaff) return profile.get('is_staff');
-          return link.isEnabled;
+          return true;
         })
       } 
 
