@@ -25,8 +25,8 @@ define(function (require) {
       var profile = stores.ProfileStore.get(),
           images = stores.ImageStore.fetchWhere({
             created_by__username: profile.get('username')
-          }),
-          favoritedImages = stores.ImageBookmarkStore.getBookmarkedImages();
+          }) || [], 
+          favoritedImages = stores.ImageBookmarkStore.getBookmarkedImages() || [];
 
       if(!images || !favoritedImages){
         return <div className="loading"></div>
