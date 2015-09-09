@@ -1,6 +1,6 @@
 define(function(require) {
 
-    var React = require('react'),
+    var React = require('react/addons'),
         Backbone = require('backbone'),
         Breadcrumb = require('./Breadcrumb.react');
     return React.createClass({
@@ -37,28 +37,15 @@ define(function(require) {
         //Counting # of 'actual' steps
         var activeStepCount = 0;
         var breadcrumbs = this.props.breadcrumbs.map(function(breadcrumb){
-          switch(breadcrumb.state){
-            case 'inactive':
-              width = inactiveWidth;
-              break;
-            case 'active':
-              width = activeWidth;
-              break;
-            default:
-              width = standardWidth;
-          }
-          if(breadcrumb.state == 'inactive') {
-            return ;
-          }
+
           activeStepCount = activeStepCount+1;
-          var breadcrumbText = "Step "+activeStepCount;
+          var breadcrumbText = activeStepCount;
           return (
             <Breadcrumb key={breadcrumb.name}
                         onMouseOn={onMouseOn}
                         onMouseOff={onMouseOff}
                         breadcrumb={breadcrumb}
-                        breadcrumbText={breadcrumbText}
-                        width={width}
+                        breadcrumbText={breadcrumbText} 
                         onClick={self.crumbClicked}
             />
           )

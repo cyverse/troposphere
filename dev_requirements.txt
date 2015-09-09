@@ -1,0 +1,4 @@
+-r requirements.txt
+coverage==3.7.1
+django-jenkins==0.16.2
+ipython==4.0.0

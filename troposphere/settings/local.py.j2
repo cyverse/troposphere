@@ -1,4 +1,7 @@
 # SECURITY WARNING: don't run with debug turned on in production!
+import sys
+globals().update(vars(sys.modules['troposphere.settings']))
+
 DEBUG = {{ DEBUG }}
 TEMPLATE_DEBUG = {{ DEBUG }}
 
@@ -34,7 +37,7 @@ OAUTH_CLIENT_CALLBACK = "{{ OAUTH_CLIENT_CALLBACK }}"
 
 # atmosphere must include the metrics endpoint
 SHOW_INSTANCE_METRICS = {{ SHOW_INSTANCE_METRICS }}
-{% if BADGE_HOST %}
+{% if BADGES_ENABLED %}
 
 # Host for authenticating a badge request
 BADGE_HOST = "{{ BADGE_HOST }}"
@@ -52,6 +55,16 @@ BADGE_SYSTEM_NAME = "{{ BADGE_SYSTEM_NAME }}"
 BADGE_SECRET = "{{ BADGE_SECRET }}"
 {% endif %}
 
+{% if DJANGO_JENKINS %}
+INSTALLED_APPS += (
+    'django_jenkins',
+)
+{% endif %}
+{% if SSLSERVER %}
+INSTALLED_APPS += (
+    'sslserver',
+)
+{% endif %}
 # MOCK - Uncomment these lines to allow one-user-only access. Useful for debug/development
 # ALWAYS_AUTH_USER = "test_user"
 # # Use MockLoginBackend first!

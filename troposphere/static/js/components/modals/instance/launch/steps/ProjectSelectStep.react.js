@@ -2,15 +2,16 @@ var React = require('react'),
     Backbone = require('backbone'),
     _ = require('underscore'),
     stores = require('stores'),
+    ProjectModel = require('models/Project'),
     ProjectActions = require('actions/ProjectActions'),
     ProjectListView = require('components/common/project/ProjectListView.react');
 
-var ENTER_KEY = 13;
+    var ENTER_KEY = 13;
+    
+    module.exports = React.createClass({
+        displayName: "InstanceLaunchWizardModal-ProjectSelectStep",
 
-module.export = React.createClass({
-      displayName: "InstanceLaunchWizardModal-ProjectSelectStep",
-
-      propTypes: {
+        propTypes: {
             project: React.PropTypes.instanceOf(Backbone.Model),
             onPrevious: React.PropTypes.func.isRequired,
             onNext: React.PropTypes.func.isRequired
@@ -21,7 +22,7 @@ module.export = React.createClass({
         // ----------------
         //
         getInitialState: function () {
-            var projectId, projectName;
+            var project, projectId, projectName;
             if (this.props.project) {
                 project = this.props.project
                 projectId = project.id;
@@ -198,7 +199,6 @@ module.export = React.createClass({
     },
 
     render: function () {
-
         return (
             <div>
             {this.renderBody()}

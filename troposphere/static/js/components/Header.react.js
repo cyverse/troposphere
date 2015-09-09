@@ -5,6 +5,7 @@ define(function (require) {
     actions = require('actions'),
     modals = require('modals'),
     MaintenanceMessageBanner = require('./MaintenanceMessageBanner.react'),
+    globals = require('globals'),
     Router = require('react-router'),
 
   // plugin: required to enable the drop-down, but not used directly
@@ -18,42 +19,48 @@ define(function (require) {
       linksTo: "dashboard",
       href: "/application/dashboard",
       icon: "stats",
-      requiresLogin: true
+      requiresLogin: true,
+      isEnabled: true,
     },
     {
       name: "Projects",
       linksTo: "projects",
       href: "/application/projects",
       icon: "folder-open",
-      requiresLogin: true
+      requiresLogin: true,
+      isEnabled: true
     },
     {
       name: "Images",
       linksTo: "images",
       href: "/application/images",
       icon: "floppy-disk",
-      requiresLogin: false
+      requiresLogin: false,
+      isEnabled: true
     },
     {
       name: "Providers",
       linksTo: "providers",
       href: "/application/providers",
       icon: "cloud",
-      requiresLogin: true
+      requiresLogin: true,
+      isEnabled: true
     },
     {
       name: "Help",
       linksTo: "help",
       href: "/application/help",
       icon: "question-sign",
-      requiresLogin: false
+      requiresLogin: false,
+      isEnabled: true
     },
     {
       name: "Admin",
       linksTo: "admin",
       icon: "cog",
       requiresLogin: true,
-      requiresStaff: true
+      requiresStaff: true,
+      isEnabled: true
     },
     {
       name: "Badges",
@@ -61,7 +68,8 @@ define(function (require) {
       href: "/application/badges",
       icon: "star",
       requiresLogin: true,
-      requiresStaff: false
+      requiresStaff: false,
+      isEnabled: globals.BADGES_ENABLED
     }
   ];
 
@@ -144,12 +152,12 @@ define(function (require) {
 
       if (!profile) {
         links = links.filter(function (link) {
-          return !link.requiresLogin;
+          return !link.requiresLogin && link.isEnabled;
         })
       } else {
         links = links.filter(function (link) {
           if (link.requiresStaff) return profile.get('is_staff');
-          return true;
+          return link.isEnabled;
         })
       }
 
