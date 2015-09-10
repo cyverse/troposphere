@@ -32,7 +32,6 @@ define(function (require) {
         $el.removeClass("loading");
 
         if (seriesData.length === 0) {
-          $el.addClass("loading");
           return;
         }
 
