@@ -41,6 +41,7 @@ define(function (require) {
   stores.IdentityStore = require('stores/IdentityStore');
   stores.ImageBookmarkStore = require('stores/ImageBookmarkStore');
   stores.InstanceHistoryStore = require('stores/InstanceHistoryStore');
+  stores.ImageRequestStore = require('stores/ImageRequestStore');
   stores.InstanceStore = require('stores/InstanceStore');
   stores.InstanceTagStore = require('stores/InstanceTagStore');
   stores.LicenseStore = require('stores/LicenseStore');
