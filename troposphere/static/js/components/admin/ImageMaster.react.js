@@ -13,7 +13,8 @@ define(function (require) {
     mixins: [Router.State],
 
     render: function () {
-
+      var imageRequests = stores.ImageRequestStore.getAll();
+      console.log(imageRequests);
       return(
         <div className="image-master">
         <h1>Imaging Requests</h1>
