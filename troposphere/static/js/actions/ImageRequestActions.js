@@ -7,7 +7,7 @@ define(function (require) {
   return {
     update: function (params) {
       var request = params.request,
-        response = params.response,
+        response = params.response;
         //quota = params.quota,
         //allocation = params.allocation,
         //status = params.status;
