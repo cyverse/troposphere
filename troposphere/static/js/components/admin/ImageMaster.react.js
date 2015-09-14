@@ -45,9 +45,9 @@ define(function (require) {
                     </th>
                   </tr>
                   {mappedImageRequests}
+                  <tr><td><div onClick={this.loadMoreRequests} className="btn btn-default">Load more requests</div></td></tr>
                 </tbody>
               </table>
-              <div onClick={this.loadMoreRequests} className="btn btn-default">Load more requests</div>
             <RouteHandler />
           </div>
         );
