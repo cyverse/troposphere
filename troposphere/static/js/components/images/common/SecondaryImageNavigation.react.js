@@ -21,6 +21,7 @@ define(function (require) {
     },
 
     render: function () {
+      
       return (
         <div>
           <div className="secondary-nav">
@@ -29,6 +30,7 @@ define(function (require) {
                 {this.renderRoute("Search", "search", "search", false)}
                 {this.renderRoute("Favorites", "favorites", "bookmark", true)}
                 {this.renderRoute("My Images", "authored", "user", true)}
+                {this.renderRoute("My Image Requests", "my-image-requests", "export", true)}
                 {this.renderRoute("Tags", "tags", "tags", false)}
               </ul>
             </div>
