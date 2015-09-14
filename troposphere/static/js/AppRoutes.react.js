@@ -75,7 +75,7 @@ define(function (require) {
           <Route name="resource-request" path=":resourceRequestId" handler={ResourceAdmin} />
         </Route>
         <Route name="image-request-manager" path="imaging-requests" handler={ImageMaster}>
-          <Route name="image-request" path=":imagingRequestId" handler={ImageAdmin} />
+          <Route name="image-request" path=":imageRequestId" handler={ImageAdmin} />
         </Route>
       </Route>
 
