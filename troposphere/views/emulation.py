@@ -9,6 +9,7 @@ import requests
 from caslib import OAuthClient as CAS_OAuthClient
 
 
+STRING_TYPES = (str, unicode)
 logger = logging.getLogger(__name__)
 cas_oauth_client = CAS_OAuthClient(settings.CAS_SERVER,
                                    settings.OAUTH_CLIENT_CALLBACK,
@@ -38,6 +39,12 @@ def emulate(request, username):
     except ValueError:
         logger.warn("[EMULATE]The API server returned non-json data(Error) %s" % r.text)
         return redirect('application')
+
+    # Check if error response was sent
+    if isinstance(j_data, STRING_TYPES):
+        logger.warn("[EMULATE] %s",  j_data)
+        return redirect('application')
+
     new_token = j_data.get('token')
     emulated_by = j_data.get('emulated_by')
     if not new_token or not emulated_by:
