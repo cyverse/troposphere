@@ -5,16 +5,53 @@ define(function (require) {
       Router = require('react-router'),
       stores = require('stores'),
       actions = require('actions'),
-      ResourceActions = require('actions/ResourceActions');
+      ImageRequestActions = require('actions/ImageRequestActions');
 
   return React.createClass({
 
     mixins: [Router.State],
 
+    getInitialState: function(){
+      return{
+        response: ""
+      }
+    },
+
+    handleResponseChange: function (event) {
+      var response = event.target.value;
+      if (response) this.setState({response: response});
+    },
+
+    approve: function(){
+      var request = stores.ImageRequestStore.get(this.getParams().imageRequestId);
+      ImageRequestActions.update({
+        request: request,
+        response: this.state.response,
+        action: "approve"
+      });
+    },
+
+    deny: function(){
+      ImageRequestActions.update({
+        request: this.getParams().imageRequestId,
+        response: this.state.response,
+        action: "deny"
+      });
+    },
+
+    resubmit: function(){
+      ImageRequestActions.update({
+        request: this.getParams().imageRequestId,
+        response: this.state.response,
+        action: "resubmit"
+      });
+    },
+
     render: function () {
       var requestId = (this.getParams().imageRequestId);
       
       var request = stores.ImageRequestStore.get(requestId);
+
       if(!request){
         return <div className="loading"></div>
       }
@@ -57,6 +94,11 @@ define(function (require) {
           <div>New version scripts: {request.get('new_version_scripts')}</div>
           <div>New version tags: {request.get('new_version_tags')}</div>
           <div>Status: {request.get('status')}</div>
+          <textarea type="text" form="admin" value={this.state.value} cols="60" rows="8"
+                      onChange={this.handleResponseChange}/>
+          <button onClick={this.approve} type="button" className="btn btn-default btn-sm">Approve</button>
+          <button onClick={this.deny} type="button" className="btn btn-default btn-sm">Deny</button>
+          <button onClick={this.resubmit} type="button" className="btn btn-default btn-sm">Re-Submit</button>
         </div>
       );
     }
