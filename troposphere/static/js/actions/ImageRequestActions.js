@@ -7,19 +7,15 @@ define(function (require) {
   return {
     update: function (params) {
       var request = params.request,
+        action = params.action,
         response = params.response;
-        //quota = params.quota,
-        //allocation = params.allocation,
-        //status = params.status;
 
       var newAttributes = {
-        //admin_message: response,
-        //quota: quota,
-        //allocation: allocation,
-        //status: status
+        status: action
       };
-
+      console.log(request);
       request.set(newAttributes);
+      console.log(request);
       Router.getInstance().transitionTo("admin");
       request.save(newAttributes, {patch: true}).done(function () {
         Utils.dispatch(Constants.UPDATE, {model: request});
