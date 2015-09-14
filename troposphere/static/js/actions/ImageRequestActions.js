@@ -13,6 +13,7 @@ define(function (require) {
       var newAttributes = {
         status: action
       };
+
       request.set(newAttributes);
       Router.getInstance().transitionTo("admin");
       request.save(newAttributes, {patch: true}).done(function () {
