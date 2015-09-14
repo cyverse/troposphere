@@ -230,3 +230,20 @@ $breadcrumb-bk-inactive:lightgrey;
     font-size: 15px;
   }
 }
+
+
+//Feature Support/ Upgrade your browser
+//
+
+.browser-list {
+    .browser {
+        padding:10px;
+        &:hover{
+        }
+        img {
+            max-width:120px;
+            width:100%;
+            margin:20px auto;
+        }
+    }
+}
