@@ -236,6 +236,7 @@ define(function (require) {
                             <h4>Project Allocation Usage</h4>
                             {this.renderAllocationConsumption(this.state.identity)}
                         </div>
+                        <a href="#" onClick={this.props.onRequestResources}>Need more resources?</a>
 
                     </div>
                 </div>
