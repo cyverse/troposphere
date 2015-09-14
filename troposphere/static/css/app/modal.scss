@@ -237,13 +237,22 @@ $breadcrumb-bk-inactive:lightgrey;
 
 .browser-list {
     .browser {
-        padding:10px;
-        &:hover{
-        }
+        min-height:200px;
+        padding:10px 10px 20px;
+        &:hover {
+            background: linear-gradient(to bottom, #ffffff 20%,#ededed 100%);
+         }
+
         img {
             max-width:120px;
             width:100%;
             margin:20px auto;
+        }
+        p {
+            position:absolute;
+            bottom:0;
+            right:0;
+            left:0;
         }
     }
 }
