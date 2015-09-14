@@ -3,6 +3,7 @@ define(function(require) {
   var React = require('react/addons'),
     Backbone = require('backbone'),
     _ = require('underscore'),
+    modals = require('modals'),
     stores = require('stores'),
 
     BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
@@ -35,6 +36,12 @@ define(function(require) {
       onConfirm: React.PropTypes.func.isRequired,
     },
 
+    onRequestResources: function(){
+      // Launching a resource request modal will eat the current modal. We need to pass this.cancel as a prop
+      // in order to properly unmount the whole modal, not just the current step component.
+      this.cancel();
+      modals.HelpModals.requestMoreResources();
+    },
 
     isLicenseStepActive: function() {
       state = this.getState();
@@ -70,6 +77,7 @@ define(function(require) {
                     name={this.state.name}
                     identity={this.state.identity}
                     version={this.state.version}
+                    onRequestResources={this.onRequestResources}
                     onPrevious={this.onPrevious}
                     onNext={this.onNext}
                 />
@@ -81,6 +89,7 @@ define(function(require) {
                     image={this.state.image}
                     identity={this.state.identity}
                     size={this.state.size}
+                    onRequestResources={this.onRequestResources}
                     onPrevious={this.onPrevious}
                     onNext={this.onNext}
                 />
@@ -126,6 +135,7 @@ define(function(require) {
           launchData={this.state}
           onPrevious={this.onPrevious}
           onNext={this.onCompleted}
+          onRequestResources={this.onRequestResources}
           toAdvancedOptions={this.toAdvancedOptions}
         />
       );
@@ -141,8 +151,8 @@ define(function(require) {
     },
     renderBody: function() {
       var step = this.state.step;
-      switch(step) {
-	case IMAGE_STEP:
+        switch(step) {
+	       case IMAGE_STEP:
           return this.renderImageSelect();
         case INFORMATION_STEP:
           return this.renderNameStep();
