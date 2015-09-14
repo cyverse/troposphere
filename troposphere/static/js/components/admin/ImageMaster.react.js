@@ -13,33 +13,20 @@ define(function (require) {
 
     mixins: [Router.State],
 
-    getInitialState: function(){
-        return{
-            requests: stores.ImageRequestStore.getAll()
-        }
-    },
     loadMoreRequests: function(){
-        this.setState({requests: stores.ImageRequestStore.fetchMore()});
+        stores.ImageRequestStore.fetchMore();
     },
 
     render: function () {
-      var imageRequests = this.state.requests;//stores.ImageRequestStore.getAll();
-      console.log("YO");
-      if(!imageRequests){
+      var imageRequests = stores.ImageRequestStore.getAll();
+
+      if(imageRequests == null){
         return <div className="loading"></div>
       }
+
       var mappedImageRequests = imageRequests.map(function(request){
         return <ImageRequest key={request.id} request={request} />;
       });
-      
-      if (!mappedImageRequests[0]) {
-        mappedImageRequests =
-          <tr>
-            <td className="user-name">No requests</td>
-            <td className="request"></td>
-            <td className="description"></td>
-          </tr>
-      } 
 
       return (
         <div className="image-master">
