@@ -13,9 +13,7 @@ define(function (require) {
       var newAttributes = {
         status: action
       };
-      console.log(request);
       request.set(newAttributes);
-      console.log(request);
       Router.getInstance().transitionTo("admin");
       request.save(newAttributes, {patch: true}).done(function () {
         Utils.dispatch(Constants.UPDATE, {model: request});
