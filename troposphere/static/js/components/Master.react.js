@@ -41,7 +41,7 @@ define(function (require) {
 
     componentDidMount: function () {
 
-      if(!modernizrTest.unsupported) {
+      if(modernizrTest.unsupported) {
           showUnsupportedModal.showModal();
           console.log(modernizrTest.unsupported());
       }
