@@ -7,7 +7,7 @@ define(function (require) {
     React = require('react/addons'),
     SplashScreen = require('components/SplashScreen.react'),
     MaintenanceScreen = require('components/MaintenanceScreen.react'),
-    modernizr = require('modernizr-latest.js');
+    modernizr = require('modernizr/modernizr-latest.js');
 
   // Disconnect all Backbone Events from Models and Collections
   Object.keys(Backbone.Events).forEach(function (functionName) {

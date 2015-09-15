@@ -256,3 +256,11 @@ $breadcrumb-bk-inactive:lightgrey;
         }
     }
 }
+
+.BreakingFeatureList {
+    padding-left: 20px;
+    .glyphicon-alert {
+        color: #E43A37;
+        margin-right: 10px;
+    }
+}

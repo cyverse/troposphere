@@ -10,7 +10,7 @@ define(function (require) {
       Footer = require('./Footer.react'),
       actions = require('actions'),
       showUnsupportedModal = require('modals/unsupported/showUnsupportedModal.js'),
-      modernizrTest = require('modernizrTest.js'),
+      modernizrTest = require('modernizr/modernizrTest.js'),
       NullProject = require('models/NullProject');
 
   // Routing
@@ -43,7 +43,6 @@ define(function (require) {
 
       if(modernizrTest.unsupported) {
           showUnsupportedModal.showModal();
-          console.log(modernizrTest.unsupported());
       }
       if(globals.BADGES_ENABLED){
         this.loadBadgeData();
