@@ -23,28 +23,37 @@ define(function (require) {
     },
 
     approve: function(){
+
+      // request is guaranteed to exist in our store, since we needed it to render this component
       var request = stores.ImageRequestStore.get(this.getParams().imageRequestId);
       ImageRequestActions.update({
         request: request,
         response: this.state.response,
-        action: "approve"
+        newStatus: "approved"
       });
+
     },
 
     deny: function(){
+
+      var request = stores.ImageRequestStore.get(this.getParams().imageRequestId);
       ImageRequestActions.update({
         request: this.getParams().imageRequestId,
         response: this.state.response,
-        action: "deny"
+        newStatus: "deny"
       });
+
     },
 
     resubmit: function(){
+
+      var request = stores.ImageRequestStore.get(this.getParams().imageRequestId);
       ImageRequestActions.update({
         request: this.getParams().imageRequestId,
         response: this.state.response,
-        action: "resubmit"
+        newStatus: "resubmit"
       });
+
     },
 
     render: function () {
