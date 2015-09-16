@@ -9,6 +9,7 @@ define(function (require) {
 
     
     return React.createClass({
+    displayName: "UnsupportedModal",
     
      mixins: [BootstrapModalMixin],
      closeModal: function () {
