@@ -1,5 +1,5 @@
 define(function (require) {
-   var modernizr = require('modernizr/modernizr-latest.js'),
+   var modernizr = require('lib/modernizr-latest.js'),
        _ = require('underscore');
 
    var features = modernizr;

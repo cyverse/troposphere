@@ -10,7 +10,7 @@ define(function (require) {
       Footer = require('./Footer.react'),
       actions = require('actions'),
       showUnsupportedModal = require('modals/unsupported/showUnsupportedModal.js'),
-      modernizrTest = require('modernizr/modernizrTest.js'),
+      modernizrTest = require('components/modals/unsupported/modernizrTest.js'),
       NullProject = require('models/NullProject');
 
   // Routing

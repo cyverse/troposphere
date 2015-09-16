@@ -1,6 +1,6 @@
 define(function (require) {
     var React = require('react/addons'),
-    modernizrTest = require('modernizr/modernizrTest.js');
+    modernizrTest = require('components/modals/unsupported/modernizrTest.js');
 
     return React.createClass({
        render: function () {
