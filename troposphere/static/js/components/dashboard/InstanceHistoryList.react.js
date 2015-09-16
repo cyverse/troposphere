@@ -5,6 +5,7 @@ define(function(require) {
     moment = require('moment'),
     CryptoJS = require('crypto-js'),
     Gravatar = require('components/common/Gravatar.react'),
+    RefreshComponent = require('components/projects/resources/instance/details/sections/metrics/RefreshComponent.react'),
     Router = require('react-router');
 
   return React.createClass({
@@ -13,9 +14,7 @@ define(function(require) {
     getInitialState: function() {
       return {
         isLoadingMoreResults: false,
-        nextUrl: null,
-        canRefresh: true,
-        lastUpdated: moment()
+        nextUrl: null
       }
     },
 
@@ -51,32 +50,16 @@ define(function(require) {
 
     refreshHistory: function(){
         stores.InstanceHistoryStore.fetchFirstPage();
+        stores.InstanceHistoryStore.lastUpdated = Date.now();
         this.forceUpdate();
     },
 
     renderRefreshButton: function(){
-      var me = this;
-      var onRefresh = function(){
-        me.refreshHistory();
-        me.setState({canRefresh: false});
-        setTimeout(function(){
-           me.setState({canRefresh: true});
-        }, 5 * 60 * 1000);
-      };
       
-
-      if(this.state.canRefresh){
-        return(
-          <button onClick = {onRefresh} className = "btn btn-default pull-right">
-            <i className = "glyphicon glyphicon-refresh" />
-          </button>
-        );
-      }
-
       return (
-        <button disabled={true} className = "btn btn-default pull-right">
-          <i className = "glyphicon glyphicon-refresh" />
-        </button>
+        <span className="pull-right instance-history">
+            <RefreshComponent onRefreshClick = {this.refreshHistory} timestamp = {stores.InstanceHistoryStore.lastUpdated} delay = {5 * 1000 * 60} />
+        </span>
       );
     
     },
