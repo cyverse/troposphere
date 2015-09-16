@@ -50,7 +50,7 @@ define(function(require) {
     },
 
     refreshHistory: function(){
-        stores.InstanceHistoryStore.getAll());
+        stores.InstanceHistoryStore.fetchFirstPage();
         this.forceUpdate();
     },
 
@@ -60,20 +60,25 @@ define(function(require) {
         me.refreshHistory();
         me.setState({canRefresh: false});
         setTimeout(function(){
-            me.setState({canRefresh: true});
+           me.setState({canRefresh: true});
         }, 5 * 60 * 1000);
       };
       
 
-      var button = <div disabled={true} className="glyphicon glyphicon-refresh"></div>; 
-      
-      if(this.state.canRefresh == true){
-        button = <div onClick = {onRefresh} className="glyphicon glyphicon-refresh"></div>
+      if(this.state.canRefresh){
+        return(
+          <button onClick = {onRefresh} className = "btn btn-default pull-right">
+            <i className = "glyphicon glyphicon-refresh" />
+          </button>
+        );
       }
-      
-      return (       
-         {button}
+
+      return (
+        <button disabled={true} className = "btn btn-default pull-right">
+          <i className = "glyphicon glyphicon-refresh" />
+        </button>
       );
+    
     },
 
     renderTitle: function() {
@@ -119,7 +124,7 @@ define(function(require) {
 
     renderBody: function() {
       var instanceHistories = stores.InstanceHistoryStore.getAll(),
-          instances = stores.InstanceStore.fetchWhereNoCache({'archived': 'true'}),
+          instances = stores.InstanceStore.getAll(),
           providers = stores.ProviderStore.getAll(),
           instanceHistoryItems;
 
