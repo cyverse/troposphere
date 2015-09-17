@@ -3,6 +3,7 @@ define(function (require) {
     modernizrTest = require('components/modals/unsupported/modernizrTest.js');
 
     return React.createClass({
+      displayName: "BreakingFeatureList",
        render: function () {
             var listItem = modernizrTest.breakingFeatures.map(function (feature) {
                 return (
