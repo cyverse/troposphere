@@ -28,10 +28,10 @@ def emulate(request, username):
 
     logger.info("[EMULATE]Session_token: %s. Request to emulate %s."
                 % (old_token, username))
-
     r = requests.get(
         os.path.join(settings.SERVER_URL,
                      "api/v1/token_emulate/%s" % username),
+        verify=False,
         headers={'Authorization': 'Token %s' % old_token})
     try:
         j_data = r.json()
