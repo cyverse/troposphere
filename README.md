@@ -66,6 +66,7 @@ Troposphere should then be running on port `5000`.
 Setup your environment by install all dependencies
 
 ```bash
+pip install -r dev_requirements.txt
 npm install
 ```
 
