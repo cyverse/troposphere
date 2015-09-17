@@ -1,10 +1,7 @@
-define(function (require) {
    var modernizr = require('lib/modernizr-latest.js'),
        _ = require('underscore');
-
    var features = modernizr;
-   var unsupportedFeatures = [];
-   var breakingFeatures = [];
+
    var requiredFeatures = [
         //this we know we have support
         'cssanimations',
@@ -36,34 +33,18 @@ define(function (require) {
         'ellipsis'
     ];
 
-    requiredFeatures.forEach(function(feat) {
-        var feature = features[feat];
-        if (feature === undefined)
-            throw "can't find " + feat
-        if (!feature)
-            breakingFeatures.push(feat);
-    });
+    var unsupportedFeatures = _.map(_.filter(_.pairs(features), _.negate(_.last)), _.first);
+    var breakingFeatures = _.intersection(requiredFeatures, unsupportedFeatures);
 
-    for (var prop in features){
-        if (features.hasOwnProperty(prop)){
-          console.log(prop + " " + features[prop]);
-        if (features[prop] === false) {
-          unsupportedFeatures.push(prop);
-        }
-      }
-    };
-  console.log("unsupported = " + unsupportedFeatures);
+    console.log("Unsupported = " + unsupportedFeatures);
+    console.log("Breaking Bad = " + breakingFeatures);
 
-    console.log("breaking = " + breakingFeatures);
     var unsupported = function(){
                 return breakingFeatures.length <= 0;
         };
 
-    return {
+    module.export = {
         unsupportedFeatures: unsupportedFeatures,
         breakingFeatures: breakingFeatures,
         unsupported: unsupported,
     }
-
-});
-
