@@ -1,3 +1,4 @@
+define(function (require) {
    var modernizr = require('lib/modernizr-latest.js'),
        _ = require('underscore');
    var features = modernizr;
@@ -43,8 +44,11 @@
                 return breakingFeatures.length <= 0;
         };
 
-    module.export = {
+    return {
         unsupportedFeatures: unsupportedFeatures,
         breakingFeatures: breakingFeatures,
         unsupported: unsupported,
     }
+
+});
+
