@@ -38,20 +38,20 @@ define(function (require) {
                        resource={this.props.instance}
                        onPreviewResource={this.props.onPreviewResource}
           >
-          <td className="image-preview sm-cell">
+          <td className="image-preview sm-cell" data-label="Name">
             <Gravatar hash={instanceHash} size={iconSize} type={type}/>
             <Name instance={instance}/>
           </td>
-          <td className="sm-cell">
+          <td className="sm-cell" data-label="Status">
             <Status instance={instance}/>
           </td>
-          <td className="sm-cell">
+          <td className="sm-cell" data-label="IP Address">
             <IpAddress instance={instance}/>
           </td>
-          <td className="sm-cell">
+          <td className="sm-cell" data-label="Size">
             <Size instance={instance}/>
           </td>
-          <td className="sm-cell">
+          <td className="sm-cell" data-label="Provider">
             <Provider instance={instance}/>
           </td>
         </SelectableRow>
