@@ -9,6 +9,7 @@ define(function (require) {
   return {
 
     requestImage: function(params){
+
       if(!params.instance) throw new Error("Missing instance");
       if(!params.name) throw new Error("Missing name");
       if(!params.description) throw new Error("Missing description");
@@ -25,54 +26,55 @@ define(function (require) {
       if(!params.visibility) throw new Error("Missing visibility");
       if(!params.imageUsers) throw new Error("Missing imageUsers");
 
+      // temp. workaround for getting user's identity
+      var identity = stores.IdentityStore.getAll().models[0].id;
 
-      var instance = params.instance,
-          name = params.name,
-          description = params.description,
-          providerId = params.providerId,
-          software = params.software,
-          filesToExclude = params.filesToExclude,
-          fork = params.versionFork,
-          versionName = params.versionName,
-          versionChanges = params.versionChanges,
-          systemFiles = params.systemFiles || "[no files specified]",
-          visibility = params.visibility,
-          scripts = params.scripts,
-          licenses = params.licenses,
-          imageUsers = params.imageUsers,
-          userNames = imageUsers.map(function(user){
+      var software = params.software || "[no files specified]",
+          accessList = params.imageUsers.map(function(user){
             return user.get('username');
           }),
-          tags = params.tags,
-          tagNames = tags.map(function(tag){
-            return tag.get('name');
-          }),
-          provider = stores.ProviderStore.get(providerId);
+          excludeFiles = params.filesToExclude,
+          description = params.description,
+          providerId = params.providerId,
+          instance = params.instance.get('id'),
+          identity = identity,
+          iplantSysFiles = params.systemFiles,
+          filesToExclude = params.filesToExclude,
+          newApplicationDescription = params.description,
+          newApplicatonName = params.name,
+          newApplicationVisibility = params.visibility,
+          newMachineOwner = stores.ProfileStore.get().get('user'),
+          newMachineProvider = params.providerId,
+          newMachineAllowImaging = params.imaging,
+          newVersionChangeLog = params.versionChanges,
+          newVersionForked = params.versionFork,
+          versionName = params.versionName,
+          newVersionMemoryMin = '0',
+          newVersionStorageMin = '0';
+
 
       var requestData = {
-        fork: fork,
-        name: name,
-        description: description,
-        tags: tagNames,
-        instance: instance.get('uuid'),
-        ip_address: instance.get("ip_address"),
-        provider: provider.get('uuid'),
-        version_name: versionName,
-        version_changes: versionChanges,
-        vis: visibility,
-        shared_with: userNames,
-        exclude: filesToExclude || "[no files specified]",
-        software: software || "[no software specified]",
-        sys: systemFiles || "[no files specified]",
-        licenses: licenses,
-        scripts: scripts
+        access_list: accessList,
+        exclude_files: filesToExclude || "[no files specified]",
+        installed_software: software,
+        instance: instance,
+        identity: identity,
+        iplant_sys_files: iplantSysFiles || "[no files specified]",
+        new_application_description: description,
+        new_application_name: name,
+        new_application_visibility: newApplicationVisibility,
+        new_machine_owner: newMachineOwner,
+        new_machine_provider: providerId,
+        new_version_allow_imaging: true,
+        new_version_change_log: newVersionChangeLog,
+        new_version_forked: newVersionForked,
+        new_version_name: versionName,
+        new_version_memory_min: newVersionMemoryMin,
+        new_version_storage_min: newVersionStorageMin
       };
 
       var requestUrl = (
-        globals.API_ROOT +
-        "/provider/" + instance.get('provider').uuid +
-        "/identity/" + instance.get('identity').uuid +
-        "/request_image"
+        globals.API_V2_ROOT + "/machine_requests"
       );
 
       $.ajax({

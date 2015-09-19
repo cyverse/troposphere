@@ -10,7 +10,7 @@ define(function(require) {
     renderBody: function() {
       var profile = stores.ProfileStore.get(),
         images = stores.ImageStore.fetchWhere({
-          created_by__username: profile.get('username')
+          created_by__username: 'sgregory'//profile.get('username')
         }),
         tags = stores.TagStore.getAll(),
         imagingDocsUrl = "https://pods.iplantcollaborative.org/wiki/display/atmman/Requesting+an+Image+of+an+Instance";

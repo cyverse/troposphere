@@ -14,14 +14,26 @@ define(function (require) {
     mixins: [Router.State],
 
     loadMoreRequests: function(){
-        stores.ImageRequestStore.fetchMore();
+        stores.ImageRequestStore.fetchMoreWhere({status__name: "pending"});
     },
 
     render: function () {
-      var imageRequests = stores.ImageRequestStore.getAll();
+      var imageRequests = stores.ImageRequestStore.fetchWhere({status__name: "pending"});
+      var loadMoreButton;
 
-      if(imageRequests == null){
+      if (imageRequests == null){
         return <div className="loading"></div>
+      }
+
+      if (imageRequests.meta.next){
+        loadMoreButton = <tr><td><div onClick={this.loadMoreRequests} className="btn btn-default">Load more requests</div></td></tr>;
+      }
+
+      if (!imageRequests[0]){
+        return <div>
+                 <h3>No imaging requests</h3>
+                 <div className="btn btn-default" onClick = {this.loadMoreRequests}>Refresh</div>
+               </div>;
       }
 
       var mappedImageRequests = imageRequests.map(function(request){
@@ -45,7 +57,7 @@ define(function (require) {
                     </th>
                   </tr>
                   {mappedImageRequests}
-                  <tr><td><div onClick={this.loadMoreRequests} className="btn btn-default">Load more requests</div></td></tr>
+                  {loadMoreButton}
                 </tbody>
               </table>
             <RouteHandler />
