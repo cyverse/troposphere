@@ -179,6 +179,10 @@
     #refresh {
       float: left;
       padding-right: 10%;
+      &.disabled {
+        color: gray;
+        opacity: .4;
+      }
     }
 
     #timestamp{
