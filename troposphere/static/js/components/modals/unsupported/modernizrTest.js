@@ -3,16 +3,15 @@
    var features = modernizr;
 
    var requiredFeatures = [
-        //this we know we have support
-        'cssanimations',
         //this we know we don't have support
-        'regions',
-        'microdata',
-        'proximity',
-        'display-runin',
-        'mathml',
-        'dart',
+        //'regions',
+        //'microdata',
+        //'proximity',
+        //'display-runin',
+        //'mathml',
+        //'dart',
         //the actual tests so far we are concerned about
+        'cssanimations',
         'es5',
         'es5array',
         'es5date',
