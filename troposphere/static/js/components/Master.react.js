@@ -40,8 +40,7 @@ define(function (require) {
     },
 
     componentDidMount: function () {
-
-      if(modernizrTest.unsupported) {
+      if(!modernizrTest.unsupported()) {
           showUnsupportedModal.showModal();
       }
       if(globals.BADGES_ENABLED){
