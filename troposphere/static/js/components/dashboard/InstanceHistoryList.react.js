@@ -58,7 +58,7 @@ define(function(require) {
       
       return (
         <span className="pull-right instance-history">
-            <RefreshComponent onRefreshClick = {this.refreshHistory} timestamp = {stores.InstanceHistoryStore.lastUpdated} delay = {5 * 1000 * 60} />
+            <RefreshComponent onRefreshClick = {this.refreshHistory} timestamp = {stores.InstanceHistoryStore.lastUpdated} delay = {1000 * 60} />
         </span>
       );
     
