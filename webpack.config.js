@@ -20,7 +20,6 @@ if (process.env.NODE_ENV === "production") {
     })
   );
 }
-
 module.exports = {
   entry: {
     app: "./main",
@@ -36,6 +35,9 @@ module.exports = {
   module: {
     loaders: [
       { test: /bootstrap-sass/, loader: "imports?jQuery=jquery" },
+     // { test:/modernizr\.custom\.10679\.js/, loader: "script" },
+      { test: /modernizr-latest\.js/, loader: "imports?this=>window,html5=>window.html5!exports?window.Modernizr" },
+
       { test: /\.js$/, loader: "babel", exclude: /node_modules/ },
       { test: /\.(scss|sass)$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader!sass-loader") },
       { test: /\.woff$/ , loader: "url?limit=10000&mimetype=application/font-woff" },
@@ -46,13 +48,14 @@ module.exports = {
       { test: /\.(jpe?g|png|gif)$/, loader: "file?name=images/[name].[ext]" }
     ]
   },
+
   plugins: plugins,
   resolve: {
     alias: {
       bootstrap: "bootstrap-sass",
       css: path.join(__dirname, "/troposphere/static/css/"),
       images: path.join(__dirname, "/troposphere/static/images/"),
-      highcharts: "highcharts-commonjs"
+      highcharts: "highcharts-commonjs" 
     },
     root: [
       path.join(__dirname, "/troposphere/static/js"),

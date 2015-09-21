@@ -9,12 +9,13 @@ define(function (require) {
       Header = require('./Header.react'),
       Footer = require('./Footer.react'),
       actions = require('actions'),
+      showUnsupportedModal = require('modals/unsupported/showUnsupportedModal.js'),
+      modernizrTest = require('components/modals/unsupported/modernizrTest.js'),
       NullProject = require('models/NullProject');
 
   // Routing
   var Router = require('react-router'),
     RouteHandler = Router.RouteHandler;
-
   return React.createClass({
 
     mixins: [Router.State],
@@ -39,6 +40,10 @@ define(function (require) {
     },
 
     componentDidMount: function () {
+
+      if(modernizrTest.unsupported) {
+          showUnsupportedModal.showModal();
+      }
       if(globals.BADGES_ENABLED){
         this.loadBadgeData();
       }
@@ -75,6 +80,7 @@ define(function (require) {
     // --------------
 
     render: function () {
+
       var maintenanceMessages = stores.MaintenanceMessageStore.getAll() || new Backbone.Collection(),
       marginTop = maintenanceMessages.length * 24 + "px";
 

@@ -37,7 +37,7 @@
     "react-tools": "^0.12.0",
     "showdown": "^1.2.1",
     "toastr": "^2.1.0",
-    "underscore": "^1.6.0"
+    "underscore": "^1.8.3"
   },
   "devDependencies": {
     "babel-core": "^5.8.14",
@@ -45,8 +45,10 @@
     "babel-loader": "^5.3.2",
     "css-loader": "^0.15.6",
     "eslint-plugin-react": "^3.1.0",
+    "exports-loader": "^0.6.2",
     "extract-text-webpack-plugin": "^0.8.2",
     "file-loader": "^0.8.4",
+    "imports-loader": "^0.6.4",
     "node-sass": "^3.2.0",
     "sass-loader": "^1.0.3",
     "sinon": "~1.10.3",
