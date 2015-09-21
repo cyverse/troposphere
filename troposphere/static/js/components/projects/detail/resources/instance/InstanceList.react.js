@@ -41,7 +41,7 @@ define(function (require) {
           <div className="header">
             <i className="glyphicon glyphicon-tasks"></i>
 
-            <h2>Instances</h2>
+            <h3 className="title-3">Instances</h3>
           </div>
           {this.getInstanceContent()}
         </div>

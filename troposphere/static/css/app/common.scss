@@ -205,3 +205,63 @@ $chosen-sprite-retina-path: $chosen-sprite-path;
      border-color: #56AA21;
      box-shadow: 0 0 6px #56aa21;
  }
+
+// Responsive Tables
+// All elements should be given the appropriate utility class as follows 
+// sm-table
+// sm-thead
+// sm-header
+// sm-tbody
+// sm-row
+// sm-cell
+
+
+@media only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+    /* Force table to not be like tables anymore */
+    .sm-table, .sm-thead, .sm-tbody, .sm-header, .sm-cell, .sm-row {
+        display: block;
+    }
+
+    /* Hide table headers (but not display: none;, for accessibility) */
+   .sm-thead .sm-row {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    .sm-row {
+        background-color:white !important;
+        border: 1px solid #ccc;
+        padding:5px;
+        margin-bottom:10px
+    }
+
+    .sm-cell {
+        /* Behave  like a "row" */
+        border: none;
+        border-bottom: 1px solid #eee; 
+        position: relative;
+        padding:3px 3px 3px 50% !important;
+    }
+
+    .sm-cell:before {
+        /* Now like a table header */
+        position: absolute;
+        /* Top/left values mimic padding */
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+    }
+
+    /*
+    Label the data
+    */
+
+    .sm-cell[data-label]:before{
+        content: attr(data-label);
+    }
+}
