@@ -61,10 +61,10 @@ define(function (require) {
           onResourceSelected={this.props.onResourceSelected}
           onResourceDeselected={this.props.onResourceDeselected}
           >
-          <th>Name</th>
-          <th>Status</th>
-          <th>Size</th>
-          <th>Provider</th>
+          <th className="sm-header">Name</th>
+          <th className="sm-header">Status</th>
+          <th className="sm-header">Size</th>
+          <th className="sm-header">Provider</th>
         </SelectableTable>
       )
     }

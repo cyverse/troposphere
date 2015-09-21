@@ -39,14 +39,14 @@ define(function (require) {
       var resourceRows = this.props.resourceRows;
 
       return (
-        <table className="table table-hover">
-          <thead>
-          <tr onClick={this.toggleCheckbox}>
-            <th><Checkbox isChecked={this.areAllResourcesSelected()}/></th>
+        <table className="table table-hover sm-table">
+          <thead className="sm-thead">
+          <tr className="sm-row"nClick={this.toggleCheckbox}>
+            <th className="sm-header"><Checkbox isChecked={this.areAllResourcesSelected()}/></th>
             {this.props.children}
           </tr>
           </thead>
-          <tbody>
+          <tbody className="sm-tbody">
           {resourceRows}
           </tbody>
         </table>

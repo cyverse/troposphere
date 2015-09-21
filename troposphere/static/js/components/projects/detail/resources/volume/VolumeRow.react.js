@@ -38,7 +38,7 @@ define(function (require) {
           onPreviewResource={this.props.onPreviewResource}
           resource={volume}
           >
-          <td className="image-preview">
+          <td className="image-preview sm-cell" data-label="Name">
             <Gravatar
               hash={volumeHash}
               size={iconSize}
@@ -46,13 +46,13 @@ define(function (require) {
               />
             <Name volume={volume}/>
           </td>
-          <td>
+          <td className="sm-cell" data-label="Status">
             <Status volume={volume}/>
           </td>
-          <td>
+          <td className="sm-cell" data-label="Size">
             <Size volume={volume}/>
           </td>
-          <td>
+          <td className="sm-cell" data-label="Provider">
             <Provider volume={volume}/>
           </td>
         </SelectableRow>
