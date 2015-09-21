@@ -66,15 +66,15 @@ define(function (require) {
       if (this.state.version) {
         var client = this.state.version.client;
         var clientVersion = client.get("git_branch") + " " + client.get("git_sha_abbrev");
-        var clientLastUpdated = moment(client.get('commit_date')).format("MMM Do YYYY");
+        var clientLastUpdated = moment(client.get('commit_date')).format("MMM Do YYYY hh:mm a");
 
         var serverDeploy = this.state.version.deploy;
         var serverDeployVersion = serverDeploy.get("git_branch") + " " + serverDeploy.get("git_sha_abbrev");
-        var serverDeployLastUpdated = moment(serverDeploy.get('commit_date')).format("MMM Do YYYY");
+        var serverDeployLastUpdated = moment(serverDeploy.get('commit_date')).format("MMM Do YYYY hh:mm a");
 
         var server = this.state.version.server;
         var serverVersion = server.get("git_branch") + " " + server.get("git_sha_abbrev");
-        var serverLastUpdated = moment(server.get('commit_date')).format("MMM Do YYYY");
+        var serverLastUpdated = moment(server.get('commit_date')).format("MMM Do YYYY hh:mm a");
 
         content = (
           <div role='form'>

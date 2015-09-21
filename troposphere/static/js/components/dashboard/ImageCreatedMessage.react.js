@@ -25,7 +25,7 @@ define(function (require) {
             </div>
             <div className="details">
               <div><strong>{user.username}</strong> created an image</div>
-              <div>{startDate.format("MMM DD, YYYY")}</div>
+              <div>{startDate.format("MMM DD, YYYY hh:mm a")}</div>
               <div>
                 <Router.Link to="image-details" params={{imageId: image.id}}>
                   {image.get('name')}
