@@ -283,6 +283,7 @@ define(function (require) {
                             <h4>Current Allocation Usage</h4>
                             {this.renderAllocationConsumption(identity)}
                         </div>
+                        <a href="#" onClick={this.props.onRequestResources}>Need more resources?</a>
                     </div>
                 </div>
             );
