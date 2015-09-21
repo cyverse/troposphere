@@ -64,12 +64,12 @@ define(function (require) {
       var date_str;
 
       if(version.get('end_date')) {
-        var dateCreated = moment(version.get('start_date')).format("M/DD/YYYY"),
-          dateArchived = moment(version.get('end_date')).format("M/DD/YYYY");
+        var dateCreated = moment(version.get('start_date')).format("M/DD/YYYY hh:mm a"),
+          dateArchived = moment(version.get('end_date')).format("M/DD/YYYY hh:mm a");
 
           date_str = dateCreated + " - " + dateArchived;
       } else {
-        var dateCreated = moment(version.get('start_date')).format("M/DD/YYYY");
+        var dateCreated = moment(version.get('start_date')).format("M/DD/YYYY hh:mm a");
 
           date_str = dateCreated;
       }
@@ -81,7 +81,7 @@ define(function (require) {
       var version = this.props.version,
           image = this.props.image,
           isRecommended = false,
-          dateCreated = moment(version.start_date).format("M/DD/YYYY"),
+          dateCreated = moment(version.start_date).format("M/DD/YYYY hh:mm a"),
           versionHash = CryptoJS.MD5(version.id.toString()).toString(),
           iconSize = 63,
           type = stores.ProfileStore.get().get('icon_set'),

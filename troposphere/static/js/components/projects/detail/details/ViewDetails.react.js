@@ -33,7 +33,7 @@ define(
           <div className="project-info-segment row">
             <h4 className="col-md-3">Created</h4>
 
-            <p className="col-md-9">{project.get('start_date').format("MMMM Do, YYYY")}</p>
+            <p className="col-md-9">{project.get('start_date').format("MMMM Do, YYYY hh:mm a")}</p>
           </div>
         );
       },
