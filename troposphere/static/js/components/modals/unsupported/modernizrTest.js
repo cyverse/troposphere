@@ -8,7 +8,7 @@
         //'microdata',
         //'proximity',
         //'display-runin',
-        //'mathml',
+        // 'mathml',
         //'dart',
         //the actual tests so far we are concerned about
         'cssanimations',
@@ -35,8 +35,8 @@
     var unsupportedFeatures = _.map(_.filter(_.pairs(features), _.negate(_.last)), _.first);
     var breakingFeatures = _.intersection(requiredFeatures, unsupportedFeatures);
 
-    console.log("Unsupported = " + unsupportedFeatures);
-    console.log("Breaking Bad = " + breakingFeatures);
+    //console.log("Unsupported = " + unsupportedFeatures);
+    //console.log("Breaking Bad = " + breakingFeatures);
 
     var unsupported = function(){
                 return breakingFeatures.length <= 0;
