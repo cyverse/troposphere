@@ -128,6 +128,10 @@ define(function(require) {
           )
         }
 
+        if(!provider){
+            provider = {name: '[no provider name]'};
+        }
+
         return (
           <div key={instance.cid}>
             <div className="instance-history">
