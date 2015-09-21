@@ -170,6 +170,12 @@
       }
     }
 
+    .disabled{
+      &:hover {
+        cursor: not-allowed;
+      } 
+    }
+
     #refresh {
       float: left;
       padding-right: 10%;
