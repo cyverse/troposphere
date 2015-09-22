@@ -25,12 +25,22 @@ define(function (require) {
     },
 
     getInitialState: function () {
-      return this.getState();
+      return {
+        unsupportedFinished: false
+      }//this.getState();
     },
 
     updateState: function () {
       if (this.isMounted()) this.setState(this.getState())
     },
+ 
+     closeUnsupportedModal: function () {
+        var self = this;
+        this.setState({unsupportedFinished: true});
+        setTimeout(function(){
+            console.log(self.state.unsupportedFinished);
+        }, 500);
+     },
 
     loadBadgeData: function(){
       stores.BadgeStore.getAll(),
@@ -40,16 +50,25 @@ define(function (require) {
     },
 
     componentDidMount: function () {
-      if(!modernizrTest.unsupported()) {
-          showUnsupportedModal.showModal();
+        console.log(this.state.unsupportedFinished);
+      if (!modernizrTest.unsupported()) {
+          showUnsupportedModal.showModal(this.closeUnsupportedModal);
       }
-      if(globals.BADGES_ENABLED){
+
+      if (modernizrTest.unsupported()) {
+          this.setState({unsupportedFinished: true});
+      }
+     console.log(this.state.unsupportedFinished);
+
+      if (globals.BADGES_ENABLED){
         this.loadBadgeData();
       }
+
       // subscribe to all Stores
       Object.keys(stores).forEach(function (storeName) {
         stores[storeName].addChangeListener(this.updateState);
       }.bind(this));
+
       // The code below is only relevant to logged in users
       if (!context.profile) return;
 

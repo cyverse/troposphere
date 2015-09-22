@@ -4,13 +4,13 @@
 
    var requiredFeatures = [
         //this we know we don't have support
-        //'regions',
-        //'microdata',
+        'regions',
+        'microdata',
         //'proximity',
         //'display-runin',
         // 'mathml',
         //'dart',
-        //the actual tests so far we are concerned about
+        //the actual tests, so far, we are concerned about
         'cssanimations',
         'es5',
         'es5array',

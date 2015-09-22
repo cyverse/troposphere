@@ -12,8 +12,10 @@ define(function (require) {
     displayName: "UnsupportedModal",
     
      mixins: [BootstrapModalMixin],
-     closeModal: function () {
-        this.hide();
+     
+     confirm: function () {
+         this.hide();
+         this.props.closeUnsupportedModal();
      },
 
      render: function () {
@@ -63,7 +65,7 @@ define(function (require) {
                 {content}
                 </div>
                 <div className="modal-footer">
-                <button className="btn btn-primary" onClick={this.closeModal} >Try Anyway</button>
+                <button className="btn btn-primary" onClick={this.confirm} >Try Anyway</button>
                 </div>
               </div>
             </div>
