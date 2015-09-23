@@ -4,10 +4,11 @@ define(
     'react',
     'backbone',
     'stores',
+    'moment',
     'components/common/tags/ViewTags.react',
     'components/common/Gravatar.react'
   ],
-  function (React, Backbone, stores, Tags, Gravatar) {
+  function (React, Backbone, stores, moment, Tags, Gravatar) {
 
     return React.createClass({
 
@@ -32,6 +33,7 @@ define(
       render: function () {
         var image = this.props.image,
           type = stores.ProfileStore.get().get('icon_set'),
+          imageCreationDate = moment(image.get('start_date')).format("MMM D, YYYY hh:mm a"),
           iconSize = 67,
           icon;
 
@@ -55,8 +57,7 @@ define(
                 <span className="app-name">
                   <h4 className="name">{image.get('name')}</h4>
                   <div>
-                    <span>by </span>
-                    <strong>{image.get('created_by').username}</strong>
+                    <time>{imageCreationDate}</time> by <strong>{image.get('created_by').username}</strong>
                   </div>
                   {this.renderTags()}
                 </span>
