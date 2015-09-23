@@ -154,7 +154,6 @@ define(function (require) {
     },
 
     onNext: function (data) {
-      console.log(data);
         // Similar logic to onPrevious. this.state.step == breadcrumbs + 1 
         var nextStep = this.state.breadcrumbs[this.state.step],
             data = data || {},
