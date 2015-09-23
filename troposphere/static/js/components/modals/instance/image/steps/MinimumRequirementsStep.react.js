@@ -64,7 +64,9 @@ define(function(require) {
                 Let other users know how much memory (RAM) is required to properly run an instance based on this image.
               </div>
               <input type="text" onChange={this.handleMemChange} value={this.state.minMem} />
-              <hr />
+            </div>
+            <hr />
+            <div className="form-group">
               <label htmlFor="name" className="control-label">
                 Minimum storage (GB):
               </label>
