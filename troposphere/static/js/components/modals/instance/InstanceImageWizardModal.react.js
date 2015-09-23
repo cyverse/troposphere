@@ -8,6 +8,7 @@ define(function (require) {
       ImageInfoStep = require('./image/steps/ImageInfoStep.react'),
       VersionInfoStep = require('./image/steps/VersionInfoStep.react'),
       ProviderStep = require('./image/steps/ProviderStep.react'),
+      MinimumRequirementsStep = require('./image/steps/MinimumRequirementsStep.react'),
       VisibilityStep = require('./image/steps/VisibilityStep.react'),
       FilesToExcludeStep = require('./image/steps/FilesToExcludeStep.react'),
       BootScriptsAndLicenseStep = require('./image/steps/BootScriptsLicensingStep.react'),
@@ -15,11 +16,12 @@ define(function (require) {
 
   var IMAGE_INFO_STEP = 1,
       VERSION_INFO_STEP = 2,
-      PROVIDER_STEP = 3,
-      VISIBILITY_STEP = 4,
-      EXCLUDE_FILES_STEP = 5,
-      SCRIPTS_LICENSE_STEP = 6,
-      REVIEW_STEP = 7;
+      MINIMUM_REQUIREMENTS_STEP = 3,
+      PROVIDER_STEP = 4,
+      VISIBILITY_STEP = 5,
+      EXCLUDE_FILES_STEP = 6,
+      SCRIPTS_LICENSE_STEP = 7,
+      REVIEW_STEP = 8;
 
   return React.createClass({
     displayName: "InstanceImageWizardModal",
@@ -47,6 +49,8 @@ define(function (require) {
         imageTags: null,
         providerId: null,
         visibility: "public",
+        minStorage: "0",
+        minMem: "0",
         imageUsers: new Backbone.Collection(),
         activeScripts: new Backbone.Collection(),
         activeLicenses: new Backbone.Collection(),
@@ -54,6 +58,7 @@ define(function (require) {
         breadcrumbs: [
           {name:"Image Info",step:IMAGE_INFO_STEP},
           {name:"Version Info",step:VERSION_INFO_STEP},
+          {name:"Minimum Requirements",step:MINIMUM_REQUIREMENTS_STEP},
           {name:"Provider",step:PROVIDER_STEP},
           {name:"Privacy",step:VISIBILITY_STEP},
           {name:"Exclude Files",step:EXCLUDE_FILES_STEP},
@@ -97,7 +102,7 @@ define(function (require) {
       this.hide();
     },
 
-    onReviewImage: function() {
+    onReviewImage: function(data) {
       var step = REVIEW_STEP,
         data = data || {},
         state = _.extend({step: step}, data);
@@ -116,6 +121,8 @@ define(function (require) {
         newImage: this.state.newImage,
         name: this.state.name,
         description: this.state.description,
+        minMem: this.state.minMem,
+        minStorage: this.state.minStorage,
         tags: this.state.imageTags,
         versionName: this.state.versionName,
         versionChanges: this.state.versionChanges,
@@ -147,6 +154,7 @@ define(function (require) {
     },
 
     onNext: function (data) {
+      console.log(data);
         // Similar logic to onPrevious. this.state.step == breadcrumbs + 1 
         var nextStep = this.state.breadcrumbs[this.state.step],
             data = data || {},
@@ -212,6 +220,16 @@ define(function (require) {
               onNext={this.onNext}
               onSubmit={this.onReviewImage}
               />
+          );
+
+        case MINIMUM_REQUIREMENTS_STEP:
+          return (
+            <MinimumRequirementsStep
+            minMem={this.state.minMem}
+            minStorage={this.state.minStorage}
+            onPrevious={this.onPrevious}
+            onNext={this.onNext}
+            />
           );
 
         case EXCLUDE_FILES_STEP:
@@ -283,7 +301,7 @@ define(function (require) {
     },
 
     changeTitleBack: function(){
-      var breadcrumb = this.state.breadcrumbs[this.state.step];
+      var breadcrumb = this.state.breadcrumbs[this.state.step - 1];
       this.setState({title: breadcrumb.name});
     },
 
