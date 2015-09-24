@@ -38,13 +38,6 @@ class MaintenanceRecord(models.Model):
         return disable_login
 
 
-class UserToken(models.Model):
-    token = models.CharField(max_length=128)
-    user = models.ForeignKey(User)
-    created_date = models.DateTimeField(auto_now_add=True)
-    modified_date = models.DateTimeField(auto_now=True)
-
-
 class UserPreferences(models.Model):
     user = models.ForeignKey(User)
     show_beta_interface = models.BooleanField(default=False)
