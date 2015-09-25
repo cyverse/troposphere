@@ -46,7 +46,7 @@ define(function(require) {
           volumes = stores.VolumeStore.getAll(),
           sizes = stores.SizeStore.fetchWhereNoCache({'archived': 'true', 'page_size': 250});
 
-      if (!providers || !identities || !projects || !maintenanceMessages || !images || !instances || !volumes || !sizes) {
+      if ( providers == null || identities == null || projects == null || maintenanceMessages == null || images == null || instances == null || volumes == null || sizes == null ) {
         return <div className='loading'></div>;
       }
 

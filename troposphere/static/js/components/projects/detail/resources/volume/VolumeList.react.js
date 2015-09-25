@@ -43,7 +43,7 @@ define(function (require) {
           <div className="header">
             <i className="glyphicon glyphicon-hdd"></i>
 
-            <h2>Volumes</h2>
+            <h3 className="title-3">Volumes</h3>
           </div>
           {content}
         </div>

@@ -48,7 +48,7 @@ define(function (require) {
     },
 
     onQueryChange: function (query) {
-      this.setState({query: query});
+      this.setState({query: query.toLowerCase()});
     },
 
     render: function () {

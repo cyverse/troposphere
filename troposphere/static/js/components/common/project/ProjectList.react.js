@@ -33,7 +33,7 @@ define(
           }.bind(this));
 
         return (
-          <ul className="list-group row">
+          <ul className="list-group">
             {projects}
           </ul>
         );

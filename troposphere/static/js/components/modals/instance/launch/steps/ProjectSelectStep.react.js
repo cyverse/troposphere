@@ -135,7 +135,10 @@ var React = require('react'),
             this.setState({createSelected: true, projectId: -1});
         },
         hideProjectCreate: function() {
-            this.setState({createSelected: false});
+            var projects = stores.ProjectStore.getAll(),
+                project = projects.first(),
+                projectId = (project) ? project.id : -1;
+            this.setState({createSelected: false, project:project, projectId: projectId});
         },
 
         renderProjectCreationForm: function (projects) {
@@ -148,8 +151,8 @@ var React = require('react'),
             }
             if (this.state.createSelected) {
                 return (
-                    <div className='form-group'>
-                        <div className="col-sm-12">
+                    <div>
+                        <div className="clearfix">
 
                             <input
                                 type="text"
@@ -158,10 +161,11 @@ var React = require('react'),
                                 onChange={this.onProjectNameChange}
                                 placeholder="Enter project name..."
                             />
-                            <button type="button" className="btn btn-primary" onClick={this.createProjectAndComplete}>
+                            <button type="button" className="btn btn-primary" style={{float:"right", marginTop: "20px"}} onClick={this.createProjectAndComplete}>
                                 Create
                             </button>
                         </div>
+                        <hr/>
                     </div>
                 )
             }
@@ -184,15 +188,14 @@ var React = require('react'),
        this.state.project = projects.get(this.state.projectId);
        return (
            <div role='form'>
-               <div className="modal-section form-horizontal">
+               <div className="modal-section form-horizontal clearfix">
                    <h4>Select a Project for your new Instance</h4>
-                   {this.renderProjectCreationForm(projects)}
-
-                   <div className='form-group'>
-                       <div className="col-sm-12">
+                    <div>
                        {this.renderProjectSelectionForm(projects)}
-                       </div>
-                   </div>
+                     </div>
+               </div>
+               <div className="modal-section form-horizontal" style={{marginTop:"20px"}}>
+                  {this.renderProjectCreationForm(projects)}
                </div>
            </div>
        )
