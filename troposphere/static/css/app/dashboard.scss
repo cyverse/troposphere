@@ -170,25 +170,6 @@
       }
     }
 
-    .disabled{
-      &:hover {
-        cursor: not-allowed;
-      } 
-    }
-
-    #refresh {
-      float: left;
-      padding-right: 10%;
-      &.disabled {
-        color: gray;
-        opacity: .4;
-      }
-    }
-
-    #timestamp{
-      font-size: 10pt;
-    }
-
     .launch-info {
       float: right;
     }
