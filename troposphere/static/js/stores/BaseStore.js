@@ -155,13 +155,28 @@ define(function (require) {
         var models = new this.collection();
 
         models.fetch({
-            url: _.result(models, 'url')
+            url: models.url
         }).done(function () {
             this.isFetching = false;
             this.models = models;
-            if (this.pollingEnabled) {
-              this.models.each(this.pollNowUntilBuildIsFinished.bind(this));
-            }
+            this.emitChange();
+          }.bind(this));
+      }
+    },
+
+    // same as fetchFirstPage, but with URL query params
+    fetchFirstPageWhere: function(queryParams){
+      if (!this.isFetching){ 
+        this.isFetching = true;
+        queryParams = queryParams || {}; 
+        var queryString = buildQueryStringFromQueryParams(queryParams);
+        var models = new this.collection();
+
+        models.fetch({
+            url: models.url + queryString
+        }).done(function () {
+            this.isFetching = false;
+            this.models = models;
             this.emitChange();
           }.bind(this));
       }
