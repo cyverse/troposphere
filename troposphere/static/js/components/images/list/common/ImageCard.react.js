@@ -22,7 +22,7 @@ define(function (require) {
       var image = this.props.image,
         type = stores.ProfileStore.get().get('icon_set'),
         imageTags = stores.TagStore.getImageTags(image),
-        imageCreationDate = moment(image.get('start_date')).format("MMM D, YYYY"),
+        imageCreationDate = moment(image.get('start_date')).format("MMM D, YYYY hh:mm a"),
         iconSize = 145,
         icon;
 

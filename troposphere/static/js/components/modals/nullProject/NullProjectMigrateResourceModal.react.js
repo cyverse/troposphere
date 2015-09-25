@@ -189,6 +189,7 @@ define(
       },
 
       render: function () {
+        var projects = stores.ProjectStore.getAll();
         return (
           <div className="modal fade">
             <div className="modal-dialog">

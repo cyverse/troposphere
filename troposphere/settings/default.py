@@ -7,12 +7,14 @@ https://docs.djangoproject.com/en/1.6/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
-UI_VERSION = "Hawaiian Hawk"
+UI_VERSION = "Incana Incana"
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 BASE_URL = ""
+
+SERVER_URL="https://localhost"
 
 DEBUG = False
 
@@ -104,6 +106,9 @@ LOGGING = {
         },
     },
 }
+
+API_ROOT    = SERVER_URL + "/api/v1"
+API_V2_ROOT = SERVER_URL + "/api/v2"
 
 # The ROOT PATH for ALL (app + dependencies) static files.
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
