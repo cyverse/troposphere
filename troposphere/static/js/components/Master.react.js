@@ -33,13 +33,16 @@ define(function (require) {
     updateState: function () {
       if (this.isMounted()) this.setState(this.getState())
     },
- 
+
      closeUnsupportedModal: function () {
-        var self = this;
-        this.setState({unsupportedFinished: true});
-        setTimeout(function(){
-            console.log(self.state.unsupportedFinished);
-        }, 500);
+            var instances = stores.InstanceStore.getInstancesNotInAProject(),
+            volumes = stores.VolumeStore.getVolumesNotInAProject(),
+            nullProject = new NullProject({instances: instances, volumes: volumes});
+            if (!nullProject.isEmpty()) {
+                actions.NullProjectActions.migrateResourcesIntoProject(nullProject);
+            } else {
+                actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
+            }
      },
 
     loadBadgeData: function(){
@@ -50,15 +53,21 @@ define(function (require) {
     },
 
     componentDidMount: function () {
-        console.log(this.state.unsupportedFinished);
+        var instances = stores.InstanceStore.getInstancesNotInAProject(),
+        volumes = stores.VolumeStore.getVolumesNotInAProject(),
+        nullProject = new NullProject({instances: instances, volumes: volumes});
       if (!modernizrTest.unsupported()) {
           showUnsupportedModal.showModal(this.closeUnsupportedModal);
       }
 
       if (modernizrTest.unsupported()) {
-          this.setState({unsupportedFinished: true});
+
+        if (!nullProject.isEmpty()) {
+            actions.NullProjectActions.migrateResourcesIntoProject(nullProject);
+        } else {
+            actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
+        }
       }
-     console.log(this.state.unsupportedFinished);
 
       if (globals.BADGES_ENABLED){
         this.loadBadgeData();
@@ -75,15 +84,6 @@ define(function (require) {
       // IMPORTANT! We get one shot at this. If the instances and volumes aren't
       // fetched before this component is mounted we miss our opportunity to migrate
       // the users resources (so make sure they're fetched in the Splash Screen)
-      var instances = stores.InstanceStore.getInstancesNotInAProject(),
-        volumes = stores.VolumeStore.getVolumesNotInAProject(),
-        nullProject = new NullProject({instances: instances, volumes: volumes});
-
-      if (!nullProject.isEmpty()) {
-        actions.NullProjectActions.migrateResourcesIntoProject(nullProject);
-      } else {
-        actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
-      }
     },
 
     componentWillUnmount: function () {
@@ -100,6 +100,7 @@ define(function (require) {
     render: function () {
 
       var maintenanceMessages = stores.MaintenanceMessageStore.getAll() || new Backbone.Collection(),
+      projects = stores.ProjectStore.getAll(),
       marginTop = maintenanceMessages.length * 24 + "px";
 
       return (

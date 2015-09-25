@@ -10,7 +10,9 @@ define(function (require) {
 
       var props = {
         header: "Unsupported Features",
-        closeUnsupportedModal: setState
+        closeUnsupportedModal: setState,
+        backdrop:"static",
+        keyboard:false
       };
 
       ModalHelpers.renderModal(UnsupportedModal, props, function () {

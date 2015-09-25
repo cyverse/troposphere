@@ -14,8 +14,8 @@ define(function (require) {
      mixins: [BootstrapModalMixin],
      
      confirm: function () {
-         this.hide();
          this.props.closeUnsupportedModal();
+         this.hide();
      },
 
      render: function () {

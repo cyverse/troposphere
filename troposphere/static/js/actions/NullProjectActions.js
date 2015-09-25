@@ -128,7 +128,7 @@ define(function (require) {
       if (volumesInWrongProject.length > 0) {
         var props = {
           movedVolumesArray: volumesInWrongProject,
-          backdrop: 'static'
+          backdrop: false
         };
 
         ModalHelpers.renderModal(NullProjectMoveAttachedVolumesModal, props, function () {

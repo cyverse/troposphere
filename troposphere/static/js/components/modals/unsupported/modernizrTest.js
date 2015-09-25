@@ -5,7 +5,7 @@
    var requiredFeatures = [
         //this we know we don't have support
         'regions',
-        'microdata',
+        //'microdata',
         //'proximity',
         //'display-runin',
         // 'mathml',
