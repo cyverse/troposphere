@@ -5,6 +5,7 @@ define(function(require) {
     moment = require('moment'),
     CryptoJS = require('crypto-js'),
     Gravatar = require('components/common/Gravatar.react'),
+    RefreshComponent = require('components/projects/resources/instance/details/sections/metrics/RefreshComponent.react'),
     Router = require('react-router');
 
   return React.createClass({
@@ -45,6 +46,22 @@ define(function(require) {
         nextUrl: instanceHistories.meta.next
       });
       stores.InstanceHistoryStore.fetchMore();
+    },
+
+    refreshHistory: function(){
+        stores.InstanceHistoryStore.fetchFirstPage();
+        stores.InstanceHistoryStore.lastUpdated = Date.now();
+        this.forceUpdate();
+    },
+
+    renderRefreshButton: function(){
+      
+      return (
+        <span className="pull-right instance-history">
+            <RefreshComponent onRefreshClick = {this.refreshHistory} timestamp = {stores.InstanceHistoryStore.lastUpdated} delay = {1000 * 60} />
+        </span>
+      );
+    
     },
 
     renderTitle: function() {
@@ -90,7 +107,7 @@ define(function(require) {
 
     renderBody: function() {
       var instanceHistories = stores.InstanceHistoryStore.getAll(),
-          instances = stores.InstanceStore.fetchWhereNoCache({'archived': 'true'}),
+          instances = stores.InstanceStore.getAll(),
           providers = stores.ProviderStore.getAll(),
           instanceHistoryItems;
 
@@ -169,6 +186,7 @@ define(function(require) {
         <div>
           <h2>
             {this.renderTitle()}
+            {this.renderRefreshButton()}
           </h2>
           {this.renderBody()}
         </div>
