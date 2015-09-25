@@ -40,6 +40,8 @@ define(function (require) {
     return true;
   });
 
+  store.lastUpdated = Date.now();
+
   return store;
 
 });
