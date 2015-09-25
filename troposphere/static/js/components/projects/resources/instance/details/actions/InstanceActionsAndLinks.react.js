@@ -99,7 +99,7 @@ define(function(require) {
 
       if ( activity === "deploying" || status === "deploying"
         || activity === "deploy_error"|| status === "deploy_error"
-        || activity === "boot_script_error") {
+        || activity === "initializing" || activity === "boot_script_error") {
         linksArray.push({label: 'Redeploy', icon: 'repeat', onClick: this.onRedeploy});
       }
 

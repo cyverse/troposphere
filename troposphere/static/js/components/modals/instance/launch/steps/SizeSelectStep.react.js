@@ -263,6 +263,7 @@ define(function (require) {
                 {this.renderCpuConsumption(selectedIdentity, size, sizes, instances)}
                 {this.renderMemoryConsumption(selectedIdentity, size, sizes, instances)}
               </div>
+              <a href="#" onClick={this.props.onRequestResources}>Need more resources?</a>
 
             </div>
           </div>

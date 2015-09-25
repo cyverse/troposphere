@@ -410,7 +410,7 @@ Atmo.Views.InstanceTabsHolder = Backbone.View.extend({
                 var iframe = $('<a>', {href: '/shell/' + ipaddr})
                     .addClass('shell_iframe')
                     .attr('target', '_blank')
-                    .append("Launch GateOne @ "+ipaddr)
+                    .append("Click to launch web shell in new tab for "+ipaddr)
                     .attr('data-ip', ipaddr);
 				this.$el.find('.instance_shell').append(iframe);
 				//this.$el.find('.shell_iframe').hide();
