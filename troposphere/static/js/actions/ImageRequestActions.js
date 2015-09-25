@@ -7,16 +7,11 @@ define(function (require) {
   return {
     update: function (params) {
       var request = params.request,
+        action = params.action,
         response = params.response;
-        //quota = params.quota,
-        //allocation = params.allocation,
-        //status = params.status;
 
       var newAttributes = {
-        //admin_message: response,
-        //quota: quota,
-        //allocation: allocation,
-        //status: status
+        status: action
       };
 
       request.set(newAttributes);

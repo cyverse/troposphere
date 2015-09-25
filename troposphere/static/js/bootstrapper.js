@@ -94,6 +94,7 @@ define(function (require) {
   modals.BadgeModals = require('modals/BadgeModals');
   modals.HelpModals = require('modals/HelpModals');
   modals.InstanceModals = require('modals/InstanceModals');
+  modals.ImageModals = require('modals/ImageModals');
   modals.InstanceVolumeModals = require('modals/InstanceVolumeModals');
   modals.ProjectModals = require('modals/ProjectModals');
   modals.TagModals = require('modals/TagModals');
