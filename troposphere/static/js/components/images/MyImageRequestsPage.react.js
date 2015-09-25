@@ -2,12 +2,33 @@ define(function(require) {
 
   var React = require('react/addons'),
     moment = require('moment'),
+    RefreshComponent = require('components/projects/resources/instance/details/sections/metrics/RefreshComponent.react'),
     stores = require('stores');
 
   return React.createClass({
 
+    getInitialState: function(){
+      // start fetching the relevant models before the component is rendered
+      stores.ImageRequestStore.fetchFirstPageWhere({new_machine_owner__username: stores.ProfileStore.get().id});
+      return {};
+    },
+
     onEditImage: function(requestId){
       modals.ImageModals.edit(stores.ImageRequestStore.get(requestId));
+    },
+
+    refreshHistory: function(){
+      stores.ImageRequestStore.fetchFirstPageWhere({new_machine_owner__username: stores.ProfileStore.get().id});
+      stores.ImageRequestStore.lastUpdated = Date.now();
+      this.forceUpdate();
+    },
+
+    renderRefreshButton: function(){
+      return (
+        <span className="refresh-button">
+            <RefreshComponent onRefreshClick = {this.refreshHistory} timestamp = {stores.ImageRequestStore.lastUpdated} delay = {1000 * 30} />
+        </span>
+      );
     },
 
     render: function() {
@@ -18,7 +39,7 @@ define(function(require) {
         return <div className = "loading"></div>
       }
 
-      var requests = stores.ImageRequestStore.fetchWhere({new_machine_owner__username: username});
+      var requests = stores.ImageRequestStore.getAll();
       
       if(requests == null){
         return <div className = "loading"></div>;
@@ -37,6 +58,8 @@ define(function(require) {
       }
 
       var displayRequests = requests.map(function(request){
+        
+        // set the color of the row based on the status of the request
         var trClass;
         switch(request.get('status').name){
           case "approved":
@@ -67,6 +90,9 @@ define(function(require) {
             {"Looking for more information about the imaging process? Check out the "}
             <a href={imagingDocsUrl} target="_blank">documention on imaging</a>.
           </p>
+
+          {this.renderRefreshButton()}
+
           <table className = "table table-condensed image-requests">
             <tbody>
               <tr>
