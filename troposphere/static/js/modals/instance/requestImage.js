@@ -26,7 +26,7 @@ define(function (require) {
           tags: params.tags,
           versionName: params.versionName,
           minMem: params.minMem,
-          minStorage: params.minStorage,
+          minCPU: params.minCPU,
           versionChanges: params.versionChanges,
           newMachineOwner: instance.get('user').id,
           versionFork: params.newImage,
