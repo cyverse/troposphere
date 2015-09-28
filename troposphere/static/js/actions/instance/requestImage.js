@@ -30,7 +30,7 @@ define(function (require) {
           name = params.name,
           description = params.description,
           minMem = params.minMem,
-          minStorage = params.minStorage,
+          minCPU = params.minCPU,
           providerId = params.providerId,
           identity = params.identity,
           software = params.software || "[no files specified]",
@@ -64,7 +64,7 @@ define(function (require) {
         new_application_description: description,
         new_application_name: name,
         new_version_memory_min: minMem,
-        new_version_storage_min: minStorage,
+        new_version_cpu_min: minCPU,
         new_application_visibility: visibility,
         new_machine_owner: newMachineOwner,
         new_machine_provider: providerId,
@@ -74,6 +74,7 @@ define(function (require) {
         new_version_name: versionName,
         tags: tagNames
       };
+
 
       var requestUrl = (
         globals.API_V2_ROOT + "/machine_requests" 
