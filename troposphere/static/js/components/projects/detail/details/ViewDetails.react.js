@@ -1,12 +1,12 @@
+define(function (require) {
 
-define(
-  [
-    'react',
-    'jquery',
-    'backbone',
-    'showdown'
-  ],
-  function (React, $, Backbone, Showdown) {
+    var React = require('react'),
+        $ = require('jquery'),
+        Backbone = require('backbone'),
+        Showdown = require('showdown'),
+        globals = require('globals'),
+        moment = require('moment'),
+        momentTZ = require('moment-timezone');
 
     return React.createClass({
 
@@ -29,11 +29,14 @@ define(
       },
 
       renderDateCreated: function (project) {
+        var start_date = project.get('start_date')
+                                .tz(globals.TZ_REGION)
+                                .format("MMM Do YYYY hh:mm a z");
         return (
           <div className="project-info-segment row">
             <h4 className="col-md-3">Created</h4>
 
-            <p className="col-md-9">{project.get('start_date').format("MMMM Do, YYYY hh:mm a")}</p>
+            <p className="col-md-9">{start_date}</p>
           </div>
         );
       },
@@ -66,4 +69,4 @@ define(
 
     });
 
-  });
+});

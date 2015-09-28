@@ -1,13 +1,15 @@
 define(function (require) {
 
   var React = require('react/addons'),
-      moment = require('moment'),
       Backbone = require('backbone'),
       Time = require('components/common/Time.react'),
       Gravatar = require('components/common/Gravatar.react'),
       AvailabilityView = require('../availability/AvailabilityView.react'),
       CryptoJS = require('crypto-js'),
-      stores = require('stores');
+      stores = require('stores'),
+      globals = require('globals'),
+      moment = require('moment'),
+      momentTZ = require('moment-timezone');
 
   return React.createClass({
     displayName: 'Version',
@@ -61,16 +63,18 @@ define(function (require) {
          }
     },
     renderDateString: function(version) {
-      var date_str;
+      var date_str,
+        dateCreated = moment(version.get('start_date'))
+                        .tz(globals.TZ_REGION)
+                        .format("M/DD/YYYY hh:mm a z");
 
       if(version.get('end_date')) {
-        var dateCreated = moment(version.get('start_date')).format("M/DD/YYYY hh:mm a"),
-          dateArchived = moment(version.get('end_date')).format("M/DD/YYYY hh:mm a");
+        var dateArchived = moment(version.get('end_date'))
+                              .tz(globals.TZ_REGION)
+                              .format("M/DD/YYYY hh:mm a z");
 
           date_str = dateCreated + " - " + dateArchived;
       } else {
-        var dateCreated = moment(version.get('start_date')).format("M/DD/YYYY hh:mm a");
-
           date_str = dateCreated;
       }
       return ({date_str});
@@ -81,7 +85,6 @@ define(function (require) {
       var version = this.props.version,
           image = this.props.image,
           isRecommended = false,
-          dateCreated = moment(version.start_date).format("M/DD/YYYY hh:mm a"),
           versionHash = CryptoJS.MD5(version.id.toString()).toString(),
           iconSize = 63,
           type = stores.ProfileStore.get().get('icon_set'),
