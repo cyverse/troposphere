@@ -29,49 +29,54 @@ define(function (require) {
       // temp. workaround for getting user's identity
       var identity = stores.IdentityStore.getAll().models[0].id;
 
-      var software = params.software || "[no files specified]",
-          accessList = params.imageUsers.map(function(user){
+      var instance = params.instance.get('id'),
+          name = params.name,
+          description = params.description,
+          minMem = params.minMem,
+          minCPU = params.minCPU,
+          providerId = params.providerId,
+          identity = params.identity,
+          software = params.software || "[no files specified]",
+          filesToExclude = params.filesToExclude || "[no files specified]",
+          fork = params.versionFork,
+          versionName = params.versionName,
+          newMachineOwner = params.newMachineOwner,
+          versionChanges = params.versionChanges,
+          systemFiles = params.systemFiles || "[no files specified]",
+          visibility = params.visibility,
+          scripts = params.scripts,
+          licenses = params.licenses,
+          imageUsers = params.imageUsers,
+          userNames = imageUsers.map(function(user){
             return user.get('username');
           }),
-          excludeFiles = params.filesToExclude,
-          description = params.description,
-          providerId = params.providerId,
-          instance = params.instance.get('id'),
-          identity = identity,
-          iplantSysFiles = params.systemFiles,
-          filesToExclude = params.filesToExclude,
-          newApplicationDescription = params.description,
-          newApplicatonName = params.name,
-          newApplicationVisibility = params.visibility,
-          newMachineOwner = stores.ProfileStore.get().get('user'),
-          newMachineProvider = params.providerId,
-          newMachineAllowImaging = params.imaging,
-          newVersionChangeLog = params.versionChanges,
-          newVersionForked = params.versionFork,
-          versionName = params.versionName,
-          newVersionMemoryMin = '0',
-          newVersionStorageMin = '0';
-
+          tags = params.tags,
+          tagNames = tags.map(function(tag){
+            return tag.get('name');
+          }),
+          provider = stores.ProviderStore.get(providerId);
 
       var requestData = {
-        access_list: accessList,
-        exclude_files: filesToExclude || "[no files specified]",
+        access_list: userNames,
+        exclude_files: filesToExclude,
         installed_software: software,
         instance: instance,
         identity: identity,
-        iplant_sys_files: iplantSysFiles || "[no files specified]",
+        iplant_sys_files: systemFiles,
         new_application_description: description,
         new_application_name: name,
-        new_application_visibility: newApplicationVisibility,
+        new_version_memory_min: minMem,
+        new_version_cpu_min: minCPU,
+        new_application_visibility: visibility,
         new_machine_owner: newMachineOwner,
         new_machine_provider: providerId,
         new_version_allow_imaging: true,
-        new_version_change_log: newVersionChangeLog,
-        new_version_forked: newVersionForked,
+        new_version_change_log: versionChanges,
+        new_version_forked: fork,
         new_version_name: versionName,
-        new_version_memory_min: newVersionMemoryMin,
-        new_version_storage_min: newVersionStorageMin
+        tags: tagNames
       };
+
 
       var requestUrl = (
         globals.API_V2_ROOT + "/machine_requests"
