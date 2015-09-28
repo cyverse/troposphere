@@ -25,6 +25,7 @@ Atmo.Views.InstanceScreen = Backbone.View.extend({
     render: function () {
         var identity = Atmo.profile.get('selected_identity');
         var identity_provider_id = identity.get("provider_id");
+        console.log("The instance screen has rendered");
         if (Atmo.maintenances.in_maintenance(identity_provider_id)) {
             this.$el.html(this.maint_template());
         } else if (this.loading) {

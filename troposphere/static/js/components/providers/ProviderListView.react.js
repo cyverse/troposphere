@@ -21,7 +21,7 @@ define(function (require) {
       var provider_id = Number(this.getParams().providerId);
       if (!provider_id) {
           var provider_list = stores.ProviderStore.getAll();
-          if (provider_list) {
+          if (provider_list !== null && provider_list.length > 0) {
               provider_id = provider_list.first().id;
           } else {
               provider_id = -1;
