@@ -32,6 +32,7 @@ define(function (require) {
     ProjectInstancePage = require("./components/projects/InstanceDetailsPage.react"),
     ProjectVolumePage = require("./components/projects/VolumeDetailsPage.react"),
     ResourceMaster = require('./components/admin/ResourceMaster.react'),
+    AdminMaster = require('./components/admin/AdminMaster.react'),
     ResourceRequest = require('./components/admin/ResourceRequest.react'),
     ResourceAdmin = require('./components/admin/ResourceAdmin.react');
 
@@ -67,8 +68,10 @@ define(function (require) {
       <Route name="help" handler={HelpPage}/>
       <Route name="settings" handler={SettingsPage}/>
 
-      <Route name="admin" handler={ResourceMaster}>
-        <Route name="resource-request" path="resource/:resourceRequestId" handler={ResourceAdmin}/>
+      <Route name="admin" handler={AdminMaster}>
+        //What to do with ResourceMaster?
+        <Route name="manage-resource-request" path="resource/:resourceRequestId" handler={ResourceAdmin}/>
+        <Route name="manage-identities" path="resource/:resourceRequestId" handler={ResourceAdmin}/>
       </Route>
 
       <Route name="badges" handler={BadgeMaster}>
