@@ -21,6 +21,7 @@ define(function (require) {
   };
 
   var store = new InstanceHistoryStore();
+  store.lastUpdated = Date.now();
 
   return store;
 });
