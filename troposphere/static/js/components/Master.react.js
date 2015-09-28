@@ -25,9 +25,7 @@ define(function (require) {
     },
 
     getInitialState: function () {
-      return {
-        unsupportedFinished: false
-      }//this.getState();
+      return this.getState();
     },
 
     updateState: function () {
@@ -106,7 +104,6 @@ define(function (require) {
     render: function () {
 
       var maintenanceMessages = stores.MaintenanceMessageStore.getAll() || new Backbone.Collection(),
-      projects = stores.ProjectStore.getAll(),
       marginTop = maintenanceMessages.length * 24 + "px";
 
       return (

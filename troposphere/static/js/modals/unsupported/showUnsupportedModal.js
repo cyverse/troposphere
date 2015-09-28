@@ -6,11 +6,11 @@ define(function (require) {
     UnsupportedModal = require('components/modals/unsupported/UnsupportedModal.react');
   return {
 
-    showModal: function (setState) {
+    showModal: function (handler) {
 
       var props = {
         header: "Unsupported Features",
-        closeUnsupportedModal: setState,
+        closeUnsupportedModal: handler,
         backdrop:"static",
         keyboard:false
       };
