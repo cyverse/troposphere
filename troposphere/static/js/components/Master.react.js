@@ -38,11 +38,13 @@ define(function (require) {
             var instances = stores.InstanceStore.getInstancesNotInAProject(),
             volumes = stores.VolumeStore.getVolumesNotInAProject(),
             nullProject = new NullProject({instances: instances, volumes: volumes});
+            setTimeout(function(){
             if (!nullProject.isEmpty()) {
                 actions.NullProjectActions.migrateResourcesIntoProject(nullProject);
             } else {
                 actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
             }
+            }, 1);
      },
 
     loadBadgeData: function(){
@@ -53,6 +55,19 @@ define(function (require) {
     },
 
     componentDidMount: function () {
+      // subscribe to all Stores
+      Object.keys(stores).forEach(function (storeName) {
+        stores[storeName].addChangeListener(this.updateState);
+      }.bind(this));
+
+      // The code below is only relevant to logged in users
+      if (!context.profile) return;
+
+      // IMPORTANT! We get one shot at this. If the instances and volumes aren't
+      // fetched before this component is mounted we miss our opportunity to migrate
+      // the users resources (so make sure they're fetched in the Splash Screen)
+    
+
         var instances = stores.InstanceStore.getInstancesNotInAProject(),
         volumes = stores.VolumeStore.getVolumesNotInAProject(),
         nullProject = new NullProject({instances: instances, volumes: volumes});
@@ -73,18 +88,9 @@ define(function (require) {
         this.loadBadgeData();
       }
 
-      // subscribe to all Stores
-      Object.keys(stores).forEach(function (storeName) {
-        stores[storeName].addChangeListener(this.updateState);
-      }.bind(this));
-
-      // The code below is only relevant to logged in users
-      if (!context.profile) return;
-
-      // IMPORTANT! We get one shot at this. If the instances and volumes aren't
-      // fetched before this component is mounted we miss our opportunity to migrate
-      // the users resources (so make sure they're fetched in the Splash Screen)
     },
+
+
 
     componentWillUnmount: function () {
       // un-subscribe from all Stores
