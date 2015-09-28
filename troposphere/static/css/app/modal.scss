@@ -148,6 +148,9 @@ $breadcrumb-bk-inactive:lightgrey;
     background:none !important;
   }
 
+  .breadcrumb{
+    padding: 0;
+  }
   .breadcrumb div {
     width:50%;
     text-decoration: none;

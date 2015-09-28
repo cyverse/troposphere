@@ -26,14 +26,18 @@ define(function (require) {
       if(!params.imageUsers) throw new Error("Missing imageUsers");
 
 
-      var instance = params.instance,
+      var instance = params.instance.get('id'),
           name = params.name,
           description = params.description,
+          minMem = params.minMem,
+          minCPU = params.minCPU,
           providerId = params.providerId,
-          software = params.software,
-          filesToExclude = params.filesToExclude,
+          identity = params.identity,
+          software = params.software || "[no files specified]",
+          filesToExclude = params.filesToExclude || "[no files specified]",
           fork = params.versionFork,
           versionName = params.versionName,
+          newMachineOwner = params.newMachineOwner,
           versionChanges = params.versionChanges,
           systemFiles = params.systemFiles || "[no files specified]",
           visibility = params.visibility,
@@ -49,30 +53,31 @@ define(function (require) {
           }),
           provider = stores.ProviderStore.get(providerId);
 
+
       var requestData = {
-        fork: fork,
-        name: name,
-        description: description,
-        tags: tagNames,
-        instance: instance.get('uuid'),
-        ip_address: instance.get("ip_address"),
-        provider: provider.get('uuid'),
-        version_name: versionName,
-        version_changes: versionChanges,
-        vis: visibility,
-        shared_with: userNames,
-        exclude: filesToExclude || "[no files specified]",
-        software: software || "[no software specified]",
-        sys: systemFiles || "[no files specified]",
-        licenses: licenses,
-        scripts: scripts
+        access_list: userNames,
+        exclude_files: filesToExclude,
+        installed_software: software,
+        instance: instance,
+        identity: identity,
+        iplant_sys_files: systemFiles,
+        new_application_description: description,
+        new_application_name: name,
+        new_version_memory_min: minMem,
+        new_version_cpu_min: minCPU,
+        new_application_visibility: visibility,
+        new_machine_owner: newMachineOwner,
+        new_machine_provider: providerId,
+        new_version_allow_imaging: true,
+        new_version_change_log: versionChanges,
+        new_version_forked: fork,
+        new_version_name: versionName,
+        tags: tagNames
       };
 
+
       var requestUrl = (
-        globals.API_ROOT +
-        "/provider/" + instance.get('provider').uuid +
-        "/identity/" + instance.get('identity').uuid +
-        "/request_image"
+        globals.API_V2_ROOT + "/machine_requests" 
       );
 
       $.ajax({

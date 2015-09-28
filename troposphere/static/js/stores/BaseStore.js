@@ -159,9 +159,6 @@ define(function (require) {
         }).done(function () {
             this.isFetching = false;
             this.models = models;
-            if (this.pollingEnabled) {
-              this.models.each(this.pollNowUntilBuildIsFinished.bind(this));
-            }
             this.emitChange();
           }.bind(this));
       }
