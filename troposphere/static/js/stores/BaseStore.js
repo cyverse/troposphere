@@ -147,6 +147,26 @@ define(function (require) {
       }
     },
 
+    // Fetch the first page and replace models with results
+    fetchFirstPage: function(){
+      if (!this.isFetching){ 
+        this.isFetching = true;
+
+        var models = new this.collection();
+
+        models.fetch({
+            url: _.result(models, 'url')
+        }).done(function () {
+            this.isFetching = false;
+            this.models = models;
+            if (this.pollingEnabled) {
+              this.models.each(this.pollNowUntilBuildIsFinished.bind(this));
+            }
+            this.emitChange();
+          }.bind(this));
+      }
+    },
+
     // Returns a specific model if it exists in the local cache
     get: function (modelId) {
       if (!this.models) {
