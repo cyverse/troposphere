@@ -32,18 +32,22 @@ define(function (require) {
       if (this.isMounted()) this.setState(this.getState())
     },
 
-     closeUnsupportedModal: function () {
-            var instances = stores.InstanceStore.getInstancesNotInAProject(),
-            volumes = stores.VolumeStore.getVolumesNotInAProject(),
-            nullProject = new NullProject({instances: instances, volumes: volumes});
-            setTimeout(function(){
-            if (!nullProject.isEmpty()) {
-                actions.NullProjectActions.migrateResourcesIntoProject(nullProject);
-            } else {
-                actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
-            }
-            }, 1);
-     },
+    closeUnsupportedModal: function () {
+          var instances = stores.InstanceStore.getInstancesNotInAProject(),
+          volumes = stores.VolumeStore.getVolumesNotInAProject(),
+          nullProject = new NullProject({instances: instances, volumes: volumes});
+          
+          //setTimout is a Hack. We need to let the first modal unmount before calling getDOMNode 
+          //on the second modal, else we get an err "Invariant Violation: getDOMNode():".
+          //See https://github.com/facebook/react/issues/2410 for other solutions
+          setTimeout(function(){
+          if (!nullProject.isEmpty()) {
+              actions.NullProjectActions.migrateResourcesIntoProject(nullProject);
+          } else {
+              actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
+          }
+          }, 1);
+    },
 
     loadBadgeData: function(){
       stores.BadgeStore.getAll(),
