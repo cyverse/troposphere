@@ -33,7 +33,7 @@ define(
       getInitialState: function () {
         var initialState = {
           projectName: "",
-          projects: null,
+          projects: stores.ProjectStore.getAll(),
           projectId: -999
         };
 
