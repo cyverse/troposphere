@@ -6,6 +6,7 @@ define(
   function (React) {
 
     return React.createClass({
+      displayName: 'ResourceDetail',
 
       propTypes: {
         label: React.PropTypes.string.isRequired,
@@ -14,9 +15,9 @@ define(
 
       render: function () {
         return (
-          <li>
-            <span>{this.props.label}</span>
-            <span>{this.props.children}</span>
+          <li className="clearfix">
+            <span className="detail-label">{this.props.label}</span>
+            <span className="detail-value" >{this.props.children}</span>
           </li>
         );
       }
