@@ -18,10 +18,11 @@ define(function (require) {
     },
 
     render: function () {
-      var imageRequests = stores.ImageRequestStore.fetchWhere({status__name: "pending"});
+      var imageRequests = stores.ImageRequestStore.fetchWhere({status__name: "pending"});  
+      var statuses = stores.StatusStore.getAll();
       var loadMoreButton;
 
-      if (imageRequests == null){
+      if (imageRequests == null || !statuses){
         return <div className="loading"></div>
       }
 

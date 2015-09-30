@@ -25,33 +25,39 @@ define(function (require) {
     approve: function(){
 
       // request is guaranteed to exist in our store, since we needed it to render this component
-      var request = stores.ImageRequestStore.get(this.getParams().imageRequestId);
+      var request = stores.ImageRequestStore.get(this.getParams().imageRequestId),
+      status = stores.StatusStore.findOne({name: "approved"});
+
       ImageRequestActions.update({
         request: request,
         response: this.state.response,
-        newStatus: "approved"
+        status: status.id
       });
 
     },
 
     deny: function(){
 
-      var request = stores.ImageRequestStore.get(this.getParams().imageRequestId);
+      var request = stores.ImageRequestStore.get(this.getParams().imageRequestId),
+      status = stores.StatusStore.findOne({name: "rejected"});
+
       ImageRequestActions.update({
-        request: this.getParams().imageRequestId,
+        request: request,
         response: this.state.response,
-        newStatus: "deny"
+        status: status.id
       });
 
     },
 
     resubmit: function(){
 
-      var request = stores.ImageRequestStore.get(this.getParams().imageRequestId);
+      var request = stores.ImageRequestStore.get(this.getParams().imageRequestId),
+      status = stores.StatusStore.findOne({name: "pending"});
+      
       ImageRequestActions.update({
-        request: this.getParams().imageRequestId,
+        request: request,
         response: this.state.response,
-        newStatus: "resubmit"
+        status: status.id
       });
 
     },
@@ -102,6 +108,7 @@ define(function (require) {
           <div>New version name: {request.get('new_version_name')}</div>
           <div>New version scripts: {request.get('new_version_scripts')}</div>
           <div>New version tags: {request.get('new_version_tags')}</div>
+          <div>Request state: {request.get('old_status')}</div>
           <div>Status: {request.get('status').name}</div>
           <textarea type="text" form="admin" value={this.state.value} cols="60" rows="8"
                       onChange={this.handleResponseChange}/>
