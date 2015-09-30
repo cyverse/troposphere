@@ -2,11 +2,11 @@ define(function (require) {
   "use strict";
 
   var Backbone = require('backbone'),
-    QuotaStatus = require('models/QuotaStatus'),
+    Status = require('models/Status'),
     globals = require('globals');
 
   return Backbone.Collection.extend({
-    model: QuotaStatus,
+    model: Status,
 
     url: globals.API_V2_ROOT + "/status_types",
 

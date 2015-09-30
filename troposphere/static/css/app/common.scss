@@ -186,6 +186,27 @@ $chosen-sprite-retina-path: $chosen-sprite-path;
   }
 }
 
+.refresh-button{
+  #refresh {
+    float: left;
+    padding-right: 10%;
+    &.disabled {
+      color: gray;
+      opacity: .4;
+    }
+  }
+
+  #timestamp{
+    font-size: 10pt;
+  }
+
+  .disabled{
+    &:hover {
+      cursor: not-allowed;
+    } 
+  }
+}
+
 @media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-resolution: 2dppx) {
   .chosen-container-external-multi .chosen-choices .search-choice .search-choice-close,
   .chosen-container-external .chosen-results-scroll-down span,

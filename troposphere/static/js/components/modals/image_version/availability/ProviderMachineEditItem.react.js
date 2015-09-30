@@ -62,7 +62,7 @@ define(function (require) {
             if(! provider_machine.end_date.isValid()) {
               availableText = "Archiving ..."
             } else {
-              availableText = "Archived as of " + provider_machine.end_date.format("MMM D, YYYY hh:mma");
+              availableText = "Archived as of " + provider_machine.end_date.format("MMM D, YYYY hh:mm a");
             }
             classes = "list-group-item list-group-item-danger"
             activateText = "Re-Enable Provider";

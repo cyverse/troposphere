@@ -8,6 +8,7 @@ define(function (require) {
       ImageInfoStep = require('./image/steps/ImageInfoStep.react'),
       VersionInfoStep = require('./image/steps/VersionInfoStep.react'),
       ProviderStep = require('./image/steps/ProviderStep.react'),
+      MinimumRequirementsStep = require('./image/steps/MinimumRequirementsStep.react'),
       VisibilityStep = require('./image/steps/VisibilityStep.react'),
       FilesToExcludeStep = require('./image/steps/FilesToExcludeStep.react'),
       BootScriptsAndLicenseStep = require('./image/steps/BootScriptsLicensingStep.react'),
@@ -47,6 +48,8 @@ define(function (require) {
         imageTags: null,
         providerId: null,
         visibility: "public",
+        minCPU: "0",
+        minMem: "0",
         imageUsers: new Backbone.Collection(),
         activeScripts: new Backbone.Collection(),
         activeLicenses: new Backbone.Collection(),
@@ -97,7 +100,7 @@ define(function (require) {
       this.hide();
     },
 
-    onReviewImage: function() {
+    onReviewImage: function(data) {
       var step = REVIEW_STEP,
         data = data || {},
         state = _.extend({step: step}, data);
@@ -116,6 +119,8 @@ define(function (require) {
         newImage: this.state.newImage,
         name: this.state.name,
         description: this.state.description,
+        minMem: this.state.minMem,
+        minCPU: this.state.minCPU,
         tags: this.state.imageTags,
         versionName: this.state.versionName,
         versionChanges: this.state.versionChanges,
@@ -197,6 +202,8 @@ define(function (require) {
             <ProviderStep
               instance={instance}
               providerId={this.state.providerId}
+              minMem={this.state.minMem}
+              minCPU={this.state.minCPU}
               onPrevious={this.onPrevious}
               onNext={this.onNext}
               />
@@ -283,7 +290,7 @@ define(function (require) {
     },
 
     changeTitleBack: function(){
-      var breadcrumb = this.state.breadcrumbs[this.state.step];
+      var breadcrumb = this.state.breadcrumbs[this.state.step - 1];
       this.setState({title: breadcrumb.name});
     },
 

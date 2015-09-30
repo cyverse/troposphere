@@ -27,6 +27,8 @@ define(function (require) {
         }
       };
 
+      data['user-interface'] = 'troposphere';
+
       var feedbackUrl = globals.API_ROOT + '/email/feedback';
 
       $.ajax(feedbackUrl, {

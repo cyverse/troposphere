@@ -1,11 +1,10 @@
+define(function (require) {
 
-define(
-  [
-    'react',
-    'backbone',
-    'moment'
-  ],
-  function (React, Backbone, moment) {
+    var React = require('react'),
+        Backbone = require('backbone'),
+        globals = require('globals'),
+        moment = require('moment'),
+        momentTZ = require('moment-timezone');
 
     return React.createClass({
 
@@ -15,7 +14,9 @@ define(
 
       render: function () {
         var image = this.props.image,
-          startDate = moment(image.get('start_date')).format("MMM D, YYYY");
+          startDate = moment(image.get('start_date'))
+                        .tz(globals.TZ_REGION)
+                        .format("M/DD/YYYY hh:mm a z");
 
         return (
           <div className="image-info-segment row">

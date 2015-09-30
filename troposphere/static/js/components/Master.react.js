@@ -32,6 +32,23 @@ define(function (require) {
       if (this.isMounted()) this.setState(this.getState())
     },
 
+    closeUnsupportedModal: function () {
+          var instances = stores.InstanceStore.getInstancesNotInAProject(),
+          volumes = stores.VolumeStore.getVolumesNotInAProject(),
+          nullProject = new NullProject({instances: instances, volumes: volumes});
+          
+          //setTimout is a Hack. We need to let the first modal unmount before calling getDOMNode 
+          //on the second modal, else we get an err "Invariant Violation: getDOMNode():".
+          //See https://github.com/facebook/react/issues/2410 for other solutions
+          setTimeout(function(){
+          if (!nullProject.isEmpty()) {
+              actions.NullProjectActions.migrateResourcesIntoProject(nullProject);
+          } else {
+              actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
+          }
+          }, 1);
+    },
+
     loadBadgeData: function(){
       stores.BadgeStore.getAll(),
       stores.MyBadgeStore.getAll(),
@@ -40,31 +57,41 @@ define(function (require) {
     },
 
     componentDidMount: function () {
-      if(!modernizrTest.unsupported()) {
-          showUnsupportedModal.showModal();
-      }
-      if(globals.BADGES_ENABLED){
-        this.loadBadgeData();
-      }
       // subscribe to all Stores
       Object.keys(stores).forEach(function (storeName) {
         stores[storeName].addChangeListener(this.updateState);
       }.bind(this));
+
       // The code below is only relevant to logged in users
       if (!context.profile) return;
       // IMPORTANT! We get one shot at this. If the instances and volumes aren't
       // fetched before this component is mounted we miss our opportunity to migrate
       // the users resources (so make sure they're fetched in the Splash Screen)
-      var instances = stores.InstanceStore.getInstancesNotInAProject(),
+    
+
+        var instances = stores.InstanceStore.getInstancesNotInAProject(),
         volumes = stores.VolumeStore.getVolumesNotInAProject(),
         nullProject = new NullProject({instances: instances, volumes: volumes});
-
-      if (!nullProject.isEmpty()) {
-        actions.NullProjectActions.migrateResourcesIntoProject(nullProject);
-      } else {
-        actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
+      if (!modernizrTest.unsupported()) {
+          showUnsupportedModal.showModal(this.closeUnsupportedModal);
       }
+
+      if (modernizrTest.unsupported()) {
+
+        if (!nullProject.isEmpty()) {
+            actions.NullProjectActions.migrateResourcesIntoProject(nullProject);
+        } else {
+            actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
+        }
+      }
+
+      if (globals.BADGES_ENABLED){
+        this.loadBadgeData();
+      }
+
     },
+
+
 
     componentWillUnmount: function () {
       // un-subscribe from all Stores

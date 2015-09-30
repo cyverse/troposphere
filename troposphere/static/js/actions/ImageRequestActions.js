@@ -2,25 +2,26 @@ define(function (require) {
 
   var Utils = require('./Utils'),
     Router = require('../Router'),
-    Constants = require('constants/ResourceRequestConstants');
+    stores = require('stores'),
+    Constants = require('constants/ImageRequestConstants');
 
   return {
     update: function (params) {
       var request = params.request,
-        response = params.response,
-        quota = params.quota,
-        allocation = params.allocation,
-        status = params.status;
+        status = params.status,
+        response = params.response;
 
       var newAttributes = {
         admin_message: response,
-        quota: quota,
-        allocation: allocation,
+        // we need to send these in to get around our MachineRequestSerializer API validation
+        instance: request.get('instance').id,
+        new_machine_owner: request.get('new_machine_owner').id,
+        new_machine_provider: request.get('new_machine_provider').id,
         status: status
       };
 
       request.set(newAttributes);
-      Router.getInstance().transitionTo("resource-request-manager");
+      Router.getInstance().transitionTo("image-request-manager");
       request.save(newAttributes, {patch: true}).done(function () {
         Utils.dispatch(Constants.UPDATE, {model: request});
         Utils.dispatch(Constants.REMOVE, {model: request});
