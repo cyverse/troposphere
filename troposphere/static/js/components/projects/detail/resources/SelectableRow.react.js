@@ -37,7 +37,7 @@ define(function (require) {
       var rowClassName = this.props.isActive ? "selected" : null;
 
       return (
-        <tr className={"sm-row " + rowClassName} style={{cursor:"pointer"}}onClick={this.previewResource}>
+        <tr className={"sm-row " + rowClassName} style={{cursor:"pointer"}} onClick={this.previewResource}>
           <td className="sm-cell hidden-sm hidden-xs" Click={this.toggleCheckbox}>
             <Checkbox isChecked={this.props.isSelected}/>
           </td>

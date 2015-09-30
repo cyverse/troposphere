@@ -9,7 +9,9 @@ define(function (require) {
     stores = require('stores'),
     navigator = require('navigator'),
     Showdown = require('showdown'),
+    globals = require('globals'),
     moment = require('moment'),
+    momentTZ = require('moment-timezone'),
     Router = require('react-router');
 
   return React.createClass({
@@ -22,7 +24,9 @@ define(function (require) {
       var image = this.props.image,
         type = stores.ProfileStore.get().get('icon_set'),
         imageTags = stores.TagStore.getImageTags(image),
-        imageCreationDate = moment(image.get('start_date')).format("MMM D, YYYY"),
+        imageCreationDate = moment(image.get('start_date'))
+                                .tz(globals.TZ_REGION)
+                                .format("MMM Do YYYY hh:mm a z"),
         converter = new Showdown.Converter(),
         description = image.get('description');
       if(!description) {

@@ -71,7 +71,7 @@ define(function (require) {
         descriptionHtml = converter.makeHtml(description),
         projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
         projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project),
-        projectCreationDate = moment(project.get('start_date')).format("MMM D, YYYY");
+        projectCreationDate = moment(project.get('start_date')).format("MMM D, YYYY hh:mm a");
 
       return (
         <div style={{"position": "relative"}}>

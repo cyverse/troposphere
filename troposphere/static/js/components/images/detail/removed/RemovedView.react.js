@@ -15,7 +15,7 @@ define(
 
       render: function () {
         var image = this.props.image,
-          startDate = moment(image.get('start_date')).format("MMM D, YYYY");
+          startDate = moment(image.get('start_date')).format("MMM D, YYYY hh:mm a");
 
         return (
           <div className="image-info-segment row">
