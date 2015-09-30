@@ -310,21 +310,27 @@
   }
 
   ul {
-    padding-left: 0;
+    padding-left: 10px;
   }
 
   li {
     list-style: none;
-    line-height: 30px;
+    line-height: 120%;
+    padding-bottom: 10px;
 
-    > span:first-of-type {
-      width: 60px;
-      margin-right: 20px;
-      display: inline-block;
-      text-align: right;
+    .detail-label {
+      width: 20%;
+      margin-right: 10%;
+      display: block;
       color: #5A5A5A;
+      float:left;
     }
-
+    
+    .detail-value {
+      width:70%;
+      display: block;
+      float:left;
+    }
     span {
       font-size: 13px;
     }
@@ -337,14 +343,15 @@
     padding: 10px 0px;
 
     i {
-      font-size: 20px;
+      display: inline-block;
+      font-size: 25px;
       margin-right: 10px;
     }
 
-   .title-3, h2 {
+  .title-3,  h2 {
       display: inline-block;
       vertical-align: bottom;
-      font-size: 20px;
+      font-size: 27px;
       margin-top: 0px;
       margin-bottom: 3px;
     }
