@@ -57,6 +57,7 @@ define(function (require) {
   stores.ProviderMachineStore = require('stores/ProviderMachineStore');
   stores.ProviderStore = require('stores/ProviderStore');
   stores.ResourceRequestStore = require('stores/ResourceRequestStore');
+  stores.IdentityMembershipStore = require('stores/IdentityMembershipStore');
   stores.StatusStore = require('stores/StatusStore');
   stores.QuotaStore = require('stores/QuotaStore');
   stores.SizeStore = require('stores/SizeStore');

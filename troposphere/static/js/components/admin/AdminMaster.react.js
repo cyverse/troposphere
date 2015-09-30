@@ -17,6 +17,9 @@ define(function (require) {
         <div className = "container admin">
           <span className="adminHeader">
             <h1>Admin</h1>
+            <Router.Link to="identity-membership-manager">
+              <div className="btn btn-default">Manage Users</div>
+            </Router.Link>
             <Router.Link to="resource-request-manager">
               <div className="btn btn-default">Resource Requests</div>
             </Router.Link>
