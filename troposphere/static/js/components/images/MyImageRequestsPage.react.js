@@ -65,7 +65,7 @@ define(function(require) {
           case "approved":
             trClass = "success";
             break;
-          case "failed":
+          case "rejected":
             trClass = "warning"
             break;
           default:
