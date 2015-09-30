@@ -44,9 +44,9 @@ define(function (require) {
       return (
         <div className="image-master">
           <h1>Imaging Requests</h1>
-              <table className="quota-table table table-hover col-md-6">
+              <table className="admin-table table table-hover col-md-6">
                 <tbody>
-                  <tr className="quota-row">
+                  <tr className="admin-row">
                     <th className="center">
                       <h3>User</h3>
                     </th>

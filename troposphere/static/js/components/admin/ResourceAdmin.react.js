@@ -89,7 +89,7 @@ define(function (require) {
       }
 
       return (
-        <div className="quota-detail">
+        <div className="admin-detail">
           <div><strong>User:</strong> {resourceRequest.get('user').username}</div>
           <div><strong>Created by:</strong> {resourceRequest.get('created_by').username}</div>
           <div><strong>Admin message:</strong> {resourceRequest.get('admin_message')}</div>

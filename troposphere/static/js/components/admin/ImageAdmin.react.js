@@ -87,7 +87,7 @@ define(function (require) {
       var instance = request.get('instance');
 
       return(
-        <div className="quota-detail">
+        <div className="admin-detail">
           <h2>Image Request #{request.get('id')}</h2>
           <div>Installed software: {request.get('installed_software')}</div>
           <div>Instance:</div>
