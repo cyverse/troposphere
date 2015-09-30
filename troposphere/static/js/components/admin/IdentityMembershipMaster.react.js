@@ -54,13 +54,14 @@ define(function (require) {
 
     renderTable: function () {
       var memberships;
+     var query_params = {};
       if(this.state.query !== null && this.state.query !== "") {
-          var query_params = {
-            'username': this.state.query
-          };
-          if(this.state.selectedProviderId != -1) {
-              query_params.provider_id = this.state.selectedProviderId;
-          }
+          query_params.query = this.state.query
+      }
+      if(this.state.selectedProviderId != -1) {
+          query_params.provider_id = this.state.selectedProviderId;
+      }
+      if(query_params) {
           memberships = stores.IdentityMembershipStore.fetchWhere(query_params);
       } else {
           memberships = stores.IdentityMembershipStore.getAll();
@@ -101,10 +102,6 @@ define(function (require) {
         );
     },
     renderProvider: function(provider) {
-          if(provider.get('end_date').isValid()) {
-              //Skip end-dated providers
-              return;
-          }
           var provider_id = "provider-"+provider.id;
           return (
             <button className="btn btn-default" id={provider_id} key={provider.id} onClick={this.onProviderChange}>
