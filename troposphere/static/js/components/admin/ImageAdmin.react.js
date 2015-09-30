@@ -102,7 +102,7 @@ define(function (require) {
           <div>New version name: {request.get('new_version_name')}</div>
           <div>New version scripts: {request.get('new_version_scripts')}</div>
           <div>New version tags: {request.get('new_version_tags')}</div>
-          <div>Status: {request.get('status')}</div>
+          <div>Status: {request.get('status').name}</div>
           <textarea type="text" form="admin" value={this.state.value} cols="60" rows="8"
                       onChange={this.handleResponseChange}/>
           <button onClick={this.approve} type="button" className="btn btn-default btn-sm">Approve</button>
