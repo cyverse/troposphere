@@ -40,6 +40,7 @@ define(function(require) {
       }
 
       var requests = stores.ImageRequestStore.getAll();
+
       
       if(requests == null){
         return <div className = "loading"></div>;
@@ -76,7 +77,8 @@ define(function(require) {
         var newMachineId = !!request.get('new_machine') ? request.get('new_machine').id : "N/A";
 
         return <tr className={trClass}>
-                    <td>{moment(request.get('start_date')).format("MMM D, YYYY")}</td>
+                    <td>{moment(request.get('start_date')).format("MMM D, YYYY h:mm:ss a")}</td>
+                    <td>{moment(request.get('end_date')).format("MMM D, YYYY h:mm:ss a")}</td>
                     <td>#{request.get('instance').id} - {request.get('instance').name}</td>
                     <td>{request.get('status').name}</td>
                     <td>{request.get('old_status')}</td>
@@ -98,6 +100,9 @@ define(function(require) {
               <tr>
                 <th>
                   <h3>Date requested</h3>
+                </th>
+                <th>
+                  <h3>Date completed</h3>
                 </th>
                 <th>
                   <h3>Base instance</h3>
