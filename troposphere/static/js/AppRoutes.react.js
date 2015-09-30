@@ -33,6 +33,9 @@ define(function (require) {
     ProjectVolumePage = require("./components/projects/VolumeDetailsPage.react"),
     ResourceMaster = require('./components/admin/ResourceMaster.react'),
     ResourceRequest = require('./components/admin/ResourceRequest.react'),
+    AdminMaster = require('./components/admin/AdminMaster.react'),
+    ImageMaster = require('./components/admin/ImageMaster.react'),
+    ImageAdmin = require('./components/admin/ImageAdmin.react'),
     ResourceAdmin = require('./components/admin/ResourceAdmin.react');
 
   var AppRoutes = (
@@ -67,8 +70,13 @@ define(function (require) {
       <Route name="help" handler={HelpPage}/>
       <Route name="settings" handler={SettingsPage}/>
 
-      <Route name="admin" handler={ResourceMaster}>
-        <Route name="resource-request" path="resource/:resourceRequestId" handler={ResourceAdmin}/>
+      <Route name="admin" handler={AdminMaster}>
+        <Route name="resource-request-manager" path="resource-requests" handler={ResourceMaster}>
+          <Route name="resource-request" path=":resourceRequestId" handler={ResourceAdmin} />
+        </Route>
+        <Route name="image-request-manager" path="imaging-requests" handler={ImageMaster}>
+          <Route name="image-request" path=":imageRequestId" handler={ImageAdmin} />
+        </Route>
       </Route>
 
       <Route name="badges" handler={BadgeMaster}>

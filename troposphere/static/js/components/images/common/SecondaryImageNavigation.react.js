@@ -43,7 +43,6 @@ define(function (require) {
                 {this.renderRoute("Search", "search", "search", false)}
                 {this.renderRoute(myFavoritedImagesText, "favorites", "bookmark", true)}
                 {this.renderRoute(myImagesText, "authored", "user", true)}
-                {this.renderRoute("Tags", "tags", "tags", false)}
               </ul>
             </div>
           </div>
