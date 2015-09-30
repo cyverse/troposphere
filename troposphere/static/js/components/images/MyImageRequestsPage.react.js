@@ -25,7 +25,7 @@ define(function(require) {
 
     renderRefreshButton: function(){
       return (
-        <span className="refresh-button">
+        <span className="my-requests refresh-button">
             <RefreshComponent onRefreshClick = {this.refreshHistory} timestamp = {stores.ImageRequestStore.lastUpdated} delay = {1000 * 30} />
         </span>
       );
