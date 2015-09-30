@@ -25,33 +25,39 @@ define(function (require) {
     approve: function(){
 
       // request is guaranteed to exist in our store, since we needed it to render this component
-      var request = stores.ImageRequestStore.get(this.getParams().imageRequestId);
+      var request = stores.ImageRequestStore.get(this.getParams().imageRequestId),
+      status = stores.StatusStore.findOne({name: "approved"});
+
       ImageRequestActions.update({
         request: request,
         response: this.state.response,
-        newStatus: "approved"
+        status: status.id
       });
 
     },
 
     deny: function(){
 
-      var request = stores.ImageRequestStore.get(this.getParams().imageRequestId);
+      var request = stores.ImageRequestStore.get(this.getParams().imageRequestId),
+      status = stores.StatusStore.findOne({name: "rejected"});
+
       ImageRequestActions.update({
-        request: this.getParams().imageRequestId,
+        request: request,
         response: this.state.response,
-        newStatus: "deny"
+        status: status.id
       });
 
     },
 
     resubmit: function(){
 
-      var request = stores.ImageRequestStore.get(this.getParams().imageRequestId);
+      var request = stores.ImageRequestStore.get(this.getParams().imageRequestId),
+      status = stores.StatusStore.findOne({name: "pending"});
+      
       ImageRequestActions.update({
-        request: this.getParams().imageRequestId,
+        request: request,
         response: this.state.response,
-        newStatus: "resubmit"
+        status: status.id
       });
 
     },
@@ -81,7 +87,7 @@ define(function (require) {
       var instance = request.get('instance');
 
       return(
-        <div className="quota-detail">
+        <div className="admin-detail">
           <h2>Image Request #{request.get('id')}</h2>
           <div>Installed software: {request.get('installed_software')}</div>
           <div>Instance:</div>
@@ -98,11 +104,12 @@ define(function (require) {
           <div>Forked: {forked}</div>
           <div>New version licenses: {request.get('new_version_licenses')}</div>
           <div>New version memory min: {request.get('new_version_memory_min')}</div>
-          <div>New version storage min: {request.get('new_version_storage_min')}</div>
+          <div>New version cpu min: {request.get('new_version_cpu_min')}</div>
           <div>New version name: {request.get('new_version_name')}</div>
           <div>New version scripts: {request.get('new_version_scripts')}</div>
           <div>New version tags: {request.get('new_version_tags')}</div>
-          <div>Status: {request.get('status')}</div>
+          <div>Request state: {request.get('old_status')}</div>
+          <div>Status: {request.get('status').name}</div>
           <textarea type="text" form="admin" value={this.state.value} cols="60" rows="8"
                       onChange={this.handleResponseChange}/>
           <button onClick={this.approve} type="button" className="btn btn-default btn-sm">Approve</button>

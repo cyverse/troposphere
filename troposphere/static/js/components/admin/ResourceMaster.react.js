@@ -16,7 +16,7 @@ define(function (require) {
       var requests = stores.ResourceRequestStore.fetchWhere({
           'status__name': 'pending'
         }),
-        statuses = stores.QuotaStatusStore.getAll();
+        statuses = stores.StatusStore.getAll();
 
       if (!requests || !statuses) return <div className="loading"></div>;
 
@@ -29,20 +29,20 @@ define(function (require) {
       });
 
       if (!resourceRequestRows[0]) {
-        resourceRequestRows =
-          <tr>
-            <td className="user-name">No requests</td>
-            <td className="request"></td>
-            <td className="description"></td>
-          </tr>
+        return  (
+                <div>
+                 <h3>No resource requests</h3>
+                </div>
+                );
+      
       }
 
       return (
         <div className="resource-master">
           <h1>Resource Requests</h1>
-            <table className="quota-table table table-hover col-md-6">
+            <table className="admin-table table table-hover col-md-6">
               <tbody>
-                <tr className="quota-row">
+                <tr className="admin-row">
                   <th className="center">
                       <h3>User</h3>
                   </th>

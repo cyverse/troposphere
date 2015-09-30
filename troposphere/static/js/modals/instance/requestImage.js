@@ -20,11 +20,15 @@ define(function (require) {
       ModalHelpers.renderModal(InstanceImageWizardModal, props, function (params) {
         actions.InstanceActions.requestImage({
           instance: instance,
+          identity: instance.get('identity').id,
           name: params.name,
           description: params.description,
           tags: params.tags,
           versionName: params.versionName,
+          minMem: params.minMem,
+          minCPU: params.minCPU,
           versionChanges: params.versionChanges,
+          newMachineOwner: instance.get('user').id,
           versionFork: params.newImage,
           providerId: params.providerId,
           visibility: params.visibility,

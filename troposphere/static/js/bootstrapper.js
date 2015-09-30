@@ -57,7 +57,7 @@ define(function (require) {
   stores.ProviderMachineStore = require('stores/ProviderMachineStore');
   stores.ProviderStore = require('stores/ProviderStore');
   stores.ResourceRequestStore = require('stores/ResourceRequestStore');
-  stores.QuotaStatusStore = require('stores/QuotaStatusStore');
+  stores.StatusStore = require('stores/StatusStore');
   stores.QuotaStore = require('stores/QuotaStore');
   stores.SizeStore = require('stores/SizeStore');
   stores.TagStore = require('stores/TagStore');
@@ -94,7 +94,6 @@ define(function (require) {
   modals.BadgeModals = require('modals/BadgeModals');
   modals.HelpModals = require('modals/HelpModals');
   modals.InstanceModals = require('modals/InstanceModals');
-  modals.ImageModals = require('modals/ImageModals');
   modals.InstanceVolumeModals = require('modals/InstanceVolumeModals');
   modals.ProjectModals = require('modals/ProjectModals');
   modals.TagModals = require('modals/TagModals');

@@ -20,7 +20,7 @@ define(function (require) {
       };
 
       request.set(newAttributes);
-      Router.getInstance().transitionTo("admin");
+      Router.getInstance().transitionTo("resource-request-manager");
       request.save(newAttributes, {patch: true}).done(function () {
         Utils.dispatch(Constants.UPDATE, {model: request});
         Utils.dispatch(Constants.REMOVE, {model: request});
