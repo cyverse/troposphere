@@ -29,7 +29,7 @@ define(function (require) {
         loadMoreButton = <tr><td><div onClick={this.loadMoreRequests} className="btn btn-default">Load more requests</div></td></tr>;
       }
 
-      if (!imageRequests[0]){
+      if (!imageRequests.models[0]){
         return <div>
                  <h3>No imaging requests</h3>
                  <div className="btn btn-default" onClick = {this.loadMoreRequests}>Refresh</div>
