@@ -140,7 +140,6 @@ def _handle_authenticated_application_request(request, maintenance_records):
 def application(request):
     response = HttpResponse()
     maintenance_records, disabled_login = get_maintenance(request)
-
     if disabled_login and request.user.is_staff is not True:
         return redirect('maintenance')
 

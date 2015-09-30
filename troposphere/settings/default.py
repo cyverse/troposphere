@@ -150,5 +150,5 @@ REST_FRAMEWORK = {
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'iplantauth.authBackends.OAuthLoginBackend'
+    'iplantauth.authBackends.GlobusOAuthLoginBackend'
 )
