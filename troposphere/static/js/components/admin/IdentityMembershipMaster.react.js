@@ -4,23 +4,67 @@ define(function (require) {
   var React = require('react/addons'),
     Router = require('react-router'),
     stores = require('stores'),
-    //IdentityMembershipAdmin = require('./IdentityMembershipAdmin.react'),
-    IdentityMembership = require('./IdentityMembership.react'),
-    RouteHandler = Router.RouteHandler;
+    IdentityMembership = require('./IdentityMembership.react');
+  var timer,
+    timerDelay = 100;
+
 
   return React.createClass({
     displayName: "IdentityMembership",
     mixins: [Router.State],
     getInitialState: function() {
         return {
-            user_query: "",
+            query: "",
+            selectedProviderId: -1,
+            allModels: null,
         };
     },
-    render: function () {
-      var memberships = stores.IdentityMembershipStore.getAll();
-      //stores.IdentityMembershipStore.fetchWhere({
-      //    'username': this.state.user_query
-      //  });
+
+    componentDidMount: function () {
+      stores.IdentityMembershipStore.addChangeListener(this.updateState);
+      stores.ProviderStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+      stores.IdentityMembershipStore.removeChangeListener(this.updateState);
+      stores.ProviderStore.removeChangeListener(this.updateState);
+    },
+
+    //Borrowed shamelessly from ImageListView
+    handleSearch: function (input) {
+      if (timer) clearTimeout(timer);
+
+      timer = setTimeout(function () {
+        this.setState({query: this.state.query});
+      }.bind(this), timerDelay);
+    },
+
+    onProviderChange: function (e) {
+      var provider_key = e.target.id,
+          provider_id = provider_key.split('-')[1];
+      this.setState({selectedProviderId: provider_id});
+    },
+
+    onSearchChange: function (e) {
+      var input = e.target.value;
+      this.setState({query: input});
+      this.handleSearch(input);
+    },
+
+
+    renderTable: function () {
+      var memberships;
+      if(this.state.query !== null && this.state.query !== "") {
+          var query_params = {
+            'username': this.state.query
+          };
+          if(this.state.selectedProviderId != -1) {
+              query_params.provider_id = this.state.selectedProviderId;
+          }
+          memberships = stores.IdentityMembershipStore.fetchWhere(query_params);
+      } else {
+          memberships = stores.IdentityMembershipStore.getAll();
+      }
 
       if (!memberships) return <div className="loading"></div>;
 
@@ -37,27 +81,70 @@ define(function (require) {
                 </div>
                 );
       }
-
       return (
-        <div className="resource-master">
+          <table className="admin-table table table-hover col-md-6">
+            <tbody>
+              <tr className="admin-row">
+                <th className="center">
+                    <h3>User</h3>
+                </th>
+                <th className="center">
+                    <h3>Provider</h3>
+                </th>
+                <th className="center">
+                    <h3>Enabled/Disabled</h3>
+                </th>
+              </tr>
+              {identityMembershipRows}
+            </tbody>
+          </table>
+        );
+    },
+    renderProvider: function(provider) {
+          if(provider.get('end_date').isValid()) {
+              //Skip end-dated providers
+              return;
+          }
+          var provider_id = "provider-"+provider.id;
+          return (
+            <button className="btn btn-default" id={provider_id} key={provider.id} onClick={this.onProviderChange}>
+                {provider.get('name')}
+            </button>
+          );
+    },
+    renderProviderSelect: function () {
+        var self = this;
+        var providers = stores.ProviderStore.getAll();
+        if (!providers) {
+            return (<div className="loading"/>);
+        }
+        var providerRows = providers.map(function (provider) {
+          return self.renderProvider(provider);
+        });
+        return (<div className="container">
+              <div className="secondary-nav-links">
+                {providerRows}
+              </div>
+            </div>);
+
+    },
+    render: function () {
+      return (
+        <div className="resource-master container">
           <h1>Atmosphere Users</h1>
-            <table className="admin-table table table-hover col-md-6">
-              <tbody>
-                <tr className="admin-row">
-                  <th className="center">
-                      <h3>User</h3>
-                  </th>
-                  <th className="center">
-                      <h3>Provider</h3>
-                  </th>
-                  <th className="center">
-                      <h3>Enabled/Disabled</h3>
-                  </th>
-                </tr>
-                {identityMembershipRows}
-              </tbody>
-            </table>
-            <RouteHandler />
+          <div id='membership-container'>
+            <input
+            type='text'
+            className='form-control search-input'
+            placeholder='Search for a specific user by username'
+            onChange={this.onSearchChange}
+            value={this.state.query}
+            ref="textField"
+            />
+            <hr/>
+          </div>
+          {this.renderProviderSelect()}
+          {this.renderTable()}
         </div>
       );
     }
