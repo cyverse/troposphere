@@ -16,7 +16,7 @@ define(function (require) {
       var requests = stores.ResourceRequestStore.fetchWhere({
           'status__name': 'pending'
         }),
-        statuses = stores.QuotaStatusStore.getAll();
+        statuses = stores.StatusStore.getAll();
 
       if (!requests || !statuses) return <div className="loading"></div>;
 

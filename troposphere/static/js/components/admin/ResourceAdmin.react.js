@@ -37,12 +37,12 @@ define(function (require) {
       var resourceRequest = stores.ResourceRequestStore.get(this.getParams().resourceRequestId),
         quotaToSend = resourceRequest.get('current_quota'),
         allocationToSend = resourceRequest.get('current_allocation'),
-        status = stores.QuotaStatusStore.findOne({name: "rejected"});
+        status = stores.StatusStore.findOne({name: "rejected"});
 
       if (e.target.innerHTML === 'Approve') {
         quotaToSend = parseInt(this.state.quota) || parseInt(resourceRequest.get('current_quota'));
         allocationToSend = parseInt(this.state.allocation) || parseInt(resourceRequest.get('current_allocation'));
-        status = stores.QuotaStatusStore.findOne({name: "approved"});
+        status = stores.StatusStore.findOne({name: "approved"});
       }
 
       ResourceActions.update({
@@ -58,7 +58,7 @@ define(function (require) {
 
       var quotas = stores.QuotaStore.getAll();
       var allocations = stores.AllocationStore.getAll();
-      var statuses = stores.QuotaStatusStore.getAll();
+      var statuses = stores.StatusStore.getAll();
       var resourceRequest = stores.ResourceRequestStore.get(this.getParams().resourceRequestId);
 
       if (!resourceRequest || !quotas || !allocations || !statuses) return <div className="loading"/>;
