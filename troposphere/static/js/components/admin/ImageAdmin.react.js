@@ -104,7 +104,7 @@ define(function (require) {
           <div>Forked: {forked}</div>
           <div>New version licenses: {request.get('new_version_licenses')}</div>
           <div>New version memory min: {request.get('new_version_memory_min')}</div>
-          <div>New version storage min: {request.get('new_version_storage_min')}</div>
+          <div>New version cpu min: {request.get('new_version_cpu_min')}</div>
           <div>New version name: {request.get('new_version_name')}</div>
           <div>New version scripts: {request.get('new_version_scripts')}</div>
           <div>New version tags: {request.get('new_version_tags')}</div>
