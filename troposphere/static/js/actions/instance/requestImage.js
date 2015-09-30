@@ -9,6 +9,7 @@ define(function (require) {
   return {
 
     requestImage: function(params){
+
       if(!params.instance) throw new Error("Missing instance");
       if(!params.name) throw new Error("Missing name");
       if(!params.description) throw new Error("Missing description");
@@ -25,6 +26,8 @@ define(function (require) {
       if(!params.visibility) throw new Error("Missing visibility");
       if(!params.imageUsers) throw new Error("Missing imageUsers");
 
+      // temp. workaround for getting user's identity
+      var identity = stores.IdentityStore.getAll().models[0].id;
 
       var instance = params.instance.get('id'),
           name = params.name,
@@ -53,7 +56,6 @@ define(function (require) {
           }),
           provider = stores.ProviderStore.get(providerId);
 
-
       var requestData = {
         access_list: userNames,
         exclude_files: filesToExclude,
@@ -77,7 +79,7 @@ define(function (require) {
 
 
       var requestUrl = (
-        globals.API_V2_ROOT + "/machine_requests" 
+        globals.API_V2_ROOT + "/machine_requests"
       );
 
       $.ajax({

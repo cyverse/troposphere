@@ -57,7 +57,7 @@ define(function(require) {
     renderRefreshButton: function(){
       
       return (
-        <span className="pull-right instance-history">
+        <span className="pull-right refresh-button">
             <RefreshComponent onRefreshClick = {this.refreshHistory} timestamp = {stores.InstanceHistoryStore.lastUpdated} delay = {1000 * 60} />
         </span>
       );
