@@ -30,14 +30,15 @@ define(function (require) {
       reportData = {
         username: username,
         message: "Instance IP: " + instance.get('ip_address') + "\n" +
-        "Instance ID: " + instance.id + "\n" +
-        "Provider ID: " + instance.get('provider').id + "\n" +
-        "\n" +
-        "Problems" + "\n" +
-        problemText + "\n" +
-        "Details \n" +
-        reportInfo.details + "\n",
-        subject: "Atmosphere Instance Report from " + username
+                 "Instance ID: " + instance.id + "\n" +
+                 "Provider ID: " + instance.get('provider').id + "\n" +
+                 "\n" +
+                 "Problems" + "\n" +
+                 problemText + "\n" +
+                 "Details \n" +
+                 reportInfo.details + "\n",
+        subject: "Atmosphere Instance Report from " + username,
+        "user-interface": 'troposphere'
       };
 
       $.ajax({

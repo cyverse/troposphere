@@ -171,6 +171,8 @@ Atmo.Views.ReportVolumeModal = Backbone.View.extend({
 				}
 			};
 
+			data["user-interface"] = 'airport';
+
 			var succeeded = true;
 
 			$.ajax({

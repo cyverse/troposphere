@@ -94,6 +94,8 @@ Atmo.Views.ReportInstanceForm = Backbone.View.extend({
 				}
 			};
 
+            data["user-interface"] = 'airport';
+
             var btn = self.$el.find('.report_instance_submit');
 
             btn.val("Submitting Report...")
