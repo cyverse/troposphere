@@ -4,6 +4,7 @@ define(function (require) {
   var stores = require('stores'),
     globals = require('globals'),
     $ = require('jquery'),
+    _ = require('underscore'),
     Utils = require('../Utils');
 
   return {
