@@ -70,6 +70,8 @@ Atmo.Views.FeedbackLink = Backbone.View.extend({
 			}
 		};
 
+		data["user-interface"] = 'airport';
+
 		var self = this;
 
 		if ($('#feedback').val().length > 0) {

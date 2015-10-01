@@ -33,7 +33,7 @@ define(
       getInitialState: function () {
         var initialState = {
           projectName: "",
-          projects: null,
+          projects: stores.ProjectStore.getAll(),
           projectId: -999
         };
 
@@ -189,6 +189,7 @@ define(
       },
 
       render: function () {
+        var projects = stores.ProjectStore.getAll();
         return (
           <div className="modal fade">
             <div className="modal-dialog">

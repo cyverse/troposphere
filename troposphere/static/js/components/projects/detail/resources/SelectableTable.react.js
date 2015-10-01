@@ -41,7 +41,7 @@ define(function (require) {
       return (
         <table className="table table-hover sm-table">
           <thead className="sm-thead">
-          <tr className="sm-row"nClick={this.toggleCheckbox}>
+          <tr className="sm-row" onClick={this.toggleCheckbox}>
             <th className="sm-header"><Checkbox isChecked={this.areAllResourcesSelected()}/></th>
             {this.props.children}
           </tr>

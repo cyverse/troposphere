@@ -104,8 +104,8 @@ define(function(require) {
 
         var startDate = instance.get('start_date'),
             endDate = instance.get('end_date'),
-            formattedStartDate = startDate.format("MMM DD, YYYY"),
-            formattedEndDate = endDate.format("MMM DD, YYYY"),
+            formattedStartDate = startDate.format("MMM DD, YYYY hh:mm a"),
+            formattedEndDate = endDate.format("MMM DD, YYYY hh:mm a"),
             now = moment(),
             timeSpan = now.diff(startDate, "days"),
             instanceHistoryHash = CryptoJS.MD5((instance.id || instance.cid).toString()).toString(),

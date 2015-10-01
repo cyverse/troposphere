@@ -1,7 +1,7 @@
 define(function (require) {
 
   var React = require('react/addons'),
-      checkmark = require("images/checkmark.png");
+      checkmark = require('images/checkmark.png');
 
   return React.createClass({
 
@@ -16,7 +16,7 @@ define(function (require) {
       }
       return (
         <div className={className}>
-        <img src={{ checkmark }}/>
+        <img src={checkmark}/>
         </div>
       );
     }
