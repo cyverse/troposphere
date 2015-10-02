@@ -1,10 +1,11 @@
 .DEFAULT_GOAL =	all
 
-.PHONY =	all clean delete delete-javascript delete-virtualenv webpack-dev webpack-prod \
-		javascript js cf2 npm pip prod production python virtualenv chown
+.PHONY =	all clean delete delete-javascript delete-virtualenv dev webpack-dev \
+    webpack-prod javascript js cf2 npm pip prod production python virtualenv chown
 
 DJANGO	=	DJANGO_SETTINGS_MODULE='troposphere.settings' ./manage.py
 WEBPACK =	$(NPM) run build
+WEBPACK_DEV = $(NPM) run dev
 JENKINS_WEBPACK =	$(NPM) run jenkins
 NPM	    =	npm
 NODE	=	node
@@ -26,8 +27,10 @@ delete-javascript :
 delete-virtualenv :
 	rm -rf /opt/env/troposphere/
 
+dev : webpack-dev
+
 webpack-dev : npm
-	$(WEBPACK) --progress
+	$(WEBPACK_DEV) -d --progress
 
 webpack-jenkins : npm
 	$(JENKINS_WEBPACK)
