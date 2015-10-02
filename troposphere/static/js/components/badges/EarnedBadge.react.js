@@ -11,13 +11,8 @@ define(function (require) {
     renderBadgeDetail: function(e){
       e.preventDefault();
       modals.BadgeModals.showMyBadge(this.props.badge);
-    
     },
     
-    handleClick: function(e){
-      this.setState({selected: !this.state.selected});
-    },
-
     handleClick: function(e){ 
         this.setState({selected: !this.state.selected});
     },
