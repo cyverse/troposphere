@@ -26,6 +26,7 @@ Atmo.Views.FeedbackLink = Backbone.View.extend({
 		e.preventDefault();
 
 		var data = {
+            'user-interface': 'airport',
 			'location': window.location.href,
 			'resolution': { 
 				'viewport': {
