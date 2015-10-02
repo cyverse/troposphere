@@ -159,17 +159,19 @@ Atmo.Views.ReportVolumeModal = Backbone.View.extend({
 			}
 			data["message"] += '\n\n';
 
-			data['location'] = window.location.href,
-			data['resolution'] = {
-				'viewport': {
-					'width': $(window).width(),
-					'height': $(window).height()
+			data["location"] = window.location.href,
+			data["resolution"] = {
+				"viewport": {
+					"width": $(window).width(),
+					"height": $(window).height()
 				},
-				'screen': {
-					'width':  screen.width,
-					'height': screen.height
+				"screen": {
+					"width":  screen.width,
+					"height": screen.height
 				}
 			};
+
+			data["user-interface"] = 'airport';
 
 			var succeeded = true;
 
