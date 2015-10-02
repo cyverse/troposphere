@@ -16,18 +16,18 @@ define(function (require) {
       data["message"] = feedback;
 
       // Size information for the user's browser and monitor
-      data['resolution'] = {
-        'viewport': {
-          'width': $(window).width(),
-          'height': $(window).height()
+      data["resolution"] = {
+        "viewport": {
+          "width": $(window).width(),
+          "height": $(window).height()
         },
-        'screen': {
-          'width': screen.width,
-          'height': screen.height
+        "screen": {
+          "width": screen.width,
+          "height": screen.height
         }
       };
 
-      data['user-interface'] = 'troposphere';
+      data["user-interface"] = 'troposphere';
 
       var feedbackUrl = globals.API_ROOT + '/email/feedback';
 

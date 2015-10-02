@@ -4,6 +4,7 @@ define(function (require) {
   var stores = require('stores'),
     globals = require('globals'),
     $ = require('jquery'),
+    _ = require('underscore'),
     Utils = require('../Utils');
 
   return {
@@ -29,13 +30,14 @@ define(function (require) {
       reportData = {
         username: username,
         message: "Volume ID: " + volume.id + "\n" +
-        "Provider ID: " + volume.get('identity').provider + "\n" +
-        "\n" +
-        "Problems" + "\n" +
-        problemText + "\n" +
-        "Details \n" +
-        reportInfo.details + "\n",
-        subject: "Atmosphere Volume Report from " + username
+                 "Provider ID: " + volume.get('identity').provider + "\n" +
+                 "\n" +
+                 "Problems" + "\n" +
+                 problemText + "\n" +
+                 "Details \n" +
+                 reportInfo.details + "\n",
+        subject: "Atmosphere Volume Report from " + username,
+        "user-interface": 'troposphere'
       };
 
       $.ajax({
