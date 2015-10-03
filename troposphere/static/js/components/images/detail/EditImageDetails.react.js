@@ -6,7 +6,9 @@ define(function (require) {
     ImageLaunchCard = require('./launch/ImageLaunchCard.react'),
     EditNameView = require('./name/EditNameView.react'),
     EditDescriptionView = require('./description/EditDescriptionView.react'),
+    InteractiveDateField = require('components/common/InteractiveDateField.react'),
     CreatedView = require('./created/CreatedView.react'),
+    EditRemovedView = require('./removed/EditRemovedView.react'),
     AuthorView = require('./author/AuthorView.react'),
     actions = require('actions'),
     stores = require('stores');
@@ -37,10 +39,16 @@ define(function (require) {
       var updatedAttributes = {
         name: this.state.name,
         description: this.state.description,
+        end_date: this.state.endDate,
         tags: this.state.tags
       };
 
       this.props.onSave(updatedAttributes);
+    },
+
+    handleEndDateChange: function (value) {
+      var endDate = value;
+      this.setState({endDate: endDate});
     },
 
     handleNameChange: function (e) {
@@ -84,6 +92,10 @@ define(function (require) {
               onChange={this.handleNameChange}
             />
             <CreatedView image={image}/>
+            <InteractiveDateField
+              value={this.state.end_date}
+              onChange={this.handleEndDateChange}
+              />
             <AuthorView image={image}/>
             <EditDescriptionView
               titleClassName="title col-md-2"

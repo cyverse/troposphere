@@ -9,6 +9,7 @@ define(function (require) {
       VersionChanges = require('../instance/image/components/VersionChangeLog.react'),
       EditAvailabilityView = require('./availability/EditAvailabilityView.react'),
       EditDescriptionView = require('components/images/detail/description/EditDescriptionView.react'),
+      InteractiveDateField = require('components/common/InteractiveDateField.react'),
       EditMembershipView = require('./membership/EditMembershipView.react'),
       EditLicensesView = require('./licenses/EditLicensesView.react'),
       EditScriptsView = require('./scripts/EditScriptsView.react'),
@@ -125,18 +126,9 @@ define(function (require) {
       this.setState({versionName: e.target.value});
     },
 
-    onEndDateChange: function (e) {
-      this.setState({versionEndDate: e.target.value});
+    onEndDateChange: function (value) {
+      this.setState({versionEndDate: value});
     },
-    setEndDateNow: function (e) {
-      var now_time = moment(new Date());
-      this.setState({versionEndDate: now_time.format("MMM D, YYYY hh:mm a")});
-    },
-
-    unsetEndDateNow: function (e) {
-      this.setState({versionEndDate: ""});
-    },
-
     onUncopyableSelected: function (e) {
       var uncopyable = (e.target.checked);
       this.setState({versionCanImage: uncopyable});
@@ -310,14 +302,10 @@ define(function (require) {
         </div>
       );
       //FUTURE_keyTODO: Pull this functionality out if you use it anywhere else..
-      endDateView = (<div className='form-group'>
-        <label htmlFor='version-end-date'>Date to hide image from public view</label>
-        <div className="input-group">
-          <input type='text' className='form-control' value={ended} onChange={this.onEndDateChange}/>
-          <span className="input-group-addon" id="enddate-set-addon" onClick={this.setEndDateNow}>Set</span>
-          <span className="input-group-addon" id="enddate-clear-addon" onClick={this.unsetEndDateNow}>Clear</span>
-        </div>
-      </div>);
+      endDateView = (<InteractiveDateField
+              value={ended}
+              onChange={this.onEndDateChange}
+              />);
       startDateView = (<div className='form-group'>
           <label htmlFor='version-version'>Version Created On</label>
           <input type='text' className='form-control' value={created} readOnly={true} editable={false}/>
