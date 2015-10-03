@@ -1,6 +1,7 @@
 define(function (require) {
 
-  var ImageCollection = require('collections/ImageCollection'),
+  var moment = require('moment'),
+      ImageCollection = require('collections/ImageCollection'),
       ProviderCollection = require('collections/ProviderCollection'),
       Dispatcher = require('dispatchers/Dispatcher'),
       BaseStore = require('stores/BaseStore'),
@@ -16,11 +17,29 @@ define(function (require) {
       var tagIds = tags.map(function(tag){
           return tag.id;
       });
-      image.save({
+      var updateAttrs = {
         name: image.get('name'),
         description: image.get('description'),
         tags: tagIds
-      }, {
+      }
+      if(image.get('end_date')) {
+        var end_date;
+        if (typeof image.get('end_date') == "object") {
+            end_date = image.get('end_date')
+        } else {
+            //NOTE: This may never happen..
+            end_date = moment(image.get('end_date'));
+        }
+        //Test validity if the date
+        if(end_date.isValid()) {
+            end_date = end_date.toISOString();
+        } else {
+            end_date = null;
+        }
+        //Add new date (or non-date) to the update list
+        updateAttrs.end_date = end_date
+      }
+      image.save(updateAttrs, {
         patch: true
       }).done(function(){
         image.set({tags:tags});
