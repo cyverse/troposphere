@@ -68,7 +68,7 @@ relativevirtual :
 	-virtualenv env
 
 jenkinspip : relativevirtual
-	source ./env/bin/activate;pip install -r requirements.txt
+	source ./env/bin/activate;pip install -r dev_requirements.txt
 
 jenkinschown :
 	chown -R jenkins:jenkins ./env
