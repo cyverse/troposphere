@@ -11,6 +11,9 @@ define(function (require) {
     EditRemovedView = require('./removed/EditRemovedView.react'),
     AuthorView = require('./author/AuthorView.react'),
     actions = require('actions'),
+    globals = require('globals'),
+    //moment = require('moment'),
+    //momentTZ = require('moment-timezone'),
     stores = require('stores');
 
   return React.createClass({
@@ -31,6 +34,7 @@ define(function (require) {
       return {
         name: image.get('name'),
         description: image.get('description'),
+        endDate: image.get('end_date').tz(globals.TZ_REGION).format("M/DD/YYYY hh:mm a z"),
         tags: imageTags
       }
     },
@@ -93,7 +97,7 @@ define(function (require) {
             />
             <CreatedView image={image}/>
             <InteractiveDateField
-              value={this.state.end_date}
+              value={this.state.endDate}
               onChange={this.handleEndDateChange}
               />
             <AuthorView image={image}/>

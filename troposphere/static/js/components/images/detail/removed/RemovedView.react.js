@@ -3,9 +3,10 @@ define(
   [
     'react',
     'backbone',
+    'globals',
     'moment'
   ],
-  function (React, Backbone, moment) {
+  function (React, Backbone, globals, moment) {
 
     return React.createClass({
 
@@ -17,7 +18,8 @@ define(
         var image = this.props.image,
             endDate = moment(image.get('end_date'));
         if (endDate.isValid()) {
-            endDate = endDate.format("MMM D, YYYY hh:mm a");
+            formatDate = endDate.tz(globals.TZ_REGION).format("M/DD/YYYY hh:mm a z");
+            endDate = formatDate;
         } else {
             //Hide this from view when end date isn't available
             // Based on API permissions, this means only STAFF
