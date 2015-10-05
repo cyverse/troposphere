@@ -7,7 +7,10 @@ define(
   ],
   function (React, Backbone, SubMenu) {
 
-    return React.createClass({
+    propTypes: {
+      project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+      children: React.PropTypes.element.isRequired
+    },
 
       propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,

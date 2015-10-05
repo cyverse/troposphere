@@ -40,8 +40,8 @@ define(
           </div>
         );
 
-        return React.renderComponentToString(message);
-      },
+        return React.renderToString(message);
+    },
 
       attachError: function (volume, instance) {
         var volumeName = volume.get('name');
@@ -58,8 +58,7 @@ define(
           </div>
         );
 
-        return React.renderComponentToString(message);
-      }
+        return React.renderToString(message);
     }
 
   });
