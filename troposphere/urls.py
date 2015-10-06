@@ -7,6 +7,7 @@ user_match = "[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*"
 urlpatterns = patterns('',
     url(r'^tropo-admin/', include(admin.site.urls)),
     url(r'^$', 'troposphere.views.root'),
+    url(r'^application_backdoor', 'troposphere.views.application_backdoor', name='application'),
     url(r'^application/emulate$', 'troposphere.views.unemulate',
         name='unemulate-user'),
     url(r'^application/emulate/(?P<username>(%s))$' % user_match, 'troposphere.views.emulate',
