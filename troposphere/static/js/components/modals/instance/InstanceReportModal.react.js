@@ -1,12 +1,8 @@
-
-define(
-  [
-    'react',
-    'components/mixins/BootstrapModalMixin.react',
-    'components/common/Glyphicon.react'
-  ],
-  function (React, BootstrapModalMixin, Glyphicon) {
-    var _ = require("underscore");
+define(function (require) {
+    var React = require('react'),
+      BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
+      Glyphicon = require('components/common/Glyphicon.react'),
+      _ = require("underscore");
 
     return React.createClass({
       displayName: "InstanceReportModal",
