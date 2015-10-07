@@ -127,6 +127,9 @@ define(function (require) {
       profile: React.PropTypes.instanceOf(Backbone.Model),
       currentRoute: React.PropTypes.array.isRequired
     },
+    
+    // We need the screen size for handling the opening and closing of our menu on small screens
+    //See the menu item render for implementation
 
     getInitialState: function() {
     return {windowWidth: window.innerWidth};
@@ -180,6 +183,8 @@ define(function (require) {
       var navLinks = links.map(function (link) {
         var isCurrentRoute = (link.name.toLowerCase() === this.props.currentRoute[0]);
         var className = isCurrentRoute ? "active" : null;
+        
+        //We need to only trigger the toggle menu on small screen sizes to avoid buggy behaviour when selecting menu items on larger screens
         var smScreen = (this.state.windowWidth < 768);
         var toggleMenu = smScreen ? {toggle: 'collapse',target:'.navbar-collapse'} : {toggle: null, target: null};
 
