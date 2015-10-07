@@ -129,7 +129,7 @@ define(function (require) {
     },
     
     // We need the screen size for handling the opening and closing of our menu on small screens
-    //See the menu item render for implementation
+    //See navLinks below for implementation.
 
     getInitialState: function() {
     return {windowWidth: window.innerWidth};
