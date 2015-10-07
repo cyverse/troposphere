@@ -171,6 +171,7 @@ def generate_configs(configs, backup):
     success, messages = _handle_preconditions(configs)
     print_messages(messages)
     if not success:
+        print 'Config not generated.\n'
         exit(1)
     print 'Generating configs...\n'
     success, messages = _generate_configs(configs, backup)
