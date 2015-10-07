@@ -56,7 +56,6 @@ define(
       },
 
       render: function() {
-
         return (
           <div className="modal fade">
             <div className="modal-dialog">
@@ -86,5 +85,4 @@ define(
       }
 
     });
-
-  });
+});

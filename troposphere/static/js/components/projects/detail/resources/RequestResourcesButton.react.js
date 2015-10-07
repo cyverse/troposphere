@@ -32,7 +32,7 @@ define(function (require) {
       $(this.getDOMNode()).tooltip('hide');
     },
 
-    handleClick: function () { 
+    handleClick: function () {
       modals.HelpModals.requestMoreResources();
       // Fixes a bug in FireFox where the tooltip doesn't go away when button is clicked
       this.hideTooltip();

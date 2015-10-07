@@ -37,8 +37,8 @@ define(function (require) {
           var instances = stores.InstanceStore.getInstancesNotInAProject(),
           volumes = stores.VolumeStore.getVolumesNotInAProject(),
           nullProject = new NullProject({instances: instances, volumes: volumes});
-          
-          //setTimout is a Hack. We need to let the first modal unmount before calling getDOMNode 
+
+          //setTimout is a Hack. We need to let the first modal unmount before calling getDOMNode
           //on the second modal, else we get an err "Invariant Violation: getDOMNode():".
           //See https://github.com/facebook/react/issues/2410 for other solutions
           setTimeout(function(){
@@ -69,7 +69,7 @@ define(function (require) {
       // IMPORTANT! We get one shot at this. If the instances and volumes aren't
       // fetched before this component is mounted we miss our opportunity to migrate
       // the users resources (so make sure they're fetched in the Splash Screen)
-    
+
 
         var instances = stores.InstanceStore.getInstancesNotInAProject(),
         volumes = stores.VolumeStore.getVolumesNotInAProject(),

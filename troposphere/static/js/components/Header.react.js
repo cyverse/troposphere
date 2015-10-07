@@ -7,8 +7,7 @@ define(function (require) {
     MaintenanceMessageBanner = require('./MaintenanceMessageBanner.react'),
     globals = require('globals'),
     Router = require('react-router'),
-
-  // plugin: required to enable the drop-down, but not used directly
+    // plugin: required to enable the drop-down, but not used directly
     bootstrap = require('bootstrap');
 
   var Link = Router.Link;
