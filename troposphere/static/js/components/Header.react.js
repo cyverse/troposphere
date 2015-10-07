@@ -128,6 +128,22 @@ define(function (require) {
       currentRoute: React.PropTypes.array.isRequired
     },
 
+    getInitialState: function() {
+    return {windowWidth: window.innerWidth};
+    },
+
+    handleResize: function(e) {
+        this.setState({windowWidth: window.innerWidth});
+    },
+
+    componentDidMount: function() {
+        window.addEventListener('resize', this.handleResize);
+    },
+
+    componentWillUnmount: function() {
+        window.removeEventListener('resize', this.handleResize);
+    },
+
     renderBetaToggle: function () {
       if (!window.show_troposphere_only) {
         return (
@@ -164,8 +180,11 @@ define(function (require) {
       var navLinks = links.map(function (link) {
         var isCurrentRoute = (link.name.toLowerCase() === this.props.currentRoute[0]);
         var className = isCurrentRoute ? "active" : null;
+        var smScreen = (this.state.windowWidth < 768);
+        var toggleMenu = smScreen ? {toggle: 'collapse',target:'.navbar-collapse'} : {toggle: null, target: null};
+
         return (
-          <li key={link.name}>
+          <li key={link.name} data-toggle={toggleMenu.toggle} data-target={toggleMenu.target} >
             <Link to={link.linksTo}>
               <i className={"glyphicon glyphicon-" + link.icon}></i>
               {link.name}
