@@ -8,6 +8,8 @@ define(
   function (React, BootstrapModalMixin, Glyphicon) {
 
     return React.createClass({
+      displayName: "InstanceStartModal",
+
       mixins: [BootstrapModalMixin],
 
       //

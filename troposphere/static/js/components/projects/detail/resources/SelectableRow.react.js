@@ -5,6 +5,7 @@ define(function (require) {
     Checkbox = require('./Checkbox.react');
 
   return React.createClass({
+    displayName: "SelectableRow",
 
     propTypes: {
       onResourceSelected: React.PropTypes.func.isRequired,

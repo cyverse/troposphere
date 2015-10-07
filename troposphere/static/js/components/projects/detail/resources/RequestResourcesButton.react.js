@@ -5,11 +5,13 @@ define(function (require) {
       Backbone = require('backbone'),
       stores = require('stores'),
       actions = require('actions'),
-      modals = require('modals'), 
+      modals = require('modals'),
   // plugin: jquery extension, not used directly
       bootstrap = require('bootstrap');
 
   return React.createClass({
+    displayName: "RequestResourcesButton",
+
     componentDidMount: function () {
       this.generateTooltip();
     },

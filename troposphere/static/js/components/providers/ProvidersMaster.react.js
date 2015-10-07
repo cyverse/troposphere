@@ -7,6 +7,7 @@ define(function (require) {
     stores = require('stores');
 
   return React.createClass({
+    displayName: "ProvidersMaster",
 
     mixins: [Router.State],
 

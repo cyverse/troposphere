@@ -6,6 +6,7 @@ define(function (require) {
     actions = require('actions');
 
   return React.createClass({
+    displayName: "Footer",
 
     propTypes: {
       profile: React.PropTypes.instanceOf(Backbone.Model)

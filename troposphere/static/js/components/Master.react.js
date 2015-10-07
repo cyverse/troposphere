@@ -17,6 +17,7 @@ define(function (require) {
   var Router = require('react-router'),
     RouteHandler = Router.RouteHandler;
   return React.createClass({
+    displayName: "Master",
 
     mixins: [Router.State],
 

@@ -3,6 +3,7 @@ define(function (require) {
   var React = require('react/addons');
 
   return React.createClass({
+    displayName: "Visibility",
 
     propTypes: {
       onChange: React.PropTypes.func.isRequired,

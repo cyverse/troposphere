@@ -6,6 +6,7 @@ define(function (require) {
     login = require("images/login_mainimage.png");
 
   return React.createClass({
+    displayName: "MaintenanceScreen",
 
     render: function () {
       return (

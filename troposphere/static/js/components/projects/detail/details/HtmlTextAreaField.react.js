@@ -5,6 +5,7 @@ define(function (require) {
     Showdown = require('showdown');
 
   return React.createClass({
+    displayName: "HtmlTextAreaField",
 
     propTypes: {
       title: React.PropTypes.string,

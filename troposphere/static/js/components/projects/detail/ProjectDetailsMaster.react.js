@@ -8,6 +8,7 @@ define(function (require) {
     SecondaryProjectNavigation = require('../common/SecondaryProjectNavigation.react');
 
   return React.createClass({
+    displayName: "ProjectDetailsMaster",
 
     mixins: [Router.State],
 

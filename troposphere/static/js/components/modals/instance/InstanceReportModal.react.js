@@ -9,6 +9,8 @@ define(
     var _ = require("underscore");
 
     return React.createClass({
+      displayName: "InstanceReportModal",
+
       mixins: [BootstrapModalMixin],
 
       getInitialState: function () {

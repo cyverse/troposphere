@@ -6,6 +6,7 @@ define(
   function (React, Backbone) {
 
     return React.createClass({
+      displayName: "EditDetails",
 
       propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,

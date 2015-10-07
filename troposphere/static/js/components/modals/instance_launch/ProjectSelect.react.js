@@ -8,6 +8,7 @@ define(
   function (React, Backbone, ProjectOption) {
 
     return React.createClass({
+      displayName: "ProjectSelect",
 
       propTypes: {
         projectId: React.PropTypes.number.isRequired,

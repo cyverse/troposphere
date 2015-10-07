@@ -2,6 +2,8 @@ define(function(require) {
   var React = require('react');
 
   return React.createClass({
+    displayName: "TimeframeBreadcrumb",
+
     render: function() {
       var me = this;
 

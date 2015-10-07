@@ -4,6 +4,8 @@ define(function (require) {
     BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react');
 
   return React.createClass({
+    displayName: "ServiceUnavailableModal",
+
     mixins: [BootstrapModalMixin],
 
     cancel: function () {

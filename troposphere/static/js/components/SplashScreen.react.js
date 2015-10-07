@@ -8,6 +8,7 @@ define(function (require) {
     routes = require('../AppRoutes.react');
 
   return React.createClass({
+    displayName: "SplashScreen",
 
     //
     // Mounting & State

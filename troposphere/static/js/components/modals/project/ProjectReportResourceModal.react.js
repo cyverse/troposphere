@@ -14,6 +14,8 @@ define(
     }
 
     return React.createClass({
+      displayName: "ProjectReportResourceModal",
+
       mixins: [BootstrapModalMixin],
 
       propTypes: {

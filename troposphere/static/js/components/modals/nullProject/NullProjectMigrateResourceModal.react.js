@@ -11,6 +11,8 @@ define(
   function (React, Backbone, BootstrapModalMixin, ProjectSelect, ResourceListItem, stores) {
 
     return React.createClass({
+      displayName: "NullProjectMigrateResourceModal",
+
       mixins: [BootstrapModalMixin],
 
       propTypes: {

@@ -5,6 +5,7 @@ define(function (require) {
     stores = require('stores');
 
   return React.createClass({
+    displayName: "FavoritedImagesPage",
 
     renderBody: function () {
       var images = stores.ImageBookmarkStore.getBookmarkedImages(),

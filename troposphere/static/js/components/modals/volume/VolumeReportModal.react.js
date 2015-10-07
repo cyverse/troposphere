@@ -6,6 +6,8 @@ define(function (require) {
         Glyphicon = require('components/common/Glyphicon.react');
 
     return React.createClass({
+      displayName: "VolumeReportModal",
+
       mixins: [BootstrapModalMixin],
 
       getInitialState: function () {

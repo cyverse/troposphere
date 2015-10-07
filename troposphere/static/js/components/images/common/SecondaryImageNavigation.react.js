@@ -6,6 +6,7 @@ define(function (require) {
     context = require('context');
 
   return React.createClass({
+    displayName: "SecondaryImageNavigation",
 
     renderRoute: function (name, linksTo, icon, requiresLogin) {
       if (requiresLogin && !context.profile) return null;

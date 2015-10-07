@@ -7,6 +7,8 @@ define(
   function (React, BootstrapModalMixin, Glyphicon) {
 
     return React.createClass({
+      displayName: "InstanceRedeployModal",
+
       mixins: [BootstrapModalMixin],
 
       //

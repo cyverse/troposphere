@@ -9,6 +9,7 @@ define(
   function (React, Backbone, stores, ProjectOption) {
 
     return React.createClass({
+      displayName: "CommonProjectSelect",
 
       propTypes: {
         projectId: React.PropTypes.number.isRequired,

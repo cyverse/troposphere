@@ -122,6 +122,7 @@ define(function (require) {
   });
 
   var Header = React.createClass({
+    displayName: "Header",
 
     propTypes: {
       profile: React.PropTypes.instanceOf(Backbone.Model),

@@ -6,6 +6,8 @@ define(
   function (React, BootstrapModalMixin) {
 
     return React.createClass({
+      displayName: "ProjectCreateModal",
+
       mixins: [BootstrapModalMixin],
 
       getInitialState: function () {

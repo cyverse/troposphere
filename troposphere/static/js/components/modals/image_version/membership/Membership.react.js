@@ -9,7 +9,7 @@ define(function (require) {
       bootstrap = require('bootstrap');
 
   return React.createClass({
-    display: "Membership",
+    displayName: "Membership",
 
     propTypes: {
       membership: React.PropTypes.instanceOf(Backbone.Model).isRequired,

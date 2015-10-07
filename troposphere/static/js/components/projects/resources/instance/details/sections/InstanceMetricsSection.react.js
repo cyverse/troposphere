@@ -2,8 +2,8 @@ define(function(require) {
   var React = require('react'),
     InstanceMetrics = require('./metrics/InstanceMetrics.react');
 
-  return React.createClass({ 
-    render: function() {
+  return React.createClass({
+    displayName: "InstanceMetricsSection",
 
     return (
         <div>

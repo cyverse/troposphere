@@ -27,6 +27,7 @@ define(function (require) {
     ];
 
     return React.createClass({
+      displayName: "HelpPage",
 
       render: function () {
 

@@ -4,7 +4,7 @@ define(function (require) {
       Backbone = require('backbone');
 
   return React.createClass({
-    display: "ChosenDropdownMembership",
+    displayName: "ChosenSelectedMembership",
 
     propTypes: {
       membership: React.PropTypes.instanceOf(Backbone.Model).isRequired,
