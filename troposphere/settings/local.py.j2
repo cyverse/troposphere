@@ -77,10 +77,11 @@ INSTALLED_APPS += (
 #     'iplantauth.authBackends.MockLoginBackend',
 # )
 # Configure authentication plugin
+from datetime import timedelta
 AUTHENTICATION = {
     #GLOBAL
     "TOKEN_EXPIRY_TIME": timedelta(days={{ TOKEN_EXPIRY_TIME_DAYS }}),
-    "LOGOUT_REDIRECT_URL": {{ LOGOUT_REDIRECT_URL }},
+    "LOGOUT_REDIRECT_URL": '{{ LOGOUT_REDIRECT_URL }}',
     #CAS
     "CAS_SERVER": '{{ CAS_SERVER }}',
     "CAS_AUTH_PREFIX": '{{ CAS_AUTH_PREFIX }}',
@@ -97,5 +98,6 @@ AUTHENTICATION = {
     "GLOBUS_OAUTH_CREDENTIALS_SCOPE": '{{ GLOBUS_OAUTH_CREDENTIALS_SCOPE }}',
     "GLOBUS_OAUTH_AUTHENTICATION_SCOPE": '{{ GLOBUS_OAUTH_AUTHENTICATION_SCOPE }}',
     "GLOBUS_TOKEN_URL": '{{ GLOBUS_TOKEN_URL }}',
+    "GLOBUS_TOKENINFO_URL": '{{ GLOBUS_TOKENINFO_URL }}',
     "GLOBUS_AUTH_URL": '{{ GLOBUS_AUTH_URL}}',
 }
