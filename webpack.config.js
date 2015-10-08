@@ -4,7 +4,7 @@ var webpack = require("webpack");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var plugins = [
-    new ExtractTextPlugin("[name].css", { allChunks: true})
+    new ExtractTextPlugin("[name].css", { allChunks: true })
 ];
 
 if (process.env.NODE_ENV === "production") {
@@ -35,11 +35,10 @@ module.exports = {
   module: {
     loaders: [
       { test: /bootstrap-sass/, loader: "imports?jQuery=jquery" },
-     // { test:/modernizr\.custom\.10679\.js/, loader: "script" },
       { test: /modernizr-latest\.js/, loader: "imports?this=>window,html5=>window.html5!exports?window.Modernizr" },
-
+      { test: /\.json$/, loader: 'json-loader', include: path.join(__dirname, 'node_modules/moment-timezone')},
       { test: /\.js$/, loader: "babel", exclude: /node_modules/ },
-      { test: /\.(scss|sass)$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader!sass-loader") },
+      { test: /\.(scss|sass)$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader!autoprefixer-loader?browsers=last 2 versions!sass-loader") },
       { test: /\.woff$/ , loader: "url?limit=10000&mimetype=application/font-woff" },
       { test: /\.woff2$/, loader: "url?limit=10000&mimetype=application/font-woff2" },
       { test: /\.ttf$/  , loader: "file?mimetype=application/vnd.ms-fontobject" },

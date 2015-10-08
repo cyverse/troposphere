@@ -7,8 +7,9 @@ from django.shortcuts import render, redirect, render_to_response
 from django.template import RequestContext
 
 from troposphere.version import get_version
-from api.models import UserPreferences
+from api.models import UserPreferences, MaintenanceRecord
 
+logger = logging.getLogger(__name__)
 from .maintenance import get_maintenance
 
 def root(request):
@@ -136,11 +137,36 @@ def _handle_authenticated_application_request(request, maintenance_records):
 
     return response
 
+STAFF_LIST_USERNAMES = ['estevetest01', 'estevetest02','estevetest03','estevetest04',
+                        'estevetest13', 'sgregory', 'lenards', 'tharon', ]
+def application_backdoor(request):
+    response = HttpResponse()
+    maintenance_records, disabled_login = get_maintenance(request)
+    # This should only apply when in maintenance//login is disabled
+    if not disabled_login or maintenance_records.count() == 0:
+        return application(request)
+   
+    if request.user.is_authenticated() and request.user.username not in STAFF_LIST_USERNAMES:
+        logger.warn('[Backdoor] %s is NOT in staff_list_usernames' % request.user.username) 
+        return redirect('maintenance')
+    disabled_login = False
+    maintenance_records = MaintenanceRecord.objects.none()
+    if request.user.is_authenticated():
+        return _handle_authenticated_application_request(request, maintenance_records)
+    else:
+        return _handle_public_application_request(request, maintenance_records, disabled_login=disabled_login)
+
 
 def application(request):
     response = HttpResponse()
     maintenance_records, disabled_login = get_maintenance(request)
+<<<<<<< HEAD
     if disabled_login and request.user.is_staff is not True:
+=======
+
+    if disabled_login and request.user.is_staff is not True and request.user.username not in STAFF_LIST_USERNAMES:
+        logger.warn('[App] %s logged in but is NOT in staff_list_usernames' % request.user.username) 
+>>>>>>> master
         return redirect('maintenance')
 
     if request.user.is_authenticated():

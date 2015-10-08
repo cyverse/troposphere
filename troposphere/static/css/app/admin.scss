@@ -1,29 +1,30 @@
-.quota-detail textarea, select{
+.admin-detail textarea, select{
 	width: 95%;
 }
 
-.quota-table{
+.admin-table{
 	float: left;
 	width: 50%;
 }
 
-.quota-detail{
+.admin-detail{
 	width: 48%;
 	float: right;
+	padding: 1%;
 	position: relative;
 	border: 5px solid;
     border-color: $brand-primary;
 }
 
-.quota-detail button{
+.admin-detail button{
 	margin: 2%;
 }
 
-.quota-detail div{
+.admin-detail div{
 	margin: 2%;
 }
 
-.quota-row, .quota-inline{
+.admin-row, .quota-inline{
 	width: 100%;
 }
 
