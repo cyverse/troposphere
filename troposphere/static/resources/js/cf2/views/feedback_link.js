@@ -26,6 +26,7 @@ Atmo.Views.FeedbackLink = Backbone.View.extend({
 		e.preventDefault();
 
 		var data = {
+            'user-interface': 'airport',
 			'location': window.location.href,
 			'resolution': { 
 				'viewport': {
@@ -69,6 +70,8 @@ Atmo.Views.FeedbackLink = Backbone.View.extend({
 				'height': screen.height
 			}
 		};
+
+		data["user-interface"] = 'airport';
 
 		var self = this;
 
