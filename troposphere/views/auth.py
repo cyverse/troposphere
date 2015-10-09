@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login
 
 from iplantauth.authBackends import get_or_create_user, generate_token
+from iplantauth.views import globus_login_redirect
 
 logger = logging.getLogger(__name__)
 cas_oauth_client = CAS_OAuthClient(settings.CAS_SERVER,
@@ -50,6 +51,8 @@ def login(request):
     all_backends = settings.AUTHENTICATION_BACKENDS
     if "iplantauth.authBackends.MockLoginBackend" in all_backends:
         return _mock_login(request)
+    elif 'iplantauth.authBackends.GlobusOAuthLoginBackend' in all_backends:
+        return _globus_login(request)
     elif 'iplantauth.authBackends.OAuthLoginBackend' in all_backends:
         return _oauth_login(request)
     elif request.META['REQUEST_METHOD'] is 'POST':
@@ -72,6 +75,13 @@ def logout(request):
     return redirect('application')
 
 #Initiate the OAuth login (Authorize)
+def _globus_login(request):
+    """
+    NOTE: we use 'next' not 'redirect' here
+    """
+    return globus_login_redirect(request)
+
+
 def _oauth_login(request):
     redirect_url = request.GET.get('redirect')
     if redirect_url:
