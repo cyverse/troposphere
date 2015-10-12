@@ -52,6 +52,13 @@ define(function(require) {
       this.setState({ available: false });
     },
     componentDidMount: function() {
+      var prov = this.props.instance.get('provider').id;
+
+      // Metrics are only available for 4 and 5
+      if (!(prov == 4 || prov == 5)) {
+          return;
+      }
+
       // Kickstart graphs since d3 needs a finished dom
       this.setState({
         controller: new GraphController({
@@ -93,9 +100,14 @@ define(function(require) {
     },
 
     render: function() {
-     // available is true or still waiting for network request
-     if (this.state.available || this.state.available === null) {
 
+      var prov = this.props.instance.get('provider').id;
+      if (!(prov == 4 || prov == 5)) {
+         return (<div id="not-available">Instance metrics are not available on this provider</div>)
+      }
+
+      // available is true or still waiting for network request
+      if (this.state.available || this.state.available === null) {
        return (
          <div id="InstanceMetrics">
            <div
@@ -121,7 +133,7 @@ define(function(require) {
       )
      }
 
-     // available is explicitly false
+     // available is explicitly false, the network request failed
      return (<div id="not-available">Instance metrics not available</div>)
      }
 
