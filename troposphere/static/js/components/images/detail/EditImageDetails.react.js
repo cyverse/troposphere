@@ -6,9 +6,14 @@ define(function (require) {
     ImageLaunchCard = require('./launch/ImageLaunchCard.react'),
     EditNameView = require('./name/EditNameView.react'),
     EditDescriptionView = require('./description/EditDescriptionView.react'),
+    InteractiveDateField = require('components/common/InteractiveDateField.react'),
     CreatedView = require('./created/CreatedView.react'),
+    EditRemovedView = require('./removed/EditRemovedView.react'),
     AuthorView = require('./author/AuthorView.react'),
     actions = require('actions'),
+    globals = require('globals'),
+    //moment = require('moment'),
+    //momentTZ = require('moment-timezone'),
     stores = require('stores');
 
   return React.createClass({
@@ -30,6 +35,7 @@ define(function (require) {
       return {
         name: image.get('name'),
         description: image.get('description'),
+        endDate: image.get('end_date').tz(globals.TZ_REGION).format("M/DD/YYYY hh:mm a z"),
         tags: imageTags
       }
     },
@@ -38,10 +44,16 @@ define(function (require) {
       var updatedAttributes = {
         name: this.state.name,
         description: this.state.description,
+        end_date: this.state.endDate,
         tags: this.state.tags
       };
 
       this.props.onSave(updatedAttributes);
+    },
+
+    handleEndDateChange: function (value) {
+      var endDate = value;
+      this.setState({endDate: endDate});
     },
 
     handleNameChange: function (e) {
@@ -85,6 +97,10 @@ define(function (require) {
               onChange={this.handleNameChange}
             />
             <CreatedView image={image}/>
+            <InteractiveDateField
+              value={this.state.endDate}
+              onChange={this.handleEndDateChange}
+              />
             <AuthorView image={image}/>
             <EditDescriptionView
               titleClassName="title col-md-2"
