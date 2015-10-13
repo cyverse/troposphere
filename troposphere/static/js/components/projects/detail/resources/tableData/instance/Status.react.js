@@ -9,6 +9,7 @@ define(
   function (React, Backbone, StatusLight, StatusBar) {
 
     return React.createClass({
+      displayName: "Status",
 
       propTypes: {
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired

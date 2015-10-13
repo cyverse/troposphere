@@ -8,6 +8,8 @@ define(
   function (React, Backbone, BootstrapModalMixin) {
 
     return React.createClass({
+      displayName: "ProjectDeleteModal",
+
       mixins: [BootstrapModalMixin],
 
       propTypes: {

@@ -4,6 +4,7 @@ define(function (require) {
     Router = require('react-router');
 
   return React.createClass({
+    displayName: "ProjectsBreadcrumb",
 
     propTypes: {
       breadcrumb: React.PropTypes.object.isRequired,

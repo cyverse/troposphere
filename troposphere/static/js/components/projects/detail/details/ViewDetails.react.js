@@ -9,6 +9,7 @@ define(function (require) {
         momentTZ = require('moment-timezone');
 
     return React.createClass({
+      displayName: "ViewDetails",
 
       propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired

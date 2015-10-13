@@ -38,6 +38,8 @@ define(
     }
 
     return React.createClass({
+      displayName: "FeedbackModal",
+
       mixins: [BootstrapModalMixin],
 
       //

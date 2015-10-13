@@ -5,6 +5,7 @@ define(function(require) {
     RefreshComponent = require('./RefreshComponent.react');
 
   return React.createClass({
+    displayName: "InstanceMetrics",
 
     getInitialState: function() {
       var me = this;

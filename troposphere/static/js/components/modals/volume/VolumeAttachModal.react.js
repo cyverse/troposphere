@@ -34,6 +34,8 @@ define(
     // }
 
     return React.createClass({
+      displayName: "VolumeAttachModal",
+
       mixins: [BootstrapModalMixin],
 
       propTypes: {

@@ -5,6 +5,7 @@ define(function (require) {
     MembershipList = require('./ImageMembership.react');
 
   return React.createClass({
+    displayName: "ImageVisibility",
 
     propTypes: {
       onChange: React.PropTypes.func.isRequired,

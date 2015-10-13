@@ -5,6 +5,7 @@ define(function (require) {
     ManyToManyList = require('components/common/ManyToManyList.react');
 
   return React.createClass({
+    displayName: "ImageMembership",
 
     propTypes: {
       membership_list: React.PropTypes.instanceOf(Backbone.Collection).isRequired

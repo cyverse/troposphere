@@ -6,6 +6,8 @@ define(function (require) {
       stores = require('stores');
 
   return React.createClass({
+    displayName: "EarnedBadge",
+
     renderBadgeDetail: function(e){
       e.preventDefault();
       modals.BadgeModals.showMyBadge(this.props.badge);

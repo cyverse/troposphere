@@ -8,7 +8,7 @@ define(function (require) {
   var ENTER_KEY = 13;
 
   return React.createClass({
-    display: "EditTagsView",
+    displayName: "CommonEditTagsView",
 
     propTypes: {
       activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,

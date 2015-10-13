@@ -10,6 +10,7 @@ define(function (require) {
     stores = require('stores');
 
   return React.createClass({
+    displayName: "InstanceDetailsView",
 
     propTypes: {
       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
@@ -45,9 +46,9 @@ define(function (require) {
               <hr/>
               <InstanceDetailsSection instance={instance}/>
               <hr/>
-              { 
-                typeof show_instance_metrics != "undefined" 
-                ? <InstanceMetricsSection instance={instance}/> 
+              {
+                typeof show_instance_metrics != "undefined"
+                ? <InstanceMetricsSection instance={instance}/>
                 : ""
               }
             </div>

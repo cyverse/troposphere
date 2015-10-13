@@ -10,6 +10,7 @@ define(function (require) {
     Gravatar = require('components/common/Gravatar.react');
 
   return React.createClass({
+    displayName: "VolumeInfoSection",
 
     propTypes: {
       volume: React.PropTypes.instanceOf(Backbone.Model).isRequired

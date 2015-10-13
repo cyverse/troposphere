@@ -5,6 +5,7 @@ define(function (require) {
     Checkbox = require('./Checkbox.react');
 
   return React.createClass({
+    displayName: "SelectableTable",
 
     propTypes: {
       resources: React.PropTypes.instanceOf(Backbone.Collection).isRequired,

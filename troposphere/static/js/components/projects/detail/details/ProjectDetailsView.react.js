@@ -14,6 +14,7 @@ define(
   function (React, $, Backbone, SecondaryProjectNavigation, actions, InputField, TextAreaField, ViewDetails, EditDetails) {
 
     return React.createClass({
+      displayName: "ProjectDetailsView",
 
       propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired

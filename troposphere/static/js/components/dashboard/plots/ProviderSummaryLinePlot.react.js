@@ -7,6 +7,7 @@ define(function (require) {
         ResourceUseTooltip = require("./tooltips/ResourceUseTooltip.react");
 
     return React.createClass({
+      displayName: "ProviderSummaryLinePlot",
 
       propTypes: {
         providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,

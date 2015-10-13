@@ -4,6 +4,7 @@ define(function (require) {
     Glyphicon = require('components/common/Glyphicon.react');
 
   return React.createClass({
+    displayName: "PageHeader",
 
     getInitialState: function () {
       return {showHelpText: false};

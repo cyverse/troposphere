@@ -7,6 +7,7 @@ define(function (require) {
     SecondaryImageNavigation = require('./common/SecondaryImageNavigation.react');
 
   return React.createClass({
+    displayName: "ImagesMaster",
 
     render: function () {
       return (
