@@ -9,7 +9,7 @@ define(function (require) {
     updateImageAttributes: function (image, newAttributes) {
       if(newAttributes.end_date != null) {
         var end_date;
-        if (typeof newAttributesend_date == "object") {
+        if (typeof newAttributes.end_date === "object") {
             end_date = newAttributes.end_date
         } else {
             end_date = moment(newAttributes.end_date);
