@@ -12,8 +12,8 @@ define(function (require) {
     AuthorView = require('./author/AuthorView.react'),
     actions = require('actions'),
     globals = require('globals'),
-    //moment = require('moment'),
-    //momentTZ = require('moment-timezone'),
+    moment = require('moment'),
+    momentTZ = require('moment-timezone'),
     stores = require('stores');
 
   return React.createClass({
