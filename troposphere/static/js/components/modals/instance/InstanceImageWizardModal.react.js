@@ -97,7 +97,7 @@ define(function (require) {
       this.hide();
     },
 
-    onReviewImage: function() {
+    onReviewImage: function(data) {
       var step = REVIEW_STEP,
         data = data || {},
         state = _.extend({step: step}, data);

@@ -16,6 +16,7 @@
     "unsafe-perm": true
   },
   "scripts": {
+
     "dev" : "webpack -d --progress --profile --colors --",
     "build": "webpack --progress --profile --colors --",
     "jenkins": "webpack --profile --colors --",
