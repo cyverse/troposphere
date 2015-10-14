@@ -20,7 +20,7 @@ Atmo.Views.NotificationHolder = Backbone.View.extend({
         if (model.get('sticky') == false) {
             setTimeout(function() {
                 x_close.trigger('click');
-            }, 10*1000);
+            }, 5*1000);
         }
     }
 });
