@@ -123,7 +123,7 @@ define(
       //
 
       onInstanceChange: function (e) {
-        var newInstanceId = e.target.value;
+        var newInstanceId = ~~e.target.value;
         this.setState({instanceId: newInstanceId});
       },
 
