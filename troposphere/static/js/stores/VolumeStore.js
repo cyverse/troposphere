@@ -38,6 +38,23 @@ define(function (require) {
       return attachedVolumes;
     },
 
+// Makes a clean list of attached resources from volume information for easy reference
+    getAttachedResources: function () {
+        if (!this.models) return this.fetchModels();
+        var attachedResources = [];
+        this.models.each(function (volume) {
+            var attachData = volume.get('attach_data');
+            if (attachData.instance_id !== null)
+                var attached = {
+                    volumeID: volume.get('uuid'),
+                    instanceID: attachData.instance_id
+                };
+                attachedResources.push(attached);
+        });
+        return attachedResources;
+    },
+
+
     getVolumesNotInAProject: function () {
       if (!this.models) return this.fetchModels();
 
