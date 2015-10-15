@@ -44,12 +44,10 @@ define(function (require) {
         var attachedResources = [];
         this.models.each(function (volume) {
             var attachData = volume.get('attach_data');
-            if (attachData.instance_id !== null)
-                var attached = {
-                    volumeID: volume.get('uuid'),
-                    instanceID: attachData.instance_id
-                };
-                attachedResources.push(attached);
+            if (attachData.instance_id !== null) {
+                attachedResources.push(volume.get('uuid'));
+                attachedResources.push(attachData.instance_id);
+            }
         });
         return attachedResources;
     },
