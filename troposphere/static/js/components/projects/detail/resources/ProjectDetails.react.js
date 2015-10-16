@@ -102,10 +102,18 @@ define(function (require) {
     },
 
     onMoveSelectedResources: function () {
-      modals.ProjectModals.moveResources(
-        this.state.selectedResources,
-        this.props.project
-      );
+        var match = false;
+        this.state.selectedResources.forEach(function(sel){
+            if (stores.VolumeStore.getAttachedResources().indexOf(sel.get('uuid')) !== -1) {
+                match = true;
+            }
+        });
+        if (match) modals.ProjectModals.cantMoveAttached();
+        else
+        modals.ProjectModals.moveResources(
+            this.state.selectedResources,
+            this.props.project
+        );
     },
 
     onDeleteSelectedResources: function () {
