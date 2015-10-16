@@ -9,6 +9,8 @@ define(
   function (React, Backbone, BootstrapModalMixin, Glyphicon) {
 
     return React.createClass({
+      displayName: "VolumeDetachModal",
+
       mixins: [BootstrapModalMixin],
 
       propTypes: {

@@ -7,6 +7,7 @@ define(function (require) {
     Router = require('react-router');
 
   return React.createClass({
+    displayName: "ProjectResouresPage",
 
     mixins: [Router.State],
 

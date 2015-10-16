@@ -34,6 +34,8 @@ define(
     // }
 
     return React.createClass({
+      displayName: "VolumeAttachModal",
+
       mixins: [BootstrapModalMixin],
 
       propTypes: {
@@ -121,7 +123,7 @@ define(
       //
 
       onInstanceChange: function (e) {
-        var newInstanceId = e.target.value;
+        var newInstanceId = ~~e.target.value;
         this.setState({instanceId: newInstanceId});
       },
 

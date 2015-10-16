@@ -5,6 +5,7 @@ define(function (stores) {
     stores = require('stores');
 
   return React.createClass({
+    displayName: "MaintenanceMessageBanner",
 
     propTypes: {
       maintenanceMessages: React.PropTypes.instanceOf(Backbone.Collection).isRequired

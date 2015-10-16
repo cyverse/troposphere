@@ -7,6 +7,8 @@ define(
   function (React, BootstrapModalMixin) {
 
     return React.createClass({
+      displayName: "ExplainInstanceDeleteConditionsModal",
+
       mixins: [BootstrapModalMixin],
 
       //

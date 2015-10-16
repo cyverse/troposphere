@@ -7,6 +7,7 @@ define(
   function (React, Backbone) {
 
     return React.createClass({
+      displayName: "AuthorView",
 
       propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired
@@ -25,4 +26,4 @@ define(
 
     });
 
-  });
+});

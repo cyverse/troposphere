@@ -8,6 +8,7 @@ define(
   function (React, Backbone, moment) {
 
     return React.createClass({
+      displayName: "RemovedView",
 
       propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired

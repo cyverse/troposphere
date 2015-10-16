@@ -10,6 +10,7 @@ define(function (require) {
       RouteHandler = Router.RouteHandler;
 
   return React.createClass({
+    displayName: "BadgeMaster",
 
     mixins: [Router.State],
 
@@ -25,7 +26,7 @@ define(function (require) {
             </Router.Link>
             <Router.Link to="all-badges">
               <div className="btn btn-default">All Badges</div>
-            </Router.Link> 
+            </Router.Link>
           </span>
           <RouteHandler />
         </div>

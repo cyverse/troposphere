@@ -8,6 +8,8 @@ define(
   function (React, BootstrapModalMixin, stores) {
 
     return React.createClass({
+      displayName: "RequestMoreResourcesModal",
+
       mixins: [BootstrapModalMixin],
 
       getInitialState: function () {

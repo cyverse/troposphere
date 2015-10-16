@@ -13,6 +13,7 @@ define(function (require) {
     Volume = require('models/Volume');
 
   return React.createClass({
+    displayName: "ProjectDetails",
 
     propTypes: {
       project: React.PropTypes.instanceOf(Backbone.Model).isRequired

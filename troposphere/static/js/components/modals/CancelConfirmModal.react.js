@@ -7,6 +7,7 @@ define(
   function (React, BootstrapModal) {
 
     return React.createClass({
+      displayName: "CancelConfirmModal",
 
       // remove the modal from the DOM once we're finished with it
       cleanup: function () {

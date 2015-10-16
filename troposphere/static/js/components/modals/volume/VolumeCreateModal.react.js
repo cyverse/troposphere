@@ -11,6 +11,8 @@ define(
 
 
     return React.createClass({
+      displayName: "VolumeCreateModal",
+
       mixins: [BootstrapModalMixin],
 
       isSubmittable: function () {

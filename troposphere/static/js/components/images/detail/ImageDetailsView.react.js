@@ -14,6 +14,7 @@ define(
   function (React, Backbone, HeaderView, ImageLaunchCard, actions, ViewImageDetails, EditImageDetails, VersionsView, modals) {
 
     return React.createClass({
+      displayName: "ImageDetailsView",
 
       propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired,

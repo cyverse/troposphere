@@ -7,8 +7,7 @@ define(function (require) {
     MaintenanceMessageBanner = require('./MaintenanceMessageBanner.react'),
     globals = require('globals'),
     Router = require('react-router'),
-
-  // plugin: required to enable the drop-down, but not used directly
+    // plugin: required to enable the drop-down, but not used directly
     bootstrap = require('bootstrap');
 
   var Link = Router.Link;
@@ -122,10 +121,30 @@ define(function (require) {
   });
 
   var Header = React.createClass({
+    displayName: "Header",
 
     propTypes: {
       profile: React.PropTypes.instanceOf(Backbone.Model),
       currentRoute: React.PropTypes.array.isRequired
+    },
+    
+    // We need the screen size for handling the opening and closing of our menu on small screens
+    //See navLinks below for implementation.
+
+    getInitialState: function() {
+    return {windowWidth: window.innerWidth};
+    },
+
+    handleResize: function(e) {
+        this.setState({windowWidth: window.innerWidth});
+    },
+
+    componentDidMount: function() {
+        window.addEventListener('resize', this.handleResize);
+    },
+
+    componentWillUnmount: function() {
+        window.removeEventListener('resize', this.handleResize);
     },
 
     renderBetaToggle: function () {
@@ -164,8 +183,13 @@ define(function (require) {
       var navLinks = links.map(function (link) {
         var isCurrentRoute = (link.name.toLowerCase() === this.props.currentRoute[0]);
         var className = isCurrentRoute ? "active" : null;
+        
+        //We need to only trigger the toggle menu on small screen sizes to avoid buggy behavior when selecting menu items on larger screens
+        var smScreen = (this.state.windowWidth < 768);
+        var toggleMenu = smScreen ? {toggle: 'collapse',target:'.navbar-collapse'} : {toggle: null, target: null};
+
         return (
-          <li key={link.name}>
+          <li key={link.name} data-toggle={toggleMenu.toggle} data-target={toggleMenu.target} >
             <Link to={link.linksTo}>
               <i className={"glyphicon glyphicon-" + link.icon}></i>
               {link.name}

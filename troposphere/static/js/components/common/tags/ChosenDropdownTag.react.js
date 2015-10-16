@@ -4,7 +4,7 @@ define(function (require) {
     Backbone = require('backbone');
 
   return React.createClass({
-    display: "ChosenDropdownTag",
+    displayName: "ChosenDropdownTag",
 
     propTypes: {
       tag: React.PropTypes.instanceOf(Backbone.Model).isRequired,

@@ -8,6 +8,7 @@ define(
   function (React, Project, Backbone) {
 
     return React.createClass({
+      displayName: "ProjectList",
 
       propTypes: {
         projects: React.PropTypes.instanceOf(Backbone.Collection).isRequired,

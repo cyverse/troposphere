@@ -4,6 +4,7 @@ define(function (require) {
     stores = require('stores');
 
   return React.createClass({
+    displayName: "Provider",
 
     propTypes: {
       onChange: React.PropTypes.func.isRequired,

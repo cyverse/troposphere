@@ -9,6 +9,8 @@ export default React.createClass({
       children: React.PropTypes.element.isRequired
     },
 
+    displayName: "ProjectResourcesWrapper",
+
     render: function () {
       return (
         <div className="container">

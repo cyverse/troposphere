@@ -8,6 +8,7 @@ define(function (require) {
     ImageDetailsView = require('./detail/ImageDetailsView.react');
 
   return React.createClass({
+    displayName: "ImageDetailsPage",
 
     mixins: [Router.State],
 

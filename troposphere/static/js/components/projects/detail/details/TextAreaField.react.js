@@ -4,6 +4,7 @@ define(function (require) {
     EditableTextAreaField = require('components/common/EditableTextAreaField.react');
 
   return React.createClass({
+    displayName: "TextAreaField",
 
     propTypes: {
       title: React.PropTypes.string,

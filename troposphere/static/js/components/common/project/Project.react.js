@@ -9,6 +9,7 @@ define(function (require) {
     ProjectResource = require('components/projects/list/ProjectResource.react');
 
   return React.createClass({
+    displayName: "CommonProject",
 
     propTypes: {
       project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
