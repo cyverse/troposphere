@@ -18,13 +18,13 @@ define(function (require) {
         <div className="container badges">
           <span className="buttons">
             <Router.Link to="my-badges">
-              <div className="btn btn-default">My Badges</div>
+              <div className="btn">My Badges</div>
             </Router.Link>
             <Router.Link to="unearned-badges">
-              <div className="btn btn-default">Unearned Badges</div>
+              <div className="btn">Unearned Badges</div>
             </Router.Link>
             <Router.Link to="all-badges">
-              <div className="btn btn-default">All Badges</div>
+              <div className="btn">All Badges</div>
             </Router.Link> 
           </span>
           <RouteHandler />
