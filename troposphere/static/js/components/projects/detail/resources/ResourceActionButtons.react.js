@@ -12,6 +12,7 @@ define(function (require) {
     displayName: "ResourceActionButtons",
 
     propTypes: {
+      multipleSelected: React.PropTypes.bool.isRequired,
       previewedResource: React.PropTypes.instanceOf(Backbone.Model),
       project: React.PropTypes.instanceOf(Backbone.Model),
       volume: React.PropTypes.instanceOf(Backbone.Model),
@@ -27,6 +28,7 @@ define(function (require) {
         return (
           <InstanceActionButtons
             onUnselect={this.props.onUnselect}
+            multipleSelected={this.props.multipleSelected}
             instance={resource}
             project={project}
             />
@@ -35,6 +37,7 @@ define(function (require) {
         return (
           <VolumeActionButtons
             onUnselect={this.props.onUnselect}
+            multipleSelected={this.props.multipleSelected}
             volume={resource}
             project={project}
             />

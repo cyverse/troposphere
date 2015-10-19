@@ -6,7 +6,7 @@ DEBUG = {{ DEBUG }}
 TEMPLATE_DEBUG = {{ DEBUG }}
 
 SECRET_KEY="{{ SECRET_KEY }}"
-SERVER_URL="{{ SERVER_URL }}"
+SERVER_URL="{{ DJANGO_SERVER_URL }}"
 BASE_URL= "{{ BASE_URL }}"
 ALLOWED_HOSTS = [SERVER_URL.replace("https://",""), "localhost"]
 
@@ -74,5 +74,30 @@ INSTALLED_APPS += (
 # ALWAYS_AUTH_USER = "test_user"
 # # Use MockLoginBackend first!
 # AUTHENTICATION_BACKENDS += (
-#     'troposphere.auth_backends.MockLoginBackend',
+#     'iplantauth.authBackends.MockLoginBackend',
 # )
+# Configure authentication plugin
+from datetime import timedelta
+AUTHENTICATION = {
+    #GLOBAL
+    "TOKEN_EXPIRY_TIME": timedelta(days={{ TOKEN_EXPIRY_TIME_DAYS }}),
+    "LOGOUT_REDIRECT_URL": '{{ LOGOUT_REDIRECT_URL }}',
+    #CAS
+    "CAS_SERVER": '{{ CAS_SERVER }}',
+    "CAS_AUTH_PREFIX": '{{ CAS_AUTH_PREFIX }}',
+
+    #CAS+OAuth
+    "OAUTH_CLIENT_KEY": '{{ OAUTH_CLIENT_KEY }}',
+    "OAUTH_CLIENT_SECRET": '{{ OAUTH_CLIENT_SECRET }}',
+    "OAUTH_CLIENT_CALLBACK":  SERVER_URL + '/oauth2.0/callbackAuthorize',
+    "OAUTH_ISSUE_USER": '{{ OAUTH_ISSUE_USER}}',
+
+    #GLOBUS
+    "GLOBUS_OAUTH_ID": '{{ GLOBUS_OAUTH_ID }}',
+    "GLOBUS_OAUTH_SECRET": '{{ GLOBUS_OAUTH_SECRET }}',
+    "GLOBUS_OAUTH_CREDENTIALS_SCOPE": '{{ GLOBUS_OAUTH_CREDENTIALS_SCOPE }}',
+    "GLOBUS_OAUTH_AUTHENTICATION_SCOPE": '{{ GLOBUS_OAUTH_AUTHENTICATION_SCOPE }}',
+    "GLOBUS_TOKEN_URL": '{{ GLOBUS_TOKEN_URL }}',
+    "GLOBUS_TOKENINFO_URL": '{{ GLOBUS_TOKENINFO_URL }}',
+    "GLOBUS_AUTH_URL": '{{ GLOBUS_AUTH_URL}}',
+}
