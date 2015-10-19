@@ -6,6 +6,8 @@ define(function (require) {
     stores = require('stores');
 
   return React.createClass({
+    displayName: "AdminOptionsStep",
+
     propTypes: {
       /**
        * TODO: Add 'No Deploy' Option

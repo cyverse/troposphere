@@ -31,6 +31,8 @@ define(
     }
 
     return React.createClass({
+      displayName: "ProjectMoveResourceModal",
+
       mixins: [BootstrapModalMixin],
 
       propTypes: {

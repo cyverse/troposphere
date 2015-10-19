@@ -5,6 +5,7 @@ define(function (require) {
     ManyToManyList = require('components/common/ManyToManyList.react');
 
   return React.createClass({
+    displayName: "ImageLicensing",
 
     propTypes: {
       license_list: React.PropTypes.instanceOf(Backbone.Collection).isRequired,

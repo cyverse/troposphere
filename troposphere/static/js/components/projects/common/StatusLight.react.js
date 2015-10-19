@@ -7,6 +7,7 @@ define(
   function (React, Backbone) {
 
     return React.createClass({
+      displayName: "StatusLight",
 
       propTypes: {
         status: React.PropTypes.string.isRequired

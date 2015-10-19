@@ -6,6 +6,7 @@ define(function (require) {
     VersionList = require('./VersionList.react');
 
   return React.createClass({
+    displayName: "VersionsView",
 
     propTypes: {
       image: React.PropTypes.instanceOf(Backbone.Model).isRequired

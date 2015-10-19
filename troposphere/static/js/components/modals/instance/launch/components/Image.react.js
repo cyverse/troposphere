@@ -11,6 +11,7 @@ define(
   function (React, Backbone, stores, moment, Tags, Gravatar) {
 
     return React.createClass({
+      displayName: "Image",
 
       propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired,

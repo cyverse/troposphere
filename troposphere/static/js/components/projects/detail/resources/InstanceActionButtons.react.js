@@ -7,6 +7,7 @@ define(function (require) {
     modals = require('modals');
 
   return React.createClass({
+    displayName: "InstanceActionButtons",
 
     propTypes: {
       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,

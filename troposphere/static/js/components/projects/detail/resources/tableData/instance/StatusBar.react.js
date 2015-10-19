@@ -7,6 +7,7 @@ define(
   function (React, Backbone) {
 
     return React.createClass({
+      displayName: "StatusBar",
 
       propTypes: {
         state: React.PropTypes.instanceOf(Backbone.Model).isRequired

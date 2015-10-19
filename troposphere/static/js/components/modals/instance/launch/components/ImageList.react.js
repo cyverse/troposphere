@@ -8,6 +8,8 @@ define(
   function (React, Backbone, Image) {
 
     return React.createClass({
+      displayName: "ImageList",
+
       propTypes: {
         images: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         onClick: React.PropTypes.func

@@ -13,6 +13,7 @@ define(function (require) {
     Gravatar = require('components/common/Gravatar.react');
 
   return React.createClass({
+    displayName: "InstanceRow",
 
     propTypes: {
       onResourceSelected: React.PropTypes.func.isRequired,

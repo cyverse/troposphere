@@ -6,6 +6,7 @@ define(function (require) {
     ChosenDropdown = require('components/common/tags/UserMultiSelect.react');
 
   return React.createClass({
+    displayName: "Users",
 
     propTypes: {
       onUserAdded: React.PropTypes.func.isRequired,

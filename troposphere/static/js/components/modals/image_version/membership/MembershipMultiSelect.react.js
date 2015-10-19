@@ -7,6 +7,8 @@ define(function (require) {
       ChosenMixin = require('components/mixins/ChosenMixinExternal.react');
 
   return React.createClass({
+    displayName: "MembershipMultiSelect",
+
     mixins: [ChosenMixin],
 
     propTypes: {

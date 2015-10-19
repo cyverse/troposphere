@@ -29,6 +29,8 @@ define(function (require) {
   // }
 
   return React.createClass({
+    displayName: "BootstrapModal",
+
     mixins: [BootstrapModalMixin],
 
     render: function () {

@@ -8,6 +8,7 @@ define(
   function (React, Backbone, Showdown) {
 
     return React.createClass({
+      displayName: "DescriptionView",
 
       propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired

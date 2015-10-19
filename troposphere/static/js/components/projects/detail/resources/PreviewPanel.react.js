@@ -8,6 +8,7 @@ define(function (require) {
     Volume = require('models/Volume');
 
   return React.createClass({
+    displayName: "PreviewPanel",
 
     propTypes: {
       resource: React.PropTypes.instanceOf(Backbone.Model)

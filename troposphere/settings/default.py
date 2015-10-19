@@ -33,6 +33,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'rest_framework',
+    'iplantauth',
     'api'
 )
 
@@ -111,14 +112,14 @@ API_ROOT    = SERVER_URL + "/api/v1"
 API_V2_ROOT = SERVER_URL + "/api/v2"
 
 # The ROOT PATH for ALL (app + dependencies) static files.
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = os.path.join(BASE_DIR, "assets")
 # The SERVER PATH for ALL (app + dependencies) static files.
 STATIC_URL = '/assets/'
 
 #STATIC generated files from troposphere to be added to STATIC_ROOT
 #STATICFILES_DIRS should NOT contain the STATIC_ROOT
 STATICFILES_DIRS = (
-        os.path.join(BASE_DIR, 'assets/'),
+        os.path.join(BASE_DIR, 'tropo-static/'),
     )
 
 REST_FRAMEWORK = {
@@ -132,7 +133,7 @@ REST_FRAMEWORK = {
     # ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
-        'troposphere.auth_backends.OAuthTokenLoginBackend'
+        'iplantauth.authBackends.OAuthTokenLoginBackend'
     ),
     'PAGINATE_BY': 20,                 # Default to 20
     'PAGINATE_BY_PARAM': 'page_size',  # Allow client to override, using `?page_size=xxx`.
@@ -149,5 +150,5 @@ REST_FRAMEWORK = {
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'troposphere.auth_backends.OAuthLoginBackend'
+    'iplantauth.authBackends.OAuthLoginBackend'
 )

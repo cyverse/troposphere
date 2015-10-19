@@ -7,6 +7,7 @@ define(
   function (React, Backbone) {
 
     return React.createClass({
+      displayName: "Description",
 
       propTypes: {
         provider: React.PropTypes.instanceOf(Backbone.Model).isRequired

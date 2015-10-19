@@ -9,6 +9,7 @@ define(
   function (React, Backbone, stores, ProjectOption) {
 
     return React.createClass({
+      displayName: "CommonProjectSelect",
 
       propTypes: {
         projectId: React.PropTypes.number.isRequired,
@@ -16,6 +17,7 @@ define(
         onChange: React.PropTypes.func.isRequired,
         showCreate: React.PropTypes.bool,
       },
+
       getInitialState: function () {
         var showCreate = false;
         if (this.props.showCreate == true) {
@@ -25,6 +27,7 @@ define(
           showCreate: showCreate,
         }
       },
+
       componentDidMount: function () {
         stores.ProjectStore.addChangeListener(this.updateState);
       },
@@ -32,6 +35,7 @@ define(
       componentWillUnmount: function () {
         stores.ProjectStore.removeChangeListener(this.updateState);
       },
+
       renderCreateOption: function () {
         if (this.state.showCreate) {
           return (
@@ -40,6 +44,7 @@ define(
             </optgroup>);
         }
       },
+
       render: function () {
         var projects = this.props.projects;
         var options = projects.map(function (project) {
@@ -64,4 +69,4 @@ define(
       }
     });
 
-  });
+});

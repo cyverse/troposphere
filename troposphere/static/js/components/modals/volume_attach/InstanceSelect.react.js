@@ -8,6 +8,7 @@ define(
   function (React, Backbone, InstanceOption) {
 
     return React.createClass({
+      displayName: "InstanceSelect",
 
       propTypes: {
         instanceId: React.PropTypes.number.isRequired,

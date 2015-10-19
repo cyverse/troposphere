@@ -8,6 +8,7 @@ define(
   function (React, Backbone, SubMenu) {
 
     return React.createClass({
+      displayName: "ProjectResourcesWrapper",
 
       propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,

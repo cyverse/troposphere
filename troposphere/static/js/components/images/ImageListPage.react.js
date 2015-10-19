@@ -5,6 +5,7 @@ define(function (require) {
     ImageListView = require('./list/ImageListView.react');
 
   return React.createClass({
+    displayName: "ImageListPage",
 
     render: function () {
       var tags = stores.TagStore.getAll();

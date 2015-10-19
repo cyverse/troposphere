@@ -5,6 +5,7 @@ define(function (require) {
   var ENTER_KEY = 13;
 
   return React.createClass({
+    displayName: "EditableInputField",
 
     propTypes: {
       text: React.PropTypes.string

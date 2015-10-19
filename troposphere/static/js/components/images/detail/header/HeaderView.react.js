@@ -5,13 +5,13 @@ define(
     'backbone',
     'jquery',
     'stores',
-
     // plugins
     'bootstrap'
   ],
   function (React, Backbone, $, stores) {
 
     return React.createClass({
+      displayName: "HeaderView",
 
       propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired
@@ -60,4 +60,4 @@ define(
 
     });
 
-  });
+});

@@ -5,7 +5,7 @@ define(function (require) {
     EditTagsView = require('components/common/tags/EditTagsView.react');
 
   return React.createClass({
-    display: "ResourceTags",
+    displayName: "ResourceTags",
 
     propTypes: {
       tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,

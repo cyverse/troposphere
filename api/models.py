@@ -37,12 +37,14 @@ class MaintenanceRecord(models.Model):
                 disable_login = True
         return disable_login
 
+    def __unicode__(self):
+        return '%s (Maintenance Times: %s - %s Login disabled: %s)' % (
+            self.title,
+            self.start_date,
+            self.end_date,
+            not self.allow_login
+        )
 
-class UserToken(models.Model):
-    token = models.CharField(max_length=128)
-    user = models.ForeignKey(User)
-    created_date = models.DateTimeField(auto_now_add=True)
-    modified_date = models.DateTimeField(auto_now=True)
 
 
 class UserPreferences(models.Model):

@@ -12,7 +12,7 @@ define(function (require) {
     Gravatar = require('components/common/Gravatar.react');
 
   return React.createClass({
-    display: "InstanceInfoSection",
+    displayName: "InstanceInfoSection",
 
     propTypes: {
       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
