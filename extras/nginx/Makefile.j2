@@ -13,6 +13,7 @@ VIRTUALENV_PATH={{ VIRTUALENV_PATH }}
 
 ASSETS_PATH=$(TROPOSPHERE_PATH)/troposphere/assets
 
+DEFAULT_SITE_FILE=default
 SITE_FILE=site.conf
 SITE_CONFIG=$(TROPOSPHERE_PATH)/extras/nginx/$(SITE_FILE)
 TROPO_FILE=tropo.conf
@@ -47,6 +48,7 @@ deploy-tropo:
 	ln -fs $(TROPO_CONFIG) $(LOCATIONS_DIR)/$(TROPO_FILE)
 
 unlink: unlink-tropo
+	-rm $(SITES_ENABLED_DIR)/$(DEFAULT_SITE_FILE)
 	-rm $(SITES_ENABLED_DIR)/$(SITE_FILE)
 	-rm $(SITES_AVAILABLE_DIR)/$(SITE_FILE)
 

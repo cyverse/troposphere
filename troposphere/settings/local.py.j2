@@ -6,7 +6,7 @@ DEBUG = {{ DEBUG }}
 TEMPLATE_DEBUG = {{ DEBUG }}
 
 SECRET_KEY="{{ SECRET_KEY }}"
-SERVER_URL="{{ SERVER_URL }}"
+SERVER_URL="{{ DJANGO_SERVER_URL }}"
 BASE_URL= "{{ BASE_URL }}"
 ALLOWED_HOSTS = [SERVER_URL.replace("https://",""), "localhost"]
 
