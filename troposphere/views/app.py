@@ -30,6 +30,7 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
     template_params['SITE_FOOTER'] = settings.SITE_FOOTER
     template_params['UI_VERSION'] = settings.UI_VERSION
     template_params['BADGE_HOST'] = getattr(settings, "BADGE_HOST", None)
+    template_params['BADGE_IMAGE_HOST'] = getattr(settings, "BADGE_IMAGE_HOST", None)
 
     #TODO: Replace this line when theme support is re-enabled.
     template_params["THEME_URL"] = "assets/"
@@ -91,6 +92,7 @@ def _handle_authenticated_application_request(request, maintenance_records):
     template_params['UI_VERSION'] = settings.UI_VERSION
     template_params['BADGES_ENABLED'] = getattr(settings, "BADGES_ENABLED", None)
     template_params['BADGE_HOST'] = getattr(settings, "BADGE_HOST", None)
+    template_params['BADGE_IMAGE_HOST'] = getattr(settings, "BADGE_IMAGE_HOST", None)
 
     if hasattr(settings, "INTERCOM_APP_ID"):
         template_params['intercom_app_id'] = settings.INTERCOM_APP_ID
