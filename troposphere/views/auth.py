@@ -7,11 +7,11 @@ from django.shortcuts import redirect
 
 from caslib import OAuthClient as CAS_OAuthClient
 
-from api.models import UserToken
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login
 
-from troposphere.auth_backends import get_or_create_user, generate_token
+from iplantauth.authBackends import get_or_create_user, generate_token
+from iplantauth.views import globus_login_redirect
 
 logger = logging.getLogger(__name__)
 cas_oauth_client = CAS_OAuthClient(settings.CAS_SERVER,
@@ -36,7 +36,7 @@ def _mock_login(request):
 
 def _post_login(request):
     user = authenticate(username=request.POST.get('username'), password=request.POST.get('password'))
-    # A traditional POST login will likely NOT create a 'UserToken', so lets do that now.
+    # A traditional POST login will likely NOT create a 'Token', so lets do that now.
     if user:
         new_token = generate_token(user)
         _apply_token_to_session(request, new_token.token)
@@ -49,9 +49,11 @@ def _apply_token_to_session(request, token):
 
 def login(request):
     all_backends = settings.AUTHENTICATION_BACKENDS
-    if "troposphere.auth_backends.MockLoginBackend" in all_backends:
+    if "iplantauth.authBackends.MockLoginBackend" in all_backends:
         return _mock_login(request)
-    elif 'troposphere.auth_backends.OAuthLoginBackend' in all_backends:
+    elif 'iplantauth.authBackends.GlobusOAuthLoginBackend' in all_backends:
+        return _globus_login(request)
+    elif 'iplantauth.authBackends.OAuthLoginBackend' in all_backends:
         return _oauth_login(request)
     elif request.META['REQUEST_METHOD'] is 'POST':
         return _post_login(request)
@@ -73,6 +75,13 @@ def logout(request):
     return redirect('application')
 
 #Initiate the OAuth login (Authorize)
+def _globus_login(request):
+    """
+    NOTE: we use 'next' not 'redirect' here
+    """
+    return globus_login_redirect(request)
+
+
 def _oauth_login(request):
     redirect_url = request.GET.get('redirect')
     if redirect_url:

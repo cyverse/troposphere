@@ -14,7 +14,9 @@ from .maintenance import get_maintenance
 
 def root(request):
     return redirect('application')
-
+#TODO: Move this into a settings file.
+STAFF_LIST_USERNAMES = ['estevetest01', 'estevetest02','estevetest03','estevetest04',
+                        'estevetest13', 'sgregory', 'lenards', 'tharon', ]
 
 def _handle_public_application_request(request, maintenance_records, disabled_login=False):
     show_troposphere_only = hasattr(settings, "SHOW_TROPOSPHERE_ONLY") and settings.SHOW_TROPOSPHERE_ONLY is True
@@ -137,8 +139,6 @@ def _handle_authenticated_application_request(request, maintenance_records):
 
     return response
 
-STAFF_LIST_USERNAMES = ['estevetest01', 'estevetest02','estevetest03','estevetest04',
-                        'estevetest13', 'sgregory', 'lenards', 'tharon', ]
 def application_backdoor(request):
     response = HttpResponse()
     maintenance_records, disabled_login = get_maintenance(request)
