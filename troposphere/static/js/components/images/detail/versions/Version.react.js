@@ -88,8 +88,8 @@ define(function (require) {
           versionHash = CryptoJS.MD5(version.id.toString()).toString(),
           iconSize = 63,
           type = stores.ProfileStore.get().get('icon_set'),
-          owner = image.get('created_by').username;
-
+          owner = image.get('created_by').username,
+          changeLog = this.props.version.attributes.change_log;
       return (
         <li className="app-card">
           <div>
@@ -104,6 +104,7 @@ define(function (require) {
                 {isRecommended ? <span className="recommended-tag">Recommended</span> : null}
 
                 {this.renderDateString(version)} by {owner} <br />
+                <p>{changeLog}</p>
               </div>
                 {this.renderEditLink()}
                 {this.renderAvailability()}
