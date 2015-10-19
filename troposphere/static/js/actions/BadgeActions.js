@@ -12,6 +12,8 @@ define(function (require) {
 
   return {
 
+    mixins: [Router.State],
+    
     checkInstanceBadges: function(){
       var instanceCount = stores.InstanceHistoryStore.getAll().meta.count;
       if(instanceCount >= 1){
@@ -44,7 +46,7 @@ define(function (require) {
     if (document.cookie && document.cookie != '') {
         var cookies = document.cookie.split(';');
         for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
+            var cookie = $.trim(cookies[i]);
             // Does this cookie string begin with the name we want?
             if (cookie.substring(0, name.length + 1) == (name + '=')) {
                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
@@ -55,6 +57,10 @@ define(function (require) {
     return cookieValue;
     },
 
+    clearNotifications: function(){
+      Router.getInstance().transitionTo("my-badges");
+      NotificationController.clear();
+    },
 
     grant: function(params){
       try{
@@ -66,6 +72,7 @@ define(function (require) {
           badgeSlug = badge.get('slug');
       }
       catch(err) {
+          console.log(err);
           return;
       }
       $.ajax({
@@ -81,9 +88,11 @@ define(function (require) {
           secret: secret
         }),
         success: function(response){
-          NotificationController.info("You have earned a badge!");
+          badge.attributes.assertionUrl = response.instance.assertionUrl;
+          badge.attributes.issuedOn = response.instance.issuedOn;
+          NotificationController.success("You have earned a badge!", badge.get('name'), {timeOut: 5000, onclick: this.clearNotifications});
           Utils.dispatch(BadgeConstants.GRANT_BADGE, {badge: badge})
-        },
+        }.bind(this),
         error: function(response){
           console.log("failed", response);
         }
