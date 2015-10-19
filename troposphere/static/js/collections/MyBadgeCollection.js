@@ -15,11 +15,11 @@ define(function (require) {
         next: response.next,
         previous: response.previous
      };
-      return response.instances.map(function(instance){
-        instance.badge.assertionUrl = instance.assertionUrl;
-        instance.badge.issuedOn = instance.issuedOn;
-        return instance.badge;
-      });
+    return response.instances.map(function(instance){
+      instance.badge.assertionUrl = instance.assertionUrl;
+      instance.badge.issuedOn = instance.issuedOn;
+      return instance.badge;
+    });
     }
   });
 
