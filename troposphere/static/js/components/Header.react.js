@@ -83,7 +83,7 @@ define(function (require) {
       if(globals.BADGES_ENABLED){
         var badgeLink = (
             <li>
-              <Link to="badges">Badges</Link>
+              <Link to="my-badges">Badges</Link>
             </li>
         );
       }
