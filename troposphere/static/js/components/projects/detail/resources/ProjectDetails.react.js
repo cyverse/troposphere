@@ -68,7 +68,7 @@ define(function (require) {
 
     onResourceDeselected: function (resource) {
       var selectedResources = this.state.selectedResources,
-        previewedResource = this.state.previewedResource;
+          previewedResource = this.state.previewedResource;
 
       // Remove the resources from the list of selected resources
       selectedResources.remove(resource);
@@ -101,18 +101,23 @@ define(function (require) {
     },
 
     onMoveSelectedResources: function () {
-        var match = false;
-        this.state.selectedResources.forEach(function(sel){
-            if (stores.VolumeStore.getAttachedResources().indexOf(sel.get('uuid')) !== -1) {
+        var match = false,
+            attachedResources = stores.VolumeStore.getAttachedResources();
+
+        this.state.selectedResources.forEach(function(sel) {
+            if (attachedResources.indexOf(sel.get('uuid')) !== -1) {
                 match = true;
             }
         });
-        if (match) modals.ProjectModals.cantMoveAttached();
-        else
-        modals.ProjectModals.moveResources(
-            this.state.selectedResources,
-            this.props.project
-        );
+
+        if (match){
+            modals.ProjectModals.cantMoveAttached();
+        } else {
+            modals.ProjectModals.moveResources(
+                this.state.selectedResources,
+                this.props.project
+            );
+        }
     },
 
     onDeleteSelectedResources: function () {

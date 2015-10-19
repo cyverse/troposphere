@@ -44,7 +44,7 @@ define(function (require) {
         var attachedResources = [];
         this.models.each(function (volume) {
             var attachData = volume.get('attach_data');
-            if (attachData.instance_id !== null) {
+            if (attachData && attachData.instance_id) {
                 attachedResources.push(volume.get('uuid'));
                 attachedResources.push(attachData.instance_id);
             }
