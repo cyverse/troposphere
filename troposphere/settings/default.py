@@ -7,7 +7,7 @@ https://docs.djangoproject.com/en/1.6/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
-UI_VERSION = "Jamming Junglefowl"
+UI_VERSION = "iPlant Auth + Globus"
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
@@ -150,5 +150,6 @@ REST_FRAMEWORK = {
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'iplantauth.authBackends.OAuthLoginBackend'
+    'iplantauth.authBackends.GlobusOAuthLoginBackend'
+    #'iplantauth.authBackends.OAuthLoginBackend'
 )
