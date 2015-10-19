@@ -52,8 +52,9 @@ define(function (require) {
       if (!params.quota) throw new Error("Missing quota");
       if (!params.reason) throw new Error("Missing reason");
 
-      actions.BadgeActions.askSupport();
-
+      if(globals.BADGES_ENABLED){
+        actions.BadgeActions.checkOrGrant(Badges.REQUEST_RESOURCES_BADGE);
+      }
 
       var user = stores.ProfileStore.get(),
         identity = params.identity,
