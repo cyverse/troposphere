@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import MaintenanceRecord, UserToken, UserPreferences
+from .models import MaintenanceRecord, UserPreferences
 
 @admin.register(UserPreferences)
 class UserPreferencesAdmin(admin.ModelAdmin):
@@ -11,4 +11,3 @@ class UserPreferencesAdmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(MaintenanceRecord)
-admin.site.register(UserToken)
