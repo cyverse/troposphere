@@ -133,7 +133,7 @@ REST_FRAMEWORK = {
     # ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
-        'iplantauth.authBackends.GlobusOAuthLoginBackend'
+        'iplantauth.authBackends.OAuthTokenLoginBackend'
     ),
     'PAGINATE_BY': 20,                 # Default to 20
     'PAGINATE_BY_PARAM': 'page_size',  # Allow client to override, using `?page_size=xxx`.
@@ -150,5 +150,5 @@ REST_FRAMEWORK = {
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'iplantauth.authBackends.GlobusOAuthLoginBackend'
+    'iplantauth.authBackends.OAuthLoginBackend'
 )
