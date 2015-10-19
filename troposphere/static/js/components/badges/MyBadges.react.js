@@ -8,6 +8,7 @@ define(function (require) {
       EarnedBadge = require('./EarnedBadge.react'),
       stores = require('stores'),
       actions = require('actions'),
+      modals = require('modals'),
       RouteHandler = Router.RouteHandler;
 
   return React.createClass({
@@ -21,6 +22,18 @@ define(function (require) {
         badges: "",
         myBadges: ""
       };
+    },
+
+    showHelp: function(){
+        modals.BadgeModals.showHelp();
+    },
+
+    onExport: function(){
+        var assertions = [];
+        stores.MyBadgeStore.getAll().each(function(model){
+          assertions.push(model.get('assertionUrl'));
+        });
+        OpenBadges.issue(assertions);
     },
 
     render: function () {
@@ -57,8 +70,13 @@ define(function (require) {
 
       return (
         <div className="mine">
+          <div className="help">
+          <button onClick={this.onExport} className="btn btn-primary">Export badges to Mozilla backpack</button>
+          <br />
+          <a onClick={this.showHelp}>What does this mean?</a>
+          </div>
           <ul id="my-badges-list">
-          {myBadgeDisplay}
+            {myBadgeDisplay}
           </ul>
         </div>
       );
