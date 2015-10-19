@@ -25,7 +25,7 @@ define(function (require) {
           // We get the badge image ID from the image URL, since the badge ID is not guaranteed to be the badge image ID
           imageIdIndex = badge.get('imageUrl').lastIndexOf('/');
       return(
-        <li onClick={this.renderBadgeDetaiil} className='badge-li'>
+        <li className='badge-li'>
           <img className='image' src={globals.BADGE_IMAGE_HOST + badge.get('imageUrl').substring(imageIdIndex+1)} />
           <h4 className='badge-name'>{badge.get('name')}</h4>
           <p className='text'>
