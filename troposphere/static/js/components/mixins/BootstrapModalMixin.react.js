@@ -34,7 +34,6 @@ define(
           handleShown: React.PropTypes.func,
           handleHide: React.PropTypes.func,
           handleHidden: React.PropTypes.func,
-          backdrop: React.PropTypes.bool,
           keyboard: React.PropTypes.bool,
           show: React.PropTypes.bool,
           remote: React.PropTypes.string
