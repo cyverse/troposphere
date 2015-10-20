@@ -23,10 +23,10 @@ cas_oauth_client = CAS_OAuthClient(settings.CAS_SERVER,
 def _mock_login(request):
     user = authenticate(username=None, request=request)
     auth_login(request, user)
-    last_token = user.usertoken_set.last()
+    last_token = user.auth_tokens.last()
     if not last_token:
         last_token = generate_token(user)
-    _apply_token_to_session(request, last_token.token)
+    _apply_token_to_session(request, last_token.key)
 
     if request.session.get('redirect_to'):
         redirect_url = request.session.pop('redirect_to')
