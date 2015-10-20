@@ -1,17 +1,16 @@
-define(function (require) {
 
-  var BaseStore = require('stores/BaseStore'),
-    QuotaCollection = require('collections/QuotaCollection');
+import BaseStore from 'stores/BaseStore';
+import QuotaCollection from 'collections/QuotaCollection';
 
-  var QuotaStore = BaseStore.extend({
+let QuotaStore = BaseStore.extend({
     collection: QuotaCollection,
 
     queryParams: {
-      page_size: 100
+        page_size: 100
     }
-  });
-
-  var store = new QuotaStore();
-
-  return store;
 });
+
+let store = new QuotaStore();
+
+export default store;
+

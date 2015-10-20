@@ -1,14 +1,11 @@
-define(function (require) {
 
-  var BaseStore = require('stores/BaseStore'),
-    IdentityCollection = require('collections/IdentityCollection');
+import BaseStore from 'stores/BaseStore';
+import IdentityCollection from 'collections/IdentityCollection';
 
-  var IdentityStore = BaseStore.extend({
+let IdentityStore = BaseStore.extend({
     collection: IdentityCollection
-  });
-
-  var store = new IdentityStore();
-
-  return store;
-
 });
+
+let store = new IdentityStore();
+
+export default store;

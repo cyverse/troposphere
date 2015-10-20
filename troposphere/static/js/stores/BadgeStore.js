@@ -1,14 +1,12 @@
-define(function (require) {
 
-  var BaseStore = require('stores/BaseStore'),
-      globals = require('globals'),
-      BadgeCollection = require('collections/BadgeCollection');
+import BaseStore from 'stores/BaseStore';
+import globals from 'globals';
+import BadgeCollection from 'collections/BadgeCollection';
 
-  var  BadgeStore = BaseStore.extend({
+let BadgeStore = BaseStore.extend({
     collection: BadgeCollection
-  }); 
-
-  var store = new BadgeStore();
-
-  return store;
 });
+
+let store = new BadgeStore();
+
+export default store;

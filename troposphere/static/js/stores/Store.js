@@ -1,25 +1,20 @@
-define(
-  [
-    'underscore',
-    'backbone'
-  ], function (_, Backbone) {
+import _ from 'underscore';
+import Backbone from 'backbone';
 
-    var CHANGE_EVENT = 'change';
+let CHANGE_EVENT = 'change';
 
-    var Store = {
-      addChangeListener: function (callback) {
+let Store = {
+    addChangeListener: function(callback) {
         this.on(CHANGE_EVENT, callback);
-      },
-      removeChangeListener: function (callback) {
+    },
+    removeChangeListener: function(callback) {
         this.off(CHANGE_EVENT, callback);
-      },
-      emitChange: function () {
+    },
+    emitChange: function() {
         this.trigger(CHANGE_EVENT);
-      }
-    };
+    }
+};
 
-    _.extend(Store, Backbone.Events);
+_.extend(Store, Backbone.Events);
 
-    return Store;
-
-  });
+export default Store;

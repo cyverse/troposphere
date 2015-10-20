@@ -1,45 +1,42 @@
-define(function (require) {
 
-  var Dispatcher = require('dispatchers/Dispatcher'),
-    BaseStore = require('stores/BaseStore'),
-    ResourceRequestCollection = require('collections/ResourceRequestCollection'),
-    ResourceRequestConstants = require('constants/ResourceRequestConstants'),
-    stores = require('stores');
+import Dispatcher from 'dispatchers/Dispatcher';
+import BaseStore from 'stores/BaseStore';
+import ResourceRequestCollection from 'collections/ResourceRequestCollection';
+import ResourceRequestConstants from 'constants/ResourceRequestConstants';
+import stores from 'stores';
 
-  var ResourceRequestStore = BaseStore.extend({
+let ResourceRequestStore = BaseStore.extend({
     collection: ResourceRequestCollection
-  });
+});
 
-  var store = new ResourceRequestStore();
+let store = new ResourceRequestStore();
 
-  Dispatcher.register(function (dispatch) {
+Dispatcher.register(function(dispatch) {
     var actionType = dispatch.action.actionType;
     var payload = dispatch.action.payload;
     var options = dispatch.action.options || options;
 
     switch (actionType) {
-      case ResourceRequestConstants.UPDATE:
-        store.update(payload.model);
-        break;
+        case ResourceRequestConstants.UPDATE:
+            store.update(payload.model);
+            break;
 
-      case ResourceRequestConstants.REMOVE:
-        store.remove(payload.model);
-        break;
+        case ResourceRequestConstants.REMOVE:
+            store.remove(payload.model);
+            break;
 
-      case ResourceRequestConstants.EMIT_CHANGE:
-        break;
+        case ResourceRequestConstants.EMIT_CHANGE:
+            break;
 
-      default:
-        return true;
+        default:
+            return true;
     }
 
     if (!options.silent) {
-      store.emitChange();
+        store.emitChange();
     }
 
     return true;
-  });
-
-  return store;
-
 });
+
+export default store;

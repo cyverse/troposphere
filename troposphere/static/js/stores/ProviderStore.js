@@ -1,14 +1,11 @@
-define(function (require) {
 
-  var BaseStore = require('stores/BaseStore'),
-    ProviderCollection = require('collections/ProviderCollection');
+import BaseStore from 'stores/BaseStore';
+import ProviderCollection from 'collections/ProviderCollection';
 
-  var ProviderStore = BaseStore.extend({
+let ProviderStore = BaseStore.extend({
     collection: ProviderCollection
-  });
-
-  var store = new ProviderStore();
-
-  return store;
-
 });
+
+let store = new ProviderStore();
+
+export default store;

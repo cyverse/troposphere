@@ -1,18 +1,15 @@
-define(function (require) {
 
-  var BaseStore = require('stores/BaseStore'),
-    SizeCollection = require('collections/SizeCollection');
+import BaseStore from 'stores/BaseStore';
+import SizeCollection from 'collections/SizeCollection';
 
-  var SizeStore = BaseStore.extend({
+let SizeStore = BaseStore.extend({
     collection: SizeCollection,
 
     queryParams: {
-      page_size: 100
+        page_size: 100
     }
-  });
-
-  var store = new SizeStore();
-
-  return store;
-
 });
+
+let store = new SizeStore();
+
+export default store;
