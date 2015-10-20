@@ -1,19 +1,18 @@
-define(function (require) {
-  "use strict";
 
-  var Router = require('react-router'),
-    Route = Router.Route,
+import Router from 'react-router';
+
+let Route = Router.Route,
     Redirect = Router.Redirect,
     DefaultRoute = Router.DefaultRoute;
 
-  var Master = require('components/Master.react'),
-      HelpPage = require('components/help/HelpPage.react'),
-      ImageListPage = require('components/images/ImageListPage.react'),
-      ImageDetailsPage = require('components/images/ImageDetailsPage.react'),
-      ImageTagsPage = require('components/images/ImageTagsPage.react'),
-      ImagesMaster = require('components/images/ImagesMaster.react');
+import Master from 'components/Master.react';
+import HelpPage from 'components/help/HelpPage.react';
+import ImageListPage from 'components/images/ImageListPage.react';
+import ImageDetailsPage from 'components/images/ImageDetailsPage.react';
+import ImageTagsPage from 'components/images/ImageTagsPage.react';
+import ImagesMaster from 'components/images/ImagesMaster.react';
 
-  var AppRoutes = (
+let AppRoutes = (
     <Route name="root" path="/image" handler={Master}>
       <Route name="images" handler={ImagesMaster}>
         <DefaultRoute name="search" handler={ImageListPage}/>
@@ -23,7 +22,6 @@ define(function (require) {
       <Route name="help" handler={HelpPage}/>
       <Redirect from="/image" to="/application/images"/>
     </Route>
-  );
+);
 
-  return AppRoutes;
-});
+export default AppRoutes;
