@@ -1,8 +1,7 @@
-define(function (require) {
-  "use strict";
 
-  var React = require('react/addons');
-  window.React = React;
-  return React;
+import React from 'react/addons';
 
-});
+// ensure `React` is globally available
+window.React = React;
+
+export default React;
