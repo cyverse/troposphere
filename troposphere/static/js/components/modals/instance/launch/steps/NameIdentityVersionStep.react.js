@@ -232,12 +232,13 @@ define(function (require) {
                                 />
                             </div>
                         </div>
-                        <div className="form-group">
+                        <div className="modal-section">
                             <h4>Project Allocation Usage</h4>
-                            {this.renderAllocationConsumption(this.state.identity)}
+                            <div className="form-group">
+                                {this.renderAllocationConsumption(this.state.identity)}
+                            </div>
+                            <a href="#" onClick={this.props.onRequestResources}>Need more resources?</a>
                         </div>
-                        <a href="#" onClick={this.props.onRequestResources}>Need more resources?</a>
-
                     </div>
                 </div>
             );
