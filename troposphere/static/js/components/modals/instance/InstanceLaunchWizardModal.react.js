@@ -216,10 +216,10 @@ define(function(require) {
                 {this.renderCloseButton()}
                 <strong>Instance Launch Wizard- {this.state.title}</strong>
               </div>
-              <div className="modal-section">
-                {this.renderBreadCrumbTrail()}
-              </div>
               <div className="modal-body">
+                <div className="clearfix">
+                    {this.renderBreadCrumbTrail()}
+                </div>
                 {this.renderBody()}
               </div>
             </div>
