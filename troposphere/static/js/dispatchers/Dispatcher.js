@@ -1,49 +1,44 @@
-define(
-  [
-    'q',
-    'underscore'
-  ],
-  function (Q, _) {
 
-    var _callbacks = [];
-    var _promises = [];
+import Q from 'q';
+import _ from 'underscore';
 
-    var _addPromise = function (cb, payload) {
-      var defer = Q.defer();
-      if (cb(payload)) {
+let _callbacks = [];
+let _promises = [];
+
+let _addPromise = function(cb, payload) {
+    var defer = Q.defer();
+    if (cb(payload)) {
         defer.resolve(payload);
-      } else {
+    } else {
         defer.reject(new Error("Dispatcher callback unsuccessful"));
-      }
+    }
 
-      _promises.push(defer.promise);
-    };
+    _promises.push(defer.promise);
+};
 
-    var _clearPromises = function () {
-      _promises = [];
-    };
+let _clearPromises = function() {
+    _promises = [];
+};
 
-    var Dispatcher = {
-      register: function (cb) {
+let Dispatcher = {
+    register: function(cb) {
         _callbacks.push(cb);
         return _callbacks.length - 1;
-      },
+    },
 
-      dispatch: function (payload) {
-        _.each(_callbacks, function (cb) {
-          _addPromise(cb, payload);
+    dispatch: function(payload) {
+        _.each(_callbacks, function(cb) {
+            _addPromise(cb, payload);
         });
         Q.all(_promises).done(_clearPromises);
-      },
+    },
 
-      waitFor: function (/*array*/ promiseIndexes, /*function*/ callback) {
-        var selectedPromises = _.map(promiseIndexes, function (index) {
-          return _promises[index];
+    waitFor: function( /*array*/ promiseIndexes, /*function*/ callback) {
+        var selectedPromises = _.map(promiseIndexes, function(index) {
+            return _promises[index];
         });
         return Q.all(selectedPromises).done(callback);
-      }
-    };
+    }
+};
 
-    return Dispatcher;
-
-  });
+export default Dispatcher;

@@ -1,37 +1,32 @@
-define(
-  [
-    'toastr',
-    'underscore'
-  ],
-  function (toastr, _) {
 
-    toastr.options = {
-      "closeButton": true,
-      "timeOut": "0",
-      "extendedTimeOut": "0"
-    };
+import toastr from 'toastr';
+import _ from 'underscore';
 
-    var notify = function (type, title, message, options) {
-      options = options || {};
-      options = _.defaults(options, toastr.options);
+toastr.options = {
+    "closeButton": true,
+    "timeOut": "0",
+    "extendedTimeOut": "0"
+};
 
-      if (type === "success") {
+let notify = function(type, title, message, options) {
+    options = options || {};
+    options = _.defaults(options, toastr.options);
+
+    if (type === "success") {
         toastr.success(message, title, options);
-      } else if (type === "info") {
+    } else if (type === "info") {
         toastr.info(message, title, options);
-      } else if (type === "error") {
+    } else if (type === "error") {
         toastr.error(message, title, options);
-      } else if (type === "warning") {
+    } else if (type === "warning") {
         toastr.warning(message, title, options);
-      }
+    }
 
-    };
+};
 
-    return {
-      success: notify.bind(null, 'success'),
-      info: notify.bind(null, 'info'),
-      warning: notify.bind(null, 'warning'),
-      error: notify.bind(null, 'error')
-    };
-
-  });
+export default {
+    success: notify.bind(null, 'success'),
+    info: notify.bind(null, 'info'),
+    warning: notify.bind(null, 'warning'),
+    error: notify.bind(null, 'error')
+};
