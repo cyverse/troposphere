@@ -1,100 +1,95 @@
 /* Module for generating in-app urls */
-define(
-  [
-    'underscore'
-  ],
-  function (_) {
 
-    var generators = {
+import _ from 'underscore';
 
-      instance: function (model) {
+let generators = {
+
+    instance: function(model) {
         var providerId = model.get('identity').provider;
         var identityId = model.get('identity').id;
         return 'provider/' + providerId + '/identity/' + identityId + '/instances/' + model.id;
-      },
+    },
 
-      reportInstance: function (data) {
+    reportInstance: function(data) {
         return generators.projectInstance(data) + '/report';
-      },
+    },
 
-      volume: function (model) {
+    volume: function(model) {
         var providerId = model.get('identity').provider;
         var identityId = model.get('identity').id;
         return 'provider/' + providerId + '/identity/' + identityId + '/volumes/' + model.id;
-      },
+    },
 
-      image: function (model) {
+    image: function(model) {
         return 'images/' + model.id;
-      },
+    },
 
-      images: function () {
+    images: function() {
         return 'images';
-      },
+    },
 
-      imageSearch: function (data) {
+    imageSearch: function(data) {
         return generators.images() + '/search/' + data.query;
-      },
+    },
 
-      help: function () {
+    help: function() {
         return 'help';
-      },
+    },
 
-      settings: function () {
+    settings: function() {
         return 'settings';
-      },
+    },
 
-      login: function () {
+    login: function() {
         return 'login'
-      },
+    },
 
-      projects: function () {
+    projects: function() {
         return 'projects';
-      },
+    },
 
-      project: function (project) {
+    project: function(project) {
         return 'projects/' + project.id;
-      },
+    },
 
-      projectInstance: function (data) {
+    projectInstance: function(data) {
         return generators.project(data.project) + '/instances/' + data.instance.id;
-      },
+    },
 
-      projectVolume: function (data) {
+    projectVolume: function(data) {
         return generators.project(data.project) + '/volumes/' + data.volume.id;
-      },
+    },
 
-      projectResources: function (data) {
+    projectResources: function(data) {
         return generators.project(data.project) + '/resources';
-      }
-    };
+    }
+};
 
-    var generateUrl = function (route, model, options) {
-      options = options || {};
-      var url = generators[route](model);
+let generateUrl = function(route, model, options) {
+    options = options || {};
+    var url = generators[route](model);
 
-      if (options.relative) {
+    if (options.relative) {
         url = '/' + url;
-      } else {
+    } else {
         url = '/image/' + url;
-      }
-      return url;
-    };
+    }
+    return url;
+};
 
-    return {
-      instance: _.partial(generateUrl, 'instance'),
-      reportInstance: _.partial(generateUrl, 'reportInstance'),
-      volume: _.partial(generateUrl, 'volume'),
-      image: _.partial(generateUrl, 'image'),
-      images: _.partial(generateUrl, 'images'),
-      imageSearch: _.partial(generateUrl, 'imageSearch'),
-      help: _.partial(generateUrl, 'help'),
-      settings: _.partial(generateUrl, 'settings'),
-      login: _.partial(generateUrl, 'login'),
-      projects: _.partial(generateUrl, 'projects'),
-      project: _.partial(generateUrl, 'project'),
-      projectInstance: _.partial(generateUrl, 'projectInstance'),
-      projectVolume: _.partial(generateUrl, 'projectVolume'),
-      projectResources: _.partial(generateUrl, 'projectResources')
-    };
-
-  });
+export default {
+    instance: _.partial(generateUrl, 'instance'),
+    reportInstance: _.partial(generateUrl, 'reportInstance'),
+    volume: _.partial(generateUrl, 'volume'),
+    image: _.partial(generateUrl, 'image'),
+    images: _.partial(generateUrl, 'images'),
+    imageSearch: _.partial(generateUrl, 'imageSearch'),
+    help: _.partial(generateUrl, 'help'),
+    settings: _.partial(generateUrl, 'settings'),
+    login: _.partial(generateUrl, 'login'),
+    projects: _.partial(generateUrl, 'projects'),
+    project: _.partial(generateUrl, 'project'),
+    projectInstance: _.partial(generateUrl, 'projectInstance'),
+    projectVolume: _.partial(generateUrl, 'projectVolume'),
+    projectResources: _.partial(generateUrl, 'projectResources')
+};

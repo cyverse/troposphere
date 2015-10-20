@@ -1,45 +1,45 @@
-define(function (require) {
-  "use strict";
 
-  var React = require('react/addons'),
-    Router = require('react-router'),
-    Route = Router.Route,
+
+import React from 'react/addons';
+import Router from 'react-router';
+
+let Route = Router.Route,
     Redirect = Router.Redirect,
     DefaultRoute = Router.DefaultRoute;
 
-  var Master = require('./components/Master.react'),
-    BadgeMaster = require('./components/badges/BadgeMaster.react'),
-    MyBadges = require('./components/badges/MyBadges.react'),
-    AllBadges = require('./components/badges/AllBadges.react'),
-    UnearnedBadges = require('./components/badges/UnearnedBadges.react'),
-    PassThroughHandler = require('./components/PassThroughHandler.react'),
-    DashboardPage = require('./components/dashboard/DashboardPage.react'),
-    ProjectListPage = require('./components/projects/ProjectListPage.react'),
-    ImageListPage = require('./components/images/ImageListPage.react'),
-    ImageDetailsPage = require('./components/images/ImageDetailsPage.react'),
-    ProviderDetailsPage = require('./components/providers/ProviderListView.react'),
-    HelpPage = require('./components/help/HelpPage.react'),
-    ProjectsMaster = require('./components/projects/ProjectsMaster.react'),
-    ProjectDetailsMaster = require('./components/projects/detail/ProjectDetailsMaster.react'),
-    ProjectDetailsPage = require('./components/projects/ProjectDetailsPage.react'),
-    ProjectResourcesPage = require('./components/projects/ProjectResourcesPage.react'),
-    FavoritedImagesPage = require('./components/images/FavoritedImagesPage.react'),
-    MyImagesPage = require('./components/images/MyImagesPage.react'),
-    MyImageRequestsPage = require('./components/images/MyImageRequestsPage.react'),
-    ImageTagsPage = require('./components/images/ImageTagsPage.react'),
-    ImagesMaster = require('./components/images/ImagesMaster.react'),
-    ProvidersMaster = require('./components/providers/ProvidersMaster.react'),
-    SettingsPage = require('./components/settings/SettingsPage.react'),
-    ProjectInstancePage = require("./components/projects/InstanceDetailsPage.react"),
-    ProjectVolumePage = require("./components/projects/VolumeDetailsPage.react"),
-    ResourceMaster = require('./components/admin/ResourceMaster.react'),
-    ResourceRequest = require('./components/admin/ResourceRequest.react'),
-    AdminMaster = require('./components/admin/AdminMaster.react'),
-    ImageMaster = require('./components/admin/ImageMaster.react'),
-    ImageAdmin = require('./components/admin/ImageAdmin.react'),
-    ResourceAdmin = require('./components/admin/ResourceAdmin.react');
+import Master from './components/Master.react';
+import BadgeMaster from './components/badges/BadgeMaster.react';
+import MyBadges from './components/badges/MyBadges.react';
+import AllBadges from './components/badges/AllBadges.react';
+import UnearnedBadges from './components/badges/UnearnedBadges.react';
+import PassThroughHandler from './components/PassThroughHandler.react';
+import DashboardPage from './components/dashboard/DashboardPage.react';
+import ProjectListPage from './components/projects/ProjectListPage.react';
+import ImageListPage from './components/images/ImageListPage.react';
+import ImageDetailsPage from './components/images/ImageDetailsPage.react';
+import ProviderDetailsPage from './components/providers/ProviderListView.react';
+import HelpPage from './components/help/HelpPage.react';
+import ProjectsMaster from './components/projects/ProjectsMaster.react';
+import ProjectDetailsMaster from './components/projects/detail/ProjectDetailsMaster.react';
+import ProjectDetailsPage from './components/projects/ProjectDetailsPage.react';
+import ProjectResourcesPage from './components/projects/ProjectResourcesPage.react';
+import FavoritedImagesPage from './components/images/FavoritedImagesPage.react';
+import MyImagesPage from './components/images/MyImagesPage.react';
+import MyImageRequestsPage from './components/images/MyImageRequestsPage.react';
+import ImageTagsPage from './components/images/ImageTagsPage.react';
+import ImagesMaster from './components/images/ImagesMaster.react';
+import ProvidersMaster from './components/providers/ProvidersMaster.react';
+import SettingsPage from './components/settings/SettingsPage.react';
+import ProjectInstancePage from "./components/projects/InstanceDetailsPage.react";
+import ProjectVolumePage from "./components/projects/VolumeDetailsPage.react";
+import ResourceMaster from './components/admin/ResourceMaster.react';
+import ResourceRequest from './components/admin/ResourceRequest.react';
+import AdminMaster from './components/admin/AdminMaster.react';
+import ImageMaster from './components/admin/ImageMaster.react';
+import ImageAdmin from './components/admin/ImageAdmin.react';
+import ResourceAdmin from './components/admin/ResourceAdmin.react';
 
-  var AppRoutes = (
+let AppRoutes = (
     <Route name="root" path="/application" handler={Master}>
       <Route name="dashboard" handler={DashboardPage}/>
 
@@ -90,7 +90,7 @@ define(function (require) {
       <DefaultRoute handler={DashboardPage}/>
 
     </Route>
-  );
+);
 
-  return AppRoutes;
-});
+export default AppRoutes;
+

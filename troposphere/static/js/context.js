@@ -1,5 +1,4 @@
-define([], function () {
-  return {
+
+export default {
     profile: null
-  }
-});
+};

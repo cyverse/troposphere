@@ -1,3 +1,4 @@
+// included within script tag
 var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-38248173-1']);
 _gaq.push(['_trackPageview']);
