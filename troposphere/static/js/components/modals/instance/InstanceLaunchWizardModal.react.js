@@ -217,7 +217,7 @@ define(function(require) {
                 <strong>Instance Launch Wizard- {this.state.title}</strong>
               </div>
               <div className="modal-body">
-                <div className="clearfix">
+                <div className="clearfix modal-section">
                     {this.renderBreadCrumbTrail()}
                 </div>
                 {this.renderBody()}
