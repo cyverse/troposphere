@@ -1,8 +1,5 @@
-define(function (require) {
 
-  return {
+export default {
     ADD_IMAGE_BOOKMARK: "ADD_IMAGE_BOOKMARK",
     REMOVE_IMAGE_BOOKMARK: "REMOVE_IMAGE_BOOKMARK"
   };
-
-});

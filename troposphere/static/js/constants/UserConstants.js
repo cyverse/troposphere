@@ -1,6 +1,5 @@
-define(function (require) {
 
-  return {
+export default {
     ADD_USER: "ADD_USER",
     UPDATE_USER: "UPDATE_USER",
     REMOVE_USER: "REMOVE_USER",
@@ -8,6 +7,4 @@ define(function (require) {
     REMOVE_PENDING_USER_FROM_INSTANCE: "REMOVE_PENDING_USER_FROM_INSTANCE",
     ADD_PENDING_USER_TO_IMAGE: "ADD_PENDING_USER_TO_IMAGE",
     REMOVE_PENDING_USER_FROM_IMAGE: "REMOVE_PENDING_USER_FROM_IMAGE"
-  };
-
-});
+};
