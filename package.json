@@ -16,9 +16,9 @@
     "unsafe-perm": true
   },
   "scripts": {
-
-    "dev" : "webpack -d --progress --profile --colors --",
-    "build": "webpack --progress --profile --colors --",
+    "dev" : "webpack -d --progress --profile --colors --bail --",
+    "build": "webpack --progress --profile --colors --bail --",
+    "watch": "webpack --progress --profile --colors --watch",
     "jenkins": "webpack --profile --colors --",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint"
