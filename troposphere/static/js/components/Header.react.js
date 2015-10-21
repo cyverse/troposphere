@@ -57,6 +57,7 @@ define(function (require) {
     {
       name: "Admin",
       linksTo: "admin",
+      href: "/application/admin",
       icon: "cog",
       requiresLogin: true,
       requiresStaff: true,

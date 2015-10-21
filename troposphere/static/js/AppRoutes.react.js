@@ -74,15 +74,13 @@ define(function (require) {
       <Route name="settings" handler={SettingsPage}/>
 
       <Route name="admin" handler={AdminMaster}>
-        <Route name="identity-membership-manager" path="users" handler={IdentityMembershipMaster}>
-        </Route>
+        <DefaultRoute name="identity-membership-manager" path="users" handler={IdentityMembershipMaster}/>
         <Route name="resource-request-manager" path="resource-requests" handler={ResourceMaster}>
           <Route name="resource-request" path=":resourceRequestId" handler={ResourceAdmin} />
         </Route>
         <Route name="image-request-manager" path="imaging-requests" handler={ImageMaster}>
           <Route name="image-request" path=":imageRequestId" handler={ImageAdmin} />
         </Route>
-        <DefaultRoute handler={IdentityMembershipMaster}/>
       </Route>
 
       <Route name="badges" handler={BadgeMaster}>
