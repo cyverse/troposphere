@@ -38,8 +38,9 @@ define(function (require) {
           <div className="secondary-nav">
             <div className="container">
               <ul className="secondary-nav-links">
-                {this.renderRoute(resourcesText, "manage-resource-request", "tags")}
-                {this.renderRoute("Manage Users", "manage-identities", "user")}
+                {this.renderRoute("Manage Users", "identity-membership-manager", "user")}
+                {this.renderRoute(resourcesText, "resource-request-manager", "cloud")}
+                {this.renderRoute("Imaging Requests", "image-request-manager", "floppy-disk")}
               </ul>
             </div>
           </div>

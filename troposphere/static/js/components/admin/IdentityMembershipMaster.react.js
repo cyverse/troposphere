@@ -128,7 +128,6 @@ define(function (require) {
     render: function () {
       return (
         <div className="resource-master container">
-          <h1>Atmosphere Users</h1>
           <div id='membership-container'>
             <input
             type='text'
@@ -140,6 +139,7 @@ define(function (require) {
             />
           </div>
           {this.renderProviderSelect()}
+          <h3>Atmosphere Users</h3>
           {this.renderTable()}
         </div>
       );
