@@ -104,7 +104,7 @@ define(function (require) {
     renderProvider: function(provider) {
           var provider_id = "provider-"+provider.id;
           return (
-            <button className="btn btn-default" id={provider_id} key={provider.id} onClick={this.onProviderChange}>
+            <button className="btn btn-default" style={{marginRight: "10px"}} id={provider_id} key={provider.id} onClick={this.onProviderChange}>
                 {provider.get('name')}
             </button>
           );
@@ -118,16 +118,16 @@ define(function (require) {
         var providerRows = providers.map(function (provider) {
           return self.renderProvider(provider);
         });
-        return (<div className="container">
-              <div className="secondary-nav-links">
+        return (
+            <div className="secondary-nav-links">
                 {providerRows}
-              </div>
-            </div>);
+            </div>
+        );
 
     },
     render: function () {
       return (
-        <div className="resource-master container">
+        <div className="resource-master">
           <div id='membership-container'>
             <input
             type='text'
