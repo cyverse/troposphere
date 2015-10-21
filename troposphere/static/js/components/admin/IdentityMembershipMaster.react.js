@@ -83,17 +83,17 @@ define(function (require) {
                 );
       }
       return (
-          <table className="admin-table table table-hover col-md-6">
+          <table className="admin-table table table-striped table-hover" style={{marginTop: "20px"}}>
             <tbody>
               <tr className="admin-row">
-                <th className="center">
-                    <h3>User</h3>
+                <th>
+                    <h4>User</h4>
                 </th>
-                <th className="center">
-                    <h3>Provider</h3>
+                <th>
+                    <h4>Provider</h4>
                 </th>
-                <th className="center">
-                    <h3>Enabled/Disabled</h3>
+                <th>
+                    <h4>Enabled/Disabled</h4>
                 </th>
               </tr>
               {identityMembershipRows}
@@ -138,7 +138,6 @@ define(function (require) {
             value={this.state.query}
             ref="textField"
             />
-            <hr/>
           </div>
           {this.renderProviderSelect()}
           {this.renderTable()}

@@ -14,7 +14,18 @@ define(function (require) {
 
     render: function () {
       var membership = this.props.membership;
+      var membershipStatus =  membership.get('end_date');
       var provider_str =  membership.get('provider').name;
+      var btnStatus = membershipStatus ? "primary" : "danger";
+      var btnClass = "btn btn-" + btnStatus + " btn-xs pull-right";
+      var statusDisc = {
+            display:"inline-block",
+            marginRight:"10px",
+            background: membershipStatus ? "red" : "green",
+            borderRadius: "100px",
+            height:"10px",
+            width:"10px"
+        };
       if(membership.get('provider').active == false) {
           provider_str = provider_str + " - Inactive"
       } else if(membership.get('provider').end_date) {
@@ -24,7 +35,13 @@ define(function (require) {
         <tr>
           <td className="user-name">{membership.get('user').username}</td>
           <td className="provider">{provider_str}</td>
-          <td className="end-date">{membership.get('end_date') !== null ? "Disabled as of "+membership.get('end_date') : "Enabled"}</td>
+          <td className="end-date">
+          <span style={statusDisc}></span>
+            {membershipStatus ? "Disabled as of "+membership.get('end_date') : "Enabled"} 
+            <button type="button" className={btnClass} style={{marginLeft: "10px"}} >
+                {membershipStatus ? "Enable" : "Disable"}
+            </button>
+          </td>
         </tr>
       );
     }
