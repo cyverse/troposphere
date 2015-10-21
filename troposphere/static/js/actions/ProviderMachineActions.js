@@ -1,23 +1,13 @@
 
-define(function (require) {
+import AppDispatcher from 'dispatchers/AppDispatcher';
+import Utils from './Utils';
+import NotificationController from 'controllers/NotificationController';
+import ProviderMachineConstants from 'constants/ProviderMachineConstants';
+import stores from 'stores';
+import ProviderMachine from 'models/ProviderMachine';
+import ModalHelpers from 'components/modals/ModalHelpers';
 
-  var AppDispatcher = require('dispatchers/AppDispatcher'),
-    Utils = require('./Utils'),
-    NotificationController = require('controllers/NotificationController'),
-
-  // Constants
-    ProviderMachineConstants = require('constants/ProviderMachineConstants'),
-
-  // Stores
-  stores = require('stores'),
-
-  // Models
-  ProviderMachine = require('models/ProviderMachine'),
-
-  // Modals
-    ModalHelpers = require('components/modals/ModalHelpers');
-
-  return {
+export default {
 
     // ------------------------
     // Standard CRUD Operations
@@ -88,8 +78,4 @@ define(function (require) {
       //})
     }
 
-
-  }
-
-});
-
+}

@@ -1,13 +1,12 @@
-define(function (require) {
 
-  var AppDispatcher = require('dispatchers/AppDispatcher'),
-    ProjectConstants = require('constants/ProjectConstants'),
-    ProjectInstanceConstants = require('constants/ProjectInstanceConstants'),
-    ProjectInstance = require('models/ProjectInstance'),
-    Utils = require('./Utils'),
-    stores = require('stores');
+import AppDispatcher from 'dispatchers/AppDispatcher';
+import ProjectConstants from 'constants/ProjectConstants';
+import ProjectInstanceConstants from 'constants/ProjectInstanceConstants';
+import ProjectInstance from 'models/ProjectInstance';
+import Utils from './Utils';
+import stores from 'stores';
 
-  return {
+export default {
 
     // ----------------------------
     // Add/Remove Project Resources
@@ -47,5 +46,3 @@ define(function (require) {
     }
 
   };
-
-});

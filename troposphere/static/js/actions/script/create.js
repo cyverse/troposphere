@@ -1,12 +1,10 @@
-define(function (require) {
-  'use strict';
 
-  var ScriptConstants = require('constants/ScriptConstants'),
-      Script = require('models/Script'),
-      actions = require('actions'),
-      Utils = require('../Utils');
+import ScriptConstants from 'constants/ScriptConstants';
+import Script from 'models/Script';
+import actions from 'actions';
+import Utils from '../Utils';
 
-  return {
+export default {
 
     create: function(params){
       if(!params.title) throw new Error("Missing title");
@@ -35,5 +33,3 @@ define(function (require) {
     }
 
   };
-
-});

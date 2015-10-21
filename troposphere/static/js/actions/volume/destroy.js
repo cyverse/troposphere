@@ -1,13 +1,12 @@
-define(function (require) {
 
-  var VolumeConstants = require('constants/VolumeConstants'),
-    VolumeState = require('models/VolumeState'),
-    stores = require('stores'),
-    Utils = require('../Utils'),
-    globals = require('globals'),
-    ProjectVolumeConstants = require('constants/ProjectVolumeConstants');
+import VolumeConstants from 'constants/VolumeConstants';
+import VolumeState from 'models/VolumeState';
+import stores from 'stores';
+import Utils from '../Utils';
+import globals from 'globals';
+import ProjectVolumeConstants from 'constants/ProjectVolumeConstants';
 
-  return {
+export default {
 
     destroy: function (payload, options) {
       var volume = payload.volume,
@@ -49,5 +48,3 @@ define(function (require) {
       this.destroy(payload, options);
     }
   };
-
-});

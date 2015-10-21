@@ -1,12 +1,16 @@
-define(function (require) {
 
-  return {
-    update: require('./volume/update').update,
-    report: require('./volume/report').report,
-    poll: require('./volume/poll').poll,
-    createAndAddToProject: require('./volume/createAndAddToProject').createAndAddToProject,
-    destroy: require('./volume/destroy').destroy,
-    destroy_noModal: require('./volume/destroy').destroy_noModal
-  };
+import Update from './volume/update';
+import Report from './volume/report';
+import Poll from './volume/poll';
+import Create from './volume/createAndAddToProject';
+import Destroy from './volume/destroy';
 
-});
+
+export default {
+    update: Update.update,
+    report: Report.report,
+    poll: Poll.poll,
+    createAndAddToProject: Create.createAndAddToProject,
+    destroy: Destroy.destroy,
+    destroy_noModal: Destroy.destroy_noModal
+};

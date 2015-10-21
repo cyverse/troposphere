@@ -1,16 +1,14 @@
-define(function (require) {
-  "use strict";
 
-  var VolumeConstants = require('constants/VolumeConstants'),
-    VolumeState = require('models/VolumeState'),
-    actions = require('actions'),
-    Badges = require('Badges'),
-    InstanceVolumeActionRequest = require('models/InstanceVolumeActionRequest'),
-    Utils = require('../Utils'),
-    NotificationController = require('controllers/NotificationController'),
-    VolumeAttachNotifications = require('components/notifications/VolumeAttachNotifications.react');
+import VolumeConstants from 'constants/VolumeConstants';
+import VolumeState from 'models/VolumeState';
+import actions from 'actions';
+import Badges from 'Badges';
+import InstanceVolumeActionRequest from 'models/InstanceVolumeActionRequest';
+import Utils from '../Utils';
+import NotificationController from 'controllers/NotificationController';
+import VolumeAttachNotifications from 'components/notifications/VolumeAttachNotifications.react';
 
-  return {
+export default {
 
     attach: function (params) {
       if (!params.instance) throw new Error("Missing instance");
@@ -77,5 +75,3 @@ define(function (require) {
     }
 
   };
-
-});

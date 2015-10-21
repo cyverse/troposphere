@@ -1,11 +1,10 @@
-define(function (require) {
 
-  var AppDispatcher = require('dispatchers/AppDispatcher'),
-    ProfileConstants = require('constants/ProfileConstants'),
-    NotificationController = require('controllers/NotificationController'),
-    Utils = require('./Utils');
+import AppDispatcher from 'dispatchers/AppDispatcher';
+import ProfileConstants from 'constants/ProfileConstants';
+import NotificationController from 'controllers/NotificationController';
+import Utils from './Utils';
 
-  return {
+export default {
 
     updateProfileAttributes: function (profile, newAttributes) {
       var that = this;
@@ -23,5 +22,3 @@ define(function (require) {
 
     }
   }
-
-});

@@ -1,12 +1,10 @@
-define(function (require) {
-  "use strict";
 
-  var InstanceConstants = require('constants/InstanceConstants'),
-    InstanceState = require('models/InstanceState'),
-    Utils = require('../Utils'),
-    InstanceActionRequest = require('models/InstanceActionRequest');
+import InstanceConstants from 'constants/InstanceConstants';
+import InstanceState from 'models/InstanceState';
+import Utils from '../Utils';
+import InstanceActionRequest from 'models/InstanceActionRequest';
 
-  return {
+export default {
 
     start: function (params) {
       if (!params.instance) throw new Error("Missing instance");
@@ -35,5 +33,3 @@ define(function (require) {
     }
 
   };
-
-});

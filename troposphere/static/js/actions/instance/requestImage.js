@@ -1,12 +1,10 @@
-define(function (require) {
-  "use strict";
 
-  var globals = require('globals'),
-    stores = require('stores'),
-    $ = require('jquery'),
-    Utils = require('../Utils');
+import globals from 'globals';
+import stores from 'stores';
+import $ from 'jquery';
+import Utils from '../Utils';
 
-  return {
+export default {
 
     requestImage: function(params){
 
@@ -98,5 +96,3 @@ define(function (require) {
     }
 
   };
-
-});

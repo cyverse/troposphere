@@ -1,12 +1,10 @@
-define(function (require) {
-  'use strict';
 
-  var TagConstants = require('constants/TagConstants'),
-    Tag = require('models/Tag'),
-    actions = require('actions'),
-    Utils = require('../Utils');
+import TagConstants from 'constants/TagConstants';
+import Tag from 'models/Tag';
+import actions from 'actions';
+import Utils from '../Utils';
 
-  return {
+export default {
 
     create_AddToInstance: function (params) {
 
@@ -43,6 +41,4 @@ define(function (require) {
 
     }
 
-  };
-
-});
+};

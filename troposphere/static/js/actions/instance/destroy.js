@@ -1,14 +1,12 @@
-define(function (require) {
-  "use strict";
 
-  var InstanceConstants = require('constants/InstanceConstants'),
-    InstanceState = require('models/InstanceState'),
-    stores = require('stores'),
-    Utils = require('../Utils'),
-    ProjectInstanceConstants = require('constants/ProjectInstanceConstants'),
-    globals = require('globals');
+import InstanceConstants from 'constants/InstanceConstants';
+import InstanceState from 'models/InstanceState';
+import stores from 'stores';
+import Utils from '../Utils';
+import ProjectInstanceConstants from 'constants/ProjectInstanceConstants';
+import globals from 'globals';
 
-  return {
+export default {
 
     destroy: function (payload, options) {
       if (!payload.project) throw new Error("Missing project");
@@ -50,5 +48,3 @@ define(function (require) {
     }
 
   };
-
-});

@@ -1,13 +1,11 @@
-define(function (require) {
-  "use strict";
 
-  var VolumeConstants = require('constants/VolumeConstants'),
-    VolumeState = require('models/VolumeState'),
-    InstanceVolumeActionRequest = require('models/InstanceVolumeActionRequest'),
-    Utils = require('../Utils'),
-    stores = require('stores');
+import VolumeConstants from 'constants/VolumeConstants';
+import VolumeState from 'models/VolumeState';
+import InstanceVolumeActionRequest from 'models/InstanceVolumeActionRequest';
+import Utils from '../Utils';
+import stores from 'stores';
 
-  return {
+export default {
 
     detach: function (params) {
       if (!params.volume) throw new Error("Missing volume");
@@ -50,5 +48,3 @@ define(function (require) {
     }
 
   };
-
-});

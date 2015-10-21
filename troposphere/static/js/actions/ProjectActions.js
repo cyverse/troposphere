@@ -1,27 +1,26 @@
-define(function (require) {
 
-  var AppDispatcher = require('dispatchers/AppDispatcher'),
-    Utils = require('./Utils'),
-    actions = require('actions'),
-    NotificationController = require('controllers/NotificationController'),
-    Router = require('../Router'),
+import AppDispatcher from 'dispatchers/AppDispatcher';
+import Utils from './Utils';
+import actions from 'actions';
+import NotificationController from 'controllers/NotificationController';
+import Router from '../Router';
 
-  // Constants
-    Badges = require("Badges"),
-    ProjectConstants = require('constants/ProjectConstants'),
-    NullProjectInstanceConstants = require('constants/NullProjectInstanceConstants'),
-    NullProjectVolumeConstants = require('constants/NullProjectVolumeConstants'),
+// Constants
+import Badges from "Badges";
+import ProjectConstants from 'constants/ProjectConstants';
+import NullProjectInstanceConstants from 'constants/NullProjectInstanceConstants';
+import NullProjectVolumeConstants from 'constants/NullProjectVolumeConstants';
 
-  // Models
-    Instance = require('models/Instance'),
-    Volume = require('models/Volume'),
-    Project = require('models/Project'),
+// Models
+import Instance from 'models/Instance';
+import Volume from 'models/Volume';
+import Project from 'models/Project';
 
-  // Modals
-    ModalHelpers = require('components/modals/ModalHelpers'),
-    ProjectReportResourceModal = require('components/modals/project/ProjectReportResourceModal.react');
+// Modals
+import ModalHelpers from 'components/modals/ModalHelpers';
+import ProjectReportResourceModal from 'components/modals/project/ProjectReportResourceModal.react';
 
-  return {
+export default {
 
     // ------------------------
     // Standard CRUD Operations
@@ -231,6 +230,4 @@ define(function (require) {
       });
     }
 
-  };
-
-});
+};
