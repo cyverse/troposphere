@@ -1,25 +1,55 @@
 #!/usr/bin/env python
+
 import argparse
 import ConfigParser
 import os
+import sys
+from sets import Set
 from pprint import pprint
 import shutil
 
-from jinja2 import Environment, FileSystemLoader, meta, StrictUndefined,\
-    TemplateNotFound
+try:
+    from jinja2 import Environment, FileSystemLoader, meta, StrictUndefined,\
+        TemplateNotFound
+except ImportError:
+    sys.exit('''
 
+        Configuration required `Jinja2` for template & variable merging.
+
+        Please ensure that the virtualenv for this project have been created
+        and activated before running this script.
+
+        try:
+
+virtualenv env && source env/bin/activate && \\
+pip install -r dev_requirements.txt
+    ''')
+
+
+# name of the common variable section, this section is *merged* into
+# all other defined sections within the variables file.
+COMMON_KEY = 'COMMON'
 
 # Configuration variables file path is relative to projectpath directory.
 VARIABLES_FILENAME = 'variables.ini'
-
 
 # Backup file extension.
 from datetime import datetime
 now_time = datetime.now()
 BACKUP_EXT = '.bak.%s' % now_time.strftime("%Y%m%d_%H%M%S")
 
+# maps the sections within `variable.ini` to the file templates
+# Format:
+# section_name: (semantic_name1, semantic_name2, ...)
+SECTION_MAPPING = {
+    'apache': ('apache',),
+    'local.py': ('local.py',),
+    'nginx': ('nginx', 'nginx-site', 'nginx-tropo')
+}
 
-config_files = {
+# defines configuration file alias mapped to their template & output name
+CONFIG_FILES = {
+    # Format:
     # semantic_name: (template_location, output_location)
     'apache': ('extras/apache/tropo.conf.j2', 'extras/apache/tropo.conf'),
     'local.py': ('troposphere/settings/local.py.j2',
@@ -30,19 +60,14 @@ config_files = {
     'nginx-tropo': ('extras/nginx/locations/tropo.conf.j2',
                    'extras/nginx/locations/tropo.conf')}
 
+PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 
-projectpath = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '..'))
+LOADER = FileSystemLoader(PROJECT_PATH)
 
-
-loader = FileSystemLoader(projectpath)
-
-
-env = Environment(loader=loader,
+ENV = Environment(loader=LOADER,
                   undefined=StrictUndefined)
 
-
-variables_path = os.path.join(projectpath, VARIABLES_FILENAME)
+VARIABLES_PATH = os.path.join(PROJECT_PATH, VARIABLES_FILENAME)
 
 
 def generate_new_key():
@@ -57,64 +82,74 @@ def generate_new_key():
 def _get_variables():
     try:
         parser = ConfigParser.ConfigParser()
-        parser.readfp(open(variables_path))
+        parser.readfp(open(VARIABLES_PATH))
         variables = {}
         for section in parser.sections():
-            # Ensure the variable names are upper case
+            variables[section] = {}
             for option, value in parser.items(section):
-                variables[option.upper()] = value
+                # Ensure the variable names are upper case
+                variables[section][option.upper()] = value
                 if option.upper() == 'SECRET_KEY' and not value:
-                    variables['SECRET_KEY'] = generate_new_key()
+                    variables[section]['SECRET_KEY'] = generate_new_key()
         return (variables, [])
     except Exception as e:
         return (False,
                 ['Unable to get or parse '
-                 'variables from %s' % (variables_path)])
+                 'variables from %s' % (VARIABLES_PATH)])
 
 
-def _get_filtered_config_files(configs):
+def _get_filtered_config_files(mapping):
     c_files = []
     messages = []
     success = True
-    config_names = config_files.keys()
-    if configs:
-        for name in configs:
-            if name in config_names:
-                c_files.append(config_files[name])
-            else:
-                success = False
-                messages.append('%s is not a valid key in'
-                                ' config_files.' % (name))
+    config_names = CONFIG_FILES.keys()
+    if mapping and len(mapping) == 2:
+        for section in mapping[0]:
+            for filename in SECTION_MAPPING[section]:
+                if filename in CONFIG_FILES:
+                    c_files.append((section, CONFIG_FILES[filename]))
+                else:
+                    success = False
+                    messages.append('%s is not a valid key in'
+                                ' CONFIG_FILES.' % (filename))
         if not success:
             return (False, messages)
         return (c_files, [])
     else:
-        return (config_files.values(), [])
+        return (CONFIG_FILES.values(), [])
 
 
-def _handle_preconditions(configs):
+def _handle_preconditions(mapping):
     success = True
-    c_files, messages = _get_filtered_config_files(configs)
+    # Note:
+    # c_files is not a tuple of (section, (template_location, output_location))
+    c_files, messages = _get_filtered_config_files(mapping)
     if not c_files:
         return (False, messages)
     variables, messages = _get_variables()
     if not variables:
         return (False, messages)
-    for file_location, _ in c_files:
+
+    for section, (file_location, _) in c_files:
         try:
-            file_path = os.path.join(projectpath,
+            file_path = os.path.join(PROJECT_PATH,
                                      file_location)
-            source = loader.get_source(env, file_location)
-            ast = env.parse(loader.get_source(env, file_location))
+            source = LOADER.get_source(ENV, file_location)
+            ast = ENV.parse(LOADER.get_source(ENV, file_location))
             used_vars = meta.find_undeclared_variables(ast)
-            ud_vars = set()
-            for v in used_vars:
-                if not v in variables:
-                    ud_vars.add(v)
+
+            defined_vars = Set(variables[section]).union(Set(variables[COMMON_KEY]))
+
+            used_set = Set(used_vars)
+            ud_vars = used_set.difference(defined_vars)
+
+            if not used_set.issubset(defined_vars):
+                messages.append('Error found in %s' % (file_path))
+
             if ud_vars:
                 messages.append('Undeclared variables '
-                                'found in %s: %s' % (file_path,
-                                                     ud_vars))
+                               'found in %s: \n\t- %s \n' % (file_path,
+                                                    '\n\t- '.join(ud_vars)))
                 success = False
         except TemplateNotFound:
             messages.append('Template not found: %s' % (file_path))
@@ -132,29 +167,36 @@ def _backup_file(path):
         return path + BACKUP_EXT
 
 
-def _generate_configs(configs, backup):
+def _generate_configs(mapping, dry_run, backup):
     success = True
-    c_files, messages = _get_filtered_config_files(configs)
+    c_files, messages = _get_filtered_config_files(mapping)
     if not c_files:
         return (False, messages)
     variables, messages = _get_variables()
     if not variables:
         return (False, messages)
-    for template_location, output_location in c_files:
+    for section, (template_location, output_location) in c_files:
+        # merge the section variables with COMMON
+        section_variables = variables[section].copy()
+        section_variables.update(variables[COMMON_KEY])
+
         try:
-            output_path = os.path.join(projectpath,
+            output_path = os.path.join(PROJECT_PATH,
                                        output_location)
-            template = env.get_template(template_location)
-            rendered = template.render(variables)
-            if backup:
+            template = ENV.get_template(template_location)
+            rendered = template.render(section_variables)
+
+            if backup and not dry_run:
                 backup_path = _backup_file(output_path)
                 if backup_path:
                     messages.append('Backed up %s '\
                                     'as %s\n' % (output_location,
                                                  backup_path))
             # Write to the output file.
-            with open(output_path, 'wb') as fh:
-                fh.write(rendered)
+            if not dry_run:
+                with open(output_path, 'wb') as fh:
+                    fh.write(rendered)
+
             messages.append('From %s '\
                             'generated %s\n' % (template_location,
                                                 output_location))
@@ -168,30 +210,37 @@ def _generate_configs(configs, backup):
     return (success, messages)
 
 
-def generate_configs(configs, backup=True):
+def generate_configs(mapping, dry_run, backup=True):
+    """
+     ... give some background on `mapping` and what it is doing
+     ...
+    """
     print 'Testing for preconditions...\n'
-    success, messages = _handle_preconditions(configs)
+    success, messages = _handle_preconditions(mapping)
     print_messages(messages)
     if not success:
-        print 'Config not generated.\n'
-        exit(1)
+        return (success, 1)
+
     print 'Generating configs...\n'
-    success, messages = _generate_configs(configs, backup)
+    success, messages = _generate_configs(mapping, dry_run, backup)
     print_messages(messages)
     if not success:
-        exit(2)
+        return (success, 2)
+
+    return (success, 0)
 
 
 def print_messages(messages):
     for m in messages:
         print m
+    print '\n'
 
 
-def print_configs(configs):
+def print_configs(mapping):
     """
-    Print config name, template and output file information.
+    Print configuration file's name, template and output file information.
     """
-    print 'Config Variables from %s' % (variables_path)
+    print 'Config Variables from %s' % (VARIABLES_PATH)
     variables, messages = _get_variables()
     if not variables:
         print_messages(messages)
@@ -199,11 +248,11 @@ def print_configs(configs):
         pprint(variables)
     print
     print 'Config Name:\n\tTemplate => Output'
-    c_files, messages = _get_filtered_config_files(configs)
-    if not c_files:
+    configs, messages = _get_filtered_config_files(mapping)
+    if not configs:
         print_messages(messages)
-    for name in configs:
-        template, output = config_files[name]
+    for name in mapping:
+        template, output = CONFIG_FILES[name]
         print name + ':'
         print '\t %s => %s' % (template, output)
     print
@@ -233,26 +282,37 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-s', '--show', action='store_true',
                         help='Show a list of availabe configs')
-    parser.add_argument('-c', '--configs', nargs='*',
-                        help='A list of configs to generate.')
     parser.add_argument('-t', '--test', action='store_true',
                         help='Test configs for preconditions.')
-    print 'Project Path => %s\n' % (projectpath)
+    parser.add_argument('--dry-run', action='store_true',
+                        help='Runs generating without writing files.')
     args = parser.parse_args()
-    if not args.configs:
-        args.configs = config_files.keys()
+
+    print '\nProject Path => %s\n' % (PROJECT_PATH)
+
+    # assume that we will always re-generate all config files ...
+    configs_info = (SECTION_MAPPING.keys(), CONFIG_FILES.keys())
+
     if args.show:
-        print_configs(args.configs)
-
+        print_configs(configs_info[1])
     if args.test:
-        print_test(args.configs)
-
+        print_test(configs_info[1])
     # If testing or showing information, exit.
     if args.test or args.show:
-        exit(0)
-    generate_configs(args.configs)
-    print 'Successfully generated configs %s.' % (', '.join(args.configs))
-    exit(0)
+        sys.exit(0)
+
+    success, exit_code = generate_configs(configs_info, args.dry_run)
+
+    if success:
+        if args.dry_run:
+            print 'Dry run is complete. No output operations performed.'
+
+        gen_files = [t[1] for t in CONFIG_FILES.itervalues()]
+        print 'Successfully generated configs:\n\t- %s\n' % ('\n\t- '.join(gen_files))
+        sys.exit(exit_code)
+    else:
+        print 'Configuration files were not generated.\n'
+        sys.exit(exit_code)
 
 
 if __name__ == '__main__':
