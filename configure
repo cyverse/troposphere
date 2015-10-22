@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import argparse
+import ast
 import ConfigParser
 import os
 import sys
@@ -43,6 +44,7 @@ except ImportError:
             self.CYAN = ''
             self.GREEN = ''
             self.RED = ''
+            self.YELLOW = ''
 
     class StyleMock:
         def __init__(self):
@@ -106,23 +108,63 @@ def generate_new_key():
     return new_key
 
 
-def _get_variables():
+def _coerce(val):
+    """
+    Performs type coerce on valid booleans or returns the argument.
+
+    Without doing type coersion on the values, we cannot make use
+    of booleans within Jinja2 templates. You can depend on a value
+    as "truthy" or not. However, then you need to say:
+
+      `DEBUG=` to get a `False` value.
+
+    This ensures that `DEBUG=False` is not evaluated as `True`.
+    """
+    try:
+        return ast.literal_eval(val) if not val.isdigit() else val
+    except Exception as e:
+        return val
+
+
+def _get_variables(variables_file=VARIABLES_PATH):
     try:
         parser = ConfigParser.ConfigParser()
-        parser.readfp(open(VARIABLES_PATH))
+        parser.readfp(open(variables_file))
         variables = {}
         for section in parser.sections():
             variables[section] = {}
             for option, value in parser.items(section):
                 # Ensure the variable names are upper case
-                variables[section][option.upper()] = value
+                variables[section][option.upper()] = _coerce(value)
                 if option.upper() == 'SECRET_KEY' and not value:
                     variables[section]['SECRET_KEY'] = generate_new_key()
         return (variables, [])
     except Exception as e:
         return (False,
                 ['Unable to get or parse '
-                 'variables from %s' % (VARIABLES_PATH)])
+                 'variables from %s' % (variables_file)])
+
+
+def _compare_variables_distribution():
+    variables_ini = _get_variables()[0]
+    variables_dist = _get_variables(VARIABLES_PATH+'.dist')[0]
+    unused_dist_ns = _populate_variable_namespace(variables_dist)
+
+    for section in variables_ini.keys():
+        d = Set(variables_dist[section])
+        i = Set(variables_ini[section])
+        unused_dist_ns[section] = d.difference(i)
+
+    return unused_dist_ns
+
+
+def _verify_variables_file():
+    messages = []
+    for key, val in _compare_variables_distribution().iteritems():
+        if len(val) != 0:
+            messages.append(('w', 'Section %s has unused variables:\n\t- %s\n'
+                % (key, '\n\t- '.join(val))))
+    return (len(messages) == 0, messages)
 
 
 def _get_filtered_config_files(mapping):
@@ -132,13 +174,13 @@ def _get_filtered_config_files(mapping):
     config_names = CONFIG_FILES.keys()
     if mapping and len(mapping) == 2:
         for section in mapping[0]:
-            for filename in SECTION_MAPPING[section]:
-                if filename in CONFIG_FILES:
-                    c_files.append((section, CONFIG_FILES[filename]))
-                else:
+            for config_grouping in SECTION_MAPPING[section]:
+                if config_grouping in mapping[1]:
+                    c_files.append((section, CONFIG_FILES[config_grouping]))
+                elif not config_grouping in CONFIG_FILES:
                     success = False
-                    messages.append('%s is not a valid key in'
-                                ' CONFIG_FILES.' % (filename))
+                    messages.append(('e', '%s is not a valid key in'
+                            ' CONFIG_FILES.' % (config_grouping)))
         if not success:
             return (False, messages)
         return (c_files, [])
@@ -146,16 +188,31 @@ def _get_filtered_config_files(mapping):
         return (CONFIG_FILES.values(), [])
 
 
+def _populate_variable_namespace(vars, includes):
+    """
+    Wraps the possible variables for a section in a `sets.Set`.
+
+    This enables set operations like `union` & `difference`.
+    """
+    namespace = {}
+    for section in vars.keys():
+        if section in includes or section == COMMON_KEY:
+            namespace[section] = Set(vars[section])
+    return namespace
+
+
 def _handle_preconditions(mapping):
     success = True
     # Note:
-    # c_files is not a tuple of (section, (template_location, output_location))
+    # c_files is now a tuple of (section, (template_location, output_location))
     c_files, messages = _get_filtered_config_files(mapping)
     if not c_files:
         return (False, messages)
     variables, messages = _get_variables()
     if not variables:
         return (False, messages)
+
+    unused_vars = _populate_variable_namespace(variables, mapping[0])
 
     for section, (file_location, _) in c_files:
         try:
@@ -165,22 +222,37 @@ def _handle_preconditions(mapping):
             ast = ENV.parse(LOADER.get_source(ENV, file_location))
             used_vars = meta.find_undeclared_variables(ast)
 
-            defined_vars = Set(variables[section]).union(Set(variables[COMMON_KEY]))
-
+            defined_vars = Set(variables[section]).union(
+                                Set(variables[COMMON_KEY]))
             used_set = Set(used_vars)
+
             ud_vars = used_set.difference(defined_vars)
 
+            # for each template using a `sections` namespace,
+            # subtract out the variables used by that template.
+            unused_vars[section] = unused_vars[section].difference(used_set)
+            # ensure that `COMMON` variable usage is tracked as well
+            unused_vars[COMMON_KEY] = unused_vars[COMMON_KEY].difference(used_set)
+
             if not used_set.issubset(defined_vars):
-                messages.append('Error found in %s' % (file_path))
+                messages.append(('e','Error found in %s' % (file_path)))
 
             if ud_vars:
-                messages.append('Undeclared variables '
+                messages.append(('w','Undeclared variables '
                                'found in %s: \n\t- %s \n' % (file_path,
-                                                    '\n\t- '.join(ud_vars)))
+                                                    '\n\t- '.join(ud_vars))))
                 success = False
         except TemplateNotFound:
-            messages.append('Template not found: %s' % (file_path))
+            messages.append(('e','Template not found: %s' % (file_path)))
             success = False
+
+    # anything left in `unused_vars` is reported as a *warning*
+    for key in unused_vars.keys():
+      if len(unused_vars[key]):
+        messages.append(('w', 'Unused variables found in section %s: '
+                        '\n\t- %s\n' % (key,
+                                        '\n\t- '.join(unused_vars[key]))))
+
     return (success, messages)
 
 
@@ -203,9 +275,15 @@ def _generate_configs(mapping, dry_run, backup):
     if not variables:
         return (False, messages)
     for section, (template_location, output_location) in c_files:
+        # Note:
+        #   Any variable defined *within* a section will override
+        #   a variable present in the `COMMON` section.
+        #
+        #   This is by design.
+        #
         # merge the section variables with COMMON
-        section_variables = variables[section].copy()
-        section_variables.update(variables[COMMON_KEY])
+        section_variables = variables[COMMON_KEY].copy()
+        section_variables.update(variables[section])
 
         try:
             output_path = os.path.join(PROJECT_PATH,
@@ -216,23 +294,23 @@ def _generate_configs(mapping, dry_run, backup):
             if backup and not dry_run:
                 backup_path = _backup_file(output_path)
                 if backup_path:
-                    messages.append('Backed up %s '\
+                    messages.append(('i','Backed up %s '\
                                     'as %s\n' % (output_location,
-                                                 backup_path))
+                                                 backup_path)))
             # Write to the output file.
             if not dry_run:
                 with open(output_path, 'wb') as fh:
                     fh.write(rendered)
 
-            messages.append('From %s '\
+            messages.append(('i','From %s '\
                             'generated %s\n' % (template_location,
-                                                output_location))
+                                                output_location)))
         except Exception as e:
-            messages.append('Exception %s from template '\
+            messages.append(('e', 'Exception %s from template '\
                             'location %s and output location '\
                             '%s' % (e.message,
                                     template_location,
-                                    output_location))
+                                    output_location)))
             success = False
     return (success, messages)
 
@@ -258,10 +336,20 @@ def generate_configs(mapping, dry_run, backup=True):
 
     return (success, 0)
 
+def _determine_message(t):
+    level = ''
+    if t == 'i':
+        level = Fore.WHITE
+    elif t == 'e':
+        level = Fore.RED
+    elif t == 'w':
+        level = Fore.YELLOW
+    return level
 
 def print_messages(messages):
-    for m in messages:
-        print m
+    for t, m in messages:
+        level = _determine_message(t)
+        print '%s%s%s' % (level, m, Style.RESET_ALL)
     print '\n'
 
 
@@ -276,39 +364,74 @@ def print_configs(mapping):
     else:
         pprint(variables)
     print
+    print "Sections: %s\n" % (', '.join(mapping[0]))
     print 'Config Name:\n\tTemplate => Output'
-    configs, messages = _get_filtered_config_files(mapping)
+    configs, messages = _get_filtered_config_files(mapping[1])
     if not configs:
         print_messages(messages)
-    for name in mapping:
+
+    for name in mapping[1]:
         template, output = CONFIG_FILES[name]
         print name + ':'
         print '\t %s => %s' % (template, output)
-    print
+    print completed()
 
 
-def print_test(configs):
+def print_test(mapping):
     """
     Print results of testing configs preconditions. If there are no
     problems acknowledge otherwise handle_precondition will print
     the error(s).
     """
     print 'Testing for preconditions...\n'
-    c_files, messages = _get_filtered_config_files(configs)
+
+    c_files, messages = _get_filtered_config_files(mapping)
     if not c_files:
         print_messages(messages)
         return
-    for name in configs:
-        success, messages = _handle_preconditions([name])
-        if success:
-            print '%s looks good.' % (name)
-        else:
-            print_messages(messages)
+    for section in mapping[0]:
+        print "section: %s" % (section)
+
+        for name in SECTION_MAPPING[section]:
+
+            m = ([section], [name])
+            success, messages = _handle_preconditions(m)
+            if success:
+                print '\t%s (file: %s) looks good.' % (name, CONFIG_FILES[name][1])
+            else:
+                print_messages(messages)
         print
+    print completed()
+
+
+def print_verify():
+    """
+    Prints any variables present in the distribution files that are *not*
+    present in `VARIABLES_FILENAME`.
+    """
+    print 'Comparing %s with distribution file...\n' % (VARIABLES_FILENAME)
+    success, messages = _verify_variables_file()
+
+    if success:
+        print passed('Verification complete.')
+    else:
+        print_messages(messages)
+        print warnings()
+
+
+def completed():
+    completed = '%s%sCOMPLETED.%s' % (Fore.BLACK, Back.WHITE, Style.RESET_ALL)
+    return '\n%s' % (completed)
+
+
+def warnings():
+    warnings = '%s%sWARNINGS PRESENT.%s' % (Fore.BLACK, Back.YELLOW, Style.RESET_ALL)
+    return '\n%s' % (warnings)
 
 
 def passed(text):
-    return '%s%s%s' % (Fore.GREEN, text, Style.RESET_ALL)
+    succeeded = '%s%sSUCCEEDED.%s' % (Fore.BLACK, Back.GREEN, Style.RESET_ALL)
+    return '%s%s%s\n%s' % (Fore.GREEN, text, Style.RESET_ALL, succeeded)
 
 
 def failed(text):
@@ -318,26 +441,42 @@ def failed(text):
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument('-c', '--config-one',
+                        help=('Generate config'
+                            'for one file; format: '
+                            '<section-name>:<config-group>'))
     parser.add_argument('-s', '--show', action='store_true',
                         help='Show a list of availabe configs')
     parser.add_argument('-t', '--test', action='store_true',
                         help='Test configs for preconditions.')
     parser.add_argument('--dry-run', action='store_true',
-                        help='Runs generating without writing files.')
+                        help='Runs without writing files to disk.')
+    parser.add_argument('--verify', action='store_true',
+                        help='Compares the ini and distribution files.')
     args = parser.parse_args()
 
     print '%s%s\nProject Path => %s%s' % \
         (Fore.BLACK, Back.CYAN, PROJECT_PATH, Style.RESET_ALL)
     print '\n'
-    # assume that we will always re-generate all config files ...
-    configs_info = (SECTION_MAPPING.keys(), CONFIG_FILES.keys())
+
+    print args.config_one
+
+    if not args.config_one:
+        # assume that we will re-generate all config files ...
+        configs_info = (SECTION_MAPPING.keys(), CONFIG_FILES.keys())
+    else:
+
+        section_name, config_group = args.config_one.split(':')
+        configs_info = ([section_name], [config_group])
 
     if args.show:
-        print_configs(configs_info[1])
+        print_configs(configs_info)
     if args.test:
-        print_test(configs_info[1])
+        print_test(configs_info)
+    if args.verify:
+        print_verify()
     # If testing or showing information, exit.
-    if args.test or args.show:
+    if args.test or args.show or args.verify:
         sys.exit(0)
 
     success, exit_code = generate_configs(configs_info, args.dry_run)
@@ -346,7 +485,7 @@ def main():
         if args.dry_run:
             print 'Dry run is complete. No output operations performed.'
 
-        gen_files = [t[1] for t in CONFIG_FILES.itervalues()]
+        gen_files = [CONFIG_FILES[cg][1] for cg in configs_info[1]]
         print passed('Successfully generated configs:\n\t- %s\n' %
             ('\n\t- '.join(gen_files)))
         sys.exit(exit_code)
