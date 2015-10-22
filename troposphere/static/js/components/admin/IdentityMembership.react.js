@@ -14,7 +14,7 @@ define(function (require) {
     },
     
     manageUser: function(){
-        showManageUserModal.showModal();
+        showManageUserModal.showModal(this.props.membership);
         console.log('Disable');
     },
 

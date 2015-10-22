@@ -6,9 +6,10 @@ define(function (require) {
     ManageUserModal = require('components/modals/admin/ManageUserModal.react');
   return {
 
-    showModal: function (handler) {
+    showModal: function (ident_member) {
 
       var props = {
+          ident_member: ident_member,
           header: "Disable User"
       };
 
