@@ -26,7 +26,10 @@
 <body class="tk-myriad-pro splash-screen">
 
     <div class="splash-image">
-      <img src="{{BASE_URL}}/{{ THEME_URL }}/images/login_mainimage.png">
+      <!-- Uncomment when themes are enabled by default.
+        <img src="{{BASE_URL}}/{{ THEME_URL }}/images/login_mainimage.png">
+      -->
+        <img src="{{BASE_URL}}/assets/images/login_mainimage.png">
         <div class="loading"></div>
         <h4>Loading Atmosphere...</h4>
     </div>
@@ -99,9 +102,16 @@
     </script>
 
     <!-- Application dependencies -->
+    {% if public_site %}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
     <script src="{{ BASE_URL }}/assets/app.js"></script>
+    <script src="{{ BASE_URL }}/assets/js/public_site/config.js"></script>
+    <!--<script src="{{ BASE_URL }}/assets/js/public_site/main.js"></script>-->
+    {% else %}
+    <script src="{{ BASE_URL }}/assets/app.js"></script>
+    {% endif %}
 
-    <!-- Google Analtics -->
+    <!-- Google Analytics -->
     <script src="{{ BASE_URL }}/assets/analytics.js"></script>
 </body>
 </html>
