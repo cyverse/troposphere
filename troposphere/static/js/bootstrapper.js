@@ -102,13 +102,20 @@ define(function (require) {
 
   return {
     run: function () {
+      let authHeaders = {
+          "Content-Type": "application/json"
+      }
+
+      // Assure that an auth header is only included when we have
+      // an actually `access_token` to provide.
+      if (window.access_token) {
+        authHeaders["Authorization"] = "Token " + window.access_token;
+      }
+
 
       // Make sure the Authorization header is added to every AJAX request
       $.ajaxSetup({
-        headers: {
-          "Authorization": "Token " + window.access_token,
-          "Content-Type": "application/json"
-        }
+        headers: authHeaders
       });
 
       // We're wrapping Backbone.sync so that we can observe every AJAX request.

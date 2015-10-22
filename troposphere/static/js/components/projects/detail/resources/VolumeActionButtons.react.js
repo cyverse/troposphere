@@ -10,6 +10,7 @@ define(function (require) {
     displayName: "VolumeActionButtons",
 
     propTypes: {
+      multipleSelected: React.PropTypes.bool.isRequired,
       volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
       project: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
@@ -36,7 +37,7 @@ define(function (require) {
         linksArray = [];
 
       // Add in the conditional links based on current machine state
-      if (status === "available") {
+      if (!this.props.multipleSelected && status === "available") {
         linksArray.push(
           <Button
             key="Attach"
@@ -46,7 +47,7 @@ define(function (require) {
             isVisible={true}
             />
         );
-      } else if (status === "in-use") {
+      } else if (!this.props.multipleSelected && status === "in-use") {
         linksArray.push(
           <Button
             key="Detach"
