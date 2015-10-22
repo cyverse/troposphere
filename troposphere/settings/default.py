@@ -112,14 +112,15 @@ API_ROOT    = SERVER_URL + "/api/v1"
 API_V2_ROOT = SERVER_URL + "/api/v2"
 
 # The ROOT PATH for ALL (app + dependencies) static files.
-STATIC_ROOT = os.path.join(BASE_DIR, "assets")
+STATIC_ROOT = os.path.join(BASE_DIR, "static_served")
 # The SERVER PATH for ALL (app + dependencies) static files.
 STATIC_URL = '/assets/'
 
 #STATIC generated files from troposphere to be added to STATIC_ROOT
 #STATICFILES_DIRS should NOT contain the STATIC_ROOT
 STATICFILES_DIRS = (
-        os.path.join(BASE_DIR, 'tropo-static/'),
+        os.path.join(BASE_DIR, 'static/'),
+        os.path.join(BASE_DIR, 'assets/'),
     )
 
 REST_FRAMEWORK = {
