@@ -25,6 +25,33 @@ virtualenv env && source env/bin/activate && \\
 pip install -r dev_requirements.txt
     ''')
 
+try:
+    from colorama import init, Fore, Back, Style
+    init()
+except ImportError:
+    # Mock out ANSI color flags to empty values
+    class ForeMock:
+        def __init__(self):
+            self.RED = ''
+            self.YELLOW = ''
+            self.GREEN = ''
+            self.WHITE = ''
+            self.BLACK = ''
+
+    class BackMock:
+        def __init__(self):
+            self.CYAN = ''
+            self.GREEN = ''
+            self.RED = ''
+
+    class StyleMock:
+        def __init__(self):
+            self.RESET_ALL = ''
+    # Initialize mocks to avoid requiring `colorama`
+    Fore = ForeMock()
+    Back = BackMock()
+    Style = StyleMock()
+
 
 # name of the common variable section, this section is *merged* into
 # all other defined sections within the variables file.
@@ -220,6 +247,8 @@ def generate_configs(mapping, dry_run, backup=True):
     print_messages(messages)
     if not success:
         return (success, 1)
+    else:
+      print '%s%sPASSED%s\n\n' % (Fore.BLACK, Back.GREEN, Style.RESET_ALL)
 
     print 'Generating configs...\n'
     success, messages = _generate_configs(mapping, dry_run, backup)
@@ -278,6 +307,15 @@ def print_test(configs):
         print
 
 
+def passed(text):
+    return '%s%s%s' % (Fore.GREEN, text, Style.RESET_ALL)
+
+
+def failed(text):
+    failed = '%s%sFAILED.%s' % (Fore.BLACK, Back.RED, Style.RESET_ALL)
+    return '%s%s%s\n%s' % (Fore.RED, text, Style.RESET_ALL, failed)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-s', '--show', action='store_true',
@@ -288,8 +326,9 @@ def main():
                         help='Runs generating without writing files.')
     args = parser.parse_args()
 
-    print '\nProject Path => %s\n' % (PROJECT_PATH)
-
+    print '%s%s\nProject Path => %s%s' % \
+        (Fore.BLACK, Back.CYAN, PROJECT_PATH, Style.RESET_ALL)
+    print '\n'
     # assume that we will always re-generate all config files ...
     configs_info = (SECTION_MAPPING.keys(), CONFIG_FILES.keys())
 
@@ -308,10 +347,11 @@ def main():
             print 'Dry run is complete. No output operations performed.'
 
         gen_files = [t[1] for t in CONFIG_FILES.itervalues()]
-        print 'Successfully generated configs:\n\t- %s\n' % ('\n\t- '.join(gen_files))
+        print passed('Successfully generated configs:\n\t- %s\n' %
+            ('\n\t- '.join(gen_files)))
         sys.exit(exit_code)
     else:
-        print 'Configuration files were not generated.\n'
+        print failed('Configuration files were not generated.\n')
         sys.exit(exit_code)
 
 
