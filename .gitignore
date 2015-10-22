@@ -73,6 +73,9 @@ extras/newrelic
 # Emacs
 *~
 
+# generated file backups
+*.bak.[0-9]*_[0-9]*
+
 # generated files
 extras/nginx/Makefile
 extras/nginx/site.conf
