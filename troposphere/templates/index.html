@@ -104,9 +104,9 @@
     <!-- Application dependencies -->
     {% if public_site %}
     <script src="//cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
-    <script src="{{ BASE_URL }}/assets/app.js"></script>
-    <script src="{{ BASE_URL }}/assets/js/public_site/config.js"></script>
-    <!--<script src="{{ BASE_URL }}/assets/js/public_site/main.js"></script>-->
+    <!--TODO: webpack, then uncomment this
+    <script src="{{ BASE_URL }}/assets/js/public_site/app.js"></script>
+    -->
     {% else %}
     <script src="{{ BASE_URL }}/assets/app.js"></script>
     {% endif %}
