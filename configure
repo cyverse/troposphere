@@ -61,6 +61,8 @@ COMMON_KEY = 'COMMON'
 
 # Configuration variables file path is relative to projectpath directory.
 VARIABLES_FILENAME = 'variables.ini'
+# Mapping of configuration sections to configurationg groups and templates
+TMPL_MAPPING_FILENAME = 'variables_templates.json'
 
 # Backup file extension.
 from datetime import datetime
@@ -68,26 +70,42 @@ now_time = datetime.now()
 BACKUP_EXT = '.bak.%s' % now_time.strftime("%Y%m%d_%H%M%S")
 
 # maps the sections within `variable.ini` to the file templates
+#
 # Format:
 # section_name: (semantic_name1, semantic_name2, ...)
-SECTION_MAPPING = {
-    'apache': ('apache',),
-    'local.py': ('local.py',),
-    'nginx': ('nginx', 'nginx-site', 'nginx-tropo')
-}
+#
+# Example:
+#   {
+#      'SECTION_MAPPING': {
+#           'apache': ('apache',),
+#           'local.py': ('local.py',),
+#           'nginx': ('nginx', 'nginx-site', 'nginx-tropo')
+#       }
+#   }
+#
+# Loaded from `variables_templates.json`
+SECTION_MAPPING = {}
 
 # defines configuration file alias mapped to their template & output name
-CONFIG_FILES = {
-    # Format:
-    # semantic_name: (template_location, output_location)
-    'apache': ('extras/apache/tropo.conf.j2', 'extras/apache/tropo.conf'),
-    'local.py': ('troposphere/settings/local.py.j2',
-                 'troposphere/settings/local.py'),
-    'nginx': ('extras/nginx/Makefile.j2', 'extras/nginx/Makefile'),
-    'nginx-site': ('extras/nginx/site.conf.j2',
-                   'extras/nginx/site.conf'),
-    'nginx-tropo': ('extras/nginx/locations/tropo.conf.j2',
-                   'extras/nginx/locations/tropo.conf')}
+#
+# Format:
+# semantic_name: (template_location, output_location)
+#
+# Example:
+#   {
+#       'CONFIG_FILES': {
+#            'apache': ('extras/apache/tropo.conf.j2', 'extras/apache/tropo.conf'),
+#            'local.py': ('troposphere/settings/local.py.j2',
+#                        'troposphere/settings/local.py'),
+#            'nginx': ('extras/nginx/Makefile.j2', 'extras/nginx/Makefile'),
+#            'nginx-site': ('extras/nginx/site.conf.j2',
+#                        'extras/nginx/site.conf'),
+#            'nginx-tropo': ('extras/nginx/locations/tropo.conf.j2',
+#                       'extras/nginx/locations/tropo.conf')
+#        }
+#   }
+# Loaded from `variables_templates.json`
+CONFIG_FILES = {}
 
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 
@@ -97,6 +115,7 @@ ENV = Environment(loader=LOADER,
                   undefined=StrictUndefined)
 
 VARIABLES_PATH = os.path.join(PROJECT_PATH, VARIABLES_FILENAME)
+TMPL_MAPPING_PATH = os.path.join(PROJECT_PATH, TMPL_MAPPING_FILENAME)
 
 
 def generate_new_key():
@@ -106,6 +125,27 @@ def generate_new_key():
         string.digits +
         "!@#$%^&*(-_=+)") for _ in range(50))
     return new_key
+
+
+def _load_template_mapping():
+    global SECTION_MAPPING
+    global CONFIG_FILES
+    import json
+    messages = []
+    with open(TMPL_MAPPING_PATH) as mapping_file:
+        mapping = json.load(mapping_file)
+        if 'SECTION_MAPPING' in mapping:
+            SECTION_MAPPING = mapping['SECTION_MAPPING']
+        else:
+            messages.append(('e', '%s is missing a required section, %s'
+                % (TMPL_MAPPING_FILENAME, 'SECTION_MAPPING')))
+
+        if 'CONFIG_FILES' in mapping:
+            CONFIG_FILES = mapping['CONFIG_FILES']
+        else:
+            messages.append(('e', '%s is missing a required section, %s'
+                % (TMPL_MAPPING_FILENAME, 'CONFIG_FILES')))
+    return (len(messages) == 0, messages)
 
 
 def _coerce(val):
@@ -459,8 +499,9 @@ def main():
         (Fore.BLACK, Back.CYAN, PROJECT_PATH, Style.RESET_ALL)
     print '\n'
 
-    print args.config_one
-
+    success, messages = _load_template_mapping();
+    if not success:
+        print_messages(messages)
     if not args.config_one:
         # assume that we will re-generate all config files ...
         configs_info = (SECTION_MAPPING.keys(), CONFIG_FILES.keys())
