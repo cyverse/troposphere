@@ -27,7 +27,8 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
         'emulated_by': request.session.get('emulated_by'),
         'records': maintenance_records,
         'disable_login': disabled_login,
-        'show_troposphere_only': show_troposphere_only
+        'show_troposphere_only': show_troposphere_only,
+        'public_site': True,
     }
     template_params['SITE_TITLE'] = settings.SITE_TITLE
     template_params['SITE_FOOTER'] = settings.SITE_FOOTER
@@ -87,6 +88,7 @@ def _handle_authenticated_application_request(request, maintenance_records):
         'show_troposphere_only': show_troposphere_only,
         'show_instance_metrics': show_instance_metrics,
         'disable_login': False,
+        'public_site': True,
     }
 
     template_params['SITE_TITLE'] = settings.SITE_TITLE
