@@ -1,9 +1,3 @@
-require(
-  [
-    'public_site/bootstrapper.react'
-  ],
-  function (bootstrapper) {
-    'use strict';
+import bootstrapper from 'public_site/bootstrapper.react';
 
-    bootstrapper.run();
-  });
+bootstrapper.run();
