@@ -99,8 +99,11 @@
     </script>
 
     <!-- Application dependencies -->
+    {% if show_public_site %}
+    <script src="{{ BASE_URL }}/assets/public.js"></script>
+    {% else %}
     <script src="{{ BASE_URL }}/assets/app.js"></script>
-
+    {% endif %}
     <!-- Google Analtics -->
     <script src="{{ BASE_URL }}/assets/analytics.js"></script>
 </body>
