@@ -1,15 +1,15 @@
 "use strict";
 var path = require("path");
 var webpack = require("webpack");
-var Clean = require('clean-webpack-plugin');
+//var Clean = require('clean-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var OUTPUT_PATH = path.join(__dirname, "/troposphere/assets");
 var CONTEXT_PATH = path.join(__dirname, "/troposphere/static/js");
 
 var plugins = [
-    new ExtractTextPlugin("[name].css", { allChunks: true }),
-    new Clean(['.'], OUTPUT_PATH)
+    new ExtractTextPlugin("[name].css", { allChunks: true })
+//    new Clean(['.'], OUTPUT_PATH)
 ];
 
 if (process.env.NODE_ENV === "production") {
