@@ -12,6 +12,7 @@ define(function (require) {
 
     propTypes: {
       isVisible: React.PropTypes.bool.isRequired,
+      multipleSelected: React.PropTypes.bool.isRequired,
       onMoveSelectedResources: React.PropTypes.func.isRequired,
       onDeleteSelectedResources: React.PropTypes.func.isRequired,
       onReportSelectedResources: React.PropTypes.func.isRequired,
@@ -63,6 +64,7 @@ define(function (require) {
           <ResourceActionButtons
             onUnselect={this.props.onUnselect}
             previewedResource={this.props.previewedResource}
+            multipleSelected={this.props.multipleSelected}
             project={this.props.project}
             />
         </div>
