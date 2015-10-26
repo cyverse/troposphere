@@ -30,7 +30,8 @@ module.exports = {
   entry: {
     app: "./main",
     no_user: "./no_user",
-    analytics: "./analytics"
+    analytics: "./analytics",
+    public: "./public_site/main"
   },
   context: CONTEXT_PATH,
   output: {

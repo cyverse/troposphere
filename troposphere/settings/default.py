@@ -34,7 +34,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'rest_framework',
     'iplantauth',
-    'api'
+    'api',
+    'sslserver'
 )
 
 MIDDLEWARE_CLASSES = (
