@@ -7,4 +7,4 @@ pycrypto==2.6.1
 PyJWT==1.4.0
 python-dateutil==2.2
 requests==2.2.1
-django-iplant-auth==0.0.4
+django-iplant-auth==0.0.6
