@@ -127,6 +127,19 @@ def generate_new_key():
     return new_key
 
 
+def _populate_variable_namespace(vars, includes):
+    """
+    Wraps the possible variables for a section in a `sets.Set`.
+
+    This enables set operations like `union` & `difference`.
+    """
+    namespace = {}
+    for section in vars.keys():
+        if section in includes or section == COMMON_KEY:
+            namespace[section] = Set(vars[section])
+    return namespace
+
+
 def _load_template_mapping():
     global SECTION_MAPPING
     global CONFIG_FILES
@@ -188,7 +201,7 @@ def _get_variables(variables_file=VARIABLES_PATH):
 def _compare_variables_distribution():
     variables_ini = _get_variables()[0]
     variables_dist = _get_variables(VARIABLES_PATH+'.dist')[0]
-    unused_dist_ns = _populate_variable_namespace(variables_dist)
+    unused_dist_ns = _populate_variable_namespace(variables_dist, SECTION_MAPPING.keys())
 
     for section in variables_ini.keys():
         d = Set(variables_dist[section])
@@ -226,19 +239,6 @@ def _get_filtered_config_files(mapping):
         return (c_files, [])
     else:
         return (CONFIG_FILES.values(), [])
-
-
-def _populate_variable_namespace(vars, includes):
-    """
-    Wraps the possible variables for a section in a `sets.Set`.
-
-    This enables set operations like `union` & `difference`.
-    """
-    namespace = {}
-    for section in vars.keys():
-        if section in includes or section == COMMON_KEY:
-            namespace[section] = Set(vars[section])
-    return namespace
 
 
 def _handle_preconditions(mapping):
