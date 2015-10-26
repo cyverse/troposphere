@@ -276,12 +276,18 @@ define(function (require) {
                             </div>
                         </div>
                         {this.renderAdvancedOptions()}
-                        <div className="form-group modal-section">
+                        <div className="modal-section">
                             <h4>Projected Resource Usage</h4>
-                            {this.renderCpuConsumption(identity, size, sizes, instances)}
-                            {this.renderMemoryConsumption(identity, size, sizes, instances)}
+                            <div className="form-group">
+                                {this.renderCpuConsumption(identity, size, sizes, instances)}
+                                {this.renderMemoryConsumption(identity, size, sizes, instances)}
+                            </div>
+                        </div>
+                        <div className="modal-section">
                             <h4>Current Allocation Usage</h4>
-                            {this.renderAllocationConsumption(identity)}
+                            <div className="form-group">
+                                {this.renderAllocationConsumption(identity)}
+                            </div>
                         </div>
                         <a href="#" onClick={this.props.onRequestResources}>Need more resources?</a>
                     </div>
