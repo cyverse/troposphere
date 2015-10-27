@@ -29,10 +29,10 @@ $(DHPARAM):
 setup: setup-site setup-tropo
 
 setup-site:
-	$(VIRTUALENV_PATH)/bin/python $(TROPOSPHERE_PATH)/scripts/generate_configs.py -c nginx-site
+	$(VIRTUALENV_PATH)/bin/python $(TROPOSPHERE_PATH)/configure -c nginx:nginx-site
 
 setup-tropo:
-	$(VIRTUALENV_PATH)/bin/python $(TROPOSPHERE_PATH)/scripts/generate_configs.py -c nginx-tropo
+	$(VIRTUALENV_PATH)/bin/python $(TROPOSPHERE_PATH)/configure -c nginx:nginx-tropo
 
 $(COMBINED_CERT_PATH):
 	cat $(CERT_PATH) $(BUNDLE_PATH) > $(COMBINED_CERT_PATH)
