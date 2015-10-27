@@ -33,6 +33,7 @@ Atmo.Views.FeedbackLink = Backbone.View.extend({
         var data = {
             'user-interface': 'airport',
             'location': window.location.href,
+            'message': $('#feedback').val(),
             'resolution': {
                 'viewport': {
                     'width': $(window).width(),
@@ -45,43 +46,11 @@ Atmo.Views.FeedbackLink = Backbone.View.extend({
             }
         };
 
-        data["message"] = $('#feedback').val();
-
-        // Create a list of user's instances and volumes to make support easier
-        var username = Atmo.profile.get('id');
-        data["message"] += '\nUsername: ' + username +
-                           '\n---\n\n' + 
-                           'Provider: ' + Atmo.profile.get('selected_identity').get('provider_id') + '\n\n' +
-                           '\n\n' + username + "'s Instances:" +
-                           '\n---\n';
-
-        for (var i = 0; i < Atmo.instances.length; i++) {
-            var instance = Atmo.instances.models[i];
-            data["message"] += '\nName:\n\t' + instance.get('image_name') + 
-                               '\nID:\n\t' + instance.get('id') + 
-                               '\nImage:\n\t' + instance.get('image_id') + 
-                               '\nIP Address:\n\t' + instance.get('public_dns_name') + '\n';
-        }
-        data["message"] += '\n\n' + username + "'s Volumes:" +
-                           '\n---\n';
-
-        if (Atmo.volumes.length > 0) {
-            for (var i = 0; i < Atmo.volumes.length; i++) {
-                var volume = Atmo.volumes.models[i];
-                data["message"] += '\nID:\n\t' + volume.get('id') + '\nName:\n\t' + volume.get('name');
-            }
-            data["message"] += '\n\n';
-        }
-
-        var self = this;
-
         if ($('#feedback').val().length > 0) {
 
             $('#submit_feedback').html('<img src="'+site_root+'/assets/resources/images/loader.gif" /> Sending...').attr('disabled', 'disabled');
-            glob = data;
-            console.log("data",data);
 
-            $.ajax(Atmo.API_ROOT + '/email/feedback', {
+            $.ajax(Atmo.API_V2_ROOT + '/email/feedback', {
                 type: 'POST',
                 data: JSON.stringify(data),
                 dataType: 'json',

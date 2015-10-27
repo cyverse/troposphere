@@ -13,12 +13,7 @@ define(function (require) {
         confirmButtonMessage: "Send feedback"
       };
 
-      ModalHelpers.renderModal(FeedbackModal, props, function (feedback) {
-
-        actions.HelpActions.sendFeedback({
-          feedback: feedback
-        });
-      });
+      ModalHelpers.renderModal(FeedbackModal, props, actions.HelpActions.sendFeedback);
     }
 
   };
