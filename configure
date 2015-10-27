@@ -208,8 +208,8 @@ def _get_variables(variables_file=VARIABLES_PATH):
         return (variables, [])
     except Exception as e:
         return (False,
-                ['Unable to get or parse '
-                 'variables from %s' % (variables_file)])
+                [('e', 'Unable to get or parse '
+                 'variables from %s' % (variables_file))])
 
 
 def _compare_variables_distribution():
@@ -220,7 +220,22 @@ def _compare_variables_distribution():
     if variables_ini and variables_dist:
         messages = []
 
-    return unused_dist_ns
+        unused_dist_ns = _populate_variable_namespace(variables_dist,
+            SECTION_MAPPING.keys())
+
+        for section in variables_ini.keys():
+            try:
+                d = Set(variables_dist[section])
+                i = Set(variables_ini[section])
+                unused_dist_ns[section] = d.difference(i)
+            except KeyError as e:
+                messages.append(('e',
+                    'Missing shared variables section, [%s].'
+                    % (e.message)))
+
+        return (unused_dist_ns, messages)
+    else:
+        return (False, msg_var_ini + msg_var_dist)
 
 
 def _verify_variables_file():
@@ -482,7 +497,11 @@ def print_verify():
         print passed('Verification complete.')
     else:
         print_messages(messages)
-        print warnings()
+        errors = [e for e, _ in messages if e == 'e']
+        if errors:
+            print failed('')
+        else:
+            print warnings()
 
 
 def completed():
