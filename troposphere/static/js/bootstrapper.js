@@ -9,6 +9,8 @@ define(function (require) {
     MaintenanceScreen = require('components/MaintenanceScreen.react'),
     modernizr = require('lib/modernizr-latest.js');
 
+  var favicon = require("images/favicon.ico");
+
   // Disconnect all Backbone Events from Models and Collections
   Object.keys(Backbone.Events).forEach(function (functionName) {
     Backbone.Model.prototype[functionName] = function () {
