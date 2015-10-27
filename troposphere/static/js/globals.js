@@ -10,7 +10,7 @@ define(function (require) {
         API_V2_MOCK_ROOT: window.API_V2_MOCK_ROOT,
         SITE_TITLE: window.SITE_TITLE || 'Atmosphere',
         SITE_FOOTER: window.SITE_FOOTER || 'iPlant Collaborative',
-        UI_VERSION: window.UI_VERSION || 'Hawaiian Hawk',
+        UI_VERSION: window.UI_VERSION || 'Unknown Unicolored-Jay',
         TZ_REGION: tz_region,
         BADGE_HOST: window.BADGE_HOST,
         BADGES_ENABLED: window.BADGES_ENABLED || false
