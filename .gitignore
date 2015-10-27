@@ -64,9 +64,6 @@ variables.ini
 # JetBrains IDEs
 .idea
 
-# Bower JavaScript components
-troposphere/static/bower_components
-
 # Include the lib folder for 3rd party files that need to be commited to git
 !troposphere/static/js/lib
 
@@ -76,7 +73,11 @@ extras/newrelic
 # Emacs
 *~
 
+# generated file backups
+*.bak.[0-9]*_[0-9]*
+
 # generated files
 extras/nginx/Makefile
 extras/nginx/site.conf
 extras/nginx/locations/tropo.conf
+extras/apache/tropo.conf
