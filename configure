@@ -30,6 +30,12 @@ try:
     from colorama import init, Fore, Back, Style
     init()
 except ImportError:
+    print '''
+Note: you are missing out on color highlighted output.
+Consider re-running the following to get `colorama` installed:
+
+pip install -r dev_requirements.txt
+'''
     # Mock out ANSI color flags to empty values
     class ForeMock:
         def __init__(self):
