@@ -140,6 +140,20 @@ def _populate_variable_namespace(vars, includes):
     return namespace
 
 
+def _check_paths():
+    messages = []
+    success = True
+    if not os.path.exists(VARIABLES_PATH):
+        success = False
+        messages.append(('e',
+            '%s is missing, cannot continue...' % (VARIABLES_FILENAME)))
+    if not os.path.exists(TMPL_MAPPING_PATH):
+        success = False
+        messages.append(('e',
+            '%s is missing, cannot continue ...' % (TMPL_MAPPING_FILENAME)))
+    return (success, messages)
+
+
 def _load_template_mapping():
     global SECTION_MAPPING
     global CONFIG_FILES
@@ -199,24 +213,27 @@ def _get_variables(variables_file=VARIABLES_PATH):
 
 
 def _compare_variables_distribution():
-    variables_ini = _get_variables()[0]
-    variables_dist = _get_variables(VARIABLES_PATH+'.dist')[0]
-    unused_dist_ns = _populate_variable_namespace(variables_dist, SECTION_MAPPING.keys())
+    variables_ini, msg_var_ini = _get_variables()
+    variables_dist, msg_var_dist = _get_variables(VARIABLES_PATH+'.dist')
 
-    for section in variables_ini.keys():
-        d = Set(variables_dist[section])
-        i = Set(variables_ini[section])
-        unused_dist_ns[section] = d.difference(i)
+
+    if variables_ini and variables_dist:
+        messages = []
 
     return unused_dist_ns
 
 
 def _verify_variables_file():
     messages = []
-    for key, val in _compare_variables_distribution().iteritems():
-        if len(val) != 0:
-            messages.append(('w', 'Section %s has unused variables:\n\t- %s\n'
-                % (key, '\n\t- '.join(val))))
+    vars, messages = _compare_variables_distribution()
+    if vars:
+        for key, val in vars.iteritems():
+
+            if len(val) != 0:
+                messages.append(('w',
+                    'Section %s has unused variables:\n\t- %s\n'
+                    % (key, '\n\t- '.join(val))))
+
     return (len(messages) == 0, messages)
 
 
@@ -250,6 +267,9 @@ def _handle_preconditions(mapping):
         return (False, messages)
     variables, messages = _get_variables()
     if not variables:
+        return (False, messages)
+    if not (COMMON_KEY in variables.keys()):
+        messages.append(('e', 'Missing shared variables section, [COMMON].'))
         return (False, messages)
 
     unused_vars = _populate_variable_namespace(variables, mapping[0])
@@ -361,6 +381,10 @@ def generate_configs(mapping, dry_run, backup=True):
      ...
     """
     print 'Testing for preconditions...\n'
+    success, messages = _check_paths()
+    if not success:
+        return (success, 3)
+
     success, messages = _handle_preconditions(mapping)
     print_messages(messages)
     if not success:
@@ -376,6 +400,7 @@ def generate_configs(mapping, dry_run, backup=True):
 
     return (success, 0)
 
+
 def _determine_message(t):
     level = ''
     if t == 'i':
@@ -385,6 +410,7 @@ def _determine_message(t):
     elif t == 'w':
         level = Fore.YELLOW
     return level
+
 
 def print_messages(messages):
     for t, m in messages:
