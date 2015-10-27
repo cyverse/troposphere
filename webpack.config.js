@@ -51,7 +51,7 @@ module.exports = {
       { test: /\.ttf$/  , loader: "file?mimetype=application/vnd.ms-fontobject" },
       { test: /\.eot$/  , loader: "file?mimetype=application/x-font-ttf" },
       { test: /\.svg$/  , loader: "file?mimetype=image/svg+xml" },
-      { test: /\.(jpe?g|png|gif)$/, loader: "file?name=images/[name].[ext]" }
+      { test: /\.(jpe?g|png|gif|ico)$/, loader: "file?name=images/[name].[ext]" }
     ]
   },
 
