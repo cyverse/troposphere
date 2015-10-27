@@ -42,6 +42,7 @@ define(function (require) {
   stores.IdentityStore = require('stores/IdentityStore');
   stores.ImageBookmarkStore = require('stores/ImageBookmarkStore');
   stores.InstanceHistoryStore = require('stores/InstanceHistoryStore');
+  stores.ImageRequestStore = require('stores/ImageRequestStore');
   stores.InstanceStore = require('stores/InstanceStore');
   stores.InstanceTagStore = require('stores/InstanceTagStore');
   stores.LicenseStore = require('stores/LicenseStore');
@@ -56,7 +57,7 @@ define(function (require) {
   stores.ProviderMachineStore = require('stores/ProviderMachineStore');
   stores.ProviderStore = require('stores/ProviderStore');
   stores.ResourceRequestStore = require('stores/ResourceRequestStore');
-  stores.QuotaStatusStore = require('stores/QuotaStatusStore');
+  stores.StatusStore = require('stores/StatusStore');
   stores.QuotaStore = require('stores/QuotaStore');
   stores.SizeStore = require('stores/SizeStore');
   stores.TagStore = require('stores/TagStore');
@@ -101,13 +102,20 @@ define(function (require) {
 
   return {
     run: function () {
+      let authHeaders = {
+          "Content-Type": "application/json"
+      }
+
+      // Assure that an auth header is only included when we have
+      // an actually `access_token` to provide.
+      if (window.access_token) {
+        authHeaders["Authorization"] = "Token " + window.access_token;
+      }
+
 
       // Make sure the Authorization header is added to every AJAX request
       $.ajaxSetup({
-        headers: {
-          "Authorization": "Token " + window.access_token,
-          "Content-Type": "application/json"
-        }
+        headers: authHeaders
       });
 
       // We're wrapping Backbone.sync so that we can observe every AJAX request.

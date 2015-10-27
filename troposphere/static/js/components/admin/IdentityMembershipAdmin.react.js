@@ -5,7 +5,7 @@ define(function (require) {
     Router = require('react-router'),
     stores = require('stores'),
     actions = require('actions'),
-    ResourceActions = require('actions/ResourceActions');
+    IdentityMembershipActions = require('actions/IdentityMembershipActions');
 
   return React.createClass({
 
@@ -13,60 +13,18 @@ define(function (require) {
 
     getInitialState: function () {
       return {
-        response: ""
       };
     },
-
-    handleResponseChange: function (event) {
-      var response = event.target.value;
-      if (response) this.setState({response: response});
-    },
-
-    handleQuotaChange: function (event) {
-      var quota = event.target.value;
-      if (quota) this.setState({quota: quota});
-    },
-
-    handleAllocationChange: function (event) {
-      var allocation = event.target.value;
-      if (allocation) this.setState({allocation: allocation});
-    },
-
-    handleResponseSubmission: function (e) {
-      e.preventDefault();
-      var resourceRequest = stores.ResourceRequestStore.get(this.getParams().resourceRequestId),
-        quotaToSend = resourceRequest.get('current_quota'),
-        allocationToSend = resourceRequest.get('current_allocation'),
-        status = stores.StatusStore.findOne({name: "rejected"});
-
-      if (e.target.innerHTML === 'Approve') {
-        quotaToSend = parseInt(this.state.quota) || parseInt(resourceRequest.get('current_quota'));
-        allocationToSend = parseInt(this.state.allocation) || parseInt(resourceRequest.get('current_allocation'));
-        status = stores.StatusStore.findOne({name: "approved"});
-      }
-
-      ResourceActions.update({
-        request: resourceRequest,
-        response: this.state.response,
-        quota: quotaToSend,
-        allocation: allocationToSend,
-        status: status.id
-      });
-    },
-
     render: function () {
 
-      var quotas = stores.QuotaStore.getAll();
-      var allocations = stores.AllocationStore.getAll();
-      var statuses = stores.StatusStore.getAll();
-      var resourceRequest = stores.ResourceRequestStore.get(this.getParams().resourceRequestId);
+      var identityMembership = stores.IdentityMembershipStore.get(this.getParams().identityMembershipId);
 
-      if (!resourceRequest || !quotas || !allocations || !statuses) return <div className="loading"/>;
+      if (!identityMembership || !quotas || !allocations || !statuses) return <div className="loading"/>;
 
-      if (resourceRequest.get('current_quota') && resourceRequest.get('current_allocation')) {
+      if (identityMembership.get('current_quota') && identityMembership.get('current_allocation')) {
 
-        var currentQuota = stores.QuotaStore.get(resourceRequest.get('current_quota')),
-          currentAllocation = stores.AllocationStore.get(resourceRequest.get('current_allocation'));
+        var currentQuota = stores.QuotaStore.get(identityMembership.get('current_quota')),
+          currentAllocation = stores.AllocationStore.get(identityMembership.get('current_allocation'));
 
         if (!currentQuota || !currentAllocation) return <div className="loading"/>;
 
@@ -90,11 +48,11 @@ define(function (require) {
 
       return (
         <div className="admin-detail">
-          <div><strong>User:</strong> {resourceRequest.get('user').username}</div>
-          <div><strong>Created by:</strong> {resourceRequest.get('created_by').username}</div>
-          <div><strong>Admin message:</strong> {resourceRequest.get('admin_message')}</div>
-          <div><strong>Request:</strong> {resourceRequest.get('request')}</div>
-          <div><strong>Description:</strong> {resourceRequest.get('description')}</div>
+          <div><strong>User:</strong> {identityMembership.get('user').username}</div>
+          <div><strong>Created by:</strong> {identityMembership.get('created_by').username}</div>
+          <div><strong>Admin message:</strong> {identityMembership.get('admin_message')}</div>
+          <div><strong>Request:</strong> {identityMembership.get('request')}</div>
+          <div><strong>Description:</strong> {identityMembership.get('description')}</div>
           <div><strong>Current quota:</strong>{currentQuotaString}</div>
           <div><strong>Current allocation:</strong>{currentAllocationString}</div>
           <div>

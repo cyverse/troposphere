@@ -26,15 +26,32 @@ define(function (require) {
     getVolumesAttachedToInstance: function (instance) {
       if (!this.models) return this.fetchModels();
 
-      var attachedVolumes = [];
+      var attachedVolumes = [],
+          uuid = instance.get('uuid');
+
       this.models.each(function (volume) {
         var attachData = volume.get('attach_data');
-        if (attachData.instance_id && attachData.instance_id === instance.id) {
+        if (attachData.instance_id && attachData.instance_id === uuid) {
           attachedVolumes.push(volume);
         }
       });
       return attachedVolumes;
     },
+
+// Makes a clean list of attached resources from volume information for easy reference
+    getAttachedResources: function () {
+        if (!this.models) return this.fetchModels();
+        var attachedResources = [];
+        this.models.each(function (volume) {
+            var attachData = volume.get('attach_data');
+            if (attachData && attachData.instance_id) {
+                attachedResources.push(volume.get('uuid'));
+                attachedResources.push(attachData.instance_id);
+            }
+        });
+        return attachedResources;
+    },
+
 
     getVolumesNotInAProject: function () {
       if (!this.models) return this.fetchModels();

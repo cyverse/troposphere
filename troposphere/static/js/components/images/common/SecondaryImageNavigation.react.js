@@ -1,11 +1,13 @@
 define(function (require) {
 
   var React = require('react/addons'),
+    stores = require('stores'),
     Router = require('react-router'),
     Glyphicon = require('components/common/Glyphicon.react'),
     context = require('context');
 
   return React.createClass({
+    displayName: "SecondaryImageNavigation",
 
     renderRoute: function (name, linksTo, icon, requiresLogin) {
       if (requiresLogin && !context.profile) return null;
@@ -21,14 +23,29 @@ define(function (require) {
     },
 
     render: function () {
+      var profile = stores.ProfileStore.get(),
+          allImages = stores.ImageStore.getAll(),
+          images = stores.ImageStore.fetchWhere({
+            created_by__username: profile.get('username')
+          }) || [], 
+          favoritedImages = stores.ImageBookmarkStore.getBookmarkedImages() || [];
+
+      if(!images || !favoritedImages){
+        return <div className="loading"></div>
+      }
+
+      var myImagesText = "My Images (" + images.length + ")";
+      var myFavoritedImagesText = "Favorites (" + favoritedImages.length + ")";
+
       return (
         <div>
           <div className="secondary-nav">
             <div className="container">
               <ul className="secondary-nav-links">
                 {this.renderRoute("Search", "search", "search", false)}
-                {this.renderRoute("Favorites", "favorites", "bookmark", true)}
-                {this.renderRoute("My Images", "authored", "user", true)}
+                {this.renderRoute(myFavoritedImagesText, "favorites", "bookmark", true)}
+                {this.renderRoute(myImagesText, "authored", "user", true)}
+                {this.renderRoute("My Image Requests", "my-image-requests", "export", true)}
                 {this.renderRoute("Tags", "tags", "tags", false)}
               </ul>
             </div>
