@@ -7,6 +7,8 @@ define(
   function (React, Backbone, Showdown) {
 
     return React.createClass({
+      displayName: "EditDescriptionView",
+
       getDefaultProps: function() {
         return {
           title: "Description",
@@ -33,4 +35,4 @@ define(
 
     });
 
-  });
+});

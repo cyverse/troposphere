@@ -9,6 +9,7 @@ define(function (require) {
   var maxDescriptionLength = 200;
 
   return React.createClass({
+    displayName: "ImageCardDescription",
 
     propTypes: {
       image: React.PropTypes.instanceOf(Backbone.Model).isRequired

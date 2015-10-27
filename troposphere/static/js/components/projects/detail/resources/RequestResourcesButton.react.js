@@ -5,11 +5,13 @@ define(function (require) {
       Backbone = require('backbone'),
       stores = require('stores'),
       actions = require('actions'),
-      modals = require('modals'), 
+      modals = require('modals'),
   // plugin: jquery extension, not used directly
       bootstrap = require('bootstrap');
 
   return React.createClass({
+    displayName: "RequestResourcesButton",
+
     componentDidMount: function () {
       this.generateTooltip();
     },
@@ -30,7 +32,7 @@ define(function (require) {
       $(this.getDOMNode()).tooltip('hide');
     },
 
-    handleClick: function () { 
+    handleClick: function () {
       modals.HelpModals.requestMoreResources();
       // Fixes a bug in FireFox where the tooltip doesn't go away when button is clicked
       this.hideTooltip();

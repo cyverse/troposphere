@@ -9,6 +9,7 @@ define(function (require) {
     Identity = require('../details/sections/details/Identity.react');
 
   return React.createClass({
+    displayName: "VolumePreviewView",
 
     propTypes: {
       volume: React.PropTypes.instanceOf(Backbone.Model).isRequired

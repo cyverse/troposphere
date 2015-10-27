@@ -18,6 +18,7 @@ define(
   function (React, Backbone, ResourceDetail, Id, Alias, Status, Size, IpAddress, LaunchDate, CreatedFrom, Identity) {
 
     return React.createClass({
+      displayName: "InstanceDetailsSection",
 
       propTypes: {
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired

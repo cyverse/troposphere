@@ -9,6 +9,7 @@ define(
   function (React, Backbone, ResourceDetail, Time) {
 
     return React.createClass({
+      displayName: "LaunchDate",
 
       propTypes: {
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired

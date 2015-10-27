@@ -6,6 +6,7 @@ define(function(require) {
     stores = require('stores');
 
   return React.createClass({
+    displayName: "MyImagesPage",
 
     renderBody: function() {
       var profile = stores.ProfileStore.get(),

@@ -1,10 +1,15 @@
 "use strict";
 var path = require("path");
 var webpack = require("webpack");
+//var Clean = require('clean-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+var OUTPUT_PATH = path.join(__dirname, "/troposphere/assets");
+var CONTEXT_PATH = path.join(__dirname, "/troposphere/static/js");
 
 var plugins = [
     new ExtractTextPlugin("[name].css", { allChunks: true })
+//    new Clean(['.'], OUTPUT_PATH)
 ];
 
 if (process.env.NODE_ENV === "production") {
@@ -20,15 +25,17 @@ if (process.env.NODE_ENV === "production") {
     })
   );
 }
+
 module.exports = {
   entry: {
     app: "./main",
     no_user: "./no_user",
-    analytics: "./analytics"
+    analytics: "./analytics",
+    public: "./public_site/main"
   },
-  context: path.join(__dirname, "/troposphere/static/js"),
+  context: CONTEXT_PATH,
   output: {
-    path: path.join(__dirname, "/troposphere/assets"),
+    path: OUTPUT_PATH,
     publicPath: "/assets/",
     filename: "[name].js"
   },
@@ -54,10 +61,10 @@ module.exports = {
       bootstrap: "bootstrap-sass",
       css: path.join(__dirname, "/troposphere/static/css/"),
       images: path.join(__dirname, "/troposphere/static/images/"),
-      highcharts: "highcharts-commonjs" 
+      highcharts: "highcharts-commonjs"
     },
     root: [
-      path.join(__dirname, "/troposphere/static/js"),
+      CONTEXT_PATH,
     ],
     extensions: ["", ".js", ".scss", ".sass"]
   }

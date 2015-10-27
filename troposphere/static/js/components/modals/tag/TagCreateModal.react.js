@@ -39,6 +39,8 @@ define(
     }
 
     return React.createClass({
+      displayName: "TagCreateModal",
+
       mixins: [BootstrapModalMixin],
 
       propTypes: {

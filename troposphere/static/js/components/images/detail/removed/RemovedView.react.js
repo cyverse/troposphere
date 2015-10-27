@@ -7,6 +7,7 @@ define(function (require) {
     momentTZ = require('moment-timezone');
 
   return React.createClass({
+    displayName: "RemovedView",
 
     propTypes: {
       image: React.PropTypes.instanceOf(Backbone.Model).isRequired

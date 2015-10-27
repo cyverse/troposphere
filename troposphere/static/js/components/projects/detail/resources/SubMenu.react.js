@@ -8,6 +8,7 @@ define(
   function (React, Backbone, modals) {
 
     return React.createClass({
+      displayName: "SubMenu",
 
       propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired

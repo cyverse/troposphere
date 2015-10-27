@@ -26,6 +26,7 @@ define(function (require) {
   // ];
 
   return React.createClass({
+    displayName: "VolumeDetailsView",
 
     propTypes: {
       project: React.PropTypes.instanceOf(Backbone.Model).isRequired,

@@ -5,6 +5,7 @@ define(function (require) {
     ResourceDetail = require('components/projects/common/ResourceDetail.react');
 
   return React.createClass({
+    displayName: "Size",
 
     propTypes: {
       volume: React.PropTypes.instanceOf(Backbone.Model).isRequired

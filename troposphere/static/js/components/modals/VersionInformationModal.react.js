@@ -7,6 +7,8 @@ define(function (require) {
     globals = require('globals');
 
   return React.createClass({
+    displayName: "VersionInformationModal",
+
     mixins: [BootstrapModalMixin],
 
     //

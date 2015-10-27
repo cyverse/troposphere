@@ -9,6 +9,7 @@ define(function (require) {
     ResourceActionButtons = require('./ResourceActionButtons.react');
 
   return React.createClass({
+    displayName: "ButtonBar",
 
     propTypes: {
       isVisible: React.PropTypes.bool.isRequired,

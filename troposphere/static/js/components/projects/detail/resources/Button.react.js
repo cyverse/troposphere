@@ -6,6 +6,7 @@ define(function (require) {
     bootstrap = require('bootstrap');
 
   return React.createClass({
+    displayName: "Button",
 
     propTypes: {
       isVisible: React.PropTypes.bool.isRequired,

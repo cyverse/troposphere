@@ -6,6 +6,7 @@ define(function (require) {
     stores = require('stores');
 
   return React.createClass({
+    displayName: "TagsView",
 
     propTypes: {
       image: React.PropTypes.instanceOf(Backbone.Model).isRequired,
