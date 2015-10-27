@@ -471,6 +471,7 @@ def print_test(mapping):
     the error(s).
     """
     print 'Testing for preconditions...\n'
+    messages = []
 
     c_files, messages = _get_filtered_config_files(mapping)
     if not c_files:
@@ -485,10 +486,15 @@ def print_test(mapping):
             success, messages = _handle_preconditions(m)
             if success:
                 print '\t%s (file: %s) looks good.' % (name, CONFIG_FILES[name][1])
-            else:
-                print_messages(messages)
         print
-    print completed()
+
+    print_messages(messages)
+    if _has_errors(messages):
+        print failed('')
+    if _has_warnings(messages):
+        print warnings()
+    if not (_has_errors(messages) or _has_warnings(messages)):
+        print completed()
 
 
 def print_verify():
@@ -508,6 +514,18 @@ def print_verify():
             print failed('')
         else:
             print warnings()
+
+
+def _has_errors(messages):
+    return len(_scan_messages(messages, 'e')) != 0
+
+
+def _has_warnings(messages):
+    return len(_scan_messages(messages, 'w')) != 0
+
+
+def _scan_messages(messages, output_code):
+    return [c for c, _ in messages if c == output_code]
 
 
 def completed():
