@@ -9,6 +9,7 @@
     <!--CSS-->
     <link rel="shortcut icon" href="{{ BASE_URL }}/assets/images/favicon.ico" />
     <link rel="stylesheet" href="{{ BASE_URL }}/assets/app.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{ THEME_URL }}/theme.css" rel="stylesheet" type="text/css">
     <!--
     <link rel="stylesheet" href="{{ BASE_URL }}/{{ THEME_URL }}/theme.css" rel="stylesheet" type="text/css">
     -->
@@ -51,6 +52,8 @@
         {% endif %}
 
         var BASE_URL = "{{ BASE_URL }}";
+
+        var THEME_URL = "{{ THEME_URL }}";
 
         {% if API_ROOT %}
             var API_ROOT = "{{ API_ROOT }}";
