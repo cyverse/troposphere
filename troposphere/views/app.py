@@ -37,7 +37,7 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
 
     #TODO: Replace this line when theme support is re-enabled.
     #template_params["THEME_URL"] = "assets/"
-    template_params["THEME_URL"] = "themes/%s" % settings.THEME_NAME
+    template_params["THEME_URL"] = "/themes/%s" % settings.THEME_NAME
 
     if hasattr(settings, "BASE_URL"):
         template_params['BASE_URL'] = settings.BASE_URL
@@ -103,7 +103,7 @@ def _handle_authenticated_application_request(request, maintenance_records):
 
     #TODO: Replace this line when theme support is re-enabled.
     #template_params["THEME_URL"] = "assets"
-    template_params["THEME_URL"] = "themes/%s" % settings.THEME_NAME
+    template_params["THEME_URL"] = "/themes/%s" % settings.THEME_NAME
     if hasattr(settings, "BASE_URL"):
         template_params['BASE_URL'] = settings.BASE_URL
 
