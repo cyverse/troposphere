@@ -1,14 +1,11 @@
-define(function (require) {
-  "use strict";
+import actions from 'actions';
+import stores from 'stores';
+import ModalHelpers from 'components/modals/ModalHelpers';
+import InstanceDeleteModal from 'components/modals/instance/InstanceDeleteModal.react';
+import ExplainInstanceDeleteConditionsModal from 'components/modals/instance/ExplainInstanceDeleteConditionsModal.react';
+import Router from 'Router';
 
-  var actions = require('actions'),
-    stores = require('stores'),
-    ModalHelpers = require('components/modals/ModalHelpers'),
-    InstanceDeleteModal = require('components/modals/instance/InstanceDeleteModal.react'),
-    ExplainInstanceDeleteConditionsModal = require('components/modals/instance/ExplainInstanceDeleteConditionsModal.react'),
-    Router = require('Router');
-
-  return {
+export default {
 
     destroy: function (payload, options) {
       if (!payload.project) throw new Error("Missing project");
@@ -44,6 +41,4 @@ define(function (require) {
       actions.InstanceActions.destroy(payload, options);
     }
 
-  };
-
-});
+};

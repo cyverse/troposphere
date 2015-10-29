@@ -1,14 +1,10 @@
-define(function (require) {
-  "use strict";
+import React from 'react/addons';
+import actions from 'actions';
+import stores from 'stores';
+import ModalHelpers from 'components/modals/ModalHelpers';
+import InstanceLaunchWizardModal from 'components/modals/instance/InstanceLaunchWizardModal.react';
 
-  var React = require('react/addons'),
-    actions = require('actions'),
-    stores = require('stores'),
-    ModalHelpers = require('components/modals/ModalHelpers'),
-    InstanceLaunchWizardModal = require('components/modals/instance/InstanceLaunchWizardModal.react');
-
-  return {
-
+export default {
     createAndAddToProject: function (options) {
       if (!options.project) throw new Error("Missing project");
 
@@ -33,7 +29,4 @@ define(function (require) {
         });
       });
     }
-
-  };
-
-});
+};

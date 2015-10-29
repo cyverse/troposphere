@@ -1,22 +1,18 @@
-define(function (require) {
-  "use strict";
+import ModalHelpers from 'components/modals/ModalHelpers';
+import VolumeAttachModal from 'components/modals/volume/VolumeAttachModal.react';
+import actions from 'actions';
 
-  var ModalHelpers = require('components/modals/ModalHelpers'),
-    VolumeAttachModal = require('components/modals/volume/VolumeAttachModal.react'),
-    actions = require('actions');
-
-  return {
-
+export default {
     attach: function(volume, project) {
       ModalHelpers.renderModal(
           // Modal to create
-          VolumeAttachModal, 
+          VolumeAttachModal,
 
           // Modal properties
           {
               volume: volume,
               project: project
-          }, 
+          },
 
           // This callback is the action fired in the modal
           function (instance, mountLocation) {
@@ -29,7 +25,4 @@ define(function (require) {
           }
       )
     }
-
-  };
-
-});
+};

@@ -1,16 +1,14 @@
-define(function (require) {
+import Utils from './Utils';
+import $ from 'jquery';
+import Router from '../Router';
+import stores from 'stores';
+import globals from 'globals';
+import Badge from 'models/Badge';
+import BadgeConstants from 'constants/BadgeConstants';
+import Badges from "Badges";
+import NotificationController from 'controllers/NotificationController';
 
-  var Utils = require('./Utils'),
-      $ = require('jquery'),
-      Router = require('../Router'),
-      stores = require('stores'),
-      globals = require('globals'),
-      Badge = require('models/Badge'),
-      BadgeConstants = require('constants/BadgeConstants'),
-      Badges = require("Badges"),
-      NotificationController = require('controllers/NotificationController');
-
-  return {
+export default {
 
     checkInstanceBadges: function(){
       var instanceCount = stores.InstanceHistoryStore.getAll().meta.count;
@@ -26,7 +24,7 @@ define(function (require) {
     checkBookmarkBadges: function(){
       var favoritedImageCount = stores.ImageBookmarkStore.getAll().meta.count;
       if(favoritedImageCount >= 1){
-        this.checkOrGrant(Badges.FAVORITE_1_IMAGE_BADGE); 
+        this.checkOrGrant(Badges.FAVORITE_1_IMAGE_BADGE);
       }
       if(favoritedImageCount >= 5){
         this.checkOrGrant(Badges.FAVORITE_5_IMAGES_BADGE);
@@ -93,5 +91,3 @@ define(function (require) {
 
 
   };
-
-});

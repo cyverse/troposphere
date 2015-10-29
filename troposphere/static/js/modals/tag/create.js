@@ -1,12 +1,8 @@
-define(function (require) {
-  'use strict';
+import actions from 'actions';
+import ModalHelpers from 'components/modals/ModalHelpers';
+import TagCreateModal from 'components/modals/tag/TagCreateModal.react';
 
-  var actions = require('actions'),
-    ModalHelpers = require('components/modals/ModalHelpers'),
-    TagCreateModal = require('components/modals/tag/TagCreateModal.react');
-
-  return {
-
+export default {
     create: function (initialTagName) {
       var props = {
         initialTagName: initialTagName
@@ -19,7 +15,4 @@ define(function (require) {
         });
       });
     }
-
-  };
-
-});
+};

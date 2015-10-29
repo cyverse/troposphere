@@ -1,11 +1,9 @@
-define(function (require) {
+import Utils from './Utils';
+import Router from '../Router';
+import stores from 'stores';
+import Constants from 'constants/ImageRequestConstants';
 
-  var Utils = require('./Utils'),
-    Router = require('../Router'),
-    stores = require('stores'),
-    Constants = require('constants/ImageRequestConstants');
-
-  return {
+export default {
     update: function (params) {
       var request = params.request,
         status = params.status,
@@ -28,5 +26,3 @@ define(function (require) {
       });
     }
   };
-
-});

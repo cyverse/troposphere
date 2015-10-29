@@ -1,8 +1,7 @@
-define(function (require) {
+import ResourcesModal from './help/requestMoreResources';
+import FeedbackModal from './help/showFeedbackModal';
 
-  return {
-    requestMoreResources: require('./help/requestMoreResources').requestMoreResources,
-    showFeedbackModal: require('./help/showFeedbackModal').showFeedbackModal
-  };
-
-});
+export default {
+    requestMoreResources: ResourcesModal.requestMoreResources,
+    showFeedbackModal: FeedbackModal.showFeedbackModal
+};

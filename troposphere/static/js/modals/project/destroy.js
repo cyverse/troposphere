@@ -1,11 +1,8 @@
-define(function (require) {
+import actions from 'actions';
+import ModalHelpers from 'components/modals/ModalHelpers';
+import ProjectDeleteModal from 'components/modals/project/ProjectDeleteModal.react';
 
-  var actions = require('actions'),
-    ModalHelpers = require('components/modals/ModalHelpers'),
-    ProjectDeleteModal = require('components/modals/project/ProjectDeleteModal.react');
-
-  return {
-
+export default {
     destroy: function (project) {
 
       var props = {
@@ -19,7 +16,4 @@ define(function (require) {
 
       })
     }
-
-  };
-
-});
+};

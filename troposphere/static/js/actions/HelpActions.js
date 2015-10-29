@@ -1,13 +1,11 @@
-define(function (require) {
+import $ from 'jquery';
+import NotificationController from 'controllers/NotificationController';
+import globals from 'globals';
+import Badges from 'Badges';
+import actions from 'actions';
+import stores from 'stores';
 
-  var $ = require('jquery'),
-      NotificationController = require('controllers/NotificationController'),
-      globals = require('globals'),
-      Badges = require('Badges'),
-      actions = require('actions'),
-      stores = require('stores');
-
-  return {
+export default {
 
     sendFeedback: function (feedback) {
       var data = {};
@@ -51,7 +49,7 @@ define(function (require) {
       if (!params.identity) throw new Error("Missing identity");
       if (!params.quota) throw new Error("Missing quota");
       if (!params.reason) throw new Error("Missing reason");
-      
+
       if(globals.BADGES_ENABLED){
         actions.BadgeActions.askSupport();
       }
@@ -89,5 +87,3 @@ define(function (require) {
     }
 
   };
-
-});

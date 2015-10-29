@@ -1,12 +1,8 @@
-define(function (require) {
-  "use strict";
+import ModalHelpers from 'components/modals/ModalHelpers';
+import InstanceSuspendModal from 'components/modals/instance/InstanceSuspendModal.react';
+import actions from 'actions';
 
-  var ModalHelpers = require('components/modals/ModalHelpers'),
-    InstanceSuspendModal = require('components/modals/instance/InstanceSuspendModal.react'),
-    actions = require('actions');
-
-  return {
-
+export default {
     suspend: function (instance) {
       ModalHelpers.renderModal(InstanceSuspendModal, null, function () {
         actions.InstanceActions.suspend({
@@ -14,7 +10,4 @@ define(function (require) {
         })
       });
     }
-
-  };
-
-});
+};

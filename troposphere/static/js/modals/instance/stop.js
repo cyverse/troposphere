@@ -1,12 +1,8 @@
-define(function (require) {
-  "use strict";
+import ModalHelpers from 'components/modals/ModalHelpers';
+import InstanceStopModal from 'components/modals/instance/InstanceStopModal.react';
+import actions from 'actions';
 
-  var ModalHelpers = require('components/modals/ModalHelpers'),
-    InstanceStopModal = require('components/modals/instance/InstanceStopModal.react'),
-    actions = require('actions');
-
-  return {
-
+export default {
     stop: function (instance) {
       ModalHelpers.renderModal(InstanceStopModal, null, function () {
         actions.InstanceActions.stop({
@@ -14,7 +10,4 @@ define(function (require) {
         });
       })
     }
-
-  };
-
-});
+};

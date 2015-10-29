@@ -1,14 +1,11 @@
-define(function (require) {
+import actions from 'actions';
+import stores from 'stores';
+import ModalHelpers from 'components/modals/ModalHelpers';
+import VolumeDeleteModal from 'components/modals/volume/VolumeDeleteModal.react';
+import ExplainVolumeDeleteConditionsModal from 'components/modals/volume/ExplainVolumeDeleteConditionsModal.react';
+import Router from 'Router';
 
-  var actions = require('actions'),
-    stores = require('stores'),
-    ModalHelpers = require('components/modals/ModalHelpers'),
-    VolumeDeleteModal = require('components/modals/volume/VolumeDeleteModal.react'),
-    ExplainVolumeDeleteConditionsModal = require('components/modals/volume/ExplainVolumeDeleteConditionsModal.react'),
-    Router = require('Router');
-
-  return {
-
+export default {
     destroy: function (payload, options) {
       if (!payload.project) throw new Error("Missing project");
       if (!payload.volume) throw new Error("Missing volume");
@@ -42,6 +39,4 @@ define(function (require) {
         Router.getInstance().transitionTo("project-resources", {projectId: project.id});
       })
     }
-  };
-
-});
+};

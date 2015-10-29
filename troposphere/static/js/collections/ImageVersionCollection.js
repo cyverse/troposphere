@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import Backbone from 'backbone';
+import ImageVersion from 'models/ImageVersion';
+import globals from 'globals';
 
-  var Backbone = require('backbone'),
-    ImageVersion = require('models/ImageVersion'),
-    globals = require('globals');
-
-  return Backbone.Collection.extend({
+export default Backbone.Collection.extend({
     model: ImageVersion,
 
     url: globals.API_V2_ROOT + "/image_versions",
@@ -23,7 +20,5 @@ define(function (require) {
     comparator: function (a, b) {
       return b.get('start_date').diff(a.get('start_date'), "seconds");
     }
-
-  });
 
 });

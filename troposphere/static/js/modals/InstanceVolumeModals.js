@@ -1,8 +1,7 @@
-define(function (require) {
+import AttachModal from './instanceVolume/attach';
+import DetachModal from './instanceVolume/detach';
 
-  return {
-    attach: require('./instanceVolume/attach').attach,
-    detach: require('./instanceVolume/detach').detach
-  };
-
-});
+export default {
+    attach: AttachModal.attach,
+    detach: DetachModal.detach
+};

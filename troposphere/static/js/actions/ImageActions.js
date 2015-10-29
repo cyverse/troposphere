@@ -1,10 +1,8 @@
-define(function (require) {
+import moment from 'moment';
+import AppDispatcher from 'dispatchers/AppDispatcher';
+import ImageConstants from 'constants/ImageConstants';
 
-  var moment = require('moment'),
-      AppDispatcher = require('dispatchers/AppDispatcher'),
-      ImageConstants = require('constants/ImageConstants');
-
-  return {
+export default {
 
     updateImageAttributes: function (image, newAttributes) {
       if(newAttributes.end_date != null) {
@@ -29,5 +27,3 @@ define(function (require) {
     }
 
   };
-
-});

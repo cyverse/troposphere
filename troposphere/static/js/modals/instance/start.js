@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import ModalHelpers from 'components/modals/ModalHelpers';
+import InstanceStartModal from 'components/modals/instance/InstanceStartModal.react';
+import actions from 'actions';
 
-  var ModalHelpers = require('components/modals/ModalHelpers'),
-    InstanceStartModal = require('components/modals/instance/InstanceStartModal.react'),
-    actions = require('actions');
-
-  return {
+export default {
 
     start: function (instance) {
       ModalHelpers.renderModal(InstanceStartModal, null, function () {
@@ -15,6 +12,4 @@ define(function (require) {
       });
     }
 
-  };
-
-});
+};

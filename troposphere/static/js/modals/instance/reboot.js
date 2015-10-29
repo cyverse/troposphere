@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import ModalHelpers from 'components/modals/ModalHelpers';
+import InstanceRebootModal from 'components/modals/instance/InstanceRebootModal.react';
+import actions from 'actions';
 
-  var ModalHelpers = require('components/modals/ModalHelpers'),
-    InstanceRebootModal = require('components/modals/instance/InstanceRebootModal.react'),
-    actions = require('actions');
-
-  return {
+export default {
 
     reboot: function (instance) {
       ModalHelpers.renderModal(InstanceRebootModal, null, function (reboot_type) {
@@ -16,6 +13,4 @@ define(function (require) {
       });
     }
 
-  };
-
-});
+};

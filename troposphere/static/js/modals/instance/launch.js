@@ -1,12 +1,9 @@
-define(function (require) {
-  "use strict";
+import actions from 'actions';
+import stores from 'stores';
+import ModalHelpers from 'components/modals/ModalHelpers';
+import InstanceLaunchWizardModal from 'components/modals/instance/InstanceLaunchWizardModal.react';
 
-  var actions = require('actions'),
-    stores = require('stores'),
-    ModalHelpers = require('components/modals/ModalHelpers'),
-    InstanceLaunchWizardModal = require('components/modals/instance/InstanceLaunchWizardModal.react');
-
-  return {
+export default {
 
     launch: function(image){
       var props = {image: image};
@@ -27,6 +24,4 @@ define(function (require) {
         });
       });
     }
-  };
-
-});
+};

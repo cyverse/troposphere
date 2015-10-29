@@ -1,11 +1,8 @@
-define(function (require) {
+import actions from 'actions';
+import ModalHelpers from 'components/modals/ModalHelpers';
+import ProjectMoveResourceModal from 'components/modals/project/ProjectMoveResourceModal.react';
 
-  var actions = require('actions'),
-    ModalHelpers = require('components/modals/ModalHelpers'),
-    ProjectMoveResourceModal = require('components/modals/project/ProjectMoveResourceModal.react');
-
-  return {
-
+export default {
     moveResources: function (resources, currentProject) {
 
       var props = {
@@ -22,7 +19,4 @@ define(function (require) {
 
       });
     }
-
-  };
-
-});
+};

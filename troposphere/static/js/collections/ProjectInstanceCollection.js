@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import Backbone from 'backbone';
+import ProjectInstance from 'models/ProjectInstance';
+import globals from 'globals';
 
-  var Backbone = require('backbone'),
-    ProjectInstance = require('models/ProjectInstance'),
-    globals = require('globals');
-
-  return Backbone.Collection.extend({
+export default Backbone.Collection.extend({
     model: ProjectInstance,
 
     url: globals.API_V2_ROOT + "/project_instances",
@@ -19,7 +16,5 @@ define(function (require) {
 
       return response.results;
     }
-
-  });
 
 });

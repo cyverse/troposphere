@@ -1,11 +1,8 @@
-define(function (require) {
+import actions from 'actions';
+import ModalHelpers from 'components/modals/ModalHelpers';
+import VolumeCreateModal from 'components/modals/volume/VolumeCreateModal.react';
 
-  var actions = require('actions'),
-    ModalHelpers = require('components/modals/ModalHelpers'),
-    VolumeCreateModal = require('components/modals/volume/VolumeCreateModal.react');
-
-  return {
-
+export default {
     createAndAddToProject: function (payload) {
       if (!payload.project) throw new Error("Missing project");
 
@@ -21,7 +18,4 @@ define(function (require) {
       })
 
     }
-
-  };
-
-});
+};

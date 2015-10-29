@@ -1,13 +1,8 @@
-define(function (require) {
+import actions from 'actions';
+import ModalHelpers from 'components/modals/ModalHelpers';
+import ProjectCreateModal from 'components/modals/project/ProjectCreateModal.react';
 
-  var actions = require('actions'),
-
-  // Modals
-    ModalHelpers = require('components/modals/ModalHelpers'),
-    ProjectCreateModal = require('components/modals/project/ProjectCreateModal.react');
-
-  return {
-
+export default {
     create: function () {
       ModalHelpers.renderModal(ProjectCreateModal, null, function (name, description) {
         actions.ProjectActions.create({
@@ -17,7 +12,4 @@ define(function (require) {
       })
 
     }
-
-  };
-
-});
+};

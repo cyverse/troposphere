@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import ModalHelpers from 'components/modals/ModalHelpers';
+import InstanceReportModal from 'components/modals/instance/InstanceReportModal.react';
+import actions from 'actions';
 
-  var ModalHelpers = require('components/modals/ModalHelpers'),
-    InstanceReportModal = require('components/modals/instance/InstanceReportModal.react'),
-    actions = require('actions');
-
-  return {
+export default {
 
     report: function (params) {
       if (!params.instance) throw new Error("Missing instance");
@@ -23,6 +20,4 @@ define(function (require) {
       })
     }
 
-  };
-
-});
+};

@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import Backbone from 'backbone';
+import Identity from 'models/Identity';
+import globals from 'globals';
 
-  var Backbone = require('backbone'),
-    Identity = require('models/Identity'),
-    globals = require('globals');
-
-  return Backbone.Collection.extend({
+export default Backbone.Collection.extend({
     model: Identity,
 
     url: globals.API_V2_ROOT + '/identities',
@@ -22,7 +19,4 @@ define(function (require) {
     comparator: function(a, b) {
         return a.id - b.id;
     }
-
-  });
-
 });

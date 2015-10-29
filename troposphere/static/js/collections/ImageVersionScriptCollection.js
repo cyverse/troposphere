@@ -1,11 +1,8 @@
-define(function(require){
-  "use strict";
+import Backbone from 'backbone';
+import ImageVersionScript from 'models/ImageVersionScript';
+import globals from 'globals';
 
-  var Backbone = require('backbone'),
-      ImageVersionScript = require('models/ImageVersionScript'),
-      globals = require('globals');
-
-  return Backbone.Collection.extend({
+export default Backbone.Collection.extend({
     model: ImageVersionScript,
 
     url: globals.API_V2_ROOT + "/image_version_boot_scripts",
@@ -19,7 +16,4 @@ define(function(require){
 
       return response.results;
     }
-
-  });
-
 });

@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import actions from 'actions';
+import ModalHelpers from 'components/modals/ModalHelpers';
+import RequestMoreResourcesModal from 'components/modals/RequestMoreResourcesModal.react';
 
-  var actions = require('actions'),
-    ModalHelpers = require('components/modals/ModalHelpers'),
-    RequestMoreResourcesModal = require('components/modals/RequestMoreResourcesModal.react');
-
-  return {
+export default {
 
     requestMoreResources: function () {
       ModalHelpers.renderModal(RequestMoreResourcesModal, null, function (identity, quota, reason) {
@@ -17,6 +14,4 @@ define(function (require) {
       });
     }
 
-  };
-
-});
+};

@@ -1,9 +1,6 @@
-define(function (require) {
-  "use strict";
-
-  return {
-    create: require('./license/create').create,
-    create_AddToImageVersion: require('./license/create_AddToImageVersion').create_AddToImageVersion
-  };
-
-});
+import LicenseCreate from './license/create';
+import LicenseAdd from './license/create_AddToImageVersion';
+export default {
+    create: LicenseCreate.create,
+    create_AddToImageVersion: LicenseAdd.create_AddToImageVersion
+};

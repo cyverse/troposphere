@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import Backbone from 'backbone';
+import Image from 'models/Image';
+import globals from 'globals';
 
-  var Backbone = require('backbone'),
-    Image = require('models/Image'),
-    globals = require('globals');
-
-  return Backbone.Collection.extend({
+export default Backbone.Collection.extend({
     model: Image,
 
     initialize: function (models, options) {
@@ -25,7 +22,4 @@ define(function (require) {
 
       return response.results;
     }
-
-  });
-
 });

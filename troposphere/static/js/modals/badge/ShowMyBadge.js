@@ -1,16 +1,10 @@
-define(function (require) {
-  "use strict";
+import actions from 'actions';
+import ModalHelpers from 'components/modals/ModalHelpers';
+import FeedbackModal from 'components/modals/FeedbackModal.react';
+import MyBadgeModal from 'components/modals/MyBadgeModal.react';
 
-  var actions = require('actions'),
-      ModalHelpers = require('components/modals/ModalHelpers'),
-      FeedbackModal = require('components/modals/FeedbackModal.react'),
-      MyBadgeModal = require('components/modals/MyBadgeModal.react');
-  return {
-
+export default {
     ShowMyBadge: function(badge){
       ModalHelpers.renderModal(MyBadgeModal, {badge:badge}, function(){});
     }
-
-  };
-
-});
+};

@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import Backbone from 'backbone';
+import ImageRequest from 'models/ImageRequest';
+import globals from 'globals';
 
-  var Backbone = require('backbone'),
-    ImageRequest = require('models/ImageRequest'),
-    globals = require('globals');
-
-  return Backbone.Collection.extend({
+export default Backbone.Collection.extend({
     model: ImageRequest,
 
     url: globals.API_V2_ROOT + "/machine_requests",
@@ -18,7 +15,5 @@ define(function (require) {
       };
       return response.results;
     }
-
-  });
 
 });

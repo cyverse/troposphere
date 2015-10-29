@@ -1,12 +1,8 @@
-define(function (require) {
-  "use strict";
+import actions from 'actions';
+import ModalHelpers from 'components/modals/ModalHelpers';
+import VolumeDetachModal from 'components/modals/volume/VolumeDetachModal.react';
 
-  var actions = require('actions'),
-    ModalHelpers = require('components/modals/ModalHelpers'),
-    VolumeDetachModal = require('components/modals/volume/VolumeDetachModal.react');
-
-  return {
-
+export default {
     detach: function (volume) {
       var props = {
         volume: volume
@@ -19,7 +15,4 @@ define(function (require) {
       })
 
     }
-
-  };
-
-});
+};

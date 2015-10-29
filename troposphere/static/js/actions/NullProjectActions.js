@@ -1,39 +1,33 @@
-define(function (require) {
-  'use strict';
 
-  //
-  // Dependencies
-  //
+import AppDispatcher from 'dispatchers/AppDispatcher';
+import stores from 'stores';
+import NotificationController from 'controllers/NotificationController';
+import Router from'.. /Router';
+import Utils from'. /Utils';
+import actions from 'actions';
 
-  var AppDispatcher = require('dispatchers/AppDispatcher'),
-    stores = require('stores'),
-    NotificationController = require('controllers/NotificationController'),
-    Router = require('../Router'),
-    Utils = require('./Utils'),
-    actions = require('actions');
+// Constants
+import NullProjectInstanceConstants from 'constants/NullProjectInstanceConstants';
+import NullProjectVolumeConstants from 'constants/NullProjectVolumeConstants';
+import ProjectInstanceConstants from 'constants/ProjectInstanceConstants';
+import ProjectVolumeConstants from 'constants/ProjectVolumeConstants';
+import ProjectConstants from 'constants/ProjectConstants';
 
-  // Constants
-  var NullProjectInstanceConstants = require('constants/NullProjectInstanceConstants'),
-    NullProjectVolumeConstants = require('constants/NullProjectVolumeConstants'),
-    ProjectInstanceConstants = require('constants/ProjectInstanceConstants'),
-    ProjectVolumeConstants = require('constants/ProjectVolumeConstants'),
-    ProjectConstants = require('constants/ProjectConstants');
+// Models
+import Project from 'models/Project';
+import Instance from 'models/Instance';
+import Volume from 'models/Volume';
 
-  // Models
-  var Project = require('models/Project'),
-    Instance = require('models/Instance'),
-    Volume = require('models/Volume');
+// Modals
+import ModalHelpers from 'components/modals/ModalHelpers';
+import NullProjectMoveAttachedVolumesModal from 'components/modals/nullProject/NullProjectMoveAttachedVolumesModal.react';
+import NullProjectMigrateResourceModal from 'components/modals/nullProject/NullProjectMigrateResourceModal.react';
 
-  // Modals
-  var ModalHelpers = require('components/modals/ModalHelpers'),
-    NullProjectMoveAttachedVolumesModal = require('components/modals/nullProject/NullProjectMoveAttachedVolumesModal.react'),
-    NullProjectMigrateResourceModal = require('components/modals/nullProject/NullProjectMigrateResourceModal.react');
+//
+// Module
+//
 
-  //
-  // Module
-  //
-
-  return {
+export default {
 
     // ------------------------
     // Standard CRUD Operations
@@ -197,5 +191,3 @@ define(function (require) {
     }
 
   };
-
-});
