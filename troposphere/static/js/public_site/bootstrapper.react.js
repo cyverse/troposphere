@@ -7,6 +7,8 @@ define(function (require) {
         Router = require('../Router'),
         routes = require('./AppRoutes.react');
 
+    var favicon = require("images/favicon.ico");
+
     // Register which stores the application should use
     var stores = require('stores');
     stores.ImageStore = require('stores/ImageStore');
