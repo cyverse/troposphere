@@ -32,7 +32,6 @@ stores.MaintenanceMessageStore = {
 function startApplication() {
 
     $(document).ready(function() {
-
         $('body').removeClass('splash-screen');
 
         // Start the application router

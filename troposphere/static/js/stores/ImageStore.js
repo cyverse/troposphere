@@ -1,4 +1,5 @@
 
+import moment from 'moment';
 import ImageCollection from 'collections/ImageCollection';
 import ProviderCollection from 'collections/ProviderCollection';
 import Dispatcher from 'dispatchers/Dispatcher';
@@ -10,27 +11,43 @@ import NotificationController from 'controllers/NotificationController';
 var ImageStore = BaseStore.extend({
     collection: ImageCollection,
 
-    update: function(image) {
-        var tags = image.get('tags')
-        var tagIds = tags.map(function(tag) {
-            return tag.id;
-        });
-        image.save({
-            name: image.get('name'),
-            description: image.get('description'),
-            tags: tagIds
-        }, {
-            patch: true
-        }).done(function() {
-            image.set({
-                tags: tags
-            });
-            this.emitChange();
-        }.bind(this)).fail(function() {
-            var failureMessage = "Error updating Image " + image.get('name') + ".";
-            NotificationController.error(failureMessage);
-            this.emitChange();
-        }.bind(this));
+    update: function(image){
+      var tags = image.get('tags')
+      var tagIds = tags.map(function(tag){
+          return tag.id;
+      });
+      var updateAttrs = {
+        name: image.get('name'),
+        description: image.get('description'),
+        tags: tagIds
+      }
+      if(image.get('end_date')) {
+        var end_date;
+        if (typeof image.get('end_date') == "object") {
+            end_date = image.get('end_date')
+        } else {
+            //NOTE: This may never happen..
+            end_date = moment(image.get('end_date'));
+        }
+        //Test validity if the date
+        if(end_date.isValid()) {
+            end_date = end_date.toISOString();
+        } else {
+            end_date = null;
+        }
+        //Add new date (or non-date) to the update list
+        updateAttrs.end_date = end_date
+      }
+      image.save(updateAttrs, {
+        patch: true
+      }).done(function(){
+        image.set({tags:tags});
+        this.emitChange();
+      }.bind(this)).fail(function(){
+        var failureMessage = "Error updating Image " + image.get('name') + ".";
+        NotificationController.error(failureMessage);
+        this.emitChange();
+      }.bind(this));
     },
 
     get: function(imageId) {

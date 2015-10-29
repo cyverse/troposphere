@@ -36,9 +36,23 @@ let VolumeStore = BaseStore.extend({
         return attachedVolumes;
     },
 
-    getVolumesNotInAProject: function() {
+    // Makes a clean list of attached resources from volume information for easy reference
+    getAttachedResources: function () {
         if (!this.models) return this.fetchModels();
+        var attachedResources = [];
+        this.models.each(function (volume) {
+            var attachData = volume.get('attach_data');
+            if (attachData && attachData.instance_id) {
+                attachedResources.push(volume.get('uuid'));
+                attachedResources.push(attachData.instance_id);
+            }
+        });
+        return attachedResources;
+    },
 
+
+    getVolumesNotInAProject: function () {
+      if (!this.models) return this.fetchModels();
         var volumes = this.models.filter(function(volume) {
             return volume.get('projects').length === 0
         });

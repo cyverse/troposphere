@@ -7,7 +7,7 @@
     <title>Atmosphere</title>
 
     <!--CSS-->
-    <link rel="shortcut icon" href="{{ BASE_URL }}/{{ THEME_URL }}/favicon.ico" />
+    <link rel="shortcut icon" href="{{ BASE_URL }}/assets/images/favicon.ico" />
     <link rel="stylesheet" href="{{ BASE_URL }}/assets/app.css" rel="stylesheet" type="text/css">
     <!--
     <link rel="stylesheet" href="{{ BASE_URL }}/{{ THEME_URL }}/theme.css" rel="stylesheet" type="text/css">
@@ -99,8 +99,11 @@
     </script>
 
     <!-- Application dependencies -->
+    {% if show_public_site %}
+    <script src="{{ BASE_URL }}/assets/public.js"></script>
+    {% else %}
     <script src="{{ BASE_URL }}/assets/app.js"></script>
-
+    {% endif %}
     <!-- Google Analtics -->
     <script src="{{ BASE_URL }}/assets/analytics.js"></script>
 </body>
