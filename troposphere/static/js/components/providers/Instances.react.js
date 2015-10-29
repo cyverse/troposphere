@@ -1,11 +1,9 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import stores from 'stores';
+import Router from 'react-router';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    stores = require('stores'),
-    Router = require('react-router');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "Instances",
 
     mixins: [Router.State],
@@ -82,7 +80,4 @@ define(function (require) {
       );
 
     }
-
-  });
-
 });

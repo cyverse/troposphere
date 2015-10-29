@@ -1,10 +1,8 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    stores = require('stores');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "Stats",
 
     propTypes: {
@@ -82,7 +80,5 @@ define(function (require) {
 
       return this.renderStats(identity, instances, sizes);
     }
-
-  });
 
 });

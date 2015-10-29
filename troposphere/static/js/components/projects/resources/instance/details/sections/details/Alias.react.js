@@ -1,12 +1,8 @@
-define(
-  [
-    'react',
-    'backbone',
-    'components/projects/common/ResourceDetail.react'
-  ],
-  function (React, Backbone, ResourceDetail) {
+import React from 'react';
+import Backbone from 'backbone';
+import ResourceDetail from 'components/projects/common/ResourceDetail.react';
 
-    return React.createClass({
+export default React.createClass({
       displayName: "Alias",
 
       propTypes: {
@@ -20,7 +16,4 @@ define(
           </ResourceDetail>
         );
       }
-
-    });
-
-  });
+});

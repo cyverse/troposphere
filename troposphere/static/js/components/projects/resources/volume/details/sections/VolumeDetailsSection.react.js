@@ -1,14 +1,12 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import ResourceDetail from 'components/projects/common/ResourceDetail.react';
+import Id from './details/Id.react';
+import Status from './details/Status.react';
+import Size from './details/Size.react';
+import Identity from './details/Identity.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    ResourceDetail = require('components/projects/common/ResourceDetail.react'),
-    Id = require('./details/Id.react'),
-    Status = require('./details/Status.react'),
-    Size = require('./details/Size.react'),
-    Identity = require('./details/Identity.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "VolumeDetailsSection",
 
     propTypes: {
@@ -30,7 +28,5 @@ define(function (require) {
         </div>
       );
     }
-
-  });
 
 });

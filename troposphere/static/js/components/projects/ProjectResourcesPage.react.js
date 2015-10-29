@@ -1,12 +1,10 @@
-define(function (require) {
+import React from 'react/addons';
+import ProjectResourcesWrapper from './detail/resources/ProjectResourcesWrapper.react';
+import ProjectDetails from './detail/resources/ProjectDetails.react';
+import stores from 'stores';
+import Router from 'react-router';
 
-  var React = require('react/addons'),
-    ProjectResourcesWrapper = require('./detail/resources/ProjectResourcesWrapper.react'),
-    ProjectDetails = require('./detail/resources/ProjectDetails.react'),
-    stores = require('stores'),
-    Router = require('react-router');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "ProjectResouresPage",
 
     mixins: [Router.State],
@@ -26,7 +24,5 @@ define(function (require) {
         </ProjectResourcesWrapper>
       );
     }
-
-  });
 
 });

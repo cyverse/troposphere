@@ -1,16 +1,13 @@
-define(function (require) {
-  "use strict";
+import React from 'react/addons';
+import Router from 'react-router';
+import stores from 'stores';
+import Name from './Name.react';
+import Stats from './Stats.react';
+import Description from './Description.react';
+import Instances from './Instances.react';
+import Resources from './Resources.react';
 
-  var React = require('react/addons'),
-    Router = require('react-router'),
-    stores = require('stores'),
-    Name = require('./Name.react'),
-    Stats = require('./Stats.react'),
-    Description = require('./Description.react'),
-    Instances = require('./Instances.react'),
-    Resources = require('./Resources.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "ProviderListView",
 
     mixins: [Router.State],
@@ -43,7 +40,4 @@ define(function (require) {
       );
 
     }
-
-  });
-
 });

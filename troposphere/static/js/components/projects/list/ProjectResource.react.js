@@ -1,15 +1,9 @@
+import React from  'react';
+import $ from  'jquery';
+// plugin
+import Bootstrap from  'bootstrap';
 
-define(
-  [
-    'react',
-    'jquery',
-
-    // plugins
-    'bootstrap'
-  ],
-  function (React, $) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "ProjectResource",
 
       propTypes: {
@@ -37,6 +31,4 @@ define(
         );
 
       }
-    });
-
-  });
+});

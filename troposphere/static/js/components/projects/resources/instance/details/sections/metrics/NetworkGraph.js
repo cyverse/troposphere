@@ -1,10 +1,8 @@
-define(function(require) {
+import d3 from "d3";
+import Graph from "./Graph";
+import Utils from "./Utils";
 
-   var d3 = require("d3");
-   var Graph = require("./Graph");
-   var Utils = require("./Utils");
-
-  var NetworkGraph = function(settings) {
+let NetworkGraph = function(settings) {
     var defaults = {
       type : "net",
       upper : {
@@ -30,12 +28,12 @@ define(function(require) {
     }
 
     Graph.call(this, settings);
-  };
+};
 
-  NetworkGraph.prototype = Object.create(Graph.prototype);
-  NetworkGraph.prototype.constructor = NetworkGraph;
+NetworkGraph.prototype = Object.create(Graph.prototype);
+NetworkGraph.prototype.constructor = NetworkGraph;
 
-  NetworkGraph.prototype.fetch = function(onSuccess, onError) {
+NetworkGraph.prototype.fetch = function(onSuccess, onError) {
     var me = this;
     var series = [ this.upper, this.lower ];
 
@@ -62,7 +60,7 @@ define(function(require) {
     }, onError)
   }
 
-  NetworkGraph.prototype.make = function() {
+NetworkGraph.prototype.make = function() {
       var me = this;
       var graphDom = me.element;
       var data = me.lower.data;
@@ -202,7 +200,7 @@ define(function(require) {
       .attr("y", height)
       .attr("dy", ".32em")
       .text("data out")
-  }
+}
 
-  return NetworkGraph;
-})
+export default NetworkGraph;
+

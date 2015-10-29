@@ -1,14 +1,12 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import stores from 'stores';
+import ProviderCollection from 'collections/ProviderCollection';
+import IdentityCollection from 'collections/IdentityCollection';
+import ProviderSummaryLinePlot from 'components/dashboard/plots/ProviderSummaryLinePlot.react';
+import ResourceStatusSummaryPlot from 'components/dashboard/plots/ResourceStatusSummaryPlot.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    stores = require('stores'),
-    ProviderCollection = require('collections/ProviderCollection'),
-    IdentityCollection = require('collections/IdentityCollection'),
-    ProviderSummaryLinePlot = require('components/dashboard/plots/ProviderSummaryLinePlot.react'),
-    ResourceStatusSummaryPlot = require('components/dashboard/plots/ResourceStatusSummaryPlot.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "Resources",
 
     propTypes: {
@@ -65,7 +63,5 @@ define(function (require) {
       );
 
     }
-
-  });
 
 });

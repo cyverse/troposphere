@@ -1,12 +1,10 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import Button from './Button.react';
+import actions from 'actions';
+import modals from 'modals';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    Button = require('./Button.react'),
-    actions = require('actions'),
-    modals = require('modals');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "VolumeActionButtons",
 
     propTypes: {
@@ -75,7 +73,5 @@ define(function (require) {
         </div>
       );
     }
-
-  });
 
 });

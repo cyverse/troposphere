@@ -1,18 +1,16 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import actions from 'actions';
+import modals from 'modals';
+import MaintenanceMessageBanner from './MaintenanceMessageBanner.react';
+import globals from 'globals';
+import Router from 'react-router';
+// plugin: required to enable the drop-down, but not used directly
+import bootstrap from 'bootstrap';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    actions = require('actions'),
-    modals = require('modals'),
-    MaintenanceMessageBanner = require('./MaintenanceMessageBanner.react'),
-    globals = require('globals'),
-    Router = require('react-router'),
-    // plugin: required to enable the drop-down, but not used directly
-    bootstrap = require('bootstrap');
+let Link = Router.Link;
 
-  var Link = Router.Link;
-
-  var links = [
+let links = [
     {
       name: "Dashboard",
       linksTo: "dashboard",
@@ -70,9 +68,9 @@ define(function (require) {
       requiresStaff: false,
       isEnabled: globals.BADGES_ENABLED
     }
-  ];
+];
 
-  var LoginLink = React.createClass({
+let LoginLink = React.createClass({
     render: function () {
       return (
         <li className="dropdown">
@@ -80,9 +78,9 @@ define(function (require) {
         </li>
       );
     }
-  });
+});
 
-  var LogoutLink = React.createClass({
+let LogoutLink = React.createClass({
 
     propTypes: {
       username: React.PropTypes.string.isRequired
@@ -120,14 +118,14 @@ define(function (require) {
     }
   });
 
-  var Header = React.createClass({
+let Header = React.createClass({
     displayName: "Header",
 
     propTypes: {
       profile: React.PropTypes.instanceOf(Backbone.Model),
       currentRoute: React.PropTypes.array.isRequired
     },
-    
+
     // We need the screen size for handling the opening and closing of our menu on small screens
     //See navLinks below for implementation.
 
@@ -183,7 +181,7 @@ define(function (require) {
       var navLinks = links.map(function (link) {
         var isCurrentRoute = (link.name.toLowerCase() === this.props.currentRoute[0]);
         var className = isCurrentRoute ? "active" : null;
-        
+
         //We need to only trigger the toggle menu on small screen sizes to avoid buggy behavior when selecting menu items on larger screens
         var smScreen = (this.state.windowWidth < 768);
         var toggleMenu = smScreen ? {toggle: 'collapse',target:'.navbar-collapse'} : {toggle: null, target: null};
@@ -236,8 +234,7 @@ define(function (require) {
       );
 
     }
-  });
-
-  return Header;
-
 });
+
+export default Header;
+

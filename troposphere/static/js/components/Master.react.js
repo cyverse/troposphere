@@ -1,22 +1,21 @@
-define(function (require) {
-  "use strict";
-
-  var React = require('react/addons'),
-      stores = require('stores'),
-      Backbone = require('backbone'),
-      context = require('context'),
-      globals = require('globals'),
-      Header = require('./Header.react'),
-      Footer = require('./Footer.react'),
-      actions = require('actions'),
-      showUnsupportedModal = require('modals/unsupported/showUnsupportedModal.js'),
-      modernizrTest = require('components/modals/unsupported/modernizrTest.js'),
-      NullProject = require('models/NullProject');
+import React from 'react/addons';
+import stores from 'stores';
+import Backbone from 'backbone';
+import context from 'context';
+import globals from 'globals';
+import Header from './Header.react';
+import Footer from './Footer.react';
+import actions from 'actions';
+import showUnsupportedModal from 'modals/unsupported/showUnsupportedModal.js';
+import modernizrTest from 'components/modals/unsupported/modernizrTest.js';
+import NullProject from 'models/NullProject';
 
   // Routing
-  var Router = require('react-router'),
-    RouteHandler = Router.RouteHandler;
-  return React.createClass({
+import Router from 'react-router';
+
+let RouteHandler = Router.RouteHandler;
+
+export default React.createClass({
     displayName: "Master",
 
     mixins: [Router.State],
@@ -122,7 +121,5 @@ define(function (require) {
         </div>
       );
     }
-
-  });
 
 });

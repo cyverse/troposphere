@@ -1,15 +1,14 @@
-define(function (require) {
+import React from 'react';
+import $ from "jquery";
+import Backbone from 'backbone';
+import stores from 'stores';
+import actions from 'actions';
+import modals from 'modals';
+// plugin: jquery extension, not used directly
+import bootstrap from 'bootstrap';
 
-  var React = require('react'),
-      $ = require("jquery"),
-      Backbone = require('backbone'),
-      stores = require('stores'),
-      actions = require('actions'),
-      modals = require('modals'),
-  // plugin: jquery extension, not used directly
-      bootstrap = require('bootstrap');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "RequestResourcesButton",
 
     componentDidMount: function () {
@@ -46,7 +45,4 @@ define(function (require) {
         </button>
       );
     }
-
-  });
-
 });

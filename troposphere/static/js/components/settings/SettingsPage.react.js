@@ -1,56 +1,51 @@
+import React from 'react';
+import PageHeader from 'components/common/PageHeader.react';
+import IconSelect from './IconSelect.react';
+import SettingsHeader from './SettingsHeader.react';
+import actions from 'actions';
+import modals from 'modals';
+import stores from 'stores';
 
-define(
-  [
-    'react',
-    'components/common/PageHeader.react',
-    './IconSelect.react',
-    './SettingsHeader.react',
-    'actions',
-    'modals',
-    'stores'
-  ],
-  function (React, PageHeader, IconSelect, SettingsHeader, actions, modals, stores) {
-
-    function getState() {
-      return {
+function getState() {
+    return {
         profile: stores.ProfileStore.get()
-      };
-    }
+    };
+}
 
-    return React.createClass({
-      displayName: "SettingsPage",
+export default React.createClass({
+    displayName: "SettingsPage",
 
-      getInitialState: function () {
+    getInitialState: function () {
         return getState();
-      },
+    },
 
-      updateState: function () {
+    updateState: function () {
         if (this.isMounted()) this.setState(getState());
-      },
+    },
 
-      componentDidMount: function () {
+    componentDidMount: function () {
         stores.ProfileStore.addChangeListener(this.updateState);
-      },
+    },
 
-      componentWillUnmount: function () {
+    componentWillUnmount: function () {
         stores.ProfileStore.removeChangeListener(this.updateState);
-      },
+    },
 
-      handleIconSelect: function (iconType) {
+    handleIconSelect: function (iconType) {
         actions.ProfileActions.updateProfileAttributes(this.state.profile, {icon_set: iconType});
-      },
+    },
 
-      handleChangeEmailPreference: function (event) {
+    handleChangeEmailPreference: function (event) {
         var isChecked = event.target.checked;
         actions.ProfileActions.updateProfileAttributes(this.state.profile, {send_emails: isChecked});
-      },
+    },
 
-      handleRequestMoreResources: function (e) {
+    handleRequestMoreResources: function (e) {
         e.preventDefault();
         modals.HelpModals.requestMoreResources();
-      },
+    },
 
-      render: function () {
+    render: function () {
         var profile = this.state.profile;
         var selectedIconSet = profile.get('settings')['icon_set'];
         var wantsEmails = profile.get('settings')['send_emails'];
@@ -86,8 +81,6 @@ define(
             </div>
           </div>
         );
-      }
+    }
+});
 
-    });
-
-  });

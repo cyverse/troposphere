@@ -1,16 +1,12 @@
+import React from 'react';
+import Backbone from 'backbone';
+import ProjectList from './ProjectList.react';
+import modals from 'modals';
+import ProjectListHeader from '../common/ProjectListHeader.react';
+import actions from 'actions';
 
-define(
-  [
-    'react',
-    'backbone',
-    './ProjectList.react',
-    'modals',
-    '../common/ProjectListHeader.react',
-    'actions'
-  ],
-  function (React, Backbone, ProjectList, modals, ProjectListHeader, actions) {
 
-    return React.createClass({
+export default React.createClass({
       displayName: "ProjectListView",
 
       propTypes: {
@@ -36,7 +32,4 @@ define(
           </div>
         );
       }
-
-    });
-
-  });
+});

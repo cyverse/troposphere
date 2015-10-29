@@ -1,11 +1,9 @@
-define(function (require) {
-
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    VolumeDetailsSection = require('./sections/VolumeDetailsSection.react'),
-    VolumeInfoSection = require('./sections/VolumeInfoSection.react'),
-    BreadcrumbBar = require('components/projects/common/BreadcrumbBar.react'),
-    VolumeActionsAndLinks = require('./actions/VolumeActionsAndLinks.react');
+import React from 'react/addons';
+import Backbone from 'backbone';
+import VolumeDetailsSection from './sections/VolumeDetailsSection.react';
+import VolumeInfoSection from './sections/VolumeInfoSection.react';
+import BreadcrumbBar from 'components/projects/common/BreadcrumbBar.react';
+import VolumeActionsAndLinks from './actions/VolumeActionsAndLinks.react';
 
   // var p1 = (
   //   <p>
@@ -25,7 +23,7 @@ define(function (require) {
   //   ["Unmounting and Detaching Volume", "https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachingaVolumetoanInstance-Detachingvolumesfrominstances"]
   // ];
 
-  return React.createClass({
+export default React.createClass({
     displayName: "VolumeDetailsView",
 
     propTypes: {
@@ -68,7 +66,5 @@ define(function (require) {
         </div>
       );
     }
-
-  });
 
 });

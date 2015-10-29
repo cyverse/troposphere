@@ -1,46 +1,42 @@
 
-define(
-  [
-    'react',
-    './list/ProjectListView.react',
-    'stores'
-  ],
-  function (React, ProjectListView, stores) {
+import React from 'react';
+import ProjectListView from './list/ProjectListView.react';
+import stores from 'stores';
 
-    function getProjectState() {
-      return {
+function getProjectState() {
+    return {
         projects: stores.ProjectStore.getAll()
-      };
-    }
+    };
+}
 
-    return React.createClass({
-      displayName: "ProjectListPage",
+export default React.createClass({
+    displayName: "ProjectListPage",
 
-      //
-      // Mounting & State
-      // ----------------
-      //
-      getInitialState: function () {
+    //
+    // Mounting & State
+    // ----------------
+    //
+    getInitialState: function() {
         return getProjectState();
-      },
+    },
 
-      updateImages: function () {
+    updateImages: function() {
         if (this.isMounted()) this.setState(getProjectState());
-      },
+    },
 
-      componentDidMount: function () {
+    componentDidMount: function() {
         stores.ProjectStore.addChangeListener(this.updateImages);
-      },
+    },
 
-      componentWillUnmount: function () {
+    componentWillUnmount: function() {
         stores.ProjectStore.removeChangeListener(this.updateImages);
-      },
+    },
 
-      //
-      // Render
-      // ------
-      //
-      render: function () {
+    //
+    // Render
+    // ------
+    //
+    render: function () {
         if (this.state.projects) {
           return (
             <ProjectListView projects={this.state.projects}/>
@@ -50,8 +46,5 @@ define(
             <div className="loading"></div>
           );
         }
-      }
-
-    });
-
-  });
+    }
+});

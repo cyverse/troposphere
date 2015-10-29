@@ -1,28 +1,23 @@
-define(function(require) {
-
-  // Never return the inner datastruct data. This module depends on that assumption.
-  var Store = function() {
+// Never return the inner datastruct data. This module depends on that assumption.
+let Store = function() {
     var data = {};
     glob = data;
 
     this.has = function(key) {
-      return data[JSON.stringify(key)] != undefined;
+        return data[JSON.stringify(key)] != undefined;
     }
     this.get = function(key) {
-      return data[JSON.stringify(key)];
+        return data[JSON.stringify(key)];
     }
     this.set = function(key, obj) {
-      data[JSON.stringify(key)] = obj;
+        data[JSON.stringify(key)] = obj;
     }
     this.remove = function(key) {
-      delete data[JSON.stringify(key)];
+        delete data[JSON.stringify(key)];
     }
     this.removeAll = function(key) {
-      data = {};
+        data = {};
     }
+}
 
-  }
-
-  return Store;
-
-});
+export default Store;

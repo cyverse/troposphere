@@ -1,14 +1,12 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import stores from 'stores';
+import Router from 'react-router';
+import moment from 'moment';
+import Showdown from 'showdown';
+import ProjectResource from './ProjectResource.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    stores = require('stores'),
-    Router = require('react-router'),
-    moment = require('moment'),
-    Showdown = require('showdown'),
-    ProjectResource = require('./ProjectResource.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "Project",
 
     propTypes: {
@@ -98,6 +96,4 @@ define(function (require) {
         </div>
       );
     }
-  });
-
 });

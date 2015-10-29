@@ -1,12 +1,10 @@
-define(function (require) {
+import React from 'react/addons';
+import ProjectResourcesWrapper from './detail/resources/ProjectResourcesWrapper.react';
+import VolumeDetailsView from './resources/volume/details/VolumeDetailsView.react';
+import Router from 'react-router';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-    ProjectResourcesWrapper = require('./detail/resources/ProjectResourcesWrapper.react'),
-    VolumeDetailsView = require('./resources/volume/details/VolumeDetailsView.react'),
-    Router = require('react-router'),
-    stores = require('stores');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "VolumeDetailsPage",
 
     mixins: [Router.State],
@@ -23,7 +21,5 @@ define(function (require) {
         </ProjectResourcesWrapper>
       );
     }
-
-  });
 
 });

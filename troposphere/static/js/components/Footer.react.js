@@ -1,11 +1,9 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import modals from 'modals';
+import actions from 'actions';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    modals = require('modals'),
-    actions = require('actions');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "Footer",
 
     propTypes: {
@@ -39,7 +37,5 @@ define(function (require) {
         </footer>
       );
     }
-
-  });
 
 });

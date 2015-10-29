@@ -1,8 +1,6 @@
-define(function(require) {
+import Graph from "./Graph";
 
-  var Graph = require("./Graph");
-
-  var CPUGraph = function(settings) {
+let CPUGraph = function(settings) {
     var defaults = {
       transform: "derivative"
     }
@@ -14,11 +12,9 @@ define(function(require) {
     }
 
     Graph.call(this, settings);
-  };
+};
 
-  CPUGraph.prototype = Object.create(Graph.prototype);
-  CPUGraph.prototype.constructor = CPUGraph;
+CPUGraph.prototype = Object.create(Graph.prototype);
+CPUGraph.prototype.constructor = CPUGraph;
 
-  return CPUGraph;
-
-})
+export default CPUGraph;

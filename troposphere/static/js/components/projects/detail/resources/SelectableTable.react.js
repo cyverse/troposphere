@@ -1,10 +1,9 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import Checkbox from './Checkbox.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    Checkbox = require('./Checkbox.react');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "SelectableTable",
 
     propTypes: {
@@ -53,7 +52,4 @@ define(function (require) {
         </table>
       );
     }
-
-  });
-
 });

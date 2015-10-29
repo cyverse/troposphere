@@ -1,12 +1,10 @@
-define(function (require) {
+import React from 'react/addons';
+import stores from 'stores';
+import ProjectResourcesWrapper from './detail/resources/ProjectResourcesWrapper.react';
+import InstanceDetailsView from './resources/instance/details/InstanceDetailsView.react';
+import Router from 'react-router';
 
-  var React = require('react/addons'),
-    stores = require('stores'),
-    ProjectResourcesWrapper = require('./detail/resources/ProjectResourcesWrapper.react'),
-    InstanceDetailsView = require('./resources/instance/details/InstanceDetailsView.react'),
-    Router = require('react-router');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "InstanceDetailsPage",
 
     mixins: [Router.State],
@@ -23,7 +21,5 @@ define(function (require) {
         </ProjectResourcesWrapper>
       );
     }
-
-  });
 
 });

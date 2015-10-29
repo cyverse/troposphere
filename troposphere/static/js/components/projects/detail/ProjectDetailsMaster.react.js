@@ -1,13 +1,11 @@
-define(function (require) {
-  "use strict";
+import React from 'react/addons';
+import Router from 'react-router';
+import SecondaryProjectNavigation from '../common/SecondaryProjectNavigation.react';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-    Router = require('react-router'),
-    RouteHandler = Router.RouteHandler,
-    stores = require('stores'),
-    SecondaryProjectNavigation = require('../common/SecondaryProjectNavigation.react');
+let RouteHandler = Router.RouteHandler;
 
-  return React.createClass({
+export default React.createClass({
     displayName: "ProjectDetailsMaster",
 
     mixins: [Router.State],
@@ -28,7 +26,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

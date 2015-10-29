@@ -1,19 +1,15 @@
 
-define(
-  [
-    'react',
-    'backbone'
-  ],
-  function (React, Backbone) {
+import React from 'react';
+import Backbone from 'backbone';
 
-    return React.createClass({
-      displayName: "Name",
+export default React.createClass({
+    displayName: "Name",
 
-      propTypes: {
+    propTypes: {
         provider: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    },
 
-      render: function () {
+    render: function () {
         var provider = this.props.provider;
         return (
           <div className="row">
@@ -21,8 +17,6 @@ define(
           </div>
         );
 
-      }
+    }
 
-    });
-
-  });
+});

@@ -1,10 +1,8 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import EditTagsView from 'components/common/tags/EditTagsView.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    EditTagsView = require('components/common/tags/EditTagsView.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "ResourceTags",
 
     propTypes: {
@@ -45,7 +43,5 @@ define(function (require) {
         </div>
       );
     }
-
-  });
 
 });

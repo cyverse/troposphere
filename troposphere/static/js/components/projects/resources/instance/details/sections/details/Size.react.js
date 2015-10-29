@@ -1,21 +1,17 @@
+import React from 'react';
+import Backbone from 'backbone';
+import ResourceDetail from 'components/projects/common/ResourceDetail.react';
+import stores from 'stores';
 
-define(
-  [
-    'react',
-    'backbone',
-    'components/projects/common/ResourceDetail.react',
-    'stores'
-  ],
-  function (React, Backbone, ResourceDetail, stores) {
 
-    return React.createClass({
-      displayName: "Size",
+export default React.createClass({
+    displayName: "Size",
 
-      propTypes: {
+    propTypes: {
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    },
 
-      render: function () {
+    render: function () {
         var instance = this.props.instance,
           size = stores.SizeStore.get(instance.get('size').id);
 
@@ -30,8 +26,5 @@ define(
             {size.formattedDetails()}
           </ResourceDetail>
         );
-      }
-
-    });
-
-  });
+    }
+});

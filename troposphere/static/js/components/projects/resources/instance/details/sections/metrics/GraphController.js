@@ -1,19 +1,17 @@
-define(function(require) {
+// Metrics utils
+import Store from './Store';
+import CPUGraph from './CPUGraph';
+import MemoryGraph from './MemoryGraph';
+import NetworkGraph from './NetworkGraph';
 
-  // Metrics utils
-  var Store = require('./Store'),
-    CPUGraph = require('./CPUGraph'),
-    MemoryGraph = require('./MemoryGraph'),
-    NetworkGraph = require('./NetworkGraph');
-
-  var GraphController = function(config) {
+let GraphController = function(config) {
     this.container = config.container;
     this.width = config.width;
     this.store = new Store();
     this.graphs = [];
-  }
+}
 
-  GraphController.prototype.switch = function(settings, onSuccess, onError) {
+GraphController.prototype.switch = function(settings, onSuccess, onError) {
     var me = this;
 
     // Forcing a refresh is equivalent to emptying the store so that data
@@ -73,7 +71,7 @@ define(function(require) {
       me.graphs = graphs;
       onSuccess && onSuccess();
     }
-  }
+}
 
-  return GraphController;
-});
+export default GraphController;
+

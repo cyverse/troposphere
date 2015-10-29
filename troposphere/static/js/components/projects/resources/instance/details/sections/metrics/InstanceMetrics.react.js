@@ -1,12 +1,11 @@
-define(function(require) {
-  var React = require('react'),
-    GraphController = require('./GraphController'),
-    TimeframeBreadcrumb = require('./TimeframeBreadcrumb.react'),
-    RefreshComponent = require('./RefreshComponent.react'),
-    stores = require('stores');
+import React from 'react';
+import GraphController from './GraphController';
+import TimeframeBreadcrumb from './TimeframeBreadcrumb.react';
+import RefreshComponent from './RefreshComponent.react';
+import stores from 'stores';
 
 
-  return React.createClass({
+export default React.createClass({
     displayName: "InstanceMetrics",
 
     getInitialState: function() {
@@ -139,7 +138,4 @@ define(function(require) {
      // available is explicitly false, the network request failed
      return (<div id="not-available">Instance metrics not available</div>)
      }
-
-  });
-
 });

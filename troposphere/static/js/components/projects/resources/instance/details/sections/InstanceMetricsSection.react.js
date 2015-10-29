@@ -1,8 +1,7 @@
-define(function(require) {
-  var React = require('react'),
-    InstanceMetrics = require('./metrics/InstanceMetrics.react');
+import React from 'react';
+import InstanceMetrics from './metrics/InstanceMetrics.react';
 
-  return React.createClass({
+export default React.createClass({
     displayName: "InstanceMetricsSection",
 
     render: function() {
@@ -19,6 +18,4 @@ define(function(require) {
           </div>
       )
     }
-
-  })
-});
+})

@@ -1,12 +1,10 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import ResourceDetail from 'components/projects/common/ResourceDetail.react';
+import Router from 'react-router';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    ResourceDetail = require('components/projects/common/ResourceDetail.react'),
-    Router = require('react-router'),
-    stores = require('stores');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "CreatedFrom",
 
     propTypes: {
@@ -31,7 +29,4 @@ define(function (require) {
         </ResourceDetail>
       );
     }
-
-  });
-
 });

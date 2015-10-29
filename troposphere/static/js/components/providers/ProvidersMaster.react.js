@@ -1,12 +1,10 @@
-define(function (require) {
-  "use strict";
+import React from 'react/addons';
+import Router from 'react-router';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-    Router = require('react-router'),
-    RouteHandler = Router.RouteHandler,
-    stores = require('stores');
+let RouteHandler = Router.RouteHandler;
 
-  return React.createClass({
+export default React.createClass({
     displayName: "ProvidersMaster",
 
     mixins: [Router.State],
@@ -66,7 +64,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

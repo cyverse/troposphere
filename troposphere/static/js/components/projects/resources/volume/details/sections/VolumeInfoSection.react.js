@@ -1,15 +1,13 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import Time from 'components/common/Time.react';
+import EditableInputField from 'components/common/EditableInputField.react';
+import actions from 'actions';
+import stores from 'stores';
+import CryptoJS from 'crypto-js';
+import Gravatar from 'components/common/Gravatar.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    Time = require('components/common/Time.react'),
-    EditableInputField = require('components/common/EditableInputField.react'),
-    actions = require('actions'),
-    stores = require('stores'),
-    CryptoJS = require('crypto-js'),
-    Gravatar = require('components/common/Gravatar.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "VolumeInfoSection",
 
     propTypes: {
@@ -79,7 +77,5 @@ define(function (require) {
         </div>
       );
     }
-
-  });
 
 });

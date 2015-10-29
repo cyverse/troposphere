@@ -2,8 +2,8 @@
 import AppDispatcher from 'dispatchers/AppDispatcher';
 import stores from 'stores';
 import NotificationController from 'controllers/NotificationController';
-import Router from'.. /Router';
-import Utils from'. /Utils';
+import Router from '../Router';
+import Utils from './Utils';
 import actions from 'actions';
 
 // Constants

@@ -1,11 +1,9 @@
-define(function (require) {
+import React from 'react/addons';
+import stores from 'stores';
+import ProjectDetailsView from './detail/details/ProjectDetailsView.react';
+import Router from 'react-router';
 
-  var React = require('react/addons'),
-    stores = require('stores'),
-    ProjectDetailsView = require('./detail/details/ProjectDetailsView.react'),
-    Router = require('react-router');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "ProjectDetailsPage",
 
     mixins: [Router.State],
@@ -23,7 +21,5 @@ define(function (require) {
         <ProjectDetailsView project={project}/>
       );
     }
-
-  });
 
 });

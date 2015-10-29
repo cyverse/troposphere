@@ -1,13 +1,9 @@
+import React from 'react';
+import Backbone from 'backbone';
+import modals from 'modals';
 
-define(
-  [
-    'react',
-    'backbone',
-    'modals'
-  ],
-  function (React, Backbone, modals) {
 
-    return React.createClass({
+export default React.createClass({
       displayName: "SubMenu",
 
       propTypes: {
@@ -55,7 +51,4 @@ define(
          </div>
         );
       }
-
-    });
-
-  });
+});

@@ -1,13 +1,11 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import ResourceDetail from 'components/projects/common/ResourceDetail.react';
+import StatusLight from 'components/projects/common/StatusLight.react';
+import StatusBar from 'components/projects/detail/resources/tableData/instance/StatusBar.react';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    ResourceDetail = require('components/projects/common/ResourceDetail.react'),
-    StatusLight = require('components/projects/common/StatusLight.react'),
-    StatusBar = require('components/projects/detail/resources/tableData/instance/StatusBar.react'),
-    stores = require('stores');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "Status",
 
     propTypes: {
@@ -52,7 +50,4 @@ define(function (require) {
         </ResourceDetail>
       );
     }
-
-  });
-
 });

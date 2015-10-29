@@ -1,9 +1,7 @@
-define(function(require) {
+import d3 from "d3";
+import Utils from "./Utils";
 
-  var d3 = require("d3");
-  var Utils = require("./Utils");
-
-  var Graph = function(config) {
+let Graph = function(config) {
     config = config || {};
 
     switch (config.timeframe) {
@@ -39,30 +37,34 @@ define(function(require) {
     this.element = document.createElement("div");
     this.element.style.display = "none";
     this.container.appendChild(this.element);
-  }
+}
 
-  Graph.prototype = {};
+Graph.prototype = {};
 
-  Graph.prototype.create = function(onSuccess, onError) {
+Graph.prototype.create = function(onSuccess, onError) {
     var me = this;
     this.fetch(function(){
       me.make()
       onSuccess && onSuccess();
     }, onError);
-  }
-  Graph.prototype.hide = function() {
+}
+
+Graph.prototype.hide = function() {
     this.element.style.display = "none";
-  }
-  Graph.prototype.show = function() {
+}
+
+Graph.prototype.show = function() {
     this.element.style.display = "inline";
-  }
-  Graph.prototype.clear = function() {
+}
+
+Graph.prototype.clear = function() {
     var g = this.element;
     while (g.lastChild) {
       g.removeChild(g.lastChild);
     }
-  }
-  Graph.prototype.fetch = function(onSuccess, onError) {
+}
+
+Graph.prototype.fetch = function(onSuccess, onError) {
     var me = this;
     var urlParams =  {
       field: this.type,
@@ -79,9 +81,9 @@ define(function(require) {
       me.data = data;
       onSuccess();
     }, onError);
-  }
+}
 
-  Graph.prototype.make = function() {
+Graph.prototype.make = function() {
     var me = this;
     var data = this.data
       var graphDom = this.element;
@@ -190,10 +192,10 @@ define(function(require) {
       .attr("y", 0)
       .attr("dy", ".32em")
       .text( me.type == "cpu" ? "cpu usage": "memory usage")
-  };
+};
 
-  // Horizontal labeled x axis
-  Graph.prototype.makeAxis = function() {
+// Horizontal labeled x axis
+Graph.prototype.makeAxis = function() {
 
     // Cpu/Mem Graph data || Network Graph data
     var data = this.data || this.lower.data;
@@ -248,8 +250,9 @@ define(function(require) {
     svg.append("g")
       .call(xAxis)
 
-  };
-  Graph.prototype.makeTimestamp = function() {
+};
+
+Graph.prototype.makeTimestamp = function() {
 
     var timestamp = this.timestamp;
 
@@ -283,8 +286,6 @@ define(function(require) {
       .attr("dy", (height / 2) + "px")
       .text("Updated: " + timestamp)
 
-  };
+};
 
-  return Graph;
-
-})
+export default Graph;

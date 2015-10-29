@@ -1,17 +1,15 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import Time from 'components/common/Time.react';
+import EditableInputField from 'components/common/EditableInputField.react';
+import ResourceTags from './ResourceTags.react';
+import actions from 'actions';
+import stores from 'stores';
+import modals from 'modals';
+import CryptoJS from 'crypto-js';
+import Gravatar from 'components/common/Gravatar.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    Time = require('components/common/Time.react'),
-    EditableInputField = require('components/common/EditableInputField.react'),
-    ResourceTags = require('./ResourceTags.react'),
-    actions = require('actions'),
-    stores = require('stores'),
-    modals = require('modals'),
-    CryptoJS = require('crypto-js'),
-    Gravatar = require('components/common/Gravatar.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "InstanceInfoSection",
 
     propTypes: {
@@ -109,7 +107,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

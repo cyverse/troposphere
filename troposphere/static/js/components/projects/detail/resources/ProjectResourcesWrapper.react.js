@@ -3,13 +3,12 @@ import Backbone from 'backbone';
 import SubMenu from './Submenu.react';
 
 export default React.createClass({
+    displayName: "ProjectResourcesWrapper",
 
     propTypes: {
       project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
       children: React.PropTypes.element.isRequired
     },
-
-    displayName: "ProjectResourcesWrapper",
 
     render: function () {
       return (

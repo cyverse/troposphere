@@ -1,8 +1,6 @@
-define(function(require) {
+import Graph from "./Graph";
 
-  var Graph = require("./Graph");
-
-  var MemoryGraph = function(settings) {
+let MemoryGraph = function(settings) {
     var defaults = {
       transform: "total"
     }
@@ -14,10 +12,9 @@ define(function(require) {
     }
 
     Graph.call(this, settings);
-  };
+};
 
-  MemoryGraph.prototype = Object.create(Graph.prototype);
-  MemoryGraph.prototype.constructor = MemoryGraph;
+MemoryGraph.prototype = Object.create(Graph.prototype);
+MemoryGraph.prototype.constructor = MemoryGraph;
 
-  return MemoryGraph;
-})
+export default MemoryGraph;

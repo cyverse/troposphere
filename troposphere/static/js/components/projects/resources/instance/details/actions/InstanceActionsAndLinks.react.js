@@ -1,12 +1,11 @@
-define(function(require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import Glyphicon from 'components/common/Glyphicon.react';
+import actions from 'actions';
+import modals from 'modals';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    Glyphicon = require('components/common/Glyphicon.react'),
-    actions = require('actions'),
-    modals = require('modals');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "InstanceActionsAndLinks",
 
     propTypes: {
@@ -185,7 +184,4 @@ define(function(require) {
 
       );
     }
-
-  });
-
 });

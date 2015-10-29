@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import React from 'react/addons';
+import stores from 'stores';
+import login from 'images/login_mainimage.png';
 
-  var React = require('react/addons'),
-    stores = require('stores'),
-    login = require("images/login_mainimage.png");
-
-  return React.createClass({
+export default React.createClass({
     displayName: "MaintenanceScreen",
 
     render: function () {
@@ -26,7 +23,5 @@ define(function (require) {
         </div>
       );
     }
-
-  });
 
 });
