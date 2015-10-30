@@ -235,7 +235,7 @@ $(document).ready(function () {
       e.preventDefault();
       console.log('user interface switch clicked');
 
-      window.location = '/application?beta=true';
+      window.location = '/application?beta=true&airport_ui=false';
     });
   }
 });
