@@ -44,9 +44,9 @@
 .secondary-nav > .container > ul > li a.active {
   border-color: #56AA21; }
 
-/* ==========================================================================================
+/* =========================================================
     UI elements 
-============================================================================================= */
+============================================================ */
 a {
   color: #56AA21;
   border-bottom: 1px solid transparent; }
@@ -128,3 +128,29 @@ fieldset[disabled] .btn-primary.active {
 .btn-primary .badge {
   color: #56AA21;
   background-color: #fff; }
+
+#dashboard-view .option {
+  font-size: 13px !important;
+  font-family: Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: #FFF;
+  box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  border: 1px solid #f1f1f1 !important;
+  padding: 20px;
+  text-align: center !important;
+  margin-bottom: 20px;
+  color: #555 !important;
+  font-weight: normal !important;
+  text-decoration: none;
+  display: block;
+  line-height: 16px;
+  min-height: 230px; }
+  #dashboard-view .option img {
+    width: 50px;
+    text-align: center !important;
+    margin-bottom: 10px; }
+  #dashboard-view .option strong {
+    color: #56AA21;
+    font-weight: normal; }
+  #dashboard-view .option hr {
+    border: 1px solid #EEE !important; }
