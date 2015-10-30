@@ -75,6 +75,7 @@ INSTALLED_APPS += (
 # # Use MockLoginBackend first!
 # AUTHENTICATION_BACKENDS += (
 #     'iplantauth.authBackends.MockLoginBackend',
+#     'django.contrib.auth.backends.ModelBackend',  # Required to login to 'admin' if you use *ONLY* MockLoginBackend
 # )
 # Configure authentication plugin
 from datetime import timedelta
