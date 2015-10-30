@@ -62,10 +62,11 @@ def login(request):
 
 
 def logout(request):
+    all_backends = settings.AUTHENTICATION_BACKENDS
     request.session.flush()
     #Look for 'cas' to be passed on logout.
     request_data = request.GET
-    if request_data.get('cas', False):
+    if request_data.get('cas', False) and 'iplantauth.authBackends.CASLoginBackend' in all_backends:
         redirect_to = request_data.get("service")
         if not redirect_to:
             redirect_to = settings.SERVER_URL + reverse('application')
