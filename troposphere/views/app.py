@@ -56,8 +56,13 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
     if "beta" not in request.session:
         request.session['beta'] = 'false'
 
+    if "airport_ui" not in request.session:
+        request.session['airport_ui'] = 'false'
+
+    show_airport = request.session['airport_ui'] == 'true'
+
     # Return the new Troposphere UI
-    if request.session['beta'] == 'true' or show_troposphere_only:
+    if not show_airport or show_troposphere_only:
         response = render_to_response(
             'index.html',
             template_params,
