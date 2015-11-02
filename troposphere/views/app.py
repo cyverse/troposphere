@@ -27,7 +27,9 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
         'emulated_by': request.session.get('emulated_by'),
         'records': maintenance_records,
         'disable_login': disabled_login,
-        'show_troposphere_only': show_troposphere_only,
+        # for the template, consider public site as "show tropo only"
+        # but use settings value for determining template render...
+        'show_troposphere_only': True,
         'show_public_site': True
     }
     template_params['SITE_TITLE'] = settings.SITE_TITLE
