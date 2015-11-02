@@ -14,9 +14,11 @@ define(function (require) {
 
     getInitialState: function () {
       return {
-        thresholdSearch: "",
-        deltaSearch: "525600",
-        response: ""
+        AUSearch: "",
+        delta: 525600,
+        expire: true,
+        response: "",
+        canSubmit: false
       };
     },
 
@@ -57,27 +59,55 @@ define(function (require) {
       });
     },
 
-    handleThresholdSearchChange: function(e){
-      this.setState({
-        thresholdSearch: e.target.value
+    handleApproval: function(e){
+        e.preventDefault();
+        var resourceRequest = stores.ResourceRequestStore.get(this.getParams().resourceRequestId),
+          quotaToSend = parseInt(this.state.quota) || parseInt(resourceRequest.get('current_quota')),
+          allocationToSend = {"threshold": this.state.AUSearch * 60, "delta": this.state.delta}, //|| parseInt(resourceRequest.get('current_allocation'));
+          status = stores.StatusStore.findOne({name: "approved"});
+
+        ResourceActions.update({
+          request: resourceRequest,
+          response: this.state.response,
+          quota: quotaToSend,
+          allocation: allocationToSend,
+          status: status.id
+        });
+    },
+
+    handleDenial: function(e){
+      e.preventDefault();
+      var resourceRequest = stores.ResourceRequestStore.get(this.getParams().resourceRequestId),
+        status = stores.StatusStore.findOne({name: "rejected"});
+      
+      ResourceActions.update({
+        request: resourceRequest,
+        response: this.state.response,
+        status: status.id
       });
     },
 
-    handleDeltaSearchChange: function(e){
+    handleThresholdSearchChange: function(e){
       this.setState({
-        deltaSearch: e.target.value
+        AUSearch: e.target.value
       });
     },
 
     makeNewAllocation: function(){
-      actions.AllocationActions.create({"threshold": this.state.thresholdSearch, "delta": this.state.deltaSearch});
+      actions.AllocationActions.create({"threshold": this.state.AUSearch * 60, "delta": this.state.delta});
     }, 
 
+    onExpireChange: function(e){
+      // If expire is currently true, we want it to be false. Set delta to -1 for non expiring AU, standard 525600 for expiring.
+      this.state.expire ? this.setState({delta: -1}) : this.setState({delta: 525600});
+      this.setState({expire: !this.state.expire});
+    },
+
     renderAllocationStatus: function(){
-      if(stores.AllocationStore.findWhere({"threshold": parseInt(this.state.thresholdSearch), "delta": parseInt(this.state.deltaSearch)}).length < 1){
+      if(stores.AllocationStore.findWhere({"threshold": parseInt(this.state.AUSearch) * 60, "delta": this.state.delta}).length < 1){
         return(
           <div>
-            <p>Allocation with threshold {this.state.thresholdSearch} delta {this.state.deltaSearch} does not exist. Click <a href="#" onClick={this.makeNewAllocation}>here</a> to create it.</p>
+            <p>Allocation with {this.state.AUSearch} AU expiring: {this.state.expire ? "true":"false"} does not exist. Click <a href="#" onClick={this.makeNewAllocation}>here</a> to create it.</p>
           </div>
         ); 
       }
@@ -124,15 +154,15 @@ define(function (require) {
       }
 
       return (
-        <div className="admin-detail">
-          <div><strong>User:</strong> {resourceRequest.get('user').username}</div>
-          <div><strong>Created by:</strong> {resourceRequest.get('created_by').username}</div>
-          <div><strong>Admin message:</strong> {resourceRequest.get('admin_message')}</div>
-          <div><strong>Request:</strong> {resourceRequest.get('request')}</div>
-          <div><strong>Description:</strong> {resourceRequest.get('description')}</div>
-          <div><strong>Current quota:</strong>{currentQuotaString}</div>
-          <div><strong>Current allocation:</strong>{currentAllocationString}</div>
-          <div>
+        <div className="row admin-detail">
+          <div className="col-md-12"><strong>User:</strong> {resourceRequest.get('user').username}</div>
+          <div className="col-md-12"><strong>Created by:</strong> {resourceRequest.get('created_by').username}</div>
+          <div className="col-md-12"><strong>Admin message:</strong> {resourceRequest.get('admin_message')}</div>
+          <div className="col-md-12"><strong>Request:</strong> {resourceRequest.get('request')}</div>
+          <div className="col-md-12"><strong>Description:</strong> {resourceRequest.get('description')}</div>
+          <div className="col-md-12"><strong>Current quota:</strong>{currentQuotaString}</div>
+          <div className="col-md-12"><strong>Current allocation:</strong>{currentAllocationString}</div>
+          <div className="col-md-12">
             <label>New quota:&nbsp;</label>
             <select value={this.state.quota} onChange={this.handleQuotaChange}
               ref="selectedQuota">{quotas.map(function (quota) {
@@ -148,11 +178,15 @@ define(function (require) {
             })}
             </select>
           </div>
-          <div>
+          <div className="col-md-12">
             <label>New allocation:</label>
             <div>
-            Threshold: <input type="text" value={this.state.thresholdSearch} onChange={this.handleThresholdSearchChange} />
-            Delta: <input type="text" value={this.state.deltaSearch} onChange={this.handleDeltaSearchChange} />
+            <input type="text" value={this.state.AUSearch} onChange={this.handleThresholdSearchChange} />AU
+            </div>
+            <div className="radio-buttons">
+            <strong>Expiring allocation?</strong>
+            <input type="radio" name="expire" checked={this.state.expire === true} onChange={this.onExpireChange}>Yes</input>
+            <input type="radio" name="expire" checked={this.state.expire === false} onChange={this.onExpireChange}>No</input>
             </div>
             {this.renderAllocationStatus()}
           </div>
@@ -162,9 +196,9 @@ define(function (require) {
             <textarea type="text" form="admin" value={this.state.value} cols="60" rows="8"
                       onChange={this.handleResponseChange}/>
           </div>
-          <button onClick={this.handleResponseSubmission} type="button" className="btn btn-default btn-sm">Approve
+          <button onClick={this.handleApproval} type="button" className="btn btn-default btn-sm">Approve
           </button>
-          <button onClick={this.handleResponseSubmission} type="button" className="btn btn-default btn-sm">Deny</button>
+          <button onClick={this.handleDenial} type="button" className="btn btn-default btn-sm">Deny</button>
         </div>
       );
     }
