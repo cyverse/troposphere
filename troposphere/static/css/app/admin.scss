@@ -14,6 +14,12 @@
 	position: relative;
 	border: 5px solid;
     border-color: $brand-primary;
+
+    .radio-buttons{
+    	input[type="radio"]{
+    		margin: 1%;
+    	}
+    }
 }
 
 .admin-detail button{
@@ -21,7 +27,7 @@
 }
 
 .admin-detail div{
-	margin: 2%;
+	margin-top: 2%;
 }
 
 .admin-row, .quota-inline{
