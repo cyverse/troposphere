@@ -2,6 +2,14 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from api.models import UserPreferences
 
+class UserPreferencesSummarySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = UserPreferences
+        fields = (
+            'id',
+            'url'
+        )
+
 
 class UserRelatedField(serializers.PrimaryKeyRelatedField):
 
@@ -14,6 +22,10 @@ class UserRelatedField(serializers.PrimaryKeyRelatedField):
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    user_pref = UserPreferencesSummarySerializer(
+        source='userpreferences_set',
+        many=True)
+
     class Meta:
         model = User
         fields = (
@@ -25,7 +37,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             'email',
             'is_staff',
             'is_superuser',
-            'date_joined'
+            'date_joined',
+            'user_pref'
         )
 
 
