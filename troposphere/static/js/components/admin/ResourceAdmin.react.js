@@ -4,6 +4,7 @@ define(function (require) {
   var React = require('react/addons'),
     Router = require('react-router'),
     stores = require('stores'),
+    Glyphicon = require('components/common/Glyphicon.react'),
     actions = require('actions'),
     ResourceActions = require('actions/ResourceActions');
 
@@ -13,6 +14,8 @@ define(function (require) {
 
     getInitialState: function () {
       return {
+        thresholdSearch: "",
+        deltaSearch: "525600",
         response: ""
       };
     },
@@ -54,10 +57,42 @@ define(function (require) {
       });
     },
 
-    render: function () {
+    handleThresholdSearchChange: function(e){
+      this.setState({
+        thresholdSearch: e.target.value
+      });
+    },
 
+    handleDeltaSearchChange: function(e){
+      this.setState({
+        deltaSearch: e.target.value
+      });
+    },
+
+    makeNewAllocation: function(){
+      actions.AllocationActions.create({"threshold": this.state.thresholdSearch, "delta": this.state.deltaSearch});
+    }, 
+
+    renderAllocationStatus: function(){
+      if(stores.AllocationStore.findWhere({"threshold": parseInt(this.state.thresholdSearch), "delta": parseInt(this.state.deltaSearch)}).length < 1){
+        return(
+          <div>
+            <p>Allocation with threshold {this.state.thresholdSearch} delta {this.state.deltaSearch} does not exist. Click <a href="#" onClick={this.makeNewAllocation}>here</a> to create it.</p>
+          </div>
+        ); 
+      }
+      else{
+        return(
+          <div>
+            <Glyphicon name="ok" /> Allocation exists
+          </div>
+        );
+      }
+    },
+
+    render: function () {
       var quotas = stores.QuotaStore.getAll();
-      var allocations = stores.AllocationStore.getAll();
+      var allocations = stores.AllocationStore.fetchWhere({"page_size": 100});
       var statuses = stores.StatusStore.getAll();
       var resourceRequest = stores.ResourceRequestStore.get(this.getParams().resourceRequestId);
 
@@ -100,7 +135,7 @@ define(function (require) {
           <div>
             <label>New quota:&nbsp;</label>
             <select value={this.state.quota} onChange={this.handleQuotaChange}
-                    ref="selectedQuota">{quotas.map(function (quota) {
+              ref="selectedQuota">{quotas.map(function (quota) {
               return (
                 <option value={quota.id} key={quota.id}>
                   CPU: {quota.get('cpu')}&nbsp;
@@ -114,17 +149,12 @@ define(function (require) {
             </select>
           </div>
           <div>
-            <label>New allocation:&nbsp;</label>
-            <select value={this.state.allocation} onChange={this.handleAllocationChange}
-                    ref="selectedAllocation">{allocations.map(function (allocation) {
-              return (
-                <option value={allocation.id} key={allocation.id}>
-                  Threshold: {allocation.get('threshold')}&nbsp;
-                  Delta: {allocation.get('delta')}&nbsp;
-                </option>
-              );
-            })}
-            </select>
+            <label>New allocation:</label>
+            <div>
+            Threshold: <input type="text" value={this.state.thresholdSearch} onChange={this.handleThresholdSearchChange} />
+            Delta: <input type="text" value={this.state.deltaSearch} onChange={this.handleDeltaSearchChange} />
+            </div>
+            {this.renderAllocationStatus()}
           </div>
           <div className="form-group">
             <strong>Response:</strong>
