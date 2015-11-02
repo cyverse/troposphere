@@ -18,7 +18,8 @@ define(function (require) {
         delta: 525600,
         expire: true,
         response: "",
-        canSubmit: false
+        canSubmit: false,
+        newAllocationId: null
       };
     },
 
@@ -37,33 +38,11 @@ define(function (require) {
       if (allocation) this.setState({allocation: allocation});
     },
 
-    handleResponseSubmission: function (e) {
-      e.preventDefault();
-      var resourceRequest = stores.ResourceRequestStore.get(this.getParams().resourceRequestId),
-        quotaToSend = resourceRequest.get('current_quota'),
-        allocationToSend = resourceRequest.get('current_allocation'),
-        status = stores.StatusStore.findOne({name: "rejected"});
-
-      if (e.target.innerHTML === 'Approve') {
-        quotaToSend = parseInt(this.state.quota) || parseInt(resourceRequest.get('current_quota'));
-        allocationToSend = parseInt(this.state.allocation) || parseInt(resourceRequest.get('current_allocation'));
-        status = stores.StatusStore.findOne({name: "approved"});
-      }
-
-      ResourceActions.update({
-        request: resourceRequest,
-        response: this.state.response,
-        quota: quotaToSend,
-        allocation: allocationToSend,
-        status: status.id
-      });
-    },
-
     handleApproval: function(e){
         e.preventDefault();
         var resourceRequest = stores.ResourceRequestStore.get(this.getParams().resourceRequestId),
           quotaToSend = parseInt(this.state.quota) || parseInt(resourceRequest.get('current_quota')),
-          allocationToSend = {"threshold": this.state.AUSearch * 60, "delta": this.state.delta}, //|| parseInt(resourceRequest.get('current_allocation'));
+          allocationToSend = stores.AllocationStore.findWhere({"threshold": parseInt(this.state.AUSearch) * 60, "delta": this.state.delta}).models[0].get('id');
           status = stores.StatusStore.findOne({name: "approved"});
 
         ResourceActions.update({
@@ -153,6 +132,9 @@ define(function (require) {
           currentAllocationString = 'N/A';
       }
 
+      var canSubmit = (parseInt(this.state.quota) || parseInt(resourceRequest.get('current_quota'))) && (stores.AllocationStore.findWhere({"threshold": parseInt(this.state.AUSearch) * 60, "delta": this.state.delta}).length == 1) && this.state.response;
+
+
       return (
         <div className="row admin-detail">
           <div className="col-md-12"><strong>User:</strong> {resourceRequest.get('user').username}</div>
@@ -196,7 +178,7 @@ define(function (require) {
             <textarea type="text" form="admin" value={this.state.value} cols="60" rows="8"
                       onChange={this.handleResponseChange}/>
           </div>
-          <button onClick={this.handleApproval} type="button" className="btn btn-default btn-sm">Approve
+          <button disabled={!canSubmit} onClick={this.handleApproval} type="button" className="btn btn-default btn-sm">Approve
           </button>
           <button onClick={this.handleDenial} type="button" className="btn btn-default btn-sm">Deny</button>
         </div>
