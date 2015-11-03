@@ -2,7 +2,8 @@
     "SECTION_MAPPING": {
         "apache": ["apache"],
         "local.py": ["local.py"],
-        "nginx": ["nginx", "nginx-site", "nginx-tropo"]
+        "nginx": ["nginx", "nginx-site", "nginx-tropo"],
+        "uwsgi.ini": ["troposphere.uwsgi"]
     },
     "CONFIG_FILES": {
         "apache": ["extras/apache/tropo.conf.j2", "extras/apache/tropo.conf"],
@@ -15,6 +16,8 @@
         ],
         "nginx-tropo": ["extras/nginx/locations/tropo.conf.j2",
             "extras/nginx/locations/tropo.conf"
-        ]
+        ],
+        "troposphere.uwsgi": [ "extras/troposphere.uwsgi.ini.j2",
+            "extras/troposphere.uwsgi.ini"]
     }
 }
