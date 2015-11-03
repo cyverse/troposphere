@@ -191,7 +191,7 @@ define(function (require) {
         )
       }
 
-      if (images.meta.next) {
+      if (images.meta && images.meta.next) {
         return (
           <button
             style={{"margin": "auto", "display": "block"}}
@@ -254,8 +254,11 @@ define(function (require) {
 
       if (!images) return <div className="loading"></div>;
 
-      title = "Showing " + images.length + " of " + images.meta.count + " images";
-
+      if (!images.meta || !images.meta.count) {
+          title = "Showing " + images.length + " images";
+      } else {
+          title = "Showing " + images.length + " of " + images.meta.count + " images";
+      }
       if (query) title += " for '" + query + "'";
 
       return (
