@@ -9,8 +9,6 @@ define(function (require) {
     MaintenanceScreen = require('components/MaintenanceScreen.react'),
     modernizr = require('lib/modernizr-latest.js');
 
-  var favicon = require("images/favicon.ico");
-
   // Disconnect all Backbone Events from Models and Collections
   Object.keys(Backbone.Events).forEach(function (functionName) {
     Backbone.Model.prototype[functionName] = function () {
@@ -68,6 +66,7 @@ define(function (require) {
   stores.VolumeStore = require('stores/VolumeStore');
 
   var actions = require('actions');
+  actions.AllocationActions = require('actions/AllocationActions');
   actions.BadgeActions = require('actions/BadgeActions');
   actions.HelpActions = require('actions/HelpActions');
   actions.ImageActions = require('actions/ImageActions');

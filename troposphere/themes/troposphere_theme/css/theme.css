@@ -1,0 +1,156 @@
+.navbar-default {
+  background-color: #0098aa;
+  border-color: #0098aa; }
+  .navbar-default .navbar-nav > li > a {
+    color: #e6e6e6; }
+  .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-default .navbar-nav > li > a:focus {
+    color: white;
+    background-color: #0098aa; }
+  .navbar-default .navbar-nav > li > a.active, .navbar-default .navbar-nav > li > a.active:hover, .navbar-default .navbar-nav > li > a.active:focus {
+    color: white;
+    background-color: #007a89; }
+  .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+    color: white;
+    background-color: #006a77; }
+  .navbar-default .navbar-brand {
+    background: url(../images/mini_logo.png) no-repeat 10px center;
+    background-size: 30px 30px;
+    padding-left: 50px;
+    font-weight: 300;
+    font-size: 16px;
+    color: white; }
+    .navbar-default .navbar-brand::before {
+      content: "Atmosphere"; }
+    .navbar-default .navbar-brand::after {
+      content: "BETA";
+      background-color: #007a89;
+      padding: 6px;
+      border-radius: 3px;
+      font-size: 80%;
+      margin-left: 8px;
+      letter-spacing: .1em; }
+    .navbar-default .navbar-brand a {
+      color: white; }
+    .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+      color: white;
+      background-color: transparent; }
+  .navbar-default .navbar-toggle {
+    border-color: #007d8b; }
+    .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:active, .navbar-default .navbar-toggle:focus {
+      background: #006a77; }
+    .navbar-default .navbar-toggle .icon-bar {
+      background-color: #003d44; }
+
+.secondary-nav > .container > ul > li a.active {
+  border-color: #56AA21; }
+
+/* =========================================================
+    UI elements 
+============================================================ */
+a {
+  color: #56AA21;
+  border-bottom: 1px solid transparent; }
+  a:hover {
+    color: #407f19; }
+
+ul.tags li span, ul.tags li a {
+  padding: 5px 10px;
+  border-radius: 3px;
+  background-color: #56AA21;
+  color: #EEE;
+  border: 0; }
+  ul.tags li span:hover, ul.tags li a:hover {
+    background-color: #407f19; }
+
+.btn-primary {
+  color: #fff;
+  background-color: #56AA21;
+  border-color: #407f19; }
+
+.btn-primary:focus,
+.btn-primary.focus {
+  color: #fff;
+  background-color: #56AA21;
+  border-color: #407f19; }
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #407f19;
+  border-color: #2b5510; }
+
+.btn-primary:active,
+.btn-primary.active,
+.open > .btn-primary.dropdown-toggle {
+  color: #fff;
+  background-color: #56AA21;
+  border-color: #407f19; }
+
+.btn-primary:active:hover,
+.btn-primary:active:focus,
+.btn-primary:active.focus,
+.btn-primary.active:hover,
+.btn-primary.active:focus,
+.btn-primary.active.focus,
+.open > .btn-primary.dropdown-toggle:hover,
+.open > .btn-primary.dropdown-toggle:focus,
+.open > .btn-primary.dropdown-toggle.focus {
+  color: #fff;
+  background-color: #56AA21;
+  border-color: #407f19; }
+
+.btn-primary:active,
+.btn-primary.active,
+.open > .btn-primary.dropdown-toggle {
+  background-image: none; }
+
+.btn-primary.disabled,
+.btn-primary.disabled:hover,
+.btn-primary.disabled:focus,
+.btn-primary.disabled.focus,
+.btn-primary.disabled:active,
+.btn-primary.disabled.active,
+.btn-primary[disabled],
+.btn-primary[disabled]:hover,
+.btn-primary[disabled]:focus,
+.btn-primary[disabled].focus,
+.btn-primary[disabled]:active,
+.btn-primary[disabled].active,
+fieldset[disabled] .btn-primary,
+fieldset[disabled] .btn-primary:hover,
+fieldset[disabled] .btn-primary:focus,
+fieldset[disabled] .btn-primary.focus,
+fieldset[disabled] .btn-primary:active,
+fieldset[disabled] .btn-primary.active {
+  color: #fff;
+  background-color: #56AA21;
+  border-color: #407f19; }
+
+.btn-primary .badge {
+  color: #56AA21;
+  background-color: #fff; }
+
+#dashboard-view .option {
+  font-size: 13px !important;
+  font-family: Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: #FFF;
+  box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  border: 1px solid #f1f1f1 !important;
+  padding: 20px;
+  text-align: center !important;
+  margin-bottom: 20px;
+  color: #555 !important;
+  font-weight: normal !important;
+  text-decoration: none;
+  display: block;
+  line-height: 16px;
+  min-height: 230px; }
+  #dashboard-view .option img {
+    width: 50px;
+    text-align: center !important;
+    margin-bottom: 10px; }
+  #dashboard-view .option strong {
+    color: #56AA21;
+    font-weight: normal; }
+  #dashboard-view .option hr {
+    border: 1px solid #EEE !important; }
