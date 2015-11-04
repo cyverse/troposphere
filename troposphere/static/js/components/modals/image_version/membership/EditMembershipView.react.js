@@ -7,7 +7,8 @@ define(function (require) {
   var ENTER_KEY = 13;
 
   return React.createClass({
-    display: "EditMembershipView",
+    displayName: "EditMembershipView",
+
     propTypes: {
       activeMemberships: React.PropTypes.instanceOf(Backbone.Collection),
       memberships: React.PropTypes.instanceOf(Backbone.Collection),

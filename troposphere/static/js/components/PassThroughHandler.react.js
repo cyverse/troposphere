@@ -6,6 +6,7 @@ define(function (require) {
     RouteHandler = Router.RouteHandler;
 
   return React.createClass({
+    displayName: "PassThroughHandler",
 
     render: function () {
       return (

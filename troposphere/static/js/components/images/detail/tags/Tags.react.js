@@ -8,7 +8,7 @@ define(
   function (React, Backbone, Tag) {
 
     return React.createClass({
-      display: "Tags",
+      displayName: "Tags",
 
       propTypes: {
         activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired

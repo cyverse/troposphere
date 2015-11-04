@@ -4,6 +4,7 @@ define(function (require) {
       ImageCard = require('../common/ImageCard.react');
 
   return React.createClass({
+    displayName: "ImageCardGrid",
 
     propTypes: {
       title: React.PropTypes.string,

@@ -7,9 +7,12 @@ define(function (require) {
         Router = require('../Router'),
         routes = require('./AppRoutes.react');
 
+    var favicon = require("images/favicon.ico");
+
     // Register which stores the application should use
     var stores = require('stores');
     stores.ImageStore = require('stores/ImageStore');
+    stores.ImageBookmarkStore = require('stores/ImageBookmarkStore');
     stores.ImageVersionStore = require('stores/ImageVersionStore');
     stores.TagStore         = require('stores/TagStore');
     // Mock out the profile store with an empty profile

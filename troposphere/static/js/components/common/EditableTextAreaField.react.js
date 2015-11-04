@@ -4,6 +4,7 @@ define(function (require) {
     $ = require('jquery');
 
   return React.createClass({
+    displayName: "EditableTextAreaField",
 
     propTypes: {
       text: React.PropTypes.string

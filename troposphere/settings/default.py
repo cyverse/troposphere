@@ -7,7 +7,7 @@ https://docs.djangoproject.com/en/1.6/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
-UI_VERSION = "Jamming Junglefowl"
+UI_VERSION = "Kicking Kestrel"
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
@@ -33,7 +33,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'rest_framework',
-    'api'
+    'iplantauth',
+    'api',
+    'sslserver'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -132,7 +134,7 @@ REST_FRAMEWORK = {
     # ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.SessionAuthentication',
-        'troposphere.auth_backends.OAuthTokenLoginBackend'
+        'iplantauth.authBackends.OAuthTokenLoginBackend'
     ),
     'PAGINATE_BY': 20,                 # Default to 20
     'PAGINATE_BY_PARAM': 'page_size',  # Allow client to override, using `?page_size=xxx`.
@@ -149,5 +151,5 @@ REST_FRAMEWORK = {
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'troposphere.auth_backends.OAuthLoginBackend'
+    'iplantauth.authBackends.OAuthLoginBackend'
 )

@@ -12,6 +12,7 @@ define(
   function (React, Gravatar, Backbone, URL, Bookmark, context, stores) {
 
     return React.createClass({
+      displayName: "ImageLaunchCard",
 
       propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired,

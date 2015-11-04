@@ -9,6 +9,8 @@ define(function (require) {
     MaintenanceScreen = require('components/MaintenanceScreen.react'),
     modernizr = require('lib/modernizr-latest.js');
 
+  var favicon = require("images/favicon.ico");
+
   // Disconnect all Backbone Events from Models and Collections
   Object.keys(Backbone.Events).forEach(function (functionName) {
     Backbone.Model.prototype[functionName] = function () {
@@ -103,13 +105,20 @@ define(function (require) {
 
   return {
     run: function () {
+      let authHeaders = {
+          "Content-Type": "application/json"
+      }
+
+      // Assure that an auth header is only included when we have
+      // an actually `access_token` to provide.
+      if (window.access_token) {
+        authHeaders["Authorization"] = "Token " + window.access_token;
+      }
+
 
       // Make sure the Authorization header is added to every AJAX request
       $.ajaxSetup({
-        headers: {
-          "Authorization": "Token " + window.access_token,
-          "Content-Type": "application/json"
-        }
+        headers: authHeaders
       });
 
       // We're wrapping Backbone.sync so that we can observe every AJAX request.

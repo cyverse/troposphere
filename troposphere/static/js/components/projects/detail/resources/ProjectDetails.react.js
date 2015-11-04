@@ -13,6 +13,7 @@ define(function (require) {
     Volume = require('models/Volume');
 
   return React.createClass({
+    displayName: "ProjectDetails",
 
     propTypes: {
       project: React.PropTypes.instanceOf(Backbone.Model).isRequired
@@ -68,7 +69,7 @@ define(function (require) {
 
     onResourceDeselected: function (resource) {
       var selectedResources = this.state.selectedResources,
-        previewedResource = this.state.previewedResource;
+          previewedResource = this.state.previewedResource;
 
       // Remove the resources from the list of selected resources
       selectedResources.remove(resource);
@@ -101,10 +102,23 @@ define(function (require) {
     },
 
     onMoveSelectedResources: function () {
-      modals.ProjectModals.moveResources(
-        this.state.selectedResources,
-        this.props.project
-      );
+        var match = false,
+            attachedResources = stores.VolumeStore.getAttachedResources();
+
+        this.state.selectedResources.forEach(function(sel) {
+            if (attachedResources.indexOf(sel.get('uuid')) !== -1) {
+                match = true;
+            }
+        });
+
+        if (match){
+            modals.ProjectModals.cantMoveAttached();
+        } else {
+            modals.ProjectModals.moveResources(
+                this.state.selectedResources,
+                this.props.project
+            );
+        }
     },
 
     onDeleteSelectedResources: function () {
@@ -151,6 +165,7 @@ define(function (require) {
             onReportSelectedResources={this.onReportSelectedResources}
             onRemoveSelectedResources={this.onRemoveSelectedResources}
             previewedResource={previewedResource}
+            multipleSelected={selectedResources && selectedResources.length > 1}
             onUnselect={this.onResourceDeselected}
             project={project}
             />

@@ -9,9 +9,11 @@ define(function (require) {
     ResourceActionButtons = require('./ResourceActionButtons.react');
 
   return React.createClass({
+    displayName: "ButtonBar",
 
     propTypes: {
       isVisible: React.PropTypes.bool.isRequired,
+      multipleSelected: React.PropTypes.bool.isRequired,
       onMoveSelectedResources: React.PropTypes.func.isRequired,
       onDeleteSelectedResources: React.PropTypes.func.isRequired,
       onReportSelectedResources: React.PropTypes.func.isRequired,
@@ -63,6 +65,7 @@ define(function (require) {
           <ResourceActionButtons
             onUnselect={this.props.onUnselect}
             previewedResource={this.props.previewedResource}
+            multipleSelected={this.props.multipleSelected}
             project={this.props.project}
             />
         </div>

@@ -3,6 +3,7 @@ define(function(require) {
     moment = require('moment');
 
   return React.createClass({
+    displayName: "RefreshComponent",
 
     componentDidMount: function() {
        var me = this;

@@ -9,6 +9,7 @@ define(function (require) {
     ResourceStatusSummaryPlot = require('components/dashboard/plots/ResourceStatusSummaryPlot.react');
 
   return React.createClass({
+    displayName: "Resources",
 
     propTypes: {
       provider: React.PropTypes.instanceOf(Backbone.Model).isRequired

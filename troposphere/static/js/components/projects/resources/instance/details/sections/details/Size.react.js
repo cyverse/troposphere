@@ -9,6 +9,7 @@ define(
   function (React, Backbone, ResourceDetail, stores) {
 
     return React.createClass({
+      displayName: "Size",
 
       propTypes: {
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired

@@ -9,6 +9,7 @@ define(function (require) {
     stores = require('stores');
 
   return React.createClass({
+    displayName: "SecondaryProjectNavigation",
 
     propTypes: {
       project: React.PropTypes.instanceOf(Backbone.Model).isRequired
@@ -47,11 +48,6 @@ define(function (require) {
           <div className="secondary-nav">
             <div className="container">
 
-              <div className="project-name">
-                <h1>
-                  {project.get('name')}
-                </h1>
-              </div>
 
               <ul className="secondary-nav-links">
                 {this.renderRoute("Resources", "project-resources", "th", {projectId: project.id})}
@@ -78,6 +74,11 @@ define(function (require) {
 
             </div>
           </div>
+              <div className="project-name container">
+                <h1>
+                  {project.get('name')}
+                </h1>
+              </div>
         </div>
       );
     }

@@ -5,6 +5,7 @@ define(function (require) {
     Router = require('react-router');
 
   return React.createClass({
+    displayName: "ImageTagsPage",
 
     getState: function () {
       return {

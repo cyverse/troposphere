@@ -14,6 +14,7 @@ define(function (require) {
     Router = require('react-router');
 
   return React.createClass({
+    displayName: "ImageCard",
 
     propTypes: {
       image: React.PropTypes.instanceOf(Backbone.Model).isRequired,

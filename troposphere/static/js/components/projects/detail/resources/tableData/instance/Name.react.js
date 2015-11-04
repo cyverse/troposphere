@@ -6,6 +6,7 @@ define(function (require) {
     Router = require('react-router');
 
   return React.createClass({
+    displayName: "Name",
 
     mixins: [Router.State],
 

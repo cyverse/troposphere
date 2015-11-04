@@ -15,6 +15,8 @@ define(
     }
 
     return React.createClass({
+      displayName: "MyBadgeModal",
+
       mixins: [BootstrapModalMixin],
 
       //

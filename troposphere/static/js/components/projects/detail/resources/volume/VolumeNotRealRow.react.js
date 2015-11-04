@@ -7,6 +7,7 @@ define(
   function (React, Backbone) {
 
     return React.createClass({
+      displayName: "VolumeNotRealRow",
 
       propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,

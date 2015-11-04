@@ -7,8 +7,10 @@ define(function (require) {
     modals = require('modals');
 
   return React.createClass({
+    displayName: "InstanceActionButtons",
 
     propTypes: {
+      multipleSelected: React.PropTypes.bool.isRequired,
       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
       project: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
@@ -42,7 +44,7 @@ define(function (require) {
         status = instance.get('state').get('status'),
         linksArray = [];
 
-      if (instance.get('state').isInFinalState()) {
+      if (!this.props.multipleSelected && instance.get('state').isInFinalState()) {
         if (status === "active") {
           linksArray.push(
             <Button

@@ -3,6 +3,7 @@ define(function (require) {
   var React = require('react/addons'),
     Backbone = require('backbone');
   return React.createClass({
+    displayName: "ManyToManyList",
 
     propTypes: {
       renderForm: React.PropTypes.func.isRequired,

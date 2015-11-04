@@ -13,6 +13,7 @@ define(function (require) {
   }
 
   return React.createClass({
+    displayName: "RefreshButton",
 
     getInitialState: function () {
       return {

@@ -11,6 +11,7 @@ define(function (require) {
     Resources = require('./Resources.react');
 
   return React.createClass({
+    displayName: "ProviderListView",
 
     mixins: [Router.State],
 
