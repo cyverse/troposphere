@@ -66,6 +66,7 @@ define(function (require) {
   stores.VolumeStore = require('stores/VolumeStore');
 
   var actions = require('actions');
+  actions.AllocationActions = require('actions/AllocationActions');
   actions.BadgeActions = require('actions/BadgeActions');
   actions.HelpActions = require('actions/HelpActions');
   actions.ImageActions = require('actions/ImageActions');

@@ -81,3 +81,4 @@ extras/nginx/Makefile
 extras/nginx/site.conf
 extras/nginx/locations/tropo.conf
 extras/apache/tropo.conf
+extras/troposphere.uwsgi.ini
