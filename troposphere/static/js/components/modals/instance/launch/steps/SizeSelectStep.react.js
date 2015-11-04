@@ -235,15 +235,26 @@ define(function (require) {
       if (!providerSizes) return <div className="loading"></div>;
 
 
-      this.state.size = this.state.size || providerSizes.first();
-      size = this.state.size;
-
       var minRequirements;
+      var firstAvailable = providerSizes.first();
 
       if(this.props.version.get('min_cpu') && this.props.version.get('min_mem')){
         minRequirements = 
           <div className="col-sm-9 control-label pull-right">Minimum requirements: {this.props.version.get('min_cpu')} CPU {this.props.version.get('min_mem')} GB RAM</div>;
+
+        var minCPUInt = parseInt(this.props.version.get('min_cpu')),
+          minMemInt = parseInt(this.props.version.get('min_mem'));
+
+        for(var i = 0; i < providerSizes.models.length; i++){
+          if (providerSizes.models[i].get('cpu') >= minCPUInt && providerSizes.models[i].get('mem') >= minMemInt){
+            firstAvailable = providerSizes.models[i];
+          }
+        }
       }
+
+      this.state.size = this.state.size || firstAvailable;
+      size = this.state.size;
+
 
 
       return (
