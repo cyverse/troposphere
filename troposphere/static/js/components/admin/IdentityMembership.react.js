@@ -3,8 +3,10 @@ define(function (require) {
 
   var React = require('react/addons'),
     Backbone = require('backbone'),
+    moment = require('moment'),
     Router = require('react-router'),
     showManageUserModal = require('modals/admin/showManageUserModal.js'),
+    actions = require('actions'),
     stores = require('stores');
 
   return React.createClass({
@@ -12,12 +14,18 @@ define(function (require) {
     propTypes: {
       membership: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
-    
-    manageUser: function(){
-        showManageUserModal.showModal(this.props.membership);
-        console.log('Disable');
+
+    toggleDisableUser: function(){
+        //showManageUserModal.showModal(this.props.membership);
+        // Call to action -- update end_date to 'now' or 'null'
+        var now_time = moment(Date.now()),
+            new_end_date = (this.props.membership.end_date) ? null : now_time;
+        actions.IdentityMembershipActions.update(this.props.membership, {'end_date':new_end_date});
     },
 
+    updateUser: function() {
+        showManageUserModal.showModal(this.props.membership);
+    },
 
     render: function () {
       var membership = this.props.membership;
@@ -49,7 +57,7 @@ define(function (require) {
                 type="button" 
                 className={btnClass} 
                 style={{marginLeft: "10px"}} 
-                onClick={this.manageUser} >
+                onClick={this.toggleDisableUser} >
                 {membershipStatus ? "Enable" : "Disable"}
             </button>
           </td>

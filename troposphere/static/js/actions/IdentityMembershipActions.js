@@ -5,22 +5,14 @@ define(function (require) {
     Constants = require('constants/IdentityMemebershipConstants');
 
   return {
-    update: function (params) {
-      var membership = params.membership,
-        response = params.response,
-        quota = params.quota,
-        allocation = params.allocation,
-        status = params.status;
+    update: function (membership, params) {
+      var end_date = params.end_date;
 
       var newAttributes = {
-        admin_message: response,
-        quota: quota,
-        allocation: allocation,
-        status: status
+        end_date: end_date.format("YYYY-MM-DDThh:mm:ssZ"),
       };
 
       membership.set(newAttributes);
-      Router.getInstance().transitionTo("resource-membership-manager");
       membership.save(newAttributes, {patch: true}).done(function () {
         Utils.dispatch(Constants.UPDATE, {model: membership});
         Utils.dispatch(Constants.REMOVE, {model: membership});
