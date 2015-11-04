@@ -16,7 +16,7 @@
     "unsafe-perm": true
   },
   "scripts": {
-    "dev" : "webpack -d --progress --profile --colors --bail --",
+    "dev": "webpack -d --progress --profile --colors --bail --",
     "build": "webpack --progress --profile --colors --bail --",
 <<<<<<< HEAD
     "watch": "webpack --progress --profile --colors --watch",

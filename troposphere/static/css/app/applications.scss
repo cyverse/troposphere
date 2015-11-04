@@ -206,13 +206,13 @@ ul.tags {
     span, a {
       padding: 5px 10px;
       border-radius: 3px;
-      background-color: $tag-color;
+      //background-color: $tag-color;
       color: #EEE;
       border: 0;
     }
 
     a:hover {
-      background-color: $tag-color;
+//      background-color: $tag-color;
       border: 0;
     }
   }

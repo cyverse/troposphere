@@ -25,16 +25,10 @@ define(
         var type = stores.ProfileStore.get().get('icon_set');
 
         var iconSize = 145;
-        var icon;
-        if (image.get('icon')) {
-          icon = (
-            <img src={image.get('icon')} width={iconSize} height={iconSize}/>
-          );
-        } else {
-          icon = (
+        // always use the Gravatar icons
+        var icon = (
             <Gravatar hash={image.get('uuid_hash')} size={iconSize} type={type}/>
           );
-        }
 
         // Hide bookmarking on the public page
         var bookmark;
