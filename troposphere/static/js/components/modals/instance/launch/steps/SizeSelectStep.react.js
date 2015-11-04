@@ -234,8 +234,17 @@ define(function (require) {
 
       if (!providerSizes) return <div className="loading"></div>;
 
+
       this.state.size = this.state.size || providerSizes.first();
       size = this.state.size;
+
+      var minRequirements;
+
+      if(this.props.version.get('min_cpu') && this.props.version.get('min_mem')){
+        minRequirements = 
+          <div className="col-sm-9 control-label pull-right">Minimum requirements: {this.props.version.get('min_cpu')} CPU {this.props.version.get('min_mem')} GB RAM</div>;
+      }
+
 
       return (
         <div>
@@ -248,14 +257,16 @@ define(function (require) {
 
               <div className='form-group'>
                 <label htmlFor='size' className="col-sm-3 control-label">Instance Size</label>
-
                 <div className="col-sm-9">
                   <InstanceSizeSelect
+                    min_cpu = {this.props.version.get('min_cpu')}
+                    min_mem = {this.props.version.get('min_mem')}
                     sizeId={this.state.size.id}
                     sizes={providerSizes}
                     onChange={this.onSizeChange}
                     />
                 </div>
+                {minRequirements}
               </div>
               <div className="modal-section">
                 <h4>Projected Resource Usage</h4>
