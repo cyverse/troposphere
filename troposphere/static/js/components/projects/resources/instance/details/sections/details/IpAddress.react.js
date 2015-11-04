@@ -8,6 +8,7 @@ define(
   function (React, Backbone, ResourceDetail) {
 
     return React.createClass({
+      displayName: "IpAddress",
 
       propTypes: {
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired

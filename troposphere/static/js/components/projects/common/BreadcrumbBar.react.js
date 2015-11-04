@@ -8,6 +8,7 @@ define(
   function (React, Backbone, Breadcrumb) {
 
     return React.createClass({
+      displayName: "ProjectsBreadcrumbBar",
 
       propTypes: {
         breadcrumbs: React.PropTypes.array.isRequired

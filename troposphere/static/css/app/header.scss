@@ -1,4 +1,4 @@
-.navbar-brand {
+/* .navbar-brand {
   background: url($logo-url) no-repeat 10px center;
   background-size: 30px 30px;
   padding-left: 50px;
@@ -29,7 +29,7 @@
 
   }
 }
-
+*/
 .beta-toggle {
   position: absolute;
   right:120px;
@@ -93,8 +93,8 @@
 .navbar-default .navbar-nav > li > a.active,
 .navbar-default .navbar-nav > li > a.active:hover,
 .navbar-default .navbar-nav > li > a.active:focus {
-  color: $navbar-default-link-active-color;
-  background-color: $navbar-default-link-active-bg;
+//  color: $navbar-default-link-active-color;
+//  background-color: $navbar-default-link-active-bg;
 }
 .container > .navbar-header {
   @media (min-width:768px) and (max-width:1200px) {

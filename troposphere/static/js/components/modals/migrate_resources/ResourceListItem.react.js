@@ -9,6 +9,7 @@ define(
   function (React, Backbone, Instance, Volume) {
 
     return React.createClass({
+      displayName: "ResourceListItem",
 
       propTypes: {
         resource: React.PropTypes.instanceOf(Backbone.Model).isRequired

@@ -5,6 +5,8 @@ define(function (require) {
         Gravatar = require('components/common/Gravatar.react');
 
     return React.createClass({
+      displayName: "IconOption",
+
       render: function () {
         var onClick = _.partial(this.props.onClick, this.props.type);
 

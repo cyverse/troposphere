@@ -4,6 +4,7 @@ define(function (require) {
     EditableInputField = require('components/common/EditableInputField.react');
 
   return React.createClass({
+    displayName: "InputField",
 
     propTypes: {
       title: React.PropTypes.string,

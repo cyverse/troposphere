@@ -7,6 +7,7 @@ define(function (require) {
     modals = require('modals');
 
   return React.createClass({
+    displayName: "VolumeActionButtons",
 
     propTypes: {
       multipleSelected: React.PropTypes.bool.isRequired,

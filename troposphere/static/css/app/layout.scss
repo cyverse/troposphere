@@ -32,7 +32,7 @@
 .secondary-nav {
   background: white;
   border-bottom: 1px solid #EEEEEE;
-  margin-bottom: 35px;
+  margin-bottom: 20px;
 
   .project-name i {
     display: none;
@@ -86,12 +86,12 @@
 
     // used until react-router conversion is complete
     &.active a {
-      border-color: $brand-primary;
+//      border-color: $brand-primary;
     }
 
     // used for react-router links
     a.active {
-      border-color: $brand-primary;
+  //    border-color: $brand-primary;
     }
   }
 
@@ -250,9 +250,9 @@
     }
 
     &.active a {
-      color: $brand-primary;
+      //color: $brand-primary;
       font-weight: 600;
-      border-left: 2px solid $brand-primary;
+     //border-left: 2px solid $brand-primary;
       padding-left: 9px;
     }
   }
@@ -302,7 +302,7 @@
 
     .title {
       font-size: 17px;
-      border-bottom: 2px solid $brand-primary;
+      //border-bottom: 2px solid $brand-primary;
       text-transform: uppercase;
       margin-left: 7px;
       padding-right: 7px;
@@ -394,10 +394,6 @@
       background-color: #eee;
     }
   }
-}
-
-.project-details > div.container {
-  margin-top: -35px;
 }
 
 // Table styles

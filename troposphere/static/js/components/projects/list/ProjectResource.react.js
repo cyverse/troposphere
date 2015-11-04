@@ -10,6 +10,7 @@ define(
   function (React, $) {
 
     return React.createClass({
+      displayName: "ProjectResource",
 
       propTypes: {
         icon: React.PropTypes.string.isRequired,

@@ -11,6 +11,7 @@ define(
   function (React, Backbone, ProjectList, modals, ProjectListHeader, actions) {
 
     return React.createClass({
+      displayName: "ProjectListView",
 
       propTypes: {
         projects: React.PropTypes.instanceOf(Backbone.Collection).isRequired

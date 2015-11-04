@@ -1,12 +1,10 @@
-
-define(
-  [
-    'react',
-    'components/mixins/BootstrapModalMixin.react'
-  ],
-  function (React, BootstrapModalMixin, Glyphicon) {
+define(function (require) {
+    var React = require('react'),
+      BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react');
 
     return React.createClass({
+      displayName: "InstanceResumeModal",
+
       mixins: [BootstrapModalMixin],
 
       //
@@ -67,4 +65,4 @@ define(
 
     });
 
-  });
+});

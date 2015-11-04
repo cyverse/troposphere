@@ -7,6 +7,7 @@ define(function (require) {
     actions = require('actions');
 
   return React.createClass({
+    displayName: "VolumeActionsAndLinks",
 
     propTypes: {
       volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,

@@ -9,7 +9,7 @@ define(function (require) {
     bootstrap = require('bootstrap');
 
   return React.createClass({
-    display: "Tag",
+    displayName: "Tag",
 
     propTypes: {
       tag: React.PropTypes.instanceOf(Backbone.Model).isRequired,

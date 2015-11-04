@@ -8,6 +8,8 @@ define(
   function(React, BootstrapModalMixin, Glyphicon) {
 
     return React.createClass({
+      displayName: "InstanceRebootModal",
+
       mixins: [BootstrapModalMixin],
 
       //
@@ -54,7 +56,6 @@ define(
       },
 
       render: function() {
-
         return (
           <div className="modal fade">
             <div className="modal-dialog">
@@ -84,5 +85,4 @@ define(
       }
 
     });
-
-  });
+});

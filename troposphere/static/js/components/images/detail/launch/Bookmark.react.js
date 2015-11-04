@@ -7,6 +7,7 @@ define(function (require) {
     empty_star = require("images/empty-star-icon.png");
 
   return React.createClass({
+    displayName: "Bookmark",
 
     toggleFavorite: function (e) {
       e.preventDefault();

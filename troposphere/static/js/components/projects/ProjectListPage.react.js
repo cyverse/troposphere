@@ -14,6 +14,7 @@ define(
     }
 
     return React.createClass({
+      displayName: "ProjectListPage",
 
       //
       // Mounting & State

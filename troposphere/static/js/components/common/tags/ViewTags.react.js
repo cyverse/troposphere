@@ -5,7 +5,7 @@ define(function (require) {
     Tag = require('./Tag.react');
 
   return React.createClass({
-    display: "ViewTags",
+    displayName: "ViewTags",
 
     propTypes: {
       activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,

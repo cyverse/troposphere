@@ -4,6 +4,7 @@ define(function (require) {
       checkmark = require('images/checkmark.png');
 
   return React.createClass({
+    displayName: "Checkbox",
 
     propTypes: {
       isChecked: React.PropTypes.bool

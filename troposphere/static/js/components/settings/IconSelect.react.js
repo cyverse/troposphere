@@ -5,6 +5,7 @@ define(function (require) {
         IconOption = require("./IconOption.react");
 
     return React.createClass({
+      displayName: "IconSelect",
 
       getDefaultProps: function () {
         return {
