@@ -3,7 +3,7 @@ define(function (require) {
         InteractiveDateField = require('components/common/InteractiveDateField.react'),
         BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react');
 
-    
+
     return React.createClass({
 
     getInitialState:function(){
@@ -18,7 +18,7 @@ define(function (require) {
     },
 
     displayName: "ManageUserModal",
-    
+
     mixins: [BootstrapModalMixin],
 
     cancel: function(){
@@ -30,9 +30,9 @@ define(function (require) {
     },
 
     render: function () {
-    var ident_member = this.props.ident_member;
-        debugger;
-    var content = (
+      var ident_member = this.props.ident_member;
+
+      var content = (
         <div>
             <h4>Manage User End Date</h4>
             <ul>
