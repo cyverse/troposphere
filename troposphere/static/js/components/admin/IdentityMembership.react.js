@@ -19,7 +19,7 @@ define(function (require) {
         //showManageUserModal.showModal(this.props.membership);
         // Call to action -- update end_date to 'now' or 'null'
         var now_time = moment(Date.now()),
-            new_end_date = (this.props.membership.end_date) ? null : now_time;
+            new_end_date = (this.props.membership.get('end_date')) ? null : now_time;
         actions.IdentityMembershipActions.update(this.props.membership, {'end_date':new_end_date});
     },
 
