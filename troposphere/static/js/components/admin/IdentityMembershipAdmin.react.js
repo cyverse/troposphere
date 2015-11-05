@@ -1,13 +1,10 @@
-define(function (require) {
-  "use strict";
+import React from 'react/addons';
+import Router from 'react-router';
+import stores from 'stores';
+import actions from 'actions';
+import IdentityMembershipActions from 'actions/IdentityMembershipActions';
 
-  var React = require('react/addons'),
-    Router = require('react-router'),
-    stores = require('stores'),
-    actions = require('actions'),
-    IdentityMembershipActions = require('actions/IdentityMembershipActions');
-
-  return React.createClass({
+export default React.createClass({
 
     mixins: [Router.State],
 
@@ -96,5 +93,4 @@ define(function (require) {
         </div>
       );
     }
-  });
 });
