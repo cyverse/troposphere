@@ -2,8 +2,8 @@ import _ from 'underscore';
 import BaseStore from 'stores/BaseStore';
 import Dispatcher from 'dispatchers/Dispatcher';
 import Store from 'stores/Store';
-import Constants from 'constants/ResourceRequestConstants';
-import Collection from 'collections/AllocationCollection';
+import AllocationConstants from 'constants/ResourceRequestConstants';
+import AllocationCollection from 'collections/AllocationCollection';
 import stores from 'stores';
 
 
@@ -32,4 +32,4 @@ Dispatcher.register(function(dispatch) {
     return true;
 });
 
-export default ModelStore;
+export default store;

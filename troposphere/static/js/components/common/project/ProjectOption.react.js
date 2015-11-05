@@ -1,12 +1,7 @@
+import React from 'react';
+import Backbone from 'backbone';
 
-define(
-  [
-    'react',
-    'backbone'
-  ],
-  function (React, Backbone) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "CommonProjectOption",
 
       propTypes: {
@@ -22,6 +17,4 @@ define(
           </option>
         );
       }
-    });
-
-  });
+});

@@ -1,14 +1,11 @@
-define(function (require) {
+import React from 'react/addons';
+import $ from "jquery";
+import Backbone from 'backbone';
+import Router from 'react-router';
+// plugin: required but not used directly
+import bootstrap from 'bootstrap';
 
-  var React = require('react/addons'),
-      $ = require("jquery"),
-    Backbone = require('backbone'),
-    Router = require('react-router'),
-  //Router = require('router'),
-  // plugin: required but not used directly
-    bootstrap = require('bootstrap');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "Tag",
 
     propTypes: {
@@ -60,7 +57,4 @@ define(function (require) {
       );
 
     }
-
-  });
-
 });

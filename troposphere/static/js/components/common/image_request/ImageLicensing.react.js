@@ -1,10 +1,8 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import ManyToManyList from 'components/common/ManyToManyList.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    ManyToManyList = require('components/common/ManyToManyList.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "ImageLicensing",
 
     propTypes: {
@@ -47,5 +45,4 @@ define(function (require) {
                         title="Image Licensing"/>
       );
     },
-  });
 });

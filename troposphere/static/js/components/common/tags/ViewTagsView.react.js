@@ -1,11 +1,9 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import context from 'context';
+import ViewTags from './ViewTags.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    context = require('context'),
-    ViewTags = require('./ViewTags.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "ViewTagsView",
 
     propTypes: {
@@ -40,7 +38,4 @@ define(function (require) {
       );
 
     }
-
-  });
-
 });

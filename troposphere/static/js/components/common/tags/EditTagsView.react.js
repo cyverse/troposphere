@@ -1,13 +1,11 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import ViewTags from './ViewTags.react';
+import TagMultiSelect from './TagMultiSelect.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    ViewTags = require('./ViewTags.react'),
-    TagMultiSelect = require('./TagMultiSelect.react');
+let ENTER_KEY = 13;
 
-  var ENTER_KEY = 13;
-
-  return React.createClass({
+export default React.createClass({
     displayName: "CommonEditTagsView",
 
     propTypes: {
@@ -108,7 +106,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

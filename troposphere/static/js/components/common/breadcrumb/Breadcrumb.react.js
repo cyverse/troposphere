@@ -1,9 +1,7 @@
-define(function(require) {
+import React from 'react/addons';
+import Router from 'react-router';
 
-  var React = require('react/addons'),
-    Router = require('react-router');
-
-  return React.createClass({
+export default React.createClass({
 
     displayName: "Breadcrumb",
 
@@ -38,7 +36,4 @@ define(function(require) {
     render: function() {
       return this.renderLink();
     }
-
-  });
-
 });

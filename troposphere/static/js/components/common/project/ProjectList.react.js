@@ -1,13 +1,10 @@
 
-define(
-  [
-    'react',
-    './Project.react',
-    'backbone'
-  ],
-  function (React, Project, Backbone) {
+import React from 'react';
+import Project from './Project.react';
+import Backbone from 'backbone';
 
-    return React.createClass({
+
+export default React.createClass({
       displayName: "CommonProjectList",
 
       propTypes: {
@@ -39,6 +36,4 @@ define(
           </ul>
         );
       }
-    });
-
-  });
+});

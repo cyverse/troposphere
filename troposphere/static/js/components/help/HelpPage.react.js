@@ -1,32 +1,29 @@
+import _ from "underscore";
+import React from 'react/addons';
 
-define(function (require) {
-    var _ = require("underscore"),
-        React = require('react/addons');
-
-    var resources = [
-      {
+let resources = [{
         title: "User Manual",
         href: "https://pods.iplantcollaborative.org/wiki/x/Iaxm",
         description: "Complete documentation for using Atmosphere"
-      },
-      {
+    },
+    {
         title: "User Forums",
         href: "http://ask.iplantcollaborative.org",
         description: "Get answers from iPlant users and staff"
-      },
-      {
+    },
+    {
         title: "FAQs",
         href: "https://pods.iplantcollaborative.org/wiki/display/atmman/Atmosphere+FAQs",
         description: "Atmosphere's most frequently asked questions"
-      },
-      {
+    },
+    {
         title: "VNC Viewer Tutorial",
         href: "https://pods.iplantcollaborative.org/wiki/display/atmman/Using+VNC+Viewer+to+Connect+to+an+Atmosphere+VM",
         description: "Instructions for downloading and using VNC Viewer"
-      }
-    ];
+    }
+];
 
-    return React.createClass({
+export default React.createClass({
       displayName: "HelpPage",
 
       render: function () {
@@ -59,5 +56,4 @@ define(function (require) {
           </div>
         );
       }
-    });
 });
