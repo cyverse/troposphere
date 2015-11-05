@@ -94,6 +94,10 @@ Atmo.Utils.calculate_occupancy = function(vcpus_used, vcpus, memory_mb_used, mem
 };
 
 Atmo.Utils.update_weather = function() {
+    if(Atmo.profile.get('selected_identity') === null) {
+        $('#weather_report').html('Atmosphere could not determine the capacity and forecast for this cloud.');
+        return;
+    }
 
     $.ajax({
         url: Atmo.API_ROOT + '/provider/' + Atmo.profile.get('selected_identity').get('provider_id') + '/hypervisor',

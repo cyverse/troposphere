@@ -57,6 +57,7 @@ define(function (require) {
   stores.ProviderMachineStore = require('stores/ProviderMachineStore');
   stores.ProviderStore = require('stores/ProviderStore');
   stores.ResourceRequestStore = require('stores/ResourceRequestStore');
+  stores.IdentityMembershipStore = require('stores/IdentityMembershipStore');
   stores.StatusStore = require('stores/StatusStore');
   stores.QuotaStore = require('stores/QuotaStore');
   stores.SizeStore = require('stores/SizeStore');
@@ -69,6 +70,7 @@ define(function (require) {
   actions.AllocationActions = require('actions/AllocationActions');
   actions.BadgeActions = require('actions/BadgeActions');
   actions.HelpActions = require('actions/HelpActions');
+  actions.IdentityMembershipActions = require('actions/IdentityMembershipActions');
   actions.ImageActions = require('actions/ImageActions');
   actions.ImageVersionActions = require('actions/ImageVersionActions');
   actions.ImageVersionMembershipActions = require('actions/ImageVersionMembershipActions');
@@ -78,7 +80,6 @@ define(function (require) {
   actions.InstanceActions = require('actions/InstanceActions');
   actions.InstanceTagActions = require('actions/InstanceTagActions');
   actions.InstanceVolumeActions = require('actions/InstanceVolumeActions');
-  //actions.MembershipActions     = require('actions/MembershipActions');
   actions.LicenseActions = require('actions/LicenseActions');
   actions.ScriptActions = require('actions/ScriptActions');
   actions.NullProjectActions = require('actions/NullProjectActions');
