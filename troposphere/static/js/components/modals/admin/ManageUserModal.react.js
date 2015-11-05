@@ -4,7 +4,11 @@ define(function (require) {
         BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react');
 
 
-    return React.createClass({
+  return React.createClass({
+
+    displayName: "ManageUserModal",
+
+    mixins: [BootstrapModalMixin],
 
     getInitialState:function(){
         return {
@@ -16,10 +20,6 @@ define(function (require) {
         var endDate = value;
         this.setState({endDate: endDate});
     },
-
-    displayName: "ManageUserModal",
-
-    mixins: [BootstrapModalMixin],
 
     cancel: function(){
         this.hide();
