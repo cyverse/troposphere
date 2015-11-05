@@ -61,6 +61,7 @@ stores.VolumeStore = require('stores/VolumeStore');
 
 import actions from 'actions';
 
+actions.AllocationActions = require('actions/AllocationActions');
 actions.BadgeActions = require('actions/BadgeActions');
 actions.HelpActions = require('actions/HelpActions');
 actions.ImageActions = require('actions/ImageActions');
@@ -99,19 +100,19 @@ export default {
     run: function() {
 
         let authHeaders = {
-          "Content-Type": "application/json"
+            "Content-Type": "application/json"
         }
 
         // Assure that an auth header is only included when we have
         // an actually `access_token` to provide.
         if (window.access_token) {
-        authHeaders["Authorization"] = "Token " + window.access_token;
+            authHeaders["Authorization"] = "Token " + window.access_token;
         }
 
 
         // Make sure the Authorization header is added to every AJAX request
         $.ajaxSetup({
-        headers: authHeaders
+            headers: authHeaders
         });
 
         // We're wrapping Backbone.sync so that we can observe every AJAX request.

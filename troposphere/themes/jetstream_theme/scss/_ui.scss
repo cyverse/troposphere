@@ -1,0 +1,85 @@
+
+/* =========================================================
+    UI elements 
+============================================================ */
+
+a {
+    color: $link-color;
+    border-bottom: 1px solid transparent;
+    &:hover {
+        color:darken($link-color, 10%);
+    }
+}
+
+ul.tags li span, ul.tags li a {
+    padding: 5px 10px;
+    border-radius: 3px;
+    background-color: $brand-primary;
+    color: #EEE;
+    border: 0;
+    &:hover {
+        background-color:darken($brand-primary, 10%);
+    }
+}
+
+//This is to override the bootstrap btn-primary and prevent leakage.
+//TODO I don't like the layers of overiding the cascade here, a cleaner solution would make me happy. 
+.btn-primary {
+  color: #fff;
+  background-color: $brand-primary;
+  border-color: darken($brand-primary, 10%); }
+  .btn-primary:focus,
+  .btn-primary.focus {
+  color: #fff;
+  background-color: $brand-primary;
+  border-color: darken($brand-primary, 10%); }
+  .btn-primary:hover {
+  color: #fff;
+  background-color: darken($brand-primary, 10%);
+  border-color: darken($brand-primary, 20%); }
+  .btn-primary:active,
+  .btn-primary.active,
+  .open > .btn-primary.dropdown-toggle {
+  color: #fff;
+  background-color: $brand-primary;
+  border-color: darken($brand-primary, 10%); }
+    .btn-primary:active:hover,
+    .btn-primary:active:focus,
+    .btn-primary:active.focus,
+    .btn-primary.active:hover,
+    .btn-primary.active:focus,
+    .btn-primary.active.focus,
+    .open > .btn-primary.dropdown-toggle:hover,
+    .open > .btn-primary.dropdown-toggle:focus,
+    .open > .btn-primary.dropdown-toggle.focus {
+    color: #fff;
+    background-color: $brand-primary;
+    border-color: darken($brand-primary, 10%); }
+  .btn-primary:active,
+  .btn-primary.active,
+  .open > .btn-primary.dropdown-toggle {
+    background-image: none; }
+  .btn-primary.disabled,
+  .btn-primary.disabled:hover,
+  .btn-primary.disabled:focus,
+  .btn-primary.disabled.focus,
+  .btn-primary.disabled:active,
+  .btn-primary.disabled.active,
+  .btn-primary[disabled],
+  .btn-primary[disabled]:hover,
+  .btn-primary[disabled]:focus,
+  .btn-primary[disabled].focus,
+  .btn-primary[disabled]:active,
+  .btn-primary[disabled].active,
+  fieldset[disabled] .btn-primary,
+  fieldset[disabled] .btn-primary:hover,
+  fieldset[disabled] .btn-primary:focus,
+  fieldset[disabled] .btn-primary.focus,
+  fieldset[disabled] .btn-primary:active,
+  fieldset[disabled] .btn-primary.active {
+    color: #fff;
+    background-color: $brand-primary;
+    border-color: darken($brand-primary, 10%); }
+  .btn-primary .badge {
+    color: #56AA21;
+    background-color: #fff; }

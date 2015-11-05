@@ -6,11 +6,11 @@
 /* For: Bootstrap */
 
 // Basics of the navbar
-$navbar-default-bg: #0098aa;
-$brand-primary: #56AA21;
-$logo-url: '../../images/mini_logo.png';
-$application-name: 'Atmosphere';
-$application-label: 'BETA';
+//$navbar-default-bg: #0098aa;
+//$brand-primary: #56AA21;
+//$logo-url: '../../images/mini_logo.png';
+//$application-name: 'Atmosphere';
+//$application-label: 'BETA';
 
 // React theme for testing
 //$navbar-default-bg: #00bcd4;
@@ -19,26 +19,26 @@ $application-label: 'BETA';
 //$application-name: 'React';
 
 // Navbar links
-$navbar-default-link-color: darken(white, 10%);
-$navbar-default-link-hover-color: white;
-$navbar-default-link-active-color:         white;
-$navbar-default-link-active-bg:            darken($navbar-default-bg, 6.5%);
+//$navbar-default-link-color: darken(white, 10%);
+//$navbar-default-link-hover-color: white;
+//$navbar-default-link-active-color:         white;
+//$navbar-default-link-active-bg:            darken($navbar-default-bg, 6.5%);
 //$navbar-default-link-active-bg: #00aabd; // alternate lighter color
 
 // Navbar brand label
-$navbar-default-brand-color: white;
-$navbar-default-brand-hover-color: $navbar-default-brand-color;
+//$navbar-default-brand-color: white;
+//$navbar-default-brand-hover-color: $navbar-default-brand-color;
 
 // Navbar toggle
-$navbar-default-toggle-hover-bg:           $navbar-default-link-active-bg;
-$navbar-default-toggle-icon-bar-bg:        #fff;
-$navbar-default-toggle-border-color:       $navbar-default-link-active-bg;
+//$navbar-default-toggle-hover-bg:           $navbar-default-link-active-bg;
+//$navbar-default-toggle-icon-bar-bg:        #fff;
+//$navbar-default-toggle-border-color:       $navbar-default-link-active-bg;
 
 // We need to let bootstrap know the path to our glyphicons
 $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 
-$link-color: $brand-primary;
-$tag-color: $brand-primary;
+//$link-color: $brand-primary;
+//$tag-color: $brand-primary;
 
 
 //

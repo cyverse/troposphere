@@ -1,8 +1,10 @@
 import React from 'react/addons';
 import stores from 'stores';
-import login from 'images/login_mainimage.png';
+
+var login = THEME_URL + "images/login_mainimage.png";
 
 export default React.createClass({
+
     displayName: "MaintenanceScreen",
 
     render: function () {

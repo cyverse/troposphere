@@ -1,3 +1,4 @@
+
 import React from 'react/addons';
 import Profile from 'models/Profile';
 import $ from 'jquery';
@@ -8,6 +9,7 @@ import routes from './AppRoutes.react';
 import stores from 'stores';
 
 stores.ImageStore = require('stores/ImageStore');
+stores.ImageBookmarkStore = require('stores/ImageBookmarkStore');
 stores.ImageVersionStore = require('stores/ImageVersionStore');
 stores.TagStore = require('stores/TagStore');
 
@@ -32,6 +34,7 @@ stores.MaintenanceMessageStore = {
 function startApplication() {
 
     $(document).ready(function() {
+
         $('body').removeClass('splash-screen');
 
         // Start the application router
