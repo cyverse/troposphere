@@ -56,7 +56,7 @@ define(function (require) {
       var memberships;
      var query_params = {};
       if(this.state.query !== null && this.state.query !== "") {
-          query_params.query = this.state.query
+          query_params.username = this.state.query
       }
       if(this.state.selectedProviderId != -1) {
           query_params.provider_id = this.state.selectedProviderId;
