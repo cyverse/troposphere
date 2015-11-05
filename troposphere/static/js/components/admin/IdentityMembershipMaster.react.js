@@ -42,6 +42,9 @@ define(function (require) {
     onProviderChange: function (e) {
       var provider_key = e.target.id,
           provider_id = provider_key.split('-')[1];
+      if (provider_id === 'all') {
+          provider_id = -1
+      }
       this.setState({selectedProviderId: provider_id});
     },
 
@@ -101,6 +104,14 @@ define(function (require) {
           </table>
         );
     },
+    renderAllProviderRow: function(provider) {
+          var provider_id = "provider-all";
+          return (
+            <button className="btn btn-default" style={{marginRight: "10px"}} id={provider_id} key={-1} onClick={this.onProviderChange}>
+                {"All Providers"}
+            </button>
+          );
+    },
     renderProvider: function(provider) {
           var provider_id = "provider-"+provider.id;
           return (
@@ -118,6 +129,7 @@ define(function (require) {
         var providerRows = providers.map(function (provider) {
           return self.renderProvider(provider);
         });
+        providerRows.push(self.renderAllProviderRow())
         return (
             <div className="secondary-nav-links">
                 {providerRows}
