@@ -1,13 +1,10 @@
-define(function (require) {
-  "use strict";
+import stores from 'stores';
+import globals from 'globals';
+import $ from 'jquery';
+import _ from 'underscore';
+import Utils from '../Utils';
 
-  var stores = require('stores'),
-    globals = require('globals'),
-    $ = require('jquery'),
-    _ = require('underscore'),
-    Utils = require('../Utils');
-
-  return {
+export default {
 
     report: function (params) {
       if (!params.instance) throw new Error("Missing instance");
@@ -61,5 +58,3 @@ define(function (require) {
     }
 
   };
-
-});

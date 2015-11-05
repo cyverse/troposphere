@@ -1,10 +1,6 @@
 
-define(
-  [
-    'react',
-    'components/mixins/BootstrapModalMixin.react'
-  ],
-  function (React, BootstrapModalMixin) {
+import React from 'react';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 
     // Example Usage from http://bl.ocks.org/insin/raw/8449696/
     // render: function(){
@@ -31,14 +27,14 @@ define(
     //   this.refs.modal.show();
     // }
 
-    function getState() {
-      return {
+function getState() {
+    return {
         name: null,
         description: null
-      }
     }
+}
 
-    return React.createClass({
+export default React.createClass({
       displayName: "TagCreateModal",
 
       mixins: [BootstrapModalMixin],
@@ -159,6 +155,4 @@ define(
         );
       }
 
-    });
-
-  });
+});
