@@ -1,12 +1,10 @@
-define(function (require) {
-  "use strict";
+import React from 'react/addons';
+import Backbone from 'backbone';
+import Router from 'react-router';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    Router = require('react-router'),
-    stores = require('stores');
-
-  return React.createClass({
+export default React.createClass({
+    displayName: "ImageRequest",
 
     propTypes: {
       request: React.PropTypes.instanceOf(Backbone.Model).isRequired
@@ -26,8 +24,4 @@ define(function (require) {
         </tr>
       );
     }
-
-
-  });
-
 });

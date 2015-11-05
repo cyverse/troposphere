@@ -1,9 +1,7 @@
-define(function (require) {
+import React from 'react/addons';
+import $ from 'jquery';
 
-  var React = require('react/addons'),
-    $ = require('jquery');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "EditableTextAreaField",
 
     propTypes: {
@@ -35,7 +33,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

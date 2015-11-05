@@ -1,13 +1,11 @@
-define(function (require) {
+import React from 'react/addons';
+import _ from 'underscore';
+import moment from 'moment';
+import globals from 'globals';
+// plugin: required but not used directly
+import bootstrap from 'bootstrap';
 
-  var React = require('react/addons'),
-    _ = require('underscore'),
-      moment = require('moment'),
-      globals = require('globals'),
-  // plugin: required but not used directly
-    bootstrap = require('bootstrap');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "InteractiveDateField",
 
     propTypes: {
@@ -58,6 +56,4 @@ define(function (require) {
       </div>
       );
     }
-  });
-
 });

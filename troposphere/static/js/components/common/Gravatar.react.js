@@ -1,9 +1,7 @@
-define(function (require) {
+import React from 'react/addons';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-    stores = require('stores');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "Gravatar",
 
     getDefaultProps: function () {
@@ -47,7 +45,4 @@ define(function (require) {
         <img src={imgSrc} width={this.props.size} height={this.props.size}/>
       );
     }
-
-  });
-
 });
