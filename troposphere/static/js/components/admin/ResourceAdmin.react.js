@@ -1,14 +1,11 @@
-define(function (require) {
-  "use strict";
+import React from 'react/addons';
+import Router from 'react-router';
+import stores from 'stores';
+import Glyphicon from 'components/common/Glyphicon.react';
+import actions from 'actions';
+import ResourceActions from 'actions/ResourceActions';
 
-  var React = require('react/addons'),
-    Router = require('react-router'),
-    stores = require('stores'),
-    Glyphicon = require('components/common/Glyphicon.react'),
-    actions = require('actions'),
-    ResourceActions = require('actions/ResourceActions');
-
-  return React.createClass({
+export default React.createClass({
 
     mixins: [Router.State],
 
@@ -58,7 +55,7 @@ define(function (require) {
       e.preventDefault();
       var resourceRequest = stores.ResourceRequestStore.get(this.getParams().resourceRequestId),
         status = stores.StatusStore.findOne({name: "rejected"});
-      
+
       ResourceActions.update({
         request: resourceRequest,
         response: this.state.response,
@@ -74,7 +71,7 @@ define(function (require) {
 
     makeNewAllocation: function(){
       actions.AllocationActions.create({"threshold": this.state.AUSearch * 60, "delta": this.state.delta});
-    }, 
+    },
 
     onExpireChange: function(e){
       // If expire is currently true, we want it to be false. Set delta to -1 for non expiring AU, standard 525600 for expiring.
@@ -88,7 +85,7 @@ define(function (require) {
           <div>
             <p>Allocation with {this.state.AUSearch} AU expiring: {this.state.expire ? "true":"false"} does not exist. Click <a href="#" onClick={this.makeNewAllocation}>here</a> to create it.</p>
           </div>
-        ); 
+        );
       }
       else{
         return(
@@ -185,4 +182,3 @@ define(function (require) {
       );
     }
   });
-});

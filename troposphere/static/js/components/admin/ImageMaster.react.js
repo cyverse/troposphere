@@ -1,15 +1,13 @@
-define(function (require) {
-  "use strict";
+import React from 'react';
+import Router from 'react-router';
+import stores from 'stores';
+import actions from 'actions';
+import ImageRequest from './ImageRequest.react';
+import ImageRequestActions from 'actions/ImageRequestActions';
 
-  var React = require('react'),
-      Router = require('react-router'),
-      stores = require('stores'),
-      RouteHandler = Router.RouteHandler,
-      actions = require('actions'),
-      ImageRequest = require('./ImageRequest.react'),
-      ImageRequestActions = require('actions/ImageRequestActions');
+let RouteHandler = Router.RouteHandler;
 
-  return React.createClass({
+export default React.createClass({
 
     mixins: [Router.State],
 
@@ -18,7 +16,7 @@ define(function (require) {
     },
 
     render: function () {
-      var imageRequests = stores.ImageRequestStore.fetchWhere({status__name: "pending"});  
+      var imageRequests = stores.ImageRequestStore.fetchWhere({status__name: "pending"});
       var statuses = stores.StatusStore.getAll();
       var loadMoreButton;
 
@@ -66,5 +64,3 @@ define(function (require) {
         );
     }
   });
-});
-

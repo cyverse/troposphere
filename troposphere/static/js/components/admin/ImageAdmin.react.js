@@ -1,13 +1,10 @@
-define(function (require) {
-  "use strict";
+import React from 'react';
+import Router from 'react-router';
+import stores from 'stores';
+import actions from 'actions';
+import ImageRequestActions from 'actions/ImageRequestActions';
 
-  var React = require('react'),
-      Router = require('react-router'),
-      stores = require('stores'),
-      actions = require('actions'),
-      ImageRequestActions = require('actions/ImageRequestActions');
-
-  return React.createClass({
+export default React.createClass({
 
     mixins: [Router.State],
 
@@ -53,7 +50,7 @@ define(function (require) {
 
       var request = stores.ImageRequestStore.get(this.getParams().imageRequestId),
       status = stores.StatusStore.findOne({name: "pending"});
-      
+
       ImageRequestActions.update({
         request: request,
         response: this.state.response,
@@ -64,7 +61,7 @@ define(function (require) {
 
     render: function () {
       var requestId = (this.getParams().imageRequestId);
-      
+
       var request = stores.ImageRequestStore.get(requestId);
 
       if(!request){
@@ -75,7 +72,7 @@ define(function (require) {
 
       var allowImaging = "false";
       var forked = "false";
-      
+
       if(request.get('new_version_forked')){
         forked = "true";
       }
@@ -119,5 +116,3 @@ define(function (require) {
       );
     }
   });
-}); 
-

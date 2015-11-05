@@ -1,14 +1,12 @@
-define(function (require) {
-  "use strict";
+import React from 'react/addons';
+import Router from 'react-router';
+import stores from 'stores';
+import ResourceAdmin from './ResourceAdmin.react';
+import ResourceRequest from './ResourceRequest.react';
 
-  var React = require('react/addons'),
-    Router = require('react-router'),
-    stores = require('stores'),
-    ResourceAdmin = require('./ResourceAdmin.react'),
-    ResourceRequest = require('./ResourceRequest.react'),
-    RouteHandler = Router.RouteHandler;
+let RouteHandler = Router.RouteHandler;
 
-  return React.createClass({
+export default React.createClass({
 
     mixins: [Router.State],
 
@@ -34,7 +32,7 @@ define(function (require) {
                  <h3>No resource requests</h3>
                 </div>
                 );
-      
+
       }
 
       return (
@@ -60,7 +58,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

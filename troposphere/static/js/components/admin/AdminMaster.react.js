@@ -1,14 +1,12 @@
-define(function (require) {
-  "use strict";
+import React from 'react';
+import Router from 'react-router';
+import stores from 'stores';
+import ResourceMaster from './ResourceMaster.react';
+import ImageMaster from './ImageMaster.react';
 
-  var React = require('react'),
-      Router = require('react-router'),
-      stores = require('stores'),
-      ResourceMaster = require('./ResourceMaster.react'),
-      ImageMaster = require('./ImageMaster.react'),
-      RouteHandler = Router.RouteHandler;
+let RouteHandler = Router.RouteHandler;
 
-  return React.createClass({
+export default React.createClass({
 
     mixins: [Router.State],
 
@@ -30,6 +28,3 @@ define(function (require) {
     }
 
   });
-
-}); 
-

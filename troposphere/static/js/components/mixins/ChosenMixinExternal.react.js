@@ -1,12 +1,10 @@
-define(function (require) {
+import React from 'react/addons';
+import $ from 'jquery';
+import Backbone from 'backbone';
 
-  var React = require('react/addons'),
-    $ = require('jquery'),
-    Backbone = require('backbone');
+let ENTER_KEY = 13;
 
-  var ENTER_KEY = 13;
-
-  return {
+export default {
     getInitialState: function(){
       return {
         showOptions: false,
@@ -157,7 +155,7 @@ define(function (require) {
       if(!required_models || required_models.length == 0) {
         if (this.props.activeModels instanceof Array)
             return new Backbone.Collection(activeModels);
-        else 
+        else
             return active_models;
       }
 
@@ -236,6 +234,5 @@ define(function (require) {
       );
     }
 
-  };
+};
 
-});
