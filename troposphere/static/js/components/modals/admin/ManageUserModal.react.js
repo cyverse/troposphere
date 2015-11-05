@@ -8,8 +8,8 @@ define(function (require) {
 
     getInitialState:function(){
         return {
-            endDate:""
-        }
+            endDate: ""
+        };
     },
 
     handleEndDateChange: function(value) {
