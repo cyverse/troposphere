@@ -216,6 +216,33 @@ define(function (require) {
       return this.renderProgressBar(message, currentlyUsedPercent, projectedPercent, overQuotaMessage);
     },
 
+    renderNoSizesAvailable: function(minRequirements){
+      var minRequirements = (
+          <div className="col-sm-9 control-label pull -left">Minimum requirements: {this.props.version.get('min_cpu')} CPU {this.props.version.get('min_mem')} GB RAM</div>
+      );
+      return(
+        <div>
+            <div role='form'>
+              <div className="modal-section form-horizontal">
+                <h4>Select an Instance Size</h4>
+                  <p>Minimum requirements not available on this provider.</p>
+                  {minRequirements}
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-default pull-left" onClick={this.onBack}>
+                <span className="glyphicon glyphicon-chevron-left"></span>
+                Back
+              </button>
+              <button type="button" className="btn btn-primary" onClick={this.confirm} disabled={!this.isSubmittable()}>
+                Continue
+              </button>
+            </div>
+
+          </div>
+        );
+    },
+
     render: function () {
       var sizes = stores.SizeStore.getAll(),
         instances = stores.InstanceStore.getAll(),
@@ -234,24 +261,32 @@ define(function (require) {
 
       if (!providerSizes) return <div className="loading"></div>;
 
-
       var minRequirements;
       var firstAvailable = providerSizes.first();
 
       if(this.props.version.get('min_cpu') && this.props.version.get('min_mem') && !this.state.size){
-        minRequirements = 
-          <div className="col-sm-9 control-label pull-right">Minimum requirements: {this.props.version.get('min_cpu')} CPU {this.props.version.get('min_mem')} GB RAM</div>;
+        minRequirements = (
+          <div className="col-sm-9 control-label pull-right">Minimum requirements: {this.props.version.get('min_cpu')} CPU {this.props.version.get('min_mem')} GB RAM</div>
+        );
 
         var minCPUInt = this.props.version.get('min_cpu'),
           minMemInt = this.props.version.get('min_mem');
 
-        firstAvailable = stores.SizeStore.filterWhereGreaterThanOrEqualTo({'cpu': this.props.version.get('min_cpu'), 'mem': this.props.version.get('min_mem')})[0];
+        var potentialSizeList = stores.SizeStore.filterWhereGreaterThanOrEqualTo({
+          'cpu': this.props.version.get('min_cpu'), 
+          'mem': this.props.version.get('min_mem')
+          });
+
+        if(potentialSizeList.length >= 1){
+          firstAvailable = potentialSizeList[0];
+        }
+        else{
+          return this.renderNoSizesAvailable();
+        }
       }
 
       this.state.size = this.state.size || firstAvailable;
       size = this.state.size;
-
-
 
       return (
         <div>
