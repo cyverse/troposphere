@@ -238,7 +238,7 @@ define(function (require) {
       var minRequirements;
       var firstAvailable = providerSizes.first();
 
-      if(this.props.version.get('min_cpu') && this.props.version.get('min_mem')){
+      if(this.props.version.get('min_cpu') && this.props.version.get('min_mem') && !this.state.size){
         minRequirements = 
           <div className="col-sm-9 control-label pull-right">Minimum requirements: {this.props.version.get('min_cpu')} CPU {this.props.version.get('min_mem')} GB RAM</div>;
 
