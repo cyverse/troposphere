@@ -48,14 +48,11 @@ define(function (require) {
     render: function () {
 
       return (
-      <div className='image-info-segment row'>
-        <h4 className="titel col-md-2">Date to hide image from public view</h4>
-        <div className="form-group col-md-10">
+        <div className="form-group">
           <input type='text' className='form-control' value={this.state.value} onChange={this.onValueChanged}/>
-          <span className="input-group-addon" id="enddate-set-addon" onClick={this.setEndDateNow}>Set</span>
+          <span className="input-group-addon" id="enddate-set-addon" onClick={this.setEndDateNow}>Today</span>
           <span className="input-group-addon" id="enddate-clear-addon" onClick={this.unsetDate}>Clear</span>
         </div>
-      </div>
       );
     }
   });

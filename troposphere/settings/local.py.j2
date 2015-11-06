@@ -74,6 +74,14 @@ INSTALLED_APPS += (
     'sslserver',
 )
 {% endif %}
+
+{% if USE_MOCK_AUTH %}
+ALWAYS_AUTH_USER = "{{ MOCK_USER }}"
+# Use MockLoginBackend first!
+AUTHENTICATION_BACKENDS += (
+    'iplantauth.authBackends.MockLoginBackend',
+)
+{% else %}
 # MOCK - Uncomment these lines to allow one-user-only access. Useful for debug/development
 # ALWAYS_AUTH_USER = "test_user"
 # # Use MockLoginBackend first!
@@ -81,6 +89,7 @@ INSTALLED_APPS += (
 #     'iplantauth.authBackends.MockLoginBackend',
 # )
 # Configure authentication plugin
+{% endif %}
 from datetime import timedelta
 AUTHENTICATION = {
     #GLOBAL
