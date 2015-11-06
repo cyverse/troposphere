@@ -1,21 +1,19 @@
-define(function(require) {
-  "use strict";
+import React from 'react/addons';
+import Backbone from 'backbone';
+import InstanceHistoryList from './InstanceHistoryList.react';
+import MaintenanceMessageList from './MaintenanceMessageList.react';
+import ResourceStatusSummaryPlot from './plots/ResourceStatusSummaryPlot.react';
+import ProviderSummaryLinePlot from './plots/ProviderSummaryLinePlot.react';
+import CallToAction from './CallToAction.react';
+import modals from 'modals';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    InstanceHistoryList = require('./InstanceHistoryList.react'),
-    MaintenanceMessageList = require('./MaintenanceMessageList.react'),
-    ResourceStatusSummaryPlot = require('./plots/ResourceStatusSummaryPlot.react'),
-    ProviderSummaryLinePlot = require('./plots/ProviderSummaryLinePlot.react'),
-    CallToAction = require('./CallToAction.react'),
-    modals = require('modals'),
-    stores = require('stores');
-    // images
-    var launch_instance = THEME_URL + "/images/icon_launchnewinstance.png",
-        settings = THEME_URL + "/images/icon_settings.png",
-        help = THEME_URL + "/images/icon_gethelp.png";
+// images
+let launch_instance = THEME_URL + "/images/icon_launchnewinstance.png",
+    settings = THEME_URL + "/images/icon_settings.png",
+    help = THEME_URL + "/images/icon_gethelp.png";
 
-  return React.createClass({
+export default React.createClass({
     displayName: "DashboardPage",
 
     renderRequestMoreResources: function(e){
@@ -38,7 +36,7 @@ define(function(require) {
     componentWillUnmount: function() {
       stores.SizeStore.removeChangeListener(this.updateState);
     },
-    
+
     render: function() {
 
       var providers = stores.ProviderStore.getAll(),
@@ -129,7 +127,4 @@ define(function(require) {
         </div>
       );
     }
-
-  });
-
 });

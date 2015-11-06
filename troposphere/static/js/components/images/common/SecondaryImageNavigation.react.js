@@ -1,12 +1,10 @@
-define(function (require) {
+import React from 'react/addons';
+import stores from 'stores';
+import Router from 'react-router';
+import Glyphicon from 'components/common/Glyphicon.react';
+import context from 'context';
 
-  var React = require('react/addons'),
-    stores = require('stores'),
-    Router = require('react-router'),
-    Glyphicon = require('components/common/Glyphicon.react'),
-    context = require('context');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "SecondaryImageNavigation",
 
     renderRoute: function (name, linksTo, icon, requiresLogin) {
@@ -27,7 +25,7 @@ define(function (require) {
           allImages = stores.ImageStore.getAll(),
           images = stores.ImageStore.fetchWhere({
             created_by__username: profile.get('username')
-          }) || [], 
+          }) || [],
           favoritedImages = stores.ImageBookmarkStore.getBookmarkedImages() || [];
 
       if(!images || !favoritedImages){
@@ -53,7 +51,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

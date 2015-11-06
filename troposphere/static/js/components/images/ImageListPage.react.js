@@ -1,10 +1,8 @@
-define(function (require) {
+import React from 'react/addons';
+import stores from 'stores';
+import ImageListView from './list/ImageListView.react';
 
-  var React = require('react/addons'),
-    stores = require('stores'),
-    ImageListView = require('./list/ImageListView.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "ImageListPage",
 
     render: function () {
@@ -16,7 +14,4 @@ define(function (require) {
         <ImageListView tags={tags}/>
       );
     }
-
-  });
-
 });

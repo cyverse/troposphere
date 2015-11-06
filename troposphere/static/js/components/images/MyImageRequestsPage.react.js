@@ -1,11 +1,10 @@
-define(function(require) {
+import React from 'react/addons';
+import moment from 'moment';
+import RefreshComponent from 'components/projects/resources/instance/details/sections/metrics/RefreshComponent.react';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-    moment = require('moment'),
-    RefreshComponent = require('components/projects/resources/instance/details/sections/metrics/RefreshComponent.react'),
-    stores = require('stores');
-
-  return React.createClass({
+export default React.createClass({
+    displayName: "MyImageRequestsPage",
 
     getInitialState: function(){
       // start fetching the relevant models before the component is rendered
@@ -34,14 +33,14 @@ define(function(require) {
     render: function() {
       var username = stores.ProfileStore.get().id,
           imagingDocsUrl = "https://pods.iplantcollaborative.org/wiki/display/atmman/Requesting+an+Image+of+an+Instance";
-      
+
       if(username == null){
         return <div className = "loading"></div>
       }
 
       var requests = stores.ImageRequestStore.getAll();
 
-      
+
       if(requests == null){
         return <div className = "loading"></div>;
       }
@@ -59,7 +58,7 @@ define(function(require) {
       }
 
       var displayRequests = requests.map(function(request){
-        
+
         // set the color of the row based on the status of the request
         var trClass;
         switch(request.get('status').name){
@@ -85,7 +84,7 @@ define(function(require) {
                     <td>{newMachineId}</td>
                 </tr>
       }.bind(this));
-      
+
       return (
         <div className="container">
           <p style={{marginBottom: "16px"}}>
@@ -123,7 +122,4 @@ define(function(require) {
         </div>
       );
     }
-
-  });
-
 });

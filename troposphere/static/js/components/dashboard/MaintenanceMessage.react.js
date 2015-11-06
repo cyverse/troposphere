@@ -1,13 +1,8 @@
+import React from 'react';
+import Backbone from 'backbone';
+import moment from 'moment';
 
-define(
-  [
-    'react',
-    'backbone',
-    'moment'
-  ],
-  function (React, Backbone, moment) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "MaintenanceMessageList",
 
       propTypes: {
@@ -33,7 +28,4 @@ define(
           </li>
         );
       }
-
-    });
-
-  });
+});

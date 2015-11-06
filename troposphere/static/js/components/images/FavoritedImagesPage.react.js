@@ -1,10 +1,8 @@
-define(function (require) {
+import React from 'react/addons';
+import ImageCardList from './list/list/ImageCardList.react';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-    ImageCardList = require('./list/list/ImageCardList.react'),
-    stores = require('stores');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "FavoritedImagesPage",
 
     renderBody: function () {
@@ -32,7 +30,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

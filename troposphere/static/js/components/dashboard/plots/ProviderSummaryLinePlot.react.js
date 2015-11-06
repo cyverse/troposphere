@@ -1,12 +1,10 @@
+import React from "react";
+import $ from "jquery";
+import Backbone from "backbone";
+import Highcharts from "highcharts";
+import ResourceUseTooltip from "./tooltips/ResourceUseTooltip.react";
 
-define(function (require) {
-    var React = require("react"),
-        $ = require("jquery"),
-        Backbone = require("backbone"),
-        Highcharts = require("highcharts"),
-        ResourceUseTooltip = require("./tooltips/ResourceUseTooltip.react");
-
-    return React.createClass({
+export default React.createClass({
       displayName: "ProviderSummaryLinePlot",
 
       propTypes: {
@@ -260,6 +258,4 @@ define(function (require) {
         );
       }
 
-    });
-
-  });
+});

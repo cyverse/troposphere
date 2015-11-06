@@ -1,11 +1,9 @@
-define(function(require) {
+import React from 'react/addons';
+import SecondaryImageNavigation from './common/SecondaryImageNavigation.react';
+import ImageCardList from './list/list/ImageCardList.react';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-    SecondaryImageNavigation = require('./common/SecondaryImageNavigation.react'),
-    ImageCardList = require('./list/list/ImageCardList.react'),
-    stores = require('stores');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "MyImagesPage",
 
     renderBody: function() {
@@ -46,7 +44,4 @@ define(function(require) {
         </div>
       );
     }
-
-  });
-
 });

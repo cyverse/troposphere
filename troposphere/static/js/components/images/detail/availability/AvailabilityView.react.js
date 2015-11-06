@@ -1,11 +1,9 @@
-define(function (require) {
+import _ from 'underscore';
+import React from 'react/addons';
+import Backbone from 'backbone';
+import stores from 'stores';
 
-    var _ = require('underscore'),
-        React = require('react/addons'),
-        Backbone = require('backbone'),
-        stores = require('stores');
-
-    return React.createClass({
+export default React.createClass({
         displayName: "AvailabilityView",
 
         propTypes: {
@@ -48,6 +46,4 @@ define(function (require) {
         );
 
       }
-    });
-
 });

@@ -1,12 +1,10 @@
-define(function (require) {
+import React from 'react';
+import Backbone from 'backbone';
+import globals from 'globals';
+import moment from 'moment';
+import momentTZ from 'moment-timezone';
 
-    var React = require('react'),
-        Backbone = require('backbone'),
-        globals = require('globals'),
-        moment = require('moment'),
-        momentTZ = require('moment-timezone');
-
-    return React.createClass({
+export default React.createClass({
       displayName: "CreatedView",
 
       propTypes: {
@@ -26,7 +24,4 @@ define(function (require) {
           </div>
         );
       }
-
-    });
-
-  });
+});

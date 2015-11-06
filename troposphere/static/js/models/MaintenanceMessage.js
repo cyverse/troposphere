@@ -1,11 +1,7 @@
-define(
-  [
-    'backbone',
-    'moment'
-  ],
-  function (Backbone, moment) {
+import Backbone from 'backbone';
+import moment from 'moment';
 
-    return Backbone.Model.extend({
+export default Backbone.Model.extend({
 
       parse: function (response) {
         var attributes = response;
@@ -14,6 +10,4 @@ define(
         return attributes;
       }
 
-    });
-
-  });
+});

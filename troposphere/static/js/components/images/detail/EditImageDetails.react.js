@@ -1,22 +1,20 @@
-define(function (require) {
+import React from 'react/addons';
+import HeaderView from './header/HeaderView.react';
+import EditTagsView from './tags/EditTagsView.react';
+import ImageLaunchCard from './launch/ImageLaunchCard.react';
+import EditNameView from './name/EditNameView.react';
+import EditDescriptionView from './description/EditDescriptionView.react';
+import InteractiveDateField from 'components/common/InteractiveDateField.react';
+import CreatedView from './created/CreatedView.react';
+import EditRemovedView from './removed/EditRemovedView.react';
+import AuthorView from './author/AuthorView.react';
+import actions from 'actions';
+import globals from 'globals';
+import moment from 'moment';
+import momentTZ from 'moment-timezone';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-    HeaderView = require('./header/HeaderView.react'),
-    EditTagsView = require('./tags/EditTagsView.react'),
-    ImageLaunchCard = require('./launch/ImageLaunchCard.react'),
-    EditNameView = require('./name/EditNameView.react'),
-    EditDescriptionView = require('./description/EditDescriptionView.react'),
-    InteractiveDateField = require('components/common/InteractiveDateField.react'),
-    CreatedView = require('./created/CreatedView.react'),
-    EditRemovedView = require('./removed/EditRemovedView.react'),
-    AuthorView = require('./author/AuthorView.react'),
-    actions = require('actions'),
-    globals = require('globals'),
-    moment = require('moment'),
-    momentTZ = require('moment-timezone'),
-    stores = require('stores');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "EditImageDetails",
 
     propTypes: {
@@ -126,7 +124,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

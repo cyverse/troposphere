@@ -1,12 +1,10 @@
+import React from "react/addons";
+import $ from "jquery";
+import Backbone from "backbone";
+import Highcharts from "highcharts";
+import ResourceStatusTooltip from "./tooltips/ResourceStatusTooltip.react";
 
-define(function(require) {
-    var React = require("react/addons"),
-        $ = require("jquery"),
-        Backbone = require("backbone"),
-        Highcharts = require("highcharts"),
-        ResourceStatusTooltip= require("./tooltips/ResourceStatusTooltip.react");
-
-    return React.createClass({
+export default React.createClass({
       displayName: "ResourceStatusSummaryPlot",
 
       propTypes: {
@@ -138,7 +136,4 @@ define(function(require) {
           </div>
         );
       }
-
-    });
-
-  });
+});

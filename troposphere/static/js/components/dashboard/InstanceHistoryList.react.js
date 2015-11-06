@@ -1,14 +1,12 @@
-define(function(require) {
+import React from 'react/addons'
+import stores from 'stores'
+import moment from 'moment'
+import CryptoJS from 'crypto-js'
+import Gravatar from 'components/common/Gravatar.react'
+import RefreshComponent from 'components/projects/resources/instance/details/sections/metrics/RefreshComponent.react'
+import Router from 'react-router'
 
-  var React = require('react/addons'),
-    stores = require('stores'),
-    moment = require('moment'),
-    CryptoJS = require('crypto-js'),
-    Gravatar = require('components/common/Gravatar.react'),
-    RefreshComponent = require('components/projects/resources/instance/details/sections/metrics/RefreshComponent.react'),
-    Router = require('react-router');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "InstanceHistoryList",
 
     getInitialState: function() {
@@ -55,13 +53,13 @@ define(function(require) {
     },
 
     renderRefreshButton: function(){
-      
+
       return (
         <span className="pull-right refresh-button">
             <RefreshComponent onRefreshClick = {this.refreshHistory} timestamp = {stores.InstanceHistoryStore.lastUpdated} delay = {1000 * 60} />
         </span>
       );
-    
+
     },
 
     renderTitle: function() {
@@ -192,7 +190,4 @@ define(function(require) {
         </div>
       );
     }
-
-  });
-
 });
