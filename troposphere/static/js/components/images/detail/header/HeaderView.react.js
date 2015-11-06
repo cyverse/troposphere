@@ -1,16 +1,11 @@
+import React from 'react';
+import Backbone from 'backbone';
+import $ from 'jquery';
+import stores from 'stores';
+// plugin;
+import bootstrap from 'bootstrap';
 
-define(
-  [
-    'react',
-    'backbone',
-    'jquery',
-    'stores',
-    // plugins
-    'bootstrap'
-  ],
-  function (React, Backbone, $, stores) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "HeaderView",
 
       propTypes: {
@@ -57,7 +52,4 @@ define(
           </div>
         );
       }
-
-    });
-
 });

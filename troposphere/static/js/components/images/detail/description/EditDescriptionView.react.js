@@ -1,12 +1,8 @@
-define(
-  [
-    'react',
-    'backbone',
-    'showdown'
-  ],
-  function (React, Backbone, Showdown) {
+import React from 'react';
+import Backbone from 'backbone';
+import Showdown from 'showdown';
 
-    return React.createClass({
+export default React.createClass({
       displayName: "EditDescriptionView",
 
       getDefaultProps: function() {
@@ -32,7 +28,4 @@ define(
           </div>
         );
       }
-
-    });
-
 });

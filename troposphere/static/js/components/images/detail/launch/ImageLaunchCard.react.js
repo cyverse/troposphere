@@ -1,17 +1,12 @@
+import React from 'react';
+import Gravatar from 'components/common/Gravatar.react';
+import Backbone from 'backbone';
+import URL from 'url';
+import Bookmark from 'components/images/common/Bookmark.react';
+import context from 'context';
+import stores from 'stores';
 
-define(
-  [
-    'react',
-    'components/common/Gravatar.react',
-    'backbone',
-    'url',
-    'components/images/common/Bookmark.react',
-    'context',
-    'stores'
-  ],
-  function (React, Gravatar, Backbone, URL, Bookmark, context, stores) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "ImageLaunchCard",
 
       propTypes: {
@@ -70,7 +65,4 @@ define(
           </div>
         );
       }
-
-    });
-
-  });
+});
