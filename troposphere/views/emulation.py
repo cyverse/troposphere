@@ -40,7 +40,7 @@ def emulate(request, username):
         return redirect('application')
 
     # Check if error response was sent
-    if r.status_code != 200:
+    if r.status_code < 200 or  r.status_code > 299:
         logger.warn("[EMULATE] failed with status_code=%s and message=(%s)",
                     r.status_code, j_data)
         return redirect("application")
