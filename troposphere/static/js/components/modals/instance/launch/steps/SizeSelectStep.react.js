@@ -242,14 +242,10 @@ define(function (require) {
         minRequirements = 
           <div className="col-sm-9 control-label pull-right">Minimum requirements: {this.props.version.get('min_cpu')} CPU {this.props.version.get('min_mem')} GB RAM</div>;
 
-        var minCPUInt = parseInt(this.props.version.get('min_cpu')),
-          minMemInt = parseInt(this.props.version.get('min_mem'));
+        var minCPUInt = this.props.version.get('min_cpu'),
+          minMemInt = this.props.version.get('min_mem');
 
-        for(var i = 0; i < providerSizes.models.length; i++){
-          if (providerSizes.models[i].get('cpu') >= minCPUInt && providerSizes.models[i].get('mem') >= minMemInt){
-            firstAvailable = providerSizes.models[i];
-          }
-        }
+        firstAvailable = stores.SizeStore.filterWhereGreaterThanOrEqualTo({'cpu': this.props.version.get('min_cpu'), 'mem': this.props.version.get('min_mem')})[0];
       }
 
       this.state.size = this.state.size || firstAvailable;
