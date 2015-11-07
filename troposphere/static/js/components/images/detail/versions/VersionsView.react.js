@@ -1,11 +1,9 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import stores from 'stores';
+import VersionList from './VersionList.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    stores = require('stores'),
-    VersionList = require('./VersionList.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "VersionsView",
 
     propTypes: {
@@ -24,7 +22,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

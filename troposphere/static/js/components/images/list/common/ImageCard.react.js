@@ -1,19 +1,17 @@
-define(function (require) {
+import React from 'react/addons';
+import Gravatar from 'components/common/Gravatar.react';
+import Backbone from 'backbone';
+import Bookmark from 'components/images/common/Bookmark.react';
+import context from 'context';
+import Tags from 'components/images/detail/tags/Tags.react';
+import stores from 'stores';
+import ImageCardDescription from './ImageCardDescription.react';
+import globals from 'globals';
+import moment from 'moment';
+import momentTZ from 'moment-timezone';
+import Router from 'react-router';
 
-  var React = require('react/addons'),
-    Gravatar = require('components/common/Gravatar.react'),
-    Backbone = require('backbone'),
-    Bookmark = require('components/images/common/Bookmark.react'),
-    context = require('context'),
-    Tags = require('components/images/detail/tags/Tags.react'),
-    stores = require('stores'),
-    ImageCardDescription = require('./ImageCardDescription.react'),
-    globals = require('globals'),
-    moment = require('moment'),
-    momentTZ = require('moment-timezone'),
-    Router = require('react-router');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "ImageCard",
 
     propTypes: {
@@ -67,7 +65,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

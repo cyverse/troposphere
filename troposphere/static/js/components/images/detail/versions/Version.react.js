@@ -1,17 +1,15 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import Time from 'components/common/Time.react';
+import Gravatar from 'components/common/Gravatar.react';
+import AvailabilityView from '../availability/AvailabilityView.react';
+import CryptoJS from 'crypto-js';
+import stores from 'stores';
+import globals from 'globals';
+import moment from 'moment';
+import momentTZ from 'moment-timezone';
 
-  var React = require('react/addons'),
-      Backbone = require('backbone'),
-      Time = require('components/common/Time.react'),
-      Gravatar = require('components/common/Gravatar.react'),
-      AvailabilityView = require('../availability/AvailabilityView.react'),
-      CryptoJS = require('crypto-js'),
-      stores = require('stores'),
-      globals = require('globals'),
-      moment = require('moment'),
-      momentTZ = require('moment-timezone');
-
-  return React.createClass({
+export default React.createClass({
     displayName: 'Version',
 
     propTypes: {
@@ -114,7 +112,4 @@ define(function (require) {
         </li>
       );
     }
-
-  });
-
 });

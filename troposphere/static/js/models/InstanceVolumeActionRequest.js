@@ -1,10 +1,8 @@
-define(function (require) {
+import Backbone from 'backbone';
+import _ from 'underscore';
+import globals from 'globals';
 
-  var Backbone = require('backbone'),
-    _ = require('underscore'),
-    globals = require('globals');
-
-  return Backbone.Model.extend({
+export default Backbone.Model.extend({
 
     initialize: function (attrs, options) {
       var instance = attrs.instance,
@@ -33,7 +31,4 @@ define(function (require) {
         "/action"
       )
     }
-
-  });
-
 });

@@ -1,11 +1,7 @@
-define(
-  [
-    'backbone',
-    'globals'
-  ],
-  function (Backbone, globals) {
+import Backbone from 'backbone';
+import globals from 'globals';
 
-    return Backbone.Model.extend({
+export default Backbone.Model.extend({
       url: globals.API_ROOT + "/profile",
 
       parse: function (response) {
@@ -35,7 +31,4 @@ define(
 
         return attributes;
       }
-
-    });
-
-  });
+});

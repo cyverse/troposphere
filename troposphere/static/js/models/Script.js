@@ -1,10 +1,6 @@
-define(function (require) {
+import Backbone from 'backbone';
+import globals from 'globals';
 
-  var Backbone = require('backbone'),
-    globals = require('globals');
-
-  return Backbone.Model.extend({
+export default Backbone.Model.extend({
     urlRoot: globals.API_V2_ROOT + "/boot_scripts"
-  });
-
 });

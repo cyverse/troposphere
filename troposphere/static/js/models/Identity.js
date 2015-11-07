@@ -1,9 +1,6 @@
-define(function (require) {
+import Backbone from 'backbone';
 
-  var Backbone = require('backbone');
-
-  return Backbone.Model.extend({
-
+export default Backbone.Model.extend({
     parse: function (attributes) {
 
       // put default allocation data here since it isn't
@@ -92,7 +89,4 @@ define(function (require) {
         }
       }, 0);
     }
-
-  });
-
 });

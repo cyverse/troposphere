@@ -1,9 +1,7 @@
-define(function (require) {
+import React from 'react/addons';
+import ImageListCard from '../common/ImageListCard.react';
 
-  var React = require('react/addons'),
-    ImageListCard = require('../common/ImageListCard.react');
-
-  return React.createClass({
+export default React.createClass({
 
     propTypes: {
       title: React.PropTypes.string,
@@ -40,7 +38,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

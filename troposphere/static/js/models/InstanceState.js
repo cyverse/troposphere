@@ -1,67 +1,58 @@
-define(
-  [
-    'underscore',
-    'backbone'
-  ],
-  function (_, Backbone) {
+import _ from 'underscore';
+import Backbone from 'backbone';
 
-    var get_percent_complete = function (state, activiy) {
-
-      // Number represents percent task *completed* when in this state
-      var states = {
+let get_percent_complete = function(state, activiy) {
+    // Number represents percent task *completed* when in this state
+    var states = {
         'build': {
-          'block_device_mapping': 10,
-          'scheduling': 20,
-          'networking': 30,
-          'spawning': 40
+            'block_device_mapping': 10,
+            'scheduling': 20,
+            'networking': 30,
+            'spawning': 40
         },
         'active': {
-          'powering-off': 50,
-          'image_uploading': 50,
-          'deleting': 50,
-          'suspending': 50,
-          'initializing': 50,
-          'networking': 60,
-          'deploying': 70
+            'powering-off': 50,
+            'image_uploading': 50,
+            'deleting': 50,
+            'suspending': 50,
+            'initializing': 50,
+            'networking': 60,
+            'deploying': 70
         },
         'hard_reboot': {
-          'rebooting-hard': 50
+            'rebooting-hard': 50
         },
         'reboot': {
-          'rebooting': 50
+            'rebooting': 50
         },
         'shutoff': {
-          'powering-on': 50
+            'powering-on': 50
         },
         'suspended': {
-          'resuming': 50
+            'resuming': 50
         }
-      };
-
-      return states[state][activiy];
     };
 
-    var get_final_state = function (activity) {
-      // Check for the final state to prevent reverting if a queued task hasn't begun yet
-      if (activity === 'powering-off') {
+    return states[state][activiy];
+};
+
+let get_final_state = function(activity) {
+    // Check for the final state to prevent reverting if a queued task hasn't begun yet
+    if (activity === 'powering-off') {
         return 'shutoff';
-      }
-      else if (activity === 'deleting') {
+    } else if (activity === 'deleting') {
         return 'deleted';
-      }
-      else if (activity === 'suspending') {
+    } else if (activity === 'suspending') {
         return 'suspended';
-      }
-      else if (activity === 'deploy_error') {
+    } else if (activity === 'deploy_error') {
         return 'deploy_error';
-      }
-      else {
+    } else {
         // Applies for: build, shutoff, and suspended
         return 'active';
-      }
-    };
+    }
+};
 
-    return Backbone.Model.extend({
+export default Backbone.Model.extend({
 
       isInFinalState: function () {
         var validStates = [
@@ -116,7 +107,4 @@ define(
         this.set('status', state);
         this.set('activity', activity);
       }
-
-    });
-
-  });
+});

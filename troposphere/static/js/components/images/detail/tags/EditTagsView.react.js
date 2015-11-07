@@ -1,13 +1,11 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import EditTagsView from './ActualEditTagsView.react';
+import modals from 'modals';
+import actions from 'actions';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    EditTagsView = require('./ActualEditTagsView.react'),
-    modals = require('modals'),
-    actions = require('actions'),
-    stores = require('stores');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "EditTagsView",
 
     propTypes: {
@@ -51,7 +49,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

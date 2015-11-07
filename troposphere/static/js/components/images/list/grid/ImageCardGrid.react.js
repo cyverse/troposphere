@@ -1,9 +1,7 @@
-define(function (require) {
+import React from 'react/addons';
+import ImageCard from '../common/ImageCard.react';
 
-  var React = require('react/addons'),
-      ImageCard = require('../common/ImageCard.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "ImageCardGrid",
 
     propTypes: {
@@ -44,7 +42,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

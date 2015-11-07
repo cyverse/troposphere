@@ -1,14 +1,9 @@
-define(
-  [
-    'underscore',
-    'backbone',
-    'globals',
-    'moment'
-  ],
-  function (_, Backbone, globals, moment) {
+import _ from 'underscore';
+import Backbone from 'backbone';
+import globals from 'globals';
+import moment from 'moment';
 
-    return Backbone.Model.extend({
-
+export default Backbone.Model.extend({
       urlRoot: globals.API_V2_ROOT + "/sizes",
 
       parse: function (response) {
@@ -30,7 +25,4 @@ define(
 
         return this.get('name') + " (" + parts.join(', ') + ")";
       }
-
-    });
-
-  });
+});

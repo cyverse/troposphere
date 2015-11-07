@@ -1,9 +1,6 @@
-define(function (require) {
+import Backbone from 'backbone';
 
-  var Backbone = require('backbone');
-
-  return Backbone.Model.extend({
-
+export default Backbone.Model.extend({
     initialize: function (attrs) {
       this.set('instances', attrs.instances || []);
       this.set('volumes', attrs.volumes || []);
@@ -20,7 +17,4 @@ define(function (require) {
 
       return instances.length === 0 && volumes.length === 0;
     }
-
-  });
-
 });

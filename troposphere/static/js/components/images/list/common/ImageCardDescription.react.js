@@ -1,14 +1,12 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import $ from 'jquery';
+// plugin: required but not used directly
+import bootstrap from 'bootstrap';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    $ = require('jquery'),
-  // plugin: required but not used directly
-    bootstrap = require('bootstrap');
+let maxDescriptionLength = 200;
 
-  var maxDescriptionLength = 200;
-
-  return React.createClass({
+export default React.createClass({
     displayName: "ImageCardDescription",
 
     propTypes: {
@@ -40,7 +38,4 @@ define(function (require) {
         <p className="description">{description}</p>
       );
     }
-
-  });
-
 });

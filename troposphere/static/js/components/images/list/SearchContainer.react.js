@@ -1,13 +1,11 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import Router from 'Router';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    Router = require('Router');
-
-  var timer,
+let timer,
     timerDelay = 100;
 
-  var ReactInput = React.createClass({
+let ReactInput = React.createClass({
     componentDidMount: function () {
       this.refs.textField.getDOMNode().value = this.props.value;
     },
@@ -26,9 +24,9 @@ define(function (require) {
           />
       );
     }
-  });
+});
 
-  return React.createClass({
+export default React.createClass({
     displayName: "SearchContainer",
 
     getDefaultProps: function () {
@@ -85,7 +83,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

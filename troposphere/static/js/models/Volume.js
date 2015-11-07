@@ -1,24 +1,22 @@
-define(function (require) {
+import Backbone from 'backbone';
+import globals from 'globals';
+import VolumeState from './VolumeState';
 
-  var Backbone = require('backbone'),
-    globals = require('globals'),
-    VolumeState = require('./VolumeState');
-
-  var extractAttachData = function (attrs) {
+let extractAttachData = function(attrs) {
     if (attrs.attach_data && attrs.attach_data.instance_alias) {
-      return {
-        device: attrs.attach_data.device,
-        instance_id: attrs.attach_data.instance_alias
-      };
+        return {
+            device: attrs.attach_data.device,
+            instance_id: attrs.attach_data.instance_alias
+        };
     }
 
     return {
-      device: null,
-      instance_id: null
+        device: null,
+        instance_id: null
     };
-  };
+};
 
-  return Backbone.Model.extend({
+export default Backbone.Model.extend({
     urlRoot: globals.API_V2_ROOT + "/volumes",
 
     parse: function (attributes) {
@@ -79,13 +77,5 @@ define(function (require) {
           size: size
         }
       });
-      //.done(function(attrs, status, response){
-      //  cb(null, attrs);
-      //}.bind(this)).fail(function(response){
-      //  cb(response);
-      //});
     }
-
-  });
-
 });

@@ -1,15 +1,13 @@
-define(function (require) {
+import React from 'react/addons';
+import _ from 'underscore';
+import Version from './Version.react';
+import stores from 'stores';
+//Modals
+import ImageVersionEditModal from 'components/modals/image_version/ImageVersionEditModal.react';
+import ModalHelpers from 'components/modals/ModalHelpers';
+import actions from 'actions';
 
-  var React = require('react/addons'),
-    _ = require('underscore'),
-    Version = require('./Version.react'),
-    stores = require('stores'),
-    //Modals
-    ImageVersionEditModal = require('components/modals/image_version/ImageVersionEditModal.react'),
-    ModalHelpers = require('components/modals/ModalHelpers'),
-    actions = require('actions');
-
-  return React.createClass({
+export default React.createClass({
       displayName: "VersionList",
 
       propTypes: {
@@ -82,8 +80,7 @@ define(function (require) {
         }
 
         return versions;
-      }
-      ,
+      },
       render: function () {
 
         //TODO: Add 'sort by' && '+/-'
@@ -96,10 +93,4 @@ define(function (require) {
           </div>
         );
       }
-
-    }
-  )
-    ;
-
-})
-;
+});
