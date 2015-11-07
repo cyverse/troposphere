@@ -1,9 +1,7 @@
-define(function (require) {
+import React from 'react/addons';
+import checkmark from 'images/checkmark.png';
 
-  var React = require('react/addons'),
-      checkmark = require('images/checkmark.png');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "Checkbox",
 
     propTypes: {
@@ -21,7 +19,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

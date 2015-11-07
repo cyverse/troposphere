@@ -1,11 +1,6 @@
+import React from 'react';
 
-define(
-  [
-    'react'
-  ],
-  function (React) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: 'ResourceDetail',
 
       propTypes: {
@@ -21,7 +16,4 @@ define(
           </li>
         );
       }
-
-    });
-
-  });
+});

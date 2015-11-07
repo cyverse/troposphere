@@ -1,12 +1,10 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import InstanceRow from './InstanceRow.react';
+import InstanceNotRealRow from './InstanceNotRealRow.react';
+import SelectableTable from '../SelectableTable.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    InstanceRow = require('./InstanceRow.react'),
-    InstanceNotRealRow = require('./InstanceNotRealRow.react'),
-    SelectableTable = require('../SelectableTable.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "InstanceTable",
 
     propTypes: {
@@ -58,7 +56,4 @@ define(function (require) {
         </SelectableTable>
       )
     }
-
-  });
-
 });

@@ -1,11 +1,9 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import VolumeRow from './VolumeRow.react';
+import SelectableTable from '../SelectableTable.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    VolumeRow = require('./VolumeRow.react'),
-    SelectableTable = require('../SelectableTable.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "VolumeTable",
 
     propTypes: {
@@ -68,7 +66,4 @@ define(function (require) {
         </SelectableTable>
       )
     }
-
-  });
-
 });

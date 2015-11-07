@@ -1,18 +1,16 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import PreviewPanel from './PreviewPanel.react';
+import ButtonBar from './ButtonBar.react';
+import InstanceList from './instance/InstanceList.react';
+import VolumeList from './volume/VolumeList.react';
+import modals from 'modals';
+import stores from 'stores';
+import actions from 'actions';
+import Instance from 'models/Instance';
+import Volume from 'models/Volume';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    PreviewPanel = require('./PreviewPanel.react'),
-    ButtonBar = require('./ButtonBar.react'),
-    InstanceList = require('./instance/InstanceList.react'),
-    VolumeList = require('./volume/VolumeList.react'),
-    modals = require('modals'),
-    stores = require('stores'),
-    actions = require('actions'),
-    Instance = require('models/Instance'),
-    Volume = require('models/Volume');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "ProjectDetails",
 
     propTypes: {
@@ -194,7 +192,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

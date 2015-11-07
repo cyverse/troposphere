@@ -1,11 +1,9 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import InstanceTable from './InstanceTable.react';
+import NoInstanceNotice from './NoInstanceNotice.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    InstanceTable = require('./InstanceTable.react'),
-    NoInstanceNotice = require('./NoInstanceNotice.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "InstanceList",
 
     propTypes: {
@@ -47,7 +45,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

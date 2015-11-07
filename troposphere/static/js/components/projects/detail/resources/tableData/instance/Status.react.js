@@ -1,14 +1,9 @@
+import React from 'react';
+import Backbone from 'backbone';
+import StatusLight from 'components/projects/common/StatusLight.react';
+import StatusBar from './StatusBar.react';
 
-define(
-  [
-    'react',
-    'backbone',
-    'components/projects/common/StatusLight.react',
-    './StatusBar.react'
-  ],
-  function (React, Backbone, StatusLight, StatusBar) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "Status",
 
       propTypes: {
@@ -54,7 +49,4 @@ define(
           </span>
         );
       }
-
-    });
-
-  });
+});

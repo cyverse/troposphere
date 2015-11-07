@@ -1,14 +1,12 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import Router from 'react-router';
+import modals from 'modals';
+import Glyphicon from 'components/common/Glyphicon.react';
+import actions from 'actions';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    Router = require('react-router'),
-    modals = require('modals'),
-    Glyphicon = require('components/common/Glyphicon.react'),
-    actions = require('actions'),
-    stores = require('stores');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "SecondaryProjectNavigation",
 
     propTypes: {
@@ -82,7 +80,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

@@ -1,13 +1,11 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import InstancePreviewView from 'components/projects/resources/instance/preview/InstancePreviewView.react';
+import VolumePreviewView from 'components/projects/resources/volume/preview/VolumePreviewView.react';
+import Instance from 'models/Instance';
+import Volume from 'models/Volume';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    InstancePreviewView = require('components/projects/resources/instance/preview/InstancePreviewView.react'),
-    VolumePreviewView = require('components/projects/resources/volume/preview/VolumePreviewView.react'),
-    Instance = require('models/Instance'),
-    Volume = require('models/Volume');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "PreviewPanel",
 
     propTypes: {
@@ -55,7 +53,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

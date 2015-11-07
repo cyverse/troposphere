@@ -1,14 +1,12 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import context from 'context';
+import Button from './Button.react';
+import RefreshButton from './RefreshButton.react';
+import RequestResourcesButton from './RequestResourcesButton.react';
+import ResourceActionButtons from './ResourceActionButtons.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    context = require('context'),
-    Button = require('./Button.react'),
-    RefreshButton = require('./RefreshButton.react'),
-    RequestResourcesButton = require('./RequestResourcesButton.react'),
-    ResourceActionButtons = require('./ResourceActionButtons.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "ButtonBar",
 
     propTypes: {
@@ -71,7 +69,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

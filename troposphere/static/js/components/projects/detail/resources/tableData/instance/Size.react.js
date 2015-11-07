@@ -1,13 +1,8 @@
+import React from 'react';
+import Backbone from 'backbone';
+import stores from 'stores';
 
-define(
-  [
-    'react',
-    'backbone',
-    'stores'
-  ],
-  function (React, Backbone, stores) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "Size",
 
       propTypes: {
@@ -28,7 +23,4 @@ define(
           <span>{size.get('name')}</span>
         );
       }
-
-    });
-
-  });
+});

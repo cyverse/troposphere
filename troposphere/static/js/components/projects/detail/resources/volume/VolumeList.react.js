@@ -1,11 +1,9 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import VolumeTable from './VolumeTable.react';
+import NoVolumeNotice from './NoVolumeNotice.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    VolumeTable = require('./VolumeTable.react'),
-    NoVolumeNotice = require('./NoVolumeNotice.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "VolumeList",
 
     propTypes: {
@@ -49,7 +47,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

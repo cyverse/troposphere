@@ -1,9 +1,7 @@
-define(function (require) {
+import React from 'react/addons';
+import EditableInputField from 'components/common/EditableInputField.react';
 
-  var React = require('react/addons'),
-    EditableInputField = require('components/common/EditableInputField.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "InputField",
 
     propTypes: {
@@ -60,7 +58,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

@@ -1,11 +1,9 @@
-define(function (require) {
+import React from 'react/addons';
+import $ from "jquery";
+// plugin: required but not used directly
+import bootstrap from 'bootstrap';
 
-  var React = require('react/addons'),
-      $ = require("jquery"),
-  // plugin: required but not used directly
-    bootstrap = require('bootstrap');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "Button",
 
     propTypes: {
@@ -43,7 +41,4 @@ define(function (require) {
       }
       return null;
     }
-
-  });
-
 });

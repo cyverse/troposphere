@@ -1,12 +1,10 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import StatusLight from 'components/projects/common/StatusLight.react';
+import StatusBar from '../instance/StatusBar.react';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    StatusLight = require('components/projects/common/StatusLight.react'),
-    StatusBar = require('../instance/StatusBar.react'),
-    stores = require('stores');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "Status",
 
     propTypes: {
@@ -52,7 +50,4 @@ define(function (require) {
         </span>
       );
     }
-
-  });
-
 });

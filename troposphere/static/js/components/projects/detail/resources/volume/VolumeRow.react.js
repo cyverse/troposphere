@@ -1,17 +1,15 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import SelectableRow from '../SelectableRow.react';
+import Name from '../tableData/volume/Name.react';
+import Status from '../tableData/volume/Status.react';
+import Size from '../tableData/volume/Size.react';
+import Provider from '../tableData/volume/Provider.react';
+import stores from 'stores';
+import CryptoJS from 'crypto-js';
+import Gravatar from 'components/common/Gravatar.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    SelectableRow = require('../SelectableRow.react'),
-    Name = require('../tableData/volume/Name.react'),
-    Status = require('../tableData/volume/Status.react'),
-    Size = require('../tableData/volume/Size.react'),
-    Provider = require('../tableData/volume/Provider.react'),
-    stores = require('stores'),
-    CryptoJS = require('crypto-js'),
-    Gravatar = require('components/common/Gravatar.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "VolumeRow",
 
     propTypes: {
@@ -58,7 +56,4 @@ define(function (require) {
         </SelectableRow>
       );
     }
-
-  });
-
 });

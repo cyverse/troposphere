@@ -1,11 +1,7 @@
-define(
-  [
-    'react',
-    'backbone'
-  ],
-  function (React, Backbone) {
+import React from 'react';
+import Backbone from 'backbone';
 
-    return React.createClass({
+export default React.createClass({
       displayName: "EditDetails",
 
       propTypes: {
@@ -90,7 +86,4 @@ define(
           </div>
         );
       }
-
-    });
-
 });
