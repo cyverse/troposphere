@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import React from 'react';
+import modals from 'modals';
+import stores from 'stores';
 
-  var React = require('react'),
-      modals = require('modals'),
-      stores = require('stores');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "EarnedBadge",
 
     renderBadgeDetail: function(e){
@@ -35,8 +32,4 @@ define(function (require) {
         </li>
       );
     }
-
-
-  });
-
 });
