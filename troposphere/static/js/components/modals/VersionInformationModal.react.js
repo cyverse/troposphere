@@ -1,12 +1,10 @@
-define(function (require) {
+import React from 'react/addons';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import stores from 'stores';
+import moment from 'moment';
+import globals from 'globals';
 
-  var React = require('react/addons'),
-    BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
-    stores = require('stores'),
-    moment = require('moment'),
-    globals = require('globals');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "VersionInformationModal",
 
     mixins: [BootstrapModalMixin],
@@ -126,7 +124,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

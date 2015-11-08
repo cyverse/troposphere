@@ -1,21 +1,19 @@
-define(function (require) {
+import React from 'react/addons';
+import moment from 'moment';
+import stores from 'stores';
+import actions from 'actions';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import VersionName from '../instance/image/components/VersionName.react';
+import VersionChanges from '../instance/image/components/VersionChangeLog.react';
+import EditAvailabilityView from './availability/EditAvailabilityView.react';
+import EditDescriptionView from 'components/images/detail/description/EditDescriptionView.react';
+import InteractiveDateField from 'components/common/InteractiveDateField.react';
+import EditMembershipView from './membership/EditMembershipView.react';
+import EditLicensesView from './licenses/EditLicensesView.react';
+import EditScriptsView from './scripts/EditScriptsView.react';
+import ImageSelect from 'components/modals/image_version/ImageSelect.react';
 
-  var React = require('react/addons'),
-      moment = require('moment'),
-      stores = require('stores'),
-      actions = require('actions'),
-      BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
-      VersionName = require('../instance/image/components/VersionName.react'),
-      VersionChanges = require('../instance/image/components/VersionChangeLog.react'),
-      EditAvailabilityView = require('./availability/EditAvailabilityView.react'),
-      EditDescriptionView = require('components/images/detail/description/EditDescriptionView.react'),
-      InteractiveDateField = require('components/common/InteractiveDateField.react'),
-      EditMembershipView = require('./membership/EditMembershipView.react'),
-      EditLicensesView = require('./licenses/EditLicensesView.react'),
-      EditScriptsView = require('./scripts/EditScriptsView.react'),
-      ImageSelect = require('components/modals/image_version/ImageSelect.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "ImageVersionEditModal",
 
     mixins: [BootstrapModalMixin],
@@ -402,7 +400,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

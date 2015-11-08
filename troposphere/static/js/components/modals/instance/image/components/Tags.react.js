@@ -1,11 +1,9 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import stores from 'stores';
+import TagMultiSelect from 'components/common/tags/TagMultiSelect.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    stores = require('stores'),
-    TagMultiSelect = require('components/common/tags/TagMultiSelect.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "Tags",
 
     propTypes: {
@@ -67,7 +65,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

@@ -1,11 +1,9 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import _ from 'underscore';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    _ = require('underscore'),
-    stores = require('stores');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "AdminOptionsStep",
 
     propTypes: {
@@ -85,7 +83,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

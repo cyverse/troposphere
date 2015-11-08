@@ -1,16 +1,14 @@
+import React from 'react/addons';
+import Backbone from 'backbone';
+import _ from 'underscore';
+import ImageCollection from 'collections/ImageCollection';
+import ImageList from '../components/ImageList.react';
+import stores from 'stores';
 
-define(function (require) {
+let timer,
+    timerDelay = 100;
 
-    var React = require('react/addons'),
-      Backbone = require('backbone'),
-      _ = require('underscore'),
-      ImageCollection = require('collections/ImageCollection'),
-      ImageList = require('../components/ImageList.react'),
-      stores = require('stores');
-    var timer,
-      timerDelay = 100;
-
-    return React.createClass({
+export default React.createClass({
       displayName: "InstanceLaunchWizardModal-ImageSelectStep",
 
 
@@ -237,7 +235,4 @@ define(function (require) {
       );
 
     }
-
-  });
-
 });

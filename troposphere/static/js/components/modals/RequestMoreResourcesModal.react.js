@@ -1,13 +1,8 @@
+import React from 'react';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import stores from 'stores';
 
-define(
-  [
-    'react',
-    'components/mixins/BootstrapModalMixin.react',
-    'stores'
-  ],
-  function (React, BootstrapModalMixin, stores) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "RequestMoreResourcesModal",
 
       mixins: [BootstrapModalMixin],
@@ -165,7 +160,4 @@ define(
           </div>
         );
       }
-
-    });
-
-  });
+});

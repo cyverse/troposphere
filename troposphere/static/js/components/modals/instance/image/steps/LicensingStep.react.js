@@ -1,12 +1,10 @@
-define(function(require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import actions from 'actions';
+import EditLicensesView from 'components/modals/image_version/licenses/EditLicensesView.react';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-      Backbone = require('backbone'),
-      actions = require('actions'),
-      EditLicensesView = require('components/modals/image_version/licenses/EditLicensesView.react'),
-      stores = require('stores');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "LicensingStep",
 
     propTypes: {
@@ -101,7 +99,4 @@ define(function(require) {
         </div>
       );
     }
-
-  });
-
 });

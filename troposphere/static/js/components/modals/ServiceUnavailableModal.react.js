@@ -1,9 +1,7 @@
-define(function (require) {
+import React from 'react/addons';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 
-  var React = require('react/addons'),
-    BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "ServiceUnavailableModal",
 
     mixins: [BootstrapModalMixin],
@@ -53,7 +51,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

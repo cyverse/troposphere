@@ -1,8 +1,7 @@
-define(function (require) {
-    var React = require('react'),
-      BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react');
+import React from 'react';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 
-    return React.createClass({
+export default React.createClass({
       displayName: "InstanceStopModal",
 
       mixins: [BootstrapModalMixin],
@@ -63,7 +62,4 @@ define(function (require) {
           </div>
         );
       }
-
-    });
-
-  });
+});

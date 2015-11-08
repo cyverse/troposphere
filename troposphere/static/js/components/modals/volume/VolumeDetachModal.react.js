@@ -1,14 +1,9 @@
+import React from 'react';
+import Backbone from 'backbone';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import Glyphicon from 'components/common/Glyphicon.react';
 
-define(
-  [
-    'react',
-    'backbone',
-    'components/mixins/BootstrapModalMixin.react',
-    'components/common/Glyphicon.react'
-  ],
-  function (React, Backbone, BootstrapModalMixin, Glyphicon) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "VolumeDetachModal",
 
       mixins: [BootstrapModalMixin],
@@ -92,7 +87,4 @@ define(
           </div>
         );
       }
-
-    });
-
-  });
+});

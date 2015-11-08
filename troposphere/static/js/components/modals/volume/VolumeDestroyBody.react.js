@@ -1,15 +1,6 @@
+import React from 'react',
+import Glyphicon from 'components/common/Glyphicon.react',
 
-define(
-  [
-    'react',
-    'components/common/Glyphicon.react'
-  ],
-  function (React, Glyphicon) {
-
-    return {
-      build: function (volume) {
-
-      }
-    }
-
-  });
+export default {
+      build: function (volume) { }
+}

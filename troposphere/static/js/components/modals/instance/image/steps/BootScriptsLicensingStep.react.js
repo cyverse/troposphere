@@ -1,13 +1,11 @@
-define(function(require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import actions from 'actions';
+import EditScriptsView from 'components/modals/image_version/scripts/EditScriptsView.react';
+import EditLicensesView from 'components/modals/image_version/licenses/EditLicensesView.react';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-      Backbone = require('backbone'),
-      actions = require('actions'),
-      EditScriptsView = require('components/modals/image_version/scripts/EditScriptsView.react'),
-      EditLicensesView = require('components/modals/image_version/licenses/EditLicensesView.react'),
-      stores = require('stores');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "ImageWizard-BootScriptsLicensingStep",
 
     propTypes: {
@@ -146,7 +144,4 @@ define(function(require) {
         </div>
       );
     }
-
-  });
-
 });

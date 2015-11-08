@@ -1,12 +1,7 @@
+import React from 'react';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 
-define(
-  [
-    'react',
-    'components/mixins/BootstrapModalMixin.react'
-  ],
-  function (React, BootstrapModalMixin) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "ExplainInstanceDeleteConditionsModal",
 
       mixins: [BootstrapModalMixin],
@@ -86,7 +81,4 @@ define(
           </div>
         );
       }
-
-    });
-
-  });
+});

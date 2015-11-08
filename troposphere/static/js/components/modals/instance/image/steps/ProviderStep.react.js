@@ -1,11 +1,9 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import Provider from '../components/Provider.react';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    Provider = require('../components/Provider.react'),
-    stores = require('stores');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "ImageWizard-ProviderStep",
 
     propTypes: {
@@ -75,7 +73,7 @@ define(function (require) {
               max = "16"
               step = "1"
               onChange = {this.handleCPUChange} />
-            <span className="pull-left">0</span> 
+            <span className="pull-left">0</span>
             <span className="pull-right">16</span>
           </div>
 
@@ -87,7 +85,7 @@ define(function (require) {
               max = "16"
               step = "2"
               onChange = {this.handleMemChange} />
-            <span className="pull-left">0</span> 
+            <span className="pull-left">0</span>
             <span className="pull-right">16</span>
           </div>
         </div>
@@ -103,7 +101,7 @@ define(function (require) {
             {this.renderProvider(instance)}
             <a role="button" data-toggle="collapse" href="#min-requirements" aria-expanded="true">
               Minimum Requirements (optional)
-            </a>  
+            </a>
             {this.renderRequirementsStep()}
           </div>
           <div className="modal-footer">
@@ -119,7 +117,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

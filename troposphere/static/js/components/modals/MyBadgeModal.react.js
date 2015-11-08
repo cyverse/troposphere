@@ -1,20 +1,17 @@
-define(
-  [
-    'react',
-    'components/mixins/BootstrapModalMixin.react',
-    'stores',
-    'globals',
-    'actions/BadgeActions'
-  ],
-  function (React, BootstrapModalMixin, stores, globals, BadgeActions) {
+import React from 'react';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import stores from 'stores';
+import globals from 'globals';
+import BadgeActions from 'actions/BadgeActions';
 
-    function getState() {
-      return {
+
+function getState() {
+    return {
         badge: null
-      }
     }
+}
 
-    return React.createClass({
+export default React.createClass({
       displayName: "MyBadgeModal",
 
       mixins: [BootstrapModalMixin],
@@ -69,7 +66,4 @@ define(
           </div>
         );
       }
-
-    });
-
-  });
+});

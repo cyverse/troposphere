@@ -1,16 +1,11 @@
+import React from 'react';
+import Backbone from 'backbone';
+import stores from 'stores';
+import moment from 'moment';
+import Tags from 'components/common/tags/ViewTags.react';
+import Gravatar from 'components/common/Gravatar.react';
 
-define(
-  [
-    'react',
-    'backbone',
-    'stores',
-    'moment',
-    'components/common/tags/ViewTags.react',
-    'components/common/Gravatar.react'
-  ],
-  function (React, Backbone, stores, moment, Tags, Gravatar) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "Image",
 
       propTypes: {
@@ -65,7 +60,4 @@ define(
           </li>
         )
       }
-
-    });
-
-  });
+});

@@ -1,13 +1,8 @@
+import React from 'react';
+import Glyphicon from 'components/common/Glyphicon.react';
 
-define(
-  [
-    'react',
-    'components/common/Glyphicon.react'
-  ],
-  function (React, Glyphicon) {
-
-    return {
-      build: function () {
+export default {
+    build: function () {
         return (
           <div>
             <p className='alert alert-error'>
@@ -21,7 +16,5 @@ define(
             </p>
           </div>
         );
-      }
     }
-
-  });
+}

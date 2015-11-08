@@ -1,14 +1,13 @@
-define(function (require) {
-  var ENTER_KEY = 13;
+import React from 'react/addons';
+import Backbone from 'backbone';
+import ChosenDropdownItem from 'components/common/chosen/ChosenDropdownItem.react';
+import ChosenSelectedItem from 'components/common/chosen/ChosenSelectedItem.react';
+import ChosenMixinExternal from 'components/mixins/ChosenMixinExternal.react';
+import CreateLicenseView from './CreateLicenseView.react';
 
-  var React = require('react/addons'),
-      Backbone = require('backbone'),
-      ChosenDropdownItem = require('components/common/chosen/ChosenDropdownItem.react'),
-      ChosenSelectedItem = require('components/common/chosen/ChosenSelectedItem.react'),
-      ChosenMixinExternal = require('components/mixins/ChosenMixinExternal.react'),
-      CreateLicenseView = require('./CreateLicenseView.react');
+let ENTER_KEY = 13;
 
-  return React.createClass({
+export default React.createClass({
     displayName: "LicenseMultiSelectAndCreate",
 
     mixins: [ChosenMixinExternal],
@@ -147,7 +146,7 @@ define(function (require) {
             {this.renderChosenSearchSelect()}
           </div>
           <div className="form-group clearfix">
-            <button onClick={this.onEditChange} type="button" 
+            <button onClick={this.onEditChange} type="button"
                     className="btn btn-default btn-sm pull-right">
                     {showFormButtonText}
             </button>
@@ -156,8 +155,4 @@ define(function (require) {
         </div>
       );
     }
-
-
-  })
-
 });

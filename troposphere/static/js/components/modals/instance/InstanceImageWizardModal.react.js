@@ -1,28 +1,26 @@
-define(function (require) {
+import React from 'react/addons';
+import _ from 'underscore';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import BreadcrumbNav from 'components/common/breadcrumb/BreadcrumbNav.react';
+import stores from 'stores';
+import ImageInfoStep from './image/steps/ImageInfoStep.react';
+import VersionInfoStep from './image/steps/VersionInfoStep.react';
+import ProviderStep from './image/steps/ProviderStep.react';
+import MinimumRequirementsStep from './image/steps/MinimumRequirementsStep.react';
+import VisibilityStep from './image/steps/VisibilityStep.react';
+import FilesToExcludeStep from './image/steps/FilesToExcludeStep.react';
+import BootScriptsAndLicenseStep from './image/steps/BootScriptsLicensingStep.react';
+import ReviewStep from './image/steps/ReviewStep.react';
 
-  var React = require('react/addons'),
-      _ = require('underscore'),
-      BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
-      BreadcrumbNav = require('components/common/breadcrumb/BreadcrumbNav.react'),
-      stores = require('stores'),
-      ImageInfoStep = require('./image/steps/ImageInfoStep.react'),
-      VersionInfoStep = require('./image/steps/VersionInfoStep.react'),
-      ProviderStep = require('./image/steps/ProviderStep.react'),
-      MinimumRequirementsStep = require('./image/steps/MinimumRequirementsStep.react'),
-      VisibilityStep = require('./image/steps/VisibilityStep.react'),
-      FilesToExcludeStep = require('./image/steps/FilesToExcludeStep.react'),
-      BootScriptsAndLicenseStep = require('./image/steps/BootScriptsLicensingStep.react'),
-      ReviewStep = require('./image/steps/ReviewStep.react');
+let IMAGE_INFO_STEP = 1,
+    VERSION_INFO_STEP = 2,
+    PROVIDER_STEP = 3,
+    VISIBILITY_STEP = 4,
+    EXCLUDE_FILES_STEP = 5,
+    SCRIPTS_LICENSE_STEP = 6,
+    REVIEW_STEP = 7;
 
-  var IMAGE_INFO_STEP = 1,
-      VERSION_INFO_STEP = 2,
-      PROVIDER_STEP = 3,
-      VISIBILITY_STEP = 4,
-      EXCLUDE_FILES_STEP = 5,
-      SCRIPTS_LICENSE_STEP = 6,
-      REVIEW_STEP = 7;
-
-  return React.createClass({
+export default React.createClass({
     displayName: "InstanceImageWizardModal",
 
     mixins: [BootstrapModalMixin],
@@ -152,7 +150,7 @@ define(function (require) {
     },
 
     onNext: function (data) {
-        // Similar logic to onPrevious. this.state.step == breadcrumbs + 1 
+        // Similar logic to onPrevious. this.state.step == breadcrumbs + 1
         var nextStep = this.state.breadcrumbs[this.state.step],
             data = data || {},
             state = _.extend({step: nextStep.step, title: nextStep.name}, data);
@@ -317,7 +315,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

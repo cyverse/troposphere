@@ -1,32 +1,30 @@
-define(function(require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import _ from 'underscore';
+import modals from 'modals';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    _ = require('underscore'),
-    modals = require('modals'),
-    stores = require('stores'),
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import BreadcrumbNav from 'components/common/breadcrumb/BreadcrumbNav.react';
 
-    BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
-    BreadcrumbNav = require('components/common/breadcrumb/BreadcrumbNav.react'),
+import ImageSelectStep from './launch/steps/ImageSelectStep.react';
+import NameIdentityVersionStep from './launch/steps/NameIdentityVersionStep.react';
+import SizeSelectStep from './launch/steps/SizeSelectStep.react';
+import ProjectSelectStep from './launch/steps/ProjectSelectStep.react';
+import UserOptionsStep from './launch/steps/UserOptionsStep.react';
+import AdministratorOptionsStep from './launch/steps/AdminOptionsStep.react';
+import LicensingStep from './launch/steps/LicensingStep.react';
+import ReviewLaunchStep from './launch/steps/ReviewLaunchStep.react';
 
-    ImageSelectStep = require('./launch/steps/ImageSelectStep.react'),
-    NameIdentityVersionStep = require('./launch/steps/NameIdentityVersionStep.react'),
-    SizeSelectStep = require('./launch/steps/SizeSelectStep.react'),
-    ProjectSelectStep = require('./launch/steps/ProjectSelectStep.react'),
-    UserOptionsStep = require('./launch/steps/UserOptionsStep.react'),
-    AdministratorOptionsStep = require('./launch/steps/AdminOptionsStep.react'),
-    LicensingStep = require('./launch/steps/LicensingStep.react'),
-    ReviewLaunchStep = require('./launch/steps/ReviewLaunchStep.react');
+let IMAGE_STEP = 0,
+    INFORMATION_STEP = 1,
+    SIZE_STEP = 2,
+    PROJECT_STEP = 3,
+    OPTIONS_STEP = 4,
+    LICENSE_STEP = 5,
+    REVIEW_STEP = 6;
 
-  var IMAGE_STEP = 0,
-      INFORMATION_STEP = 1,
-      SIZE_STEP = 2,
-      PROJECT_STEP = 3,
-      OPTIONS_STEP = 4,
-      LICENSE_STEP = 5,
-      REVIEW_STEP = 6;
-
-  return React.createClass({
+export default React.createClass({
     mixins: [BootstrapModalMixin],
     displayName: "InstanceLaunchWizardModal",
 
@@ -390,6 +388,4 @@ define(function(require) {
        this.setState({title: breadcrumb.name});
        this.setState({step: breadcrumb.step});
     }
-  });
-
 });

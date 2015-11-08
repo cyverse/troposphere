@@ -1,12 +1,10 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import ChosenDropdownMembership from './ChosenDropdownMembership.react';
+import ChosenSelectedMembership from './ChosenSelectedMembership.react';
+import ChosenMixin from 'components/mixins/ChosenMixinExternal.react';
 
-  var React = require('react/addons'),
-      Backbone = require('backbone'),
-      ChosenDropdownMembership = require('./ChosenDropdownMembership.react'),
-      ChosenSelectedMembership = require('./ChosenSelectedMembership.react'),
-      ChosenMixin = require('components/mixins/ChosenMixinExternal.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "MembershipMultiSelect",
 
     mixins: [ChosenMixin],
@@ -59,8 +57,4 @@ define(function (require) {
     render: function() {
       return this.renderChosenSearchSelect();
     }
-
-
-  })
-
 });

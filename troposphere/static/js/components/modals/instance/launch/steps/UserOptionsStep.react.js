@@ -1,14 +1,12 @@
-define(function(require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import actions from 'actions';
+import ActionUtils from 'actions/Utils';
+import EditScriptsView from 'components/modals/image_version/scripts/EditScriptsView.react';
+import _ from 'underscore';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-      Backbone = require('backbone'),
-      actions = require('actions'),
-      ActionUtils = require('actions/Utils'),
-      EditScriptsView = require('components/modals/image_version/scripts/EditScriptsView.react'),
-      _ = require('underscore'),
-      stores = require('stores');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "InstanceLaunchWizardModal-UserOptionsStep",
 
     propTypes: {
@@ -131,25 +129,22 @@ define(function(require) {
         </div>
       );
     },
-        render: function () {
+    render: function () {
 
-            return (
-                <div>
-                {this.renderBody()}
-                    <div className="modal-footer">
-                        <button type="button" className="btn btn-default pull-left" onClick={this.cancel}>
-                            <span className="glyphicon glyphicon-chevron-left"></span>
-                            Back
-                        </button>
-                        <button type="button" className="btn btn-primary" onClick={this.confirm} disabled={!this.isSubmittable()}>
-                            Continue
-                        </button>
-                    </div>
-
+        return (
+            <div>
+            {this.renderBody()}
+                <div className="modal-footer">
+                    <button type="button" className="btn btn-default pull-left" onClick={this.cancel}>
+                        <span className="glyphicon glyphicon-chevron-left"></span>
+                        Back
+                    </button>
+                    <button type="button" className="btn btn-primary" onClick={this.confirm} disabled={!this.isSubmittable()}>
+                        Continue
+                    </button>
                 </div>
-            );
-        }
 
-  });
-
+            </div>
+        );
+    }
 });

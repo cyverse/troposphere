@@ -1,14 +1,11 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import $ from 'jquery';
+import Router from 'react-router';
+    // plugin: required but not used directly
+import bootstrap from 'bootstrap';
 
-  var React = require('react/addons'),
-      Backbone = require('backbone'),
-      $ = require('jquery'),
-      Router = require('react-router'),
-      //Router = require('router'),
-      // plugin: required but not used directly
-      bootstrap = require('bootstrap');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "Membership",
 
     propTypes: {
@@ -60,7 +57,4 @@ define(function (require) {
       );
 
     }
-
-  });
-
 });

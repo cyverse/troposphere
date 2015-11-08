@@ -1,9 +1,8 @@
-define(function (require) {
-    var React = require('react'),
-      BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
-      Glyphicon = require('components/common/Glyphicon.react');
+import React from 'react';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import Glyphicon from 'components/common/Glyphicon.react';
 
-    return React.createClass({
+export default React.createClass({
       displayName: "InstanceSuspendModal",
 
       mixins: [BootstrapModalMixin],
@@ -74,7 +73,4 @@ define(function (require) {
           </div>
         );
       }
-
-    });
-
-  });
+});

@@ -1,18 +1,16 @@
-define(function (require) {
-    var React = require('react/addons'),
-        BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react');
-    
-    return React.createClass({
-        displayName: "CantMoveAttached",
-    
-        mixins: [BootstrapModalMixin],
-     
-     confirm: function () {
-         this.hide();
-     },
+import React from 'react/addons';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 
-     render: function () {
+export default React.createClass({
+    displayName: "CantMoveAttached",
 
+    mixins: [BootstrapModalMixin],
+
+    confirm: function() {
+        this.hide();
+    },
+
+    render: function () {
         var content = (
             <div>
                 <h4>You are trying to move attached resources</h4>
@@ -37,7 +35,5 @@ define(function (require) {
             </div>
           </div>
         );
-      }
-
-    });
+    }
 });

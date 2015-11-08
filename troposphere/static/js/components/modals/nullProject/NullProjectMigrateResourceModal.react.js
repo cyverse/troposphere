@@ -1,16 +1,11 @@
+import React from 'react';
+import Backbone from 'backbone';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import ProjectSelect from 'components/common/project/ProjectSelect.react';
+import ResourceListItem from 'components/modals/migrate_resources/ResourceListItem.react';
+import stores from 'stores';
 
-define(
-  [
-    'react',
-    'backbone',
-    'components/mixins/BootstrapModalMixin.react',
-    'components/common/project/ProjectSelect.react',
-    'components/modals/migrate_resources/ResourceListItem.react',
-    'stores'
-  ],
-  function (React, Backbone, BootstrapModalMixin, ProjectSelect, ResourceListItem, stores) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "NullProjectMigrateResourceModal",
 
       mixins: [BootstrapModalMixin],
@@ -213,7 +208,4 @@ define(
           </div>
         );
       }
-
-    });
-
-  });
+});

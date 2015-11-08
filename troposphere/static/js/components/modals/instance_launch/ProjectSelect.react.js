@@ -1,13 +1,8 @@
+import React from 'react';
+import Backbone from 'backbone';
+import ProjectOption from './ProjectOption.react';
 
-define(
-  [
-    'react',
-    'backbone',
-    './ProjectOption.react'
-  ],
-  function (React, Backbone, ProjectOption) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "ProjectSelect",
 
       propTypes: {
@@ -35,6 +30,4 @@ define(
           );
         }
       }
-    });
-
-  });
+});

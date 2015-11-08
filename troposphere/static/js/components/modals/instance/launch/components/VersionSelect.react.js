@@ -1,12 +1,8 @@
-define(
-  [
-    'react',
-    'backbone',
-    'components/mixins/modal'
-  ],
-  function (React, Backbone, ModalMixin) {
+import React from 'react';
+import Backbone from 'backbone';
+import ModalMixin from 'components/mixins/modal';
 
-    return React.createClass({
+export default React.createClass({
       displayName: "VersionSelect",
 
       propTypes: {
@@ -43,7 +39,4 @@ define(
 
         );
       }
-
-    });
-
-  });
+});

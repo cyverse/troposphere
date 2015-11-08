@@ -1,14 +1,14 @@
-var React = require('react'),
-    Backbone = require('backbone'),
-    _ = require('underscore'),
-    stores = require('stores'),
-    ProjectModel = require('models/Project'),
-    ProjectActions = require('actions/ProjectActions'),
-    ProjectListView = require('components/common/project/ProjectListView.react');
+import React from 'react';
+import Backbone from 'backbone';
+import _ from 'underscore';
+import stores from 'stores';
+import ProjectModel from 'models/Project';
+import ProjectActions from 'actions/ProjectActions';
+import ProjectListView from 'components/common/project/ProjectListView.react';
 
-    var ENTER_KEY = 13;
-    
-    module.exports = React.createClass({
+let ENTER_KEY = 13;
+
+export default React.createClass({
         displayName: "InstanceLaunchWizardModal-ProjectSelectStep",
 
         propTypes: {

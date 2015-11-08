@@ -1,21 +1,22 @@
-define(function (require) {
-    var React = require('react/addons'),
-    modernizrTest = require('components/modals/unsupported/modernizrTest.js');
+import React from 'react/addons';
+import modernizrTest from 'components/modals/unsupported/modernizrTest.js';
 
-    return React.createClass({
-      displayName: "BreakingFeatureList",
-       render: function () {
-            var listItem = modernizrTest.breakingFeatures.map(function (feature) {
-                return (
-                <li className="feature" key={feature.id} ><span className="glyphicon glyphicon-alert"> </span> {feature}</li>
-                )
-            });
-        
+export default React.createClass({
+    displayName: "BreakingFeatureList",
+    render: function () {
+        var listItem = modernizrTest.breakingFeatures.map(function (feature) {
             return (
-                <ul className="BreakingFeatureList" >
-                {listItem}
-                </ul>
+                <li className="feature" key={feature.id} >
+                    <span className="glyphicon glyphicon-alert"> </span>
+                    {feature}
+                </li>
             )
-        }
-    });
+        });
+
+        return (
+            <ul className="BreakingFeatureList" >
+                {listItem}
+            </ul>
+        )
+    }
 });

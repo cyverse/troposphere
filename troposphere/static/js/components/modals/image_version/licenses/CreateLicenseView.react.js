@@ -1,13 +1,11 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import actions from 'actions';
+import EditDescriptionView from 'components/images/detail/description/EditDescriptionView.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    actions = require('actions'),
-    EditDescriptionView = require('components/images/detail/description/EditDescriptionView.react');
+let ENTER_KEY = 13;
 
-  var ENTER_KEY = 13;
-
-  return React.createClass({
+export default React.createClass({
     displayName: "CreateLicenseView",
 
     propTypes: {
@@ -159,6 +157,4 @@ define(function (require) {
         </div>
       );
     }
-  });
-
 });

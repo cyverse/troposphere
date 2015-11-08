@@ -1,13 +1,8 @@
+import React from 'react';
+import Backbone from 'backbone';
+import Image from './Image.react';
 
-define(
-  [
-    'react',
-    'backbone',
-    './Image.react'
-  ],
-  function (React, Backbone, Image) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "ImageList",
 
       propTypes: {
@@ -29,7 +24,4 @@ define(
           </ul>
         );
       }
-
-    });
-
-  });
+});
