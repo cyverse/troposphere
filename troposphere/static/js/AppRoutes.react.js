@@ -1,5 +1,3 @@
-
-
 import React from 'react/addons';
 import Router from 'react-router';
 
@@ -32,12 +30,14 @@ import ProvidersMaster from './components/providers/ProvidersMaster.react';
 import SettingsPage from './components/settings/SettingsPage.react';
 import ProjectInstancePage from "./components/projects/InstanceDetailsPage.react";
 import ProjectVolumePage from "./components/projects/VolumeDetailsPage.react";
-import ResourceMaster from './components/admin/ResourceMaster.react';
-import ResourceRequest from './components/admin/ResourceRequest.react';
 import AdminMaster from './components/admin/AdminMaster.react';
 import ImageMaster from './components/admin/ImageMaster.react';
 import ImageAdmin from './components/admin/ImageAdmin.react';
+import IdentityMembershipMaster from './components/admin/IdentityMembershipMaster.react';
+import ResourceMaster from './components/admin/ResourceMaster.react';
 import ResourceAdmin from './components/admin/ResourceAdmin.react';
+import ResourceRequest from './components/admin/ResourceRequest.react';
+
 
 let AppRoutes = (
     <Route name="root" path="/application" handler={Master}>
@@ -73,12 +73,14 @@ let AppRoutes = (
       <Route name="settings" handler={SettingsPage}/>
 
       <Route name="admin" handler={AdminMaster}>
+        <Route name="identity-membership-manager" path="users" handler={IdentityMembershipMaster}/>
         <Route name="resource-request-manager" path="resource-requests" handler={ResourceMaster}>
           <Route name="resource-request" path=":resourceRequestId" handler={ResourceAdmin} />
         </Route>
         <Route name="image-request-manager" path="imaging-requests" handler={ImageMaster}>
           <Route name="image-request" path=":imageRequestId" handler={ImageAdmin} />
         </Route>
+        <DefaultRoute handler={IdentityMembershipMaster}/>
       </Route>
 
       <Route name="badges" handler={BadgeMaster}>

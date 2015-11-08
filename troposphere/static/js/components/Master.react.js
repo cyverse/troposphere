@@ -64,7 +64,6 @@ export default React.createClass({
 
       // The code below is only relevant to logged in users
       if (!context.profile) return;
-
       // IMPORTANT! We get one shot at this. If the instances and volumes aren't
       // fetched before this component is mounted we miss our opportunity to migrate
       // the users resources (so make sure they're fetched in the Splash Screen)
@@ -106,6 +105,13 @@ export default React.createClass({
     // --------------
 
     render: function () {
+
+      if (!context.profile.get('selected_identity') ) {
+          //Users who ARE logged in, but without an identity
+          //cannot be handled in the application, currently.
+          //These users are punted now.
+          window.location.pathname = "/forbidden";
+      }
 
       var maintenanceMessages = stores.MaintenanceMessageStore.getAll() || new Backbone.Collection(),
       marginTop = maintenanceMessages.length * 24 + "px";

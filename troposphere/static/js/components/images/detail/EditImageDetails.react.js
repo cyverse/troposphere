@@ -95,10 +95,16 @@ export default React.createClass({
               onChange={this.handleNameChange}
             />
             <CreatedView image={image}/>
-            <InteractiveDateField
-              value={this.state.endDate}
-              onChange={this.handleEndDateChange}
-              />
+            
+            <div className='image-info-segment row'>
+                <h4 className="titel col-md-2">Date to hide image from public view</h4>
+                <div className="col-md-10">
+                    <InteractiveDateField
+                        value={this.state.endDate}
+                        onChange={this.handleEndDateChange}
+                    />
+                </div>
+            </div>
             <AuthorView image={image}/>
             <EditDescriptionView
               titleClassName="title col-md-2"
@@ -108,7 +114,7 @@ export default React.createClass({
               image={image}
               value={this.state.description}
               onChange={this.handleDescriptionChange}
-                />
+            />
             <EditTagsView
               image={image}
               tags={allTags}

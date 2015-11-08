@@ -86,6 +86,7 @@ export default React.createClass({
                 <SizeSelectStep
                     image={this.state.image}
                     identity={this.state.identity}
+                    version={this.state.version}
                     size={this.state.size}
                     onRequestResources={this.onRequestResources}
                     onPrevious={this.onPrevious}

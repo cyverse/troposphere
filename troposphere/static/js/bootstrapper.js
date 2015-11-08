@@ -50,6 +50,7 @@ stores.ProjectVolumeStore = require('stores/ProjectVolumeStore');
 stores.ProviderMachineStore = require('stores/ProviderMachineStore');
 stores.ProviderStore = require('stores/ProviderStore');
 stores.ResourceRequestStore = require('stores/ResourceRequestStore');
+stores.IdentityMembershipStore = require('stores/IdentityMembershipStore');
 stores.StatusStore = require('stores/StatusStore');
 stores.QuotaStore = require('stores/QuotaStore');
 stores.SizeStore = require('stores/SizeStore');
@@ -58,12 +59,12 @@ stores.UserStore = require('stores/UserStore');
 stores.VersionStore = require('stores/VersionStore');
 stores.VolumeStore = require('stores/VolumeStore');
 
-
 import actions from 'actions';
 
 actions.AllocationActions = require('actions/AllocationActions');
 actions.BadgeActions = require('actions/BadgeActions');
 actions.HelpActions = require('actions/HelpActions');
+actions.IdentityMembershipActions = require('actions/IdentityMembershipActions');
 actions.ImageActions = require('actions/ImageActions');
 actions.ImageVersionActions = require('actions/ImageVersionActions');
 actions.ImageVersionMembershipActions = require('actions/ImageVersionMembershipActions');
@@ -84,7 +85,6 @@ actions.ProjectVolumeActions = require('actions/ProjectVolumeActions');
 actions.TagActions = require('actions/TagActions');
 actions.VolumeActions = require('actions/VolumeActions');
 
-
 import modals from 'modals';
 
 modals.BadgeModals = require('modals/BadgeModals');
@@ -95,6 +95,7 @@ modals.ProjectModals = require('modals/ProjectModals');
 modals.TagModals = require('modals/TagModals');
 modals.VersionModals = require('modals/VersionModals');
 modals.VolumeModals = require('modals/VolumeModals');
+
 
 export default {
     run: function() {

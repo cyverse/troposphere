@@ -4,6 +4,7 @@ import stores from 'stores';
 import ResourceMaster from './ResourceMaster.react';
 import ImageMaster from './ImageMaster.react';
 
+
 let RouteHandler = Router.RouteHandler;
 
 export default React.createClass({
@@ -12,19 +13,15 @@ export default React.createClass({
 
     render: function () {
       return (
-        <div className = "container admin">
-          <span className="adminHeader">
-            <h1>Admin</h1>
-            <Router.Link to="resource-request-manager">
-              <div className="btn btn-default">Resource Requests</div>
-            </Router.Link>
-            <Router.Link to="image-request-manager">
-              <div className="btn btn-default">Imaging Requests</div>
-            </Router.Link>
-          <RouteHandler />
-          </span>
+        <div>
+            <SecondaryAdminNavigation/>
+            <div className = "container admin">
+            <span className="adminHeader">
+                <h1>Admin</h1>
+            <RouteHandler />
+            </span>
+            </div>
         </div>
       );
     }
-
-  });
+});
