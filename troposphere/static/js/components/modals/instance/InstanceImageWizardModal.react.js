@@ -38,6 +38,7 @@ define(function (require) {
     //
 
     getInitialState: function () {
+      stores.IdentityStore.getAll();
       return {
         step: 1,
         title: "Image Info", // Identical to first breadcrumb name
