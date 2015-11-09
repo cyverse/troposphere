@@ -24,7 +24,7 @@ define(function(require) {
     var key = {
       uuid: settings.uuid,
       timeframe: settings.timeframe
-    }
+    };
 
     var graphs = this.store.get(key);
 
@@ -39,7 +39,7 @@ define(function(require) {
           container: me.container,
           width: me.width,
           timeframe: settings.timeframe
-        })
+        });
       });
 
       me.store.set(key, graphs)

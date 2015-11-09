@@ -3,9 +3,10 @@ define(function(require) {
   var Graph = require("./Graph");
 
   var CPUGraph = function(settings) {
-    var defaults = {
-      transform: "derivative"
-    }
+    var prop,
+      defaults = {
+        transform: "derivative"
+      };
 
     for (prop in defaults) {
       if (settings[prop] == undefined) {

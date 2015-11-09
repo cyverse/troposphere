@@ -3,9 +3,10 @@ define(function(require) {
   var Graph = require("./Graph");
 
   var MemoryGraph = function(settings) {
-    var defaults = {
-      transform: "total"
-    }
+    var prop,
+      defaults = {
+        transform: "total"
+      };
 
     for (prop in defaults) {
       if (settings[prop] == undefined) {

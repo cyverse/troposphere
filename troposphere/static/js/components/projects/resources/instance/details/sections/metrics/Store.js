@@ -3,7 +3,6 @@ define(function(require) {
   // Never return the inner datastruct data. This module depends on that assumption.
   var Store = function() {
     var data = {};
-    glob = data;
 
     this.has = function(key) {
       return data[JSON.stringify(key)] != undefined;
@@ -24,5 +23,4 @@ define(function(require) {
   }
 
   return Store;
-
 });

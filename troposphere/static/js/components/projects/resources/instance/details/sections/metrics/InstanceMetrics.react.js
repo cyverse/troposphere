@@ -10,8 +10,6 @@ define(function(require) {
     displayName: "InstanceMetrics",
 
     getInitialState: function() {
-      var me = this;
-
       return {
         controller: null,
         uuid: this.props.instance.get("uuid"),
@@ -35,7 +33,6 @@ define(function(require) {
       };
     },
     onSuccess: function() {
-
       // Conviluted way to fetch timestamp from store, off first graph
       var timestamp = this.state.controller.store.get({
         uuid: this.state.uuid,

@@ -4,7 +4,7 @@ define(function(require) {
   var Utils = require("./Utils");
 
   var Graph = function(config) {
-    config = config || {};
+    var config = config || {};
 
     switch (config.timeframe) {
       // this.points * this.resolution == 60
@@ -24,10 +24,11 @@ define(function(require) {
         break;
     }
 
-    var defaults = {
-      width: 600,
-      height: 100
-    }
+    var prop,
+      defaults = {
+        width: 600,
+        height: 100
+      };
 
     for (prop in defaults) {
       this[prop] = defaults[prop];
@@ -82,17 +83,17 @@ define(function(require) {
   }
 
   Graph.prototype.make = function() {
-    var me = this;
-    var data = this.data
-      var graphDom = this.element;
+    var me = this,
+      data = this.data,
+      graphDom = this.element;
 
     var yAxisWidth = 60,
       margin = {top: 10, right: 20, bottom: 5, left: yAxisWidth},
       width = this.width - margin.left - margin.right,
       height = this.height - margin.top - margin.bottom;
 
-    getX = Utils.get("x");
-    getY = Utils.get("y");
+    var getX = Utils.get("x");
+    var getY = Utils.get("y");
 
     var yMax = d3.max(data, getY);
     var yMean = d3.mean(data, getY) || 0;

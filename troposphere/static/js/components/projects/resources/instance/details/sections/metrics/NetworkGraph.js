@@ -5,21 +5,22 @@ define(function(require) {
    var Utils = require("./Utils");
 
   var NetworkGraph = function(settings) {
-    var defaults = {
-      type : "net",
-      upper : {
-      query: "*.*." + settings.uuid + ".rx",
-      type: "rx",
-      data: [],
-      transform: "derivative",
-      },
-      lower : {
-      query: "*.*." + settings.uuid + ".tx",
-      type: "tx",
-      data: [],
-      transform: "derivative",
-      }
-    }
+    var prop,
+      defaults = {
+        type : "net",
+        upper : {
+          query: "*.*." + settings.uuid + ".rx",
+          type: "rx",
+          data: [],
+          transform: "derivative",
+        },
+        lower : {
+          query: "*.*." + settings.uuid + ".tx",
+          type: "tx",
+          data: [],
+          transform: "derivative",
+        }
+      };
 
     for (prop in defaults) {
       this[prop] = defaults[prop];
@@ -36,8 +37,8 @@ define(function(require) {
   NetworkGraph.prototype.constructor = NetworkGraph;
 
   NetworkGraph.prototype.fetch = function(onSuccess, onError) {
-    var me = this;
-    var series = [ this.upper, this.lower ];
+    var me = this,
+      series = [ this.upper, this.lower ];
 
     series.forEach(function(s) {
       s.urlParams = {
@@ -64,10 +65,13 @@ define(function(require) {
 
   NetworkGraph.prototype.make = function() {
       var me = this;
-      var graphDom = me.element;
-      var data = me.lower.data;
-      var rxData = me.upper.data;
-      var txData = me.lower.data;
+      var graphDom = me.element,
+        data = me.lower.data,
+        rxData = me.upper.data,
+        txData = me.lower.data;
+
+      var getX = Utils.get("x");
+      var getY = Utils.get("y");
 
       var metricsAxisHeight = 20,
         yAxisWidth = 60,
