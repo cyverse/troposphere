@@ -32,11 +32,18 @@ define(function (require) {
       });
     },
 
+    onClick: function(){
+      var el = this.getDOMNode();
+      var $el = $(el);
+      $el.tooltip('hide');
+      this.props.onClick();
+    },
+
     render: function () {
       var style = this.props.style || {};
       if (this.props.isVisible) {
         return (
-          <button className="btn btn-default" style={style} onClick={this.props.onClick}>
+          <button className="btn btn-default" style={style} onClick={this.onClick}>
             <i className={"glyphicon glyphicon-" + this.props.icon}/>
           </button>
         );
