@@ -16,7 +16,7 @@ define(function (require) {
         var content = (
             <div>
                 <h4>You are trying to move attached resources</h4>
-                <p>An instance or volume cannot be moved while attached. To move these resources, please detach them by first selecting the attached volume and then selecting the dettach option on the top right.</p>
+                <p>An instance or volume cannot be moved while attached. To move these resources, please detach them by first selecting the attached volume and then selecting the detach option on the top right.</p>
             </div>
         );
 
