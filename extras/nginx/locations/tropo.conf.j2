@@ -2,7 +2,7 @@ location /assets {
     alias {{ ASSETS_PATH }};
 }
 
-location ~^/(application|maintenance|login|logout|forbidden|version|cf2|tropo-admin|tropo-static|tropo-api) {
+location ~^/(application|atmo_maintenance|maintenance|login|logout|forbidden|version|cf2|tropo-admin|tropo-static|tropo-api) {
     proxy_set_header Host $host;
     proxy_set_header X-Real-IP $remote_addr;
     uwsgi_pass unix:///tmp/troposphere.sock;
