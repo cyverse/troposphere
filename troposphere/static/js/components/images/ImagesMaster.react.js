@@ -12,7 +12,7 @@ define(function (require) {
     render: function () {
       return (
         <div>
-          <SecondaryImageNavigation currentRoute="todo-remove-this"/>
+          <SecondaryImageNavigation />
           <RouteHandler/>
         </div>
       );
