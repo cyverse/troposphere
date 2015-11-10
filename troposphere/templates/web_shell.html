@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% if gate_one_location %}
+    <title>
+    Gate One - {{ gate_one_location }}
+    </title>
+{% else %}
+    <title>
+    Web Shell
+    </title>
+{% endif %}
+</head>
+<body>
+<script type="text/javascript" src="{{ WEB_SH_BASE_URL }}{{ WEB_SH_JS_FILE }}"></script>
+<div id="gateone" tabindex="1" ></div>
+<script>
+window.onload = function() {
+  var authobj = {
+    "api_key": "{{ GATE_ONE_API_KEY }}",
+    'upn': "{{ USERNAME }}",
+    'timestamp': "{{ GEN_TIMESTAMP }}",
+    'signature': "{{ GATE_ONE_SIGNATURE }}",
+    'signature_method': "{{ SIGNATURE_METHOD }}",
+    'api_version': "{{ GATE_ONE_API_VERSION }}"
+  };
+
+  {% if gate_one_location %}
+  GateOne.location = '{{ gate_one_location}}';
+  {% endif %}
+  GateOne.init({
+    /*embedded: true,*/
+    url: "{{ WEB_SH_BASE_URL }}" ,
+    auth: authobj,
+  {% if gate_one_location %}
+    theme: "{{gate_one_theme}}",{%endif%}
+  });
+};
+</script>
+</body>
+</html>

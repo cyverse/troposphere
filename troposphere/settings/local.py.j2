@@ -113,3 +113,24 @@ AUTHENTICATION = {
     "GLOBUS_TOKENINFO_URL": '{{ GLOBUS_TOKENINFO_URL }}',
     "GLOBUS_AUTH_URL": '{{ GLOBUS_AUTH_URL}}',
 }
+
+{% if USE_GATE_ONE_API %}
+# Settings for utilizing API & hosting of Gate One within UI
+USE_GATE_ONE_API = {{ USE_GATE_ONE_API }}
+GATE_ONE_API_SECRET = "{{ GATE_ONE_API_SECRET }}"
+GATE_ONE_API_KEY = "{{ GATE_ONE_API_KEY }}"
+# IMPORTANT:
+# if working locally, this *must* be localhost and _not_ an alias
+# to localhost - even a `/etc/hosts` entry that points back to
+# localhost will cause the GateOne JS to fail when routing web socket
+# traffic to the instantiated terminal emulator.
+#
+# This could be set to the following:
+#
+# WEB_SH_ROUTE = "https://localhost/web_shell"
+# or
+# WEB_SH_URL = "{{ SERVER_URL}}/{{ WEB_SH_ROUTE }}"
+WEB_SH_URL = "{{ WEB_SH_ROUTE }}"
+WEB_SH_BASE_URL = "{{ WEB_SH_BASE_URL }}"
+WEB_SH_JS_FILE = "{{ WEB_SH_JS_FILE }}"
+{% endif %}
