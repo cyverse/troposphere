@@ -104,7 +104,7 @@ define(function (require) {
     onMoveSelectedResources: function () {
         var match = false,
             attachedResources = stores.VolumeStore.getAttachedResources();
-        
+
         this.state.selectedResources.forEach(function(sel) {
             if (attachedResources.indexOf(sel.get('uuid')) !== -1) {
                 match = true;
