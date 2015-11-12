@@ -17,12 +17,12 @@
 <script>
 window.onload = function() {
   var authobj = {
-    "api_key": "{{ GATE_ONE_API_KEY }}",
-    'upn': "{{ USERNAME }}",
-    'timestamp': "{{ GEN_TIMESTAMP }}",
-    'signature': "{{ GATE_ONE_SIGNATURE }}",
-    'signature_method': "{{ SIGNATURE_METHOD }}",
-    'api_version': "{{ GATE_ONE_API_VERSION }}"
+    'api_key': '{{ GATE_ONE_API_KEY }}',
+    'upn': '{{ USERNAME }}',
+    'timestamp': '{{ GEN_TIMESTAMP }}',
+    'signature': '{{ GATE_ONE_SIGNATURE }}',
+    'signature_method': '{{ SIGNATURE_METHOD }}',
+    'api_version': '{{ GATE_ONE_API_VERSION }}'
   };
 
   {% if gate_one_location %}
