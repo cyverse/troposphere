@@ -51,7 +51,7 @@ define(function (require) {
         images = stores.ImageStore.getAll();
       }
 
-      if (images && images.meta.next !== this.state.nextUrl) {
+      if (images && images.meta && images.meta.next !== this.state.nextUrl) {
         state.isLoadingMoreResults = false;
         state.nextUrl = null;
       }

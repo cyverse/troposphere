@@ -91,6 +91,12 @@
             var WEB_SH_URL ="{{ WEB_SH_URL }}";
         {% endif %}
 
+        {% if show_public_site %}
+            var show_public_site = true;
+        {%  else %}
+            var show_public_site = false;
+        {% endif %}
+
         {% if show_troposphere_only %}
             var show_troposphere_only = true;
         {%  else %}
