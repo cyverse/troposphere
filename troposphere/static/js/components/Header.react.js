@@ -169,7 +169,7 @@ define(function (require) {
     render: function () {
 
       var profile = this.props.profile;
-      var loginLogoutDropdown = profile ? <LogoutLink username={profile.get('username')}/> : <LoginLink/>;
+      var loginLogoutDropdown = profile.get('selected_identity') ? <LogoutLink username={profile.get('username')}/> : <LoginLink/>;
 
       if (!profile.get('selected_identity')) {
         links = links.filter(function (link) {
