@@ -45,6 +45,9 @@ Atmo.Router = Backbone.Router.extend({
           // TODO: The current logged in user's sign-up date as a Unix timestamp.
           //created_at: 1234567890
         });
+        if(profile.get('selected_identity') === null) {
+            window.location.pathname = "/forbidden";
+        }
       },
       error: function (attrs, response, xhr) {
         if(response.status === 503){
@@ -75,7 +78,6 @@ Atmo.Router = Backbone.Router.extend({
     });
 
     var identity = Atmo.profile.get('selected_identity');
-    var identity_provider_id = identity.get("provider_id");
 
     Atmo.maintenances = new Atmo.Collections.Maintenances();
     Atmo.maintenances.fetch({

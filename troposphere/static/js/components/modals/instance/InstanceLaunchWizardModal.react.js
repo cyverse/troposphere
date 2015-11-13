@@ -88,6 +88,7 @@ define(function(require) {
                 <SizeSelectStep
                     image={this.state.image}
                     identity={this.state.identity}
+                    version={this.state.version}
                     size={this.state.size}
                     onRequestResources={this.onRequestResources}
                     onPrevious={this.onPrevious}

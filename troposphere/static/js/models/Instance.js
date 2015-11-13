@@ -84,7 +84,9 @@ define(
           var username = context.profile.get('username'),
             ip = this.get('ip_address'),
             location = ip.split(".").join("-");
-          return "https://atmo-proxy.iplantcollaborative.org/?location=" + location + "&ssh=ssh://" + username + "@" + ip + ":22";
+          return globals.WEB_SH_URL + "?location=" + location +
+              "&upn=" + username +
+              "&ssh=ssh://" + username + "@" + ip + ":22";
         },
 
         vnc_url: function () {

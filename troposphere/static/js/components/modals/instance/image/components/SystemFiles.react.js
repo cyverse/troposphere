@@ -22,7 +22,7 @@ define(function (require) {
       var description = (
         <div>
           If your VM image requires a change in an iPlant-managed system file (see
-          <a href="https://pods.iplantcollaborative.org/wiki/x/oIZy" target="_blank">{" Important Notes #4"}</a>
+          <a href="https://pods.iplantcollaborative.org/wiki/display/atmman/Requesting+an+Image+of+an+Instance" target="_blank">{" Important Notes #4"}</a>
           ), let us know the change and why the change is necessary.
         </div>
       );

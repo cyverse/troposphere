@@ -9,8 +9,6 @@ define(function (require) {
     MaintenanceScreen = require('components/MaintenanceScreen.react'),
     modernizr = require('lib/modernizr-latest.js');
 
-  var favicon = require("images/favicon.ico");
-
   // Disconnect all Backbone Events from Models and Collections
   Object.keys(Backbone.Events).forEach(function (functionName) {
     Backbone.Model.prototype[functionName] = function () {
@@ -59,6 +57,7 @@ define(function (require) {
   stores.ProviderMachineStore = require('stores/ProviderMachineStore');
   stores.ProviderStore = require('stores/ProviderStore');
   stores.ResourceRequestStore = require('stores/ResourceRequestStore');
+  stores.IdentityMembershipStore = require('stores/IdentityMembershipStore');
   stores.StatusStore = require('stores/StatusStore');
   stores.QuotaStore = require('stores/QuotaStore');
   stores.SizeStore = require('stores/SizeStore');
@@ -68,8 +67,10 @@ define(function (require) {
   stores.VolumeStore = require('stores/VolumeStore');
 
   var actions = require('actions');
+  actions.AllocationActions = require('actions/AllocationActions');
   actions.BadgeActions = require('actions/BadgeActions');
   actions.HelpActions = require('actions/HelpActions');
+  actions.IdentityMembershipActions = require('actions/IdentityMembershipActions');
   actions.ImageActions = require('actions/ImageActions');
   actions.ImageVersionActions = require('actions/ImageVersionActions');
   actions.ImageVersionMembershipActions = require('actions/ImageVersionMembershipActions');
@@ -79,7 +80,6 @@ define(function (require) {
   actions.InstanceActions = require('actions/InstanceActions');
   actions.InstanceTagActions = require('actions/InstanceTagActions');
   actions.InstanceVolumeActions = require('actions/InstanceVolumeActions');
-  //actions.MembershipActions     = require('actions/MembershipActions');
   actions.LicenseActions = require('actions/LicenseActions');
   actions.ScriptActions = require('actions/ScriptActions');
   actions.NullProjectActions = require('actions/NullProjectActions');

@@ -6,6 +6,7 @@ define(function (require) {
       stores = require('stores'),
       ResourceMaster = require('./ResourceMaster.react'),
       ImageMaster = require('./ImageMaster.react'),
+      SecondaryAdminNavigation = require('./SecondaryAdminNavigation.react'),
       RouteHandler = Router.RouteHandler;
 
   return React.createClass({
@@ -14,17 +15,14 @@ define(function (require) {
 
     render: function () {
       return (
-        <div className = "container admin">
-          <span className="adminHeader">
-            <h1>Admin</h1>
-            <Router.Link to="resource-request-manager">
-              <div className="btn btn-default">Resource Requests</div>
-            </Router.Link>
-            <Router.Link to="image-request-manager">
-              <div className="btn btn-default">Imaging Requests</div>
-            </Router.Link>
-          <RouteHandler />
-          </span>
+        <div>
+            <SecondaryAdminNavigation/>
+            <div className = "container admin">
+            <span className="adminHeader">
+                <h1>Admin</h1>
+            <RouteHandler />
+            </span>
+            </div>
         </div>
       );
     }
@@ -32,4 +30,3 @@ define(function (require) {
   });
 
 }); 
-

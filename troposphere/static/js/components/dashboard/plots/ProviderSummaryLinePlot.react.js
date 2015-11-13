@@ -196,7 +196,7 @@ define(function (require) {
       },
 
       calculateMemoryUsage: function (instances, quota, sizes) {
-        var maxMemory = quota.mem;
+        var maxMemory = quota.memory;
 
         var currentMemory = instances.reduce(function (memo, instance) {
           var size = sizes.get(instance.get('size').id);

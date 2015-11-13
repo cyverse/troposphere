@@ -37,15 +37,10 @@ define(function (require) {
         iconSize = 67,
         icon;
 
-      if(image.get('icon')) {
-        icon = (
-          <img src={image.get('icon')} width={iconSize} height={iconSize}/>
-        );
-      } else {
-        icon = (
-          <Gravatar hash={image.get('uuid_hash')} size={iconSize} type={type}/>
-        );
-      }
+      // always use the Gravatar icons
+      icon = (
+        <Gravatar hash={image.get('uuid_hash')} size={iconSize} type={type}/>
+      );
 
       // Hide bookmarking on the public page
       var bookmark;

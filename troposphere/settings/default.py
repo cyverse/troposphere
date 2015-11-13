@@ -35,7 +35,6 @@ INSTALLED_APPS = (
     'rest_framework',
     'iplantauth',
     'api',
-    'sslserver'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -118,10 +117,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "assets")
 STATIC_URL = '/assets/'
 
 #STATIC generated files from troposphere to be added to STATIC_ROOT
-#STATICFILES_DIRS should NOT contain the STATIC_ROOT
-STATICFILES_DIRS = (
-        os.path.join(BASE_DIR, 'tropo-static/'),
-    )
 
 REST_FRAMEWORK = {
     # 'DEFAULT_RENDERER_CLASSES': (

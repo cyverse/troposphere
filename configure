@@ -133,6 +133,41 @@ def generate_new_key():
     return new_key
 
 
+
+def _has_errors(messages):
+    return len(_scan_messages(messages, 'e')) != 0
+
+
+def _has_warnings(messages):
+    return len(_scan_messages(messages, 'w')) != 0
+
+
+def _scan_messages(messages, output_code):
+    return [c for c, _ in messages if c == output_code]
+
+
+def completed():
+    completed = '%s%sCOMPLETED.%s' % (Fore.BLACK, Back.WHITE, Style.RESET_ALL)
+    return '\n%s' % (completed,)
+
+
+def warnings():
+    warnings = '%s%sWARNINGS PRESENT.%s' % (Fore.BLACK, Back.YELLOW, Style.RESET_ALL)
+    return '\n%s ' % (warnings, )
+
+
+def passed(text):
+    succeeded = '%s%sSUCCEEDED.%s' % (Fore.BLACK, Back.GREEN, Style.RESET_ALL)
+    return '%s%s%s\n%s ' % (Fore.GREEN, text, Style.RESET_ALL,
+        succeeded)
+
+
+def failed(text):
+    failed = '%s%sFAILED.%s' % (Fore.BLACK, Back.RED, Style.RESET_ALL)
+    return '%s%s%s\n%s ' % (Fore.RED, text, Style.RESET_ALL,
+        failed)
+
+
 def _populate_variable_namespace(vars, includes):
     """
     Wraps the possible variables for a section in a `sets.Set`.
@@ -215,7 +250,20 @@ def _get_variables(variables_file=VARIABLES_PATH):
     except Exception as e:
         return (False,
                 [('e', 'Unable to get or parse '
-                 'variables from %s' % (variables_file))])
+                 'variables from %s:\n\t%s' %
+                 (variables_file, e.message))])
+
+
+def _section_check(vars, distrib):
+    messages = []
+    v = Set(vars)
+    d = Set(distrib)
+    sections = d.difference(v)
+    for section in sections:
+        messages.append(('e',
+            'Local variables.ini missing section: %s'
+            % (section)))
+    return (len(sections) == 0, messages)
 
 
 def _compare_variables_distribution():
@@ -225,6 +273,11 @@ def _compare_variables_distribution():
 
     if variables_ini and variables_dist:
         messages = []
+
+        success, msgs = _section_check(variables_ini.keys(),
+            variables_dist.keys())
+        if not success:
+            return (success, msgs)
 
         unused_dist_ns = _populate_variable_namespace(variables_dist,
             SECTION_MAPPING.keys())
@@ -239,7 +292,7 @@ def _compare_variables_distribution():
                     'Missing shared variables section, [%s].'
                     % (e.message)))
 
-        return (unused_dist_ns, messages)
+        return (unused_dist_ns, messages + msgs)
     else:
         return (False, msg_var_ini + msg_var_dist)
 
@@ -401,10 +454,19 @@ def generate_configs(mapping, dry_run, backup=True):
      ... give some background on `mapping` and what it is doing
      ...
     """
+
     print 'Testing for preconditions...\n'
     success, messages = _check_paths()
     if not success:
+        print_messages(messages)
         return (success, 3)
+
+    # verify treats `warnings` as errors, but in this usages
+    # we want only want to halt when `'e'` messages are present.
+    success, messages = _verify_variables_file()
+    if _has_errors(messages):
+        print_messages(messages)
+        return (success, 4)
 
     success, messages = _handle_preconditions(mapping)
     print_messages(messages)
@@ -509,43 +571,10 @@ def print_verify():
         print passed('Verification complete.')
     else:
         print_messages(messages)
-        errors = [e for e, _ in messages if e == 'e']
-        if errors:
+        if _has_errors(messages):
             print failed('')
         else:
             print warnings()
-
-
-def _has_errors(messages):
-    return len(_scan_messages(messages, 'e')) != 0
-
-
-def _has_warnings(messages):
-    return len(_scan_messages(messages, 'w')) != 0
-
-
-def _scan_messages(messages, output_code):
-    return [c for c, _ in messages if c == output_code]
-
-
-def completed():
-    completed = '%s%sCOMPLETED.%s' % (Fore.BLACK, Back.WHITE, Style.RESET_ALL)
-    return '\n%s' % (completed)
-
-
-def warnings():
-    warnings = '%s%sWARNINGS PRESENT.%s' % (Fore.BLACK, Back.YELLOW, Style.RESET_ALL)
-    return '\n%s' % (warnings)
-
-
-def passed(text):
-    succeeded = '%s%sSUCCEEDED.%s' % (Fore.BLACK, Back.GREEN, Style.RESET_ALL)
-    return '%s%s%s\n%s' % (Fore.GREEN, text, Style.RESET_ALL, succeeded)
-
-
-def failed(text):
-    failed = '%s%sFAILED.%s' % (Fore.BLACK, Back.RED, Style.RESET_ALL)
-    return '%s%s%s\n%s' % (Fore.RED, text, Style.RESET_ALL, failed)
 
 
 def main():

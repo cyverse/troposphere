@@ -22,8 +22,8 @@ define(function (require) {
     },
 
     comparator: function (sizeA, sizeB) {
-      var aliasA = sizeA.get('alias').toLowerCase();
-      var aliasB = sizeB.get('alias').toLowerCase();
+      var aliasA = parseInt(sizeA.get('alias'));
+      var aliasB = parseInt(sizeB.get('alias'));
 
       if (aliasA === aliasB) return 0;
       return aliasA < aliasB ? -1 : 1;
