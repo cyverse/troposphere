@@ -44,17 +44,17 @@ define(function (require) {
       return (
         <div className="image-master">
           <h1>Imaging Requests</h1>
-              <table className="admin-table table table-hover col-md-6">
+              <table className="admin-table table table-hover table-striped col-md-6">
                 <tbody>
                   <tr className="admin-row">
-                    <th className="center">
-                      <h3>User</h3>
+                    <th>
+                      <h4>User</h4>
                     </th>
-                    <th className="center">
-                      <h3>Name</h3>
+                    <th>
+                      <h4>Name</h4>
                     </th>
-                    <th className="center">
-                      <h3>Status</h3>
+                    <th>
+                      <h4>Status</h4>
                     </th>
                   </tr>
                   {mappedImageRequests}

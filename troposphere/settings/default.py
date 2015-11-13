@@ -116,7 +116,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static_served")
 # The SERVER PATH for ALL (app + dependencies) static files.
 STATIC_URL = '/assets/'
 
-#STATIC generated files from troposphere to be added to STATIC_ROOT
 #STATICFILES_DIRS should NOT contain the STATIC_ROOT
 STATICFILES_DIRS = (
         os.path.join(BASE_DIR, 'static/'),

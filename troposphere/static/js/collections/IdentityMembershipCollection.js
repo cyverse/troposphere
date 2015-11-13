@@ -2,14 +2,13 @@ define(function (require) {
   "use strict";
 
   var Backbone = require('backbone'),
-    _ = require('underscore'),
-    Size = require('models/Size'),
+    IdentityMembership = require('models/IdentityMembership'),
     globals = require('globals');
 
   return Backbone.Collection.extend({
-    model: Size,
+    model: IdentityMembership,
 
-    url: globals.API_V2_ROOT + "/sizes",
+    url: globals.API_V2_ROOT + "/identity_memberships",
 
     parse: function (response) {
       this.meta = {
@@ -17,16 +16,7 @@ define(function (require) {
         next: response.next,
         previous: response.previous
       };
-
       return response.results;
-    },
-
-    comparator: function (sizeA, sizeB) {
-      var aliasA = parseInt(sizeA.get('alias'));
-      var aliasB = parseInt(sizeB.get('alias'));
-
-      if (aliasA === aliasB) return 0;
-      return aliasA < aliasB ? -1 : 1;
     }
 
   });

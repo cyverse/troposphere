@@ -74,6 +74,14 @@ INSTALLED_APPS += (
     'sslserver',
 )
 {% endif %}
+
+{% if USE_MOCK_AUTH %}
+ALWAYS_AUTH_USER = "{{ MOCK_USER }}"
+# Use MockLoginBackend first!
+AUTHENTICATION_BACKENDS += (
+    'iplantauth.authBackends.MockLoginBackend',
+)
+{% else %}
 # MOCK - Uncomment these lines to allow one-user-only access. Useful for debug/development
 # ALWAYS_AUTH_USER = "test_user"
 # # Use MockLoginBackend first!
@@ -82,6 +90,7 @@ INSTALLED_APPS += (
 #     'django.contrib.auth.backends.ModelBackend',  # Required to login to 'admin' if you use *ONLY* MockLoginBackend
 # )
 # Configure authentication plugin
+{% endif %}
 from datetime import timedelta
 AUTHENTICATION = {
     #GLOBAL
@@ -105,3 +114,24 @@ AUTHENTICATION = {
     "GLOBUS_TOKENINFO_URL": '{{ GLOBUS_TOKENINFO_URL }}',
     "GLOBUS_AUTH_URL": '{{ GLOBUS_AUTH_URL}}',
 }
+
+{% if USE_GATE_ONE_API %}
+# Settings for utilizing API & hosting of Gate One within UI
+USE_GATE_ONE_API = {{ USE_GATE_ONE_API }}
+GATE_ONE_API_SECRET = "{{ GATE_ONE_API_SECRET }}"
+GATE_ONE_API_KEY = "{{ GATE_ONE_API_KEY }}"
+# IMPORTANT:
+# if working locally, this *must* be localhost and _not_ an alias
+# to localhost - even a `/etc/hosts` entry that points back to
+# localhost will cause the GateOne JS to fail when routing web socket
+# traffic to the instantiated terminal emulator.
+#
+# This could be set to the following:
+#
+# WEB_SH_ROUTE = "https://localhost/web_shell"
+# or
+# WEB_SH_URL = "{{ SERVER_URL}}/{{ WEB_SH_ROUTE }}"
+WEB_SH_URL = "{{ WEB_SH_ROUTE }}"
+WEB_SH_BASE_URL = "{{ WEB_SH_BASE_URL }}"
+WEB_SH_JS_FILE = "{{ WEB_SH_JS_FILE }}"
+{% endif %}
