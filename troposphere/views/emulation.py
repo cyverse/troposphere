@@ -32,7 +32,7 @@ def emulate(request, username):
         os.path.join(settings.SERVER_URL,
                      "api/v1/token_emulate/%s" % username),
         verify=False,
-        headers={'Authorization': 'Token %s' % old_token})
+        headers={'Authorization': 'Token %s' % old_token, 'Accept': 'application/json', 'Content-Type': 'application/json'})
     try:
         j_data = r.json()
     except ValueError:

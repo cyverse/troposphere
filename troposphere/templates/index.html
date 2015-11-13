@@ -87,6 +87,10 @@
             var BADGE_HOST = "{{ BADGE_HOST }}";
         {% endif %}
 
+        {% if USE_GATE_ONE_API %}
+            var WEB_SH_URL ="{{ WEB_SH_URL }}";
+        {% endif %}
+
         {% if show_troposphere_only %}
             var show_troposphere_only = true;
         {%  else %}

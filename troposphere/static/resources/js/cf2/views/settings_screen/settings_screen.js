@@ -71,6 +71,10 @@ Atmo.Views.SettingsScreen = Backbone.View.extend({
 		$.ajax({
 			type: 'GET',
 			url: Atmo.API_ROOT + '/provider/' + provider + '/identity/' + identity + '/machine/history?page=1',
+            dataType: 'json',
+            accepts: {
+                    json: 'application/json',
+            },
 			success: function(response_text) {
 
 				// Loop through given instances and append them.
@@ -93,6 +97,10 @@ Atmo.Views.SettingsScreen = Backbone.View.extend({
 		$.ajax({
 			type: 'GET',
 			url: Atmo.API_ROOT + '/instance_history?page=1',
+            dataType: 'json',
+            accepts: {
+                    json: 'application/json',
+            },
 			success: function(response_text) {
 
 				// Loop through given instances and append them.
