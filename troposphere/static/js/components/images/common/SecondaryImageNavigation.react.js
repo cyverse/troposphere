@@ -10,7 +10,8 @@ define(function (require) {
     displayName: "SecondaryImageNavigation",
 
     renderRoute: function (name, linksTo, icon, requiresLogin) {
-      if (requiresLogin && !context.profile.get('selected_identity')) return null;
+      var userLoggedIn = (context.profile.get('username') != null);
+      if (requiresLogin && !userLoggedIn) return null;
 
       return (
         <li key={name}>

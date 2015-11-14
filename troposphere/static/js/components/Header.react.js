@@ -169,9 +169,10 @@ define(function (require) {
     render: function () {
 
       var profile = this.props.profile;
-      var loginLogoutDropdown = profile.get('selected_identity') ? <LogoutLink username={profile.get('username')}/> : <LoginLink/>;
+      var userLoggedIn = (profile.get('username') != null);
+      var loginLogoutDropdown = userLoggedIn ? <LogoutLink username={profile.get('username')}/> : <LoginLink/>;
 
-      if (!profile.get('selected_identity')) {
+      if (!userLoggedIn) {
         links = links.filter(function (link) {
           return !link.requiresLogin && link.isEnabled;
         })
@@ -201,7 +202,7 @@ define(function (require) {
       }.bind(this));
 
       var brandLink;
-      if (profile.get('selected_identity')) {
+      if (userLoggedIn) {
         brandLink = <Link to="dashboard" className="navbar-brand"/>;
       } else {
         brandLink = <Link to="images" className="navbar-brand"/>;

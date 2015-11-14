@@ -66,9 +66,9 @@ define(function (require) {
       Object.keys(stores).forEach(function (storeName) {
         stores[storeName].addChangeListener(this.updateState);
       }.bind(this));
-
+      var userLoggedIn = (context.profile && context.profile.get('username'));
       // The code below is only relevant to logged in users
-      if (!context.profile || !context.profile.get('selected_identity')) return;
+      if (!userLoggedIn) return;
       // IMPORTANT! We get one shot at this. If the instances and volumes aren't
       // fetched before this component is mounted we miss our opportunity to migrate
       // the users resources (so make sure they're fetched in the Splash Screen)
@@ -111,7 +111,8 @@ define(function (require) {
 
     render: function () {
 
-      if (!show_public_site && !context.profile.get('selected_identity') ) {
+      var userLoggedIn = (context.profile.get('username') != null);
+      if (!show_public_site && !userLoggedIn) {
           //Users who ARE logged in, but without an identity
           //cannot be handled in the application, currently.
           //These users are punted now.

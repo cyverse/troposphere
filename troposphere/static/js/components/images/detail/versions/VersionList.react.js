@@ -4,6 +4,7 @@ define(function (require) {
     _ = require('underscore'),
     Version = require('./Version.react'),
     stores = require('stores'),
+    context = require('context'),
     //Modals
     ImageVersionEditModal = require('components/modals/image_version/ImageVersionEditModal.react'),
     ModalHelpers = require('components/modals/ModalHelpers'),
@@ -49,13 +50,14 @@ define(function (require) {
         });
       },
       renderVersion: function (version) {
+        var userLoggedIn = context.profile.get('username') != null;
         return (
           <Version
             key={version.id}
             version={version}
             image={this.props.image}
             editable={this.props.editable}
-            showAvailability={this.props.showAvailability}
+            showAvailability={userLoggedIn}
             onEditClicked={this.openEditVersion}
             />
         );
