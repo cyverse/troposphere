@@ -46,6 +46,7 @@ OAUTH_CLIENT_CALLBACK = "{{ OAUTH_CLIENT_CALLBACK }}"
 
 # atmosphere must include the metrics endpoint
 SHOW_INSTANCE_METRICS = {{ SHOW_INSTANCE_METRICS }}
+SHOW_TROPOSPHERE_ONLY = {{ SHOW_TROPOSPHERE_ONLY }}
 {% if BADGES_ENABLED %}
 
 # Host for authenticating a badge request
@@ -79,6 +80,7 @@ INSTALLED_APPS += (
 ALWAYS_AUTH_USER = "{{ MOCK_USER }}"
 # Use MockLoginBackend first!
 AUTHENTICATION_BACKENDS += (
+    'django.contrib.auth.backends.ModelBackend',
     'iplantauth.authBackends.MockLoginBackend',
 )
 {% else %}
@@ -112,7 +114,8 @@ AUTHENTICATION = {
     "GLOBUS_OAUTH_ATMOSPHERE_SCOPE": '{{ GLOBUS_OAUTH_ATMOSPHERE_SCOPE }}',
     "GLOBUS_TOKEN_URL": '{{ GLOBUS_TOKEN_URL }}',
     "GLOBUS_TOKENINFO_URL": '{{ GLOBUS_TOKENINFO_URL }}',
-    "GLOBUS_AUTH_URL": '{{ GLOBUS_AUTH_URL}}',
+    "GLOBUS_AUTH_URL": '{{ GLOBUS_AUTH_URL }}',
+    "GLOBUS_MAPPING_FILE": '{{ GLOBUS_MAPPING_FILE }}',
 }
 
 {% if USE_GATE_ONE_API %}
