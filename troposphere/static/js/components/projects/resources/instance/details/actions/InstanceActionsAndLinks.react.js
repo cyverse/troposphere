@@ -64,7 +64,6 @@ define(function(require) {
 
     render: function() {
       var webShellUrl = this.props.instance.get('shell_url'),
-          remoteDesktopUrl = this.props.instance.get('vnc_url'),
           status = this.props.instance.get('state').get('status'),
           activity = this.props.instance.get('state').get('activity'),
           ip_address = this.props.instance.get('ip_address'),
@@ -111,13 +110,6 @@ define(function(require) {
           label: 'Open Web Shell',
           icon: 'credit-card',
           href: webShellUrl,
-          openInNewWindow: true,
-          isDisabled: webLinksDisabled
-        },
-        {
-          label: 'Remote Desktop',
-          icon: 'fullscreen',
-          href: remoteDesktopUrl,
           openInNewWindow: true,
           isDisabled: webLinksDisabled
         }
