@@ -17,7 +17,8 @@ define(
         return {
           identity: identities ? identities.first().id : null,
           resources: "",
-          reason: ""
+          reason: "",
+          instance: "",
         };
       },
 
@@ -87,10 +88,63 @@ define(
         this.setState({reason: e.target.value});
       },
 
+      handleInstanceChange: function(e){
+        this.setState({instance: e.target.value});
+      },
+
       //
       // Render
       // ------
       //
+      
+      renderAUCalculator: function(){
+
+        var remainingAU = this.state.identity ? stores.IdentityStore.get(this.state.identity).get('usage').remaining : stores.IdentityStore.getAll().first().get('usage').remaining;
+
+        var options = stores.InstanceStore.getAll().map(function(instance){
+          return (
+            <option value={instance.id}>{instance.get('name')}</option>
+          );
+        });
+
+        var selectedInstance = this.state.instance ? stores.InstanceStore.get(this.state.instance): stores.InstanceStore.getAll().first();
+
+        return(
+          <div>
+            <div className='form-group'>
+              <a role="button" data-toggle="collapse" href="#au-calculator" aria-expanded="true">
+                AU Calculator
+              </a>
+            </div>
+            <div id="au-calculator" className="collapse">
+                <strong>You have {remainingAU} AU remaining this month.</strong>
+                <div>
+                Calculate AU needed to continue running
+                <select value={this.state.instance ? this.state.instance : options[0]} className='form-control' onChange={this.handleInstanceChange}>
+                  {options}
+                </select>
+                for...
+              </div>
+
+              <table className="table">
+                <tbody>
+                  <th>
+                    Duration
+                  </th>
+                  <th>
+                    AU needed 
+                  </th>
+                  <tr><td>1 day</td><td>{(selectedInstance.get('size').cpu * 24 * 1)}</td></tr>
+                  <tr><td>3 days</td><td>{(selectedInstance.get('size').cpu * 24 * 3)}</td></tr>
+                  <tr><td>1 week</td><td>{(selectedInstance.get('size').cpu * 24 * 7)}</td></tr>
+                  <tr><td>2 weeks</td><td>{(selectedInstance.get('size').cpu * 24 * 14)}</td></tr>
+                </tbody>
+              </table>
+             <strong>Note: We can not approve requests greater than 2,304 AU.</strong>
+            </div>
+          </div>
+        );
+      },
 
       renderIdentity: function (identity) {
         return (
@@ -99,16 +153,17 @@ define(
       },
 
       renderBody: function () {
-        var identities = stores.IdentityStore.getAll();
+        var identities = stores.IdentityStore.getAll(),
+            instances = stores.InstanceStore.getAll();
 
-        if (!identities) return <div className="loading"/>;
+        if (!identities || !instances) return <div className="loading"/>;
 
         return (
           <div role='form'>
 
             <div className='form-group'>
               <label htmlFor='project-identity'>{"What cloud would you like resources for?"}</label>
-              <select onChange={this.handleIdentityChange}>
+              <select className="form-group" onChange={this.handleIdentityChange}>
                 {identities.map(this.renderIdentity)}
               </select>
             </div>
@@ -123,6 +178,8 @@ define(
                         onChange={this.handleResourcesChange}
                 />
             </div>
+
+            {this.renderAUCalculator()}
 
             <div className='form-group'>
               <label htmlFor='project-description'>{"How will you use the additional resources?"}</label>
