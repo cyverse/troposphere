@@ -39,9 +39,15 @@ define(function (require) {
     },
 
     renderProvider: function (provider) {
+      var providers = this.state.providers;
+      var linkName = "provider";
+
+      if (provider === providers.slice(0,1)){ 
+              linkName = "first-provider";
+      }
       return (
         <li key={provider.id}>
-          <Router.Link to="provider" params={{providerId: provider.id}}>
+          <Router.Link to={linkName} params={{providerId: provider.id}}>
             {provider.get('name')}
           </Router.Link>
         </li>
