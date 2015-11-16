@@ -16,7 +16,7 @@ define(function (require) {
     },
 
     renderProviderOption: function(provider){
-      if(! provider.get('public')) {
+      if(! provider.get('active')) {
         return;
       }
 
