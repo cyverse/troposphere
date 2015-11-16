@@ -31,7 +31,7 @@ define(function (require) {
       return (
         <footer className="footer">
           <div className="container">
-            <a href="http://user.iplantcollaborative.org" target="_blank">
+            <a href="http://jetstream-cloud.org/" target="_blank">
                   {"\u00a9" + year + " " + this.props.text}
             </a>
             {feedbackButton}
