@@ -19,6 +19,7 @@ define(
           resources: "",
           reason: "",
           instance: "",
+          selectedCPU: 1
         };
       },
 
@@ -92,12 +93,65 @@ define(
         this.setState({instance: e.target.value});
       },
 
+      handleCPUChange: function(e){
+        this.setState({selectedCPU: e.target.value});
+      },
+
       //
       // Render
       // ------
       //
       
+      renderDefaultAUCalculator: function(){
+        var remainingAU = this.state.identity ? stores.IdentityStore.get(this.state.identity).get('usage').remaining : stores.IdentityStore.getAll().first().get('usage').remaining;
+        return(
+          <div>
+            <div className='form-group'>
+              <a role="button" data-toggle="collapse" href="#au-calculator" aria-expanded="true">
+                AU Calculator
+              </a>
+            </div>
+
+            <div id="au-calculator" className="collapse">
+                <strong>You have {remainingAU} AU remaining this month.</strong>
+
+                <div>
+                Calculate AU needed to run a
+                <select value={this.state.selectedCPU} className='form-control' onChange={this.handleCPUChange}>
+                  <option value={1}>1</option>
+                  <option value={2}>2</option>
+                  <option value={4}>4</option>
+                  <option value={8}>8</option>
+                  <option value={16}>16</option>
+                </select>
+                CPU instance for...
+              </div>
+
+              <table className="table">
+                <tbody>
+                  <th>
+                    Duration
+                  </th>
+                  <th>
+                    AU needed 
+                  </th>
+                  <tr><td>1 day</td><td>{(this.state.selectedCPU * 24 * 1)}</td></tr>
+                  <tr><td>3 days</td><td>{(this.state.selectedCPU * 24 * 3)}</td></tr>
+                  <tr><td>1 week</td><td>{(this.state.selectedCPU* 24 * 7)}</td></tr>
+                  <tr><td>2 weeks</td><td>{(this.state.selectedCPU * 24 * 14)}</td></tr>
+                </tbody>
+              </table>
+
+             <strong>Note: We can not approve requests greater than 2,304 AU.</strong>
+            </div>
+          </div>
+        );
+      },
+
       renderAUCalculator: function(){
+        if(stores.InstanceStore.getAll().length < 1){
+          return this.renderDefaultAUCalculator();
+        }
 
         var remainingAU = this.state.identity ? stores.IdentityStore.get(this.state.identity).get('usage').remaining : stores.IdentityStore.getAll().first().get('usage').remaining;
 
