@@ -1,6 +1,6 @@
 import React from 'react';
 import Backbone from 'backbone';
-import SubMenu from './Submenu.react';
+import SubMenu from './SubMenu.react';
 
 export default React.createClass({
 
