@@ -47,7 +47,7 @@ define(function (require) {
               <InstanceDetailsSection instance={instance}/>
               <hr/>
               {
-                typeof show_instance_metrics != "undefined"
+                typeof show_instance_metrics != "undefined" && show_instance_metrics
                 ? <InstanceMetricsSection instance={instance}/>
                 : ""
               }
