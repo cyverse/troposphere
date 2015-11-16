@@ -50,14 +50,13 @@ define(function (require) {
         });
       },
       renderVersion: function (version) {
-        var userLoggedIn = context.profile.get('username') != null;
         return (
           <Version
             key={version.id}
             version={version}
             image={this.props.image}
             editable={this.props.editable}
-            showAvailability={userLoggedIn}
+            showAvailability={this.props.showAvailability}
             onEditClicked={this.openEditVersion}
             />
         );
