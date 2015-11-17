@@ -4,7 +4,8 @@ define(function (require) {
   var React = require('react/addons'),
     Router = require('react-router'),
     RouteHandler = Router.RouteHandler,
-    stores = require('stores');
+    stores = require('stores'),
+    ProviderLinks = require('./ProviderLinks.react');
 
   return React.createClass({
     displayName: "ProvidersMaster",
@@ -38,15 +39,6 @@ define(function (require) {
       stores.ProviderStore.removeChangeListener(this.updateState);
     },
 
-    renderProvider: function (provider) {
-      return (
-        <li key={provider.id}>
-          <Router.Link to="provider" params={{providerId: provider.id}}>
-            {provider.get('name')}
-          </Router.Link>
-        </li>
-      )
-    },
 
     render: function () {
       var providers = this.state.providers;
@@ -55,11 +47,13 @@ define(function (require) {
 
       return (
         <div>
-          <div className="container">
-            <div className="col-md-2">
-              <ul className="nav nav-stacked provider-list">
-                {providers.map(this.renderProvider)}
-              </ul>
+          <div className = "container">
+            <div className = "col-md-2">
+
+                <ProviderLinks
+                    className = "nav nav-stacked provider-list"
+                    listItems = {providers} />
+
             </div>
             <RouteHandler/>
           </div>
