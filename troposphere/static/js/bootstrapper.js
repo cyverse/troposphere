@@ -58,6 +58,7 @@ define(function (require) {
   stores.ProviderStore = require('stores/ProviderStore');
   stores.ResourceRequestStore = require('stores/ResourceRequestStore');
   stores.StatusStore = require('stores/StatusStore');
+  stores.SSHKeyStore = require('stores/SSHKeyStore');
   stores.QuotaStore = require('stores/QuotaStore');
   stores.SizeStore = require('stores/SizeStore');
   stores.TagStore = require('stores/TagStore');

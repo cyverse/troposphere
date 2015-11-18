@@ -32,6 +32,7 @@ define(
         attributes.settings.icon_set = response.icon_set;
         attributes.settings.quick_launch = response.quick_launch;
         attributes.settings.send_emails = response.send_emails;
+        attributes.settings.use_ssh_keys = response.use_ssh_keys;
 
         return attributes;
       }
