@@ -27,6 +27,10 @@ define(function (require) {
       modals.InstanceModals.stop(this.props.instance);
     },
 
+    onReboot: function(){
+      modals.InstanceModals.reboot(this.props.instance);
+    },
+
     onResume: function () {
       modals.InstanceModals.resume(this.props.instance);
     },
@@ -61,6 +65,15 @@ define(function (require) {
               icon="stop"
               tooltip="Stop"
               onClick={this.onStop}
+              isVisible={true}
+              />
+          );
+          linksArray.push(
+            <Button
+              key="Reboot"
+              icon="repeat"
+              tooltip="Rebboot the selected instance"
+              onClick={this.onReboot}
               isVisible={true}
               />
           );
