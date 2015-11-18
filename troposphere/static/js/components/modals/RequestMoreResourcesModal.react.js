@@ -3,9 +3,10 @@ define(
   [
     'react',
     'components/mixins/BootstrapModalMixin.react',
+    'components/common/AUCalculator.react',
     'stores'
   ],
-  function (React, BootstrapModalMixin, stores) {
+  function (React, BootstrapModalMixin, AUCalculator, stores) {
 
     return React.createClass({
       displayName: "RequestMoreResourcesModal",
@@ -17,9 +18,7 @@ define(
         return {
           identity: identities ? identities.first().id : null,
           resources: "",
-          reason: "",
-          instance: "",
-          selectedCPU: 1
+          reason: ""
         };
       },
 
@@ -89,120 +88,14 @@ define(
         this.setState({reason: e.target.value});
       },
 
-      handleInstanceChange: function(e){
-        this.setState({instance: e.target.value});
-      },
-
-      handleCPUChange: function(e){
-        this.setState({selectedCPU: e.target.value});
-      },
-
       //
       // Render
       // ------
       //
-      
-      renderDefaultAUCalculator: function(){
-        var remainingAU = this.state.identity ? stores.IdentityStore.get(this.state.identity).get('usage').remaining : stores.IdentityStore.getAll().first().get('usage').remaining;
-        return(
-          <div>
-            <div className='form-group'>
-              <a role="button" data-toggle="collapse" href="#au-calculator" aria-expanded="true">
-                AU Calculator
-              </a>
-            </div>
-
-            <div id="au-calculator" className="collapse">
-                <strong>You have {remainingAU} AU remaining this month.</strong>
-
-                <div>
-                Calculate AU needed to run a
-                <select value={this.state.selectedCPU} className='form-control' onChange={this.handleCPUChange}>
-                  <option value={1}>1</option>
-                  <option value={2}>2</option>
-                  <option value={4}>4</option>
-                  <option value={8}>8</option>
-                  <option value={16}>16</option>
-                </select>
-                CPU instance for...
-              </div>
-
-              <table className="table">
-                <tbody>
-                  <th>
-                    Duration
-                  </th>
-                  <th>
-                    AU needed 
-                  </th>
-                  <tr><td>1 day</td><td>{(this.state.selectedCPU * 24 * 1)}</td></tr>
-                  <tr><td>3 days</td><td>{(this.state.selectedCPU * 24 * 3)}</td></tr>
-                  <tr><td>1 week</td><td>{(this.state.selectedCPU* 24 * 7)}</td></tr>
-                  <tr><td>2 weeks</td><td>{(this.state.selectedCPU * 24 * 14)}</td></tr>
-                </tbody>
-              </table>
-
-             <strong>Note: We can not approve requests greater than 2,304 AU.</strong>
-            </div>
-          </div>
-        );
-      },
-
-      renderAUCalculator: function(){
-        if(stores.InstanceStore.getAll().length < 1){
-          return this.renderDefaultAUCalculator();
-        }
-
-        var remainingAU = this.state.identity ? stores.IdentityStore.get(this.state.identity).get('usage').remaining : stores.IdentityStore.getAll().first().get('usage').remaining;
-
-        var options = stores.InstanceStore.getAll().map(function(instance){
-          return (
-            <option value={instance.id}>{instance.get('name')}</option>
-          );
-        });
-
-        var selectedInstance = this.state.instance ? stores.InstanceStore.get(this.state.instance): stores.InstanceStore.getAll().first();
-
-        return(
-          <div>
-            <div className='form-group'>
-              <a role="button" data-toggle="collapse" href="#au-calculator" aria-expanded="true">
-                AU Calculator
-              </a>
-            </div>
-            <div id="au-calculator" className="collapse">
-                <strong>You have {remainingAU} AU remaining this month.</strong>
-                <div>
-                Calculate AU needed to continue running
-                <select value={this.state.instance ? this.state.instance : options[0]} className='form-control' onChange={this.handleInstanceChange}>
-                  {options}
-                </select>
-                for...
-              </div>
-
-              <table className="table">
-                <tbody>
-                  <th>
-                    Duration
-                  </th>
-                  <th>
-                    AU needed 
-                  </th>
-                  <tr><td>1 day</td><td>{(selectedInstance.get('size').cpu * 24 * 1)}</td></tr>
-                  <tr><td>3 days</td><td>{(selectedInstance.get('size').cpu * 24 * 3)}</td></tr>
-                  <tr><td>1 week</td><td>{(selectedInstance.get('size').cpu * 24 * 7)}</td></tr>
-                  <tr><td>2 weeks</td><td>{(selectedInstance.get('size').cpu * 24 * 14)}</td></tr>
-                </tbody>
-              </table>
-             <strong>Note: We can not approve requests greater than 2,304 AU.</strong>
-            </div>
-          </div>
-        );
-      },
 
       renderIdentity: function (identity) {
         return (
-          <option value={identity.id}>{identity.get('provider').name}</option>
+          <option key={identity.id} value={identity.id}>{identity.get('provider').name}</option>
         )
       },
 
@@ -227,13 +120,13 @@ define(
               <textarea type='text'
                         className='form-control'
                         rows="7"
-                        placeholder="E.g 4 CPUs and 8GB memory, running 4 cores for 1 week, an additional 5400 cpu hours, etc."
+                        placeholder="E.g 4 CPUs and 8GB memory, running 4 cores for 1 week, an additional 500 AU, etc."
                         value={this.state.resources}
                         onChange={this.handleResourcesChange}
                 />
             </div>
 
-            {this.renderAUCalculator()}
+            <AUCalculator identity={this.state.identity}/>
 
             <div className='form-group'>
               <label htmlFor='project-description'>{"How will you use the additional resources?"}</label>
