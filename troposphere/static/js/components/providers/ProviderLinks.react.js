@@ -7,20 +7,28 @@ var RouteHandler = Router.RouteHandler;
 export default React.createClass({
 
     render: function () {
-        var listItems = this.props.listItems.map(function(item) {
+        // Component API
+        var ulClass = this.props.ulClass;
+        var liClass = this.props.liClass;
+        var linkTarget = this.props.linkTarget;
+        var listData = this.props.listData;
+
+
+        var ListItems = this.props.listData.map(function(item) {
             return (
-                <li>
-                    <Router.Link to="provider" params={{providerId: item.attributes.id}}>
+                <li className = {liClass} key = {item.attributes.id} >
+                    <Router.Link to = "provider" params = {{id: item.attributes.id}}>
                         {item.attributes.name}
                     </Router.Link>
                 </li>
             )
         });
-      return (
-          <ul className= {this.props.className} >
-            {listItems}
-          </ul>
-      );
+
+        return (
+            <ul className= {ulClass} >
+                {ListItems}
+            </ul>
+        );
     }
 
 });

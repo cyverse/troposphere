@@ -40,6 +40,17 @@ define(function (require) {
     ResourceRequest = require('./components/admin/ResourceRequest.react'),
     ResourceAdmin = require('./components/admin/ResourceAdmin.react');
 
+    function RedirectTo(destination) {
+        return React.createClass({
+            statics: {
+                willTransitionTo: function (transition) {
+                    transition.redirect(destination);
+                }
+            },
+            render: function () {}
+        });
+    }
+
   var AppRoutes = (
     <Route name="root" path="/application" handler={Master}>
       <Route name="dashboard" handler={DashboardPage}/>
@@ -66,8 +77,7 @@ define(function (require) {
       </Route>
 
       <Route name="providers" handler={ProvidersMaster}>
-        <Route name="provider" path=":providerId" handler={ProviderDetailsPage}/>
-        <DefaultRoute handler={ProviderDetailsPage}/>
+        <Route name="provider" path = ":id" handler={ProviderDetailsPage}/>
       </Route>
 
       <Route name="help" handler={HelpPage}/>
