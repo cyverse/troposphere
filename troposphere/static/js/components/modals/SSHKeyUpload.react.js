@@ -1,6 +1,7 @@
 var React = require('react');
 var BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react');
 var SSHKeyStore = require('stores/SSHKeyStore');
+var stores = require('stores');
 
 module.exports = React.createClass({
 
