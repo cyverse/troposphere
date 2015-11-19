@@ -40,11 +40,11 @@ define(function (require) {
     ResourceRequest = require('./components/admin/ResourceRequest.react'),
     ResourceAdmin = require('./components/admin/ResourceAdmin.react');
 
-    function RedirectTo(destination) {
+    function RedirectTo(destination, param) {
         return React.createClass({
             statics: {
                 willTransitionTo: function (transition) {
-                    transition.redirect(destination);
+                    transition.redirect(destination, param);
                 }
             },
             render: function () {}
@@ -77,6 +77,7 @@ define(function (require) {
       </Route>
 
       <Route name="providers" handler={ProvidersMaster}>
+        <Route handler={ RedirectTo('provider', {id: 4}) } />
         <Route name="provider" path = ":id" handler={ProviderDetailsPage}/>
       </Route>
 

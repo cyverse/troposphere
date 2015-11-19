@@ -33,9 +33,9 @@ define(function (require) {
     },
 
     componentWillMount: function () {
-        var providers = stores.ProviderStore.getAll();
-        var providerId = providers.models[0].id
-        RouterUtl.getInstance().transitionTo("provider", {id: providerId});
+       // var providers = stores.ProviderStore.getAll();
+        //var providerId = providers.models[0].id
+       // RouterUtl.getInstance().transitionTo("provider", {id: providerId});
     },
 
     componentDidMount: function () {
