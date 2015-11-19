@@ -13,10 +13,10 @@ module.exports = React.createClass({
               <div className="modal-content badge-modal-content">
                 <div className="modal-header">
                   {this.renderCloseButton()}
-                  <strong>hello</strong>
+                  <strong>title</strong>
                 </div>
                 <div className="modal-body">
-                  hello body
+                  body
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-danger" onClick={this.hide}>
