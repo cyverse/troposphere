@@ -17,7 +17,9 @@ define(function (require) {
     ProjectListPage = require('./components/projects/ProjectListPage.react'),
     ImageListPage = require('./components/images/ImageListPage.react'),
     ImageDetailsPage = require('./components/images/ImageDetailsPage.react'),
-    ProviderDetailsPage = require('./components/providers/ProviderListView.react'),
+    ProvidersMaster = require('./components/providers/ProvidersMaster.react'),
+    ProviderListSection = require('./components/providers/ProviderListSection.react'),
+    ProviderDetail = require('./components/providers/ProviderDetail.react'),
     HelpPage = require('./components/help/HelpPage.react'),
     ProjectsMaster = require('./components/projects/ProjectsMaster.react'),
     ProjectDetailsMaster = require('./components/projects/detail/ProjectDetailsMaster.react'),
@@ -28,7 +30,6 @@ define(function (require) {
     MyImageRequestsPage = require('./components/images/MyImageRequestsPage.react'),
     ImageTagsPage = require('./components/images/ImageTagsPage.react'),
     ImagesMaster = require('./components/images/ImagesMaster.react'),
-    ProvidersMaster = require('./components/providers/ProvidersMaster.react'),
     SettingsPage = require('./components/settings/SettingsPage.react'),
     ProjectInstancePage = require("./components/projects/InstanceDetailsPage.react"),
     ProjectVolumePage = require("./components/projects/VolumeDetailsPage.react"),
@@ -39,17 +40,6 @@ define(function (require) {
     ResourceMaster = require('./components/admin/ResourceMaster.react'),
     ResourceRequest = require('./components/admin/ResourceRequest.react'),
     ResourceAdmin = require('./components/admin/ResourceAdmin.react');
-
-    function RedirectTo(destination, param) {
-        return React.createClass({
-            statics: {
-                willTransitionTo: function (transition) {
-                    transition.redirect(destination, param);
-                }
-            },
-            render: function () {}
-        });
-    }
 
   var AppRoutes = (
     <Route name="root" path="/application" handler={Master}>
@@ -77,22 +67,22 @@ define(function (require) {
       </Route>
 
       <Route name="providers" handler={ProvidersMaster}>
-        <Route handler={ RedirectTo('provider', {id: 4}) } />
-        <Route name="provider" path = ":id" handler={ProviderDetailsPage}/>
+        <DefaultRoute handler={ProviderListSection} />
+        <Route name="provider" path=":id" handler={ProviderDetail}/>
+        <Route name="all-providers" path="/" handler={ProviderListSection} />
       </Route>
 
       <Route name="help" handler={HelpPage}/>
       <Route name="settings" handler={SettingsPage}/>
 
       <Route name="admin" handler={AdminMaster}>
-        <Route name="identity-membership-manager" path="users" handler={IdentityMembershipMaster}/>
+        <DefaultRoute name="identity-membership-manager" path="users" handler={IdentityMembershipMaster}/>
         <Route name="resource-request-manager" path="resource-requests" handler={ResourceMaster}>
           <Route name="resource-request" path=":resourceRequestId" handler={ResourceAdmin} />
         </Route>
         <Route name="image-request-manager" path="imaging-requests" handler={ImageMaster}>
           <Route name="image-request" path=":imageRequestId" handler={ImageAdmin} />
         </Route>
-        <DefaultRoute handler={IdentityMembershipMaster}/>
       </Route>
 
       <Route name="badges" handler={BadgeMaster}>

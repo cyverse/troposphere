@@ -33,7 +33,7 @@ define(function (require) {
       if (!provider) return <div className="loading"></div>;
 
       return (
-        <div className="col-md-10 provider-details">
+        <div className="provider-details">
           <Name provider={provider}/>
           <Stats provider={provider}/>
           <Description provider={provider}/>
