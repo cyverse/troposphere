@@ -5,6 +5,20 @@ define(function (require) {
     Constants = require('constants/ResourceRequestConstants');
 
   return {
+    close: function(params){
+      var request = params.request;
+      var newAttributes = {
+        status: 7//params.status
+      };
+
+      request.set({status: 7});//newAttributes);
+      console.log(request);
+      request.save(newAttributes, {patch: true}).done(function(){
+        console.log("closed it!");
+        Utils.dispatch(Constants.UPDATE, {model: request});
+      });
+    },
+
     update: function (params) {
       var request = params.request,
         response = params.response,
