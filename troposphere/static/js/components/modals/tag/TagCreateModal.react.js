@@ -2,9 +2,10 @@
 define(
   [
     'react',
+    'stores',
     'components/mixins/BootstrapModalMixin.react'
   ],
-  function (React, BootstrapModalMixin) {
+  function (React, stores, BootstrapModalMixin) {
 
     // Example Usage from http://bl.ocks.org/insin/raw/8449696/
     // render: function(){
@@ -50,7 +51,23 @@ define(
       isSubmittable: function () {
         var hasName = !!this.state.name;
         var hasDescription = !!this.state.description;
-        return hasName && hasDescription;
+        var tagExists = !!this.state.tagExists;
+        return hasName && hasDescription && !tagExists;
+      },
+
+      componentDidMount: function (){
+        if (this.state.name) {
+          var lower = this.state.name.toLowerCase();
+          tags = stores.TagStore.getAll().filter(function (tag) {
+            return tag.get('name').toLowerCase() === lower;
+          });
+          if(tags.length > 0){
+            this.setState({tagExists: true, existsText: "Tag " + this.state.name + " already exists"});
+          }
+          else{
+            this.setState({tagExists: false, existsText: ""});
+          }
+        }
       },
 
       //
@@ -92,6 +109,18 @@ define(
       onNameChange: function (e) {
         var newName = e.target.value;
         this.setState({name: newName});
+        if (newName) {
+          var lower = newName.toLowerCase();
+          tags = stores.TagStore.getAll().filter(function (tag) {
+            return tag.get('name').toLowerCase() === lower;
+          });
+          if(tags.length > 0){
+            this.setState({tagExists: true, existsText: "Tag " + newName + " already exists"});
+          }
+          else{
+            this.setState({tagExists: false, existsText: ""});
+          }
+        }
       },
 
       onDescriptionChange: function (e) {
@@ -105,6 +134,7 @@ define(
       //
 
       renderBody: function () {
+        var formattedExistsText = <p className="bg-danger">{this.state.existsText}</p>
         return (
           <div role='form'>
 
@@ -115,6 +145,7 @@ define(
                      value={this.state.name}
                      onChange={this.onNameChange}
                 />
+              {formattedExistsText}
             </div>
 
             <div className='form-group'>
@@ -133,6 +164,7 @@ define(
       },
 
       render: function () {
+        var formattedExistsText = <p className="bg-danger">{this.state.existsText}</p>
         return (
           <div className="modal fade">
             <div className="modal-dialog">
@@ -145,6 +177,7 @@ define(
                   {this.renderBody()}
                 </div>
                 <div className="modal-footer">
+                  {formattedExistsText}
                   <button type="button" className="btn btn-danger" onClick={this.cancel}>
                     Cancel
                   </button>
