@@ -37,6 +37,7 @@ define(function (require) {
     ImageAdmin = require('./components/admin/ImageAdmin.react'),
     IdentityMembershipMaster = require('./components/admin/IdentityMembershipMaster.react'),
     ResourceMaster = require('./components/admin/ResourceMaster.react'),
+    RequestHistory = require('./components/projects/RequestHistoryMaster.react'),
     ResourceRequest = require('./components/admin/ResourceRequest.react'),
     ResourceAdmin = require('./components/admin/ResourceAdmin.react');
 
@@ -88,6 +89,9 @@ define(function (require) {
         <Route name="my-badges" path="my-badges" handler={MyBadges} />
         <Route name="all-badges" path="all-badges" handler={AllBadges} />
         <Route name="unearned-badges" path="unearned-badges" handler={UnearnedBadges} />
+      </Route>
+
+      <Route name="history" handler={RequestHistory}>
       </Route>
 
       <DefaultRoute handler={DashboardPage}/>
