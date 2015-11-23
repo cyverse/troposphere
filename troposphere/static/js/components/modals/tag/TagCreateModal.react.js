@@ -3,9 +3,10 @@ define(
   [
     'react',
     'stores',
+    'jquery',
     'components/mixins/BootstrapModalMixin.react'
   ],
-  function (React, stores, BootstrapModalMixin) {
+  function (React, stores, $, BootstrapModalMixin) {
 
     // Example Usage from http://bl.ocks.org/insin/raw/8449696/
     // render: function(){
@@ -110,7 +111,7 @@ define(
         var newName = e.target.value;
         this.setState({name: newName});
         if (newName) {
-          var lower = newName.toLowerCase();
+          var lower = $.trim(newName.toLowerCase());
           tags = stores.TagStore.getAll().filter(function (tag) {
             return tag.get('name').toLowerCase() === lower;
           });
