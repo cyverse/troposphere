@@ -72,7 +72,7 @@ define(function (require) {
             <Button
               key="Reboot"
               icon="repeat"
-              tooltip="Rebboot the selected instance"
+              tooltip="Reboot the selected instance"
               onClick={this.onReboot}
               isVisible={true}
               />
