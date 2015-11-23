@@ -116,7 +116,7 @@ define(
             return tag.get('name').toLowerCase() === lower;
           });
           if(tags.length > 0){
-            this.setState({tagExists: true, existsText: "Tag " + newName + " already exists"});
+            this.setState({tagExists: true, existsText: "Tag with name \"" + newName + "\" already exists"});
           }
           else{
             this.setState({tagExists: false, existsText: ""});
@@ -135,7 +135,7 @@ define(
       //
 
       renderBody: function () {
-        var formattedExistsText = <p className="bg-danger">{this.state.existsText}</p>
+        var formattedExistsText = <p className="no-results text-danger">{this.state.existsText}</p>
         return (
           <div role='form'>
 
@@ -165,7 +165,12 @@ define(
       },
 
       render: function () {
-        var formattedExistsText = <p className="bg-danger">{this.state.existsText}</p>
+        var footerExistsText;
+
+        if(this.state.tagExists){
+          footerExistsText = <p className="text-danger">Tag can not be created.</p>;
+        }
+
         return (
           <div className="modal fade">
             <div className="modal-dialog">
@@ -178,7 +183,7 @@ define(
                   {this.renderBody()}
                 </div>
                 <div className="modal-footer">
-                  {formattedExistsText}
+                  {footerExistsText}
                   <button type="button" className="btn btn-danger" onClick={this.cancel}>
                     Cancel
                   </button>
