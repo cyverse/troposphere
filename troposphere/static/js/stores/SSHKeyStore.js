@@ -1,11 +1,8 @@
-define(function (require) {
+import BaseStore from 'stores/BaseStore';
+import SSHKeyCollection from 'collections/SSHKeyCollection';
 
-  var BaseStore = require('stores/BaseStore'),
-      SSHKeyCollection = require('collections/SSHKeyCollection');
-
-  var SSHKeyStore = BaseStore.extend({
+var SSHKeyStore = BaseStore.extend({
     collection: SSHKeyCollection
-  }); 
-
-  return new SSHKeyStore();
 });
+
+export default new SSHKeyStore();

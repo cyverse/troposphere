@@ -1,60 +1,50 @@
+import React from 'react';
+import SSHConfiguration from 'components/settings/advanced/SSHConfiguration.react';
+import actions from 'actions';
+import modals from 'modals';
+import stores from 'stores';
 
-define(
-  [
-    'react',
-    'components/settings/advanced/SSHConfiguration.react',
-    'actions',
-    'modals',
-    'stores'
-  ],
-  function (React, SSHConfiguration, actions, modals, stores) {
+export default React.createClass({
 
-    return React.createClass({
-
-      getInitialState: function () {
-          return {
+    getInitialState: function () {
+        return {
             showMore: false,
-          };
-      },
+        };
+    },
 
-      updateState:function() {
+    updateState: function() {
         this.setState(this.getInitialState());
-      },
+    },
 
-      showToggle: function(){
-          this.setState({showMore: !this.state.showMore});
-      },
+    showToggle: function(){
+        this.setState({showMore: !this.state.showMore});
+    },
 
-      renderMore: function() {
-
+    renderMore: function() {
         return (
             <div style={{ marginLeft: "30px"}}>
                 <SSHConfiguration/>
                 <button onClick={this.showToggle}>Show Less</button>
             </div>
-            )
-      },
+        );
+    },
 
-      renderLess: function() {
+    renderLess: function() {
         return <button onClick={this.showToggle}>Show More</button>
-      },
+    },
 
-      render: function () {
-
+    render: function () {
         return (
             <div>
-              <div>
-                <h3>Advanced</h3>
-                { 
-                    this.state.showMore 
-                    ? this.renderMore()
-                    : this.renderLess()
-                }
-              </div>
+                <div>
+                    <h3>Advanced</h3>
+                    {
+                        this.state.showMore ?
+                        this.renderMore() :
+                        this.renderLess()
+                    }
+                </div>
             </div>
         );
-      }
-
-    });
-
-  });
+    }
+});
