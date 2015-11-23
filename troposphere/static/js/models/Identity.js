@@ -2,6 +2,13 @@ define(function (require) {
 
   var Backbone = require('backbone');
 
+  function isRelevant(model, identityId) {
+        // using double ~ to convert string to number
+        return model.id && model.get('identity') &&
+            ~~model.get('identity').id === identityId;
+
+  }
+
   return Backbone.Model.extend({
 
     parse: function (attributes) {
@@ -28,10 +35,7 @@ define(function (require) {
       var identityId = this.id;
 
       return instances.filter(function (instance) {
-        // convert string holding integer id to number
-        var instanceIdentId = ~~instance.get('identity').id,
-            isRelevant = instance.id && instanceIdentId === identityId;
-        if (isRelevant) {
+        if (isRelevant(instance, identityId)) {
           return instance.get('status') !== "suspended";
         } else {
           return false;
@@ -43,11 +47,7 @@ define(function (require) {
       var identityId = this.id;
 
       return instances.reduce(function (total, instance) {
-        // convert string holding integer id to number
-        var instanceIdentId = ~~instance.get('identity').id,
-            isRelevant = instance.id && instanceIdentId === identityId;
-
-        if (isRelevant) {
+        if (isRelevant(instance, identityId)) {
           var size = sizes.get(instance.get('size').id);
           return total + size.get('cpu');
         } else {
@@ -60,8 +60,8 @@ define(function (require) {
       var identityId = this.id;
 
       return instances.reduce(function (total, instance) {
-        var isRelevant = instance.id && instance.get('identity').id === identityId;
-        if (isRelevant) {
+        if (isRelevant(instance, identityId)) {
+
           var size = sizes.get(instance.get('size').id);
           return total + size.get('mem');
         } else {
@@ -74,8 +74,7 @@ define(function (require) {
       var identityId = this.id;
 
       return volumes.reduce(function (total, volume) {
-        var isRelevant = volume.id && volume.get('identity').id === identityId;
-        if (isRelevant) {
+        if (isRelevant(volume, identityId)) {
           var size = volume.get('size');
           return total + size;
         } else {
@@ -88,8 +87,7 @@ define(function (require) {
       var identityId = this.id;
 
       return volumes.reduce(function (total, volume) {
-        var isRelevant = volume.id && volume.get('identity').id === identityId;
-        if (isRelevant) {
+        if (isRelevant(volume, identityId)) {
           return total + 1;
         } else {
           return total;
