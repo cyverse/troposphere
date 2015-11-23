@@ -8,13 +8,11 @@ define(function (require) {
     close: function(params){
       var request = params.request;
       var newAttributes = {
-        status: 7//params.status
+        status: params.status
       };
 
-      request.set({status: 7});//newAttributes);
-      console.log(request);
+      request.set(newAttributes);
       request.save(newAttributes, {patch: true}).done(function(){
-        console.log("closed it!");
         Utils.dispatch(Constants.UPDATE, {model: request});
       });
     },
