@@ -168,7 +168,7 @@ define(
         var footerExistsText;
 
         if(this.state.tagExists){
-          footerExistsText = <p className="text-danger">Tag can not be created.</p>;
+          footerExistsText = <p className="text-danger">Tag can not be created. Please fix errors above.</p>;
         }
 
         return (
