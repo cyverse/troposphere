@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-
 from api.models import MaintenanceRecord
 
 
@@ -26,4 +25,5 @@ def atmo_maintenance(request):
     """
     Returns a splash screen to show that Atmosphere is currently under maintenance
     """
-    return render(request, 'atmo_maintenance.html')
+    #return render(request, 'atmo_maintenance.html')
+    return maintenance(request)
