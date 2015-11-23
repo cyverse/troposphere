@@ -14,13 +14,14 @@ export default React.createClass({
         var provider = item.attributes;
         return (
             <li>
-                <div className = "app-card">
+                <div className = "media card">
                     <Router.Link to= "provider" params={{id: provider.id}} >
-                        <span className = "app-name">
+                        <div className = "media__content">
                             <h2 className = "title-3" >{provider.name}</h2>
-                        </span>
-                        <p>{provider.description}</p>
+                        <p className = "media__description" >{provider.description}</p>
+                        <hr/>
                         <Stats provider={provider}/>
+                        </div>
                     </Router.Link>
                 </div>
             </li>

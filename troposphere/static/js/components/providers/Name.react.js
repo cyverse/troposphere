@@ -15,7 +15,8 @@ export default React.createClass({
             <div className="row">
                 <h1>{provider.get('name')}</h1>
                 <Router.Link className = " btn btn-default" to = "all-providers" >
-                Back to All Providers
+                <span className = "glyphicon glyphicon-arrow-left"> </span> 
+                {" Back to All Providers" }
                 </Router.Link>
             </div>
         );

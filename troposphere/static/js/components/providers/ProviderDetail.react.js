@@ -35,6 +35,7 @@ define(function (require) {
       return (
         <div className="provider-details">
           <Name provider={provider}/>
+          <hr/>
           <Stats provider={provider}/>
           <Description provider={provider}/>
           <Instances provider={provider}/>

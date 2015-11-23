@@ -1,0 +1,40 @@
+// The Media object is used with cards and other media where you want an optional image next to content.
+// Add the card class name to the media containter element to get card styles.
+// Read about this pattern here: http://www.stubbornella.org/content/2010/06/25/the-media-object-saves-hundreds-of-lines-of-code/
+
+.media {
+    //Trick for optional image and fluid right content.
+    overflow:hiddin;
+    _overflow:visible;
+    zoom:1;
+
+    .media__content {
+        overflow: hiddin;
+        _overflow:visible;
+        zoom:1;
+    }
+    
+    .media__description {
+        max-width:700px;
+        margin-bottom:20px;
+        font-size:16px;
+        color:$grey--dark;
+    }
+
+    .media__img {
+        float:left; 
+        margin-right:20px;
+        img {
+            display: block;
+        }
+    }
+}
+
+
+.card {
+    border:solid 1px $grey--light;
+    border-radius: 3px;
+    padding:20px;
+    box-shadow: $shadow-1;
+    background: white;
+}
