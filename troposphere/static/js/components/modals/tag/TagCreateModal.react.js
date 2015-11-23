@@ -98,7 +98,7 @@ define(
 
       confirm: function () {
         this.hide();
-        this.props.onConfirm(this.state.name, this.state.description);
+        this.props.onConfirm($.trim(this.state.name), this.state.description);
       },
 
 
