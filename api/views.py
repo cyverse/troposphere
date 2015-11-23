@@ -1,6 +1,5 @@
-from rest_framework import viewsets
+from rest_framework import (viewsets, mixins, status)
 import requests
-from rest_framework import status
 import jwt
 import json
 from troposphere import settings
@@ -9,6 +8,21 @@ from rest_framework.response import Response
 from django.contrib.auth.models import User
 from api.models import UserPreferences
 from .serializers import UserSerializer, UserPreferenceSerializer
+
+from troposphere.version import get_version
+
+
+class VersionViewSet(mixins.ListModelMixin,
+                     viewsets.GenericViewSet):
+    permission_classes = ()
+
+    def list(self, request, *args, **kwargs):
+        """
+        This request will retrieve Atmosphere's version,
+        including the latest update to the code base and the date the
+        update was written.
+        """
+        return Response(get_version())
 
 
 class UserViewSet(viewsets.ReadOnlyModelViewSet):

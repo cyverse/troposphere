@@ -28,7 +28,9 @@ define(function (require) {
       var identityId = this.id;
 
       return instances.filter(function (instance) {
-        var isRelevant = instance.id && instance.get('identity').id === identityId;
+        // convert string holding integer id to number
+        var instanceIdentId = ~~instance.get('identity').id,
+            isRelevant = instance.id && instanceIdentId === identityId;
         if (isRelevant) {
           return instance.get('status') !== "suspended";
         } else {
@@ -41,7 +43,9 @@ define(function (require) {
       var identityId = this.id;
 
       return instances.reduce(function (total, instance) {
-        var isRelevant = instance.id && instance.get('identity').id === identityId;
+        // convert string holding integer id to number
+        var instanceIdentId = ~~instance.get('identity').id,
+            isRelevant = instance.id && instanceIdentId === identityId;
 
         if (isRelevant) {
           var size = sizes.get(instance.get('size').id);
