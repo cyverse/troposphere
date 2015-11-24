@@ -8,25 +8,25 @@ export default React.createClass({
     displayName: "ProvidersListSection",
 
     getState: function () {
-      return {
-        providers: stores.ProviderStore.getAll()
-      };
+        return {
+            providers: stores.ProviderStore.getAll()
+        };
     },
 
     getInitialState: function () {
-      return this.getState();
+        return this.getState();
     },
 
     updateState: function () {
-      if (this.isMounted()) this.setState(this.getState());
+        if (this.isMounted()) this.setState(this.getState());
     },
 
     componentDidMount: function () {
-      stores.ProviderStore.addChangeListener(this.updateState);
+        stores.ProviderStore.addChangeListener(this.updateState);
     },
 
     componentWillUnmount: function () {
-      stores.ProviderStore.removeChangeListener(this.updateState);
+        stores.ProviderStore.removeChangeListener(this.updateState);
     },
 
 
