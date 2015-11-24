@@ -4,6 +4,7 @@ define(function (require) {
       actions = require('actions'),
       Backbone = require('backbone'),
       Name = require('../components/Name.react'),
+      $ = require('jquery'),
       CreateUpdateFlag = require('../components/CreateUpdateFlag.react'),
       Description = require('../components/Description.react'),
       Tags = require('../components/Tags.react'),
@@ -47,7 +48,7 @@ define(function (require) {
 
     onNext: function () {
       this.props.onNext({
-        name: this.state.name,
+        name: $.trim(this.state.name),
         description: this.state.description,
         imageTags: this.state.imageTags,
         newImage: this.state.newImage

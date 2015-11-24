@@ -2,9 +2,11 @@
 define(
   [
     'react',
+    'stores',
+    'jquery',
     'components/mixins/BootstrapModalMixin.react'
   ],
-  function (React, BootstrapModalMixin) {
+  function (React, stores, $, BootstrapModalMixin) {
 
     // Example Usage from http://bl.ocks.org/insin/raw/8449696/
     // render: function(){
@@ -50,7 +52,23 @@ define(
       isSubmittable: function () {
         var hasName = !!this.state.name;
         var hasDescription = !!this.state.description;
-        return hasName && hasDescription;
+        var tagExists = !!this.state.tagExists;
+        return hasName && hasDescription && !tagExists;
+      },
+
+      componentDidMount: function (){
+        if (this.state.name) {
+          var lower = this.state.name.toLowerCase();
+          tags = stores.TagStore.getAll().filter(function (tag) {
+            return tag.get('name').toLowerCase() === lower;
+          });
+          if(tags.length > 0){
+            this.setState({tagExists: true, existsText: "Tag " + this.state.name + " already exists"});
+          }
+          else{
+            this.setState({tagExists: false, existsText: ""});
+          }
+        }
       },
 
       //
@@ -80,7 +98,7 @@ define(
 
       confirm: function () {
         this.hide();
-        this.props.onConfirm(this.state.name, this.state.description);
+        this.props.onConfirm($.trim(this.state.name), this.state.description);
       },
 
 
@@ -92,6 +110,18 @@ define(
       onNameChange: function (e) {
         var newName = e.target.value;
         this.setState({name: newName});
+        if (newName) {
+          var lower = $.trim(newName.toLowerCase());
+          tags = stores.TagStore.getAll().filter(function (tag) {
+            return tag.get('name').toLowerCase() === lower;
+          });
+          if(tags.length > 0){
+            this.setState({tagExists: true, existsText: "Tag with name \"" + newName + "\" already exists"});
+          }
+          else{
+            this.setState({tagExists: false, existsText: ""});
+          }
+        }
       },
 
       onDescriptionChange: function (e) {
@@ -105,6 +135,7 @@ define(
       //
 
       renderBody: function () {
+        var formattedExistsText = <p className="no-results text-danger">{this.state.existsText}</p>
         return (
           <div role='form'>
 
@@ -115,6 +146,7 @@ define(
                      value={this.state.name}
                      onChange={this.onNameChange}
                 />
+              {formattedExistsText}
             </div>
 
             <div className='form-group'>
@@ -133,6 +165,12 @@ define(
       },
 
       render: function () {
+        var footerExistsText;
+
+        if(this.state.tagExists){
+          footerExistsText = <p className="text-danger">Tag can not be created. Please fix errors above.</p>;
+        }
+
         return (
           <div className="modal fade">
             <div className="modal-dialog">
@@ -145,6 +183,7 @@ define(
                   {this.renderBody()}
                 </div>
                 <div className="modal-footer">
+                  {footerExistsText}
                   <button type="button" className="btn btn-danger" onClick={this.cancel}>
                     Cancel
                   </button>
