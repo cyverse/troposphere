@@ -1,19 +1,23 @@
-// The Media object is used with cards and other media where you want an optional image next to content.
-// Add the card class name to the media containter element to get card styles.
+//Makes a media object that gives us flexable a reusable structure
+//for list content with or without an image anchor.
+
 // Read about this pattern here: http://www.stubbornella.org/content/2010/06/25/the-media-object-saves-hundreds-of-lines-of-code/
 
+//TODO Add a footer element and modifier that counters the card padding for button groups like on our project cards  The goal is to have one reusable structure for all of our instances of this class of component.
+
 .media {
-    //Trick for optional image and fluid right content.
     overflow:hiddin;
     _overflow:visible;
     zoom:1;
 
+    //wraps around all of the content next to the optional image anchor
     .media__content {
         overflow: hiddin;
         _overflow:visible;
         zoom:1;
     }
-    
+
+    // Wraps around the description text within the content wrapper, typically on a p tag 
     .media__description {
         max-width:700px;
         margin-bottom:20px;
@@ -21,6 +25,7 @@
         color:$grey--dark;
     }
 
+    // Wraps around the img tag to create the optional image anchor
     .media__img {
         float:left; 
         margin-right:20px;
@@ -30,9 +35,9 @@
     }
 }
 
-
+// The card class is used on the same wrapper as the media class
+// it can be reused without the media class.
 .card {
-    border:solid 1px $grey--light;
     border-radius: 3px;
     padding:20px;
     box-shadow: $shadow-1;
