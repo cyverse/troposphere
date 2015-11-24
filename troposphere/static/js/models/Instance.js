@@ -189,10 +189,8 @@ define(
 
       performAction: function (action, options) {
         if (!options) options = {};
-        if (!options.success) options.success = function () {
-        };
-        if (!options.error) options.error = function () {
-        };
+        if (!options.success) options.success = function () {};
+        if (!options.error) options.error = function () {};
 
         $.ajax({
           url: this.get('action_url'),
