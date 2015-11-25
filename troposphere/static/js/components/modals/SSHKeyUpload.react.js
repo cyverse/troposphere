@@ -56,7 +56,6 @@ export default React.createClass({
     },
 
     render: function() {
-        var self = this;
         return (
             <div className="modal fade">
                 <div className="modal-dialog">
