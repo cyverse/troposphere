@@ -42,20 +42,20 @@ export default React.createClass({
         });
     },
 
-    destroySSHKey: function(SSHKey) {
+    destroySSHKey: function(sshKey) {
 
         // EmitChange is responsible for triggering the rerender, which
         // happens after the network request.
 
         // Optimistically delete the key
-        stores.SSHKeyStore.remove(SSHKey);
-        SSHKey.destroy({
+        stores.SSHKeyStore.remove(sshKey);
+        sshKey.destroy({
             success: function() {
                 stores.SSHKeyStore.emitChange();
             },
             error: function() {
                 // Re-add the key to store if delete failed
-                stores.SSHKeyStore.add(SSHKey);
+                stores.SSHKeyStore.add(sshKey);
                 stores.SSHKeyStore.emitChange();
             }
         });
@@ -67,13 +67,13 @@ export default React.createClass({
         }, function() {});
     },
 
-    renderSSHKeyRow: function(SSHKey) {
+    renderSSHKeyRow: function(sshKey) {
         return (
-            <tr key={ SSHKey.get( 'id') }>
-                <td>{ SSHKey.get('name') }</td>
-                <td style={{ wordWrap: "break-word" }}>{ SSHKey.get('pub_key').replace(/\n/g, " ") }</td>
+            <tr key={ sshKey.get( 'id') }>
+                <td>{ sshKey.get('name') }</td>
+                <td style={{ wordWrap: "break-word" }}>{ sshKey.get('pub_key').replace(/\n/g, " ") }</td>
                 <td>
-                    <a onClick={ this.destroySSHKey.bind(this, SSHKey) }>
+                    <a onClick={ this.destroySSHKey.bind(this, sshKey) }>
                         <i style={{ color: "crimson"}} className="glyphicon glyphicon-trash" />
                     </a>
                 </td>
