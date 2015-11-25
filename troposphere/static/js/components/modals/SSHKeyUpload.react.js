@@ -1,6 +1,5 @@
 import React from 'react';
 import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
-import SSHKeyStore from 'stores/SSHKeyStore';
 import stores from 'stores';
 
 export default React.createClass({
@@ -40,13 +39,13 @@ export default React.createClass({
 
 
     addPublicKey: function() {
-        SSHKeyStore.models.create({
+        stores.SSHKeyStore.models.create({
             atmo_user: this.props.user,
             name: this.state.keyName,
             pub_key: this.state.pubKey,
         }, {
             success: function() {
-                SSHKeyStore.emitChange();
+                stores.SSHKeyStore.emitChange();
             },
         });
     },
