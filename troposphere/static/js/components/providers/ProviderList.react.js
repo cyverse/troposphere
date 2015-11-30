@@ -14,13 +14,13 @@ export default React.createClass({
         var provider = item.attributes;
         return (
             <li>
-                <div className = "media card" >
+                <div className="media card" >
                     <Router.Link to = "provider" params = {{id: provider.id}} >
-                        <div className = "media__content" >
-                            <h2 className = "title-3" > {provider.name} </h2>
-                        <p className = "media__description" > {provider.description} </p>
+                        <div className="media__content" >
+                            <h2 className="title-3" > {provider.name} </h2>
+                        <p className="media__description" > {provider.description} </p>
                         <hr/>
-                        <Stats provider = {provider} />
+                        <Stats provider={provider} />
                         </div>
                     </Router.Link>
                 </div>
@@ -28,7 +28,7 @@ export default React.createClass({
         );
     });
         return (
-            <ul className = "app-card-list" >
+            <ul className="app-card-list" >
                 {ProviderCards}
             </ul>
         );

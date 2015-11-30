@@ -32,13 +32,13 @@ export default React.createClass({
 
     render: function () {
         var providers = this.state.providers;
-        if (!providers) return <div className = "loading" ></div>;
+        if (!providers) return <div className="loading" ></div>;
         return (
             <div>
                 <header>
                     <h1> Your Providers </h1>
                 </header>
-                <ProviderList providers = {providers} />
+                <ProviderList providers={providers} />
             </div>
         )
     }

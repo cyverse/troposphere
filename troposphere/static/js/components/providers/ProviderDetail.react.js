@@ -19,16 +19,16 @@ export default React.createClass({
         var provider_id = Number(this.getParams().id);
         var provider = stores.ProviderStore.get(provider_id);
 
-        if (!provider) return <div className = "loading" ></div>;
+        if (!provider) return <div className="loading" ></div>;
 
         return (
-            <div className = "provider-details" >
-                <Name provider = {provider} />
+            <div className="provider-details" >
+                <Name provider={provider}/>
                 <hr/>
-                <Stats provider = {provider} />
-                <Description provider = {provider} />
-                <Instances provider = {provider} />
-                <Resources provider = {provider} />
+                <Stats provider={provider}/>
+                <Description provider={provider}/>
+                <Instances provider={provider}/>
+                <Resources provider={provider}/>
             </div>
         );
 

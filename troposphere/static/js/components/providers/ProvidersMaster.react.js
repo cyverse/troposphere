@@ -10,7 +10,7 @@ export default React.createClass({
 
     render: function () {
         return(
-            <section className = "container provider-master" >
+            <section className="container provider-master" >
                 <RouteHandler/>
             </section>
         )
