@@ -80,7 +80,9 @@ export default Backbone.Model.extend({
           var username = context.profile.get('username'),
             ip = this.get('ip_address'),
             location = ip.split(".").join("-");
-          return "https://atmo-proxy.iplantcollaborative.org/?location=" + location + "&ssh=ssh://" + username + "@" + ip + ":22";
+          return globals.WEB_SH_URL + "?location=" + location +
+              "&upn=" + username +
+              "&ssh=ssh://" + username + "@" + ip + ":22";
         },
 
         vnc_url: function () {
@@ -183,10 +185,8 @@ export default Backbone.Model.extend({
 
       performAction: function (action, options) {
         if (!options) options = {};
-        if (!options.success) options.success = function () {
-        };
-        if (!options.error) options.error = function () {
-        };
+        if (!options.success) options.success = function () {};
+        if (!options.error) options.error = function () {};
 
         $.ajax({
           url: this.get('action_url'),

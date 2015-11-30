@@ -24,6 +24,9 @@ export default React.createClass({
             <Size volume={volume}/>
             <Identity volume={volume}/>
             <Id volume={volume}/>
+            <ResourceDetail label="Identifier">
+              {volume.get('uuid')}
+            </ResourceDetail>
           </ul>
         </div>
       );

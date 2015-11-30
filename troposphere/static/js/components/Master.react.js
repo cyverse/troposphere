@@ -25,6 +25,10 @@ export default React.createClass({
     },
 
     getInitialState: function () {
+      var profile = stores.ProfileStore.get();
+      if(!context.profile && profile) {
+          context.profile = profile;
+      }
       return this.getState();
     },
 
@@ -63,7 +67,7 @@ export default React.createClass({
       }.bind(this));
 
       // The code below is only relevant to logged in users
-      if (!context.profile) return;
+      if (!context.profile || !context.profile.get('selected_identity')) return;
       // IMPORTANT! We get one shot at this. If the instances and volumes aren't
       // fetched before this component is mounted we miss our opportunity to migrate
       // the users resources (so make sure they're fetched in the Splash Screen)
@@ -106,7 +110,7 @@ export default React.createClass({
 
     render: function () {
 
-      if (!context.profile.get('selected_identity') ) {
+      if (!show_public_site && !context.profile.get('selected_identity') ) {
           //Users who ARE logged in, but without an identity
           //cannot be handled in the application, currently.
           //These users are punted now.

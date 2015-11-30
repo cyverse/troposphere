@@ -8,7 +8,7 @@ export default React.createClass({
     displayName: "SecondaryImageNavigation",
 
     renderRoute: function (name, linksTo, icon, requiresLogin) {
-      if (requiresLogin && !context.profile) return null;
+      if (requiresLogin && !context.profile.get('selected_identity')) return null;
 
       return (
         <li key={name}>

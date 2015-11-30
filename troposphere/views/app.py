@@ -115,6 +115,10 @@ def _handle_authenticated_application_request(request, maintenance_records):
     if hasattr(settings, "API_V2_ROOT"):
         template_params['API_V2_ROOT'] = settings.API_V2_ROOT
 
+    if hasattr(settings, "USE_GATE_ONE_API"):
+        template_params["USE_GATE_ONE_API"] = settings.USE_GATE_ONE_API
+        template_params["WEB_SH_URL"] = settings.WEB_SH_URL
+
     user_preferences, created = UserPreferences.objects.get_or_create(user=request.user)
 
     # If beta flag in query params, set the session value to that
@@ -197,4 +201,3 @@ def tests(request):
     }
 
     return render(request, 'tests.html', template_params)
-

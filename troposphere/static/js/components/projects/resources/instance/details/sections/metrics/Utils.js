@@ -19,7 +19,9 @@ let fetch = function(uuid, urlParams, onSuccess, onError) {
       .header("Authorization", "Token " + access_token)
       .get(function(error, json) {
 
-        if (!json) return onError && onError();
+        // The json object should be an array with length >= 1 
+        if (!(json && Array.isArray(json) && json.length)) 
+          return onError && onError();
         var data = json[0].datapoints
 
         // Trim initial/final null values

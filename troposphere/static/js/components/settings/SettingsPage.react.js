@@ -1,5 +1,7 @@
+
 import React from 'react';
 import PageHeader from 'components/common/PageHeader.react';
+import AdvancedSettingsPage from 'components/settings/AdvancedSettingsPage.react';
 import IconSelect from './IconSelect.react';
 import SettingsHeader from './SettingsHeader.react';
 import actions from 'actions';
@@ -78,6 +80,7 @@ export default React.createClass({
                 <p>Select the Image and Instance icon set you would like to use:</p>
                 <IconSelect selected={selectedIconSet} onSelect={this.handleIconSelect}/>
               </div>
+              <AdvancedSettingsPage />
             </div>
           </div>
         );

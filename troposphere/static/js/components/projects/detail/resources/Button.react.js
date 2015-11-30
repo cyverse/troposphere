@@ -30,11 +30,20 @@ export default React.createClass({
       });
     },
 
+    onClick: function(){
+      var el = this.getDOMNode();
+      var $el = $(el);
+      //Manually hides tooltip to fix a bug when using modals 
+      //See: https://github.com/iPlantCollaborativeOpenSource/troposphere/pull/201
+      $el.tooltip('hide');
+      this.props.onClick();
+    },
+
     render: function () {
       var style = this.props.style || {};
       if (this.props.isVisible) {
         return (
-          <button className="btn btn-default" style={style} onClick={this.props.onClick}>
+          <button className="btn btn-default" style={style} onClick={this.onClick}>
             <i className={"glyphicon glyphicon-" + this.props.icon}/>
           </button>
         );

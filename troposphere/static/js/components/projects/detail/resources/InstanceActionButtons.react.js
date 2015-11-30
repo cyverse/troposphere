@@ -25,6 +25,10 @@ export default React.createClass({
       modals.InstanceModals.stop(this.props.instance);
     },
 
+    onReboot: function(){
+      modals.InstanceModals.reboot(this.props.instance);
+    },
+
     onResume: function () {
       modals.InstanceModals.resume(this.props.instance);
     },
@@ -59,6 +63,15 @@ export default React.createClass({
               icon="stop"
               tooltip="Stop"
               onClick={this.onStop}
+              isVisible={true}
+              />
+          );
+          linksArray.push(
+            <Button
+              key="Reboot"
+              icon="repeat"
+              tooltip="Reboot the selected instance"
+              onClick={this.onReboot}
               isVisible={true}
               />
           );

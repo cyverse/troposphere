@@ -99,10 +99,11 @@ export default React.createClass({
         <div>
           <div className="modal-body">
             {this.renderProvider(instance)}
-            <a role="button" data-toggle="collapse" href="#min-requirements" aria-expanded="true">
+            {/*<a role="button" data-toggle="collapse" href="#min-requirements" aria-expanded="true">
               Minimum Requirements (optional)
             </a>
             {this.renderRequirementsStep()}
+          */}
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-default cancel-button pull-left" onClick={this.onPrevious}>

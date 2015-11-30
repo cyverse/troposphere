@@ -2,7 +2,6 @@ import React from 'react';
 import GraphController from './GraphController';
 import TimeframeBreadcrumb from './TimeframeBreadcrumb.react';
 import RefreshComponent from './RefreshComponent.react';
-import stores from 'stores';
 
 
 export default React.createClass({

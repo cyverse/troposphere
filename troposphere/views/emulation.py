@@ -32,7 +32,7 @@ def emulate(request, username):
         os.path.join(settings.SERVER_URL,
                      "api/v1/token_emulate/%s" % username),
         verify=False,
-        headers={'Authorization': 'Token %s' % old_token})
+        headers={'Authorization': 'Token %s' % old_token, 'Accept': 'application/json', 'Content-Type': 'application/json'})
     try:
         j_data = r.json()
     except ValueError:
@@ -40,7 +40,7 @@ def emulate(request, username):
         return redirect('application')
 
     # Check if error response was sent
-    if r.status_code != 200 and r.status_code != 201:
+    if r.status_code < 200 or  r.status_code > 299:
         logger.warn("[EMULATE] failed with status_code=%s and message=(%s)",
                     r.status_code, j_data)
         return redirect("application")

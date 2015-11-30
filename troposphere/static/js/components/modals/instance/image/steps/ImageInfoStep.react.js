@@ -1,10 +1,11 @@
+import $ from 'jquery';
 import React from 'react/addons';
-import actions from 'actions';
 import Backbone from 'backbone';
 import Name from '../components/Name.react';
 import CreateUpdateFlag from '../components/CreateUpdateFlag.react';
 import Description from '../components/Description.react';
 import Tags from '../components/Tags.react';
+import actions from 'actions';
 import stores from 'stores';
 
 export default React.createClass({
@@ -45,7 +46,7 @@ export default React.createClass({
 
     onNext: function () {
       this.props.onNext({
-        name: this.state.name,
+        name: $.trim(this.state.name),
         description: this.state.description,
         imageTags: this.state.imageTags,
         newImage: this.state.newImage
