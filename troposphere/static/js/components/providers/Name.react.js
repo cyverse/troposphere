@@ -1,28 +1,27 @@
+import React from 'react/addons';
+import Backbone from 'backbone';
+import Router from 'react-router';
 
-define(
-  [
-    'react',
-    'backbone'
-  ],
-  function (React, Backbone) {
+export default React.createClass({
+    displayName: "Name",
 
-    return React.createClass({
-      displayName: "Name",
-
-      propTypes: {
+    propTypes: {
         provider: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    },
 
-      render: function () {
-        var provider = this.props.provider;
+    render: function () {
+        let provider = this.props.provider;
         return (
-          <div className="row">
-            <h2>{provider.get('name')}</h2>
-          </div>
+            <div className="row">
+                <h1>{provider.get('name')}</h1>
+                <Router.Link className=" btn btn-default" to = "all-providers" >
+                <span className="glyphico glyphicon-arrow-left"> </span> 
+                {" Back to All Providers" }
+                </Router.Link>
+            </div>
         );
 
-      }
+    }
 
-    });
+});
 
-  });

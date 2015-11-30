@@ -33,13 +33,16 @@
       margin-left: 20px;
       text-align: left;
     }
-
+    
+    p {
+        color: #393939;
+    }
     .app-name {
       vertical-align: top;
       display: inline-block;
       max-width: 1000px;
 
-      h4 {
+      h4, .title-2 {
         font-size: 19px;
         font-weight: bold;
         margin: 0;
