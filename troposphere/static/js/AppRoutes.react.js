@@ -76,7 +76,7 @@ define(function (require) {
       <Route name="settings" handler={SettingsPage}/>
 
       <Route name="admin" handler={AdminMaster}>
-        <DefaultRoute name="identity-membership-manager" path="users" handler={IdentityMembershipMaster}/>
+        <DefaultRoute name="identity-membership-manager" handler={IdentityMembershipMaster}/>
         <Route name="resource-request-manager" path="resource-requests" handler={ResourceMaster}>
           <Route name="resource-request" path=":resourceRequestId" handler={ResourceAdmin} />
         </Route>

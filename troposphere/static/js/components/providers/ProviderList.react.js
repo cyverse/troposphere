@@ -13,7 +13,7 @@ export default React.createClass({
     var ProviderCards =  providers.map(function(item) {
         var provider = item.attributes;
         return (
-            <li>
+            <li key={provider.id}>
                 <div className="media card" >
                     <Router.Link to = "provider" params = {{id: provider.id}} >
                         <div className="media__content" >
