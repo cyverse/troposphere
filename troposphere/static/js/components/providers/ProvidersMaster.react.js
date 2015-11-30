@@ -3,7 +3,7 @@ import Backbone from 'backbone';
 import Router from 'react-router';
 import stores from 'stores';
 
-var RouteHandler = Router.RouteHandler;
+let RouteHandler = Router.RouteHandler;
 
 export default React.createClass({
     displayName: "ProvidersMaster",

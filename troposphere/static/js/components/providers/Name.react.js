@@ -10,7 +10,7 @@ export default React.createClass({
     },
 
     render: function () {
-        var provider = this.props.provider;
+        let provider = this.props.provider;
         return (
             <div className="row">
                 <h1>{provider.get('name')}</h1>

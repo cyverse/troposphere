@@ -8,10 +8,10 @@ export default React.createClass({
     displayName: "ProvidersList",
 
     render: function () {
-    var providers = this.props.providers;
+    let providers = this.props.providers;
 
-    var ProviderCards =  providers.map(function(item) {
-        var provider = item.attributes;
+    let ProviderCards =  providers.map(function(item) {
+        let provider = item.attributes;
         return (
             <li key={provider.id}>
                 <div className="media card" >

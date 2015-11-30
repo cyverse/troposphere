@@ -31,7 +31,7 @@ export default React.createClass({
 
 
     render: function () {
-        var providers = this.state.providers;
+        let providers = this.state.providers;
         if (!providers) return <div className="loading" ></div>;
         return (
             <div>
