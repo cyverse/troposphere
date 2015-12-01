@@ -29,8 +29,10 @@ define(function (require) {
     toggleDisableUser: function(){
         // Call to action -- update end_date to 'now' or 'null'
         var now_time = moment(Date.now()),
-            new_end_date = (this.props.user.get('end_date')) ? null : now_time;
-        actions.UserActions.update(this.props.user, {'end_date':new_end_date});
+            is_disabled = this.props.user.get('end_date'), //disabled if end_date exists
+            new_end_date = is_disabled ? null : now_time, //Toggle/flip based on existing value in 'props.user'
+            is_active = is_disabled; //if is_disabled=True, new is_active=True, if is_disabled=False, new is_active=False
+        actions.UserActions.update(this.props.user, {'end_date':new_end_date, 'is_active':is_active});
     },
 
     render: function () {

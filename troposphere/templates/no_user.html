@@ -11,6 +11,9 @@
 <body>
     <img src="/assets/images/login_mainimage.png">
     <div class="message-wrapper">
+        {% if banner %}
+        <div class="toast toast-error">The following error(s) occurred during login: {{ banner }}</div>
+        {% endif %}
         <p>Your account does not currently have access to Atmosphere.</p>
         <p>If you would like to request access, you can do so through the <a href="https://user.iplantcollaborative.org/dashboard/">iPlant User Management Portal</a> by clicking the 'Request Access' button next to the Atmosphere service.</p>
         <p>You can also find instructions <a href="https://pods.iplantcollaborative.org/wiki/display/atmman/Requesting+Access+to+Atmosphere">in the wiki</a>.</p>

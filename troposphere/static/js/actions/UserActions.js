@@ -14,6 +14,9 @@ define(function (require) {
       var newAttributes = {
           end_date: (end_date) ? end_date.format("YYYY-MM-DDThh:mm:ssZ") : null,
       };
+      if(params.is_active === false || params.is_active === true) {
+          newAttributes.is_active = params.is_active
+      }
       if(params.is_staff === false || params.is_staff === true) {
           newAttributes.is_staff = params.is_staff
       }
