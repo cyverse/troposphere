@@ -56,8 +56,9 @@ define(function (require) {
         );
     },
     render: function () {
+      // REMOVE this style-hack when we replace this with 'a better switch'
       return (
-          <div className="button-toggle">
+          <div className="button-toggle" style={{width: "105px"}}>
                 {this.renderToggle()}
           </div>
       );
