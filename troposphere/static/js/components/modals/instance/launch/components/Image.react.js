@@ -44,25 +44,27 @@ define(
         );
 
         return (
-          <li onClick={this.handleClick}>
-            <div className="app-card">
-              <div>
-                <span className="icon-container">
-                  {icon}
-                </span>
-                <span className="app-name">
-                  <h4 className="name">{image.get('name')}</h4>
-                  <div>
-                    <time>{imageCreationDate}</time> by <strong>{image.get('created_by').username}</strong>
-                  </div>
-                  {this.renderTags()}
-                </span>
-              </div>
-              <p className="description">
-                {image.get('description')}
-              </p>
-            </div>
-          </li>
+            <li onClick={this.handleClick}>
+                <div className="media card">
+                    <div className="media__img">
+                        {icon}
+                    </div>
+                    <div className="media__content">
+                        <div className="row">
+                            <div className="col-md-6">
+                                <h2 className="subheading txt-primary">{image.get('name')}</h2>
+                                <time>{imageCreationDate}</time> by <strong>{image.get('created_by').username}</strong>
+                            </div>
+                            <div className="col-md-6">
+                                {this.renderTags()}
+                            </div>
+                        </div>
+                        <p className="media__description">
+                            {image.get('description')}
+                        </p>
+                    </div>
+                </div>
+            </li>
         )
       }
 

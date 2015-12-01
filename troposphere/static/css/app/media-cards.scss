@@ -6,22 +6,23 @@
 //TODO Add a footer element and modifier that counters the card padding for button groups like on our project cards  The goal is to have one reusable structure for all of our instances of this class of component.
 
 .media {
-    overflow:hiddin;
+    overflow:hidden;
     _overflow:visible;
     zoom:1;
 
     //wraps around all of the content next to the optional image anchor
     .media__content {
-        overflow: hiddin;
+        overflow: hidden;
         _overflow:visible;
         zoom:1;
+        .title, .subheading {
+            margin:0;
+        }
     }
 
     // Wraps around the description text within the content wrapper, typically on a p tag 
     .media__description {
         max-width:700px;
-        margin-bottom:20px;
-        font-size:16px;
         color:$grey--dark;
     }
 
