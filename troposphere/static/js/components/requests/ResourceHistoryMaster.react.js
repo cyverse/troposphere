@@ -20,7 +20,7 @@ define(function (require) {
           statusTypes = stores.StatusStore.getAll();
       
       if(username == null || !statusTypes){
-        return <div className = "loading"></div>
+        return <div className="loading"></div>
       }
 
       var requests = stores.ResourceRequestStore.fetchWhere({"created_by__username": username});

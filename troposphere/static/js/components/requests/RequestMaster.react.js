@@ -15,7 +15,7 @@ define(function (require) {
       return (
         <div>
             <SecondaryRequestNavigation/>
-            <div className = "container admin">
+            <div className="container admin">
             <span className="adminHeader">
             <RouteHandler />
             </span>
