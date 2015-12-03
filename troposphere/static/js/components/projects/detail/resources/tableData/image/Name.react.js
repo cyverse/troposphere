@@ -23,7 +23,7 @@ define(function (require) {
       }
 
       return (
-        <Router.Link to="project-image-details" params={{projectId: this.getParams().projectId, imageId: image.id}}>
+        <Router.Link to="image-details" params={{imageId: image.id}}>
           {image.get('name')}
         </Router.Link>
       );

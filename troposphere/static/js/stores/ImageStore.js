@@ -12,6 +12,11 @@ define(function (require) {
   var ImageStore = BaseStore.extend({
     collection: ImageCollection,
 
+
+    queryParams: {
+      page_size: 6000
+    },
+
     update: function(image){
       var tags = image.get('tags')
       var tagIds = tags.map(function(tag){
