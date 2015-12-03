@@ -35,7 +35,6 @@ define(function (require) {
           url: models.url + "?project__id=" + projectId
         }).done(function () {
           _isFetchingFor[projectId] = false;
-          debugger;
           // add models to existing cache
           this.models.add(models.models);
 

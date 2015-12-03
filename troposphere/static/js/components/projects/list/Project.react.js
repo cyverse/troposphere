@@ -42,11 +42,12 @@ define(function (require) {
     },
     render: function () {
       var project = this.props.project,
+        projectExternalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(project),
         projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
         projectImages = stores.ProjectImageStore.getImagesFor(project),
         projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project);
 
-      if (!project.id || !projectInstances || !projectVolumes || !projectImages) {
+      if (!project.id || !projectExternalLinks || !projectInstances || !projectVolumes || !projectImages) {
         return (
           <li>
             <a>
@@ -71,6 +72,7 @@ define(function (require) {
         converter = new Showdown.Converter(),
         description = project.get('description'),
         descriptionHtml = converter.makeHtml(description),
+        projectExternalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(project),
         projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
         projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project),
         projectImages = stores.ProjectImageStore.getImagesFor(project),
@@ -95,6 +97,10 @@ define(function (require) {
             <ProjectResource icon={"floppy-disk"}
                              count={projectImages.length}
                              resourceType={"images"}
+              />
+            <ProjectResource icon={"text-background"}
+                             count={projectExternalLinks.length}
+                             resourceType={"links"}
               />
           </ul>
         </div>

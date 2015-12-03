@@ -34,6 +34,7 @@ define(function (require) {
   var stores = require('stores');
   stores.AllocationStore = require('stores/AllocationStore');
   stores.BadgeStore = require('stores/BadgeStore');
+  stores.ExternalLinkStore = require('stores/ExternalLinkStore');
   stores.ImageStore = require('stores/ImageStore');
   stores.ImageVersionStore = require('stores/ImageVersionStore');
   stores.ImageVersionMembershipStore = require('stores/ImageVersionMembershipStore');
@@ -52,6 +53,7 @@ define(function (require) {
   stores.MembershipStore = require('stores/MembershipStore');
   stores.ProfileStore = require('stores/ProfileStore');
   stores.ProjectStore = require('stores/ProjectStore');
+  stores.ProjectExternalLinkStore = require('stores/ProjectExternalLinkStore');
   stores.ProjectImageStore = require('stores/ProjectImageStore');
   stores.ProjectInstanceStore = require('stores/ProjectInstanceStore');
   stores.ProjectVolumeStore = require('stores/ProjectVolumeStore');
@@ -71,6 +73,7 @@ define(function (require) {
   var actions = require('actions');
   actions.AllocationActions = require('actions/AllocationActions');
   actions.BadgeActions = require('actions/BadgeActions');
+  actions.ExternalLinkActions = require('actions/ExternalLinkActions');
   actions.HelpActions = require('actions/HelpActions');
   actions.IdentityMembershipActions = require('actions/IdentityMembershipActions');
   actions.ImageActions = require('actions/ImageActions');
@@ -88,6 +91,7 @@ define(function (require) {
   actions.ProfileActions = require('actions/ProfileActions');
   actions.ProjectActions = require('actions/ProjectActions');
   actions.ProviderMachineActions = require('actions/ProviderMachineActions');
+  actions.ProjectExternalLinkActions = require('actions/ProjectExternalLinkActions');
   actions.ProjectImageActions = require('actions/ProjectImageActions');
   actions.ProjectInstanceActions = require('actions/ProjectInstanceActions');
   actions.ProjectVolumeActions = require('actions/ProjectVolumeActions');
@@ -97,6 +101,7 @@ define(function (require) {
 
   var modals = require('modals');
   modals.BadgeModals = require('modals/BadgeModals');
+  modals.ExternalLinkModals = require('modals/ExternalLinkModals');
   modals.HelpModals = require('modals/HelpModals');
   modals.InstanceModals = require('modals/InstanceModals');
   modals.InstanceVolumeModals = require('modals/InstanceVolumeModals');

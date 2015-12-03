@@ -13,6 +13,7 @@ define(function (require) {
     NullProjectVolumeConstants = require('constants/NullProjectVolumeConstants'),
 
   // Models
+    ExternalLink = require('models/ExternalLink'),
     Instance = require('models/Instance'),
     Volume = require('models/Volume'),
     Image = require('models/Image'),
@@ -131,6 +132,11 @@ define(function (require) {
           project: project,
           volume: resource
         }, options);
+      } else if (resource instanceof ExternalLink) {
+        actions.ProjectExternalLinkActions.addExternalLinkToProject({
+          project: project,
+          external_link: resource
+        }, options);
       } else if (resource instanceof Image) {
         actions.ProjectImageActions.addImageToProject({
           project: project,
@@ -151,6 +157,11 @@ define(function (require) {
         actions.ProjectVolumeActions.removeVolumeFromProject({
           project: project,
           volume: resource
+        }, options);
+      } else if (resource instanceof ExternalLink) {
+        actions.ProjectExternalLinkActions.removeExternalLinkFromProject({
+          project: project,
+          external_link: resource
         }, options);
       } else if (resource instanceof Image) {
         actions.ProjectImageActions.removeImageFromProject({
@@ -179,6 +190,12 @@ define(function (require) {
         } else if (resource instanceof Volume) {
           Utils.dispatch(NullProjectVolumeConstants.ADD_VOLUME_TO_NULL_PROJECT, {
             volume: resource
+          });
+        } else if (resource instanceof ExternalLink) {
+          //Removes the ExternalLink but does not destroy it.
+          actions.ProjectExternalLinkActions.removeExternalLinkFromProject({
+            project: project,
+            external_link: resource
           });
         } else if (resource instanceof Image) {
           //Do NOT delete the image, just remove the image from the project.
@@ -226,6 +243,11 @@ define(function (require) {
       } else if (resource instanceof Volume) {
         actions.VolumeActions.destroy_noModal({
           volume: resource,
+          project: project
+        }, options);
+      } else if (resource instanceof ExternalLink) {
+        actions.ExternalLinkActions.destroy_noModal({
+          external_link: resource,
           project: project
         }, options);
       } else if (resource instanceof Image) {

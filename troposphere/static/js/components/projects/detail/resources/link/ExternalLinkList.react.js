@@ -2,14 +2,14 @@ define(function (require) {
 
   var React = require('react/addons'),
     Backbone = require('backbone'),
-    ImageTable = require('./ImageTable.react'),
-    NoImageNotice = require('./NoImageNotice.react');
+    ExternalLinkTable = require('./ExternalLinkTable.react'),
+    NoExternalLinkNotice = require('./NoExternalLinkNotice.react');
 
   return React.createClass({
-    displayName: "ImageList",
+    displayName: "ExternalLinkList",
 
     propTypes: {
-      images: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+      external_links: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
       onResourceSelected: React.PropTypes.func.isRequired,
       onResourceDeselected: React.PropTypes.func.isRequired,
       onPreviewResource: React.PropTypes.func.isRequired,
@@ -18,17 +18,17 @@ define(function (require) {
     },
 
     render: function () {
-      var images = this.props.images,
+      var external_links = this.props.external_links,
         content;
 
-      if (this.props.images.length <= 0) {
+      if (this.props.external_links.length <= 0) {
         content = (
-          <NoImageNotice/>
+          <NoExternalLinkNotice/>
         );
       } else {
         content = (
-          <ImageTable
-            images={images}
+          <ExternalLinkTable
+            external_links={external_links}
             onResourceSelected={this.props.onResourceSelected}
             onResourceDeselected={this.props.onResourceDeselected}
             onPreviewResource={this.props.onPreviewResource}
@@ -41,9 +41,9 @@ define(function (require) {
       return (
         <div>
           <div className="header">
-            <i className="glyphicon glyphicon-floppy-disk"></i>
+            <i className="glyphicon glyphicon-text-background"></i>
 
-            <h3 className="title-3">Images</h3>
+            <h3 className="title-3">Links</h3>
           </div>
           {content}
         </div>
