@@ -4,11 +4,13 @@ define(function (require) {
     Backbone = require('backbone'),
     PreviewPanel = require('./PreviewPanel.react'),
     ButtonBar = require('./ButtonBar.react'),
+    ImageList = require('./image/ImageList.react'),
     InstanceList = require('./instance/InstanceList.react'),
     VolumeList = require('./volume/VolumeList.react'),
     modals = require('modals'),
     stores = require('stores'),
     actions = require('actions'),
+    Image = require('models/Image'),
     Instance = require('models/Instance'),
     Volume = require('models/Volume');
 
@@ -30,6 +32,7 @@ define(function (require) {
     updateState: function () {
       var project = this.props.project,
         projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
+        projectImages = stores.ProjectImageStore.getImagesFor(project),
         projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project),
         selectedResourcesClone = this.state.selectedResources.models.slice(0),
         state = this.getInitialState();
@@ -39,7 +42,8 @@ define(function (require) {
         selectedResourcesClone.map(function (selectedResource) {
           var instanceInProject = selectedResource instanceof Instance && projectInstances.get(selectedResource),
             volumeInProject = selectedResource instanceof Volume && projectVolumes.get(selectedResource),
-            resourceInProject = instanceInProject || volumeInProject;
+            imageInProject = selectedResource instanceof Image && projectImages.get(selectedResource),
+            resourceInProject = instanceInProject || volumeInProject || imageInProject;
 
           if (resourceInProject) state.selectedResources.add(selectedResource);
         });
@@ -146,12 +150,13 @@ define(function (require) {
       var project = this.props.project,
         projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
         projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project),
+        projectImages = stores.ProjectImageStore.getImagesFor(project),
         previewedResource = this.state.previewedResource,
         selectedResources = this.state.selectedResources,
         selectedResource = this.state.selectedResource,
         isButtonBarVisible;
 
-      if (!projectInstances || !projectVolumes) return <div className="loading"></div>;
+      if (!projectInstances || !projectImages || !projectVolumes) return <div className="loading"></div>;
 
       // Only show the action button bar if the user has selected resources
       isButtonBarVisible = this.state.selectedResources.length > 0;
@@ -182,6 +187,14 @@ define(function (require) {
                 />
               <VolumeList
                 volumes={projectVolumes}
+                onResourceSelected={this.onResourceSelected}
+                onResourceDeselected={this.onResourceDeselected}
+                onPreviewResource={this.onPreviewResource}
+                previewedResource={previewedResource}
+                selectedResources={selectedResources}
+                />
+              <ImageList
+                images={projectImages}
                 onResourceSelected={this.onResourceSelected}
                 onResourceDeselected={this.onResourceDeselected}
                 onPreviewResource={this.onPreviewResource}

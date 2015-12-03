@@ -15,6 +15,7 @@ define(function (require) {
   // Models
     Instance = require('models/Instance'),
     Volume = require('models/Volume'),
+    Image = require('models/Image'),
     Project = require('models/Project'),
 
   // Modals
@@ -129,6 +130,11 @@ define(function (require) {
         actions.ProjectVolumeActions.addVolumeToProject({
           project: project,
           volume: resource
+        }, options);
+      } else if (resource instanceof Image) {
+        actions.ProjectImageActions.addImageToProject({
+          project: project,
+          image: resource
         }, options);
       } else {
         throw new Error("Unknown resource type");

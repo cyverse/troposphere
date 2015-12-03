@@ -52,6 +52,7 @@ define(function (require) {
   stores.MembershipStore = require('stores/MembershipStore');
   stores.ProfileStore = require('stores/ProfileStore');
   stores.ProjectStore = require('stores/ProjectStore');
+  stores.ProjectImageStore = require('stores/ProjectImageStore');
   stores.ProjectInstanceStore = require('stores/ProjectInstanceStore');
   stores.ProjectVolumeStore = require('stores/ProjectVolumeStore');
   stores.ProviderMachineStore = require('stores/ProviderMachineStore');
@@ -87,6 +88,7 @@ define(function (require) {
   actions.ProfileActions = require('actions/ProfileActions');
   actions.ProjectActions = require('actions/ProjectActions');
   actions.ProviderMachineActions = require('actions/ProviderMachineActions');
+  actions.ProjectImageActions = require('actions/ProjectImageActions');
   actions.ProjectInstanceActions = require('actions/ProjectInstanceActions');
   actions.ProjectVolumeActions = require('actions/ProjectVolumeActions');
   actions.TagActions = require('actions/TagActions');
