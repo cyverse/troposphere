@@ -23,7 +23,7 @@ define(function (require) {
       }
 
       return (
-        <a href={external_link.get('link')}>
+        <a href={external_link.get('link')} target="_blank">
           {external_link.get('link')}
         </a>
       );

@@ -3,6 +3,7 @@ define(function (require) {
   var React = require('react/addons'),
     Backbone = require('backbone'),
     ExternalLinkInfoSection = require('./sections/ExternalLinkInfoSection.react'),
+    ExternalLinkActions = require('./sections/ExternalLinkActions.react'),
     BreadcrumbBar = require('components/projects/common/BreadcrumbBar.react');
 
   return React.createClass({
@@ -38,6 +39,9 @@ define(function (require) {
             <div className="col-md-9 resource-detail-sections">
               <ExternalLinkInfoSection link={link}/>
               <hr/>
+            </div>
+            <div className="col-md-3 resource-actions">
+              <ExternalLinkActions link={link} project={project}/>
             </div>
           </div>
         </div>

@@ -59,7 +59,7 @@ define(
                 </li>
                 <li>
                   <a href="#" onClick={this.onCreateExternalLink}>
-                    <i className={'glyphicon glyphicon-text-background'}/>
+                    <i className={'glyphicon glyphicon-globe'}/>
                     Link
                   </a>
                 </li>

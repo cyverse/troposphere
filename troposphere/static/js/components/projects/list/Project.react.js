@@ -98,7 +98,7 @@ define(function (require) {
                              count={projectImages.length}
                              resourceType={"images"}
               />
-            <ProjectResource icon={"text-background"}
+            <ProjectResource icon={"globe"}
                              count={projectExternalLinks.length}
                              resourceType={"links"}
               />

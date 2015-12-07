@@ -41,7 +41,7 @@ define(function (require) {
       return (
         <div>
           <div className="header">
-            <i className="glyphicon glyphicon-text-background"></i>
+            <i className="glyphicon glyphicon-globe"></i>
 
             <h3 className="title-3">Links</h3>
           </div>
