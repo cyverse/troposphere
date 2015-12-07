@@ -51,6 +51,8 @@ define(function (require) {
     },
 
     getImagesFor: function (project) {
+      //NOTE: The logic here falls to pieces. As a result we actually need _all_ the images in order to ensure that the images
+      // Added by _user_ can be searched through in the filter-filter-filter that happens below.
       var allImages = stores.ImageStore.getAll();
       if (!_modelsFor[project.id]) return this.fetchModelsFor(project.id);
       if (!allImages) return;
