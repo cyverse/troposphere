@@ -9,9 +9,6 @@
     }
     ul {
         list-style-type: none;
-        li {
-            line-height:200%;
-        }
     }
 
     .modal-section {
@@ -88,8 +85,7 @@
     max-height: 300px;
     overflow-y: auto;
     overflow-x: hidden;
-    border: 1px solid $grey--xlight;
-    box-shadow: $shadow-1--inset;
+    border: 1px solid $grey--light;
 
     .app-card {
       border-radius: 0;
@@ -97,9 +93,10 @@
       border: none;
     }
 
-    li {
-      margin: 3px;
-      border-top: 0;
+    .media {
+      margin: 1px;
+      border-top: solid 1px $grey--light;
+      padding:5px;
 
       &:hover {
         cursor: pointer;
@@ -112,6 +109,7 @@
 
     ul.tags {
       max-width: 430px;
+      margin-bottom:5px;
     }
   }
 

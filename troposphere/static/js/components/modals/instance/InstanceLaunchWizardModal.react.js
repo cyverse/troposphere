@@ -15,6 +15,7 @@ import UserOptionsStep from './launch/steps/UserOptionsStep.react';
 import AdministratorOptionsStep from './launch/steps/AdminOptionsStep.react';
 import LicensingStep from './launch/steps/LicensingStep.react';
 import ReviewLaunchStep from './launch/steps/ReviewLaunchStep.react';
+import BasicLaunchStep from './launch/steps/BasicLaunchStep.react';
 
 export default React.createClass({
     mixins: [BootstrapModalMixin],
@@ -37,16 +38,26 @@ export default React.createClass({
         return (
             <ImageSelectStep
                 image={this.state.image}
-                onPrevious={this.cancel}
-                onNext={this.onNext}/>
+                callBack={this.selectImage}
+                cancel = {this.cancel}/>
             );
         },
+
+    renderBasicOptions: function() {
+        return (
+                <BasicLaunchStep 
+                    image={this.state.image}
+                    project={this.state.project} />
+               );
+    },
 
     renderBody: function() {
         var view = this.state.view;
         switch(view) {
             case "IMAGE_VIEW":
-            return this.renderImageSelect();
+            return this.renderImageSelect()
+            case "BASIC_VIEW":
+            return this.renderBasicOptions()
         }
     },
 
@@ -124,6 +135,15 @@ export default React.createClass({
     // Internal Modal Callbacks
     // ------------------------
     //
+    //
+
+    selectImage: function(arg) {
+        console.log(arg);
+        this.setState({
+            view:'BASIC_VIEW',
+            image: arg
+        });
+    },
 
     cancel: function() {
         this.hide();

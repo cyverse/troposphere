@@ -18,8 +18,6 @@ export default React.createClass({
     //a
 
     propTypes: {
-        onPrevious: React.PropTypes.func.isRequired,
-        onNext: React.PropTypes.func.isRequired
     },
 
     getInitialState: function () {
@@ -66,7 +64,6 @@ export default React.createClass({
     // Internal Modal Callbacks
     // ------------------------
     //
-
     handleSearch: function (query) {
         if (timer) clearTimeout(timer);
         timer = setTimeout(function () {
@@ -175,7 +172,8 @@ export default React.createClass({
         <div>
             {this.renderSearchInput()}
             {this.renderFilterDescription(query)}
-            <ImageList images={images} onClick={this.showImageDetails}>
+            <ImageList images={images} 
+                        callBack={this.props.callBack}>
             {this.renderMoreImagesButton(images, imageCount)}
             </ImageList>
         </div>
@@ -231,7 +229,7 @@ export default React.createClass({
                     <button type="button" className="btn btn-primary pull-right" disabled="disabled">
                         Launch Instance
                     </button>
-                    <button type="button" className="btn btn-default pull-right" onClick={this.cancel}>
+                    <button type="button" className="btn btn-default pull-right" onClick={this.props.cancel}>
                         Cancel
                     </button>
                 </div>

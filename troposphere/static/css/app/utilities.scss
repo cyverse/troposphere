@@ -1,0 +1,17 @@
+.u-insetShadow {
+    position:relative;
+    &:after {
+        content:"";
+        position:absolute;
+        display:block;
+        top:0;
+        bottom:0;
+        right:0;
+        left:0;
+        box-shadow: $shadow-1--inset;
+    }
+}
+
+.u-wordBreak {
+    word-break: break-all;
+}

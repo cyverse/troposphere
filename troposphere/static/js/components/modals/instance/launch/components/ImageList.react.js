@@ -17,7 +17,7 @@ define(
 
       renderImage: function (image) {
         return (
-          <Image key={image.id} image={image} onClick={this.props.onClick}/>
+          <Image key={image.id} image={image} callBack={this.props.callBack}/>
         )
       },
 
