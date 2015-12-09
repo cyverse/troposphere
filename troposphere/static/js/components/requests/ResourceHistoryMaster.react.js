@@ -27,7 +27,7 @@ define(function (require) {
 
       
       if(requests == null){
-        return <div className = "loading"></div>;
+        return <div className="loading"></div>;
       }
 
       if(!requests.models[0]){
