@@ -34,6 +34,7 @@ define(function (require) {
     ProjectInstancePage = require("./components/projects/InstanceDetailsPage.react"),
     ProjectVolumePage = require("./components/projects/VolumeDetailsPage.react"),
     AdminMaster = require('./components/admin/AdminMaster.react'),
+    AtmosphereUserMaster = require('./components/admin/AtmosphereUserMaster.react'),
     ImageMaster = require('./components/admin/ImageMaster.react'),
     ImageAdmin = require('./components/admin/ImageAdmin.react'),
     IdentityMembershipMaster = require('./components/admin/IdentityMembershipMaster.react'),
@@ -76,7 +77,8 @@ define(function (require) {
       <Route name="settings" handler={SettingsPage}/>
 
       <Route name="admin" handler={AdminMaster}>
-        <DefaultRoute name="identity-membership-manager" handler={IdentityMembershipMaster}/>
+        <DefaultRoute name="atmosphere-user-manager" path="users" handler={AtmosphereUserMaster}/>
+        <Route name="identity-membership-manager" path="identities" handler={IdentityMembershipMaster}/>
         <Route name="resource-request-manager" path="resource-requests" handler={ResourceMaster}>
           <Route name="resource-request" path=":resourceRequestId" handler={ResourceAdmin} />
         </Route>
