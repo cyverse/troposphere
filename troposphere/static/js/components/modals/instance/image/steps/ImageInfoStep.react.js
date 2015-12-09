@@ -49,7 +49,7 @@ define(function (require) {
     onNext: function () {
       this.props.onNext({
         name: $.trim(this.state.name),
-        description: this.state.description,
+        description: $.trim(this.state.description),
         imageTags: this.state.imageTags,
         newImage: this.state.newImage
       });

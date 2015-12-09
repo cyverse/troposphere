@@ -47,8 +47,8 @@ define(function(require) {
 
     onNext: function(){
       this.props.onNext({
-        versionName: this.state.versionName,
-        versionChanges: this.state.versionChanges,
+        versionName: $.trim(this.state.versionName),
+        versionChanges: $.trim(this.state.versionChanges),
       });
     },
 
