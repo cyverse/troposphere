@@ -5,16 +5,8 @@ import modals from 'modals';
 import stores from 'stores';
 
 import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
-import BreadcrumbNav from 'components/common/breadcrumb/BreadcrumbNav.react';
 
 import ImageSelectStep from './launch/steps/ImageSelectStep.react';
-import NameIdentityVersionStep from './launch/steps/NameIdentityVersionStep.react';
-import SizeSelectStep from './launch/steps/SizeSelectStep.react';
-import ProjectSelectStep from './launch/steps/ProjectSelectStep.react';
-import UserOptionsStep from './launch/steps/UserOptionsStep.react';
-import AdministratorOptionsStep from './launch/steps/AdminOptionsStep.react';
-import LicensingStep from './launch/steps/LicensingStep.react';
-import ReviewLaunchStep from './launch/steps/ReviewLaunchStep.react';
 import BasicLaunchStep from './launch/steps/BasicLaunchStep.react';
 
 export default React.createClass({
@@ -25,6 +17,64 @@ export default React.createClass({
         image: React.PropTypes.instanceOf(Backbone.Model),
         project: React.PropTypes.instanceOf(Backbone.Model),
         onConfirm: React.PropTypes.func.isRequired,
+    },
+
+    getInitialState: function(){
+        var image = this.props.image,
+            project = this.props.project;
+        return {
+            image: image,
+            project: project,
+            title: "Image",
+            view: "IMAGE_VIEW"
+        };
+    },
+
+    getState: function() {
+        return this.state;
+    },
+
+    updateState: function() {
+        if (this.isMounted()) this.setState(this.getState());
+    },
+
+    componentDidMount: function() {
+        stores.IdentityStore.addChangeListener(this.updateState);
+        stores.ProviderStore.addChangeListener(this.updateState);
+        stores.SizeStore.addChangeListener(this.updateState);
+        stores.ProjectStore.addChangeListener(this.updateState);
+        stores.ImageVersionStore.addChangeListener(this.updateState);
+    },
+
+    componentWillUnmount: function() {
+        stores.IdentityStore.removeChangeListener(this.updateState);
+        stores.ProviderStore.removeChangeListener(this.updateState);
+        stores.SizeStore.removeChangeListener(this.updateState);
+        stores.ProjectStore.removeChangeListener(this.updateState);
+        stores.ImageVersionStore.removeChangeListener(this.updateState);
+    },
+
+    //
+    // Internal Modal Callbacks
+    // ------------------------
+    //
+    //
+
+    selectImage: function(arg) {
+        console.log(arg);
+        this.setState({
+            view:'BASIC_VIEW',
+            image: arg
+        });
+    },
+
+    cancel: function() {
+        this.hide();
+    },
+
+    onCompleted: function(launch_data) {
+        this.hide();
+        this.props.onConfirm(launch_data);
     },
 
     onRequestResources: function(){
@@ -44,10 +94,12 @@ export default React.createClass({
         },
 
     renderBasicOptions: function() {
+        let identity = stores.IdentityStore.getAll();
         return (
                 <BasicLaunchStep 
                     image={this.state.image}
-                    project={this.state.project} />
+                    project={this.state.project}
+                    identity={identity}/>
                );
     },
 
@@ -76,82 +128,8 @@ export default React.createClass({
                     </div>
                 </div>
             </div>
-      );
+        );
     },
 
-    //
-    // Mounting & State
-    // ----------------
-    //
-
-    getInitialState: function(){
-        var image = this.props.image,
-            project = this.props.project;
-        return {
-            image: image,
-            project: project,
-            title: "Image",
-            view: "IMAGE_VIEW"
-        };
-    },
-
-    getState: function() {
-        return this.state;
-    },
-
-    updateState: function() {
-        if (this.isMounted()) this.setState(this.getState());
-    },
-
-    componentDidMount: function() {
-        stores.ProviderStore.addChangeListener(this.updateState);
-        stores.IdentityStore.addChangeListener(this.updateState);
-        stores.SizeStore.addChangeListener(this.updateState);
-        stores.ProjectStore.addChangeListener(this.updateState);
-        stores.ProjectVolumeStore.addChangeListener(this.updateState);
-        stores.ProjectInstanceStore.addChangeListener(this.updateState);
-        stores.InstanceStore.addChangeListener(this.updateState);
-        stores.ImageVersionStore.addChangeListener(this.updateState);
-        stores.MaintenanceMessageStore.addChangeListener(this.updateState);
-        stores.ScriptStore.addChangeListener(this.updateState);
-        stores.LicenseStore.addChangeListener(this.updateState);
-    },
-
-    componentWillUnmount: function() {
-        stores.ProviderStore.removeChangeListener(this.updateState);
-        stores.IdentityStore.removeChangeListener(this.updateState);
-        stores.SizeStore.removeChangeListener(this.updateState);
-        stores.ProjectStore.removeChangeListener(this.updateState);
-        stores.ProjectVolumeStore.removeChangeListener(this.updateState);
-        stores.ProjectInstanceStore.removeChangeListener(this.updateState);
-        stores.InstanceStore.removeChangeListener(this.updateState);
-        stores.ImageVersionStore.removeChangeListener(this.updateState);
-        stores.MaintenanceMessageStore.removeChangeListener(this.updateState);
-        stores.ScriptStore.removeChangeListener(this.updateState);
-        stores.LicenseStore.removeChangeListener(this.updateState);
-    },
-
-    //
-    // Internal Modal Callbacks
-    // ------------------------
-    //
-    //
-
-    selectImage: function(arg) {
-        console.log(arg);
-        this.setState({
-            view:'BASIC_VIEW',
-            image: arg
-        });
-    },
-
-    cancel: function() {
-        this.hide();
-    },
-
-    onCompleted: function(launch_data) {
-        this.hide();
-        this.props.onConfirm(launch_data);
-    }
 
 });

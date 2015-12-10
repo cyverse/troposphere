@@ -35,8 +35,8 @@ export default React.createClass({
     },
 
     componentWillUnmount: function () {
-        stores.ImageiVersionStore.removeChangeListener(this.updateState);
-        stores.ProviederStore.removeChangeListener(this.updateState);
+        stores.ImageVersionStore.removeChangeListener(this.updateState);
+        stores.ProviderStore.removeChangeListener(this.updateState);
         stores.ProjectStore.removeChangeListener(this.updateState);
     },
     render: function () {
@@ -72,7 +72,8 @@ export default React.createClass({
                         <hr/>
                         <ResourcesForm
                             providers={providers}
-                            provider={defaultProvider}/>
+                            provider={defaultProvider}
+                            identity={this.props.identity}/>
                     </div>
 
                 </div>

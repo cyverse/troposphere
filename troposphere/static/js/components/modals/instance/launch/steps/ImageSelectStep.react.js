@@ -11,11 +11,10 @@ let timer,
 export default React.createClass({
     displayName: "InstanceLaunchWizardModal-ImageSelectStep",
 
-
     //
     // Mounting & State
     // ----------------
-    //a
+    //
 
     propTypes: {
     },
