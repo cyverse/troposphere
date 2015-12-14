@@ -154,8 +154,8 @@ define(function (require) {
     },
 
     // Fetch the first page and replace models with results
-    fetchFirstPage: function(){
-      if (!this.isFetching){ 
+    fetchFirstPage: function() {
+      if (!this.isFetching) {
         this.isFetching = true;
 
         var models = new this.collection();
@@ -171,10 +171,10 @@ define(function (require) {
     },
 
     // same as fetchFirstPage, but with URL query params
-    fetchFirstPageWhere: function(queryParams){
-      if (!this.isFetching){ 
+    fetchFirstPageWhere: function(queryParams) {
+      if (!this.isFetching) {
         this.isFetching = true;
-        queryParams = queryParams || {}; 
+        queryParams = queryParams || {};
         var queryString = buildQueryStringFromQueryParams(queryParams);
         var models = new this.collection();
 
@@ -218,7 +218,7 @@ define(function (require) {
           if (!matchesCriteria) return;
 
           var tokens = key.split('.');
-          if(tokens.length === 1){
+          if(tokens.length === 1) {
             if(model.get(key) !== params[key]) matchesCriteria = false;
           }else{
             var lookup = model.get(tokens[0])
@@ -247,7 +247,7 @@ define(function (require) {
           if (!matchesCriteria) return;
 
           var tokens = key.split('.');
-          if(tokens.length === 1){
+          if(tokens.length === 1) {
             if(model.get(key) !== params[key]) matchesCriteria = false;
           }else{
             var lookup = model.get(tokens[0])
@@ -282,7 +282,7 @@ define(function (require) {
     // Fetches the first page of data for the given set of queryParams
     // Example: params = {page_size: 1000, search: 'featured'}
     // will be convereted to ?page_size=1000&search=featured
-    fetchWhereNoCache: function(queryParams){
+    fetchWhereNoCache: function(queryParams) {
       queryParams = queryParams || {};
 
       // Build the query string
@@ -303,7 +303,7 @@ define(function (require) {
       }
     },
 
-    fetchWhere: function(queryParams){
+    fetchWhere: function(queryParams) {
       queryParams = queryParams || {};
 
       // Build the query string

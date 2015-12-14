@@ -35,11 +35,11 @@ define(function (require) {
     // Polling functions
     // -----------------
 
-    isInFinalState: function(instance){
-        if(instance.get('state').get('status') == 'active' && instance.get('ip_address').charAt(0) == '0'){
+    isInFinalState: function(instance) {
+        if (instance.get('state').get('status') == 'active' && instance.get('ip_address').charAt(0) == '0') {
             return false;
         }
-    
+
         return instance.get('state').isInFinalState();
     }
 
