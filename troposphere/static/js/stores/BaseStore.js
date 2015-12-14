@@ -23,10 +23,10 @@ define(function (require) {
     this.isFetching = false;
 
     // pollingEnabled: True if this store should poll models
-    // modelsBuilding: array of models which are being polled
+    // modelsPolling: array of models which are being polled
     // pollingFrequency: frequency in milliseconds of when the models should be polled
     this.pollingEnabled = false;
-    this.modelsBuilding = [];
+    this.modelsPolling = [];
     this.pollingFrequency = 5 * 1000;
 
     // isFetchingQuery: stores query strings as keys and denotes whether that data is already
@@ -87,6 +87,12 @@ define(function (require) {
 
     remove: function (model) {
       this.models.remove(model);
+
+      // Remove model from polling queue
+      var index = this.modelsPolling.indexOf(model);
+      if (index > 0) {
+          this.modelsPolling.splice(index, 1);
+      }
     },
 
     // --------------
@@ -148,8 +154,8 @@ define(function (require) {
     },
 
     // Fetch the first page and replace models with results
-    fetchFirstPage: function(){
-      if (!this.isFetching){ 
+    fetchFirstPage: function() {
+      if (!this.isFetching) {
         this.isFetching = true;
 
         var models = new this.collection();
@@ -165,10 +171,10 @@ define(function (require) {
     },
 
     // same as fetchFirstPage, but with URL query params
-    fetchFirstPageWhere: function(queryParams){
-      if (!this.isFetching){ 
+    fetchFirstPageWhere: function(queryParams) {
+      if (!this.isFetching) {
         this.isFetching = true;
-        queryParams = queryParams || {}; 
+        queryParams = queryParams || {};
         var queryString = buildQueryStringFromQueryParams(queryParams);
         var models = new this.collection();
 
@@ -182,13 +188,19 @@ define(function (require) {
       }
     },
 
-    // Returns a specific model if it exists in the local cache
+    // Returns a specific model if it exists in the local cache with the side
+    // effect of fetching models
     get: function (modelId) {
       if (!this.models) {
         this.fetchModels();
       } else {
         return this.models.get(modelId);
       }
+    },
+
+    // Check the local cache for a model
+    has: function(modelId) {
+        return this.models.get(modelId) != undefined;
     },
 
     // Looks through the local cache and returns any models matched the provided parameters
@@ -206,7 +218,7 @@ define(function (require) {
           if (!matchesCriteria) return;
 
           var tokens = key.split('.');
-          if(tokens.length === 1){
+          if(tokens.length === 1) {
             if(model.get(key) !== params[key]) matchesCriteria = false;
           }else{
             var lookup = model.get(tokens[0])
@@ -235,7 +247,7 @@ define(function (require) {
           if (!matchesCriteria) return;
 
           var tokens = key.split('.');
-          if(tokens.length === 1){
+          if(tokens.length === 1) {
             if(model.get(key) !== params[key]) matchesCriteria = false;
           }else{
             var lookup = model.get(tokens[0])
@@ -270,7 +282,7 @@ define(function (require) {
     // Fetches the first page of data for the given set of queryParams
     // Example: params = {page_size: 1000, search: 'featured'}
     // will be convereted to ?page_size=1000&search=featured
-    fetchWhereNoCache: function(queryParams){
+    fetchWhereNoCache: function(queryParams) {
       queryParams = queryParams || {};
 
       // Build the query string
@@ -291,7 +303,7 @@ define(function (require) {
       }
     },
 
-    fetchWhere: function(queryParams){
+    fetchWhere: function(queryParams) {
       queryParams = queryParams || {};
 
       // Build the query string
@@ -346,16 +358,16 @@ define(function (require) {
 
     // Fetches the models state immediately and then sets up to be polled if not in a final state
     pollNowUntilBuildIsFinished: function (model) {
-      if (model.id && this.modelsBuilding.indexOf(model) < 0) {
-        this.modelsBuilding.push(model);
+      if (model.id && this.modelsPolling.indexOf(model) < 0) {
+        this.modelsPolling.push(model);
         this.fetchNowAndRemoveIfFinished(model);
       }
     },
 
     // Sets up to be polled if not in a final state
     pollUntilBuildIsFinished: function (model) {
-      if (model.id && this.modelsBuilding.indexOf(model) < 0) {
-        this.modelsBuilding.push(model);
+      if (model.id && this.modelsPolling.indexOf(model) < 0) {
+        this.modelsPolling.push(model);
         this.fetchAndRemoveIfFinished(model);
       }
     },
@@ -367,10 +379,13 @@ define(function (require) {
 
       setTimeout(function () {
         model.fetchFromCloud(function () {
+          // Check to see if instance was removed
+          if (!this.has(model))
+            return
           this.update(model);
-          var index = this.modelsBuilding.indexOf(model);
+          var index = this.modelsPolling.indexOf(model);
           if (this.isInFinalState(model)) {
-            this.modelsBuilding.splice(index, 1);
+            this.modelsPolling.splice(index, 1);
           } else {
             this.fetchAndRemoveIfFinished(model);
           }
@@ -386,9 +401,9 @@ define(function (require) {
 
       model.fetchFromCloud(function () {
         this.update(model);
-        var index = this.modelsBuilding.indexOf(model);
+        var index = this.modelsPolling.indexOf(model);
         if (this.isInFinalState(model)) {
-          this.modelsBuilding.splice(index, 1);
+          this.modelsPolling.splice(index, 1);
         } else {
           this.fetchAndRemoveIfFinished(model);
         }
