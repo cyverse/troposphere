@@ -39,7 +39,7 @@ define(function (require) {
         });
         // todo: the proper thing to do is to poll until the instance is actually destroyed
         // and THEN remove it from the project. Need to find a way to support that.
-        Utils.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
+        Utils.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance}, options);
         Utils.dispatch(ProjectInstanceConstants.REMOVE_PROJECT_INSTANCE, {projectInstance: projectInstance}, options);
       }).fail(function (response) {
         instance.set({state: originalState});
