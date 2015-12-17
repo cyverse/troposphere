@@ -16,8 +16,8 @@ define(function (require) {
 
       var instance = payload.instance,
         project = payload.project,
-        instanceState = new InstanceState({status_raw: "deleting"}),
         originalState = instance.get('state'),
+        instanceState = new InstanceState({status_raw: originalState.get("status") + " - deleting"}),
         identity = instance.get('identity'),
         provider = instance.get('provider'),
         url = (
@@ -33,14 +33,7 @@ define(function (require) {
       instance.destroy({
         url: url
       }).done(function () {
-        var projectInstance = stores.ProjectInstanceStore.findOne({
-          'project.id': project.id,
-          'instance.id': instance.id
-        });
-        // todo: the proper thing to do is to poll until the instance is actually destroyed
-        // and THEN remove it from the project. Need to find a way to support that.
-        Utils.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance}, options);
-        Utils.dispatch(ProjectInstanceConstants.REMOVE_PROJECT_INSTANCE, {projectInstance: projectInstance}, options);
+        Utils.dispatch(InstanceConstants.POLL_FOR_DELETED, {instance: instance});
       }).fail(function (response) {
         instance.set({state: originalState});
         Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});

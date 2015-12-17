@@ -41,7 +41,29 @@ define(function (require) {
         }
 
         return instance.get('state').isInFinalState();
-    }
+    },
+
+    // Poll for a model, if and while keepPolling(model) returns true
+    pollUntilDeleted: function(model)  {
+      if (!model.fetchFromCloud) 
+          throw new Error("model missing required method for polling: fetchFromCloud");
+
+      var args = arguments;
+
+      model.fetchFromCloud(function(response) {
+          // Check to see if instance was removed
+          if (response.status == "404") {
+              this.remove(model);
+              this.emitChange();
+              return; 
+          } 
+          this.update(model);
+          this.emitChange();
+
+          // Poll again (call pollUntilDeleted with the same arguments)
+          setTimeout(this.pollUntilDeleted.bind(this, ...args), this.pollingFrequency); 
+      }.bind(this));
+    },
 
   });
 
@@ -69,6 +91,10 @@ define(function (require) {
       case InstanceConstants.POLL_INSTANCE:
         // This happens whether or not polling is enabled in basestore (seems unintuitive)
         store.pollNowUntilBuildIsFinished(payload.instance);
+        break;
+
+      case InstanceConstants.POLL_FOR_DELETED:
+        store.pollUntilDeleted(payload.instance);
         break;
 
       default:
