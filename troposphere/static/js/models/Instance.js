@@ -37,7 +37,7 @@ define(
           this.set('ip_address', attrs.ip_address);
           this.set('status', attrs.status);
           this.set('state', new InstanceState({status_raw: attrs.status}));
-          cb(response); 
+          cb(response);
         }.bind(this)).fail(function(response, status, errorThrown){
             cb(response);
         });

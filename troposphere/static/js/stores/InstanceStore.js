@@ -45,7 +45,7 @@ define(function (require) {
 
     // Poll for a model, if and while keepPolling(model) returns true
     pollUntilDeleted: function(model)  {
-      if (!model.fetchFromCloud) 
+      if (!model.fetchFromCloud)
           throw new Error("model missing required method for polling: fetchFromCloud");
 
       var args = arguments;
@@ -55,13 +55,13 @@ define(function (require) {
           if (response.status == "404") {
               this.remove(model);
               this.emitChange();
-              return; 
-          } 
+              return;
+          }
           this.update(model);
           this.emitChange();
 
           // Poll again (call pollUntilDeleted with the same arguments)
-          setTimeout(this.pollUntilDeleted.bind(this, ...args), this.pollingFrequency); 
+          setTimeout(this.pollUntilDeleted.bind(this, ...args), this.pollingFrequency);
       }.bind(this));
     },
 
