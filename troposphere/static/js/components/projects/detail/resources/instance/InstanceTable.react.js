@@ -48,14 +48,7 @@ define(function (require) {
           selectedResources={this.props.selectedResources}
           resourceRows={instanceRows}
           onResourceSelected={this.props.onResourceSelected}
-          onResourceDeselected={this.props.onResourceDeselected}
-          >
-          <th className="sm-header">Name</th>
-          <th className="sm-header">Status</th>
-          <th className="sm-header">IP Address</th>
-          <th className="sm-header">Size</th>
-          <th className="sm-header">Provider</th>
-        </SelectableTable>
+          onResourceDeselected={this.props.onResourceDeselected}/>
       )
     }
 
