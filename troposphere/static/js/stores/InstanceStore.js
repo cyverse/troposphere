@@ -43,7 +43,7 @@ define(function (require) {
         return instance.get('state').isInFinalState();
     },
 
-    // Poll for a model, if and while keepPolling(model) returns true
+    // Poll for a model
     pollUntilDeleted: function(model)  {
       if (!model.fetchFromCloud)
           throw new Error("model missing required method for polling: fetchFromCloud");
