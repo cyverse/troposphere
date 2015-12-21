@@ -35,11 +35,11 @@ define(function (require) {
     // Polling functions
     // -----------------
 
-    isInFinalState: function(instance){
-        if(instance.get('state').get('status') == 'active' && instance.get('ip_address').charAt(0) == '0'){
+    isInFinalState: function(instance) {
+        if (instance.get('state').get('status') == 'active' && instance.get('ip_address').charAt(0) == '0') {
             return false;
         }
-    
+
         return instance.get('state').isInFinalState();
     }
 
@@ -67,6 +67,7 @@ define(function (require) {
         break;
 
       case InstanceConstants.POLL_INSTANCE:
+        // This happens whether or not polling is enabled in basestore (seems unintuitive)
         store.pollNowUntilBuildIsFinished(payload.instance);
         break;
 
