@@ -13,6 +13,7 @@ define(function (require) {
       selectedResources: React.PropTypes.instanceOf(Backbone.Collection),
       onResourceSelected: React.PropTypes.func.isRequired,
       onResourceDeselected: React.PropTypes.func.isRequired,
+      children: React.PropTypes.node.isRequired
     },
 
     toggleCheckbox: function (e) {
@@ -36,20 +37,18 @@ define(function (require) {
     },
 
     render: function () {
+      var resourceRows = this.props.resourceRows;
+
       return (
         <table className="table table-hover sm-table">
           <thead className="sm-thead">
           <tr className="sm-row" onClick={this.toggleCheckbox}>
             <th className="sm-header"><Checkbox isChecked={this.areAllResourcesSelected()}/></th>
-            <th className="sm-header">Name</th>
-            <th className="sm-header">Status</th>
-            <th className="sm-header">IP Address</th>
-            <th className="sm-header">Size</th>
-            <th className="sm-header">Provider</th>
+            {this.props.children}
           </tr>
           </thead>
           <tbody className="sm-tbody">
-          {this.props.resourceRows}
+          {resourceRows}
           </tbody>
         </table>
       );
