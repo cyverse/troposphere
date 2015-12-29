@@ -15,10 +15,10 @@ var InstanceState = Backbone.Model.extend({
       "shutoff"
     ];
 
-    if (this.get('status') === "build") return false;
+    if (this.get('status') === "build") 
+        return false;
 
-    var isInFinalState = validStates.indexOf(this.get('status_raw')) >= 0;
-    return isInFinalState;
+    return _.contains(validStates, this.get('status_raw'));
   },
 
   isDeployError: function () {
@@ -68,7 +68,8 @@ var get_percent_complete = function (state, activiy) {
       'block_device_mapping': 10,
       'scheduling': 20,
       'networking': 30,
-      'spawning': 40
+      'spawning': 40,
+      'deleting': 50,
     },
     'active': {
       'powering-off': 50,
@@ -93,8 +94,8 @@ var get_percent_complete = function (state, activiy) {
     }
   };
 
-  // TODO: Handle the case where this dict lookup fails
-  return states[state][activiy];
+  // Note: 100 is graphically similar to 0
+  return states[state][activiy] || 100;
 };
 
 var get_final_state = function (activity) {

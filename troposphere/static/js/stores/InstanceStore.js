@@ -3,7 +3,10 @@ define(function (require) {
   var Dispatcher = require('dispatchers/Dispatcher'),
     BaseStore = require('stores/BaseStore'),
     InstanceCollection = require('collections/InstanceCollection'),
-    InstanceConstants = require('constants/InstanceConstants');
+    _ = require('underscore'),
+    Utils = require('actions/Utils'),
+    InstanceConstants = require('constants/InstanceConstants'),
+    InstanceState = require('models/InstanceState');
 
   var InstanceStore = BaseStore.extend({
     collection: InstanceCollection,
@@ -44,25 +47,28 @@ define(function (require) {
     },
 
     // Poll for a model
-    pollUntilDeleted: function(model)  {
-      if (!model.fetchFromCloud)
-          throw new Error("model missing required method for polling: fetchFromCloud");
+    pollUntilDeleted: function(instance) {
+        this.pollWhile(instance, function(model, response) {
+            // If 404 then remove the model
+            if (response.status == "404") {
+                this.remove(model);
 
-      var args = arguments;
+                return false;
+            }
 
-      model.fetchFromCloud(function(response) {
-          // Check to see if instance was removed
-          if (response.status == "404") {
-              this.remove(model);
-              this.emitChange();
-              return;
-          }
-          this.update(model);
-          this.emitChange();
+            var status = instance.get('state').get("status");
+            instance.set({
+                state: new InstanceState({
+                    status_raw: status + " - deleting"
+                }),
+            });
 
-          // Poll again (call pollUntilDeleted with the same arguments)
-          setTimeout(this.pollUntilDeleted.bind(this, ...args), this.pollingFrequency);
-      }.bind(this));
+            Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+
+            // Keep polling while 200 or not 404 
+            return response.status == "200";
+
+        }.bind(this));
     },
 
   });

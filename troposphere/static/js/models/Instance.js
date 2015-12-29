@@ -39,7 +39,7 @@ define(
           this.set('state', new InstanceState({status_raw: attrs.status}));
           cb(response);
         }.bind(this)).fail(function(response, status, errorThrown){
-            cb(response);
+          cb(response);
         });
       },
 
