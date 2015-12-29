@@ -184,8 +184,16 @@ def forbidden(request):
     user, but was found to be unauthorized to use Atmosphere by OAuth.
     Returns HTTP status code 403 Forbidden
     """
-    return render(request, 'no_user.html', status=403)
-
+    # If banner message in query params, pass it into the template
+    template_params = {}
+    if "banner" in request.GET:
+        template_params['banner'] = request.GET['banner']
+    response = render_to_response(
+        'no_user.html',
+        template_params,
+        context_instance=RequestContext(request)
+    )
+    return response
 
 def version(request):
     v = get_version()

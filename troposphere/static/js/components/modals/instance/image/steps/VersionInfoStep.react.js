@@ -3,6 +3,7 @@ define(function(require) {
   var React = require('react/addons'),
       Backbone = require('backbone'),
       VersionName = require('../components/VersionName.react'),
+      $ = require('jquery'),
       VersionChanges = require('../components/VersionChangeLog.react'),
       stores = require('stores');
 
@@ -32,10 +33,11 @@ define(function(require) {
     },
 
     isSubmittable: function(){
-      var hasName        = !!this.state.versionName;
-      var hasVersionChanges = !!this.state.versionChanges;
+      var hasName        = !!($.trim(this.state.versionName));
+      var hasVersionChanges = !!($.trim(this.state.versionChanges));
       return hasName && hasVersionChanges;
     },
+
     onPrevious: function(){
       this.props.onPrevious({
         versionName: this.state.versionName,
@@ -45,10 +47,11 @@ define(function(require) {
 
     onNext: function(){
       this.props.onNext({
-        versionName: this.state.versionName,
-        versionChanges: this.state.versionChanges,
+        versionName: $.trim(this.state.versionName),
+        versionChanges: $.trim(this.state.versionChanges),
       });
     },
+
     onVersionNameChange: function(newName){
       this.setState({versionName: newName});
     },

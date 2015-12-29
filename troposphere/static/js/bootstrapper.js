@@ -59,6 +59,7 @@ define(function (require) {
   stores.ResourceRequestStore = require('stores/ResourceRequestStore');
   stores.IdentityMembershipStore = require('stores/IdentityMembershipStore');
   stores.StatusStore = require('stores/StatusStore');
+  stores.SSHKeyStore = require('stores/SSHKeyStore');
   stores.QuotaStore = require('stores/QuotaStore');
   stores.SizeStore = require('stores/SizeStore');
   stores.TagStore = require('stores/TagStore');
@@ -89,7 +90,7 @@ define(function (require) {
   actions.ProjectInstanceActions = require('actions/ProjectInstanceActions');
   actions.ProjectVolumeActions = require('actions/ProjectVolumeActions');
   actions.TagActions = require('actions/TagActions');
-  //actions.UserActions             = require('actions/UserActions');
+  actions.UserActions = require('actions/UserActions');
   actions.VolumeActions = require('actions/VolumeActions');
 
   var modals = require('modals');
