@@ -15,10 +15,17 @@ define(
       },
 
       render: function () {
+
+        var instance = this.props.instance;
+
+        var address = instance.get('ip_address');
+
+        if (!address || address.charAt(0) == "0") {
+            address = "N/A";
+        }
+
         return (
-          <ResourceDetail label="IP Address">
-            {this.props.instance.get('ip_address')}
-          </ResourceDetail>
+          <ResourceDetail label="IP Address">{address}</ResourceDetail>
         );
       }
 
