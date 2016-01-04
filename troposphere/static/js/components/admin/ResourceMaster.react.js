@@ -4,7 +4,6 @@ define(function (require) {
   var React = require('react/addons'),
     Router = require('react-router'),
     stores = require('stores'),
-    ResourceAdmin = require('./ResourceAdmin.react'),
     ResourceRequest = require('./ResourceRequest.react'),
     RouteHandler = Router.RouteHandler;
 
@@ -30,11 +29,10 @@ define(function (require) {
 
       if (!resourceRequestRows[0]) {
         return  (
-                <div>
-                 <h3>No resource requests</h3>
-                </div>
-                );
-      
+          <div>
+            <h3>No resource requests</h3>
+          </div>
+        );
       }
 
       return (
