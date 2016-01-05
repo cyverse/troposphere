@@ -3,6 +3,7 @@ import Backbone from 'backbone';
 import _ from 'underscore';
 import ImageCollection from 'collections/ImageCollection';
 import ImageList from '../components/ImageList.react';
+import InstanceLaunchFooter from '../components/InstanceLaunchFooter.react';
 import stores from 'stores';
 
 let timer,
@@ -172,7 +173,7 @@ export default React.createClass({
             {this.renderSearchInput()}
             {this.renderFilterDescription(query)}
             <ImageList images={images} 
-                        callBack={this.props.callBack}>
+                        selectImage={this.props.selectImage}>
             {this.renderMoreImagesButton(images, imageCount)}
             </ImageList>
         </div>
@@ -224,14 +225,10 @@ export default React.createClass({
                     <hr/>
                     {this.renderBody()}
                 </div>
-                <div className="modal-footer">
-                    <button type="button" className="btn btn-primary pull-right" disabled="disabled">
-                        Launch Instance
-                    </button>
-                    <button type="button" className="btn btn-default pull-right" onClick={this.props.cancel}>
-                        Cancel
-                    </button>
-                </div>
+                <InstanceLaunchFooter 
+                    cancel={this.props.cancel}
+                    launchIsDisabled={true}
+                    advancedIsDisabled={true}/>
             </div>
         );
 

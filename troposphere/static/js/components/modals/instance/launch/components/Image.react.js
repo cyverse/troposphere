@@ -19,7 +19,7 @@ define(
       },
 
       handleClick: function () {
-        this.props.callBack(this.props.image);
+        this.props.selectImage(this.props.image);
       },
 
       renderTags: function () {
