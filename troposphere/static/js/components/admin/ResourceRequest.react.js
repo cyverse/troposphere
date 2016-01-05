@@ -138,7 +138,7 @@ define(function (require) {
       var canSubmit = (parseInt(this.state.quota) || parseInt(request.get('current_quota'))) && (stores.AllocationStore.findWhere({"threshold": parseInt(this.state.AUSearch) * 60, "delta": this.state.delta}).length == 1) && this.state.response;
 
       return(
-          <div className="admin-detail">
+          <div className="admin-detail row">
             <div className="request-info pull-left">
               <div><strong>User: </strong> {request.get('user').username}</div>
               <div><strong>Created by: </strong> {request.get('created_by').username}</div>
