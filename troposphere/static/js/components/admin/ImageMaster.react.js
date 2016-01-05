@@ -37,7 +37,7 @@ define(function (require) {
       if (!imageRequestRows[0]) {
         return  (
           <div>
-            <h3>No resource requests</h3>
+            <h3>No imaging requests</h3>
           </div>
         );
       }
