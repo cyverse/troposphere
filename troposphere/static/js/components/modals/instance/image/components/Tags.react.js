@@ -32,7 +32,7 @@ define(function (require) {
 		},
 
     onQueryChange: function (query) {
-      this.setState({query: query});
+      this.setState({query: query.toLowerCase()});
     },
 
 		onNewTagNameChange: function(name){
