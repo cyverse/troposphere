@@ -4,7 +4,8 @@ define(function (require) {
     $ = require('jquery'),
     Backbone = require('backbone');
 
-  var ENTER_KEY = 13;
+  var ENTER_KEY = 13,
+      COMMA_KEY = 188;
 
   return {
     getInitialState: function(){
@@ -73,7 +74,21 @@ define(function (require) {
     },
 
     onEnter: function(e){
-      if(e.which !== ENTER_KEY) return;
+      // console.log("okay this hard");
+      // if(e.which === ENTER_KEY){
+      //   if(this.onEnterKeyPressed) {
+      //     this.onEnterKeyPressed(value);
+      //   } 
+      //   else if(this.props.onEnterKeyPressed) {
+      //     this.props.onEnterKeyPressed(e);
+      //   } 
+      //   else {
+      //     //Enter does nothing if neither value is defined..
+      //     return;
+      //   }
+      // }
+      // else if(e.which === COMMA_KEY)
+      if(e.which !== ENTER_KEY && e.which !== COMMA_KEY) return;
       var value = e.target.value;
       if(this.onEnterKeyPressed) {
         this.onEnterKeyPressed(value);

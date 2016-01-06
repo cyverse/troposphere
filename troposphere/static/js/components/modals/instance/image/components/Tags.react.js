@@ -22,7 +22,16 @@ define(function (require) {
     },
 
     onQueryChange: function (query) {
+      if(query.charAt(query.length - 1) == ','){
+        console.log("what?????");
+        return;
+      }
       this.setState({query: query});
+    },
+
+    onEnterKeyPressed: function(){
+      this.setState({query: ""});
+      this.props.onTagAdded();
     },
 
     render: function () {
@@ -59,6 +68,7 @@ define(function (require) {
               onModelAdded={this.props.onTagAdded}
               onModelRemoved={this.props.onTagRemoved}
               onModelCreated={this.props.onTagCreated}
+              onEnterKeyPressed={this.onEnterKeyPressed}
               onQueryChange={this.onQueryChange}
               width={"100%"}
               placeholderText="Search by tag name..."
