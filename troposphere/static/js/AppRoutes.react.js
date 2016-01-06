@@ -13,6 +13,8 @@ define(function (require) {
     AllBadges = require('./components/badges/AllBadges.react'),
     UnearnedBadges = require('./components/badges/UnearnedBadges.react'),
     PassThroughHandler = require('./components/PassThroughHandler.react'),
+    RequestHistory = require('./components/requests/ResourceHistoryMaster.react'),
+    RequestMaster = require('./components/requests/RequestMaster.react'),
     DashboardPage = require('./components/dashboard/DashboardPage.react'),
     ProjectListPage = require('./components/projects/ProjectListPage.react'),
     ImageListPage = require('./components/images/ImageListPage.react'),
@@ -86,6 +88,11 @@ define(function (require) {
         <Route name="my-badges" path="my-badges" handler={MyBadges} />
         <Route name="all-badges" path="all-badges" handler={AllBadges} />
         <Route name="unearned-badges" path="unearned-badges" handler={UnearnedBadges} />
+      </Route>
+
+      <Route name="my-requests" handler={RequestMaster}>
+        <Route name="my-requests-resources" path="resources" handler={RequestHistory} />
+        <Route name="my-requests-images" path="images" handler={MyImageRequestsPage} />
       </Route>
 
       <DefaultRoute handler={DashboardPage}/>
