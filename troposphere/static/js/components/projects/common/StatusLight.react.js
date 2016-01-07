@@ -15,20 +15,20 @@ define(
 
       render: function () {
         var status = this.props.status;
-        var statusLight;
+        var className = "instance-status-light "; 
 
-        if (status === "active") {
-          statusLight = <span className="instance-status-light active"></span>;
-        } else if (status === "transition") {
-          statusLight = <span className="instance-status-light transition"></span>;
-        } else if (status === "inactive") {
-          statusLight = <span className="instance-status-light inactive"></span>;
+        if (status == "active") {
+          className += "active";
+        } else if (status == "transition") {
+          className += "transition";
+        } else if (status == "inactive") {
+          className += "inactive";
         } else {
-          statusLight = <span className="instance-status-light"></span>;
+          className += "error";
         }
 
         return (
-          statusLight
+          <span className={ className }></span>
         );
       }
 
