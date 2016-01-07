@@ -19,14 +19,16 @@ define(
         var instanceState = this.props.instance.get('state');
         var status = instanceState.get('status');
         var activity = instanceState.get('activity');
-        var lightStatus = "transition";
+        var lightStatus;
 
-        if (status === "active" && !activity) {
-          lightStatus = "active";
-        } else if (status === "suspended" && !activity) {
-          lightStatus = "inactive";
-        } else if (status === "shutoff" && !activity) {
-          lightStatus = "inactive";
+        if (activity != undefined) {
+            lightStatus = "transition";
+        } else if (status == "active") {
+            lightStatus = "active";
+        } else if (status == "suspended" || status == "shutoff") {
+            lightStatus = "inactive";
+        } else {
+            lightStatus = "error";
         }
 
         var rawStatus = instanceState.get('status_raw');
