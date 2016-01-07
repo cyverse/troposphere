@@ -38,11 +38,12 @@ define(
 
         if (instanceState.isDeployError()) {
           return (
-            <span>
-              <div>
-                <span style={{color: "#d44950"}}>{"Launch failed. Atmosphere at capacity."}</span>
-              </div>
-            </span>
+          <span>
+            <div>
+              <StatusLight status="error"/>
+              <span style={style}>{capitalizedStatus}</span>
+            </div>
+          </span>
           );
         }
 
