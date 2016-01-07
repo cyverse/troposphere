@@ -29,8 +29,9 @@ define(
         var hasName = !!this.state.name;
         var hasDescription = !!this.state.description;
         var hasLink = !!this.state.link;
-        var external_linkExists = !!this.state.external_linkExists;
-        return hasName && hasDescription && hasLink && !external_linkExists;
+        var title_error = !!this.state.title_error;
+        var validLink = (new RegExp('https?://')).test(this.state.link);
+        return hasName && hasDescription && hasLink && !title_error && validLink;
       },
 
       componentDidMount: function (){
@@ -40,10 +41,10 @@ define(
             return external_link.get('title').toLowerCase() === lower;
           });
           if(external_links.length > 0){
-            this.setState({external_linkExists: true, existsText: "ExternalLink " + this.state.name + " already exists"});
+            this.setState({title_error: true, existsText: "ExternalLink " + this.state.name + " already exists"});
           }
           else{
-            this.setState({external_linkExists: false, existsText: ""});
+            this.setState({title_error: false, existsText: ""});
           }
         }
       },
@@ -94,16 +95,21 @@ define(
             return external_link.get('title').toLowerCase() === lower;
           });
           if(external_links.length > 0){
-            this.setState({external_linkExists: true, existsText: "ExternalLink with name \"" + newName + "\" already exists"});
-          }
-          else{
-            this.setState({external_linkExists: false, existsText: ""});
+            this.setState({title_error: true, titleErrorText: "ExternalLink with name \"" + newName + "\" already exists"});
+          } else {
+            this.setState({title_error: false, titleErrorText: ""});
           }
         }
       },
 
       onLinkChange: function (e) {
         var newLink = e.target.value;
+        var validLink = (new RegExp('https?://')).test(newLink);
+        if (!validLink) {
+            this.setState({link_error: true, linkErrorText: "ExternalLink should start with http(s)://"});
+        } else {
+            this.setState({link_error: false, linkErrorText: ""});
+        }
         this.setState({link: newLink});
       },
 
@@ -118,7 +124,8 @@ define(
       //
 
       renderBody: function () {
-        var formattedExistsText = <p className="no-results text-danger">{this.state.existsText}</p>
+        var formattedTitleError = <p className="no-results text-danger">{this.state.titleErrorText}</p>
+        var formattedLinkError = <p className="no-results text-danger">{this.state.linkErrorText}</p>
         return (
           <div role='form'>
 
@@ -129,7 +136,7 @@ define(
                      value={this.state.name}
                      onChange={this.onNameChange}
                 />
-              {formattedExistsText}
+              {formattedTitleError}
             </div>
 
             <div className='form-group'>
@@ -150,7 +157,7 @@ define(
                      value={this.state.link}
                      onChange={this.onLinkChange}
                 />
-              {formattedExistsText}
+              {formattedLinkError}
             </div>
 
           </div>
@@ -158,10 +165,10 @@ define(
       },
 
       render: function () {
-        var footerExistsText;
+        var footerErrorText;
 
-        if(this.state.external_linkExists){
-          footerExistsText = <p className="text-danger">ExternalLink can not be created. Please fix errors above.</p>;
+        if(this.state.title_error || this.state.link_error){
+          footerErrorText = <p className="text-danger">ExternalLink can not be created. Please fix the error(s) above.</p>;
         }
 
         return (
@@ -176,7 +183,7 @@ define(
                   {this.renderBody()}
                 </div>
                 <div className="modal-footer">
-                  {footerExistsText}
+                  {footerErrorText}
                   <button type="button" className="btn btn-danger" onClick={this.cancel}>
                     Cancel
                   </button>
