@@ -27,10 +27,8 @@ define(function (require) {
       Utils.dispatch(ExternalLinkConstants.ADD_LINK, {link: external_link}, {silent: false});
 
       external_link.save().done(function () {
-        debugger;
         Utils.dispatch(ExternalLinkConstants.UPDATE_LINK, {link: external_link}, {silent: false});
       }).fail(function (response) {
-        debugger;
         Utils.dispatch(ExternalLinkConstants.REMOVE_LINK, {link: external_link}, {silent: false});
         Utils.displayError({title: "ExternalLink could not be created", response: response});
       });

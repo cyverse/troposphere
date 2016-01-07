@@ -30,7 +30,6 @@ define(function (require) {
       Utils.dispatch(ExternalLinkConstants.ADD_LINK, {link: external_link}, {silent: false});
 
       external_link.save().done(function () {
-        debugger;
         Utils.dispatch(ExternalLinkConstants.UPDATE_LINK, {link: external_link}, {silent: false});
         Utils.dispatch(ExternalLinkConstants.REMOVE_PENDING_LINK_FROM_PROJECT, {link: external_link, project: project});
         actions.ProjectExternalLinkActions.addExternalLinkToProject({
@@ -38,7 +37,6 @@ define(function (require) {
           link: external_link
         });
       }).fail(function (response) {
-        debugger;
         Utils.dispatch(ExternalLinkConstants.REMOVE_LINK, {link: external_link}, {silent: false});
         Utils.dispatch(ExternalLinkConstants.REMOVE_PENDING_LINK_FROM_PROJECT, {link: external_link, project: project});
         Utils.displayError({title: "ExternalLink could not be created", response: response});

@@ -26,7 +26,6 @@ define(function (require) {
         };
 
       projectExternalLink.save(null, {attrs: data}).done(function () {
-        debugger;
         Utils.dispatch(ProjectExternalLinkConstants.ADD_PROJECT_LINK, {projectExternalLink: projectExternalLink}, options);
       })
     },
