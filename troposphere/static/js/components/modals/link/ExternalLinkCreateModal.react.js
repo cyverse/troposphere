@@ -30,7 +30,7 @@ define(
         var hasDescription = !!this.state.description;
         var hasLink = !!this.state.link;
         var title_error = !!this.state.title_error;
-        var validLink = (new RegExp('https?://')).test(this.state.link);
+        var validLink = (new RegExp('https?://')).test(this.state.link) && this.state.link.startsWith('http');
         return hasName && hasDescription && hasLink && !title_error && validLink;
       },
 
@@ -106,11 +106,12 @@ define(
         var newLink = e.target.value;
         var validLink = (new RegExp('https?://')).test(newLink);
         if (!validLink) {
-            this.setState({link_error: true, linkErrorText: "ExternalLink should start with http(s)://"});
+            this.setState({link: newLink, link_error: true, linkErrorText: "ExternalLink is missing http(s)://"});
+        } else if(!newLink.startsWith('http')) {
+            this.setState({link: newLink, link_error: true, linkErrorText: "ExternalLink must start with http(s)://"});
         } else {
-            this.setState({link_error: false, linkErrorText: ""});
+            this.setState({link: newLink, link_error: false, linkErrorText: ""});
         }
-        this.setState({link: newLink});
       },
 
       onDescriptionChange: function (e) {
