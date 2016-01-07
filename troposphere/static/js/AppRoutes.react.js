@@ -35,6 +35,7 @@ define(function (require) {
     SettingsPage = require('./components/settings/SettingsPage.react'),
     ProjectInstancePage = require("./components/projects/InstanceDetailsPage.react"),
     ProjectVolumePage = require("./components/projects/VolumeDetailsPage.react"),
+    ProjectLinkPage = require("./components/projects/ExternalLinkDetailsPage.react"),
     AdminMaster = require('./components/admin/AdminMaster.react'),
     AtmosphereUserMaster = require('./components/admin/AtmosphereUserMaster.react'),
     ImageMaster = require('./components/admin/ImageMaster.react'),
@@ -52,6 +53,7 @@ define(function (require) {
           <Route name="project-resources" path="resources" handler={ProjectResourcesPage}/>
           <Route name="project-instance-details" path="instances/:instanceId" handler={ProjectInstancePage}/>
           <Route name="project-volume-details" path="volumes/:volumeId" handler={ProjectVolumePage}/>
+          <Route name="project-link-details" path="links/:linkId" handler={ProjectLinkPage}/>
           <DefaultRoute handler={ProjectDetailsPage}/>
         </Route>
 
@@ -77,11 +79,11 @@ define(function (require) {
       <Route name="settings" handler={SettingsPage}/>
 
       <Route name="admin" handler={AdminMaster}>
-        <DefaultRoute name="atmosphere-user-manager" path="users" handler={AtmosphereUserMaster}/>
+        <Route name="atmosphere-user-manager" path="users" handler={AtmosphereUserMaster}/>
         <Route name="identity-membership-manager" path="identities" handler={IdentityMembershipMaster}/>
         <Route name="resource-request-manager" path="resource-requests" handler={ResourceMaster} />
         <Route name="image-request-manager" path="imaging-requests" handler={ImageMaster} />
-        
+        <DefaultRoute handler={AtmosphereUserMaster}/>
       </Route>
 
       <Route name="badges" handler={BadgeMaster}>
