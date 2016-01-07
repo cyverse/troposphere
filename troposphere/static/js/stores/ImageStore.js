@@ -12,11 +12,6 @@ define(function (require) {
   var ImageStore = BaseStore.extend({
     collection: ImageCollection,
 
-
-    queryParams: {
-      page_size: 6000
-    },
-
     update: function(image){
       var tags = image.get('tags')
       var tagIds = tags.map(function(tag){
@@ -61,6 +56,15 @@ define(function (require) {
       var image = BaseStore.prototype.get.apply(this, arguments);
       if(!image) return this.fetchModel(imageId);
       return image;
+    },
+    getForProject: function(projectId) {
+        var project_images = this.fetchWhere({
+                projects__id: projectId
+            });
+        if(!project_images) {
+            return null;
+        }
+        return project_images;
     },
     getVersions: function(imageId) {
         /**

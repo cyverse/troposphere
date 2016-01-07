@@ -39,8 +39,8 @@ define(function (require) {
           this.models.add(models.models);
 
           // convert ProjectImage collection to an ImageCollection
-          var images = models.map(function (pv) {
-            return new Image(pv.get('image'), {parse: true});
+          var images = models.map(function (project_image) {
+            return new Image(project_image.get('image'), {parse: true});
           });
           images = new ImageCollection(images);
 
@@ -53,34 +53,10 @@ define(function (require) {
     getImagesFor: function (project) {
       //NOTE: The logic here falls to pieces. As a result we actually need _all_ the images in order to ensure that the images
       // Added by _user_ can be searched through in the filter-filter-filter that happens below.
-      var allImages = stores.ImageStore.getAll();
-      if (!_modelsFor[project.id]) return this.fetchModelsFor(project.id);
+      var allImages = stores.ImageStore.getForProject(project.id);
       if (!allImages) return;
 
-      //TODO: The logic here is broken. Everything returns 0 -- but values *do* exist.
-      var images = this.models.filter(function (pv) {
-        // filter out irrelevant project images (not in target project)
-        return pv.get('project').id === project.id;
-      }).filter(function (pv) {
-        // filter out the images that don't exist (not in local cache)
-        return allImages.get(pv.get('image').id);
-      }).map(function (pv) {
-        // return the actual images
-        return allImages.get(pv.get('image').id);
-      });
-
-      var pendingImages = _pendingProjectImages.filter(function (pv) {
-        // filter out irrelevant project images (not in target project)
-        return pv.get('project').id === project.id;
-      }).filter(function (pv) {
-        // filter out the images that don't exist (not in local cache)
-        return allImages.get(pv.get('image'));
-      }).map(function (pv) {
-        // return the actual images
-        return allImages.get(pv.get('image'));
-      });
-
-      return new ImageCollection(images.concat(pendingImages));
+      return allImages;
     }
   });
 
