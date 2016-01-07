@@ -79,11 +79,11 @@ define(function (require) {
       <Route name="settings" handler={SettingsPage}/>
 
       <Route name="admin" handler={AdminMaster}>
-        <DefaultRoute name="atmosphere-user-manager" path="users" handler={AtmosphereUserMaster}/>
+        <Route name="atmosphere-user-manager" path="users" handler={AtmosphereUserMaster}/>
         <Route name="identity-membership-manager" path="identities" handler={IdentityMembershipMaster}/>
         <Route name="resource-request-manager" path="resource-requests" handler={ResourceMaster} />
         <Route name="image-request-manager" path="imaging-requests" handler={ImageMaster} />
-        
+        <DefaultRoute handler={AtmosphereUserMaster}/>
       </Route>
 
       <Route name="badges" handler={BadgeMaster}>
