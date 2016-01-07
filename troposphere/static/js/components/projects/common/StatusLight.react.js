@@ -14,21 +14,10 @@ define(
       },
 
       render: function () {
-        var status = this.props.status;
-        var className = "instance-status-light "; 
 
-        if (status == "active") {
-          className += "active";
-        } else if (status == "transition") {
-          className += "transition";
-        } else if (status == "inactive") {
-          className += "inactive";
-        } else {
-          className += "error";
-        }
-
+        var status = this.props.status || "";
         return (
-          <span className={ className }></span>
+          <span className={"instance-status-light " + status}></span>
         );
       }
 
