@@ -20,7 +20,7 @@ define(function (require) {
     _pendingProjectImages.remove(model);
   }
 
-  var ProjectStore = BaseStore.extend({
+  var ProjectImageStore = BaseStore.extend({
     collection: ProjectImageCollection,
 
     initialize: function () {
@@ -60,7 +60,7 @@ define(function (require) {
     }
   });
 
-  var store = new ProjectStore();
+  var store = new ProjectImageStore();
 
   Dispatcher.register(function (dispatch) {
     var actionType = dispatch.action.actionType;
