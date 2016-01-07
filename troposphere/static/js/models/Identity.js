@@ -36,7 +36,7 @@ define(function (require) {
 
       return instances.filter(function (instance) {
         if (isRelevant(instance, identityId)) {
-          return instance.get('status') !== "suspended";
+          return instance.get('status') === "active";
         } else {
           return false;
         }
