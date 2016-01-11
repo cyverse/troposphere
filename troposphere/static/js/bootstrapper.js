@@ -1,4 +1,3 @@
-
 import $ from 'jquery';
 import _ from 'underscore';
 import Backbone from 'backbone';
@@ -27,6 +26,7 @@ import stores from 'stores';
 
 stores.AllocationStore = require('stores/AllocationStore');
 stores.BadgeStore = require('stores/BadgeStore');
+stores.ExternalLinkStore = require('stores/ExternalLinkStore');
 stores.ImageStore = require('stores/ImageStore');
 stores.ImageVersionStore = require('stores/ImageVersionStore');
 stores.ImageVersionMembershipStore = require('stores/ImageVersionMembershipStore');
@@ -45,6 +45,8 @@ stores.MyBadgeStore = require('stores/MyBadgeStore');
 stores.MembershipStore = require('stores/MembershipStore');
 stores.ProfileStore = require('stores/ProfileStore');
 stores.ProjectStore = require('stores/ProjectStore');
+stores.ProjectExternalLinkStore = require('stores/ProjectExternalLinkStore');
+stores.ProjectImageStore = require('stores/ProjectImageStore');
 stores.ProjectInstanceStore = require('stores/ProjectInstanceStore');
 stores.ProjectVolumeStore = require('stores/ProjectVolumeStore');
 stores.ProviderMachineStore = require('stores/ProviderMachineStore');
@@ -64,6 +66,7 @@ import actions from 'actions';
 
 actions.AllocationActions = require('actions/AllocationActions');
 actions.BadgeActions = require('actions/BadgeActions');
+actions.ExternalLinkActions = require('actions/ExternalLinkActions');
 actions.HelpActions = require('actions/HelpActions');
 actions.IdentityMembershipActions = require('actions/IdentityMembershipActions');
 actions.ImageActions = require('actions/ImageActions');
@@ -81,6 +84,8 @@ actions.NullProjectActions = require('actions/NullProjectActions');
 actions.ProfileActions = require('actions/ProfileActions');
 actions.ProjectActions = require('actions/ProjectActions');
 actions.ProviderMachineActions = require('actions/ProviderMachineActions');
+actions.ProjectExternalLinkActions = require('actions/ProjectExternalLinkActions');
+actions.ProjectImageActions = require('actions/ProjectImageActions');
 actions.ProjectInstanceActions = require('actions/ProjectInstanceActions');
 actions.ProjectVolumeActions = require('actions/ProjectVolumeActions');
 actions.TagActions = require('actions/TagActions');
@@ -90,6 +95,7 @@ actions.VolumeActions = require('actions/VolumeActions');
 import modals from 'modals';
 
 modals.BadgeModals = require('modals/BadgeModals');
+modals.ExternalLinkModals = require('modals/ExternalLinkModals');
 modals.HelpModals = require('modals/HelpModals');
 modals.InstanceModals = require('modals/InstanceModals');
 modals.InstanceVolumeModals = require('modals/InstanceVolumeModals');

@@ -5,7 +5,8 @@ export default React.createClass({
     displayName: "EditableTextAreaField",
 
     propTypes: {
-      text: React.PropTypes.string
+      onDoneEditing: React.PropTypes.func,
+      text: React.PropTypes.string,
     },
 
     componentDidMount: function () {

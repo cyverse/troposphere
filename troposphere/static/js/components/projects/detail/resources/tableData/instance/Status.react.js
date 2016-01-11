@@ -14,14 +14,16 @@ export default React.createClass({
         var instanceState = this.props.instance.get('state');
         var status = instanceState.get('status');
         var activity = instanceState.get('activity');
-        var lightStatus = "transition";
+        var lightStatus;
 
-        if (status === "active" && !activity) {
-          lightStatus = "active";
-        } else if (status === "suspended" && !activity) {
-          lightStatus = "inactive";
-        } else if (status === "shutoff" && !activity) {
-          lightStatus = "inactive";
+        if (activity != undefined) {
+            lightStatus = "transition";
+        } else if (status == "active") {
+            lightStatus = "active";
+        } else if (status == "suspended" || status == "shutoff") {
+            lightStatus = "inactive";
+        } else {
+            lightStatus = "error";
         }
 
         var rawStatus = instanceState.get('status_raw');
@@ -31,11 +33,12 @@ export default React.createClass({
 
         if (instanceState.isDeployError()) {
           return (
-            <span>
-              <div>
-                <span style={{color: "#d44950"}}>{"Launch failed. Atmosphere at capacity."}</span>
-              </div>
-            </span>
+          <span>
+            <div>
+              <StatusLight status="error"/>
+              <span style={style}>{capitalizedStatus}</span>
+            </div>
+          </span>
           );
         }
 

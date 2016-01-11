@@ -23,22 +23,28 @@ export default {
         NotificationController.success(null, options.message);
     },
 
-    displayError: function(options) {
-        var response = options.response,
-            title = options.title;
+    displayError: function (options) {
+      var response = options.response,
+        title = options.title;
 
-        try {
-            var error = response.responseJSON.errors[0];
-            NotificationController.error(
-                title,
-                error.code + ": " + error.message
-            );
-        } catch (err) {
-            NotificationController.error(
-                title,
-                "If the problem persists, please contact support."
-            );
+      try {
+        var error,
+            error_json = response.responseJSON;
+        if ( 'errors' in error_json ) {
+            error = error_json.errors[0];
+        } else {
+            error = {'code': response.status, 'message': "Encountered the following errors:" +JSON.stringify(error_json)};
         }
+        NotificationController.error(
+          title,
+          error.code + ": " + error.message
+        );
+      }
+      catch (err) {
+        NotificationController.error(
+          title,
+          "If the problem persists, please contact support."
+        );
+      }
     }
-
 };

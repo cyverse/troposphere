@@ -10,6 +10,13 @@ export default React.createClass({
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
+      onCreateExternalLink: function (e) {
+        e.preventDefault();
+        //TODO: Add initial_text if that makes sense.
+        var initial_text = "";
+        modals.ExternalLinkModals.createAndAddToProject(initial_text, this.props.project);
+      },
+
       onCreateVolume: function (e) {
         e.preventDefault();
         modals.VolumeModals.createAndAddToProject({project: this.props.project});
@@ -25,6 +32,7 @@ export default React.createClass({
           <ul>
             <li className="active"><a href="#">Instances</a></li>
             <li><a href="#">Volumes</a></li>
+            <li><a href="#">Links</a></li>
           </ul>
         );
 
@@ -43,6 +51,12 @@ export default React.createClass({
                   <a href="#" onClick={this.onCreateVolume}>
                     <i className={'glyphicon glyphicon-hdd'}/>
                     Volume
+                  </a>
+                </li>
+                <li>
+                  <a href="#" onClick={this.onCreateExternalLink}>
+                    <i className={'glyphicon glyphicon-globe'}/>
+                    Link
                   </a>
                 </li>
               </ul>

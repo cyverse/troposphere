@@ -5,7 +5,6 @@ let Route = Router.Route,
     Redirect = Router.Redirect,
     DefaultRoute = Router.DefaultRoute;
 
-
 import Master from './components/Master.react';
 import BadgeMaster from './components/badges/BadgeMaster.react';
 import MyBadges from './components/badges/MyBadges.react';
@@ -31,10 +30,10 @@ import MyImagesPage from './components/images/MyImagesPage.react';
 import MyImageRequestsPage from './components/images/MyImageRequestsPage.react';
 import ImageTagsPage from './components/images/ImageTagsPage.react';
 import ImagesMaster from './components/images/ImagesMaster.react';
-import ProvidersMaster from './components/providers/ProvidersMaster.react';
 import SettingsPage from './components/settings/SettingsPage.react';
 import ProjectInstancePage from "./components/projects/InstanceDetailsPage.react";
 import ProjectVolumePage from "./components/projects/VolumeDetailsPage.react";
+import ProjectLinkPage from "./components/projects/ExternalLinkDetailsPage.react";
 import AdminMaster from './components/admin/AdminMaster.react';
 import AtmosphereUserMaster from './components/admin/AtmosphereUserMaster.react';
 import ImageMaster from './components/admin/ImageMaster.react';
@@ -53,6 +52,7 @@ let AppRoutes = (
           <Route name="project-resources" path="resources" handler={ProjectResourcesPage}/>
           <Route name="project-instance-details" path="instances/:instanceId" handler={ProjectInstancePage}/>
           <Route name="project-volume-details" path="volumes/:volumeId" handler={ProjectVolumePage}/>
+          <Route name="project-link-details" path="links/:linkId" handler={ProjectLinkPage}/>
           <DefaultRoute handler={ProjectDetailsPage}/>
         </Route>
 

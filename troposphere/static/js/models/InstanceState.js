@@ -21,16 +21,13 @@ var InstanceState = Backbone.Model.extend({
     return _.contains(validStates, this.get('status_raw'));
   },
 
+  // This method is a slight hack, there is a larger problem with how we keep
+  // track of state. It is documented in ATMO-1120.
   isDeployError: function () {
-    return false;
     var status = this.get('status');
     var activity = this.get('activity');
 
-    if (status === "active" && activity === "deploy_error") {
-      return true;
-    } else {
-      return false;
-    }
+    return status === "active" && activity === "deploy_error";
   },
 
   getPercentComplete: function () {

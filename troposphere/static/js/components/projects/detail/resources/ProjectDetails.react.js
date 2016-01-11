@@ -2,11 +2,15 @@ import React from 'react/addons';
 import Backbone from 'backbone';
 import PreviewPanel from './PreviewPanel.react';
 import ButtonBar from './ButtonBar.react';
+import ExternalLinkList from './link/ExternalLinkList.react';
+import ImageList from './image/ImageList.react';
 import InstanceList from './instance/InstanceList.react';
 import VolumeList from './volume/VolumeList.react';
 import modals from 'modals';
 import stores from 'stores';
 import actions from 'actions';
+import ExternalLink from 'models/ExternalLink';
+import Image from 'models/Image';
 import Instance from 'models/Instance';
 import Volume from 'models/Volume';
 
@@ -27,7 +31,9 @@ export default React.createClass({
 
     updateState: function () {
       var project = this.props.project,
+        projectExternalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(project),
         projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
+        projectImages = stores.ProjectImageStore.getImagesFor(project),
         projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project),
         selectedResourcesClone = this.state.selectedResources.models.slice(0),
         state = this.getInitialState();
@@ -36,8 +42,10 @@ export default React.createClass({
         // Remove any selected resources that are no longer in the project
         selectedResourcesClone.map(function (selectedResource) {
           var instanceInProject = selectedResource instanceof Instance && projectInstances.get(selectedResource),
+            linkInProject = selectedResource instanceof ExternalLink && projectExternalLinks.get(selectedResource),
             volumeInProject = selectedResource instanceof Volume && projectVolumes.get(selectedResource),
-            resourceInProject = instanceInProject || volumeInProject;
+            imageInProject = selectedResource instanceof Image && projectImages.get(selectedResource),
+            resourceInProject = instanceInProject || volumeInProject || imageInProject || linkInProject;
 
           if (resourceInProject) state.selectedResources.add(selectedResource);
         });
@@ -142,14 +150,16 @@ export default React.createClass({
 
     render: function () {
       var project = this.props.project,
+        projectExternalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(project),
         projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
         projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project),
+        projectImages = stores.ProjectImageStore.getImagesFor(project),
         previewedResource = this.state.previewedResource,
         selectedResources = this.state.selectedResources,
         selectedResource = this.state.selectedResource,
         isButtonBarVisible;
 
-      if (!projectInstances || !projectVolumes) return <div className="loading"></div>;
+      if (!projectInstances || !projectImages || !projectExternalLinks || !projectVolumes) return <div className="loading"></div>;
 
       // Only show the action button bar if the user has selected resources
       isButtonBarVisible = this.state.selectedResources.length > 0;
@@ -180,6 +190,22 @@ export default React.createClass({
                 />
               <VolumeList
                 volumes={projectVolumes}
+                onResourceSelected={this.onResourceSelected}
+                onResourceDeselected={this.onResourceDeselected}
+                onPreviewResource={this.onPreviewResource}
+                previewedResource={previewedResource}
+                selectedResources={selectedResources}
+                />
+              <ImageList
+                images={projectImages}
+                onResourceSelected={this.onResourceSelected}
+                onResourceDeselected={this.onResourceDeselected}
+                onPreviewResource={this.onPreviewResource}
+                previewedResource={previewedResource}
+                selectedResources={selectedResources}
+                />
+              <ExternalLinkList
+                external_links={projectExternalLinks}
                 onResourceSelected={this.onResourceSelected}
                 onResourceDeselected={this.onResourceDeselected}
                 onPreviewResource={this.onPreviewResource}

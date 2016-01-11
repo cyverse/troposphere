@@ -1,4 +1,3 @@
-
 import AppDispatcher from 'dispatchers/AppDispatcher';
 import Utils from './Utils';
 import actions from 'actions';
@@ -12,8 +11,10 @@ import NullProjectInstanceConstants from 'constants/NullProjectInstanceConstants
 import NullProjectVolumeConstants from 'constants/NullProjectVolumeConstants';
 
 // Models
+import ExternalLink from 'models/ExternalLink';
 import Instance from 'models/Instance';
 import Volume from 'models/Volume';
+import Image from 'models/Image';
 import Project from 'models/Project';
 
 // Modals
@@ -129,6 +130,16 @@ export default {
           project: project,
           volume: resource
         }, options);
+      } else if (resource instanceof ExternalLink) {
+        actions.ProjectExternalLinkActions.addExternalLinkToProject({
+          project: project,
+          external_link: resource
+        }, options);
+      } else if (resource instanceof Image) {
+        actions.ProjectImageActions.addImageToProject({
+          project: project,
+          image: resource
+        }, options);
       } else {
         throw new Error("Unknown resource type");
       }
@@ -144,6 +155,16 @@ export default {
         actions.ProjectVolumeActions.removeVolumeFromProject({
           project: project,
           volume: resource
+        }, options);
+      } else if (resource instanceof ExternalLink) {
+        actions.ProjectExternalLinkActions.removeExternalLinkFromProject({
+          project: project,
+          external_link: resource
+        }, options);
+      } else if (resource instanceof Image) {
+        actions.ProjectImageActions.removeImageFromProject({
+          project: project,
+          image: resource
         }, options);
       } else {
         throw new Error("Unknown resource type");
@@ -167,6 +188,19 @@ export default {
         } else if (resource instanceof Volume) {
           Utils.dispatch(NullProjectVolumeConstants.ADD_VOLUME_TO_NULL_PROJECT, {
             volume: resource
+          });
+        } else if (resource instanceof ExternalLink) {
+          //Removes the ExternalLink but does not destroy it.
+          actions.ProjectExternalLinkActions.removeExternalLinkFromProject({
+            project: project,
+            external_link: resource
+          });
+        } else if (resource instanceof Image) {
+          //Do NOT delete the image, just remove the image from the project.
+          //TODO: Test this
+          actions.ProjectImageActions.removeImageFromProject({
+            project: project,
+            image: resource
           });
         }
       });
@@ -209,6 +243,17 @@ export default {
           volume: resource,
           project: project
         }, options);
+      } else if (resource instanceof ExternalLink) {
+        actions.ExternalLinkActions.destroy_noModal({
+          external_link: resource,
+          project: project
+        }, options);
+      } else if (resource instanceof Image) {
+        //Do NOT delete the Image, just remove the Image from the project.
+        actions.ProjectImageActions.removeImageFromProject({
+          project: project,
+          image: resource
+        });
       } else {
         throw new Error("Unknown resource type");
       }

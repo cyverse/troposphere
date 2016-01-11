@@ -2,7 +2,8 @@ import React from 'react';
 import Backbone from 'backbone';
 import $ from 'jquery';
 import stores from 'stores';
-// plugin;
+import modals from 'modals';
+// plugin; implicit include
 import bootstrap from 'bootstrap';
 
 export default React.createClass({
@@ -16,9 +17,14 @@ export default React.createClass({
         var el = this.getDOMNode();
         var $el = $(el).find('.tooltip-wrapper');
         $el.tooltip({
-          title: "Coming soon! You'll be able to add frequently used images to projects for even easier launching.",
+          title: "NEW! You can now add an Image to your project to make launching instances even easier!",
           placement: "left"
         });
+      },
+
+      showAddProjectModal: function (e) {
+        e.preventDefault(); // Do i need this?
+        modals.ProjectModals.addImage(this.props.image);
       },
 
       onReturnToPreviousPage: function (e) {
@@ -34,7 +40,7 @@ export default React.createClass({
         if (profile.id) {
           addToProjectButton = (
             <div className="tooltip-wrapper" style={{display: "inline-block", float: "right"}}>
-              <button className="btn" disabled>
+              <button className="btn" onClick={this.showAddProjectModal} >
                 <i className='glyphicon glyphicon-plus'></i>
                 Add to Project
               </button>
