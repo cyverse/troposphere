@@ -1,4 +1,3 @@
-
 import BaseStore from 'stores/BaseStore';
 import ProviderCollection from 'collections/ProviderCollection';
 

@@ -3,6 +3,8 @@ import Backbone from 'backbone';
 import VersionName from '../components/VersionName.react';
 import VersionChanges from '../components/VersionChangeLog.react';
 import stores from 'stores';
+import $ from 'jquery';
+
 
 export default React.createClass({
     displayName: "ImageWizard-VersionInfoStep",
@@ -30,10 +32,11 @@ export default React.createClass({
     },
 
     isSubmittable: function(){
-      var hasName        = !!this.state.versionName;
-      var hasVersionChanges = !!this.state.versionChanges;
+      var hasName        = !!($.trim(this.state.versionName));
+      var hasVersionChanges = !!($.trim(this.state.versionChanges));
       return hasName && hasVersionChanges;
     },
+
     onPrevious: function(){
       this.props.onPrevious({
         versionName: this.state.versionName,
@@ -43,10 +46,11 @@ export default React.createClass({
 
     onNext: function(){
       this.props.onNext({
-        versionName: this.state.versionName,
-        versionChanges: this.state.versionChanges,
+        versionName: $.trim(this.state.versionName),
+        versionChanges: $.trim(this.state.versionChanges),
       });
     },
+
     onVersionNameChange: function(newName){
       this.setState({versionName: newName});
     },

@@ -1,6 +1,7 @@
 import React from 'react';
 import Router from 'react-router';
 import stores from 'stores';
+import moment from 'moment';
 import actions from 'actions';
 import ImageRequest from './ImageRequest.react';
 import ImageRequestActions from 'actions/ImageRequestActions';
@@ -11,56 +12,47 @@ export default React.createClass({
 
     mixins: [Router.State],
 
-    loadMoreRequests: function(){
-        stores.ImageRequestStore.fetchMoreWhere({status__name: "pending"});
-    },
-
     render: function () {
-      var imageRequests = stores.ImageRequestStore.fetchWhere({status__name: "pending"});
-      var statuses = stores.StatusStore.getAll();
-      var loadMoreButton;
+      var requests = stores.ImageRequestStore.getAll();
 
-      if (imageRequests == null || !statuses){
+      if (requests == null){
         return <div className="loading"></div>
       }
 
-      if (imageRequests.meta.next){
-        loadMoreButton = <tr><td><div onClick={this.loadMoreRequests} className="btn btn-default">Load more requests</div></td></tr>;
-      }
+      var imageRequestRows = requests.map(function (request) {
+        var requestDate = moment(request.get('start_date'));
+        var now = moment();
 
-      if (!imageRequests.models[0]){
-        return <div>
-                 <h3>No imaging requests</h3>
-                 <div className="btn btn-default" onClick = {this.loadMoreRequests}>Refresh</div>
-               </div>;
-      }
+        if(requestDate.isBefore(now.subtract(7, 'days')) && request.get('status').name != "pending"){
+          return;
+        }
 
-      var mappedImageRequests = imageRequests.map(function(request){
-        return <ImageRequest key={request.id} request={request} />;
+        return (
+          <ImageRequest key={request.id} request={request}/>
+        )
       });
+
+      if (!imageRequestRows[0]) {
+        return  (
+          <div>
+            <h3>No imaging requests</h3>
+          </div>
+        );
+      }
 
       return (
         <div className="image-master">
           <h1>Imaging Requests</h1>
-              <table className="admin-table table table-hover table-striped col-md-6">
-                <tbody>
-                  <tr className="admin-row">
-                    <th>
-                      <h4>User</h4>
-                    </th>
-                    <th>
-                      <h4>Name</h4>
-                    </th>
-                    <th>
-                      <h4>Status</h4>
-                    </th>
-                  </tr>
-                  {mappedImageRequests}
-                  {loadMoreButton}
-                </tbody>
-              </table>
-            <RouteHandler />
-          </div>
-        );
+          <ul className="requests">
+            <li>
+              <h3>User</h3>
+              <h3>Name</h3>
+              <h3>Status</h3>
+            </li>
+            {imageRequestRows}
+          </ul>
+          <RouteHandler />
+        </div>
+      );
     }
   });

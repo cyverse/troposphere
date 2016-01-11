@@ -7,7 +7,7 @@ define(function (require) {
     context = require('context');
 
   return React.createClass({
-    displayName: "SecondaryAdminNav",
+    displayName: "SecondaryRequestNav",
 
 
     renderRoute: function (name, linksTo, icon) {
@@ -23,25 +23,13 @@ define(function (require) {
     },
 
     render: function () {
-      var requests = stores.ResourceRequestStore.fetchWhere({
-          'status__name': 'pending'
-        });
-      if (!requests) {
-          request_count = "..."
-      } else {
-        request_count = requests.length
-      }
-
-      var resourcesText = "Resource Requests (" + request_count + ")";
       return (
         <div>
           <div className="secondary-nav">
             <div className="container">
               <ul className="secondary-nav-links">
-                {this.renderRoute("Manage Users", "atmosphere-user-manager", "user")}
-                {this.renderRoute("Manage Identities", "identity-membership-manager", "user")}
-                {this.renderRoute(resourcesText, "resource-request-manager", "tasks")}
-                {this.renderRoute("Imaging Requests", "image-request-manager", "floppy-disk")}
+                {this.renderRoute("Resource Requests", "my-requests-resources", "circle-arrow-up")}
+                {this.renderRoute("Imaging Requests", "my-requests-images", "floppy-open")}
               </ul>
             </div>
           </div>

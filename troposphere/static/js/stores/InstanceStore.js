@@ -1,8 +1,10 @@
-
 import Dispatcher from 'dispatchers/Dispatcher';
 import BaseStore from 'stores/BaseStore';
 import InstanceCollection from 'collections/InstanceCollection';
+import _ from 'underscore';
+import Utils from 'actions/Utils';
 import InstanceConstants from 'constants/InstanceConstants';
+import InstanceState from 'models/InstanceState';
 
 var InstanceStore = BaseStore.extend({
     collection: InstanceCollection,
@@ -41,7 +43,32 @@ var InstanceStore = BaseStore.extend({
         }
 
         return instance.get('state').isInFinalState();
-    }
+    },
+
+    // Poll for a model
+    pollUntilDeleted: function(instance) {
+        this.pollWhile(instance, function(model, response) {
+            // If 404 then remove the model
+            if (response.status == "404") {
+                this.remove(model);
+
+                return false;
+            }
+
+            var status = instance.get('state').get("status");
+            instance.set({
+                state: new InstanceState({
+                    status_raw: status + " - deleting"
+                }),
+            });
+
+            Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+
+            // Keep polling while 200 or not 404
+            return response.status == "200";
+
+        }.bind(this));
+    },
 
 });
 
@@ -67,7 +94,12 @@ Dispatcher.register(function(dispatch) {
             break;
 
         case InstanceConstants.POLL_INSTANCE:
+            // This happens whether or not polling is enabled in basestore (seems unintuitive)
             store.pollNowUntilBuildIsFinished(payload.instance);
+            break;
+
+        case InstanceConstants.POLL_FOR_DELETED:
+            store.pollUntilDeleted(payload.instance);
             break;
 
         default:

@@ -107,6 +107,9 @@ let LogoutLink = React.createClass({
             <li>
               <Link to="settings">Settings</Link>
             </li>
+            <li>
+              <Link to="my-requests-resources">My requests</Link>
+            </li>
             <li className="divider"></li>
             <li>
               <a href="#" onClick={this.onShowVersion}>Version</a>

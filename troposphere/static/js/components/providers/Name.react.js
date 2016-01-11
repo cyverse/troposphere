@@ -1,6 +1,7 @@
-
-import React from 'react';
+import React from 'react/addons';
 import Backbone from 'backbone';
+import Router from 'react-router';
+
 
 export default React.createClass({
     displayName: "Name",
@@ -10,11 +11,15 @@ export default React.createClass({
     },
 
     render: function () {
-        var provider = this.props.provider;
+        let provider = this.props.provider;
         return (
-          <div className="row">
-            <h2>{provider.get('name')}</h2>
-          </div>
+            <div className="row">
+                <h1>{provider.get('name')}</h1>
+                <Router.Link className=" btn btn-default" to = "all-providers" >
+                <span className="glyphico glyphicon-arrow-left"> </span>
+                {" Back to All Providers" }
+                </Router.Link>
+            </div>
         );
 
     }

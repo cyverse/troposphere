@@ -6,6 +6,7 @@ import IdentityCollection from 'collections/IdentityCollection';
 import ProviderSummaryLinePlot from 'components/dashboard/plots/ProviderSummaryLinePlot.react';
 import ResourceStatusSummaryPlot from 'components/dashboard/plots/ResourceStatusSummaryPlot.react';
 
+
 export default React.createClass({
     displayName: "Resources",
 
@@ -14,7 +15,7 @@ export default React.createClass({
     },
 
     render: function () {
-      var provider = this.props.provider,
+      let provider = this.props.provider,
         identity = stores.IdentityStore.findOne({'provider.id': provider.id}),
         instances = stores.InstanceStore.findWhere({'provider.id': provider.id}),
         volumes = stores.VolumeStore.findWhere({
@@ -27,7 +28,7 @@ export default React.createClass({
 
       if (!provider || !identity || !instances || !volumes || !sizes) return <div className="loading"></div>;
 
-      var providers = new ProviderCollection([provider]),
+      let providers = new ProviderCollection([provider]),
         identities = new IdentityCollection([identity]);
 
       return (
@@ -63,5 +64,4 @@ export default React.createClass({
       );
 
     }
-
 });
