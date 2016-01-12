@@ -127,7 +127,7 @@ def _handle_authenticated_application_request(request, maintenance_records):
     # If beta flag in query params, set the session value to that
     if "beta" in request.GET:
         request.session['beta'] = request.GET['beta'].lower()
-        show_beta_interface = (True
+        user_preferences.show_beta_interface = (True
             if request.session['beta'] == 'true' else False)
         user_preferences.show_beta_interface = show_beta_interface
         user_preferences.save()
