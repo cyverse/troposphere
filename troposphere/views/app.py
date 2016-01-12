@@ -121,11 +121,13 @@ def _handle_authenticated_application_request(request, maintenance_records):
 
     user_preferences, created = UserPreferences.objects.get_or_create(
         user=request.user)
+    prefs_modified = False
 
     # TODO - once phased out, we should ignore show_beta_interface altogether
     # ----
     # If beta flag in query params, set the session value to that
     if "beta" in request.GET:
+        prefs_modified = True
         request.session['beta'] = request.GET['beta'].lower()
         user_preferences.show_beta_interface = (True
             if request.session['beta'] == 'true' else False)
@@ -137,9 +139,12 @@ def _handle_authenticated_application_request(request, maintenance_records):
     # Moving forward, the UI version shown will be controlled by
     # `airport_ui=<bool>` - and `beta` will be removed.
     if "airport_ui" in request.GET:
+        prefs_modified = True
         request.session['airport_ui'] = request.GET['airport_ui'].lower()
         user_preferences.airport_ui = (True
             if request.session['airport_ui'] == 'true' else False)
+
+    if prefs_modified:
         user_preferences.save()
 
     chose_airport = (user_preferences.airport_ui or
