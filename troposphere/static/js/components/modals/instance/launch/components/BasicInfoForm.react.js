@@ -5,11 +5,7 @@ import SelectMenu from 'components/common/ui/SelectMenu.react';
 
 export default React.createClass({
 
-    componentDidMount: function() {
-        console.log("Basic Form", this.props);
-    },
-
-    render: function () {
+   render: function () {
         if (!this.props.imageVersion || !this.props.imageVersions) {
             return (<div className="loading"/>);
         }

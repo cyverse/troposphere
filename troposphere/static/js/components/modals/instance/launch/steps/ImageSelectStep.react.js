@@ -221,7 +221,7 @@ export default React.createClass({
         return (
             <div>
                 <div className="modal-section">
-                    <h3 className="title">First choose an image for your instance</h3>
+                    <h3 className="t-title">First choose an image for your instance</h3>
                     <hr/>
                     {this.renderBody()}
                 </div>

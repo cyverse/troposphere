@@ -6,14 +6,11 @@ import SelectMenu from 'components/common/ui/SelectMenu.react';
 
 export default React.createClass({
 
-    componentDidMount: function() {
-        console.log("Resource Form", this.props);
-    },
     render: function () {
         if (!this.props.provider || !this.props.providerSizes || !this.props.providerSize) {
-            console.log(this.props);
             return ( <div className="loading"/>);
         }
+
         let name = function(item) {return item.get('name')};
         let defaultProviderId = this.props.provider.id;
         let sizeId = this.props.providerSize.get('id');

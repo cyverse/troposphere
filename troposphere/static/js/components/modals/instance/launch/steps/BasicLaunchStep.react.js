@@ -8,16 +8,12 @@ import InstanceLaunchFooter from '../components/InstanceLaunchFooter.react';
 
 export default React.createClass({
 
-    componentDidMount: function () {
-        console.log("basic Launch", this.props);
-    },
-
     render: function () {
         return (
             <div>
                 <div className="modal-section row">
                     <div className="col-md-6">
-                        <h3 className="title">Basic Info</h3>
+                        <h3 className="t-title">Basic Info</h3>
                         <hr/>
                         <BasicInfoForm
                             image={this.props.image}
@@ -30,7 +26,7 @@ export default React.createClass({
                             onProjectChange={this.props.onProjectChange}/>
                     </div>
                     <div className="col-md-6">
-                        <h3 className="title">Resources</h3>
+                        <h3 className="t-title">Resources</h3>
                         <hr/>
                         <ResourcesForm
                             providers={this.props.providers}
@@ -44,7 +40,9 @@ export default React.createClass({
                 </div>
                 </div>
                 <InstanceLaunchFooter
+                    onBack={this.props.onBack}
                     cancel={this.props.cancel}
+                    onSubmitLaunch={this.props.onSubmitLaunch}
                     viewAdvanced={this.props.viewAdvanced}
                     launchIsDisabled={this.props.launchIsDisabled}
                     advancedIsDisabled={this.props.launchIsDisabled}/>

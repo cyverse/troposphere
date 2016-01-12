@@ -29,7 +29,7 @@ define(
 
         return (
           <div className="resource-details-section section">
-            <h4 className="title">Instance Details</h4>
+            <h4 className="t-title">Instance Details</h4>
             <ul>
               <Status instance={instance}/>
               <Size instance={instance}/>

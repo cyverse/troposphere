@@ -1,51 +1,66 @@
+
 import React from 'react/addons';
-import _ from 'underscore';
-import SelectMenu from 'components/common/ui/SelectMenu.react';
-import ScriptTags from './ScriptTags.react';
+import AddScripts from './AddScripts.react';
+import CreateScript from './CreateScript.react';
+
 
 export default React.createClass({
+
     getInitialState: function() {
-        let currentSelectedScript = this.props.bootScripts.first().get('id');
         return {
-            currentSelectedScript
+            view: "ADDSCRIPT_VIEW"
+        }
+    },
+
+    componentDidMount: function() {
+    },
+
+    onCreateScript: function() {
+        this.props.onDisableSave();
+        this.setState({
+            view: "CREATESCRIPT_VIEW"
+        });
+    },
+
+    onCloseCreateScript: function() {
+        this.props.onEnableSave();
+        this.setState({
+            view: "ADDSCRIPT_VIEW"
+        })
+    },
+
+    renderSelectScripts: function() {
+        return (
+            <AddScripts {...this.props}
+                onCreateScript={this.onCreateScript}
+            />
+        )
+    },
+
+    renderCreateScript: function() {
+        return (
+            <CreateScript {...this.props}
+                close={this.onCloseCreateScript}
+            />
+        )
+    },
+
+    renderBody: function() {
+        let view = this.state.view;
+        switch(view) {
+            case "ADDSCRIPT_VIEW":
+            return this.renderSelectScripts()
+            case "CREATESCRIPT_VIEW":
+            return this.renderCreateScript()
         }
     },
 
     render: function() {
-        console.log(this.props.bootScripts);
-        let scriptName = function(item) { return item.get('title') };
-debugger;
         return (
             <div>
-                <h3 className="title">Deployment Scripts</h3>
+                <h3 className="t-title">Deployment Scripts</h3>
                 <hr/>
-                <p style={{marginBottom:"50px"}}>
-                    Deployment scripts will be executed when a user has launched their instance. They will also be executed each time an instance is "Started", "Resumed", or "Restarted". As such, these scripts should be able to handle being run multiple times without adverse effects.
-                </p>
-                <div className="row">
-                    <div className="col-md-6 form-group">
-                        <label>Add Scripts to Your Instance</label>
-                        <hr/>
-                        <div className="form-group">
-                            <SelectMenu
-                                hintText="Select scripts to add to your instance"
-                                optionName = {scriptName}
-                                list={this.props.bootScripts}
-                                onSelectChange={this.props.onSelectScript}
-                            />
-                        </div>
-                        <div style={{textAlign:"center", marginBottom:"20px"}}>- OR -</div>
-                        <a className="btn btn-default btn-block">Create a New Script</a>
-                    </div>
-                    <div className="col-md-6">
-                        <label>These Scripts will be Added</label>
-                        <hr/>
-                        <ScriptTags
-                            scripts={this.props.attachedScripts}
-                            onRemove={this.props.onRemoveAttachedScript}
-                        />
-                    </div>
-                </div>
+                {this.renderBody()}
             </div>
         )
     }

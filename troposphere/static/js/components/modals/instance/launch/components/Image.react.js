@@ -52,7 +52,7 @@ define(
                     <div className="media__content">
                         <div className="row">
                             <div className="col-md-6">
-                                <h2 className="subheading txt-primary">{image.get('name')}</h2>
+                                <h2 className="t-subheading txt-primary">{image.get('name')}</h2>
                                 <time>{imageCreationDate}</time> by <strong>{image.get('created_by').username}</strong>
                             </div>
                             <div className="col-md-6">

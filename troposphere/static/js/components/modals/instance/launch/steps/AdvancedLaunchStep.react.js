@@ -7,47 +7,22 @@ import AdvancedOptionsFooter from '../components/AdvancedOptionsFooter.react';
 export default React.createClass({
 
     getInitialState: function() {
-        let bootScripts = stores.ScriptStore.getAll();
         return {
             view: "BOOTSCRIPT_VIEW",
+            saveOptionsDisabled: false,
             options:[{
-                    name: "Deployment Scripts", 
+                    name: "Deployment Scripts",
                     view: "BOOTSCRIPT_VIEW"
                 },
                 {
-                    name: "Option 2", 
+                    name: "Option 2",
                     view: "OPTION2_VIEW"
                 },
                 {
-                    name: "Option 3", 
+                    name: "Option 3",
                     view: "OPTION3_VIEW"
                 }],
-
-            bootScripts: {
-                bootScripts,
-                attachedScripts: []
-            }
         }
-    },
-
-    updateState: function() {
-        let bootScripts = stores.ScriptStore.getAll();
-        this.setState({
-            bootScripts: {
-                ...this.state.bootScripts,
-               bootScripts
-            }
-        });
-    },
-
-    componentDidMount: function() {
-        debugger;
-        console.log(this.state.bootScripts.bootScripts);
-        stores.ScriptStore.addChangeListener(this.updateState);
-    },
-
-    componentWillUnmount: function() {
-        stores.ScriptStore.removeChangeListener(this.updateState);
     },
 
     changeOption: function(item) {
@@ -56,27 +31,17 @@ export default React.createClass({
         });
     },
 
-    onSelectScript: function(value) {
-        console.log(this.state.bootScripts.attachedScripts);
-        let attachedScripts = this.state.bootScripts.attachedScripts;
 
+    onDisableSave: function() {
         this.setState({
-            bootScripts: {
-                ...this.state.bootScripts,
-                attachedScripts: [...attachedScripts, value]
-            }
-        });
+            saveOptionsDisabled: true
+        })
     },
 
-    onRemoveAttachedScript: function(item) {
-        let attachedScripts = this.state.bootScripts.attachedScripts
-                                .filter((i) => i != item);
+    onEnableSave: function() {
         this.setState({
-            bootScripts: {
-                ...this.state.bootScripts,
-                attachedScripts
-            }
-        });
+            saveOptionsDisabled: false
+        })
     },
 
     renderBody: function() {
@@ -105,11 +70,11 @@ export default React.createClass({
 
     renderBootScripts: function() {
         debugger;
-        if (this.state.bootScripts.bootScripts) {
+        if (this.props.bootScriptOption.bootScripts) {
             return (
-                <BootScriptOption {...this.state.bootScripts}
-                    onSelectScript={this.onSelectScript}
-                    onRemoveAttachedScript={this.onRemoveAttachedScript}
+                <BootScriptOption {...this.props}
+                    onDisableSave={this.onDisableSave}
+                    onEnableSave={this.onEnableSave}
                 />
             );
         }
@@ -140,7 +105,8 @@ export default React.createClass({
                     </div>
                 </div>
                 <AdvancedOptionsFooter
-                    advancedOptionsDisabled={false}
+                    saveOptionsDisabled={this.state.saveOptionsDisabled}
+                    onSaveAdvanced={this.props.onSaveAdvanced}
                     cancel={this.props.cancelAdvanced}
                 />
             </div>

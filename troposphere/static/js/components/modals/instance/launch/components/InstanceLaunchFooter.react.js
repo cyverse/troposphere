@@ -11,7 +11,11 @@ export default React.createClass({
                         <i className="glyphicon glyphicon-cog"/>
                         Advanced Options
                 </a>
-                <button type="button" className={`btn btn-primary pull-right ${launchIsDisabled}`}>
+                <button
+                    type="button"
+                    className={`btn btn-primary pull-right ${launchIsDisabled}`}
+                    onClick={this.props.onSubmitLaunch}
+                >
                     Launch Instance
                 </button>
                 <button type="button" 
