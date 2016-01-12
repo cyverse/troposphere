@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api', '0002_transition_to_iplantauth_mod'),
+        ('api', '0003_transition_to_iplantauth_mod'),
     ]
 
     operations = [
