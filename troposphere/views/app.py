@@ -131,10 +131,6 @@ def _handle_authenticated_application_request(request, maintenance_records):
         request.session['beta'] = request.GET['beta'].lower()
         user_preferences.show_beta_interface = (True
             if request.session['beta'] == 'true' else False)
-        user_preferences.show_beta_interface = show_beta_interface
-        user_preferences.save()
-        # should we be redirecting here?????
-        return redirect('application')
 
     # Moving forward, the UI version shown will be controlled by
     # `airport_ui=<bool>` - and `beta` will be removed.
