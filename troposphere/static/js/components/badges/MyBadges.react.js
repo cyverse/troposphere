@@ -1,7 +1,6 @@
 import React from 'react';
 import Router from 'react-router';
 import Badge from './Badge.react';
-import actions from 'actions';
 import EarnedBadge from './EarnedBadge.react';
 import stores from 'stores';
 import actions from 'actions';
