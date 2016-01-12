@@ -3,13 +3,14 @@ define(
   [
     'react',
     'components/common/PageHeader.react',
+    'components/settings/AdvancedSettingsPage.react',
     './IconSelect.react',
     './SettingsHeader.react',
     'actions',
     'modals',
     'stores'
   ],
-  function (React, PageHeader, IconSelect, SettingsHeader, actions, modals, stores) {
+  function (React, PageHeader, AdvancedSettingsPage, IconSelect, SettingsHeader, actions, modals, stores) {
 
     function getState() {
       return {
@@ -83,6 +84,7 @@ define(
                 <p>Select the Image and Instance icon set you would like to use:</p>
                 <IconSelect selected={selectedIconSet} onSelect={this.handleIconSelect}/>
               </div>
+              <AdvancedSettingsPage />
             </div>
           </div>
         );

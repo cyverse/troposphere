@@ -8,7 +8,7 @@ define(function (require) {
     displayName: "Stats",
 
     propTypes: {
-      provider: React.PropTypes.instanceOf(Backbone.Model).isRequired
+//      provider: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
     //
@@ -54,12 +54,20 @@ define(function (require) {
       var instancesConsumingAllocation = identity.getInstancesConsumingAllocation(instances);
       var allocationBurnRate = identity.getCpusUsed(instancesConsumingAllocation, sizes);
       var timeRemaining = allocationRemaining / allocationBurnRate;
+      var timeRemainingSubText = "hours";
+
+      if (!isFinite(timeRemaining)) {
+        timeRemaining = "N/A";
+        timeRemainingSubText = "";
+      } else {
+        timeRemaining = Math.round(timeRemaining);
+      }
 
       return (
         <div className="row provider-info-section provider-stats">
           {this.renderAllocationStat(allocationConsumedPercent, allocationConsumed, allocationTotal)}
           {this.renderStat(instancesConsumingAllocation.length, "instances", "Number of instances consuming allocation")}
-          {this.renderStat(Math.round(timeRemaining), "hours", "Time remaining before allocation runs out")}
+          {this.renderStat(timeRemaining, timeRemainingSubText, "Time remaining before allocation runs out")}
           {this.renderStat(allocationBurnRate, "AUs/hour", "Rate at which AUs are being used")}
         </div>
       )

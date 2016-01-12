@@ -35,7 +35,7 @@ def web_shell(request):
 
     # GATE_ONE_API_AUTH_SETTINGS
     template_params = {
-        'WEB_SH_BASE_URL' : 'https://atmo-proxy.iplantcollaborative.org:8443/',
+        'WEB_SH_BASE_URL' : settings.WEB_SH_BASE_URL,
         'WEB_SH_JS_FILE': 'static/gateone.js',
         'GATE_ONE_API_KEY': authobj['api_key'],
         'USERNAME': authobj['upn'],

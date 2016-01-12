@@ -77,7 +77,7 @@ define(function(require) {
             );
           }
         });
-        //var stuff = React.renderComponentToStaticMarkup(component());
+
 
         // Create the chart
         var el = this.getDOMNode();

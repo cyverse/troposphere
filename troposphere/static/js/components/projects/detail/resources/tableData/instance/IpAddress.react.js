@@ -16,8 +16,14 @@ define(
       render: function () {
         var instance = this.props.instance;
 
+        var address = instance.get('ip_address');
+
+        if (!address || address.charAt(0) == "0") {
+            address = "N/A";
+        }
+
         return (
-          <span>{instance.get('ip_address')}</span>
+          <span>{address}</span>
         );
       }
 

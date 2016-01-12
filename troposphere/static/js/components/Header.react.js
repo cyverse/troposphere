@@ -95,15 +95,22 @@ define(function (require) {
     },
 
     render: function () {
+      var username = this.props.username;
+      if (!username && show_public_site) {
+          username = "AnonymousUser"
+      }
       return (
         <li className="dropdown">
           <a className="dropdown-toggle" href="#" data-toggle="dropdown">
-            {this.props.username}
+            {username}
             <b className="caret"></b>
           </a>
           <ul className="dropdown-menu">
             <li>
               <Link to="settings">Settings</Link>
+            </li>
+            <li>
+              <Link to="my-requests-resources">My requests</Link>
             </li>
             <li className="divider"></li>
             <li>
@@ -168,9 +175,9 @@ define(function (require) {
     render: function () {
 
       var profile = this.props.profile;
-      var loginLogoutDropdown = profile ? <LogoutLink username={profile.get('username')}/> : <LoginLink/>;
+      var loginLogoutDropdown = profile.get('selected_identity') ? <LogoutLink username={profile.get('username')}/> : <LoginLink/>;
 
-      if (!profile) {
+      if (!profile.get('selected_identity')) {
         links = links.filter(function (link) {
           return !link.requiresLogin && link.isEnabled;
         })
@@ -200,7 +207,7 @@ define(function (require) {
       }.bind(this));
 
       var brandLink;
-      if (profile) {
+      if (profile.get('selected_identity')) {
         brandLink = <Link to="dashboard" className="navbar-brand"/>;
       } else {
         brandLink = <Link to="images" className="navbar-brand"/>;

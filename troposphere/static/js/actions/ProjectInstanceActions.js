@@ -11,11 +11,15 @@ define(function (require) {
 
     // ----------------------------
     // Add/Remove Project Resources
+    //
+    // NOTE: these methods fail on pending instances, it is sufficient for
+    // moving existing instances between projects
     // ----------------------------
 
     addInstanceToProject: function (params, options) {
       if (!params.project) throw new Error("Missing project");
       if (!params.instance) throw new Error("Missing instance");
+      if (!params.instance.id) throw new Error("Instance is pending, must possess an id");
 
       var project = params.project,
         instance = params.instance,
@@ -33,6 +37,7 @@ define(function (require) {
     removeInstanceFromProject: function (params, options) {
       if (!params.project) throw new Error("Missing project");
       if (!params.instance) throw new Error("Missing instance");
+      if (!params.instance.id) throw new Error("Instance is pending, must possess an id");
 
       var project = params.project,
         instance = params.instance,

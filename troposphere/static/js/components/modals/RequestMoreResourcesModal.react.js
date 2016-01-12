@@ -3,9 +3,10 @@ define(
   [
     'react',
     'components/mixins/BootstrapModalMixin.react',
+    'components/common/AUCalculator.react',
     'stores'
   ],
-  function (React, BootstrapModalMixin, stores) {
+  function (React, BootstrapModalMixin, AUCalculator, stores) {
 
     return React.createClass({
       displayName: "RequestMoreResourcesModal",
@@ -94,21 +95,22 @@ define(
 
       renderIdentity: function (identity) {
         return (
-          <option value={identity.id}>{identity.get('provider').name}</option>
+          <option key={identity.id} value={identity.id}>{identity.get('provider').name}</option>
         )
       },
 
       renderBody: function () {
-        var identities = stores.IdentityStore.getAll();
+        var identities = stores.IdentityStore.getAll(),
+            instances = stores.InstanceStore.getAll();
 
-        if (!identities) return <div className="loading"/>;
+        if (!identities || !instances) return <div className="loading"/>;
 
         return (
           <div role='form'>
 
             <div className='form-group'>
               <label htmlFor='project-identity'>{"What cloud would you like resources for?"}</label>
-              <select onChange={this.handleIdentityChange}>
+              <select className="form-group" onChange={this.handleIdentityChange}>
                 {identities.map(this.renderIdentity)}
               </select>
             </div>
@@ -118,11 +120,13 @@ define(
               <textarea type='text'
                         className='form-control'
                         rows="7"
-                        placeholder="E.g 4 CPUs and 8GB memory, running 4 cores for 1 week, an additional 5400 cpu hours, etc."
+                        placeholder="E.g 4 CPUs and 8GB memory, running 4 cores for 1 week, an additional 500 AU, etc."
                         value={this.state.resources}
                         onChange={this.handleResourcesChange}
                 />
             </div>
+
+            <AUCalculator identity={this.state.identity}/>
 
             <div className='form-group'>
               <label htmlFor='project-description'>{"How will you use the additional resources?"}</label>
@@ -134,6 +138,7 @@ define(
                         onChange={this.handleReasonChange}
                 />
             </div>
+            <strong>Note: Allocation allowances are set back to a default of 168 AU on the first of every month.</strong>
           </div>
         );
       },

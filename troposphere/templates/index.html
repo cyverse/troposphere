@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atmosphere</title>
+    <title>{{ SITE_TITLE }}</title>
     <link rel="shortcut icon" href="{{THEME_URL}}/images/favicon.ico" />
 
     <!--CSS-->
@@ -29,7 +29,7 @@
     <div class="splash-image">
       <img src="{{ THEME_URL }}/images/login_mainimage.png">
         <div class="loading"></div>
-        <h4>Loading Atmosphere...</h4>
+        <h4>Loading {{ SITE_TITLE }}...</h4>
     </div>
 
     <div id="application"></div>
@@ -89,6 +89,12 @@
 
         {% if USE_GATE_ONE_API %}
             var WEB_SH_URL ="{{ WEB_SH_URL }}";
+        {% endif %}
+
+        {% if show_public_site %}
+            var show_public_site = true;
+        {%  else %}
+            var show_public_site = false;
         {% endif %}
 
         {% if show_troposphere_only %}

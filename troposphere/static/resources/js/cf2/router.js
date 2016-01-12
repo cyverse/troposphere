@@ -156,6 +156,7 @@ Atmo.Router = Backbone.Router.extend({
     });
     $.ajax({
       type: 'GET',
+      dataType: 'json',
       url: Atmo.API_ROOT + '/version',
       statusCode: {
         200: function (response) {

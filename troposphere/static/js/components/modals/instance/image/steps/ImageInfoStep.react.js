@@ -4,6 +4,7 @@ define(function (require) {
       actions = require('actions'),
       Backbone = require('backbone'),
       Name = require('../components/Name.react'),
+      $ = require('jquery'),
       CreateUpdateFlag = require('../components/CreateUpdateFlag.react'),
       Description = require('../components/Description.react'),
       Tags = require('../components/Tags.react'),
@@ -40,15 +41,15 @@ define(function (require) {
     },
 
     isSubmittable: function () {
-      var hasName = !!this.state.name;
-      var hasDescription = !!this.state.description;
+      var hasName = !!($.trim(this.state.name));
+      var hasDescription = !!($.trim(this.state.description));
       return hasName && hasDescription;
     },
 
     onNext: function () {
       this.props.onNext({
-        name: this.state.name,
-        description: this.state.description,
+        name: $.trim(this.state.name),
+        description: $.trim(this.state.description),
         imageTags: this.state.imageTags,
         newImage: this.state.newImage
       });
