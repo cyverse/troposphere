@@ -214,6 +214,7 @@ def forbidden(request):
     )
     return response
 
+
 def version(request):
     v = get_version()
     v["commit_date"] = v["commit_date"].isoformat()
