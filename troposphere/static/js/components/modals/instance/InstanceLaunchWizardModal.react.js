@@ -36,7 +36,7 @@ export default React.createClass({
         let project = this.props.project;
 
         // These need to populate
-        let projects = stores.ProjectStore || null;
+        let projects = stores.ProjectStore.getAll() || null;
         let providers = stores.ProviderStore.getAll() || null;
         let provider = providers.first() || null;
         let sizes = stores.SizeStore.getAll() || null;
@@ -90,120 +90,76 @@ export default React.createClass({
     //
 
     updateState: function() {
-        debugger;
         if (this.isMounted()) {
             let projects = stores.ProjectStore.getAll();
             let providers= stores.ProviderStore.getAll();
-            let identities = stores.IdentityStore;
             let bootScripts = stores.ScriptStore.getAll();
 
-            // Setting defaults conditionally as they will be changed by the user
-            let project = this.state.basicLaunch.project
-                ? this.state.basicLaunch.project
-                : projects.first();
+            var provider = null;
+            if (providers)
+                provider = providers.first();
 
-            this.setState({
-                basicLaunch: {
-                    ...this.state.basicLaunch,
-                    projects: projects,
-                    providers: providers,
-                    project: project,
-                },
-                advancedSettings: {
-                    bootScriptOption: {
-                        ...this.state.advancedSettings.bootScriptOption,
-                        bootScripts: bootScripts
-                    }
-                }
-            });
+            // Setting defaults conditionally as they will be changed by the user
+            let project = projects
+                ? projects.first()
+                : null;
 
             // Here we set the dependent values
 
             // Base Image Version List is dependent on the Base Image
+            var imageVersions = null;
+            var imageVersion = null;
             if (this.state.image) {
-                debugger;
-                let imageVersions = stores.ImageVersionStore
-                    .fetchWhere({image_id: this.state.image.id});
+                imageVersions = stores.ImageVersionStore.fetchWhere({image_id: this.state.image.id});
 
-                this.setState({
-                    basicLaunch: {
-                        ...this.state.basicLaunch,
-                        imageVersions: imageVersions
-                    }
-                });
-            };
-
-            // Image Version is the default value dependent on the Version List
-            if (this.state.basicLaunch.imageVersions) {
-                debugger;
-                let imageVersion = this.state.basicLaunch.imageVersion
-                    ? this.state.basicLaunch.imageVersion
-                    : this.state.basicLaunch.imageVersions.last();
-
-                this.setState({
-                    basicLaunch: {
-                        ...this.state.basicLaunch,
-                        imageVersion: imageVersion
-                    }
-                });
-            };
+                if (imageVersions) {
+                    imageVersion = imageVersions.last();
+                };
+            }
 
             // Provider Sizes list is dependent on the provider
-            if (this.state.basicLaunch.provider) {
-                let providerSizes = stores.SizeStore
+            var providerSizes = null;
+            var providerSize = null;
+            var resourcesUsed = null;
+            var identityProvider = null;
+
+            if (provider) {
+                resourcesUsed = stores.InstanceStore
+                    .getTotalResources(this.state.basicLaunch.provider.id);
+                providerSizes = stores.SizeStore
                     .fetchWhere({
                         provider__id: this.state.basicLaunch.provider.get('id')
                     });
 
-                this.setState({
-                    basicLaunch: {
-                        ...this.state.basicLaunch,
-                        providerSizes: providerSizes
-                    }
-                });
-            };
-
-            // Provider size is the default value is dependent on the Provider list
-            if (this.state.basicLaunch.providerSizes) {
-                let providerSize = this.state.basicLaunch.providerSize
-                    ? this.state.basicLaunch.providerSize
-                    : this.state.basicLaunch.providerSizes.first();
-
-                this.setState({
-                    basicLaunch: {
-                        ...this.state.basicLaunch,
-                        providerSize: providerSize
-                    }
-                });
-            };
-
-            // Resources are dependent on the Provider
-            if (this.state.basicLaunch.provider) {
-                let resourcesUsed = stores.InstanceStore
-                    .getTotalResources(this.state.basicLaunch.provider.id);
-
-                this.setState({
-                    basicLaunch: {
-                        ...this.state.basicLaunch,
-                        resourcesUsed: resourcesUsed
-                    }
-                });
-            };
-
-            // Identity Provider is dependent on Provider
-            if (this.state.basicLaunch.provider && identities) {
-                let identityProvider = stores.IdentityStore
-                    .findOne({
+                if (providerSizes) {
+                    providerSize = providerSizes.first();
+                };
+                identityProvider = stores.IdentityStore.findOne({
                         'provider.id': this.state.basicLaunch.provider.get('id')
-                    });
-
-                this.setState({
-                    basicLaunch: {
-                        ...this.state.basicLaunch,
-                        identityProvider: identityProvider
-                    }
                 });
-            };
+
+            }
+
+            this.setState({
+                basicLaunch: {
+                    identityProvider,
+                    providerSizes,
+                    providerSize,
+                    imageVersions,
+                    imageVersion,
+                    resourcesUsed,
+                    projects,
+                    providers,
+                    provider,
+                    project,
+                },                
+                advancedSettings: { 
+                    bootScriptOption: {
+                        ...this.state.advancedSettings.bootScriptOption,
+                        bootScripts: bootScripts 
+                    } 
+                }
+            });
         }
     },
 
@@ -262,39 +218,23 @@ export default React.createClass({
         let imageName = image.attributes.name;
         let imageId = image.id;
         let imageVersions = stores.ImageVersionStore.fetchWhere({image_id: image.id});
+        let imageVersion = null; 
 
-        let imageVersion = null;
         if (imageVersions) {
             imageVersion = imageVersions.last();
-            this.setState({
-                view:'BASIC_VIEW',
-                image: image,
-                title: 'Basic Options',
-                basicLaunch: {
-                    ...this.state.basicLaunch,
-                    instanceName: imageName,
-                    imageVersions: imageVersions,
-                    imageVersion: imageVersion
-                }
-            });
-        }
-        else {
-            this.setState({
-                view:'BASIC_VIEW',
-                image: image,
-                title: 'Basic Options',
-                basicLaunch: {
-                    ...this.state.basicLaunch,
-                    instanceName: imageName,
-                    imageVersions: null,
-                    imageVersion: null
-                }
-            });
-            
-            this.updateState();
         }
 
-        debugger;
+        this.setState({
+            view:'BASIC_VIEW',
+            image: image,
+            title: 'Basic Options',
+            basicLaunch: {
+                ...this.state.basicLaunch,
+                instanceName: imageName,
+                imageVersions: imageVersions,
+                imageVersion: imageVersion
+            }
+        });
     },
 
     //===================================

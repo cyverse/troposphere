@@ -69,7 +69,6 @@ export default React.createClass({
     },
 
     renderBootScripts: function() {
-        debugger;
         if (this.props.bootScriptOption.bootScripts) {
             return (
                 <BootScriptOption {...this.props}

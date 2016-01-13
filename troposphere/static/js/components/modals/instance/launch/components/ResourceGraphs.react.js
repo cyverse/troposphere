@@ -29,7 +29,6 @@ export default React.createClass({
         let cpuWillTotal = cpuUsed + cpuWillUse;
         let percentOfCpuUsed = Math.round(cpuUsed / allocationCpu * 100);
         let percentOfCpuWillUse = Math.round(cpuWillUse / allocationCpu * 100);
-debugger;
         // Memory have used + will use
         let allocationGb = allocation.quota.memory;
         let gbUsed = Math.round((resourcesUsed.mem / 1000) * 100) / 100;

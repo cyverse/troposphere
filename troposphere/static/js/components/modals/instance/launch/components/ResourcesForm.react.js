@@ -7,6 +7,7 @@ import SelectMenu from 'components/common/ui/SelectMenu.react';
 export default React.createClass({
 
     render: function () {
+        console.log(this.props.provider ,this.props.providerSizes ,this.props.providerSize)
         if (!this.props.provider || !this.props.providerSizes || !this.props.providerSize) {
             return ( <div className="loading"/>);
         }
