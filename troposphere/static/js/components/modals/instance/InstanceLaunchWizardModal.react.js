@@ -95,10 +95,6 @@ export default React.createClass({
             let providers= stores.ProviderStore.getAll();
             let bootScripts = stores.ScriptStore.getAll();
 
-            var provider = null;
-            if (providers)
-                provider = providers.first();
-
             // Setting defaults conditionally as they will be changed by the user
             let project = projects
                 ? projects.first()
@@ -122,6 +118,7 @@ export default React.createClass({
             var providerSize = null;
             var resourcesUsed = null;
             var identityProvider = null;
+            var provider = this.state.basicLaunch.provider;
 
             if (provider) {
                 resourcesUsed = stores.InstanceStore
@@ -228,12 +225,12 @@ export default React.createClass({
             view:'BASIC_VIEW',
             image: image,
             title: 'Basic Options',
-            basicLaunch: {
-                ...this.state.basicLaunch,
-                instanceName: imageName,
-                imageVersions: imageVersions,
-                imageVersion: imageVersion
-            }
+            basicLaunch: 
+                _.defaults({
+                    instanceName: imageName,
+                    imageVersions: imageVersions,
+                    imageVersion: imageVersion
+                }, this.state.basicLaunch)
         });
     },
 
@@ -285,13 +282,12 @@ export default React.createClass({
             .getTotalResources(provider.id);
 
         this.setState({
-            basicLaunch: {
-                ...this.state.basicLaunch,
+            basicLaunch: _.defaults({
                 provider: provider,
                 providerSizes: providerSizes,
                 identityProvider: identityProvider,
                 resourcesUsed: resourcesUsed
-            }
+            }, this.state.basicLaunch)
         });
     },
 

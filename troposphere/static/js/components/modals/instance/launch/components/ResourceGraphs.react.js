@@ -4,6 +4,17 @@ import stores from 'stores';
 import ProgressBar from 'components/common/ui/ProgressBar.react';
 
 export default React.createClass({
+    
+    resourceExceded: function(value) {
+        if (value >= 100) {
+            return (
+                <div style={{color: "red", marginTop: "-20px"}}>
+                    You do not have enough resources. You can request more resources here
+                </div>
+            )
+        }
+    },
+
     render: function() {
 
         // Make sure stores are populated before rendering
@@ -29,9 +40,10 @@ export default React.createClass({
         let cpuWillTotal = cpuUsed + cpuWillUse;
         let percentOfCpuUsed = Math.round(cpuUsed / allocationCpu * 100);
         let percentOfCpuWillUse = Math.round(cpuWillUse / allocationCpu * 100);
+
         // Memory have used + will use
         let allocationGb = allocation.quota.memory;
-        let gbUsed = Math.round((resourcesUsed.mem / 1000) * 100) / 100;
+        let gbUsed = resourcesUsed.mem / 1000;
         let gbWillUse = size.attributes.mem;
         let gbWillTotal = gbUsed + gbWillUse;
         let percentOfGbUsed = Math.round(gbUsed / allocationGb * 100);
@@ -40,7 +52,7 @@ export default React.createClass({
         // Labels for bar graphs
         let auLabel =  `You have currently used ${allocationPercent}% of ${allocationTotal} AU's from this provider`;
         let cpuLabel = `Will total ${cpuWillTotal} of ${allocationCpu} alloted CPUs`;
-        let gbLabel = `Will total ${gbWillTotal} of ${allocationGb} alloted GBs of Memory`;
+        let gbLabel = `Will total ${Math.round(gbWillTotal * 100) / 100} of ${allocationGb} alloted GBs of Memory`;
 
         return (
                 <div className="form-group">
@@ -49,17 +61,20 @@ export default React.createClass({
                         startColor="#56AA21"
                         startValue={allocationPercent}
                         label={auLabel}/>
+                        {this.resourceExceded(allocationPercent)}
                     <ProgressBar
                         startColor="#56AA21"
                         startValue={percentOfCpuUsed}
                         afterValue={percentOfCpuWillUse}
                         label={cpuLabel}/>
+                        {this.resourceExceded(cpuWillTotal)}
                     <ProgressBar
                         startColor="#56AA21"
                         startValue={percentOfGbUsed}
                         afterValue={percentOfGbWillUse}
                         label={gbLabel}/>
+                        {this.resourceExceded(gbWillTotal)}
                 </div>
-                )
+            )
     },
 });
