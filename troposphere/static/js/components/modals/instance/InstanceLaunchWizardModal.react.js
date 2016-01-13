@@ -90,6 +90,7 @@ export default React.createClass({
     //
 
     updateState: function() {
+        debugger;
         if (this.isMounted()) {
             let projects = stores.ProjectStore.getAll();
             let providers= stores.ProviderStore.getAll();
@@ -120,6 +121,7 @@ export default React.createClass({
 
             // Base Image Version List is dependent on the Base Image
             if (this.state.image) {
+                debugger;
                 let imageVersions = stores.ImageVersionStore
                     .fetchWhere({image_id: this.state.image.id});
 
@@ -133,6 +135,7 @@ export default React.createClass({
 
             // Image Version is the default value dependent on the Version List
             if (this.state.basicLaunch.imageVersions) {
+                debugger;
                 let imageVersion = this.state.basicLaunch.imageVersion
                     ? this.state.basicLaunch.imageVersion
                     : this.state.basicLaunch.imageVersions.last();
@@ -262,28 +265,36 @@ export default React.createClass({
 
         let imageVersion = null;
         if (imageVersions) {
-            imageVersion = imageVersions.first();
+            imageVersion = imageVersions.last();
             this.setState({
+                view:'BASIC_VIEW',
+                image: image,
+                title: 'Basic Options',
                 basicLaunch: {
                     ...this.state.basicLaunch,
-                    imageVersions: imageVersions
+                    instanceName: imageName,
+                    imageVersions: imageVersions,
+                    imageVersion: imageVersion
                 }
             });
         }
+        else {
+            this.setState({
+                view:'BASIC_VIEW',
+                image: image,
+                title: 'Basic Options',
+                basicLaunch: {
+                    ...this.state.basicLaunch,
+                    instanceName: imageName,
+                    imageVersions: null,
+                    imageVersion: null
+                }
+            });
+            
+            this.updateState();
+        }
 
-        this.setState({
-            view:'BASIC_VIEW',
-            image: image,
-            title: 'Basic Options',
-            basicLaunch: {
-                ...this.state.basicLaunch,
-                instanceName: imageName,
-                imageVersions: imageVersions,
-                imageVersion: imageVersion
-            }
-        });
-
-        this.updateState();
+        debugger;
     },
 
     //===================================

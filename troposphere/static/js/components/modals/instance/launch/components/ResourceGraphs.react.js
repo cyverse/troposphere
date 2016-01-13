@@ -32,8 +32,8 @@ export default React.createClass({
 debugger;
         // Memory have used + will use
         let allocationGb = allocation.quota.memory;
-        let gbUsed = resourcesUsed.mem / 1000;
-        let gbWillUse = size.attributes.mem / 1000;
+        let gbUsed = Math.round((resourcesUsed.mem / 1000) * 100) / 100;
+        let gbWillUse = size.attributes.mem;
         let gbWillTotal = gbUsed + gbWillUse;
         let percentOfGbUsed = Math.round(gbUsed / allocationGb * 100);
         let percentOfGbWillUse = Math.round(gbWillUse / allocationGb *100);
@@ -48,17 +48,17 @@ debugger;
                     <label>Resources Instance will Use</label>
                     <ProgressBar
                         startColor="#56AA21"
-                        startValue={allocationPercent + "%"}
+                        startValue={allocationPercent}
                         label={auLabel}/>
                     <ProgressBar
                         startColor="#56AA21"
-                        startValue={percentOfCpuUsed + "%"}
-                        afterValue={percentOfCpuWillUse + "%"}
+                        startValue={percentOfCpuUsed}
+                        afterValue={percentOfCpuWillUse}
                         label={cpuLabel}/>
                     <ProgressBar
                         startColor="#56AA21"
-                        startValue={percentOfGbUsed + "%"}
-                        afterValue={percentOfGbWillUse + "%"}
+                        startValue={percentOfGbUsed}
+                        afterValue={percentOfGbWillUse}
                         label={gbLabel}/>
                 </div>
                 )
