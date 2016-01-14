@@ -38,7 +38,8 @@ define(function (require) {
     ImageMaster = require('./components/admin/ImageMaster.react'),
     IdentityMembershipMaster = require('./components/admin/IdentityMembershipMaster.react'),
     ResourceMaster = require('./components/admin/ResourceMaster.react'),
-    ResourceRequest = require('./components/admin/ResourceRequest.react');
+    ResourceRequest = require('./components/admin/ResourceRequest.react'),
+    UserDetailPage = require('./components/admin/UserDetail.react');
 
   var AppRoutes = (
     <Route name="root" path="/application" handler={Master}>
@@ -75,7 +76,9 @@ define(function (require) {
       <Route name="settings" handler={SettingsPage}/>
 
       <Route name="admin" handler={AdminMaster}>
-        <DefaultRoute name="atmosphere-user-manager" path="users" handler={AtmosphereUserMaster}/>
+        <DefaultRoute handler={AtmosphereUserMaster} />
+				<Route name="atmosphere-user-manager" path="users" handler={AtmosphereUserMaster} />
+				<Route name="atmosphere-user-manager-detail" path="users/:username" handler={UserDetailPage} />
         <Route name="identity-membership-manager" path="identities" handler={IdentityMembershipMaster}/>
         <Route name="resource-request-manager" path="resource-requests" handler={ResourceMaster} />
         <Route name="image-request-manager" path="imaging-requests" handler={ImageMaster} />
