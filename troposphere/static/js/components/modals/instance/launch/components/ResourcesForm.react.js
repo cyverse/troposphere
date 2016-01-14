@@ -11,7 +11,8 @@ export default React.createClass({
             return ( <div className="loading"/>);
         }
 
-        let name = function(item) {return item.get('name')};
+        let providerName = (item) => item.get('name');
+        let sizeName = (item) => `${item.get('name')} (CPU: ${item.get('cpu')}, Mem: ${Math.round(item.get('mem') * 100) / 100}GB)`;
         let defaultProviderId = this.props.provider.id;
         let sizeId = this.props.providerSize.get('id');
 
@@ -24,7 +25,7 @@ export default React.createClass({
                     <SelectMenu
                         defaultId={defaultProviderId}
                         list={this.props.providers}
-                        optionName={name}
+                        optionName={providerName}
                         onSelectChange={this.props.onProviderChange}/>
                 </div>
                 <div className="form-group">
@@ -35,7 +36,7 @@ export default React.createClass({
                     //TODO Set default Size
                         defaultId={sizeId}
                         list={this.props.providerSizes}
-                        optionName={name}
+                        optionName={sizeName}
                         onSelectChange={this.props.onSizeChange}/>
                 </div>
                 <div className="form-group">
@@ -44,7 +45,9 @@ export default React.createClass({
                         resourcesUsed={this.props.resourcesUsed}
                         size={this.props.providerSize}
                         sizes={this.props.providerSizes}
-                        identityProvider={this.props.identityProvider}/>
+                        identityProvider={this.props.identityProvider}
+                        onRequestResources={this.props.onRequestResources}
+                        />
                 </div>
             </form>
         );

@@ -364,9 +364,10 @@ export default React.createClass({
         });
     },
 
-    onRequestResources: function(){
+    onRequestResources: function() {
         // Launching a resource request modal will eat the current modal. We need to pass this.cancel as a prop
         // in order to properly unmount the whole modal, not just the current step component.
+        console.log('requested');
         this.cancel();
         modals.HelpModals.requestMoreResources();
     },
@@ -485,6 +486,7 @@ export default React.createClass({
                 onProjectChange={this.onProjectChange}
                 onProviderChange={this.onProviderChange}
                 onSizeChange={this.onSizeChange}
+                onRequestResources={this.onRequestResources}
                 viewAdvanced={this.viewAdvanced}
                 cancel={this.cancel}
                 onSubmitLaunch={this.onSubmitLaunch}

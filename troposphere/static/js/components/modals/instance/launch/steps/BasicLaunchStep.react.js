@@ -23,7 +23,8 @@ export default React.createClass({
                             imageVersion={this.props.imageVersion}
                             onNameChange={this.props.onNameChange}
                             onVersionChange={this.props.onVersionChange}
-                            onProjectChange={this.props.onProjectChange}/>
+                            onProjectChange={this.props.onProjectChange}
+                        />
                     </div>
                     <div className="col-md-6">
                         <h3 className="t-title">Resources</h3>
@@ -36,7 +37,9 @@ export default React.createClass({
                             resourcesUsed={this.props.resourcesUsed}
                             identityProvider={this.props.identityProvider}
                             onProviderChange={this.props.onProviderChange}
-                            onSizeChange={this.props.onSizeChange}/>
+                            onSizeChange={this.props.onSizeChange}
+                            onRequestResources={this.props.onRequestResources}
+                        />
                 </div>
                 </div>
                 <InstanceLaunchFooter
@@ -45,7 +48,8 @@ export default React.createClass({
                     onSubmitLaunch={this.props.onSubmitLaunch}
                     viewAdvanced={this.props.viewAdvanced}
                     launchIsDisabled={this.props.launchIsDisabled}
-                    advancedIsDisabled={this.props.launchIsDisabled}/>
+                    advancedIsDisabled={this.props.launchIsDisabled}
+                />
 
             </div>
         );

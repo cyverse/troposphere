@@ -4,12 +4,18 @@ import stores from 'stores';
 import ProgressBar from 'components/common/ui/ProgressBar.react';
 
 export default React.createClass({
-    
-    resourceExceded: function(value) {
-        if (value >= 100) {
+
+    resourceExceded: function(total, limit) {
+        if (total >= limit) {
             return (
                 <div style={{color: "red", marginTop: "-20px"}}>
-                    You do not have enough resources. You can request more resources here
+                    You do not have enough resources. <br/>
+                    <a className="btn btn-xs btn-default"
+                        style={{margin: "5px 0 20px"}}
+                        onClick={this.props.onRequestResources}
+                    >
+                        Request more Resources
+                    </a>
                 </div>
             )
         }
@@ -61,19 +67,19 @@ export default React.createClass({
                         startColor="#56AA21"
                         startValue={allocationPercent}
                         label={auLabel}/>
-                        {this.resourceExceded(allocationPercent)}
+                        {this.resourceExceded(allocationPercent, allocationTotal)}
                     <ProgressBar
                         startColor="#56AA21"
                         startValue={percentOfCpuUsed}
                         afterValue={percentOfCpuWillUse}
                         label={cpuLabel}/>
-                        {this.resourceExceded(cpuWillTotal)}
+                        {this.resourceExceded(cpuWillTotal, allocationCpu )}
                     <ProgressBar
                         startColor="#56AA21"
                         startValue={percentOfGbUsed}
                         afterValue={percentOfGbWillUse}
                         label={gbLabel}/>
-                        {this.resourceExceded(gbWillTotal)}
+                        {this.resourceExceded(gbWillTotal, allocationGb)}
                 </div>
             )
     },
