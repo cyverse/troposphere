@@ -12,6 +12,7 @@ define(function (require) {
 
     propTypes: {
       value: React.PropTypes.string,
+      labelText: React.PropTypes.string,
       onChange: React.PropTypes.func.isRequired,
     },
 
@@ -46,9 +47,10 @@ define(function (require) {
     },
 
     render: function () {
-
+      var labelEl = this.props.labelText ? (<label>{this.props.labelText}</label>) : "";
       return (
         <div className="form-group">
+          {labelEl}
           <input type='text' className='form-control' value={this.state.value} onChange={this.onValueChanged}/>
           <span className="input-group-addon" id="enddate-set-addon" onClick={this.setEndDateNow}>Today</span>
           <span className="input-group-addon" id="enddate-clear-addon" onClick={this.unsetDate}>Clear</span>
