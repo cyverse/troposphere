@@ -427,7 +427,7 @@ Atmo.Views.NewInstanceScreen = Backbone.View.extend({
         }
 
         if (errors.length == 0) {
-            var header = '<img src="../resources/images/loader_bluebg.gif" /> Launching Instance...';
+            var header = '<img src="../assets/resources/images/loader_bluebg.gif" /> Launching Instance...';
             var body = '';
             Atmo.Utils.notify(header, body, { no_timeout : true});
 

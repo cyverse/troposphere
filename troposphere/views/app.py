@@ -18,7 +18,7 @@ def root(request):
 
 #TODO: Move this into a settings file.
 STAFF_LIST_USERNAMES = ['estevetest01', 'estevetest02','estevetest03','estevetest04',
-                        'estevetest13', 'sgregory', 'lenards', 'tharon', ]
+                        'estevetest13', 'sgregory', 'lenards', 'tharon', 'cdosborn']
 
 
 def _should_show_troposphere_only():
