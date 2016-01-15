@@ -49,7 +49,7 @@ define(
         } else {
           var loginUrl = URL.login(null, {relative: true}),
             imageUrl = URL.image(this.props.image),
-            fullUrl = loginUrl + "?redirect=" + imageUrl + "?beta=true";
+            fullUrl = loginUrl + "?redirect=" + imageUrl + "?beta=true&airport_ui=false";
 
           button = (
             <a className='btn btn-primary launch-button' href={fullUrl}>
