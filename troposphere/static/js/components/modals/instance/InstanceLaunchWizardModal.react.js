@@ -32,15 +32,13 @@ export default React.createClass({
         //===========================
 
         // We have these
-        let image = this.props.image;
+        let image = this.props.image ? this.props.image : null;
         let project = this.props.project;
+        let view = image ? "BASIC_VIEW" : "IMAGE_VIEW";
 
         // These need to populate
         let projects = stores.ProjectStore.getAll() || null;
-        let providers = stores.ProviderStore.getAll() || null;
-        let provider = providers.first() || null;
         let sizes = stores.SizeStore.getAll() || null;
-        let resourcesUsed = stores.InstanceStore.getTotalResources(provider.id) || null;
         let identities = stores.IdentityStore.getAll() || null;
 
         //===========================
@@ -51,8 +49,8 @@ export default React.createClass({
         let bootScripts = stores.ScriptStore.getAll();
 
         return {
-            view: "IMAGE_VIEW",
-            title: "Select an Image",
+            view: view,
+            title: null,
             image: image,
             sizes: sizes,
             advancedIsDisabled: false,
@@ -65,11 +63,11 @@ export default React.createClass({
                 imageVersions: null,
                 project: project,
                 projects: projects,
-                provider: provider,
-                providers: providers,
+                provider: null,
+                providers: null,
                 providerSizes: null,
                 providerSize: null,
-                resourcesUsed: resourcesUsed,
+                resourcesUsed: null,
                 identityProvider: null
             },
             advancedSettings: {
@@ -91,48 +89,64 @@ export default React.createClass({
 
     updateState: function() {
         if (this.isMounted()) {
-            let projects = stores.ProjectStore.getAll();
-            let providers= stores.ProviderStore.getAll();
+            let projects = this.state.basicLaunch.projects ?
+                this.state.basicLaunch.projects :
+                stores.ProjectStore.getAll();
+
+            let project = this.state.basicLaunch.project ?
+                this.state.basicLaunch.project :
+                null;
+
+            if (projects & !project) {
+                project = projects.first();
+            }
+
             let bootScripts = stores.ScriptStore.getAll();
-
-            // Setting defaults conditionally as they will be changed by the user
-            let project = projects
-                ? projects.first()
-                : null;
-
-            // Here we set the dependent values
 
             // Base Image Version List is dependent on the Base Image
             var imageVersions = null;
             var imageVersion = null;
-            if (this.state.image) {
-                imageVersions = stores.ImageVersionStore.fetchWhere({image_id: this.state.image.id});
-
-                if (imageVersions) {
-                    imageVersion = imageVersions.last();
-                };
-            }
 
             // Provider Sizes list is dependent on the provider
             var providerSizes = null;
             var providerSize = null;
             var resourcesUsed = null;
             var identityProvider = null;
-            var provider = this.state.basicLaunch.provider;
+
+            let providers = this.state.basicLaunch.providers ?
+                this.state.basicLaunch.providers :
+                null;
+
+            var provider = this.state.basicLaunch.provider ?
+                this.state.basicLaunch.provider:
+                null;
+
+            if (this.state.image) {
+                imageVersions = stores.ImageVersionStore.fetchWhere({image_id: this.state.image.id});
+
+                if (imageVersions) {
+                    imageVersion = imageVersions.last();
+                    providers = new Backbone.Collection(imageVersion.get('machines').map((item) => item.provider));
+                    provider = providers.first();
+                    resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
+                };
+            }
+
 
             if (provider) {
                 resourcesUsed = stores.InstanceStore
-                    .getTotalResources(this.state.basicLaunch.provider.id);
+                    .getTotalResources(provider.id);
+
                 providerSizes = stores.SizeStore
                     .fetchWhere({
-                        provider__id: this.state.basicLaunch.provider.get('id')
+                        provider__id: provider.id
                     });
 
                 if (providerSizes) {
                     providerSize = providerSizes.first();
                 };
                 identityProvider = stores.IdentityStore.findOne({
-                        'provider.id': this.state.basicLaunch.provider.get('id')
+                        'provider.id': provider.id
                 });
 
             }
@@ -145,16 +159,17 @@ export default React.createClass({
                     imageVersions,
                     imageVersion,
                     resourcesUsed,
-                    projects,
                     providers,
                     provider,
+                    projects,
                     project,
-                },                
-                advancedSettings: { 
+                },
+
+                advancedSettings: {
                     bootScriptOption: {
                         ...this.state.advancedSettings.bootScriptOption,
                         bootScripts: bootScripts 
-                    } 
+                    }
                 }
             });
         }
@@ -212,24 +227,48 @@ export default React.createClass({
     // Sets the image the instance is based on.
     // Sets the versions list and default version dependent on the image being selected
     selectImage: function(image) {
-        let imageName = image.attributes.name;
-        let imageId = image.id;
+        let instanceName = image.attributes.name;
         let imageVersions = stores.ImageVersionStore.fetchWhere({image_id: image.id});
-        let imageVersion = null; 
+        let imageVersion = null;
+        let providers = null;
+        let provider = null;
+        let providerSizes = null;
+        let providerSize = null;
+        let identityProvider = null;
+        let resourcesUsed = null;
 
         if (imageVersions) {
             imageVersion = imageVersions.last();
+            providers = new Backbone.Collection(imageVersion.get('machines').map((item) => item.provider));
+            provider = providers.first();
+            resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
+            providerSizes = stores.SizeStore
+                .fetchWhere({
+                    provider__id: provider.id
+                });
+
+            if (providerSizes) {
+                providerSize = providerSizes.first();
+            };
+            identityProvider = stores.IdentityStore.findOne({
+                    'provider.id': provider.id
+            });
         }
 
         this.setState({
             view:'BASIC_VIEW',
             image: image,
-            title: 'Basic Options',
             basicLaunch: 
                 _.defaults({
-                    instanceName: imageName,
-                    imageVersions: imageVersions,
-                    imageVersion: imageVersion
+                    instanceName,
+                    imageVersions,
+                    imageVersion,
+                    providers,
+                    provider,
+                    resourcesUsed,
+                    providerSizes,
+                    providerSize,
+                    identityProvider
                 }, this.state.basicLaunch)
         });
     },
@@ -404,6 +443,7 @@ export default React.createClass({
     },
 
     renderImageSelect: function() {
+
         return (
             <ImageSelectStep
                 image={this.state.image}
@@ -414,6 +454,7 @@ export default React.createClass({
     },
 
     renderBasicOptions: function() {
+
         return (
             <BasicLaunchStep {...this.state.basicLaunch}
                 image={this.state.image}
@@ -426,6 +467,7 @@ export default React.createClass({
                 viewAdvanced={this.viewAdvanced}
                 cancel={this.cancel}
                 onSubmitLaunch={this.onSubmitLaunch}
+                onBack={this.onBack}
                 advancedIsDisabled={this.state.advancedIsDisabled}
                 launchIsDisabled={this.state.launchIsDisabled}
             />
@@ -443,16 +485,6 @@ export default React.createClass({
         );
     },
 
-    renderBackButton: function() {
-        if (this.state.view === "BASIC_VIEW") {
-            return (
-                <a onClick={this.onBack}>
-                    <span className="glyphicon glyphicon-arrow-left"/> Back
-                </a>
-            )
-        }
-    },
-
     render: function() {
         return (
             <div className="modal fade">
@@ -461,7 +493,6 @@ export default React.createClass({
                         <div className="modal-header instance-launch">
                             {this.renderCloseButton()}
                             <h2 className="headline">Launch an Instance/ {this.state.title}</h2>
-                            {this.renderBackButton()}
                         </div>
                         <div className="modal-body">
                             {this.renderBody()}
