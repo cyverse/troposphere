@@ -155,13 +155,13 @@ export default React.createClass({
     },
     renderSearchInput: function () {
         return (
-        <input
-            ref="searchField"
-            type="text"
-            placeholder="Search across image name, tag or description"
-            className="form-control search-input"
-            onChange={this.handleChange}
-            onKeyUp={this.handleKeyUp}
+            <input
+                ref="searchField"
+                type="text"
+                placeholder="Search across image name, tag or description"
+                className="form-control search-input"
+                onChange={this.handleChange}
+                onKeyUp={this.handleKeyUp}
             />
         );
     },
@@ -173,7 +173,8 @@ export default React.createClass({
             {this.renderSearchInput()}
             {this.renderFilterDescription(query)}
             <ImageList images={images} 
-                        selectImage={this.props.selectImage}>
+                onSelectImage={this.props.onSelectImage}
+            >
             {this.renderMoreImagesButton(images, imageCount)}
             </ImageList>
         </div>
@@ -226,9 +227,11 @@ export default React.createClass({
                     {this.renderBody()}
                 </div>
                 <InstanceLaunchFooter 
-                    cancel={this.props.cancel}
+                    onCancel={this.props.onCancel}
                     launchIsDisabled={true}
-                    advancedIsDisabled={true}/>
+                    advancedIsDisabled={true}
+                    backIsDisabled={true}
+                />
             </div>
         );
 

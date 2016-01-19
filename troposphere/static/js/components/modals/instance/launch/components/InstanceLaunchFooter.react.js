@@ -1,18 +1,29 @@
 import React from 'react';
 
 export default React.createClass({
-    render: function() {
-        var launchIsDisabled = this.props.launchIsDisabled ? "disabled" : "";
-        let advancedIsDisabled = this.props.advancedIsDisabled ? "disabled" : "";
-        return (
-            <div className="modal-footer">
-
+    renderBack: function() {
+        if (this.props.backIsDisabled) {
+            return
+        }
+        else {
+            return (
                 <a className="btn btn-default pull-left"
                     style={{marginRight:"10px"}}
                     onClick={this.props.onBack}
                 >
                     <span className="glyphicon glyphicon-arrow-left"/> Back
                 </a>
+            )
+        }
+    },
+
+    render: function() {
+        var launchIsDisabled = this.props.launchIsDisabled ? "disabled" : "";
+        let advancedIsDisabled = this.props.advancedIsDisabled ? "disabled" : "";
+        return (
+            <div className="modal-footer">
+
+                {this.renderBack()}
 
                 <a className={`pull-left btn ${advancedIsDisabled}`}
                     onClick={this.props.viewAdvanced}>
@@ -31,7 +42,7 @@ export default React.createClass({
                 <button type="button" 
                     className="btn btn-default pull-right" 
                     style={{marginRight:"10px"}} 
-                    onClick={this.props.cancel}
+                    onClick={this.props.onCancel}
                 >
                         Cancel
                 </button>

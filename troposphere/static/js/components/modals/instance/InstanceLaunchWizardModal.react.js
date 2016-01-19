@@ -70,7 +70,7 @@ export default React.createClass({
                 resourcesUsed: null,
                 identityProvider: null
             },
-            advancedSettings: {
+            advancedOptions: {
                 bootScriptOption: {
                     bootScripts: bootScripts,
                     attachedScripts: []
@@ -137,6 +137,10 @@ export default React.createClass({
                 resourcesUsed = stores.InstanceStore
                     .getTotalResources(provider.id);
 
+                identityProvider = stores.IdentityStore.findOne({
+                        'provider.id': provider.id
+                });
+
                 providerSizes = stores.SizeStore
                     .fetchWhere({
                         provider__id: provider.id
@@ -145,10 +149,6 @@ export default React.createClass({
                 if (providerSizes) {
                     providerSize = providerSizes.first();
                 };
-                identityProvider = stores.IdentityStore.findOne({
-                        'provider.id': provider.id
-                });
-
             }
 
             this.setState({
@@ -165,9 +165,9 @@ export default React.createClass({
                     project,
                 },
 
-                advancedSettings: {
+                advancedOptions: {
                     bootScriptOption: {
-                        ...this.state.advancedSettings.bootScriptOption,
+                        ...this.state.advancedOptions.bootScriptOption,
                         bootScripts: bootScripts 
                     }
                 }
@@ -226,7 +226,7 @@ export default React.createClass({
     // When user selects an image
     // Sets the image the instance is based on.
     // Sets the versions list and default version dependent on the image being selected
-    selectImage: function(image) {
+    onSelectImage: function(image) {
         let instanceName = image.attributes.name;
         let imageVersions = stores.ImageVersionStore.fetchWhere({image_id: image.id});
         let imageVersion = null;
@@ -313,6 +313,7 @@ export default React.createClass({
             .fetchWhere({
                 provider__id: provider.id
             });
+        let providerSize = providerSizes.first();
         let identityProvider = stores.IdentityStore
             .findOne({
                 'provider.id': provider.id
@@ -322,28 +323,27 @@ export default React.createClass({
 
         this.setState({
             basicLaunch: _.defaults({
-                provider: provider,
-                providerSizes: providerSizes,
-                identityProvider: identityProvider,
-                resourcesUsed: resourcesUsed
+                provider,
+                providerSizes,
+                providerSize,
+                identityProvider,
+                resourcesUsed
             }, this.state.basicLaunch)
         });
     },
 
     onSizeChange: function(size) {
         this.setState({
-            basicLaunch: {
-                ...this.state.basicLaunch,
+            basicLaunch: _.defaults({
                 providerSize: size
-            }
+            }, this.state.basicLaunch)
         });
     },
 
     onRequestResources: function() {
-        // Launching a resource request modal will eat the current modal. We need to pass this.cancel as a prop
+        // Launching a resource request modal will eat the current modal. We need to pass this. onCancelModal as a prop
         // in order to properly unmount the whole modal, not just the current step component.
-        console.log('requested');
-        this.cancel();
+        this.onCancelModal();
         modals.HelpModals.requestMoreResources();
     },
 
@@ -352,11 +352,11 @@ export default React.createClass({
     //=================================
     
     onAddAttachedScript: function(value) {
-        let bootScriptOption = this.state.advancedSettings.bootScriptOption;
+        let bootScriptOption = this.state.advancedOptions.bootScriptOption;
         let attachedScripts = bootScriptOption.attachedScripts;
 
         this.setState({
-            advancedSettings: {
+            advancedOptions: {
                 bootScriptOption: {
                     ...bootScriptOption,
                     attachedScripts: [...attachedScripts, value]
@@ -366,12 +366,12 @@ export default React.createClass({
     },
 
     onRemoveAttachedScript: function(item) {
-        let bootScriptOption = this.state.advancedSettings.bootScriptOption;
+        let bootScriptOption = this.state.advancedOptions.bootScriptOption;
         let attachedScripts = bootScriptOption.attachedScripts
             .filter((i) => i != item);
 
         this.setState({
-            advancedSettings: {
+            advancedOptions: {
                 bootScriptOption: {
                     ...bootScriptOption,
                     attachedScripts
@@ -384,7 +384,7 @@ export default React.createClass({
     // Instance Luanch Modal Master Event Handlers
     //==============================================
 
-    cancel: function() {
+    onCancelModal: function() {
         this.hide();
     },
     
@@ -393,11 +393,11 @@ export default React.createClass({
     },
 
     onCancelAdvanced: function() {
-        let advancedSettings = this.state.advancedSettings;
-        let bootScriptOption = advancedSettings.bootScriptOption;
+        let advancedOptions = this.state.advancedOptions;
+        let bootScriptOption = advancedOptions.bootScriptOption;
         this.setState({
-            advancedSettings: {
-                ...advancedSettings,
+            advancedOptions: {
+                ...advancedOptions,
                 bootScriptOption: {
                     ...bootScriptOption,
                     attachedScripts: []
@@ -410,7 +410,7 @@ export default React.createClass({
 
     onSubmitLaunch: function() {
         let basic = this.state.basicLaunch;
-        let scripts = this.state.advancedSettings
+        let scripts = this.state.advancedOptions
             .bootScriptOption.attachedScripts;
 
         let launchData = {
@@ -447,8 +447,8 @@ export default React.createClass({
         return (
             <ImageSelectStep
                 image={this.state.image}
-                selectImage={this.selectImage}
-                cancel = {this.cancel}
+                onSelectImage={this.onSelectImage}
+                onCancel = {this.onCancelModal}
             />
         );
     },
@@ -457,6 +457,8 @@ export default React.createClass({
 
         return (
             <BasicLaunchStep {...this.state.basicLaunch}
+                advancedIsDisabled={this.state.advancedIsDisabled}
+                launchIsDisabled={this.state.launchIsDisabled}
                 image={this.state.image}
                 onNameChange={this.onNameChange}
                 onVersionChange={this.onVersionChange}
@@ -465,18 +467,16 @@ export default React.createClass({
                 onSizeChange={this.onSizeChange}
                 onRequestResources={this.onRequestResources}
                 viewAdvanced={this.viewAdvanced}
-                cancel={this.cancel}
+                onCancel={this.onCancelModal}
                 onSubmitLaunch={this.onSubmitLaunch}
                 onBack={this.onBack}
-                advancedIsDisabled={this.state.advancedIsDisabled}
-                launchIsDisabled={this.state.launchIsDisabled}
             />
         );
     },
 
     renderAdvancedOptions: function() {
         return (
-            <AdvancedLaunchStep {...this.state.advancedSettings}
+            <AdvancedLaunchStep {...this.state.advancedOptions}
                 onAddAttachedScript={this.onAddAttachedScript}
                 onRemoveAttachedScript={this.onRemoveAttachedScript}
                 cancelAdvanced={this.onCancelAdvanced}

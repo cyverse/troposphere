@@ -17,7 +17,7 @@ define(
 
       renderImage: function (image) {
         return (
-          <Image key={image.id} image={image} selectImage={this.props.selectImage}/>
+          <Image key={image.id} image={image} onSelectImage={this.props.onSelectImage}/>
         )
       },
 

@@ -44,11 +44,12 @@ export default React.createClass({
                 </div>
                 <InstanceLaunchFooter
                     onBack={this.props.onBack}
-                    cancel={this.props.cancel}
+                    onCancel={this.props.onCancel}
                     onSubmitLaunch={this.props.onSubmitLaunch}
                     viewAdvanced={this.props.viewAdvanced}
                     launchIsDisabled={this.props.launchIsDisabled}
                     advancedIsDisabled={this.props.launchIsDisabled}
+                    backIsDisabled={false}
                 />
 
             </div>
