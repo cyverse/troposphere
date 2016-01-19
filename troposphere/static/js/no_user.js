@@ -1,7 +1,7 @@
 import React from "react";
 import "css/no_user.scss";
 
-var login = THEME_URL + "images/login_mainimage.png";
+var login = THEME_URL + "/images/login_mainimage.png";
 
 var NoUser = React.createClass({
     render: function() {
