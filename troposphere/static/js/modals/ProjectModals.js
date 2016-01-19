@@ -1,6 +1,7 @@
 define(function (require) {
 
   return {
+    addImage: require('./project/addImage').addImage,
     create: require('./project/create').create,
     destroy: require('./project/destroy').destroy,
     explainProjectDeleteConditions: require('./project/explainProjectDeleteConditions').explainProjectDeleteConditions,
