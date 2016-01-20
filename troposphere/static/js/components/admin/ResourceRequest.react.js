@@ -7,13 +7,16 @@ define(function (require) {
     stores = require('stores'),
     Glyphicon = require('components/common/Glyphicon.react'),
     actions = require('actions'),
+    RouteHandler = Router.RouteHandler,
     ResourceActions = require('actions/ResourceActions');
 
   return React.createClass({
 
-    propTypes: {
-      request: React.PropTypes.instanceOf(Backbone.Model).isRequired
-    },
+    mixins: [Router.State],
+
+    // propTypes: {
+    //   request: React.PropTypes.instanceOf(Backbone.Model).isRequired
+    // },
 
     getInitialState: function(){
       return {
@@ -194,23 +197,21 @@ define(function (require) {
     },
 
     render: function () {
-      var request = this.props.request,
+      var request = this.getParams().request,
           adminDisplay;
 
-      if(this.state.displayAdmin){
-        adminDisplay = this.renderAdminDetails();
-      }
+      console.log(this.getParams());
+      console.log(request);
+
+      // if(this.state.displayAdmin){
+      //   adminDisplay = this.renderAdminDetails();
+      // }
 
       return (
-        <li className="request clearfix">
-          <a onClick={this.handleDisplayChange}>
-            <div>{request.get('user').username}</div> 
-            <div>{request.get('request')} </div>
-            <div>{request.get('description')}</div>
-          </a>
-
-          {adminDisplay}
-        </li>
+        <div className="pull-right">
+          {this.renderAdminDetails}
+          <RouteHandler /> 
+        </div>
       );
     }
 
