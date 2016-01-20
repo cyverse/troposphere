@@ -105,7 +105,7 @@ define(function (require) {
     },
 
     // Fetch the first page of data from the server
-    fetchModels: function () {
+    fetchModels: function (onDone) {
       if (!this.models && !this.isFetching) {
         this.isFetching = true;
         var models = new this.collection();
@@ -119,6 +119,7 @@ define(function (require) {
         models.fetch({
           url: _.result(models, 'url') + queryString
         }).done(function () {
+          onDone(models);
           this.isFetching = false;
           this.models = models;
           if (this.pollingEnabled) {
@@ -147,8 +148,17 @@ define(function (require) {
     // Returns the entire local cache, everything in this.models
     getAll: function () {
       if (!this.models) {
-        this.fetchModels()
+        this.fetchModels(function(){});
       } else {
+        return this.models;
+      }
+    },
+
+    getAllWithCallBack: function (callback) {
+      if (!this.models) {
+        this.fetchModels(callback);
+      } else {
+        callback(this.models);
         return this.models;
       }
     },
