@@ -22,11 +22,12 @@ define(function (require) {
     // fetch from the server. Used to prevent multiple server calls for the same data.
     this.isFetching = false;
 
-    // pollingEnabled: True if this store should poll models
-    // modelsPolling: array of models which are being polled
+    // pollingEnabled: True if this store should poll models 
+    // pollingModels: A dictionary(model, callback), the presence of a model indicates polling
+    //    status, see pollWhile
     // pollingFrequency: frequency in milliseconds of when the models should be polled
     this.pollingEnabled = false;
-    this.modelsPolling = [];
+    this.pollingModels = {};
     this.pollingFrequency = 5 * 1000;
 
     // isFetchingQuery: stores query strings as keys and denotes whether that data is already
@@ -88,11 +89,8 @@ define(function (require) {
     remove: function (model) {
       this.models.remove(model);
 
-      // Remove model from polling queue
-      var index = this.modelsPolling.indexOf(model);
-      if (index > 0) {
-          this.modelsPolling.splice(index, 1);
-      }
+      // Remove model from polling dictionary
+      delete this.pollingModels[model.cid];
     },
 
     // --------------
@@ -105,7 +103,7 @@ define(function (require) {
     },
 
     // Fetch the first page of data from the server
-    fetchModels: function (onDone) {
+    fetchModels: function () {
       if (!this.models && !this.isFetching) {
         this.isFetching = true;
         var models = new this.collection();
@@ -119,7 +117,6 @@ define(function (require) {
         models.fetch({
           url: _.result(models, 'url') + queryString
         }).done(function () {
-          onDone(models);
           this.isFetching = false;
           this.models = models;
           if (this.pollingEnabled) {
@@ -148,17 +145,8 @@ define(function (require) {
     // Returns the entire local cache, everything in this.models
     getAll: function () {
       if (!this.models) {
-        this.fetchModels(function(){});
+        this.fetchModels()
       } else {
-        return this.models;
-      }
-    },
-
-    getAllWithCallBack: function (callback) {
-      if (!this.models) {
-        this.fetchModels(callback);
-      } else {
-        callback(this.models);
         return this.models;
       }
     },
@@ -282,7 +270,7 @@ define(function (require) {
           url: nextUrl
         }).done(function () {
           this.isFetchingMore = false;
-          this.models.add(moreModels.models);
+          this.models.add(moreModels.models, { merge: true });
           this.models.meta = moreModels.meta;
           this.emitChange();
         }.bind(this));
@@ -328,8 +316,6 @@ define(function (require) {
           url: models.url + queryString
         }).done(function () {
           this.isFetchingQuery[queryString] = false;
-          if(!this.models) this.models = new this.collection();
-          this.models.add(models.models);
           this.queryModels[queryString] = models;
           this.emitChange();
         }.bind(this));
@@ -366,60 +352,61 @@ define(function (require) {
     // Polling functions
     // -----------------
 
+    // Poll model while whileFunc(model) returns true.
+    pollWhile: function(model, whileFunc) {
+        if (!model.fetchFromCloud)
+            throw new Error("model missing required method for polling: fetchFromCloud");
+         
+        // If already polling, mutate the callback and exit
+        if (this.pollingModels[model.cid]) {
+            this.pollingModels[model.cid] = whileFunc;
+            return;
+        }
+
+        // Set the new polling function
+        this.pollingModels[model.cid] = whileFunc;
+
+        // Wrapper gets called every pollingFrequency, calling the latest
+        // whileFunc
+        var wrapper = function() {
+            model.fetchFromCloud(function(response) {
+
+                // If no longer polling, exit
+                if (!this.pollingModels[model.cid])
+                    return;
+
+                // Use latest polling func
+                var keepPolling = this.pollingModels[model.cid](model, response);
+
+                if (this.has(model))
+                    this.update(model);
+                this.emitChange();
+
+                if (keepPolling) {
+                    setTimeout(wrapper, this.pollingFrequency);
+                } else {
+                    delete this.pollingModels[model.cid];
+                }
+            }.bind(this));
+        }.bind(this);
+
+        // Kickstart polling
+        wrapper();
+    },
+
     // Fetches the models state immediately and then sets up to be polled if not in a final state
     pollNowUntilBuildIsFinished: function (model) {
-      if (model.id && this.modelsPolling.indexOf(model) < 0) {
-        this.modelsPolling.push(model);
-        this.fetchNowAndRemoveIfFinished(model);
+      if (!this.isInFinalState) throw new Error("store missing required method for polling: isInFinalState");
+
+      if (model.id) {
+        this.pollWhile(model, _.negate(this.isInFinalState));
       }
     },
 
-    // Sets up to be polled if not in a final state
+    // Delays before polling, should be removed...
     pollUntilBuildIsFinished: function (model) {
-      if (model.id && this.modelsPolling.indexOf(model) < 0) {
-        this.modelsPolling.push(model);
-        this.fetchAndRemoveIfFinished(model);
-      }
+        this.setTimeout(this.pollNowUntilBuildIsFinished, this.pollingFrequency);
     },
-
-    // Fetches the model's state from the server then sets up to be polled again if not in a final state
-    fetchAndRemoveIfFinished: function (model) {
-      if (!model.fetchFromCloud) throw new Error("model missing required method for polling: fetchFromCloud");
-      if (!this.isInFinalState) throw new Error("store missing required method for polling: isInFinalState");
-
-      setTimeout(function () {
-        model.fetchFromCloud(function () {
-          // Check to see if instance was removed
-          if (!this.has(model))
-            return
-          this.update(model);
-          var index = this.modelsPolling.indexOf(model);
-          if (this.isInFinalState(model)) {
-            this.modelsPolling.splice(index, 1);
-          } else {
-            this.fetchAndRemoveIfFinished(model);
-          }
-          this.emitChange();
-        }.bind(this));
-      }.bind(this), this.pollingFrequency);
-    },
-
-    // Fetches the model's state immediately from the server then sets up to be polled again if not in a final state
-    fetchNowAndRemoveIfFinished: function (model) {
-      if (!model.fetchFromCloud) throw new Error("model missing required method for polling: fetchFromCloud");
-      if (!this.isInFinalState) throw new Error("store missing required method for polling: isInFinalState");
-
-      model.fetchFromCloud(function () {
-        this.update(model);
-        var index = this.modelsPolling.indexOf(model);
-        if (this.isInFinalState(model)) {
-          this.modelsPolling.splice(index, 1);
-        } else {
-          this.fetchAndRemoveIfFinished(model);
-        }
-        this.emitChange();
-      }.bind(this));
-    }
 
   });
 
