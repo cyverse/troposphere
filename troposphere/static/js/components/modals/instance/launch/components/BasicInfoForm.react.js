@@ -6,7 +6,7 @@ import SelectMenu from 'components/common/ui/SelectMenu.react';
 export default React.createClass({
 
    render: function () {
-        if (!this.props.imageVersion || !this.props.imageVersions) {
+        if (!this.props.imageVersion || !this.props.imageVersionList) {
             return (<div className="loading"/>);
         }
 
@@ -28,7 +28,7 @@ export default React.createClass({
                     </label>
                     <SelectMenu
                         defaultId={this.props.imageVersion.get('id')}
-                        list={this.props.imageVersions}
+                        list={this.props.imageVersionList}
                         optionName={name}
                         onSelectChange={this.props.onVersionChange}/>
                 </div>
@@ -38,7 +38,7 @@ export default React.createClass({
                     </label>
                     <SelectMenu
                         defaultId={this.props.project.id}
-                        list={this.props.projects}
+                        list={this.props.projectList}
                         optionName={name}
                         onSelectChange={this.props.onProjectChange}/>
                 </div>

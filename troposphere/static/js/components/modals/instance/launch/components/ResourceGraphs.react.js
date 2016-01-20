@@ -66,19 +66,22 @@ export default React.createClass({
                     <ProgressBar
                         startColor="#56AA21"
                         startValue={allocationPercent}
-                        label={auLabel}/>
+                        label={auLabel}
+                    />
                         {this.resourceExceded(allocationPercent, allocationTotal)}
                     <ProgressBar
                         startColor="#56AA21"
                         startValue={percentOfCpuUsed}
                         afterValue={percentOfCpuWillUse}
-                        label={cpuLabel}/>
+                        label={cpuLabel}
+                    />
                         {this.resourceExceded(cpuWillTotal, allocationCpu )}
                     <ProgressBar
                         startColor="#56AA21"
                         startValue={percentOfGbUsed}
                         afterValue={percentOfGbWillUse}
-                        label={gbLabel}/>
+                        label={gbLabel}
+                    />
                         {this.resourceExceded(gbWillTotal, allocationGb)}
                 </div>
             )

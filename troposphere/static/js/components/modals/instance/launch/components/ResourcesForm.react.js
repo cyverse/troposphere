@@ -7,8 +7,8 @@ import SelectMenu from 'components/common/ui/SelectMenu.react';
 export default React.createClass({
 
     render: function () {
-        console.log(this.props.provider ,this.props.providerSizes ,this.props.providerSize)
-        if (!this.props.provider || !this.props.providerSizes || !this.props.providerSize) {
+        console.log(this.props.provider ,this.props.providerSizeList ,this.props.providerSize)
+        if (!this.props.provider || !this.props.providerSizeList || !this.props.providerSize) {
             return ( <div className="loading"/>);
         }
 
@@ -25,7 +25,7 @@ export default React.createClass({
                     </label>
                     <SelectMenu
                         defaultId={defaultProviderId}
-                        list={this.props.providers}
+                        list={this.props.providerList}
                         optionName={providerName}
                         onSelectChange={this.props.onProviderChange}/>
                 </div>
@@ -36,7 +36,7 @@ export default React.createClass({
                     <SelectMenu
                     //TODO Set default Size
                         defaultId={sizeId}
-                        list={this.props.providerSizes}
+                        list={this.props.providerSizeList}
                         optionName={sizeName}
                         onSelectChange={this.props.onSizeChange}/>
                 </div>
@@ -45,7 +45,7 @@ export default React.createClass({
                         provider={this.props.provider}
                         resourcesUsed={this.props.resourcesUsed}
                         size={this.props.providerSize}
-                        sizes={this.props.providerSizes}
+                        sizes={this.props.providerSizeList}
                         identityProvider={this.props.identityProvider}
                         onRequestResources={this.props.onRequestResources}
                         />

@@ -18,8 +18,8 @@ export default React.createClass({
                         <BasicInfoForm
                             image={this.props.image}
                             project={this.props.project}
-                            projects={this.props.projects}
-                            imageVersions={this.props.imageVersions}
+                            projectList={this.props.projectList}
+                            imageVersionList={this.props.imageVersionList}
                             imageVersion={this.props.imageVersion}
                             onNameChange={this.props.onNameChange}
                             onVersionChange={this.props.onVersionChange}
@@ -30,9 +30,9 @@ export default React.createClass({
                         <h3 className="t-title">Resources</h3>
                         <hr/>
                         <ResourcesForm
-                            providers={this.props.providers}
+                            providerList={this.props.providerList}
                             provider={this.props.provider}
-                            providerSizes={this.props.providerSizes}
+                            providerSizeList={this.props.providerSizeList}
                             providerSize={this.props.providerSize}
                             resourcesUsed={this.props.resourcesUsed}
                             identityProvider={this.props.identityProvider}

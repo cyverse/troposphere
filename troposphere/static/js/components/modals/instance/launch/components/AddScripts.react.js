@@ -19,7 +19,7 @@ export default React.createClass({
                             <SelectMenu
                                 hintText="Select scripts to add to your instance"
                                 optionName = {scriptName}
-                                list={this.props.bootScriptOption.bootScripts}
+                                list={this.props.bootScriptOption.bootScriptList}
                                 onSelectChange={this.props.onAddAttachedScript}
                             />
                         </div>

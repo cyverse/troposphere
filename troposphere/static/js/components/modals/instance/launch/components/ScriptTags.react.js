@@ -9,11 +9,11 @@ export default React.createClass({
     renderTag: function (item) {
         if (item) {
             return (
-                <a className="btn btn-small btn-default" 
+                <a className="tag"
                     onClick={this.onRemove.bind(this, item)}
                 >
                     {item.get('title') + " "}
-                    <span className="glyphicon glyphicon-remove"/>
+                    <span className="tag__x glyphicon glyphicon-remove"/>
                 </a>
             )
         }
