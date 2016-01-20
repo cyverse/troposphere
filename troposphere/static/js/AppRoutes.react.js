@@ -80,7 +80,9 @@ define(function (require) {
 				<Route name="atmosphere-user-manager" path="users" handler={AtmosphereUserMaster} />
 				<Route name="atmosphere-user-manager-detail" path="users/:username" handler={UserDetailPage} />
         <Route name="identity-membership-manager" path="identities" handler={IdentityMembershipMaster}/>
-        <Route name="resource-request-manager" path="resource-requests" handler={ResourceMaster} />
+        <Route name="resource-request-manager" path="resource-requests" handler={ResourceMaster}>
+          <Route name="resource-request-detail" path=":id" handler={ResourceRequest}/>
+        </Route>
         <Route name="image-request-manager" path="imaging-requests" handler={ImageMaster} />
         
       </Route>
