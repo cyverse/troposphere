@@ -407,7 +407,7 @@ define(function (require) {
 
     // Delays before polling, should be removed...
     pollUntilBuildIsFinished: function (model) {
-        this.setTimeout(this.pollNowUntilBuildIsFinished, this.pollingFrequency);
+        setTimeout(this.pollNowUntilBuildIsFinished.bind(this, model), this.pollingFrequency);
     },
 
   });
