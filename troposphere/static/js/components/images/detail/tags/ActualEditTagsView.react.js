@@ -46,7 +46,7 @@ define(function (require) {
 
       if (query) {
         tags = this.props.tags.filter(function (tag) {
-          return tag.get('name').toLowerCase().indexOf(query) >= 0;
+          return tag.get('name').toLowerCase().indexOf(query.toLowerCase()) >= 0;
         });
         tags = new Backbone.Collection(tags);
       }
