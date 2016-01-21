@@ -48,7 +48,6 @@ export default React.createClass({
             provider,
             image,
             sizes,
-            advancedIsDisabled: false,
             LaunchIsDisabled: false,
             advancedLaunch: {},
 
@@ -61,8 +60,8 @@ export default React.createClass({
             scripts: null,
 
             // Advanced options
-            bootScriptList,
             attachedScripts: [],
+            advancedIsDisabled: false,
         }
     },
 
@@ -149,10 +148,6 @@ export default React.createClass({
     //===================================
     // Internal Modal Callbacks
     //===================================
-
-    getState: function() {
-        return this.state;
-    },
 
     viewImageSelect: function() {
         this.setState({ view: "IMAGE_VIEW", });
@@ -274,30 +269,16 @@ export default React.createClass({
     //=================================
     
     onAddAttachedScript: function(value) {
-        let bootScriptOption = this.state.advancedOptions.bootScriptOption;
-        let attachedScripts = bootScriptOption.attachedScripts;
+        let attachedScripts = this.state.attachedScripts;
 
-        this.setState({
-            advancedOptions: {
-                bootScriptOption: _.defaults({
-                    attachedScripts: [...attachedScripts, value]
-                }, bootScriptOption)
-            }
-        })
+        this.setState({ attachedScripts: [...attachedScripts, value] });
     },
 
     onRemoveAttachedScript: function(item) {
-        let bootScriptOption = this.state.advancedOptions.bootScriptOption;
-        let attachedScripts = bootScriptOption.attachedScripts
+        let attachedScripts = this.state.attachedScripts
             .filter((i) => i != item);
 
-        this.setState({
-            advancedOptions: {
-                bootScriptOption: _.defaults({
-                    attachedScripts
-                }, bootScriptOption)
-            }
-        });
+        this.setState({ attachedScripts });
     },
 
     //==============================================
@@ -313,25 +294,12 @@ export default React.createClass({
     },
 
     onCancelAdvanced: function() {
-        let advancedOptions = this.state.advancedOptions;
-        let bootScriptOption = advancedOptions.bootScriptOption;
-
-        this.setState({
-            advancedOptions: {
-                ...advancedOptions,
-                bootScriptOption: {
-                    ...bootScriptOption,
-                    attachedScripts: []
-                }
-            }
-        });
-
+        this.setState({ attachedScripts: [] });
         this.viewBasic();
     },
 
     onSubmitLaunch: function() {
-        let scripts = this.state.advancedOptions
-            .bootScriptOption.attachedScripts;
+        let scripts = this.state.attachedScripts;
 
         // TODO: this object is the real state for this component (it's what's
         // necessary) this entire method should be simplified to the following:
@@ -422,9 +390,11 @@ export default React.createClass({
     },
 
     renderAdvancedOptions: function() {
-
+        let bootScriptList = stores.ScriptStore.getAll();
         return (
-            <AdvancedLaunchStep {...this.state.advancedOptions}
+            <AdvancedLaunchStep 
+                bootScriptList={bootScriptList}
+                attachedScripts={this.state.attachedScripts}
                 onAddAttachedScript={this.onAddAttachedScript}
                 onRemoveAttachedScript={this.onRemoveAttachedScript}
                 cancelAdvanced={this.onCancelAdvanced}

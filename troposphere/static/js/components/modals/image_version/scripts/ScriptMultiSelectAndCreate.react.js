@@ -135,6 +135,7 @@ define(function (require) {
     render: function () {
       var createShowing = this.state.showCreateForm,
         createButtonText = this.props.createButtonText,
+        // TODO: are parens necessary?
         showFormButtonText = (!createShowing) ? this.props.showButtonText : this.props.hideButtonText;
 
       return (
