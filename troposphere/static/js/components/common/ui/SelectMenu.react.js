@@ -6,17 +6,13 @@ export default React.createClass({
     displayName: "SelectMenu",
 
     propTypes: {
-        defaultId: React.PropTypes.number.isRequired,
+        // defaultId is node because the id for versions is string while others are number
+        defaultId: React.PropTypes.node,
         isModel: React.PropTypes.bool,
-        optionName: React.PropTypes.func.isRequired
-    },
-
-    getInitialState: function(){
-        let defaultId = this.props.defaultId;
-
-        return({
-            value: defaultId
-        })
+        hintText: React.PropTypes.string,
+        optionName: React.PropTypes.func.isRequired,
+       // Need to set this
+       // list: React.PropTypes.array ??
     },
 
     onSelectChange: function(e) {
@@ -28,7 +24,6 @@ export default React.createClass({
     },
 
     hintText: function() {
-
         if (this.props.hintText) {
 
             return (
@@ -47,10 +42,9 @@ export default React.createClass({
     },
 
     render: function () {
-
         if (this.props.list) {
             let options = this.props.list.map(this.renderOption);
-            
+
             return (
             <select value={this.props.defaultId} className='form-control' id='size' onChange={this.onSelectChange}>
                 {this.hintText()}

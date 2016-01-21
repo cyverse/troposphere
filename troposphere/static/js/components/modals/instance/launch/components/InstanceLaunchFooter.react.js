@@ -1,6 +1,17 @@
 import React from 'react';
 
 export default React.createClass({
+
+    propTypes: {
+        backIsDisabled: React.PropTypes.bool,
+        launchIsDisabled: React.PropTypes.bool,
+        advancedIsDisabled: React.PropTypes.bool,
+        onBack: React.PropTypes.func,
+        viewAdvanced: React.PropTypes.func,
+        onSubmitLaunch: React.PropTypes.func,
+        onCancel: React.PropTypes.func.isRequired
+    },
+
     renderBack: function() {
         if (this.props.backIsDisabled) {
             return

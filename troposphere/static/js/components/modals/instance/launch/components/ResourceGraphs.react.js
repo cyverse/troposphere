@@ -26,7 +26,7 @@ export default React.createClass({
         // Make sure stores are populated before rendering
         let identityProvider = this.props.identityProvider;
         let size = this.props.size;
-        console.log(identityProvider, size);
+
         if ( !identityProvider || !size ) { return ( <div className="loading"/> ); }
 
         // AU's Used

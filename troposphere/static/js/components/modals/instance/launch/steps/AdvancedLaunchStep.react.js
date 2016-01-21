@@ -12,15 +12,18 @@ export default React.createClass({
             saveOptionsDisabled: false,
             options:[{
                     name: "Deployment Scripts",
-                    view: "BOOTSCRIPT_VIEW"
+                    view: "BOOTSCRIPT_VIEW",
+                    id: 1
                 },
                 {
                     name: "Option 2",
-                    view: "OPTION2_VIEW"
+                    view: "OPTION2_VIEW",
+                    id: 2
                 },
                 {
                     name: "Option 3",
-                    view: "OPTION3_VIEW"
+                    view: "OPTION3_VIEW",
+                    id: 3
                 }],
         }
     },
@@ -62,14 +65,16 @@ export default React.createClass({
         if (item.view == this.state.view) {
             isActive = "active";
         }
+
         return (
-            <li className={`NavStacked-link ${isActive}`}>
+            <li className={`NavStacked-link ${isActive}`} key={item.id}>
             <a onClick={this.changeOption.bind(this, item)}>{title}</a></li>
         );
     },
 
     renderBootScripts: function() {
         if (this.props.bootScriptOption.bootScriptList) {
+
             return (
                 <BootScriptOption {...this.props}
                     onDisableSave={this.onDisableSave}
@@ -93,6 +98,7 @@ export default React.createClass({
 
     render: function() {
         let options = this.state.options.map(this.renderOptions);
+
         return (
             <div>
                 <div className="AdvancedOptions">

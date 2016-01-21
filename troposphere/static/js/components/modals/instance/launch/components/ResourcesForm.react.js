@@ -7,7 +7,6 @@ import SelectMenu from 'components/common/ui/SelectMenu.react';
 export default React.createClass({
 
     render: function () {
-        console.log(this.props.provider ,this.props.providerSizeList ,this.props.providerSize)
         if (!this.props.provider || !this.props.providerSizeList || !this.props.providerSize) {
             return ( <div className="loading"/>);
         }
@@ -20,25 +19,28 @@ export default React.createClass({
         return (
             <form>
                 <div className="form-group">
-                    <label for="instanceName">
+                    <label htmlFor="provider">
                         Provider
                     </label>
                     <SelectMenu
+                        id="provider"
                         defaultId={defaultProviderId}
                         list={this.props.providerList}
                         optionName={providerName}
-                        onSelectChange={this.props.onProviderChange}/>
+                        onSelectChange={this.props.onProviderChange}
+                    />
                 </div>
                 <div className="form-group">
-                    <label for="instanceSize">
+                    <label htmlFor="instanceSize">
                             Instance  Size
                     </label>
                     <SelectMenu
-                    //TODO Set default Size
+                        id="instanceSize"
                         defaultId={sizeId}
                         list={this.props.providerSizeList}
                         optionName={sizeName}
-                        onSelectChange={this.props.onSizeChange}/>
+                        onSelectChange={this.props.onSizeChange}
+                    />
                 </div>
                 <div className="form-group">
                     <ResourceGraphs
@@ -48,7 +50,7 @@ export default React.createClass({
                         sizes={this.props.providerSizeList}
                         identityProvider={this.props.identityProvider}
                         onRequestResources={this.props.onRequestResources}
-                        />
+                    />
                 </div>
             </form>
         );

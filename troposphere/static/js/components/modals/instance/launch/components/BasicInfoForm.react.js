@@ -13,17 +13,18 @@ export default React.createClass({
         let name = function(item) { return item.get('name') };
         let imageName = this.props.image.get('name');
         let imageVersionId = this.props.imageVersion.get('id');
+
         return (
             <form>
                 <div className="form-group">
-                    <label for="instanceName">
+                    <label htmlFor="instanceName">
                         Instance Name
                     </label>
                     <input type="Name" className="form-control" id="instanceName" value={imageName}
                         onChange={this.props.onNameChange}/>
                 </div>
                 <div className="form-group">
-                    <label for="imageVersion">
+                    <label htmlFor="imageVersion">
                         Base Image Version
                     </label>
                     <SelectMenu
@@ -33,7 +34,7 @@ export default React.createClass({
                         onSelectChange={this.props.onVersionChange}/>
                 </div>
                 <div className="form-group">
-                    <label for="project">
+                    <label htmlFor="project">
                         Project
                     </label>
                     <SelectMenu

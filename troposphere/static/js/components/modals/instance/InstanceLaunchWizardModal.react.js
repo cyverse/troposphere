@@ -78,7 +78,7 @@ export default React.createClass({
     //
     // UpdateState
     // ----------------------
-    // UpdateState gets called from our channge listeners when Models are populated or changed.
+    // UpdateState gets called from our change listeners when Models are populated or changed.
     // Conditional values are because some of these properties are defaults that can be changed by the user.
     // If statments are because these queries are dependent of other models that must be populated first.
     //
@@ -314,10 +314,32 @@ export default React.createClass({
         });
     },
 
-    onVersionChange: function(version) {
+    onVersionChange: function(imageVersion) {
+        let providerList = new Backbone.Collection(imageVersion.get('machines').map((item) => item.provider));
+        let provider = providerList.first();
+        let resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
+        let providerSizeList = stores.SizeStore
+            .fetchWhere({
+                provider__id: provider.id
+            });
+
+        let identityProvider = stores.IdentityStore.findOne({
+                'provider.id': provider.id
+        });
+
+        if (providerSizeList) {
+            providerSize = providerSizeList.first();
+        };
+
         this.setState({
             basicLaunch: _.defaults({
-                imageVersion: version
+                imageVersion,
+                providerList,
+                provider,
+                providerSizeList,
+                providerSize,
+                resourcesUsed,
+                identityProvider
             }, this.state.basicLaunch)
         });
     },

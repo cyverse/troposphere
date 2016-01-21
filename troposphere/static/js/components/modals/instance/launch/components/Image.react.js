@@ -13,31 +13,13 @@ define(
     return React.createClass({
       displayName: "Image",
 
-      getInitialState: function(){
-          let image = this.props.image;
-          let versionList = null;
-          let active = false;
-            if (image) {
-                versionList = image.get('versions');
-
-                if (versionList.length > 0) {
-                    active = true;
-                }
-            }
-            return {
-                active
-            }
-      },
-
       propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         onClick: React.PropTypes.func
       },
 
       handleClick: function () {
-        if (this.state.active) {
             this.props.onSelectImage(this.props.image);
-        }
       },
 
       renderTags: function () {
@@ -61,11 +43,9 @@ define(
           <Gravatar hash={image.get('uuid_hash')} size={iconSize} type={type}/>
         );
 
-        let inactiveClass = !this.state.active ? "disabled" : "";
-
         return (
             <li onClick={this.handleClick}>
-                <div className={`media card ${inactiveClass}`}>
+                <div className="media card">
                     <div className="media__img">
                         {icon}
                     </div>
