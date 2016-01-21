@@ -34,6 +34,7 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
     }
     template_params['SITE_TITLE'] = settings.SITE_TITLE
     template_params['SITE_FOOTER'] = settings.SITE_FOOTER
+    template_params['SUPPORT_EMAIL'] = settings.SUPPORT_EMAIL
     template_params['UI_VERSION'] = settings.UI_VERSION
     template_params['BADGE_HOST'] = getattr(settings, "BADGE_HOST", None)
 
@@ -96,6 +97,7 @@ def _handle_authenticated_application_request(request, maintenance_records):
 
     template_params['SITE_TITLE'] = settings.SITE_TITLE
     template_params['SITE_FOOTER'] = settings.SITE_FOOTER
+    template_params['SUPPORT_EMAIL'] = settings.SUPPORT_EMAIL
     template_params['UI_VERSION'] = settings.UI_VERSION
     template_params['BADGE_HOST'] = getattr(settings, "BADGE_HOST", None)
 

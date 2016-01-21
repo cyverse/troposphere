@@ -87,6 +87,10 @@
             var WEB_SH_URL ="{{ WEB_SH_URL }}";
         {% endif %}
 
+        {% if SUPPORT_EMAIL %}
+            var SUPPORT_EMAIL = "{{ SUPPORT_EMAIL }}";
+        {% endif %}
+
         {% if show_public_site %}
             var show_public_site = true;
         {%  else %}
