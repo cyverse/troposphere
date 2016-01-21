@@ -34,6 +34,25 @@ define(function (require) {
       return new InstanceCollection(instances);
     },
 
+    getTotalResources: function (providerId) {
+        if (!this.models) return this.fetchModels();
+
+        let total = {
+            cpu: 0,
+            mem: 0,
+            disk: 0
+        };
+
+        this.models.forEach(function(item) {
+            if (providerId == item.get('identity').provider) {
+                total.cpu = total.cpu += item.get('size').cpu;
+                total.mem = total.mem += item.get('size').mem;
+                total.disk = total.disk += item.get('size').disk;
+            }
+        });
+        return total;
+    },
+
     // -----------------
     // Polling functions
     // -----------------

@@ -1,396 +1,566 @@
-define(function(require) {
+// Dev Dependencies
+import React from 'react/addons';
+import Backbone from 'backbone';
+import _ from 'underscore';
+import modals from 'modals';
+import stores from 'stores';
+import actions from 'actions';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    _ = require('underscore'),
-    modals = require('modals'),
-    stores = require('stores'),
+// Components
+import ImageSelectStep from './launch/steps/ImageSelectStep.react';
+import BasicLaunchStep from './launch/steps/BasicLaunchStep.react';
+import AdvancedLaunchStep from './launch/steps/AdvancedLaunchStep.react';
 
-    BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
-    BreadcrumbNav = require('components/common/breadcrumb/BreadcrumbNav.react'),
-
-    ImageSelectStep = require('./launch/steps/ImageSelectStep.react'),
-    NameIdentityVersionStep = require('./launch/steps/NameIdentityVersionStep.react'),
-    SizeSelectStep = require('./launch/steps/SizeSelectStep.react'),
-    ProjectSelectStep = require('./launch/steps/ProjectSelectStep.react'),
-    UserOptionsStep = require('./launch/steps/UserOptionsStep.react'),
-    AdministratorOptionsStep = require('./launch/steps/AdminOptionsStep.react'),
-    LicensingStep = require('./launch/steps/LicensingStep.react'),
-    ReviewLaunchStep = require('./launch/steps/ReviewLaunchStep.react');
-
-  var IMAGE_STEP = 0,
-      INFORMATION_STEP = 1,
-      SIZE_STEP = 2,
-      PROJECT_STEP = 3,
-      OPTIONS_STEP = 4,
-      LICENSE_STEP = 5,
-      REVIEW_STEP = 6;
-
-  return React.createClass({
+export default React.createClass({
     mixins: [BootstrapModalMixin],
     displayName: "InstanceLaunchWizardModal",
 
     propTypes: {
-      image: React.PropTypes.instanceOf(Backbone.Model),
-      project: React.PropTypes.instanceOf(Backbone.Model),
-      onConfirm: React.PropTypes.func.isRequired,
+        image: React.PropTypes.instanceOf(Backbone.Model),
+        project: React.PropTypes.instanceOf(Backbone.Model),
+        onConfirm: React.PropTypes.func.isRequired,
     },
 
-    onRequestResources: function(){
-      // Launching a resource request modal will eat the current modal. We need to pass this.cancel as a prop
-      // in order to properly unmount the whole modal, not just the current step component.
-      this.cancel();
-      modals.HelpModals.requestMoreResources();
-    },
+    getInitialState: function() {
 
-    isLicenseStepActive: function() {
-      state = this.getState();
-      if (state.version
-        && state.version.get('licenses')
-        && state.version.get('licenses').length > 0) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-    isOptionsStepActive: function() {
-      state = this.getState();
-      if (state.showOptions === true) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-    renderImageSelect: function() {
-      return (
-                <ImageSelectStep
-                    image={this.state.image}
-                            onPrevious={this.cancel}
-                            onNext={this.onNext}
-                />
-      );
-    },
-    renderNameStep: function() {
-      return (
-                <NameIdentityVersionStep
-                    image={this.state.image}
-                    name={this.state.name}
-                    identity={this.state.identity}
-                    version={this.state.version}
-                    onRequestResources={this.onRequestResources}
-                    onPrevious={this.onPrevious}
-                    onNext={this.onNext}
-                />
-      );
-    },
-    renderSizeStep: function() {
-        return (
-                <SizeSelectStep
-                    image={this.state.image}
-                    identity={this.state.identity}
-                    version={this.state.version}
-                    size={this.state.size}
-                    onRequestResources={this.onRequestResources}
-                    onPrevious={this.onPrevious}
-                    onNext={this.onNext}
-                />
-      );
-    },
-    renderProjectStep: function() {
-        return (
-                <ProjectSelectStep
-                    project={this.state.project}
-                    onPrevious={this.onPrevious}
-                    onNext={this.onNext}
-                />
-              );
-    },
-    renderUserOptionsStep: function() {
-      var allScripts = this.state.scripts || stores.ScriptStore.getAll(),
-      requiredScripts = (this.state.version ? this.state.version.get('scripts') : null) || [],
-      activeScripts = this.state.activeScripts || new Backbone.Collection();
-      return (
-                <UserOptionsStep
-                    launchOptions={this.state.launchOptions}
-                    scripts={allScripts}
-                    activeScripts={activeScripts}
-                    requiredScripts={requiredScripts}
-                    onPrevious={this.onPrevious}
-                    onNext={this.onNext}
-                />
-              );
-    },
-    renderStaffOptionsStep: function() {
-      return (
-        <AdministratorOptionsStep
-          launchOptions={this.state.launchOptions}
-          onPrevious={this.onPrevious}
-          onNext={this.onNext}
-          onFinished={this.toReview}
-        />
-      );
-    },
-    renderReviewLaunchStep: function() {
-      return (
-        <ReviewLaunchStep
-          launchData={this.state}
-          onPrevious={this.onPrevious}
-          onNext={this.onCompleted}
-          onRequestResources={this.onRequestResources}
-          toAdvancedOptions={this.toAdvancedOptions}
-        />
-      );
-    },
-    renderLicenseStep: function() {
-      return (
-        <LicensingStep
-          licenses={this.state.version.get('licenses')}
-          onPrevious={this.onPrevious}
-          onNext={this.onNext}
-        />
-      );
-    },
-    renderBody: function() {
-      var step = this.state.step;
-        switch(step) {
-	       case IMAGE_STEP:
-          return this.renderImageSelect();
-        case INFORMATION_STEP:
-          return this.renderNameStep();
-        case SIZE_STEP:
-          return this.renderSizeStep();
-        case PROJECT_STEP:
-          return this.renderProjectStep();
-        case OPTIONS_STEP:
-            return this.renderUserOptionsStep();
-        case LICENSE_STEP:
-          return this.renderLicenseStep();
-        case REVIEW_STEP:
-          return this.renderReviewLaunchStep();
-      }
-    },
+        //===========================
+        // BasicOptions variables
+        //===========================
 
-    hoverTitleChange: function(text) {
-      this.setState({title: text});
-    },
+        // We might have these
+        let image = this.props.image ? this.props.image : null;
+        let project = this.props.project ? this.props.project : null;
+        let view = image ? "BASIC_VIEW" : "IMAGE_VIEW";
+        let instanceName = image ? image.attributes.name : null;
+        // These need to populate
+        let projectList = stores.ProjectStore.getAll() || null;
+        let sizes = stores.SizeStore.getAll() || null;
+        let identities = stores.IdentityStore.getAll() || null;
 
-    changeTitleBack: function() {
-      this.setState({title: this.state.breadcrumbs[this.state.step].name});
-    },
+        //===========================
+        // AdvanceSettings variables
+        //===========================
 
-    renderBreadCrumbTrail: function() {
-        var self = this;
-        var breadcrumbs = this.state.breadcrumbs;
+        // These need to populate
+        let bootScriptList = stores.ScriptStore.getAll();
 
-        //Add pseudo-property 'state'
-        breadcrumbs.map(function(breadcrumb, index, array){
-            var state;
-            if(
-                (typeof breadcrumb.active === "boolean" && !breadcrumb.active) ||
-                (typeof breadcrumb.active === "function" && !breadcrumb.active())
-              ) {
-                state = "inactive"
-            } else if(breadcrumb.step === self.state.step) {
-                state = "active"
-            } else if (breadcrumb.step < self.state.step) {
-                state = "available"
-            } else {
-                state = ""
+        return {
+            view,
+            image,
+            sizes,
+            advancedIsDisabled: false,
+            LaunchIsDisabled: false,
+            advancedLaunch: {
+            },
+            basicLaunch: {
+                instanceName,
+                imageVersion: null,
+                imageVersionList: null,
+                project,
+                projectList,
+                provider: null,
+                providerList: null,
+                providerSizeList: null,
+                providerSize: null,
+                resourcesUsed: null,
+                identityProvider: null
+            },
+            advancedOptions: {
+                bootScriptOption: {
+                    bootScriptList,
+                    attachedScripts: []
+                }
             }
-            breadcrumb.state = state;
-        });
-        return (<BreadcrumbNav
-            breadcrumbs={breadcrumbs}
-            onMouseOn={this.hoverTitleChange}
-            onMouseOff={this.changeTitleBack}
-            step = {this.state.step}
-            onCrumbClick={self.toStep}
-            />
-        );
-    },
-    render: function() {
-      return (
-        <div className="modal fade">
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header instance-launch">
-                {this.renderCloseButton()}
-                <strong>Instance Launch Wizard- {this.state.title}</strong>
-              </div>
-              <div className="modal-body">
-                <div className="clearfix modal-section">
-                    {this.renderBreadCrumbTrail()}
-                </div>
-                {this.renderBody()}
-              </div>
-            </div>
-          </div>
-        </div>
-      );
+        }
     },
 
     //
-    // Mounting & State
-    // ----------------
+    // UpdateState
+    // ----------------------
+    // UpdateState gets called from our change listeners when Models are populated or changed.
+    // Conditional values are because some of these properties are defaults that can be changed by the user.
+    // If statments are because these queries are dependent of other models that must be populated first.
     //
-    getInitialState: function(){
-      var image = this.props.image,
-        project = this.props.project;
-      return {
-        image: image,
-        project: project,
-        step: image ? INFORMATION_STEP : IMAGE_STEP,
-        title: "Image",
-        breadcrumbs: [
-          {name:"Image",step:IMAGE_STEP, active:this.props.image ? false : true},
-          {name:"Version & Provider",step:INFORMATION_STEP, active: true},
-          {name:"Size",step:SIZE_STEP, active: true},
-          {name:"Project",step:PROJECT_STEP, active:this.props.project ? false : true},
-          {name:"Options",step:OPTIONS_STEP, active: false},
-          {name:"Licensing",step:LICENSE_STEP, active:this.isLicenseStepActive},
-          {name:"Review",step:REVIEW_STEP, active: true}
-        ],
-      };
-    },
-
-    getState: function() {
-      return this.state;
-    },
 
     updateState: function() {
-      if (this.isMounted()) this.setState(this.getState());
+        if (this.isMounted()) {
+            
+            let instanceName = null;
+            let projectList = this.state.basicLaunch.projectList ?
+                this.state.basicLaunch.projectList :
+                stores.ProjectStore.getAll();
+
+            let project = this.state.basicLaunch.project ?
+                this.state.basicLaunch.project :
+                null;
+
+            if (projectList && !project) {
+                project = this.state.basicLaunch.project ?
+                    this.state.basicLaunch.project :
+                    projectList.first();
+            }
+
+            let bootScriptList = stores.ScriptStore.getAll();
+
+            // Base Image Version List is dependent on the Base Image
+            var imageVersionList = null;
+            var imageVersion = this.state.basicLaunch.imageVersion ?
+                this.state.imageVersion : null;
+
+            // providerList dependent on imageVersion
+            let providerList = this.state.basicLaunch.providerList ?
+                this.state.basicLaunch.providerList :
+                null;
+
+            var provider = this.state.basicLaunch.provider ?
+                this.state.basicLaunch.provider:
+                null;
+
+            // Provider Sizes list is dependent on the provider
+            var providerSizeList = null;
+
+            var providerSize =  null;
+            var resourcesUsed = this.state.basicLaunch.resourcesUsed ?
+                this.state.basicLaunch.resourcesUsed : null;
+            var identityProvider = this.state.basicLaunch.identityProvider ?
+                this.state.basicLaunch.identityProvider : null;
+
+
+            if (this.state.image) {
+                
+                instanceName = this.state.instanceName ? 
+                    this.state.instanceName :
+                    this.state.image.attributes.name;
+                imageVersionList = this.state.basicLaunch.imageVersionList ?
+                    this.state.basicLaunch.imageVersionList :
+                    stores.ImageVersionStore.fetchWhere({image_id: this.state.image.id});
+
+                //imageVersion is dependent on imageVersionList
+                if (imageVersionList) {
+                    imageVersion = this.state.basicLaunch.imageVersion ?
+                        this.state.basicLaunch.imageVersion :
+                        imageVersionList.last();
+
+                    // providerList and provider are dependent on imageVersion
+                    if (imageVersion) {
+                        providerList = this.state.basicLaunch.providerList ?
+                            this.state.basicLaunch.providerList :
+                            new Backbone.Collection(imageVersion.get('machines').map((item) => item.provider));
+                        provider = this.state.basicLaunch.provider ?
+                            this.state.basicLaunch.provider :
+                            providerList.first();
+                    }
+                };
+            }
+
+
+            if (provider) {
+                resourcesUsed = this.state.basicLaunch.resourcesUsed ?
+                    this.state.basicLaunch.resourcesUsed :
+                    stores.InstanceStore.getTotalResources(provider.id);
+
+                identityProvider = stores.IdentityStore.findOne({
+                        'provider.id': provider.id
+                });
+
+                providerSizeList = stores.SizeStore.fetchWhere({
+                    provider__id: provider.id
+                });
+
+                if (providerSizeList) {
+                    providerSize = this.state.basicLaunch.providerSize ?
+                        this.state.basicLaunch.providerSize :
+                        providerSizeList.first();
+                };
+            }
+
+            this.setState({
+                basicLaunch: _.defaults({
+                    identityProvider,
+                    providerSizeList,
+                    providerSize,
+                    imageVersionList,
+                    imageVersion,
+                    resourcesUsed,
+                    providerList,
+                    provider,
+                    projectList,
+                    project,
+                }, this.state.basicLaunch),
+
+                advancedOptions: {
+                    bootScriptOption: {
+                        ...this.state.advancedOptions.bootScriptOption,
+                        bootScriptList: bootScriptList 
+                    }
+                }
+            });
+        }
     },
 
     componentDidMount: function() {
-      stores.ProviderStore.addChangeListener(this.updateState);
-      stores.IdentityStore.addChangeListener(this.updateState);
-      stores.SizeStore.addChangeListener(this.updateState);
-      stores.ProjectStore.addChangeListener(this.updateState);
-      stores.ProjectVolumeStore.addChangeListener(this.updateState);
-      stores.ProjectInstanceStore.addChangeListener(this.updateState);
-      stores.InstanceStore.addChangeListener(this.updateState);
-      stores.ImageVersionStore.addChangeListener(this.updateState);
-      stores.MaintenanceMessageStore.addChangeListener(this.updateState);
-      stores.ScriptStore.addChangeListener(this.updateState);
-      stores.LicenseStore.addChangeListener(this.updateState);
+        stores.IdentityStore.addChangeListener(this.updateState);
+        stores.ProviderStore.addChangeListener(this.updateState);
+        stores.SizeStore.addChangeListener(this.updateState);
+        stores.ProjectStore.addChangeListener(this.updateState);
+        stores.ImageVersionStore.addChangeListener(this.updateState);
+        stores.ScriptStore.addChangeListener(this.updateState);
     },
 
     componentWillUnmount: function() {
-      stores.ProviderStore.removeChangeListener(this.updateState);
-      stores.IdentityStore.removeChangeListener(this.updateState);
-      stores.SizeStore.removeChangeListener(this.updateState);
-      stores.ProjectStore.removeChangeListener(this.updateState);
-      stores.ProjectVolumeStore.removeChangeListener(this.updateState);
-      stores.ProjectInstanceStore.removeChangeListener(this.updateState);
-      stores.InstanceStore.removeChangeListener(this.updateState);
-      stores.ImageVersionStore.removeChangeListener(this.updateState);
-      stores.MaintenanceMessageStore.removeChangeListener(this.updateState);
-      stores.ScriptStore.removeChangeListener(this.updateState);
-      stores.LicenseStore.removeChangeListener(this.updateState);
+        stores.IdentityStore.removeChangeListener(this.updateState);
+        stores.ProviderStore.removeChangeListener(this.updateState);
+        stores.SizeStore.removeChangeListener(this.updateState);
+        stores.ProjectStore.removeChangeListener(this.updateState);
+        stores.ImageVersionStore.removeChangeListener(this.updateState);
+        stores.ScriptStore.removeChangeListener(this.updateState);
     },
 
-    //
+    //===================================
     // Internal Modal Callbacks
-    // ------------------------
-    //
+    //===================================
 
-    cancel: function() {
-      this.hide();
+    getState: function() {
+        return this.state;
     },
-    onCompleted: function(launch_data) {
-      this.hide();
-      this.props.onConfirm(launch_data);
+
+    viewImageSelect: function() {
+        this.replaceState(this.getInitialState());
     },
-    onPrevious: function(data) {
-        var previousStep = this.getPrevStep(this.state.step);
-        if (previousStep === undefined) {
-            this.cancel();
-            return;
-        }
-        var data = data || {},
-            state = _.extend({step: previousStep}, data);
-        if(this.state.step == REVIEW_STEP) {
-            //TODO: Remove this when re-adding User/Admin Options
-            if(this.props.project) {
-                //Skip 'Project Selection' step if project provided.
-                state.step = SIZE_STEP;
-            } else {
-                state.step = PROJECT_STEP;
+
+    viewBasic: function() {
+        this.setState({
+            view: 'BASIC_VIEW',
+        });
+    },
+
+    viewAdvanced: function() {
+        this.setState({
+            view:'ADVANCED_VIEW',
+        });
+    },
+
+    //===================================
+    // Image Select Step Event Handler
+    //===================================
+
+    // When user selects an image
+    // Sets the image the instance is based on.
+    // Sets the versions list and default version dependent on the image being selected
+    onSelectImage: function(image) {
+        let instanceName = image.attributes.name;
+        let imageVersionList = stores.ImageVersionStore.fetchWhere({image_id: image.id});
+        let imageVersion = null;
+        let providerList = null;
+        let provider = null;
+        let providerSizeList = null;
+        let providerSize = null;
+        let identityProvider = null;
+        let resourcesUsed = null;
+
+        if (imageVersionList) {
+            imageVersion = imageVersionList.last();
+            if (imageVersion) {
+                providerList = new Backbone.Collection(imageVersion.get('machines').map((item) => item.provider));
+                provider = providerList.first();
+                resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
+                providerSizeList = stores.SizeStore
+                    .fetchWhere({
+                        provider__id: provider.id
+                    });
+
+                identityProvider = stores.IdentityStore.findOne({
+                        'provider.id': provider.id
+                });
+                if (providerSizeList) {
+                    providerSize = providerSizeList.first();
+                };
             }
+
         }
-        state.title = this.state.breadcrumbs[state.step].name;
-        this.setState(state);
-    },
-    getPrevStep: function(current_step) {
-      var prevStep = current_step,
-          breadcrumb;
 
-      while(true) {
-        prevStep = prevStep - 1;
-        if (prevStep < 0) {
-            return undefined;
-          // throw "Unexpected behavior: prev step < 0";
+        this.setState({
+            view:'BASIC_VIEW',
+            image: image,
+            basicLaunch:
+                _.defaults({
+                    instanceName,
+                    imageVersionList,
+                    imageVersion,
+                    providerList,
+                    provider,
+                    resourcesUsed,
+                    providerSizeList,
+                    providerSize,
+                    identityProvider
+                }, this.state.basicLaunch)
+        });
+    },
+
+    //===================================
+    // Basic Options Event Handlers
+    //===================================
+
+    onBack: function() {
+        this.viewImageSelect();
+    },
+
+    onNameChange: function(name) {
+        this.setState({
+            basicLaunch: _.defaults({
+                name
+            }, this.state.basicLaunch)
+        });
+    },
+
+    onVersionChange: function(imageVersion) {
+        let providerList = new Backbone.Collection(imageVersion.get('machines').map((item) => item.provider));
+        let provider = providerList.first();
+        let resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
+        let providerSizeList = stores.SizeStore
+            .fetchWhere({
+                provider__id: provider.id
+            });
+
+        let identityProvider = stores.IdentityStore.findOne({
+                'provider.id': provider.id
+        });
+
+        if (providerSizeList) {
+            providerSize = providerSizeList.first();
+        };
+
+        this.setState({
+            basicLaunch: _.defaults({
+                imageVersion,
+                providerList,
+                provider,
+                providerSizeList,
+                providerSize,
+                resourcesUsed,
+                identityProvider
+            }, this.state.basicLaunch)
+        });
+    },
+
+    onProjectChange: function(project) {
+        this.setState({
+            basicLaunch: _.defaults({
+                project: project
+            }, this.state.basicLaunch)
+        });
+    },
+
+    onProviderChange: function(provider) {
+        let providerSizeList = stores.SizeStore
+            .fetchWhere({
+                provider__id: provider.id
+            });
+        let providerSize = providerSizeList ?
+            providerSizeList.first() : null;
+        let identityProvider = stores.IdentityStore
+            .findOne({
+                'provider.id': provider.id
+            });
+        let resourcesUsed = stores.InstanceStore
+            .getTotalResources(provider.id);
+
+        this.setState({
+            basicLaunch: _.defaults({
+                provider,
+                providerSizeList,
+                providerSize,
+                identityProvider,
+                resourcesUsed
+            }, this.state.basicLaunch)
+        });
+    },
+
+    onSizeChange: function(size) {
+
+        this.setState({
+            basicLaunch: _.defaults({
+                providerSize: size
+            }, this.state.basicLaunch)
+        });
+    },
+
+    onRequestResources: function() {
+
+        // Launching a resource request modal will eat the current modal. We need to pass this. onCancelModal as a prop
+        // in order to properly unmount the whole modal, not just the current step component.
+        this.onCancelModal();
+        modals.HelpModals.requestMoreResources();
+    },
+
+    //==================================
+    // Advanced Option Event Handlers
+    //=================================
+    
+    onAddAttachedScript: function(value) {
+        let bootScriptOption = this.state.advancedOptions.bootScriptOption;
+        let attachedScripts = bootScriptOption.attachedScripts;
+
+        this.setState({
+            advancedOptions: {
+                bootScriptOption: _.defaults({
+                    attachedScripts: [...attachedScripts, value]
+                }, bootScriptOption)
+            }
+        })
+    },
+
+    onRemoveAttachedScript: function(item) {
+        let bootScriptOption = this.state.advancedOptions.bootScriptOption;
+        let attachedScripts = bootScriptOption.attachedScripts
+            .filter((i) => i != item);
+
+        this.setState({
+            advancedOptions: {
+                bootScriptOption: _.defaults({
+                    attachedScripts
+                }, bootScriptOption)
+            }
+        });
+    },
+
+    //==============================================
+    // Instance Luanch Modal Master Event Handlers
+    //==============================================
+
+    onCancelModal: function() {
+        this.hide();
+    },
+    
+    onSaveAdvanced: function() {
+        this.viewBasic()
+    },
+
+    onCancelAdvanced: function() {
+        let advancedOptions = this.state.advancedOptions;
+        let bootScriptOption = advancedOptions.bootScriptOption;
+
+        this.setState({
+            advancedOptions: {
+                ...advancedOptions,
+                bootScriptOption: {
+                    ...bootScriptOption,
+                    attachedScripts: []
+                }
+            }
+        });
+
+        this.viewBasic();
+    },
+
+    onSubmitLaunch: function() {
+        let basic = this.state.basicLaunch;
+        let scripts = this.state.advancedOptions
+            .bootScriptOption.attachedScripts;
+
+        let launchData = {
+            project: basic.project,
+            instanceName: basic.instanceName,
+            identity: basic.identityProvider,
+            size: basic.providerSize,
+            version: basic.imageVersion,
+            scripts: scripts
+        };
+
+        actions.InstanceActions.launch(launchData);
+
+        this.hide();
+    },
+
+//=========================================
+// Render Methods
+//=========================================
+
+    renderBody: function() {
+        var view = this.state.view;
+        switch(view) {
+            case "IMAGE_VIEW":
+            return this.renderImageSelect()
+            case "BASIC_VIEW":
+            return this.renderBasicOptions()
+            case "ADVANCED_VIEW":
+            return this.renderAdvancedOptions()
         }
-        breadcrumb = this.state.breadcrumbs[prevStep];
-        if(
-          (typeof breadcrumb.active === "boolean" && !breadcrumb.active) ||
-          (typeof breadcrumb.active === "function" && !breadcrumb.active())
-        ) {
-          //Skip this, it's inactive
-          continue;
+    },
+
+    renderImageSelect: function() {
+
+        return (
+            <ImageSelectStep
+                image={this.state.image}
+                onSelectImage={this.onSelectImage}
+                onCancel = {this.onCancelModal}
+            />
+        );
+    },
+
+    renderBasicOptions: function() {
+
+        return (
+            <BasicLaunchStep {...this.state.basicLaunch}
+                advancedIsDisabled={this.state.advancedIsDisabled}
+                launchIsDisabled={this.state.launchIsDisabled}
+                image={this.state.image}
+                onNameChange={this.onNameChange}
+                onVersionChange={this.onVersionChange}
+                onProjectChange={this.onProjectChange}
+                onProviderChange={this.onProviderChange}
+                onSizeChange={this.onSizeChange}
+                onRequestResources={this.onRequestResources}
+                viewAdvanced={this.viewAdvanced}
+                onCancel={this.onCancelModal}
+                onSubmitLaunch={this.onSubmitLaunch}
+                onBack={this.onBack}
+            />
+        );
+    },
+
+    renderAdvancedOptions: function() {
+
+        return (
+            <AdvancedLaunchStep {...this.state.advancedOptions}
+                onAddAttachedScript={this.onAddAttachedScript}
+                onRemoveAttachedScript={this.onRemoveAttachedScript}
+                cancelAdvanced={this.onCancelAdvanced}
+                onSaveAdvanced={this.onSaveAdvanced}
+            />
+        );
+    },
+    
+    headerTitle: function() {
+        var view = this.state.view;
+        switch(view) {
+            case "IMAGE_VIEW":
+            return "Select an Image"
+            case "BASIC_VIEW":
+            return "Basic Options"
+            case "ADVANCED_VIEW":
+            return "Advanced Options"
         }
-        return breadcrumb.step;
-      }
     },
-    getNextStep: function(current_step) {
-      var nextStep = current_step + 1,
-          final_step = this.state.breadcrumbs.length - 1,
-          breadcrumb,
-          active;
 
-      do {
-        if (nextStep > final_step) {
-          throw "Unexpected behavior: 'next' step > final step";
-        }
-        breadcrumb = this.state.breadcrumbs[nextStep];
-        active =
-            typeof breadcrumb.active === "boolean"
-            ? breadcrumb.active
-            : breadcrumb.active();
+    render: function() {
 
-        if (active)
-            return breadcrumb.step;
-      } while (nextStep++)
-
-    },
-    onNext: function (data) {
-      var nextStep = this.getNextStep(this.state.step),
-        data = data || {},
-        state = _.extend({step: nextStep}, data);
-
-      state.title = this.state.breadcrumbs[nextStep].name;
-      this.setState(state);
-    },
-    toReview: function(data) {
-        var state = _.extend({step: REVIEW_STEP}, data);
-        this.setState(state);
-    },
-    activateBreadcrumb: function(index, activeTruth) {
-      var breadcrumbs = this.state.breadcrumbs,
-      crumb = breadcrumbs[index];
-      crumb.state = activeTruth ? "active" : "inactive";
-      this.state.breadcrumbs[index] = crumb;
-      return crumb;
-    },
-    toAdvancedOptions: function(data) {
-      var crumb = this.activateBreadcrumb(OPTIONS_STEP, true);
-      var state = _.extend(data, {step: OPTIONS_STEP, title: crumb.name});
-      this.setState(state);
-    },
-    toStep: function(breadcrumb) {
-       this.setState({title: breadcrumb.name});
-       this.setState({step: breadcrumb.step});
+        return (
+            <div className="modal fade">
+                <div className="modal-dialog" style={{width:"100%", maxWidth:"800px"}}>
+                    <div className="modal-content">
+                        <div className="modal-header instance-launch">
+                            {this.renderCloseButton()}
+                            <h2 className="headline">Launch an Instance / {this.headerTitle()}</h2>
+                        </div>
+                        <div className="modal-body">
+                            {this.renderBody()}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
     }
-  });
-
 });
