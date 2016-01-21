@@ -199,22 +199,22 @@ export default React.createClass({
     },
     renderBody: function () {
         let images = this.state.images,
-        tags = this.state.tags,
-        query = this.state.query,
-        numberOfResults,
-        totalNumberOfImages;
+            tags = this.state.tags,
+            query = this.state.query,
+            numberOfResults,
+            totalNumberOfImages;
 
         if (images && tags) {
-        numberOfResults = this.state.page * this.state.resultsPerPage;
+            numberOfResults = this.state.page * this.state.resultsPerPage;
 
-        images = images.first(numberOfResults);
-        images = new ImageCollection(images);
+            images = images.first(numberOfResults);
+            images = new ImageCollection(images);
 
-        if (images.length > 0) {
-            return this.renderImages(query, images);
-        } else {
-            return this.renderZeroImages(query);
-        }
+            if (images.length > 0) {
+                return this.renderImages(query, images);
+            } else {
+                return this.renderZeroImages(query);
+            }
         }
         return this.renderLoadingImages(query);
     },

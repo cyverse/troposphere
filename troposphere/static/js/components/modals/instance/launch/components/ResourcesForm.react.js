@@ -7,11 +7,11 @@ import SelectMenu from 'components/common/ui/SelectMenu.react';
 export default React.createClass({
 
     render: function () {
-        console.log(this.props.provider ,this.props.providerSizeList ,this.props.providerSize)
         if (!this.props.provider || !this.props.providerSizeList || !this.props.providerSize) {
             return ( <div className="loading"/>);
         }
 
+        // TODO: functions vs data confusing
         let providerName = (item) => item.get('name');
         let sizeName = (item) => `${item.get('name')} (CPU: ${item.get('cpu')}, Mem: ${Math.round(item.get('mem') * 100) / 100}GB)`;
         let defaultProviderId = this.props.provider.id;
