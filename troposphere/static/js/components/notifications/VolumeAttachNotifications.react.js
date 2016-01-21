@@ -1,14 +1,11 @@
 
-define(
-  [
-    'react'
-  ],
-  function (React) {
+import React from 'react';
+import globals from 'globals';
 
-    var mountVolumeDocumentationUrl = "https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachinganEBSVolumetoanInstance-Step6%3AMountthefilesystemonthepartition.";
-    var createFileSystemDocumentationUrl = "https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachinganEBSVolumetoanInstance-Step5%3ACreatethefilesystem%28onetimeonly%29.";
+var mountVolumeDocumentationUrl = "https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachinganEBSVolumetoanInstance-Step6%3AMountthefilesystemonthepartition.";
+var createFileSystemDocumentationUrl = "https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachinganEBSVolumetoanInstance-Step5%3ACreatethefilesystem%28onetimeonly%29.";
 
-    return {
+export default {
       success: function () {
 
         var message = (
@@ -34,8 +31,8 @@ define(
         var message = (
           <div>
             {"If this problem persists, contact support at "}
-            <a href="mailto:support@iplantcollaborative.org">
-              {"support@iplantcollaborative.org"}
+            <a href={`mailto:${globals.SUPPORT_EMAIL}`}>
+              {globals.SUPPORT_EMAIL}
             </a>
           </div>
         );
@@ -60,6 +57,4 @@ define(
 
         return React.renderComponentToString(message);
       }
-    }
-
-  });
+}
