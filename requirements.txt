@@ -1,11 +1,11 @@
-caslib.py==2.1.0
-django==1.7.4
+caslib.py==2.2.2
+django==1.8.5
 djangorestframework==3.0.4
 Jinja2==2.8
 psycopg2==2.5.2
 pycrypto==2.6.1
 PyJWT==1.4.0
-python-dateutil==2.2
-requests==2.2.1
+python-dateutil==2.4
+requests==2.7
 django-iplant-auth==0.1.2
-uWSGI==2.0.11
+uWSGI==2.0.12
