@@ -2,11 +2,11 @@
 <html>
 <head>
     <title>
-        Atmosphere Airport | iPlant Collaborative
+        Atmosphere Airport | {{ ORG_NAME }}
     </title>
     <link rel="shortcut icon" href="{{ BASE_URL }}{{ FAVICON }}" type="image/x-icon">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="{{ BASE_URL }}/assets/resources/css/login.css"/>
+    <link rel="stylesheet" href="{{ THEME_URL }}/css/login.css"/>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
     <script type="text/javascript"
             src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.2.2/bootstrap.min.js"></script>
@@ -30,15 +30,14 @@
 </head>
 <body>
 <div id="wrapper">
-    <div id="imgcontainer" class="center">
-        <img src="{{ BASE_URL }}/assets/resources/images/login_mainimage.png" style="max-width: none"
-             alt="Log in to Atmosphere"/>
-    </div>
 
     <div id="login" class="row">
 
         <!-- Interactive Graphic -->
-        <div class="col-md-6" style="margin-top: -130px">
+        <div class="col-md-6" >
+            <div id="imgcontainer" class="center">
+                <img src="{{ THEME_URL }}/images/powered-by_logo.png" alt="Log in to Atmosphere"/>
+            </div>
             <div id="visCarousel" class="carousel slide">
                 <div class="carousel-inner">
                     <div class="active item">
@@ -64,7 +63,7 @@
                 <h1>Atmosphere</h1>
 
                 <h2>
-                    <small color="#444">iPlant Cloud Services</small>
+                    <small color="#444">{{ ORG_NAME }} Cloud Services</small>
                 </h2>
 
                 <br/>
@@ -84,7 +83,7 @@
                 {% csrf_token %}
                 {% if disable_login == False %}
                 <a class="submitButton" href="{{ BASE_URL }}/login">
-                        Log in with your iPlant ID
+                        Log in with your {{ ORG_NAME }} ID
                     </a>
                 {% else %}
                 {% endif %}
