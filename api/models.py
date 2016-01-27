@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import Q
+from django.db.models.signals import post_save
 from django.utils import timezone
 from django.contrib.auth.models import User
 
@@ -55,3 +56,14 @@ class UserPreferences(models.Model):
 
     def __unicode__(self):
         return "%s" % self.user.username
+
+
+# Save Hook(s) Here:
+def get_or_create_preferences(sender, instance, created, **kwargs):
+    pref, _ = UserPreferences.objects.get_or_create(user=instance)
+    pref.user = instance
+    pref.save()
+
+
+# Instantiate the hook(s):
+post_save.connect(get_or_create_preferences, sender=User)
