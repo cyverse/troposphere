@@ -29,7 +29,7 @@ define(function (require) {
 
       data["user-interface"] = 'troposphere';
 
-      var feedbackUrl = globals.API_V2_ROOT + '/email/feedback';
+      var feedbackUrl = globals.API_V2_ROOT + '/email_feedback';
 
       $.ajax(feedbackUrl, {
         type: 'POST',
@@ -39,8 +39,14 @@ define(function (require) {
         success: function (data) {
           NotificationController.info("Thanks for your feedback!", "Support has been notified.");
         },
-        error: function (response_text) {
-          var errorMessage = "Your feedback could not be submitted. If you'd like to send it directly to support, email <a href='mailto:support@iplantcollaborative.org'>support@iplantcollaborative.org</a>.";
+        error: function (response) {
+          var errorMessage,
+              response_error = response.responseJSON.detail;
+          if (response.status >= 500) {
+              errorMessage = `Your feedback could not be submitted. If you'd like to send it directly to support, email <a href='mailto:${globals.SUPPORT_EMAIL}'>${globals.SUPPORT_EMAIL}</a>.`;
+          } else {
+              errorMessage = "There was an error submitting your request: " + response_error;
+          }
           NotificationController.error("An error occured", errorMessage);
         }
       });
@@ -51,7 +57,7 @@ define(function (require) {
       if (!params.identity) throw new Error("Missing identity");
       if (!params.quota) throw new Error("Missing quota");
       if (!params.reason) throw new Error("Missing reason");
-      
+
       if(globals.BADGES_ENABLED){
         actions.BadgeActions.askSupport();
       }
@@ -80,8 +86,14 @@ define(function (require) {
           NotificationController.info("Resource Request submitted", "Support will be in touch with you shortly.");
           actions.BadgeActions.checkOrGrant(Badges.RESOURCE_REQUEST_BADGE);
         },
-        error: function (response_text) {
-          var errorMessage = "An error occured while submitting your request for more resources.  Please email your resources request to <a href='mailto:support@iplantcollaborative.org'>support@iplantcollaborative.org</a>.";
+        error: function (response) {
+          var errorMessage,
+              response_error = response.responseJSON.detail;
+          if (response.status >= 500) {
+              errorMessage = "Your feedback could not be submitted. If you'd like to send it directly to support, email <a href='mailto:support@iplantcollaborative.org'>support@iplantcollaborative.org</a>.";
+          } else {
+              errorMessage = "There was an error submitting your request: " + response_error;
+          }
           NotificationController.error("Request resources error", errorMessage);
         }
       });
