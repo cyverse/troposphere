@@ -17,7 +17,8 @@ define(function (require) {
       volume.save({
         name: volume.get('name')
       }, {
-        patch: true
+        patch: true,
+        merge: true
       }).done(function () {
         // Nothing to do here
       }).fail(function (response) {
