@@ -48,13 +48,32 @@ define(function (require) {
 
     render: function () {
       var labelEl = this.props.labelText ? (<label>{this.props.labelText}</label>) : "";
+      var style = {};
+      style.button = {cursor: "pointer"};
       return (
-        <div className="form-group">
-          {labelEl}
-          <input type='text' className='form-control' value={this.state.value} onChange={this.onValueChanged}/>
-          <span className="input-group-addon" id="enddate-set-addon" onClick={this.setEndDateNow}>Today</span>
-          <span className="input-group-addon" id="enddate-clear-addon" onClick={this.unsetDate}>Clear</span>
-        </div>
+            <div className="form-group">
+                    <label htmlFor="date-field">{labelEl}</label>
+                <div className="input-group">
+                    {/* Button, !button because bootstrap */}
+                    <div className="input-group-addon" 
+                        id="enddate-set-addon" 
+                        onClick={this.setEndDateNow}
+                        style={style.button}
+                    >
+                        Today
+                    </div>
+                    <input id="date-field" type='text' className='form-control' value={this.state.value} onChange={this.onValueChanged}/>
+                    { /* Button, again bootstrap */ }
+                    <div className="input-group-addon" 
+                        id="enddate-clear-addon" 
+                        onClick={this.unsetDate}
+                        style={style.button}
+                    >
+                        Clear
+                    </div>
+                </div>
+            </div>
+
       );
     }
   });
