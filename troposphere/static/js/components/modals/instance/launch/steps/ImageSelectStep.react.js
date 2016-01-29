@@ -18,23 +18,21 @@ export default React.createClass({
     },
 
     componentDidMount: function () {
-        stores.ImageStore.addChangeListener(this.setState.bind(this, {}));
-        stores.TagStore.addChangeListener(this.setState.bind(this, {}));
+        stores.ImageStore.addChangeListener(this.triggerRenderOnStore);
+        stores.TagStore.addChangeListener(this.triggerRenderOnStore);
         this.focusSearchInput();
     },
 
     componentWillUnmount: function () {
-        stores.ImageStore.removeChangeListener(this.updateState);
-        stores.TagStore.removeChangeListener(this.updateState);
+        stores.ImageStore.removeChangeListener(this.triggerRenderOnStore);
+        stores.TagStore.removeChangeListener(this.triggerRenderOnStore);
     },
 
-    handleChange: function (e) {
-        this.setState({query: e.target.value});
-    },
+    triggerRenderOnStore: () => this.setState({}),
 
-    handleLoadMoreImages: function () {
-        this.setState({page: this.state.page + 1});
-    },
+    handleChange: (e) => this.setState({query: e.target.value}),
+
+    handleLoadMoreImages: () => this.setState({page: this.state.page + 1}),
 
     renderFilterDescription: function () {
         let message,
