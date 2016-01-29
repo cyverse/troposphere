@@ -5,9 +5,15 @@ import ResourceGraphs from '../components/ResourceGraphs.react';
 import SelectMenu from 'components/common/ui/SelectMenu.react';
 
 export default React.createClass({
-
+    propTypes: {
+        provider: React.PropTypes.instanceOf(Backbone.Model),
+        providerSizeList: React.PropTypes.instanceOf(Backbone.Collection),
+        providerList: React.PropTypes.instanceOf(Backbone.Collection),
+        providerSize: React.PropTypes.instanceOf(Backbone.Model),
+        onSizeChange: React.PropTypes.func,
+        onProviderChange: React.PropTypes.func
+    },
     render: function () {
-        console.log(this.props.provider ,this.props.providerSizeList ,this.props.providerSize)
         if (!this.props.provider || !this.props.providerSizeList || !this.props.providerSize) {
             return ( <div className="loading"/>);
         }
@@ -31,24 +37,16 @@ export default React.createClass({
                 </div>
                 <div className="form-group">
                     <label for="instanceSize">
-                            Instance  Size
+                            Instance Size
                     </label>
                     <SelectMenu
-                    //TODO Set default Size
                         defaultId={sizeId}
                         list={this.props.providerSizeList}
                         optionName={sizeName}
                         onSelectChange={this.props.onSizeChange}/>
                 </div>
                 <div className="form-group">
-                    <ResourceGraphs
-                        provider={this.props.provider}
-                        resourcesUsed={this.props.resourcesUsed}
-                        size={this.props.providerSize}
-                        sizes={this.props.providerSizeList}
-                        identityProvider={this.props.identityProvider}
-                        onRequestResources={this.props.onRequestResources}
-                        />
+                    <ResourceGraphs { ...this.props }/>
                 </div>
             </form>
         );

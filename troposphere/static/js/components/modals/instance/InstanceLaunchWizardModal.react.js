@@ -163,7 +163,7 @@ export default React.createClass({
         if (imageVersion) {
             let providerList = new Backbone.Collection(imageVersion.get('machines').map((item) => item.provider));
             let provider = providerList.first();
-            providerSizeList = stores.SizeStore .fetchWhere({
+            providerSizeList = stores.SizeStore.fetchWhere({
                 provider__id: provider.id
             });
 
@@ -189,8 +189,8 @@ export default React.createClass({
         this.viewImageSelect();
     },
 
-    onNameChange: function(instanceName) {
-        this.setState({ instanceName });
+    onNameChange: function(e) {
+        this.setState({ instanceName: e.target.value });
     },
 
     onVersionChange: function(imageVersion) {
@@ -277,6 +277,8 @@ export default React.createClass({
 
     renderBasicOptions: function() {
         let provider = this.state.provider;
+        let providerSize = this.state.providerSize;
+        let image = this.state.image;
         let imageVersion = this.state.imageVersion;
         let projectList = stores.ProjectStore.getAll() || null;
         let sizes = stores.SizeStore.getAll() || null;
@@ -303,23 +305,30 @@ export default React.createClass({
         }
 
         return <BasicLaunchStep { ...{
-            sizes,
-            projectList,
-            providerList,
-            providerSizeList,
-            resourcesUsed,
-            imageVersionList,
             backIsDisabled: this.props.initialView == "BASIC_VIEW",
+            identityProvider: this.state.identityProvider,
+            image,
+            imageVersion,
+            imageVersionList,
+            instanceName: this.state.instanceName,
+            onBack: this.onBack,
+            onCancel: this.hide,
             onNameChange: this.onNameChange,
-            onVersionChange: this.onVersionChange,
             onProjectChange: this.onProjectChange,
             onProviderChange: this.onProviderChange,
-            onSizeChange: this.onSizeChange,
             onRequestResources: this.onRequestResources,
-            viewAdvanced: this.viewAdvanced,
-            onCancel: this.hide,
+            onSizeChange: this.onSizeChange,
             onSubmitLaunch: this.onSubmitLaunch,
-            onBack: this.onBack,
+            onVersionChange: this.onVersionChange,
+            project,
+            projectList,
+            provider,
+            providerList,
+            providerSize,
+            providerSizeList,
+            resourcesUsed,
+            sizes,
+            viewAdvanced: this.viewAdvanced,
         }} />
     },
 

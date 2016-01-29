@@ -6,17 +6,17 @@ export default React.createClass({
     displayName: "SelectMenu",
 
     propTypes: {
-        defaultId: React.PropTypes.number.isRequired,
-        isModel: React.PropTypes.bool,
-        optionName: React.PropTypes.func.isRequired
-    },
-
-    getInitialState: function(){
-        let defaultId = this.props.defaultId;
-
-        return({
-            value: defaultId
-        })
+        defaultId: React.PropTypes.oneOfType([
+           React.PropTypes.string,
+           React.PropTypes.number
+        ]).isRequired,
+        optionName: React.PropTypes.func.isRequired,
+        onSelectChange: React.PropTypes.func.isRequired,
+        list: React.PropTypes.oneOfType([
+            React.PropTypes.instanceOf(backbone.Collection),
+            React.PropTypes.array
+        ]),
+        hintText: React.PropTypes.string
     },
 
     onSelectChange: function(e) {

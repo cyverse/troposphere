@@ -4,7 +4,12 @@ import stores from 'stores';
 import ProgressBar from 'components/common/ui/ProgressBar.react';
 
 export default React.createClass({
-
+    propTypes: {
+        onRequestResources: React.PropTypes.func,
+        resourcesUsed: React.PropTypes.object,
+        identityProvider: React.PropTypes.instanceOf(Backbone.Model),
+        providerSize: React.PropTypes.instanceOf(Backbone.Model),
+    },
     resourceExceded: function(total, limit) {
         if (total >= limit) {
             return (
@@ -25,8 +30,8 @@ export default React.createClass({
 
         // Make sure stores are populated before rendering
         let identityProvider = this.props.identityProvider;
-        let size = this.props.size;
-        if ( !identityProvider || !size ) { return ( <div className="loading"/> ); }
+        let size = this.props.providerSize;
+        if ( !identityProvider || !size ) { return ( <div/>); }
 
         // AU's Used
         let allocation = identityProvider.attributes;

@@ -27,18 +27,24 @@ export default React.createClass({
 
                         <div className="ProgressBar-startIndicator"
                             style={{
+                                transition: "all ease .3s",
                                 height:"10px",
                                 float: "left",
                                 width: startValue + "%",
-                                background:startColor}}/>
+                                background:startColor
+                            }}
+                        />
 
                         <div className="ProgressBar-afterIndicator"
                             style={{
+                                transition: "all ease .3s",
                                 height:"10px",
                                 float: "left",
                                 width: afterValue + "%",
                                 background:startColor,
-                                opacity:".5"}}/>
+                                opacity:".5"
+                            }}
+                        />
                     </div>
                 </div>
             </div>
