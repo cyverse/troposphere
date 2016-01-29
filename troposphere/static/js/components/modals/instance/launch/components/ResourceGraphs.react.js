@@ -26,7 +26,6 @@ export default React.createClass({
         // Make sure stores are populated before rendering
         let identityProvider = this.props.identityProvider;
         let size = this.props.size;
-        console.log(identityProvider, size);
         if ( !identityProvider || !size ) { return ( <div className="loading"/> ); }
 
         // AU's Used
@@ -56,7 +55,7 @@ export default React.createClass({
         let percentOfGbWillUse = Math.round(gbWillUse / allocationGb *100);
 
         // Labels for bar graphs
-        let auLabel =  `You have currently used ${allocationPercent}% of ${allocationTotal} AU's from this provider`;
+        let auLabel =  `You have used ${allocationPercent}% of ${allocationTotal} AU's from this provider`;
         let cpuLabel = `Will total ${cpuWillTotal} of ${allocationCpu} alloted CPUs`;
         let gbLabel = `Will total ${Math.round(gbWillTotal * 100) / 100} of ${allocationGb} alloted GBs of Memory`;
 
@@ -68,14 +67,14 @@ export default React.createClass({
                         startValue={allocationPercent}
                         label={auLabel}
                     />
-                        {this.resourceExceded(allocationPercent, allocationTotal)}
+                        {this.resourceExceded(allocationConsumed, allocationTotal)}
                     <ProgressBar
                         startColor="#56AA21"
                         startValue={percentOfCpuUsed}
                         afterValue={percentOfCpuWillUse}
                         label={cpuLabel}
                     />
-                        {this.resourceExceded(cpuWillTotal, allocationCpu )}
+                        {this.resourceExceded(cpuWillTotal, allocationCpu)}
                     <ProgressBar
                         startColor="#56AA21"
                         startValue={percentOfGbUsed}
