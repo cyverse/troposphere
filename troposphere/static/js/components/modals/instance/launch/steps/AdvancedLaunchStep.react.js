@@ -69,7 +69,8 @@ export default React.createClass({
     },
 
     renderBootScripts: function() {
-        if (this.props.bootScriptOption.bootScriptList) {
+        // TODO: handle else case
+        if (this.props.bootScriptList) {
             return (
                 <BootScriptOption {...this.props}
                     onDisableSave={this.onDisableSave}
