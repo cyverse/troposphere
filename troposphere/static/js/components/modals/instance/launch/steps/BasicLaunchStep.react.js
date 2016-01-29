@@ -7,17 +7,8 @@ import ResourcesForm from '../components/ResourcesForm.react';
 import InstanceLaunchFooter from '../components/InstanceLaunchFooter.react';
 
 export default React.createClass({
-    canLaunch: function() {
-        var requiredFields = ["project", "identityProvider", "providerSize", "imageVersion", "attachedScripts"];
-        var notFalsy = ((prop) => Boolean(this.props[prop]) != false);
-
-        // instanceName will be null, indicating that it has not been set.
-        // If instanceName equals the empty string, the user has erased the
-        // name, and is trying to launch an instance with no name.
-        return _.every(requiredFields, notFalsy) && this.props.instanceName !== "";
-    },
     render: function () {
-        var defaults = { advancedIsDisabled: false, launchIsDisabled: !this.canLaunch() };
+        var defaults = { advancedIsDisabled: false };
         return (
             <div>
                 <div className="modal-section row">

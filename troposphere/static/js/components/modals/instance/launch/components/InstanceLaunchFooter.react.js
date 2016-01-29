@@ -2,13 +2,13 @@ import React from 'react';
 
 export default React.createClass({
     propTypes: {
-        backIsDisabled: React.PropTypes.bool, 
-        launchIsDisabled: React.PropTypes.bool,
-        advancedIsDisabled: React.PropTypes.bool,
+        backIsDisabled: React.PropTypes.bool.isRequired,
+        launchIsDisabled: React.PropTypes.bool.isRequired,
+        advancedIsDisabled: React.PropTypes.bool.isRequired,
         viewAdvanced: React.PropTypes.func,
         onSubmitLaunch: React.PropTypes.func,
         onCancel: React.PropTypes.func,
-        onBack: React.PropTypes.func, 
+        onBack: React.PropTypes.func,
     },
     renderBack: function() {
         if (this.props.backIsDisabled) {
@@ -48,9 +48,9 @@ export default React.createClass({
                     Launch Instance
                 </button>
 
-                <button type="button" 
-                    className="btn btn-default pull-right" 
-                    style={{marginRight:"10px"}} 
+                <button type="button"
+                    className="btn btn-default pull-right"
+                    style={{marginRight:"10px"}}
                     onClick={this.props.onCancel}
                 >
                         Cancel

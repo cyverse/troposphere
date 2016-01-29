@@ -236,6 +236,16 @@ export default React.createClass({
         this.viewBasic();
     },
 
+    canLaunch: function() {
+        var requiredFields = ["project", "identityProvider", "providerSize", "imageVersion", "attachedScripts"];
+        var notFalsy = ((prop) => Boolean(this.state[prop]) != false);
+
+        // instanceName will be null, indicating that it has not been set.
+        // If instanceName equals the empty string, the user has erased the
+        // name, and is trying to launch an instance with no name.
+        return _.every(requiredFields, notFalsy) && this.state.instanceName !== "";
+    },
+
     onSubmitLaunch: function() {
         let scripts = this.state.attachedScripts;
 
@@ -305,7 +315,9 @@ export default React.createClass({
         }
 
         return <BasicLaunchStep { ...{
+            attachedScripts: this.state.attachedScripts,
             backIsDisabled: this.props.initialView == "BASIC_VIEW",
+            launchIsDisabled: !this.canLaunch(),
             identityProvider: this.state.identityProvider,
             image,
             imageVersion,
