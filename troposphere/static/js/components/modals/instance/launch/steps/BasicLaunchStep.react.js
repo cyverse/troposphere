@@ -7,51 +7,32 @@ import ResourcesForm from '../components/ResourcesForm.react';
 import InstanceLaunchFooter from '../components/InstanceLaunchFooter.react';
 
 export default React.createClass({
+    canLaunch: function() {
+        var requiredFields = ["project", "identityProvider", "providerSize", "imageVersion", "attachedScripts"];
+        var notFalsy = ((prop) => Boolean(this.props[prop]) != false);
 
+        // instanceName will be null, indicating that it has not been set.
+        // If instanceName equals the empty string, the user has erased the
+        // name, and is trying to launch an instance with no name.
+        return _.every(requiredFields, notFalsy) && this.props.instanceName !== "";
+    },
     render: function () {
+        var defaults = { advancedIsDisabled: false, launchIsDisabled: !this.canLaunch() };
         return (
             <div>
                 <div className="modal-section row">
                     <div className="col-md-6">
                         <h3 className="t-title">Basic Info</h3>
                         <hr/>
-                        <BasicInfoForm
-                            image={this.props.image}
-                            project={this.props.project}
-                            projectList={this.props.projectList}
-                            imageVersionList={this.props.imageVersionList}
-                            imageVersion={this.props.imageVersion}
-                            onNameChange={this.props.onNameChange}
-                            onVersionChange={this.props.onVersionChange}
-                            onProjectChange={this.props.onProjectChange}
-                        />
+                        <BasicInfoForm {...this.props}/>
                     </div>
                     <div className="col-md-6">
                         <h3 className="t-title">Resources</h3>
                         <hr/>
-                        <ResourcesForm
-                            providerList={this.props.providerList}
-                            provider={this.props.provider}
-                            providerSizeList={this.props.providerSizeList}
-                            providerSize={this.props.providerSize}
-                            resourcesUsed={this.props.resourcesUsed}
-                            identityProvider={this.props.identityProvider}
-                            onProviderChange={this.props.onProviderChange}
-                            onSizeChange={this.props.onSizeChange}
-                            onRequestResources={this.props.onRequestResources}
-                        />
+                        <ResourcesForm {...this.props}/>
                 </div>
                 </div>
-                <InstanceLaunchFooter
-                    onBack={this.props.onBack}
-                    onCancel={this.props.onCancel}
-                    onSubmitLaunch={this.props.onSubmitLaunch}
-                    viewAdvanced={this.props.viewAdvanced}
-                    launchIsDisabled={this.props.launchIsDisabled}
-                    advancedIsDisabled={this.props.launchIsDisabled}
-                    backIsDisabled={false}
-                />
-
+                <InstanceLaunchFooter {..._.extend(defaults, this.props)} />
             </div>
         );
     }
