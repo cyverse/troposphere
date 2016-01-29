@@ -3,7 +3,10 @@ define(function (require) {
   var Dispatcher = require('dispatchers/Dispatcher'),
     BaseStore = require('stores/BaseStore'),
     InstanceCollection = require('collections/InstanceCollection'),
-    InstanceConstants = require('constants/InstanceConstants');
+    _ = require('underscore'),
+    Utils = require('actions/Utils'),
+    InstanceConstants = require('constants/InstanceConstants'),
+    InstanceState = require('models/InstanceState');
 
   var InstanceStore = BaseStore.extend({
     collection: InstanceCollection,
@@ -35,13 +38,38 @@ define(function (require) {
     // Polling functions
     // -----------------
 
-    isInFinalState: function(instance){
-        if(instance.get('state').get('status') == 'active' && instance.get('ip_address').charAt(0) == '0'){
+    isInFinalState: function(instance) {
+        if (instance.get('state').get('status') == 'active' && instance.get('ip_address').charAt(0) == '0') {
             return false;
         }
-    
+
         return instance.get('state').isInFinalState();
-    }
+    },
+
+    // Poll for a model
+    pollUntilDeleted: function(instance) {
+        this.pollWhile(instance, function(model, response) {
+            // If 404 then remove the model
+            if (response.status == "404") {
+                this.remove(model);
+
+                return false;
+            }
+
+            var status = instance.get('state').get("status");
+            instance.set({
+                state: new InstanceState({
+                    status_raw: status + " - deleting"
+                }),
+            });
+
+            Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+
+            // Keep polling while 200 or not 404 
+            return response.status == "200";
+
+        }.bind(this));
+    },
 
   });
 
@@ -67,7 +95,12 @@ define(function (require) {
         break;
 
       case InstanceConstants.POLL_INSTANCE:
+        // This happens whether or not polling is enabled in basestore (seems unintuitive)
         store.pollNowUntilBuildIsFinished(payload.instance);
+        break;
+
+      case InstanceConstants.POLL_FOR_DELETED:
+        store.pollUntilDeleted(payload.instance);
         break;
 
       default:

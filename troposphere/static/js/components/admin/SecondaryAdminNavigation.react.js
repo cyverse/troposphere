@@ -38,7 +38,8 @@ define(function (require) {
           <div className="secondary-nav">
             <div className="container">
               <ul className="secondary-nav-links">
-                {this.renderRoute("Manage Users", "identity-membership-manager", "user")}
+                {this.renderRoute("Manage Users", "atmosphere-user-manager", "user")}
+                {this.renderRoute("Manage Identities", "identity-membership-manager", "user")}
                 {this.renderRoute(resourcesText, "resource-request-manager", "tasks")}
                 {this.renderRoute("Imaging Requests", "image-request-manager", "floppy-disk")}
               </ul>

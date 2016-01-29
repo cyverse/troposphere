@@ -109,6 +109,9 @@ define(function (require) {
             <li>
               <Link to="settings">Settings</Link>
             </li>
+            <li>
+              <Link to="my-requests-resources">My requests</Link>
+            </li>
             <li className="divider"></li>
             <li>
               <a href="#" onClick={this.onShowVersion}>Version</a>
@@ -205,6 +208,7 @@ define(function (require) {
       }.bind(this));
 
       var brandLink;
+
       if (userLoggedIn) {
         brandLink = <Link to="dashboard" className="navbar-brand"/>;
       } else {

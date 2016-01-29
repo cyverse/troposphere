@@ -22,11 +22,12 @@ define(function (require) {
     // fetch from the server. Used to prevent multiple server calls for the same data.
     this.isFetching = false;
 
-    // pollingEnabled: True if this store should poll models
-    // modelsBuilding: array of models which are being polled
+    // pollingEnabled: True if this store should poll models 
+    // pollingModels: A dictionary(model, callback), the presence of a model indicates polling
+    //    status, see pollWhile
     // pollingFrequency: frequency in milliseconds of when the models should be polled
     this.pollingEnabled = false;
-    this.modelsBuilding = [];
+    this.pollingModels = {};
     this.pollingFrequency = 5 * 1000;
 
     // isFetchingQuery: stores query strings as keys and denotes whether that data is already
@@ -87,6 +88,9 @@ define(function (require) {
 
     remove: function (model) {
       this.models.remove(model);
+
+      // Remove model from polling dictionary
+      delete this.pollingModels[model.cid];
     },
 
     // --------------
@@ -148,8 +152,8 @@ define(function (require) {
     },
 
     // Fetch the first page and replace models with results
-    fetchFirstPage: function(){
-      if (!this.isFetching){ 
+    fetchFirstPage: function() {
+      if (!this.isFetching) {
         this.isFetching = true;
 
         var models = new this.collection();
@@ -165,10 +169,10 @@ define(function (require) {
     },
 
     // same as fetchFirstPage, but with URL query params
-    fetchFirstPageWhere: function(queryParams){
-      if (!this.isFetching){ 
+    fetchFirstPageWhere: function(queryParams) {
+      if (!this.isFetching) {
         this.isFetching = true;
-        queryParams = queryParams || {}; 
+        queryParams = queryParams || {};
         var queryString = buildQueryStringFromQueryParams(queryParams);
         var models = new this.collection();
 
@@ -182,13 +186,19 @@ define(function (require) {
       }
     },
 
-    // Returns a specific model if it exists in the local cache
+    // Returns a specific model if it exists in the local cache with the side
+    // effect of fetching models
     get: function (modelId) {
       if (!this.models) {
         this.fetchModels();
       } else {
         return this.models.get(modelId);
       }
+    },
+
+    // Check the local cache for a model
+    has: function(modelId) {
+        return this.models.get(modelId) != undefined;
     },
 
     // Looks through the local cache and returns any models matched the provided parameters
@@ -206,7 +216,7 @@ define(function (require) {
           if (!matchesCriteria) return;
 
           var tokens = key.split('.');
-          if(tokens.length === 1){
+          if(tokens.length === 1) {
             if(model.get(key) !== params[key]) matchesCriteria = false;
           }else{
             var lookup = model.get(tokens[0])
@@ -235,7 +245,7 @@ define(function (require) {
           if (!matchesCriteria) return;
 
           var tokens = key.split('.');
-          if(tokens.length === 1){
+          if(tokens.length === 1) {
             if(model.get(key) !== params[key]) matchesCriteria = false;
           }else{
             var lookup = model.get(tokens[0])
@@ -260,7 +270,7 @@ define(function (require) {
           url: nextUrl
         }).done(function () {
           this.isFetchingMore = false;
-          this.models.add(moreModels.models);
+          this.models.add(moreModels.models, { merge: true });
           this.models.meta = moreModels.meta;
           this.emitChange();
         }.bind(this));
@@ -270,7 +280,7 @@ define(function (require) {
     // Fetches the first page of data for the given set of queryParams
     // Example: params = {page_size: 1000, search: 'featured'}
     // will be convereted to ?page_size=1000&search=featured
-    fetchWhereNoCache: function(queryParams){
+    fetchWhereNoCache: function(queryParams) {
       queryParams = queryParams || {};
 
       // Build the query string
@@ -291,7 +301,7 @@ define(function (require) {
       }
     },
 
-    fetchWhere: function(queryParams){
+    fetchWhere: function(queryParams) {
       queryParams = queryParams || {};
 
       // Build the query string
@@ -344,57 +354,61 @@ define(function (require) {
     // Polling functions
     // -----------------
 
+    // Poll model while whileFunc(model) returns true.
+    pollWhile: function(model, whileFunc) {
+        if (!model.fetchFromCloud)
+            throw new Error("model missing required method for polling: fetchFromCloud");
+         
+        // If already polling, mutate the callback and exit
+        if (this.pollingModels[model.cid]) {
+            this.pollingModels[model.cid] = whileFunc;
+            return;
+        }
+
+        // Set the new polling function
+        this.pollingModels[model.cid] = whileFunc;
+
+        // Wrapper gets called every pollingFrequency, calling the latest
+        // whileFunc
+        var wrapper = function() {
+            model.fetchFromCloud(function(response) {
+
+                // If no longer polling, exit
+                if (!this.pollingModels[model.cid])
+                    return;
+
+                // Use latest polling func
+                var keepPolling = this.pollingModels[model.cid](model, response);
+
+                if (this.has(model))
+                    this.update(model);
+                this.emitChange();
+
+                if (keepPolling) {
+                    setTimeout(wrapper, this.pollingFrequency);
+                } else {
+                    delete this.pollingModels[model.cid];
+                }
+            }.bind(this));
+        }.bind(this);
+
+        // Kickstart polling
+        wrapper();
+    },
+
     // Fetches the models state immediately and then sets up to be polled if not in a final state
     pollNowUntilBuildIsFinished: function (model) {
-      if (model.id && this.modelsBuilding.indexOf(model) < 0) {
-        this.modelsBuilding.push(model);
-        this.fetchNowAndRemoveIfFinished(model);
+      if (!this.isInFinalState) throw new Error("store missing required method for polling: isInFinalState");
+
+      if (model.id) {
+        this.pollWhile(model, _.negate(this.isInFinalState));
       }
     },
 
-    // Sets up to be polled if not in a final state
+    // Delays before polling, should be removed...
     pollUntilBuildIsFinished: function (model) {
-      if (model.id && this.modelsBuilding.indexOf(model) < 0) {
-        this.modelsBuilding.push(model);
-        this.fetchAndRemoveIfFinished(model);
-      }
+        setTimeout(this.pollNowUntilBuildIsFinished.bind(this, model), this.pollingFrequency);
     },
-
-    // Fetches the model's state from the server then sets up to be polled again if not in a final state
-    fetchAndRemoveIfFinished: function (model) {
-      if (!model.fetchFromCloud) throw new Error("model missing required method for polling: fetchFromCloud");
-      if (!this.isInFinalState) throw new Error("store missing required method for polling: isInFinalState");
-
-      setTimeout(function () {
-        model.fetchFromCloud(function () {
-          this.update(model);
-          var index = this.modelsBuilding.indexOf(model);
-          if (this.isInFinalState(model)) {
-            this.modelsBuilding.splice(index, 1);
-          } else {
-            this.fetchAndRemoveIfFinished(model);
-          }
-          this.emitChange();
-        }.bind(this));
-      }.bind(this), this.pollingFrequency);
-    },
-
-    // Fetches the model's state immediately from the server then sets up to be polled again if not in a final state
-    fetchNowAndRemoveIfFinished: function (model) {
-      if (!model.fetchFromCloud) throw new Error("model missing required method for polling: fetchFromCloud");
-      if (!this.isInFinalState) throw new Error("store missing required method for polling: isInFinalState");
-
-      model.fetchFromCloud(function () {
-        this.update(model);
-        var index = this.modelsBuilding.indexOf(model);
-        if (this.isInFinalState(model)) {
-          this.modelsBuilding.splice(index, 1);
-        } else {
-          this.fetchAndRemoveIfFinished(model);
-        }
-        this.emitChange();
-      }.bind(this));
-    }
 
   });
 

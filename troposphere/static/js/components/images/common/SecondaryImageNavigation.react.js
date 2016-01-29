@@ -10,8 +10,8 @@ define(function (require) {
     displayName: "SecondaryImageNavigation",
 
     renderRoute: function (name, linksTo, icon, requiresLogin) {
-      var userLoggedIn = (context.profile.get('username') != null);
-      if (requiresLogin && !userLoggedIn) return null;
+
+      if (requiresLogin && !context.profile.get('username')) return null;
 
       return (
         <li key={name}>
@@ -28,7 +28,7 @@ define(function (require) {
           allImages = stores.ImageStore.getAll(),
           images = stores.ImageStore.fetchWhere({
             created_by__username: profile.get('username')
-          }) || [], 
+          }) || [],
           favoritedImages = stores.ImageBookmarkStore.getBookmarkedImages() || [];
 
       if(!images || !favoritedImages){
