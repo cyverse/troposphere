@@ -28,11 +28,17 @@ export default React.createClass({
         stores.TagStore.removeChangeListener(this.triggerRenderOnStore);
     },
 
-    triggerRenderOnStore: () => this.setState({}),
+    triggerRenderOnStore: function() {
+        this.setState({}) 
+    },
 
-    handleChange: (e) => this.setState({query: e.target.value}),
+    handleChange: function(e) { 
+        this.setState({query: e.target.value}) 
+    },
 
-    handleLoadMoreImages: () => this.setState({page: this.state.page + 1}),
+    handleLoadMoreImages: function() {
+        this.setState({page: this.state.page + 1})
+    },
 
     renderFilterDescription: function () {
         let message,
