@@ -49,7 +49,7 @@ define(function (require) {
       return (
         <div className="side-panel">
           <div className="header">
-            <span className="title">Details</span>
+            <span className="t-title">Details</span>
           </div>
           {resourcePreview}
         </div>

@@ -13,13 +13,31 @@ define(
     return React.createClass({
       displayName: "Image",
 
+      getInitialState: function(){
+          let image = this.props.image;
+          let versionList = null;
+          let active = false;
+            if (image) {
+                versionList = image.get('versions');
+
+                if (versionList.length > 0) {
+                    active = true;
+                }
+            }
+            return {
+                active
+            }
+      },
+
       propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         onClick: React.PropTypes.func
       },
 
       handleClick: function () {
-        if (this.props.onClick) this.props.onClick(this.props.image);
+        if (this.state.active) {
+            this.props.onSelectImage(this.props.image);
+        }
       },
 
       renderTags: function () {
@@ -43,26 +61,30 @@ define(
           <Gravatar hash={image.get('uuid_hash')} size={iconSize} type={type}/>
         );
 
+        let inactiveClass = !this.state.active ? "disabled" : "";
+
         return (
-          <li onClick={this.handleClick}>
-            <div className="app-card">
-              <div>
-                <span className="icon-container">
-                  {icon}
-                </span>
-                <span className="app-name">
-                  <h4 className="name">{image.get('name')}</h4>
-                  <div>
-                    <time>{imageCreationDate}</time> by <strong>{image.get('created_by').username}</strong>
-                  </div>
-                  {this.renderTags()}
-                </span>
-              </div>
-              <p className="description">
-                {image.get('description')}
-              </p>
-            </div>
-          </li>
+            <li onClick={this.handleClick}>
+                <div className={`media card ${inactiveClass}`}>
+                    <div className="media__img">
+                        {icon}
+                    </div>
+                    <div className="media__content">
+                        <div className="row">
+                            <div className="col-md-6">
+                                <h2 className="t-subheading txt-primary">{image.get('name')}</h2>
+                                <time>{imageCreationDate}</time> by <strong>{image.get('created_by').username}</strong>
+                            </div>
+                            <div className="col-md-6">
+                                {this.renderTags()}
+                            </div>
+                        </div>
+                        <p className="media__description">
+                            {image.get('description')}
+                        </p>
+                    </div>
+                </div>
+            </li>
         )
       }
 

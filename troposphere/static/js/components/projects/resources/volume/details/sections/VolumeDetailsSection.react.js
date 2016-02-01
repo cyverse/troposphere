@@ -20,7 +20,7 @@ define(function (require) {
 
       return (
         <div className="resource-details-section section">
-          <h4 className="title">Volume Details</h4>
+          <h4 className="t-title">Volume Details</h4>
           <ul>
             <Status volume={volume}/>
             <Size volume={volume}/>

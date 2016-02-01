@@ -1,0 +1,37 @@
+.NavStacked-link {
+    a {
+        padding:3px 10px;
+        display:block;
+        width:100%;
+        color: $grey--mid;
+        border-bottom:none;
+    }
+
+    &:hover > a {
+        color: $brand-primary;
+        background: $grey--light;
+    }
+
+}
+
+.NavStacked-link.active a {
+    color: $brand-primary;
+    border-left: solid 2px $brand-primary;
+}
+
+.AdvancedOptions {
+    min-height: 300px;
+    display:flex;
+    align-items: stretch;
+
+    .AdvancedOptions-optionList {
+        padding:25px 0;
+        width:200px;
+        margin-right:20px;
+        border-right:solid 1px $grey--light;
+    }
+
+    .AdvancedOptions-content {
+        width: 100%;
+    }
+}

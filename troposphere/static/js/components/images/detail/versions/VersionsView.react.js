@@ -19,7 +19,7 @@ define(function (require) {
       }
       return (
         <div className="image-versions image-info-segment row">
-          <h4 className="title col-md-2">Versions:</h4>
+          <h4 className="t-title col-md-2">Versions:</h4>
           <VersionList image={image} versions={versions} editable={true}/>
         </div>
       );
