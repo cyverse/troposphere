@@ -73,7 +73,6 @@ define(function (require) {
                     </div>
                 </div>
             </div>
-
       );
     }
   });
