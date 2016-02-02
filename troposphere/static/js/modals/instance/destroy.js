@@ -34,10 +34,6 @@ define(function (require) {
       })
     },
 
-    destroy_noModal: function (payload, options) {
-      actions.InstanceActions.destroy(payload, options);
-    }
-
   };
 
 });

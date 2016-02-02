@@ -6,7 +6,6 @@ define(function (require) {
     poll: require('./volume/poll').poll,
     createAndAddToProject: require('./volume/createAndAddToProject').createAndAddToProject,
     destroy: require('./volume/destroy').destroy,
-    destroy_noModal: require('./volume/destroy').destroy_noModal
   };
 
 });
