@@ -2,11 +2,11 @@
 define(
   [
     'react',
-    'backbone',
     'components/mixins/BootstrapModalMixin.react',
-    'components/common/Glyphicon.react'
+    'components/common/Glyphicon.react',
+    'models/Instance',
   ],
-  function (React, Backbone, BootstrapModalMixin, Glyphicon) {
+  function (React, BootstrapModalMixin, Glyphicon, InstanceModel) {
 
     return React.createClass({
       displayName: "InstanceDeleteModal",
@@ -14,16 +14,8 @@ define(
       mixins: [BootstrapModalMixin],
 
       propTypes: {
-        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
-
-      //
-      // Internal Modal Callbacks
-      // ------------------------
-      //
-
-      cancel: function () {
-        this.hide();
+        instance: React.PropTypes.instanceOf(InstanceModel).isRequired,
+        onConfirm: React.PropTypes.func.isRequired,
       },
 
       confirm: function () {
@@ -31,38 +23,8 @@ define(
         this.props.onConfirm();
       },
 
-      //
-      // Render
-      // ------
-      //
-
-      renderAttachedVolumes: function (volume) {
-        return (
-          <li><strong>{volume.get('name')}</strong></li>
-        )
-      },
-      renderVolumeWarning: function () {
-          return (
-              <div>
-                  <p>
-                  {
-                      "This instance currently has the following volumes attached to it:"
-                  }
-                  </p>
-                  <ul>
-                  {this.props.attachedVolumes.map(this.renderAttachedVolumes)}
-                  </ul>
-              </div>
-          );
-      },
       renderBody: function () {
         var instance = this.props.instance;
-        
-        var volumeWarningHeader = 
-              (<span> 
-                  { ' Deletion may' }
-                  <strong>{ ' corrupt attached volumes.' }</strong>
-              </span>);
 
         return (
           <div>
@@ -71,7 +33,6 @@ define(
               <strong> WARNING</strong>
               {' Data will be'}
               <strong>{ ' lost.' }</strong>
-              { this.props.attachedVolumes.length ? volumeWarningHeader : "" }
             </p>
             <p>
                 {'The following instance ' +
@@ -80,8 +41,6 @@ define(
                 <strong>{instance.get('name') + ' #' + instance.get('id')}</strong>
                 </ul>
             </p>
-
-            { this.props.attachedVolumes.length ? this.renderVolumeWarning() : "" }
 
             <p>
               <em>Note:</em>
@@ -109,7 +68,7 @@ define(
                   {this.renderBody()}
                 </div>
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-danger" onClick={this.cancel}>
+                  <button type="button" className="btn btn-danger" onClick={this.hide}>
                     Cancel
                   </button>
                   <button type="button" className="btn btn-primary" onClick={this.confirm}>
