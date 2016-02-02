@@ -18,23 +18,17 @@ define(function (require) {
         instance = payload.instance,
         attachedVolumes = stores.VolumeStore.getVolumesAttachedToInstance(instance),
         ModalComponent,
-        props;
+        props = {
+            instance,
+            attachedVolumes,
+        };
 
-      if (attachedVolumes.length > 0) {
-        ModalComponent = ExplainInstanceDeleteConditionsModal;
-        props = {
-          attachedVolumes: attachedVolumes,
-          backdrop: 'static'
-        };
-      } else {
-        ModalComponent = InstanceDeleteModal;
-        props = {
-          instance: payload.instance
-        };
-      }
+       ModalComponent = 
+           attachedVolumes.length > 0 
+           ? ExplainInstanceDeleteConditionsModal
+           : InstanceDeleteModal;
 
       ModalHelpers.renderModal(ModalComponent, props, function () {
-        if (attachedVolumes.length > 0) return;
         actions.InstanceActions.destroy(payload, options);
         Router.getInstance().transitionTo("project-resources", {projectId: project.id});
       })

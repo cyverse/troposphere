@@ -36,25 +36,52 @@ define(
       // ------
       //
 
+      renderAttachedVolumes: function (volume) {
+        return (
+          <li><strong>{volume.get('name')}</strong></li>
+        )
+      },
+      renderVolumeWarning: function () {
+          return (
+              <div>
+                  <p>
+                  {
+                      "This instance currently has the following volumes attached to it:"
+                  }
+                  </p>
+                  <ul>
+                  {this.props.attachedVolumes.map(this.renderAttachedVolumes)}
+                  </ul>
+              </div>
+          );
+      },
       renderBody: function () {
         var instance = this.props.instance;
+        
+        var volumeWarningHeader = 
+              (<span> 
+                  { ' Deletion may' }
+                  <strong>{ ' corrupt attached volumes.' }</strong>
+              </span>);
 
         return (
           <div>
             <p className='alert alert-danger'>
               <Glyphicon name='warning-sign'/>
-              <strong>WARNING</strong>
-              {
-                ' Unmount volumes within your instance ' +
-                'before deleting the instance or risk corrupting your data and the volume'
-              }
+              <strong> WARNING</strong>
+              {' Data will be'}
+              <strong>{ ' lost.' }</strong>
+              { this.props.attachedVolumes.length ? volumeWarningHeader : "" }
+            </p>
+            <p>
+                {'The following instance ' +
+                 'will be shut down and all data will be permanently lost:'}
+                <ul>
+                <strong>{instance.get('name') + ' #' + instance.get('id')}</strong>
+                </ul>
             </p>
 
-            <p>
-              {'Your instance '}
-              <strong>{instance.get('name') + ' #' + instance.get('id')}</strong>
-              {' will be shut down and all data will be permanently lost!'}
-            </p>
+            { this.props.attachedVolumes.length ? this.renderVolumeWarning() : "" }
 
             <p>
               <em>Note:</em>
