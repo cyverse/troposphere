@@ -7,6 +7,7 @@ import actions from 'actions';
 import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 
 import ImageSelectStep from './launch/steps/ImageSelectStep.react';
+import ProjectCreateView from 'components/common/ProjectCreateView.react';
 import BasicLaunchStep from './launch/steps/BasicLaunchStep.react';
 import AdvancedLaunchStep from './launch/steps/AdvancedLaunchStep.react';
 
@@ -33,8 +34,13 @@ export default React.createClass({
         // We might have these
         let image = this.props.image ? this.props.image : null;
         let imageName = image ? image.get("name") : null;
+        let projectList = stores.ProjectStore.getAll();
         let project = this.props.project ? this.props.project : null;
         let view = this.props.initialView;
+
+        if (view != "IMAGE_VIEW" && projectList.length === 0) {
+            view = "PROJECT_VIEW";
+        } 
 
         return {
             // State for general operation (switching views, etc) 
@@ -107,12 +113,12 @@ export default React.createClass({
         // NOTE: Only update state for things that need defaults. Data fetched
         // from the cloud is not part of the component's state that it
         // manages.
-        this.setState({ 
-            imageVersion, 
+        this.setState({
+            imageVersion,
             project,
-            provider, 
-            providerSize, 
-            identityProvider, 
+            provider,
+            providerSize,
+            identityProvider,
         });
     },
 
@@ -145,6 +151,7 @@ export default React.createClass({
 
     viewBasic: function() {
         this.setState({ view: 'BASIC_VIEW', });
+        console.log("basic view", this.state.projectList);
     },
 
     viewAdvanced: function() {
@@ -183,6 +190,14 @@ export default React.createClass({
             providerSize,
             identityProvider,
         }, this.viewBasic);
+    },
+
+    onProjectCreateConfirm: function(name, description) {
+        this.viewBasic();
+        actions.ProjectActions.create({
+            name,
+            description
+        });
     },
 
     onBack: function() {
@@ -267,6 +282,8 @@ export default React.createClass({
         switch(view) {
             case "IMAGE_VIEW":
             return this.renderImageSelect()
+            case "PROJECT_VIEW":
+            return this.renderProjectCreateStep()
             case "BASIC_VIEW":
             return this.renderBasicOptions()
             case "ADVANCED_VIEW":
@@ -282,6 +299,17 @@ export default React.createClass({
                 onSelectImage={this.onSelectImage}
                 onCancel = {this.hide}
             />
+        );
+    },
+
+    renderProjectCreateStep: function() {
+        return (
+            <div>
+                <ProjectCreateView
+                    cancel={this.hide}
+                    onConfirm={this.onProjectCreateConfirm}
+                />
+            </div>
         );
     },
 
@@ -314,34 +342,37 @@ export default React.createClass({
             resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
         }
 
-        return <BasicLaunchStep { ...{
-            attachedScripts: this.state.attachedScripts,
-            backIsDisabled: this.props.initialView == "BASIC_VIEW",
-            launchIsDisabled: !this.canLaunch(),
-            identityProvider: this.state.identityProvider,
-            image,
-            imageVersion,
-            imageVersionList,
-            instanceName: this.state.instanceName,
-            onBack: this.onBack,
-            onCancel: this.hide,
-            onNameChange: this.onNameChange,
-            onProjectChange: this.onProjectChange,
-            onProviderChange: this.onProviderChange,
-            onRequestResources: this.onRequestResources,
-            onSizeChange: this.onSizeChange,
-            onSubmitLaunch: this.onSubmitLaunch,
-            onVersionChange: this.onVersionChange,
-            project,
-            projectList,
-            provider,
-            providerList,
-            providerSize,
-            providerSizeList,
-            resourcesUsed,
-            sizes,
-            viewAdvanced: this.viewAdvanced,
-        }} />
+        return (
+            <BasicLaunchStep { ...{
+                    attachedScripts: this.state.attachedScripts,
+                    backIsDisabled: this.props.initialView == "BASIC_VIEW",
+                    launchIsDisabled: !this.canLaunch(),
+                    identityProvider: this.state.identityProvider,
+                    image,
+                    imageVersion,
+                    imageVersionList,
+                    instanceName: this.state.instanceName,
+                    onBack: this.onBack,
+                    onCancel: this.hide,
+                    onNameChange: this.onNameChange,
+                    onProjectChange: this.onProjectChange,
+                    onProviderChange: this.onProviderChange,
+                    onRequestResources: this.onRequestResources,
+                    onSizeChange: this.onSizeChange,
+                    onSubmitLaunch: this.onSubmitLaunch,
+                    onVersionChange: this.onVersionChange,
+                    project,
+                    projectList,
+                    provider,
+                    providerList,
+                    providerSize,
+                    providerSizeList,
+                    resourcesUsed,
+                    sizes,
+                    viewAdvanced: this.viewAdvanced,
+                }}
+            />
+        )
     },
 
     renderAdvancedOptions: function() {
