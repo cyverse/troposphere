@@ -54,7 +54,7 @@ define(function (require) {
             <div className="form-group">
                     <label htmlFor="date-field">{labelEl}</label>
                 <div className="input-group">
-                    {/* Button, !button because bootstrap */}
+                    {/* The div below serves as a button, it is not an actual button because bootstrap directly styles button elements within form groups */}
                     <div className="input-group-addon" 
                         id="enddate-set-addon" 
                         onClick={this.setEndDateNow}
