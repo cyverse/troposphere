@@ -60,7 +60,7 @@ export default React.createClass({
         }
 
         return (
-            <div className="loading-small"></div>
+            <select value={this.props.defaultId} className='form-control' id='size' onChange={this.onSelectChange}/>
         );
     }
 });

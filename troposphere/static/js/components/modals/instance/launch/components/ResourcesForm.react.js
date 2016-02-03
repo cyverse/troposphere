@@ -14,36 +14,43 @@ export default React.createClass({
         onProviderChange: React.PropTypes.func
     },
     render: function () {
-        if (!this.props.provider || !this.props.providerSizeList || !this.props.providerSize) {
+       /* if (!this.props.provider || !this.props.providerSizeList || !this.props.providerSize) {
             return ( <div className="loading"/>);
-        }
+        }*/
 
         let providerName = (item) => item.get('name');
         let sizeName = (item) => `${item.get('name')} (CPU: ${item.get('cpu')}, Mem: ${Math.round(item.get('mem') * 100) / 100}GB)`;
-        let defaultProviderId = this.props.provider.id;
-        let sizeId = this.props.providerSize.get('id');
-
+        // We are checking that we have a modal before applying the backbone methods
+        // Rather than rendering a loader we will let the selects handle the null data
+        let defaultProviderId;
+        let sizeId;
+         if (this.props.provider &&  this.props.providerSize) {
+            let defaultProviderId = this.props.provider.id;
+            let sizeId = this.props.providerSize.get('id');
+         }
         return (
             <form>
                 <div className="form-group">
-                    <label for="instanceName">
+                    <label htmlFor="instanceName">
                         Provider
                     </label>
                     <SelectMenu
                         defaultId={defaultProviderId}
                         list={this.props.providerList}
                         optionName={providerName}
-                        onSelectChange={this.props.onProviderChange}/>
+                        onSelectChange={this.props.onProviderChange}
+                    />
                 </div>
                 <div className="form-group">
-                    <label for="instanceSize">
+                    <label htmlFor="instanceSize">
                             Instance Size
                     </label>
                     <SelectMenu
                         defaultId={sizeId}
                         list={this.props.providerSizeList}
                         optionName={sizeName}
-                        onSelectChange={this.props.onSizeChange}/>
+                        onSelectChange={this.props.onSizeChange}
+                    />
                 </div>
                 <div className="form-group">
                     <ResourceGraphs { ...this.props }/>
