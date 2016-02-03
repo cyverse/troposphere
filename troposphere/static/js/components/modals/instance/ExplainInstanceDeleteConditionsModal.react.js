@@ -47,8 +47,11 @@ define(
                 {this.renderAttachedVolumes()}
               </ul>
               <p>
-              {"Detach the above volumes to safely delete this instance. "}
-                <a style={{color: "crimson"}} onClick={this.confirm}>Delete anyways</a>.
+                { 
+                  "Detach the above volumes to safely delete this instance. " + 
+                  "If volumes are being read or written to, instance deletion can corrupt volumes. "
+                }
+                <a style={{color: "black", textDecoration: "underline"}} onClick={this.confirm}>Delete anyway</a>.
               </p>
             </div>
           </div>
@@ -68,7 +71,7 @@ define(
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-primary" onClick={this.hide}>
-                    OK
+                    Okay
                   </button>
                 </div>
               </div>
