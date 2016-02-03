@@ -32,31 +32,37 @@ export default React.createClass({
         return (
             <form>
                 <div className={ "form-group " + (instanceName == "" ? "has-error" : "") } >
-                    <label for="instanceName">
+                    <label htmlFor="instanceName">
                         Instance Name
                     </label>
-                    <input required type="Name" className="form-control" id="instanceName" value={instanceName}
-                        onChange={this.props.onNameChange}/>
+                    <input required type="Name" 
+                        className="form-control" 
+                        id="instanceName" 
+                        value={instanceName}
+                        onChange={this.props.onNameChange}
+                    />
                 </div>
                 <div className="form-group">
-                    <label for="imageVersion">
+                    <label htmlFor="imageVersion">
                         Base Image Version
                     </label>
                     <SelectMenu
                         defaultId={this.props.imageVersion.get('id')}
                         list={this.props.imageVersionList}
                         optionName={item => item.get('name')}
-                        onSelectChange={this.props.onVersionChange}/>
+                        onSelectChange={this.props.onVersionChange}
+                    />
                 </div>
                 <div className="form-group">
-                    <label for="project">
+                    <label htmlFor="project">
                         Project
                     </label>
                     <SelectMenu
                         defaultId={project.id}
                         list={projectList}
                         optionName={item => item.get('name')}
-                        onSelectChange={this.props.onProjectChange}/>
+                        onSelectChange={this.props.onProjectChange}
+                    />
                 </div>
             </form>
         );

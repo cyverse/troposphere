@@ -38,6 +38,8 @@ export default React.createClass({
         let project = this.props.project ? this.props.project : null;
         let view = this.props.initialView;
 
+        // Check if the user has any projects, if not then set view to "PROJECT_VIEW"
+        // to create a new one
         if (view != "IMAGE_VIEW" && projectList.length === 0) {
             view = "PROJECT_VIEW";
         } 
@@ -151,7 +153,6 @@ export default React.createClass({
 
     viewBasic: function() {
         this.setState({ view: 'BASIC_VIEW', });
-        console.log("basic view", this.state.projectList);
     },
 
     viewAdvanced: function() {
@@ -175,7 +176,7 @@ export default React.createClass({
             });
 
             identityProvider = stores.IdentityStore.findOne({
-                    'provider.id': provider.id
+                'provider.id': provider.id
             });
         }
 
@@ -277,20 +278,6 @@ export default React.createClass({
         this.hide();
     },
 
-    renderBody: function() {
-        var view = this.state.view;
-        switch(view) {
-            case "IMAGE_VIEW":
-            return this.renderImageSelect()
-            case "PROJECT_VIEW":
-            return this.renderProjectCreateStep()
-            case "BASIC_VIEW":
-            return this.renderBasicOptions()
-            case "ADVANCED_VIEW":
-            return this.renderAdvancedOptions()
-        }
-    },
-
     renderImageSelect: function() {
 
         return (
@@ -304,12 +291,10 @@ export default React.createClass({
 
     renderProjectCreateStep: function() {
         return (
-            <div>
-                <ProjectCreateView
-                    cancel={this.hide}
-                    onConfirm={this.onProjectCreateConfirm}
-                />
-            </div>
+            <ProjectCreateView
+                cancel={this.hide}
+                onConfirm={this.onProjectCreateConfirm}
+            />
         );
     },
 
@@ -321,7 +306,6 @@ export default React.createClass({
         let projectList = stores.ProjectStore.getAll() || null;
         let sizes = stores.SizeStore.getAll() || null;
         let identities = stores.IdentityStore.getAll() || null;
-        let bootScriptList = stores.ScriptStore.getAll();
 
         var project = this.state.project;
         if (!project && projectList) {
@@ -378,7 +362,7 @@ export default React.createClass({
     renderAdvancedOptions: function() {
         let bootScriptList = stores.ScriptStore.getAll();
         return (
-            <AdvancedLaunchStep 
+            <AdvancedLaunchStep
                 bootScriptList={bootScriptList}
                 attachedScripts={this.state.attachedScripts}
                 onAddAttachedScript={this.onAddAttachedScript}
@@ -389,11 +373,27 @@ export default React.createClass({
         );
     },
     
+    renderBody: function() {
+        var view = this.state.view;
+        switch(view) {
+            case "IMAGE_VIEW":
+            return this.renderImageSelect()
+            case "PROJECT_VIEW":
+            return this.renderProjectCreateStep()
+            case "BASIC_VIEW":
+            return this.renderBasicOptions()
+            case "ADVANCED_VIEW":
+            return this.renderAdvancedOptions()
+        }
+    },
+
     headerTitle: function() {
         var view = this.state.view;
         switch(view) {
             case "IMAGE_VIEW":
             return "Select an Image"
+            case "PROJECT_VIEW":
+            return "Create New PRoject"
             case "BASIC_VIEW":
             return "Basic Options"
             case "ADVANCED_VIEW":

@@ -6,7 +6,7 @@ import ProgressBar from 'components/common/ui/ProgressBar.react';
 export default React.createClass({
     propTypes: {
         onRequestResources: React.PropTypes.func,
-        resourcesUsed: React.PropTypes.object,
+        resourcesUsed: React.PropTypes.object.isRequired,
         identityProvider: React.PropTypes.instanceOf(Backbone.Model),
         providerSize: React.PropTypes.instanceOf(Backbone.Model),
     },
@@ -31,6 +31,7 @@ export default React.createClass({
         // Make sure stores are populated before rendering
         let identityProvider = this.props.identityProvider;
         let size = this.props.providerSize;
+        debugger;
         if ( !identityProvider || !size ) { return ( <div/>); }
 
         // AU's Used
@@ -42,7 +43,7 @@ export default React.createClass({
 
         // Get Resources object
         let resourcesUsed = this.props.resourcesUsed;
-
+debugger;
         // CPU's have used + will use
         let allocationCpu = allocation.quota.cpu;
         let cpuUsed = resourcesUsed.cpu;
