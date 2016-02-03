@@ -95,11 +95,7 @@ export default React.createClass({
         if (provider) {
             resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
 
-            identityProvider = this.state.identityProvider
-                ? this.state.identityProvider
-                : stores.IdentityStore.findOne({
-                    'provider.id': provider.id
-                  });
+            identityProvider = stores.IdentityStore.findOne({ 'provider.id': provider.id });
 
             providerSizeList = stores.SizeStore.fetchWhere({
                 provider__id: provider.id
