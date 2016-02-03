@@ -19,29 +19,29 @@ define(function (require) {
       }
     },
 
-    componentDidMount: function(){
-      var statusCallback = function(response){
-        this.setState({statusTypes: response.models});
-      }.bind(this);
-      var requestsCallBack = function(response){
-        this.setState({requests: response.models});
-      }.bind(this);
-      stores.StatusStore.getAllWithCallBack(statusCallback);
-      stores.ResourceRequestStore.getAllWithCallBack(requestsCallBack);
-    }, 
+    // componentDidMount: function(){
+    //   var statusCallback = function(response){
+    //     this.setState({statusTypes: response.models});
+    //   }.bind(this);
+    //   var requestsCallBack = function(response){
+    //     this.setState({requests: response.models});
+    //   }.bind(this);
+    //   stores.StatusStore.getAllWithCallBack(statusCallback);
+    //   stores.ResourceRequestStore.getAllWithCallBack(requestsCallBack);
+    // }, 
 
     onResourceClick: function(request){
       OtherRouter.getInstance().transitionTo("resource-request-detail", {request: request, id: request.id});
     },
 
     render: function () {
-      // var requests = stores.ResourceRequestStore.fetchWhere({
-      //     'status__name': 'pending'
-      //   });//,
-        //statuses = stores.StatusStore.getAll();
-      if (!this.state.requests || !this.state.statusTypes) return <div className="loading"></div>;
+      var requests = stores.ResourceRequestStore.findWhere({
+          'status.name': 'pending'
+        }),
+        statuses = stores.StatusStore.getAll();
+      if (!requests || !statuses) return <div className="loading"></div>;
 
-      var resourceRequests = this.state.requests.map(function (request) {
+      var resourceRequests = requests.map(function (request) {
         var doThing = function(){
           this.onResourceClick(request);
         }.bind(this);
