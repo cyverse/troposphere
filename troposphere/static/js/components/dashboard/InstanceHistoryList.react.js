@@ -48,6 +48,22 @@ define(function(require) {
       stores.InstanceHistoryStore.fetchMore();
     },
 
+    refreshHistory: function(){
+        stores.InstanceHistoryStore.fetchFirstPage();
+        stores.InstanceHistoryStore.lastUpdated = Date.now();
+        this.forceUpdate();
+    },
+
+    renderRefreshButton: function(){
+      
+      return (
+        <span className="pull-right refresh-button">
+            <RefreshComponent onRefreshClick = {this.refreshHistory} timestamp = {stores.InstanceHistoryStore.lastUpdated} delay = {1000 * 60} />
+        </span>
+      );
+    
+    },
+
     renderTitle: function() {
       var instanceHistories = stores.InstanceHistoryStore.getAll(),
         title = "Instance History",
@@ -170,6 +186,7 @@ define(function(require) {
         <div>
           <h2>
             {this.renderTitle()}
+            {this.renderRefreshButton()}
           </h2>
           {this.renderBody()}
         </div>
