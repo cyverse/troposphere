@@ -4,6 +4,7 @@ define(function (require) {
       Backbone = require('backbone'),
       _ = require('underscore'),
       stores = require('stores'),
+      Glyphicon = require('components/common/Glyphicon.react'),
       InstanceSizeSelect = require('../components/InstanceSizeSelect.react');
 
     var ENTER_KEY = 13;
