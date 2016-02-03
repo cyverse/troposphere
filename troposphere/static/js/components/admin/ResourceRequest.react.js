@@ -14,13 +14,9 @@ define(function (require) {
 
     mixins: [Router.State],
 
-    // propTypes: {
-    //   request: React.PropTypes.instanceOf(Backbone.Model).isRequired
-    // },
-
     getInitialState: function(){
       return {
-        AUSearch: "",
+        AUSearch: 0,
         delta: 525600,
         expire: true,
         response: "",
@@ -111,12 +107,14 @@ define(function (require) {
     },
 
     renderAdminDetails: function(){
-      var quotas = stores.QuotaStore.getAll(),
+      var request = stores.ResourceRequestStore.get(this.getParams().id),
+          quotas = stores.QuotaStore.getAll(),
           allocations = stores.AllocationStore.fetchWhere({"page_size": 100}),
           statuses = stores.StatusStore.getAll(),
-          request = this.props.request,
           currentQuotaString = 'N/A',
           currentAllocationString = 'N/A';
+
+      console.log(request);
 
       if (!quotas || !allocations || !statuses) return <div className="loading"/>;
 
@@ -172,7 +170,7 @@ define(function (require) {
                 <div className="inline">
                   <label>New allocation: </label>
                   <div>
-                    <input type="text" value={this.state.AUSearch} onChange={this.handleThresholdSearchChange} />AU
+                    <input type="Number" value={this.state.AUSearch} onChange={this.handleThresholdSearchChange} />AU
                   </div>
                 </div>
                 <div className="radio-buttons">
@@ -197,19 +195,9 @@ define(function (require) {
     },
 
     render: function () {
-      var request = this.getParams().request,
-          adminDisplay;
-
-      console.log(this.getParams());
-      console.log(request);
-
-      // if(this.state.displayAdmin){
-      //   adminDisplay = this.renderAdminDetails();
-      // }
-
       return (
         <div className="pull-right">
-          {this.renderAdminDetails}
+          {this.renderAdminDetails()}
           <RouteHandler /> 
         </div>
       );
