@@ -13,19 +13,11 @@ define(function (require) {
 
     parse: function (attributes) {
 
-      // put default allocation data here since it isn't
-      // in the data structure for admins (but we want it
-      // in the object for consistency)
-      if (!attributes.allocation) {
-        attributes.allocation = {
-          current: 10,
-          threshold: 168
-        }
-      }
-
       // todo: put this in the API
-      if (attributes.allocation.current === null || attributes.allocation.current === undefined) {
-        attributes.allocation.current = 777;
+      if (attributes.usage.current === null || attributes.usage.current === undefined) {
+        attributes.allocation.current = 0;
+      } else {
+        attributes.allocation.current = attributes.usage.current;
       }
 
       return attributes;
