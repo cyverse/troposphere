@@ -114,7 +114,6 @@ define(function (require) {
           currentQuotaString = 'N/A',
           currentAllocationString = 'N/A';
 
-      console.log(request);
 
       if (!quotas || !allocations || !statuses) return <div className="loading"/>;
 
