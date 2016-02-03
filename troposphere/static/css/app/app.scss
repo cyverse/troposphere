@@ -68,7 +68,7 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 // Application specific styles
 // ---------------------------
 //
-
+@import "variables";
 @import "layout";
 @import "common";
 @import "header";
@@ -90,6 +90,7 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 @import "admin";
 @import "badges";
 @import "images";
+@import "media-cards";
 
 // Primary - header
 // when headers button is pressed

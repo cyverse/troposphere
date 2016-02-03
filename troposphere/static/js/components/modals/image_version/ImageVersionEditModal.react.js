@@ -304,6 +304,7 @@ define(function (require) {
       //FUTURE_keyTODO: Pull this functionality out if you use it anywhere else..
       endDateView = (<InteractiveDateField
               value={ended}
+              labelText={"Version End-dated On"}
               onChange={this.onEndDateChange}
               />);
       startDateView = (<div className='form-group'>

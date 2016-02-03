@@ -37,8 +37,10 @@ define(
           this.set('ip_address', attrs.ip_address);
           this.set('status', attrs.status);
           this.set('state', new InstanceState({status_raw: attrs.status}));
-          cb();
-        }.bind(this));
+          cb(response);
+        }.bind(this)).fail(function(response, status, errorThrown){
+          cb(response);
+        });
       },
 
       createOnV1Endpoint: function (options, cb) {
@@ -189,10 +191,8 @@ define(
 
       performAction: function (action, options) {
         if (!options) options = {};
-        if (!options.success) options.success = function () {
-        };
-        if (!options.error) options.error = function () {
-        };
+        if (!options.success) options.success = function () {};
+        if (!options.error) options.error = function () {};
 
         $.ajax({
           url: this.get('action_url'),

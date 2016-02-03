@@ -23,10 +23,12 @@ define(
           this.get('cpu') + ' CPUs',
           this.get('mem') + ' GB memory'
         ];
-        if (this.get('disk'))
+        if (this.get('disk')) {
           parts.push(this.get('disk') + ' GB disk');
-        if (this.get('root'))
+        }
+        if (this.get('root')) {
           parts.push(this.get('root') + ' GB root');
+        }
 
         return this.get('name') + " (" + parts.join(', ') + ")";
       }

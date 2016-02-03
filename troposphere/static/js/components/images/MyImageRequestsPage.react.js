@@ -41,6 +41,15 @@ define(function(require) {
 
       var requests = stores.ImageRequestStore.getAll();
 
+      var machineStateColumn, machineStateData;
+
+      if(stores.ProfileStore.get().get('is_staff')){
+        machineStateColumn = (
+          <th>
+            <h3>Machine State</h3>
+          </th>
+        );
+      }
       
       if(requests == null){
         return <div className = "loading"></div>;
@@ -61,7 +70,7 @@ define(function(require) {
       var displayRequests = requests.map(function(request){
         
         // set the color of the row based on the status of the request
-        var trClass;
+        var trClass, endDateText = "N/A";
         switch(request.get('status').name){
           case "approved":
             trClass = "success";
@@ -74,14 +83,21 @@ define(function(require) {
             break;
         }
 
+        if(stores.ProfileStore.get().get('is_staff')){
+          machineStateData = <td>{request.get('old_status')}</td>;
+        }
+				if (request.get('end_date')) {
+					endDateText = moment(request.get('end_date')).format("MMM D, YYYY h:mm:ss a");
+				}
+
         var newMachineId = !!request.get('new_machine') ? request.get('new_machine').id : "N/A";
 
         return <tr className={trClass}>
                     <td>{moment(request.get('start_date')).format("MMM D, YYYY h:mm:ss a")}</td>
-                    <td>{moment(request.get('end_date')).format("MMM D, YYYY h:mm:ss a")}</td>
+                    <td>{endDateText}</td>
                     <td>#{request.get('instance').id} - {request.get('instance').name}</td>
                     <td>{request.get('status').name}</td>
-                    <td>{request.get('old_status')}</td>
+                    {machineStateData}
                     <td>{newMachineId}</td>
                 </tr>
       }.bind(this));
@@ -110,9 +126,7 @@ define(function(require) {
                 <th>
                   <h3>Status</h3>
                 </th>
-                <th>
-                  <h3>Machine State</h3>
-                </th>
+                {machineStateColumn}
                 <th>
                   <h3>New Machine ID</h3>
                 </th>

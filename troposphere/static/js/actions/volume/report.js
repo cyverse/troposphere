@@ -15,7 +15,7 @@ define(function (require) {
 
       var profile = stores.ProfileStore.get(),
         username = profile.get('username'),
-        reportUrl = globals.API_ROOT + "/email/support",
+        reportUrl = globals.API_V2_ROOT + "/email_support",
         problemText = "",
         reportInfo = params.reportInfo,
         reportData = {},

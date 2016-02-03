@@ -20,8 +20,8 @@ define(
 
       propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        providers: React.PropTypes.instanceOf(Backbone.Collection),
+        identities: React.PropTypes.instanceOf(Backbone.Collection),
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         onEditImageDetails: React.PropTypes.func.isRequired
       },

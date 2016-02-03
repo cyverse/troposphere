@@ -29,9 +29,10 @@ define(function (require) {
         return _scripts;
     },
     getMachines: function(versionId) {
-        var _machines = stores.ProviderMachineStore.fetchWhere(
-            {version_id: versionId}
-        );
+        var _machines = stores.ProviderMachineStore ?
+            stores.ProviderMachineStore.fetchWhere(
+                {version_id: versionId}
+            ) : null;
 
         if(_machines == null) {
             return null;

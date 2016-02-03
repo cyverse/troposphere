@@ -237,6 +237,22 @@ $breadcrumb-bk-inactive:lightgrey;
   }
 }
 
+// Request more resources modal
+
+#au-calculator{
+  text-align: center;
+  margin-bottom: 5%;
+
+  .form-control{
+    display: inline;
+    width: 25%;
+    margin: 5px;
+  }
+
+  th{
+    text-align: center;
+  }
+}
 
 //Feature Support/ Upgrade your browser
 //

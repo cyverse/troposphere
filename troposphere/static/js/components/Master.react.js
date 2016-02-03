@@ -69,6 +69,7 @@ define(function (require) {
       var userLoggedIn = (context.profile && context.profile.get('username'));
       // The code below is only relevant to logged in users
       if (!userLoggedIn) return;
+
       // IMPORTANT! We get one shot at this. If the instances and volumes aren't
       // fetched before this component is mounted we miss our opportunity to migrate
       // the users resources (so make sure they're fetched in the Splash Screen)
@@ -116,7 +117,10 @@ define(function (require) {
           //Users who ARE logged in, but without an identity
           //cannot be handled in the application, currently.
           //These users are punted now.
-          window.location.pathname = "/forbidden";
+          var username = context.profile.get('username'),
+              errorText = "User <"+username+"> was authenticated, but has no available, active identities. Contact your Cloud Administrator.",
+              error_status = encodeURIComponent(errorText);
+          window.location = "/forbidden?banner=" + error_status;
       }
 
       var maintenanceMessages = stores.MaintenanceMessageStore.getAll() || new Backbone.Collection(),
