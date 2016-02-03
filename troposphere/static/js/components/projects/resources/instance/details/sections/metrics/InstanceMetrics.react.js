@@ -2,8 +2,7 @@ define(function(require) {
   var React = require('react'),
     GraphController = require('./GraphController'),
     TimeframeBreadcrumb = require('./TimeframeBreadcrumb.react'),
-    RefreshComponent = require('./RefreshComponent.react'),
-    stores = require('stores');
+    RefreshComponent = require('./RefreshComponent.react');
 
 
   return React.createClass({

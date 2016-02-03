@@ -153,7 +153,7 @@ define(function(require) {
     renderBody: function() {
       var step = this.state.step;
         switch(step) {
-	       case IMAGE_STEP:
+          case IMAGE_STEP:
           return this.renderImageSelect();
         case INFORMATION_STEP:
           return this.renderNameStep();

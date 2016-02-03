@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react/addons'),
+  let React = require('react/addons'),
     Backbone = require('backbone'),
     stores = require('stores'),
     ProviderCollection = require('collections/ProviderCollection'),
@@ -16,7 +16,7 @@ define(function (require) {
     },
 
     render: function () {
-      var provider = this.props.provider,
+      let provider = this.props.provider,
         identity = stores.IdentityStore.findOne({'provider.id': provider.id}),
         instances = stores.InstanceStore.findWhere({'provider.id': provider.id}),
         volumes = stores.VolumeStore.findWhere({
@@ -29,7 +29,7 @@ define(function (require) {
 
       if (!provider || !identity || !instances || !volumes || !sizes) return <div className="loading"></div>;
 
-      var providers = new ProviderCollection([provider]),
+      let providers = new ProviderCollection([provider]),
         identities = new IdentityCollection([identity]);
 
       return (

@@ -77,7 +77,7 @@ define(function (require) {
     render: function () {
       return (
         <li className="dropdown">
-          <a href="/login?redirect=/application?beta=true">Login</a>
+          <a href="/login?redirect=/application?beta=true&airport_ui=false">Login</a>
         </li>
       );
     }
@@ -95,15 +95,22 @@ define(function (require) {
     },
 
     render: function () {
+      var username = this.props.username;
+      if (!username && show_public_site) {
+          username = "AnonymousUser"
+      }
       return (
         <li className="dropdown">
           <a className="dropdown-toggle" href="#" data-toggle="dropdown">
-            {this.props.username}
+            {username}
             <b className="caret"></b>
           </a>
           <ul className="dropdown-menu">
             <li>
               <Link to="settings">Settings</Link>
+            </li>
+            <li>
+              <Link to="my-requests-resources">My requests</Link>
             </li>
             <li className="divider"></li>
             <li>
@@ -113,7 +120,7 @@ define(function (require) {
               <a href="http://atmosphere.status.io" target="_blank">Status</a>
             </li>
             <li>
-              <a href="/logout?cas=True">Sign out</a>
+              <a href="/logout?cas=True&airport_ui=false">Sign out</a>
             </li>
           </ul>
         </li>
@@ -128,7 +135,7 @@ define(function (require) {
       profile: React.PropTypes.instanceOf(Backbone.Model),
       currentRoute: React.PropTypes.array.isRequired
     },
-    
+
     // We need the screen size for handling the opening and closing of our menu on small screens
     //See navLinks below for implementation.
 
@@ -152,7 +159,7 @@ define(function (require) {
       if (!window.show_troposphere_only) {
         return (
           <div className="beta-toggle">
-            <a href="/application?beta=false">
+            <a href="/application?beta=false&airport_ui=true">
               <div className="toggle-wrapper">
                 <div className="toggle-background">
                   <div className="toggle-text">View Old UI</div>
@@ -168,9 +175,9 @@ define(function (require) {
     render: function () {
 
       var profile = this.props.profile;
-      var loginLogoutDropdown = profile ? <LogoutLink username={profile.get('username')}/> : <LoginLink/>;
+      var loginLogoutDropdown = profile.get('selected_identity') ? <LogoutLink username={profile.get('username')}/> : <LoginLink/>;
 
-      if (!profile) {
+      if (!profile.get('selected_identity')) {
         links = links.filter(function (link) {
           return !link.requiresLogin && link.isEnabled;
         })
@@ -184,7 +191,7 @@ define(function (require) {
       var navLinks = links.map(function (link) {
         var isCurrentRoute = (link.name.toLowerCase() === this.props.currentRoute[0]);
         var className = isCurrentRoute ? "active" : null;
-        
+
         //We need to only trigger the toggle menu on small screen sizes to avoid buggy behavior when selecting menu items on larger screens
         var smScreen = (this.state.windowWidth < 768);
         var toggleMenu = smScreen ? {toggle: 'collapse',target:'.navbar-collapse'} : {toggle: null, target: null};
@@ -200,7 +207,7 @@ define(function (require) {
       }.bind(this));
 
       var brandLink;
-      if (profile) {
+      if (profile.get('selected_identity')) {
         brandLink = <Link to="dashboard" className="navbar-brand"/>;
       } else {
         brandLink = <Link to="images" className="navbar-brand"/>;

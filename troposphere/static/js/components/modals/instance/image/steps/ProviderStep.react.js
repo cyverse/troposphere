@@ -103,7 +103,7 @@ define(function (require) {
             {this.renderProvider(instance)}
             <a role="button" data-toggle="collapse" href="#min-requirements" aria-expanded="true">
               Minimum Requirements (optional)
-            </a>  
+            </a>
             {this.renderRequirementsStep()}
           </div>
           <div className="modal-footer">

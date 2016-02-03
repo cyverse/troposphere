@@ -48,52 +48,53 @@ define(function (require) {
         id: identity.get('provider').id,
         uuid: identity.get('provider').uuid
       },
+      projects: [ project.id ],
       identity: {
         id: identity.id,
         uuid: identity.get('uuid')
       },
     }, {parse: true});
 
+    // Add instance to InstanceStore
+    Utils.dispatch(InstanceConstants.ADD_INSTANCE, {instance: instance});
+
+    // Create ProjectInstance
     var projectInstance = new ProjectInstance({
       project: project.toJSON(),
       instance: instance.toJSON()
     });
 
-    Utils.dispatch(InstanceConstants.ADD_INSTANCE, {instance: instance});
-
-    // Add the instance to the project now, so the user can see it being requested
-    Utils.dispatch(ProjectInstanceConstants.ADD_PENDING_PROJECT_INSTANCE, {
-      projectInstance: projectInstance
-    });
-
+    // Add to ProjectInstanceStore
+    Utils.dispatch(ProjectInstanceConstants.ADD_PROJECT_INSTANCE, {projectInstance: projectInstance});
+    
     instance.createOnV1Endpoint({
       name: instanceName,
       size_alias: size.get('alias'),
       machine_alias: machine.uuid,
       scripts: scripts,
     }).done(function(attrs, status, response) {
-      instance.set('id', attrs.id);
-      instance.fetch().done(function() {
-        // todo: remove hack and start using ProjectInstance endpoint to discover
-        // which project an instance is in
-        instance.set('projects', [project.id]);
+        instance.set('id', attrs.id);
 
-        Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
-        Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+        // Get the instance from the cloud, ignore our local copy
+        instance.fetch().done(function() {
+            // NOTE: we have to set this here, because our instance above never gets saved
+            instance.set('projects', [project.id]);
 
-        actions.ProjectInstanceActions.addInstanceToProject({
-          project: project,
-          instance: instance
+            Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+            Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
         });
-      });
+
+        // Save projectInstance to db
+        projectInstance.save(null, {attrs: {
+            project: project.id,
+            instance: instance.id
+        }});
+
     }).fail(function (response) {
+      // Remove instance from stores
       Utils.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
+      Utils.dispatch(ProjectInstanceConstants.REMOVE_PROJECT_INSTANCE, {projectInstance: projectInstance});
       Utils.displayError({title: "Instance could not be launched", response: response});
-    }).always(function() {
-      // Remove the instance from the project now that it's either been created or failed to be created
-      Utils.dispatch(ProjectInstanceConstants.REMOVE_PENDING_PROJECT_INSTANCE, {
-        projectInstance: projectInstance
-      });
     });
 
     // Since this is triggered from the images page, navigate off

@@ -30,6 +30,52 @@
   }
 }
 */
+.button-toggle {
+  padding-top: 16px;
+  padding-bottom: 9px;
+
+  .toggle-wrapper {
+    cursor: pointer;
+    position: relative;
+    padding-top: 1px;
+  }
+
+  .toggle-background {
+    background-color: #EB6538;
+    width: 103px;
+    height: 20px;
+    border-radius: 14px;
+    font-size: 13px;
+  }
+
+  .toggle-text {
+    color: #FCEEEB;
+    font-family: Helvetica;
+    font-weight: 100;
+    margin-left: 5px;
+  }
+
+  .toggle-switch {
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    background-color: #E4E4E4;
+    border-radius: 12px;
+    top: -1px;
+  }
+
+  .toggle-switch ~ .toggle-background {
+    background-color: #EEEEEE;
+    .toggle-text {
+      color: #000000;
+      margin-left: 24px;
+    }
+  }
+  .toggle-background + .toggle-switch {
+    right: 0px;
+  }
+}
+
 .beta-toggle {
   position: absolute;
   right:120px;
