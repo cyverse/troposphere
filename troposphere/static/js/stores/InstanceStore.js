@@ -83,7 +83,7 @@ define(function (require) {
     switch (actionType) {
 
       case InstanceConstants.ADD_INSTANCE:
-        store.add(payload.instance);
+        store.add({data: payload.instance, at: 0});
         break;
 
       case InstanceConstants.UPDATE_INSTANCE:
