@@ -93,11 +93,7 @@ export default React.createClass({
         if (provider) {
             resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
 
-            identityProvider = this.state.identityProvider
-                ? this.state.identityProvider
-                : stores.IdentityStore.findOne({
-                    'provider.id': provider.id
-                  });
+            identityProvider = stores.IdentityStore.findOne({ 'provider.id': provider.id });
 
             providerSizeList = stores.SizeStore.fetchWhere({
                 provider__id: provider.id
@@ -151,7 +147,6 @@ export default React.createClass({
 
     viewBasic: function() {
         this.setState({ view: 'BASIC_VIEW', });
-        console.log("basic view", this.state.projectList);
     },
 
     viewAdvanced: function() {
