@@ -2,7 +2,7 @@ define(function (require) {
   "use strict";
 
   var actions = require('actions'),
-    stores = require('stores'),
+    VolumeStore = require('stores/VolumeStore'),
     ModalHelpers = require('components/modals/ModalHelpers'),
     InstanceDeleteModal = require('components/modals/instance/InstanceDeleteModal.react'),
     ExplainInstanceDeleteConditionsModal = require('components/modals/instance/ExplainInstanceDeleteConditionsModal.react'),
@@ -16,7 +16,7 @@ define(function (require) {
 
       var project = payload.project,
         instance = payload.instance,
-        attachedVolumes = stores.VolumeStore.getVolumesAttachedToInstance(instance),
+        attachedVolumes = VolumeStore.getVolumesAttachedToInstance(instance),
         ModalComponent,
         props = {
             instance,
@@ -29,6 +29,7 @@ define(function (require) {
            : InstanceDeleteModal;
 
       ModalHelpers.renderModal(ModalComponent, props, function () {
+        attachedVolumes.forEach((volume) => VolumeStore.pollUntilDetached(volume));
         actions.InstanceActions.destroy(payload, options);
         Router.getInstance().transitionTo("project-resources", {projectId: project.id});
       })

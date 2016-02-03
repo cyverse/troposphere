@@ -2,10 +2,12 @@ define(function (require) {
   'use strict';
 
   var _ = require('underscore'),
+    Utils = require('actions/Utils'),
     Dispatcher = require('dispatchers/Dispatcher'),
     BaseStore = require('stores/BaseStore'),
     VolumeCollection = require('collections/VolumeCollection'),
-    VolumeConstants = require('constants/VolumeConstants');
+    VolumeConstants = require('constants/VolumeConstants'),
+    VolumeState = require('models/VolumeState');
 
   var VolumeStore = BaseStore.extend({
     collection: VolumeCollection,
@@ -16,7 +18,7 @@ define(function (require) {
 
     initialize: function () {
       this.pollingEnabled = true;
-      this.pollingFrequency = 15 * 1000;
+      this.pollingFrequency = 10 * 1000;
     },
 
     //
@@ -67,7 +69,28 @@ define(function (require) {
 
     isInFinalState: function (volume) {
       return volume.get('state').isInFinalState();
-    }
+    },
+
+    // Poll for a model
+    pollUntilDetached: function(volume) {
+        this.pollWhile(volume, function(model, response) {
+            var status = volume.get('state').get("status");
+            var responseIs200 = String(response.status)[0] == "2";
+
+            var keepPolling = status != "available" && responseIs200;
+
+            if (keepPolling) {
+                volume.set({
+                    state: new VolumeState({
+                        status_raw: "detaching"
+                    }),
+                });
+            }
+            Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+
+            return keepPolling;
+        }.bind(this));
+    },
 
   });
 
