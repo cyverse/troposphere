@@ -19,17 +19,6 @@ define(function (require) {
       }
     },
 
-    // componentDidMount: function(){
-    //   var statusCallback = function(response){
-    //     this.setState({statusTypes: response.models});
-    //   }.bind(this);
-    //   var requestsCallBack = function(response){
-    //     this.setState({requests: response.models});
-    //   }.bind(this);
-    //   stores.StatusStore.getAllWithCallBack(statusCallback);
-    //   stores.ResourceRequestStore.getAllWithCallBack(requestsCallBack);
-    // }, 
-
     onResourceClick: function(request){
       OtherRouter.getInstance().transitionTo("resource-request-detail", {request: request, id: request.id});
     },
