@@ -3,7 +3,7 @@ define(function (require) {
 
   var React = require('react/addons'),
     stores = require('stores'),
-    login = THEME_URL + "images/login_mainimage.png";
+    login = THEME_URL + "/images/login_mainimage.png";
 
   return React.createClass({
     displayName: "MaintenanceScreen",

@@ -11,16 +11,6 @@ define(function (require) {
 
   var _modelsFor = {};
   var _isFetchingFor = {};
-  var _pendingProjectInstances = new InstanceCollection();
-
-  function addPending(model) {
-    _pendingProjectInstances.add(model);
-  }
-
-  function removePending(model) {
-    _pendingProjectInstances.remove(model);
-  }
-
 
   //
   // Model Store
@@ -57,34 +47,21 @@ define(function (require) {
       }
     },
 
+    // This function is bad, but its just a symptom. A store should not depend
+    // on another store, and contain duplicate data with that dependency. Is
+    // the InstanceStore or ProjectInstanceStore right? It depends on whom you
+    // ask.
     getInstancesFor: function (project) {
       var allInstances = stores.InstanceStore.getAll();
       if (!_modelsFor[project.id]) return this.fetchModelsFor(project.id);
       if (!allInstances) return;
 
-      var instances = this.models.filter(function (pi) {
-        // filter out irrelevant project instances (not in target project)
-        return pi.get('project').id === project.id;
-      }).filter(function (pi) {
-        // filter out the instances that don't exist (not in local cache)
-        return allInstances.get(pi.get('instance').id);
-      }).map(function (pi) {
-        // return the actual instances
-        return allInstances.get(pi.get('instance').id);
+      // Filter instances belonging to the project
+      var instances = allInstances.filter(function (i) {
+          return _.contains(i.get('projects'), project.id);
       });
 
-      var pendingInstances = _pendingProjectInstances.filter(function (pi) {
-        // filter out irrelevant project instances (not in target project)
-        return pi.get('project').id === project.id;
-      }).filter(function (pi) {
-        // filter out the instances that don't exist (not in local cache)
-        return allInstances.get(pi.get('instance'));
-      }).map(function (pi) {
-        // return the actual instances
-        return allInstances.get(pi.get('instance'));
-      });
-
-      return new InstanceCollection(instances.concat(pendingInstances));
+      return new InstanceCollection(instances);
     },
 
     getInstancesForProjectOnProvider: function (project, provider) {
@@ -116,14 +93,6 @@ define(function (require) {
 
       case Constants.REMOVE_PROJECT_INSTANCE:
         store.remove(payload.projectInstance);
-        break;
-
-      case Constants.ADD_PENDING_PROJECT_INSTANCE:
-        addPending(payload.projectInstance);
-        break;
-
-      case Constants.REMOVE_PENDING_PROJECT_INSTANCE:
-        removePending(payload.projectInstance);
         break;
 
       case Constants.EMIT_CHANGE:

@@ -34,7 +34,10 @@ define(function (require) {
 
     render: function () {
       var provider = this.props.provider,
-        instances = stores.InstanceStore.findWhere({'provider.id': provider.id}),
+        instances = stores.InstanceStore.findWhere({
+            'provider.id': provider.id,
+            'status': 'active'
+        }),
         sizes = stores.SizeStore.fetchWhere({
           provider__id: provider.id,
           page_size: 100

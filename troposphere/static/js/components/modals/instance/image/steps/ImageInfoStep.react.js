@@ -34,16 +34,25 @@ define(function (require) {
     getInitialState: function () {
       return {
         name: this.props.name,
+        nameError: this.setNameError(this.props.name),
         description: this.props.description,
         newImage: this.props.newImage,
         imageTags: this.props.imageTags || stores.InstanceTagStore.getTagsFor(this.props.instance),
       }
     },
-
+    isValidName: function (value) {
+      var pattern = new RegExp("^[^!\"#$%&'*,/;<>?\\\\`{|}~^]+$")  //Invalid characters.
+      if (! pattern.test(value)) {
+          return false;
+      }
+      return true; // Valid input
+    },
     isSubmittable: function () {
-      var hasName = !!($.trim(this.state.name));
+      var testName = $.trim(this.state.name);
+      var hasName = !!(testName);
+      var validName = this.isValidName(testName);
       var hasDescription = !!($.trim(this.state.description));
-      return hasName && hasDescription;
+      return hasName && hasDescription && validName;
     },
 
     onNext: function () {
@@ -54,9 +63,16 @@ define(function (require) {
         newImage: this.state.newImage
       });
     },
-
+    setNameError: function (newName) {
+      var invalid_characters = '!#$%^&*\"\',;/\\<>?{|}~';
+      if(! this.isValidName(newName) ) {
+          return "The name selected is using an invalid special character. Please remove these character(s) from your name: " + invalid_characters
+      } else {
+          return null;
+      }
+    },
     onNameChange: function (newName) {
-      this.setState({name: newName});
+      this.setState({name: newName, nameError:this.setNameError(newName)});
     },
     onCreateUpdateChange: function(checked){
       this.setState({newImage: checked});
@@ -129,6 +145,7 @@ define(function (require) {
           <Name
             create={this.state.newImage}
             value={this.state.name}
+            error={this.state.nameError}
             onChange={this.onNameChange}
           />
           <hr />

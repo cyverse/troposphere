@@ -18,8 +18,8 @@ define(
 
       propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        providers: React.PropTypes.instanceOf(Backbone.Collection),
+        identities: React.PropTypes.instanceOf(Backbone.Collection),
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
@@ -48,11 +48,12 @@ define(
       },
 
       render: function () {
-        var view, versionView;
-        versionView = (
-          <VersionsView image={this.props.image}
-          />
+        var view,
+            versionView = (
+                <VersionsView image={this.props.image}
+            />
         );
+
         if(this.state.isEditing){
           view = (
             <EditImageDetails image={this.props.image}

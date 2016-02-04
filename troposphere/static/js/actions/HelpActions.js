@@ -29,7 +29,7 @@ define(function (require) {
 
       data["user-interface"] = 'troposphere';
 
-      var feedbackUrl = globals.API_V2_ROOT + '/email/feedback';
+      var feedbackUrl = globals.API_V2_ROOT + '/email_feedback';
 
       $.ajax(feedbackUrl, {
         type: 'POST',

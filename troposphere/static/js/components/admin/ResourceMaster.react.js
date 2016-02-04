@@ -28,15 +28,16 @@ define(function (require) {
           'status.name': 'pending'
         }),
         statuses = stores.StatusStore.getAll();
+
       if (!requests || !statuses) return <div className="loading"></div>;
 
       var resourceRequests = requests.map(function (request) {
-        var doThing = function(){
+        var handleClick = function(){
           this.onResourceClick(request);
         }.bind(this);
 
         return (
-          <li onClick={doThing}>
+          <li onClick={handleClick}>
             {request.get('created_by').username}
           </li>
         );

@@ -77,7 +77,7 @@ define(function (require) {
     render: function () {
       return (
         <li className="dropdown">
-          <a href="/login?redirect=/application?beta=true">Login</a>
+          <a href="/login?redirect=/application?beta=true&airport_ui=false">Login</a>
         </li>
       );
     }
@@ -109,6 +109,9 @@ define(function (require) {
             <li>
               <Link to="settings">Settings</Link>
             </li>
+            <li>
+              <Link to="my-requests-resources">My requests</Link>
+            </li>
             <li className="divider"></li>
             <li>
               <a href="#" onClick={this.onShowVersion}>Version</a>
@@ -117,7 +120,7 @@ define(function (require) {
               <a href="http://atmosphere.status.io" target="_blank">Status</a>
             </li>
             <li>
-              <a href="/logout?cas=True">Sign out</a>
+              <a href="/logout?cas=True&airport_ui=false">Sign out</a>
             </li>
           </ul>
         </li>
@@ -156,7 +159,7 @@ define(function (require) {
       if (!window.show_troposphere_only) {
         return (
           <div className="beta-toggle">
-            <a href="/application?beta=false">
+            <a href="/application?beta=false&airport_ui=true">
               <div className="toggle-wrapper">
                 <div className="toggle-background">
                   <div className="toggle-text">View Old UI</div>
