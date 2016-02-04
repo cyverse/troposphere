@@ -12,13 +12,6 @@ define(function (require) {
 
     mixins: [Router.State],
 
-    getInitialState: function(){
-      return{
-        statusTypes: null,
-        requests: null
-      }
-    },
-
     onResourceClick: function(request){
       RouterInstance.getInstance().transitionTo("resource-request-detail", {request: request, id: request.id});
     },
