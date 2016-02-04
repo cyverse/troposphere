@@ -3,7 +3,7 @@ define(function (require) {
 
   var React = require('react/addons'),
     Router = require('react-router'),
-    OtherRouter = require('../../Router'),
+    RouterInstance = require('../../Router'),
     stores = require('stores'),
     ResourceRequest = require('./ResourceRequest.react'),
     RouteHandler = Router.RouteHandler;
@@ -20,7 +20,7 @@ define(function (require) {
     },
 
     onResourceClick: function(request){
-      OtherRouter.getInstance().transitionTo("resource-request-detail", {request: request, id: request.id});
+      RouterInstance.getInstance().transitionTo("resource-request-detail", {request: request, id: request.id});
     },
 
     render: function () {
@@ -57,7 +57,7 @@ define(function (require) {
           <ul className="requests-list pull-left">
             {resourceRequests}
           </ul>
-          <RouteHandler /> 
+          <RouteHandler />
         </div>
       );
     }
