@@ -80,7 +80,7 @@ define(function(require) {
         //{label: 'Resize', icon: 'resize-full', onClick: this.onResize},
       ];
 
-      if (true || status !== "suspended") {
+      if (status !== "suspended") {
         linksArray.push({label: 'Image', icon: 'camera', onClick: this.onImageRequest});
       }
 

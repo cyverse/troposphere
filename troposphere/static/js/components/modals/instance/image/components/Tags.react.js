@@ -117,5 +117,7 @@ define(function (require) {
         </div>
       );
     }
+
   });
+
 });
