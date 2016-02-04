@@ -194,7 +194,7 @@ export default React.createClass({
     onProjectCreateConfirm: function(name, description) {
         this.viewBasic();
         actions.ProjectActions.create({
-            name,
+            name: name.trim(),
             description
         });
     },
@@ -296,7 +296,7 @@ export default React.createClass({
 
         let launchData = {
             project: this.state.project,
-            instanceName: this.state.instanceName,
+            instanceName: this.state.instanceName.trim(),
             identity: this.state.identityProvider,
             size: this.state.providerSize,
             version: this.state.imageVersion,
