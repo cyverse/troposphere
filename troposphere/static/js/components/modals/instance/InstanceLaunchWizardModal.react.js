@@ -33,7 +33,7 @@ export default React.createClass({
 
         // We might have these
         let image = this.props.image ? this.props.image : null;
-        let imageName = image ? image.get("name") : null;
+        let instanceName = image ? image.get("name") : null;
         let projectList = stores.ProjectStore.getAll();
         let project = this.props.project ? this.props.project : null;
         let view = this.props.initialView;
@@ -42,7 +42,7 @@ export default React.createClass({
         // to create a new one
         if (view != "IMAGE_VIEW" && projectList.length === 0) {
             view = "PROJECT_VIEW";
-        } 
+        }
 
         return {
             // State for general operation (switching views, etc) 
@@ -51,7 +51,7 @@ export default React.createClass({
             provider: null,
 
             // State for launch
-            instanceName: null, // NOTE: this is only set when a user types in a specific name
+            instanceName,
             imageVersion: null,
             project,
             providerSize: null,
@@ -156,6 +156,7 @@ export default React.createClass({
     },
 
     onSelectImage: function(image) {
+        let instanceName = image.get('name');
         var imageVersion, providerSize, identityProvider;
 
         let imageVersionList = stores.ImageVersionStore.fetchWhere({image_id: image.id});
@@ -182,6 +183,7 @@ export default React.createClass({
 
         this.setState({
             image,
+            instanceName,
             imageVersion,
             providerSize,
             providerSize,
@@ -206,7 +208,25 @@ export default React.createClass({
     },
 
     onVersionChange: function(imageVersion) {
-        this.setState({ imageVersion });
+        let providerList = new Backbone.Collection(imageVersion.get('machines').map((item) => item.provider));
+        let provider = providerList.first();
+        providerSizeList = stores.SizeStore.fetchWhere({
+            provider__id: provider.id
+        });
+
+        identityProvider = stores.IdentityStore.findOne({
+            'provider.id': provider.id
+        });
+
+        if (providerSizeList) {
+            providerSize = providerSizeList.first();
+        };
+
+        this.setState({
+            imageVersion,
+            provider,
+            providerSize
+        });
     },
 
     onProjectChange: function(project) {
@@ -214,7 +234,20 @@ export default React.createClass({
     },
 
     onProviderChange: function(provider) {
-        this.setState({ provider });
+        let providerSizeList = stores.SizeStore.fetchWhere({
+            provider__id: provider.id
+        });
+
+        let providerSize;
+
+        if (providerSizeList) {
+            providerSize = providerSizeList.first();
+        };
+
+        this.setState({
+            provider,
+            providerSize
+        });
     },
 
     onSizeChange: function(providerSize) {
@@ -263,7 +296,7 @@ export default React.createClass({
 
         let launchData = {
             project: this.state.project,
-            instanceName: this.state.instanceName || this.image.get("name"),
+            instanceName: this.state.instanceName,
             identity: this.state.identityProvider,
             size: this.state.providerSize,
             version: this.state.imageVersion,

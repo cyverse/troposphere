@@ -27,43 +27,71 @@ export default React.createClass({
     },
 
     render: function() {
-
         // Make sure stores are populated before rendering
         let identityProvider = this.props.identityProvider;
         let size = this.props.providerSize;
-        debugger;
-        if ( !identityProvider || !size ) { return ( <div/>); }
-
+        
         // AU's Used
-        let allocation = identityProvider.attributes;
-        let allocationConsumed = allocation.usage.current;
-        let allocationTotal = allocation.usage.threshold;
-        let allocationRemaining = allocationTotal - allocationConsumed;
-        let allocationPercent = Math.round(allocationConsumed / allocationTotal * 100);
+        let allocation, 
+         allocationConsumed,
+         allocationTotal,
+         allocationRemaining,
+         allocationPercent,
 
         // Get Resources object
-        let resourcesUsed = this.props.resourcesUsed;
-debugger;
+         resourcesUsed,
         // CPU's have used + will use
-        let allocationCpu = allocation.quota.cpu;
-        let cpuUsed = resourcesUsed.cpu;
-        let cpuWillUse = size.attributes.cpu;
-        let cpuWillTotal = cpuUsed + cpuWillUse;
-        let percentOfCpuUsed = Math.round(cpuUsed / allocationCpu * 100);
-        let percentOfCpuWillUse = Math.round(cpuWillUse / allocationCpu * 100);
+         allocationCpu,
+         cpuUsed,
+         cpuWillUse,
+         cpuWillTotal,
+         percentOfCpuUsed,
+         percentOfCpuWillUse,
 
         // Memory have used + will use
-        let allocationGb = allocation.quota.memory;
-        let gbUsed = resourcesUsed.mem / 1000;
-        let gbWillUse = size.attributes.mem;
-        let gbWillTotal = gbUsed + gbWillUse;
-        let percentOfGbUsed = Math.round(gbUsed / allocationGb * 100);
-        let percentOfGbWillUse = Math.round(gbWillUse / allocationGb *100);
+         allocationGb,
+         gbUsed,
+         gbWillUse,
+         gbWillTotal,
+         percentOfGbUsed,
+         percentOfGbWillUse,
 
         // Labels for bar graphs
-        let auLabel =  `You have used ${allocationPercent}% of ${allocationTotal} AU's from this provider`;
-        let cpuLabel = `Will total ${cpuWillTotal} of ${allocationCpu} alloted CPUs`;
-        let gbLabel = `Will total ${Math.round(gbWillTotal * 100) / 100} of ${allocationGb} alloted GBs of Memory`;
+         auLabel = "loading...",
+         cpuLabel = "loading...",
+         gbLabel = "loading...";
+
+        if ( identityProvider && size ) {
+
+            // AU's Used
+            allocation = identityProvider.attributes;
+            allocationConsumed = allocation.usage.current;
+            allocationTotal = allocation.usage.threshold;
+            allocationRemaining = allocationTotal - allocationConsumed;
+            allocationPercent = Math.round(allocationConsumed / allocationTotal * 100);
+
+            // Get Resources object
+            resourcesUsed = this.props.resourcesUsed;
+            // CPU's have used + will use
+            allocationCpu = allocation.quota.cpu;
+            cpuUsed = resourcesUsed.cpu;
+            cpuWillUse = size.attributes.cpu;
+            cpuWillTotal = cpuUsed + cpuWillUse;
+            percentOfCpuUsed = Math.round(cpuUsed / allocationCpu * 100);
+            percentOfCpuWillUse = Math.round(cpuWillUse / allocationCpu * 100);
+
+            // Memory have used + will use
+            allocationGb = allocation.quota.memory;
+            gbUsed = resourcesUsed.mem / 1000;
+            gbWillUse = size.attributes.mem;
+            gbWillTotal = gbUsed + gbWillUse;
+            percentOfGbUsed = Math.round(gbUsed / allocationGb * 100);
+            percentOfGbWillUse = Math.round(gbWillUse / allocationGb *100);
+        }
+        // Labels for bar graphs
+        auLabel =  `You have used ${allocationPercent}% of ${allocationTotal} AU's from this provider`;
+        cpuLabel = `Will total ${cpuWillTotal} of ${allocationCpu} alloted CPUs`;
+        gbLabel = `Will total ${Math.round(gbWillTotal * 100) / 100} of ${allocationGb} alloted GBs of Memory`;
 
         return (
                 <div className="form-group">
