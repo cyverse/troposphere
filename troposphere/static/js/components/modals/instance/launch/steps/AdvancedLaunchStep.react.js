@@ -64,7 +64,10 @@ export default React.createClass({
         }
         return (
             <li className={`NavStacked-link ${isActive}`}>
-            <a onClick={this.changeOption.bind(this, item)}>{title}</a></li>
+                <a onClick={this.changeOption.bind(this, item)}>
+                    {title}
+                </a>
+            </li>
         );
     },
 
@@ -92,14 +95,24 @@ export default React.createClass({
         )
     },
 
-    render: function() {
+    renderOptionList: function() {
         let options = this.state.options.map(this.renderOptions);
+        return (
+            <ul className="AdvancedOptions-optionList NavStacked">
+                {options}
+            </ul>
+        )
+    },
+
+    render: function() {
         return (
             <div>
                 <div className="AdvancedOptions">
-                    <ul className="AdvancedOptions-optionList NavStacked">
-                        {options}
-                    </ul>
+                {/* If we only have one option rederOptionList can be commented out.
+                    The content will resize to fill the whole modal.
+                    This flexability will allow us to easily animate the width of RenderOptionList,
+                    allowing the user to toggle the side bar open or closed for more room. */}
+                    {this.renderOptionList()}
                     <div className="AdvancedOptions-content">
                         {this.renderBody()}
                     </div>
