@@ -2,7 +2,6 @@ define(function (require) {
   "use strict";
 
   var InstanceConstants = require('constants/InstanceConstants'),
-    InstanceHistoryConstants = require('constants/InstanceHistoryConstants'),
     ProjectInstanceConstants = require('constants/ProjectInstanceConstants'),
     ProjectConstants = require('constants/ProjectConstants'),
     Instance = require('models/Instance'),
@@ -83,9 +82,6 @@ define(function (require) {
 
             Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
             Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
-            
-            // Add instance to InstanceHistoryStore
-            Utils.dispatch(InstanceHistoryConstants.ADD, {instance: instance});
         });
 
         // Save projectInstance to db
@@ -93,7 +89,6 @@ define(function (require) {
             project: project.id,
             instance: instance.id
         }});
-
 
     }).fail(function (response) {
       // Remove instance from stores
