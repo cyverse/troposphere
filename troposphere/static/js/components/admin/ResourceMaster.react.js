@@ -37,7 +37,7 @@ define(function (require) {
 
         return (
           <li onClick={doThing}>
-            {request.get('request')}
+            {request.get('created_by').username}
           </li>
         );
       }.bind(this));
