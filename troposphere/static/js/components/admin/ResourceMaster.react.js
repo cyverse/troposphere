@@ -12,12 +12,12 @@ define(function (require) {
     mixins: [Router.State],
 
     render: function () {
-      var requests = stores.ResourceRequestStore.findWhere({
-          'status.name': 'pending'
+      var requests = stores.ResourceRequestStore.fetchWhere({
+          'status__name': 'pending'
         }),
         statuses = stores.StatusStore.getAll();
 
-      if (!requests || !statuses)
+      if (!requests || !statuses) 
         return <div className="loading"></div>;
 
       var resourceRequestRows = requests.map(function (request) {

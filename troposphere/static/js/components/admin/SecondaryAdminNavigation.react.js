@@ -23,8 +23,8 @@ define(function (require) {
     },
 
     render: function () {
-      var requests = stores.ResourceRequestStore.findWhere({
-          'status.name': 'pending'
+      var requests = stores.ResourceRequestStore.fetchWhere({
+          'status__name': 'pending'
         });
       if (!requests) {
           request_count = "..."
