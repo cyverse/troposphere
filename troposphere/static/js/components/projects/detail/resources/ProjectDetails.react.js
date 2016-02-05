@@ -25,40 +25,8 @@ define(function (require) {
 
     getInitialState: function () {
       return {
-        selectedResource: null,
         previewedResource: null,
         selectedResources: new Backbone.Collection()
-      }
-    },
-
-    updateState: function () {
-      var project = this.props.project,
-        projectExternalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(project),
-        projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
-        projectImages = stores.ProjectImageStore.getImagesFor(project),
-        projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project),
-        selectedResourcesClone = this.state.selectedResources.models.slice(0),
-        state = this.getInitialState();
-
-      if (this.isMounted()) {
-        // Remove any selected resources that are no longer in the project
-        selectedResourcesClone.map(function (selectedResource) {
-          var instanceInProject = selectedResource instanceof Instance && projectInstances.get(selectedResource),
-            linkInProject = selectedResource instanceof ExternalLink && projectExternalLinks.get(selectedResource),
-            volumeInProject = selectedResource instanceof Volume && projectVolumes.get(selectedResource),
-            imageInProject = selectedResource instanceof Image && projectImages.get(selectedResource),
-            resourceInProject = instanceInProject || volumeInProject || imageInProject || linkInProject;
-
-          if (resourceInProject) state.selectedResources.add(selectedResource);
-        });
-
-        // Hold onto selected resource if it still exists in the project
-        if (state.selectedResources.indexOf(this.state.selectedResource) >= 0) {
-          state.selectedResource = this.state.selectedResource;
-          state.previewedResource = this.state.previewedResource;
-        }
-
-        this.setState(state);
       }
     },
 
@@ -69,9 +37,8 @@ define(function (require) {
       selectedResources.push(resource);
 
       this.setState({
-        selectedResource: resource,
         previewedResource: resource,
-        selectedResources: selectedResources
+        selectedResources,
       });
     },
 
@@ -88,44 +55,30 @@ define(function (require) {
       // Remove the resources from the list of selected resources
       selectedResources.remove(resource);
 
-      // If the resource is equal to the currently previewed resource, change
-      // the previewed resource to the last resource the user selected
-      if (previewedResource === resource) {
+      // Replace preview, with another
+      if (previewedResource == resource) {
         previewedResource = selectedResources.last();
       }
 
       this.setState({
-        selectedResource: previewedResource,
-        previewedResource: previewedResource,
-        selectedResources: selectedResources
+        previewedResource,
+        selectedResources,
       });
     },
 
-    onPreviewResource: function (resource) {
-      var selectedResources = this.state.selectedResources;
-
-      // todo: figure out why I did this...
-      selectedResources.reset();
-      selectedResources.push(resource);
-
-      this.setState({
-        selectedResource: resource,
-        previewedResource: resource,
-        selectedResources: selectedResources
-      });
+    onPreviewResource: function () {
+        this.deselectAllResources();
     },
 
     onMoveSelectedResources: function () {
-        var match = false,
-            attachedResources = stores.VolumeStore.getAttachedResources();
+        var attachedResources = stores.VolumeStore.getAttachedResources(),
+            anyAttached;
 
-        this.state.selectedResources.forEach(function(sel) {
-            if (attachedResources.indexOf(sel.get('uuid')) !== -1) {
-                match = true;
-            }
+        anyAttached = this.state.selectedResources.some(function(selected) {
+            return attachedResources.includes(selected.get('uuid'));
         });
 
-        if (match){
+        if (anyAttached){
             modals.ProjectModals.cantMoveAttached();
         } else {
             // On submit of move resources, reset (remove all) from selected collection
@@ -168,7 +121,8 @@ define(function (require) {
         selectedResource = this.state.selectedResource,
         isButtonBarVisible;
 
-      if (!projectInstances || !projectImages || !projectExternalLinks || !projectVolumes) return <div className="loading"></div>;
+      if (!projectInstances || !projectImages || !projectExternalLinks || !projectVolumes) 
+          return <div className="loading"></div>;
 
       // Only show the action button bar if the user has selected resources
       isButtonBarVisible = this.state.selectedResources.length > 0;
@@ -222,7 +176,7 @@ define(function (require) {
                 selectedResources={selectedResources}
                 />
             </div>
-            <PreviewPanel resource={selectedResource}/>
+            <PreviewPanel resource={previewedResource}/>
           </div>
         </div>
       );
