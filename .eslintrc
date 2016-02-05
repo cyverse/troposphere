@@ -11,6 +11,7 @@
         ],
  */
         "no-debugger": 2,
+        "no-mixed-spaces-and-tabs": 2,
     },
     "env": {
         "es6": true,
