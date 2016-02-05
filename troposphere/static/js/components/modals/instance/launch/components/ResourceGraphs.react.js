@@ -38,8 +38,7 @@ export default React.createClass({
         // This is so we can render as much as posible to avoid the ui flashing as the models repopulate. 
 
         // AU's Used
-        let allocation,
-         allocationConsumed,
+        let allocationConsumed,
          allocationTotal,
          allocationRemaining,
          allocationPercent,
@@ -70,24 +69,24 @@ export default React.createClass({
 
             // Calculate and set all of our graph information
             // AU's Used
-            allocation = identityProvider.attributes;
-            allocationConsumed = allocation.usage.current;
-            allocationTotal = allocation.usage.threshold;
+            allocationConsumed = identityProvider.get('usage').current;
+            allocationTotal = identityProvider.get('usage').threshold;
             allocationRemaining = allocationTotal - allocationConsumed;
             allocationPercent = Math.round(allocationConsumed / allocationTotal * 100);
 
             // CPU's have used + will use
-            allocationCpu = allocation.quota.cpu;
+            allocationCpu = identityProvider.get('quota').cpu;
             cpuUsed = resourcesUsed.cpu;
-            cpuWillUse = size.attributes.cpu;
+            debugger;
+            cpuWillUse = size.get('cpu');
             cpuWillTotal = cpuUsed + cpuWillUse;
             percentOfCpuUsed = Math.round(cpuUsed / allocationCpu * 100);
             percentOfCpuWillUse = Math.round(cpuWillUse / allocationCpu * 100);
 
             // Memory have used + will use
-            allocationGb = allocation.quota.memory;
+            allocationGb = identityProvider.get('quota').memory;
             gbUsed = resourcesUsed.mem / 1000;
-            gbWillUse = size.attributes.mem;
+            gbWillUse = size.get('mem');
             gbWillTotal = gbUsed + gbWillUse;
             percentOfGbUsed = Math.round(gbUsed / allocationGb * 100);
             percentOfGbWillUse = Math.round(gbWillUse / allocationGb *100);
