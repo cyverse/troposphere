@@ -75,6 +75,12 @@ define(function (require) {
       });
     },
 
+    deselectAllResources: function() {
+        var selectedResources = this.state.selectedResources;
+        selectedResources.reset();
+        this.setState({ selectedResources });
+    },
+
     onResourceDeselected: function (resource) {
       var selectedResources = this.state.selectedResources,
           previewedResource = this.state.previewedResource;
@@ -122,13 +128,14 @@ define(function (require) {
         if (match){
             modals.ProjectModals.cantMoveAttached();
         } else {
+            // On submit of move resources, reset (remove all) from selected collection
             modals.ProjectModals.moveResources(
                 this.state.selectedResources,
-                this.props.project
+                this.props.project,
+                this.deselectAllResources,
             );
         }
     },
-
     onDeleteSelectedResources: function () {
       actions.ProjectActions.deleteResources(
         this.state.selectedResources,
