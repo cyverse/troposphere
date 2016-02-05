@@ -95,6 +95,7 @@ define(function (require) {
   actions.ProjectImageActions = require('actions/ProjectImageActions');
   actions.ProjectInstanceActions = require('actions/ProjectInstanceActions');
   actions.ProjectVolumeActions = require('actions/ProjectVolumeActions');
+  actions.ResourceActions = require('actions/ResourceActions');
   actions.TagActions = require('actions/TagActions');
   actions.UserActions = require('actions/UserActions');
   actions.VolumeActions = require('actions/VolumeActions');
