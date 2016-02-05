@@ -14,6 +14,7 @@ export default React.createClass({
         onProviderChange: React.PropTypes.func
     },
     render: function () {
+        // These two Names are used by the Select component as callbacks in a map of the list provided by the list property
         let providerName = (item) => item.get('name');
         let sizeName = (item) => `${item.get('name')} (CPU: ${item.get('cpu')}, Mem: ${Math.round(item.get('mem') * 100) / 100}GB)`;
         // We are checking that we have a modal before applying the backbone methods

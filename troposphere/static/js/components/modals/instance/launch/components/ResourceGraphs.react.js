@@ -10,6 +10,8 @@ export default React.createClass({
         identityProvider: React.PropTypes.instanceOf(Backbone.Model),
         providerSize: React.PropTypes.instanceOf(Backbone.Model),
     },
+
+    // This is what we show if the instance will exceed our resources.
     resourceExceded: function(total, limit) {
         if (total >= limit) {
             return (
@@ -27,19 +29,21 @@ export default React.createClass({
     },
 
     render: function() {
-        // Make sure stores are populated before rendering
         let identityProvider = this.props.identityProvider;
         let size = this.props.providerSize;
-        
+        let resourcesUsed = this.props.resourcesUsed;
+
+        // Here we are declaring all of our variables that require 'if' check below before using our backbone methods. 
+        // If we don't have models yet, we still want to pass these empty declorations down to our child.
+        // This is so we can render as much as posible to avoid the ui flashing as the models repopulate. 
+
         // AU's Used
-        let allocation, 
+        let allocation,
          allocationConsumed,
          allocationTotal,
          allocationRemaining,
          allocationPercent,
 
-        // Get Resources object
-         resourcesUsed,
         // CPU's have used + will use
          allocationCpu,
          cpuUsed,
@@ -61,8 +65,10 @@ export default React.createClass({
          cpuLabel = "loading...",
          gbLabel = "loading...";
 
-        if ( identityProvider && size ) {
+        // Check if we have our models before using thier backbone methods
+        if ( identityProvider && size && resourcesUsed) {
 
+            // Calculate and set all of our graph information
             // AU's Used
             allocation = identityProvider.attributes;
             allocationConsumed = allocation.usage.current;
@@ -70,8 +76,6 @@ export default React.createClass({
             allocationRemaining = allocationTotal - allocationConsumed;
             allocationPercent = Math.round(allocationConsumed / allocationTotal * 100);
 
-            // Get Resources object
-            resourcesUsed = this.props.resourcesUsed;
             // CPU's have used + will use
             allocationCpu = allocation.quota.cpu;
             cpuUsed = resourcesUsed.cpu;
