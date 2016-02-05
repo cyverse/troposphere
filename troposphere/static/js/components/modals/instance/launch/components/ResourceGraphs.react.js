@@ -91,11 +91,12 @@ export default React.createClass({
             gbWillTotal = gbUsed + gbWillUse;
             percentOfGbUsed = Math.round(gbUsed / allocationGb * 100);
             percentOfGbWillUse = Math.round(gbWillUse / allocationGb *100);
+
+            // Labels for bar graphs
+            auLabel =  `You have used ${allocationPercent}% of ${allocationTotal} AU's from this provider`;
+            cpuLabel = `Will total ${cpuWillTotal} of ${allocationCpu} alloted CPUs`;
+            gbLabel = `Will total ${Math.round(gbWillTotal * 100) / 100} of ${allocationGb} alloted GBs of Memory`;
         }
-        // Labels for bar graphs
-        auLabel =  `You have used ${allocationPercent}% of ${allocationTotal} AU's from this provider`;
-        cpuLabel = `Will total ${cpuWillTotal} of ${allocationCpu} alloted CPUs`;
-        gbLabel = `Will total ${Math.round(gbWillTotal * 100) / 100} of ${allocationGb} alloted GBs of Memory`;
 
         return (
                 <div className="form-group">

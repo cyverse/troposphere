@@ -225,7 +225,8 @@ export default React.createClass({
         this.setState({
             imageVersion,
             provider,
-            providerSize
+            providerSize,
+            identityProvider
         });
     },
 
@@ -240,13 +241,18 @@ export default React.createClass({
 
         let providerSize;
 
+        let identityProvider = stores.IdentityStore.findOne({
+            'provider.id': provider.id
+        });
+
         if (providerSizeList) {
             providerSize = providerSizeList.first();
         };
 
         this.setState({
             provider,
-            providerSize
+            providerSize,
+            identityProvider
         });
     },
 
