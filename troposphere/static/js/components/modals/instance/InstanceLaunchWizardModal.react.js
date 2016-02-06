@@ -295,7 +295,7 @@ export default React.createClass({
         // instanceName will be null, indicating that it has not been set.
         // If instanceName equals the empty string, the user has erased the
         // name, and is trying to launch an instance with no name.
-        return _.every(requiredFields, notFalsy) && this.state.instanceName !== "" && !this.state.enoughResources;
+        return _.every(requiredFields, notFalsy) && this.state.instanceName !== "";
     },
 
     onSubmitLaunch: function() {
