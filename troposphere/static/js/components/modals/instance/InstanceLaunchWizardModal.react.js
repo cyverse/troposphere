@@ -64,7 +64,7 @@ export default React.createClass({
     //
     // Whenever the wizard mounts it listens for changes from the stores,
     // passing this function as a callback. Incrementally it calls stores to
-    // fetch data. It only sets state for defaults, i.e if project is null,
+    // fetch data. It only sets state for defaults, i.e. if project is null,
     // set the project to the first returned from the cloud. It primes our
     // stores, so that render can just call get and eventually get data.
     updateState: function() {
@@ -262,7 +262,7 @@ export default React.createClass({
 
     onRequestResources: function() {
         this.hide();
-        modals.HelpModals.requestMoreResources();
+        modals.HelpModals.requestMoreResources(this);
     },
 
     onAddAttachedScript: function(value) {
@@ -288,13 +288,14 @@ export default React.createClass({
     },
 
     canLaunch: function() {
-        var requiredFields = ["project", "identityProvider", "providerSize", "imageVersion", "attachedScripts"];
-        var notFalsy = ((prop) => Boolean(this.state[prop]) != false);
+        let requiredFields = ["project", "identityProvider", "providerSize", "imageVersion", "attachedScripts"];
+        let notFalsy = ((prop) => Boolean(this.state[prop]) != false);
+        
 
         // instanceName will be null, indicating that it has not been set.
         // If instanceName equals the empty string, the user has erased the
         // name, and is trying to launch an instance with no name.
-        return _.every(requiredFields, notFalsy) && this.state.instanceName !== "";
+        return _.every(requiredFields, notFalsy) && this.state.instanceName !== "" && !this.state.enoughResources;
     },
 
     onSubmitLaunch: function() {

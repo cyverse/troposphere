@@ -77,7 +77,6 @@ export default React.createClass({
             // CPU's have used + will use
             allocationCpu = identityProvider.get('quota').cpu;
             cpuUsed = resourcesUsed.cpu;
-            debugger;
             cpuWillUse = size.get('cpu');
             cpuWillTotal = cpuUsed + cpuWillUse;
             percentOfCpuUsed = Math.round(cpuUsed / allocationCpu * 100);
@@ -105,21 +104,24 @@ export default React.createClass({
                         startValue={allocationPercent}
                         label={auLabel}
                     />
-                        {this.resourceExceded(allocationConsumed, allocationTotal)}
+                    {this.resourceExceded(allocationConsumed, allocationTotal)}
+
                     <ProgressBar
                         startColor="#56AA21"
                         startValue={percentOfCpuUsed}
                         afterValue={percentOfCpuWillUse}
                         label={cpuLabel}
                     />
-                        {this.resourceExceded(cpuWillTotal, allocationCpu)}
+                    {this.resourceExceded(cpuWillTotal, allocationCpu)}
+
                     <ProgressBar
                         startColor="#56AA21"
                         startValue={percentOfGbUsed}
                         afterValue={percentOfGbWillUse}
                         label={gbLabel}
                     />
-                        {this.resourceExceded(gbWillTotal, allocationGb)}
+                    {this.resourceExceded(gbWillTotal, allocationGb)}
+
                 </div>
             )
     },
