@@ -340,7 +340,6 @@ export default React.createClass({
         let image = this.state.image;
         let imageVersion = this.state.imageVersion;
         let projectList = stores.ProjectStore.getAll() || null;
-        let sizes = stores.SizeStore.getAll() || null;
         let identities = stores.IdentityStore.getAll() || null;
 
         var project = this.state.project;
@@ -388,7 +387,6 @@ export default React.createClass({
                     providerSize,
                     providerSizeList,
                     resourcesUsed,
-                    sizes,
                     viewAdvanced: this.viewAdvanced,
                 }}
             />
