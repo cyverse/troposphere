@@ -132,7 +132,7 @@ define(function (require) {
               <div className="modal-content">
                 <div className="modal-header">
                   {this.renderCloseButton()}
-                  <strong>Move Resources</strong>
+                  <strong>Add Image to Project</strong>
                 </div>
                 <div className="modal-body">
                   {this.renderBody()}
@@ -143,7 +143,7 @@ define(function (require) {
                   </button>
                   <button type="button" className="btn btn-primary" onClick={this.confirm}
                           disabled={!this.isSubmittable()}>
-                    Move resources
+                    Add image to project
                   </button>
                 </div>
               </div>
