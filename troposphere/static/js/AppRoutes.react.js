@@ -41,8 +41,7 @@ define(function (require) {
     ImageMaster = require('./components/admin/ImageMaster.react'),
     IdentityMembershipMaster = require('./components/admin/IdentityMembershipMaster.react'),
     ResourceMaster = require('./components/admin/ResourceMaster.react'),
-    ResourceRequest = require('./components/admin/ResourceRequest.react'),
-    UserDetailPage = require('./components/admin/UserDetail.react');
+    ResourceRequest = require('./components/admin/ResourceRequest.react');
 
   var AppRoutes = (
     <Route name="root" path="/application" handler={Master}>
