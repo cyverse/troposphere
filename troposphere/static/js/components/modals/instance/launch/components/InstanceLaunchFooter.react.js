@@ -27,7 +27,7 @@ export default React.createClass({
     },
 
     render: function() {
-        var launchIsDisabled = this.props.launchIsDisabled ? "disabled" : "";
+        let launchIsDisabled = this.props.launchIsDisabled ? "disabled" : "";
         let advancedIsDisabled = this.props.advancedIsDisabled ? "disabled" : "";
         return (
             <div className="modal-footer">
@@ -41,6 +41,7 @@ export default React.createClass({
                 </a>
 
                 <button
+                    disabled={this.props.launchIsDisabled}
                     type="button"
                     className={`btn btn-primary pull-right ${launchIsDisabled}`}
                     onClick={this.props.onSubmitLaunch}

@@ -287,6 +287,43 @@ export default React.createClass({
         this.viewBasic();
     },
 
+    exceedsResources: function() {
+        let provider = this.state.provider;
+        let identityProvider = this.state.identityProvider;
+        let size = this.state.providerSize;
+
+        if ( identityProvider && size && provider) {
+            let resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
+
+            // Calculate and set all of our graph information
+            // AU's Used
+            let  allocationConsumed = identityProvider.get('usage').current;
+            let  allocationTotal = identityProvider.get('usage').threshold;
+
+            // CPU's have used + will use
+            let  allocationCpu = identityProvider.get('quota').cpu;
+            let  cpuWillTotal = resourcesUsed.cpu + size.get('cpu');
+
+            // Memory have used + will use
+            let  allocationMem = identityProvider.get('quota').memory;
+            let  memUsed = resourcesUsed.mem / 1000;
+            let  memWillUse = size.get('mem');
+            let  memWillTotal = memUsed + size.get('mem');
+            if (allocationConsumed >= allocationTotal) {
+                return true;
+            }
+            if (cpuWillTotal >= allocationCpu) {
+                return true;
+            }
+            if (memWillTotal >= allocationMem) {
+                return true;
+            }
+            return false
+        }
+
+        return true;
+    },
+
     canLaunch: function() {
         let requiredFields = ["project", "identityProvider", "providerSize", "imageVersion", "attachedScripts"];
         let notFalsy = ((prop) => Boolean(this.state[prop]) != false);
@@ -295,7 +332,12 @@ export default React.createClass({
         // instanceName will be null, indicating that it has not been set.
         // If instanceName equals the empty string, the user has erased the
         // name, and is trying to launch an instance with no name.
-        return _.every(requiredFields, notFalsy) && this.state.instanceName !== "";
+        if ( _.every(requiredFields, notFalsy)) {
+            if (this.state.instanceName == "") { return false };
+            if (this.exceedsResources()) { return false };
+            return true;
+        }
+        return false
     },
 
     onSubmitLaunch: function() {
