@@ -207,6 +207,11 @@ export default React.createClass({
         this.setState({ instanceName: e.target.value });
     },
 
+    onNameBlur: function(e) {
+        let instanceName = this.state.instanceName.trim();
+        this.setState({instanceName});
+    },
+
     onVersionChange: function(imageVersion) {
         let providerList = new Backbone.Collection(imageVersion.get('machines').map((item) => item.provider));
         let provider = providerList.first();
@@ -343,7 +348,7 @@ export default React.createClass({
 
         let launchData = {
             project: this.state.project,
-            instanceName: this.state.instanceName.trim(),
+            instanceName: this.state.instanceName,
             identity: this.state.identityProvider,
             size: this.state.providerSize,
             version: this.state.imageVersion,
@@ -414,6 +419,7 @@ export default React.createClass({
                     onBack: this.onBack,
                     onCancel: this.hide,
                     onNameChange: this.onNameChange,
+                    onNameBlur: this.onNameBlur,
                     onProjectChange: this.onProjectChange,
                     onProviderChange: this.onProviderChange,
                     onRequestResources: this.onRequestResources,

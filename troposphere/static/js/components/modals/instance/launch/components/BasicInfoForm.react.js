@@ -40,6 +40,7 @@ export default React.createClass({
                         id="instanceName" 
                         value={instanceName}
                         onChange={this.props.onNameChange}
+                        onBlur={this.props.onNameBlur}
                     />
                 </div>
                 <div className="form-group">
