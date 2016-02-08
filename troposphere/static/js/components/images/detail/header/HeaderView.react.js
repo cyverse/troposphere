@@ -5,9 +5,7 @@ define(
     'backbone',
     'jquery',
     'stores',
-    'modals',
-    // plugins
-    // 'bootstrap' // Not used?
+    'modals'
   ],
   function (React, Backbone, $, stores, modals) {
 
