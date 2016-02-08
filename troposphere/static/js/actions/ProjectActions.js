@@ -236,12 +236,12 @@ define(function (require) {
     deleteResource: function (resource, project, options) {
       // todo: remove instance from project after deletion
       if (resource instanceof Instance) {
-        actions.InstanceActions.destroy_noModal({
+        actions.InstanceActions.destroy({
           instance: resource,
           project: project
         }, options);
       } else if (resource instanceof Volume) {
-        actions.VolumeActions.destroy_noModal({
+        actions.VolumeActions.destroy({
           volume: resource,
           project: project
         }, options);

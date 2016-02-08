@@ -266,16 +266,18 @@ define(function (require) {
 
       if(this.props.version.get('min_cpu') && this.props.version.get('min_mem') && !this.state.size){
         minRequirements = (
-          <div className="col-sm-9 control-label pull-right">Minimum requirements: {this.props.version.get('min_cpu')} CPU {this.props.version.get('min_mem')} GB RAM</div>
+          <div className="col-sm-9 control-label pull-right">Minimum requirements: {this.props.version.get('min_cpu')} CPU {this.props.version.get('min_mem') / 1024} GB RAM</div>
         );
 
         var minCPUInt = this.props.version.get('min_cpu'),
           minMemInt = this.props.version.get('min_mem');
+          
 
         var potentialSizeList = stores.SizeStore.filterWhereGreaterThanOrEqualTo({
           'cpu': this.props.version.get('min_cpu'), 
-          'mem': this.props.version.get('min_mem')
+          'mem': this.props.version.get('min_mem') / 1024
           });
+
 
         if(potentialSizeList.length >= 1){
           firstAvailable = potentialSizeList[0];

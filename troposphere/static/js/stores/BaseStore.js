@@ -73,8 +73,12 @@ define(function (require) {
     // CRUD functions
     // --------------
 
-    add: function (model) {
-      this.models.add(model);
+    add: function (payload) {
+      if ("at" in payload){
+        this.models.add(payload.data, {at: payload.at});
+        return;
+      }
+      this.models.add(payload);
     },
 
     update: function (model) {

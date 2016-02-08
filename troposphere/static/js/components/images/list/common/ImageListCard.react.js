@@ -7,7 +7,6 @@ define(function (require) {
     context = require('context'),
     Tags = require('components/images/detail/tags/Tags.react'),
     stores = require('stores'),
-    navigator = require('navigator'),
     Showdown = require('showdown'),
     globals = require('globals'),
     moment = require('moment'),

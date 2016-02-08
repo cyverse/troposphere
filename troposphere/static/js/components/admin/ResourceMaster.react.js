@@ -30,7 +30,7 @@ define(function (require) {
         }.bind(this);
 
         return (
-          <li onClick={handleClick}>
+          <li key={request.id} onClick={handleClick}>
             {request.get('created_by').username}
           </li>
         );
