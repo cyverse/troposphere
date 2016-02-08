@@ -51,7 +51,7 @@ define(function (require) {
         this.set('status', attrs.status || "Unknown");
         this.set('state', new VolumeState({status_raw: attrs.status}));
         this.set('attach_data', extractAttachData(attrs));
-        cb();
+        cb(response);
       }.bind(this));
     },
 

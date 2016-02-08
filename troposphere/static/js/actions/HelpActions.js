@@ -4,6 +4,8 @@ define(function (require) {
       NotificationController = require('controllers/NotificationController'),
       globals = require('globals'),
       Badges = require('Badges'),
+      Utils = require('./Utils'),
+      Constants = require('constants/ResourceRequestConstants');
       actions = require('actions'),
       stores = require('stores');
 
@@ -29,7 +31,7 @@ define(function (require) {
 
       data["user-interface"] = 'troposphere';
 
-      var feedbackUrl = globals.API_V2_ROOT + '/email/feedback';
+      var feedbackUrl = globals.API_V2_ROOT + '/email_feedback';
 
       $.ajax(feedbackUrl, {
         type: 'POST',
@@ -84,6 +86,7 @@ define(function (require) {
         contentType: 'application/json',
         success: function (data) {
           NotificationController.info("Resource Request submitted", "Support will be in touch with you shortly.");
+          Utils.dispatch(Constants.ADD, {model: data});
           actions.BadgeActions.checkOrGrant(Badges.RESOURCE_REQUEST_BADGE);
         },
         error: function (response) {

@@ -151,7 +151,7 @@ define(function (require) {
             />
           </div>
           {this.renderProviderSelect()}
-          <h3>Atmosphere Users</h3>
+          <h3>Identities</h3>
           {this.renderTable()}
         </div>
       );

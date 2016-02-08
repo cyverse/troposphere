@@ -13,6 +13,8 @@ define(function (require) {
     AllBadges = require('./components/badges/AllBadges.react'),
     UnearnedBadges = require('./components/badges/UnearnedBadges.react'),
     PassThroughHandler = require('./components/PassThroughHandler.react'),
+    RequestHistory = require('./components/requests/ResourceHistoryMaster.react'),
+    RequestMaster = require('./components/requests/RequestMaster.react'),
     DashboardPage = require('./components/dashboard/DashboardPage.react'),
     ProjectListPage = require('./components/projects/ProjectListPage.react'),
     ImageListPage = require('./components/images/ImageListPage.react'),
@@ -33,13 +35,13 @@ define(function (require) {
     SettingsPage = require('./components/settings/SettingsPage.react'),
     ProjectInstancePage = require("./components/projects/InstanceDetailsPage.react"),
     ProjectVolumePage = require("./components/projects/VolumeDetailsPage.react"),
+    ProjectLinkPage = require("./components/projects/ExternalLinkDetailsPage.react"),
     AdminMaster = require('./components/admin/AdminMaster.react'),
+    AtmosphereUserMaster = require('./components/admin/AtmosphereUserMaster.react'),
     ImageMaster = require('./components/admin/ImageMaster.react'),
-    ImageAdmin = require('./components/admin/ImageAdmin.react'),
     IdentityMembershipMaster = require('./components/admin/IdentityMembershipMaster.react'),
     ResourceMaster = require('./components/admin/ResourceMaster.react'),
-    ResourceRequest = require('./components/admin/ResourceRequest.react'),
-    ResourceAdmin = require('./components/admin/ResourceAdmin.react');
+    ResourceRequest = require('./components/admin/ResourceRequest.react');
 
   var AppRoutes = (
     <Route name="root" path="/application" handler={Master}>
@@ -51,6 +53,7 @@ define(function (require) {
           <Route name="project-resources" path="resources" handler={ProjectResourcesPage}/>
           <Route name="project-instance-details" path="instances/:instanceId" handler={ProjectInstancePage}/>
           <Route name="project-volume-details" path="volumes/:volumeId" handler={ProjectVolumePage}/>
+          <Route name="project-link-details" path="links/:linkId" handler={ProjectLinkPage}/>
           <DefaultRoute handler={ProjectDetailsPage}/>
         </Route>
 
@@ -76,19 +79,22 @@ define(function (require) {
       <Route name="settings" handler={SettingsPage}/>
 
       <Route name="admin" handler={AdminMaster}>
-        <DefaultRoute name="identity-membership-manager" handler={IdentityMembershipMaster}/>
-        <Route name="resource-request-manager" path="resource-requests" handler={ResourceMaster}>
-          <Route name="resource-request" path=":resourceRequestId" handler={ResourceAdmin} />
-        </Route>
-        <Route name="image-request-manager" path="imaging-requests" handler={ImageMaster}>
-          <Route name="image-request" path=":imageRequestId" handler={ImageAdmin} />
-        </Route>
+        <Route name="atmosphere-user-manager" path="users" handler={AtmosphereUserMaster}/>
+        <Route name="identity-membership-manager" path="identities" handler={IdentityMembershipMaster}/>
+        <Route name="resource-request-manager" path="resource-requests" handler={ResourceMaster} />
+        <Route name="image-request-manager" path="imaging-requests" handler={ImageMaster} />
+        <DefaultRoute handler={AtmosphereUserMaster}/>
       </Route>
 
       <Route name="badges" handler={BadgeMaster}>
         <Route name="my-badges" path="my-badges" handler={MyBadges} />
         <Route name="all-badges" path="all-badges" handler={AllBadges} />
         <Route name="unearned-badges" path="unearned-badges" handler={UnearnedBadges} />
+      </Route>
+
+      <Route name="my-requests" handler={RequestMaster}>
+        <Route name="my-requests-resources" path="resources" handler={RequestHistory} />
+        <Route name="my-requests-images" path="images" handler={MyImageRequestsPage} />
       </Route>
 
       <DefaultRoute handler={DashboardPage}/>

@@ -2,64 +2,57 @@
 define(
   [
     'react',
-    'components/mixins/BootstrapModalMixin.react'
+    'components/mixins/BootstrapModalMixin.react',
+    'components/common/Glyphicon.react',
+    'collections/VolumeCollection',
   ],
-  function (React, BootstrapModalMixin) {
+  function (React, BootstrapModalMixin, Glyphicon, VolumeCollection) {
 
     return React.createClass({
       displayName: "ExplainInstanceDeleteConditionsModal",
 
-      mixins: [BootstrapModalMixin],
-
-      //
-      // Internal Modal Callbacks
-      // ------------------------
-      //
-
-      cancel: function () {
-        this.hide();
+      propTypes: {
+          attachedVolumes: React.PropTypes.instanceOf(VolumeCollection).isRequired,
+          onConfirm: React.PropTypes.func.isRequired,
       },
+
+      mixins: [BootstrapModalMixin],
 
       confirm: function () {
         this.hide();
         this.props.onConfirm();
       },
 
-      //
-      // Render Helpers
-      // --------------
-      //
-
-      renderAttachedVolumes: function (volume) {
-        return (
-          <li><strong>{volume.get('name')}</strong></li>
-        )
+      renderAttachedVolumes: function () {
+        var volumes = this.props.attachedVolumes;
+        return volumes.map(function(v, i) {
+            return (
+              <li key={i}><strong>{v.get('name')}</strong></li>
+            )
+        });
       },
-
-      //
-      // Render
-      // ------
-      //
 
       renderBody: function () {
         return (
           <div role='form'>
             <div className='form-group'>
-              <p>
+              <div className="alert alert-danger" role="alert">
+                  <Glyphicon name='exclamation-sign'/>
                 {
-                  "Instances can only be deleted if they have no volumes attached to them."
+                  " Cannot delete while volumes are attached."
                 }
-              </p>
-
-              <p>
-                {
-                  "This instance currently has the following volumes attached to it:"
-                }
-              </p>
+              </div>
+              <p> {"This instance currently has the following volumes attached to it:"} </p>
               <ul>
-                {this.props.attachedVolumes.map(this.renderAttachedVolumes)}
+                {this.renderAttachedVolumes()}
               </ul>
-              <p>{"Once you detach the above volumes you will be able to delete this instance."}</p>
+              <p>
+                { 
+                  "Detach the above volumes to safely delete this instance. " + 
+                  "If volumes are being read or written to, instance deletion can corrupt volumes. "
+                }
+                <a style={{color: "black", textDecoration: "underline"}} onClick={this.confirm}>Delete anyway</a>.
+              </p>
             </div>
           </div>
         );
@@ -77,8 +70,8 @@ define(
                   {this.renderBody()}
                 </div>
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-primary" onClick={this.confirm}>
-                    OK
+                  <button type="button" className="btn btn-primary" onClick={this.hide}>
+                    Okay
                   </button>
                 </div>
               </div>
