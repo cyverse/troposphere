@@ -30,7 +30,13 @@ define(function (require) {
         title = options.title;
 
       try {
-        var error = response.responseJSON.errors[0];
+        var error,
+            error_json = response.responseJSON;
+        if ( 'errors' in error_json ) {
+            error = error_json.errors[0];
+        } else {
+            error = {'code': response.status, 'message': "Encountered the following errors:" +JSON.stringify(error_json)};
+        }
         NotificationController.error(
           title,
           error.code + ": " + error.message

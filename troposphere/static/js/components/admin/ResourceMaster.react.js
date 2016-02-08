@@ -17,9 +17,8 @@ define(function (require) {
         }),
         statuses = stores.StatusStore.getAll();
 
-      if (!requests || !statuses) return <div className="loading"></div>;
-
-      requests = stores.ResourceRequestStore.getAll();
+      if (!requests || !statuses) 
+        return <div className="loading"></div>;
 
       var resourceRequestRows = requests.map(function (request) {
         return (

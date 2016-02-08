@@ -15,7 +15,7 @@ define(function (require) {
     render: function () {
       var image = this.props.image,
         versions = stores.ImageStore.getVersions(image.id),
-        showAvailableOn = !!(context.profile && context.profile.get('selected_identity'));
+        showAvailableOn = !!(context.profile && context.profile.get('username'));
 
       if(!versions) {
           return (<div className="loading" />);

@@ -34,7 +34,7 @@ define(function(require) {
     render: function() {
       var username = stores.ProfileStore.get().id,
           imagingDocsUrl = "https://pods.iplantcollaborative.org/wiki/display/atmman/Requesting+an+Image+of+an+Instance";
-      
+
       if(username == null){
         return <div className = "loading"></div>
       }
@@ -50,7 +50,7 @@ define(function(require) {
           </th>
         );
       }
-      
+
       if(requests == null){
         return <div className = "loading"></div>;
       }
@@ -68,7 +68,7 @@ define(function(require) {
       }
 
       var displayRequests = requests.map(function(request){
-        
+
         // set the color of the row based on the status of the request
         var trClass, endDateText = "N/A";
         switch(request.get('status').name){
@@ -86,9 +86,10 @@ define(function(require) {
         if(stores.ProfileStore.get().get('is_staff')){
           machineStateData = <td>{request.get('old_status')}</td>;
         }
-				if (request.get('end_date')) {
-					endDateText = moment(request.get('end_date')).format("MMM D, YYYY h:mm:ss a");
-				}
+
+        if (request.get('end_date')) {
+            endDateText = moment(request.get('end_date')).format("MMM D, YYYY h:mm:ss a");
+        }
 
         var newMachineId = !!request.get('new_machine') ? request.get('new_machine').id : "N/A";
 
@@ -101,7 +102,7 @@ define(function(require) {
                     <td>{newMachineId}</td>
                 </tr>
       }.bind(this));
-      
+
       return (
         <div className="container">
           <p style={{marginBottom: "16px"}}>

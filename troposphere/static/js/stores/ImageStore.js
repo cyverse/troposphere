@@ -57,6 +57,15 @@ define(function (require) {
       if(!image) return this.fetchModel(imageId);
       return image;
     },
+    getForProject: function(projectId) {
+        var project_images = this.fetchWhere({
+                projects__id: projectId
+            });
+        if(!project_images) {
+            return null;
+        }
+        return project_images;
+    },
     getVersions: function(imageId) {
         /**
          * Returns the list of versions *OR* null && Starts the 'fetch' process.
