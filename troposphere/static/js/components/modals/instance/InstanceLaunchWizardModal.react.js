@@ -194,7 +194,7 @@ export default React.createClass({
     onProjectCreateConfirm: function(name, description) {
         this.viewBasic();
         actions.ProjectActions.create({
-            name: name.trim(),
+            name: name,
             description
         });
     },
@@ -320,14 +320,12 @@ export default React.createClass({
             }
             return false
         }
-
         return true;
     },
 
     canLaunch: function() {
         let requiredFields = ["project", "identityProvider", "providerSize", "imageVersion", "attachedScripts"];
         let notFalsy = ((prop) => Boolean(this.state[prop]) != false);
-        
 
         // instanceName will be null, indicating that it has not been set.
         // If instanceName equals the empty string, the user has erased the
