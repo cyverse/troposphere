@@ -6,5 +6,6 @@ get_files() {
 }
 
 for f in `get_files`; do
+    echo "Testing on file $f"
     npm run lint $f --silent
 done
