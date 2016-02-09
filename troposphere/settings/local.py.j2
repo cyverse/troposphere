@@ -34,6 +34,11 @@ INTERCOM_COMPANY_ID = "{{ INTERCOM_COMPANY_ID }}"
 INTERCOM_COMPANY_NAME = "{{ INTERCOM_COMPANY_NAME }}"
 {% endif %}
 
+{% if SESSION_COOKIE_AGE is defined and not SESSION_COOKIE_AGE == "" %}
+# expect integer; value is represented in seconds
+SESSION_COOKIE_AGE = {{ SESSION_COOKIE_AGE }}
+{% endif %}
+
 # DATABASE
 DATABASES = {
     "default": {
