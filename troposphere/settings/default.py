@@ -78,6 +78,9 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 # code execution vulnerability. So keep this.
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
+# default cookie age to # of seconds in 2 days
+SESSION_COOKIE_AGE = (2 * 24 * 60 * 60)
+
 # Logging
 LOGGING_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'logs')
 LOGGING = {
