@@ -24,10 +24,11 @@ export default React.createClass({
         let imageVersionId = this.props.imageVersion.get('id');
         let project = this.props.project;
         let projectList = this.props.projectList;
-        let instanceName = 
-            this.props.instanceName == null 
+        let instanceName =
+            this.props.instanceName == null
             ? this.props.image.get("name")
             : this.props.instanceName;
+        let errorMessage = instanceName == "" ? "This field is rquired" : null;
 
         return (
             <form>
@@ -35,13 +36,14 @@ export default React.createClass({
                     <label htmlFor="instanceName">
                         Instance Name
                     </label>
-                    <input required type="Name" 
-                        className="form-control" 
+                    <input required type="Name"
+                        className="form-control"
                         id="instanceName" 
                         value={instanceName}
                         onChange={this.props.onNameChange}
                         onBlur={this.props.onNameBlur}
                     />
+                    <span className="help-block">{ errorMessage }</span>
                 </div>
                 <div className="form-group">
                     <label htmlFor="imageVersion">

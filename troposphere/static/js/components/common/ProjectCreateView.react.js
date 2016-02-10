@@ -6,14 +6,17 @@ export default React.createClass({
     getInitialState: function () {
         return {
             projectName: "",
-            projectDescription: ""
+            projectDescription: "",
+            showValidation: false
         };
     },
 
-    isSubmittable: function(){
-        var hasName = !!this.state.projectName.trim();
-        var hasDescription = !!this.state.projectDescription.trim();
-        return hasName && hasDescription;
+    isSubmittable: function() {
+        if (this.state.projectName !== "" && this.state.projectDescription !== "") {
+            return true;
+        }
+
+        return false;
     },
 
     cancel: function () {
@@ -21,7 +24,10 @@ export default React.createClass({
     },
 
     confirm: function () {
-        this.props.onConfirm(this.state.projectName, this.state.projectDescription);
+        if (this.isSubmittable()) {
+            this.props.onConfirm(this.state.projectName.trim(), this.state.projectDescription.trim());
+        }
+        this.setState({showValidation: true });
     },
 
     // todo: I don't think there's a reason to update state unless
@@ -31,19 +37,49 @@ export default React.createClass({
         this.setState({projectName: e.target.value});
     },
 
+    onNameBlur: function() {
+        let projectName = this.state.projectName.trim();
+        this.setState({projectName});
+    },
+
     onDescriptionChange: function (e) {
         this.setState({projectDescription: e.target.value});
     },
 
     renderBody: function () {
+        let projectName = this.state.projectName;
+        let projectDescription = this.state.projectDescription;
+        let nameClassNames = "form-group";
+        let nameErrorMessage = null;
+        let descriptionClassNames = "form-group";
+        let descriptionErrorMessage = null;
+
+        if (this.state.showValidation) {
+            if (projectName === "") {
+                nameClassNames = "form-group has-error";
+                nameErrorMessage = "This field is required";
+            }
+
+            if (projectDescription === "") {
+                descriptionClassNames = "form-group has-error";
+                descriptionErrorMessage = "This field is required";
+            }
+        }
+
         return (
             <div role='form'>
-                <div className='form-group'>
+                <div className={nameClassNames}>
                     <label htmlFor='project-name'>Project Name</label>
-                    <input type='text' className='form-control' value={this.state.projectName} onChange={this.onNameChange}/>
+                    <input type='text'
+                        className='form-control'
+                        value={projectName}
+                        onChange={this.onNameChange}
+                        onBlur= {this.onNameBlur}
+                    />
+                    <span className="help-block">{ nameErrorMessage }</span>
                 </div>
 
-                <div className='form-group'>
+                <div className={descriptionClassNames}>
                     <label htmlFor='project-description'>Description</label>
                     <textarea type='text'
                         className='form-control'
@@ -51,20 +87,26 @@ export default React.createClass({
                         value={this.state.projectDescription}
                         onChange={this.onDescriptionChange}
                     />
+                    <span className="help-block">{ descriptionErrorMessage }</span>
                 </div>
             </div>
         );
     },
 
     render: function () {
-
+        let isSubmittable = true;
+        if (this.state.showValidation) {
+            if (!this.isSubmittable()) {
+                isSubmittable = false
+            }
+        }
         return (
             <div>
                 {this.renderBody()}
                 <div className="modal-footer">
                     <button
                         type="button"
-                        className="btn btn-danger"
+                        className="btn btn-default"
                         onClick={this.props.cancel}
                     >
                         Cancel
@@ -73,7 +115,7 @@ export default React.createClass({
                         type="button"
                         className="btn btn-primary"
                         onClick={this.confirm}
-                            disabled={!this.isSubmittable()}
+                        disabled={!isSubmittable}
                     >
                         Create
                     </button>
