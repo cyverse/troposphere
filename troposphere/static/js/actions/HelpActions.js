@@ -69,7 +69,7 @@ define(function (require) {
         identity = params.identity,
         quota = params.quota,
         reason = params.reason,
-        // if ticket_link is undefined, the API will default to the django admin UI for ticket management
+        // if admin_url is undefined, the API will default to the django admin UI for ticket management
         admin_url = window.location.origin + "/application/admin/resource-requests/",
         username = user.get('username');
 
