@@ -27,14 +27,13 @@ export default React.createClass({
     },
 
     render: function() {
-        let launchIsDisabled = this.props.launchIsDisabled ? "disabled" : "";
-        let advancedIsDisabled = this.props.advancedIsDisabled ? "disabled" : "";
         return (
             <div className="modal-footer">
 
                 {this.renderBack()}
 
-                <a className={`pull-left btn ${advancedIsDisabled}`}
+                <a className="pull-left btn"
+                    disabled={this.props.advancedIsDisabled}
                     onClick={this.props.viewAdvanced}>
                         <i className="glyphicon glyphicon-cog"/>
                         Advanced Options
@@ -43,7 +42,7 @@ export default React.createClass({
                 <button
                     disabled={this.props.launchIsDisabled}
                     type="button"
-                    className={`btn btn-primary pull-right ${launchIsDisabled}`}
+                    className="btn btn-primary pull-right"
                     onClick={this.props.onSubmitLaunch}
                 >
                     Launch Instance
