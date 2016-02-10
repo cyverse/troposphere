@@ -5,21 +5,19 @@ export default React.createClass({
     getInitialState: function()  {
         return({
             type: "URL",
-            title: {value: "Hello World", pass: true},
-            text: {value: "https://raw.githubusercontent.com/iPlantCollaborativeOpenSource/atmosphere-ansible/master/user_scripts/hello_world.sh", pass: true},
-            isValid: false
+            title: "Hello World",
+            text: "https://raw.githubusercontent.com/iPlantCollaborativeOpenSource/atmosphere-ansible/master/user_scripts/hello_world.sh"
         })
     },
 
     onChangeType: function(e) {
         let type = e.target.value;
-        let text = {};
-        text.pass = true;
+        let text;
         if (type === "Raw Text") {
-            text.value = "#!/bin/bash \n echo Hello World";
+            text = "#!/bin/bash \n echo Hello World";
         }
         if (type === "URL") {
-            text.value = "https://raw.githubusercontent.com/iPlantCollaborativeOpenSource/atmosphere-ansible/master/user_scripts/hello_world.sh";
+            text = "https://raw.githubusercontent.com/iPlantCollaborativeOpenSource/atmosphere-ansible/master/user_scripts/hello_world.sh";
         }
         this.setState({
             type,
@@ -28,65 +26,107 @@ export default React.createClass({
     },
 
     onChangeTitle: function(e) {
-        let title = {};
-        title.value = e.target.value;
-        title.pass= false;
-        if (title.value !== "") {
-            title.pass = true
-        }
-        this.setState({
-            title
-        })
+        let title = e.target.value;
+        this.setState({ title })
+    },
+
+    onBlurTitle: function() {
+        let title = this.state.title.trim();
+        this.setState({ title });
     },
 
     onChangeText: function(e) {
-        let text = {};
-        text.value = e.target.value;
-        text.pass= false;
-        if (text.value !== "") {
-            text.pass = true;
-            if (this.state.type === "URL") {
-                if (text.value.search("https?://") < 0) {
-                    text.pass = false;
-                }
-            }
-        }
-        this.setState({
-            text
-        })
+        let text = e.target.value;
+        this.setState({ text })
+    },
+
+    onBlurText: function() {
+        let text = this.state.text.trim();
+        this.setState({ text });
     },
 
     onCreateScript: function() {
         let script = actions.ScriptActions.create({
             type: this.state.type,
-            title: this.state.title.value.trim(),
-            text: this.state.text.value
+            title: this.state.title.trim(),
+            text: this.state.text.trim()
         });
 
         this.props.onAddAttachedScript(script);
         this.props.close();
     },
 
+    // A utility function testing for whitespace or empty string at the beginning or end of string. 
+    // There is probably a better place to put this.
+    isValidString: function(str) {
+        if (str !== ""){
+            return true
+        }
+        return false
+    },
+
+    isValidUrl:function(str) {
+        if (!(str.search("https?://") < 0)) {
+            if (str.indexOf(' ') >= 0) { return false}
+            return true
+        }
+        return false
+    },
+
+    isSubmittable: function() {
+        let title = this.state.title;
+        let text = this.state.text;
+
+        if (this.isValidString(title) &&  this.isValidString(text)) {
+            if (this.state.type === "URL") {
+                if (!this.isValidUrl(text)) {
+                    return false
+                }
+            }
+            return true;
+        }
+        return false
+    },
+
     renderInputType: function() {
         let text = this.state.text;
-        let classNames = "form-group " + (text.pass ? "" : "has-error");
+        let classNames = "form-group";
+        let errorMessage = null;
+
         if (this.state.type === "URL") {
+            if (!this.isValidUrl(text) || !this.isValidString(text)) {
+                classNames = "form-group has-warning";
+                errorMessage = `URL must start with "https://" or "http://" and have no spaces`;
+            }
+
             return (
                 <div className={classNames}>
                     <label>Script URL</label>
-                    <input className="form-control" value={this.state.text.value}
+                    <input className="form-control"
+                        value={this.state.text}
                         onInput={this.onChangeText}
+                        onBlur={this.onBlurText}
                     />
+                    <span className="help-block">{ errorMessage }</span>
                 </div>
             )
         }
         else {
+            if (!this.isValidString(text)) {
+                classNames = "form-group has-error";
+                errorMessage = `This field is required`;
+            }
+
             return (
                 <div className={classNames}>
                     <label>Full Text</label>
-                    <textarea className="form-control" rows="6" value={this.state.text.value}
+                    <textarea className="form-control"
+                        rows="6"
+                        value={this.state.text}
                         onInput={this.onChangeText}
+                        onBlur={this.onBlurText}
                     />
+                    <span className="help-block">{ errorMessage }</span>
                 </div>
             )
         }
@@ -94,10 +134,11 @@ export default React.createClass({
 
     render: function() {
         let title = this.state.title;
-        let text = this.state.text;
-        let isDisabled = "disabled";
-        if (title.pass && text.pass) {
-            isDisabled = "";
+        let classNames = "form-group";
+        let errorMessage = null;
+        if (!this.isValidString(title)) {
+            classNames = "form-group has-error";
+            errorMessage = `This field is required`;
         }
 
         return (
@@ -107,12 +148,14 @@ export default React.createClass({
                 <hr/>
                 <div className="row">
                     <div className="col-md-6">
-                        <div className={ "form-group " + (title.pass ? "" : "has-error") }>
+                        <div className={classNames}>
                             <label>Script Tilte</label>
                             <input className="form-control"
-                                value={this.state.title.value}
+                                value={this.state.title}
                                 onInput={this.onChangeTitle}
+                                onBlur={this.onBlurTitle}
                             />
+                            <span className="help-block">{ errorMessage }</span>
                         </div>
 
                         <h4 className="t-body-2">Input Type</h4>
@@ -142,18 +185,18 @@ export default React.createClass({
                     </div>
                 </div>
                 <div style={{position: "absolute", bottom: "75px", right: "15px"}}>
-                    <a className="btn btn-primary pull-right"
+                    <button className="btn btn-primary pull-right"
                         onClick={this.onCreateScript}
-                        disabled={isDisabled}
+                        disabled={!this.isSubmittable()}
                     >
                         Save and Add Script
-                    </a>
-                    <a className="btn btn-default pull-right" 
+                    </button>
+                    <button className="btn btn-default pull-right" 
                         style={{marginRight: "10px"}}
                         onClick={this.props.close}
                     >
                         Cancel Create Script
-                    </a>
+                    </button>
                 </div>
             </div>
         )
