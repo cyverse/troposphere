@@ -15,7 +15,8 @@ define(function (require) {
       MyImageRequestsPage = require('components/images/MyImageRequestsPage.react'),
       ImageDetailsPage = require('components/images/ImageDetailsPage.react'),
       ImageTagsPage = require('components/images/ImageTagsPage.react'),
-      ImagesMaster = require('components/images/ImagesMaster.react');
+      ImagesMaster = require('components/images/ImagesMaster.react'),
+      NotFoundPage = require('components/NotFoundPage.react');
 
   var AppRoutes = (
     <Route name="root" path="/application" handler={Master}>
@@ -29,6 +30,7 @@ define(function (require) {
       </Route>
       <Route name="help" handler={HelpPage}/>
       <Redirect from="/application" to="/application/images"/>
+      <Route name="not-found" path="*" handler={NotFoundPage} />
     </Route>
   );
 
