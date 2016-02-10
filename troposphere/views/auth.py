@@ -20,6 +20,7 @@ cas_oauth_client = CAS_OAuthClient(settings.CAS_SERVER,
                                    settings.OAUTH_CLIENT_SECRET,
                                    auth_prefix=settings.CAS_AUTH_PREFIX)
 
+
 def _mock_login(request):
     user = authenticate(username=None, request=request)
     auth_login(request, user)
@@ -49,6 +50,9 @@ def _apply_token_to_session(request, token):
 
 def login(request):
     all_backends = settings.AUTHENTICATION_BACKENDS
+    # pro-active session cleaning
+    request.session.clear_expired()
+
     if "iplantauth.authBackends.MockLoginBackend" in all_backends:
         return _mock_login(request)
     elif 'iplantauth.authBackends.GlobusOAuthLoginBackend' in all_backends:
@@ -63,7 +67,10 @@ def login(request):
 
 def logout(request):
     all_backends = settings.AUTHENTICATION_BACKENDS
+    # Django >1.8: the session cookie will be deleted on `.flush()`
     request.session.flush()
+    request.session.clear_expired()
+
     #Look for 'cas' to be passed on logout.
     request_data = request.GET
     if request_data.get('cas', False) and 'iplantauth.authBackends.CASLoginBackend' in all_backends:
