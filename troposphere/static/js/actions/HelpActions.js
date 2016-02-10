@@ -59,7 +59,7 @@ define(function (require) {
       if (!params.identity) throw new Error("Missing identity");
       if (!params.quota) throw new Error("Missing quota");
       if (!params.reason) throw new Error("Missing reason");
-      
+
       if(globals.BADGES_ENABLED){
         actions.BadgeActions.askSupport();
       }
@@ -69,12 +69,15 @@ define(function (require) {
         identity = params.identity,
         quota = params.quota,
         reason = params.reason,
+        // if ticket_link is undefined, the API will default to the django admin UI for ticket management
+        admin_url = window.location.origin + "/application/admin/resource-requests/",
         username = user.get('username');
 
       var data = {
         identity: identity,
         request: quota,
-        description: reason
+        description: reason,
+        admin_url: admin_url
       };
 
       var requestUrl = globals.API_V2_ROOT + '/resource_requests';
