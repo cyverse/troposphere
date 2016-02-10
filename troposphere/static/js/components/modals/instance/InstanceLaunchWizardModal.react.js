@@ -60,7 +60,7 @@ export default React.createClass({
         }
     },
 
-    // Set the components state based on cloud defaults. 
+    // Set the component's state based on cloud defaults. 
     //
     // Whenever the wizard mounts it listens for changes from the stores,
     // passing this function as a callback. Incrementally it calls stores to
@@ -348,7 +348,7 @@ export default React.createClass({
 
         let launchData = {
             project: this.state.project,
-            instanceName: this.state.instanceName,
+            instanceName: this.state.instanceName.trim(),
             identity: this.state.identityProvider,
             size: this.state.providerSize,
             version: this.state.imageVersion,
