@@ -11,7 +11,7 @@ export default React.createClass({
         <div className="container">
             <h2>Page Unavailable</h2>
             <div>
-                <p style={{'font-size': '133%'}}>
+                <p style={{'fontSize': '133%'}}>
                 <Glyphicon name="info-sign" />
                 {`
                     The requested page cannot be viewed because
@@ -19,7 +19,7 @@ export default React.createClass({
                     have permission to view it.
                 `}
                 </p>
-                <p style={{'font-size': '133%'}}>
+                <p style={{'fontSize': '133%'}}>
                 {`This page may be visible if you `}
                 <a href="/login?redirect=/application?beta=true">log in</a>{`.`}
                 </p>
