@@ -103,6 +103,7 @@ define(function(require) {
 
       instanceHistoryItems = instanceHistories.map(function(instance) {
         var providerId = null,
+            name = instance.get('instance').name,
             image = instance.get('image'),
             provider = instance.get('provider'),
             instanceId = instance.get('instance').id;
@@ -145,7 +146,7 @@ define(function(require) {
                   <div>
                     <Gravatar hash={instanceHistoryHash} size={iconSize} type={type}/>
                     <div className="instance-history-details">
-                      <strong className="name">{instance.get('name')}</strong>
+                      <strong className="name">{name}</strong>
                       <div>Launched from {imageLink}</div>
                       <div>{"Ran: " + formattedStartDate + " - " + formattedEndDate}</div>
                     </div>
