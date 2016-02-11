@@ -102,6 +102,7 @@ define(function(require) {
         || activity === "deploy_error"|| status === "deploy_error"
         || activity === "initializing" || activity === "boot_script_error") {
         linksArray.push({label: 'Redeploy', icon: 'repeat', onClick: this.onRedeploy});
+        linksArray.push({label: 'Reboot', icon: 'repeat', onClick: this.onReboot});
       }
 
       linksArray = linksArray.concat([
