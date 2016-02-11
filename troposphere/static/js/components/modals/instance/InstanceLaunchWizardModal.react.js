@@ -86,10 +86,12 @@ export default React.createClass({
 
         var providerList, provider;
         if (imageVersion) {
-            providerList = new Backbone.Collection(imageVersion.get('machines').map((item) => item.provider));
+            providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
+            if (providerList) {
             provider = this.state.provider ?
                 this.state.provider :
                 providerList.first();
+            }
         }
 
         var resourcesUsed, identityProvider, providerSizeList, providerSize;
@@ -123,7 +125,7 @@ export default React.createClass({
 
     componentDidMount: function() {
         stores.IdentityStore.addChangeListener(this.updateState);
-        stores.ProviderStore.addChangeListener(this.updateState);
+        stores.ProviderMachineStore.addChangeListener(this.updateState);
         stores.SizeStore.addChangeListener(this.updateState);
         stores.ProjectStore.addChangeListener(this.updateState);
         stores.ImageVersionStore.addChangeListener(this.updateState);
@@ -137,7 +139,7 @@ export default React.createClass({
 
     componentWillUnmount: function() {
         stores.IdentityStore.removeChangeListener(this.updateState);
-        stores.ProviderStore.removeChangeListener(this.updateState);
+        stores.ProviderMachineStore.removeChangeListener(this.updateState);
         stores.SizeStore.removeChangeListener(this.updateState);
         stores.ProjectStore.removeChangeListener(this.updateState);
         stores.ImageVersionStore.removeChangeListener(this.updateState);
@@ -167,7 +169,8 @@ export default React.createClass({
 
         let providerSizeList;
         if (imageVersion) {
-            let providerList = new Backbone.Collection(imageVersion.get('machines').map((item) => item.provider));
+            //let providerList = new Backbone.Collection(imageVersion.get('machines').map((item) => item.provider));
+            let providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
             let provider = providerList.first();
             providerSizeList = stores.SizeStore.fetchWhere({
                 provider__id: provider.id
@@ -214,7 +217,8 @@ export default React.createClass({
     },
 
     onVersionChange: function(imageVersion) {
-        let providerList = new Backbone.Collection(imageVersion.get('machines').map((item) => item.provider));
+        //let providerList = new Backbone.Collection(imageVersion.get('machines').map((item) => item.provider));
+        let providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
         let provider = providerList.first();
         providerSizeList = stores.SizeStore.fetchWhere({
             provider__id: provider.id
@@ -403,9 +407,10 @@ export default React.createClass({
             imageVersionList = stores.ImageVersionStore.fetchWhere({image_id: this.state.image.id});
         }
 
-        var providerList, providerSizeList, resourcesUsed; 
+        var providerList, providerSizeList, resourcesUsed;
         if (provider && imageVersion) {
-            providerList = new Backbone.Collection(imageVersion.get('machines').map((item) => item.provider));
+            //providerList = new Backbone.Collection(imageVersion.get('machines').map((item) => item.provider));
+            providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
             providerSizeList = stores.SizeStore.fetchWhere({
                 provider__id: provider.id
             });
