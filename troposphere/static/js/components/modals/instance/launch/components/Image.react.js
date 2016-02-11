@@ -73,7 +73,7 @@ define(
                     </div>
                     <div className="media__content">
                         <div className="row">
-                            <div className="col-md-3" style={{wordBreak: "break-all"}}>
+                            <div className="col-md-3 t-wordBreaker">
                                 <h2 className="t-body-1" style={{margin: "0 0 5px"}}>{image.get('name')}</h2>
                                 <hr style={{margin: "0 0 5px" }}/>
                                 <time>{imageCreationDate}</time> by <strong>{image.get('created_by').username}</strong>
