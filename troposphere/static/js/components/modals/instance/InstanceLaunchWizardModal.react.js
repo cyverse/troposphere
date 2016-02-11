@@ -49,6 +49,7 @@ export default React.createClass({
             view,
             image,
             provider: null,
+            showValidationErr: false,
 
             // State for launch
             instanceName,
@@ -292,6 +293,8 @@ export default React.createClass({
         this.viewBasic();
     },
 
+    // This is a callback that returns true if the provider size in addition to resources already using
+    // will exceed the user's allotted resources.
     exceedsResources: function() {
         let provider = this.state.provider;
         let identityProvider = this.state.identityProvider;
@@ -344,19 +347,23 @@ export default React.createClass({
     },
 
     onSubmitLaunch: function() {
-        let scripts = this.state.attachedScripts;
+        if (this.canLaunch()) {
+            debugger;
+            let launchData = {
+                project: this.state.project,
+                instanceName: this.state.instanceName.trim(),
+                identity: this.state.identityProvider,
+                size: this.state.providerSize,
+                version: this.state.imageVersion,
+                scripts: this.state.attachedScripts
+            };
 
-        let launchData = {
-            project: this.state.project,
-            instanceName: this.state.instanceName.trim(),
-            identity: this.state.identityProvider,
-            size: this.state.providerSize,
-            version: this.state.imageVersion,
-            scripts: scripts
-        };
+            actions.InstanceActions.launch(launchData);
+            this.hide();
+            return
+        }
 
-        actions.InstanceActions.launch(launchData);
-        this.hide();
+        this.setState({showValidationErr: true})
     },
 
     renderImageSelect: function() {
@@ -408,6 +415,7 @@ export default React.createClass({
 
         return (
             <BasicLaunchStep { ...{
+                    showValidationErr: this.state.showValidationErr,
                     attachedScripts: this.state.attachedScripts,
                     backIsDisabled: this.props.initialView == "BASIC_VIEW",
                     launchIsDisabled: !this.canLaunch(),
