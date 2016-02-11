@@ -41,6 +41,7 @@ define(
 
       componentDidMount: function () {
         stores.IdentityStore.addChangeListener(this.updateState);
+        stores.ResourceRequestStore.addChangeListener(this.updateState);
       },
 
       componentWillUnmount: function () {
@@ -101,7 +102,13 @@ define(
 
       renderBody: function () {
         var identities = stores.IdentityStore.getAll(),
-            instances = stores.InstanceStore.getAll();
+            instances = stores.InstanceStore.getAll(),
+            username = stores.ProfileStore.get().get('username'),
+            requests = stores.ResourceRequestStore.findWhere({"created_by.username": username});
+
+        if(username == null || requests == null){
+            return <div className="loading"></div>;
+        }
 
         if (!identities || !instances) return <div className="loading"/>;
 
@@ -144,7 +151,6 @@ define(
       },
 
       render: function () {
-
         return (
           <div className="modal fade">
             <div className="modal-dialog">
