@@ -348,7 +348,6 @@ export default React.createClass({
 
     onSubmitLaunch: function() {
         if (this.canLaunch()) {
-            debugger;
             let launchData = {
                 project: this.state.project,
                 instanceName: this.state.instanceName.trim(),
