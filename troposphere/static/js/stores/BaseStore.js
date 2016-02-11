@@ -341,12 +341,10 @@ define(function (require) {
       if (nextUrl && !this.isFetchingQuery[queryString]) {
         this.isFetchingQuery[queryString] = true;
         var moreModels = new this.collection();
-        moreModels.fetch({
-          url: nextUrl
+        this.queryModels[queryString].fetch({
+          url: nextUrl, remove: false
         }).done(function () {
           this.isFetchingQuery[queryString] = false;
-          searchResults.add(moreModels.models);
-          searchResults.meta = moreModels.meta;
           this.emitChange();
         }.bind(this));
       }
