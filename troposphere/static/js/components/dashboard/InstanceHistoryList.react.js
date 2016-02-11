@@ -13,8 +13,6 @@ define(function(require) {
 
     getInitialState: function() {
       return {
-        isLoadingMoreResults: false,
-        nextUrl: null,
         instanceHistoryItems: stores.InstanceHistoryStore.fetchWhere({"page_size": 10})
       }
     },
