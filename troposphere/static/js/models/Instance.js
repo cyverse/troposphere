@@ -87,7 +87,6 @@ define(
             ip = this.get('ip_address'),
             location = ip.split(".").join("-");
           return globals.WEB_SH_URL + "?location=" + location +
-              "&upn=" + username +
               "&ssh=ssh://" + username + "@" + ip + ":22";
         },
 
