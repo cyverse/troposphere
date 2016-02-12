@@ -61,6 +61,7 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
 
     template_params['SITE_TITLE'] = settings.SITE_TITLE
     template_params['SITE_FOOTER'] = settings.SITE_FOOTER
+    #template_params['SUPPORT_EMAIL'] = settings.SUPPORT_EMAIL
     template_params['UI_VERSION'] = settings.UI_VERSION
     template_params['BADGE_HOST'] = getattr(settings, "BADGE_HOST", None)
 
@@ -77,10 +78,20 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
     if hasattr(settings, "API_V2_ROOT"):
         template_params['API_V2_ROOT'] = settings.API_V2_ROOT
 
+    if hasattr(settings, "USE_GATE_ONE_API"):
+        template_params["USE_GATE_ONE_API"] = settings.USE_GATE_ONE_API
+        template_params["WEB_SH_URL"] = settings.WEB_SH_URL
+
     return template_params, show_troposphere_only
 
 
 def _handle_public_application_request(request, maintenance_records, disabled_login=False):
+    """
+    Deal with unauthenticated requests:
+
+    - For troposphere, there is the opportunity to browser the Public Image Catalog.
+    - For airport, there is nothing to do but ask for people to `login.html`.
+    """
     template_params, show_troposphere_only = _populate_template_params(request,
             maintenance_records, disabled_login, True)
 
@@ -116,6 +127,9 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
 
 
 def _handle_authenticated_application_request(request, maintenance_records):
+    """
+    Deals with request verified identities via `iplantauth` module.
+    """
     template_params, show_troposphere_only = _populate_template_params(request,
             maintenance_records, disabled_login=False, public=False)
 
