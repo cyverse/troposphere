@@ -10,9 +10,6 @@
     <!--CSS-->
     <link rel="stylesheet" href="{{ BASE_URL }}/assets/app.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{ THEME_URL }}/css/theme.css" rel="stylesheet" type="text/css">
-    <!--
-    <link rel="stylesheet" href="{{ BASE_URL }}/{{ THEME_URL }}/theme.css" rel="stylesheet" type="text/css">
-    -->
 
     <!-- Adobe Typekit (for Myriad Pro) -->
     <script type="text/javascript" src="//use.typekit.net/gty2jpo.js"></script>
@@ -27,9 +24,8 @@
 <body class="tk-myriad-pro splash-screen">
 
     <div class="splash-image">
-      <img src="{{ THEME_URL }}/images/login_mainimage.png">
         <div class="loading"></div>
-        <h4>Loading {{ SITE_TITLE }}...</h4>
+        <h4 class="center">Loading {{ SITE_TITLE }}...</h4>
     </div>
 
     <div id="application"></div>
@@ -89,6 +85,10 @@
 
         {% if USE_GATE_ONE_API %}
             var WEB_SH_URL ="{{ WEB_SH_URL }}";
+        {% endif %}
+
+        {% if SUPPORT_EMAIL %}
+            var SUPPORT_EMAIL = "{{ SUPPORT_EMAIL }}";
         {% endif %}
 
         {% if show_public_site %}
