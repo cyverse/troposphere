@@ -6,7 +6,7 @@ define(function (require) {
 
   return {
 
-    moveResources: function (resources, currentProject) {
+    moveResources: function (resources, currentProject, callback) {
 
       var props = {
         currentProject: currentProject,
@@ -19,7 +19,7 @@ define(function (require) {
           resources: resources,
           newProject: newProject
         });
-
+        callback();
       });
     }
 
