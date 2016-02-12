@@ -17,11 +17,13 @@ API_V2_ROOT = API_SERVER + "/api/v2"
 
 SITE_TITLE= "{{ SITE_TITLE}}"
 SITE_FOOTER= "{{ SITE_FOOTER }}"
+
 {% if THEME_NAME is defined and not THEME_NAME == "default" %}
 THEME_NAME="{{ THEME_NAME }}"
 {% else %}
-THEME_NAME="troposphere_theme"
+THEME_NAME= "troposphere_theme"
 {% endif %}
+
 
 {% if INTERCOM_APP_ID is defined and not INTERCOM_APP_ID == "" %}
 INTERCOM_APP_ID = "{{ INTERCOM_APP_ID }}"
