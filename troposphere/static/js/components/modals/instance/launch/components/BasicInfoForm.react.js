@@ -24,15 +24,18 @@ export default React.createClass({
         let imageVersionId = this.props.imageVersion.get('id');
         let project = this.props.project;
         let projectList = this.props.projectList;
-        let instanceName =
-            this.props.instanceName == null
-            ? this.props.image.get("name")
-            : this.props.instanceName;
-        let errorMessage = instanceName == "" ? "This field is rquired" : null;
+        let instanceName = this.props.instanceName;
+        let instanceNameClasses = "form-group";
+        let errorMessage = null;
+
+        if (this.props.showValidationErr) {
+            errorMessage = instanceName == "" ? "This field is rquired" : null;
+            instanceNameClasses = instanceName == "" ? "form-group has-error" : "form-group"; 
+        }
 
         return (
             <form>
-                <div className={ "form-group " + (instanceName == "" ? "has-error" : "") } >
+                <div className={instanceNameClasses} >
                     <label htmlFor="instanceName">
                         Instance Name
                     </label>

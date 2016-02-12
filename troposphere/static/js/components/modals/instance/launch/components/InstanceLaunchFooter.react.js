@@ -29,7 +29,7 @@ export default React.createClass({
     render: function() {
         let disable = false;
         if  (this.props.showValidationErr) {
-            disable = !this.props.basicLaunchIsDisabled;
+            disable = this.props.launchIsDisabled;
         }
         return (
             <div className="modal-footer">

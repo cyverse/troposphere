@@ -164,6 +164,7 @@ export default React.createClass({
                     {this.renderBody()}
                 </div>
                 <InstanceLaunchFooter
+                    showValidationErr={true}
                     onCancel={this.props.onCancel}
                     launchIsDisabled={true}
                     advancedIsDisabled={true}

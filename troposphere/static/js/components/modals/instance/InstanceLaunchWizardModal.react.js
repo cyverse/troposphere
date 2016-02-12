@@ -373,6 +373,7 @@ export default React.createClass({
 
         return (
             <ImageSelectStep
+                showValidationErr={true}
                 image={this.state.image}
                 onSelectImage={this.onSelectImage}
                 onCancel = {this.hide}
@@ -416,7 +417,7 @@ export default React.createClass({
             });
             resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
         }
-
+        debugger;
         return (
             <BasicLaunchStep { ...{
                     showValidationErr: this.state.showValidationErr,
