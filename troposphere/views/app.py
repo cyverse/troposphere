@@ -61,13 +61,14 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
 
     template_params['SITE_TITLE'] = settings.SITE_TITLE
     template_params['SITE_FOOTER'] = settings.SITE_FOOTER
-    #template_params['SUPPORT_EMAIL'] = settings.SUPPORT_EMAIL
+    template_params['SUPPORT_EMAIL'] = settings.SUPPORT_EMAIL
     template_params['UI_VERSION'] = settings.UI_VERSION
     template_params['BADGE_HOST'] = getattr(settings, "BADGE_HOST", None)
 
     #TODO: Replace this line when theme support is re-enabled.
     #template_params["THEME_URL"] = "assets/"
     template_params["THEME_URL"] = "/themes/%s" % settings.THEME_NAME
+    template_params['ORG_NAME'] = settings.ORG_NAME
 
     if hasattr(settings, "BASE_URL"):
         template_params['BASE_URL'] = settings.BASE_URL
@@ -217,8 +218,17 @@ def forbidden(request):
     user, but was found to be unauthorized to use Atmosphere by OAuth.
     Returns HTTP status code 403 Forbidden
     """
+
     # If banner message in query params, pass it into the template
     template_params = {}
+
+    template_params["THEME_URL"] = "/themes/%s" % settings.THEME_NAME
+    template_params['ORG_NAME'] = settings.ORG_NAME
+    template_params['SITE_TITLE'] = settings.SITE_TITLE
+    template_params['SITE_FOOTER'] = settings.SITE_FOOTER
+    if hasattr(settings, "BASE_URL"):
+        template_params['BASE_URL'] = settings.BASE_URL
+
     if "banner" in request.GET:
         template_params['banner'] = request.GET['banner']
     response = render_to_response(

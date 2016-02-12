@@ -1,6 +1,7 @@
 
 define(function (require) {
-    var _ = require("underscore"),
+    var _ = require('underscore'),
+      globals = require('globals'),
         React = require('react/addons');
 
     var resources = [
@@ -53,7 +54,7 @@ define(function (require) {
                 {"You can contact the Atmosphere support staff by clicking on the "}
                 <strong>{"Feedback & Support"}</strong>
                 {" button at the bottom of the page (to enter a help request online) or by sending an email to "}
-                <a href="mailto:support@iplantcollaborative.org">support@iplantcollaborative.org</a>
+                <a href={`mailto:${globals.SUPPORT_EMAIL}`}>{globals.SUPPORT_EMAIL}</a>
               </p>
             </div>
           </div>
