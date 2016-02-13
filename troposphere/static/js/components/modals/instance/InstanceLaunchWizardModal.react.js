@@ -417,7 +417,6 @@ export default React.createClass({
             });
             resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
         }
-        debugger;
         return (
             <BasicLaunchStep { ...{
                     showValidationErr: this.state.showValidationErr,

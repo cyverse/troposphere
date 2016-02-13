@@ -17,20 +17,19 @@ export default React.createClass({
     },
 
    render: function () {
-        if (!this.props.projectList || !this.props.imageVersion || !this.props.imageVersionList || !this.props.project) {
-            return (<div className="loading"/>);
-        }
-
-        let imageVersionId = this.props.imageVersion.get('id');
+        let imageVersion = this.props.imageVersion;
+        let imageVersionId;
         let project = this.props.project;
         let projectList = this.props.projectList;
         let instanceName = this.props.instanceName;
         let instanceNameClasses = "form-group";
         let errorMessage = null;
 
+        if (imageVersion) { imageVersionId = imageVersion.get('id'); }
+
         if (this.props.showValidationErr) {
             errorMessage = instanceName == "" ? "This field is rquired" : null;
-            instanceNameClasses = instanceName == "" ? "form-group has-error" : "form-group"; 
+            instanceNameClasses = instanceName == "" ? "form-group has-error" : "form-group";
         }
 
         return (
@@ -41,7 +40,7 @@ export default React.createClass({
                     </label>
                     <input required type="Name"
                         className="form-control"
-                        id="instanceName" 
+                        id="instanceName"
                         value={instanceName}
                         onChange={this.props.onNameChange}
                         onBlur={this.props.onNameBlur}
@@ -53,7 +52,7 @@ export default React.createClass({
                         Base Image Version
                     </label>
                     <SelectMenu
-                        defaultId={this.props.imageVersion.get('id')}
+                        defaultId={imageVersionId}
                         list={this.props.imageVersionList}
                         optionName={item => item.get('name')}
                         onSelectChange={this.props.onVersionChange}
