@@ -29,13 +29,15 @@ define(function (require) {
     },
 
     getInitialState: function(){
-      var image = this.props.image;
+      var image = this.props.image,
+        endDate = image.get('end_date').isValid() ?
+             image.get('end_date').tz(globals.TZ_REGION).format("M/DD/YYYY hh:mm a z") : "";
 
       var imageTags = stores.TagStore.getImageTags(image);
       return {
         name: image.get('name'),
         description: image.get('description'),
-        endDate: image.get('end_date').tz(globals.TZ_REGION).format("M/DD/YYYY hh:mm a z"),
+        endDate: endDate,
         tags: imageTags
       }
     },
