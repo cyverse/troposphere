@@ -350,6 +350,7 @@ define(function (require) {
           }
           {startDateView}
           {endDateView}
+          <hr />
           <div className="form-group clearfix">
             <button type="button" className="btn btn-default pull-right"
                     onClick={this.onOptionsChange}>
