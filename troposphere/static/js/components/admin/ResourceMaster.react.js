@@ -3,6 +3,7 @@ define(function (require) {
 
   var React = require('react/addons'),
     Router = require('react-router'),
+    RouterInstance = require('../../Router'),
     stores = require('stores'),
     ResourceRequest = require('./ResourceRequest.react'),
     RouteHandler = Router.RouteHandler;
@@ -11,22 +12,31 @@ define(function (require) {
 
     mixins: [Router.State],
 
+    onResourceClick: function(request){
+      RouterInstance.getInstance().transitionTo("resource-request-detail", {request: request, id: request.id});
+    },
+
     render: function () {
       var requests = stores.ResourceRequestStore.findWhere({
           'status.name': 'pending'
         }),
         statuses = stores.StatusStore.getAll();
 
-      if (!requests || !statuses)
-        return <div className="loading"></div>;
+      if (!requests || !statuses) return <div className="loading"></div>;
 
-      var resourceRequestRows = requests.map(function (request) {
+      var resourceRequests = requests.map(function (request) {
+        var handleClick = function(){
+          this.onResourceClick(request);
+        }.bind(this);
+
         return (
-          <ResourceRequest key={request.id} request={request}/>
-        )
-      });
+          <li key={request.id} onClick={handleClick}>
+            {request.get('created_by').username}
+          </li>
+        );
+      }.bind(this));
 
-      if (!resourceRequestRows[0]) {
+      if (!resourceRequests[0]) {
         return  (
           <div>
             <h3>No resource requests</h3>
@@ -36,16 +46,11 @@ define(function (require) {
 
       return (
         <div className="resource-master">
-          <h1>Resource Requests</h1>
-            <ul className="requests">
-              <li>
-                <h3>User</h3>
-                <h3>Request</h3>
-                <h3>Description</h3>
-              </li>
-              {resourceRequestRows}
-            </ul>
-            <RouteHandler />
+          <h3>Resource Requests</h3>
+          <ul className="requests-list pull-left">
+            {resourceRequests}
+          </ul>
+          <RouteHandler />
         </div>
       );
     }

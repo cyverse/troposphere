@@ -1,10 +1,10 @@
 import React from 'react';
+import globals from 'globals';
 
 let mountVolumeDocumentationUrl = "https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachinganEBSVolumetoanInstance-Step6%3AMountthefilesystemonthepartition.";
 let createFileSystemDocumentationUrl = "https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachinganEBSVolumetoanInstance-Step5%3ACreatethefilesystem%28onetimeonly%29.";
 
 export default {
-
     success: function () {
         var message = (
             <div>
@@ -29,8 +29,8 @@ export default {
         var message = (
         <div>
             {"If this problem persists, contact support at "}
-            <a href="mailto:support@iplantcollaborative.org">
-                {"support@iplantcollaborative.org"}
+            <a href={`mailto:${globals.SUPPORT_EMAIL}`}>
+              {globals.SUPPORT_EMAIL}
             </a>
         </div>
         );
