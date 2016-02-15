@@ -1,13 +1,16 @@
 
 // Basics of the navbar
-$navbar-default-bg: #0098aa;
-$brand-primary: #56AA21;
+$brand-primary: rgb(9,113,171);
+$brand-secondary: rgb(241,158,31);
+$brand-tertiary: rgb(153,217,234);
+$navbar-default-bg: $brand-primary;
+$nav-border: solid 5px $brand-tertiary;
 $logo-url: '../../images/mini_logo.png';
-$application-name: 'Atmosphere';
+$application-name: '';
 $application-label: 'BETA';
 
 // Navbar links
-$navbar-default-link-color: darken(white, 10%);
+$navbar-default-link-color: lighten($brand-tertiary, 10%);
 $navbar-default-link-hover-color: white;
 $navbar-default-link-active-color: white;
 $navbar-default-link-active-bg: darken($navbar-default-bg, 6.5%);
@@ -26,7 +29,9 @@ $secondary-nav-border: $brand-primary;
 
 // UI Elements
 $link-color: $brand-primary;
-$tag-color: $brand-primary;
+$btn-primary: $brand-primary;
+$tag-color: #E2E2E2;
+$tag-txt-color: black;
 
 
 
@@ -37,7 +42,7 @@ $tag-color: $brand-primary;
 
   .option {
     font-size: 13px !important;
-    font-family: Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: Univers, Calibri, "Gill Sans", "Gill Sans MT", "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
     background-color: #FFF;
     box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.1);
     border-radius: 3px;

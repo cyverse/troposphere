@@ -5,7 +5,8 @@ define(function (require) {
     Store = require('stores/Store'),
     Profile = require('models/Profile'),
     NotificationController = require('controllers/NotificationController'),
-    ProfileConstants = require('constants/ProfileConstants');
+    ProfileConstants = require('constants/ProfileConstants'),
+    globals = require('globals');
 
   var _profile = null;
   var _isFetching = false;
@@ -31,7 +32,7 @@ define(function (require) {
         } else {
           NotificationController.error(
             null,
-            "There was an error logging you in. If this persists, please email <a href='mailto:support@iplantcollaborative.org'>support@iplantcollaborative.org</a>.",
+            `There was an error logging you in. If this persists, please email <a href='mailto:${globals.SUPPORT_EMAIL}'>${globals.SUPPORT_EMAIL}</a>.`,
             {
               "positionClass": "toast-top-full-width",
               "timeOut": "0",
