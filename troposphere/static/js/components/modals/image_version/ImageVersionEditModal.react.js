@@ -237,7 +237,7 @@ define(function (require) {
         this.setState({versionMinCPU: 0});
       }
     },
-    
+
     onMemChange: function(e){
       // Only accept positive integers
       if(Number(e.target.value) && e.target.value > 0){
@@ -266,7 +266,8 @@ define(function (require) {
     },
 
     renderBody: function() {
-      var applicationView, availabilityView, canImageView, nameView, descriptionView, startDateView, endDateView, membershipView, licensesView, scriptsView;
+      var applicationView, availabilityView, canImageView, nameView, descriptionView,
+        startDateView, endDateView, membershipView, licensesView, scriptsView;
 
       var name = this.state.versionName,
         created = this.state.versionStartDate.format("MMM D, YYYY hh:mm a"),
@@ -414,6 +415,7 @@ define(function (require) {
           }
           {startDateView}
           {endDateView}
+          <hr />
           <div className="form-group clearfix">
             <button type="button" className="btn btn-default pull-right"
                     onClick={this.onOptionsChange}>
@@ -443,7 +445,7 @@ define(function (require) {
         versionId = version.id;
 
       if (!end_date) {
-      end_date =""
+        end_date = ""
       }
 
       return (
