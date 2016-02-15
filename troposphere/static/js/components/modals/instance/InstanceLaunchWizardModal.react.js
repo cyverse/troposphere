@@ -360,7 +360,7 @@ export default React.createClass({
                 version: this.state.imageVersion,
                 scripts: this.state.attachedScripts
             };
-
+            console.log(launchData);
             actions.InstanceActions.launch(launchData);
             this.hide();
             return
@@ -485,7 +485,7 @@ export default React.createClass({
             case "IMAGE_VIEW":
             return "Select an Image"
             case "PROJECT_VIEW":
-            return "Create New PRoject"
+            return "Create New Project"
             case "BASIC_VIEW":
             return "Basic Options"
             case "ADVANCED_VIEW":
