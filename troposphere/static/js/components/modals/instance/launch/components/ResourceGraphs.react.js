@@ -6,7 +6,7 @@ import ProgressBar from 'components/common/ui/ProgressBar.react';
 export default React.createClass({
     propTypes: {
         onRequestResources: React.PropTypes.func,
-        resourcesUsed: React.PropTypes.object.isRequired,
+        resourcesUsed: React.PropTypes.object,
         identityProvider: React.PropTypes.instanceOf(Backbone.Model),
         providerSize: React.PropTypes.instanceOf(Backbone.Model),
     },

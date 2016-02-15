@@ -9,7 +9,7 @@ export default React.createClass({
         defaultId: React.PropTypes.oneOfType([
            React.PropTypes.string,
            React.PropTypes.number
-        ]).isRequired,
+        ]),
         optionName: React.PropTypes.func.isRequired,
         onSelectChange: React.PropTypes.func.isRequired,
         list: React.PropTypes.oneOfType([
