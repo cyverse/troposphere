@@ -65,7 +65,7 @@ define(function (require) {
       e.preventDefault();
       var resourceRequest = this.props.request,
         status = stores.StatusStore.findOne({name: "rejected"});
-      
+
       ResourceActions.update({
         request: resourceRequest,
         response: this.state.response,
@@ -81,13 +81,13 @@ define(function (require) {
 
     makeNewAllocation: function(){
       actions.AllocationActions.create({"threshold": this.state.AUSearch * 60, "delta": this.state.delta});
-    }, 
+    },
 
     onExpireChange: function(e){
       // If expire is currently true, we want it to be false. Set delta to -1 for non expiring AU, standard 525600 for expiring.
       this.state.expire ? this.setState({delta: -1}) : this.setState({delta: 525600});
       this.setState({expire: !this.state.expire});
-    },    
+    },
 
     renderAllocationStatus: function(){
       if(stores.AllocationStore.findWhere({"threshold": parseInt(this.state.AUSearch) * 60, "delta": this.state.delta}).length < 1){
@@ -95,7 +95,7 @@ define(function (require) {
           <div>
             <p>Allocation with {this.state.AUSearch} AU expiring: {this.state.expire ? "true":"false"} does not exist. Click <a href="#" onClick={this.makeNewAllocation}>here</a> to create it.</p>
           </div>
-        ); 
+        );
       }
       else{
         return(
@@ -171,7 +171,7 @@ define(function (require) {
                 <div className="inline">
                   <h4>New allocation: </h4>
                   <div>
-                    <input type="Number" value={this.state.AUSearch} onChange={this.handleThresholdSearchChange} />AU
+                    <input type="number" value={this.state.AUSearch} onChange={this.handleThresholdSearchChange} />AU
                   </div>
                 </div>
                 <div className="radio-buttons">
@@ -199,7 +199,7 @@ define(function (require) {
       return (
         <div className="request-admin pull-right">
           {this.renderAdminDetails()}
-          <RouteHandler /> 
+          <RouteHandler />
         </div>
       );
     }
