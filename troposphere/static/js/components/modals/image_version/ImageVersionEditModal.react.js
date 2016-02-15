@@ -215,8 +215,47 @@ define(function (require) {
         group: membership
       });
     },
+
+    onCPUChange: function(e){
+      // Only accept positive integers
+      if(Number(e.target.value) && e.target.value > 0){
+        this.setState({versionMinCPU: Number(e.target.value)});
+      }
+      else{
+        this.setState({versionMinCPU: 0});
+      }
+    },
+
+    onMemChange: function(e){
+      // Only accept positive integers
+      if(Number(e.target.value) && e.target.value > 0){
+        this.setState({versionMinMem: Number(e.target.value)});
+      }
+      else{
+        this.setState({versionMinMem: 0});
+      }
+    },
+
+    checkValidMem: function(){
+      var curMemVal = this.state.versionMinMem,
+        memMinVal = this.state.memMinVal,
+        memMaxVal = this.state.memMaxVal;
+
+      return (!curMemVal || (curMemVal >= memMinVal && curMemVal <= memMaxVal));
+    },
+
+
+    checkValidCPU: function(){
+      var curCPUVal = this.state.versionMinCPU,
+          cpuMinVal = this.state.cpuMinVal,
+          cpuMaxVal = this.state.cpuMaxVal;
+
+      return (!curCPUVal || (curCPUVal >= cpuMinVal && curCPUVal <= cpuMaxVal));
+    },
+
     renderBody: function() {
-      var applicationView, availabilityView, canImageView, nameView, descriptionView, startDateView, endDateView, membershipView, licensesView, scriptsView;
+      var applicationView, availabilityView, canImageView, nameView, descriptionView,
+        startDateView, endDateView, membershipView, licensesView, scriptsView;
 
       var name = this.state.versionName,
         created = this.state.versionStartDate.format("MMM D, YYYY hh:mm a"),
@@ -350,6 +389,7 @@ define(function (require) {
           }
           {startDateView}
           {endDateView}
+          <hr />
           <div className="form-group clearfix">
             <button type="button" className="btn btn-default pull-right"
                     onClick={this.onOptionsChange}>
