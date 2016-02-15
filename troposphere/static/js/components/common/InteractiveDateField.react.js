@@ -47,13 +47,38 @@ define(function (require) {
     },
 
     render: function () {
-      var labelEl = this.props.labelText ? (<label>{this.props.labelText}</label>) : "";
+      var labelEl = this.props.labelText ? (<label htmlFor="interactive-date-field">{this.props.labelText}</label>) : null;
+      var btnStyle = {
+        lineHeight: '1.31' // I know this is quite heinous ...
+      };
+      var lastBtnStyle = {
+        borderTopRightRadius: '5px',
+        borderBottomRightRadius: '5px'
+      };
+      _.extend(lastBtnStyle, btnStyle);
+
       return (
-        <div className="form-group">
-          {labelEl}
-          <input type='text' className='form-control' value={this.state.value} onChange={this.onValueChanged}/>
-          <span className="input-group-addon" id="enddate-set-addon" onClick={this.setEndDateNow}>Today</span>
-          <span className="input-group-addon" id="enddate-clear-addon" onClick={this.unsetDate}>Clear</span>
+        <div>
+        {labelEl}
+        <div className="input-group">
+          <input id="interactive-date-field"
+            type="text"
+            className="form-control"
+            value={this.state.value}
+            onChange={this.onValueChanged} />
+          <div className="input-group-btn">
+            <button type="button"
+                id="enddate-set-addon"
+                className="btn btn-default"
+                style={btnStyle}
+                onClick={this.setEndDateNow}>Today</button>
+            <button type="button"
+                id="enddate-clear-addon"
+                className="btn btn-default"
+                style={lastBtnStyle}
+                onClick={this.unsetDate}>Clear</button>
+          </div>
+        </div>
         </div>
       );
     }
