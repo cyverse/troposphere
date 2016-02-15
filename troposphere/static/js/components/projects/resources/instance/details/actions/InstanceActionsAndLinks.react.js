@@ -63,8 +63,8 @@ define(function(require) {
     },
 
     render: function() {
-      var webShellUrl = this.props.instance.get('shell_url'),
-          remoteDesktopUrl = this.props.instance.get('vnc_url'),
+      var webShellUrl = this.props.instance.shell_url(),
+          remoteDesktopUrl = this.props.instance.vnc_url(),
           status = this.props.instance.get('state').get('status'),
           activity = this.props.instance.get('state').get('activity'),
           ip_address = this.props.instance.get('ip_address'),
