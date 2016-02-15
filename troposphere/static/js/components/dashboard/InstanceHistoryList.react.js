@@ -34,7 +34,7 @@ define(function(require) {
     },
 
     refreshHistory: function(){
-        stores.InstanceHistoryStore.fetchFirstPage();
+        this.setState({instanceHistoryItems: stores.InstanceHistoryStore.fetchFirstPageWhere({"page_size": 10}, {clearQueryCache: true})});
         stores.InstanceHistoryStore.lastUpdated = Date.now();
         this.forceUpdate();
     },
