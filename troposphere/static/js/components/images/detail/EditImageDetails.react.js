@@ -99,7 +99,7 @@ define(function (require) {
               onChange={this.handleNameChange}
             />
             <CreatedView image={image}/>
-            
+
             <div className='image-info-segment row'>
                 <h4 className="titel col-md-2">Date to hide image from public view</h4>
                 <div className="col-md-10">
