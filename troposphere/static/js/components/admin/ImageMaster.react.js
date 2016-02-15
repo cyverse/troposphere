@@ -3,6 +3,7 @@ define(function (require) {
 
   var React = require('react'),
       Router = require('react-router'),
+      RouterInstance = require('../../Router'),
       stores = require('stores'),
       moment = require('moment'),
       RouteHandler = Router.RouteHandler,
@@ -13,6 +14,24 @@ define(function (require) {
   return React.createClass({
 
     mixins: [Router.State],
+
+    componentDidMount: function(){
+        stores.StatusStore.getAll();
+    },
+
+    onRefresh: function(){
+        stores.ImageRequestStore.fetchFirstPage();
+    },
+
+    onResourceClick: function(request){
+        RouterInstance.getInstance().transitionTo("image-request-detail", {request: request, id: request.id});
+    },
+
+    renderRefreshButton: function(){
+        return (
+            <span className="pull-right glyphicon glyphicon-refresh" onClick={this.onRefresh} />
+        );
+    },
 
     render: function () {
       var requests = stores.ImageRequestStore.getAll();
@@ -29,14 +48,21 @@ define(function (require) {
           return;
         }
 
+        var handleClick = function(){
+            this.onResourceClick(request);
+        }.bind(this);
+
         return (
-          <ImageRequest key={request.id} request={request}/>
-        )
-      });
+          <li key={request.id} onClick={handleClick}>
+            {request.get('new_machine_owner').username} - <strong>{request.get('status').name}</strong>
+          </li>
+        );
+      }.bind(this));
 
       if (!imageRequestRows[0]) {
         return  (
           <div>
+            {this.renderRefreshButton()}
             <h3>No imaging requests</h3>
           </div>
         );
@@ -44,13 +70,8 @@ define(function (require) {
 
       return (
         <div className="image-master">
-          <h1>Imaging Requests</h1>
-          <ul className="requests">
-            <li>
-              <h3>User</h3>
-              <h3>Name</h3>
-              <h3>Status</h3>
-            </li>
+          <h2>Imaging Requests {this.renderRefreshButton()}</h2>
+          <ul className="requests-list pull-left">
             {imageRequestRows}
           </ul>
           <RouteHandler />
