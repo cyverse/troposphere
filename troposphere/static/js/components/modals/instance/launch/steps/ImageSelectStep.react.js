@@ -92,8 +92,8 @@ export default React.createClass({
             />
         );
     },
-    renderImages: function (images) {
-        let imageCount = images.models.length,
+    renderImages: function (images, allImages) {
+        let totalNumberOfImages = allImages.length,
             query = this.state.query;
 
         return (
@@ -103,7 +103,7 @@ export default React.createClass({
             <ImageList images={images}
                 onSelectImage={this.props.onSelectImage}
             >
-            {this.renderMoreImagesButton(images, imageCount)}
+            {this.renderMoreImagesButton(images, totalNumberOfImages)}
             </ImageList>
         </div>
         );
@@ -127,7 +127,8 @@ export default React.createClass({
     },
     renderBody: function () {
 
-        let images,
+        let allImages = stores.ImageStore.getAll(),
+            images,
             tags = stores.TagStore.getAll(),
             query = this.state.query,
             numberOfResults,
@@ -138,7 +139,7 @@ export default React.createClass({
                 search: query
             });
         } else {
-            images = stores.ImageStore.getAll();
+            images = allImages;
         }
 
         if (images && tags) {
@@ -148,7 +149,7 @@ export default React.createClass({
             images = new ImageCollection(images);
 
             if (images.length > 0) {
-                return this.renderImages(images);
+                return this.renderImages(images, allImages);
             } else {
                 return this.renderZeroImages();
             }
