@@ -15,12 +15,21 @@ define(function (require) {
 
     mixins: [Router.State],
 
+    getInitialState: function(){
+        return{
+            refreshing: false
+        }
+    },
+
     componentDidMount: function(){
         stores.StatusStore.getAll();
     },
 
     onRefresh: function(){
-        stores.ImageRequestStore.fetchFirstPage();
+        this.setState({refreshing: true});
+        stores.ImageRequestStore.fetchFirstPage(function(){
+            this.setState({refreshing: false});
+        }.bind(this));
     },
 
     onResourceClick: function(request){
@@ -28,8 +37,10 @@ define(function (require) {
     },
 
     renderRefreshButton: function(){
+        var controlsClass = "glyphicon pull-right glyphicon-refresh" + (this.state.refreshing ? " refreshing" : "");
+
         return (
-            <span className="pull-right glyphicon glyphicon-refresh" onClick={this.onRefresh} />
+            <span className={controlsClass} onClick={this.onRefresh} />
         );
     },
 
