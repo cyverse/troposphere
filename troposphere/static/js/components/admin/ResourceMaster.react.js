@@ -12,8 +12,22 @@ define(function (require) {
 
     mixins: [Router.State],
 
+    componentDidMount: function(){
+        stores.StatusStore.getAll();
+    },
+
+    onRefresh: function(){
+        stores.ResourceRequestStore.fetchFirstPage();
+    },
+
     onResourceClick: function(request){
       RouterInstance.getInstance().transitionTo("resource-request-detail", {request: request, id: request.id});
+    },
+
+    renderRefreshButton: function(){
+        return (
+            <span className="pull-right glyphicon glyphicon-refresh" onClick={this.onRefresh} />
+        );
     },
 
     render: function () {
@@ -46,7 +60,7 @@ define(function (require) {
 
       return (
         <div className="resource-master">
-          <h3>Resource Requests</h3>
+          <h2>Resource Requests {this.renderRefreshButton()}</h2>
           <ul className="requests-list pull-left">
             {resourceRequests}
           </ul>
