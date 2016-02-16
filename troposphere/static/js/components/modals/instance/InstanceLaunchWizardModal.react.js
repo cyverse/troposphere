@@ -1,9 +1,9 @@
 // Note: Although this feature is a step in the right direction, we should try to solve
 // a few problems with how we deal with state and async requests that are dependent
-// on eachother. For example, because we are waiting for data on network requests
+// on each other. For example, because we are waiting for data on network requests
 // we need to set state on these values by calling setState from a change listener,
 // however because we might already have it, we also need to set state from the event
-// listener. Another requierment is that we are populating default values that are
+// listener. Another requirement is that we are populating default values that are
 // dependent on other values the user might change, so many event listeners will call
 // setState on those dependent values as well. All of this logic is currently
 // duplicated in every place mentioned. One solution might be to contain all of this
