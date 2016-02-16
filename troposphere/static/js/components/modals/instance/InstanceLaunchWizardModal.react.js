@@ -1,3 +1,15 @@
+// Note: Although this feature is a step in the right direction, we should try to solve
+// a few problems with how we deal with state and async requests that are dependent
+// on eachother. For example, because we are waiting for data on network requests
+// we need to set state on these values by calling setState from a change listener,
+// however because we might already have it, we also need to set state from the event
+// listener. Another requierment is that we are populating default values that are
+// dependent on other values the user might change, so many event listeners will call
+// setState on those dependent values as well. All of this logic is currently
+// duplicated in every place mentioned. One solution might be to contain all of this
+// dependent logic in a single function that is called by passing the key value
+// pair to be changed and returns a new object to pass into setState.
+
 import React from 'react/addons';
 import Backbone from 'backbone';
 import _ from 'underscore';
@@ -158,6 +170,10 @@ export default React.createClass({
         this.setState({ view:'ADVANCED_VIEW', });
     },
 
+    //=========================
+    // Event Handlers
+    //=========================
+
     onSelectImage: function(image) {
         let instanceName = image.get('name');
         var imageVersion, providerSize, identityProvider;
@@ -169,7 +185,7 @@ export default React.createClass({
 
         let providerSizeList;
         if (imageVersion) {
-            //let providerList = new Backbone.Collection(imageVersion.get('machines').map((item) => item.provider));
+            // Let providerList = new Backbone.Collection(imageVersion.get('machines').map((item) => item.provider));
             let providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
             let provider = providerList.first();
             providerSizeList = stores.SizeStore.fetchWhere({
@@ -297,6 +313,34 @@ export default React.createClass({
         this.viewBasic();
     },
 
+    //============================
+    // Final Submit event handler
+    //============================
+
+    onSubmitLaunch: function() {
+        if (this.canLaunch()) {
+            let launchData = {
+                project: this.state.project,
+                instanceName: this.state.instanceName.trim(),
+                identity: this.state.identityProvider,
+                size: this.state.providerSize,
+                version: this.state.imageVersion,
+                scripts: this.state.attachedScripts
+            };
+            console.log(launchData);
+            actions.InstanceActions.launch(launchData);
+            this.hide();
+            return
+        }
+
+        this.setState({showValidationErr: true})
+    },
+
+
+    //======================
+    // Validation
+    //======================
+
     // This is a callback that returns true if the provider size in addition to resources already using
     // will exceed the user's allotted resources.
     exceedsResources: function() {
@@ -350,26 +394,43 @@ export default React.createClass({
         return false
     },
 
-    onSubmitLaunch: function() {
-        if (this.canLaunch()) {
-            let launchData = {
-                project: this.state.project,
-                instanceName: this.state.instanceName.trim(),
-                identity: this.state.identityProvider,
-                size: this.state.providerSize,
-                version: this.state.imageVersion,
-                scripts: this.state.attachedScripts
-            };
-            actions.InstanceActions.launch(launchData);
-            this.hide();
-            return
-        }
+    //==================
+    // View Routing
+    //==================
 
-        this.setState({showValidationErr: true})
+    renderBody: function() {
+        var view = this.state.view;
+        switch(view) {
+            case "IMAGE_VIEW":
+            return this.renderImageSelect()
+            case "PROJECT_VIEW":
+            return this.renderProjectCreateStep()
+            case "BASIC_VIEW":
+            return this.renderBasicOptions()
+            case "ADVANCED_VIEW":
+            return this.renderAdvancedOptions()
+        }
     },
 
-    renderImageSelect: function() {
+    headerTitle: function() {
+        var view = this.state.view;
+        switch(view) {
+            case "IMAGE_VIEW":
+            return "Select an Image"
+            case "PROJECT_VIEW":
+            return "Create New Project"
+            case "BASIC_VIEW":
+            return "Basic Options"
+            case "ADVANCED_VIEW":
+            return "Advanced Options"
+        }
+    },
 
+    //========================
+    // Render Methods
+    //========================
+
+    renderImageSelect: function() {
         return (
             <ImageSelectStep
                 showValidationErr={true}
@@ -463,37 +524,8 @@ export default React.createClass({
             />
         );
     },
-    
-    renderBody: function() {
-        var view = this.state.view;
-        switch(view) {
-            case "IMAGE_VIEW":
-            return this.renderImageSelect()
-            case "PROJECT_VIEW":
-            return this.renderProjectCreateStep()
-            case "BASIC_VIEW":
-            return this.renderBasicOptions()
-            case "ADVANCED_VIEW":
-            return this.renderAdvancedOptions()
-        }
-    },
-
-    headerTitle: function() {
-        var view = this.state.view;
-        switch(view) {
-            case "IMAGE_VIEW":
-            return "Select an Image"
-            case "PROJECT_VIEW":
-            return "Create New Project"
-            case "BASIC_VIEW":
-            return "Basic Options"
-            case "ADVANCED_VIEW":
-            return "Advanced Options"
-        }
-    },
 
     render: function() {
-
         return (
             <div className="modal fade">
                 <div className="modal-dialog" style={{width:"100%", maxWidth:"800px"}}>
