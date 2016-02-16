@@ -110,7 +110,7 @@ define(function (require) {
               onChange={this.handleResponseChange}/><br />
             <button disabled={request.get('status').name != 'pending'}onClick={this.approve} type="button" className="btn btn-default btn-sm">Approve</button>
             <button disabled={request.get('status').name != 'pending'}onClick={this.deny} type="button" className="btn btn-default btn-sm">Deny</button>
-            <button disabled={request.get('status').name == 'rejected'}onClick={this.resubmit} type="button" className="btn btn-default btn-sm">Re-Submit</button>
+            <button disabled={request.get('status').name == 'closed'}onClick={this.resubmit} type="button" className="btn btn-default btn-sm">Re-Submit</button>
           </div>
         </div>
       );
