@@ -22,7 +22,7 @@ define(function (require) {
     // fetch from the server. Used to prevent multiple server calls for the same data.
     this.isFetching = false;
 
-    // pollingEnabled: True if this store should poll models 
+    // pollingEnabled: True if this store should poll models
     // pollingModels: A dictionary(model, callback), the presence of a model indicates polling
     //    status, see pollWhile
     // pollingFrequency: frequency in milliseconds of when the models should be polled
@@ -152,7 +152,7 @@ define(function (require) {
     },
 
     // Fetch the first page and replace models with results
-    fetchFirstPage: function() {
+    fetchFirstPage: function(cb) {
       if (!this.isFetching) {
         this.isFetching = true;
 
@@ -164,6 +164,9 @@ define(function (require) {
             this.isFetching = false;
             this.models = models;
             this.emitChange();
+            if(cb){
+                cb();
+            }
           }.bind(this));
       }
     },
@@ -356,7 +359,7 @@ define(function (require) {
     pollWhile: function(model, whileFunc) {
         if (!model.fetchFromCloud)
             throw new Error("model missing required method for polling: fetchFromCloud");
-         
+
         // If already polling, mutate the callback and exit
         if (this.pollingModels[model.cid]) {
             this.pollingModels[model.cid] = whileFunc;
