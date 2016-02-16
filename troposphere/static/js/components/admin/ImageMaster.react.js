@@ -63,9 +63,16 @@ define(function (require) {
             this.onResourceClick(request);
         }.bind(this);
 
+        var errorStatus;
+
+        if(request.get('old_status').indexOf("ERROR") > -1 || request.get('old_status').indexOf("Traceback") > -1
+            || request.get('old_status').indexOf("Exception") > -1){
+            errorStatus = "(ERROR)";
+        }
+
         return (
           <li key={request.id} onClick={handleClick}>
-            {request.get('new_machine_owner').username} - <strong>{request.get('status').name}</strong>
+            {request.get('new_machine_owner').username} - <strong>{request.get('status').name}{errorStatus}</strong>
           </li>
         );
       }.bind(this));
