@@ -10,7 +10,8 @@ export default React.createClass({
         return {
             view: "BOOTSCRIPT_VIEW",
             saveOptionsDisabled: false,
-            options:[{
+            options:[
+                {
                     name: "Deployment Scripts",
                     view: "BOOTSCRIPT_VIEW"
                 },
@@ -21,7 +22,8 @@ export default React.createClass({
                 {
                     name: "Option 3",
                     view: "OPTION3_VIEW"
-                }],
+                }
+            ],
         }
     },
 
@@ -96,6 +98,7 @@ export default React.createClass({
     },
 
     renderOptionList: function() {
+        if (this.state.options.length <= 1) { return };
         let options = this.state.options.map(this.renderOptions);
         return (
             <ul className="AdvancedOptions-optionList NavStacked">
