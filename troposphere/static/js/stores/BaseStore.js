@@ -173,7 +173,12 @@ define(function (require) {
     },
 
     // same as fetchFirstPage, but with URL query params
-    fetchFirstPageWhere: function(queryParams) {
+    fetchFirstPageWhere: function(queryParams, options) {
+      if(options.clearQueryCache){
+        var queryString = buildQueryStringFromQueryParams(queryParams);
+        delete this.queryModels[queryString];
+      }
+
       if (!this.isFetching) {
         this.isFetching = true;
         queryParams = queryParams || {};
