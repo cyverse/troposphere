@@ -327,7 +327,6 @@ export default React.createClass({
                 version: this.state.imageVersion,
                 scripts: this.state.attachedScripts
             };
-            console.log(launchData);
             actions.InstanceActions.launch(launchData);
             this.hide();
             return
