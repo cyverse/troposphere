@@ -122,7 +122,7 @@ define(function (require) {
             </li>
              */}
             <li>
-              <a href="/logout?cas=True">Sign out</a>
+              <a href="/logout?force=True">Sign out</a>
             </li>
           </ul>
         </li>

@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login
 
 from iplantauth.authBackends import get_or_create_user, generate_token
-from iplantauth.views import globus_login_redirect
+from iplantauth.views import globus_login_redirect, globus_logout_redirect
 
 logger = logging.getLogger(__name__)
 cas_oauth_client = CAS_OAuthClient(settings.CAS_SERVER,
@@ -73,13 +73,17 @@ def logout(request):
 
     #Look for 'cas' to be passed on logout.
     request_data = request.GET
-    if request_data.get('cas', False) and 'iplantauth.authBackends.CASLoginBackend' in all_backends:
-        redirect_to = request_data.get("service")
-        if not redirect_to:
-            redirect_to = settings.SERVER_URL + reverse('application')
-        logout_url = cas_oauth_client.logout(redirect_to)
-        logger.info("Redirect user to: %s" % logout_url)
-        return redirect(logout_url)
+    if request_data.get('force', False):
+        if 'iplantauth.authBackends.CASLoginBackend' in all_backends:
+            redirect_to = request_data.get("service")
+            if not redirect_to:
+                redirect_to = settings.SERVER_URL + reverse('application')
+            logout_url = cas_oauth_client.logout(redirect_to)
+            logger.info("Redirect user to: %s" % logout_url)
+            return redirect(logout_url)
+        elif 'iplantauth.authBackends.GlobusLoginBackend' in all_backends\
+          or 'iplantauth.authBackends.GlobusOAuthLoginBackend' in all_backends:
+            return globus_logout_redirect(request)
     return redirect('application')
 
 #Initiate the OAuth login (Authorize)
