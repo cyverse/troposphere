@@ -109,7 +109,6 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
     if "airport_ui" not in request.session:
         request.session['airport_ui'] = 'false'
         # the absence flag to show the airport_ui would be equal to 'false'
-
     show_airport = request.session['airport_ui'] == 'true'
 
     # Return the new Troposphere UI
@@ -138,8 +137,9 @@ def _handle_authenticated_application_request(request, maintenance_records):
     template_params, show_troposphere_only = _populate_template_params(request,
             maintenance_records, disabled_login=False, public=False)
 
-    user_preferences, created = UserPreferences.objects\
-        .get_or_create(user=request.user)
+    user_preferences, created = UserPreferences.objects.get_or_create(
+        user=request.user)
+
     prefs_modified = False
 
     # TODO - once phased out, we should ignore show_beta_interface altogether
@@ -222,7 +222,6 @@ def forbidden(request):
     user, but was found to be unauthorized to use Atmosphere by OAuth.
     Returns HTTP status code 403 Forbidden
     """
-
     # If banner message in query params, pass it into the template
     template_params = {}
 
@@ -241,6 +240,7 @@ def forbidden(request):
         context_instance=RequestContext(request)
     )
     return response
+
 
 def version(request):
     v = get_version()
