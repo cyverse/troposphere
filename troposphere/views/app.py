@@ -6,11 +6,12 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, render_to_response
 from django.template import RequestContext
 
-from troposphere.version import get_version
 from api.models import UserPreferences, MaintenanceRecord
+from troposphere.version import get_version
+from .emulation import is_emulated_session
+from .maintenance import get_maintenance
 
 logger = logging.getLogger(__name__)
-from .maintenance import get_maintenance
 
 def root(request):
     return redirect('application')
