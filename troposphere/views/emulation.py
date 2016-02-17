@@ -1,10 +1,10 @@
 import logging
 import os
 
+import requests
+
 from django.conf import settings
 from django.shortcuts import redirect
-
-import requests
 
 from caslib import OAuthClient as CAS_OAuthClient
 
