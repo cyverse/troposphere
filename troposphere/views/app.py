@@ -13,14 +13,29 @@ from .maintenance import get_maintenance
 
 logger = logging.getLogger(__name__)
 
-def root(request):
-    return redirect('application')
+
 #TODO: Move this into a settings file.
 STAFF_LIST_USERNAMES = ['estevetest01', 'estevetest02','estevetest03','estevetest04',
                         'estevetest13', 'sgregory', 'lenards', 'tharon', 'cdosborn']
 
-def _handle_public_application_request(request, maintenance_records, disabled_login=False):
-    show_troposphere_only = hasattr(settings, "SHOW_TROPOSPHERE_ONLY") and settings.SHOW_TROPOSPHERE_ONLY is True
+
+def root(request):
+    return redirect('application')
+
+
+def _should_show_troposphere_only():
+    # `SHOW_TROPOSPHERE_ONLY` may not be present in `settings`, so use
+    # `hasattr` to handle when it is not present & avoid 500 errors on load.
+    return hasattr(settings, "SHOW_TROPOSPHERE_ONLY") and settings.SHOW_TROPOSPHERE_ONLY is True
+
+
+def _populate_template_params(request, maintenance_records, disabled_login, public=False):
+    """
+    Creates a dict of parameters for later template merge given the arguments,
+    request session, and django settings (defined in `default.py` or overidden
+    in `local.py`).
+    """
+    show_troposphere_only = _should_show_troposphere_only()
 
     template_params = {
         'access_token': request.session.get('access_token'),
