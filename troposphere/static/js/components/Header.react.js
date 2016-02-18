@@ -77,7 +77,7 @@ define(function (require) {
     render: function () {
       return (
         <li className="dropdown">
-          <a href="/login?redirect=/application?beta=true&airport_ui=false">Login</a>
+          <a id="login_link" href="/login?redirect=/application?beta=true&airport_ui=false">Login</a>
         </li>
       );
     }
