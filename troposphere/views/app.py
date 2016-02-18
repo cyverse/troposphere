@@ -6,19 +6,21 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, render_to_response
 from django.template import RequestContext
 
-from troposphere.version import get_version
 from api.models import UserPreferences, MaintenanceRecord
-
-logger = logging.getLogger(__name__)
+from troposphere.version import get_version
+from .emulation import is_emulated_session
 from .maintenance import get_maintenance
 
+logger = logging.getLogger(__name__)
 
-def root(request):
-    return redirect('application')
 
 #TODO: Move this into a settings file.
 STAFF_LIST_USERNAMES = ['estevetest01', 'estevetest02','estevetest03','estevetest04',
                         'estevetest13', 'sgregory', 'lenards', 'tharon', 'cdosborn']
+
+
+def root(request):
+    return redirect('application')
 
 
 def _should_show_troposphere_only():
@@ -49,7 +51,6 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
     if public:
         template_params['disable_login'] = disabled_login
     else:
-        logger.info("public was false... ")
         template_params['disable_login'] = False
         template_params['show_instance_metrics'] = show_instance_metrics
         # Only include Intercom information when rendering the authenticated
@@ -100,14 +101,16 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
     if "airport_ui" in request.GET:
         request.session['airport_ui'] = request.GET['airport_ui'].lower()
 
-    # If beta flag not defined, default it to false to show the old UI
-    if "beta" not in request.session:
-        request.session['beta'] = 'false'
+    # only honor `?beta=false` from the query string...
+    if "beta" in request.GET:
+        request.session['beta'] = request.GET['beta'].lower()
+    else: # consider troposphere the _default_
+        request.session['beta'] = 'true'
 
     if "airport_ui" not in request.session:
         request.session['airport_ui'] = 'false'
-
-    show_airport = request.session['airport_ui'] == 'true'
+        # the absence flag to show the airport_ui would be equal to 'false'
+    show_airport = request.session['airport_ui'] is 'true'
 
     # Return the new Troposphere UI
     if not show_airport or show_troposphere_only:
@@ -122,8 +125,8 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
             template_params,
             context_instance=RequestContext(request)
         )
-
     response.set_cookie('beta', request.session['beta'])
+    response.set_cookie('airport_ui', request.session['airport_ui'])
     return response
 
 
@@ -136,6 +139,7 @@ def _handle_authenticated_application_request(request, maintenance_records):
 
     user_preferences, created = UserPreferences.objects.get_or_create(
         user=request.user)
+
     prefs_modified = False
 
     # TODO - once phased out, we should ignore show_beta_interface altogether
@@ -155,10 +159,10 @@ def _handle_authenticated_application_request(request, maintenance_records):
         user_preferences.airport_ui = (True
             if request.session['airport_ui'] == 'true' else False)
 
-    if prefs_modified:
+    if prefs_modified and not is_emulated_session(request):
         user_preferences.save()
 
-    chose_airport = (user_preferences.airport_ui or
+    chose_airport = (user_preferences.airport_ui  or
         not user_preferences.show_beta_interface)
 
     # show airport-ui if it's true and we are showing the option
@@ -218,8 +222,6 @@ def forbidden(request):
     user, but was found to be unauthorized to use Atmosphere by OAuth.
     Returns HTTP status code 403 Forbidden
     """
-
-    # If banner message in query params, pass it into the template
     template_params = {}
 
     template_params["THEME_URL"] = "/themes/%s" % settings.THEME_NAME
@@ -229,6 +231,7 @@ def forbidden(request):
     if hasattr(settings, "BASE_URL"):
         template_params['BASE_URL'] = settings.BASE_URL
 
+    # If banner message in query params, pass it into the template
     if "banner" in request.GET:
         template_params['banner'] = request.GET['banner']
     response = render_to_response(

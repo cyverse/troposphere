@@ -3,7 +3,8 @@ define(function (require) {
   var React = require('react/addons'),
     Backbone = require('backbone'),
     modals = require('modals'),
-    actions = require('actions');
+    actions = require('actions'),
+    context = require('context');
 
   return React.createClass({
     displayName: "Footer",
@@ -13,7 +14,11 @@ define(function (require) {
     },
 
     onFeedback: function () {
-      modals.HelpModals.showFeedbackModal();
+        if (context.hasLoggedInUser()) {
+            modals.HelpModals.showFeedbackModal();
+        } else {
+            modals.PublicModals.showPublicSupportModal();
+        }
     },
 
     render: function () {
