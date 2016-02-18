@@ -22,6 +22,7 @@ import ImageSelectStep from './launch/steps/ImageSelectStep.react';
 import ProjectCreateView from 'components/common/ProjectCreateView.react';
 import BasicLaunchStep from './launch/steps/BasicLaunchStep.react';
 import AdvancedLaunchStep from './launch/steps/AdvancedLaunchStep.react';
+import LicenseStep from './launch/steps/LicenseStep.react';
 
 // This class implements the instance launch walkthrough. By design it keeps
 // track of two states. First is the state for switching between separate
@@ -318,7 +319,13 @@ export default React.createClass({
     //============================
 
     onSubmitLaunch: function() {
+        let license = [1,2,3];
         if (this.canLaunch()) {
+            if (license.length >= 1 && this.state.view === "BASIC_VIEW") {
+                this.setState({ view: "LICENSE_VIEW"});
+                return
+            }
+
             let launchData = {
                 project: this.state.project,
                 instanceName: this.state.instanceName.trim(),
@@ -408,6 +415,8 @@ export default React.createClass({
             return this.renderBasicOptions()
             case "ADVANCED_VIEW":
             return this.renderAdvancedOptions()
+            case "LICENSE_VIEW":
+            return this.renderLicenseStep()
         }
     },
 
@@ -422,6 +431,8 @@ export default React.createClass({
             return "Basic Options"
             case "ADVANCED_VIEW":
             return "Advanced Options"
+            case "LICENSE_VIEW":
+            return "License Agreement"
         }
     },
 
@@ -522,6 +533,16 @@ export default React.createClass({
                 onSaveAdvanced={this.onSaveAdvanced}
             />
         );
+    },
+
+    renderLicenseStep: function() {
+        let licenseList = [{name: "mack", agreement: "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus dsjhdh dhjdshdhdh dsPellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metusPellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus"}, {name: "daddy", agreement: "SKSAHFJH SFAHASHFH SFAAHFSAH SFJHSA"}];
+        return (
+            <LicenseStep
+                licenseList={licenseList}
+                onSubmitLaunch={this.onSubmitLaunch}
+            />
+        )
     },
 
     render: function() {
