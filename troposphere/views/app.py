@@ -51,7 +51,6 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
     if public:
         template_params['disable_login'] = disabled_login
     else:
-        logger.info("public was false... ")
         template_params['disable_login'] = False
         template_params['show_instance_metrics'] = show_instance_metrics
         # Only include Intercom information when rendering the authenticated
@@ -103,13 +102,15 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
         request.session['airport_ui'] = request.GET['airport_ui'].lower()
 
     # only honor `?beta=false` from the query string...
-    if "beta" in request.GET and request.GET['beta'].lower() is 'false':
+    if "beta" in request.GET:
         request.session['beta'] = request.GET['beta'].lower()
+    else: # consider troposphere the _default_
+        request.session['beta'] = 'true'
 
     if "airport_ui" not in request.session:
         request.session['airport_ui'] = 'false'
         # the absence flag to show the airport_ui would be equal to 'false'
-    show_airport = request.session['airport_ui'] == 'true'
+    show_airport = request.session['airport_ui'] is 'true'
 
     # Return the new Troposphere UI
     if not show_airport or show_troposphere_only:
@@ -124,7 +125,6 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
             template_params,
             context_instance=RequestContext(request)
         )
-
     response.set_cookie('beta', request.session['beta'])
     response.set_cookie('airport_ui', request.session['airport_ui'])
     return response
@@ -148,21 +148,21 @@ def _handle_authenticated_application_request(request, maintenance_records):
     if "beta" in request.GET:
         prefs_modified = True
         request.session['beta'] = request.GET['beta'].lower()
-        user_preferences.show_beta_interface = (
-            request.session['beta'] is 'true')
+        user_preferences.show_beta_interface = (True
+            if request.session['beta'] == 'true' else False)
 
     # Moving forward, the UI version shown will be controlled by
     # `airport_ui=<bool>` - and `beta` will be removed.
     if "airport_ui" in request.GET:
         prefs_modified = True
         request.session['airport_ui'] = request.GET['airport_ui'].lower()
-        user_preferences.airport_ui = (
-            request.session['airport_ui'] is 'true')
+        user_preferences.airport_ui = (True
+            if request.session['airport_ui'] == 'true' else False)
 
     if prefs_modified and not is_emulated_session(request):
         user_preferences.save()
 
-    chose_airport = (user_preferences.airport_ui or
+    chose_airport = (user_preferences.airport_ui  or
         not user_preferences.show_beta_interface)
 
     # show airport-ui if it's true and we are showing the option
