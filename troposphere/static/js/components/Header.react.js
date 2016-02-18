@@ -114,13 +114,13 @@ define(function (require) {
             </li>
             <li className="divider"></li>
             <li>
-              <a href="#" onClick={this.onShowVersion}>Version</a>
+              <a id="version_link" href="#" onClick={this.onShowVersion}>Version</a>
             </li>
             <li>
               <a href="http://atmosphere.status.io" target="_blank">Status</a>
             </li>
             <li>
-              <a href="/logout?cas=True&airport_ui=false">Sign out</a>
+              <a id="logout_link" href="/logout?cas=True&airport_ui=false">Sign out</a>
             </li>
           </ul>
         </li>
