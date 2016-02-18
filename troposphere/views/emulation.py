@@ -1,10 +1,10 @@
 import logging
 import os
 
+import requests
+
 from django.conf import settings
 from django.shortcuts import redirect
-
-import requests
 
 from caslib import OAuthClient as CAS_OAuthClient
 
@@ -15,6 +15,13 @@ cas_oauth_client = CAS_OAuthClient(settings.CAS_SERVER,
                                    settings.OAUTH_CLIENT_KEY,
                                    settings.OAUTH_CLIENT_SECRET,
                                    auth_prefix=settings.CAS_AUTH_PREFIX)
+
+def is_emulated_session(request):
+    """
+    Indicates if the session being handled is someone _emulating_
+    another user/identity within the system.
+    """
+    return 'emulator_token' in request.session
 
 
 def emulate(request, username):
