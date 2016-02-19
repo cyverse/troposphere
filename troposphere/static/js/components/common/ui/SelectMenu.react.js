@@ -47,7 +47,6 @@ export default React.createClass({
     },
 
     render: function () {
-
         if (this.props.list) {
             let options = this.props.list.map(this.renderOption);
             

@@ -22,8 +22,8 @@ export default React.createClass({
         let defaultProviderId;
         let sizeId;
          if (this.props.provider &&  this.props.providerSize) {
-            let defaultProviderId = this.props.provider.id;
-            let sizeId = this.props.providerSize.get('id');
+            defaultProviderId = this.props.provider.id;
+            sizeId = this.props.providerSize.get('id');
          }
         return (
             <form>
@@ -40,7 +40,7 @@ export default React.createClass({
                 </div>
                 <div className="form-group">
                     <label htmlFor="instanceSize">
-                            Instance Size
+                        Instance Size
                     </label>
                     <SelectMenu
                         defaultId={sizeId}

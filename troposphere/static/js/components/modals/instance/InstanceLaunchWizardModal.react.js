@@ -160,15 +160,19 @@ export default React.createClass({
     },
 
     viewImageSelect: function() {
-        this.setState({ view: "IMAGE_VIEW", });
+        this.setState({ view: "IMAGE_VIEW" });
     },
 
     viewBasic: function() {
-        this.setState({ view: 'BASIC_VIEW', });
+        this.setState({ view: 'BASIC_VIEW' });
     },
 
     viewAdvanced: function() {
-        this.setState({ view:'ADVANCED_VIEW', });
+        this.setState({ view:'ADVANCED_VIEW' });
+    },
+
+    viewLicense: function() {
+        this.setState({ view: 'LICENSE_VIEW' });
     },
 
     //=========================
@@ -185,17 +189,20 @@ export default React.createClass({
         }
 
         let providerSizeList;
+        let providerList;
+        let provider;
         if (imageVersion) {
-            // Let providerList = new Backbone.Collection(imageVersion.get('machines').map((item) => item.provider));
-            let providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
-            let provider = providerList.first();
-            providerSizeList = stores.SizeStore.fetchWhere({
-                provider__id: provider.id
-            });
+            providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
+            if (providerList) {
+                provider = providerList.first();
+                providerSizeList = stores.SizeStore.fetchWhere({
+                    provider__id: provider.id
+                });
 
-            identityProvider = stores.IdentityStore.findOne({
-                'provider.id': provider.id
-            });
+                identityProvider = stores.IdentityStore.findOne({
+                    'provider.id': provider.id
+                });
+            }
         }
 
         if (providerSizeList) {
@@ -234,20 +241,25 @@ export default React.createClass({
     },
 
     onVersionChange: function(imageVersion) {
-        //let providerList = new Backbone.Collection(imageVersion.get('machines').map((item) => item.provider));
         let providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
-        let provider = providerList.first();
-        providerSizeList = stores.SizeStore.fetchWhere({
-            provider__id: provider.id
-        });
+        let providerSizeList;
+        let providerSize;
+        let provider;
+        let identityProvider;
+        if (providerList) {
+            provider = providerList.first();
+            providerSizeList = stores.SizeStore.fetchWhere({
+                provider__id: provider.id
+            });
 
-        identityProvider = stores.IdentityStore.findOne({
-            'provider.id': provider.id
-        });
+            identityProvider = stores.IdentityStore.findOne({
+                'provider.id': provider.id
+            });
 
-        if (providerSizeList) {
-            providerSize = providerSizeList.first();
-        };
+            if (providerSizeList) {
+                providerSize = providerSizeList.first();
+            };
+        }
 
         this.setState({
             imageVersion,
@@ -319,10 +331,10 @@ export default React.createClass({
     //============================
 
     onSubmitLaunch: function() {
-        let license = [1,2,3];
+        let licenseList = this.state.imageVersion.get('licenses');
         if (this.canLaunch()) {
-            if (license.length >= 1 && this.state.view === "BASIC_VIEW") {
-                this.setState({ view: "LICENSE_VIEW"});
+            if (licenseList.length >= 1 && this.state.view === "BASIC_VIEW") {
+                this.viewLicense();
                 return
             }
 
@@ -443,7 +455,6 @@ export default React.createClass({
     renderImageSelect: function() {
         return (
             <ImageSelectStep
-                showValidationErr={true}
                 image={this.state.image}
                 onSelectImage={this.onSelectImage}
                 onCancel = {this.hide}
@@ -536,11 +547,15 @@ export default React.createClass({
     },
 
     renderLicenseStep: function() {
-        let licenseList = [{name: "mack", agreement: "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus dsjhdh dhjdshdhdh dsPellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metusPellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus faucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus"}, {name: "daddy", agreement: "SKSAHFJH SFAHASHFH SFAAHFSAH SFJHSA"}];
+        let licenseList = this.state.imageVersion.get('licenses');
+
+        if (!licenseList) {return}
         return (
             <LicenseStep
                 licenseList={licenseList}
                 onSubmitLaunch={this.onSubmitLaunch}
+                onBack={this.viewBasic}
+                onCancel={this.hide}
             />
         )
     },

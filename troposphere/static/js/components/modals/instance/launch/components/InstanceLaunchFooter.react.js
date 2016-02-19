@@ -28,7 +28,9 @@ export default React.createClass({
 
     render: function() {
         let disable = false;
-        if  (this.props.showValidationErr) {
+        let showValidationErr = this.props.showValidationErr;
+
+        if  (showValidationErr) {
             disable = this.props.launchIsDisabled;
         }
         return (
