@@ -5,23 +5,16 @@ export default React.createClass({
     getInitialState: function()  {
         return({
             type: "URL",
-            title: "Hello World",
-            text: "https://raw.githubusercontent.com/iPlantCollaborativeOpenSource/atmosphere-ansible/master/user_scripts/hello_world.sh"
+            title: "",
+            text: "",
+            validate: false
         })
     },
 
     onChangeType: function(e) {
         let type = e.target.value;
-        let text;
-        if (type === "Raw Text") {
-            text = "#!/bin/bash \n echo Hello World";
-        }
-        if (type === "URL") {
-            text = "https://raw.githubusercontent.com/iPlantCollaborativeOpenSource/atmosphere-ansible/master/user_scripts/hello_world.sh";
-        }
         this.setState({
-            type,
-            text
+            type
         })
     },
 
@@ -46,6 +39,7 @@ export default React.createClass({
     },
 
     onCreateScript: function() {
+        if (!this.state.validate) { this.setState({ validate: true }); return }
         let script = actions.ScriptActions.create({
             type: this.state.type,
             title: this.state.title.trim(),
@@ -94,15 +88,18 @@ export default React.createClass({
         let errorMessage = null;
 
         if (this.state.type === "URL") {
-            if (!this.isValidUrl(text) || !this.isValidString(text)) {
-                classNames = "form-group has-warning";
-                errorMessage = `URL must start with "https://" or "http://" and have no spaces`;
+            if (this.state.validate) {
+                if (!this.isValidUrl(text) || !this.isValidString(text)) {
+                    classNames = "form-group has-error";
+                    errorMessage = `URL must start with "https://" or "http://" and have no spaces`;
+                }
             }
 
             return (
                 <div className={classNames}>
                     <label>Script URL</label>
                     <input className="form-control"
+                        placeholder="http://yourscript.org"
                         value={this.state.text}
                         onInput={this.onChangeText}
                         onBlur={this.onBlurText}
@@ -112,15 +109,19 @@ export default React.createClass({
             )
         }
         else {
-            if (!this.isValidString(text)) {
-                classNames = "form-group has-error";
-                errorMessage = `This field is required`;
+            if (this.state.validate) {
+                if (!this.isValidString(text)) {
+                    classNames = "form-group has-error";
+                    errorMessage = `This field is required`;
+                }
             }
 
             return (
                 <div className={classNames}>
                     <label>Full Text</label>
-                    <textarea className="form-control"
+                    <textarea
+                        className="form-control"
+                        placeholder="#!/bin/bash"
                         rows="6"
                         value={this.state.text}
                         onInput={this.onChangeText}
@@ -136,9 +137,14 @@ export default React.createClass({
         let title = this.state.title;
         let classNames = "form-group";
         let errorMessage = null;
-        if (!this.isValidString(title)) {
-            classNames = "form-group has-error";
-            errorMessage = `This field is required`;
+        let disable = false;
+
+        if (this.state.validate) {
+            if (!this.isValidString(title)) {
+                classNames = "form-group has-error";
+                errorMessage = `This field is required`;
+            }
+            disable = !this.isSubmittable();
         }
 
         return (
@@ -151,6 +157,7 @@ export default React.createClass({
                         <div className={classNames}>
                             <label>Script Tilte</label>
                             <input className="form-control"
+                                placeholder="My Script"
                                 value={this.state.title}
                                 onInput={this.onChangeTitle}
                                 onBlur={this.onBlurTitle}
@@ -187,7 +194,7 @@ export default React.createClass({
                 <div style={{position: "absolute", bottom: "75px", right: "15px"}}>
                     <button className="btn btn-primary pull-right"
                         onClick={this.onCreateScript}
-                        disabled={!this.isSubmittable()}
+                        disabled={disable}
                     >
                         Save and Add Script
                     </button>
