@@ -12,7 +12,9 @@ export default React.createClass({
     },
 
     isSigned: function( license ) {
-        if (this.state.signedList.indexOf( license ) !== -1) { return true }
+        if (this.state.signedList.indexOf( license ) !== -1) { 
+            return true
+        }
         return false
     },
 
@@ -30,7 +32,9 @@ export default React.createClass({
     onAgree: function() {
         let signedList = this.state.signedList;
 
-        if (signedList.length === 0) { signedList = [...this.props.licenseList]}
+        if (signedList.length === 0) { 
+            signedList = [...this.props.licenseList] 
+        }
         else { signedList = [] }
 
         this.setState({
@@ -87,7 +91,11 @@ export default React.createClass({
         return (
             <div className="checkbox">
                 <label>
-                <input checked={this.isSigned(this.state.license)} onClick={this.onAgree} type="checkbox"/>
+                <input 
+                    checked={this.isSigned(this.state.license)}
+                    onClick={this.onAgree} 
+                    type="checkbox"
+                />
                     I agree to all of these terms
                 </label>
             </div>
@@ -125,8 +133,9 @@ export default React.createClass({
 
         let nextButton = () => {
             if (licenseList.indexOf(license) !== (licenseList.length - 1)) {
-                return  <button type="button" 
-                            onClick={this.onNext} 
+                return  <button
+                            type="button"
+                            onClick={this.onNext}
                             className="btn btn-xs btn-default pull-right"
                         >
                             View Next License

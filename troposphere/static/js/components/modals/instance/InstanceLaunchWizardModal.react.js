@@ -17,6 +17,7 @@ import modals from 'modals';
 import stores from 'stores';
 import actions from 'actions';
 import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import moment from 'moment';
 
 import ImageSelectStep from './launch/steps/ImageSelectStep.react';
 import ProjectCreateView from 'components/common/ProjectCreateView.react';
@@ -33,7 +34,7 @@ import LicenseStep from './launch/steps/LicenseStep.react';
 // passes to the appropriate children.
 export default React.createClass({
     mixins: [BootstrapModalMixin],
-    displayName: "InstanceLaunchWizardModal",
+    displayName: 'InstanceLaunchWizardModal',
 
     propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model),
@@ -46,15 +47,15 @@ export default React.createClass({
 
         // We might have these
         let image = this.props.image ? this.props.image : null;
-        let instanceName = image ? image.get("name") : null;
+        let instanceName = image ? image.get('name') : null;
         let projectList = stores.ProjectStore.getAll();
         let project = this.props.project ? this.props.project : null;
         let view = this.props.initialView;
 
         // Check if the user has any projects, if not then set view to "PROJECT_VIEW"
         // to create a new one
-        if (view != "IMAGE_VIEW" && projectList.length === 0) {
-            view = "PROJECT_VIEW";
+        if (view != 'IMAGE_VIEW' && projectList.length === 0) {
+            view = 'PROJECT_VIEW';
         }
 
         return {
@@ -82,32 +83,33 @@ export default React.createClass({
     // set the project to the first returned from the cloud. It primes our
     // stores, so that render can just call get and eventually get data.
     updateState: function() {
-        var project = this.state.project;
+        let project = this.state.project;
         if (!project) {
             project = stores.ProjectStore.getAll().first();
         }
 
-        var imageVersionList;
+        let imageVersionList;
         if (this.state.image) {
             imageVersionList = stores.ImageVersionStore.fetchWhere({image_id: this.state.image.id});
         }
 
-        var imageVersion = this.state.imageVersion;
+        let imageVersion = this.state.imageVersion;
         if (imageVersionList && !imageVersion) {
+            imageVersionList = this.filterEndDate(imageVersionList);
             imageVersion = imageVersionList.last();
         }
 
-        var providerList, provider;
+        let providerList, provider;
         if (imageVersion) {
             providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
             if (providerList) {
-            provider = this.state.provider ?
-                this.state.provider :
-                providerList.first();
+                provider = this.state.provider ?
+                    this.state.provider :
+                    providerList.first();
             }
         }
 
-        var resourcesUsed, identityProvider, providerSizeList, providerSize;
+        let resourcesUsed, identityProvider, providerSizeList, providerSize;
         if (provider) {
             resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
 
@@ -160,7 +162,7 @@ export default React.createClass({
     },
 
     viewImageSelect: function() {
-        this.setState({ view: "IMAGE_VIEW" });
+        this.setState({ view: 'IMAGE_VIEW' });
     },
 
     viewBasic: function() {
@@ -181,10 +183,11 @@ export default React.createClass({
 
     onSelectImage: function(image) {
         let instanceName = image.get('name');
-        var imageVersion, providerSize, identityProvider;
-
+        let imageVersion, providerSize, identityProvider;
         let imageVersionList = stores.ImageVersionStore.fetchWhere({image_id: image.id});
+
         if (imageVersionList) {
+            imageVersionList = this.filterEndDate(imageVersionList);
             imageVersion = imageVersionList.last();
         }
 
@@ -217,14 +220,6 @@ export default React.createClass({
             providerSize,
             identityProvider,
         }, this.viewBasic);
-    },
-
-    onProjectCreateConfirm: function(name, description) {
-        this.viewBasic();
-        actions.ProjectActions.create({
-            name: name,
-            description
-        });
     },
 
     onBack: function() {
@@ -326,6 +321,14 @@ export default React.createClass({
         this.viewBasic();
     },
 
+    onProjectCreateConfirm: function(name, description) {
+        this.viewBasic();
+        actions.ProjectActions.create({
+            name: name,
+            description
+        });
+    },
+
     //============================
     // Final Submit event handler
     //============================
@@ -333,7 +336,7 @@ export default React.createClass({
     onSubmitLaunch: function() {
         let licenseList = this.state.imageVersion.get('licenses');
         if (this.canLaunch()) {
-            if (licenseList.length >= 1 && this.state.view === "BASIC_VIEW") {
+            if (licenseList.length >= 1 && this.state.view === 'BASIC_VIEW') {
                 this.viewLicense();
                 return
             }
@@ -358,6 +361,18 @@ export default React.createClass({
     //======================
     // Validation
     //======================
+    filterEndDate: function(list) {
+           list = list.filter(
+                (version) => {
+                    let dateNow = moment(new Date()).format();
+                    let endDate = version.get('end_date')
+                    if (!endDate) { return true }
+                    if (endDate.isAfter(dateNow)) { return true }
+                    return false
+                }
+            );
+           return new Backbone.Collection(list);
+    },
 
     // This is a callback that returns true if the provider size in addition to resources already using
     // will exceed the user's allotted resources.
@@ -398,14 +413,14 @@ export default React.createClass({
     },
 
     canLaunch: function() {
-        let requiredFields = ["project", "identityProvider", "providerSize", "imageVersion", "attachedScripts"];
+        let requiredFields = ['project', 'identityProvider', 'providerSize', 'imageVersion', 'attachedScripts'];
         let notFalsy = ((prop) => Boolean(this.state[prop]) != false);
 
         // instanceName will be null, indicating that it has not been set.
         // If instanceName equals the empty string, the user has erased the
         // name, and is trying to launch an instance with no name.
         if ( _.every(requiredFields, notFalsy)) {
-            if (this.state.instanceName == "") { return false };
+            if (this.state.instanceName == '') { return false };
             if (this.exceedsResources()) { return false };
             return true;
         }
@@ -417,34 +432,34 @@ export default React.createClass({
     //==================
 
     renderBody: function() {
-        var view = this.state.view;
+        let view = this.state.view;
         switch(view) {
-            case "IMAGE_VIEW":
+            case 'IMAGE_VIEW':
             return this.renderImageSelect()
-            case "PROJECT_VIEW":
+            case 'PROJECT_VIEW':
             return this.renderProjectCreateStep()
-            case "BASIC_VIEW":
+            case 'BASIC_VIEW':
             return this.renderBasicOptions()
-            case "ADVANCED_VIEW":
+            case 'ADVANCED_VIEW':
             return this.renderAdvancedOptions()
-            case "LICENSE_VIEW":
+            case 'LICENSE_VIEW':
             return this.renderLicenseStep()
         }
     },
 
     headerTitle: function() {
-        var view = this.state.view;
+        let view = this.state.view;
         switch(view) {
-            case "IMAGE_VIEW":
-            return "Select an Image"
-            case "PROJECT_VIEW":
-            return "Create New Project"
-            case "BASIC_VIEW":
-            return "Basic Options"
-            case "ADVANCED_VIEW":
-            return "Advanced Options"
-            case "LICENSE_VIEW":
-            return "License Agreement"
+            case 'IMAGE_VIEW':
+            return 'Select an Image'
+            case 'PROJECT_VIEW':
+            return 'Create New Project'
+            case 'BASIC_VIEW':
+            return 'Basic Options'
+            case 'ADVANCED_VIEW':
+            return 'Advanced Options'
+            case 'LICENSE_VIEW':
+            return 'License Agreement'
         }
     },
 
@@ -479,17 +494,20 @@ export default React.createClass({
         let projectList = stores.ProjectStore.getAll() || null;
         let identities = stores.IdentityStore.getAll() || null;
 
-        var project = this.state.project;
+        let project = this.state.project;
         if (!project && projectList) {
             project = projectList.first();
         }
 
-        var imageVersionList;
+        let imageVersionList;
         if (this.state.image) {
             imageVersionList = stores.ImageVersionStore.fetchWhere({image_id: this.state.image.id});
+            if (imageVersionList) {
+                imageVersionList = this.filterEndDate(imageVersionList);
+            }
         }
 
-        var providerList, providerSizeList, resourcesUsed;
+        let providerList, providerSizeList, resourcesUsed;
         if (provider && imageVersion) {
             //providerList = new Backbone.Collection(imageVersion.get('machines').map((item) => item.provider));
             providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
@@ -502,7 +520,7 @@ export default React.createClass({
             <BasicLaunchStep { ...{
                     showValidationErr: this.state.showValidationErr,
                     attachedScripts: this.state.attachedScripts,
-                    backIsDisabled: this.props.initialView == "BASIC_VIEW",
+                    backIsDisabled: this.props.initialView == 'BASIC_VIEW',
                     launchIsDisabled: !this.canLaunch(),
                     identityProvider: this.state.identityProvider,
                     image,
