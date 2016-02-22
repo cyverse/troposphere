@@ -174,8 +174,10 @@ define(function (require) {
 
     render: function () {
 
-      var profile = this.props.profile;
-      var loginLogoutDropdown = profile.get('selected_identity') ? <LogoutLink username={profile.get('username')}/> : <LoginLink/>;
+      var profile = this.props.profile,
+        hasLoggedInUser = (profile && profile.get('selected_identity'));
+
+      var loginLogoutDropdown = hasLoggedInUser ? <LogoutLink username={profile.get('username')}/> : <LoginLink/>;
 
       if (!profile.get('selected_identity')) {
         links = links.filter(function (link) {
@@ -237,7 +239,7 @@ define(function (require) {
                 {loginLogoutDropdown}
               </ul>
             </div>
-            {this.renderBetaToggle()}
+            {hasLoggedInUser ? this.renderBetaToggle() : null}
           </div>
 
         </div>
