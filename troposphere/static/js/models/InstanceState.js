@@ -58,6 +58,7 @@ var InstanceState = Backbone.Model.extend({
 });
 
 var get_percent_complete = function (state, activity) {
+  activity = activity || '*';
 
   // Number represents percent task *completed* when in this state
   var states = {
@@ -88,6 +89,9 @@ var get_percent_complete = function (state, activity) {
     },
     'suspended': {
       'resuming': 50
+    },
+    'error': {
+      '*': 10
     }
   };
 
