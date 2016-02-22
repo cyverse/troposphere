@@ -80,72 +80,69 @@ define(
         };
       },
 
-      computed: {
+      shell_url: function () {
+        var username = context.profile.get('username'),
+          ip = this.get('ip_address'),
+          location = ip.split(".").join("-");
+        return globals.WEB_SH_URL + "?location=" + location +
+            "&ssh=ssh://" + username + "@" + ip + ":22";
+      },
 
-        shell_url: function () {
-          var username = context.profile.get('username'),
-            ip = this.get('ip_address'),
-            location = ip.split(".").join("-");
-          return globals.WEB_SH_URL + "?location=" + location +
-              "&ssh=ssh://" + username + "@" + ip + ":22";
-        },
+      vnc_url: function () {
+        return "http://" + this.get('ip_address') + ":5904";
+      },
 
-        vnc_url: function () {
-          return "http://" + this.get('ip_address') + ":5904";
-        },
+      is_active: function () {
+        var states = ['active', 'running', 'verify_resize'];
+        return _.contains(states, this.get('status'));
+      },
 
-        is_active: function () {
-          var states = ['active', 'running', 'verify_resize'];
-          return _.contains(states, this.get('status'));
-        },
+      is_build: function () {
+        var states = [
+          'build',
+          'build - requesting_launch',
+          'build - block_device_mapping',
+          'build - scheduling',
+          'build - spawning',
+          'build - networking',
+          'active - powering-off',
+          'active - image_uploading',
+          'shutoff - powering-on',
+          'pending',
+          'suspended - resuming',
+          'active - suspending',
+          'resize - resize_prep',
+          'resize - resize_migrating',
+          'resize - resize_migrated',
+          'resize - resize_finish',
+          'active - networking',
+          'active - deploying',
+          'active - initializing',
+          'hard_reboot - rebooting_hard',
+          'revert_resize - resize_reverting'
+        ];
+        return _.contains(states, this.get('status'));
+      },
 
-        is_build: function () {
-          var states = [
-            'build',
-            'build - requesting_launch',
-            'build - block_device_mapping',
-            'build - scheduling',
-            'build - spawning',
-            'build - networking',
-            'active - powering-off',
-            'active - image_uploading',
-            'shutoff - powering-on',
-            'pending',
-            'suspended - resuming',
-            'active - suspending',
-            'resize - resize_prep',
-            'resize - resize_migrating',
-            'resize - resize_migrated',
-            'resize - resize_finish',
-            'active - networking',
-            'active - deploying',
-            'active - initializing',
-            'hard_reboot - rebooting_hard',
-            'revert_resize - resize_reverting'
-          ];
-          return _.contains(states, this.get('status'));
-        },
+      is_delete: function () {
+        var states = ['delete', 'active - deleting', 'deleted', 'shutting-down',
+          'terminated'];
+        return _.contains(states, this.get('status'));
+      },
 
-        is_delete: function () {
-          var states = ['delete', 'active - deleting', 'deleted', 'shutting-down',
-            'terminated'];
-          return _.contains(states, this.get('status'));
-        },
+      is_inactive: function () {
+        var states = ['suspended', 'shutoff', 'shutoff - powering-on'];
+        return _.contains(states, this.get('status'));
+      },
 
-        is_inactive: function () {
-          var states = ['suspended', 'shutoff', 'shutoff - powering-on'];
-          return _.contains(states, this.get('status'));
-        },
+      is_resize: function () {
+        return this.get('status').indexOf('resize') > -1;
+      },
 
-        is_resize: function () {
-          return this.get('status').indexOf('resize') > -1;
-        },
-
-        action_url: function () {
-          var instanceUrl = this.url();
-          if (instanceUrl.slice(-1) !== "/") instanceUrl += "/";
-          return instanceUrl + 'action';
-        }
+      action_url: function () {
+        var instanceUrl = this.url();
+        if (instanceUrl.slice(-1) !== "/") instanceUrl += "/";
+        return instanceUrl + 'action';
       },
 
       destroy: function (options) {
@@ -245,16 +242,5 @@ define(
         this.set({status: 'active - rebooting'});
         this.performAction('reboot', options);
       },
-
-      /*
-       * Here, were override the get method to allow lazy-loading of computed
-       * attributes
-       */
-      get: function (attr) {
-        if (typeof this.computed !== "undefined" && typeof this.computed[attr] === 'function')
-          return this.computed[attr].call(this);
-        return Backbone.Model.prototype.get.call(this, attr);
-      }
     });
-
 });
