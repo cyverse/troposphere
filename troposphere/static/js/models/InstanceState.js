@@ -58,10 +58,8 @@ var InstanceState = Backbone.Model.extend({
 });
 
 var get_percent_complete = function (state, activity) {
-  activity = activity || '*';
-
-  // Number represents percent task *completed* when in this state
-  var states = {
+  var lookup,
+    states = { // Number represents percent task *completed* when in this state
     'build': {
       'block_device_mapping': 10,
       'scheduling': 20,
@@ -90,13 +88,21 @@ var get_percent_complete = function (state, activity) {
     'suspended': {
       'resuming': 50
     },
-    'error': {
-      '*': 10
-    }
+    'error': {}
   };
 
+  lookup = states[state];
+
+  if(!lookup) {
+    lookup = {};
+    console.error("Unknown state (%s) representation passed", state);
+  }
+  if(state === 'error') {
+    console.log("Error state processed: activity = %s", activity);
+  }
+
   // Note: 100 is graphically similar to 0
-  return states[state][activity] || 100;
+  return lookup[activity] || 100;
 };
 
 var get_final_state = function (activity) {
