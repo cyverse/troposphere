@@ -15,7 +15,7 @@ define(function (require) {
     renderBody: function(){
       var image = stores.ImageStore.get(Number(this.getParams().imageId)),
         tags = stores.TagStore.getAll(),
-        userLoggedIn = (context.profile.get('username') != null),
+        userLoggedIn = (context.profile && context.profile.get('username') != null),
         providers = userLoggedIn ? stores.ProviderStore.getAll() : null,
         identities = userLoggedIn ? stores.IdentityStore.getAll() : null;
 

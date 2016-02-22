@@ -2,26 +2,31 @@
 <html>
 <head>
   <title>
-    Atmosphere | iPlant Collaborative
+    Atmosphere | {{ ORG_NAME }}
   </title>
-  <link rel="shortcut icon" href="/assets/resources/images/favicon.ico" />
-  <link type="text/css" rel="stylesheet" href="/assets/no_user.css" />
-  <link rel="stylesheet" href="{{ site_root }}/assets/resources/css/login.css"/>
+  <link rel="shortcut icon" href="{{THEME_URL}}/images/favicon.ico" />
+ <!-- <link type="text/css" rel="stylesheet" href="/assets/no_user.css" /> -->
+  <link rel="stylesheet" href="{{ THEME_URL }}/css/login.css"/>
 </head>
 <body>
-    <img src="/assets/resources/images/login_mainimage.png">
-    <div class="message-wrapper">
-        {% if banner %}
-        <div id="toast-container" class="toast-top-full-width">
-            <div class="toast toast-error">
-                <div class="toast-title"> Errors occurred during login </div>
-                <div class="toast-message">{{ banner }}</div>
+    <div id="wrapper" class="center">
+        <div id="imgcontainer">
+            <img src="{{ THEME_URL }}/images/large_logo.png">
+        </div>
+        <div class="message-wrapper">
+            {% if banner %}
+            <div id="toast-container" class="toast-top-full-width">
+                <div class="toast toast-error">
+                    <div class="toast-title"> Errors occurred during login </div>
+                    <div class="toast-message">{{ banner }}</div>
+                </div>
             </div>
         </div>
         {% endif %}
         <p>Your account does not currently have access to Atmosphere.</p>
-        <p>If you would like to request access, you can do so through the <a href="https://user.iplantcollaborative.org/dashboard/">iPlant User Management Portal</a> by clicking the 'Request Access' button next to the Atmosphere service.</p>
-        <p>You can also find instructions <a href="http://cyverse.org/learning-center/manage-account#AddAppsServices">on the website</a>.</p>
+
+        <p>If you would like to request access , please review The Jetstream User Guide available from the <a href="http://jetstream-cloud.org/training.php">Training</a> page.</p>
+        <p>If you already have an allocation, we'll be in touch soon with your access details and information on getting started. If you are interested in getting access to Jetstream and finding out about it’s capabilities first hand, please visit <a href="https://portal.xsede.org/allocations-overview#types-startup">https://portal.xsede.org/allocations-overview#types-startup</a> and review the allocations information and process there.</p>
         <p>If you have already requested access, then you must wait until your request is approved before you can use Atmosphere.</p>
         <p>If you have already been approved, you may be seeing this page because your session has expired. Click below to attempt another login.</p>
         <a class="submitButton" href="/logout?force=true">
