@@ -169,8 +169,7 @@ define(
                     {
                       "If you'd like to attach this volume to an instance, you'll first need to "
                     }
-                    <a href="https://pods.iplantcollaborative.org/wiki/display/atmman/Launching+a+New+Instance">create
-                      an instance</a>
+                    <a href="http://jetstream-cloud.org/training.php">create an instance</a>
                     {
                       " on the same provider or move an existing instance into this project."
                     }
