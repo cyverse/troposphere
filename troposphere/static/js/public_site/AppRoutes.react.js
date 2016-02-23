@@ -18,11 +18,8 @@ define(function (require) {
       ImagesMaster = require('components/images/ImagesMaster.react'),
       NotFoundPage = require('components/NotFoundPage.react');
 
-
-  var rootPath = !window.has_records ? "/application" : "/application_backdoor";
-
   var AppRoutes = (
-    <Route name="root" path={rootPath} handler={Master}>
+    <Route name="root" path="/application" handler={Master}>
       <Route name="images" handler={ImagesMaster}>
         <DefaultRoute name="search" handler={ImageListPage}/>
         <Route name="favorites" handler={FavoritedImagesPage}/>
@@ -33,7 +30,6 @@ define(function (require) {
       </Route>
       <Route name="help" handler={HelpPage}/>
       <Redirect from="/application" to="/application/images"/>
-      <Redirect from="/application_backdoor" to="/application/images"/>
       <Route name="not-found" path="*" handler={NotFoundPage} />
     </Route>
   );
