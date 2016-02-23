@@ -1,243 +1,240 @@
+import React from 'react/addons';
+import Backbone from 'backbone';
+import _ from 'underscore';
+import { filterEndDate } from 'utilities/filterCollection';
 
-define(function (require) {
+import ImageCollection from 'collections/ImageCollection';
+import ImageList from '../components/ImageList.react';
+import stores from 'stores';
 
-    var React = require('react/addons'),
-      Backbone = require('backbone'),
-      _ = require('underscore'),
-      ImageCollection = require('collections/ImageCollection'),
-      ImageList = require('../components/ImageList.react'),
-      stores = require('stores');
-    var timer,
-      timerDelay = 100;
+var timer,
+timerDelay = 100;
 
-    return React.createClass({
-      displayName: "InstanceLaunchWizardModal-ImageSelectStep",
+export default React.createClass({
+    displayName: "InstanceLaunchWizardModal-ImageSelectStep",
 
 
-      //
-        // Mounting & State
-        // ----------------
-        //a
+    //
+    // Mounting & State
+    // ----------------
+    //
 
-        propTypes: {
-            onPrevious: React.PropTypes.func.isRequired,
-            onNext: React.PropTypes.func.isRequired
-        },
+    propTypes: {
+        onPrevious: React.PropTypes.func.isRequired,
+        onNext: React.PropTypes.func.isRequired
+    },
 
-        getInitialState: function () {
-            return this.getState();
-        },
+    getInitialState: function () {
+        return this.getState();
+    },
 
-        getState: function () {
-            var query = this.state ? this.state.query : null,
-                images;
+    getState: function () {
+        var query = this.state ? this.state.query : null,
+            images;
+        if (query) {
+            images = stores.ImageStore.fetchWhere({
+                search: query
+            });
+        } else {
+            images = stores.ImageStore.getAll();
+        }
+        if (images) { images = filterEndDate(images); }
+
+        return {
+            query: query,
+            images: images,
+            tags: stores.TagStore.getAll(),
+
+            resultsPerPage: 20,
+            page: 1
+        }
+    },
+
+    updateState: function () {
+        if (this.isMounted()) this.setState(this.getState());
+    },
+
+    componentDidMount: function () {
+        stores.ImageStore.addChangeListener(this.updateState);
+        stores.TagStore.addChangeListener(this.updateState);
+        this.focusSearchInput();
+    },
+
+    componentWillUnmount: function () {
+        stores.ImageStore.removeChangeListener(this.updateState);
+        stores.TagStore.removeChangeListener(this.updateState);
+    },
+
+    //
+    // Internal Modal Callbacks
+    // ------------------------
+    //
+
+    handleSearch: function (query) {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(function () {
+            query = this.state.query;
             if (query) {
-                images = stores.ImageStore.fetchWhere({
-                    search: query
+                this.setState({
+                    images: stores.ImageStore.fetchWhere({
+                        search: query
+                    })
                 });
             } else {
-                images = stores.ImageStore.getAll();
+                this.setState({
+                    images: stores.ImageStore.getAll()
+                });
             }
+        }.bind(this), timerDelay);
+    },
 
-            return {
-                query: query,
-                images: images,
-                tags: stores.TagStore.getAll(),
+    handleChange: function (e) {
+        this.setState({query: e.target.value});
+    },
 
-                resultsPerPage: 20,
-                page: 1
-            }
-        },
+    handleKeyUp: function (e) {
+        //if (e.keyCode == 13 && this.state.query.length) {
+        //if (this.state.query.length) {
+        this.handleSearch(this.state.query);
+        //}
+    },
 
-        updateState: function () {
-            if (this.isMounted()) this.setState(this.getState());
-        },
+    showImageDetails: function (image) {
+        this.props.onNext({image: image});
+    },
 
-        componentDidMount: function () {
-            stores.ImageStore.addChangeListener(this.updateState);
-            stores.TagStore.addChangeListener(this.updateState);
-            this.focusSearchInput();
-        },
+    //
+    // Callbacks
+    //
 
-        componentWillUnmount: function () {
-            stores.ImageStore.removeChangeListener(this.updateState);
-            stores.TagStore.removeChangeListener(this.updateState);
-        },
+    onBack: function () {
+        this.props.onPrevious({});
+    },
 
-        //
-        // Internal Modal Callbacks
-        // ------------------------
-        //
+    handleLoadMoreImages: function () {
+        this.setState({page: this.state.page + 1});
+    },
 
-        handleSearch: function (query) {
-            if (timer) clearTimeout(timer);
-            timer = setTimeout(function () {
-                query = this.state.query;
-                if (query) {
-                    this.setState({
-                        images: stores.ImageStore.fetchWhere({
-                            search: query
-                        })
-                    });
-                } else {
-                    this.setState({
-                        images: stores.ImageStore.getAll()
-                    });
-                }
-            }.bind(this), timerDelay);
-        },
+    //
+    // Render
+    // ------
+    //
 
-        handleChange: function (e) {
-            this.setState({query: e.target.value});
-        },
+    renderFilterDescription: function (query) {
+        var message;
 
-        handleKeyUp: function (e) {
-            //if (e.keyCode == 13 && this.state.query.length) {
-            //if (this.state.query.length) {
-            this.handleSearch(this.state.query);
-            //}
-        },
+        if (query) {
+            message = 'Showing results for "' + query + '"';
+        } else {
+            message = "Showing first 20 images"
+        }
 
-        showImageDetails: function (image) {
-            this.props.onNext({image: image});
-        },
-
-        //
-        // Callbacks
-        //
-
-        onBack: function () {
-            this.props.onPrevious({});
-        },
-
-        handleLoadMoreImages: function () {
-            this.setState({page: this.state.page + 1});
-        },
-
-        //
-        // Render
-        // ------
-        //
-
-        renderFilterDescription: function (query) {
-            var message;
-
-            if (query) {
-                message = 'Showing results for "' + query + '"';
-            } else {
-                message = "Showing first 20 images"
-            }
-
-            return (
-                <div className="filter-description">{message}</div>
-            )
-        },
-
-        renderNoResultsFor: function (query) {
-            var message = 'No images found matching "' + query + '"';
-
-            return (
-                <div className="filter-description">{message}</div>
-            )
-        },
-
-        renderMoreImagesButton: function (images, totalNumberOfImages) {
-            if (images.models.length < totalNumberOfImages) {
-                return (
-                    <li>
-                        <button style={{
-                            "margin": "15px auto",
-                            "display": "block"
-                        }} className="btn btn-default" onClick={this.handleLoadMoreImages}>
-              Show more images...
-            </button>
-          </li>
+        return (
+            <div className="filter-description">{message}</div>
         )
-      }
+    },
+
+    renderNoResultsFor: function (query) {
+        var message = 'No images found matching "' + query + '"';
+
+        return (
+            <div className="filter-description">{message}</div>
+        )
+    },
+
+    renderMoreImagesButton: function (images, totalNumberOfImages) {
+        if (images.models.length < totalNumberOfImages) {
+            return (
+                <li>
+                    <button style={{
+                        "margin": "15px auto",
+                        "display": "block"
+                    }} className="btn btn-default" onClick={this.handleLoadMoreImages}>
+                        Show more images...
+                    </button>
+                </li>
+            )
+        }
     },
     focusSearchInput: function () {
-      this.refs.searchField.getDOMNode().focus();
+        this.refs.searchField.getDOMNode().focus();
     },
     renderSearchInput: function () {
-      return (
+        return (
         <input
-          ref="searchField"
-          type="text"
-          placeholder="Search across image name, tag or description"
-          className="form-control search-input"
-          onChange={this.handleChange}
-          onKeyUp={this.handleKeyUp}
-          />
-      );
+            ref="searchField"
+            type="text"
+            placeholder="Search across image name, tag or description"
+            className="form-control search-input"
+            onChange={this.handleChange}
+            onKeyUp={this.handleKeyUp}
+            />
+        );
     },
     renderImages: function (query, images) {
-      var imageCount = images.models.length;
+        var imageCount = images.models.length;
 
-      return (
+        return (
         <div>
-          {this.renderSearchInput()}
-          {this.renderFilterDescription(query)}
-          <ImageList images={images} onClick={this.showImageDetails}>
+            {this.renderSearchInput()}
+            {this.renderFilterDescription(query)}
+            <ImageList images={images} onClick={this.showImageDetails}>
             {this.renderMoreImagesButton(images, imageCount)}
-          </ImageList>
+            </ImageList>
         </div>
-      );
+        );
     },
     renderZeroImages: function (query) {
-      return (
+        return (
         <div>
-          {this.renderSearchInput()}
-          {this.renderNoResultsFor(query)}
+            {this.renderSearchInput()}
+            {this.renderNoResultsFor(query)}
         </div>
-      );
+        );
     },
     renderLoadingImages: function (query) {
-      return (
+        return (
         <div>
-          {this.renderSearchInput()}
-          {this.renderFilterDescription(query)}
-          <div className="loading"/>
+            {this.renderSearchInput()}
+            {this.renderFilterDescription(query)}
+            <div className="loading"/>
         </div>
-      );
+        );
     },
     renderBody: function () {
-      var images = this.state.images,
+        var images = this.state.images,
         tags = this.state.tags,
         query = this.state.query,
         numberOfResults,
         totalNumberOfImages;
 
-      if (images && tags) {
+        if (images && tags) {
         numberOfResults = this.state.page * this.state.resultsPerPage;
 
         images = images.first(numberOfResults);
         images = new ImageCollection(images);
 
         if (images.length > 0) {
-          return this.renderImages(query, images);
+            return this.renderImages(query, images);
         } else {
-          return this.renderZeroImages(query);
+            return this.renderZeroImages(query);
         }
-      }
-      return this.renderLoadingImages(query);
+        }
+        return this.renderLoadingImages(query);
     },
     render: function () {
-      return (
-        <div>
-          <div className="modal-section">
-            {this.renderBody()}
-          </div>
-          <div className="modal-footer">
-            <button type="button" className="btn btn-default pull-left" onClick={this.onBack}>
-              <span className="glyphicon glyphicon-chevron-left"></span>
-              Back
-            </button>
-          </div>
-        </div>
-      );
-
+        return (
+            <div>
+                <div className="modal-section">
+                {this.renderBody()}
+                </div>
+                <div className="modal-footer">
+                <button type="button" className="btn btn-default pull-left" onClick={this.onBack}>
+                    <span className="glyphicon glyphicon-chevron-left"></span>
+                    Back
+                </button>
+                </div>
+            </div>
+        );
     }
-
-  });
-
 });
