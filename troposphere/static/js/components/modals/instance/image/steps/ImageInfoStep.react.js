@@ -125,8 +125,8 @@ define(function (require) {
           </div>
           <p className="alert alert-info">
             {"Please read the "}
-            <a href="https://pods.iplantcollaborative.org/wiki/display/atmman/Requesting+an+Image+of+an+Instance" target="_blank">
-              wiki page about requesting an image of your instance
+            <a href="http://jetstream-cloud.org/training.php" target="_blank">
+              user guide about requesting an image of your instance
             </a>
             {" before completing the form below."}
           </p>

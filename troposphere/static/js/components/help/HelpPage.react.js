@@ -7,23 +7,18 @@ define(function (require) {
     var resources = [
       {
         title: "User Manual",
-        href: "https://pods.iplantcollaborative.org/wiki/x/Iaxm",
-        description: "Complete documentation for using Atmosphere"
+        href: "http://jetstream-cloud.org/training.php",
+        description: "Documentation for using Atmosphere"
       },
       {
-        title: "User Forums",
-        href: "http://ask.iplantcollaborative.org",
-        description: "Get answers from iPlant users and staff"
+        title: "Knowledge Base",
+        href: "http://jetstream-cloud.org/kb-search.php",
+        description: "Get answers from IU Knowledge Base"
       },
       {
-        title: "FAQs",
-        href: "https://pods.iplantcollaborative.org/wiki/display/atmman/Atmosphere+FAQs",
-        description: "Atmosphere's most frequently asked questions"
-      },
-      {
-        title: "VNC Viewer Tutorial",
-        href: "https://pods.iplantcollaborative.org/wiki/display/atmman/Using+VNC+Viewer+to+Connect+to+an+Atmosphere+VM",
-        description: "Instructions for downloading and using VNC Viewer"
+        title: "Contact the team",
+        href: "http://jetstream-cloud.org/contact-jetstream.php",
+        description: "Request help or information from the Jetstream team"
       }
     ];
 

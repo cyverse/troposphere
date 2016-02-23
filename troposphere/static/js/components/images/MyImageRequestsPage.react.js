@@ -33,7 +33,7 @@ define(function(require) {
 
     render: function() {
       var username = stores.ProfileStore.get().id,
-          imagingDocsUrl = "https://pods.iplantcollaborative.org/wiki/display/atmman/Requesting+an+Image+of+an+Instance";
+          imagingDocsUrl = "http://jetstream-cloud.org/training.php";
 
       if(username == null){
         return <div className = "loading"></div>

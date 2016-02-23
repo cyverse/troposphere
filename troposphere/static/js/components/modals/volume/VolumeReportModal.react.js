@@ -117,9 +117,9 @@ define(function (require) {
             {" Is the volume "}
             <code>{volume.get('name')}</code>
             {" exhibiting unexpected behavior? First, it may help to read about "}
-            <a href="https://pods.iplantcollaborative.org/wiki/x/OKxm">using volumes</a>
+            <a href="http://jetstream-cloud.org/training.php">using volumes</a>
             {" and "}
-            <a href="https://pods.iplantcollaborative.org/wiki/x/p55y">troubleshooting volumes</a>
+            <a href="http://jetstream-cloud.org/training.php">troubleshooting volumes</a>
             {"."}
           </p>
         );

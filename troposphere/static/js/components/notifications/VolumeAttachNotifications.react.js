@@ -1,8 +1,8 @@
 import React from 'react';
 import globals from 'globals';
 
-let mountVolumeDocumentationUrl = "https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachinganEBSVolumetoanInstance-Step6%3AMountthefilesystemonthepartition.";
-let createFileSystemDocumentationUrl = "https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachinganEBSVolumetoanInstance-Step5%3ACreatethefilesystem%28onetimeonly%29.";
+let mountVolumeDocumentationUrl = "http://jetstream-cloud.org/training.php";
+let createFileSystemDocumentationUrl = "http://jetstream-cloud.org/training.php";
 
 export default {
     success: function () {
