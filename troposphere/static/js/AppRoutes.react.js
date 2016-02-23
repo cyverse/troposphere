@@ -43,8 +43,10 @@ define(function (require) {
     ResourceMaster = require('./components/admin/ResourceMaster.react'),
     ResourceRequest = require('./components/admin/ResourceRequest.react');
 
+  var rootPath = !window.has_records ? "/application" : "/application_backdoor";
+
   var AppRoutes = (
-    <Route name="root" path="/application" handler={Master}>
+    <Route name="root" path={rootPath} handler={Master}>
       <Route name="dashboard" handler={DashboardPage}/>
 
       <Route name="projects" handler={ProjectsMaster}>

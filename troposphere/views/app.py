@@ -42,6 +42,7 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
         'emulator_token': request.session.get('emulator_token'),
         'emulated_by': request.session.get('emulated_by'),
         'records': maintenance_records,
+        'has_records': not disabled_login,
         'show_troposphere_only': show_troposphere_only,
         'show_public_site': public
     }
@@ -188,6 +189,7 @@ def _handle_authenticated_application_request(request, maintenance_records):
 def application_backdoor(request):
     response = HttpResponse()
     maintenance_records, disabled_login = get_maintenance(request)
+
     # This should only apply when in maintenance//login is disabled
     if not disabled_login or maintenance_records.count() == 0:
         return application(request)
