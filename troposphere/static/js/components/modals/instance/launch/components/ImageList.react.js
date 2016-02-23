@@ -1,50 +1,33 @@
+import React from 'react';
+import backbone from  'backbone';
 
-define(
-  [
-    'react',
-    'backbone',
-    'moment',
-    './Image.react'
-  ],
-  function (React, Backbone, moment, Image) {
+// We only use the ImageCollection for the pototype not data
+import ImageCollection from 'collections/ImageCollection';
+import { filterEndDate } from 'utilities/filterCollection';
 
-    return React.createClass({
-      displayName: "ImageList",
+import Image from './Image.react';
 
-      propTypes: {
-        images: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        onClick: React.PropTypes.func
-      },
+export default React.createClass({
+    displayName: "ImageList",
 
-      filterEndDate: function(list) {
-          list = list.filter(
-                  (version) => {
-                      let dateNow = moment(new Date()).format();
-                      let endDate = version.get('end_date')
-                      if (!endDate) { return true }
-                      if (endDate.format() === "Invalid date") { return true }
-                      if (endDate.isAfter(dateNow)) { return true }
-                      return false
-                  }
-              );
-          return new Backbone.Collection(list);
-      },
+    propTypes: {
+    images: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+    onClick: React.PropTypes.func
+    },
 
-      renderImage: function (image) {
+    renderImage: function (image) {
+    return (
+        <Image key={image.id} image={image} onSelectImage={this.props.onSelectImage}/>
+    )
+    },
+
+    render: function () {
+        let images = filterEndDate(this.props.images);
         return (
-          <Image key={image.id} image={image} onSelectImage={this.props.onSelectImage}/>
-        )
-      },
-
-      render: function () {
-        let images = this.filterEndDate(this.props.images);
-        return (
-          <ul className="app-card-list modal-list">
-            {images.map(this.renderImage)}
-            {this.props.children}
-          </ul>
+            <ul className="app-card-list modal-list">
+                {images.map(this.renderImage)}
+                {this.props.children}
+            </ul>
         );
-      }
-
-    });
-  });
+    }
+});

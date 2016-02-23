@@ -17,7 +17,7 @@ import modals from 'modals';
 import stores from 'stores';
 import actions from 'actions';
 import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
-import moment from 'moment';
+import { filterEndDate } from 'utilities/filterCollection';
 
 import ImageSelectStep from './launch/steps/ImageSelectStep.react';
 import ProjectCreateView from 'components/common/ProjectCreateView.react';
@@ -95,7 +95,7 @@ export default React.createClass({
 
         let imageVersion = this.state.imageVersion;
         if (imageVersionList && !imageVersion) {
-            imageVersionList = this.filterEndDate(imageVersionList);
+            imageVersionList = filterEndDate(imageVersionList);
             imageVersion = imageVersionList.last();
         }
 
@@ -187,7 +187,7 @@ export default React.createClass({
         let imageVersionList = stores.ImageVersionStore.fetchWhere({image_id: image.id});
 
         if (imageVersionList) {
-            imageVersionList = this.filterEndDate(imageVersionList);
+            imageVersionList = filterEndDate(imageVersionList);
             imageVersion = imageVersionList.last();
         }
 
@@ -361,18 +361,6 @@ export default React.createClass({
     //======================
     // Validation
     //======================
-    filterEndDate: function(list) {
-           list = list.filter(
-                (version) => {
-                    let dateNow = moment(new Date()).format();
-                    let endDate = version.get('end_date')
-                    if (!endDate) { return true }
-                    if (endDate.isAfter(dateNow)) { return true }
-                    return false
-                }
-            );
-           return new Backbone.Collection(list);
-    },
 
     // This is a callback that returns true if the provider size in addition to resources already using
     // will exceed the user's allotted resources.
@@ -503,7 +491,7 @@ export default React.createClass({
         if (this.state.image) {
             imageVersionList = stores.ImageVersionStore.fetchWhere({image_id: this.state.image.id});
             if (imageVersionList) {
-                imageVersionList = this.filterEndDate(imageVersionList);
+                imageVersionList = filterEndDate(imageVersionList);
             }
         }
 
