@@ -44,7 +44,7 @@ module.exports = {
       { test: /bootstrap-sass/, loader: "imports?jQuery=jquery" },
       { test: /modernizr-latest\.js/, loader: "imports?this=>window,html5=>window.html5!exports?window.Modernizr" },
       { test: /\.json$/, loader: 'json-loader', include: path.join(__dirname, 'node_modules/moment-timezone')},
-      { test: /\.js$/, loader: "babel", exclude: /node_modules/ },
+      { test: /\.js$/, loader: "babel?cacheDirectory", exclude: /(node_modules|troposphere\/static\/js\/lib)/ },
       { test: /\.(scss|sass)$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader!autoprefixer-loader?browsers=last 2 versions!sass-loader") },
       { test: /\.woff$/ , loader: "url?limit=10000&mimetype=application/font-woff" },
       { test: /\.woff2$/, loader: "url?limit=10000&mimetype=application/font-woff2" },
