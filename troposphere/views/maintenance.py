@@ -1,4 +1,8 @@
-from django.shortcuts import render, redirect
+from django.conf import settings
+from django.http import HttpResponse
+from django.shortcuts import render, redirect, render_to_response
+from django.template import RequestContext
+
 from api.models import MaintenanceRecord
 
 
@@ -18,7 +22,22 @@ def maintenance(request):
     if not disabled:
         return redirect("/login")
 
-    return render(request, 'login.html', {"records": records, "disable_login": disabled})
+    template_params = {}
+
+    template_params["THEME_URL"] = "/themes/%s" % settings.THEME_NAME
+    template_params['ORG_NAME'] = settings.ORG_NAME
+    template_params['SITE_TITLE'] = settings.SITE_TITLE
+    template_params['SITE_FOOTER'] = settings.SITE_FOOTER
+    template_params["records"] = records
+    template_params["disable_login"] = disabled
+    if hasattr(settings, "BASE_URL"):
+        template_params['BASE_URL'] = settings.BASE_URL
+
+    return render_to_response(
+        'login_.html',
+        template_params,
+        context_instance=RequestContext(request)
+    )
 
 
 def atmo_maintenance(request):

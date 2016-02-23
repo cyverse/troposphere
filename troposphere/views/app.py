@@ -222,7 +222,7 @@ def forbidden(request):
     user, but was found to be unauthorized to use Atmosphere by OAuth.
     Returns HTTP status code 403 Forbidden
     """
-    # If banner message in query params, pass it into the template
+
     template_params = {}
 
     template_params["THEME_URL"] = "/themes/%s" % settings.THEME_NAME
@@ -232,6 +232,7 @@ def forbidden(request):
     if hasattr(settings, "BASE_URL"):
         template_params['BASE_URL'] = settings.BASE_URL
 
+    # If banner message in query params, pass it into the template
     if "banner" in request.GET:
         template_params['banner'] = request.GET['banner']
     response = render_to_response(
