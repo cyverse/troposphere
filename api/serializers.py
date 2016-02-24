@@ -1,6 +1,8 @@
-from rest_framework import serializers
 from django.contrib.auth.models import User
+from rest_framework import serializers
+
 from api.models import UserPreferences
+
 
 class UserPreferencesSummarySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

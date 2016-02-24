@@ -1,15 +1,18 @@
-from rest_framework import (viewsets, mixins, status)
-import requests
-import jwt
 import json
-from troposphere import settings
-from Crypto.Hash import SHA256
-from rest_framework.response import Response
-from django.contrib.auth.models import User
-from api.models import UserPreferences
-from .serializers import UserSerializer, UserPreferenceSerializer
 
+import jwt
+import requests
+
+from Crypto.Hash import SHA256
+from django.contrib.auth.models import User
+from rest_framework import (viewsets, mixins, status)
+from rest_framework.response import Response
+
+from api.models import UserPreferences
+from troposphere import settings
 from troposphere.version import get_version
+
+from .serializers import UserSerializer, UserPreferenceSerializer
 
 
 class VersionViewSet(mixins.ListModelMixin,

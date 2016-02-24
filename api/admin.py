@@ -1,5 +1,7 @@
 from django.contrib import admin
+
 from .models import MaintenanceRecord, UserPreferences
+
 
 @admin.register(UserPreferences)
 class UserPreferencesAdmin(admin.ModelAdmin):
