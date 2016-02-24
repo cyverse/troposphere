@@ -8,6 +8,7 @@ from django.template import RequestContext
 
 from api.models import UserPreferences, MaintenanceRecord
 from troposphere.version import get_version
+from troposphere.auth import has_valid_token
 from .emulation import is_emulated_session
 from .maintenance import get_maintenance
 
@@ -210,7 +211,7 @@ def application(request):
     if disabled_login and request.user.is_staff is not True and request.user.username not in STAFF_LIST_USERNAMES:
         logger.warn('[App] %s logged in but is NOT in staff_list_usernames' % request.user.username)
         return redirect('maintenance')
-    if request.user.is_authenticated():
+    if request.user.is_authenticated() and has_valid_token(request.user):
         return _handle_authenticated_application_request(request, maintenance_records)
     else:
         return _handle_public_application_request(request, maintenance_records, disabled_login=disabled_login)
