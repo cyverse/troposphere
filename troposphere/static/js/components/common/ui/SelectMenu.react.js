@@ -51,7 +51,7 @@ export default React.createClass({
             let options = this.props.list.map(this.renderOption);
             
             return (
-            <select value={this.props.defaultId} className='form-control' id='size' onChange={this.onSelectChange}>
+            <select value={this.props.defaultId} className='form-control' onChange={this.onSelectChange}>
                 {this.hintText()}
                 {options}
             </select>
@@ -59,7 +59,9 @@ export default React.createClass({
         }
 
         return (
-            <select value={this.props.defaultId} className='form-control' id='size' onChange={this.onSelectChange}/>
+            <select value={this.props.defaultId} className='form-control'>
+                <option key="1" value="1" > Loading... </option>
+            </select>
         );
     }
 });
