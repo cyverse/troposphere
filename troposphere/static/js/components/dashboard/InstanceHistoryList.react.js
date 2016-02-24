@@ -13,25 +13,16 @@ define(function(require) {
 
     getInitialState: function() {
       return {
-        isLoadingMoreResults: false,
-        nextUrl: null
+        instanceHistoryItems: stores.InstanceHistoryStore.fetchWhere({"page_size": 10})
       }
     },
 
-    updateState: function() {
-      var instanceHistories = stores.InstanceHistoryStore.getAll(),
-        state = {};
-
-      if (instanceHistories && instanceHistories.meta.next !== this.state.nextUrl) {
-        state.isLoadingMoreResults = false;
-        state.nextUrl = null;
-      }
-
-      if (this.isMounted()) this.setState(state);
+    onNewData: function(){
+        this.setState({instanceHistoryItems: stores.InstanceHistoryStore.fetchWhere({"page_size": 10})});
     },
 
     componentDidMount: function() {
-      stores.InstanceHistoryStore.addChangeListener(this.updateState);
+     stores.InstanceHistoryStore.addChangeListener(this.onNewData);
     },
 
     componentWillUnmount: function() {
@@ -39,33 +30,26 @@ define(function(require) {
     },
 
     onLoadMoreInstanceHistory: function() {
-      var instanceHistories = stores.InstanceHistoryStore.getAll();
-
-      this.setState({
-        isLoadingMoreResults: true,
-        nextUrl: instanceHistories.meta.next
-      });
-      stores.InstanceHistoryStore.fetchMore();
+        stores.InstanceHistoryStore.fetchMoreWhere({"page_size": 10});
     },
 
     refreshHistory: function(){
-        stores.InstanceHistoryStore.fetchFirstPage();
+        this.setState({instanceHistoryItems: stores.InstanceHistoryStore.fetchFirstPageWhere({"page_size": 10}, {clearQueryCache: true})});
         stores.InstanceHistoryStore.lastUpdated = Date.now();
-        this.forceUpdate();
     },
 
     renderRefreshButton: function(){
-      
+
       return (
         <span className="pull-right refresh-button">
             <RefreshComponent onRefreshClick = {this.refreshHistory} timestamp = {stores.InstanceHistoryStore.lastUpdated} delay = {1000 * 60} />
         </span>
       );
-    
+
     },
 
     renderTitle: function() {
-      var instanceHistories = stores.InstanceHistoryStore.getAll(),
+      var instanceHistories = this.state.instanceHistoryItems,
         title = "Instance History",
         historyCount;
 
@@ -77,7 +61,7 @@ define(function(require) {
       return title;
     },
 
-    renderLoadMoreHistoryButton: function(instanceHistories) {
+    renderLoadMoreHistoryButton: function() {
       // Load more instances from history
       var buttonStyle = {
           margin: "auto",
@@ -86,7 +70,8 @@ define(function(require) {
         loadingStyle = {
           margin: "0px auto"
         },
-        moreHistoryButton = null;
+        moreHistoryButton = null,
+        instanceHistories = this.state.instanceHistoryItems;
 
       if (instanceHistories.meta.next) {
         if (this.state.isLoadingMoreResults) {
@@ -106,7 +91,7 @@ define(function(require) {
     },
 
     renderBody: function() {
-      var instanceHistories = stores.InstanceHistoryStore.getAll(),
+      var instanceHistories = this.state.instanceHistoryItems,
           instances = stores.InstanceStore.getAll(),
           providers = stores.ProviderStore.getAll(),
           instanceHistoryItems;
@@ -115,6 +100,7 @@ define(function(require) {
 
       instanceHistoryItems = instanceHistories.map(function(instance) {
         var providerId = null,
+            name = instance.get('instance').name,
             image = instance.get('image'),
             provider = instance.get('provider'),
             instanceId = instance.get('instance').id;
@@ -157,7 +143,7 @@ define(function(require) {
                   <div>
                     <Gravatar hash={instanceHistoryHash} size={iconSize} type={type}/>
                     <div className="instance-history-details">
-                      <strong className="name">{instance.get('name')}</strong>
+                      <strong className="name">{name}</strong>
                       <div>Launched from {imageLink}</div>
                       <div>{"Ran: " + formattedStartDate + " - " + formattedEndDate}</div>
                     </div>
@@ -176,14 +162,14 @@ define(function(require) {
       return (
         <div>
           {instanceHistoryItems}
-          {this.renderLoadMoreHistoryButton(instanceHistories)}
+          {this.renderLoadMoreHistoryButton()}
         </div>
       );
     },
 
     render: function() {
       return (
-        <div>
+        <div onClick={this.loadMoreHistory}>
           <h2>
             {this.renderTitle()}
             {this.renderRefreshButton()}

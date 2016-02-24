@@ -173,7 +173,12 @@ define(function (require) {
     },
 
     // same as fetchFirstPage, but with URL query params
-    fetchFirstPageWhere: function(queryParams) {
+    fetchFirstPageWhere: function(queryParams, options) {
+      if(options.clearQueryCache){
+        var queryString = buildQueryStringFromQueryParams(queryParams);
+        delete this.queryModels[queryString];
+      }
+
       if (!this.isFetching) {
         this.isFetching = true;
         queryParams = queryParams || {};
@@ -341,12 +346,10 @@ define(function (require) {
       if (nextUrl && !this.isFetchingQuery[queryString]) {
         this.isFetchingQuery[queryString] = true;
         var moreModels = new this.collection();
-        moreModels.fetch({
-          url: nextUrl
+        this.queryModels[queryString].fetch({
+          url: nextUrl, remove: false
         }).done(function () {
           this.isFetchingQuery[queryString] = false;
-          searchResults.add(moreModels.models);
-          searchResults.meta = moreModels.meta;
           this.emitChange();
         }.bind(this));
       }
