@@ -52,8 +52,9 @@ class UserPreferenceSerializer(serializers.HyperlinkedModelSerializer):
         fields = (
             'id',
             'url',
-            'show_beta_interface',
             'user',
+            'show_beta_interface',
+            'airport_ui',
             'created_date',
             'modified_date'
         )
