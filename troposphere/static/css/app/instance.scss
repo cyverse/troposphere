@@ -38,3 +38,18 @@
 .image-request-summary .form-group {
   margin-bottom: 0px;
 }
+
+.instance-status-history{
+    ul{
+        li{
+            margin-bottom: 4%;
+        }
+        height: 100%;
+        overflow: scroll;
+    }
+
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    left: 50%;
+}
