@@ -16,7 +16,7 @@ class RemoveSlashMiddleware(object):
 
     Forked from the original code at http://gregbrown.co.nz/code/append-or-remove-slash/
     """
-    
+
     def process_request(self, request):
         # check if the url is valid
         path = new_path = request.path_info
@@ -32,7 +32,7 @@ class RemoveSlashMiddleware(object):
         elif path != new_path:
             # If new_path is valid and not eq to path, send a permanent redirect.
             return self.adjust_path(request, new_path)
-    
+
     def adjust_path(self, request, new_path):
         """
         Redirect the clients browser to new_path, and tell it that all future requests to the desired URL should be sent to new_path. (This method looks like it may be able to be made more efficient, but I'm not familiar enough with request.path_info and other django variables to know how.)

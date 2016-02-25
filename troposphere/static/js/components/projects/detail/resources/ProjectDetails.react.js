@@ -85,7 +85,7 @@ define(function (require) {
             modals.ProjectModals.moveResources(
                 this.state.selectedResources,
                 this.props.project,
-                this.deselectAllResources,
+                this.deselectAllResources
             );
         }
     },
@@ -121,7 +121,7 @@ define(function (require) {
         selectedResource = this.state.selectedResource,
         isButtonBarVisible;
 
-      if (!projectInstances || !projectImages || !projectExternalLinks || !projectVolumes) 
+      if (!projectInstances || !projectImages || !projectExternalLinks || !projectVolumes)
           return <div className="loading"></div>;
 
       // Only show the action button bar if the user has selected resources

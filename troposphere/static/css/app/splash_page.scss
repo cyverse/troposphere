@@ -1,23 +1,24 @@
 .splash-image {
-  text-align: center;
-  background-image: url('../../images/login_background.png');
-  background-repeat: no-repeat;
-  display: none;
+    max-width:900px;
+    display:none;
+}
+
+.splash-image img {
+    width:100%
 }
 
 .splash-screen {
-  background-image: url('../../images/login_background.png');
-  background-color: #9DDBE1;
-  background-repeat: repeat-x;
-
+  text-align:center;
   .splash-image {
     display: block;
+    margin:auto;
+    padding-top:50px;
   }
 
   .loading {
-    border-left: 6px solid rgba(255, 255, 255, 0.15);
-    border-right: 6px solid rgba(255, 255, 255, 0.15);
-    border-bottom: 6px solid rgba(255, 255, 255, 0.15);
-    border-top: 6px solid rgba(255, 255, 255, 0.8);
+    border-left: 6px solid rgba(0, 0, 0, 0.15);
+    border-right: 6px solid rgba(0, 0, 0, 0.15);
+    border-bottom: 6px solid rgba(0, 0, 0, 0.15);
+    border-top: 6px solid rgba(0, 0, 0, 0.8);
   }
 }

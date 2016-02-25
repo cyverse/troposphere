@@ -6,5 +6,6 @@ get_files() {
 }
 
 for f in `get_files`; do
-    npm run lint $f --silent
-done
+    # Cat files as they exist in the index
+    git show :$f
+done | npm run lint-pre-commit --silent
