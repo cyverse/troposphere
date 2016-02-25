@@ -79,7 +79,15 @@ class BadgeViewSet(viewsets.GenericViewSet):
         computed_hash = SHA256.new()
         computed_hash.update(body)
 
-        payload = {'key': "master", 'method': "POST", 'path': path, "body": {"alg": "sha256", "hash": computed_hash.hexdigest()}}
+        payload = {
+            'key': "master",
+            'method': "POST",
+            'path': path,
+            "body": {
+                "alg": "sha256",
+                "hash": computed_hash.hexdigest()
+            }
+        }
         token = jwt.encode(payload, secret, headers=header)
 
         options = {
@@ -90,7 +98,11 @@ class BadgeViewSet(viewsets.GenericViewSet):
                 'Content-Type': 'application/json'
             }
         }
-        r = requests.post(url + path, data=body, headers=options['headers'], verify=False)
+        r = requests.post(url + path,
+                data=body,
+                headers=options['headers'],
+                verify=False)
+
         return Response(data=r.json(), status=status.HTTP_201_CREATED)
 
     def retrieve(self, request, *args, **kwargs):
@@ -107,7 +119,15 @@ class BadgeViewSet(viewsets.GenericViewSet):
         computed_hash = SHA256.new()
         computed_hash.update(body)
 
-        payload = {'key': "master", 'method': "GET", 'path': path, "body": {"alg": "sha256", "hash": computed_hash.hexdigest()}}
+        payload = {
+            'key': "master",
+            'method': "GET",
+            'path': path,
+            "body": {
+                "alg": "sha256",
+                "hash": computed_hash.hexdigest()
+            }
+        }
         token = jwt.encode(payload, secret, headers=header)
 
         options = {
@@ -119,7 +139,10 @@ class BadgeViewSet(viewsets.GenericViewSet):
             }
         }
 
-        r = requests.get(url + path, headers=options['headers'], verify=False)
+        r = requests.get(url + path,
+                headers=options['headers'],
+                verify=False)
+
         return Response(data=r.json(), status=status.HTTP_200_OK)
 
     def list(self, request, *args, **kwargs):
@@ -135,7 +158,15 @@ class BadgeViewSet(viewsets.GenericViewSet):
         computed_hash = SHA256.new()
         computed_hash.update(body)
 
-        payload = {'key': "master", 'method': "GET", 'path': path, "body": {"alg": "sha256", "hash": computed_hash.hexdigest()}}
+        payload = {
+            'key': "master",
+            'method': "GET",
+            'path': path,
+            "body": {
+                "alg": "sha256",
+                "hash": computed_hash.hexdigest()
+            }
+        }
         token = jwt.encode(payload, secret, headers=header)
 
         options = {
