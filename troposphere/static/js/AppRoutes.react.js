@@ -32,6 +32,7 @@ define(function (require) {
     MyImageRequestsPage = require('./components/images/MyImageRequestsPage.react'),
     ImageTagsPage = require('./components/images/ImageTagsPage.react'),
     ImagesMaster = require('./components/images/ImagesMaster.react'),
+    InstanceHistoryDetail = require('./components/common/InstanceHistoryDetail.react'),
     SettingsPage = require('./components/settings/SettingsPage.react'),
     ProjectInstancePage = require("./components/projects/InstanceDetailsPage.react"),
     ProjectVolumePage = require("./components/projects/VolumeDetailsPage.react"),
@@ -100,6 +101,10 @@ define(function (require) {
       <Route name="my-requests" handler={RequestMaster}>
         <Route name="my-requests-resources" path="resources" handler={RequestHistory} />
         <Route name="my-requests-images" path="images" handler={MyImageRequestsPage} />
+      </Route>
+
+      <Route name="instance-history">
+        <Route name="instance-history-detail" path=":id" handler={InstanceHistoryDetail} />
       </Route>
 
       <DefaultRoute handler={DashboardPage}/>
