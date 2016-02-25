@@ -1,6 +1,6 @@
 caslib.py==2.2.2
 django==1.8.5
-djangorestframework==3.0.4
+djangorestframework==3.3.2
 Jinja2==2.8
 psycopg2==2.5.2
 pycrypto==2.6.1
