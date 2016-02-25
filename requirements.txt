@@ -1,5 +1,5 @@
 # External/Third Party
-django==1.8.5
+django==1.9.2
 djangorestframework==3.3.2
 Jinja2==2.8
 pycrypto==2.6.1
