@@ -69,7 +69,8 @@ define(function (require) {
 
       var instanceStatusHistories = stores.InstanceHistoryStore.fetchWhere({instance: instanceId});
 
-      if (!instanceTags || !instanceStatusHistories) return <div className="loading"></div>;
+      if (!instanceTags || !instanceStatusHistories|| !providerName) return <div className="loading"></div>;
+
       var instanceStatusHistoryItems = instanceStatusHistories.map(function(historyItem){
         var startDate = new Date(historyItem.get('start_date'));
         var endDate = new Date(historyItem.get('end_date'));
@@ -78,9 +79,7 @@ define(function (require) {
         formattedEndDate = moment(endDate).format("MMM DD, YYYY hh:mm a");
 
         return (
-            <li key={startDate}>
-                {new Date(historyItem.get('start_date'))}
-                {new Date(historyItem.get('end_date'))}
+            <li key={historyItem.cid}>
                 {historyItem.get('status')}: {formattedStartDate.toString()} - {formattedEndDate.toString()}
             </li>
         );
@@ -89,9 +88,7 @@ define(function (require) {
       return (
         <div className="project-details">
             <div className="container">
-                <div className="pull-left">
-                    <div className="row resource-details-content">
-
+                <div className="pull-left instance-history-info resource-details-content">
                       <div className="resource-image">
                         <Gravatar hash={instanceHash} size={iconSize} type={type}/>
                       </div>
@@ -106,7 +103,6 @@ define(function (require) {
                         <p>ID: {instance.id}</p>
                         <p>Alias: {instance.uuid}</p>
                       </div>
-                    </div>
                 </div>
 
                 <div className="pull-right instance-status-history">
