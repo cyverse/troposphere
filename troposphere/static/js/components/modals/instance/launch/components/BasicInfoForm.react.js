@@ -16,6 +16,12 @@ export default React.createClass({
         onProjectChange: React.PropTypes.func
     },
 
+    componentDidMount: function() {
+        // TODO: Once we have current version of React I believe we ca just do:
+        // this.refs.nameInput.select();
+        React.findDOMNode(this.refs.nameInput).select();
+    },
+
    render: function () {
         let imageVersion = this.props.imageVersion;
         let imageVersionId;
@@ -36,12 +42,13 @@ export default React.createClass({
             <form>
                 <div className={instanceNameClasses} >
                     <label htmlFor="instanceName">
-                        Instance Name
+                        durp Instance Name
                     </label>
                     <input required type="Name"
                         className="form-control"
                         id="instanceName"
                         value={instanceName}
+                        ref="nameInput"
                         onChange={this.props.onNameChange}
                         onBlur={this.props.onNameBlur}
                     />
