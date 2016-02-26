@@ -42,7 +42,7 @@ export default React.createClass({
             <form>
                 <div className={instanceNameClasses} >
                     <label htmlFor="instanceName">
-                        durp Instance Name
+                        Instance Name
                     </label>
                     <input required type="Name"
                         className="form-control"
