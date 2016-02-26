@@ -32,7 +32,7 @@ export default React.createClass({
         if (this.props.hintText) {
 
             return (
-                <option value="" disabled selected hidden>{this.props.hintText}</option>
+                <option value="hint" disabled hidden>{this.props.hintText}</option>
             );
         }
     },
@@ -47,11 +47,13 @@ export default React.createClass({
     },
 
     render: function () {
+        let value = this.props.defaultId;
+        if (this.props.hintText) { value = "hint" }
         if (this.props.list) {
             let options = this.props.list.map(this.renderOption);
             
             return (
-            <select value={this.props.defaultId} className='form-control' onChange={this.onSelectChange}>
+            <select value={value} className='form-control' onChange={this.onSelectChange}>
                 {this.hintText()}
                 {options}
             </select>
