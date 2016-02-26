@@ -40,7 +40,7 @@ export default React.createClass({
 
     onCreateScript: function() {
         if (!this.state.validate) { this.setState({ validate: true });}
-            if (this.isSubmitable) {
+            if (this.isSubmittable) {
                 let script = actions.ScriptActions.create({
                     type: this.state.type,
                     title: this.state.title.trim(),
