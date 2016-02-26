@@ -6,10 +6,10 @@ export default React.createClass({
         this.props.onRemove(item)
     },
 
-    renderTag: function (item) {
+    renderTag: function (item, i) {
         if (item) {
             return (
-                <a className="tag"
+                <a key={i} className="tag"
                     onClick={this.onRemove.bind(this, item)}
                 >
                     {item.get('title') + " "}
