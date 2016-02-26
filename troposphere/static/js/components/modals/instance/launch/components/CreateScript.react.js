@@ -171,7 +171,7 @@ export default React.createClass({
                             <label className="radio">
                                 <input type="radio" name="optionsRadios" 
                                     value="URL"
-                                    checked={this.state.type === "URL"}
+                                    defaultChecked={this.state.type === "URL"}
                                     onClick={this.onChangeType}
                                 />
                                 URL
@@ -181,7 +181,7 @@ export default React.createClass({
                             <label className="radio">
                                 <input type="radio" name="optionsRadios" 
                                     value="Raw Text"
-                                    checked={this.state.type === "Raw Text"}
+                                    defaultChecked={this.state.type === "Raw Text"}
                                     onClick={this.onChangeType}
                                 />
                                 Full Text
