@@ -58,14 +58,14 @@ export default React.createClass({
         }
     },
 
-    renderOptions: function (item) {
+    renderOptions: function (item, i) {
         let title = item.name;
         let isActive = "";
         if (item.view == this.state.view) {
             isActive = "active";
         }
         return (
-            <li className={`NavStacked-link ${isActive}`}>
+            <li key={i}className={`NavStacked-link ${isActive}`}>
                 <a onClick={this.changeOption.bind(this, item)}>
                     {title}
                 </a>
