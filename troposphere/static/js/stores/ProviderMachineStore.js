@@ -4,6 +4,7 @@ define(function (require) {
     Dispatcher = require('dispatchers/Dispatcher'),
     BaseStore = require('stores/BaseStore'),
     ProviderMachineConstants = require('constants/ProviderMachineConstants'),
+    _ = require('underscore'),
     NotificationController = require('controllers/NotificationController');
 
   var ProviderMachineStore = BaseStore.extend({
@@ -31,6 +32,20 @@ define(function (require) {
             return this.queryModels[image_key];
         }
     },
+
+    getMachinesForVersion: function(version) {
+        var version_key = "machine=" + version;
+        var use_query = "?version_id="+ version;
+        if(!this.queryModels[version_key]) {
+            this.fetchModelsFor(version_key, use_query);
+        } else {
+            return new Backbone.Collection(
+                            this.queryModels[version_key]
+                            .map((ver) => ver.get('provider'))
+                        );
+        }
+    },
+
     fetchModelsFor: function(image_key, use_query) {
         //Based on 'the key', get all related objects
         if (!this.queryModels[image_key] && !this.isFetching) {

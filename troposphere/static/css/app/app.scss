@@ -60,8 +60,8 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
     left: 0;
   }
   .modal-body {
-    padding-bottom: 75px;
-    min-height: 600px;
+    padding-bottom: 60px;
+    min-height: 500px;
   }
 }
 //
@@ -69,8 +69,11 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 // ---------------------------
 //
 @import "variables";
+@import "utilities";
 @import "layout";
+@import "typography";
 @import "common";
+@import "stacked_nav";
 @import "header";
 @import "dashboard";
 @import "volumes";
@@ -91,6 +94,7 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 @import "badges";
 @import "images";
 @import "media-cards";
+@import "tags";
 
 // Primary - header
 // when headers button is pressed
