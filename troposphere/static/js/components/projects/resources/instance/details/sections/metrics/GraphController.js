@@ -4,12 +4,13 @@ import CPUGraph from './CPUGraph';
 import MemoryGraph from './MemoryGraph';
 import NetworkGraph from './NetworkGraph';
 
+
 let GraphController = function(config) {
     this.container = config.container;
     this.width = config.width;
     this.store = new Store();
     this.graphs = [];
-}
+};
 
 GraphController.prototype.switch = function(settings, onSuccess, onError) {
     var me = this;
@@ -22,7 +23,7 @@ GraphController.prototype.switch = function(settings, onSuccess, onError) {
     var key = {
       uuid: settings.uuid,
       timeframe: settings.timeframe
-    }
+    };
 
     var graphs = this.store.get(key);
 
@@ -37,13 +38,13 @@ GraphController.prototype.switch = function(settings, onSuccess, onError) {
           container: me.container,
           width: me.width,
           timeframe: settings.timeframe
-        })
+        });
       });
 
-      me.store.set(key, graphs)
+      me.store.set(key, graphs);
 
       // Hide current graphs
-      me.graphs.forEach(function(g){ g.hide(); })
+      me.graphs.forEach(function(g){ g.hide(); });
 
       // Show spinning loader
       document.querySelector("#container.metrics .loading").style.display = "inherit";
@@ -58,20 +59,20 @@ GraphController.prototype.switch = function(settings, onSuccess, onError) {
             // Hide spinning loader
             document.querySelector("#container.metrics .loading").style.display = "none";
             graphs[2].makeAxis();
-            graphs.forEach(function(g){ g.show(); })
+            graphs.forEach(function(g){ g.show(); });
             me.graphs = graphs;
             onSuccess && onSuccess();
-          }, onError)
-        }, onError)
-      }, onError)
+          }, onError);
+        }, onError);
+      }, onError);
 
     } else {
-      me.graphs.forEach(function(g){ g.hide(); })
-      graphs.forEach(function(g){ g.show(); })
+      me.graphs.forEach(function(g){ g.hide(); });
+      graphs.forEach(function(g){ g.show(); });
       me.graphs = graphs;
       onSuccess && onSuccess();
     }
-}
+};
 
 export default GraphController;
 

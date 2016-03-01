@@ -8,8 +8,6 @@ export default React.createClass({
     displayName: "InstanceMetrics",
 
     getInitialState: function() {
-      var me = this;
-
       return {
         controller: null,
         uuid: this.props.instance.get("uuid"),
@@ -33,7 +31,6 @@ export default React.createClass({
       };
     },
     onSuccess: function() {
-
       // Conviluted way to fetch timestamp from store, off first graph
       var timestamp = this.state.controller.store.get({
         uuid: this.state.uuid,
@@ -66,7 +63,7 @@ export default React.createClass({
           container: document.querySelector("#graphs"),
           width: this.state.graphWidth,
         }),
-      }, this.refresh)
+      }, this.refresh);
     },
 
     refresh: function() {
@@ -81,7 +78,7 @@ export default React.createClass({
           timeframe: this.state.timeframe,
           refresh: true,
         }, this.onSuccess, this.onError);
-      })
+      });
     },
 
     onTimeFrameClick : function(e) {
@@ -96,45 +93,49 @@ export default React.createClass({
     },
 
     onRefreshClick: function() {
-      if (this.state.canRefresh)
+      if (this.state.canRefresh){
         this.refresh();
+      }
     },
 
     render: function() {
+        var prov = this.props.instance.get('provider').id;
+        if (!(prov == 4 || prov == 5)) {
+            return (
+                <div id="not-available">Instance metrics are not available on this provider</div>
+            );
+        }
 
-      var prov = this.props.instance.get('provider').id;
-      if (!(prov == 4 || prov == 5)) {
-         return (<div id="not-available">Instance metrics are not available on this provider</div>)
-      }
+        // available is true or still waiting for network request
+        if (this.state.available || this.state.available === null) {
+            return (
+                <div id="InstanceMetrics">
+                    <div
+                        id="controls"
+                        style={{
+                            display : this.state.available ? "inherit" : "none"
+                        }}>
+                        <TimeframeBreadcrumb
+                           timeframe={ this.state.timeframe }
+                           onTimeFrameClick={ this.onTimeFrameClick }
+                        />
+                        <RefreshComponent
+                          delay={ this.state.refreshDelay }
+                          timestamp={ this.state.timestamp }
+                          onRefreshClick={ this.refresh }
+                        />
+                    </div>
+                    <div id="container" className="metrics">
+                        <div className="loading"></div>
+                        <div id="graphs"></div>
+                    </div>
+                </div>
+            );
+        }
 
-      // available is true or still waiting for network request
-      if (this.state.available || this.state.available === null) {
-       return (
-         <div id="InstanceMetrics">
-           <div
-            id="controls"
-            style={{
-              display : this.state.available ? "inherit" : "none"
-            }}>
-            <TimeframeBreadcrumb
-               timeframe={ this.state.timeframe }
-               onTimeFrameClick={ this.onTimeFrameClick }
-            />
-            <RefreshComponent
-              delay={ this.state.refreshDelay }
-              timestamp={ this.state.timestamp }
-              onRefreshClick={ this.refresh }
-            />
-          </div>
-          <div id="container" className="metrics">
-             <div className="loading"></div>
-             <div id="graphs"></div>
-          </div>
-        </div>
-      )
-     }
-
-     // available is explicitly false, the network request failed
-     return (<div id="not-available">Instance metrics not available</div>)
-     }
+        // available is explicitly false, the network request failed
+        return (
+            <div id="not-available">Instance metrics not available</div>
+        );
+    }
 });

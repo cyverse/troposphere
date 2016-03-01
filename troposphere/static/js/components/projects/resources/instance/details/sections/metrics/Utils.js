@@ -19,10 +19,11 @@ let fetch = function(uuid, urlParams, onSuccess, onError) {
       .header("Authorization", "Token " + access_token)
       .get(function(error, json) {
 
-        // The json object should be an array with length >= 1 
-        if (!(json && Array.isArray(json) && json.length)) 
+        // The json object should be an array with length >= 1
+        if (!(json && Array.isArray(json) && json.length)){
           return onError && onError();
-        var data = json[0].datapoints
+        }
+        var data = json[0].datapoints;
 
         // Trim initial/final null values
         if (data[0][0] == null) {
@@ -34,9 +35,8 @@ let fetch = function(uuid, urlParams, onSuccess, onError) {
         onSuccess(data.map(function(arr) {
           return { x: arr[1] * 1000, y: arr[0] };
         }));
-
-    })
-}
+  });
+};
 
 
 let bytesToString = function (bytes) {
@@ -55,7 +55,7 @@ let bytesToString = function (bytes) {
       output = fmt(bytes / 1024 / 1024 / 1024) + 'GB';
     }
     return isNegative ? "-" + output : output;
-}
+};
 
 let get = function(name) {
     return function(obj) {
@@ -67,4 +67,4 @@ export default {
     get: get,
     fetch: fetch,
     bytesToString: bytesToString
-}
+};

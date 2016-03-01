@@ -16,7 +16,7 @@ export default React.createClass({
     getInitialState: function () {
       return {
         isEditingTags: false
-      }
+      };
     },
 
     onEditTags: function (e) {

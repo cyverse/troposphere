@@ -16,19 +16,19 @@ export default React.createClass({
         }, content));
 
         var selectedElement = React.DOM.li({
-            id: content,
-            key: content.replace(" ", "-"),
-            className: "active metrics"
-        }, content)
+          id: content,
+          key: content.replace(" ", "-"),
+          className: "active metrics"
+        }, content);
 
-            if (content == me.props.timeframe) {
-                return selectedElement
-            }
-            return selectableElement
-        });
+        if (content == me.props.timeframe) {
+          return selectedElement;
+        }
+        return selectableElement;
+      });
 
-        return (
-            <div className="metrics breadcrumb">{ breadcrumbs }</div>
-        );
+      return (
+          <div className="metrics breadcrumb">{ breadcrumbs }</div>
+      );
     }
 });
