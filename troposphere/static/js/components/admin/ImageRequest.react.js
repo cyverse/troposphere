@@ -84,7 +84,7 @@ define(function (require) {
             <div>Installed software: {request.get('installed_software')}</div>
             <div>Instance ID: {instance.id}</div>
             <div>Instance name: {instance.name}</div>
-            <div>iPlant sys files: {request.get('iplant_sys_files')}</div>
+            <div>Jetstream sys files: {request.get('iplant_sys_files')}</div>
             <div>New application description: {request.get('new_application_description')}</div>
             <div>New application name: {request.get('new_application_name')}</div>
             <div>New machine owner: {request.get('new_machine_owner').username}</div>
