@@ -3,7 +3,7 @@ import Utils from "./Utils";
 
 
 let Graph = function(config) {
-    let config = config || {};
+    config = config || {};
 
     switch (config.timeframe) {
       // this.points * this.resolution == 60
