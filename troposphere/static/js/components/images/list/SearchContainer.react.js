@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Backbone from 'backbone';
 import Router from 'Router';
 
@@ -42,7 +43,7 @@ export default React.createClass({
     },
 
     componentDidMount: function () {
-      Backbone.$(this.getDOMNode()).find("input").focus();
+      Backbone.$(ReactDOM.findDOMNode(this)).find("input").focus();
     },
 
     handleSearch: function (query) {

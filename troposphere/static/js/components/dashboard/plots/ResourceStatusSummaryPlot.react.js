@@ -79,7 +79,7 @@ export default React.createClass({
 
 
         // Create the chart
-        var el = this.getDOMNode();
+        var el = ReactDOM.findDOMNode(this);
         var chart = Highcharts.createChart(el, {
           chart: {
             type: 'pie',

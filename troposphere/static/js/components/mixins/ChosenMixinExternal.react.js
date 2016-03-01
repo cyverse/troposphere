@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import _ from 'underscore';
 import $ from 'jquery';
 import Backbone from 'backbone';
@@ -61,7 +62,7 @@ export default {
         return false;
       }
 
-      var node = this.getDOMNode();
+      var node = ReactDOM.findDOMNode(this);
       var $node = $(node);
       var container = $node;//.find('.chosen-container');
 
@@ -100,7 +101,7 @@ export default {
     },
 
     filterSearchResults: function () {
-      var node = this.getDOMNode();
+      var node = ReactDOM.findDOMNode(this);
       var $node = $(node);
       var search_field = $node.find('input');
       var query = search_field.val();

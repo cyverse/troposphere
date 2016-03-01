@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Backbone from 'backbone';
 import $ from 'jquery';
 import Router from 'react-router';
@@ -20,7 +21,7 @@ export default React.createClass({
     },
 
     componentDidMount: function(){
-      var el = this.getDOMNode(),
+      var el = ReactDOM.findDOMNode(this),
           $el = $(el),
           membership = this.props.membership;
 

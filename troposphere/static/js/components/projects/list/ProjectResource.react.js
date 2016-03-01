@@ -1,4 +1,5 @@
 import React from  'react';
+import ReactDOM from 'react-dom';
 import $ from  'jquery';
 // plugin
 import Bootstrap from  'bootstrap';
@@ -13,7 +14,7 @@ export default React.createClass({
       },
 
       componentDidMount: function () {
-        var el = this.getDOMNode();
+        var el = ReactDOM.findDOMNode(this);
         var $el = $(el);
         $el.tooltip({
           title: this.props.count + " " + this.props.resourceType

@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 let ENTER_KEY = 13;
 
@@ -10,7 +11,7 @@ export default React.createClass({
     },
 
     componentDidMount: function () {
-      this.getDOMNode().focus();
+      ReactDOM.findDOMNode(this).focus();
     },
 
     onDoneEditing: function (e) {

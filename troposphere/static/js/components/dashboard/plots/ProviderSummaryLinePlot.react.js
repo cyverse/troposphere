@@ -27,7 +27,7 @@ export default React.createClass({
           categories.push("Allocation");
         }
 
-        var el = this.getDOMNode();
+        var el = ReactDOM.findDOMNode(this);
         var $el = $(el);
         $el.removeClass("loading");
 

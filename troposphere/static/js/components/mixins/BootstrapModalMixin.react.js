@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
 require('bootstrap');
@@ -44,7 +45,7 @@ let BootstrapModalMixin = function () {
     },
 
     componentDidMount: function () {
-      var $modal = $(this.getDOMNode()).modal({
+      var $modal = $(ReactDOM.findDOMNode(this)).modal({
         backdrop: this.props.backdrop,
         keyboard: this.props.keyboard,
         show: this.props.show,
@@ -62,7 +63,7 @@ let BootstrapModalMixin = function () {
     },
 
     componentWillUnmount: function () {
-      var $modal = $(this.getDOMNode());
+      var $modal = $(ReactDOM.findDOMNode(this));
       handlerProps.forEach(function (prop) {
         if (this[prop]) {
           $modal.off(bsModalEvents[prop], this[prop])
@@ -74,15 +75,15 @@ let BootstrapModalMixin = function () {
     },
 
     hide: function () {
-      $(this.getDOMNode()).modal('hide')
+      $(ReactDOM.findDOMNode(this)).modal('hide')
     },
 
     show: function () {
-      $(this.getDOMNode()).modal('show')
+      $(ReactDOM.findDOMNode(this)).modal('show')
     },
 
     toggle: function () {
-      $(this.getDOMNode()).modal('toggle')
+      $(ReactDOM.findDOMNode(this)).modal('toggle')
     },
 
     renderCloseButton: function () {

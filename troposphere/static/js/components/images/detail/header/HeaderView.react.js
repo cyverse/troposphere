@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Backbone from 'backbone';
 import $ from 'jquery';
 import stores from 'stores';
@@ -14,7 +15,7 @@ export default React.createClass({
       },
 
       componentDidMount: function () {
-        var el = this.getDOMNode();
+        var el = ReactDOM.findDOMNode(this);
         var $el = $(el).find('.tooltip-wrapper');
         $el.tooltip({
           title: "NEW! You can now add an Image to your project to make launching instances even easier!",

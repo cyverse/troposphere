@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import $ from "jquery";
 // plugin: required but not used directly
 import bootstrap from 'bootstrap';
@@ -23,7 +24,7 @@ export default React.createClass({
     },
 
     generateTooltip: function () {
-      var el = this.getDOMNode();
+      var el = ReactDOM.findDOMNode(this);
       var $el = $(el);
       $el.tooltip({
         title: this.props.tooltip
@@ -31,7 +32,7 @@ export default React.createClass({
     },
 
     onClick: function(){
-      var el = this.getDOMNode();
+      var el = ReactDOM.findDOMNode(this);
       var $el = $(el);
       //Manually hides tooltip to fix a bug when using modals
       //See: https://github.com/iPlantCollaborativeOpenSource/troposphere/pull/201

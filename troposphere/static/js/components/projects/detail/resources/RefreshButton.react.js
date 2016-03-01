@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import $ from "jquery";
 import Backbone from 'backbone';
 import stores from 'stores';
@@ -29,7 +30,7 @@ export default React.createClass({
     },
 
     generateTooltip: function () {
-      var el = this.getDOMNode();
+      var el = ReactDOM.findDOMNode(this);
       var $el = $(el);
       $el.tooltip({
         title: "Force a refresh"
@@ -37,7 +38,7 @@ export default React.createClass({
     },
 
     hideTooltip: function () {
-      $(this.getDOMNode()).tooltip('hide');
+      $(ReactDOM.findDOMNode(this)).tooltip('hide');
     },
 
     handleRefresh: function () {
