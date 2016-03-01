@@ -1,4 +1,5 @@
-import React from "react/addons";
+import React from "react";
+import ReactDOM from 'react-dom';
 import $ from "jquery";
 import Backbone from "backbone";
 import Highcharts from "highcharts";
@@ -115,7 +116,7 @@ export default React.createClass({
                     status={this.key}
                     count={this.y}
                 />);
-              return React.renderToStaticMarkup(formatterComponent);
+              return ReactDOM.renderToStaticMarkup(formatterComponent);
             }
           },
           legend: {

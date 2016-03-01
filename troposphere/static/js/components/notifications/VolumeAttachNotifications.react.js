@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import globals from 'globals';
 
 let mountVolumeDocumentationUrl = "https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachinganEBSVolumetoanInstance-Step6%3AMountthefilesystemonthepartition.";
@@ -22,7 +23,7 @@ export default {
             </div>
         );
 
-        return React.renderToString(message);
+        return ReactDOM.renderToString(message);
     },
 
     error: function () {
@@ -35,7 +36,7 @@ export default {
         </div>
         );
 
-        return React.renderToString(message);
+        return ReactDOM.renderToString(message);
     },
 
     attachError: function (volume, instance) {
@@ -53,6 +54,6 @@ export default {
             </div>
         );
 
-        return React.renderToString(message);
+        return ReactDOM.renderToString(message);
     }
 };

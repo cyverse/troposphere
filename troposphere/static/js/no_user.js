@@ -1,5 +1,8 @@
-import React from "react";
-import "css/no_user.scss";
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+import 'css/no_user.scss';
+
 
 var login = THEME_URL + "/images/login_mainimage.png";
 
@@ -19,4 +22,4 @@ var NoUser = React.createClass({
   }
 });
 
-React.render(<NoUser />, document.body);
+ReactDOM.render(<NoUser />, document.body);

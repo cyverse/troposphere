@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import Profile from 'models/Profile';
 import $ from 'jquery';
 import Router from '../Router';
@@ -46,7 +47,7 @@ function startApplication() {
             // RouterActions.routeChange({routerState: state});
 
             // whenever the url changes, this callback is called again
-            React.render(<Handler /> , document.getElementById("application"));
+            ReactDOM.render(<Handler /> , document.getElementById("application"));
         });
     });
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import _ from 'underscore';
 
 function onCancel() {
@@ -17,6 +18,6 @@ export default {
         });
 
         var modal = React.createElement(ModalComponent, props);
-        React.render(modal, document.getElementById('modal'));
+        ReactDOM.render(modal, document.getElementById('modal'));
     }
 }

@@ -1,7 +1,8 @@
 import $ from 'jquery';
 import _ from 'underscore';
 import Backbone from 'backbone';
-import React from 'react/addons';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import SplashScreen from 'components/SplashScreen.react';
 import MaintenanceScreen from 'components/MaintenanceScreen.react';
 import FunctionalCollection from 'collections/FunctionalCollection';
@@ -139,7 +140,7 @@ export default {
         //      if(response.status === 503) {
         //        $('.splash-image').remove();
         //        var MaintenanceComponent = React.createFactory(MaintenanceScreen);
-        //        React.render(MaintenanceComponent(), document.getElementById('application'));
+        //        ReactDOM.render(MaintenanceComponent(), document.getElementById('application'));
         //      }
         //    });
         //
@@ -166,7 +167,7 @@ export default {
 
             // replace the current view with the
             var MaintenanceComponent = React.createFactory(MaintenanceScreen);
-            React.render(MaintenanceComponent(), document.getElementById('application'));
+            ReactDOM.render(MaintenanceComponent(), document.getElementById('application'));
           } else {
             dfd.reject.apply(this, arguments);
           }
@@ -178,7 +179,7 @@ export default {
       // render the splash page which will load the rest of the application
       $(document).ready(function () {
         var SplashScreenComponent = React.createFactory(SplashScreen);
-        React.render(SplashScreenComponent(), document.getElementById('application'));
+        ReactDOM.render(SplashScreenComponent(), document.getElementById('application'));
       });
     }
 }

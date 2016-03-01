@@ -1,5 +1,5 @@
-
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Backbone from 'backbone';
 import _ from 'underscore';
 import ModalMixin from 'components/mixins/modal';
@@ -43,7 +43,7 @@ let ConfirmComponent = React.createClass({
 });
 
 let mountModal = function(modalComponent) {
-    React.render(modalComponent, document.getElementById('modal'));
+    ReactDOM.render(modalComponent, document.getElementById('modal'));
 };
 
 /*
