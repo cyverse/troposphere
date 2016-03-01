@@ -1,5 +1,6 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
+import classNames from 'classnames';
 
 export default React.createClass({
     displayName: "ChosenDropdownItem",
@@ -36,8 +37,7 @@ export default React.createClass({
 
     render: function () {
       var item = this.props.item,
-          cx = React.addons.classSet,
-          classes = cx({
+          classes = classNames({
             'active-result': true,
             'highlighted': this.state.isMouseOver
           });

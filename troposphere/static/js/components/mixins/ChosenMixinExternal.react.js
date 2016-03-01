@@ -1,7 +1,8 @@
-import React from 'react/addons';
+import React from 'react';
 import _ from 'underscore';
 import $ from 'jquery';
 import Backbone from 'backbone';
+import classNames from 'classnames';
 
 
 let ENTER_KEY = 13;
@@ -184,7 +185,7 @@ export default {
           selectedModels = activeCollection.map(this.renderSelectedModel),
           placeholderText = this.props.placeholderText,
           filteredModels,
-          classes = React.addons.classSet({
+          classes = classNames({
             'chosen-container-external': true,
             'chosen-container-external-multi': true,
             'chosen-with-drop': this.state.showOptions && query,

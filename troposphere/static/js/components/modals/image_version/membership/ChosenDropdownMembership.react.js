@@ -1,5 +1,7 @@
 import React from 'react/addons';
 import Backbone from 'backbone';
+import classNames from 'classnames';
+
 
 export default React.createClass({
     displayName: "ChosenDropdownMembership",
@@ -36,8 +38,7 @@ export default React.createClass({
 
     render: function () {
       var membership = this.props.membership,
-          cx = React.addons.classSet,
-          classes = cx({
+          classes = classNames({
             'active-result': true,
             'highlighted': this.state.isMouseOver
           });
