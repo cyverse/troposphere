@@ -87,8 +87,7 @@ export default React.createClass({
         versions = new versions.constructor(_.uniq(versions.models, function (v) {
             return v.id;
         }));
-        //TODO: Sort Me!
-        return filterEndDate(versions);
+        return versions;
     },
     calculateAllocationUsage: function (allocation) {
         var maxAllocation = allocation.threshold;
@@ -178,8 +177,8 @@ export default React.createClass({
         // don't show duplicate images
         versions = this.cleanVersions(versions);
         //Keep things in order
-        versions = versions.sort();
-        identities = identities.sort();
+        versions = filterEndDate(versions).sort();
+        identities = filterEndDate(identities).sort();
         if (!this.state.version) {
             this.state.version = versions.last();
         }
