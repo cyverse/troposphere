@@ -25,10 +25,13 @@ export default React.createClass({
           allImages = stores.ImageStore.getAll(),
           images = stores.ImageStore.fetchWhere({
             created_by__username: profile.get('username')
-          }) || [],
-          favoritedImages = stores.ImageBookmarkStore.getBookmarkedImages() || [];
+          }) || [];
 
-      if(!images || !favoritedImages){
+      // only attempt to get bookmarks if there is a profile that might have them ...
+      var userLoggedIn = !!(profile && profile.get('selected_identity')),
+        favoritedImages =  userLoggedIn ? stores.ImageBookmarkStore.getBookmarkedImages() : [];
+
+      if(!images || (userLoggedIn && !favoritedImages)){
         return <div className="loading"></div>
       }
 

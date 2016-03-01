@@ -17,10 +17,26 @@ API_V2_ROOT = API_SERVER + "/api/v2"
 
 SITE_TITLE= "{{ SITE_TITLE}}"
 SITE_FOOTER= "{{ SITE_FOOTER }}"
+
+SUPPORT_EMAIL="{{ SUPPORT_EMAIL }}"
+
 {% if THEME_NAME is defined and not THEME_NAME == "default" %}
 THEME_NAME="{{ THEME_NAME }}"
 {% else %}
-THEME_NAME="troposphere_theme"
+THEME_NAME= "troposphere_theme"
+{% endif %}
+
+ORG_NAME= "{{ ORG_NAME }}"
+
+{% if INTERCOM_APP_ID is defined and not INTERCOM_APP_ID == "" %}
+INTERCOM_APP_ID = "{{ INTERCOM_APP_ID }}"
+INTERCOM_COMPANY_ID = "{{ INTERCOM_COMPANY_ID }}"
+INTERCOM_COMPANY_NAME = "{{ INTERCOM_COMPANY_NAME }}"
+{% endif %}
+
+{% if SESSION_COOKIE_AGE is defined and not SESSION_COOKIE_AGE == "" %}
+# expect integer; value is represented in seconds
+SESSION_COOKIE_AGE = {{ SESSION_COOKIE_AGE }}
 {% endif %}
 
 # DATABASE

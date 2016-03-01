@@ -15,7 +15,7 @@ export default {
           imageVersionScript = new ImageVersionScript(),
           data = {
             image_version: image_version.id,
-            boot_script: script.id
+            boot_script: script.uuid
           };
 
       imageVersionScript.save(null, {

@@ -4,6 +4,7 @@ import stores from 'stores';
 import actions from 'actions';
 import TagMultiSelect from 'components/common/tags/TagMultiSelect.react';
 
+
 export default React.createClass({
     displayName: "Tags",
 
@@ -20,7 +21,7 @@ export default React.createClass({
             newTagName: "",
             newTagDescription: "",
             showTagCreateForm: false
-      }
+        }
     },
 
     createTagAndAddToImage: function(){
@@ -110,7 +111,7 @@ export default React.createClass({
               width={"100%"}
               placeholderText="Search by tag name..."
               />
-                        {tagCreateForm}
+            {tagCreateForm}
           </div>
         </div>
       );

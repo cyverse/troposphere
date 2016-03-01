@@ -75,7 +75,7 @@ let LoginLink = React.createClass({
     render: function () {
       return (
         <li className="dropdown">
-          <a href="/login?redirect=/application?beta=true">Login</a>
+          <a id="login_link" href="/login?redirect=/application?beta=true&airport_ui=false">Login</a>
         </li>
       );
     }
@@ -112,13 +112,13 @@ let LogoutLink = React.createClass({
             </li>
             <li className="divider"></li>
             <li>
-              <a href="#" onClick={this.onShowVersion}>Version</a>
+              <a id="version_link" href="#" onClick={this.onShowVersion}>Version</a>
             </li>
             <li>
               <a href="http://atmosphere.status.io" target="_blank">Status</a>
             </li>
             <li>
-              <a href="/logout?cas=True">Sign out</a>
+              <a id="logout_link" href="/logout?cas=True&airport_ui=false">Sign out</a>
             </li>
           </ul>
         </li>
@@ -138,7 +138,7 @@ let Header = React.createClass({
     //See navLinks below for implementation.
 
     getInitialState: function() {
-    return {windowWidth: window.innerWidth};
+        return {windowWidth: window.innerWidth};
     },
 
     handleResize: function(e) {
@@ -157,7 +157,7 @@ let Header = React.createClass({
       if (!window.show_troposphere_only) {
         return (
           <div className="beta-toggle">
-            <a href="/application?beta=false">
+            <a href="/application?beta=false&airport_ui=true">
               <div className="toggle-wrapper">
                 <div className="toggle-background">
                   <div className="toggle-text">View Old UI</div>
@@ -172,8 +172,10 @@ let Header = React.createClass({
 
     render: function () {
 
-      var profile = this.props.profile;
-      var loginLogoutDropdown = profile.get('selected_identity') ? <LogoutLink username={profile.get('username')}/> : <LoginLink/>;
+      var profile = this.props.profile,
+        hasLoggedInUser = (profile && profile.get('selected_identity'));
+
+      var loginLogoutDropdown = hasLoggedInUser ? <LogoutLink username={profile.get('username')}/> : <LoginLink/>;
 
       if (!profile.get('selected_identity')) {
         links = links.filter(function (link) {
@@ -235,7 +237,7 @@ let Header = React.createClass({
                 {loginLogoutDropdown}
               </ul>
             </div>
-            {this.renderBetaToggle()}
+            {hasLoggedInUser ? this.renderBetaToggle() : null}
           </div>
 
         </div>

@@ -1,392 +1,587 @@
+// Author's Note:
+// Although this feature is a step in the right direction, we should try to solve
+// a few problems with how we deal with state and async requests that are dependent
+// on each other. For example, because we are waiting for data on network requests,
+// for data we want in state, we would need to set state on these values by calling
+// setState from a change listener, however because we might already have it, we also
+// need to set state from the event listener. Another requirement is that we are populating
+// default values that are dependent on other values the user might change, so many event
+// listeners will call setState on those dependent values as well. All of this logic is currently
+// duplicated in every place mentioned. One solution might be to contain all of this
+// dependent logic in a single function that is called by passing the key value
+// pair to be changed and returns a new object to pass into setState from any call site we wish.
+
 import React from 'react/addons';
 import Backbone from 'backbone';
 import _ from 'underscore';
 import modals from 'modals';
 import stores from 'stores';
-
+import actions from 'actions';
 import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
-import BreadcrumbNav from 'components/common/breadcrumb/BreadcrumbNav.react';
+import { filterEndDate } from 'utilities/filterCollection';
 
 import ImageSelectStep from './launch/steps/ImageSelectStep.react';
-import NameIdentityVersionStep from './launch/steps/NameIdentityVersionStep.react';
-import SizeSelectStep from './launch/steps/SizeSelectStep.react';
-import ProjectSelectStep from './launch/steps/ProjectSelectStep.react';
-import UserOptionsStep from './launch/steps/UserOptionsStep.react';
-import AdministratorOptionsStep from './launch/steps/AdminOptionsStep.react';
-import LicensingStep from './launch/steps/LicensingStep.react';
-import ReviewLaunchStep from './launch/steps/ReviewLaunchStep.react';
+import ProjectCreateView from 'components/common/ProjectCreateView.react';
+import BasicLaunchStep from './launch/steps/BasicLaunchStep.react';
+import AdvancedLaunchStep from './launch/steps/AdvancedLaunchStep.react';
+import LicenseStep from './launch/steps/LicenseStep.react';
 
-let IMAGE_STEP = 0,
-    INFORMATION_STEP = 1,
-    SIZE_STEP = 2,
-    PROJECT_STEP = 3,
-    OPTIONS_STEP = 4,
-    LICENSE_STEP = 5,
-    REVIEW_STEP = 6;
-
+// This class implements the instance launch walkthrough. By design it keeps
+// track of two states. First is the state for switching between separate
+// views of the modal. The second is the state for launching an actual
+// instance, i.e. the state requisite for the launch api call (see
+// onSubmitLaunch). Do not add state friviously. This component operates by
+// defining all the operations to update its state as functions which it
+// passes to the appropriate children.
 export default React.createClass({
     mixins: [BootstrapModalMixin],
-    displayName: "InstanceLaunchWizardModal",
+    displayName: 'InstanceLaunchWizardModal',
 
     propTypes: {
-      image: React.PropTypes.instanceOf(Backbone.Model),
-      project: React.PropTypes.instanceOf(Backbone.Model),
-      onConfirm: React.PropTypes.func.isRequired,
+        image: React.PropTypes.instanceOf(Backbone.Model),
+        project: React.PropTypes.instanceOf(Backbone.Model),
+        onConfirm: React.PropTypes.func.isRequired,
+        initialView: React.PropTypes.string.isRequired,
     },
 
-    onRequestResources: function(){
-      // Launching a resource request modal will eat the current modal. We need to pass this.cancel as a prop
-      // in order to properly unmount the whole modal, not just the current step component.
-      this.cancel();
-      modals.HelpModals.requestMoreResources();
+    getInitialState: function() {
+
+        // We might have these
+        let image = this.props.image ? this.props.image : null;
+        let instanceName = image ? image.get('name') : null;
+        let projectList = stores.ProjectStore.getAll();
+        let project = this.props.project ? this.props.project : null;
+        let view = this.props.initialView;
+
+        // Check if the user has any projects, if not then set view to "PROJECT_VIEW"
+        // to create a new one
+        if (view != 'IMAGE_VIEW' && projectList.length === 0) {
+            view = 'PROJECT_VIEW';
+        }
+
+        return {
+            // State for general operation (switching views, etc)
+            view,
+            image,
+            provider: null,
+            showValidationErr: false,
+
+            // State for launch
+            instanceName,
+            imageVersion: null,
+            project,
+            providerSize: null,
+            identityProvider: null,
+            attachedScripts: [],
+        }
     },
 
-    isLicenseStepActive: function() {
-      state = this.getState();
-      if (state.version
-        && state.version.get('licenses')
-        && state.version.get('licenses').length > 0) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-    isOptionsStepActive: function() {
-      state = this.getState();
-      if (state.showOptions === true) {
-        return true;
-      } else {
-        return false;
-      }
-    },
-    renderImageSelect: function() {
-      return (
-                <ImageSelectStep
-                    image={this.state.image}
-                            onPrevious={this.cancel}
-                            onNext={this.onNext}
-                />
-      );
-    },
-    renderNameStep: function() {
-      return (
-                <NameIdentityVersionStep
-                    image={this.state.image}
-                    name={this.state.name}
-                    identity={this.state.identity}
-                    version={this.state.version}
-                    onRequestResources={this.onRequestResources}
-                    onPrevious={this.onPrevious}
-                    onNext={this.onNext}
-                />
-      );
-    },
-    renderSizeStep: function() {
-        return (
-                <SizeSelectStep
-                    image={this.state.image}
-                    identity={this.state.identity}
-                    version={this.state.version}
-                    size={this.state.size}
-                    onRequestResources={this.onRequestResources}
-                    onPrevious={this.onPrevious}
-                    onNext={this.onNext}
-                />
-      );
-    },
-    renderProjectStep: function() {
-        return (
-                <ProjectSelectStep
-                    project={this.state.project}
-                    onPrevious={this.onPrevious}
-                    onNext={this.onNext}
-                />
-              );
-    },
-    renderUserOptionsStep: function() {
-      var allScripts = this.state.scripts || stores.ScriptStore.getAll(),
-      requiredScripts = (this.state.version ? this.state.version.get('scripts') : null) || [],
-      activeScripts = this.state.activeScripts || new Backbone.Collection();
-      return (
-                <UserOptionsStep
-                    launchOptions={this.state.launchOptions}
-                    scripts={allScripts}
-                    activeScripts={activeScripts}
-                    requiredScripts={requiredScripts}
-                    onPrevious={this.onPrevious}
-                    onNext={this.onNext}
-                />
-              );
-    },
-    renderStaffOptionsStep: function() {
-      return (
-        <AdministratorOptionsStep
-          launchOptions={this.state.launchOptions}
-          onPrevious={this.onPrevious}
-          onNext={this.onNext}
-          onFinished={this.toReview}
-        />
-      );
-    },
-    renderReviewLaunchStep: function() {
-      return (
-        <ReviewLaunchStep
-          launchData={this.state}
-          onPrevious={this.onPrevious}
-          onNext={this.onCompleted}
-          onRequestResources={this.onRequestResources}
-          toAdvancedOptions={this.toAdvancedOptions}
-        />
-      );
-    },
-    renderLicenseStep: function() {
-      return (
-        <LicensingStep
-          licenses={this.state.version.get('licenses')}
-          onPrevious={this.onPrevious}
-          onNext={this.onNext}
-        />
-      );
-    },
-    renderBody: function() {
-      var step = this.state.step;
-        switch(step) {
-	       case IMAGE_STEP:
-          return this.renderImageSelect();
-        case INFORMATION_STEP:
-          return this.renderNameStep();
-        case SIZE_STEP:
-          return this.renderSizeStep();
-        case PROJECT_STEP:
-          return this.renderProjectStep();
-        case OPTIONS_STEP:
-            return this.renderUserOptionsStep();
-        case LICENSE_STEP:
-          return this.renderLicenseStep();
-        case REVIEW_STEP:
-          return this.renderReviewLaunchStep();
-      }
-    },
-
-    hoverTitleChange: function(text) {
-      this.setState({title: text});
-    },
-
-    changeTitleBack: function() {
-      this.setState({title: this.state.breadcrumbs[this.state.step].name});
-    },
-
-    renderBreadCrumbTrail: function() {
-        var self = this;
-        var breadcrumbs = this.state.breadcrumbs;
-
-        //Add pseudo-property 'state'
-        breadcrumbs.map(function(breadcrumb, index, array){
-            var state;
-            if(
-                (typeof breadcrumb.active === "boolean" && !breadcrumb.active) ||
-                (typeof breadcrumb.active === "function" && !breadcrumb.active())
-              ) {
-                state = "inactive"
-            } else if(breadcrumb.step === self.state.step) {
-                state = "active"
-            } else if (breadcrumb.step < self.state.step) {
-                state = "available"
-            } else {
-                state = ""
-            }
-            breadcrumb.state = state;
-        });
-        return (<BreadcrumbNav
-            breadcrumbs={breadcrumbs}
-            onMouseOn={this.hoverTitleChange}
-            onMouseOff={this.changeTitleBack}
-            step = {this.state.step}
-            onCrumbClick={self.toStep}
-            />
-        );
-    },
-    render: function() {
-      return (
-        <div className="modal fade">
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header instance-launch">
-                {this.renderCloseButton()}
-                <strong>Instance Launch Wizard- {this.state.title}</strong>
-              </div>
-              <div className="modal-body">
-                <div className="clearfix modal-section">
-                    {this.renderBreadCrumbTrail()}
-                </div>
-                {this.renderBody()}
-              </div>
-            </div>
-          </div>
-        </div>
-      );
-    },
-
+    // Set the component's state based on cloud defaults.
     //
-    // Mounting & State
-    // ----------------
-    //
-    getInitialState: function(){
-      var image = this.props.image,
-        project = this.props.project;
-      return {
-        image: image,
-        project: project,
-        step: image ? INFORMATION_STEP : IMAGE_STEP,
-        title: "Image",
-        breadcrumbs: [
-          {name:"Image",step:IMAGE_STEP, active:this.props.image ? false : true},
-          {name:"Version & Provider",step:INFORMATION_STEP, active: true},
-          {name:"Size",step:SIZE_STEP, active: true},
-          {name:"Project",step:PROJECT_STEP, active:this.props.project ? false : true},
-          {name:"Options",step:OPTIONS_STEP, active: false},
-          {name:"Licensing",step:LICENSE_STEP, active:this.isLicenseStepActive},
-          {name:"Review",step:REVIEW_STEP, active: true}
-        ],
-      };
-    },
-
-    getState: function() {
-      return this.state;
-    },
-
+    // Whenever the wizard mounts it listens for changes from the stores,
+    // passing this function as a callback. Incrementally it calls stores to
+    // fetch data. It only sets state for defaults, i.e. if project is null,
+    // set the project to the first returned from the cloud. It primes our
+    // stores, so that render can just call get and eventually get data.
     updateState: function() {
-      if (this.isMounted()) this.setState(this.getState());
+        let project = this.state.project;
+        if (!project) {
+            project = stores.ProjectStore.getAll().first();
+        }
+
+        let imageVersionList;
+        if (this.state.image) {
+            imageVersionList = stores.ImageVersionStore.fetchWhere({image_id: this.state.image.id});
+        }
+
+        let imageVersion = this.state.imageVersion;
+        if (imageVersionList && !imageVersion) {
+            imageVersionList = filterEndDate(imageVersionList);
+            imageVersion = imageVersionList.last();
+        }
+
+        let providerList, provider;
+        if (imageVersion) {
+            providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
+            if (providerList) {
+                provider = this.state.provider ?
+                    this.state.provider :
+                    providerList.first();
+            }
+        }
+
+        let resourcesUsed, identityProvider, providerSizeList, providerSize;
+        if (provider) {
+            resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
+
+            identityProvider = stores.IdentityStore.findOne({ 'provider.id': provider.id });
+
+            providerSizeList = stores.SizeStore.fetchWhere({
+                provider__id: provider.id
+            });
+
+            if (providerSizeList) {
+                providerSize = this.state.providerSize ?
+                    this.state.providerSize :
+                    providerSizeList.first();
+            };
+        }
+
+        // NOTE: Only update state for things that need defaults. Data fetched
+        // from the cloud is not part of the component's state that it
+        // manages.
+        this.setState({
+            imageVersion,
+            project,
+            provider,
+            providerSize,
+            identityProvider,
+        });
     },
 
     componentDidMount: function() {
-      stores.ProviderStore.addChangeListener(this.updateState);
-      stores.IdentityStore.addChangeListener(this.updateState);
-      stores.SizeStore.addChangeListener(this.updateState);
-      stores.ProjectStore.addChangeListener(this.updateState);
-      stores.ProjectVolumeStore.addChangeListener(this.updateState);
-      stores.ProjectInstanceStore.addChangeListener(this.updateState);
-      stores.InstanceStore.addChangeListener(this.updateState);
-      stores.ImageVersionStore.addChangeListener(this.updateState);
-      stores.MaintenanceMessageStore.addChangeListener(this.updateState);
-      stores.ScriptStore.addChangeListener(this.updateState);
-      stores.LicenseStore.addChangeListener(this.updateState);
+        stores.IdentityStore.addChangeListener(this.updateState);
+        stores.ProviderMachineStore.addChangeListener(this.updateState);
+        stores.SizeStore.addChangeListener(this.updateState);
+        stores.ProjectStore.addChangeListener(this.updateState);
+        stores.ImageVersionStore.addChangeListener(this.updateState);
+        stores.ScriptStore.addChangeListener(this.updateState);
+
+        // NOTE: This is not nice. This enforces that every time a component
+        // mounts updateState gets called. Otherwise, if a component mounts
+        // after data has been fetched, then updateState never gets called.
+        this.updateState();
     },
 
     componentWillUnmount: function() {
-      stores.ProviderStore.removeChangeListener(this.updateState);
-      stores.IdentityStore.removeChangeListener(this.updateState);
-      stores.SizeStore.removeChangeListener(this.updateState);
-      stores.ProjectStore.removeChangeListener(this.updateState);
-      stores.ProjectVolumeStore.removeChangeListener(this.updateState);
-      stores.ProjectInstanceStore.removeChangeListener(this.updateState);
-      stores.InstanceStore.removeChangeListener(this.updateState);
-      stores.ImageVersionStore.removeChangeListener(this.updateState);
-      stores.MaintenanceMessageStore.removeChangeListener(this.updateState);
-      stores.ScriptStore.removeChangeListener(this.updateState);
-      stores.LicenseStore.removeChangeListener(this.updateState);
+        stores.IdentityStore.removeChangeListener(this.updateState);
+        stores.ProviderMachineStore.removeChangeListener(this.updateState);
+        stores.SizeStore.removeChangeListener(this.updateState);
+        stores.ProjectStore.removeChangeListener(this.updateState);
+        stores.ImageVersionStore.removeChangeListener(this.updateState);
+        stores.ScriptStore.removeChangeListener(this.updateState);
     },
 
-    //
-    // Internal Modal Callbacks
-    // ------------------------
-    //
+    viewImageSelect: function() {
+        this.setState({ view: 'IMAGE_VIEW' });
+    },
 
-    cancel: function() {
-      this.hide();
+    viewBasic: function() {
+        this.setState({ view: 'BASIC_VIEW' });
     },
-    onCompleted: function(launch_data) {
-      this.hide();
-      this.props.onConfirm(launch_data);
+
+    viewAdvanced: function() {
+        this.setState({ view:'ADVANCED_VIEW' });
     },
-    onPrevious: function(data) {
-        var previousStep = this.getPrevStep(this.state.step);
-        if (previousStep === undefined) {
-            this.cancel();
-            return;
+
+    viewLicense: function() {
+        this.setState({ view: 'LICENSE_VIEW' });
+    },
+
+    //=========================
+    // Event Handlers
+    //=========================
+
+    onSelectImage: function(image) {
+        let instanceName = image.get('name');
+        let imageVersion, providerSize, identityProvider;
+        let imageVersionList = stores.ImageVersionStore.fetchWhere({image_id: image.id});
+
+        if (imageVersionList) {
+            imageVersionList = filterEndDate(imageVersionList);
+            imageVersion = imageVersionList.last();
         }
-        var data = data || {},
-            state = _.extend({step: previousStep}, data);
-        if(this.state.step == REVIEW_STEP) {
-            //TODO: Remove this when re-adding User/Admin Options
-            if(this.props.project) {
-                //Skip 'Project Selection' step if project provided.
-                state.step = SIZE_STEP;
-            } else {
-                state.step = PROJECT_STEP;
+
+        let providerSizeList;
+        let providerList;
+        let provider;
+        if (imageVersion) {
+            providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
+            if (providerList) {
+                provider = providerList.first();
+                providerSizeList = stores.SizeStore.fetchWhere({
+                    provider__id: provider.id
+                });
+
+                identityProvider = stores.IdentityStore.findOne({
+                    'provider.id': provider.id
+                });
             }
         }
-        state.title = this.state.breadcrumbs[state.step].name;
-        this.setState(state);
-    },
-    getPrevStep: function(current_step) {
-      var prevStep = current_step,
-          breadcrumb;
 
-      while(true) {
-        prevStep = prevStep - 1;
-        if (prevStep < 0) {
-            return undefined;
-          // throw "Unexpected behavior: prev step < 0";
+        if (providerSizeList) {
+            providerSize = providerSizeList.first();
+        };
+
+        this.setState({
+            image,
+            instanceName,
+            imageVersion,
+            providerSize,
+            providerSize,
+            identityProvider,
+        }, this.viewBasic);
+    },
+
+    onBack: function() {
+        this.viewImageSelect();
+    },
+
+    onNameChange: function(e) {
+        this.setState({ instanceName: e.target.value });
+    },
+
+    onNameBlur: function(e) {
+        let instanceName = this.state.instanceName.trim();
+        this.setState({instanceName});
+    },
+
+    onVersionChange: function(imageVersion) {
+        let providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
+        let providerSizeList;
+        let providerSize;
+        let provider;
+        let identityProvider;
+        if (providerList) {
+            provider = providerList.first();
+            providerSizeList = stores.SizeStore.fetchWhere({
+                provider__id: provider.id
+            });
+
+            identityProvider = stores.IdentityStore.findOne({
+                'provider.id': provider.id
+            });
+
+            if (providerSizeList) {
+                providerSize = providerSizeList.first();
+            };
         }
-        breadcrumb = this.state.breadcrumbs[prevStep];
-        if(
-          (typeof breadcrumb.active === "boolean" && !breadcrumb.active) ||
-          (typeof breadcrumb.active === "function" && !breadcrumb.active())
-        ) {
-          //Skip this, it's inactive
-          continue;
+
+        this.setState({
+            imageVersion,
+            provider,
+            providerSize,
+            identityProvider
+        });
+    },
+
+    onProjectChange: function(project) {
+        this.setState({ project });
+    },
+
+    onProviderChange: function(provider) {
+        let providerSizeList = stores.SizeStore.fetchWhere({
+            provider__id: provider.id
+        });
+
+        let providerSize;
+
+        let identityProvider = stores.IdentityStore.findOne({
+            'provider.id': provider.id
+        });
+
+        if (providerSizeList) {
+            providerSize = providerSizeList.first();
+        };
+
+        this.setState({
+            provider,
+            providerSize,
+            identityProvider
+        });
+    },
+
+    onSizeChange: function(providerSize) {
+        this.setState({ providerSize });
+    },
+
+    onRequestResources: function() {
+        this.hide();
+        modals.HelpModals.requestMoreResources(this);
+    },
+
+    onAddAttachedScript: function(value) {
+        let attachedScripts = this.state.attachedScripts;
+
+        this.setState({ attachedScripts: [...attachedScripts, value] });
+    },
+
+    onRemoveAttachedScript: function(item) {
+        let attachedScripts = this.state.attachedScripts
+            .filter((i) => i != item);
+
+        this.setState({ attachedScripts });
+    },
+
+    onSaveAdvanced: function() {
+        this.viewBasic()
+    },
+
+    onCancelAdvanced: function() {
+        this.setState({ attachedScripts: [] });
+        this.viewBasic();
+    },
+
+    onProjectCreateConfirm: function(name, description) {
+        this.viewBasic();
+        actions.ProjectActions.create({
+            name: name,
+            description
+        });
+    },
+
+    //============================
+    // Final Submit event handler
+    //============================
+
+    onSubmitLaunch: function() {
+        let licenseList = this.state.imageVersion.get('licenses');
+        if (this.canLaunch()) {
+            if (licenseList.length >= 1 && this.state.view === 'BASIC_VIEW') {
+                this.viewLicense();
+                return
+            }
+
+            let launchData = {
+                project: this.state.project,
+                instanceName: this.state.instanceName.trim(),
+                identity: this.state.identityProvider,
+                size: this.state.providerSize,
+                version: this.state.imageVersion,
+                scripts: this.state.attachedScripts
+            };
+            actions.InstanceActions.launch(launchData);
+            this.hide();
+            return
         }
-        return breadcrumb.step;
-      }
-    },
-    getNextStep: function(current_step) {
-      var nextStep = current_step + 1,
-          final_step = this.state.breadcrumbs.length - 1,
-          breadcrumb,
-          active;
 
-      do {
-        if (nextStep > final_step) {
-          throw "Unexpected behavior: 'next' step > final step";
+        this.setState({showValidationErr: true})
+    },
+
+
+    //======================
+    // Validation
+    //======================
+
+    // This is a callback that returns true if the provider size in addition to resources already using
+    // will exceed the user's allotted resources.
+    exceedsResources: function() {
+        let provider = this.state.provider;
+        let identityProvider = this.state.identityProvider;
+        let size = this.state.providerSize;
+
+        if ( identityProvider && size && provider) {
+            let resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
+
+            // Calculate and set all of our graph information
+            // AU's Used
+            let  allocationConsumed = identityProvider.get('usage').current;
+            let  allocationTotal = identityProvider.get('usage').threshold;
+
+            // CPU's have used + will use
+            let  allocationCpu = identityProvider.get('quota').cpu;
+            let  cpuWillTotal = resourcesUsed.cpu + size.get('cpu');
+
+            // Memory have used + will use
+            let  allocationMem = identityProvider.get('quota').memory;
+            let  memUsed = resourcesUsed.mem / 1000;
+            let  memWillUse = size.get('mem');
+            let  memWillTotal = memUsed + size.get('mem');
+            if (allocationConsumed >= allocationTotal) {
+                return true;
+            }
+            if (cpuWillTotal >= allocationCpu) {
+                return true;
+            }
+            if (memWillTotal >= allocationMem) {
+                return true;
+            }
+            return false
         }
-        breadcrumb = this.state.breadcrumbs[nextStep];
-        active =
-            typeof breadcrumb.active === "boolean"
-            ? breadcrumb.active
-            : breadcrumb.active();
+        return true;
+    },
 
-        if (active)
-            return breadcrumb.step;
-      } while (nextStep++)
+    canLaunch: function() {
+        let requiredFields = ['project', 'identityProvider', 'providerSize', 'imageVersion', 'attachedScripts'];
+        let notFalsy = ((prop) => Boolean(this.state[prop]) != false);
 
+        // instanceName will be null, indicating that it has not been set.
+        // If instanceName equals the empty string, the user has erased the
+        // name, and is trying to launch an instance with no name.
+        if ( _.every(requiredFields, notFalsy)) {
+            if (this.state.instanceName == '') { return false };
+            if (this.exceedsResources()) { return false };
+            return true;
+        }
+        return false
     },
-    onNext: function (data) {
-      var nextStep = this.getNextStep(this.state.step),
-        data = data || {},
-        state = _.extend({step: nextStep}, data);
 
-      state.title = this.state.breadcrumbs[nextStep].name;
-      this.setState(state);
+    //==================
+    // View Routing
+    //==================
+
+    renderBody: function() {
+        let view = this.state.view;
+        switch(view) {
+            case 'IMAGE_VIEW':
+            return this.renderImageSelect()
+            case 'PROJECT_VIEW':
+            return this.renderProjectCreateStep()
+            case 'BASIC_VIEW':
+            return this.renderBasicOptions()
+            case 'ADVANCED_VIEW':
+            return this.renderAdvancedOptions()
+            case 'LICENSE_VIEW':
+            return this.renderLicenseStep()
+        }
     },
-    toReview: function(data) {
-        var state = _.extend({step: REVIEW_STEP}, data);
-        this.setState(state);
+
+    headerTitle: function() {
+        let view = this.state.view;
+        switch(view) {
+            case 'IMAGE_VIEW':
+            return 'Select an Image'
+            case 'PROJECT_VIEW':
+            return 'Create New Project'
+            case 'BASIC_VIEW':
+            return 'Basic Options'
+            case 'ADVANCED_VIEW':
+            return 'Advanced Options'
+            case 'LICENSE_VIEW':
+            return 'License Agreement'
+        }
     },
-    activateBreadcrumb: function(index, activeTruth) {
-      var breadcrumbs = this.state.breadcrumbs,
-      crumb = breadcrumbs[index];
-      crumb.state = activeTruth ? "active" : "inactive";
-      this.state.breadcrumbs[index] = crumb;
-      return crumb;
+
+    //========================
+    // Render Methods
+    //========================
+
+    renderImageSelect: function() {
+        return (
+            <ImageSelectStep
+                image={this.state.image}
+                onSelectImage={this.onSelectImage}
+                onCancel = {this.hide}
+            />
+        );
     },
-    toAdvancedOptions: function(data) {
-      var crumb = this.activateBreadcrumb(OPTIONS_STEP, true);
-      var state = _.extend(data, {step: OPTIONS_STEP, title: crumb.name});
-      this.setState(state);
+
+    renderProjectCreateStep: function() {
+        return (
+            <ProjectCreateView
+                cancel={this.hide}
+                onConfirm={this.onProjectCreateConfirm}
+            />
+        );
     },
-    toStep: function(breadcrumb) {
-       this.setState({title: breadcrumb.name});
-       this.setState({step: breadcrumb.step});
+
+    renderBasicOptions: function() {
+        let provider = this.state.provider;
+        let providerSize = this.state.providerSize;
+        let image = this.state.image;
+        let imageVersion = this.state.imageVersion;
+        let projectList = stores.ProjectStore.getAll() || null;
+        let identities = stores.IdentityStore.getAll() || null;
+
+        let project = this.state.project;
+        if (!project && projectList) {
+            project = projectList.first();
+        }
+
+        let imageVersionList;
+        if (this.state.image) {
+            imageVersionList = stores.ImageVersionStore.fetchWhere({image_id: this.state.image.id});
+            if (imageVersionList) {
+                imageVersionList = filterEndDate(imageVersionList);
+            }
+        }
+
+        let providerList, providerSizeList, resourcesUsed;
+        if (provider && imageVersion) {
+            //providerList = new Backbone.Collection(imageVersion.get('machines').map((item) => item.provider));
+            providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
+            providerSizeList = stores.SizeStore.fetchWhere({
+                provider__id: provider.id
+            });
+            resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
+        }
+        return (
+            <BasicLaunchStep { ...{
+                    showValidationErr: this.state.showValidationErr,
+                    attachedScripts: this.state.attachedScripts,
+                    backIsDisabled: this.props.initialView == 'BASIC_VIEW',
+                    launchIsDisabled: !this.canLaunch(),
+                    identityProvider: this.state.identityProvider,
+                    image,
+                    imageVersion,
+                    imageVersionList,
+                    instanceName: this.state.instanceName,
+                    onBack: this.onBack,
+                    onCancel: this.hide,
+                    onNameChange: this.onNameChange,
+                    onNameBlur: this.onNameBlur,
+                    onProjectChange: this.onProjectChange,
+                    onProviderChange: this.onProviderChange,
+                    onRequestResources: this.onRequestResources,
+                    onSizeChange: this.onSizeChange,
+                    onSubmitLaunch: this.onSubmitLaunch,
+                    onVersionChange: this.onVersionChange,
+                    project,
+                    projectList,
+                    provider,
+                    providerList,
+                    providerSize,
+                    providerSizeList,
+                    resourcesUsed,
+                    viewAdvanced: this.viewAdvanced,
+                }}
+            />
+        )
+    },
+
+    renderAdvancedOptions: function() {
+        let bootScriptList = stores.ScriptStore.getAll();
+        return (
+            <AdvancedLaunchStep
+                bootScriptList={bootScriptList}
+                attachedScripts={this.state.attachedScripts}
+                onAddAttachedScript={this.onAddAttachedScript}
+                onRemoveAttachedScript={this.onRemoveAttachedScript}
+                cancelAdvanced={this.onCancelAdvanced}
+                onSaveAdvanced={this.onSaveAdvanced}
+            />
+        );
+    },
+
+    renderLicenseStep: function() {
+        let licenseList = this.state.imageVersion.get('licenses');
+
+        if (!licenseList) {return}
+        return (
+            <LicenseStep
+                licenseList={licenseList}
+                onSubmitLaunch={this.onSubmitLaunch}
+                onBack={this.viewBasic}
+                onCancel={this.hide}
+            />
+        )
+    },
+
+    render: function() {
+        return (
+            <div className="modal fade">
+                <div className="modal-dialog" style={{width:"100%", maxWidth:"800px"}}>
+                    <div className="modal-content">
+                        <div className="modal-header instance-launch">
+                            {this.renderCloseButton()}
+                            <h2 className="headline">Launch an Instance / {this.headerTitle()}</h2>
+                        </div>
+                        <div className="modal-body">
+                            {this.renderBody()}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
     }
 });

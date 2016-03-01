@@ -72,8 +72,12 @@ _.extend(Store.prototype, Backbone.Events, {
     // CRUD functions
     // --------------
 
-    add: function(model) {
-        this.models.add(model);
+    add: function (payload) {
+      if ("at" in payload){
+        this.models.add(payload.data, {at: payload.at});
+        return;
+      }
+      this.models.add(payload);
     },
 
     update: function(model) {
@@ -142,6 +146,18 @@ _.extend(Store.prototype, Backbone.Events, {
         }
     },
 
+    onFetchModel: function (modelId, cb) {
+        this.isFetchingModel[modelId] = true;
+        var model = new this.collection.prototype.model({
+          id: modelId
+        });
+        model.fetch().done(function () {
+          this.isFetchingModel[modelId] = false;
+          this.models.add(model);
+          cb(model);
+          this.emitChange();
+        }.bind(this));
+    },
     // Returns the entire local cache, everything in this.models
     getAll: function() {
         if (!this.models) {
@@ -169,7 +185,12 @@ _.extend(Store.prototype, Backbone.Events, {
     },
 
     // same as fetchFirstPage, but with URL query params
-    fetchFirstPageWhere: function(queryParams) {
+    fetchFirstPageWhere: function(queryParams, options) {
+      if(options.clearQueryCache){
+        var queryString = buildQueryStringFromQueryParams(queryParams);
+        delete this.queryModels[queryString];
+      }
+
       if (!this.isFetching) {
         this.isFetching = true;
         queryParams = queryParams || {};
@@ -315,8 +336,6 @@ _.extend(Store.prototype, Backbone.Events, {
           url: models.url + queryString
         }).done(function () {
           this.isFetchingQuery[queryString] = false;
-          if(!this.models) this.models = new this.collection();
-          this.models.add(models.models);
           this.queryModels[queryString] = models;
           this.emitChange();
         }.bind(this));
@@ -332,18 +351,13 @@ _.extend(Store.prototype, Backbone.Events, {
         // Build the query string
         var queryString = buildQueryStringFromQueryParams(queryParams);
 
-        var searchResults = this.queryModels[queryString],
-            nextUrl = searchResults.meta.next;
-
         if (nextUrl && !this.isFetchingQuery[queryString]) {
             this.isFetchingQuery[queryString] = true;
             var moreModels = new this.collection();
-            moreModels.fetch({
-                url: nextUrl
-            }).done(function() {
+            this.queryModels[queryString].fetch({
+                url: nextUrl, remove: false
+            }).done(function () {
                 this.isFetchingQuery[queryString] = false;
-                searchResults.add(moreModels.models);
-                searchResults.meta = moreModels.meta;
                 this.emitChange();
             }.bind(this));
         }
@@ -406,7 +420,7 @@ _.extend(Store.prototype, Backbone.Events, {
 
     // Delays before polling, should be removed...
     pollUntilBuildIsFinished: function (model) {
-        this.setTimeout(this.pollNowUntilBuildIsFinished, this.pollingFrequency);
+        setTimeout(this.pollNowUntilBuildIsFinished.bind(this, model), this.pollingFrequency);
     },
 });
 

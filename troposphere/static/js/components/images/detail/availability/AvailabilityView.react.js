@@ -40,7 +40,7 @@ export default React.createClass({
       render: function() {
         return (
           <div className='version-availability' style={{marginTop:"20px"}}>
-            <h4 className="title" style={{marginBottom:"10px"}}>Available on: </h4>
+            <h4 className="t-title" style={{marginBottom:"10px"}}>Available on: </h4>
               {this.renderBody()}
           </div>
         );

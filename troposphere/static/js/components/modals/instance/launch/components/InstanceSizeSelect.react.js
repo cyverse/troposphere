@@ -11,7 +11,7 @@ export default React.createClass({
       },
 
       renderOption: function (size) {
-        var disabled = this.props.min_cpu != null && this.props.min_mem != null && (size.get('cpu') < this.props.min_cpu || size.get('mem') < this.props.min_mem);
+        var disabled = this.props.min_cpu != null && this.props.min_mem != null && (size.get('cpu') < this.props.min_cpu || size.get('mem') < this.props.min_mem / 1024);
         var text = size.formattedDetails();
         if(disabled){
           text += " Unavailable: fails minimum requirements";

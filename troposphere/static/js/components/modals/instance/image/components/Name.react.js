@@ -6,7 +6,8 @@ export default React.createClass({
     propTypes: {
       onChange: React.PropTypes.func.isRequired,
       value: React.PropTypes.string.isRequired,
-      create: React.PropTypes.bool.isRequired
+      create: React.PropTypes.bool.isRequired,
+      error: React.PropTypes.string
     },
 
     handleChange: function (e) {
@@ -20,7 +21,17 @@ export default React.createClass({
         return "*Edit Name of Existing Image"
       }
     },
-
+    renderErrorText: function() {
+        if(!this.props.error) {
+            return;
+        } else {
+            return (
+                <div className="alert alert-danger">
+                    <strong>Invalid Name:</strong>
+                    {this.props.error}
+                </div>);
+        }
+    },
     render: function () {
       return (
         <div className="form-group">
@@ -39,6 +50,7 @@ export default React.createClass({
             value={this.props.value}
             onChange={this.handleChange}
             />
+            {this.renderErrorText()}
         </div>
       );
     }

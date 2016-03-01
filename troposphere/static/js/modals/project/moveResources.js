@@ -2,8 +2,9 @@ import actions from 'actions';
 import ModalHelpers from 'components/modals/ModalHelpers';
 import ProjectMoveResourceModal from 'components/modals/project/ProjectMoveResourceModal.react';
 
+
 export default {
-    moveResources: function (resources, currentProject) {
+    moveResources: function (resources, currentProject, callback) {
 
       var props = {
         currentProject: currentProject,
@@ -16,7 +17,7 @@ export default {
           resources: resources,
           newProject: newProject
         });
-
+        callback();
       });
     }
 };

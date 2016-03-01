@@ -17,7 +17,7 @@ export default React.createClass({
 
         return (
           <div className="image-info-segment row">
-            <h4 className="title col-md-2">Name</h4>
+            <h4 className="t-title col-md-2">Name</h4>
             <div className="form-group col-md-10">
               <input className="form-control" value={name} onChange={this.props.onChange}/>
             </div>

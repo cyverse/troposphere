@@ -10,7 +10,7 @@ import showUnsupportedModal from 'modals/unsupported/showUnsupportedModal.js';
 import modernizrTest from 'components/modals/unsupported/modernizrTest.js';
 import NullProject from 'models/NullProject';
 
-  // Routing
+// Routing
 import Router from 'react-router';
 
 let RouteHandler = Router.RouteHandler;
@@ -68,20 +68,19 @@ export default React.createClass({
 
       // The code below is only relevant to logged in users
       if (!context.profile || !context.profile.get('selected_identity')) return;
+
       // IMPORTANT! We get one shot at this. If the instances and volumes aren't
       // fetched before this component is mounted we miss our opportunity to migrate
       // the users resources (so make sure they're fetched in the Splash Screen)
+      var instances = stores.InstanceStore.getInstancesNotInAProject(),
+            volumes = stores.VolumeStore.getVolumesNotInAProject(),
+            nullProject = new NullProject({instances: instances, volumes: volumes});
 
-
-        var instances = stores.InstanceStore.getInstancesNotInAProject(),
-        volumes = stores.VolumeStore.getVolumesNotInAProject(),
-        nullProject = new NullProject({instances: instances, volumes: volumes});
       if (!modernizrTest.unsupported()) {
           showUnsupportedModal.showModal(this.closeUnsupportedModal);
       }
 
       if (modernizrTest.unsupported()) {
-
         if (!nullProject.isEmpty()) {
             actions.NullProjectActions.migrateResourcesIntoProject(nullProject);
         } else {
@@ -94,8 +93,6 @@ export default React.createClass({
       }
 
     },
-
-
 
     componentWillUnmount: function () {
       // un-subscribe from all Stores
@@ -134,5 +131,4 @@ export default React.createClass({
         </div>
       );
     }
-
 });

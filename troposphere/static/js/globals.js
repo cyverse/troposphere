@@ -1,5 +1,5 @@
-
 import jstz from 'jstz';
+
 
 let timezone = jstz.determine();
 let tz_region = timezone ? timezone.name() : 'America/Phoenix';
@@ -13,6 +13,7 @@ export default {
     SITE_TITLE: window.SITE_TITLE || 'Atmosphere',
     SITE_FOOTER: window.SITE_FOOTER || 'iPlant Collaborative',
     UI_VERSION: window.UI_VERSION || 'Unknown Unicolored-Jay',
+    SUPPORT_EMAIL: window.SUPPORT_EMAIL || 'support@iplantcollaborative.org',
     TZ_REGION: tz_region,
     BADGE_HOST: window.BADGE_HOST,
     BADGES_ENABLED: window.BADGES_ENABLED || false

@@ -11,25 +11,16 @@ export default React.createClass({
 
     getInitialState: function() {
       return {
-        isLoadingMoreResults: false,
-        nextUrl: null
+        instanceHistoryItems: stores.InstanceHistoryStore.fetchWhere({"page_size": 10})
       }
     },
 
-    updateState: function() {
-      var instanceHistories = stores.InstanceHistoryStore.getAll(),
-        state = {};
-
-      if (instanceHistories && instanceHistories.meta.next !== this.state.nextUrl) {
-        state.isLoadingMoreResults = false;
-        state.nextUrl = null;
-      }
-
-      if (this.isMounted()) this.setState(state);
+    onNewData: function(){
+        this.setState({instanceHistoryItems: stores.InstanceHistoryStore.fetchWhere({"page_size": 10})});
     },
 
     componentDidMount: function() {
-      stores.InstanceHistoryStore.addChangeListener(this.updateState);
+     stores.InstanceHistoryStore.addChangeListener(this.onNewData);
     },
 
     componentWillUnmount: function() {
@@ -37,19 +28,12 @@ export default React.createClass({
     },
 
     onLoadMoreInstanceHistory: function() {
-      var instanceHistories = stores.InstanceHistoryStore.getAll();
-
-      this.setState({
-        isLoadingMoreResults: true,
-        nextUrl: instanceHistories.meta.next
-      });
-      stores.InstanceHistoryStore.fetchMore();
+        stores.InstanceHistoryStore.fetchMoreWhere({"page_size": 10});
     },
 
     refreshHistory: function(){
-        stores.InstanceHistoryStore.fetchFirstPage();
+        this.setState({instanceHistoryItems: stores.InstanceHistoryStore.fetchFirstPageWhere({"page_size": 10}, {clearQueryCache: true})});
         stores.InstanceHistoryStore.lastUpdated = Date.now();
-        this.forceUpdate();
     },
 
     renderRefreshButton: function(){
@@ -63,7 +47,7 @@ export default React.createClass({
     },
 
     renderTitle: function() {
-      var instanceHistories = stores.InstanceHistoryStore.getAll(),
+      var instanceHistories = this.state.instanceHistoryItems,
         title = "Instance History",
         historyCount;
 
@@ -75,7 +59,7 @@ export default React.createClass({
       return title;
     },
 
-    renderLoadMoreHistoryButton: function(instanceHistories) {
+    renderLoadMoreHistoryButton: function() {
       // Load more instances from history
       var buttonStyle = {
           margin: "auto",
@@ -84,7 +68,8 @@ export default React.createClass({
         loadingStyle = {
           margin: "0px auto"
         },
-        moreHistoryButton = null;
+        moreHistoryButton = null,
+        instanceHistories = this.state.instanceHistoryItems;
 
       if (instanceHistories.meta.next) {
         if (this.state.isLoadingMoreResults) {
@@ -104,7 +89,7 @@ export default React.createClass({
     },
 
     renderBody: function() {
-      var instanceHistories = stores.InstanceHistoryStore.getAll(),
+      var instanceHistories = this.state.instanceHistoryItems,
           instances = stores.InstanceStore.getAll(),
           providers = stores.ProviderStore.getAll(),
           instanceHistoryItems;
@@ -113,6 +98,7 @@ export default React.createClass({
 
       instanceHistoryItems = instanceHistories.map(function(instance) {
         var providerId = null,
+            name = instance.get('instance').name,
             image = instance.get('image'),
             provider = instance.get('provider'),
             instanceId = instance.get('instance').id;
@@ -155,7 +141,7 @@ export default React.createClass({
                   <div>
                     <Gravatar hash={instanceHistoryHash} size={iconSize} type={type}/>
                     <div className="instance-history-details">
-                      <strong className="name">{instance.get('name')}</strong>
+                      <strong className="name">{name}</strong>
                       <div>Launched from {imageLink}</div>
                       <div>{"Ran: " + formattedStartDate + " - " + formattedEndDate}</div>
                     </div>
@@ -174,14 +160,14 @@ export default React.createClass({
       return (
         <div>
           {instanceHistoryItems}
-          {this.renderLoadMoreHistoryButton(instanceHistories)}
+          {this.renderLoadMoreHistoryButton()}
         </div>
       );
     },
 
     render: function() {
       return (
-        <div>
+        <div onClick={this.loadMoreHistory}>
           <h2>
             {this.renderTitle()}
             {this.renderRefreshButton()}

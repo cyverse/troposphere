@@ -17,6 +17,10 @@ Dispatcher.register(function(dispatch) {
     var options = dispatch.action.options || options;
 
     switch (actionType) {
+        case ResourceRequestConstants.ADD:
+            store.add({data: payload.model, at: 0});
+            break;
+
         case ResourceRequestConstants.UPDATE:
             store.update(payload.model);
             break;

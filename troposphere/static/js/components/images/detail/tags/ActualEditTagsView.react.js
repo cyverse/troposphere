@@ -44,7 +44,7 @@ export default React.createClass({
 
       if (query) {
         tags = this.props.tags.filter(function (tag) {
-          return tag.get('name').toLowerCase().indexOf(query) >= 0;
+          return tag.get('name').toLowerCase().indexOf(query.toLowerCase()) >= 0;
         });
         tags = new Backbone.Collection(tags);
       }
@@ -57,6 +57,7 @@ export default React.createClass({
             activeModels={this.props.activeTags}
             onModelAdded={this.props.onTagAdded}
             onModelRemoved={this.props.onTagRemoved}
+            onCreateNewTag={this.props.onCreateNewTag}
             onEnterKeyPressed={this.onEnterKeyPressed}
             onQueryChange={this.onQueryChange}
             placeholderText="Search by tag name..."

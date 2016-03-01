@@ -10,7 +10,7 @@ export default {
         if (typeof newAttributes.end_date === "object") {
             end_date = newAttributes.end_date
         } else {
-            end_date = moment(newAttributes.end_date);
+            end_date = moment(newAttributes.end_date, "M/DD/YYYY hh:mm a z");
         }
         newAttributes.end_date = end_date;
       }

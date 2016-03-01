@@ -1,9 +1,10 @@
-
 import ProviderMachineCollection from 'collections/ProviderMachineCollection';
 import Dispatcher from 'dispatchers/Dispatcher';
 import BaseStore from 'stores/BaseStore';
 import ProviderMachineConstants from 'constants/ProviderMachineConstants';
+import _ from 'underscore';
 import NotificationController from 'controllers/NotificationController';
+
 
 let ProviderMachineStore = BaseStore.extend({
     collection: ProviderMachineCollection,
@@ -32,6 +33,20 @@ let ProviderMachineStore = BaseStore.extend({
             return this.queryModels[image_key];
         }
     },
+
+    getMachinesForVersion: function(version) {
+        var version_key = "machine=" + version;
+        var use_query = "?version_id="+ version;
+        if(!this.queryModels[version_key]) {
+            this.fetchModelsFor(version_key, use_query);
+        } else {
+            return new Backbone.Collection(
+                            this.queryModels[version_key]
+                            .map((ver) => ver.get('provider'))
+                        );
+        }
+    },
+
     fetchModelsFor: function(image_key, use_query) {
         //Based on 'the key', get all related objects
         if (!this.queryModels[image_key] && !this.isFetching) {

@@ -2,11 +2,13 @@ import $ from 'jquery';
 import NotificationController from 'controllers/NotificationController';
 import globals from 'globals';
 import Badges from 'Badges';
+import Utils from './Utils';
+import Constants from 'constants/ResourceRequestConstants';
 import actions from 'actions';
 import stores from 'stores';
 
-export default {
 
+export default {
     sendFeedback: function (feedback) {
       var data = {};
 
@@ -41,7 +43,7 @@ export default {
           var errorMessage,
               response_error = response.responseJSON.detail;
           if (response.status >= 500) {
-              errorMessage = "Your feedback could not be submitted. If you'd like to send it directly to support, email <a href='mailto:support@iplantcollaborative.org'>support@iplantcollaborative.org</a>.";
+              errorMessage = `Your feedback could not be submitted. If you'd like to send it directly to support, email <a href='mailto:${globals.SUPPORT_EMAIL}'>${globals.SUPPORT_EMAIL}</a>.`;
           } else {
               errorMessage = "There was an error submitting your request: " + response_error;
           }
@@ -65,12 +67,15 @@ export default {
         identity = params.identity,
         quota = params.quota,
         reason = params.reason,
+        // if admin_url is undefined, the API will default to the django admin UI for ticket management
+        admin_url = window.location.origin + "/application/admin/resource-requests/",
         username = user.get('username');
 
       var data = {
         identity: identity,
         request: quota,
-        description: reason
+        description: reason,
+        admin_url: admin_url
       };
 
       var requestUrl = globals.API_V2_ROOT + '/resource_requests';
@@ -82,6 +87,7 @@ export default {
         contentType: 'application/json',
         success: function (data) {
           NotificationController.info("Resource Request submitted", "Support will be in touch with you shortly.");
+          Utils.dispatch(Constants.ADD, {model: data});
           actions.BadgeActions.checkOrGrant(Badges.RESOURCE_REQUEST_BADGE);
         },
         error: function (response) {

@@ -1,78 +1,91 @@
 #modal {
-  ul {
-    list-style-type: none;
-    li {
-        line-height:200%;
+    hr {
+        margin: 0 0 20px;
     }
-  }
-
-  .modal-section {
-    padding-bottom: 5px;
-
-    h4 {
-      font-size: 19px;
-      border-bottom: 1px solid #ddd;
+    
+    .headline, .title {
+        margin-top:0;
+        margin-bottom:5px;
     }
-  }
-
-  .quota-consumption-bars {
-    margin-top: 10px;
-    width: 50%;
-    display: inline-block;
-    vertical-align: top;
-    padding-left: 15px;
-    padding-right: 15px;
-
-    .progress {
-      height: 25px;
+    ul {
+        list-style-type: none;
     }
 
-    .progress-bar {
-      line-height: 25px;
-      font-size: 13px;
+    .modal-section {
+        padding-bottom: 5px;
+
+        h4 {
+            font-size: 19px;
+            border-bottom: 1px solid #ddd;
+        }
+        .title-2 {
+            margin-top:0;
+            margin-bottom:0;
+        }
+        .search-input {
+            height: 36px;
+            font-size:16px;
+        }
     }
 
-    .value {
-      position: absolute;
-      z-index: 1;
-      margin-top: 3px;
-      margin-left: 7px;
-    }
-  }
+    .quota-consumption-bars {
+        margin-top: 10px;
+        width: 50%;
+        display: inline-block;
+        vertical-align: top;
+        padding-left: 15px;
+        padding-right: 15px;
 
-  .allocation-consumption-bar {
-    margin-top: 10px;
-    width: 100%;
-    display: inline-block;
-    vertical-align: top;
-    padding-left: 15px;
-    padding-right: 15px;
+        .progress {
+            height: 25px;
+        }
 
-    .progress {
-      height: 25px;
+        .progress-bar {
+            line-height: 25px;
+            font-size: 13px;
+        }
+
+        .value {
+            position: absolute;
+            z-index: 1;
+            margin-top: 3px;
+            margin-left: 7px;
+        }
     }
 
-    .progress-bar {
-      line-height: 25px;
-      font-size: 13px;
-    }
+    .allocation-consumption-bar {
+        margin-top: 10px;
+        width: 100%;
+        display: inline-block;
+        vertical-align: top;
+        padding-left: 15px;
+        padding-right: 15px;
 
-    .value {
-      position: absolute;
-      z-index: 1;
-      margin-top: 3px;
-      margin-left: 7px;
-    }
+        .progress {
+            height: 25px;
+        }
+
+        .progress-bar {
+            line-height: 25px;
+            font-size: 13px;
+        }
+
+        .value {
+            position: absolute;
+            z-index: 1;
+            margin-top: 3px;
+            margin-left: 7px;
+        }
   }
 
   // Modal image list
 
   .app-card-list.modal-list {
     margin-bottom: 15px;
-    max-height: 550px;
+    max-height: 300px;
     overflow-y: auto;
     overflow-x: hidden;
-    border: 1px solid black;
+    border: 1px solid $grey--light;
 
     .app-card {
       border-radius: 0;
@@ -80,10 +93,10 @@
       border: none;
     }
 
-    li {
-      margin: 0;
-      border: 1px solid #ccc;
-      border-top: 0;
+    .media {
+      margin: 1px;
+      border-top: solid 1px $grey--light;
+      padding:5px;
 
       &:hover {
         cursor: pointer;
@@ -94,16 +107,9 @@
       }
     }
 
-    li:first-child {
-      border-top: 1px solid #ccc;
-    }
-
     ul.tags {
       max-width: 430px;
-
-      li {
-        float: left;
-      }
+      margin-bottom:5px;
     }
   }
 
@@ -286,3 +292,5 @@ $breadcrumb-bk-inactive:lightgrey;
         margin-right: 10px;
     }
 }
+
+

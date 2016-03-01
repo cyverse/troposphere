@@ -11,6 +11,7 @@ import InteractiveDateField from 'components/common/InteractiveDateField.react';
 import EditMembershipView from './membership/EditMembershipView.react';
 import EditLicensesView from './licenses/EditLicensesView.react';
 import EditScriptsView from './scripts/EditScriptsView.react';
+import EditMinimumRequirementsView from './requirements/EditMinimumRequirementsView.react';
 import ImageSelect from 'components/modals/image_version/ImageSelect.react';
 
 export default React.createClass({
@@ -29,6 +30,10 @@ export default React.createClass({
 
       return {
         showOptions: false,
+        cpuMinVal: 1,
+        memMinVal: 1,
+        cpuMaxVal: 16,
+        memMaxVal: 32,
         version: version,
         versionImage: this.props.image,
         versionName: version.get('name'),
@@ -40,6 +45,9 @@ export default React.createClass({
         versionLicenses: null,
         versionScripts: null,
         versionMemberships: null,
+        versionMinCPU: version.get('min_cpu'),
+        // display memory as GB
+        versionMinMem: version.get('min_mem') / 1024
       }
     },
 
@@ -88,7 +96,8 @@ export default React.createClass({
       var hasVersionName   = !!this.state.versionName;
       var hasChangeLog = !!this.state.versionChangeLog;
       var validEndDate = !!this.valid_date(this.state.versionEndDate);
-      return hasVersionName && hasChangeLog && validEndDate;
+      var validRequirements = this.checkValidMem() && this.checkValidCPU();
+      return hasVersionName && hasChangeLog && validEndDate && validRequirements;
     },
 
     //
@@ -108,7 +117,10 @@ export default React.createClass({
         this.state.versionChangeLog,
         this.state.versionEndDate,
         this.state.versionCanImage,
-        this.state.versionImage
+        this.state.versionImage,
+        this.state.versionMinCPU,
+        // convert RAM to MB
+        this.state.versionMinMem * 1024
       );
     },
 
@@ -213,8 +225,47 @@ export default React.createClass({
         group: membership
       });
     },
+
+    onCPUChange: function(e){
+      // Only accept positive integers
+      if(Number(e.target.value) && e.target.value > 0){
+        this.setState({versionMinCPU: Number(e.target.value)});
+      }
+      else{
+        this.setState({versionMinCPU: 0});
+      }
+    },
+
+    onMemChange: function(e){
+      // Only accept positive integers
+      if(Number(e.target.value) && e.target.value > 0){
+        this.setState({versionMinMem: Number(e.target.value)});
+      }
+      else{
+        this.setState({versionMinMem: 0});
+      }
+    },
+
+    checkValidMem: function(){
+      var curMemVal = this.state.versionMinMem,
+        memMinVal = this.state.memMinVal,
+        memMaxVal = this.state.memMaxVal;
+
+      return (!curMemVal || (curMemVal >= memMinVal && curMemVal <= memMaxVal));
+    },
+
+
+    checkValidCPU: function(){
+      var curCPUVal = this.state.versionMinCPU,
+          cpuMinVal = this.state.cpuMinVal,
+          cpuMaxVal = this.state.cpuMaxVal;
+
+      return (!curCPUVal || (curCPUVal >= cpuMinVal && curCPUVal <= cpuMaxVal));
+    },
+
     renderBody: function() {
-      var applicationView, availabilityView, canImageView, nameView, descriptionView, startDateView, endDateView, membershipView, licensesView, scriptsView;
+      var applicationView, availabilityView, canImageView, nameView, descriptionView,
+        startDateView, endDateView, membershipView, licensesView, scriptsView;
 
       var name = this.state.versionName,
         created = this.state.versionStartDate.format("MMM D, YYYY hh:mm a"),
@@ -302,6 +353,7 @@ export default React.createClass({
       //FUTURE_keyTODO: Pull this functionality out if you use it anywhere else..
       endDateView = (<InteractiveDateField
               value={ended}
+              labelText={"Version End-dated On"}
               onChange={this.onEndDateChange}
               />);
       startDateView = (<div className='form-group'>
@@ -317,6 +369,18 @@ export default React.createClass({
           </label>
         </div>
       );
+      minimumRequirementsView = (<EditMinimumRequirementsView
+        cpu={this.state.versionMinCPU}
+        mem={this.state.versionMinMem}
+        onCPUChange={this.onCPUChange}
+        onMemChange={this.onMemChange}
+        memMinVal={this.state.memMinVal}
+        memMaxVal={this.state.memMaxVal}
+        cpuMinVal={this.state.cpuMinVal}
+        cpuMaxVal={this.state.cpuMaxVal}
+        checkValidCPU={this.checkValidCPU}
+        checkValidMem={this.checkValidMem}
+      />);
       if(this.state.showOptions) {
         advancedOptions = (
           <div className='advanced-options' >
@@ -329,6 +393,8 @@ export default React.createClass({
             {scriptsView}
             <hr />
             {applicationView}
+            <hr />
+            {minimumRequirementsView}
           </div>
         );
       } else {
@@ -347,6 +413,7 @@ export default React.createClass({
           }
           {startDateView}
           {endDateView}
+          <hr />
           <div className="form-group clearfix">
             <button type="button" className="btn btn-default pull-right"
                     onClick={this.onOptionsChange}>
@@ -376,7 +443,7 @@ export default React.createClass({
         versionId = version.id;
 
       if (!end_date) {
-      end_date =""
+        end_date = ""
       }
 
       return (

@@ -157,8 +157,9 @@ export default React.createClass({
                     <strong>Uh oh! </strong>
                     It looks like you don't have any instances in this project
                     that you can attach the volume to. Volumes can only be
-                    attached to instances that are in the <strong>same project</strong> and
-                    on the <strong>same provider</strong> as the volume.
+                    attached to instances that are <strong>active</strong>, in
+                    the <strong>same project</strong> and on the <strong>same
+                    provider</strong> as the volume.
                   </p>
 
                   <p>
@@ -223,12 +224,14 @@ export default React.createClass({
             instances = this.state.instances,
             content;
 
-        if (!instances) {
+        var activeInstances = instances && instances.filter(i => i.is_active());
+
+        if (instances == null) {
           content = this.renderLoadingContent();
-        } else if (instances.length <= 0) {
-          content = this.renderAttachRulesContent();
+        } else if (activeInstances.length > 0) {
+          content = this.renderAttachVolumeContent(activeInstances);
         } else {
-          content = this.renderAttachVolumeContent(instances);
+          content = this.renderAttachRulesContent(); 
         }
 
         return (

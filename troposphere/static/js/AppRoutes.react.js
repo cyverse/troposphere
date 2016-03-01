@@ -80,7 +80,9 @@ let AppRoutes = (
       <Route name="admin" handler={AdminMaster}>
         <Route name="atmosphere-user-manager" path="users" handler={AtmosphereUserMaster}/>
         <Route name="identity-membership-manager" path="identities" handler={IdentityMembershipMaster}/>
-        <Route name="resource-request-manager" path="resource-requests" handler={ResourceMaster} />
+        <Route name="resource-request-manager" path="resource-requests" handler={ResourceMaster}>
+          <Route name="resource-request-detail" path=":id" handler={ResourceRequest}/>
+        </Route>
         <Route name="image-request-manager" path="imaging-requests" handler={ImageMaster} />
         <DefaultRoute handler={AtmosphereUserMaster}/>
       </Route>

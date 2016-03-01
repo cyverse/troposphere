@@ -1,6 +1,8 @@
 import React from 'react/addons';
+import _ from 'underscore';
 import $ from 'jquery';
 import Backbone from 'backbone';
+
 
 let ENTER_KEY = 13;
 
@@ -72,7 +74,9 @@ export default {
 
     onEnter: function(e){
       if(e.which !== ENTER_KEY) return;
+
       var value = e.target.value;
+
       if(this.onEnterKeyPressed) {
         this.onEnterKeyPressed(value);
       } else if(this.props.onEnterKeyPressed) {
@@ -81,6 +85,7 @@ export default {
         //Enter does nothing if neither value is defined..
         return;
       }
+
       //After callback, assume action Completed clear search.
       this.clearSearchField();
     },
@@ -110,6 +115,7 @@ export default {
     clearSearchField: function(){
       var query = "",
         input = this.refs.searchField.getDOMNode();
+
       input.value = query;
       input.focus();
       this.setState({query: query});

@@ -4,6 +4,7 @@ import Backbone from 'backbone';
 import React from 'react/addons';
 import SplashScreen from 'components/SplashScreen.react';
 import MaintenanceScreen from 'components/MaintenanceScreen.react';
+import FunctionalCollection from 'collections/FunctionalCollection';
 import modernizr from 'lib/modernizr-latest.js';
 
 // Important:
@@ -21,6 +22,8 @@ Backbone.Collection.prototype.get = function(obj) {
     });
 };
 
+// Extend the base collection to include useful functions
+Backbone.Collection = Backbone.Collection.extend(FunctionalCollection);
 
 import stores from 'stores';
 
@@ -88,6 +91,7 @@ actions.ProjectExternalLinkActions = require('actions/ProjectExternalLinkActions
 actions.ProjectImageActions = require('actions/ProjectImageActions');
 actions.ProjectInstanceActions = require('actions/ProjectInstanceActions');
 actions.ProjectVolumeActions = require('actions/ProjectVolumeActions');
+actions.ResourceActions = require('actions/ResourceActions');
 actions.TagActions = require('actions/TagActions');
 actions.UserActions = require('actions/UserActions');
 actions.VolumeActions = require('actions/VolumeActions');

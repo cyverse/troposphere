@@ -1,9 +1,13 @@
-
 import React from 'react/addons';
 import Profile from 'models/Profile';
 import $ from 'jquery';
 import Router from '../Router';
 import routes from './AppRoutes.react';
+
+
+import modals from 'modals';
+
+modals.PublicModals = require('modals/PublicModals');
 
 // Register which stores the application should use
 import stores from 'stores';
@@ -34,7 +38,6 @@ stores.MaintenanceMessageStore = {
 function startApplication() {
 
     $(document).ready(function() {
-
         $('body').removeClass('splash-screen');
 
         // Start the application router
@@ -43,7 +46,7 @@ function startApplication() {
             // RouterActions.routeChange({routerState: state});
 
             // whenever the url changes, this callback is called again
-            React.render( < Handler / > , document.getElementById("application"));
+            React.render(<Handler /> , document.getElementById("application"));
         });
     });
 }

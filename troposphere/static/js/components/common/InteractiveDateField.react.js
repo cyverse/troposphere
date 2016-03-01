@@ -10,6 +10,7 @@ export default React.createClass({
 
     propTypes: {
       value: React.PropTypes.string,
+      labelText: React.PropTypes.string,
       onChange: React.PropTypes.func.isRequired,
     },
 
@@ -27,10 +28,10 @@ export default React.createClass({
     },
 
     unsetDate: function (e) {
-      var new_value = "";
-      this.setState({value: new_value});
+      var newValue = "";
+      this.setState({value: newValue});
       if(this.props.onChange != null) {
-        this.props.onChange(new_value)
+        this.props.onChange(newValue)
       }
     },
 
@@ -44,12 +45,38 @@ export default React.createClass({
     },
 
     render: function () {
+      var labelEl = this.props.labelText ? (<label htmlFor="interactive-date-field">{this.props.labelText}</label>) : null;
+      var btnStyle = {
+        lineHeight: '1.31' // I know this is quite heinous ...
+      };
+      var lastBtnStyle = {
+        borderTopRightRadius: '5px',
+        borderBottomRightRadius: '5px'
+      };
+      _.extend(lastBtnStyle, btnStyle);
 
       return (
-        <div className="form-group">
-          <input type='text' className='form-control' value={this.state.value} onChange={this.onValueChanged}/>
-          <span className="input-group-addon" id="enddate-set-addon" onClick={this.setEndDateNow}>Today</span>
-          <span className="input-group-addon" id="enddate-clear-addon" onClick={this.unsetDate}>Clear</span>
+        <div>
+        {labelEl}
+        <div className="input-group">
+          <input id="interactive-date-field"
+            type="text"
+            className="form-control"
+            value={this.state.value}
+            onChange={this.onValueChanged} />
+          <div className="input-group-btn">
+            <button type="button"
+                id="enddate-set-addon"
+                className="btn btn-default"
+                style={btnStyle}
+                onClick={this.setEndDateNow}>Today</button>
+            <button type="button"
+                id="enddate-clear-addon"
+                className="btn btn-default"
+                style={lastBtnStyle}
+                onClick={this.unsetDate}>Clear</button>
+          </div>
+        </div>
         </div>
       );
     }

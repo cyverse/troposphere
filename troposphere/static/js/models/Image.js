@@ -15,12 +15,12 @@ export default Backbone.Model.extend({
         // todo: move this feature into ImageBookmarksStore
         attributes.isFavorited = true; //response.is_bookmarked;
         attributes.start_date = moment(attributes.start_date);
-        attributes.end_date = moment(attributes.end_date);
+        attributes.end_date = moment(attributes.end_date); // might be null, which is an Invalid Date
         attributes.description = attributes.description || "";
         attributes.uuid_hash = attributes.uuid_hash || CryptoJS.MD5((attributes.uuid).toString()).toString();
 
 
-      return attributes;
+        return attributes;
     },
 
     toJSON: function (options) {

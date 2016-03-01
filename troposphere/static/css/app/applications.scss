@@ -20,11 +20,12 @@
   margin: 0;
   padding: 0;
 
-  > li {
-    margin: 0 0 20px 0;
+  .media {
+      margin:0 0 20px;
   }
 
   .app-card {
+    margin:0 0 20px;
     overflow:hidden;
     border: 1px solid #ccc;
     width: 100%;

@@ -15,7 +15,7 @@ export default {
           imageVersionLicense = new ImageVersionLicense(),
           data = {
             image_version: image_version.id,
-            license: license.id
+            license: license.uuid
           };
 
       imageVersionLicense.save(null, {

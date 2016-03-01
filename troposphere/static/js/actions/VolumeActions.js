@@ -1,4 +1,3 @@
-
 import Update from './volume/update';
 import Report from './volume/report';
 import Poll from './volume/poll';
@@ -12,5 +11,4 @@ export default {
     poll: Poll.poll,
     createAndAddToProject: Create.createAndAddToProject,
     destroy: Destroy.destroy,
-    destroy_noModal: Destroy.destroy_noModal
 };

@@ -13,7 +13,7 @@ export default React.createClass({
     renderBody: function(){
       var image = stores.ImageStore.get(Number(this.getParams().imageId)),
         tags = stores.TagStore.getAll(),
-        userLoggedIn = context.profile,
+        userLoggedIn = (context.profile && context.profile.get('selected_identity')),
         providers = userLoggedIn ? stores.ProviderStore.getAll() : null,
         identities = userLoggedIn ? stores.IdentityStore.getAll() : null;
 

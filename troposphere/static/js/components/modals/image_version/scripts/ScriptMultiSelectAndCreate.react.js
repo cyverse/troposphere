@@ -134,7 +134,7 @@ export default React.createClass({
     render: function () {
       var createShowing = this.state.showCreateForm,
         createButtonText = this.props.createButtonText,
-        showFormButtonText = (!createShowing) ? this.props.showButtonText : this.props.hideButtonText;
+        showFormButtonText = !createShowing ? this.props.showButtonText : this.props.hideButtonText;
 
       return (
         <div className="scriptMultiSelectAndCreate">

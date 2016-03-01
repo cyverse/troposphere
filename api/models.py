@@ -1,7 +1,9 @@
 from django.db import models
 from django.db.models import Q
-from django.utils import timezone
+from django.db.models.signals import post_save
 from django.contrib.auth.models import User
+from django.utils import timezone
+
 
 
 class MaintenanceRecord(models.Model):
@@ -52,6 +54,18 @@ class UserPreferences(models.Model):
     show_beta_interface = models.BooleanField(default=True)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
+    airport_ui = models.NullBooleanField(default=None, null=True)
 
     def __unicode__(self):
         return "%s" % self.user.username
+
+
+# Save Hook(s) Here:
+def get_or_create_preferences(sender, instance, created, **kwargs):
+    pref, _ = UserPreferences.objects.get_or_create(user=instance)
+    pref.user = instance
+    pref.save()
+
+
+# Instantiate the hook(s):
+post_save.connect(get_or_create_preferences, sender=User)

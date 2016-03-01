@@ -2,6 +2,8 @@ import React from 'react/addons';
 import Backbone from 'backbone';
 import modals from 'modals';
 import actions from 'actions';
+import context from 'context';
+
 
 export default React.createClass({
     displayName: "Footer",
@@ -11,7 +13,11 @@ export default React.createClass({
     },
 
     onFeedback: function () {
-      modals.HelpModals.showFeedbackModal();
+        if (context.hasLoggedInUser()) {
+            modals.HelpModals.showFeedbackModal();
+        } else {
+            modals.PublicModals.showPublicSupportModal();
+        }
     },
 
     render: function () {

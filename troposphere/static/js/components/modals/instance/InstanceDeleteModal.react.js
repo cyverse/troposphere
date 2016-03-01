@@ -1,7 +1,8 @@
 import React from 'react';
-import Backbone from 'backbone';
 import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 import Glyphicon from 'components/common/Glyphicon.react';
+import InstanceModel from 'models/Instance';
+
 
 export default React.createClass({
       displayName: "InstanceDeleteModal",
@@ -9,27 +10,14 @@ export default React.createClass({
       mixins: [BootstrapModalMixin],
 
       propTypes: {
-        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
-
-      //
-      // Internal Modal Callbacks
-      // ------------------------
-      //
-
-      cancel: function () {
-        this.hide();
+        instance: React.PropTypes.instanceOf(InstanceModel).isRequired,
+        onConfirm: React.PropTypes.func.isRequired,
       },
 
       confirm: function () {
         this.hide();
         this.props.onConfirm();
       },
-
-      //
-      // Render
-      // ------
-      //
 
       renderBody: function () {
         var instance = this.props.instance;
@@ -38,17 +26,16 @@ export default React.createClass({
           <div>
             <p className='alert alert-danger'>
               <Glyphicon name='warning-sign'/>
-              <strong>WARNING</strong>
-              {
-                ' Unmount volumes within your instance ' +
-                'before deleting the instance or risk corrupting your data and the volume'
-              }
+              <strong> WARNING</strong>
+              {' Data will be'}
+              <strong>{ ' lost.' }</strong>
             </p>
-
             <p>
-              {'Your instance '}
-              <strong>{instance.get('name') + ' #' + instance.get('id')}</strong>
-              {' will be shut down and all data will be permanently lost!'}
+                {'The following instance ' +
+                 'will be shut down and all data will be permanently lost:'}
+                <ul>
+                <strong>{instance.get('name') + ' #' + instance.get('id')}</strong>
+                </ul>
             </p>
 
             <p>
@@ -77,7 +64,7 @@ export default React.createClass({
                   {this.renderBody()}
                 </div>
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-danger" onClick={this.cancel}>
+                  <button type="button" className="btn btn-danger" onClick={this.hide}>
                     Cancel
                   </button>
                   <button type="button" className="btn btn-primary" onClick={this.confirm}>

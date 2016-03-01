@@ -1,4 +1,3 @@
-
 import BaseStore from 'stores/BaseStore';
 import StatusCollection from 'collections/StatusCollection';
 

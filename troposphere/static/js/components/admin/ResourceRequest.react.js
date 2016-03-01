@@ -2,21 +2,19 @@ import React from 'react/addons';
 import Backbone from 'backbone';
 import Router from 'react-router';
 import stores from 'stores';
-
 import Glyphicon from 'components/common/Glyphicon.react';
 import actions from 'actions';
 import ResourceActions from 'actions/ResourceActions';
 
+let RouteHandler = Router.RouteHandler;
 
 export default React.createClass({
 
-    propTypes: {
-      request: React.PropTypes.instanceOf(Backbone.Model).isRequired
-    },
+    mixins: [Router.State],
 
     getInitialState: function(){
       return {
-        AUSearch: "",
+        AUSearch: 0,
         delta: 525600,
         expire: true,
         response: "",
@@ -47,9 +45,13 @@ export default React.createClass({
 
     handleApproval: function(e){
         e.preventDefault();
+
         var resourceRequest = this.props.request,
           quotaToSend = parseInt(this.state.quota) || parseInt(resourceRequest.get('current_quota')),
-          allocationToSend = stores.AllocationStore.findWhere({"threshold": parseInt(this.state.AUSearch) * 60, "delta": this.state.delta}).models[0].get('id');
+          allocationToSend = stores.AllocationStore.findWhere({
+            "threshold": parseInt(this.state.AUSearch) * 60,
+            "delta": this.state.delta
+          }).models[0].get('id');
           status = stores.StatusStore.findOne({name: "approved"});
 
         ResourceActions.update({
@@ -63,6 +65,7 @@ export default React.createClass({
 
     handleDenial: function(e){
       e.preventDefault();
+
       var resourceRequest = this.props.request,
         status = stores.StatusStore.findOne({name: "rejected"});
 
@@ -107,12 +110,13 @@ export default React.createClass({
     },
 
     renderAdminDetails: function(){
-      var quotas = stores.QuotaStore.getAll(),
+      var request = stores.ResourceRequestStore.get(this.getParams().id),
+          quotas = stores.QuotaStore.getAll(),
           allocations = stores.AllocationStore.fetchWhere({"page_size": 100}),
           statuses = stores.StatusStore.getAll(),
-          request = this.props.request,
           currentQuotaString = 'N/A',
           currentAllocationString = 'N/A';
+
 
       if (!quotas || !allocations || !statuses) return <div className="loading"/>;
 
@@ -137,19 +141,21 @@ export default React.createClass({
       var canSubmit = (parseInt(this.state.quota) || parseInt(request.get('current_quota'))) && (stores.AllocationStore.findWhere({"threshold": parseInt(this.state.AUSearch) * 60, "delta": this.state.delta}).length == 1) && this.state.response;
 
       return(
-          <div className="admin-detail row">
-            <div className="request-info pull-left">
-              <div><strong>User: </strong> {request.get('user').username}</div>
-              <div><strong>Created by: </strong> {request.get('created_by').username}</div>
-              <div><strong>Admin message: </strong> {request.get('admin_message')}</div>
-              <div><strong>Request: </strong> {request.get('request')}</div>
-              <div><strong>Description: </strong> {request.get('description')}</div>
-              <div><strong>Current quota: </strong>{currentQuotaString}</div>
-              <div><strong>Current allocation: </strong>{currentAllocationString}</div>
+          <div className="admin-detail">
+            <div className="request-info">
+              <div className="user-info">
+                <span className="name"><h4>For user:</h4>&nbsp;<h5>{request.get('user').username}</h5></span>
+                <span className="name"><h4>Created by:</h4>&nbsp;<h5>{request.get('created_by').username}</h5></span>
+              </div>
+              <h4>Request: </h4><h5>{request.get('request')}</h5>
+              <h4>Description: </h4><h5>{request.get('description')}</h5>
+              <h4>Admin message: </h4><h5>{request.get('admin_message')}</h5>
+              <h4>Current quota: </h4><h5>{currentQuotaString}</h5>
+              <h4>Current allocation: </h4><h5>{currentAllocationString}</h5>
             </div>
-            <div className="request-actions pull-right">
+            <div className="request-actions">
               <div>
-                <label>New quota: </label>
+                <h4>New quota: </h4>
                 <select value={this.state.quota} onChange={this.handleQuotaChange}
                   ref="selectedQuota">{quotas.map(function (quota) {
                   return (
@@ -166,20 +172,20 @@ export default React.createClass({
               </div>
               <div>
                 <div className="inline">
-                  <label>New allocation: </label>
+                  <h4>New allocation: </h4>
                   <div>
-                    <input type="text" value={this.state.AUSearch} onChange={this.handleThresholdSearchChange} />AU
+                    <input type="Number" value={this.state.AUSearch} onChange={this.handleThresholdSearchChange} />AU
                   </div>
                 </div>
                 <div className="radio-buttons">
-                  <strong>Expiring allocation? </strong>
+                  <h4>Expiring allocation? </h4>
                   <input type="radio" name="expire" checked={this.state.expire === true} onChange={this.onExpireChange}>Yes</input>
                   <input type="radio" name="expire" checked={this.state.expire === false} onChange={this.onExpireChange}>No</input>
                 </div>
                 {this.renderAllocationStatus()}
               </div>
               <div className="form-group">
-                <strong>Response:</strong>
+                <h4>Response:</h4>
                 <br />
                 <textarea type="text" form="admin" value={this.state.value} onChange={this.handleResponseChange}/>
               </div>
@@ -193,23 +199,11 @@ export default React.createClass({
     },
 
     render: function () {
-      var request = this.props.request,
-          adminDisplay;
-
-      if(this.state.displayAdmin){
-        adminDisplay = this.renderAdminDetails();
-      }
-
       return (
-        <li className="request clearfix">
-          <a onClick={this.handleDisplayChange}>
-            <div>{request.get('user').username}</div>
-            <div>{request.get('request')} </div>
-            <div>{request.get('description')}</div>
-          </a>
-
-          {adminDisplay}
-        </li>
+        <div className="request-admin pull-right">
+          {this.renderAdminDetails()}
+          <RouteHandler />
+        </div>
       );
     }
 });

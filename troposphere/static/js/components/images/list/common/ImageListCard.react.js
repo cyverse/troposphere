@@ -5,12 +5,12 @@ import Bookmark from 'components/images/common/Bookmark.react';
 import context from 'context';
 import Tags from 'components/images/detail/tags/Tags.react';
 import stores from 'stores';
-import navigator from 'navigator';
 import Showdown from 'showdown';
 import globals from 'globals';
 import moment from 'moment';
 import momentTZ from 'moment-timezone';
 import Router from 'react-router';
+
 
 export default React.createClass({
     displayName: "ImageListCard",
