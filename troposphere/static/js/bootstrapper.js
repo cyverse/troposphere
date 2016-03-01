@@ -7,6 +7,7 @@ define(function (require) {
     React = require('react/addons'),
     SplashScreen = require('components/SplashScreen.react'),
     MaintenanceScreen = require('components/MaintenanceScreen.react'),
+    FunctionalCollection = require('collections/FunctionalCollection'),
     modernizr = require('lib/modernizr-latest.js');
 
   // Disconnect all Backbone Events from Models and Collections
@@ -29,6 +30,9 @@ define(function (require) {
       //return model.id == String(obj) || model.id === String(obj.id) || model.cid === obj.cid;
     });
   };
+
+  // Extend the base collection to include useful functions
+  Backbone.Collection = Backbone.Collection.extend(FunctionalCollection);
 
   // Register which stores the image should use
   var stores = require('stores');
