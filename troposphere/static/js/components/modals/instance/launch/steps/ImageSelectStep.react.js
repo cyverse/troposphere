@@ -1,10 +1,12 @@
 import React from 'react/addons';
 import Backbone from 'backbone';
 import _ from 'underscore';
+import stores from 'stores';
+
+import TabLinks from 'components/common/ui/TabLinks.react';
 import ImageCollection from 'collections/ImageCollection';
 import ImageList from '../components/ImageList.react';
 import InstanceLaunchFooter from '../components/InstanceLaunchFooter.react';
-import stores from 'stores';
 
 export default React.createClass({
     displayName: "InstanceLaunchWizardModal-ImageSelectStep",
@@ -95,12 +97,14 @@ export default React.createClass({
     renderImages: function (images, allImages) {
         let totalNumberOfImages = allImages.length,
             query = this.state.query;
+        if (!images) { return ( <div className="loading"/> ) }
 
         return (
         <div>
             {this.renderSearchInput()}
             {this.renderFilterDescription()}
-            <ImageList images={images}
+            <ImageList
+                images={images}
                 onSelectImage={this.props.onSelectImage}
             >
             {this.renderMoreImagesButton(images, totalNumberOfImages)}
@@ -162,6 +166,9 @@ export default React.createClass({
                 <div className="modal-section">
                     <h3 className="t-title">First choose an image for your instance</h3>
                     <hr/>
+                    <TabLinks 
+                        linkList={['View Featured', 'View All']}
+                    />
                     {this.renderBody()}
                 </div>
                 <InstanceLaunchFooter
