@@ -10,14 +10,12 @@ define(
     'components/modals/project/instance_launch/ImageLaunchView.react'
   ], function(React, ProjectInstanceLaunchModal, imageCollectionFixture, stores, ImageList, imageFixture, ImageDetailsView, ImageLaunchView) {
 
-    var TestUtils,
+    var TestUtils = require('react-addons-test-utils'),
         modalElement;
 
     describe('Project Instance Launch Modal', function() {
 
       beforeEach(function() {
-        TestUtils = React.addons.TestUtils;
-
         for(var store in stores) delete stores[store];
 
         stores.ApplicationStore = {

@@ -5,14 +5,12 @@ define(
     'test/fixtures/image.fixture'
   ], function(React, Image, imageFixture) {
 
-    var TestUtils,
+    var TestUtils = require('react-addons-test-utils'),
         imageElement;
 
     describe('Image', function() {
 
       beforeEach(function() {
-        TestUtils = React.addons.TestUtils;
-
         var image = React.createElement(Image, {image: imageFixture});
         imageElement = TestUtils.renderIntoDocument(image);
       });

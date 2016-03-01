@@ -12,14 +12,12 @@ define(function(require) {
     var tagCollectionFixture = require('test/fixtures/tags.fixture');
     var profileFixture = require('test/fixtures/profile.fixture');
 
-    var TestUtils,
+    var TestUtils = require('react-addons-test-utils'),
         imageViewElement;
 
     describe('Image List View', function() {
 
       beforeEach(function() {
-        TestUtils = React.addons.TestUtils;
-
 //        var mockComponent = function (component, mockTagName) {
 //          var reactClass = React.createClass({
 //                render: function () {

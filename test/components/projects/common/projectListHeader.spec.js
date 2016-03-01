@@ -6,15 +6,13 @@ define(
     'test/fixtures/projects.fixture'
   ], function(React, Backbone, ProjectListHeader, projectCollectionFixture) {
 
-    var TestUtils,
+    var TestUtils = require('react-addons-test-utils'),
         projectListHeader,
         title;
 
     describe('Project List Header', function() {
 
       beforeEach(function() {
-        TestUtils = React.addons.TestUtils;
-
         title = projectCollectionFixture.length + " Projects";
         var header = ProjectListHeader({title: title});
         projectListHeader = TestUtils.renderIntoDocument(header);

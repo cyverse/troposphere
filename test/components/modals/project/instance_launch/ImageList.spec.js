@@ -6,14 +6,12 @@ define(
     'components/modals/project/instance_launch/Image.react'
   ], function(React, ImageList, imageCollectionFixture, Image) {
 
-    var TestUtils,
+    var TestUtils = require('react-addons-test-utils'),
         imageList;
 
     describe('Image List', function() {
 
       beforeEach(function() {
-        TestUtils = React.addons.TestUtils;
-
         var modal = React.createElement(ImageList, {images: imageCollectionFixture});
         imageList = TestUtils.renderIntoDocument(modal);
       });

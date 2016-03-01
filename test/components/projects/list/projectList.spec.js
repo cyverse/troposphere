@@ -7,14 +7,12 @@ define(
     'components/projects/list/Project.react'
   ], function(React, Backbone, ProjectListView, projects, ProjectElement) {
 
-    var TestUtils,
+    var TestUtils = require('react-addons-test-utils'),
         listViewElement;
 
     describe('Project List', function() {
 
       beforeEach(function() {
-        TestUtils = React.addons.TestUtils;
-
         var listView = ProjectListView({projects: projects});
         listViewElement = TestUtils.renderIntoDocument(listView);
       });

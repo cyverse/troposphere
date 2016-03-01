@@ -6,14 +6,12 @@ define(
     'test/fixtures/project.fixture'
   ], function(React, Backbone, ProjectComponent, projectFixture) {
 
-    var TestUtils,
+    var TestUtils = require('react-addons-test-utils'),
         projectElement;
 
       describe("Project Card", function(){
 
         beforeEach(function() {
-          TestUtils = React.addons.TestUtils;
-
           var projectCard = ProjectComponent({project: projectFixture});
           projectElement = TestUtils.renderIntoDocument(projectCard);
         });
