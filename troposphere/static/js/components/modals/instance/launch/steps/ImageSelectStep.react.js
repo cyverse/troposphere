@@ -38,7 +38,7 @@ export default React.createClass({
         } else {
             images = stores.ImageStore.getAll();
         }
-        if (images) { images = filterEndDate(images); }
+        if (images) { images = images.cfilter(filterEndDate); }
 
         return {
             query: query,

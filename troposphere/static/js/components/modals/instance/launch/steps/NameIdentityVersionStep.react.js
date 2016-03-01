@@ -177,8 +177,8 @@ export default React.createClass({
         // don't show duplicate images
         versions = this.cleanVersions(versions);
         //Keep things in order
-        versions = filterEndDate(versions).sort();
-        identities = filterEndDate(identities).sort();
+        versions = versions.cfilter(filterEndDate).sort();
+        identities = versions.cfilter(filterEndDate).sort();
         if (!this.state.version) {
             this.state.version = versions.last();
         }
