@@ -68,7 +68,8 @@ define(function(require) {
           status = this.props.instance.get('state').get('status'),
           activity = this.props.instance.get('state').get('activity'),
           ip_address = this.props.instance.get('ip_address'),
-          webLinksDisabled = !ip_address || ip_address === "0.0.0.0";
+          webLinksDisabled = !ip_address || ip_address === "0.0.0.0",
+          inFinalState = this.props.instance.get('state').isInFinalState();
 
       // todo: Add back and implement reboot and resize once it's understood how to
       // I'm hiding from the display for now so as not to show users functionality
@@ -85,7 +86,7 @@ define(function(require) {
       }
 
       // Add in the conditional links based on current machine state
-      if (this.props.instance.get('state').isInFinalState()) {
+      if (inFinalState) {
         if (status === "active") {
           linksArray.push({label: 'Suspend', icon: 'pause', onClick: this.onSuspend});
           linksArray.push({label: 'Stop', icon: 'stop', onClick: this.onStop});
@@ -104,6 +105,10 @@ define(function(require) {
         linksArray.push({label: 'Redeploy', icon: 'repeat', onClick: this.onRedeploy});
       }
 
+      if (!inFinalState && status === "active" && activity === "networking") {
+          linksArray.push({label: 'Reboot', icon: 'repeat', onClick: this.onReboot});
+          linksArray.push({label: 'Redeploy', icon: 'repeat', onClick: this.onRedeploy});
+      }
       linksArray = linksArray.concat([
         {label: 'Delete', icon: 'remove', onClick: this.onDelete, isDangerLink: true},
         {label: 'Links', icon: null},

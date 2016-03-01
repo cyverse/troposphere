@@ -17,7 +17,8 @@ logger = logging.getLogger(__name__)
 
 #TODO: Move this into a settings file.
 STAFF_LIST_USERNAMES = ['estevetest01', 'estevetest02','estevetest03','estevetest04',
-                        'estevetest13', 'sgregory', 'lenards', 'tharon', 'cdosborn']
+                        'estevetest13', 'sgregory', 'lenards', 'tharon', 'cdosborn',
+                        'julianp']
 
 
 def root(request):
