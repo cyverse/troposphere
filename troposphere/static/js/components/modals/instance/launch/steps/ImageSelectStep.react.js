@@ -10,9 +10,11 @@ import InstanceLaunchFooter from '../components/InstanceLaunchFooter.react';
 
 export default React.createClass({
     displayName: "InstanceLaunchWizardModal-ImageSelectStep",
+    views: ['View Featured', 'View All'],
 
     getInitialState: function () {
         return {
+            view: this.views[0],
             query: null,
             resultsPerPage: 20,
             page: 1
@@ -40,6 +42,24 @@ export default React.createClass({
 
     handleLoadMoreImages: function() {
         this.setState({page: this.state.page + 1})
+    },
+
+    onChangeView: function(view) {
+        this.setState({
+            view
+        })
+    },
+
+    images: function() {
+        let view = this.state.view;
+        switch(view) {
+            case 'View All':
+            return  stores.ImageStore.getAll()
+            case 'View Featured':
+            return stores.ImageStore.fetchWhere({
+                tags__name: 'Featured'
+            });
+        }
     },
 
     renderFilterDescription: function () {
@@ -129,10 +149,12 @@ export default React.createClass({
         </div>
         );
     },
+
     renderBody: function () {
 
-        let allImages = stores.ImageStore.getAll(),
-            images,
+        let allImages = this.images(),
+            // This list is the same now but will be filltered
+            images = this.images(),
             tags = stores.TagStore.getAll(),
             query = this.state.query,
             numberOfResults,
@@ -167,7 +189,8 @@ export default React.createClass({
                     <h3 className="t-title">First choose an image for your instance</h3>
                     <hr/>
                     <TabLinks 
-                        linkList={['View Featured', 'View All']}
+                        linkList={this.views}
+                        onChangeView={this.onChangeView}
                     />
                     {this.renderBody()}
                 </div>
