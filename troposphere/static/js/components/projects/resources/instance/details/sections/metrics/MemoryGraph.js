@@ -21,4 +21,4 @@ define(function(require) {
   MemoryGraph.prototype.constructor = MemoryGraph;
 
   return MemoryGraph;
-})
+});

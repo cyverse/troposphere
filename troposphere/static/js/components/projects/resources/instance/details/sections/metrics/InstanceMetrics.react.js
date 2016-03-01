@@ -64,7 +64,7 @@ define(function(require) {
           container: document.querySelector("#graphs"),
           width: this.state.graphWidth,
         }),
-      }, this.refresh)
+      }, this.refresh);
     },
 
     refresh: function() {
@@ -79,7 +79,7 @@ define(function(require) {
           timeframe: this.state.timeframe,
           refresh: true,
         }, this.onSuccess, this.onError);
-      })
+      });
     },
 
     onTimeFrameClick : function(e) {
@@ -94,47 +94,52 @@ define(function(require) {
     },
 
     onRefreshClick: function() {
-      if (this.state.canRefresh)
+      if (this.state.canRefresh){
         this.refresh();
+      }
     },
 
     render: function() {
 
-      var prov = this.props.instance.get('provider').id;
-      if (!(prov == 4 || prov == 5)) {
-         return (<div id="not-available">Instance metrics are not available on this provider</div>)
-      }
+        var prov = this.props.instance.get('provider').id;
+        if (!(prov == 4 || prov == 5)) {
+            return (
+                <div id="not-available">Instance metrics are not available on this provider</div>
+            );
+        }
 
-      // available is true or still waiting for network request
-      if (this.state.available || this.state.available === null) {
-       return (
-         <div id="InstanceMetrics">
-           <div
-            id="controls"
-            style={{
-              display : this.state.available ? "inherit" : "none"
-            }}>
-            <TimeframeBreadcrumb
-               timeframe={ this.state.timeframe }
-               onTimeFrameClick={ this.onTimeFrameClick }
-            />
-            <RefreshComponent
-              delay={ this.state.refreshDelay }
-              timestamp={ this.state.timestamp }
-              onRefreshClick={ this.refresh }
-            />
-          </div>
-          <div id="container" className="metrics">
-             <div className="loading"></div>
-             <div id="graphs"></div>
-          </div>
-        </div>
-      )
-     }
+        // available is true or still waiting for network request
+        if (this.state.available || this.state.available === null) {
+            return (
+                <div id="InstanceMetrics">
+                    <div
+                        id="controls"
+                        style={{
+                            display : this.state.available ? "inherit" : "none"
+                        }}>
+                        <TimeframeBreadcrumb
+                           timeframe={ this.state.timeframe }
+                           onTimeFrameClick={ this.onTimeFrameClick }
+                        />
+                        <RefreshComponent
+                          delay={ this.state.refreshDelay }
+                          timestamp={ this.state.timestamp }
+                          onRefreshClick={ this.refresh }
+                        />
+                    </div>
+                    <div id="container" className="metrics">
+                        <div className="loading"></div>
+                        <div id="graphs"></div>
+                    </div>
+                </div>
+            );
+        }
 
-     // available is explicitly false, the network request failed
-     return (<div id="not-available">Instance metrics not available</div>)
-     }
+        // available is explicitly false, the network request failed
+        return (
+            <div id="not-available">Instance metrics not available</div>
+        );
+    }
 
   });
 

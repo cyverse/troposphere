@@ -59,9 +59,9 @@ define(function(require) {
         series[1].data = data;
         me.timestamp = Date.now();
         onSuccess.call(me);
-      }, onError)
-    }, onError)
-  }
+      }, onError);
+    }, onError);
+  };
 
   NetworkGraph.prototype.make = function() {
       var me = this;
@@ -115,13 +115,13 @@ define(function(require) {
       var areaReflect = d3.svg.area()
       .x(function(d) { return x(d.x); })
       .y0(height/2)
-      .y1(function(d) { return -y(d.y) + height; })
+      .y1(function(d) { return -y(d.y) + height; });
 
       var svg = d3.select(graphDom).append("svg")
         .attr("width", me.width)
         .attr("height", me.height)
         .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
       var delta = 0.2;
@@ -141,7 +141,7 @@ define(function(require) {
         ])
         .style("stroke-dasharray", ("3, 3"))
         .attr("class", "metrics mean line")
-        .attr("d", line)
+        .attr("d", line);
 
         svg.append("path")
         .datum([
@@ -150,7 +150,7 @@ define(function(require) {
         ])
         .style("stroke-dasharray", ("3, 3"))
         .attr("class", "metrics mean line")
-        .attr("d", line)
+        .attr("d", line);
       }
 
       var middleAxis = d3.svg.line()
@@ -171,14 +171,14 @@ define(function(require) {
       .datum(txData)
       .attr("class", "metrics tx line")
       .attr("d", lineReflect)
-      .attr("transform", "translate(0," + height + ")")
+      .attr("transform", "translate(0," + height + ")");
 
       svg.append("path")
       .datum(rxData)
       .attr("class", "metrics rx line")
       .attr("d", line);
 
-      var yTick = Math.max(1024, yMax)
+      var yTick = Math.max(1024, yMax);
       var yAxis = d3.svg.axis()
         .tickFormat(function(d){
           return Utils.bytesToString(Math.abs(d));
@@ -189,7 +189,7 @@ define(function(require) {
 
       svg.append("g")
       .attr("class", "metrics y axis")
-      .call(yAxis)
+      .call(yAxis);
 
       svg.append("text")
       .attr("class", "metrics x axis")
@@ -197,7 +197,7 @@ define(function(require) {
       .attr("x", width)
       .attr("y", 0)
       .attr("dy", ".32em")
-      .text("data in")
+      .text("data in");
 
       svg.append("text")
       .attr("class", "metrics x axis")
@@ -205,8 +205,8 @@ define(function(require) {
       .attr("x", width)
       .attr("y", height)
       .attr("dy", ".32em")
-      .text("data out")
-  }
+      .text("data out");
+  };
 
   return NetworkGraph;
-})
+});

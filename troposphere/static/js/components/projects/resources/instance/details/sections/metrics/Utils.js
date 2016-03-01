@@ -19,10 +19,11 @@ define(function(require) {
       .header("Authorization", "Token " + access_token)
       .get(function(error, json) {
 
-        // The json object should be an array with length >= 1 
-        if (!(json && Array.isArray(json) && json.length)) 
+        // The json object should be an array with length >= 1
+        if (!(json && Array.isArray(json) && json.length)){
           return onError && onError();
-        var data = json[0].datapoints
+        }
+        var data = json[0].datapoints;
 
         // Trim initial/final null values
         if (data[0][0] == null)
@@ -33,8 +34,8 @@ define(function(require) {
           return { x: arr[1] * 1000, y: arr[0] };
         }));
 
-      })
-  }
+      });
+  };
 
 
   var bytesToString = function (bytes) {
@@ -53,7 +54,7 @@ define(function(require) {
       output = fmt(bytes / 1024 / 1024 / 1024) + 'GB';
     }
     return isNegative ? "-" + output : output;
-  }
+  };
 
   var get = function(name) {
     return function(obj) {
@@ -65,5 +66,5 @@ define(function(require) {
     get: get,
     fetch: fetch,
     bytesToString: bytesToString
-  }
-})
+  };
+});

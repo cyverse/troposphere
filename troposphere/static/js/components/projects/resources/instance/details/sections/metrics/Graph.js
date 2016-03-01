@@ -40,36 +40,40 @@ define(function(require) {
     this.element = document.createElement("div");
     this.element.style.display = "none";
     this.container.appendChild(this.element);
-  }
+  };
 
   Graph.prototype = {};
 
   Graph.prototype.create = function(onSuccess, onError) {
     var me = this;
     this.fetch(function(){
-      me.make()
+      me.make();
       onSuccess && onSuccess();
     }, onError);
-  }
+  };
+
   Graph.prototype.hide = function() {
     this.element.style.display = "none";
-  }
+  };
+
   Graph.prototype.show = function() {
     this.element.style.display = "inline";
-  }
+  };
+
   Graph.prototype.clear = function() {
     var g = this.element;
     while (g.lastChild) {
       g.removeChild(g.lastChild);
     }
-  }
+  };
+
   Graph.prototype.fetch = function(onSuccess, onError) {
-    var me = this;
-    var urlParams =  {
-      field: this.type,
-      res: this.resolution,
-      size: this.points,
-    }
+    var me = this,
+        urlParams =  {
+            field: this.type,
+            res: this.resolution,
+            size: this.points,
+        };
 
     if (this.transform == "derivative") {
       urlParams.fun = "perSecond";
@@ -80,7 +84,7 @@ define(function(require) {
       me.data = data;
       onSuccess();
     }, onError);
-  }
+  };
 
   Graph.prototype.make = function() {
     var me = this,
@@ -133,7 +137,7 @@ define(function(require) {
       // if mean-label enough below max label
       yMean < yMax - delta * yMax &&
       // if mean-label enough above 0
-      yMean > (showRelative ? delta * yMax : delta)
+      yMean > (showRelative ? delta * yMax : delta);
 
       if (showMean) {
         svg.append("path")
@@ -143,13 +147,13 @@ define(function(require) {
               ])
           .style("stroke-dasharray", ("3, 3"))
           .attr("class", "metrics mean line")
-          .attr("d", line)
+          .attr("d", line);
       }
 
     svg.append("path")
       .datum(data)
       .attr("class", "metrics rx area")
-      .attr("d", area)
+      .attr("d", area);
 
       var xAxis = d3.svg.line()
       .x(function(d) { return x(d.x); })
@@ -158,12 +162,12 @@ define(function(require) {
     svg.append("path")
       .datum(data)
       .attr("class", "metrics x line")
-      .attr("d", xAxis)
+      .attr("d", xAxis);
 
       svg.append("path")
       .datum(data)
       .attr("class", "metrics rx line")
-      .attr("d", line)
+      .attr("d", line);
 
       // Determine what ticks to display on y axis
       var ticks = [0];
@@ -182,7 +186,7 @@ define(function(require) {
 
     svg.append("g")
       .attr("class", "metrics y axis")
-      .call(yAxis)
+      .call(yAxis);
 
       svg.append("text")
       .attr("class", "metrics x axis")
@@ -190,7 +194,7 @@ define(function(require) {
       .attr("x", width)
       .attr("y", 0)
       .attr("dy", ".32em")
-      .text( me.type == "cpu" ? "cpu usage": "memory usage")
+      .text( me.type == "cpu" ? "cpu usage": "memory usage");
   };
 
   // Horizontal labeled x axis
@@ -227,27 +231,27 @@ define(function(require) {
 
     var xAxis = d3.svg.axis()
       .scale(x)
-      .orient("bottom")
+      .orient("bottom");
 
     var total_mins = this.resolution * this.points;
     if (total_mins == 60) {
       xAxis.ticks(6).tickFormat(function(){
         return d3.time.format("%_I:%M%p")
         .apply(d3.time, arguments)
-        .toLowerCase()
-      })
+        .toLowerCase();
+      });
     } else if (total_mins ==  60 * 24) {
       xAxis.ticks(12).tickFormat(function(){
         return d3.time.format("%_I%p")
         .apply(d3.time, arguments)
-        .toLowerCase()
-      })
+        .toLowerCase();
+      });
     } else if (total_mins == 60 * 24 * 7) {
       xAxis.ticks(7).tickFormat(d3.time.format("%a"));
     }
 
     svg.append("g")
-      .call(xAxis)
+      .call(xAxis);
 
   };
   Graph.prototype.makeTimestamp = function() {
@@ -282,10 +286,10 @@ define(function(require) {
       .attr("height", height)
       .attr("x", width)
       .attr("dy", (height / 2) + "px")
-      .text("Updated: " + timestamp)
+      .text("Updated: " + timestamp);
 
   };
 
   return Graph;
 
-})
+});

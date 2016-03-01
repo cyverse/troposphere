@@ -22,4 +22,4 @@ define(function(require) {
 
   return CPUGraph;
 
-})
+});

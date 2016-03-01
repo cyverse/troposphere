@@ -11,7 +11,7 @@ define(function(require) {
     this.width = config.width;
     this.store = new Store();
     this.graphs = [];
-  }
+  };
 
   GraphController.prototype.switch = function(settings, onSuccess, onError) {
     var me = this;
@@ -42,10 +42,10 @@ define(function(require) {
         });
       });
 
-      me.store.set(key, graphs)
+      me.store.set(key, graphs);
 
       // Hide current graphs
-      me.graphs.forEach(function(g){ g.hide(); })
+      me.graphs.forEach(function(g){ g.hide(); });
 
       // Show spinning loader
       document.querySelector("#container.metrics .loading").style.display = "inherit";
@@ -60,20 +60,20 @@ define(function(require) {
             // Hide spinning loader
             document.querySelector("#container.metrics .loading").style.display = "none";
             graphs[2].makeAxis();
-            graphs.forEach(function(g){ g.show(); })
+            graphs.forEach(function(g){ g.show(); });
             me.graphs = graphs;
             onSuccess && onSuccess();
-          }, onError)
-        }, onError)
-      }, onError)
+          }, onError);
+        }, onError);
+      }, onError);
 
     } else {
-      me.graphs.forEach(function(g){ g.hide(); })
-      graphs.forEach(function(g){ g.show(); })
+      me.graphs.forEach(function(g){ g.hide(); });
+      graphs.forEach(function(g){ g.show(); });
       me.graphs = graphs;
       onSuccess && onSuccess();
     }
-  }
+  };
 
   return GraphController;
 });

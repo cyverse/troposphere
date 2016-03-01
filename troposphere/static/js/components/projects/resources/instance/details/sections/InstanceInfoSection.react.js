@@ -25,7 +25,7 @@ define(function (require) {
         name: instance.get('name'),
         isEditing: false,
         isEditingTags: false
-      }
+      };
     },
 
     onEnterEditMode: function (e) {

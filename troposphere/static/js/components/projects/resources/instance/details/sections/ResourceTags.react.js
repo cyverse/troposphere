@@ -18,7 +18,7 @@ define(function (require) {
     getInitialState: function () {
       return {
         isEditingTags: false
-      }
+      };
     },
 
     onEditTags: function (e) {

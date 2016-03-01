@@ -20,17 +20,17 @@ define(function(require) {
           id: content,
           key: content.replace(" ", "-"),
           className: "active metrics"
-        }, content)
+        }, content);
 
         if (content == me.props.timeframe) {
-          return selectedElement
+          return selectedElement;
         }
-        return selectableElement
+        return selectableElement;
       });
 
       return (
           <div className="metrics breadcrumb">{ breadcrumbs }</div>
-           )
+      );
     }
   });
-})
+});
