@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import $ from 'jquery';
 // plugin: required but not used directly

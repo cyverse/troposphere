@@ -1,5 +1,5 @@
 /* http://getbootstrap.com/components/#btn-dropdowns */
-import React from 'react/addons';
+import React from 'react';
 
 export default React.createClass({
     displayName: "ButtonDropdown",

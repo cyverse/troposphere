@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react/addons'),
+  var React = require('react'),
     stores = require('stores'),
     SecondaryRequestNavigation = require('./SecondaryRequestNavigation.react'),
     Router = require('react-router'),

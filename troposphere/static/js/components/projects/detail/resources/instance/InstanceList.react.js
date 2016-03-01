@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import InstanceTable from './InstanceTable.react';
 import NoInstanceNotice from './NoInstanceNotice.react';

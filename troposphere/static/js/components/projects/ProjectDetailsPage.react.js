@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import stores from 'stores';
 import ProjectDetailsView from './detail/details/ProjectDetailsView.react';
 import Router from 'react-router';

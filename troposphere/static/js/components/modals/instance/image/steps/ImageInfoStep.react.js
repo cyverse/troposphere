@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import Name from '../components/Name.react';
 import CreateUpdateFlag from '../components/CreateUpdateFlag.react';

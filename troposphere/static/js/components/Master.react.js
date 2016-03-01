@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import stores from 'stores';
 import Backbone from 'backbone';
 import context from 'context';

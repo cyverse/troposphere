@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import EditableTextAreaField from 'components/common/EditableTextAreaField.react';
 
 export default React.createClass({

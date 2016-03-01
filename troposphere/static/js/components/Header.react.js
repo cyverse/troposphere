@@ -1,12 +1,11 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import actions from 'actions';
 import modals from 'modals';
 import MaintenanceMessageBanner from './MaintenanceMessageBanner.react';
 import globals from 'globals';
 import Router from 'react-router';
-// plugin: required to enable the drop-down, but not used directly
-import bootstrap from 'bootstrap';
+
 
 let Link = Router.Link;
 

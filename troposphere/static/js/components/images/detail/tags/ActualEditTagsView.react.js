@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import TagMultiSelect from 'components/common/tags/TagMultiSelect.react';
 

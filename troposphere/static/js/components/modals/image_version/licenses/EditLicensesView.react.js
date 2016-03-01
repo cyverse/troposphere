@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import EditDescriptionView from 'components/images/detail/description/EditDescriptionView.react';
 import LicenseMultiSelect from './LicenseMultiSelectAndCreate.react';

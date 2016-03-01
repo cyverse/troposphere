@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react/addons'),
+  var React = require('react'),
     Backbone = require('backbone'),
     ExternalLinkInfoSection = require('./sections/ExternalLinkInfoSection.react'),
     ExternalLinkActions = require('./sections/ExternalLinkActions.react'),

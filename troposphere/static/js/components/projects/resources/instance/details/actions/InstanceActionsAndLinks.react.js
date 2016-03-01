@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import Glyphicon from 'components/common/Glyphicon.react';
 import actions from 'actions';

@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import VersionName from '../components/VersionName.react';
 import VersionChanges from '../components/VersionChangeLog.react';

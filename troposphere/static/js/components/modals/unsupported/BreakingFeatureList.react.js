@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import modernizrTest from 'components/modals/unsupported/modernizrTest.js';
 
 export default React.createClass({

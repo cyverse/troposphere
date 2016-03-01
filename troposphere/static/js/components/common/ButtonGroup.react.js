@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import _ from 'underscore';
 // plugin: required but not used directly
 import bootstrap from 'bootstrap';

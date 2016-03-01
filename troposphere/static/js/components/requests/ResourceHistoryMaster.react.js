@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react/addons'),
+  var React = require('react'),
     stores = require('stores'),
     ResourceActions = require('actions/ResourceActions'),
     Router = require('react-router');
@@ -18,14 +18,14 @@ define(function (require) {
     render: function() {
       var username = stores.ProfileStore.get().id,
           statusTypes = stores.StatusStore.getAll();
-      
+
       if(username == null || !statusTypes){
         return <div className="loading"></div>
       }
 
       var requests = stores.ResourceRequestStore.findWhere({"created_by.username": username});
 
-      
+
       if(requests == null){
         return <div className="loading"></div>;
       }
@@ -39,7 +39,7 @@ define(function (require) {
       }
 
       var displayRequests = requests.map(function(request){
-        
+
         // Handler to allow close buton to call React class closeRequest with the proper argument
         var close = function(){
           this.closeRequest(request)
@@ -70,7 +70,7 @@ define(function (require) {
         );
 
       }.bind(this));
-      
+
       return (
         <div className="container">
           <table className = "table table-condensed image-requests">

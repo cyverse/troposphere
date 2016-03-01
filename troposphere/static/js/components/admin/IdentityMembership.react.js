@@ -1,7 +1,7 @@
 define(function (require) {
   "use strict";
 
-  var React = require('react/addons'),
+  var React = require('react'),
     Backbone = require('backbone'),
     moment = require('moment'),
     Router = require('react-router'),
@@ -52,11 +52,11 @@ define(function (require) {
           <td className="provider">{provider_str}</td>
           <td className="end-date">
           <span style={statusDisc}></span>
-            {membershipStatus ? "Disabled as of "+membership.get('end_date') : "Enabled"} 
-            <button 
-                type="button" 
-                className={btnClass} 
-                style={{marginLeft: "10px"}} 
+            {membershipStatus ? "Disabled as of "+membership.get('end_date') : "Enabled"}
+            <button
+                type="button"
+                className={btnClass}
+                style={{marginLeft: "10px"}}
                 onClick={this.toggleDisableUser} >
                 {membershipStatus ? "Enable" : "Disable"}
             </button>

@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Gravatar from 'components/common/Gravatar.react';
 import Backbone from 'backbone';
 import Bookmark from 'components/images/common/Bookmark.react';

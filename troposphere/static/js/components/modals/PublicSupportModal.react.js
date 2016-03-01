@@ -1,5 +1,4 @@
-
-import React from 'react/addons';
+import React from 'react';
 import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 import globals from 'globals';
 

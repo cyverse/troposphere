@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react/addons'),
+  var React = require('react'),
     ProjectResourcesWrapper = require('./detail/resources/ProjectResourcesWrapper.react'),
     ExternalLinkDetailsView = require('./resources/link/details/ExternalLinkDetailsView.react'),
     Router = require('react-router'),

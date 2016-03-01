@@ -11,7 +11,7 @@
 // dependent logic in a single function that is called by passing the key value
 // pair to be changed and returns a new object to pass into setState from any call site we wish.
 
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import _ from 'underscore';
 import modals from 'modals';

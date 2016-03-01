@@ -1,6 +1,6 @@
 import _ from 'underscore';
 import globals from 'globals';
-import React from 'react/addons';
+import React from 'react';
 
 
 let resources = [{

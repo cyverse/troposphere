@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import _ from 'underscore';
 import stores from 'stores';
@@ -269,10 +269,10 @@ export default React.createClass({
 
         var minCPUInt = this.props.version.get('min_cpu'),
           minMemInt = this.props.version.get('min_mem');
-          
+
 
         var potentialSizeList = stores.SizeStore.filterWhereGreaterThanOrEqualTo({
-          'cpu': this.props.version.get('min_cpu'), 
+          'cpu': this.props.version.get('min_cpu'),
           'mem': this.props.version.get('min_mem') / 1024
           });
 

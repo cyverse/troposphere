@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 
 export default React.createClass({
 
@@ -18,7 +18,7 @@ export default React.createClass({
             )
         }
     },
-    
+
     render: function(){
 
         return (

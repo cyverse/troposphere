@@ -1,7 +1,7 @@
 define(function (require) {
   "use strict";
 
-  var React = require('react/addons'),
+  var React = require('react'),
     Router = require('react-router'),
     stores = require('stores'),
     AtmosphereUser = require('./AtmosphereUser.react');

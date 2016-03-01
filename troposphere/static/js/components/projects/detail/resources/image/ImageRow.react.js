@@ -1,6 +1,6 @@
 define(function (require) {
 
-  var React = require('react/addons'),
+  var React = require('react'),
     Backbone = require('backbone'),
     SelectableRow = require('../SelectableRow.react'),
     Name = require('../tableData/image/Name.react'),

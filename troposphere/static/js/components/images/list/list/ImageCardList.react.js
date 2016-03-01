@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import ImageListCard from '../common/ImageListCard.react';
 
 export default React.createClass({

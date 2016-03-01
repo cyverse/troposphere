@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Router from 'react-router';
 import stores from 'stores';
 import Name from './Name.react';

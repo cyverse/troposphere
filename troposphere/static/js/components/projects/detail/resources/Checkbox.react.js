@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import checkmark from 'images/checkmark.png';
 
 export default React.createClass({

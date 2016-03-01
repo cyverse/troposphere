@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import Time from 'components/common/Time.react';
 import EditableInputField from 'components/common/EditableInputField.react';

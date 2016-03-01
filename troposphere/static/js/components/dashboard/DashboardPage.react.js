@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import InstanceHistoryList from './InstanceHistoryList.react';
 import MaintenanceMessageList from './MaintenanceMessageList.react';

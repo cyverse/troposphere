@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import ResourceDetail from 'components/projects/common/ResourceDetail.react';
 import stores from 'stores';

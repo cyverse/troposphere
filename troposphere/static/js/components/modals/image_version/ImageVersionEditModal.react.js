@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import moment from 'moment';
 import stores from 'stores';
 import actions from 'actions';

@@ -1,5 +1,4 @@
-
-import React from 'react/addons';
+import React from 'react';
 import AddScripts from './AddScripts.react';
 import CreateScript from './CreateScript.react';
 

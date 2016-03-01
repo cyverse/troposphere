@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import StatusLight from 'components/projects/common/StatusLight.react';
 import StatusBar from '../instance/StatusBar.react';

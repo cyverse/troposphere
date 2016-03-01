@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import PreviewPanel from './PreviewPanel.react';
 import ButtonBar from './ButtonBar.react';

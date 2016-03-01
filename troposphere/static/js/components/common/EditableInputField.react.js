@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 
 let ENTER_KEY = 13;
 

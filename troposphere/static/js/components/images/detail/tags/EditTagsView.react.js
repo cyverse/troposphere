@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import EditTagsView from './ActualEditTagsView.react';
 import modals from 'modals';

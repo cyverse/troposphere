@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import stores from 'stores';
 import ProjectResourcesWrapper from './detail/resources/ProjectResourcesWrapper.react';
 import InstanceDetailsView from './resources/instance/details/InstanceDetailsView.react';

@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 import modernizrTest from 'components/modals/unsupported/modernizrTest.js';
 import BreakingFeatureList from 'components/modals/unsupported/BreakingFeatureList.react';

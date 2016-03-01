@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import actions from 'actions';
 import stores from 'stores';
 import filled_star from "images/filled-star-icon.png";

@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import $ from "jquery";
 // plugin: required but not used directly
 import bootstrap from 'bootstrap';
@@ -33,7 +33,7 @@ export default React.createClass({
     onClick: function(){
       var el = this.getDOMNode();
       var $el = $(el);
-      //Manually hides tooltip to fix a bug when using modals 
+      //Manually hides tooltip to fix a bug when using modals
       //See: https://github.com/iPlantCollaborativeOpenSource/troposphere/pull/201
       $el.tooltip('hide');
       this.props.onClick();
