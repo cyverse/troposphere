@@ -44,10 +44,5 @@ define(function (require) {
         Utils.displayError({title: "Your volume could not be deleted", response: response});
       });
     },
-
-    destroy_noModal: function (payload, options) {
-      this.destroy(payload, options);
-    }
   };
-
 });

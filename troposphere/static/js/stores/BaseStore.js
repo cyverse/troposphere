@@ -22,7 +22,7 @@ define(function (require) {
     // fetch from the server. Used to prevent multiple server calls for the same data.
     this.isFetching = false;
 
-    // pollingEnabled: True if this store should poll models 
+    // pollingEnabled: True if this store should poll models
     // pollingModels: A dictionary(model, callback), the presence of a model indicates polling
     //    status, see pollWhile
     // pollingFrequency: frequency in milliseconds of when the models should be polled
@@ -73,8 +73,12 @@ define(function (require) {
     // CRUD functions
     // --------------
 
-    add: function (model) {
-      this.models.add(model);
+    add: function (payload) {
+      if ("at" in payload){
+        this.models.add(payload.data, {at: payload.at});
+        return;
+      }
+      this.models.add(payload);
     },
 
     update: function (model) {
@@ -142,6 +146,18 @@ define(function (require) {
       }
     },
 
+    onFetchModel: function (modelId, cb) {
+        this.isFetchingModel[modelId] = true;
+        var model = new this.collection.prototype.model({
+          id: modelId
+        });
+        model.fetch().done(function () {
+          this.isFetchingModel[modelId] = false;
+          this.models.add(model);
+          cb(model);
+          this.emitChange();
+        }.bind(this));
+    },
     // Returns the entire local cache, everything in this.models
     getAll: function () {
       if (!this.models) {
@@ -169,7 +185,12 @@ define(function (require) {
     },
 
     // same as fetchFirstPage, but with URL query params
-    fetchFirstPageWhere: function(queryParams) {
+    fetchFirstPageWhere: function(queryParams, options) {
+      if(options.clearQueryCache){
+        var queryString = buildQueryStringFromQueryParams(queryParams);
+        delete this.queryModels[queryString];
+      }
+
       if (!this.isFetching) {
         this.isFetching = true;
         queryParams = queryParams || {};
@@ -337,12 +358,10 @@ define(function (require) {
       if (nextUrl && !this.isFetchingQuery[queryString]) {
         this.isFetchingQuery[queryString] = true;
         var moreModels = new this.collection();
-        moreModels.fetch({
-          url: nextUrl
+        this.queryModels[queryString].fetch({
+          url: nextUrl, remove: false
         }).done(function () {
           this.isFetchingQuery[queryString] = false;
-          searchResults.add(moreModels.models);
-          searchResults.meta = moreModels.meta;
           this.emitChange();
         }.bind(this));
       }
@@ -356,7 +375,7 @@ define(function (require) {
     pollWhile: function(model, whileFunc) {
         if (!model.fetchFromCloud)
             throw new Error("model missing required method for polling: fetchFromCloud");
-         
+
         // If already polling, mutate the callback and exit
         if (this.pollingModels[model.cid]) {
             this.pollingModels[model.cid] = whileFunc;

@@ -218,7 +218,7 @@ define(function (require) {
 
     renderNoSizesAvailable: function(minRequirements){
       var minRequirements = (
-          <div className="col-sm-9 control-label pull -left">Minimum requirements: {this.props.version.get('min_cpu')} CPU {this.props.version.get('min_mem')} GB RAM</div>
+          <div className="col-sm-9 control-label pull -left">Minimum requirements: {this.props.version.get('min_cpu')} CPU {this.props.version.get('min_mem') / 1024} GB RAM</div>
       );
       return(
         <div>
@@ -266,16 +266,18 @@ define(function (require) {
 
       if(this.props.version.get('min_cpu') && this.props.version.get('min_mem') && !this.state.size){
         minRequirements = (
-          <div className="col-sm-9 control-label pull-right">Minimum requirements: {this.props.version.get('min_cpu')} CPU {this.props.version.get('min_mem')} GB RAM</div>
+          <div className="col-sm-9 control-label pull-right">Minimum requirements: {this.props.version.get('min_cpu')} CPU {this.props.version.get('min_mem') / 1024} GB RAM</div>
         );
 
         var minCPUInt = this.props.version.get('min_cpu'),
           minMemInt = this.props.version.get('min_mem');
+          
 
         var potentialSizeList = stores.SizeStore.filterWhereGreaterThanOrEqualTo({
           'cpu': this.props.version.get('min_cpu'), 
-          'mem': this.props.version.get('min_mem')
+          'mem': this.props.version.get('min_mem') / 1024
           });
+
 
         if(potentialSizeList.length >= 1){
           firstAvailable = potentialSizeList[0];
@@ -302,7 +304,7 @@ define(function (require) {
                 <div className="col-sm-9">
                   <InstanceSizeSelect
                     min_cpu = {this.props.version.get('min_cpu')}
-                    min_mem = {this.props.version.get('min_mem')}
+                    min_mem = {this.props.version.get('min_mem') / 1024}
                     sizeId={this.state.size.id}
                     sizes={providerSizes}
                     onChange={this.onSizeChange}

@@ -2,10 +2,6 @@
 	margin-right: 2%;
 }
 
-.admin-detail div{
-	margin-top: 2%;
-}
-
 .admin-row, .quota-inline{
 	width: 100%;
 }
@@ -36,41 +32,60 @@
 	}
 }
 
-.request{
-	width: 100%;
-	margin-bottom: 1%;
-	padding: 2%;
-	border: 2px solid black;
+.requests-list{
+	width: 29%;
+	height: 500px;
+	overflow: scroll;
+	padding: 0;
+	margin-right: 1%;
+	border: 2px solid lightgray;
 
-	.request-info, .request-actions{
-		width: 50%;
+	li{
+		list-style-type: none;
 	}
 
-	.buttons{
-		text-align: center;
+	li:nth-child(odd){
+		background: lightgrey;
 	}
 
-	.inline-block{
-		display: inline-block;
+	li:hover{
+		cursor: pointer;
+	}
+}
+
+.request-admin{
+	width: 69%;
+	border: 2px solid lightgray;
+	padding: 1%;
+}
+
+.request-info{
+	h4, h5{
+		margin: 0;
 	}
 
+	h5{
+		padding-bottom: 2%;
+	}
+	
+	.user-info{
+		h4, h5{
+			display: inline-block;
+		}
+
+		.name{
+			width: 25%;
+			display: inline-block;
+		}
+	}
+}
+
+.admin-detail{
 	input[type="radio"]{
     	margin: 4px 5px 0;
 	}
-
 	textarea{
-		width: 100%;
-		height: 100px;
-	}
-
-	>a{
-		width: 100%;
-		height: 100%;
-	}
-
-	a>div{
-		display: inline-block;
-		width: 32%;
-		margin-right: 1%;
+		width: 500px;
+		height: 250px;
 	}
 }

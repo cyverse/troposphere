@@ -1,35 +1,33 @@
+import React from 'react';
+import backbone from  'backbone';
 
-define(
-  [
-    'react',
-    'backbone',
-    './Image.react'
-  ],
-  function (React, Backbone, Image) {
+// We only use the ImageCollection for the pototype not data
+import ImageCollection from 'collections/ImageCollection';
+import { filterEndDate } from 'utilities/filterCollection';
 
-    return React.createClass({
-      displayName: "ImageList",
+import Image from './Image.react';
 
-      propTypes: {
-        images: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        onClick: React.PropTypes.func
-      },
+export default React.createClass({
+    displayName: "ImageList",
 
-      renderImage: function (image) {
+    propTypes: {
+    images: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+    onClick: React.PropTypes.func
+    },
+
+    renderImage: function (image) {
+    return (
+        <Image key={image.id} image={image} onSelectImage={this.props.onSelectImage}/>
+    )
+    },
+
+    render: function () {
+        let images = filterEndDate(this.props.images);
         return (
-          <Image key={image.id} image={image} onClick={this.props.onClick}/>
-        )
-      },
-
-      render: function () {
-        return (
-          <ul className="app-card-list modal-list">
-            {this.props.images.map(this.renderImage)}
-            {this.props.children}
-          </ul>
+            <ul className="app-card-list modal-list">
+                {images.map(this.renderImage)}
+                {this.props.children}
+            </ul>
         );
-      }
-
-    });
-
-  });
+    }
+});

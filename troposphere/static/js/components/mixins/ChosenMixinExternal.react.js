@@ -1,6 +1,7 @@
 define(function (require) {
 
   var React = require('react/addons'),
+    _ = require('underscore'),
     $ = require('jquery'),
     Backbone = require('backbone');
 
@@ -157,7 +158,7 @@ define(function (require) {
       if(!required_models || required_models.length == 0) {
         if (this.props.activeModels instanceof Array)
             return new Backbone.Collection(activeModels);
-        else 
+        else
             return active_models;
       }
 

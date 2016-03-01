@@ -35,21 +35,18 @@ define(function (require) {
         if (instance) {
           placeholderMessage = "Attached to " + instance.get('name');
         } else {
-          placeholderMessage = "Attached to instance outside project (" + attachData.instance_id + ")";
-          style = {color: "#d44950"}
+          console.error("Volume cannot be in use and not attached to an instance");
         }
       } else {
         lightStatus = "transition";
       }
 
       return (
-        <span>
-          <div>
+          <div className="resource-status">
             <StatusLight status={lightStatus}/>
             <span style={style}>{placeholderMessage}</span>
+            <StatusBar state={volumeState} activity={activity}/>
           </div>
-          <StatusBar state={volumeState} activity={activity}/>
-        </span>
       );
     }
 

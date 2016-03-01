@@ -9,7 +9,7 @@ define(function(require) {
       return (
           <div>
             <div className="resource-details-section section">
-              <h4 className="title">Instance Metrics</h4>
+              <h4 className="t-title">Instance Metrics</h4>
             </div>
             <div id="container" className="metrics">
               <InstanceMetrics

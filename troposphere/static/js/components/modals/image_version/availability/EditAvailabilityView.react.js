@@ -33,7 +33,7 @@ define(function (require) {
 
             return (
                 <div className='image-availability image-info-segment'>
-                    <h4 className="title">Available on Providers:</h4>
+                    <h4 className="t-title">Available on Providers:</h4>
                     <div className="content">
                         <ul className="list-group">
                           {provider_machines.map(this.renderProviderMachineItem)}

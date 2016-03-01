@@ -1,0 +1,27 @@
+a.tag {
+    position: relative;
+    display: inline-block;
+    box-shadow: $shadow-1;
+    background: $grey--xxlight;
+    margin:0 10px 10px 0;
+    padding: 5px 20px 5px 10px;
+    color: $grey--xxdark;
+
+    &:hover {
+        background: $grey--xlight;
+        color: black;
+        
+        >.tag__x {
+            color: $grey--dark;
+        }
+    }
+
+    .tag__x {
+        position: absolute;
+        top: 25%;
+        bottom: 0;
+        right: 3px;
+        color: $grey--light;
+
+    }
+}

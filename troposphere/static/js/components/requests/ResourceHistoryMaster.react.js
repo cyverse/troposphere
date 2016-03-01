@@ -23,7 +23,7 @@ define(function (require) {
         return <div className="loading"></div>
       }
 
-      var requests = stores.ResourceRequestStore.fetchWhere({"created_by__username": username});
+      var requests = stores.ResourceRequestStore.findWhere({"created_by.username": username});
 
       
       if(requests == null){

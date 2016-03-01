@@ -4,6 +4,8 @@ define(function (require) {
       NotificationController = require('controllers/NotificationController'),
       globals = require('globals'),
       Badges = require('Badges'),
+      Utils = require('./Utils'),
+      Constants = require('constants/ResourceRequestConstants');
       actions = require('actions'),
       stores = require('stores');
 
@@ -43,7 +45,7 @@ define(function (require) {
           var errorMessage,
               response_error = response.responseJSON.detail;
           if (response.status >= 500) {
-              errorMessage = "Your feedback could not be submitted. If you'd like to send it directly to support, email <a href='mailto:support@iplantcollaborative.org'>support@iplantcollaborative.org</a>.";
+              errorMessage = `Your feedback could not be submitted. If you'd like to send it directly to support, email <a href='mailto:${globals.SUPPORT_EMAIL}'>${globals.SUPPORT_EMAIL}</a>.`;
           } else {
               errorMessage = "There was an error submitting your request: " + response_error;
           }
@@ -57,7 +59,7 @@ define(function (require) {
       if (!params.identity) throw new Error("Missing identity");
       if (!params.quota) throw new Error("Missing quota");
       if (!params.reason) throw new Error("Missing reason");
-      
+
       if(globals.BADGES_ENABLED){
         actions.BadgeActions.askSupport();
       }
@@ -67,12 +69,15 @@ define(function (require) {
         identity = params.identity,
         quota = params.quota,
         reason = params.reason,
+        // if admin_url is undefined, the API will default to the django admin UI for ticket management
+        admin_url = window.location.origin + "/application/admin/resource-requests/",
         username = user.get('username');
 
       var data = {
         identity: identity,
         request: quota,
-        description: reason
+        description: reason,
+        admin_url: admin_url
       };
 
       var requestUrl = globals.API_V2_ROOT + '/resource_requests';
@@ -84,6 +89,7 @@ define(function (require) {
         contentType: 'application/json',
         success: function (data) {
           NotificationController.info("Resource Request submitted", "Support will be in touch with you shortly.");
+          Utils.dispatch(Constants.ADD, {model: data});
           actions.BadgeActions.checkOrGrant(Badges.RESOURCE_REQUEST_BADGE);
         },
         error: function (response) {
