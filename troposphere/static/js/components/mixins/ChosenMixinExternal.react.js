@@ -116,7 +116,7 @@ export default {
 
     clearSearchField: function(){
       var query = "",
-        input = this.refs.searchField.getDOMNode();
+        input = this.refs.searchField;
 
       input.value = query;
       input.focus();

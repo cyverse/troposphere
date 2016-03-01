@@ -80,7 +80,7 @@ export default React.createClass({
         }
     },
     focusSearchInput: function () {
-        this.refs.searchField.getDOMNode().focus();
+        this.refs.searchField.focus();
     },
     renderSearchInput: function () {
         return (

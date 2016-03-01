@@ -8,10 +8,10 @@ let timer,
 
 let ReactInput = React.createClass({
     componentDidMount: function () {
-      this.refs.textField.getDOMNode().value = this.props.value;
+      this.refs.textField.value = this.props.value;
     },
     componentDidUpdate: function () {
-      this.refs.textField.getDOMNode().value = this.props.value;
+      this.refs.textField.value = this.props.value;
     },
     render: function () {
       return (
