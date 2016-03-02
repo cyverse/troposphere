@@ -47,9 +47,17 @@ export default React.createClass({
     },
 
     onChangeView: function(listView) {
+        // This is poor, will not be needed when search is also on Favorites
+        if (listView === "Show Favorites") {
+            this.setState({
+                listView,
+                query: ""
+            })
+            return
+        }
         this.setState({
             listView
-        })
+        });
     },
 
     showAll: function() {
