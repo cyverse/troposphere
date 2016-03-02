@@ -25,18 +25,6 @@
     color: #E5004A; }
     .navbar-default .navbar-brand::before {
       content: ""; }
-    .navbar-default .navbar-brand::after {
-      position: absolute;
-      right: 0;
-      top: 10px;
-      content: "DEMO";
-      background-color: #eeeeee;
-      padding: 5px;
-      line-height: 100%;
-      border-radius: 3px;
-      font-size: 70%;
-      margin-left: 8px;
-      letter-spacing: .1em; }
     .navbar-default .navbar-brand a {
       color: #E5004A; }
     .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
