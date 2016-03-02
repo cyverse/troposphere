@@ -10,11 +10,11 @@ import InstanceLaunchFooter from '../components/InstanceLaunchFooter.react';
 
 export default React.createClass({
     displayName: "InstanceLaunchWizardModal-ImageSelectStep",
-    views: ['View Featured', 'View All'],
+    views: ['Show Featured', 'Show Favorites', 'Show All'],
 
     getInitialState: function () {
         return {
-            view: this.views[0],
+            listView: this.views[0],
             query: null,
             resultsPerPage: 20,
             page: 1
@@ -22,56 +22,103 @@ export default React.createClass({
     },
 
     componentDidMount: function () {
+        stores.ImageBookmarkStore.addChangeListener(this.triggerRenderOnStore);
         stores.ImageStore.addChangeListener(this.triggerRenderOnStore);
         stores.TagStore.addChangeListener(this.triggerRenderOnStore);
         this.focusSearchInput();
     },
 
     componentWillUnmount: function () {
+        stores.ImageBookmarkStore.removeChangeListener(this.triggerRenderOnStore);
         stores.ImageStore.removeChangeListener(this.triggerRenderOnStore);
         stores.TagStore.removeChangeListener(this.triggerRenderOnStore);
     },
 
     triggerRenderOnStore: function() {
-        this.setState({}) 
+        this.setState({})
     },
 
-    handleChange: function(e) { 
-        this.setState({query: e.target.value}) 
+    handleChange: function(e) {
+        this.setState({query: e.target.value})
     },
 
     handleLoadMoreImages: function() {
         this.setState({page: this.state.page + 1})
     },
 
-    onChangeView: function(view) {
+    onChangeView: function(listView) {
         this.setState({
-            view
+            listView
         })
     },
 
-    images: function() {
-        let view = this.state.view;
-        switch(view) {
-            case 'View All':
-            return  stores.ImageStore.getAll()
-            case 'View Featured':
-            return stores.ImageStore.fetchWhere({
-                tags__name: 'Featured'
+    showAll: function() {
+        let query = this.state.query;
+        let allImages = stores.ImageStore.getAll();
+        let images = stores.ImageStore.getAll();
+        if (query) {
+            images = stores.ImageStore.fetchWhere({
+                search: query
             });
+        } else {
+            images = allImages;
+        }
+        return {
+            images,
+            allImages
+        }
+    },
+
+    showFeatured: function() {
+        let query = this.state.query;
+        let allImages = stores.ImageStore.fetchWhere({
+            tags__name: 'Featured'
+        });
+        let images = stores.ImageStore.getAll();
+        if (query) {
+            images = stores.ImageStore.fetchWhere({
+                tags__name: 'Featured',
+                search: query
+            });
+        } else {
+            images = allImages;
+        }
+        return {
+            images,
+            allImages
+        }
+    },
+
+    showFavorites: function() {
+        let images = stores.ImageBookmarkStore.getBookmarkedImages();
+        let allImages = images;
+        return {
+            images,
+            allImages
+        }
+    },
+
+    imageList: function() {
+        let listView = this.state.listView;
+        switch(listView) {
+            case 'Show All': return this.showAll()
+            case 'Show Featured': return this.showFeatured()
+            case 'Show Favorites': return this.showFavorites()
         }
     },
 
     renderFilterDescription: function () {
         let message,
             query = this.state.query;
-
-        if (query) {
-            message = 'Showing results for "' + query + '"';
-        } else {
-            message = "Showing first 20 images"
+        if (this.imageList().images) {
+            if (query) {
+                message = 'Showing results for "' + query + '"';
+            } else if (this.imageList().images.length >= 20) {
+                message = "Showing first 20 images";
+            } else {
+                message = `Showing ${this.imageList().images.length} images`;
+                }
         }
-
         return (
             <div className="filter-description">{message}</div>
         );
@@ -115,13 +162,17 @@ export default React.createClass({
         );
     },
     renderImages: function (images, allImages) {
-        let totalNumberOfImages = allImages.length,
-            query = this.state.query;
+        let totalNumberOfImages = allImages.length;
+        let query = this.state.query;
+        let searchInput = this.renderSearchInput();
+        if (this.state.listView === "Show Favorites") {
+            searchInput = null;
+        }
         if (!images) { return ( <div className="loading"/> ) }
-
+        
         return (
         <div>
-            {this.renderSearchInput()}
+            {searchInput}
             {this.renderFilterDescription()}
             <ImageList
                 images={images}
@@ -151,23 +202,14 @@ export default React.createClass({
     },
 
     renderBody: function () {
-
-        let allImages = this.images(),
-            // This list is the same now but will be filltered
-            images = this.images(),
+        let allImages = this.imageList().allImages,
+            images = this.imageList().images,
             tags = stores.TagStore.getAll(),
             query = this.state.query,
             numberOfResults,
             totalNumberOfImages;
 
-        if (query) {
-            images = stores.ImageStore.fetchWhere({
-                search: query
-            });
-        } else {
-            images = allImages;
-        }
-
+        // Render Images
         if (images && tags) {
             numberOfResults = this.state.page * this.state.resultsPerPage;
 
