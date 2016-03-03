@@ -105,6 +105,7 @@ export default React.createClass({
                 {this.renderBody()}
                 <div className="modal-footer">
                     <button
+                        id="cancelCreateProject"
                         type="button"
                         className="btn btn-default"
                         onClick={this.props.cancel}
@@ -112,6 +113,7 @@ export default React.createClass({
                         Cancel
                     </button>
                     <button
+                        id="submitCreateProject"
                         type="button"
                         className="btn btn-primary"
                         onClick={this.confirm}
