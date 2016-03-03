@@ -1,28 +1,26 @@
 import React from 'react';
 
 export default React.createClass({
-    getInitialState: function() {
-        let active = this.props.linkList[0];
-        return ({
-            active
-        })
+    displayName: "TabLinks",
+
+    propTypes: {
+        currentView: React.PropTypes.string.isRequired,
+        linkList: React.PropTypes.array.isRequired,
+        onChangeView: React.PropTypes.func.isRequired
     },
 
     onChangeView: function(item) {
-        this.setState({
-            active: item
-        })
         this.props.onChangeView(item);
     },
 
-    renderLinks: function(item) {
+    renderLinks: function(item, i) {
         let active = "";
-        if (item === this.state.active) {
+        if (item === this.props.currentView) {
             active = "TabLinks--active";
         }
 
         return (
-            <li className="TabLinks-link">
+            <li key={i} className="TabLinks-link">
                 <a className={active}
                     onClick={this.onChangeView.bind(this, item)}
                 >
