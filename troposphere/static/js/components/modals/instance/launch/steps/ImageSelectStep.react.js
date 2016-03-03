@@ -62,7 +62,6 @@ export default React.createClass({
 
     showAll: function() {
         let query = this.state.query;
-        let allImages = stores.ImageStore.getAll();
         let images = stores.ImageStore.getAll();
         if (query) {
             images = stores.ImageStore.fetchWhere({
