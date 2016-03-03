@@ -114,20 +114,14 @@ export default React.createClass({
     renderFilterDescription: function (images) {
         let message;
         let query = this.state.query;
+        let queryText = "";
+        if (query) { queryText = `for "${query}"` }
         if (images) {
-            if (query) {
-                if (images.length >= 20) {
-                    message = `Showing first ${images.length} images for "${query}"`;
-                }
-                else {
-                    message = `Showing ${images.length} image(s) for "${query}"`; 
-                }
-            }
-            else if (images.length >= 20) {
-                message = `Showing first ${images.length} images`;
+            if (images.length >= 20) {
+                message = `Showing first ${images.length} images ${queryText}`;
             }
             else {
-                message = `Showing ${images.length} image(s)`;
+                message = `Showing ${images.length} image(s) ${queryText}`;
             }
         }
 
