@@ -68,53 +68,39 @@ export default React.createClass({
             images = stores.ImageStore.fetchWhere({
                 search: query
             });
-        } else {
-            images = allImages;
         }
-        return {
-            images,
-            allImages
-        }
+
+        return images
     },
 
     showFeatured: function() {
         let query = this.state.query;
-        let allImages = stores.ImageStore.fetchWhere({
+        let images = stores.ImageStore.fetchWhere({
             tags__name: 'Featured'
         });
-        let images = stores.ImageStore.getAll();
         if (query) {
             images = stores.ImageStore.fetchWhere({
                 tags__name: 'Featured',
                 search: query
             });
-        } else {
-            images = allImages;
         }
-        return {
-            images,
-            allImages
-        }
+
+        return images
     },
 
     showFavorites: function() {
         let query = this.state.query;
-        let allImages = stores.ImageStore.fetchWhere({
+        let images = stores.ImageStore.fetchWhere({
             bookmarked: true
         });
-        let images = stores.ImageStore.getAll();
         if (query) {
             images = stores.ImageStore.fetchWhere({
                 bookmarked: true,
                 search: query
             });
-        } else {
-            images = allImages;
         }
-        return {
-            images,
-            allImages
-        }
+
+        return images
     },
 
     imageList: function() {
@@ -161,7 +147,7 @@ export default React.createClass({
     },
 
     renderMoreImagesButton: function (images, totalNumberOfImages) {
-        if (images.models.length < totalNumberOfImages) {
+        if (images.length < totalNumberOfImages) {
             return (
                 <li>
                     <button style={{
@@ -174,6 +160,7 @@ export default React.createClass({
             );
         }
     },
+
     focusSearchInput: function () {
         this.refs.searchField.getDOMNode().focus();
     },
@@ -226,8 +213,9 @@ export default React.createClass({
     },
 
     renderBody: function () {
-        let allImages = this.imageList().allImages,
-            images = this.imageList().images,
+        let allImages = this.imageList(),
+            // This might get paginated below
+            images = this.imageList(),
             tags = stores.TagStore.getAll(),
             query = this.state.query,
             numberOfResults,
