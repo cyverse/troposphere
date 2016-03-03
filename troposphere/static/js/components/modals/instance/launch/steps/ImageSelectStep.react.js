@@ -98,8 +98,19 @@ export default React.createClass({
     },
 
     showFavorites: function() {
-        let images = stores.ImageBookmarkStore.getBookmarkedImages();
-        let allImages = images;
+        let query = this.state.query;
+        let allImages = stores.ImageStore.fetchWhere({
+            bookmarked: true
+        });
+        let images = stores.ImageStore.getAll();
+        if (query) {
+            images = stores.ImageStore.fetchWhere({
+                bookmarked: true,
+                search: query
+            });
+        } else {
+            images = allImages;
+        }
         return {
             images,
             allImages
@@ -173,9 +184,6 @@ export default React.createClass({
         let totalNumberOfImages = allImages.length;
         let query = this.state.query;
         let searchInput = this.renderSearchInput();
-        if (this.state.listView === "Show Favorites") {
-            searchInput = null;
-        }
         if (!images) { return ( <div className="loading"/> ) }
         
         return (
@@ -240,6 +248,7 @@ export default React.createClass({
                     <hr/>
                     <TabLinks 
                         linkList={this.views}
+                        currentView={this.state.listView}
                         onChangeView={this.onChangeView}
                     />
                     {this.renderBody()}
