@@ -126,18 +126,26 @@ export default React.createClass({
         }
     },
 
-    renderFilterDescription: function () {
-        let message,
-            query = this.state.query;
-        if (this.imageList().images) {
+    renderFilterDescription: function (images) {
+        let message;
+        let query = this.state.query;
+        if (images) {
             if (query) {
-                message = 'Showing results for "' + query + '"';
-            } else if (this.imageList().images.length >= 20) {
-                message = "Showing first 20 images";
-            } else {
-                message = `Showing ${this.imageList().images.length} images`;
+                if (images.length >= 20) {
+                    message = `Showing first ${images.length} images for "${query}"`;
                 }
+                else {
+                    message = `Showing ${images.length} image(s) for "${query}"`; 
+                }
+            }
+            else if (images.length >= 20) {
+                message = `Showing first ${images.length} images`;
+            }
+            else {
+                message = `Showing ${images.length} image(s)`;
+            }
         }
+
         return (
             <div className="filter-description">{message}</div>
         );
@@ -189,7 +197,7 @@ export default React.createClass({
         return (
         <div>
             {searchInput}
-            {this.renderFilterDescription()}
+            {this.renderFilterDescription(images)}
             <ImageList
                 images={images}
                 onSelectImage={this.props.onSelectImage}
