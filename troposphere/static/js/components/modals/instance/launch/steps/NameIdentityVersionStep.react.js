@@ -178,7 +178,7 @@ export default React.createClass({
         versions = this.cleanVersions(versions);
         //Keep things in order
         versions = versions.cfilter(filterEndDate).sort();
-        identities = versions.cfilter(filterEndDate).sort();
+        identities = identities.cfilter(filterEndDate).sort();
         if (!this.state.version) {
             this.state.version = versions.last();
         }
