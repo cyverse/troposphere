@@ -1,7 +1,16 @@
 .badges {
+  p{
+    height: 40px;
+    overflow: scroll; 
+  }
   .buttons{
     margin-left: 12.5%;
     margin-right: 12.5%;
+    .btn{
+      background-color: $navbar-default-bg;
+      color: white;
+      border-color: white;
+    }
   }
   h1 {
     text-align: center;
@@ -15,20 +24,15 @@
   }
   .text {
     text-align: center;
-    overflow-y: scroll;
-    height: 40px;
-    position: relative;
+    position: relative; 
   }
-
-  li:hover{
-    cursor: pointer;
-  }
-
+    
   li {
     position: relative;
     display: inline-block;
-    width: 10.5%;
+    width: 14.6%;
     margin: 1%;   
+    height: 300px;
 
     h4 {
       text-align: center;
@@ -42,26 +46,11 @@
   }
   .btn{
     margin-top: 2%;
-    margin-bottom: 2%;
     width: 25%;
   }
-}
-
-.badge-modal-image{
-  width: 50%;
-  float: left;
-}
-
-.badge-modal-text {
-  width: 50%;
-  display: inline-block;
-  float: right;
 }
 
 .badge-li{
   vertical-align: middle;
 }
 
-.badge-modal-content{
-  height: 400px;
-}

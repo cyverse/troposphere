@@ -61,9 +61,8 @@ define(function (require) {
       if (!params.reason) throw new Error("Missing reason");
 
       if(globals.BADGES_ENABLED){
-        actions.BadgeActions.askSupport();
+        actions.BadgeActions.checkOrGrant(Badges.REQUEST_RESOURCES_BADGE);
       }
-
 
       var user = stores.ProfileStore.get(),
         identity = params.identity,

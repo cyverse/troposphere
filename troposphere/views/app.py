@@ -67,6 +67,7 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
     template_params['SUPPORT_EMAIL'] = settings.SUPPORT_EMAIL
     template_params['UI_VERSION'] = settings.UI_VERSION
     template_params['BADGE_HOST'] = getattr(settings, "BADGE_HOST", None)
+    template_params['BADGE_IMAGE_HOST'] = getattr(settings, "BADGE_IMAGE_HOST", None)
 
     #TODO: Replace this line when theme support is re-enabled.
     #template_params["THEME_URL"] = "assets/"

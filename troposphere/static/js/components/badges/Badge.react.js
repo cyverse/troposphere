@@ -3,6 +3,7 @@ define(function (require) {
 
   var React = require('react'),
       modals = require('modals'),
+      globals = require('globals'),
       stores = require('stores');
 
   return React.createClass({
@@ -22,11 +23,12 @@ define(function (require) {
     },
 
     render: function () {
-      var badge = this.props.badge;
-
+      var badge = this.props.badge,
+          // We get the badge image ID from the image URL, since the badge ID is not guaranteed to be the badge image ID
+          imageIdIndex = badge.get('imageUrl').lastIndexOf('/');
       return(
-        <li onClick={this.renderBadgeDetail} className='badge-li'>
-          <img className='image' src={badge.get('imageUrl')} />
+        <li className='badge-li'>
+          <img className='image' src={globals.BADGE_IMAGE_HOST + badge.get('imageUrl').substring(imageIdIndex+1)} />
           <h4 className='badge-name'>{badge.get('name')}</h4>
           <p className='text'>
           {this.state.text}

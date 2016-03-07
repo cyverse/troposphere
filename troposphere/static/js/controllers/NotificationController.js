@@ -26,12 +26,17 @@ define(
       }
 
     };
+    
+    var clear = function(){
+        toastr.clear();
+    }
 
     return {
       success: notify.bind(null, 'success'),
       info: notify.bind(null, 'info'),
       warning: notify.bind(null, 'warning'),
-      error: notify.bind(null, 'error')
+      error: notify.bind(null, 'error'),
+      clear: clear.bind(null)
     };
 
   });

@@ -4,6 +4,7 @@ define(function (require) {
   var React = require('react'),
       Router = require('react-router'),
       Badge = require('./Badge.react'),
+      Badges = require('Badges'),
       actions = require('actions'),
       EarnedBadge = require('./EarnedBadge.react'),
       stores = require('stores'),
@@ -23,8 +24,8 @@ define(function (require) {
       };
     },
 
-    check: function(){
-      actions.BadgeActions.ask();
+    grantDemo: function(){
+        actions.BadgeActions.checkOrGrant(Badges.DEMO_BADGE);
     },
 
     render: function () {
@@ -48,21 +49,32 @@ define(function (require) {
         )
       }
 
+      // build a list of badge IDs that the user has
       myBadges.map(function (badge) {
         myBadgeIds[badge.id] = 1;
       });
 
+      var empty = true;
+      // get every ID in total badge store that the user does not have
       var badgeDisplay = badges.map(function(badge) {
         var badgeId = badge.id;
         if (!myBadgeIds[badgeId]) {
+          empty = false;
           return (
             <Badge badge={badge} />
           )
         }
       });
 
+      if(empty){
+        return (
+          <div>You have earned every single badge! There should be a badge for that!</div>
+        );
+      }
+
       return (
         <div className="to-earn">
+          <button className="btn btn-info" onClick = {this.grantDemo}>Earn demo badge</button>
           <ul id="all-badges-list">
           {badgeDisplay}
           </ul>

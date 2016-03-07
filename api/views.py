@@ -69,10 +69,19 @@ class BadgeViewSet(viewsets.GenericViewSet):
     def create(self, request, *args, **kwargs):
         url = settings.BADGE_API_HOST
         email_address = str(User.objects.get(username=self.request.user).email)
-        slug = settings.BADGE_SYSTEM_SLUG
         secret = settings.BADGE_SECRET
         badge = str(self.request.data['badgeSlug'])
-        path = '/systems/' + slug + '/badges/' + badge + '/instances'
+
+        if settings.BADGE_PROGRAM_SLUG:
+            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/issuers/' + settings.BADGE_ISSUER_SLUG + '/programs/' + settings.BADGE_PROGRAM_SLUG + '/badges/' + badge + '/instances'
+
+        elif settings.BADGE_ISSUER_SLUG:
+            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/issuers/' + settings.BADGE_ISSUER_SLUG + '/badges/' + badge + '/instances'
+
+        else:
+            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/badges/' + badge + '/instances'
+
+        path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/badges/' + badge + '/instances'
         header = {"typ": "JWT", "alg": 'HS256'}
         body = json.dumps({"email": email_address})
 
@@ -108,13 +117,13 @@ class BadgeViewSet(viewsets.GenericViewSet):
     def retrieve(self, request, *args, **kwargs):
         url = settings.BADGE_API_HOST
         email = User.objects.get(username=self.request.user).email
-        slug = settings.BADGE_SYSTEM_SLUG
         name = settings.BADGE_SYSTEM_NAME
         secret = settings.BADGE_SECRET
 
-        path = '/systems/' + slug + '/instances/' + email
+        path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/instances/' + email
+
         header = {"typ": "JWT", "alg": 'HS256'}
-        body = str({"slug": slug, "name": name, "url": url + path})
+        body = str({"slug": settings.BADGE_SYSTEM_SLUG, "name": name, "url": url + path})
 
         computed_hash = SHA256.new()
         computed_hash.update(body)
@@ -138,6 +147,29 @@ class BadgeViewSet(viewsets.GenericViewSet):
                 'Content-Type': 'application/json'
             }
         }
+
+        try:
+            r = requests.get(url + path, headers=options['headers'], verify=False)
+            data = r.json()
+        except:
+            data = "Error"
+
+        if settings.BADGE_PROGRAM_SLUG:
+            to_return = {'instances': []}
+            for instance in data['instances']:
+                if 'program' in instance['badge']:
+                    to_return['instances'].append(instance)
+            return Response(data=to_return, status=status.HTTP_200_OK)
+
+        elif settings.BADGE_ISSUER_SLUG:
+            to_return = {'instances': []}
+            for instance in data['instances']:
+                if 'issuer' in instance['badge']:
+                    to_return['instances'].append(instance)
+            return Response(data=to_return, status=status.HTTP_200_OK)
+
+        else:
+            return Response(data=data, status=status.HTTP_200_OK)
 
         r = requests.get(url + path,
                 headers=options['headers'],
@@ -147,13 +179,23 @@ class BadgeViewSet(viewsets.GenericViewSet):
 
     def list(self, request, *args, **kwargs):
         url = settings.BADGE_API_HOST
-        slug = settings.BADGE_SYSTEM_SLUG
         name = settings.BADGE_SYSTEM_NAME
         secret = settings.BADGE_SECRET
 
-        path = '/systems/' + slug + '/badges'
+        if not settings.BADGE_SYSTEM_SLUG:
+            return "Error"
+
+        if settings.BADGE_PROGRAM_SLUG:
+            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/issuers/' + settings.BADGE_ISSUER_SLUG + '/programs/' + settings.BADGE_PROGRAM_SLUG + '/badges'
+
+        elif settings.BADGE_ISSUER_SLUG:
+            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/issuers/' + settings.BADGE_ISSUER_SLUG + '/badges'
+
+        else:
+            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/badges'
+
         header = {"typ": "JWT", "alg": 'HS256'}
-        body = str({"slug": slug, "name": name, "url": url + path})
+        body = str({"slug": settings.BADGE_SYSTEM_SLUG, "name": name, "url": url + path})
 
         computed_hash = SHA256.new()
         computed_hash.update(body)
@@ -178,5 +220,9 @@ class BadgeViewSet(viewsets.GenericViewSet):
             }
         }
 
-        r = requests.get(url + path, headers=options['headers'], verify=False)
-        return Response(data=r.json(), status=status.HTTP_200_OK)
+        try:
+            r = requests.get(url + path, headers=options['headers'], verify=False)
+            data=r.json()
+        except:
+            data="Error"
+        return Response(data=data, status=status.HTTP_200_OK)

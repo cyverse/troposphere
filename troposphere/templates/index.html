@@ -10,7 +10,7 @@
     <!--CSS-->
     <link rel="stylesheet" href="{{ BASE_URL }}/assets/app.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{ THEME_URL }}/css/theme.css" rel="stylesheet" type="text/css">
-    
+
     <!-- Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,500,700,300' rel='stylesheet' type='text/css'>
 
@@ -60,6 +60,10 @@
 
         {% if API_V2_ROOT %}
             var API_V2_ROOT = "{{ API_V2_ROOT }}";
+        {% endif %}
+
+        {% if BADGE_IMAGE_HOST %}
+            var BADGE_IMAGE_HOST = "{{ BADGE_IMAGE_HOST }}";
         {% endif %}
 
         {% if BADGE_HOST %}
@@ -116,6 +120,7 @@
     {% else %}
     <script src="{{ BASE_URL }}/assets/app.js"></script>
     {% endif %}
+    <script src="https://backpack.openbadges.org/issuer.js"></script>
     <!-- Google Analtics -->
     <script src="{{ BASE_URL }}/assets/analytics.js"></script>
 </body>

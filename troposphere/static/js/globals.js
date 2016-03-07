@@ -17,7 +17,9 @@ define(function (require) {
         SUPPORT_EMAIL: window.SUPPORT_EMAIL || 'support@iplantcollaborative.org',
         TZ_REGION: tz_region,
         BADGE_HOST: window.BADGE_HOST,
-        BADGES_ENABLED: window.BADGES_ENABLED || false
+        BADGE_IMAGE_HOST: window.BADGE_IMAGE_HOST,
+        BADGES_ENABLED: window.BADGES_ENABLED || true
+        
     }
 
 });
