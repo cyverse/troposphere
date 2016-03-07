@@ -66,8 +66,7 @@ define(
         let inactiveClass = !this.state.active ? "disabled" : "";
 
         return (
-            <li onClick={this.handleClick}>
-                <div className={`media card ${inactiveClass}`}>
+            <li className={`media card ${inactiveClass}`} onClick={this.handleClick}>
                     <div className="media__img">
                         {icon}
                     </div>
@@ -86,7 +85,6 @@ define(
                             </div>
                         </div>
                     </div>
-                </div>
             </li>
         )
       }

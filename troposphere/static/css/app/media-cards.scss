@@ -36,6 +36,11 @@
     }
 }
 
+.media.disabled {
+    opacity:.3;
+    cursor: no-drop !important;
+}
+
 // The card class is used on the same wrapper as the media class
 // it can be reused without the media class.
 .card {
