@@ -10,22 +10,22 @@ define(function (require) {
 
     destroy: function (payload, options) {
       if (!payload.project) throw new Error("Missing project");
-      if (!payload.link) throw new Error("Missing link");
+      if (!payload.external_link) throw new Error("Missing external_link");
 
       var project = payload.project,
-        link = payload.link,
+        external_link = payload.external_link,
         ModalComponent,
         props;
 
       ModalComponent = ExternalLinkDeleteModal;
       props = {
-        link: link
+        external_link: external_link
       };
 
       ModalHelpers.renderModal(ModalComponent, props, function () {
         actions.ExternalLinkActions.destroy({
           project: project,
-          link: link
+          external_link: external_link
         });
         Router.getInstance().transitionTo("project-resources", {projectId: project.id});
       })
