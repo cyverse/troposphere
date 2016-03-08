@@ -32,7 +32,9 @@ export default React.createClass({
     handleClick: function () {
     if (this.state.active) {
         this.props.onSelectImage(this.props.image);
+        return;
     }
+    this.setState({ showAlert: true });
     },
 
     renderTags: function () {
