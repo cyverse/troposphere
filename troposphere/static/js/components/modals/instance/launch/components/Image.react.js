@@ -57,11 +57,45 @@ export default React.createClass({
     icon = (
         <Gravatar hash={image.get('uuid_hash')} size={iconSize} type={type}/>
     );
+    let inactiveClass = "";
+    let alertMessage = () => null;
 
-    let inactiveClass = !this.state.active ? "disabled" : "";
-
+    if (!this.state.active) {
+        inactiveClass = "media--disabled";
+        if (this.state.showAlert) {
+            alertMessage = () => {
+                return (
+                    <div
+                        style={{
+                                position: "absolute",
+                                display: "inline-block",
+                                width: "250px",
+                                top: "25%", 
+                                right: "0",
+                                left: "0",
+                                margin: "auto",
+                                padding: "5px 10px",
+                                background: "#F15757",
+                                boxShadow: "0 1px 2px rgba(0,0,0,.4)",
+                                color: "white",
+                                textAlign: "center",
+                                cursor: "no-drop !important"
+                            }}
+                        >
+                        <i className="glyphicon glyphicon-exclamation-sign"/>
+                        {" Image Disabled - No Versions"}
+                    </div>
+                )
+            }
+        }
+    }
     return (
-        <li className={`media card ${inactiveClass}`} onClick={this.handleClick}>
+        <li 
+            style={{position: "relative" }} 
+            className="media card"
+            onClick={this.handleClick}
+            >
+            <div className={`clearfix ${inactiveClass}`}>
                 <div className="media__img">
                     {icon}
                 </div>
@@ -80,6 +114,8 @@ export default React.createClass({
                         </div>
                     </div>
                 </div>
+            </div>
+            {alertMessage()}
         </li>
     )
     }
