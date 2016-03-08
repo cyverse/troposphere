@@ -36,7 +36,6 @@ define(function (require) {
 
       var project = params.project,
         image = params.image,
-        //FIXME: the line below has 0 models (When the value should be >1)
         projectImage = stores.ProjectImageStore.findOne({
           'project.id': project.id,
           'image.id': image.id
