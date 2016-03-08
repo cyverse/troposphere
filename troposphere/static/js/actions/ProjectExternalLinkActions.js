@@ -15,10 +15,10 @@ define(function (require) {
 
     addExternalLinkToProject: function (payload, options) {
       if (!payload.project) throw new Error("Missing project");
-      if (!payload.link && !payload.link.id) throw new Error("Missing link");
+      if (!payload.external_link && !payload.external_link.id) throw new Error("Missing external_link");
 
       var project = payload.project,
-        external_link = payload.link,
+        external_link = payload.external_link,
         projectExternalLink = new ProjectExternalLink(),
         data = {
           project: project.id,
@@ -32,10 +32,10 @@ define(function (require) {
 
     removeExternalLinkFromProject: function (payload, options) {
       if (!payload.project) throw new Error("Missing project");
-      if (!payload.link) throw new Error("Missing link");
+      if (!payload.external_link) throw new Error("Missing external_link");
 
       var project = payload.project,
-        external_link = payload.link,
+        external_link = payload.external_link,
         projectExternalLink = stores.ProjectExternalLinkStore.findOne({
           'project.id': project.id,
           'external_link.id': external_link.id
