@@ -27,17 +27,24 @@ define(function (require) {
     renderForRouter: function () {
       var project = this.props.project;
       return (
-        <li className={"project-card " + this.props.className}>
-          <Router.Link to="project-resources" params={{projectId: project.id}}>
-            {this.renderBody()}
-          </Router.Link>
+        <li className={"col-md-4" + this.props.className} style={{padding: "15px"}}>
+          <div className="media card">
+            <Router.Link to="project-resources" 
+              params={{projectId: project.id}}
+              style={{color: "inherit"}}
+            >
+              {this.renderBody()}
+            </Router.Link>
+          </div>
         </li>);
     },
     renderForClick: function () {
       var project = this.props.project;
       return (
-        <li className="project-card" onClick={this.clicked}>
-          {this.renderBody()}
+        <li className={"col-md-4" + this.props.className} style={{padding: "15px"}}>
+          <div className="media card">
+            {this.renderBody()}
+          </div>
         </li>);
     },
     render: function () {
@@ -49,14 +56,12 @@ define(function (require) {
 
       if (!project.id || !projectExternalLinks || !projectInstances || !projectVolumes || !projectImages) {
         return (
-          <li>
-            <a>
-              <div>
-                <h2>{project.get('name')}</h2>
+        <li className={"col-md-4" + this.props.className} style={{padding: "15px"}}>
+          <div className="media card">
+                <h2 className="t-title">{project.get('name')}</h2>
 
                 <div className="loading" style={{marginTop: "65px"}}/>
-              </div>
-            </a>
+            </div>
           </li>
         );
       }
