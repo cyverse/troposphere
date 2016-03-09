@@ -43,4 +43,8 @@
     padding:20px;
     box-shadow: $shadow-1;
     background: white;
+
+    .media__footer {
+        margin: 0 -20px -20px;
+    }
 }
