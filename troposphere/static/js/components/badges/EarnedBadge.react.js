@@ -11,25 +11,44 @@ define(function (require) {
     displayName: "EarnedBadge",
 
     renderBadgeDetail: function(e){
-      e.preventDefault();
-      modals.BadgeModals.showMyBadge(this.props.badge);
+        e.preventDefault();
+        modals.BadgeModals.showMyBadge(this.props.badge);
     },
-    
+
+    handleClick: function(e){
+        this.setState({selected: !this.state.selected});
+    },
+
     getInitialState: function(){
       return({
             selected: false
         });
     },
 
+    addToBackpack: function(){
+        OpenBadges.issue(this.props.badge.get('assertionUrl'));
+    },
+
     render: function () {
-      var badge = this.props.badge,
-          imageIdIndex = badge.get('imageUrl').lastIndexOf('/');
+      var badge = this.props.badge;
+      var content = (
+              <p>{badge.get('strapline')}</p>
+      );
+      if(this.state.selected){
+        content = (
+            <div className="text">
+            <p>{badge.get('strapline')}</p>
+            <p>Awarded on:<br />{moment(this.props.badge.get('issuedOn')).format("MMM MM, YYYY hh:mm")} </p>
+            <div className = "btn btn-default" onClick={this.addToBackpack}>Add to backpack!</div>
+            </div>
+        );
+      }
+
       return(
-        <li className='badge-li'>
-          <img className='image' src={globals.BADGE_IMAGE_HOST + badge.get('imageUrl').substring(imageIdIndex+1)} />
+        <li onClick={this.handleClick} className='badge-li'>
+          <img className='image' src={badge.get('imageUrl')} />
           <h4 className='badge-name'>{badge.get('name')}</h4>
-          <p>{badge.get('strapline')}</p>
-          <p><strong>Earned on:</strong><br/>{moment(this.props.badge.get('issuedOn')).format("L hh:mm a")}</p>
+          {content}
         </li>
       );
     }

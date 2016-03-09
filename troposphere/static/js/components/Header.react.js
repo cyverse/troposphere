@@ -12,7 +12,7 @@ define(function (require) {
 
   var Link = Router.Link;
 
-  var links = [
+  var all_links = [
     {
       name: "Dashboard",
       linksTo: "dashboard",
@@ -80,20 +80,18 @@ define(function (require) {
     },
 
     render: function () {
-      var username = this.props.username;
+      var username = this.props.username,
+          badgeLink;
       if (!username && show_public_site) {
           username = "AnonymousUser"
       }
 
       if(globals.BADGES_ENABLED){
-        var badgeLink = (
+        badgeLink = (
             <li>
               <Link to="my-badges">Badges</Link>
             </li>
         );
-      }
-      else{
-        var badgeLink = null;
       }
 
       return (
@@ -171,7 +169,6 @@ define(function (require) {
     },
 
     render: function () {
-
       var profile = this.props.profile,
         hasLoggedInUser = (profile && profile.get('selected_identity'));
 
@@ -182,7 +179,7 @@ define(function (require) {
           return !link.requiresLogin && link.isEnabled;
         })
       } else {
-        links = links.filter(function (link) {
+        links = all_links.filter(function (link) {
           if (link.requiresStaff) return profile.get('is_staff');
           return true;
         })
@@ -228,7 +225,6 @@ define(function (require) {
               </button>
               {brandLink}
             </div>
-
             <div className="navbar-collapse collapse">
               <ul className="nav navbar-nav">
                 {navLinks}

@@ -62,6 +62,12 @@
             var API_V2_ROOT = "{{ API_V2_ROOT }}";
         {% endif %}
 
+        {% if BADGES_ENABLED %}
+            var BADGES_ENABLED = true;
+        {% else %}
+            var BADGES_ENABLED = false;
+        {% endif %}
+
         {% if BADGE_IMAGE_HOST %}
             var BADGE_IMAGE_HOST = "{{ BADGE_IMAGE_HOST }}";
         {% endif %}
@@ -119,8 +125,11 @@
     <script src="{{ BASE_URL }}/assets/public.js"></script>
     {% else %}
     <script src="{{ BASE_URL }}/assets/app.js"></script>
+
+    {% if BADGES_ENABLED %}
+        <script src="https://backpack.openbadges.org/issuer.js"></script>
     {% endif %}
-    <script src="https://backpack.openbadges.org/issuer.js"></script>
+
     <!-- Google Analtics -->
     <script src="{{ BASE_URL }}/assets/analytics.js"></script>
 </body>

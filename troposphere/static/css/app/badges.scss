@@ -1,7 +1,7 @@
 .badges {
   p{
     height: 40px;
-    overflow: scroll; 
+    overflow: scroll;
   }
   .buttons{
     margin-left: 12.5%;
@@ -24,14 +24,24 @@
   }
   .text {
     text-align: center;
-    position: relative; 
+    position: relative;
+
+    .btn{
+      width: 100%;
+      margin: 0;
+      padding: 5%;
+    }
   }
-    
+
+  li:hover{
+    cursor: pointer;
+  }
+
   li {
     position: relative;
     display: inline-block;
     width: 14.6%;
-    margin: 1%;   
+    margin: 1%;
     height: 300px;
 
     h4 {

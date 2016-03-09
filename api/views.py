@@ -69,19 +69,25 @@ class BadgeViewSet(viewsets.GenericViewSet):
     def create(self, request, *args, **kwargs):
         url = settings.BADGE_API_HOST
         email_address = str(User.objects.get(username=self.request.user).email)
+        system_slug = settings.BADGE_SYSTEM_SLUG
+        system_name = settings.BADGE_SYSTEM_NAME
+        issuer_slug = settings.BADGE_ISSUER_SLUG
+        issuer_name = settings.BADGE_ISSUER_NAME
+        program_slug = settings.BADGE_PROGRAM_SLUG
+        program_name = settings.BADGE_PROGRAM_NAME
         secret = settings.BADGE_SECRET
+
         badge = str(self.request.data['badgeSlug'])
 
         if settings.BADGE_PROGRAM_SLUG:
-            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/issuers/' + settings.BADGE_ISSUER_SLUG + '/programs/' + settings.BADGE_PROGRAM_SLUG + '/badges/' + badge + '/instances'
+            path = '/systems/' + system_slug + '/issuers/' + issuer_slug + '/programs/' + program_slug + '/badges/' + badge + '/instances'
 
         elif settings.BADGE_ISSUER_SLUG:
-            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/issuers/' + settings.BADGE_ISSUER_SLUG + '/badges/' + badge + '/instances'
+            path = '/systems/' + system_slug + '/issuers/' + issuer_slug + '/badges/' + badge + '/instances'
 
         else:
-            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/badges/' + badge + '/instances'
+            path = '/systems/' + system_slug+ '/badges/' + badge + '/instances'
 
-        path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/badges/' + badge + '/instances'
         header = {"typ": "JWT", "alg": 'HS256'}
         body = json.dumps({"email": email_address})
 
@@ -117,13 +123,18 @@ class BadgeViewSet(viewsets.GenericViewSet):
     def retrieve(self, request, *args, **kwargs):
         url = settings.BADGE_API_HOST
         email = User.objects.get(username=self.request.user).email
-        name = settings.BADGE_SYSTEM_NAME
+
+        system_slug = settings.BADGE_SYSTEM_SLUG
+        system_name = settings.BADGE_SYSTEM_NAME
+        issuer_slug = settings.BADGE_ISSUER_SLUG
+        issuer_name = settings.BADGE_ISSUER_NAME
+        program_slug = settings.BADGE_PROGRAM_SLUG
+        program_name = settings.BADGE_PROGRAM_NAME
         secret = settings.BADGE_SECRET
 
-        path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/instances/' + email
-
+        path = '/systems/' + system_slug + '/issuers/' + issuer_slug + '/programs/' + program_slug + '/instances/' + email
         header = {"typ": "JWT", "alg": 'HS256'}
-        body = str({"slug": settings.BADGE_SYSTEM_SLUG, "name": name, "url": url + path})
+        body = str({"system_slug": system_slug, "name": system_name, "url": url + path})
 
         computed_hash = SHA256.new()
         computed_hash.update(body)
@@ -148,11 +159,7 @@ class BadgeViewSet(viewsets.GenericViewSet):
             }
         }
 
-        try:
-            r = requests.get(url + path, headers=options['headers'], verify=False)
-            data = r.json()
-        except:
-            data = "Error"
+        r = requests.get(url + path, headers=options['headers'], verify=False)
 
         if settings.BADGE_PROGRAM_SLUG:
             to_return = {'instances': []}
@@ -177,9 +184,15 @@ class BadgeViewSet(viewsets.GenericViewSet):
 
         return Response(data=r.json(), status=status.HTTP_200_OK)
 
+
     def list(self, request, *args, **kwargs):
         url = settings.BADGE_API_HOST
-        name = settings.BADGE_SYSTEM_NAME
+        system_slug = settings.BADGE_SYSTEM_SLUG
+        system_name = settings.BADGE_SYSTEM_NAME
+        issuer_slug = settings.BADGE_ISSUER_SLUG
+        issuer_name = settings.BADGE_ISSUER_NAME
+        program_slug = settings.BADGE_PROGRAM_SLUG
+        program_name = settings.BADGE_PROGRAM_NAME
         secret = settings.BADGE_SECRET
 
         if not settings.BADGE_SYSTEM_SLUG:
@@ -195,7 +208,7 @@ class BadgeViewSet(viewsets.GenericViewSet):
             path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/badges'
 
         header = {"typ": "JWT", "alg": 'HS256'}
-        body = str({"slug": settings.BADGE_SYSTEM_SLUG, "name": name, "url": url + path})
+        body = str({"system_slug": system_slug, "system_name": system_name, "url": url + path})
 
         computed_hash = SHA256.new()
         computed_hash.update(body)
