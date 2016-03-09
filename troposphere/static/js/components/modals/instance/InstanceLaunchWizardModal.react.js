@@ -99,17 +99,15 @@ export default React.createClass({
             imageVersion = imageVersionList.last();
         }
 
-        let providerList, provider;
-        if (imageVersion) {
+        let providerList;
+        if (imageVersion)
             providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
-            if (providerList) {
-                provider = this.state.provider ?
-                    this.state.provider :
-                    providerList.first();
-            }
-        }
+        
+        let provider = this.state.provider;
+        if (providerList)
+            provider = provider || providerList.first();
 
-        let resourcesUsed, identityProvider, providerSizeList, providerSize;
+        let resourcesUsed, identityProvider, providerSizeList;
         if (provider) {
             resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
 
@@ -118,13 +116,14 @@ export default React.createClass({
             providerSizeList = stores.SizeStore.fetchWhere({
                 provider__id: provider.id
             });
-
-            if (providerSizeList) {
-                providerSize = this.state.providerSize ?
-                    this.state.providerSize :
-                    providerSizeList.first();
-            };
         }
+
+        let providerSize;
+        if (providerSizeList) {
+            providerSize = this.state.providerSize ?
+                this.state.providerSize :
+                providerSizeList.first();
+        };
 
         // NOTE: Only update state for things that need defaults. Data fetched
         // from the cloud is not part of the component's state that it
@@ -183,31 +182,32 @@ export default React.createClass({
 
     onSelectImage: function(image) {
         let instanceName = image.get('name');
-        let imageVersion, providerSize, identityProvider;
         let imageVersionList = stores.ImageVersionStore.fetchWhere({image_id: image.id});
 
+        let imageVersion;
         if (imageVersionList) {
             imageVersionList = filterEndDate(imageVersionList);
             imageVersion = imageVersionList.last();
         }
 
-        let providerSizeList;
         let providerList;
-        let provider;
         if (imageVersion) {
             providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
-            if (providerList) {
-                provider = providerList.first();
-                providerSizeList = stores.SizeStore.fetchWhere({
-                    provider__id: provider.id
-                });
-
-                identityProvider = stores.IdentityStore.findOne({
-                    'provider.id': provider.id
-                });
-            }
         }
 
+        let provider, providerSizeList, identityProvider;
+        if (providerList) {
+            provider = providerList.first();
+            providerSizeList = stores.SizeStore.fetchWhere({
+                provider__id: provider.id
+            });
+
+            identityProvider = stores.IdentityStore.findOne({
+                'provider.id': provider.id
+            });
+        }
+
+        let providerSize;
         if (providerSizeList) {
             providerSize = providerSizeList.first();
         };
@@ -217,7 +217,6 @@ export default React.createClass({
             instanceName,
             provider,
             imageVersion,
-            providerSize,
             providerSize,
             identityProvider,
         }, this.viewBasic);
@@ -476,35 +475,36 @@ export default React.createClass({
     },
 
     renderBasicOptions: function() {
+
         let provider = this.state.provider;
         let providerSize = this.state.providerSize;
+        let identityProvider = this.state.identityProvider;
+        let project = this.state.project;
         let image = this.state.image;
         let imageVersion = this.state.imageVersion;
+
         let projectList = stores.ProjectStore.getAll() || null;
         let identities = stores.IdentityStore.getAll() || null;
-
-        let project = this.state.project;
-        if (!project && projectList) {
-            project = projectList.first();
-        }
 
         let imageVersionList;
         if (this.state.image) {
             imageVersionList = stores.ImageVersionStore.fetchWhere({image_id: this.state.image.id});
-            if (imageVersionList) {
-                imageVersionList = filterEndDate(imageVersionList);
-            }
         }
 
-        let providerList, providerSizeList, resourcesUsed;
-        if (provider && imageVersion) {
-            //providerList = new Backbone.Collection(imageVersion.get('machines').map((item) => item.provider));
+        let providerList;
+        if (imageVersion) {
             providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
+        }
+
+        let providerSizeList, resourcesUsed;
+        if (provider) {
+            resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
+
             providerSizeList = stores.SizeStore.fetchWhere({
                 provider__id: provider.id
             });
-            resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
         }
+        
         return (
             <BasicLaunchStep { ...{
                     showValidationErr: this.state.showValidationErr,
