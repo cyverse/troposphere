@@ -76,7 +76,6 @@ define(function (require) {
       var project = this.props.project,
         converter = new Showdown.Converter(),
         description = project.get('description'),
-        descriptionHtml = converter.makeHtml(description),
         projectExternalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(project),
         projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
         projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project),
@@ -85,29 +84,36 @@ define(function (require) {
 
       return (
         <div style={{"position": "relative"}}>
-          <div className="content">
-            <h2>{project.get('name')}</h2>
-            <time>{"Created " + projectCreationDate}</time>
-            <div className="description" dangerouslySetInnerHTML={{__html: descriptionHtml}}/>
+          <div className="media__content">
+            <h2 className="t-title">{project.get('name')}</h2>
+            <hr/>
+            <time className="t-caption" style={{display: "block"}}>{"Created " + projectCreationDate}</time>
+            <p className="description" 
+              style={{minHeight: "200px"}} 
+            >
+                {description}
+            </p>
           </div>
-          <ul className="project-resource-list">
-            <ProjectResource icon={"tasks"}
-                             count={projectInstances.length}
-                             resourceType={"instances"}
-              />
-            <ProjectResource icon={"hdd"}
-                             count={projectVolumes.length}
-                             resourceType={"volumes"}
-              />
-            <ProjectResource icon={"floppy-disk"}
-                             count={projectImages.length}
-                             resourceType={"images"}
-              />
-            <ProjectResource icon={"globe"}
-                             count={projectExternalLinks.length}
-                             resourceType={"links"}
-              />
-          </ul>
+          <div className="media__footer">
+            <ul className="project-resource-list ">
+                <ProjectResource icon={"tasks"}
+                                count={projectInstances.length}
+                                resourceType={"instances"}
+                />
+                <ProjectResource icon={"hdd"}
+                                count={projectVolumes.length}
+                                resourceType={"volumes"}
+                />
+                <ProjectResource icon={"floppy-disk"}
+                                count={projectImages.length}
+                                resourceType={"images"}
+                />
+                <ProjectResource icon={"globe"}
+                                count={projectExternalLinks.length}
+                                resourceType={"links"}
+                />
+            </ul>
+          </div>
         </div>
       );
     }
