@@ -100,12 +100,14 @@ export default React.createClass({
         }
 
         let providerList;
-        if (imageVersion)
+        if (imageVersion) {
             providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
+        }
 
         let provider = this.state.provider;
-        if (providerList)
+        if (providerList) {
             provider = provider || providerList.first();
+        }
 
         let resourcesUsed, identityProvider, providerSizeList;
         if (provider) {
@@ -188,12 +190,12 @@ export default React.createClass({
         if (imageVersionList) {
             imageVersionList = filterEndDate(imageVersionList);
             imageVersion = imageVersionList.last();
-        }
+        };
 
         let providerList;
         if (imageVersion) {
             providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
-        }
+        };
 
         let provider, providerSizeList, identityProvider;
         if (providerList) {
@@ -205,7 +207,7 @@ export default React.createClass({
             identityProvider = stores.IdentityStore.findOne({
                 'provider.id': provider.id
             });
-        }
+        };
 
         let providerSize;
         if (providerSizeList) {
