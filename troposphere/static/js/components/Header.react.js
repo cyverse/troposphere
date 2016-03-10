@@ -12,7 +12,7 @@ define(function (require) {
 
   var Link = Router.Link;
 
-  var all_links = [
+  var links = [
     {
       name: "Dashboard",
       linksTo: "dashboard",
@@ -179,7 +179,7 @@ define(function (require) {
           return !link.requiresLogin && link.isEnabled;
         })
       } else {
-        links = all_links.filter(function (link) {
+        links = links.filter(function (link) {
           if (link.requiresStaff) return profile.get('is_staff');
           return true;
         })
