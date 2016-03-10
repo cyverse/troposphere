@@ -1,10 +1,10 @@
 // Note: Although this feature is a step in the right direction, we should try to solve
 // a few problems with how we deal with state and async requests that are dependent
 // on each other. For example, because we are waiting for data on network requests,
-// for data we want in state, we would need to set state on these values by calling 
-// setState from a change listener, however because we might already have it, we also 
-// need to set state from the event listener. Another requirement is that we are populating 
-// default values that are dependent on other values the user might change, so many event 
+// for data we want in state, we would need to set state on these values by calling
+// setState from a change listener, however because we might already have it, we also
+// need to set state from the event listener. Another requirement is that we are populating
+// default values that are dependent on other values the user might change, so many event
 // listeners will call setState on those dependent values as well. All of this logic is currently
 // duplicated in every place mentioned. One solution might be to contain all of this
 // dependent logic in a single function that is called by passing the key value
@@ -59,7 +59,7 @@ export default React.createClass({
         }
 
         return {
-            // State for general operation (switching views, etc) 
+            // State for general operation (switching views, etc)
             view,
             image,
             provider: null,
@@ -75,7 +75,7 @@ export default React.createClass({
         }
     },
 
-    // Set the component's state based on cloud defaults. 
+    // Set the component's state based on cloud defaults.
     //
     // Whenever the wizard mounts it listens for changes from the stores,
     // passing this function as a callback. Incrementally it calls stores to
@@ -99,17 +99,15 @@ export default React.createClass({
             imageVersion = imageVersionList.last();
         }
 
-        let providerList, provider;
-        if (imageVersion) {
+        let providerList;
+        if (imageVersion)
             providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
-            if (providerList) {
-                provider = this.state.provider ?
-                    this.state.provider :
-                    providerList.first();
-            }
-        }
 
-        let resourcesUsed, identityProvider, providerSizeList, providerSize;
+        let provider = this.state.provider;
+        if (providerList)
+            provider = provider || providerList.first();
+
+        let resourcesUsed, identityProvider, providerSizeList;
         if (provider) {
             resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
 
@@ -118,13 +116,14 @@ export default React.createClass({
             providerSizeList = stores.SizeStore.fetchWhere({
                 provider__id: provider.id
             });
-
-            if (providerSizeList) {
-                providerSize = this.state.providerSize ?
-                    this.state.providerSize :
-                    providerSizeList.first();
-            };
         }
+
+        let providerSize;
+        if (providerSizeList) {
+            providerSize = this.state.providerSize ?
+                this.state.providerSize :
+                providerSizeList.first();
+        };
 
         // NOTE: Only update state for things that need defaults. Data fetched
         // from the cloud is not part of the component's state that it
@@ -148,7 +147,7 @@ export default React.createClass({
 
         // NOTE: This is not nice. This enforces that every time a component
         // mounts updateState gets called. Otherwise, if a component mounts
-        // after data has been fetched, then updateState never gets called. 
+        // after data has been fetched, then updateState never gets called.
         this.updateState();
     },
 
@@ -183,31 +182,32 @@ export default React.createClass({
 
     onSelectImage: function(image) {
         let instanceName = image.get('name');
-        let imageVersion, providerSize, identityProvider;
         let imageVersionList = stores.ImageVersionStore.fetchWhere({image_id: image.id});
 
+        let imageVersion;
         if (imageVersionList) {
             imageVersionList = filterEndDate(imageVersionList);
             imageVersion = imageVersionList.last();
         }
 
-        let providerSizeList;
         let providerList;
-        let provider;
         if (imageVersion) {
             providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
-            if (providerList) {
-                provider = providerList.first();
-                providerSizeList = stores.SizeStore.fetchWhere({
-                    provider__id: provider.id
-                });
-
-                identityProvider = stores.IdentityStore.findOne({
-                    'provider.id': provider.id
-                });
-            }
         }
 
+        let provider, providerSizeList, identityProvider;
+        if (providerList) {
+            provider = providerList.first();
+            providerSizeList = stores.SizeStore.fetchWhere({
+                provider__id: provider.id
+            });
+
+            identityProvider = stores.IdentityStore.findOne({
+                'provider.id': provider.id
+            });
+        }
+
+        let providerSize;
         if (providerSizeList) {
             providerSize = providerSizeList.first();
         };
@@ -215,8 +215,8 @@ export default React.createClass({
         this.setState({
             image,
             instanceName,
+            provider,
             imageVersion,
-            providerSize,
             providerSize,
             identityProvider,
         }, this.viewBasic);
@@ -475,35 +475,36 @@ export default React.createClass({
     },
 
     renderBasicOptions: function() {
+
         let provider = this.state.provider;
         let providerSize = this.state.providerSize;
+        let identityProvider = this.state.identityProvider;
+        let project = this.state.project;
         let image = this.state.image;
         let imageVersion = this.state.imageVersion;
+
         let projectList = stores.ProjectStore.getAll() || null;
         let identities = stores.IdentityStore.getAll() || null;
-
-        let project = this.state.project;
-        if (!project && projectList) {
-            project = projectList.first();
-        }
 
         let imageVersionList;
         if (this.state.image) {
             imageVersionList = stores.ImageVersionStore.fetchWhere({image_id: this.state.image.id});
-            if (imageVersionList) {
-                imageVersionList = filterEndDate(imageVersionList);
-            }
         }
 
-        let providerList, providerSizeList, resourcesUsed;
-        if (provider && imageVersion) {
-            //providerList = new Backbone.Collection(imageVersion.get('machines').map((item) => item.provider));
+        let providerList;
+        if (imageVersion) {
             providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
+        }
+
+        let providerSizeList, resourcesUsed;
+        if (provider) {
+            resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
+
             providerSizeList = stores.SizeStore.fetchWhere({
                 provider__id: provider.id
             });
-            resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
         }
+
         return (
             <BasicLaunchStep { ...{
                     showValidationErr: this.state.showValidationErr,
