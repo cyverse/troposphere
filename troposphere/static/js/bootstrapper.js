@@ -32,7 +32,7 @@ define(function (require) {
   };
 
   // Extend the base collection to include useful functions
-  Backbone.Collection = Backbone.Collection.extend(FunctionalCollection);
+  _.extend(Backbone.Collection.prototype, FunctionalCollection);
 
   // Register which stores the image should use
   var stores = require('stores');
