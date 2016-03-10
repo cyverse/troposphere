@@ -67,26 +67,21 @@ class BadgeViewSet(viewsets.GenericViewSet):
     http_method_names = ['get', 'post', 'head', 'options', 'trace']
 
     def create(self, request, *args, **kwargs):
+
         url = settings.BADGE_API_HOST
         email_address = str(User.objects.get(username=self.request.user).email)
-        system_slug = settings.BADGE_SYSTEM_SLUG
-        system_name = settings.BADGE_SYSTEM_NAME
-        issuer_slug = settings.BADGE_ISSUER_SLUG
-        issuer_name = settings.BADGE_ISSUER_NAME
-        program_slug = settings.BADGE_PROGRAM_SLUG
-        program_name = settings.BADGE_PROGRAM_NAME
         secret = settings.BADGE_SECRET
-
         badge = str(self.request.data['badgeSlug'])
 
-        if settings.BADGE_PROGRAM_SLUG:
-            path = '/systems/' + system_slug + '/issuers/' + issuer_slug + '/programs/' + program_slug + '/badges/' + badge + '/instances'
-
-        elif settings.BADGE_ISSUER_SLUG:
-            path = '/systems/' + system_slug + '/issuers/' + issuer_slug + '/badges/' + badge + '/instances'
-
+        if settings.BADGE_GRANULARITY == "program":
+            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/issuers/' + settings.BADGE_ISSUER_SLUG + '/programs/' \
+                + settings.BADGE_PROGRAM_SLUG + '/badges/' + badge + '/instances'
+        elif settings.BADGE_GRANULARITY == "issuer":
+            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/issuers/' + settings.BADGE_ISSUER_SLUG + '/badges/' + badge + '/instances'
+        elif settings.BADGE_GRANULARITY == "system":
+            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/badges/' + badge + '/instances'
         else:
-            path = '/systems/' + system_slug+ '/badges/' + badge + '/instances'
+            return "Error: Missing BADGE_GRANULARITY in settings"
 
         header = {"typ": "JWT", "alg": 'HS256'}
         body = json.dumps({"email": email_address})
@@ -123,18 +118,20 @@ class BadgeViewSet(viewsets.GenericViewSet):
     def retrieve(self, request, *args, **kwargs):
         url = settings.BADGE_API_HOST
         email = User.objects.get(username=self.request.user).email
-
-        system_slug = settings.BADGE_SYSTEM_SLUG
-        system_name = settings.BADGE_SYSTEM_NAME
-        issuer_slug = settings.BADGE_ISSUER_SLUG
-        issuer_name = settings.BADGE_ISSUER_NAME
-        program_slug = settings.BADGE_PROGRAM_SLUG
-        program_name = settings.BADGE_PROGRAM_NAME
         secret = settings.BADGE_SECRET
 
-        path = '/systems/' + system_slug + '/issuers/' + issuer_slug + '/programs/' + program_slug + '/instances/' + email
+        if settings.BADGE_GRANULARITY == "program":
+            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/issuers/' + settings.BADGE_ISSUER_SLUG + '/programs/' + \
+                settings.BADGE_PROGRAM_SLUG + '/instances/' + email
+        elif settings.BADGE_GRANULARITY == "issuer":
+            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/issuers/' + settings.BADGE_ISSUER_SLUG + '/instances/' + email
+        elif settings.BADGE_GRANULARITY == "system":
+            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/instances/' + email
+        else:
+            return "Error: Missing BADGE_GRANULARITY in settings"
+
         header = {"typ": "JWT", "alg": 'HS256'}
-        body = str({"system_slug": system_slug, "name": system_name, "url": url + path})
+        body = str({"system_slug": settings.BADGE_SYSTEM_SLUG, "name": settings.BADGE_SYSTEM_NAME, "url": url + path})
 
         computed_hash = SHA256.new()
         computed_hash.update(body)
@@ -159,25 +156,6 @@ class BadgeViewSet(viewsets.GenericViewSet):
             }
         }
 
-        r = requests.get(url + path, headers=options['headers'], verify=False)
-
-        if settings.BADGE_PROGRAM_SLUG:
-            to_return = {'instances': []}
-            for instance in data['instances']:
-                if 'program' in instance['badge']:
-                    to_return['instances'].append(instance)
-            return Response(data=to_return, status=status.HTTP_200_OK)
-
-        elif settings.BADGE_ISSUER_SLUG:
-            to_return = {'instances': []}
-            for instance in data['instances']:
-                if 'issuer' in instance['badge']:
-                    to_return['instances'].append(instance)
-            return Response(data=to_return, status=status.HTTP_200_OK)
-
-        else:
-            return Response(data=data, status=status.HTTP_200_OK)
-
         r = requests.get(url + path,
                 headers=options['headers'],
                 verify=False)
@@ -186,29 +164,20 @@ class BadgeViewSet(viewsets.GenericViewSet):
 
 
     def list(self, request, *args, **kwargs):
-        url = settings.BADGE_API_HOST
-        system_slug = settings.BADGE_SYSTEM_SLUG
-        system_name = settings.BADGE_SYSTEM_NAME
-        issuer_slug = settings.BADGE_ISSUER_SLUG
-        issuer_name = settings.BADGE_ISSUER_NAME
-        program_slug = settings.BADGE_PROGRAM_SLUG
-        program_name = settings.BADGE_PROGRAM_NAME
-        secret = settings.BADGE_SECRET
-
-        if not settings.BADGE_SYSTEM_SLUG:
-            return "Error"
-
-        if settings.BADGE_PROGRAM_SLUG:
+        if settings.BADGE_GRANULARITY == "program":
             path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/issuers/' + settings.BADGE_ISSUER_SLUG + '/programs/' + settings.BADGE_PROGRAM_SLUG + '/badges'
-
-        elif settings.BADGE_ISSUER_SLUG:
+        elif settings.BADGE_GRANULARITY == "issuer":
             path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/issuers/' + settings.BADGE_ISSUER_SLUG + '/badges'
-
-        else:
+        elif settings.BADGE_GRANULARITY == "system":
             path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/badges'
+        else:
+            return "Error: Missing BADGE_GRANULARITY in settings"
+
+        secret = settings.BADGE_SECRET
+        url = settings.BADGE_API_HOST
 
         header = {"typ": "JWT", "alg": 'HS256'}
-        body = str({"system_slug": system_slug, "system_name": system_name, "url": url + path})
+        body = str({"system_slug": settings.BADGE_SYSTEM_SLUG, "system_name": settings.BADGE_SYSTEM_NAME, "url": url + path})
 
         computed_hash = SHA256.new()
         computed_hash.update(body)
