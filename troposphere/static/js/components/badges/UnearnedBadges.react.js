@@ -6,7 +6,6 @@ define(function (require) {
       Badge = require('./Badge.react'),
       Badges = require('Badges'),
       actions = require('actions'),
-      EarnedBadge = require('./EarnedBadge.react'),
       stores = require('stores'),
       RouteHandler = Router.RouteHandler;
 

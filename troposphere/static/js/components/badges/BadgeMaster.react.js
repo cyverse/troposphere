@@ -5,7 +5,6 @@ define(function (require) {
       Router = require('react-router'),
       Badge = require('./Badge.react'),
       actions = require('actions'),
-      EarnedBadge = require('./EarnedBadge.react'),
       stores = require('stores'),
       RouteHandler = Router.RouteHandler;
 
@@ -26,7 +25,7 @@ define(function (require) {
             </Router.Link>
             <Router.Link to="all-badges">
               <div className="btn">All Badges</div>
-            </Router.Link> 
+            </Router.Link>
           </span>
           <RouteHandler />
         </div>
