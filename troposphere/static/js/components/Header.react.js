@@ -176,7 +176,7 @@ define(function (require) {
 
       if (!profile.get('selected_identity')) {
         links = links.filter(function (link) {
-          return !link.requiresLogin && link.isEnabled;
+          return !link.requiresLogin;
         })
       } else {
         links = links.filter(function (link) {
