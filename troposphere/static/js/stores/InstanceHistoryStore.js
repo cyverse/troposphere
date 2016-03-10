@@ -12,9 +12,9 @@ define(function (require) {
     }
   });
 
-  // Fetch models and check badges when data is retreived 
-  InstanceHistoryStore.prototype.getAllAndCheckBadges = function () {
-    this.getAll();
+  // Fetch models and check badges when data is retreived
+  InstanceHistoryStore.prototype.fetchAndCheckBadges = function () {
+    this.fetchWhere({unique: true});
     this.addChangeListener(function(){
         actions.BadgeActions.checkInstanceBadges();
     });

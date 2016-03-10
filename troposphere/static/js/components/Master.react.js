@@ -58,7 +58,7 @@ define(function (require) {
     loadBadgeData: function(){
       stores.BadgeStore.getAll(),
       stores.MyBadgeStore.getAll(),
-      stores.InstanceHistoryStore.getAllAndCheckBadges();
+      stores.InstanceHistoryStore.fetchAndCheckBadges();
       stores.ImageBookmarkStore.getAllAndCheckBadges();
     },
 
