@@ -45,9 +45,7 @@ define(function (require) {
 
         Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
         Utils.dispatch(VolumeConstants.POLL_VOLUME_WITH_DELAY, {volume: volume});
-        if(globals.BADGES_ENABLED){
-          actions.BadgeActions.checkOrGrant(Badges.ATTACH_VOLUME_BADGE);
-        }
+        actions.BadgeActions.checkOrGrant(Badges.ATTACH_VOLUME_BADGE);
       }).fail(function (response) {
         var title = "Error attaching volume",
           message,
