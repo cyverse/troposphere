@@ -9,15 +9,9 @@ define(function (require) {
   return React.createClass({
     displayName: "Badge",
 
-    renderBadgeDetail: function(e){
-      e.preventDefault();
-      modals.BadgeModals.showBadge(this.props.badge);
-    },
-
     getInitialState: function(){
-      var badgeText = this.props.badge.get('criteria')[0].description;
       return({
-        text: badgeText,
+        text: this.props.type == "earned" ? this.props.badge.get('strapline') : this.props.badge.get('criteria')[0].description,
         badgeSlug: this.props.badge.get('slug')
       });
     },
@@ -25,10 +19,12 @@ define(function (require) {
     render: function () {
       var badge = this.props.badge,
           // We get the badge image ID from the image URL, since the badge ID is not guaranteed to be the badge image ID
-          imageIdIndex = badge.get('imageUrl').lastIndexOf('/');
+          badgeImagePieces = badge.get('imageUrl').split('/'),
+          badgeImageId = badgeImagePieces[badgeImagePieces.length - 1];
+
       return(
         <li className='badge-li'>
-          <img className='image' src={globals.BADGE_IMAGE_HOST + badge.get('imageUrl').substring(imageIdIndex+1)} />
+          <img className='image' src={globals.BADGE_IMAGE_HOST + badgeImageId} />
           <h4 className='badge-name'>{badge.get('name')}</h4>
           <p className='text'>
           {this.state.text}
