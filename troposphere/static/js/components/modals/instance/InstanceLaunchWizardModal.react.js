@@ -215,8 +215,8 @@ export default React.createClass({
         this.setState({
             image,
             instanceName,
+            provider,
             imageVersion,
-            providerSize,
             providerSize,
             identityProvider,
         }, this.viewBasic);
