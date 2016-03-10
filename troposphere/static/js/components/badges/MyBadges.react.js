@@ -5,8 +5,8 @@ define(function (require) {
       Router = require('react-router'),
       Badge = require('./Badge.react'),
       actions = require('actions'),
-      EarnedBadge = require('./EarnedBadge.react'),
       stores = require('stores'),
+      globals = require('globals'),
       actions = require('actions'),
       modals = require('modals'),
       RouteHandler = Router.RouteHandler;
@@ -32,7 +32,12 @@ define(function (require) {
     onExport: function(){
         var assertions = [];
         stores.MyBadgeStore.getAll().each(function(model){
-          assertions.push(model.get('assertionUrl'));
+          // Send http url to backpack, not the https url that assertionUrl contains
+          var assertionPieces = model.get('assertionUrl').split('/'),
+              assertionId = assertionPieces[assertionPieces.length - 1],
+              assertionUrl = globals.BADGE_ASSERTION_HOST + "/public/assertions/" + assertionId;
+
+          assertions.push(assertionUrl);
         });
         OpenBadges.issue(assertions);
     },
@@ -65,7 +70,7 @@ define(function (require) {
 
       var myBadgeDisplay = myBadges.map(function (badge) {
         return (
-          <EarnedBadge badge={badge} />
+          <Badge badge={badge} type="earned"/>
         )
       });
 
