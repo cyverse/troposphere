@@ -13,9 +13,9 @@ define(function (require) {
   return {
 
     mixins: [Router.State],
-    
+
     checkInstanceBadges: function(){
-      var instanceCount = stores.InstanceHistoryStore.getAll().meta.count;
+      var instanceCount = stores.InstanceHistoryStore.fetchWhere({unique: true}).meta.count;
       if(instanceCount >= 1){
         this.checkOrGrant(Badges.LAUNCH_1_INSTANCE_BADGE);
       }
@@ -28,7 +28,7 @@ define(function (require) {
     checkBookmarkBadges: function(){
       var favoritedImageCount = stores.ImageBookmarkStore.getAll().meta.count;
       if(favoritedImageCount >= 1){
-        this.checkOrGrant(Badges.FAVORITE_1_IMAGE_BADGE); 
+        this.checkOrGrant(Badges.FAVORITE_1_IMAGE_BADGE);
       }
       if(favoritedImageCount >= 5){
         this.checkOrGrant(Badges.FAVORITE_5_IMAGES_BADGE);
@@ -36,7 +36,7 @@ define(function (require) {
     },
 
     checkOrGrant: function(badgeId){
-      if(!stores.MyBadgeStore.get(badgeId)){
+      if(globals.BADGES_ENABLED && !stores.MyBadgeStore.get(badgeId)){
         this.grant({badge: stores.BadgeStore.get(badgeId)});
       }
     },
@@ -72,7 +72,6 @@ define(function (require) {
           badgeSlug = badge.get('slug');
       }
       catch(err) {
-          console.log(err);
           return;
       }
       $.ajax({
