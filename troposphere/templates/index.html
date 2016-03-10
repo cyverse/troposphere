@@ -76,6 +76,10 @@
             var BADGE_HOST = "{{ BADGE_HOST }}";
         {% endif %}
 
+        {% if BADGE_ASSERTION_HOST %}
+            var BADGE_ASSERTION_HOST = "{{ BADGE_ASSERTION_HOST }}";
+        {% endif %}
+
         {% if SITE_TITLE %}
             var SITE_TITLE = "{{ SITE_TITLE }}";
         {% endif %}
@@ -102,7 +106,7 @@
 
         {% if show_public_site %}
             var show_public_site = true;
-        {%  else %}
+        {% else %}
             var show_public_site = false;
         {% endif %}
 
@@ -125,6 +129,7 @@
     <script src="{{ BASE_URL }}/assets/public.js"></script>
     {% else %}
     <script src="{{ BASE_URL }}/assets/app.js"></script>
+    {% endif %}
 
     {% if BADGES_ENABLED %}
         <script src="https://backpack.openbadges.org/issuer.js"></script>

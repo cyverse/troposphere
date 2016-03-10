@@ -18,8 +18,9 @@ define(function (require) {
         TZ_REGION: tz_region,
         BADGE_HOST: window.BADGE_HOST,
         BADGE_IMAGE_HOST: window.BADGE_IMAGE_HOST,
-        BADGES_ENABLED: window.BADGES_ENABLED || true
-        
+        BADGE_ASSERTION_HOST: window.BADGE_ASSERTION_HOST,
+        BADGES_ENABLED: window.BADGES_ENABLED || false
+
     }
 
 });
