@@ -64,11 +64,18 @@ OAUTH_CLIENT_CALLBACK = "{{ OAUTH_CLIENT_CALLBACK }}"
 SHOW_INSTANCE_METRICS = {{ SHOW_INSTANCE_METRICS }}
 {% if BADGES_ENABLED %}
 
+BADGES_ENABLED = True
+
 # Host for authenticating a badge request
 BADGE_HOST = "{{ BADGE_HOST }}"
 
 # Host for Badgekit API
 BADGE_API_HOST = "{{ BADGE_API_HOST }}"
+
+# The host that troposphere will fetch badge images from. Ex. {BADGE_HOST}/image_id
+BADGE_IMAGE_HOST = "{{ BADGE_IMAGE_HOST }}"
+
+BADGE_ASSERTION_HOST = "{{ BADGE_ASSERTION_HOST }}"
 
 # Badgekit slug for the system your badges belong to
 BADGE_SYSTEM_SLUG = "{{ BADGE_SYSTEM_SLUG }}"
@@ -76,8 +83,24 @@ BADGE_SYSTEM_SLUG = "{{ BADGE_SYSTEM_SLUG }}"
 # Readable name of your badge system
 BADGE_SYSTEM_NAME = "{{ BADGE_SYSTEM_NAME }}"
 
+# Badgekit slug for the issuer your badges belong to
+BADGE_ISSUER_SLUG = "{{ BADGE_ISSUER_SLUG }}"
+
+# Readable name of your badge issuer
+BADGE_ISSUER_NAME = "{{ BADGE_ISSUER_NAME }}"
+
+# Badgekit slug for the program your badges belong to
+BADGE_PROGRAM_SLUG = "{{ BADGE_PROGRAM_SLUG }}"
+
+# Readable name of your badge program
+BADGE_PROGRAM_NAME = "{{ BADGE_PROGRAM_NAME }}"
+
 # Badge secret used for badge authentication server
 BADGE_SECRET = "{{ BADGE_SECRET }}"
+
+# Show badges for system, issuer, or program
+BADGE_GRANULARITY = "{{ BADGE_GRANULARITY }}"
+
 {% endif %}
 
 {% if DJANGO_JENKINS %}
