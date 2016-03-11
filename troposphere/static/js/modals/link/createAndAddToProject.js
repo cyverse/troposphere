@@ -16,7 +16,7 @@ define(function (require) {
         actions.ExternalLinkActions.createAndAddToProject({
           title: name,
           description: description,
-          link: link,
+          external_link: link,
           project: project
         });
       });
