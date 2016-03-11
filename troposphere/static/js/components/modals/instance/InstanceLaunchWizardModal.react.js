@@ -95,7 +95,7 @@ export default React.createClass({
 
         let imageVersion = this.state.imageVersion;
         if (imageVersionList && !imageVersion) {
-            imageVersionList = filterEndDate(imageVersionList);
+            imageVersionList = imageVersionList.cfilter(filterEndDate);
             imageVersion = imageVersionList.last();
         }
 
@@ -188,7 +188,7 @@ export default React.createClass({
 
         let imageVersion;
         if (imageVersionList) {
-            imageVersionList = filterEndDate(imageVersionList);
+            imageVersionList = imageVersionList.cfilter(filterEndDate);
             imageVersion = imageVersionList.last();
         };
 
@@ -491,6 +491,10 @@ export default React.createClass({
         let imageVersionList;
         if (this.state.image) {
             imageVersionList = stores.ImageVersionStore.fetchWhere({image_id: this.state.image.id});
+
+            if (imageVersionList) {
+                imageVersionList = imageVersionList.cfilter(filterEndDate);
+            }
         }
 
         let providerList;
