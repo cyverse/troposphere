@@ -48,11 +48,12 @@ define(
       },
 
       render: function () {
-        var view, versionView;
-        versionView = (
-          <VersionsView image={this.props.image}
-          />
+        var view,
+            versionView = (
+                <VersionsView image={this.props.image}
+            />
         );
+
         if(this.state.isEditing){
           view = (
             <EditImageDetails image={this.props.image}

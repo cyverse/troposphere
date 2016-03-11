@@ -4,23 +4,26 @@
   <title>
     Atmosphere | {{ ORG_NAME }}
   </title>
-  <link rel="shortcut icon" href="/assets/resources/images/favicon.ico" />
-  <link type="text/css" rel="stylesheet" href="/assets/no_user.css" />
-  <link rel="stylesheet" href="{{ site_root }}/assets/resources/css/login.css"/>
+  <link rel="shortcut icon" href="{{THEME_URL}}/images/favicon.ico" />
+ <!-- <link type="text/css" rel="stylesheet" href="/assets/no_user.css" /> -->
+  <link rel="stylesheet" href="{{ THEME_URL }}/css/login.css"/>
 </head>
 <body>
-    <img src="/assets/resources/images/login_mainimage.png">
-    <div class="message-wrapper">
-        {% if banner %}
-        <div id="toast-container" class="toast-top-full-width">
-            <div class="toast toast-error">
-                <div class="toast-title"> Errors occurred during login </div>
-                <div class="toast-message">{{ banner }}</div>
+    <div id="wrapper" class="center">
+        <div id="imgcontainer">
+            <img src="{{ THEME_URL }}/images/large_logo.png">
+        </div>
+        <div class="message-wrapper">
+            {% if banner %}
+            <div id="toast-container" class="toast-top-full-width">
+                <div class="toast toast-error">
+                    <div class="toast-title"> Errors occurred during login </div>
+                    <div class="toast-message">{{ banner }}</div>
+                </div>
             </div>
         </div>
         {% endif %}
         <p>Your account does not currently have access to Atmosphere.</p>
-
 
         <p>The Jetstream User Guide is available from the <a href="http://jetstream-cloud.org/training.php">Training</a> page! Please note that updates may happen daily or even multiple times per day during early operations. This is a work in progress and at the moment the best source for understanding how you really use Jetstream</p>
 

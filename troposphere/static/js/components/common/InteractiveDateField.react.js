@@ -30,10 +30,10 @@ define(function (require) {
     },
 
     unsetDate: function (e) {
-      var new_value = "";
-      this.setState({value: new_value});
+      var newValue = "";
+      this.setState({value: newValue});
       if(this.props.onChange != null) {
-        this.props.onChange(new_value)
+        this.props.onChange(newValue)
       }
     },
 

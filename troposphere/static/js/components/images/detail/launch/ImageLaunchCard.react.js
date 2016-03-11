@@ -23,7 +23,8 @@ define(
         var image = this.props.image;
         var versions = stores.ImageStore.getVersions(image.id);
         var type = stores.ProfileStore.get().get('icon_set');
-        var userLoggedIn = context.profile.get('username');
+        var userLoggedIn = (context.profile && context.profile.get('username'));
+
         var iconSize = 145;
         // always use the Gravatar icons
         var icon = (
@@ -42,7 +43,9 @@ define(
         var button;
         if (userLoggedIn) {
           button = (
-            <button className='btn btn-primary launch-button' onClick={this.props.onLaunch} disabled={!canLaunch}>
+            <button className='btn btn-primary launch-button'
+                onClick={this.props.onLaunch}
+                disabled={!canLaunch}>
               Launch
             </button>
           );

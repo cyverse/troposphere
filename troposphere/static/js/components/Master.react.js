@@ -16,6 +16,7 @@ define(function (require) {
   // Routing
   var Router = require('react-router'),
     RouteHandler = Router.RouteHandler;
+
   return React.createClass({
     displayName: "Master",
 
@@ -73,11 +74,10 @@ define(function (require) {
       // IMPORTANT! We get one shot at this. If the instances and volumes aren't
       // fetched before this component is mounted we miss our opportunity to migrate
       // the users resources (so make sure they're fetched in the Splash Screen)
+      var instances = stores.InstanceStore.getInstancesNotInAProject(),
+            volumes = stores.VolumeStore.getVolumesNotInAProject(),
+            nullProject = new NullProject({instances: instances, volumes: volumes});
 
-
-        var instances = stores.InstanceStore.getInstancesNotInAProject(),
-        volumes = stores.VolumeStore.getVolumesNotInAProject(),
-        nullProject = new NullProject({instances: instances, volumes: volumes});
       if (!modernizrTest.unsupported()) {
           showUnsupportedModal.showModal(this.closeUnsupportedModal);
       }

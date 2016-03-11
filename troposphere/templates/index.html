@@ -10,9 +10,6 @@
     <!--CSS-->
     <link rel="stylesheet" href="{{ BASE_URL }}/assets/app.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{ THEME_URL }}/css/theme.css" rel="stylesheet" type="text/css">
-    <!--
-    <link rel="stylesheet" href="{{ BASE_URL }}/{{ THEME_URL }}/theme.css" rel="stylesheet" type="text/css">
-    -->
 
     <!--[if IE]>
     <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -20,12 +17,11 @@
 
     <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/tpwq3d9w';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
 </head>
-<body class="tk-myriad-pro splash-screen">
+<body class="splash-screen">
 
     <div class="splash-image">
-      <img src="{{ THEME_URL }}/images/login_mainimage.png">
         <div class="loading"></div>
-        <h4>Loading {{ SITE_TITLE }}...</h4>
+        <h4 class="center">Loading {{ SITE_TITLE }}...</h4>
     </div>
 
     <div id="application"></div>
