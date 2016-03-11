@@ -20,7 +20,6 @@ define(function (require) {
             onPrevious: React.PropTypes.func.isRequired,
             onNext: React.PropTypes.func.isRequired
         },
-
         getInitialState: function () {
             return {
                 name: this.props.name || "",
@@ -83,11 +82,27 @@ define(function (require) {
             var selectedIdentity = stores.IdentityStore.get(newIdentityId);
             this.setState({identity: selectedIdentity});
         },
+        cleanIdentities: function (identities) {
+            // don't show duplicate images
+            current_provider_ids = this.state.version.get('machines').map(function(m) {
+                return m.provider.id; // NOTE: This could be considered somewhat fragile, as we are looking more than 'one level' of depth from Version.
+            });
+            identity_list = _.uniq(identities.models, function (ident) {
+                return ident.id;
+            });
+            identity_list = identity_list.filter(function(ident) {
+                return current_provider_ids.indexOf(ident.get('provider').id) >= 0; //NOTE: This uses 'id' not 'uuid' as the filter
+            });
+            identities = new identities.constructor(identity_list);
+            //TODO: Sort Me!
+            return identities;
+        },
         cleanVersions: function (versions) {
             // don't show duplicate images
-            versions = new versions.constructor(_.uniq(versions.models, function (v) {
+            version_list = _.uniq(versions.models, function (v) {
                 return v.id;
-            }));
+            });
+            versions = new versions.constructor(version_list);
             //TODO: Sort Me!
             return versions;
         },
@@ -179,10 +194,11 @@ define(function (require) {
             versions = this.cleanVersions(versions);
             //Keep things in order
             versions = versions.sort();
-            identities = identities.sort();
             if (!this.state.version) {
                 this.state.version = versions.last();
             }
+            identities = this.cleanIdentities(identities);
+            identities = identities.sort();
             if (!this.state.identity) {
                 //NOTE: DO NOT set an identity if no version can be found.
                 if(this.state.version) {
