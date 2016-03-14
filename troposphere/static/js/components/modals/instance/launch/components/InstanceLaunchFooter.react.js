@@ -42,7 +42,7 @@ export default React.createClass({
                     disabled={this.props.advancedIsDisabled}
                     onClick={this.props.viewAdvanced}>
                         <i className="glyphicon glyphicon-cog"/>
-                        Advanced Options
+                        {" Advanced Options"}
                 </a>
 
                 <button
