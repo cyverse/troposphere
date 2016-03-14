@@ -1,24 +1,33 @@
 import React from 'react';
+import Button from 'components/common/ui/Button.react';
 
 export default React.createClass({
+
     render: function() {
         let saveOptionsDisabled = this.props.saveOptionsDisabled ? "disabled" : "";
         return (
             <div className="modal-footer">
-                <button type="button"
-                    disabled={this.props.saveOptionsDisabled}
-                    className="btn btn-primary pull-right"
-                    onClick={this.props.onSaveAdvanced}
-                >
-                    Save Advanced Options
-                </button>
-                <button type="button"
-                    className="btn btn-default pull-right"
-                    style={{marginRight:"10px"}}
-                    onClick={this.props.cancel}
-                >
-                        Cancel Advanced Options
-                </button>
+                <Button
+                    style={{float:"right"}}
+                    isDisabled={this.props.saveOptionsDisabled}
+                    buttonType="default"
+                    title="Continue to Launch"
+                    onTouch={this.props.onSaveAdvanced}
+                />
+                <Button
+                    tooltip={{
+                        title: "Warning, any changes to Advanced Options will be lost",
+                        placement: "top"
+                    }}
+                    style={{
+                        marginRight:"10px",
+                        float:"right"
+                    }}
+                    icon="refresh"
+                    buttonType="link"
+                    title="Restore Advaced Options"
+                    onTouch={this.props.onClearAdvanced}
+                />
             </div>
         )
     }
