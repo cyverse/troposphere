@@ -123,7 +123,7 @@ export default React.createClass({
                 <AdvancedOptionsFooter
                     saveOptionsDisabled={this.state.saveOptionsDisabled}
                     onSaveAdvanced={this.props.onSaveAdvanced}
-                    cancel={this.props.cancelAdvanced}
+                    onClearAdvanced={this.props.onClearAdvanced}
                 />
             </div>
         )
