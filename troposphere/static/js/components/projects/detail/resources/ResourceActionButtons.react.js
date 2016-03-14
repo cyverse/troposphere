@@ -4,7 +4,11 @@ define(function (require) {
     Backbone = require('backbone'),
     Button = require('./Button.react'),
     Instance = require('models/Instance'),
+    Image = require('models/Image'),
+    ExternalLink = require('models/ExternalLink'),
     Volume = require('models/Volume'),
+    ImageActionButtons = require('./ImageActionButtons.react'),
+    ExternalLinkActionButtons = require('./ExternalLinkActionButtons.react'),
     InstanceActionButtons = require('./InstanceActionButtons.react'),
     VolumeActionButtons = require('./VolumeActionButtons.react');
 
@@ -30,6 +34,24 @@ define(function (require) {
             onUnselect={this.props.onUnselect}
             multipleSelected={this.props.multipleSelected}
             instance={resource}
+            project={project}
+            />
+        );
+      } else if (resource instanceof Image) {
+        return (
+          <ImageActionButtons
+            onUnselect={this.props.onUnselect}
+            multipleSelected={this.props.multipleSelected}
+            image={resource}
+            project={project}
+            />
+        );
+      } else if (resource instanceof ExternalLink) {
+        return (
+          <ExternalLinkActionButtons
+            onUnselect={this.props.onUnselect}
+            multipleSelected={this.props.multipleSelected}
+            external_link={resource}
             project={project}
             />
         );

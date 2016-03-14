@@ -22,7 +22,7 @@ export default React.createClass({
     },
 
     render: function () {
-        let images = filterEndDate(this.props.images);
+        let images = this.props.images.cfilter(filterEndDate);
         return (
             <ul className="app-card-list modal-list">
                 {images.map(this.renderImage)}

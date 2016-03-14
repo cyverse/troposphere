@@ -33,7 +33,7 @@ define(function(require) {
     //
 
     renderBody: function () {
-      var link = this.props.link;
+      var link = this.props.external_link;
       return (
         <div>
           <p>

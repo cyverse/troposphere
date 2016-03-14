@@ -251,7 +251,6 @@ define(function (require) {
           project: project
         }, options);
       } else if (resource instanceof Image) {
-        //Do NOT delete the Image, just remove the Image from the project.
         actions.ProjectImageActions.removeImageFromProject({
           project: project,
           image: resource
