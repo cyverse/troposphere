@@ -2,6 +2,9 @@ import React from 'react';
 import Button from 'components/common/ui/Button.react';
 
 export default React.createClass({
+    onClearAdvanced: function() {
+        this.props.onClearAdvanced();
+    },
 
     render: function() {
         let saveOptionsDisabled = this.props.saveOptionsDisabled ? "disabled" : "";
