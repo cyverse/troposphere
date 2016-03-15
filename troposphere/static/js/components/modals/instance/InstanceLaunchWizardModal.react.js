@@ -361,6 +361,12 @@ export default React.createClass({
     // Validation
     //======================
 
+    hasAdvancedOptions: function() {
+        //TODO: Once more advanced options are added,
+        //this will need to be a recursive check.
+        return (this.state.attachedScripts.length > 0)
+    },
+
     // This is a callback that returns true if the provider size in addition to resources already using
     // will exceed the user's allotted resources.
     exceedsResources: function() {
@@ -547,6 +553,7 @@ export default React.createClass({
                 onRemoveAttachedScript={this.onRemoveAttachedScript}
                 onClearAdvanced={this.onClearAdvanced}
                 onSaveAdvanced={this.onSaveAdvanced}
+                hasAdvancedOptions={this.hasAdvancedOptions()}
             />
         );
     },

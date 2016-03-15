@@ -9,7 +9,8 @@ export default React.createClass({
     getInitialState: function() {
         return {
             view: "BOOTSCRIPT_VIEW",
-            saveOptionsDisabled: false,
+            footerDisabled: false,
+
             options:[
                 {
                     name: "Deployment Scripts",
@@ -34,15 +35,15 @@ export default React.createClass({
     },
 
 
-    onDisableSave: function() {
+    onDisableFooter: function() {
         this.setState({
-            saveOptionsDisabled: true
+            footerDisabled: true,
         })
     },
 
-    onEnableSave: function() {
+    onEnableFooter: function() {
         this.setState({
-            saveOptionsDisabled: false
+            footerDisabled: false,
         })
     },
 
@@ -74,15 +75,12 @@ export default React.createClass({
     },
 
     renderBootScripts: function() {
-        // TODO: handle else case
-        if (this.props.bootScriptList) {
             return (
                 <BootScriptOption {...this.props}
-                    onDisableSave={this.onDisableSave}
-                    onEnableSave={this.onEnableSave}
+                    onDisableFooter={this.onDisableFooter}
+                    onEnableFooter={this.onEnableFooter}
                 />
             );
-        }
     },
 
     renderOption2: function() {
@@ -121,7 +119,9 @@ export default React.createClass({
                     </div>
                 </div>
                 <AdvancedOptionsFooter
-                    saveOptionsDisabled={this.state.saveOptionsDisabled}
+                    continueToLaunch={this.state.continueToLaunch}
+                    clearOptionsIsDisabled={!this.props.hasAdvancedOptions}
+                    footerDisabled={this.state.footerDisabled}
                     onSaveAdvanced={this.props.onSaveAdvanced}
                     onClearAdvanced={this.props.onClearAdvanced}
                 />
