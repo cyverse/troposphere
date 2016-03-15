@@ -8,11 +8,12 @@ from django.contrib.auth.models import User
 from rest_framework import (viewsets, mixins, status)
 from rest_framework.response import Response
 
-from api.models import UserPreferences
+from api.models import UserPreferences, HelpLink
 from troposphere import settings
 from troposphere.version import get_version
 
-from .serializers import UserSerializer, UserPreferenceSerializer
+from .serializers import (UserSerializer, UserPreferenceSerializer,
+                          HelpLinkSerializer)
 
 
 class VersionViewSet(mixins.ListModelMixin,
@@ -59,6 +60,17 @@ class UserPreferenceViewSet(viewsets.ModelViewSet):
         """
         user = self.request.user
         return UserPreferences.objects.filter(user=user)
+
+
+
+class HelpLinkViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows links to help documentation to be added &
+    viewed.
+    """
+    queryset = HelpLink.objects.all()
+    serializer_class = HelpLinkSerializer
+    http_method_names = ['get', 'put', 'post', 'patch', 'head', 'options', 'trace']
 
 
 class BadgeViewSet(viewsets.GenericViewSet):

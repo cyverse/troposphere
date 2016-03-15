@@ -60,6 +60,19 @@ class UserPreferences(models.Model):
         return "%s" % self.user.username
 
 
+class HelpLink(models.Model):
+    link_key = models.CharField(max_length=256)
+    topic = models.CharField(max_length=256)
+    context = models.TextField()
+    href = models.TextField()
+
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return "(%s) => %s" % (self.topic, self.link_href)
+
+
 # Save Hook(s) Here:
 def get_or_create_preferences(sender, instance, created, **kwargs):
     pref, _ = UserPreferences.objects.get_or_create(user=instance)
