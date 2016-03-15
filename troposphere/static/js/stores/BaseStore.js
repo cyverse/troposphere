@@ -93,8 +93,11 @@ define(function (require) {
     remove: function (model) {
       this.models.remove(model);
 
-      // Remove model from polling dictionary
-      delete this.pollingModels[model.cid];
+      // If already polling, Remove model from polling dictionary
+      if (this.pollingModels[model.cid]) {
+          delete this.pollingModels[model.cid];
+      }
+      return;
     },
 
     // --------------
