@@ -27,8 +27,10 @@ export default React.createClass({
                     style={{float:"left"}}
                     isDisabled={clearOptionsIsDisabled}
                     buttonType="link"
-                    title="Restore Advaced Options"
-                    onTouch={this.props.onClearAdvanced}
+                    title="Restore Default Options"
+                    icon="refresh"
+                    onTouch={this.onClearAdvanced}
+                    tooltip={tooltipTitle}
                 />
             </div>
         )

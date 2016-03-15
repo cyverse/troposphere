@@ -1,22 +1,49 @@
 import React from 'react';
 import bootstrap from 'bootstrap';
 import $ from 'jquery';
+import Tooltip from 'components/common/ui/Tooltip.react';
 
 export default React.createClass({
-    componentDidMount: function () {
-       if (this.props.tooltip) {
-            var el = this.getDOMNode(),
-                $el = $(el);
+    getInitialState: function() {
+        return({
+            showTooltip: false
+        });
+    },
 
-            $el.tooltip(this.props.tooltip);
-       }
+    showTooltip: function() {
+        this.setState({
+            showTooltip: true
+        });
+    },
+
+    hideTooltip: function() {
+        this.setState({
+            showTooltip: false
+        });
+    },
+
+    onMouseEnter: function() {
+        if (!this.props.isDisabled) {
+            this.showTooltip();
+        }
+    },
+
+    onMouseLeave: function() {
+        this.hideTooltip();
     },
 
     onTouch: function() {
-        this.setState({
-            outline: "none"
-        });
-        this.props.onClick();
+        this.props.onTouch();
+        setTimeout( ()=> this.hideTooltip(), 2000);
+    },
+
+    tooltip: function() {
+        let tooltip = this.props.tooltip;
+        if (!tooltip || !this.state.showTooltip) { return };
+
+        return(
+            <Tooltip message={tooltip} />
+        )
     },
 
     icon: function() {
@@ -31,29 +58,29 @@ export default React.createClass({
         )
     },
 
-    style: function() {
-        return ({
-            ...this.props.style,
-            outline: this.state.outline
-        })
-    },
-
     render: function () {
-        // Expects default, primary, danger, etc..
-        // Better name than level?
+        // Expects link, default, primary, danger, etc..
         let buttonType = this.props.buttonType;
 
         return (
-            <button 
-                type="button"
-                disabled={this.props.isDisabled}
-                className={`btn btn-${buttonType}`}
-                onClick={this.onTouch}
-                style={this.style}
+            <div style={{
+                    ...this.props.style,
+                    position: "relative"
+                }}
             >
-                {this.icon()}
-                {` ${this.props.title}`}
-            </button>
+                <button
+                    type="button"
+                    disabled={this.props.isDisabled}
+                    className={`btn btn-${buttonType}`}
+                    onClick={this.onTouch}
+                    onMouseEnter={this.onMouseEnter}
+                    onMouseLeave={this.onMouseLeave}
+                >
+                    {this.icon()}
+                    {` ${this.props.title}`}
+                </button>
+                {this.tooltip()}
+            </div>
         )
     }
 });
