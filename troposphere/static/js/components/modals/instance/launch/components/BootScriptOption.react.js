@@ -1,4 +1,3 @@
-
 import React from 'react/addons';
 import AddScripts from './AddScripts.react';
 import CreateScript from './CreateScript.react';

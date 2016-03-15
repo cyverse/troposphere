@@ -48,7 +48,6 @@ export default React.createClass({
 
     icon: function() {
         let icon = this.props.icon;
-
         if (!icon) {
             return null
         }
