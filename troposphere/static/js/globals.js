@@ -10,6 +10,7 @@ define(function (require) {
         API_ROOT: window.API_ROOT || '/api/v1',
         API_V2_ROOT: window.API_V2_ROOT || '/api/v2',
         API_V2_MOCK_ROOT: window.API_V2_MOCK_ROOT,
+        TROPO_API_ROOT: window.TROPO_API_ROOT || '/tropo-api',
         WEB_SH_URL: window.WEB_SH_URL || shell_proxy,
         SITE_TITLE: window.SITE_TITLE || 'Atmosphere',
         SITE_FOOTER: window.SITE_FOOTER || 'iPlant Collaborative',
