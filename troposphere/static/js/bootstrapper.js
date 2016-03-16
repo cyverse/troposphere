@@ -39,6 +39,7 @@ define(function (require) {
   stores.AllocationStore = require('stores/AllocationStore');
   stores.BadgeStore = require('stores/BadgeStore');
   stores.ExternalLinkStore = require('stores/ExternalLinkStore');
+  stores.HelpLinkStore = require('stores/HelpLinkStore');
   stores.ImageStore = require('stores/ImageStore');
   stores.ImageVersionStore = require('stores/ImageVersionStore');
   stores.ImageVersionMembershipStore = require('stores/ImageVersionMembershipStore');

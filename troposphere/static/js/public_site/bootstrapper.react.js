@@ -16,6 +16,7 @@ define(function (require) {
     stores.ImageBookmarkStore = require('stores/ImageBookmarkStore');
     stores.ImageVersionStore = require('stores/ImageVersionStore');
     stores.TagStore         = require('stores/TagStore');
+    stores.HelpLinkStore    = require('stores/HelpLinkStore');
     // Mock out the profile store with an empty profile
     stores.ProfileStore = {
       get: function(){
