@@ -39,6 +39,7 @@ define(function (require) {
     AdminMaster = require('./components/admin/AdminMaster.react'),
     AtmosphereUserMaster = require('./components/admin/AtmosphereUserMaster.react'),
     ImageMaster = require('./components/admin/ImageMaster.react'),
+    ImageRequest = require('./components/admin/ImageRequest.react'),
     IdentityMembershipMaster = require('./components/admin/IdentityMembershipMaster.react'),
     ResourceMaster = require('./components/admin/ResourceMaster.react'),
     ResourceRequest = require('./components/admin/ResourceRequest.react');
@@ -81,8 +82,12 @@ define(function (require) {
       <Route name="admin" handler={AdminMaster}>
         <Route name="atmosphere-user-manager" path="users" handler={AtmosphereUserMaster}/>
         <Route name="identity-membership-manager" path="identities" handler={IdentityMembershipMaster}/>
-        <Route name="resource-request-manager" path="resource-requests" handler={ResourceMaster} />
-        <Route name="image-request-manager" path="imaging-requests" handler={ImageMaster} />
+        <Route name="resource-request-manager" path="resource-requests" handler={ResourceMaster}>
+          <Route name="resource-request-detail" path=":id" handler={ResourceRequest}/>
+        </Route>
+        <Route name="image-request-manager" path="imaging-requests" handler={ImageMaster}>
+          <Route name="image-request-detail" path=":id" handler={ImageRequest}/>
+        </Route>
         <DefaultRoute handler={AtmosphereUserMaster}/>
       </Route>
 

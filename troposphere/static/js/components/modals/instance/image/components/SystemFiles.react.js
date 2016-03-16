@@ -21,8 +21,8 @@ define(function (require) {
 
       var description = (
         <div>
-          If your VM image requires a change in an iPlant-managed system file (see
-          <a href="https://pods.iplantcollaborative.org/wiki/display/atmman/Requesting+an+Image+of+an+Instance" target="_blank">{" Important Notes #4"}</a>
+          If your VM image requires a change in an Jetstream-managed system file (see
+          <a href="http://jetstream-cloud.org/training.php" target="_blank">{"Important notes before you request an image"}</a>
           ), let us know the change and why the change is necessary.
         </div>
       );

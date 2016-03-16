@@ -142,7 +142,7 @@ $(function() {
             ok_button: "Log out of all iPlant services",
             on_confirm: function(){
                 var csrftoken = Atmo.Utils.getCookie('csrftoken');
-                Atmo.Utils.post_to_url(site_root + "/logout?cas=true", { cas: true, 'csrfmiddlewaretoken':csrftoken })
+                Atmo.Utils.post_to_url(site_root + "/logout?force=true", { force: true, 'csrfmiddlewaretoken':csrftoken })
             },
 
             cancel_button: "Log out of Atmosphere Only",

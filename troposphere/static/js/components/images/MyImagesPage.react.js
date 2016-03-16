@@ -14,7 +14,7 @@ define(function(require) {
           created_by__username: profile.get('username')
         }),
         tags = stores.TagStore.getAll(),
-        imagingDocsUrl = "https://pods.iplantcollaborative.org/wiki/display/atmman/Requesting+an+Image+of+an+Instance";
+        imagingDocsUrl = "http://jetstream-cloud.org/training.php";
 
       if (!images || !tags) return <div className="loading"></div>;
 

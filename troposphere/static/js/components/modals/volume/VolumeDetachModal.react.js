@@ -57,7 +57,7 @@ define(
 
             <p>
               <a
-                href="https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachinganEBSVolumetoanInstance-Step7%3AUnmountanddetachthevolume."
+                href="http://jetstream-cloud.org/training.php"
                 target="_blank">
                 {"Learn more about unmounting and detaching a volume"}
               </a>
