@@ -89,6 +89,21 @@ export default React.createClass({
         }));
         return versions;
     },
+    cleanIdentities: function (identities) {
+        // don't show duplicate images
+        current_provider_ids = this.state.version.get('machines').map(function(m) {
+            return m.provider.id; // NOTE: This could be considered somewhat fragile, as we are looking more than 'one level' of depth from Version.
+        });
+        identity_list = _.uniq(identities.models, function (ident) {
+            return ident.id;
+        });
+        identity_list = identity_list.filter(function(ident) {
+            return current_provider_ids.indexOf(ident.get('provider').id) >= 0; //NOTE: This uses 'id' not 'uuid' as the filter
+        });
+        identities = new identities.constructor(identity_list);
+        //TODO: Sort Me!
+        return identities;
+    },
     calculateAllocationUsage: function (allocation) {
         var maxAllocation = allocation.threshold;
         var currentAllocation = allocation.current;
@@ -170,7 +185,6 @@ export default React.createClass({
             identities = stores.IdentityStore.getAll(),
             providers = stores.ProviderStore.getAll(),
             versions = stores.ImageStore.getVersions(image.id);
-        
 
         if (!providers || !identities || !versions) return <div className="loading"></div>;
 
@@ -178,10 +192,16 @@ export default React.createClass({
         versions = this.cleanVersions(versions);
         //Keep things in order
         versions = versions.cfilter(filterEndDate).sort();
-        identities = identities.cfilter(filterEndDate).sort();
         if (!this.state.version) {
             this.state.version = versions.last();
         }
+        // don't show duplicate images
+        if (!this.state.version) {
+            this.state.version = versions.last();
+        }
+        identities = this.cleanIdentities(identities);
+        identities = identities.cfilter(filterEndDate).sort();
+
         if (!this.state.identity) {
             //NOTE: DO NOT set an identity if no version can be found.
             if(this.state.version) {
