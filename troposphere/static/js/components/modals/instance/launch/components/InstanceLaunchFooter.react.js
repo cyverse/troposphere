@@ -10,6 +10,24 @@ export default React.createClass({
         onCancel: React.PropTypes.func,
         onBack: React.PropTypes.func,
     },
+
+    advancedIcon: function() {
+        if (!this.props.hasAdvancedOptions) { 
+            return (
+                <span>
+                    <i className="glyphicon glyphicon-cog"/>
+                    {" "}
+                </span>
+            )
+        }
+        return (
+            <span>
+                <i className="glyphicon glyphicon-check" style={{color: "green"}}/>
+                {" "}
+            </span>
+        )
+    },
+
     renderBack: function() {
         if (this.props.backIsDisabled) {
             return
@@ -37,12 +55,11 @@ export default React.createClass({
             <div className="modal-footer">
 
                 {this.renderBack()}
-
                 <a className="pull-left btn"
                     disabled={this.props.advancedIsDisabled}
                     onClick={this.props.viewAdvanced}>
-                        <i className="glyphicon glyphicon-cog"/>
-                        Advanced Options
+                        { this.advancedIcon() }
+                        {" Advanced Options"}
                 </a>
 
                 <button

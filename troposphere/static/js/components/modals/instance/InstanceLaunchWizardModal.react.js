@@ -59,7 +59,7 @@ export default React.createClass({
         }
 
         return {
-            // State for general operation (switching views, etc) 
+            // State for general operation (switching views, etc)
             view,
             image,
             provider: null,
@@ -148,7 +148,7 @@ export default React.createClass({
 
         // NOTE: This is not nice. This enforces that every time a component
         // mounts updateState gets called. Otherwise, if a component mounts
-        // after data has been fetched, then updateState never gets called. 
+        // after data has been fetched, then updateState never gets called
         this.updateState();
     },
 
@@ -316,9 +316,8 @@ export default React.createClass({
         this.viewBasic()
     },
 
-    onCancelAdvanced: function() {
+    onClearAdvanced: function() {
         this.setState({ attachedScripts: [] });
-        this.viewBasic();
     },
 
     onProjectCreateConfirm: function(name, description) {
@@ -361,6 +360,12 @@ export default React.createClass({
     //======================
     // Validation
     //======================
+
+    hasAdvancedOptions: function() {
+        //TODO: Once more advanced options are added,
+        //this will need to be a recursive check.
+        return (this.state.attachedScripts.length > 0)
+    },
 
     // This is a callback that returns true if the provider size in addition to resources already using
     // will exceed the user's allotted resources.
@@ -533,6 +538,7 @@ export default React.createClass({
                     providerSizeList,
                     resourcesUsed,
                     viewAdvanced: this.viewAdvanced,
+                    hasAdvancedOptions: this.hasAdvancedOptions(),
                 }}
             />
         )
@@ -546,8 +552,9 @@ export default React.createClass({
                 attachedScripts={this.state.attachedScripts}
                 onAddAttachedScript={this.onAddAttachedScript}
                 onRemoveAttachedScript={this.onRemoveAttachedScript}
-                cancelAdvanced={this.onCancelAdvanced}
+                onClearAdvanced={this.onClearAdvanced}
                 onSaveAdvanced={this.onSaveAdvanced}
+                hasAdvancedOptions={this.hasAdvancedOptions()}
             />
         );
     },
