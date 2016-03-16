@@ -12,7 +12,7 @@ define(function (require) {
       if (!params.instance) throw new Error("Missing instance");
 
       var instance = params.instance,
-        links = stores.HelpLinkStore.getAll();
+        links = stores.HelpLinkStore.getAll(),
         props = {
           instance: instance,
           troubleshooting: links.get('faq'),

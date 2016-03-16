@@ -12,7 +12,7 @@ define(function (require) {
       if (!params.volume) throw new Error("Missing volume");
 
       var volume = params.volume,
-        links = stores.HelpLinkStore.getAll();
+        links = stores.HelpLinkStore.getAll(),
         props = {
           volume: volume,
           troubleshooting: links.get('faq'),
