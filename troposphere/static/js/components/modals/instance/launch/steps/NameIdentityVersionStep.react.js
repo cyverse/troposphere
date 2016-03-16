@@ -91,10 +91,10 @@ export default React.createClass({
     },
     cleanIdentities: function (identities) {
         // don't show duplicate images
-        current_provider_ids = this.state.version.get('machines').map(function(m) {
+        var current_provider_ids = this.state.version.get('machines').map(function(m) {
             return m.provider.id; // NOTE: This could be considered somewhat fragile, as we are looking more than 'one level' of depth from Version.
         });
-        identity_list = _.uniq(identities.models, function (ident) {
+        var identity_list = _.uniq(identities.models, function (ident) {
             return ident.id;
         });
         identity_list = identity_list.filter(function(ident) {
