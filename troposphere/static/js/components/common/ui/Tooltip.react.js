@@ -5,8 +5,30 @@ export default React.createClass({
         message: React.PropTypes.string.isRequired,
     },
 
+    getInitialState: function() {
+        return ({
+            animate: {
+                opacity: "0",
+                bottom: "55px",
+            }
+        })
+    },
+
+    componentDidMount: function() {
+        setTimeout( ()=> {
+            this.setState({
+                animate: {
+                    opacity: "1",
+                    bottom: "60px",
+                }
+            })
+        }
+        , 100);
+    },
+
     style: {
         content: {
+            transition: "all ease .2s",
             position: "absolute",
             bottom: "50px",
             width: "200px",
@@ -31,8 +53,12 @@ export default React.createClass({
     },
 
     render: function() {
+
         return (
-            <div style={this.style.content} >
+            <div style={{
+                ...this.style.content,
+                ...this.state.animate,
+            }} >
                 <div>
                     {this.props.message}
                 </div>
