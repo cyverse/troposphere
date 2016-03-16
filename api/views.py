@@ -70,7 +70,7 @@ class HelpLinkViewSet(viewsets.ModelViewSet):
     """
     queryset = HelpLink.objects.all()
     serializer_class = HelpLinkSerializer
-    http_method_names = ['get', 'put', 'post', 'patch', 'head', 'options', 'trace']
+    http_method_names = ['get', 'patch', 'head', 'options', 'trace']
 
 
 class BadgeViewSet(viewsets.GenericViewSet):
