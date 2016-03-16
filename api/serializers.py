@@ -9,10 +9,7 @@ class HelpLinkSerializer(serializers.HyperlinkedModelSerializer):
         model = HelpLink
         fields = (
             'link_key',
-            'topic',
-            'href',
-            'created_date',
-            'modified_date'
+            'href'
         )
 
 
