@@ -3,6 +3,7 @@ define(function (require) {
 
   var ModalHelpers = require('components/modals/ModalHelpers'),
     actions = require('actions'),
+    stores = require('stores'),
     VolumeReportModal = require('components/modals/volume/VolumeReportModal.react');
 
   return {
@@ -11,8 +12,11 @@ define(function (require) {
       if (!params.volume) throw new Error("Missing volume");
 
       var volume = params.volume,
+        links = stores.HelpLinkStore.getAll();
         props = {
-          volume: volume
+          volume: volume,
+          troubleshooting: links.get('faq'),
+          helpLink: links.get('volumes')
         };
 
       ModalHelpers.renderModal(VolumeReportModal, props, function (reportInfo) {

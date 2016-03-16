@@ -118,9 +118,9 @@ define(function (require) {
             {" Is the instance "}
             <code>{this.props.instance.get('name')}</code>
             {" exhibiting unexpected behavior? Please read about "}
-            <a href="https://pods.iplantcollaborative.org/wiki/x/Blm">using instances</a>
+            <a href={this.props.usingInstances}>using instances</a>
             {" or "}
-            <a href="https://pods.iplantcollaborative.org/wiki/x/p55y">troubleshooting instances</a>
+            <a href={this.props.troubleshooting}>troubleshooting instances</a>
             {" for answers to common problems before submitting a request to support staff."}
           </p>
         );

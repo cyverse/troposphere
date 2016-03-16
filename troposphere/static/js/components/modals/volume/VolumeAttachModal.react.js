@@ -170,8 +170,7 @@ define(
                     {
                       "If you'd like to attach this volume to an instance, you'll first need to "
                     }
-                    <a href="https://pods.iplantcollaborative.org/wiki/display/atmman/Launching+a+New+Instance">create
-                      an instance</a>
+                    <a href={this.props.helpLink}>create an instance</a>
                     {
                       " on the same provider or move an existing instance into this project."
                     }
@@ -235,7 +234,7 @@ define(
         } else if (activeInstances.length > 0) {
           content = this.renderAttachVolumeContent(activeInstances);
         } else {
-          content = this.renderAttachRulesContent(); 
+          content = this.renderAttachRulesContent();
         }
 
         return (
