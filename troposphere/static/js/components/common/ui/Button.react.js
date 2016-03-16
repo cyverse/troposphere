@@ -4,6 +4,16 @@ import $ from 'jquery';
 import Tooltip from 'components/common/ui/Tooltip.react';
 
 export default React.createClass({
+    propTypes: {
+        buttonType: React.PropTypes.string.isRequired,
+        title: React.PropTypes.string.isRequired,
+        isDisabled: React.PropTypes.bool,
+        icon: React.PropTypes.string,
+        onTouch: React.PropTypes.func,
+        tooltip: React.PropTypes.string,
+        style: React.PropTypes.object
+    },
+
     getInitialState: function() {
         return({
             showTooltip: false

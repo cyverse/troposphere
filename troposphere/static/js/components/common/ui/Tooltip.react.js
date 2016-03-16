@@ -1,6 +1,10 @@
 import React from 'react';
 
 export default React.createClass({
+    propTypes: {
+        message: React.PropTypes.string.isRequired,
+    },
+
     style: {
         content: {
             position: "absolute",
