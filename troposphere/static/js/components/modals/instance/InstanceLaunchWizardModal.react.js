@@ -538,6 +538,7 @@ export default React.createClass({
                     providerSizeList,
                     resourcesUsed,
                     viewAdvanced: this.viewAdvanced,
+                    hasAdvancedOptions: this.hasAdvancedOptions(),
                 }}
             />
         )
