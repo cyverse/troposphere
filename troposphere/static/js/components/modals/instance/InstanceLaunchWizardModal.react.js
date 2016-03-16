@@ -301,8 +301,9 @@ export default React.createClass({
 
     onAddAttachedScript: function(value) {
         let attachedScripts = this.state.attachedScripts;
-
-        this.setState({ attachedScripts: [...attachedScripts, value] });
+        if (attachedScripts.indexOf(value) === -1) {
+            this.setState({ attachedScripts: [...attachedScripts, value] });
+        }
     },
 
     onRemoveAttachedScript: function(item) {
