@@ -11,8 +11,15 @@ export default React.createClass({
         onBack: React.PropTypes.func,
     },
 
-    hasAdvancedOptions: function() {
-        if (!this.props.hasAdvancedOptions) { return }
+    advancedIcon: function() {
+        if (!this.props.hasAdvancedOptions) { 
+            return (
+                <span>
+                    <i className="glyphicon glyphicon-cog"/>
+                    {" "}
+                </span>
+            )
+        }
         return (
             <span>
                 <i className="glyphicon glyphicon-check" style={{color: "green"}}/>
@@ -51,8 +58,7 @@ export default React.createClass({
                 <a className="pull-left btn"
                     disabled={this.props.advancedIsDisabled}
                     onClick={this.props.viewAdvanced}>
-                        { this.hasAdvancedOptions() }
-                        <i className="glyphicon glyphicon-cog"/>
+                        { this.advancedIcon() }
                         {" Advanced Options"}
                 </a>
 
