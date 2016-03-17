@@ -95,7 +95,7 @@ define(function(require) {
         }
 
         if(stores.ProfileStore.get().get('is_staff')){
-          machineStateData = <td>{request.get('old_status')}</td>;
+          machineStateData = (<td>{request.get('old_status')}</td>);
         }
 
         if (request.get('end_date')) {
