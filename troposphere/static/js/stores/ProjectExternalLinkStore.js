@@ -55,7 +55,6 @@ define(function (require) {
       if (!_modelsFor[project.id]) return this.fetchModelsFor(project.id);
       if (!allExternalLinks) return;
 
-      //TODO: The logic here is broken. Everything returns 0 -- but values *do* exist.
       var external_links = this.models.filter(function (p_link) {
         // filter out irrelevant project external_links (not in target project)
         return p_link.get('project').id === project.id;
