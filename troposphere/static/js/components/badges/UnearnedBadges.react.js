@@ -29,24 +29,19 @@ define(function (require) {
 
     render: function () {
       // get around undefined email when calling from MyBadgeStore
-      var email = stores.ProfileStore.get().get('email');
-      if(!email){
+      var email = stores.ProfileStore.get().get('email'),
+          badges = stores.BadgeStore.getAll(),
+          myBadges = stores.MyBadgeStore.getAll();
+
+      if(!email || !badges || !myBadges){
         return(
           <div>
             <h1>Loading</h1>
           </div>
         )
       }
-      var badges = stores.BadgeStore.getAll();
-      var myBadges = stores.MyBadgeStore.getAll();
-      var instanceHistory = stores.InstanceHistoryStore.getAll();
-      var myBadgeIds = {};
 
-      if(!badges || !myBadges || !instanceHistory){
-        return(
-          <div className="loading" />
-        )
-      }
+      var myBadgeIds = {};
 
       // build a list of badge IDs that the user has
       myBadges.map(function (badge) {
@@ -60,7 +55,7 @@ define(function (require) {
         if (!myBadgeIds[badgeId]) {
           empty = false;
           return (
-            <Badge badge={badge} />
+            <Badge key={badge.id} badge={badge} />
           )
         }
       });
