@@ -33,7 +33,7 @@ define(function (require) {
 
       var badgeDisplay = badges.map(function(badge) {
         return (
-          <Badge badge={badge} />
+          <Badge key={badge.id} badge={badge} />
         )
       });
 
