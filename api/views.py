@@ -74,12 +74,17 @@ class BadgeViewSet(viewsets.GenericViewSet):
         badge = str(self.request.data['badgeSlug'])
 
         if settings.BADGE_GRANULARITY == "program":
-            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/issuers/' + settings.BADGE_ISSUER_SLUG + '/programs/' \
-                + settings.BADGE_PROGRAM_SLUG + '/badges/' + badge + '/instances'
+            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + \
+                '/issuers/' + settings.BADGE_ISSUER_SLUG + \
+                '/programs/' + settings.BADGE_PROGRAM_SLUG + \
+                '/badges/' + badge + '/instances'
         elif settings.BADGE_GRANULARITY == "issuer":
-            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/issuers/' + settings.BADGE_ISSUER_SLUG + '/badges/' + badge + '/instances'
+            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + \
+                '/issuers/' + settings.BADGE_ISSUER_SLUG + \
+                '/badges/' + badge + '/instances'
         elif settings.BADGE_GRANULARITY == "system":
-            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/badges/' + badge + '/instances'
+            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + \
+                '/badges/' + badge + '/instances'
         else:
             return "Error: Missing BADGE_GRANULARITY in settings"
 
@@ -109,9 +114,9 @@ class BadgeViewSet(viewsets.GenericViewSet):
             }
         }
         r = requests.post(url + path,
-                data=body,
-                headers=options['headers'],
-                verify=False)
+                          data=body,
+                          headers=options['headers'],
+                          verify=False)
 
         return Response(data=r.json(), status=status.HTTP_201_CREATED)
 
@@ -121,17 +126,24 @@ class BadgeViewSet(viewsets.GenericViewSet):
         secret = settings.BADGE_SECRET
 
         if settings.BADGE_GRANULARITY == "program":
-            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/issuers/' + settings.BADGE_ISSUER_SLUG + '/programs/' + \
-                settings.BADGE_PROGRAM_SLUG + '/instances/' + email
+            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + \
+                '/issuers/' + settings.BADGE_ISSUER_SLUG + \
+                '/programs/' + settings.BADGE_PROGRAM_SLUG + \
+                '/instances/' + email
         elif settings.BADGE_GRANULARITY == "issuer":
-            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/issuers/' + settings.BADGE_ISSUER_SLUG + '/instances/' + email
+            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + \
+                '/issuers/' + settings.BADGE_ISSUER_SLUG + \
+                '/instances/' + email
         elif settings.BADGE_GRANULARITY == "system":
-            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/instances/' + email
+            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + \
+                '/instances/' + email
         else:
             return "Error: Missing BADGE_GRANULARITY in settings"
 
         header = {"typ": "JWT", "alg": 'HS256'}
-        body = str({"system_slug": settings.BADGE_SYSTEM_SLUG, "name": settings.BADGE_SYSTEM_NAME, "url": url + path})
+        body = str({"system_slug": settings.BADGE_SYSTEM_SLUG,
+                    "name": settings.BADGE_SYSTEM_NAME,
+                    "url": url + path})
 
         computed_hash = SHA256.new()
         computed_hash.update(body)
@@ -157,17 +169,19 @@ class BadgeViewSet(viewsets.GenericViewSet):
         }
 
         r = requests.get(url + path,
-                headers=options['headers'],
-                verify=False)
+                         headers=options['headers'],
+                         verify=False)
 
         return Response(data=r.json(), status=status.HTTP_200_OK)
 
-
     def list(self, request, *args, **kwargs):
         if settings.BADGE_GRANULARITY == "program":
-            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/issuers/' + settings.BADGE_ISSUER_SLUG + '/programs/' + settings.BADGE_PROGRAM_SLUG + '/badges'
+            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + \
+                '/issuers/' + settings.BADGE_ISSUER_SLUG + \
+                '/programs/' + settings.BADGE_PROGRAM_SLUG + '/badges'
         elif settings.BADGE_GRANULARITY == "issuer":
-            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/issuers/' + settings.BADGE_ISSUER_SLUG + '/badges'
+            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + \
+                '/issuers/' + settings.BADGE_ISSUER_SLUG + '/badges'
         elif settings.BADGE_GRANULARITY == "system":
             path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/badges'
         else:
@@ -177,7 +191,9 @@ class BadgeViewSet(viewsets.GenericViewSet):
         url = settings.BADGE_API_HOST
 
         header = {"typ": "JWT", "alg": 'HS256'}
-        body = str({"system_slug": settings.BADGE_SYSTEM_SLUG, "system_name": settings.BADGE_SYSTEM_NAME, "url": url + path})
+        body = str({"system_slug": settings.BADGE_SYSTEM_SLUG,
+                    "system_name": settings.BADGE_SYSTEM_NAME,
+                    "url": url + path})
 
         computed_hash = SHA256.new()
         computed_hash.update(body)
@@ -203,8 +219,10 @@ class BadgeViewSet(viewsets.GenericViewSet):
         }
 
         try:
-            r = requests.get(url + path, headers=options['headers'], verify=False)
-            data=r.json()
+            r = requests.get(url + path,
+                             headers=options['headers'],
+                             verify=False)
+            data = r.json()
         except:
-            data="Error"
+            data = "Error"
         return Response(data=data, status=status.HTTP_200_OK)

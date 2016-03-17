@@ -15,10 +15,10 @@ from .maintenance import get_maintenance
 logger = logging.getLogger(__name__)
 
 
-#TODO: Move this into a settings file.
-STAFF_LIST_USERNAMES = ['estevetest01', 'estevetest02','estevetest03','estevetest04',
-                        'estevetest13', 'sgregory', 'lenards', 'tharon', 'cdosborn',
-                        'julianp']
+# TODO: Move this into a settings file.
+STAFF_LIST_USERNAMES = ['estevetest01', 'estevetest02', 'estevetest03',
+                        'estevetest04', 'estevetest13', 'sgregory',
+                        'lenards', 'tharon', 'cdosborn', 'julianp']
 
 
 def root(request):
@@ -28,10 +28,12 @@ def root(request):
 def _should_show_troposphere_only():
     # `SHOW_TROPOSPHERE_ONLY` may not be present in `settings`, so use
     # `hasattr` to handle when it is not present & avoid 500 errors on load.
-    return hasattr(settings, "SHOW_TROPOSPHERE_ONLY") and settings.SHOW_TROPOSPHERE_ONLY is True
+    return hasattr(settings, "SHOW_TROPOSPHERE_ONLY") and \
+        settings.SHOW_TROPOSPHERE_ONLY is True
 
 
-def _populate_template_params(request, maintenance_records, disabled_login, public=False):
+def _populate_template_params(request, maintenance_records, disabled_login,
+                              public=False):
     """
     Creates a dict of parameters for later template merge given the arguments,
     request session, and django settings (defined in `default.py` or overidden
@@ -58,21 +60,32 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
         # Only include Intercom information when rendering the authenticated
         # version of the site.
         if hasattr(settings, "INTERCOM_APP_ID"):
-            template_params['intercom_app_id'] = settings.INTERCOM_APP_ID
-            template_params['intercom_company_id'] = settings.INTERCOM_COMPANY_ID
-            template_params['intercom_company_name'] = settings.INTERCOM_COMPANY_NAME
+            template_params['intercom_app_id'] = \
+                settings.INTERCOM_APP_ID
+            template_params['intercom_company_id'] = \
+                settings.INTERCOM_COMPANY_ID
+            template_params['intercom_company_name'] = \
+                settings.INTERCOM_COMPANY_NAME
 
     template_params['SITE_TITLE'] = settings.SITE_TITLE
     template_params['SITE_FOOTER'] = settings.SITE_FOOTER
     template_params['SUPPORT_EMAIL'] = settings.SUPPORT_EMAIL
     template_params['UI_VERSION'] = settings.UI_VERSION
-    template_params['BADGES_ENABLED'] = getattr(settings, "BADGES_ENABLED", False)
-    template_params['BADGE_HOST'] = getattr(settings, "BADGE_HOST", None)
-    template_params['BADGE_IMAGE_HOST'] = getattr(settings, "BADGE_IMAGE_HOST", None)
-    template_params['BADGE_ASSERTION_HOST'] = getattr(settings, "BADGE_ASSERTION_HOST", None)
+    template_params['BADGES_ENABLED'] = getattr(settings,
+                                                "BADGES_ENABLED",
+                                                False)
+    template_params['BADGE_HOST'] = getattr(settings,
+                                            "BADGE_HOST",
+                                            None)
+    template_params['BADGE_IMAGE_HOST'] = getattr(settings,
+                                                  "BADGE_IMAGE_HOST",
+                                                  None)
+    template_params['BADGE_ASSERTION_HOST'] = getattr(settings,
+                                                      "BADGE_ASSERTION_HOST",
+                                                      None)
 
-    #TODO: Replace this line when theme support is re-enabled.
-    #template_params["THEME_URL"] = "assets/"
+    # TODO: Replace this line when theme support is re-enabled.
+    # template_params["THEME_URL"] = "assets/"
     template_params["THEME_URL"] = "/themes/%s" % settings.THEME_NAME
     template_params['ORG_NAME'] = settings.ORG_NAME
 
@@ -92,15 +105,19 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
     return template_params, show_troposphere_only
 
 
-def _handle_public_application_request(request, maintenance_records, disabled_login=False):
+def _handle_public_application_request(request, maintenance_records,
+                                       disabled_login=False):
     """
     Deal with unauthenticated requests:
 
     - For troposphere, there is the opportunity to browser the Public Image Catalog.
     - For airport, there is nothing to do but ask for people to `login.html`.
     """
-    template_params, show_troposphere_only = _populate_template_params(request,
-            maintenance_records, disabled_login, True)
+    template_params, show_troposphere_only = \
+        _populate_template_params(request,
+                                  maintenance_records,
+                                  disabled_login,
+                                  True)
 
     # If show airport_ui flag in query params, set the session value to that
     if "airport_ui" in request.GET:
@@ -109,7 +126,8 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
     # only honor `?beta=false` from the query string...
     if "beta" in request.GET:
         request.session['beta'] = request.GET['beta'].lower()
-    else: # consider troposphere the _default_
+    else:
+        # consider troposphere the _default_
         request.session['beta'] = 'true'
 
     if "airport_ui" not in request.session:
@@ -124,7 +142,8 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
             template_params,
             context_instance=RequestContext(request)
         )
-    else: # Return the old Airport UI
+    else:
+        # Return the old Airport UI
         response = render_to_response(
             'login.html',
             template_params,
@@ -139,8 +158,11 @@ def _handle_authenticated_application_request(request, maintenance_records):
     """
     Deals with request verified identities via `iplantauth` module.
     """
-    template_params, show_troposphere_only = _populate_template_params(request,
-            maintenance_records, disabled_login=False, public=False)
+    template_params, show_troposphere_only = \
+        _populate_template_params(request,
+                                  maintenance_records,
+                                  disabled_login=False,
+                                  public=False)
 
     user_preferences, created = UserPreferences.objects.get_or_create(
         user=request.user)
@@ -154,7 +176,8 @@ def _handle_authenticated_application_request(request, maintenance_records):
         prefs_modified = True
         request.session['beta'] = request.GET['beta'].lower()
         user_preferences.show_beta_interface = (True
-            if request.session['beta'] == 'true' else False)
+                                                if request.session['beta'] ==
+                                                'true' else False)
 
     # Moving forward, the UI version shown will be controlled by
     # `airport_ui=<bool>` - and `beta` will be removed.
@@ -162,13 +185,14 @@ def _handle_authenticated_application_request(request, maintenance_records):
         prefs_modified = True
         request.session['airport_ui'] = request.GET['airport_ui'].lower()
         user_preferences.airport_ui = (True
-            if request.session['airport_ui'] == 'true' else False)
+                                       if request.session['airport_ui'] ==
+                                       'true' else False)
 
     if prefs_modified and not is_emulated_session(request):
         user_preferences.save()
 
-    chose_airport = (user_preferences.airport_ui  or
-        not user_preferences.show_beta_interface)
+    chose_airport = (user_preferences.airport_ui or
+                     not user_preferences.show_beta_interface)
 
     # show airport-ui if it's true and we are showing the option
     # of switching UIs
@@ -180,7 +204,8 @@ def _handle_authenticated_application_request(request, maintenance_records):
             template_params,
             context_instance=RequestContext(request)
         )
-    else: # Return the new Troposphere UI
+    else:
+        # Return the new Troposphere UI
         response = render_to_response(
             'index.html',
             template_params,
@@ -197,28 +222,40 @@ def application_backdoor(request):
     if not disabled_login or maintenance_records.count() == 0:
         return application(request)
 
-    if request.user.is_authenticated() and request.user.username not in STAFF_LIST_USERNAMES:
-        logger.warn('[Backdoor] %s is NOT in staff_list_usernames' % request.user.username)
+    if request.user.is_authenticated() and request.user.username not in \
+            STAFF_LIST_USERNAMES:
+        logger.warn('[Backdoor] %s is NOT in staff_list_usernames' %
+                    request.user.username)
         return redirect('maintenance')
     disabled_login = False
     maintenance_records = MaintenanceRecord.objects.none()
     if request.user.is_authenticated():
-        return _handle_authenticated_application_request(request, maintenance_records)
+        return _handle_authenticated_application_request(request,
+                                                         maintenance_records)
     else:
-        return _handle_public_application_request(request, maintenance_records, disabled_login=disabled_login)
+        return _handle_public_application_request(
+            request,
+            maintenance_records,
+            disabled_login=disabled_login)
 
 
 def application(request):
     response = HttpResponse()
     maintenance_records, disabled_login = get_maintenance(request)
 
-    if disabled_login and request.user.is_staff is not True and request.user.username not in STAFF_LIST_USERNAMES:
-        logger.warn('[App] %s logged in but is NOT in staff_list_usernames' % request.user.username)
+    if disabled_login and request.user.is_staff is not True and \
+            request.user.username not in STAFF_LIST_USERNAMES:
+        logger.warn('[App] %s logged in but is NOT in staff_list_usernames' %
+                    request.user.username)
         return redirect('maintenance')
     if request.user.is_authenticated() and has_valid_token(request.user):
-        return _handle_authenticated_application_request(request, maintenance_records)
+        return _handle_authenticated_application_request(request,
+                                                         maintenance_records)
     else:
-        return _handle_public_application_request(request, maintenance_records, disabled_login=disabled_login)
+        return _handle_public_application_request(
+            request,
+            maintenance_records,
+            disabled_login=disabled_login)
 
 
 def forbidden(request):
