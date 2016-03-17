@@ -117,9 +117,9 @@ define(function (require) {
             {" Is the volume "}
             <code>{volume.get('name')}</code>
             {" exhibiting unexpected behavior? First, it may help to read about "}
-            <a href={this.props.helpLink}>using volumes</a>
+            <a href={this.props.helpLink.get('href')}>using volumes</a>
             {" and "}
-            <a href={this.props.troubleshooting}>troubleshooting volumes</a>
+            <a href={this.props.troubleshooting.get('href')}>troubleshooting volumes</a>
             {"."}
           </p>
         );

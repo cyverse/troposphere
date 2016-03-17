@@ -12,11 +12,10 @@ define(function (require) {
       if (!params.volume) throw new Error("Missing volume");
 
       var volume = params.volume,
-        links = stores.HelpLinkStore.getAll(),
         props = {
           volume: volume,
-          troubleshooting: links.get('faq'),
-          helpLink: links.get('volumes')
+          troubleshooting: stores.HelpLinkStore.get('faq'),
+          helpLink: stores.HelpLinkStore.get('volumes')
         };
 
       ModalHelpers.renderModal(VolumeReportModal, props, function (reportInfo) {
