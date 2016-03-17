@@ -13,9 +13,12 @@ define(function (require) {
 
     render: function () {
       var project = stores.ProjectStore.get(Number(this.getParams().projectId)),
-        volume = stores.VolumeStore.get(Number(this.getParams().volumeId));
+        volume = stores.VolumeStore.get(Number(this.getParams().volumeId)),
+        helplinks = stores.HelpLinkStore.getAll();
 
-      if (!project || !volume) return <div className="loading"></div>;
+      if (!project || !volume || !helplinks) {
+        return <div className="loading"></div>;
+      }
 
       return (
         <ProjectResourcesWrapper project={project}>

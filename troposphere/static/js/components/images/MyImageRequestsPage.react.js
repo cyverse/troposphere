@@ -40,13 +40,17 @@ define(function(require) {
 
     render: function() {
       var username = stores.ProfileStore.get().id,
-          imagingDocsUrl = stores.HelpLinkStore.get("request-image");
+          helplinks = stores.HelpLinkStore.getAll(),
+          imagingDocsUrl,
+          requests;
 
-      if(!username || !imagingDocsUrl){
+      if(!username || !helplinks){
         return <div className = "loading"></div>
       }
 
-      var requests = stores.ImageRequestStore.getAll();
+      imagingDocsUrl = stores.HelpLinkStore.get("request-image");
+
+      requests = stores.ImageRequestStore.getAll();
 
       var machineStateColumn, machineStateData;
 

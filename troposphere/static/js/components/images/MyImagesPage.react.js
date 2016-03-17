@@ -14,11 +14,14 @@ define(function(require) {
           created_by__username: profile.get('username')
         }),
         tags = stores.TagStore.getAll(),
-        imagingDocsUrl = stores.HelpLinkStore.get("request-image");
+        helplinks = stores.HelpLinkStore.getAll(),
+        imagingDocsUrl;
 
-      if (!images || !tags) {
+      if (!images || !tags || !helplinks) {
         return <div className="loading"></div>;
       }
+
+      imagingDocsUrl = stores.HelpLinkStore.get("request-image");
 
       if (images.length === 0) {
         return (
