@@ -86,7 +86,7 @@ define(function (require) {
       });
 
       return (
-        <div className="project-details">
+        <div className="instance-history-detail">
             <div className="container">
                 <div className="pull-left instance-history-info resource-details-content">
                       <div className="resource-image">
