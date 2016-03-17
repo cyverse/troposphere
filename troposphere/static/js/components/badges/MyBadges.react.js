@@ -63,7 +63,7 @@ define(function (require) {
       if(myBadges.length == 0){
         return (
           <div className="mine">
-            You haven't earned any badges yet.
+            {"You haven't earned any badges yet."}
           </div>
         )
       }
