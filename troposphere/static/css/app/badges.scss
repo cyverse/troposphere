@@ -7,7 +7,6 @@
     margin-left: 12.5%;
     margin-right: 12.5%;
     .btn{
-      background-color: $navbar-default-bg;
       color: white;
       border-color: white;
     }
@@ -31,10 +30,6 @@
       margin: 0;
       padding: 5%;
     }
-  }
-
-  li:hover{
-    cursor: pointer;
   }
 
   li {
