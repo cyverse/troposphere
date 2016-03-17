@@ -1,7 +1,7 @@
-define(function (require) {
+import showHelp from './badge/ShowHelp';
 
-  return {
-    showHelp: require('./badge/ShowHelp').ShowHelp,
-  };
+var BadgeModals = {
+    showHelp: showHelp
+};
 
-});
+export default BadgeModals;

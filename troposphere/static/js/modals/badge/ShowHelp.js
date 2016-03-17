@@ -1,15 +1,8 @@
-define(function (require) {
-  "use strict";
+var ModalHelpers = require('components/modals/ModalHelpers');
+var BadgeHelp = require('components/modals/BadgeHelp.react');
 
-  var actions = require('actions'),
-      ModalHelpers = require('components/modals/ModalHelpers'),
-      BadgeHelp = require('components/modals/BadgeHelp.react');
-  return {
+var showHelp = function () {
+    ModalHelpers.renderModal(BadgeHelp, {}, function (){});
+};
 
-    ShowHelp: function(){
-      ModalHelpers.renderModal(BadgeHelp, {}, function(){});
-    }
-
-  };
-
-});
+export default showHelp;
