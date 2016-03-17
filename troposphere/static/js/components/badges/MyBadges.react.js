@@ -70,7 +70,7 @@ define(function (require) {
 
       var myBadgeDisplay = myBadges.map(function (badge) {
         return (
-          <Badge badge={badge} type="earned"/>
+          <Badge key={badge.id} badge={badge} type="earned"/>
         )
       });
 
