@@ -71,7 +71,7 @@ define(function(require) {
           <div className="container">
             <p style={{marginBottom: "16px"}}>
               {"Looking for more information about the imaging process? Check out the "}
-              <a href={imagingDocsUrl} target="_blank">documention on imaging</a>.
+              <a href={imagingDocsUrl} target="_blank">documentation on imaging</a>.
             </p>
             <p>You have not made any imaging requests.</p>
           </div>
@@ -118,7 +118,7 @@ define(function(require) {
         <div className="container">
           <p style={{marginBottom: "16px"}}>
             {"Looking for more information about the imaging process? Check out the "}
-            <a href={imagingDocsUrl} target="_blank">documention on imaging</a>.
+            <a href={imagingDocsUrl} target="_blank">documentation on imaging</a>.
           </p>
 
           {this.renderRefreshButton()}
