@@ -389,7 +389,7 @@ export default React.createClass({
 
             // Memory have used + will use
             let  allocationMem = identityProvider.get('quota').memory;
-            let  memUsed = resourcesUsed.mem / 1000;
+            let  memUsed = resourcesUsed.mem / 1024;
             let  memWillUse = size.get('mem');
             let  memWillTotal = memUsed + size.get('mem');
             if (allocationConsumed >= allocationTotal) {
