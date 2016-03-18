@@ -10,6 +10,11 @@
     _overflow:visible;
     zoom:1;
 
+    .media--disabled {
+        opacity:.4;
+        cursor: no-drop !important;
+    }
+
     //wraps around all of the content next to the optional image anchor
     .media__content {
         overflow: hidden;
@@ -35,6 +40,7 @@
         }
     }
 }
+
 
 // The card class is used on the same wrapper as the media class
 // it can be reused without the media class.
