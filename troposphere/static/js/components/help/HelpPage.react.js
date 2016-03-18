@@ -13,7 +13,7 @@ define(function (require) {
       {
         title: "User Forums",
         link_key: "forums",
-        description: "Get answers from iPlant users and staff"
+        description: "Get answers from Atmosphere users and staff"
       },
       {
         title: "FAQs",
