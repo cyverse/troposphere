@@ -62,15 +62,14 @@ class UserPreferenceViewSet(viewsets.ModelViewSet):
         return UserPreferences.objects.filter(user=user)
 
 
-
-class HelpLinkViewSet(viewsets.ModelViewSet):
+class HelpLinkViewSet(viewsets.ReadOnlyModelViewSet):
     """
     API endpoint that allows links to help documentation to be added &
     viewed.
     """
     queryset = HelpLink.objects.all()
     serializer_class = HelpLinkSerializer
-    http_method_names = ['get', 'patch', 'head', 'options', 'trace']
+    http_method_names = ['get', 'head', 'options', 'trace']
 
 
 class BadgeViewSet(viewsets.GenericViewSet):
