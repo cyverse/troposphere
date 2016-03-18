@@ -93,8 +93,11 @@ define(function (require) {
     remove: function (model) {
       this.models.remove(model);
 
-      // Remove model from polling dictionary
-      delete this.pollingModels[model.cid];
+      // If already polling, Remove model from polling dictionary
+      if (this.pollingModels[model.cid]) {
+          delete this.pollingModels[model.cid];
+      }
+      return;
     },
 
     // --------------
@@ -146,6 +149,18 @@ define(function (require) {
       }
     },
 
+    onFetchModel: function (modelId, cb) {
+        this.isFetchingModel[modelId] = true;
+        var model = new this.collection.prototype.model({
+          id: modelId
+        });
+        model.fetch().done(function () {
+          this.isFetchingModel[modelId] = false;
+          this.models.add(model);
+          cb(model);
+          this.emitChange();
+        }.bind(this));
+    },
     // Returns the entire local cache, everything in this.models
     getAll: function () {
       if (!this.models) {
@@ -174,7 +189,7 @@ define(function (require) {
 
     // same as fetchFirstPage, but with URL query params
     fetchFirstPageWhere: function(queryParams, options) {
-      if(options.clearQueryCache){
+      if (options && options.clearQueryCache){
         var queryString = buildQueryStringFromQueryParams(queryParams);
         delete this.queryModels[queryString];
       }

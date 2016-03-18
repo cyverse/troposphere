@@ -66,7 +66,7 @@ define(function (require) {
 
     // Add to ProjectInstanceStore
     Utils.dispatch(ProjectInstanceConstants.ADD_PROJECT_INSTANCE, {projectInstance: projectInstance});
-    
+
     instance.createOnV1Endpoint({
       name: instanceName,
       size_alias: size.get('alias'),

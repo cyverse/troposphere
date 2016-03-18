@@ -28,7 +28,8 @@ define(function (require) {
         tag = this.props.tag;
 
       $el.tooltip({
-        title: tag.get('description')
+        title: tag.get('description'),
+        placement: 'left'
       });
     },
 

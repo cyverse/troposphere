@@ -30,7 +30,7 @@ define(
       },
 
       showLaunchModal: function (e) {
-        modals.InstanceModals.launch(this.props.image);
+        modals.InstanceModals.launch({ image: this.props.image, initialView: "BASIC_VIEW" });
       },
 
       handleEditImageDetails: function () {
@@ -56,23 +56,24 @@ define(
 
         if(this.state.isEditing){
           view = (
-            <EditImageDetails image={this.props.image}
-                                    tags={this.props.tags}
-                                    providers={this.props.providers}
-                                    identities={this.props.identities}
-                                    onSave={this.handleSaveImageDetails}
-                                    onCancel={this.handleCancelEditing}
-              />
+            <EditImageDetails
+                image={this.props.image}
+                tags={this.props.tags}
+                providers={this.props.providers}
+                identities={this.props.identities}
+                onSave={this.handleSaveImageDetails}
+                onCancel={this.handleCancelEditing}
+            />
           )
         } else {
           view = (
-            <ViewImageDetails image={this.props.image}
-                                    tags={this.props.tags}
-                                    providers={this.props.providers}
-                                    identities={this.props.identities}
-                                    onEditImageDetails={this.handleEditImageDetails}
-
-              />
+            <ViewImageDetails
+                image={this.props.image}
+                tags={this.props.tags}
+                providers={this.props.providers}
+                identities={this.props.identities}
+                onEditImageDetails={this.handleEditImageDetails}
+            />
           )
         }
         return (

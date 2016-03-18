@@ -1,5 +1,6 @@
 # External/Third Party
 django==1.9.2
+django-sslserver==0.18
 djangorestframework==3.3.2
 Jinja2==2.8
 pycrypto==2.6.1
@@ -11,4 +12,4 @@ uWSGI==2.0.12
 
 # Ours
 caslib.py==2.2.2
-django-iplant-auth==0.1.6
+django-iplant-auth==0.1.10

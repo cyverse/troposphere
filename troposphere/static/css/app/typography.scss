@@ -1,0 +1,82 @@
+body {
+    font-family:'Roboto' , sans-serif;
+}
+
+
+.t-display-4 {
+    font-size: 112px;
+    font-weight: 300;
+}
+
+.t-display-3 {
+    font-size: 56px;
+    font-weight: 400px;
+}
+
+.t-display-2 {
+    font-size: 45px;
+    font-weight: 400;
+}
+
+.t-display-1 {
+    font-size: 34px;
+    font-weight: 400;
+}
+
+.t-headline {
+    font-size: 24px;
+    font-weight: 500;
+    margin:0 0 10px
+}
+
+.t-title {
+    font-size: 20px;
+    font-weight: 500;
+    margin:0 0 10px;
+}
+
+.t-subheading {
+    font-size: 16px;
+    font-weight: 400;
+    margin:0 0 10px;
+}
+
+.t-body-2 {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.t-body-1 {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.t-caption { 
+    font-size: 12px;
+    font-weight: 400;
+    margin-bottom:5px;
+    color:$grey--dark;
+}
+
+// This can be used where a long word is expected to break the layout.
+// Most likely a user provided name or url
+
+.t-wordBreaker {
+
+  /* These are technically the same, but use both */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  /* This is the dangerous one in WebKit, as it breaks things wherever */
+  word-break: break-all;
+  /* Instead use this non-standard one: */
+  word-break: break-word;
+
+  /* Adds a hyphen where the word breaks, if supported (No Blink) */
+  hyphens: auto;
+
+}
+
+hr {
+    margin: 0 0 20px;
+}

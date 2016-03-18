@@ -1,243 +1,248 @@
+import React from 'react/addons';
+import Backbone from 'backbone';
+import _ from 'underscore';
+import stores from 'stores';
 
-define(function (require) {
+import TabLinks from 'components/common/ui/TabLinks.react';
+import ImageCollection from 'collections/ImageCollection';
+import ImageList from '../components/ImageList.react';
+import InstanceLaunchFooter from '../components/InstanceLaunchFooter.react';
 
-    var React = require('react/addons'),
-      Backbone = require('backbone'),
-      _ = require('underscore'),
-      ImageCollection = require('collections/ImageCollection'),
-      ImageList = require('../components/ImageList.react'),
-      stores = require('stores');
-    var timer,
-      timerDelay = 100;
+export default React.createClass({
+    displayName: "InstanceLaunchWizardModal-ImageSelectStep",
+    views: ['Show Featured', 'Show Favorites', 'Show All'],
 
-    return React.createClass({
-      displayName: "InstanceLaunchWizardModal-ImageSelectStep",
-
-
-      //
-        // Mounting & State
-        // ----------------
-        //a
-
-        propTypes: {
-            onPrevious: React.PropTypes.func.isRequired,
-            onNext: React.PropTypes.func.isRequired
-        },
-
-        getInitialState: function () {
-            return this.getState();
-        },
-
-        getState: function () {
-            var query = this.state ? this.state.query : null,
-                images;
-            if (query) {
-                images = stores.ImageStore.fetchWhere({
-                    search: query
-                });
-            } else {
-                images = stores.ImageStore.getAll();
-            }
-
-            return {
-                query: query,
-                images: images,
-                tags: stores.TagStore.getAll(),
-
-                resultsPerPage: 20,
-                page: 1
-            }
-        },
-
-        updateState: function () {
-            if (this.isMounted()) this.setState(this.getState());
-        },
-
-        componentDidMount: function () {
-            stores.ImageStore.addChangeListener(this.updateState);
-            stores.TagStore.addChangeListener(this.updateState);
-            this.focusSearchInput();
-        },
-
-        componentWillUnmount: function () {
-            stores.ImageStore.removeChangeListener(this.updateState);
-            stores.TagStore.removeChangeListener(this.updateState);
-        },
-
-        //
-        // Internal Modal Callbacks
-        // ------------------------
-        //
-
-        handleSearch: function (query) {
-            if (timer) clearTimeout(timer);
-            timer = setTimeout(function () {
-                query = this.state.query;
-                if (query) {
-                    this.setState({
-                        images: stores.ImageStore.fetchWhere({
-                            search: query
-                        })
-                    });
-                } else {
-                    this.setState({
-                        images: stores.ImageStore.getAll()
-                    });
-                }
-            }.bind(this), timerDelay);
-        },
-
-        handleChange: function (e) {
-            this.setState({query: e.target.value});
-        },
-
-        handleKeyUp: function (e) {
-            //if (e.keyCode == 13 && this.state.query.length) {
-            //if (this.state.query.length) {
-            this.handleSearch(this.state.query);
-            //}
-        },
-
-        showImageDetails: function (image) {
-            this.props.onNext({image: image});
-        },
-
-        //
-        // Callbacks
-        //
-
-        onBack: function () {
-            this.props.onPrevious({});
-        },
-
-        handleLoadMoreImages: function () {
-            this.setState({page: this.state.page + 1});
-        },
-
-        //
-        // Render
-        // ------
-        //
-
-        renderFilterDescription: function (query) {
-            var message;
-
-            if (query) {
-                message = 'Showing results for "' + query + '"';
-            } else {
-                message = "Showing first 20 images"
-            }
-
-            return (
-                <div className="filter-description">{message}</div>
-            )
-        },
-
-        renderNoResultsFor: function (query) {
-            var message = 'No images found matching "' + query + '"';
-
-            return (
-                <div className="filter-description">{message}</div>
-            )
-        },
-
-        renderMoreImagesButton: function (images, totalNumberOfImages) {
-            if (images.models.length < totalNumberOfImages) {
-                return (
-                    <li>
-                        <button style={{
-                            "margin": "15px auto",
-                            "display": "block"
-                        }} className="btn btn-default" onClick={this.handleLoadMoreImages}>
-              Show more images...
-            </button>
-          </li>
-        )
-      }
+    getInitialState: function () {
+        return {
+            listView: this.views[0],
+            query: null,
+            resultsPerPage: 20,
+            page: 1
+        }
     },
+
+    componentDidMount: function () {
+        stores.ImageBookmarkStore.addChangeListener(this.triggerRenderOnStore);
+        stores.ImageStore.addChangeListener(this.triggerRenderOnStore);
+        stores.TagStore.addChangeListener(this.triggerRenderOnStore);
+        this.focusSearchInput();
+    },
+
+    componentWillUnmount: function () {
+        stores.ImageBookmarkStore.removeChangeListener(this.triggerRenderOnStore);
+        stores.ImageStore.removeChangeListener(this.triggerRenderOnStore);
+        stores.TagStore.removeChangeListener(this.triggerRenderOnStore);
+    },
+
+    triggerRenderOnStore: function() {
+        this.setState({})
+    },
+
+    handleChange: function(e) {
+        this.setState({query: e.target.value})
+    },
+
+    handleLoadMoreImages: function() {
+        this.setState({page: this.state.page + 1})
+    },
+
+    onChangeView: function(listView) {
+        this.setState({
+            listView
+        });
+    },
+
+    showAll: function() {
+        let query = this.state.query;
+        let images = stores.ImageStore.getAll();
+        if (query) {
+            images = stores.ImageStore.fetchWhere({
+                search: query
+            });
+        }
+
+        return images
+    },
+
+    showFeatured: function() {
+        let query = this.state.query;
+        let images = stores.ImageStore.fetchWhere({
+            tags__name: 'Featured'
+        });
+        if (query) {
+            images = stores.ImageStore.fetchWhere({
+                tags__name: 'Featured',
+                search: query
+            });
+        }
+
+        return images
+    },
+
+    showFavorites: function() {
+        let query = this.state.query;
+        let images = stores.ImageStore.fetchWhere({
+            bookmarked: true
+        });
+        if (query) {
+            images = stores.ImageStore.fetchWhere({
+                bookmarked: true,
+                search: query
+            });
+        }
+
+        return images
+    },
+
+    imageList: function() {
+        let listView = this.state.listView;
+        switch(listView) {
+            case 'Show All': return this.showAll()
+            case 'Show Featured': return this.showFeatured()
+            case 'Show Favorites': return this.showFavorites()
+        }
+    },
+
+    renderFilterDescription: function (images) {
+        let message;
+        let query = this.state.query;
+        let queryText = "";
+        if (query) { queryText = `for "${query}"` }
+        if (images) {
+            if (images.length >= 20) {
+                message = `Showing first ${images.length} images ${queryText}`;
+            }
+            else {
+                message = `Showing ${images.length} image(s) ${queryText}`;
+            }
+        }
+
+        return (
+            <div className="filter-description">{message}</div>
+        );
+    },
+
+    renderNoResultsFor: function () {
+        let query = this.state.query,
+            message = 'No images found matching "' + query + '"';
+
+        return (
+            <div className="filter-description">{message}</div>
+        );
+    },
+
+    renderMoreImagesButton: function (images, totalNumberOfImages) {
+        if (images.length < totalNumberOfImages) {
+            return (
+                <li>
+                    <button style={{
+                        "margin": "15px auto",
+                        "display": "block"
+                    }} className="btn btn-default" onClick={this.handleLoadMoreImages}>
+                        Show more images...
+                    </button>
+                </li>
+            );
+        }
+    },
+
     focusSearchInput: function () {
-      this.refs.searchField.getDOMNode().focus();
+        this.refs.searchField.getDOMNode().focus();
     },
     renderSearchInput: function () {
-      return (
-        <input
-          ref="searchField"
-          type="text"
-          placeholder="Search across image name, tag or description"
-          className="form-control search-input"
-          onChange={this.handleChange}
-          onKeyUp={this.handleKeyUp}
-          />
-      );
+        return (
+            <input
+                ref="searchField"
+                type="text"
+                placeholder="Search across image name, tag or description"
+                className="form-control search-input"
+                onChange={this.handleChange}
+            />
+        );
     },
-    renderImages: function (query, images) {
-      var imageCount = images.models.length;
+    renderImages: function (images, allImages) {
+        let totalNumberOfImages = allImages.length;
+        let query = this.state.query;
+        let searchInput = this.renderSearchInput();
+        if (!images) { return ( <div className="loading"/> ) }
+        
+        return (
+        <div>
+            {searchInput}
+            {this.renderFilterDescription(images)}
+            <ImageList
+                images={images}
+                onSelectImage={this.props.onSelectImage}
+            >
+            {this.renderMoreImagesButton(images, totalNumberOfImages)}
+            </ImageList>
+        </div>
+        );
+    },
+    renderZeroImages: function () {
+        return (
+        <div>
+            {this.renderSearchInput()}
+            {this.renderNoResultsFor()}
+        </div>
+        );
+    },
+    renderLoadingImages: function () {
+        return (
+        <div>
+            {this.renderSearchInput()}
+            {this.renderFilterDescription()}
+            <div className="loading"/>
+        </div>
+        );
+    },
 
-      return (
-        <div>
-          {this.renderSearchInput()}
-          {this.renderFilterDescription(query)}
-          <ImageList images={images} onClick={this.showImageDetails}>
-            {this.renderMoreImagesButton(images, imageCount)}
-          </ImageList>
-        </div>
-      );
-    },
-    renderZeroImages: function (query) {
-      return (
-        <div>
-          {this.renderSearchInput()}
-          {this.renderNoResultsFor(query)}
-        </div>
-      );
-    },
-    renderLoadingImages: function (query) {
-      return (
-        <div>
-          {this.renderSearchInput()}
-          {this.renderFilterDescription(query)}
-          <div className="loading"/>
-        </div>
-      );
-    },
     renderBody: function () {
-      var images = this.state.images,
-        tags = this.state.tags,
-        query = this.state.query,
-        numberOfResults,
-        totalNumberOfImages;
+        let allImages = this.imageList(),
+            // This might get paginated below
+            images = this.imageList(),
+            tags = stores.TagStore.getAll(),
+            query = this.state.query,
+            numberOfResults,
+            totalNumberOfImages;
 
-      if (images && tags) {
-        numberOfResults = this.state.page * this.state.resultsPerPage;
+        // Render Images
+        if (images && tags) {
+            numberOfResults = this.state.page * this.state.resultsPerPage;
 
-        images = images.first(numberOfResults);
-        images = new ImageCollection(images);
+            images = images.first(numberOfResults);
+            images = new ImageCollection(images);
 
-        if (images.length > 0) {
-          return this.renderImages(query, images);
-        } else {
-          return this.renderZeroImages(query);
+            if (images.length > 0) {
+                return this.renderImages(images, allImages);
+            } else {
+                return this.renderZeroImages();
+            }
         }
-      }
-      return this.renderLoadingImages(query);
+        return this.renderLoadingImages();
     },
     render: function () {
-      return (
-        <div>
-          <div className="modal-section">
-            {this.renderBody()}
-          </div>
-          <div className="modal-footer">
-            <button type="button" className="btn btn-default pull-left" onClick={this.onBack}>
-              <span className="glyphicon glyphicon-chevron-left"></span>
-              Back
-            </button>
-          </div>
-        </div>
-      );
+        return (
+            <div>
+                <div className="modal-section">
+                    <h3 className="t-title">First choose an image for your instance</h3>
+                    <hr/>
+                    <TabLinks 
+                        linkList={this.views}
+                        currentView={this.state.listView}
+                        onChangeView={this.onChangeView}
+                    />
+                    {this.renderBody()}
+                </div>
+                <InstanceLaunchFooter
+                    showValidationErr={true}
+                    onCancel={this.props.onCancel}
+                    launchIsDisabled={true}
+                    advancedIsDisabled={true}
+                    backIsDisabled={true}
+                />
+            </div>
+        );
 
     }
-
-  });
-
 });

@@ -140,7 +140,7 @@ define(function (require) {
     //See navLinks below for implementation.
 
     getInitialState: function() {
-    return {windowWidth: window.innerWidth};
+        return {windowWidth: window.innerWidth};
     },
 
     handleResize: function(e) {

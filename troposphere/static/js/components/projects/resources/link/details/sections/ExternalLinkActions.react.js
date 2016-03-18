@@ -10,26 +10,26 @@ define(function (require) {
     displayName: "ExternalLinkActions",
 
     propTypes: {
-      link: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+      external_link: React.PropTypes.instanceOf(Backbone.Model).isRequired,
       project: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
     onDelete: function () {
       var project = this.props.project,
-        link = this.props.link;
+        link = this.props.external_link;
 
       modals.ExternalLinkModals.destroy({
-        link: this.props.link,
+        external_link: this.props.external_link,
         project: this.props.project
       });
     },
 
     handleReport: function () {
-      modals.ExternalLinkModals.report({link: this.props.link});
+      modals.ExternalLinkModals.report({external_link: this.props.external_link});
     },
 
     render: function () {
-      var link = this.props.link;
+      var link = this.props.external_link;
       var linksArray = [
         {label: 'Actions', icon: null},
         {label: 'Go To Link', icon: 'globe', target:"_blank", href: link.get('link'), onClick: this.handleReport}
@@ -40,25 +40,25 @@ define(function (require) {
         {label: 'Delete', icon: 'remove', onClick: this.onDelete, isDangerLink: true}
       ]);
 
-      var links = linksArray.map(function (link) {
+      var links = linksArray.map(function (ext_link) {
         // Links without icons are generally section headings
-        if (!link.icon) return (
-          <li key={link.label} className="section-label">{link.label}</li>
+        if (!ext_link.icon) return (
+          <li key={ext_link.label} className="section-label">{ext_link.label}</li>
         );
 
         var className = "section-link";
-        if (link.isDangerLink) className += " danger";
+        if (ext_link.isDangerLink) className += " danger";
 
         // Some actions have hrefs, because they redirect to actual pages (and are
         // not actions in need of confirmation).  While we *could* call
         // Backbone.history.navigate from an onClick callback, we want all url
         // changes to pass through our Backbone catcher in main.js that we can use
         // to log requests to Google Analytics
-        if (link.href) return (
-          <li key={link.label} className={className + " link"}>
-            <a href={link.href} target={link.target ? link.target : "_self"}>
+        if (ext_link.href) return (
+          <li key={ext_link.label} className={className + " link"}>
+            <a href={ext_link.href} target={ext_link.target ? ext_link.target : "_self"}>
             <span>
-              <Glyphicon name={link.icon}/>{link.label}
+              <Glyphicon name={ext_link.icon}/>{ext_link.label}
             </span>
             </a>
           </li>
@@ -67,9 +67,9 @@ define(function (require) {
         // Links with onClick callbacks will typically trigger modals requiring
         // confirmation before continuing
         return (
-          <li key={link.label} className={className} onClick={link.onClick}>
+          <li key={ext_link.label} className={className} onClick={ext_link.onClick}>
             <span>
-              <Glyphicon name={link.icon}/>{link.label}
+              <Glyphicon name={ext_link.icon}/>{ext_link.label}
             </span>
           </li>
         );

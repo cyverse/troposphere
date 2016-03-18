@@ -36,15 +36,15 @@ define(function (require) {
     switch (actionType) {
 
       case ExternalLinkConstants.ADD_LINK:
-        store.add(payload.link);
+        store.add(payload.external_link);
         break;
 
       case ExternalLinkConstants.UPDATE_LINK:
-        store.update(payload.link);
+        store.update(payload.external_link);
         break;
 
       case ExternalLinkConstants.REMOVE_LINK:
-        store.remove(payload.link);
+        store.remove(payload.external_link);
         break;
 
       default:
