@@ -47,8 +47,8 @@ define(
               <Glyphicon name='warning-sign'/>
               <strong>{"WARNING "}</strong>
               {
-                "If data is being written to the volume when it's detached, the data may become corrupted. Therefore, " +
-                "we recommend you make sure there is no data being written to the volume before detaching it."
+                `If data is being written to the volume when it's detached, the data may become corrupted. Therefore, ` +
+                `we recommend you make sure there is no data being written to the volume before detaching it.`
               }
             </p>
 
