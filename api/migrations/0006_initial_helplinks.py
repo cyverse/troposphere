@@ -52,7 +52,7 @@ INITIAL_LINKS = [
     {
         'link_key': 'volumes',
         'topic': 'Attaching / Detaching Volumes',
-        'href': 'https://pods.iplantcollaborative.org/wiki/display/atmman/Attaching+and+Detaching+Volumes#AttachinganEBSVolumetoanInstance-Step7%3AUnmountanddetachthevolume'
+        'href': 'https://pods.iplantcollaborative.org/wiki/display/atmman/Attaching+and+Detaching+Volumes'
     },
 ]
 
