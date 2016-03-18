@@ -40,7 +40,8 @@ define(
 
       propTypes: {
         volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        project: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        helpLink: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
       isSubmittable: function () {
@@ -170,7 +171,7 @@ define(
                     {
                       "If you'd like to attach this volume to an instance, you'll first need to "
                     }
-                    <a href={this.props.helpLink}>create an instance</a>
+                    <a href={this.props.helpLink.get('href')}>create an instance</a>
                     {
                       " on the same provider or move an existing instance into this project."
                     }

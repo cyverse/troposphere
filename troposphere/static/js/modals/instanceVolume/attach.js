@@ -10,10 +10,11 @@ define(function (require) {
 
     attach: function(volume, project) {
         var links = stores.HelpLinkStore.getAll(),
+            helpLink = links.get('volumes'),
             props = {
               volume: volume,
               project: project,
-              helpLink: links.get('instance-launch')
+              helpLink: helpLink
             };
 
         ModalHelpers.renderModal(VolumeAttachModal, props,
@@ -22,7 +23,8 @@ define(function (require) {
                   instance: instance,
                   volume: volume,
                   project: project,
-                  mountLocation: mountLocation
+                  mountLocation: mountLocation,
+                  helpLink: helpLink
                 });
             }
         );

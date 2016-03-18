@@ -14,7 +14,8 @@ define(
       mixins: [BootstrapModalMixin],
 
       propTypes: {
-        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        helplink: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
       //
@@ -37,7 +38,9 @@ define(
       //
 
       renderBody: function () {
-        var volume = this.props.volume;
+        var volume = this.props.volume,
+            helplink = this.props.helplink;
+
         return (
           <div>
             <p className='alert alert-danger'>
@@ -57,7 +60,7 @@ define(
 
             <p>
               <a
-                href="https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachinganEBSVolumetoanInstance-Step7%3AUnmountanddetachthevolume."
+                href={this.props.helplink.get('href')}
                 target="_blank">
                 {"Learn more about unmounting and detaching a volume"}
               </a>
