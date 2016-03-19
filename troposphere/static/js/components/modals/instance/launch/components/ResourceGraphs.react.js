@@ -84,7 +84,7 @@ export default React.createClass({
 
             // Memory have used + will use
             allocationGb = identityProvider.get('quota').memory;
-            gbUsed = resourcesUsed.mem / 1000;
+            gbUsed = resourcesUsed.mem / 1024;
             gbWillUse = size.get('mem');
             gbWillTotal = gbUsed + gbWillUse;
             percentOfGbUsed = Math.round(gbUsed / allocationGb * 100);
