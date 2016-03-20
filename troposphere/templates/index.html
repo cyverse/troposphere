@@ -115,6 +115,16 @@
     <script src="{{ BASE_URL }}/assets/public.js"></script>
     {% else %}
     <script src="{{ BASE_URL }}/assets/app.js"></script>
+    <!-- Fire up Webockets -->
+    <script>
+        socket = new WebSocket("wss://{{ SERVER_BASE }}/{{ BASE_URL }}/ws/connect/instances/?access_token={{ access_token }}");
+        socket.onmessage = function(e) {
+            console.log(e.data);
+        };
+        socket.onopen = function() {
+            socket.send("Ready for instance report");
+        };
+    </script>
     {% endif %}
     <!-- Google Analtics -->
     <script src="{{ BASE_URL }}/assets/analytics.js"></script>

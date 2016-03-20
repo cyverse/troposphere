@@ -40,6 +40,7 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
     show_troposphere_only = _should_show_troposphere_only()
 
     template_params = {
+        'request': request,
         'access_token': request.session.get('access_token'),
         'emulator_token': request.session.get('emulator_token'),
         'emulated_by': request.session.get('emulated_by'),
@@ -72,6 +73,9 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
     #template_params["THEME_URL"] = "assets/"
     template_params["THEME_URL"] = "/themes/%s" % settings.THEME_NAME
     template_params['ORG_NAME'] = settings.ORG_NAME
+
+    if hasattr(settings, "SERVER_URL"):
+        template_params['SERVER_BASE'] = settings.SERVER_URL.replace('https://','').replace('http://','')
 
     if hasattr(settings, "BASE_URL"):
         template_params['BASE_URL'] = settings.BASE_URL
