@@ -114,17 +114,24 @@
     {% if show_public_site %}
     <script src="{{ BASE_URL }}/assets/public.js"></script>
     {% else %}
-    <script src="{{ BASE_URL }}/assets/app.js"></script>
     <!-- Fire up Webockets -->
     <script>
-        socket = new WebSocket("wss://{{ SERVER_BASE }}/{{ BASE_URL }}/ws/connect/instances/?access_token={{ access_token }}");
-        socket.onmessage = function(e) {
-            console.log(e.data);
-        };
-        socket.onopen = function() {
-            socket.send("Ready for instance report");
-        };
+        var new_socket_session = function(connection_path) {
+            return new WebSocket("wss://{{ SERVER_BASE }}/{{ BASE_URL }}/ws"+connection_path+"?access_token={{ access_token }}");
+        }
+        start_socket_session = function(relative_path, message, replyCallback) {
+            var socket = new_socket_session(relative_path);
+            socket.onmessage = function(e) {
+                console.log(e);
+                replyCallback(e);
+            };
+            socket.onopen = function() {
+                socket.send(message);
+            };
+            return socket;
+        }
     </script>
+    <script src="{{ BASE_URL }}/assets/app.js"></script>
     {% endif %}
     <!-- Google Analtics -->
     <script src="{{ BASE_URL }}/assets/analytics.js"></script>

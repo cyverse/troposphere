@@ -124,7 +124,6 @@ define(function (require) {
 
       var maintenanceMessages = stores.MaintenanceMessageStore.getAll() || new Backbone.Collection(),
       marginTop = maintenanceMessages.length * 24 + "px";
-
       return (
         <div>
           <Header profile={context.profile} currentRoute={["projects"]} maintenanceMessages={maintenanceMessages}/>
