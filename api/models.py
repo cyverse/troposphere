@@ -63,7 +63,7 @@ class UserPreferences(models.Model):
 class HelpLink(models.Model):
     link_key = models.CharField(max_length=256)
     topic = models.CharField(max_length=256)
-    context = models.TextField()
+    context = models.TextField(default='', null=True, blank=True)
     href = models.TextField()
 
     created_date = models.DateTimeField(auto_now_add=True)
