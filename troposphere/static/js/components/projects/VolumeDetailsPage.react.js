@@ -14,9 +14,9 @@ define(function (require) {
     render: function () {
       var project = stores.ProjectStore.get(Number(this.getParams().projectId)),
         volume = stores.VolumeStore.get(Number(this.getParams().volumeId)),
-        helplinks = stores.HelpLinkStore.getAll();
+        helpLinks = stores.HelpLinkStore.getAll();
 
-      if (!project || !volume || !helplinks) {
+      if (!project || !volume || !helpLinks) {
         return <div className="loading"></div>;
       }
 

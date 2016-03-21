@@ -40,11 +40,11 @@ define(function(require) {
 
     render: function() {
       var username = stores.ProfileStore.get().id,
-          helplinks = stores.HelpLinkStore.getAll(),
+          helpLinks = stores.HelpLinkStore.getAll(),
           imagingDocsUrl,
           requests;
 
-      if(!username || !helplinks){
+      if(!username || !helpLinks){
         return <div className = "loading"></div>
       }
 

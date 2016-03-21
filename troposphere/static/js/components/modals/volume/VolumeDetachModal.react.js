@@ -15,7 +15,7 @@ define(
 
       propTypes: {
         volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        helplink: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        helpLink: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
       //
@@ -39,7 +39,7 @@ define(
 
       renderBody: function () {
         var volume = this.props.volume,
-            helplink = this.props.helplink;
+            helpLink = this.props.helpLink;
 
         return (
           <div>
@@ -60,7 +60,7 @@ define(
 
             <p>
               <a
-                href={this.props.helplink.get('href')}
+                href={this.props.helpLink.get('href')}
                 target="_blank">
                 {"Learn more about unmounting and detaching a volume"}
               </a>

@@ -14,9 +14,9 @@ define(function (require) {
     render: function () {
       var project = stores.ProjectStore.get(Number(this.getParams().projectId)),
         instance = stores.InstanceStore.get(Number(this.getParams().instanceId)),
-        helplinks = stores.HelpLinkStore.getAll();
+        helpLinks = stores.HelpLinkStore.getAll();
 
-      if (!project || !instance || !helplinks) {
+      if (!project || !instance || !helpLinks) {
         return <div className="loading"></div>;
       }
 

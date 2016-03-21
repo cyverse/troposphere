@@ -14,10 +14,10 @@ define(function(require) {
           created_by__username: profile.get('username')
         }),
         tags = stores.TagStore.getAll(),
-        helplinks = stores.HelpLinkStore.getAll(),
+        helpLinks = stores.HelpLinkStore.getAll(),
         imagingDocsUrl;
 
-      if (!images || !tags || !helplinks) {
+      if (!images || !tags || !helpLinks) {
         return <div className="loading"></div>;
       }
 
