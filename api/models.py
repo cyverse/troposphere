@@ -70,7 +70,7 @@ class HelpLink(models.Model):
     modified_date = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return "(%s) => %s" % (self.topic, self.link_href)
+        return "(%s) => %s" % (self.topic, self.href)
 
 
 # Save Hook(s) Here:
