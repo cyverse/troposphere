@@ -69,6 +69,12 @@ class HelpLink(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
 
+    def delete(self, *args, **kwargs):
+        """
+        Block the outright deletion of HelpLinks
+        """
+        pass
+
     def __unicode__(self):
         return "(%s) => %s" % (self.topic, self.href)
 
