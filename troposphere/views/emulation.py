@@ -26,7 +26,9 @@ def is_emulated_session(request):
 
 def emulate(request, username):
     if 'access_token' not in request.session:
-        return redirect(cas_oauth_client.authorize_url())
+        if 'iplantauth.authBackends.OAuthLoginBackend' in settings.AUTHENTICATION_BACKENDS:
+            return redirect(cas_oauth_client.authorize_url())
+        return redirect('/application')
 
     if 'emulator_token' in request.session:
         old_token = request.session['emulator_token']
