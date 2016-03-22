@@ -75,7 +75,7 @@ define(
       if (options.relative) {
         url = '/' + url;
       } else {
-        url = '/image/' + url;
+        url = '/application/' + url;
       }
       return url;
     };
