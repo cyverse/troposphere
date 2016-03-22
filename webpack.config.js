@@ -29,7 +29,6 @@ if (process.env.NODE_ENV === "production") {
 module.exports = {
   entry: {
     app: "./main",
-    no_user: "./no_user",
     analytics: "./analytics",
     public: "./public_site/main"
   },
