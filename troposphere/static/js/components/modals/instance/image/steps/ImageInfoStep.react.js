@@ -18,7 +18,8 @@ define(function (require) {
       imageOwner: React.PropTypes.bool.isRequired,
       name: React.PropTypes.string.isRequired,
       description: React.PropTypes.string.isRequired,
-      newImage: React.PropTypes.bool.isRequired
+      newImage: React.PropTypes.bool.isRequired,
+      helpLink: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
     getDefaultProps: function () {
@@ -125,7 +126,7 @@ define(function (require) {
           </div>
           <p className="alert alert-info">
             {"Please read the "}
-            <a href="https://pods.iplantcollaborative.org/wiki/display/atmman/Requesting+an+Image+of+an+Instance" target="_blank">
+            <a href={this.props.helpLink.get('href')} target="_blank">
               wiki page about requesting an image of your instance
             </a>
             {" before completing the form below."}
@@ -173,7 +174,9 @@ define(function (require) {
             {this.renderBody(instance)}
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-primary cancel-button" onClick={this.onNext}
+            <button type="button"
+                    className="btn btn-primary cancel-button"
+                    onClick={this.onNext}
                     disabled={!this.isSubmittable()}>
               Next
             </button>

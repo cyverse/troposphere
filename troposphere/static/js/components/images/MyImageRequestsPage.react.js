@@ -9,7 +9,9 @@ define(function(require) {
 
     getInitialState: function(){
       // start fetching the relevant models before the component is rendered
-      stores.ImageRequestStore.fetchFirstPageWhere({new_machine_owner__username: stores.ProfileStore.get().id});
+      stores.ImageRequestStore.fetchFirstPageWhere({
+        new_machine_owner__username: stores.ProfileStore.get().id
+      });
       return {};
     },
 
@@ -18,7 +20,9 @@ define(function(require) {
     },
 
     refreshHistory: function(){
-      stores.ImageRequestStore.fetchFirstPageWhere({new_machine_owner__username: stores.ProfileStore.get().id});
+      stores.ImageRequestStore.fetchFirstPageWhere({
+        new_machine_owner__username: stores.ProfileStore.get().id
+      });
       stores.ImageRequestStore.lastUpdated = Date.now();
       this.forceUpdate();
     },
@@ -26,20 +30,27 @@ define(function(require) {
     renderRefreshButton: function(){
       return (
         <span className="my-requests refresh-button">
-            <RefreshComponent onRefreshClick = {this.refreshHistory} timestamp = {stores.ImageRequestStore.lastUpdated} delay = {1000 * 30} />
+            <RefreshComponent
+                onRefreshClick={this.refreshHistory}
+                timestamp={stores.ImageRequestStore.lastUpdated}
+                delay={1000 * 30} />
         </span>
       );
     },
 
     render: function() {
       var username = stores.ProfileStore.get().id,
-          imagingDocsUrl = "https://pods.iplantcollaborative.org/wiki/display/atmman/Requesting+an+Image+of+an+Instance";
+          helpLinks = stores.HelpLinkStore.getAll(),
+          imagingDocsUrl,
+          requests;
 
-      if(username == null){
+      if(!username || !helpLinks){
         return <div className = "loading"></div>
       }
 
-      var requests = stores.ImageRequestStore.getAll();
+      imagingDocsUrl = stores.HelpLinkStore.get("request-image");
+
+      requests = stores.ImageRequestStore.getAll();
 
       var machineStateColumn, machineStateData;
 
@@ -51,7 +62,7 @@ define(function(require) {
         );
       }
 
-      if(requests == null){
+      if(!requests){
         return <div className = "loading"></div>;
       }
 
@@ -60,7 +71,7 @@ define(function(require) {
           <div className="container">
             <p style={{marginBottom: "16px"}}>
               {"Looking for more information about the imaging process? Check out the "}
-              <a href={imagingDocsUrl} target="_blank">documention on imaging</a>.
+              <a href={imagingDocsUrl} target="_blank">documentation on imaging</a>.
             </p>
             <p>You have not made any imaging requests.</p>
           </div>
@@ -84,7 +95,7 @@ define(function(require) {
         }
 
         if(stores.ProfileStore.get().get('is_staff')){
-          machineStateData = <td>{request.get('old_status')}</td>;
+          machineStateData = (<td>{request.get('old_status')}</td>);
         }
 
         if (request.get('end_date')) {
@@ -107,7 +118,7 @@ define(function(require) {
         <div className="container">
           <p style={{marginBottom: "16px"}}>
             {"Looking for more information about the imaging process? Check out the "}
-            <a href={imagingDocsUrl} target="_blank">documention on imaging</a>.
+            <a href={imagingDocsUrl} target="_blank">documentation on imaging</a>.
           </p>
 
           {this.renderRefreshButton()}

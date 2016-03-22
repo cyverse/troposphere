@@ -14,15 +14,20 @@ define(function(require) {
           created_by__username: profile.get('username')
         }),
         tags = stores.TagStore.getAll(),
-        imagingDocsUrl = "https://pods.iplantcollaborative.org/wiki/display/atmman/Requesting+an+Image+of+an+Instance";
+        helpLinks = stores.HelpLinkStore.getAll(),
+        imagingDocsUrl;
 
-      if (!images || !tags) return <div className="loading"></div>;
+      if (!images || !tags || !helpLinks) {
+        return <div className="loading"></div>;
+      }
+
+      imagingDocsUrl = stores.HelpLinkStore.get("request-image");
 
       if (images.length === 0) {
         return (
           <p>
             {"You have not created any images. To learn how to create an image, please refer to the "}
-            <a href={imagingDocsUrl} target="_blank">documention on imaging</a>
+            <a href={imagingDocsUrl} target="_blank">documentation on imaging</a>
             {"."}
           </p>
         );
@@ -32,7 +37,7 @@ define(function(require) {
         <div>
           <p style={{marginBottom: "16px"}}>
             {"Looking for more information about the imaging process? Check out the "}
-            <a href={imagingDocsUrl} target="_blank">documention on imaging</a>.
+            <a href={imagingDocsUrl} target="_blank">documentation on imaging</a>.
           </p>
           <ImageCardList images={images}/>
         </div>
