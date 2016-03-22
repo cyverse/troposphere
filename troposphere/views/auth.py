@@ -90,7 +90,7 @@ def _globus_login(request):
 
 
 def _oauth_login(request):
-    redirect_url = request.GET.get('redirect')
+    redirect_url = request.GET.get('redirect_to')
     if redirect_url:
         request.session['redirect_to'] = redirect_url
     return redirect(cas_oauth_client.authorize_url())
