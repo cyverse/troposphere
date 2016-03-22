@@ -49,7 +49,8 @@ def _mock_login(request):
 
 
 def _post_login(request):
-    user = authenticate(username=request.POST.get('username'), password=request.POST.get('password'))
+    user = authenticate(username=request.POST.get('username'),
+                        password=request.POST.get('password'))
     # A traditional POST login will likely NOT create a 'Token', so lets do that now.
     if user:
         new_token = generate_token(user)
