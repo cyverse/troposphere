@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import MaintenanceRecord, UserPreferences, HelpLink
+from .models import MaintenanceRecord, UserPreferences, HelpLink, SiteMetadata
 
 
 @admin.register(UserPreferences)
@@ -21,6 +21,24 @@ class HelpLinkAdmin(admin.ModelAdmin):
         if obj: # editing an existing object
             return self.readonly_fields + ("link_key", )
         return self.readonly_fields
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+
+@admin.register(SiteMetadata)
+class SiteMetadataAdmin(admin.ModelAdmin):
+    actions = None # disable the `delete selected` action
+
+    list_display = [
+        "user_portal_link",
+        "user_portal_link_text",
+        "account_instructions_link"
+    ]
 
     def has_add_permission(self, request):
         return False
