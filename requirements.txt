@@ -1,5 +1,5 @@
 # External/Third Party
-django==1.9.2
+django==1.9.4
 django-sslserver==0.18
 djangorestframework==3.3.2
 Jinja2==2.8
