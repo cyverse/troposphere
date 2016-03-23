@@ -22,6 +22,7 @@ define(function (require) {
 
     render: function () {
       var image = this.props.image,
+        hasUserLoggedIn = context.hasLoggedInUser(),
         type = stores.ProfileStore.get().get('icon_set'),
         imageTags = stores.TagStore.getImageTags(image),
         imageCreationDate = moment(image.get('start_date'))
@@ -29,6 +30,7 @@ define(function (require) {
                                 .format("MMM Do YYYY hh:mm a z"),
         converter = new Showdown.Converter(),
         description = image.get('description');
+
       if(!description) {
           description = "No Description Provided."
       }
@@ -43,7 +45,7 @@ define(function (require) {
 
       // Hide bookmarking on the public page
       var bookmark;
-      if (context.profile) {
+      if (hasUserLoggedIn) {
         bookmark = (
           <Bookmark image={image}/>
         );

@@ -23,7 +23,7 @@ define(
         var image = this.props.image;
         var versions = stores.ImageStore.getVersions(image.id);
         var type = stores.ProfileStore.get().get('icon_set');
-        var userLoggedIn = (context.profile && context.profile.get('selected_identity'));
+        var hasUserLoggedIn = context.hasLoggedInUser();
 
         var iconSize = 145;
         // always use the Gravatar icons
@@ -33,7 +33,7 @@ define(
 
         // Hide bookmarking on the public page
         var bookmark;
-        if (userLoggedIn) {
+        if (hasUserLoggedIn) {
           bookmark = (
             <Bookmark image={image}/>
           );
@@ -41,7 +41,7 @@ define(
         //When versions is 'not loaded' OR 'has length > 0', you can launch.
         var canLaunch = (versions !== null && versions.length !== 0) ? true : false;
         var button;
-        if (userLoggedIn) {
+        if (hasUserLoggedIn) {
           button = (
             <button className='btn btn-primary launch-button'
                 onClick={this.props.onLaunch}
