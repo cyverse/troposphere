@@ -8,6 +8,8 @@ import Router from 'react-router';
 // plugin: required to enable the drop-down, but not used directly
 import bootstrap from 'bootstrap';
 
+import { hasLoggedInUser } from 'profilePredicate';
+
 let Link = Router.Link;
 
 let links = [
@@ -173,9 +175,11 @@ let Header = React.createClass({
     render: function () {
 
       var profile = this.props.profile,
-        hasLoggedInUser = (profile && profile.get('selected_identity'));
+        hasLoggedInUser = hasLoggedInUser(profile);
 
-      var loginLogoutDropdown = hasLoggedInUser ? <LogoutLink username={profile.get('username')}/> : <LoginLink/>;
+      var loginLogoutDropdown = (hasLoggedInUser ?
+            <LogoutLink username={profile.get('username')}/> :
+            <LoginLink/>);
 
       if (!profile.get('selected_identity')) {
         links = links.filter(function (link) {
@@ -206,12 +210,9 @@ let Header = React.createClass({
         );
       }.bind(this));
 
-      var brandLink;
-      if (profile.get('selected_identity')) {
-        brandLink = <Link to="dashboard" className="navbar-brand"/>;
-      } else {
-        brandLink = <Link to="images" className="navbar-brand"/>;
-      }
+      var brandLink = (hasLoggedInUser ?
+        <Link to="dashboard" className="navbar-brand"/> :
+        <Link to="images" className="navbar-brand"/>);
 
       return (
         <div className="navbar navbar-default navbar-fixed-top" role="navigation">
