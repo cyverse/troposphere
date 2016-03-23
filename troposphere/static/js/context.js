@@ -1,8 +1,8 @@
-define([], function () {
-  return {
+import { hasLoggedInUser } from 'profilePredicate';
+
+export default {
     hasLoggedInUser: function() {
-        return !!(this.profile && this.profile.get('selected_identity'));
+        return hasLoggedInUser(this.profile);
     },
     profile: null
-  }
-});
+}
