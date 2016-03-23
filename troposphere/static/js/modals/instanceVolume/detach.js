@@ -2,19 +2,23 @@ define(function (require) {
   "use strict";
 
   var actions = require('actions'),
+    stores = require('stores'),
     ModalHelpers = require('components/modals/ModalHelpers'),
     VolumeDetachModal = require('components/modals/volume/VolumeDetachModal.react');
 
   return {
 
     detach: function (volume) {
-      var props = {
-        volume: volume
-      };
+      var helpLink = stores.HelpLinkStore.get('volumes'),
+        props = {
+          volume: volume,
+          helpLink: helpLink
+        };
 
       ModalHelpers.renderModal(VolumeDetachModal, props, function () {
         actions.InstanceVolumeActions.detach({
-          volume: volume
+          volume: volume,
+          helpLink: helpLink
         })
       })
 

@@ -3,6 +3,7 @@ define(function (require) {
 
   var ModalHelpers = require('components/modals/ModalHelpers'),
     InstanceReportModal = require('components/modals/instance/InstanceReportModal.react'),
+    stores = require('stores'),
     actions = require('actions');
 
   return {
@@ -12,8 +13,11 @@ define(function (require) {
 
       var instance = params.instance,
         props = {
-          instance: instance
+          instance: instance,
+          troubleshooting: stores.HelpLinkStore.get('faq'),
+          usingInstances: stores.HelpLinkStore.get('instances')
         };
+
 
       ModalHelpers.renderModal(InstanceReportModal, props, function (reportInfo) {
         actions.InstanceActions.report({
