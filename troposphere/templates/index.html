@@ -10,7 +10,7 @@
     <!--CSS-->
     <link rel="stylesheet" href="{{ BASE_URL }}/assets/app.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{{ THEME_URL }}/css/theme.css" rel="stylesheet" type="text/css">
-    
+
     <!-- Fonts -->
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,500,700,300' rel='stylesheet' type='text/css'>
 
@@ -88,6 +88,10 @@
 
         {% if SUPPORT_EMAIL %}
             var SUPPORT_EMAIL = "{{ SUPPORT_EMAIL }}";
+        {% endif %}
+
+        {% if DISPLAY_STATUS_PAGE %}
+            var STATUS_PAGE_LINK = "{{ STATUS_PAGE_LINK }}";
         {% endif %}
 
         {% if show_public_site %}

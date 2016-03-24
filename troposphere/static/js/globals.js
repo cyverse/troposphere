@@ -12,6 +12,7 @@ define(function (require) {
         API_V2_MOCK_ROOT: window.API_V2_MOCK_ROOT,
         TROPO_API_ROOT: window.TROPO_API_ROOT || '/tropo-api',
         WEB_SH_URL: window.WEB_SH_URL || shell_proxy,
+        STATUS_PAGE_LINK: window.STATUS_PAGE_LINK || '',
         SITE_TITLE: window.SITE_TITLE || 'Atmosphere',
         SITE_FOOTER: window.SITE_FOOTER || 'iPlant Collaborative',
         UI_VERSION: window.UI_VERSION || 'Unknown Unicolored-Jay',

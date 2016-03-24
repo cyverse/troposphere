@@ -77,6 +77,15 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
     if hasattr(settings, "BASE_URL"):
         template_params['BASE_URL'] = settings.BASE_URL
 
+    metadata = get_site_metadata()
+
+    template_params['DISPLAY_STATUS_PAGE'] = False
+    if metadata:
+        template_params['DISPLAY_STATUS_PAGE'] = \
+            metadata.display_status_page_link
+        template_params['STATUS_PAGE_LINK'] = \
+            metadata.status_page_link
+
     if hasattr(settings, "API_ROOT"):
         template_params['API_ROOT'] = settings.API_ROOT
 
