@@ -1,4 +1,4 @@
-import { hasLoggedInUser } from 'profilePredicate';
+import { hasLoggedInUser } from 'utilities/profilePredicate';
 
 export default {
     hasLoggedInUser: function() {

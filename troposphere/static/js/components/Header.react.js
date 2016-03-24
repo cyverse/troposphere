@@ -8,7 +8,7 @@ import Router from 'react-router';
 // plugin: required to enable the drop-down, but not used directly
 import bootstrap from 'bootstrap';
 
-import { hasLoggedInUser } from 'profilePredicate';
+import { hasLoggedInUser } from 'utilities/profilePredicate';
 
 let Link = Router.Link;
 
