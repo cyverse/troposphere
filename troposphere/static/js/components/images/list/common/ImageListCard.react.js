@@ -22,7 +22,7 @@ define(function (require) {
 
     render: function () {
       var image = this.props.image,
-        hasUserLoggedIn = context.hasLoggedInUser(),
+        hasLoggedInUser = context.hasLoggedInUser(),
         type = stores.ProfileStore.get().get('icon_set'),
         imageTags = stores.TagStore.getImageTags(image),
         imageCreationDate = moment(image.get('start_date'))
@@ -45,7 +45,7 @@ define(function (require) {
 
       // Hide bookmarking on the public page
       var bookmark;
-      if (hasUserLoggedIn) {
+      if (hasLoggedInUser) {
         bookmark = (
           <Bookmark image={image}/>
         );

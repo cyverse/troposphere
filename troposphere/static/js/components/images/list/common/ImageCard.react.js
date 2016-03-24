@@ -28,7 +28,7 @@ define(function (require) {
         imageCreationDate = moment(image.get('start_date'))
                                 .tz(globals.TZ_REGION)
                                 .format("MMM Do YYYY hh:mm a z"),
-        hasUserLoggedIn = context.hasLoggedInUser(),
+        hasLoggedInUser = context.hasLoggedInUser(),
         iconSize = 145,
         icon;
 
@@ -39,7 +39,7 @@ define(function (require) {
 
       // Hide bookmarking on the public page
       var bookmark;
-      if (hasUserLoggedIn) {
+      if (hasLoggedInUser) {
         bookmark = (
           <Bookmark image={image}/>
         );

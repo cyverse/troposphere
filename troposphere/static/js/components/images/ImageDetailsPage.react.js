@@ -15,15 +15,15 @@ define(function (require) {
     renderBody: function(){
       var image = stores.ImageStore.get(Number(this.getParams().imageId)),
         tags = stores.TagStore.getAll(),
-        hasUserLoggedIn = context.hasLoggedInUser(),
-        providers = hasUserLoggedIn ? stores.ProviderStore.getAll() : null,
-        identities = hasUserLoggedIn ? stores.IdentityStore.getAll() : null;
+        hasLoggedInUser = context.hasLoggedInUser(),
+        providers = hasLoggedInUser ? stores.ProviderStore.getAll() : null,
+        identities = hasLoggedInUser ? stores.IdentityStore.getAll() : null;
 
       if(!image || !tags) return <div className='loading'></div>;
 
       // If the user isn't logged in, display the public view, otherwise
       // wait for providers and instances to be fetched
-      if (!hasUserLoggedIn) {
+      if (!hasLoggedInUser) {
         return (
           <ImageDetailsView
             image={image}
