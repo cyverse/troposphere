@@ -111,6 +111,13 @@ class SiteMetadata(SingletonModel):
         max_length=254,
         default=b"http://cyverse.org/learning-center/manage-account#AddAppsServices",
         help_text="Hyperlink to instructions on creating account.")
+    display_status_page_link = models.BooleanField(
+        default=True,
+        help_text="Whether to display a status page link.")
+    status_page_link = models.CharField(
+        max_length=254,
+        default=b"http://atmosphere.status.io",
+        help_text="Hyperlink to page communicate Atmosphere stats information.")
 
     class Meta:
         db_table = 'site_metadata'
