@@ -60,8 +60,10 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
         # version of the site.
         if hasattr(settings, "INTERCOM_APP_ID"):
             template_params['intercom_app_id'] = settings.INTERCOM_APP_ID
-            template_params['intercom_company_id'] = settings.INTERCOM_COMPANY_ID
-            template_params['intercom_company_name'] = settings.INTERCOM_COMPANY_NAME
+            template_params['intercom_company_id'] = \
+                settings.INTERCOM_COMPANY_ID
+            template_params['intercom_company_name'] = \
+                settings.INTERCOM_COMPANY_NAME
 
     template_params['SITE_TITLE'] = settings.SITE_TITLE
     template_params['SITE_FOOTER'] = settings.SITE_FOOTER
@@ -71,7 +73,7 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
 
     #TODO: Replace this line when theme support is re-enabled.
     #template_params["THEME_URL"] = "assets/"
-    template_params["THEME_URL"] = "/themes/%s" % settings.THEME_NAME
+    template_params['THEME_URL'] = "/themes/%s" % settings.THEME_NAME
     template_params['ORG_NAME'] = settings.ORG_NAME
 
     if hasattr(settings, "BASE_URL"):
@@ -93,8 +95,8 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
         template_params['API_V2_ROOT'] = settings.API_V2_ROOT
 
     if hasattr(settings, "USE_GATE_ONE_API"):
-        template_params["USE_GATE_ONE_API"] = settings.USE_GATE_ONE_API
-        template_params["WEB_SH_URL"] = settings.WEB_SH_URL
+        template_params['USE_GATE_ONE_API'] = settings.USE_GATE_ONE_API
+        template_params['WEB_SH_URL'] = settings.WEB_SH_URL
 
     return template_params, show_troposphere_only
 
@@ -237,7 +239,7 @@ def forbidden(request):
     metadata = get_site_metadata()
     template_params = {}
 
-    template_params["THEME_URL"] = "/themes/%s" % settings.THEME_NAME
+    template_params['THEME_URL'] = "/themes/%s" % settings.THEME_NAME
     template_params['ORG_NAME'] = settings.ORG_NAME
     template_params['SITE_TITLE'] = settings.SITE_TITLE
     template_params['SITE_FOOTER'] = settings.SITE_FOOTER
