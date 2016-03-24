@@ -11,7 +11,7 @@ def create_sitemetadata(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api', '0007_alter_helplink_defaults'),
+        ('api', '0004_userpreferences_airport_ui'),
     ]
 
     operations = [
