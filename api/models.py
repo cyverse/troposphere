@@ -82,25 +82,6 @@ class UserPreferences(models.Model):
         return "%s" % self.user.username
 
 
-class HelpLink(models.Model):
-    link_key = models.CharField(max_length=256)
-    topic = models.CharField(max_length=256)
-    context = models.TextField(default='', null=True, blank=True)
-    href = models.TextField()
-
-    created_date = models.DateTimeField(auto_now_add=True)
-    modified_date = models.DateTimeField(auto_now=True)
-
-    def delete(self, *args, **kwargs):
-        """
-        Block the outright deletion of HelpLinks
-        """
-        pass
-
-    def __unicode__(self):
-        return "(%s) => %s" % (self.topic, self.href)
-
-
 portal_link_text_help_text = """
     Text used for User Portal hyperlink; state exactly as should appear.
 """

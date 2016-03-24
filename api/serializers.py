@@ -1,16 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from api.models import UserPreferences, HelpLink
-
-
-class HelpLinkSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = HelpLink
-        fields = (
-            'link_key',
-            'href'
-        )
+from api.models import UserPreferences
 
 
 class UserPreferencesSummarySerializer(serializers.HyperlinkedModelSerializer):
