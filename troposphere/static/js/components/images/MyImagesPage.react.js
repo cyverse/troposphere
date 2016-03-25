@@ -17,7 +17,11 @@ define(function(require) {
         helpLinks = stores.HelpLinkStore.getAll(),
         imagingDocsUrl;
 
+/* relates to ATMO-1230, links move to atmo-db; pending dev
       if (!images || !tags || !helpLinks) {
+*/
+
+      if (!images || !tags) {
         return <div className="loading"></div>;
       }
 
