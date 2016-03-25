@@ -11,11 +11,7 @@ var Activity = React.createClass({
       render: function () {
         var instance = this.props.instance;
 
-        var activity = instance.get('activity');
-
-        if (!activity){
-            activity = "N/A";
-        }
+        var activity = instance.get('state').get('activity');
 
         return (
           <span>{activity}</span>
