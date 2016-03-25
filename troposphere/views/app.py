@@ -188,7 +188,6 @@ def _handle_authenticated_application_request(request, maintenance_records):
 
 
 def application_backdoor(request):
-    response = HttpResponse()
     maintenance_records, disabled_login = get_maintenance(request)
     # This should only apply when in maintenance//login is disabled
     if not disabled_login or maintenance_records.count() == 0:
@@ -198,7 +197,9 @@ def application_backdoor(request):
         logger.warn('[Backdoor] %s is NOT in staff_list_usernames' % request.user.username)
         return redirect('maintenance')
     disabled_login = False
+
     maintenance_records = MaintenanceRecord.objects.none()
+
     if request.user.is_authenticated():
         return _handle_authenticated_application_request(request, maintenance_records)
     else:
@@ -206,12 +207,12 @@ def application_backdoor(request):
 
 
 def application(request):
-    response = HttpResponse()
     maintenance_records, disabled_login = get_maintenance(request)
 
     if disabled_login and request.user.is_staff is not True and request.user.username not in STAFF_LIST_USERNAMES:
         logger.warn('[App] %s logged in but is NOT in staff_list_usernames' % request.user.username)
         return redirect('maintenance')
+
     if request.user.is_authenticated() and has_valid_token(request.user):
         return _handle_authenticated_application_request(request, maintenance_records)
     else:
