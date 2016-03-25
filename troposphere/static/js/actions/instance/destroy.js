@@ -17,7 +17,7 @@ define(function (require) {
       var instance = payload.instance,
         project = payload.project,
         originalState = instance.get('state'),
-        instanceState = new InstanceState({status_raw: originalState.get("status") + " - deleting"}),
+        instanceState = new InstanceState({status_raw: originalState.get("status"), status: originalState.get("status"), activity: "deleting"}),
         identity = instance.get('identity'),
         provider = instance.get('provider'),
         url = (

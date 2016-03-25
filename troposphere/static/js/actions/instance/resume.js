@@ -12,7 +12,7 @@ define(function (require) {
       if (!params.instance) throw new Error("Missing instance");
 
       var instance = params.instance,
-        instanceState = new InstanceState({status_raw: "suspended - resuming"}),
+        instanceState = new InstanceState({status_raw: "suspended - resuming", status: "active", activity: "resuming"}),
         originalState = instance.get('state'),
         actionRequest = new InstanceActionRequest({instance: instance});
 
@@ -23,7 +23,7 @@ define(function (require) {
         attrs: {action: "resume"}
       }).done(function () {
         instance.set({
-          state: new InstanceState({status_raw: "suspended - resuming"})
+          state: instanceState
         });
       }).fail(function (response) {
         instance.set({state: originalState});
