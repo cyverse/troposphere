@@ -36,7 +36,7 @@ export default React.createClass({
     validateKey: function() {
         let parts = this.state.pubKey.split(/ +/);
         let lengthTest = parts.length == 2 || parts.length == 3
-        let keyTypeTest = /^(ssh-dss|ecdsa-sha2-nistp256|ssh-ed25519|ssh-rsa)/.test(this.state.pubKey);
+        let keyTypeTest = /^(ssh-dss|ecdsa-sha2-nistp256|ssh-ed25519|ssh-rsa) /.test(this.state.pubKey);
 
         return keyTypeTest && lengthTest;
     },
