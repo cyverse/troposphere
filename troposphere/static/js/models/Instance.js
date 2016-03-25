@@ -34,6 +34,7 @@ define(
         Backbone.sync("read", this, {
           url:url
         }).done(function(attrs, status, response){
+          this.set('activity', attrs.activity);
           this.set('ip_address', attrs.ip_address);
           this.set('status', attrs.status);
           this.set('state', new InstanceState({status_raw: attrs.status}));
