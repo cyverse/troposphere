@@ -16,7 +16,10 @@ define(function (require) {
         volume = stores.VolumeStore.get(Number(this.getParams().volumeId)),
         helpLinks = stores.HelpLinkStore.getAll();
 
+/* relates to ATMO-1230, links move to atmo-db; pending dev
       if (!project || !volume || !helpLinks) {
+*/
+      if (!project || !volume) {
         return <div className="loading"></div>;
       }
 
