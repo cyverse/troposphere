@@ -13,9 +13,15 @@ define(function (require) {
 
     render: function () {
       var project = stores.ProjectStore.get(Number(this.getParams().projectId)),
-        volume = stores.VolumeStore.get(Number(this.getParams().volumeId));
+        volume = stores.VolumeStore.get(Number(this.getParams().volumeId)),
+        helpLinks = stores.HelpLinkStore.getAll();
 
-      if (!project || !volume) return <div className="loading"></div>;
+/* relates to ATMO-1230, links move to atmo-db; pending dev
+      if (!project || !volume || !helpLinks) {
+*/
+      if (!project || !volume) {
+        return <div className="loading"></div>;
+      }
 
       return (
         <ProjectResourcesWrapper project={project}>
