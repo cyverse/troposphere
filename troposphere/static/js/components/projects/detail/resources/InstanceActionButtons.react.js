@@ -45,7 +45,7 @@ define(function (require) {
 
     render: function () {
       var instance = this.props.instance,
-        status = instance.get('state').get('status'),
+        status = instance.get('state').get('raw_status'),
         linksArray = [];
 
       if (!this.props.multipleSelected && instance.get('state').isInFinalState()) {
