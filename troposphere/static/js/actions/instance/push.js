@@ -24,6 +24,10 @@ define(function (require) {
     if (payload.hasOwnProperty('status')) {
         payload.state = new InstanceState({status_raw: payload.status})
     }
+    //DEBUG to the rescue
+    console.log("Pushing latest state");
+    console.log(instance);
+    console.log(data.payload);
     actions.InstanceActions.pushUpdate(instance, data.payload);
 
   }
