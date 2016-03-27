@@ -81,7 +81,7 @@ define(function (require) {
             instance.set('projects', [project.id]);
 
             Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
-            Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+            Utils.dispatch(InstanceConstants.PUSH_INSTANCE, {instance: instance});
         });
 
         // Save projectInstance to db

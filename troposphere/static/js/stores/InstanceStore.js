@@ -4,6 +4,7 @@ define(function (require) {
     BaseStore = require('stores/BaseStore'),
     InstanceCollection = require('collections/InstanceCollection'),
     _ = require('underscore'),
+    actions = require('actions'),
     Utils = require('actions/Utils'),
     InstanceConstants = require('constants/InstanceConstants'),
     InstanceState = require('models/InstanceState');
@@ -16,8 +17,8 @@ define(function (require) {
     },
 
     initialize: function () {
-      this.pollingEnabled = true;
-      this.pollingFrequency = 10 * 1000;
+      this.pollingEnabled = false;
+      //this.pollingFrequency = 10 * 1000;
     },
 
     // ----------------
@@ -113,6 +114,14 @@ define(function (require) {
         store.remove(payload.instance);
         break;
 
+      case InstanceConstants.PUSH_INSTANCE:
+        // Make this call when you have finished
+        // Creating a new instance so that you can
+        // be added to the update list
+        // across the stores.
+        actions.InstanceActions.initiatePush()
+        break;
+
       case InstanceConstants.PUSH_UPDATE_INSTANCE:
         // Make this call when you have finished
         // 'Modeling' a payload.instance to be updated
@@ -121,12 +130,9 @@ define(function (require) {
         break;
 
       case InstanceConstants.POLL_INSTANCE:
-        // This happens whether or not polling is enabled in basestore (seems unintuitive)
-        store.pollNowUntilBuildIsFinished(payload.instance);
         break;
 
       case InstanceConstants.POLL_FOR_DELETED:
-        store.pollUntilDeleted(payload.instance);
         break;
 
       default:
