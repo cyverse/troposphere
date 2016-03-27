@@ -89,6 +89,7 @@ define(function (require) {
         } else {
             actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
         }
+        actions.InstanceActions.initiatePush();
       }
 
       if (globals.BADGES_ENABLED){

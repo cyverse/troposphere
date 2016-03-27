@@ -65,17 +65,6 @@ define(function (require) {
         return instance.get('state').isInFinalState();
     },
 
-    // Push for instance model
-    initiatePush: function(instance) {
-        let socket = start_socket_session('/connect/instances', instance.get('uuid'), function(e) {
-            console.log(e)
-            console.log(e.data)
-            //Convert e.data into the new values necessary for 'instance'
-            //Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
-        });
-        return socket;
-    },
-
     // Poll for a model
     pollUntilDeleted: function(instance) {
         this.pollWhile(instance, function(model, response) {
@@ -124,9 +113,11 @@ define(function (require) {
         store.remove(payload.instance);
         break;
 
-      case InstanceConstants.PUSH_INSTANCE:
-        // This call will initiate a new socket session
-        store.initiatePush(payload.instance);
+      case InstanceConstants.PUSH_UPDATE_INSTANCE:
+        // Make this call when you have finished
+        // 'Modeling' a payload.instance to be updated
+        // across the stores.
+        store.update(payload.instance);
         break;
 
       case InstanceConstants.POLL_INSTANCE:
