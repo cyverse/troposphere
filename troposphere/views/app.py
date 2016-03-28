@@ -25,6 +25,16 @@ def root(request):
     return redirect('application')
 
 
+def should_route_to_maintenace(request, in_maintenance):
+    """
+    Indicate if a response should be handled by the maintenance view.
+    """
+    return (in_maintenance
+        and request.user.is_staff is not True
+        and request.user.username not in STAFF_LIST_USERNAMES
+        and not is_emulated_session(request))
+
+
 def _should_show_troposphere_only():
     # `SHOW_TROPOSPHERE_ONLY` may not be present in `settings`, so use
     # `hasattr` to handle when it is not present & avoid 500 errors on load.
