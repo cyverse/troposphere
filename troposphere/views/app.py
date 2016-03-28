@@ -198,10 +198,11 @@ def _handle_authenticated_application_request(request, maintenance_records):
 
 
 def application_backdoor(request):
-    maintenance_records, disabled_login = get_maintenance(request)
+    maintenance_records, _, in_maintenance = get_maintenance(request)
     # This should only apply when in maintenance//login is disabled
-    if not disabled_login or maintenance_records.count() == 0:
-        return application(request)
+    if maintenance_records.count() == 0:
+        logger.info('No maintenance, Go to /application - do not collect $100')
+        return redirect('application')
 
     if request.user.is_authenticated() and request.user.username not in STAFF_LIST_USERNAMES:
         logger.warn('[Backdoor] %s is NOT in staff_list_usernames' % request.user.username)
@@ -210,17 +211,16 @@ def application_backdoor(request):
 
     maintenance_records = MaintenanceRecord.objects.none()
 
-    if request.user.is_authenticated():
-        return _handle_authenticated_application_request(request, maintenance_records)
-    else:
-        return _handle_public_application_request(request, maintenance_records, disabled_login=disabled_login)
 
 
 def application(request):
-    maintenance_records, disabled_login = get_maintenance(request)
+    maintenance_records, disabled_login, in_maintenance = \
+        get_maintenance(request)
 
-    if disabled_login and request.user.is_staff is not True and request.user.username not in STAFF_LIST_USERNAMES:
-        logger.warn('[App] %s logged in but is NOT in staff_list_usernames' % request.user.username)
+    if should_route_to_maintenace(request, in_maintenance):
+        logger.warn('%s has actice session but is NOT in staff_list_usernames'
+            % request.user.username)
+        logger.warn('- routing user')
         return redirect('maintenance')
 
     if request.user.is_authenticated() and has_valid_token(request.user):
