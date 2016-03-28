@@ -30,7 +30,6 @@ def _mock_login(request):
     _apply_token_to_session(request, last_token.key)
 
     if request.session.get('redirect_to'):
-        # include for local development
         logger.debug("Found `redirect_to` in session... ")
         logger.debug("Redirecting to: %s" %
             (request.session.get('redirect_to'),))
@@ -38,7 +37,6 @@ def _mock_login(request):
         redirect_url = request.session.pop('redirect_to')
         return redirect(redirect_url)
     elif 'redirect_to' in request.GET:
-        # include for local development
         logger.debug("Found `redirect_to` in GET params... ")
         logger.debug("Redirecting to: %s" %
             (request.GET.get('redirect_to'),))
