@@ -1,6 +1,8 @@
 import json
 import logging
 
+from urllib import urlencode
+
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, render_to_response
@@ -207,9 +209,16 @@ def application_backdoor(request):
     if request.user.is_authenticated() and request.user.username not in STAFF_LIST_USERNAMES:
         logger.warn('[Backdoor] %s is NOT in staff_list_usernames' % request.user.username)
         return redirect('maintenance')
-    disabled_login = False
 
-    maintenance_records = MaintenanceRecord.objects.none()
+    # route a potential VIP to login
+    query_arguments = {
+        'redirect_to': '/application',
+        'beta': 'true',
+        'airport_ui': 'false',
+        'bsp': 'true'
+    }
+    # I'm on the Guest List! Backstage Pass!
+    return redirect('/login?%s' % (urlencode(query_arguments),))
 
 
 
