@@ -21,7 +21,7 @@ define(
         var activity = instanceState.get('activity');
         var lightStatus;
 
-        if (activity != undefined) {
+        if (activity) {
             lightStatus = "transition";
         } else if (status == "active") {
             lightStatus = "active";
