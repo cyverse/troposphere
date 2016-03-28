@@ -13,11 +13,12 @@ def get_maintenance(request):
     """
     records = MaintenanceRecord.active()
     disable_login = MaintenanceRecord.disable_login_access(request)
-    return (records, disable_login)
+    in_maintenance = records.count() > 0
+    return (records, disable_login, in_maintenance)
 
 
 def maintenance(request):
-    records, disabled = get_maintenance(request)
+    records, disabled, in_maint = get_maintenance(request)
 
     if not disabled:
         return redirect("/login")
