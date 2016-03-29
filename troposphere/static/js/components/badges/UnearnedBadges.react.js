@@ -23,10 +23,6 @@ define(function (require) {
       };
     },
 
-    grantDemo: function(){
-        actions.BadgeActions.checkOrGrant(Badges.DEMO_BADGE);
-    },
-
     render: function () {
       // get around undefined email when calling from MyBadgeStore
       var email = stores.ProfileStore.get().get('email'),
@@ -68,7 +64,6 @@ define(function (require) {
 
       return (
         <div className="to-earn">
-          <button className="btn btn-info" onClick = {this.grantDemo}>Earn demo badge</button>
           <ul id="all-badges-list">
           {badgeDisplay}
           </ul>
