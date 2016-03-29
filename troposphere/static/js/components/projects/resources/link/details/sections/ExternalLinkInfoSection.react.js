@@ -14,11 +14,11 @@ define(function (require) {
     displayName: "ExternalLinkInfoSection",
 
     propTypes: {
-      external_link: React.PropTypes.instanceOf(Backbone.Model).isRequired
+      link: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
     getInitialState: function () {
-      var link = this.props.external_link;
+      var link = this.props.link;
 
       return {
         name: link.get('title'),
@@ -43,7 +43,7 @@ define(function (require) {
     },
 
     onDoneEditingDescription: function (text) {
-      var link = this.props.external_link;
+      var link = this.props.link;
 
       this.setState({
         description: text,
@@ -53,7 +53,7 @@ define(function (require) {
     },
 
     onDoneEditingLink: function (text) {
-      var link = this.props.external_link;
+      var link = this.props.link;
 
       this.setState({
         link: text,
@@ -63,7 +63,7 @@ define(function (require) {
     },
 
     onDoneEditingName: function (text) {
-      var link = this.props.external_link;
+      var link = this.props.link;
 
       this.setState({
         name: text,
@@ -73,7 +73,7 @@ define(function (require) {
     },
 
     render: function () {
-      var link = this.props.external_link,
+      var link = this.props.link,
         profile = stores.ProfileStore.get(),
         type = profile.get('icon_set'),
         instanceHash = CryptoJS.MD5((link.id || link.cid).toString()).toString(),

@@ -15,6 +15,7 @@ define(function (require) {
       var project = stores.ProjectStore.get(Number(this.getParams().projectId));
       var linkId = this.getParams().linkId;
       var link = stores.ExternalLinkStore.get(linkId);
+
       if (!project || !link) return <div className="loading"></div>;
 
       return (
