@@ -10,26 +10,26 @@ define(function (require) {
     displayName: "ExternalLinkActions",
 
     propTypes: {
-      external_link: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+      link: React.PropTypes.instanceOf(Backbone.Model).isRequired,
       project: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
     onDelete: function () {
       var project = this.props.project,
-        link = this.props.external_link;
+        link = this.props.link;
 
       modals.ExternalLinkModals.destroy({
-        external_link: this.props.external_link,
+        link: this.props.link,
         project: this.props.project
       });
     },
 
     handleReport: function () {
-      modals.ExternalLinkModals.report({external_link: this.props.external_link});
+      modals.ExternalLinkModals.report({link: this.props.link});
     },
 
     render: function () {
-      var link = this.props.external_link;
+      var link = this.props.link;
       var linksArray = [
         {label: 'Actions', icon: null},
         {label: 'Go To Link', icon: 'globe', target:"_blank", href: link.get('link'), onClick: this.handleReport}
