@@ -27,11 +27,10 @@ export default React.createClass({
         let parts = key.split(/\s+/g);
         let err = "";
 
-        console.log(parts[0]);
         if (!this.validateKeyType(parts[0])) {
             err = "Public key must begin with either ssh-rsa, ssh-dss, ecdsa-sha2-nistp256, or ssh-ed25519";
         } else if (!this.validateOneLine(key)) {
-            err = "Public key cannot contain line breaks"; 
+            err = "Public key cannot contain line breaks";
         } else if (!this.validateNumOfParts(key)) {
             err = "Public key can only contain 2 or 3 parts";
         } else if (!this.validateKeyBodyBase64(parts[1])) {
@@ -58,7 +57,7 @@ export default React.createClass({
     },
 
     validateOneLine: function(key) {
-        return /^[^\n]*$/.test(key); 
+        return /^[^\n]*$/.test(key);
     },
 
     validateNumOfParts: function(key) {
@@ -76,9 +75,9 @@ export default React.createClass({
     validateKey: function() {
         let parts = this.state.pubKey.split(/\s+/g);
 
-        return this.validateKeyType(parts[0]) && 
-               this.validateNumOfParts(this.state.pubKey) && 
-               this.validateOneLine(this.state.pubKey) && 
+        return this.validateKeyType(parts[0]) &&
+               this.validateNumOfParts(this.state.pubKey) &&
+               this.validateOneLine(this.state.pubKey) &&
                this.validateKeyBodyBase64(parts[1]);
     },
 
