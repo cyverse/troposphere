@@ -11,9 +11,16 @@ export default React.createClass({
 
     render: function () {
       var project = stores.ProjectStore.get(Number(this.getParams().projectId)),
-        instance = stores.InstanceStore.get(Number(this.getParams().instanceId));
+        instance = stores.InstanceStore.get(Number(this.getParams().instanceId)),
+        helpLinks = stores.HelpLinkStore.getAll();
 
-      if (!project || !instance) return <div className="loading"></div>;
+/* relates to ATMO-1230, links move to atmo-db; pending dev
+      if (!project || !instance || !helpLinks) {
+*/
+
+      if (!project || !instance) {
+        return <div className="loading"></div>;
+      }
 
       return (
         <ProjectResourcesWrapper project={project}>

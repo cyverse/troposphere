@@ -25,17 +25,24 @@ export default React.createClass({
     renderForRouter: function () {
       var project = this.props.project;
       return (
-        <li className={"project-card " + this.props.className}>
-          <Router.Link to="project-resources" params={{projectId: project.id}}>
-            {this.renderBody()}
-          </Router.Link>
+        <li className={"col-md-4" + this.props.className} style={{padding: "15px"}}>
+          <div className="media card">
+            <Router.Link to="project-resources" 
+              params={{projectId: project.id}}
+              style={{color: "inherit"}}
+            >
+              {this.renderBody()}
+            </Router.Link>
+          </div>
         </li>);
     },
     renderForClick: function () {
       var project = this.props.project;
       return (
-        <li className="project-card" onClick={this.clicked}>
-          {this.renderBody()}
+        <li className={"col-md-4" + this.props.className} style={{padding: "15px"}}>
+          <div className="media card">
+            {this.renderBody()}
+          </div>
         </li>);
     },
     render: function () {
@@ -47,14 +54,12 @@ export default React.createClass({
 
       if (!project.id || !projectExternalLinks || !projectInstances || !projectVolumes || !projectImages) {
         return (
-          <li>
-            <a>
-              <div>
-                <h2>{project.get('name')}</h2>
+        <li className={"col-md-4" + this.props.className} style={{padding: "15px"}}>
+          <div className="media card">
+                <h2 className="t-title">{project.get('name')}</h2>
 
                 <div className="loading" style={{marginTop: "65px"}}/>
-              </div>
-            </a>
+            </div>
           </li>
         );
       }
@@ -69,7 +74,6 @@ export default React.createClass({
       var project = this.props.project,
         converter = new Showdown.Converter(),
         description = project.get('description'),
-        descriptionHtml = converter.makeHtml(description),
         projectExternalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(project),
         projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
         projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project),
@@ -78,29 +82,36 @@ export default React.createClass({
 
       return (
         <div style={{"position": "relative"}}>
-          <div className="content">
-            <h2>{project.get('name')}</h2>
-            <time>{"Created " + projectCreationDate}</time>
-            <div className="description" dangerouslySetInnerHTML={{__html: descriptionHtml}}/>
+          <div className="media__content">
+            <h2 className="t-title">{project.get('name')}</h2>
+            <hr/>
+            <time className="t-caption" style={{display: "block"}}>{"Created " + projectCreationDate}</time>
+            <p className="description" 
+              style={{minHeight: "200px"}} 
+            >
+                {description}
+            </p>
           </div>
-          <ul className="project-resource-list">
-            <ProjectResource icon={"tasks"}
-                             count={projectInstances.length}
-                             resourceType={"instances"}
-              />
-            <ProjectResource icon={"hdd"}
-                             count={projectVolumes.length}
-                             resourceType={"volumes"}
-              />
-            <ProjectResource icon={"floppy-disk"}
-                             count={projectImages.length}
-                             resourceType={"images"}
-              />
-            <ProjectResource icon={"globe"}
-                             count={projectExternalLinks.length}
-                             resourceType={"links"}
-              />
-          </ul>
+          <div className="media__footer">
+            <ul className="project-resource-list ">
+                <ProjectResource icon={"tasks"}
+                                count={projectInstances.length}
+                                resourceType={"instances"}
+                />
+                <ProjectResource icon={"hdd"}
+                                count={projectVolumes.length}
+                                resourceType={"volumes"}
+                />
+                <ProjectResource icon={"floppy-disk"}
+                                count={projectImages.length}
+                                resourceType={"images"}
+                />
+                <ProjectResource icon={"globe"}
+                                count={projectExternalLinks.length}
+                                resourceType={"links"}
+                />
+            </ul>
+          </div>
         </div>
       );
     }

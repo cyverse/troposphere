@@ -23,13 +23,14 @@ Backbone.Collection.prototype.get = function(obj) {
 };
 
 // Extend the base collection to include useful functions
-Backbone.Collection = Backbone.Collection.extend(FunctionalCollection);
+_.extend(Backbone.Collection.prototype, FunctionalCollection);
 
 import stores from 'stores';
 
 stores.AllocationStore = require('stores/AllocationStore');
 stores.BadgeStore = require('stores/BadgeStore');
 stores.ExternalLinkStore = require('stores/ExternalLinkStore');
+stores.HelpLinkStore = require('stores/HelpLinkStore');
 stores.ImageStore = require('stores/ImageStore');
 stores.ImageVersionStore = require('stores/ImageVersionStore');
 stores.ImageVersionMembershipStore = require('stores/ImageVersionMembershipStore');

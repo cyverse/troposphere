@@ -1,6 +1,8 @@
 import ModalHelpers from 'components/modals/ModalHelpers';
 import actions from 'actions';
+import stores from 'stores';
 import VolumeReportModal from 'components/modals/volume/VolumeReportModal.react';
+
 
 export default {
     report: function (params) {
@@ -8,7 +10,9 @@ export default {
 
       var volume = params.volume,
         props = {
-          volume: volume
+          volume: volume,
+          troubleshooting: stores.HelpLinkStore.get('faq'),
+          helpLink: stores.HelpLinkStore.get('volumes')
         };
 
       ModalHelpers.renderModal(VolumeReportModal, props, function (reportInfo) {

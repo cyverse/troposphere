@@ -5,6 +5,7 @@ let Route = Router.Route,
     Redirect = Router.Redirect,
     DefaultRoute = Router.DefaultRoute;
 
+
 import Master from './components/Master.react';
 import BadgeMaster from './components/badges/BadgeMaster.react';
 import MyBadges from './components/badges/MyBadges.react';
@@ -30,6 +31,7 @@ import MyImagesPage from './components/images/MyImagesPage.react';
 import MyImageRequestsPage from './components/images/MyImageRequestsPage.react';
 import ImageTagsPage from './components/images/ImageTagsPage.react';
 import ImagesMaster from './components/images/ImagesMaster.react';
+import InstanceHistoryDetail from './components/common/InstanceHistoryDetail.react';
 import SettingsPage from './components/settings/SettingsPage.react';
 import ProjectInstancePage from "./components/projects/InstanceDetailsPage.react";
 import ProjectVolumePage from "./components/projects/VolumeDetailsPage.react";
@@ -37,6 +39,7 @@ import ProjectLinkPage from "./components/projects/ExternalLinkDetailsPage.react
 import AdminMaster from './components/admin/AdminMaster.react';
 import AtmosphereUserMaster from './components/admin/AtmosphereUserMaster.react';
 import ImageMaster from './components/admin/ImageMaster.react';
+import ImageRequest from './components/admin/ImageRequest.react';
 import IdentityMembershipMaster from './components/admin/IdentityMembershipMaster.react';
 import ResourceMaster from './components/admin/ResourceMaster.react';
 import ResourceRequest from './components/admin/ResourceRequest.react';
@@ -83,7 +86,9 @@ let AppRoutes = (
         <Route name="resource-request-manager" path="resource-requests" handler={ResourceMaster}>
           <Route name="resource-request-detail" path=":id" handler={ResourceRequest}/>
         </Route>
-        <Route name="image-request-manager" path="imaging-requests" handler={ImageMaster} />
+        <Route name="image-request-manager" path="imaging-requests" handler={ImageMaster}>
+          <Route name="image-request-detail" path=":id" handler={ImageRequest}/>
+        </Route>
         <DefaultRoute handler={AtmosphereUserMaster}/>
       </Route>
 
@@ -96,6 +101,10 @@ let AppRoutes = (
       <Route name="my-requests" handler={RequestMaster}>
         <Route name="my-requests-resources" path="resources" handler={RequestHistory} />
         <Route name="my-requests-images" path="images" handler={MyImageRequestsPage} />
+      </Route>
+
+      <Route name="instance-history">
+        <Route name="instance-history-detail" path=":id" handler={InstanceHistoryDetail} />
       </Route>
 
       <DefaultRoute handler={DashboardPage}/>

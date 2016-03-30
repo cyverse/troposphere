@@ -9,7 +9,8 @@ export default React.createClass({
       mixins: [BootstrapModalMixin],
 
       propTypes: {
-        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        helpLink: React.PropTypes.instanceOf(Backbone.Model).isRequired
       },
 
       //
@@ -32,15 +33,17 @@ export default React.createClass({
       //
 
       renderBody: function () {
-        var volume = this.props.volume;
+        var volume = this.props.volume,
+            helpLink = this.props.helpLink;
+
         return (
           <div>
             <p className='alert alert-danger'>
               <Glyphicon name='warning-sign'/>
               <strong>{"WARNING "}</strong>
               {
-                "If data is being written to the volume when it's detached, the data may become corrupted. Therefore, " +
-                "we recommend you make sure there is no data being written to the volume before detaching it."
+                `If data is being written to the volume when it's detached, the data may become corrupted. Therefore, ` +
+                `we recommend you make sure there is no data being written to the volume before detaching it.`
               }
             </p>
 
@@ -52,7 +55,7 @@ export default React.createClass({
 
             <p>
               <a
-                href="https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachinganEBSVolumetoanInstance-Step7%3AUnmountanddetachthevolume."
+                href={this.props.helpLink.get('href')}
                 target="_blank">
                 {"Learn more about unmounting and detaching a volume"}
               </a>

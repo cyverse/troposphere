@@ -10,15 +10,9 @@ export default React.createClass({
     mixins: [Router.State],
 
     getInitialState: function(){
-      stores.StatusStore.getAll();
       return{
-        displayAdmin: false,
         response: ""
       }
-    },
-
-    handleDisplayChange: function (event){
-      this.setState({displayAdmin: !this.state.displayAdmin});
     },
 
     handleResponseChange: function (event) {
@@ -28,7 +22,7 @@ export default React.createClass({
 
     approve: function(){
 
-      var request = this.props.request,
+      var request = stores.ImageRequestStore.get(this.getParams().id),
       status = stores.StatusStore.findOne({name: "approved"});
 
       ImageRequestActions.update({
@@ -41,7 +35,7 @@ export default React.createClass({
 
     deny: function(){
 
-      var request = this.props.request,
+      var request = stores.ImageRequestStore.get(this.getParams().id),
       status = stores.StatusStore.findOne({name: "rejected"});
 
       ImageRequestActions.update({
@@ -54,7 +48,7 @@ export default React.createClass({
 
     resubmit: function(){
 
-      var request = this.props.request,
+      var request = stores.ImageRequestStore.get(this.getParams().id),
       status = stores.StatusStore.findOne({name: "pending"});
 
       ImageRequestActions.update({
@@ -65,8 +59,8 @@ export default React.createClass({
 
     },
 
-    renderAdminDetails: function(){
-      var request = this.props.request,
+    render: function () {
+      var request = stores.ImageRequestStore.get(this.getParams().id),
           instance = request.get('instance');
 
       // ensure boolean values are displayed as strings
@@ -82,15 +76,12 @@ export default React.createClass({
       }
 
       return(
-        <div className="row admin-detail">
-          <div className="pull-left col-md-3">
+        <div className="request-admin pull-right admin-detail">
+          <div>
             <div>Request ID: {request.get('id')}</div>
             <div>Installed software: {request.get('installed_software')}</div>
-            <div>Instance:</div>
-            <ul>
-              <li>ID: {instance.id}</li>
-              <li>Name: {instance.name}</li>
-            </ul>
+            <div>Instance ID: {instance.id}</div>
+            <div>Instance name: {instance.name}</div>
             <div>iPlant sys files: {request.get('iplant_sys_files')}</div>
             <div>New application description: {request.get('new_application_description')}</div>
             <div>New application name: {request.get('new_application_name')}</div>
@@ -100,7 +91,7 @@ export default React.createClass({
             <div>Forked: {forked}</div>
           </div>
 
-          <div className="pull-left col-md-3">
+          <div>
             <div>New version licenses: {request.get('new_version_licenses')}</div>
             <div>New version memory min: {request.get('new_version_memory_min')}</div>
             <div>New version cpu min: {request.get('new_version_cpu_min')}</div>
@@ -111,34 +102,15 @@ export default React.createClass({
             <div>Status: {request.get('status').name}</div>
           </div>
 
-          <div className="pull-right col-md-6">
-            <textarea type="text" form="admin" value={this.state.value} cols="60" rows="8"
-              onChange={this.handleResponseChange}/>
-            <button onClick={this.approve} type="button" className="btn btn-default btn-sm">Approve</button>
-            <button onClick={this.deny} type="button" className="btn btn-default btn-sm">Deny</button>
-            <button onClick={this.resubmit} type="button" className="btn btn-default btn-sm">Re-Submit</button>
+          <div className="request-actions">
+            <h4>Response:</h4><br />
+            <textarea type="text" form="admin" value={this.state.value}
+              onChange={this.handleResponseChange}/><br />
+            <button disabled={request.get('status').name != 'pending'}onClick={this.approve} type="button" className="btn btn-default btn-sm">Approve</button>
+            <button disabled={request.get('status').name != 'pending'}onClick={this.deny} type="button" className="btn btn-default btn-sm">Deny</button>
+            <button disabled={request.get('status').name == 'closed'}onClick={this.resubmit} type="button" className="btn btn-default btn-sm">Re-Submit</button>
           </div>
         </div>
-      );
-    },
-
-    render: function () {
-      var request = this.props.request,
-          adminDisplay;
-
-      if(this.state.displayAdmin){
-        adminDisplay = this.renderAdminDetails();
-      }
-
-      return(
-        <li className="request clearfix">
-          <a onClick={this.handleDisplayChange}>
-            <div>{request.get('new_machine_owner').username}</div>
-            <div>{request.get('instance').name}</div>
-            <div>{request.get('status').name}</div>
-          </a>
-          {adminDisplay}
-        </li>
       );
     }
 });

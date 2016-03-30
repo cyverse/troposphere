@@ -1,0 +1,24 @@
+.TabLinks {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px;
+    border-bottom: 1px solid $grey--lightmid;
+
+    .TabLinks-link {
+        display: inline-block;
+        margin-right: 20px;
+        a {
+            display: block;
+            color: $grey--mid;
+            padding: 10px 0;
+            border-bottom: solid 5px transparent;
+            &:hover {
+                color: black;
+            }
+        }
+        a.TabLinks--active {
+            color: black;
+            border-bottom: solid 5px $brand-primary;
+        }
+    }
+}

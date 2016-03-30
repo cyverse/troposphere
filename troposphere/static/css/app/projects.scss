@@ -1,79 +1,6 @@
 #project-list {
-  margin: 0;
   padding: 0;
   list-style: none;
-
-  > li {
-    background: #fff;
-    border: 1px solid #ccc;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
-
-    display: inline-block;
-    position: relative;
-    margin-right: 50px;
-    margin-bottom: 50px;
-    float: left;
-    &.active {
-      border: 1px solid #F00;
-    }
-    &:nth-child(3n) {
-      margin-right: 0;
-    }
-
-    .content {
-      max-height: 219px;
-      overflow-y: hidden;
-    }
-
-    .description {
-      color: #6D6E71;
-      margin-top: 5px;
-    }
-
-    > a > div {
-      padding: 15px;
-      height: 275px;
-      width: 344px; //225px; //width: 278px;
-
-      h2 {
-        font-size: 19px;
-        margin: 0;
-        color: #231F20;
-      }
-
-      time {
-        color: #6D6E71;
-      }
-    }
-  }
-}
-
-@media (max-width: 1199px) {
-  #project-list > li {
-    &:nth-child(3n) {
-      margin-right: 0;
-    }
-
-    > a > div {
-      width: 278px;
-    }
-  }
-}
-
-@media (max-width: 991px) {
-  #project-list > li {
-    &:nth-child(2n) {
-      margin-right: 0;
-    }
-
-    &:nth-child(3n) {
-      margin-right: 50px;
-    }
-
-    > a > div {
-      width: 333px;
-    }
-  }
 }
 
 // Project Resource Modal
@@ -166,8 +93,6 @@
 }
 
 ul.project-resource-list {
-  position: absolute;
-  bottom: 0px;
   font-size: 18px;
   color: #231F20;
   list-style-type: none;
@@ -175,7 +100,6 @@ ul.project-resource-list {
 
   width: 100%;
   border-top: 1px solid #ccc;
-  margin-left: -15px;
   li {
     display: inline-block;
     margin-left: 29px;

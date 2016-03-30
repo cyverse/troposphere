@@ -2,9 +2,14 @@ import React from 'react/addons';
 import Backbone from 'backbone';
 import Button from './Button.react';
 import Instance from 'models/Instance';
+import Image from 'models/Image';
+import ExternalLink from 'models/ExternalLink';
 import Volume from 'models/Volume';
+import ImageActionButtons from './ImageActionButtons.react';
+import ExternalLinkActionButtons from './ExternalLinkActionButtons.react';
 import InstanceActionButtons from './InstanceActionButtons.react';
 import VolumeActionButtons from './VolumeActionButtons.react';
+
 
 export default React.createClass({
     displayName: "ResourceActionButtons",
@@ -28,6 +33,24 @@ export default React.createClass({
             onUnselect={this.props.onUnselect}
             multipleSelected={this.props.multipleSelected}
             instance={resource}
+            project={project}
+            />
+        );
+      } else if (resource instanceof Image) {
+        return (
+          <ImageActionButtons
+            onUnselect={this.props.onUnselect}
+            multipleSelected={this.props.multipleSelected}
+            image={resource}
+            project={project}
+            />
+        );
+      } else if (resource instanceof ExternalLink) {
+        return (
+          <ExternalLinkActionButtons
+            onUnselect={this.props.onUnselect}
+            multipleSelected={this.props.multipleSelected}
+            external_link={resource}
             project={project}
             />
         );

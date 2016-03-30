@@ -169,6 +169,7 @@ export default React.createClass({
           allLicenses = stores.LicenseStore.getAll(),
           activeLicenses = this.state.activeLicenses,
           allScripts = stores.ScriptStore.getAll(),
+          helpLink = stores.HelpLinkStore.get('request-image'),
           activeScripts = this.state.activeScripts;
 
       switch(step) {
@@ -182,6 +183,7 @@ export default React.createClass({
               imageOwner={this.props.imageOwner}
               onPrevious={this.onPrevious}
               onNext={this.onNext}
+              helpLink={helpLink}
               />
           );
 

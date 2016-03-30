@@ -10,8 +10,12 @@ export default React.createClass({
     mixins: [Router.State],
 
     render: function () {
-      var project = stores.ProjectStore.get(Number(this.getParams().projectId));
+      var project = stores.ProjectStore.get(Number(this.getParams().projectId)),
+        helpLinks = stores.HelpLinkStore.getAll();
 
+/* relates to ATMO-1230, links move to atmo-db; pending dev
+      if (!project && !helpLinks) {
+*/
       if (!project) {
         return (
           <div className="loading"></div>
