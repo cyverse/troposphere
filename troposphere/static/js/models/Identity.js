@@ -48,8 +48,9 @@ define(function (require) {
 
       return instances.reduce(function (total, instance) {
         if (isRelevant(instance, identityId)) {
-          var size = sizes.get(instance.get('size').id);
-          return total + size.get('cpu');
+          var size = sizes.get(instance.get('size').id),
+            cpuCount = size ? size.get('cpu') : 0;
+          return total + cpuCount;
         } else {
           return total;
         }
@@ -61,9 +62,9 @@ define(function (require) {
 
       return instances.reduce(function (total, instance) {
         if (isRelevant(instance, identityId)) {
-
-          var size = sizes.get(instance.get('size').id);
-          return total + size.get('mem');
+          var size = sizes.get(instance.get('size').id),
+            memConsumed = size ? size.get('mem') : 0;
+          return total + memConsumed;
         } else {
           return total;
         }
@@ -75,7 +76,7 @@ define(function (require) {
 
       return volumes.reduce(function (total, volume) {
         if (isRelevant(volume, identityId)) {
-          var size = volume.get('size');
+          var size = volume.get('size') || 0;
           return total + size;
         } else {
           return total;
