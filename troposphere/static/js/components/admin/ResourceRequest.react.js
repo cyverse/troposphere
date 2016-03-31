@@ -47,11 +47,10 @@ define(function (require) {
 
     handleApproval: function(e){
         e.preventDefault();
-        var resourceRequest = this.props.request,
+        var resourceRequest = stores.ResourceRequestStore.get(this.getParams().id),
           quotaToSend = parseInt(this.state.quota) || parseInt(resourceRequest.get('current_quota')),
-          allocationToSend = stores.AllocationStore.findWhere({"threshold": parseInt(this.state.AUSearch) * 60, "delta": this.state.delta}).models[0].get('id');
+          allocationToSend = stores.AllocationStore.findWhere({"threshold": parseInt(this.state.AUSearch) * 60, "delta": this.state.delta}).models[0].get('id'),
           status = stores.StatusStore.findOne({name: "approved"});
-
         ResourceActions.update({
           request: resourceRequest,
           response: this.state.response,
@@ -63,7 +62,7 @@ define(function (require) {
 
     handleDenial: function(e){
       e.preventDefault();
-      var resourceRequest = this.props.request,
+      var resourceRequest = stores.ResourceRequestStore.get(this.getParams().id),
         status = stores.StatusStore.findOne({name: "rejected"});
 
       ResourceActions.update({
