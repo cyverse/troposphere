@@ -31,12 +31,12 @@ export default React.createClass({
 
       render: function () {
         var helpLinks = stores.HelpLinkStore.getAll();
+        var resourceElements;
 
         /* relates to ATMO-1230, links move to atmo-db; pending dev
         if (!helpLinks) {
             return <div className="loading"></div>;
         }
-        */
 
         var resourceElements = resources.map(function (resource) {
             var hyperlink = helpLinks.get(resource.link_key).get('href');
@@ -47,6 +47,7 @@ export default React.createClass({
                 </li>
             );
         });
+        */
 
         return (
           <div className="container">
