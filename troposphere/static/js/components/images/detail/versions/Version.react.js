@@ -89,7 +89,8 @@ define(function (require) {
           iconSize = 63,
           type = stores.ProfileStore.get().get('icon_set'),
           owner = image.get('created_by').username,
-          changeLog = this.props.version.attributes.change_log;
+          changeLog = this.props.version.get('change_log');
+
       return (
         <li className="app-card">
           <div>
