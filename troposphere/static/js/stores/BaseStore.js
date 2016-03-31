@@ -188,6 +188,8 @@ define(function (require) {
             }
           }.bind(this));
       }
+      this.isFetching = false;
+      return this.models;
     },
 
     // same as fetchFirstPage, but with URL query params
