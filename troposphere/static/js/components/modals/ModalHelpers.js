@@ -5,7 +5,7 @@ import _ from 'underscore';
 function onCancel() {
     // Important! We need to un-mount the component so it un-registers from Stores and
     // also so that we can relaunch it again later.
-    React.unmountComponentAtNode(document.getElementById('modal'));
+    ReactDOM.unmountComponentAtNode(document.getElementById('modal'));
 }
 
 export default {
