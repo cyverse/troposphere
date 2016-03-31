@@ -8,7 +8,7 @@ define(function (require) {
     displayName: "Stats",
 
     propTypes: {
-//      provider: React.PropTypes.instanceOf(Backbone.Model).isRequired
+      provider: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
     //
