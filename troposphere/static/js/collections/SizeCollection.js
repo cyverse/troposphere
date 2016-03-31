@@ -9,7 +9,7 @@ define(function (require) {
   return Backbone.Collection.extend({
     model: Size,
 
-    url: globals.API_V2_ROOT + "/sizes?archived=true",
+    url: globals.API_V2_ROOT + "/sizes",
 
     parse: function (response) {
       this.meta = {
