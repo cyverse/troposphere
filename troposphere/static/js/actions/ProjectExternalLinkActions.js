@@ -1,13 +1,11 @@
-define(function (require) {
+import AppDispatcher from 'dispatchers/AppDispatcher';
+import ProjectConstants from 'constants/ProjectConstants';
+import ProjectExternalLinkConstants from 'constants/ProjectExternalLinkConstants';
+import ProjectExternalLink from 'models/ProjectExternalLink';
+import Utils from './Utils';
+import stores from 'stores';
 
-  var AppDispatcher = require('dispatchers/AppDispatcher'),
-    ProjectConstants = require('constants/ProjectConstants'),
-    ProjectExternalLinkConstants = require('constants/ProjectExternalLinkConstants'),
-    ProjectExternalLink = require('models/ProjectExternalLink'),
-    Utils = require('./Utils'),
-    stores = require('stores');
-
-  return {
+export default {
 
     // -------------------------
     // Add/Remove Project ExternalLink
@@ -46,6 +44,4 @@ define(function (require) {
       });
     }
 
-  };
-
-});
+};

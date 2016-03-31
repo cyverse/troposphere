@@ -1,18 +1,16 @@
-define(function (require) {
+import Dispatcher from 'dispatchers/Dispatcher';
+import BaseStore from 'stores/BaseStore';
+import IdentityMembershipCollection from 'collections/IdentityMembershipCollection';
+import IdentityMembershipConstants from 'constants/IdentityMembershipConstants';
+import stores from 'stores';
 
-  var Dispatcher = require('dispatchers/Dispatcher'),
-    BaseStore = require('stores/BaseStore'),
-    IdentityMembershipCollection = require('collections/IdentityMembershipCollection'),
-    IdentityMembershipConstants = require('constants/IdentityMemebershipConstants'),
-    stores = require('stores');
-
-  var IdentityMembershipStore = BaseStore.extend({
+let IdentityMembershipStore = BaseStore.extend({
     collection: IdentityMembershipCollection
-  });
+});
 
-  var store = new IdentityMembershipStore();
+let store = new IdentityMembershipStore();
 
-  Dispatcher.register(function (dispatch) {
+Dispatcher.register(function (dispatch) {
     var actionType = dispatch.action.actionType;
     var payload = dispatch.action.payload;
     var options = dispatch.action.options || options;
@@ -38,8 +36,6 @@ define(function (require) {
     }
 
     return true;
-  });
-
-  return store;
-
 });
+
+export default store;

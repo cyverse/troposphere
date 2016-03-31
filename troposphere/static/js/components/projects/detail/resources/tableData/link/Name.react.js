@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import React from 'react/addons';
+import Backbone from 'backbone';
+import Router from 'react-router';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    Router = require('react-router');
-
-  return React.createClass({
+export default React.createClass({
 
     mixins: [Router.State],
 
@@ -23,12 +20,14 @@ define(function (require) {
       }
 
       return (
-        <Router.Link to="project-link-details" params={{projectId: this.getParams().projectId, linkId: external_link.id}}>
+        <Router.Link
+            to="project-link-details"
+            params={{
+                projectId: this.getParams().projectId,
+                linkId: external_link.id
+            }}>
           {external_link.get('title')}
         </Router.Link>
       );
     }
-
-  });
-
 });

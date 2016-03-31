@@ -1,12 +1,10 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import Glyphicon from 'components/common/Glyphicon.react';
+import modals from 'modals';
+import actions from 'actions';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    Glyphicon = require('components/common/Glyphicon.react'),
-    modals = require('modals'),
-    actions = require('actions');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "ExternalLinkActions",
 
     propTypes: {
@@ -31,13 +29,25 @@ define(function (require) {
     render: function () {
       var link = this.props.link;
       var linksArray = [
-        {label: 'Actions', icon: null},
-        {label: 'Go To Link', icon: 'globe', target:"_blank", href: link.get('link'), onClick: this.handleReport}
+        {
+            label: 'Actions', icon: null
+        },
+        {
+            label: 'Go To Link', icon: 'globe',
+            target:"_blank",
+            href: link.get('link'),
+            onClick: this.handleReport
+        }
       ];
-      //DEVNOTE: The 'links' referenced in the comments below are related to the general component of 'LinkActions' and not 'ExternalLink' models.
+      // DEVNOTE: The 'links' referenced in the comments below are related to the general component of 'LinkActions' and not 'ExternalLink' models.
       // Add in the conditional links based on current machine state
       linksArray = linksArray.concat([
-        {label: 'Delete', icon: 'remove', onClick: this.onDelete, isDangerLink: true}
+        {
+            label: 'Delete',
+            icon: 'remove',
+            onClick: this.onDelete,
+            isDangerLink: true
+        }
       ]);
 
       var links = linksArray.map(function (ext_link) {
@@ -84,7 +94,5 @@ define(function (require) {
 
       );
     }
-
-  });
 
 });

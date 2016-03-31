@@ -1,21 +1,17 @@
-define(function (require) {
+import _ from 'underscore';
+import Backbone from 'backbone';
+import globals from 'globals';
+import stores from 'stores';
+import CryptoJS from 'crypto-js';
+import moment from 'moment';
 
-    var _ = require('underscore'),
-        Backbone = require('backbone'),
-        globals = require('globals'),
-        stores = require('stores'),
-        CryptoJS = require('crypto-js'),
-        moment = require('moment');
+export default Backbone.Model.extend({
 
-    return Backbone.Model.extend({
+    urlRoot: globals.API_V2_ROOT + "/links",
 
-        urlRoot: globals.API_V2_ROOT + "/links",
-
-        parse: function (attributes) {
-            attributes.description = attributes.description || "";
-            return attributes;
-        },
-
-    });
+    parse: function (attributes) {
+        attributes.description = attributes.description || "";
+        return attributes;
+    },
 
 });

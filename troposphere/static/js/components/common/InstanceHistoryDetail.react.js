@@ -1,22 +1,20 @@
-define(function (require) {
+import React from 'react/addons';
+import Router from 'react-router';
+import Backbone from 'backbone';
+import BreadcrumbBar from 'components/projects/common/BreadcrumbBar.react';
+import InstanceInfoSection from 'components/projects/resources/instance/details/sections/InstanceInfoSection.react';
+import InstanceDetailsSection from 'components/projects/resources/instance/details/sections/InstanceDetailsSection.react';
+import InstanceMetricsSection from 'components/projects/resources/instance/details/sections/InstanceMetricsSection.react';
+import InstanceActionsAndLinks from 'components/projects/resources/instance/details/actions/InstanceActionsAndLinks.react';
+import stores from 'stores';
+import Time from 'components/common/Time.react';
+import ResourceTags from 'components/projects/resources/instance/details/sections/ResourceTags.react';
+import actions from 'actions';
+import moment from 'moment';
+import CryptoJS from 'crypto-js';
+import Gravatar from 'components/common/Gravatar.react';
 
-  var React = require('react/addons'),
-    Router = require('react-router'),
-    Backbone = require('backbone'),
-    BreadcrumbBar = require('components/projects/common/BreadcrumbBar.react'),
-    InstanceInfoSection = require('components/projects/resources/instance/details/sections/InstanceInfoSection.react'),
-    InstanceDetailsSection = require('components/projects/resources/instance/details/sections/InstanceDetailsSection.react'),
-    InstanceMetricsSection = require('components/projects/resources/instance/details/sections/InstanceMetricsSection.react'),
-    InstanceActionsAndLinks = require('components/projects/resources/instance/details/actions/InstanceActionsAndLinks.react'),
-    stores = require('stores'),
-    Time = require('components/common/Time.react'),
-    ResourceTags = require('components/projects/resources/instance/details/sections/ResourceTags.react'),
-    actions = require('actions'),
-    moment = require('moment'),
-    CryptoJS = require('crypto-js'),
-    Gravatar = require('components/common/Gravatar.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "InstanceDetailsView",
 
     mixins: [Router.State],
@@ -115,7 +113,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

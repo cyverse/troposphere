@@ -1,15 +1,14 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import SelectableRow from '../SelectableRow.react';
+import Name from '../tableData/link/Name.react';
+import Link from '../tableData/link/Link.react';
+import stores from 'stores';
+import CryptoJS from 'crypto-js';
+import Gravatar from 'components/common/Gravatar.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    SelectableRow = require('../SelectableRow.react'),
-    Name = require('../tableData/link/Name.react'),
-    Link = require('../tableData/link/Link.react'),
-    stores = require('stores'),
-    CryptoJS = require('crypto-js'),
-    Gravatar = require('components/common/Gravatar.react');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "ExternalLinkRow",
 
     propTypes: {
@@ -45,7 +44,4 @@ define(function (require) {
         </SelectableRow>
       );
     }
-
-  });
-
 });

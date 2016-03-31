@@ -1,22 +1,18 @@
+import React from 'react';
+import stores from 'stores';
+import $ from 'jquery';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 
-define(
-  [
-    'react',
-    'stores',
-    'jquery',
-    'components/mixins/BootstrapModalMixin.react'
-  ],
-  function (React, stores, $, BootstrapModalMixin) {
 
-    function getState() {
-      return {
+function getState() {
+    return {
         name: null,
         description: null,
         link: null
-      }
     }
+}
 
-    return React.createClass({
+export default React.createClass({
       displayName: "ExternalLinkCreateModal",
 
       mixins: [BootstrapModalMixin],
@@ -198,7 +194,4 @@ define(
           </div>
         );
       }
-
-    });
-
-  });
+});

@@ -1,12 +1,11 @@
-define(function (require) {
+import actions from 'actions';
+import stores from 'stores';
+import ModalHelpers from 'components/modals/ModalHelpers';
+import ExternalLinkDeleteModal from 'components/modals/link/ExternalLinkDeleteModal.react';
+import Router from 'Router';
 
-  var actions = require('actions'),
-    stores = require('stores'),
-    ModalHelpers = require('components/modals/ModalHelpers'),
-    ExternalLinkDeleteModal = require('components/modals/link/ExternalLinkDeleteModal.react'),
-    Router = require('Router');
 
-  return {
+export default {
 
     destroy: function (payload, options) {
       if (!payload.project) throw new Error("Missing project");
@@ -31,5 +30,3 @@ define(function (require) {
       })
     }
   };
-
-});

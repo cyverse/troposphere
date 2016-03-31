@@ -1,12 +1,9 @@
-define(function (require) {
-  'use strict';
+import ExternalLinkConstants from 'constants/ExternalLinkConstants';
+import ExternalLink from 'models/ExternalLink';
+import actions from 'actions';
+import Utils from '../Utils';
 
-  var ExternalLinkConstants = require('constants/ExternalLinkConstants'),
-    ExternalLink = require('models/ExternalLink'),
-    actions = require('actions'),
-    Utils = require('../Utils');
-
-  return {
+export default {
 
     createAndAddToProject: function (payload) {
 
@@ -27,25 +24,45 @@ define(function (require) {
       });
 
       // Add the external_link optimistically
-      Utils.dispatch(ExternalLinkConstants.ADD_LINK, {external_link: external_link}, {silent: false});
+      Utils.dispatch(
+        ExternalLinkConstants.ADD_LINK,
+        {external_link: external_link},
+        {silent: false});
 
       external_link.save().done(function () {
-        Utils.dispatch(ExternalLinkConstants.UPDATE_LINK, {external_link: external_link}, {silent: false});
-        Utils.dispatch(ExternalLinkConstants.REMOVE_PENDING_LINK_FROM_PROJECT, {external_link: external_link, project: project});
+        Utils.dispatch(
+            ExternalLinkConstants.UPDATE_LINK,
+            {external_link: external_link},
+            {silent: false});
+        Utils.dispatch(
+            ExternalLinkConstants.REMOVE_PENDING_LINK_FROM_PROJECT, {
+                external_link: external_link,
+                project: project
+        });
         actions.ProjectExternalLinkActions.addExternalLinkToProject({
           project: project,
           external_link: external_link
         });
       }).fail(function (response) {
-        Utils.dispatch(ExternalLinkConstants.REMOVE_LINK, {external_link: external_link}, {silent: false});
-        Utils.dispatch(ExternalLinkConstants.REMOVE_PENDING_LINK_FROM_PROJECT, {external_link: external_link, project: project});
-        Utils.displayError({title: "ExternalLink could not be created", response: response});
+        Utils.dispatch(
+            ExternalLinkConstants.REMOVE_LINK,
+            {external_link: external_link},
+            {silent: false});
+        Utils.dispatch(
+            ExternalLinkConstants.REMOVE_PENDING_LINK_FROM_PROJECT, {
+                external_link: external_link,
+                project: project
+        });
+        Utils.displayError({
+            title: "ExternalLink could not be created",
+            response: response
+        });
       });
 
-      Utils.dispatch(ExternalLinkConstants.ADD_PENDING_LINK_TO_PROJECT, {external_link: external_link, project: project});
-
+      Utils.dispatch(
+        ExternalLinkConstants.ADD_PENDING_LINK_TO_PROJECT, {
+            external_link: external_link,
+            project: project
+      });
     }
-
-  };
-
-});
+};

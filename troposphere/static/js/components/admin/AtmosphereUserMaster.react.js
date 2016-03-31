@@ -1,17 +1,17 @@
-define(function (require) {
-  "use strict";
+import React from 'react/addons';
+import Router from 'react-router';
+import stores from 'stores';
+import AtmosphereUser from './AtmosphereUser.react';
 
-  var React = require('react/addons'),
-    Router = require('react-router'),
-    stores = require('stores'),
-    AtmosphereUser = require('./AtmosphereUser.react');
-  var timer,
+let timer,
     timerDelay = 100;
 
 
-  return React.createClass({
+export default React.createClass({
     displayName: "AtmosphereUserMaster",
+
     mixins: [Router.State],
+
     getInitialState: function() {
         return {
             query: "",
@@ -113,7 +113,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });
