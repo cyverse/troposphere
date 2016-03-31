@@ -1,10 +1,9 @@
-define(function(require) {
+import React from 'react';
+import Backbone from 'backbone';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 
-  var React = require('react'),
-      Backbone = require('backbone'),
-      BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "ExternalLinkDeleteModal",
 
     mixins: [BootstrapModalMixin],
@@ -33,7 +32,7 @@ define(function(require) {
     //
 
     renderBody: function () {
-      var link = this.props.link;
+      var link = this.props.external_link;
       return (
         <div>
           <p>
@@ -77,5 +76,4 @@ define(function(require) {
         </div>
       );
     }
- });
 });

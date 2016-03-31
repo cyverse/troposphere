@@ -11,12 +11,12 @@ export default React.createClass({
 
     getInitialState: function() {
       return {
-        instanceHistoryItems: stores.InstanceHistoryStore.fetchWhere({"page_size": 10})
+        instanceHistoryItems: stores.InstanceHistoryStore.fetchWhere({"page_size": 10, "unique": true})
       }
     },
 
     onNewData: function(){
-        this.setState({instanceHistoryItems: stores.InstanceHistoryStore.fetchWhere({"page_size": 10})});
+        this.setState({instanceHistoryItems: stores.InstanceHistoryStore.fetchWhere({"page_size": 10, "unique": true})});
     },
 
     componentDidMount: function() {
@@ -28,11 +28,11 @@ export default React.createClass({
     },
 
     onLoadMoreInstanceHistory: function() {
-        stores.InstanceHistoryStore.fetchMoreWhere({"page_size": 10});
+        stores.InstanceHistoryStore.fetchMoreWhere({"page_size": 10, "unique": true});
     },
 
     refreshHistory: function(){
-        this.setState({instanceHistoryItems: stores.InstanceHistoryStore.fetchFirstPageWhere({"page_size": 10}, {clearQueryCache: true})});
+        this.setState({instanceHistoryItems: stores.InstanceHistoryStore.fetchFirstPageWhere({"page_size": 10, "unique": true}, {clearQueryCache: true})});
         stores.InstanceHistoryStore.lastUpdated = Date.now();
     },
 
@@ -103,10 +103,10 @@ export default React.createClass({
             provider = instance.get('provider'),
             instanceId = instance.get('instance').id;
 
-        var startDate = instance.get('start_date'),
-            endDate = instance.get('end_date'),
-            formattedStartDate = startDate.format("MMM DD, YYYY hh:mm a"),
-            formattedEndDate = endDate.format("MMM DD, YYYY hh:mm a"),
+        var startDate = instance.get('instance').start_date,
+            endDate = instance.get('instance').end_date,
+            formattedStartDate = moment(startDate).format("MMM DD, YYYY hh:mm a"),
+            formattedEndDate = moment(endDate).format("MMM DD, YYYY hh:mm a"),
             now = moment(),
             timeSpan = now.diff(startDate, "days"),
             instanceHistoryHash = CryptoJS.MD5((instance.id || instance.cid).toString()).toString(),
@@ -115,7 +115,7 @@ export default React.createClass({
             imageName = image ? image.name : "[image no longer exists]",
             imageLink;
 
-        if(!endDate.isValid()) formattedEndDate = "Present";
+        if(!moment(endDate).isValid()) formattedEndDate = "Present";
 
         if(image){
           imageLink = (
@@ -141,7 +141,9 @@ export default React.createClass({
                   <div>
                     <Gravatar hash={instanceHistoryHash} size={iconSize} type={type}/>
                     <div className="instance-history-details">
-                      <strong className="name">{name}</strong>
+                      <Router.Link to={"instance-history-detail"} params={{id: instance.get('instance').id}}>
+                        <strong className="name">{name}</strong>
+                      </Router.Link>
                       <div>Launched from {imageLink}</div>
                       <div>{"Ran: " + formattedStartDate + " - " + formattedEndDate}</div>
                     </div>

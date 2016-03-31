@@ -11,18 +11,15 @@ export default React.createClass({
         }
     },
 
-    componentDidMount: function() {
-    },
-
     onCreateScript: function() {
-        this.props.onDisableSave();
+        this.props.onDisableFooter();
         this.setState({
             view: "CREATESCRIPT_VIEW"
         });
     },
 
     onCloseCreateScript: function() {
-        this.props.onEnableSave();
+        this.props.onEnableFooter();
         this.setState({
             view: "ADDSCRIPT_VIEW"
         })
@@ -48,9 +45,9 @@ export default React.createClass({
         let view = this.state.view;
         switch(view) {
             case "ADDSCRIPT_VIEW":
-            return this.renderSelectScripts()
+                return this.renderSelectScripts()
             case "CREATESCRIPT_VIEW":
-            return this.renderCreateScript()
+                return this.renderCreateScript()
         }
     },
 

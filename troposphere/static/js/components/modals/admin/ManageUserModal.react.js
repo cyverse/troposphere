@@ -1,10 +1,9 @@
-define(function (require) {
-    var React = require('react'),
-        InteractiveDateField = require('components/common/InteractiveDateField.react'),
-        BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react');
+import React from 'react';
+import InteractiveDateField from 'components/common/InteractiveDateField.react';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 
 
-  return React.createClass({
+export default React.createClass({
 
     displayName: "ManageUserModal",
 
@@ -67,6 +66,4 @@ define(function (require) {
           </div>
         );
       }
-
-    });
 });

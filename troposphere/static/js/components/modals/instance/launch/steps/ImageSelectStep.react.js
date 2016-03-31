@@ -2,16 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Backbone from 'backbone';
 import _ from 'underscore';
+import stores from 'stores';
+
+import TabLinks from 'components/common/ui/TabLinks.react';
 import ImageCollection from 'collections/ImageCollection';
 import ImageList from '../components/ImageList.react';
 import InstanceLaunchFooter from '../components/InstanceLaunchFooter.react';
-import stores from 'stores';
 
 export default React.createClass({
     displayName: "InstanceLaunchWizardModal-ImageSelectStep",
+    views: ['Show Featured', 'Show Favorites', 'Show All'],
 
     getInitialState: function () {
         return {
+            listView: this.views[0],
             query: null,
             resultsPerPage: 20,
             page: 1
@@ -19,12 +23,14 @@ export default React.createClass({
     },
 
     componentDidMount: function () {
+        stores.ImageBookmarkStore.addChangeListener(this.triggerRenderOnStore);
         stores.ImageStore.addChangeListener(this.triggerRenderOnStore);
         stores.TagStore.addChangeListener(this.triggerRenderOnStore);
         this.focusSearchInput();
     },
 
     componentWillUnmount: function () {
+        stores.ImageBookmarkStore.removeChangeListener(this.triggerRenderOnStore);
         stores.ImageStore.removeChangeListener(this.triggerRenderOnStore);
         stores.TagStore.removeChangeListener(this.triggerRenderOnStore);
     },
@@ -41,14 +47,75 @@ export default React.createClass({
         this.setState({page: this.state.page + 1})
     },
 
-    renderFilterDescription: function () {
-        let message,
-            query = this.state.query;
+    onChangeView: function(listView) {
+        this.setState({
+            listView
+        });
+    },
 
+    showAll: function() {
+        let query = this.state.query;
+        let images = stores.ImageStore.getAll();
         if (query) {
-            message = 'Showing results for "' + query + '"';
-        } else {
-            message = "Showing first 20 images"
+            images = stores.ImageStore.fetchWhere({
+                search: query
+            });
+        }
+
+        return images
+    },
+
+    showFeatured: function() {
+        let query = this.state.query;
+        let images = stores.ImageStore.fetchWhere({
+            tags__name: 'Featured'
+        });
+        if (query) {
+            images = stores.ImageStore.fetchWhere({
+                tags__name: 'Featured',
+                search: query
+            });
+        }
+
+        return images
+    },
+
+    showFavorites: function() {
+        let query = this.state.query;
+        let images = stores.ImageStore.fetchWhere({
+            bookmarked: true
+        });
+        if (query) {
+            images = stores.ImageStore.fetchWhere({
+                bookmarked: true,
+                search: query
+            });
+        }
+
+        return images
+    },
+
+    imageList: function() {
+        let listView = this.state.listView;
+        switch(listView) {
+            case 'Show All': return this.showAll()
+            case 'Show Featured': return this.showFeatured()
+            case 'Show Favorites': return this.showFavorites()
+        }
+    },
+
+    renderFilterDescription: function (images) {
+        let message;
+        let query = this.state.query;
+        let queryText = "";
+        if (query) { queryText = `for "${query}"` }
+        if (images) {
+            if (images.length >= 20) {
+                message = `Showing first ${images.length} images ${queryText}`;
+            }
+            else {
+                message = `Showing ${images.length} image(s) ${queryText}`;
+            }
         }
 
         return (
@@ -66,7 +133,7 @@ export default React.createClass({
     },
 
     renderMoreImagesButton: function (images, totalNumberOfImages) {
-        if (images.models.length < totalNumberOfImages) {
+        if (images.length < totalNumberOfImages) {
             return (
                 <li>
                     <button style={{
@@ -79,6 +146,7 @@ export default React.createClass({
             );
         }
     },
+
     focusSearchInput: function () {
         this.refs.searchField.focus();
     },
@@ -94,14 +162,17 @@ export default React.createClass({
         );
     },
     renderImages: function (images, allImages) {
-        let totalNumberOfImages = allImages.length,
-            query = this.state.query;
-
+        let totalNumberOfImages = allImages.length;
+        let query = this.state.query;
+        let searchInput = this.renderSearchInput();
+        if (!images) { return ( <div className="loading"/> ) }
+        
         return (
         <div>
-            {this.renderSearchInput()}
-            {this.renderFilterDescription()}
-            <ImageList images={images}
+            {searchInput}
+            {this.renderFilterDescription(images)}
+            <ImageList
+                images={images}
                 onSelectImage={this.props.onSelectImage}
             >
             {this.renderMoreImagesButton(images, totalNumberOfImages)}
@@ -126,23 +197,17 @@ export default React.createClass({
         </div>
         );
     },
-    renderBody: function () {
 
-        let allImages = stores.ImageStore.getAll(),
-            images,
+    renderBody: function () {
+        let allImages = this.imageList(),
+            // This might get paginated below
+            images = this.imageList(),
             tags = stores.TagStore.getAll(),
             query = this.state.query,
             numberOfResults,
             totalNumberOfImages;
 
-        if (query) {
-            images = stores.ImageStore.fetchWhere({
-                search: query
-            });
-        } else {
-            images = allImages;
-        }
-
+        // Render Images
         if (images && tags) {
             numberOfResults = this.state.page * this.state.resultsPerPage;
 
@@ -164,6 +229,11 @@ export default React.createClass({
                 <div className="modal-section">
                     <h3 className="t-title">First choose an image for your instance</h3>
                     <hr/>
+                    <TabLinks 
+                        linkList={this.views}
+                        currentView={this.state.listView}
+                        onChangeView={this.onChangeView}
+                    />
                     {this.renderBody()}
                 </div>
                 <InstanceLaunchFooter

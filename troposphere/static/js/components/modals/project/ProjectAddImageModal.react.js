@@ -1,12 +1,11 @@
+import React from 'react';
+import Backbone from 'backbone';
+import stores from 'stores';
+import ProjectSelect from '../instance_launch/ProjectSelect.react';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 
-define(function (require) {
-    var React = require('react'),
-      Backbone = require('backbone'),
-      stores = require('stores'),
-      ProjectSelect = require('../instance_launch/ProjectSelect.react'),
-      BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react');
 
-    return React.createClass({
+export default React.createClass({
       displayName: "ProjectAddImageModal",
 
       mixins: [BootstrapModalMixin],
@@ -151,7 +150,4 @@ define(function (require) {
           </div>
         );
       }
-
-    });
-
-  });
+});

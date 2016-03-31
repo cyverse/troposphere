@@ -94,8 +94,11 @@ _.extend(Store.prototype, Backbone.Events, {
     remove: function (model) {
         this.models.remove(model);
 
-        // Remove model from polling dictionary
-        delete this.pollingModels[model.cid];
+        // If already polling, Remove model from polling dictionary
+        if (this.pollingModels[model.cid]) {
+            delete this.pollingModels[model.cid];
+        }
+        return;
     },
 
     // --------------
@@ -168,7 +171,7 @@ _.extend(Store.prototype, Backbone.Events, {
     },
 
     // Fetch the first page and replace models with results
-    fetchFirstPage: function() {
+    fetchFirstPage: function(cb) {
       if (!this.isFetching) {
         this.isFetching = true;
 
@@ -180,13 +183,16 @@ _.extend(Store.prototype, Backbone.Events, {
             this.isFetching = false;
             this.models = models;
             this.emitChange();
+            if(cb){
+                cb();
+            }
           }.bind(this));
       }
     },
 
     // same as fetchFirstPage, but with URL query params
     fetchFirstPageWhere: function(queryParams, options) {
-      if(options.clearQueryCache){
+      if (options && options.clearQueryCache){
         var queryString = buildQueryStringFromQueryParams(queryParams);
         delete this.queryModels[queryString];
       }

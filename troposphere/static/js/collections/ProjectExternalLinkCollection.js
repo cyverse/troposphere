@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import Backbone from 'backbone';
+import ProjectExternalLink from 'models/ProjectExternalLink';
+import globals from 'globals';
 
-  var Backbone = require('backbone'),
-    ProjectExternalLink = require('models/ProjectExternalLink'),
-    globals = require('globals');
-
-  return Backbone.Collection.extend({
+export default Backbone.Collection.extend({
     model: ProjectExternalLink,
 
     url: globals.API_V2_ROOT + "/project_links",
@@ -19,7 +16,4 @@ define(function (require) {
 
       return response.results;
     }
-
-  });
-
 });

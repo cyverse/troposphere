@@ -174,7 +174,7 @@ export default React.createClass({
                 <div className="inline">
                   <h4>New allocation: </h4>
                   <div>
-                    <input type="Number" value={this.state.AUSearch} onChange={this.handleThresholdSearchChange} />AU
+                    <input type="number" value={this.state.AUSearch} onChange={this.handleThresholdSearchChange} />AU
                   </div>
                 </div>
                 <div className="radio-buttons">

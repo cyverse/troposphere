@@ -1,11 +1,9 @@
-define(function (require) {
+import React from 'react';
+import Backbone from 'backbone';
+import ImageRow from './ImageRow.react';
+import SelectableTable from '../SelectableTable.react';
 
-  var React = require('react'),
-    Backbone = require('backbone'),
-    ImageRow = require('./ImageRow.react'),
-    SelectableTable = require('../SelectableTable.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "ImageTable",
 
     propTypes: {
@@ -65,7 +63,4 @@ define(function (require) {
         </SelectableTable>
       )
     }
-
-  });
-
 });

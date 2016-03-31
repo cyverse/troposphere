@@ -1,26 +1,27 @@
 import _ from 'underscore';
+import stores from 'stores';
 import globals from 'globals';
 import React from 'react';
 
 
 let resources = [{
         title: "User Manual",
-        href: "https://pods.iplantcollaborative.org/wiki/x/Iaxm",
+        link_key: "default",
         description: "Complete documentation for using Atmosphere"
     },
     {
         title: "User Forums",
-        href: "http://ask.iplantcollaborative.org",
-        description: "Get answers from iPlant users and staff"
-    },
-    {
+        link_key: "forums",
+        description: "Get answers from Atmosphere users and staff"
+      },
+      {
         title: "FAQs",
-        href: "https://pods.iplantcollaborative.org/wiki/display/atmman/Atmosphere+FAQs",
+        link_key: "faq",
         description: "Atmosphere's most frequently asked questions"
     },
     {
         title: "VNC Viewer Tutorial",
-        href: "https://pods.iplantcollaborative.org/wiki/display/atmman/Using+VNC+Viewer+to+Connect+to+an+Atmosphere+VM",
+        link_key: "vnc-viewer",
         description: "Instructions for downloading and using VNC Viewer"
     }
 ];
@@ -29,14 +30,22 @@ export default React.createClass({
       displayName: "HelpPage",
 
       render: function () {
+        var helpLinks = stores.HelpLinkStore.getAll();
 
-        var resourceElements = _.map(resources, function (resource) {
-          return (
-            <li key={resource.title}>
-              <a href={resource.href} target="_blank">{resource.title}</a>
-              <span>{" " + resource.description}</span>
-            </li>
-          );
+        /* relates to ATMO-1230, links move to atmo-db; pending dev
+        if (!helpLinks) {
+            return <div className="loading"></div>;
+        }
+        */
+
+        var resourceElements = resources.map(function (resource) {
+            var hyperlink = helpLinks.get(resource.link_key).get('href');
+            return (
+                <li key={resource.title}>
+                    <a href={hyperlink} target="_blank">{resource.title}</a>
+                    <span>{" " + resource.description}</span>
+                </li>
+            );
         });
 
         return (

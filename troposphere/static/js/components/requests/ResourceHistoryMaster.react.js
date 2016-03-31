@@ -1,11 +1,10 @@
-define(function (require) {
+import React from 'react';
+import stores from 'stores';
+import ResourceActions from 'actions/ResourceActions';
+import Router from 'react-router';
 
-  var React = require('react'),
-    stores = require('stores'),
-    ResourceActions = require('actions/ResourceActions'),
-    Router = require('react-router');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "MyResourceRequestsPage",
 
     mixins: [Router.State],
@@ -92,7 +91,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

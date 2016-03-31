@@ -1,10 +1,31 @@
 import React from 'react';
 import Gravatar from 'components/common/Gravatar.react';
 import Backbone from 'backbone';
-import URL from 'url';
 import Bookmark from 'components/images/common/Bookmark.react';
 import context from 'context';
 import stores from 'stores';
+
+
+// Note:
+// -----
+// pulled out of a defunct module called 'url', in history you can
+// see it -> `troposphere/static/js/url.js`. This module was used
+// for building internal, in-app links prior to the adoption of
+// React-Router. When the Public Image Catalog was re-introduced,
+// @lenards (me) carelessly added back the "Login to Launch"
+// functionality without properly wiring in the internal URLs
+//
+// this is a stop-gap, but not a full fix
+//
+// FIXME: use React-Router Link objects or external link + push state
+let buildImageUrl = function (model) {
+    return '/application/images/' + model.id;
+}
+
+let buildLoginUrl = function () {
+    return '/login'
+}
+
 
 export default React.createClass({
       displayName: "ImageLaunchCard",
@@ -45,9 +66,11 @@ export default React.createClass({
             </button>
           );
         } else {
-          var loginUrl = URL.login(null, {relative: true}),
-            imageUrl = URL.image(this.props.image),
-            fullUrl = loginUrl + "?redirect=" + imageUrl + "?beta=true&airport_ui=false";
+            // Move this to using a more React-Router friendly approach
+            var loginUrl = buildLoginUrl(),
+                imageUrl = buildImageUrl(this.props.image),
+                fullUrl = loginUrl + "?redirect_to=" + imageUrl +
+                    "?beta=true&airport_ui=false";
 
           button = (
             <a className='btn btn-primary launch-button' href={fullUrl}>

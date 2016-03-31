@@ -45,13 +45,14 @@ export default {
           scripts = params.scripts,
           licenses = params.licenses,
           imageUsers = params.imageUsers,
-          userNames = imageUsers.map(function(user){
+          userNames = imageUsers.map(function(user) {
             return user.get('username');
           }),
           tags = params.tags,
-          tagNames = tags.map(function(tag){
+          tagNameList = tags.map(function(tag) {
             return tag.get('name');
           }),
+          tagNames = tagNameList.join(", "),
           provider = stores.ProviderStore.get(providerId);
 
       var requestData = {
@@ -72,7 +73,7 @@ export default {
         new_version_change_log: versionChanges,
         new_version_forked: fork,
         new_version_name: versionName,
-        tags: tagNames
+        new_version_tags: tagNames
       };
 
 

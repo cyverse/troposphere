@@ -1,15 +1,13 @@
-define(function (require) {
-  "use strict";
+import React from 'react';
+import Router from 'react-router';
+import stores from 'stores';
+import IdentityMembership from './IdentityMembership.react';
 
-  var React = require('react'),
-    Router = require('react-router'),
-    stores = require('stores'),
-    IdentityMembership = require('./IdentityMembership.react');
-  var timer,
+let timer,
     timerDelay = 100;
 
 
-  return React.createClass({
+export default React.createClass({
     displayName: "IdentityMembership",
     mixins: [Router.State],
     getInitialState: function() {
@@ -156,7 +154,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

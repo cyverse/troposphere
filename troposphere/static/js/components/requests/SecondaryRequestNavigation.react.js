@@ -1,12 +1,11 @@
-define(function (require) {
+import React from 'react';
+import stores from 'stores';
+import Router from 'react-router';
+import Glyphicon from 'components/common/Glyphicon.react';
+import context from 'context';
 
-  var React = require('react'),
-    stores = require('stores'),
-    Router = require('react-router'),
-    Glyphicon = require('components/common/Glyphicon.react'),
-    context = require('context');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "SecondaryRequestNav",
 
 
@@ -36,7 +35,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

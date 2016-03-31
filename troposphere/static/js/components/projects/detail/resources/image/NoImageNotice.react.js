@@ -1,8 +1,7 @@
-define(function (require) {
+import React from 'react';
 
-  var React = require('react');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "NoImageNotice",
 
     render: function () {
@@ -12,7 +11,4 @@ define(function (require) {
         </p>
       );
     }
-
-  });
-
 });

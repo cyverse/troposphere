@@ -1,6 +1,8 @@
 import json
 import logging
 
+from urllib import urlencode
+
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, render_to_response
@@ -18,11 +20,21 @@ logger = logging.getLogger(__name__)
 #TODO: Move this into a settings file.
 STAFF_LIST_USERNAMES = ['estevetest01', 'estevetest02','estevetest03','estevetest04',
                         'estevetest13', 'sgregory', 'lenards', 'tharon', 'cdosborn',
-                        'julianp']
+                        'julianp', 'josephgarcia', 'mattd', 'amercer']
 
 
 def root(request):
     return redirect('application')
+
+
+def should_route_to_maintenace(request, in_maintenance):
+    """
+    Indicate if a response should be handled by the maintenance view.
+    """
+    return (in_maintenance
+        and request.user.is_staff is not True
+        and request.user.username not in STAFF_LIST_USERNAMES
+        and not is_emulated_session(request))
 
 
 def _should_show_troposphere_only():
@@ -188,30 +200,38 @@ def _handle_authenticated_application_request(request, maintenance_records):
 
 
 def application_backdoor(request):
-    response = HttpResponse()
-    maintenance_records, disabled_login = get_maintenance(request)
+    maintenance_records, _, in_maintenance = get_maintenance(request)
     # This should only apply when in maintenance//login is disabled
-    if not disabled_login or maintenance_records.count() == 0:
-        return application(request)
+    if maintenance_records.count() == 0:
+        logger.info('No maintenance, Go to /application - do not collect $100')
+        return redirect('application')
 
     if request.user.is_authenticated() and request.user.username not in STAFF_LIST_USERNAMES:
         logger.warn('[Backdoor] %s is NOT in staff_list_usernames' % request.user.username)
         return redirect('maintenance')
-    disabled_login = False
-    maintenance_records = MaintenanceRecord.objects.none()
-    if request.user.is_authenticated():
-        return _handle_authenticated_application_request(request, maintenance_records)
-    else:
-        return _handle_public_application_request(request, maintenance_records, disabled_login=disabled_login)
+
+    # route a potential VIP to login
+    query_arguments = {
+        'redirect_to': '/application',
+        'beta': 'true',
+        'airport_ui': 'false',
+        'bsp': 'true'
+    }
+    # I'm on the Guest List! Backstage Pass!
+    return redirect('/login?%s' % (urlencode(query_arguments),))
+
 
 
 def application(request):
-    response = HttpResponse()
-    maintenance_records, disabled_login = get_maintenance(request)
+    maintenance_records, disabled_login, in_maintenance = \
+        get_maintenance(request)
 
-    if disabled_login and request.user.is_staff is not True and request.user.username not in STAFF_LIST_USERNAMES:
-        logger.warn('[App] %s logged in but is NOT in staff_list_usernames' % request.user.username)
+    if should_route_to_maintenace(request, in_maintenance):
+        logger.warn('%s has actice session but is NOT in staff_list_usernames'
+            % request.user.username)
+        logger.warn('- routing user')
         return redirect('maintenance')
+
     if request.user.is_authenticated() and has_valid_token(request.user):
         return _handle_authenticated_application_request(request, maintenance_records)
     else:

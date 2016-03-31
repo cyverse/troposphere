@@ -48,7 +48,7 @@ export default React.createClass({
             <div className='form-group'>
               <label htmlFor='volumeSize'>Resources to Remove</label>
 
-              <p>If you are viewing this you have administrative rights for Atmosphere. The following resources will be
+              <p>The following resources will be
                 removed from the project:</p>
               <ul>
                 {this.props.resources.map(this.renderResource)}

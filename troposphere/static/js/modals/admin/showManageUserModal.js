@@ -1,11 +1,9 @@
-define(function (require) {
-  "use strict";
+import actions from 'actions';
+import ModalHelpers from 'components/modals/ModalHelpers';
+import ManageUserModal from 'components/modals/admin/ManageUserModal.react';
 
-  var actions = require('actions'),
-    ModalHelpers = require('components/modals/ModalHelpers'),
-    ManageUserModal = require('components/modals/admin/ManageUserModal.react');
-  return {
 
+export default {
     showModal: function (ident_member) {
 
       var props = {
@@ -16,7 +14,4 @@ define(function (require) {
       ModalHelpers.renderModal(ManageUserModal, props, function () {
       });
     }
-
-  };
-
-});
+};

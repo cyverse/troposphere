@@ -1,8 +1,6 @@
-define(function (require) {
+import React from 'react';
 
-  var React = require('react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "ToggleButton",
 
     propTypes: {
@@ -63,6 +61,4 @@ define(function (require) {
           </div>
       );
     }
-  });
-
 });

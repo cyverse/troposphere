@@ -1,14 +1,13 @@
-define(function (require) {
+import React from 'react';
+import Backbone from 'backbone';
+import SelectableRow from '../SelectableRow.react';
+import Name from '../tableData/image/Name.react';
+import stores from 'stores';
+import CryptoJS from 'crypto-js';
+import Gravatar from 'components/common/Gravatar.react';
 
-  var React = require('react'),
-    Backbone = require('backbone'),
-    SelectableRow = require('../SelectableRow.react'),
-    Name = require('../tableData/image/Name.react'),
-    stores = require('stores'),
-    CryptoJS = require('crypto-js'),
-    Gravatar = require('components/common/Gravatar.react');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "ImageRow",
 
     propTypes: {
@@ -46,7 +45,4 @@ define(function (require) {
         </SelectableRow>
       );
     }
-
-  });
-
 });

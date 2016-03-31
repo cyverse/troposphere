@@ -1,12 +1,10 @@
-define(function (require) {
+import React from 'react';
+import Backbone from 'backbone';
+import ExternalLinkInfoSection from './sections/ExternalLinkInfoSection.react';
+import ExternalLinkActions from './sections/ExternalLinkActions.react';
+import BreadcrumbBar from 'components/projects/common/BreadcrumbBar.react';
 
-  var React = require('react'),
-    Backbone = require('backbone'),
-    ExternalLinkInfoSection = require('./sections/ExternalLinkInfoSection.react'),
-    ExternalLinkActions = require('./sections/ExternalLinkActions.react'),
-    BreadcrumbBar = require('components/projects/common/BreadcrumbBar.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "ExternalLinkDetailsView",
 
     propTypes: {
@@ -47,8 +45,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });
-

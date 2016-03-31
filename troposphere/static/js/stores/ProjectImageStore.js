@@ -1,26 +1,25 @@
-define(function (require) {
+import Dispatcher from 'dispatchers/Dispatcher';
+import BaseStore from 'stores/BaseStore';
+import ProjectImageCollection from 'collections/ProjectImageCollection';
+import ProjectImageConstants from 'constants/ProjectImageConstants';
+import ImageCollection from 'collections/ImageCollection';
+import Image from 'models/Image';
+import stores from 'stores';
 
-  var Dispatcher = require('dispatchers/Dispatcher'),
-    BaseStore = require('stores/BaseStore'),
-    ProjectImageCollection = require('collections/ProjectImageCollection'),
-    ProjectImageConstants = require('constants/ProjectImageConstants'),
-    ImageCollection = require('collections/ImageCollection'),
-    Image = require('models/Image'),
-    stores = require('stores');
 
-  var _modelsFor = {};
-  var _isFetchingFor = {};
-  var _pendingProjectImages = new ImageCollection();
+let _modelsFor = {};
+let _isFetchingFor = {};
+let _pendingProjectImages = new ImageCollection();
 
-  function addPending(model) {
+function addPending(model) {
     _pendingProjectImages.add(model);
-  }
+}
 
-  function removePending(model) {
+function removePending(model) {
     _pendingProjectImages.remove(model);
-  }
+}
 
-  var ProjectImageStore = BaseStore.extend({
+var ProjectImageStore = BaseStore.extend({
     collection: ProjectImageCollection,
 
     initialize: function () {
@@ -51,18 +50,27 @@ define(function (require) {
     },
 
     getImagesFor: function (project) {
-      //NOTE: The logic here falls to pieces. As a result we actually need _all_ the images in order to ensure that the images
-      // Added by _user_ can be searched through in the filter-filter-filter that happens below.
       var allImages = stores.ImageStore.getForProject(project.id);
+      if (!_modelsFor[project.id]) return this.fetchModelsFor(project.id);
       if (!allImages) return;
 
-      return allImages;
+      var images = this.models.filter(function (project_image) {
+        // filter out irrelevant project images (not in target project)
+        return project_image.get('project').id === project.id;
+      }).filter(function (project_image) {
+        // filter out the images that don't exist (not in local cache)
+        return allImages.get(project_image.get('image').id);
+      }).map(function (project_image) {
+        // return the actual images
+        return allImages.get(project_image.get('image').id);
+      });
+      return new ImageCollection(images);
     }
-  });
+});
 
-  var store = new ProjectImageStore();
+let store = new ProjectImageStore();
 
-  Dispatcher.register(function (dispatch) {
+Dispatcher.register(function (dispatch) {
     var actionType = dispatch.action.actionType;
     var payload = dispatch.action.payload;
     var options = dispatch.action.options || options;
@@ -97,7 +105,6 @@ define(function (require) {
     }
 
     return true;
-  });
-
-  return store;
 });
+
+export default store;

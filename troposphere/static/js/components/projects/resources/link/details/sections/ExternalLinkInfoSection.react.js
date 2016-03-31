@@ -1,16 +1,15 @@
-define(function (require) {
+import React from 'react';
+import Backbone from 'backbone';
+import Time from 'components/common/Time.react';
+import EditableInputField from 'components/common/EditableInputField.react';
+import EditableTextAreaField from 'components/common/EditableTextAreaField.react';
+import actions from 'actions';
+import stores from 'stores';
+import CryptoJS from 'crypto-js';
+import Gravatar from 'components/common/Gravatar.react';
 
-  var React = require('react'),
-    Backbone = require('backbone'),
-    Time = require('components/common/Time.react'),
-    EditableInputField = require('components/common/EditableInputField.react'),
-    EditableTextAreaField = require('components/common/EditableTextAreaField.react'),
-    actions = require('actions'),
-    stores = require('stores'),
-    CryptoJS = require('crypto-js'),
-    Gravatar = require('components/common/Gravatar.react');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "ExternalLinkInfoSection",
 
     propTypes: {
@@ -82,7 +81,9 @@ define(function (require) {
 
       if (this.state.isEditingDescription) {
         descriptionContent = (
-          <EditableTextAreaField text={this.state.description} onDoneEditing={this.onDoneEditingDescription}/>
+          <EditableTextAreaField
+            text={this.state.description}
+            onDoneEditing={this.onDoneEditingDescription}/>
         );
       } else {
         descriptionContent = (
@@ -95,7 +96,9 @@ define(function (require) {
 
       if (this.state.isEditingLink) {
         linkContent = (
-          <EditableInputField text={this.state.link} onDoneEditing={this.onDoneEditingLink}/>
+          <EditableInputField
+            text={this.state.link}
+            onDoneEditing={this.onDoneEditingLink}/>
         );
       } else {
         linkContent = (
@@ -108,7 +111,9 @@ define(function (require) {
 
       if (this.state.isEditingName) {
         nameContent = (
-          <EditableInputField text={this.state.name} onDoneEditing={this.onDoneEditingName}/>
+          <EditableInputField
+            text={this.state.name}
+            onDoneEditing={this.onDoneEditingName}/>
         );
       } else {
         nameContent = (
@@ -140,7 +145,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

@@ -1,15 +1,13 @@
-define(function (require) {
-  "use strict";
+import React from 'react';
+import Backbone from 'backbone';
+import moment from 'moment';
+import Router from 'react-router';
+import showManageUserModal from 'modals/admin/showManageUserModal.js';
+import actions from 'actions';
+import stores from 'stores';
 
-  var React = require('react'),
-    Backbone = require('backbone'),
-    moment = require('moment'),
-    Router = require('react-router'),
-    showManageUserModal = require('modals/admin/showManageUserModal.js'),
-    actions = require('actions'),
-    stores = require('stores');
 
-  return React.createClass({
+export default React.createClass({
 
     propTypes: {
       membership: React.PropTypes.instanceOf(Backbone.Model).isRequired
@@ -64,8 +62,4 @@ define(function (require) {
         </tr>
       );
     }
-
-
-  });
-
 });

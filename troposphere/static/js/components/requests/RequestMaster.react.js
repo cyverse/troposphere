@@ -1,12 +1,12 @@
-define(function (require) {
+import React from 'react';
+import stores from 'stores';
+import SecondaryRequestNavigation from './SecondaryRequestNavigation.react';
+import Router from 'react-router';
 
-  var React = require('react'),
-    stores = require('stores'),
-    SecondaryRequestNavigation = require('./SecondaryRequestNavigation.react'),
-    Router = require('react-router'),
-    RouteHandler = Router.RouteHandler;
 
-  return React.createClass({
+let RouteHandler = Router.RouteHandler;
+
+export default React.createClass({
     displayName: "MyRequestsPage",
 
     mixins: [Router.State],
@@ -23,7 +23,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

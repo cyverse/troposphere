@@ -1,12 +1,8 @@
-define(function (require) {
-  "use strict";
+import React from 'react';
+import Backbone from 'backbone';
+import Router from 'react-router';
 
-  var React = require('react'),
-    Backbone = require('backbone'),
-    Router = require('react-router');
-
-  return React.createClass({
-
+export default React.createClass({
     mixins: [Router.State],
 
     propTypes: {
@@ -28,7 +24,4 @@ define(function (require) {
         </Router.Link>
       );
     }
-
-  });
-
 });

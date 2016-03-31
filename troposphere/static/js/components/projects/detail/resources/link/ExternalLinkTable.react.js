@@ -1,11 +1,10 @@
-define(function (require) {
+import React from 'react';
+import Backbone from 'backbone';
+import ExternalLinkRow from './ExternalLinkRow.react';
+import SelectableTable from '../SelectableTable.react';
 
-  var React = require('react'),
-    Backbone = require('backbone'),
-    ExternalLinkRow = require('./ExternalLinkRow.react'),
-    SelectableTable = require('../SelectableTable.react');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "ExternalLinkTable",
 
     propTypes: {
@@ -65,7 +64,4 @@ define(function (require) {
         </SelectableTable>
       )
     }
-
-  });
-
 });

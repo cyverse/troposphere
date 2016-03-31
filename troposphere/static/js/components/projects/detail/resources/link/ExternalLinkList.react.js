@@ -1,11 +1,10 @@
-define(function (require) {
+import React from 'react';
+import Backbone from 'backbone';
+import ExternalLinkTable from './ExternalLinkTable.react';
+import NoExternalLinkNotice from './NoExternalLinkNotice.react';
 
-  var React = require('react'),
-    Backbone = require('backbone'),
-    ExternalLinkTable = require('./ExternalLinkTable.react'),
-    NoExternalLinkNotice = require('./NoExternalLinkNotice.react');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "ExternalLinkList",
 
     propTypes: {
@@ -49,7 +48,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

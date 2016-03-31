@@ -1,13 +1,11 @@
-define(function (require) {
+import AppDispatcher from 'dispatchers/AppDispatcher';
+import ProjectConstants from 'constants/ProjectConstants';
+import ProjectExternalLinkConstants from 'constants/ProjectExternalLinkConstants';
+import ProjectExternalLink from 'models/ProjectExternalLink';
+import Utils from './Utils';
+import stores from 'stores';
 
-  var AppDispatcher = require('dispatchers/AppDispatcher'),
-    ProjectConstants = require('constants/ProjectConstants'),
-    ProjectExternalLinkConstants = require('constants/ProjectExternalLinkConstants'),
-    ProjectExternalLink = require('models/ProjectExternalLink'),
-    Utils = require('./Utils'),
-    stores = require('stores');
-
-  return {
+export default {
 
     // -------------------------
     // Add/Remove Project ExternalLink
@@ -15,10 +13,10 @@ define(function (require) {
 
     addExternalLinkToProject: function (payload, options) {
       if (!payload.project) throw new Error("Missing project");
-      if (!payload.link && !payload.link.id) throw new Error("Missing link");
+      if (!payload.external_link && !payload.external_link.id) throw new Error("Missing external_link");
 
       var project = payload.project,
-        external_link = payload.link,
+        external_link = payload.external_link,
         projectExternalLink = new ProjectExternalLink(),
         data = {
           project: project.id,
@@ -32,10 +30,10 @@ define(function (require) {
 
     removeExternalLinkFromProject: function (payload, options) {
       if (!payload.project) throw new Error("Missing project");
-      if (!payload.link) throw new Error("Missing link");
+      if (!payload.external_link) throw new Error("Missing external_link");
 
       var project = payload.project,
-        external_link = payload.link,
+        external_link = payload.external_link,
         projectExternalLink = stores.ProjectExternalLinkStore.findOne({
           'project.id': project.id,
           'external_link.id': external_link.id
@@ -46,6 +44,4 @@ define(function (require) {
       });
     }
 
-  };
-
-});
+};
