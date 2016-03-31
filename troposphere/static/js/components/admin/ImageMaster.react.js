@@ -17,19 +17,28 @@ define(function (require) {
 
     getInitialState: function(){
         return{
-            refreshing: false
+            refreshing: false,
+            requests: null
         }
     },
 
     componentDidMount: function(){
         stores.StatusStore.getAll();
+        stores.ImageRequestStore.fetchFirstPageWhere(
+            {"active": "true"},
+            {},
+            function(){
+                this.setState({requests: stores.ImageRequestStore.getAll()});
+            }.bind(this));
     },
 
     onRefresh: function(){
         this.setState({refreshing: true});
-        stores.ImageRequestStore.fetchFirstPage(function(){
-            this.setState({refreshing: false});
-        }.bind(this));
+        stores.ImageRequestStore.fetchFirstPageWhere({"active": "true"},
+            {},
+            function(){
+                this.setState({refreshing: false, requests: stores.ImageRequestStore.getAll()});
+            }.bind(this));
     },
 
     onResourceClick: function(request){
@@ -45,8 +54,7 @@ define(function (require) {
     },
 
     render: function () {
-      var requests = stores.ImageRequestStore.getAll();
-
+      var requests = this.state.requests;
       if (requests == null){
         return <div className="loading"></div>
       }
