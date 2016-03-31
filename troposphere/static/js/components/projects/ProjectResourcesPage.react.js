@@ -15,7 +15,10 @@ define(function (require) {
       var project = stores.ProjectStore.get(Number(this.getParams().projectId)),
         helpLinks = stores.HelpLinkStore.getAll();
 
+/* relates to ATMO-1230, links move to atmo-db; pending dev
       if (!project && !helpLinks) {
+*/
+      if (!project) {
         return (
           <div className="loading"></div>
         );

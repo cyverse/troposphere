@@ -30,13 +30,25 @@ def _mock_login(request):
     _apply_token_to_session(request, last_token.key)
 
     if request.session.get('redirect_to'):
+        logger.debug("Found `redirect_to` in session... ")
+        logger.debug("Redirecting to: %s" %
+            (request.session.get('redirect_to'),))
+
         redirect_url = request.session.pop('redirect_to')
+        return redirect(redirect_url)
+    elif 'redirect_to' in request.GET:
+        logger.debug("Found `redirect_to` in GET params... ")
+        logger.debug("Redirecting to: %s" %
+            (request.GET.get('redirect_to'),))
+
+        redirect_url = request.GET.get('redirect_to')
         return redirect(redirect_url)
     return redirect('application')
 
 
 def _post_login(request):
-    user = authenticate(username=request.POST.get('username'), password=request.POST.get('password'))
+    user = authenticate(username=request.POST.get('username'),
+                        password=request.POST.get('password'))
     # A traditional POST login will likely NOT create a 'Token', so lets do that now.
     if user:
         new_token = generate_token(user)
@@ -90,7 +102,7 @@ def _globus_login(request):
 
 
 def _oauth_login(request):
-    redirect_url = request.GET.get('redirect')
+    redirect_url = request.GET.get('redirect_to')
     if redirect_url:
         request.session['redirect_to'] = redirect_url
     return redirect(cas_oauth_client.authorize_url())

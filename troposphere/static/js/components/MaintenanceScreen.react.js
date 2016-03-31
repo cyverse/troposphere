@@ -10,7 +10,12 @@ define(function (require) {
     displayName: "MaintenanceScreen",
 
     render: function () {
-        var statusPageEl;
+        var statusPageEl,
+            imageParentStyle = {
+                'display': 'block',
+                'margin': 'auto',
+                'padding-top': '50px'
+            };
 
         if (globals.STATUS_PAGE_LINK) {
             // if the hyperlink is part of global metdata,
@@ -26,10 +31,10 @@ define(function (require) {
 
         return (
             <div>
-                <div className="splash-image">
-                    <div id="imgcontainer" className="center">
-                        <img src={login}/>
-                    </div>
+                <div style={imageParentStyle}>
+                  <div id="imgcontainer" className="center">
+                    <img src={login} />
+                  </div>
                 </div>
                 <h4>
                     <h4>

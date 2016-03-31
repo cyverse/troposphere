@@ -171,7 +171,7 @@ define(function (require) {
     },
 
     // Fetch the first page and replace models with results
-    fetchFirstPage: function() {
+    fetchFirstPage: function(cb) {
       if (!this.isFetching) {
         this.isFetching = true;
 
@@ -183,6 +183,9 @@ define(function (require) {
             this.isFetching = false;
             this.models = models;
             this.emitChange();
+            if(cb){
+                cb();
+            }
           }.bind(this));
       }
     },

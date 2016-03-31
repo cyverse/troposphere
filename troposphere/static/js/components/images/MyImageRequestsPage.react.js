@@ -44,7 +44,12 @@ define(function(require) {
           imagingDocsUrl,
           requests;
 
+/* relates to ATMO-1230, links move to atmo-db; pending dev
+
       if(!username || !helpLinks){
+*/
+
+      if(!username) {
         return <div className = "loading"></div>
       }
 

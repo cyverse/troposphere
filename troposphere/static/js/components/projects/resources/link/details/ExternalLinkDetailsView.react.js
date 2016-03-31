@@ -16,7 +16,7 @@ define(function (require) {
 
     render: function () {
       var project = this.props.project,
-        link = this.props.external_link;
+        link = this.props.link;
 
       var breadcrumbs = [
         {
