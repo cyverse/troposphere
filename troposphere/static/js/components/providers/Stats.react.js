@@ -79,6 +79,7 @@ define(function (require) {
         instances = stores.InstanceStore.findWhere({'provider.id': provider.id}),
         sizes = stores.SizeStore.fetchWhere({
           provider__id: provider.id,
+          archived: true,
           page_size: 100
         });
 
