@@ -1,18 +1,18 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import actions from 'actions';
+import modals from 'modals';
+import MaintenanceMessageBanner from './MaintenanceMessageBanner.react';
+import globals from 'globals';
+import Router from 'react-router';
+// plugin: required to enable the drop-down, but not used directly
+import bootstrap from 'bootstrap';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    actions = require('actions'),
-    modals = require('modals'),
-    MaintenanceMessageBanner = require('./MaintenanceMessageBanner.react'),
-    globals = require('globals'),
-    Router = require('react-router'),
-    // plugin: required to enable the drop-down, but not used directly
-    bootstrap = require('bootstrap');
+import { hasLoggedInUser } from 'utilities/profilePredicate';
 
-  var Link = Router.Link;
+let Link = Router.Link;
 
-  var links = [
+let links = [
     {
       name: "Dashboard",
       linksTo: "dashboard",
@@ -71,9 +71,9 @@ define(function (require) {
       requiresStaff: false,
       isEnabled: globals.BADGES_ENABLED
     }
-  ];
+];
 
-  var LoginLink = React.createClass({
+let LoginLink = React.createClass({
     render: function () {
       return (
         <li className="dropdown">
@@ -81,9 +81,9 @@ define(function (require) {
         </li>
       );
     }
-  });
+});
 
-  var LogoutLink = React.createClass({
+let LogoutLink = React.createClass({
 
     propTypes: {
       username: React.PropTypes.string.isRequired
@@ -128,7 +128,7 @@ define(function (require) {
     }
   });
 
-  var Header = React.createClass({
+let Header = React.createClass({
     displayName: "Header",
 
     propTypes: {
@@ -175,9 +175,11 @@ define(function (require) {
     render: function () {
 
       var profile = this.props.profile,
-        hasLoggedInUser = (profile && profile.get('selected_identity'));
+        hasLoggedInUser = hasLoggedInUser(profile);
 
-      var loginLogoutDropdown = hasLoggedInUser ? <LogoutLink username={profile.get('username')}/> : <LoginLink/>;
+      var loginLogoutDropdown = (hasLoggedInUser ?
+            <LogoutLink username={profile.get('username')}/> :
+            <LoginLink/>);
 
       if (!profile.get('selected_identity')) {
         links = links.filter(function (link) {
@@ -208,12 +210,9 @@ define(function (require) {
         );
       }.bind(this));
 
-      var brandLink;
-      if (profile.get('selected_identity')) {
-        brandLink = <Link to="dashboard" className="navbar-brand"/>;
-      } else {
-        brandLink = <Link to="images" className="navbar-brand"/>;
-      }
+      var brandLink = (hasLoggedInUser ?
+        <Link to="dashboard" className="navbar-brand"/> :
+        <Link to="images" className="navbar-brand"/>);
 
       return (
         <div className="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -246,8 +245,7 @@ define(function (require) {
       );
 
     }
-  });
-
-  return Header;
-
 });
+
+export default Header;
+

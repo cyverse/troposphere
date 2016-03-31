@@ -40,6 +40,7 @@ define(function (require) {
         }),
         sizes = stores.SizeStore.fetchWhere({
           provider__id: provider.id,
+          archived: true,
           page_size: 100
         }),
         content = null;

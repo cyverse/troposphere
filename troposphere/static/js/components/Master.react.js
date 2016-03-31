@@ -69,7 +69,7 @@ define(function (require) {
       }.bind(this));
 
       // The code below is only relevant to logged in users
-      if (!context.profile || !context.profile.get('selected_identity')) return;
+      if (!context.hasLoggedInUser()) return;
 
       // IMPORTANT! We get one shot at this. If the instances and volumes aren't
       // fetched before this component is mounted we miss our opportunity to migrate
@@ -112,7 +112,7 @@ define(function (require) {
 
     render: function () {
 
-      if (!show_public_site && !context.profile.get('selected_identity') ) {
+      if (!show_public_site && !context.hasLoggedInUser()) {
           //Users who ARE logged in, but without an identity
           //cannot be handled in the application, currently.
           //These users are punted now.

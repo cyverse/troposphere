@@ -8,6 +8,7 @@ export default React.createClass({
         return {
             keyName: "",
             pubKey: "",
+            errorMsg: "",
         }
     },
 
@@ -20,8 +21,25 @@ export default React.createClass({
     },
 
     updatePublicKey: function(event) {
+        // Rule out most whitespace issues
+        let key = event.target.value.trim();
+
+        let parts = key.split(/\s+/g);
+        let err = "";
+
+        if (!this.validateKeyType(parts[0])) {
+            err = "Public key must begin with either ssh-rsa, ssh-dss, ecdsa-sha2-nistp256, or ssh-ed25519";
+        } else if (!this.validateOneLine(key)) {
+            err = "Public key cannot contain line breaks";
+        } else if (!this.validateNumOfParts(key)) {
+            err = "Public key can only contain 2 or 3 parts";
+        } else if (!this.validateKeyBodyBase64(parts[1])) {
+            err = "The key contains illegal characters";
+        }
+
         this.setState({
-            "pubKey": event.target.value.trim()
+            "pubKey": key,
+            "errorMsg": err
         });
     },
 
@@ -33,12 +51,34 @@ export default React.createClass({
         stores.SSHKeyStore.removeChangeListener(this.getInitialState);
     },
 
-    validateKey: function() {
-        let parts = this.state.pubKey.split(/ +/);
-        let lengthTest = parts.length == 2 || parts.length == 3
-        let keyTypeTest = /^(ssh-dss|ecdsa-sha2-nistp256|ssh-ed25519|ssh-rsa) /.test(this.state.pubKey);
+    validateKeyType: function(firstWord) {
+        // Worth noting that `ssh-keygen -t dsa` creates a key beginning with `ssh-dss`
+        return /^(ssh-dss|ecdsa-sha2-nistp256|ssh-ed25519|ssh-rsa)$/.test(firstWord);
+    },
 
-        return keyTypeTest && lengthTest;
+    validateOneLine: function(key) {
+        return /^[^\n]*$/.test(key);
+    },
+
+    validateNumOfParts: function(key) {
+        // Key must be space delimited
+        let parts = key.split(/ +/);
+
+        // 3 parts if a comment is included
+        return parts.length == 2 || parts.length == 3;
+    },
+
+    validateKeyBodyBase64: function(secondPart) {
+        return /^[a-zA-Z0-9+/=]+$/.test(secondPart);
+    },
+
+    validateKey: function() {
+        let parts = this.state.pubKey.split(/\s+/g);
+
+        return this.validateKeyType(parts[0]) &&
+               this.validateNumOfParts(this.state.pubKey) &&
+               this.validateOneLine(this.state.pubKey) &&
+               this.validateKeyBodyBase64(parts[1]);
     },
 
     isSubmittable() {
@@ -84,10 +124,11 @@ export default React.createClass({
                                     <input type="text" className="form-control" onChange={this.updateKeyName}/>
                                 </div>
                             </div>
-                            <div aria-invalid={showKeyWarn} className={"form-group " + (showKeyWarn? "has-error" : "")}>
+                            <div>
                                 <label className="control-label">Public Key</label>
-                                <div>
+                                <div aria-invalid={showKeyWarn} className={"form-group " + (showKeyWarn ? "has-error" : "")}>
                                     <textarea style={{minHeight:"200px"}} className="form-control" onChange={this.updatePublicKey}/>
+                                    { showKeyWarn ? <span className="help-block">{ "* " + this.state.errorMsg }</span> : "" }
                                 </div>
                             </div>
                         </div>
