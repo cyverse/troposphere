@@ -95,10 +95,20 @@ let LogoutLink = React.createClass({
     },
 
     render: function () {
-      var username = this.props.username;
+      var statusPageEl,
+        username = this.props.username;
+
       if (!username && show_public_site) {
           username = "AnonymousUser"
       }
+      if (globals.STATUS_PAGE_LINK) {
+        statusPageEl =(
+            <li>
+              <a href={globals.STATUS_PAGE_LINK} target="_blank">Status</a>
+            </li>
+        );
+      }
+
       return (
         <li className="dropdown">
           <a className="dropdown-toggle" href="#" data-toggle="dropdown">
@@ -116,9 +126,7 @@ let LogoutLink = React.createClass({
             <li>
               <a id="version_link" href="#" onClick={this.onShowVersion}>Version</a>
             </li>
-            <li>
-              <a href="http://atmosphere.status.io" target="_blank">Status</a>
-            </li>
+            {statusPageEl}
             <li>
               <a id="logout_link" href="/logout?cas=True&airport_ui=false">Sign out</a>
             </li>

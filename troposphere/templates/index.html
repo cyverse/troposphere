@@ -90,6 +90,10 @@
             var SUPPORT_EMAIL = "{{ SUPPORT_EMAIL }}";
         {% endif %}
 
+        {% if DISPLAY_STATUS_PAGE %}
+            var STATUS_PAGE_LINK = "{{ STATUS_PAGE_LINK }}";
+        {% endif %}
+
         {% if show_public_site %}
             var show_public_site = true;
         {%  else %}

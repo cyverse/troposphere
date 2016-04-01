@@ -18,7 +18,9 @@ class SiteMetadataAdmin(admin.ModelAdmin):
     list_display = [
         "user_portal_link",
         "user_portal_link_text",
-        "account_instructions_link"
+        "account_instructions_link",
+        "display_status_page_link",
+        "status_page_link"
     ]
 
     def has_add_permission(self, request):
