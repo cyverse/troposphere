@@ -90,7 +90,10 @@ define(function(require) {
                 </div>
 
                 <div className="resource-header">
-                  Resources in Use<a href="#" onClick={this.renderRequestMoreResources}>Need more{String.fromCharCode(63)}</a>
+                  {`Resources in Use`}
+                  <a href="#"
+                    onClick={this.renderRequestMoreResources}>
+                    Need more{String.fromCharCode(63)}</a>
                 </div>
                 <div className="row">
                   <div className="col-md-8">
