@@ -15,7 +15,7 @@ define(function (require) {
     render: function () {
       var image = this.props.image,
         versions = stores.ImageStore.getVersions(image.id),
-        showAvailableOn = !!(context.profile && context.profile.get('selected_identity'));
+        showAvailableOn = context.hasLoggedInUser();
 
       if(!versions) {
           return (<div className="loading" />);
@@ -26,7 +26,7 @@ define(function (require) {
           <VersionList image={image}
             versions={versions}
             editable={true}
-            showAvailability={showAvailableOn} 
+            showAvailability={showAvailableOn}
           />
         </div>
       );

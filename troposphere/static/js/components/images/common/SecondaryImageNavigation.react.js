@@ -10,7 +10,7 @@ define(function (require) {
     displayName: "SecondaryImageNavigation",
 
     renderRoute: function (name, linksTo, icon, requiresLogin) {
-      if (requiresLogin && !context.profile.get('selected_identity')) return null;
+      if (requiresLogin && !context.hasLoggedInUser()) return null;
 
       return (
         <li key={name}>
@@ -23,14 +23,14 @@ define(function (require) {
     },
 
     render: function () {
-      var profile = stores.ProfileStore.get(),
+      var profile = context.profile,
           allImages = stores.ImageStore.getAll(),
           images = stores.ImageStore.fetchWhere({
             created_by__username: profile.get('username')
           }) || [];
 
       // only attempt to get bookmarks if there is a profile that might have them ...
-      var userLoggedIn = !!(profile && profile.get('selected_identity')),
+      var userLoggedIn = context.hasLoggedInUser(),
         favoritedImages =  userLoggedIn ? stores.ImageBookmarkStore.getBookmarkedImages() : [];
 
       if(!images || (userLoggedIn && !favoritedImages)){
