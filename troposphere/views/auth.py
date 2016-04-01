@@ -78,20 +78,34 @@ def login(request):
 
 
 def logout(request):
+    """
+    Given the configured `AUTHENTICATION_BACKENDS`, perform a _logout_
+    request for that backend if the `force=true` query string argument
+    is present on the request.
+
+    See `troposphere/settings/default.py` for the configured backends.
+    """
+    all_backends = settings.AUTHENTICATION_BACKENDS
     # Django >1.8: the session cookie will be deleted on `.flush()`
     request.session.flush()
     request.session.clear_expired()
 
     #Look for 'cas' to be passed on logout.
     request_data = request.GET
-    if request_data.get('cas', False):
-        redirect_to = request_data.get("service")
-        if not redirect_to:
-            redirect_to = settings.SERVER_URL + reverse('application')
-        logout_url = cas_oauth_client.logout(redirect_to)
-        logger.info("Redirect user to: %s" % logout_url)
-        return redirect(logout_url)
+    if request_data.get('force', False):
+        if 'iplantauth.authBackends.CASLoginBackend' in all_backends:
+            redirect_to = request_data.get("service")
+            if not redirect_to:
+                redirect_to = settings.SERVER_URL + reverse('application')
+            logout_url = cas_oauth_client.logout(redirect_to)
+            logger.info("[CAS] Redirect user to: %s" % logout_url)
+            return redirect(logout_url)
+        elif 'iplantauth.authBackends.GlobusLoginBackend' in all_backends\
+          or 'iplantauth.authBackends.GlobusOAuthLoginBackend' in all_backends:
+            logger.info("[Globus] Redirect user to: %s" % logout_url)
+            return globus_logout_redirect(request)
     return redirect('application')
+
 
 #Initiate the OAuth login (Authorize)
 def _globus_login(request):

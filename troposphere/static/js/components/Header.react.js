@@ -128,7 +128,7 @@ let LogoutLink = React.createClass({
             </li>
             {statusPageEl}
             <li>
-              <a id="logout_link" href="/logout?cas=True&airport_ui=false">Sign out</a>
+              <a id="logout_link" href="/logout?force=true&airport_ui=false">Sign out</a>
             </li>
           </ul>
         </li>
