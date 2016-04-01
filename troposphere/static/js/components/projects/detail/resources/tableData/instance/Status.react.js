@@ -21,7 +21,7 @@ define(
         var activity = instanceState.get('activity');
         var lightStatus;
 
-        if (activity != undefined) {
+        if (activity) {
             lightStatus = "transition";
         } else if (status == "active") {
             lightStatus = "active";
@@ -34,7 +34,7 @@ define(
         var rawStatus = instanceState.get('status_raw');
 
         var style = {};
-        var capitalizedStatus = rawStatus.charAt(0).toUpperCase() + rawStatus.slice(1);
+        var capitalizedStatus = status.charAt(0).toUpperCase() + status.slice(1);
 
         if (instanceState.isDeployError()) {
           return (

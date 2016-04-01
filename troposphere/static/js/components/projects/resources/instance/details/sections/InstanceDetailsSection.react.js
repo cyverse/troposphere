@@ -9,13 +9,14 @@ define(
     './details/Id.react',
     './details/Alias.react',
     './details/Status.react',
+    './details/Activity.react',
     './details/Size.react',
     './details/IpAddress.react',
     './details/LaunchDate.react',
     './details/CreatedFrom.react',
     './details/Identity.react'
   ],
-  function (React, Backbone, ResourceDetail, Id, Alias, Status, Size, IpAddress, LaunchDate, CreatedFrom, Identity) {
+  function (React, Backbone, ResourceDetail, Id, Alias, Status, Activity, Size, IpAddress, LaunchDate, CreatedFrom, Identity) {
 
     return React.createClass({
       displayName: "InstanceDetailsSection",
@@ -32,6 +33,7 @@ define(
             <h4 className="t-title">Instance Details</h4>
             <ul>
               <Status instance={instance}/>
+              <Activity instance={instance}/>
               <Size instance={instance}/>
               <IpAddress instance={instance}/>
               <LaunchDate instance={instance}/>
