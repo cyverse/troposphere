@@ -10,6 +10,7 @@ import bootstrap from 'bootstrap';
 
 import { hasLoggedInUser } from 'utilities/profilePredicate';
 
+
 let Link = Router.Link;
 
 let links = [
@@ -181,11 +182,10 @@ let Header = React.createClass({
     },
 
     render: function () {
-
       var profile = this.props.profile,
-        hasLoggedInUser = hasLoggedInUser(profile);
+        hasUser = hasLoggedInUser(profile);
 
-      var loginLogoutDropdown = (hasLoggedInUser ?
+      var loginLogoutDropdown = (hasUser ?
             <LogoutLink username={profile.get('username')}/> :
             <LoginLink/>);
 
@@ -218,7 +218,7 @@ let Header = React.createClass({
         );
       }.bind(this));
 
-      var brandLink = (hasLoggedInUser ?
+      var brandLink = (hasUser ?
         <Link to="dashboard" className="navbar-brand"/> :
         <Link to="images" className="navbar-brand"/>);
 
@@ -246,7 +246,7 @@ let Header = React.createClass({
                 {loginLogoutDropdown}
               </ul>
             </div>
-            {hasLoggedInUser ? this.renderBetaToggle() : null}
+            {hasUser ? this.renderBetaToggle() : null}
           </div>
 
         </div>
