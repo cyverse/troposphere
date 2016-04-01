@@ -15,7 +15,7 @@ define(
 
       parse: function (attributes) {
         attributes.start_date = new Date(attributes.start_date);
-        attributes.state = new InstanceState({status_raw: attributes.status});
+        attributes.state = new InstanceState({status_raw: attributes.status, status: attributes.status.split(" - ")[0], activity: attributes.activity});
         return attributes;
       },
 
@@ -34,9 +34,10 @@ define(
         Backbone.sync("read", this, {
           url:url
         }).done(function(attrs, status, response){
+          var statusSplit = attrs.status.split(' - ');
           this.set('ip_address', attrs.ip_address);
           this.set('status', attrs.status);
-          this.set('state', new InstanceState({status_raw: attrs.status}));
+          this.set('state', new InstanceState({status_raw: attrs.status, status: statusSplit[0], activity: attrs.activity}));
           cb(response);
         }.bind(this)).fail(function(response, status, errorThrown){
           cb(response);
@@ -145,102 +146,5 @@ define(
         return instanceUrl + 'action';
       },
 
-      destroy: function (options) {
-        // We overwrite the destroy function so that the model doesn't get deleted while the instance is still 'terminating'
-
-        options = options ? _.clone(options) : {};
-        var model = this;
-        var success = options.success;
-
-        var self = this;
-        options.success = function (resp) {
-          if (success) {
-            success(model, resp, options);
-
-            // Get the new state from the data returned by API call
-            self.set('status', resp.status);
-          }
-
-          if (!model.isNew())
-            model.trigger('sync', model, resp, options);
-        };
-
-        // wrapError function from backbone.js
-        var wrapError = function (model, options) {
-          var error = options.error;
-          options.error = function (resp) {
-            if (error) error(model, resp, options);
-            model.trigger('error', model, resp, options);
-          };
-        };
-
-        if (this.isNew()) {
-          options.success();
-          return false;
-        }
-
-        wrapError(this, options);
-
-        var xhr = this.sync('delete', this, options);
-        return xhr;
-      },
-
-      performAction: function (action, options) {
-        if (!options) options = {};
-        if (!options.success) options.success = function () {};
-        if (!options.error) options.error = function () {};
-
-        $.ajax({
-          url: this.get('action_url'),
-          type: 'POST',
-          data: JSON.stringify({
-            action: action
-          }),
-          dataType: 'json',
-          contentType: 'application/json',
-          success: function (model) {
-            options.success.apply(null, arguments);
-          },
-          error: function (response, status, error) {
-            options.error.apply(null, arguments);
-          }
-        });
-      },
-
-      stop: function (options) {
-        this.set({status: 'active - stopping'});
-        this.performAction('stop', options);
-      },
-
-      start: function (options) {
-        // Prevent user from being able to quickly start multiple instances and go over quota
-        this.set({status: 'shutoff - powering-on'});
-        options.error = function () {
-          options.error();
-          this.set({status: 'shutoff'});
-        }.bind(this);
-        this.performAction('start', options);
-      },
-
-      suspend: function (options) {
-        this.set({status: 'active - suspending'});
-        this.performAction('suspend', options);
-      },
-
-      resume: function (options) {
-        // Prevent user from being able to quickly resume multiple instances and go over quota
-        this.set({status: 'suspended - resuming'});
-        this.performAction('resume', options);
-      },
-
-      redeploy: function (options) {
-        this.set({status: 'active - initializing'});
-        this.performAction('redeploying', options);
-      },
-
-      reboot: function (options) {
-        this.set({status: 'active - rebooting'});
-        this.performAction('reboot', options);
-      },
     });
 });
