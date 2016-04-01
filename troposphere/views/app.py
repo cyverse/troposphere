@@ -11,6 +11,7 @@ from django.template import RequestContext
 from api.models import UserPreferences, MaintenanceRecord
 from troposphere.version import get_version
 from troposphere.auth import has_valid_token
+from troposphere.site_metadata import get_site_metadata
 from .emulation import is_emulated_session
 from .maintenance import get_maintenance
 
@@ -244,18 +245,25 @@ def forbidden(request):
     user, but was found to be unauthorized to use Atmosphere by OAuth.
     Returns HTTP status code 403 Forbidden
     """
+    metadata = get_site_metadata()
     template_params = {}
 
     template_params["THEME_URL"] = "/themes/%s" % settings.THEME_NAME
     template_params['ORG_NAME'] = settings.ORG_NAME
     template_params['SITE_TITLE'] = settings.SITE_TITLE
     template_params['SITE_FOOTER'] = settings.SITE_FOOTER
+    template_params['USER_PORTAL_LINK'] = metadata.user_portal_link
+    template_params['USER_PORTAL_LINK_TEXT'] = metadata.user_portal_link_text
+    template_params['ACCOUNT_INSTRUCTIONS_LINK'] = \
+        metadata.account_instructions_link
+
     if hasattr(settings, "BASE_URL"):
         template_params['BASE_URL'] = settings.BASE_URL
 
     # If banner message in query params, pass it into the template
     if "banner" in request.GET:
         template_params['banner'] = request.GET['banner']
+
     response = render_to_response(
         'no_user.html',
         template_params,
