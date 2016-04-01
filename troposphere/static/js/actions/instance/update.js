@@ -5,8 +5,16 @@ define(function (require) {
     Utils = require('../Utils');
 
   return {
+    pushUpdate: function(instance, newAttributes) {
+      if (!instance) throw new Error("Missing instance");
+      if (!newAttributes) throw new Error("Missing attributes");
+      //FIXME: Validation?
+      instance.set(newAttributes);
 
-    update: function (instance, newAttributes) {
+      Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+
+    },
+    setName: function (instance, newAttributes) {
       if (!instance) throw new Error("Missing instance");
       if (!newAttributes || !newAttributes.name) throw new Error("Missing attributes.name");
 

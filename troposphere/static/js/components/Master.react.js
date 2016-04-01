@@ -89,6 +89,7 @@ define(function (require) {
         } else {
             actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
         }
+        actions.InstanceActions.initiatePush();
       }
 
       if (globals.BADGES_ENABLED){
@@ -124,7 +125,6 @@ define(function (require) {
 
       var maintenanceMessages = stores.MaintenanceMessageStore.getAll() || new Backbone.Collection(),
       marginTop = maintenanceMessages.length * 24 + "px";
-
       return (
         <div>
           <Header profile={context.profile} currentRoute={["projects"]} maintenanceMessages={maintenanceMessages}/>

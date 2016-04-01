@@ -118,6 +118,31 @@
     {% if show_public_site %}
     <script src="{{ BASE_URL }}/assets/public.js"></script>
     {% else %}
+    <!-- Fire up Webockets -->
+    <script src="{{ BASE_URL }}/assets/reconnecting-websocket.min.js"></script>
+    <script>
+        var new_socket_session = function(connection_path) {
+            var socket_path = "wss://"+window.location.host+"/{{ BASE_URL }}/ws"+connection_path+"?access_token={{ access_token }}";
+            return new ReconnectingWebSocket(socket_path);
+        }
+        start_socket_session = function(relative_path, message, replyCallback, closeCallback) {
+            var socket = new_socket_session(relative_path);
+            socket.onmessage = function(message) {
+                if (replyCallback) {
+                    replyCallback(message);
+                }
+            };
+            socket.onopen = function() {
+                socket.send(message);
+            };
+            socket.onclose = function() {
+                if (closeCallback) {
+                  closeCallback();
+                }
+            }
+            return socket;
+        }
+    </script>
     <script src="{{ BASE_URL }}/assets/app.js"></script>
     {% endif %}
     <!-- Google Analtics -->

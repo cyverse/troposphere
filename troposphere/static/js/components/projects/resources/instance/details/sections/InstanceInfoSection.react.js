@@ -41,7 +41,7 @@ define(function (require) {
         name: text,
         isEditing: false
       });
-      actions.InstanceActions.update(this.props.instance, {name: text});
+      actions.InstanceActions.setName(this.props.instance, {name: text});
     },
 
     onTagAdded: function (tag) {
