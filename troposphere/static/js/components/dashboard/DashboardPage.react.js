@@ -38,7 +38,7 @@ define(function(require) {
     componentWillUnmount: function() {
       stores.SizeStore.removeChangeListener(this.updateState);
     },
-    
+
     render: function() {
 
       var providers = stores.ProviderStore.getAll(),
@@ -59,7 +59,7 @@ define(function(require) {
           <div className="container">
             <div className="row">
 
-              <div className="col-md-9">
+              <div className="col-md-12">
 
                 <h2>Getting Started</h2>
                 <div className="row calls-to-action">
@@ -114,14 +114,6 @@ define(function(require) {
                   </div>
                 </div>
                 <InstanceHistoryList/>
-              </div>
-
-              <div className="col-md-3 community-activity">
-                <h3>Community Activity</h3>
-                <MaintenanceMessageList
-                  messages={maintenanceMessages}
-                  images={images}
-                />
               </div>
 
             </div>

@@ -24,14 +24,13 @@ export default React.createClass({
 
    render: function () {
         let imageVersion = this.props.imageVersion;
-        let imageVersionId;
+        let imageVersionId = imageVersion ? imageVersion.get('id') : null;
         let project = this.props.project;
+        let projectId = project ? project.get('id') : null;
         let projectList = this.props.projectList;
         let instanceName = this.props.instanceName;
         let instanceNameClasses = "form-group";
         let errorMessage = null;
-
-        if (imageVersion) { imageVersionId = imageVersion.get('id'); }
 
         if (this.props.showValidationErr) {
             errorMessage = instanceName == "" ? "This field is rquired" : null;
@@ -70,7 +69,7 @@ export default React.createClass({
                         Project
                     </label>
                     <SelectMenu
-                        defaultId={project.id}
+                        defaultId={projectId}
                         list={projectList}
                         optionName={item => item.get('name')}
                         onSelectChange={this.props.onProjectChange}
