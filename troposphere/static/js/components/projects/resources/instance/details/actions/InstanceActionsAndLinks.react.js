@@ -65,6 +65,7 @@ define(function(require) {
     render: function() {
       var webShellUrl = this.props.instance.shell_url(),
           remoteDesktopUrl = this.props.instance.vnc_url(),
+          usesRemoteDesktop = !!(this.props.instance && this.props.instance.get('vnc')),
           status = this.props.instance.get('state').get('status'),
           activity = this.props.instance.get('state').get('activity'),
           ip_address = this.props.instance.get('ip_address'),
@@ -114,19 +115,23 @@ define(function(require) {
         {label: 'Links', icon: null},
         {
           label: 'Open Web Shell',
-          icon: 'credit-card',
+          icon: 'console',
           href: webShellUrl,
-          openInNewWindow: true,
-          isDisabled: webLinksDisabled
-        },
-        {
-          label: 'Remote Desktop',
-          icon: 'fullscreen',
-          href: remoteDesktopUrl,
           openInNewWindow: true,
           isDisabled: webLinksDisabled
         }
       ]);
+
+      if (usesRemoteDesktop) {
+        linksArray = linksArray.concat([
+                {
+          label: 'Remote Desktop',
+          icon: 'sound-stereo',
+          href: remoteDesktopUrl,
+          openInNewWindow: true,
+          isDisabled: webLinksDisabled
+        }]);
+      }
 
       var links = linksArray.map(function(link) {
         // Links without icons are generally section headings
