@@ -41,19 +41,14 @@ define(function(require) {
     render: function() {
       var username = stores.ProfileStore.get().id,
           helpLinks = stores.HelpLinkStore.getAll(),
-          imagingDocsUrl,
+          imagingDocsLink,
           requests;
 
-/* relates to ATMO-1230, links move to atmo-db; pending dev
-
       if(!username || !helpLinks){
-*/
-
-      if(!username) {
         return <div className = "loading"></div>
       }
 
-      imagingDocsUrl = stores.HelpLinkStore.get("request-image");
+      imagingDocsLink = stores.HelpLinkStore.get("request-image");
 
       requests = stores.ImageRequestStore.getAll();
 
@@ -76,7 +71,7 @@ define(function(require) {
           <div className="container">
             <p style={{marginBottom: "16px"}}>
               {"Looking for more information about the imaging process? Check out the "}
-              <a href={imagingDocsUrl} target="_blank">documentation on imaging</a>.
+              <a href={imagingDocsLink.get('href')} target="_blank">documentation on imaging</a>.
             </p>
             <p>You have not made any imaging requests.</p>
           </div>
@@ -123,7 +118,7 @@ define(function(require) {
         <div className="container">
           <p style={{marginBottom: "16px"}}>
             {"Looking for more information about the imaging process? Check out the "}
-            <a href={imagingDocsUrl} target="_blank">documentation on imaging</a>.
+            <a href={imagingDocsLink.get('href')} target="_blank">documentation on imaging</a>.
           </p>
 
           {this.renderRefreshButton()}

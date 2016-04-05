@@ -16,11 +16,7 @@ define(function (require) {
         instance = stores.InstanceStore.get(Number(this.getParams().instanceId)),
         helpLinks = stores.HelpLinkStore.getAll();
 
-/* relates to ATMO-1230, links move to atmo-db; pending dev
       if (!project || !instance || !helpLinks) {
-*/
-
-      if (!project || !instance) {
         return <div className="loading"></div>;
       }
 

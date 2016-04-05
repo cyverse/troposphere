@@ -33,11 +33,9 @@ define(function (require) {
       render: function () {
         var helpLinks = stores.HelpLinkStore.getAll();
 
-        /* relates to ATMO-1230, links move to atmo-db; pending dev
         if (!helpLinks) {
             return <div className="loading"></div>;
         }
-        */
 
         var resourceElements = resources.map(function (resource) {
             var hyperlink = helpLinks.get(resource.link_key).get('href');
