@@ -22,9 +22,15 @@ define(function (require) {
     urlRoot: globals.API_V2_ROOT + "/volumes",
 
     parse: function (attributes) {
-      attributes.start_date = new Date(attributes.start_date);
-      attributes.state = new VolumeState({status_raw: attributes.status});
-      attributes.status = attributes.status || "Unknown";
+      if(attributes.start_date){
+        attributes.start_date = new Date(attributes.start_date);
+      }
+      if(attributes.status){
+        attributes.state = new VolumeState({status_raw: attributes.status});
+      }
+      else{
+        attributes.status = "Unknown";
+      }
       attributes.attach_data = extractAttachData(attributes);
       return attributes;
     },
