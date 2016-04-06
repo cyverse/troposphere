@@ -16,7 +16,7 @@ define(
 
       render: function () {
         return (
-          <ResourceDetail label="ID">
+          <ResourceDetail label="ID ">
             {this.props.instance.id}
           </ResourceDetail>
         );
