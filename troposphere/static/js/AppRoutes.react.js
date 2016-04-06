@@ -103,7 +103,7 @@ define(function (require) {
         <Route name="my-requests-images" path="images" handler={MyImageRequestsPage} />
       </Route>
 
-      <Route name="instance-history">
+      <Route name="instances">
         <Route name="instance-history-detail" path=":id" handler={InstanceHistoryDetail} />
       </Route>
 
