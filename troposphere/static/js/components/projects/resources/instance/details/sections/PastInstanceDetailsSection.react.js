@@ -5,6 +5,7 @@ import Id from './details/Id.react';
 import Alias from './details/Alias.react';
 import Size from './details/Size.react';
 import LaunchDate from './details/LaunchDate.react';
+import EndDate from './details/EndDate.react';
 import CreatedFrom from './details/CreatedFrom.react';
 import Identity from './details/Identity.react';
 
@@ -25,6 +26,7 @@ var PastInstanceDetailsSection = React.createClass({
               <Status instance={instance}/>
               <Size instance={instance}/>
               <LaunchDate instance={instance}/>
+              <EndDate instance={instance}/>
               <CreatedFrom instance={instance}/>
               <Identity instance={instance}/>
               <Id instance={instance}/>
