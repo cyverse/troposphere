@@ -48,7 +48,6 @@ var InstanceDetail = React.createClass({
     },
 
     renderInactiveInstance: function(){
-        var detailsSection, metricsInstance, actions;
         var instanceObj = new Instance(this.state.instanceHistory.models[0].get('instance')),
             instanceStateObj = new InstanceState({"status_raw": "Deleted"}),
             image = this.state.instanceHistory.models[0].get('image'),
@@ -56,52 +55,40 @@ var InstanceDetail = React.createClass({
         instanceObj.set('image', image);
         instanceObj.set('size', size);
         instanceObj.set('state', instanceStateObj);
-        metricsInstance = instanceObj;
-        detailsSection = <PastInstanceDetailsSection instance={instanceObj} />;
+
         return (
             <div className="container">
               <div className="row resource-details-content">
                 <div className="col-md-9">
-                  {detailsSection}
+                  <PastInstanceDetailsSection instance={instanceObj} />;
                   <hr/>
-                  {
-                    typeof show_instance_metrics != "undefined"
-                    ? <InstanceMetricsSection instance={metricsInstance}/>
-                    : ""
-                  }
                 </div>
-                {actions}
               </div>
             </div>
         );
     },
 
     renderActiveInstance: function(){
-        var detailsSection, metricsInstance, actions;
-        metricsInstance = this.state.instance;
-        actions = (
-            <div className="col-md-3">
-              <InstanceActionsAndLinks
-                project={null}
-                instance={metricsInstance}
-                />
-            </div>
-        );
-        detailsSection = <InstanceDetailsSection instance={this.state.instance} />;
+        var instance = this.state.instance;
 
         return (
             <div className="container">
               <div className="row resource-details-content">
                 <div className="col-md-9">
-                  {detailsSection}
+                  <InstanceDetailsSection instance={instance} />;
                   <hr/>
                   {
                     typeof show_instance_metrics != "undefined"
-                    ? <InstanceMetricsSection instance={metricsInstance}/>
+                    ? <InstanceMetricsSection instance={instance}/>
                     : ""
                   }
                 </div>
-                {actions}
+                <div className="col-md-3">
+                    <InstanceActionsAndLinks
+                        project={null}
+                        instance={instance}
+                    />
+                </div>
               </div>
             </div>
         );
