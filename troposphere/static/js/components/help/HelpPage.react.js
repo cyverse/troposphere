@@ -61,6 +61,7 @@ define(function (require) {
                 <strong>{"Feedback & Support"}</strong>
                 {" button at the bottom of the page (to enter a help request online) or by sending an email to "}
                 <a href={`mailto:${globals.SUPPORT_EMAIL}`}>{globals.SUPPORT_EMAIL}</a>
+                {"."}
               </p>
             </div>
           </div>
