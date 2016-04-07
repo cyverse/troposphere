@@ -342,10 +342,12 @@ define(function (require) {
 
       if(!this.isFetchingQuery[queryString]) {
         this.isFetchingQuery[queryString] = true;
+        this.isFetching = true;
         var models = new this.collection();
         models.fetch({
           url: models.url + queryString
         }).done(function () {
+          this.isFetching = false;
           this.isFetchingQuery[queryString] = false;
           this.queryModels[queryString] = models;
           this.emitChange();
@@ -366,11 +368,13 @@ define(function (require) {
         nextUrl = searchResults.meta.next;
 
       if (nextUrl && !this.isFetchingQuery[queryString]) {
+        this.isFetching = true;
         this.isFetchingQuery[queryString] = true;
         var moreModels = new this.collection();
         this.queryModels[queryString].fetch({
           url: nextUrl, remove: false
         }).done(function () {
+          this.isFetching = false;
           this.isFetchingQuery[queryString] = false;
           this.emitChange();
         }.bind(this));
@@ -407,9 +411,23 @@ define(function (require) {
                 // Use latest polling func
                 var keepPolling = this.pollingModels[model.cid](model, response);
 
-                if (this.has(model))
-                    this.update(model);
-                this.emitChange();
+                if (this.has(model)){
+                    /*
+                    * If this function has been defined for the specific store
+                    * and the response has no new relevant information, there is no
+                    * need to emit a change
+                    */
+                    if (this.compareResponseToExistingModel){
+                        if(!this.compareResponseToExistingModel(response, model)){
+                            this.update(model);
+                            this.emitChange();
+                        }
+                    }
+                    else{
+                        this.update(model);
+                        this.emitChange();
+                    }
+                }
 
                 if (keepPolling) {
                     setTimeout(wrapper, this.pollingFrequency);
