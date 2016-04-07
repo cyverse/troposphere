@@ -27,6 +27,8 @@ define(
             lightStatus = "active";
         } else if (status == "suspended" || status == "shutoff") {
             lightStatus = "inactive";
+        } else if (status == "deleted") {
+            lightStatus = "deleted";
         } else {
             lightStatus = "error";
         }
