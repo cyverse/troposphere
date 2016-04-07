@@ -10,22 +10,6 @@ import Instance from 'models/Instance';
 import InstanceState from 'models/InstanceState';
 import InstanceInfoSection from 'components/projects/resources/instance/details/sections/InstanceInfoSection.react';
 
-  // var React = require('react/addons'),
-  //   Router = require('react-router'),
-  //   Backbone = require('backbone'),
-  //   BreadcrumbBar = require('components/projects/common/BreadcrumbBar.react'),
-  //
-  //   InstanceDetailsSection = require('components/projects/resources/instance/details/sections/InstanceDetailsSection.react'),
-  //
-  //
-  //   stores = require('stores'),
-  //   Time = require('components/common/Time.react'),
-  //   ResourceTags = require('components/projects/resources/instance/details/sections/ResourceTags.react'),
-  //   actions = require('actions'),
-  //   moment = require('moment'),
-  //   CryptoJS = require('crypto-js'),
-  //   Gravatar = require('components/common/Gravatar.react');
-
 var InstanceDetail = React.createClass({
     displayName: "InstanceDetail",
 
