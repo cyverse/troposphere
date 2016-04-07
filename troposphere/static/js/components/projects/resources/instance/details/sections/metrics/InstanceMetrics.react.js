@@ -103,7 +103,7 @@ define(function(require) {
 
     render: function() {
 
-      var prov = this.props.instance.get('provider').id;
+      var prov = this.props.instance.get('provider').id || this.props.instance.get('provider');
       if (!(prov == 4 || prov == 5)) {
          return (<div id="not-available">Instance metrics are not available on this provider</div>)
       }
