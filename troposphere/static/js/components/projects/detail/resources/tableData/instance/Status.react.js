@@ -1,21 +1,16 @@
+import React from 'react';
+import Backbone from 'backbone';
+import StatusLight from 'components/projects/common/StatusLight.react';
+import StatusBar from './StatusBar.react';
 
-define(
-  [
-    'react',
-    'backbone',
-    'components/projects/common/StatusLight.react',
-    './StatusBar.react'
-  ],
-  function (React, Backbone, StatusLight, StatusBar) {
+var Status = React.createClass({
+    displayName: "Status",
 
-    return React.createClass({
-      displayName: "Status",
-
-      propTypes: {
+    propTypes: {
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    },
 
-      render: function () {
+    render: function () {
         var instanceState = this.props.instance.get('state');
         var status = instanceState.get('status');
         var activity = instanceState.get('activity');
@@ -58,8 +53,8 @@ define(
             <StatusBar state={instanceState} activity={activity}/>
           </span>
         );
-      }
+    }
 
-    });
+});
 
-  });
+export default Status;
