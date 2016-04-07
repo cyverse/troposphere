@@ -8,12 +8,13 @@ import InstanceActionsAndLinks from 'components/projects/resources/instance/deta
 import InstanceMetricsSection from 'components/projects/resources/instance/details/sections/InstanceMetricsSection.react';
 import Instance from 'models/Instance';
 import InstanceState from 'models/InstanceState';
+import InstanceInfoSection from 'components/projects/resources/instance/details/sections/InstanceInfoSection.react';
 
   // var React = require('react/addons'),
   //   Router = require('react-router'),
   //   Backbone = require('backbone'),
   //   BreadcrumbBar = require('components/projects/common/BreadcrumbBar.react'),
-  //   InstanceInfoSection = require('components/projects/resources/instance/details/sections/InstanceInfoSection.react'),
+  //
   //   InstanceDetailsSection = require('components/projects/resources/instance/details/sections/InstanceDetailsSection.react'),
   //
   //
@@ -38,7 +39,7 @@ var InstanceDetail = React.createClass({
     },
 
     onNewData: function(){
-        this.setState({instanceHistory: stores.InstanceHistoryStore.fetchWhere({"instance": this.getParams().id})});
+        this.setState({instance: stores.InstanceStore.get(this.getParams().id), instanceHistory: stores.InstanceHistoryStore.fetchWhere({"instance": this.getParams().id})});
     },
 
     componentDidMount: function(){
@@ -49,7 +50,7 @@ var InstanceDetail = React.createClass({
 
     renderInactiveInstance: function(){
         var instanceObj = new Instance(this.state.instanceHistory.models[0].get('instance')),
-            instanceStateObj = new InstanceState({"status_raw": "Deleted"}),
+            instanceStateObj = new InstanceState({"status_raw": "deleted"}),
             image = this.state.instanceHistory.models[0].get('image'),
             size = this.state.instanceHistory.models[0].get('size');
         instanceObj.set('image', image);
@@ -59,11 +60,14 @@ var InstanceDetail = React.createClass({
         return (
             <div className="container">
               <div className="row resource-details-content">
-                <div className="col-md-9">
-                  <PastInstanceDetailsSection instance={instanceObj} />;
-                  <hr/>
+                <div className="col-md-6">
+                    <InstanceInfoSection instance={instanceObj}/>
+                </div>
+                <div className="col-md-6">
+                    <PastInstanceDetailsSection instance={instanceObj} />
                 </div>
               </div>
+              <hr/>
             </div>
         );
     },
@@ -71,17 +75,17 @@ var InstanceDetail = React.createClass({
     renderActiveInstance: function(){
         var instance = this.state.instance;
 
+        var metrics = typeof show_instance_metrics != "undefined" ? <InstanceMetricsSection instance={instance}/> : "";
+
         return (
             <div className="container">
               <div className="row resource-details-content">
                 <div className="col-md-9">
-                  <InstanceDetailsSection instance={instance} />;
-                  <hr/>
-                  {
-                    typeof show_instance_metrics != "undefined"
-                    ? <InstanceMetricsSection instance={instance}/>
-                    : ""
-                  }
+                    <InstanceInfoSection instance={instance}/>
+                    <hr/>
+                    <InstanceDetailsSection instance={instance} />
+                    <hr/>
+                    {metrics}
                 </div>
                 <div className="col-md-3">
                     <InstanceActionsAndLinks
@@ -100,7 +104,6 @@ var InstanceDetail = React.createClass({
         }
 
         return this.state.instance ? this.renderActiveInstance() : this.renderInactiveInstance();
-
 
     },
 
