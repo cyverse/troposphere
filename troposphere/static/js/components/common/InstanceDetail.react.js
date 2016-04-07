@@ -9,6 +9,7 @@ import InstanceMetricsSection from 'components/projects/resources/instance/detai
 import Instance from 'models/Instance';
 import InstanceState from 'models/InstanceState';
 import InstanceInfoSection from 'components/projects/resources/instance/details/sections/InstanceInfoSection.react';
+import InstanceHistorySection from 'components/common/InstanceHistorySection.react';
 
 var InstanceDetail = React.createClass({
     displayName: "InstanceDetail",
@@ -32,33 +33,42 @@ var InstanceDetail = React.createClass({
         stores.ProviderStore.addChangeListener(this.onNewData);
     },
 
+    componentWillUnmount: function(){
+        stores.InstanceStore.removeChangeListener(this.onNewData);
+        stores.InstanceHistoryStore.removeChangeListener(this.onNewData);
+        stores.ProviderStore.removeChangeListener(this.onNewData);
+    },
+
     renderInactiveInstance: function(){
-        var instanceObj = new Instance(this.state.instanceHistory.models[0].get('instance')),
+        var instanceHistory = this.state.instanceHistory.models[0];
+        var instanceObj = new Instance(instanceHistory.get('instance')),
             instanceStateObj = new InstanceState({"status_raw": "deleted"}),
-            image = this.state.instanceHistory.models[0].get('image'),
-            size = this.state.instanceHistory.models[0].get('size');
+            image = instanceHistory.get('image'),
+            size = instanceHistory.get('size');
         instanceObj.set('image', image);
         instanceObj.set('size', size);
         instanceObj.set('state', instanceStateObj);
 
+        var metrics = typeof show_instance_metrics != "undefined" ? <InstanceMetricsSection instance={instanceObj}/> : "";
+
         return (
             <div className="container">
               <div className="row resource-details-content">
-                <div className="col-md-6">
+                <div className="col-md-9">
                     <InstanceInfoSection instance={instanceObj}/>
-                </div>
-                <div className="col-md-6">
+                    <hr />
                     <PastInstanceDetailsSection instance={instanceObj} />
+                    {metrics}
                 </div>
               </div>
               <hr/>
+              <InstanceHistorySection instance={instanceObj} />
             </div>
         );
     },
 
     renderActiveInstance: function(){
         var instance = this.state.instance;
-
         var metrics = typeof show_instance_metrics != "undefined" ? <InstanceMetricsSection instance={instance}/> : "";
 
         return (
@@ -70,6 +80,8 @@ var InstanceDetail = React.createClass({
                     <InstanceDetailsSection instance={instance} />
                     <hr/>
                     {metrics}
+                    <hr/>
+                    <InstanceHistorySection instance={instance} />
                 </div>
                 <div className="col-md-3">
                     <InstanceActionsAndLinks
