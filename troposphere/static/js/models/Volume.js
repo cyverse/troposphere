@@ -30,6 +30,7 @@ define(function (require) {
       }
       else{
         attributes.status = "Unknown";
+        attributes.state = new VolumeState({});
       }
       attributes.attach_data = extractAttachData(attributes);
       return attributes;
