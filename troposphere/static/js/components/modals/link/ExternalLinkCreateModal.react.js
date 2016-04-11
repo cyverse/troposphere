@@ -36,13 +36,12 @@ export default React.createClass({
     },
 
     confirm: function () {
-    if (!this.isSubmitable) {
-        this.setState({
-            shouldValidate: true
-        }); return
-    }
-
-    this.hide();
+        if (!this.isSubmittable()) {
+            this.setState({
+                shouldValidate: true
+            }); return
+        }
+        this.hide();
         this.props.onConfirm(
             $.trim(this.state.name),
             this.state.description,
@@ -52,7 +51,6 @@ export default React.createClass({
 
     //
     // Custom Modal Callbacks
-    // ----------------------
     //
 
     onNameChange: function (e) {
