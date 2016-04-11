@@ -95,6 +95,7 @@ define(function(require) {
           linksArray.push({label: 'Redeploy', icon: 'repeat', onClick: this.onRedeploy});
         } else if (status === "suspended") {
           linksArray.push({label: 'Resume', icon: 'play', onClick: this.onResume});
+          linksArray.push({label: 'Reboot', icon: 'repeat', onClick: this.onReboot});
         } else if (status === "shutoff") {
           linksArray.push({label: 'Start', icon: 'play', onClick: this.onStart});
         }
