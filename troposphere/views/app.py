@@ -18,10 +18,20 @@ from .maintenance import get_maintenance
 logger = logging.getLogger(__name__)
 
 
-#TODO: Move this into a settings file.
-STAFF_LIST_USERNAMES = ['estevetest01', 'estevetest02','estevetest03','estevetest04',
-                        'estevetest13', 'sgregory', 'lenards', 'tharon', 'cdosborn',
-                        'julianp', 'josephgarcia', 'mattd', 'amercer']
+if hasattr(settings, "STAFF_LIST_USERNAMES"):
+    STAFF_LIST_USERNAMES = settings.STAFF_LIST_USERNAMES
+else:
+    logger.error("""
+        STAFF_LIST_USERNAMES has not been set correctly.
+        Help look at atmosphere/settings/local.py or
+        add to variables.ini under [local.py] & re-run
+        the ./configure script
+    """)
+    logger.warn("Adding fallback STAFF_LIST_USERNAMES...")
+    STAFF_LIST_USERNAMES = [
+        'sgregory', 'lenards', 'tharon', 'cdosborn', 'julianp', 'josephgarcia',
+        'mattd', 'amercer'
+    ]
 
 
 def root(request):
