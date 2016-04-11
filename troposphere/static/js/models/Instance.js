@@ -14,8 +14,12 @@ define(
       urlRoot: globals.API_V2_ROOT + "/instances",
 
       initialize: function(){
-        this.set('start_date', new Date(this.get('start_date')));
-        this.set('end_date', new Date(this.get('end_date')));
+        if(this.get('start_date')){
+            this.set('start_date', new Date(this.get('start_date')));
+        }
+        if(this.get('end_date')){
+            this.set('end_date', new Date(this.get('end_date')));
+        }
       },
 
       parse: function (attributes) {
