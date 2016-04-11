@@ -81,7 +81,6 @@ export default React.createClass({
                 cause: "empty"
             }
         }
-
         if (title) {
             let lower = $.trim(title.toLowerCase());
             let externalLinks = stores.ExternalLinkStore.getAll()
@@ -97,7 +96,6 @@ export default React.createClass({
                 }
             }
         }
-
         return {
             valid: true,
             cause: ""
@@ -119,7 +117,6 @@ export default React.createClass({
                 cause: "notURL"
             }
         }
-
         return {
             valid: true,
             cause: ""
@@ -164,7 +161,6 @@ export default React.createClass({
                 linkMessage = "Link URL must start with http(s)://";
             }
         }
-
         return {
             titleMessage,
             descriptionMessage,
