@@ -344,12 +344,20 @@
     display: block;
     color: #5A5A5A;
     float:left;
+    @media(max-width: 700px) {
+        width: 100%;
+        float: none;
+    }
 }
 
 .detail-value {
     width: 85%;
     display: block;
     float: left;
+    @media(max-width: 700px) {
+        width: 100%;
+        float: none;
+    }
 }
 
 .scrollable-content {
