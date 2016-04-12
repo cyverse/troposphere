@@ -16,7 +16,7 @@ define(
       render: function () {
         return (
           <li className="clearfix">
-            <div className="detail-label">{this.props.label + " "}</div>
+            <div className="t-body-2 detail-label">{this.props.label + " "}</div>
             <div className="detail-value" >{this.props.children}</div>
           </li>
         );

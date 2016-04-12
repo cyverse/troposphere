@@ -319,15 +319,14 @@
     padding-bottom: 10px;
 
     .detail-label {
-      width: 20%;
+      width: 25%;
       margin-right: 10%;
       display: block;
-      color: #5A5A5A;
       float:left;
     }
 
     .detail-value {
-      width:70%;
+      width: 65%;
       display: block;
       float:left;
     }
@@ -340,9 +339,7 @@
 // This is repeated above because the values are different here and the above are scoped within `.side-panel`
 .detail-label {
     width: 15%;
-    padding-right: 20px;
     display: block;
-    color: #5A5A5A;
     float:left;
     @media(max-width: 700px) {
         width: 100%;
@@ -354,6 +351,7 @@
     width: 85%;
     display: block;
     float: left;
+    padding-left: 10px;
     @media(max-width: 700px) {
         width: 100%;
         float: none;
