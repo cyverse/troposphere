@@ -325,16 +325,31 @@
       color: #5A5A5A;
       float:left;
     }
-    
+
     .detail-value {
       width:70%;
       display: block;
       float:left;
     }
-    span {
+    div {
       font-size: 13px;
     }
   }
+}
+
+// This is repeated above because the values are different here and the above are scoped within `.side-panel`
+.detail-label {
+    width: 15%;
+    padding-right: 20px;
+    display: block;
+    color: #5A5A5A;
+    float:left;
+}
+
+.detail-value {
+    width: 85%;
+    display: block;
+    float: left;
 }
 
 .scrollable-content {
