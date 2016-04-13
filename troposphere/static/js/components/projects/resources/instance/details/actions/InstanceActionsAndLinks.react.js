@@ -10,7 +10,6 @@ define(function(require) {
     displayName: "InstanceActionsAndLinks",
 
     propTypes: {
-      project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
@@ -43,14 +42,17 @@ define(function(require) {
     },
 
     onDelete: function() {
-      var project = this.props.project,
-        instance = this.props.instance;
+      var instance = this.props.instance,
+          project;
+
+      if(this.props.project){
+        project = this.props.project;
+      }
 
       modals.InstanceModals.destroy({
         instance: instance,
         project: project,
-        linksTo: "project-resources",
-        params: {projectId: project.id}
+        linksTo: "project-resources"
       });
     },
 
