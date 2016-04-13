@@ -63,10 +63,6 @@ define(function (require) {
         var requestDate = moment(request.get('start_date'));
         var now = moment();
 
-        if(requestDate.isBefore(now.subtract(7, 'days')) && request.get('status').name != "pending"){
-          return;
-        }
-
         var handleClick = function(){
             this.onResourceClick(request);
         }.bind(this);
