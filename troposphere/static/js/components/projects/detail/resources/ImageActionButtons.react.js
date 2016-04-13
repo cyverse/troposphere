@@ -37,7 +37,7 @@ define(function (require) {
       );
 
       return (
-        <div style={{borderLeft: "1px solid #ddd", display: "inline-block", paddingLeft: "10px", float: "right"}}>
+        <div className="clearfix u-md-pull-right">
           {linksArray}
         </div>
       );

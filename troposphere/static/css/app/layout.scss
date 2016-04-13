@@ -259,7 +259,6 @@
 }
 
 .button-bar {
-  border-bottom: 1px solid #dddddd;
   padding: 10px 0px;
 
   button {
@@ -399,8 +398,12 @@
 // Table styles
 .td-sub-menu {
   float: left;
-  margin-right: 35px;
-  margin-top: 11px;
+  margin-right: 10px;
+  margin-top: 10px;
+  @media(max-width:950px) {
+    float: none;
+    display: block;
+  }
 }
 
 .td-project-content {
