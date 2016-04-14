@@ -128,7 +128,7 @@ define(function (require) {
       isButtonBarVisible = this.state.selectedResources.length > 0;
 
       return (
-        <div className="project-content">
+        <div className="project-content clearfix">
           <ButtonBar
             isVisible={isButtonBarVisible}
             onMoveSelectedResources={this.onMoveSelectedResources}
@@ -141,8 +141,8 @@ define(function (require) {
             project={project}
             />
 
-          <div className="resource-list">
-            <div className="scrollable-content">
+          <div className="resource-list clearfix">
+            <div className="scrollable-content" style={{borderTop: "solid 1px #E1E1E1"}}>
               <InstanceList
                 instances={projectInstances}
                 onResourceSelected={this.onResourceSelected}
