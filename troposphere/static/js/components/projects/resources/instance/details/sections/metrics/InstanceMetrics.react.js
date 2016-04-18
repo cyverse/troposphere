@@ -97,7 +97,7 @@ define(function(require) {
               break;
         }
         start = start.format("hh:mmYYYYMMDD");
-        until = this.state.until.format("hh:mmYYYYMMDD");
+        until = moment(this.state.until).format("hh:mmYYYYMMDD");
       }
 
       // Disable refresh button
