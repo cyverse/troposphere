@@ -24,7 +24,7 @@ export default React.createClass({
 
         if (name.length > maxCharLen) {
             hasError = true;
-            message = `Must be less than ${maxCharLen} charactors long`;
+            message = `Must be less than ${maxCharLen} characters long`;
         }
 
         return {
