@@ -7,7 +7,6 @@ import PastInstanceDetailsSection from 'components/projects/resources/instance/d
 import InstanceActionsAndLinks from 'components/projects/resources/instance/details/actions/InstanceActionsAndLinks.react';
 import InstanceMetricsSection from 'components/projects/resources/instance/details/sections/InstanceMetricsSection.react';
 import Instance from 'models/Instance';
-import moment from 'moment';
 import InstanceState from 'models/InstanceState';
 import InstanceInfoSection from 'components/projects/resources/instance/details/sections/InstanceInfoSection.react';
 import InstanceHistorySection from 'components/common/InstanceHistorySection.react';
@@ -46,15 +45,15 @@ var InstanceDetail = React.createClass({
             instanceStateObj = new InstanceState({"status_raw": "deleted"}),
             image = instanceHistory.get('image'),
             size = instanceHistory.get('size'),
-            momentStart = moment(instanceHistory.get('start_date')),
-            momentEnd = moment(instanceHistory.get('end_date'));
+            dateStart = new Date(instanceHistory.get('start_date')),
+            dateEnd = new Date(instanceHistory.get('end_date'));
 
         // Construct a proper instance from the instance history information
         instanceObj.set('image', image);
         instanceObj.set('size', size);
         instanceObj.set('state', instanceStateObj);
-        instanceObj.set('start_date', momentStart);
-        instanceObj.set('end_date', momentEnd);
+        instanceObj.set('start_date', dateStart);
+        instanceObj.set('end_date', dateEnd);
 
         var metrics = typeof show_instance_metrics != "undefined" ? <InstanceMetricsSection instance={instanceObj}/> : "";
 
