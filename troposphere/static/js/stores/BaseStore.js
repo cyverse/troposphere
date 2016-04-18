@@ -412,21 +412,8 @@ define(function (require) {
                 var keepPolling = this.pollingModels[model.cid](model, response);
 
                 if (this.has(model)){
-                    /*
-                    * If this function has been defined for the specific store
-                    * and the response has no new relevant information, there is no
-                    * need to emit a change
-                    */
-                    if (this.compareResponseToExistingModel){
-                        if(!this.compareResponseToExistingModel(response, model)){
-                            this.update(model);
-                            this.emitChange();
-                        }
-                    }
-                    else{
                         this.update(model);
                         this.emitChange();
-                    }
                 }
 
                 if (keepPolling) {

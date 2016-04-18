@@ -65,15 +65,6 @@ define(function (require) {
         return instance.get('state').isInFinalState();
     },
 
-
-    compareResponseToExistingModel: function(res, model){
-        var responseObj = res.responseJSON,
-            newStatus = responseObj.status,
-            newIP = responseObj.ip_address;
-
-        return (model.get('ip_address') == newIP && model.get('status') == newStatus);
-    },
-
     // Poll for a model
     pollUntilDeleted: function(instance) {
         this.pollWhile(instance, function(model, response) {
