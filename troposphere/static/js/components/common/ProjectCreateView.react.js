@@ -11,8 +11,46 @@ export default React.createClass({
         };
     },
 
+    validateName: function() {
+        let name = this.state.projectName;
+        let maxCharLen = 60;
+        let message = "";
+        let hasError = false;
+
+        if (name === "") {
+            hasError = true;
+            message = "This field is required";
+        }
+
+        if (name.length > maxCharLen) {
+            hasError = true;
+            message = `Must be less than ${maxCharLen} charactors long`;
+        }
+
+        return {
+            hasError,
+            message
+        }
+    },
+
+    validateDescription: function() {
+        let description = this.state.projectDescription;
+        let message = "";
+        let hasError = false;
+
+        if (description === "") {
+            hasError = true;
+            message = "This field is required";
+        }
+
+        return {
+            hasError,
+            message
+        }
+    },
+
     isSubmittable: function() {
-        if (this.state.projectName !== "" && this.state.projectDescription !== "") {
+        if (!this.validateName().hasError && !this.validateDescription().hasError) {
             return true;
         }
 
@@ -55,15 +93,12 @@ export default React.createClass({
         let descriptionErrorMessage = null;
 
         if (this.state.showValidation) {
-            if (projectName === "") {
-                nameClassNames = "form-group has-error";
-                nameErrorMessage = "This field is required";
-            }
-
-            if (projectDescription === "") {
-                descriptionClassNames = "form-group has-error";
-                descriptionErrorMessage = "This field is required";
-            }
+            nameClassNames = this.validateName().hasError ?
+                "form-group has-error" : null;
+            nameErrorMessage = this.validateName().message;
+            descriptionClassNames = this.validateDescription().hasError ?
+                "form-group has-error" : null;
+            descriptionErrorMessage = this.validateDescription().message;
         }
 
         return (
