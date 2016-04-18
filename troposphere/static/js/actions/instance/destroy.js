@@ -26,6 +26,8 @@ define(function (require) {
         );
 
       instance.set({state: instanceState});
+      instance.set({end_date: new Date()});
+
       Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
 
       instance.destroy({

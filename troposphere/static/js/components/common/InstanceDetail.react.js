@@ -46,7 +46,8 @@ var InstanceDetail = React.createClass({
             image = instanceHistory.get('image'),
             size = instanceHistory.get('size'),
             dateStart = new Date(instanceHistory.get('start_date')),
-            dateEnd = new Date(instanceHistory.get('end_date'));
+            // If the instance is given an end date in the delete action, use the end date
+            dateEnd = (this.state.instance && this.state.instance.get('end_date')) || new Date(instanceHistory.get('end_date'));
 
         // Construct a proper instance from the instance history information
         instanceObj.set('image', image);
@@ -105,7 +106,7 @@ var InstanceDetail = React.createClass({
             return <div className="loading" />
         }
 
-        return this.state.instance ? this.renderActiveInstance() : this.renderInactiveInstance();
+        return this.state.instance && !this.state.instance.get('end_date') ? this.renderActiveInstance() : this.renderInactiveInstance();
 
     },
 
