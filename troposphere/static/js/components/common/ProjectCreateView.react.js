@@ -13,9 +13,9 @@ export default React.createClass({
 
     validateName: function() {
         let name = this.state.projectName;
-        let maxCharLen = 60;
-        let message = "";
         let hasError = false;
+        let message = "";
+        let maxCharLen = 60;
 
         if (name === "") {
             hasError = true;
@@ -35,8 +35,8 @@ export default React.createClass({
 
     validateDescription: function() {
         let description = this.state.projectDescription;
-        let message = "";
         let hasError = false;
+        let message = "";
 
         if (description === "") {
             hasError = true;
