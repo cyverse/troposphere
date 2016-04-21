@@ -4,7 +4,11 @@
 
 .badges{
     .glyphicon-question-sign{
-        font-size: 25px;
+        font-size: 20px;
+        position: relative;
+        left:4%;
+        top: 6px;
+
         &:hover{
             cursor: pointer;
         }
