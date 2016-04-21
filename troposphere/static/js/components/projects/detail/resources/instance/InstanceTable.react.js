@@ -52,6 +52,7 @@ define(function (require) {
           >
           <th className="sm-header">Name</th>
           <th className="sm-header">Status</th>
+          <th className="sm-header">Activity</th>
           <th className="sm-header">IP Address</th>
           <th className="sm-header">Size</th>
           <th className="sm-header">Provider</th>

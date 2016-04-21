@@ -1,12 +1,10 @@
 {
     "SECTION_MAPPING": {
-        "apache": ["apache"],
         "local.py": ["local.py"],
         "nginx": ["nginx", "nginx-site", "nginx-tropo"],
         "uwsgi.ini": ["troposphere.uwsgi"]
     },
     "CONFIG_FILES": {
-        "apache": ["extras/apache/tropo.conf.j2", "extras/apache/tropo.conf"],
         "local.py": ["troposphere/settings/local.py.j2",
             "troposphere/settings/local.py"
         ],

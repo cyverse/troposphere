@@ -1,18 +1,19 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import actions from 'actions';
+import modals from 'modals';
+import MaintenanceMessageBanner from './MaintenanceMessageBanner.react';
+import globals from 'globals';
+import Router from 'react-router';
+// plugin: required to enable the drop-down, but not used directly
+import bootstrap from 'bootstrap';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    actions = require('actions'),
-    modals = require('modals'),
-    MaintenanceMessageBanner = require('./MaintenanceMessageBanner.react'),
-    globals = require('globals'),
-    Router = require('react-router'),
-    // plugin: required to enable the drop-down, but not used directly
-    bootstrap = require('bootstrap');
+import { hasLoggedInUser } from 'utilities/profilePredicate';
 
-  var Link = Router.Link;
 
-  var links = [
+let Link = Router.Link;
+
+let links = [
     {
       name: "Dashboard",
       linksTo: "dashboard",
@@ -56,19 +57,19 @@ define(function (require) {
       requiresLogin: true,
       requiresStaff: true,
     }
-  ];
+];
 
-  var LoginLink = React.createClass({
+let LoginLink = React.createClass({
     render: function () {
       return (
         <li className="dropdown">
-          <a id="login_link" href="/login?redirect=/application?beta=true&airport_ui=false">Login</a>
+          <a id="login_link" href="/login?redirect_to=/application?beta=true&airport_ui=false">Login</a>
         </li>
       );
     }
-  });
+});
 
-  var LogoutLink = React.createClass({
+let LogoutLink = React.createClass({
 
     propTypes: {
       username: React.PropTypes.string.isRequired
@@ -80,19 +81,28 @@ define(function (require) {
     },
 
     render: function () {
-      var username = this.props.username,
-          badgeLink;
+      var statusPageEl,
+        username = this.props.username,
+        badgeLink;
+
       if (!username && show_public_site) {
           username = "AnonymousUser"
+      }
+      if (globals.STATUS_PAGE_LINK) {
+        statusPageEl =(
+            <li>
+              <a href={globals.STATUS_PAGE_LINK} target="_blank">Status</a>
+            </li>
+        );
       }
 
       if(globals.BADGES_ENABLED){
         badgeLink = (
             <li>
               <Link to="my-badges">Badges</Link>
-            </li>
-        );
-      }
+						</li>
+				);
+			}
 
       return (
         <li className="dropdown">
@@ -112,11 +122,9 @@ define(function (require) {
             <li>
               <a id="version_link" href="#" onClick={this.onShowVersion}>Version</a>
             </li>
+            {statusPageEl}
             <li>
-              <a href="http://atmosphere.status.io" target="_blank">Status</a>
-            </li>
-            <li>
-              <a id="logout_link" href="/logout?cas=True&airport_ui=false">Sign out</a>
+              <a id="logout_link" href="/logout?force=true&airport_ui=false">Sign out</a>
             </li>
           </ul>
         </li>
@@ -124,7 +132,7 @@ define(function (require) {
     }
   });
 
-  var Header = React.createClass({
+let Header = React.createClass({
     displayName: "Header",
 
     propTypes: {
@@ -170,9 +178,11 @@ define(function (require) {
 
     render: function () {
       var profile = this.props.profile,
-        hasLoggedInUser = (profile && profile.get('selected_identity'));
+        hasUser = hasLoggedInUser(profile);
 
-      var loginLogoutDropdown = hasLoggedInUser ? <LogoutLink username={profile.get('username')}/> : <LoginLink/>;
+      var loginLogoutDropdown = (hasUser ?
+            <LogoutLink username={profile.get('username')}/> :
+            <LoginLink/>);
 
       if (!profile.get('selected_identity')) {
         links = links.filter(function (link) {
@@ -203,12 +213,9 @@ define(function (require) {
         );
       }.bind(this));
 
-      var brandLink;
-      if (profile.get('selected_identity')) {
-        brandLink = <Link to="dashboard" className="navbar-brand"/>;
-      } else {
-        brandLink = <Link to="images" className="navbar-brand"/>;
-      }
+      var brandLink = (hasUser ?
+        <Link to="dashboard" className="navbar-brand"/> :
+        <Link to="images" className="navbar-brand"/>);
 
       return (
         <div className="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -233,15 +240,14 @@ define(function (require) {
                 {loginLogoutDropdown}
               </ul>
             </div>
-            {hasLoggedInUser ? this.renderBetaToggle() : null}
+            {hasUser ? this.renderBetaToggle() : null}
           </div>
 
         </div>
       );
 
     }
-  });
-
-  return Header;
-
 });
+
+export default Header;
+

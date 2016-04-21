@@ -17,7 +17,6 @@ var InstanceState = Backbone.Model.extend({
 
     if (this.get('status') === "build")
         return false;
-
     return _.contains(validStates, this.get('status_raw'));
   },
 
@@ -41,58 +40,64 @@ var InstanceState = Backbone.Model.extend({
   },
 
   initialize: function (attributes, options) {
-
     var tokens = attributes.status_raw.split('-').map(s => s.trim());
-    var state = tokens[0];
-    var activity = tokens[1];
+    var status = tokens[0];
+    var activity = attributes.activity;
 
-    if (tokens.length == 3) {
-      // Deal with Openstack Grizzly's hyphenated states "powering-on" and "powering-off"
-      activity = tokens[1] + '-' + tokens[2];
-    }
-
-    this.set('status', state);
+    this.set('status_raw', attributes.status_raw);
+    this.set('status', status);
     this.set('activity', activity);
   }
 
 });
 
 var get_percent_complete = function (state, activity) {
-
-  // Number represents percent task *completed* when in this state
-  var states = {
-    'build': {
-      'block_device_mapping': 10,
-      'scheduling': 20,
-      'networking': 30,
-      'spawning': 40,
-      'deleting': 50,
-    },
-    'active': {
-      'powering-off': 50,
-      'image_uploading': 50,
-      'deleting': 50,
-      'suspending': 50,
-      'initializing': 50,
-      'networking': 60,
-      'deploying': 70
-    },
-    'hard_reboot': {
-      'rebooting-hard': 50
-    },
-    'reboot': {
-      'rebooting': 50
-    },
-    'shutoff': {
-      'powering-on': 50
-    },
-    'suspended': {
-      'resuming': 50
-    }
+  var lookup,
+    states = {
+      // Number represents percent task *completed* when in this state
+        'build': {
+            'block_device_mapping': 10,
+            'scheduling': 20,
+            'networking': 30,
+            'spawning': 40,
+            'deleting': 50,
+        },
+        'active': {
+            'powering-off': 50,
+            'image_uploading': 50,
+            'deleting': 50,
+            'suspending': 50,
+            'initializing': 50,
+            'networking': 60,
+            'deploying': 70
+        },
+        'hard_reboot': {
+            'rebooting-hard': 50
+        },
+        'reboot': {
+            'rebooting': 50
+        },
+        'shutoff': {
+            'powering-on': 50
+        },
+        'suspended': {
+            'resuming': 50
+        },
+        'error': {}
   };
 
+  lookup = states[state];
+
+  if(!lookup) {
+    lookup = {};
+    console.error("Unknown state (%s) representation passed", state);
+  }
+  if(state === 'error') {
+    console.log("Error state processed: activity = %s", activity);
+  }
+
   // Note: 100 is graphically similar to 0
-  return states[state][activity] || 100;
+  return lookup[activity] || 100;
 };
 
 var get_final_state = function (activity) {

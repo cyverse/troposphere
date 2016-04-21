@@ -78,13 +78,15 @@ define(function (require) {
             var status = instance.get('state').get("status");
             instance.set({
                 state: new InstanceState({
-                    status_raw: status + " - deleting"
+                    status_raw: status + " - deleting",
+                    status: "active",
+                    activity: "deleting"
                 }),
             });
 
             Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
 
-            // Keep polling while 200 or not 404 
+            // Keep polling while 200 or not 404
             return response.status == "200";
 
         }.bind(this));

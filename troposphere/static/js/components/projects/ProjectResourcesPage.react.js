@@ -12,9 +12,10 @@ define(function (require) {
     mixins: [Router.State],
 
     render: function () {
-      var project = stores.ProjectStore.get(Number(this.getParams().projectId));
+      var project = stores.ProjectStore.get(Number(this.getParams().projectId)),
+        helpLinks = stores.HelpLinkStore.getAll();
 
-      if (!project) {
+      if (!project && !helpLinks) {
         return (
           <div className="loading"></div>
         );

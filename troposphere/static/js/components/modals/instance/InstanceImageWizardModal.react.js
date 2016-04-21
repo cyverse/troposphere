@@ -153,7 +153,7 @@ define(function (require) {
     },
 
     onNext: function (data) {
-        // Similar logic to onPrevious. this.state.step == breadcrumbs + 1 
+        // Similar logic to onPrevious. this.state.step == breadcrumbs + 1
         var nextStep = this.state.breadcrumbs[this.state.step],
             data = data || {},
             state = _.extend({step: nextStep.step, title: nextStep.name}, data);
@@ -171,6 +171,7 @@ define(function (require) {
           allLicenses = stores.LicenseStore.getAll(),
           activeLicenses = this.state.activeLicenses,
           allScripts = stores.ScriptStore.getAll(),
+          helpLink = stores.HelpLinkStore.get('request-image'),
           activeScripts = this.state.activeScripts;
 
       switch(step) {
@@ -184,6 +185,7 @@ define(function (require) {
               imageOwner={this.props.imageOwner}
               onPrevious={this.onPrevious}
               onNext={this.onNext}
+              helpLink={helpLink}
               />
           );
 

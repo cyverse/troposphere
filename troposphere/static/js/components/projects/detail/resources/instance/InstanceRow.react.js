@@ -1,3 +1,5 @@
+import Activity from '../tableData/instance/Activity.react'
+
 define(function (require) {
 
   var React = require('react/addons'),
@@ -45,6 +47,9 @@ define(function (require) {
           </td>
           <td className="sm-cell" data-label="Status">
             <Status instance={instance}/>
+          </td>
+          <td className="sm-cell" data-label="Activity">
+            <Activity instance={instance}/>
           </td>
           <td className="sm-cell" data-label="IP Address">
             <IpAddress instance={instance}/>

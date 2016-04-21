@@ -142,7 +142,7 @@ $(function() {
             ok_button: "Log out of all iPlant services",
             on_confirm: function(){
                 var csrftoken = Atmo.Utils.getCookie('csrftoken');
-                Atmo.Utils.post_to_url(site_root + "/logout?cas=true&airport_ui=true",
+                Atmo.Utils.post_to_url(site_root + "/logout?force=true&airport_ui=true",
                   { cas: true, 'csrfmiddlewaretoken':csrftoken })
             },
 

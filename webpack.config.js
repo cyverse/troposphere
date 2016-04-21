@@ -16,7 +16,7 @@ if (process.env.NODE_ENV === "production") {
   plugins.push(
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
-        "process.env": JSON.stringify("production")
+        "process.env.NODE_ENV": JSON.stringify("production")
     }),
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
@@ -29,7 +29,6 @@ if (process.env.NODE_ENV === "production") {
 module.exports = {
   entry: {
     app: "./main",
-    no_user: "./no_user",
     analytics: "./analytics",
     public: "./public_site/main"
   },

@@ -12,8 +12,32 @@ define(function (require) {
 
     mixins: [Router.State],
 
+    getInitialState: function(){
+        return{
+            refreshing: false
+        }
+    },
+
+    componentDidMount: function(){
+        stores.StatusStore.getAll();
+    },
+
+    onRefresh: function(){
+        this.setState({refreshing: true});
+        stores.ResourceRequestStore.fetchFirstPage(function(){
+            this.setState({refreshing: false});
+        }.bind(this));
+    },
+
     onResourceClick: function(request){
       RouterInstance.getInstance().transitionTo("resource-request-detail", {request: request, id: request.id});
+    },
+
+    renderRefreshButton: function(){
+        var controlsClass = "glyphicon pull-right glyphicon-refresh" + (this.state.refreshing ? " refreshing" : "");
+        return (
+            <span className={controlsClass} onClick={this.onRefresh} />
+        );
     },
 
     render: function () {
@@ -46,7 +70,7 @@ define(function (require) {
 
       return (
         <div className="resource-master">
-          <h3>Resource Requests</h3>
+          <h2>Resource Requests {this.renderRefreshButton()}</h2>
           <ul className="requests-list pull-left">
             {resourceRequests}
           </ul>

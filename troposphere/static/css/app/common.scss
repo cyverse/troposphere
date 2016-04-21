@@ -207,16 +207,6 @@ $chosen-sprite-retina-path: $chosen-sprite-path;
   }
 }
 
-@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-resolution: 2dppx) {
-  .chosen-container-external-multi .chosen-choices .search-choice .search-choice-close,
-  .chosen-container-external .chosen-results-scroll-down span,
-  .chosen-container-external .chosen-results-scroll-up span {
-    background-image: url($chosen-sprite-retina-path) !important;
-    background-size: 52px 37px !important;
-    background-repeat: no-repeat !important;
-  }
-}
-
 //Bootstrap hack for list-group-item
 
 .list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {

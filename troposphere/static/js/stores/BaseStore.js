@@ -171,7 +171,7 @@ define(function (require) {
     },
 
     // Fetch the first page and replace models with results
-    fetchFirstPage: function() {
+    fetchFirstPage: function(cb) {
       if (!this.isFetching) {
         this.isFetching = true;
 
@@ -183,13 +183,17 @@ define(function (require) {
             this.isFetching = false;
             this.models = models;
             this.emitChange();
+            if(cb){
+                cb();
+            }
           }.bind(this));
       }
+      return this.models;
     },
 
     // same as fetchFirstPage, but with URL query params
-    fetchFirstPageWhere: function(queryParams, options) {
-      if(options.clearQueryCache){
+    fetchFirstPageWhere: function(queryParams, options, cb) {
+      if (options && options.clearQueryCache){
         var queryString = buildQueryStringFromQueryParams(queryParams);
         delete this.queryModels[queryString];
       }
@@ -206,6 +210,9 @@ define(function (require) {
             this.isFetching = false;
             this.models = models;
             this.emitChange();
+            if(cb){
+                cb();
+            }
           }.bind(this));
       }
     },

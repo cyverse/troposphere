@@ -1,4 +1,3 @@
-
 import React from 'react/addons';
 import AddScripts from './AddScripts.react';
 import CreateScript from './CreateScript.react';
@@ -12,18 +11,15 @@ export default React.createClass({
         }
     },
 
-    componentDidMount: function() {
-    },
-
     onCreateScript: function() {
-        this.props.onDisableSave();
+        this.props.onDisableFooter();
         this.setState({
             view: "CREATESCRIPT_VIEW"
         });
     },
 
     onCloseCreateScript: function() {
-        this.props.onEnableSave();
+        this.props.onEnableFooter();
         this.setState({
             view: "ADDSCRIPT_VIEW"
         })

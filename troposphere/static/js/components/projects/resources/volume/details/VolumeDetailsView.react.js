@@ -7,23 +7,6 @@ define(function (require) {
     BreadcrumbBar = require('components/projects/common/BreadcrumbBar.react'),
     VolumeActionsAndLinks = require('./actions/VolumeActionsAndLinks.react');
 
-  // var p1 = (
-  //   <p>
-  //     {
-  //     "A volume is available when it is not attached to an instance. " +
-  //     "Any newly created volume must be formatted and then mounted after " +
-  //     "it has been attached before you will be able to use it."
-  //     }
-  //   </p>
-  // );
-  //
-  // var links = [
-  //   ["Creating a Volume", "https://pods.iplantcollaborative.org/wiki/x/UyWO"],
-  //   ["Attaching a Volume to an Instance", "https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachingaVolumetoanInstance-Attachingavolumetoaninstance"],
-  //   ["Formatting a Volume", "https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachingaVolumetoanInstance-Createthefilesystem%28onetimeeventpervolume%29"],
-  //   ["Mounting a Volume", "https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachingaVolumetoanInstance-Mountthefilesystemonthepartition"],
-  //   ["Unmounting and Detaching Volume", "https://pods.iplantcollaborative.org/wiki/x/OKxm#AttachingaVolumetoanInstance-Detachingvolumesfrominstances"]
-  // ];
 
   return React.createClass({
     displayName: "VolumeDetailsView",

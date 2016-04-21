@@ -19,7 +19,8 @@ define(function (require) {
 
       var instance = params.instance,
         mountLocation = params.mountLocation,
-        volume = params.volume;
+        volume = params.volume,
+        helpLink = params.helpLink;
 
       var volumeState = new VolumeState({status_raw: "attaching"}),
         originalState = volume.get('state'),
@@ -41,7 +42,8 @@ define(function (require) {
         // todo: volume attach happens quickly once the cloud gets the request. The problem is that
         // at this moment, all that's happened is that the *request* to attach has been received. If
         // we tell the user the volume was attached, we're lying - it hasn't been.
-        // NotificationController.success("Volume Attached", VolumeAttachNotifications.success());
+        // NotificationController.success("Volume Attached",
+        //                                VolumeAttachNotifications.success(helpLink));
 
         Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
         Utils.dispatch(VolumeConstants.POLL_VOLUME_WITH_DELAY, {volume: volume});
@@ -54,7 +56,10 @@ define(function (require) {
         try {
           error = response.responseJSON.errors[0];
           if (error.code === 409) {
-            message = VolumeAttachNotifications.attachError(volume, instance);
+            message = VolumeAttachNotifications.attachError(
+                volume,
+                instance,
+                helpLink);
             NotificationController.error(title, message);
           } else {
             NotificationController.error(

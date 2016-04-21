@@ -1,40 +1,47 @@
 from django.conf.urls import patterns, include, url
-from troposphere import settings
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
+from troposphere import settings
+from troposphere import views
+
 user_match = "[A-Za-z0-9]+(?:[ _-][A-Za-z0-9]+)*"
-ui_urlpatterns = patterns('',
+
+ui_urlpatterns = [
     url(r'^tropo-admin/', include(admin.site.urls)),
-    url(r'^$', 'troposphere.views.root'),
+    url(r'^$', views.root),
     # Authentication endpoints
     url(r'', include("iplantauth.urls", namespace="iplantauth")),
 
-    url(r'^application_backdoor', 'troposphere.views.application_backdoor', name='application'),
-    url(r'^application/emulate$', 'troposphere.views.unemulate',
+    url(r'^application_backdoor', views.application_backdoor,
+        name='application'),
+    url(r'^application/emulate$', views.unemulate,
         name='unemulate-user'),
-    url(r'^application/emulate/(?P<username>(%s))$' % user_match, 'troposphere.views.emulate',
+    url(r'^application/emulate/(?P<username>(%s))$' % user_match,
+        views.emulate,
         name='emulate-user'),
-    url(r'^application', 'troposphere.views.application', name='application'),
-    url(r'^atmo_maintenance$', 'troposphere.views.atmo_maintenance', name='atmo_maintenance'),
-    url(r'^maintenance$', 'troposphere.views.maintenance', name='maintenance'),
-    url(r'^forbidden$', 'troposphere.views.forbidden', name='forbidden'),
-    url(r'^login$', 'troposphere.views.login'),
-    url(r'^logout$', 'troposphere.views.logout'),
-    url(r'^cas/oauth2.0$', 'troposphere.views.cas_oauth_service',
+    url(r'^application', views.application, name='application'),
+    url(r'^atmo_maintenance$', views.atmo_maintenance,
+        name='atmo_maintenance'),
+    url(r'^maintenance$', views.maintenance, name='maintenance'),
+    url(r'^forbidden$', views.forbidden, name='forbidden'),
+    url(r'^login$', views.login),
+    url(r'^logout$', views.logout),
+    url(r'^cas/oauth2.0$', views.cas_oauth_service,
         name='cas_oauth_service'),
-    url(r'^tests$', 'troposphere.views.tests'),
+    url(r'^tests$', views.tests),
     url(r'^tropo-api/', include('api.urls')),
-    url(r'^web_shell$', 'troposphere.views.web_shell'),
-)
+    url(r'^web_shell$', views.web_shell),
+]
 
 # NOTE: Have to remove the leading slash on 'BASE_URL'
 base_url = settings.BASE_URL.lstrip("/")
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^%s/' % base_url,
         include(ui_urlpatterns)),
-    )
+]
+
 #NOTE: For backward-compatibility... leave the 'non-base-url' endpoints available..
 urlpatterns += ui_urlpatterns
 urlpatterns += staticfiles_urlpatterns()

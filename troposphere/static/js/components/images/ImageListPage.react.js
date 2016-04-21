@@ -8,9 +8,12 @@ define(function (require) {
     displayName: "ImageListPage",
 
     render: function () {
-      var tags = stores.TagStore.getAll();
+      var tags = stores.TagStore.getAll(),
+        helpLinks = stores.HelpLinkStore.getAll();
 
-      if (!tags) return <div className="loading"></div>;
+      if (!tags || !helpLinks){
+        return <div className="loading"></div>;
+      }
 
       return (
         <ImageListView tags={tags}/>

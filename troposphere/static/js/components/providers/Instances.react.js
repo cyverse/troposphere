@@ -25,7 +25,8 @@ define(function (require) {
           <td>
             <span>{instance.get('name')}</span>
           </td>
-          <td>{instance.get('status')}</td>
+          <td>{instance.get('state').get('status')}</td>
+          <td>{instance.get('state').get('activity')}</td>
           <td>{numberOfCpus}</td>
           <td>{burnRate}</td>
         </tr>
@@ -40,6 +41,7 @@ define(function (require) {
         }),
         sizes = stores.SizeStore.fetchWhere({
           provider__id: provider.id,
+          archived: true,
           page_size: 100
         }),
         content = null;
@@ -55,6 +57,7 @@ define(function (require) {
               <tr>
                 <th>Instance</th>
                 <th>Status</th>
+                <th>Activity</th>
                 <th>CPUs</th>
                 <th>AUs/hour</th>
               </tr>

@@ -1,6 +1,8 @@
 import json
 import logging
 
+from urllib import urlencode
+
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, render_to_response
@@ -9,20 +11,41 @@ from django.template import RequestContext
 from api.models import UserPreferences, MaintenanceRecord
 from troposphere.version import get_version
 from troposphere.auth import has_valid_token
+from troposphere.site_metadata import get_site_metadata
 from .emulation import is_emulated_session
 from .maintenance import get_maintenance
 
 logger = logging.getLogger(__name__)
 
 
-# TODO: Move this into a settings file.
-STAFF_LIST_USERNAMES = ['estevetest01', 'estevetest02', 'estevetest03',
-                        'estevetest04', 'estevetest13', 'sgregory',
-                        'lenards', 'tharon', 'cdosborn', 'julianp']
+if hasattr(settings, "STAFF_LIST_USERNAMES"):
+    STAFF_LIST_USERNAMES = settings.STAFF_LIST_USERNAMES
+else:
+    logger.error("""
+        STAFF_LIST_USERNAMES has not been set correctly.
+        Help look at atmosphere/settings/local.py or
+        add to variables.ini under [local.py] & re-run
+        the ./configure script
+    """)
+    logger.warn("Adding fallback STAFF_LIST_USERNAMES...")
+    STAFF_LIST_USERNAMES = [
+        'sgregory', 'lenards', 'tharon', 'cdosborn', 'julianp', 'josephgarcia',
+        'mattd', 'amercer'
+    ]
 
 
 def root(request):
     return redirect('application')
+
+
+def should_route_to_maintenace(request, in_maintenance):
+    """
+    Indicate if a response should be handled by the maintenance view.
+    """
+    return (in_maintenance
+        and request.user.is_staff is not True
+        and request.user.username not in STAFF_LIST_USERNAMES
+        and not is_emulated_session(request))
 
 
 def _should_show_troposphere_only():
@@ -60,8 +83,7 @@ def _populate_template_params(request, maintenance_records, disabled_login,
         # Only include Intercom information when rendering the authenticated
         # version of the site.
         if hasattr(settings, "INTERCOM_APP_ID"):
-            template_params['intercom_app_id'] = \
-                settings.INTERCOM_APP_ID
+            template_params['intercom_app_id'] = settings.INTERCOM_APP_ID
             template_params['intercom_company_id'] = \
                 settings.INTERCOM_COMPANY_ID
             template_params['intercom_company_name'] = \
@@ -92,6 +114,15 @@ def _populate_template_params(request, maintenance_records, disabled_login,
     if hasattr(settings, "BASE_URL"):
         template_params['BASE_URL'] = settings.BASE_URL
 
+    metadata = get_site_metadata()
+
+    template_params['DISPLAY_STATUS_PAGE'] = False
+    if metadata:
+        template_params['DISPLAY_STATUS_PAGE'] = \
+            metadata.display_status_page_link
+        template_params['STATUS_PAGE_LINK'] = \
+            metadata.status_page_link
+
     if hasattr(settings, "API_ROOT"):
         template_params['API_ROOT'] = settings.API_ROOT
 
@@ -99,8 +130,8 @@ def _populate_template_params(request, maintenance_records, disabled_login,
         template_params['API_V2_ROOT'] = settings.API_V2_ROOT
 
     if hasattr(settings, "USE_GATE_ONE_API"):
-        template_params["USE_GATE_ONE_API"] = settings.USE_GATE_ONE_API
-        template_params["WEB_SH_URL"] = settings.WEB_SH_URL
+        template_params['USE_GATE_ONE_API'] = settings.USE_GATE_ONE_API
+        template_params['WEB_SH_URL'] = settings.WEB_SH_URL
 
     return template_params, show_troposphere_only
 
@@ -216,38 +247,39 @@ def _handle_authenticated_application_request(request, maintenance_records):
 
 
 def application_backdoor(request):
-    response = HttpResponse()
-    maintenance_records, disabled_login = get_maintenance(request)
+    maintenance_records, _, in_maintenance = get_maintenance(request)
     # This should only apply when in maintenance//login is disabled
-    if not disabled_login or maintenance_records.count() == 0:
-        return application(request)
+    if maintenance_records.count() == 0:
+        logger.info('No maintenance, Go to /application - do not collect $100')
+        return redirect('application')
 
     if request.user.is_authenticated() and request.user.username not in \
             STAFF_LIST_USERNAMES:
         logger.warn('[Backdoor] %s is NOT in staff_list_usernames' %
                     request.user.username)
         return redirect('maintenance')
-    disabled_login = False
-    maintenance_records = MaintenanceRecord.objects.none()
-    if request.user.is_authenticated():
-        return _handle_authenticated_application_request(request,
-                                                         maintenance_records)
-    else:
-        return _handle_public_application_request(
-            request,
-            maintenance_records,
-            disabled_login=disabled_login)
+
+    # route a potential VIP to login
+    query_arguments = {
+        'redirect_to': '/application',
+        'beta': 'true',
+        'airport_ui': 'false',
+        'bsp': 'true'
+    }
+    # I'm on the Guest List! Backstage Pass!
+    return redirect('/login?%s' % (urlencode(query_arguments),))
 
 
 def application(request):
-    response = HttpResponse()
-    maintenance_records, disabled_login = get_maintenance(request)
+    maintenance_records, disabled_login, in_maintenance = \
+        get_maintenance(request)
 
-    if disabled_login and request.user.is_staff is not True and \
-            request.user.username not in STAFF_LIST_USERNAMES:
-        logger.warn('[App] %s logged in but is NOT in staff_list_usernames' %
-                    request.user.username)
+    if should_route_to_maintenace(request, in_maintenance):
+        logger.warn('%s has actice session but is NOT in staff_list_usernames'
+            % request.user.username)
+        logger.warn('- routing user')
         return redirect('maintenance')
+
     if request.user.is_authenticated() and has_valid_token(request.user):
         return _handle_authenticated_application_request(request,
                                                          maintenance_records)
@@ -264,18 +296,25 @@ def forbidden(request):
     user, but was found to be unauthorized to use Atmosphere by OAuth.
     Returns HTTP status code 403 Forbidden
     """
+    metadata = get_site_metadata()
     template_params = {}
 
-    template_params["THEME_URL"] = "/themes/%s" % settings.THEME_NAME
+    template_params['THEME_URL'] = "/themes/%s" % settings.THEME_NAME
     template_params['ORG_NAME'] = settings.ORG_NAME
     template_params['SITE_TITLE'] = settings.SITE_TITLE
     template_params['SITE_FOOTER'] = settings.SITE_FOOTER
+    template_params['USER_PORTAL_LINK'] = metadata.user_portal_link
+    template_params['USER_PORTAL_LINK_TEXT'] = metadata.user_portal_link_text
+    template_params['ACCOUNT_INSTRUCTIONS_LINK'] = \
+        metadata.account_instructions_link
+
     if hasattr(settings, "BASE_URL"):
         template_params['BASE_URL'] = settings.BASE_URL
 
     # If banner message in query params, pass it into the template
     if "banner" in request.GET:
         template_params['banner'] = request.GET['banner']
+
     response = render_to_response(
         'no_user.html',
         template_params,
