@@ -1,37 +1,54 @@
-define(function (require) {
-  "use strict";
+import React from 'react';
+import Router from 'react-router';
+import actions from 'actions';
+import stores from 'stores';
+import Glyphicon from 'components/common/Glyphicon.react';
+import context from 'context';
 
-  var React = require('react'),
-      Router = require('react-router'),
-      Badge = require('./Badge.react'),
-      actions = require('actions'),
-      stores = require('stores'),
-      RouteHandler = Router.RouteHandler;
-
-  return React.createClass({
+var BadgeMaster = React.createClass({
     displayName: "BadgeMaster",
 
     mixins: [Router.State],
 
-    render: function(){
-      return(
-        <div className="container badges">
-          <span className="buttons">
-            <Router.Link to="my-badges">
-              <div className="btn btn-primary">My Badges</div>
-            </Router.Link>
-            <Router.Link to="unearned-badges">
-              <div className="btn btn-primary">Unearned Badges</div>
-            </Router.Link>
-            <Router.Link to="all-badges">
-              <div className="btn btn-primary">All Badges</div>
-            </Router.Link>
-          </span>
-          <RouteHandler />
-        </div>
+    renderRoute: function (name, linksTo, icon, requiresLogin) {
+      if (requiresLogin && !context.profile.get('selected_identity')) return null;
+
+      return (
+        <li key={name}>
+          <Router.Link to={linksTo}>
+            <Glyphicon name={icon}/>
+            <span>{name}</span>
+          </Router.Link>
+        </li>
       )
+    },
+
+    render: function(){
+      var profile = stores.ProfileStore.get(),
+          RouteHandler = Router.RouteHandler,
+          badges = stores.BadgeStore.getAll(),
+          myBadges = stores.MyBadgeStore.getAll();
+
+      if(!badges || !myBadges){
+        return <div className="loading" />
+      }
+
+      return(
+        <div>
+            <div className="secondary-nav">
+                <div className="container">
+                    <ul className="secondary-nav-links">
+                        {this.renderRoute("My Badges", "my-badges", "star", true)}
+                        {this.renderRoute("Unearned Badges", "unearned-badges", "tasks", true)}
+                        {this.renderRoute("All Badges", "all-badges", "th-list", false)}
+                    </ul>
+                </div>
+            </div>
+            <RouteHandler />
+        </div>
+      );
     }
 
-  });
-
 });
+
+export default BadgeMaster;

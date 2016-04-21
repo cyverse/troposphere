@@ -1,26 +1,13 @@
-define(function (require) {
-  "use strict";
+import React from 'react';
+import Router from 'react-router';
+import actions from 'actions';
+import stores from 'stores';
+import BadgeList from './BadgeList.react';
 
-  var React = require('react'),
-      Router = require('react-router'),
-      Badge = require('./Badge.react'),
-      actions = require('actions'),
-      stores = require('stores'),
-      RouteHandler = Router.RouteHandler;
-
-  return React.createClass({
+var AllBadges = React.createClass({
     displayName: "AllBadges",
 
     mixins: [Router.State],
-
-    getInitialState: function() {
-      var user = stores.ProfileStore.get();
-      return{
-        userEmail: user.get('email'),
-        badges: "",
-        myBadges: ""
-      };
-    },
 
     render: function () {
       var badges = stores.BadgeStore.getAll();
@@ -31,21 +18,13 @@ define(function (require) {
         )
       }
 
-      var badgeDisplay = badges.map(function(badge) {
-        return (
-          <Badge key={badge.id} badge={badge} />
-        )
-      });
-
       return (
-        <div className="all">
-          <ul id="all-badges-list">
-          {badgeDisplay}
-          </ul>
+        <div className="all badges container">
+            <BadgeList badges={badges} title={"All Badges"} />
         </div>
       );
     }
 
-  });
-
 });
+
+export default AllBadges;
