@@ -4,6 +4,7 @@ import stores from 'stores';
 import BadgeList from './BadgeList.react';
 import globals from 'globals';
 import modals from 'modals';
+import Glyphicon from 'components/common/Glyphicon.react';
 
 var MyBadges = React.createClass({
     displayName: "MyBadges",
@@ -59,9 +60,10 @@ var MyBadges = React.createClass({
 
       return (
         <div className="mine badges container">
+            <div className="export pull-right">
             <button onClick={this.onExport} className="btn btn-primary">Export badges to Mozilla backpack</button>
-            <br />
-            <a onClick={this.showHelp}>What does this mean?</a>
+            <span className="glyphicon glyphicon-question-sign" onClick={this.showHelp} />
+            </div>
             <BadgeList badges={myBadges} title={"My Badges"} />
         </div>
       );
