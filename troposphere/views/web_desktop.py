@@ -44,11 +44,11 @@ def web_desktop(request):
         sig = None
 
         if 'ipAddress' in request.POST:
-            logger.info("ip_address: %s" % ip_address)
-            logger.info("client_ip: %s" % client_ip)
-
             ip_address = request.POST['ipAddress']
             client_ip = request.META['REMOTE_ADDR']
+
+            logger.info("ip_address: %s" % ip_address)
+            logger.info("client_ip: %s" % client_ip)
 
             client_ip_fingerprint = SIGNER.get_signature(client_ip)
             browser_fingerprint = SIGNER.get_signature(''.join([
