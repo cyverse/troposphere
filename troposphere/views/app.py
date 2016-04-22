@@ -104,6 +104,9 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
     metadata = get_site_metadata()
 
     template_params['DISPLAY_STATUS_PAGE'] = False
+    template_params['WEB_DESKTOP_INCLUDE_LINK'] = \
+        settings.WEB_DESKTOP_INCLUDE_LINK
+
     if metadata:
         template_params['DISPLAY_STATUS_PAGE'] = \
             metadata.display_status_page_link

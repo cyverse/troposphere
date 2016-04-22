@@ -2,6 +2,7 @@
 django==1.9.4
 django-sslserver==0.18
 djangorestframework==3.3.2
+itsdangerous==0.24
 Jinja2==2.8
 pycrypto==2.6.1
 PyJWT==1.4.0
