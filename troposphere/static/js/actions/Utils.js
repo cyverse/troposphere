@@ -2,7 +2,8 @@ define(function (require) {
   'use strict';
 
   var AppDispatcher = require('dispatchers/AppDispatcher'),
-    NotificationController = require('controllers/NotificationController');
+    NotificationController = require('controllers/NotificationController'),
+    $ = require('jquery');
 
   return {
 
@@ -18,6 +19,18 @@ define(function (require) {
     displayInfo: function (options) {
       if (!options.message) throw new Error("Missing message");
       NotificationController.info(null, options.message);
+    },
+
+    // Size information for the user's browser and monitor
+    browserContext: function() {
+      return {
+          "window-width": $(window).width(),
+          "window-height": $(window).height(),
+          "screen-width": screen.width,
+          "screen-height": screen.height,
+          "user-interface": "troposphere"
+      };
+
     },
 
     displaySuccess: function (options) {
