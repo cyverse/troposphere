@@ -13,7 +13,7 @@ define(function (require) {
       if (!params.instance) throw new Error("Missing instance");
       if (!params.reportInfo) throw new Error("Missing reportInfo");
 
-      let instance = params.instance, 
+      let instance = params.instance,
           reportInfo = params.reportInfo;
 
       let reportData = {

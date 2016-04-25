@@ -13,7 +13,7 @@ define(function (require) {
       if (!params.reportInfo) throw new Error("Missing reportInfo");
       if (!params.volume) throw new Error("Missing volume");
 
-      let volume = params.volume, 
+      let volume = params.volume,
           reportInfo = params.reportInfo;
 
       let reportData = {
