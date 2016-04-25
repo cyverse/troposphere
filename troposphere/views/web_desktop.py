@@ -34,7 +34,9 @@ def _should_redirect():
     return settings.WEB_DESKTOP['redirect']['ENABLED']
 
 def web_desktop(request):
-
+    """
+    Signs a redirect to transparent proxy for web desktop view.
+    """
     template_params = {}
 
     logger.info("POST body: %s" % request.POST)
@@ -53,8 +55,6 @@ def web_desktop(request):
             client_ip_fingerprint = SIGNER.get_signature(client_ip)
             browser_fingerprint = SIGNER.get_signature(''.join([
                 request.META['HTTP_USER_AGENT'],
-                request.META['HTTP_ACCEPT'],
-                request.META['HTTP_ACCEPT_ENCODING'],
                 request.META['HTTP_ACCEPT_LANGUAGE']]))
 
             sig = SIGNED_SERIALIZER.dumps([ip_address,
@@ -78,8 +78,3 @@ def web_desktop(request):
     else:
         logger.info("not authenticated: \nrequest:\n %s" % request)
         raise PermissionDenied
-
-
-
-
-    return response
