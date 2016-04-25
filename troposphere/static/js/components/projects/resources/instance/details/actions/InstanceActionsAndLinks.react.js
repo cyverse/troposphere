@@ -66,7 +66,6 @@ export default React.createClass({
     },
 
     onWebDesktop: function(ipAddr, instance) {
-        debugger;
         // TODO:
         //      move this into a utilties file
         var CSRFToken = findCookie("csrftoken");
