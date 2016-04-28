@@ -18,7 +18,6 @@ define(function (require) {
           usingInstances: stores.HelpLinkStore.get('instances')
         };
 
-
       ModalHelpers.renderModal(InstanceReportModal, props, function (reportInfo) {
         actions.InstanceActions.report({
           instance: instance,

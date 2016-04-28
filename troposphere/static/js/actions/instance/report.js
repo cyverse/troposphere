@@ -13,37 +13,18 @@ define(function (require) {
       if (!params.instance) throw new Error("Missing instance");
       if (!params.reportInfo) throw new Error("Missing reportInfo");
 
-      var instance = params.instance,
-        reportInfo = params.reportInfo;
+      let instance = params.instance,
+          reportInfo = params.reportInfo;
 
-      var profile = stores.ProfileStore.get(),
-        username = profile.get('username'),
-        reportUrl = globals.API_ROOT + "/email/support",
-        problemText = "",
-        reportData = {};
-
-      if (reportInfo.problems) {
-        _.each(reportInfo.problems, function (problem) {
-          problemText = problemText + "  -" + problem + "\n";
-        })
-      }
-
-      reportData = {
-        username: username,
-        message: "Instance IP: " + instance.get('ip_address') + "\n" +
-                 "Instance ID: " + instance.id + "\n" +
-                 "Provider ID: " + instance.get('provider').id + "\n" +
-                 "\n" +
-                 "Problems" + "\n" +
-                 problemText + "\n" +
-                 "Details \n" +
-                 reportInfo.details + "\n",
-        subject: "Atmosphere Instance Report from " + username,
-        "user-interface": 'troposphere'
+      let reportData = {
+        message:  reportInfo.details,
+        instance: instance.id,
+        problems: reportInfo.problems ? reportInfo.problems : [],
+        ...Utils.browserContext()
       };
 
       $.ajax({
-        url: reportUrl,
+        url: globals.API_V2_ROOT + "/email_instance_report",
         type: 'POST',
         data: JSON.stringify(reportData),
         dataType: 'json',
