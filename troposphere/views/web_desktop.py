@@ -21,14 +21,6 @@ SIGNER = Signer(
     settings.WEB_DESKTOP['fingerprint']['SECRET_KEY'],
     salt=settings.WEB_DESKTOP['fingerprint']['SALT'])
 
-CONFIG_VALUES = [
-    settings.WEB_DESKTOP['redirect']['COOKIE_DOMAIN'],
-    settings.WEB_DESKTOP['signing']['SECRET_KEY'],
-    settings.WEB_DESKTOP['signing']['SALT'],
-    settings.WEB_DESKTOP['fingerprint']['SECRET_KEY'],
-    settings.WEB_DESKTOP['fingerprint']['SALT']
-]
-
 
 def _should_redirect():
     return settings.WEB_DESKTOP['redirect']['ENABLED']
@@ -61,7 +53,7 @@ def web_desktop(request):
                 client_ip_fingerprint,
                 browser_fingerprint])
 
-            url = '%s?token=%s' % (
+            url = '%s?token=%s&password=display' % (
                 settings.WEB_DESKTOP['redirect']['PROXY_URL'],
                 sig)
 
