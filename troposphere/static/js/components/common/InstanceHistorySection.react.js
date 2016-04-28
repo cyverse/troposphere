@@ -53,7 +53,7 @@ var InstanceHistorySection = React.createClass({
                 content = (
 										<div>
 											{"Error loading instance history. Please try again later."}
-										</div>;
+										</div>
 								);
             }
         }
