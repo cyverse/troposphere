@@ -36,25 +36,25 @@ var InstanceHistorySection = React.createClass({
 
         if(instance.get('end_date')){
             deletedInfo = (
-								<lh>
-									<strong>
-										{"Deleted on " + moment(instance.get('end_date')).format("MMMM Do YYYY, h:mm a")}
-									</strong>
-								</lh>
-					 );
+                <lh>
+                    <strong>
+                        {"Deleted on " + moment(instance.get('end_date')).format("MMMM Do YYYY, h:mm a")}
+                    </strong>
+                </lh>
+            );
         }
         if(!this.state.instanceHistory){
             if(stores.InstanceHistoryStore.isFetching){
                 content = (
-										<div className="loading" />
-								);
+                    <div className="loading" />
+                );
             }
             else{
                 content = (
-										<div>
-											{"Error loading instance history. Please try again later."}
-										</div>
-								);
+                    <div>
+                        {"Error loading instance history. Please try again later."}
+                    </div>
+                );
             }
         }
         else{
