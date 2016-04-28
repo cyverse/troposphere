@@ -61,7 +61,7 @@ def web_desktop(request):
                 client_ip_fingerprint,
                 browser_fingerprint])
 
-            url = '%s?sig=%s' % (
+            url = '%s?token=%s' % (
                 settings.WEB_DESKTOP['redirect']['PROXY_URL'],
                 sig)
 
