@@ -32,99 +32,94 @@
 
 
     <script type="text/javascript">
-        {% if access_token %}
-            var access_token = "{{ access_token }}";
-        {% endif %}
+{% if access_token %}
+    var access_token = "{{ access_token }}";
+{% endif %}
 
-        {% if emulator_token %}
-            var emulator_token = "{{ emulator_token }}";
-        {% endif %}
+{% if emulator_token %}
+    var emulator_token = "{{ emulator_token }}";
+{% endif %}
 
-        {% if intercom_app_id %}
-            var intercom_app_id = "{{ intercom_app_id }}";
-            var intercom_company_id = "{{ intercom_company_id }}";
-            var intercom_company_name = "{{ intercom_company_name }}";
-        {% endif %}
+{% if intercom_app_id %}
+    var intercom_app_id = "{{ intercom_app_id }}";
+    var intercom_company_id = "{{ intercom_company_id }}";
+    var intercom_company_name = "{{ intercom_company_name }}";
+{% endif %}
 
-        var BASE_URL = "{{ BASE_URL }}";
+    var BASE_URL = "{{ BASE_URL }}";
 
-        var THEME_URL = "{{ THEME_URL }}";
+    var THEME_URL = "{{ THEME_URL }}";
 
-        {% if API_ROOT %}
-            var API_ROOT = "{{ API_ROOT }}";
-        {% endif %}
+{% if API_ROOT %}
+    var API_ROOT = "{{ API_ROOT }}";
+{% endif %}
 
-        {% if BADGE_HOST %}
-            var BADGE_HOST = "{{ BADGE_HOST }}";
-        {% endif %}
+{% if API_V2_ROOT %}
+    var API_V2_ROOT = "{{ API_V2_ROOT }}";
+{% endif %}
 
-        {% if API_V2_ROOT %}
-            var API_V2_ROOT = "{{ API_V2_ROOT }}";
-        {% endif %}
+{% if BADGE_HOST %}
+    var BADGE_HOST = "{{ BADGE_HOST }}";
+{% endif %}
 
-        {% if BADGES_ENABLED %}
-            var BADGES_ENABLED = true;
-        {% else %}
-            var BADGES_ENABLED = false;
-        {% endif %}
+{% if BADGES_ENABLED %}
+    var BADGES_ENABLED = true;
+{% else %}
+    var BADGES_ENABLED = false;
+{% endif %}
 
-        {% if BADGE_IMAGE_HOST %}
-            var BADGE_IMAGE_HOST = "{{ BADGE_IMAGE_HOST }}";
-        {% endif %}
+{% if BADGE_IMAGE_HOST %}
+    var BADGE_IMAGE_HOST = "{{ BADGE_IMAGE_HOST }}";
+{% endif %}
 
-        {% if BADGE_HOST %}
-            var BADGE_HOST = "{{ BADGE_HOST }}";
-        {% endif %}
+{% if BADGE_ASSERTION_HOST %}
+    var BADGE_ASSERTION_HOST = "{{ BADGE_ASSERTION_HOST }}";
+{% endif %}
 
-        {% if BADGE_ASSERTION_HOST %}
-            var BADGE_ASSERTION_HOST = "{{ BADGE_ASSERTION_HOST }}";
-        {% endif %}
+{% if SITE_TITLE %}
+    var SITE_TITLE = "{{ SITE_TITLE }}";
+{% endif %}
 
-        {% if SITE_TITLE %}
-            var SITE_TITLE = "{{ SITE_TITLE }}";
-        {% endif %}
+{% if SITE_FOOTER %}
+    var SITE_FOOTER = "{{ SITE_FOOTER }}";
+{% endif %}
 
-        {% if SITE_FOOTER %}
-            var SITE_FOOTER = "{{ SITE_FOOTER }}";
-        {% endif %}
+{% if UI_VERSION %}
+    var UI_VERSION = "{{ UI_VERSION }}";
+{% endif %}
 
-        {% if UI_VERSION %}
-            var UI_VERSION = "{{ UI_VERSION }}";
-        {% endif %}
+{% if USE_GATE_ONE_API %}
+    var WEB_SH_URL ="{{ WEB_SH_URL }}";
+{% endif %}
 
-        {% if BADGE_HOST %}
-            var BADGE_HOST = "{{ BADGE_HOST }}";
-        {% endif %}
+{% if SUPPORT_EMAIL %}
+    var SUPPORT_EMAIL = "{{ SUPPORT_EMAIL }}";
+{% endif %}
 
-        {% if USE_GATE_ONE_API %}
-            var WEB_SH_URL ="{{ WEB_SH_URL }}";
-        {% endif %}
+{% if DISPLAY_STATUS_PAGE %}
+    var STATUS_PAGE_LINK = "{{ STATUS_PAGE_LINK }}";
+{% endif %}
 
-        {% if SUPPORT_EMAIL %}
-            var SUPPORT_EMAIL = "{{ SUPPORT_EMAIL }}";
-        {% endif %}
+{% if WEB_DESKTOP_INCLUDE_LINK %}
+    var WEB_DESKTOP_INCLUDE_LINK = "{{ WEB_DESKTOP_INCLUDE_LINK }}"
+{% endif %}
+{% if show_public_site %}
+    var show_public_site = true;
+{%  else %}
+    var show_public_site = false;
+{% endif %}
 
-        {% if DISPLAY_STATUS_PAGE %}
-            var STATUS_PAGE_LINK = "{{ STATUS_PAGE_LINK }}";
-        {% endif %}
+{% if show_troposphere_only %}
+    var show_troposphere_only = true;
+{%  else %}
+    var show_troposphere_only = false;
+{% endif %}
 
-        {% if show_public_site %}
-            var show_public_site = true;
-        {% else %}
-            var show_public_site = false;
-        {% endif %}
-
-        {% if show_troposphere_only %}
-            var show_troposphere_only = true;
-        {%  else %}
-            var show_troposphere_only = false;
-        {% endif %}
-
-        {% if show_instance_metrics %}
-            var show_instance_metrics = true;
-        {%  else %}
-            var show_instance_metrics = false;
-        {% endif %}
+{% if show_instance_metrics %}
+    var show_instance_metrics = true;
+{%  else %}
+    var show_instance_metrics = false;
+{% endif %}
 
     </script>
 

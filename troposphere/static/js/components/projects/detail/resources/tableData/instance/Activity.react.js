@@ -14,7 +14,7 @@ var Activity = React.createClass({
         var activity = instance.get('state').get('activity');
 
         return (
-          <span>{activity}</span>
+          <span style={{textTransform: "capitalize"}}>{activity}</span>
         );
       }
 });

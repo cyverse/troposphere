@@ -46,28 +46,32 @@ define(function (require) {
       // />
 
       return (
-        <div className="button-bar">
-          <RefreshButton/>
-          <RequestResourcesButton />
-          <Button
-            icon="folder-open"
-            tooltip="Move selected resources"
-            onClick={this.props.onMoveSelectedResources}
-            isVisible={this.props.isVisible}
-            />
-          <Button
-            icon="export"
-            tooltip="Remove selected resources (admin only)"
-            onClick={this.props.onRemoveSelectedResources}
-            style={{"backgroundColor": "bisque"}}
-            isVisible={context.profile.get('is_superuser') && this.props.isVisible}
-            />
-          <ResourceActionButtons
-            onUnselect={this.props.onUnselect}
-            previewedResource={this.props.previewedResource}
-            multipleSelected={this.props.multipleSelected}
-            project={this.props.project}
-            />
+        <div className="clearfix">
+            <div className="button-bar col-md-4">
+                <RefreshButton/>
+                <RequestResourcesButton />
+                <Button
+                    icon="folder-open"
+                    tooltip="Move selected resources"
+                    onClick={this.props.onMoveSelectedResources}
+                    isVisible={this.props.isVisible}
+                />
+                <Button
+                    icon="export"
+                    tooltip="Remove selected resources (admin only)"
+                    onClick={this.props.onRemoveSelectedResources}
+                    style={{"backgroundColor": "bisque"}}
+                    isVisible={context.profile.get('is_superuser') && this.props.isVisible}
+                />
+            </div>
+            <div style={{padding: "10px 0"}} className="col-md-3 u-md-pull-right">
+                <ResourceActionButtons
+                    onUnselect={this.props.onUnselect}
+                    previewedResource={this.props.previewedResource}
+                    multipleSelected={this.props.multipleSelected}
+                    project={this.props.project}
+                />
+            </div>
         </div>
       );
     }

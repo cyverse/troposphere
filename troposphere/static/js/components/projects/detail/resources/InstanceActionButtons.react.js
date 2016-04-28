@@ -46,11 +46,13 @@ define(function (require) {
     render: function () {
       var instance = this.props.instance,
         status = instance.get('state').get('status_raw'),
-        linksArray = [];
+        linksArray = [],
+        style = {marginRight: "10px"};
       if (!this.props.multipleSelected && instance.get('state').isInFinalState()) {
         if (status === "active") {
           linksArray.push(
             <Button
+              style={style}
               key="Suspend"
               icon="pause"
               tooltip="Suspend"
@@ -60,6 +62,7 @@ define(function (require) {
           );
           linksArray.push(
             <Button
+              style={style}
               key="Stop"
               icon="stop"
               tooltip="Stop"
@@ -69,6 +72,7 @@ define(function (require) {
           );
           linksArray.push(
             <Button
+              style={style}
               key="Reboot"
               icon="repeat"
               tooltip="Reboot the selected instance"
@@ -79,6 +83,7 @@ define(function (require) {
         } else if (status === "suspended") {
           linksArray.push(
             <Button
+              style={style}
               key="Resume"
               icon="play"
               tooltip="Resume"
@@ -89,6 +94,7 @@ define(function (require) {
         } else if (status === "shutoff") {
           linksArray.push(
             <Button
+              style={style}
               key="Start"
               icon="play"
               tooltip="Start"
@@ -110,7 +116,7 @@ define(function (require) {
       );
 
       return (
-        <div style={{borderLeft: "1px solid #ddd", display: "inline-block", paddingLeft: "10px", float: "right"}}>
+        <div className="clearfix u-md-pull-right">
           {linksArray}
         </div>
       );

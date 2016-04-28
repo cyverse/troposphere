@@ -43,6 +43,24 @@ INTERCOM_COMPANY_NAME = "{{ INTERCOM_COMPANY_NAME }}"
 SESSION_COOKIE_AGE = {{ SESSION_COOKIE_AGE }}
 {% endif %}
 
+WEB_DESKTOP_INCLUDE_LINK = "{{ WEB_DESKTOP_INCLUDE_LINK }}"
+
+WEB_DESKTOP = {
+    'signing': {
+        'SECRET_KEY': '{{ WEB_DESKTOP_SIGNING_SECRET_KEY }}',
+        'SALT': '{{ WEB_DESKTOP_SIGNING_SALT }}'
+    },
+    'fingerprint': {
+        'SECRET_KEY': '{{ WEB_DESKTOP_FP_SECRET_KEY }}',
+        'SALT': '{{ WEB_DESKTOP_FP_SALT }}'
+    },
+    'redirect': {
+        'ENABLED': WEB_DESKTOP_INCLUDE_LINK,
+        'PROXY_URL': '{{ WEB_DESKTOP_PROXY_URL }}',
+        'COOKIE_DOMAIN': '{{ WEB_DESKTOP_PROXY_DOMAIN }}'
+    }
+}
+
 # DATABASE
 DATABASES = {
     "default": {
