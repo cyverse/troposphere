@@ -259,7 +259,6 @@
 }
 
 .button-bar {
-  border-bottom: 1px solid #dddddd;
   padding: 10px 0px;
 
   button {
@@ -319,22 +318,43 @@
     padding-bottom: 10px;
 
     .detail-label {
-      width: 20%;
+      width: 25%;
       margin-right: 10%;
       display: block;
-      color: #5A5A5A;
       float:left;
     }
-    
+
     .detail-value {
-      width:70%;
+      width: 65%;
       display: block;
       float:left;
     }
-    span {
+    div {
       font-size: 13px;
     }
   }
+}
+
+// This is repeated above because the values are different here and the above are scoped within `.side-panel`
+.detail-label {
+    width: 15%;
+    display: block;
+    float:left;
+    @media(max-width: 700px) {
+        width: 100%;
+        float: none;
+    }
+}
+
+.detail-value {
+    width: 85%;
+    display: block;
+    float: left;
+    padding-left: 10px;
+    @media(max-width: 700px) {
+        width: 100%;
+        float: none;
+    }
 }
 
 .scrollable-content {
@@ -399,8 +419,12 @@
 // Table styles
 .td-sub-menu {
   float: left;
-  margin-right: 35px;
-  margin-top: 11px;
+  margin-right: 10px;
+  margin-top: 10px;
+  @media(max-width:950px) {
+    float: none;
+    display: block;
+  }
 }
 
 .td-project-content {

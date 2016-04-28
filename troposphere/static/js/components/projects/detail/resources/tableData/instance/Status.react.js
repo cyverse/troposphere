@@ -30,15 +30,14 @@ var Status = React.createClass({
 
         var rawStatus = instanceState.get('status_raw');
 
-        var style = {};
-        var capitalizedStatus = status.charAt(0).toUpperCase() + status.slice(1);
+        var style = {textTransform: "capitalize"};
 
         if (instanceState.isDeployError()) {
           return (
           <span>
             <div>
               <StatusLight status="error"/>
-              <span style={style}>{capitalizedStatus}</span>
+              <span style={style}>{status}</span>
             </div>
           </span>
           );
@@ -48,7 +47,7 @@ var Status = React.createClass({
           <span>
             <div>
               <StatusLight status={lightStatus}/>
-              <span style={style}>{capitalizedStatus}</span>
+              <span style={style}>{status}</span>
             </div>
             <StatusBar state={instanceState} activity={activity}/>
           </span>

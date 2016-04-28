@@ -21,7 +21,6 @@ define(function (require) {
       };
 
       request.set(newAttributes);
-      Router.getInstance().transitionTo("image-request-manager");
       request.save(newAttributes, {patch: true}).done(function () {
         Utils.dispatch(Constants.UPDATE, {model: request});
       });

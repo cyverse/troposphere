@@ -31,7 +31,7 @@ define(
         return (
           <div className="resource-details-section section">
             <h4 className="t-title">Instance Details</h4>
-            <ul>
+            <ul style={{paddingLeft: "10px"}}>
               <Status instance={instance}/>
               <Activity instance={instance}/>
               <Size instance={instance}/>
