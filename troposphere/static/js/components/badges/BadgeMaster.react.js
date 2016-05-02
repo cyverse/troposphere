@@ -2,7 +2,6 @@ import React from 'react';
 import Router from 'react-router';
 import actions from 'actions';
 import stores from 'stores';
-import Glyphicon from 'components/common/Glyphicon.react';
 import context from 'context';
 
 var BadgeMaster = React.createClass({
@@ -10,13 +9,12 @@ var BadgeMaster = React.createClass({
 
     mixins: [Router.State],
 
-    renderRoute: function (name, linksTo, icon, requiresLogin) {
+    renderRoute: function (name, linksTo, requiresLogin) {
       if (requiresLogin && !context.profile.get('selected_identity')) return null;
 
       return (
         <li key={name}>
           <Router.Link to={linksTo}>
-            <Glyphicon name={icon}/>
             <span>{name}</span>
           </Router.Link>
         </li>
@@ -38,9 +36,9 @@ var BadgeMaster = React.createClass({
             <div className="secondary-nav">
                 <div className="container">
                     <ul className="secondary-nav-links">
-                        {this.renderRoute("My Badges", "my-badges", "star", true)}
-                        {this.renderRoute("Unearned Badges", "unearned-badges", "tasks", true)}
-                        {this.renderRoute("All Badges", "all-badges", "th-list", false)}
+                        {this.renderRoute("My Badges", "my-badges", true)}
+                        {this.renderRoute("Unearned Badges", "unearned-badges", true)}
+                        {this.renderRoute("All Badges", "all-badges", false)}
                     </ul>
                 </div>
             </div>

@@ -4,7 +4,6 @@ import stores from 'stores';
 import BadgeList from './BadgeList.react';
 import globals from 'globals';
 import modals from 'modals';
-import Glyphicon from 'components/common/Glyphicon.react';
 
 var MyBadges = React.createClass({
     displayName: "MyBadges",
