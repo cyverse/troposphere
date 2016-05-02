@@ -123,8 +123,15 @@ export default React.createClass({
     },
 
     renderNoResultsFor: function () {
-        let query = this.state.query,
+        let query = this.state.query;
+        let message = "";
+        let listView = this.state.listView;
+        if (listView === "Show Favorites") {
+            message = 'You currently have no favorited images';
+        }
+        if (query) {
             message = 'No images found matching "' + query + '"';
+        }
 
         return (
             <div className="filter-description">{message}</div>
