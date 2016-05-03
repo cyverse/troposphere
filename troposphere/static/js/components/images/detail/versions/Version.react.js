@@ -2,14 +2,15 @@ define(function (require) {
 
   var React = require('react/addons'),
       Backbone = require('backbone'),
-      Time = require('components/common/Time.react'),
-      Gravatar = require('components/common/Gravatar.react'),
-      AvailabilityView = require('../availability/AvailabilityView.react'),
+      moment = require('moment'),
+      momentTZ = require('moment-timezone'),
       CryptoJS = require('crypto-js'),
+      showdown = require('showdown'),
       stores = require('stores'),
       globals = require('globals'),
-      moment = require('moment'),
-      momentTZ = require('moment-timezone');
+      Time = require('components/common/Time.react'),
+      Gravatar = require('components/common/Gravatar.react'),
+      AvailabilityView = require('../availability/AvailabilityView.react');
 
   return React.createClass({
     displayName: 'Version',
@@ -93,6 +94,8 @@ define(function (require) {
           type = stores.ProfileStore.get().get('icon_set'),
           owner = image.get('created_by').username,
           changeLog = this.props.version.get('change_log');
+          converter = new showdown.Converter(),
+          changeLogHTML = converter.makeHtml(changeLog);
 
       return (
         <li className="app-card">
@@ -108,7 +111,7 @@ define(function (require) {
                 {isRecommended ? <span className="recommended-tag">Recommended</span> : null}
 
                 {this.renderDateString(version)} by {owner} <br />
-                <p>{changeLog}</p>
+                <div dangerouslySetInnerHTML={{__html: changeLogHTML}}/>
               </div>
                 {this.renderEditLink()}
                 {this.renderAvailability()}
