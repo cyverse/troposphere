@@ -58,12 +58,10 @@ define(function (require) {
       return image;
     },
     getForProject: function(projectId) {
-        var project_images = this.fetchWhere({
+        var project_images = projectId ? this.fetchWhere({
                 projects__id: projectId
-            });
-        if(!project_images) {
-            return null;
-        }
+            }) : null;
+
         return project_images;
     },
     getVersions: function(imageId) {

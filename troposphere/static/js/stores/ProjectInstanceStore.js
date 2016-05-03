@@ -53,8 +53,9 @@ define(function (require) {
     // ask.
     getInstancesFor: function (project) {
       var allInstances = stores.InstanceStore.getAll();
+      // Don't make a call if we don't have instances or a project ID
+      if (!project.id || !allInstances) return;
       if (!_modelsFor[project.id]) return this.fetchModelsFor(project.id);
-      if (!allInstances) return;
 
       // Filter instances belonging to the project
       var instances = allInstances.filter(function (i) {
