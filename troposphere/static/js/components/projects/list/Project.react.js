@@ -48,11 +48,18 @@ define(function (require) {
         </li>);
     },
     render: function () {
-      var project = this.props.project,
+      let project = this.props.project,
+        projectExternalLinks,
+        projectInstances,
+        projectImages,
+        projectVolumes;
+
+      if (project.id) {
         projectExternalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(project),
         projectInstances = stores.ProjectInstanceStore.getInstancesFor(project),
         projectImages = stores.ProjectImageStore.getImagesFor(project),
         projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project);
+      }
 
       if (!project.id || !projectExternalLinks || !projectInstances || !projectVolumes || !projectImages) {
         return (
