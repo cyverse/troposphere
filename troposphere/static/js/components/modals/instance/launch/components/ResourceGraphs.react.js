@@ -13,7 +13,7 @@ export default React.createClass({
 
     // This is what we show if the instance will exceed our resources.
     resourceExceded: function(total, limit) {
-        if (total >= limit) {
+        if (total > limit) {
             return (
                 <div style={{color: "red", marginTop: "-20px"}}>
                     You do not have enough resources. <br/>
