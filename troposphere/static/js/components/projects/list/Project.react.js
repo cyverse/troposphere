@@ -23,8 +23,10 @@ export default React.createClass({
         projectInstances,
         projectImages,
         projectVolumes,
-        args,
-        footer;
+        numInstances = "-",
+        numVolumes = "-",
+        numImages = "-",
+        numExternalLinks = "-";
 
       if (project.id) {
         description = project.get('description');
@@ -36,13 +38,10 @@ export default React.createClass({
       }
 
       if (projectExternalLinks && projectInstances && projectVolumes && projectImages) {
-        args = {
-            projectExternalLinks,
-            projectInstances,
-            projectImages,
-            projectVolumes,
-        };
-        footer = this.renderFooter(args)
+          numInstances = projectInstances.length;
+          numVolumes = projectVolumes.length;
+          numImages = projectImages.length;
+          numExternalLinks = projectExternalLinks.length;
       }
         return (
           <li className={"col-md-4" + this.props.className} style={{padding: "15px"}}>
@@ -52,48 +51,40 @@ export default React.createClass({
               style={{color: "inherit"}}
             >
                 <div style={{"position": "relative"}}>
-                <div className="media__content">
-                    <h2 className="t-title">{project.get('name')}</h2>
-                    <hr/>
-                    <time className="t-caption" style={{display: "block"}}>{"Created " + projectCreationDate}</time>
-                    <p className="description" 
-                    style={{minHeight: "200px"}} 
-                    >
-                        {description}
-                    </p>
-                </div>
-                { footer }
+                    <div className="media__content">
+                        <h2 className="t-title">{project.get('name')}</h2>
+                        <hr/>
+                        <time className="t-caption" style={{display: "block"}}>{"Created " + projectCreationDate}</time>
+                        <p className="description" 
+                        style={{minHeight: "200px"}} 
+                        >
+                            {description}
+                        </p>
+                    </div>
+                    <div className="media__footer">
+                        <ul className="project-resource-list ">
+                            <ProjectResource icon={"tasks"}
+                                            count={numInstances}
+                                            resourceType={"instances"}
+                            />
+                            <ProjectResource icon={"hdd"}
+                                            count={numVolumes}
+                                            resourceType={"volumes"}
+                            />
+                            <ProjectResource icon={"floppy-disk"}
+                                            count={numImages}
+                                            resourceType={"images"}
+                            />
+                            <ProjectResource icon={"globe"}
+                                            count={numExternalLinks}
+                                            resourceType={"links"}
+                            />
+                        </ul>
+                    </div>
                 </div>
             </Router.Link>
             </div>
           </li>
         );
-    },
-
-    renderFooter: function (args) {
-      var project = this.props.project;
-
-      return (
-                <div className="media__footer">
-                    <ul className="project-resource-list ">
-                        <ProjectResource icon={"tasks"}
-                                        count={args.projectInstances.length}
-                                        resourceType={"instances"}
-                        />
-                        <ProjectResource icon={"hdd"}
-                                        count={args.projectVolumes.length}
-                                        resourceType={"volumes"}
-                        />
-                        <ProjectResource icon={"floppy-disk"}
-                                        count={args.projectImages.length}
-                                        resourceType={"images"}
-                        />
-                        <ProjectResource icon={"globe"}
-                                        count={args.projectExternalLinks.length}
-                                        resourceType={"links"}
-                        />
-                    </ul>
-                </div>
-      );
     }
 });
