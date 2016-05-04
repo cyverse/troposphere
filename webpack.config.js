@@ -1,8 +1,11 @@
 "use strict";
 var path = require("path");
 var webpack = require("webpack");
+
+// Plugin imports:
 //var Clean = require('clean-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var CompressionPlugin = require("compression-webpack-plugin");
 
 var OUTPUT_PATH = path.join(__dirname, "/troposphere/assets");
 var CONTEXT_PATH = path.join(__dirname, "/troposphere/static/js");
@@ -22,6 +25,13 @@ if (process.env.NODE_ENV === "production") {
       compressor: {
         warnings: false
       }
+    }),
+    new CompressionPlugin({
+        asset: "[path].gz[query]",
+        algorithm: "gzip",
+        test: /\.js$/,
+        threshold: 10240,
+        minRatio: 0.8
     })
   );
 }
