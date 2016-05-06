@@ -5,6 +5,7 @@ define(function (require) {
     stores = require('stores'),
     Id = require('../details/sections/details/Id.react'),
     Status = require('../details/sections/details/Status.react'),
+    Activity = require('../details/sections/details/Activity.react'),
     Size = require('../details/sections/details/Size.react'),
     IpAddress = require('../details/sections/details/IpAddress.react'),
     LaunchDate = require('../details/sections/details/LaunchDate.react'),
@@ -23,11 +24,11 @@ define(function (require) {
         provider = instance ? stores.ProviderStore.get(instance.get('provider').id) : null;
 
       if (!instance || !provider) return <div className="loading"></div>;
-
       return (
         <ul>
           <Id instance={instance}/>
           <Status instance={instance}/>
+          <Activity instance={instance}/>
           <Size instance={instance}/>
           <IpAddress instance={instance}/>
           <LaunchDate instance={instance}/>
