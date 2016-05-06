@@ -20,7 +20,7 @@
             <div id="toast-container" class="toast-top-full-width">
                 <div class="toast toast-error">
                     <div class="toast-title"> Errors occurred during login: </div>
-                    <div id="toast-msg-target" class="toast-message"></div>
+                    <div id="toast-msg-target" class="toast-message">{{ banner }}</div>
                 </div>
             </div>
 {% endif %}
@@ -34,17 +34,5 @@
             </a>
         </div>
     </div>
-{% if banner %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
-    <script>
-    var bannerMsg = "{{ banner }}";
-    $(document).ready(function() {
-        var msg = JSON.parse(_.unescape(bannerMsg));
-        $('#toast-msg-target').text(msg['detail']);
-    });
-    </script>
-{% endif %}
 </body>
 </html>
