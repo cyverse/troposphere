@@ -120,16 +120,22 @@ def _oauth_login(request):
     if redirect_url:
         request.session['redirect_to'] = redirect_url
 
+    response = redirect(cas_oauth_client.authorize_url())
+
     logger.info(request.META['REMOTE_ADDR'])
     if (request.META['REMOTE_ADDR'] == '128.196.38.108' or
         request.META['REMOTE_ADDR'] == '127.0.0.1'):
         logger.info("REQUEST ******************** \n")
-        logger.info(request.session)
+        for (key in request.session.keys()):
+            logger.info(" - %s" % (request.session[key],))
         logger.info(request.COOKIES)
         logger.info(request.META['REMOTE_ADDR'])
         logger.info(request.user.username)
+        logger.info("*****************************")
+        logger.info("RESPONSE ******************** \n")
+        logger.info(response.cookies)
 
-    return redirect(cas_oauth_client.authorize_url())
+    return response
 
 
 # CAS OAuth callback ( After the Authorize is OK)
@@ -157,13 +163,20 @@ def cas_oauth_service(request):
         redirect_url = request.session.pop('redirect_to')
         return redirect(redirect_url)
 
+    response = redirect('application')
+
     logger.info(request.META['REMOTE_ADDR'])
     if (request.META['REMOTE_ADDR'] == '128.196.38.108' or
         request.META['REMOTE_ADDR'] == '127.0.0.1'):
         logger.info("REQUEST ******************** \n")
-        logger.info(request.session)
+        for (key in request.session.keys()):
+            logger.info(" - %s" % (request.session[key],))
         logger.info(request.COOKIES)
         logger.info(request.META['REMOTE_ADDR'])
         logger.info(request.user.username)
+        logger.info("*****************************")
+        logger.info("RESPONSE ******************** \n")
+        logger.info(response.cookies)
 
-    return redirect('application')
+
+    return response
