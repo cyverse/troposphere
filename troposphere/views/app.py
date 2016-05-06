@@ -166,6 +166,20 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
         )
     response.set_cookie('beta', request.session['beta'])
     response.set_cookie('airport_ui', request.session['airport_ui'])
+
+    logger.info(request.META['REMOTE_ADDR'])
+    if (request.META['REMOTE_ADDR'] == '128.196.38.108' or
+        request.META['REMOTE_ADDR'] == '127.0.0.1'):
+        logger.info("REQUEST ******************** \n")
+        logger.info(request.session)
+        logger.info(request.COOKIES)
+        logger.info(request.META['REMOTE_ADDR'])
+        logger.info(request.user.username)
+
+        logger.info("RESPONSE ******************** \n")
+        logger.info(response.cookies)
+        logger.info('access_token' in response)
+
     return response
 
 
@@ -220,6 +234,20 @@ def _handle_authenticated_application_request(request, maintenance_records):
             template_params,
             context_instance=RequestContext(request)
         )
+
+    logger.info(request.META['REMOTE_ADDR'])
+    if (request.META['REMOTE_ADDR'] == '128.196.38.108' or
+        request.META['REMOTE_ADDR'] == '127.0.0.1'):
+        logger.info("REQUEST ******************** \n")
+        logger.info(request.session)
+        logger.info(request.COOKIES)
+        logger.info(request.META['REMOTE_ADDR'])
+        logger.info(request.user.username)
+
+        logger.info("RESPONSE ******************** \n")
+        logger.info(response.cookies)
+        logger.info('access_token' in response)
+
 
     return response
 
