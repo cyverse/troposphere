@@ -127,7 +127,7 @@ def _oauth_login(request):
         request.META['REMOTE_ADDR'] == '127.0.0.1'):
         logger.info("REQUEST ******************** \n")
         for key in request.session.keys():
-            logger.info(" - %s" % (request.session[key],))
+            logger.info(" - %s => %s" % (key, request.session[key]))
         logger.info(request.COOKIES)
         logger.info(request.META['REMOTE_ADDR'])
         logger.info(request.user.username)
@@ -170,7 +170,7 @@ def cas_oauth_service(request):
         request.META['REMOTE_ADDR'] == '127.0.0.1'):
         logger.info("REQUEST ******************** \n")
         for key in request.session.keys():
-            logger.info(" - %s" % (request.session[key],))
+            logger.info(" - %s => %s" % (key, request.session[key]))
         logger.info(request.COOKIES)
         logger.info(request.META['REMOTE_ADDR'])
         logger.info(request.user.username)

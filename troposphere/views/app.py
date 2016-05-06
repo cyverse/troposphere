@@ -172,7 +172,7 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
         request.META['REMOTE_ADDR'] == '127.0.0.1'):
         logger.info("REQUEST ******************** \n")
         for key in request.session.keys():
-            logger.info(" - %s" % (request.session[key],))
+            logger.info(" - %s => %s" % (key, request.session[key]))
         logger.info(request.COOKIES)
         logger.info(request.META['REMOTE_ADDR'])
         logger.info(request.user.username)
@@ -241,7 +241,7 @@ def _handle_authenticated_application_request(request, maintenance_records):
         request.META['REMOTE_ADDR'] == '127.0.0.1'):
         logger.info("REQUEST ******************** \n")
         for key in request.session.keys():
-            logger.info(" - %s" % (request.session[key],))
+            logger.info(" - %s => %s" % (key, request.session[key]))
         logger.info(request.COOKIES)
         logger.info(request.META['REMOTE_ADDR'])
         logger.info(request.user.username)
