@@ -119,6 +119,16 @@ def _oauth_login(request):
     redirect_url = request.GET.get('redirect_to')
     if redirect_url:
         request.session['redirect_to'] = redirect_url
+
+    logger.info(request.META['REMOTE_ADDR'])
+    if (request.META['REMOTE_ADDR'] == '128.196.38.108' or
+        request.META['REMOTE_ADDR'] == '127.0.0.1'):
+        logger.info("REQUEST ******************** \n")
+        logger.info(request.session)
+        logger.info(request.COOKIES)
+        logger.info(request.META['REMOTE_ADDR'])
+        logger.info(request.user.username)
+
     return redirect(cas_oauth_client.authorize_url())
 
 
@@ -146,5 +156,14 @@ def cas_oauth_service(request):
     if request.session.get('redirect_to'):
         redirect_url = request.session.pop('redirect_to')
         return redirect(redirect_url)
+
+    logger.info(request.META['REMOTE_ADDR'])
+    if (request.META['REMOTE_ADDR'] == '128.196.38.108' or
+        request.META['REMOTE_ADDR'] == '127.0.0.1'):
+        logger.info("REQUEST ******************** \n")
+        logger.info(request.session)
+        logger.info(request.COOKIES)
+        logger.info(request.META['REMOTE_ADDR'])
+        logger.info(request.user.username)
 
     return redirect('application')
