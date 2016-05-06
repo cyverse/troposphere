@@ -129,7 +129,6 @@ def _oauth_login(request):
         logger.info(request.META['REMOTE_ADDR'])
         logger.info(request.user.username)
 
-
     return redirect(cas_oauth_client.authorize_url())
 
 
