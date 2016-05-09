@@ -53,6 +53,7 @@ define(function (require) {
 
     getVolumesFor: function (project) {
       var allVolumes = stores.VolumeStore.getAll();
+      if (!project.id) return;
       if (!_modelsFor[project.id]) return this.fetchModelsFor(project.id);
       if (!allVolumes) return;
 

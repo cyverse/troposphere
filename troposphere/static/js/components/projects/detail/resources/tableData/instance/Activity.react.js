@@ -9,12 +9,14 @@ var Activity = React.createClass({
       },
 
       render: function () {
-        var instance = this.props.instance;
-
-        var activity = instance.get('state').get('activity');
+        var instance = this.props.instance,
+            stylez = {
+                textTransform: "capitalize"
+            },
+            activity = instance.get('state').get('activity');
 
         return (
-          <span style={{textTransform: "capitalize"}}>{activity}</span>
+          <span style={stylez}>{activity}</span>
         );
       }
 });

@@ -222,6 +222,7 @@ define(function (require) {
     // Returns a specific model if it exists in the local cache with the side
     // effect of fetching models
     get: function (modelId) {
+      if (!modelId) return;
       if (!this.models) {
         this.fetchModels();
       } else {
