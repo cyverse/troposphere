@@ -25,15 +25,7 @@ if (process.env.NODE_ENV === "production") {
       compressor: {
         warnings: false
       }
-    }),
-    new CompressionPlugin({
-        asset: "[path].gz[query]",
-        algorithm: "gzip",
-        test: /\.js$/,
-        threshold: 10240,
-        minRatio: 0.8
-    })
-  );
+    });
 }
 
 module.exports = {
