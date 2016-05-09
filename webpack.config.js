@@ -25,7 +25,8 @@ if (process.env.NODE_ENV === "production") {
       compressor: {
         warnings: false
       }
-    });
+    })
+  );
 }
 
 module.exports = {
