@@ -39,6 +39,23 @@ define(function (require) {
 
       // Hide bookmarking on the public page
       var bookmark;
+      let endDated;
+      if (this.props.isEndDated) {
+        endDated = (
+            <div style={{
+                position: "absolute",
+                top: "10px",
+                left: "0",
+                background: "#F55A5A",
+                display: "inline-block",
+                padding: "5px 10px",
+                color: "white"
+              }}
+            >
+              End Dated
+            </div>
+        );
+      }
       if (hasLoggedInUser) {
         bookmark = (
           <Bookmark image={image}/>
@@ -47,6 +64,7 @@ define(function (require) {
 
       return (
         <div className='app-card'>
+          {endDated}
           <div className='icon-container'>
             <Router.Link to="image-details" params={{imageId: image.id}}>
               {icon}
