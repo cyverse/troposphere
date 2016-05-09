@@ -196,13 +196,13 @@ export default React.createClass({
                 </p>
             );
         }
+        let requiredLabel = ( <span style={{color: "red"}}>*</span> );
 
         return (
-            <div role='form'>
-
+            <div className="clearfix" style={{marginBottom: "50px"}} role='form'>
             <div className='form-group'>
                 <label htmlFor='linkName'>
-                    Link Title
+                    Link Title {requiredLabel}
                 </label>
                 <input
                     type="text"
@@ -215,7 +215,7 @@ export default React.createClass({
 
             <div className='form-group'>
                 <label htmlFor='linkSize'>
-                    Link Description
+                    Link Description {requiredLabel}
                 </label>
                 <textarea
                     id='project-description'
@@ -229,7 +229,9 @@ export default React.createClass({
             </div>
 
             <div className='form-group'>
-                <label htmlFor='linkName'>Link URL</label>
+                <label htmlFor='linkName'>
+                    Link URL {requiredLabel}
+                </label>
                 <input
                     type="text"
                     className="form-control"
@@ -239,6 +241,9 @@ export default React.createClass({
                 {formattedLinkError}
             </div>
 
+              <div style={{float: "right"}}>
+                {requiredLabel} Required
+              </div>
             </div>
         );
     },
@@ -266,9 +271,9 @@ export default React.createClass({
                     <div className="modal-content">
                         <div className="modal-header">
                             {this.renderCloseButton()}
-                            <strong>
+                            <h2 className="t-headline">
                                 Create ExternalLink
-                            </strong>
+                            </h2>
                         </div>
                         <div className="modal-body">
                             {this.renderBody()}
