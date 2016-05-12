@@ -59,12 +59,15 @@ var InstanceHistorySection = React.createClass({
         }
         else{
             items = this.state.instanceHistory.map(function(historyItem){
-                let formattedStartDate = moment(historyItem.get('start_date')).format("MMMM Do YYYY, h:mm a"),
+                let formattedAUTotal = historyItem.get('total_hours'),
+                    formattedStartDate = moment(historyItem.get('start_date')).format("MMMM Do YYYY, h:mm a"),
                     formattedEndDate = "Present";
                 if(historyItem.get('end_date') && historyItem.get('end_date').isValid()){
                     formattedEndDate = moment(historyItem.get('end_date')).format("MMMM Do YYYY, h:mm a");
                 }
-                return <div key={historyItem.cid}>{historyItem.get('status')}: {formattedStartDate} - {formattedEndDate}</div>;
+                return (<div key={historyItem.cid}>
+                    {historyItem.get('status')}: {formattedStartDate} - {formattedEndDate} - {formattedAUTotal}
+                </div>);
             });
             content =
                 (
