@@ -397,10 +397,10 @@ export default React.createClass({
             if (allocationConsumed >= allocationTotal) {
                 return true;
             }
-            if (cpuWillTotal >= allocationCpu) {
+            if (cpuWillTotal > allocationCpu) {
                 return true;
             }
-            if (memWillTotal >= allocationMem) {
+            if (memWillTotal > allocationMem) {
                 return true;
             }
             return false

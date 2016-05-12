@@ -16,7 +16,7 @@ var Status = React.createClass({
         var activity = instanceState.get('activity');
         var lightStatus;
 
-        if (activity) {
+        if (activity || status == "build") {
             lightStatus = "transition";
         } else if (status == "active") {
             lightStatus = "active";

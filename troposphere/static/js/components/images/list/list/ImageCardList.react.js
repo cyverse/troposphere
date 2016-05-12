@@ -1,46 +1,48 @@
-define(function (require) {
+import React from 'react/addons';
+import { filterEndDate } from 'utilities/filterCollection';
+import ImageListCard from '../common/ImageListCard.react';
 
-  var React = require('react/addons'),
-    ImageListCard = require('../common/ImageListCard.react');
-
-  return React.createClass({
+export default React.createClass({
 
     propTypes: {
-      title: React.PropTypes.string,
-      images: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        title: React.PropTypes.string,
+        images: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
 
     renderTitle: function () {
-      var title = this.props.title;
-      if (!title) return;
+        var title = this.props.title;
+        if (!title) return;
 
-      return (
+        return (
         <h3>{title}</h3>
-      )
+        )
     },
 
     renderCard: function(image){
-      return (
+        let isEndDated = !filterEndDate(image);
+        return (
         <li key={image.id}>
-          <ImageListCard image={image}/>
+            <ImageListCard
+            image={image}
+            isEndDated = {isEndDated}
+            />
         </li>
-      );
+        );
     },
 
     render: function () {
-      var images = this.props.images;
-      var imageCards = images.map(this.renderCard);
+        var images = this.props.images;
+        var imageCards = images.map(this.renderCard);
 
-      return (
+        return (
         <div>
-          {this.renderTitle()}
-          <ul className='app-card-list'>
+            {this.renderTitle()}
+            <ul className='app-card-list'>
             {imageCards}
-          </ul>
+            </ul>
         </div>
-      );
+        );
     }
 
-  });
-
 });
+

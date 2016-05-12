@@ -35,6 +35,16 @@ export default React.createClass({
         projectInstances = stores.ProjectInstanceStore.getInstancesFor(project);
         projectImages = stores.ProjectImageStore.getImagesFor(project);
         projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project);
+      } else {
+        return (
+          <li className={"col-md-4" + this.props.className} style={{padding: "15px"}}>
+            <div className="media card">
+                <h2 className="t-title">{project.get('name') || '...'}</h2>
+
+                <div className="loading" style={{marginTop: "65px"}}/>
+            </div>
+          </li>
+        )
       }
 
       if (projectExternalLinks && projectInstances && projectVolumes && projectImages) {
@@ -46,7 +56,7 @@ export default React.createClass({
         return (
           <li className={"col-md-4" + this.props.className} style={{padding: "15px"}}>
             <div className="media card">
-            <Router.Link to="project-resources" 
+            <Router.Link to="project-resources"
               params={{projectId: project.id}}
               style={{color: "inherit"}}
             >
@@ -55,8 +65,8 @@ export default React.createClass({
                         <h2 className="t-title">{project.get('name')}</h2>
                         <hr/>
                         <time className="t-caption" style={{display: "block"}}>{"Created " + projectCreationDate}</time>
-                        <p className="description" 
-                        style={{minHeight: "200px"}} 
+                        <p className="description"
+                        style={{minHeight: "200px"}}
                         >
                             {description}
                         </p>
