@@ -51,7 +51,13 @@ def should_route_to_maintenace(request, in_maintenance):
 def _should_show_troposphere_only():
     # `SHOW_TROPOSPHERE_ONLY` may not be present in `settings`, so use
     # `hasattr` to handle when it is not present & avoid 500 errors on load.
-    return hasattr(settings, "SHOW_TROPOSPHERE_ONLY") and settings.SHOW_TROPOSPHERE_ONLY is True
+    return hasattr(settings, "SHOW_TROPOSPHERE_ONLY") and \
+        settings.SHOW_TROPOSPHERE_ONLY is True
+
+
+def _should_enabled_new_relic():
+    return hasattr(settings, "NEW_RELIC_ENVIRONMENT") and \
+        bool(settings.NEW_RELIC_ENVIRONMENT) is True
 
 
 def _populate_template_params(request, maintenance_records, disabled_login, public=False):
@@ -60,6 +66,7 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
     request session, and django settings (defined in `default.py` or overidden
     in `local.py`).
     """
+    # keep this variable around for the return statement ...
     show_troposphere_only = _should_show_troposphere_only()
 
     template_params = {
@@ -68,6 +75,7 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
         'emulated_by': request.session.get('emulated_by'),
         'records': maintenance_records,
         'show_troposphere_only': show_troposphere_only,
+        'new_relic_enabled': _should_enabled_new_relic(),
         'show_public_site': public
     }
 
