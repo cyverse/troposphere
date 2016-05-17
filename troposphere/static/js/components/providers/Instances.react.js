@@ -29,6 +29,7 @@ define(function (require) {
           <td>{instance.get('state').get('activity')}</td>
           <td>{numberOfCpus}</td>
           <td>{burnRate}</td>
+          <td>{instance.get('usage')}</td>
         </tr>
       );
     },
@@ -60,6 +61,7 @@ define(function (require) {
                 <th>Activity</th>
                 <th>CPUs</th>
                 <th>AUs/hour</th>
+                <th>Total AU</th>
               </tr>
               </thead>
               <tbody>
