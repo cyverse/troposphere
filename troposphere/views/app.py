@@ -68,6 +68,7 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
     """
     # keep this variable around for the return statement ...
     show_troposphere_only = _should_show_troposphere_only()
+    enable_new_relic = _should_enabled_new_relic()
 
     template_params = {
         'access_token': request.session.get('access_token'),
@@ -75,7 +76,7 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
         'emulated_by': request.session.get('emulated_by'),
         'records': maintenance_records,
         'show_troposphere_only': show_troposphere_only,
-        'new_relic_enabled': _should_enabled_new_relic(),
+        'new_relic_enabled': enable_new_relic,
         'show_public_site': public
     }
 
@@ -94,6 +95,10 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
                 settings.INTERCOM_COMPANY_ID
             template_params['intercom_company_name'] = \
                 settings.INTERCOM_COMPANY_NAME
+
+    if enable_new_relic:
+        template_params['new_relic_browser_snippet'] = \
+            settings.NEW_RELIC_BROWSER_SNIPPET
 
     template_params['SITE_TITLE'] = settings.SITE_TITLE
     template_params['SITE_FOOTER'] = settings.SITE_FOOTER
@@ -144,6 +149,11 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
     template_params, show_troposphere_only = _populate_template_params(request,
             maintenance_records, disabled_login, True)
 
+    if 'new_relic_enabled' in template_params:
+        logger.info("New Relic enabled? %s" % template_params['new_relic_enabled'])
+    else:
+        logger.info("New Relic key missing from `template_params`")
+
     # If show airport_ui flag in query params, set the session value to that
     if "airport_ui" in request.GET:
         request.session['airport_ui'] = request.GET['airport_ui'].lower()
@@ -188,6 +198,12 @@ def _handle_authenticated_application_request(request, maintenance_records):
         user=request.user)
 
     prefs_modified = False
+
+    if 'new_relic_enabled' in template_params:
+        logger.info("New Relic enabled? %s" % template_params['new_relic_enabled'])
+    else:
+        logger.info("New Relic key missing from `template_params`")
+
 
     # TODO - once phased out, we should ignore show_beta_interface altogether
     # ----
