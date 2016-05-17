@@ -58,15 +58,23 @@ define(function (require) {
             text: ''
           },
           xAxis: {
+            type: 'category',
             categories: categories
           },
           yAxis: {
-            min: 0,
-            max: 100,
             title: {
               text: 'Percent of Allocation Used'
             }
           },
+          plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:.1f}%'
+                }
+            }
+        },
           tooltip: {
             shared: false,
             formatter: function (tooltip) {
@@ -123,23 +131,23 @@ define(function (require) {
 
         // CPU Usage
         var cpuUsageStats = this.calculateCpuUsage(providerInstances, quota, sizes),
-          cpuUsage = (cpuUsageStats.percentUsed * 100 > 100) ? 100 : cpuUsageStats.percentUsed * 100;
+          cpuUsage = /*(cpuUsageStats.percentUsed * 100 > 100) ? 100 :*/ cpuUsageStats.percentUsed * 100;
 
         // Memory Usage
         var memoryUsageStats = this.calculateMemoryUsage(providerInstances, quota, sizes),
-          memoryUsage = (memoryUsageStats.percentUsed * 100 > 100) ? 100 : memoryUsageStats.percentUsed * 100;
+          memoryUsage = /*(memoryUsageStats.percentUsed * 100 > 100) ? 100 :*/ memoryUsageStats.percentUsed * 100;
 
         // Storage Usage
         var storageUsageStats = this.calculateStorageUsage(providerVolumes, quota),
-          storageUsage = (storageUsageStats.percentUsed * 100 > 100) ? 100 : storageUsageStats.percentUsed * 100;
+          storageUsage = /*(storageUsageStats.percentUsed * 100 > 100) ? 100 :*/ storageUsageStats.percentUsed * 100;
 
         // Volume Usage
         var volumeUsageStats = this.calculateStorageCountUsage(providerVolumes, quota),
-          volumeUsage = (volumeUsageStats.percentUsed * 100 > 100) ? 100 : volumeUsageStats.percentUsed * 100;
+          volumeUsage = /*(volumeUsageStats.percentUsed * 100 > 100) ? 100 :*/ volumeUsageStats.percentUsed * 100;
 
         // Allocation Usage
         var allocationUsageStats = this.calculateAllocationUsage(allocation),
-          allocationUsage = (allocationUsageStats.percentUsed * 100 > 100) ? 100 : allocationUsageStats.percentUsed * 100;
+          allocationUsage = /*(allocationUsageStats.percentUsed * 100 > 100) ? 100 :*/ allocationUsageStats.percentUsed * 100;
 
         var seriesData = {
           name: provider.get('name'),
