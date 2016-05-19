@@ -6,6 +6,19 @@ define(function (require) {
         Highcharts = require("highcharts"),
         ResourceUseTooltip = require("./tooltips/ResourceUseTooltip.react");
 
+/**
+
+ */
+function findMaxDataPt(seriesData, ceiling) {
+    // series data has an array of data points *per* provider
+    // - we need to know the max value to set the Y Axis
+    var tmpMax = Math.max(...seriesData.map(function(provider) {
+        return Math.max.apply(Math, provider.data);
+    }));
+    return tmpMax > ceiling ? tmpMax : ceiling;
+}
+
+
     return React.createClass({
       displayName: "ProviderSummaryLinePlot",
 
@@ -24,9 +37,11 @@ define(function (require) {
       componentDidMount: function () {
         var categories = ['CPU', 'Memory', 'Storage', 'Volumes'];
         var seriesData = this.getChartData();
+
         if (seriesData.length > 0 && seriesData[0].limits.Allocation) {
           categories.push("Allocation");
         }
+        var max = findMaxDataPt(seriesData, 100);
 
         var el = this.getDOMNode();
         var $el = $(el);
@@ -36,6 +51,29 @@ define(function (require) {
           return;
         }
 
+        var plotLines = [],
+            plotBands = [];
+
+        if (max > 100) {
+            plotLines = [{
+                value: 100,
+                color: 'red',
+                dashStyle: 'shortdash',
+                zIndex: 3,
+                width: 3
+            }];
+            plotBands = [{
+                color: 'pink',
+                from: 101,
+                to: max + (max / 2)
+            }];
+        }
+
+        // createChart is a CommonJS wrapping around Highcharts:
+        // https://github.com/crealogix/highcharts-commonjs/blob/66df4da87c0c9ab389eb844b8fe737c8eb3e93b1/index.js#L6
+        //
+        // createChart(element, options, callback)
+        // - `options` is the same as passing plotOptions to Highcharts.Chart
         new Highcharts.createChart(el, {
           chart: {
             type: 'column',
@@ -62,19 +100,15 @@ define(function (require) {
             categories: categories
           },
           yAxis: {
+            min: 0,
+            max: max,
+            plotLines: plotLines,
+            plotBands: plotBands,
             title: {
               text: 'Percent of Allocation Used'
             }
           },
-          plotOptions: {
-            series: {
-                borderWidth: 0,
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.y:.1f}%'
-                }
-            }
-        },
+
           tooltip: {
             shared: false,
             formatter: function (tooltip) {
@@ -163,6 +197,17 @@ define(function (require) {
             Memory: "GBs of Memory",
             Storage: "GBs of Storage",
             Volumes: "Volumes"
+          },
+          borderWidth: 0,
+          dataLabels: {
+            enabled: true,
+            formatter: function() {
+                if (this.y != 0) {
+                    return (Math.round(this.y * 100) / 100) + '%';
+                } else {
+                    return null;
+                }
+            }
           },
           animation: false
         };
