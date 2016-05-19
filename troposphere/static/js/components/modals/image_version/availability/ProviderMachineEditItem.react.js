@@ -21,9 +21,10 @@ define(function (require) {
           };
         },
         getInitialState: function() {
-          var enabled;
+          let enabled,
+          end_date = this.props.provider_machine.get('end_date');
 
-          if (this.props.provider_machine.end_date.isValid()) {
+          if (end_date && end_date.isValid()) {
             enabled = false;
           } else {
             enabled = true;
@@ -52,6 +53,8 @@ define(function (require) {
 
         render: function () {
           var provider_machine = this.props.provider_machine,
+              provider = provider_machine.get('provider'),
+              end_date = provider_machine.get('end_date'),
               classes, activateText, availableText, isDisabled;
           //TODO: Stylize this component
           if (this.state.machineEnabled == true) {
@@ -59,10 +62,10 @@ define(function (require) {
             activateText = "Disable Provider";
             classes = "list-group-item";
           } else {
-            if(! provider_machine.end_date.isValid()) {
+            if(! end_date.isValid()) {
               availableText = "Archiving ..."
             } else {
-              availableText = "Archived as of " + provider_machine.end_date.format("MMM D, YYYY hh:mm a");
+              availableText = "Archived as of " + end_date.format("MMM D, YYYY hh:mm a");
             }
             classes = "list-group-item list-group-item-danger"
             activateText = "Re-Enable Provider";
@@ -71,9 +74,9 @@ define(function (require) {
           isDisabled = (this.allow_edits() == false);
             //NOTE: Machines should be unique per provider..
             return (
-                <li className={classes} key={provider_machine.provider.id}>
+                <li className={classes} key={provider.id}>
                   <div className="container-fluid container-edit-provider-machine">
-                    <div className="col-sm-6" >{provider_machine.provider.name}</div>
+                    <div className="col-sm-6" >{provider.name}</div>
                     <div className="col-sm-3">{availableText}</div>
                     <div className="col-sm-3">
                       <button className="btn btn-xs btn-primary" style={{padding: "1px 5px"}} onClick={this.updateAvailability} disabled={isDisabled} >
