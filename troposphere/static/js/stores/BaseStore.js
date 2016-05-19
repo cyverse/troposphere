@@ -332,6 +332,13 @@ define(function (require) {
         }.bind(this));
       }
     },
+    appendModels: function(moreModels) {
+        if(!this.models) {
+            this.models = moreModels;
+            return;
+        }
+        this.models.add(moreModels.models, { merge: true });
+    },
 
     fetchWhere: function(queryParams) {
       queryParams = queryParams || {};
@@ -349,6 +356,7 @@ define(function (require) {
         }).done(function () {
           this.isFetchingQuery[queryString] = false;
           this.queryModels[queryString] = models;
+          this.appendModels(models);
           this.emitChange();
         }.bind(this));
       }
