@@ -6,9 +6,10 @@ define(
     'backbone',
     'components/images/common/Bookmark.react',
     'context',
+    'moment',
     'stores'
   ],
-  function (React, Gravatar, Backbone, Bookmark, context, stores) {
+  function (React, Gravatar, Backbone, Bookmark, context, moment, stores) {
 
     // Note:
     // -----
@@ -56,6 +57,15 @@ define(
           bookmark = (
             <Bookmark image={image}/>
           );
+        }
+        if (versions) {
+          var now = moment();
+          version_arr = versions.filter(function(ver) {
+              var end_date = ver.get('end_date');
+
+              return end_date == null || end_date.isAfter(now);
+          });
+          versions = new Backbone.Collection(version_arr);
         }
         //When versions is 'not loaded' OR 'has length > 0', you can launch.
         var canLaunch = (versions !== null && versions.length !== 0) ? true : false;

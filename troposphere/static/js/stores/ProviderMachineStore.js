@@ -33,6 +33,20 @@ define(function (require) {
         }
     },
 
+    getProvidersForVersion: function(version) {
+        var version_key = "version=" + version.id,
+            use_query = "?version_id="+ version.id;
+
+        if(!this.queryModels[version_key]) {
+            this.fetchModelsFor(version_key, use_query);
+        } else {
+            return new Backbone.Collection(
+                            this.queryModels[version_key]
+                            .map((ver) => ver.get('provider'))
+                        );
+        }
+    },
+
     getMachinesForVersion: function(version) {
         var version_key = "version=" + version.id,
             use_query = "?version_id="+ version.id;
@@ -42,7 +56,6 @@ define(function (require) {
         } else {
             return new Backbone.Collection(
                             this.queryModels[version_key]
-                            .map((ver) => ver)
                         );
         }
     },
