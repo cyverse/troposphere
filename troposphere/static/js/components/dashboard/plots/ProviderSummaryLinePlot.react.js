@@ -20,10 +20,12 @@ define(function (require) {
 function findMaxDataPt(seriesData, ceiling) {
     // series data has an array of data points *per* provider
     // - we need to know the max value to set the Y Axis
-    var tmpMax = Math.max(...seriesData.map(function(provider) {
-        return Math.max.apply(Math, provider.data);
-    }));
-    return tmpMax > ceiling ? tmpMax : ceiling;
+    return Math.max(
+        ceiling,
+        Math.max(...seriesData.map(
+            (provider) => Math.max(...provider.data))
+        )
+    );
 }
 
 
