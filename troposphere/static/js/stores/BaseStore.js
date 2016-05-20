@@ -78,11 +78,13 @@ define(function (require) {
         this.models.add(payload.data, {at: payload.at});
         return;
       }
+      // temporarily use cid to get around currently undefined id
+      if(!payload.id) payload.id = payload.cid;
       this.models.add(payload);
     },
 
     update: function (model) {
-      var existingModel = this.models.get(model);
+      var existingModel = this.models.get(model) || this.models.get({cid: model.cid});
       if (existingModel) {
         this.models.add(model, {merge: true});
       } else {
