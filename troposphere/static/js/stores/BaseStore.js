@@ -309,6 +309,14 @@ define(function (require) {
       }
     },
 
+    getWhere:function(queryParams) {
+      queryParams = queryParams || {};
+      // Build the query string
+      var queryString = buildQueryStringFromQueryParams(queryParams);
+
+      return this.queryModels[queryString];
+    },
+
     // Fetches the first page of data for the given set of queryParams
     // Example: params = {page_size: 1000, search: 'featured'}
     // will be convereted to ?page_size=1000&search=featured
