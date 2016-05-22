@@ -6,6 +6,29 @@ define(function (require) {
         Highcharts = require("highcharts"),
         ResourceUseTooltip = require("./tooltips/ResourceUseTooltip.react");
 
+/**
+ * Finds a maximum within the data points for all providers
+ *
+ * If the maximum does not exceed the _soft_ limit, `ceiling`, return
+ * the greatest value present.
+ *
+ * @param {object} seriesData - array of provider's series data [1]
+ * @param {int} ceiling - y Axis soft limit
+ *
+ * [1] http://api.highcharts.com/highcharts#plotOptions.series
+ */
+function findMaxDataPt(seriesData, ceiling) {
+    // series data has an array of data points *per* provider
+    // - we need to know the max value to set the Y Axis
+    return Math.max(
+        ceiling,
+        Math.max(...seriesData.map(
+            (provider) => Math.max(...provider.data))
+        )
+    );
+}
+
+
     return React.createClass({
       displayName: "ProviderSummaryLinePlot",
 
@@ -24,9 +47,11 @@ define(function (require) {
       componentDidMount: function () {
         var categories = ['CPU', 'Memory', 'Storage', 'Volumes'];
         var seriesData = this.getChartData();
+
         if (seriesData.length > 0 && seriesData[0].limits.Allocation) {
           categories.push("Allocation");
         }
+        var max = findMaxDataPt(seriesData, 100);
 
         var el = this.getDOMNode();
         var $el = $(el);
@@ -36,6 +61,29 @@ define(function (require) {
           return;
         }
 
+        var plotLines = [],
+            plotBands = [];
+
+        if (max > 100) {
+            plotLines = [{
+                value: 100,
+                color: 'red',
+                dashStyle: 'shortdash',
+                zIndex: 3,
+                width: 3
+            }];
+            plotBands = [{
+                color: 'pink',
+                from: 101,
+                to: max + (max / 2)
+            }];
+        }
+
+        // createChart is a CommonJS wrapping around Highcharts:
+        // https://github.com/crealogix/highcharts-commonjs/blob/66df4da87c0c9ab389eb844b8fe737c8eb3e93b1/index.js#L6
+        //
+        // createChart(element, options, callback)
+        // - `options` is the same as passing plotOptions to Highcharts.Chart
         new Highcharts.createChart(el, {
           chart: {
             type: 'column',
@@ -58,15 +106,19 @@ define(function (require) {
             text: ''
           },
           xAxis: {
+            type: 'category',
             categories: categories
           },
           yAxis: {
             min: 0,
-            max: 100,
+            max: max,
+            plotLines: plotLines,
+            plotBands: plotBands,
             title: {
               text: 'Percent of Allocation Used'
             }
           },
+
           tooltip: {
             shared: false,
             formatter: function (tooltip) {
@@ -123,23 +175,23 @@ define(function (require) {
 
         // CPU Usage
         var cpuUsageStats = this.calculateCpuUsage(providerInstances, quota, sizes),
-          cpuUsage = (cpuUsageStats.percentUsed * 100 > 100) ? 100 : cpuUsageStats.percentUsed * 100;
+          cpuUsage = cpuUsageStats.percentUsed * 100;
 
         // Memory Usage
         var memoryUsageStats = this.calculateMemoryUsage(providerInstances, quota, sizes),
-          memoryUsage = (memoryUsageStats.percentUsed * 100 > 100) ? 100 : memoryUsageStats.percentUsed * 100;
+          memoryUsage = memoryUsageStats.percentUsed * 100;
 
         // Storage Usage
         var storageUsageStats = this.calculateStorageUsage(providerVolumes, quota),
-          storageUsage = (storageUsageStats.percentUsed * 100 > 100) ? 100 : storageUsageStats.percentUsed * 100;
+          storageUsage = storageUsageStats.percentUsed * 100;
 
         // Volume Usage
         var volumeUsageStats = this.calculateStorageCountUsage(providerVolumes, quota),
-          volumeUsage = (volumeUsageStats.percentUsed * 100 > 100) ? 100 : volumeUsageStats.percentUsed * 100;
+          volumeUsage = volumeUsageStats.percentUsed * 100;
 
         // Allocation Usage
         var allocationUsageStats = this.calculateAllocationUsage(allocation),
-          allocationUsage = (allocationUsageStats.percentUsed * 100 > 100) ? 100 : allocationUsageStats.percentUsed * 100;
+          allocationUsage = allocationUsageStats.percentUsed * 100;
 
         var seriesData = {
           name: provider.get('name'),
@@ -155,6 +207,17 @@ define(function (require) {
             Memory: "GBs of Memory",
             Storage: "GBs of Storage",
             Volumes: "Volumes"
+          },
+          borderWidth: 0,
+          dataLabels: {
+            enabled: true,
+            formatter: function() {
+                if (this.y != 0) {
+                    return (Math.round(this.y * 100) / 100) + '%';
+                } else {
+                    return null;
+                }
+            }
           },
           animation: false
         };
