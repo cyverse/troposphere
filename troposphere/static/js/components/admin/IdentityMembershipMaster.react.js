@@ -4,20 +4,35 @@ define(function (require) {
   var React = require('react/addons'),
     Router = require('react-router'),
     stores = require('stores'),
-    IdentityMembership = require('./IdentityMembership.react');
-  var timer,
-    timerDelay = 100;
-
+    IdentityMembership = require('./IdentityMembership.react'),
+    ComponentHandleInputWithDelay = require('components/mixins/ComponentHandleInputWithDelay');
 
   return React.createClass({
     displayName: "IdentityMembership",
-    mixins: [Router.State],
+    mixins: [Router.State, ComponentHandleInputWithDelay],
     getInitialState: function() {
         return {
             query: "",
             selectedProviderId: -1,
+            memberships: null,
             allModels: null,
         };
+    },
+
+    updateState: function() {
+        let query = this.state.query;
+        let selected = this.state.selectedProviderId;
+        let memberships;
+        if (query !== null && query !== "" && selected !== -1) {
+            memberships = stores.IdentityMembershipStore.fetchWhere({
+                username: query,
+                provider_id: selected,
+            });
+        } else {
+            memberships = stores.IdentityMembershipStore.getAll();
+        }
+
+        this.setState({ memberships });
     },
 
     componentDidMount: function () {
@@ -30,45 +45,26 @@ define(function (require) {
       stores.ProviderStore.removeChangeListener(this.updateState);
     },
 
-    //Borrowed shamelessly from ImageListView
-    handleSearch: function (input) {
-      if (timer) clearTimeout(timer);
-
-      timer = setTimeout(function () {
-        this.setState({query: this.state.query});
-      }.bind(this), timerDelay);
-    },
-
     onProviderChange: function (e) {
       var provider_key = e.target.id,
           provider_id = provider_key.split('-')[1];
+    
       if (provider_id === 'all') {
           provider_id = -1
       }
       this.setState({selectedProviderId: provider_id});
     },
 
-    onSearchChange: function (e) {
-      var input = e.target.value;
-      this.setState({query: input});
-      this.handleSearch(input);
-    },
-
+     onSearchChange: function (e) {
+         // TODO: trim all these inputs yo
+         var input = e.target.value.trim();
+         this.setState({query: input}, () => {
+             this.callIfNotInterruptedAfter(500 /* ms */, this.updateState);
+         });
+     },
 
     renderTable: function () {
-      var memberships;
-     var query_params = {};
-      if(this.state.query !== null && this.state.query !== "") {
-          query_params.username = this.state.query
-      }
-      if(this.state.selectedProviderId != -1) {
-          query_params.provider_id = this.state.selectedProviderId;
-      }
-      if(query_params) {
-          memberships = stores.IdentityMembershipStore.fetchWhere(query_params);
-      } else {
-          memberships = stores.IdentityMembershipStore.getAll();
-      }
+      let memberships = this.state.memberships;
 
       if (!memberships) return <div className="loading"></div>;
 
@@ -135,7 +131,6 @@ define(function (require) {
                 {providerRows}
             </div>
         );
-
     },
     render: function () {
       return (
