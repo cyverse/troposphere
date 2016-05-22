@@ -4,95 +4,91 @@ define(function (require) {
   var React = require('react/addons'),
     Router = require('react-router'),
     stores = require('stores'),
+    ComponentHandleInputWithDelay = require('components/mixins/ComponentHandleInputWithDelay'),
     AtmosphereUser = require('./AtmosphereUser.react');
-  var timer,
-    timerDelay = 100;
-
 
   return React.createClass({
     displayName: "AtmosphereUserMaster",
-    mixins: [Router.State],
+    mixins: [Router.State, ComponentHandleInputWithDelay],
+
     getInitialState: function() {
         return {
             query: "",
-            allModels: null,
+            users: null,
         };
     },
 
+    USERS_PAGE_SIZE: 20,
+
     componentDidMount: function () {
       stores.UserStore.addChangeListener(this.updateState);
+
+      // Prime the data
+      this.updateState();
     },
 
     componentWillUnmount: function() {
       stores.UserStore.removeChangeListener(this.updateState);
     },
 
-    //Borrowed shamelessly from ImageListView
-    handleSearch: function (input) {
-      if (timer) clearTimeout(timer);
+     updateState: function() {
+         let query = this.state.query;
+         let users;
+         if (query) {
+             users = stores.UserStore.fetchWhere({
+                 username:query,
+                 page_size: this.USERS_PAGE_SIZE
+             });
+         } else {
+             users = stores.UserStore.fetchWhere({
+                 page_size: this.USERS_PAGE_SIZE
+             });
+         }
+         this.setState({ users });
+     },
 
-      timer = setTimeout(function () {
-        this.setState({query: this.state.query});
-      }.bind(this), timerDelay);
-    },
-
-    onSearchChange: function (e) {
-      var input = e.target.value;
-      this.setState({query: input});
-      this.handleSearch(input);
-    },
+     onSearchChange: function (e) {
+         var input = e.target.value.trim();
+         this.setState({query: input}, () => {
+             // The callback will be called at least after 500 ms, if the
+             // function is called again, its internal timer will be reset
+             this.callIfNotInterruptedAfter(500 /*ms*/, this.updateState);
+         });
+     },
 
 
     renderTable: function () {
-      var users;
-     var query_params = {};
-      if(this.state.query !== null && this.state.query !== "") {
-          query_params.username = this.state.query
-      }
-      if(query_params) {
-          users = stores.UserStore.fetchWhere(query_params);
-      } else {
-          users = stores.UserStore.getAll();
-      }
+        let users = this.state.users;
 
-      if (!users) return <div className="loading"></div>;
+        if (!users) {
+            return <div className="loading"></div>;
+        }
 
-      var atmosphereUserRows = users.map(function (user) {
+        let rows = users.map(
+            (user) => <AtmosphereUser key={user.id} user={user}/>
+        );
+
+        if (rows.length == 0) {
+            return  (
+                <div><h3>No Users were returned from the API</h3></div>
+            );
+        }
+
         return (
-          <AtmosphereUser key={user.id} user={user}/>
-        )
-      });
-
-      if (!atmosphereUserRows[0]) {
-        return  (
-                <div>
-                 <h3>No Users were returned from the API</h3>
-                </div>
-                );
-      }
-      return (
-          <table className="admin-table table table-striped table-hover" style={{marginTop: "20px"}}>
-            <tbody>
-              <tr className="admin-row">
-                <th>
-                    <h4>User</h4>
-                </th>
-                <th>
-                    <h4>E-Mail</h4>
-                </th>
-                <th>
-                    <h4>Staff</h4>
-                </th>
-                <th>
-                    <h4>Superuser</h4>
-                </th>
-                <th>
-                    <h4>Enabled/Disabled</h4>
-                </th>
-              </tr>
-              {atmosphereUserRows}
-            </tbody>
-          </table>
+            <table 
+                className="admin-table table table-striped table-hover" 
+                style={{marginTop: "20px"}}>
+                <tbody>
+                    <tr className="admin-row">
+                        <th><h4>User</h4></th>
+                        <th><h4>E-Mail</h4> </th>
+                        <th><h4>Staff</h4></th>
+                        <th><h4>Superuser</h4></th>
+                        <th><h4>Enabled/Disabled</h4></th>
+                    </tr>
+                    {rows}
+                </tbody>
+            </table>
         );
     },
     render: function () {
