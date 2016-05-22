@@ -4,7 +4,7 @@ import React from 'react';
 // handler, such that, the parent can be notified when a new tab is selected.
 // The parent could then render a view when a tab is selected.
 export default React.createClass({
-    displayName: "TabLinks",
+    displayName: 'TabLinks',
 
     propTypes: {
         // Index into links that will be shown by default
@@ -22,33 +22,35 @@ export default React.createClass({
 
     onTabClick: function(index) {
         this.props.onTabClick(index);
-        this.setState({ index })
+        this.setState({
+            index
+        })
     },
 
 
     renderLink: function(link, index) {
-        let active = "";
+        let active = '';
 
         if (index === this.state.index) {
-            active = "TabLinks--active";
+            active = 'TabLinks--active';
         }
 
         let onClick = this.onTabClick.bind(this, index);
 
         return (
-            <li key={index} className="TabLinks-link">
-                <a className={active} onClick={onClick}>
-                    {link}
-                </a>
-            </li>
+        <li key={ index } className="TabLinks-link">
+            <a className={ active } onClick={ onClick }>
+                { link }
+            </a>
+        </li>
         );
     },
 
     render: function() {
         return (
-            <ul className="TabLinks clearFix">
-                {this.props.links.map(this.renderLink)}
-            </ul>
+        <ul className="TabLinks clearFix">
+            { this.props.links.map(this.renderLink) }
+        </ul>
         );
     }
 });

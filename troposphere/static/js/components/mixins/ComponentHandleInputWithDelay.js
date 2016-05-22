@@ -15,7 +15,7 @@
     Each additional command resets the timer.
 
 */
-export default { 
+export default {
     componentWillMount: function() {
         this.fnCallLock = null;
     },
@@ -24,7 +24,7 @@ export default {
         return this.fnCallLock !== null;
     },
 
-    callIfNotInterruptedAfter: function (time, callback) {
+    callIfNotInterruptedAfter: function(time, callback) {
         // If lock exists, forget an earlier call attempt
         if (this.fnCallLock) {
             clearTimeout(this.fnCallLock);
@@ -32,8 +32,8 @@ export default {
 
         // When our timeout expires, remove the lock
         this.fnCallLock = setTimeout(() => {
-          this.fnCallLock = null;
-          callback();
+            this.fnCallLock = null;
+            callback();
         }, time);
     }
 };

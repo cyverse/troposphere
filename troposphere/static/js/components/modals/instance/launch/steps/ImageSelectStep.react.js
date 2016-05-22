@@ -10,13 +10,13 @@ import ComponentHandleInputWithDelay from 'components/mixins/ComponentHandleInpu
 import InstanceLaunchFooter from '../components/InstanceLaunchFooter.react';
 
 export default React.createClass({
-    displayName: "InstanceLaunchWizardModal-ImageSelectStep",
+    displayName: 'InstanceLaunchWizardModal-ImageSelectStep',
     mixins: [ComponentHandleInputWithDelay],
 
     RESULTS_PER_PAGE: 20,
     FEATURED_VIEW: 0,
     FAVORITE_VIEW: 1,
-    ALL_VIEW:      2,
+    ALL_VIEW: 2,
 
     getInitialState: function() {
         return {
@@ -60,7 +60,9 @@ export default React.createClass({
                 images = this.fetchFavorites();
                 break;
         }
-        this.setState({ images });
+        this.setState({
+            images
+        });
     },
 
     onSearchChange: function(e) {
@@ -68,24 +70,32 @@ export default React.createClass({
 
         // Skip the timeout, if the query is empty
         if (!input) {
-            this.setState({query: input}, this.updateState);
+            this.setState({
+                query: input
+            }, this.updateState);
         } else {
 
             // The callback will be called at least after 500 ms, if the
             // function is called again, its internal timer will be reset
-            this.setState({query: input}, () => {
-                this.callIfNotInterruptedAfter(500 /*ms*/, this.updateState);
+            this.setState({
+                query: input
+            }, () => {
+                this.callIfNotInterruptedAfter(500 /*ms*/ , this.updateState);
             });
         }
 
     },
 
     handleLoadMoreImages: function() {
-        this.setState({page: this.state.page + 1})
+        this.setState({
+            page: this.state.page + 1
+        })
     },
 
     onChangeView: function(view) {
-        this.setState({ view }, this.updateState);
+        this.setState({
+            view
+        }, this.updateState);
     },
 
     fetchAll: function() {
@@ -101,6 +111,7 @@ export default React.createClass({
 
         return images;
     },
+
     getAll: function() {
         let query = this.state.query;
         let images;
@@ -114,6 +125,7 @@ export default React.createClass({
 
         return images;
     },
+
     fetchFeatured: function() {
         let query = this.state.query;
         let images;
@@ -130,6 +142,7 @@ export default React.createClass({
 
         return images;
     },
+
     getFeatured: function() {
         let query = this.state.query;
         let images;
@@ -189,8 +202,10 @@ export default React.createClass({
         // Waiting on a network request, or user is typing
         if (!images || this.awaitingTimeout()) {
             return (
-                // Note: this div collapses w/o nbsp
-                <div className="filter-description">&nbsp;</div>
+            // Note: this div collapses w/o nbsp
+            <div className="filter-description">
+                &nbsp;
+            </div>
             );
         }
 
@@ -199,7 +214,7 @@ export default React.createClass({
             if (view == this.FAVORITE_VIEW) {
                 message = 'No favorited images found';
             } else {
-                message = "No images found"; 
+                message = 'No images found';
             }
         } else {
             if (total > images.length) {
@@ -214,20 +229,19 @@ export default React.createClass({
         }
 
         return (
-            <div className="filter-description">{message}</div>
+        <div className="filter-description">
+            { message }
+        </div>
         );
     },
 
     renderMoreImagesButton: function() {
         return (
-            <li>
-                <button style={{
-                    "margin": "15px auto",
-                    "display": "block"
-                }} className="btn btn-default" onClick={this.handleLoadMoreImages}>
-                    Show more images...
-                </button>
-            </li>
+        <li>
+            <button style={ { 'margin': '15px auto', 'display': 'block' } } className="btn btn-default" onClick={ this.handleLoadMoreImages }>
+                Show more images...
+            </button>
+        </li>
         );
     },
 
@@ -237,13 +251,11 @@ export default React.createClass({
 
     renderSearchInput: function() {
         return (
-            <input
-                ref="searchField"
-                type="text"
-                placeholder="Search across image name, tag or description"
-                className="form-control search-input"
-                onChange={this.onSearchChange}
-            />
+        <input ref="searchField"
+               type="text"
+               placeholder="Search across image name, tag or description"
+               className="form-control search-input"
+               onChange={ this.onSearchChange } />
         );
     },
 
@@ -253,7 +265,7 @@ export default React.createClass({
     // cache. So on first call these do actually make network requests. When
     // that bug is fixed, componentDidMount will have to prime the cache, this
     // will be done transparently. i.e. Subscribing to a data source will auto
-    // populate that data source. 
+    // populate that data source.
     renderImageTabView: function() {
         let tags = stores.TagStore.getAll();
         let query = this.state.query;
@@ -274,58 +286,47 @@ export default React.createClass({
 
         // Render loading
         if (!(images && tags)) {
-            return ( 
-                <div>
-                    {this.renderSearchInput()}
-                    {this.renderFilterDescription()}
-                    <div className="loading"/> 
-                </div>
+            return (
+            <div>
+                { this.renderSearchInput() }
+                { this.renderFilterDescription() }
+                <div className="loading" />
+            </div>
             );
         }
 
         let numberOfResults = this.state.page * this.RESULTS_PER_PAGE;
         let shownImages = new ImageCollection(images.first(numberOfResults));
-                
+
         return (
-            <div>
-                {this.renderSearchInput()}
-                {this.renderFilterDescription(shownImages, images.length)}
-                <ImageList
-                    images={shownImages}
-                    onSelectImage={this.props.onSelectImage}
-                >
-                    { 
-                        images.length > shownImages.length 
-                        ? this.renderMoreImagesButton() 
-                        : null 
-                    }
-                </ImageList>
-            </div>
+        <div>
+            { this.renderSearchInput() }
+            { this.renderFilterDescription(shownImages, images.length) }
+            <ImageList images={ shownImages } onSelectImage={ this.props.onSelectImage }>
+                { images.length > shownImages.length
+                      ? this.renderMoreImagesButton()
+                      : null }
+            </ImageList>
+        </div>
         );
 
     },
 
     render: function() {
         return (
-            <div>
-                <div className="modal-section">
-                    <h3 className="t-title">First choose an image for your instance</h3>
-                    <hr/>
-                    <TabLinks
-                        links={['Show Featured', 'Show Favorites', 'Show All']}
-                        defaultLink={this.FEATURED_VIEW}
-                        onTabClick={this.onChangeView}
-                    />
-                    {this.renderImageTabView()}
-                </div>
-                <InstanceLaunchFooter
-                    showValidationErr={true}
-                    onCancel={this.props.onCancel}
-                    launchIsDisabled={true}
-                    advancedIsDisabled={true}
-                    backIsDisabled={true}
-                />
+        <div>
+            <div className="modal-section">
+                <h3 className="t-title">First choose an image for your instance</h3>
+                <hr/>
+                <TabLinks links={ ['Show Featured', 'Show Favorites', 'Show All'] } defaultLink={ this.FEATURED_VIEW } onTabClick={ this.onChangeView } />
+                { this.renderImageTabView() }
             </div>
+            <InstanceLaunchFooter showValidationErr={ true }
+                                  onCancel={ this.props.onCancel }
+                                  launchIsDisabled={ true }
+                                  advancedIsDisabled={ true }
+                                  backIsDisabled={ true } />
+        </div>
         );
 
     }
