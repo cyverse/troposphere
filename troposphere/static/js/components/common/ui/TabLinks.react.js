@@ -1,40 +1,54 @@
 import React from 'react';
 
+// Renders a nav with several tabs. This nav is created with an onTabClick
+// handler, such that, the parent can be notified when a new tab is selected.
+// The parent could then render a view when a tab is selected.
 export default React.createClass({
     displayName: "TabLinks",
 
     propTypes: {
-        currentView: React.PropTypes.string.isRequired,
-        linkList: React.PropTypes.array.isRequired,
-        onChangeView: React.PropTypes.func.isRequired
+        // Index into links that will be shown by default
+        defaultLink: React.PropTypes.number.isRequired,
+        // List of link names to be rendered
+        links: React.PropTypes.array.isRequired,
+        onTabClick: React.PropTypes.func.isRequired
     },
 
-    onChangeView: function(item) {
-        this.props.onChangeView(item);
+    getInitialState: function() {
+        return {
+            index: this.props.defaultLink
+        }
     },
 
-    renderLinks: function(item, i) {
+    onTabClick: function(index) {
+        this.props.onTabClick(index);
+        this.setState({ index })
+    },
+
+
+    renderLink: function(link, index) {
         let active = "";
-        if (item === this.props.currentView) {
+
+        if (index === this.state.index) {
             active = "TabLinks--active";
         }
 
+        let onClick = this.onTabClick.bind(this, index);
+
         return (
-            <li key={i} className="TabLinks-link">
-                <a className={active}
-                    onClick={this.onChangeView.bind(this, item)}
-                >
-                    {item}
+            <li key={index} className="TabLinks-link">
+                <a className={active} onClick={onClick}>
+                    {link}
                 </a>
             </li>
-        )
+        );
     },
 
     render: function() {
         return (
             <ul className="TabLinks clearFix">
-                {this.props.linkList.map(this.renderLinks)}
+                {this.props.links.map(this.renderLink)}
             </ul>
-        )
+        );
     }
 });
