@@ -6,15 +6,14 @@ define(function (require) {
     ImageCollection = require('collections/ImageCollection'),
     ImageCardList = require('./list/ImageCardList.react'),
     ImageCardGrid = require('./grid/ImageCardGrid.react'),
+    ComponentHandleInputWithDelay = require('components/mixins/ComponentHandleInputWithDelay'),
     SecondaryImageNavigation = require('../common/SecondaryImageNavigation.react'),
     Router = require('react-router');
 
-  var timer,
-    timerDelay = 100;
-
   return React.createClass({
 
-    mixins: [Router.State],
+    displayName: "ImageListView",
+    mixins: [Router.State, ComponentHandleInputWithDelay],
 
     propTypes: {
       tags: React.PropTypes.instanceOf(Backbone.Collection)
@@ -22,45 +21,46 @@ define(function (require) {
 
     getInitialState: function () {
       return {
-        originalQuery: this.getQuery().q,
-        query: this.getQuery().q || "",
-        input: this.getQuery().q || "",
+        query: null,
+        images: null,
         isLoadingMoreResults: false,
         nextUrl: null,
         viewType: 'list'
       }
     },
 
-    componentWillReceiveProps: function (nextProps) {
-      var query = this.getQuery().q;
-      if (query !== this.state.originalQuery) {
-        this.setState({query: query, input: query, originalQuery: query});
-      }
-    },
-
     updateState: function () {
-      var query = this.state.query,
-        state = {},
-        images;
+        let query = this.state.query;
 
-      if (query) {
-        images = stores.ImageStore.fetchWhere({
-          search: query
-        })
-      } else {
-        images = stores.ImageStore.getAll();
-      }
+        let images;
+        if (query) {
+            images = stores.ImageStore.fetchWhere({
+                search: query
+            })
+        } else {
+            images = stores.ImageStore.getAll();
+        }
 
-      if (images && images.meta && images.meta.next !== this.state.nextUrl) {
-        state.isLoadingMoreResults = false;
-        state.nextUrl = null;
-      }
+        let isLoadingMoreResults = this.state.isLoadingMoreResults;
+        let nextUrl = this.state.nextUrl;
+        if (images && images.meta && images.meta.next !== this.state.nextUrl) {
+            isLoadingMoreResults = false;
+            nextUrl = null;
+        }
 
-      if (this.isMounted()) this.setState(state);
+        this.setState({
+            images,
+            isLoadingMoreResults,
+            nextUrl,
+        });
+
     },
 
     componentDidMount: function () {
       stores.ImageStore.addChangeListener(this.updateState);
+
+      // Prime the data
+      this.updateState();
     },
 
     componentWillUnmount: function() {
@@ -81,8 +81,9 @@ define(function (require) {
       }
 
       this.setState({
-        isLoadingMoreResults: true,
-        nextUrl: images.meta.next
+          images,
+          isLoadingMoreResults: true,
+          nextUrl: images.meta.next
       });
 
       // Fetch the next page of data
@@ -99,18 +100,17 @@ define(function (require) {
     // Callbacks
     //
 
-    handleSearch: function (input) {
-      if (timer) clearTimeout(timer);
-
-      timer = setTimeout(function () {
-        this.setState({query: this.state.input});
-      }.bind(this), timerDelay);
-    },
-
     onSearchChange: function (e) {
-      var input = e.target.value;
-      this.setState({input: input});
-      this.handleSearch(input);
+      var input = e.target.value.trim();
+
+      // If input is empty string, don't bother with delay
+      if (!input) {
+          this.setState({query: input}, this.updateState);
+      } else {
+          this.setState({query: input}, () => {
+              this.callIfNotInterruptedAfter(500 /* ms */, this.updateState);
+          });
+      }
     },
 
     onChangeViewType: function () {
@@ -131,7 +131,9 @@ define(function (require) {
           }),
           tags = this.props.tags;
 
-      if (!images || !tags || this.state.query) return;
+      // If a query is present, bail
+      if (!images || !tags || this.state.query) 
+          return;
 
       if (this.state.viewType === "list") {
         return (
@@ -240,19 +242,20 @@ define(function (require) {
 
     renderBody: function () {
       var query = this.state.query,
-        title = "",
-        images;
+        title = "";
 
-      if (query) {
-        images = stores.ImageStore.fetchWhere({
-          search: query
-        });
-      } else {
-        images = stores.ImageStore.getAll();
+        let images;
+        if (query) {
+            images = stores.ImageStore.getWhere({
+                search: query
+            })
+        } else {
+            images = stores.ImageStore.getAll();
+        }
+
+      if (!images || this.awaitingTimeout()) {
+          return <div className="loading"></div>;
       }
-
-
-      if (!images) return <div className="loading"></div>;
 
       if (!images.meta || !images.meta.count) {
           title = "Showing " + images.length + " images";
@@ -286,7 +289,7 @@ define(function (require) {
               className='form-control search-input'
               placeholder='Search across image name, tag or description'
               onChange={this.onSearchChange}
-              value={this.state.input}
+              value={this.state.query}
               ref="textField"
               />
             <hr/>
