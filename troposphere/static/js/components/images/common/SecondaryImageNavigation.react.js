@@ -23,40 +23,52 @@ define(function (require) {
     },
 
     render: function () {
-      var profile = context.profile,
-          allImages = stores.ImageStore.getAll(),
-          images = stores.ImageStore.fetchWhere({
-            created_by__username: profile.get('username')
-          }) || [];
-
       // only attempt to get bookmarks if there is a profile that might have them ...
-      var userLoggedIn = context.hasLoggedInUser(),
-        favoritedImages =  userLoggedIn ? stores.ImageBookmarkStore.getBookmarkedImages() : [];
+      let userLoggedIn = context.hasLoggedInUser();
+      let images = stores.ImageStore.getAll();
 
-      if(!images || (userLoggedIn && !favoritedImages)){
-        return <div className="loading"></div>
+      let routes;
+      if (!userLoggedIn) {
+          routes = [
+              this.renderRoute("Search", "search", "search", false),
+              this.renderRoute("Tags", "tags", "tags", false)
+          ];
+      } else {
+          let profile = stores.ProfileStore.get();
+          let favoritedImages =  stores.ImageBookmarkStore.getBookmarkedImages();
+          let userImages = stores.ImageStore.fetchWhere({
+                created_by__username: profile.get('username')
+          });
+
+
+          if (!userImages || !favoritedImages) {
+              return <div className="loading"></div>
+          }
+
+          let myImagesText = `My Images (${userImages.length})`;
+          let myFavoritedImagesText = `Favorites (${favoritedImages.length})`;
+
+          routes = [
+              this.renderRoute("Search", "search", "search", false),
+              this.renderRoute(myFavoritedImagesText, "favorites", "bookmark", true),
+              this.renderRoute(myImagesText, "authored", "user", true),
+              this.renderRoute("My Image Requests", "my-image-requests", "export", true),
+              this.renderRoute("Tags", "tags", "tags", false),
+          ];
       }
-
-      var myImagesText = "My Images (" + images.length + ")";
-      var myFavoritedImagesText = "Favorites (" + favoritedImages.length + ")";
 
       return (
         <div>
           <div className="secondary-nav">
             <div className="container">
               <ul className="secondary-nav-links">
-                {this.renderRoute("Search", "search", "search", false)}
-                {this.renderRoute(myFavoritedImagesText, "favorites", "bookmark", true)}
-                {this.renderRoute(myImagesText, "authored", "user", true)}
-                {this.renderRoute("My Image Requests", "my-image-requests", "export", true)}
-                {this.renderRoute("Tags", "tags", "tags", false)}
+                { routes }
               </ul>
             </div>
           </div>
         </div>
       );
     }
-
   });
 
 });
