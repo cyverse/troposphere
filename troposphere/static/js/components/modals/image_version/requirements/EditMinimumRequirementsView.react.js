@@ -3,6 +3,8 @@ import React from 'react/addons';
 export default React.createClass({
 
   propTypes: {
+    cpu: React.PropTypes.number.isRequired,
+    mem: React.PropTypes.number.isRequired,
     minCPU: React.PropTypes.number,
     minMem: React.PropTypes.number,
     onCPUChange: React.PropTypes.func.isRequired,
