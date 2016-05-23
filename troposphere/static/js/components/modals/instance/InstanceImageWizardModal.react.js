@@ -67,12 +67,17 @@ define(function (require) {
       };
     },
 
-    getState: function () {
-      return this.state;
-    },
-
     updateState: function () {
-      if (this.isMounted()) this.setState(this.getState());
+        let instance = this.props.instance;
+
+        let imageTags = this.state.imageTags;
+        if (instance) {
+            imageTags = stores.InstanceTagStore.getTagsFor(instance);
+        }
+
+        this.setState({
+            imageTags,    
+        });
     },
 
     componentDidMount: function () {
