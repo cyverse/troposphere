@@ -101,7 +101,9 @@ export default React.createClass({
 
         let providerList;
         if (imageVersion) {
-            providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
+            // FIXME: Querying the PM store to return *providers* based on *version* is Not ideal.
+            //  TODO: stores.ProviderStore.forVersion(imageVersion);
+            providerList = stores.ProviderMachineStore.getProvidersForVersion(imageVersion);
         }
 
         let provider = this.state.provider;
@@ -194,7 +196,9 @@ export default React.createClass({
 
         let providerList;
         if (imageVersion) {
-            providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
+            // FIXME: Querying the PM store to return *providers* based on *version* is Not ideal.
+            //  TODO: stores.ProviderStore.forVersion(imageVersion);
+            providerList = stores.ProviderMachineStore.getProvidersForVersion(imageVersion);
         };
 
         let provider, providerSizeList, identityProvider;
@@ -238,7 +242,9 @@ export default React.createClass({
     },
 
     onVersionChange: function(imageVersion) {
-        let providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
+        // FIXME: Querying the PM store to return *providers* based on *version* is Not ideal.
+        //  TODO: stores.ProviderStore.forVersion(imageVersion);
+        let providerList = stores.ProviderMachineStore.getProvidersForVersion(imageVersion);
         let providerSizeList;
         let providerSize;
         let provider;
@@ -505,7 +511,9 @@ export default React.createClass({
 
         let providerList;
         if (imageVersion) {
-            providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
+            // FIXME: Querying the PM store to return *providers* based on *version* is Not ideal.
+            //  TODO: stores.ProviderStore.forVersion(imageVersion);
+            providerList = stores.ProviderMachineStore.getProvidersForVersion(imageVersion);
         }
 
         let providerSizeList, resourcesUsed;

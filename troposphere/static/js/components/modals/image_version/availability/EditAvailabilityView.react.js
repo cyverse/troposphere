@@ -25,7 +25,7 @@ define(function (require) {
         },
         render: function () {
             var version = this.props.version,
-            provider_machines = stores.ImageVersionStore.getMachines(version.id);
+            provider_machines = stores.ProviderMachineStore.getMachinesForVersion(version);
 
             if (!provider_machines) {
                 return (<div className="loading" />);
