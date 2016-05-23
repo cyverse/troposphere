@@ -127,7 +127,7 @@ export default React.createClass({
                             <div>
                                 <label className="control-label">Public Key</label>
                                 <div aria-invalid={showKeyWarn} className={"form-group " + (showKeyWarn ? "has-error" : "")}>
-                                    <textarea style={{minHeight:"200px"}} className="form-control" onChange={this.updatePublicKey}/>
+                                    <textarea placeholder="Begins with either ssh-rsa, ssh-dss, ..." style={{minHeight:"200px"}} className="form-control" onChange={this.updatePublicKey}/>
                                     { showKeyWarn ? <span className="help-block">{ "* " + this.state.errorMsg }</span> : "" }
                                 </div>
                             </div>
