@@ -1,29 +1,27 @@
-define(function (require) {
+import AppDispatcher from 'dispatchers/AppDispatcher';
+import Utils from './Utils';
+import actions from 'actions';
+import NotificationController from 'controllers/NotificationController';
+import Router from '../Router';
 
-  var AppDispatcher = require('dispatchers/AppDispatcher'),
-    Utils = require('./Utils'),
-    actions = require('actions'),
-    NotificationController = require('controllers/NotificationController'),
-    Router = require('../Router'),
+// Constants
+import Badges from "Badges";
+import ProjectConstants from 'constants/ProjectConstants';
+import NullProjectInstanceConstants from 'constants/NullProjectInstanceConstants';
+import NullProjectVolumeConstants from 'constants/NullProjectVolumeConstants';
 
-  // Constants
-    Badges = require("Badges"),
-    ProjectConstants = require('constants/ProjectConstants'),
-    NullProjectInstanceConstants = require('constants/NullProjectInstanceConstants'),
-    NullProjectVolumeConstants = require('constants/NullProjectVolumeConstants'),
+// Models
+import ExternalLink from 'models/ExternalLink';
+import Instance from 'models/Instance';
+import Volume from 'models/Volume';
+import Image from 'models/Image';
+import Project from 'models/Project';
 
-  // Models
-    ExternalLink = require('models/ExternalLink'),
-    Instance = require('models/Instance'),
-    Volume = require('models/Volume'),
-    Image = require('models/Image'),
-    Project = require('models/Project'),
+// Modals
+import ModalHelpers from 'components/modals/ModalHelpers';
+import ProjectReportResourceModal from 'components/modals/project/ProjectReportResourceModal.react';
 
-  // Modals
-    ModalHelpers = require('components/modals/ModalHelpers'),
-    ProjectReportResourceModal = require('components/modals/project/ProjectReportResourceModal.react');
-
-  return {
+export default {
 
     // ------------------------
     // Standard CRUD Operations
@@ -276,6 +274,4 @@ define(function (require) {
       });
     }
 
-  };
-
-});
+};

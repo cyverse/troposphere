@@ -1,15 +1,15 @@
-define(function (require) {
+import React from 'react';
+import ReactDOM from 'react-dom';
+import $ from "jquery";
+import Backbone from 'backbone';
+import stores from 'stores';
+import actions from 'actions';
+import modals from 'modals';
+// plugin: jquery extension, not used directly
+import bootstrap from 'bootstrap';
 
-  var React = require('react'),
-      $ = require("jquery"),
-      Backbone = require('backbone'),
-      stores = require('stores'),
-      actions = require('actions'),
-      modals = require('modals'),
-  // plugin: jquery extension, not used directly
-      bootstrap = require('bootstrap');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "RequestResourcesButton",
 
     componentDidMount: function () {
@@ -21,7 +21,7 @@ define(function (require) {
     },
 
     generateTooltip: function () {
-      var el = this.getDOMNode();
+      var el = ReactDOM.findDOMNode(this);
       var $el = $(el);
       $el.tooltip({
         title: "Request more resources"
@@ -29,7 +29,7 @@ define(function (require) {
     },
 
     hideTooltip: function () {
-      $(this.getDOMNode()).tooltip('hide');
+      $(ReactDOM.findDOMNode(this)).tooltip('hide');
     },
 
     handleClick: function () {
@@ -46,7 +46,4 @@ define(function (require) {
         </button>
       );
     }
-
-  });
-
 });

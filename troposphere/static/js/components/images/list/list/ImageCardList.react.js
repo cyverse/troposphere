@@ -1,6 +1,7 @@
-import React from 'react/addons';
-import { filterEndDate } from 'utilities/filterCollection';
+import React from 'react';
 import ImageListCard from '../common/ImageListCard.react';
+import { filterEndDate } from 'utilities/filterCollection';
+
 
 export default React.createClass({
 
@@ -43,6 +44,5 @@ export default React.createClass({
         </div>
         );
     }
-
 });
 

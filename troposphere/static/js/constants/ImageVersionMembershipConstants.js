@@ -1,8 +1,5 @@
-define(function (require) {
 
-  return {
+export default {
     ADD_IMAGEVERSION_MEMBERSHIP: "ADD_IMAGEVERSION_MEMBERSHIP",
     REMOVE_IMAGEVERSION_MEMBERSHIP: "REMOVE_IMAGEVERSION_MEMBERSHIP"
   };
-
-});

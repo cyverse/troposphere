@@ -1,12 +1,7 @@
+import React from 'react';
+import BootstrapModal from 'components/common/BootstrapModal.react';
 
-define(
-  [
-    'react',
-    'components/common/BootstrapModal.react'
-  ],
-  function (React, BootstrapModal) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "CancelConfirmModal",
 
       // remove the modal from the DOM once we're finished with it
@@ -41,7 +36,4 @@ define(
           </BootstrapModal>
         );
       }
-
-    });
-
-  });
+});

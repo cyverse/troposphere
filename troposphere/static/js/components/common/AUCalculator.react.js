@@ -1,12 +1,7 @@
-define(
-  [
-    'react',
-    'components/mixins/BootstrapModalMixin.react',
-    'stores'
-  ],
-  function (React, BootstrapModalMixin, stores) {
+import React from 'react';
+import stores from 'stores';
 
-    return React.createClass({
+export default React.createClass({
 
       getInitialState: function () {
         return {
@@ -98,7 +93,4 @@ define(
           </div>
         );
       },
-
-    });
-
-  });
+});

@@ -1,12 +1,10 @@
-define(function (require) {
+import AppDispatcher from 'dispatchers/AppDispatcher';
+import AllocationConstants from 'constants/AllocationConstants';
+import Allocation from 'models/Allocation';
+import Utils from './Utils';
+import stores from 'stores';
 
-  var AppDispatcher = require('dispatchers/AppDispatcher'),
-    AllocationConstants = require('constants/AllocationConstants'),
-    Allocation = require('models/Allocation'),
-    Utils = require('./Utils'),
-    stores = require('stores');
-
-  return {
+export default {
 
     create: function(params){
 
@@ -23,5 +21,3 @@ define(function (require) {
     }
 
   };
-
-});

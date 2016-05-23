@@ -1,12 +1,12 @@
+import React from "react";
+import ReactDOM from 'react-dom';
+import ReactDOMServer from 'react-dom/server';
+import $ from "jquery";
+import Backbone from "backbone";
+import Highcharts from "highcharts";
+import ResourceStatusTooltip from "./tooltips/ResourceStatusTooltip.react";
 
-define(function(require) {
-    var React = require("react/addons"),
-        $ = require("jquery"),
-        Backbone = require("backbone"),
-        Highcharts = require("highcharts"),
-        ResourceStatusTooltip= require("./tooltips/ResourceStatusTooltip.react");
-
-    return React.createClass({
+export default React.createClass({
       displayName: "ResourceStatusSummaryPlot",
 
       propTypes: {
@@ -80,7 +80,7 @@ define(function(require) {
 
 
         // Create the chart
-        var el = this.getDOMNode();
+        var el = ReactDOM.findDOMNode(this);
         var chart = Highcharts.createChart(el, {
           chart: {
             type: 'pie',
@@ -117,7 +117,7 @@ define(function(require) {
                     status={this.key}
                     count={this.y}
                 />);
-              return React.renderToStaticMarkup(formatterComponent);
+              return ReactDOMServer.renderToStaticMarkup(formatterComponent);
             }
           },
           legend: {
@@ -138,7 +138,4 @@ define(function(require) {
           </div>
         );
       }
-
-    });
-
-  });
+});

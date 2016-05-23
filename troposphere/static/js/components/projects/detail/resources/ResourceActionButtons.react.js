@@ -1,18 +1,17 @@
-define(function (require) {
+import React from 'react';
+import Backbone from 'backbone';
+import Button from './Button.react';
+import Instance from 'models/Instance';
+import Image from 'models/Image';
+import ExternalLink from 'models/ExternalLink';
+import Volume from 'models/Volume';
+import ImageActionButtons from './ImageActionButtons.react';
+import ExternalLinkActionButtons from './ExternalLinkActionButtons.react';
+import InstanceActionButtons from './InstanceActionButtons.react';
+import VolumeActionButtons from './VolumeActionButtons.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    Button = require('./Button.react'),
-    Instance = require('models/Instance'),
-    Image = require('models/Image'),
-    ExternalLink = require('models/ExternalLink'),
-    Volume = require('models/Volume'),
-    ImageActionButtons = require('./ImageActionButtons.react'),
-    ExternalLinkActionButtons = require('./ExternalLinkActionButtons.react'),
-    InstanceActionButtons = require('./InstanceActionButtons.react'),
-    VolumeActionButtons = require('./VolumeActionButtons.react');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "ResourceActionButtons",
 
     propTypes: {
@@ -68,7 +67,5 @@ define(function (require) {
         return <span/>;
       }
     }
-
-  });
 
 });

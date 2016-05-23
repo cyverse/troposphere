@@ -1,14 +1,13 @@
-define(function (require) {
-  "use strict";
+import React from 'react';
+import Router from 'react-router';
+import RouterInstance from '../../Router';
+import stores from 'stores';
+import ResourceRequest from './ResourceRequest.react';
 
-  var React = require('react/addons'),
-    Router = require('react-router'),
-    RouterInstance = require('../../Router'),
-    stores = require('stores'),
-    ResourceRequest = require('./ResourceRequest.react'),
-    RouteHandler = Router.RouteHandler;
 
-  return React.createClass({
+let RouteHandler = Router.RouteHandler;
+
+export default React.createClass({
 
     mixins: [Router.State],
 
@@ -78,7 +77,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

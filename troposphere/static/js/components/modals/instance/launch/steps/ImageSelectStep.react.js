@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import Backbone from 'backbone';
 import _ from 'underscore';
 import stores from 'stores';
@@ -154,7 +155,7 @@ export default React.createClass({
     },
 
     focusSearchInput: function () {
-        this.refs.searchField.getDOMNode().focus();
+        this.refs.searchField.focus();
     },
     renderSearchInput: function () {
         return (
@@ -228,6 +229,7 @@ export default React.createClass({
         }
         return this.renderLoadingImages();
     },
+
     render: function () {
         return (
             <div>

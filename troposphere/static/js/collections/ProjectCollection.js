@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import Backbone from 'backbone';
+import Project from 'models/Project';
+import globals from 'globals';
 
-  var Backbone = require('backbone'),
-    Project = require('models/Project'),
-    globals = require('globals');
-
-  return Backbone.Collection.extend({
+export default Backbone.Collection.extend({
     model: Project,
 
     url: globals.API_V2_ROOT + "/projects",
@@ -29,7 +26,4 @@ define(function (require) {
       if (nameA === nameB) return 0;
       return nameA < nameB ? -1 : 1;
     }
-
-  });
-
 });

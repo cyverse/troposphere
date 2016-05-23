@@ -1,14 +1,12 @@
-define(function(require) {
+import React from 'react'
+import stores from 'stores'
+import moment from 'moment'
+import CryptoJS from 'crypto-js'
+import Gravatar from 'components/common/Gravatar.react'
+import RefreshComponent from 'components/projects/resources/instance/details/sections/metrics/RefreshComponent.react'
+import Router from 'react-router'
 
-  var React = require('react/addons'),
-    stores = require('stores'),
-    moment = require('moment'),
-    CryptoJS = require('crypto-js'),
-    Gravatar = require('components/common/Gravatar.react'),
-    RefreshComponent = require('components/projects/resources/instance/details/sections/metrics/RefreshComponent.react'),
-    Router = require('react-router');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "InstanceHistoryList",
 
     getInitialState: function() {
@@ -180,7 +178,4 @@ define(function(require) {
         </div>
       );
     }
-
-  });
-
 });

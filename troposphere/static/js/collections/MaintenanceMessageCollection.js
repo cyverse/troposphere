@@ -1,12 +1,9 @@
-define(function (require) {
-  "use strict";
+import Backbone from 'backbone';
+import MaintenanceMessage from 'models/MaintenanceMessage';
+import globals from 'globals';
+import moment from 'moment';
 
-  var Backbone = require('backbone'),
-    MaintenanceMessage = require('models/MaintenanceMessage'),
-    globals = require('globals'),
-    moment = require('moment');
-
-  return Backbone.Collection.extend({
+export default Backbone.Collection.extend({
     model: MaintenanceMessage,
 
     url: function () {
@@ -27,7 +24,4 @@ define(function (require) {
     comparator: function (a, b) {
       return b.get('start_date').diff(a.get('start_date'), "seconds");
     }
-
-  });
-
 });

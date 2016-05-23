@@ -1,9 +1,8 @@
-import React from 'react/addons';
+import React from 'react';
 import SelectMenu from 'components/common/ui/SelectMenu.react';
 import ScriptTags from './ScriptTags.react';
 
 export default React.createClass({
-    
     render: function() {
         let scriptName = function(item) { return item.get('title') };
         return (

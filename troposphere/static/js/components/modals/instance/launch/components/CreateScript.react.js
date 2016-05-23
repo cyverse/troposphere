@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import actions from 'actions';
 
 export default React.createClass({
@@ -51,7 +51,7 @@ export default React.createClass({
             }
     },
 
-    // A utility function testing for whitespace or empty string at the beginning or end of string. 
+    // A utility function testing for whitespace or empty string at the beginning or end of string.
     // There is probably a better place to put this.
     isValidString: function(str) {
         if (str !== ""){
@@ -169,7 +169,7 @@ export default React.createClass({
                         <h4 className="t-body-2">Input Type</h4>
                         <div className="radio-inline">
                             <label className="radio">
-                                <input type="radio" name="optionsRadios" 
+                                <input type="radio" name="optionsRadios"
                                     value="URL"
                                     defaultChecked={this.state.type === "URL"}
                                     onClick={this.onChangeType}
@@ -179,7 +179,7 @@ export default React.createClass({
                         </div>
                         <div className="radio-inline">
                             <label className="radio">
-                                <input type="radio" name="optionsRadios" 
+                                <input type="radio" name="optionsRadios"
                                     value="Raw Text"
                                     defaultChecked={this.state.type === "Raw Text"}
                                     onClick={this.onChangeType}
@@ -199,7 +199,7 @@ export default React.createClass({
                     >
                         Save and Add Script
                     </button>
-                    <button className="btn btn-default pull-right" 
+                    <button className="btn btn-default pull-right"
                         style={{marginRight: "10px"}}
                         onClick={this.props.close}
                     >

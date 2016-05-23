@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import Backbone from 'backbone';
+import User from 'models/User';
+import globals from 'globals';
 
-  var Backbone = require('backbone'),
-    User = require('models/User'),
-    globals = require('globals');
-
-  return Backbone.Collection.extend({
+export default Backbone.Collection.extend({
     model: User,
 
     url: globals.API_V2_ROOT + "/users",
@@ -26,7 +23,5 @@ define(function (require) {
 
       return response.results;
     }
-
-  });
 
 });

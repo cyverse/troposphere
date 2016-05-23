@@ -1,11 +1,7 @@
-define(function (require) {
-  "use strict";
+import VolumeConstants from 'constants/VolumeConstants';
+import Utils from '../Utils';
 
-  var VolumeConstants = require('constants/VolumeConstants'),
-    Utils = require('../Utils');
-
-  return {
-
+export default {
     update: function (volume, newAttributes) {
       if (!volume) throw new Error("Missing volume");
       if (!newAttributes || !newAttributes.name) throw new Error("Missing attributes.name");
@@ -22,13 +18,12 @@ define(function (require) {
       }).done(function () {
         // Nothing to do here
       }).fail(function (response) {
-        Utils.displayError({title: "Volume could not be updated", response: response});
+        Utils.displayError({
+            title: "Volume could not be updated", response: response
+        });
       }).always(function () {
         Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
         Utils.dispatch(VolumeConstants.POLL_VOLUME, {volume: volume});
       });
     }
-
-  };
-
-});
+};

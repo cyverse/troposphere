@@ -1,15 +1,12 @@
-define(function (require) {
-  "use strict";
+import stores from 'stores';
+import globals from 'globals';
+import $ from 'jquery';
+import _ from 'underscore';
+import Utils from '../Utils';
 
-  var stores = require('stores'),
-    globals = require('globals'),
-    $ = require('jquery'),
-    _ = require('underscore'),
-    Utils = require('../Utils');
+export default {
 
-  return {
-
-    report: function (params) {
+    report: function(params) {
       if (!params.reportInfo) throw new Error("Missing reportInfo");
       if (!params.volume) throw new Error("Missing volume");
 
@@ -41,6 +38,4 @@ define(function (require) {
       });
     }
 
-  };
-
-});
+};

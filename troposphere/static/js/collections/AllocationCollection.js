@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import Backbone from 'backbone';
+import Allocation from 'models/Allocation';
+import globals from 'globals';
 
-  var Backbone = require('backbone'),
-    Allocation = require('models/Allocation'),
-    globals = require('globals');
-
-  return Backbone.Collection.extend({
+export default Backbone.Collection.extend({
     model: Allocation,
     url: globals.API_V2_ROOT + "/allocations",
 
@@ -17,6 +14,4 @@ define(function (require) {
       };
       return response.results;
     }
-  });
-
 });

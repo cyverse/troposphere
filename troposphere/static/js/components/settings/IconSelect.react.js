@@ -1,10 +1,8 @@
+import _ from "underscore";
+import React from "react";
+import IconOption from "./IconOption.react";
 
-define(function (require) {
-    var _ = require("underscore"),
-        React = require("react"),
-        IconOption = require("./IconOption.react");
-
-    return React.createClass({
+export default React.createClass({
       displayName: "IconSelect",
 
       getDefaultProps: function () {
@@ -38,6 +36,4 @@ define(function (require) {
         );
       }
 
-    });
-
-  });
+});

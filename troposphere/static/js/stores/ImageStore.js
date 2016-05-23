@@ -1,15 +1,14 @@
-define(function (require) {
 
-  var moment = require('moment'),
-      ImageCollection = require('collections/ImageCollection'),
-      ProviderCollection = require('collections/ProviderCollection'),
-      Dispatcher = require('dispatchers/Dispatcher'),
-      BaseStore = require('stores/BaseStore'),
-      stores = require('stores'),
-      ImageConstants = require('constants/ImageConstants'),
-      NotificationController = require('controllers/NotificationController');
+import moment from 'moment';
+import ImageCollection from 'collections/ImageCollection';
+import ProviderCollection from 'collections/ProviderCollection';
+import Dispatcher from 'dispatchers/Dispatcher';
+import BaseStore from 'stores/BaseStore';
+import stores from 'stores';
+import ImageConstants from 'constants/ImageConstants';
+import NotificationController from 'controllers/NotificationController';
 
-  var ImageStore = BaseStore.extend({
+var ImageStore = BaseStore.extend({
     collection: ImageCollection,
 
     update: function(image){
@@ -51,11 +50,11 @@ define(function (require) {
       }.bind(this));
     },
 
-    get: function (imageId) {
-      if(!this.models) return this.fetchModels();
-      var image = BaseStore.prototype.get.apply(this, arguments);
-      if(!image) return this.fetchModel(imageId);
-      return image;
+    get: function(imageId) {
+        if (!this.models) return this.fetchModels();
+        var image = BaseStore.prototype.get.apply(this, arguments);
+        if (!image) return this.fetchModel(imageId);
+        return image;
     },
     getForProject: function(projectId) {
         var project_images = projectId ? this.fetchWhere({
@@ -72,7 +71,7 @@ define(function (require) {
             image_id: imageId
         });
         //TODO: _versions is returning an OBJECT instead of an array?!?!
-        if(!_versions) {
+        if (!_versions) {
             return null;
         }
 
@@ -83,10 +82,10 @@ define(function (require) {
             partialLoad = false,
             versions = this.getVersions(imageId);
         //Wait for it...
-        if(!versions) {
+        if (!versions) {
             return null;
         }
-        versions.map(function (version) {
+        versions.map(function(version) {
             var _machines = stores.ImageVersionStore.getMachines(version.id);
             if (!_machines) {
                 partialLoad = true;
@@ -102,7 +101,7 @@ define(function (require) {
         //TODO: Why??
         var machineHash = {};
 
-        machines = machines.filter(function (machine) {
+        machines = machines.filter(function(machine) {
             // remove duplicate machines
             if (!machineHash[machine.id]) {
                 machineHash[machine.id] = machine;
@@ -111,7 +110,7 @@ define(function (require) {
         });
         return new ProviderMachineCollection(machines);
     },
-    getProviders: function (imageId) {
+    getProviders: function(imageId) {
         /**
          * Using list of versions, collect their machines and filter down the available providers.
          */
@@ -120,10 +119,10 @@ define(function (require) {
             partialLoad = false,
             versions = this.getVersions(imageId);
         //Wait for it...
-        if(!versions) {
+        if (!versions) {
             return null;
         }
-        versions.map(function (version) {
+        versions.map(function(version) {
             var machines = stores.ImageVersionStore.getMachines(version.id);
             if (!machines) {
                 partialLoad = true;
@@ -131,7 +130,7 @@ define(function (require) {
             }
 
             var _providers = machines.filter(
-                function (machine) {
+                function(machine) {
                     // filter out providers that don't exist
                     var providerId = machine.provider.id,
                         provider = stores.ProviderStore.get(machine.provider.id);
@@ -149,7 +148,7 @@ define(function (require) {
         if (partialLoad) {
             return null;
         }
-        providers = new ProviderCollection(providers).filter(function (provider) {
+        providers = new ProviderCollection(providers).filter(function(provider) {
             // remove duplicate providers
             if (!providerHash[provider.id]) {
                 providerHash[provider.id] = provider;
@@ -159,28 +158,28 @@ define(function (require) {
         return providers;
     }
 
-  });
+});
 
-  var store = new ImageStore();
+let store = new ImageStore();
 
-  Dispatcher.register(function (dispatch) {
+Dispatcher.register(function(dispatch) {
     var actionType = dispatch.action.actionType;
     var payload = dispatch.action.payload;
     var options = dispatch.action.options || options;
 
     switch (actionType) {
-      case ImageConstants.IMAGE_UPDATE:
-        store.update(payload.image);
-        break;
+        case ImageConstants.IMAGE_UPDATE:
+            store.update(payload.image);
+            break;
 
-      default:
-        return true;
+        default:
+            return true;
     }
 
     store.emitChange();
 
     return true;
-  });
-
-  return store;
 });
+
+
+export default store;

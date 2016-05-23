@@ -1,14 +1,12 @@
-define(function (require) {
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Backbone from 'backbone';
+import $ from 'jquery';
+import Router from 'react-router';
+    // plugin: required but not used directly
+import bootstrap from 'bootstrap';
 
-  var React = require('react/addons'),
-      Backbone = require('backbone'),
-      $ = require('jquery'),
-      Router = require('react-router'),
-      //Router = require('router'),
-      // plugin: required but not used directly
-      bootstrap = require('bootstrap');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "Membership",
 
     propTypes: {
@@ -23,7 +21,7 @@ define(function (require) {
     },
 
     componentDidMount: function(){
-      var el = this.getDOMNode(),
+      var el = ReactDOM.findDOMNode(this),
           $el = $(el),
           membership = this.props.membership;
 
@@ -60,7 +58,4 @@ define(function (require) {
       );
 
     }
-
-  });
-
 });

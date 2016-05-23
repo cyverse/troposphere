@@ -1,4 +1,5 @@
-// Note: Although this feature is a step in the right direction, we should try to solve
+// Author's Note:
+// Although this feature is a step in the right direction, we should try to solve
 // a few problems with how we deal with state and async requests that are dependent
 // on each other. For example, because we are waiting for data on network requests,
 // for data we want in state, we would need to set state on these values by calling
@@ -10,7 +11,7 @@
 // dependent logic in a single function that is called by passing the key value
 // pair to be changed and returns a new object to pass into setState from any call site we wish.
 
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import _ from 'underscore';
 import modals from 'modals';

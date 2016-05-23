@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import AddScripts from './AddScripts.react';
 import CreateScript from './CreateScript.react';
 
@@ -45,9 +45,9 @@ export default React.createClass({
         let view = this.state.view;
         switch(view) {
             case "ADDSCRIPT_VIEW":
-            return this.renderSelectScripts()
+                return this.renderSelectScripts()
             case "CREATESCRIPT_VIEW":
-            return this.renderCreateScript()
+                return this.renderCreateScript()
         }
     },
 

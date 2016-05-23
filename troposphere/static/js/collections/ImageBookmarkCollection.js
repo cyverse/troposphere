@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import Backbone from 'backbone';
+import ImageBookmark from 'models/ImageBookmark';
+import globals from 'globals';
 
-  var Backbone = require('backbone'),
-    ImageBookmark = require('models/ImageBookmark'),
-    globals = require('globals');
-
-  return Backbone.Collection.extend({
+export default Backbone.Collection.extend({
     model: ImageBookmark,
 
     url: globals.API_V2_ROOT + "/image_bookmarks",
@@ -19,7 +16,5 @@ define(function (require) {
 
       return response.results;
     }
-
-  });
 
 });

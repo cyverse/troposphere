@@ -1,9 +1,8 @@
-define(function (require) {
+import React from 'react';
+import ReactDOM from 'react-dom';
+import $ from 'jquery';
 
-  var React = require('react/addons'),
-    $ = require('jquery');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "EditableTextAreaField",
 
     propTypes: {
@@ -12,11 +11,11 @@ define(function (require) {
     },
 
     componentDidMount: function () {
-      this.getDOMNode().focus();
+      ReactDOM.findDOMNode(this).focus();
     },
 
     onDoneEditing: function (e) {
-      var text = $(this.getDOMNode()).find("textarea")[0].value;
+      var text = $(ReactDOM.findDOMNode(this)).find("textarea")[0].value;
       if (text.trim()) {
         this.props.onDoneEditing(text);
       } else {
@@ -36,7 +35,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

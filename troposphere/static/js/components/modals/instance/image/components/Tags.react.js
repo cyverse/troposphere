@@ -1,58 +1,57 @@
-define(function (require) {
+import React from 'react';
+import Backbone from 'backbone';
+import stores from 'stores';
+import actions from 'actions';
+import TagMultiSelect from 'components/common/tags/TagMultiSelect.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    stores = require('stores'),
-    actions = require('actions'),
-        TagMultiSelect = require('components/common/tags/TagMultiSelect.react');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "Tags",
 
     propTypes: {
-      onTagAdded: React.PropTypes.func.isRequired,
-      onTagRemoved: React.PropTypes.func.isRequired,
-      onTagCreated: React.PropTypes.func.isRequired,
-      imageTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        onTagAdded: React.PropTypes.func.isRequired,
+        onTagRemoved: React.PropTypes.func.isRequired,
+        onTagCreated: React.PropTypes.func.isRequired,
+        imageTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
 
     getInitialState: function () {
-      return {
-        query: "",
-                newTagName: "",
-                newTagDescription: "",
-                showTagCreateForm: false
-      }
+        return {
+            query: "",
+            newTagName: "",
+            newTagDescription: "",
+            showTagCreateForm: false
+        }
     },
 
-        createTagAndAddToImage: function(){
-            var newTag = actions.TagActions.create({name: this.state.newTagName, description: this.state.newTagDescription});
-            this.props.onTagAdded(newTag);
-            this.setState({newTagName: "", newTagDescription: "", showTagCreateForm: false});
-        },
+    createTagAndAddToImage: function(){
+        var newTag = actions.TagActions.create({name: this.state.newTagName, description: this.state.newTagDescription});
+        this.props.onTagAdded(newTag);
+        this.setState({newTagName: "", newTagDescription: "", showTagCreateForm: false});
+    },
 
     onQueryChange: function (query) {
       this.setState({query: query.toLowerCase()});
     },
 
-        onNewTagNameChange: function(name){
-            this.setState({newTagName: name.target.value});
-        },
+    onNewTagNameChange: function(name){
+        this.setState({newTagName: name.target.value});
+    },
 
-        onNewTagDescriptionChange: function(description){
-            this.setState({newTagDescription: description.target.value});
-        },
+    onNewTagDescriptionChange: function(description){
+        this.setState({newTagDescription: description.target.value});
+    },
 
-        isSubmittable: function(){
-            return this.state.newTagName && this.state.newTagDescription;
-        },
+    isSubmittable: function(){
+        return this.state.newTagName && this.state.newTagDescription;
+    },
 
-        onCreateNewTag: function(tagName) {
-            this.setState({
-                newTagName: tagName,
-                showTagCreateForm: true
-            });
-        },
+    onCreateNewTag: function(tagName) {
+        this.setState({
+            newTagName: tagName,
+            showTagCreateForm: true
+        });
+    },
 
     render: function () {
       var imageTags = this.props.imageTags,
@@ -112,12 +111,9 @@ define(function (require) {
               width={"100%"}
               placeholderText="Search by tag name..."
               />
-                        {tagCreateForm}
+            {tagCreateForm}
           </div>
         </div>
       );
     }
-
-  });
-
 });

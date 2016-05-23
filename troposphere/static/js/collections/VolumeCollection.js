@@ -1,12 +1,9 @@
-define(function (require) {
-  "use strict";
+import Backbone from 'backbone';
+import _ from 'underscore';
+import Volume from 'models/Volume';
+import globals from 'globals';
 
-  var Backbone = require('backbone'),
-    _ = require('underscore'),
-    Volume = require('models/Volume'),
-    globals = require('globals');
-
-  return Backbone.Collection.extend({
+export default Backbone.Collection.extend({
     model: Volume,
 
     url: globals.API_V2_ROOT + '/volumes',
@@ -20,7 +17,4 @@ define(function (require) {
 
       return response.results;
     }
-
-  });
-
 });

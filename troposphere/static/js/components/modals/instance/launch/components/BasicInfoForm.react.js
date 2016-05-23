@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Backbone from 'backbone';
 import stores from 'stores';
 import SelectMenu from 'components/common/ui/SelectMenu.react';
@@ -19,7 +20,7 @@ export default React.createClass({
     componentDidMount: function() {
         // TODO: Once we have current version of React I believe we ca just do:
         // this.refs.nameInput.select();
-        React.findDOMNode(this.refs.nameInput).select();
+        ReactDOM.findDOMNode(this.refs.nameInput).select();
     },
 
    render: function () {

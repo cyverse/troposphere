@@ -1,15 +1,11 @@
-define(
-  [
-    'backbone',
-    'underscore',
-    'jquery',
-    'globals',
-    'context',
-    './InstanceState'
-  ],
-  function (Backbone, _, $, globals, context, InstanceState) {
+import Backbone from 'backbone';
+import _ from 'underscore';
+import $ from 'jquery';
+import globals from 'globals';
+import context from 'context';
+import InstanceState from './InstanceState';
 
-    return Backbone.Model.extend({
+export default Backbone.Model.extend({
 
       urlRoot: globals.API_V2_ROOT + "/instances",
 
@@ -154,6 +150,4 @@ define(
         if (instanceUrl.slice(-1) !== "/") instanceUrl += "/";
         return instanceUrl + 'action';
       },
-
-    });
 });

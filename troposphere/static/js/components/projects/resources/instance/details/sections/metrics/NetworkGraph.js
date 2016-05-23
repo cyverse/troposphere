@@ -1,25 +1,24 @@
-define(function(require) {
+import d3 from "d3";
+import Graph from "./Graph";
+import Utils from "./Utils";
 
-   var d3 = require("d3");
-   var Graph = require("./Graph");
-   var Utils = require("./Utils");
 
-  var NetworkGraph = function(settings) {
+let NetworkGraph = function(settings) {
     var defaults = {
       type : "net",
       upper : {
-      query: "*.*." + settings.uuid + ".rx",
-      type: "rx",
-      data: [],
-      transform: "derivative",
+          query: "*.*." + settings.uuid + ".rx",
+          type: "rx",
+          data: [],
+          transform: "derivative",
       },
       lower : {
-      query: "*.*." + settings.uuid + ".tx",
-      type: "tx",
-      data: [],
-      transform: "derivative",
+          query: "*.*." + settings.uuid + ".tx",
+          type: "tx",
+          data: [],
+          transform: "derivative",
       }
-    }
+    };
 
     for (prop in defaults) {
       this[prop] = defaults[prop];
@@ -30,14 +29,14 @@ define(function(require) {
     }
 
     Graph.call(this, settings);
-  };
+};
 
-  NetworkGraph.prototype = Object.create(Graph.prototype);
-  NetworkGraph.prototype.constructor = NetworkGraph;
+NetworkGraph.prototype = Object.create(Graph.prototype);
+NetworkGraph.prototype.constructor = NetworkGraph;
 
-  NetworkGraph.prototype.fetch = function(onSuccess, onError) {
-    var me = this;
-    var series = [ this.upper, this.lower ];
+NetworkGraph.prototype.fetch = function(onSuccess, onError) {
+    var me = this,
+      series = [ this.upper, this.lower ];
 
     series.forEach(function(s) {
       s.urlParams = {
@@ -60,16 +59,19 @@ define(function(require) {
         series[1].data = data;
         me.timestamp = Date.now();
         onSuccess.call(me);
-      }, onError)
-    }, onError)
-  }
+      }, onError);
+    }, onError);
+  };
 
-  NetworkGraph.prototype.make = function() {
+NetworkGraph.prototype.make = function() {
       var me = this;
-      var graphDom = me.element;
-      var data = me.lower.data;
-      var rxData = me.upper.data;
-      var txData = me.lower.data;
+      var graphDom = me.element,
+        data = me.lower.data,
+        rxData = me.upper.data,
+        txData = me.lower.data;
+
+      var getX = Utils.get("x");
+      var getY = Utils.get("y");
 
       var metricsAxisHeight = 20,
         yAxisWidth = 60,
@@ -113,13 +115,13 @@ define(function(require) {
       var areaReflect = d3.svg.area()
       .x(function(d) { return x(d.x); })
       .y0(height/2)
-      .y1(function(d) { return -y(d.y) + height; })
+      .y1(function(d) { return -y(d.y) + height; });
 
       var svg = d3.select(graphDom).append("svg")
         .attr("width", me.width)
         .attr("height", me.height)
         .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
       var delta = 0.2;
@@ -139,7 +141,7 @@ define(function(require) {
         ])
         .style("stroke-dasharray", ("3, 3"))
         .attr("class", "metrics mean line")
-        .attr("d", line)
+        .attr("d", line);
 
         svg.append("path")
         .datum([
@@ -148,7 +150,7 @@ define(function(require) {
         ])
         .style("stroke-dasharray", ("3, 3"))
         .attr("class", "metrics mean line")
-        .attr("d", line)
+        .attr("d", line);
       }
 
       var middleAxis = d3.svg.line()
@@ -169,14 +171,14 @@ define(function(require) {
       .datum(txData)
       .attr("class", "metrics tx line")
       .attr("d", lineReflect)
-      .attr("transform", "translate(0," + height + ")")
+      .attr("transform", "translate(0," + height + ")");
 
       svg.append("path")
       .datum(rxData)
       .attr("class", "metrics rx line")
       .attr("d", line);
 
-      var yTick = Math.max(1024, yMax)
+      var yTick = Math.max(1024, yMax);
       var yAxis = d3.svg.axis()
         .tickFormat(function(d){
           return Utils.bytesToString(Math.abs(d));
@@ -187,7 +189,7 @@ define(function(require) {
 
       svg.append("g")
       .attr("class", "metrics y axis")
-      .call(yAxis)
+      .call(yAxis);
 
       svg.append("text")
       .attr("class", "metrics x axis")
@@ -195,7 +197,7 @@ define(function(require) {
       .attr("x", width)
       .attr("y", 0)
       .attr("dy", ".32em")
-      .text("data in")
+      .text("data in");
 
       svg.append("text")
       .attr("class", "metrics x axis")
@@ -203,8 +205,7 @@ define(function(require) {
       .attr("x", width)
       .attr("y", height)
       .attr("dy", ".32em")
-      .text("data out")
-  }
+      .text("data out");
+};
 
-  return NetworkGraph;
-})
+export default NetworkGraph;

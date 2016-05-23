@@ -1,10 +1,8 @@
-define(function (require) {
-  "use strict";
 
-  var InstanceConstants = require('constants/InstanceConstants'),
-    Utils = require('../Utils');
+import InstanceConstants from 'constants/InstanceConstants';
+import Utils from '../Utils';
 
-  return {
+export default {
 
     update: function (instance, newAttributes) {
       if (!instance) throw new Error("Missing instance");
@@ -29,5 +27,3 @@ define(function (require) {
     }
 
   };
-
-});

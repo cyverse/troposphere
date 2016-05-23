@@ -1,11 +1,10 @@
-define(function (require) {
+import React from 'react';
+import ReactDOM from 'react-dom';
+import $ from "jquery";
+// plugin: required but not used directly
+import bootstrap from 'bootstrap';
 
-  var React = require('react/addons'),
-      $ = require("jquery"),
-  // plugin: required but not used directly
-    bootstrap = require('bootstrap');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "Button",
 
     propTypes: {
@@ -25,7 +24,7 @@ define(function (require) {
     },
 
     generateTooltip: function () {
-      var el = this.getDOMNode();
+      var el = ReactDOM.findDOMNode(this);
       var $el = $(el);
       $el.tooltip({
         title: this.props.tooltip
@@ -33,9 +32,9 @@ define(function (require) {
     },
 
     onClick: function(){
-      var el = this.getDOMNode();
+      var el = ReactDOM.findDOMNode(this);
       var $el = $(el);
-      //Manually hides tooltip to fix a bug when using modals 
+      //Manually hides tooltip to fix a bug when using modals
       //See: https://github.com/iPlantCollaborativeOpenSource/troposphere/pull/201
       $el.tooltip('hide');
       this.props.onClick();
@@ -52,7 +51,4 @@ define(function (require) {
       }
       return null;
     }
-
-  });
-
 });

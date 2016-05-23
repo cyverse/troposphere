@@ -1,54 +1,51 @@
-define(function (require) {
 
-  var $ = require('jquery'),
-    _ = require('underscore'),
-    Store = require('stores/Store'),
-    ClientVersion = require('models/ClientVersion'),
-    ServerDeployVersion = require('models/ServerDeployVersion'),
-    ServerVersion = require('models/ServerVersion');
+import  $ from 'jquery';
+import  _ from 'underscore';
+import  Store from 'stores/Store';
+import  ClientVersion from 'models/ClientVersion';
+import  ServerDeployVersion from 'models/ServerDeployVersion';
+import  ServerVersion from 'models/ServerVersion';
 
-  var _version;
-  var _isFetching = false;
+let _version;
+let _isFetching = false;
 
-  //
-  // CRUD Operations
-  //
+//
+// CRUD Operations
+//
 
-  var fetchVersions = function () {
+let fetchVersions = function() {
     if (!_isFetching) {
-      _isFetching = true;
-      var clientVersion = new ClientVersion();
-      var serverDeployVersion = new ServerDeployVersion();
-      var serverVersion = new ServerVersion();
+        _isFetching = true;
+        var clientVersion = new ClientVersion();
+        var serverDeployVersion = new ServerDeployVersion();
+        var serverVersion = new ServerVersion();
 
-      $.when(clientVersion.fetch(), serverVersion.fetch(), serverDeployVersion.fetch())
-        .done(function (client, server) {
-          _isFetching = false;
-          _version = {
-            client: clientVersion,
-            deploy: serverDeployVersion,
-            server: serverVersion
-          };
-          VersionStore.emitChange();
-        })
+        $.when(clientVersion.fetch(), serverVersion.fetch(), serverDeployVersion.fetch())
+            .done(function(client, server) {
+                _isFetching = false;
+                _version = {
+                    client: clientVersion,
+                    deploy: serverDeployVersion,
+                    server: serverVersion
+                };
+                VersionStore.emitChange();
+            })
     }
-  };
+};
 
-  //
-  // Version Store
-  //
+//
+// Version Store
+//
 
-  var VersionStore = {
-    getVersion: function () {
-      if (!_version) {
-        fetchVersions()
-      }
-      return _version;
+let VersionStore = {
+    getVersion: function() {
+        if (!_version) {
+            fetchVersions()
+        }
+        return _version;
     }
-  };
+};
 
-  _.extend(VersionStore, Store);
+_.extend(VersionStore, Store);
 
-  return VersionStore;
-
-});
+export default VersionStore;

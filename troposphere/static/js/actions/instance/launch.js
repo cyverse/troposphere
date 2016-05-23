@@ -1,43 +1,39 @@
-define(function (require) {
-  "use strict";
 
-  var InstanceConstants = require('constants/InstanceConstants'),
-    ProjectInstanceConstants = require('constants/ProjectInstanceConstants'),
-    ProjectConstants = require('constants/ProjectConstants'),
-    Instance = require('models/Instance'),
-    Project = require('models/Project'),
-    Router = require('Router'),
-    actions = require('actions'),
-    Utils = require('../Utils'),
-    ProjectInstance = require('models/ProjectInstance');
+import InstanceConstants from 'constants/InstanceConstants';
+import ProjectInstanceConstants from 'constants/ProjectInstanceConstants';
+import ProjectConstants from 'constants/ProjectConstants';
+import Instance from 'models/Instance';
+import Project from 'models/Project';
+import Router from 'Router';
+import actions from 'actions';
+import Utils from '../Utils';
+import ProjectInstance from 'models/ProjectInstance';
 
-  function launch(params) {
-    if(!params.project) throw new Error("Missing project");
-    if(!params.instanceName) throw new Error("Missing instanceName");
-    if(!params.identity) throw new Error("Missing identity");
-    if(!params.size) throw new Error("Missing size");
-    if(params.version) {
-        //Determine 'machine' from selected version and identity
-        //var machines = stores.ImageVersionStore.getMachines(params.version.id),
-
-        var machines = params.version.get('machines'),
-        selected_machines = machines.filter(function(machine) {
-          return machine.provider.uuid === params.identity.get('provider').uuid;
-        });
-        if(!selected_machines.length)
+function launch(params) {
+    if (!params.project) throw new Error("Missing project");
+    if (!params.instanceName) throw new Error("Missing instanceName");
+    if (!params.identity) throw new Error("Missing identity");
+    if (!params.size) throw new Error("Missing size");
+    if (params.version) {
+        let machines = params.version.get('machines'),
+            selected_machines = machines.filter(function(machine) {
+                return machine.provider.uuid === params.identity.get('provider').uuid;
+            });
+        if (!selected_machines.length) {
             throw new Error("Machine could not be filtered-down based on selected version & identity")
+        }
         params.machine = selected_machines[0]
     }
     if (!params.machine) throw new Error("Missing machine");
 
-    var project = params.project,
+    let project = params.project,
         instanceName = params.instanceName,
         identity = params.identity,
         size = params.size,
         machine = params.machine,
         scripts = params.scripts;
 
-    var instance = new Instance({
+    let instance = new Instance({
       name: instanceName,
       size: {
         id: size.id,
@@ -59,7 +55,7 @@ define(function (require) {
     Utils.dispatch(InstanceConstants.ADD_INSTANCE, {instance: instance});
 
     // Create ProjectInstance
-    var projectInstance = new ProjectInstance({
+    let projectInstance = new ProjectInstance({
       project: project.toJSON(),
       instance: instance.toJSON()
     });
@@ -68,10 +64,10 @@ define(function (require) {
     Utils.dispatch(ProjectInstanceConstants.ADD_PROJECT_INSTANCE, {projectInstance: projectInstance});
 
     instance.createOnV1Endpoint({
-      name: instanceName,
-      size_alias: size.get('alias'),
-      machine_alias: machine.uuid,
-      scripts: scripts,
+        name: instanceName,
+        size_alias: size.get('alias'),
+        machine_alias: machine.uuid,
+        scripts: scripts,
     }).done(function(attrs, status, response) {
         instance.set('id', attrs.id);
 
@@ -100,10 +96,12 @@ define(function (require) {
     // Since this is triggered from the images page, navigate off
     // that page and back to the instance list so the user can see
     // their instance being created
-    Router.getInstance().transitionTo("project-resources", {projectId: project.id});
-  }
+    Router.getInstance().transitionTo("project-resources", {
+        projectId: project.id
+    });
+}
 
-  return {
+export default {
 
     createProjectAndLaunchInstance: function (params) {
       if (!params.projectName) throw new Error("Missing projectName");
@@ -137,6 +135,4 @@ define(function (require) {
     },
 
     launch: launch
-  };
-
-});
+};

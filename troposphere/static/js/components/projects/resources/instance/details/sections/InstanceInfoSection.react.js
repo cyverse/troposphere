@@ -9,7 +9,7 @@ import modals from 'modals';
 import CryptoJS from 'crypto-js';
 import Gravatar from 'components/common/Gravatar.react';
 
-var InstanceInfoSection = React.createClass({
+export default React.createClass({
     displayName: "InstanceInfoSection",
 
     propTypes: {
@@ -23,7 +23,7 @@ var InstanceInfoSection = React.createClass({
         name: instance.get('name'),
         isEditing: false,
         isEditingTags: false
-      }
+      };
     },
 
     onEnterEditMode: function (e) {
@@ -78,7 +78,4 @@ var InstanceInfoSection = React.createClass({
         </div>
       );
     }
-
 });
-
-export default InstanceInfoSection;

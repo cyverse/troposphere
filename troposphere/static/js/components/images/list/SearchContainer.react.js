@@ -1,18 +1,17 @@
-define(function (require) {
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Backbone from 'backbone';
+import Router from 'Router';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    Router = require('Router');
-
-  var timer,
+let timer,
     timerDelay = 100;
 
-  var ReactInput = React.createClass({
+let ReactInput = React.createClass({
     componentDidMount: function () {
-      this.refs.textField.getDOMNode().value = this.props.value;
+      this.refs.textField.value = this.props.value;
     },
     componentDidUpdate: function () {
-      this.refs.textField.getDOMNode().value = this.props.value;
+      this.refs.textField.value = this.props.value;
     },
     render: function () {
       return (
@@ -26,9 +25,9 @@ define(function (require) {
           />
       );
     }
-  });
+});
 
-  return React.createClass({
+export default React.createClass({
     displayName: "SearchContainer",
 
     getDefaultProps: function () {
@@ -44,7 +43,7 @@ define(function (require) {
     },
 
     componentDidMount: function () {
-      Backbone.$(this.getDOMNode()).find("input").focus();
+      Backbone.$(ReactDOM.findDOMNode(this)).find("input").focus();
     },
 
     handleSearch: function (query) {
@@ -85,7 +84,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

@@ -1,13 +1,12 @@
-define(function(require) {
+import React from 'react';
+import Backbone from 'backbone';
+import VersionName from '../components/VersionName.react';
+import VersionChanges from '../components/VersionChangeLog.react';
+import stores from 'stores';
+import $ from 'jquery';
 
-  var React = require('react/addons'),
-      Backbone = require('backbone'),
-      VersionName = require('../components/VersionName.react'),
-      $ = require('jquery'),
-      VersionChanges = require('../components/VersionChangeLog.react'),
-      stores = require('stores');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "ImageWizard-VersionInfoStep",
 
     propTypes: {
@@ -108,7 +107,4 @@ define(function(require) {
         </div>
       );
     }
-
-  });
-
 });

@@ -1,10 +1,10 @@
-
-define(function (require) {
-    var React = require("react"),
-        $ = require("jquery"),
-        Backbone = require("backbone"),
-        Highcharts = require("highcharts"),
-        ResourceUseTooltip = require("./tooltips/ResourceUseTooltip.react");
+import React from "react";
+import ReactDOM from 'react-dom';
+import ReactDOMServer from 'react-dom/server';
+import $ from "jquery";
+import Backbone from "backbone";
+import Highcharts from "highcharts";
+import ResourceUseTooltip from "./tooltips/ResourceUseTooltip.react";
 
 /**
  * Finds a maximum within the data points for all providers
@@ -28,8 +28,7 @@ function findMaxDataPt(seriesData, ceiling) {
     );
 }
 
-
-    return React.createClass({
+export default React.createClass({
       displayName: "ProviderSummaryLinePlot",
 
       propTypes: {
@@ -53,7 +52,7 @@ function findMaxDataPt(seriesData, ceiling) {
         }
         var max = findMaxDataPt(seriesData, 100);
 
-        var el = this.getDOMNode();
+        var el = ReactDOM.findDOMNode(this);
         var $el = $(el);
         $el.removeClass("loading");
 
@@ -134,7 +133,7 @@ function findMaxDataPt(seriesData, ceiling) {
                   max={currentLimit}
                 />);
 
-              return React.renderToStaticMarkup(formatterComponent);
+              return ReactDOMServer.renderToStaticMarkup(formatterComponent);
             }
           },
           legend: {
@@ -323,6 +322,4 @@ function findMaxDataPt(seriesData, ceiling) {
         );
       }
 
-    });
-
-  });
+});

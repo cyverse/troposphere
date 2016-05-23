@@ -1,21 +1,19 @@
-define(function (require) {
+import _ from 'underscore';
+import Dispatcher from 'dispatchers/Dispatcher';
+import Store from 'stores/Store';
+import Profile from 'models/Profile';
+import NotificationController from 'controllers/NotificationController';
+import ProfileConstants from 'constants/ProfileConstants';
+import globals from 'globals';
 
-  var _ = require('underscore'),
-    Dispatcher = require('dispatchers/Dispatcher'),
-    Store = require('stores/Store'),
-    Profile = require('models/Profile'),
-    NotificationController = require('controllers/NotificationController'),
-    ProfileConstants = require('constants/ProfileConstants'),
-    globals = require('globals');
 
-  var _profile = null;
-  var _isFetching = false;
+let _profile = null;
+let _isFetching = false;
 
-  //
-  // CRUD Operations
-  //
-
-  var fetchProfile = function () {
+//
+// CRUD Operations
+//
+let fetchProfile = function() {
     if (!_isFetching) {
       _isFetching = true;
       var profile = new Profile();
@@ -37,50 +35,49 @@ define(function (require) {
               "positionClass": "toast-top-full-width",
               "timeOut": "0",
               "extendedTimeOut": "0"
-            }
-          );
+            });
         }
       });
     }
-  };
+}
 
-  function update(profile) {
-    _profile.set(profile, {merge: true});
-  }
+function update(profile) {
+    _profile.set(profile, {
+        merge: true
+    });
+}
 
-  //
-  // Store
-  //
+//
+// Store
+//
+let ProfileStore = {
 
-  var ProfileStore = {
-
-    get: function () {
-      if (!_profile) {
-        fetchProfile();
-      }
-      return _profile;
+    get: function() {
+        if (!_profile) {
+            fetchProfile();
+        }
+        return _profile;
     }
 
-  };
+};
 
-  Dispatcher.register(function (payload) {
+Dispatcher.register(function(payload) {
     var action = payload.action;
 
     switch (action.actionType) {
-      case ProfileConstants.UPDATE_PROFILE:
-        update(action.name, action.description);
-        break;
+        case ProfileConstants.UPDATE_PROFILE:
+            update(action.name, action.description);
+            break;
 
-      default:
-        return true;
+        default:
+            return true;
     }
 
     ProfileStore.emitChange();
 
     return true;
-  });
-
-  _.extend(ProfileStore, Store);
-
-  return ProfileStore;
 });
+
+_.extend(ProfileStore, Store);
+
+export default ProfileStore;

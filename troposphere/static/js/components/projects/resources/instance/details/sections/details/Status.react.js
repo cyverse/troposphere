@@ -1,23 +1,19 @@
+import React from 'react';
+import Backbone from 'backbone';
+import ResourceDetail from 'components/projects/common/ResourceDetail.react';
+import StatusLight from 'components/projects/common/StatusLight.react';
+import Status from 'components/projects/detail/resources/tableData/instance/Status.react';
+import StatusBar from 'components/projects/detail/resources/tableData/instance/StatusBar.react';
 
-define(
-  [
-    'react',
-    'backbone',
-    'components/projects/common/ResourceDetail.react',
-    'components/projects/common/StatusLight.react',
-    'components/projects/detail/resources/tableData/instance/Status.react',
-    'components/projects/detail/resources/tableData/instance/StatusBar.react'
-  ],
-  function (React, Backbone, ResourceDetail, StatusLight, Status, StatusBar) {
 
-    return React.createClass({
+export default React.createClass({
+    displayName: "Status",
 
-      propTypes: {
+    propTypes: {
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    },
 
-      render: function () {
-
+    render: function () {
         return (
           <ResourceDetail label="Status">
             <div className="resource-status">
@@ -25,8 +21,5 @@ define(
             </div>
           </ResourceDetail>
         );
-      }
-
-    });
-
-  });
+    }
+});

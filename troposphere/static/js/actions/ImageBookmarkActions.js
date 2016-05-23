@@ -1,14 +1,12 @@
-define(function (require) {
+import AppDispatcher from 'dispatchers/AppDispatcher';
+import ImageBookmarkConstants from 'constants/ImageBookmarkConstants';
+import ImageBookmark from 'models/ImageBookmark';
+import Badges from 'Badges';
+import actions from 'actions';
+import Utils from './Utils';
+import stores from 'stores';
 
-  var AppDispatcher = require('dispatchers/AppDispatcher'),
-    ImageBookmarkConstants = require('constants/ImageBookmarkConstants'),
-    ImageBookmark = require('models/ImageBookmark'),
-    Badges = require('Badges'),
-    actions = require('actions'),
-    Utils = require('./Utils'),
-    stores = require('stores');
-
-  return {
+export default {
 
     addBookmark: function (params, options) {
       if (!params.image) throw new Error("Missing image");
@@ -39,5 +37,3 @@ define(function (require) {
     }
 
   };
-
-});

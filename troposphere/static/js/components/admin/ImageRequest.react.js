@@ -1,13 +1,11 @@
-define(function (require) {
-  "use strict";
+import React from 'react';
+import Router from 'react-router';
+import stores from 'stores';
+import actions from 'actions';
+import ImageRequestActions from 'actions/ImageRequestActions';
 
-  var React = require('react'),
-      Router = require('react-router'),
-      stores = require('stores'),
-      actions = require('actions'),
-      ImageRequestActions = require('actions/ImageRequestActions');
-
-  return React.createClass({
+export default React.createClass({
+    displayName: "ImageRequest",
 
     mixins: [Router.State],
 
@@ -115,6 +113,4 @@ define(function (require) {
         </div>
       );
     }
-  });
 });
-

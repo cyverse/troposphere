@@ -1,11 +1,7 @@
-define(
-  [
-    'backbone',
-    'moment'
-  ],
-  function (Backbone, moment) {
+import Backbone from 'backbone';
+import moment from 'moment';
 
-    return Backbone.Model.extend({
+export default Backbone.Model.extend({
 
       getCreds: function () {
         return {
@@ -21,7 +17,4 @@ define(
         attributes.end_date = moment(attributes.end_date);
         return attributes;
       }
-
-    });
-
-  });
+});

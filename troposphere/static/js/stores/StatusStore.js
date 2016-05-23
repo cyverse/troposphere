@@ -1,14 +1,10 @@
-define(function (require) {
+import BaseStore from 'stores/BaseStore';
+import StatusCollection from 'collections/StatusCollection';
 
-  var BaseStore = require('stores/BaseStore'),
-    StatusCollection = require('collections/StatusCollection');
-
-  var StatusStore = BaseStore.extend({
+let StatusStore = BaseStore.extend({
     collection: StatusCollection
-  });
-
-  var store = new StatusStore();
-
-  return store;
-
 });
+
+let store = new StatusStore();
+
+export default store;

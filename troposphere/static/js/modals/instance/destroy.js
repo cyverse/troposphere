@@ -1,15 +1,11 @@
-define(function (require) {
-  "use strict";
+import actions from 'actions';
+import VolumeStore from 'stores/VolumeStore';
+import ModalHelpers from 'components/modals/ModalHelpers';
+import InstanceDeleteModal from 'components/modals/instance/InstanceDeleteModal.react';
+import ExplainInstanceDeleteConditionsModal from 'components/modals/instance/ExplainInstanceDeleteConditionsModal.react';
+import Router from 'Router';
 
-  var actions = require('actions'),
-    VolumeStore = require('stores/VolumeStore'),
-    ModalHelpers = require('components/modals/ModalHelpers'),
-    InstanceDeleteModal = require('components/modals/instance/InstanceDeleteModal.react'),
-    ExplainInstanceDeleteConditionsModal = require('components/modals/instance/ExplainInstanceDeleteConditionsModal.react'),
-    Router = require('Router');
-
-  return {
-
+export default {
     destroy: function (payload, options) {
       if (!payload.instance) throw new Error("Missing instance");
 
@@ -35,7 +31,4 @@ define(function (require) {
         }
       })
     },
-
-  };
-
-});
+}

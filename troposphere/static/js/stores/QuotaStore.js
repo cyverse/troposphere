@@ -3,11 +3,11 @@ import QuotaCollection from 'collections/QuotaCollection';
 import Dispatcher from 'dispatchers/Dispatcher';
 import QuotaConstants from 'constants/QuotaConstants';
 
-var QuotaStore = BaseStore.extend({
+let QuotaStore = BaseStore.extend({
     collection: QuotaCollection,
 
     queryParams: {
-      page_size: 100
+        page_size: 100
     }
 });
 

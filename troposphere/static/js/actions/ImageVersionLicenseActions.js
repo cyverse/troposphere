@@ -1,12 +1,10 @@
-define(function (require) {
+import AppDispatcher from 'dispatchers/AppDispatcher';
+import ImageVersionLicenseConstants from 'constants/ImageVersionLicenseConstants';
+import ImageVersionLicense from 'models/ImageVersionLicense';
+import Utils from './Utils';
+import stores from 'stores';
 
-  var AppDispatcher = require('dispatchers/AppDispatcher'),
-      ImageVersionLicenseConstants = require('constants/ImageVersionLicenseConstants'),
-      ImageVersionLicense = require('models/ImageVersionLicense'),
-      Utils = require('./Utils'),
-      stores = require('stores');
-
-  return {
+export default {
 
     add: function(params){
       if(!params.image_version) throw new Error("Missing image_version");
@@ -48,5 +46,3 @@ define(function (require) {
     }
 
   };
-
-});

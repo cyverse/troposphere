@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import actions from 'actions';
+import ModalHelpers from 'components/modals/ModalHelpers';
+import FeedbackModal from 'components/modals/FeedbackModal.react';
 
-  var actions = require('actions'),
-    ModalHelpers = require('components/modals/ModalHelpers'),
-    FeedbackModal = require('components/modals/FeedbackModal.react');
-  return {
-
+export default {
     showFeedbackModal: function () {
 
       var props = {
@@ -15,7 +12,4 @@ define(function (require) {
 
       ModalHelpers.renderModal(FeedbackModal, props, actions.HelpActions.sendFeedback);
     }
-
-  };
-
-});
+};

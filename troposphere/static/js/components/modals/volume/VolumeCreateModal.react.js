@@ -1,16 +1,10 @@
+import React from 'react';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import stores from 'stores';
+import IdentitySelect from '../instance/launch/components/IdentitySelect.react';
+import modals from 'modals';
 
-define(
-  [
-    'react',
-    'components/mixins/BootstrapModalMixin.react',
-    'stores',
-    '../instance/launch/components/IdentitySelect.react',
-    'modals'
-  ],
-  function (React, BootstrapModalMixin, stores, IdentitySelect, modals) {
-
-
-    return React.createClass({
+export default React.createClass({
       displayName: "VolumeCreateModal",
 
       mixins: [BootstrapModalMixin],
@@ -329,7 +323,4 @@ define(
           </div>
         );
       }
-
-    });
-
-  });
+});

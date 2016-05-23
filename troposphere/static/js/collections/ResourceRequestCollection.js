@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import Backbone from 'backbone';
+import ResourceRequest from 'models/ResourceRequest';
+import globals from 'globals';
 
-  var Backbone = require('backbone'),
-    ResourceRequest = require('models/ResourceRequest'),
-    globals = require('globals');
-
-  return Backbone.Collection.extend({
+export default Backbone.Collection.extend({
     model: ResourceRequest,
 
     url: globals.API_V2_ROOT + "/resource_requests",
@@ -18,7 +15,5 @@ define(function (require) {
       };
       return response.results;
     }
-
-  });
 
 });

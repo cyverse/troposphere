@@ -5,4 +5,4 @@ export default {
         return hasLoggedInUser(this.profile);
     },
     profile: null
-}
+};

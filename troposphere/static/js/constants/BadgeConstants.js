@@ -1,7 +1,4 @@
-define(function (require) {
 
-  return {
+export default {
     GRANT_BADGE: "GRANT_BADGE"
   };
-
-});

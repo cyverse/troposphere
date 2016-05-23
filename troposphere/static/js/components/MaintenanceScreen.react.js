@@ -1,12 +1,10 @@
-define(function (require) {
-  "use strict";
+import React from 'react';
+import stores from 'stores';
+import globals from 'globals';
 
-  var React = require('react/addons'),
-    stores = require('stores'),
-    globals = require('globals'),
-    login = THEME_URL + "/images/large_logo.png";
+let login = THEME_URL + "images/login_mainimage.png";
 
-  return React.createClass({
+export default React.createClass({
     displayName: "MaintenanceScreen",
 
     render: function () {
@@ -45,7 +43,5 @@ define(function (require) {
             </div>
         );
     }
-
-  });
 
 });

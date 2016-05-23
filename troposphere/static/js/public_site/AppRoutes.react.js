@@ -1,30 +1,22 @@
-define(function (require) {
-  "use strict";
+import React from 'react';
+import Router from 'react-router';
 
-  var React = require('react/addons'),
-    Router = require('react-router'),
-    Route = Router.Route,
+let Route = Router.Route,
     Redirect = Router.Redirect,
     DefaultRoute = Router.DefaultRoute;
 
-  var Master = require('components/Master.react'),
-      HelpPage = require('components/help/HelpPage.react'),
-      ImageListPage = require('components/images/ImageListPage.react'),
-      FavoritedImagesPage = require('components/images/FavoritedImagesPage.react'),
-      MyImagesPage = require('components/images/MyImagesPage.react'),
-      MyImageRequestsPage = require('components/images/MyImageRequestsPage.react'),
-      ImageDetailsPage = require('components/images/ImageDetailsPage.react'),
-      ImageTagsPage = require('components/images/ImageTagsPage.react'),
-      ImagesMaster = require('components/images/ImagesMaster.react'),
-      NotFoundPage = require('components/NotFoundPage.react');
+import Master from 'components/Master.react';
+import HelpPage from 'components/help/HelpPage.react';
+import ImageListPage from 'components/images/ImageListPage.react';
+import ImageDetailsPage from 'components/images/ImageDetailsPage.react';
+import ImageTagsPage from 'components/images/ImageTagsPage.react';
+import ImagesMaster from 'components/images/ImagesMaster.react';
+import NotFoundPage from 'components/NotFoundPage.react';
 
-  var AppRoutes = (
+let AppRoutes = (
     <Route name="root" path="/application" handler={Master}>
       <Route name="images" handler={ImagesMaster}>
         <DefaultRoute name="search" handler={ImageListPage}/>
-        <Route name="favorites" handler={FavoritedImagesPage}/>
-        <Route name="authored" handler={MyImagesPage}/>
-        <Route name="my-image-requests" handler={MyImageRequestsPage}/>
         <Route name="tags" handler={ImageTagsPage}/>
         <Route name="image-details" path=":imageId" handler={ImageDetailsPage}/>
       </Route>
@@ -32,7 +24,6 @@ define(function (require) {
       <Redirect from="/application" to="/application/images"/>
       <Route name="not-found" path="*" handler={NotFoundPage} />
     </Route>
-  );
+);
 
-  return AppRoutes;
-});
+export default AppRoutes;

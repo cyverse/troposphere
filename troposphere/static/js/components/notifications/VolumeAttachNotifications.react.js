@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import globals from 'globals';
 
 
@@ -20,7 +21,7 @@ export default {
             </div>
         );
 
-        return React.renderToString(message);
+        return ReactDOM.renderToString(message);
     },
 
     error: function () {
@@ -33,7 +34,7 @@ export default {
         </div>
         );
 
-        return React.renderToString(message);
+        return ReactDOM.renderToString(message);
     },
 
     attachError: function (volume, instance, helpLink) {
@@ -51,6 +52,6 @@ export default {
             </div>
         );
 
-        return React.renderToString(message);
+        return ReactDOM.renderToString(message);
     }
 };

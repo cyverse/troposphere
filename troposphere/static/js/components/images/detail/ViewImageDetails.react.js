@@ -1,21 +1,17 @@
-define(
-  [
-    'react',
-    './header/HeaderView.react',
-    './tags/TagsView.react',
-    './launch/ImageLaunchCard.react',
-    './name/NameView.react',
-    './created/CreatedView.react',
-    './removed/RemovedView.react',
-    './author/AuthorView.react',
-    './description/DescriptionView.react',
-    './versions/VersionsView.react',
-    'actions',
-    'stores'
-  ],
-  function (React, HeaderView, TagsView, ImageLaunchCard, NameView, CreatedView, RemovedView, AuthorView, DescriptionView, VersionsView, actions, stores) {
+import React from 'react';
+import HeaderView from './header/HeaderView.react';
+import TagsView from './tags/TagsView.react';
+import ImageLaunchCard from './launch/ImageLaunchCard.react';
+import NameView from './name/NameView.react';
+import CreatedView from './created/CreatedView.react';
+import RemovedView from './removed/RemovedView.react';
+import AuthorView from './author/AuthorView.react';
+import DescriptionView from './description/DescriptionView.react';
+import VersionsView from './versions/VersionsView.react';
+import actions from 'actions';
+import stores from 'stores';
 
-    return React.createClass({
+export default React.createClass({
       displayName: "ViewImageDetails",
 
       propTypes: {
@@ -63,7 +59,4 @@ define(
           </div>
         );
       }
-
-    });
-
 });
