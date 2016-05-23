@@ -15,6 +15,12 @@ let fetch = function(uuid, urlParams, onSuccess, onError) {
       req += "&fun=" + urlParams.fun;
     }
 
+    if (urlParams.from)
+        req += "&from=" + urlParams.from;
+
+    if (urlParams.until)
+        req += "&until=" + urlParams.until;
+
     d3.json(req)
       .header("Authorization", "Token " + access_token)
       .get(function(error, json) {
@@ -26,18 +32,22 @@ let fetch = function(uuid, urlParams, onSuccess, onError) {
         var data = json[0].datapoints;
 
         // Trim initial/final null values
-        if (data[0][0] == null) {
+        if (data[0][0] == null){
           data.splice(0, 1);
+          urlParams.size = urlParams.size - 1;
+        }
+        if(data.length > 0){
+            data.length = urlParams.size;
+            onSuccess(data.map(function(arr) {
+                return { x: arr[1] * 1000, y: arr[0] };
+            }));
+        }
+        else{
+            onError();
         }
 
-        data.length = urlParams.size;
-
-        onSuccess(data.map(function(arr) {
-          return { x: arr[1] * 1000, y: arr[0] };
-        }));
-  });
-};
-
+      })
+  }
 
 let bytesToString = function (bytes) {
     var fmt = d3.format('.0f'),
@@ -59,7 +69,7 @@ let bytesToString = function (bytes) {
 
 let get = function(name) {
     return function(obj) {
-      return obj[name];
+        return obj[name];
     };
 };
 

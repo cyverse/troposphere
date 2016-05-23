@@ -1,8 +1,11 @@
 "use strict";
 var path = require("path");
 var webpack = require("webpack");
+
+// Plugin imports:
 //var Clean = require('clean-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var CompressionPlugin = require("compression-webpack-plugin");
 
 var OUTPUT_PATH = path.join(__dirname, "/troposphere/assets");
 var CONTEXT_PATH = path.join(__dirname, "/troposphere/static/js");
@@ -29,7 +32,6 @@ if (process.env.NODE_ENV === "production") {
 module.exports = {
   entry: {
     app: "./main",
-    no_user: "./no_user",
     analytics: "./analytics",
     public: "./public_site/main"
   },
@@ -44,7 +46,10 @@ module.exports = {
       { test: /bootstrap-sass/, loader: "imports?jQuery=jquery" },
       { test: /modernizr-latest\.js/, loader: "imports?this=>window,html5=>window.html5!exports?window.Modernizr" },
       { test: /\.json$/, loader: 'json-loader', include: path.join(__dirname, 'node_modules/moment-timezone')},
-      { test: /\.js$/, loader: "babel?cacheDirectory", exclude: /(node_modules|troposphere\/static\/js\/lib)/ },
+      { test: /\.js$/,
+        loader: "babel",
+        query: { cacheDirectory: '/tmp/' },
+        exclude: /(node_modules|troposphere\/static\/js\/lib)/ },
       { test: /\.(scss|sass)$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader!autoprefixer-loader?browsers=last 2 versions!sass-loader") },
       { test: /\.woff$/ , loader: "url?limit=10000&mimetype=application/font-woff" },
       { test: /\.woff2$/, loader: "url?limit=10000&mimetype=application/font-woff2" },

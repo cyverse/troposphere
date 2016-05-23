@@ -6,3 +6,10 @@
 .u-wordBreak {
     word-break: break-all;
 }
+
+.u-md-pull-right {
+    float: right !important;
+    @media(max-width: 992px) {
+        float: none !important;
+    }
+}

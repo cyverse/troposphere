@@ -34,6 +34,8 @@ GraphController.prototype.switch = function(settings, onSuccess, onError) {
       graphs = graphs.map(function(data) {
         return new data[1]({
           type: data[0],
+          from: settings.from,
+          until: settings.until,
           uuid: settings.uuid,
           container: me.container,
           width: me.width,

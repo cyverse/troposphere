@@ -51,35 +51,35 @@ let ProjectStore = BaseStore.extend({
             }.bind(this));
         }
     },
+    getVolumesFor: function (project) {
+      var allVolumes = stores.VolumeStore.getAll();
+      if (!project.id) return;
+      if (!_modelsFor[project.id]) return this.fetchModelsFor(project.id);
+      if (!allVolumes) return;
 
-    getVolumesFor: function(project) {
-        var allVolumes = stores.VolumeStore.getAll();
-        if (!_modelsFor[project.id]) return this.fetchModelsFor(project.id);
-        if (!allVolumes) return;
+      var volumes = this.models.filter(function (pv) {
+        // filter out irrelevant project volumes (not in target project)
+        return pv.get('project').id === project.id;
+      }).filter(function (pv) {
+        // filter out the volumes that don't exist (not in local cache)
+        return allVolumes.get(pv.get('volume').id);
+      }).map(function (pv) {
+        // return the actual volumes
+        return allVolumes.get(pv.get('volume').id);
+      });
 
-        var volumes = this.models.filter(function(pv) {
-            // filter out irrelevant project volumes (not in target project)
-            return pv.get('project').id === project.id;
-        }).filter(function(pv) {
-            // filter out the volumes that don't exist (not in local cache)
-            return allVolumes.get(pv.get('volume').id);
-        }).map(function(pv) {
-            // return the actual volumes
-            return allVolumes.get(pv.get('volume').id);
-        });
+      var pendingVolumes = _pendingProjectVolumes.filter(function (pv) {
+        // filter out irrelevant project volumes (not in target project)
+        return pv.get('project').id === project.id;
+      }).filter(function (pv) {
+        // filter out the volumes that don't exist (not in local cache)
+        return allVolumes.get(pv.get('volume'));
+      }).map(function (pv) {
+        // return the actual volumes
+        return allVolumes.get(pv.get('volume'));
+      });
 
-        var pendingVolumes = _pendingProjectVolumes.filter(function(pv) {
-            // filter out irrelevant project volumes (not in target project)
-            return pv.get('project').id === project.id;
-        }).filter(function(pv) {
-            // filter out the volumes that don't exist (not in local cache)
-            return allVolumes.get(pv.get('volume'));
-        }).map(function(pv) {
-            // return the actual volumes
-            return allVolumes.get(pv.get('volume'));
-        });
-
-        return new VolumeCollection(volumes.concat(pendingVolumes));
+      return new VolumeCollection(volumes.concat(pendingVolumes));
     }
 });
 

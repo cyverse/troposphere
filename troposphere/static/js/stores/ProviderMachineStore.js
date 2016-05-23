@@ -9,11 +9,9 @@ import NotificationController from 'controllers/NotificationController';
 let ProviderMachineStore = BaseStore.extend({
     collection: ProviderMachineCollection,
 
-    removeVersionCache: function(version) {
-        var queryParams = {
-                version_id: version.id
-            },
-            queryString = this.generateQueryString(queryParams);
+    removeCache: function(machine) {
+      var queryParams = {machine_id: machine.id},
+          queryString = this.generateQueryString(queryParams);
 
         this.queryModels[queryString] = null;
 
@@ -26,23 +24,37 @@ let ProviderMachineStore = BaseStore.extend({
     },
     getMachinesFor: function(image) {
         var image_key = "image=" + image.id;
-        var use_query = "?image_id=" + image.id
-        if (!this.queryModels[image_key]) {
-            this.fetchModelsFor(image_key, use_query);
+        var use_query = "?image_id="+image.id
+        if(!this.queryModels[image_key]) {
+            this.fetchWhere(use_query);
         } else {
             return this.queryModels[image_key];
         }
     },
 
-    getMachinesForVersion: function(version) {
-        var version_key = "machine=" + version;
-        var use_query = "?version_id="+ version;
+    getProvidersForVersion: function(version) {
+        var version_key = "version=" + version.id,
+            use_query = "?version_id="+ version.id;
+
         if(!this.queryModels[version_key]) {
             this.fetchModelsFor(version_key, use_query);
         } else {
             return new Backbone.Collection(
                             this.queryModels[version_key]
                             .map((ver) => ver.get('provider'))
+                        );
+        }
+    },
+
+    getMachinesForVersion: function(version) {
+        var version_key = "version=" + version.id,
+            use_query = "?version_id="+ version.id;
+
+        if(!this.queryModels[version_key]) {
+            this.fetchModelsFor(version_key, use_query);
+        } else {
+            return new Backbone.Collection(
+                            this.queryModels[version_key]
                         );
         }
     },

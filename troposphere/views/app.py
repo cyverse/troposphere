@@ -11,16 +11,27 @@ from django.template import RequestContext
 from api.models import UserPreferences, MaintenanceRecord
 from troposphere.version import get_version
 from troposphere.auth import has_valid_token
+from troposphere.site_metadata import get_site_metadata
 from .emulation import is_emulated_session
 from .maintenance import get_maintenance
 
 logger = logging.getLogger(__name__)
 
 
-#TODO: Move this into a settings file.
-STAFF_LIST_USERNAMES = ['estevetest01', 'estevetest02','estevetest03','estevetest04',
-                        'estevetest13', 'sgregory', 'lenards', 'tharon', 'cdosborn',
-                        'julianp', 'josephgarcia', 'mattd', 'amercer']
+if hasattr(settings, "STAFF_LIST_USERNAMES"):
+    STAFF_LIST_USERNAMES = settings.STAFF_LIST_USERNAMES
+else:
+    logger.error("""
+        STAFF_LIST_USERNAMES has not been set correctly.
+        Help look at atmosphere/settings/local.py or
+        add to variables.ini under [local.py] & re-run
+        the ./configure script
+    """)
+    logger.warn("Adding fallback STAFF_LIST_USERNAMES...")
+    STAFF_LIST_USERNAMES = [
+        'sgregory', 'lenards', 'tharon', 'cdosborn', 'julianp', 'josephgarcia',
+        'mattd', 'amercer'
+    ]
 
 
 def root(request):
@@ -40,7 +51,13 @@ def should_route_to_maintenace(request, in_maintenance):
 def _should_show_troposphere_only():
     # `SHOW_TROPOSPHERE_ONLY` may not be present in `settings`, so use
     # `hasattr` to handle when it is not present & avoid 500 errors on load.
-    return hasattr(settings, "SHOW_TROPOSPHERE_ONLY") and settings.SHOW_TROPOSPHERE_ONLY is True
+    return hasattr(settings, "SHOW_TROPOSPHERE_ONLY") and \
+        settings.SHOW_TROPOSPHERE_ONLY is True
+
+
+def _should_enabled_new_relic():
+    return hasattr(settings, "NEW_RELIC_ENVIRONMENT") and \
+        bool(settings.NEW_RELIC_ENVIRONMENT) is True
 
 
 def _populate_template_params(request, maintenance_records, disabled_login, public=False):
@@ -49,7 +66,9 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
     request session, and django settings (defined in `default.py` or overidden
     in `local.py`).
     """
+    # keep this variable around for the return statement ...
     show_troposphere_only = _should_show_troposphere_only()
+    enable_new_relic = _should_enabled_new_relic()
 
     template_params = {
         'access_token': request.session.get('access_token'),
@@ -57,6 +76,7 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
         'emulated_by': request.session.get('emulated_by'),
         'records': maintenance_records,
         'show_troposphere_only': show_troposphere_only,
+        'new_relic_enabled': enable_new_relic,
         'show_public_site': public
     }
 
@@ -71,8 +91,14 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
         # version of the site.
         if hasattr(settings, "INTERCOM_APP_ID"):
             template_params['intercom_app_id'] = settings.INTERCOM_APP_ID
-            template_params['intercom_company_id'] = settings.INTERCOM_COMPANY_ID
-            template_params['intercom_company_name'] = settings.INTERCOM_COMPANY_NAME
+            template_params['intercom_company_id'] = \
+                settings.INTERCOM_COMPANY_ID
+            template_params['intercom_company_name'] = \
+                settings.INTERCOM_COMPANY_NAME
+
+    if enable_new_relic:
+        template_params['new_relic_browser_snippet'] = \
+            settings.NEW_RELIC_BROWSER_SNIPPET
 
     template_params['SITE_TITLE'] = settings.SITE_TITLE
     template_params['SITE_FOOTER'] = settings.SITE_FOOTER
@@ -82,11 +108,23 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
 
     #TODO: Replace this line when theme support is re-enabled.
     #template_params["THEME_URL"] = "assets/"
-    template_params["THEME_URL"] = "/themes/%s" % settings.THEME_NAME
+    template_params['THEME_URL'] = "/themes/%s" % settings.THEME_NAME
     template_params['ORG_NAME'] = settings.ORG_NAME
 
     if hasattr(settings, "BASE_URL"):
         template_params['BASE_URL'] = settings.BASE_URL
+
+    metadata = get_site_metadata()
+
+    template_params['DISPLAY_STATUS_PAGE'] = False
+    template_params['WEB_DESKTOP_INCLUDE_LINK'] = \
+        settings.WEB_DESKTOP_INCLUDE_LINK
+
+    if metadata:
+        template_params['DISPLAY_STATUS_PAGE'] = \
+            metadata.display_status_page_link
+        template_params['STATUS_PAGE_LINK'] = \
+            metadata.status_page_link
 
     if hasattr(settings, "API_ROOT"):
         template_params['API_ROOT'] = settings.API_ROOT
@@ -95,8 +133,8 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
         template_params['API_V2_ROOT'] = settings.API_V2_ROOT
 
     if hasattr(settings, "USE_GATE_ONE_API"):
-        template_params["USE_GATE_ONE_API"] = settings.USE_GATE_ONE_API
-        template_params["WEB_SH_URL"] = settings.WEB_SH_URL
+        template_params['USE_GATE_ONE_API'] = settings.USE_GATE_ONE_API
+        template_params['WEB_SH_URL'] = settings.WEB_SH_URL
 
     return template_params, show_troposphere_only
 
@@ -110,6 +148,11 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
     """
     template_params, show_troposphere_only = _populate_template_params(request,
             maintenance_records, disabled_login, True)
+
+    if 'new_relic_enabled' in template_params:
+        logger.info("New Relic enabled? %s" % template_params['new_relic_enabled'])
+    else:
+        logger.info("New Relic key missing from `template_params`")
 
     # If show airport_ui flag in query params, set the session value to that
     if "airport_ui" in request.GET:
@@ -141,6 +184,21 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
         )
     response.set_cookie('beta', request.session['beta'])
     response.set_cookie('airport_ui', request.session['airport_ui'])
+
+    logger.info(request.META['REMOTE_ADDR'])
+    if (request.META['REMOTE_ADDR'] == '128.196.38.108' or
+        request.META['REMOTE_ADDR'] == '127.0.0.1'):
+        logger.info("REQUEST ******************** \n")
+        for key in request.session.keys():
+            logger.info(" - %s => %s" % (key, request.session[key]))
+        logger.info(request.COOKIES)
+        logger.info(request.META['REMOTE_ADDR'])
+        logger.info(request.user.username)
+
+        logger.info("RESPONSE ******************** \n")
+        logger.info(response.cookies)
+        logger.info('access_token' in response)
+
     return response
 
 
@@ -155,6 +213,12 @@ def _handle_authenticated_application_request(request, maintenance_records):
         user=request.user)
 
     prefs_modified = False
+
+    if 'new_relic_enabled' in template_params:
+        logger.info("New Relic enabled? %s" % template_params['new_relic_enabled'])
+    else:
+        logger.info("New Relic key missing from `template_params`")
+
 
     # TODO - once phased out, we should ignore show_beta_interface altogether
     # ----
@@ -195,6 +259,21 @@ def _handle_authenticated_application_request(request, maintenance_records):
             template_params,
             context_instance=RequestContext(request)
         )
+
+    logger.info(request.META['REMOTE_ADDR'])
+    if (request.META['REMOTE_ADDR'] == '128.196.38.108' or
+        request.META['REMOTE_ADDR'] == '127.0.0.1'):
+        logger.info("REQUEST ******************** \n")
+        for key in request.session.keys():
+            logger.info(" - %s => %s" % (key, request.session[key]))
+        logger.info(request.COOKIES)
+        logger.info(request.META['REMOTE_ADDR'])
+        logger.info(request.user.username)
+
+        logger.info("RESPONSE ******************** \n")
+        logger.info(response.cookies)
+        logger.info('access_token' in response)
+
 
     return response
 
@@ -244,18 +323,25 @@ def forbidden(request):
     user, but was found to be unauthorized to use Atmosphere by OAuth.
     Returns HTTP status code 403 Forbidden
     """
+    metadata = get_site_metadata()
     template_params = {}
 
-    template_params["THEME_URL"] = "/themes/%s" % settings.THEME_NAME
+    template_params['THEME_URL'] = "/themes/%s" % settings.THEME_NAME
     template_params['ORG_NAME'] = settings.ORG_NAME
     template_params['SITE_TITLE'] = settings.SITE_TITLE
     template_params['SITE_FOOTER'] = settings.SITE_FOOTER
+    template_params['USER_PORTAL_LINK'] = metadata.user_portal_link
+    template_params['USER_PORTAL_LINK_TEXT'] = metadata.user_portal_link_text
+    template_params['ACCOUNT_INSTRUCTIONS_LINK'] = \
+        metadata.account_instructions_link
+
     if hasattr(settings, "BASE_URL"):
         template_params['BASE_URL'] = settings.BASE_URL
 
     # If banner message in query params, pass it into the template
     if "banner" in request.GET:
         template_params['banner'] = request.GET['banner']
+
     response = render_to_response(
         'no_user.html',
         template_params,

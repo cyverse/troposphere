@@ -21,6 +21,7 @@ export default React.createClass({
 
     render: function () {
       var image = this.props.image,
+        hasLoggedInUser = context.hasLoggedInUser(),
         type = stores.ProfileStore.get().get('icon_set'),
         imageTags = stores.TagStore.getImageTags(image),
         imageCreationDate = moment(image.get('start_date'))
@@ -28,6 +29,7 @@ export default React.createClass({
                                 .format("MMM Do YYYY hh:mm a z"),
         converter = new Showdown.Converter(),
         description = image.get('description');
+
       if(!description) {
           description = "No Description Provided."
       }
@@ -42,7 +44,24 @@ export default React.createClass({
 
       // Hide bookmarking on the public page
       var bookmark;
-      if (context.profile) {
+      let endDated;
+      if (this.props.isEndDated) {
+        endDated = (
+            <div style={{
+                position: "absolute",
+                top: "10px",
+                left: "0",
+                background: "#F55A5A",
+                display: "inline-block",
+                padding: "5px 10px",
+                color: "white"
+              }}
+            >
+              End Dated
+            </div>
+        );
+      }
+      if (hasLoggedInUser) {
         bookmark = (
           <Bookmark image={image}/>
         );
@@ -51,6 +70,7 @@ export default React.createClass({
       return (
         <div className='app-card'>
           <div>
+            {endDated}
             <span className='icon-container'>
               <Router.Link to="image-details" params={{imageId: image.id}}>
                 {icon}

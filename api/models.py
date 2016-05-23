@@ -6,6 +6,29 @@ from django.utils import timezone
 
 
 
+class SingletonModel(models.Model):
+    """
+    A model that will ensure at-most-one row exists in the database
+    """
+
+    def save(self, *args, **kwargs):
+        self.pk = 1
+        super(SingletonModel, self).save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        pass
+
+    @classmethod
+    def get_instance(cls):
+        try:
+            return cls.objects.get(pk=1)
+        except cls.DoesNotExist:
+            return cls()
+
+    class Meta:
+        abstract = True
+
+
 class MaintenanceRecord(models.Model):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField(blank=True, null=True)
@@ -48,7 +71,6 @@ class MaintenanceRecord(models.Model):
         )
 
 
-
 class UserPreferences(models.Model):
     user = models.ForeignKey(User)
     show_beta_interface = models.BooleanField(default=True)
@@ -58,6 +80,51 @@ class UserPreferences(models.Model):
 
     def __unicode__(self):
         return "%s" % self.user.username
+
+
+portal_link_text_help_text = """
+    Text used for User Portal hyperlink; state exactly as should appear.
+"""
+
+class SiteMetadata(SingletonModel):
+    """
+    A single model to represent metadata about the installation `site`
+    of this instance of Atmosphere (UI+API).
+
+    This captures a place to associate configuration/metadata that may
+    be changed by an individals _without_ root access to the servers
+    where Atmosphere is installed/deployed.
+
+    Note: this is *not* to be confused with the django.contrib.site
+    model. This is merely a singleton created in this project & shared
+    no extra nor extended functionality outside of this python module.
+    """
+    user_portal_link = models.CharField(
+        max_length=254,
+        default=b"https://user.iplantcollaborative.org/dashboard/",
+        help_text="Hyperlink to the User Portal for creating account.")
+    user_portal_link_text = models.CharField(
+        max_length=254,
+        default=b"CyVerse User Management Portal",
+        help_text=portal_link_text_help_text)
+    account_instructions_link = models.CharField(
+        max_length=254,
+        default=b"http://cyverse.org/learning-center/manage-account#AddAppsServices",
+        help_text="Hyperlink to instructions on creating account.")
+    display_status_page_link = models.BooleanField(
+        default=True,
+        help_text="Whether to display a status page link.")
+    status_page_link = models.CharField(
+        max_length=254,
+        default=b"http://atmosphere.status.io",
+        help_text="Hyperlink to page communicate Atmosphere stats information.")
+
+    class Meta:
+        db_table = 'site_metadata'
+        app_label = 'api'
+        verbose_name = 'Site metadata'
+        verbose_name_plural = verbose_name
+
 
 
 # Save Hook(s) Here:

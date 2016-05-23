@@ -5,7 +5,6 @@ let Route = Router.Route,
     Redirect = Router.Redirect,
     DefaultRoute = Router.DefaultRoute;
 
-
 import Master from './components/Master.react';
 import BadgeMaster from './components/badges/BadgeMaster.react';
 import MyBadges from './components/badges/MyBadges.react';
@@ -31,7 +30,7 @@ import MyImagesPage from './components/images/MyImagesPage.react';
 import MyImageRequestsPage from './components/images/MyImageRequestsPage.react';
 import ImageTagsPage from './components/images/ImageTagsPage.react';
 import ImagesMaster from './components/images/ImagesMaster.react';
-import InstanceHistoryDetail from './components/common/InstanceHistoryDetail.react';
+import NewInstanceDetail from './components/common/InstanceDetail.react';
 import SettingsPage from './components/settings/SettingsPage.react';
 import ProjectInstancePage from "./components/projects/InstanceDetailsPage.react";
 import ProjectVolumePage from "./components/projects/VolumeDetailsPage.react";
@@ -103,8 +102,8 @@ let AppRoutes = (
         <Route name="my-requests-images" path="images" handler={MyImageRequestsPage} />
       </Route>
 
-      <Route name="instance-history">
-        <Route name="instance-history-detail" path=":id" handler={InstanceHistoryDetail} />
+      <Route name="instances">
+        <Route name="new-instance-detail" path=":id" handler={NewInstanceDetail} />
       </Route>
 
       <DefaultRoute handler={DashboardPage}/>

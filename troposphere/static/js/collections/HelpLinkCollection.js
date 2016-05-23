@@ -5,7 +5,7 @@ import globals from 'globals';
 export default Backbone.Collection.extend({
     model: HelpLink,
 
-    url: globals.TROPO_API_ROOT + "/help_links",
+    url: globals.API_V2_ROOT + "/help_links",
 
     parse: function (response) {
         this.meta = {

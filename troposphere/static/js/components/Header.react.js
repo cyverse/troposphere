@@ -7,6 +7,8 @@ import globals from 'globals';
 import Router from 'react-router';
 
 
+import { hasLoggedInUser } from 'utilities/profilePredicate';
+
 let Link = Router.Link;
 
 let links = [
@@ -92,10 +94,20 @@ let LogoutLink = React.createClass({
     },
 
     render: function () {
-      var username = this.props.username;
+      var statusPageEl,
+        username = this.props.username;
+
       if (!username && show_public_site) {
           username = "AnonymousUser"
       }
+      if (globals.STATUS_PAGE_LINK) {
+        statusPageEl =(
+            <li>
+              <a href={globals.STATUS_PAGE_LINK} target="_blank">Status</a>
+            </li>
+        );
+      }
+
       return (
         <li className="dropdown">
           <a className="dropdown-toggle" href="#" data-toggle="dropdown">
@@ -113,11 +125,9 @@ let LogoutLink = React.createClass({
             <li>
               <a id="version_link" href="#" onClick={this.onShowVersion}>Version</a>
             </li>
+            {statusPageEl}
             <li>
-              <a href="http://atmosphere.status.io" target="_blank">Status</a>
-            </li>
-            <li>
-              <a id="logout_link" href="/logout?cas=True&airport_ui=false">Sign out</a>
+              <a id="logout_link" href="/logout?force=true&airport_ui=false">Sign out</a>
             </li>
           </ul>
         </li>
@@ -170,11 +180,12 @@ let Header = React.createClass({
     },
 
     render: function () {
-
       var profile = this.props.profile,
-        hasLoggedInUser = (profile && profile.get('selected_identity'));
+        hasUser = hasLoggedInUser(profile);
 
-      var loginLogoutDropdown = hasLoggedInUser ? <LogoutLink username={profile.get('username')}/> : <LoginLink/>;
+      var loginLogoutDropdown = (hasUser ?
+            <LogoutLink username={profile.get('username')}/> :
+            <LoginLink/>);
 
       if (!profile.get('selected_identity')) {
         links = links.filter(function (link) {
@@ -205,12 +216,9 @@ let Header = React.createClass({
         );
       }.bind(this));
 
-      var brandLink;
-      if (profile.get('selected_identity')) {
-        brandLink = <Link to="dashboard" className="navbar-brand"/>;
-      } else {
-        brandLink = <Link to="images" className="navbar-brand"/>;
-      }
+      var brandLink = (hasUser ?
+        <Link to="dashboard" className="navbar-brand"/> :
+        <Link to="images" className="navbar-brand"/>);
 
       return (
         <div className="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -236,7 +244,7 @@ let Header = React.createClass({
                 {loginLogoutDropdown}
               </ul>
             </div>
-            {hasLoggedInUser ? this.renderBetaToggle() : null}
+            {hasUser ? this.renderBetaToggle() : null}
           </div>
 
         </div>
@@ -246,4 +254,3 @@ let Header = React.createClass({
 });
 
 export default Header;
-

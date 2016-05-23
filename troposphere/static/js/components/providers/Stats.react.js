@@ -6,7 +6,7 @@ export default React.createClass({
     displayName: "Stats",
 
     propTypes: {
-//      provider: React.PropTypes.instanceOf(Backbone.Model).isRequired
+      provider: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
     //
@@ -77,6 +77,7 @@ export default React.createClass({
         instances = stores.InstanceStore.findWhere({'provider.id': provider.id}),
         sizes = stores.SizeStore.fetchWhere({
           provider__id: provider.id,
+          archived: true,
           page_size: 100
         });
 

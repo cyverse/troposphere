@@ -57,7 +57,7 @@ export default React.createClass({
           <div className="container">
             <div className="row">
 
-              <div className="col-md-9">
+              <div className="col-md-12">
 
                 <h2>Getting Started</h2>
                 <div className="row calls-to-action">
@@ -88,7 +88,10 @@ export default React.createClass({
                 </div>
 
                 <div className="resource-header">
-                  Resources in Use<a href="#" onClick={this.renderRequestMoreResources}>Need more{String.fromCharCode(63)}</a>
+                  {`Resources in Use`}
+                  <a href="#"
+                    onClick={this.renderRequestMoreResources}>
+                    Need more{String.fromCharCode(63)}</a>
                 </div>
                 <div className="row">
                   <div className="col-md-8">
@@ -112,14 +115,6 @@ export default React.createClass({
                   </div>
                 </div>
                 <InstanceHistoryList/>
-              </div>
-
-              <div className="col-md-3 community-activity">
-                <h3>Community Activity</h3>
-                <MaintenanceMessageList
-                  messages={maintenanceMessages}
-                  images={images}
-                />
               </div>
 
             </div>

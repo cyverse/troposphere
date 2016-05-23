@@ -17,7 +17,6 @@ var InstanceState = Backbone.Model.extend({
 
     if (this.get('status') === "build")
         return false;
-
     return _.contains(validStates, this.get('status_raw'));
   },
 
@@ -41,17 +40,12 @@ var InstanceState = Backbone.Model.extend({
   },
 
   initialize: function (attributes, options) {
-
     var tokens = attributes.status_raw.split('-').map(s => s.trim());
-    var state = tokens[0];
-    var activity = tokens[1];
+    var status = tokens[0];
+    var activity = attributes.activity;
 
-    if (tokens.length == 3) {
-      // Deal with Openstack Grizzly's hyphenated states "powering-on" and "powering-off"
-      activity = tokens[1] + '-' + tokens[2];
-    }
-
-    this.set('status', state);
+    this.set('status_raw', attributes.status_raw);
+    this.set('status', status);
     this.set('activity', activity);
   }
 

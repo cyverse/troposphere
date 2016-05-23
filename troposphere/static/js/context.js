@@ -1,7 +1,8 @@
+import { hasLoggedInUser } from 'utilities/profilePredicate';
 
 export default {
     hasLoggedInUser: function() {
-        return !!(this.profile && this.profile.get('selected_identity'));
+        return hasLoggedInUser(this.profile);
     },
-    profile: null,
+    profile: null
 };

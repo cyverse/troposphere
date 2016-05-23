@@ -10,7 +10,7 @@ export default {
       if (!params.instance) throw new Error("Missing instance");
 
       var instance = params.instance,
-        instanceState = new InstanceState({status_raw: "active - suspending"}),
+        instanceState = new InstanceState({status_raw: "active - suspending", status: "active", activity: "suspending"}),
         originalState = instance.get('state'),
         actionRequest = new InstanceActionRequest({instance: instance});
 
@@ -21,7 +21,7 @@ export default {
         attrs: {action: "suspend"}
       }).done(function () {
         instance.set({
-          state: new InstanceState({status_raw: "active - suspending"})
+          state: instanceState
         });
       }).fail(function (response) {
         instance.set({state: originalState});

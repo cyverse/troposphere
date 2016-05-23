@@ -30,10 +30,6 @@ export default React.createClass({
       this.setState({isEditing: true});
     },
 
-    onCreateNewTag: function (tagNameSuggestion) {
-      modals.TagModals.create_AddToInstance(tagNameSuggestion, this.props.instance);
-    },
-
     onDoneEditing: function (text) {
       this.setState({
         name: text,
@@ -42,30 +38,12 @@ export default React.createClass({
       actions.InstanceActions.update(this.props.instance, {name: text});
     },
 
-    onTagAdded: function (tag) {
-      actions.InstanceTagActions.add({
-        instance: this.props.instance,
-        tag: tag
-      });
-    },
-
-    onTagRemoved: function (tag) {
-      actions.InstanceTagActions.remove({
-        instance: this.props.instance,
-        tag: tag
-      });
-    },
-
     render: function () {
       var instance = this.props.instance,
-        tags = stores.TagStore.getAll(),
-        instanceTags = stores.InstanceTagStore.getTagsFor(instance),
         instanceHash = CryptoJS.MD5((instance.id || instance.cid).toString()).toString(),
         type = stores.ProfileStore.get().get('icon_set'),
         iconSize = 113,
         nameContent;
-
-      if (!tags || !instanceTags) return <div className="loading"></div>;
 
       if (this.state.isEditing) {
         nameContent = (
@@ -95,13 +73,6 @@ export default React.createClass({
               {nameContent}
             </div>
             <div className="resource-launch-date">Launched on <Time date={instance.get('start_date')}/></div>
-            <ResourceTags
-              tags={tags}
-              activeTags={instanceTags}
-              onTagAdded={this.onTagAdded}
-              onTagRemoved={this.onTagRemoved}
-              onCreateNewTag={this.onCreateNewTag}
-              />
           </div>
 
         </div>

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Backbone from 'backbone';
 import ResourceDetail from 'components/projects/common/ResourceDetail.react';
@@ -7,6 +6,7 @@ import ResourceDetail from 'components/projects/common/ResourceDetail.react';
 import Id from './details/Id.react';
 import Alias from './details/Alias.react';
 import Status from './details/Status.react';
+import Activity from './details/Activity.react';
 import Size from './details/Size.react';
 import IpAddress from './details/IpAddress.react';
 import LaunchDate from './details/LaunchDate.react';
@@ -26,8 +26,9 @@ export default React.createClass({
         return (
           <div className="resource-details-section section">
             <h4 className="t-title">Instance Details</h4>
-            <ul>
+            <ul style={{paddingLeft: "10px"}}>
               <Status instance={instance}/>
+              <Activity instance={instance}/>
               <Size instance={instance}/>
               <IpAddress instance={instance}/>
               <LaunchDate instance={instance}/>

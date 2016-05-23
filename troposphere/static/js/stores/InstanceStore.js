@@ -77,7 +77,9 @@ var InstanceStore = BaseStore.extend({
             var status = instance.get('state').get("status");
             instance.set({
                 state: new InstanceState({
-                    status_raw: status + " - deleting"
+                    status_raw: status + " - deleting",
+                    status: "active",
+                    activity: "deleting"
                 }),
             });
 

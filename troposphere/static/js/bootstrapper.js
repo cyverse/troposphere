@@ -26,6 +26,7 @@ Backbone.Collection.prototype.get = function(obj) {
 // Extend the base collection to include useful functions
 _.extend(Backbone.Collection.prototype, FunctionalCollection);
 
+// Register which stores the image should use
 import stores from 'stores';
 
 stores.AllocationStore = require('stores/AllocationStore');
@@ -93,6 +94,7 @@ actions.ProjectExternalLinkActions = require('actions/ProjectExternalLinkActions
 actions.ProjectImageActions = require('actions/ProjectImageActions');
 actions.ProjectInstanceActions = require('actions/ProjectInstanceActions');
 actions.ProjectVolumeActions = require('actions/ProjectVolumeActions');
+actions.QuotaActions = require('actions/QuotaActions');
 actions.ResourceActions = require('actions/ResourceActions');
 actions.TagActions = require('actions/TagActions');
 actions.UserActions = require('actions/UserActions');
@@ -109,7 +111,6 @@ modals.ProjectModals = require('modals/ProjectModals');
 modals.TagModals = require('modals/TagModals');
 modals.VersionModals = require('modals/VersionModals');
 modals.VolumeModals = require('modals/VolumeModals');
-
 
 export default {
     run: function () {

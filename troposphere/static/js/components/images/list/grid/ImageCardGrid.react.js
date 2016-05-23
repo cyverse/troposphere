@@ -1,5 +1,6 @@
 import React from 'react';
 import ImageCard from '../common/ImageCard.react';
+import { filterEndDate } from 'utilities/filterCollection';
 
 export default React.createClass({
     displayName: "ImageCardGrid",
@@ -20,9 +21,11 @@ export default React.createClass({
     },
 
     renderCard: function(image){
+      let isEndDated = !filterEndDate(image);
       return (
         <li key={image.id}>
           <ImageCard
+            isEndDated={isEndDated}
             image={image}
             tags={this.props.tags}/>
         </li>

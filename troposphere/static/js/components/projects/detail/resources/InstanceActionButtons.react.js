@@ -43,13 +43,14 @@ export default React.createClass({
 
     render: function () {
       var instance = this.props.instance,
-        status = instance.get('state').get('status'),
-        linksArray = [];
-
+        status = instance.get('state').get('status_raw'),
+        linksArray = [],
+        style = {marginRight: "10px"};
       if (!this.props.multipleSelected && instance.get('state').isInFinalState()) {
         if (status === "active") {
           linksArray.push(
             <Button
+              style={style}
               key="Suspend"
               icon="pause"
               tooltip="Suspend"
@@ -59,6 +60,7 @@ export default React.createClass({
           );
           linksArray.push(
             <Button
+              style={style}
               key="Stop"
               icon="stop"
               tooltip="Stop"
@@ -68,6 +70,7 @@ export default React.createClass({
           );
           linksArray.push(
             <Button
+              style={style}
               key="Reboot"
               icon="repeat"
               tooltip="Reboot the selected instance"
@@ -78,6 +81,7 @@ export default React.createClass({
         } else if (status === "suspended") {
           linksArray.push(
             <Button
+              style={style}
               key="Resume"
               icon="play"
               tooltip="Resume"
@@ -88,6 +92,7 @@ export default React.createClass({
         } else if (status === "shutoff") {
           linksArray.push(
             <Button
+              style={style}
               key="Start"
               icon="play"
               tooltip="Start"
@@ -109,7 +114,7 @@ export default React.createClass({
       );
 
       return (
-        <div style={{borderLeft: "1px solid #ddd", display: "inline-block", paddingLeft: "10px", float: "right"}}>
+        <div className="clearfix u-md-pull-right">
           {linksArray}
         </div>
       );

@@ -6,9 +6,9 @@ export default React.createClass({
 
     getInitialState: function() {
         return {
-            keyName: "",
-            pubKey: "",
-            errorMsg: "",
+            keyName: '',
+            pubKey: '',
+            errorMsg: '',
         }
     },
 
@@ -16,7 +16,7 @@ export default React.createClass({
 
     updateKeyName: function(event) {
         this.setState({
-            "keyName": event.target.value.trim()
+            'keyName': event.target.value.trim()
         });
     },
 
@@ -25,21 +25,21 @@ export default React.createClass({
         let key = event.target.value.trim();
 
         let parts = key.split(/\s+/g);
-        let err = "";
+        let err = '';
 
         if (!this.validateKeyType(parts[0])) {
-            err = "Public key must begin with either ssh-rsa, ssh-dss, ecdsa-sha2-nistp256, or ssh-ed25519";
+            err = 'Public key must begin with either ssh-rsa, ssh-dss, ecdsa-sha2-nistp256, or ssh-ed25519';
         } else if (!this.validateOneLine(key)) {
-            err = "Public key cannot contain line breaks";
+            err = 'Public key cannot contain line breaks';
         } else if (!this.validateNumOfParts(key)) {
-            err = "Public key can only contain 2 or 3 parts";
+            err = 'Public key can only contain 2 or 3 parts';
         } else if (!this.validateKeyBodyBase64(parts[1])) {
-            err = "The key contains illegal characters";
+            err = 'The key contains illegal characters';
         }
 
         this.setState({
-            "pubKey": key,
-            "errorMsg": err
+            'pubKey': key,
+            'errorMsg': err
         });
     },
 
@@ -76,9 +76,9 @@ export default React.createClass({
         let parts = this.state.pubKey.split(/\s+/g);
 
         return this.validateKeyType(parts[0]) &&
-               this.validateNumOfParts(this.state.pubKey) &&
-               this.validateOneLine(this.state.pubKey) &&
-               this.validateKeyBodyBase64(parts[1]);
+        this.validateNumOfParts(this.state.pubKey) &&
+        this.validateOneLine(this.state.pubKey) &&
+        this.validateKeyBodyBase64(parts[1]);
     },
 
     isSubmittable() {
@@ -108,41 +108,50 @@ export default React.createClass({
         let notSubmittable = !this.isSubmittable();
 
         return (
-            <div className="modal fade">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            {this.renderCloseButton()}
-                            <strong>Add a public SSH key</strong>
-                        </div>
-                        <div style={{minHeight:"300px"}} className="modal-body">
-
-                            <div className='form-group'>
-                                <label className="control-label">Key Name</label>
-
-                                <div>
-                                    <input type="text" className="form-control" onChange={this.updateKeyName}/>
-                                </div>
-                            </div>
+        <div className="modal fade">
+            <div className="modal-dialog">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        { this.renderCloseButton() }
+                        <strong>Add a public SSH key</strong>
+                    </div>
+                    <div style={ { minHeight: '300px' } } className="modal-body">
+                        <div className='form-group'>
+                            <label className="control-label">
+                                Key Name
+                            </label>
                             <div>
-                                <label className="control-label">Public Key</label>
-                                <div aria-invalid={showKeyWarn} className={"form-group " + (showKeyWarn ? "has-error" : "")}>
-                                    <textarea style={{minHeight:"200px"}} className="form-control" onChange={this.updatePublicKey}/>
-                                    { showKeyWarn ? <span className="help-block">{ "* " + this.state.errorMsg }</span> : "" }
-                                </div>
+                                <input type="text" className="form-control" onChange={ this.updateKeyName } />
                             </div>
                         </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-danger" onClick={this.hide}>
-                                Cancel
-                            </button>
-                            <button type="button" aria-invalid={notSubmittable} className="btn btn-primary" onClick={this.onSubmit} disabled={notSubmittable}>
-                                Confirm
-                            </button>
+                        <div>
+                            <label className="control-label">
+                                Public Key
+                            </label>
+                            <div aria-invalid={ showKeyWarn } className={ 'form-group ' + (showKeyWarn ? 'has-error' : '') }>
+                                <textarea placeholder="Begins with either ssh-rsa, ssh-dss, ..."
+                                          style={ { minHeight: '200px' } }
+                                          className="form-control"
+                                          onChange={ this.updatePublicKey } />
+                                { showKeyWarn ? <span className="help-block">{ '* ' + this.state.errorMsg }</span> : '' }
+                            </div>
                         </div>
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-danger" onClick={ this.hide }>
+                            Cancel
+                        </button>
+                        <button type="button"
+                                aria-invalid={ notSubmittable }
+                                className="btn btn-primary"
+                                onClick={ this.onSubmit }
+                                disabled={ notSubmittable }>
+                            Confirm
+                        </button>
                     </div>
                 </div>
             </div>
+        </div>
         );
     }
 

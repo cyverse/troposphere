@@ -20,7 +20,7 @@ export default React.createClass({
         }
 
         return (
-          <span>{size.get('name')}</span>
+          <span style={{textTransform: "capitalize"}}>{size.get('name')}</span>
         );
       }
 });

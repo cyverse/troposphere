@@ -9,13 +9,11 @@ import globals from 'globals';
 export default {
 
     destroy: function (payload, options) {
-      if (!payload.project) throw new Error("Missing project");
       if (!payload.instance) throw new Error("Missing instance");
 
       var instance = payload.instance,
-        project = payload.project,
         originalState = instance.get('state'),
-        instanceState = new InstanceState({status_raw: originalState.get("status") + " - deleting"}),
+        instanceState = new InstanceState({status_raw: originalState.get("status_raw"), status: originalState.get("status"), activity: "deleting"}),
         identity = instance.get('identity'),
         provider = instance.get('provider'),
         url = (
@@ -26,6 +24,8 @@ export default {
         );
 
       instance.set({state: instanceState});
+      instance.set({end_date: new Date()});
+
       Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
 
       instance.destroy({

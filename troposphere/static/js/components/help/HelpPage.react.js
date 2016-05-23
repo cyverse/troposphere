@@ -33,7 +33,6 @@ export default React.createClass({
         var helpLinks = stores.HelpLinkStore.getAll();
         var resourceElements;
 
-        /* relates to ATMO-1230, links move to atmo-db; pending dev
         if (!helpLinks) {
             return <div className="loading"></div>;
         }
@@ -47,7 +46,6 @@ export default React.createClass({
                 </li>
             );
         });
-        */
 
         return (
           <div className="container">
@@ -63,6 +61,7 @@ export default React.createClass({
                 <strong>{"Feedback & Support"}</strong>
                 {" button at the bottom of the page (to enter a help request online) or by sending an email to "}
                 <a href={`mailto:${globals.SUPPORT_EMAIL}`}>{globals.SUPPORT_EMAIL}</a>
+                {"."}
               </p>
             </div>
           </div>

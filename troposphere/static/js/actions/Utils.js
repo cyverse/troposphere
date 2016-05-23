@@ -1,6 +1,6 @@
-
 import AppDispatcher from 'dispatchers/AppDispatcher';
 import NotificationController from 'controllers/NotificationController';
+import $ from 'jquery';
 
 export default {
 
@@ -17,10 +17,21 @@ export default {
         if (!options.message) throw new Error("Missing message");
         NotificationController.info(null, options.message);
     },
+    // Size information for the user's browser and monitor
+    browserContext: function() {
+      return {
+          "window-width": $(window).width(),
+          "window-height": $(window).height(),
+          "screen-width": screen.width,
+          "screen-height": screen.height,
+          "user-interface": "troposphere"
+      };
 
-    displaySuccess: function(options) {
-        if (!options.message) throw new Error("Missing message");
-        NotificationController.success(null, options.message);
+    },
+
+    displaySuccess: function (options) {
+      if (!options.message) throw new Error("Missing message");
+      NotificationController.success(null, options.message);
     },
 
     displayError: function (options) {

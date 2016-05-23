@@ -5,8 +5,10 @@
     Atmosphere | {{ ORG_NAME }}
   </title>
   <link rel="shortcut icon" href="{{THEME_URL}}/images/favicon.ico" />
- <!-- <link type="text/css" rel="stylesheet" href="/assets/no_user.css" /> -->
   <link rel="stylesheet" href="{{ THEME_URL }}/css/login.css"/>
+{% if banner %}
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"/>
+{% endif %}
 </head>
 <body>
     <div id="wrapper" class="center">
@@ -14,20 +16,20 @@
             <img src="{{ THEME_URL }}/images/large_logo.png">
         </div>
         <div class="message-wrapper">
-            {% if banner %}
+{% if banner %}
             <div id="toast-container" class="toast-top-full-width">
                 <div class="toast toast-error">
-                    <div class="toast-title"> Errors occurred during login </div>
-                    <div class="toast-message">{{ banner }}</div>
+                    <div class="toast-title"> Errors occurred during login: </div>
+                    <div id="toast-msg-target" class="toast-message">{{ banner }}</div>
                 </div>
             </div>
-            {% endif %}
+{% endif %}
             <h1>Your account does not currently have access to Atmosphere.</h1>
-            <p>If you would like to request access, you can do so through the <a href="https://user.iplantcollaborative.org/dashboard/">{{ ORG_NAME }} User Management Portal</a> by clicking the 'Request Access' button next to the Atmosphere service.</p>
-            <p>You can also find instructions <a href="http://cyverse.org/learning-center/manage-account#AddAppsServices">on the website</a>.</p>
+            <p>If you would like to request access, you can do so through the <a href="{{USER_PORTAL_LINK}}">{{USER_PORTAL_LINK_TEXT}}</a> by clicking the 'Request Access' button next to the Atmosphere service.</p>
+            <p>You can also find instructions <a href="{{ACCOUNT_INSTRUCTIONS_LINK}}">on the website</a>.</p>
             <p>If you have already requested access, then you must wait until your request is approved before you can use Atmosphere.</p>
             <p>If you have already been approved, you may be seeing this page because your session has expired. Click below to attempt another login.</p>
-            <a class="submitButton" href="/logout?cas=true">
+            <a class="submitButton" href="/logout?force=true">
                 Attempt to Login Again
             </a>
         </div>

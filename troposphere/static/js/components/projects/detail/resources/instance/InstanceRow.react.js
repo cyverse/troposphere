@@ -3,12 +3,13 @@ import Backbone from 'backbone';
 import SelectableRow from '../SelectableRow.react';
 import Name from '../tableData/instance/Name.react';
 import Status from '../tableData/instance/Status.react';
+import Activity from '../tableData/instance/Activity.react'
 import IpAddress from '../tableData/instance/IpAddress.react';
 import Size from '../tableData/instance/Size.react';
 import Provider from '../tableData/instance/Provider.react';
-import stores from 'stores';
 import CryptoJS from 'crypto-js';
 import Gravatar from 'components/common/Gravatar.react';
+import stores from 'stores';
 
 export default React.createClass({
     displayName: "InstanceRow",
@@ -43,6 +44,9 @@ export default React.createClass({
           </td>
           <td className="sm-cell" data-label="Status">
             <Status instance={instance}/>
+          </td>
+          <td className="sm-cell" data-label="Activity">
+            <Activity instance={instance}/>
           </td>
           <td className="sm-cell" data-label="IP Address">
             <IpAddress instance={instance}/>

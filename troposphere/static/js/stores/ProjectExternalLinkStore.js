@@ -26,6 +26,9 @@ let ProjectStore = BaseStore.extend({
     },
 
     fetchModelsFor: function (projectId) {
+      // Stop request if no ID
+      if (!projectId) { return }
+
       if (!_modelsFor[projectId] && !_isFetchingFor[projectId]) {
         _isFetchingFor[projectId] = true;
         var models = new ProjectExternalLinkCollection();

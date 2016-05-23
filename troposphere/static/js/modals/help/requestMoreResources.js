@@ -6,11 +6,7 @@ export default {
 
     requestMoreResources: function () {
       ModalHelpers.renderModal(RequestMoreResourcesModal, null, function (identity, quota, reason) {
-        actions.HelpActions.requestMoreResources({
-          identity: identity,
-          quota: quota,
-          reason: reason
-        });
+        actions.HelpActions.requestMoreResources({ identity, quota, reason });
       });
     }
 

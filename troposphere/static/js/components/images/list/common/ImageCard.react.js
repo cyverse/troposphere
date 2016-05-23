@@ -26,6 +26,7 @@ export default React.createClass({
         imageCreationDate = moment(image.get('start_date'))
                                 .tz(globals.TZ_REGION)
                                 .format("MMM Do YYYY hh:mm a z"),
+        hasLoggedInUser = context.hasLoggedInUser(),
         iconSize = 145,
         icon;
 
@@ -36,7 +37,24 @@ export default React.createClass({
 
       // Hide bookmarking on the public page
       var bookmark;
-      if (context.profile) {
+      let endDated;
+      if (this.props.isEndDated) {
+        endDated = (
+            <div style={{
+                position: "absolute",
+                top: "10px",
+                left: "0",
+                background: "#F55A5A",
+                display: "inline-block",
+                padding: "5px 10px",
+                color: "white"
+              }}
+            >
+              End Dated
+            </div>
+        );
+      }
+      if (hasLoggedInUser) {
         bookmark = (
           <Bookmark image={image}/>
         );
@@ -44,6 +62,7 @@ export default React.createClass({
 
       return (
         <div className='app-card'>
+          {endDated}
           <div className='icon-container'>
             <Router.Link to="image-details" params={{imageId: image.id}}>
               {icon}

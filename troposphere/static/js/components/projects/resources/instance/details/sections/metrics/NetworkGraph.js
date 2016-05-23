@@ -41,6 +41,8 @@ NetworkGraph.prototype.fetch = function(onSuccess, onError) {
     series.forEach(function(s) {
       s.urlParams = {
         field: s.type,
+        from: me.from,
+        until: me.until,
         res: me.resolution,
         size: me.points,
       };

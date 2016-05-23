@@ -8,6 +8,8 @@ import stores from 'stores';
 import globals from 'globals';
 import moment from 'moment';
 import momentTZ from 'moment-timezone';
+import showdown from 'showdown';
+
 
 export default React.createClass({
     displayName: 'Version',
@@ -34,9 +36,9 @@ export default React.createClass({
         return;
       }
 
-      return (<AvailabilityView
-        version={version}
-        />);
+      return (
+        <AvailabilityView version={version}/>
+      );
     },
 
     renderEditLink: function () {
@@ -52,10 +54,13 @@ export default React.createClass({
          }
          var username = profile.get('username');
          //TODO: Bring up discrepencies in the API here..
-         if (username === version.get('user').username || username === image.get('created_by').username || profile.get('is_staff')) {
+         if (username === version.get('user').username
+            || username === image.get('created_by').username
+            || profile.get('is_staff')) {
              return (
                  <div className="edit-link-row">
-                     <a className="edit-link" onClick={this.onEditClicked}><span className="glyphicon glyphicon-pencil"></span> Edit Version</a>
+                     <a className="edit-link" onClick={this.onEditClicked}>
+                        <span className="glyphicon glyphicon-pencil" /> Edit Version</a>
                  </div>
              )
          }
@@ -87,7 +92,10 @@ export default React.createClass({
           iconSize = 63,
           type = stores.ProfileStore.get().get('icon_set'),
           owner = image.get('created_by').username,
-          changeLog = this.props.version.attributes.change_log;
+          changeLog = this.props.version.get('change_log');
+          converter = new showdown.Converter(),
+          changeLogHTML = converter.makeHtml(changeLog);
+
       return (
         <li className="app-card">
           <div>
@@ -102,7 +110,7 @@ export default React.createClass({
                 {isRecommended ? <span className="recommended-tag">Recommended</span> : null}
 
                 {this.renderDateString(version)} by {owner} <br />
-                <p>{changeLog}</p>
+                <div dangerouslySetInnerHTML={{__html: changeLogHTML}}/>
               </div>
                 {this.renderEditLink()}
                 {this.renderAvailability()}

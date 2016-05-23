@@ -20,7 +20,7 @@ export default React.createClass({
         activity = volumeState.get('activity'),
         placeholderMessage = status,
         lightStatus = "active",
-        style = {},
+        style = {textTransform: "capitalize"},
         instance;
 
       if (status === "available") {

@@ -141,7 +141,7 @@ export default React.createClass({
                   <div>
                     <Gravatar hash={instanceHistoryHash} size={iconSize} type={type}/>
                     <div className="instance-history-details">
-                      <Router.Link to={"instance-history-detail"} params={{id: instance.get('instance').id}}>
+                      <Router.Link to={"new-instance-detail"} params={{id: instance.get('instance').id}}>
                         <strong className="name">{name}</strong>
                       </Router.Link>
                       <div>Launched from {imageLink}</div>

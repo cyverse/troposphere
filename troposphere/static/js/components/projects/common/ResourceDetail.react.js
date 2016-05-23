@@ -11,8 +11,8 @@ export default React.createClass({
       render: function () {
         return (
           <li className="clearfix">
-            <span className="detail-label">{this.props.label}</span>
-            <span className="detail-value" >{this.props.children}</span>
+            <div className="t-body-2 detail-label">{this.props.label + " "}</div>
+            <div className="detail-value" >{this.props.children}</div>
           </li>
         );
       }

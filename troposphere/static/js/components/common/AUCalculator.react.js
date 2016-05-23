@@ -34,7 +34,7 @@ export default React.createClass({
         // Combine the instance size list and defualt size list into one to display
         var options = instanceOptions.concat(defaultOptions),
             // It's possible that the user has no instances when using this calculator, so default to the 1 CPU option
-            cpuToSet = instanceOptions ? stores.InstanceStore.getAll().models[0].get('size').cpu : 1;
+            cpuToSet = instanceOptions.length > 0 ? stores.InstanceStore.getAll().models[0].get('size').cpu : 1;
 
         this.setState({options: options, selectedCPU: cpuToSet});
       },

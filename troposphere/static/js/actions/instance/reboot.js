@@ -15,7 +15,7 @@ export default {
       // reboot_type: "HARD"
 
       var instance = params.instance,
-        instanceState = new InstanceState({status_raw: "active - rebooting"}),
+        instanceState = new InstanceState({status_raw: "active - rebooting", status: "active", activity: "rebooting"}),
         originalState = instance.get('state'),
         actionRequest = new InstanceActionRequest({instance: instance});
 
@@ -26,7 +26,7 @@ export default {
           attrs: {action: "reboot", reboot_type: params.reboot_type}
       }).done(function(){
         instance.set({
-          state: new InstanceState({status_raw: "active - rebooting"})
+          state: instanceState
         });
       }).fail(function (response) {
         instance.set({state: originalState});

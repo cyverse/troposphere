@@ -51,6 +51,7 @@ var ProjectImageStore = BaseStore.extend({
 
     getImagesFor: function (project) {
       var allImages = stores.ImageStore.getForProject(project.id);
+      if (!project.id) return;
       if (!_modelsFor[project.id]) return this.fetchModelsFor(project.id);
       if (!allImages) return;
 

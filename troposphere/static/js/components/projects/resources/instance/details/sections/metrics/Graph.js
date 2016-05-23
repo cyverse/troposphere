@@ -71,6 +71,8 @@ Graph.prototype.fetch = function(onSuccess, onError) {
         urlParams =  {
             field: this.type,
             res: this.resolution,
+            from: this.from,
+            until: this.until,
             size: this.points,
         };
 
@@ -148,7 +150,6 @@ Graph.prototype.make = function() {
           .attr("class", "metrics mean line")
           .attr("d", line);
       }
-
     svg.append("path")
       .datum(data)
       .attr("class", "metrics rx area")

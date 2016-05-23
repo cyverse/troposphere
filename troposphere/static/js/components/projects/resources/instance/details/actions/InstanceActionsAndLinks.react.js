@@ -1,15 +1,19 @@
-import React from 'react';
-import Backbone from 'backbone';
-import Glyphicon from 'components/common/Glyphicon.react';
-import actions from 'actions';
-import modals from 'modals';
+import React  from 'react';
+import Backbone  from 'backbone';
+import Glyphicon  from 'components/common/Glyphicon.react';
+import actions  from 'actions';
+import modals  from 'modals';
+
+import featureFlags from 'utilities/featureFlags';
+import { findCookie } from 'utilities/cookieHelpers';
+
+import $  from 'jquery';
 
 
 export default React.createClass({
     displayName: "InstanceActionsAndLinks",
 
     propTypes: {
-      project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
@@ -42,14 +46,17 @@ export default React.createClass({
     },
 
     onDelete: function() {
-      var project = this.props.project,
-        instance = this.props.instance;
+      var instance = this.props.instance,
+          project;
+
+      if(this.props.project){
+        project = this.props.project;
+      }
 
       modals.InstanceModals.destroy({
         instance: instance,
         project: project,
-        linksTo: "project-resources",
-        params: {projectId: project.id}
+        linksTo: "project-resources"
       });
     },
 
@@ -61,9 +68,36 @@ export default React.createClass({
       modals.InstanceModals.reboot(this.props.instance);
     },
 
+    onWebDesktop: function(ipAddr, instance) {
+        // TODO:
+        //      move this into a utilties file
+        var CSRFToken = findCookie("csrftoken");
+
+        // build a form to POST to web_desktop
+        var form = $('<form>')
+            .attr("method", "POST")
+            .attr("action", "/web_desktop")
+            .attr("target", "_blank");
+
+        form.append($('<input>')
+            .attr("type", "hidden")
+            .attr("name", "ipAddress")
+            .attr("value", ipAddr));
+
+        form.append($('<input>')
+            .attr("type", "hidden")
+            .attr("name", "csrfmiddlewaretoken")
+            .attr("style", "display: none;")
+            .attr("value", CSRFToken));
+
+        $('body').append(form);
+        form[0].submit();
+    },
+
     render: function() {
       var webShellUrl = this.props.instance.shell_url(),
           remoteDesktopUrl = this.props.instance.vnc_url(),
+          usesRemoteDesktop = !!(this.props.instance && this.props.instance.get('vnc')),
           status = this.props.instance.get('state').get('status'),
           activity = this.props.instance.get('state').get('activity'),
           ip_address = this.props.instance.get('ip_address'),
@@ -93,6 +127,7 @@ export default React.createClass({
           linksArray.push({label: 'Redeploy', icon: 'repeat', onClick: this.onRedeploy});
         } else if (status === "suspended") {
           linksArray.push({label: 'Resume', icon: 'play', onClick: this.onResume});
+          linksArray.push({label: 'Reboot', icon: 'repeat', onClick: this.onReboot});
         } else if (status === "shutoff") {
           linksArray.push({label: 'Start', icon: 'play', onClick: this.onStart});
         }
@@ -113,19 +148,32 @@ export default React.createClass({
         {label: 'Links', icon: null},
         {
           label: 'Open Web Shell',
-          icon: 'credit-card',
+          icon: 'console',
           href: webShellUrl,
-          openInNewWindow: true,
-          isDisabled: webLinksDisabled
-        },
-        {
-          label: 'Remote Desktop',
-          icon: 'fullscreen',
-          href: remoteDesktopUrl,
           openInNewWindow: true,
           isDisabled: webLinksDisabled
         }
       ]);
+
+      if (usesRemoteDesktop && !featureFlags.WEB_DESKTOP) {
+        linksArray = linksArray.concat([{
+          label: 'Remote Desktop',
+          icon: 'sound-stereo',
+          href: remoteDesktopUrl,
+          openInNewWindow: true,
+          isDisabled: webLinksDisabled
+        }]);
+      }
+
+      if (featureFlags.WEB_DESKTOP) {
+          linksArray.push({
+              label: 'Web Desktop',
+              icon: 'sound-stereo',
+              onClick: this.onWebDesktop.bind(this,
+                ip_address,
+                this.props.instance),
+          });
+      }
 
       var links = linksArray.map(function(link) {
         // Links without icons are generally section headings

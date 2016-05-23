@@ -32,12 +32,14 @@ export default React.createClass({
     render: function () {
       var volume = this.props.volume,
         status = volume.get('state').get('status'),
+        style = {marginRight: "10px"},
         linksArray = [];
 
       // Add in the conditional links based on current machine state
       if (!this.props.multipleSelected && status === "available") {
         linksArray.push(
           <Button
+            style={style}
             key="Attach"
             icon="save"
             tooltip="Attach"
@@ -48,6 +50,7 @@ export default React.createClass({
       } else if (!this.props.multipleSelected && status === "in-use") {
         linksArray.push(
           <Button
+            style={style}
             key="Detach"
             icon="open"
             tooltip="Detach"
@@ -68,7 +71,7 @@ export default React.createClass({
       );
 
       return (
-        <div style={{borderLeft: "1px solid #ddd", display: "inline-block", paddingLeft: "10px", float: "right"}}>
+        <div className="clearfix u-md-pull-right">
           {linksArray}
         </div>
       );

@@ -10,7 +10,7 @@ export default {
       if(!params.instance) throw new Error("Missing instance");
 
       var instance = params.instance,
-          instanceState = new InstanceState({status_raw: "active - initializing"}),
+          instanceState = new InstanceState({status_raw: "active - initializing", status: "active", activity: "initializing"}),
           originalState = instance.get('state'),
           actionRequest = new InstanceActionRequest({instance: instance});
 
@@ -21,7 +21,7 @@ export default {
         attrs: {action: "redeploy"}
       }).done(function(){
         instance.set({
-          state: new InstanceState({status_raw: "active - initializing"})
+          state: instanceState
         });
       }).fail(function(response){
         instance.set({state: originalState});

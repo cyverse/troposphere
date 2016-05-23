@@ -15,11 +15,11 @@ export default React.createClass({
 
     onDelete: function () {
       var project = this.props.project,
-        link = this.props.link;
+        external_link = this.props.link;
 
       modals.ExternalLinkModals.destroy({
-        link: this.props.link,
-        project: this.props.project
+        project,
+        external_link
       });
     },
 
