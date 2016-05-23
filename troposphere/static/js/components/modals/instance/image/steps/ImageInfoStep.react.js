@@ -1,16 +1,14 @@
-define(function (require) {
+import $ from 'jquery';
+import React from 'react/addons';
+import Backbone from 'backbone';
+import Name from '../components/Name.react';
+import CreateUpdateFlag from '../components/CreateUpdateFlag.react';
+import Description from '../components/Description.react';
+import Tags from '../components/Tags.react';
+import actions from 'actions';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-      actions = require('actions'),
-      Backbone = require('backbone'),
-      Name = require('../components/Name.react'),
-      $ = require('jquery'),
-      CreateUpdateFlag = require('../components/CreateUpdateFlag.react'),
-      Description = require('../components/Description.react'),
-      Tags = require('../components/Tags.react'),
-      stores = require('stores');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "ImageWizard-ImageInfoStep",
 
     propTypes: {
@@ -184,7 +182,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

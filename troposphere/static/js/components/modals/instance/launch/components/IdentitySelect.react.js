@@ -1,14 +1,9 @@
+import React from 'react';
+import Backbone from 'backbone';
+import ModalMixin from 'components/mixins/modal';
+import stores from 'stores';
 
-define(
-  [
-    'react',
-    'backbone',
-    'components/mixins/modal',
-    'stores'
-  ],
-  function (React, Backbone, ModalMixin, stores) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "IdentitySelect",
 
       propTypes: {
@@ -44,6 +39,4 @@ define(
           </select>
         );
       }
-    });
-
-  });
+});

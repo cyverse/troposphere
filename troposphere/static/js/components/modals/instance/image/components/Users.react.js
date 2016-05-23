@@ -1,11 +1,9 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import stores from 'stores';
+import ChosenDropdown from 'components/common/tags/UserMultiSelect.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    stores = require('stores'),
-    ChosenDropdown = require('components/common/tags/UserMultiSelect.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "Users",
 
     propTypes: {
@@ -65,7 +63,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

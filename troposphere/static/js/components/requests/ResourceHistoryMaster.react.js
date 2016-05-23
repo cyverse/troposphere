@@ -1,11 +1,10 @@
-define(function (require) {
+import React from 'react/addons';
+import stores from 'stores';
+import ResourceActions from 'actions/ResourceActions';
+import Router from 'react-router';
 
-  var React = require('react/addons'),
-    stores = require('stores'),
-    ResourceActions = require('actions/ResourceActions'),
-    Router = require('react-router');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "MyResourceRequestsPage",
 
     mixins: [Router.State],
@@ -18,14 +17,14 @@ define(function (require) {
     render: function() {
       var username = stores.ProfileStore.get().id,
           statusTypes = stores.StatusStore.getAll();
-      
+
       if(username == null || !statusTypes){
         return <div className="loading"></div>
       }
 
       var requests = stores.ResourceRequestStore.findWhere({"created_by.username": username});
 
-      
+
       if(requests == null){
         return <div className="loading"></div>;
       }
@@ -39,7 +38,7 @@ define(function (require) {
       }
 
       var displayRequests = requests.map(function(request){
-        
+
         // Handler to allow close buton to call React class closeRequest with the proper argument
         var close = function(){
           this.closeRequest(request)
@@ -70,7 +69,7 @@ define(function (require) {
         );
 
       }.bind(this));
-      
+
       return (
         <div className="container">
           <table className = "table table-condensed image-requests">
@@ -92,7 +91,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

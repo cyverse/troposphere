@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import Backbone from 'backbone';
+import InstanceTag from 'models/InstanceTag';
+import globals from 'globals';
 
-  var Backbone = require('backbone'),
-    InstanceTag = require('models/InstanceTag'),
-    globals = require('globals');
-
-  return Backbone.Collection.extend({
+export default Backbone.Collection.extend({
     model: InstanceTag,
 
     url: globals.API_V2_ROOT + "/instance_tags",
@@ -19,7 +16,4 @@ define(function (require) {
 
       return response.results;
     }
-
-  });
-
 });

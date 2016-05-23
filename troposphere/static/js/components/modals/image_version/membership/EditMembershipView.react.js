@@ -1,12 +1,10 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import MembershipMultiSelect from './MembershipMultiSelect.react';
 
-  var React = require('react/addons'),
-      Backbone = require('backbone'),
-      MembershipMultiSelect = require('./MembershipMultiSelect.react');
+let ENTER_KEY = 13;
 
-  var ENTER_KEY = 13;
-
-  return React.createClass({
+export default React.createClass({
     displayName: "EditMembershipView",
 
     propTypes: {
@@ -65,7 +63,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

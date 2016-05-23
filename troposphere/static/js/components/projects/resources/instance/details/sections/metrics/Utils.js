@@ -1,6 +1,5 @@
-define(function(require) {
 
-  var fetch = function(uuid, urlParams, onSuccess, onError) {
+let fetch = function(uuid, urlParams, onSuccess, onError) {
     var api = API_V2_ROOT + "/metrics";
 
     // Request extra datapoints to account for occasional null data at
@@ -12,8 +11,9 @@ define(function(require) {
       "&res="   + urlParams.res   +
       "&size="  + (urlParams.size + extra);
 
-    if (urlParams.fun)
+    if (urlParams.fun) {
       req += "&fun=" + urlParams.fun;
+    }
 
     if (urlParams.from)
         req += "&from=" + urlParams.from;
@@ -26,9 +26,10 @@ define(function(require) {
       .get(function(error, json) {
 
         // The json object should be an array with length >= 1
-        if (!(json && Array.isArray(json) && json.length))
+        if (!(json && Array.isArray(json) && json.length)){
           return onError && onError();
-        var data = json[0].datapoints
+        }
+        var data = json[0].datapoints;
 
         // Trim initial/final null values
         if (data[0][0] == null){
@@ -48,8 +49,7 @@ define(function(require) {
       })
   }
 
-
-  var bytesToString = function (bytes) {
+let bytesToString = function (bytes) {
     var fmt = d3.format('.0f'),
       isNegative = bytes < 0,
       output = "";
@@ -65,17 +65,16 @@ define(function(require) {
       output = fmt(bytes / 1024 / 1024 / 1024) + 'GB';
     }
     return isNegative ? "-" + output : output;
-  }
+};
 
-  var get = function(name) {
+let get = function(name) {
     return function(obj) {
         return obj[name];
     };
-  };
+};
 
-  return {
+export default {
     get: get,
     fetch: fetch,
     bytesToString: bytesToString
-  }
-})
+};

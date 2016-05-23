@@ -1,13 +1,8 @@
+import React from 'react';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import Glyphicon from 'components/common/Glyphicon.react';
 
-define(
-  [
-    'react',
-    'components/mixins/BootstrapModalMixin.react',
-    'components/common/Glyphicon.react'
-  ],
-  function(React, BootstrapModalMixin, Glyphicon) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "InstanceRebootModal",
 
       mixins: [BootstrapModalMixin],
@@ -83,6 +78,4 @@ define(
           </div>
         );
       }
-
-    });
 });

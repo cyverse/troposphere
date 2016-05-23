@@ -1,18 +1,17 @@
-define(function (require) {
+import React from 'react/addons';
+import $ from "jquery";
+import Backbone from 'backbone';
+import stores from 'stores';
+import actions from 'actions';
+// plugin: jquery extension, not used directly
+import bootstrap from 'bootstrap';
 
-  var React = require('react/addons'),
-      $ = require("jquery"),
-    Backbone = require('backbone'),
-    stores = require('stores'),
-    actions = require('actions'),
-  // plugin: jquery extension, not used directly
-    bootstrap = require('bootstrap');
 
-  function randomIntFromInterval(min, max) {
+function randomIntFromInterval(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
-  }
+}
 
-  return React.createClass({
+export default React.createClass({
     displayName: "RefreshButton",
 
     getInitialState: function () {
@@ -75,7 +74,5 @@ define(function (require) {
         </button>
       );
     }
-
-  });
 
 });

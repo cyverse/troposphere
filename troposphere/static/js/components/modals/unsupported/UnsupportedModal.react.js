@@ -1,58 +1,52 @@
-define(function (require) {
-    var React = require('react/addons'),
-    BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
-    modernizrTest = require('components/modals/unsupported/modernizrTest.js'),
-    BreakingFeatureList = require('components/modals/unsupported/BreakingFeatureList.react'),
-    chrome = require('images/google_chrome_icon.png'),
-    firefox = require('images/firefox_icon.png'),
-    safari = require('images/safari_icon.png');
+import React from 'react/addons';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import modernizrTest from 'components/modals/unsupported/modernizrTest.js';
+import BreakingFeatureList from 'components/modals/unsupported/BreakingFeatureList.react';
+import chrome from 'images/google_chrome_icon.png';
+import firefox from 'images/firefox_icon.png';
+import safari from 'images/safari_icon.png';
 
-    
-    return React.createClass({
+
+export default React.createClass({
     displayName: "UnsupportedModal",
-    
-     mixins: [BootstrapModalMixin],
-     
-     confirm: function () {
+
+    mixins: [BootstrapModalMixin],
+
+    confirm: function () {
          this.props.closeUnsupportedModal();
          this.hide();
-     },
+    },
 
-     render: function () {
-
-     var content = (
-        <div>
-            <h4>This application uses features your browser does not support</h4>
-            <p>For the best user experience please update your browser. We recomend using a desktop or laptop with one of the following browsers.</p>
-            <div className="browser-list text-center clearfix">
-
-                <div className="browser col-sm-4">
-                    <a href="https://google.com/chrome/browser">
-                        <img src={chrome} alt="Chrome Browser" />
-                        <p>Chrome</p>
-                    </a>
+    render: function () {
+        var content = (
+            <div>
+                <h4>This application uses features your browser does not support</h4>
+                <p>For the best user experience please update your browser. We recomend using a desktop or laptop with one of the following browsers.</p>
+                <div className="browser-list text-center clearfix">
+                    <div className="browser col-sm-4">
+                        <a href="https://google.com/chrome/browser">
+                            <img src={chrome} alt="Chrome Browser" />
+                            <p>Chrome</p>
+                        </a>
+                    </div>
+                    <div className="browser col-sm-4">
+                        <a href="https://mozilla.org/en-US/firefox/new">
+                            <img src={firefox} alt="Firefox Browser" />
+                            <p>Firefox</p>
+                        </a>
+                    </div>
+                    <div className="browser col-sm-4">
+                        <a href="https://support.apple.com/en_US/downloads/safari">
+                            <img src={safari} alt="Safari Browser" />
+                            <p>Safari</p>
+                        </a>
+                    </div>
                 </div>
-
-                <div className="browser col-sm-4">
-                    <a href="https://mozilla.org/en-US/firefox/new">
-                        <img src={firefox} alt="Firefox Browser" />
-                        <p>Firefox</p>
-                    </a>
-                </div>
-
-                <div className="browser col-sm-4">
-                    <a href="https://support.apple.com/en_US/downloads/safari">
-                        <img src={safari} alt="Safari Browser" />
-                        <p>Safari</p>
-                    </a>
-                </div>
-
+                <hr />
+                <h4>Features that may cause problems with your browser</h4>
+                <BreakingFeatureList />
             </div>
-            <hr />
-            <h4>Features that may cause problems with your browser</h4>
-            <BreakingFeatureList />
-        </div>
-       );
+        );
 
         return (
           <div className="modal fade">
@@ -71,7 +65,7 @@ define(function (require) {
             </div>
           </div>
         );
-      }
 
-    });
+    }
 });
+

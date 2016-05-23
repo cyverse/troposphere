@@ -10,7 +10,6 @@ import bootstrap from 'bootstrap';
 
 import { hasLoggedInUser } from 'utilities/profilePredicate';
 
-
 let Link = Router.Link;
 
 let links = [
@@ -256,4 +255,3 @@ let Header = React.createClass({
 });
 
 export default Header;
-

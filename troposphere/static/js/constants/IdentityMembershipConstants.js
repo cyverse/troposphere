@@ -1,10 +1,6 @@
-define(function (require) {
-
-  return {
+export default {
     ADD: "ADD_IDENTITY_MEMBERSHIP",
     REMOVE: "REMOVE_IDENTITY_MEMBERSHIP",
     UPDATE: "UPDATE_IDENTITY_MEMBERSHIP",
     EMIT_CHANGE: "EMIT_CHANGE_IDENTITY_MEMBERSHIP"
-  };
-
-});
+};

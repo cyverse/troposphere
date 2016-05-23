@@ -1,13 +1,18 @@
-define(function (require) {
+import AddImage from './project/addImage';
+import CreateModal from './project/create';
+import DestroyModal from './project/destroy';
+import ExplainModal from './project/explainProjectDeleteConditions';
+import CantMoveModal from './project/cantMoveAttached';
+import MoveModal from './project/moveResources';
+import RemoveModal from './project/removeResources';
 
-  return {
-    addImage: require('./project/addImage').addImage,
-    create: require('./project/create').create,
-    destroy: require('./project/destroy').destroy,
-    explainProjectDeleteConditions: require('./project/explainProjectDeleteConditions').explainProjectDeleteConditions,
-    cantMoveAttached: require('./project/cantMoveAttached').cantMoveAttached,
-    moveResources: require('./project/moveResources').moveResources,
-    removeResources: require('./project/removeResources').removeResources
-  };
 
-});
+export default {
+    addImage: AddImage.addImage,
+    create: CreateModal.create,
+    destroy: DestroyModal.destroy,
+    explainProjectDeleteConditions: ExplainModal.explainProjectDeleteConditions,
+    cantMoveAttached: CantMoveModal.cantMoveAttached,
+    moveResources: MoveModal.moveResources,
+    removeResources: RemoveModal.removeResources
+};

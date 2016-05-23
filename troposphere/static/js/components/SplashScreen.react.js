@@ -1,13 +1,11 @@
-define(function (require) {
+import $ from 'jquery';
+import React from 'react/addons';
+import context from 'context';
+import stores from 'stores';
+import Router from '../Router';
+import routes from '../AppRoutes.react';
 
-  var $ = require('jquery'),
-    React = require('react/addons'),
-    context = require('context'),
-    stores = require('stores'),
-    Router = require('../Router'),
-    routes = require('../AppRoutes.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "SplashScreen",
 
     //
@@ -93,5 +91,3 @@ define(function (require) {
     }
 
   });
-
-});

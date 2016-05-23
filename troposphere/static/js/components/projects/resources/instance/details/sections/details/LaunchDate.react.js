@@ -1,28 +1,22 @@
+import React from 'react';
+import Backbone from 'backbone';
+import ResourceDetail from 'components/projects/common/ResourceDetail.react';
+import Time from 'components/common/Time.react';
 
-define(
-  [
-    'react',
-    'backbone',
-    'components/projects/common/ResourceDetail.react',
-    'components/common/Time.react'
-  ],
-  function (React, Backbone, ResourceDetail, Time) {
 
-    return React.createClass({
-      displayName: "LaunchDate",
+export default React.createClass({
+    displayName: "LaunchDate",
 
-      propTypes: {
+    propTypes: {
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    },
 
-      render: function () {
+    render: function () {
         return (
           <ResourceDetail label="Launched">
             <Time date={this.props.instance.get('start_date')}/>
           </ResourceDetail>
         );
-      }
+    }
 
-    });
-
-  });
+});

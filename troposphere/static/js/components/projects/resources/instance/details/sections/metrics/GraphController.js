@@ -1,19 +1,18 @@
-define(function(require) {
+// Metrics utils
+import Store from './Store';
+import CPUGraph from './CPUGraph';
+import MemoryGraph from './MemoryGraph';
+import NetworkGraph from './NetworkGraph';
 
-  // Metrics utils
-  var Store = require('./Store'),
-    CPUGraph = require('./CPUGraph'),
-    MemoryGraph = require('./MemoryGraph'),
-    NetworkGraph = require('./NetworkGraph');
 
-  var GraphController = function(config) {
+let GraphController = function(config) {
     this.container = config.container;
     this.width = config.width;
     this.store = new Store();
     this.graphs = [];
-  }
+};
 
-  GraphController.prototype.switch = function(settings, onSuccess, onError) {
+GraphController.prototype.switch = function(settings, onSuccess, onError) {
     var me = this;
 
     // Forcing a refresh is equivalent to emptying the store so that data
@@ -24,7 +23,7 @@ define(function(require) {
     var key = {
       uuid: settings.uuid,
       timeframe: settings.timeframe
-    }
+    };
 
     var graphs = this.store.get(key);
 
@@ -41,13 +40,13 @@ define(function(require) {
           container: me.container,
           width: me.width,
           timeframe: settings.timeframe
-        })
+        });
       });
 
-      me.store.set(key, graphs)
+      me.store.set(key, graphs);
 
       // Hide current graphs
-      me.graphs.forEach(function(g){ g.hide(); })
+      me.graphs.forEach(function(g){ g.hide(); });
 
       // Show spinning loader
       document.querySelector("#container.metrics .loading").style.display = "inherit";
@@ -62,20 +61,20 @@ define(function(require) {
             // Hide spinning loader
             document.querySelector("#container.metrics .loading").style.display = "none";
             graphs[2].makeAxis();
-            graphs.forEach(function(g){ g.show(); })
+            graphs.forEach(function(g){ g.show(); });
             me.graphs = graphs;
             onSuccess && onSuccess();
-          }, onError)
-        }, onError)
-      }, onError)
+          }, onError);
+        }, onError);
+      }, onError);
 
     } else {
-      me.graphs.forEach(function(g){ g.hide(); })
-      graphs.forEach(function(g){ g.show(); })
+      me.graphs.forEach(function(g){ g.hide(); });
+      graphs.forEach(function(g){ g.show(); });
       me.graphs = graphs;
       onSuccess && onSuccess();
     }
-  }
+};
 
-  return GraphController;
-});
+export default GraphController;
+

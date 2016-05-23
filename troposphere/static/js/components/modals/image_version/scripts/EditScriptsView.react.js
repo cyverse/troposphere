@@ -1,13 +1,11 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import EditDescriptionView from 'components/images/detail/description/EditDescriptionView.react';
+import ScriptMultiSelect from './ScriptMultiSelectAndCreate.react';
 
-  var React = require('react/addons'),
-      Backbone = require('backbone'),
-      EditDescriptionView = require('components/images/detail/description/EditDescriptionView.react'),
-      ScriptMultiSelect = require('./ScriptMultiSelectAndCreate.react');
+let ENTER_KEY = 13;
 
-  var ENTER_KEY = 13;
-
-  return React.createClass({
+export default React.createClass({
     displayName: "EditScriptView",
 
     propTypes: {
@@ -77,7 +75,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

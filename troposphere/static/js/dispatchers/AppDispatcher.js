@@ -1,20 +1,16 @@
-define(
-  [
-    'dispatchers/Dispatcher',
-    'underscore'
-  ],
-  function (Dispatcher, _) {
 
-    var AppDispatcher = {
-      handleRouteAction: function (action) {
+import Dispatcher from 'dispatchers/Dispatcher';
+import _ from 'underscore';
+
+var AppDispatcher = {
+    handleRouteAction: function(action) {
         Dispatcher.dispatch({
-          source: 'ROUTE_ACTION',
-          action: action
+            source: 'ROUTE_ACTION',
+            action: action
         });
-      }
-    };
+    }
+};
 
-    _.extend(AppDispatcher, Dispatcher);
+_.extend(AppDispatcher, Dispatcher);
 
-    return AppDispatcher;
-  });
+export default AppDispatcher;

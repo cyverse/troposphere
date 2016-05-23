@@ -1,19 +1,17 @@
-define(function (require) {
+import AppDispatcher from 'dispatchers/AppDispatcher';
+import Utils from './Utils';
+import NotificationController from 'controllers/NotificationController';
 
-  var AppDispatcher = require('dispatchers/AppDispatcher'),
-    Utils = require('./Utils'),
-    NotificationController = require('controllers/NotificationController'),
+// Constants
+import ImageVersionConstants from 'constants/ImageVersionConstants';
 
-  // Constants
-    ImageVersionConstants = require('constants/ImageVersionConstants'),
+// Models
+import ImageVersion from 'models/ImageVersion';
 
-  // Models
-    ImageVersion = require('models/ImageVersion'),
+// Modals
+import ModalHelpers from 'components/modals/ModalHelpers';
 
-  // Modals
-    ModalHelpers = require('components/modals/ModalHelpers');
-
-  return {
+export default {
 
     update: function(version, newAttributes) {
       if(!version) throw new Error("Missing Image Version");
@@ -45,6 +43,3 @@ define(function (require) {
 
 
   }
-
-});
-

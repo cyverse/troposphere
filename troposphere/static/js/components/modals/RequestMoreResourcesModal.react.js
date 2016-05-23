@@ -1,14 +1,9 @@
+import React from 'react';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import AUCalculator from 'components/common/AUCalculator.react';
+import stores from 'stores';
 
-define(
-  [
-    'react',
-    'components/mixins/BootstrapModalMixin.react',
-    'components/common/AUCalculator.react',
-    'stores'
-  ],
-  function (React, BootstrapModalMixin, AUCalculator, stores) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "RequestMoreResourcesModal",
 
       mixins: [BootstrapModalMixin],
@@ -176,7 +171,4 @@ define(
           </div>
         );
       }
-
-    });
-
-  });
+});

@@ -1,7 +1,5 @@
-define(function (require) {
+import VersionModal from './version/showVersion';
 
-  return {
-    showVersion: require('./version/showVersion').showVersion
-  };
-
-});
+export default {
+    showVersion: VersionModal.showVersion
+};

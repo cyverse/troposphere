@@ -1,4 +1,3 @@
-
 import React  from 'react/addons';
 import Backbone  from 'backbone';
 import Glyphicon  from 'components/common/Glyphicon.react';
@@ -236,5 +235,4 @@ export default React.createClass({
 
       );
     }
-
 });

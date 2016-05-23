@@ -1,23 +1,21 @@
-define(function (require) {
-  "use strict";
+import React from 'react/addons';
+import stores from 'stores';
+import Backbone from 'backbone';
+import context from 'context';
+import globals from 'globals';
+import Header from './Header.react';
+import Footer from './Footer.react';
+import actions from 'actions';
+import showUnsupportedModal from 'modals/unsupported/showUnsupportedModal.js';
+import modernizrTest from 'components/modals/unsupported/modernizrTest.js';
+import NullProject from 'models/NullProject';
 
-  var React = require('react/addons'),
-      stores = require('stores'),
-      Backbone = require('backbone'),
-      context = require('context'),
-      globals = require('globals'),
-      Header = require('./Header.react'),
-      Footer = require('./Footer.react'),
-      actions = require('actions'),
-      showUnsupportedModal = require('modals/unsupported/showUnsupportedModal.js'),
-      modernizrTest = require('components/modals/unsupported/modernizrTest.js'),
-      NullProject = require('models/NullProject');
+// Routing
+import Router from 'react-router';
 
-  // Routing
-  var Router = require('react-router'),
-    RouteHandler = Router.RouteHandler;
+let RouteHandler = Router.RouteHandler;
 
-  return React.createClass({
+export default React.createClass({
     displayName: "Master",
 
     mixins: [Router.State],
@@ -83,7 +81,6 @@ define(function (require) {
       }
 
       if (modernizrTest.unsupported()) {
-
         if (!nullProject.isEmpty()) {
             actions.NullProjectActions.migrateResourcesIntoProject(nullProject);
         } else {
@@ -96,8 +93,6 @@ define(function (require) {
       }
 
     },
-
-
 
     componentWillUnmount: function () {
       // un-subscribe from all Stores
@@ -136,7 +131,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

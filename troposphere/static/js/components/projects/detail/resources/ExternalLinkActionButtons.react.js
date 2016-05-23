@@ -1,12 +1,11 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import Button from './Button.react';
+import actions from 'actions';
+import modals from 'modals';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    Button = require('./Button.react'),
-    actions = require('actions'),
-    modals = require('modals');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "ExternalLinkActionButtons",
 
     propTypes: {
@@ -26,6 +25,7 @@ define(function (require) {
     render: function () {
       var external_link = this.props.external_link,
         linksArray = [];
+
       linksArray.push(
         <Button
           key="Delete"
@@ -42,7 +42,5 @@ define(function (require) {
         </div>
       );
     }
-
-  });
 
 });

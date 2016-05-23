@@ -1,15 +1,14 @@
-define(function (require) {
-  var ENTER_KEY = 13;
+import React from 'react/addons';
+import Backbone from 'backbone';
+import _ from 'underscore';
+import ChosenDropdownItem from 'components/common/chosen/ChosenDropdownItem.react';
+import ChosenSelectedItem from 'components/common/chosen/ChosenSelectedItem.react';
+import ChosenMixinExternal from 'components/mixins/ChosenMixinExternal.react';
+import CreateScriptView from './CreateScriptView.react';
 
-  var React = require('react/addons'),
-      Backbone = require('backbone'),
-      _ = require('underscore'),
-      ChosenDropdownItem = require('components/common/chosen/ChosenDropdownItem.react'),
-      ChosenSelectedItem = require('components/common/chosen/ChosenSelectedItem.react'),
-      ChosenMixinExternal = require('components/mixins/ChosenMixinExternal.react'),
-      CreateScriptView = require('./CreateScriptView.react');
+let ENTER_KEY = 13;
 
-  return React.createClass({
+export default React.createClass({
     displayName: "ScriptMultiSelectAndCreate",
 
     mixins: [ChosenMixinExternal],
@@ -156,8 +155,4 @@ define(function (require) {
         </div>
       );
     }
-
-
-  })
-
 });

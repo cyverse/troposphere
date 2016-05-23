@@ -1,12 +1,11 @@
-define(function (require) {
 
-  var AppDispatcher = require('dispatchers/AppDispatcher'),
-    InstanceTagConstants = require('constants/InstanceTagConstants'),
-    InstanceTag = require('models/InstanceTag'),
-    Utils = require('./Utils'),
-    stores = require('stores');
+import AppDispatcher from 'dispatchers/AppDispatcher';
+import InstanceTagConstants from 'constants/InstanceTagConstants';
+import InstanceTag from 'models/InstanceTag';
+import Utils from './Utils';
+import stores from 'stores';
 
-  return {
+export default {
 
     add: function (params) {
       if (!params.instance) throw new Error("Missing instance");
@@ -48,5 +47,3 @@ define(function (require) {
     }
 
   };
-
-});

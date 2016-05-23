@@ -1,14 +1,9 @@
+import React from 'react';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import Glyphicon from 'components/common/Glyphicon.react';
+import VolumeCollection from 'collections/VolumeCollection';
 
-define(
-  [
-    'react',
-    'components/mixins/BootstrapModalMixin.react',
-    'components/common/Glyphicon.react',
-    'collections/VolumeCollection',
-  ],
-  function (React, BootstrapModalMixin, Glyphicon, VolumeCollection) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "ExplainInstanceDeleteConditionsModal",
 
       propTypes: {
@@ -47,8 +42,8 @@ define(
                 {this.renderAttachedVolumes()}
               </ul>
               <p>
-                { 
-                  "Detach the above volumes to safely delete this instance. " + 
+                {
+                  "Detach the above volumes to safely delete this instance. " +
                   "If volumes are being read or written to, instance deletion can corrupt volumes. "
                 }
                 <a style={{color: "black", textDecoration: "underline"}} onClick={this.confirm}>Delete anyway</a>.
@@ -79,7 +74,4 @@ define(
           </div>
         );
       }
-
-    });
-
-  });
+});

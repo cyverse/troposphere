@@ -1,19 +1,14 @@
+import React from 'react';
+import Backbone from 'backbone';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 
-define(
-  [
-    'react',
-    'backbone',
-    'components/mixins/BootstrapModalMixin.react'
-  ],
-  function (React, Backbone, BootstrapModalMixin) {
-
-    function getState() {
-      return {
+function getState() {
+    return {
         feedback: null
-      };
-    }
+    };
+}
 
-    return React.createClass({
+export default React.createClass({
       displayName: "ProjectReportResourceModal",
 
       mixins: [BootstrapModalMixin],
@@ -135,7 +130,4 @@ define(
           </div>
         );
       }
-
-    });
-
-  });
+});

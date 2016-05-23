@@ -1,12 +1,12 @@
-define(function (require) {
-  var React = require('react'),
-    Backbone = require('backbone'),
-    globals = require('globals'),
-    moment = require('moment'),
-    // implicit include within context for `.tz()`
-    momentTZ = require('moment-timezone');
 
-  return React.createClass({
+import React from 'react';
+import Backbone from 'backbone';
+import globals from 'globals';
+import moment from 'moment';
+// implicit include within context for `.tz()`
+import momentTZ from 'moment-timezone';
+
+export default React.createClass({
     displayName: "RemovedView",
 
     propTypes: {
@@ -36,7 +36,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

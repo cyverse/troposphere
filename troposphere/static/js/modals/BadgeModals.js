@@ -1,8 +1,7 @@
-define(function (require) {
+import BadgeModal from './badge/ShowBadge';
+import MyBadgeModal from './badge/ShowMyBadge';
 
-  return {
-    showBadge: require('./badge/ShowBadge').ShowBadge,
-    showMyBadge: require('./badge/ShowMyBadge').ShowMyBadge
-  };
-
-});
+export default {
+    showBadge: BadgeModal.ShowBadge,
+    showMyBadge: MyBadgeModal.ShowMyBadge
+};

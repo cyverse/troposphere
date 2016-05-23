@@ -1,10 +1,8 @@
-define(function (require) {
+import Utils from './Utils';
+import Router from '../Router';
+import Constants from 'constants/ResourceRequestConstants';
 
-  var Utils = require('./Utils'),
-    Router = require('../Router'),
-    Constants = require('constants/ResourceRequestConstants');
-
-  return {
+export default {
     close: function(params){
       var request = params.request;
       var newAttributes = {
@@ -38,6 +36,4 @@ define(function (require) {
         Utils.dispatch(Constants.REMOVE, {model: request});
       });
     }
-  };
-
-});
+};

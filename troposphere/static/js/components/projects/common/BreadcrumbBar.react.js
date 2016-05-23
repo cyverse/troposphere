@@ -1,13 +1,8 @@
+import React from 'react';
+import Backbone from 'backbone';
+import Breadcrumb from './Breadcrumb.react';
 
-define(
-  [
-    'react',
-    'backbone',
-    './Breadcrumb.react'
-  ],
-  function (React, Backbone, Breadcrumb) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "ProjectsBreadcrumbBar",
 
       propTypes: {
@@ -50,7 +45,4 @@ define(
           </div>
         );
       }
-
-    });
-
-  });
+});

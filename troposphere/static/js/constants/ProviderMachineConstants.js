@@ -1,12 +1,7 @@
-define(
-  [],
-  function () {
 
-    return {
+export default {
       ADD_PROVIDER_MACHINE: "ADD_PROVIDER_MACHINE",
       UPDATE_PROVIDER_MACHINE: "UPDATE_PROVIDER_MACHINE",
       REMOVE_PROVIDER_MACHINE: "REMOVE_PROVIDER_MACHINE",
       EMIT_CHANGE: "EMIT_CHANGE"
     };
-
-  });

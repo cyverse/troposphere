@@ -1,12 +1,10 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import ChosenDropdownTag from './ChosenDropdownTag.react';
+import ChosenSelectedTag from './ChosenSelectedTag.react';
+import ChosenMixin from 'components/mixins/ChosenMixinExternal.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    ChosenDropdownTag = require('./ChosenDropdownTag.react'),
-    ChosenSelectedTag = require('./ChosenSelectedTag.react'),
-    ChosenMixin = require('components/mixins/ChosenMixinExternal.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "UserMultiSelect",
 
     mixins: [ChosenMixin],
@@ -59,7 +57,4 @@ define(function (require) {
     render: function() {
       return this.renderChosenSearchSelect();
     }
-
-  })
-
-});
+})

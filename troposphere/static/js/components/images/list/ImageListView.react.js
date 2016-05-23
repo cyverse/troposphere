@@ -1,18 +1,16 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import stores from 'stores';
+import ImageCollection from 'collections/ImageCollection';
+import ImageCardList from './list/ImageCardList.react';
+import ImageCardGrid from './grid/ImageCardGrid.react';
+import SecondaryImageNavigation from '../common/SecondaryImageNavigation.react';
+import Router from 'react-router';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    stores = require('stores'),
-    ImageCollection = require('collections/ImageCollection'),
-    ImageCardList = require('./list/ImageCardList.react'),
-    ImageCardGrid = require('./grid/ImageCardGrid.react'),
-    SecondaryImageNavigation = require('../common/SecondaryImageNavigation.react'),
-    Router = require('react-router');
-
-  var timer,
+let timer,
     timerDelay = 100;
 
-  return React.createClass({
+export default React.createClass({
 
     mixins: [Router.State],
 
@@ -295,7 +293,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

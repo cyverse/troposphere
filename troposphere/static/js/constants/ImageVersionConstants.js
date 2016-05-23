@@ -1,9 +1,6 @@
-define(function(require) {
 
-  return {
+export default {
     IMAGE_VERSION_FETCH_DETAIL: "IMAGE_VERSION_FETCH_DETAIL",
     IMAGE_VERSION_SEARCH: "IMAGE_VERSION_SEARCH",
     IMAGE_VERSION_UPDATE: "IMAGE_VERSION_UPDATE"
   };
-
-});

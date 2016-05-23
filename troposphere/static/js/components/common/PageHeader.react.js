@@ -1,9 +1,7 @@
-define(function (require) {
+import React from 'react/addons';
+import Glyphicon from 'components/common/Glyphicon.react';
 
-  var React = require('react/addons'),
-    Glyphicon = require('components/common/Glyphicon.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "PageHeader",
 
     getInitialState: function () {
@@ -56,7 +54,4 @@ define(function (require) {
     showHelpText: function () {
       this.setState({showHelpText: !this.state.showHelpText});
     }
-
-  });
-
 });

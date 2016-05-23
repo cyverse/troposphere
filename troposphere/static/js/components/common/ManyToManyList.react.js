@@ -1,8 +1,7 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone');
-  return React.createClass({
+export default React.createClass({
     displayName: "ManyToManyList",
 
     propTypes: {
@@ -59,7 +58,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

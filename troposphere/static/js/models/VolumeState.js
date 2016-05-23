@@ -1,25 +1,19 @@
-define(
-  [
-    'underscore',
-    'backbone'
-  ],
-  function (_, Backbone) {
+import _ from 'underscore';
+import Backbone from 'backbone';
 
-    var get_percent_complete = function (state) {
-
-      // Number represents percent task *completed* when in this state
-      var states = {
+let get_percent_complete = function(state) {
+    // Number represents percent task *completed* when in this state
+    var states = {
         'detaching': 50,
         'attaching': 50,
         'available': 100,
         'in-use': 100
-      };
-
-      return states[state];
     };
 
-    return Backbone.Model.extend({
+    return states[state];
+};
 
+export default Backbone.Model.extend({
       isInFinalState: function () {
         var finalStates = [
           'available',
@@ -46,7 +40,4 @@ define(
       initialize: function (attributes, options) {
         this.set('status', attributes.status_raw);
       }
-
-    });
-
-  });
+});

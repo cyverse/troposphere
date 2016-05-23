@@ -1,15 +1,13 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import BreadcrumbBar from 'components/projects/common/BreadcrumbBar.react';
+import InstanceInfoSection from './sections/InstanceInfoSection.react';
+import InstanceDetailsSection from './sections/InstanceDetailsSection.react';
+import InstanceMetricsSection from './sections/InstanceMetricsSection.react';
+import InstanceActionsAndLinks from './actions/InstanceActionsAndLinks.react';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    BreadcrumbBar = require('components/projects/common/BreadcrumbBar.react'),
-    InstanceInfoSection = require('./sections/InstanceInfoSection.react'),
-    InstanceDetailsSection = require('./sections/InstanceDetailsSection.react'),
-    InstanceMetricsSection = require('./sections/InstanceMetricsSection.react'),
-    InstanceActionsAndLinks = require('./actions/InstanceActionsAndLinks.react'),
-    stores = require('stores');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "InstanceDetailsView",
 
     propTypes: {
@@ -62,7 +60,5 @@ define(function (require) {
         </div>
       );
     }
-
-  });
 
 });

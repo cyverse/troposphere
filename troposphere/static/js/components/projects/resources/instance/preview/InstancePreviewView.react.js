@@ -1,18 +1,16 @@
-define(function (require) {
-  'use strict';
+import React from 'react';
+import Id from '../details/sections/details/Id.react';
+import Status from '../details/sections/details/Status.react';
+import Activity from '../details/sections/details/Activity.react';
+import Size from '../details/sections/details/Size.react';
+import IpAddress from '../details/sections/details/IpAddress.react';
+import LaunchDate from '../details/sections/details/LaunchDate.react';
+import CreatedFrom from '../details/sections/details/CreatedFrom.react';
+import Identity from '../details/sections/details/Identity.react';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-    stores = require('stores'),
-    Id = require('../details/sections/details/Id.react'),
-    Status = require('../details/sections/details/Status.react'),
-    Activity = require('../details/sections/details/Activity.react'),
-    Size = require('../details/sections/details/Size.react'),
-    IpAddress = require('../details/sections/details/IpAddress.react'),
-    LaunchDate = require('../details/sections/details/LaunchDate.react'),
-    CreatedFrom = require('../details/sections/details/CreatedFrom.react'),
-    Identity = require('../details/sections/details/Identity.react');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "InstancePreviewView",
 
     propTypes: {
@@ -37,7 +35,5 @@ define(function (require) {
         </ul>
       );
     }
-
-  });
 
 });

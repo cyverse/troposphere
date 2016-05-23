@@ -1,36 +1,31 @@
+import React from 'react';
+import Backbone from 'backbone';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import stores from 'stores';
+import ProjectSelect from '../instance_launch/ProjectSelect.react';
 
-define(
-  [
-    'react',
-    'backbone',
-    'components/mixins/BootstrapModalMixin.react',
-    'stores',
-    '../instance_launch/ProjectSelect.react'
-  ],
-  function (React, Backbone, BootstrapModalMixin, stores, ProjectSelect) {
 
-    function getState(currentProject, currentState) {
-      var state = {
+function getState(currentProject, currentState) {
+    var state = {
         projects: stores.ProjectStore.getAll(),
         projectId: null
-      };
-
-      // Use selected project or default to the null one
-      if (state.projects) {
+    };
+    // Use selected project or default to the null one
+    if (state.projects) {
         state.projects = state.projects.clone();
         state.projects.remove(currentProject);
 
         // todo: Account for the scenario when the only project is the current one
         // and the length of projects will now be zero
         if (state.projects.models.length > 0) {
-          state.projectId = currentState.projectId || state.projects.first().id;
+            state.projectId = currentState.projectId || state.projects.first().id;
         }
-      }
-
-      return state;
     }
 
-    return React.createClass({
+    return state;
+}
+
+export default React.createClass({
       displayName: "ProjectMoveResourceModal",
 
       mixins: [BootstrapModalMixin],
@@ -178,7 +173,4 @@ define(
           </div>
         );
       }
-
-    });
-
-  });
+});

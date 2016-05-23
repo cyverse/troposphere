@@ -1,9 +1,7 @@
-define(function (require) {
+import React from 'react/addons';
+import Moment from 'moment';
 
-  var React = require('react/addons'),
-    Moment = require('moment');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "Time",
 
     propTypes: {
@@ -43,5 +41,3 @@ define(function (require) {
     }
 
   });
-
-});

@@ -3,7 +3,7 @@ import Backbone from 'backbone';
 import StatusLight from 'components/projects/common/StatusLight.react';
 import StatusBar from './StatusBar.react';
 
-var Status = React.createClass({
+export default React.createClass({
     displayName: "Status",
 
     propTypes: {
@@ -53,7 +53,4 @@ var Status = React.createClass({
           </span>
         );
     }
-
 });
-
-export default Status;

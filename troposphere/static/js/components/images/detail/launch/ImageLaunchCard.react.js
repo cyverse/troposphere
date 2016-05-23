@@ -1,37 +1,34 @@
+import React from 'react';
+import Gravatar from 'components/common/Gravatar.react';
+import Backbone from 'backbone';
+import Bookmark from 'components/images/common/Bookmark.react';
+import context from 'context';
+import moment from 'moment';
+import stores from 'stores';
 
-define(
-  [
-    'react',
-    'components/common/Gravatar.react',
-    'backbone',
-    'components/images/common/Bookmark.react',
-    'context',
-    'moment',
-    'stores'
-  ],
-  function (React, Gravatar, Backbone, Bookmark, context, moment, stores) {
 
-    // Note:
-    // -----
-    // pulled out of a defunct module called 'url', in history you can
-    // see it -> `troposphere/static/js/url.js`. This module was used
-    // for building internal, in-app links prior to the adoption of
-    // React-Router. When the Public Image Catalog was re-introduced,
-    // @lenards (me) carelessly added back the "Login to Launch"
-    // functionality without properly wiring in the internal URLs
-    //
-    // this is a stop-gap, but not a full fix
-    //
-    // FIXME: use React-Router Link objects or external link + push state
-    var buildImageUrl = function (model) {
-        return '/application/images/' + model.id;
-    }
+// Note:
+// -----
+// pulled out of a defunct module called 'url', in history you can
+// see it -> `troposphere/static/js/url.js`. This module was used
+// for building internal, in-app links prior to the adoption of
+// React-Router. When the Public Image Catalog was re-introduced,
+// @lenards (me) carelessly added back the "Login to Launch"
+// functionality without properly wiring in the internal URLs
+//
+// this is a stop-gap, but not a full fix
+//
+// FIXME: use React-Router Link objects or external link + push state
+let buildImageUrl = function (model) {
+    return '/application/images/' + model.id;
+}
 
-    var buildLoginUrl = function () {
-        return '/login'
-    }
+let buildLoginUrl = function () {
+    return '/login'
+}
 
-    return React.createClass({
+
+export default React.createClass({
       displayName: "ImageLaunchCard",
 
       propTypes: {
@@ -43,7 +40,7 @@ define(
         var image = this.props.image;
         var versions = stores.ImageStore.getVersions(image.id);
         var type = stores.ProfileStore.get().get('icon_set');
-        var hasLoggedInUser = context.hasLoggedInUser();
+        var loggedInUser = context.hasLoggedInUser();
 
         var iconSize = 145;
         // always use the Gravatar icons
@@ -53,7 +50,7 @@ define(
 
         // Hide bookmarking on the public page
         var bookmark;
-        if (hasLoggedInUser) {
+        if (loggedInUser) {
           bookmark = (
             <Bookmark image={image}/>
           );
@@ -70,7 +67,7 @@ define(
         //When versions is 'not loaded' OR 'has length > 0', you can launch.
         var canLaunch = (versions !== null && versions.length !== 0) ? true : false;
         var button;
-        if (hasLoggedInUser) {
+        if (loggedInUser) {
           button = (
             <button className='btn btn-primary launch-button'
                 onClick={this.props.onLaunch}
@@ -104,7 +101,4 @@ define(
           </div>
         );
       }
-
-    });
-
-  });
+});

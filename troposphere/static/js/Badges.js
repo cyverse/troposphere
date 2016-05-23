@@ -1,5 +1,5 @@
-define(function(require){
-  return{
+
+export default {
     LAUNCH_1_INSTANCE_BADGE: 1,
     LAUNCH_10_INSTANCES_BADGE: 2,
     ATTACH_VOLUME_BADGE: 3,
@@ -11,5 +11,4 @@ define(function(require){
     FAVORITE_5_IMAGES_BADGE: 8,
     UBUNTU_INSTANCE_BADGE: 9,
     CENTOS_INSTANCE_BADGE: 10
-  }
-});
+  };

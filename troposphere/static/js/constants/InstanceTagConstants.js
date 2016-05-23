@@ -1,8 +1,5 @@
-define(function (require) {
 
-  return {
+export default {
     ADD_INSTANCE_TAG: "ADD_INSTANCE_TAG",
     REMOVE_INSTANCE_TAG: "REMOVE_INSTANCE_TAG"
   };
-
-});

@@ -1,11 +1,9 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import moment from 'moment';
+import Router from 'react-router';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    moment = require('moment'),
-    Router = require('react-router');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "ImageCreatedMessage",
 
     propTypes: {
@@ -36,7 +34,4 @@ define(function (require) {
         </li>
       );
     }
-
-  });
-
 });
