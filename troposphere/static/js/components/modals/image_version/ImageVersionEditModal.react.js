@@ -47,9 +47,9 @@ define(function (require) {
         versionLicenses: null,
         versionScripts: null,
         versionMemberships: null,
-        versionMinCPU: version.get('min_cpu'),
+        versionMinCPU: (version.get('min_cpu') == null) ? 0 : version.get('min_cpu'),
         // display memory as GB
-        versionMinMem: version.get('min_mem') / 1024
+        versionMinMem: (version.get('min_mem') == null) ? 0 : version.get('min_mem') / 1024
       }
     },
 
