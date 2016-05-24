@@ -2,7 +2,7 @@
   background-color: white;
   border-color: #E5004A; }
   .navbar-default .navbar-nav > li > a {
-    color: #b9b9b9; }
+    color: #bababa; }
   .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-default .navbar-nav > li > a:focus {
     color: black;
     background-color: white; }
@@ -29,7 +29,7 @@
       position: absolute;
       right: 0;
       top: 10px;
-      content: "DEMO";
+      content: "";
       background-color: #eeeeee;
       padding: 5px;
       line-height: 100%;
@@ -141,7 +141,7 @@ fieldset[disabled] .btn-primary.active {
 
 #dashboard-view .option {
   font-size: 13px !important;
-  font-family: Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: Univers, Calibri, "Gill Sans", "Gill Sans MT", "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
   background-color: #FFF;
   box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.1);
   border-radius: 3px;
