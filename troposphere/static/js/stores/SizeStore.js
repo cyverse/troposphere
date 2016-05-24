@@ -17,7 +17,7 @@ define(function (require) {
 
     this.models.each(function(model){
       shouldAdd = true;
-      for(param in params){ 
+      for(param in params){
         if(model.get(param) < params[param]){
           shouldAdd = false;
         }
@@ -26,7 +26,7 @@ define(function (require) {
         results.push(model);
       }
     });
-    
+
     return results;
   }
 
