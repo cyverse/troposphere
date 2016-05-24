@@ -25,18 +25,6 @@
     color: #E5004A; }
     .navbar-default .navbar-brand::before {
       content: ""; }
-    .navbar-default .navbar-brand::after {
-      position: absolute;
-      right: 0;
-      top: 10px;
-      content: "";
-      background-color: #eeeeee;
-      padding: 5px;
-      line-height: 100%;
-      border-radius: 3px;
-      font-size: 70%;
-      margin-left: 8px;
-      letter-spacing: .1em; }
     .navbar-default .navbar-brand a {
       color: #E5004A; }
     .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
@@ -141,7 +129,7 @@ fieldset[disabled] .btn-primary.active {
 
 #dashboard-view .option {
   font-size: 13px !important;
-  font-family: Univers, Calibri, "Gill Sans", "Gill Sans MT", "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
   background-color: #FFF;
   box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.1);
   border-radius: 3px;
@@ -164,3 +152,9 @@ fieldset[disabled] .btn-primary.active {
     font-weight: normal; }
   #dashboard-view .option hr {
     border: 1px solid #EEE !important; }
+
+.splash-image {
+  text-align: center;
+  background-image: none;
+  background-repeat: no-repeat;
+  display: none; }
