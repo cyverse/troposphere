@@ -22,11 +22,13 @@ define(function (require) {
     },
 
     comparator: function (sizeA, sizeB) {
-      var aliasA = parseInt(sizeA.get('alias'));
-      var aliasB = parseInt(sizeB.get('alias'));
+      var cpu_a = parseInt(sizeA.get('cpu'));
+      var cpu_b = parseInt(sizeB.get('cpu'));
+      var mem_a = parseInt(sizeA.get('mem'));
+      var mem_b = parseInt(sizeB.get('mem'));
 
-      if (aliasA === aliasB) return 0;
-      return aliasA < aliasB ? -1 : 1;
+      if (cpu_a === cpu_b) return mem_a < mem_b ? -1 : 1;
+      return cpu_a < cpu_b ? -1 : 1;
     }
 
   });
