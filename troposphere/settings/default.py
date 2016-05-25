@@ -7,7 +7,7 @@ https://docs.djangoproject.com/en/1.6/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
-UI_VERSION = "Larping Loon"
+UI_VERSION = "Nautical Nighthawk"
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
@@ -98,8 +98,10 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 # code execution vulnerability. So keep this.
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
+SESSION_COOKIE_NAME = 'tropo_sessionid'
+
 # default cookie age to # of seconds in 2 days
-#SESSION_COOKIE_AGE = (2 * 24 * 60 * 60)
+SESSION_COOKIE_AGE = (2 * 24 * 60 * 60)
 
 # default an emulated session to # of seconds in 3 hours
 EMULATED_SESSION_COOKIE_AGE = (3 * 60 * 60)
