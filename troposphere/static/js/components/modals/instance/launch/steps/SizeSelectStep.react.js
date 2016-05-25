@@ -8,9 +8,9 @@ let ENTER_KEY = 13;
 let selectedSize, selectedIdentity;
 
 export default React.createClass({
-      displayName: "InstanceLaunchWizardModal-SizeSelectStep",
+        displayName: "InstanceLaunchWizardModal-SizeSelectStep",
 
-      propTypes: {
+        propTypes: {
             identity: React.PropTypes.instanceOf(Backbone.Model).isRequired,
             size: React.PropTypes.instanceOf(Backbone.Model),
             onPrevious: React.PropTypes.func.isRequired,
@@ -269,10 +269,10 @@ export default React.createClass({
 
         var minCPUInt = this.props.version.get('min_cpu'),
           minMemInt = this.props.version.get('min_mem');
-          
+
 
         var potentialSizeList = stores.SizeStore.filterWhereGreaterThanOrEqualTo({
-          'cpu': this.props.version.get('min_cpu'), 
+          'cpu': this.props.version.get('min_cpu'),
           'mem': this.props.version.get('min_mem') / 1024
           });
 

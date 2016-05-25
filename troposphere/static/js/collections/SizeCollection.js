@@ -18,12 +18,16 @@ export default Backbone.Collection.extend({
       return response.results;
     },
 
-    comparator: function (sizeA, sizeB) {
-      var aliasA = parseInt(sizeA.get('alias'));
-      var aliasB = parseInt(sizeB.get('alias'));
+    comparator: function (lhs, rhs) {
+      var lhsCPU = parseInt(lhs.get('cpu'));
+      var rhsCPU = parseInt(rhs.get('cpu'));
 
-      if (aliasA === aliasB) return 0;
-      return aliasA < aliasB ? -1 : 1;
+      if (lhsCPU === rhsCPU) {
+        var lhsRAM = parseInt(lhs.get('mem')),
+            rhsRAM = parseInt(rhs.get('mem'));
+        return lhsRAM - rhsRAM;
+      }
+      return lhsCPU < rhsCPU ? -1 : 1;
     }
 
 });
