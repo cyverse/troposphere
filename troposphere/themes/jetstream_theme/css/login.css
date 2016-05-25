@@ -44,7 +44,7 @@ h4, h5 {
   box-shadow: 0 0 0 1px #666 inset, 0 0 0 2px #FFA876 inset, 0 28px 32px -8px #fbb03b inset, 1px 1px 3px rgba(0, 0, 0, 0.2);
   color: #fff;
   font-size: 14px;
-  font-family: Univers,Calibri,"Gill Sans","Gill Sans MT","Myriad Pro",Myriad,"DejaVu Sans Condensed","Liberation Sans","Nimbus Sans L",Tahoma,Geneva,"Helvetica Neue",Helvetica,Arial,sans-serif !important;
+  font-family: Univers,Calibri,"Gill Sans","Gill Sans MT","DejaVu Sans Condensed","Liberation Sans","Nimbus Sans L",Tahoma,Geneva,"Helvetica Neue",Helvetica,Arial,sans-serif !important;
   cursor: pointer;
   padding: 15px 35px;
   -webkit-border-radius: 5px;
