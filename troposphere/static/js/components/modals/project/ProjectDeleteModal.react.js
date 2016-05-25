@@ -1,13 +1,8 @@
+import React from 'react';
+import Backbone from 'backbone';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 
-define(
-  [
-    'react',
-    'backbone',
-    'components/mixins/BootstrapModalMixin.react'
-  ],
-  function (React, Backbone, BootstrapModalMixin) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "ProjectDeleteModal",
 
       mixins: [BootstrapModalMixin],
@@ -77,7 +72,4 @@ define(
           </div>
         );
       }
-
-    });
-
-  });
+});

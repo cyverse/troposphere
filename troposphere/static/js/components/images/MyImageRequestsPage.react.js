@@ -1,11 +1,10 @@
-define(function(require) {
+import React from 'react/addons';
+import moment from 'moment';
+import RefreshComponent from 'components/projects/resources/instance/details/sections/metrics/RefreshComponent.react';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-    moment = require('moment'),
-    RefreshComponent = require('components/projects/resources/instance/details/sections/metrics/RefreshComponent.react'),
-    stores = require('stores');
-
-  return React.createClass({
+export default React.createClass({
+    displayName: "MyImageRequestsPage",
 
     getInitialState: function(){
       // start fetching the relevant models before the component is rendered
@@ -149,7 +148,4 @@ define(function(require) {
         </div>
       );
     }
-
-  });
-
 });

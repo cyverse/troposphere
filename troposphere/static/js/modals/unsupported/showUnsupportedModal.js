@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import actions from 'actions';
+import ModalHelpers from 'components/modals/ModalHelpers';
+import UnsupportedModal from 'components/modals/unsupported/UnsupportedModal.react';
 
-  var actions = require('actions'),
-    ModalHelpers = require('components/modals/ModalHelpers'),
-    UnsupportedModal = require('components/modals/unsupported/UnsupportedModal.react');
-  return {
-
+export default {
     showModal: function (handler) {
 
       var props = {
@@ -18,7 +15,4 @@ define(function (require) {
       ModalHelpers.renderModal(UnsupportedModal, props, function () {
       });
     }
-
-  };
-
-});
+};

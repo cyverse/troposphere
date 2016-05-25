@@ -1,51 +1,47 @@
-   var modernizr = require('lib/modernizr-latest.js'),
-       _ = require('underscore');
-   var features = modernizr;
+import modernizr from 'lib/modernizr-latest.js';
+import _ from 'underscore';
 
-   var requiredFeatures = [
-        //this we know we don't have support
-        //'regions',
-        //'microdata',
-        //'proximity',
-        //'display-runin',
-        //'mathml',
-        //'dart',
-        //the actual tests, so far, we are concerned about
-        'cssanimations',
-        'es5',
-        'es5array',
-        'es5date',
-        'es5function',
-        'es5object',
-        'strictmode',
-        'es5string',
-        'json',
-        'es5syntax',
-        'es5undefined',
-        'ruby',
-        'svg',
-        'flexbox',
-        'inlinesvg',
-        'cssgradients',
-        'rgba',
-        'eventlistener',
-        'ellipsis'
-    ];
+let features = modernizr;
 
-    var unsupportedFeatures = _.map(_.filter(_.pairs(features), _.negate(_.last)), _.first);
-    var breakingFeatures = _.intersection(requiredFeatures, unsupportedFeatures);
+let requiredFeatures = [
+    //this we know we don't have support
+    //'regions',
+    //'microdata',
+    //'proximity',
+    //'display-runin',
+    //'mathml',
+    //'dart',
+    //the actual tests, so far, we are concerned about
+    'cssanimations',
+    'es5',
+    'es5array',
+    'es5date',
+    'es5function',
+    'es5object',
+    'strictmode',
+    'es5string',
+    'json',
+    'es5syntax',
+    'es5undefined',
+    'ruby',
+    'svg',
+    'flexbox',
+    'inlinesvg',
+    'cssgradients',
+    'rgba',
+    'eventlistener',
+    'ellipsis'
+];
 
-    //console.log("Unsupported = " + unsupportedFeatures);
-    //console.log("Breaking Bad = " + breakingFeatures);
+let unsupportedFeatures = _.map(_.filter(_.pairs(features), _.negate(_.last)), _.first);
+let breakingFeatures = _.intersection(requiredFeatures, unsupportedFeatures);
 
-    var unsupported = function(){
-                return breakingFeatures.length <= 0;
-        };
+let unsupported = function() {
+    return breakingFeatures.length <= 0;
+};
 
-    module.exports =  {
+export default {
         unsupportedFeatures: unsupportedFeatures,
         breakingFeatures: breakingFeatures,
         unsupported: unsupported,
-    }
-
-
+};

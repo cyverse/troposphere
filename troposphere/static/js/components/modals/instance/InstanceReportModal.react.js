@@ -1,10 +1,9 @@
-define(function (require) {
-    var React = require('react'),
-      BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
-      Glyphicon = require('components/common/Glyphicon.react'),
-      _ = require("underscore");
+import React from 'react';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import Glyphicon from 'components/common/Glyphicon.react';
+import _ from "underscore";
 
-    return React.createClass({
+export default React.createClass({
       displayName: "InstanceReportModal",
 
       mixins: [BootstrapModalMixin],
@@ -182,7 +181,4 @@ define(function (require) {
           </div>
         );
       }
-
-    });
-
-  });
+});

@@ -5,10 +5,10 @@ import stores from 'stores';
 import Glyphicon from 'components/common/Glyphicon.react';
 import actions from 'actions';
 import ResourceActions from 'actions/ResourceActions';
-var RouteHandler = Router.RouteHandler;
 
-var ResourceRequest = React.createClass({
+let RouteHandler = Router.RouteHandler;
 
+let ResourceRequest = React.createClass({
     mixins: [Router.State],
 
     getInitialState: function(){
@@ -293,8 +293,6 @@ var ResourceRequest = React.createClass({
         </div>
       );
     }
-
-
 });
 
 export default ResourceRequest;

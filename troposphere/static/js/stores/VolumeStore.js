@@ -1,19 +1,15 @@
-define(function (require) {
-  'use strict';
+import _ from 'underscore';
+import Dispatcher from 'dispatchers/Dispatcher';
+import BaseStore from 'stores/BaseStore';
+import VolumeCollection from 'collections/VolumeCollection';
+import VolumeConstants from 'constants/VolumeConstants';
+import VolumeState from 'models/VolumeState';
 
-  var _ = require('underscore'),
-    Utils = require('actions/Utils'),
-    Dispatcher = require('dispatchers/Dispatcher'),
-    BaseStore = require('stores/BaseStore'),
-    VolumeCollection = require('collections/VolumeCollection'),
-    VolumeConstants = require('constants/VolumeConstants'),
-    VolumeState = require('models/VolumeState');
-
-  var VolumeStore = BaseStore.extend({
+let VolumeStore = BaseStore.extend({
     collection: VolumeCollection,
 
     queryParams: {
-      page_size: 100
+        page_size: 100
     },
 
     initialize: function () {
@@ -25,20 +21,20 @@ define(function (require) {
     // Custom functions
     //
 
-    getVolumesAttachedToInstance: function (instance) {
-      if (!this.models) return this.fetchModels();
+    getVolumesAttachedToInstance: function(instance) {
+        if (!this.models) return this.fetchModels();
 
-      var uuid = instance.get('uuid');
+        var uuid = instance.get('uuid');
 
-      var attachedVolumes = this.models.filter(function (volume) {
-          var attachData = volume.get('attach_data');
-          return attachData.instance_id && attachData.instance_id === uuid;
-      });
+        var attachedVolumes = this.models.filter(function (volume) {
+            var attachData = volume.get('attach_data');
+            return attachData.instance_id && attachData.instance_id === uuid;
+        });
 
-      return new VolumeCollection(attachedVolumes);
+        return new VolumeCollection(attachedVolumes);
     },
 
-// Makes a clean list of attached resources from volume information for easy reference
+    // Makes a clean list of attached resources from volume information for easy reference
     getAttachedResources: function () {
         if (!this.models) return this.fetchModels();
         var attachedResources = [];
@@ -55,12 +51,11 @@ define(function (require) {
 
     getVolumesNotInAProject: function () {
       if (!this.models) return this.fetchModels();
+        var volumes = this.models.filter(function(volume) {
+            return volume.get('projects').length === 0
+        });
 
-      var volumes = this.models.filter(function (volume) {
-        return volume.get('projects').length === 0
-      });
-
-      return new VolumeCollection(volumes);
+        return new VolumeCollection(volumes);
     },
 
     //
@@ -92,47 +87,47 @@ define(function (require) {
         }.bind(this));
     },
 
-  });
+});
 
-  var store = new VolumeStore();
 
-  Dispatcher.register(function (dispatch) {
+let store = new VolumeStore();
+
+Dispatcher.register(function(dispatch) {
     var actionType = dispatch.action.actionType;
     var payload = dispatch.action.payload;
     var options = dispatch.action.options || options;
 
     switch (actionType) {
 
-      case VolumeConstants.ADD_VOLUME:
-        store.add(payload.volume);
-        break;
+        case VolumeConstants.ADD_VOLUME:
+            store.add(payload.volume);
+            break;
 
-      case VolumeConstants.UPDATE_VOLUME:
-        store.update(payload.volume);
-        break;
+        case VolumeConstants.UPDATE_VOLUME:
+            store.update(payload.volume);
+            break;
 
-      case VolumeConstants.REMOVE_VOLUME:
-        store.remove(payload.volume);
-        break;
+        case VolumeConstants.REMOVE_VOLUME:
+            store.remove(payload.volume);
+            break;
 
-      case VolumeConstants.POLL_VOLUME:
-        store.pollNowUntilBuildIsFinished(payload.volume);
-        break;
+        case VolumeConstants.POLL_VOLUME:
+            store.pollNowUntilBuildIsFinished(payload.volume);
+            break;
 
-      case VolumeConstants.POLL_VOLUME_WITH_DELAY:
-        store.pollUntilBuildIsFinished(payload.volume);
-        break;
+        case VolumeConstants.POLL_VOLUME_WITH_DELAY:
+            store.pollUntilBuildIsFinished(payload.volume);
+            break;
 
-      default:
-        return true;
+        default:
+            return true;
     }
 
     if (!options.silent) {
-      store.emitChange();
+        store.emitChange();
     }
 
     return true;
-  });
-
-  return store;
 });
+
+export default store;

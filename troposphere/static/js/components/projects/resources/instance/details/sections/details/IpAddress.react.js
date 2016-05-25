@@ -1,20 +1,15 @@
+import React from 'react';
+import Backbone from 'backbone';
+import ResourceDetail from 'components/projects/common/ResourceDetail.react';
 
-define(
-  [
-    'react',
-    'backbone',
-    'components/projects/common/ResourceDetail.react'
-  ],
-  function (React, Backbone, ResourceDetail) {
+export default React.createClass({
+    displayName: "IpAddress",
 
-    return React.createClass({
-      displayName: "IpAddress",
-
-      propTypes: {
+    propTypes: {
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    },
 
-      render: function () {
+    render: function () {
 
         var instance = this.props.instance;
 
@@ -27,8 +22,5 @@ define(
         return (
           <ResourceDetail label="IP Address">{address}</ResourceDetail>
         );
-      }
-
-    });
-
-  });
+    }
+});

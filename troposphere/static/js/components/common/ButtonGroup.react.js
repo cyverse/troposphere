@@ -1,11 +1,9 @@
-define(function (require) {
+import React from 'react/addons';
+import _ from 'underscore';
+// plugin: required but not used directly
+import bootstrap from 'bootstrap';
 
-  var React = require('react/addons'),
-    _ = require('underscore'),
-  // plugin: required but not used directly
-    bootstrap = require('bootstrap');
-
-  return React.createClass({
+export default React.createClass({
     render: function () {
       var actions = _.map(this.props.actions, function (callback, text) {
         return (
@@ -28,6 +26,4 @@ define(function (require) {
         </div>
       );
     }
-  });
-
 });

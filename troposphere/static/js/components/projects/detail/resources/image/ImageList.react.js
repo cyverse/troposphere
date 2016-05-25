@@ -1,11 +1,9 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import ImageTable from './ImageTable.react';
+import NoImageNotice from './NoImageNotice.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    ImageTable = require('./ImageTable.react'),
-    NoImageNotice = require('./NoImageNotice.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "ImageList",
 
     propTypes: {
@@ -49,7 +47,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

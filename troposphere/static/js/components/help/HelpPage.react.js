@@ -1,16 +1,15 @@
+import _ from 'underscore';
+import stores from 'stores';
+import globals from 'globals';
+import React from 'react/addons';
 
-define(function (require) {
-    var stores = require('stores'),
-        globals = require('globals'),
-        React = require('react/addons');
 
-    var resources = [
-      {
+let resources = [{
         title: "User Manual",
         link_key: "default",
         description: "Complete documentation for using Atmosphere"
-      },
-      {
+    },
+    {
         title: "User Forums",
         link_key: "forums",
         description: "Get answers from Atmosphere users and staff"
@@ -19,15 +18,15 @@ define(function (require) {
         title: "FAQs",
         link_key: "faq",
         description: "Atmosphere's most frequently asked questions"
-      },
-      {
+    },
+    {
         title: "VNC Viewer Tutorial",
         link_key: "vnc-viewer",
         description: "Instructions for downloading and using VNC Viewer"
-      }
-    ];
+    }
+];
 
-    return React.createClass({
+export default React.createClass({
       displayName: "HelpPage",
 
       render: function () {
@@ -67,5 +66,4 @@ define(function (require) {
           </div>
         );
       }
-    });
 });

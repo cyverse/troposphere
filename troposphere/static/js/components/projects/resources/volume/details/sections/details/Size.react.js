@@ -1,10 +1,8 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import ResourceDetail from 'components/projects/common/ResourceDetail.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    ResourceDetail = require('components/projects/common/ResourceDetail.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "Size",
 
     propTypes: {
@@ -20,7 +18,5 @@ define(function (require) {
         </ResourceDetail>
       );
     }
-
-  });
 
 });

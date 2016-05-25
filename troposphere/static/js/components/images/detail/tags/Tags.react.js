@@ -1,13 +1,8 @@
+import React from 'react';
+import Backbone from 'backbone';
+import Tag from 'components/common/tags/Tag.react';
 
-define(
-  [
-    'react',
-    'backbone',
-    'components/common/tags/Tag.react'
-  ],
-  function (React, Backbone, Tag) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "Tags",
 
       propTypes: {
@@ -27,7 +22,4 @@ define(
           </ul>
         );
       }
-
-    });
-
-  });
+});

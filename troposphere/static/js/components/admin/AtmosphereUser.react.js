@@ -1,15 +1,13 @@
-define(function (require) {
-  "use strict";
+import React from 'react/addons';
+import Backbone from 'backbone';
+import moment from 'moment';
+import Router from 'react-router';
+import actions from 'actions';
+import ToggleButton from 'components/common/ToggleButton.react';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    moment = require('moment'),
-    Router = require('react-router'),
-    actions = require('actions'),
-    ToggleButton = require('components/common/ToggleButton.react'),
-    stores = require('stores');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "AtmosphereUser",
 
     propTypes: {
@@ -70,11 +68,11 @@ define(function (require) {
           </td>
           <td className="end-date">
           <span style={statusDisc}></span>
-            {userStatus ? "Disabled as of "+user.get('end_date') : "Enabled"} 
-            <button 
-                type="button" 
-                className={btnClass} 
-                style={{marginLeft: "10px"}} 
+            {userStatus ? "Disabled as of "+user.get('end_date') : "Enabled"}
+            <button
+                type="button"
+                className={btnClass}
+                style={{marginLeft: "10px"}}
                 onClick={this.toggleDisableUser} >
                 {userStatus ? "Enable" : "Disable"}
             </button>
@@ -82,8 +80,4 @@ define(function (require) {
         </tr>
       );
     }
-
-
-  });
-
 });

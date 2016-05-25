@@ -1,12 +1,9 @@
-define(function (require) {
-  "use strict";
+import Backbone from 'backbone';
+import _ from 'underscore';
+import globals from 'globals';
+import Instance from 'models/Instance';
 
-  var Backbone = require('backbone'),
-    _ = require('underscore'),
-    globals = require('globals'),
-    Instance = require('models/Instance');
-
-  return Backbone.Collection.extend({
+export default Backbone.Collection.extend({
     model: Instance,
 
     url: globals.API_V2_ROOT + "/instances",
@@ -20,7 +17,5 @@ define(function (require) {
 
       return response.results;
     }
-
-  });
 
 });

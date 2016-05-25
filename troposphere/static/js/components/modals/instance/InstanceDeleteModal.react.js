@@ -1,14 +1,10 @@
+import React from 'react';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import Glyphicon from 'components/common/Glyphicon.react';
+import InstanceModel from 'models/Instance';
 
-define(
-  [
-    'react',
-    'components/mixins/BootstrapModalMixin.react',
-    'components/common/Glyphicon.react',
-    'models/Instance',
-  ],
-  function (React, BootstrapModalMixin, Glyphicon, InstanceModel) {
 
-    return React.createClass({
+export default React.createClass({
       displayName: "InstanceDeleteModal",
 
       mixins: [BootstrapModalMixin],
@@ -80,7 +76,4 @@ define(
           </div>
         );
       }
-
-    });
-
-  });
+});

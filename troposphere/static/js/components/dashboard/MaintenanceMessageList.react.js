@@ -1,14 +1,9 @@
+import React from 'react';
+import Backbone from 'backbone';
+import MaintenanceMessage from './MaintenanceMessage.react';
+import ImageCreatedMessage from './ImageCreatedMessage.react';
 
-define(
-  [
-    'react',
-    'backbone',
-    './MaintenanceMessage.react',
-    './ImageCreatedMessage.react'
-  ],
-  function (React, Backbone, MaintenanceMessage, ImageCreatedMessage) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "MaintenanceMessageList",
 
       propTypes: {
@@ -52,7 +47,4 @@ define(
           )
         }
       }
-
-    });
-
-  });
+});

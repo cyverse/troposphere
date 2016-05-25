@@ -1,11 +1,8 @@
-define(function (require) {
-  'use strict';
+import actions from 'actions';
+import ModalHelpers from 'components/modals/ModalHelpers';
+import ExternalLinkCreateModal from 'components/modals/link/ExternalLinkCreateModal.react';
 
-  var actions = require('actions'),
-    ModalHelpers = require('components/modals/ModalHelpers'),
-    ExternalLinkCreateModal = require('components/modals/link/ExternalLinkCreateModal.react');
-
-  return {
+export default {
 
     createAndAddToProject: function (initialExternalLinkName, project) {
       var props = {
@@ -21,7 +18,4 @@ define(function (require) {
         });
       });
     }
-
-  };
-
-});
+};

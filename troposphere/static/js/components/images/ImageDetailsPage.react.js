@@ -1,13 +1,11 @@
-define(function (require) {
+import React from 'react/addons';
+import context from 'context';
+import Router from 'react-router';
+import stores from 'stores';
+import SecondaryImageNavigation from './common/SecondaryImageNavigation.react';
+import ImageDetailsView from './detail/ImageDetailsView.react';
 
-  var React = require('react/addons'),
-    context = require('context'),
-    Router = require('react-router'),
-    stores = require('stores'),
-    SecondaryImageNavigation = require('./common/SecondaryImageNavigation.react'),
-    ImageDetailsView = require('./detail/ImageDetailsView.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "ImageDetailsPage",
 
     mixins: [Router.State],
@@ -51,7 +49,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

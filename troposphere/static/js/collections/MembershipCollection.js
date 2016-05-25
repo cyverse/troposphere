@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import Backbone from 'backbone';
+import Membership from 'models/Membership';
+import globals from 'globals';
 
-  var Backbone = require('backbone'),
-      Membership = require('models/Membership'),
-      globals = require('globals');
-
-  return Backbone.Collection.extend({
+export default Backbone.Collection.extend({
     model: Membership,
 
     url: globals.API_V2_ROOT + "/groups",
@@ -26,7 +23,4 @@ define(function (require) {
 
       return response.results;
     }
-
-  });
-
 });

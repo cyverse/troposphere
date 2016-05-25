@@ -1,16 +1,14 @@
-define(function(require) {
-  var React = require('react'),
-    GraphController = require('./GraphController'),
-    TimeframeBreadcrumb = require('./TimeframeBreadcrumb.react'),
-    RefreshComponent = require('./RefreshComponent.react'),
-    moment = require('moment');
+import React from 'react';
+import GraphController from './GraphController';
+import TimeframeBreadcrumb from './TimeframeBreadcrumb.react';
+import RefreshComponent from './RefreshComponent.react';
+import moment from 'moment';
 
 
-  return React.createClass({
+export default React.createClass({
     displayName: "InstanceMetrics",
 
     getInitialState: function() {
-      var me = this;
       return {
         controller: null,
         uuid: this.props.instance.get("uuid"),
@@ -35,7 +33,6 @@ define(function(require) {
       };
     },
     onSuccess: function() {
-
       // Conviluted way to fetch timestamp from store, off first graph
       var timestamp = this.state.controller.store.get({
         uuid: this.state.uuid,
@@ -68,7 +65,7 @@ define(function(require) {
           container: document.querySelector("#graphs"),
           width: this.state.graphWidth,
         }),
-      }, this.refresh)
+      }, this.refresh);
     },
 
     refresh: function() {
@@ -111,7 +108,7 @@ define(function(require) {
           timeframe: this.state.timeframe,
           refresh: true,
         }, this.onSuccess, this.onError);
-      })
+      });
     },
 
     onTimeFrameClick : function(e) {
@@ -155,8 +152,9 @@ define(function(require) {
     },
 
     onRefreshClick: function() {
-      if (this.state.canRefresh)
+      if (this.state.canRefresh){
         this.refresh();
+      }
     },
 
     render: function() {
@@ -202,7 +200,4 @@ define(function(require) {
      // available is explicitly false, the network request failed
      return (<div id="not-available">Instance metrics not available</div>)
      }
-
-  });
-
 });

@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import ModalHelpers from 'components/modals/ModalHelpers';
+import InstanceRedeployModal from 'components/modals/instance/InstanceRedeployModal.react';
+import actions from 'actions';
 
-  var ModalHelpers = require('components/modals/ModalHelpers'),
-      InstanceRedeployModal = require('components/modals/instance/InstanceRedeployModal.react'),
-      actions = require('actions');
-
-  return {
+export default {
 
     redeploy: function (instance) {
       ModalHelpers.renderModal(InstanceRedeployModal, null, function () {
@@ -15,6 +12,4 @@ define(function (require) {
       });
     }
 
-  };
-
-});
+};

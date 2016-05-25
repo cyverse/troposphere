@@ -1,13 +1,8 @@
+import React from 'react';
+import Backbone from 'backbone';
+import InstanceOption from './InstanceOption.react';
 
-define(
-  [
-    'react',
-    'backbone',
-    './InstanceOption.react'
-  ],
-  function (React, Backbone, InstanceOption) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "InstanceSelect",
 
       propTypes: {
@@ -35,6 +30,4 @@ define(
           );
         }
       }
-    });
-
-  });
+});

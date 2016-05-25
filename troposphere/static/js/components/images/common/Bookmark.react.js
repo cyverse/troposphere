@@ -1,13 +1,11 @@
-define(function (require) {
+import React from 'react/addons';
+import actions from 'actions';
+import stores from 'stores';
+// images
+import filled_star from "images/filled-star-icon.png";
+import empty_star from "images/empty-star-icon.png";
 
-  var React = require('react/addons'),
-    actions = require('actions'),
-    stores = require('stores');
-  // images
-  var filled_star = require("images/filled-star-icon.png"),
-    empty_star = require("images/empty-star-icon.png");
-
-  return React.createClass({
+export default React.createClass({
     displayName: "CommonBookmark",
 
     toggleFavorite: function (e) {
@@ -47,7 +45,4 @@ define(function (require) {
         </a>
       );
     }
-
-  });
-
 });

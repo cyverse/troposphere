@@ -228,6 +228,7 @@ export default React.createClass({
         }
         return this.renderLoadingImages();
     },
+
     render: function () {
         return (
             <div>

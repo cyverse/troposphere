@@ -1,12 +1,6 @@
-define(
-  [],
-  function () {
-
-    return {
+export default {
       ADD_PROJECT_LINK: "ADD_PROJECT_LINK",
       REMOVE_PROJECT_LINK: "REMOVE_PROJECT_LINK",
       ADD_PENDING_PROJECT_LINK: "ADD_PENDING_PROJECT_LINK",
       REMOVE_PENDING_PROJECT_LINK: "REMOVE_PENDING_PROJECT_LINK"
-    };
-
-  });
+};

@@ -1,4 +1,5 @@
-// Note: Although this feature is a step in the right direction, we should try to solve
+// Author's Note:
+// Although this feature is a step in the right direction, we should try to solve
 // a few problems with how we deal with state and async requests that are dependent
 // on each other. For example, because we are waiting for data on network requests,
 // for data we want in state, we would need to set state on these values by calling

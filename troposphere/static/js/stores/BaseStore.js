@@ -1,20 +1,17 @@
-define(function (require) {
-  "use strict";
+import _ from 'underscore';
+import Backbone from 'backbone';
 
-  var _ = require('underscore'),
-    Backbone = require('backbone');
+let CHANGE_EVENT = 'change';
 
-  var CHANGE_EVENT = 'change';
-
-  function buildQueryStringFromQueryParams(queryParams) {
-    var queryString = Object.keys(queryParams).sort().map(function (key, index) {
-      return key + "=" + queryParams[key];
+function buildQueryStringFromQueryParams(queryParams) {
+    var queryString = Object.keys(queryParams).sort().map(function(key, index) {
+        return key + "=" + queryParams[key];
     }.bind(this)).join("&");
     queryString = queryString ? "?" + queryString : queryString;
     return queryString;
-  }
+}
 
-  var Store = function (attributes, options) {
+let Store = function(attributes, options) {
     // models: primary local cache, stores a collection of models
     this.models = null;
 
@@ -47,28 +44,29 @@ define(function (require) {
     this.isFetchingMore = false;
 
     this.initialize.apply(this, arguments);
-  };
+};
 
-  _.extend(Store.prototype, Backbone.Events, {
+_.extend(Store.prototype, Backbone.Events, {
 
     // ---------------
     // Event listeners
     // ---------------
 
-    addChangeListener: function (callback) {
-      this.on(CHANGE_EVENT, callback);
+    addChangeListener: function(callback) {
+        this.on(CHANGE_EVENT, callback);
     },
 
-    removeChangeListener: function (callback) {
-      this.off(CHANGE_EVENT, callback);
+    removeChangeListener: function(callback) {
+        this.off(CHANGE_EVENT, callback);
     },
 
-    emitChange: function () {
-      this.trigger(CHANGE_EVENT);
+    emitChange: function() {
+        this.trigger(CHANGE_EVENT);
     },
     generateQueryString: function(query_params) {
-      return buildQueryStringFromQueryParams(query_params);
+        return buildQueryStringFromQueryParams(query_params);
     },
+
     // --------------
     // CRUD functions
     // --------------
@@ -93,13 +91,13 @@ define(function (require) {
     },
 
     remove: function (model) {
-      this.models.remove(model);
+        this.models.remove(model);
 
-      // If already polling, Remove model from polling dictionary
-      if (this.pollingModels[model.cid]) {
-          delete this.pollingModels[model.cid];
-      }
-      return;
+        // If already polling, Remove model from polling dictionary
+        if (this.pollingModels[model.cid]) {
+            delete this.pollingModels[model.cid];
+        }
+        return;
     },
 
     // --------------
@@ -108,47 +106,46 @@ define(function (require) {
 
     // called as the last step in the constructor - should be overridden if you need to
     // modify any of the default store values (this.models, pollingFrequency, etc.)
-    initialize: function () {
-    },
+    initialize: function() {},
 
     // Fetch the first page of data from the server
-    fetchModels: function () {
-      if (!this.models && !this.isFetching) {
-        this.isFetching = true;
-        var models = new this.collection();
-        var queryString = "";
+    fetchModels: function() {
+        if (!this.models && !this.isFetching) {
+            this.isFetching = true;
+            var models = new this.collection();
+            var queryString = "";
 
-        // Build the query string if queryParameters have been provided
-        if (this.queryParams) {
-          queryString = buildQueryStringFromQueryParams(this.queryParams);
+            // Build the query string if queryParameters have been provided
+            if (this.queryParams) {
+                queryString = buildQueryStringFromQueryParams(this.queryParams);
+            }
+
+            models.fetch({
+                url: _.result(models, 'url') + queryString
+            }).done(function() {
+                this.isFetching = false;
+                this.models = models;
+                if (this.pollingEnabled) {
+                    this.models.each(this.pollNowUntilBuildIsFinished.bind(this));
+                }
+                this.emitChange();
+            }.bind(this));
         }
-
-        models.fetch({
-          url: _.result(models, 'url') + queryString
-        }).done(function () {
-          this.isFetching = false;
-          this.models = models;
-          if (this.pollingEnabled) {
-            this.models.each(this.pollNowUntilBuildIsFinished.bind(this));
-          }
-          this.emitChange();
-        }.bind(this));
-      }
     },
 
     // Fetch a specific model from the server (based on the provided id)
-    fetchModel: function (modelId) {
-      if (!this.isFetchingModel[modelId]) {
-        this.isFetchingModel[modelId] = true;
-        var model = new this.collection.prototype.model({
-          id: modelId
-        });
-        model.fetch().done(function () {
-          this.isFetchingModel[modelId] = false;
-          this.models.add(model);
-          this.emitChange();
-        }.bind(this));
-      }
+    fetchModel: function(modelId) {
+        if (!this.isFetchingModel[modelId]) {
+            this.isFetchingModel[modelId] = true;
+            var model = new this.collection.prototype.model({
+                id: modelId
+            });
+            model.fetch().done(function() {
+                this.isFetchingModel[modelId] = false;
+                this.models.add(model);
+                this.emitChange();
+            }.bind(this));
+        }
     },
 
     onFetchModel: function (modelId, cb) {
@@ -164,12 +161,12 @@ define(function (require) {
         }.bind(this));
     },
     // Returns the entire local cache, everything in this.models
-    getAll: function () {
-      if (!this.models) {
-        this.fetchModels()
-      } else {
-        return this.models;
-      }
+    getAll: function() {
+        if (!this.models) {
+            this.fetchModels()
+        } else {
+            return this.models;
+        }
     },
 
     // Fetch the first page and replace models with results
@@ -238,17 +235,16 @@ define(function (require) {
     // Looks through the local cache and returns any models matched the provided parameters
     // params: Object, like {name: 'example'} or {'provider.id': 1}
     // provided params can be at most 1 extra level deep ('provider.id' or 'provider')
-    findWhere: function (params) {
-      if (!this.models) return this.fetchModels();
+    findWhere: function(params) {
+        if (!this.models) return this.fetchModels();
 
-      var keys = Object.keys(params);
+        var keys = Object.keys(params);
 
-      var models = this.models.filter(function (model) {
-        var matchesCriteria = true;
+        var models = this.models.filter(function(model) {
+          var matchesCriteria = true;
 
-        keys.forEach(function (key) {
-          if (!matchesCriteria) return;
-
+          keys.forEach(function(key) {
+            if (!matchesCriteria) return;
           var tokens = key.split('.');
           if(tokens.length === 1) {
             if(model.get(key) !== params[key]) matchesCriteria = false;
@@ -258,25 +254,25 @@ define(function (require) {
           }
         });
 
-        return matchesCriteria;
-      });
+          return matchesCriteria;
+        });
 
-      return new this.collection(models);
+        return new this.collection(models);
     },
 
     // Looks through the local cache and returns the first model matching the given params
     // params: Object, like {name: 'example'} or {'provider.id': 1}
     // provided params can be at most 1 extra level deep ('provider.id' or 'provider')
-    findOne: function (params) {
-      if (!this.models) return this.fetchModels();
+    findOne: function(params) {
+        if (!this.models) return this.fetchModels();
 
-      var keys = Object.keys(params);
+        var keys = Object.keys(params);
 
-      var model = this.models.find(function (model) {
-        var matchesCriteria = true;
+        var model = this.models.find(function(model) {
+          var matchesCriteria = true;
 
-        keys.forEach(function (key) {
-          if (!matchesCriteria) return;
+          keys.forEach(function(key) {
+            if (!matchesCriteria) return;
 
           var tokens = key.split('.');
           if(tokens.length === 1) {
@@ -287,10 +283,10 @@ define(function (require) {
           }
         });
 
-        return matchesCriteria;
-      });
+          return matchesCriteria;
+        });
 
-      return model;
+        return model;
     },
 
     // Fetches the next page of data for this.models
@@ -369,27 +365,25 @@ define(function (require) {
     // Fetches the next page of data for the given set of queryParams
     // Example: params = {page_size: 1000, search: 'featured'}
     // will be convereted to ?page_size=1000&search=featured
-    fetchMoreWhere: function (queryParams) {
-      queryParams = queryParams || {};
+    fetchMoreWhere: function(queryParams) {
+        queryParams = queryParams || {};
 
-      // Build the query string
-      var queryString = buildQueryStringFromQueryParams(queryParams);
+        // Build the query string
+        var queryString = buildQueryStringFromQueryParams(queryParams);
 
-      var searchResults = this.queryModels[queryString],
-        nextUrl = searchResults.meta.next;
+        if (nextUrl && !this.isFetchingQuery[queryString]) {
+            this.isFetching = true;
+            this.isFetchingQuery[queryString] = true;
+            var moreModels = new this.collection();
 
-      if (nextUrl && !this.isFetchingQuery[queryString]) {
-        this.isFetching = true;
-        this.isFetchingQuery[queryString] = true;
-        var moreModels = new this.collection();
-        this.queryModels[queryString].fetch({
-          url: nextUrl, remove: false
-        }).done(function () {
-          this.isFetching = false;
-          this.isFetchingQuery[queryString] = false;
-          this.emitChange();
-        }.bind(this));
-      }
+            this.queryModels[queryString].fetch({
+                url: nextUrl, remove: false
+            }).done(function () {
+                this.isFetching = false;
+                this.isFetchingQuery[queryString] = false;
+                this.emitChange();
+            }.bind(this));
+        }
     },
 
     // -----------------
@@ -452,10 +446,9 @@ define(function (require) {
     pollUntilBuildIsFinished: function (model) {
         setTimeout(this.pollNowUntilBuildIsFinished.bind(this, model), this.pollingFrequency);
     },
-
-  });
-
-  Store.extend = Backbone.Model.extend;
-
-  return Store;
 });
+
+Store.extend = Backbone.Model.extend;
+
+export default Store;
+

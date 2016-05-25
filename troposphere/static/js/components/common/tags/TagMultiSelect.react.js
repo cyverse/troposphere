@@ -1,13 +1,11 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import ChosenDropdownTag from './ChosenDropdownTag.react';
+import ChosenSelectedTag from './ChosenSelectedTag.react';
+import CreateTagView from './CreateTagView.react';
+import ChosenMixin from 'components/mixins/ChosenMixinExternal.react';
 
-  var React = require('react/addons'),
-      Backbone = require('backbone'),
-      ChosenDropdownTag = require('./ChosenDropdownTag.react'),
-      ChosenSelectedTag = require('./ChosenSelectedTag.react'),
-      CreateTagView = require('./CreateTagView.react');
-      ChosenMixin = require('components/mixins/ChosenMixinExternal.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "TagMultiSelect",
     mixins: [ChosenMixin],
 
@@ -109,7 +107,7 @@ define(function (require) {
         this.onModelAdded(filtered_results[0])
         return;
       } else {
-        //IF options are showing and NO results are listed, 
+        //IF options are showing and NO results are listed,
         // Populate the beginning of the create modal
         if(this.props.onCreateNewTag) {
             this.props.onCreateNewTag(value);
@@ -124,7 +122,4 @@ define(function (require) {
       this.clearSearchField();
 
     },
-
-  })
-
-});
+})

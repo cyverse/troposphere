@@ -1,8 +1,6 @@
-define(function (require) {
+import React from 'react/addons';
 
-  var React = require('react/addons');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "NoExternalLinkNotice",
 
     render: function () {
@@ -12,7 +10,4 @@ define(function (require) {
         </p>
       );
     }
-
-  });
-
 });

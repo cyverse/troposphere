@@ -1,12 +1,10 @@
-define(function (require) {
+import React from 'react/addons';
+import Backbone from 'backbone';
+import Visibility from '../components/Visibility.react';
+import stores from 'stores';
+import Users from '../components/Users.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    Visibility = require('../components/Visibility.react'),
-    stores = require('stores'),
-    Users = require('../components/Users.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "ImageWizard-VisibilityStep",
 
     propTypes: {
@@ -130,7 +128,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

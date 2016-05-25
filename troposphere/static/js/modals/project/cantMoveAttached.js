@@ -1,14 +1,10 @@
-define(function (require) {
+import actions from 'actions';
+import ModalHelpers from 'components/modals/ModalHelpers';
+import CantMoveAttachedModal from 'components/modals/project/CantMoveAttachedModal.react';
 
-  var actions = require('actions'),
-    ModalHelpers = require('components/modals/ModalHelpers'),
-    CantMoveAttachedModal = require('components/modals/project/CantMoveAttachedModal.react');
-
-  return {
+export default {
     cantMoveAttached: function () {
       ModalHelpers.renderModal(CantMoveAttachedModal, null, function () {
       });
     }
-  }
-
-});
+}

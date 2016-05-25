@@ -2,6 +2,7 @@ import React from 'react/addons';
 import Backbone from 'backbone';
 import Router from 'react-router';
 
+
 export default React.createClass({
     displayName: "Name",
 
@@ -24,4 +25,3 @@ export default React.createClass({
     }
 
 });
-

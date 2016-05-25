@@ -1,12 +1,10 @@
-define(function (require) {
-  "use strict";
+import React from 'react/addons';
+import Router from 'react-router';
+import SecondaryImageNavigation from './common/SecondaryImageNavigation.react';
 
-  var React = require('react/addons'),
-    Router = require('react-router'),
-    RouteHandler = Router.RouteHandler,
-    SecondaryImageNavigation = require('./common/SecondaryImageNavigation.react');
+let RouteHandler = Router.RouteHandler;
 
-  return React.createClass({
+export default React.createClass({
     displayName: "ImagesMaster",
 
     render: function () {
@@ -17,7 +15,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

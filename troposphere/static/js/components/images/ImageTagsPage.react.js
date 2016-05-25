@@ -1,10 +1,8 @@
-define(function (require) {
+import React from 'react/addons';
+import stores from 'stores';
+import Router from 'react-router';
 
-  var React = require('react/addons'),
-    stores = require('stores'),
-    Router = require('react-router');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "ImageTagsPage",
 
     getState: function () {
@@ -163,7 +161,4 @@ define(function (require) {
       );
 
     }
-
-  });
-
 });

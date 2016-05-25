@@ -1,17 +1,15 @@
-define(function (require) {
-  "use strict";
 
-  var InstanceConstants = require('constants/InstanceConstants'),
-    Utils = require('../Utils');
+import InstanceConstants from 'constants/InstanceConstants';
+import Utils from '../Utils';
 
-  return {
+export default {
 
-    poll: function (params) {
-      var instance = params.instance;
-      if (!instance) throw new Error("Missing instance");
-      Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+    poll: function(params) {
+        var instance = params.instance;
+        if (!instance) throw new Error("Missing instance");
+        Utils.dispatch(InstanceConstants.POLL_INSTANCE, {
+            instance: instance
+        });
     }
 
-  };
-
-});
+};

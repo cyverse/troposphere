@@ -1,13 +1,12 @@
-define(function (require) {
+import React from 'react/addons';
+import _ from 'underscore';
+import $ from 'jquery';
+import Backbone from 'backbone';
 
-  var React = require('react/addons'),
-    _ = require('underscore'),
-    $ = require('jquery'),
-    Backbone = require('backbone');
 
-  var ENTER_KEY = 13;
+let ENTER_KEY = 13;
 
-  return {
+export default {
     getInitialState: function(){
       return {
         showOptions: false,
@@ -75,7 +74,9 @@ define(function (require) {
 
     onEnter: function(e){
       if(e.which !== ENTER_KEY) return;
+
       var value = e.target.value;
+
       if(this.onEnterKeyPressed) {
         this.onEnterKeyPressed(value);
       } else if(this.props.onEnterKeyPressed) {
@@ -84,6 +85,7 @@ define(function (require) {
         //Enter does nothing if neither value is defined..
         return;
       }
+
       //After callback, assume action Completed clear search.
       this.clearSearchField();
     },
@@ -113,6 +115,7 @@ define(function (require) {
     clearSearchField: function(){
       var query = "",
         input = this.refs.searchField.getDOMNode();
+
       input.value = query;
       input.focus();
       this.setState({query: query});
@@ -237,6 +240,5 @@ define(function (require) {
       );
     }
 
-  };
+};
 
-});

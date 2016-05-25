@@ -1,27 +1,26 @@
-define(function (require) {
+import ProviderMachineCollection from 'collections/ProviderMachineCollection';
+import Dispatcher from 'dispatchers/Dispatcher';
+import BaseStore from 'stores/BaseStore';
+import ProviderMachineConstants from 'constants/ProviderMachineConstants';
+import _ from 'underscore';
+import NotificationController from 'controllers/NotificationController';
 
-  var ProviderMachineCollection = require('collections/ProviderMachineCollection'),
-    Dispatcher = require('dispatchers/Dispatcher'),
-    BaseStore = require('stores/BaseStore'),
-    ProviderMachineConstants = require('constants/ProviderMachineConstants'),
-    _ = require('underscore'),
-    NotificationController = require('controllers/NotificationController');
 
-  var ProviderMachineStore = BaseStore.extend({
+let ProviderMachineStore = BaseStore.extend({
     collection: ProviderMachineCollection,
 
     removeCache: function(machine) {
       var queryParams = {machine_id: machine.id},
           queryString = this.generateQueryString(queryParams);
 
-      this.queryModels[queryString] = null;
+        this.queryModels[queryString] = null;
 
     },
-    get: function (machineId) {
-      if (!this.models) return this.fetchModels();
-      var machine = BaseStore.prototype.get.apply(this, arguments);
-      if (!machine) return this.fetchModel(machineId);
-      return machine;
+    get: function(machineId) {
+        if (!this.models) return this.fetchModels();
+        var machine = BaseStore.prototype.get.apply(this, arguments);
+        if (!machine) return this.fetchModel(machineId);
+        return machine;
     },
     getMachinesFor: function(image) {
         var image_key = "image=" + image.id;
@@ -67,7 +66,7 @@ define(function (require) {
             var models = new this.collection();
             models.fetch({
                 url: _.result(models, 'url') + use_query
-            }).done(function () {
+            }).done(function() {
                 this.isFetching = false;
 
                 this.queryModels[image_key] = models;
@@ -76,31 +75,30 @@ define(function (require) {
                 }
                 this.emitChange();
 
-        }.bind(this));
-      }
+            }.bind(this));
+        }
     }
-  });
+});
 
-  var store = new ProviderMachineStore();
+let store = new ProviderMachineStore();
 
-  Dispatcher.register(function (dispatch) {
+Dispatcher.register(function(dispatch) {
     var actionType = dispatch.action.actionType;
     var payload = dispatch.action.payload;
     var options = dispatch.action.options || options;
 
     switch (actionType) {
-      case ProviderMachineConstants.UPDATE_PROVIDER_MACHINE:
-        store.update(payload);
-        break;
+        case ProviderMachineConstants.UPDATE_PROVIDER_MACHINE:
+            store.update(payload);
+            break;
 
-      default:
-        return true;
+        default:
+            return true;
     }
 
     store.emitChange();
 
     return true;
-  });
-
-  return store;
 });
+
+export default store;

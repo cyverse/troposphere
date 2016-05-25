@@ -15,5 +15,4 @@ export default React.createClass({
             </section>
         )
     }
-
 });

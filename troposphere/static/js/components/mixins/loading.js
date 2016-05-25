@@ -1,20 +1,18 @@
-define(
-  [
-    'react'
-  ],
-  function (React) {
 
-    /*
-     * The loading mixin can be used for components that require some
-     * computation to be performed before any content is rendered. To use it,
-     * include this class in a component's mixins attribute, and implement
-     * (minimally), a method called "model" that returns a promise and method
-     * called "renderContent" that will be called after the promise resolves.
-     * In "renderContent", this.state.modal refers to the resolved promise.
-     * Optionally, components may also implement a "renderError" method that
-     * will be invoked if the promise rejects.
-     */
-    return {
+import React from 'react';
+
+/*
+ * The loading mixin can be used for components that require some
+ * computation to be performed before any content is rendered. To use it,
+ * include this class in a component's mixins attribute, and implement
+ * (minimally), a method called "model" that returns a promise and method
+ * called "renderContent" that will be called after the promise resolves.
+ * In "renderContent", this.state.modal refers to the resolved promise.
+ * Optionally, components may also implement a "renderError" method that
+ * will be invoked if the promise rejects.
+ */
+
+export default {
       getInitialState: function () {
         return {_loading: true, model: null};
       },
@@ -48,6 +46,4 @@ define(
           return React.DOM.div({className: 'loading'});
       }
 
-    };
-
-  });
+};

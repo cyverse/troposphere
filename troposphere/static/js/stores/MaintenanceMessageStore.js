@@ -1,28 +1,27 @@
-define(function (require) {
 
-  var MaintenanceMessageCollection = require('collections/MaintenanceMessageCollection'),
-    BaseStore = require('stores/BaseStore');
+import MaintenanceMessageCollection from 'collections/MaintenanceMessageCollection';
+import BaseStore from 'stores/BaseStore';
 
-  var MaintenanceMessageStore = BaseStore.extend({
+let MaintenanceMessageStore = BaseStore.extend({
     collection: MaintenanceMessageCollection,
 
-    isProviderInMaintenance: function (providerId) {
-      var providerMessages = this.models.where({provider: providerId}),
-        isInMaintenance = false;
+    isProviderInMaintenance: function(providerId) {
+        var providerMessages = this.models.where({
+                provider: providerId
+            }),
+            isInMaintenance = false;
 
-      providerMessages.forEach(function (message) {
-        if (message.get('disable_login') === true) {
-          isInMaintenance = true;
-        }
-      });
+        providerMessages.forEach(function(message) {
+            if (message.get('disable_login') === true) {
+                isInMaintenance = true;
+            }
+        });
 
-      return isInMaintenance;
+        return isInMaintenance;
     }
 
-  });
-
-  var store = new MaintenanceMessageStore();
-
-  return store;
-
 });
+
+let store = new MaintenanceMessageStore();
+
+export default store;

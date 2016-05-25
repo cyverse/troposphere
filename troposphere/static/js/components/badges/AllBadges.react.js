@@ -1,15 +1,13 @@
-define(function (require) {
-  "use strict";
+import React from 'react';
+import Router from 'react-router';
+import Badge from './Badge.react';
+import actions from 'actions';
+import EarnedBadge from './EarnedBadge.react';
+import stores from 'stores';
 
-  var React = require('react'),
-      Router = require('react-router'),
-      Badge = require('./Badge.react'),
-      actions = require('actions'),
-      EarnedBadge = require('./EarnedBadge.react'),
-      stores = require('stores'),
-      RouteHandler = Router.RouteHandler;
+let RouteHandler = Router.RouteHandler;
 
-  return React.createClass({
+export default React.createClass({
     displayName: "AllBadges",
 
     mixins: [Router.State],
@@ -46,7 +44,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

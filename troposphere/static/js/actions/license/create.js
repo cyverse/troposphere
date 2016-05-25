@@ -1,12 +1,10 @@
-define(function (require) {
-  'use strict';
 
-  var LicenseConstants = require('constants/LicenseConstants'),
-      License = require('models/License'),
-      actions = require('actions'),
-      Utils = require('../Utils');
+import LicenseConstants from 'constants/LicenseConstants';
+import License from 'models/License';
+import actions from 'actions';
+import Utils from '../Utils';
 
-  return {
+export default {
 
     create: function(params){
       if(!params.title) throw new Error("Missing title");
@@ -35,5 +33,3 @@ define(function (require) {
     }
 
   };
-
-});
