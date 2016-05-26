@@ -6,12 +6,14 @@ var webpack = require("webpack");
 //var Clean = require('clean-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CompressionPlugin = require("compression-webpack-plugin");
+var BundleTracker = require('webpack-bundle-tracker');
 
 var OUTPUT_PATH = path.join(__dirname, "/troposphere/assets");
 var CONTEXT_PATH = path.join(__dirname, "/troposphere/static/js");
 
 var plugins = [
-    new ExtractTextPlugin("[name].css", { allChunks: true })
+    new ExtractTextPlugin("[name].css", { allChunks: true }),
+    new BundleTracker({filename: './webpack-stats.json'})
 //    new Clean(['.'], OUTPUT_PATH)
 ];
 
