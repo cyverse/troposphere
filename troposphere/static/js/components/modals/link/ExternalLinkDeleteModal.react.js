@@ -2,7 +2,6 @@ import React from 'react';
 import Backbone from 'backbone';
 import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 
-
 export default React.createClass({
     displayName: "ExternalLinkDeleteModal",
 

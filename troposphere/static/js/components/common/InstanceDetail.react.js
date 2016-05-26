@@ -11,6 +11,7 @@ import InstanceState from 'models/InstanceState';
 import InstanceInfoSection from 'components/projects/resources/instance/details/sections/InstanceInfoSection.react';
 import InstanceHistorySection from 'components/common/InstanceHistorySection.react';
 
+
 var InstanceDetail = React.createClass({
     displayName: "InstanceDetail",
 

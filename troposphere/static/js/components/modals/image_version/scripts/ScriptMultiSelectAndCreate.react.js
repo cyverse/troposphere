@@ -8,6 +8,7 @@ import CreateScriptView from './CreateScriptView.react';
 
 let ENTER_KEY = 13;
 
+
 export default React.createClass({
     displayName: "ScriptMultiSelectAndCreate",
 

@@ -173,7 +173,7 @@ export default React.createClass({
         let query = this.state.query;
         let searchInput = this.renderSearchInput();
         if (!images) { return ( <div className="loading"/> ) }
-        
+
         return (
         <div>
             {searchInput}
@@ -236,7 +236,7 @@ export default React.createClass({
                 <div className="modal-section">
                     <h3 className="t-title">First choose an image for your instance</h3>
                     <hr/>
-                    <TabLinks 
+                    <TabLinks
                         linkList={this.views}
                         currentView={this.state.listView}
                         onChangeView={this.onChangeView}

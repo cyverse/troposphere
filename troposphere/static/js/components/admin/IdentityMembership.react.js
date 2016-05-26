@@ -1,9 +1,9 @@
 import React from 'react';
 import Backbone from 'backbone';
-import moment from 'moment';
 import Router from 'react-router';
 import showManageUserModal from 'modals/admin/showManageUserModal.js';
 import actions from 'actions';
+import moment from 'moment';
 import stores from 'stores';
 
 

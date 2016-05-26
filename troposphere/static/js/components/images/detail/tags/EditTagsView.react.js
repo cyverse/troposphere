@@ -1,9 +1,10 @@
 import React from 'react';
 import Backbone from 'backbone';
 import EditTagsView from './ActualEditTagsView.react';
-import modals from 'modals';
 import actions from 'actions';
+import modals from 'modals';
 import stores from 'stores';
+
 
 export default React.createClass({
     displayName: "EditTagsView",

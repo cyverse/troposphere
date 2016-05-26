@@ -6,6 +6,7 @@ import actions from 'actions';
 import ToggleButton from 'components/common/ToggleButton.react';
 import stores from 'stores';
 
+
 export default React.createClass({
     displayName: "AtmosphereUser",
 

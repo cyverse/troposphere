@@ -1,7 +1,4 @@
 import React from 'react';
-import moment from 'moment';
-import stores from 'stores';
-import actions from 'actions';
 import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 import VersionName from '../instance/image/components/VersionName.react';
 import VersionChanges from '../instance/image/components/VersionChangeLog.react';
@@ -13,6 +10,10 @@ import EditLicensesView from './licenses/EditLicensesView.react';
 import EditScriptsView from './scripts/EditScriptsView.react';
 import EditMinimumRequirementsView from './requirements/EditMinimumRequirementsView.react';
 import ImageSelect from 'components/modals/image_version/ImageSelect.react';
+import moment from 'moment';
+import stores from 'stores';
+import actions from 'actions';
+
 
 export default React.createClass({
     displayName: "ImageVersionEditModal",

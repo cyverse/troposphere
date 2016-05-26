@@ -5,6 +5,7 @@ import ChosenSelectedTag from './ChosenSelectedTag.react';
 import CreateTagView from './CreateTagView.react';
 import ChosenMixin from 'components/mixins/ChosenMixinExternal.react';
 
+
 export default React.createClass({
     displayName: "TagMultiSelect",
     mixins: [ChosenMixin],

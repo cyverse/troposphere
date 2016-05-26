@@ -1,10 +1,11 @@
-import React from 'react'
-import stores from 'stores'
-import moment from 'moment'
-import CryptoJS from 'crypto-js'
-import Gravatar from 'components/common/Gravatar.react'
-import RefreshComponent from 'components/projects/resources/instance/details/sections/metrics/RefreshComponent.react'
-import Router from 'react-router'
+import React from 'react';
+import Router from 'react-router';
+import CryptoJS from 'crypto-js';
+import Gravatar from 'components/common/Gravatar.react';
+import RefreshComponent from 'components/projects/resources/instance/details/sections/metrics/RefreshComponent.react';
+import moment from 'moment';
+import stores from 'stores';
+
 
 export default React.createClass({
     displayName: "InstanceHistoryList",

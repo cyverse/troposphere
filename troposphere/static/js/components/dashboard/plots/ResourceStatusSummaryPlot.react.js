@@ -1,10 +1,13 @@
 import React from "react";
 import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
-import $ from "jquery";
+
 import Backbone from "backbone";
 import Highcharts from "highcharts";
+import $ from "jquery";
+
 import ResourceStatusTooltip from "./tooltips/ResourceStatusTooltip.react";
+
 
 export default React.createClass({
       displayName: "ResourceStatusSummaryPlot",

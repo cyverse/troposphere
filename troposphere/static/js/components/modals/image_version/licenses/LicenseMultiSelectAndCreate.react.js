@@ -5,6 +5,7 @@ import ChosenSelectedItem from 'components/common/chosen/ChosenSelectedItem.reac
 import ChosenMixinExternal from 'components/mixins/ChosenMixinExternal.react';
 import CreateLicenseView from './CreateLicenseView.react';
 
+
 let ENTER_KEY = 13;
 
 export default React.createClass({

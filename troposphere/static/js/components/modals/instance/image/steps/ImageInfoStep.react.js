@@ -8,6 +8,7 @@ import Tags from '../components/Tags.react';
 import actions from 'actions';
 import stores from 'stores';
 
+
 export default React.createClass({
     displayName: "ImageWizard-ImageInfoStep",
 

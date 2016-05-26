@@ -3,6 +3,7 @@ import _ from 'underscore';
 // plugin: required but not used directly
 import bootstrap from 'bootstrap';
 
+
 export default React.createClass({
     render: function () {
       var actions = _.map(this.props.actions, function (callback, text) {

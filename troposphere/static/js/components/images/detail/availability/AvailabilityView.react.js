@@ -3,6 +3,7 @@ import React from 'react';
 import Backbone from 'backbone';
 import stores from 'stores';
 
+
 export default React.createClass({
         displayName: "AvailabilityView",
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import Router from 'react-router';
 import RouterInstance from '../../Router';
-import stores from 'stores';
 import ResourceRequest from './ResourceRequest.react';
+import stores from 'stores';
 
 
 let RouteHandler = Router.RouteHandler;

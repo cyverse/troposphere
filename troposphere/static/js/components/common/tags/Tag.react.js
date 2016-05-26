@@ -6,6 +6,7 @@ import Router from 'react-router';
 // plugin: required but not used directly
 import bootstrap from 'bootstrap';
 
+
 export default React.createClass({
     displayName: "Tag",
 

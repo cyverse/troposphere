@@ -200,5 +200,4 @@ export default React.createClass({
      // available is explicitly false, the network request failed
      return (<div id="not-available">Instance metrics not available</div>)
      }
-
 });

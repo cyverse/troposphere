@@ -1,8 +1,9 @@
 import _ from 'underscore';
 import React from 'react';
 import Backbone from 'backbone';
-import stores from 'stores';
 import ProviderMachineEditItem from './ProviderMachineEditItem.react';
+import stores from 'stores';
+
 
 export default React.createClass({
     displayName: "EditAvailabilityVersion",

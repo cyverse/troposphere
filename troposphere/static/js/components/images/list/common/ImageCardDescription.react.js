@@ -5,6 +5,7 @@ import $ from 'jquery';
 // plugin: required but not used directly
 import bootstrap from 'bootstrap';
 
+
 let maxDescriptionLength = 200;
 
 export default React.createClass({

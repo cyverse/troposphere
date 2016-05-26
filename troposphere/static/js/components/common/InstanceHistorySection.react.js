@@ -3,6 +3,7 @@ import Backbone from 'backbone';
 import stores from 'stores';
 import moment from 'moment';
 
+
 var InstanceHistorySection = React.createClass({
     displayName: "InstanceHistorySection",
 

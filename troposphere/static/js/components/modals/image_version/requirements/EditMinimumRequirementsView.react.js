@@ -1,7 +1,7 @@
 import React from 'react';
 
-export default React.createClass({
 
+export default React.createClass({
   propTypes: {
     cpu: React.PropTypes.number.isRequired,
     mem: React.PropTypes.number.isRequired,

@@ -1,7 +1,8 @@
 import React from 'react';
 import Router from 'react-router';
-import stores from 'stores';
+
 import AtmosphereUser from './AtmosphereUser.react';
+import stores from 'stores';
 
 let timer,
     timerDelay = 100;
