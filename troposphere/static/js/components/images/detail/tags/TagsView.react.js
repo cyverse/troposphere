@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import ViewTags from 'components/common/tags/ViewTags.react';
 import stores from 'stores';

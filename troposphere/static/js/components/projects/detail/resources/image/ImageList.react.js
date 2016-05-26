@@ -1,7 +1,8 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import ImageTable from './ImageTable.react';
 import NoImageNotice from './NoImageNotice.react';
+
 
 export default React.createClass({
     displayName: "ImageList",

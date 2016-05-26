@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import VolumeRow from './VolumeRow.react';
 import SelectableTable from '../SelectableTable.react';

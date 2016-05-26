@@ -9,14 +9,12 @@ define(
     'stores'
   ], function(React, Backbone, ProjectListView, ProjectListHeader, projectCollectionFixture, actions, stores) {
 
-    var TestUtils,
+    var TestUtils = require('react-addons-test-utils'),
         projectViewElement;
 
     describe('Project List View', function() {
 
       beforeEach(function() {
-        TestUtils = React.addons.TestUtils;
-
         var listView = ProjectListView({projects: projectCollectionFixture});
         projectViewElement = TestUtils.renderIntoDocument(listView);
 

@@ -1,8 +1,10 @@
-import React from 'react/addons';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import Backbone from 'backbone';
 import $ from 'jquery';
 // plugin: required but not used directly
 import bootstrap from 'bootstrap';
+
 
 let maxDescriptionLength = 200;
 
@@ -18,7 +20,7 @@ export default React.createClass({
         description = image.get('description');
 
       if (description.length > maxDescriptionLength) {
-        var el = this.getDOMNode();
+        var el = ReactDOM.findDOMNode(this);
         var $el = $(el);
         $el.tooltip({
           title: description

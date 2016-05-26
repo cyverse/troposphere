@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import InstanceRow from './InstanceRow.react';
 import InstanceNotRealRow from './InstanceNotRealRow.react';

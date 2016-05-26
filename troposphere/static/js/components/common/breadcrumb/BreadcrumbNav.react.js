@@ -1,6 +1,7 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import Breadcrumb from './Breadcrumb.react';
+
 
 export default React.createClass({
       displayName: "BreadcrumbNav",

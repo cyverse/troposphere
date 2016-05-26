@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import SelectableRow from '../SelectableRow.react';
 import Name from '../tableData/instance/Name.react';

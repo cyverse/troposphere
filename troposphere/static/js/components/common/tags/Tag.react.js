@@ -1,9 +1,11 @@
-import React from 'react/addons';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import $ from "jquery";
 import Backbone from 'backbone';
 import Router from 'react-router';
 // plugin: required but not used directly
 import bootstrap from 'bootstrap';
+
 
 export default React.createClass({
     displayName: "Tag",
@@ -20,7 +22,7 @@ export default React.createClass({
     },
 
     componentDidMount: function () {
-      var el = this.getDOMNode(),
+      var el = ReactDOM.findDOMNode(this),
         $el = $(el),
         tag = this.props.tag;
 

@@ -1,5 +1,7 @@
-import React from 'react/addons';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import $ from 'jquery';
+
 
 export default React.createClass({
     displayName: "EditableTextAreaField",
@@ -10,11 +12,11 @@ export default React.createClass({
     },
 
     componentDidMount: function () {
-      this.getDOMNode().focus();
+      ReactDOM.findDOMNode(this).focus();
     },
 
     onDoneEditing: function (e) {
-      var text = $(this.getDOMNode()).find("textarea")[0].value;
+      var text = $(ReactDOM.findDOMNode(this)).find("textarea")[0].value;
       if (text.trim()) {
         this.props.onDoneEditing(text);
       } else {

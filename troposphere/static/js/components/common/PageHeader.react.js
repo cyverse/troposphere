@@ -1,5 +1,6 @@
-import React from 'react/addons';
+import React from 'react';
 import Glyphicon from 'components/common/Glyphicon.react';
+
 
 export default React.createClass({
     displayName: "PageHeader",

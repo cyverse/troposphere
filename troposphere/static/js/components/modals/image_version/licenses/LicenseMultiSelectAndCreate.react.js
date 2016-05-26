@@ -1,9 +1,10 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import ChosenDropdownItem from 'components/common/chosen/ChosenDropdownItem.react';
 import ChosenSelectedItem from 'components/common/chosen/ChosenSelectedItem.react';
 import ChosenMixinExternal from 'components/mixins/ChosenMixinExternal.react';
 import CreateLicenseView from './CreateLicenseView.react';
+
 
 let ENTER_KEY = 13;
 

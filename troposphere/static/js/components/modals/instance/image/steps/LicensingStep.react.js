@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import actions from 'actions';
 import EditLicensesView from 'components/modals/image_version/licenses/EditLicensesView.react';

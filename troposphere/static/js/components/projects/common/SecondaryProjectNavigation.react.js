@@ -1,10 +1,11 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import Router from 'react-router';
-import modals from 'modals';
 import Glyphicon from 'components/common/Glyphicon.react';
 import actions from 'actions';
+import modals from 'modals';
 import stores from 'stores';
+
 
 export default React.createClass({
     displayName: "SecondaryProjectNavigation",

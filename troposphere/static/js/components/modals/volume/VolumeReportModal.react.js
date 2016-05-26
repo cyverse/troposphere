@@ -1,5 +1,5 @@
 import _ from "underscore";
-import React from 'react/addons';
+import React from 'react';
 import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 import Glyphicon from 'components/common/Glyphicon.react';
 

@@ -1,7 +1,8 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import FileToExclude from '../components/FilesToExclude.react';
 import stores from 'stores';
+
 
 export default React.createClass({
     displayName: "ImageWizard-FilesToExcludeStep",

@@ -1,11 +1,11 @@
-import React from 'react/addons';
+import React from 'react';
 import Router from 'react-router';
 import stores from 'stores';
 import IdentityMembership from './IdentityMembership.react';
 
+
 let timer,
     timerDelay = 100;
-
 
 export default React.createClass({
     displayName: "IdentityMembership",

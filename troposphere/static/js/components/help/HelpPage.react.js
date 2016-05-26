@@ -1,7 +1,7 @@
-import _ from 'underscore';
+import React from 'react';
 import stores from 'stores';
 import globals from 'globals';
-import React from 'react/addons';
+import _ from 'underscore';
 
 
 let resources = [{
@@ -31,6 +31,7 @@ export default React.createClass({
 
       render: function () {
         var helpLinks = stores.HelpLinkStore.getAll();
+        var resourceElements;
 
         if (!helpLinks) {
             return <div className="loading"></div>;

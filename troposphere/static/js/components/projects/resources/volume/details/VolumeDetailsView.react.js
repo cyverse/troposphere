@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import VolumeDetailsSection from './sections/VolumeDetailsSection.react';
 import VolumeInfoSection from './sections/VolumeInfoSection.react';

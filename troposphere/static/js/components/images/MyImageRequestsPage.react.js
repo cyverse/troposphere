@@ -1,7 +1,8 @@
-import React from 'react/addons';
+import React from 'react';
 import moment from 'moment';
 import RefreshComponent from 'components/projects/resources/instance/details/sections/metrics/RefreshComponent.react';
 import stores from 'stores';
+
 
 export default React.createClass({
     displayName: "MyImageRequestsPage",

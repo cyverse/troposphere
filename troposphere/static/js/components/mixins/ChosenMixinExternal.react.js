@@ -1,7 +1,9 @@
-import React from 'react/addons';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import _ from 'underscore';
 import $ from 'jquery';
 import Backbone from 'backbone';
+import classNames from 'classnames';
 
 
 let ENTER_KEY = 13;
@@ -60,7 +62,7 @@ export default {
         return false;
       }
 
-      var node = this.getDOMNode();
+      var node = ReactDOM.findDOMNode(this);
       var $node = $(node);
       var container = $node;//.find('.chosen-container');
 
@@ -99,7 +101,7 @@ export default {
     },
 
     filterSearchResults: function () {
-      var node = this.getDOMNode();
+      var node = ReactDOM.findDOMNode(this);
       var $node = $(node);
       var search_field = $node.find('input');
       var query = search_field.val();
@@ -114,7 +116,7 @@ export default {
 
     clearSearchField: function(){
       var query = "",
-        input = this.refs.searchField.getDOMNode();
+        input = this.refs.searchField;
 
       input.value = query;
       input.focus();
@@ -184,7 +186,7 @@ export default {
           selectedModels = activeCollection.map(this.renderSelectedModel),
           placeholderText = this.props.placeholderText,
           filteredModels,
-          classes = React.addons.classSet({
+          classes = classNames({
             'chosen-container-external': true,
             'chosen-container-external-multi': true,
             'chosen-with-drop': this.state.showOptions && query,

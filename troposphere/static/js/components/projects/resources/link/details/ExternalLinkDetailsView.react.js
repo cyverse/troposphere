@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import ExternalLinkInfoSection from './sections/ExternalLinkInfoSection.react';
 import ExternalLinkActions from './sections/ExternalLinkActions.react';

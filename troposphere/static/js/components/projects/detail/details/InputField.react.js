@@ -1,5 +1,6 @@
-import React from 'react/addons';
+import React from 'react';
 import EditableInputField from 'components/common/EditableInputField.react';
+
 
 export default React.createClass({
     displayName: "InputField",

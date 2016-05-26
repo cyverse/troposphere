@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import stores from 'stores';
 import ImageListView from './list/ImageListView.react';
 

@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import BreadcrumbBar from 'components/projects/common/BreadcrumbBar.react';
 import InstanceInfoSection from './sections/InstanceInfoSection.react';

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Backbone from 'backbone';
 import globals from 'globals';

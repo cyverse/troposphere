@@ -1,8 +1,9 @@
-import React from 'react/addons';
+import React from 'react';
 import Router from 'react-router';
-import stores from 'stores';
-import actions from 'actions';
 import ImageRequestActions from 'actions/ImageRequestActions';
+import actions from 'actions';
+import stores from 'stores';
+
 
 export default React.createClass({
     displayName: "ImageRequest",

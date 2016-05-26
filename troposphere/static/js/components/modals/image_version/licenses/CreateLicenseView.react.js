@@ -1,7 +1,8 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import actions from 'actions';
 import EditDescriptionView from 'components/images/detail/description/EditDescriptionView.react';
+
 
 let ENTER_KEY = 13;
 

@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import Name from '../components/Name.react';
 import CreateUpdateFlag from '../components/CreateUpdateFlag.react';
@@ -7,6 +7,7 @@ import Description from '../components/Description.react';
 import Tags from '../components/Tags.react';
 import actions from 'actions';
 import stores from 'stores';
+
 
 export default React.createClass({
     displayName: "ImageWizard-ImageInfoStep",

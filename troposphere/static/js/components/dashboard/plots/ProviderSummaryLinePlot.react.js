@@ -1,4 +1,6 @@
 import React from "react";
+import ReactDOM from 'react-dom';
+import ReactDOMServer from 'react-dom/server';
 import $ from "jquery";
 import Backbone from "backbone";
 import Highcharts from "highcharts";
@@ -50,7 +52,7 @@ export default React.createClass({
         }
         var max = findMaxDataPt(seriesData, 100);
 
-        var el = this.getDOMNode();
+        var el = ReactDOM.findDOMNode(this);
         var $el = $(el);
         $el.removeClass("loading");
 
@@ -131,7 +133,7 @@ export default React.createClass({
                   max={currentLimit}
                 />);
 
-              return React.renderToStaticMarkup(formatterComponent);
+              return ReactDOMServer.renderToStaticMarkup(formatterComponent);
             }
           },
           legend: {

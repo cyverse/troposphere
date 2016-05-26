@@ -1,8 +1,9 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import ChosenDropdownTag from './ChosenDropdownTag.react';
 import ChosenSelectedTag from './ChosenSelectedTag.react';
 import ChosenMixin from 'components/mixins/ChosenMixinExternal.react';
+
 
 export default React.createClass({
     displayName: "UserMultiSelect",

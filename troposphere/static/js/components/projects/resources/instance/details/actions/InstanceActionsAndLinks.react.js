@@ -1,10 +1,12 @@
-import React  from 'react/addons';
+import React  from 'react';
 import Backbone  from 'backbone';
 import Glyphicon  from 'components/common/Glyphicon.react';
 import actions  from 'actions';
 import modals  from 'modals';
+
 import featureFlags from 'utilities/featureFlags';
 import { findCookie } from 'utilities/cookieHelpers';
+
 import $  from 'jquery';
 
 

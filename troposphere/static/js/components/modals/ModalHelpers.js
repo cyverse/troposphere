@@ -1,10 +1,11 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import _ from 'underscore';
 
 function onCancel() {
     // Important! We need to un-mount the component so it un-registers from Stores and
     // also so that we can relaunch it again later.
-    React.unmountComponentAtNode(document.getElementById('modal'));
+    ReactDOM.unmountComponentAtNode(document.getElementById('modal'));
 }
 
 export default {
@@ -17,6 +18,6 @@ export default {
         });
 
         var modal = React.createElement(ModalComponent, props);
-        React.render(modal, document.getElementById('modal'));
+        ReactDOM.render(modal, document.getElementById('modal'));
     }
 }

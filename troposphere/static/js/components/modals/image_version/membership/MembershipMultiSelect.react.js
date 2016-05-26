@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import ChosenDropdownMembership from './ChosenDropdownMembership.react';
 import ChosenSelectedMembership from './ChosenSelectedMembership.react';

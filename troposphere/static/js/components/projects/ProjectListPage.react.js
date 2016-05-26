@@ -1,7 +1,7 @@
-
 import React from 'react';
 import ProjectListView from './list/ProjectListView.react';
 import stores from 'stores';
+
 
 function getProjectState() {
     return {

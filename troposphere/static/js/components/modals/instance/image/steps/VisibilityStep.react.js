@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import Visibility from '../components/Visibility.react';
 import stores from 'stores';

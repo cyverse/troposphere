@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import InteractiveDateField from 'components/common/InteractiveDateField.react';
 import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 

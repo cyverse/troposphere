@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import InstancePreviewView from 'components/projects/resources/instance/preview/InstancePreviewView.react';
 import VolumePreviewView from 'components/projects/resources/volume/preview/VolumePreviewView.react';

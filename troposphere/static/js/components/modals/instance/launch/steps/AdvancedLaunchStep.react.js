@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import modals from 'modals';
 import stores from 'stores';
 import BootScriptOption from '../components/BootScriptOption.react';
@@ -16,7 +16,7 @@ export default React.createClass({
                     name: "Deployment Scripts",
                     view: "BOOTSCRIPT_VIEW"
                 },
-                // This is for testing options sidebar, 
+                // This is for testing options sidebar,
                 // to add new options add them to this object and follow the pattern starting with renderBody below.
                 /*{
                     name: "Option 2",

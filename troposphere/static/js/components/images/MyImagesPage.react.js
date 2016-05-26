@@ -1,7 +1,8 @@
-import React from 'react/addons';
+import React from 'react';
 import SecondaryImageNavigation from './common/SecondaryImageNavigation.react';
 import ImageCardList from './list/list/ImageCardList.react';
 import stores from 'stores';
+
 
 export default React.createClass({
     displayName: "MyImagesPage",

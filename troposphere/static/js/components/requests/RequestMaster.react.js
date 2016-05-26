@@ -1,7 +1,8 @@
-import React from 'react/addons';
+import React from 'react';
 import stores from 'stores';
 import SecondaryRequestNavigation from './SecondaryRequestNavigation.react';
 import Router from 'react-router';
+
 
 let RouteHandler = Router.RouteHandler;
 

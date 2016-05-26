@@ -1,6 +1,7 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import MembershipList from './ImageMembership.react';
+
 
 export default React.createClass({
     displayName: "ImageVisibility",

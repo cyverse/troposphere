@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import InstanceHistoryList from './InstanceHistoryList.react';
 import MaintenanceMessageList from './MaintenanceMessageList.react';
@@ -7,6 +7,7 @@ import ProviderSummaryLinePlot from './plots/ProviderSummaryLinePlot.react';
 import CallToAction from './CallToAction.react';
 import modals from 'modals';
 import stores from 'stores';
+
 
 // images
 let launch_instance = THEME_URL + "/images/icon_launchnewinstance.png",

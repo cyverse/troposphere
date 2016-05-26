@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import VolumeTable from './VolumeTable.react';
 import NoVolumeNotice from './NoVolumeNotice.react';

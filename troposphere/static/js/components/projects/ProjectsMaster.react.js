@@ -1,5 +1,6 @@
-import React from 'react/addons';
+import React from 'react';
 import Router from 'react-router';
+
 
 let RouteHandler = Router.RouteHandler;
 

@@ -1,11 +1,12 @@
-import React from 'react/addons';
+import React from 'react';
+import Router from 'react-router';
 import Backbone from 'backbone';
-import stores from 'stores';
 import ImageCollection from 'collections/ImageCollection';
 import ImageCardList from './list/ImageCardList.react';
 import ImageCardGrid from './grid/ImageCardGrid.react';
 import SecondaryImageNavigation from '../common/SecondaryImageNavigation.react';
-import Router from 'react-router';
+import stores from 'stores';
+
 
 let timer,
     timerDelay = 100;

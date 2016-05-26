@@ -1,5 +1,6 @@
 import $ from 'jquery';
-import React from 'react/addons';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import context from 'context';
 import stores from 'stores';
 import Router from '../Router';
@@ -82,7 +83,7 @@ export default React.createClass({
         window.Intercom('update');
 
         // whenever the url changes, this callback is called again
-        React.render(<Handler/>, document.getElementById("application"));
+        ReactDOM.render(<Handler/>, document.getElementById("application"));
       });
     },
 
