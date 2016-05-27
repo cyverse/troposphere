@@ -166,9 +166,18 @@ let Header = React.createClass({
 
     renderBetaToggle: function () {
       if (!window.show_troposphere_only) {
+        let trackEvent = (e) => {
+            if (window.Intercom) {
+                window.Intercom('trackEvent', 'switch-ui', {
+                    user_interface: 'troposphere-to-airport'
+                });
+                window.Intercom('trackEvent', 'switch-to-airport');
+            }
+        };
         return (
           <div className="beta-toggle">
-            <a href="/application?beta=false&airport_ui=true">
+            <a href="/application?beta=false&airport_ui=true"
+                onClick={trackEvent}>
               <div className="toggle-wrapper">
                 <div className="toggle-background">
                   <div className="toggle-text">View Old UI</div>
