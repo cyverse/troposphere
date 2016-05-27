@@ -1,3 +1,4 @@
+{% load render_bundle from webpack_loader %}
 <!DOCTYPE html>
 {% include 'comment.html' %}
 <html>
@@ -123,9 +124,9 @@
 
     <!-- Application dependencies -->
     {% if show_public_site %}
-    <script src="{{ BASE_URL }}/assets/public.js"></script>
+    {% render_bundle 'public' 'js' %}
     {% else %}
-    <script src="{{ BASE_URL }}/assets/app.js"></script>
+    {% render_bundle 'app' 'js' %}
     {% endif %}
     <!-- Google Analtics -->
     <script src="{{ BASE_URL }}/assets/analytics.js"></script>
