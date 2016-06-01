@@ -1,6 +1,10 @@
 "use strict";
-var path = require("path");
-var webpack = require("webpack");
+var path = require('path');
+var webpack = require('webpack');
+
+// for PostCSS
+var precss = require('precss');
+var autoprefixer = require('autoprefixer')
 
 // Plugin imports:
 //var Clean = require('clean-webpack-plugin');
@@ -9,12 +13,13 @@ var CompressionPlugin = require("compression-webpack-plugin");
 var BundleTracker = require('webpack-bundle-tracker');
 
 var PATHS = {
-    output: path.join(__dirname, "/troposphere/assets/"),
-    context: path.join(__dirname, "/troposphere/static/js")
+    output: path.join(__dirname, "/troposphere/assets/bundles"),
+    context: path.join(__dirname, "/troposphere/static/js"),
+    style: path.join(__dirname, "/troposphere/static/css")
 }
 
 var plugins = [
-    new ExtractTextPlugin("[name].css", { allChunks: true }),
+    new ExtractTextPlugin("[name]-[hash].css", { allChunks: true }),
     new BundleTracker({filename: './webpack-stats.json'})
 //    new Clean(['.'], OUTPUT_PATH)
 ];
@@ -52,14 +57,15 @@ module.exports = {
         loader: "imports?this=>window,html5=>window.html5!exports?window.Modernizr" },
       { test: /\.json$/,
         loader: 'json-loader',
-        include: path.join(__dirname, 'node_modules/moment-timezone')},
+        include: path.join(__dirname, 'node_modules/moment-timezone') },
       { test: /\.js$/,
         loader: "babel",
         query: { cacheDirectory: '/tmp/' },
         exclude: /(node_modules|troposphere\/static\/js\/lib)/ },
       { test: /\.(scss|sass)$/,
         loader: ExtractTextPlugin.extract("style-loader",
-            "css-loader!autoprefixer-loader?browsers=last 2 versions!sass-loader") },
+            "css-loader!postcss-loader!sass-loader"),
+        include: PATHS.style },
       { test: /\.woff$/ , loader: "url?limit=10000&mimetype=application/font-woff" },
       { test: /\.woff2$/, loader: "url?limit=10000&mimetype=application/font-woff2" },
       { test: /\.ttf$/  , loader: "file?mimetype=application/vnd.ms-fontobject" },
@@ -75,6 +81,9 @@ module.exports = {
       css: path.join(__dirname, "/troposphere/static/css/"),
       images: path.join(__dirname, "/troposphere/static/images/"),
       highcharts: "highcharts-commonjs"
+    },
+    postcss: function() {
+        return [precss, autoprefixer]
     },
     root: [
       PATHS.context,
