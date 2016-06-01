@@ -1,13 +1,14 @@
 import _ from 'underscore';
 import Backbone from 'backbone';
 
+
 let CHANGE_EVENT = 'change';
 
 function buildQueryStringFromQueryParams(queryParams) {
     var queryString = Object.keys(queryParams).sort().map(function(key, index) {
-        return key + "=" + queryParams[key];
-    }.bind(this)).join("&");
-    queryString = queryString ? "?" + queryString : queryString;
+        return key + '=' + queryParams[key];
+    }.bind(this)).join('&');
+    queryString = queryString ? '?' + queryString : queryString;
     return queryString;
 }
 
@@ -71,26 +72,33 @@ _.extend(Store.prototype, Backbone.Events, {
     // CRUD functions
     // --------------
 
-    add: function (payload) {
-      if ("at" in payload){
-        this.models.add(payload.data, {at: payload.at});
-        return;
-      }
-      // temporarily use cid to get around currently undefined id
-      if(!payload.id) payload.id = payload.cid;
-      this.models.add(payload);
+    add: function(payload) {
+        if ('at' in payload) {
+            this.models.add(payload.data, {
+                at: payload.at
+            });
+            return;
+        }
+        // temporarily use cid to get around currently undefined id
+        if (!payload.id)
+            payload.id = payload.cid;
+        this.models.add(payload);
     },
 
-    update: function (model) {
-      var existingModel = this.models.get(model) || this.models.get({cid: model.cid});
-      if (existingModel) {
-        this.models.add(model, {merge: true});
-      } else {
-        console.error("Model doesn't exist: " + model.id || model.cid);
-      }
+    update: function(model) {
+        var existingModel = this.models.get(model) || this.models.get({
+            cid: model.cid
+        });
+        if (existingModel) {
+            this.models.add(model, {
+                merge: true
+            });
+        } else {
+            console.error('Model doesn\'t exist: ' + model.id || model.cid);
+        }
     },
 
-    remove: function (model) {
+    remove: function(model) {
         this.models.remove(model);
 
         // If already polling, Remove model from polling dictionary
@@ -113,7 +121,7 @@ _.extend(Store.prototype, Backbone.Events, {
         if (!this.models && !this.isFetching) {
             this.isFetching = true;
             var models = new this.collection();
-            var queryString = "";
+            var queryString = '';
 
             // Build the query string if queryParameters have been provided
             if (this.queryParams) {
@@ -148,16 +156,16 @@ _.extend(Store.prototype, Backbone.Events, {
         }
     },
 
-    onFetchModel: function (modelId, cb) {
+    onFetchModel: function(modelId, cb) {
         this.isFetchingModel[modelId] = true;
         var model = new this.collection.prototype.model({
-          id: modelId
+            id: modelId
         });
-        model.fetch().done(function () {
-          this.isFetchingModel[modelId] = false;
-          this.models.add(model);
-          cb(model);
-          this.emitChange();
+        model.fetch().done(function() {
+            this.isFetchingModel[modelId] = false;
+            this.models.add(model);
+            cb(model);
+            this.emitChange();
         }.bind(this));
     },
     // Returns the entire local cache, everything in this.models
@@ -171,60 +179,60 @@ _.extend(Store.prototype, Backbone.Events, {
 
     // Fetch the first page and replace models with results
     fetchFirstPage: function(cb) {
-      if (!this.isFetching) {
-        this.isFetching = true;
+        if (!this.isFetching) {
+            this.isFetching = true;
 
-        var models = new this.collection();
+            var models = new this.collection();
 
-        models.fetch({
-            url: models.url
-        }).done(function () {
-            this.isFetching = false;
-            this.models = models;
-            this.emitChange();
-            if(cb){
-                cb();
-            }
-          }.bind(this));
-      }
-      return this.models;
+            models.fetch({
+                url: models.url
+            }).done(function() {
+                this.isFetching = false;
+                this.models = models;
+                this.emitChange();
+                if (cb) {
+                    cb();
+                }
+            }.bind(this));
+        }
+        return this.models;
     },
 
     // same as fetchFirstPage, but with URL query params
     fetchFirstPageWhere: function(queryParams, options, cb) {
-      if (options && options.clearQueryCache){
-        var queryString = buildQueryStringFromQueryParams(queryParams);
-        delete this.queryModels[queryString];
-      }
+        if (options && options.clearQueryCache) {
+            var queryString = buildQueryStringFromQueryParams(queryParams);
+            delete this.queryModels[queryString];
+        }
 
-      if (!this.isFetching) {
-        this.isFetching = true;
-        queryParams = queryParams || {};
-        var queryString = buildQueryStringFromQueryParams(queryParams);
-        var models = new this.collection();
+        if (!this.isFetching) {
+            this.isFetching = true;
+            queryParams = queryParams || {};
+            var queryString = buildQueryStringFromQueryParams(queryParams);
+            var models = new this.collection();
 
-        models.fetch({
-            url: models.url + queryString
-        }).done(function () {
-            this.isFetching = false;
-            this.models = models;
-            this.emitChange();
-            if(cb){
-                cb();
-            }
-          }.bind(this));
-      }
+            models.fetch({
+                url: models.url + queryString
+            }).done(function() {
+                this.isFetching = false;
+                this.models = models;
+                this.emitChange();
+                if (cb) {
+                    cb();
+                }
+            }.bind(this));
+        }
     },
 
     // Returns a specific model if it exists in the local cache with the side
     // effect of fetching models
-    get: function (modelId) {
-      if (!modelId) return;
-      if (!this.models) {
-        this.fetchModels();
-      } else {
-        return this.models.get(modelId);
-      }
+    get: function(modelId) {
+        if (!modelId) return;
+        if (!this.models) {
+            this.fetchModels();
+        } else {
+            return this.models.get(modelId);
+        }
     },
 
     // Check the local cache for a model
@@ -237,24 +245,26 @@ _.extend(Store.prototype, Backbone.Events, {
     // provided params can be at most 1 extra level deep ('provider.id' or 'provider')
     findWhere: function(params) {
         if (!this.models) return this.fetchModels();
-
         var keys = Object.keys(params);
 
         var models = this.models.filter(function(model) {
-          var matchesCriteria = true;
+            var matchesCriteria = true;
 
-          keys.forEach(function(key) {
-            if (!matchesCriteria) return;
-          var tokens = key.split('.');
-          if(tokens.length === 1) {
-            if(model.get(key) !== params[key]) matchesCriteria = false;
-          }else{
-            var lookup = model.get(tokens[0])
-            if(lookup[tokens[1]] !== params[key]) matchesCriteria = false;
-          }
-        });
+            keys.forEach(function(key) {
+                if (!matchesCriteria) return;
 
-          return matchesCriteria;
+                var tokens = key.split('.');
+                if (tokens.length === 1) {
+                    if (model.get(key) !== params[key])
+                        matchesCriteria = false;
+                } else {
+                    var lookup = model.get(tokens[0])
+                    if (lookup[tokens[1]] !== params[key])
+                        matchesCriteria = false;
+                }
+            });
+
+            return matchesCriteria;
         });
 
         return new this.collection(models);
@@ -269,66 +279,78 @@ _.extend(Store.prototype, Backbone.Events, {
         var keys = Object.keys(params);
 
         var model = this.models.find(function(model) {
-          var matchesCriteria = true;
+            var matchesCriteria = true;
 
-          keys.forEach(function(key) {
-            if (!matchesCriteria) return;
+            keys.forEach(function(key) {
+                if (!matchesCriteria) return;
 
-          var tokens = key.split('.');
-          if(tokens.length === 1) {
-            if(model.get(key) !== params[key]) matchesCriteria = false;
-          }else{
-            var lookup = model.get(tokens[0])
-            if(lookup[tokens[1]] !== params[key]) matchesCriteria = false;
-          }
-        });
+                var tokens = key.split('.');
+                if (tokens.length === 1) {
+                    if (model.get(key) !== params[key])
+                        matchesCriteria = false;
+                } else {
+                    var lookup = model.get(tokens[0])
+                    if (lookup[tokens[1]] !== params[key])
+                        matchesCriteria = false;
+                }
+            });
 
-          return matchesCriteria;
+            return matchesCriteria;
         });
 
         return model;
     },
 
     // Fetches the next page of data for this.models
-    fetchMore: function () {
-      var nextUrl = this.models.meta.next;
+    fetchMore: function() {
+        var nextUrl = this.models.meta.next;
 
-      if (nextUrl && !this.isFetchingMore) {
-        this.isFetchingMore = true;
-        var moreModels = new this.collection();
-        moreModels.fetch({
-          url: nextUrl
-        }).done(function () {
-          this.isFetchingMore = false;
-          this.models.add(moreModels.models, { merge: true });
-          this.models.meta = moreModels.meta;
-          this.emitChange();
-        }.bind(this));
-      }
+        if (nextUrl && !this.isFetchingMore) {
+            this.isFetchingMore = true;
+            var moreModels = new this.collection();
+            moreModels.fetch({
+                url: nextUrl
+            }).done(function() {
+                this.isFetchingMore = false;
+                this.models.add(moreModels.models, {
+                    merge: true
+                });
+                this.models.meta = moreModels.meta;
+                this.emitChange();
+            }.bind(this));
+        }
+    },
+
+    getWhere: function(queryParams) {
+        queryParams = queryParams || {};
+        // Build the query string
+        var queryString = buildQueryStringFromQueryParams(queryParams);
+
+        return this.queryModels[queryString];
     },
 
     // Fetches the first page of data for the given set of queryParams
     // Example: params = {page_size: 1000, search: 'featured'}
     // will be convereted to ?page_size=1000&search=featured
     fetchWhereNoCache: function(queryParams) {
-      queryParams = queryParams || {};
+        queryParams = queryParams || {};
 
-      // Build the query string
-      var queryString = buildQueryStringFromQueryParams(queryParams);
+        // Build the query string
+        var queryString = buildQueryStringFromQueryParams(queryParams);
 
-      if(this.queryModels[queryString]) return this.queryModels[queryString];
+        if (this.queryModels[queryString]) return this.queryModels[queryString];
 
-      if(!this.isFetchingQuery[queryString]) {
-        this.isFetchingQuery[queryString] = true;
-        var models = new this.collection();
-        models.fetch({
-          url: models.url + queryString
-        }).done(function () {
-          this.isFetchingQuery[queryString] = false;
-          this.queryModels[queryString] = models;
-          this.emitChange();
-        }.bind(this));
-      }
+        if (!this.isFetchingQuery[queryString]) {
+            this.isFetchingQuery[queryString] = true;
+            var models = new this.collection();
+            models.fetch({
+                url: models.url + queryString
+            }).done(function() {
+                this.isFetchingQuery[queryString] = false;
+                this.queryModels[queryString] = models;
+                this.emitChange();
+            }.bind(this));
+        }
     },
     appendModels: function(moreModels) {
         if(!this.models) {
@@ -339,27 +361,26 @@ _.extend(Store.prototype, Backbone.Events, {
     },
 
     fetchWhere: function(queryParams) {
-      queryParams = queryParams || {};
+        queryParams = queryParams || {};
 
-      // Build the query string
-      var queryString = buildQueryStringFromQueryParams(queryParams);
+        // Build the query string
+        var queryString = buildQueryStringFromQueryParams(queryParams);
 
-      if(this.queryModels[queryString]) return this.queryModels[queryString];
+        if (this.queryModels[queryString]) return this.queryModels[queryString];
 
-      if(!this.isFetchingQuery[queryString]) {
-        this.isFetchingQuery[queryString] = true;
-        this.isFetching = true;
-        var models = new this.collection();
-        models.fetch({
-          url: models.url + queryString
-        }).done(function () {
-          this.isFetching = false;
-          this.isFetchingQuery[queryString] = false;
-          this.queryModels[queryString] = models;
-          this.appendModels(models);
-          this.emitChange();
-        }.bind(this));
-      }
+        if (!this.isFetchingQuery[queryString]) {
+            this.isFetchingQuery[queryString] = true;
+            this.isFetching = true;
+            var models = new this.collection();
+            models.fetch({
+                url: models.url + queryString
+            }).done(function() {
+                this.isFetching = false;
+                this.isFetchingQuery[queryString] = false;
+                this.queryModels[queryString] = models;
+                this.emitChange();
+            }.bind(this));
+        }
     },
 
     // Fetches the next page of data for the given set of queryParams
@@ -371,14 +392,18 @@ _.extend(Store.prototype, Backbone.Events, {
         // Build the query string
         var queryString = buildQueryStringFromQueryParams(queryParams);
 
+        var searchResults = this.queryModels[queryString],
+            nextUrl = searchResults.meta.next;
+
         if (nextUrl && !this.isFetchingQuery[queryString]) {
             this.isFetching = true;
             this.isFetchingQuery[queryString] = true;
             var moreModels = new this.collection();
 
             this.queryModels[queryString].fetch({
-                url: nextUrl, remove: false
-            }).done(function () {
+                url: nextUrl,
+                remove: false
+            }).done(function() {
                 this.isFetching = false;
                 this.isFetchingQuery[queryString] = false;
                 this.emitChange();
@@ -393,7 +418,7 @@ _.extend(Store.prototype, Backbone.Events, {
     // Poll model while whileFunc(model) returns true.
     pollWhile: function(model, whileFunc) {
         if (!model.fetchFromCloud)
-            throw new Error("model missing required method for polling: fetchFromCloud");
+            throw new Error('model missing required method for polling: fetchFromCloud');
 
         // If already polling, mutate the callback and exit
         if (this.pollingModels[model.cid]) {
@@ -416,9 +441,9 @@ _.extend(Store.prototype, Backbone.Events, {
                 // Use latest polling func
                 var keepPolling = this.pollingModels[model.cid](model, response);
 
-                if (this.has(model)){
-                        this.update(model);
-                        this.emitChange();
+                if (this.has(model)) {
+                    this.update(model);
+                    this.emitChange();
                 }
 
                 if (keepPolling) {
@@ -434,21 +459,20 @@ _.extend(Store.prototype, Backbone.Events, {
     },
 
     // Fetches the models state immediately and then sets up to be polled if not in a final state
-    pollNowUntilBuildIsFinished: function (model) {
-      if (!this.isInFinalState) throw new Error("store missing required method for polling: isInFinalState");
+    pollNowUntilBuildIsFinished: function(model) {
+        if (!this.isInFinalState)
+            throw new Error('store missing required method for polling: isInFinalState');
 
-      if (model.id) {
-        this.pollWhile(model, _.negate(this.isInFinalState));
-      }
+        if (model.id) {
+            this.pollWhile(model, _.negate(this.isInFinalState));
+        }
     },
 
     // Delays before polling, should be removed...
-    pollUntilBuildIsFinished: function (model) {
+    pollUntilBuildIsFinished: function(model) {
         setTimeout(this.pollNowUntilBuildIsFinished.bind(this, model), this.pollingFrequency);
     },
 });
 
 Store.extend = Backbone.Model.extend;
-
 export default Store;
-
