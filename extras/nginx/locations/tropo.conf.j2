@@ -2,6 +2,10 @@ location /assets {
     alias {{ ASSETS_PATH }};
 }
 
+location /assets/bundles {
+    alias {{ ASSETS_PATH }}/bundles/;
+}
+
 location /themes {
     alias {{ THEME_PATH }};
 }
