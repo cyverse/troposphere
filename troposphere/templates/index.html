@@ -9,7 +9,7 @@
     <link rel="shortcut icon" href="{{THEME_URL}}/images/favicon.ico" />
 
     <!--CSS-->
-    <link rel="stylesheet" href="{{ BASE_URL }}/assets/app.css" rel="stylesheet" type="text/css">
+    {% render_bundle 'app' 'css' %}
     <link rel="stylesheet" href="{{ THEME_URL }}/css/theme.css" rel="stylesheet" type="text/css">
 
     <!-- Fonts -->
@@ -128,7 +128,7 @@
     {% else %}
     {% render_bundle 'app' 'js' %}
     {% endif %}
-    <!-- Google Analtics -->
-    <script src="{{ BASE_URL }}/assets/analytics.js"></script>
+    <!-- Google Analytics -->
+    {% render_bundle 'analytics' 'js' %}
 </body>
 </html>

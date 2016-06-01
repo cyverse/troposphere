@@ -7,9 +7,9 @@ var precss = require('precss');
 var autoprefixer = require('autoprefixer')
 
 // Plugin imports:
-//var Clean = require('clean-webpack-plugin');
+//  var Clean = require('clean-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var CompressionPlugin = require("compression-webpack-plugin");
+var CompressionPlugin = require('compression-webpack-plugin');
 var BundleTracker = require('webpack-bundle-tracker');
 
 var PATHS = {
@@ -47,7 +47,7 @@ module.exports = {
   context: PATHS.context,
   output: {
     path: PATHS.output,
-    publicPath: "/assets/",
+    publicPath: "/assets/bundles/",
     filename: "[name]-[hash].js"
   },
   module: {
