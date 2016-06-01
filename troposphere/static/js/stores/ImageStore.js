@@ -64,6 +64,20 @@ define(function (require) {
 
         return project_images;
     },
+    getProjects: function(imageId) {
+        /**
+         * Returns the list of projects *OR* null && Starts the 'fetch' process.
+         */
+        var _projects = stores.ProjectImageStore.fetchWhere({
+            application__id: imageId
+        });
+        //TODO: _projects is returning an OBJECT instead of an array?!?!
+        if(!_projects) {
+            return null;
+        }
+
+        return _projects;
+    },
     getVersions: function(imageId) {
         /**
          * Returns the list of versions *OR* null && Starts the 'fetch' process.
