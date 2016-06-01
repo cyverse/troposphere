@@ -21,6 +21,7 @@
     "watch": "webpack --progress --profile --colors --bail --watch --",
     "jenkins": "webpack --profile --colors --",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "stats": "webpack --profile --json > stats.json",
     "lint": "eslint --ignore-pattern './troposphere/static/js/lib/**/*.js' troposphere/static/js",
     "lint-pre-commit": "eslint --stdin",
     "format-check": "esformatter -c .esformatter --diff $(git diff --diff-filter=M --name-only | grep js$) || exit 0",
