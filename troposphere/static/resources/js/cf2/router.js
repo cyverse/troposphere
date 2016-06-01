@@ -236,7 +236,12 @@ $(document).ready(function () {
 
     $('.beta-toggle').click(function (e) {
       e.preventDefault();
-      console.log('user interface switch clicked');
+      if (window.Intercom) {
+        window.Intercom('trackEvent', 'switch-ui', {
+            user_interface: 'airport-to-troposphere'
+        });
+        window.Intercom('trackEvent', 'switch-to-troposphere');
+      }
 
       window.location = '/application?beta=true&airport_ui=false';
     });
