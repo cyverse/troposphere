@@ -76,6 +76,9 @@ extras/newrelic
 # generated file backups
 *.bak.[0-9]*_[0-9]*
 
+# Webpack Bundle Tracker file (see ATMO-1356)
+webpack-stats.json
+
 # generated files
 extras/nginx/Makefile
 extras/nginx/site.conf
