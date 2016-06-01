@@ -66,6 +66,14 @@ var ProjectImageStore = BaseStore.extend({
         return allImages.get(project_image.get('image').id);
       });
       return new ImageCollection(images);
+    },
+
+    getProjectsFor: function (imageId) {
+      var allProjects = stores.ImageStore.getProjects(imageId);
+      if (!imageId) return;
+      if (!allProjects) return;
+
+      return allProjects;
     }
 });
 
