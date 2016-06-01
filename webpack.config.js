@@ -82,12 +82,13 @@ module.exports = {
       images: path.join(__dirname, "/troposphere/static/images/"),
       highcharts: "highcharts-commonjs"
     },
-    postcss: function() {
-        return [precss, autoprefixer]
-    },
     root: [
       PATHS.context,
     ],
     extensions: ["", ".js", ".scss", ".sass"]
+  },
+  // defined the PostCSS plugins to be used
+  postcss: function() {
+    return [precss, autoprefixer({ browsers: ['last 2 versions'] })]
   }
 };
