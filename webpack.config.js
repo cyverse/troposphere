@@ -7,7 +7,7 @@ var precss = require('precss');
 var autoprefixer = require('autoprefixer')
 
 // Plugin imports:
-//  var Clean = require('clean-webpack-plugin');
+var Clean = require('clean-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CompressionPlugin = require('compression-webpack-plugin');
 var BundleTracker = require('webpack-bundle-tracker');
@@ -20,8 +20,8 @@ var PATHS = {
 
 var plugins = [
     new ExtractTextPlugin("[name]-[hash].css", { allChunks: true }),
-    new BundleTracker({filename: './webpack-stats.json'})
-//    new Clean(['.'], OUTPUT_PATH)
+    new BundleTracker({filename: './webpack-stats.json'}),
+    new Clean([PATHS.output])
 ];
 
 if (process.env.NODE_ENV === "production") {
