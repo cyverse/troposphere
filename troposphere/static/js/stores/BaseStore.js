@@ -78,11 +78,13 @@ define(function (require) {
         this.models.add(payload.data, {at: payload.at});
         return;
       }
+      // temporarily use cid to get around currently undefined id
+      if(!payload.id) payload.id = payload.cid;
       this.models.add(payload);
     },
 
     update: function (model) {
-      var existingModel = this.models.get(model);
+      var existingModel = this.models.get(model) || this.models.get({cid: model.cid});
       if (existingModel) {
         this.models.add(model, {merge: true});
       } else {
@@ -332,6 +334,13 @@ define(function (require) {
         }.bind(this));
       }
     },
+    appendModels: function(moreModels) {
+        if(!this.models) {
+            this.models = moreModels;
+            return;
+        }
+        this.models.add(moreModels.models, { merge: true });
+    },
 
     fetchWhere: function(queryParams) {
       queryParams = queryParams || {};
@@ -351,6 +360,7 @@ define(function (require) {
           this.isFetching = false;
           this.isFetchingQuery[queryString] = false;
           this.queryModels[queryString] = models;
+          this.appendModels(models);
           this.emitChange();
         }.bind(this));
       }

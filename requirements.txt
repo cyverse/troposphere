@@ -11,6 +11,9 @@ psycopg2==2.5.2
 requests==2.7
 uWSGI==2.0.12
 
+# Application Insights
+newrelic==2.64.0.48
+
 # Ours
 caslib.py==2.2.2
 django-iplant-auth==0.1.10

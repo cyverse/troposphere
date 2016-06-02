@@ -22,7 +22,9 @@
     "jenkins": "webpack --profile --colors --",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --ignore-pattern './troposphere/static/js/lib/**/*.js' troposphere/static/js",
-    "lint-pre-commit": "eslint --stdin"
+    "lint-pre-commit": "eslint --stdin",
+    "format-check": "esformatter -c .esformatter --diff $(git diff --diff-filter=M --name-only | grep js$) || exit 0",
+    "format": "esformatter -c .esformatter -i $(git diff --diff-filter=M --name-only | grep js$)"
   },
   "dependencies": {
     "babel-runtime": "^5.8.12",
@@ -52,6 +54,10 @@
     "clean-webpack-plugin": "^0.1.3",
     "compression-webpack-plugin": "^0.3.1",
     "css-loader": "^0.15.6",
+    "esformatter": "^0.9.3",
+    "esformatter-eol-last": "^1.0.0",
+    "esformatter-jsx": "^5.0.4",
+    "esformatter-quotes": "^1.0.3",
     "eslint": "^1.4.3",
     "eslint-plugin-react": "^3.14.0",
     "exports-loader": "^0.6.2",
