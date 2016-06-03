@@ -74,7 +74,26 @@ define(function (require) {
               + size.mem + " MB Memory, "
               + size.disk + " Disk",
           instance_mach_str = instance.image.name + " v." + machine.version;
+      var membership_list, access_list;
 
+      if(request.get('access_list')) {
+          var new_access_list = JSON.parse(
+                request.get('access_list').replace(/\'/g,'"'));
+
+          access_list = new_access_list.map(function(member) {
+              return member;
+          }).sort().join(", ");
+      } else {
+          access_list = "";
+      }
+      if(request.get('new_version_membership')) {
+          var new_membership_list = request.get('new_version_membership');
+          membership_list = new_membership_list.map(function(membership) {
+              return membership.name;
+          }).sort().join(", ");
+      } else {
+          membership_list = "N/A";
+      }
       // ensure boolean values are displayed as strings
       var allowImaging = "false";
       var forked = "false";
@@ -109,7 +128,8 @@ define(function (require) {
             <div>Description: {request.get('new_application_description')}</div>
             <div>Tags: {request.get('new_version_tags')}</div>
             <div>Visbility: {request.get('new_application_visibility')}</div>
-            <div>Membership (Private Only): {request.get('access_list') ? request.get('access_list') : "N/A"}</div>
+            <div>Membership Requested (Private Only): {access_list}</div>
+            <div>Membership Approved (Private Only): {membership_list}</div>
             <div>Boot scripts (Optional): {request.get('new_version_scripts')}</div>
             <div>Licenses (Optional): {request.get('new_version_licenses')}</div>
             <div>Minimum Memory Threshold (Optional): {request.get('new_version_memory_min') == 0 ? "" : request.get('new_version_memory_min')}</div>
