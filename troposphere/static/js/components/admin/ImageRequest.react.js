@@ -62,7 +62,17 @@ export default React.createClass({
 
     render: function () {
       var request = stores.ImageRequestStore.get(this.getParams().id),
-          instance = request.get('instance');
+          machine = request.get('parent_machine'),
+          new_machine = request.get('new_machine'),
+          new_provider = request.get('new_machine_provider'),
+          instance = request.get('instance'),
+          size = instance.size,
+          instance_size_str = size.name
+              + "(" + size.alias + ") : "
+              + size.cpu + " CPU, "
+              + size.mem + " MB Memory, "
+              + size.disk + " Disk",
+          instance_mach_str = instance.image.name + " v." + machine.version;
 
       // ensure boolean values are displayed as strings
       var allowImaging = "false";
@@ -79,28 +89,46 @@ export default React.createClass({
       return(
         <div className="request-admin pull-right admin-detail">
           <div>
+            <h3>Request Information</h3>
             <div>Request ID: {request.get('id')}</div>
-            <div>Installed software: {request.get('installed_software')}</div>
-            <div>Instance ID: {instance.id}</div>
-            <div>Instance name: {instance.name}</div>
-            <div>iPlant sys files: {request.get('iplant_sys_files')}</div>
-            <div>New application description: {request.get('new_application_description')}</div>
-            <div>New application name: {request.get('new_application_name')}</div>
-            <div>New machine owner: {request.get('new_machine_owner').username}</div>
-            <div>New provider: {request.get('new_machine_provider').name}</div>
-            <div>Allow imaging: {allowImaging}</div>
-            <div>Forked: {forked}</div>
-          </div>
-
-          <div>
-            <div>New version licenses: {request.get('new_version_licenses')}</div>
-            <div>New version memory min: {request.get('new_version_memory_min')}</div>
-            <div>New version cpu min: {request.get('new_version_cpu_min')}</div>
-            <div>New version name: {request.get('new_version_name')}</div>
-            <div>New version scripts: {request.get('new_version_scripts')}</div>
-            <div>New version tags: {request.get('new_version_tags')}</div>
+            <div>Username: {request.get('new_machine_owner').username}</div>
+            <div>Request type: {forked ? "New Application Request" : "Updated Application Request"}</div>
+            <div>Imaging status: {allowImaging ? "Imaging allowed" : "Author only"}</div>
             <div>Request state: {request.get('old_status')}</div>
             <div>Status: {request.get('status').name}</div>
+            <h6>Additional Information</h6>
+            <div>Original machine: {instance_mach_str}</div>
+            <div>Original provider: {machine.provider.name}</div>
+            <div>Destination machine: {new_machine ? new_machine.uuid : "N/A"}</div>
+            <div>Destination provider: {new_provider.name}</div>
+          </div>
+          <div>
+            <h3>Application Information</h3>
+            <div>Name: {request.get('new_application_name')}</div>
+            <div>Description: {request.get('new_application_description')}</div>
+            <div>Tags: {request.get('new_version_tags')}</div>
+            <div>Visbility: {request.get('new_application_visibility')}</div>
+            <div>Membership (Private Only): {request.get('access_list') ? request.get('access_list') : "N/A"}</div>
+            <div>Boot scripts (Optional): {request.get('new_version_scripts')}</div>
+            <div>Licenses (Optional): {request.get('new_version_licenses')}</div>
+            <div>Minimum Memory Threshold (Optional): {request.get('new_version_memory_min') == 0 ? "" : request.get('new_version_memory_min')}</div>
+            <div>Minimum CPU Threshold (Optional): {request.get('new_version_cpu_min') == 0 ? "" : request.get('new_version_cpu_min')}</div>
+          </div>
+          <div>
+            <h3>Version Information</h3>
+            <div>Name: {request.get('new_version_name')}</div>
+            <div>Change log: {request.get('new_version_change_log')}</div>
+            <div>Installed Software: {request.get('installed_software')}</div>
+            <div>Excluded files: {request.get('exclude_files')}</div>
+            <div>System files: {request.get('system_files')}</div>
+          </div>
+          <div>
+            <h3>Instance Information</h3>
+            <div>Instance ID: {instance.id}</div>
+            <div>Instance alias: {instance.uuid}</div>
+            <div>Instance status: {instance.end_date ? "Destroyed on "+instance.end_date : instance.status}</div>
+            <div>Instance size: {instance_size_str} </div>
+            <div>Instance name: {instance.name}</div>
           </div>
 
           <div className="request-actions">

@@ -33,6 +33,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'rest_framework',
+    'rest_framework.authtoken',
     'iplantauth',
     'api',
 )
