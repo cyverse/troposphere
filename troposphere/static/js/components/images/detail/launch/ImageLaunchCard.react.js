@@ -83,7 +83,7 @@ define(
             var loginUrl = buildLoginUrl(),
                 imageUrl = buildImageUrl(this.props.image),
                 fullUrl = loginUrl + "?redirect_to=" + imageUrl +
-                    "?beta=true&airport_ui=false";
+                    "?beta=true";
 
           button = (
             <a className='btn btn-primary launch-button' href={fullUrl}>

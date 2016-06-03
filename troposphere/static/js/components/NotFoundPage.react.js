@@ -6,6 +6,7 @@ export default React.createClass({
     displayName: "NotFoundPage",
 
     render: function() {
+        var window_location = window.location.pathname + "?beta=true";
 
         return (
         <div className="container">
@@ -21,7 +22,7 @@ export default React.createClass({
                 </p>
                 <p style={{'fontSize': '133%'}}>
                 {`This page may be visible if you `}
-                <a href="/login?redirect_to=/application?beta=true">log in</a>{`.`}
+                <a href={"/login?redirect_to="+window_location}>log in</a>{`.`}
                 </p>
             </div>
         </div>
