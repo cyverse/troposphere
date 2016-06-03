@@ -85,6 +85,54 @@ DATABASES = {
 }
 
 # Authentication
+{% if AUTH_USE_OVERRIDE -%}
+AUTHENTICATION_BACKENDS = (
+    # MOCK - If enabled, Use MockLoginBackend first for single-user access.
+    # Helpful for debug/development. Be sure to set Atmosphere to MockLoginBackend.
+    {% if AUTH_ENABLE_MOCK -%}
+    'iplantauth.authBackends.MockLoginBackend',
+    {% else -%}
+    # 'iplantauth.authBackends.MockLoginBackend',
+    {% endif -%}
+    #
+    # AuthToken - Allows staff emulation via API
+    # by using existing tokens as simple authentication.
+    'iplantauth.authBackends.AuthTokenLoginBackend',
+    #
+    # ModelBackend - Allow traditional username/password. Helpful when using areas
+    # of the application that do not work with SSO backends (Globus, OAuth)
+    # Basically, this will come in handy if you are not using LDAP
+    {% if AUTH_ENABLE_MODEL -%}
+    'django.contrib.auth.backends.ModelBackend',
+    {% else -%}
+    # 'django.contrib.auth.backends.ModelBackend',
+    {% endif -%}
+    #
+    # Single Sign On Backend - This backend should give you the ability to authenticate
+    # and then authorize a user, (Usually, based on OAuth or some other token exchange)
+    {% if AUTH_ENABLE_GLOBUS -%}
+    # Globus OAuth
+    'iplantauth.authBackends.GlobusOAuthLoginBackend',
+    {% elif AUTH_ENABLE_CAS or AUTH_ENABLE_OAUTH -%}
+    # CAS OAuth implementation of SSO
+    'iplantauth.authBackends.OAuthLoginBackend',
+    {% elif AUTH_ENABLE_MOCK -%}
+    # Hello developer, you have
+    # SSO Disabled but are using Mock configuration.
+    # (Be sure to set Atmosphere also!)
+    {% else -%}
+    # WARNING:
+    # _No_ Backend has been enabled for SSO access.
+    # This may result in a limited set of functionality from troposphere.
+    {% endif -%}
+    {% if AUTH_ENABLE_LDAP -%}
+    #
+    # LDAP - Allow access via LDAP username/password
+    'iplantauth.authBackends.LDAPLoginBackend',
+    {% endif -%}
+    )
+{% endif -%}
+#CAS
 CAS_SERVER = "{{ CAS_SERVER }}"
 CAS_AUTH_PREFIX = "{{ CAS_AUTH_PREFIX }}"
 
