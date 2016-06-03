@@ -160,10 +160,6 @@ BADGE_SYSTEM_NAME = "{{ BADGE_SYSTEM_NAME }}"
 BADGE_SECRET = "{{ BADGE_SECRET }}"
 {% endif %}
 
-# resolved JS asset + hash for template rendering
-INSTALLED_APPS += (
-    'webpack_loader',
-)
 {% if DJANGO_JENKINS %}
 INSTALLED_APPS += (
     'django_jenkins',
