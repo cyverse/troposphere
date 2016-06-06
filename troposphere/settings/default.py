@@ -34,6 +34,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'webpack_loader', # resolved JS asset + hash for template rendering
     'rest_framework',
+    'rest_framework.authtoken',
     'iplantauth',
     'api',
 )

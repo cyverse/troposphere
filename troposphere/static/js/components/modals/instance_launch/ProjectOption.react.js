@@ -15,7 +15,6 @@ define(
 
       render: function () {
         var project = this.props.project;
-
         return (
           <option value={project.id}>
             {project.get('name')}
