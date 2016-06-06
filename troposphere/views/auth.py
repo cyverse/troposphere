@@ -116,10 +116,20 @@ def _globus_login(request):
     return globus_login_redirect(request)
 
 
-def _oauth_login(request):
+def set_redirect_in_session(request):
     redirect_url = request.GET.get('redirect_to')
+    referer_url = request.META.get('HTTP_REFERER')
+    # If the referer is 'application/images' the *login* button should
+    # really take you to the Authenticated 'home' page, *dashboard*
+    if referer_url and referer_url.endswith('/application/images'):
+        redirect_url = '/application/dashboard'
+    # Set the redirect url to match the query-param `?redirect_to=`
     if redirect_url:
         request.session['redirect_to'] = redirect_url
+    return
+
+def _oauth_login(request):
+    set_redirect_in_session(request)
 
     response = redirect(cas_oauth_client.authorize_url())
 
