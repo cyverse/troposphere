@@ -1,18 +1,27 @@
 "use strict";
-var path = require("path");
-var webpack = require("webpack");
+var path = require('path');
+var webpack = require('webpack');
+
+// for PostCSS
+var precss = require('precss');
+var autoprefixer = require('autoprefixer')
 
 // Plugin imports:
-//var Clean = require('clean-webpack-plugin');
+var Clean = require('clean-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var CompressionPlugin = require("compression-webpack-plugin");
+var CompressionPlugin = require('compression-webpack-plugin');
+var BundleTracker = require('webpack-bundle-tracker');
 
-var OUTPUT_PATH = path.join(__dirname, "/troposphere/assets");
-var CONTEXT_PATH = path.join(__dirname, "/troposphere/static/js");
+var PATHS = {
+    output: path.join(__dirname, "/troposphere/assets/bundles"),
+    context: path.join(__dirname, "/troposphere/static/js"),
+    style: path.join(__dirname, "/troposphere/static/css")
+}
 
 var plugins = [
-    new ExtractTextPlugin("[name].css", { allChunks: true })
-//    new Clean(['.'], OUTPUT_PATH)
+    new ExtractTextPlugin("[name]-[hash].css", { allChunks: true }),
+    new BundleTracker({filename: './webpack-stats.json'}),
+    new Clean([PATHS.output])
 ];
 
 if (process.env.NODE_ENV === "production") {
@@ -35,22 +44,28 @@ module.exports = {
     analytics: "./analytics",
     public: "./public_site/main"
   },
-  context: CONTEXT_PATH,
+  context: PATHS.context,
   output: {
-    path: OUTPUT_PATH,
-    publicPath: "/assets/",
-    filename: "[name].js"
+    path: PATHS.output,
+    publicPath: "/assets/bundles/",
+    filename: "[name]-[hash].js"
   },
   module: {
     loaders: [
       { test: /bootstrap-sass/, loader: "imports?jQuery=jquery" },
-      { test: /modernizr-latest\.js/, loader: "imports?this=>window,html5=>window.html5!exports?window.Modernizr" },
-      { test: /\.json$/, loader: 'json-loader', include: path.join(__dirname, 'node_modules/moment-timezone')},
+      { test: /modernizr-latest\.js/,
+        loader: "imports?this=>window,html5=>window.html5!exports?window.Modernizr" },
+      { test: /\.json$/,
+        loader: 'json-loader',
+        include: path.join(__dirname, 'node_modules/moment-timezone') },
       { test: /\.js$/,
         loader: "babel",
         query: { cacheDirectory: '/tmp/' },
         exclude: /(node_modules|troposphere\/static\/js\/lib)/ },
-      { test: /\.(scss|sass)$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader!autoprefixer-loader?browsers=last 2 versions!sass-loader") },
+      { test: /\.(scss|sass)$/,
+        loader: ExtractTextPlugin.extract("style-loader",
+            "css-loader!postcss-loader!sass-loader"),
+        include: PATHS.style },
       { test: /\.woff$/ , loader: "url?limit=10000&mimetype=application/font-woff" },
       { test: /\.woff2$/, loader: "url?limit=10000&mimetype=application/font-woff2" },
       { test: /\.ttf$/  , loader: "file?mimetype=application/vnd.ms-fontobject" },
@@ -59,7 +74,6 @@ module.exports = {
       { test: /\.(jpe?g|png|gif|ico)$/, loader: "file?name=images/[name].[ext]" }
     ]
   },
-
   plugins: plugins,
   resolve: {
     alias: {
@@ -69,8 +83,12 @@ module.exports = {
       highcharts: "highcharts-commonjs"
     },
     root: [
-      CONTEXT_PATH,
+      PATHS.context,
     ],
     extensions: ["", ".js", ".scss", ".sass"]
+  },
+  // defined the PostCSS plugins to be used
+  postcss: function() {
+    return [precss, autoprefixer({ browsers: ['last 2 versions'] })]
   }
 };
