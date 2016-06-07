@@ -73,7 +73,7 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
     template_params = {
         'access_token': request.session.get('access_token'),
         'emulator_token': request.session.get('emulator_token'),
-        'emulated_by': request.session.get('emulated_by'),
+        'emulator': request.session.get('emulator'),
         'records': maintenance_records,
         'show_troposphere_only': show_troposphere_only,
         'new_relic_enabled': enable_new_relic,
