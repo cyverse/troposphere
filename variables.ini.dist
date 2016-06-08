@@ -4,6 +4,7 @@ ASSETS_PATH =
 THEME_PATH =
 
 [nginx]
+ENABLE_HTTP2 = ; enable if http2 module available in nginx build
 BUNDLE_FILE =
 TROPOSPHERE_PATH =
 LOCATIONS_DIR =
