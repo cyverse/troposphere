@@ -21,8 +21,14 @@ var PATHS = {
 var plugins = [
     new ExtractTextPlugin("[name]-[hash].css", { allChunks: true }),
     new BundleTracker({filename: './webpack-stats.json'}),
+    new webpack.optimize.CommonsChunkPlugin({
+        names: ['vendor', 'manifest'],
+        minChunks: Infinity
+    }),
     new Clean([PATHS.output])
 ];
+
+const pkg = require('./package.json');
 
 if (process.env.NODE_ENV === "production") {
   plugins.push(
@@ -34,12 +40,20 @@ if (process.env.NODE_ENV === "production") {
       compressor: {
         warnings: false
       }
+    }),
+    new CompressionPlugin({
+            asset: "[path].gz[query]",
+            algorithm: "gzip",
+            test: /\.js$|\.css$/,
+            threshold: 10240,
+            minRatio: 0.8
     })
   );
 }
 
 module.exports = {
   entry: {
+    vendor: Object.keys(pkg.dependencies),
     app: "./main",
     analytics: "./analytics",
     public: "./public_site/main"
@@ -48,7 +62,8 @@ module.exports = {
   output: {
     path: PATHS.output,
     publicPath: "/assets/bundles/",
-    filename: "[name]-[hash].js"
+    filename: "[name]-[chunkhash].js",
+    chunkFilename: '[chunkhash].js'
   },
   module: {
     loaders: [

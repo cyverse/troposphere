@@ -124,6 +124,9 @@
     </script>
 
     <!-- Application dependencies -->
+    {% render_bundle 'manifest' 'js' %}
+    {% render_bundle 'vendor' 'js' %}
+
     {% if show_public_site %}
     {% render_bundle 'public' 'js' %}
     {% else %}
