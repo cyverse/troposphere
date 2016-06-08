@@ -41,7 +41,8 @@
     var access_token = "{{ access_token }}";
 {% endif %}
 
-{% if emulator_token %}
+{% if emulator and emulator_token %}
+    var emulator = "{{ emulator }}";
     var emulator_token = "{{ emulator_token }}";
 {% endif %}
 

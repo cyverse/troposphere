@@ -61,16 +61,16 @@ def emulate(request, username):
         return redirect("application")
 
     new_token = j_data.get('token')
-    emulated_by = j_data.get('emulated_by')
-    if not new_token or not emulated_by:
+    emulator = j_data.get('emulator')
+    if not new_token or not emulator:
         logger.warn("[EMULATE]The API server returned data missing the key(s) "
-                    "token/emulated_by. Data: %s" % j_data)
+                    "token/emulator. Data: %s" % j_data)
         return redirect('application')
 
     logger.info("[EMULATE]User %s (Token: %s) has emulated User %s (Token:%s)"
-                % (emulated_by, old_token, username, new_token))
+                % (emulator, old_token, username, new_token))
 
-    request.session["emulate_by"] = emulated_by
+    request.session["emulator"] = emulator
     request.session['emulator_token'] = old_token
     request.session['access_token'] = new_token
     return redirect('application')
