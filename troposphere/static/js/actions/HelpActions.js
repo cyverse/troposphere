@@ -7,6 +7,7 @@ import Constants from 'constants/ResourceRequestConstants';
 import actions from 'actions';
 import stores from 'stores';
 
+import { trackAction } from 'utilities/userActivity';
 
 export default {
     sendFeedback: function (feedback) {
@@ -38,6 +39,7 @@ export default {
         contentType: 'application/json',
         success: function (data) {
           NotificationController.info("Thanks for your feedback!", "Support has been notified.");
+          trackAction('sent-feedback');
         },
         error: function (response) {
           var errorMessage,

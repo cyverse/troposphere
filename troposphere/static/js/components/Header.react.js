@@ -6,7 +6,7 @@ import MaintenanceMessageBanner from './MaintenanceMessageBanner.react';
 import globals from 'globals';
 import Router from 'react-router';
 
-
+import { trackAction } from 'utilities/userActivity';
 import { hasLoggedInUser } from 'utilities/profilePredicate';
 
 let Link = Router.Link;
@@ -167,12 +167,10 @@ let Header = React.createClass({
     renderBetaToggle: function () {
       if (!window.show_troposphere_only) {
         let trackEvent = (e) => {
-            if (window.Intercom) {
-                window.Intercom('trackEvent', 'switch-ui', {
+            trackAction('switch-ui', {
                     user_interface: 'troposphere-to-airport'
-                });
-                window.Intercom('trackEvent', 'switch-to-airport');
-            }
+            });
+            trackAction('switch-to-airport');
         };
         return (
           <div className="beta-toggle">
