@@ -159,7 +159,7 @@ define(function (require) {
             onTagAdded={this.onTagAdded}
             onTagRemoved={this.onTagRemoved}
             onTagCreated={this.onTagCreated}
-            imageTags={this.state.imageTags}
+            imageTags={new Backbone.Collection(this.state.imageTags)}
             />
         </div>
       );

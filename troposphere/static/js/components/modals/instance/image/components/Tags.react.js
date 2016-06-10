@@ -18,6 +18,7 @@ define(function (require) {
 
     getInitialState: function () {
       return {
+        tags: null,
         query: "",
                 newTagName: "",
                 newTagDescription: "",
@@ -25,7 +26,23 @@ define(function (require) {
       }
     },
 
-        createTagAndAddToImage: function(){
+    componentDidMount: function() {
+        stores.TagStore.addChangeListener(this.updateState);
+        this.updateState();
+    },
+
+    componentWillUnmount: function() {
+        stores.TagStore.removeChangeListener(this.updateState);
+    },
+
+    updateState: function() {
+        this.setState({
+            tags: stores.TagStore.getAll(),
+        });
+    },
+
+
+        createTagAndAddToImage: function() {
             var newTag = actions.TagActions.create({name: this.state.newTagName, description: this.state.newTagDescription});
             this.props.onTagAdded(newTag);
             this.setState({newTagName: "", newTagDescription: "", showTagCreateForm: false});
@@ -56,7 +73,7 @@ define(function (require) {
 
     render: function () {
       var imageTags = this.props.imageTags,
-        tags = stores.TagStore.getAll(),
+        tags = this.state.tags,
         query = this.state.query,
                 tagCreateForm = null;
 
