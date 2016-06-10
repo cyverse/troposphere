@@ -57,7 +57,7 @@ export default React.createClass({
         }
         if (versions) {
           var now = moment();
-          version_arr = versions.filter(function(ver) {
+          var version_arr = versions.filter(function(ver) {
               var end_date = ver.get('end_date');
 
               return end_date == null || end_date.isAfter(now);
