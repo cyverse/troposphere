@@ -41,7 +41,6 @@ export default React.createClass({
         step: 1,
         title: "Image Info", // Identical to first breadcrumb name
         name: this.props.instance.get('image').name,
-        description: this.props.instance.get('image').description,
         versionName: this.props.versionName || "1.0",
         versionChanges: "",
         imageTags: null,
@@ -66,12 +65,17 @@ export default React.createClass({
       };
     },
 
-    getState: function () {
-      return this.state;
-    },
-
     updateState: function () {
-      if (this.isMounted()) this.setState(this.getState());
+        let instance = this.props.instance;
+
+        let imageTags = this.state.imageTags;
+        if (instance) {
+            imageTags = stores.InstanceTagStore.getTagsFor(instance);
+        }
+
+        this.setState({
+            imageTags,    
+        });
     },
 
     componentDidMount: function () {
@@ -172,13 +176,15 @@ export default React.createClass({
           helpLink = stores.HelpLinkStore.get('request-image'),
           activeScripts = this.state.activeScripts;
 
+      let description = instance.get('image').description;
+
       switch(step) {
         case IMAGE_INFO_STEP:
           return (
             <ImageInfoStep
               name={this.state.name}
-              description={this.state.description}
               imageTags={this.state.imageTags}
+              description={description}
               instance={instance}
               imageOwner={this.props.imageOwner}
               onPrevious={this.onPrevious}
