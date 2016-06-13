@@ -221,7 +221,7 @@ Graph.prototype.makeAxis = function() {
 
     var x = d3.time.scale()
       .range([0, width])
-      .domain(d3.extent(data, getX));
+      .domain(d3.extent(data, Utils.get("x")));
 
     var xAxis = d3.svg.axis()
       .scale(x)
