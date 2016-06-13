@@ -1,6 +1,7 @@
 import d3 from "d3";
 import Graph from "./Graph";
 import Utils from "./Utils";
+import { extend } from 'underscore';
 
 
 let NetworkGraph = function(settings) {
@@ -20,15 +21,13 @@ let NetworkGraph = function(settings) {
       }
     };
 
-    for (prop in defaults) {
-      this[prop] = defaults[prop];
-    }
+    let updated = extend(defaults, settings);
 
-    for (prop in settings) {
-      this[prop] = settings[prop];
-    }
+    // Extend graph with updated settings
+    extend(this, updated);
 
-    Graph.call(this, settings);
+    // Construct the super class
+    Graph.call(this, updated);
 };
 
 NetworkGraph.prototype = Object.create(Graph.prototype);

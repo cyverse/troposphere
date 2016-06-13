@@ -1,11 +1,11 @@
 import d3 from "d3";
 import Utils from "./Utils";
+import { extend } from 'underscore';
 
 
-let Graph = function(config) {
-    config = config || {};
+let Graph = function(settings) {
 
-    switch (config.timeframe) {
+    switch (settings.timeframe) {
       // this.points * this.resolution == 60
       case "1 hour":
         this.points = 60;
@@ -23,18 +23,12 @@ let Graph = function(config) {
         break;
     }
 
-    var prop,
-      defaults = {
+    let defaults = {
         width: 600,
         height: 100
-      };
+    };
 
-    for (prop in defaults) {
-      this[prop] = defaults[prop];
-    }
-    for (prop in config) {
-      this[prop] = config[prop];
-    }
+    extend(extend(this, defaults), settings);
 
     this.element = document.createElement("div");
     this.element.style.display = "none";

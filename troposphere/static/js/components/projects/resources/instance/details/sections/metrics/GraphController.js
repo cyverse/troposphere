@@ -13,8 +13,6 @@ let GraphController = function(config) {
 };
 
 GraphController.prototype.switch = function(settings, onSuccess, onError) {
-    var me = this;
-
     // Forcing a refresh is equivalent to emptying the store so that data
     // must be fetched
     if (settings.refresh)
@@ -31,22 +29,22 @@ GraphController.prototype.switch = function(settings, onSuccess, onError) {
     if (graphs == undefined) {
 
       var graphs = [["cpu", CPUGraph], ["mem", MemoryGraph], ["net", NetworkGraph]];
-      graphs = graphs.map(function(data) {
+      graphs = graphs.map((data) => {
         return new data[1]({
           type: data[0],
           from: settings.from,
           until: settings.until,
           uuid: settings.uuid,
-          container: me.container,
-          width: me.width,
+          container: this.container,
+          width: this.width,
           timeframe: settings.timeframe
         });
       });
 
-      me.store.set(key, graphs);
+      this.store.set(key, graphs);
 
       // Hide current graphs
-      me.graphs.forEach(function(g){ g.hide(); });
+      this.graphs.forEach((g) => g.hide());
 
       // Show spinning loader
       document.querySelector("#container.metrics .loading").style.display = "inherit";
@@ -54,24 +52,24 @@ GraphController.prototype.switch = function(settings, onSuccess, onError) {
       // Exit here to debug css spinning loader
       // return;
 
-      graphs[0].create(function(){
-        graphs[1].create(function() {
-          graphs[2].create(function() {
+      graphs[0].create(() => {
+        graphs[1].create(() => {
+          graphs[2].create(() => {
 
             // Hide spinning loader
             document.querySelector("#container.metrics .loading").style.display = "none";
             graphs[2].makeAxis();
             graphs.forEach(function(g){ g.show(); });
-            me.graphs = graphs;
+            this.graphs = graphs;
             onSuccess && onSuccess();
           }, onError);
         }, onError);
       }, onError);
 
     } else {
-      me.graphs.forEach(function(g){ g.hide(); });
+      this.graphs.forEach(function(g){ g.hide(); });
       graphs.forEach(function(g){ g.show(); });
-      me.graphs = graphs;
+      this.graphs = graphs;
       onSuccess && onSuccess();
     }
 };
