@@ -16,11 +16,11 @@ GraphController.prototype.switch = function(settings, onSuccess, onError) {
     // Forcing a refresh is equivalent to emptying the store so that data
     // must be fetched
     if (settings.refresh)
-      this.store.removeAll();
+        this.store.removeAll();
 
     var key = {
-      uuid: settings.uuid,
-      timeframe: settings.timeframe
+        uuid: settings.uuid,
+        timeframe: settings.timeframe
     };
 
     var graphs = this.store.get(key);
@@ -28,51 +28,56 @@ GraphController.prototype.switch = function(settings, onSuccess, onError) {
     // Fetch data/build graphs for a timeframe
     if (graphs == undefined) {
 
-      var graphs = [["cpu", CPUGraph], ["mem", MemoryGraph], ["net", NetworkGraph]];
-      graphs = graphs.map((data) => {
-        return new data[1]({
-          type: data[0],
-          from: settings.from,
-          until: settings.until,
-          uuid: settings.uuid,
-          container: this.container,
-          width: this.width,
-          timeframe: settings.timeframe
+        var graphs = [['cpu', CPUGraph], ['mem', MemoryGraph], ['net', NetworkGraph]];
+        graphs = graphs.map((data) => {
+            return new data[1]({
+                type: data[0],
+                from: settings.from,
+                until: settings.until,
+                uuid: settings.uuid,
+                container: this.container,
+                width: this.width,
+                timeframe: settings.timeframe
+            });
         });
-      });
 
-      this.store.set(key, graphs);
+        this.store.set(key, graphs);
 
-      // Hide current graphs
-      this.graphs.forEach((g) => g.hide());
+        // Hide current graphs
+        this.graphs.forEach((g) => g.hide());
 
-      // Show spinning loader
-      document.querySelector("#container.metrics .loading").style.display = "inherit";
+        // Show spinning loader
+        document.querySelector('#container.metrics .loading').style.display = 'inherit';
 
-      // Exit here to debug css spinning loader
-      // return;
+        // Exit here to debug css spinning loader
+        // return;
 
-      graphs[0].create(() => {
-        graphs[1].create(() => {
-          graphs[2].create(() => {
+        graphs[0].create(() => {
+            graphs[1].create(() => {
+                graphs[2].create(() => {
 
-            // Hide spinning loader
-            document.querySelector("#container.metrics .loading").style.display = "none";
-            graphs[2].makeAxis();
-            graphs.forEach(function(g){ g.show(); });
-            this.graphs = graphs;
-            onSuccess && onSuccess();
-          }, onError);
+                    // Hide spinning loader
+                    document.querySelector('#container.metrics .loading').style.display = 'none';
+                    graphs[2].makeAxis();
+                    graphs.forEach(function(g) {
+                        g.show();
+                    });
+                    this.graphs = graphs;
+                    onSuccess && onSuccess();
+                }, onError);
+            }, onError);
         }, onError);
-      }, onError);
 
     } else {
-      this.graphs.forEach(function(g){ g.hide(); });
-      graphs.forEach(function(g){ g.show(); });
-      this.graphs = graphs;
-      onSuccess && onSuccess();
+        this.graphs.forEach(function(g) {
+            g.hide();
+        });
+        graphs.forEach(function(g) {
+            g.show();
+        });
+        this.graphs = graphs;
+        onSuccess && onSuccess();
     }
 };
 
 export default GraphController;
-

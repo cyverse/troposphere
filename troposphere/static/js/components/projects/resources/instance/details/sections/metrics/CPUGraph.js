@@ -1,10 +1,10 @@
-import Graph from "./Graph"; 
+import Graph from './Graph';
 import { extend } from 'underscore';
 
 
 let CPUGraph = function(settings) {
     let defaults = {
-        transform: "derivative"
+        transform: 'derivative'
     };
 
     Graph.call(this, extend(defaults, settings));
