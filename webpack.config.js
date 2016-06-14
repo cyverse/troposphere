@@ -28,7 +28,7 @@ var plugins = [
     new Clean([PATHS.output])
 ];
 
-const pkg = require('./package.json');
+var pkg = require('./package.json');
 
 if (process.env.NODE_ENV === "production") {
   plugins.push(
