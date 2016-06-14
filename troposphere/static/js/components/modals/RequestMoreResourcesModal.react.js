@@ -145,7 +145,6 @@ define(
                         onChange={this.handleReasonChange}
                 />
             </div>
-            <strong>Note: Allocation allowances are set back to a default of 168 AU on the first of every month.</strong>
           </div>
         );
       },
