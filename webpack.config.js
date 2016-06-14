@@ -29,7 +29,7 @@ var plugins = [
 
 var outputCfg = {}
 
-const pkg = require('./package.json');
+var pkg = require('./package.json');
 
 if (process.env.NODE_ENV === "production") {
   outputCfg = {

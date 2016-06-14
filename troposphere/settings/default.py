@@ -102,6 +102,8 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
 SESSION_COOKIE_NAME = 'tropo_sessionid'
 
+CSRF_COOKIE_NAME = 'tropo_csrftoken'
+
 # default cookie age to # of seconds in 2 days
 SESSION_COOKIE_AGE = (2 * 24 * 60 * 60)
 

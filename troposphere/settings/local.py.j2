@@ -174,7 +174,7 @@ INSTALLED_APPS += (
 )
 {% endif %}
 
-{% if USE_MOCK_AUTH %}
+{% if AUTH_ENABLE_MOCK %}
 ALWAYS_AUTH_USER = "{{ MOCK_USER }}"
 # Use MockLoginBackend first!
 AUTHENTICATION_BACKENDS += (

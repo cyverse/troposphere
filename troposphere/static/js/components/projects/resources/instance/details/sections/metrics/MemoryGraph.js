@@ -1,18 +1,12 @@
-import Graph from "./Graph";
+import Graph from './Graph';
+import { extend } from 'underscore';
 
 let MemoryGraph = function(settings) {
-    var prop,
-        defaults = {
-            transform: "total"
-        };
+    let defaults = {
+        transform: 'total'
+    };
 
-    for (prop in defaults) {
-        if (settings[prop] == undefined) {
-            settings[prop] = defaults[prop];
-        }
-    }
-
-    Graph.call(this, settings);
+    Graph.call(this, extend(defaults, settings));
 };
 
 MemoryGraph.prototype = Object.create(Graph.prototype);
