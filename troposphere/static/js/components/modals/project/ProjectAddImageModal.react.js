@@ -14,14 +14,33 @@ define(function (require) {
       propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired,
       },
-
+      selectFirstAvailable: function(projects, existing_projects) {
+         let firstProjectID = 0;
+         if(projects == null || existing_projects == null) {
+             return firstProjectID;
+         }
+         projects.forEach(function (project) {
+             let project_id = project.id;
+             project_match = existing_projects.filter(function (existing_project) {
+                 let test_project_id = existing_project.get('project').id;
+                 return (test_project_id == project_id)
+	     });
+             if (firstProjectID !== 0) {
+                 return;
+             }
+             if (project_match.length === 0) {
+                 firstProjectID = project_match.id;
+             }
+         });
+        return firstProjectID;
+      },
       getInitialState: function() {
           //Note: This should be available already. But we have a 'fallback' in render()
-          projects = stores.ProjectStore.getAll();
-          existing_projects = stores.ProjectImageStore.getProjectsFor(
+          let projects = stores.ProjectStore.getAll();
+          let existing_projects = stores.ProjectImageStore.getProjectsFor(
               this.props.image.id);
           if(projects != null && projects.length > 0) {
-              projectId = projects.models[0].id;
+              projectId = this.selectFirstAvailable(projects, existing_projects)
           } else {
               projectId = 0;
           }
@@ -162,6 +181,7 @@ define(function (require) {
               );
           } else if(this.state.projectId == 0) {
               //Zero represents a value that has not yet been set.
+              //BUG!
               this.state.projectId = projects.first().id;
           }
 
