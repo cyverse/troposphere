@@ -111,6 +111,8 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
     template_params['THEME_URL'] = "/themes/%s" % settings.THEME_NAME
     template_params['ORG_NAME'] = settings.ORG_NAME
 
+    template_params['DYNAMIC_ASSET_LOADING'] = settings.DYNAMIC_ASSET_LOADING
+
     if hasattr(settings, "BASE_URL"):
         template_params['BASE_URL'] = settings.BASE_URL
 
