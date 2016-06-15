@@ -80,7 +80,7 @@ export default React.createClass({
       } else {
           date_str = dateCreated;
       }
-      return ({date_str});
+      return date_str;
 
     },
     render: function () {
