@@ -1,13 +1,11 @@
 import React from 'react';
 import Backbone from 'backbone';
-import Time from 'components/common/Time.react';
 import Gravatar from 'components/common/Gravatar.react';
 import AvailabilityView from '../availability/AvailabilityView.react';
 import CryptoJS from 'crypto-js';
 import stores from 'stores';
 import globals from 'globals';
 import moment from 'moment';
-import momentTZ from 'moment-timezone';
 import showdown from 'showdown';
 
 
