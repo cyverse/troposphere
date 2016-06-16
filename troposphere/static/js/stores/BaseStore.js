@@ -472,6 +472,20 @@ _.extend(Store.prototype, Backbone.Events, {
     pollUntilBuildIsFinished: function(model) {
         setTimeout(this.pollNowUntilBuildIsFinished.bind(this, model), this.pollingFrequency);
     },
+
+    clearCache: function() {
+        this.pollingModels = {};
+        this.models = null;
+        this.queryModels = {};
+    },
+    clearCacheWhere: function(queryParams) {
+        queryParams = queryParams || {};
+        var queryString = buildQueryStringFromQueryParams(queryParams);
+
+        if (this.queryModels[queryString]) {
+            delete this.queryModels[queryString];
+        }
+    },
 });
 
 Store.extend = Backbone.Model.extend;
