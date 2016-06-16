@@ -16,8 +16,8 @@
     }
   },
   "quotes": {
-    "type": "single",
-    "avoidEscape": false
+    "type": "double",
+    "avoidEscape": true
   },
   "preset": "default",
   "indent": {
