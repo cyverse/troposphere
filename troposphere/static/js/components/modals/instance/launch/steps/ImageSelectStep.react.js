@@ -170,9 +170,7 @@ export default React.createClass({
                 search: query
             });
         } else {
-            images = stores.ImageStore.fetchWhere({
-                bookmarked: true
-            });
+            images = stores.ImageBookmarkStore.getBookmarkedImages();
         }
 
         return images;
@@ -187,9 +185,7 @@ export default React.createClass({
                 search: query
             });
         } else {
-            images = stores.ImageStore.getWhere({
-                bookmarked: true
-            });
+            images = stores.ImageBookmarkStore.getBookmarkedImages();
         }
 
         return images;
