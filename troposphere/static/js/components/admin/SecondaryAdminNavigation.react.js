@@ -22,7 +22,8 @@ export default React.createClass({
     },
 
     render: function () {
-      var requests = stores.ResourceRequestStore.findWhere({
+      var request_count = null,
+          requests = stores.ResourceRequestStore.findWhere({
           'status.name': 'pending'
         });
       if (!requests) {
