@@ -29,3 +29,7 @@ Finally run:
 ```bash
 npm run server
 ```
+
+### Linting
+
+See `LINT.md`

@@ -1,17 +1,22 @@
 {
+    "extends": ["eslint:recommended", "plugin:react/recommended"],
     "rules": {
+        
+        // See docs here: http://eslint.org/docs/rules/
         "linebreak-style": [
-            2,
+            "error",
             "unix"
         ],
-/*
-        "semi": [
-            2,
-            "always"
-        ],
- */
-        "no-debugger": 2,
-        "no-mixed-spaces-and-tabs": 2,
+        "no-mixed-spaces-and-tabs": "error",
+        "comma-dangle": "off",
+
+        // See docs here: https://github.com/yannickcr/eslint-plugin-react/tree/master/docs/rules
+        "react/no-is-mounted": "off",
+        "react/display-name": "off",
+        "react/no-danger": "off",
+        "react/no-did-mount-set-state": "off",
+        "react/no-direct-mutation-state": "off",
+        "react/prop-types": "off",
     },
     "env": {
         "es6": true,
