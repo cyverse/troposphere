@@ -10,7 +10,8 @@ export default React.createClass({
     mixins: [BootstrapModalMixin],
 
     propTypes: {
-        initialExternalLinkName: React.PropTypes.string
+        initialExternalLinkName: React.PropTypes.string,
+        project: React.PropTypes.instanceOf(Backbone.Model)
     },
 
     //
@@ -82,6 +83,27 @@ export default React.createClass({
                 cause: "empty"
             }
         }
+        if (title) {
+            let lower = $.trim(title.toLowerCase());
+            let project = this.props.project;
+            let externalLinks = stores.ProjectExternalLinkStore.getAll()
+            .filter(function (projectExternalLink) {
+                if(project && project.id === projectExternalLink.get('project').id) {
+                    return projectExternalLink.get('external_link')
+                        .title.toLowerCase() === lower;
+                } else {
+                    // If no project is given, do not validate the title.
+                    return false;
+                }
+            });
+
+            if (externalLinks.length > 0) {
+                return {
+                    valid: false,
+                    cause: "duplicate"
+                }
+            }
+        }
         return {
             valid: true,
             cause: ""
@@ -125,7 +147,7 @@ export default React.createClass({
                 titleMessage = "Link must have a title";
             }
             if (title().cause === "duplicate") {
-                titleMessage = "ExternalLink with name \"" + this.state.name + "\" already exists";
+                titleMessage = "Link with name \"" + this.state.name + "\" already exists in this project.";
             }
         }
 
@@ -258,7 +280,7 @@ export default React.createClass({
                         <div className="modal-header">
                             {this.renderCloseButton()}
                             <h2 className="t-headline">
-                                Create ExternalLink
+                                Create a Link
                             </h2>
                         </div>
                         <div className="modal-body">

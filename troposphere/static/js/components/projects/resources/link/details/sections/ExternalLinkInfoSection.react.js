@@ -1,4 +1,5 @@
 import React from 'react';
+import $ from 'jquery';
 import Backbone from 'backbone';
 import Time from 'components/common/Time.react';
 import EditableInputField from 'components/common/EditableInputField.react';
@@ -13,19 +14,23 @@ export default React.createClass({
     displayName: "ExternalLinkInfoSection",
 
     propTypes: {
-      link: React.PropTypes.instanceOf(Backbone.Model).isRequired
+      link: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+      project: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
     getInitialState: function () {
       var link = this.props.link;
 
       return {
-        name: link.get('title'),
-        description: link.get('description'),
-        link: link.get('link'), // The URL -not- the object.
+        //Current State variables
+        nameErrorText: "",
         isEditingName: false,
         isEditingDescription: false,
-        isEditingLink: false
+        isEditingLink: false,
+        //Fields that can be edited
+        description: link.get('description'),
+        name: link.get('title'),
+        link: link.get('link') // The URL -not- the object.
       }
     },
 
@@ -63,12 +68,35 @@ export default React.createClass({
 
     onDoneEditingName: function (text) {
       var link = this.props.link;
+      var project = this.props.project;
+      if(this.validateTitle(text, project) == false) {
+          let titleMessage = "Link with name \"" + text + "\" already exists in this project.";
+          this.setState({
+            nameErrorText: titleMessage
+          });
+      } else {
+          this.setState({
+            name: text,
+            isEditingName: false,
+            nameErrorText: ""
+          });
+          actions.ExternalLinkActions.update(link, {title: text})
+      }
+    },
 
-      this.setState({
-        name: text,
-        isEditingName: false
-      });
-      actions.ExternalLinkActions.update(link, {title: text})
+    validateTitle: function (title, project) {
+        let lower = $.trim(title.toLowerCase());
+        let allLinks = stores.ProjectExternalLinkStore.getAll();
+        let externalLinks = allLinks.filter(function (projectExternalLink) {
+            if(project && project.id === projectExternalLink.get('project').id) {
+                return projectExternalLink.get('external_link')
+                    .title.toLowerCase() === lower;
+            } else {
+                // If no project is given, do not validate the title.
+                return false;
+            }
+        });
+        return (externalLinks.length > 0) ? false : true;
     },
 
     render: function () {
@@ -77,7 +105,7 @@ export default React.createClass({
         type = profile.get('icon_set'),
         instanceHash = CryptoJS.MD5((link.id || link.cid).toString()).toString(),
         iconSize = 113,
-        nameContent, descriptionContent, linkContent;
+        nameError, nameContent, descriptionContent, linkContent;
 
       if (this.state.isEditingDescription) {
         descriptionContent = (
@@ -124,6 +152,18 @@ export default React.createClass({
         );
       }
 
+      if (this.state.nameErrorText !== "") {
+        nameError = (
+          <p className="no-results text-danger">
+            {this.state.nameErrorText}
+          </p>
+        );
+      } else {
+        nameError = (
+          <p className="no-results text-danger"></p>
+        );
+      }
+
       return (
         <div className="resource-info-section section clearfix">
 
@@ -131,6 +171,7 @@ export default React.createClass({
             <h2>Name</h2>
             <div className="resource-name editable">
               {nameContent}
+              {nameError}
             </div>
             <h2>Description</h2>
             <div className="resource-name editable">

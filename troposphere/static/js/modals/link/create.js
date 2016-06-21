@@ -6,7 +6,8 @@ export default {
 
     create: function (initialExternalLinkName) {
       var props = {
-        initialExternalLinkName: initialExternalLinkName
+        initialExternalLinkName: initialExternalLinkName,
+        project: null
       };
 
       ModalHelpers.renderModal(ExternalLinkCreateModal, props, function (name, description, link) {
