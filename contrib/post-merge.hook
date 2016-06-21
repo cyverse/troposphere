@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Warn when requirements.txt changes
+if [ -e contrib/requirements-warning.rb ]; then
+    ruby contrib/requirements-warning.rb;
+fi
+
+# Warn on new migration files
+if [ -e contrib/migrations-warning.rb ]; then
+    ruby contrib/migrations-warning.rb;
+fi
