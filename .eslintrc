@@ -20,7 +20,8 @@
     },
     "env": {
         "es6": true,
-        "browser": true
+        "browser": true,
+        "commonjs": true
     },
     "parser": "babel-eslint",
     "ecmaFeatures": {
