@@ -2,10 +2,10 @@
     "extends": ["eslint:recommended", "plugin:react/recommended"],
     "rules": {
         "linebreak-style": [
-            "2",
+            2,
             "unix"
         ],
-        "no-mixed-spaces-and-tabs": "2",
+        "no-mixed-spaces-and-tabs": 2,
     },
     "env": {
         "es6": true,

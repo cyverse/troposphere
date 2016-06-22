@@ -4,19 +4,19 @@
         
         // See docs here: http://eslint.org/docs/rules/
         "linebreak-style": [
-            "error",
+            2,
             "unix"
         ],
-        "no-mixed-spaces-and-tabs": "error",
-        "comma-dangle": "off",
+        "no-mixed-spaces-and-tabs": 2,
+        "comma-dangle": 2,
 
         // See docs here: https://github.com/yannickcr/eslint-plugin-react/tree/master/docs/rules
-        "react/no-is-mounted": "off",
-        "react/display-name": "off",
-        "react/no-danger": "off",
-        "react/no-did-mount-set-state": "off",
-        "react/no-direct-mutation-state": "off",
-        "react/prop-types": "off",
+        "react/no-is-mounted": 2,
+        "react/display-name": 2,
+        "react/no-danger": 2,
+        "react/no-did-mount-set-state": 2,
+        "react/no-direct-mutation-state": 2,
+        "react/prop-types": 2,
     },
     "env": {
         "es6": true,
