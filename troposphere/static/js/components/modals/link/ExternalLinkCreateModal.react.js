@@ -82,21 +82,6 @@ export default React.createClass({
                 cause: "empty"
             }
         }
-        if (title) {
-            let lower = $.trim(title.toLowerCase());
-            let externalLinks = stores.ExternalLinkStore.getAll()
-            .filter(function (externalLink) {
-                return externalLink.get('title')
-                    .toLowerCase() === lower;
-            });
-
-            if (externalLinks.length > 0) {
-                return {
-                    valid: false,
-                    cause: "duplicate"
-                }
-            }
-        }
         return {
             valid: true,
             cause: ""
