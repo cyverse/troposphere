@@ -39,12 +39,6 @@ export default React.createClass({
             <strong>{link.get('name')}</strong>
             {"?"}
           </p>
-
-          <p>
-            {"The link will be destroyed and "}
-            <strong style={{"textDecoration":"underline"}}>all data will be permanently lost</strong>
-            {"."}
-          </p>
         </div>
       );
     },
