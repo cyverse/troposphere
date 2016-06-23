@@ -75,13 +75,17 @@ export default React.createClass({
               </div>
 
               <table className="table">
+                <thead>
+                  <tr>
+                    <th>
+                      Duration
+                    </th>
+                    <th>
+                      AU needed
+                    </th>
+                  </tr>
+                </thead>
                 <tbody>
-                  <th>
-                    Duration
-                  </th>
-                  <th>
-                    AU needed
-                  </th>
                   <tr className={remainingAU >= this.state.selectedCPU * 24 * 1 ? "success" : "warning"}><td>1 day</td><td>{(this.state.selectedCPU * 24 * 1)}</td></tr>
                   <tr className={remainingAU >= this.state.selectedCPU * 24 * 3 ? "success" : "warning"}><td>3 days</td><td>{(this.state.selectedCPU * 24 * 3)}</td></tr>
                   <tr className={remainingAU >= this.state.selectedCPU * 24 * 7 ? "success" : "warning"}><td>1 week</td><td>{(this.state.selectedCPU * 24 * 7)}</td></tr>
