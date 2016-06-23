@@ -140,7 +140,7 @@ export default React.createClass({
                 titleMessage = "Link must have a title";
             }
             if (title().cause === "duplicate") {
-                titleMessage = "ExternalLink with name \"" + this.state.name + "\" already exists";
+                titleMessage = "Link with name \"" + this.state.name + "\" already exists in this project.";
             }
         }
 
@@ -255,7 +255,7 @@ export default React.createClass({
         if (!this.isSubmittable() && this.state.shouldValidate){
             footerErrorText = (
                 <p className="text-danger">
-                    ExternalLink can not be created. Please fix the error(s) above.
+                    The link can not be created. Please fix the error(s) above.
                 </p>
             );
         }
@@ -273,7 +273,7 @@ export default React.createClass({
                         <div className="modal-header">
                             {this.renderCloseButton()}
                             <h2 className="t-headline">
-                                Create ExternalLink
+                                Create a Link
                             </h2>
                         </div>
                         <div className="modal-body">
