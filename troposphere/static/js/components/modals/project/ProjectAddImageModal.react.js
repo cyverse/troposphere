@@ -24,7 +24,7 @@ define(function (require) {
              project_match = existing_projects.filter(function (existing_project) {
                  let test_project_id = existing_project.get('project').id;
                  return (test_project_id == project_id)
-	     });
+         });
              if (firstProjectID !== 0) {
                  return;
              }
