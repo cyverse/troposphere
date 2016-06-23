@@ -11,7 +11,12 @@ export default React.createClass({
     },
 
     handleChange: function(e){
-      this.props.onChange(e.target.value)
+      let image_id = e.target.value;
+      let username = stores.ProfileStore.get().get('username'),
+          image = stores.ImageStore.fetchWhere({
+          created_by__username: username
+      }).get(image_id);
+      this.props.onChange(image);
     },
 
     renderImage: function(image){
