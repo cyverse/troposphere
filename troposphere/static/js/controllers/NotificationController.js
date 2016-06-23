@@ -37,5 +37,5 @@ export default {
     error: function(title, message, options={}) {
         let settings = _.defaults(options, noFadeDefaults);
         toastr.error(title, message, settings);
-    },
+    }
 };
