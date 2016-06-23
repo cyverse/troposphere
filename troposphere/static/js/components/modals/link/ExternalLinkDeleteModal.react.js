@@ -8,7 +8,7 @@ export default React.createClass({
     mixins: [BootstrapModalMixin],
 
     propTypes: {
-      link: React.PropTypes.instanceOf(Backbone.Model).isRequired
+          external_link: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
     //

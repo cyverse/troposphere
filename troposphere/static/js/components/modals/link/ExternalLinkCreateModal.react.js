@@ -10,7 +10,7 @@ export default React.createClass({
     mixins: [BootstrapModalMixin],
 
     propTypes: {
-        initialExternalLinkName: React.PropTypes.string
+        initialExternalLinkName: React.PropTypes.string.isRequired,
     },
 
     //
