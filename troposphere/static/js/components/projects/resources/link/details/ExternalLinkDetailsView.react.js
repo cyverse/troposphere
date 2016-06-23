@@ -35,7 +35,7 @@ export default React.createClass({
 
           <div className="row resource-details-content">
             <div className="col-md-9 resource-detail-sections">
-              <ExternalLinkInfoSection link={link}/>
+              <ExternalLinkInfoSection project={project} link={link}/>
               <hr/>
             </div>
             <div className="col-md-3 resource-actions">
