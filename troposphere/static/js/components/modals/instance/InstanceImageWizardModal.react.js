@@ -1,4 +1,5 @@
 import React from 'react';
+import Backbone from 'backbone';
 import _ from 'underscore';
 import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 import BreadcrumbNav from 'components/common/breadcrumb/BreadcrumbNav.react';
@@ -74,7 +75,7 @@ export default React.createClass({
         }
 
         this.setState({
-            imageTags,    
+            imageTags,
         });
     },
 
