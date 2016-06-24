@@ -38,13 +38,11 @@ export default React.createClass({
       },
 
       render: function () {
-        var versionView, tagsView;
-
-        tagsView = (
+        let tagsView = (
             <TagsView image={this.props.image}
                       tags={this.props.tags}
             />
-        )
+        );
 
         return (
           <div>

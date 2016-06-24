@@ -1,8 +1,8 @@
 import AppDispatcher from 'dispatchers/AppDispatcher';
 import Utils from './Utils';
-import actions from 'actions';
 import NotificationController from 'controllers/NotificationController';
 import Router from '../Router';
+import actions from 'actions';
 
 // Constants
 import Badges from "Badges";
@@ -20,6 +20,7 @@ import Project from 'models/Project';
 // Modals
 import ModalHelpers from 'components/modals/ModalHelpers';
 import ProjectReportResourceModal from 'components/modals/project/ProjectReportResourceModal.react';
+
 
 export default {
 

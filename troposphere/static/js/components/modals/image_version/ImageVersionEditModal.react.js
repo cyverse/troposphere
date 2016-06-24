@@ -1,4 +1,5 @@
 import React from 'react';
+import Backbone from 'backbone';
 import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 import VersionName from '../instance/image/components/VersionName.react';
 import VersionChanges from '../instance/image/components/VersionChangeLog.react';
@@ -265,8 +266,10 @@ export default React.createClass({
     },
 
     renderBody: function() {
+        // NOTE: `canImageView` shows as "unused" - but it is used below
       var applicationView, availabilityView, canImageView, nameView, descriptionView,
-        startDateView, endDateView, membershipView, licensesView, scriptsView;
+        startDateView, endDateView, membershipView, licensesView, scriptsView,
+        minimumRequirementsView;
 
       var name = this.state.versionName,
         created = this.state.versionStartDate.format("MMM D, YYYY hh:mm a"),

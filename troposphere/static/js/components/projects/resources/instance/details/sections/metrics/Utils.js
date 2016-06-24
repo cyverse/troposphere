@@ -1,6 +1,7 @@
+import globals from 'globals';
 
 let fetch = function(uuid, urlParams, onSuccess, onError) {
-    var api = API_V2_ROOT + "/metrics";
+    var api = globals.API_V2_ROOT + "/metrics";
 
     // Request extra datapoints to account for occasional null data at
     // front/end
