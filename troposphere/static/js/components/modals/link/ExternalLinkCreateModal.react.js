@@ -10,7 +10,7 @@ export default React.createClass({
 
     propTypes: {
         initialExternalLinkName: React.PropTypes.string.isRequired,
-        onConfirm: React.PropTypes.function.isRequired
+        onConfirm: React.PropTypes.func.isRequired
     },
 
     //
