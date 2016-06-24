@@ -45,3 +45,9 @@ eslint -c .eslintrc.strict $FILES
 **Note:** `eslint` will **always** use the `.eslintrc` despite the use of the
 `-c` flag.  The `--no-eslintrc` option will disable this. To be sure which
 rules are being included use `--print-config`.
+
+Run a subset of rules over the codebase
+```
+RULES='{ "no-undef": 2 }'
+eslint --env es6 --env browser --env commonjs --parser "babel-eslint" --rule "$RULES" --no-eslintrc troposphere/static/js
+```
