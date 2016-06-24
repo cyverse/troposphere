@@ -11,8 +11,8 @@ let SizeStore = BaseStore.extend({
 });
 
 SizeStore.prototype.filterWhereGreaterThanOrEqualTo = function(params) {
-    var results = [];
-    var shouldAdd;
+    let results = [],
+     shouldAdd;
 
     this.models.each(function(model) {
         shouldAdd = true;
