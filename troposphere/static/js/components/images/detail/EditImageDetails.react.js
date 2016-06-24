@@ -1,4 +1,5 @@
 import React from 'react';
+import Backbone from 'backbone';
 import HeaderView from './header/HeaderView.react';
 import EditTagsView from './tags/EditTagsView.react';
 import ImageLaunchCard from './launch/ImageLaunchCard.react';
