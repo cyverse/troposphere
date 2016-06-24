@@ -24,7 +24,7 @@ function findAllCookies() {
             cookies[key] = _.escape(value);
         });
     return cookies;
-};
+}
 
 function findCookie(cookieName) {
     var cookie = null,
@@ -36,6 +36,6 @@ function findCookie(cookieName) {
         }
     });
     return cookie;
-};
+}
 
 export {findCookie, findAllCookies};
