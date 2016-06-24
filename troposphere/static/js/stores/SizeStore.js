@@ -16,7 +16,7 @@ SizeStore.prototype.filterWhereGreaterThanOrEqualTo = function(params) {
 
     this.models.each(function(model) {
         shouldAdd = true;
-        for (param in params) {
+        for (var param in params) {
             if (model.get(param) < params[param]) {
                 shouldAdd = false;
             }
