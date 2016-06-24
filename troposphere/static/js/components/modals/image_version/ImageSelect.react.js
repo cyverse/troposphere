@@ -21,7 +21,7 @@ export default React.createClass({
       let username = stores.ProfileStore.get().get('username'),
           images = stores.ImageStore.fetchWhere({
               created_by__username: username
-          })
+          });
       return images;
     },
 
