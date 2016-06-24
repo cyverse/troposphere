@@ -9,7 +9,7 @@ export default React.createClass({
 
     propTypes: {
         external_link: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-        onConfirm: React.PropTypes.function.isRequired
+        onConfirm: React.PropTypes.func.isRequired
     },
 
     //
