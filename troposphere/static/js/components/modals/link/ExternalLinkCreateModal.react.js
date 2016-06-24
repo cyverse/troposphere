@@ -1,7 +1,6 @@
-import React from 'react';
-import stores from 'stores';
-import $ from 'jquery';
-import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import React from "react";
+import $ from "jquery";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
 
 
 export default React.createClass({
@@ -11,6 +10,7 @@ export default React.createClass({
 
     propTypes: {
         initialExternalLinkName: React.PropTypes.string.isRequired,
+        onConfirm: React.PropTypes.function.isRequired
     },
 
     //
@@ -18,7 +18,7 @@ export default React.createClass({
     // ----------------
     //
 
-    getInitialState: function () {
+    getInitialState: function() {
         return {
             name: this.props.initialExternalLinkName,
             description: "",
@@ -32,11 +32,11 @@ export default React.createClass({
     // ------------------------
     //
 
-    cancel: function () {
+    cancel: function() {
         this.hide();
     },
 
-    confirm: function () {
+    confirm: function() {
         if (!this.isSubmittable()) {
             this.setState({
                 shouldValidate: true
@@ -54,19 +54,25 @@ export default React.createClass({
     // Custom Modal Callbacks
     //
 
-    onNameChange: function (e) {
+    onNameChange: function(e) {
         let newName = e.target.value;
-        this.setState({name: newName});
+        this.setState({
+            name: newName
+        });
     },
 
-    onLinkChange: function (e) {
+    onLinkChange: function(e) {
         let newLink = e.target.value;
-        this.setState({link: newLink});
+        this.setState({
+            link: newLink
+        });
     },
 
-    onDescriptionChange: function (e) {
+    onDescriptionChange: function(e) {
         let newDescription = e.target.value;
-        this.setState({description: newDescription});
+        this.setState({
+            description: newDescription
+        });
     },
 
     //
@@ -125,7 +131,7 @@ export default React.createClass({
                 titleMessage = "Link must have a title";
             }
             if (title().cause === "duplicate") {
-                titleMessage = "Link with name \"" + this.state.name + "\" already exists in this project.";
+                titleMessage = 'Link with name "' + this.state.name + '" already exists in this project.';
             }
         }
 
@@ -159,85 +165,79 @@ export default React.createClass({
     // ------
     //
 
-    renderBody: function () {
+    renderBody: function() {
         let formattedTitleError;
         let formattedDescriptionError;
         let formattedLinkError;
         if (!this.isSubmittable() && this.state.shouldValidate) {
             formattedTitleError = (
                 <p className="no-results text-danger">
-                    {this.errorMessages().titleMessage}
+                    { this.errorMessages().titleMessage }
                 </p>
             );
 
             formattedDescriptionError = (
                 <p className="no-results text-danger">
-                    {this.errorMessages().descriptionMessage}
+                    { this.errorMessages().descriptionMessage }
                 </p>
             );
 
             formattedLinkError = (
                 <p className="no-results text-danger">
-                    {this.errorMessages().linkMessage}
+                    { this.errorMessages().linkMessage }
                 </p>
             );
         }
-        let requiredLabel = ( <span style={{color: "red"}}>*</span> );
+        let requiredLabel = ( <span style={ { color: "red" } }>*</span> );
 
         return (
-            <div className="clearfix" style={{marginBottom: "50px"}} role='form'>
+        <div className="clearfix" style={ { marginBottom: "50px" } } role='form'>
             <div className='form-group'>
                 <label htmlFor='linkName'>
-                    Link Title {requiredLabel}
+                    Link Title
+                    { requiredLabel }
                 </label>
-                <input
-                    type="text"
-                    className="form-control"
-                    value={this.state.name}
-                    onChange={this.onNameChange}
-                />
-                {formattedTitleError}
+                <input type="text"
+                       className="form-control"
+                       value={ this.state.name }
+                       onChange={ this.onNameChange } />
+                { formattedTitleError }
             </div>
-
             <div className='form-group'>
                 <label htmlFor='linkSize'>
-                    Link Description {requiredLabel}
+                    Link Description
+                    { requiredLabel }
                 </label>
-                <textarea
-                    id='project-description'
-                    type='text'
-                    className='form-control'
-                    rows="7"
-                    value={this.state.description}
-                    onChange={this.onDescriptionChange}
-                />
-                {formattedDescriptionError}
+                <textarea id='project-description'
+                          type='text'
+                          className='form-control'
+                          rows="7"
+                          value={ this.state.description }
+                          onChange={ this.onDescriptionChange } />
+                { formattedDescriptionError }
             </div>
-
             <div className='form-group'>
                 <label htmlFor='linkName'>
-                    Link URL {requiredLabel}
+                    Link URL
+                    { requiredLabel }
                 </label>
-                <input
-                    type="text"
-                    className="form-control"
-                    value={this.state.link}
-                    onChange={this.onLinkChange}
-                />
-                {formattedLinkError}
+                <input type="text"
+                       className="form-control"
+                       value={ this.state.link }
+                       onChange={ this.onLinkChange } />
+                { formattedLinkError }
             </div>
-
-              <div style={{float: "right"}}>
-                {requiredLabel} Required
-              </div>
+            <div style={ { float: "right" } }>
+                { requiredLabel } Required
             </div>
+        </div>
         );
     },
 
-    render: function () {
+    render: function() {
         let footerErrorText;
 
-        if (!this.isSubmittable() && this.state.shouldValidate){
+        if (!this.isSubmittable() && this.state.shouldValidate) {
             footerErrorText = (
                 <p className="text-danger">
                     The link can not be created. Please fix the error(s) above.
@@ -252,39 +252,31 @@ export default React.createClass({
             }
         }
         return (
-            <div className="modal fade">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            {this.renderCloseButton()}
-                            <h2 className="t-headline">
-                                Create a Link
-                            </h2>
-                        </div>
-                        <div className="modal-body">
-                            {this.renderBody()}
-                        </div>
-                        <div className="modal-footer">
-                            {footerErrorText}
-                            <button
-                                type="button"
-                                className="btn btn-danger"
-                                onClick={this.cancel}
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                type="button"
+        <div className="modal fade">
+            <div className="modal-dialog">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        { this.renderCloseButton() }
+                        <h2 className="t-headline">Create a Link</h2>
+                    </div>
+                    <div className="modal-body">
+                        { this.renderBody() }
+                    </div>
+                    <div className="modal-footer">
+                        { footerErrorText }
+                        <button type="button" className="btn btn-danger" onClick={ this.cancel }>
+                            Cancel
+                        </button>
+                        <button type="button"
                                 className="btn btn-primary"
-                                onClick={this.confirm}
-                                disabled={isDisabled}
-                            >
-                                Create Link
-                            </button>
-                        </div>
+                                onClick={ this.confirm }
+                                disabled={ isDisabled }>
+                            Create Link
+                        </button>
                     </div>
                 </div>
             </div>
+        </div>
         );
     }
 });
