@@ -1,4 +1,5 @@
 import React from 'react';
+import Backbone from 'backbone';
 import stores from 'stores';
 import Id from '../details/sections/details/Id.react';
 import Status from '../details/sections/details/Status.react';

@@ -1,3 +1,4 @@
+import Backbone from 'backbone';
 import ProviderMachineCollection from 'collections/ProviderMachineCollection';
 import Dispatcher from 'dispatchers/Dispatcher';
 import BaseStore from 'stores/BaseStore';
