@@ -148,10 +148,8 @@ export default React.createClass({
     },
 
     onImageSelected: function (image) {
-      let versionNameError = "";
-      if(image) {
-        versionNameError = this.validateName(image, this.state.versionName) ? "" : "There already exists a version named '"+this.state.versionName+"' in application '"+image.get('name')+"'.";
-      }
+      let versionNameError = this.getVersionNameError(image, this.state.versionName);
+
       this.setState({
           versionImage: image,
           versionNameError: versionNameError
@@ -169,17 +167,30 @@ export default React.createClass({
     //
     validateName: function(image, name) {
         let orig_version = this.props.version,
-        versions = image.get('versions');
+            versions = image.get('versions');
+        name = (name == null) ? "" : $.trim(name).toLowerCase();
 
-        name = $.trim(name).toLowerCase();
         versions = versions.filter(function(version) {
-            return (version.id !== orig_version.id && version.name.toLowerCase() === name);
+            return (version.id !== orig_version.id &&
+                (version.name && version.name.toLowerCase() === name) );
         });
         return versions.length == 0;
     },
+    getVersionNameError: function(image, name) {
+        if(image == null) {
+            return "";
+        }
+        if(name == null) {
+            return "";
+        }
+        let versionNameError = this.validateName(image, name) ? ""
+            : `There already exists a version named '${name}' in application '${image.get('name')}'.`;
+        return versionNameError;
+    },
     handleNameChange: function(name){
       let image = this.state.versionImage;
-      let versionNameError = this.validateName(image, name) ? "" : "There already exists a version named '"+name+"' in application '"+image.get('name')+"'.";
+      let versionNameError = this.getVersionNameError(image,name);
+
       this.setState({
           versionName: name,
           versionNameError: versionNameError
@@ -311,10 +322,7 @@ export default React.createClass({
         ended = this.state.versionEndDate;
       }
 
-      if(name == null) {
-          return (<div className="loading"/>);
-      }
-      if(images == null) {
+      if(name == null || images == null) {
           return (<div className="loading" />);
       }
       licensesView = (
