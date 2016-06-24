@@ -177,10 +177,7 @@ export default React.createClass({
         return versions.length == 0;
     },
     getVersionNameError: function(image, name) {
-        if(image == null) {
-            return "";
-        }
-        if(name == null) {
+        if(image == null || name == null) {
             return "";
         }
         let versionNameError = this.validateName(image, name) ? ""
