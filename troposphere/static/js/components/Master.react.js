@@ -112,7 +112,7 @@ export default React.createClass({
 
     render: function() {
 
-        if (!show_public_site && !context.hasLoggedInUser()) {
+        if (!window.show_public_site && !context.hasLoggedInUser()) {
             //Users who ARE logged in, but without an identity
             //cannot be handled in the application, currently.
             //These users are punted now.
