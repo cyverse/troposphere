@@ -16,7 +16,7 @@ export default React.createClass({
       var image = this.props.image,
           endDate = moment(image.get('end_date'));
       if (endDate.isValid()) {
-          formatDate = endDate.tz(globals.TZ_REGION).format("M/DD/YYYY hh:mm a z");
+          let formatDate = endDate.tz(globals.TZ_REGION).format("M/DD/YYYY hh:mm a z");
           endDate = formatDate;
       } else {
           // Hide this from view when end date isn't available

@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from './Image.react';
-import backbone from  'backbone';
+import Backbone from  'backbone';
 
 // We only use the ImageCollection for the prototype not data
 import ImageCollection from 'collections/ImageCollection';

@@ -53,8 +53,8 @@ export default React.createClass({
 
       componentDidMount: function (){
         if (this.state.name) {
-          var lower = this.state.name.toLowerCase();
-          tags = stores.TagStore.getAll().filter(function (tag) {
+          let lower = this.state.name.toLowerCase();
+          let tags = stores.TagStore.getAll().filter(function (tag) {
             return tag.get('name').toLowerCase() === lower;
           });
           if(tags.length > 0){
@@ -106,8 +106,8 @@ export default React.createClass({
         var newName = e.target.value;
         this.setState({name: newName});
         if (newName) {
-          var lower = $.trim(newName.toLowerCase());
-          tags = stores.TagStore.getAll().filter(function (tag) {
+          let lower = $.trim(newName.toLowerCase());
+          let tags = stores.TagStore.getAll().filter(function (tag) {
             return tag.get('name').toLowerCase() === lower;
           });
           if(tags.length > 0){

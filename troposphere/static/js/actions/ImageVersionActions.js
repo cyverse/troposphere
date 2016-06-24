@@ -18,7 +18,6 @@ export default {
       if(!newAttributes) throw new Error("No attributes to be updated");
 
       version.set(newAttributes);
-      //TODO:
       version.save(newAttributes, {
         patch:true,
       }).done(function(){
@@ -26,10 +25,9 @@ export default {
         // Othewise, do nothing..
       }).fail(function(err_resp){
         var error_json = err_resp.responseJSON;
+        let err_message = error_json;
         if (error_json.hasOwnProperty('non_field_errors')) {
             err_message = error_json.non_field_errors.join(" , ");
-        } else {
-            err_message = error_json;
         }
         var message = "Error updating Image Version " + version.get('name') + ": "+ err_message;
         NotificationController.error(null, message);

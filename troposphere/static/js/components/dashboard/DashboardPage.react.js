@@ -5,14 +5,15 @@ import MaintenanceMessageList from './MaintenanceMessageList.react';
 import ResourceStatusSummaryPlot from './plots/ResourceStatusSummaryPlot.react';
 import ProviderSummaryLinePlot from './plots/ProviderSummaryLinePlot.react';
 import CallToAction from './CallToAction.react';
+import globals from 'globals';
 import modals from 'modals';
 import stores from 'stores';
 
 
 // images
-let launch_instance = THEME_URL + "/images/icon_launchnewinstance.png",
-    settings = THEME_URL + "/images/icon_settings.png",
-    help = THEME_URL + "/images/icon_gethelp.png";
+let launch_instance = globals.THEME_URL + "/images/icon_launchnewinstance.png",
+    settings = globals.THEME_URL + "/images/icon_settings.png",
+    help = globals.THEME_URL + "/images/icon_gethelp.png";
 
 export default React.createClass({
     displayName: "DashboardPage",

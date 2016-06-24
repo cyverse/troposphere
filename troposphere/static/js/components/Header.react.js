@@ -99,7 +99,7 @@ let LogoutLink = React.createClass({
       var statusPageEl,
         username = this.props.username;
 
-      if (!username && show_public_site) {
+      if (!username && window.show_public_site) {
           username = "AnonymousUser"
       }
       if (globals.STATUS_PAGE_LINK) {
