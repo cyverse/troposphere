@@ -1,5 +1,6 @@
 
 import AppDispatcher from 'dispatchers/AppDispatcher';
+import Backbone from 'backbone';
 import stores from 'stores';
 import NotificationController from 'controllers/NotificationController';
 import Router from '../Router';

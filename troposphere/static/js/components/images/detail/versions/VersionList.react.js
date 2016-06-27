@@ -1,4 +1,5 @@
 import React from 'react';
+import Backbone from 'backbone';
 import Version from './Version.react';
 import ImageVersionEditModal from 'components/modals/image_version/ImageVersionEditModal.react';
 import ModalHelpers from 'components/modals/ModalHelpers';

@@ -1,6 +1,8 @@
+import globals from 'globals';
+import d3 from 'd3';
 
 let fetch = function(uuid, urlParams, onSuccess, onError) {
-    var api = API_V2_ROOT + "/metrics";
+    var api = globals.API_V2_ROOT + "/metrics";
 
     // Request extra datapoints to account for occasional null data at
     // front/end
@@ -22,7 +24,7 @@ let fetch = function(uuid, urlParams, onSuccess, onError) {
         req += "&until=" + urlParams.until;
 
     d3.json(req)
-      .header("Authorization", "Token " + access_token)
+      .header("Authorization", "Token " + window.access_token)
       .get(function(error, json) {
 
         // The json object should be an array with length >= 1

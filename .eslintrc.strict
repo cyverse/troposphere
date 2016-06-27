@@ -2,14 +2,15 @@
     "extends": ["eslint:recommended", "plugin:react/recommended"],
     "rules": {
         "linebreak-style": [
-            "error",
+            2,
             "unix"
         ],
-        "no-mixed-spaces-and-tabs": "error",
+        "no-mixed-spaces-and-tabs": 2,
     },
     "env": {
         "es6": true,
-        "browser": true
+        "browser": true,
+        "commonjs": true
     },
     "parser": "babel-eslint",
     "ecmaFeatures": {
