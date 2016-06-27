@@ -10,7 +10,7 @@ PyJWT==1.4.0
 python-dateutil==2.4
 psycopg2==2.5.2
 requests==2.7
-uWSGI==2.0.12
+uWSGI==2.0.13
 
 # Application Insights
 newrelic==2.64.0.48
