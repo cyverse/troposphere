@@ -156,7 +156,7 @@ export default React.createClass({
                 <div className="row">
                     <div className="col-md-6">
                         <div className={classNames}>
-                            <label>Script Tilte</label>
+                            <label>Script Title</label>
                             <input className="form-control"
                                 placeholder="My Script"
                                 value={this.state.title}
