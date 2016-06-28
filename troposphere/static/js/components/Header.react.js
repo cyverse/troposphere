@@ -3,10 +3,13 @@ import Backbone from 'backbone';
 import actions from 'actions';
 import modals from 'modals';
 import MaintenanceMessageBanner from './MaintenanceMessageBanner.react';
+import context from 'context';
 import globals from 'globals';
 import Router from 'react-router';
 // plugin: required to enable the drop-down, but not used directly
 import bootstrap from 'bootstrap';
+
+import NotificationController from 'controllers/NotificationController';
 
 import { hasLoggedInUser } from 'utilities/profilePredicate';
 
@@ -158,8 +161,21 @@ let Header = React.createClass({
         this.setState({windowWidth: window.innerWidth});
     },
 
+    handleNotice: function() {
+        if (context.hasMaintenanceNotice()) {
+            NotificationController.warning(
+                "Atmosphere Maintenance Information",
+                context.getMaintenanceNotice(),
+                {
+                     "positionClass": "toast-top-full-width"
+                }
+            );
+        }
+    },
+
     componentDidMount: function() {
         window.addEventListener('resize', this.handleResize);
+        this.handleNotice();
     },
 
     componentWillUnmount: function() {
