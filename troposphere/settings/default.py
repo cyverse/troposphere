@@ -179,3 +179,36 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'iplantauth.authBackends.OAuthLoginBackend'
 )
+
+# This Method will generate SECRET_KEY and write it to file..
+def generate_secret_key(secret_key_path):
+    """
+    Generates a unique `SECRET_KEY` upon each service start
+
+    Used by Django in various ways. Notably, it is used to sign session
+    cookies holding sensitive information about users & session values.
+
+    For more details:
+    - https://docs.djangoproject.com/en/1.9/ref/settings/#std:setting-SECRET_KEY
+    """
+    from django.utils.crypto import get_random_string
+    from datetime import datetime
+    chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
+    secret_value = get_random_string(50, chars)
+    comment_block = "\"\"\"\nThis file was Auto-Generated on %s\n\"\"\"\n" % datetime.now()
+    with open(secret_key_path, "w") as key_file:
+        key_file.write(comment_block)
+        key_file.write("SECRET_KEY=\"%s\"\n" % secret_value)
+
+# This import will Use an existing SECRET_KEY, or Generate your SECRET_KEY
+# if it doesn't exist yet.
+try:
+    from .secret_key import SECRET_KEY
+except ImportError:
+    SETTINGS_DIR = os.path.abspath(os.path.dirname(__file__))
+    generate_secret_key(os.path.join(SETTINGS_DIR, 'secret_key.py'))
+    try:
+        from .secret_key import SECRET_KEY
+    except ImportError:
+        raise Exception(
+            "default.py could not generate a SECRET_KEY in secret_key.py")

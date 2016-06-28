@@ -111,6 +111,7 @@
 {% if WEB_DESKTOP_INCLUDE_LINK %}
     var WEB_DESKTOP_INCLUDE_LINK = "{{ WEB_DESKTOP_INCLUDE_LINK }}"
 {% endif %}
+
 {% if show_public_site %}
     var show_public_site = true;
 {%  else %}
@@ -127,6 +128,10 @@
     var show_instance_metrics = true;
 {%  else %}
     var show_instance_metrics = false;
+{% endif %}
+
+{% if notice %}
+    var maint_notice = "{{ notice }}"
 {% endif %}
 
     </script>

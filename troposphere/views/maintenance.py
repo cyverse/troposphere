@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, render_to_response
 from django.template import RequestContext
 
-from api.models import MaintenanceRecord
+from api.models import MaintenanceRecord, MaintenanceNotice
 
 
 def get_maintenance(request):
@@ -15,6 +15,20 @@ def get_maintenance(request):
     disable_login = MaintenanceRecord.disable_login_access(request)
     in_maintenance = records.count() > 0
     return (records, disable_login, in_maintenance)
+
+
+def get_notices(request):
+    """
+    Returns a notice indicating details about a forthcoming maintenance period
+    """
+    # FIXME: this query object was accepted for the PR - but will need
+    # to be refactored as a later date (PR 404)
+    # NOTE: if you're seeing this message and it is past July 2016, then
+    # lenards has dropped the :football: :frown-face:
+    records = MaintenanceNotice.active()
+    has_notice = records.count() > 0
+    record = records[0] if records.count() > 0 else records
+    return (has_notice, record)
 
 
 def maintenance(request):
