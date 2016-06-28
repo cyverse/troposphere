@@ -164,7 +164,7 @@ let Header = React.createClass({
     handleNotice: function() {
         if (context.hasMaintenanceNotice()) {
             NotificationController.warning(
-                "Atmosphere Maintenance Information",
+                "CyVerse Maintenance Information",
                 context.getMaintenanceNotice(),
                 {
                      "positionClass": "toast-top-full-width"
