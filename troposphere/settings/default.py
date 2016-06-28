@@ -18,8 +18,6 @@ SERVER_URL="https://localhost"
 
 DEBUG = False
 
-TEMPLATE_DEBUG = False
-
 APPEND_SLASH = False
 
 ALLOWED_HOSTS = []
@@ -87,6 +85,7 @@ TEMPLATES = [
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'debug': False
         },
     }
 ]
