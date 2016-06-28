@@ -6,7 +6,7 @@ import MaintenanceMessageBanner from './MaintenanceMessageBanner.react';
 import globals from 'globals';
 import Router from 'react-router';
 
-import { trackAction, getDetails } from 'utilities/userActivity';
+import { trackAction } from 'utilities/userActivity';
 import { hasLoggedInUser } from 'utilities/profilePredicate';
 
 let Link = Router.Link;
@@ -109,6 +109,14 @@ let LogoutLink = React.createClass({
             </li>
         );
       }
+      
+      let trackSettings = () => {
+          trackAction("viewed-settings", {});
+      };
+
+      let trackRequests = () => {
+          trackAction("viewed-requests", {});
+      };
 
       return (
         <li className="dropdown">
@@ -118,10 +126,10 @@ let LogoutLink = React.createClass({
           </a>
           <ul className="dropdown-menu">
             <li>
-              <Link to="settings" onClick='trackAction("viewed-settings", getDetails())'>Settings</Link>
+              <Link to="settings" onClick={trackSettings}>Settings</Link>
             </li>
             <li>
-              <Link to="my-requests-resources">My requests</Link>
+              <Link to="my-requests-resources" onClick={trackRequests}>My requests</Link>
             </li>
             <li className="divider"></li>
             <li>

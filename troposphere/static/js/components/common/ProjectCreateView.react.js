@@ -1,4 +1,5 @@
 import React from 'react';
+import { trackAction } from '../../utilities/userActivity';
 
 export default React.createClass({
     displayName: "ProjectCreateModal",
@@ -65,7 +66,8 @@ export default React.createClass({
         if (this.isSubmittable()) {
             this.props.onConfirm(this.state.projectName.trim(), this.state.projectDescription.trim());
         }
-        this.setState({showValidation: true });
+        trackAction("created-project", {});
+	this.setState({showValidation: true });
     },
 
     // todo: I don't think there's a reason to update state unless
