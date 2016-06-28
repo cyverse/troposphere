@@ -72,7 +72,7 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
     show_troposphere_only = _should_show_troposphere_only()
     enable_new_relic = _should_enabled_new_relic()
     notice = ""
-    if notice_t:
+    if notice_t and len(notice_t) > 2:
         notice = notice_t[1] if not notice_t[2] else None
     logger.info("maintenance notice tuple: {0}".format(notice_t))
 
@@ -200,7 +200,7 @@ def _handle_authenticated_application_request(request, maintenance_records,
     """
     Deals with request verified identities via `iplantauth` module.
     """
-    if notice_info:
+    if notice_info and notice_info[1]:
         notice_info = (notice_info[0],
             notice_info[1].message,
             'maintenance_notice' in request.COOKIES)
