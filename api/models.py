@@ -126,6 +126,37 @@ class SiteMetadata(SingletonModel):
         verbose_name_plural = verbose_name
 
 
+class MaintenanceNotice(SingletonModel):
+    """
+    A single model to represent a message about a forthcoming maintenance.
+    """
+    show_message = models.BooleanField(default=False)
+    message = models.TextField()
+    end_date = models.DateTimeField(blank=True, null=True)
+
+    @classmethod
+    def active(cls, provider=None):
+        """
+        Return records that are active
+        """
+        now = timezone.now()
+        records = MaintenanceNotice.objects.filter(
+            Q(show_message=True),
+            Q(end_date__gt=now) | Q(end_date__isnull=True))
+        return records.all()
+
+    def __unicode__(self):
+        return "Active? {0}; End date: {1}; Message: {2}".format(
+            self.show_message,
+            self.end_date,
+            self.message)
+
+    class Meta:
+        db_table = 'maintenance_notice'
+        app_label = 'api'
+        verbose_name = 'Maintenance notice'
+        verbose_name_plural = verbose_name
+
 
 # Save Hook(s) Here:
 def get_or_create_preferences(sender, instance, created, **kwargs):

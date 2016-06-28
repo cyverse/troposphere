@@ -3,9 +3,11 @@ import Backbone from 'backbone';
 import actions from 'actions';
 import modals from 'modals';
 import MaintenanceMessageBanner from './MaintenanceMessageBanner.react';
+import context from 'context';
 import globals from 'globals';
 import Router from 'react-router';
 
+import NotificationController from 'controllers/NotificationController';
 import { trackAction } from 'utilities/userActivity';
 import { hasLoggedInUser } from 'utilities/profilePredicate';
 
@@ -156,8 +158,21 @@ let Header = React.createClass({
         this.setState({windowWidth: window.innerWidth});
     },
 
+    handleNotice: function() {
+        if (context.hasMaintenanceNotice()) {
+            NotificationController.warning(
+                "CyVerse Maintenance Information",
+                context.getMaintenanceNotice(),
+                {
+                     "positionClass": "toast-top-full-width"
+                }
+            );
+        }
+    },
+
     componentDidMount: function() {
         window.addEventListener('resize', this.handleResize);
+        this.handleNotice();
     },
 
     componentWillUnmount: function() {
