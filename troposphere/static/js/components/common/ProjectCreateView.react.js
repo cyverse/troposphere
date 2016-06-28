@@ -67,7 +67,7 @@ export default React.createClass({
             this.props.onConfirm(this.state.projectName.trim(), this.state.projectDescription.trim());
         }
         trackAction("created-project", {});
-	this.setState({showValidation: true });
+        this.setState({showValidation: true });
     },
 
     // todo: I don't think there's a reason to update state unless

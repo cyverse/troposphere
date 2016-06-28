@@ -29,7 +29,7 @@ export default React.createClass({
                         <div className="modal-body">
                             <ProjectCreateView
                                 cancel={this.cancel}
-				onConfirm={this.confirm}
+				                onConfirm={this.confirm}
                             />
                         </div>
                     </div>
