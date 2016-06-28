@@ -203,7 +203,7 @@ def _handle_authenticated_application_request(request, maintenance_records,
     if notice_info:
         notice_info = (notice_info[0],
             notice_info[1].message,
-            'maint' in request.COOKIES)
+            'maintenance_notice' in request.COOKIES)
 
     template_params, show_troposphere_only = _populate_template_params(request,
             maintenance_records, notice_info, disabled_login=False, public=False)
@@ -259,8 +259,8 @@ def _handle_authenticated_application_request(request, maintenance_records,
             context_instance=RequestContext(request)
         )
 
-    if 'maint' not in request.COOKIES:
-        response.set_cookie('maint', 'true',
+    if 'maintenance_notice' not in request.COOKIES:
+        response.set_cookie('maintenance_notice', 'true',
             expires=(timezone.now() + timedelta(hours=3)))
 
     return response
