@@ -1,19 +1,21 @@
 import json
 import logging
 
+from datetime import timedelta
 from urllib import urlencode
 
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, render_to_response
 from django.template import RequestContext
+from django.utils import timezone
 
 from api.models import UserPreferences, MaintenanceRecord
 from troposphere.version import get_version
 from troposphere.auth import has_valid_token
 from troposphere.site_metadata import get_site_metadata
 from .emulation import is_emulated_session
-from .maintenance import get_maintenance
+from .maintenance import get_maintenance, get_notices
 
 logger = logging.getLogger(__name__)
 
@@ -60,7 +62,7 @@ def _should_enabled_new_relic():
         bool(settings.NEW_RELIC_ENVIRONMENT) is True
 
 
-def _populate_template_params(request, maintenance_records, disabled_login, public=False):
+def _populate_template_params(request, maintenance_records, notice_t, disabled_login, public=False):
     """
     Creates a dict of parameters for later template merge given the arguments,
     request session, and django settings (defined in `default.py` or overidden
@@ -69,12 +71,17 @@ def _populate_template_params(request, maintenance_records, disabled_login, publ
     # keep this variable around for the return statement ...
     show_troposphere_only = _should_show_troposphere_only()
     enable_new_relic = _should_enabled_new_relic()
+    notice = ""
+    if notice_t:
+        notice = notice_t[1] if not notice_t[2] else None
+    logger.info("maintenance notice tuple: {0}".format(notice_t))
 
     template_params = {
         'access_token': request.session.get('access_token'),
         'emulator_token': request.session.get('emulator_token'),
         'emulator': request.session.get('emulator'),
         'records': maintenance_records,
+        'notice': notice,
         'show_troposphere_only': show_troposphere_only,
         'new_relic_enabled': enable_new_relic,
         'show_public_site': public
@@ -147,7 +154,7 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
     - For airport, there is nothing to do but ask for people to `login.html`.
     """
     template_params, show_troposphere_only = _populate_template_params(request,
-            maintenance_records, disabled_login, True)
+            maintenance_records, None, disabled_login, True)
 
     if 'new_relic_enabled' in template_params:
         logger.info("New Relic enabled? %s" % template_params['new_relic_enabled'])
@@ -188,12 +195,18 @@ def _handle_public_application_request(request, maintenance_records, disabled_lo
     return response
 
 
-def _handle_authenticated_application_request(request, maintenance_records):
+def _handle_authenticated_application_request(request, maintenance_records,
+        notice_info):
     """
     Deals with request verified identities via `iplantauth` module.
     """
+    if notice_info:
+        notice_info = (notice_info[0],
+            notice_info[1].message,
+            'maintenance_notice' in request.COOKIES)
+
     template_params, show_troposphere_only = _populate_template_params(request,
-            maintenance_records, disabled_login=False, public=False)
+            maintenance_records, notice_info, disabled_login=False, public=False)
 
     user_preferences, created = UserPreferences.objects.get_or_create(
         user=request.user)
@@ -246,6 +259,10 @@ def _handle_authenticated_application_request(request, maintenance_records):
             context_instance=RequestContext(request)
         )
 
+    if 'maintenance_notice' not in request.COOKIES:
+        response.set_cookie('maintenance_notice', 'true',
+            expires=(timezone.now() + timedelta(hours=3)))
+
     return response
 
 
@@ -275,6 +292,7 @@ def application_backdoor(request):
 def application(request):
     maintenance_records, disabled_login, in_maintenance = \
         get_maintenance(request)
+    notice_info = get_notices(request)
 
     if should_route_to_maintenace(request, in_maintenance):
         logger.warn('%s has actice session but is NOT in staff_list_usernames'
@@ -283,9 +301,12 @@ def application(request):
         return redirect('maintenance')
 
     if request.user.is_authenticated() and has_valid_token(request.user):
-        return _handle_authenticated_application_request(request, maintenance_records)
+        return _handle_authenticated_application_request(request,
+            maintenance_records,
+            notice_info)
     else:
-        return _handle_public_application_request(request, maintenance_records, disabled_login=disabled_login)
+        return _handle_public_application_request(request, maintenance_records,
+            disabled_login=disabled_login)
 
 
 def forbidden(request):
