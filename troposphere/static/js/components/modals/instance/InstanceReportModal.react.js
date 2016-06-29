@@ -61,7 +61,7 @@ export default React.createClass({
         this.hide();
         var reportInfo = this.getReportInfo();
         this.props.onConfirm(reportInfo);
-	    trackAction("reported-instance", {});
+        trackAction("reported-instance", {});
       },
 
       //
