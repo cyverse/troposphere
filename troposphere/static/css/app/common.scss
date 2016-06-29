@@ -276,3 +276,11 @@ $chosen-sprite-retina-path: $chosen-sprite-path;
         content: attr(data-label);
     }
 }
+
+tr td.sm-cell:last-child {
+    width:90%;
+}
+
+tr td {
+    white-space: nowrap;
+}
