@@ -2,6 +2,7 @@ import React from 'react';
 import stores from 'stores';
 import $ from 'jquery';
 import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import { trackAction } from '../../../utilities/userActivity';
 
 
 export default React.createClass({
@@ -48,6 +49,7 @@ export default React.createClass({
             this.state.description,
             this.state.link
         );
+        trackAction("created-external-link", {});
     },
 
     //

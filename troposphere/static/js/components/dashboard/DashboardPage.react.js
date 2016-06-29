@@ -7,7 +7,7 @@ import ProviderSummaryLinePlot from './plots/ProviderSummaryLinePlot.react';
 import CallToAction from './CallToAction.react';
 import modals from 'modals';
 import stores from 'stores';
-
+import { trackAction } from '../../utilities/userActivity';
 
 // images
 let launch_instance = THEME_URL + "/images/icon_launchnewinstance.png",
@@ -20,6 +20,7 @@ export default React.createClass({
     renderRequestMoreResources: function(e){
       e.preventDefault();
       modals.HelpModals.requestMoreResources();
+      trackAction('made-resource-request', {element: 'from-dashboard'});
     },
 
     getState: function() {

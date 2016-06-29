@@ -1,5 +1,6 @@
 import React from 'react';
 import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import { trackAction } from '../../utilities/userActivity';
 
 // Example Usage from http://bl.ocks.org/insin/raw/8449696/
 // render: function(){
@@ -61,6 +62,7 @@ export default React.createClass({
       confirm: function () {
         this.hide();
         this.props.onConfirm(this.state.feedback);
+        trackAction("sent-feedback", {});
       },
 
 

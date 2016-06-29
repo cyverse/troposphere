@@ -1,4 +1,4 @@
-
+import { trackAction } from '../../utilities/userActivity';
 import React from 'react';
 import PageHeader from 'components/common/PageHeader.react';
 import AdvancedSettingsPage from 'components/settings/AdvancedSettingsPage.react';
@@ -43,6 +43,7 @@ export default React.createClass({
     },
 
     handleRequestMoreResources: function (e) {
+        trackAction("made-resource-request", {element: 'from-settings'});
         e.preventDefault();
         modals.HelpModals.requestMoreResources();
     },

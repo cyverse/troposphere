@@ -3,7 +3,7 @@ import Backbone from 'backbone';
 import stores from 'stores';
 import ProjectSelect from '../instance_launch/ProjectSelect.react';
 import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
-
+import { trackAction } from '../../../utilities/userActivity';
 
 export default React.createClass({
       displayName: "ProjectAddImageModal",
@@ -79,6 +79,7 @@ export default React.createClass({
         var project = this.state.projects.get(this.state.projectId);
         //Action to add 'image' to 'project' happens in 'props.onConfirm'
         this.props.onConfirm(project, this.props.image);
+        trackAction("added-image-to-project", {});
       },
 
 
