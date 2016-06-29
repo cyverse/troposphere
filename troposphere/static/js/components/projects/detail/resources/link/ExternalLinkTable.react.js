@@ -61,7 +61,7 @@ export default React.createClass({
           onResourceDeselected={this.props.onResourceDeselected}
           >
           <th className="sm-header">Name</th>
-          <th className="sm-header">Url</th>
+          <th className="sm-header">URL</th>
         </SelectableTable>
       )
     }
