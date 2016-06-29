@@ -164,17 +164,21 @@ let Header = React.createClass({
 
     handleNotice: function() {
         if (context.hasMaintenanceNotice()) {
+            var notice = context.getMaintenanceNotice();
+            var options = {
+                "toastClass": "toast toast-mod-info-darken",
+                "positionClass": "toast-top-full-width",
+                "closeButton": true,
+                "timeOut": 0,
+                "extendedTimeOut": 0,
+                "tapToDismiss": false,
+                "closeOnHover": false
+            };
+
             NotificationController.warning(
-                "CyVerse Maintenance Information",
-                context.getMaintenanceNotice(),
-                {
-                    "positionClass": "toast-top-full-width",
-                    "closeButton": true,
-                    "timeOut": 0,
-                    "extendedTimeOut": 0,
-                    "tapToDismiss": false,
-                    "closeOnHover": false
-                }
+                notice['title'],
+                notice['message'],
+                options
             );
         }
     },
