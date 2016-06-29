@@ -22,7 +22,7 @@ export default React.createClass({
       }
     },
 
-    toggleCheckbox: function (e) {
+    toggleCheckbox: function () {
       this.setState({isChecked: !this.state.isChecked});
     },
 
