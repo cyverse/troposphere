@@ -17,7 +17,7 @@ def get_maintenance(request):
     return (records, disable_login, in_maintenance)
 
 
-def get_notices(request):
+def get_notice(request):
     """
     Returns a notice indicating details about a forthcoming maintenance period
     """
@@ -25,10 +25,17 @@ def get_notices(request):
     # to be refactored as a later date (PR 404)
     # NOTE: if you're seeing this message and it is past July 2016, then
     # lenards has dropped the :football: :frown-face:
-    records = MaintenanceNotice.active()
-    has_notice = records.count() > 0
-    record = records[0] if records.count() > 0 else records
-    return (has_notice, record)
+    notices = MaintenanceNotice.active()
+    has_notice = notices.count() > 0
+    notice = notices[0] if has_notice else notices
+
+    notice = {}
+    if has_notice:
+        model = notices[0]
+        notice['title'] = model.title
+        notice['message'] = model.message
+
+    return (has_notice, notice)
 
 
 def maintenance(request):

@@ -1,12 +1,13 @@
 import React from 'react';
+import Router from 'react-router';
 import Backbone from 'backbone';
+import toastr from 'toastr';
+
 import modals from 'modals';
 import MaintenanceMessageBanner from './MaintenanceMessageBanner.react';
 import context from 'context';
 import globals from 'globals';
-import Router from 'react-router';
 
-import NotificationController from 'controllers/NotificationController';
 import { trackAction } from 'utilities/userActivity';
 import { hasLoggedInUser } from 'utilities/profilePredicate';
 
@@ -76,7 +77,7 @@ let links = [
 // Don't show Providers link if globals.USE_ALLOCATION_SOURCES
 if ( globals.USE_ALLOCATION_SOURCES ) {
     links = links.filter( link => link.name !== "Providers");
-};
+}
 
 let LoginLink = React.createClass({
     render: function () {
@@ -165,20 +166,19 @@ let Header = React.createClass({
     handleNotice: function() {
         if (context.hasMaintenanceNotice()) {
             var notice = context.getMaintenanceNotice();
-            var options = {
-                "toastClass": "toast toast-mod-info-darken",
-                "positionClass": "toast-top-full-width",
-                "closeButton": true,
-                "timeOut": 0,
-                "extendedTimeOut": 0,
-                "tapToDismiss": false,
-                "closeOnHover": false
-            };
-
-            NotificationController.warning(
-                notice,
-                "Maintenance Information",
-                options
+            // TODO using the `notice` JSON object
+            toastr.warning(
+                notice['message'],
+                notice['title'],
+                {
+                    "toastClass": "toast toast-mod-info-darken",
+                    "positionClass": "toast-top-full-width",
+                    "closeButton": true,
+                    "timeOut": 0,
+                    "extendedTimeOut": 0,
+                    "tapToDismiss": false,
+                    "closeOnHover": false
+                }
             );
         }
     },
