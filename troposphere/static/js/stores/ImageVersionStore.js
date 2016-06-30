@@ -55,7 +55,7 @@ define(function (require) {
         break;
 
       default:
-        break;
+        return true;
     }
 
     store.emitChange();
