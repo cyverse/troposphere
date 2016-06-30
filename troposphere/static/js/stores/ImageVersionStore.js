@@ -53,7 +53,7 @@ Dispatcher.register(function(dispatch) {
             break;
 
         default:
-            break;
+            return true;
     }
 
     store.emitChange();
