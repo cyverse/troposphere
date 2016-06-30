@@ -359,11 +359,10 @@ export default React.createClass({
           onChange={this.handleDescriptionChange}
           />
       );
-      availabilityView = (<div> "Coming Soon"</div>);
-      //availabilityView = (<EditAvailabilityView
-      //  image={this.props.image}
-      //  version={this.props.version}
-      //  />);
+      availabilityView = (<EditAvailabilityView
+        image={this.props.image}
+        version={this.props.version}
+        />);
       if(this.props.image.get('is_public')) {
         membershipView = (<div>
           Here lies a pretty view telling users

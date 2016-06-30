@@ -12,22 +12,22 @@ export default React.createClass({
         },
 
       renderProviderMachine: function (provider_machine) {
-        //Hide 'end-dated' provider_machines
-        //TODO: Only hide when end_date > now
-        if(provider_machine.end_date && provider_machine.end_date.isValid()) {
+        // Hide 'end-dated' provider_machines
+        let endDate = provider_machine.get("end_date");
+        if(endDate && endDate.isValid()) {
           return;
         }
 
         return (
-          <div key={provider_machine.id}>
-            {provider_machine.provider.name} - {provider_machine.uuid}
+          <div key={provider_machine.get("id")}>
+            {provider_machine.get("provider").name} - {provider_machine.get("uuid")}
           </div>
         )
       },
       renderBody: function () {
-        var machines = stores.ImageVersionStore.getMachines(this.props.version.id);
+        var machines = stores.ProviderMachineStore.getMachinesForVersion(this.props.version);
 
-        if(machines == null) {
+        if (!machines) {
           return (<div className="content col-md-10">
             <div className="loading"/>
           </div>);
