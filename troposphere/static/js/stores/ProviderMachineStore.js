@@ -89,7 +89,6 @@ define(function (require) {
 
     switch (actionType) {
       case ProviderMachineConstants.UPDATE_PROVIDER_MACHINE:
-        store.update(payload);
         break;
 
       default:
