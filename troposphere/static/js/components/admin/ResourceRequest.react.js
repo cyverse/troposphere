@@ -266,8 +266,8 @@ let ResourceRequest = React.createClass({
                 </div>
                 <div className="radio-buttons">
                   <h4>Expiring allocation? </h4>
-                  <input type="radio" name="expire" checked={this.state.expire === true} onChange={this.onExpireChange}>Yes</input>
-                  <input type="radio" name="expire" checked={this.state.expire === false} onChange={this.onExpireChange}>No</input>
+                  <input type="radio" name="expire" checked={!!this.state.expire} onChange={this.onExpireChange} value="Yes"/>
+                  <input type="radio" name="expire" checked={!!this.state.expire} onChange={this.onExpireChange} value="No"/>
                 </div>
                 {this.renderAllocationStatus()}
               </div>
