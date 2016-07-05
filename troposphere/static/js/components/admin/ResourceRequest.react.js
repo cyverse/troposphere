@@ -89,7 +89,7 @@ let ResourceRequest = React.createClass({
             threshold: this.state.AUSearch * 60,
             delta: this.state.delta
         }).length == 1;
-        var quotaExists = stores.QuotaStore.findWhere(this.state.quotaSearch).length == 1;
+        var quotaExists = stores.QuotaStore.findWhere(this.state.quotaSearch).length > 0;
         return this.state.response && allocationExists && quotaExists
     },
 
