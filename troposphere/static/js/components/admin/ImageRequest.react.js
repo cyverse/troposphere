@@ -37,7 +37,7 @@ export default React.createClass({
     deny: function(){
 
       var request = stores.ImageRequestStore.get(this.getParams().id),
-      status = stores.StatusStore.findOne({name: "rejected"});
+      status = stores.StatusStore.findOne({name: "denied"});
 
       ImageRequestActions.update({
         request: request,
