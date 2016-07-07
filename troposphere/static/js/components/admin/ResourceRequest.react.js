@@ -135,7 +135,7 @@ let ResourceRequest = React.createClass({
     handleDenial: function(e){
       e.preventDefault();
       var resourceRequest = stores.ResourceRequestStore.get(this.getParams().id),
-        status = stores.StatusStore.findOne({name: "rejected"});
+        status = stores.StatusStore.findOne({name: "denied"});
 
       ResourceActions.update({
         request: resourceRequest,
