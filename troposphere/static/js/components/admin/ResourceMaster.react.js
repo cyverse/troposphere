@@ -47,17 +47,13 @@ export default React.createClass({
 
       if (!requests || !statuses) return <div className="loading"></div>;
 
-      var resourceRequests = requests.map(function (request) {
-        var handleClick = function(){
-          this.onResourceClick(request);
-        }.bind(this);
-
+      var resourceRequests = requests.map((r) => {
         return (
-          <li key={request.id} onClick={handleClick}>
-            {request.get('created_by').username}
+          <li key={r.id} onClick={this.onResourceClick.bind(this, r)}>
+            {r.get('created_by').username}
           </li>
         );
-      }.bind(this));
+      })
 
       if (!resourceRequests[0]) {
         return  (
