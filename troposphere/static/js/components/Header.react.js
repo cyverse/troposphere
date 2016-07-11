@@ -187,12 +187,21 @@ let Header = React.createClass({
             });
             trackAction('switch-to-airport');
         };
+
+	var toggleBackground = {
+	color: "rgba(17, 5, 1, 0.3)",
+	width: 103,
+	height: 20,
+	borderRadius: 14,
+	fontSize: 13
+	};
+
         return (
           <div className="beta-toggle">
             <a href="/application?beta=false&airport_ui=true"
                 onClick={trackEvent}>
               <div className="toggle-wrapper">
-                <div className="toggle-background">
+                <div style={toggleBackground}>
                   <div className="toggle-text">View Old UI</div>
                 </div>
                 <div className="toggle-switch"></div>
