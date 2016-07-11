@@ -189,11 +189,11 @@ let Header = React.createClass({
         };
 
 	var toggleBackground = {
-	color: "rgba(17, 5, 1, 0.3)",
-	width: 103,
-	height: 20,
-	borderRadius: 14,
-	fontSize: 13
+ 	 color: "rgba(17, 5, 1, 0.3)",
+	 width: 103,
+	 height: 20,
+	 borderRadius: 14,
+	 fontSize: 13
 	};
 
         return (
