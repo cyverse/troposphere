@@ -189,11 +189,19 @@ let Header = React.createClass({
         };
 
 	var toggleBackground = {
+<<<<<<< HEAD
  	 backgroundColor: "rgba(17, 5, 1, 0.3)",
 	 width: 103,
 	 height: 20,
 	 borderRadius: 14,
 	 fontSize: 13
+=======
+	color: "rgba(17, 5, 1, 0.3)",
+	width: 103,
+	height: 20,
+	borderRadius: 14,
+	fontSize: 13
+>>>>>>> 9476d97... Updating Toggle button color using black and modifying opacity, switching CSS Stylesheet to inline style.
 	};
 
         return (
