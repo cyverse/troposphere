@@ -146,12 +146,10 @@ let ResourceRequest = React.createClass({
     },
 
     makeNewQuota: function(e){
-        e.preventDefault();
         actions.QuotaActions.create(this.state.quotaSearch);
     },
 
     makeNewAllocation: function(e){
-        e.preventDefault();
         actions.AllocationActions.create({"threshold": this.state.AUSearch * 60, "delta": this.state.delta});
     },
 
@@ -162,37 +160,26 @@ let ResourceRequest = React.createClass({
       });
     },
 
-    renderAllocationStatus: function(){
-        if(stores.AllocationStore.findWhere({"threshold": parseInt(this.state.AUSearch) * 60, "delta": this.state.delta}).length < 1){
-            return(
-                <div>
-                    <p>Allocation with {this.state.AUSearch} AU expiring: {this.state.expire ? "true":"false"} does not exist. Click <a href="#" onClick={this.makeNewAllocation}>here</a> to create it.</p>
-                </div>
-            );
-        }
-        return(
-            <div>
-                <Glyphicon name="ok" /> Allocation exists
-            </div>
-        );
-    },
+    renderResourceStatus: function(){
+        let allocation = stores.AllocationStore.findWhere({"threshold": parseInt(this.state.AUSearch) * 60, "delta": this.state.delta});
+        let allocationExists = allocation && allocation.length > 0;
 
-    renderQuotaStatus: function(){
-        if(stores.QuotaStore.findWhere(this.state.quotaSearch).length < 1){
-            var quota = this.state.quotaSearch;
+        let quota = stores.QuotaStore.findWhere(this.state.quotaSearch);
+        let quotaExists = quota && quota.length > 0;
+
+        if (!quotaExists || !allocationExists) {
             return(
                 <div>
                     <p>
-                    Quota does not exist. Click <a href="#" onClick={this.makeNewQuota}>here</a> to create it.
+                        These resources do not exist. Click <a href="#" onClick={ (e) =>  {
+                            e.preventDefault();
+                            quotaExists || this.makeNewQuota();
+                            allocationExists || this.makeNewAllocation();
+                        } }>here</a> to create them.
                     </p>
                 </div>
             );
         }
-        return(
-            <div>
-                <Glyphicon name="ok" /> Quota exists
-            </div>
-        );
     },
 
     onQuotaSearchChange: function(e){
@@ -249,7 +236,6 @@ let ResourceRequest = React.createClass({
                 <input className="form-control" id="storage_count" type="number" value={this.state.quotaSearch.storage_count} onChange={this.onQuotaSearchChange} />
                 <label htmlFor="suspended_count">Suspended Count: </label>
                 <input className="form-control" id="suspended_count" type="number" value={this.state.quotaSearch.suspended_count} onChange={this.onQuotaSearchChange} />
-                {this.renderQuotaStatus()}
               </div>
               <div className="allocation-change">
                 <h4>Current allocation: </h4>{currentAllocationString}
@@ -268,13 +254,13 @@ let ResourceRequest = React.createClass({
                   <input id="expire-disabled" type="radio" name="expire" onClick={this.onExpireClick.bind(this, false)}/>
                   <label htmlFor="expire-disabled">No</label>
                 </div>
-                {this.renderAllocationStatus()}
               </div>
               <div className="form-group admin-response">
                 <h4>Response:</h4>
                 <br />
                 <textarea type="text" form="admin" value={this.state.value} onChange={this.handleResponseChange}/>
               </div>
+              {this.renderResourceStatus()}
               <div className="buttons">
                 <button disabled={!this.canSubmit()} onClick={this.handleApproval} type="button" className="btn btn-default btn-sm">Approve</button>
                 <button onClick={this.handleDenial} type="button" className="btn btn-default btn-sm">Deny</button>
