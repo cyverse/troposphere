@@ -160,10 +160,11 @@ let ResourceRequest = React.createClass({
         actions.AllocationActions.create({"threshold": this.state.AUSearch * 60, "delta": this.state.delta});
     },
 
-    onExpireChange: function(e){
-      // If expire is currently true, we want it to be false. Set delta to -1 for non expiring AU, standard 525600 for expiring.
-      this.state.expire ? this.setState({delta: -1}) : this.setState({delta: 525600});
-      this.setState({expire: !this.state.expire});
+    onExpireClick: function(expire){
+      this.setState({
+          delta: expire ? 525600: -1,
+          expire,
+      });
     },
 
     renderAllocationStatus: function(){
@@ -266,8 +267,11 @@ let ResourceRequest = React.createClass({
                 </div>
                 <div className="radio-buttons">
                   <h4>Expiring allocation? </h4>
-                  <input type="radio" name="expire" checked={!!this.state.expire} onChange={this.onExpireChange} value="Yes"/>
-                  <input type="radio" name="expire" checked={!!this.state.expire} onChange={this.onExpireChange} value="No"/>
+                  <input id="expire-enabled" type="radio" name="expire" defaultChecked onClick={this.onExpireClick.bind(this, true)}/>
+                  <label htmlFor="expire-enabled">Yes</label>
+                  <br/>
+                  <input id="expire-disabled" type="radio" name="expire" onClick={this.onExpireClick.bind(this, false)}/>
+                  <label htmlFor="expire-disabled">No</label>
                 </div>
                 {this.renderAllocationStatus()}
               </div>
