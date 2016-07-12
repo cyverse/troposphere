@@ -26,11 +26,6 @@ let ResourceRequest = React.createClass({
       };
     },
 
-    componentWillReceiveProps: function(){
-        // If new props were received but the existing component was not unmounted, manually set initial state
-        this.setState(this.getInitialState(), this.updateState);
-    },
-
     componentDidMount: function(){
         stores.ResourceRequestStore.addChangeListener(this.updateState);
         stores.AllocationStore.addChangeListener(this.updateState);
