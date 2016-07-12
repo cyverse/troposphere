@@ -141,7 +141,7 @@ let ResourceRequest = React.createClass({
 
     handleThresholdSearchChange: function(e){
       this.setState({
-        AUSearch: e.target.value
+        AUSearch: Number(e.target.value)
       });
     },
 
@@ -161,7 +161,7 @@ let ResourceRequest = React.createClass({
     },
 
     renderResourceStatus: function(){
-        let allocation = stores.AllocationStore.findWhere({"threshold": parseInt(this.state.AUSearch) * 60, "delta": this.state.delta});
+        let allocation = stores.AllocationStore.findWhere({"threshold": this.state.AUSearch * 60, "delta": this.state.delta});
         let allocationExists = allocation && allocation.length > 0;
 
         let quota = stores.QuotaStore.findWhere(this.state.quotaSearch);
