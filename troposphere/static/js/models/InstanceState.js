@@ -11,6 +11,7 @@ var InstanceState = Backbone.Model.extend({
       "active",
       "error",
       "active - deploy_error",
+      "active - user_deploy_error",
       "suspended",
       "shutoff"
     ];
@@ -26,7 +27,7 @@ var InstanceState = Backbone.Model.extend({
     var status = this.get('status');
     var activity = this.get('activity');
 
-    return status === "active" && activity === "deploy_error";
+    return status === "active" && (activity === "deploy_error" || activity === "user_deploy_error");
   },
 
   getPercentComplete: function () {
@@ -69,7 +70,8 @@ var get_percent_complete = function (state, activity) {
             'suspending': 50,
             'initializing': 50,
             'networking': 60,
-            'deploying': 70
+            'deploying': 70,
+            'running_boot_script': 90
         },
         'hard_reboot': {
             'rebooting-hard': 50
@@ -110,6 +112,9 @@ var get_final_state = function (activity) {
   }
   else if (activity === 'suspending') {
     return 'suspended';
+  }
+  else if (activity === 'user_deploy_error') {
+    return 'user_deploy_error';
   }
   else if (activity === 'deploy_error') {
     return 'deploy_error';
