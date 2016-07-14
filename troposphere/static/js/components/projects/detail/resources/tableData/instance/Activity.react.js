@@ -13,7 +13,7 @@ var Activity = React.createClass({
             stylez = {
                 textTransform: "capitalize"
             },
-            activity = instance.get('state').get('activity');
+            activity = instance.get('state').get('activity') || "N/A";
 
         return (
           <span style={stylez}>{activity}</span>
