@@ -189,13 +189,13 @@ let Header = React.createClass({
         };
 
 
-    var toggleBackground = {
-      backgroundColor: "rgba(17, 5, 1, .3)",
-      width: 103,
-      height: 20,
-      borderRadius: 14,
-      fontSize: 13
-    }; 
+        var toggleBackground = {
+            backgroundColor: "rgba(17, 5, 1, .3)",
+            width: 103,
+            height: 20,
+            borderRadius: 14,
+            fontSize: 13
+        };
 
         return (
           <div className="beta-toggle">
