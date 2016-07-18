@@ -1,6 +1,5 @@
 import React from 'react';
 import Backbone from 'backbone';
-import actions from 'actions';
 import modals from 'modals';
 import MaintenanceMessageBanner from './MaintenanceMessageBanner.react';
 import context from 'context';
@@ -20,7 +19,7 @@ let links = [
       href: "/application/dashboard",
       icon: "stats",
       requiresLogin: true,
-      isEnabled: true,
+      isEnabled: true
     },
     {
       name: "Projects",
