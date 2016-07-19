@@ -38,6 +38,7 @@ export default React.createClass({
         let projects = stores.ProjectStore.getAll();
         let existing_projects = stores.ProjectImageStore.getProjectsFor(
             this.props.image.id);
+        let projectId;
         if (projects != null && projects.length > 0) {
             projectId = this.selectFirstAvailable(projects, existing_projects)
         } else {
@@ -52,11 +53,11 @@ export default React.createClass({
     updateState: function() {
         let updatedState = {};
         if (this.state.projects == null) {
-            projects = stores.ProjectStore.getAll();
+            let projects = stores.ProjectStore.getAll();
             updatedState.projects = projects;
         }
         if (this.state.existing == null) {
-            existing = stores.ProjectImageStore.getProjectsFor(
+            let existing = stores.ProjectImageStore.getProjectsFor(
                 this.props.image.id);
             updatedState.existing = existing;
         }
@@ -130,7 +131,7 @@ export default React.createClass({
         if (this.state.existing == null) {
             return (<div className='loading' />);
         }
-        project_divs = this.state.existing.map(function(existing_project) {
+        let project_divs = this.state.existing.map(function(existing_project) {
             return (
             <div id={ existing_project.cid }>
                 { existing_project.get('project').name }
@@ -155,15 +156,15 @@ export default React.createClass({
         }
         var self = this;
         var project_arr = this.state.projects.filter(function(project) {
-            needle = project.id;
-            haystack_matches = self.state.existing.filter(
+            let needle = project.id;
+            let haystack_matches = self.state.existing.filter(
                 function(existing_project) {
-                    project_id = existing_project.get('project').id;
+                    let project_id = existing_project.get('project').id;
                     return project_id == needle;
                 });
             return haystack_matches.length == 0;
         });
-        projects = new Backbone.Collection(project_arr);
+        let projects = new Backbone.Collection(project_arr);
         return projects;
     },
     renderProjects: function() {
