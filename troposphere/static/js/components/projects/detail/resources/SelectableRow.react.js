@@ -33,7 +33,7 @@ export default React.createClass({
     },
 
     render: function () {
-      var rowClassName = this.props.isActive ? "selected" : null;
+      var rowClassName = this.props.isActive ? "selected" : "";
 
       return (
         <tr className={"sm-row " + rowClassName} style={{cursor:"pointer"}} onClick={this.previewResource}>
