@@ -179,23 +179,8 @@ let Header = React.createClass({
     },
 
     renderBetaToggle: function () {
-      let style = {
-        position: {
-          position: "relative",
-          display: "inline-block",
-          float: "right",
-        },
-      };
 
-      if (!window.show_troposphere_only && this.state.windowWidth > 770 ) {
-
-        if (this.state.windowWidth < 990) {
-            style.position = {
-                position: "absolute",
-                top: 0,
-                right: 0,
-            };
-        }
+      if (!window.show_troposphere_only) {
 
         let trackEvent = (e) => {
             trackAction('switch-ui', {
@@ -205,7 +190,7 @@ let Header = React.createClass({
         };
 
         return (
-          <div className="beta-toggle" style={style.position}>
+          <div className="beta-toggle">
             <a href="/application?beta=false&airport_ui=true"
                 onClick={trackEvent}>
               <div className="toggle-wrapper">

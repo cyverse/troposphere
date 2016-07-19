@@ -77,9 +77,16 @@
 }
 
 .beta-toggle {
-  position: absolute;
+  position: relative;
+  display: inline-block;
+  float: right;
   padding-top: 16px;
   padding-bottom: 9px;
+  @media (max-width: 991px) {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
   .toggle-wrapper {
     position: relative;
     padding-top: 1px;
