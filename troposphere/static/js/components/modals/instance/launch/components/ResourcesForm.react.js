@@ -13,6 +13,25 @@ export default React.createClass({
         onSizeChange: React.PropTypes.func,
         onProviderChange: React.PropTypes.func
     },
+
+    onAllocationSourceChange: function(val) {
+        // This is boiler plate for later when allocationSource is a store
+        // with the get() method that we would call 'val' on.
+        let source = val;
+        this.props.onAllocationSourceChange(source);
+    },
+
+    onProviderChange: function(val) {
+        let provider = this.props.providerList.get(val);
+        debugger;
+        this.props.onProviderChange(provider);
+    },
+
+    onSizeChange: function(val) {
+        let size = this.props.providerSizeList.get(val);
+        this.props.onSizeChange(size);
+    },
+
     render: function () {
         // These two Names are used by the Select component as callbacks in a map of the list provided by the list property
         let providerName = (item) => item.get('name');
@@ -34,8 +53,8 @@ export default React.createClass({
                     <SelectMenu
                         defaultId={ this.props.allocationSource.id }
                         list={ this.props.allocationSourceList }
-                        optionName={ (name) => name.name }
-                        onSelectChange={ this.props.onAllocationSourceChange }
+                        optionName={ name => name.name }
+                        onSelectChange={ this.onAllocationSourceChange }
                     />
                 </div>
             ) : null;
@@ -51,7 +70,7 @@ export default React.createClass({
                         defaultId={defaultProviderId}
                         list={this.props.providerList}
                         optionName={providerName}
-                        onSelectChange={this.props.onProviderChange}
+                        onSelectChange={this.onProviderChange}
                     />
                 </div>
                 <div className="form-group">

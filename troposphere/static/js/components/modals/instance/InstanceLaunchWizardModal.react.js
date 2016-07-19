@@ -75,7 +75,7 @@ export default React.createClass({
         let projectList = stores.ProjectStore.getAll();
         let project = this.props.project ? this.props.project : null;
         let view = this.props.initialView;
-        let allocationSource = allocationSourceList[1];
+        let allocationSource = allocationSourceList ? allocationSourceList[1] : null;
 
         // Check if the user has any projects, if not then set view to "PROJECT_VIEW"
         // to create a new one
@@ -267,9 +267,10 @@ export default React.createClass({
         this.setState({instanceName});
     },
 
-    onVersionChange: function(imageVersion) {
+    onVersionChange: function(VersionVal) {
         // FIXME: Querying the PM store to return *providers* based on *version* is Not ideal.
         //  TODO: stores.ProviderStore.forVersion(imageVersion);
+
         let providerList = stores.ProviderMachineStore.getProvidersForVersion(imageVersion);
         let providerSizeList;
         let providerSize;
@@ -312,7 +313,7 @@ export default React.createClass({
         let providerSizeList = stores.SizeStore.fetchWhere({
             provider__id: provider.id
         });
-
+debugger;
         let providerSize;
 
         let identityProvider = stores.IdentityStore.findOne({

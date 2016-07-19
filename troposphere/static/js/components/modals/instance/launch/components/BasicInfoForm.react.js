@@ -23,6 +23,17 @@ export default React.createClass({
         ReactDOM.findDOMNode(this.refs.nameInput).select();
     },
 
+    onVersionChange: function(val) {
+        let version = this.props.versionList.get(val);
+        this.props.onVersionChange(version);
+    },
+
+    onProjectChange: function(val) {
+        let project = this.props.projectList.get(val);
+        this.props.onProjectChange(project);
+    },
+
+
    render: function () {
         let imageVersion = this.props.imageVersion;
         let imageVersionId = imageVersion ? imageVersion.get('id') : null;
@@ -62,7 +73,7 @@ export default React.createClass({
                         defaultId={imageVersionId}
                         list={this.props.imageVersionList}
                         optionName={item => item.get('name')}
-                        onSelectChange={this.props.onVersionChange}
+                        onSelectChange={this.onVersionChange}
                     />
                 </div>
                 <div className="form-group">
@@ -73,7 +84,7 @@ export default React.createClass({
                         defaultId={projectId}
                         list={projectList}
                         optionName={item => item.get('name')}
-                        onSelectChange={this.props.onProjectChange}
+                        onSelectChange={this.onProjectChange}
                     />
                 </div>
             </form>
