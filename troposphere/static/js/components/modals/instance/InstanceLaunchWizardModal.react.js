@@ -26,6 +26,29 @@ import BasicLaunchStep from './launch/steps/BasicLaunchStep.react';
 import AdvancedLaunchStep from './launch/steps/AdvancedLaunchStep.react';
 import LicenseStep from './launch/steps/LicenseStep.react';
 
+let allocationSourceList = [
+    {
+        name: "Personal",
+        id: "1",
+        available: 2000
+    },
+    {
+        name: "Group A",
+        id: "2",
+        available: 1500
+    },
+    {
+        name: "Group B",
+        id: "3",
+        available: 1500
+    },
+    {
+        name: "Group C",
+        id: "4",
+        available: 1500
+    },
+];
+
 // This class implements the instance launch walkthrough. By design it keeps
 // track of two states. First is the state for switching between separate
 // views of the modal. The second is the state for launching an actual
@@ -52,6 +75,7 @@ export default React.createClass({
         let projectList = stores.ProjectStore.getAll();
         let project = this.props.project ? this.props.project : null;
         let view = this.props.initialView;
+        let allocationSource = allocationSourceList[1];
 
         // Check if the user has any projects, if not then set view to "PROJECT_VIEW"
         // to create a new one
@@ -73,6 +97,7 @@ export default React.createClass({
             providerSize: null,
             identityProvider: null,
             attachedScripts: [],
+            allocationSource,
         }
     },
 
@@ -275,6 +300,12 @@ export default React.createClass({
 
     onProjectChange: function(project) {
         this.setState({ project });
+    },
+
+    onAllocationSourceChange: function(source) {
+        this.setState({
+            allocationSource: source,
+        });
     },
 
     onProviderChange: function(provider) {
@@ -542,6 +573,7 @@ export default React.createClass({
                     onNameChange: this.onNameChange,
                     onNameBlur: this.onNameBlur,
                     onProjectChange: this.onProjectChange,
+                    onAllocationSourceChange: this.onAllocationSourceChange,
                     onProviderChange: this.onProviderChange,
                     onRequestResources: this.onRequestResources,
                     onSizeChange: this.onSizeChange,
@@ -556,6 +588,8 @@ export default React.createClass({
                     resourcesUsed,
                     viewAdvanced: this.viewAdvanced,
                     hasAdvancedOptions: this.hasAdvancedOptions(),
+                    allocationSource: this.state.allocationSource,
+                    allocationSourceList,
                 }}
             />
         )

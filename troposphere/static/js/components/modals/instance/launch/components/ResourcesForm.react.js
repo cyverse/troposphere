@@ -25,8 +25,24 @@ export default React.createClass({
             defaultProviderId = this.props.provider.id;
             sizeId = this.props.providerSize.get('id');
          }
+
+         const renderAllocationSource = true ? (
+                <div className="form-group">
+                    <label htmlFor="allocationSource">
+                        Allocation Source
+                    </label>
+                    <SelectMenu
+                        defaultId={ this.props.allocationSource.id }
+                        list={ this.props.allocationSourceList }
+                        optionName={ (name) => name.name }
+                        onSelectChange={ this.props.onAllocationSourceChange }
+                    />
+                </div>
+            ) : null;
+
         return (
             <form>
+                { renderAllocationSource }
                 <div className="form-group">
                     <label htmlFor="instanceName">
                         Provider
