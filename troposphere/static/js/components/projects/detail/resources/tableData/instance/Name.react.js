@@ -15,7 +15,7 @@ export default React.createClass({
       var instance = this.props.instance,
           name = instance.get('name').trim() || "[no instance name]";
 
-      if (!instance.id) {
+      if (instance && !instance.get('id')) {
         return (
           <span>{instance.get('name')}</span>
         );
