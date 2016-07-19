@@ -8,6 +8,7 @@ import IpAddress from '../details/sections/details/IpAddress.react';
 import LaunchDate from '../details/sections/details/LaunchDate.react';
 import CreatedFrom from '../details/sections/details/CreatedFrom.react';
 import Identity from '../details/sections/details/Identity.react';
+import AllocationSource from '../details/sections/details/AllocationSource.react';
 import stores from 'stores';
 
 
@@ -33,6 +34,7 @@ export default React.createClass({
           <LaunchDate instance={instance}/>
           <CreatedFrom instance={instance}/>
           <Identity instance={instance} provider={provider}/>
+          <AllocationSource instance={instance} source={{ name: "Group 1" }}/>
         </ul>
       );
     }
