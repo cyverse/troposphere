@@ -10,9 +10,14 @@ export default React.createClass({
     },
 
     render: function () {
+        let sourceName;
+        if (this.props.instance) {
+            //TODO query source store for instance source
+            sourceName = true ? "Group 1" : "loading...";
+        }
         return (
           <ResourceDetail label="Allocation Source">
-            { this.props.source.name }
+            { sourceName }
           </ResourceDetail>
         );
     }

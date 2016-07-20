@@ -22,6 +22,9 @@ export default React.createClass({
     render: function () {
       var instance = stores.InstanceStore.get(this.props.instance.id),
         provider = instance ? stores.ProviderStore.get(instance.get('provider').id) : null;
+      let renderAllocationSource = true ? (
+          <AllocationSource instance={instance}/>
+      ) : null;
 
       if (!instance || !provider) return <div className="loading"></div>;
       return (
@@ -34,7 +37,7 @@ export default React.createClass({
           <LaunchDate instance={instance}/>
           <CreatedFrom instance={instance}/>
           <Identity instance={instance} provider={provider}/>
-          <AllocationSource instance={instance} source={{ name: "Group 1" }}/>
+          { renderAllocationSource }
         </ul>
       );
     }
