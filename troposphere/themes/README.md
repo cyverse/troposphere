@@ -64,7 +64,7 @@ Build your changes by running the gulp tasks defined in `gulpfile.js`. Here we t
 
 From within your theme's folder run:
 
-```gulp```
+``` gulp ```
 
 _Note: Once you build for the first time there will be a new directory and file_ `./css/theme.css`
  _Don't edit this file as the next time you run build this file will be overwritten._
