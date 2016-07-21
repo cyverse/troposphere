@@ -1,6 +1,7 @@
-import InstanceVolume from './instanceVolume/attach';
+import VolumeAttach from './instanceVolume/attach';
+import VolumeDetach from './instanceVolume/detach';
 
 export default {
-    attach: InstanceVolume.attach,
-    detach: InstanceVolume.detach
+    attach: VolumeAttach.attach,
+    detach: VolumeDetach.detach
 };
