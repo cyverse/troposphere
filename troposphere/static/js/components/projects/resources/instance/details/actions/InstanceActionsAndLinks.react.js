@@ -134,12 +134,14 @@ export default React.createClass({
       }
 
       if ( activity === "deploying" || status === "deploying"
+        || activity === "user_deploy_error"|| status === "user_deploy_error"
         || activity === "deploy_error"|| status === "deploy_error"
         || activity === "initializing" || activity === "boot_script_error") {
         linksArray.push({label: 'Redeploy', icon: 'repeat', onClick: this.onRedeploy});
       }
 
-      if (!inFinalState && status === "active" && activity === "networking") {
+      if (!inFinalState && status === "active" && (activity === "networking"
+        || activity === "running_boot_script")) {
           linksArray.push({label: 'Reboot', icon: 'repeat', onClick: this.onReboot});
           linksArray.push({label: 'Redeploy', icon: 'repeat', onClick: this.onRedeploy});
       }
