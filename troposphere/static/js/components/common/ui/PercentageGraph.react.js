@@ -51,7 +51,7 @@ export default React.createClass({
         if (seriesData.length === 0) {
           return;
         }
-        var height = (categories.length * (seriesData.length * 40)) + 80,
+        var height = (categories.length * (seriesData.length * 40)) + 85;
         
         var plotLines = [],
             plotBands = [];
