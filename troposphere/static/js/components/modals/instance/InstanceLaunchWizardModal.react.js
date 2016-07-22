@@ -313,7 +313,6 @@ export default React.createClass({
         let providerSizeList = stores.SizeStore.fetchWhere({
             provider__id: provider.id
         });
-debugger;
         let providerSize;
 
         let identityProvider = stores.IdentityStore.findOne({

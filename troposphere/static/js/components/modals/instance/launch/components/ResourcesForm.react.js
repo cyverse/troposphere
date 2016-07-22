@@ -23,7 +23,6 @@ export default React.createClass({
 
     onProviderChange: function(val) {
         let provider = this.props.providerList.get(val);
-        debugger;
         this.props.onProviderChange(provider);
     },
 
