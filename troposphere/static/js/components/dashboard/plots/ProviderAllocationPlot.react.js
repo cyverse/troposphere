@@ -32,9 +32,6 @@ export default React.createClass({
       propTypes: {
         providers: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         identities: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        volumes: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-        sizes: React.PropTypes.instanceOf(Backbone.Collection).isRequired
       },
 
       //
@@ -52,49 +49,20 @@ export default React.createClass({
 
       getDataForIdentity: function (identity) {
         var provider = this.props.providers.get(identity.get("provider").id),
-            sizes = this.props.sizes,
-            instances = this.props.instances,
-            volumes = this.props.volumes,
-            quota = identity.get('quota'),
             allocation = identity.get('usage');
-
-        var providerInstances = this.getProviderInstances(instances, provider);
-        var providerVolumes = this.getProviderVolumes(volumes, provider);
-
-        // CPU Usage
-        var cpuUsageStats = this.calculateCpuUsage(providerInstances, quota, sizes),
-          cpuUsage = cpuUsageStats.percentUsed * 100;
-
-        // Memory Usage
-        var memoryUsageStats = this.calculateMemoryUsage(providerInstances, quota, sizes),
-          memoryUsage = memoryUsageStats.percentUsed * 100;
-
-        // Storage Usage
-        var storageUsageStats = this.calculateStorageUsage(providerVolumes, quota),
-          storageUsage = storageUsageStats.percentUsed * 100;
-
-        // Volume Usage
-        var volumeUsageStats = this.calculateStorageCountUsage(providerVolumes, quota),
-          volumeUsage = volumeUsageStats.percentUsed * 100;
 
         // Allocation Usage
         var allocationUsageStats = this.calculateAllocationUsage(allocation),
-          allocationUsage = (allocationUsageStats.percentUsed * 100) + 100;
+          allocationUsage = allocationUsageStats.percentUsed * 100;
 
         var seriesData = {
           name: provider.get('name'),
-          data: [cpuUsage, memoryUsage, storageUsage, volumeUsage],
+          data: [allocationUsage],
           limits: {
-            CPU: cpuUsageStats.maxAllocation,
-            Memory: memoryUsageStats.maxAllocation,
-            Storage: storageUsageStats.maxAllocation,
-            Volumes: volumeUsageStats.maxAllocation
+              Allocation:  allocationUsageStats.maxAllocation
           },
           appendMessages: {
-            CPU: "CPUs",
-            Memory: "GBs of Memory",
-            Storage: "GBs of Storage",
-            Volumes: "Volumes"
+            Allocation: "AUs",
           },
           borderWidth: 0,
           dataLabels: {
@@ -206,7 +174,7 @@ export default React.createClass({
                 </h2>
                 <PercentageGraph
                     seriesData={ this.getChartData() }
-                    categories={ ['CPU', 'Memory', 'Storage', 'Volumes'] }
+                    categories={ ['Allocation'] }
                 />
             </div>
         );

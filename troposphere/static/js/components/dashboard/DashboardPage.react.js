@@ -2,7 +2,9 @@ import React from 'react';
 import Backbone from 'backbone';
 import InstanceHistoryList from './InstanceHistoryList.react';
 import MaintenanceMessageList from './MaintenanceMessageList.react';
+import AllocationPlot from './plots/AllocationPlot.react';
 import ResourceStatusSummaryPlot from './plots/ResourceStatusSummaryPlot.react';
+import ProviderAllocationPlot from './plots/ProviderAllocationPlot.react';
 import ProviderSummaryLinePlot from './plots/ProviderSummaryLinePlot.react';
 import CallToAction from './CallToAction.react';
 import globals from 'globals';
@@ -54,6 +56,13 @@ export default React.createClass({
         return <div className='loading'></div>;
       }
 
+      let renderAllocationPlot = true ? 
+        <AllocationPlot/> :
+        <ProviderAllocationPlot
+            providers={providers}
+            identities={identities}
+        />;
+
       return (
         <div id="dashboard-view">
           <div className="container">
@@ -97,6 +106,9 @@ export default React.createClass({
                 </div>
                 <div className="row">
                   <div className="col-md-8">
+
+                    { renderAllocationPlot }
+
                     <ProviderSummaryLinePlot
                       providers={providers}
                       identities={identities}
@@ -104,6 +116,7 @@ export default React.createClass({
                       volumes={volumes}
                       sizes={sizes}
                     />
+
                   </div>
                   <div className="col-md-4">
                     <ResourceStatusSummaryPlot
