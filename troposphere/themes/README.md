@@ -17,8 +17,9 @@ _Note: We recomend creating a git repository for your theme_
 Start by copying a theme from the Troposphere theme folder to a location outside the root Troposphere directory.
 
 From within the troposphere theme directory run:
-
-```cp -r troposphere_theme {path to your theme}/your-theme-name_theme```
+```
+cp -r troposphere_theme {path to your theme}/your-theme-name_theme
+```
 
 _Note: your theme folder name must end with_ `_theme`
 
@@ -27,26 +28,31 @@ _Note: your theme folder name must end with_ `_theme`
 Create a symbolic link from your theme to the Troposphere theme directory.
 
 Using complete paths run:
-
-```ln -s {complete path}/your-theme-name_theme {complete path to app's root}/troposphere/themes```
+```
+ln -s {complete path}/your-theme-name_theme {complete path to app's root}/troposphere/themes
+```
 
 #### Add Your Theme to the App's Variables
 
 In your `variables.ini` located in the root directory of your app Edit:
 
-``` THEME_NAME="your-theme-name_theme" ```
+``` 
+THEME_NAME="your-theme-name_theme" 
+```
 
 Then Run:
-
-``` ./configure ```
+``` 
+./configure 
+```
 
 #### Install Dependencies 
 
 Install your theme's dependencies. This project uses `gulp` to transpile our `.scss` files and add vendor prefixes to our styles.
 
 From within your theme's directory run:
-
-```npm i```
+```
+npm i
+```
 
 #### Make Changes
 
@@ -63,8 +69,9 @@ Change the images in the images folder but keep the same name for them to be use
 Build your changes by running the gulp tasks defined in `gulpfile.js`. Here we transpile our `.scss` files, prefix our CSS and output a single `theme.scss` file to serve to the client.
 
 From within your theme's folder run:
-
-``` gulp ```
+``` 
+gulp
+```
 
 _Note: Once you build for the first time there will be a new directory and file_ `./css/theme.css`
  _Don't edit this file as the next time you run build this file will be overwritten._
