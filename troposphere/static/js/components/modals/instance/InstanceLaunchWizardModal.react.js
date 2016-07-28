@@ -30,22 +30,26 @@ let allocationSourceList = [
     {
         name: "Personal",
         id: "1",
-        available: 2000
+        quota: 2000,
+	used: 300,
     },
     {
         name: "Group A",
         id: "2",
-        available: 1500
+        quota: 600,
+	used: 300,
     },
     {
         name: "Group B",
         id: "3",
-        available: 1500
+        quota: 1500,
+	used: 1530,
     },
     {
         name: "Group C",
         id: "4",
-        available: 1500
+        quota: 1800,
+	used: 100,
     },
 ];
 
