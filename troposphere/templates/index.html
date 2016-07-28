@@ -1,4 +1,7 @@
+{% if DYNAMIC_ASSET_LOADING %}
 {% load render_bundle from webpack_loader %}
+{% endif %}
+
 <!DOCTYPE html>
 {% include 'comment.html' %}
 <html>
@@ -9,7 +12,12 @@
     <link rel="shortcut icon" href="{{THEME_URL}}/images/favicon.ico" />
 
     <!--CSS-->
+{% if DYNAMIC_ASSET_LOADING %}
     {% render_bundle 'app' 'css' %}
+{% else %}
+    <link rel="stylesheet" href="{{ BASE_URL }}/assets/bundles/app.css" rel="stylesheet" type="text/css">
+{% endif %}
+
     <link rel="stylesheet" href="{{ THEME_URL }}/css/theme.css" rel="stylesheet" type="text/css">
 
     <!-- Fonts -->
@@ -103,6 +111,7 @@
 {% if WEB_DESKTOP_INCLUDE_LINK %}
     var WEB_DESKTOP_INCLUDE_LINK = "{{ WEB_DESKTOP_INCLUDE_LINK }}"
 {% endif %}
+
 {% if show_public_site %}
     var show_public_site = true;
 {%  else %}
@@ -121,8 +130,13 @@
     var show_instance_metrics = false;
 {% endif %}
 
+{% if notice %}
+    var maint_notice = "{{ notice }}"
+{% endif %}
+
     </script>
 
+{% if DYNAMIC_ASSET_LOADING %}
     <!-- Application dependencies -->
     {% render_bundle 'manifest' 'js' %}
     {% render_bundle 'vendor' 'js' %}
@@ -134,5 +148,16 @@
     {% endif %}
     <!-- Google Analytics -->
     {% render_bundle 'analytics' 'js' %}
+{% else %}
+    <script src="{{ BASE_URL }}/assets/bundles/manifest.js"></script>
+    <script src="{{ BASE_URL }}/assets/bundles/vendor.js"></script>
+    {% if show_public_site %}
+    <script src="{{ BASE_URL }}/assets/bundles/public.js"></script>
+    {% else %}
+    <script src="{{ BASE_URL }}/assets/bundles/app.js"></script>
+    {% endif %}
+    <!-- Google Analtics -->
+    <script src="{{ BASE_URL }}/assets/bundles/analytics.js"></script>
+{% endif %}
 </body>
 </html>

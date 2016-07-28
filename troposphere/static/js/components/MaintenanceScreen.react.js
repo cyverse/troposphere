@@ -1,8 +1,7 @@
 import React from 'react';
-import stores from 'stores';
 import globals from 'globals';
 
-let login = THEME_URL + "images/login_mainimage.png";
+let login = globals.THEME_URL + "images/login_mainimage.png";
 
 export default React.createClass({
     displayName: "MaintenanceScreen",

@@ -1,4 +1,5 @@
 import React from 'react';
+import Backbone from 'backbone';
 import _ from 'underscore';
 import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 import BreadcrumbNav from 'components/common/breadcrumb/BreadcrumbNav.react';
@@ -43,11 +44,11 @@ export default React.createClass({
         name: this.props.instance.get('image').name,
         versionName: this.props.versionName || "1.0",
         versionChanges: "",
-        imageTags: null,
         providerId: null,
         visibility: "public",
         minCPU: "0",
         minMem: "0",
+        imageTags: new Backbone.Collection(),
         imageUsers: new Backbone.Collection(),
         activeScripts: new Backbone.Collection(),
         activeLicenses: new Backbone.Collection(),
@@ -74,7 +75,7 @@ export default React.createClass({
         }
 
         this.setState({
-            imageTags,    
+            imageTags,
         });
     },
 

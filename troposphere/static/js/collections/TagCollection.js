@@ -8,7 +8,7 @@ export default Backbone.Collection.extend({
     url: globals.API_V2_ROOT + "/tags",
 
     comparator: function (model) {
-      name = model.get('name')
+      let name = model.get('name');
       if(!name) {
           return name;
       }

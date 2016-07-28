@@ -1,19 +1,13 @@
-import Graph from "./Graph";
+import Graph from './Graph';
+import { extend } from 'underscore';
 
 
 let CPUGraph = function(settings) {
-    var prop,
-        defaults = {
-            transform: "derivative"
-        };
+    let defaults = {
+        transform: 'derivative'
+    };
 
-    for (prop in defaults) {
-        if (settings[prop] == undefined) {
-            settings[prop] = defaults[prop];
-        }
-    }
-
-    Graph.call(this, settings);
+    Graph.call(this, extend(defaults, settings));
 };
 
 CPUGraph.prototype = Object.create(Graph.prototype);

@@ -1,4 +1,5 @@
 import actions from 'actions';
+import stores from 'stores';
 import ModalHelpers from 'components/modals/ModalHelpers';
 import ProjectAddImageModal from 'components/modals/project/ProjectAddImageModal.react';
 import NotificationController from 'controllers/NotificationController';

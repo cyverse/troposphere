@@ -1,4 +1,5 @@
 import React from 'react';
+import Backbone from 'backbone';
 import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 import VersionName from '../instance/image/components/VersionName.react';
 import VersionChanges from '../instance/image/components/VersionChangeLog.react';
@@ -94,11 +95,11 @@ export default React.createClass({
     },
 
     isSubmittable: function(){
-      var hasVersionName   = !!this.state.versionName;
+      var hasValidName   = !!this.validateName(this.state.versionImage, this.state.versionName);
       var hasChangeLog = !!this.state.versionChangeLog;
       var validEndDate = !!this.valid_date(this.state.versionEndDate);
       var validRequirements = this.checkValidMem() && this.checkValidCPU();
-      return hasVersionName && hasChangeLog && validEndDate && validRequirements;
+      return hasValidName && hasChangeLog && validEndDate && validRequirements;
     },
 
     //
@@ -141,13 +142,17 @@ export default React.createClass({
       this.setState({versionEndDate: value});
     },
     onUncopyableSelected: function (e) {
-      var uncopyable = (e.target.checked);
+      let uncopyable = (e.target.checked);
       this.setState({versionCanImage: uncopyable});
     },
 
-    onImageSelected: function (image_id) {
-      var image = stores.ImageStore.get(image_id);
-      this.setState({versionImage: image});
+    onImageSelected: function (image) {
+      let versionNameError = this.getVersionNameError(image, this.state.versionName);
+
+      this.setState({
+          versionImage: image,
+          versionNameError: versionNameError
+      });
     },
 
     onMembershipChanged: function (membership_list) {
@@ -159,9 +164,33 @@ export default React.createClass({
     // Render
     // ------
     //
+    validateName: function(image, name) {
+        let orig_version = this.props.version,
+            versions = image.get('versions');
+        name = (name == null) ? "" : name.trim().toLowerCase();
 
+        versions = versions.filter(function(version) {
+            return (version.id !== orig_version.id &&
+                (version.name && version.name.toLowerCase() === name) );
+        });
+        return versions.length == 0;
+    },
+    getVersionNameError: function(image, name) {
+        if(image == null || name == null) {
+            return "";
+        }
+        let versionNameError = this.validateName(image, name) ? ""
+            : `There already exists a version named '${name}' in application '${image.get('name')}'.`;
+        return versionNameError;
+    },
     handleNameChange: function(name){
-      this.setState({versionName: name});
+      let image = this.state.versionImage;
+      let versionNameError = this.getVersionNameError(image,name);
+
+      this.setState({
+          versionName: name,
+          versionNameError: versionNameError
+      });
     },
     handleDescriptionChange: function(description){
       this.setState({versionChangeLog: description});
@@ -265,8 +294,9 @@ export default React.createClass({
     },
 
     renderBody: function() {
-      var applicationView, availabilityView, canImageView, nameView, descriptionView,
-        startDateView, endDateView, membershipView, licensesView, scriptsView;
+      var applicationView, availabilityView, canImageView, nameView, nameErrorView, descriptionView,
+        startDateView, endDateView, membershipView, licensesView, scriptsView, minimumRequirementsView;
+      var images = stores.ImageStore.getAll();
 
       var name = this.state.versionName,
         created = this.state.versionStartDate.format("MMM D, YYYY hh:mm a"),
@@ -288,8 +318,8 @@ export default React.createClass({
         ended = this.state.versionEndDate;
       }
 
-      if(!name) {
-          return (<div className="loading"/>);
+      if(name == null || images == null) {
+          return (<div className="loading" />);
       }
       licensesView = (
         <EditLicensesView
@@ -310,6 +340,11 @@ export default React.createClass({
           onCreateNewScript={this.onScriptCreate}
           label={"Scripts Required"}
           />
+      );
+      nameErrorView = (
+        <p className="no-results text-danger">
+          {this.state.versionNameError}
+        </p>
       );
       nameView = (
         <VersionName
@@ -405,6 +440,7 @@ export default React.createClass({
       return (
         <div role='form'>
           {nameView}
+          {nameErrorView}
           <hr />
           {descriptionView}
           <hr />
@@ -435,14 +471,12 @@ export default React.createClass({
     },
 
     render: function () {
-      var images = stores.ImageStore.getAll(),
-        providers = stores.ProviderStore.getAll();
+      let providers = stores.ProviderStore.getAll();
 
 
       var version = this.props.version,
         end_date = version.get('end_date'),
         versionId = version.id;
-
       if (!end_date) {
         end_date = ""
       }

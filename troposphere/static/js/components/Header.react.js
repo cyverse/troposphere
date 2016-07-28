@@ -1,11 +1,12 @@
 import React from 'react';
 import Backbone from 'backbone';
-import actions from 'actions';
 import modals from 'modals';
 import MaintenanceMessageBanner from './MaintenanceMessageBanner.react';
+import context from 'context';
 import globals from 'globals';
 import Router from 'react-router';
 
+import NotificationController from 'controllers/NotificationController';
 import { trackAction } from 'utilities/userActivity';
 import { hasLoggedInUser } from 'utilities/profilePredicate';
 
@@ -18,7 +19,7 @@ let links = [
       href: "/application/dashboard",
       icon: "stats",
       requiresLogin: true,
-      isEnabled: true,
+      isEnabled: true
     },
     {
       name: "Projects",
@@ -99,7 +100,7 @@ let LogoutLink = React.createClass({
       var statusPageEl,
         username = this.props.username;
 
-      if (!username && show_public_site) {
+      if (!username && window.show_public_site) {
           username = "AnonymousUser"
       }
       if (globals.STATUS_PAGE_LINK) {
@@ -164,8 +165,21 @@ let Header = React.createClass({
         this.setState({windowWidth: window.innerWidth});
     },
 
+    handleNotice: function() {
+        if (context.hasMaintenanceNotice()) {
+            NotificationController.warning(
+                "CyVerse Maintenance Information",
+                context.getMaintenanceNotice(),
+                {
+                     "positionClass": "toast-top-full-width"
+                }
+            );
+        }
+    },
+
     componentDidMount: function() {
         window.addEventListener('resize', this.handleResize);
+        this.handleNotice();
     },
 
     componentWillUnmount: function() {
@@ -173,13 +187,16 @@ let Header = React.createClass({
     },
 
     renderBetaToggle: function () {
+
       if (!window.show_troposphere_only) {
+
         let trackEvent = (e) => {
             trackAction('switch-ui', {
-                    user_interface: 'troposphere-to-airport'
+              user_interface: 'troposphere-to-airport'
             });
             trackAction('switch-to-airport');
         };
+
         return (
           <div className="beta-toggle">
             <a href="/application?beta=false&airport_ui=true"
@@ -260,8 +277,8 @@ let Header = React.createClass({
               <ul className="nav navbar-nav navbar-right">
                 {loginLogoutDropdown}
               </ul>
+              {hasUser ? this.renderBetaToggle() : null}
             </div>
-            {hasUser ? this.renderBetaToggle() : null}
           </div>
 
         </div>

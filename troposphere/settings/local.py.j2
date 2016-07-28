@@ -3,7 +3,12 @@ import sys
 globals().update(vars(sys.modules['troposphere.settings']))
 
 DEBUG = {{ DEBUG }}
-TEMPLATE_DEBUG = {{ DEBUG }}
+
+{% if DEBUG -%}
+if len(TEMPLATES) > 0 and 'OPTIONS' in TEMPLATES[0]:
+    if 'debug' in TEMPLATES[0]['OPTIONS']:
+        TEMPLATES[0]['OPTIONS']['debug'] = {{ DEBUG }}
+{%- endif %}
 
 SECRET_KEY="{{ SECRET_KEY }}"
 SERVER_URL="{{ SERVER_URL }}"
@@ -24,6 +29,9 @@ WEBPACK_LOADER = {
         'IGNORE': ['.+\.hot-update.js', '.+\.map']
     }
 }
+
+# used to toggle between vanilla static assets & dynamic (app.js vs app-[hash].js)
+DYNAMIC_ASSET_LOADING = {{DYNAMIC_ASSET_LOADING}}
 
 SITE_TITLE= "{{ SITE_TITLE}}"
 SITE_FOOTER= "{{ SITE_FOOTER }}"

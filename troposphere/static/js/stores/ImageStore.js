@@ -2,6 +2,7 @@
 import moment from 'moment';
 import ImageCollection from 'collections/ImageCollection';
 import ProviderCollection from 'collections/ProviderCollection';
+import ProviderMachineCollection from 'collections/ProviderMachineCollection';
 import Dispatcher from 'dispatchers/Dispatcher';
 import BaseStore from 'stores/BaseStore';
 import stores from 'stores';

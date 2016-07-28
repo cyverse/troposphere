@@ -1,8 +1,8 @@
 import AppDispatcher from 'dispatchers/AppDispatcher';
 import Utils from './Utils';
-import actions from 'actions';
 import NotificationController from 'controllers/NotificationController';
 import Router from '../Router';
+import actions from 'actions';
 
 // Constants
 import Badges from "Badges";
@@ -20,6 +20,7 @@ import Project from 'models/Project';
 // Modals
 import ModalHelpers from 'components/modals/ModalHelpers';
 import ProjectReportResourceModal from 'components/modals/project/ProjectReportResourceModal.react';
+
 
 export default {
 
@@ -214,21 +215,36 @@ export default {
     deleteResources: function (resources, project) {
       var that = this;
 
-      var props = {
-        resources: resources
-      };
+      // According to this line below the following functionality has been disabled!
+      // components/projects/detail/resources/ButtonBar.react.js:25
+      //
+      // Further the modal below HAS BEEN DELETED :C
+      // It can be scavenged from here:
+      // 
+      //    git show ca1a6ef18c:troposphere/static/js/actions/modalHelpers/ProjectModalHelpers.js
+      //
+      // Or:
+      //    git log -G'ProjectDeleteResourceModal' -p
+      //
 
-      ModalHelpers.renderModal(modal, props, function () {
-        // We need to clone the array because we're going to be destroying
-        // the model and that will cause it to be removed from the collection
-        var clonedResources = resources.models.slice(0);
+      // let props = {
+      //     resources: resources
+      // };
+      // let modal = ProjectDeleteResourceModal({
+      //     resources: resources
+      // };
 
-        clonedResources.map(function (resource) {
-          that.deleteResource(resource, project, {silent: false});
-        });
+      // ModalHelpers.renderModal(modal, props, function () {
+      //   // We need to clone the array because we're going to be destroying
+      //   // the model and that will cause it to be removed from the collection
+      //   var clonedResources = resources.models.slice(0);
 
-        Utils.dispatch(ProjectConstants.EMIT_CHANGE);
-      })
+      //   clonedResources.map(function (resource) {
+      //     that.deleteResource(resource, project, {silent: false});
+      //   });
+
+      //   Utils.dispatch(ProjectConstants.EMIT_CHANGE);
+      // })
     },
 
     deleteResource: function (resource, project, options) {

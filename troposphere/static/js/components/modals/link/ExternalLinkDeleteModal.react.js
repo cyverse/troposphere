@@ -1,6 +1,6 @@
-import React from 'react';
-import Backbone from 'backbone';
-import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import React from "react";
+import Backbone from "backbone";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
 
 export default React.createClass({
     displayName: "ExternalLinkDeleteModal",
@@ -8,7 +8,8 @@ export default React.createClass({
     mixins: [BootstrapModalMixin],
 
     propTypes: {
-      link: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        external_link: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        onConfirm: React.PropTypes.func.isRequired
     },
 
     //
@@ -16,13 +17,13 @@ export default React.createClass({
     // ------------------------
     //
 
-    cancel: function () {
-      this.hide();
+    cancel: function() {
+        this.hide();
     },
 
-    confirm: function () {
-      this.hide();
-      this.props.onConfirm();
+    confirm: function() {
+        this.hide();
+        this.props.onConfirm();
     },
 
     //
@@ -30,49 +31,43 @@ export default React.createClass({
     // ------
     //
 
-    renderBody: function () {
-      var link = this.props.external_link;
-      return (
+    renderBody: function() {
+        var link = this.props.external_link;
+        return (
         <div>
-          <p>
-            {"Are you sure you want to delete the link "}
-            <strong>{link.get('name')}</strong>
-            {"?"}
-          </p>
-
-          <p>
-            {"The link will be destroyed and "}
-            <strong style={{"textDecoration":"underline"}}>all data will be permanently lost</strong>
-            {"."}
-          </p>
+            <p>
+                { "Are you sure you want to delete the link " }
+                <strong>{ link.get("name") }</strong>
+                { "?" }
+            </p>
         </div>
-      );
+        );
     },
 
-    render: function () {
+    render: function() {
 
-      return (
+        return (
         <div className="modal fade">
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                {this.renderCloseButton()}
-                <strong>Delete Link</strong>
-              </div>
-              <div className="modal-body">
-                {this.renderBody()}
-              </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-danger" onClick={this.cancel}>
-                  Cancel
-                </button>
-                <button type="button" className="btn btn-primary" onClick={this.confirm}>
-                  Yes, delete this link
-                </button>
-              </div>
+            <div className="modal-dialog">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        { this.renderCloseButton() }
+                        <strong>Delete Link</strong>
+                    </div>
+                    <div className="modal-body" style={ { minHeight: "200px" } }>
+                        { this.renderBody() }
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-danger" onClick={ this.cancel }>
+                            Cancel
+                        </button>
+                        <button type="button" className="btn btn-primary" onClick={ this.confirm }>
+                            Yes, delete this link
+                        </button>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      );
+        );
     }
 });

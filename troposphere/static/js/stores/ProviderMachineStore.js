@@ -1,3 +1,4 @@
+import Backbone from 'backbone';
 import ProviderMachineCollection from 'collections/ProviderMachineCollection';
 import Dispatcher from 'dispatchers/Dispatcher';
 import BaseStore from 'stores/BaseStore';
@@ -50,13 +51,12 @@ let ProviderMachineStore = BaseStore.extend({
         var version_key = "version=" + version.id,
             use_query = "?version_id="+ version.id;
 
-        if(!this.queryModels[version_key]) {
-            this.fetchModelsFor(version_key, use_query);
-        } else {
-            return new Backbone.Collection(
-                            this.queryModels[version_key]
-                        );
+        if (this.queryModels[version_key]) {
+            return this.queryModels[version_key]
         }
+
+        // Fetch models
+        this.fetchModelsFor(version_key, use_query);
     },
 
     fetchModelsFor: function(image_key, use_query) {
@@ -89,7 +89,6 @@ Dispatcher.register(function(dispatch) {
 
     switch (actionType) {
         case ProviderMachineConstants.UPDATE_PROVIDER_MACHINE:
-            store.update(payload);
             break;
 
         default:

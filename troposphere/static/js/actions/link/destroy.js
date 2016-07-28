@@ -3,6 +3,7 @@ import Utils from '../Utils';
 import globals from 'globals';
 import ProjectExternalLinkActions from '../ProjectExternalLinkActions';
 import ExternalLinkConstants from 'constants/ExternalLinkConstants';
+import NotificationController from 'controllers/NotificationController';
 
 export default {
 
@@ -21,10 +22,10 @@ export default {
         {external_link: external_link});
 
       external_link.destroy().done(function () {
-        //NotificationController.success(null, "ExternalLink " + external_link.get('title') + " deleted.");
+        NotificationController.success(null, "ExternalLink " + external_link.get('title') + " deleted.");
       }).fail(function () {
         var failureMessage = "Error deleting ExternalLink " + external_link.get('title') + ".";
-        NotificationController.error(failureMessage);
+        NotificationController.error(null, failureMessage);
         Utils.dispatch(
             ExternalLinkConstants.ADD_LINK,
             {external_link: external_link});

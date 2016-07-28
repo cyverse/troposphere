@@ -3,9 +3,10 @@ import Backbone from 'backbone';
 import _ from 'underscore';
 import stores from 'stores';
 import InstanceSizeSelect from '../components/InstanceSizeSelect.react';
+import Glyphicon from 'components/common/Glyphicon.react';
 
 let ENTER_KEY = 13;
-let selectedSize, selectedIdentity;
+let selectedSize;
 
 export default React.createClass({
         displayName: "InstanceLaunchWizardModal-SizeSelectStep",

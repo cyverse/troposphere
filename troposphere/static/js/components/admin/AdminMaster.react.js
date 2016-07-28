@@ -1,6 +1,7 @@
 import React from 'react';
 import Router from 'react-router';
 import stores from 'stores';
+import SecondaryAdminNavigation from './SecondaryAdminNavigation.react';
 import ResourceMaster from './ResourceMaster.react';
 import ImageMaster from './ImageMaster.react';
 

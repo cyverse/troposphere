@@ -1,4 +1,5 @@
 import React from 'react';
+import Backbone from 'backbone';
 import HeaderView from './header/HeaderView.react';
 import EditTagsView from './tags/EditTagsView.react';
 import ImageLaunchCard from './launch/ImageLaunchCard.react';
@@ -67,13 +68,13 @@ export default React.createClass({
     },
 
     onTagAdded: function(tag){
-      tags = this.state.tags
+      let tags = this.state.tags
       tags.add(tag)
       this.setState({tags: tags});
     },
 
     onTagRemoved: function(tag){
-      tags = this.state.tags
+      let tags = this.state.tags
       tags.remove(tag)
       this.setState({tags: tags});
     },

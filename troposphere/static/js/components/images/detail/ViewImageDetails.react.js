@@ -1,4 +1,5 @@
 import React from 'react';
+import Backbone from 'backbone';
 import HeaderView from './header/HeaderView.react';
 import TagsView from './tags/TagsView.react';
 import ImageLaunchCard from './launch/ImageLaunchCard.react';
@@ -37,13 +38,11 @@ export default React.createClass({
       },
 
       render: function () {
-        var versionView, tagsView;
-
-        tagsView = (
+        let tagsView = (
             <TagsView image={this.props.image}
                       tags={this.props.tags}
             />
-        )
+        );
 
         return (
           <div>
