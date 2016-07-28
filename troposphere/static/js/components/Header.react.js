@@ -193,21 +193,14 @@ let Header = React.createClass({
     },
 
     renderBetaToggle: function () {
+
       if (!window.show_troposphere_only) {
+
         let trackEvent = (e) => {
             trackAction('switch-ui', {
-                    user_interface: 'troposphere-to-airport'
+              user_interface: 'troposphere-to-airport'
             });
             trackAction('switch-to-airport');
-        };
-
-
-        var toggleBackground = {
-            backgroundColor: "rgba(17, 5, 1, .3)",
-            width: 103,
-            height: 20,
-            borderRadius: 14,
-            fontSize: 13
         };
 
         return (
@@ -215,7 +208,7 @@ let Header = React.createClass({
             <a href="/application?beta=false&airport_ui=true"
                 onClick={trackEvent}>
               <div className="toggle-wrapper">
-                <div style={toggleBackground}>
+                <div className="toggle-background">
                   <div className="toggle-text">View Old UI</div>
                 </div>
                 <div className="toggle-switch"></div>
@@ -290,8 +283,8 @@ let Header = React.createClass({
               <ul className="nav navbar-nav navbar-right">
                 {loginLogoutDropdown}
               </ul>
+              {hasUser ? this.renderBetaToggle() : null}
             </div>
-            {hasUser ? this.renderBetaToggle() : null}
           </div>
 
         </div>
