@@ -67,6 +67,7 @@ stores.TagStore = require('stores/TagStore');
 stores.UserStore = require('stores/UserStore');
 stores.VersionStore = require('stores/VersionStore');
 stores.VolumeStore = require('stores/VolumeStore');
+stores.AllocationSourceStore = require('stores/AllocationSourceStore');
 
 import actions from 'actions';
 
