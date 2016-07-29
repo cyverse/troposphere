@@ -22,6 +22,7 @@ export default React.createClass({
     render: function () {
       var instance = stores.InstanceStore.get(this.props.instance.id),
         provider = instance ? stores.ProviderStore.get(instance.get('provider').id) : null;
+
       let renderAllocationSource = true ? (
           <AllocationSource instance={instance}/>
       ) : null;

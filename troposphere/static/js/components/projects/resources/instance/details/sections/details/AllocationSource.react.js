@@ -1,6 +1,7 @@
 import React from 'react';
 import Backbone from 'backbone';
 import ResourceDetail from 'components/projects/common/ResourceDetail.react';
+import stores from 'stores';
 
 export default React.createClass({
     displayName: "Id",
@@ -12,9 +13,9 @@ export default React.createClass({
     render: function () {
         let sourceName;
         if (this.props.instance) {
-            //TODO query source store for instance source
-            sourceName = true ? "Group 1" : "loading...";
+            sourceName = true ? stores.AllocationSourceStore[2].name : "loading...";
         }
+
         return (
           <ResourceDetail label="Allocation Source">
             { sourceName }
