@@ -12,7 +12,6 @@ import IpAddress from './details/IpAddress.react';
 import LaunchDate from './details/LaunchDate.react';
 import CreatedFrom from './details/CreatedFrom.react';
 import Identity from './details/Identity.react';
-import AllocationSource from './details/AllocationSource.react';
 
 export default React.createClass({
     displayName: "InstanceDetailsSection",
@@ -37,7 +36,6 @@ export default React.createClass({
               <Identity instance={instance}/>
               <Id instance={instance}/>
               <Alias instance={instance}/>
-              <AllocationSource instance={instance}/>
             </ul>
           </div>
         );

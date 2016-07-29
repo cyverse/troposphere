@@ -4,6 +4,7 @@ import BreadcrumbBar from 'components/projects/common/BreadcrumbBar.react';
 import InstanceInfoSection from './sections/InstanceInfoSection.react';
 import InstanceDetailsSection from './sections/InstanceDetailsSection.react';
 import InstanceMetricsSection from './sections/InstanceMetricsSection.react';
+import AllocationSourceSection from './sections/AllocationSourceSection.react';
 import InstanceActionsAndLinks from './actions/InstanceActionsAndLinks.react';
 import stores from 'stores';
 
@@ -14,7 +15,7 @@ export default React.createClass({
       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
       project: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
-
+    
     render: function () {
       var instance = this.props.instance,
         project = this.props.project;
@@ -34,6 +35,9 @@ export default React.createClass({
         }
       ];
 
+      let renderAllocationSource = true ?
+          <AllocationSourceSection/> : null;
+
       return (
         <div>
           <BreadcrumbBar breadcrumbs={breadcrumbs}/>
@@ -42,6 +46,7 @@ export default React.createClass({
             <div className="col-md-9">
               <InstanceInfoSection instance={instance}/>
               <hr/>
+	      { renderAllocationSource }
               <InstanceDetailsSection instance={instance}/>
               <hr/>
               {
