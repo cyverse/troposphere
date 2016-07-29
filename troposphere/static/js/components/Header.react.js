@@ -110,6 +110,14 @@ let LogoutLink = React.createClass({
             </li>
         );
       }
+      
+      let trackSettings = () => {
+          trackAction("viewed-settings", {});
+      };
+
+      let trackRequests = () => {
+          trackAction("viewed-requests", {});
+      };
 
       return (
         <li className="dropdown">
@@ -119,10 +127,10 @@ let LogoutLink = React.createClass({
           </a>
           <ul className="dropdown-menu">
             <li>
-              <Link to="settings">Settings</Link>
+              <Link to="settings" onClick={trackSettings}>Settings</Link>
             </li>
             <li>
-              <Link to="my-requests-resources">My requests</Link>
+              <Link to="my-requests-resources" onClick={trackRequests}>My requests</Link>
             </li>
             <li className="divider"></li>
             <li>

@@ -8,7 +8,7 @@ import CallToAction from './CallToAction.react';
 import globals from 'globals';
 import modals from 'modals';
 import stores from 'stores';
-
+import { trackAction } from '../../utilities/userActivity';
 
 // images
 let launch_instance = globals.THEME_URL + "/images/icon_launchnewinstance.png",
@@ -21,6 +21,7 @@ export default React.createClass({
     renderRequestMoreResources: function(e){
       e.preventDefault();
       modals.HelpModals.requestMoreResources();
+      trackAction('made-resource-request', {element: 'from-dashboard'});
     },
 
     getState: function() {
