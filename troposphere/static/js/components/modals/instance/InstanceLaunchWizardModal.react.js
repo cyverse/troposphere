@@ -26,32 +26,7 @@ import BasicLaunchStep from './launch/steps/BasicLaunchStep.react';
 import AdvancedLaunchStep from './launch/steps/AdvancedLaunchStep.react';
 import LicenseStep from './launch/steps/LicenseStep.react';
 
-let allocationSourceList = [
-    {
-        name: "Personal",
-        id: "1",
-        quota: 2000,
-	used: 300,
-    },
-    {
-        name: "Group A",
-        id: "2",
-        quota: 600,
-	used: 300,
-    },
-    {
-        name: "Group B",
-        id: "3",
-        quota: 1500,
-	used: 1530,
-    },
-    {
-        name: "Group C",
-        id: "4",
-        quota: 1800,
-	used: 100,
-    },
-];
+let allocationSourceList = stores.AllocationSourceStore;
 
 // This class implements the instance launch walkthrough. By design it keeps
 // track of two states. First is the state for switching between separate
