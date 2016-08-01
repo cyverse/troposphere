@@ -2,6 +2,7 @@ import React from 'react';
 import Backbone from 'backbone';
 import stores from 'stores';
 import ResourceGraphs from '../components/ResourceGraphs.react';
+import ProviderAllocationGraph from '../components/ProviderAllocationGraph.react';
 import SelectMenu from 'components/common/ui/SelectMenu.react';
 
 export default React.createClass({
@@ -62,6 +63,7 @@ export default React.createClass({
                     />
                 </div>
                 <div className="form-group">
+		    <ProviderAllocationGraph { ...this.props }/>
                     <ResourceGraphs { ...this.props }/>
                 </div>
             </form>

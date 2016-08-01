@@ -1,7 +1,8 @@
 import React from 'react';
 import Backbone from 'backbone';
 import stores from 'stores';
-import ResourceGraphsAS from '../components/ResourceGraphsAS.react';
+import ResourceGraphs from '../components/ResourceGraphs.react';
+import AllocationSourceGraph from 'components/common/AllocationSourceGraph.react';
 import SelectMenu from 'components/common/ui/SelectMenu.react';
 
 export default React.createClass({
@@ -80,7 +81,8 @@ export default React.createClass({
                     />
                 </div>
                 <div className="form-group">
-                    <ResourceGraphsAS { ...this.props }/>
+                    <AllocationSourceGraph { ...this.props }/>
+                    <ResourceGraphs { ...this.props }/>
                 </div>
             </form>
         );

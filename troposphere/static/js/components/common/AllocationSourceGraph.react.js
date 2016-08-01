@@ -56,12 +56,12 @@ export default React.createClass({
 
 
             // Labels for bar graphs
-            auLabel =  `${allocationPercent}% of ${allocationTotal} SUs from ${allocationSource.name}`;
+            auLabel =  `${allocationPercent}% of ${allocationTotal} Allocation from ${allocationSource.name}`;
         }
 
         return (
                 <div className="form-group">
-                    <label>SUs Consumed</label>
+                    <label>Allocation Used</label>
                     <ProgressBar
                         startColor="#56AA21"
                         startValue={allocationPercent}
