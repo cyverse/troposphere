@@ -2,8 +2,8 @@ import React from 'react';
 import Backbone from 'backbone';
 import InstanceHistoryList from './InstanceHistoryList.react';
 import MaintenanceMessageList from './MaintenanceMessageList.react';
-import AllocationPlot from './plots/AllocationPlot.react';
 import ResourceStatusSummaryPlot from './plots/ResourceStatusSummaryPlot.react';
+import AllocationSourcePlot from './plots/AllocationSourcePlot.react';
 import ProviderAllocationPlot from './plots/ProviderAllocationPlot.react';
 import ProviderSummaryLinePlot from './plots/ProviderSummaryLinePlot.react';
 import CallToAction from './CallToAction.react';
@@ -57,7 +57,7 @@ export default React.createClass({
       }
 
       let renderAllocationPlot = true ? 
-        <AllocationPlot/> :
+        <AllocationSourcePlot/> :
         <ProviderAllocationPlot
             providers={providers}
             identities={identities}

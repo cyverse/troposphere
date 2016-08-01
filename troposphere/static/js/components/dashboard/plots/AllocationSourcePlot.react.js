@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
+import stores from 'stores';
+
 import PercentGraph from 'components/common/ui/PercentageGraph.react';
 
 /**
@@ -31,12 +33,14 @@ export default React.createClass({
     propTypes: {
     },
 
-    seriesData: [
-        {
-            name: "Personal",
-            data: [70],
+    seriesData: function(item) {
+	let percentage = Math.round(item.used / item.quota * 100);
+
+	return {
+            name: item.name,
+            data: [percentage],
             limits: {
-                Allocation: 1000,
+                Allocation: item.quota,
             },
             appendMessages: {
                 Allocation: "AUs"
@@ -53,30 +57,8 @@ export default React.createClass({
                 }
             },
             animation: false
-        },
-        {
-            name: "Metrognome",
-            data: [75],
-            limits: {
-                Allocation: 100,
-            },
-            appendMessages: {
-                Allocation: "AUs"
-            },
-            borderWidth: 0,
-            dataLabels: {
-                enabled: true,
-                formatter: function() {
-                    if (this.y != 0) {
-                        return (Math.round(this.y * 100) / 100) + '%';
-                    } else {
-                        return null;
-                    }
-                }
-            },
-            animation: false
-        },
-    ],
+        }
+    },
 
     //
     // Render
@@ -89,7 +71,7 @@ export default React.createClass({
                     Allocation Source
                 </h2>
                 <PercentGraph
-                    seriesData={ this.seriesData }
+                    seriesData={ stores.AllocationSourceStore.map(this.seriesData) }
                     categories={[ 'Allocation' ]}
                 />
             </div>
