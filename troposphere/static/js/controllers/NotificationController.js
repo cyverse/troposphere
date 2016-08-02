@@ -4,8 +4,8 @@ import _ from 'underscore';
 
 toastr.options = {
     "closeButton": true,
-    "timeOut": "0",
-    "extendedTimeOut": "0"
+    "timeOut": 0,
+    "extendedTimeOut": 0
 };
 
 let notify = function(type, title, message, options) {

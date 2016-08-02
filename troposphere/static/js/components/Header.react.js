@@ -163,7 +163,12 @@ let Header = React.createClass({
                 "CyVerse Maintenance Information",
                 context.getMaintenanceNotice(),
                 {
-                     "positionClass": "toast-top-full-width"
+                    "positionClass": "toast-top-full-width",
+                    "closeButton": true,
+                    "timeOut": 0,
+                    "extendedTimeOut": 0,
+                    "tapToDismiss": false,
+                    "closeOnHover": false
                 }
             );
         }
