@@ -45,6 +45,7 @@
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
     "react-router": "^0.13.0",
+    "react-tooltip": "^3.0.10",
     "showdown": "^1.2.1",
     "toastr": "^2.1.0",
     "underscore": "^1.8.3"
@@ -78,6 +79,7 @@
     "url-loader": "^0.5.6",
     "webpack": "^1.10.5",
     "webpack-bundle-tracker": "0.0.93",
+    "webpack-dev-server": "^1.14.1",
     "yuglify": "~0.1.4"
   }
 }
