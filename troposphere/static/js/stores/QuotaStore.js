@@ -5,10 +5,6 @@ import QuotaConstants from 'constants/QuotaConstants';
 
 let QuotaStore = BaseStore.extend({
     collection: QuotaCollection,
-
-    queryParams: {
-        page_size: 100
-    }
 });
 
 var store = new QuotaStore();
