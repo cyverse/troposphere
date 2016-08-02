@@ -17,8 +17,8 @@ var defaults = {
 
 var noFadeDefaults = {
     "closeButton": true,
-    "timeOut": "0",
-    "extendedTimeOut": "0"
+    "timeOut": 0,
+    "extendedTimeOut": 0
 };
 
 export default {
