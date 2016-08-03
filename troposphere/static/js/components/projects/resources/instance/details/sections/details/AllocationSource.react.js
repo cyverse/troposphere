@@ -1,7 +1,8 @@
 import React from 'react';
 import Backbone from 'backbone';
-import ResourceDetail from 'components/projects/common/ResourceDetail.react';
 import stores from 'stores';
+
+import ResourceDetail from 'components/projects/common/ResourceDetail.react';
 
 export default React.createClass({
     displayName: "Id",
@@ -23,10 +24,9 @@ export default React.createClass({
         }
 
         return (
-          <ResourceDetail label="Allocation Source">
-            { sourceName }
-          </ResourceDetail>
+            <ResourceDetail label="Allocation Source">
+                { sourceName }
+            </ResourceDetail>
         );
     }
-
 });

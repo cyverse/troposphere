@@ -1,8 +1,9 @@
 import React from 'react';
+import Backbone from 'backbone';
+import stores from 'stores';
+
 import SelectMenu from 'components/common/ui/SelectMenu.react';
 import AllocationSourceGraph from 'components/common/AllocationSourceGraph.react';
-import stores from 'stores';
-import Backbone from 'backbone';
 
 export default React.createClass({
 
@@ -32,6 +33,7 @@ export default React.createClass({
             let current = allocationSourceList.first();
             console.log("allocationSourceList", allocationSourceList);
             console.log("current", current);
+
             this.setState({
                 current,
             });
@@ -41,44 +43,42 @@ export default React.createClass({
     // This probably won't set local state
     // and instead will be passed on to an action
     onSourceChange: function(id) {
-	let allocationSourceList = stores.AllocationSourceStore.getAll();
+        let allocationSourceList = stores.AllocationSourceStore.getAll();
 
-	let current = allocationSourceList.find(
-	    item => item.get('id') === id
-	);
+        let current = allocationSourceList.find(
+            item => item.get('id') === id
+        );
 
         this.setState({ current });
     },
 
     render: function() {
 
-	let allocationSourceList = stores.AllocationSourceStore.getAll();
+        let allocationSourceList = stores.AllocationSourceStore.getAll();
 
-	let id;
+        let id;
         if (this.state.current) {
             id = this.state.current.get('id');
         }
              
-	return (
-	    <div style={{ paddingTop: "20px"}}>
-              <h2 className="t-title">	
-	          Allocation Source
-	      </h2>
+        return (
+            <div style={{ paddingTop: "20px"}}>
+                <h2 className="t-title">	
+                    Allocation Source
+                </h2>
 
-              <div style={{ marginBottom: "20px" }}>
-              <SelectMenu
-		  defaultId={ id }
-                  list={ allocationSourceList }
-		  optionName={ /* Callback */ item => item.get('name') }
-                  onSelectChange={ this.onSourceChange }
-              />
-	      </div>
-	      <AllocationSourceGraph 
-	          allocationSource={ this.state.current }
-              />
-	    </div>
-	);
+                <div style={{ marginBottom: "20px" }}>
+                    <SelectMenu
+                    defaultId={ id }
+                      list={ allocationSourceList }
+                    optionName={ /* Callback */ item => item.get('name') }
+                      onSelectChange={ this.onSourceChange }
+                    />
+                </div>
+                <AllocationSourceGraph 
+                    allocationSource={ this.state.current }
+                />
+            </div>
+        );
     }
-
 });
-

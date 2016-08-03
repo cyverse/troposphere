@@ -57,7 +57,7 @@ export default React.createClass({
         let allocationSourceList = AllocationSourceStore ? 
             AllocationSourceStore.getAll() : null;
         let allocationSource = allocationSourceList ? 
-	    allocationSourceList[1] : null;
+            allocationSourceList.at(1) : null;
 
         // Check if the user has any projects, if not then set view to "PROJECT_VIEW"
         // to create a new one
@@ -186,9 +186,9 @@ export default React.createClass({
         stores.ScriptStore.removeChangeListener(this.updateState);
         
         // Check if we are using this store
-	if (AllocationSourceStore) {
+        if (AllocationSourceStore) {
             stores.AllocationSourceStore.removeChangeListener(this.updateState);
-	}
+        }
     },
 
     viewImageSelect: function() {

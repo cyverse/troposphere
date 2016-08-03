@@ -1,6 +1,7 @@
 import React from 'react';
 import Backbone from 'backbone';
 import stores from 'stores';
+
 import ProgressBar from 'components/common/ui/ProgressBar.react';
 
 export default React.createClass({
@@ -35,12 +36,12 @@ export default React.createClass({
 
         // AU's Used
         let allocationConsumed,
-         allocationTotal,
-         allocationRemaining,
-         allocationPercent,
+            allocationTotal,
+            allocationRemaining,
+            allocationPercent,
 
         // Labels for bar graphs
-         auLabel = "loading...";
+        auLabel = "loading...";
 
         // Check if we have our models before using their backbone methods
         if (allocationSource) {
@@ -60,16 +61,15 @@ export default React.createClass({
         }
 
         return (
-                <div className="form-group">
-                    <label>Allocation Used</label>
-                    <ProgressBar
-                        startColor="#56AA21"
-                        startValue={allocationPercent}
-                        label={auLabel}
-                    />
-                    {this.resourceExceded(allocationConsumed, allocationTotal)}
-
-                </div>
-            )
+            <div className="form-group">
+                <label>Allocation Used</label>
+                <ProgressBar
+                    startColor="#56AA21"
+                    startValue={allocationPercent}
+                    label={auLabel}
+                />
+                {this.resourceExceded(allocationConsumed, allocationTotal)}
+            </div>
+        )
     },
 });

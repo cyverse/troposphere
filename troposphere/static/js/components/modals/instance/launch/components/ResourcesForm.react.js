@@ -63,7 +63,7 @@ export default React.createClass({
                     />
                 </div>
                 <div className="form-group">
-		    <ProviderAllocationGraph { ...this.props }/>
+                    <ProviderAllocationGraph { ...this.props }/>
                     <ResourceGraphs { ...this.props }/>
                 </div>
             </form>

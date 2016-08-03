@@ -10,18 +10,17 @@ export default backbone.Collection.extend({
     url: globals.API_V2_ROOT + "/allocation_source",
 
     parse: function (response) {
-
-      return response.results;
+        return response.results;
     },
 
     sync: function(method, collection, options) {	
-	return {
-             done: function(cb) {
-                 collection.reset(allocationSourceList.map(
-                     item => new AllocationSource(item)
-                 ))
-                 cb();
-             }
+        return {
+            done: function(cb) {
+                collection.reset(allocationSourceList.map(
+                    item => new AllocationSource(item)
+                ))
+                cb();
+            }
         }
     }
 });

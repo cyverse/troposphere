@@ -1,69 +1,69 @@
 import React from 'react';
 import Backbone from 'backbone';
+import stores from 'stores';
+
 import BreadcrumbBar from 'components/projects/common/BreadcrumbBar.react';
 import InstanceInfoSection from './sections/InstanceInfoSection.react';
 import InstanceDetailsSection from './sections/InstanceDetailsSection.react';
 import InstanceMetricsSection from './sections/InstanceMetricsSection.react';
 import AllocationSourceSection from './sections/AllocationSourceSection.react';
 import InstanceActionsAndLinks from './actions/InstanceActionsAndLinks.react';
-import stores from 'stores';
 
 export default React.createClass({
     displayName: "InstanceDetailsView",
 
     propTypes: {
-      instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      project: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        project: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
     
     render: function () {
-      var instance = this.props.instance,
+        var instance = this.props.instance,
         project = this.props.project;
 
-      if (!instance || !project) return <div className="loading"></div>;
+        if (!instance || !project) return <div className="loading"></div>;
 
-      var breadcrumbs = [
-        {
-          name: "Resources",
-          linksTo: "project-resources",
-          params: {projectId: project.id}
-        },
-        {
-          name: instance.get('name'),
-          linksTo: "project-instance-details",
-          params: {projectId: project.id, instanceId: instance.id}
-        }
-      ];
+        var breadcrumbs = [
+            {
+                name: "Resources",
+                linksTo: "project-resources",
+                params: {projectId: project.id}
+            },
+            {
+                name: instance.get('name'),
+                linksTo: "project-instance-details",
+                params: {projectId: project.id, instanceId: instance.id}
+            }
+        ];
 
-      let renderAllocationSource = true ?
-          <AllocationSourceSection/> : null;
+        let renderAllocationSource = true ?
+            <AllocationSourceSection/> : null;
 
-      return (
-        <div>
-          <BreadcrumbBar breadcrumbs={breadcrumbs}/>
+        return (
+            <div>
+                <BreadcrumbBar breadcrumbs={breadcrumbs}/>
 
-          <div className="row resource-details-content">
-            <div className="col-md-9">
-              <InstanceInfoSection instance={instance}/>
-              <hr/>
-	      { renderAllocationSource }
-              <InstanceDetailsSection instance={instance}/>
-              <hr/>
-              {
-                typeof show_instance_metrics != "undefined"
-                ? <InstanceMetricsSection instance={instance}/>
-                : ""
-              }
+                <div className="row resource-details-content">
+                    <div className="col-md-9">
+                        <InstanceInfoSection instance={instance}/>
+                        <hr/>
+                        { renderAllocationSource }
+                        <InstanceDetailsSection instance={instance}/>
+                        <hr/>
+                        {
+                            typeof show_instance_metrics != "undefined"
+                                ? <InstanceMetricsSection instance={instance}/>
+                                : ""
+                        }
+                    </div>
+                    <div className="col-md-3">
+                        <InstanceActionsAndLinks
+                            project={project}
+                            instance={instance}
+                        />
+                    </div>
+                </div>
             </div>
-            <div className="col-md-3">
-              <InstanceActionsAndLinks
-                project={project}
-                instance={instance}
-                />
-            </div>
-          </div>
-        </div>
-      );
+        );
     }
-
 });

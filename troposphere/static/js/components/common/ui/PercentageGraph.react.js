@@ -29,16 +29,16 @@ function findMaxDataPt(seriesData, ceiling) {
 }
 
 export default React.createClass({
-      displayName: "PercentageGraph",
+    displayName: "PercentageGraph",
 
-      propTypes: {
-      },
+    propTypes: {
+    },
 
-      //
-      // Mounting and State
-      //
+    //
+    // Mounting and State
+    //
 
-      componentDidMount: function () {
+    componentDidMount: function () {
         var categories = this.props.categories;
         var seriesData = this.props.seriesData;
 
@@ -52,7 +52,7 @@ export default React.createClass({
           return;
         }
         var height = (categories.length * (seriesData.length * 40)) + 85;
-        
+
         var plotLines = [],
             plotBands = [];
 
@@ -77,79 +77,75 @@ export default React.createClass({
         // createChart(element, options, callback)
         // - `options` is the same as passing plotOptions to Highcharts.Chart
         new Highcharts.createChart(el, {
-          chart: {
-            type: 'bar',
-            backgroundColor: 'transparent',
-            height,
-          },
-          colors: [
-            '#0098aa',
-            '#56AA21',
-            '#AD5527',
-            '#5E8535',
-            '#60646B',
-            '#2F5494',
-            '#C79730'
-          ],
-          credits: {
-            enabled: false
-          },
-          title: {
-            text: ''
-          },
-          xAxis: {
-            type: 'category',
-            categories,
-          },
-          yAxis: {
-            min: 0,
-            max: max,
-            plotLines,
-            plotBands,
+            chart: {
+                type: 'bar',
+                backgroundColor: 'transparent',
+                height,
+            },
+            colors: [
+                '#0098aa',
+                '#56AA21',
+                '#AD5527',
+                '#5E8535',
+                '#60646B',
+                '#2F5494',
+                '#C79730'
+            ],
+            credits: {
+                enabled: false
+            },
             title: {
-              text: 'Percent of Allocation Used'
-            }
-          },
+                text: ''
+            },
+            xAxis: {
+                type: 'category',
+                categories,
+            },
+            yAxis: {
+                min: 0,
+                max: max,
+                plotLines,
+                plotBands,
+                title: {
+                    text: 'Percent of Allocation Used'
+                }
+            },
 
-          tooltip: {
-            shared: false,
-            formatter: function (tooltip) {
-              var limits = this.series.options.limits;
-              var currentLimit = limits[this.x];
-              var currentUsage = Math.round(currentLimit * this.y / 100);
-              var appendMessages = this.series.options.appendMessages;
-              var appendMessage = appendMessages[this.x];
+            tooltip: {
+                shared: false,
+                formatter: function (tooltip) {
+                    var limits = this.series.options.limits;
+                    var currentLimit = limits[this.x];
+                    var currentUsage = Math.round(currentLimit * this.y / 100);
+                    var appendMessages = this.series.options.appendMessages;
+                    var appendMessage = appendMessages[this.x];
 
-              var formatterComponent = (<ResourceUseTooltip
-                  resourceName={appendMessage}
-                  used={currentUsage}
-                  max={currentLimit}
-                />);
+                    var formatterComponent = (<ResourceUseTooltip
+                      resourceName={appendMessage}
+                      used={currentUsage}
+                      max={currentLimit}
+                    />);
 
-              return ReactDOMServer.renderToStaticMarkup(formatterComponent);
-            }
-          },
-          legend: {
-            verticalAlign: 'top',
-            align: 'center'
-          },
-          series: seriesData
+                    return ReactDOMServer.renderToStaticMarkup(formatterComponent);
+                }
+            },
+            legend: {
+                verticalAlign: 'top',
+                align: 'center'
+            },
+            series: seriesData
         });
-      },
+    },
 
-      componentDidUpdate: function () {
+    componentDidUpdate: function () {
         this.componentDidMount();
-      },
+    },
 
-      //
-      // Render
-      //
+    //
+    // Render
+    //
 
-      render: function () {
-        return (
-          <div>
-          </div>
-        );
-      }
-
+    render: function () {
+        return ( <div/> );
+    }
 });

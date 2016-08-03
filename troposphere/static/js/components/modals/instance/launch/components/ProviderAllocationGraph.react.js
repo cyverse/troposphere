@@ -35,12 +35,12 @@ export default React.createClass({
 
         // AU's Used
         let allocationConsumed,
-         allocationTotal,
-         allocationRemaining,
-         allocationPercent,
+            allocationTotal,
+            allocationRemaining,
+            allocationPercent,
 
         // Labels for bar graphs
-         auLabel = "loading...";
+        auLabel = "loading...";
 
         // Check if we have our models before using their backbone methods
         if ( identityProvider ) {

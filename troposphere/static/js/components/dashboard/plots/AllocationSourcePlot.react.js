@@ -16,6 +16,7 @@ import PercentGraph from 'components/common/ui/PercentageGraph.react';
  *
  * [1] http://api.highcharts.com/highcharts#plotOptions.series
  */
+
 function findMaxDataPt(seriesData, ceiling) {
     // series data has an array of data points *per* provider
     // - we need to know the max value to set the Y Axis
@@ -34,9 +35,9 @@ export default React.createClass({
     },
 
     seriesData: function(item) {
-	let percentage = Math.round(item.get('used') / item.get('quota') * 100);
+        let percentage = Math.round(item.get('used') / item.get('quota') * 100);
 
-	return {
+        return {
             name: item.get('name'),
             data: [percentage],
             limits: {
@@ -65,8 +66,8 @@ export default React.createClass({
     //
 
     render: function () {
-	let AllocationList = stores.AllocationSourceStore.getAll();
-	if (!AllocationList) return <div className="loading"/>;
+        let AllocationList = stores.AllocationSourceStore.getAll();
+        if (!AllocationList) return <div className="loading"/>;
 
         return (
             <div style={{MarginBottom: "20px"}}>
