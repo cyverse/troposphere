@@ -18,7 +18,7 @@ export default React.createClass({
     onAllocationSourceChange: function(val) {
         // This is boiler plate for later when allocationSource is a store
         // with the get() method that we would call 'val' on.
-        let source = this.props.allocationSourceList.find(item => item.id === val);
+        let source = this.props.allocationSourceList.find(item => item.get('id') === val);
         this.props.onAllocationSourceChange(source);
     },
 
@@ -52,9 +52,9 @@ export default React.createClass({
                         Allocation Source
                     </label>
                     <SelectMenu
-                        defaultId={ this.props.allocationSource.id }
+                        defaultId={ this.props.allocationSource.get('id') }
                         list={ this.props.allocationSourceList }
-                        optionName={ name => name.name }
+                        optionName={ name => name.get('name') }
                         onSelectChange={ this.onAllocationSourceChange }
                     />
                 </div>

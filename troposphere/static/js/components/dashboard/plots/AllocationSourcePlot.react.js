@@ -34,13 +34,13 @@ export default React.createClass({
     },
 
     seriesData: function(item) {
-	let percentage = Math.round(item.used / item.quota * 100);
+	let percentage = Math.round(item.get('used') / item.get('quota') * 100);
 
 	return {
-            name: item.name,
+            name: item.get('name'),
             data: [percentage],
             limits: {
-                Allocation: item.quota,
+                Allocation: item.get('quota'),
             },
             appendMessages: {
                 Allocation: "AUs"
@@ -65,13 +65,16 @@ export default React.createClass({
     //
 
     render: function () {
+	let AllocationList = stores.AllocationSourceStore.getAll();
+	if (!AllocationList) return <div className="loading"/>;
+
         return (
             <div style={{MarginBottom: "20px"}}>
                 <h2 className="t-title">
                     Allocation Source
                 </h2>
                 <PercentGraph
-                    seriesData={ stores.AllocationSourceStore.map(this.seriesData) }
+                    seriesData={ stores.AllocationSourceStore.getAll().map(this.seriesData) }
                     categories={[ 'Allocation' ]}
                 />
             </div>

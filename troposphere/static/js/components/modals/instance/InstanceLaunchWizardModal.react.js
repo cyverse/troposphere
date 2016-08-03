@@ -26,8 +26,8 @@ import BasicLaunchStep from './launch/steps/BasicLaunchStep.react';
 import AdvancedLaunchStep from './launch/steps/AdvancedLaunchStep.react';
 import LicenseStep from './launch/steps/LicenseStep.react';
 
-let allocationSourceList = stores.AllocationSourceStore;
-
+// For now, we can use this as our truth 
+let AllocationSourceStore = stores.AllocationSourceStore;
 // This class implements the instance launch walkthrough. By design it keeps
 // track of two states. First is the state for switching between separate
 // views of the modal. The second is the state for launching an actual
@@ -54,7 +54,10 @@ export default React.createClass({
         let projectList = stores.ProjectStore.getAll();
         let project = this.props.project ? this.props.project : null;
         let view = this.props.initialView;
-        let allocationSource = allocationSourceList ? allocationSourceList[1] : null;
+        let allocationSourceList = AllocationSourceStore ? 
+            AllocationSourceStore.getAll() : null;
+        let allocationSource = allocationSourceList ? 
+	    allocationSourceList[1] : null;
 
         // Check if the user has any projects, if not then set view to "PROJECT_VIEW"
         // to create a new one
@@ -134,6 +137,14 @@ export default React.createClass({
                 providerSizeList.first();
         };
 
+        let allocationSource;
+        if (AllocationSourceStore) {
+            let allocationSourceList = AllocationSourceStore.getAll();
+            allocationSource = this.state.allocationSource ? 
+                this.state.allocationSource : 
+                allocationSourceList.first();
+        }
+
         // NOTE: Only update state for things that need defaults. Data fetched
         // from the cloud is not part of the component's state that it
         // manages.
@@ -143,6 +154,7 @@ export default React.createClass({
             provider,
             providerSize,
             identityProvider,
+            allocationSource,
         });
     },
 
@@ -153,6 +165,11 @@ export default React.createClass({
         stores.ProjectStore.addChangeListener(this.updateState);
         stores.ImageVersionStore.addChangeListener(this.updateState);
         stores.ScriptStore.addChangeListener(this.updateState);
+
+        // Check if we are using this store
+	// if (AllocationSourceStore) {
+            // stores.AllocationSourceStore.addChangeListener(this.updateState);
+        // }
 
         // NOTE: This is not nice. This enforces that every time a component
         // mounts updateState gets called. Otherwise, if a component mounts
@@ -167,6 +184,11 @@ export default React.createClass({
         stores.ProjectStore.removeChangeListener(this.updateState);
         stores.ImageVersionStore.removeChangeListener(this.updateState);
         stores.ScriptStore.removeChangeListener(this.updateState);
+        
+        // Check if we are using this store
+	if (AllocationSourceStore) {
+            stores.AllocationSourceStore.removeChangeListener(this.updateState);
+	}
     },
 
     viewImageSelect: function() {
@@ -292,6 +314,7 @@ export default React.createClass({
         let providerSizeList = stores.SizeStore.fetchWhere({
             provider__id: provider.id
         });
+
         let providerSize;
 
         let identityProvider = stores.IdentityStore.findOne({
@@ -534,6 +557,11 @@ export default React.createClass({
             providerSizeList = stores.SizeStore.fetchWhere({
                 provider__id: provider.id
             });
+        }
+
+        let allocationSourceList;
+        if (AllocationSourceStore) {
+            allocationSourceList = AllocationSourceStore.getAll();
         }
 
         return (

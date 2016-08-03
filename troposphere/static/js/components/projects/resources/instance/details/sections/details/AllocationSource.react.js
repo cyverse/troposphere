@@ -10,10 +10,16 @@ export default React.createClass({
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    render: function () {
+    // componentDidUpdate: function() {
+    //    stores.AllocationSourceStore.addChangeListener(setState());
+    // },
+
+    render: function () { 
+        let sourceList = stores.AllocationSourceStore.getAll();
         let sourceName;
-        if (this.props.instance) {
-            sourceName = true ? stores.AllocationSourceStore[2].name : "loading...";
+        // We will be using instance to querry for the current Allocation Source
+        if (this.props.instance && sourceList) {
+            sourceName = sourceList.at(1).get('name');
         }
 
         return (
