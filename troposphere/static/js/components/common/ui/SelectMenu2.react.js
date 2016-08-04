@@ -1,6 +1,6 @@
-import React from 'react';
-import backbone from 'backbone';
-import _ from 'underscore';
+import React from "react";
+import backbone from "backbone";
+import _ from "underscore";
 
 export default React.createClass({
     displayName: "SelectMenu",
@@ -42,7 +42,7 @@ export default React.createClass({
 
         if (!list) {
             return (
-                <span>Loading ...</span>
+            <span>Loading ...</span>
             );
         }
 
@@ -59,4 +59,3 @@ export default React.createClass({
         );
     }
 });
-
