@@ -64,8 +64,6 @@ export default React.createClass({
     componentDidMount: function() {
         // subscribe to all Stores
         Object.keys(stores).forEach(function(storeName) {
-            if (storeName == "AllocationSourceStore")
-                return;
             stores[storeName].addChangeListener(this.updateState);
         }.bind(this));
 

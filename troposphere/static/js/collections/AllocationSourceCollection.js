@@ -1,8 +1,9 @@
 import backbone from 'backbone';
 import AllocationSource from 'models/AllocationSource';
 import globals from 'globals';
+import $ from 'jquery';
 
-import allocationSourceList from 'mockdata/allocationSource';
+import allocationSources from 'mockdata/allocationSources.json';
 
 export default backbone.Collection.extend({
     model: AllocationSource,
@@ -13,14 +14,15 @@ export default backbone.Collection.extend({
         return response.results;
     },
 
-    sync: function(method, collection, options) {	
-        return {
-            done: function(cb) {
-                collection.reset(allocationSourceList.map(
-                    item => new AllocationSource(item)
-                ))
-                cb();
-            }
-        }
+    sync: function(method, collection, options) {
+
+        let deferred = $.Deferred();
+
+        setTimeout(() => {
+            collection.reset(allocationSources.map(item => new AllocationSource(item)));
+            deferred.resolve(collection);
+        }, 50);
+
+        return deferred;
     }
 });
