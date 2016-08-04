@@ -38,7 +38,7 @@ export default React.createClass({
     },
 
     render() {
-        let { current, hint, list } = this.props;
+        let { current, list } = this.props;
 
         if (!list) {
             return (
