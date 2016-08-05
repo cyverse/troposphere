@@ -418,13 +418,22 @@ export default React.createClass({
         let identityProvider = this.state.identityProvider;
         let size = this.state.providerSize;
 
+        // Check if we are using AllocationSource over provider
+        let allocationSource = AllocationSourceStore ? this.state.allocationSource: null;
+
         if ( identityProvider && size && provider) {
             let resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
 
-            // Calculate and set all of our graph information
             // AU's Used
-            let  allocationConsumed = identityProvider.get('usage').current;
-            let  allocationTotal = identityProvider.get('usage').threshold;
+            let allocationConsumed, allocationTotal;
+            // If we are not using AllocationSource set to provider
+            if (!allocationSource) {
+                allocationConsumed = identityProvider.get('usage').current;
+                allocationTotal = identityProvider.get('usage').threshold;
+            } else {
+                allocationConsumed = allocationSource.get('compute_used');
+                allocationTotal = allocationSource.get('compute_allowed');
+            }
 
             // CPU's have used + will use
             let  allocationCpu = identityProvider.get('quota').cpu;
@@ -451,8 +460,11 @@ export default React.createClass({
 
     canLaunch: function() {
         let requiredFields = ['project', 'identityProvider', 'providerSize', 'imageVersion', 'attachedScripts'];
-        let notFalsy = ((prop) => Boolean(this.state[prop]) != false);
 
+        // Check if we are using AllocationSource and add to requierd fields
+        if (AllocationSourceStore) requiredFields.push('allocationSource');
+
+        let notFalsy = ((prop) => Boolean(this.state[prop]) != false);
         // instanceName will be null, indicating that it has not been set.
         // If instanceName equals the empty string, the user has erased the
         // name, and is trying to launch an instance with no name.
