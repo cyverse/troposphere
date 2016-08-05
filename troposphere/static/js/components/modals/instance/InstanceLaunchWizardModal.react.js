@@ -108,9 +108,7 @@ export default React.createClass({
 
         let providerList;
         if (imageVersion) {
-            // FIXME: Querying the PM store to return *providers* based on *version* is Not ideal.
-            //  TODO: stores.ProviderStore.forVersion(imageVersion);
-            providerList = stores.ProviderMachineStore.getProvidersForVersion(imageVersion);
+            providerList = stores.ProviderStore.getProvidersForVersion(imageVersion);
         }
 
         let provider = this.state.provider;
@@ -156,7 +154,7 @@ export default React.createClass({
 
     componentDidMount: function() {
         stores.IdentityStore.addChangeListener(this.updateState);
-        stores.ProviderMachineStore.addChangeListener(this.updateState);
+        stores.ProviderStore.addChangeListener(this.updateState);
         stores.SizeStore.addChangeListener(this.updateState);
         stores.ProjectStore.addChangeListener(this.updateState);
         stores.ImageVersionStore.addChangeListener(this.updateState);
@@ -174,7 +172,7 @@ export default React.createClass({
 
     componentWillUnmount: function() {
         stores.IdentityStore.removeChangeListener(this.updateState);
-        stores.ProviderMachineStore.removeChangeListener(this.updateState);
+        stores.ProviderStore.removeChangeListener(this.updateState);
         stores.SizeStore.removeChangeListener(this.updateState);
         stores.ProjectStore.removeChangeListener(this.updateState);
         stores.ImageVersionStore.removeChangeListener(this.updateState);
@@ -217,9 +215,7 @@ export default React.createClass({
 
         let providerList;
         if (imageVersion) {
-            // FIXME: Querying the PM store to return *providers* based on *version* is Not ideal.
-            //  TODO: stores.ProviderStore.forVersion(imageVersion);
-            providerList = stores.ProviderMachineStore.getProvidersForVersion(imageVersion);
+            providerList = stores.ProviderStore.getProvidersForVersion(imageVersion);
         };
 
         let provider, providerSizeList, identityProvider;
@@ -263,10 +259,7 @@ export default React.createClass({
     },
 
     onVersionChange: function(VersionVal) {
-        // FIXME: Querying the PM store to return *providers* based on *version* is Not ideal.
-        //  TODO: stores.ProviderStore.forVersion(imageVersion);
-
-        let providerList = stores.ProviderMachineStore.getProvidersForVersion(imageVersion);
+        let providerList = stores.ProviderStore.getProvidersForVersion(imageVersion);
         let providerSizeList;
         let providerSize;
         let provider;
@@ -547,9 +540,7 @@ export default React.createClass({
 
         let providerList;
         if (imageVersion) {
-            // FIXME: Querying the PM store to return *providers* based on *version* is Not ideal.
-            //  TODO: stores.ProviderStore.forVersion(imageVersion);
-            providerList = stores.ProviderMachineStore.getProvidersForVersion(imageVersion);
+            providerList = stores.ProviderStore.getProvidersForVersion(imageVersion);
         }
 
         let providerSizeList, resourcesUsed;
