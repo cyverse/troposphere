@@ -42,7 +42,9 @@ export default React.createClass({
 
         if (!list) {
             return (
-            <span>Loading ...</span>
+            <select className='form-control' >
+                <option label="Loading..." />
+            </select>
             );
         }
 
