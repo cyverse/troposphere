@@ -54,6 +54,10 @@ export default React.createClass({
 
         let value = list.indexOf(current);
 
+        if (value == -1) {
+            throw "The element to display doesn't exist in the list of available elements";
+        }
+
         return (
         <select value={ value } className='form-control' onChange={ this.onSelect }>
             { list.map(this.renderOption) }
