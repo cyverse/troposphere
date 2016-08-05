@@ -389,6 +389,7 @@ export default React.createClass({
                 identity: this.state.identityProvider,
                 size: this.state.providerSize,
                 version: this.state.imageVersion,
+                allocation_source_id: this.state.allocationSource.get('source_id'),
                 scripts: this.state.attachedScripts
             };
             actions.InstanceActions.launch(launchData);

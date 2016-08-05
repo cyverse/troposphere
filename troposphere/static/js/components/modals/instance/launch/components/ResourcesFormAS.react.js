@@ -18,6 +18,8 @@ export default React.createClass({
     onAllocationSourceChange: function(val) {
         // This is boiler plate for later when allocationSource is a store
         // with the get() method that we would call 'val' on.
+        // IF val is string
+        val = parseInt(val);
         let source = this.props.allocationSourceList.find(item => item.get('id') === val);
         this.props.onAllocationSourceChange(source);
     },
