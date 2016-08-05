@@ -22,8 +22,7 @@ export default React.createClass({
     getProviderSizeName(providerSize) {
         let name = providerSize.get("name");
         let cpu = providerSize.get("cpu");
-        // TODO: determine if this rounding is necessary?
-        let memory = Math.round(providerSize.get("mem") * 100) / 100;
+        let memory = providerSize.get("mem");
 
         return `${ name } (CPU: ${ cpu }, Mem: ${ memory } GB)`;
     },
