@@ -24,7 +24,7 @@ export const AllocationSourceChange = Event.extend({
             return "Invalid event name -- Expected 'instance_allocation_source_changed'"
         }
         let payload = attrs.payload;
-        if(!payload || payload.allocation_source_id || !payload.instance_id) {
+        if(!payload || !payload.allocation_source_id || !payload.instance_id) {
             return "Invalid event payload -- Expected keys: 'instance_id' and 'allocation_source_id'"
         }
         return
