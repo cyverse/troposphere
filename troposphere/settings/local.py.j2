@@ -151,6 +151,9 @@ OAUTH_CLIENT_CALLBACK = "{{ OAUTH_CLIENT_CALLBACK }}"
 # load data if available, from mocked collections rather than the api
 USE_MOCK_DATA = {{ USE_MOCK_DATA }}
 
+# display AllocationSources rather than Allocation
+USE_ALLOCATION_SOURCES = {{ USE_ALLOCATION_SOURCES }}
+
 # atmosphere must include the metrics endpoint
 SHOW_INSTANCE_METRICS = {{ SHOW_INSTANCE_METRICS }}
 {% if BADGES_ENABLED %}
