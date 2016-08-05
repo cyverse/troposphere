@@ -1,9 +1,11 @@
 import backbone from 'backbone';
 import AllocationSource from 'models/AllocationSource';
 import globals from 'globals';
-import $ from 'jquery';
+import _ from 'underscore';
 
 import allocationSources from 'mockdata/allocationSources.json';
+import mockSync from 'utilities/mockSync';
+
 
 export default backbone.Collection.extend({
     model: AllocationSource,
@@ -11,20 +13,27 @@ export default backbone.Collection.extend({
     url: globals.API_V2_ROOT + "/allocation_sources",
 
     parse: function (response) {
-        return response.results;
+        console.warn("We are tampering with data until the api settles");
+
+        // Ensure the api returns values for these fields
+        let defaults = {
+            compute_used: 100,
+            compute_allowed: 1000,
+            name: "dummy"
+        };
+
+        let results = response.results.map(source => {
+            Object.keys(defaults).forEach(f => {
+                if (!source[f]) {
+                    source[f] = defaults[f];
+                }
+            });
+            return source;
+        });
+        return results;
     },
 
-    /*Uncomment this block if you do not have access to TAS API
-     sync: function(method, collection, options) {
-
-        let deferred = $.Deferred();
-
-        setTimeout(() => {
-            collection.reset(allocationSources.map(item => new AllocationSource(item)));
-            deferred.resolve(collection);
-        }, 50);
-
-        return deferred;
-    }
-    */
+    sync: globals.USE_MOCK_DATA 
+          ? mockSync(allocationSources)
+          : Backbone.sync
 });

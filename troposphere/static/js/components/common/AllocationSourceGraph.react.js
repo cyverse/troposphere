@@ -5,6 +5,7 @@ import stores from 'stores';
 import ProgressBar from 'components/common/ui/ProgressBar.react';
 
 export default React.createClass({
+    // TODO:
     // propTypes: {
     //     onRequestResources: React.PropTypes.func,
     //     resourcesUsed: React.PropTypes.object,
@@ -30,46 +31,36 @@ export default React.createClass({
 
     render: function() {
         let allocationSource = this.props.allocationSource;
-        // Here we are declaring all of our variables that require 'if' check below before using our backbone methods.
-        // If we don't have models yet, we still want to pass these empty declarations down to our child.
-        // This is so we can render as much as posible to avoid the ui flashing as the models repopulate.
-
-        // AU's Used
-        let allocationConsumed,
-            allocationTotal,
-            allocationRemaining,
-            allocationPercent,
-
-        // Labels for bar graphs
-        auLabel = "loading...";
 
         // Check if we have our models before using their backbone methods
-        if (allocationSource) {
-
-            // Calculate and set all of our graph information
-            // AU's Used
-
-            // TODO: these will become get methods when real store is in place
-            allocationConsumed = allocationSource.get('compute_used');
-            allocationTotal = allocationSource.get('compute_allowed');
-            allocationRemaining = allocationTotal - allocationConsumed;
-            allocationPercent = Math.round(allocationConsumed / allocationTotal * 100);
-
-
-            // Labels for bar graphs
-            auLabel =  `${allocationPercent}% of ${allocationTotal} Allocation from ${allocationSource.get('name')}`;
+        if (!allocationSource) {
+            return (
+            <span>
+                loading...
+            </span>
+            );
         }
 
+        // Calculate and set all of our graph information
+        // AU's Used
+        let consumed = allocationSource.get('compute_used');
+        let total = allocationSource.get('compute_allowed');
+        let name = allocationSource.get('name');
+        let percent = Math.round(consumed / total * 100);
+
+        // Labels for bar graphs
+        let auLabel = `${percent}% of ${total} Allocation from ${name}`;
+
         return (
-            <div className="form-group">
-                <label>Allocation Used</label>
-                <ProgressBar
-                    startColor="#56AA21"
-                    startValue={allocationPercent}
-                    label={auLabel}
-                />
-                {this.resourceExceded(allocationConsumed, allocationTotal)}
-            </div>
+        <div className="form-group">
+            <label>Allocation Used</label>
+            <ProgressBar
+                startColor="#56AA21"
+                startValue={percent}
+                label={auLabel}
+            />
+            {this.resourceExceded(consumed, total)}
+        </div>
         )
     },
 });
