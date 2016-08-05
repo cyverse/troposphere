@@ -16,6 +16,7 @@ import Backbone from 'backbone';
 import _ from 'underscore';
 import modals from 'modals';
 import stores from 'stores';
+import globals from 'globals';
 import actions from 'actions';
 import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 import { filterEndDate } from 'utilities/filterCollection';
@@ -462,18 +463,14 @@ export default React.createClass({
         let requiredFields = ['project', 'identityProvider', 'providerSize', 'imageVersion', 'attachedScripts'];
 
         // Check if we are using AllocationSource and add to requierd fields
-        if (AllocationSourceStore) requiredFields.push('allocationSource');
-
-        let notFalsy = ((prop) => Boolean(this.state[prop]) != false);
-        // instanceName will be null, indicating that it has not been set.
-        // If instanceName equals the empty string, the user has erased the
-        // name, and is trying to launch an instance with no name.
-        if ( _.every(requiredFields, notFalsy)) {
-            if (this.state.instanceName == '') { return false };
-            if (this.exceedsResources()) { return false };
-            return true;
+        if (globals.USE_ALLOCATION_SOURCES) {
+            requiredFields.push('allocationSource');
         }
-        return false
+
+        // All required fields are truthy
+        let requiredExist = _.every(requiredFields, (prop) => Boolean(this.state[prop]))
+
+        return  requiredExist && !this.exceedsResources();
     },
 
     //==================
