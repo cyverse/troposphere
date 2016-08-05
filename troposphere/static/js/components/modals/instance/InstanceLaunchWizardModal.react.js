@@ -416,15 +416,21 @@ export default React.createClass({
     exceedsResources: function() {
         let provider = this.state.provider;
         let identityProvider = this.state.identityProvider;
+        let allocationSource = true ? this.state.allocationSource: null;
         let size = this.state.providerSize;
 
         if ( identityProvider && size && provider) {
             let resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
 
-            // Calculate and set all of our graph information
             // AU's Used
-            let  allocationConsumed = identityProvider.get('usage').current;
-            let  allocationTotal = identityProvider.get('usage').threshold;
+            let allocationConsumed, allocationTotal;
+            if (!allocationSource) {
+                allocationConsumed = identityProvider.get('usage').current;
+                allocationTotal = identityProvider.get('usage').threshold;
+            } else {
+                allocationConsumed = allocationSource.get('compute_used');
+                allocationTotal = allocationSource.get('compute_allowed');
+            }
 
             // CPU's have used + will use
             let  allocationCpu = identityProvider.get('quota').cpu;
@@ -452,7 +458,6 @@ export default React.createClass({
     canLaunch: function() {
         let requiredFields = ['project', 'identityProvider', 'providerSize', 'imageVersion', 'attachedScripts'];
         let notFalsy = ((prop) => Boolean(this.state[prop]) != false);
-
         // instanceName will be null, indicating that it has not been set.
         // If instanceName equals the empty string, the user has erased the
         // name, and is trying to launch an instance with no name.
