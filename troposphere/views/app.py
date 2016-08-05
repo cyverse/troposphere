@@ -112,6 +112,8 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
     template_params['UI_VERSION'] = settings.UI_VERSION
     template_params['BADGE_HOST'] = getattr(settings, "BADGE_HOST", None)
     template_params['USE_MOCK_DATA'] = getattr(settings, "USE_MOCK_DATA", False)
+    template_params['USE_ALLOCATION_SOURCES'] = getattr(settings,
+            "USE_ALLOCATION_SOURCES", False)
 
     #TODO: Replace this line when theme support is re-enabled.
     #template_params["THEME_URL"] = "assets/"
