@@ -5,11 +5,12 @@ import Events from "events";
 
 
 export default {
-    fire(name, payload) {
+    fire(name, filter_id, payload) {
         switch (name) {
             case EventTypes.ALLOCATION_SOURCE_CHANGE:
                 return new Events.AllocationSourceChange({
                     name,
+                    filter_id,
                     payload,
                 }).save();
             default:

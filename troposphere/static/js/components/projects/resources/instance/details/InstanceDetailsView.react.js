@@ -24,6 +24,7 @@ export default React.createClass({
         let instance = this.props.instance;
         EventActions.fire(
             EventTypes.ALLOCATION_SOURCE_CHANGE,
+            instance.get('user').username,
             {
                 allocation_source_id: source.get('source_id'),
                 instance_id: instance.get("uuid")
