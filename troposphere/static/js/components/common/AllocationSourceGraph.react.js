@@ -50,8 +50,8 @@ export default React.createClass({
             // AU's Used
 
             // TODO: these will become get methods when real store is in place
-            allocationConsumed = allocationSource.get('used');
-            allocationTotal = allocationSource.get('quota');
+            allocationConsumed = allocationSource.get('compute_used');
+            allocationTotal = allocationSource.get('compute_allowed');
             allocationRemaining = allocationTotal - allocationConsumed;
             allocationPercent = Math.round(allocationConsumed / allocationTotal * 100);
 
