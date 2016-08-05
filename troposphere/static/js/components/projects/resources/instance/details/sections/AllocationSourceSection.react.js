@@ -35,7 +35,7 @@ export default React.createClass({
     render() {
         let allocationSourceList = stores.AllocationSourceStore.getAll();
         let current = this.state.current;
-
+        //FIXME: onSelect to a callback that will hit actions and push the event
         return (
         <div style={{ paddingTop: "20px"}}>
             <h2 className="t-title">Allocation Source</h2>
