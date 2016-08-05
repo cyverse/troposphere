@@ -416,14 +416,17 @@ export default React.createClass({
     exceedsResources: function() {
         let provider = this.state.provider;
         let identityProvider = this.state.identityProvider;
-        let allocationSource = true ? this.state.allocationSource: null;
         let size = this.state.providerSize;
+
+        // Check if we are using AllocationSource over provider
+        let allocationSource = AllocationSourceStore ? this.state.allocationSource: null;
 
         if ( identityProvider && size && provider) {
             let resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
 
             // AU's Used
             let allocationConsumed, allocationTotal;
+            // If we are not using AllocationSource set to provider
             if (!allocationSource) {
                 allocationConsumed = identityProvider.get('usage').current;
                 allocationTotal = identityProvider.get('usage').threshold;
@@ -457,6 +460,10 @@ export default React.createClass({
 
     canLaunch: function() {
         let requiredFields = ['project', 'identityProvider', 'providerSize', 'imageVersion', 'attachedScripts'];
+
+        // Check if we are using AllocationSource and add to requierd fields
+        if (AllocationSourceStore) requiredFields.push('allocationSource');
+
         let notFalsy = ((prop) => Boolean(this.state[prop]) != false);
         // instanceName will be null, indicating that it has not been set.
         // If instanceName equals the empty string, the user has erased the
