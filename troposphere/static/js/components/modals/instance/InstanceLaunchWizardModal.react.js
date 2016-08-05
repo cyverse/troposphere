@@ -55,10 +55,6 @@ export default React.createClass({
         let projectList = stores.ProjectStore.getAll();
         let project = this.props.project ? this.props.project : null;
         let view = this.props.initialView;
-        let allocationSourceList = AllocationSourceStore ? 
-            AllocationSourceStore.getAll() : null;
-        let allocationSource = allocationSourceList ? 
-            allocationSourceList.at(1) : null;
 
         // Check if the user has any projects, if not then set view to "PROJECT_VIEW"
         // to create a new one
@@ -80,7 +76,7 @@ export default React.createClass({
             providerSize: null,
             identityProvider: null,
             attachedScripts: [],
-            allocationSource,
+            allocationSource: null
         }
     },
 
@@ -92,6 +88,8 @@ export default React.createClass({
     // set the project to the first returned from the cloud. It primes our
     // stores, so that render can just call get and eventually get data.
     updateState: function() {
+        let allocationSourceList = stores.AllocationSourceStore.getAll();
+
         let project = this.state.project;
         if (!project) {
             project = stores.ProjectStore.getAll().first();
@@ -139,11 +137,8 @@ export default React.createClass({
         };
 
         let allocationSource;
-        if (AllocationSourceStore) {
-            let allocationSourceList = AllocationSourceStore.getAll();
-            allocationSource = this.state.allocationSource ? 
-                this.state.allocationSource : 
-                allocationSourceList.first();
+        if (allocationSourceList) {
+            allocationSource = this.state.allocationSource || allocationSourceList.first();
         }
 
         // NOTE: Only update state for things that need defaults. Data fetched
@@ -167,10 +162,9 @@ export default React.createClass({
         stores.ImageVersionStore.addChangeListener(this.updateState);
         stores.ScriptStore.addChangeListener(this.updateState);
 
-        // Check if we are using this store
-	// if (AllocationSourceStore) {
-            // stores.AllocationSourceStore.addChangeListener(this.updateState);
-        // }
+        if (globals.USE_ALLOCATION_SOURCES) {
+            stores.AllocationSourceStore.addChangeListener(this.updateState);
+        }
 
         // NOTE: This is not nice. This enforces that every time a component
         // mounts updateState gets called. Otherwise, if a component mounts
@@ -186,8 +180,7 @@ export default React.createClass({
         stores.ImageVersionStore.removeChangeListener(this.updateState);
         stores.ScriptStore.removeChangeListener(this.updateState);
         
-        // Check if we are using this store
-        if (AllocationSourceStore) {
+        if (globals.USE_ALLOCATION_SOURCES) {
             stores.AllocationSourceStore.removeChangeListener(this.updateState);
         }
     },
@@ -412,28 +405,27 @@ export default React.createClass({
         return (this.state.attachedScripts.length > 0)
     },
 
-    // This is a callback that returns true if the provider size in addition to resources already using
-    // will exceed the user's allotted resources.
-    exceedsResources: function() {
+    // Returns true if instance launch will exceed the user's allotted
+    // resources.
+    exceedsResources: function(consumed, total) {
         let provider = this.state.provider;
         let identityProvider = this.state.identityProvider;
         let size = this.state.providerSize;
 
-        // Check if we are using AllocationSource over provider
-        let allocationSource = AllocationSourceStore ? this.state.allocationSource: null;
-
-        if ( identityProvider && size && provider) {
+        if (identityProvider && size && provider) {
             let resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
 
             // AU's Used
             let allocationConsumed, allocationTotal;
+
             // If we are not using AllocationSource set to provider
-            if (!allocationSource) {
-                allocationConsumed = identityProvider.get('usage').current;
-                allocationTotal = identityProvider.get('usage').threshold;
-            } else {
+            if (globals.USE_ALLOCATION_SOURCES)  {
+                let allocationSource = this.state.allocationSource;
                 allocationConsumed = allocationSource.get('compute_used');
                 allocationTotal = allocationSource.get('compute_allowed');
+            } else {
+                allocationConsumed = identityProvider.get('usage').current;
+                allocationTotal = identityProvider.get('usage').threshold;
             }
 
             // CPU's have used + will use
@@ -570,7 +562,7 @@ export default React.createClass({
         }
 
         let allocationSourceList;
-        if (AllocationSourceStore) {
+        if (globals.USE_ALLOCATION_SOURCES) {
             allocationSourceList = AllocationSourceStore.getAll();
         }
 
