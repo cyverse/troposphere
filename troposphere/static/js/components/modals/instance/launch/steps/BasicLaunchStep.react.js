@@ -1,12 +1,8 @@
 import React from "react";
-import Backbone from "backbone";
 import _ from "underscore";
 
-import globals from "globals";
-import stores from "stores";
 import BasicInfoForm from "../components/BasicInfoForm.react";
 import ResourcesForm from "../components/ResourcesForm.react";
-import ResourcesFormAS from "../components/ResourcesFormAS.react";
 import InstanceLaunchFooter from "../components/InstanceLaunchFooter.react";
 
 export default React.createClass({
@@ -14,13 +10,6 @@ export default React.createClass({
         let defaults = {
             advancedIsDisabled: false
         };
-
-        let resourceForm;
-        if (globals.USE_ALLOCATION_SOURCES) {
-            resourceForm = <ResourcesFormAS {...this.props} />;
-        } else {
-            resourceForm = <ResourcesForm {...this.props} />;
-        }
 
         return (
         <div>
@@ -33,7 +22,7 @@ export default React.createClass({
                 <div className="col-md-6">
                     <h3 className="t-title">Resources</h3>
                     <hr/>
-                    { resourceForm }
+                    <ResourcesForm {...this.props} />
                 </div>
             </div>
             <InstanceLaunchFooter {..._.extend(defaults, this.props)} />
