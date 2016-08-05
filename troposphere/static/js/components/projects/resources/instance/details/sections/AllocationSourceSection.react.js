@@ -7,6 +7,9 @@ import AllocationSourceGraph from "components/common/AllocationSourceGraph.react
 
 export default React.createClass({
 
+    // TODO:
+    // propTypes:
+
     getInitialState() {
         return {
             current: null
@@ -32,6 +35,11 @@ export default React.createClass({
         }
     },
 
+    onSourceChange: function(source) {
+        this.setState({ current: source });
+        this.props.onSourceChange(source);
+    },
+
     render() {
         let allocationSourceList = stores.AllocationSourceStore.getAll();
         let current = this.state.current;
@@ -43,7 +51,7 @@ export default React.createClass({
                 <SelectMenu current={ current }
                             optionName={ item => item.get("name") }
                             list={ allocationSourceList }
-                            onSelect={ elem => this.setState({ current: elem }) } />
+                            onSelect={ this.onSourceChange } />
             </div>
             <AllocationSourceGraph allocationSource={ this.state.current } />
         </div>

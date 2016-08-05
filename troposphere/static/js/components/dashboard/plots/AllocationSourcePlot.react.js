@@ -35,13 +35,13 @@ export default React.createClass({
     },
 
     seriesData: function(item) {
-        let percentage = Math.round(item.get('used') / item.get('quota') * 100);
+        let percentage = Math.round(item.get('compute_used') / item.get('compute_allowed') * 100);
 
         return {
             name: item.get('name'),
             data: [percentage],
             limits: {
-                Allocation: item.get('quota'),
+                Allocation: item.get('compute_allowed'),
             },
             appendMessages: {
                 Allocation: "AUs"

@@ -1,13 +1,15 @@
 import React from 'react';
 import Backbone from 'backbone';
-import stores from 'stores';
 
+import stores from 'stores';
 import BreadcrumbBar from 'components/projects/common/BreadcrumbBar.react';
 import InstanceInfoSection from './sections/InstanceInfoSection.react';
 import InstanceDetailsSection from './sections/InstanceDetailsSection.react';
 import InstanceMetricsSection from './sections/InstanceMetricsSection.react';
 import AllocationSourceSection from './sections/AllocationSourceSection.react';
 import InstanceActionsAndLinks from './actions/InstanceActionsAndLinks.react';
+import EventActions from "actions/EventActions";
+import EventTypes from "constants/EventConstants";
 
 export default React.createClass({
     displayName: "InstanceDetailsView",
@@ -17,6 +19,18 @@ export default React.createClass({
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
     
+
+    onSourceChange(source) {
+        let instance = this.props.instance;
+        EventActions.fire(
+            EventTypes.ALLOCATION_SOURCE_CHANGE,
+            {
+                allocation_source_id: source.get('source_id'),
+                instance_id: instance.get("uuid")
+            }
+        )
+    },
+
     render: function () {
         var instance = this.props.instance,
         project = this.props.project;
@@ -36,8 +50,9 @@ export default React.createClass({
             }
         ];
 
+        // TODO:
         let renderAllocationSource = true ?
-            <AllocationSourceSection/> : null;
+            <AllocationSourceSection onSourceChange={ this.onSourceChange } /> : null;
 
         return (
             <div>
@@ -51,14 +66,14 @@ export default React.createClass({
                         <InstanceDetailsSection instance={instance}/>
                         <hr/>
                         {
-                            typeof show_instance_metrics != "undefined"
-                                ? <InstanceMetricsSection instance={instance}/>
-                                : ""
+                            show_instance_metrics
+                            ? <InstanceMetricsSection instance={instance}/>
+                            : ""
                         }
                     </div>
                     <div className="col-md-3">
-                        <InstanceActionsAndLinks
-                            project={project}
+                    <InstanceActionsAndLinks
+                    project={project}
                             instance={instance}
                         />
                     </div>
