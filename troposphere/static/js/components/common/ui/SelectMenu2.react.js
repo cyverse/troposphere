@@ -12,7 +12,7 @@ export default React.createClass({
             React.PropTypes.instanceOf(backbone.Collection),
             React.PropTypes.array
         ]),
-        current: React.PropTypes.object
+        current: React.PropTypes.object,
     },
 
     onSelect(e) {
@@ -40,9 +40,9 @@ export default React.createClass({
     render() {
         let { current, list } = this.props;
 
-        if (!list) {
+        if (!(list && current)) {
             return (
-            <select className='form-control' >
+            <select className="form-control">
                 <option label="Loading..." />
             </select>
             );
@@ -55,7 +55,10 @@ export default React.createClass({
         let value = list.indexOf(current);
 
         if (value == -1) {
-            throw "The element to display doesn't exist in the list of available elements";
+            console.warn(
+                "The element to display doesn't exist in the list of available elements"
+            );
+            console.trace();
         }
 
         return (
