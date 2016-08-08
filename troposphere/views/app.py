@@ -112,12 +112,8 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
     template_params['SUPPORT_EMAIL'] = settings.SUPPORT_EMAIL
     template_params['UI_VERSION'] = settings.UI_VERSION
     template_params['BADGE_HOST'] = getattr(settings, "BADGE_HOST", None)
-
-    #TODO: Replace this line when theme support is re-enabled.
-    #template_params["THEME_URL"] = "assets/"
-    template_params['THEME_URL'] = "/themes/%s" % settings.THEME_NAME
+    template_params['THEME_URL'] = "/assets/theme"
     template_params['ORG_NAME'] = settings.ORG_NAME
-
     template_params['DYNAMIC_ASSET_LOADING'] = settings.DYNAMIC_ASSET_LOADING
 
     if hasattr(settings, "BASE_URL"):
