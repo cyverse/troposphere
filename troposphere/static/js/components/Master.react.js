@@ -9,6 +9,7 @@ import actions from 'actions';
 import showUnsupportedModal from 'modals/unsupported/showUnsupportedModal.js';
 import modernizrTest from 'components/modals/unsupported/modernizrTest.js';
 import NullProject from 'models/NullProject';
+import noAllocationSource from 'modals/allocationSource/noAllocationSource.js';
 
 import Router from 'react-router';
 import { RouteHandler } from 'react-router';
@@ -52,6 +53,10 @@ export default React.createClass({
                 actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
             }
         }, 1);
+    },
+
+    launchNoAllocationSource: function() {
+        noAllocationSource.showModal();
     },
 
     loadBadgeData: function() {
@@ -128,6 +133,7 @@ export default React.createClass({
         return (
         <div>
             <Header profile={ context.profile } currentRoute={ ['projects'] } maintenanceMessages={ maintenanceMessages } />
+            <a style={{margin: "80px 10px", display: "block"}} onClick={this.launchNoAllocationSource}>Test Modal</a>
             <div id="main" style={ { 'marginTop': marginTop } }>
                 <RouteHandler/>
             </div>
