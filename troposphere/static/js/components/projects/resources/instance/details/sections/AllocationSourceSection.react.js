@@ -54,7 +54,7 @@ export default React.createClass({
         return (
         <div style={{ paddingTop: "20px" }}>
             <h2 className="t-title">Allocation Source</h2>
-            <div style={{ marginBottom: "20px", maxWidth: "350px" }}>
+            <div style={{ marginBottom: "20px" }}>
                 <SelectMenu current={ current }
                             optionName={ item => item.get("name") }
                             list={ allocationSources }

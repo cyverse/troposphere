@@ -25,26 +25,26 @@ export default React.createClass({
                 <div className="ProgressBar-wrapper clearfix"
                     style={{
                         background: "#efefef",
-                        marginBottom: "20px",
-                        maxWidth: "350px",
-                    }} />
-                <div className="ProgressBar-startIndicator"
-                    style={{
-                        transition: "all ease .3s",
-                        height:"10px",
-                        float: "left",
-                        width: startValue + "%",
-                        background:startColor
-                    }} />
-                <div className="ProgressBar-afterIndicator"
-                    style={{
-                        transition: "all ease .3s",
-                        height:"10px",
-                        float: "left",
-                        width: afterValue + "%",
-                        background:startColor,
-                        opacity:".5"
-                    }} />
+                        marginBottom: "20px"
+                    }}>
+                    <div className="ProgressBar-startIndicator"
+                        style={{
+                            transition: "all ease .3s",
+                            height:"10px",
+                            float: "left",
+                            width: startValue + "%",
+                            background:startColor
+                        }} />
+                    <div className="ProgressBar-afterIndicator"
+                        style={{
+                            transition: "all ease .3s",
+                            height:"10px",
+                            float: "left",
+                            width: afterValue + "%",
+                            background:startColor,
+                            opacity:".5"
+                        }} />
+                </div>
             </div>
         </div>
         );
