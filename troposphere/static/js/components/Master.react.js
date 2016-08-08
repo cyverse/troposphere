@@ -55,10 +55,6 @@ export default React.createClass({
         }, 1);
     },
 
-    launchNoAllocationSource: function() {
-        noAllocationSource.showModal();
-    },
-
     loadBadgeData: function() {
         stores.BadgeStore.getAll(),
         stores.MyBadgeStore.getAll(),
@@ -78,24 +74,33 @@ export default React.createClass({
         // IMPORTANT! We get one shot at this. If the instances and volumes aren't
         // fetched before this component is mounted we miss our opportunity to migrate
         // the users resources (so make sure they're fetched in the Splash Screen)
-        var instances = stores.InstanceStore.getInstancesNotInAProject(),
+        var orphans = stores.InstanceStore.getInstancesNotInAProject(),
             volumes = stores.VolumeStore.getVolumesNotInAProject(),
             nullProject = new NullProject({
-                instances: instances,
+                instances: orphans,
                 volumes: volumes
             });
 
-        if (!modernizrTest.unsupported()) {
-            showUnsupportedModal.showModal(this.closeUnsupportedModal);
+        let instances = stores.InstanceStore.getAll();
+
+        if (globals.USE_ALLOCATION_SOURCES) {
+            // Filter instances without AS
+            let missing = instances.filter(i => true /* CHANGEME */ || !i.get("allocation_source"));
+            if (true /* CHANGEME */ || missing.length > 0) {
+                noAllocationSource.showModal(missing, () => {
+                    console.warn("implement maaay");
+                });
+            }
         }
 
         if (modernizrTest.unsupported()) {
-
             if (!nullProject.isEmpty()) {
                 actions.NullProjectActions.migrateResourcesIntoProject(nullProject);
             } else {
                 actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
             }
+        } else {
+            showUnsupportedModal.showModal(this.closeUnsupportedModal);
         }
 
         if (globals.BADGES_ENABLED) {
@@ -133,7 +138,6 @@ export default React.createClass({
         return (
         <div>
             <Header profile={ context.profile } currentRoute={ ['projects'] } maintenanceMessages={ maintenanceMessages } />
-            <a style={{margin: "80px 10px", display: "block"}} onClick={this.launchNoAllocationSource}>Test Modal</a>
             <div id="main" style={ { 'marginTop': marginTop } }>
                 <RouteHandler/>
             </div>

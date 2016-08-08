@@ -4,8 +4,7 @@ import NoAllocationSourceModal from 'components/modals/allocationSource/NoAlloca
 
 
 export default {
-    showModal: function (instancesToAssign, callback) {
-      ModalHelpers.renderModal(NoAllocationSourceModal, function (instances) {
-      });
+    showModal: function (instances, callback) {
+      ModalHelpers.renderModal(NoAllocationSourceModal, { instances }, callback);
     }
 };

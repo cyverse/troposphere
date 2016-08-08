@@ -9,6 +9,7 @@ export default React.createClass({
       mixins: [BootstrapModalMixin],
 
       propTypes: {
+          instances: React.PropTypes.array.isRequired
       },
 
       //
@@ -21,17 +22,22 @@ export default React.createClass({
       },
 
       confirm: function () {
+        // NOTE: onConfirm could launch a modal, so hide first.
         this.hide();
+        this.props.onConfirm();
       },
 
-      //
-      // Render
-      // ------
-      //
+      renderInstances: function () {
+          return this.props.instances.map((instance, index) => {
+              return <p key={index}>{ instance.get("name") }</p>;
+          });
+      },
+
       renderBody: function () {
         return (
           <div role='form'>
               <p>{"Looks like you have some instances without an Allocation Source!"}</p>
+              { this.renderInstances() }
           </div>
         );
       },
