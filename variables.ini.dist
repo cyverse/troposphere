@@ -2,6 +2,7 @@
 SERVER_URL =
 ASSETS_PATH =
 THEME_PATH =
+THEME_NAME =
 
 [nginx]
 ENABLE_HTTP2 = ; enable if http2 module available in nginx build
