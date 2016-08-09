@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Backbone from 'backbone';
 import stores from 'stores';
-import SelectMenu from 'components/common/ui/SelectMenu.react';
+import SelectMenu from 'components/common/ui/SelectMenu2.react';
 
 export default React.createClass({
     propTypes: {
@@ -23,22 +23,18 @@ export default React.createClass({
         ReactDOM.findDOMNode(this.refs.nameInput).select();
     },
 
-    onVersionChange: function(val) {
-        let version = this.props.versionList.get(val);
-        this.props.onVersionChange(version);
+    onVersionChange: function(current) {
+        this.props.onVersionChange(current);
     },
 
-    onProjectChange: function(val) {
-        let project = this.props.projectList.get(val);
-        this.props.onProjectChange(project);
+    onProjectChange: function(current) {
+        this.props.onProjectChange(current);
     },
 
 
    render: function () {
         let imageVersion = this.props.imageVersion;
-        let imageVersionId = imageVersion ? imageVersion.get('id') : null;
         let project = this.props.project;
-        let projectId = project ? project.get('id') : null;
         let projectList = this.props.projectList;
         let instanceName = this.props.instanceName;
         let instanceNameClasses = "form-group";
@@ -70,10 +66,10 @@ export default React.createClass({
                         Base Image Version
                     </label>
                     <SelectMenu
-                        defaultId={imageVersionId}
+                        current={imageVersion}
                         list={this.props.imageVersionList}
                         optionName={item => item.get('name')}
-                        onSelectChange={this.onVersionChange}
+                        onSelect={this.props.onVersionChange}
                     />
                 </div>
                 <div className="form-group">
@@ -81,10 +77,10 @@ export default React.createClass({
                         Project
                     </label>
                     <SelectMenu
-                        defaultId={projectId}
+                        current={project}
                         list={projectList}
                         optionName={item => item.get('name')}
-                        onSelectChange={this.onProjectChange}
+                        onSelect={this.props.onProjectChange}
                     />
                 </div>
             </form>

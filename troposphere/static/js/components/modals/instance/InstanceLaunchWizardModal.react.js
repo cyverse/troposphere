@@ -258,7 +258,7 @@ export default React.createClass({
         this.setState({instanceName});
     },
 
-    onVersionChange: function(VersionVal) {
+    onVersionChange: function(imageVersion) {
         let providerList = stores.ProviderStore.getProvidersForVersion(imageVersion);
         let providerSizeList;
         let providerSize;
