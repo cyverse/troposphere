@@ -13,8 +13,8 @@ export default backbone.Collection.extend({
     url: globals.API_V2_ROOT + "/allocation_sources",
 
     parse: function (response) {
-        console.warn("We are tampering with data until the api settles");
 
+        console.warn("We may be tampering with data until the api settles");
         // Ensure the api returns values for these fields
         let defaults = {
             compute_used: 100,
@@ -24,7 +24,8 @@ export default backbone.Collection.extend({
 
         let results = response.results.map(source => {
             Object.keys(defaults).forEach(f => {
-                if (!source[f]) {
+                if (source[f] == null) {
+                    console.warn("We are tampering with data "+f+" until the api settles");
                     source[f] = defaults[f];
                 }
             });
