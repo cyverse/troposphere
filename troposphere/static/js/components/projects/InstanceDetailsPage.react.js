@@ -32,7 +32,7 @@ export default React.createClass({
     },
 
     updateState() {
-        this.forceUpdate()
+        this.forceUpdate();
     },
 
     render() {

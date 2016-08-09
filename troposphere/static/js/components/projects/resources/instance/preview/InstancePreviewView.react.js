@@ -10,6 +10,7 @@ import CreatedFrom from '../details/sections/details/CreatedFrom.react';
 import Identity from '../details/sections/details/Identity.react';
 import AllocationSource from '../details/sections/details/AllocationSource.react';
 import stores from 'stores';
+import globals from 'globals';
 
 
 export default React.createClass({
@@ -23,7 +24,7 @@ export default React.createClass({
       var instance = stores.InstanceStore.get(this.props.instance.id),
         provider = instance ? stores.ProviderStore.get(instance.get('provider').id) : null;
 
-      let renderAllocationSource = true ? (
+      let renderAllocationSource = globals.USE_ALLOCATION_SOURCES ? (
           <AllocationSource instance={instance}/>
       ) : null;
 

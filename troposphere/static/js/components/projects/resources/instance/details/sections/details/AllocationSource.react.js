@@ -11,10 +11,6 @@ export default React.createClass({
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    // componentDidUpdate: function() {
-    //    stores.AllocationSourceStore.addChangeListener(setState());
-    // },
-
     render: function () { 
         let sourceList = stores.AllocationSourceStore.getAll();
         let sourceName;

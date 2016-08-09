@@ -60,7 +60,7 @@ export default React.createClass({
          gbLabel = "loading...";
 
         // Check if we have our models before using their backbone methods
-        if ( identityProvider && size && resourcesUsed) {
+        if (identityProvider && size && resourcesUsed) {
 
             // Calculate and set all of our graph information
 
