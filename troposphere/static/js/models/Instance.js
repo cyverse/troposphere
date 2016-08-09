@@ -59,7 +59,7 @@ export default Backbone.Model.extend({
             identityId = this.get('identity').uuid,
             name = options.name,
             size = options.size_alias,
-            allocation_source = options.allocation_source_id,
+            allocation_source_id = options.allocation_source_id,
             machine = options.machine_alias,
             scriptIDs = (options.scripts) ? options.scripts.map(function(script) {return script.id;}) : [];
 
@@ -76,7 +76,7 @@ export default Backbone.Model.extend({
             name: name,
             machine_alias: machine,
             size_alias: size,
-            allocation_source_id: allocation_source,
+            allocation_source_id: allocation_source_id,
             scripts: scriptIDs
           }
         });
