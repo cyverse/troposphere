@@ -15,17 +15,9 @@
     <script type="text/javascript">
         var BASE_URL = "{{ BASE_URL }}";
 
-        {% if API_ROOT %}
-            var API_ROOT = "{{ API_ROOT }}";
-        {% endif %}
-    </script>
-    <script type="text/javascript" src="{{ BASE_URL }}/assets/resources/js/viz.js"></script>
-    <script type="text/javascript">
-        $(function () {
-            $('[data-toggle="modal"]').click(function () {
-                $('#cpu_modal').modal('show');
-            });
-        });
+    {% if API_ROOT %}
+        var API_ROOT = "{{ API_ROOT }}";
+    {% endif %}
     </script>
 </head>
 <body>
@@ -33,102 +25,32 @@
 
     <div id="login" class="row">
 
-        <!-- Interactive Graphic -->
-        <div class="col-md-6" >
+        <div class="col-md-12" >
             <div id="imgcontainer" class="center">
                 <img src="{{ THEME_URL }}/images/large_logo.png" alt="Log in to Atmosphere"/>
             </div>
-            <div id="visCarousel" class="carousel slide">
-                <div class="carousel-inner">
-                    <div class="active item">
-                        <div id="first_viz"></div>
-                        <h3>Accelerating research with the cloud!</h3>
-                        <h4>Atmosphere's <strong>top eight users</strong> have used<br>over <strong><span
-                                id="total_cpu_time">0</span> CPU hours since</strong> July 2012.</h4>
-                        <h5>Log in to find out how many you've used!</h5>
+            <h1>Atmosphere is under planned maintenance</h1>
+            <h2>
+                <small color="#444">{{ ORG_NAME }} Cloud Services</small>
+            </h2>
 
-                        <p><a href="#" data-toggle="modal">What's a CPU Hour?</a></p>
-                    </div>
-                </div>
-
-                <!--<a class="carousel-control left" href="#visCarousel" data-slide="prev">&lsaquo;</a>
-						<a class="carousel-control right" href="#visCarousel" data-slide="next">&rsaquo;</a>-->
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <!-- Login Box  -->
-
-            <div class="login-box" style="margin-left: auto; margin-right: auto">
-                <h1>Atmosphere</h1>
-
-                <h2>
-                    <small color="#444">{{ ORG_NAME }} Cloud Services</small>
-                </h2>
-
-                <br/>
-                <br/>
-
+            <div class="center" style="width: 50%; margin-left: auto; margin-right: auto">
                 {% for record in records %}
                     <div class='maintenance-message'
-                         id='maintenance-record-{{ record.id }}'><i class="glyphicon glyphicon-info-sign
-					  icon-white"></i>
-                        {% if record.provider %}
-                            {{ record.provider }} {{ record.message }}
-                        {% else %}
-                            {{ record.message }}
-                        {% endif %}</div>
+                         id='maintenance-record-{{ record.id }}'>
+                        <i class="glyphicon glyphicon-info-sign icon-white"></i>
+                    {% if record.provider %}
+                        {{ record.provider }} {{ record.message }}
+                    {% else %}
+                        {{ record.message }}
+                    {% endif %}</div>
                 {% endfor %}
-
-                {% csrf_token %}
-                {% if disable_login == False %}
-                <a class="submitButton" href="{{ BASE_URL }}/login">
-                        Log in with your {{ ORG_NAME }} ID
-                    </a>
-                {% else %}
-                {% endif %}
-
-                <a href="https://user.iplantcollaborative.org/reset/request">Forgot Password?</a>
-                <a href="https://user.iplantcollaborative.org/register/">Register Now</a>
             </div>
         </div>
+
     </div>
 </div>
 
-<!--div id="cpu_modal" class="modal hide fade">
-	<div class="modal-header" style="text-align: left">
-		<h3>CPU Hours on Atmosphere</h3>
-	</div>
-	<div class="modal-body" style="text-align: left">
-		<p>A CPU hour is a CPU core used for one hour. For example, an instance that uses four CPU cores will consume four CPU hours for every hour that it is running.</p>
-
-		<p>When your instance is stopped or paused, it will not contribute to the number of CPU hours your instances have used.</p>
-
-	</div>
-	<div class="modal-footer">
-		<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-	</div>
-</div-->
-
-<div id="cpu_modal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header" style="text-align: left;">
-                <h3>CPU Hours on Atmosphere</h3>
-            </div>
-            <div class="modal-body" style="text-align: left;">
-                <p>A CPU hour is a CPU core used for one hour. For example, an instance that uses four CPU cores will
-                    consume four CPU hours for every hour that it is running.</p>
-
-                <p>When your instance is stopped or paused, it will not contribute to the number of CPU hours your
-                    instances have used.</p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 </body>

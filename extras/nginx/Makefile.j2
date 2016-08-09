@@ -1,7 +1,5 @@
 TROPOSPHERE_PATH={{TROPOSPHERE_PATH}}
 BUNDLE_PATH={{ CERT_DIR }}/{{ BUNDLE_FILE }}
-CERT_PATH={{ CERT_DIR }}/{{ CERT_FILE }}
-COMBINED_CERT_PATH={{ CERT_DIR }}/{{ COMBINED_CERT_FILE }}
 DHPARAM={{ DHPARAM }}
 LOCATIONS_DIR={{ LOCATIONS_DIR }}
 KEY_PATH={{ KEY_PATH }}/{{ KEY_FILE }}
@@ -35,10 +33,7 @@ setup-site:
 setup-tropo:
 	$(VIRTUALENV_PATH)/bin/python $(TROPOSPHERE_PATH)/configure -c nginx:nginx-tropo
 
-$(COMBINED_CERT_PATH):
-	cat $(CERT_PATH) $(BUNDLE_PATH) > $(COMBINED_CERT_PATH)
-
-deploy: $(COMBINED_CERT_PATH) setup $(DHPARAM) unlink deploy-tropo
+deploy: setup $(DHPARAM) unlink deploy-tropo
 	mkdir -p $(SITES_AVAILABLE_DIR)
 	mkdir -p $(SITES_ENABLED_DIR)
 	ln -fs $(TROPOSPHERE_PATH)/extras/nginx/$(SITE_FILE) $(SITES_AVAILABLE_DIR)/$(SITE_FILE)
@@ -64,7 +59,6 @@ restart:
 	service nginx restart
 
 clean: unlink
-	-rm $(COMBINED_CERT_PATH)
 	-rm $(SITE_CONFIG)
 	-rm $(TROPO_CONFIG)
 	-rm $(DHPARAM)
