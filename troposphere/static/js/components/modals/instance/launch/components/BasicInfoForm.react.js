@@ -23,15 +23,6 @@ export default React.createClass({
         ReactDOM.findDOMNode(this.refs.nameInput).select();
     },
 
-    onVersionChange: function(current) {
-        this.props.onVersionChange(current);
-    },
-
-    onProjectChange: function(current) {
-        this.props.onProjectChange(current);
-    },
-
-
    render: function () {
         let imageVersion = this.props.imageVersion;
         let project = this.props.project;
