@@ -71,7 +71,7 @@ export default React.createClass({
     onWebDesktop: function(ipAddr, instance) {
         // TODO:
         //      move this into a utilties file
-        var CSRFToken = findCookie("csrftoken");
+        var CSRFToken = findCookie("tropo_csrftoken");
 
         // build a form to POST to web_desktop
         var form = $('<form>')
@@ -134,12 +134,14 @@ export default React.createClass({
       }
 
       if ( activity === "deploying" || status === "deploying"
+        || activity === "user_deploy_error"|| status === "user_deploy_error"
         || activity === "deploy_error"|| status === "deploy_error"
         || activity === "initializing" || activity === "boot_script_error") {
         linksArray.push({label: 'Redeploy', icon: 'repeat', onClick: this.onRedeploy});
       }
 
-      if (!inFinalState && status === "active" && activity === "networking") {
+      if (!inFinalState && status === "active" && (activity === "networking"
+        || activity === "running_boot_script")) {
           linksArray.push({label: 'Reboot', icon: 'repeat', onClick: this.onReboot});
           linksArray.push({label: 'Redeploy', icon: 'repeat', onClick: this.onRedeploy});
       }

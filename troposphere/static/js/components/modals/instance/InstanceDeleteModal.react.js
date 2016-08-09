@@ -19,7 +19,7 @@ export default React.createClass({
         this.props.onConfirm();
       },
 
-      renderBody: function () {
+      renderBody: function() {
         var instance = this.props.instance;
 
         return (
@@ -50,10 +50,12 @@ export default React.createClass({
         );
       },
 
-      render: function () {
+    render: function() {
+        let instance = this.props.instance,
+            disable = !instance && instance.get("id");
 
         return (
-          <div className="modal fade">
+        <div className="modal fade">
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
@@ -67,13 +69,16 @@ export default React.createClass({
                   <button type="button" className="btn btn-danger" onClick={this.hide}>
                     Cancel
                   </button>
-                  <button type="button" className="btn btn-primary" onClick={this.confirm}>
+                  <button disabled={disable}
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={this.confirm}>
                     Yes, delete this instance
                   </button>
                 </div>
               </div>
             </div>
-          </div>
+        </div>
         );
-      }
+    }
 });
