@@ -52,8 +52,11 @@ export default React.createClass({
 
     renderInstanceList: function (project) {
         return this.props.instances.map((instance, index) => {
+            let projectId = project.id;
+            let instanceProjId = instance.get('projects')[0];
 
-            if (true) {
+            if (instanceProjId === projectId) {
+                
                 return (
                     <li style={{
                             display: "flex", 
@@ -74,7 +77,7 @@ export default React.createClass({
         });
     },
     
-    renderProjectList: function(project) {
+    renderProject: function(project) {
         if (project.get('instances').length > 0) {
             return (
                 <div>
@@ -91,14 +94,14 @@ export default React.createClass({
     renderBody: function () {
         let projectList = () => {
             let list = this.state.projectList;
-            if (list) return list.map(this.renderProjectList);
+            if (list) return list.map(this.renderProject);
 
             return "Loading..."
         };
 
         return (
             <div role='form'>
-                <p>
+                <p style={{marginBottom: "40px"}}>
                     {"Looks like you have some instances without an Allocation Source. Below we have assigned them for you. Please review and make any changes you'd like. When you are finished confirm to continue your work."}
                 </p>          
                 { projectList() }
@@ -109,18 +112,25 @@ export default React.createClass({
 
     render: function () {
         var projects = stores.ProjectStore.getAll();
+
         return (
             <div className="modal fade">
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h1 className="t-headline">Select Allocation Sources for Your Instances</h1>
+                            <h1 className="t-headline">
+                                Select Allocation Sources for Your Instances
+                            </h1>
                         </div>
                         <div className="modal-body">
                             {this.renderBody()}
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-primary" onClick={this.confirm}>
+                            <button 
+                                type="button" 
+                                className="btn btn-primary" 
+                                onClick={this.confirm}
+                            >
                                 Confirm Selections
                             </button>
                         </div>
