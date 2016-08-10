@@ -68,7 +68,7 @@ export default React.createClass({
                         <b style={{whiteSpace: "nowrap"}}>
                             { instance.get('name') }
                         </b>
-                        <span style={{width: "40%", float: "right"}}>
+                        <span style={{width: "40%"}}>
                             <SelectMenu/>
                         </span>
                     </li>
