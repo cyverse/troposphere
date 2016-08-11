@@ -67,7 +67,7 @@ const DefaultModalView = React.createClass({
         let { allocationSource } = this.state.instanceAllocations[instance.id];
 
         return (
-        <div
+        <li
             key={ instance.id }
             style={{
                 display: "flex",
@@ -78,7 +78,7 @@ const DefaultModalView = React.createClass({
             <b style={{whiteSpace: "nowrap"}}>
                 { instance.get('name') }
             </b>
-            <span style={{width: "40%", float: "right"}}>
+            <span style={{ width: "40%" }}>
                 <SelectMenu
                     current={ allocationSource }
                     list={ allocationSources }
@@ -86,7 +86,7 @@ const DefaultModalView = React.createClass({
                     optionName={ as => as.get("name") }
                     />
             </span>
-        </div>
+        </li>
         )
     },
 
@@ -104,12 +104,12 @@ const DefaultModalView = React.createClass({
         let renderedInstances = orphans.map(this.renderInstance);
 
         return (
-            <div key={ name }>
-                <h2 className="t-title">{ `Project: ${name}` }</h2>
-                <ul style={{ padding: 0 }}>
-                    { renderedInstances }
-                </ul>
-            </div>
+        <div key={ name }>
+            <h2 className="t-title">{ `Project: ${name}` }</h2>
+            <ul style={{ padding: 0 }}>
+                { renderedInstances }
+            </ul>
+        </div>
         )
     },
 
