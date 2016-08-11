@@ -7,8 +7,6 @@ import InstanceState from './InstanceState';
 
 export default Backbone.Model.extend({
 
-      urlRoot: globals.API_V2_ROOT + "/instances",
-
       initialize: function(){
         if(this.get('start_date')){
             this.set('start_date', new Date(this.get('start_date')));
