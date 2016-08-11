@@ -1,13 +1,11 @@
-import backbone from 'backbone';
+import Backbone from 'backbone';
+
 import AllocationSource from 'models/AllocationSource';
 import globals from 'globals';
-import _ from 'underscore';
-
-import allocationSources from 'mockdata/allocationSources.json';
+import { api } from 'mock/allocationSources.js';
 import mockSync from 'utilities/mockSync';
 
-
-export default backbone.Collection.extend({
+export default Backbone.Collection.extend({
     model: AllocationSource,
 
     url: globals.API_V2_ROOT + "/allocation_sources",
@@ -35,6 +33,6 @@ export default backbone.Collection.extend({
     },
 
     sync: globals.USE_MOCK_DATA 
-          ? mockSync(allocationSources)
+          ? mockSync(api)
           : Backbone.sync
 });

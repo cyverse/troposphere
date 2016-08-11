@@ -1,12 +1,13 @@
 import $ from 'jquery';
 
-export default function mockSyncDecorator(fakeData) {
+export default function mockSyncDecorator(fakeData, delay = 50) {
     return function(method, collection, options) {
         let deferred = $.Deferred();
         setTimeout(() => {
-            collection.reset(fakeData.map(item => new collection.model(item)));
+            let parsed = this.parse(fakeData);
+            collection.reset(parsed.map(item => new collection.model(item)));
             deferred.resolve(collection);
-        }, 50);
+        }, delay);
         return deferred;
     }
 }
