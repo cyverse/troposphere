@@ -1,20 +1,21 @@
 import React from 'react';
 import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+
 import modernizrTest from 'components/modals/unsupported/modernizrTest.js';
 import BreakingFeatureList from 'components/modals/unsupported/BreakingFeatureList.react';
 import chrome from 'images/google_chrome_icon.png';
 import firefox from 'images/firefox_icon.png';
 import safari from 'images/safari_icon.png';
+import ModalHelpers from 'components/modals/ModalHelpers';
 
-
-export default React.createClass({
+const UnsupportedModal = React.createClass({
     displayName: "UnsupportedModal",
 
     mixins: [BootstrapModalMixin],
 
     confirm: function () {
-         this.props.closeUnsupportedModal();
          this.hide();
+         this.props.onConfirm();
     },
 
     render: function () {
@@ -53,7 +54,7 @@ export default React.createClass({
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h3>{this.props.header}</h3>
+                  <h3>Unsupported Features</h3>
                 </div>
                 <div className="modal-body">
                 {content}
@@ -69,3 +70,15 @@ export default React.createClass({
     }
 });
 
+const showModal = function(callback) {
+
+    let props = {
+        backdrop:"static",
+        keyboard:false
+    };
+
+    ModalHelpers.renderModal(UnsupportedModal, props, callback);
+}
+
+export { UnsupportedModal as default };
+export { showModal };

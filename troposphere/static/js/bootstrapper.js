@@ -112,6 +112,7 @@ modals.ProjectModals = require('modals/ProjectModals');
 modals.TagModals = require('modals/TagModals');
 modals.VersionModals = require('modals/VersionModals');
 modals.VolumeModals = require('modals/VolumeModals');
+modals.UnsupportedModal = require('modals/UnsupportedModal');
 
 export default {
     run: function () {
