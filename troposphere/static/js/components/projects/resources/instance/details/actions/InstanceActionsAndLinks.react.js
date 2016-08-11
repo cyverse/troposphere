@@ -71,7 +71,7 @@ export default React.createClass({
     onWebDesktop: function(ipAddr, instance) {
         // TODO:
         //      move this into a utilties file
-        var CSRFToken = findCookie("csrftoken");
+        var CSRFToken = findCookie("tropo_csrftoken");
 
         // build a form to POST to web_desktop
         var form = $('<form>')
