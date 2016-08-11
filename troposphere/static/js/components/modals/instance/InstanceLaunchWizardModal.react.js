@@ -400,7 +400,7 @@ export default React.createClass({
 
     // Returns true if instance launch will exceed the user's allotted
     // resources.
-    exceedsResources: function(consumed, total) {
+    exceedsResources: function() {
         let provider = this.state.provider;
         let identityProvider = this.state.identityProvider;
         let size = this.state.providerSize;
