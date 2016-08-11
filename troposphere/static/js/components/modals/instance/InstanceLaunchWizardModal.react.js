@@ -27,8 +27,6 @@ import BasicLaunchStep from './launch/steps/BasicLaunchStep.react';
 import AdvancedLaunchStep from './launch/steps/AdvancedLaunchStep.react';
 import LicenseStep from './launch/steps/LicenseStep.react';
 
-// For now, we can use this as our truth 
-let AllocationSourceStore = stores.AllocationSourceStore;
 // This class implements the instance launch walkthrough. By design it keeps
 // track of two states. First is the state for switching between separate
 // views of the modal. The second is the state for launching an actual
@@ -554,7 +552,7 @@ export default React.createClass({
 
         let allocationSourceList;
         if (globals.USE_ALLOCATION_SOURCES) {
-            allocationSourceList = AllocationSourceStore.getAll();
+            allocationSourceList = stores.AllocationSourceStore.getAll();
         }
 
         return (
