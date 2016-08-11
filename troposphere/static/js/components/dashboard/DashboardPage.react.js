@@ -1,9 +1,9 @@
 import React from 'react';
 import Backbone from 'backbone';
+
 import globals from 'globals';
 import modals from 'modals';
 import stores from 'stores';
-
 import InstanceHistoryList from './InstanceHistoryList.react';
 import MaintenanceMessageList from './MaintenanceMessageList.react';
 import ResourceStatusSummaryPlot from './plots/ResourceStatusSummaryPlot.react';
@@ -57,12 +57,9 @@ export default React.createClass({
             return <div className='loading'></div>;
         }
 
-        let renderAllocationPlot = true ? 
-            <AllocationSourcePlot/> :
-            <ProviderAllocationPlot
-                providers={providers}
-                identities={identities}
-            />;
+        let renderAllocationPlot = globals.USE_ALLOCATION_SOURCES
+            ? <AllocationSourcePlot />
+            : <ProviderAllocationPlot providers={providers} identities={identities} />;
 
         return (
             <div id="dashboard-view">
