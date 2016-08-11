@@ -6,7 +6,7 @@ import globals from 'globals';
 import Header from './Header.react';
 import Footer from './Footer.react';
 import actions from 'actions';
-import showUnsupportedModal from 'modals/unsupported/showUnsupportedModal.js';
+import modals from 'modals';
 import modernizrTest from 'components/modals/unsupported/modernizrTest.js';
 import NullProject from 'models/NullProject';
 import noAllocationSource from 'modals/allocationSource/noAllocationSource.js';
@@ -35,26 +35,6 @@ export default React.createClass({
         if (this.isMounted()) this.setState(this.getState())
     },
 
-    closeUnsupportedModal: function() {
-        var instances = stores.InstanceStore.getInstancesNotInAProject(),
-            volumes = stores.VolumeStore.getVolumesNotInAProject(),
-            nullProject = new NullProject({
-                instances: instances,
-                volumes: volumes
-            });
-
-        //setTimout is a Hack. We need to let the first modal unmount before calling getDOMNode
-        //on the second modal, else we get an err "Invariant Violation: getDOMNode():".
-        //See https://github.com/facebook/react/issues/2410 for other solutions
-        setTimeout(function() {
-            if (!nullProject.isEmpty()) {
-                actions.NullProjectActions.migrateResourcesIntoProject(nullProject);
-            } else {
-                actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
-            }
-        }, 1);
-    },
-
     loadBadgeData: function() {
         stores.BadgeStore.getAll(),
         stores.MyBadgeStore.getAll(),
@@ -67,6 +47,10 @@ export default React.createClass({
         Object.keys(stores).forEach(function(storeName) {
             stores[storeName].addChangeListener(this.updateState);
         }.bind(this));
+
+        if (globals.BADGES_ENABLED) {
+            this.loadBadgeData();
+        }
 
         // The code below is only relevant to logged in users
         if (!context.hasLoggedInUser()) return;
@@ -83,30 +67,33 @@ export default React.createClass({
 
         let instances = stores.InstanceStore.getAll();
 
-        if (globals.USE_ALLOCATION_SOURCES) {
-            // Filter instances without AS
-            let missing = instances.filter(i => true /* CHANGEME */ || !i.get("allocation_source"));
-            if (true /* CHANGEME */ || missing.length > 0) {
-                noAllocationSource.showModal(missing, () => {
-                    console.warn("implement maaay");
-                });
-            }
-        }
+        let promise = new Promise((resolve, reject) => {
+            if (globals.USE_ALLOCATION_SOURCES) {
+                // Filter instances without AS
+                let missing = instances.cfilter(i => !i.get("allocation_source"));
 
-        if (modernizrTest.unsupported()) {
-            if (!nullProject.isEmpty()) {
-                actions.NullProjectActions.migrateResourcesIntoProject(nullProject);
+                if (missing.length > 0) {
+                    noAllocationSource.showModal(missing, resolve);
+                }
             } else {
-                actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
+                // Continue on to the next promise
+                resolve();
             }
-        } else {
-            showUnsupportedModal.showModal(this.closeUnsupportedModal);
-        }
+        }).then(
 
-        if (globals.BADGES_ENABLED) {
-            this.loadBadgeData();
-        }
+            // After the previous promise was resolved, we create this promise
+            // to launch the next modal if we need to
+            () => new Promise((resolve, reject) => {
+                modernizrTest.unsupported()
+                ? modals.UnsupportedModal.showModal(resolve)
+                : resolve()
+            })
 
+        ).then(() => {
+            !nullProject.isEmpty()
+            ? actions.NullProjectActions.migrateResourcesIntoProject(nullProject)
+            : actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject()
+        })
     },
 
     componentWillUnmount: function() {

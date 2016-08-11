@@ -1,142 +1,310 @@
 import React from 'react';
 import Backbone from 'backbone';
+import _ from 'underscore';
+
 import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 import stores from 'stores';
-
+import globals from 'globals';
 import SelectMenu from 'components/common/ui/SelectMenu2.react';
+import EventActions from "actions/EventActions";
+import EventConstants from "constants/EventConstants";
 
-function getProjectState() {
-    return {
-        projectList: stores.ProjectStore.getAll()
-    };
-}
+const DefaultModalView = React.createClass({
+    displayName: "NoAllocationSourceDefaultModalView",
 
-export default React.createClass({
-    displayName: "NoAllocationSourceModal",
+    propTypes: {
+        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        projects: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        allocationSources: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        onConfirm: React.PropTypes.func.isRequired
+    },
+
+    getInitialState() {
+        return this.getStateFromProps(this.props);
+    },
+
+    componentWillReceiveProps(props) {
+        this.setState(this.getStateFromProps(props));
+    },
+
+    getStateFromProps(props) {
+        let { allocationSources, instances } = this.props;
+
+        // This is a structure for the pairing of (instance, allocationSource)
+        // Ex. { instance.id:  { instance, allocationSource }}
+        let instanceAllocations = {};
+        let defaultAllocation = allocationSources.first();
+
+        // Create a default pairing for each instance
+        instances.forEach(instance => {
+            instanceAllocations[instance.id] = {
+                allocationSource: defaultAllocation,
+                instance
+            }
+        })
+
+        return {
+            instanceAllocations,
+        }
+    },
+
+    onConfirm() {
+        // instanceAllocations takes the form of:
+        // {
+        //     instanceId: { allocationSource, instance }
+        // }
+        let { instanceAllocations } = this.state;
+
+        // Flatten it to:
+        // [ { allocationSource, instance } ]
+        let flattened = _.values(instanceAllocations);
+
+        this.props.onConfirm(flattened);
+    },
+
+    renderInstance(instance) {
+        let { allocationSources } = this.props;
+        let { allocationSource } = this.state.instanceAllocations[instance.id];
+
+        return (
+        <div
+            key={ instance.id }
+            style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "0px 0px 10px 10px",
+            }} >
+            <b style={{whiteSpace: "nowrap"}}>
+                { instance.get('name') }
+            </b>
+            <span style={{width: "40%", float: "right"}}>
+                <SelectMenu
+                    current={ allocationSource }
+                    list={ allocationSources }
+                    onSelect={ as => this.pairInstanceWithAllocation(instance, as) }
+                    optionName={ as => as.get("name") }
+                    />
+            </span>
+        </div>
+        )
+    },
+
+    pairInstanceWithAllocation(instance, allocationSource) {
+        let { instanceAllocations } = this.state;
+        instanceAllocations[instance.id] = {
+            instance,
+            allocationSource,
+        }
+        this.setState({ instanceAllocations });
+    },
+
+    renderProject(project, orphans) {
+        let name = project.get('name');
+        let renderedInstances = orphans.map(this.renderInstance);
+
+        return (
+            <div key={ name }>
+                <h2 className="t-title">{ `Project: ${name}` }</h2>
+                <ul style={{ padding: 0 }}>
+                    { renderedInstances }
+                </ul>
+            </div>
+        )
+    },
+
+    renderProjectList(renderedProjects, project) {
+        let orphans = this.props.instances;
+        let projectInstances = project.get('instances');
+
+        // Get project instances that are orphans (missing an
+        // allocationSource)
+        let projectOrphans = orphans.filter(
+            a => projectInstances.some(b => a.id == b.id)
+        );
+
+        // If the project has orphan instances, render that project
+        if (projectOrphans.length > 0) {
+            renderedProjects.push(this.renderProject(project, projectOrphans));
+        }
+
+        return renderedProjects;
+    },
+
+    renderBody() {
+        let { projects, instances, allocationSources } = this.props;
+
+        // Render each project that needs updated instances
+        let renderedProjects = projects.reduce(this.renderProjectList, []);
+
+        return (
+            <div role='form'>
+                <p>
+                    It looks like you have instances without an Allocation
+                    Source. When an instance is active it will use up
+                    allocation from its Allocation Source.
+                </p>
+                <p>
+                    Review that these are okay.
+                </p>
+                <hr className="hr" />
+                { renderedProjects }
+            </div>
+        );
+    },
+
+    render() {
+        return (
+        <div className="modal-content">
+            <div className="modal-header">
+                <h1 className="t-headline">
+                    Confirm Allocation Sources for Your Instances
+                </h1>
+            </div>
+            <div className="modal-body">
+                {
+                    this.renderBody()
+                }
+            </div>
+            <div className="modal-footer">
+                <button type="button"
+                        className="btn btn-primary"
+                        onClick={ this.onConfirm }>
+                    Confirm Selections
+                </button>
+            </div>
+        </div>
+        );
+    }
+});
+
+const LoadingModalView = React.createClass({
+    displayName: "NoAllocationSourceLoadingModalView",
+
+    render() {
+
+        let containerStyle = {
+            position: "absolute",
+            width: "100%",
+            display: "flex",
+            top: "0",
+            left: "0",
+            bottom: "0",
+            alignItems: "center",
+        };
+
+        return (
+        <div className="modal-content">
+            <div style={{ position: "relative" }} className="modal-body">
+                <div style={ containerStyle }>
+                    <div className="loading"></div>
+                </div>
+            </div>
+        </div>
+        );
+    },
+})
+
+const ErrorModalView = React.createClass({
+    displayName: "NoAllocationSourceErrorModalView",
+
+    render() {
+        return (
+        <div className="modal-content">
+            <div className="modal-header">
+                <h1 className="t-headline">
+                    Confirm Allocation Sources for Your Instances
+                </h1>
+            </div>
+            <div className="modal-body">
+                <div>
+                    <p>
+                        Atmosphere requires that every instance has an allocation source.
+                    </p>
+                    <p>
+                        It looks like you do not have any allocation sources.
+                        Please contact support at: { globals.SUPPORT_EMAIL }
+                    </p>
+                </div>
+            </div>
+        </div>
+        );
+    },
+});
+
+const ModalBackend = React.createClass({
+    displayName: "NoAllocationSourceModalBackend",
 
     mixins: [BootstrapModalMixin],
 
     propTypes: {
-        instances: React.PropTypes.array.isRequired
+        instances: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        onConfirm: React.PropTypes.func.isRequired
     },
 
-    //
-    // Mounting & State
-    // ----------------
-    //
-    getInitialState: function() {
-        return getProjectState();
+    componentDidMount() {
+        stores.ProjectStore.addChangeListener(this.updateState);
+
+        if (globals.USE_ALLOCATION_SOURCES) {
+            stores.AllocationSourceStore.addChangeListener(this.updateState);
+        }
+
+        this.updateState();
     },
 
-    updateProjects: function() {
-        if (this.isMounted()) this.setState(getProjectState());
-    },
+    onConfirm(pairs) {
+        // Pairs represent the pairing of an instance to an allocation source
+        // pairs = [{ instance, allocationSource }, ...]
+        pairs.forEach(pair => {
+            let { instance, allocationSource } = pair;
+            EventActions.fire(
+                EventConstants.ALLOCATION_SOURCE_CHANGE,
+                { instance, allocationSource }
+            )
+        })
 
-    componentDidMount: function() {
-        stores.ProjectStore.addChangeListener(this.updateProjects);
-    },
-
-    componentWillUnmount: function() {
-        stores.ProjectStore.removeChangeListener(this.updateProjects);
-    },
- 
-    // Internal Modal Callbacks
-    // ------------------------
-    //
-
-    confirm: function () {
-        // NOTE: onConfirm could launch a modal, so hide first.
         this.hide();
         this.props.onConfirm();
     },
 
-    renderInstanceList: function (project) {
-        return this.props.instances.map((instance, index) => {
-            let projectId = project.id;
-            let instanceProjId = instance.get('projects')[0];
+    componentWillUnmount() {
+        stores.ProjectStore.removeChangeListener(this.updateState);
 
-            if (instanceProjId === projectId) {
-                
-                return (
-                    <li style={{
-                            display: "flex", 
-                            alignItems: "center", 
-                            justifyContent: "space-between",
-                            padding: "0px 0px 10px 10px",
-                        }}
-                    >
-                        <b style={{whiteSpace: "nowrap"}}>
-                            { instance.get('name') }
-                        </b>
-                        <span style={{width: "40%"}}>
-                            <SelectMenu/>
-                        </span>
-                    </li>
-                )
-            }
-        });
-    },
-    
-    renderProject: function(project) {
-        if (project.get('instances').length > 0) {
-            return (
-                <div>
-                    <h2 className="t-title">{ `${project.get('name')} Project` }</h2>
-                    <hr className="hr" />
-                    <ul style={{padding: 0}}>
-                        { this.renderInstanceList(project) }
-                    </ul>
-                </div>
-            )
+        if (globals.USE_ALLOCATION_SOURCES) {
+            stores.AllocationSourceStore.removeChangeListener(this.updateState);
         }
+
     },
 
-    renderBody: function () {
-        let projectList = () => {
-            let list = this.state.projectList;
-            if (list) return list.map(this.renderProject);
-
-            return "Loading..."
-        };
-
-        return (
-            <div role='form'>
-                <p style={{marginBottom: "40px"}}>
-                    {"Looks like you have some instances without an Allocation Source. Below we have assigned them for you. Please review and make any changes you'd like. When you are finished confirm to continue your work."}
-                </p>          
-                { projectList() }
-
-            </div>
-        );
+    updateState() {
+        this.forceUpdate();
     },
 
-    render: function () {
-        var projects = stores.ProjectStore.getAll();
+    render() {
+        let projects = stores.ProjectStore.getAll();
+        let allocationSources = stores.AllocationSourceStore.getAll();
+        let loading = !(projects && allocationSources);
+
+        let props = {
+            allocationSources,
+            projects,
+            instances: this.props.instances,
+            onConfirm: this.onConfirm,
+        }
+
+        let body = loading
+            ? <LoadingModalView />
+            : <DefaultModalView { ...props } />
 
         return (
-            <div className="modal fade">
-                <div className="modal-dialog">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h1 className="t-headline">
-                                Select Allocation Sources for Your Instances
-                            </h1>
-                        </div>
-                        <div className="modal-body">
-                            {this.renderBody()}
-                        </div>
-                        <div className="modal-footer">
-                            <button 
-                                type="button" 
-                                className="btn btn-primary" 
-                                onClick={this.confirm}
-                            >
-                                Confirm Selections
-                            </button>
-                        </div>
-                    </div>
-                </div>
+        <div className="modal fade">
+            <div className="modal-dialog">
+                { body }
             </div>
+        </div>
         );
     }
 });
+
+export { ModalBackend as default };
+export { LoadingModalView, DefaultModalView };

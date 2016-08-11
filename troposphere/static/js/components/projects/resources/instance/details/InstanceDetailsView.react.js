@@ -9,7 +9,7 @@ import InstanceMetricsSection from "./sections/InstanceMetricsSection.react";
 import AllocationSourceSection from "./sections/AllocationSourceSection.react";
 import InstanceActionsAndLinks from "./actions/InstanceActionsAndLinks.react";
 import EventActions from "actions/EventActions";
-import EventTypes from "constants/EventConstants";
+import EventConstants from "constants/EventConstants";
 
 export default React.createClass({
     displayName: "InstanceDetailsView",
@@ -20,16 +20,11 @@ export default React.createClass({
         allocationSources: React.PropTypes.instanceOf(Backbone.Collection),
     },
 
-
-    onSourceChange(source) {
+    onSourceChange(allocationSource) {
         let instance = this.props.instance;
         EventActions.fire(
-            EventTypes.ALLOCATION_SOURCE_CHANGE,
-            instance.get("user").username,
-            {
-                allocation_source_id: source.get("source_id"),
-                instance_id: instance.get("uuid")
-            }
+            EventConstants.ALLOCATION_SOURCE_CHANGE,
+            { instance, allocationSource }
         )
     },
 
