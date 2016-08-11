@@ -32,6 +32,8 @@ export default React.createClass({
     displayName: "PercentageGraph",
 
     propTypes: {
+        seriesData: React.PropTypes.array.isRequired,
+        categories: React.PropTypes.array.isRequired
     },
 
     //
