@@ -30,6 +30,7 @@ function launch(params) {
         instanceName = params.instanceName,
         identity = params.identity,
         size = params.size,
+        allocation_source_id = params.allocation_source_id,
         machine = params.machine,
         scripts = params.scripts;
 
@@ -67,6 +68,7 @@ function launch(params) {
         name: instanceName,
         size_alias: size.get('alias'),
         machine_alias: machine.uuid,
+        allocation_source_id: allocation_source_id,
         scripts: scripts,
     }).done(function(attrs, status, response) {
         instance.set('id', attrs.id);

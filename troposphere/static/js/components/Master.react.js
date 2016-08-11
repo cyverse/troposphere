@@ -6,9 +6,10 @@ import globals from 'globals';
 import Header from './Header.react';
 import Footer from './Footer.react';
 import actions from 'actions';
-import showUnsupportedModal from 'modals/unsupported/showUnsupportedModal.js';
+import modals from 'modals';
 import modernizrTest from 'components/modals/unsupported/modernizrTest.js';
 import NullProject from 'models/NullProject';
+import noAllocationSource from 'modals/allocationSource/noAllocationSource.js';
 
 import Router from 'react-router';
 import { RouteHandler } from 'react-router';
@@ -34,26 +35,6 @@ export default React.createClass({
         if (this.isMounted()) this.setState(this.getState())
     },
 
-    closeUnsupportedModal: function() {
-        var instances = stores.InstanceStore.getInstancesNotInAProject(),
-            volumes = stores.VolumeStore.getVolumesNotInAProject(),
-            nullProject = new NullProject({
-                instances: instances,
-                volumes: volumes
-            });
-
-        //setTimout is a Hack. We need to let the first modal unmount before calling getDOMNode
-        //on the second modal, else we get an err "Invariant Violation: getDOMNode():".
-        //See https://github.com/facebook/react/issues/2410 for other solutions
-        setTimeout(function() {
-            if (!nullProject.isEmpty()) {
-                actions.NullProjectActions.migrateResourcesIntoProject(nullProject);
-            } else {
-                actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
-            }
-        }, 1);
-    },
-
     loadBadgeData: function() {
         stores.BadgeStore.getAll(),
         stores.MyBadgeStore.getAll(),
@@ -67,36 +48,52 @@ export default React.createClass({
             stores[storeName].addChangeListener(this.updateState);
         }.bind(this));
 
+        if (globals.BADGES_ENABLED) {
+            this.loadBadgeData();
+        }
+
         // The code below is only relevant to logged in users
         if (!context.hasLoggedInUser()) return;
 
         // IMPORTANT! We get one shot at this. If the instances and volumes aren't
         // fetched before this component is mounted we miss our opportunity to migrate
         // the users resources (so make sure they're fetched in the Splash Screen)
-        var instances = stores.InstanceStore.getInstancesNotInAProject(),
+        var orphans = stores.InstanceStore.getInstancesNotInAProject(),
             volumes = stores.VolumeStore.getVolumesNotInAProject(),
             nullProject = new NullProject({
-                instances: instances,
+                instances: orphans,
                 volumes: volumes
             });
 
-        if (!modernizrTest.unsupported()) {
-            showUnsupportedModal.showModal(this.closeUnsupportedModal);
-        }
+        let instances = stores.InstanceStore.getAll();
 
-        if (modernizrTest.unsupported()) {
+        let promise = new Promise((resolve, reject) => {
+            if (globals.USE_ALLOCATION_SOURCES) {
+                // Filter instances without AS
+                let missing = instances.cfilter(i => !i.get("allocation_source"));
 
-            if (!nullProject.isEmpty()) {
-                actions.NullProjectActions.migrateResourcesIntoProject(nullProject);
+                if (missing.length > 0) {
+                    noAllocationSource.showModal(missing, resolve);
+                }
             } else {
-                actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
+                // Continue on to the next promise
+                resolve();
             }
-        }
+        }).then(
 
-        if (globals.BADGES_ENABLED) {
-            this.loadBadgeData();
-        }
+            // After the previous promise was resolved, we create this promise
+            // to launch the next modal if we need to
+            () => new Promise((resolve, reject) => {
+                modernizrTest.unsupported()
+                ? modals.UnsupportedModal.showModal(resolve)
+                : resolve()
+            })
 
+        ).then(() => {
+            !nullProject.isEmpty()
+            ? actions.NullProjectActions.migrateResourcesIntoProject(nullProject)
+            : actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject()
+        })
     },
 
     componentWillUnmount: function() {

@@ -130,6 +130,18 @@
     var show_instance_metrics = false;
 {% endif %}
 
+{% if USE_MOCK_DATA %}
+    var USE_MOCK_DATA = true;
+{%  else %}
+    var USE_MOCK_DATA = false;
+{% endif %}
+
+{% if USE_ALLOCATION_SOURCES %}
+    var USE_ALLOCATION_SOURCES = true;
+{%  else %}
+    var USE_ALLOCATION_SOURCES = false;
+{% endif %}
+
 {% if notice %}
     var maint_notice = "{{ notice }}"
 {% endif %}

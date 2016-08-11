@@ -3,6 +3,11 @@ import SelectMenu from 'components/common/ui/SelectMenu.react';
 import ScriptTags from './ScriptTags.react';
 
 export default React.createClass({
+
+    onAddAttachedScript: function(val) {
+        let script = this.props.bootScriptList.get(val);
+        this.props.onAddAttachedScript(script);
+    },
     render: function() {
         let scriptName = function(item) { return item.get('title') };
         return (
@@ -19,7 +24,7 @@ export default React.createClass({
                                 hintText="Select scripts to add to your instance"
                                 optionName = {scriptName}
                                 list={this.props.bootScriptList}
-                                onSelectChange={this.props.onAddAttachedScript}
+                                onSelectChange={this.onAddAttachedScript}
                             />
                         </div>
                         <div style={{textAlign:"center", marginBottom:"20px"}}>- OR -</div>

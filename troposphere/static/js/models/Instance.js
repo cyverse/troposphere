@@ -7,8 +7,6 @@ import InstanceState from './InstanceState';
 
 export default Backbone.Model.extend({
 
-      urlRoot: globals.API_V2_ROOT + "/instances",
-
       initialize: function(){
         if(this.get('start_date')){
             this.set('start_date', new Date(this.get('start_date')));
@@ -52,12 +50,14 @@ export default Backbone.Model.extend({
       createOnV1Endpoint: function (options, cb) {
         if (!options.name) throw new Error("Missing name");
         if (!options.size_alias) throw new Error("Missing size_alias");
+        if (!options.allocation_source_id) throw new Error("Missing allocation_source_id");
         if (!options.machine_alias) throw new Error("Missing machine_alias");
 
         var providerId = this.get('provider').uuid,
             identityId = this.get('identity').uuid,
             name = options.name,
             size = options.size_alias,
+            allocation_source_id = options.allocation_source_id,
             machine = options.machine_alias,
             scriptIDs = (options.scripts) ? options.scripts.map(function(script) {return script.id;}) : [];
 
@@ -74,6 +74,7 @@ export default Backbone.Model.extend({
             name: name,
             machine_alias: machine,
             size_alias: size,
+            allocation_source_id: allocation_source_id,
             scripts: scriptIDs
           }
         });

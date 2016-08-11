@@ -87,13 +87,12 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
         'show_public_site': public
     }
 
-    show_instance_metrics = getattr(settings, "SHOW_INSTANCE_METRICS", False)
-
     if public:
         template_params['disable_login'] = disabled_login
     else:
         template_params['disable_login'] = False
-        template_params['show_instance_metrics'] = show_instance_metrics
+        template_params['show_instance_metrics'] = \
+            getattr(settings, "SHOW_INSTANCE_METRICS", False)
         # Only include Intercom information when rendering the authenticated
         # version of the site.
         if hasattr(settings, "INTERCOM_APP_ID"):
@@ -112,6 +111,9 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
     template_params['SUPPORT_EMAIL'] = settings.SUPPORT_EMAIL
     template_params['UI_VERSION'] = settings.UI_VERSION
     template_params['BADGE_HOST'] = getattr(settings, "BADGE_HOST", None)
+    template_params['USE_MOCK_DATA'] = getattr(settings, "USE_MOCK_DATA", False)
+    template_params['USE_ALLOCATION_SOURCES'] = getattr(settings,
+            "USE_ALLOCATION_SOURCES", False)
 
     #TODO: Replace this line when theme support is re-enabled.
     #template_params["THEME_URL"] = "assets/"
