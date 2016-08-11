@@ -88,8 +88,7 @@ module.exports = {
         test: /\.json$/,
         loader: 'json-loader',
         include: [
-            path.join(__dirname, 'node_modules/moment-timezone'),
-            path.join(__dirname, 'troposphere/static/js/mockdata')
+            path.join(__dirname, 'node_modules/moment-timezone')
         ]
       },
       { test: /\.js$/,
