@@ -1,17 +1,21 @@
 import { Model } from 'backbone';
 
-import EventTypes from "constants/EventConstants";
+import EventConstants from "constants/EventConstants";
 import Events from "events";
 
 
 export default {
-    fire(name, filter_id, payload) {
+    fire(name, payload) {
         switch (name) {
-            case EventTypes.ALLOCATION_SOURCE_CHANGE:
+            case EventConstants.ALLOCATION_SOURCE_CHANGE:
+                let { allocationSource, instance } = payload
                 return new Events.AllocationSourceChange({
                     name,
-                    filter_id,
-                    payload,
+                    entity_id: instance.get("uuid"),
+                    payload: {
+                        allocation_source_id: allocationSource.get("source_id"),
+                        instance_id: instance.get("uuid")
+                    }
                 }).save();
             default:
                 throw `Event of type: ${type} is not handled.`

@@ -1,33 +1,38 @@
-import { Model } from "backbone";
+import Backbone from "backbone";
 
 import globals from "globals";
+import EventConstants from "constants/EventConstants";
 
-let Event = Model.extend({
+let Event = Backbone.Model.extend({
     url: globals.API_V2_ROOT + "/events",
     validate(attrs, options) {
-        return "Events require validation, override validate";
+        throw "Events require validation, override validate";
     }
 })
 
 export const AllocationSourceChange = Event.extend({
     validate(attrs, options) {
         if (!options.validate) {
-            return
+            return;
         }
-        if(!attrs) {
-            return "No data to validate"
+        if (!attrs) {
+            throw "No data to validate";
         }
-        if(!attrs.filter_id) {
-            return "filter_id missing"
+
+        let { entity_id, name, payload } = attrs;
+        if (attrs.entity_id == undefined) {
+            throw "Incorrect field: entity_id";
         }
-        if(!attrs.name || attrs.name !== "instance_allocation_source_changed") {
-            return "Invalid event name -- Expected 'instance_allocation_source_changed'"
+        if (attrs.name != EventConstants.ALLOCATION_SOURCE_CHANGE) {
+            throw `Invalid event name -- Expected '${EventConstants.ALLOCATION_SOURCE_CHANGE}'`;
         }
-        let payload = attrs.payload;
-        if(!payload || !payload.allocation_source_id || !payload.instance_id) {
-            return "Invalid event payload -- Expected keys: 'instance_id' and 'allocation_source_id'"
+        if (!payload) {
+            throw "Missing payload";
         }
-        return
+        let { allocation_source_id, instance_id } = payload;
+        if (allocation_source_id == undefined || instance_id == undefined) {
+            throw "Invalid attrs.payload -- Expected keys: 'instance_id' and 'allocation_source_id'";
+        }
     }
 });
 
