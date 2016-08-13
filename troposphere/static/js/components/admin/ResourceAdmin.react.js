@@ -37,12 +37,12 @@ define(function (require) {
       var resourceRequest = stores.ResourceRequestStore.get(this.getParams().resourceRequestId),
         quotaToSend = resourceRequest.get('current_quota'),
         allocationToSend = resourceRequest.get('current_allocation'),
-        status = stores.QuotaStatusStore.findOne({name: "rejected"});
+        status = stores.StatusStore.findOne({name: "rejected"});
 
       if (e.target.innerHTML === 'Approve') {
         quotaToSend = parseInt(this.state.quota) || parseInt(resourceRequest.get('current_quota'));
         allocationToSend = parseInt(this.state.allocation) || parseInt(resourceRequest.get('current_allocation'));
-        status = stores.QuotaStatusStore.findOne({name: "approved"});
+        status = stores.StatusStore.findOne({name: "approved"});
       }
 
       ResourceActions.update({
@@ -58,7 +58,7 @@ define(function (require) {
 
       var quotas = stores.QuotaStore.getAll();
       var allocations = stores.AllocationStore.getAll();
-      var statuses = stores.QuotaStatusStore.getAll();
+      var statuses = stores.StatusStore.getAll();
       var resourceRequest = stores.ResourceRequestStore.get(this.getParams().resourceRequestId);
 
       if (!resourceRequest || !quotas || !allocations || !statuses) return <div className="loading"/>;
@@ -89,7 +89,7 @@ define(function (require) {
       }
 
       return (
-        <div className="quota-detail">
+        <div className="admin-detail">
           <div><strong>User:</strong> {resourceRequest.get('user').username}</div>
           <div><strong>Created by:</strong> {resourceRequest.get('created_by').username}</div>
           <div><strong>Admin message:</strong> {resourceRequest.get('admin_message')}</div>

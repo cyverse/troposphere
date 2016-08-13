@@ -15,7 +15,9 @@ define(function (require) {
     getInitialState: function () {
       var instance = this.props.instance;
       return {
-        providerId: this.props.providerId || instance.get('provider').id
+        providerId: this.props.providerId || instance.get('provider').id,
+        minCPU: "0",
+        minMem: "0"
       }
     },
 
@@ -32,6 +34,8 @@ define(function (require) {
 
     onNext: function () {
       this.props.onNext({
+        minCPU: this.state.minCPU,
+        minMem: this.state.minMem,
         providerId: this.state.providerId
       });
     },
@@ -42,13 +46,50 @@ define(function (require) {
       });
     },
 
-    renderBody: function (instance) {
+    handleCPUChange: function(e){
+      this.setState({minCPU: e.target.value});
+    },
+
+    handleMemChange: function(e){
+      this.setState({minMem: e.target.value});
+    },
+
+    renderProvider: function (instance) {
       return (
         <div>
           <Provider
             providerId={this.state.providerId}
-            onChange={this.onProviderChange}
-            />
+            onChange={this.onProviderChange}/>
+        </div>
+      );
+    },
+
+    renderRequirementsStep: function(){
+      return (
+        <div id="min-requirements" className="min-requirements collapse">
+          <div className="min-cpu clearfix">
+            # of CPUs: {this.state.minCPU}
+            <input type = "range" className = "slider"
+              value = {this.state.minCPU}
+              min = "0"
+              max = "16"
+              step = "1"
+              onChange = {this.handleCPUChange} />
+            <span className="pull-left">0</span> 
+            <span className="pull-right">16</span>
+          </div>
+
+          <div className="min-mem">
+            Memory: {this.state.minMem} GB
+            <input type = "range" className = "slider"
+              value = {this.state.minMem}
+              min = "0"
+              max = "16"
+              step = "2"
+              onChange = {this.handleMemChange} />
+            <span className="pull-left">0</span> 
+            <span className="pull-right">16</span>
+          </div>
         </div>
       );
     },
@@ -59,7 +100,11 @@ define(function (require) {
       return (
         <div>
           <div className="modal-body">
-            {this.renderBody(instance)}
+            {this.renderProvider(instance)}
+            <a role="button" data-toggle="collapse" href="#min-requirements" aria-expanded="true">
+              Minimum Requirements (optional)
+            </a>  
+            {this.renderRequirementsStep()}
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-default cancel-button pull-left" onClick={this.onPrevious}>

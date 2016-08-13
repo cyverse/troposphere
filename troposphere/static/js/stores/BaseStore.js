@@ -147,6 +147,41 @@ define(function (require) {
       }
     },
 
+    // Fetch the first page and replace models with results
+    fetchFirstPage: function(){
+      if (!this.isFetching){ 
+        this.isFetching = true;
+
+        var models = new this.collection();
+
+        models.fetch({
+            url: models.url
+        }).done(function () {
+            this.isFetching = false;
+            this.models = models;
+            this.emitChange();
+          }.bind(this));
+      }
+    },
+
+    // same as fetchFirstPage, but with URL query params
+    fetchFirstPageWhere: function(queryParams){
+      if (!this.isFetching){ 
+        this.isFetching = true;
+        queryParams = queryParams || {}; 
+        var queryString = buildQueryStringFromQueryParams(queryParams);
+        var models = new this.collection();
+
+        models.fetch({
+            url: models.url + queryString
+        }).done(function () {
+            this.isFetching = false;
+            this.models = models;
+            this.emitChange();
+          }.bind(this));
+      }
+    },
+
     // Returns a specific model if it exists in the local cache
     get: function (modelId) {
       if (!this.models) {

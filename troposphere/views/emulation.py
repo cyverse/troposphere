@@ -38,6 +38,13 @@ def emulate(request, username):
     except ValueError:
         logger.warn("[EMULATE]The API server returned non-json data(Error) %s" % r.text)
         return redirect('application')
+
+    # Check if error response was sent
+    if r.status_code != 200:
+        logger.warn("[EMULATE] failed with status_code=%s and message=(%s)",
+                    r.status_code, j_data)
+        return redirect("application")
+
     new_token = j_data.get('token')
     emulated_by = j_data.get('emulated_by')
     if not new_token or not emulated_by:
