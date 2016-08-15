@@ -20,7 +20,7 @@ export default React.createClass({
 
     getInitialState: function() {
         return {
-            query: null,
+            query: "",
             images: null,
             isLoadingMoreResults: false,
             nextUrl: null,
@@ -67,7 +67,7 @@ export default React.createClass({
     },
 
     onLoadMoreImages: function() {
-        var query = this.state.query,
+        var query = this.state.query.trim(),
             images;
 
         // Get the current collection
@@ -222,7 +222,7 @@ export default React.createClass({
     },
 
     renderBody: function() {
-        var query = this.state.query,
+        var query = this.state.query.trim(),
             title = '';
 
         let images;

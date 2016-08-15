@@ -21,31 +21,19 @@ export default React.createClass({
       )
     },
 
-    render: function () {
-      var request_count = null,
-          requests = stores.ResourceRequestStore.findWhere({
-          'status.name': 'pending'
-        });
-      if (!requests) {
-          request_count = "..."
-      } else {
-        request_count = requests.length
-      }
-
-      var resourcesText = "Resource Requests (" + request_count + ")";
-      return (
+    render() {
+        return (
         <div>
-          <div className="secondary-nav">
-            <div className="container">
-              <ul className="secondary-nav-links">
-                {this.renderRoute("Manage Users", "atmosphere-user-manager", "user")}
-                {this.renderRoute("Manage Identities", "identity-membership-manager", "user")}
-                {this.renderRoute(resourcesText, "resource-request-manager", "tasks")}
-                {this.renderRoute("Imaging Requests", "image-request-manager", "floppy-disk")}
-              </ul>
+            <div className="secondary-nav">
+                <div className="container">
+                    <ul className="secondary-nav-links">
+                        { this.renderRoute("Manage Users", "atmosphere-user-manager", "user") }
+                        { this.renderRoute("Manage Identities", "identity-membership-manager", "user") }
+                        { this.renderRoute("Imaging Requests", "image-request-manager", "floppy-disk") }
+                    </ul>
+                </div>
             </div>
-          </div>
         </div>
-      );
+        );
     }
 });

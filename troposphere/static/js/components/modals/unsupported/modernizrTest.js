@@ -37,7 +37,7 @@ let unsupportedFeatures = _.map(_.filter(_.pairs(features), _.negate(_.last)), _
 let breakingFeatures = _.intersection(requiredFeatures, unsupportedFeatures);
 
 let unsupported = function() {
-    return breakingFeatures.length <= 0;
+    return breakingFeatures.length > 0;
 };
 
 export default {

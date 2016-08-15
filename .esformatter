@@ -11,7 +11,7 @@
     "firstAttributeOnSameLine": true,
     "alignWithFirstAttribute": true,
     "htmlOptions": {
-      "wrap_line_length": 250,
+      "wrap_line_length": 76,
       "indent_size": 4
     }
   },

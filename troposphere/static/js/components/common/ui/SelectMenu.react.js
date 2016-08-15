@@ -21,10 +21,8 @@ export default React.createClass({
 
     onSelectChange: function(e) {
         let val = e.target.value;
-        let list = this.props.list
-        let obj = list.get(val);
 
-        this.props.onSelectChange(obj);
+        this.props.onSelectChange(val);
     },
 
     hintText: function() {

@@ -37,14 +37,9 @@ export default React.createClass({
         // If we don't have models yet, we still want to pass these empty declarations down to our child.
         // This is so we can render as much as posible to avoid the ui flashing as the models repopulate.
 
-        // AU's Used
-        let allocationConsumed,
-         allocationTotal,
-         allocationRemaining,
-         allocationPercent,
 
         // CPU's have used + will use
-         allocationCpu,
+         let allocationCpu,
          cpuUsed,
          cpuWillUse,
          cpuWillTotal,
@@ -65,14 +60,9 @@ export default React.createClass({
          gbLabel = "loading...";
 
         // Check if we have our models before using their backbone methods
-        if ( identityProvider && size && resourcesUsed) {
+        if (identityProvider && size && resourcesUsed) {
 
             // Calculate and set all of our graph information
-            // AU's Used
-            allocationConsumed = identityProvider.get('usage').current;
-            allocationTotal = identityProvider.get('usage').threshold;
-            allocationRemaining = allocationTotal - allocationConsumed;
-            allocationPercent = Math.round(allocationConsumed / allocationTotal * 100);
 
             // CPU's have used + will use
             allocationCpu = identityProvider.get('quota').cpu;
@@ -91,21 +81,13 @@ export default React.createClass({
             percentOfGbWillUse = Math.round(gbWillUse / allocationGb *100);
 
             // Labels for bar graphs
-            auLabel =  `You have used ${allocationPercent}% of ${allocationTotal} AU's from this provider`;
-            cpuLabel = `a total ${cpuWillTotal} of ${allocationCpu} alloted CPUs`;
-            gbLabel = `a total ${Math.round(gbWillTotal * 100) / 100} of ${allocationGb} alloted GBs of Memory`;
+            cpuLabel = `A total ${cpuWillTotal} of ${allocationCpu} alloted CPUs`;
+            gbLabel = `A total ${Math.round(gbWillTotal * 100) / 100} of ${allocationGb} alloted GBs of Memory`;
         }
 
         return (
                 <div className="form-group">
                     <label>Resources Instance will Use</label>
-                    <ProgressBar
-                        startColor="#56AA21"
-                        startValue={allocationPercent}
-                        label={auLabel}
-                    />
-                    {this.resourceExceded(allocationConsumed, allocationTotal)}
-
                     <ProgressBar
                         startColor="#56AA21"
                         startValue={percentOfCpuUsed}
