@@ -176,6 +176,7 @@ export default React.createClass({
                   this,
                   ip_address,
                   this.props.instance),
+              openInNewWindow: true,
               isDisabled: webLinksDisabled
           });
       }
