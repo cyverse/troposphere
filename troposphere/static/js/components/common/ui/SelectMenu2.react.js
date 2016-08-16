@@ -33,7 +33,9 @@ export default React.createClass({
             value: index,
         }
         return (
-        <option {...props} />
+        <option {...props}>
+            { props.label }
+        </option>
         );
     },
 
@@ -43,7 +45,9 @@ export default React.createClass({
         if (!(list && current)) {
             return (
             <select className="form-control">
-                <option label="Loading..." />
+                <option label="Loading...">
+                    Loading...
+                </option>
             </select>
             );
         }
