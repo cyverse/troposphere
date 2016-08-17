@@ -58,6 +58,89 @@
 </head>
 <body>
 
+<!-- Allert Upgrade Bar 
+       Note: inline styles in this context would be a sin if this
+       wasn't slated for certain death 
+-->
+<div id="allert-upgrade" 
+    class="hidden"
+    style="
+        background: tomato;
+        padding: 5px 10px 10px;
+        color: white;
+        text-align: center;
+">
+    <div style="
+            display: inline;
+            margin: auto;
+    ">
+        <h3 style="
+                color: white; 
+                display: inline-block; 
+                margin-right: 20px
+        ">
+            This interface will be discontinued September 20
+        </h3>
+        <button class="beta-toggle" 
+            style="
+                color: black; 
+                background: white; 
+                border: none; 
+                padding: 5px 10px; 
+                border-radius: 3px
+        ">
+            Upgrade Now
+        </button>
+    </div>
+    <div style="
+        position: absolute; 
+        right: 20px; 
+        top: 12px; 
+    ">
+        <span style="margin-right: 10px">
+            Don't want to upgrade?
+        </span> 
+        <a  href="#"  i
+            data-toggle="modal" 
+            data-target="#newUIForm"
+            style="color: white;
+                font-size: 16px;
+                text-decoration: underline
+        ">
+            Tell us why
+        </a> 
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="newUIForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-body">
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScHUJBVuELCznaUNale__3grv5dT2K36RUBGFCWEW2VZn4SXA/viewform?embedded=true" 
+                width="100%"
+                height="600px"
+                frameborder="0" 
+                marginheight="0" 
+                marginwidth="0"
+            >
+                Loading...
+            </iframe>
+      </div>
+      <div class="modal-footer">
+        <button type="button" 
+                data-dismiss="modal" 
+                data-target="#newUIForm"
+                class="btn btn-primary"
+        >
+                Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- End Alert Upgrade Bar -->
 
 <!--Header-->
 <header id="header_container">
@@ -78,7 +161,7 @@
                     <a class="beta-toggle">
                       <div class="toggle-wrapper">
                         <div class="toggle-background">
-                          <div class="toggle-text">View Current UI</div>
+                          <div class="toggle-text">Use New UI</div>
                         </div>
                         <div class="toggle-switch"></div>
                       </div>
@@ -418,5 +501,18 @@
     <!-- Google Analtics -->
     <script src="{{ BASE_URL }}/assets/resources/js/analytics.js"></script>
 
+    <!-- Alert Upgrade Bar -->
+    <script type="text/javascript">
+        $( document ).ready( function() {
+            var el = $('#allert-upgrade');
+            var showIt = function() { el.slideDown(150) };
+
+            el.hide();
+            el.removeClass('hidden');
+            window.setTimeout(
+                showIt
+            , 2000);  
+        });
+    </script>
 </body>
 </html>
