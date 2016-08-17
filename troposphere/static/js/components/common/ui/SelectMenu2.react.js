@@ -2,6 +2,22 @@ import React from "react";
 import backbone from "backbone";
 import _ from "underscore";
 
+/*
+Here is the interface of `SelectMenu`:
+
+    <SelectMenu
+       current={ The element to display }
+       optionName = { A function mapping an element to a name }
+       list={ The list of elements }
+       onSelect={ The function to call on element selection } \>
+
+The select menu may also support placeholder text, when current is null.
+
+    <SelectMenu
+       placeholder={ Text to display if current is null }
+       ...  \>
+
+*/
 export default React.createClass({
     displayName: "SelectMenu",
 
@@ -13,26 +29,48 @@ export default React.createClass({
             React.PropTypes.array
         ]),
         current: React.PropTypes.object,
-        findIndex: React.PropTypes.func
+        placeholder: React.PropTypes.string,
+    },
+
+    getInitialState() {
+        return this.getStateFromProps(this.props);
+    },
+
+    componentWillReceiveProps(props) {
+        this.setState(this.getStateFromProps(props));
+    },
+
+    getStateFromProps(props) {
+        let list = props.list;
+
+        // Despite allowing a collections or array, internally we use an array
+        if (list instanceof Backbone.Collection) {
+            list = list.toArray();
+        } else if (list) {
+            list = list.slice()
+        }
+
+        return {
+            list,
+        }
     },
 
     onSelect(e) {
         let index = Number(e.target.value);
-        let list = this.props.list;
-
-        if (list instanceof Backbone.Collection) {
-            list = list.toArray();
-        }
+        let list = this.state.list;
 
         this.props.onSelect(list[index]);
     },
 
-    renderOption(option, index) {
-        let props = {
+    optionProps(label, index) {
+        return {
+            label,
             key: index,
-            label: this.props.optionName(option),
             value: index,
         }
+    },
+
+    renderOption(props) {
         return (
         <option {...props}>
             { props.label }
@@ -40,40 +78,61 @@ export default React.createClass({
         );
     },
 
+    renderPlaceholderOption(label) {
+        let props = {
+            // Note: this value of -1 is how we identify the placeholder
+            ...this.optionProps(label, -1),
+            disabled: true,
+            hidden: true
+        };
+        return this.renderOption(props);
+    },
+
+    renderListOption(label, index) {
+        let props = this.optionProps(label, index);
+        return this.renderOption(props);
+    },
+
     render() {
-        let { current, list } = this.props;
+        let { current, placeholder } = this.props;
+        let { list } = this.state;
 
-        if (!(list && current)) {
-            return (
-            <select className="form-control">
-                <option label="Loading...">
-                    Loading...
-                </option>
-            </select>
-            );
-        }
+        // The select menu's options
+        let options = [];
 
-        if (list instanceof Backbone.Collection) {
-            list = list.toArray();
-        }
+        // The option to display, -1 is the placeholder/null option
+        let index = -1;
 
-        let value;
-        if (this.props.findIndex) {
-            value = list.findIndex(this.props.findIndex);
+        if (!list) {
+            options.push(this.renderPlaceholderOption("Loading..."));
         } else {
-            value = list.indexOf(current);
-        }
 
-        if (value == -1) {
-            console.warn(
-                "The element to display doesn't exist in the list of available elements"
-            );
-            console.trace();
+            // If the current element to display is null, we render a
+            // placeholder option, it can be blank or have some placeholder
+            // text
+            if (current == null) {
+                options.push(this.renderPlaceholderOption(placeholder || ""))
+            }
+
+            // Append options from the list
+            options = options.concat(
+                // optionName(elem) -> name,
+                //        renderOption(name) -> option
+                list.map(this.props.optionName)
+                    .map(this.renderListOption)
+            )
+
+            index = list.indexOf(current);
+            if (current != null && index == -1) {
+                console.warn(
+                    "The element to display doesn't exist in the list of available elements"
+                );
+            }
         }
 
         return (
-        <select value={ value } className='form-control' onChange={ this.onSelect }>
-            { list.map(this.renderOption) }
+        <select value={ index } className='form-control' onChange={ this.onSelect }>
+            { options }
         </select>
         );
     }
