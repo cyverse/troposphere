@@ -6,6 +6,16 @@
             "unix"
         ],
         "no-mixed-spaces-and-tabs": 2,
+
+        // Its an error to have unused variables, but okay to have unused
+        // paramaters
+        "no-unused-vars": [2, {"args": "none"}],
+
+        // "jsx-uses-vars" is necessary to do
+        //  import ReactComponent from '...'
+        //      <ReactComponent ... />
+        //
+        "react/jsx-uses-vars": 2
     },
     "env": {
         "es6": true,

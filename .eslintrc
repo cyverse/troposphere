@@ -1,7 +1,7 @@
 {
     "extends": ["eslint:recommended", "plugin:react/recommended"],
     "rules": {
-        
+
         // See docs here: http://eslint.org/docs/rules/
         "linebreak-style": [
             2,
@@ -9,6 +9,16 @@
         ],
         "no-mixed-spaces-and-tabs": 2,
         "comma-dangle": 2,
+
+        // Its an error to have unused variables, but okay to have unused
+        // paramaters
+        "no-unused-vars": [2, {"args": "none"}],
+
+        // "jsx-uses-vars" is necessary to do
+        //  import ReactComponent from '...'
+        //      <ReactComponent ... />
+        //
+        "react/jsx-uses-vars": 2,
 
         // See docs here: https://github.com/yannickcr/eslint-plugin-react/tree/master/docs/rules
         "react/no-is-mounted": 2,
