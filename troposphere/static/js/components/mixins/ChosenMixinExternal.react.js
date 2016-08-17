@@ -40,7 +40,7 @@ export default {
       this.setState({showOptions: false});
     },
 
-    onEnterOptions: function (e) {
+    onEnterOptions: function() {
       this.setState({showOptions: true});
 
       $(document).bind("mouseup", this._checkIfApplies);
@@ -53,7 +53,7 @@ export default {
       }
     },
 
-    onLeaveOptions: function (e) {
+    onLeaveOptions: function() {
       this.closeDropdown();
     },
 

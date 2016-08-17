@@ -12,7 +12,6 @@ export default {
 
       var volume = params.volume,
         volumeState = new VolumeState({status_raw: "detaching"}),
-        originalState = volume.get('state'),
         instanceUUID = volume.get('attach_data').instance_id,
         instance = stores.InstanceStore.getAll().findWhere({uuid: instanceUUID}),
         actionRequest = new InstanceVolumeActionRequest({

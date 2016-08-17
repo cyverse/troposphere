@@ -1,4 +1,3 @@
-import _ from 'underscore';
 import Backbone from 'backbone';
 import globals from 'globals';
 import moment from 'moment';

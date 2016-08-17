@@ -5,7 +5,6 @@ import ImageVersionEditModal from 'components/modals/image_version/ImageVersionE
 import ModalHelpers from 'components/modals/ModalHelpers';
 import actions from 'actions';
 import stores from 'stores';
-import _ from 'underscore';
 
 export default React.createClass({
       displayName: "VersionList",

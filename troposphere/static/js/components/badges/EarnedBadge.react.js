@@ -1,6 +1,5 @@
 import React from 'react';
 import modals from 'modals';
-import stores from 'stores';
 
 export default React.createClass({
     displayName: "EarnedBadge",

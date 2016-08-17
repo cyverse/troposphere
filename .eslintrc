@@ -18,7 +18,15 @@
         //  import ReactComponent from '...'
         //      <ReactComponent ... />
         //
-        "react/jsx-uses-vars": 2,
+        "react/jsx-uses-vars": "error",
+
+        // "jsx-uses-react" is only effective with "no-unused-vars"
+        // the use case is rather specific:
+        // A file contains only jsx and a necessary React import. The file
+        // doesn't not otherwise mention React, eslint thinks React is an
+        // unused var. This option stifles the unused var error.
+        //
+        "react/jsx-uses-react": "error",
 
         // See docs here: https://github.com/yannickcr/eslint-plugin-react/tree/master/docs/rules
         "react/no-is-mounted": 2,

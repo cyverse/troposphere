@@ -4,8 +4,6 @@ import Badge from './Badge.react';
 import actions from 'actions';
 import stores from 'stores';
 
-let RouteHandler = Router.RouteHandler;
-
 export default React.createClass({
     displayName: "UnearnedBadges",
 

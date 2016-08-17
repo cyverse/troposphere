@@ -1,7 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import Backbone from 'backbone';
-import _ from 'underscore';
 import stores from 'stores';
 
 import TabLinks from 'components/common/ui/TabLinks.react';
@@ -265,7 +262,6 @@ export default React.createClass({
     // populate that data source.
     renderImageTabView: function() {
         let tags = stores.TagStore.getAll();
-        let query = this.state.query;
         let view = this.state.view;
 
         let images;

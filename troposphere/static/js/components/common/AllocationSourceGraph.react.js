@@ -1,6 +1,5 @@
 import React from "react";
 import Backbone from "backbone";
-import stores from "stores";
 
 import ProgressBar from "components/common/ui/ProgressBar.react";
 

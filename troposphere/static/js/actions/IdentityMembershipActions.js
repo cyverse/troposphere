@@ -1,5 +1,4 @@
 import Utils from './Utils';
-import Router from '../Router';
 import Constants from 'constants/IdentityMembershipConstants';
 
 export default {

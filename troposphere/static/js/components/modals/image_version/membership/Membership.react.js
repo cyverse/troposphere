@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Backbone from 'backbone';
 import $ from 'jquery';
 import Router from 'react-router';
-    // plugin: required but not used directly
+// plugin: required but not used directly
 import bootstrap from 'bootstrap';
 
 export default React.createClass({

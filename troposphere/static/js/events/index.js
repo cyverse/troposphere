@@ -20,10 +20,10 @@ export const AllocationSourceChange = Event.extend({
         }
 
         let { entity_id, name, payload } = attrs;
-        if (attrs.entity_id == undefined) {
+        if (entity_id == undefined) {
             throw "Incorrect field: entity_id";
         }
-        if (attrs.name != EventConstants.ALLOCATION_SOURCE_CHANGE) {
+        if (name != EventConstants.ALLOCATION_SOURCE_CHANGE) {
             throw `Invalid event name -- Expected '${EventConstants.ALLOCATION_SOURCE_CHANGE}'`;
         }
         if (!payload) {

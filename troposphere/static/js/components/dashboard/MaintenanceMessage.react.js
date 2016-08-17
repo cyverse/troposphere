@@ -1,6 +1,5 @@
 import React from 'react';
 import Backbone from 'backbone';
-import moment from 'moment';
 
 export default React.createClass({
       displayName: "MaintenanceMessageList",

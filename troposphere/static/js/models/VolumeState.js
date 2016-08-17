@@ -1,4 +1,3 @@
-import _ from 'underscore';
 import Backbone from 'backbone';
 
 let get_percent_complete = function(state) {

@@ -152,7 +152,7 @@ const DefaultModalView = React.createClass({
     },
 
     renderBody() {
-        let { projects, instances, allocationSources } = this.props;
+        let { projects } = this.props;
 
         // Render each project that needs updated instances
         let renderedProjects = projects.reduce(this.renderProjectList, []);
@@ -226,33 +226,6 @@ const LoadingModalView = React.createClass({
         );
     },
 })
-
-const ErrorModalView = React.createClass({
-    displayName: "NoAllocationSourceErrorModalView",
-
-    render() {
-        return (
-        <div className="modal-content">
-            <div className="modal-header">
-                <h1 className="t-headline">
-                    Confirm Allocation Sources for Your Instances
-                </h1>
-            </div>
-            <div className="modal-body">
-                <div>
-                    <p>
-                        Atmosphere requires that every instance has an allocation source.
-                    </p>
-                    <p>
-                        It looks like you do not have any allocation sources.
-                        Please contact support at: { globals.SUPPORT_EMAIL }
-                    </p>
-                </div>
-            </div>
-        </div>
-        );
-    },
-});
 
 const ModalBackend = React.createClass({
     displayName: "NoAllocationSourceModalBackend",

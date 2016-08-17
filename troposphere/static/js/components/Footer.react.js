@@ -1,7 +1,6 @@
 import React from 'react';
 import Backbone from 'backbone';
 import modals from 'modals';
-import actions from 'actions';
 import context from 'context';
 
 

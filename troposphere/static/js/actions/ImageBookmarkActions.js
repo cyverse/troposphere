@@ -1,4 +1,3 @@
-import AppDispatcher from 'dispatchers/AppDispatcher';
 import ImageBookmarkConstants from 'constants/ImageBookmarkConstants';
 import ImageBookmark from 'models/ImageBookmark';
 import Badges from 'Badges';

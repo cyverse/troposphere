@@ -1,6 +1,5 @@
 import React from 'react';
 import Router from 'react-router';
-import Backbone from 'backbone';
 import stores from 'stores';
 import InstanceDetailsSection from 'components/projects/resources/instance/details/sections/InstanceDetailsSection.react';
 import PastInstanceDetailsSection from 'components/projects/resources/instance/details/sections/PastInstanceDetailsSection.react';

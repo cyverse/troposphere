@@ -195,7 +195,7 @@ export default React.createClass({
       },
 
       render: function () {
-        var projects = stores.ProjectStore.getAll();
+        stores.ProjectStore.getAll();
         return (
           <div className="modal fade">
             <div className="modal-dialog">

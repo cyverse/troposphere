@@ -126,10 +126,8 @@ export default React.createClass({
             provider = provider || providerList.shuffle()[0];
         }
 
-        let resourcesUsed, identityProvider, providerSizeList;
+        let identityProvider, providerSizeList;
         if (provider) {
-            resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
-
             identityProvider = stores.IdentityStore.findOne({ 'provider.id': provider.id });
 
             providerSizeList = stores.SizeStore.fetchWhere({
@@ -446,7 +444,6 @@ export default React.createClass({
             // Memory have used + will use
             let  allocationMem = identityProvider.get('quota').memory;
             let  memUsed = resourcesUsed.mem / 1024;
-            let  memWillUse = size.get('mem');
             let  memWillTotal = memUsed + size.get('mem');
             if (allocationConsumed >= allocationTotal) {
                 return true;
@@ -539,13 +536,11 @@ export default React.createClass({
 
         let provider = this.state.provider;
         let providerSize = this.state.providerSize;
-        let identityProvider = this.state.identityProvider;
         let project = this.state.project;
         let image = this.state.image;
         let imageVersion = this.state.imageVersion;
 
         let projectList = stores.ProjectStore.getAll() || null;
-        let identities = stores.IdentityStore.getAll() || null;
 
         let imageVersionList;
         if (this.state.image) {

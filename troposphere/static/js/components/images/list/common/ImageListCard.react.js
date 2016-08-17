@@ -8,7 +8,6 @@ import Showdown from 'showdown';
 import context from 'context';
 import globals from 'globals';
 import moment from 'moment';
-import momentTZ from 'moment-timezone';
 import stores from 'stores';
 
 

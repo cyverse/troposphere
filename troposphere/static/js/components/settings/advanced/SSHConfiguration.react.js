@@ -2,7 +2,6 @@ import React from 'react';
 import ModalHelpers from 'components/modals/ModalHelpers';
 import SSHKeyUpload from 'components/modals/SSHKeyUpload.react';
 import actions from 'actions';
-import modals from 'modals';
 import stores from 'stores';
 
 export default React.createClass({

@@ -1,7 +1,6 @@
 import React from 'react';
 import Backbone from 'backbone';
 import Button from './Button.react';
-import actions from 'actions';
 import modals from 'modals';
 
 
@@ -23,8 +22,7 @@ export default React.createClass({
     },
 
     render: function () {
-      var image = this.props.image,
-        linksArray = [];
+      var linksArray = [];
       linksArray.push(
         <Button
           key="Delete"

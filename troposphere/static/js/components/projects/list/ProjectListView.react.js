@@ -3,7 +3,6 @@ import Backbone from 'backbone';
 import ProjectList from './ProjectList.react';
 import modals from 'modals';
 import ProjectListHeader from '../common/ProjectListHeader.react';
-import actions from 'actions';
 
 
 export default React.createClass({

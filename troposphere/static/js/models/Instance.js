@@ -1,6 +1,5 @@
 import Backbone from 'backbone';
 import _ from 'underscore';
-import $ from 'jquery';
 import globals from 'globals';
 import context from 'context';
 import InstanceState from './InstanceState';

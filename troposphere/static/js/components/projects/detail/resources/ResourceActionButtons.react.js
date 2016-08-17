@@ -1,6 +1,5 @@
 import React from 'react';
 import Backbone from 'backbone';
-import Button from './Button.react';
 import Instance from 'models/Instance';
 import Image from 'models/Image';
 import ExternalLink from 'models/ExternalLink';

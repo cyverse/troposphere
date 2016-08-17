@@ -7,7 +7,7 @@ const api = {
     "results": [
     {
         "activity": null,
-        "allocation_source": null, // allocationSources[0],
+        "allocation_source": allocationSources[0],
         "end_date": null,
         "id": 4673,
         "identity": {

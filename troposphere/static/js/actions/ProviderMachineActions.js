@@ -1,11 +1,7 @@
-
-import AppDispatcher from 'dispatchers/AppDispatcher';
 import Utils from './Utils';
 import NotificationController from 'controllers/NotificationController';
 import ProviderMachineConstants from 'constants/ProviderMachineConstants';
 import stores from 'stores';
-import ProviderMachine from 'models/ProviderMachine';
-import ModalHelpers from 'components/modals/ModalHelpers';
 
 export default {
 
@@ -38,8 +34,6 @@ export default {
     },
 
     updateProviderMachineAttributes: function (machine, newAttributes) {
-      var that = this;
-
       //machine.set(newAttributes);
       //Utils.dispatch(ProviderMachineConstants.UPDATE_machine, {machine: machine});
 

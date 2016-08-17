@@ -67,7 +67,7 @@ export default React.createClass({
 
         let instances = stores.InstanceStore.getAll();
 
-        let promise = new Promise((resolve, reject) => {
+        new Promise((resolve, reject) => {
             if (globals.USE_ALLOCATION_SOURCES) {
                 // Filter instances without AS
                 let missing = instances.cfilter(i => !i.get("allocation_source"));

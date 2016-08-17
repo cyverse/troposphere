@@ -1,6 +1,6 @@
 import React from 'react';
+// plugin: required but not used directly
 import bootstrap from 'bootstrap';
-import $ from 'jquery';
 import Tooltip from 'components/common/ui/Tooltip.react';
 
 export default React.createClass({

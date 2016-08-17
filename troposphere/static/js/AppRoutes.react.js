@@ -3,7 +3,6 @@ import Router from 'react-router';
 import globals from 'globals';
 
 let Route = Router.Route,
-    Redirect = Router.Redirect,
     DefaultRoute = Router.DefaultRoute;
 
 import Master from './components/Master.react';
@@ -11,7 +10,6 @@ import BadgeMaster from './components/badges/BadgeMaster.react';
 import MyBadges from './components/badges/MyBadges.react';
 import AllBadges from './components/badges/AllBadges.react';
 import UnearnedBadges from './components/badges/UnearnedBadges.react';
-import PassThroughHandler from './components/PassThroughHandler.react';
 import RequestHistory from './components/requests/ResourceHistoryMaster.react';
 import RequestMaster from './components/requests/RequestMaster.react';
 import DashboardPage from './components/dashboard/DashboardPage.react';
@@ -41,9 +39,6 @@ import AtmosphereUserMaster from './components/admin/AtmosphereUserMaster.react'
 import ImageMaster from './components/admin/ImageMaster.react';
 import ImageRequest from './components/admin/ImageRequest.react';
 import IdentityMembershipMaster from './components/admin/IdentityMembershipMaster.react';
-import ResourceMaster from './components/admin/ResourceMaster.react';
-import ResourceRequest from './components/admin/ResourceRequest.react';
-
 
 let AppRoutes = (
     <Route name="root" path="/application" handler={Master}>
