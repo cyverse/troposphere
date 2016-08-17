@@ -1,7 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
 
-import SelectMenu from "components/common/ui/SelectMenu2.react";
+import SelectMenu from "components/common/ui/SelectMenu.react";
 import AllocationSourceGraph from "components/common/AllocationSourceGraph.react";
 
 export default React.createClass({
