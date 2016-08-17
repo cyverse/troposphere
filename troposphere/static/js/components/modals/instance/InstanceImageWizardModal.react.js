@@ -7,7 +7,6 @@ import stores from 'stores';
 import ImageInfoStep from './image/steps/ImageInfoStep.react';
 import VersionInfoStep from './image/steps/VersionInfoStep.react';
 import ProviderStep from './image/steps/ProviderStep.react';
-import MinimumRequirementsStep from './image/steps/MinimumRequirementsStep.react';
 import VisibilityStep from './image/steps/VisibilityStep.react';
 import FilesToExcludeStep from './image/steps/FilesToExcludeStep.react';
 import BootScriptsAndLicenseStep from './image/steps/BootScriptsLicensingStep.react';
@@ -262,7 +261,6 @@ export default React.createClass({
       }
     },
     renderBreadCrumbTrail: function() {
-      var user = stores.ProfileStore.get();
       var self = this;
       var breadcrumbs = this.state.breadcrumbs;
 

@@ -235,8 +235,7 @@ Graph.prototype.makeAxis = function() {
         };
 
     // Width/height of axis
-    var width = this.width - margin.left - margin.right,
-        height = metricsAxisHeight - margin.top - margin.bottom;
+    var width = this.width - margin.left - margin.right;
 
     var svg = d3.select(graphDom).append('svg')
         .attr('id', 'labeledXAxis')

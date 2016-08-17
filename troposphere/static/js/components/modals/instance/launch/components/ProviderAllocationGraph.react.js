@@ -1,6 +1,4 @@
 import React from 'react';
-import Backbone from 'backbone';
-import stores from 'stores';
 import ProgressBar from 'components/common/ui/ProgressBar.react';
 
 export default React.createClass({
@@ -36,7 +34,6 @@ export default React.createClass({
         // AU's Used
         let allocationConsumed,
             allocationTotal,
-            allocationRemaining,
             allocationPercent,
 
         // Labels for bar graphs
@@ -49,7 +46,6 @@ export default React.createClass({
             // AU's Used
             allocationConsumed = identityProvider.get('usage').current;
             allocationTotal = identityProvider.get('usage').threshold;
-            allocationRemaining = allocationTotal - allocationConsumed;
             allocationPercent = Math.round(allocationConsumed / allocationTotal * 100);
 
             // Labels for bar graphs

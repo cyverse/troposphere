@@ -1,7 +1,7 @@
 import React from  'react';
 import ReactDOM from 'react-dom';
 import $ from  'jquery';
-// plugin
+// plugin: jquery extension, not used directly
 import Bootstrap from  'bootstrap';
 
 export default React.createClass({

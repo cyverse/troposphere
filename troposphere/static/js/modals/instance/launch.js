@@ -1,5 +1,4 @@
 import actions from 'actions';
-import stores from 'stores';
 import ModalHelpers from 'components/modals/ModalHelpers';
 import InstanceLaunchWizardModal from 'components/modals/instance/InstanceLaunchWizardModal.react';
 

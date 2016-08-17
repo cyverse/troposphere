@@ -1,6 +1,4 @@
-import backbone from 'backbone';
 import moment from 'moment';
-import ImageVersionCollection from 'collections/ImageVersionCollection';
 
 const filterEndDate = (version) => {
             let dateNow = moment(new Date()).format();

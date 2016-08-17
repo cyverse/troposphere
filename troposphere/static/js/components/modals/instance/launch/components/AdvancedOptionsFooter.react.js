@@ -7,15 +7,12 @@ export default React.createClass({
     },
 
     render: function() {
-        let saveOptionsDisabled = this.props.saveOptionsDisabled ? "disabled" : "";
-        let clearOptionsIsDisabled = this.props.footerDisabled ?
-            this.props.footerDisabled :
-            this.props.clearOptionsIsDisabled;
-        let tooltipTitle = this.props.clearOptionsIsDisabled ?
-            "Advanced Options have been reset to default values" :
-            "Warning, changes to Advanced Options will be lost";
-
-
+        let clearOptionsIsDisabled = this.props.footerDisabled 
+            ? this.props.footerDisabled 
+            : this.props.clearOptionsIsDisabled;
+        let tooltipTitle = this.props.clearOptionsIsDisabled 
+            ? "Advanced Options have been reset to default values" 
+            : "Warning, changes to Advanced Options will be lost";
 
         return (
             <div className="modal-footer">

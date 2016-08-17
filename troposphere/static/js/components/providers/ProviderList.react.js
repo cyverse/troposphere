@@ -1,7 +1,5 @@
 import React from 'react';
-import Backbone from 'backbone';
 import Router from 'react-router';
-import stores from 'stores';
 import Stats from './Stats.react';
 
 export default React.createClass({

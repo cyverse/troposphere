@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 import $ from "jquery";
-import Backbone from "backbone";
 import Highcharts from "highcharts";
 import ResourceUseTooltip from "./tooltips/ResourceUseTooltip.react";
 

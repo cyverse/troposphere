@@ -1,6 +1,5 @@
 import React from 'react';
 import Backbone from 'backbone';
-import Showdown from 'showdown';
 
 
 export default React.createClass({
@@ -13,8 +12,7 @@ export default React.createClass({
       },
 
       render: function () {
-        var image = this.props.image,
-          name = this.props.value;
+        var name = this.props.value;
 
         return (
           <div className="image-info-segment row">

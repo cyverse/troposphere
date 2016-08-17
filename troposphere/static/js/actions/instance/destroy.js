@@ -1,14 +1,12 @@
 
 import InstanceConstants from 'constants/InstanceConstants';
 import InstanceState from 'models/InstanceState';
-import stores from 'stores';
 import Utils from '../Utils';
-import ProjectInstanceConstants from 'constants/ProjectInstanceConstants';
 import globals from 'globals';
 
 export default {
 
-    destroy: function (payload, options) {
+    destroy: function(payload, options) {
       if (!payload.instance) throw new Error("Missing instance");
 
       var instance = payload.instance,

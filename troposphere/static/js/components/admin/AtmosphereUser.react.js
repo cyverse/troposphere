@@ -1,10 +1,8 @@
 import React from 'react';
 import Backbone from 'backbone';
 import moment from 'moment';
-import Router from 'react-router';
 import actions from 'actions';
 import ToggleButton from 'components/common/ToggleButton.react';
-import stores from 'stores';
 
 
 export default React.createClass({

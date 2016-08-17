@@ -1,4 +1,3 @@
-import AppDispatcher from 'dispatchers/AppDispatcher';
 import Utils from './Utils';
 import NotificationController from 'controllers/NotificationController';
 import Router from '../Router';
@@ -213,8 +212,6 @@ export default {
     // ------------------------
 
     deleteResources: function (resources, project) {
-      var that = this;
-
       // According to this line below the following functionality has been disabled!
       // components/projects/detail/resources/ButtonBar.react.js:25
       //

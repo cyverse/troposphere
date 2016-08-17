@@ -1,6 +1,5 @@
 import { trackAction } from '../../utilities/userActivity';
 import React from 'react';
-import PageHeader from 'components/common/PageHeader.react';
 import AdvancedSettingsPage from 'components/settings/AdvancedSettingsPage.react';
 import IconSelect from './IconSelect.react';
 import SettingsHeader from './SettingsHeader.react';

@@ -3,7 +3,6 @@ import Backbone from 'backbone';
 import stores from 'stores';
 import Router from 'react-router';
 import moment from 'moment';
-import Showdown from 'showdown';
 import ProjectResource from './ProjectResource.react';
 
 export default React.createClass({
@@ -18,7 +17,6 @@ export default React.createClass({
       let project = this.props.project,
         description,
         projectCreationDate,
-        converter = new Showdown.Converter(),
         projectExternalLinks,
         projectInstances,
         projectImages,

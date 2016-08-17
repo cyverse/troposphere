@@ -1,6 +1,4 @@
-
 import React from 'react';
-import Backbone from 'backbone';
 
 export default React.createClass({
     displayName: "SettingsHeader",

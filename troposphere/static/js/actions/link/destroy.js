@@ -1,6 +1,4 @@
-import stores from 'stores';
 import Utils from '../Utils';
-import globals from 'globals';
 import ProjectExternalLinkActions from '../ProjectExternalLinkActions';
 import ExternalLinkConstants from 'constants/ExternalLinkConstants';
 import NotificationController from 'controllers/NotificationController';

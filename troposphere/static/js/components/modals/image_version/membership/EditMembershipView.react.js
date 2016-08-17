@@ -2,8 +2,6 @@ import React from 'react';
 import Backbone from 'backbone';
 import MembershipMultiSelect from './MembershipMultiSelect.react';
 
-let ENTER_KEY = 13;
-
 export default React.createClass({
     displayName: "EditMembershipView",
 
@@ -34,7 +32,6 @@ export default React.createClass({
     },
     render: function () {
       var query = this.state.query,
-          link,
           membershipView,
           memberships = this.props.memberships;
 

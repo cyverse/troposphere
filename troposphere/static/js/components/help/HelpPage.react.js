@@ -1,7 +1,6 @@
 import React from 'react';
 import stores from 'stores';
 import globals from 'globals';
-import _ from 'underscore';
 
 
 let resources = [{

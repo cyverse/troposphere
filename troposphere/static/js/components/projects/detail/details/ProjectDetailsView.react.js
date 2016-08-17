@@ -1,10 +1,6 @@
 import React from 'react';
-import $ from 'jquery';
 import Backbone from 'backbone';
-import SecondaryProjectNavigation from 'components/projects/common/SecondaryProjectNavigation.react';
 import actions from 'actions';
-import InputField from './InputField.react';
-import TextAreaField from './HtmlTextAreaField.react';
 import ViewDetails from './ViewDetails.react';
 import EditDetails from './EditDetails.react';
 

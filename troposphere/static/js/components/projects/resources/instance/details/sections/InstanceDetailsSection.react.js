@@ -1,6 +1,5 @@
 import React from 'react';
 import Backbone from 'backbone';
-import ResourceDetail from 'components/projects/common/ResourceDetail.react';
 
 // Resource Detail;
 import Id from './details/Id.react';

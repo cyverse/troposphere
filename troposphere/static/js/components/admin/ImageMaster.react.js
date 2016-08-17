@@ -1,10 +1,6 @@
 import React from 'react';
 import Router from 'react-router';
 import RouterInstance from '../../Router';
-import ImageRequest from './ImageRequest.react';
-import ImageRequestActions from 'actions/ImageRequestActions';
-import actions from 'actions';
-import moment from 'moment';
 import stores from 'stores';
 
 
@@ -60,9 +56,6 @@ export default React.createClass({
       }
 
       var imageRequestRows = requests.map(function (request) {
-        var requestDate = moment(request.get('start_date'));
-        var now = moment();
-
         var handleClick = function(){
             this.onResourceClick(request);
         }.bind(this);

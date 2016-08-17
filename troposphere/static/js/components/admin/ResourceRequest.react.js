@@ -1,5 +1,4 @@
 import React from 'react';
-import Backbone from 'backbone';
 import Router from 'react-router';
 import stores from 'stores';
 import Glyphicon from 'components/common/Glyphicon.react';
@@ -93,7 +92,7 @@ let ResourceRequest = React.createClass({
         return this.state.response && allocationExists && quotaExists
     },
 
-    handleDisplayChange: function (event){
+    handleDisplayChange: function() {
       this.setState({displayAdmin: !this.state.displayAdmin});
     },
 
@@ -160,7 +159,7 @@ let ResourceRequest = React.createClass({
         actions.AllocationActions.create({"threshold": this.state.AUSearch * 60, "delta": this.state.delta});
     },
 
-    onExpireChange: function(e){
+    onExpireChange: function() {
       // If expire is currently true, we want it to be false. Set delta to -1 for non expiring AU, standard 525600 for expiring.
       this.state.expire ? this.setState({delta: -1}) : this.setState({delta: 525600});
       this.setState({expire: !this.state.expire});
@@ -183,7 +182,6 @@ let ResourceRequest = React.createClass({
 
     renderQuotaStatus: function(){
         if(stores.QuotaStore.findWhere(this.state.quotaSearch).length < 1){
-            var quota = this.state.quotaSearch;
             return(
                 <div>
                     <p>

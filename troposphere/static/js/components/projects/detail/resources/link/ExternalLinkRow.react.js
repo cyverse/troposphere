@@ -3,9 +3,6 @@ import Backbone from 'backbone';
 import SelectableRow from '../SelectableRow.react';
 import Name from '../tableData/link/Name.react';
 import Link from '../tableData/link/Link.react';
-import stores from 'stores';
-import CryptoJS from 'crypto-js';
-import Gravatar from 'components/common/Gravatar.react';
 
 
 export default React.createClass({
@@ -21,10 +18,7 @@ export default React.createClass({
     },
 
     render: function () {
-      var external_link = this.props.external_link,
-        linkHash = CryptoJS.MD5((external_link.id || external_link.cid).toString()).toString(),
-        type = stores.ProfileStore.get().get('icon_set'),
-        iconSize = 18;
+      var external_link = this.props.external_link;
 
       return (
         <SelectableRow

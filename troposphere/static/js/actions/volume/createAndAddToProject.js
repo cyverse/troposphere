@@ -1,8 +1,6 @@
-
 import VolumeConstants from 'constants/VolumeConstants';
 import Volume from 'models/Volume';
 import actions from 'actions';
-import globals from 'globals';
 import Utils from '../Utils';
 import ProjectVolume from 'models/ProjectVolume';
 import ProjectVolumeConstants from 'constants/ProjectVolumeConstants';
@@ -19,15 +17,6 @@ export default {
             project = payload.project,
             identity = payload.identity,
             volumeSize = payload.volumeSize;
-
-        var identityUUID = identity.get('uuid'),
-            providerUUID = identity.get('provider').uuid,
-            url = (
-                globals.API_ROOT +
-                "/provider" + providerUUID +
-                "/identity" + identityUUID +
-                "/volume"
-            );
 
         var volume = new Volume({
             name: volumeName,
