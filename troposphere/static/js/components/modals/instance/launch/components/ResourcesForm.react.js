@@ -5,7 +5,7 @@ import globals from "globals";
 import ResourceGraphs from "../components/ResourceGraphs.react";
 import ProviderAllocationGraph from "../components/ProviderAllocationGraph.react";
 import AllocationSourceGraph from "components/common/AllocationSourceGraph.react";
-import SelectMenu2 from "components/common/ui/SelectMenu2.react";
+import SelectMenu from "components/common/ui/SelectMenu.react";
 
 export default React.createClass({
     propTypes: {
@@ -37,7 +37,7 @@ export default React.createClass({
             <label htmlFor="allocationSource">
                 Allocation Source
             </label>
-            <SelectMenu2 current={ allocationSource }
+            <SelectMenu current={ allocationSource }
                          list={ allocationSourceList }
                          optionName={ as => as.get("name") }
                          onSelect={ onAllocationSourceChange } />
@@ -74,7 +74,7 @@ export default React.createClass({
                 <label htmlFor="instanceName">
                     Provider
                 </label>
-                <SelectMenu2 current={ provider }
+                <SelectMenu current={ provider }
                              optionName={ p => p.get("name") }
                              list={ providerList }
                              onSelect={ onProviderChange } />
@@ -83,7 +83,7 @@ export default React.createClass({
                 <label htmlFor="instanceSize">
                     Instance Size
                 </label>
-                <SelectMenu2 current={ providerSize }
+                <SelectMenu current={ providerSize }
                              optionName={ this.getProviderSizeName }
                              list={ providerSizeList }
                              onSelect={ onSizeChange } />

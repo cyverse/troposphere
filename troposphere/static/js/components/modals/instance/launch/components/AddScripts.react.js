@@ -1,5 +1,5 @@
 import React from 'react';
-import SelectMenu from 'components/common/ui/SelectMenu2.react';
+import SelectMenu from 'components/common/ui/SelectMenu.react';
 import ScriptTags from './ScriptTags.react';
 
 export default React.createClass({

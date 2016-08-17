@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Backbone from 'backbone';
 import stores from 'stores';
-import SelectMenu from 'components/common/ui/SelectMenu2.react';
+import SelectMenu from 'components/common/ui/SelectMenu.react';
 
 export default React.createClass({
     propTypes: {
