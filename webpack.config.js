@@ -84,9 +84,13 @@ module.exports = {
       { test: /bootstrap-sass/, loader: "imports?jQuery=jquery" },
       { test: /modernizr-latest\.js/,
         loader: "imports?this=>window,html5=>window.html5!exports?window.Modernizr" },
-      { test: /\.json$/,
+      {
+        test: /\.json$/,
         loader: 'json-loader',
-        include: path.join(__dirname, 'node_modules/moment-timezone') },
+        include: [
+            path.join(__dirname, 'node_modules/moment-timezone')
+        ]
+      },
       { test: /\.js$/,
         loader: "babel",
         query: { cacheDirectory: '/tmp/' },

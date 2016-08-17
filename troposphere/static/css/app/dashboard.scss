@@ -4,12 +4,6 @@
     overflow: hidden;
   }
 
-  h2 {
-    font-size: 28px;
-    border-bottom: 1px solid #dddddd;
-    padding-bottom:10px;
-  }
-
   .secondary-nav {
     margin-bottom: 0px;
   }
@@ -39,9 +33,8 @@
         border-top: 1px solid rgba(0, 0, 0, 0.1);
       }
 
-      .title {
+      .t-title {
         margin-bottom: 3px;
-        padding-left: 22px;
 
         i {
           color: #76AA49;
@@ -137,6 +130,7 @@
     font-size: 28px;
     font-weight: 500;
     border-bottom: 1px solid #dddddd;
+    margin-bottom: 20px;
     a{
       font-size: inherit;
       font-style: italic;

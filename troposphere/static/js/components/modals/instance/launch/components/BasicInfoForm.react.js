@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Backbone from 'backbone';
 import stores from 'stores';
-import SelectMenu from 'components/common/ui/SelectMenu.react';
+import SelectMenu from 'components/common/ui/SelectMenu2.react';
 
 export default React.createClass({
     propTypes: {
@@ -25,9 +25,7 @@ export default React.createClass({
 
    render: function () {
         let imageVersion = this.props.imageVersion;
-        let imageVersionId = imageVersion ? imageVersion.get('id') : null;
         let project = this.props.project;
-        let projectId = project ? project.get('id') : null;
         let projectList = this.props.projectList;
         let instanceName = this.props.instanceName;
         let instanceNameClasses = "form-group";
@@ -59,10 +57,10 @@ export default React.createClass({
                         Base Image Version
                     </label>
                     <SelectMenu
-                        defaultId={imageVersionId}
+                        current={imageVersion}
                         list={this.props.imageVersionList}
                         optionName={item => item.get('name')}
-                        onSelectChange={this.props.onVersionChange}
+                        onSelect={this.props.onVersionChange}
                     />
                 </div>
                 <div className="form-group">
@@ -70,10 +68,10 @@ export default React.createClass({
                         Project
                     </label>
                     <SelectMenu
-                        defaultId={projectId}
+                        current={project}
                         list={projectList}
                         optionName={item => item.get('name')}
-                        onSelectChange={this.props.onProjectChange}
+                        onSelect={this.props.onProjectChange}
                     />
                 </div>
             </form>

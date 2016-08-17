@@ -142,12 +142,11 @@ LOGGING = {
 API_ROOT    = SERVER_URL + "/api/v1"
 API_V2_ROOT = SERVER_URL + "/api/v2"
 
-# The ROOT PATH for ALL (app + dependencies) static files.
-STATIC_ROOT = os.path.join(BASE_DIR, "assets")
-# The SERVER PATH for ALL (app + dependencies) static files.
+# The endpoint in troposphere for generated assets
 STATIC_URL = '/assets/'
 
-#STATIC generated files from troposphere to be added to STATIC_ROOT
+# The target location where static files are moved
+STATIC_ROOT = os.path.join(BASE_DIR, "assets")
 
 REST_FRAMEWORK = {
     # 'DEFAULT_RENDERER_CLASSES': (

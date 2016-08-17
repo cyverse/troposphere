@@ -1,4 +1,3 @@
-import _ from 'underscore';
 import BaseStore from 'stores/BaseStore';
 import Dispatcher from 'dispatchers/Dispatcher';
 import AllocationConstants from 'constants/AllocationConstants';

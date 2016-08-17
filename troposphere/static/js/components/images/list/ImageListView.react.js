@@ -20,7 +20,7 @@ export default React.createClass({
 
     getInitialState: function() {
         return {
-            query: null,
+            query: "",
             images: null,
             isLoadingMoreResults: false,
             nextUrl: null,
@@ -29,7 +29,7 @@ export default React.createClass({
     },
 
     updateState: function() {
-        let query = this.state.query;
+        let query = this.state.query.trim();
 
         let images;
 
@@ -67,7 +67,7 @@ export default React.createClass({
     },
 
     onLoadMoreImages: function() {
-        var query = this.state.query,
+        var query = this.state.query.trim(),
             images;
 
         // Get the current collection
@@ -100,20 +100,12 @@ export default React.createClass({
     //
 
     onSearchChange: function(e) {
-        var input = e.target.value.trim();
-
-        // If input is empty string, don't bother with delay
-        if (!input) {
-            this.setState({
-                query: input
-            }, this.updateState);
-        } else {
-            this.setState({
-                query: input
-            }, () => {
-                this.callIfNotInterruptedAfter(500 /* ms */ , this.updateState);
-            });
-        }
+        var input = e.target.value;
+        this.setState({
+            query: input
+        }, () => {
+            this.callIfNotInterruptedAfter(500 /* ms */ , this.updateState);
+        });
     },
 
     onChangeViewType: function() {
@@ -230,7 +222,7 @@ export default React.createClass({
     },
 
     renderBody: function() {
-        var query = this.state.query,
+        var query = this.state.query.trim(),
             title = '';
 
         let images;

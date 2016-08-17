@@ -185,6 +185,9 @@ Atmo.Views.SidebarInstanceListItem = Backbone.View.extend({
         else if (task == 'suspending') {
             return 'suspended';
         }
+        else if (task ==='user_deploy_error') {
+            return 'user_deploy_error';
+        }
         else if (task ==='deploy_error') {
             return 'deploy_error';
         }
@@ -219,7 +222,7 @@ Atmo.Views.SidebarInstanceListItem = Backbone.View.extend({
             percent = this.get_percent_complete(state, task);
             this.final_state = this.get_final_state(state, task);
         }
-        if(this.final_state === 'deploy_error'){
+        if(this.final_state === 'deploy_error' || this.final_state === "user_deploy_error"){
             return
         }
 

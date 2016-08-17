@@ -48,6 +48,13 @@ THEME_NAME="{{ THEME_NAME }}"
 THEME_NAME= "troposphere_theme"
 {% endif %}
 
+# The location from where static files are aggregated
+# ./manage.py collectstatic moves files from STATICFILES_DIRS to STATIC_ROOT
+STATICFILES_DIRS = [
+    ("theme", "{{ THEME_PATH }}/{{ THEME_NAME }}"),
+    ("resources", os.path.join(BASE_DIR, "static", "resources"))
+]
+
 ORG_NAME= "{{ ORG_NAME }}"
 
 {% if INTERCOM_APP_ID is defined and not INTERCOM_APP_ID == "" %}
@@ -147,6 +154,12 @@ CAS_AUTH_PREFIX = "{{ CAS_AUTH_PREFIX }}"
 OAUTH_CLIENT_KEY = "{{ OAUTH_CLIENT_KEY }}"
 OAUTH_CLIENT_SECRET = "{{ OAUTH_CLIENT_SECRET }}"
 OAUTH_CLIENT_CALLBACK = "{{ OAUTH_CLIENT_CALLBACK }}"
+
+# load data if available, from mocked collections rather than the api
+USE_MOCK_DATA = {{ USE_MOCK_DATA }}
+
+# display AllocationSources rather than Allocation
+USE_ALLOCATION_SOURCES = {{ USE_ALLOCATION_SOURCES }}
 
 # atmosphere must include the metrics endpoint
 SHOW_INSTANCE_METRICS = {{ SHOW_INSTANCE_METRICS }}

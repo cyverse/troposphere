@@ -1,6 +1,5 @@
 import React from 'react';
 import Backbone from 'backbone';
-import actions from 'actions';
 import modals from 'modals';
 import MaintenanceMessageBanner from './MaintenanceMessageBanner.react';
 import context from 'context';
@@ -20,7 +19,7 @@ let links = [
       href: "/application/dashboard",
       icon: "stats",
       requiresLogin: true,
-      isEnabled: true,
+      isEnabled: true
     },
     {
       name: "Projects",
@@ -111,6 +110,14 @@ let LogoutLink = React.createClass({
             </li>
         );
       }
+      
+      let trackSettings = () => {
+          trackAction("viewed-settings", {});
+      };
+
+      let trackRequests = () => {
+          trackAction("viewed-requests", {});
+      };
 
       return (
         <li className="dropdown">
@@ -120,10 +127,10 @@ let LogoutLink = React.createClass({
           </a>
           <ul className="dropdown-menu">
             <li>
-              <Link to="settings">Settings</Link>
+              <Link to="settings" onClick={trackSettings}>Settings</Link>
             </li>
             <li>
-              <Link to="my-requests-resources">My requests</Link>
+              <Link to="my-requests-resources" onClick={trackRequests}>My requests</Link>
             </li>
             <li className="divider"></li>
             <li>
@@ -164,7 +171,12 @@ let Header = React.createClass({
                 "CyVerse Maintenance Information",
                 context.getMaintenanceNotice(),
                 {
-                     "positionClass": "toast-top-full-width"
+                    "positionClass": "toast-top-full-width",
+                    "closeButton": true,
+                    "timeOut": 0,
+                    "extendedTimeOut": 0,
+                    "tapToDismiss": false,
+                    "closeOnHover": false
                 }
             );
         }
@@ -180,13 +192,16 @@ let Header = React.createClass({
     },
 
     renderBetaToggle: function () {
+
       if (!window.show_troposphere_only) {
+
         let trackEvent = (e) => {
             trackAction('switch-ui', {
-                    user_interface: 'troposphere-to-airport'
+              user_interface: 'troposphere-to-airport'
             });
             trackAction('switch-to-airport');
         };
+
         return (
           <div className="beta-toggle">
             <a href="/application?beta=false&airport_ui=true"
@@ -267,8 +282,8 @@ let Header = React.createClass({
               <ul className="nav navbar-nav navbar-right">
                 {loginLogoutDropdown}
               </ul>
+              {hasUser ? this.renderBetaToggle() : null}
             </div>
-            {hasUser ? this.renderBetaToggle() : null}
           </div>
 
         </div>

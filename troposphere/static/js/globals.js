@@ -19,5 +19,7 @@ export default {
     SUPPORT_EMAIL: window.SUPPORT_EMAIL || 'support@iplantcollaborative.org',
     TZ_REGION: tz_region,
     BADGE_HOST: window.BADGE_HOST,
-    BADGES_ENABLED: window.BADGES_ENABLED || false
+    BADGES_ENABLED: window.BADGES_ENABLED || false,
+    USE_MOCK_DATA: window.USE_MOCK_DATA || false,
+    USE_ALLOCATION_SOURCES: window.USE_ALLOCATION_SOURCES,
 }

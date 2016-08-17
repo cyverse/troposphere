@@ -1,28 +1,70 @@
-import React from 'react';
-import Router from 'react-router';
-import ProjectResourcesWrapper from './detail/resources/ProjectResourcesWrapper.react';
-import InstanceDetailsView from './resources/instance/details/InstanceDetailsView.react';
-import stores from 'stores';
+import React from "react";
+import Router from "react-router";
+
+import ProjectResourcesWrapper from "./detail/resources/ProjectResourcesWrapper.react";
+import InstanceDetailsView from "./resources/instance/details/InstanceDetailsView.react";
+import globals from "globals";
+import stores from "stores";
 
 export default React.createClass({
     displayName: "InstanceDetailsPage",
 
     mixins: [Router.State],
 
-    render: function () {
-      var project = stores.ProjectStore.get(Number(this.getParams().projectId)),
-        instance = stores.InstanceStore.get(Number(this.getParams().instanceId)),
-        helpLinks = stores.HelpLinkStore.getAll();
+    componentDidMount() {
+        stores.ProjectStore.addChangeListener(this.updateState);
+        stores.InstanceStore.addChangeListener(this.updateState);
+        stores.HelpLinkStore.addChangeListener(this.updateState);
 
-      if (!project || !instance || !helpLinks) {
-        return <div className="loading"></div>;
-      }
+        if (globals.USE_ALLOCATION_SOURCES) {
+            stores.AllocationSourceStore.addChangeListener(this.updateState)
+        }
+    },
 
-      return (
-        <ProjectResourcesWrapper project={project}>
-          <InstanceDetailsView project={project} instance={instance}/>
+    componentWillUnmount() {
+        stores.ProjectStore.removeChangeListener(this.updateState);
+        stores.InstanceStore.removeChangeListener(this.updateState);
+        stores.HelpLinkStore.removeChangeListener(this.updateState);
+
+        if (globals.USE_ALLOCATION_SOURCES) {
+            stores.AllocationSourceStore.removeChangeListener(this.updateState)
+        }
+    },
+
+    updateState() {
+        this.forceUpdate();
+    },
+
+    render() {
+        let project = stores.ProjectStore.get(Number(this.getParams().projectId));
+        let instance = stores.InstanceStore.get(Number(this.getParams().instanceId));
+        let helpLinks = stores.HelpLinkStore.getAll();
+        let allocationSources = stores.AllocationSourceStore.getAll();
+
+        let requires = [project, instance, helpLinks];
+
+        if (globals.USE_ALLOCATION_SOURCES) {
+            requires.push(allocationSources)
+        }
+
+        // Use truthy check to see if loaded
+        let loaded = requires.every(r => Boolean(r))
+        if (!loaded) {
+            return <div className="loading"></div>;
+        }
+
+        let props = {
+            project,
+            instance,
+            helpLinks,
+            allocationSources,
+        }
+
+        return (
+        <ProjectResourcesWrapper { ...props }>
+            <InstanceDetailsView { ...props } />
         </ProjectResourcesWrapper>
-      );
+        );
     }
 
 });

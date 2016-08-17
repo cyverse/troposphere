@@ -8,6 +8,7 @@ import Router from 'Router';
 import actions from 'actions';
 import Utils from '../Utils';
 import ProjectInstance from 'models/ProjectInstance';
+import globals from 'globals';
 
 function launch(params) {
     if (!params.project) throw new Error("Missing project");
@@ -63,35 +64,42 @@ function launch(params) {
     // Add to ProjectInstanceStore
     Utils.dispatch(ProjectInstanceConstants.ADD_PROJECT_INSTANCE, {projectInstance: projectInstance});
 
-    instance.createOnV1Endpoint({
+    let payload = {
         name: instanceName,
         size_alias: size.get('alias'),
         machine_alias: machine.uuid,
         scripts: scripts,
-    }).done(function(attrs, status, response) {
-        instance.set('id', attrs.id);
+    }
 
-        // Get the instance from the cloud, ignore our local copy
-        instance.fetch().done(function() {
-            // NOTE: we have to set this here, because our instance above never gets saved
-            instance.set('projects', [project.id]);
+    if (globals.USE_ALLOCATION_SOURCES)  {
+        payload.allocation_source_id = params.allocation_source_id;
+    }
 
-            Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
-            Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+    instance.createOnV1Endpoint(payload)
+        .done(function(attrs, status, response) {
+            instance.set('id', attrs.id);
+
+            // Get the instance from the cloud, ignore our local copy
+            instance.fetch().done(function() {
+                // NOTE: we have to set this here, because our instance above never gets saved
+                instance.set('projects', [project.id]);
+
+                Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+                Utils.dispatch(InstanceConstants.POLL_INSTANCE, {instance: instance});
+            });
+
+            // Save projectInstance to db
+            projectInstance.save(null, {attrs: {
+                project: project.id,
+                instance: instance.id
+            }});
+
+        }).fail(function (response) {
+          // Remove instance from stores
+          Utils.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
+          Utils.dispatch(ProjectInstanceConstants.REMOVE_PROJECT_INSTANCE, {projectInstance: projectInstance});
+          Utils.displayError({title: "Instance could not be launched", response: response});
         });
-
-        // Save projectInstance to db
-        projectInstance.save(null, {attrs: {
-            project: project.id,
-            instance: instance.id
-        }});
-
-    }).fail(function (response) {
-      // Remove instance from stores
-      Utils.dispatch(InstanceConstants.REMOVE_INSTANCE, {instance: instance});
-      Utils.dispatch(ProjectInstanceConstants.REMOVE_PROJECT_INSTANCE, {projectInstance: projectInstance});
-      Utils.displayError({title: "Instance could not be launched", response: response});
-    });
 
     // Since this is triggered from the images page, navigate off
     // that page and back to the instance list so the user can see

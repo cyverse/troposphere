@@ -67,6 +67,7 @@ stores.TagStore = require('stores/TagStore');
 stores.UserStore = require('stores/UserStore');
 stores.VersionStore = require('stores/VersionStore');
 stores.VolumeStore = require('stores/VolumeStore');
+stores.AllocationSourceStore = require('stores/AllocationSourceStore');
 
 import actions from 'actions';
 
@@ -109,6 +110,7 @@ modals.ProjectModals = require('modals/ProjectModals');
 modals.TagModals = require('modals/TagModals');
 modals.VersionModals = require('modals/VersionModals');
 modals.VolumeModals = require('modals/VolumeModals');
+modals.UnsupportedModal = require('modals/UnsupportedModal');
 
 export default {
     run: function () {
