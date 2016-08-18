@@ -27,7 +27,6 @@ export default {
           versionChanges: params.versionChanges,
           newMachineOwner: instance.get('user').id,
           versionFork: params.newImage,
-          providerId: params.providerId,
           visibility: params.visibility,
           imageUsers: params.imageUsers,
           filesToExclude: params.filesToExclude || "",

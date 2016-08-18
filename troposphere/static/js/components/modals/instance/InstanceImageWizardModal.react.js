@@ -6,7 +6,6 @@ import BreadcrumbNav from 'components/common/breadcrumb/BreadcrumbNav.react';
 import stores from 'stores';
 import ImageInfoStep from './image/steps/ImageInfoStep.react';
 import VersionInfoStep from './image/steps/VersionInfoStep.react';
-import ProviderStep from './image/steps/ProviderStep.react';
 import MinimumRequirementsStep from './image/steps/MinimumRequirementsStep.react';
 import VisibilityStep from './image/steps/VisibilityStep.react';
 import FilesToExcludeStep from './image/steps/FilesToExcludeStep.react';
@@ -15,11 +14,10 @@ import ReviewStep from './image/steps/ReviewStep.react';
 
 let IMAGE_INFO_STEP = 1,
     VERSION_INFO_STEP = 2,
-    PROVIDER_STEP = 3,
-    VISIBILITY_STEP = 4,
-    EXCLUDE_FILES_STEP = 5,
-    SCRIPTS_LICENSE_STEP = 6,
-    REVIEW_STEP = 7;
+    VISIBILITY_STEP = 3,
+    EXCLUDE_FILES_STEP = 4,
+    SCRIPTS_LICENSE_STEP = 5,
+    REVIEW_STEP = 6;
 
 export default React.createClass({
     displayName: "InstanceImageWizardModal",
@@ -44,7 +42,6 @@ export default React.createClass({
         name: this.props.instance.get('image').name,
         versionName: this.props.versionName || "1.0",
         versionChanges: "",
-        providerId: null,
         visibility: "public",
         minCPU: "0",
         minMem: "0",
@@ -56,7 +53,6 @@ export default React.createClass({
         breadcrumbs: [
           {name:"Image Info",step:IMAGE_INFO_STEP},
           {name:"Version Info",step:VERSION_INFO_STEP},
-          {name:"Provider",step:PROVIDER_STEP},
           {name:"Privacy",step:VISIBILITY_STEP},
           {name:"Exclude Files",step:EXCLUDE_FILES_STEP},
           {name:"Boot Scripts & Licenses",step:SCRIPTS_LICENSE_STEP},
@@ -128,7 +124,6 @@ export default React.createClass({
         tags: this.state.imageTags,
         versionName: this.state.versionName,
         versionChanges: this.state.versionChanges,
-        providerId: this.state.providerId,
         visibility: this.state.visibility,
         imageUsers: this.state.imageUsers,
         filesToExclude: this.state.filesToExclude.trim(),
@@ -148,7 +143,8 @@ export default React.createClass({
     },
 
     onPrevious: function (data) {
-      // Breadcrumbs still starts at 0 even though steps starts at 1. this.state.step - 2 == current breadcrumb - 1
+      // Breadcrumbs still starts at 0 even though steps starts at 1.
+      // this.state.step - 2 == current breadcrumb - 1
       var previousStep = this.state.breadcrumbs[this.state.step - 2],
           data = data || {},
           state = _.extend({step: previousStep.step, title: previousStep.name}, data);
@@ -200,18 +196,6 @@ export default React.createClass({
               versionName={this.state.versionName}
               versionChanges={this.state.versionChanges}
               instance={instance}
-              onPrevious={this.onPrevious}
-              onNext={this.onNext}
-              />
-          );
-
-        case PROVIDER_STEP:
-          return (
-            <ProviderStep
-              instance={instance}
-              providerId={this.state.providerId}
-              minMem={this.state.minMem}
-              minCPU={this.state.minCPU}
               onPrevious={this.onPrevious}
               onNext={this.onNext}
               />

@@ -52,12 +52,6 @@ export default React.createClass({
       });
     },
 
-    onProviderChange: function(newProviderId){
-      this.setState({
-        providerId: newProviderId
-      });
-    },
-
     onVisibilityChange: function (newVisibility) {
       // when we change visibility we should reset the user list to empty
       this.setState({
