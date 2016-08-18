@@ -73,7 +73,9 @@ export default {
         new_version_change_log: versionChanges,
         new_version_forked: fork,
         new_version_name: versionName,
-        new_version_tags: tagNames
+        new_version_tags: tagNames,
+        new_version_scripts: scripts,
+        new_version_licenses: licenses
       };
 
 

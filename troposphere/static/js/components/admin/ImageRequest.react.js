@@ -61,7 +61,7 @@ export default React.createClass({
     },
 
     render: function () {
-      var request = stores.ImageRequestStore.get(this.getParams().id),
+      let request = stores.ImageRequestStore.get(this.getParams().id),
           machine = request.get('parent_machine'),
           new_machine = request.get('new_machine'),
           new_provider = request.get('new_machine_provider'),
@@ -72,8 +72,8 @@ export default React.createClass({
               + size.cpu + " CPU, "
               + size.mem + " MB Memory, "
               + size.disk + " Disk",
-          instance_mach_str = instance.image.name + " v." + machine.version;
-      var membership_list, access_list;
+          instance_mach_str = instance.image.name + " v." + machine.version,
+          membership_list, access_list, scripts_list, licenses_list;
 
       if(request.get('access_list')) {
           var new_access_list = JSON.parse(
@@ -84,6 +84,25 @@ export default React.createClass({
           }).sort().join(", ");
       } else {
           access_list = "";
+      }
+
+      if(request.get('new_version_scripts')) {
+          var new_scripts_list = request.get('new_version_scripts');
+          scripts_list = new_scripts_list.map(function(script) {
+              //FIXME: A more advanced setup: Show the title, the type, and the contents in a constructed DIV
+              return script.title;
+          }).sort().join(", ");
+      } else {
+          scripts_list = "N/A";
+      }
+      if(request.get('new_version_licenses')) {
+          var new_licenses_list = request.get('new_version_licenses');
+          licenses_list = new_licenses_list.map(function(licenses) {
+              //FIXME: A more advanced setup: Show the title, the type, and the text in a constructed DIV
+              return licenses.title;
+          }).sort().join(", ");
+      } else {
+          licenses_list = "N/A";
       }
       if(request.get('new_version_membership')) {
           var new_membership_list = request.get('new_version_membership');
@@ -129,8 +148,8 @@ export default React.createClass({
             <div>Visbility: {request.get('new_application_visibility')}</div>
             <div>Membership Requested (Private Only): {access_list}</div>
             <div>Membership Approved (Private Only): {membership_list}</div>
-            <div>Boot scripts (Optional): {request.get('new_version_scripts')}</div>
-            <div>Licenses (Optional): {request.get('new_version_licenses')}</div>
+            <div>Boot scripts (Optional): {scripts_list}</div>
+            <div>Licenses (Optional): {licenses_list}</div>
             <div>Minimum Memory Threshold (Optional): {request.get('new_version_memory_min') == 0 ? "" : request.get('new_version_memory_min')}</div>
             <div>Minimum CPU Threshold (Optional): {request.get('new_version_cpu_min') == 0 ? "" : request.get('new_version_cpu_min')}</div>
           </div>
