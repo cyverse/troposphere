@@ -143,7 +143,8 @@ export default React.createClass({
     },
 
     onPrevious: function (data) {
-      // Breadcrumbs still starts at 0 even though steps starts at 1. this.state.step - 2 == current breadcrumb - 1
+      // Breadcrumbs still starts at 0 even though steps starts at 1.
+      // this.state.step - 2 == current breadcrumb - 1
       var previousStep = this.state.breadcrumbs[this.state.step - 2],
           data = data || {},
           state = _.extend({step: previousStep.step, title: previousStep.name}, data);
