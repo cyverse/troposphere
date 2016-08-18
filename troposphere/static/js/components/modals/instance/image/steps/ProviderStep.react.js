@@ -38,9 +38,9 @@ export default React.createClass({
       });
     },
 
-    onProviderChange: function (newProviderId) {
+    onProviderChange: function (provider) {
       this.setState({
-        providerId: newProviderId
+        providerId: provider.id
       });
     },
 
@@ -57,7 +57,7 @@ export default React.createClass({
         <div>
           <Provider
             providerId={this.state.providerId}
-            onChange={this.onProviderChange}/>
+            onChange={this.onProviderChange} />
         </div>
       );
     },

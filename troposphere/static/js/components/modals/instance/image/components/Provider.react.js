@@ -1,6 +1,8 @@
 import React from 'react';
 import stores from 'stores';
 
+import SelectMenu from 'components/common/ui/SelectMenu2.react';
+
 
 export default React.createClass({
     displayName: "Provider",
@@ -10,32 +12,18 @@ export default React.createClass({
       providerId: React.PropTypes.number.isRequired
     },
 
-    handleChange: function (e) {
-      this.props.onChange(e.target.value)
-    },
-
-    renderProviderOption: function(provider){
-      if(! provider.get('public')) {
-        return;
-      }
-
-      return (
-        <option key={provider.id} value={provider.id}>
-          {provider.get('name')}
-        </option>
-      )
-    },
-
     render: function () {
       var providerId = this.props.providerId,
         providers = stores.ProviderStore.getAll();
 
       if (!providers) return <div className="loading"/>;
 
+      let publicProviders = providers.cfilter(p => p.get('public'));
+      let defaultProvider = publicProviders.get(providerId);
+
       return (
         <div className="form-group">
           <label htmlFor="provider" className="control-label">Cloud for Deployment</label>
-
           <div className="help-block">
             {
               "Please select the provider you would like this image to be available on. If you would " +
@@ -43,9 +31,11 @@ export default React.createClass({
               "button in footer and we will be help you out."
             }
           </div>
-          <select value={providerId} name="provider" className="form-control" onChange={this.handleChange}>
-            {providers.map(this.renderProviderOption)}
-          </select>
+          <SelectMenu
+            current={ defaultProvider }
+            list={ publicProviders }
+            optionName={ p => p.get('name') }
+            onSelect={ this.props.onChange } />
         </div>
       );
     }
