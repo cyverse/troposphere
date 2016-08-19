@@ -1,8 +1,6 @@
 import React from  'react';
 import ReactDOM from 'react-dom';
 import $ from  'jquery';
-// plugin: jquery extension, not used directly
-import Bootstrap from  'bootstrap';
 
 export default React.createClass({
       displayName: "ProjectResource",

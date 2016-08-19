@@ -2,9 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
-// implicit include (TODO: determine if necessary)
-require('bootstrap');
-
 //
 // Copied from http://bl.ocks.org/insin/raw/8449696/
 //
