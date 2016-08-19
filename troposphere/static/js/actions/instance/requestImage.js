@@ -50,11 +50,11 @@ export default {
           tagNameList = tags.map(function(tag) {
             return tag.get('name');
           }),
-          tagNames = tagNameList.join(", "),
+          tagNames = tagNameList.join(", ");
           // TODO: these three are unused ?
-          scripts = params.scripts,
-          licenses = params.licenses,
-          provider = stores.ProviderStore.get(providerId);
+          // scripts = params.scripts,
+          // licenses = params.licenses,
+          // provider = stores.ProviderStore.get(providerId);
 
       var requestData = {
         access_list: userNames,
