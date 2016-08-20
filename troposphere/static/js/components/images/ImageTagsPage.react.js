@@ -37,36 +37,6 @@ export default React.createClass({
       this.setState({searchTerm: searchTerm});
     },
 
-    renderTag: function (tag) {
-      var name = tag.get('name'),
-        description = tag.get('description');
-
-      return (
-        <li className="tag-item" key={tag.id}>
-          <h4>
-            <Router.Link to="search" query={{q: name}}>{name}</Router.Link>
-          </h4>
-
-          <p>{description}</p>
-        </li>
-      )
-    },
-
-    renderTags: function () {
-      var tags = this.state.tags;
-      if (tags) {
-        return (
-          <ul className="tag-list">
-            {tags.map(this.renderTag)}
-          </ul>
-        )
-      }
-
-      return (
-        <div className="loading"></div>
-      )
-    },
-
     renderTagRow: function (tag) {
       var name = tag.get('name'),
         description = tag.get('description');
@@ -155,7 +125,7 @@ export default React.createClass({
             </h3>
           </div>
           <div className="image-tag-list">
-            {false ? this.renderTags() : this.renderTagsAsTable(tags)}
+            {this.renderTagsAsTable(tags)}
           </div>
         </div>
       );
