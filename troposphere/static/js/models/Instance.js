@@ -52,7 +52,9 @@ export default Backbone.Model.extend({
         if (!options.machine_alias) throw new Error("Missing machine_alias");
 
         if (globals.USE_ALLOCATION_SOURCES) {
-            if (!options.allocation_source_id) throw new Error("Missing allocation_source_id");
+            if (!options.allocation_source_id) {
+                throw new Error("Missing allocation_source_id");
+            }
         }
 
         var providerId = this.get('provider').uuid,
