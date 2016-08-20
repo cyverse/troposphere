@@ -74,7 +74,7 @@ export default React.createClass({
                     <InstanceDetailsSection instance={instance} />
                     <hr/>
                     {
-                        show_instance_metrics
+                        globals.SHOW_INSTANCE_METRICS
                         ? <InstanceMetricsSection instance={instance} />
                         : ""
                     }
