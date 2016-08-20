@@ -4,9 +4,10 @@ import BreakingFeatureList from 'components/modals/unsupported/BreakingFeatureLi
 import chrome from 'images/google_chrome_icon.png';
 import firefox from 'images/firefox_icon.png';
 import safari from 'images/safari_icon.png';
+import ModalHelpers from 'components/modals/ModalHelpers';
 
 
-export default React.createClass({
+const UnsupportedModal = React.createClass({
     displayName: "UnsupportedModal",
 
     mixins: [BootstrapModalMixin],
