@@ -1,5 +1,4 @@
 import Backbone from 'backbone';
-import _ from 'underscore';
 import Volume from 'models/Volume';
 import globals from 'globals';
 

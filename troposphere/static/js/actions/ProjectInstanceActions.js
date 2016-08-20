@@ -1,6 +1,3 @@
-
-import AppDispatcher from 'dispatchers/AppDispatcher';
-import ProjectConstants from 'constants/ProjectConstants';
 import ProjectInstanceConstants from 'constants/ProjectInstanceConstants';
 import ProjectInstance from 'models/ProjectInstance';
 import Utils from './Utils';

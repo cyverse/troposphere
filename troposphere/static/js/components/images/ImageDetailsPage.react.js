@@ -2,7 +2,6 @@ import React from 'react';
 import context from 'context';
 import Router from 'react-router';
 import stores from 'stores';
-import SecondaryImageNavigation from './common/SecondaryImageNavigation.react';
 import ImageDetailsView from './detail/ImageDetailsView.react';
 
 export default React.createClass({

@@ -1,5 +1,3 @@
-import { Model } from 'backbone';
-
 import EventConstants from "constants/EventConstants";
 import Events from "events";
 

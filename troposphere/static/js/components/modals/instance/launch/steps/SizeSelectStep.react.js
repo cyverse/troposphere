@@ -1,6 +1,5 @@
 import React from 'react';
 import Backbone from 'backbone';
-import _ from 'underscore';
 import stores from 'stores';
 import InstanceSizeSelect from '../components/InstanceSizeSelect.react';
 import Glyphicon from 'components/common/Glyphicon.react';
@@ -29,8 +28,7 @@ export default React.createClass({
                 providers = stores.ProviderStore.getAll(),
                 instances = stores.InstanceStore.getAll(),
                 identity = this.props.identity,
-                providerSizes,
-                size;
+                providerSizes;
 
             providerSizes = stores.SizeStore.fetchWhere({
                 provider__id: identity.get('provider').id,
@@ -109,7 +107,6 @@ export default React.createClass({
             this.props.onPrevious(this.state);
         },
         handleKeyDown: function (e) {
-            var text = e.target.value;
             if (e.which === ENTER_KEY) {
                 e.preventDefault();
             }
@@ -267,10 +264,6 @@ export default React.createClass({
         minRequirements = (
           <div className="col-sm-9 control-label pull-right">Minimum requirements: {this.props.version.get('min_cpu')} CPU {this.props.version.get('min_mem') / 1024} GB RAM</div>
         );
-
-        var minCPUInt = this.props.version.get('min_cpu'),
-          minMemInt = this.props.version.get('min_mem');
-
 
         var potentialSizeList = stores.SizeStore.filterWhereGreaterThanOrEqualTo({
           'cpu': this.props.version.get('min_cpu'),

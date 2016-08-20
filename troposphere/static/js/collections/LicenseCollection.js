@@ -1,5 +1,4 @@
 import Backbone from 'backbone';
-import _ from 'underscore';
 import globals from 'globals';
 import Machine from 'models/License';
 

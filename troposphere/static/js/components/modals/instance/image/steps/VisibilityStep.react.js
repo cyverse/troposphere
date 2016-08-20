@@ -1,7 +1,6 @@
 import React from 'react';
 import Backbone from 'backbone';
 import Visibility from '../components/Visibility.react';
-import stores from 'stores';
 import Users from '../components/Users.react';
 
 export default React.createClass({

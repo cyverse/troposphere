@@ -1,4 +1,3 @@
-import _ from 'underscore';
 import React from 'react';
 import Backbone from 'backbone';
 import ProviderMachineEditItem from './ProviderMachineEditItem.react';
@@ -13,7 +12,6 @@ export default React.createClass({
         version: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
     renderProviderMachineItem: function (provider_machine) {
-      var availableText = provider_machine.end_date ? "Enabled" : "Disabled";
         return (
             <ProviderMachineEditItem
               key={provider_machine.id}

@@ -1,32 +1,7 @@
 import React from "react";
-import ReactDOM from 'react-dom';
-import ReactDOMServer from 'react-dom/server';
 import Backbone from "backbone";
 
 import PercentageGraph from 'components/common/ui/PercentageGraph.react';
-
-/**
- * Finds a maximum within the data points for all providers
- *
- * If the maximum does not exceed the _soft_ limit, `ceiling`, return
- * the greatest value present.
- *
- * @param {object} seriesData - array of provider's series data [1]
- * @param {int} ceiling - y Axis soft limit
- *
- * [1] http://api.highcharts.com/highcharts#plotOptions.series
- */
-
-function findMaxDataPt(seriesData, ceiling) {
-    // series data has an array of data points *per* provider
-    // - we need to know the max value to set the Y Axis
-    return Math.max(
-        ceiling,
-        Math.max(...seriesData.map(
-            (provider) => Math.max(...provider.data))
-        )
-    );
-}
 
 export default React.createClass({
     displayName: "ProviderSummaryLinePlot",
@@ -58,8 +33,7 @@ export default React.createClass({
             sizes = this.props.sizes,
             instances = this.props.instances,
             volumes = this.props.volumes,
-            quota = identity.get('quota'),
-            allocation = identity.get('usage');
+            quota = identity.get('quota');
 
         var providerInstances = this.getProviderInstances(instances, provider);
         var providerVolumes = this.getProviderVolumes(volumes, provider);
@@ -79,10 +53,6 @@ export default React.createClass({
         // Volume Usage
         var volumeUsageStats = this.calculateStorageCountUsage(providerVolumes, quota),
             volumeUsage = volumeUsageStats.percentUsed * 100;
-
-        // Allocation Usage
-        var allocationUsageStats = this.calculateAllocationUsage(allocation),
-            allocationUsage = (allocationUsageStats.percentUsed * 100) + 100;
 
         var seriesData = {
             name: provider.get('name'),

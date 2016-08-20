@@ -1,12 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from "jquery";
-import Backbone from 'backbone';
-import stores from 'stores';
-import actions from 'actions';
 import modals from 'modals';
-// plugin: jquery extension, not used directly
-import bootstrap from 'bootstrap';
 import { trackAction } from '../../../../utilities/userActivity';
 
 export default React.createClass({

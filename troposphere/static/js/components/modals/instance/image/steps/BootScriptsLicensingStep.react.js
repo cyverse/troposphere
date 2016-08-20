@@ -3,7 +3,6 @@ import Backbone from 'backbone';
 import actions from 'actions';
 import EditScriptsView from 'components/modals/image_version/scripts/EditScriptsView.react';
 import EditLicensesView from 'components/modals/image_version/licenses/EditLicensesView.react';
-import stores from 'stores';
 
 export default React.createClass({
     displayName: "ImageWizard-BootScriptsLicensingStep",

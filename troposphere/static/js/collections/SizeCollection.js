@@ -1,5 +1,4 @@
 import Backbone from 'backbone';
-import _ from 'underscore';
 import Size from 'models/Size';
 import globals from 'globals';
 

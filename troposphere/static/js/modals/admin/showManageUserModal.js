@@ -1,4 +1,3 @@
-import actions from 'actions';
 import ModalHelpers from 'components/modals/ModalHelpers';
 import ManageUserModal from 'components/modals/admin/ManageUserModal.react';
 

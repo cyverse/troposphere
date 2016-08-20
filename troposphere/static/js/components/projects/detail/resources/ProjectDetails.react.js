@@ -9,10 +9,6 @@ import VolumeList from './volume/VolumeList.react';
 import modals from 'modals';
 import stores from 'stores';
 import actions from 'actions';
-import ExternalLink from 'models/ExternalLink';
-import Image from 'models/Image';
-import Instance from 'models/Instance';
-import Volume from 'models/Volume';
 
 export default React.createClass({
     displayName: "ProjectDetails",
@@ -116,7 +112,6 @@ export default React.createClass({
         projectImages = stores.ProjectImageStore.getImagesFor(project),
         previewedResource = this.state.previewedResource,
         selectedResources = this.state.selectedResources,
-        selectedResource = this.state.selectedResource,
         isButtonBarVisible;
 
       if (!projectInstances || !projectImages || !projectExternalLinks || !projectVolumes)

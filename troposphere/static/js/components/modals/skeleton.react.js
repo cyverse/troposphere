@@ -6,7 +6,6 @@ export default React.createClass({
     mixins: [BootstrapModalMixin],
 
     render: function() {
-        var self = this;
         return (
             <div className="modal fade">
                 <div className="modal-dialog">

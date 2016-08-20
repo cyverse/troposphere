@@ -55,7 +55,6 @@ export default React.createClass({
         if(!this.state.options){
           return <div className="loading" />
         }
-        var selectedCPU = this.state.selectedCPU ? this.state.selectedCPU: options[0];
 
         return (
           <div>

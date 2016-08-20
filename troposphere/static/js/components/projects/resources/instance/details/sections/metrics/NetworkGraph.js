@@ -72,8 +72,7 @@ NetworkGraph.prototype.make = function() {
     var getX = Utils.get('x');
     var getY = Utils.get('y');
 
-    var metricsAxisHeight = 20,
-        yAxisWidth = 60,
+    var yAxisWidth = 60,
         margin = {
             top: 10,
             right: 20,
@@ -182,14 +181,6 @@ NetworkGraph.prototype.make = function() {
             .attr('class', 'metrics mean line')
             .attr('d', line);
     }
-
-    var middleAxis = d3.svg.line()
-        .x(function(d) {
-            return x(d.x);
-        })
-        .y(function(d) {
-            return y(0);
-        });
 
     svg.append('path')
         .datum(rxData)

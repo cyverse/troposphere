@@ -1,6 +1,4 @@
 import React from 'react';
-import modals from 'modals';
-import stores from 'stores';
 import BootScriptOption from '../components/BootScriptOption.react';
 import AdvancedOptionsFooter from '../components/AdvancedOptionsFooter.react';
 

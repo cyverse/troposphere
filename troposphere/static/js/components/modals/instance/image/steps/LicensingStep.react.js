@@ -2,7 +2,6 @@ import React from 'react';
 import Backbone from 'backbone';
 import actions from 'actions';
 import EditLicensesView from 'components/modals/image_version/licenses/EditLicensesView.react';
-import stores from 'stores';
 
 export default React.createClass({
     displayName: "LicensingStep",

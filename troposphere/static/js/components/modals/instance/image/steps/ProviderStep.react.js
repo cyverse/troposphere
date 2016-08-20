@@ -1,7 +1,6 @@
 import React from 'react';
 import Backbone from 'backbone';
 import Provider from '../components/Provider.react';
-import stores from 'stores';
 
 export default React.createClass({
     displayName: "ImageWizard-ProviderStep",

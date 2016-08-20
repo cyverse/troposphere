@@ -2,8 +2,6 @@ import React from 'react';
 import Image from './Image.react';
 import Backbone from  'backbone';
 
-// We only use the ImageCollection for the prototype not data
-import ImageCollection from 'collections/ImageCollection';
 import { filterEndDate } from 'utilities/filterCollection';
 
 

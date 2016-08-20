@@ -88,7 +88,6 @@ export default React.createClass({
 
     renderBody: function () {
         let projectName = this.state.projectName;
-        let projectDescription = this.state.projectDescription;
         let nameClassNames = "form-group";
         let nameErrorMessage = null;
         let descriptionClassNames = "form-group";

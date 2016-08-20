@@ -1,9 +1,7 @@
 import Utils from './Utils';
 import $ from 'jquery';
-import Router from '../Router';
 import stores from 'stores';
 import globals from 'globals';
-import Badge from 'models/Badge';
 import BadgeConstants from 'constants/BadgeConstants';
 import Badges from "Badges";
 import NotificationController from 'controllers/NotificationController';
@@ -78,7 +76,7 @@ export default {
           badgeSlug: badgeSlug,
           secret: secret
         }),
-        success: function(response){
+        success: function() {
           NotificationController.info("You have earned a badge!");
           Utils.dispatch(BadgeConstants.GRANT_BADGE, {badge: badge})
         },

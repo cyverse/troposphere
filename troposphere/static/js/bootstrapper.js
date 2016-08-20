@@ -6,7 +6,6 @@ import ReactDOM from 'react-dom';
 import SplashScreen from 'components/SplashScreen.react';
 import MaintenanceScreen from 'components/MaintenanceScreen.react';
 import FunctionalCollection from 'collections/FunctionalCollection';
-import modernizr from 'lib/modernizr-latest.js';
 
 // Important:
 //   Disconnect all Backbone Events from Models and Collections

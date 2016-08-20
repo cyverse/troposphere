@@ -1,8 +1,5 @@
 import React from 'react';
 import SSHConfiguration from 'components/settings/advanced/SSHConfiguration.react';
-import actions from 'actions';
-import modals from 'modals';
-import stores from 'stores';
 
 export default React.createClass({
 

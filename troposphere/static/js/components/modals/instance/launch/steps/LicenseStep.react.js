@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'underscore';
 
 import InstanceLaunchFooter from '../components/InstanceLaunchFooter.react';
 

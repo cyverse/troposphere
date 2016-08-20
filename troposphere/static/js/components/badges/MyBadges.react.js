@@ -1,11 +1,7 @@
 import React from 'react';
 import Router from 'react-router';
-import Badge from './Badge.react';
 import EarnedBadge from './EarnedBadge.react';
 import stores from 'stores';
-import actions from 'actions';
-
-let RouteHandler = Router.RouteHandler;
 
 export default React.createClass({
     displayName: "MyBadges",
