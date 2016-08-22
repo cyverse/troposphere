@@ -42,8 +42,6 @@ export default {
           versionChanges = params.versionChanges,
           systemFiles = params.systemFiles || "[no files specified]",
           visibility = params.visibility,
-          scripts = params.scripts,
-          licenses = params.licenses,
           imageUsers = params.imageUsers,
           userNames = imageUsers.map(function(user) {
             return user.get('username');
@@ -52,8 +50,11 @@ export default {
           tagNameList = tags.map(function(tag) {
             return tag.get('name');
           }),
-          tagNames = tagNameList.join(", "),
-          provider = stores.ProviderStore.get(providerId);
+          tagNames = tagNameList.join(", ");
+          // TODO: these three are unused ?
+          // scripts = params.scripts,
+          // licenses = params.licenses,
+          // provider = stores.ProviderStore.get(providerId);
 
       var requestData = {
         access_list: userNames,

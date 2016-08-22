@@ -398,7 +398,6 @@ _.extend(Store.prototype, Backbone.Events, {
         if (nextUrl && !this.isFetchingQuery[queryString]) {
             this.isFetching = true;
             this.isFetchingQuery[queryString] = true;
-            var moreModels = new this.collection();
 
             this.queryModels[queryString].fetch({
                 url: nextUrl,

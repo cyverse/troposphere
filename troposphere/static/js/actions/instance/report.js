@@ -1,7 +1,5 @@
-import stores from 'stores';
 import globals from 'globals';
 import $ from 'jquery';
-import _ from 'underscore';
 import Utils from '../Utils';
 
 export default {

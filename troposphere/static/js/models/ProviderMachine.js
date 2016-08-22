@@ -4,7 +4,6 @@ import moment from 'moment';
 
 export default Backbone.Model.extend({
     urlRoot: function() {
-        var creds = this.creds;
         var url = globals.API_V2_ROOT +
             '/provider_machines';
         return url;

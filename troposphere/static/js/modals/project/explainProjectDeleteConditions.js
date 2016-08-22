@@ -1,4 +1,3 @@
-import actions from 'actions';
 import ModalHelpers from 'components/modals/ModalHelpers';
 import ProjectDeleteConditionsModal from 'components/modals/project/ProjectDeleteConditionsModal.react';
 

@@ -23,7 +23,6 @@ export default React.createClass({
     render: function() {
         // only attempt to get bookmarks if there is a profile that might have them ...
         let userLoggedIn = context.hasLoggedInUser();
-        let images = stores.ImageStore.getAll();
 
         let routes;
         if (!userLoggedIn) {

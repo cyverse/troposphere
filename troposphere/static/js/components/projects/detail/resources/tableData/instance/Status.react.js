@@ -28,8 +28,6 @@ export default React.createClass({
             lightStatus = "error";
         }
 
-        var rawStatus = instanceState.get('status_raw');
-
         var style = {textTransform: "capitalize"};
 
         if (instanceState.isDeployError()) {

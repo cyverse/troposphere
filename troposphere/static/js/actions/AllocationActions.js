@@ -1,8 +1,6 @@
-import AppDispatcher from 'dispatchers/AppDispatcher';
 import AllocationConstants from 'constants/AllocationConstants';
 import Allocation from 'models/Allocation';
 import Utils from './Utils';
-import stores from 'stores';
 
 export default {
 

@@ -1,15 +1,11 @@
 import React from 'react';
 import Backbone from 'backbone';
-import HeaderView from './header/HeaderView.react';
 import TagsView from './tags/TagsView.react';
-import ImageLaunchCard from './launch/ImageLaunchCard.react';
 import NameView from './name/NameView.react';
 import CreatedView from './created/CreatedView.react';
 import RemovedView from './removed/RemovedView.react';
 import AuthorView from './author/AuthorView.react';
 import DescriptionView from './description/DescriptionView.react';
-import VersionsView from './versions/VersionsView.react';
-import actions from 'actions';
 import stores from 'stores';
 
 export default React.createClass({

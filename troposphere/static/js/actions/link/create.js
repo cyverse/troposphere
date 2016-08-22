@@ -1,6 +1,5 @@
 import ExternalLinkConstants from 'constants/ExternalLinkConstants';
 import ExternalLink from 'models/ExternalLink';
-import actions from 'actions';
 import Utils from '../Utils';
 
 export default {

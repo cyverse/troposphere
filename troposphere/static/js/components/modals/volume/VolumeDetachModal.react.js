@@ -33,8 +33,7 @@ export default React.createClass({
       //
 
       renderBody: function () {
-        var volume = this.props.volume,
-            helpLink = this.props.helpLink;
+        var volume = this.props.volume;
 
         return (
           <div>

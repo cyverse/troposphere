@@ -1,10 +1,7 @@
 import React from 'react';
-import $ from 'jquery';
 import Backbone from 'backbone';
 import Showdown from 'showdown';
 import globals from 'globals';
-import moment from 'moment';
-import momentTZ from 'moment-timezone';
 
 export default React.createClass({
       displayName: "ViewDetails",

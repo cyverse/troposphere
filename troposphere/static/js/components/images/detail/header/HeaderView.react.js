@@ -5,7 +5,6 @@ import $ from 'jquery';
 import stores from 'stores';
 import modals from 'modals';
 // plugin; implicit include
-import bootstrap from 'bootstrap';
 
 export default React.createClass({
       displayName: "HeaderView",

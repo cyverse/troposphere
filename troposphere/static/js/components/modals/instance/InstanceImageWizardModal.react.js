@@ -246,7 +246,6 @@ export default React.createClass({
       }
     },
     renderBreadCrumbTrail: function() {
-      var user = stores.ProfileStore.get();
       var self = this;
       var breadcrumbs = this.state.breadcrumbs;
 

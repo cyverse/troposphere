@@ -27,7 +27,6 @@ export default React.createClass({
 
       renderMovedVolume: function (movedVolumeData) {
         var volume = movedVolumeData.volume;
-        var instance = movedVolumeData.instance;
         var oldProject = movedVolumeData.oldProject;
         var newProject = movedVolumeData.newProject;
         var message;

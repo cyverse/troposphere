@@ -1,7 +1,6 @@
 import Dispatcher from 'dispatchers/Dispatcher';
 import BaseStore from 'stores/BaseStore';
 import InstanceCollection from 'collections/InstanceCollection';
-import _ from 'underscore';
 import Utils from 'actions/Utils';
 import InstanceConstants from 'constants/InstanceConstants';
 import InstanceState from 'models/InstanceState';

@@ -1,7 +1,6 @@
 import QuotaConstants from 'constants/QuotaConstants';
 import Quota from 'models/Quota';
 import Utils from './Utils';
-import stores from 'stores';
 
 var QuotaActions = {
     create: function(params){

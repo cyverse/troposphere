@@ -1,6 +1,4 @@
 import React from 'react';
-import Backbone from 'backbone';
-import Showdown from 'showdown';
 
 
 export default React.createClass({

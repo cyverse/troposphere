@@ -1,7 +1,6 @@
 
 import TagConstants from 'constants/TagConstants';
 import Tag from 'models/Tag';
-import actions from 'actions';
 import Utils from '../Utils';
 
 export default {

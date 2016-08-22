@@ -2,7 +2,6 @@ import React from 'react';
 import Backbone from 'backbone';
 import Glyphicon from 'components/common/Glyphicon.react';
 import modals from 'modals';
-import actions from 'actions';
 
 
 export default React.createClass({

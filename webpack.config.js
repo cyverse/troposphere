@@ -110,7 +110,6 @@ module.exports = {
   plugins: plugins,
   resolve: {
     alias: {
-      bootstrap: "bootstrap-sass",
       css: path.join(__dirname, "/troposphere/static/css/"),
       images: path.join(__dirname, "/troposphere/static/images/"),
       highcharts: "highcharts-commonjs"

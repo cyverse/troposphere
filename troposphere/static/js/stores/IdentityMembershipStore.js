@@ -2,7 +2,6 @@ import Dispatcher from 'dispatchers/Dispatcher';
 import BaseStore from 'stores/BaseStore';
 import IdentityMembershipCollection from 'collections/IdentityMembershipCollection';
 import IdentityMembershipConstants from 'constants/IdentityMembershipConstants';
-import stores from 'stores';
 
 let IdentityMembershipStore = BaseStore.extend({
     collection: IdentityMembershipCollection
