@@ -28,14 +28,6 @@ export default React.createClass({
       },
 
       render: function () {
-        var scrollSpy = (
-          <ul>
-            <li className="active"><a href="#">Instances</a></li>
-            <li><a href="#">Volumes</a></li>
-            <li><a href="#">Links</a></li>
-          </ul>
-        );
-
         return (
           <div className="sub-menu">
             <div className="dropdown">
@@ -61,7 +53,6 @@ export default React.createClass({
                 </li>
               </ul>
             </div>
-            {false ? scrollSpy : null}
          </div>
         );
       }
