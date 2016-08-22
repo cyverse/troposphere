@@ -10,7 +10,8 @@
         "react/jsx-uses-vars": "error",
         "react/jsx-uses-react": "error",
         "no-unreachable": "error",
-        "no-undef": "error"
+        "no-undef": "error",
+        "no-constant-condition": "error"
     },
     "env": {
         "es6": true,
