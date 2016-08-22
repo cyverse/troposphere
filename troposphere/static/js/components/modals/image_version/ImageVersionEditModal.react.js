@@ -292,8 +292,10 @@ export default React.createClass({
     },
 
     renderBody: function() {
-      var applicationView, availabilityView, nameView, nameErrorView, descriptionView,
-        startDateView, endDateView, membershipView, licensesView, scriptsView, minimumRequirementsView;
+      var applicationView, availabilityView, nameView, nameErrorView,
+          descriptionView, startDateView, endDateView, membershipView,
+          licensesView, scriptsView, minimumRequirementsView;
+
       var images = stores.ImageStore.getAll();
 
       var name = this.state.versionName,
@@ -395,14 +397,14 @@ export default React.createClass({
           <input type='text' className='form-control' value={created} readOnly={true} editable={false}/>
         </div>
       );
-      canImageView = (<div className='form-group checkbox'>
-          <label htmlFor='version-uncopyable'>
-            <input type='checkbox' className='form-control'
-                   checked={this.state.versionCanImage}
-                   onChange={this.onUncopyableSelected}/>
-          </label>
-        </div>
-      );
+      // canImageView = (<div className='form-group checkbox'>
+      //     <label htmlFor='version-uncopyable'>
+      //       <input type='checkbox' className='form-control'
+      //              checked={this.state.versionCanImage}
+      //              onChange={this.onUncopyableSelected}/>
+      //     </label>
+      //   </div>
+      // );
       minimumRequirementsView = (<EditMinimumRequirementsView
         cpu={this.state.versionMinCPU}
         mem={this.state.versionMinMem}
@@ -443,8 +445,8 @@ export default React.createClass({
           {descriptionView}
           <hr />
           {
-            //TODO: implement 'allow Imaging' in the next iteration
-            //canImageView
+            // TODO: implement 'allow Imaging' in the next iteration
+            // canImageView
           }
           {startDateView}
           {endDateView}

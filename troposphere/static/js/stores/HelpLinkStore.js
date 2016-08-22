@@ -14,7 +14,6 @@ var HelpLinkStore = BaseStore.extend({
 var store = new HelpLinkStore();
 
 Dispatcher.register(function (dispatch) {
-    var actionType = dispatch.action.actionType;
     var options = dispatch.action.options || options;
 
     if (!options.silent) {
