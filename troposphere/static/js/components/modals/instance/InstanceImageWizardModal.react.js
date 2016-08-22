@@ -6,7 +6,6 @@ import BreadcrumbNav from 'components/common/breadcrumb/BreadcrumbNav.react';
 import stores from 'stores';
 import ImageInfoStep from './image/steps/ImageInfoStep.react';
 import VersionInfoStep from './image/steps/VersionInfoStep.react';
-import MinimumRequirementsStep from './image/steps/MinimumRequirementsStep.react';
 import VisibilityStep from './image/steps/VisibilityStep.react';
 import FilesToExcludeStep from './image/steps/FilesToExcludeStep.react';
 import BootScriptsAndLicenseStep from './image/steps/BootScriptsLicensingStep.react';
