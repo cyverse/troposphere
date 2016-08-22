@@ -159,13 +159,13 @@ export default React.createClass({
       ]);
 
       if (usesRemoteDesktop) {
-        linksArray = linksArray.concat([{
-          label: 'Remote Desktop',
-          icon: 'sound-stereo',
-          href: remoteDesktopUrl,
-          openInNewWindow: true,
-          isDisabled: webLinksDisabled
-        }]);
+          linksArray.push({
+              label: 'Remote Desktop',
+              icon: 'sound-stereo',
+              href: remoteDesktopUrl,
+              openInNewWindow: true,
+              isDisabled: webLinksDisabled
+          });
       }
 
       if (webDesktopCapable && featureFlags.WEB_DESKTOP) {

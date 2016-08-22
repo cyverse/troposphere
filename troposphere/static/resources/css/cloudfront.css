@@ -84,7 +84,7 @@ select {
 @media (min-width: 720px) {
     #wrap {
         position: absolute;
-        top: 48px;
+        top: 100px;
         bottom: 50px;
         width: 100%;
     }

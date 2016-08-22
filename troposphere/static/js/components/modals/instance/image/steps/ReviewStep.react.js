@@ -152,8 +152,7 @@ export default React.createClass({
     },
 
     renderBody: function (imageData) {
-      var provider = stores.ProviderStore.get(imageData.providerId),
-        visibilityMap = {
+        var visibilityMap = {
           'public': 'Public (everyone can see the image)',
           'private': 'Private (only you can see the image)',
           'select': 'Select Users (only you and selected users can see the image)'
@@ -194,11 +193,6 @@ export default React.createClass({
 
             <hr/>
 
-            <div className="form-group">
-              <label className="control-label col-sm-3">Provider</label>
-
-              <div className="help-block col-sm-9">{provider.get('name')}</div>
-            </div>
             <div className="form-group">
               <label className="control-label col-sm-3">Visibility</label>
 

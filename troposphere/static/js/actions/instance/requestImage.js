@@ -15,10 +15,10 @@ export default {
       if(params.versionFork == undefined) throw new Error("Missing create/update flag(fork)");
       if(!params.versionName) throw new Error("Missing name");
       if(!params.versionChanges) throw new Error("Missing description");
-      if(!params.providerId) throw new Error("Missing providerId");
-      //if(!params.software) throw new Error("Missing software");
-      //if(!params.filesToExclude) throw new Error("Missing filesToExclude");
-      //if(!params.systemFiles) throw new Error("Missing systemFiles");
+      // if(!params.providerId) throw new Error("Missing providerId");
+      // if(!params.software) throw new Error("Missing software");
+      // if(!params.filesToExclude) throw new Error("Missing filesToExclude");
+      // if(!params.systemFiles) throw new Error("Missing systemFiles");
       if(!params.scripts) throw new Error("Missing scripts");
       if(!params.licenses) throw new Error("Missing licenses");
       if(!params.visibility) throw new Error("Missing visibility");
@@ -68,12 +68,14 @@ export default {
         new_version_cpu_min: minCPU,
         new_application_visibility: visibility,
         new_machine_owner: newMachineOwner,
-        new_machine_provider: providerId,
+        // new_machine_provider: providerId,
         new_version_allow_imaging: true,
         new_version_change_log: versionChanges,
         new_version_forked: fork,
         new_version_name: versionName,
-        new_version_tags: tagNames
+        new_version_tags: tagNames,
+        new_version_scripts: scripts,
+        new_version_licenses: licenses
       };
 
 
