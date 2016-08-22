@@ -6,6 +6,7 @@
         ],
         "no-debugger": 2,
         "no-mixed-spaces-and-tabs": 2,
+        "no-undef": "error"
     },
     "env": {
         "es6": true,

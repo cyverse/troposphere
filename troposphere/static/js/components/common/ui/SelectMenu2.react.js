@@ -1,5 +1,5 @@
 import React from "react";
-import backbone from "backbone";
+import Backbone from "backbone";
 import _ from "underscore";
 
 export default React.createClass({
@@ -9,7 +9,7 @@ export default React.createClass({
         onSelect: React.PropTypes.func.isRequired,
         optionName: React.PropTypes.func.isRequired,
         list: React.PropTypes.oneOfType([
-            React.PropTypes.instanceOf(backbone.Collection),
+            React.PropTypes.instanceOf(Backbone.Collection),
             React.PropTypes.array
         ]),
         current: React.PropTypes.object,

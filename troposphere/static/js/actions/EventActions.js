@@ -18,7 +18,7 @@ export default {
                     }
                 }).save();
             default:
-                throw `Event of type: ${type} is not handled.`
+                throw `Event of type: ${name} is not handled.`
         }
     }
 }

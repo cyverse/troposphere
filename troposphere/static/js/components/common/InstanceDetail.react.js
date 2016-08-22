@@ -2,6 +2,7 @@ import React from 'react';
 import Router from 'react-router';
 import Backbone from 'backbone';
 import stores from 'stores';
+import globals from 'globals';
 import InstanceDetailsSection from 'components/projects/resources/instance/details/sections/InstanceDetailsSection.react';
 import PastInstanceDetailsSection from 'components/projects/resources/instance/details/sections/PastInstanceDetailsSection.react';
 import InstanceActionsAndLinks from 'components/projects/resources/instance/details/actions/InstanceActionsAndLinks.react';
@@ -57,7 +58,9 @@ var InstanceDetail = React.createClass({
         instanceObj.set('start_date', dateStart);
         instanceObj.set('end_date', dateEnd);
 
-        var metrics = typeof show_instance_metrics != "undefined" ? <InstanceMetricsSection instance={instanceObj}/> : "";
+        var metrics = globals.SHOW_INSTANCE_METRICS
+            ? <InstanceMetricsSection instance={instanceObj} />
+            : "";
 
         return (
             <div className="container">
@@ -77,7 +80,9 @@ var InstanceDetail = React.createClass({
 
     renderActiveInstance: function(){
         var instance = this.state.instance;
-        var metrics = typeof show_instance_metrics != "undefined" ? <InstanceMetricsSection instance={instance}/> : "";
+        var metrics = globals.SHOW_INSTANCE_METRICS
+            ? <InstanceMetricsSection instance={instance} />
+            : "";
 
         return (
             <div className="container">
