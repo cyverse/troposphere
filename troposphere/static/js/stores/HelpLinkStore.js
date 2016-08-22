@@ -17,25 +17,11 @@ Dispatcher.register(function (dispatch) {
     var actionType = dispatch.action.actionType;
     var options = dispatch.action.options || options;
 
-    switch (actionType) {
-/*
-        case HelpLinkConstants.ADD_LINK:
-            store.add(payload.external_link);
-            break;
-
-        case HelpLinkConstants.UPDATE_LINK:
-            store.update(payload.external_link);
-            break;
- */
-        default:
-            return true;
-    }
-
     if (!options.silent) {
-      store.emitChange();
+        store.emitChange();
     }
 
     return true;
-  });
+});
 
 export default store;
