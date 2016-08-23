@@ -1,7 +1,7 @@
 .DEFAULT_GOAL =	all
 
 .PHONY =	all clean delete delete-javascript delete-virtualenv dev dev-full \
-    webpack-dev webpack-prod javascript js static npm pip prod production python \
+    webpack-dev webpack-prod javascript js cf2 static npm pip prod production python \
     virtualenv chown
 
 DJANGO	=	DJANGO_SETTINGS_MODULE='troposphere.settings' ./manage.py
@@ -44,6 +44,10 @@ webpack-prod : npm
 javascript : webpack-dev static
 
 js : javascript
+
+cf2:
+	echo 'This command has been renamed to `make static`'
+	make static
 
 static :
 	$(DJANGO) collectstatic
