@@ -108,11 +108,12 @@ export default React.createClass({
 
       if (!tags) return <div className="loading"/>;
       let filteredImageTags = this.filterTags(imageTags);
+      let filteredTags = this.filterTags(tags);
       if (query) {
-        tags = tags.filter(function (tag) {
+        filteredTags = filteredTags.filter(function (tag) {
           return tag.get('name').toLowerCase().indexOf(query) >= 0;
         });
-        tags = new Backbone.Collection(tags);
+        filteredTags = new Backbone.Collection(filteredTags);
       }
 
       return (
@@ -130,10 +131,10 @@ export default React.createClass({
               For your convenience, we've automatically added the tags that were already on the instance.
             </div>
             <TagMultiSelect
-              models={tags}
+              models={filteredTags}
               activeModels={filteredImageTags}
               onCreateNewTag={this.onCreateNewTag}
-                            onModelAdded={this.props.onTagAdded}
+              onModelAdded={this.props.onTagAdded}
               onModelRemoved={this.props.onTagRemoved}
               onModelCreated={this.props.onTagCreated}
               onQueryChange={this.onQueryChange}
