@@ -4,7 +4,12 @@ import CreateScript from './CreateScript.react';
 
 
 export default React.createClass({
+    displayName: "BootScriptOption",
 
+    propTypes: {
+        onDisableFooter: React.PropTypes.func,
+        onEnableFooter: React.PropTypes.func
+    },
     getInitialState: function() {
         return {
             view: "ADDSCRIPT_VIEW"
