@@ -53,8 +53,8 @@ export default React.createClass({
         if(text === 'approved'){
           trClass = "success";
         }
-        else if (text === "rejected"){
-          trClass = "rejected";
+        else if (text === "denied"){
+          trClass = "denied";
         }
         else if(text === "pending"){
           closeButton = <button type="button" className="btn btn-warning pull-right" onClick={close}>Close</button>;

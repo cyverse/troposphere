@@ -71,7 +71,6 @@ stores.AllocationSourceStore = require('stores/AllocationSourceStore');
 
 import actions from 'actions';
 
-actions.AllocationActions = require('actions/AllocationActions');
 actions.BadgeActions = require('actions/BadgeActions');
 actions.ExternalLinkActions = require('actions/ExternalLinkActions');
 actions.HelpActions = require('actions/HelpActions');
@@ -95,7 +94,6 @@ actions.ProjectExternalLinkActions = require('actions/ProjectExternalLinkActions
 actions.ProjectImageActions = require('actions/ProjectImageActions');
 actions.ProjectInstanceActions = require('actions/ProjectInstanceActions');
 actions.ProjectVolumeActions = require('actions/ProjectVolumeActions');
-actions.QuotaActions = require('actions/QuotaActions');
 actions.ResourceActions = require('actions/ResourceActions');
 actions.TagActions = require('actions/TagActions');
 actions.UserActions = require('actions/UserActions');

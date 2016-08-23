@@ -247,7 +247,7 @@ _.extend(Store.prototype, Backbone.Events, {
         if (!this.models) return this.fetchModels();
         var keys = Object.keys(params);
 
-        var models = this.models.filter(function(model) {
+        var models = this.models.cfilter(function(model) {
             var matchesCriteria = true;
 
             keys.forEach(function(key) {
@@ -267,7 +267,7 @@ _.extend(Store.prototype, Backbone.Events, {
             return matchesCriteria;
         });
 
-        return new this.collection(models);
+        return models;
     },
 
     // Looks through the local cache and returns the first model matching the given params

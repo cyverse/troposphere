@@ -24,19 +24,6 @@
 	display: inline-block;
 }
 
-.requests{
-	padding: 0;
-
-	li{
-		list-style-type: none;
-	}
-
-	h3{
-		width: 33%;
-		display: inline-block;
-	}
-}
-
 .requests-list{
 	width: 29%;
 	height: 500px;
@@ -58,7 +45,7 @@
 	}
 }
 
-.request-admin{
+.request-admin {
 	width: 69%;
 	border: 2px solid lightgray;
 	padding: 1%;
@@ -93,18 +80,4 @@
 		width: 100%;
 		height: 200px;
 	}
-    .quota-change{
-        width: 47.5%;
-        margin-right: 2.5%;
-        float: left;
-    }
-    .allocation-change{
-        width: 47.5%;
-        margin-left: 2.5%;
-        float: right;
-    }
-    .admin-response{
-        clear: both;
-        padding-top: 2.5%;
-    }
 }

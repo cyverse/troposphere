@@ -87,7 +87,7 @@ export default React.createClass({
           case "approved":
             trClass = "success";
             break;
-          case "rejected":
+          case "denied":
             trClass = "warning"
             break;
           default:
