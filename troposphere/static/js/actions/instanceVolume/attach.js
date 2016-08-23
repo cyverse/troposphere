@@ -1,12 +1,11 @@
 import VolumeConstants from 'constants/VolumeConstants';
 import VolumeState from 'models/VolumeState';
-import actions from 'actions';
 import Badges from 'Badges';
-import globals from 'globals';
 import InstanceVolumeActionRequest from 'models/InstanceVolumeActionRequest';
 import Utils from '../Utils';
 import NotificationController from 'controllers/NotificationController';
 import VolumeAttachNotifications from 'components/notifications/VolumeAttachNotifications.react';
+import actions from 'actions';
 
 
 export default {

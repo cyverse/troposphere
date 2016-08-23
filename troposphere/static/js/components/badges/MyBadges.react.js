@@ -9,12 +9,30 @@ export default React.createClass({
     mixins: [Router.State],
 
     getInitialState: function() {
-      var user = stores.ProfileStore.get();
-      return{
-        userEmail: user.get('email'),
-        badges: "",
-        myBadges: ""
-      };
+        var user = stores.ProfileStore.get();
+        return {
+            userEmail: user.get("email"),
+            badges: "",
+            myBadges: ""
+        };
+    },
+
+    showHelp: function() {
+        modals.BadgeModals.showHelp();
+    },
+
+    onExport: function() {
+        var assertions = [];
+        stores.MyBadgeStore.getAll().each(function(model) {
+            // Send http url to backpack, not the https url that assertionUrl contains
+            var assertionPieces = model.get("assertionUrl").split("/"),
+                assertionId = assertionPieces[assertionPieces.length - 1],
+                assertionUrl = globals.BADGE_ASSERTION_HOST + "/public/assertions/" + assertionId;
+
+            assertions.push(assertionUrl);
+        });
+        // FIXME: cannot find the object definition for `OpenBadges`
+        //OpenBadges.issue(assertions);
     },
 
     render: function () {
