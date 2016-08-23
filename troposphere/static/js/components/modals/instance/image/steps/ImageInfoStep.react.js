@@ -19,7 +19,6 @@ export default React.createClass({
       description: React.PropTypes.string.isRequired,
       newImage: React.PropTypes.bool.isRequired,
       helpLink: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      imageTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
 
     getDefaultProps: function () {
@@ -28,18 +27,63 @@ export default React.createClass({
         description: "",
         imageOwner: false,
         newImage: true,
+        parentImage: null,
+        imageTags: null,
       };
     },
 
+    componentDidMount: function () {
+      stores.ImageStore.addChangeListener(this.updateState);
+      stores.TagStore.addChangeListener(this.updateState);
+
+    },
+
+    componentWillUnmount: function () {
+      stores.ImageStore.removeChangeListener(this.updateState);
+      stores.TagStore.removeChangeListener(this.updateState);
+    },
+
     getInitialState: function () {
+        let instance = this.props.instance;
+        let parent_image_id = instance.get('image').id;
+        let parentImage = this.props.parentImage;
+        let imageTags = this.props.imageTags;
+        if (!parentImage) {
+            parentImage = stores.ImageStore.get(parent_image_id);
+        }
+        if (parentImage) {
+            imageTags = stores.TagStore.getImageTags(parentImage);
+        }
+
       return {
         name: this.props.name,
         nameError: this.setNameError(this.props.name),
         description: this.props.description,
         newImage: this.props.newImage,
-        imageTags: this.props.imageTags,
+        imageTags,
+        parentImage,
       }
     },
+
+    updateState: function () {
+        let instance = this.props.instance;
+        let parent_image_id = instance.get('image').id;
+        let parentImage = this.state.parentImage;
+        let imageTags = this.state.imageTags;
+        if (!parentImage) {
+            parentImage = stores.ImageStore.get(parent_image_id);
+        } else {
+            imageTags = stores.TagStore.getImageTags(parentImage);
+        }
+
+        if (imageTags) {
+            this.setState({
+                imageTags,
+                parentImage
+            });
+        }
+    },
+
     isValidName: function (value) {
       var pattern = new RegExp("^[^!\"#$%&'*,/;<>?\\\\`{|}~^]+$")  //Invalid characters.
       if (! pattern.test(value)) {
@@ -52,7 +96,8 @@ export default React.createClass({
       var hasName = !!(testName);
       var validName = this.isValidName(testName);
       var hasDescription = !!($.trim(this.state.description));
-      return hasName && hasDescription && validName;
+      var notNullTags = this.state.imageTags != null;
+      return hasName && hasDescription && validName && notNullTags;
     },
 
     onNext: function () {
@@ -117,6 +162,25 @@ export default React.createClass({
 
       }
     },
+
+    renderTags: function () {
+      let render_tags,
+          imageTags = this.state.imageTags;
+      if (imageTags == null) {
+          render_tags =  (<div className="loading"/>);
+      } else {
+          render_tags = (
+            <Tags
+              onTagAdded={this.onTagAdded}
+              onTagRemoved={this.onTagRemoved}
+              onTagCreated={this.onTagCreated}
+              imageTags={this.state.imageTags}
+              />
+          );
+      }
+      return render_tags;
+    },
+
     renderBody: function (instance) {
       return (
         <div>
@@ -154,12 +218,7 @@ export default React.createClass({
             onChange={this.onDescriptionChange}
           />
           <hr />
-          <Tags
-            onTagAdded={this.onTagAdded}
-            onTagRemoved={this.onTagRemoved}
-            onTagCreated={this.onTagCreated}
-            imageTags={this.state.imageTags}
-            />
+          {this.renderTags()}
         </div>
       );
     },

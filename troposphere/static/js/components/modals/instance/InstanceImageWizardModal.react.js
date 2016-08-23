@@ -36,6 +36,8 @@ export default React.createClass({
 
     getInitialState: function () {
       stores.IdentityStore.getAll();
+      stores.TagStore.getAll();
+      let instance = this.props.instance;
       return {
         step: 1,
         title: "Image Info", // Identical to first breadcrumb name
@@ -45,7 +47,6 @@ export default React.createClass({
         visibility: "public",
         minCPU: "0",
         minMem: "0",
-        imageTags: new Backbone.Collection(),
         imageUsers: new Backbone.Collection(),
         activeScripts: new Backbone.Collection(),
         activeLicenses: new Backbone.Collection(),
@@ -62,24 +63,12 @@ export default React.createClass({
       };
     },
 
-    updateState: function () {
-        let instance = this.props.instance;
-
-        let imageTags = this.state.imageTags;
-        if (instance) {
-            imageTags = stores.InstanceTagStore.getTagsFor(instance);
-        }
-
-        this.setState({
-            imageTags,
-        });
-    },
-
     componentDidMount: function () {
       stores.InstanceTagStore.addChangeListener(this.updateState);
       stores.UserStore.addChangeListener(this.updateState);
       stores.ScriptStore.addChangeListener(this.updateState);
       stores.LicenseStore.addChangeListener(this.updateState);
+      stores.TagStore.addChangeListener(this.updateState);
 
     },
 
@@ -88,6 +77,7 @@ export default React.createClass({
       stores.UserStore.removeChangeListener(this.updateState);
       stores.ScriptStore.removeChangeListener(this.updateState);
       stores.LicenseStore.removeChangeListener(this.updateState);
+      stores.TagStore.removeChangeListener(this.updateState);
 
     },
 
@@ -180,7 +170,6 @@ export default React.createClass({
           return (
             <ImageInfoStep
               name={this.state.name}
-              imageTags={this.state.imageTags}
               description={description}
               instance={instance}
               imageOwner={this.props.imageOwner}

@@ -15,7 +15,10 @@ let TagStore = BaseStore.extend({
     },
 
     getImageTags: function(image) {
-        if (!this.models) throw new Error("Must fetch tags before calling getImageTags");
+        if (!this.models) {
+            //throw new Error("Must fetch tags before calling getImageTags");
+            return null;
+        }
 
         var imageTagArray = image.get('tags').map(function(tag) {
             //var tagName = tag.name;

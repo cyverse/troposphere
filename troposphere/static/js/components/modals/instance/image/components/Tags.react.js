@@ -12,7 +12,7 @@ export default React.createClass({
         onTagAdded: React.PropTypes.func.isRequired,
         onTagRemoved: React.PropTypes.func.isRequired,
         onTagCreated: React.PropTypes.func.isRequired,
-        imageTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        imageTags: React.PropTypes.instanceOf(Backbone.Collection)
     },
 
     getInitialState: function () {
@@ -73,6 +73,13 @@ export default React.createClass({
         });
     },
 
+    filterTags: function (image_tags) {
+        image_tags = image_tags.filter(function (tag) {
+              return tag.get('allow_access') === true;
+        });
+        image_tags = new Backbone.Collection(image_tags);
+        return image_tags;
+    },
     render: function () {
       var imageTags = this.props.imageTags,
         tags = this.state.tags,
@@ -97,8 +104,10 @@ export default React.createClass({
                 );
             }
 
-      if (!tags) return <div className="loading"/>;
+      if (!imageTags) return <div className="loading"/>;
 
+      if (!tags) return <div className="loading"/>;
+      let filteredImageTags = this.filterTags(imageTags);
       if (query) {
         tags = tags.filter(function (tag) {
           return tag.get('name').toLowerCase().indexOf(query) >= 0;
@@ -122,7 +131,7 @@ export default React.createClass({
             </div>
             <TagMultiSelect
               models={tags}
-              activeModels={imageTags}
+              activeModels={filteredImageTags}
               onCreateNewTag={this.onCreateNewTag}
                             onModelAdded={this.props.onTagAdded}
               onModelRemoved={this.props.onTagRemoved}
