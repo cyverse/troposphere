@@ -1,7 +1,7 @@
 .DEFAULT_GOAL =	all
 
 .PHONY =	all clean delete delete-javascript delete-virtualenv dev dev-full \
-    webpack-dev webpack-prod javascript js cf2 npm pip prod production python \
+    webpack-dev webpack-prod javascript js cf2 static npm pip prod production python \
     virtualenv chown
 
 DJANGO	=	DJANGO_SETTINGS_MODULE='troposphere.settings' ./manage.py
@@ -12,9 +12,9 @@ NPM	    =	npm
 NODE	=	node
 SHELL	=	/bin/bash
 
-jenkins : npm webpack-jenkins cf2 relativevirtual jenkinspip django jenkinschown
+jenkins : npm webpack-jenkins static relativevirtual jenkinspip django jenkinschown
 
-all : npm webpack-dev cf2 virtualenv pip django chown
+all : npm webpack-dev static virtualenv pip django chown
 
 clean :
 	./scripts/rm_all_pyc.sh
@@ -41,12 +41,16 @@ webpack-jenkins : npm
 webpack-prod : npm
 	$(WEBPACK) --production
 
-javascript : webpack-dev cf2
+javascript : webpack-dev static
 
 js : javascript
 
-cf2 :
-	cp -r ./troposphere/static/resources ./troposphere/assets/
+cf2:
+	echo 'This command has been renamed to `make static`'
+	make static
+
+static :
+	$(DJANGO) collectstatic
 
 npm : package.json
 	$(NPM) install
@@ -54,9 +58,9 @@ npm : package.json
 pip : virtualenv
 	source /opt/env/troposphere/bin/activate;pip install -r requirements.txt
 
-prod : webpack-prod cf2
+prod : webpack-prod static
 
-production : webpack-prod cf2
+production : webpack-prod static
 
 python : virtualenv pip
 

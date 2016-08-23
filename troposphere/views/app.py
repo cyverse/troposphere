@@ -115,9 +115,7 @@ def _populate_template_params(request, maintenance_records, notice_t,
     template_params['BADGES_ENABLED'] = getattr(settings,
                                                 "BADGES_ENABLED",
                                                 False)
-
     template_params['BADGE_HOST'] = getattr(settings, "BADGE_HOST", None)
-
     template_params['BADGE_IMAGE_HOST'] = getattr(settings,
                                                   "BADGE_IMAGE_HOST",
                                                   None)
@@ -133,9 +131,7 @@ def _populate_template_params(request, maintenance_records, notice_t,
         "USE_ALLOCATION_SOURCES",
         False)
 
-    #TODO: Replace this line when theme support is re-enabled.
-    #template_params["THEME_URL"] = "assets/"
-    template_params['THEME_URL'] = "/themes/%s" % settings.THEME_NAME
+    template_params['THEME_URL'] = "/assets/theme"
     template_params['ORG_NAME'] = settings.ORG_NAME
     template_params['DYNAMIC_ASSET_LOADING'] = settings.DYNAMIC_ASSET_LOADING
 
@@ -348,7 +344,7 @@ def forbidden(request):
     metadata = get_site_metadata()
     template_params = {}
 
-    template_params['THEME_URL'] = "/themes/%s" % settings.THEME_NAME
+    template_params['THEME_URL'] = "/assets/theme"
     template_params['ORG_NAME'] = settings.ORG_NAME
     template_params['SITE_TITLE'] = settings.SITE_TITLE
     template_params['SITE_FOOTER'] = settings.SITE_FOOTER
