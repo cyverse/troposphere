@@ -12,7 +12,7 @@ export default React.createClass({
     },
 
     advancedIcon: function() {
-        if (!this.props.hasAdvancedOptions) { 
+        if (!this.props.hasAdvancedOptions) {
             return (
                 <span>
                     <i className="glyphicon glyphicon-cog"/>

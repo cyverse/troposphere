@@ -1,14 +1,13 @@
-define(function(require) {
+import React from 'react';
+import Router from 'react-router';
+import CryptoJS from 'crypto-js';
+import Gravatar from 'components/common/Gravatar.react';
+import RefreshComponent from 'components/projects/resources/instance/details/sections/metrics/RefreshComponent.react';
+import moment from 'moment';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-    stores = require('stores'),
-    moment = require('moment'),
-    CryptoJS = require('crypto-js'),
-    Gravatar = require('components/common/Gravatar.react'),
-    RefreshComponent = require('components/projects/resources/instance/details/sections/metrics/RefreshComponent.react'),
-    Router = require('react-router');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "InstanceHistoryList",
 
     getInitialState: function() {
@@ -143,7 +142,7 @@ define(function(require) {
                   <div>
                     <Gravatar hash={instanceHistoryHash} size={iconSize} type={type}/>
                     <div className="instance-history-details">
-                      <Router.Link to={"instance-history-detail"} params={{id: instance.get('instance').id}}>
+                      <Router.Link to={"new-instance-detail"} params={{id: instance.get('instance').id}}>
                         <strong className="name">{name}</strong>
                       </Router.Link>
                       <div>Launched from {imageLink}</div>
@@ -180,7 +179,4 @@ define(function(require) {
         </div>
       );
     }
-
-  });
-
 });

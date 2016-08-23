@@ -7,7 +7,7 @@ https://docs.djangoproject.com/en/1.6/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.6/ref/settings/
 """
-UI_VERSION = "Larping Loon"
+UI_VERSION = "Quasi Quail"
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
@@ -17,8 +17,6 @@ BASE_URL = ""
 SERVER_URL="https://localhost"
 
 DEBUG = False
-
-TEMPLATE_DEBUG = False
 
 APPEND_SLASH = False
 
@@ -33,6 +31,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'rest_framework',
+    'rest_framework.authtoken',
+    'webpack_loader', # resolved JS asset + hash for template rendering
     'iplantauth',
     'api',
 )
@@ -85,6 +85,7 @@ TEMPLATES = [
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'debug': False
         },
     }
 ]
@@ -97,6 +98,10 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 # Without this setting, a leakage of the secret key results in a remote
 # code execution vulnerability. So keep this.
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
+
+SESSION_COOKIE_NAME = 'tropo_sessionid'
+
+CSRF_COOKIE_NAME = 'tropo_csrftoken'
 
 # default cookie age to # of seconds in 2 days
 SESSION_COOKIE_AGE = (2 * 24 * 60 * 60)
@@ -137,12 +142,11 @@ LOGGING = {
 API_ROOT    = SERVER_URL + "/api/v1"
 API_V2_ROOT = SERVER_URL + "/api/v2"
 
-# The ROOT PATH for ALL (app + dependencies) static files.
-STATIC_ROOT = os.path.join(BASE_DIR, "assets")
-# The SERVER PATH for ALL (app + dependencies) static files.
+# The endpoint in troposphere for generated assets
 STATIC_URL = '/assets/'
 
-#STATIC generated files from troposphere to be added to STATIC_ROOT
+# The target location where static files are moved
+STATIC_ROOT = os.path.join(BASE_DIR, "assets")
 
 REST_FRAMEWORK = {
     # 'DEFAULT_RENDERER_CLASSES': (
@@ -173,3 +177,36 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'iplantauth.authBackends.OAuthLoginBackend'
 )
+
+# This Method will generate SECRET_KEY and write it to file..
+def generate_secret_key(secret_key_path):
+    """
+    Generates a unique `SECRET_KEY` upon each service start
+
+    Used by Django in various ways. Notably, it is used to sign session
+    cookies holding sensitive information about users & session values.
+
+    For more details:
+    - https://docs.djangoproject.com/en/1.9/ref/settings/#std:setting-SECRET_KEY
+    """
+    from django.utils.crypto import get_random_string
+    from datetime import datetime
+    chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
+    secret_value = get_random_string(50, chars)
+    comment_block = "\"\"\"\nThis file was Auto-Generated on %s\n\"\"\"\n" % datetime.now()
+    with open(secret_key_path, "w") as key_file:
+        key_file.write(comment_block)
+        key_file.write("SECRET_KEY=\"%s\"\n" % secret_value)
+
+# This import will Use an existing SECRET_KEY, or Generate your SECRET_KEY
+# if it doesn't exist yet.
+try:
+    from .secret_key import SECRET_KEY
+except ImportError:
+    SETTINGS_DIR = os.path.abspath(os.path.dirname(__file__))
+    generate_secret_key(os.path.join(SETTINGS_DIR, 'secret_key.py'))
+    try:
+        from .secret_key import SECRET_KEY
+    except ImportError:
+        raise Exception(
+            "default.py could not generate a SECRET_KEY in secret_key.py")

@@ -1,12 +1,12 @@
-define(function (require) {
+import React from 'react';
+import Router from 'react-router';
 
-  var React = require('react/addons'),
-    ProjectResourcesWrapper = require('./detail/resources/ProjectResourcesWrapper.react'),
-    ExternalLinkDetailsView = require('./resources/link/details/ExternalLinkDetailsView.react'),
-    Router = require('react-router'),
-    stores = require('stores');
+import ProjectResourcesWrapper from './detail/resources/ProjectResourcesWrapper.react';
+import ExternalLinkDetailsView from './resources/link/details/ExternalLinkDetailsView.react';
+import stores from 'stores';
 
-  return React.createClass({
+
+export default React.createClass({
     displayName: "ExternalLinkDetailsPage",
 
     mixins: [Router.State],
@@ -24,7 +24,4 @@ define(function (require) {
         </ProjectResourcesWrapper>
       );
     }
-
-  });
-
 });

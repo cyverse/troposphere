@@ -1,25 +1,23 @@
+import React from  'react';
+import ReactDOM from 'react-dom';
+import $ from  'jquery';
+// plugin
+import Bootstrap from  'bootstrap';
 
-define(
-  [
-    'react',
-    'jquery',
-
-    // plugins
-    'bootstrap'
-  ],
-  function (React, $) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "ProjectResource",
 
       propTypes: {
         icon: React.PropTypes.string.isRequired,
-        count: React.PropTypes.number.isRequired,
+        count: React.PropTypes.oneOfType([
+           React.PropTypes.string,
+           React.PropTypes.number,
+        ]).isRequired,
         resourceType: React.PropTypes.string.isRequired
       },
 
       componentDidMount: function () {
-        var el = this.getDOMNode();
+        var el = ReactDOM.findDOMNode(this);
         var $el = $(el);
         $el.tooltip({
           title: this.props.count + " " + this.props.resourceType
@@ -37,6 +35,4 @@ define(
         );
 
       }
-    });
-
-  });
+});

@@ -1,12 +1,7 @@
-define(
-  [
-    'react',
-    'components/mixins/BootstrapModalMixin.react',
-    'stores'
-  ],
-  function (React, BootstrapModalMixin, stores) {
+import React from 'react';
+import stores from 'stores';
 
-    return React.createClass({
+export default React.createClass({
 
       getInitialState: function () {
         return {
@@ -39,7 +34,7 @@ define(
         // Combine the instance size list and defualt size list into one to display
         var options = instanceOptions.concat(defaultOptions),
             // It's possible that the user has no instances when using this calculator, so default to the 1 CPU option
-            cpuToSet = instanceOptions ? stores.InstanceStore.getAll().models[0].get('size').cpu : 1;
+            cpuToSet = instanceOptions.length > 0 ? stores.InstanceStore.getAll().models[0].get('size').cpu : 1;
 
         this.setState({options: options, selectedCPU: cpuToSet});
       },
@@ -80,13 +75,17 @@ define(
               </div>
 
               <table className="table">
+                <thead>
+                  <tr>
+                    <th>
+                      Duration
+                    </th>
+                    <th>
+                      AU needed
+                    </th>
+                  </tr>
+                </thead>
                 <tbody>
-                  <th>
-                    Duration
-                  </th>
-                  <th>
-                    AU needed
-                  </th>
                   <tr className={remainingAU >= this.state.selectedCPU * 24 * 1 ? "success" : "warning"}><td>1 day</td><td>{(this.state.selectedCPU * 24 * 1)}</td></tr>
                   <tr className={remainingAU >= this.state.selectedCPU * 24 * 3 ? "success" : "warning"}><td>3 days</td><td>{(this.state.selectedCPU * 24 * 3)}</td></tr>
                   <tr className={remainingAU >= this.state.selectedCPU * 24 * 7 ? "success" : "warning"}><td>1 week</td><td>{(this.state.selectedCPU * 24 * 7)}</td></tr>
@@ -98,7 +97,4 @@ define(
           </div>
         );
       },
-
-    });
-
-  });
+});

@@ -1,14 +1,9 @@
+import React from 'react';
+import Backbone from 'backbone';
+import Instance from 'models/Instance';
+import Volume from 'models/Volume';
 
-define(
-  [
-    'react',
-    'backbone',
-    'models/Instance',
-    'models/Volume'
-  ],
-  function (React, Backbone, Instance, Volume) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "ResourceListItem",
 
       propTypes: {
@@ -38,7 +33,4 @@ define(
           )
         }
       }
-
-    });
-
-  });
+});

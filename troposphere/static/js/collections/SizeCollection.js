@@ -1,12 +1,9 @@
-define(function (require) {
-  "use strict";
+import Backbone from 'backbone';
+import _ from 'underscore';
+import Size from 'models/Size';
+import globals from 'globals';
 
-  var Backbone = require('backbone'),
-    _ = require('underscore'),
-    Size = require('models/Size'),
-    globals = require('globals');
-
-  return Backbone.Collection.extend({
+export default Backbone.Collection.extend({
     model: Size,
 
     url: globals.API_V2_ROOT + "/sizes",
@@ -21,14 +18,16 @@ define(function (require) {
       return response.results;
     },
 
-    comparator: function (sizeA, sizeB) {
-      var aliasA = parseInt(sizeA.get('alias'));
-      var aliasB = parseInt(sizeB.get('alias'));
+    comparator: function (lhs, rhs) {
+      var lhsCPU = parseInt(lhs.get('cpu'));
+      var rhsCPU = parseInt(rhs.get('cpu'));
 
-      if (aliasA === aliasB) return 0;
-      return aliasA < aliasB ? -1 : 1;
+      if (lhsCPU === rhsCPU) {
+        var lhsRAM = parseInt(lhs.get('mem')),
+            rhsRAM = parseInt(rhs.get('mem'));
+        return lhsRAM - rhsRAM;
+      }
+      return lhsCPU < rhsCPU ? -1 : 1;
     }
-
-  });
 
 });

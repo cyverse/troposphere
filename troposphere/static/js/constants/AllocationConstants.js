@@ -1,9 +1,4 @@
-define(
-  [],
-  function () {
 
-    return {
+export default {
       CREATE_ALLOCATION: "CREATE_ALLOCATION"
-    };
-
-  });
+};

@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import Backbone from 'backbone';
+import IdentityMembership from 'models/IdentityMembership';
+import globals from 'globals';
 
-  var Backbone = require('backbone'),
-    IdentityMembership = require('models/IdentityMembership'),
-    globals = require('globals');
-
-  return Backbone.Collection.extend({
+export default Backbone.Collection.extend({
     model: IdentityMembership,
 
     url: globals.API_V2_ROOT + "/identity_memberships",
@@ -18,7 +15,4 @@ define(function (require) {
       };
       return response.results;
     }
-
-  });
-
 });

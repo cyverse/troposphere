@@ -1,46 +1,41 @@
+import React from 'react';
+import $ from 'jquery';
+import stores from 'stores';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 
-define(
-  [
-    'react',
-    'stores',
-    'jquery',
-    'components/mixins/BootstrapModalMixin.react'
-  ],
-  function (React, stores, $, BootstrapModalMixin) {
+// Example Usage from http://bl.ocks.org/insin/raw/8449696/
+// render: function(){
+// <div>
+//   ...custom components...
+//   <ExampleModal
+//      ref="modal"
+//      show={false}
+//      header="Example Modal"
+//      buttons={buttons}
+//      handleShow={this.handleLog.bind(this, 'Modal about to show', 'info')}
+//      handleShown={this.handleLog.bind(this, 'Modal showing', 'success')}
+//      handleHide={this.handleLog.bind(this, 'Modal about to hide', 'warning')}
+//      handleHidden={this.handleLog.bind(this, 'Modal hidden', 'danger')}
+//    >
+//      <p>I'm the content.</p>
+//      <p>That's about it, really.</p>
+//    </ExampleModal>
+// </div>
+//
 
-    // Example Usage from http://bl.ocks.org/insin/raw/8449696/
-    // render: function(){
-    // <div>
-    //   ...custom components...
-    //   <ExampleModal
-    //      ref="modal"
-    //      show={false}
-    //      header="Example Modal"
-    //      buttons={buttons}
-    //      handleShow={this.handleLog.bind(this, 'Modal about to show', 'info')}
-    //      handleShown={this.handleLog.bind(this, 'Modal showing', 'success')}
-    //      handleHide={this.handleLog.bind(this, 'Modal about to hide', 'warning')}
-    //      handleHidden={this.handleLog.bind(this, 'Modal hidden', 'danger')}
-    //    >
-    //      <p>I'm the content.</p>
-    //      <p>That's about it, really.</p>
-    //    </ExampleModal>
-    // </div>
-    //
+// To show the modal, call this.refs.modal.show() from the parent component:
+// handleShowModal: function() {
+//   this.refs.modal.show();
+// }
 
-    // To show the modal, call this.refs.modal.show() from the parent component:
-    // handleShowModal: function() {
-    //   this.refs.modal.show();
-    // }
-
-    function getState() {
-      return {
+function getState() {
+    return {
         name: null,
         description: null
-      }
     }
+}
 
-    return React.createClass({
+export default React.createClass({
       displayName: "TagCreateModal",
 
       mixins: [BootstrapModalMixin],
@@ -58,8 +53,8 @@ define(
 
       componentDidMount: function (){
         if (this.state.name) {
-          var lower = this.state.name.toLowerCase();
-          tags = stores.TagStore.getAll().filter(function (tag) {
+          let lower = this.state.name.toLowerCase();
+          let tags = stores.TagStore.getAll().filter(function (tag) {
             return tag.get('name').toLowerCase() === lower;
           });
           if(tags.length > 0){
@@ -111,8 +106,8 @@ define(
         var newName = e.target.value;
         this.setState({name: newName});
         if (newName) {
-          var lower = $.trim(newName.toLowerCase());
-          tags = stores.TagStore.getAll().filter(function (tag) {
+          let lower = $.trim(newName.toLowerCase());
+          let tags = stores.TagStore.getAll().filter(function (tag) {
             return tag.get('name').toLowerCase() === lower;
           });
           if(tags.length > 0){
@@ -198,6 +193,4 @@ define(
         );
       }
 
-    });
-
-  });
+});

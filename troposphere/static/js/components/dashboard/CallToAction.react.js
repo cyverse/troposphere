@@ -1,9 +1,8 @@
-define(function (require) {
+import React from 'react';
+import Router from 'react-router';
 
-  var React = require('react/addons'),
-    Router = require('react-router');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "CallToAction",
 
     propTypes: {
@@ -24,7 +23,4 @@ define(function (require) {
         </Router.Link>
       );
     }
-
-  });
-
 });

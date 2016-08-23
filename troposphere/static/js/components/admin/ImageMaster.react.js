@@ -1,17 +1,16 @@
-define(function (require) {
-  "use strict";
+import React from 'react';
+import Router from 'react-router';
+import RouterInstance from '../../Router';
+import ImageRequest from './ImageRequest.react';
+import ImageRequestActions from 'actions/ImageRequestActions';
+import actions from 'actions';
+import moment from 'moment';
+import stores from 'stores';
 
-  var React = require('react'),
-      Router = require('react-router'),
-      RouterInstance = require('../../Router'),
-      stores = require('stores'),
-      moment = require('moment'),
-      RouteHandler = Router.RouteHandler,
-      actions = require('actions'),
-      ImageRequest = require('./ImageRequest.react'),
-      ImageRequestActions = require('actions/ImageRequestActions');
 
-  return React.createClass({
+let RouteHandler = Router.RouteHandler;
+
+export default React.createClass({
 
     mixins: [Router.State],
 
@@ -42,7 +41,8 @@ define(function (require) {
     },
 
     onResourceClick: function(request){
-        RouterInstance.getInstance().transitionTo("image-request-detail", {request: request, id: request.id});
+        RouterInstance.getInstance().transitionTo(
+            "image-request-detail", {request: request, id: request.id});
     },
 
     renderRefreshButton: function(){
@@ -101,5 +101,3 @@ define(function (require) {
       );
     }
   });
-});
-

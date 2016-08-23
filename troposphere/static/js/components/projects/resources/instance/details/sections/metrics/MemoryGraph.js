@@ -1,23 +1,15 @@
-define(function(require) {
+import Graph from './Graph';
+import { extend } from 'underscore';
 
-  var Graph = require("./Graph");
+let MemoryGraph = function(settings) {
+    let defaults = {
+        transform: 'total'
+    };
 
-  var MemoryGraph = function(settings) {
-    var defaults = {
-      transform: "total"
-    }
+    Graph.call(this, extend(defaults, settings));
+};
 
-    for (prop in defaults) {
-      if (settings[prop] == undefined) {
-        settings[prop] = defaults[prop];
-      }
-    }
+MemoryGraph.prototype = Object.create(Graph.prototype);
+MemoryGraph.prototype.constructor = MemoryGraph;
 
-    Graph.call(this, settings);
-  };
-
-  MemoryGraph.prototype = Object.create(Graph.prototype);
-  MemoryGraph.prototype.constructor = MemoryGraph;
-
-  return MemoryGraph;
-})
+export default MemoryGraph;

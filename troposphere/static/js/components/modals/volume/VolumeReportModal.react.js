@@ -1,11 +1,10 @@
+import _ from "underscore";
+import React from 'react';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import Glyphicon from 'components/common/Glyphicon.react';
+import { trackAction } from '../../../utilities/userActivity';
 
-define(function (require) {
-    var _ = require("underscore"),
-        React = require('react/addons'),
-        BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
-        Glyphicon = require('components/common/Glyphicon.react');
-
-    return React.createClass({
+export default React.createClass({
       displayName: "VolumeReportModal",
 
       mixins: [BootstrapModalMixin],
@@ -61,6 +60,7 @@ define(function (require) {
         this.hide();
         var reportInfo = this.getReportInfo();
         this.props.onConfirm(reportInfo);
+        trackAction("reported-volume",{});
       },
 
       //
@@ -180,7 +180,4 @@ define(function (require) {
           </div>
         );
       }
-
-    });
-
-  });
+});

@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import ModalHelpers from 'components/modals/ModalHelpers';
+import InstanceResumeModal from 'components/modals/instance/InstanceResumeModal.react';
+import actions from 'actions';
 
-  var ModalHelpers = require('components/modals/ModalHelpers'),
-    InstanceResumeModal = require('components/modals/instance/InstanceResumeModal.react'),
-    actions = require('actions');
-
-  return {
+export default {
 
     resume: function (instance) {
       ModalHelpers.renderModal(InstanceResumeModal, null, function () {
@@ -15,6 +12,4 @@ define(function (require) {
       });
     }
 
-  };
-
-});
+};

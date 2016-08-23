@@ -1,14 +1,10 @@
-define(function (require) {
+import actions from 'actions';
+import ModalHelpers from 'components/modals/ModalHelpers';
+import ProjectDeleteConditionsModal from 'components/modals/project/ProjectDeleteConditionsModal.react';
 
-  var actions = require('actions'),
-    ModalHelpers = require('components/modals/ModalHelpers'),
-    ProjectDeleteConditionsModal = require('components/modals/project/ProjectDeleteConditionsModal.react');
-
-  return {
+export default {
     explainProjectDeleteConditions: function () {
       ModalHelpers.renderModal(ProjectDeleteConditionsModal, null, function () {
       });
     }
-  }
-
-});
+}

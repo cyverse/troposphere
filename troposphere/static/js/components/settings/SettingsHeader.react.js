@@ -1,17 +1,13 @@
 
-define(
-  [
-    'react',
-    'backbone'
-  ],
-  function (React, Backbone) {
+import React from 'react';
+import Backbone from 'backbone';
 
-    return React.createClass({
-      displayName: "SettingsHeader",
+export default React.createClass({
+    displayName: "SettingsHeader",
 
-      propTypes: {},
+    propTypes: {},
 
-      render: function () {
+    render: function () {
         return (
           <div className="secondary-nav half-height">
             <div className="container">
@@ -21,8 +17,5 @@ define(
             </div>
           </div>
         );
-      }
-
-    });
-
-  });
+    }
+});

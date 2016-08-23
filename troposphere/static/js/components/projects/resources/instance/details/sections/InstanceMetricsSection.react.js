@@ -1,11 +1,11 @@
-define(function(require) {
-  var React = require('react'),
-    InstanceMetrics = require('./metrics/InstanceMetrics.react');
+import React from 'react';
+import InstanceMetrics from './metrics/InstanceMetrics.react';
 
-  return React.createClass({
+export default React.createClass({
     displayName: "InstanceMetricsSection",
 
     render: function() {
+      var inactive = this.props.instance.get('end_date') ? true : false;
       return (
           <div>
             <div className="resource-details-section section">
@@ -14,11 +14,10 @@ define(function(require) {
             <div id="container" className="metrics">
               <InstanceMetrics
                 instance={ this.props.instance }
+                inactive={inactive}
               />
             </div>
           </div>
-      )
+      );
     }
-
-  })
 });

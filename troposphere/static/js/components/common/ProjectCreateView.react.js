@@ -1,4 +1,5 @@
 import React from 'react';
+import { trackAction } from '../../utilities/userActivity';
 
 export default React.createClass({
     displayName: "ProjectCreateModal",
@@ -65,6 +66,7 @@ export default React.createClass({
         if (this.isSubmittable()) {
             this.props.onConfirm(this.state.projectName.trim(), this.state.projectDescription.trim());
         }
+        trackAction("created-project", {});
         this.setState({showValidation: true });
     },
 

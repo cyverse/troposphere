@@ -1,10 +1,9 @@
-define(function (require) {
+import React from 'react';
+import EditableTextAreaField from 'components/common/EditableTextAreaField.react';
+import Showdown from 'showdown';
 
-  var React = require('react/addons'),
-    EditableTextAreaField = require('components/common/EditableTextAreaField.react'),
-    Showdown = require('showdown');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "HtmlTextAreaField",
 
     propTypes: {
@@ -65,7 +64,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

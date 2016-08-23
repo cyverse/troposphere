@@ -1,23 +1,13 @@
 
-define(function (require) {
+import AppDispatcher from 'dispatchers/AppDispatcher';
+import Utils from './Utils';
+import NotificationController from 'controllers/NotificationController';
+import ProviderMachineConstants from 'constants/ProviderMachineConstants';
+import stores from 'stores';
+import ProviderMachine from 'models/ProviderMachine';
+import ModalHelpers from 'components/modals/ModalHelpers';
 
-  var AppDispatcher = require('dispatchers/AppDispatcher'),
-    Utils = require('./Utils'),
-    NotificationController = require('controllers/NotificationController'),
-
-  // Constants
-    ProviderMachineConstants = require('constants/ProviderMachineConstants'),
-
-  // Stores
-  stores = require('stores'),
-
-  // Models
-  ProviderMachine = require('models/ProviderMachine'),
-
-  // Modals
-    ModalHelpers = require('components/modals/ModalHelpers');
-
-  return {
+export default {
 
     // ------------------------
     // Standard CRUD Operations
@@ -26,24 +16,16 @@ define(function (require) {
     update: function(machine, newAttributes) {
         if(!machine) throw new Error("Missing ProviderMachine");
 
-        if(typeof machine == "object") {
-          machine = new ProviderMachine(machine);
-        }
-
         if(!newAttributes) throw new Error("No attributes to be updated");
 
         machine.set(newAttributes);
-        stores.ProviderMachineStore.removeVersionCache(machine.get('version'));
         Utils.dispatch(ProviderMachineConstants.UPDATE_PROVIDER_MACHINE, machine);
 
         machine.save(newAttributes, {
             patch:true,
         }).done(function(){
-          // UPDATE_MACHINE here if we do NOT want 'optimistic updating'
-          // Othewise, do nothing..
-          stores.ProviderMachineStore.removeVersionCache(machine.get('version'));
+          stores.ProviderMachineStore.removeCache(machine);
           Utils.dispatch(ProviderMachineConstants.UPDATE_PROVIDER_MACHINE, machine);
-
         }).fail(function(){
           var message = "Error updating ProviderMachine " + machine.get('name') + ".";
           NotificationController.error(null, message);
@@ -88,8 +70,4 @@ define(function (require) {
       //})
     }
 
-
-  }
-
-});
-
+}

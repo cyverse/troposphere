@@ -1,12 +1,9 @@
-define(function (require) {
-  "use strict";
+import Backbone from 'backbone';
+import _ from 'underscore';
+import globals from 'globals';
+import Machine from 'models/ProviderMachine';
 
-  var Backbone = require('backbone'),
-    _ = require('underscore'),
-    globals = require('globals'),
-    Machine = require('models/ProviderMachine');
-
-  return Backbone.Collection.extend({
+export default Backbone.Collection.extend({
     model: Machine,
 
     url: globals.API_V2_ROOT + '/provider_machines',
@@ -20,7 +17,5 @@ define(function (require) {
 
       return response.results;
     }
-
-  });
 
 });

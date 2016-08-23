@@ -1,13 +1,10 @@
-define(function (require) {
-  'use strict';
+import _ from 'underscore';
+import Dispatcher from 'dispatchers/Dispatcher';
+import BaseStore from 'stores/BaseStore';
+import ExternalLinkCollection from 'collections/ExternalLinkCollection';
+import ExternalLinkConstants from 'constants/ExternalLinkConstants';
 
-  var _ = require('underscore'),
-    Dispatcher = require('dispatchers/Dispatcher'),
-    BaseStore = require('stores/BaseStore'),
-    ExternalLinkCollection = require('collections/ExternalLinkCollection'),
-    ExternalLinkConstants = require('constants/ExternalLinkConstants');
-
-  var ExternalLinkStore = BaseStore.extend({
+let ExternalLinkStore = BaseStore.extend({
     collection: ExternalLinkCollection,
 
     queryParams: {
@@ -23,12 +20,11 @@ define(function (require) {
 
       return new ExternalLinkCollection(external_links);
     },
+});
 
-  });
+var store = new ExternalLinkStore();
 
-  var store = new ExternalLinkStore();
-
-  Dispatcher.register(function (dispatch) {
+Dispatcher.register(function (dispatch) {
     var actionType = dispatch.action.actionType;
     var payload = dispatch.action.payload;
     var options = dispatch.action.options || options;
@@ -56,7 +52,6 @@ define(function (require) {
     }
 
     return true;
-  });
-
-  return store;
 });
+
+export default store;

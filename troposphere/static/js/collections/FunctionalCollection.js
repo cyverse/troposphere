@@ -1,4 +1,4 @@
-import 'backbone';
+import Backbone from 'backbone';
 
 // Decorate any collection function, so that it returns a collection rather
 // than an array

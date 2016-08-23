@@ -1,17 +1,19 @@
-define(function (require) {
-  'use strict';
+import React from 'react';
+import Backbone from 'backbone';
+import Id from '../details/sections/details/Id.react';
+import Status from '../details/sections/details/Status.react';
+import Activity from '../details/sections/details/Activity.react';
+import Size from '../details/sections/details/Size.react';
+import IpAddress from '../details/sections/details/IpAddress.react';
+import LaunchDate from '../details/sections/details/LaunchDate.react';
+import CreatedFrom from '../details/sections/details/CreatedFrom.react';
+import Identity from '../details/sections/details/Identity.react';
+import AllocationSource from '../details/sections/details/AllocationSource.react';
+import stores from 'stores';
+import globals from 'globals';
 
-  var React = require('react/addons'),
-    stores = require('stores'),
-    Id = require('../details/sections/details/Id.react'),
-    Status = require('../details/sections/details/Status.react'),
-    Size = require('../details/sections/details/Size.react'),
-    IpAddress = require('../details/sections/details/IpAddress.react'),
-    LaunchDate = require('../details/sections/details/LaunchDate.react'),
-    CreatedFrom = require('../details/sections/details/CreatedFrom.react'),
-    Identity = require('../details/sections/details/Identity.react');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "InstancePreviewView",
 
     propTypes: {
@@ -22,21 +24,24 @@ define(function (require) {
       var instance = stores.InstanceStore.get(this.props.instance.id),
         provider = instance ? stores.ProviderStore.get(instance.get('provider').id) : null;
 
-      if (!instance || !provider) return <div className="loading"></div>;
+      let renderAllocationSource = globals.USE_ALLOCATION_SOURCES ? (
+          <AllocationSource instance={instance}/>
+      ) : null;
 
+      if (!instance || !provider) return <div className="loading"></div>;
       return (
         <ul>
           <Id instance={instance}/>
           <Status instance={instance}/>
+          <Activity instance={instance}/>
           <Size instance={instance}/>
           <IpAddress instance={instance}/>
           <LaunchDate instance={instance}/>
           <CreatedFrom instance={instance}/>
           <Identity instance={instance} provider={provider}/>
+          { renderAllocationSource }
         </ul>
       );
     }
-
-  });
 
 });

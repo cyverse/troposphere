@@ -1,31 +1,26 @@
+import React from 'react';
+import Backbone from 'backbone';
+import ResourceDetail from 'components/projects/common/ResourceDetail.react';
 
-define(
-  [
-    'react',
-    'backbone',
-    'components/projects/common/ResourceDetail.react',
+// Resource Detail;
+import Id from './details/Id.react';
+import Alias from './details/Alias.react';
+import Status from './details/Status.react';
+import Activity from './details/Activity.react';
+import Size from './details/Size.react';
+import IpAddress from './details/IpAddress.react';
+import LaunchDate from './details/LaunchDate.react';
+import CreatedFrom from './details/CreatedFrom.react';
+import Identity from './details/Identity.react';
 
-    // Resource Details
-    './details/Id.react',
-    './details/Alias.react',
-    './details/Status.react',
-    './details/Activity.react',
-    './details/Size.react',
-    './details/IpAddress.react',
-    './details/LaunchDate.react',
-    './details/CreatedFrom.react',
-    './details/Identity.react'
-  ],
-  function (React, Backbone, ResourceDetail, Id, Alias, Status, Activity, Size, IpAddress, LaunchDate, CreatedFrom, Identity) {
+export default React.createClass({
+    displayName: "InstanceDetailsSection",
 
-    return React.createClass({
-      displayName: "InstanceDetailsSection",
-
-      propTypes: {
+    propTypes: {
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    },
 
-      render: function () {
+    render: function () {
         var instance = this.props.instance;
 
         return (
@@ -44,8 +39,5 @@ define(
             </ul>
           </div>
         );
-      }
-
-    });
-
-  });
+    }
+});

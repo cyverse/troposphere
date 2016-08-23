@@ -1,11 +1,9 @@
-define(function (require) {
+import React from 'react';
+import Backbone from 'backbone';
+import stores from 'stores';
+import Router from 'react-router';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    stores = require('stores'),
-    Router = require('react-router');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "Instances",
 
     mixins: [Router.State],
@@ -29,6 +27,7 @@ define(function (require) {
           <td>{instance.get('state').get('activity')}</td>
           <td>{numberOfCpus}</td>
           <td>{burnRate}</td>
+          <td>{instance.get('usage')}</td>
         </tr>
       );
     },
@@ -60,6 +59,7 @@ define(function (require) {
                 <th>Activity</th>
                 <th>CPUs</th>
                 <th>AUs/hour</th>
+                <th>Total AU</th>
               </tr>
               </thead>
               <tbody>
@@ -88,7 +88,4 @@ define(function (require) {
       );
 
     }
-
-  });
-
 });

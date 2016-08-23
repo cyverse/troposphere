@@ -1,11 +1,10 @@
-define(function (require) {
+import React from 'react';
+import Backbone from 'backbone';
+import FileToExclude from '../components/FilesToExclude.react';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    FileToExclude = require('../components/FilesToExclude.react'),
-    stores = require('stores');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "ImageWizard-FilesToExcludeStep",
 
     propTypes: {
@@ -76,7 +75,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

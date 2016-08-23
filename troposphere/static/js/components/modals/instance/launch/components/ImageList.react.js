@@ -1,11 +1,11 @@
 import React from 'react';
-import backbone from  'backbone';
+import Image from './Image.react';
+import Backbone from  'backbone';
 
-// We only use the ImageCollection for the pototype not data
+// We only use the ImageCollection for the prototype not data
 import ImageCollection from 'collections/ImageCollection';
 import { filterEndDate } from 'utilities/filterCollection';
 
-import Image from './Image.react';
 
 export default React.createClass({
     displayName: "ImageList",

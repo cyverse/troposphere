@@ -1,62 +1,70 @@
-define(function (require) {
+import React from 'react';
+import stores from 'stores';
+import Router from 'react-router';
+import Glyphicon from 'components/common/Glyphicon.react';
+import context from 'context';
 
-  var React = require('react/addons'),
-    stores = require('stores'),
-    Router = require('react-router'),
-    Glyphicon = require('components/common/Glyphicon.react'),
-    context = require('context');
+export default React.createClass({
+    displayName: 'SecondaryImageNavigation',
 
-  return React.createClass({
-    displayName: "SecondaryImageNavigation",
+    renderRoute: function(name, linksTo, icon, requiresLogin) {
+        if (requiresLogin && !context.hasLoggedInUser()) return null;
 
-    renderRoute: function (name, linksTo, icon, requiresLogin) {
-      if (requiresLogin && !context.hasLoggedInUser()) return null;
-
-      return (
-        <li key={name}>
-          <Router.Link to={linksTo}>
-            <Glyphicon name={icon}/>
-            <span>{name}</span>
-          </Router.Link>
+        return (
+        <li key={ name }>
+            <Router.Link to={ linksTo }>
+                <Glyphicon name={ icon } />
+                <span>{ name }</span>
+            </Router.Link>
         </li>
-      )
+        )
     },
 
-    render: function () {
-      var profile = context.profile,
-          allImages = stores.ImageStore.getAll(),
-          images = stores.ImageStore.fetchWhere({
-            created_by__username: profile.get('username')
-          }) || [];
+    render: function() {
+        // only attempt to get bookmarks if there is a profile that might have them ...
+        let userLoggedIn = context.hasLoggedInUser();
+        let images = stores.ImageStore.getAll();
 
-      // only attempt to get bookmarks if there is a profile that might have them ...
-      var userLoggedIn = context.hasLoggedInUser(),
-        favoritedImages =  userLoggedIn ? stores.ImageBookmarkStore.getBookmarkedImages() : [];
+        let routes;
+        if (!userLoggedIn) {
+            routes = [
+                this.renderRoute('Search', 'search', 'search', false),
+                this.renderRoute('Tags', 'tags', 'tags', false)
+            ];
+        } else {
+            let profile = stores.ProfileStore.get();
+            let favoritedImages = stores.ImageBookmarkStore.getBookmarkedImages();
+            let userImages = stores.ImageStore.fetchWhere({
+                created_by__username: profile.get('username')
+            });
 
-      if(!images || (userLoggedIn && !favoritedImages)){
-        return <div className="loading"></div>
-      }
 
-      var myImagesText = "My Images (" + images.length + ")";
-      var myFavoritedImagesText = "Favorites (" + favoritedImages.length + ")";
+            if (!userImages || !favoritedImages) {
+                return <div className="loading"></div>
+            }
 
-      return (
+            let myImagesText = `My Images (${userImages.length})`;
+            let myFavoritedImagesText = `Favorites (${favoritedImages.length})`;
+
+            routes = [
+                this.renderRoute('Search', 'search', 'search', false),
+                this.renderRoute(myFavoritedImagesText, 'favorites', 'bookmark', true),
+                this.renderRoute(myImagesText, 'authored', 'user', true),
+                this.renderRoute('My Image Requests', 'my-image-requests', 'export', true),
+                this.renderRoute('Tags', 'tags', 'tags', false),
+            ];
+        }
+
+        return (
         <div>
-          <div className="secondary-nav">
-            <div className="container">
-              <ul className="secondary-nav-links">
-                {this.renderRoute("Search", "search", "search", false)}
-                {this.renderRoute(myFavoritedImagesText, "favorites", "bookmark", true)}
-                {this.renderRoute(myImagesText, "authored", "user", true)}
-                {this.renderRoute("My Image Requests", "my-image-requests", "export", true)}
-                {this.renderRoute("Tags", "tags", "tags", false)}
-              </ul>
+            <div className="secondary-nav">
+                <div className="container">
+                    <ul className="secondary-nav-links">
+                        { routes }
+                    </ul>
+                </div>
             </div>
-          </div>
         </div>
-      );
+        );
     }
-
-  });
-
 });

@@ -1,14 +1,12 @@
-define(function (require) {
+import React from 'react';
+import $ from 'jquery';
+import Backbone from 'backbone';
+import Showdown from 'showdown';
+import globals from 'globals';
+import moment from 'moment';
+import momentTZ from 'moment-timezone';
 
-    var React = require('react'),
-        $ = require('jquery'),
-        Backbone = require('backbone'),
-        Showdown = require('showdown'),
-        globals = require('globals'),
-        moment = require('moment'),
-        momentTZ = require('moment-timezone');
-
-    return React.createClass({
+export default React.createClass({
       displayName: "ViewDetails",
 
       propTypes: {
@@ -67,7 +65,4 @@ define(function (require) {
           </div>
         );
       }
-
-    });
-
 });

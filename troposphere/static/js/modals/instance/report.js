@@ -1,13 +1,10 @@
-define(function (require) {
-  "use strict";
+import ModalHelpers from 'components/modals/ModalHelpers';
+import InstanceReportModal from 'components/modals/instance/InstanceReportModal.react';
+import stores from 'stores';
+import actions from 'actions';
 
-  var ModalHelpers = require('components/modals/ModalHelpers'),
-    InstanceReportModal = require('components/modals/instance/InstanceReportModal.react'),
-    stores = require('stores'),
-    actions = require('actions');
 
-  return {
-
+export default {
     report: function (params) {
       if (!params.instance) throw new Error("Missing instance");
 
@@ -18,7 +15,6 @@ define(function (require) {
           usingInstances: stores.HelpLinkStore.get('instances')
         };
 
-
       ModalHelpers.renderModal(InstanceReportModal, props, function (reportInfo) {
         actions.InstanceActions.report({
           instance: instance,
@@ -26,7 +22,4 @@ define(function (require) {
         })
       })
     }
-
-  };
-
-});
+};

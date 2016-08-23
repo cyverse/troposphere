@@ -1,9 +1,9 @@
-define(function (require) {
+import React from 'react';
+import Backbone from 'backbone';
+import classNames from 'classnames';
 
-  var React = require('react/addons'),
-      Backbone = require('backbone');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "ChosenDropdownItem",
 
     propTypes: {
@@ -38,8 +38,7 @@ define(function (require) {
 
     render: function () {
       var item = this.props.item,
-          cx = React.addons.classSet,
-          classes = cx({
+          classes = classNames({
             'active-result': true,
             'highlighted': this.state.isMouseOver
           });
@@ -53,7 +52,5 @@ define(function (require) {
         </li>
       );
     }
-
-  });
 
 });

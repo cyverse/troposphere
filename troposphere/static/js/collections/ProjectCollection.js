@@ -1,11 +1,11 @@
-define(function (require) {
-  "use strict";
+import Backbone from 'backbone';
 
-  var Backbone = require('backbone'),
-    Project = require('models/Project'),
-    globals = require('globals');
+import Project from 'models/Project';
+import globals from 'globals';
+import { api } from 'mock/projects.js';
+import mockSync from 'utilities/mockSync';
 
-  return Backbone.Collection.extend({
+export default Backbone.Collection.extend({
     model: Project,
 
     url: globals.API_V2_ROOT + "/projects",
@@ -28,8 +28,9 @@ define(function (require) {
       if (nameB === "default") return 1;
       if (nameA === nameB) return 0;
       return nameA < nameB ? -1 : 1;
-    }
+    },
 
-  });
-
+    sync: globals.USE_MOCK_DATA
+          ? mockSync(api)
+          : Backbone.sync
 });

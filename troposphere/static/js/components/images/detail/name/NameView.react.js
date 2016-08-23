@@ -1,13 +1,9 @@
+import React from 'react';
+import Backbone from 'backbone';
+import Showdown from 'showdown';
 
-define(
-  [
-    'react',
-    'backbone',
-    'showdown'
-  ],
-  function (React, Backbone, Showdown) {
 
-    return React.createClass({
+export default React.createClass({
       displayName: "NameView",
 
       propTypes: {
@@ -24,7 +20,4 @@ define(
           </div>
         );
       }
-
-    });
-
-  });
+});

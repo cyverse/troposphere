@@ -1,9 +1,8 @@
-define(function (require) {
+import React from 'react';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-      stores = require('stores');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "ImageSelect",
 
     propTypes: {
@@ -12,7 +11,18 @@ define(function (require) {
     },
 
     handleChange: function(e){
-      this.props.onChange(e.target.value)
+      let image_id = e.target.value,
+          images = this.getUserImages(),
+          image = images.get(image_id);
+      this.props.onChange(image);
+    },
+
+    getUserImages: function() {
+      let username = stores.ProfileStore.get().get('username'),
+          images = stores.ImageStore.fetchWhere({
+              created_by__username: username
+          });
+      return images;
     },
 
     renderImage: function(image){
@@ -25,10 +35,7 @@ define(function (require) {
 
     render: function () {
       var imageId = this.props.imageId,
-          username = stores.ProfileStore.get().get('username'),
-          images = stores.ImageStore.fetchWhere({
-            created_by__username: username
-          }),
+          images = this.getUserImages(),
           options;
 
       if(!images) return <div className="loading"/>;
@@ -51,7 +58,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

@@ -1,122 +1,118 @@
-define(function (require) {
-  'use strict';
+import $ from 'jquery';
+import _ from 'underscore';
+import Backbone from 'backbone';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import SplashScreen from 'components/SplashScreen.react';
+import MaintenanceScreen from 'components/MaintenanceScreen.react';
+import FunctionalCollection from 'collections/FunctionalCollection';
+import modernizr from 'lib/modernizr-latest.js';
 
-  var $ = require('jquery'),
-    _ = require('underscore'),
-    Backbone = require('backbone'),
-    React = require('react/addons'),
-    SplashScreen = require('components/SplashScreen.react'),
-    MaintenanceScreen = require('components/MaintenanceScreen.react'),
-    FunctionalCollection = require('collections/FunctionalCollection'),
-    modernizr = require('lib/modernizr-latest.js');
+// Important:
+//   Disconnect all Backbone Events from Models and Collections
+Object.keys(Backbone.Events).forEach(function(functionName) {
+    Backbone.Model.prototype[functionName] = function() {};
+    Backbone.Collection.prototype[functionName] = function() {};
+});
 
-  // Disconnect all Backbone Events from Models and Collections
-  Object.keys(Backbone.Events).forEach(function (functionName) {
-    Backbone.Model.prototype[functionName] = function () {
-    };
-    Backbone.Collection.prototype[functionName] = function () {
-    };
-  });
 
-  //Backbone.Model.prototype.parse = function(resp, options) {
-  //  if(resp.id) resp.id = String(resp.id);
-  //  return resp;
-  //};
-
-  Backbone.Collection.prototype.get = function (obj) {
+Backbone.Collection.prototype.get = function(obj) {
     if (obj == null) return void 0;
-    return _.find(this.models, function (model) {
-      return model.id == obj || model.id === obj.id || model.cid === obj.cid;
-      //return model.id == String(obj) || model.id === String(obj.id) || model.cid === obj.cid;
+    return _.find(this.models, function(model) {
+        return model.id == obj || model.id === obj.id || model.cid === obj.cid;
     });
-  };
+};
 
-  // Extend the base collection to include useful functions
-  _.extend(Backbone.Collection.prototype, FunctionalCollection);
+// Extend the base collection to include useful functions
+_.extend(Backbone.Collection.prototype, FunctionalCollection);
 
-  // Register which stores the image should use
-  var stores = require('stores');
-  stores.AllocationStore = require('stores/AllocationStore');
-  stores.BadgeStore = require('stores/BadgeStore');
-  stores.ExternalLinkStore = require('stores/ExternalLinkStore');
-  stores.HelpLinkStore = require('stores/HelpLinkStore');
-  stores.ImageStore = require('stores/ImageStore');
-  stores.ImageVersionStore = require('stores/ImageVersionStore');
-  stores.ImageVersionMembershipStore = require('stores/ImageVersionMembershipStore');
-  stores.ImageVersionLicenseStore = require('stores/ImageVersionLicenseStore');
-  stores.ImageVersionScriptStore = require('stores/ImageVersionScriptStore');
-  stores.IdentityStore = require('stores/IdentityStore');
-  stores.ImageBookmarkStore = require('stores/ImageBookmarkStore');
-  stores.InstanceHistoryStore = require('stores/InstanceHistoryStore');
-  stores.ImageRequestStore = require('stores/ImageRequestStore');
-  stores.InstanceStore = require('stores/InstanceStore');
-  stores.InstanceTagStore = require('stores/InstanceTagStore');
-  stores.LicenseStore = require('stores/LicenseStore');
-  stores.ScriptStore = require('stores/ScriptStore');
-  stores.MaintenanceMessageStore = require('stores/MaintenanceMessageStore');
-  stores.MyBadgeStore = require('stores/MyBadgeStore');
-  stores.MembershipStore = require('stores/MembershipStore');
-  stores.ProfileStore = require('stores/ProfileStore');
-  stores.ProjectStore = require('stores/ProjectStore');
-  stores.ProjectExternalLinkStore = require('stores/ProjectExternalLinkStore');
-  stores.ProjectImageStore = require('stores/ProjectImageStore');
-  stores.ProjectInstanceStore = require('stores/ProjectInstanceStore');
-  stores.ProjectVolumeStore = require('stores/ProjectVolumeStore');
-  stores.ProviderMachineStore = require('stores/ProviderMachineStore');
-  stores.ProviderStore = require('stores/ProviderStore');
-  stores.ResourceRequestStore = require('stores/ResourceRequestStore');
-  stores.IdentityMembershipStore = require('stores/IdentityMembershipStore');
-  stores.StatusStore = require('stores/StatusStore');
-  stores.SSHKeyStore = require('stores/SSHKeyStore');
-  stores.QuotaStore = require('stores/QuotaStore');
-  stores.SizeStore = require('stores/SizeStore');
-  stores.TagStore = require('stores/TagStore');
-  stores.UserStore = require('stores/UserStore');
-  stores.VersionStore = require('stores/VersionStore');
-  stores.VolumeStore = require('stores/VolumeStore');
+// Register which stores the image should use
+import stores from 'stores';
 
-  var actions = require('actions');
-  actions.AllocationActions = require('actions/AllocationActions');
-  actions.BadgeActions = require('actions/BadgeActions');
-  actions.ExternalLinkActions = require('actions/ExternalLinkActions');
-  actions.HelpActions = require('actions/HelpActions');
-  actions.IdentityMembershipActions = require('actions/IdentityMembershipActions');
-  actions.ImageActions = require('actions/ImageActions');
-  actions.ImageVersionActions = require('actions/ImageVersionActions');
-  actions.ImageVersionMembershipActions = require('actions/ImageVersionMembershipActions');
-  actions.ImageVersionLicenseActions = require('actions/ImageVersionLicenseActions');
-  actions.ImageVersionScriptActions = require('actions/ImageVersionScriptActions');
-  actions.ImageBookmarkActions = require('actions/ImageBookmarkActions');
-  actions.InstanceActions = require('actions/InstanceActions');
-  actions.InstanceTagActions = require('actions/InstanceTagActions');
-  actions.InstanceVolumeActions = require('actions/InstanceVolumeActions');
-  actions.LicenseActions = require('actions/LicenseActions');
-  actions.ScriptActions = require('actions/ScriptActions');
-  actions.NullProjectActions = require('actions/NullProjectActions');
-  actions.ProfileActions = require('actions/ProfileActions');
-  actions.ProjectActions = require('actions/ProjectActions');
-  actions.ProviderMachineActions = require('actions/ProviderMachineActions');
-  actions.ProjectExternalLinkActions = require('actions/ProjectExternalLinkActions');
-  actions.ProjectImageActions = require('actions/ProjectImageActions');
-  actions.ProjectInstanceActions = require('actions/ProjectInstanceActions');
-  actions.ProjectVolumeActions = require('actions/ProjectVolumeActions');
-  actions.ResourceActions = require('actions/ResourceActions');
-  actions.TagActions = require('actions/TagActions');
-  actions.UserActions = require('actions/UserActions');
-  actions.VolumeActions = require('actions/VolumeActions');
+stores.AllocationStore = require('stores/AllocationStore');
+stores.BadgeStore = require('stores/BadgeStore');
+stores.ExternalLinkStore = require('stores/ExternalLinkStore');
+stores.HelpLinkStore = require('stores/HelpLinkStore');
+stores.ImageStore = require('stores/ImageStore');
+stores.ImageVersionStore = require('stores/ImageVersionStore');
+stores.ImageVersionMembershipStore = require('stores/ImageVersionMembershipStore');
+stores.ImageVersionLicenseStore = require('stores/ImageVersionLicenseStore');
+stores.ImageVersionScriptStore = require('stores/ImageVersionScriptStore');
+stores.IdentityStore = require('stores/IdentityStore');
+stores.ImageBookmarkStore = require('stores/ImageBookmarkStore');
+stores.InstanceHistoryStore = require('stores/InstanceHistoryStore');
+stores.ImageRequestStore = require('stores/ImageRequestStore');
+stores.InstanceStore = require('stores/InstanceStore');
+stores.InstanceTagStore = require('stores/InstanceTagStore');
+stores.LicenseStore = require('stores/LicenseStore');
+stores.ScriptStore = require('stores/ScriptStore');
+stores.MaintenanceMessageStore = require('stores/MaintenanceMessageStore');
+stores.MyBadgeStore = require('stores/MyBadgeStore');
+stores.MembershipStore = require('stores/MembershipStore');
+stores.ProfileStore = require('stores/ProfileStore');
+stores.ProjectStore = require('stores/ProjectStore');
+stores.ProjectExternalLinkStore = require('stores/ProjectExternalLinkStore');
+stores.ProjectImageStore = require('stores/ProjectImageStore');
+stores.ProjectInstanceStore = require('stores/ProjectInstanceStore');
+stores.ProjectVolumeStore = require('stores/ProjectVolumeStore');
+stores.ProviderMachineStore = require('stores/ProviderMachineStore');
+stores.ProviderStore = require('stores/ProviderStore');
+stores.ResourceRequestStore = require('stores/ResourceRequestStore');
+stores.IdentityMembershipStore = require('stores/IdentityMembershipStore');
+stores.StatusStore = require('stores/StatusStore');
+stores.SSHKeyStore = require('stores/SSHKeyStore');
+stores.QuotaStore = require('stores/QuotaStore');
+stores.SizeStore = require('stores/SizeStore');
+stores.TagStore = require('stores/TagStore');
+stores.UserStore = require('stores/UserStore');
+stores.VersionStore = require('stores/VersionStore');
+stores.VolumeStore = require('stores/VolumeStore');
+stores.AllocationSourceStore = require('stores/AllocationSourceStore');
 
-  var modals = require('modals');
-  modals.BadgeModals = require('modals/BadgeModals');
-  modals.ExternalLinkModals = require('modals/ExternalLinkModals');
-  modals.HelpModals = require('modals/HelpModals');
-  modals.InstanceModals = require('modals/InstanceModals');
-  modals.InstanceVolumeModals = require('modals/InstanceVolumeModals');
-  modals.ProjectModals = require('modals/ProjectModals');
-  modals.TagModals = require('modals/TagModals');
-  modals.VersionModals = require('modals/VersionModals');
-  modals.VolumeModals = require('modals/VolumeModals');
+import actions from 'actions';
 
-  return {
+actions.BadgeActions = require('actions/BadgeActions');
+actions.ExternalLinkActions = require('actions/ExternalLinkActions');
+actions.HelpActions = require('actions/HelpActions');
+actions.IdentityMembershipActions = require('actions/IdentityMembershipActions');
+actions.ImageActions = require('actions/ImageActions');
+actions.ImageVersionActions = require('actions/ImageVersionActions');
+actions.ImageVersionMembershipActions = require('actions/ImageVersionMembershipActions');
+actions.ImageVersionLicenseActions = require('actions/ImageVersionLicenseActions');
+actions.ImageVersionScriptActions = require('actions/ImageVersionScriptActions');
+actions.ImageBookmarkActions = require('actions/ImageBookmarkActions');
+actions.InstanceActions = require('actions/InstanceActions');
+actions.InstanceTagActions = require('actions/InstanceTagActions');
+actions.InstanceVolumeActions = require('actions/InstanceVolumeActions');
+actions.LicenseActions = require('actions/LicenseActions');
+actions.ScriptActions = require('actions/ScriptActions');
+actions.NullProjectActions = require('actions/NullProjectActions');
+actions.ProfileActions = require('actions/ProfileActions');
+actions.ProjectActions = require('actions/ProjectActions');
+actions.ProviderMachineActions = require('actions/ProviderMachineActions');
+actions.ProjectExternalLinkActions = require('actions/ProjectExternalLinkActions');
+actions.ProjectImageActions = require('actions/ProjectImageActions');
+actions.ProjectInstanceActions = require('actions/ProjectInstanceActions');
+actions.ProjectVolumeActions = require('actions/ProjectVolumeActions');
+actions.ResourceActions = require('actions/ResourceActions');
+actions.TagActions = require('actions/TagActions');
+actions.UserActions = require('actions/UserActions');
+actions.VolumeActions = require('actions/VolumeActions');
+
+import modals from 'modals';
+
+modals.BadgeModals = require('modals/BadgeModals');
+modals.ExternalLinkModals = require('modals/ExternalLinkModals');
+modals.HelpModals = require('modals/HelpModals');
+modals.InstanceModals = require('modals/InstanceModals');
+modals.InstanceVolumeModals = require('modals/InstanceVolumeModals');
+modals.ProjectModals = require('modals/ProjectModals');
+modals.TagModals = require('modals/TagModals');
+modals.VersionModals = require('modals/VersionModals');
+modals.VolumeModals = require('modals/VolumeModals');
+modals.UnsupportedModal = require('modals/UnsupportedModal');
+
+export default {
     run: function () {
       let authHeaders = {
           "Content-Type": "application/json"
@@ -146,7 +142,7 @@ define(function (require) {
         //      if(response.status === 503) {
         //        $('.splash-image').remove();
         //        var MaintenanceComponent = React.createFactory(MaintenanceScreen);
-        //        React.render(MaintenanceComponent(), document.getElementById('application'));
+        //        ReactDOM.render(MaintenanceComponent(), document.getElementById('application'));
         //      }
         //    });
         //
@@ -173,7 +169,7 @@ define(function (require) {
 
             // replace the current view with the
             var MaintenanceComponent = React.createFactory(MaintenanceScreen);
-            React.render(MaintenanceComponent(), document.getElementById('application'));
+            ReactDOM.render(MaintenanceComponent(), document.getElementById('application'));
           } else {
             dfd.reject.apply(this, arguments);
           }
@@ -185,9 +181,7 @@ define(function (require) {
       // render the splash page which will load the rest of the application
       $(document).ready(function () {
         var SplashScreenComponent = React.createFactory(SplashScreen);
-        React.render(SplashScreenComponent(), document.getElementById('application'));
+        ReactDOM.render(SplashScreenComponent(), document.getElementById('application'));
       });
     }
-  }
-
-});
+}

@@ -1,19 +1,15 @@
+import React from 'react';
+import Backbone from 'backbone';
+import HeaderView from './header/HeaderView.react';
+import ImageLaunchCard from './launch/ImageLaunchCard.react';
+import actions from 'actions';
+import ViewImageDetails from './ViewImageDetails.react';
+import EditImageDetails from './EditImageDetails.react';
+import VersionsView from './versions/VersionsView.react';
+import modals from 'modals';
+import { trackAction } from '../../../utilities/userActivity';
 
-define(
-  [
-    'react',
-    'backbone',
-    './header/HeaderView.react',
-    './launch/ImageLaunchCard.react',
-    'actions',
-    './ViewImageDetails.react',
-    './EditImageDetails.react',
-    './versions/VersionsView.react',
-    'modals'
-  ],
-  function (React, Backbone, HeaderView, ImageLaunchCard, actions, ViewImageDetails, EditImageDetails, VersionsView, modals) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "ImageDetailsView",
 
       propTypes: {
@@ -31,6 +27,7 @@ define(
 
       showLaunchModal: function (e) {
         modals.InstanceModals.launch({ image: this.props.image, initialView: "BASIC_VIEW" });
+        trackAction("launched-from-image-detail", {});
       },
 
       handleEditImageDetails: function () {
@@ -100,7 +97,4 @@ define(
           </div>
         );
       }
-
-    });
-
-  });
+});

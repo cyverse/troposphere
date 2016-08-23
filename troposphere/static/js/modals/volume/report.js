@@ -1,13 +1,10 @@
-define(function (require) {
-  "use strict";
+import ModalHelpers from 'components/modals/ModalHelpers';
+import actions from 'actions';
+import stores from 'stores';
+import VolumeReportModal from 'components/modals/volume/VolumeReportModal.react';
 
-  var ModalHelpers = require('components/modals/ModalHelpers'),
-    actions = require('actions'),
-    stores = require('stores'),
-    VolumeReportModal = require('components/modals/volume/VolumeReportModal.react');
 
-  return {
-
+export default {
     report: function (params) {
       if (!params.volume) throw new Error("Missing volume");
 
@@ -25,7 +22,4 @@ define(function (require) {
         });
       })
     }
-
-  };
-
-});
+};

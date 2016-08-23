@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login
 
 from iplantauth.authBackends import get_or_create_user, generate_token
-from iplantauth.views import globus_login_redirect
+from iplantauth.views import globus_login_redirect, globus_logout_redirect
 
 logger = logging.getLogger(__name__)
 cas_oauth_client = CAS_OAuthClient(settings.CAS_SERVER,
@@ -93,7 +93,8 @@ def logout(request):
     #Look for 'cas' to be passed on logout.
     request_data = request.GET
     if request_data.get('force', False):
-        if 'iplantauth.authBackends.CASLoginBackend' in all_backends:
+        if 'iplantauth.authBackends.CASLoginBackend' in all_backends\
+        or 'iplantauth.authBackends.OAuthLoginBackend' in all_backends:
             redirect_to = request_data.get("service")
             if not redirect_to:
                 redirect_to = settings.SERVER_URL + reverse('application')
@@ -102,7 +103,7 @@ def logout(request):
             return redirect(logout_url)
         elif 'iplantauth.authBackends.GlobusLoginBackend' in all_backends\
           or 'iplantauth.authBackends.GlobusOAuthLoginBackend' in all_backends:
-            logger.info("[Globus] Redirect user to: %s" % logout_url)
+            logger.info("[Globus] Redirect user to logout")
             return globus_logout_redirect(request)
     return redirect('application')
 
@@ -115,11 +116,24 @@ def _globus_login(request):
     return globus_login_redirect(request)
 
 
-def _oauth_login(request):
+def set_redirect_in_session(request):
     redirect_url = request.GET.get('redirect_to')
+    referer_url = request.META.get('HTTP_REFERER')
+    # If the referer is 'application/images' the *login* button should
+    # really take you to the Authenticated 'home' page, *dashboard*
+    if referer_url and referer_url.endswith('/application/images'):
+        redirect_url = '/application/dashboard'
+    # Set the redirect url to match the query-param `?redirect_to=`
     if redirect_url:
         request.session['redirect_to'] = redirect_url
-    return redirect(cas_oauth_client.authorize_url())
+    return
+
+def _oauth_login(request):
+    set_redirect_in_session(request)
+
+    response = redirect(cas_oauth_client.authorize_url())
+
+    return response
 
 
 # CAS OAuth callback ( After the Authorize is OK)
@@ -147,4 +161,6 @@ def cas_oauth_service(request):
         redirect_url = request.session.pop('redirect_to')
         return redirect(redirect_url)
 
-    return redirect('application')
+    response = redirect('application')
+
+    return response

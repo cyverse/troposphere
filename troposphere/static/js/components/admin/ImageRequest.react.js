@@ -1,13 +1,12 @@
-define(function (require) {
-  "use strict";
+import React from 'react';
+import Router from 'react-router';
+import ImageRequestActions from 'actions/ImageRequestActions';
+import actions from 'actions';
+import stores from 'stores';
 
-  var React = require('react'),
-      Router = require('react-router'),
-      stores = require('stores'),
-      actions = require('actions'),
-      ImageRequestActions = require('actions/ImageRequestActions');
 
-  return React.createClass({
+export default React.createClass({
+    displayName: "ImageRequest",
 
     mixins: [Router.State],
 
@@ -38,7 +37,7 @@ define(function (require) {
     deny: function(){
 
       var request = stores.ImageRequestStore.get(this.getParams().id),
-      status = stores.StatusStore.findOne({name: "rejected"});
+      status = stores.StatusStore.findOne({name: "denied"});
 
       ImageRequestActions.update({
         request: request,
@@ -62,9 +61,57 @@ define(function (require) {
     },
 
     render: function () {
-      var request = stores.ImageRequestStore.get(this.getParams().id),
-          instance = request.get('instance');
+      let request = stores.ImageRequestStore.get(this.getParams().id),
+          machine = request.get('parent_machine'),
+          new_machine = request.get('new_machine'),
+          new_provider = request.get('new_machine_provider'),
+          instance = request.get('instance'),
+          size = instance.size,
+          instance_size_str = size.name
+              + "(" + size.alias + ") : "
+              + size.cpu + " CPU, "
+              + size.mem + " MB Memory, "
+              + size.disk + " Disk",
+          instance_mach_str = instance.image.name + " v." + machine.version,
+          membership_list, access_list, scripts_list, licenses_list;
 
+      if(request.get('access_list')) {
+          var new_access_list = JSON.parse(
+                request.get('access_list').replace(/\'/g,'"'));
+
+          access_list = new_access_list.map(function(member) {
+              return member;
+          }).sort().join(", ");
+      } else {
+          access_list = "";
+      }
+
+      if(request.get('new_version_scripts')) {
+          var new_scripts_list = request.get('new_version_scripts');
+          scripts_list = new_scripts_list.map(function(script) {
+              //FIXME: A more advanced setup: Show the title, the type, and the contents in a constructed DIV
+              return script.title;
+          }).sort().join(", ");
+      } else {
+          scripts_list = "N/A";
+      }
+      if(request.get('new_version_licenses')) {
+          var new_licenses_list = request.get('new_version_licenses');
+          licenses_list = new_licenses_list.map(function(licenses) {
+              //FIXME: A more advanced setup: Show the title, the type, and the text in a constructed DIV
+              return licenses.title;
+          }).sort().join(", ");
+      } else {
+          licenses_list = "N/A";
+      }
+      if(request.get('new_version_membership')) {
+          var new_membership_list = request.get('new_version_membership');
+          membership_list = new_membership_list.map(function(membership) {
+              return membership.name;
+          }).sort().join(", ");
+      } else {
+          membership_list = "N/A";
+      }
       // ensure boolean values are displayed as strings
       var allowImaging = "false";
       var forked = "false";
@@ -80,31 +127,50 @@ define(function (require) {
       return(
         <div className="request-admin pull-right admin-detail">
           <div>
+            <h3>Request Information</h3>
             <div>Request ID: {request.get('id')}</div>
-            <div>Installed software: {request.get('installed_software')}</div>
+            <div>Username: {request.get('new_machine_owner').username}</div>
+            <div>Request type: {forked ? "New Application Request" : "Updated Application Request"}</div>
+            <div>Imaging status: {allowImaging ? "Imaging allowed" : "Author only"}</div>
+            <div>Request state: {request.get('old_status')}</div>
+            <div>Status: {request.get('status').name}</div>
+            <h6>Additional Information</h6>
+            <div>Original machine: {instance_mach_str}</div>
+            <div>Original provider: {machine.provider.name}</div>
+            <div>Destination machine: {new_machine ? new_machine.uuid : "N/A"}</div>
+            <div>Destination provider: {new_provider.name}</div>
+          </div>
+          <div>
+            <h3>Application Information</h3>
+            <div>Name: {request.get('new_application_name')}</div>
+            <div>Description: {request.get('new_application_description')}</div>
+            <div>Tags: {request.get('new_version_tags')}</div>
+            <div>Visbility: {request.get('new_application_visibility')}</div>
+            <div>Membership Requested (Private Only): {access_list}</div>
+            <div>Membership Approved (Private Only): {membership_list}</div>
+            <div>Boot scripts (Optional): {scripts_list}</div>
+            <div>Licenses (Optional): {licenses_list}</div>
+            <div>Minimum Memory Threshold (Optional): {request.get('new_version_memory_min') == 0 ? "" : request.get('new_version_memory_min')}</div>
+            <div>Minimum CPU Threshold (Optional): {request.get('new_version_cpu_min') == 0 ? "" : request.get('new_version_cpu_min')}</div>
+          </div>
+          <div>
+            <h3>Version Information</h3>
+            <div>Name: {request.get('new_version_name')}</div>
+            <div>Change log: {request.get('new_version_change_log')}</div>
+            <div>Installed Software: {request.get('installed_software')}</div>
+            <div>Excluded files: {request.get('exclude_files')}</div>
+            <div>System files: {request.get('system_files')}</div>
+          </div>
+          <div>
+            <h3>Instance Information</h3>
             <div>Instance ID: {instance.id}</div>
+            <div>Instance alias: {instance.uuid}</div>
+            <div>Instance status: {instance.end_date ? "Destroyed on "+instance.end_date : instance.status}</div>
+            <div>Instance size: {instance_size_str} </div>
             <div>Instance name: {instance.name}</div>
-            <div>iPlant sys files: {request.get('iplant_sys_files')}</div>
-            <div>New application description: {request.get('new_application_description')}</div>
-            <div>New application name: {request.get('new_application_name')}</div>
-            <div>New machine owner: {request.get('new_machine_owner').username}</div>
-            <div>New provider: {request.get('new_machine_provider').name}</div>
-            <div>Allow imaging: {allowImaging}</div>
-            <div>Forked: {forked}</div>
           </div>
 
           <div>
-            <div>New version licenses: {request.get('new_version_licenses')}</div>
-            <div>New version memory min: {request.get('new_version_memory_min')}</div>
-            <div>New version cpu min: {request.get('new_version_cpu_min')}</div>
-            <div>New version name: {request.get('new_version_name')}</div>
-            <div>New version scripts: {request.get('new_version_scripts')}</div>
-            <div>New version tags: {request.get('new_version_tags')}</div>
-            <div>Request state: {request.get('old_status')}</div>
-            <div>Status: {request.get('status').name}</div>
-          </div>
-
-          <div className="request-actions">
             <h4>Response:</h4><br />
             <textarea type="text" form="admin" value={this.state.value}
               onChange={this.handleResponseChange}/><br />
@@ -115,6 +181,4 @@ define(function (require) {
         </div>
       );
     }
-  });
 });
-

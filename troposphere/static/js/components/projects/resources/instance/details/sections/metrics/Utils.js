@@ -1,7 +1,8 @@
-define(function(require) {
+import globals from 'globals';
+import d3 from 'd3';
 
-  var fetch = function(uuid, urlParams, onSuccess, onError) {
-    var api = API_V2_ROOT + "/metrics";
+let fetch = function(uuid, urlParams, onSuccess, onError) {
+    var api = globals.API_V2_ROOT + "/metrics";
 
     // Request extra datapoints to account for occasional null data at
     // front/end
@@ -12,32 +13,45 @@ define(function(require) {
       "&res="   + urlParams.res   +
       "&size="  + (urlParams.size + extra);
 
-    if (urlParams.fun)
+    if (urlParams.fun) {
       req += "&fun=" + urlParams.fun;
+    }
+
+    if (urlParams.from)
+        req += "&from=" + urlParams.from;
+
+    if (urlParams.until)
+        req += "&until=" + urlParams.until;
 
     d3.json(req)
-      .header("Authorization", "Token " + access_token)
+      .header("Authorization", "Token " + window.access_token)
       .get(function(error, json) {
 
-        // The json object should be an array with length >= 1 
-        if (!(json && Array.isArray(json) && json.length)) 
+        // The json object should be an array with length >= 1
+        if (!(json && Array.isArray(json) && json.length)){
           return onError && onError();
-        var data = json[0].datapoints
+        }
+        var data = json[0].datapoints;
 
         // Trim initial/final null values
-        if (data[0][0] == null)
+        if (data[0][0] == null){
           data.splice(0, 1);
-        data.length = urlParams.size;
-
-        onSuccess(data.map(function(arr) {
-          return { x: arr[1] * 1000, y: arr[0] };
-        }));
+          urlParams.size = urlParams.size - 1;
+        }
+        if(data.length > 0){
+            data.length = urlParams.size;
+            onSuccess(data.map(function(arr) {
+                return { x: arr[1] * 1000, y: arr[0] };
+            }));
+        }
+        else{
+            onError();
+        }
 
       })
   }
 
-
-  var bytesToString = function (bytes) {
+let bytesToString = function (bytes) {
     var fmt = d3.format('.0f'),
       isNegative = bytes < 0,
       output = "";
@@ -53,17 +67,16 @@ define(function(require) {
       output = fmt(bytes / 1024 / 1024 / 1024) + 'GB';
     }
     return isNegative ? "-" + output : output;
-  }
+};
 
-  var get = function(name) {
+let get = function(name) {
     return function(obj) {
-      return obj[name];
+        return obj[name];
     };
-  };
+};
 
-  return {
+export default {
     get: get,
     fetch: fetch,
     bytesToString: bytesToString
-  }
-})
+};

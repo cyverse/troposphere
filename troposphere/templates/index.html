@@ -1,3 +1,7 @@
+{% if DYNAMIC_ASSET_LOADING %}
+{% load render_bundle from webpack_loader %}
+{% endif %}
+
 <!DOCTYPE html>
 {% include 'comment.html' %}
 <html>
@@ -8,7 +12,12 @@
     <link rel="shortcut icon" href="{{THEME_URL}}/images/favicon.ico" />
 
     <!--CSS-->
-    <link rel="stylesheet" href="{{ BASE_URL }}/assets/app.css" rel="stylesheet" type="text/css">
+{% if DYNAMIC_ASSET_LOADING %}
+    {% render_bundle 'app' 'css' %}
+{% else %}
+    <link rel="stylesheet" href="{{ BASE_URL }}/assets/bundles/app.css" rel="stylesheet" type="text/css">
+{% endif %}
+
     <link rel="stylesheet" href="{{ THEME_URL }}/css/theme.css" rel="stylesheet" type="text/css">
 
     <!-- Fonts -->
@@ -17,6 +26,10 @@
     <!--[if IE]>
     <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+
+{% if new_relic_enabled %}
+    {% include new_relic_browser_snippet %}
+{% endif %}
 
     <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/tpwq3d9w';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
 </head>
@@ -36,7 +49,8 @@
     var access_token = "{{ access_token }}";
 {% endif %}
 
-{% if emulator_token %}
+{% if emulator and emulator_token %}
+    var emulator = "{{ emulator }}";
     var emulator_token = "{{ emulator_token }}";
 {% endif %}
 
@@ -103,6 +117,7 @@
 {% if WEB_DESKTOP_INCLUDE_LINK %}
     var WEB_DESKTOP_INCLUDE_LINK = "{{ WEB_DESKTOP_INCLUDE_LINK }}"
 {% endif %}
+
 {% if show_public_site %}
     var show_public_site = true;
 {%  else %}
@@ -121,13 +136,43 @@
     var show_instance_metrics = false;
 {% endif %}
 
+{% if USE_MOCK_DATA %}
+    var USE_MOCK_DATA = true;
+{%  else %}
+    var USE_MOCK_DATA = false;
+{% endif %}
+
+{% if USE_ALLOCATION_SOURCES %}
+    var USE_ALLOCATION_SOURCES = true;
+{%  else %}
+    var USE_ALLOCATION_SOURCES = false;
+{% endif %}
+
+{% if notice %}
+    var maint_notice = "{{ notice }}"
+{% endif %}
+
     </script>
 
+{% if DYNAMIC_ASSET_LOADING %}
     <!-- Application dependencies -->
+    {% render_bundle 'manifest' 'js' %}
+    {% render_bundle 'vendor' 'js' %}
+
     {% if show_public_site %}
-    <script src="{{ BASE_URL }}/assets/public.js"></script>
+    {% render_bundle 'public' 'js' %}
     {% else %}
-    <script src="{{ BASE_URL }}/assets/app.js"></script>
+    {% render_bundle 'app' 'js' %}
+    {% endif %}
+    <!-- Google Analytics -->
+    {% render_bundle 'analytics' 'js' %}
+{% else %}
+    <script src="{{ BASE_URL }}/assets/bundles/manifest.js"></script>
+    <script src="{{ BASE_URL }}/assets/bundles/vendor.js"></script>
+    {% if show_public_site %}
+    <script src="{{ BASE_URL }}/assets/bundles/public.js"></script>
+    {% else %}
+    <script src="{{ BASE_URL }}/assets/bundles/app.js"></script>
     {% endif %}
 
     {% if BADGES_ENABLED %}
@@ -135,6 +180,7 @@
     {% endif %}
 
     <!-- Google Analtics -->
-    <script src="{{ BASE_URL }}/assets/analytics.js"></script>
+    <script src="{{ BASE_URL }}/assets/bundles/analytics.js"></script>
+{% endif %}
 </body>
 </html>

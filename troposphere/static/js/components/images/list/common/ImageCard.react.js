@@ -1,19 +1,19 @@
-define(function (require) {
+import React from 'react';
+import Router from 'react-router';
+import Gravatar from 'components/common/Gravatar.react';
+import Backbone from 'backbone';
+import Bookmark from 'components/images/common/Bookmark.react';
+import Tags from 'components/images/detail/tags/Tags.react';
 
-  var React = require('react/addons'),
-    Gravatar = require('components/common/Gravatar.react'),
-    Backbone = require('backbone'),
-    Bookmark = require('components/images/common/Bookmark.react'),
-    context = require('context'),
-    Tags = require('components/images/detail/tags/Tags.react'),
-    stores = require('stores'),
-    ImageCardDescription = require('./ImageCardDescription.react'),
-    globals = require('globals'),
-    moment = require('moment'),
-    momentTZ = require('moment-timezone'),
-    Router = require('react-router');
+import ImageCardDescription from './ImageCardDescription.react';
+import context from 'context';
+import globals from 'globals';
+import moment from 'moment';
+import momentTZ from 'moment-timezone';
+import stores from 'stores';
 
-  return React.createClass({
+
+export default React.createClass({
     displayName: "ImageCard",
 
     propTypes: {
@@ -39,6 +39,23 @@ define(function (require) {
 
       // Hide bookmarking on the public page
       var bookmark;
+      let endDated;
+      if (this.props.isEndDated) {
+        endDated = (
+            <div style={{
+                position: "absolute",
+                top: "10px",
+                left: "0",
+                background: "#F55A5A",
+                display: "inline-block",
+                padding: "5px 10px",
+                color: "white"
+              }}
+            >
+              End Dated
+            </div>
+        );
+      }
       if (hasLoggedInUser) {
         bookmark = (
           <Bookmark image={image}/>
@@ -47,6 +64,7 @@ define(function (require) {
 
       return (
         <div className='app-card'>
+          {endDated}
           <div className='icon-container'>
             <Router.Link to="image-details" params={{imageId: image.id}}>
               {icon}
@@ -68,7 +86,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

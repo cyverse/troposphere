@@ -1,20 +1,17 @@
+import React from 'react';
+import Backbone from 'backbone';
+import SelectableRow from '../SelectableRow.react';
+import Name from '../tableData/instance/Name.react';
+import Status from '../tableData/instance/Status.react';
 import Activity from '../tableData/instance/Activity.react'
+import IpAddress from '../tableData/instance/IpAddress.react';
+import Size from '../tableData/instance/Size.react';
+import Provider from '../tableData/instance/Provider.react';
+import CryptoJS from 'crypto-js';
+import Gravatar from 'components/common/Gravatar.react';
+import stores from 'stores';
 
-define(function (require) {
-
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    SelectableRow = require('../SelectableRow.react'),
-    Name = require('../tableData/instance/Name.react'),
-    Status = require('../tableData/instance/Status.react'),
-    IpAddress = require('../tableData/instance/IpAddress.react'),
-    Size = require('../tableData/instance/Size.react'),
-    Provider = require('../tableData/instance/Provider.react'),
-    stores = require('stores'),
-    CryptoJS = require('crypto-js'),
-    Gravatar = require('components/common/Gravatar.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "InstanceRow",
 
     propTypes: {
@@ -63,7 +60,4 @@ define(function (require) {
         </SelectableRow>
       );
     }
-
-  });
-
 });

@@ -1,8 +1,5 @@
-define(
-  [],
-  function () {
 
-    return {
+export default {
       INSTANCE_UPDATE: "INSTANCE_UPDATE",
       INSTANCE_START: "INSTANCE_START",
       INSTANCE_STOP: "INSTANCE_STOP",
@@ -18,6 +15,4 @@ define(
       REMOVE_INSTANCE: "REMOVE_INSTANCE",
       POLL_INSTANCE: "POLL_INSTANCE",
       POLL_FOR_DELETED: "POLL_FOR_DELETED",
-    };
-
-  });
+};

@@ -1,11 +1,10 @@
-define(function (require) {
-  "use strict";
+import React from 'react';
+import Router from 'react-router';
 
-  var React = require('react/addons'),
-    Router = require('react-router'),
-    RouteHandler = Router.RouteHandler;
 
-  return React.createClass({
+let RouteHandler = Router.RouteHandler;
+
+export default React.createClass({
     displayName: "ProjectsMaster",
 
     mixins: [Router.State],
@@ -15,7 +14,5 @@ define(function (require) {
         <RouteHandler/>
       );
     }
-
-  });
 
 });

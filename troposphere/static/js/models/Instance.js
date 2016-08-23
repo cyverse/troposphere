@@ -1,17 +1,20 @@
-define(
-  [
-    'backbone',
-    'underscore',
-    'jquery',
-    'globals',
-    'context',
-    './InstanceState'
-  ],
-  function (Backbone, _, $, globals, context, InstanceState) {
+import Backbone from 'backbone';
+import _ from 'underscore';
+import $ from 'jquery';
+import globals from 'globals';
+import context from 'context';
+import InstanceState from './InstanceState';
 
-    return Backbone.Model.extend({
+export default Backbone.Model.extend({
 
-      urlRoot: globals.API_V2_ROOT + "/instances",
+      initialize: function(){
+        if(this.get('start_date')){
+            this.set('start_date', new Date(this.get('start_date')));
+        }
+        if(this.get('end_date')){
+            this.set('end_date', new Date(this.get('end_date')));
+        }
+      },
 
       parse: function (attributes) {
         attributes.start_date = new Date(attributes.start_date);
@@ -49,6 +52,10 @@ define(
         if (!options.size_alias) throw new Error("Missing size_alias");
         if (!options.machine_alias) throw new Error("Missing machine_alias");
 
+        if (globals.USE_ALLOCATION_SOURCES) {
+            if (!options.allocation_source_id) throw new Error("Missing allocation_source_id");
+        }
+
         var providerId = this.get('provider').uuid,
             identityId = this.get('identity').uuid,
             name = options.name,
@@ -63,15 +70,18 @@ define(
           "/instance"
         );
 
-        return Backbone.sync("create", this, {
-          url: url,
-          attrs: {
+        let attrs = {
             name: name,
             machine_alias: machine,
             size_alias: size,
             scripts: scriptIDs
-          }
-        });
+        }
+
+        if (globals.USE_ALLOCATION_SOURCES) {
+            attrs.allocation_source_id = allocation_source_id;
+        }
+
+        return Backbone.sync("create", this, { url, attrs });
       },
 
       getCreds: function () {
@@ -145,6 +155,4 @@ define(
         if (instanceUrl.slice(-1) !== "/") instanceUrl += "/";
         return instanceUrl + 'action';
       },
-
-    });
 });

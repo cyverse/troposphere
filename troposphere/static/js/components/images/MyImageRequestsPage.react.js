@@ -1,11 +1,12 @@
-define(function(require) {
+import React from 'react';
+import modals from 'modals';
+import moment from 'moment';
+import RefreshComponent from 'components/projects/resources/instance/details/sections/metrics/RefreshComponent.react';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-    moment = require('moment'),
-    RefreshComponent = require('components/projects/resources/instance/details/sections/metrics/RefreshComponent.react'),
-    stores = require('stores');
 
-  return React.createClass({
+export default React.createClass({
+    displayName: "MyImageRequestsPage",
 
     getInitialState: function(){
       // start fetching the relevant models before the component is rendered
@@ -86,7 +87,7 @@ define(function(require) {
           case "approved":
             trClass = "success";
             break;
-          case "rejected":
+          case "denied":
             trClass = "warning"
             break;
           default:
@@ -149,7 +150,4 @@ define(function(require) {
         </div>
       );
     }
-
-  });
-
 });

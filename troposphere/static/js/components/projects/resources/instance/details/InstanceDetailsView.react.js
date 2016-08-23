@@ -1,68 +1,89 @@
-define(function (require) {
+import React from "react";
+import Backbone from "backbone";
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    BreadcrumbBar = require('components/projects/common/BreadcrumbBar.react'),
-    InstanceInfoSection = require('./sections/InstanceInfoSection.react'),
-    InstanceDetailsSection = require('./sections/InstanceDetailsSection.react'),
-    InstanceMetricsSection = require('./sections/InstanceMetricsSection.react'),
-    InstanceActionsAndLinks = require('./actions/InstanceActionsAndLinks.react'),
-    stores = require('stores');
+import BreadcrumbBar from "components/projects/common/BreadcrumbBar.react";
+import globals from "globals";
+import InstanceInfoSection from "./sections/InstanceInfoSection.react";
+import InstanceDetailsSection from "./sections/InstanceDetailsSection.react";
+import InstanceMetricsSection from "./sections/InstanceMetricsSection.react";
+import AllocationSourceSection from "./sections/AllocationSourceSection.react";
+import InstanceActionsAndLinks from "./actions/InstanceActionsAndLinks.react";
+import EventActions from "actions/EventActions";
+import EventConstants from "constants/EventConstants";
 
-  return React.createClass({
+export default React.createClass({
     displayName: "InstanceDetailsView",
 
     propTypes: {
-      instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      project: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+        allocationSources: React.PropTypes.instanceOf(Backbone.Collection),
     },
 
-    render: function () {
-      var instance = this.props.instance,
-        project = this.props.project;
+    onSourceChange(allocationSource) {
+        let instance = this.props.instance;
+        EventActions.fire(
+            EventConstants.ALLOCATION_SOURCE_CHANGE,
+            { instance, allocationSource }
+        )
+    },
 
-      if (!instance || !project) return <div className="loading"></div>;
-
-      var breadcrumbs = [
-        {
-          name: "Resources",
-          linksTo: "project-resources",
-          params: {projectId: project.id}
-        },
-        {
-          name: instance.get('name'),
-          linksTo: "project-instance-details",
-          params: {projectId: project.id, instanceId: instance.id}
+    renderAllocationSourceSection() {
+        let props = {
+            onSourceChange: this.onSourceChange,
+            ...this.props
         }
-      ];
+        return (
+        <AllocationSourceSection { ...props }/>
+        );
+    },
 
-      return (
+    render() {
+        let { instance, project }  = this.props;
+
+        var breadcrumbs = [
+            {
+                name: "Resources",
+                linksTo: "project-resources",
+                params: {
+                    projectId: project.id
+                }
+            },
+            {
+                name: instance.get("name"),
+                linksTo: "project-instance-details",
+                params: {
+                    projectId: project.id,
+                    instanceId: instance.id
+                }
+            }
+        ];
+
+        return (
         <div>
-          <BreadcrumbBar breadcrumbs={breadcrumbs}/>
-
-          <div className="row resource-details-content">
-            <div className="col-md-9">
-              <InstanceInfoSection instance={instance}/>
-              <hr/>
-              <InstanceDetailsSection instance={instance}/>
-              <hr/>
-              {
-                typeof show_instance_metrics != "undefined"
-                ? <InstanceMetricsSection instance={instance}/>
-                : ""
-              }
+            <BreadcrumbBar breadcrumbs={breadcrumbs}/>
+            <div className="row resource-details-content">
+                <div className="col-md-9">
+                    <InstanceInfoSection instance={instance}/>
+                    <hr/>
+                    {
+                        globals.USE_ALLOCATION_SOURCES
+                        ? this.renderAllocationSourceSection()
+                        : null
+                    }
+                    <InstanceDetailsSection instance={instance} />
+                    <hr/>
+                    {
+                        show_instance_metrics
+                        ? <InstanceMetricsSection instance={instance} />
+                        : ""
+                    }
+                </div>
+                <div className="col-md-3">
+                    <InstanceActionsAndLinks project={project} instance={instance} />
+                </div>
             </div>
-            <div className="col-md-3">
-              <InstanceActionsAndLinks
-                project={project}
-                instance={instance}
-                />
-            </div>
-          </div>
         </div>
-      );
+        );
     }
-
-  });
-
 });

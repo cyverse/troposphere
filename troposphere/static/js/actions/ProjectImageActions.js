@@ -1,13 +1,12 @@
-define(function (require) {
+import AppDispatcher from 'dispatchers/AppDispatcher';
+import ProjectConstants from 'constants/ProjectConstants';
+import ProjectImageConstants from 'constants/ProjectImageConstants';
+import ProjectImage from 'models/ProjectImage';
+import Utils from './Utils';
+import stores from 'stores';
 
-  var AppDispatcher = require('dispatchers/AppDispatcher'),
-    ProjectConstants = require('constants/ProjectConstants'),
-    ProjectImageConstants = require('constants/ProjectImageConstants'),
-    ProjectImage = require('models/ProjectImage'),
-    Utils = require('./Utils'),
-    stores = require('stores');
 
-  return {
+export default {
 
     // -------------------------
     // Add/Remove Project Image
@@ -45,7 +44,4 @@ define(function (require) {
         Utils.dispatch(ProjectImageConstants.REMOVE_PROJECT_IMAGE, {projectImage: projectImage}, options);
       });
     }
-
-  };
-
-});
+};

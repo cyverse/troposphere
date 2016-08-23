@@ -1,19 +1,21 @@
 import json
 import logging
 
+from datetime import timedelta
 from urllib import urlencode
 
 from django.conf import settings
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, render_to_response
 from django.template import RequestContext
+from django.utils import timezone
 
 from api.models import UserPreferences, MaintenanceRecord
 from troposphere.version import get_version
 from troposphere.auth import has_valid_token
 from troposphere.site_metadata import get_site_metadata
 from .emulation import is_emulated_session
-from .maintenance import get_maintenance
+from .maintenance import get_maintenance, get_notices
 
 logger = logging.getLogger(__name__)
 
@@ -55,31 +57,43 @@ def _should_show_troposphere_only():
         settings.SHOW_TROPOSPHERE_ONLY is True
 
 
-def _populate_template_params(request, maintenance_records, disabled_login,
-                              public=False):
+def _should_enabled_new_relic():
+    return hasattr(settings, "NEW_RELIC_ENVIRONMENT") and \
+        bool(settings.NEW_RELIC_ENVIRONMENT) is True
+
+
+def _populate_template_params(request, maintenance_records, notice_t,
+                              disabled_login, public=False):
     """
     Creates a dict of parameters for later template merge given the arguments,
     request session, and django settings (defined in `default.py` or overidden
     in `local.py`).
     """
+    # keep this variable around for the return statement ...
     show_troposphere_only = _should_show_troposphere_only()
+    enable_new_relic = _should_enabled_new_relic()
+    notice = ""
+    if notice_t and len(notice_t) > 2:
+        notice = notice_t[1] if not notice_t[2] else None
+    logger.info("maintenance notice tuple: {0}".format(notice_t))
 
     template_params = {
         'access_token': request.session.get('access_token'),
         'emulator_token': request.session.get('emulator_token'),
-        'emulated_by': request.session.get('emulated_by'),
+        'emulator': request.session.get('emulator'),
         'records': maintenance_records,
+        'notice': notice,
         'show_troposphere_only': show_troposphere_only,
+        'new_relic_enabled': enable_new_relic,
         'show_public_site': public
     }
-
-    show_instance_metrics = getattr(settings, "SHOW_INSTANCE_METRICS", False)
 
     if public:
         template_params['disable_login'] = disabled_login
     else:
         template_params['disable_login'] = False
-        template_params['show_instance_metrics'] = show_instance_metrics
+        template_params['show_instance_metrics'] = \
+            getattr(settings, "SHOW_INSTANCE_METRICS", False)
         # Only include Intercom information when rendering the authenticated
         # version of the site.
         if hasattr(settings, "INTERCOM_APP_ID"):
@@ -89,16 +103,21 @@ def _populate_template_params(request, maintenance_records, disabled_login,
             template_params['intercom_company_name'] = \
                 settings.INTERCOM_COMPANY_NAME
 
+    if enable_new_relic:
+        template_params['new_relic_browser_snippet'] = \
+            settings.NEW_RELIC_BROWSER_SNIPPET
+
     template_params['SITE_TITLE'] = settings.SITE_TITLE
     template_params['SITE_FOOTER'] = settings.SITE_FOOTER
     template_params['SUPPORT_EMAIL'] = settings.SUPPORT_EMAIL
     template_params['UI_VERSION'] = settings.UI_VERSION
+
     template_params['BADGES_ENABLED'] = getattr(settings,
                                                 "BADGES_ENABLED",
                                                 False)
-    template_params['BADGE_HOST'] = getattr(settings,
-                                            "BADGE_HOST",
-                                            None)
+
+    template_params['BADGE_HOST'] = getattr(settings, "BADGE_HOST", None)
+
     template_params['BADGE_IMAGE_HOST'] = getattr(settings,
                                                   "BADGE_IMAGE_HOST",
                                                   None)
@@ -106,10 +125,19 @@ def _populate_template_params(request, maintenance_records, disabled_login,
                                                       "BADGE_ASSERTION_HOST",
                                                       None)
 
-    # TODO: Replace this line when theme support is re-enabled.
-    # template_params["THEME_URL"] = "assets/"
-    template_params["THEME_URL"] = "/themes/%s" % settings.THEME_NAME
+    template_params['USE_MOCK_DATA'] = getattr(settings,
+                                               "USE_MOCK_DATA",
+                                               False)
+    template_params['USE_ALLOCATION_SOURCES'] = getattr(
+        settings,
+        "USE_ALLOCATION_SOURCES",
+        False)
+
+    #TODO: Replace this line when theme support is re-enabled.
+    #template_params["THEME_URL"] = "assets/"
+    template_params['THEME_URL'] = "/themes/%s" % settings.THEME_NAME
     template_params['ORG_NAME'] = settings.ORG_NAME
+    template_params['DYNAMIC_ASSET_LOADING'] = settings.DYNAMIC_ASSET_LOADING
 
     if hasattr(settings, "BASE_URL"):
         template_params['BASE_URL'] = settings.BASE_URL
@@ -147,11 +175,13 @@ def _handle_public_application_request(request, maintenance_records,
     - For troposphere, there is the opportunity to browser the Public Image Catalog.
     - For airport, there is nothing to do but ask for people to `login.html`.
     """
-    template_params, show_troposphere_only = \
-        _populate_template_params(request,
-                                  maintenance_records,
-                                  disabled_login,
-                                  True)
+    template_params, show_troposphere_only = _populate_template_params(request,
+            maintenance_records, None, disabled_login, True)
+
+    if 'new_relic_enabled' in template_params:
+        logger.info("New Relic enabled? %s" % template_params['new_relic_enabled'])
+    else:
+        logger.info("New Relic key missing from `template_params`")
 
     # If show airport_ui flag in query params, set the session value to that
     if "airport_ui" in request.GET:
@@ -185,23 +215,34 @@ def _handle_public_application_request(request, maintenance_records,
         )
     response.set_cookie('beta', request.session['beta'])
     response.set_cookie('airport_ui', request.session['airport_ui'])
+
     return response
 
 
-def _handle_authenticated_application_request(request, maintenance_records):
+def _handle_authenticated_application_request(request, maintenance_records,
+        notice_info):
     """
     Deals with request verified identities via `iplantauth` module.
     """
-    template_params, show_troposphere_only = \
-        _populate_template_params(request,
-                                  maintenance_records,
-                                  disabled_login=False,
-                                  public=False)
+    if notice_info and notice_info[1]:
+        notice_info = (notice_info[0],
+            notice_info[1].message,
+            'maintenance_notice' in request.COOKIES)
+
+    template_params, show_troposphere_only = _populate_template_params(request,
+            maintenance_records, notice_info,
+            disabled_login=False, public=False)
 
     user_preferences, created = UserPreferences.objects.get_or_create(
         user=request.user)
 
     prefs_modified = False
+
+    if 'new_relic_enabled' in template_params:
+        logger.info("New Relic enabled? %s" % template_params['new_relic_enabled'])
+    else:
+        logger.info("New Relic key missing from `template_params`")
+
 
     # TODO - once phased out, we should ignore show_beta_interface altogether
     # ----
@@ -246,6 +287,10 @@ def _handle_authenticated_application_request(request, maintenance_records):
             context_instance=RequestContext(request)
         )
 
+    if 'maintenance_notice' not in request.COOKIES:
+        response.set_cookie('maintenance_notice', 'true',
+            expires=(timezone.now() + timedelta(hours=3)))
+
     return response
 
 
@@ -276,6 +321,7 @@ def application_backdoor(request):
 def application(request):
     maintenance_records, disabled_login, in_maintenance = \
         get_maintenance(request)
+    notice_info = get_notices(request)
 
     if should_route_to_maintenace(request, in_maintenance):
         logger.warn('%s has actice session but is NOT in staff_list_usernames'
@@ -285,12 +331,12 @@ def application(request):
 
     if request.user.is_authenticated() and has_valid_token(request.user):
         return _handle_authenticated_application_request(request,
-                                                         maintenance_records)
-    else:
-        return _handle_public_application_request(
-            request,
             maintenance_records,
-            disabled_login=disabled_login)
+            notice_info)
+    else:
+        return _handle_public_application_request(request,
+                    maintenance_records,
+                    disabled_login=disabled_login)
 
 
 def forbidden(request):

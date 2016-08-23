@@ -37,20 +37,6 @@
         &::before {
             content: $application-name;
         }
-        &::after {
-            position:absolute;
-            right:0;
-            top:10px;
-            content: $application-label;
-            background-color: $navbar-default-link-active-bg;
-            color: $navbar-default-link-color;
-            padding: 5px;
-            line-height:100%;
-            border-radius: 3px;
-            font-size: 70%;
-            margin-left: 8px;
-            letter-spacing: .1em;
-        }
         a {
             color: $navbar-default-brand-color; 
         }

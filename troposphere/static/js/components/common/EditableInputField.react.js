@@ -1,10 +1,10 @@
-define(function (require) {
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-  var React = require('react/addons');
 
-  var ENTER_KEY = 13;
+let ENTER_KEY = 13;
 
-  return React.createClass({
+export default React.createClass({
     displayName: "EditableInputField",
 
     propTypes: {
@@ -12,7 +12,7 @@ define(function (require) {
     },
 
     componentDidMount: function () {
-      this.getDOMNode().focus();
+      ReactDOM.findDOMNode(this).focus();
     },
 
     onDoneEditing: function (e) {
@@ -36,7 +36,5 @@ define(function (require) {
         <input type="text" defaultValue={this.props.text} onBlur={this.onDoneEditing} onKeyPress={this.onEnterKey}/>
       );
     }
-
-  });
 
 });

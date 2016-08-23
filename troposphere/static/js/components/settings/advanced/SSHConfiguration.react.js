@@ -71,7 +71,7 @@ export default React.createClass({
         return (
             <tr key={ sshKey.get( 'id') }>
                 <td>{ sshKey.get('name') }</td>
-                <td style={{ wordWrap: "break-word" }}>{ sshKey.get('pub_key').replace(/\n/g, " ") }</td>
+                <td style={{ wordWrap: "break-word", whiteSpace: "normal" }}>{ sshKey.get('pub_key').replace(/\n/g, " ") }</td>
                 <td>
                     <a onClick={ this.destroySSHKey.bind(this, sshKey) }>
                         <i style={{ color: "crimson"}} className="glyphicon glyphicon-trash" />
@@ -109,8 +109,6 @@ export default React.createClass({
                                         <i className="glyphicon glyphicon-plus" />
                                     </a>
                                 </td>
-                                <td></td>
-                                <td></td>
                             </tr>
                         </tbody>
                     </table>

@@ -5,14 +5,12 @@ define(
     'test/fixtures/image.fixture'
   ], function(React, ImageDetailsView, imageFixture) {
 
-    var TestUtils,
+    var TestUtils = require('react-addons-test-utils'),
         imageDetails;
 
     describe("Image Details View", function(){
 
       beforeEach(function() {
-        TestUtils = React.addons.TestUtils;
-
         var factory = React.createFactory(ImageDetailsView);
         var view = factory({image: imageFixture});
         imageDetails = TestUtils.renderIntoDocument(view);

@@ -8,6 +8,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
+venv/
 bin/
 build/
 develop-eggs/
@@ -76,9 +77,19 @@ extras/newrelic
 # generated file backups
 *.bak.[0-9]*_[0-9]*
 
+# Webpack Bundle Tracker file (see ATMO-1356)
+webpack-stats.json
+
 # generated files
 extras/nginx/Makefile
 extras/nginx/site.conf
 extras/nginx/locations/tropo.conf
 extras/apache/tropo.conf
 extras/troposphere.uwsgi.ini
+
+# ignore any initialization files (aka secrets or sensitive infoz)
+clank_init
+clank
+*-extras/*
+secrets*
+scratch

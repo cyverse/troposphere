@@ -1,12 +1,11 @@
-define(function (require) {
+import React from 'react';
+import Backbone from 'backbone';
+import TagMultiSelect from 'components/common/tags/TagMultiSelect.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    TagMultiSelect = require('components/common/tags/TagMultiSelect.react');
 
-  var ENTER_KEY = 13;
+let ENTER_KEY = 13;
 
-  return React.createClass({
+export default React.createClass({
     displayName: "ActualEditTagsView",
 
     propTypes: {
@@ -20,7 +19,7 @@ define(function (require) {
     getInitialState: function () {
       return {
         query: ""
-      }
+      };
     },
 
     onEnterKeyPressed: function (e) {
@@ -67,7 +66,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import React from 'react';
+import Backbone from 'backbone';
+import Router from 'react-router';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    Router = require('react-router');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "Name",
 
     mixins: [Router.State],
@@ -18,7 +15,7 @@ define(function (require) {
       var instance = this.props.instance,
           name = instance.get('name').trim() || "[no instance name]";
 
-      if (!instance.id) {
+      if (instance && !instance.get('id')) {
         return (
           <span>{instance.get('name')}</span>
         );
@@ -30,7 +27,4 @@ define(function (require) {
         </Router.Link>
       );
     }
-
-  });
-
 });

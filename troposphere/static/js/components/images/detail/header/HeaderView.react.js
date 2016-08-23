@@ -1,17 +1,13 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Backbone from 'backbone';
+import $ from 'jquery';
+import stores from 'stores';
+import modals from 'modals';
+// plugin; implicit include
+import bootstrap from 'bootstrap';
 
-define(
-  [
-    'react/addons',
-    'backbone',
-    'jquery',
-    'stores',
-    'modals',
-    // plugins
-    // 'bootstrap' // Not used?
-  ],
-  function (React, Backbone, $, stores, modals) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "HeaderView",
 
       propTypes: {
@@ -19,7 +15,7 @@ define(
       },
 
       componentDidMount: function () {
-        var el = this.getDOMNode();
+        var el = ReactDOM.findDOMNode(this);
         var $el = $(el).find('.tooltip-wrapper');
         $el.tooltip({
           title: "NEW! You can now add an Image to your project to make launching instances even easier!",
@@ -63,7 +59,4 @@ define(
           </div>
         );
       }
-
-    });
-
 });

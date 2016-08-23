@@ -1,13 +1,11 @@
-define(function (require) {
-  'use strict';
 
-  var AppDispatcher = require('dispatchers/AppDispatcher'),
-    UserConstants = require('constants/UserConstants'),
-    User = require('models/User'),
-    actions = require('actions'),
-    Utils = require('./Utils');
+import AppDispatcher from 'dispatchers/AppDispatcher';
+import UserConstants from 'constants/UserConstants';
+import User from 'models/User';
+import actions from 'actions';
+import Utils from './Utils';
 
-  return {
+export default {
     update: function (user, params) {
       var end_date = params.end_date;
 
@@ -28,7 +26,4 @@ define(function (require) {
         Utils.dispatch(UserConstants.UPDATE_USER, {model: user});
       });
     }
-
-  };
-
-});
+};

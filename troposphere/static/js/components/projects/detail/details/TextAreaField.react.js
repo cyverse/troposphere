@@ -1,9 +1,8 @@
-define(function (require) {
+import React from 'react';
+import EditableTextAreaField from 'components/common/EditableTextAreaField.react';
 
-  var React = require('react/addons'),
-    EditableTextAreaField = require('components/common/EditableTextAreaField.react');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "TextAreaField",
 
     propTypes: {
@@ -60,7 +59,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

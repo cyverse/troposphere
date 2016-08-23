@@ -1,9 +1,7 @@
-define(function (require) {
-  "use strict";
+import VolumeAttach from './instanceVolume/attach';
+import VolumeDetach from './instanceVolume/detach';
 
-  return {
-    attach: require('./instanceVolume/attach').attach,
-    detach: require('./instanceVolume/detach').detach
-  };
-
-});
+export default {
+    attach: VolumeAttach.attach,
+    detach: VolumeDetach.detach
+};

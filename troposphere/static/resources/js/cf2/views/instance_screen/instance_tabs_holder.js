@@ -401,17 +401,24 @@ Atmo.Views.InstanceTabsHolder = Backbone.View.extend({
 	instance_shell: function() {
 
 		var ipaddr = this.model.get("public_dns_name");
-		
+		var username = this.model.get("created_by");
+
 		if (this.$el.find('.instance_tabs a[href="#instance_shell"]').hasClass("disabled")) {
 			return false;
 		} else {
 			var currentShell = this.$el.find('.shell_iframe[data-ip="'+ipaddr+'"]');
-			if (currentShell.length == 0) {	
-                var iframe = $('<a>', {href: '/shell/' + ipaddr})
-                    .addClass('shell_iframe')
-                    .attr('target', '_blank')
-                    .append("Click to launch web shell in new tab for "+ipaddr)
-                    .attr('data-ip', ipaddr);
+			if (currentShell.length == 0) {
+				var targetHref = {
+					href: '/web_shell?location=' +
+					ipaddr.replace(/\./g,'-') +
+					"&ssh=ssh://" + username + "@" +
+					ipaddr + ":22"
+				};
+				var iframe = $('<a>', targetHref)
+					.addClass('shell_iframe')
+					.attr('target', '_blank')
+					.append("Click to launch web shell in new tab for "+ipaddr)
+					.attr('data-ip', ipaddr);
 				this.$el.find('.instance_shell').append(iframe);
 				//this.$el.find('.shell_iframe').hide();
 				//var iframe = $('<iframe>', {

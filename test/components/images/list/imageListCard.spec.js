@@ -9,14 +9,12 @@ define(function(require) {
     var tagCollectionFixture = require('test/fixtures/tags.fixture');
     var navigator = require('navigator');
 
-    var TestUtils,
+    var TestUtils = require('react-addons-test-utils'),
         imageCardElement;
 
     describe('Image List Card', function() {
 
       beforeEach(function() {
-        TestUtils = React.addons.TestUtils;
-
         for(var action in actions) delete actions[action];
         for(var store in stores) delete stores[store];
 

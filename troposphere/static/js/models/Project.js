@@ -1,61 +1,55 @@
-define(
-  [
-    'underscore',
-    'backbone',
-    'models/Instance',
-    'models/Volume',
-    'globals',
-    'moment'
-  ],
-  function (_, Backbone, Instance, Volume, globals, moment) {
+import _ from 'underscore';
+import Backbone from 'backbone';
+import Instance from 'models/Instance';
+import Volume from 'models/Volume';
+import globals from 'globals';
+import moment from 'moment';
 
-    var statics = {
-      objectType: function (model) {
+let statics = {
+    objectType: function(model) {
         var objectType;
         if (model instanceof Instance)
-          objectType = 'instance';
+            objectType = 'instance';
         else if (model instanceof Volume)
-          objectType = 'volume';
+            objectType = 'volume';
         else
-          throw "Unknown model type";
+            throw "Unknown model type";
         return objectType;
-      }
-    };
+    }
+};
 
-    var Project = Backbone.Model.extend({
-      urlRoot: globals.API_V2_ROOT + "/projects",
+let Project = Backbone.Model.extend({
+    urlRoot: globals.API_V2_ROOT + "/projects",
 
-      defaults: {
+    defaults: {
         name: 'No name provided',
         description: 'No description provided'
-      },
+    },
 
-      parse: function (response) {
+    parse: function(response) {
         response.start_date = moment(response.start_date);
 
         return response;
-      },
+    },
 
-      isEmpty: function () {
+    isEmpty: function() {
         var instances = this.get('instances');
         var volumes = this.get('volumes');
         var hasNoInstances = instances ? instances.isEmpty() : true;
         var hasNoVolumes = volumes ? volumes.isEmpty() : true;
 
         return hasNoInstances && hasNoVolumes;
-      },
+    },
 
-      canBeDeleted: function () {
+    canBeDeleted: function() {
         return this.get('name') !== 'Default';
-      },
+    },
 
-      objectUrl: function (model) {
+    objectUrl: function(model) {
         var objectType = Project.objectType(model);
         return this.url() + objectType + '/' + model.id + '/';
-      }
+    }
 
-    }, statics);
+}, statics);
 
-    return Project;
-
-  });
+export default Project;

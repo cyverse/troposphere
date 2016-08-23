@@ -1,10 +1,8 @@
-define(function (require) {
+import React from 'react';
+import Backbone from 'backbone';
+import Checkbox from './Checkbox.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    Checkbox = require('./Checkbox.react');
-
-  return React.createClass({
+export default React.createClass({
     displayName: "SelectableRow",
 
     propTypes: {
@@ -35,7 +33,7 @@ define(function (require) {
     },
 
     render: function () {
-      var rowClassName = this.props.isActive ? "selected" : null;
+      var rowClassName = this.props.isActive ? "selected" : "";
 
       return (
         <tr className={"sm-row " + rowClassName} style={{cursor:"pointer"}} onClick={this.previewResource}>
@@ -46,7 +44,4 @@ define(function (require) {
         </tr>
       );
     }
-
-  });
-
 });

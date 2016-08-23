@@ -1,39 +1,32 @@
-define(function (require) {
+import _ from 'underscore';
+import BaseStore from 'stores/BaseStore';
+import Dispatcher from 'dispatchers/Dispatcher';
+import AllocationConstants from 'constants/AllocationConstants';
+import AllocationCollection from 'collections/AllocationCollection';
 
-  var _ = require('underscore'),
-    BaseStore = require('stores/BaseStore'),
-    Dispatcher = require('dispatchers/Dispatcher'),
-    Store = require('stores/Store'),
-    AllocationConstants = require('constants/AllocationConstants'),
-    AllocationCollection = require('collections/AllocationCollection'),
-    stores = require('stores');
-
-  var  AllocationStore = BaseStore.extend({
+let AllocationStore = BaseStore.extend({
     collection: AllocationCollection
-  }); 
+});
+let store = new AllocationStore();
 
-  var store = new AllocationStore();
-
-  Dispatcher.register(function (dispatch) {
+Dispatcher.register(function(dispatch) {
     var actionType = dispatch.action.actionType;
     var payload = dispatch.action.payload;
     var options = dispatch.action.options || options;
 
     switch (actionType) {
-      case AllocationConstants.CREATE_ALLOCATION:
-        store.add(payload.allocation);
-        break;
-
-      default:
-        return true;
+        case AllocationConstants.CREATE_ALLOCATION:
+            store.add(payload.allocation);
+            break;
+        default:
+            return true;
     }
 
     if (!options.silent) {
-      store.emitChange();
+        store.emitChange();
     }
 
     return true;
-  });
-
-  return store;
 });
+
+export default store;

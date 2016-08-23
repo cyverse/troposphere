@@ -1,10 +1,7 @@
-define(function (require) {
+import React from 'react';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-    stores = require('stores');
-
-  return React.createClass({
-
+export default React.createClass({
     displayName: "ImageWizard-ReviewStep",
 
     propTypes: {
@@ -155,8 +152,7 @@ define(function (require) {
     },
 
     renderBody: function (imageData) {
-      var provider = stores.ProviderStore.get(imageData.providerId),
-        visibilityMap = {
+        var visibilityMap = {
           'public': 'Public (everyone can see the image)',
           'private': 'Private (only you can see the image)',
           'select': 'Select Users (only you and selected users can see the image)'
@@ -197,11 +193,6 @@ define(function (require) {
 
             <hr/>
 
-            <div className="form-group">
-              <label className="control-label col-sm-3">Provider</label>
-
-              <div className="help-block col-sm-9">{provider.get('name')}</div>
-            </div>
             <div className="form-group">
               <label className="control-label col-sm-3">Visibility</label>
 
@@ -246,7 +237,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

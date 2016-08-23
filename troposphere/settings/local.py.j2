@@ -3,7 +3,12 @@ import sys
 globals().update(vars(sys.modules['troposphere.settings']))
 
 DEBUG = {{ DEBUG }}
-TEMPLATE_DEBUG = {{ DEBUG }}
+
+{% if DEBUG -%}
+if len(TEMPLATES) > 0 and 'OPTIONS' in TEMPLATES[0]:
+    if 'debug' in TEMPLATES[0]['OPTIONS']:
+        TEMPLATES[0]['OPTIONS']['debug'] = {{ DEBUG }}
+{%- endif %}
 
 SECRET_KEY="{{ SECRET_KEY }}"
 SERVER_URL="{{ SERVER_URL }}"
@@ -14,6 +19,19 @@ API_SERVER="{{ API_SERVER }}"
 
 API_ROOT    = API_SERVER + "/api/v1"
 API_V2_ROOT = API_SERVER + "/api/v2"
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'CACHE': {{ ENABLE_WEBPACK_LOADER_CACHE }},
+        'BUNDLE_DIR_NAME': 'bundles/', # must end with slash
+        'STATS_FILE': os.path.join(BASE_DIR, '../', 'webpack-stats.json'),
+        'POLL_INTERVAL': 0.1,
+        'IGNORE': ['.+\.hot-update.js', '.+\.map']
+    }
+}
+
+# used to toggle between vanilla static assets & dynamic (app.js vs app-[hash].js)
+DYNAMIC_ASSET_LOADING = {{DYNAMIC_ASSET_LOADING}}
 
 SITE_TITLE= "{{ SITE_TITLE}}"
 SITE_FOOTER= "{{ SITE_FOOTER }}"
@@ -30,6 +48,13 @@ THEME_NAME="{{ THEME_NAME }}"
 THEME_NAME= "troposphere_theme"
 {% endif %}
 
+# The location from where static files are aggregated
+# ./manage.py collectstatic moves files from STATICFILES_DIRS to STATIC_ROOT
+STATICFILES_DIRS = [
+    ("theme", "{{ THEME_PATH }}/{{ THEME_NAME }}"),
+    ("resources", os.path.join(BASE_DIR, "static", "resources"))
+]
+
 ORG_NAME= "{{ ORG_NAME }}"
 
 {% if INTERCOM_APP_ID is defined and not INTERCOM_APP_ID == "" %}
@@ -43,7 +68,7 @@ INTERCOM_COMPANY_NAME = "{{ INTERCOM_COMPANY_NAME }}"
 SESSION_COOKIE_AGE = {{ SESSION_COOKIE_AGE }}
 {% endif %}
 
-WEB_DESKTOP_INCLUDE_LINK = "{{ WEB_DESKTOP_INCLUDE_LINK }}"
+WEB_DESKTOP_INCLUDE_LINK = {{ WEB_DESKTOP_INCLUDE_LINK }}
 
 WEB_DESKTOP = {
     'signing': {
@@ -75,12 +100,66 @@ DATABASES = {
 }
 
 # Authentication
+{% if AUTH_USE_OVERRIDE -%}
+AUTHENTICATION_BACKENDS = (
+    # MOCK - If enabled, Use MockLoginBackend first for single-user access.
+    # Helpful for debug/development. Be sure to set Atmosphere to MockLoginBackend.
+    {% if AUTH_ENABLE_MOCK -%}
+    'iplantauth.authBackends.MockLoginBackend',
+    {% else -%}
+    # 'iplantauth.authBackends.MockLoginBackend',
+    {% endif -%}
+    #
+    # AuthToken - Allows staff emulation via API
+    # by using existing tokens as simple authentication.
+    'iplantauth.authBackends.AuthTokenLoginBackend',
+    #
+    # ModelBackend - Allow traditional username/password. Helpful when using areas
+    # of the application that do not work with SSO backends (Globus, OAuth)
+    # Basically, this will come in handy if you are not using LDAP
+    {% if AUTH_ENABLE_MODEL -%}
+    'django.contrib.auth.backends.ModelBackend',
+    {% else -%}
+    # 'django.contrib.auth.backends.ModelBackend',
+    {% endif -%}
+    #
+    # Single Sign On Backend - This backend should give you the ability to authenticate
+    # and then authorize a user, (Usually, based on OAuth or some other token exchange)
+    {% if AUTH_ENABLE_GLOBUS -%}
+    # Globus OAuth
+    'iplantauth.authBackends.GlobusOAuthLoginBackend',
+    {% elif AUTH_ENABLE_CAS or AUTH_ENABLE_OAUTH -%}
+    # CAS OAuth implementation of SSO
+    'iplantauth.authBackends.OAuthLoginBackend',
+    {% elif AUTH_ENABLE_MOCK -%}
+    # Hello developer, you have
+    # SSO Disabled but are using Mock configuration.
+    # (Be sure to set Atmosphere also!)
+    {% else -%}
+    # WARNING:
+    # _No_ Backend has been enabled for SSO access.
+    # This may result in a limited set of functionality from troposphere.
+    {% endif -%}
+    {% if AUTH_ENABLE_LDAP -%}
+    #
+    # LDAP - Allow access via LDAP username/password
+    'iplantauth.authBackends.LDAPLoginBackend',
+    {% endif -%}
+    )
+{% endif -%}
+#CAS
 CAS_SERVER = "{{ CAS_SERVER }}"
 CAS_AUTH_PREFIX = "{{ CAS_AUTH_PREFIX }}"
 
 OAUTH_CLIENT_KEY = "{{ OAUTH_CLIENT_KEY }}"
 OAUTH_CLIENT_SECRET = "{{ OAUTH_CLIENT_SECRET }}"
 OAUTH_CLIENT_CALLBACK = "{{ OAUTH_CLIENT_CALLBACK }}"
+
+# load data if available, from mocked collections rather than the api
+USE_MOCK_DATA = {{ USE_MOCK_DATA }}
+
+# display AllocationSources rather than Allocation
+USE_ALLOCATION_SOURCES = {{ USE_ALLOCATION_SOURCES }}
 
 # atmosphere must include the metrics endpoint
 SHOW_INSTANCE_METRICS = {{ SHOW_INSTANCE_METRICS }}
@@ -137,7 +216,7 @@ INSTALLED_APPS += (
 )
 {% endif %}
 
-{% if USE_MOCK_AUTH %}
+{% if AUTH_ENABLE_MOCK %}
 ALWAYS_AUTH_USER = "{{ MOCK_USER }}"
 # Use MockLoginBackend first!
 AUTHENTICATION_BACKENDS += (

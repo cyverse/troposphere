@@ -1,26 +1,26 @@
-define(function (require) {
-  "use strict";
+import Backbone from "backbone";
 
-  var Backbone = require('backbone'),
-    _ = require('underscore'),
-    globals = require('globals'),
-    Instance = require('models/Instance');
+import globals from "globals";
+import Instance from "models/Instance";
+import { api } from 'mock/instances.js';
+import mockSync from 'utilities/mockSync';
 
-  return Backbone.Collection.extend({
+export default Backbone.Collection.extend({
     model: Instance,
 
     url: globals.API_V2_ROOT + "/instances",
 
-    parse: function (response) {
-      this.meta = {
-        count: response.count,
-        next: response.next,
-        previous: response.previous
-      };
+    parse: function(response) {
+        this.meta = {
+            count: response.count,
+            next: response.next,
+            previous: response.previous
+        };
 
-      return response.results;
-    }
+        return response.results;
+    },
 
-  });
-
+    sync: globals.USE_MOCK_DATA
+          ? mockSync(api)
+          : Backbone.sync
 });

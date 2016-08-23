@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import Backbone from 'backbone';
+import Quota from 'models/Quota';
+import globals from 'globals';
 
-  var Backbone = require('backbone'),
-    Quota = require('models/Quota'),
-    globals = require('globals');
-
-  return Backbone.Collection.extend({
+export default Backbone.Collection.extend({
     model: Quota,
     url: globals.API_V2_ROOT + "/quotas",
 
@@ -18,6 +15,4 @@ define(function (require) {
 
       return response.results;
     }
-  });
-
 });

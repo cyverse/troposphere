@@ -1,31 +1,29 @@
-define(
-  [
-    'react',
-    'backbone',
-    'components/projects/common/StatusLight.react',
-    './StatusBar.react'
-  ],
-  function (React, Backbone, StatusLight, StatusBar) {
+import React from 'react';
+import Backbone from 'backbone';
+import StatusLight from 'components/projects/common/StatusLight.react';
+import StatusBar from './StatusBar.react';
 
-    return React.createClass({
-      displayName: "Status",
+export default React.createClass({
+    displayName: "Status",
 
-      propTypes: {
+    propTypes: {
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    },
 
-      render: function () {
+    render: function () {
         var instanceState = this.props.instance.get('state');
         var status = instanceState.get('status');
         var activity = instanceState.get('activity');
         var lightStatus;
 
-        if (activity) {
+        if (activity || status == "build") {
             lightStatus = "transition";
         } else if (status == "active") {
             lightStatus = "active";
         } else if (status == "suspended" || status == "shutoff") {
             lightStatus = "inactive";
+        } else if (status == "deleted") {
+            lightStatus = "deleted";
         } else {
             lightStatus = "error";
         }
@@ -54,8 +52,5 @@ define(
             <StatusBar state={instanceState} activity={activity}/>
           </span>
         );
-      }
-
-    });
-
-  });
+    }
+});

@@ -1,26 +1,24 @@
-define(function (require) {
+import Dispatcher from 'dispatchers/Dispatcher';
+import BaseStore from 'stores/BaseStore';
+import ProjectExternalLinkCollection from 'collections/ProjectExternalLinkCollection';
+import ProjectExternalLinkConstants from 'constants/ProjectExternalLinkConstants';
+import ExternalLinkCollection from 'collections/ExternalLinkCollection';
+import ExternalLink from 'models/ExternalLink';
+import stores from 'stores';
 
-  var Dispatcher = require('dispatchers/Dispatcher'),
-    BaseStore = require('stores/BaseStore'),
-    ProjectExternalLinkCollection = require('collections/ProjectExternalLinkCollection'),
-    ProjectExternalLinkConstants = require('constants/ProjectExternalLinkConstants'),
-    ExternalLinkCollection = require('collections/ExternalLinkCollection'),
-    ExternalLink = require('models/ExternalLink'),
-    stores = require('stores');
+let _modelsFor = {};
+let _isFetchingFor = {};
+let _pendingProjectExternalLinks = new ExternalLinkCollection();
 
-  var _modelsFor = {};
-  var _isFetchingFor = {};
-  var _pendingProjectExternalLinks = new ExternalLinkCollection();
-
-  function addPending(model) {
+function addPending(model) {
     _pendingProjectExternalLinks.add(model);
-  }
+}
 
-  function removePending(model) {
+function removePending(model) {
     _pendingProjectExternalLinks.remove(model);
-  }
+}
 
-  var ProjectStore = BaseStore.extend({
+let ProjectStore = BaseStore.extend({
     collection: ProjectExternalLinkCollection,
 
     initialize: function () {
@@ -28,6 +26,9 @@ define(function (require) {
     },
 
     fetchModelsFor: function (projectId) {
+      // Stop request if no ID
+      if (!projectId) { return }
+
       if (!_modelsFor[projectId] && !_isFetchingFor[projectId]) {
         _isFetchingFor[projectId] = true;
         var models = new ProjectExternalLinkCollection();
@@ -79,11 +80,11 @@ define(function (require) {
 
       return new ExternalLinkCollection(external_links.concat(pendingExternalLinks));
     }
-  });
+});
 
-  var store = new ProjectStore();
+let store = new ProjectStore();
 
-  Dispatcher.register(function (dispatch) {
+Dispatcher.register(function (dispatch) {
     var actionType = dispatch.action.actionType;
     var payload = dispatch.action.payload;
     var options = dispatch.action.options || options;
@@ -118,7 +119,6 @@ define(function (require) {
     }
 
     return true;
-  });
-
-  return store;
 });
+
+export default store;

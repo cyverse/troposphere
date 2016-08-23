@@ -1,12 +1,11 @@
-define(function (require) {
+import React from 'react';
+import stores from 'stores';
+import Router from 'react-router';
+import Glyphicon from 'components/common/Glyphicon.react';
+import context from 'context';
 
-  var React = require('react/addons'),
-    stores = require('stores'),
-    Router = require('react-router'),
-    Glyphicon = require('components/common/Glyphicon.react'),
-    context = require('context');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "SecondaryAdminNav",
 
 
@@ -22,33 +21,19 @@ define(function (require) {
       )
     },
 
-    render: function () {
-      var requests = stores.ResourceRequestStore.findWhere({
-          'status.name': 'pending'
-        });
-      if (!requests) {
-          request_count = "..."
-      } else {
-        request_count = requests.length
-      }
-
-      var resourcesText = "Resource Requests (" + request_count + ")";
-      return (
+    render() {
+        return (
         <div>
-          <div className="secondary-nav">
-            <div className="container">
-              <ul className="secondary-nav-links">
-                {this.renderRoute("Manage Users", "atmosphere-user-manager", "user")}
-                {this.renderRoute("Manage Identities", "identity-membership-manager", "user")}
-                {this.renderRoute(resourcesText, "resource-request-manager", "tasks")}
-                {this.renderRoute("Imaging Requests", "image-request-manager", "floppy-disk")}
-              </ul>
+            <div className="secondary-nav">
+                <div className="container">
+                    <ul className="secondary-nav-links">
+                        { this.renderRoute("Manage Users", "atmosphere-user-manager", "user") }
+                        { this.renderRoute("Manage Identities", "identity-membership-manager", "user") }
+                        { this.renderRoute("Imaging Requests", "image-request-manager", "floppy-disk") }
+                    </ul>
+                </div>
             </div>
-          </div>
         </div>
-      );
+        );
     }
-
-  });
-
 });

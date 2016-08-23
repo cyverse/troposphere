@@ -1,4 +1,5 @@
-// Note: Although this feature is a step in the right direction, we should try to solve
+// Author's Note:
+// Although this feature is a step in the right direction, we should try to solve
 // a few problems with how we deal with state and async requests that are dependent
 // on each other. For example, because we are waiting for data on network requests,
 // for data we want in state, we would need to set state on these values by calling
@@ -10,11 +11,12 @@
 // dependent logic in a single function that is called by passing the key value
 // pair to be changed and returns a new object to pass into setState from any call site we wish.
 
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 import _ from 'underscore';
 import modals from 'modals';
 import stores from 'stores';
+import globals from 'globals';
 import actions from 'actions';
 import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 import { filterEndDate } from 'utilities/filterCollection';
@@ -72,6 +74,7 @@ export default React.createClass({
             providerSize: null,
             identityProvider: null,
             attachedScripts: [],
+            allocationSource: null
         }
     },
 
@@ -83,6 +86,8 @@ export default React.createClass({
     // set the project to the first returned from the cloud. It primes our
     // stores, so that render can just call get and eventually get data.
     updateState: function() {
+        let allocationSourceList = stores.AllocationSourceStore.getAll();
+
         let project = this.state.project;
         if (!project) {
             project = stores.ProjectStore.getAll().first();
@@ -101,7 +106,7 @@ export default React.createClass({
 
         let providerList;
         if (imageVersion) {
-            providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
+            providerList = stores.ProviderStore.getProvidersForVersion(imageVersion);
         }
 
         let provider = this.state.provider;
@@ -127,6 +132,11 @@ export default React.createClass({
                 providerSizeList.first();
         };
 
+        let allocationSource;
+        if (allocationSourceList) {
+            allocationSource = this.state.allocationSource || allocationSourceList.first();
+        }
+
         // NOTE: Only update state for things that need defaults. Data fetched
         // from the cloud is not part of the component's state that it
         // manages.
@@ -136,16 +146,21 @@ export default React.createClass({
             provider,
             providerSize,
             identityProvider,
+            allocationSource,
         });
     },
 
     componentDidMount: function() {
         stores.IdentityStore.addChangeListener(this.updateState);
-        stores.ProviderMachineStore.addChangeListener(this.updateState);
+        stores.ProviderStore.addChangeListener(this.updateState);
         stores.SizeStore.addChangeListener(this.updateState);
         stores.ProjectStore.addChangeListener(this.updateState);
         stores.ImageVersionStore.addChangeListener(this.updateState);
         stores.ScriptStore.addChangeListener(this.updateState);
+
+        if (globals.USE_ALLOCATION_SOURCES) {
+            stores.AllocationSourceStore.addChangeListener(this.updateState);
+        }
 
         // NOTE: This is not nice. This enforces that every time a component
         // mounts updateState gets called. Otherwise, if a component mounts
@@ -155,11 +170,15 @@ export default React.createClass({
 
     componentWillUnmount: function() {
         stores.IdentityStore.removeChangeListener(this.updateState);
-        stores.ProviderMachineStore.removeChangeListener(this.updateState);
+        stores.ProviderStore.removeChangeListener(this.updateState);
         stores.SizeStore.removeChangeListener(this.updateState);
         stores.ProjectStore.removeChangeListener(this.updateState);
         stores.ImageVersionStore.removeChangeListener(this.updateState);
         stores.ScriptStore.removeChangeListener(this.updateState);
+        
+        if (globals.USE_ALLOCATION_SOURCES) {
+            stores.AllocationSourceStore.removeChangeListener(this.updateState);
+        }
     },
 
     viewImageSelect: function() {
@@ -194,7 +213,7 @@ export default React.createClass({
 
         let providerList;
         if (imageVersion) {
-            providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
+            providerList = stores.ProviderStore.getProvidersForVersion(imageVersion);
         };
 
         let provider, providerSizeList, identityProvider;
@@ -238,7 +257,7 @@ export default React.createClass({
     },
 
     onVersionChange: function(imageVersion) {
-        let providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
+        let providerList = stores.ProviderStore.getProvidersForVersion(imageVersion);
         let providerSizeList;
         let providerSize;
         let provider;
@@ -268,6 +287,12 @@ export default React.createClass({
 
     onProjectChange: function(project) {
         this.setState({ project });
+    },
+
+    onAllocationSourceChange: function(source) {
+        this.setState({
+            allocationSource: source,
+        });
     },
 
     onProviderChange: function(provider) {
@@ -351,6 +376,11 @@ export default React.createClass({
                 version: this.state.imageVersion,
                 scripts: this.state.attachedScripts
             };
+
+            if (globals.USE_ALLOCATION_SOURCES) {
+                launchData.allocation_source_id = this.state.allocationSource.get('source_id');
+            }
+
             actions.InstanceActions.launch(launchData);
             this.hide();
             return
@@ -370,20 +400,28 @@ export default React.createClass({
         return (this.state.attachedScripts.length > 0)
     },
 
-    // This is a callback that returns true if the provider size in addition to resources already using
-    // will exceed the user's allotted resources.
+    // Returns true if instance launch will exceed the user's allotted
+    // resources.
     exceedsResources: function() {
         let provider = this.state.provider;
         let identityProvider = this.state.identityProvider;
         let size = this.state.providerSize;
 
-        if ( identityProvider && size && provider) {
+        if (identityProvider && size && provider) {
             let resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
 
-            // Calculate and set all of our graph information
             // AU's Used
-            let  allocationConsumed = identityProvider.get('usage').current;
-            let  allocationTotal = identityProvider.get('usage').threshold;
+            let allocationConsumed, allocationTotal;
+
+            // If we are not using AllocationSource set to provider
+            if (globals.USE_ALLOCATION_SOURCES)  {
+                let allocationSource = this.state.allocationSource;
+                allocationConsumed = allocationSource.get('compute_used');
+                allocationTotal = allocationSource.get('compute_allowed');
+            } else {
+                allocationConsumed = identityProvider.get('usage').current;
+                allocationTotal = identityProvider.get('usage').threshold;
+            }
 
             // CPU's have used + will use
             let  allocationCpu = identityProvider.get('quota').cpu;
@@ -397,10 +435,10 @@ export default React.createClass({
             if (allocationConsumed >= allocationTotal) {
                 return true;
             }
-            if (cpuWillTotal >= allocationCpu) {
+            if (cpuWillTotal > allocationCpu) {
                 return true;
             }
-            if (memWillTotal >= allocationMem) {
+            if (memWillTotal > allocationMem) {
                 return true;
             }
             return false
@@ -410,17 +448,16 @@ export default React.createClass({
 
     canLaunch: function() {
         let requiredFields = ['project', 'identityProvider', 'providerSize', 'imageVersion', 'attachedScripts'];
-        let notFalsy = ((prop) => Boolean(this.state[prop]) != false);
 
-        // instanceName will be null, indicating that it has not been set.
-        // If instanceName equals the empty string, the user has erased the
-        // name, and is trying to launch an instance with no name.
-        if ( _.every(requiredFields, notFalsy)) {
-            if (this.state.instanceName == '') { return false };
-            if (this.exceedsResources()) { return false };
-            return true;
+        // Check if we are using AllocationSource and add to requierd fields
+        if (globals.USE_ALLOCATION_SOURCES) {
+            requiredFields.push('allocationSource');
         }
-        return false
+
+        // All required fields are truthy
+        let requiredExist = _.every(requiredFields, (prop) => Boolean(this.state[prop]))
+
+        return  requiredExist && !this.exceedsResources();
     },
 
     //==================
@@ -505,7 +542,7 @@ export default React.createClass({
 
         let providerList;
         if (imageVersion) {
-            providerList = stores.ProviderMachineStore.getMachinesForVersion(imageVersion.id);
+            providerList = stores.ProviderStore.getProvidersForVersion(imageVersion);
         }
 
         let providerSizeList, resourcesUsed;
@@ -515,6 +552,11 @@ export default React.createClass({
             providerSizeList = stores.SizeStore.fetchWhere({
                 provider__id: provider.id
             });
+        }
+
+        let allocationSourceList;
+        if (globals.USE_ALLOCATION_SOURCES) {
+            allocationSourceList = stores.AllocationSourceStore.getAll();
         }
 
         return (
@@ -533,6 +575,7 @@ export default React.createClass({
                     onNameChange: this.onNameChange,
                     onNameBlur: this.onNameBlur,
                     onProjectChange: this.onProjectChange,
+                    onAllocationSourceChange: this.onAllocationSourceChange,
                     onProviderChange: this.onProviderChange,
                     onRequestResources: this.onRequestResources,
                     onSizeChange: this.onSizeChange,
@@ -547,6 +590,8 @@ export default React.createClass({
                     resourcesUsed,
                     viewAdvanced: this.viewAdvanced,
                     hasAdvancedOptions: this.hasAdvancedOptions(),
+                    allocationSource: this.state.allocationSource,
+                    allocationSourceList,
                 }}
             />
         )

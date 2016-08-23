@@ -1,14 +1,14 @@
-define(function (require) {
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Backbone from 'backbone';
+import $ from 'jquery';
+// plugin: required but not used directly
+import bootstrap from 'bootstrap';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    $ = require('jquery'),
-  // plugin: required but not used directly
-    bootstrap = require('bootstrap');
 
-  var maxDescriptionLength = 200;
+let maxDescriptionLength = 200;
 
-  return React.createClass({
+export default React.createClass({
     displayName: "ImageCardDescription",
 
     propTypes: {
@@ -20,7 +20,7 @@ define(function (require) {
         description = image.get('description');
 
       if (description.length > maxDescriptionLength) {
-        var el = this.getDOMNode();
+        var el = ReactDOM.findDOMNode(this);
         var $el = $(el);
         $el.tooltip({
           title: description
@@ -40,7 +40,4 @@ define(function (require) {
         <p className="description">{description}</p>
       );
     }
-
-  });
-
 });

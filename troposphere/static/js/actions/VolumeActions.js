@@ -1,11 +1,14 @@
-define(function (require) {
+import Update from './volume/update';
+import Report from './volume/report';
+import Poll from './volume/poll';
+import Create from './volume/createAndAddToProject';
+import Destroy from './volume/destroy';
 
-  return {
-    update: require('./volume/update').update,
-    report: require('./volume/report').report,
-    poll: require('./volume/poll').poll,
-    createAndAddToProject: require('./volume/createAndAddToProject').createAndAddToProject,
-    destroy: require('./volume/destroy').destroy,
-  };
 
-});
+export default {
+    update: Update.update,
+    report: Report.report,
+    poll: Poll.poll,
+    createAndAddToProject: Create.createAndAddToProject,
+    destroy: Destroy.destroy,
+};

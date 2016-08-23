@@ -1,13 +1,14 @@
-define(function (require) {
+import React from 'react';
+import ReactDOM from 'react-dom';
+import _ from 'underscore';
+import $ from 'jquery';
+import Backbone from 'backbone';
+import classNames from 'classnames';
 
-  var React = require('react/addons'),
-    _ = require('underscore'),
-    $ = require('jquery'),
-    Backbone = require('backbone');
 
-  var ENTER_KEY = 13;
+let ENTER_KEY = 13;
 
-  return {
+export default {
     getInitialState: function(){
       return {
         showOptions: false,
@@ -61,7 +62,7 @@ define(function (require) {
         return false;
       }
 
-      var node = this.getDOMNode();
+      var node = ReactDOM.findDOMNode(this);
       var $node = $(node);
       var container = $node;//.find('.chosen-container');
 
@@ -75,7 +76,9 @@ define(function (require) {
 
     onEnter: function(e){
       if(e.which !== ENTER_KEY) return;
+
       var value = e.target.value;
+
       if(this.onEnterKeyPressed) {
         this.onEnterKeyPressed(value);
       } else if(this.props.onEnterKeyPressed) {
@@ -84,6 +87,7 @@ define(function (require) {
         //Enter does nothing if neither value is defined..
         return;
       }
+
       //After callback, assume action Completed clear search.
       this.clearSearchField();
     },
@@ -97,7 +101,7 @@ define(function (require) {
     },
 
     filterSearchResults: function () {
-      var node = this.getDOMNode();
+      var node = ReactDOM.findDOMNode(this);
       var $node = $(node);
       var search_field = $node.find('input');
       var query = search_field.val();
@@ -112,7 +116,8 @@ define(function (require) {
 
     clearSearchField: function(){
       var query = "",
-        input = this.refs.searchField.getDOMNode();
+        input = this.refs.searchField;
+
       input.value = query;
       input.focus();
       this.setState({query: query});
@@ -181,7 +186,7 @@ define(function (require) {
           selectedModels = activeCollection.map(this.renderSelectedModel),
           placeholderText = this.props.placeholderText,
           filteredModels,
-          classes = React.addons.classSet({
+          classes = classNames({
             'chosen-container-external': true,
             'chosen-container-external-multi': true,
             'chosen-with-drop': this.state.showOptions && query,
@@ -237,6 +242,5 @@ define(function (require) {
       );
     }
 
-  };
+};
 
-});

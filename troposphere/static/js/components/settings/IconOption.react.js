@@ -1,13 +1,11 @@
+import _ from "underscore";
+import React from "react";
+import Gravatar from 'components/common/Gravatar.react';
 
-define(function (require) {
-    var _ = require("underscore"),
-        React = require("react"),
-        Gravatar = require('components/common/Gravatar.react');
+export default React.createClass({
+    displayName: "IconOption",
 
-    return React.createClass({
-      displayName: "IconOption",
-
-      render: function () {
+    render: function () {
         var onClick = _.partial(this.props.onClick, this.props.type);
 
         return (
@@ -19,7 +17,5 @@ define(function (require) {
             </a>
           </li>
         );
-      }
-    });
-
-  });
+    }
+});

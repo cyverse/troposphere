@@ -1,24 +1,16 @@
-define(function(require) {
+import Graph from './Graph';
+import { extend } from 'underscore';
 
-  var Graph = require("./Graph");
 
-  var CPUGraph = function(settings) {
-    var defaults = {
-      transform: "derivative"
-    }
+let CPUGraph = function(settings) {
+    let defaults = {
+        transform: 'derivative'
+    };
 
-    for (prop in defaults) {
-      if (settings[prop] == undefined) {
-        settings[prop] = defaults[prop];
-      }
-    }
+    Graph.call(this, extend(defaults, settings));
+};
 
-    Graph.call(this, settings);
-  };
+CPUGraph.prototype = Object.create(Graph.prototype);
+CPUGraph.prototype.constructor = CPUGraph;
 
-  CPUGraph.prototype = Object.create(Graph.prototype);
-  CPUGraph.prototype.constructor = CPUGraph;
-
-  return CPUGraph;
-
-})
+export default CPUGraph;

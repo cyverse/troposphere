@@ -1,10 +1,9 @@
-define(function (require) {
+import React from 'react';
+import Backbone from 'backbone';
+import MembershipList from './ImageMembership.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    MembershipList = require('./ImageMembership.react');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "ImageVisibility",
 
     propTypes: {
@@ -51,7 +50,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

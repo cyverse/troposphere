@@ -1,8 +1,7 @@
-define(function (require) {
+import React from 'react';
 
-  var React = require('react/addons');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "VersionName",
 
     propTypes: {
@@ -13,7 +12,7 @@ define(function (require) {
     },
     getDefaultProps: function() {
       return {
-        create: true,
+        create: false,
         update: false,
       };
     },
@@ -54,7 +53,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

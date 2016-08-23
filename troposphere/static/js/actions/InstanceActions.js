@@ -1,20 +1,28 @@
-define(function (require) {
-  "use strict";
+import IResume from './instance/resume';
+import ISuspend from './instance/suspend';
+import IStop from './instance/stop';
+import IStart from './instance/start';
+import IReboot from './instance/reboot';
+import IRedeploy from './instance/redeploy';
+import IPoll from './instance/poll';
+import ILaunch from './instance/launch';
+import IDestroy from './instance/destroy';
+import IUpdate from './instance/update';
+import IReport from './instance/report';
+import IRequest from './instance/requestImage';
 
-  return {
-    resume: require('./instance/resume').resume,
-    suspend: require('./instance/suspend').suspend,
-    stop: require('./instance/stop').stop,
-    start: require('./instance/start').start,
-    reboot: require('./instance/reboot').reboot,
-    redeploy: require('./instance/redeploy').redeploy,
-    poll: require('./instance/poll').poll,
-    launch: require('./instance/launch').launch,
-    createProjectAndLaunchInstance: require('./instance/launch').createProjectAndLaunchInstance,
-    destroy: require('./instance/destroy').destroy,
-    update: require('./instance/update').update,
-    report: require('./instance/report').report,
-    requestImage: require('./instance/requestImage').requestImage
-  };
-
-});
+export default {
+    resume: IResume.resume,
+    suspend: ISuspend.suspend,
+    stop: IStop.stop,
+    start: IStart.start,
+    reboot: IReboot.reboot,
+    redeploy: IRedeploy.redeploy,
+    poll: IPoll.poll,
+    launch: ILaunch.launch,
+    createProjectAndLaunchInstance: ILaunch.createProjectAndLaunchInstance,
+    destroy: IDestroy.destroy,
+    update: IUpdate.update,
+    report: IReport.report,
+    requestImage: IRequest.requestImage
+};

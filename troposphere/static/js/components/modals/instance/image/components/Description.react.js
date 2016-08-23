@@ -1,8 +1,7 @@
-define(function (require) {
+import React from 'react';
 
-  var React = require('react/addons');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "Description",
 
     propTypes: {
@@ -38,7 +37,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

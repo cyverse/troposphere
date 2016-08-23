@@ -1,11 +1,10 @@
-define(function (require) {
+import React from 'react';
+import Backbone from 'backbone';
+import ExternalLinkRow from './ExternalLinkRow.react';
+import SelectableTable from '../SelectableTable.react';
 
-  var React = require('react/addons'),
-    Backbone = require('backbone'),
-    ExternalLinkRow = require('./ExternalLinkRow.react'),
-    SelectableTable = require('../SelectableTable.react');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "ExternalLinkTable",
 
     propTypes: {
@@ -23,7 +22,7 @@ define(function (require) {
       }
     },
 
-    toggleCheckbox: function (e) {
+    toggleCheckbox: function () {
       this.setState({isChecked: !this.state.isChecked});
     },
 
@@ -62,10 +61,8 @@ define(function (require) {
           onResourceDeselected={this.props.onResourceDeselected}
           >
           <th className="sm-header">Name</th>
+          <th className="sm-header">URL</th>
         </SelectableTable>
       )
     }
-
-  });
-
 });

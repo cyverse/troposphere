@@ -1,14 +1,10 @@
+import React from 'react';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import AUCalculator from 'components/common/AUCalculator.react';
+import stores from 'stores';
+import globals from 'globals';
 
-define(
-  [
-    'react',
-    'components/mixins/BootstrapModalMixin.react',
-    'components/common/AUCalculator.react',
-    'stores'
-  ],
-  function (React, BootstrapModalMixin, AUCalculator, stores) {
-
-    return React.createClass({
+export default React.createClass({
       displayName: "RequestMoreResourcesModal",
 
       mixins: [BootstrapModalMixin],
@@ -68,7 +64,7 @@ define(
         this.hide();
         this.props.onConfirm(this.state.identity, this.state.resources, this.state.reason);
       },
-
+                
       //
       // Custom Modal Callbacks
       // ----------------------
@@ -93,6 +89,29 @@ define(
       // Render
       // ------
       //
+      renderAllocationSourceText: function() {
+          if (globals.USE_ALLOCATION_SOURCES) {
+              return (
+                <div>
+                  <p>
+                    If you are requesting for an Allocation Source please include the following information below.
+                  </p>
+                  <ol>
+                      <li>What Allocation Source</li>
+                      <li>How much you are requesting</li>
+                      <li>The reason you need more</li>
+                  </ol>
+                </div>
+              )
+          }
+      },
+
+      renderAUCalculator: function() {
+          if (globals.USE_ALLOCATION_SOURCES) return;
+          return (
+            <AUCalculator identity={this.state.identity}/>
+          )
+      },
 
       renderIdentity: function (identity) {
         return (
@@ -117,13 +136,19 @@ define(
 
             <div className='form-group'>
               <label htmlFor='project-identity'>{"What cloud would you like resources for?"}</label>
-              <select className="form-group" onChange={this.handleIdentityChange}>
+              <select className="form-control" onChange={this.handleIdentityChange}>
                 {identities.map(this.renderIdentity)}
               </select>
             </div>
 
             <div className='form-group'>
               <label htmlFor='project-name'>{"What resources would you like to request?"}</label>
+
+              {   
+                  /* If globals.USE_ALLOCATION_SOURCE render this text */
+                  this.renderAllocationSourceText() 
+              }
+
               <textarea type='text'
                         className='form-control'
                         rows="7"
@@ -133,7 +158,10 @@ define(
                 />
             </div>
 
-            <AUCalculator identity={this.state.identity}/>
+            { 
+                /* if globals.USE_ALLOCATION_SOURCE don't render this */
+                this.renderAUCalculator() 
+            }
 
             <div className='form-group'>
               <label htmlFor='project-description'>{"How will you use the additional resources?"}</label>
@@ -145,7 +173,6 @@ define(
                         onChange={this.handleReasonChange}
                 />
             </div>
-            <strong>Note: Allocation allowances are set back to a default of 168 AU on the first of every month.</strong>
           </div>
         );
       },
@@ -157,13 +184,15 @@ define(
               <div className="modal-content">
                 <div className="modal-header">
                   {this.renderCloseButton()}
-                  <strong>Request Resources</strong>
+                  <h1 className="t-headline">
+                    Request Resources
+                  </h1>
                 </div>
                 <div className="modal-body">
                   {this.renderBody()}
                 </div>
                 <div className="modal-footer">
-                  <button type="button" className="btn btn-danger" onClick={this.cancel}>
+                  <button type="button" className="btn btn-default" onClick={this.cancel}>
                     Cancel
                   </button>
                   <button type="button" className="btn btn-primary" onClick={this.confirm}
@@ -176,7 +205,4 @@ define(
           </div>
         );
       }
-
-    });
-
-  });
+});

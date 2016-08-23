@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import Backbone from 'backbone';
 
 var Activity = React.createClass({
@@ -9,12 +9,14 @@ var Activity = React.createClass({
       },
 
       render: function () {
-        var instance = this.props.instance;
-
-        var activity = instance.get('state').get('activity');
+        var instance = this.props.instance,
+            stylez = {
+                textTransform: "capitalize"
+            },
+            activity = instance.get('state').get('activity') || "N/A";
 
         return (
-          <span style={{textTransform: "capitalize"}}>{activity}</span>
+          <span style={stylez}>{activity}</span>
         );
       }
 });

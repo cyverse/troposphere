@@ -1,9 +1,9 @@
-define(function(require) {
+import React from 'react';
+import Backbone from 'backbone';
+import Breadcrumb from './Breadcrumb.react';
 
-    var React = require('react/addons'),
-        Backbone = require('backbone'),
-        Breadcrumb = require('./Breadcrumb.react');
-    return React.createClass({
+
+export default React.createClass({
       displayName: "BreadcrumbNav",
 
       propTypes: {
@@ -45,7 +45,7 @@ define(function(require) {
                         onMouseOn={onMouseOn}
                         onMouseOff={onMouseOff}
                         breadcrumb={breadcrumb}
-                        breadcrumbText={breadcrumbText} 
+                        breadcrumbText={breadcrumbText}
                         onClick={self.crumbClicked}
             />
           )
@@ -65,7 +65,4 @@ define(function(require) {
           </div>
         );
       }
-
-    });
-
 });

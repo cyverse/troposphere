@@ -1,14 +1,10 @@
+import React from 'react';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import Glyphicon from 'components/common/Glyphicon.react';
+import InstanceModel from 'models/Instance';
 
-define(
-  [
-    'react',
-    'components/mixins/BootstrapModalMixin.react',
-    'components/common/Glyphicon.react',
-    'models/Instance',
-  ],
-  function (React, BootstrapModalMixin, Glyphicon, InstanceModel) {
 
-    return React.createClass({
+export default React.createClass({
       displayName: "InstanceDeleteModal",
 
       mixins: [BootstrapModalMixin],
@@ -23,7 +19,7 @@ define(
         this.props.onConfirm();
       },
 
-      renderBody: function () {
+      renderBody: function() {
         var instance = this.props.instance;
 
         return (
@@ -54,10 +50,12 @@ define(
         );
       },
 
-      render: function () {
+    render: function() {
+        let instance = this.props.instance,
+            disable = !instance && instance.get("id");
 
         return (
-          <div className="modal fade">
+        <div className="modal fade">
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
@@ -71,16 +69,16 @@ define(
                   <button type="button" className="btn btn-danger" onClick={this.hide}>
                     Cancel
                   </button>
-                  <button type="button" className="btn btn-primary" onClick={this.confirm}>
+                  <button disabled={disable}
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={this.confirm}>
                     Yes, delete this instance
                   </button>
                 </div>
               </div>
             </div>
-          </div>
+        </div>
         );
-      }
-
-    });
-
-  });
+    }
+});

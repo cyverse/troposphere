@@ -1,27 +1,26 @@
-define(function (require) {
+import BaseStore from "stores/BaseStore";
+import InstanceHistoryCollection from "collections/InstanceHistoryCollection";
+import actions from "actions";
 
-  var BaseStore = require('stores/BaseStore'),
-    InstanceHistoryCollection = require('collections/InstanceHistoryCollection'),
-    actions = require('actions');
-
-  var InstanceHistoryStore = BaseStore.extend({
+let InstanceHistoryStore = BaseStore.extend({
     collection: InstanceHistoryCollection,
 
     queryParams: {
-      page: 1
+        page: 1
     }
-  });
+});
 
-  // Fetch models and check badges when data is retreived
-  InstanceHistoryStore.prototype.fetchAndCheckBadges = function () {
-    this.fetchWhere({unique: true});
-    this.addChangeListener(function(){
+// Fetch models and check badges when data is retreived
+InstanceHistoryStore.prototype.fetchAndCheckBadges = function() {
+    this.fetchWhere({
+        unique: true
+    });
+    this.addChangeListener(function() {
         actions.BadgeActions.checkInstanceBadges();
     });
-  };
+};
 
-  var store = new InstanceHistoryStore();
-  store.lastUpdated = Date.now();
+let store = new InstanceHistoryStore();
+store.lastUpdated = Date.now();
 
-  return store;
-});
+export default store;

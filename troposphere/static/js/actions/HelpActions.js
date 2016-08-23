@@ -1,16 +1,15 @@
-define(function (require) {
+import $ from 'jquery';
+import NotificationController from 'controllers/NotificationController';
+import globals from 'globals';
+import Badges from 'Badges';
+import Utils from './Utils';
+import Constants from 'constants/ResourceRequestConstants';
+import actions from 'actions';
+import stores from 'stores';
 
-  var $ = require('jquery'),
-      NotificationController = require('controllers/NotificationController'),
-      globals = require('globals'),
-      Badges = require('Badges'),
-      Utils = require('./Utils'),
-      Constants = require('constants/ResourceRequestConstants');
-      actions = require('actions'),
-      stores = require('stores');
+import { trackAction } from 'utilities/userActivity';
 
-  return {
-
+export default {
     sendFeedback: function (feedback) {
       var data = {};
 
@@ -102,5 +101,3 @@ define(function (require) {
     }
 
   };
-
-});

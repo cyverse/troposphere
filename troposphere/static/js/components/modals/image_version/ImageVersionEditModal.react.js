@@ -1,22 +1,22 @@
-define(function (require) {
+import React from 'react';
+import Backbone from 'backbone';
+import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import VersionName from '../instance/image/components/VersionName.react';
+import VersionChanges from '../instance/image/components/VersionChangeLog.react';
+import EditAvailabilityView from './availability/EditAvailabilityView.react';
+import EditDescriptionView from 'components/images/detail/description/EditDescriptionView.react';
+import InteractiveDateField from 'components/common/InteractiveDateField.react';
+import EditMembershipView from './membership/EditMembershipView.react';
+import EditLicensesView from './licenses/EditLicensesView.react';
+import EditScriptsView from './scripts/EditScriptsView.react';
+import EditMinimumRequirementsView from './requirements/EditMinimumRequirementsView.react';
+import ImageSelect from 'components/modals/image_version/ImageSelect.react';
+import moment from 'moment';
+import stores from 'stores';
+import actions from 'actions';
 
-  var React = require('react/addons'),
-      moment = require('moment'),
-      stores = require('stores'),
-      actions = require('actions'),
-      BootstrapModalMixin = require('components/mixins/BootstrapModalMixin.react'),
-      VersionName = require('../instance/image/components/VersionName.react'),
-      VersionChanges = require('../instance/image/components/VersionChangeLog.react'),
-      EditAvailabilityView = require('./availability/EditAvailabilityView.react'),
-      EditDescriptionView = require('components/images/detail/description/EditDescriptionView.react'),
-      InteractiveDateField = require('components/common/InteractiveDateField.react'),
-      EditMembershipView = require('./membership/EditMembershipView.react'),
-      EditLicensesView = require('./licenses/EditLicensesView.react'),
-      EditScriptsView = require('./scripts/EditScriptsView.react'),
-      EditMinimumRequirementsView = require('./requirements/EditMinimumRequirementsView.react'),
-      ImageSelect = require('components/modals/image_version/ImageSelect.react');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "ImageVersionEditModal",
 
     mixins: [BootstrapModalMixin],
@@ -47,9 +47,9 @@ define(function (require) {
         versionLicenses: null,
         versionScripts: null,
         versionMemberships: null,
-        versionMinCPU: version.get('min_cpu'),
+        versionMinCPU: (version.get('min_cpu') == null) ? 0 : version.get('min_cpu'),
         // display memory as GB
-        versionMinMem: version.get('min_mem') / 1024
+        versionMinMem: (version.get('min_mem') == null) ? 0 : version.get('min_mem') / 1024
       }
     },
 
@@ -95,11 +95,11 @@ define(function (require) {
     },
 
     isSubmittable: function(){
-      var hasVersionName   = !!this.state.versionName;
+      var hasValidName   = !!this.validateName(this.state.versionImage, this.state.versionName);
       var hasChangeLog = !!this.state.versionChangeLog;
       var validEndDate = !!this.valid_date(this.state.versionEndDate);
       var validRequirements = this.checkValidMem() && this.checkValidCPU();
-      return hasVersionName && hasChangeLog && validEndDate && validRequirements;
+      return hasValidName && hasChangeLog && validEndDate && validRequirements;
     },
 
     //
@@ -142,13 +142,17 @@ define(function (require) {
       this.setState({versionEndDate: value});
     },
     onUncopyableSelected: function (e) {
-      var uncopyable = (e.target.checked);
+      let uncopyable = (e.target.checked);
       this.setState({versionCanImage: uncopyable});
     },
 
-    onImageSelected: function (image_id) {
-      var image = stores.ImageStore.get(image_id);
-      this.setState({versionImage: image});
+    onImageSelected: function (image) {
+      let versionNameError = this.getVersionNameError(image, this.state.versionName);
+
+      this.setState({
+          versionImage: image,
+          versionNameError: versionNameError
+      });
     },
 
     onMembershipChanged: function (membership_list) {
@@ -160,9 +164,33 @@ define(function (require) {
     // Render
     // ------
     //
+    validateName: function(image, name) {
+        let orig_version = this.props.version,
+            versions = image.get('versions');
+        name = (name == null) ? "" : name.trim().toLowerCase();
 
+        versions = versions.filter(function(version) {
+            return (version.id !== orig_version.id &&
+                (version.name && version.name.toLowerCase() === name) );
+        });
+        return versions.length == 0;
+    },
+    getVersionNameError: function(image, name) {
+        if(image == null || name == null) {
+            return "";
+        }
+        let versionNameError = this.validateName(image, name) ? ""
+            : `There already exists a version named '${name}' in application '${image.get('name')}'.`;
+        return versionNameError;
+    },
     handleNameChange: function(name){
-      this.setState({versionName: name});
+      let image = this.state.versionImage;
+      let versionNameError = this.getVersionNameError(image,name);
+
+      this.setState({
+          versionName: name,
+          versionNameError: versionNameError
+      });
     },
     handleDescriptionChange: function(description){
       this.setState({versionChangeLog: description});
@@ -266,8 +294,9 @@ define(function (require) {
     },
 
     renderBody: function() {
-      var applicationView, availabilityView, canImageView, nameView, descriptionView,
-        startDateView, endDateView, membershipView, licensesView, scriptsView;
+      var applicationView, availabilityView, canImageView, nameView, nameErrorView, descriptionView,
+        startDateView, endDateView, membershipView, licensesView, scriptsView, minimumRequirementsView;
+      var images = stores.ImageStore.getAll();
 
       var name = this.state.versionName,
         created = this.state.versionStartDate.format("MMM D, YYYY hh:mm a"),
@@ -289,8 +318,8 @@ define(function (require) {
         ended = this.state.versionEndDate;
       }
 
-      if(!name) {
-          return (<div className="loading"/>);
+      if(name == null || images == null) {
+          return (<div className="loading" />);
       }
       licensesView = (
         <EditLicensesView
@@ -311,6 +340,11 @@ define(function (require) {
           onCreateNewScript={this.onScriptCreate}
           label={"Scripts Required"}
           />
+      );
+      nameErrorView = (
+        <p className="no-results text-danger">
+          {this.state.versionNameError}
+        </p>
       );
       nameView = (
         <VersionName
@@ -406,6 +440,7 @@ define(function (require) {
       return (
         <div role='form'>
           {nameView}
+          {nameErrorView}
           <hr />
           {descriptionView}
           <hr />
@@ -436,14 +471,12 @@ define(function (require) {
     },
 
     render: function () {
-      var images = stores.ImageStore.getAll(),
-        providers = stores.ProviderStore.getAll();
+      let providers = stores.ProviderStore.getAll();
 
 
       var version = this.props.version,
         end_date = version.get('end_date'),
         versionId = version.id;
-
       if (!end_date) {
         end_date = ""
       }
@@ -469,7 +502,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

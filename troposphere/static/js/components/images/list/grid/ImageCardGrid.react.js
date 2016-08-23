@@ -1,9 +1,10 @@
-define(function (require) {
+import React from 'react';
+import Backbone from 'backbone';
+import ImageCard from '../common/ImageCard.react';
+import { filterEndDate } from 'utilities/filterCollection';
 
-  var React = require('react/addons'),
-      ImageCard = require('../common/ImageCard.react');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "ImageCardGrid",
 
     propTypes: {
@@ -22,9 +23,11 @@ define(function (require) {
     },
 
     renderCard: function(image){
+      let isEndDated = !filterEndDate(image);
       return (
         <li key={image.id}>
           <ImageCard
+            isEndDated={isEndDated}
             image={image}
             tags={this.props.tags}/>
         </li>
@@ -44,7 +47,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

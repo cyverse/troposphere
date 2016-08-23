@@ -1,12 +1,11 @@
-define(function (require) {
-  var React = require('react'),
-    Backbone = require('backbone'),
-    globals = require('globals'),
-    moment = require('moment'),
-    // implicit include within context for `.tz()`
-    momentTZ = require('moment-timezone');
+import React from 'react';
+import Backbone from 'backbone';
+import globals from 'globals';
+import moment from 'moment';
+// implicit include within context for `.tz()`
+import momentTZ from 'moment-timezone';
 
-  return React.createClass({
+export default React.createClass({
     displayName: "RemovedView",
 
     propTypes: {
@@ -17,7 +16,7 @@ define(function (require) {
       var image = this.props.image,
           endDate = moment(image.get('end_date'));
       if (endDate.isValid()) {
-          formatDate = endDate.tz(globals.TZ_REGION).format("M/DD/YYYY hh:mm a z");
+          let formatDate = endDate.tz(globals.TZ_REGION).format("M/DD/YYYY hh:mm a z");
           endDate = formatDate;
       } else {
           // Hide this from view when end date isn't available
@@ -36,7 +35,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

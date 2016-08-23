@@ -1,18 +1,17 @@
-define(function (require) {
+import React from 'react';
+import Backbone from 'backbone';
+import _ from 'underscore';
+import stores from 'stores';
+import InstanceSizeSelect from '../components/InstanceSizeSelect.react';
+import Glyphicon from 'components/common/Glyphicon.react';
 
-    var React = require('react/addons'),
-      Backbone = require('backbone'),
-      _ = require('underscore'),
-      stores = require('stores'),
-      InstanceSizeSelect = require('../components/InstanceSizeSelect.react');
+let ENTER_KEY = 13;
+let selectedSize;
 
-    var ENTER_KEY = 13;
-    var selectedSize, selectedIdentity;
+export default React.createClass({
+        displayName: "InstanceLaunchWizardModal-SizeSelectStep",
 
-    return React.createClass({
-      displayName: "InstanceLaunchWizardModal-SizeSelectStep",
-
-      propTypes: {
+        propTypes: {
             identity: React.PropTypes.instanceOf(Backbone.Model).isRequired,
             size: React.PropTypes.instanceOf(Backbone.Model),
             onPrevious: React.PropTypes.func.isRequired,
@@ -271,10 +270,10 @@ define(function (require) {
 
         var minCPUInt = this.props.version.get('min_cpu'),
           minMemInt = this.props.version.get('min_mem');
-          
+
 
         var potentialSizeList = stores.SizeStore.filterWhereGreaterThanOrEqualTo({
-          'cpu': this.props.version.get('min_cpu'), 
+          'cpu': this.props.version.get('min_cpu'),
           'mem': this.props.version.get('min_mem') / 1024
           });
 
@@ -336,8 +335,4 @@ define(function (require) {
         </div>
       );
     }
-
-
-  });
-
 });

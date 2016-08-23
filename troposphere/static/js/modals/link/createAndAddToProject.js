@@ -1,27 +1,22 @@
-define(function (require) {
-  'use strict';
+import actions from "actions";
+import ModalHelpers from "components/modals/ModalHelpers";
+import ExternalLinkCreateModal from "components/modals/link/ExternalLinkCreateModal.react";
 
-  var actions = require('actions'),
-    ModalHelpers = require('components/modals/ModalHelpers'),
-    ExternalLinkCreateModal = require('components/modals/link/ExternalLinkCreateModal.react');
+export default {
 
-  return {
+    createAndAddToProject: function(initialExternalLinkName, project) {
+        var props = {
+            initialExternalLinkName,
+            project
+        };
 
-    createAndAddToProject: function (initialExternalLinkName, project) {
-      var props = {
-        initialExternalLinkName: initialExternalLinkName
-      };
-
-      ModalHelpers.renderModal(ExternalLinkCreateModal, props, function (name, description, link) {
-        actions.ExternalLinkActions.createAndAddToProject({
-          title: name,
-          description: description,
-          external_link: link,
-          project: project
+        ModalHelpers.renderModal(ExternalLinkCreateModal, props, function(name, description, link) {
+            actions.ExternalLinkActions.createAndAddToProject({
+                title: name,
+                description: description,
+                external_link: link,
+                project: project
+            });
         });
-      });
     }
-
-  };
-
-});
+};

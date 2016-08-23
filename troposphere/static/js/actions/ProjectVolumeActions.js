@@ -1,13 +1,12 @@
-define(function (require) {
 
-  var AppDispatcher = require('dispatchers/AppDispatcher'),
-    ProjectConstants = require('constants/ProjectConstants'),
-    ProjectVolumeConstants = require('constants/ProjectVolumeConstants'),
-    ProjectVolume = require('models/ProjectVolume'),
-    Utils = require('./Utils'),
-    stores = require('stores');
+import AppDispatcher from 'dispatchers/AppDispatcher';
+import ProjectConstants from 'constants/ProjectConstants';
+import ProjectVolumeConstants from 'constants/ProjectVolumeConstants';
+import ProjectVolume from 'models/ProjectVolume';
+import Utils from './Utils';
+import stores from 'stores';
 
-  return {
+export default {
 
     // -------------------------
     // Add/Remove Project Volume
@@ -46,6 +45,4 @@ define(function (require) {
       });
     }
 
-  };
-
-});
+};

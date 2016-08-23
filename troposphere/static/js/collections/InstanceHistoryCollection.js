@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import InstanceCollection from './InstanceCollection';
+import InstanceHistory from 'models/InstanceHistory';
+import globals from 'globals';
 
-  var InstanceCollection = require('./InstanceCollection'),
-    InstanceHistory = require('models/InstanceHistory'),
-    globals = require('globals');
-
-  return InstanceCollection.extend({
+export default InstanceCollection.extend({
     model: InstanceHistory,
 
     url: globals.API_V2_ROOT + '/instance_histories',
@@ -23,7 +20,4 @@ define(function (require) {
     comparator: function (a, b) {
       return b.get('start_date').diff(a.get('start_date'), "seconds");
     }
-
-  });
-
 });

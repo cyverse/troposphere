@@ -1,13 +1,9 @@
+import React from 'react';
+import Backbone from 'backbone';
+import Breadcrumb from './Breadcrumb.react';
 
-define(
-  [
-    'react',
-    'backbone',
-    './Breadcrumb.react'
-  ],
-  function (React, Backbone, Breadcrumb) {
 
-    return React.createClass({
+export default React.createClass({
       displayName: "ProjectsBreadcrumbBar",
 
       propTypes: {
@@ -42,15 +38,8 @@ define(
 
         return (
           <div className="button-bar" style={{padding: "17px 0px"}}>
-            <a className="nav-back btn btn-default" style={{"padding":"3px 10px 5px 11px !important"}}
-               onClick={this.onReturnToPreviousPage}>
-              <span className="glyphicon glyphicon-arrow-left" style={{"fontSize":"11px"}}></span>
-            </a>
             {breadcrumbs}
           </div>
         );
       }
-
-    });
-
-  });
+});

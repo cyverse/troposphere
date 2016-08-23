@@ -1,10 +1,8 @@
-define(function (require) {
+import Utils from './Utils';
+import Router from '../Router';
+import Constants from 'constants/IdentityMembershipConstants';
 
-  var Utils = require('./Utils'),
-    Router = require('../Router'),
-    Constants = require('constants/IdentityMemebershipConstants');
-
-  return {
+export default {
     update: function (membership, params) {
       var end_date = params.end_date;
 
@@ -17,6 +15,4 @@ define(function (require) {
         Utils.dispatch(Constants.UPDATE, {model: membership});
       });
     }
-  };
-
-});
+};

@@ -1,16 +1,15 @@
-define(function (require) {
+import $ from 'jquery';
+import React from 'react';
+import Backbone from 'backbone';
+import Name from '../components/Name.react';
+import CreateUpdateFlag from '../components/CreateUpdateFlag.react';
+import Description from '../components/Description.react';
+import Tags from '../components/Tags.react';
+import actions from 'actions';
+import stores from 'stores';
 
-  var React = require('react/addons'),
-      actions = require('actions'),
-      Backbone = require('backbone'),
-      Name = require('../components/Name.react'),
-      $ = require('jquery'),
-      CreateUpdateFlag = require('../components/CreateUpdateFlag.react'),
-      Description = require('../components/Description.react'),
-      Tags = require('../components/Tags.react'),
-      stores = require('stores');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "ImageWizard-ImageInfoStep",
 
     propTypes: {
@@ -19,7 +18,8 @@ define(function (require) {
       name: React.PropTypes.string.isRequired,
       description: React.PropTypes.string.isRequired,
       newImage: React.PropTypes.bool.isRequired,
-      helpLink: React.PropTypes.instanceOf(Backbone.Model).isRequired
+      helpLink: React.PropTypes.instanceOf(Backbone.Model).isRequired,
+      imageTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
 
     getDefaultProps: function () {
@@ -27,7 +27,6 @@ define(function (require) {
         name: "",
         description: "",
         imageOwner: false,
-        imageTags: null,
         newImage: true,
       };
     },
@@ -38,7 +37,7 @@ define(function (require) {
         nameError: this.setNameError(this.props.name),
         description: this.props.description,
         newImage: this.props.newImage,
-        imageTags: this.props.imageTags || stores.InstanceTagStore.getTagsFor(this.props.instance),
+        imageTags: this.props.imageTags,
       }
     },
     isValidName: function (value) {
@@ -184,7 +183,4 @@ define(function (require) {
         </div>
       );
     }
-
-  });
-
 });

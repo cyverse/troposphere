@@ -1,8 +1,7 @@
-define(function (require) {
+import React from 'react';
 
-  var React = require('react/addons');
 
-  return React.createClass({
+export default React.createClass({
     displayName: "Glyphicon",
 
     render: function () {
@@ -10,6 +9,4 @@ define(function (require) {
         <i className={'glyphicon glyphicon-' + this.props.name}/>
       );
     }
-  });
-
 });

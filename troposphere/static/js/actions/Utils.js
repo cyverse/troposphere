@@ -1,23 +1,32 @@
-define(function (require) {
-  'use strict';
+import AppDispatcher from 'dispatchers/AppDispatcher';
+import NotificationController from 'controllers/NotificationController';
+import $ from 'jquery';
 
-  var AppDispatcher = require('dispatchers/AppDispatcher'),
-    NotificationController = require('controllers/NotificationController');
+export default {
 
-  return {
-
-    dispatch: function (actionType, payload, options) {
-      options = options || {};
-      AppDispatcher.handleRouteAction({
-        actionType: actionType,
-        payload: payload,
-        options: options
-      });
+    dispatch: function(actionType, payload, options) {
+        options = options || {};
+        AppDispatcher.handleRouteAction({
+            actionType: actionType,
+            payload: payload,
+            options: options
+        });
     },
 
-    displayInfo: function (options) {
-      if (!options.message) throw new Error("Missing message");
-      NotificationController.info(null, options.message);
+    displayInfo: function(options) {
+        if (!options.message) throw new Error("Missing message");
+        NotificationController.info(null, options.message);
+    },
+    // Size information for the user's browser and monitor
+    browserContext: function() {
+      return {
+          "window-width": $(window).width(),
+          "window-height": $(window).height(),
+          "screen-width": screen.width,
+          "screen-height": screen.height,
+          "user-interface": "troposphere"
+      };
+
     },
 
     displaySuccess: function (options) {
@@ -49,7 +58,4 @@ define(function (require) {
         );
       }
     }
-
-  };
-
-});
+};

@@ -1,50 +1,50 @@
-define(function (require) {
+import _ from 'underscore';
+import Dispatcher from 'dispatchers/Dispatcher';
+import BaseStore from 'stores/BaseStore';
+import ProjectInstanceCollection from 'collections/ProjectInstanceCollection';
+import Constants from 'constants/ProjectInstanceConstants';
+import InstanceCollection from 'collections/InstanceCollection';
+import Instance from 'models/Instance';
+import stores from 'stores';
 
-  var _ = require('underscore'),
-    Dispatcher = require('dispatchers/Dispatcher'),
-    BaseStore = require('stores/BaseStore'),
-    ProjectInstanceCollection = require('collections/ProjectInstanceCollection'),
-    Constants = require('constants/ProjectInstanceConstants'),
-    InstanceCollection = require('collections/InstanceCollection'),
-    Instance = require('models/Instance'),
-    stores = require('stores');
+let _modelsFor = {};
+let _isFetchingFor = {};
 
-  var _modelsFor = {};
-  var _isFetchingFor = {};
+//
+// Model Store
+//
 
-  //
-  // Model Store
-  //
-
-  var ProjectInstanceStore = BaseStore.extend({
+let ProjectInstanceStore = BaseStore.extend({
     collection: ProjectInstanceCollection,
 
-    initialize: function () {
-      this.models = new ProjectInstanceCollection();
+    initialize: function() {
+        this.models = new ProjectInstanceCollection();
     },
 
-    fetchModelsFor: function (projectId) {
-      if (!_modelsFor[projectId] && !_isFetchingFor[projectId]) {
-        _isFetchingFor[projectId] = true;
-        var models = new ProjectInstanceCollection();
-        models.fetch({
-          url: models.url + "?project__id=" + projectId
-        }).done(function () {
-          _isFetchingFor[projectId] = false;
+    fetchModelsFor: function(projectId) {
+        if (!_modelsFor[projectId] && !_isFetchingFor[projectId]) {
+            _isFetchingFor[projectId] = true;
+            var models = new ProjectInstanceCollection();
+            models.fetch({
+                url: models.url + "?project__id=" + projectId
+            }).done(function() {
+                _isFetchingFor[projectId] = false;
 
-          // add models to existing cache
-          this.models.add(models.models);
+                // add models to existing cache
+                this.models.add(models.models);
 
-          // convert ProjectInstance collection to an InstanceCollection
-          var instances = models.map(function (pi) {
-            return new Instance(pi.get('instance'), {parse: true});
-          });
-          instances = new InstanceCollection(instances);
+                // convert ProjectInstance collection to an InstanceCollection
+                var instances = models.map(function(pi) {
+                    return new Instance(pi.get('instance'), {
+                        parse: true
+                    });
+                });
+                instances = new InstanceCollection(instances);
 
-          _modelsFor[projectId] = instances;
-          this.emitChange();
-        }.bind(this));
-      }
+                _modelsFor[projectId] = instances;
+                this.emitChange();
+            }.bind(this));
+        }
     },
 
     // This function is bad, but its just a symptom. A store should not depend
@@ -53,8 +53,9 @@ define(function (require) {
     // ask.
     getInstancesFor: function (project) {
       var allInstances = stores.InstanceStore.getAll();
+      // Don't make a call if we don't have instances or a project ID
+      if (!project.id || !allInstances) return;
       if (!_modelsFor[project.id]) return this.fetchModelsFor(project.id);
-      if (!allInstances) return;
 
       // Filter instances belonging to the project
       var instances = allInstances.filter(function (i) {
@@ -64,50 +65,50 @@ define(function (require) {
       return new InstanceCollection(instances);
     },
 
-    getInstancesForProjectOnProvider: function (project, provider) {
-      // get instances in project
-      var instances = this.getInstancesFor(project);
+    getInstancesForProjectOnProvider: function(project, provider) {
+        // get instances in project
+        var instances = this.getInstancesFor(project);
 
-      // filter out instances not on provider
-      var instances = instances.filter(function (i) {
-        return i.get('provider').id === provider.id;
-      });
+        // filter out instances not on provider
+        var instances = instances.filter(function(i) {
+            return i.get('provider').id === provider.id;
+        });
 
-      return new InstanceCollection(instances);
+        return new InstanceCollection(instances);
     }
 
-  });
+});
 
-  var store = new ProjectInstanceStore();
 
-  Dispatcher.register(function (dispatch) {
+let store = new ProjectInstanceStore();
+
+Dispatcher.register(function(dispatch) {
     var actionType = dispatch.action.actionType;
     var payload = dispatch.action.payload;
     var options = dispatch.action.options || options;
 
     switch (actionType) {
 
-      case Constants.ADD_PROJECT_INSTANCE:
-        store.add(payload.projectInstance);
-        break;
+        case Constants.ADD_PROJECT_INSTANCE:
+            store.add(payload.projectInstance);
+            break;
 
-      case Constants.REMOVE_PROJECT_INSTANCE:
-        store.remove(payload.projectInstance);
-        break;
+        case Constants.REMOVE_PROJECT_INSTANCE:
+            store.remove(payload.projectInstance);
+            break;
 
-      case Constants.EMIT_CHANGE:
-        break;
+        case Constants.EMIT_CHANGE:
+            break;
 
-      default:
-        return true;
+        default:
+            return true;
     }
 
     if (!options.silent) {
-      store.emitChange();
+        store.emitChange();
     }
 
     return true;
-  });
-
-  return store;
 });
+
+export default store;

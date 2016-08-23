@@ -1,11 +1,8 @@
-define(function (require) {
-  "use strict";
+import ModalHelpers from 'components/modals/ModalHelpers';
+import InstanceImageWizardModal from 'components/modals/instance/InstanceImageWizardModal.react';
+import actions from 'actions';
 
-  var ModalHelpers = require('components/modals/ModalHelpers'),
-    InstanceImageWizardModal = require('components/modals/instance/InstanceImageWizardModal.react'),
-    actions = require('actions');
-
-  return {
+export default {
 
     requestImage: function (params) {
       if (!params.instance) throw new Error("Missing instance");
@@ -30,7 +27,6 @@ define(function (require) {
           versionChanges: params.versionChanges,
           newMachineOwner: instance.get('user').id,
           versionFork: params.newImage,
-          providerId: params.providerId,
           visibility: params.visibility,
           imageUsers: params.imageUsers,
           filesToExclude: params.filesToExclude || "",
@@ -42,6 +38,4 @@ define(function (require) {
       })
     }
 
-  };
-
-});
+};

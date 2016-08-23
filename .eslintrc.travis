@@ -1,0 +1,22 @@
+{
+    "rules": {
+        "linebreak-style": [
+            2,
+            "unix"
+        ],
+        "no-debugger": 2,
+        "no-mixed-spaces-and-tabs": 2,
+    },
+    "env": {
+        "es6": true,
+        "browser": true,
+        "commonjs": true
+    },
+    "parser": "babel-eslint",
+    "ecmaFeatures": {
+        "jsx": true,
+    },
+    "plugins": [
+        "react"
+    ]
+}

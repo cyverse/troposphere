@@ -1,47 +1,27 @@
-define(function (require) {
-  "use strict";
+import stores from 'stores';
+import globals from 'globals';
+import $ from 'jquery';
+import _ from 'underscore';
+import Utils from '../Utils';
 
-  var stores = require('stores'),
-    globals = require('globals'),
-    $ = require('jquery'),
-    _ = require('underscore'),
-    Utils = require('../Utils');
+export default {
 
-  return {
-
-    report: function (params) {
+    report: function(params) {
       if (!params.reportInfo) throw new Error("Missing reportInfo");
       if (!params.volume) throw new Error("Missing volume");
 
-      var profile = stores.ProfileStore.get(),
-        username = profile.get('username'),
-        reportUrl = globals.API_ROOT + "/email/support",
-        problemText = "",
-        reportInfo = params.reportInfo,
-        reportData = {},
-        volume = params.volume;
+      let volume = params.volume,
+          reportInfo = params.reportInfo;
 
-      if (reportInfo.problems) {
-        _.each(reportInfo.problems, function (problem) {
-          problemText = problemText + "  -" + problem + "\n";
-        })
-      }
-
-      reportData = {
-        username: username,
-        message: "Volume ID: " + volume.id + "\n" +
-                 "Provider ID: " + volume.get('identity').provider + "\n" +
-                 "\n" +
-                 "Problems" + "\n" +
-                 problemText + "\n" +
-                 "Details \n" +
-                 reportInfo.details + "\n",
-        subject: "Atmosphere Volume Report from " + username,
-        "user-interface": 'troposphere'
+      let reportData = {
+        message:  reportInfo.details,
+        volume: volume.id,
+        problems: reportInfo.problems ? reportInfo.problems : [],
+        ...Utils.browserContext()
       };
 
       $.ajax({
-        url: reportUrl,
+        url: globals.API_V2_ROOT + "/email_volume_report",
         type: 'POST',
         data: JSON.stringify(reportData),
         dataType: 'json',
@@ -58,6 +38,4 @@ define(function (require) {
       });
     }
 
-  };
-
-});
+};

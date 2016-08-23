@@ -1,17 +1,14 @@
-define(function (require) {
-  "use strict";
+import Backbone from 'backbone';
+import Tag from 'models/Tag';
+import globals from 'globals';
 
-  var Backbone = require('backbone'),
-    Tag = require('models/Tag'),
-    globals = require('globals');
-
-  return Backbone.Collection.extend({
+export default Backbone.Collection.extend({
     model: Tag,
 
     url: globals.API_V2_ROOT + "/tags",
 
     comparator: function (model) {
-      name = model.get('name')
+      let name = model.get('name');
       if(!name) {
           return name;
       }
@@ -27,7 +24,5 @@ define(function (require) {
 
       return response.results;
     }
-
-  });
 
 });
