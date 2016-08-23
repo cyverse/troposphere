@@ -1,51 +1,7 @@
 {
-    "extends": ["eslint:recommended", "plugin:react/recommended"],
-    "rules": {
-
-        // See docs here: http://eslint.org/docs/rules/
-        "linebreak-style": [
-            2,
-            "unix"
-        ],
-        "no-mixed-spaces-and-tabs": 2,
-        "comma-dangle": 2,
-
-        // Its an error to have unused variables, but okay to have unused
-        // paramaters
-        "no-unused-vars": [2, {"args": "none"}],
-
-        // "jsx-uses-vars" is necessary to do
-        //  import ReactComponent from '...'
-        //      <ReactComponent ... />
-        //
-        "react/jsx-uses-vars": "error",
-
-        // "jsx-uses-react" is only effective with "no-unused-vars"
-        // the use case is rather specific:
-        // A file contains only jsx and a necessary React import. The file
-        // doesn't not otherwise mention React, eslint thinks React is an
-        // unused var. This option stifles the unused var error.
-        //
-        "react/jsx-uses-react": "error",
-
-        // See docs here: https://github.com/yannickcr/eslint-plugin-react/tree/master/docs/rules
-        "react/no-is-mounted": 2,
-        "react/display-name": 2,
-        "react/no-danger": 2,
-        "react/no-did-mount-set-state": 2,
-        "react/no-direct-mutation-state": 2,
-        "react/prop-types": 2,
-    },
-    "env": {
-        "es6": true,
-        "browser": true,
-        "commonjs": true
-    },
-    "parser": "babel-eslint",
-    "ecmaFeatures": {
-        "jsx": true,
-    },
-    "plugins": [
-        "react"
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "./.eslintrc.travis"
     ]
 }
