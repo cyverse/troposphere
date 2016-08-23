@@ -1,10 +1,8 @@
-import Backbone from 'backbone';
 import ProviderMachineCollection from 'collections/ProviderMachineCollection';
 import Dispatcher from 'dispatchers/Dispatcher';
 import BaseStore from 'stores/BaseStore';
 import ProviderMachineConstants from 'constants/ProviderMachineConstants';
 import _ from 'underscore';
-import NotificationController from 'controllers/NotificationController';
 
 
 let ProviderMachineStore = BaseStore.extend({
@@ -70,7 +68,6 @@ let store = new ProviderMachineStore();
 
 Dispatcher.register(function(dispatch) {
     var actionType = dispatch.action.actionType;
-    var payload = dispatch.action.payload;
     var options = dispatch.action.options || options;
 
     switch (actionType) {

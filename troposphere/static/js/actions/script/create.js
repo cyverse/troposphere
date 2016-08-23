@@ -1,7 +1,5 @@
-
 import ScriptConstants from 'constants/ScriptConstants';
 import Script from 'models/Script';
-import actions from 'actions';
 import Utils from '../Utils';
 
 export default {

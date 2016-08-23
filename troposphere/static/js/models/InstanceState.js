@@ -102,27 +102,4 @@ var get_percent_complete = function (state, activity) {
   return lookup[activity] || 100;
 };
 
-var get_final_state = function (activity) {
-  // Check for the final state to prevent reverting if a queued task hasn't begun yet
-  if (activity === 'powering-off') {
-    return 'shutoff';
-  }
-  else if (activity === 'deleting') {
-    return 'deleted';
-  }
-  else if (activity === 'suspending') {
-    return 'suspended';
-  }
-  else if (activity === 'user_deploy_error') {
-    return 'user_deploy_error';
-  }
-  else if (activity === 'deploy_error') {
-    return 'deploy_error';
-  }
-  else {
-    // Applies for: build, shutoff, and suspended
-    return 'active';
-  }
-};
-
 export default InstanceState;

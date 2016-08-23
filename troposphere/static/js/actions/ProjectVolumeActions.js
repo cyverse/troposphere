@@ -1,6 +1,3 @@
-
-import AppDispatcher from 'dispatchers/AppDispatcher';
-import ProjectConstants from 'constants/ProjectConstants';
 import ProjectVolumeConstants from 'constants/ProjectVolumeConstants';
 import ProjectVolume from 'models/ProjectVolume';
 import Utils from './Utils';

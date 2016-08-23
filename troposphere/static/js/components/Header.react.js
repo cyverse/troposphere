@@ -226,30 +226,21 @@ let Header = React.createClass({
             <LogoutLink username={ profile.get("username") } /> :
             <LoginLink/>);
 
-        if (!profile.get("selected_identity")) {
-            links = links.filter(function(link) {
-                return !link.requiresLogin;
+        if (!profile.get('selected_identity')) {
+            links = links.filter(function (link) {
+                return !link.requiresLogin && link.isEnabled;
             })
         } else {
-            links = links.filter(function(link) {
-                if (link.requiresStaff) return profile.get("is_staff");
-                return true;
+            links = links.filter(function (link) {
+                if (link.requiresStaff) return profile.get('is_staff');
+                return link.isEnabled;
             })
         }
 
-        var navLinks = links.map(function(link) {
-            var isCurrentRoute = (link.name.toLowerCase() === this.props.currentRoute[0]);
-            var className = isCurrentRoute ? "active" : null;
-
+        var navLinks = links.map(function (link) {
             //We need to only trigger the toggle menu on small screen sizes to avoid buggy behavior when selecting menu items on larger screens
             var smScreen = (this.state.windowWidth < 768);
-            var toggleMenu = smScreen ? {
-                toggle: "collapse",
-                target: ".navbar-collapse"
-            } : {
-                toggle: null,
-                target: null
-            };
+            var toggleMenu = smScreen ? {toggle: 'collapse',target:'.navbar-collapse'} : {toggle: null, target: null};
 
             return (
             <li key={ link.name } data-toggle={ toggleMenu.toggle } data-target={ toggleMenu.target }>

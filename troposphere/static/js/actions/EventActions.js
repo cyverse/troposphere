@@ -1,5 +1,3 @@
-import { Model } from 'backbone';
-
 import EventConstants from "constants/EventConstants";
 import Events from "events";
 
@@ -18,7 +16,7 @@ export default {
                     }
                 }).save();
             default:
-                throw `Event of type: ${type} is not handled.`
+                throw `Event of type: ${name} is not handled.`
         }
     }
 }

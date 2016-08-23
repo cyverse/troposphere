@@ -1,10 +1,8 @@
 import React from 'react';
 import Backbone from 'backbone';
-import Router from 'react-router';
 import showManageUserModal from 'modals/admin/showManageUserModal.js';
 import actions from 'actions';
 import moment from 'moment';
-import stores from 'stores';
 
 
 export default React.createClass({

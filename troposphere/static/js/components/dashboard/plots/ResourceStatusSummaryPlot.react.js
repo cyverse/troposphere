@@ -4,7 +4,6 @@ import ReactDOMServer from 'react-dom/server';
 
 import Backbone from "backbone";
 import Highcharts from "highcharts";
-import $ from "jquery";
 
 import ResourceStatusTooltip from "./tooltips/ResourceStatusTooltip.react";
 
@@ -67,20 +66,6 @@ export default React.createClass({
       appendPlot: function(options) {
         var title = this.props.title;
         var data = this.getChartData();
-
-        var formatterComponent = React.createClass({
-          render: function() {
-
-            return (
-              <div>
-                There are <b>{this.y}</b>{" " + title} with
-                <br/>
-                a status of <b>{this.key}</b>
-              </div>
-            );
-          }
-        });
-
 
         // Create the chart
         var el = ReactDOM.findDOMNode(this);

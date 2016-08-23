@@ -1,9 +1,7 @@
 import React from 'react';
 import Backbone from 'backbone';
-import stores from 'stores';
 import moment from 'moment';
 import actions from 'actions';
-import _ from 'underscore';
 
 
 export default React.createClass({

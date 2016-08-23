@@ -1,12 +1,9 @@
 import React from 'react';
 import Backbone from 'backbone';
-import _ from 'underscore';
 import ChosenDropdownItem from 'components/common/chosen/ChosenDropdownItem.react';
 import ChosenSelectedItem from 'components/common/chosen/ChosenSelectedItem.react';
 import ChosenMixinExternal from 'components/mixins/ChosenMixinExternal.react';
 import CreateScriptView from './CreateScriptView.react';
-
-let ENTER_KEY = 13;
 
 
 export default React.createClass({

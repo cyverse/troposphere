@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Backbone from 'backbone';
-import stores from 'stores';
 import SelectMenu from 'components/common/ui/SelectMenu.react';
 
 export default React.createClass({
+    displayName: "BasicInfoForm",
+
     propTypes: {
         projectList: React.PropTypes.instanceOf(Backbone.Collection),
         imageVersion: React.PropTypes.instanceOf(Backbone.Model),
@@ -12,7 +13,9 @@ export default React.createClass({
         project: React.PropTypes.instanceOf(Backbone.Model),
         image: React.PropTypes.instanceOf(Backbone.Model),
         instanceName: React.PropTypes.string,
+        showValidationErr: React.PropTypes.bool,
         onNameChange: React.PropTypes.func,
+        onNameBlur: React.PropTypes.func,
         onVersionChange: React.PropTypes.func,
         onProjectChange: React.PropTypes.func
     },
@@ -76,5 +79,5 @@ export default React.createClass({
                 </div>
             </form>
         );
-    },
+    }
 });

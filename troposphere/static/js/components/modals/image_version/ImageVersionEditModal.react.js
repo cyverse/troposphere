@@ -4,14 +4,12 @@ import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 import VersionName from '../instance/image/components/VersionName.react';
 import VersionChanges from '../instance/image/components/VersionChangeLog.react';
 import EditAvailabilityView from './availability/EditAvailabilityView.react';
-import EditDescriptionView from 'components/images/detail/description/EditDescriptionView.react';
 import InteractiveDateField from 'components/common/InteractiveDateField.react';
 import EditMembershipView from './membership/EditMembershipView.react';
 import EditLicensesView from './licenses/EditLicensesView.react';
 import EditScriptsView from './scripts/EditScriptsView.react';
 import EditMinimumRequirementsView from './requirements/EditMinimumRequirementsView.react';
 import ImageSelect from 'components/modals/image_version/ImageSelect.react';
-import moment from 'moment';
 import stores from 'stores';
 import actions from 'actions';
 
@@ -294,8 +292,10 @@ export default React.createClass({
     },
 
     renderBody: function() {
-      var applicationView, availabilityView, canImageView, nameView, nameErrorView, descriptionView,
-        startDateView, endDateView, membershipView, licensesView, scriptsView, minimumRequirementsView;
+      var applicationView, availabilityView, nameView, nameErrorView,
+          descriptionView, startDateView, endDateView, membershipView,
+          licensesView, scriptsView, minimumRequirementsView;
+
       var images = stores.ImageStore.getAll();
 
       var name = this.state.versionName,
@@ -397,14 +397,14 @@ export default React.createClass({
           <input type='text' className='form-control' value={created} readOnly={true} editable={false}/>
         </div>
       );
-      canImageView = (<div className='form-group checkbox'>
-          <label htmlFor='version-uncopyable'>
-            <input type='checkbox' className='form-control'
-                   checked={this.state.versionCanImage}
-                   onChange={this.onUncopyableSelected}/>
-          </label>
-        </div>
-      );
+      // canImageView = (<div className='form-group checkbox'>
+      //     <label htmlFor='version-uncopyable'>
+      //       <input type='checkbox' className='form-control'
+      //              checked={this.state.versionCanImage}
+      //              onChange={this.onUncopyableSelected}/>
+      //     </label>
+      //   </div>
+      // );
       minimumRequirementsView = (<EditMinimumRequirementsView
         cpu={this.state.versionMinCPU}
         mem={this.state.versionMinMem}
@@ -445,8 +445,8 @@ export default React.createClass({
           {descriptionView}
           <hr />
           {
-            //TODO: implement 'allow Imaging' in the next iteration
-            //canImageView
+            // TODO: implement 'allow Imaging' in the next iteration
+            // canImageView
           }
           {startDateView}
           {endDateView}
@@ -471,12 +471,8 @@ export default React.createClass({
     },
 
     render: function () {
-      let providers = stores.ProviderStore.getAll();
-
-
       var version = this.props.version,
-        end_date = version.get('end_date'),
-        versionId = version.id;
+        end_date = version.get('end_date');
       if (!end_date) {
         end_date = ""
       }

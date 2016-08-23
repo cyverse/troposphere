@@ -1,10 +1,7 @@
 import React from 'react';
 import Backbone from 'backbone';
-import EditDescriptionView from 'components/images/detail/description/EditDescriptionView.react';
 import ScriptMultiSelect from './ScriptMultiSelectAndCreate.react';
 
-
-let ENTER_KEY = 13;
 
 export default React.createClass({
     displayName: "EditScriptView",
@@ -41,7 +38,6 @@ export default React.createClass({
 
     render: function () {
       var query = this.state.query,
-          link,
           scriptView,
           scripts = this.props.scripts;
 

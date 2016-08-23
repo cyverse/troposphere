@@ -1,18 +1,12 @@
 import React from 'react';
 import Backbone from 'backbone';
-import HeaderView from './header/HeaderView.react';
 import EditTagsView from './tags/EditTagsView.react';
-import ImageLaunchCard from './launch/ImageLaunchCard.react';
 import EditNameView from './name/EditNameView.react';
 import EditDescriptionView from './description/EditDescriptionView.react';
 import InteractiveDateField from 'components/common/InteractiveDateField.react';
 import CreatedView from './created/CreatedView.react';
-import EditRemovedView from './removed/EditRemovedView.react';
 import AuthorView from './author/AuthorView.react';
-import actions from 'actions';
 import globals from 'globals';
-import moment from 'moment';
-import momentTZ from 'moment-timezone';
 import stores from 'stores';
 
 export default React.createClass({
@@ -81,13 +75,8 @@ export default React.createClass({
 
     render: function () {
       var image = this.props.image,
-          providers = this.props.providers,
-          identities = this.props.identities,
           allTags = this.props.tags,
           imageTags = this.state.tags;
-
-      // Since providers requires authentication, we can't display which providers
-      // the image is available on on the public page
 
       return (
         <div>

@@ -2,7 +2,6 @@ import React from 'react';
 import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 import stores from 'stores';
 import moment from 'moment';
-import globals from 'globals';
 
 export default React.createClass({
     displayName: "VersionInformationModal",

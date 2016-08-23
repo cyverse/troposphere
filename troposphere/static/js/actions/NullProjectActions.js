@@ -1,5 +1,3 @@
-
-import AppDispatcher from 'dispatchers/AppDispatcher';
 import Backbone from 'backbone';
 import stores from 'stores';
 import NotificationController from 'controllers/NotificationController';
@@ -83,8 +81,7 @@ export default {
     // the new Atmosphere interface, or by switching back and forth between the old and new UI
     //
     moveAttachedVolumesIntoCorrectProject: function () {
-      var projects = stores.ProjectStore.getAll(),
-        instances = stores.InstanceStore.getAll(),
+      var instances = stores.InstanceStore.getAll(),
         volumes = stores.VolumeStore.getAll(),
         volumesInWrongProject = [];
 

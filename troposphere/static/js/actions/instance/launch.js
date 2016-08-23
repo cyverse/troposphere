@@ -5,7 +5,6 @@ import ProjectConstants from 'constants/ProjectConstants';
 import Instance from 'models/Instance';
 import Project from 'models/Project';
 import Router from 'Router';
-import actions from 'actions';
 import Utils from '../Utils';
 import ProjectInstance from 'models/ProjectInstance';
 import globals from 'globals';

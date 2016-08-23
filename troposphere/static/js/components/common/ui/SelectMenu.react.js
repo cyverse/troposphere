@@ -1,6 +1,5 @@
-import React from "react";
-import backbone from "backbone";
-import _ from "underscore";
+import React from 'react';
+import Backbone from 'backbone';
 
 /*
 Here is the interface of `SelectMenu`:
@@ -25,11 +24,11 @@ export default React.createClass({
         onSelect: React.PropTypes.func.isRequired,
         optionName: React.PropTypes.func.isRequired,
         list: React.PropTypes.oneOfType([
-            React.PropTypes.instanceOf(backbone.Collection),
+            React.PropTypes.instanceOf(Backbone.Collection),
             React.PropTypes.array
         ]),
         current: React.PropTypes.object,
-        placeholder: React.PropTypes.string,
+        placeholder: React.PropTypes.string
     },
 
     getInitialState() {
@@ -66,7 +65,7 @@ export default React.createClass({
         return {
             label,
             key: index,
-            value: index,
+            value: index
         }
     },
 

@@ -1,8 +1,4 @@
-
-import AppDispatcher from 'dispatchers/AppDispatcher';
 import UserConstants from 'constants/UserConstants';
-import User from 'models/User';
-import actions from 'actions';
 import Utils from './Utils';
 
 export default {

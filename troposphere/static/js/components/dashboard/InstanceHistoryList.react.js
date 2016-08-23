@@ -98,11 +98,9 @@ export default React.createClass({
       if(!instanceHistories || !instances || !providers) return <div className="loading"></div>;
 
       instanceHistoryItems = instanceHistories.map(function(instance) {
-        var providerId = null,
-            name = instance.get('instance').name,
+        var name = instance.get('instance').name,
             image = instance.get('image'),
-            provider = instance.get('provider'),
-            instanceId = instance.get('instance').id;
+            provider = instance.get('provider');
 
         var startDate = instance.get('instance').start_date,
             endDate = instance.get('instance').end_date,

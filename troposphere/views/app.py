@@ -92,7 +92,7 @@ def _populate_template_params(request, maintenance_records, notice_t,
         template_params['disable_login'] = disabled_login
     else:
         template_params['disable_login'] = False
-        template_params['show_instance_metrics'] = \
+        template_params['SHOW_INSTANCE_METRICS'] = \
             getattr(settings, "SHOW_INSTANCE_METRICS", False)
         # Only include Intercom information when rendering the authenticated
         # version of the site.

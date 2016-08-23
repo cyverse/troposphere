@@ -1,7 +1,6 @@
 import React from 'react';
 import Backbone from 'backbone';
 import EditTagsView from './ActualEditTagsView.react';
-import actions from 'actions';
 import modals from 'modals';
 import stores from 'stores';
 

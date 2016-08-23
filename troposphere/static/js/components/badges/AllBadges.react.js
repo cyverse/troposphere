@@ -1,7 +1,7 @@
-import React from "react";
-import Router from "react-router";
-import BadgeList from "./BadgeList.react";
-import stores from "stores";
+import React from 'react';
+import Router from 'react-router';
+import BadgeList from './BadgeList.react';
+import stores from 'stores';
 
 
 export default React.createClass({

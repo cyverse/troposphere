@@ -3,7 +3,6 @@ import Backbone from 'backbone';
 import globals from 'globals';
 import moment from 'moment';
 // implicit include within context for `.tz()`
-import momentTZ from 'moment-timezone';
 
 export default React.createClass({
     displayName: "RemovedView",

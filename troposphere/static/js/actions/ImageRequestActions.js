@@ -1,6 +1,4 @@
 import Utils from './Utils';
-import Router from '../Router';
-import stores from 'stores';
 import Constants from 'constants/ImageRequestConstants';
 
 export default {

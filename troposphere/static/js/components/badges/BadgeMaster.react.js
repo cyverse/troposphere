@@ -1,7 +1,7 @@
-import React from "react";
-import Router from "react-router";
-import stores from "stores";
-import context from "context";
+import React from 'react';
+import Router from 'react-router';
+import stores from 'stores';
+import context from 'context';
 
 
 export default React.createClass({

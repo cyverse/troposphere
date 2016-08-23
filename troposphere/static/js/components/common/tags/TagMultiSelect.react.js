@@ -29,7 +29,7 @@ export default React.createClass({
       }
     },
 
-    onEditChange: function(e) {
+    onEditChange: function() {
       var truth_value = (this.state.showCreateForm) ? false : true;
       this.setState({showCreateForm: truth_value});
     },

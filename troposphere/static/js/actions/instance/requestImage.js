@@ -32,7 +32,6 @@ export default {
           description = params.description,
           minMem = params.minMem,
           minCPU = params.minCPU,
-          providerId = params.providerId,
           identity = params.identity,
           software = params.software || "[no files specified]",
           filesToExclude = params.filesToExclude || "[no files specified]",
@@ -42,8 +41,6 @@ export default {
           versionChanges = params.versionChanges,
           systemFiles = params.systemFiles || "[no files specified]",
           visibility = params.visibility,
-          scripts = params.scripts,
-          licenses = params.licenses,
           imageUsers = params.imageUsers,
           userNames = imageUsers.map(function(user) {
             return user.get('username');
@@ -52,8 +49,9 @@ export default {
           tagNameList = tags.map(function(tag) {
             return tag.get('name');
           }),
-          tagNames = tagNameList.join(", "),
-          provider = stores.ProviderStore.get(providerId);
+          scripts = params.scripts,
+          licenses = params.licenses,
+          tagNames = tagNameList.join(", ");
 
       var requestData = {
         access_list: userNames,
@@ -68,7 +66,6 @@ export default {
         new_version_cpu_min: minCPU,
         new_application_visibility: visibility,
         new_machine_owner: newMachineOwner,
-        // new_machine_provider: providerId,
         new_version_allow_imaging: true,
         new_version_change_log: versionChanges,
         new_version_forked: fork,

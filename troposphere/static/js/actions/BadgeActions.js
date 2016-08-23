@@ -1,10 +1,9 @@
-import Utils from "./Utils";
-import $ from "jquery";
-import Router from "../Router";
-import stores from "stores";
-import globals from "globals";
-import Badge from "models/Badge";
-import BadgeConstants from "constants/BadgeConstants";
+import Utils from './Utils';
+import Router from 'react-router';
+import $ from 'jquery';
+import stores from 'stores';
+import globals from 'globals';
+import BadgeConstants from 'constants/BadgeConstants';
 import Badges from "Badges";
 import NotificationController from "controllers/NotificationController";
 
@@ -64,47 +63,39 @@ export default {
         NotificationController.clear();
     },
 
-    grant: function(params) {
-        try {
-            var badge = params.badge,
-                email = stores.ProfileStore.get().get("email"),
-                system = globals.BADGE_SYSTEM,
-                secret = globals.BADGE_SECRET,
-                csrftoken = this.getCookie("csrftoken"),
-                badgeSlug = badge.get("slug");
-        } catch (err) {
-            return;
+    grant: function(params){
+      try{
+        var badge = params.badge,
+          email = stores.ProfileStore.get().get('email'),
+          system = globals.BADGE_SYSTEM,
+          secret = globals.BADGE_SECRET,
+          // VERIFY: may need to be stay non-prefix because of Badges endpoints
+          csrftoken = this.getCookie('csrftoken'),
+          badgeSlug = badge.get('slug');
+      }
+      catch(err) {
+          return;
+      }
+      $.ajax({
+        url: globals.BADGE_HOST,
+        type: "POST",
+        dataType: 'json',
+        contentType: 'application/json',
+        headers: {'X-CSRFToken': csrftoken},
+        data: JSON.stringify({
+          email: email,
+          system: system,
+          badgeSlug: badgeSlug,
+          secret: secret
+        }),
+        success: function() {
+          NotificationController.info("You have earned a badge!");
+          Utils.dispatch(BadgeConstants.GRANT_BADGE, {badge: badge})
+        },
+        error: function(response){
+          console.log("failed", response);
         }
-        $.ajax({
-            url: globals.BADGE_HOST,
-            type: "POST",
-            dataType: "json",
-            contentType: "application/json",
-            headers: {
-                "X-CSRFToken": csrftoken
-            },
-            data: JSON.stringify({
-                email: email,
-                system: system,
-                badgeSlug: badgeSlug,
-                secret: secret
-            }),
-            success: function(response) {
-                badge.attributes.assertionUrl = response.instance.assertionUrl;
-                badge.attributes.issuedOn = response.instance.issuedOn;
-                NotificationController.success("You have earned a badge!", badge.get("name"), {
-                    timeOut: 5000,
-                    onclick: this.clearNotifications
-                });
-                Utils.dispatch(BadgeConstants.GRANT_BADGE, {
-                    badge: badge
-                })
-            }.bind(this),
-            error: function(response) {
-                console.log("failed", response);
-            }
-        });
-
+      });
     }
 
 

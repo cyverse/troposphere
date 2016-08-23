@@ -1,12 +1,8 @@
 import React from 'react';
 import Backbone from 'backbone';
-import Time from 'components/common/Time.react';
 import EditableInputField from 'components/common/EditableInputField.react';
 import EditableTextAreaField from 'components/common/EditableTextAreaField.react';
 import actions from 'actions';
-import stores from 'stores';
-import CryptoJS from 'crypto-js';
-import Gravatar from 'components/common/Gravatar.react';
 
 
 export default React.createClass({
@@ -72,12 +68,7 @@ export default React.createClass({
     },
 
     render: function () {
-      var link = this.props.link,
-        profile = stores.ProfileStore.get(),
-        type = profile.get('icon_set'),
-        instanceHash = CryptoJS.MD5((link.id || link.cid).toString()).toString(),
-        iconSize = 113,
-        nameContent, descriptionContent, linkContent;
+      var nameContent, descriptionContent, linkContent;
 
       if (this.state.isEditingDescription) {
         descriptionContent = (

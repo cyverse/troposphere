@@ -2,8 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Backbone from 'backbone';
 import $ from 'jquery';
-// plugin: required but not used directly
-import bootstrap from 'bootstrap';
 
 
 let maxDescriptionLength = 200;

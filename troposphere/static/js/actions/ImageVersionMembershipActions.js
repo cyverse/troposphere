@@ -1,4 +1,3 @@
-import AppDispatcher from 'dispatchers/AppDispatcher';
 import ImageVersionMembershipConstants from 'constants/ImageVersionMembershipConstants';
 import ImageVersionMembership from 'models/ImageVersionMembership';
 import Utils from './Utils';

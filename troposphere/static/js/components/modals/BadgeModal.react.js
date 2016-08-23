@@ -1,8 +1,5 @@
 import React from 'react';
 import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
-import stores from 'stores';
-import globals from 'globals';
-import BadgeActions from 'actions/BadgeActions';
 
 
 function getState() {

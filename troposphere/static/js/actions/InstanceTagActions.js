@@ -1,5 +1,3 @@
-
-import AppDispatcher from 'dispatchers/AppDispatcher';
 import InstanceTagConstants from 'constants/InstanceTagConstants';
 import InstanceTag from 'models/InstanceTag';
 import Utils from './Utils';

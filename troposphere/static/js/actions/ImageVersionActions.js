@@ -1,15 +1,8 @@
-import AppDispatcher from 'dispatchers/AppDispatcher';
 import Utils from './Utils';
 import NotificationController from 'controllers/NotificationController';
 
 // Constants
 import ImageVersionConstants from 'constants/ImageVersionConstants';
-
-// Models
-import ImageVersion from 'models/ImageVersion';
-
-// Modals
-import ModalHelpers from 'components/modals/ModalHelpers';
 
 export default {
 

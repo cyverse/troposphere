@@ -1,4 +1,3 @@
-import AppDispatcher from 'dispatchers/AppDispatcher';
 import ImageVersionScriptConstants from 'constants/ImageVersionScriptConstants';
 import ImageVersionScript from 'models/ImageVersionScript';
 import Utils from './Utils';

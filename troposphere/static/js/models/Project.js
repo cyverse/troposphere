@@ -1,4 +1,3 @@
-import _ from 'underscore';
 import Backbone from 'backbone';
 import Instance from 'models/Instance';
 import Volume from 'models/Volume';
