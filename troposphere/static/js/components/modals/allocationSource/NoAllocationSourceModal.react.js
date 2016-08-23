@@ -5,7 +5,7 @@ import _ from 'underscore';
 import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 import stores from 'stores';
 import globals from 'globals';
-import SelectMenu from 'components/common/ui/SelectMenu2.react';
+import SelectMenu from 'components/common/ui/SelectMenu.react';
 import EventActions from "actions/EventActions";
 import EventConstants from "constants/EventConstants";
 
