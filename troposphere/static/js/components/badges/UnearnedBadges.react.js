@@ -1,6 +1,5 @@
 import React from "react";
 import Router from "react-router";
-import stores from "stores";
 import BadgeList from "./BadgeList.react";
 import stores from "stores";
 
