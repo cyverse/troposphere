@@ -68,20 +68,21 @@ export default React.createClass({
     updateState: function () {
         let instance = this.props.instance;
         let parent_image_id = instance.get('image').id;
+
         let parentImage = this.state.parentImage;
-        let imageTags = this.state.imageTags;
         if (!parentImage) {
             parentImage = stores.ImageStore.get(parent_image_id);
-        } else {
+        } 
+
+        let imageTags = this.state.imageTags;
+        if (parentImage && !imageTags ) {
             imageTags = stores.TagStore.getImageTags(parentImage);
         }
 
-        if (imageTags) {
-            this.setState({
-                imageTags,
-                parentImage
-            });
-        }
+        this.setState({
+            imageTags,
+            parentImage
+        });
     },
 
     isValidName: function (value) {
