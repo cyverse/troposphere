@@ -9,7 +9,7 @@ export default React.createClass({
 
     getInitialState() {
         return {
-            refreshing: false,
+            refreshing: false
         }
     },
 

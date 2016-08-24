@@ -34,6 +34,8 @@ export default React.createClass({
 
             assertions.push(assertionUrl);
         });
+        // FIXME: cannot find the object definition for `OpenBadges`
+        //OpenBadges.issue(assertions);
     },
 
     render: function() {

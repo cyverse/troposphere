@@ -28,7 +28,7 @@ export default React.createClass({
             React.PropTypes.array
         ]),
         current: React.PropTypes.object,
-        placeholder: React.PropTypes.string,
+        placeholder: React.PropTypes.string
     },
 
     getInitialState() {
@@ -65,7 +65,7 @@ export default React.createClass({
         return {
             label,
             key: index,
-            value: index,
+            value: index
         }
     },
 

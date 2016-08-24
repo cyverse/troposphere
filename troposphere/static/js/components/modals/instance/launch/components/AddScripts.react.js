@@ -3,6 +3,14 @@ import SelectMenu from 'components/common/ui/SelectMenu.react';
 import ScriptTags from './ScriptTags.react';
 
 export default React.createClass({
+    displayName: "AddScripts",
+
+    propTypes: {
+        onAddAttachedScript: React.PropTypes.func,
+        onCreateScript: React.PropTypes.func,
+        onRemoveAttachedScript: React.PropTypes.func
+    },
+
     render: function() {
         return (
             <div>
@@ -17,7 +25,7 @@ export default React.createClass({
                             <SelectMenu
                                 current={ null }
                                 placeholder="Select scripts to add to your instance"
-                                optionName = { s => s.get('title')}
+                                optionName={ s => s.get('title') }
                                 list={this.props.bootScriptList}
                                 onSelect={this.props.onAddAttachedScript}
                             />

@@ -20,7 +20,7 @@ function errorHandler(response) {
 
     // This allows other recipients of the promise to see the error
     throw response;
-};
+}
 
 export default {
     close(params) {
@@ -41,7 +41,7 @@ export default {
         return Promise.resolve(
                 request.save({
                     admin_message: response,
-                    status: status.id,
+                    status: status.id
                 }, { patch: true }).promise())
             .then(() => {
                 Utils.dispatch(ResourceConstants.UPDATE, {model: request});
