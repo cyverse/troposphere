@@ -111,8 +111,10 @@ export default React.createClass({
     },
     setNameError: function (newName) {
       var invalid_characters = '!#$%^&*\"\',;/\\<>?{|}~';
-      if(! this.isValidName(newName) ) {
-          return "The name selected is using an invalid special character. Please remove these character(s) from your name: " + invalid_characters
+      if(newName == "") {
+          return null;
+      } else if(! this.isValidName(newName) ) {
+          return "The name selected is using an invalid special character. Please remove these character(s) from your name: " + invalid_characters;
       } else {
           return null;
       }

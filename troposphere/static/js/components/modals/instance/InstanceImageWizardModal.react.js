@@ -169,7 +169,7 @@ export default React.createClass({
         case IMAGE_INFO_STEP:
           return (
             <ImageInfoStep
-              name={this.state.name}
+              name={ (this.props.imageOwner === true ) ? this.state.name : "" }
               description={description}
               instance={instance}
               imageOwner={this.props.imageOwner}
