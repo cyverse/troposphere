@@ -1,5 +1,5 @@
-import React from 'react';
-import Backbone from 'backbone';
+import React from "react";
+import Backbone from "backbone";
 
 /*
 Here is the interface of `SelectMenu`:
