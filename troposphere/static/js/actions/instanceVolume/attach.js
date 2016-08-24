@@ -21,7 +21,6 @@ export default {
         helpLink = params.helpLink;
 
       var volumeState = new VolumeState({status_raw: "attaching"}),
-        originalState = volume.get('state'),
         actionRequest = new InstanceVolumeActionRequest({
           instance: instance,
           volume: volume

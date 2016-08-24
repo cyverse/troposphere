@@ -5,9 +5,6 @@ import Badges from 'Badges';
 import Utils from './Utils';
 import Constants from 'constants/ResourceRequestConstants';
 import actions from 'actions';
-import stores from 'stores';
-
-import { trackAction } from 'utilities/userActivity';
 
 export default {
     sendFeedback: function (feedback) {
@@ -37,7 +34,7 @@ export default {
         data: JSON.stringify(data),
         dataType: 'json',
         contentType: 'application/json',
-        success: function (data) {
+        success: function() {
           NotificationController.info("Thanks for your feedback!", "Support has been notified.");
         },
         error: function (response) {
@@ -64,8 +61,7 @@ export default {
         quota = params.quota,
         reason = params.reason,
         // if admin_url is undefined, the API will default to the django admin UI for ticket management
-        admin_url = window.location.origin + "/application/admin/resource-requests/",
-        username = user.get('username');
+        admin_url = window.location.origin + "/application/admin/resource-requests/";
 
       var data = {
         identity: identity,

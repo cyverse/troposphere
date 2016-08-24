@@ -2,7 +2,6 @@ import React from 'react';
 import Backbone from 'backbone';
 import Glyphicon from 'components/common/Glyphicon.react';
 import modals from 'modals';
-import actions from 'actions';
 
 export default React.createClass({
     displayName: "VolumeActionsAndLinks",
@@ -21,12 +20,11 @@ export default React.createClass({
     },
 
     onDelete: function () {
-      var project = this.props.project,
-        volume = this.props.volume;
+      let { project, volume } = this.props;
 
       modals.VolumeModals.destroy({
-        volume: this.props.volume,
-        project: this.props.project
+        volume,
+        project
       });
     },
 

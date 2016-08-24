@@ -1,22 +1,33 @@
 {
-    "rules": {
-        "linebreak-style": [
-            2,
-            "unix"
-        ],
-        "no-debugger": 2,
-        "no-mixed-spaces-and-tabs": 2,
+    "ecmaFeatures": {
+        "jsx": true
     },
     "env": {
-        "es6": true,
         "browser": true,
-        "commonjs": true
+        "commonjs": true,
+        "es6": true
     },
     "parser": "babel-eslint",
-    "ecmaFeatures": {
-        "jsx": true,
-    },
     "plugins": [
         "react"
-    ]
+    ],
+    "rules": {
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "no-constant-condition": "error",     // See LINT.md for docs on these
+        "no-debugger": "error",               // rules
+        "no-mixed-spaces-and-tabs": "error",
+        "no-undef": "error",
+        "no-unreachable": "error",
+        "no-unused-vars": [
+            "error",
+            {
+                "args": "none"
+            }
+        ],
+        "react/jsx-uses-react": "error",
+        "react/jsx-uses-vars": "error"
+    }
 }

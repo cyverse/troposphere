@@ -1,6 +1,5 @@
 import React from 'react';
 import Backbone from 'backbone';
-import ModalMixin from 'components/mixins/modal';
 import stores from 'stores';
 
 export default React.createClass({

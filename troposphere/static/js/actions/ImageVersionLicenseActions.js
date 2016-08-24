@@ -1,4 +1,3 @@
-import AppDispatcher from 'dispatchers/AppDispatcher';
 import ImageVersionLicenseConstants from 'constants/ImageVersionLicenseConstants';
 import ImageVersionLicense from 'models/ImageVersionLicense';
 import Utils from './Utils';

@@ -3,7 +3,6 @@ import Dispatcher from 'dispatchers/Dispatcher';
 import BaseStore from 'stores/BaseStore';
 import ResourceRequestCollection from 'collections/ResourceRequestCollection';
 import ResourceRequestConstants from 'constants/ResourceRequestConstants';
-import stores from 'stores';
 
 let ResourceRequestStore = BaseStore.extend({
     collection: ResourceRequestCollection

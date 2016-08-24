@@ -1,5 +1,3 @@
-import AppDispatcher from 'dispatchers/AppDispatcher';
-import ProjectConstants from 'constants/ProjectConstants';
 import ProjectImageConstants from 'constants/ProjectImageConstants';
 import ProjectImage from 'models/ProjectImage';
 import Utils from './Utils';

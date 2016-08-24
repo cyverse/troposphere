@@ -1,11 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from "jquery";
-import Backbone from 'backbone';
 import stores from 'stores';
 import actions from 'actions';
-// plugin: jquery extension, not used directly
-import bootstrap from 'bootstrap';
 
 
 function randomIntFromInterval(min, max) {

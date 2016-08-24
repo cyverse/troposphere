@@ -45,7 +45,6 @@ export default React.createClass({
       },
 
       isSubmittable: function () {
-        var hasIdentity = !!this.state.identity;
         var hasResources = !!this.state.resources;
         var hasReason = !!this.state.reason;
         return hasResources && hasReason;

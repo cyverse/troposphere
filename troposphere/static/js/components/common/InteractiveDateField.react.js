@@ -2,8 +2,6 @@ import React from 'react';
 import _ from 'underscore';
 import moment from 'moment';
 import globals from 'globals';
-// plugin: required but not used directly
-import bootstrap from 'bootstrap';
 
 
 export default React.createClass({

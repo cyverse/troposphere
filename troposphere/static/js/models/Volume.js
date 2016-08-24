@@ -64,8 +64,7 @@ export default Backbone.Model.extend({
       if (!options.name) throw new Error("Missing name");
       if (!options.size) throw new Error("Missing size");
 
-      var volumeId = this.get('uuid'),
-        providerId = this.get('provider').uuid,
+      var providerId = this.get('provider').uuid,
         identityId = this.get('identity').uuid,
         name = options.name,
         size = options.size;

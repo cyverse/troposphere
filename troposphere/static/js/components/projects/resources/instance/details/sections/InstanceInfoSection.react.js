@@ -2,10 +2,8 @@ import React from 'react';
 import Backbone from 'backbone';
 import Time from 'components/common/Time.react';
 import EditableInputField from 'components/common/EditableInputField.react';
-import ResourceTags from './ResourceTags.react';
 import actions from 'actions';
 import stores from 'stores';
-import modals from 'modals';
 import CryptoJS from 'crypto-js';
 import Gravatar from 'components/common/Gravatar.react';
 

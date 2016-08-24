@@ -220,8 +220,7 @@ export default React.createClass({
       },
 
       render: function () {
-        var project = this.props.project,
-            instances = this.state.instances,
+        var instances = this.state.instances,
             content;
 
         var activeInstances = instances && instances.filter(i => i.is_active());

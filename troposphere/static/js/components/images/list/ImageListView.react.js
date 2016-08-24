@@ -1,11 +1,9 @@
 import React from 'react';
 import Backbone from 'backbone';
 import stores from 'stores';
-import ImageCollection from 'collections/ImageCollection';
 import ImageCardList from './list/ImageCardList.react';
 import ImageCardGrid from './grid/ImageCardGrid.react';
 import ComponentHandleInputWithDelay from 'components/mixins/ComponentHandleInputWithDelay';
-import SecondaryImageNavigation from '../common/SecondaryImageNavigation.react';
 import Router from 'react-router';
 
 export default React.createClass({

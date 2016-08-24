@@ -1,7 +1,6 @@
 import React from 'react';
 import Router, { RouteHandler } from 'react-router';
 import RouterInstance from '../../Router';
-import ResourceRequest from './ResourceRequest.react';
 import stores from 'stores';
 
 export default React.createClass({

@@ -1,7 +1,6 @@
 import React from 'react';
 import Router from 'react-router';
 import ImageRequestActions from 'actions/ImageRequestActions';
-import actions from 'actions';
 import stores from 'stores';
 
 

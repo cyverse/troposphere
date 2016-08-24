@@ -9,6 +9,8 @@ function getState() {
 }
 
 export default React.createClass({
+      displayName: "MyBadgeModal",
+
       mixins: [BootstrapModalMixin],
 
       //
@@ -38,20 +40,10 @@ export default React.createClass({
       },
 
       render: function () {
-        var criteria = this.props.badge.get('criteria').map(function(item) {
-          return(
-            <p>{item.description} </p>
-          )
-        });
-
         var content = (
           <div>
             <img className="badge-modal-image" src={this.props.badge.get('imageUrl')} />
-            <span className="badge-modal-text">
-              <strong>Criteria: </strong>{criteria}
-              <p><strong>What does this mean{'?'}</strong></p>
-              <p>Text here about how to earn this badge in detail</p>
-            </span>
+            <p>{this.props.badge.get('strapline')}</p>
           </div>
         );
 

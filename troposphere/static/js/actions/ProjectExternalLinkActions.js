@@ -1,5 +1,3 @@
-import AppDispatcher from 'dispatchers/AppDispatcher';
-import ProjectConstants from 'constants/ProjectConstants';
 import ProjectExternalLinkConstants from 'constants/ProjectExternalLinkConstants';
 import ProjectExternalLink from 'models/ProjectExternalLink';
 import Utils from './Utils';

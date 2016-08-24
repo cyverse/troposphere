@@ -1,7 +1,4 @@
-
 import BaseStore from 'stores/BaseStore';
-import stores from 'stores';
-import globals from 'globals';
 import BadgeConstants from 'constants/BadgeConstants';
 import Dispatcher from 'dispatchers/Dispatcher';
 import MyBadgeCollection from 'collections/MyBadgeCollection';

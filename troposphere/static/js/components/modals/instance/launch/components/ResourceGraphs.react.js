@@ -1,6 +1,5 @@
 import React from 'react';
 import Backbone from 'backbone';
-import stores from 'stores';
 import ProgressBar from 'components/common/ui/ProgressBar.react';
 
 export default React.createClass({
@@ -55,7 +54,6 @@ export default React.createClass({
          percentOfGbWillUse,
 
         // Labels for bar graphs
-         auLabel = "loading...",
          cpuLabel = "loading...",
          gbLabel = "loading...";
 

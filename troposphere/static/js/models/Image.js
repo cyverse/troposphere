@@ -1,11 +1,7 @@
 import _ from 'underscore';
 import Backbone from 'backbone';
 import globals from 'globals';
-import stores from 'stores';
 import CryptoJS from 'crypto-js';
-import ImageVersionCollection from '../collections/ImageVersionCollection';
-import ProviderCollection from '../collections/ProviderCollection';
-import ProviderMachineCollection from '../collections/ProviderMachineCollection';
 import moment from 'moment';
 
 export default Backbone.Model.extend({

@@ -3,7 +3,6 @@ import Dispatcher from 'dispatchers/Dispatcher';
 import stores from 'stores';
 import BaseStore from 'stores/BaseStore';
 import ImageVersionConstants from 'constants/ImageVersionConstants';
-import NotificationController from 'controllers/NotificationController';
 
 let ImageVersionStore = BaseStore.extend({
     collection: ImageVersionCollection,
