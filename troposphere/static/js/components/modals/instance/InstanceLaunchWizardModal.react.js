@@ -101,7 +101,7 @@ export default React.createClass({
         let imageVersion = this.state.imageVersion;
         if (imageVersionList && !imageVersion) {
             imageVersionList = imageVersionList.cfilter(filterEndDate);
-            imageVersion = imageVersionList.last();
+            imageVersion = imageVersionList.first();
         }
 
         let providerList;
@@ -175,7 +175,7 @@ export default React.createClass({
         stores.ProjectStore.removeChangeListener(this.updateState);
         stores.ImageVersionStore.removeChangeListener(this.updateState);
         stores.ScriptStore.removeChangeListener(this.updateState);
-        
+
         if (globals.USE_ALLOCATION_SOURCES) {
             stores.AllocationSourceStore.removeChangeListener(this.updateState);
         }
