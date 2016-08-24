@@ -35,8 +35,6 @@ export default React.createClass({
     //
 
     getInitialState: function () {
-      stores.IdentityStore.getAll();
-      stores.TagStore.getAll();
       let instance = this.props.instance;
       return {
         step: 1,
@@ -63,12 +61,15 @@ export default React.createClass({
       };
     },
 
+    updateState: function () {
+        this.forceUpdate();
+    },
+
     componentDidMount: function () {
       stores.InstanceTagStore.addChangeListener(this.updateState);
       stores.UserStore.addChangeListener(this.updateState);
       stores.ScriptStore.addChangeListener(this.updateState);
       stores.LicenseStore.addChangeListener(this.updateState);
-      stores.TagStore.addChangeListener(this.updateState);
 
     },
 
@@ -77,7 +78,6 @@ export default React.createClass({
       stores.UserStore.removeChangeListener(this.updateState);
       stores.ScriptStore.removeChangeListener(this.updateState);
       stores.LicenseStore.removeChangeListener(this.updateState);
-      stores.TagStore.removeChangeListener(this.updateState);
 
     },
 

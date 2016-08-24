@@ -1,4 +1,3 @@
-
 import TagCollection from 'collections/TagCollection';
 import Dispatcher from 'dispatchers/Dispatcher';
 import BaseStore from 'stores/BaseStore';
@@ -16,8 +15,8 @@ let TagStore = BaseStore.extend({
 
     getImageTags: function(image) {
         if (!this.models) {
-            //throw new Error("Must fetch tags before calling getImageTags");
-            return null;
+            this.fetchModels();
+            return;
         }
 
         var imageTagArray = image.get('tags').map(function(tag) {
