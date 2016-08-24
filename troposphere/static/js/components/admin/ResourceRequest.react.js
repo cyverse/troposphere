@@ -1,14 +1,27 @@
-import React from 'react';
-import Router from 'react-router';
-import stores from 'stores';
-import Glyphicon from 'components/common/Glyphicon.react';
-import actions from 'actions';
-import ResourceActions from 'actions/ResourceActions';
+import React from "react";
+import Router, { RouteHandler } from "react-router";
+import stores from "stores";
+import Tooltip from "react-tooltip";
+import _ from "underscore";
 
-let RouteHandler = Router.RouteHandler;
+import RouterInstance from "../../Router";
+import ResourceActions from "actions/ResourceActions";
+import Quota from "models/Quota";
+import Allocation from "models/Allocation";
 
-let ResourceRequest = React.createClass({
-    mixins: [Router.State],
+
+export const ResourceRequestView = React.createClass({
+
+    propTypes: {
+        requestId: React.PropTypes.number.isRequired,
+        username: React.PropTypes.string.isRequired,
+        request: React.PropTypes.string.isRequired,
+        description: React.PropTypes.string.isRequired,
+        allocation: React.PropTypes.object.isRequired,
+        quota: React.PropTypes.object.isRequired,
+        onApprove: React.PropTypes.func.isRequired,
+        onDeny: React.PropTypes.func.isRequired,
+    },
 
     getInitialState: function(){
       return {
@@ -92,8 +105,10 @@ let ResourceRequest = React.createClass({
         return this.state.response && allocationExists && quotaExists
     },
 
-    handleDisplayChange: function() {
-      this.setState({displayAdmin: !this.state.displayAdmin});
+    onExpiresChange(expires) {
+        this.setState({
+            expires
+        });
     },
 
     handleResponseChange: function (event) {
@@ -159,10 +174,25 @@ let ResourceRequest = React.createClass({
         actions.AllocationActions.create({"threshold": this.state.AUSearch * 60, "delta": this.state.delta});
     },
 
-    onExpireChange: function() {
-      // If expire is currently true, we want it to be false. Set delta to -1 for non expiring AU, standard 525600 for expiring.
-      this.state.expire ? this.setState({delta: -1}) : this.setState({delta: 525600});
-      this.setState({expire: !this.state.expire});
+    style() {
+        return {
+            horizontalRule: {
+                margin: "10px 0px",
+            },
+            quotaDiv: {
+                width: "47.5%",
+                marginRight: "2.5%",
+                float: "left"
+            },
+            allocationDiv: {
+                width: "47.5%",
+                marginLeft: "2.5%",
+                float: "right"
+            },
+            responseArea: {
+                resize: "vertical"
+            }
+        }
     },
 
     renderAllocationStatus: function(){
@@ -180,15 +210,50 @@ let ResourceRequest = React.createClass({
         );
     },
 
-    renderQuotaStatus: function(){
-        if(stores.QuotaStore.findWhere(this.state.quotaSearch).length < 1){
-            return(
-                <div>
-                    <p>
-                    Quota does not exist. Click <a href="#" onClick={this.makeNewQuota}>here</a> to create it.
-                    </p>
-                </div>
-            );
+// This component is responsible for interfacing with our stores, and
+// fetching/aggregating data. It does the dirty work for the
+// ResourceRequestView.
+export default React.createClass({
+    mixins: [Router.State],
+
+    componentDidMount() {
+        stores.ResourceRequestStore.addChangeListener(this.updateState);
+        stores.StatusStore.addChangeListener(this.updateState);
+        stores.AllocationStore.addChangeListener(this.updateState);
+        stores.QuotaStore.addChangeListener(this.updateState);
+    },
+    componentWillUnmount() {
+        stores.ResourceRequestStore.removeChangeListener(this.updateState);
+        stores.StatusStore.removeChangeListener(this.updateState);
+        stores.AllocationStore.removeChangeListener(this.updateState);
+        stores.QuotaStore.removeChangeListener(this.updateState);
+    },
+
+    updateState() {
+        // If new models come along trigger a re-render
+        this.forceUpdate();
+    },
+
+    onApprove(view) {
+        let {
+            allocation, quota, statuses, request
+        } = this.fetch();
+
+        let response = view.response;
+        let allocExists = this.allocationCreatedForView(allocation, view);
+        let quotaExists = this.quotaCreatedForView(quota, view);
+
+        if (!quotaExists) {
+            quota = new Quota(_.pick(view, this.quotaFields));
+        }
+
+        if (!allocExists) {
+            let delta = view.expires ? 525600 : -1;
+            let threshold = view.threshold * 60;
+            allocation = new Allocation({
+                delta,
+                threshold
+            })
         }
         return(
             <div>

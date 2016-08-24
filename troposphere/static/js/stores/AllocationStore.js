@@ -3,7 +3,6 @@ import Dispatcher from 'dispatchers/Dispatcher';
 import AllocationConstants from 'constants/AllocationConstants';
 import AllocationCollection from 'collections/AllocationCollection';
 
-
 let AllocationStore = BaseStore.extend({
     collection: AllocationCollection
 });
