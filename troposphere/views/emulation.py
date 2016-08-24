@@ -44,8 +44,7 @@ def emulate(request, username):
             % settings.EMULATED_SESSION_COOKIE_AGE)
 
     r = requests.get(
-        os.path.join(settings.SERVER_URL,
-                     "api/v1/token_emulate/%s" % username),
+        os.path.join(settings.API_SERVER, "api/v1/token_emulate/%s" % username),
         verify=False,
         headers={'Authorization': 'Token %s' % old_token, 'Accept': 'application/json', 'Content-Type': 'application/json'})
     try:
