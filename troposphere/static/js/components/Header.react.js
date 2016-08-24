@@ -12,14 +12,13 @@ import { hasLoggedInUser } from "utilities/profilePredicate";
 
 let Link = Router.Link;
 
-let links = [
+const links = [
     {
         name: "Dashboard",
         linksTo: "dashboard",
         href: "/application/dashboard",
         icon: "stats",
         requiresLogin: true,
-        isEnabled: true
     },
     {
         name: "Projects",
@@ -218,26 +217,24 @@ let Header = React.createClass({
         }
     },
 
-    render: function() {
-        var profile = this.props.profile,
-            hasUser = hasLoggedInUser(profile);
+    renderNavLinks() {
+        let profile = this.props.profile;
+        let loggedIn = hasLoggedInUser(profile);
+        let navLinks = links;
 
-        var loginLogoutDropdown = (hasUser ?
-            <LogoutLink username={ profile.get("username") } /> :
-            <LoginLink/>);
-
-        if (!profile.get("selected_identity")) {
-            links = links.filter(function(link) {
+        if (!loggedIn) {
+            navLinks = navLinks.filter(function(link) {
                 return !link.requiresLogin;
-            })
-        } else {
-            links = links.filter(function(link) {
-                if (link.requiresStaff) return profile.get("is_staff");
-                return true;
             })
         }
 
-        var navLinks = links.map(function(link) {
+        if (!profile.get("is_staff")) {
+            navLinks = navLinks.filter(function(link) {
+                return !link.requiresStaff;
+            })
+        }
+
+        return navLinks.map((link) => {
             //We need to only trigger the toggle menu on small screen sizes to avoid buggy behavior when selecting menu items on larger screens
             var smScreen = (this.state.windowWidth < 768);
             var toggleMenu = smScreen ? {
@@ -256,9 +253,18 @@ let Header = React.createClass({
                 </Link>
             </li>
             );
-        }.bind(this));
+        });
+    },
 
-        var brandLink = (hasUser ?
+    render: function() {
+        var profile = this.props.profile,
+            loggedIn = hasLoggedInUser(profile);
+
+        var loginLogoutDropdown = (loggedIn ?
+            <LogoutLink username={ profile.get("username") } /> :
+            <LoginLink/>);
+
+        var brandLink = (loggedIn ?
             <Link to="dashboard" className="navbar-brand" /> :
             <Link to="images" className="navbar-brand" />);
 
@@ -280,12 +286,12 @@ let Header = React.createClass({
                 </div>
                 <div className="navbar-collapse collapse">
                     <ul className="nav navbar-nav">
-                        { navLinks }
+                        { this.renderNavLinks() }
                     </ul>
                     <ul className="nav navbar-nav navbar-right">
                         { loginLogoutDropdown }
                     </ul>
-                    { hasUser ? this.renderBetaToggle() : null }
+                    { loggedIn ? this.renderBetaToggle() : null }
                 </div>
             </div>
         </div>
