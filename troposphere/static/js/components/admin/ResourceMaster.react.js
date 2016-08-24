@@ -19,7 +19,6 @@ export default React.createClass({
 
     componentDidMount() {
         stores.ResourceRequestStore.addChangeListener(this.requestListener);
-        // FIXME: might be an *eager-fetch*, or might not be needed at all
         stores.ResourceRequestStore.findWhere({
             "status.name": "pending"
         });
