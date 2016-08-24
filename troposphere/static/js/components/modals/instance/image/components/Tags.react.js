@@ -89,16 +89,16 @@ export default React.createClass({
             if(this.state.showTagCreateForm){
                 tagCreateForm = (
                     <div className="form-group">
-                        <label for="tag-create" className="control-label">Create new tag</label>
+                        <label htmlFor="tag-create" className="control-label">Create new tag</label>
                         <form>
-                            Name:<br />
+                            {"Name:"}<br />
                             <input className="form-control" type="text" onChange={this.onNewTagNameChange} value={this.state.newTagName} /><br />
-                            Description:<br />
+                            {"Description:"}<br />
                             <textarea className="form-control" type="text" onChange={this.onNewTagDescriptionChange} value={this.state.newTagDescription} /><br />
                         </form>
                         <button disabled={!this.isSubmittable()} onClick={this.createTagAndAddToImage}
                             className="btn btn-primary btn-sm pull-right">
-                            Create and add
+                            {"Create and add"}
                         </button>
                     </div>
                 );
@@ -122,13 +122,12 @@ export default React.createClass({
 
           <div className="tagger_container">
             <div className="help-block">
-              Please include tags that will help users decide whether this image will suit their
-              needs. You can include the operating system, installed software, or configuration information. E.g.
-              Ubuntu,
-              NGS Viewers, MAKER, QIIME, etc.
+              {"Please include tags that will help users decide whether this image will suit their"}
+              {"needs. You can include the operating system, installed software, or configuration information. E.g."}
+              {"Ubuntu, NGS Viewers, MAKER, QIIME, etc."}
             </div>
             <div className="help-block">
-              For your convenience, we've automatically added the tags that were already on the instance.
+              {"For your convenience, we've automatically added the tags that were already on the instance."}
             </div>
             <TagMultiSelect
               models={filteredTags}
