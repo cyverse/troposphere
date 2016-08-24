@@ -19,7 +19,7 @@ export default React.createClass({
 
     componentDidMount() {
         stores.ResourceRequestStore.addChangeListener(this.requestListener);
-        let requests = stores.ResourceRequestStore.findWhere({
+        stores.ResourceRequestStore.findWhere({
             "status.name": "pending"
         });
     },

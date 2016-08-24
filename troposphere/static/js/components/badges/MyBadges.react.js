@@ -34,7 +34,6 @@ export default React.createClass({
 
             assertions.push(assertionUrl);
         });
-        OpenBadges.issue(assertions);
     },
 
     render: function() {

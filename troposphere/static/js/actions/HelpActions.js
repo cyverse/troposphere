@@ -56,8 +56,7 @@ export default {
       if (!params.quota) throw new Error("Missing quota");
       if (!params.reason) throw new Error("Missing reason");
 
-      var user = stores.ProfileStore.get(),
-        identity = params.identity,
+      var identity = params.identity,
         quota = params.quota,
         reason = params.reason,
         // if admin_url is undefined, the API will default to the django admin UI for ticket management

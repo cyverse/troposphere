@@ -4,7 +4,6 @@ import ScriptTags from './ScriptTags.react';
 
 export default React.createClass({
     render: function() {
-        let scriptName = function(item) { return item.get('title') };
         return (
             <div>
                 <p style={{marginBottom:"50px"}}>

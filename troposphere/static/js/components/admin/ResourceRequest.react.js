@@ -1,13 +1,10 @@
 import React from "react";
-import Backbone from "backbone";
 import Router, { RouteHandler } from "react-router";
 import stores from "stores";
-import actions from "actions";
 import Tooltip from "react-tooltip";
 import _ from "underscore";
 
 import RouterInstance from "../../Router";
-import Glyphicon from "components/common/Glyphicon.react";
 import ResourceActions from "actions/ResourceActions";
 import Quota from "models/Quota";
 import Allocation from "models/Allocation";

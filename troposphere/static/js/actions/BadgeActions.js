@@ -3,7 +3,6 @@ import $ from "jquery";
 import Router from "../Router";
 import stores from "stores";
 import globals from "globals";
-import Badge from "models/Badge";
 import BadgeConstants from "constants/BadgeConstants";
 import Badges from "Badges";
 import NotificationController from "controllers/NotificationController";
