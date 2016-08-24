@@ -1,5 +1,6 @@
 import React from 'react';
 import Router from 'react-router';
+import globals from 'globals';
 
 let Route = Router.Route,
     Redirect = Router.Redirect,
@@ -70,11 +71,14 @@ let AppRoutes = (
         <Route name="image-details" path=":imageId" handler={ImageDetailsPage}/>
       </Route>
 
-      <Route name="providers" handler={ProvidersMaster}>
-        <DefaultRoute handler={ProviderListSection} />
-        <Route name="provider" path=":id" handler={ProviderDetail}/>
-        <Route name="all-providers" path="/" handler={ProviderListSection} />
-      </Route>
+      {   /* Don't include route if globals.USE_ALLOCATION_SOURCES */
+          globals.USE_ALLOCATION_SOURCES ? null : (
+          <Route name="providers" handler={ProvidersMaster}>
+            <DefaultRoute handler={ProviderListSection} />
+            <Route name="provider" path=":id" handler={ProviderDetail}/>
+            <Route name="all-providers" path="/" handler={ProviderListSection} />
+          </Route>
+      ) } 
 
       <Route name="help" handler={HelpPage}/>
       <Route name="settings" handler={SettingsPage}/>

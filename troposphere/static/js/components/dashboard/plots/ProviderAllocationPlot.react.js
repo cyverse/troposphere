@@ -101,9 +101,9 @@ export default React.createClass({
         return (
             <div>
                 <h2 className="t-title">
-                    Provider Resources
+                    Provider Allocation
                 </h2>
-                <PercentageGraph
+                <PercentageGraph        
                     seriesData={ this.getChartData() }
                     categories={ ['Allocation'] }
                 />
