@@ -73,6 +73,11 @@ let links = [
     }
 ];
 
+// Don't show Providers link if globals.USE_ALLOCATION_SOURCES
+if ( globals.USE_ALLOCATION_SOURCES ) {
+    links = links.filter( link => link.name !== "Providers");
+};
+
 let LoginLink = React.createClass({
     render: function () {
       let redirect_path = window.location.pathname+"?beta=true";
