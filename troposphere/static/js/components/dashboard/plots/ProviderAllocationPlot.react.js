@@ -103,7 +103,7 @@ export default React.createClass({
                 <h2 className="t-title">
                     Provider Allocation
                 </h2>
-                <PercentageGraph        
+                <PercentageGraph
                     seriesData={ this.getChartData() }
                     categories={ ['Allocation'] }
                 />
