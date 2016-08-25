@@ -15,44 +15,66 @@ export default React.createClass({
     propTypes: {
       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
       imageOwner: React.PropTypes.bool.isRequired,
-      name: React.PropTypes.string.isRequired,
-      description: React.PropTypes.string.isRequired,
-      newImage: React.PropTypes.bool.isRequired,
       helpLink: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-      imageTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
     },
 
-    getDefaultProps: function () {
-      return {
-        name: "",
-        description: "",
-        imageOwner: false,
-        newImage: true,
-      };
+    componentDidMount: function () {
+      stores.ImageStore.addChangeListener(this.updateState);
+      stores.TagStore.addChangeListener(this.updateState);
+      this.updateState();
+    },
+
+    componentWillUnmount: function () {
+      stores.ImageStore.removeChangeListener(this.updateState);
+      stores.TagStore.removeChangeListener(this.updateState);
     },
 
     getInitialState: function () {
-      return {
-        name: this.props.name,
-        nameError: this.setNameError(this.props.name),
-        description: this.props.description,
-        newImage: this.props.newImage,
-        imageTags: this.props.imageTags,
-      }
+        let instance = this.props.instance;
+        let defaultName = "";
+        let defaultDescription = "";
+        if (this.props.imageOwner) {
+            defaultName = instance.get('image').name;
+            defaultDescription = instance.get('image').description;
+        }
+
+        return {
+            name: defaultName,
+            nameError: this.setNameError(defaultName),
+            description: defaultDescription,
+            newImage: true,
+            imageTags: null,
+        }
     },
-    isValidName: function (value) {
-      var pattern = new RegExp("^[^!\"#$%&'*,/;<>?\\\\`{|}~^]+$")  //Invalid characters.
-      if (! pattern.test(value)) {
-          return false;
-      }
-      return true; // Valid input
+
+    updateState: function () {
+        let instance = this.props.instance;
+        let parent_image_id = instance.get('image').id;
+        let parentImage = stores.ImageStore.get(parent_image_id);
+
+        let imageTags = this.state.imageTags;
+        if (parentImage && !imageTags) {
+            imageTags = stores.TagStore.getImageTags(parentImage);
+        }
+
+        this.setState({
+            imageTags
+        });
+    },
+
+    isValidName: function (input) {
+      var invalid = /[!"'#$%&*,;<>?\/\\`{|}~^]/;
+
+      // Return if input does /NOT/ have an invalid character
+      return !invalid.test(input);
     },
     isSubmittable: function () {
       var testName = $.trim(this.state.name);
       var hasName = !!(testName);
       var validName = this.isValidName(testName);
       var hasDescription = !!($.trim(this.state.description));
-      return hasName && hasDescription && validName;
+      var notNullTags = this.state.imageTags != null;
+      return hasName && hasDescription && validName && notNullTags;
     },
 
     onNext: function () {
@@ -65,10 +87,9 @@ export default React.createClass({
     },
     setNameError: function (newName) {
       var invalid_characters = '!#$%^&*\"\',;/\\<>?{|}~';
-      if(! this.isValidName(newName) ) {
-          return "The name selected is using an invalid special character. Please remove these character(s) from your name: " + invalid_characters
-      } else {
-          return null;
+      if(!this.isValidName(newName)) {
+          return "The name selected is using an invalid special character. " +
+              "Please remove these character(s) from your name: " + invalid_characters;
       }
     },
     onNameChange: function (newName) {
@@ -106,16 +127,12 @@ export default React.createClass({
       })
     },
     renderCreateUpdateFlag: function () {
-      if (this.props.imageOwner) {
         return (
           <CreateUpdateFlag
             value={this.state.newImage}
             onChange={this.onCreateUpdateChange}
             />
         );
-      } else {
-
-      }
     },
     renderBody: function (instance) {
       return (
@@ -141,7 +158,11 @@ export default React.createClass({
           <p>
             {"Fields marked with * are required."}
           </p>
-          {this.renderCreateUpdateFlag()}
+          {
+            this.props.imageOwner
+            ? this.renderCreateUpdateFlag()
+            : ""
+          }
           <Name
             create={this.state.newImage}
             value={this.state.name}
