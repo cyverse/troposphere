@@ -127,16 +127,12 @@ export default React.createClass({
       })
     },
     renderCreateUpdateFlag: function () {
-      if (this.props.imageOwner) {
         return (
           <CreateUpdateFlag
             value={this.state.newImage}
             onChange={this.onCreateUpdateChange}
             />
         );
-      } else {
-
-      }
     },
     renderBody: function (instance) {
       return (
@@ -162,7 +158,11 @@ export default React.createClass({
           <p>
             {"Fields marked with * are required."}
           </p>
-          {this.renderCreateUpdateFlag()}
+          {
+            this.props.imageOwner
+            ? this.renderCreateUpdateFlag()
+            : ""
+          }
           <Name
             create={this.state.newImage}
             value={this.state.name}
