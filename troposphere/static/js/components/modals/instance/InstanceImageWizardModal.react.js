@@ -45,6 +45,8 @@ export default React.createClass({
         visibility: "public",
         minCPU: "0",
         minMem: "0",
+        identity: null,
+        imageTags: new Backbone.Collection(),
         imageUsers: new Backbone.Collection(),
         activeScripts: new Backbone.Collection(),
         activeLicenses: new Backbone.Collection(),
@@ -62,10 +64,16 @@ export default React.createClass({
     },
 
     updateState: function () {
-        this.forceUpdate();
+      let identities = stores.IdentityStore.getAll();
+      if (identities) {
+        this.setState({
+          identity: identities.first()
+        });
+      }
     },
 
     componentDidMount: function () {
+      stores.IdentityStore.addChangeListener(this.updateState);
       stores.InstanceTagStore.addChangeListener(this.updateState);
       stores.UserStore.addChangeListener(this.updateState);
       stores.ScriptStore.addChangeListener(this.updateState);
@@ -74,6 +82,7 @@ export default React.createClass({
     },
 
     componentWillUnmount: function () {
+      stores.IdentityStore.removeChangeListener(this.updateState);
       stores.InstanceTagStore.removeChangeListener(this.updateState);
       stores.UserStore.removeChangeListener(this.updateState);
       stores.ScriptStore.removeChangeListener(this.updateState);
@@ -112,6 +121,7 @@ export default React.createClass({
         minMem: this.state.minMem,
         minCPU: this.state.minCPU,
         tags: this.state.imageTags,
+        identity: this.state.identity,
         versionName: this.state.versionName,
         versionChanges: this.state.versionChanges,
         visibility: this.state.visibility,
