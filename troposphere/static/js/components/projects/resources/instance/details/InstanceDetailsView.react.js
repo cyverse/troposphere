@@ -29,10 +29,10 @@ export default React.createClass({
             { instance, allocationSource }
         );
         Utils.dispatch(
-	    EventConstants.ALLOCATION_SOURCE_CHANGE,
+            EventConstants.ALLOCATION_SOURCE_CHANGE,
             { instance, allocationSource }
         );
-	//stores.InstanceStore.update(instance);
+        //stores.InstanceStore.update(instance);
     },
 
     renderAllocationSourceSection() {
