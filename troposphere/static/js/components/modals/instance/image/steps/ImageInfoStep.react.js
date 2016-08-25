@@ -21,6 +21,7 @@ export default React.createClass({
     componentDidMount: function () {
       stores.ImageStore.addChangeListener(this.updateState);
       stores.TagStore.addChangeListener(this.updateState);
+      this.updateState();
     },
 
     componentWillUnmount: function () {
