@@ -15,17 +15,7 @@ export default React.createClass({
     propTypes: {
       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
       imageOwner: React.PropTypes.bool.isRequired,
-      newImage: React.PropTypes.bool.isRequired,
       helpLink: React.PropTypes.instanceOf(Backbone.Model).isRequired,
-    },
-
-    getDefaultProps: function () {
-      return {
-        imageOwner: false,
-        newImage: true,
-        parentImage: null,
-        imageTags: null,
-      };
     },
 
     componentDidMount: function () {
@@ -40,16 +30,6 @@ export default React.createClass({
 
     getInitialState: function () {
         let instance = this.props.instance;
-        let parentImage = this.props.parentImage;
-        if (!parentImage) {
-            parentImage = stores.ImageStore.get(instance.get('image').id);
-        }
-
-        let imageTags = this.props.imageTags;
-        if (parentImage) {
-            imageTags = stores.TagStore.getImageTags(parentImage);
-        }
-
         let defaultName = "";
         let defaultDescription = "";
         if (this.props.imageOwner) {
@@ -61,29 +41,23 @@ export default React.createClass({
             name: defaultName,
             nameError: this.setNameError(defaultName),
             description: defaultDescription,
-            newImage: this.props.newImage,
-            imageTags,
-            parentImage,
+            newImage: true,
+            imageTags: null,
         }
     },
 
     updateState: function () {
         let instance = this.props.instance;
         let parent_image_id = instance.get('image').id;
-
-        let parentImage = this.state.parentImage;
-        if (!parentImage) {
-            parentImage = stores.ImageStore.get(parent_image_id);
-        } 
+        let parentImage = stores.ImageStore.get(parent_image_id);
 
         let imageTags = this.state.imageTags;
-        if (parentImage && !imageTags ) {
+        if (parentImage && !imageTags) {
             imageTags = stores.TagStore.getImageTags(parentImage);
         }
 
         this.setState({
-            imageTags,
-            parentImage
+            imageTags
         });
     },
 
