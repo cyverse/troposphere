@@ -87,12 +87,11 @@ export default React.createClass({
         });
     },
 
-    isValidName: function (value) {
-      var pattern = new RegExp("^[^!\"#$%&'*,/;<>?\\\\`{|}~^]+$")  //Invalid characters.
-      if (! pattern.test(value)) {
-          return false;
-      }
-      return true; // Valid input
+    isValidName: function (input) {
+      var invalid = /[!"'#$%&*,;<>?\/\\`{|}~^]/;
+
+      // Return if input does /NOT/ have an invalid character
+      return !invalid.test(input);
     },
     isSubmittable: function () {
       var testName = $.trim(this.state.name);
@@ -113,12 +112,9 @@ export default React.createClass({
     },
     setNameError: function (newName) {
       var invalid_characters = '!#$%^&*\"\',;/\\<>?{|}~';
-      if(newName == "") {
-          return null;
-      } else if(! this.isValidName(newName) ) {
-          return "The name selected is using an invalid special character. Please remove these character(s) from your name: " + invalid_characters;
-      } else {
-          return null;
+      if(!this.isValidName(newName)) {
+          return "The name selected is using an invalid special character. " +
+              "Please remove these character(s) from your name: " + invalid_characters;
       }
     },
     onNameChange: function (newName) {
