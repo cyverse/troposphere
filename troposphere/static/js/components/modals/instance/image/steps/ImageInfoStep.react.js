@@ -15,16 +15,12 @@ export default React.createClass({
     propTypes: {
       instance: React.PropTypes.instanceOf(Backbone.Model).isRequired,
       imageOwner: React.PropTypes.bool.isRequired,
-      name: React.PropTypes.string.isRequired,
-      description: React.PropTypes.string.isRequired,
       newImage: React.PropTypes.bool.isRequired,
       helpLink: React.PropTypes.instanceOf(Backbone.Model).isRequired,
     },
 
     getDefaultProps: function () {
       return {
-        name: "",
-        description: "",
         imageOwner: false,
         newImage: true,
         parentImage: null,
@@ -44,24 +40,31 @@ export default React.createClass({
 
     getInitialState: function () {
         let instance = this.props.instance;
-        let parent_image_id = instance.get('image').id;
         let parentImage = this.props.parentImage;
-        let imageTags = this.props.imageTags;
         if (!parentImage) {
-            parentImage = stores.ImageStore.get(parent_image_id);
+            parentImage = stores.ImageStore.get(instance.get('image').id);
         }
+
+        let imageTags = this.props.imageTags;
         if (parentImage) {
             imageTags = stores.TagStore.getImageTags(parentImage);
         }
 
-      return {
-        name: this.props.name,
-        nameError: this.setNameError(this.props.name),
-        description: this.props.description,
-        newImage: this.props.newImage,
-        imageTags,
-        parentImage,
-      }
+        let defaultName = "";
+        let defaultDescription = "";
+        if (this.props.imageOwner) {
+            defaultName = instance.get('image').name;
+            defaultDescription = instance.get('image').description;
+        }
+
+        return {
+            name: defaultName,
+            nameError: this.setNameError(defaultName),
+            description: defaultDescription,
+            newImage: this.props.newImage,
+            imageTags,
+            parentImage,
+        }
     },
 
     updateState: function () {

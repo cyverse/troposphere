@@ -35,11 +35,11 @@ export default React.createClass({
     //
 
     getInitialState: function () {
-      let instance = this.props.instance;
       return {
         step: 1,
         title: "Image Info", // Identical to first breadcrumb name
-        name: this.props.instance.get('image').name,
+        name: "",
+        description: "",
         versionName: this.props.versionName || "1.0",
         versionChanges: "",
         visibility: "public",
@@ -173,14 +173,10 @@ export default React.createClass({
           helpLink = stores.HelpLinkStore.get('request-image'),
           activeScripts = this.state.activeScripts;
 
-      let description = instance.get('image').description;
-
       switch(step) {
         case IMAGE_INFO_STEP:
           return (
             <ImageInfoStep
-              name={ (this.props.imageOwner === true ) ? this.state.name : "" }
-              description={description}
               instance={instance}
               imageOwner={this.props.imageOwner}
               onPrevious={this.onPrevious}
