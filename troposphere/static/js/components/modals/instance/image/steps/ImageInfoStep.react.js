@@ -167,25 +167,6 @@ export default React.createClass({
 
       }
     },
-
-    renderTags: function () {
-      let render_tags,
-          imageTags = this.state.imageTags;
-      if (imageTags == null) {
-          render_tags =  (<div className="loading"/>);
-      } else {
-          render_tags = (
-            <Tags
-              onTagAdded={this.onTagAdded}
-              onTagRemoved={this.onTagRemoved}
-              onTagCreated={this.onTagCreated}
-              imageTags={this.state.imageTags}
-              />
-          );
-      }
-      return render_tags;
-    },
-
     renderBody: function (instance) {
       return (
         <div>
@@ -223,7 +204,12 @@ export default React.createClass({
             onChange={this.onDescriptionChange}
           />
           <hr />
-          {this.renderTags()}
+          <Tags
+            onTagAdded={this.onTagAdded}
+            onTagRemoved={this.onTagRemoved}
+            onTagCreated={this.onTagCreated}
+            imageTags={this.state.imageTags}
+            />
         </div>
       );
     },
