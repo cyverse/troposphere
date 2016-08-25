@@ -42,7 +42,7 @@ export default React.createClass({
         image: React.PropTypes.instanceOf(Backbone.Model),
         project: React.PropTypes.instanceOf(Backbone.Model),
         onConfirm: React.PropTypes.func.isRequired,
-        initialView: React.PropTypes.string.isRequired,
+        initialView: React.PropTypes.string.isRequired
     },
 
     getInitialState: function() {
@@ -111,7 +111,7 @@ export default React.createClass({
 
         let provider = this.state.provider;
         if (providerList) {
-            provider = provider || providerList.first();
+            provider = provider || providerList.shuffle()[0];
         }
 
         let resourcesUsed, identityProvider, providerSizeList;
