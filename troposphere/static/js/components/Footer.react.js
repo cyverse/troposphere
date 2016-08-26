@@ -35,7 +35,7 @@ export default React.createClass({
       return (
         <footer className="footer">
           <div className="container">
-            <a href="www.jetstream-cloud.org" target="_blank">
+            <a href="http://www.jetstream-cloud.org" target="_blank">
                   {"\u00a9" + year + " " + this.props.text}
             </a>
             {feedbackButton}
