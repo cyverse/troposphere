@@ -101,7 +101,7 @@ export default React.createClass({
         let imageVersion = this.state.imageVersion;
         if (imageVersionList && !imageVersion) {
             imageVersionList = imageVersionList.cfilter(filterEndDate);
-            imageVersion = imageVersionList.first();
+            imageVersion = imageVersionList.last();
         }
 
         let providerList;
