@@ -176,8 +176,8 @@ let Header = React.createClass({
             };
 
             NotificationController.warning(
-                notice['title'],
-                notice['message'],
+                "Maintenance Information",
+                notice,
                 options
             );
         }
