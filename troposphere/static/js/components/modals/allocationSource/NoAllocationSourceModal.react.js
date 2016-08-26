@@ -131,11 +131,31 @@ const DefaultModalView = React.createClass({
         return renderedProjects;
     },
 
+    renderNullProjectInstances() {
+        let orphans = this.props.instances,
+            renderedNullProject = [];
+
+        let noProjects = orphans.filter(
+            currInst => !!(currInst.get("projects"))
+        );
+
+        if (noProjects.length > 0) {
+            let pseudoProject = new Backbone.Model({
+                name: "<no current projects>"
+            });
+            renderedNullProject.push(
+                this.renderProject(pseudoProject, noProjects));
+        }
+
+        return renderedNullProject;
+    },
+
     renderBody() {
         let { projects, instances, allocationSources } = this.props;
 
         // Render each project that needs updated instances
         let renderedProjects = projects.reduce(this.renderProjectList, []);
+        let renderedNullProject = this.renderNullProjectInstances();
 
         return (
             <div role='form'>
@@ -149,6 +169,7 @@ const DefaultModalView = React.createClass({
                 </p>
                 <hr className="hr" />
                 { renderedProjects }
+                { renderedNullProject }
             </div>
         );
     },
