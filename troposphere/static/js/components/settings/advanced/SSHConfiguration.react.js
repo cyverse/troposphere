@@ -111,6 +111,11 @@ export default React.createClass({
                             </tr>
                         </tbody>
                     </table>
+                <p id="helpBlock" className="help-block">
+                    * Keys removed or added will not have immediate effect.
+                    The changes will take effect on the next resume or deploy
+                    of an instance.
+                </p>
                 </div>
             </div>
         );
