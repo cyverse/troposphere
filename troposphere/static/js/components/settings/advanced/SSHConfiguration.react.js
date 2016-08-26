@@ -112,6 +112,9 @@ export default React.createClass({
                         </tbody>
                     </table>
                 </div>
+                <div>
+                    To apply these settings to an existing instance, nagivate to it, click the Redeploy button, and wait until instance shows "Active" status. Settings apply automatically to newly launched instances.
+                </div>
             </div>
         );
     }
