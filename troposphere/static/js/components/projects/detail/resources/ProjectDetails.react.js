@@ -174,7 +174,6 @@ export default React.createClass({
                 selectedResources={selectedResources}
                 />
             </div>
-            <PreviewPanel resource={previewedResource}/>
           </div>
         </div>
       );
