@@ -28,6 +28,8 @@ export default React.createClass({
             EventConstants.ALLOCATION_SOURCE_CHANGE,
             { instance, allocationSource }
         );
+        // force update the associated allocation source prior to update
+        instance.set({allocation_source: allocationSource});
         Utils.dispatch(
             EventConstants.ALLOCATION_SOURCE_CHANGE,
             { instance, allocationSource }

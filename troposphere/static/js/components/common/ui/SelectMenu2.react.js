@@ -13,6 +13,7 @@ export default React.createClass({
             React.PropTypes.array
         ]),
         current: React.PropTypes.object,
+        findIndex: React.PropTypes.func
     },
 
     onSelect(e) {
@@ -56,7 +57,12 @@ export default React.createClass({
             list = list.toArray();
         }
 
-        let value = list.indexOf(current);
+        let value;
+        if (this.props.findIndex) {
+            value = list.findIndex(this.props.findIndex);
+        } else {
+            value = list.indexOf(current);
+        }
 
         if (value == -1) {
             console.warn(
