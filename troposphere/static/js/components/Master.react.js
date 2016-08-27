@@ -74,6 +74,9 @@ export default React.createClass({
 
                 if (missing.length > 0) {
                     noAllocationSource.showModal(missing, resolve);
+                } else {
+                    // give the other promises a shot at handling things
+                    resolve();
                 }
             } else {
                 // Continue on to the next promise
