@@ -89,13 +89,13 @@ export default React.createClass({
             () => new Promise((resolve, reject) => {
                 modernizrTest.unsupported()
                 ? modals.UnsupportedModal.showModal(resolve)
-                : resolve()
+                : resolve();
             })
 
         ).then(() => {
             !nullProject.isEmpty()
             ? actions.NullProjectActions.migrateResourcesIntoProject(nullProject)
-            : actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject()
+            : actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
         })
     },
 
