@@ -6,6 +6,7 @@ import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 import stores from 'stores';
 import globals from 'globals';
 import SelectMenu from 'components/common/ui/SelectMenu2.react';
+import Utils from "actions/Utils";
 import EventActions from "actions/EventActions";
 import EventConstants from "constants/EventConstants";
 
@@ -281,7 +282,12 @@ const ModalBackend = React.createClass({
             EventActions.fire(
                 EventConstants.ALLOCATION_SOURCE_CHANGE,
                 { instance, allocationSource }
-            )
+            );
+            instance.set({allocation_source: allocationSource});
+            Utils.dispatch(
+                EventConstants.ALLOCATION_SOURCE_CHANGE,
+                { instance, allocationSource }
+            );
         })
 
         this.hide();
