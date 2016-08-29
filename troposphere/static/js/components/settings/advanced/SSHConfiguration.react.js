@@ -113,7 +113,7 @@ export default React.createClass({
                     </table>
                 </div>
                 <div>
-                    To apply these settings to an existing instance, nagivate to it, click the Redeploy button, and wait until instance shows "Active" status. Settings apply automatically to newly launched instances.
+                    These keys are automatically added to instances that you launch in the future. To apply new keys to an existing instance, you must navigate to it, click the Redeploy button, and wait until instance shows "Active" status.
                 </div>
             </div>
         );
