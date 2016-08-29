@@ -11,7 +11,7 @@ import AllocationSourcePlot from './plots/AllocationSourcePlot.react';
 import ProviderAllocationPlot from './plots/ProviderAllocationPlot.react';
 import ProviderSummaryLinePlot from './plots/ProviderSummaryLinePlot.react';
 import CallToAction from './CallToAction.react';
-
+import { trackAction } from '../../utilities/userActivity';
 
 // images
 let launch_instance = globals.THEME_URL + "/images/icon_launchnewinstance.png",
@@ -22,8 +22,9 @@ export default React.createClass({
     displayName: "DashboardPage",
 
     renderRequestMoreResources: function(e){
-        e.preventDefault();
-        modals.HelpModals.requestMoreResources();
+      e.preventDefault();
+      modals.HelpModals.requestMoreResources();
+      trackAction('made-resource-request', {element: 'from-dashboard'});
     },
 
     getState: function() {

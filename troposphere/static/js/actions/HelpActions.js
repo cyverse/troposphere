@@ -39,7 +39,6 @@ export default {
         contentType: 'application/json',
         success: function (data) {
           NotificationController.info("Thanks for your feedback!", "Support has been notified.");
-          trackAction('sent-feedback');
         },
         error: function (response) {
           var errorMessage,

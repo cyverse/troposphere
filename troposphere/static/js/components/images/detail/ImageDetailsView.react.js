@@ -7,6 +7,7 @@ import ViewImageDetails from './ViewImageDetails.react';
 import EditImageDetails from './EditImageDetails.react';
 import VersionsView from './versions/VersionsView.react';
 import modals from 'modals';
+import { trackAction } from '../../../utilities/userActivity';
 
 export default React.createClass({
       displayName: "ImageDetailsView",
@@ -26,6 +27,7 @@ export default React.createClass({
 
       showLaunchModal: function (e) {
         modals.InstanceModals.launch({ image: this.props.image, initialView: "BASIC_VIEW" });
+        trackAction("launched-from-image-detail", {});
       },
 
       handleEditImageDetails: function () {
