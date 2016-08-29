@@ -37,7 +37,6 @@ export default React.createClass({
 
     render() {
         let project = stores.ProjectStore.get(Number(this.getParams().projectId));
-        let instanceId = Number(this.getParams().instanceId);
         let instance = stores.InstanceStore.get(Number(this.getParams().instanceId));
         let helpLinks = stores.HelpLinkStore.getAll();
         let allocationSources = stores.AllocationSourceStore.getAll();

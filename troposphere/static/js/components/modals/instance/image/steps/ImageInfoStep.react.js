@@ -6,6 +6,7 @@ import CreateUpdateFlag from '../components/CreateUpdateFlag.react';
 import Description from '../components/Description.react';
 import Tags from '../components/Tags.react';
 import actions from 'actions';
+import stores from 'stores';
 
 
 export default React.createClass({

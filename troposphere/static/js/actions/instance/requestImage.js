@@ -1,6 +1,4 @@
-
 import globals from 'globals';
-import stores from 'stores';
 import $ from 'jquery';
 import Utils from '../Utils';
 

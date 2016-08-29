@@ -1,11 +1,9 @@
 import React from 'react';
-import Backbone from 'backbone';
 
 import globals from 'globals';
 import modals from 'modals';
 import stores from 'stores';
 import InstanceHistoryList from './InstanceHistoryList.react';
-import MaintenanceMessageList from './MaintenanceMessageList.react';
 import ResourceStatusSummaryPlot from './plots/ResourceStatusSummaryPlot.react';
 import AllocationSourcePlot from './plots/AllocationSourcePlot.react';
 import ProviderAllocationPlot from './plots/ProviderAllocationPlot.react';
