@@ -142,7 +142,7 @@ const DefaultModalView = React.createClass({
 
         if (noProjects.length > 0) {
             let pseudoProject = new Backbone.Model({
-                name: "... pending project assignment"
+                name: "<None>"
             });
             renderedNullProject.push(
                 this.renderProject(pseudoProject, noProjects));
