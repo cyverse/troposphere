@@ -19,9 +19,9 @@ export default React.createClass({
       return {
         tags: null,
         query: "",
-                newTagName: "",
-                newTagDescription: "",
-                showTagCreateForm: false
+        newTagName: "",
+        newTagDescription: "",
+        showTagCreateForm: false
       }
     },
 
@@ -39,7 +39,6 @@ export default React.createClass({
             tags: stores.TagStore.getAll(),
         });
     },
-
 
     createTagAndAddToImage: function() {
         var newTag = actions.TagActions.create({
@@ -73,76 +72,99 @@ export default React.createClass({
         });
     },
 
-    filterTags: function (image_tags) {
-        image_tags = image_tags.filter(function (tag) {
-              return tag.get('allow_access') === true;
-        });
-        image_tags = new Backbone.Collection(image_tags);
-        return image_tags;
+    allowAccessFilter(tag) {
+        return tag.get('allow_access');
     },
+
+    renderTagSelect() {
+        let imageTags = this.props.imageTags;
+        let tags = this.state.tags;
+        let query = this.state.query;
+
+        let filteredImageTags = imageTags.cfilter(this.allowAccessFilter);
+        let filteredTags = tags.cfilter(this.allowAccessFilter);
+
+        // Further filter down by a query
+        if (query) {
+            filteredTags = filteredTags.cfilter(tag => {
+                let name = tag.get('name').toLowerCase();
+                return name.indexOf(query) >= 0;
+            });
+        }
+
+        return (
+        <TagMultiSelect models={ filteredTags }
+            activeModels={ filteredImageTags }
+            onCreateNewTag={ this.onCreateNewTag }
+            onModelAdded={ this.props.onTagAdded }
+            onModelRemoved={ this.props.onTagRemoved }
+            onModelCreated={ this.props.onTagCreated }
+            onQueryChange={ this.onQueryChange }
+            width={ "100%" }
+            placeholderText="Search by tag name..." />
+        );
+    },
+
+    renderTagCreateForm() {
+        return (
+        <div className="form-group">
+            <label htmlFor="tag-create" className="control-label">
+                Create new tag
+            </label>
+            <form>
+                <span>
+                    Name:
+                </span>
+                <input className="form-control"
+                    type="text"
+                    onChange={ this.onNewTagNameChange }
+                    value={ this.state.newTagName } />
+                <br />
+                <span>
+                    Description:
+                </span>
+                <textarea className="form-control"
+                    type="text"
+                    onChange={ this.onNewTagDescriptionChange }
+                    value={ this.state.newTagDescription } />
+            </form>
+            <button disabled={!this.isSubmittable()} onClick={this.createTagAndAddToImage}
+                className="btn btn-primary btn-sm pull-right">
+                Create and add
+            </button>
+        </div>
+        );
+    },
+
     render: function () {
-      var imageTags = this.props.imageTags,
-        tags = this.state.tags,
-        query = this.state.query,
-                tagCreateForm = null;
+      let imageTags = this.props.imageTags;
+      let tags = this.state.tags;
 
-            if(this.state.showTagCreateForm){
-                tagCreateForm = (
-                    <div className="form-group">
-                        <label htmlFor="tag-create" className="control-label">Create new tag</label>
-                        <form>
-                            {"Name:"}<br />
-                            <input className="form-control" type="text" onChange={this.onNewTagNameChange} value={this.state.newTagName} /><br />
-                            {"Description:"}<br />
-                            <textarea className="form-control" type="text" onChange={this.onNewTagDescriptionChange} value={this.state.newTagDescription} /><br />
-                        </form>
-                        <button disabled={!this.isSubmittable()} onClick={this.createTagAndAddToImage}
-                            className="btn btn-primary btn-sm pull-right">
-                            {"Create and add"}
-                        </button>
-                    </div>
-                );
-            }
-
-      if (!imageTags) return <div className="loading"/>;
-
-      if (!tags) return <div className="loading"/>;
-      let filteredImageTags = this.filterTags(imageTags);
-      let filteredTags = this.filterTags(tags);
-      if (query) {
-        filteredTags = filteredTags.filter(function (tag) {
-          return tag.get('name').toLowerCase().indexOf(query) >= 0;
-        });
-        filteredTags = new Backbone.Collection(filteredTags);
-      }
+      if (!(imageTags && tags))
+          return <div className="loading"/>;
 
       return (
         <div className="form-group" style={{marginBottom:"30px"}}>
           <label htmlFor="tags" className="control-label">Image Tags</label>
-
           <div className="tagger_container">
             <div className="help-block">
-              {"Please include tags that will help users decide whether this image will suit their"}
-              {"needs. You can include the operating system, installed software, or configuration information. E.g."}
-              {"Ubuntu, NGS Viewers, MAKER, QIIME, etc."}
+                Please include tags that will help users decide whether this
+                image will suit their needs. You can include the operating
+                system, installed software, or configuration information.
+                E.g. Ubuntu, NGS Viewers, MAKER, QIIME, etc.
             </div>
             <div className="help-block">
-              {"For your convenience, we've automatically added the tags that were already on the instance."}
+                For your convenience, we've automatically added the tags that
+                were already on the instance.
             </div>
-            <TagMultiSelect
-              models={filteredTags}
-              activeModels={filteredImageTags}
-              onCreateNewTag={this.onCreateNewTag}
-              onModelAdded={this.props.onTagAdded}
-              onModelRemoved={this.props.onTagRemoved}
-              onModelCreated={this.props.onTagCreated}
-              onQueryChange={this.onQueryChange}
-              width={"100%"}
-              placeholderText="Search by tag name..."
-              />
-            {tagCreateForm}
+            { this.renderTagSelect() }
+            {
+              this.state.showTagCreateForm
+              ? this.renderTagCreateForm()
+              : null
+            }
           </div>
         </div>
       );
     }
-});
+})
