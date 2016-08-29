@@ -326,6 +326,7 @@ def forbidden(request):
     template_params['ORG_NAME'] = settings.ORG_NAME
     template_params['SITE_TITLE'] = settings.SITE_TITLE
     template_params['SITE_FOOTER'] = settings.SITE_FOOTER
+    template_params['SUPPORT_EMAIL'] = settings.SUPPORT_EMAIL
     template_params['USER_PORTAL_LINK'] = metadata.user_portal_link
     template_params['USER_PORTAL_LINK_TEXT'] = metadata.user_portal_link_text
     template_params['ACCOUNT_INSTRUCTIONS_LINK'] = \
