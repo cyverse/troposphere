@@ -323,6 +323,14 @@ const ModalBackend = React.createClass({
             ? <LoadingModalView />
             : <DefaultModalView { ...props } />
 
+        if (allocationSources && allocationSources.length == 0) {
+            // we've entered an edge case, they have a valid
+            // account - but that account does not appear to
+            // have any allocationSources - redirect to a
+            // a templated error view/page
+            window.location = '/allocations';
+        }
+
         return (
         <div className="modal fade">
             <div className="modal-dialog">
