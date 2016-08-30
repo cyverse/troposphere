@@ -32,7 +32,7 @@ export default Backbone.Collection.extend({
         return results;
     },
 
-    sync: true 
+    sync: globals.USE_MOCK_DATA 
           ? mockSync(api)
           : Backbone.sync
 });
