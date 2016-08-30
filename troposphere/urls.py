@@ -31,6 +31,7 @@ ui_urlpatterns = [
         name='cas_oauth_service'),
     url(r'^tests$', views.tests),
     url(r'^tropo-api/', include('api.urls')),
+    url(r'^allocations/', views.allocations, name='allocations'),
     url(r'^web_shell$', views.web_shell),
     url(r'^web_desktop$', views.web_desktop)
 ]
