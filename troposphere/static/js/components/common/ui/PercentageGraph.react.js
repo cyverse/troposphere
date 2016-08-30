@@ -53,7 +53,7 @@ export default React.createClass({
         if (seriesData.length === 0) {
           return;
         }
-        var height = (categories.length * (seriesData.length * 40)) + 85;
+        var height = (categories.length * (seriesData.length * 50)) + 100;
 
         var plotLines = [],
             plotBands = [];
@@ -118,7 +118,7 @@ export default React.createClass({
                 formatter: function (tooltip) {
                     var limits = this.series.options.limits;
                     var currentLimit = limits[this.x];
-                    var currentUsage = Math.round(currentLimit * this.y / 100);
+                    var currentUsage = currentLimit * this.y / 100;
                     var appendMessages = this.series.options.appendMessages;
                     var appendMessage = appendMessages[this.x];
 
