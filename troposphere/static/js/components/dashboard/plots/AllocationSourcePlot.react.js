@@ -36,7 +36,6 @@ export default React.createClass({
 
     seriesData: function(item) {
         let percentage = item.get('compute_used') / item.get('compute_allowed') * 100;
-        debugger;
         return {
             name: item.get('name'),
             data: [percentage],
