@@ -6,6 +6,7 @@
     "jsx": {
         "alignWithFirstAttribute": false,
         "attrsOnSameLineAsTag": false,
+        "spaceInJSXExpressionContainers": "",
         "firstAttributeOnSameLine": true,
         "formatJSX": true,
         "htmlOptions": {
