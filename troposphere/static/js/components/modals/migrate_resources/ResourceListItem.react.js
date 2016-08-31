@@ -1,36 +1,38 @@
-import React from 'react';
-import Backbone from 'backbone';
-import Instance from 'models/Instance';
-import Volume from 'models/Volume';
+import React from "react";
+import Backbone from "backbone";
+import Instance from "models/Instance";
+import Volume from "models/Volume";
 
 export default React.createClass({
-      displayName: "ResourceListItem",
+    displayName: "ResourceListItem",
 
-      propTypes: {
+    propTypes: {
         resource: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    },
 
-      render: function () {
+    render: function() {
         var resource = this.props.resource;
 
         if (resource instanceof Instance) {
-          return (
+            return (
             <li>
-              <strong>{"Instance: "}</strong>
-              {resource.get('name')}
+                <strong>{"Instance: "}</strong>
+                {resource.get("name")}
             </li>
-          )
+            )
         } else if (resource instanceof Volume) {
-          return (
+            return (
             <li>
-              <strong>{"Volume: "}</strong>
-              {resource.get('name')}
+                <strong>{"Volume: "}</strong>
+                {resource.get("name")}
             </li>
-          )
+            )
         } else {
-          return (
-            <li>{resource.get('name')}</li>
-          )
+            return (
+            <li>
+                {resource.get("name")}
+            </li>
+            )
         }
-      }
+    }
 });

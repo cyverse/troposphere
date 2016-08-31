@@ -1,8 +1,8 @@
-import React from 'react';
-import ModalHelpers from 'components/modals/ModalHelpers';
-import SSHKeyUpload from 'components/modals/SSHKeyUpload.react';
-import actions from 'actions';
-import stores from 'stores';
+import React from "react";
+import ModalHelpers from "components/modals/ModalHelpers";
+import SSHKeyUpload from "components/modals/SSHKeyUpload.react";
+import actions from "actions";
+import stores from "stores";
 
 export default React.createClass({
 
@@ -11,7 +11,7 @@ export default React.createClass({
         return {
             profile: profile,
             ssh_keys: stores.SSHKeyStore.getAll(),
-            use_ssh_keys: profile.get('settings')['use_ssh_keys'],
+            use_ssh_keys: profile.get("settings")["use_ssh_keys"],
         };
     },
 
@@ -68,15 +68,17 @@ export default React.createClass({
 
     renderSSHKeyRow: function(sshKey) {
         return (
-            <tr key={ sshKey.get( 'id') }>
-                <td>{ sshKey.get('name') }</td>
-                <td style={{ wordWrap: "break-word", whiteSpace: "normal" }}>{ sshKey.get('pub_key').replace(/\n/g, " ") }</td>
-                <td>
-                    <a onClick={ this.destroySSHKey.bind(this, sshKey) }>
-                        <i style={{ color: "crimson"}} className="glyphicon glyphicon-trash" />
-                    </a>
-                </td>
-            </tr>
+        <tr key={sshKey.get("id")}>
+            <td>
+                {sshKey.get("name")}
+            </td>
+            <td style={{ wordWrap: "break-word", whiteSpace: "normal" }}>
+                {sshKey.get("pub_key").replace(/\n/g, " ")}
+            </td>
+            <td>
+                <a onClick={this.destroySSHKey.bind(this, sshKey)}><i style={{ color: "crimson" }} className="glyphicon glyphicon-trash" /></a>
+            </td>
+        </tr>
         );
     },
 
@@ -86,33 +88,35 @@ export default React.createClass({
         var use_ssh_keys = this.state.use_ssh_keys;
 
         return (
+        <div>
+            <h3>SSH Configuration</h3>
             <div>
-                <h3>SSH Configuration</h3>
-                <div>
-                    <input type="checkbox" checked={use_ssh_keys} onChange={this.handleChangeSSHPreference}/> &nbsp;&nbsp;Enable ssh access into launched instances.
-                </div>
-                <div>
-                    <table className="clearfix table" style={{ tableLayout: "fixed" }}>
-                        <thead>
-                            <tr>
-                                <th style={{ width: "100px"}}>name</th>
-                                <th>public key</th>
-                                <th style={{ width: "30px"}}></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            { ssh_keys ? ssh_keys.map(this.renderSSHKeyRow) : [] }
-                            <tr>
-                                <td>
-                                    <a onClick={ this.launchSSHKeyUploadModal.bind(this, profile.get( 'user')) }>
-                                        <i className="glyphicon glyphicon-plus" />
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <input type="checkbox" checked={use_ssh_keys} onChange={this.handleChangeSSHPreference} />   Enable ssh access into launched instances.
             </div>
+            <div>
+                <table className="clearfix table" style={{ tableLayout: "fixed" }}>
+                    <thead>
+                        <tr>
+                            <th style={{ width: "100px" }}>
+                                name
+                            </th>
+                            <th>
+                                public key
+                            </th>
+                            <th style={{ width: "30px" }}></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {ssh_keys ? ssh_keys.map(this.renderSSHKeyRow) : []}
+                        <tr>
+                            <td>
+                                <a onClick={this.launchSSHKeyUploadModal.bind(this, profile.get("user"))}><i className="glyphicon glyphicon-plus" /></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         );
     }
 

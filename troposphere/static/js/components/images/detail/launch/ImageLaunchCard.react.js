@@ -1,10 +1,10 @@
-import React from 'react';
-import Gravatar from 'components/common/Gravatar.react';
-import Backbone from 'backbone';
-import Bookmark from 'components/images/common/Bookmark.react';
-import context from 'context';
-import moment from 'moment';
-import stores from 'stores';
+import React from "react";
+import Gravatar from "components/common/Gravatar.react";
+import Backbone from "backbone";
+import Bookmark from "components/images/common/Bookmark.react";
+import context from "context";
+import moment from "moment";
+import stores from "stores";
 
 
 // Note:
@@ -19,62 +19,60 @@ import stores from 'stores';
 // this is a stop-gap, but not a full fix
 //
 // FIXME: use React-Router Link objects or external link + push state
-let buildImageUrl = function (model) {
-    return '/application/images/' + model.id;
+let buildImageUrl = function(model) {
+    return "/application/images/" + model.id;
 }
 
-let buildLoginUrl = function () {
-    return '/login'
+let buildLoginUrl = function() {
+    return "/login"
 }
 
 
 export default React.createClass({
-      displayName: "ImageLaunchCard",
+    displayName: "ImageLaunchCard",
 
-      propTypes: {
+    propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         onLaunch: React.PropTypes.func.isRequired
-      },
+    },
 
-      render: function () {
+    render: function() {
         var image = this.props.image;
         var versions = stores.ImageStore.getVersions(image.id);
-        var type = stores.ProfileStore.get().get('icon_set');
+        var type = stores.ProfileStore.get().get("icon_set");
         var loggedInUser = context.hasLoggedInUser();
 
         var iconSize = 145;
         // always use the Gravatar icons
         var icon = (
-            <Gravatar hash={image.get('uuid_hash')} size={iconSize} type={type}/>
-          );
+        <Gravatar hash={image.get("uuid_hash")} size={iconSize} type={type} />
+        );
 
         // Hide bookmarking on the public page
         var bookmark;
         if (loggedInUser) {
-          bookmark = (
-            <Bookmark image={image}/>
-          );
+            bookmark = (
+                <Bookmark image={image} />
+            );
         }
         if (versions) {
-          var now = moment();
-          var version_arr = versions.filter(function(ver) {
-              var end_date = ver.get('end_date');
+            var now = moment();
+            var version_arr = versions.filter(function(ver) {
+                var end_date = ver.get("end_date");
 
-              return end_date == null || end_date.isAfter(now);
-          });
-          versions = new Backbone.Collection(version_arr);
+                return end_date == null || end_date.isAfter(now);
+            });
+            versions = new Backbone.Collection(version_arr);
         }
         //When versions is 'not loaded' OR 'has length > 0', you can launch.
         var canLaunch = (versions !== null && versions.length !== 0) ? true : false;
         var button;
         if (loggedInUser) {
-          button = (
-            <button className='btn btn-primary launch-button'
-                onClick={this.props.onLaunch}
-                disabled={!canLaunch}>
-              Launch
-            </button>
-          );
+            button = (
+                <button className="btn btn-primary launch-button" onClick={this.props.onLaunch} disabled={!canLaunch}>
+                    Launch
+                </button>
+            );
         } else {
             // Move this to using a more React-Router friendly approach
             var loginUrl = buildLoginUrl(),
@@ -82,23 +80,21 @@ export default React.createClass({
                 fullUrl = loginUrl + "?redirect_to=" + imageUrl +
                     "?beta=true";
 
-          button = (
-            <a className='btn btn-primary launch-button' href={fullUrl}>
-              Login to Launch
-            </a>
-          );
+            button = (
+                <a className="btn btn-primary launch-button" href={fullUrl}>Login to Launch</a>
+            );
         }
 
         return (
-          <div className='image-launch-card'>
-            <div className='icon-container'>
-              <a>
-                {icon}
-              </a>
+        <div className="image-launch-card">
+            <div className="icon-container">
+                <a>
+                    {icon}
+                </a>
             </div>
             {button}
             {bookmark}
-          </div>
+        </div>
         );
-      }
+    }
 });

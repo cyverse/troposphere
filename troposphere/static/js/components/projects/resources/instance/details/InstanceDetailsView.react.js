@@ -25,13 +25,21 @@ export default React.createClass({
         let instance = this.props.instance;
         EventActions.fire(
             EventConstants.ALLOCATION_SOURCE_CHANGE,
-            { instance, allocationSource }
+            {
+                instance,
+                allocationSource
+            }
         );
         // force update the associated allocation source prior to update
-        instance.set({allocation_source: allocationSource});
+        instance.set({
+            allocation_source: allocationSource
+        });
         Utils.dispatch(
             EventConstants.ALLOCATION_SOURCE_CHANGE,
-            { instance, allocationSource }
+            {
+                instance,
+                allocationSource
+            }
         );
     },
 
@@ -46,7 +54,7 @@ export default React.createClass({
     },
 
     render() {
-        let { instance, project }  = this.props;
+        let { instance, project } = this.props;
 
         var breadcrumbs = [
             {
@@ -68,23 +76,19 @@ export default React.createClass({
 
         return (
         <div>
-            <BreadcrumbBar breadcrumbs={breadcrumbs}/>
+            <BreadcrumbBar breadcrumbs={breadcrumbs} />
             <div className="row resource-details-content">
                 <div className="col-md-9">
-                    <InstanceInfoSection instance={instance}/>
+                    <InstanceInfoSection instance={instance} />
                     <hr/>
-                    {
-                        globals.USE_ALLOCATION_SOURCES
-                        ? this.renderAllocationSourceSection()
-                        : null
-                    }
+                    {globals.USE_ALLOCATION_SOURCES
+                     ? this.renderAllocationSourceSection()
+                     : null}
                     <InstanceDetailsSection instance={instance} />
                     <hr/>
-                    {
-                        globals.SHOW_INSTANCE_METRICS
-                        ? <InstanceMetricsSection instance={instance} />
-                        : ""
-                    }
+                    {globals.SHOW_INSTANCE_METRICS
+                     ? <InstanceMetricsSection instance={instance} />
+                     : ""}
                 </div>
                 <div className="col-md-3">
                     <InstanceActionsAndLinks project={project} instance={instance} />

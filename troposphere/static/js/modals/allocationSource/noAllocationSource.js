@@ -1,12 +1,12 @@
-import ModalHelpers from 'components/modals/ModalHelpers';
-import NoAllocationSourceModal from 'components/modals/allocationSource/NoAllocationSourceModal.react';
+import ModalHelpers from "components/modals/ModalHelpers";
+import NoAllocationSourceModal from "components/modals/allocationSource/NoAllocationSourceModal.react";
 
 export default {
-    showModal: function (instances, callback) {
+    showModal: function(instances, callback) {
         ModalHelpers.renderModal(
             NoAllocationSourceModal,
             {
-                backdrop: 'static',
+                backdrop: "static",
                 instances
             },
             callback

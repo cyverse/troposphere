@@ -1,14 +1,14 @@
-import React from 'react';
-import Backbone from 'backbone';
-import stores from 'stores';
-import ImageCardList from './list/ImageCardList.react';
-import ImageCardGrid from './grid/ImageCardGrid.react';
-import ComponentHandleInputWithDelay from 'components/mixins/ComponentHandleInputWithDelay';
-import Router from 'react-router';
+import React from "react";
+import Backbone from "backbone";
+import stores from "stores";
+import ImageCardList from "./list/ImageCardList.react";
+import ImageCardGrid from "./grid/ImageCardGrid.react";
+import ComponentHandleInputWithDelay from "components/mixins/ComponentHandleInputWithDelay";
+import Router from "react-router";
 
 export default React.createClass({
 
-    displayName: 'ImageListView',
+    displayName: "ImageListView",
 
     mixins: [Router.State, ComponentHandleInputWithDelay],
 
@@ -22,7 +22,7 @@ export default React.createClass({
             images: null,
             isLoadingMoreResults: false,
             nextUrl: null,
-            viewType: 'list'
+            viewType: "list"
         }
     },
 
@@ -107,13 +107,13 @@ export default React.createClass({
     },
 
     onChangeViewType: function() {
-        if (this.state.viewType === 'list') {
+        if (this.state.viewType === "list") {
             this.setState({
-                viewType: 'grid'
+                viewType: "grid"
             });
         } else {
             this.setState({
-                viewType: 'list'
+                viewType: "list"
             });
         }
     },
@@ -124,7 +124,7 @@ export default React.createClass({
 
     renderFeaturedImages: function() {
         var images = stores.ImageStore.fetchWhere({
-                tags__name: 'Featured'
+                tags__name: "Featured"
             }),
             tags = this.props.tags;
 
@@ -132,19 +132,19 @@ export default React.createClass({
         if (!images || !tags || this.state.query)
             return;
 
-        if (this.state.viewType === 'list') {
+        if (this.state.viewType === "list") {
             return (
             <ImageCardList key="featured"
-                           title="Featured Images"
-                           images={ images }
-                           tags={ tags } />
+                title="Featured Images"
+                images={images}
+                tags={tags} />
             );
         } else {
             return (
             <ImageCardGrid key="featured"
-                           title="Featured Images"
-                           images={ images }
-                           tags={ tags } />
+                title="Featured Images"
+                images={images}
+                tags={tags} />
             );
         }
     },
@@ -153,19 +153,19 @@ export default React.createClass({
         var tags = this.props.tags;
 
         if (images && tags) {
-            if (this.state.viewType === 'list') {
+            if (this.state.viewType === "list") {
                 return (
                 <ImageCardList key="all"
-                               title="All Images"
-                               images={ images }
-                               tags={ tags } />
+                    title="All Images"
+                    images={images}
+                    tags={tags} />
                 );
             } else {
                 return (
                 <ImageCardGrid key="all"
-                               title="All Images"
-                               images={ images }
-                               tags={ tags } />
+                    title="All Images"
+                    images={images}
+                    tags={tags} />
                 );
             }
         }
@@ -178,13 +178,13 @@ export default React.createClass({
     renderLoadMoreButton: function(images) {
         if (this.state.isLoadingMoreResults) {
             return (
-            <div style={ { 'margin': 'auto', 'display': 'block' } } className="loading" />
+            <div style={{ "margin": "auto", "display": "block" }} className="loading" />
             )
         }
 
         if (images.meta && images.meta.next) {
             return (
-            <button style={ { 'margin': 'auto', 'display': 'block' } } className="btn btn-default" onClick={ this.onLoadMoreImages }>
+            <button style={{ "margin": "auto", "display": "block" }} className="btn btn-default" onClick={this.onLoadMoreImages}>
                 Show more images...
             </button>
             )
@@ -192,28 +192,28 @@ export default React.createClass({
     },
 
     renderListButton: function() {
-        var classValues = 'btn btn-default';
+        var classValues = "btn btn-default";
 
-        if (this.state.viewType === 'list') {
-            classValues += ' active';
+        if (this.state.viewType === "list") {
+            classValues += " active";
         }
 
         return (
-        <button type="button" className={ classValues } onClick={ this.onChangeViewType }>
+        <button type="button" className={classValues} onClick={this.onChangeViewType}>
             <span className="glyphicon glyphicon-align-justify"></span> List
         </button>
         );
     },
 
     renderGridButton: function() {
-        var classValues = 'btn btn-default';
+        var classValues = "btn btn-default";
 
-        if (this.state.viewType === 'grid') {
-            classValues += ' active';
+        if (this.state.viewType === "grid") {
+            classValues += " active";
         }
 
         return (
-        <button type="button" className={ classValues } onClick={ this.onChangeViewType }>
+        <button type="button" className={classValues} onClick={this.onChangeViewType}>
             <span className="glyphicon glyphicon-th"></span> Grid
         </button>
         );
@@ -221,7 +221,7 @@ export default React.createClass({
 
     renderBody: function() {
         var query = this.state.query.trim(),
-            title = '';
+            title = "";
 
         let images;
         if (query) {
@@ -237,25 +237,25 @@ export default React.createClass({
         }
 
         if (!images.meta || !images.meta.count) {
-            title = 'Showing ' + images.length + ' images';
+            title = "Showing " + images.length + " images";
         } else {
-            title = 'Showing ' + images.length + ' of ' + images.meta.count + ' images';
+            title = "Showing " + images.length + " of " + images.meta.count + " images";
         }
         if (query)
-            title += ' for \'' + query + '\'';
+            title += " for '" + query + "'";
 
         return (
         <div>
             <div className="display-toggles clearfix">
-                <h3>{ title }</h3>
+                <h3>{title}</h3>
                 <div className="btn-group pull-right hidden-xs hiddin-sm">
-                    { this.renderListButton() }
-                    { this.renderGridButton() }
+                    {this.renderListButton()}
+                    {this.renderGridButton()}
                 </div>
             </div>
-            { this.renderFeaturedImages() }
-            { this.renderImages(images) }
-            { this.renderLoadMoreButton(images) }
+            {this.renderFeaturedImages()}
+            {this.renderImages(images)}
+            {this.renderLoadMoreButton(images)}
         </div>
         );
     },
@@ -263,16 +263,16 @@ export default React.createClass({
     render: function() {
         return (
         <div className="container image-card-view">
-            <div id='search-container'>
-                <input type='text'
-                       className='form-control search-input'
-                       placeholder='Search across image name, tag or description'
-                       onChange={ this.onSearchChange }
-                       value={ this.state.query }
-                       ref="textField" />
+            <div id="search-container">
+                <input type="text"
+                    className="form-control search-input"
+                    placeholder="Search across image name, tag or description"
+                    onChange={this.onSearchChange}
+                    value={this.state.query}
+                    ref="textField" />
                 <hr/>
             </div>
-            { this.renderBody() }
+            {this.renderBody()}
         </div>
         );
     }

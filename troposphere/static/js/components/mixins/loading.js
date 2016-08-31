@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React from "react";
 
 /*
  * The loading mixin can be used for components that require some
@@ -13,37 +13,50 @@ import React from 'react';
  */
 
 export default {
-      getInitialState: function () {
-        return {_loading: true, model: null};
-      },
+    getInitialState: function() {
+        return {
+            _loading: true,
+            model: null
+        };
+    },
 
-      componentWillReceiveProps: function (nextProps) {
+    componentWillReceiveProps: function(nextProps) {
         this.setState(this.getInitialState(), this._getModel);
-      },
+    },
 
-      _getModel: function () {
-        this.model().done(function (data) {
-            this.setState({model: data, _loading: false});
-          }.bind(this),
-          function (msg) {
-            console.error(msg);
-            this.setState({_loading: false, _error: msg});
-          }.bind(this));
-      },
+    _getModel: function() {
+        this.model().done(function(data) {
+            this.setState({
+                model: data,
+                _loading: false
+            });
+        }.bind(this),
+            function(msg) {
+                console.error(msg);
+                this.setState({
+                    _loading: false,
+                    _error: msg
+                });
+            }.bind(this));
+    },
 
-      componentDidMount: function () {
+    componentDidMount: function() {
         this._getModel();
-      },
+    },
 
-      render: function () {
+    render: function() {
         if (this.state.model)
-          return this.renderContent();
+            return this.renderContent();
         else if (this.state._loading === false) {
-          if (typeof(this.renderError) === 'function')
-            return this.renderError();
-          return React.DOM.div({className: 'alert alert-danger'}, "An unexpected error occured.");
+            if (typeof (this.renderError) === "function")
+                return this.renderError();
+            return React.DOM.div({
+                className: "alert alert-danger"
+            }, "An unexpected error occured.");
         } else
-          return React.DOM.div({className: 'loading'});
-      }
+            return React.DOM.div({
+                className: "loading"
+            });
+    }
 
 };

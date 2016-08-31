@@ -1,50 +1,48 @@
-import React from 'react';
-import Backbone from 'backbone';
-import MaintenanceMessage from './MaintenanceMessage.react';
-import ImageCreatedMessage from './ImageCreatedMessage.react';
+import React from "react";
+import Backbone from "backbone";
+import MaintenanceMessage from "./MaintenanceMessage.react";
+import ImageCreatedMessage from "./ImageCreatedMessage.react";
 
 export default React.createClass({
-      displayName: "MaintenanceMessageList",
+    displayName: "MaintenanceMessageList",
 
-      propTypes: {
+    propTypes: {
         messages: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
         images: React.PropTypes.instanceOf(Backbone.Collection).isRequired
-      },
+    },
 
-      renderImageNotification: function(image){
+    renderImageNotification: function(image) {
         return (
-          <ImageCreatedMessage key={image.id} image={image}/>
+        <ImageCreatedMessage key={image.id} image={image} />
         );
-      },
+    },
 
-      renderMaintenanceNotification: function (message) {
+    renderMaintenanceNotification: function(message) {
         return (
-          <MaintenanceMessage key={message.id} message={message}/>
+        <MaintenanceMessage key={message.id} message={message} />
         );
-      },
+    },
 
-      render: function () {
+    render: function() {
         var notifications = [];
         var maintenanceNotifications = this.props.messages.map(this.renderMaintenanceNotification);
-        var imageNotifications = this.props.images.slice(0,11).map(this.renderImageNotification);
+        var imageNotifications = this.props.images.slice(0, 11).map(this.renderImageNotification);
         notifications = notifications.concat(maintenanceNotifications, imageNotifications);
 
         if (notifications.length > 0) {
-          return (
+            return (
             <ul className="notifications">
-              {notifications}
+                {notifications}
             </ul>
-          );
+            );
         } else {
-          return (
+            return (
             <ul className="notifications">
-              <div className="preview-message">
-                <span className="message">
-                  You will see a notification here when Atmosphere is scheduled to go down for maintenance.
-                </span>
-              </div>
+                <div className="preview-message">
+                    <span className="message">You will see a notification here when Atmosphere is scheduled to go down for maintenance.</span>
+                </div>
             </ul>
-          )
+            )
         }
-      }
+    }
 });

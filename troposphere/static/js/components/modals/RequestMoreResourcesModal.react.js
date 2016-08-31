@@ -1,207 +1,217 @@
-import React from 'react';
-import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
-import AUCalculator from 'components/common/AUCalculator.react';
-import stores from 'stores';
-import globals from 'globals';
+import React from "react";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
+import AUCalculator from "components/common/AUCalculator.react";
+import stores from "stores";
+import globals from "globals";
 
 export default React.createClass({
-      displayName: "RequestMoreResourcesModal",
+    displayName: "RequestMoreResourcesModal",
 
-      mixins: [BootstrapModalMixin],
+    mixins: [BootstrapModalMixin],
 
-      getInitialState: function () {
+    getInitialState: function() {
         var identities = stores.IdentityStore.getAll();
         return {
-          identity: identities ? identities.first().id : null,
-          resources: "",
-          reason: ""
+            identity: identities ? identities.first().id : null,
+            resources: "",
+            reason: ""
         };
-      },
+    },
 
-      getState: function () {
+    getState: function() {
         var identities = stores.IdentityStore.getAll(),
-          identityId = null;
+            identityId = null;
 
         if (identities) {
-          identityId = this.state.identity ? this.state.identity : identities.first().id;
+            identityId = this.state.identity ? this.state.identity : identities.first().id;
         }
 
         return {
-          identity: identityId
+            identity: identityId
         }
-      },
+    },
 
-      updateState: function () {
+    updateState: function() {
         if (this.isMounted()) this.setState(this.getState());
-      },
+    },
 
-      componentDidMount: function () {
+    componentDidMount: function() {
         stores.IdentityStore.addChangeListener(this.updateState);
         stores.ResourceRequestStore.addChangeListener(this.updateState);
-      },
+    },
 
-      componentWillUnmount: function () {
+    componentWillUnmount: function() {
         stores.IdentityStore.removeChangeListener(this.updateState);
-      },
+    },
 
-      isSubmittable: function () {
+    isSubmittable: function() {
         var hasResources = !!this.state.resources;
         var hasReason = !!this.state.reason;
         return hasResources && hasReason;
-      },
+    },
 
-      //
-      // Internal Modal Callbacks
-      // ------------------------
-      //
+    //
+    // Internal Modal Callbacks
+    // ------------------------
+    //
 
-      cancel: function () {
+    cancel: function() {
         this.hide();
-      },
+    },
 
-      confirm: function () {
+    confirm: function() {
         this.hide();
         this.props.onConfirm(this.state.identity, this.state.resources, this.state.reason);
-      },
-                
-      //
-      // Custom Modal Callbacks
-      // ----------------------
-      //
+    },
 
-      // todo: I don't think there's a reason to update state unless
-      // there's a risk of the component being re-rendered by the parent.
-      // Should probably verify this behavior, but for now, we play it safe.
-      handleIdentityChange: function (e) {
-        this.setState({identity: Number(e.target.value)});
-      },
+    //
+    // Custom Modal Callbacks
+    // ----------------------
+    //
 
-      handleResourcesChange: function (e) {
-        this.setState({resources: e.target.value});
-      },
+    // todo: I don't think there's a reason to update state unless
+    // there's a risk of the component being re-rendered by the parent.
+    // Should probably verify this behavior, but for now, we play it safe.
+    handleIdentityChange: function(e) {
+        this.setState({
+            identity: Number(e.target.value)
+        });
+    },
 
-      handleReasonChange: function (e) {
-        this.setState({reason: e.target.value});
-      },
+    handleResourcesChange: function(e) {
+        this.setState({
+            resources: e.target.value
+        });
+    },
 
-      //
-      // Render
-      // ------
-      //
-      renderAllocationSourceText: function() {
-          if (globals.USE_ALLOCATION_SOURCES) {
-              return (
-                <div>
-                  <p>
+    handleReasonChange: function(e) {
+        this.setState({
+            reason: e.target.value
+        });
+    },
+
+    //
+    // Render
+    // ------
+    //
+    renderAllocationSourceText: function() {
+        if (globals.USE_ALLOCATION_SOURCES) {
+            return (
+            <div>
+                <p>
                     If you are requesting for an Allocation Source please include the following information below.
-                  </p>
-                  <ol>
-                      <li>What Allocation Source</li>
-                      <li>How much you are requesting</li>
-                      <li>The reason you need more</li>
-                  </ol>
-                </div>
-              )
-          }
-      },
+                </p>
+                <ol>
+                    <li>
+                        What Allocation Source
+                    </li>
+                    <li>
+                        How much you are requesting
+                    </li>
+                    <li>
+                        The reason you need more
+                    </li>
+                </ol>
+            </div>
+            )
+        }
+    },
 
-      renderAUCalculator: function() {
-          if (globals.USE_ALLOCATION_SOURCES) return;
-          return (
-            <AUCalculator identity={this.state.identity}/>
-          )
-      },
-
-      renderIdentity: function (identity) {
+    renderAUCalculator: function() {
+        if (globals.USE_ALLOCATION_SOURCES) return;
         return (
-          <option key={identity.id} value={identity.id}>{identity.get('provider').name}</option>
+        <AUCalculator identity={this.state.identity} />
         )
-      },
+    },
 
-      renderBody: function () {
+    renderIdentity: function(identity) {
+        return (
+        <option key={identity.id} value={identity.id}>
+            {identity.get("provider").name}
+        </option>
+        )
+    },
+
+    renderBody: function() {
         var identities = stores.IdentityStore.getAll(),
             instances = stores.InstanceStore.getAll(),
-            username = stores.ProfileStore.get().get('username'),
-            requests = stores.ResourceRequestStore.findWhere({"created_by.username": username});
+            username = stores.ProfileStore.get().get("username"),
+            requests = stores.ResourceRequestStore.findWhere({
+                "created_by.username": username
+            });
 
-        if(username == null || requests == null){
+        if (username == null || requests == null) {
             return <div className="loading"></div>;
         }
 
-        if (!identities || !instances) return <div className="loading"/>;
+        if (!identities || !instances) return <div className="loading" />;
 
         return (
-          <div role='form'>
-
-            <div className='form-group'>
-              <label htmlFor='project-identity'>{"What cloud would you like resources for?"}</label>
-              <select className="form-control" onChange={this.handleIdentityChange}>
-                {identities.map(this.renderIdentity)}
-              </select>
+        <div role="form">
+            <div className="form-group">
+                <label htmlFor="project-identity">
+                    {"What cloud would you like resources for?"}
+                </label>
+                <select className="form-control" onChange={this.handleIdentityChange}>
+                    {identities.map(this.renderIdentity)}
+                </select>
             </div>
-
-            <div className='form-group'>
-              <label htmlFor='project-name'>{"What resources would you like to request?"}</label>
-
-              {   
-                  /* If globals.USE_ALLOCATION_SOURCE render this text */
-                  this.renderAllocationSourceText() 
-              }
-
-              <textarea type='text'
-                        className='form-control'
-                        rows="7"
-                        placeholder="E.g 4 CPUs and 8GB memory, running 4 cores for 1 week, an additional 500 AU, etc."
-                        value={this.state.resources}
-                        onChange={this.handleResourcesChange}
-                />
+            <div className="form-group">
+                <label htmlFor="project-name">
+                    {"What resources would you like to request?"}
+                </label>
+                {/* If globals.USE_ALLOCATION_SOURCE render this text */
+                                                                                                                                                                                                                                                                              this.renderAllocationSourceText()}
+                <textarea type="text"
+                    className="form-control"
+                    rows="7"
+                    placeholder="E.g 4 CPUs and 8GB memory, running 4 cores for 1 week, an additional 500 AU, etc."
+                    value={this.state.resources}
+                    onChange={this.handleResourcesChange} />
             </div>
-
-            { 
-                /* if globals.USE_ALLOCATION_SOURCE don't render this */
-                this.renderAUCalculator() 
-            }
-
-            <div className='form-group'>
-              <label htmlFor='project-description'>{"How will you use the additional resources?"}</label>
-              <textarea type='text'
-                        className='form-control'
-                        rows="7"
-                        placeholder="E.g. To run a program or analysis, store larger output, etc."
-                        value={this.state.reason}
-                        onChange={this.handleReasonChange}
-                />
+            {/* if globals.USE_ALLOCATION_SOURCE don't render this */
+                                                                                                                                                                                                                this.renderAUCalculator()}
+            <div className="form-group">
+                <label htmlFor="project-description">
+                    {"How will you use the additional resources?"}
+                </label>
+                <textarea type="text"
+                    className="form-control"
+                    rows="7"
+                    placeholder="E.g. To run a program or analysis, store larger output, etc."
+                    value={this.state.reason}
+                    onChange={this.handleReasonChange} />
             </div>
-          </div>
+        </div>
         );
-      },
+    },
 
-      render: function () {
+    render: function() {
         return (
-          <div className="modal fade">
+        <div className="modal fade">
             <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  {this.renderCloseButton()}
-                  <h1 className="t-headline">
-                    Request Resources
-                  </h1>
+                <div className="modal-content">
+                    <div className="modal-header">
+                        {this.renderCloseButton()}
+                        <h1 className="t-headline">Request Resources</h1>
+                    </div>
+                    <div className="modal-body">
+                        {this.renderBody()}
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-default" onClick={this.cancel}>
+                            Cancel
+                        </button>
+                        <button type="button"
+                            className="btn btn-primary"
+                            onClick={this.confirm}
+                            disabled={!this.isSubmittable()}>
+                            Request Resources
+                        </button>
+                    </div>
                 </div>
-                <div className="modal-body">
-                  {this.renderBody()}
-                </div>
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-default" onClick={this.cancel}>
-                    Cancel
-                  </button>
-                  <button type="button" className="btn btn-primary" onClick={this.confirm}
-                          disabled={!this.isSubmittable()}>
-                    Request Resources
-                  </button>
-                </div>
-              </div>
             </div>
-          </div>
+        </div>
         );
-      }
+    }
 });

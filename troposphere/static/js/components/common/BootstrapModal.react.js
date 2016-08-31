@@ -1,5 +1,5 @@
-import React from 'react';
-import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import React from "react";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
 
 // Example Usage from http://bl.ocks.org/insin/raw/8449696/
 // render: function(){
@@ -31,33 +31,36 @@ export default React.createClass({
 
     mixins: [BootstrapModalMixin],
 
-    render: function () {
-      var buttons = this.props.buttons.map(function (button) {
-        return (
-          <button key={button.text} type="button" className={'btn btn-' + button.type} onClick={button.handler}>
-            {button.text}
-          </button>
-        );
-      });
+    render: function() {
+        var buttons = this.props.buttons.map(function(button) {
+            return (
+            <button key={button.text}
+                type="button"
+                className={"btn btn-" + button.type}
+                onClick={button.handler}>
+                {button.text}
+            </button>
+            );
+        });
 
-      return (
+        return (
         <div className="modal fade">
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                {this.renderCloseButton()}
-                <strong>{this.props.header}</strong>
-              </div>
-              <div className="modal-body">
-                {this.props.children}
-              </div>
-              <div className="modal-footer">
-                {buttons}
-              </div>
+            <div className="modal-dialog">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        {this.renderCloseButton()}
+                        <strong>{this.props.header}</strong>
+                    </div>
+                    <div className="modal-body">
+                        {this.props.children}
+                    </div>
+                    <div className="modal-footer">
+                        {buttons}
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      );
+        );
     }
 
 });

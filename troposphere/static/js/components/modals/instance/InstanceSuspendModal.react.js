@@ -1,76 +1,74 @@
-import React from 'react';
-import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
-import Glyphicon from 'components/common/Glyphicon.react';
+import React from "react";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
+import Glyphicon from "components/common/Glyphicon.react";
 
 export default React.createClass({
-      displayName: "InstanceSuspendModal",
+    displayName: "InstanceSuspendModal",
 
-      mixins: [BootstrapModalMixin],
+    mixins: [BootstrapModalMixin],
 
-      //
-      // Internal Modal Callbacks
-      // ------------------------
-      //
+    //
+    // Internal Modal Callbacks
+    // ------------------------
+    //
 
-      cancel: function () {
+    cancel: function() {
         this.hide();
-      },
+    },
 
-      confirm: function () {
+    confirm: function() {
         this.hide();
         this.props.onConfirm();
-      },
+    },
 
-      //
-      // Render
-      // ------
-      //
+    //
+    // Render
+    // ------
+    //
 
-      renderBody: function () {
+    renderBody: function() {
         return (
-          <div>
-            <p className='alert alert-warning'>
-              <Glyphicon name='warning-sign'/>
-              {" "}
-              <strong>WARNING</strong>
-              {" Suspending an instance will freeze its state, and the IP address may change when you resume the instance."}
+        <div>
+            <p className="alert alert-warning">
+                <Glyphicon name="warning-sign" />
+                {" "}
+                <strong>WARNING</strong>
+                {" Suspending an instance will freeze its state, and the IP address may change when you resume the instance."}
             </p>
-
             <p>
-              {'Suspending an instance frees up resources for other users and allows you to safely preserve the state of your instance without imaging. '}
-              {'Your time allocation no longer counts against you in the suspended mode.'}
+                {'Suspending an instance frees up resources for other users and allows you to safely preserve the state of your instance without imaging. '}
+                {'Your time allocation no longer counts against you in the suspended mode.'}
             </p>
-
             <p>
-              {'Your resource usage charts will only reflect the freed resources once the instance\'s state is "suspended."'}
+                {'Your resource usage charts will only reflect the freed resources once the instance\'s state is "suspended."'}
             </p>
-          </div>
+        </div>
         );
-      },
+    },
 
-      render: function () {
+    render: function() {
         return (
-          <div className="modal fade">
+        <div className="modal fade">
             <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  {this.renderCloseButton()}
-                  <strong>Suspend Instance</strong>
+                <div className="modal-content">
+                    <div className="modal-header">
+                        {this.renderCloseButton()}
+                        <strong>Suspend Instance</strong>
+                    </div>
+                    <div className="modal-body">
+                        {this.renderBody()}
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-danger" onClick={this.cancel}>
+                            Cancel
+                        </button>
+                        <button type="button" className="btn btn-primary" onClick={this.confirm}>
+                            Yes, suspend this instance
+                        </button>
+                    </div>
                 </div>
-                <div className="modal-body">
-                  {this.renderBody()}
-                </div>
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-danger" onClick={this.cancel}>
-                    Cancel
-                  </button>
-                  <button type="button" className="btn btn-primary" onClick={this.confirm}>
-                    Yes, suspend this instance
-                  </button>
-                </div>
-              </div>
             </div>
-          </div>
+        </div>
         );
-      }
+    }
 });

@@ -1,8 +1,8 @@
 // Metrics utils
-import Store from './Store';
-import CPUGraph from './CPUGraph';
-import MemoryGraph from './MemoryGraph';
-import NetworkGraph from './NetworkGraph';
+import Store from "./Store";
+import CPUGraph from "./CPUGraph";
+import MemoryGraph from "./MemoryGraph";
+import NetworkGraph from "./NetworkGraph";
 
 
 let GraphController = function(config) {
@@ -28,7 +28,7 @@ GraphController.prototype.switch = function(settings, onSuccess, onError) {
     // Fetch data/build graphs for a timeframe
     if (graphs == undefined) {
 
-        var graphs = [['cpu', CPUGraph], ['mem', MemoryGraph], ['net', NetworkGraph]];
+        var graphs = [["cpu", CPUGraph], ["mem", MemoryGraph], ["net", NetworkGraph]];
         graphs = graphs.map((data) => {
             return new data[1]({
                 type: data[0],
@@ -47,7 +47,7 @@ GraphController.prototype.switch = function(settings, onSuccess, onError) {
         this.graphs.forEach((g) => g.hide());
 
         // Show spinning loader
-        document.querySelector('#container.metrics .loading').style.display = 'inherit';
+        document.querySelector("#container.metrics .loading").style.display = "inherit";
 
         // Exit here to debug css spinning loader
         // return;
@@ -57,7 +57,7 @@ GraphController.prototype.switch = function(settings, onSuccess, onError) {
                 graphs[2].create(() => {
 
                     // Hide spinning loader
-                    document.querySelector('#container.metrics .loading').style.display = 'none';
+                    document.querySelector("#container.metrics .loading").style.display = "none";
                     graphs[2].makeAxis();
                     graphs.forEach(function(g) {
                         g.show();

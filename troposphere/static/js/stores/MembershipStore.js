@@ -1,6 +1,6 @@
 
-import BaseStore from 'stores/BaseStore';
-import MembershipCollection from 'collections/MembershipCollection';
+import BaseStore from "stores/BaseStore";
+import MembershipCollection from "collections/MembershipCollection";
 
 let MembershipStore = BaseStore.extend({
     collection: MembershipCollection,
@@ -16,7 +16,8 @@ let MembershipStore = BaseStore.extend({
 
 
     getMembershipsForVersion: function(version) {
-        if (!this.models) throw new Error("Must fetch users before calling getMembershipsFromList");
+        if (!this.models)
+            throw new Error("Must fetch users before calling getMembershipsFromList");
 
         var versionMembershipArray = version.membership.map(function(user) {
             return {
@@ -28,7 +29,8 @@ let MembershipStore = BaseStore.extend({
     },
 
     getMembershipsFromList: function(usernameList) {
-        if (!this.models) throw new Error("Must fetch users before calling getMembershipsFromList");
+        if (!this.models)
+            throw new Error("Must fetch users before calling getMembershipsFromList");
         var users = usernameList.map(function(username) {
             var user = this.models.findWhere({
                 username: username

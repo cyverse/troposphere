@@ -1,7 +1,7 @@
 import React from "react";
 import $ from "jquery";
 import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
-import { trackAction } from '../../../utilities/userActivity';
+import { trackAction } from "../../../utilities/userActivity";
 
 
 export default React.createClass({
@@ -174,63 +174,63 @@ export default React.createClass({
         if (!this.isSubmittable() && this.state.shouldValidate) {
             formattedTitleError = (
                 <p className="no-results text-danger">
-                    { this.errorMessages().titleMessage }
+                    {this.errorMessages().titleMessage}
                 </p>
             );
 
             formattedDescriptionError = (
                 <p className="no-results text-danger">
-                    { this.errorMessages().descriptionMessage }
+                    {this.errorMessages().descriptionMessage}
                 </p>
             );
 
             formattedLinkError = (
                 <p className="no-results text-danger">
-                    { this.errorMessages().linkMessage }
+                    {this.errorMessages().linkMessage}
                 </p>
             );
         }
-        let requiredLabel = ( <span style={ { color: "red" } }>*</span> );
+        let requiredLabel = ( <span style={{ color: "red" }}>*</span> );
 
         return (
-        <div className="clearfix" style={ { marginBottom: "50px" } } role='form'>
-            <div className='form-group'>
-                <label htmlFor='linkName'>
+        <div className="clearfix" style={{ marginBottom: "50px" }} role="form">
+            <div className="form-group">
+                <label htmlFor="linkName">
                     Link Title
-                    { requiredLabel }
+                    {requiredLabel}
                 </label>
                 <input type="text"
-                       className="form-control"
-                       value={ this.state.name }
-                       onChange={ this.onNameChange } />
-                { formattedTitleError }
+                    className="form-control"
+                    value={this.state.name}
+                    onChange={this.onNameChange} />
+                {formattedTitleError}
             </div>
-            <div className='form-group'>
-                <label htmlFor='linkSize'>
+            <div className="form-group">
+                <label htmlFor="linkSize">
                     Link Description
-                    { requiredLabel }
+                    {requiredLabel}
                 </label>
-                <textarea id='project-description'
-                          type='text'
-                          className='form-control'
-                          rows="7"
-                          value={ this.state.description }
-                          onChange={ this.onDescriptionChange } />
-                { formattedDescriptionError }
+                <textarea id="project-description"
+                    type="text"
+                    className="form-control"
+                    rows="7"
+                    value={this.state.description}
+                    onChange={this.onDescriptionChange} />
+                {formattedDescriptionError}
             </div>
-            <div className='form-group'>
-                <label htmlFor='linkName'>
+            <div className="form-group">
+                <label htmlFor="linkName">
                     Link URL
-                    { requiredLabel }
+                    {requiredLabel}
                 </label>
                 <input type="text"
-                       className="form-control"
-                       value={ this.state.link }
-                       onChange={ this.onLinkChange } />
-                { formattedLinkError }
+                    className="form-control"
+                    value={this.state.link}
+                    onChange={this.onLinkChange} />
+                {formattedLinkError}
             </div>
-            <div style={ { float: "right" } }>
-                { requiredLabel } Required
+            <div style={{ float: "right" }}>
+                {requiredLabel} Required
             </div>
         </div>
         );
@@ -258,21 +258,21 @@ export default React.createClass({
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
-                        { this.renderCloseButton() }
+                        {this.renderCloseButton()}
                         <h2 className="t-headline">Create a Link</h2>
                     </div>
                     <div className="modal-body">
-                        { this.renderBody() }
+                        {this.renderBody()}
                     </div>
                     <div className="modal-footer">
-                        { footerErrorText }
-                        <button type="button" className="btn btn-danger" onClick={ this.cancel }>
+                        {footerErrorText}
+                        <button type="button" className="btn btn-danger" onClick={this.cancel}>
                             Cancel
                         </button>
                         <button type="button"
-                                className="btn btn-primary"
-                                onClick={ this.confirm }
-                                disabled={ isDisabled }>
+                            className="btn btn-primary"
+                            onClick={this.confirm}
+                            disabled={isDisabled}>
                             Create Link
                         </button>
                     </div>

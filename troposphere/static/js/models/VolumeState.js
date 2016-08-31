@@ -1,42 +1,42 @@
-import Backbone from 'backbone';
+import Backbone from "backbone";
 
 let get_percent_complete = function(state) {
     // Number represents percent task *completed* when in this state
     var states = {
-        'detaching': 50,
-        'attaching': 50,
-        'available': 100,
-        'in-use': 100
+        "detaching": 50,
+        "attaching": 50,
+        "available": 100,
+        "in-use": 100
     };
 
     return states[state];
 };
 
 export default Backbone.Model.extend({
-      isInFinalState: function () {
+    isInFinalState: function() {
         var finalStates = [
-          'available',
-          'in-use'
+            "available",
+            "in-use"
         ];
 
-        var isInFinalState = finalStates.indexOf(this.get('status_raw')) >= 0;
+        var isInFinalState = finalStates.indexOf(this.get("status_raw")) >= 0;
         return isInFinalState;
-      },
+    },
 
-      isDeployError: function () {
+    isDeployError: function() {
         return false;
-      },
+    },
 
-      getPercentComplete: function () {
-        var status = this.get('status');
+    getPercentComplete: function() {
+        var status = this.get("status");
         var percentComplete = 100;
         if (status) {
-          percentComplete = get_percent_complete(status);
+            percentComplete = get_percent_complete(status);
         }
         return percentComplete;
-      },
+    },
 
-      initialize: function (attributes, options) {
-        this.set('status', attributes.status_raw);
-      }
+    initialize: function(attributes, options) {
+        this.set("status", attributes.status_raw);
+    }
 });

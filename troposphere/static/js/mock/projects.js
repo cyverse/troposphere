@@ -1,4 +1,4 @@
-import instances from './instances';
+import instances from "./instances";
 
 const api = {
     "count": 2,

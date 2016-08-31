@@ -1,5 +1,5 @@
-import BaseStore from 'stores/BaseStore';
-import SSHKeyCollection from 'collections/SSHKeyCollection';
+import BaseStore from "stores/BaseStore";
+import SSHKeyCollection from "collections/SSHKeyCollection";
 
 var SSHKeyStore = BaseStore.extend({
     collection: SSHKeyCollection

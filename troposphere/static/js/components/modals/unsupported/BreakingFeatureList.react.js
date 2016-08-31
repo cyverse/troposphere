@@ -1,23 +1,23 @@
-import React from 'react';
-import modernizrTest from 'components/modals/unsupported/modernizrTest.js';
+import React from "react";
+import modernizrTest from "components/modals/unsupported/modernizrTest.js";
 
 
 export default React.createClass({
     displayName: "BreakingFeatureList",
-    render: function () {
-        var listItem = modernizrTest.breakingFeatures.map(function (feature) {
+    render: function() {
+        var listItem = modernizrTest.breakingFeatures.map(function(feature) {
             return (
-                <li className="feature" key={feature.id} >
-                    <span className="glyphicon glyphicon-alert"> </span>
-                    {feature}
-                </li>
+            <li className="feature" key={feature.id}>
+                <span className="glyphicon glyphicon-alert"></span>
+                {feature}
+            </li>
             )
         });
 
         return (
-            <ul className="BreakingFeatureList" >
-                {listItem}
-            </ul>
+        <ul className="BreakingFeatureList">
+            {listItem}
+        </ul>
         )
     }
 });

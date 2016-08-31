@@ -1,39 +1,45 @@
-import React from 'react';
-import BootstrapModal from 'components/common/BootstrapModal.react';
+import React from "react";
+import BootstrapModal from "components/common/BootstrapModal.react";
 
 export default React.createClass({
-      displayName: "CancelConfirmModal",
+    displayName: "CancelConfirmModal",
 
-      // remove the modal from the DOM once we're finished with it
-      cleanup: function () {
-        document.getElementById('modal').innerHTML = "";
-      },
+    // remove the modal from the DOM once we're finished with it
+    cleanup: function() {
+        document.getElementById("modal").innerHTML = "";
+    },
 
-      confirm: function () {
+    confirm: function() {
         this.refs.modal.hide();
         this.props.onConfirm();
-      },
+    },
 
-      cancel: function () {
+    cancel: function() {
         this.refs.modal.hide();
-      },
+    },
 
-      render: function () {
+    render: function() {
         var buttons = [
-          {type: 'danger', text: 'Cancel', handler: this.cancel},
-          {type: 'primary', text: this.props.confirmButtonMessage, handler: this.confirm}
+            {
+                type: "danger",
+                text: "Cancel",
+                handler: this.cancel
+            },
+            {
+                type: "primary",
+                text: this.props.confirmButtonMessage,
+                handler: this.confirm
+            }
         ];
 
         return (
-          <BootstrapModal
-            ref="modal"
+        <BootstrapModal ref="modal"
             show={true}
             header={this.props.header}
             buttons={buttons}
-            handleHidden={this.cleanup}
-            >
+            handleHidden={this.cleanup}>
             {this.props.body}
-          </BootstrapModal>
+        </BootstrapModal>
         );
-      }
+    }
 });

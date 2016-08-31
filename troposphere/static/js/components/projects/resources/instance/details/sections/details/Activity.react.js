@@ -1,23 +1,23 @@
-import React from 'react';
-import Backbone from 'backbone';
-import ResourceDetail from 'components/projects/common/ResourceDetail.react';
-import ActivitySection from 'components/projects/detail/resources/tableData/instance/Activity.react';
+import React from "react";
+import Backbone from "backbone";
+import ResourceDetail from "components/projects/common/ResourceDetail.react";
+import ActivitySection from "components/projects/detail/resources/tableData/instance/Activity.react";
 
 var Activity = React.createClass({
-      propTypes: {
+    propTypes: {
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    },
 
-      render: function () {
+    render: function() {
 
         return (
-          <ResourceDetail label="Activity">
+        <ResourceDetail label="Activity">
             <div className="resource-status">
-              <ActivitySection instance={this.props.instance}/>
+                <ActivitySection instance={this.props.instance} />
             </div>
-          </ResourceDetail>
+        </ResourceDetail>
         );
-      }
+    }
 
 });
 

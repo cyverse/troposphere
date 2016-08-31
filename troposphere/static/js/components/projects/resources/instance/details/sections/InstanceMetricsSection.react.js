@@ -1,23 +1,20 @@
-import React from 'react';
-import InstanceMetrics from './metrics/InstanceMetrics.react';
+import React from "react";
+import InstanceMetrics from "./metrics/InstanceMetrics.react";
 
 export default React.createClass({
     displayName: "InstanceMetricsSection",
 
     render: function() {
-      var inactive = this.props.instance.get('end_date') ? true : false;
-      return (
-          <div>
+        var inactive = this.props.instance.get("end_date") ? true : false;
+        return (
+        <div>
             <div className="resource-details-section section">
-              <h4 className="t-title">Instance Metrics</h4>
+                <h4 className="t-title">Instance Metrics</h4>
             </div>
             <div id="container" className="metrics">
-              <InstanceMetrics
-                instance={ this.props.instance }
-                inactive={inactive}
-              />
+                <InstanceMetrics instance={this.props.instance} inactive={inactive} />
             </div>
-          </div>
-      );
+        </div>
+        );
     }
 });

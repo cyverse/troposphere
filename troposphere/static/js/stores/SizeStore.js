@@ -1,5 +1,5 @@
-import BaseStore from 'stores/BaseStore';
-import SizeCollection from 'collections/SizeCollection';
+import BaseStore from "stores/BaseStore";
+import SizeCollection from "collections/SizeCollection";
 
 
 let SizeStore = BaseStore.extend({
@@ -12,7 +12,7 @@ let SizeStore = BaseStore.extend({
 
 SizeStore.prototype.filterWhereGreaterThanOrEqualTo = function(params) {
     let results = [],
-     shouldAdd;
+        shouldAdd;
 
     this.models.each(function(model) {
         shouldAdd = true;

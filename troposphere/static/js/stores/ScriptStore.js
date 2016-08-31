@@ -1,8 +1,8 @@
 
-import Dispatcher from 'dispatchers/Dispatcher';
-import BaseStore from 'stores/BaseStore';
-import ScriptConstants from 'constants/ScriptConstants';
-import ScriptCollection from 'collections/ScriptCollection';
+import Dispatcher from "dispatchers/Dispatcher";
+import BaseStore from "stores/BaseStore";
+import ScriptConstants from "constants/ScriptConstants";
+import ScriptCollection from "collections/ScriptCollection";
 
 let ScriptStore = BaseStore.extend({
     collection: ScriptCollection,
@@ -18,7 +18,8 @@ let ScriptStore = BaseStore.extend({
 
 
     getScriptsForVersion: function(version) {
-        if (!this.models) throw new Error("Must fetch users before calling getScriptsFromList");
+        if (!this.models)
+            throw new Error("Must fetch users before calling getScriptsFromList");
 
         var versionScriptArray = version.script.map(function(user) {
             return {
@@ -30,7 +31,8 @@ let ScriptStore = BaseStore.extend({
     },
 
     getScriptsFromList: function(usernameList) {
-        if (!this.models) throw new Error("Must fetch users before calling getScriptsFromList");
+        if (!this.models)
+            throw new Error("Must fetch users before calling getScriptsFromList");
         var users = usernameList.map(function(username) {
             var user = this.models.findWhere({
                 username: username

@@ -1,4 +1,4 @@
-import $ from 'jquery';
+import $ from "jquery";
 
 export default function mockSyncDecorator(fakeData, delay = 50) {
     return function(method, collection, options) {

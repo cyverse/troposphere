@@ -1,55 +1,58 @@
-import React from 'react';
-import Backbone from 'backbone';
-import Checkbox from './Checkbox.react';
+import React from "react";
+import Backbone from "backbone";
+import Checkbox from "./Checkbox.react";
 
 
 export default React.createClass({
     displayName: "SelectableTable",
 
     propTypes: {
-      resources: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
-      resourceRows: React.PropTypes.node.isRequired,
-      selectedResources: React.PropTypes.instanceOf(Backbone.Collection),
-      onResourceSelected: React.PropTypes.func.isRequired,
-      onResourceDeselected: React.PropTypes.func.isRequired,
-      children: React.PropTypes.node.isRequired
+        resources: React.PropTypes.instanceOf(Backbone.Collection).isRequired,
+        resourceRows: React.PropTypes.node.isRequired,
+        selectedResources: React.PropTypes.instanceOf(Backbone.Collection),
+        onResourceSelected: React.PropTypes.func.isRequired,
+        onResourceDeselected: React.PropTypes.func.isRequired,
+        children: React.PropTypes.node.isRequired
     },
 
-    toggleCheckbox: function (e) {
-      var isChecked = this.areAllResourcesSelected();
+    toggleCheckbox: function(e) {
+        var isChecked = this.areAllResourcesSelected();
 
-      this.props.resources.each(function (resource) {
-        if (!isChecked) {
-          this.props.onResourceSelected(resource);
-        } else {
-          this.props.onResourceDeselected(resource);
-        }
-      }.bind(this));
+        this.props.resources.each(function(resource) {
+            if (!isChecked) {
+                this.props.onResourceSelected(resource);
+            } else {
+                this.props.onResourceDeselected(resource);
+            }
+        }.bind(this));
     },
 
-    areAllResourcesSelected: function () {
-      var allResourcesSelected = true;
-      this.props.resources.each(function (resource) {
-        if (!this.props.selectedResources.get(resource)) allResourcesSelected = false;
-      }.bind(this));
-      return allResourcesSelected;
+    areAllResourcesSelected: function() {
+        var allResourcesSelected = true;
+        this.props.resources.each(function(resource) {
+            if (!this.props.selectedResources.get(resource))
+                allResourcesSelected = false;
+        }.bind(this));
+        return allResourcesSelected;
     },
 
-    render: function () {
-      var resourceRows = this.props.resourceRows;
+    render: function() {
+        var resourceRows = this.props.resourceRows;
 
-      return (
+        return (
         <table className="table table-hover sm-table">
-          <thead className="sm-thead">
-          <tr className="sm-row" onClick={this.toggleCheckbox}>
-            <th className="sm-header"><Checkbox isChecked={this.areAllResourcesSelected()}/></th>
-            {this.props.children}
-          </tr>
-          </thead>
-          <tbody className="sm-tbody">
-          {resourceRows}
-          </tbody>
+            <thead className="sm-thead">
+                <tr className="sm-row" onClick={this.toggleCheckbox}>
+                    <th className="sm-header">
+                        <Checkbox isChecked={this.areAllResourcesSelected()} />
+                    </th>
+                    {this.props.children}
+                </tr>
+            </thead>
+            <tbody className="sm-tbody">
+                {resourceRows}
+            </tbody>
         </table>
-      );
+        );
     }
 });

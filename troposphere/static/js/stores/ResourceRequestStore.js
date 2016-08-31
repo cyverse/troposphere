@@ -1,8 +1,8 @@
 
-import Dispatcher from 'dispatchers/Dispatcher';
-import BaseStore from 'stores/BaseStore';
-import ResourceRequestCollection from 'collections/ResourceRequestCollection';
-import ResourceRequestConstants from 'constants/ResourceRequestConstants';
+import Dispatcher from "dispatchers/Dispatcher";
+import BaseStore from "stores/BaseStore";
+import ResourceRequestCollection from "collections/ResourceRequestCollection";
+import ResourceRequestConstants from "constants/ResourceRequestConstants";
 
 let ResourceRequestStore = BaseStore.extend({
     collection: ResourceRequestCollection
@@ -17,7 +17,10 @@ Dispatcher.register(function(dispatch) {
 
     switch (actionType) {
         case ResourceRequestConstants.ADD:
-            store.add({data: payload.model, at: 0});
+            store.add({
+                data: payload.model,
+                at: 0
+            });
             break;
 
         case ResourceRequestConstants.UPDATE:

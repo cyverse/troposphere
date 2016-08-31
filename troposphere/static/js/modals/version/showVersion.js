@@ -1,13 +1,12 @@
-import ModalHelpers from 'components/modals/ModalHelpers';
-import VersionInformationModal from 'components/modals/VersionInformationModal.react';
+import ModalHelpers from "components/modals/ModalHelpers";
+import VersionInformationModal from "components/modals/VersionInformationModal.react";
 
 export default {
-    showVersion: function () {
-      var props = {
-        header: "Atmosphere Version"
-      };
+    showVersion: function() {
+        var props = {
+            header: "Atmosphere Version"
+        };
 
-      ModalHelpers.renderModal(VersionInformationModal, props, function () {
-      });
+        ModalHelpers.renderModal(VersionInformationModal, props, function() {});
     }
 };

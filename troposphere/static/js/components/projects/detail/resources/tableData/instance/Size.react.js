@@ -1,26 +1,26 @@
-import React from 'react';
-import Backbone from 'backbone';
-import stores from 'stores';
+import React from "react";
+import Backbone from "backbone";
+import stores from "stores";
 
 export default React.createClass({
-      displayName: "Size",
+    displayName: "Size",
 
-      propTypes: {
+    propTypes: {
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    },
 
-      render: function () {
+    render: function() {
         var instance = this.props.instance,
-          size = stores.SizeStore.get(instance.get('size').id);
+            size = stores.SizeStore.get(instance.get("size").id);
 
         if (!size) {
-          return (
+            return (
             <div className="loading-tiny-inline"></div>
-          );
+            );
         }
 
         return (
-          <span style={{textTransform: "capitalize"}}>{size.get('name')}</span>
+        <span style={{ textTransform: "capitalize" }}>{size.get("name")}</span>
         );
-      }
+    }
 });

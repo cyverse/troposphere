@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
 // Renders a nav with several tabs. This nav is created with an onTabClick
 // handler, such that, the parent can be notified when a new tab is selected.
 // The parent could then render a view when a tab is selected.
 export default React.createClass({
-    displayName: 'TabLinks',
+    displayName: "TabLinks",
 
     propTypes: {
         // Index into links that will be shown by default
@@ -29,18 +29,18 @@ export default React.createClass({
 
 
     renderLink: function(link, index) {
-        let active = '';
+        let active = "";
 
         if (index === this.state.index) {
-            active = 'TabLinks--active';
+            active = "TabLinks--active";
         }
 
         let onClick = this.onTabClick.bind(this, index);
 
         return (
-        <li key={ index } className="TabLinks-link">
-            <a className={ active } onClick={ onClick }>
-                { link }
+        <li key={index} className="TabLinks-link">
+            <a className={active} onClick={onClick}>
+                {link}
             </a>
         </li>
         );
@@ -49,7 +49,7 @@ export default React.createClass({
     render: function() {
         return (
         <ul className="TabLinks clearFix">
-            { this.props.links.map(this.renderLink) }
+            {this.props.links.map(this.renderLink)}
         </ul>
         );
     }

@@ -27,10 +27,14 @@ export default {
         let { request, status } = params;
 
         return Promise.resolve(request.save({
-                status: status.id
-            }, { patch: true }).promise())
+            status: status.id
+        }, {
+            patch: true
+        }).promise())
             .then(() => {
-                Utils.dispatch(ResourceConstants.UPDATE, { model: request })
+                Utils.dispatch(ResourceConstants.UPDATE, {
+                    model: request
+                })
             })
             .catch(errorHandler);
     },
@@ -39,29 +43,37 @@ export default {
         let { request, response, status } = params;
 
         return Promise.resolve(
-                request.save({
-                    admin_message: response,
-                    status: status.id
-                }, { patch: true }).promise())
+            request.save({
+                admin_message: response,
+                status: status.id
+            }, {
+                patch: true
+            }).promise())
             .then(() => {
-                Utils.dispatch(ResourceConstants.UPDATE, {model: request});
-                Utils.dispatch(ResourceConstants.REMOVE, {model: request});
+                Utils.dispatch(ResourceConstants.UPDATE, {
+                    model: request
+                });
+                Utils.dispatch(ResourceConstants.REMOVE, {
+                    model: request
+                });
             })
             .catch(errorHandler);
     },
 
     approve(params) {
-        let {
-            request, response, quota, allocation, status
-        } = params;
+        let { request, response, quota, allocation, status } = params;
 
         let promises = [];
         if (quota.isNew()) {
             promises.push(quota.save().then(
                 () => Utils.dispatch(
                     QuotaConstants.CREATE_QUOTA,
-                    { quota: quota },
-                    { silent: false }
+                    {
+                        quota: quota
+                    },
+                    {
+                        silent: false
+                    }
                 )
             ));
         }
@@ -70,8 +82,12 @@ export default {
             promises.push(allocation.save().then(
                 () => Utils.dispatch(
                     AllocationConstants.CREATE_ALLOCATION,
-                    { allocation: allocation },
-                    { silent: false }
+                    {
+                        allocation: allocation
+                    },
+                    {
+                        silent: false
+                    }
                 )
             ))
         }
@@ -83,7 +99,9 @@ export default {
                     quota: quota.id,
                     allocation: allocation.id,
                     status: status.id
-                }, { patch: true }).then(() => {
+                }, {
+                    patch: true
+                }).then(() => {
                     Utils.dispatch(ResourceConstants.UPDATE, {
                         model: request
                     });
@@ -91,7 +109,7 @@ export default {
                         model: request
                     })
                 })
-            )
+        )
             .catch(errorHandler);
     }
 };

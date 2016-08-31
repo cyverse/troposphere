@@ -1,30 +1,33 @@
-import React from 'react';
+import React from "react";
 
 
 export default React.createClass({
-      displayName: "EditDescriptionView",
+    displayName: "EditDescriptionView",
 
-      getDefaultProps: function() {
+    getDefaultProps: function() {
         return {
-          title: "Description",
-          className: "image-description"
+            title: "Description",
+            className: "image-description"
         }
-      },
-      propTypes: {
+    },
+    propTypes: {
         title: React.PropTypes.string,
         value: React.PropTypes.string.isRequired,
         onChange: React.PropTypes.func.isRequired,
-        titleClassName:React.PropTypes.string,
-        formClassName:React.PropTypes.string
-      },
-      render: function () {
+        titleClassName: React.PropTypes.string,
+        formClassName: React.PropTypes.string
+    },
+    render: function() {
         return (
-          <div className={this.props.className}>
+        <div className={this.props.className}>
             <h4 className={this.props.titleClassName}>{this.props.title}</h4>
             <div className={this.props.formClassName}>
-              <textarea className="form-control" rows="7" value={this.props.value} onChange={this.props.onChange}/>
+                <textarea className="form-control"
+                    rows="7"
+                    value={this.props.value}
+                    onChange={this.props.onChange} />
             </div>
-          </div>
+        </div>
         );
-      }
+    }
 });

@@ -3,37 +3,43 @@ import React from "react";
 import IconOption from "./IconOption.react";
 
 export default React.createClass({
-      displayName: "IconSelect",
+    displayName: "IconSelect",
 
-      getDefaultProps: function () {
+    getDefaultProps: function() {
         return {
-          icons: {
-            'default': 'Identicons',
-            retro: 'Retro',
-            robot: 'Robots',
-            unicorn: 'Unicorns',
-            monster: 'Monsters',
-            wavatar: 'Wavatars'
-          }
+            icons: {
+                "default": "Identicons",
+                retro: "Retro",
+                robot: "Robots",
+                unicorn: "Unicorns",
+                monster: "Monsters",
+                wavatar: "Wavatars"
+            }
         };
-      },
+    },
 
-      handleClick: function (icon_type, e) {
+    handleClick: function(icon_type, e) {
         e.preventDefault();
         this.props.onSelect(icon_type);
-      },
+    },
 
-      render: function () {
-        var icons = _.map(this.props.icons, function (text, type) {
-          var isSelected = (type == this.props.selected);
-          return (
-            <IconOption key={text} type={type} text={text} selected={isSelected} onClick={this.handleClick}/>
-          );
+    render: function() {
+        var icons = _.map(this.props.icons, function(text, type) {
+            var isSelected = (type == this.props.selected);
+            return (
+            <IconOption key={text}
+                type={type}
+                text={text}
+                selected={isSelected}
+                onClick={this.handleClick} />
+            );
         }.bind(this));
 
         return (
-          <ul id='icon-set-select'>{icons}</ul>
+        <ul id="icon-set-select">
+            {icons}
+        </ul>
         );
-      }
+    }
 
 });

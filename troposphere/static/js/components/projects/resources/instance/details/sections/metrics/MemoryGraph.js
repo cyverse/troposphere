@@ -1,9 +1,9 @@
-import Graph from './Graph';
-import { extend } from 'underscore';
+import Graph from "./Graph";
+import { extend } from "underscore";
 
 let MemoryGraph = function(settings) {
     let defaults = {
-        transform: 'total'
+        transform: "total"
     };
 
     Graph.call(this, extend(defaults, settings));

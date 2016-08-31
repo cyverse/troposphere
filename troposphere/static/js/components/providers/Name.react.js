@@ -1,6 +1,6 @@
-import React from 'react';
-import Backbone from 'backbone';
-import Router from 'react-router';
+import React from "react";
+import Backbone from "backbone";
+import Router from "react-router";
 
 
 export default React.createClass({
@@ -10,16 +10,16 @@ export default React.createClass({
         provider: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    render: function () {
+    render: function() {
         let provider = this.props.provider;
         return (
-            <div className="row">
-                <h1>{provider.get('name')}</h1>
-                <Router.Link className="btn btn-default" to="all-providers" >
-                <span className="glyphicon glyphicon-arrow-left"> </span>
-                {" Back to All Providers" }
-                </Router.Link>
-            </div>
+        <div className="row">
+            <h1>{provider.get("name")}</h1>
+            <Router.Link className="btn btn-default" to="all-providers">
+                <span className="glyphicon glyphicon-arrow-left"></span>
+                {" Back to All Providers"}
+            </Router.Link>
+        </div>
         );
 
     }

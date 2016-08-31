@@ -117,7 +117,7 @@ export const ResourceRequestView = React.createClass({
     canSubmit() {
         let response = this.state.response;
         return response &&
-               response.trim().length > 0;
+        response.trim().length > 0;
     },
 
     handleResponseChange(e) {
@@ -147,30 +147,30 @@ export const ResourceRequestView = React.createClass({
         return (
         <div>
             <Label htmlFor="au">
-                Compute time (AU):&nbsp;
-                <QuestionMark tip={ "Total compute time, each active cpu uses 1 AU/hr" } />
+                Compute time (AU):
+                <QuestionMark tip={"Total compute time, each active cpu uses 1 AU/hr"} />
             </Label>
             <input id="au"
-                   className="form-control"
-                   type="number"
-                   value={ threshold }
-                   onChange={ this.onThresholdChange } />
+                className="form-control"
+                type="number"
+                value={threshold}
+                onChange={this.onThresholdChange} />
             <Label htmlFor="expire">
                 Monthly expiration:
             </Label>
             <div id="expire">
                 <input id="expire-enabled"
-                       type="radio"
-                       checked={ expires }
-                       onChange={ this.onExpiresChange.bind(this, true) } />
+                    type="radio"
+                    checked={expires}
+                    onChange={this.onExpiresChange.bind(this, true)} />
                 <Label htmlFor="expire-enabled">
                     Yes
                 </Label>
                 <input id="expire-disabled"
-                       type="radio"
-                       name="expire"
-                       checked={ !expires }
-                       onChange={ this.onExpiresChange.bind(this, false) } />
+                    type="radio"
+                    name="expire"
+                    checked={!expires}
+                    onChange={this.onExpiresChange.bind(this, false)} />
                 <Label htmlFor="expire-disabled">
                     No
                 </Label>
@@ -206,15 +206,10 @@ export const ResourceRequestView = React.createClass({
             let tip = this.quotaData[field].tip;
 
             return (
-            <span key={i} dataToggle="tooltip">
-                <Label htmlFor={ field }>{ label } 
-                    <QuestionMark tip={ tip }/>
-                </Label>
-                <input className="form-control"
-                                  type="number"
-                                  value={ value }
-                                  onChange={ (e) => this.handleQuotaChange.call(this, e, field) } />
-            </span>
+            <span key={i} dataToggle="tooltip"><Label htmlFor={field}> {label} <QuestionMark tip={tip}/> </Label> <input className="form-control"
+                                                                                                                                                                                   type="number"
+                                                                                                                                                                                   value={value}
+                                                                                                                                                                                   onChange={(e) => this.handleQuotaChange.call(this, e, field)} /></span>
             );
         });
     },
@@ -257,49 +252,49 @@ export const ResourceRequestView = React.createClass({
             <div className="request-info">
                 <h4>User:</h4>
                 <div style={{ padding: "10px" }}>
-                    { username }
+                    {username}
                 </div>
                 <h4>Request:</h4>
                 <div style={{ padding: "10px" }}>
-                    { request }
+                    {request}
                 </div>
                 <h4>Description:</h4>
                 <div style={{ padding: "10px" }}>
-                    { description }
+                    {description}
                 </div>
             </div>
-            <hr style={ this.style().horizontalRule } />
-            <div style={ this.style().quotaDiv }>
+            <hr style={this.style().horizontalRule} />
+            <div style={this.style().quotaDiv}>
                 <h4>Quota:</h4>
-                { this.renderQuotaFields() }
+                {this.renderQuotaFields()}
             </div>
-            <div style={ this.style().allocationDiv }>
+            <div style={this.style().allocationDiv}>
                 <h4>Allocation:</h4>
-                { this.renderAllocationFields() }
+                {this.renderAllocationFields()}
             </div>
             <div style={{ clear: "both" }}></div>
-            <hr style={ this.style().horizontalRule } />
+            <hr style={this.style().horizontalRule} />
             <div className="form-group">
                 <h4>Response:</h4>
-                <textarea style={ this.style().responseArea }
-                          className="form-control"
-                          type="text"
-                          form="admin"
-                          value={ this.state.response }
-                          onChange={ this.handleResponseChange }>
+                <textarea style={this.style().responseArea}
+                    className="form-control"
+                    type="text"
+                    form="admin"
+                    value={this.state.response}
+                    onChange={this.handleResponseChange}>
                 </textarea>
             </div>
             <div className="buttons">
-                <button disabled={ !this.canSubmit() }
-                        onClick={ this.onApprove }
-                        type="button"
-                        className="btn btn-default btn-sm">
+                <button disabled={!this.canSubmit()}
+                    onClick={this.onApprove}
+                    type="button"
+                    className="btn btn-default btn-sm">
                     Approve
                 </button>
-                <button disabled={ !this.canSubmit() }
-                        onClick={ this.onDeny }
-                        type="button"
-                        className="btn btn-default btn-sm">
+                <button disabled={!this.canSubmit()}
+                    onClick={this.onDeny}
+                    type="button"
+                    className="btn btn-default btn-sm">
                     Deny
                 </button>
             </div>
@@ -342,16 +337,14 @@ const QuestionMark = React.createClass({
         let opacity = this.props.tip ? this.state.opacity : "0";
         let rand = Math.random() + "";
         return (
-        <span>
-            <span onMouseOver={ this.onMouseOver }
-                  onMouseOut={ this.onMouseOut }
+        <span><span onMouseOver={this.onMouseOver}
+                  onMouseOut={this.onMouseOut}
                   style={{ opacity }}
-                  data-tip={ this.props.tip }
-                  data-for={ rand }
+                  data-tip={this.props.tip}
+                  data-for={rand}
                   className="glyphicon glyphicon-question-sign"
-                  aria-hidden="true">
-            </span>
-            <Tooltip id={rand} place="right" effect="solid"/>
+                  aria-hidden="true"></span>
+        <Tooltip id={rand} place="right" effect="solid" />
         </span>
         );
     }
@@ -382,9 +375,7 @@ export default React.createClass({
     },
 
     onApprove(view) {
-        let {
-            allocation, quota, statuses, request
-        } = this.fetch();
+        let { allocation, quota, statuses, request } = this.fetch();
 
         let response = view.response;
         let allocExists = this.allocationCreatedForView(allocation, view);
@@ -453,7 +444,7 @@ export default React.createClass({
         let viewThreshold = view.threshold * 60;
 
         return allocation.get("threshold") == viewThreshold &&
-               allocation.get("delta") == viewDelta;
+        allocation.get("delta") == viewDelta;
     },
 
     quotaCreatedForView(quota, view) {
@@ -464,7 +455,11 @@ export default React.createClass({
 
     fetch() {
         let requestId = Number(this.props.params.id);
-        let allocation, quota, statuses, request, requests;
+        let allocation,
+            quota,
+            statuses,
+            request,
+            requests;
 
         statuses = stores.StatusStore.getAll();
         requests = stores.ResourceRequestStore.findWhere({
@@ -498,9 +493,7 @@ export default React.createClass({
     },
 
     render() {
-        let {
-            allocation, quota, request, requests
-        } = this.fetch();
+        let { allocation, quota, request, requests } = this.fetch();
 
 
         // If resources are not loading /and/ the ResourceRequest is falsy,
@@ -522,17 +515,8 @@ export default React.createClass({
 
         return (
         <div className="request-admin pull-right">
-            <ResourceRequestView {...{
-                requestId: Number(this.props.params.id),
-                username: request.get("user").username,
-                request: request.get("request"),
-                description: request.get("description"),
-                allocation,
-                quota,
-                quotaFields: this.quotaFields,
-                onApprove: this.onApprove,
-                onDeny: this.onDeny,
-            }} />
+            <ResourceRequestView {...{ requestId: Number(this.props.params.id), username: request.get( "user").username, request: request.get( "request"), description: request.get(
+                "description"), allocation, quota, quotaFields: this.quotaFields, onApprove: this.onApprove, onDeny: this.onDeny, }} />
             <RouteHandler />
         </div>
         );

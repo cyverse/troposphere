@@ -1,19 +1,19 @@
-import React from 'react';
-import Backbone from 'backbone';
-import ResourceDetail from 'components/projects/common/ResourceDetail.react';
+import React from "react";
+import Backbone from "backbone";
+import ResourceDetail from "components/projects/common/ResourceDetail.react";
 
 export default React.createClass({
-      displayName: "Alias",
+    displayName: "Alias",
 
-      propTypes: {
+    propTypes: {
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    },
 
-      render: function () {
+    render: function() {
         return (
-          <ResourceDetail label="Alias">
-            {this.props.instance.get('uuid')}
-          </ResourceDetail>
+        <ResourceDetail label="Alias">
+            {this.props.instance.get("uuid")}
+        </ResourceDetail>
         );
-      }
+    }
 });
