@@ -6,13 +6,13 @@
     "jsx": {
         "alignWithFirstAttribute": false,
         "attrsOnSameLineAsTag": false,
-        "spaceInJSXExpressionContainers": "",
         "firstAttributeOnSameLine": true,
         "formatJSX": true,
         "htmlOptions": {
             "indent_size": 4
         },
-        "maxAttrsOnTag": 3
+        "maxAttrsOnTag": 3,
+        "spaceInJSXExpressionContainers": ""
     },
     "plugins": [
         "esformatter-jsx",
@@ -23,5 +23,13 @@
     "quotes": {
         "avoidEscape": true,
         "type": "double"
+    },
+    "whiteSpace": {
+        "before": {
+          "ObjectPatternClosingBrace": 1
+        },
+        "after": {
+          "ObjectPatternOpeningBrace": 1
+        }
     }
 }
