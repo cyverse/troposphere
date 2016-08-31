@@ -24,11 +24,25 @@
                 </div>
             </div>
 {% endif %}
+
+
+
+
             <h1>Your account does not currently have access to Atmosphere.</h1>
-            <p>If you would like to request access, you can do so through the <a href="{{USER_PORTAL_LINK}}">{{USER_PORTAL_LINK_TEXT}}</a> by clicking the 'Request Access' button next to the Atmosphere service.</p>
-            <p>You can also find instructions <a href="{{ACCOUNT_INSTRUCTIONS_LINK}}">on the website</a>.</p>
-            <p>If you have already requested access, then you must wait until your request is approved before you can use Atmosphere.</p>
-            <p>If you have already been approved, you may be seeing this page because your session has expired. Click below to attempt another login.</p>
+
+            <p>If you would like to request access, you can do so by contacting <a href="mailto:{{SUPPORT_EMAIL}}">Support</a>.</p>
+
+            <p>
+              If your access has already been approved, then you must wait until your access request
+              has been granted. If you continue to see this page after approval, you may be seeing
+              this page because your session has expired. Click below to attempt another login.
+            </p>
+
+            <p>
+              If multiple attempts to login do not work and you have waited at least two hours
+              since your approval. Please contact Support, <a href="mailto:{{SUPPORT_EMAIL}}">{{SUPPORT_EMAIL}}</a>.
+            </p>
+
             <a class="submitButton" href="/logout?force=true">
                 Attempt to Login Again
             </a>

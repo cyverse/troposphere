@@ -142,7 +142,7 @@ const DefaultModalView = React.createClass({
 
         if (noProjects.length > 0) {
             let pseudoProject = new Backbone.Model({
-                name: "... pending project assignment"
+                name: "<None>"
             });
             renderedNullProject.push(
                 this.renderProject(pseudoProject, noProjects));
@@ -295,6 +295,14 @@ const ModalBackend = React.createClass({
         let body = loading
             ? <LoadingModalView />
             : <DefaultModalView { ...props } />
+
+        if (allocationSources && allocationSources.length == 0) {
+            // we've entered an edge case, they have a valid
+            // account - but that account does not appear to
+            // have any allocationSources - redirect to a
+            // a templated error view/page
+            window.location = '/allocations';
+        }
 
         return (
         <div className="modal fade">

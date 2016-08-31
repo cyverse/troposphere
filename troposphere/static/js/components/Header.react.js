@@ -168,8 +168,8 @@ let Header = React.createClass({
     handleNotice: function() {
         if (context.hasMaintenanceNotice()) {
             NotificationController.warning(
-                "CyVerse Maintenance Information",
                 context.getMaintenanceNotice(),
+                "Maintenance Information",
                 {
                     "toastClass": "toast toast-mod-info-darken",
                     "positionClass": "toast-top-full-width",
