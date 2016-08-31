@@ -26,8 +26,8 @@
     "lint": "eslint troposphere/static/js",
     "travis-lint": "eslint -c .eslintrc.travis --no-eslintrc troposphere/static/js",
     "lint-pre-commit": "eslint --stdin",
-    "format-check": "esformatter -c .esformatter --diff $(git diff --diff-filter=M --name-only | grep js$) || exit 0",
-    "format": "esformatter -c .esformatter -i $(git diff --diff-filter=M --name-only | grep js$)"
+    "format-check": "esformatter -c .esformatter --diff $(git ls-files troposphere/static/js*js) || exit 0",
+    "format": "esformatter -c .esformatter -i $(git ls-files troposphere/static/js*js)"
   },
   "dependencies": {
     "backbone": "^1.2.1",
@@ -61,7 +61,7 @@
     "css-loader": "^0.23.0",
     "esformatter": "^0.9.3",
     "esformatter-eol-last": "^1.0.0",
-    "esformatter-jsx": "^5.0.4",
+    "esformatter-jsx": "^7.0.1",
     "esformatter-quotes": "^1.0.3",
     "eslint": "^2.13.*",
     "eslint-plugin-react": "^4.1.0",
