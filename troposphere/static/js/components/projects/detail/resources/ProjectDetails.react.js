@@ -1,6 +1,5 @@
 import React from 'react';
 import Backbone from 'backbone';
-import PreviewPanel from './PreviewPanel.react';
 import ButtonBar from './ButtonBar.react';
 import ExternalLinkList from './link/ExternalLinkList.react';
 import ImageList from './image/ImageList.react';
@@ -169,7 +168,6 @@ export default React.createClass({
                 selectedResources={selectedResources}
                 />
             </div>
-            <PreviewPanel resource={previewedResource}/>
           </div>
         </div>
       );

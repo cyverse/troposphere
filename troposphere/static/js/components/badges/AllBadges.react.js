@@ -1,27 +1,43 @@
 import React from 'react';
 import Router from 'react-router';
-import BadgeList from './BadgeList.react';
+import Badge from './Badge.react';
 import stores from 'stores';
-
 
 export default React.createClass({
     displayName: "AllBadges",
 
     mixins: [Router.State],
 
-    render: function() {
-        var badges = stores.BadgeStore.getAll();
+    getInitialState: function() {
+      var user = stores.ProfileStore.get();
+      return{
+        userEmail: user.get('email'),
+        badges: "",
+        myBadges: ""
+      };
+    },
 
-        if (!badges) {
-            return (
-            <div className="loading" />
-            )
-        }
+    render: function () {
+      var badges = stores.BadgeStore.getAll();
 
+      if(!badges){
+        return(
+          <div className="loading" />
+        )
+      }
+
+      var badgeDisplay = badges.map(function(badge) {
         return (
-        <div className="all badges container">
-            <BadgeList badges={ badges } title={ "All Badges" } />
+          <Badge badge={badge} />
+        )
+      });
+
+      return (
+        <div className="all">
+          <ul id="all-badges-list">
+          {badgeDisplay}
+          </ul>
         </div>
-        );
+      );
     }
 });

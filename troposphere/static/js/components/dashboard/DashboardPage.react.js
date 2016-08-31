@@ -20,9 +20,9 @@ export default React.createClass({
     displayName: "DashboardPage",
 
     renderRequestMoreResources: function(e){
-        e.preventDefault();
-        modals.HelpModals.requestMoreResources();
-        trackAction('made-resource-request', {element: 'from-dashboard'});
+      e.preventDefault();
+      modals.HelpModals.requestMoreResources();
+      trackAction('made-resource-request', {element: 'from-dashboard'});
     },
 
     getState: function() {

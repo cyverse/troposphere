@@ -1,6 +1,6 @@
-import BaseStore from "stores/BaseStore";
-import InstanceHistoryCollection from "collections/InstanceHistoryCollection";
-import actions from "actions";
+import BaseStore from 'stores/BaseStore';
+import InstanceHistoryCollection from 'collections/InstanceHistoryCollection';
+import actions from 'actions';
 
 let InstanceHistoryStore = BaseStore.extend({
     collection: InstanceHistoryCollection,
@@ -11,10 +11,8 @@ let InstanceHistoryStore = BaseStore.extend({
 });
 
 // Fetch models and check badges when data is retreived
-InstanceHistoryStore.prototype.fetchAndCheckBadges = function() {
-    this.fetchWhere({
-        unique: true
-    });
+InstanceHistoryStore.prototype.getAllAndCheckBadges = function() {
+    this.getAll();
     this.addChangeListener(function() {
         actions.BadgeActions.checkInstanceBadges();
     });

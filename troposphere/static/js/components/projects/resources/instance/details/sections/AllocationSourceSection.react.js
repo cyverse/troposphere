@@ -30,9 +30,16 @@ export default React.createClass({
         let { current } = this.state || {};
 
         if (!current) {
-            current = allocationSources.findWhere({
-                source_id: instance.get("allocation_source").source_id
-            });
+            // TODO: re-review this post-q-q-js
+            let allocSrc = instance.get("allocation_source");
+            if (!(allocSrc instanceof Backbone.Model)) {
+                current = allocationSources.findWhere({
+                    source_id: allocSrc.source_id
+                });
+            } else {
+                // we've got a Backbone.Model
+                current = allocSrc;
+            }
         }
 
         return {
@@ -48,8 +55,14 @@ export default React.createClass({
     },
 
     render() {
-        let { allocationSources } = this.props;
+        let { allocationSources, instance } = this.props;
         let current = this.state.current;
+        // temp - could make this a `|| default` maybe
+        if (instance.get("allocation_source")) {
+            let src = instance.get("allocation_source");
+            current = src instanceof Backbone.Model ? src
+                    : new Backbone.Model(instance.get("allocation_source"));
+        }
 
         return (
         <div style={{ paddingTop: "20px" }}>
@@ -57,10 +70,11 @@ export default React.createClass({
             <div style={{ marginBottom: "20px" }}>
                 <SelectMenu current={ current }
                             optionName={ item => item.get("name") }
+                            findIndex={ (el, idx, arr) => el.get("source_id") == current.get("source_id") }
                             list={ allocationSources }
                             onSelect={ this.onSourceChange } />
             </div>
-            <AllocationSourceGraph allocationSource={ this.state.current } />
+            <AllocationSourceGraph allocationSource={ current } />
         </div>
         );
     }

@@ -1,6 +1,7 @@
 import VolumeConstants from 'constants/VolumeConstants';
 import VolumeState from 'models/VolumeState';
 import Badges from 'Badges';
+import globals from 'globals';
 import InstanceVolumeActionRequest from 'models/InstanceVolumeActionRequest';
 import Utils from '../Utils';
 import NotificationController from 'controllers/NotificationController';
@@ -43,7 +44,9 @@ export default {
 
         Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
         Utils.dispatch(VolumeConstants.POLL_VOLUME_WITH_DELAY, {volume: volume});
-        actions.BadgeActions.checkOrGrant(Badges.ATTACH_VOLUME_BADGE);
+        if (globals.BADGES_ENABLED) {
+          actions.BadgeActions.checkOrGrant(Badges.ATTACH_VOLUME_BADGE);
+        }
       }).fail(function (response) {
         var title = "Error attaching volume",
           message,

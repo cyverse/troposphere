@@ -6,6 +6,7 @@ import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
 import stores from 'stores';
 import globals from 'globals';
 import SelectMenu from 'components/common/ui/SelectMenu.react';
+import Utils from "actions/Utils";
 import EventActions from "actions/EventActions";
 import EventConstants from "constants/EventConstants";
 
@@ -131,11 +132,31 @@ const DefaultModalView = React.createClass({
         return renderedProjects;
     },
 
+    renderNullProjectInstances() {
+        let orphans = this.props.instances,
+            renderedNullProject = [];
+
+        let noProjects = orphans.filter(
+            o => o.get("projects") && o.get("projects").length == 0
+        );
+
+        if (noProjects.length > 0) {
+            let pseudoProject = new Backbone.Model({
+                name: "... pending project assignment"
+            });
+            renderedNullProject.push(
+                this.renderProject(pseudoProject, noProjects));
+        }
+
+        return renderedNullProject;
+    },
+
     renderBody() {
         let { projects } = this.props;
 
         // Render each project that needs updated instances
         let renderedProjects = projects.reduce(this.renderProjectList, []);
+        let renderedNullProject = this.renderNullProjectInstances();
 
         return (
             <div role='form'>
@@ -149,6 +170,7 @@ const DefaultModalView = React.createClass({
                 </p>
                 <hr className="hr" />
                 { renderedProjects }
+                { renderedNullProject }
             </div>
         );
     },
@@ -233,7 +255,12 @@ const ModalBackend = React.createClass({
             EventActions.fire(
                 EventConstants.ALLOCATION_SOURCE_CHANGE,
                 { instance, allocationSource }
-            )
+            );
+            instance.set({allocation_source: allocationSource});
+            Utils.dispatch(
+                EventConstants.ALLOCATION_SOURCE_CHANGE,
+                { instance, allocationSource }
+            );
         })
 
         this.hide();

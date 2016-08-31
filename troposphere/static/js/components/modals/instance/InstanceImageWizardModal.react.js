@@ -34,16 +34,17 @@ export default React.createClass({
     //
 
     getInitialState: function () {
-      stores.IdentityStore.getAll();
       return {
         step: 1,
         title: "Image Info", // Identical to first breadcrumb name
-        name: this.props.instance.get('image').name,
+        name: "",
+        description: "",
         versionName: this.props.versionName || "1.0",
         versionChanges: "",
         visibility: "public",
         minCPU: "0",
         minMem: "0",
+        identity: null,
         imageTags: new Backbone.Collection(),
         imageUsers: new Backbone.Collection(),
         activeScripts: new Backbone.Collection(),
@@ -62,19 +63,16 @@ export default React.createClass({
     },
 
     updateState: function () {
-        let instance = this.props.instance;
-
-        let imageTags = this.state.imageTags;
-        if (instance) {
-            imageTags = stores.InstanceTagStore.getTagsFor(instance);
-        }
-
+      let identities = stores.IdentityStore.getAll();
+      if (identities) {
         this.setState({
-            imageTags,
+          identity: identities.first()
         });
+      }
     },
 
     componentDidMount: function () {
+      stores.IdentityStore.addChangeListener(this.updateState);
       stores.InstanceTagStore.addChangeListener(this.updateState);
       stores.UserStore.addChangeListener(this.updateState);
       stores.ScriptStore.addChangeListener(this.updateState);
@@ -83,6 +81,7 @@ export default React.createClass({
     },
 
     componentWillUnmount: function () {
+      stores.IdentityStore.removeChangeListener(this.updateState);
       stores.InstanceTagStore.removeChangeListener(this.updateState);
       stores.UserStore.removeChangeListener(this.updateState);
       stores.ScriptStore.removeChangeListener(this.updateState);
@@ -121,6 +120,7 @@ export default React.createClass({
         minMem: this.state.minMem,
         minCPU: this.state.minCPU,
         tags: this.state.imageTags,
+        identity: this.state.identity,
         versionName: this.state.versionName,
         versionChanges: this.state.versionChanges,
         visibility: this.state.visibility,
@@ -172,15 +172,10 @@ export default React.createClass({
           helpLink = stores.HelpLinkStore.get('request-image'),
           activeScripts = this.state.activeScripts;
 
-      let description = instance.get('image').description;
-
       switch(step) {
         case IMAGE_INFO_STEP:
           return (
             <ImageInfoStep
-              name={this.state.name}
-              imageTags={this.state.imageTags}
-              description={description}
               instance={instance}
               imageOwner={this.props.imageOwner}
               onPrevious={this.onPrevious}

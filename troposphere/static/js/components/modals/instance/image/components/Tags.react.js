@@ -12,7 +12,7 @@ export default React.createClass({
         onTagAdded: React.PropTypes.func.isRequired,
         onTagRemoved: React.PropTypes.func.isRequired,
         onTagCreated: React.PropTypes.func.isRequired,
-        imageTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        imageTags: React.PropTypes.instanceOf(Backbone.Collection)
     },
 
     getInitialState: function () {
@@ -73,6 +73,13 @@ export default React.createClass({
         });
     },
 
+    filterTags: function (image_tags) {
+        image_tags = image_tags.filter(function (tag) {
+              return tag.get('allow_access') === true;
+        });
+        image_tags = new Backbone.Collection(image_tags);
+        return image_tags;
+    },
     render: function () {
       var imageTags = this.props.imageTags,
         tags = this.state.tags,
@@ -82,28 +89,31 @@ export default React.createClass({
             if(this.state.showTagCreateForm){
                 tagCreateForm = (
                     <div className="form-group">
-                        <label for="tag-create" className="control-label">Create new tag</label>
+                        <label htmlFor="tag-create" className="control-label">Create new tag</label>
                         <form>
-                            Name:<br />
+                            {"Name:"}<br />
                             <input className="form-control" type="text" onChange={this.onNewTagNameChange} value={this.state.newTagName} /><br />
-                            Description:<br />
+                            {"Description:"}<br />
                             <textarea className="form-control" type="text" onChange={this.onNewTagDescriptionChange} value={this.state.newTagDescription} /><br />
                         </form>
                         <button disabled={!this.isSubmittable()} onClick={this.createTagAndAddToImage}
                             className="btn btn-primary btn-sm pull-right">
-                            Create and add
+                            {"Create and add"}
                         </button>
                     </div>
                 );
             }
 
-      if (!tags) return <div className="loading"/>;
+      if (!imageTags) return <div className="loading"/>;
 
+      if (!tags) return <div className="loading"/>;
+      let filteredImageTags = this.filterTags(imageTags);
+      let filteredTags = this.filterTags(tags);
       if (query) {
-        tags = tags.filter(function (tag) {
+        filteredTags = filteredTags.filter(function (tag) {
           return tag.get('name').toLowerCase().indexOf(query) >= 0;
         });
-        tags = new Backbone.Collection(tags);
+        filteredTags = new Backbone.Collection(filteredTags);
       }
 
       return (
@@ -112,19 +122,18 @@ export default React.createClass({
 
           <div className="tagger_container">
             <div className="help-block">
-              Please include tags that will help users decide whether this image will suit their
-              needs. You can include the operating system, installed software, or configuration information. E.g.
-              Ubuntu,
-              NGS Viewers, MAKER, QIIME, etc.
+              {"Please include tags that will help users decide whether this image will suit their"}
+              {"needs. You can include the operating system, installed software, or configuration information. E.g."}
+              {"Ubuntu, NGS Viewers, MAKER, QIIME, etc."}
             </div>
             <div className="help-block">
-              For your convenience, we've automatically added the tags that were already on the instance.
+              {"For your convenience, we've automatically added the tags that were already on the instance."}
             </div>
             <TagMultiSelect
-              models={tags}
-              activeModels={imageTags}
+              models={filteredTags}
+              activeModels={filteredImageTags}
               onCreateNewTag={this.onCreateNewTag}
-                            onModelAdded={this.props.onTagAdded}
+              onModelAdded={this.props.onTagAdded}
               onModelRemoved={this.props.onTagRemoved}
               onModelCreated={this.props.onTagCreated}
               onQueryChange={this.onQueryChange}

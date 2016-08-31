@@ -34,7 +34,7 @@ export default React.createClass({
       return (
         <footer className="footer">
           <div className="container">
-            <a href="http://user.iplantcollaborative.org" target="_blank">
+            <a href="http://user.cyverse.org" target="_blank">
                   {"\u00a9" + year + " " + this.props.text}
             </a>
             {feedbackButton}

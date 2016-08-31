@@ -42,7 +42,7 @@ export default React.createClass({
         image: React.PropTypes.instanceOf(Backbone.Model),
         project: React.PropTypes.instanceOf(Backbone.Model),
         onConfirm: React.PropTypes.func.isRequired,
-        initialView: React.PropTypes.string.isRequired,
+        initialView: React.PropTypes.string.isRequired
     },
 
     getInitialState: function() {
@@ -50,14 +50,16 @@ export default React.createClass({
         // We might have these
         let image = this.props.image ? this.props.image : null;
         let instanceName = image ? image.get('name') : null;
-        let projectList = stores.ProjectStore.getAll();
         let project = this.props.project ? this.props.project : null;
         let view = this.props.initialView;
 
         // Check if the user has any projects, if not then set view to "PROJECT_VIEW"
         // to create a new one
-        if (view != 'IMAGE_VIEW' && projectList.length === 0) {
-            view = 'PROJECT_VIEW';
+        let projectList = stores.ProjectStore.getAll();
+        if (projectList) {
+            if (view != 'IMAGE_VIEW' && projectList.length === 0) {
+                view = 'PROJECT_VIEW';
+            }
         }
 
         return {
@@ -87,6 +89,16 @@ export default React.createClass({
     // stores, so that render can just call get and eventually get data.
     updateState: function() {
         let allocationSourceList = stores.AllocationSourceStore.getAll();
+        let view = this.props.initialView;
+
+        // Check if the user has any projects, if not then set view to "PROJECT_VIEW"
+        // to create a new one
+        let projectList = stores.ProjectStore.getAll();
+        if (projectList) {
+            if (view != 'IMAGE_VIEW' && projectList.length === 0) {
+                this.viewProject();
+            }
+        }
 
         let project = this.state.project;
         if (!project) {
@@ -111,7 +123,7 @@ export default React.createClass({
 
         let provider = this.state.provider;
         if (providerList) {
-            provider = provider || providerList.first();
+            provider = provider || providerList.shuffle()[0];
         }
 
         let identityProvider, providerSizeList;
@@ -173,7 +185,7 @@ export default React.createClass({
         stores.ProjectStore.removeChangeListener(this.updateState);
         stores.ImageVersionStore.removeChangeListener(this.updateState);
         stores.ScriptStore.removeChangeListener(this.updateState);
-        
+
         if (globals.USE_ALLOCATION_SOURCES) {
             stores.AllocationSourceStore.removeChangeListener(this.updateState);
         }
@@ -181,6 +193,10 @@ export default React.createClass({
 
     viewImageSelect: function() {
         this.setState({ view: 'IMAGE_VIEW' });
+    },
+
+    viewProject: function() {
+        this.setState({ view: 'PROJECT_VIEW' });
     },
 
     viewBasic: function() {

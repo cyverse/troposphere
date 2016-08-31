@@ -1,8 +1,8 @@
 import React from 'react';
 import Router from 'react-router';
-import BadgeList from './BadgeList.react';
+import Badge from './Badge.react';
+import actions from 'actions';
 import stores from 'stores';
-
 
 export default React.createClass({
     displayName: "UnearnedBadges",
@@ -10,46 +10,58 @@ export default React.createClass({
     mixins: [Router.State],
 
     getInitialState: function() {
-        var user = stores.ProfileStore.get();
-        return {
-            userEmail: user.get("email"),
-            badges: "",
-            myBadges: ""
-        };
+      var user = stores.ProfileStore.get();
+      return{
+        userEmail: user.get('email'),
+        badges: "",
+        myBadges: ""
+      };
     },
 
-    render: function() {
-        var badges = stores.BadgeStore.getAll(),
-            myBadges = stores.MyBadgeStore.getAll();
+    check: function(){
+      actions.BadgeActions.ask();
+    },
 
-        if (!badges || !myBadges) {
-            return (
-            <div>
-                <h1>Loading</h1>
-            </div>
-            )
+    render: function () {
+      // get around undefined email when calling from MyBadgeStore
+      var email = stores.ProfileStore.get().get('email');
+      if(!email){
+        return(
+          <div>
+            <h1>Loading</h1>
+          </div>
+        )
+      }
+      var badges = stores.BadgeStore.getAll();
+      var myBadges = stores.MyBadgeStore.getAll();
+      var instanceHistory = stores.InstanceHistoryStore.getAll();
+      var myBadgeIds = {};
+
+      if(!badges || !myBadges || !instanceHistory){
+        return(
+          <div className="loading" />
+        )
+      }
+
+      myBadges.map(function (badge) {
+        myBadgeIds[badge.id] = 1;
+      });
+
+      var badgeDisplay = badges.map(function(badge) {
+        var badgeId = badge.id;
+        if (!myBadgeIds[badgeId]) {
+          return (
+            <Badge badge={badge} />
+          )
         }
+      });
 
-        var empty = true;
-        var unearnedBadges = badges.filter(function(badge) {
-            if (!stores.MyBadgeStore.has(badge.id)) {
-                empty = false;
-                return badge;
-            }
-        });
-
-        if (empty) {
-            return (
-            <div>
-                You have earned every single badge!
-            </div>
-            );
-        }
-
-        return (
-        <div className="to-earn badges container">
-            <BadgeList badges={ unearnedBadges } title={ "Unearned Badges" } />
+      return (
+        <div className="to-earn">
+          <ul id="all-badges-list">
+          {badgeDisplay}
+          </ul>
         </div>
-        );
+      );
     }
 });

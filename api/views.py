@@ -67,27 +67,12 @@ class BadgeViewSet(viewsets.GenericViewSet):
     http_method_names = ['get', 'post', 'head', 'options', 'trace']
 
     def create(self, request, *args, **kwargs):
-
         url = settings.BADGE_API_HOST
         email_address = str(User.objects.get(username=self.request.user).email)
+        slug = settings.BADGE_SYSTEM_SLUG
         secret = settings.BADGE_SECRET
         badge = str(self.request.data['badgeSlug'])
-
-        if settings.BADGE_GRANULARITY == "program":
-            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + \
-                '/issuers/' + settings.BADGE_ISSUER_SLUG + \
-                '/programs/' + settings.BADGE_PROGRAM_SLUG + \
-                '/badges/' + badge + '/instances'
-        elif settings.BADGE_GRANULARITY == "issuer":
-            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + \
-                '/issuers/' + settings.BADGE_ISSUER_SLUG + \
-                '/badges/' + badge + '/instances'
-        elif settings.BADGE_GRANULARITY == "system":
-            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + \
-                '/badges/' + badge + '/instances'
-        else:
-            return "Error: Missing BADGE_GRANULARITY in settings"
-
+        path = '/systems/' + slug + '/badges/' + badge + '/instances'
         header = {"typ": "JWT", "alg": 'HS256'}
         body = json.dumps({"email": email_address})
 
@@ -114,36 +99,22 @@ class BadgeViewSet(viewsets.GenericViewSet):
             }
         }
         r = requests.post(url + path,
-                          data=body,
-                          headers=options['headers'],
-                          verify=False)
+                data=body,
+                headers=options['headers'],
+                verify=False)
 
         return Response(data=r.json(), status=status.HTTP_201_CREATED)
 
     def retrieve(self, request, *args, **kwargs):
         url = settings.BADGE_API_HOST
         email = User.objects.get(username=self.request.user).email
+        slug = settings.BADGE_SYSTEM_SLUG
+        name = settings.BADGE_SYSTEM_NAME
         secret = settings.BADGE_SECRET
 
-        if settings.BADGE_GRANULARITY == "program":
-            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + \
-                '/issuers/' + settings.BADGE_ISSUER_SLUG + \
-                '/programs/' + settings.BADGE_PROGRAM_SLUG + \
-                '/instances/' + email
-        elif settings.BADGE_GRANULARITY == "issuer":
-            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + \
-                '/issuers/' + settings.BADGE_ISSUER_SLUG + \
-                '/instances/' + email
-        elif settings.BADGE_GRANULARITY == "system":
-            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + \
-                '/instances/' + email
-        else:
-            return "Error: Missing BADGE_GRANULARITY in settings"
-
+        path = '/systems/' + slug + '/instances/' + email
         header = {"typ": "JWT", "alg": 'HS256'}
-        body = str({"system_slug": settings.BADGE_SYSTEM_SLUG,
-                    "name": settings.BADGE_SYSTEM_NAME,
-                    "url": url + path})
+        body = str({"slug": slug, "name": name, "url": url + path})
 
         computed_hash = SHA256.new()
         computed_hash.update(body)
@@ -169,31 +140,20 @@ class BadgeViewSet(viewsets.GenericViewSet):
         }
 
         r = requests.get(url + path,
-                         headers=options['headers'],
-                         verify=False)
+                headers=options['headers'],
+                verify=False)
 
         return Response(data=r.json(), status=status.HTTP_200_OK)
 
     def list(self, request, *args, **kwargs):
-        if settings.BADGE_GRANULARITY == "program":
-            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + \
-                '/issuers/' + settings.BADGE_ISSUER_SLUG + \
-                '/programs/' + settings.BADGE_PROGRAM_SLUG + '/badges'
-        elif settings.BADGE_GRANULARITY == "issuer":
-            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + \
-                '/issuers/' + settings.BADGE_ISSUER_SLUG + '/badges'
-        elif settings.BADGE_GRANULARITY == "system":
-            path = '/systems/' + settings.BADGE_SYSTEM_SLUG + '/badges'
-        else:
-            return "Error: Missing BADGE_GRANULARITY in settings"
-
-        secret = settings.BADGE_SECRET
         url = settings.BADGE_API_HOST
+        slug = settings.BADGE_SYSTEM_SLUG
+        name = settings.BADGE_SYSTEM_NAME
+        secret = settings.BADGE_SECRET
 
+        path = '/systems/' + slug + '/badges'
         header = {"typ": "JWT", "alg": 'HS256'}
-        body = str({"system_slug": settings.BADGE_SYSTEM_SLUG,
-                    "system_name": settings.BADGE_SYSTEM_NAME,
-                    "url": url + path})
+        body = str({"slug": slug, "name": name, "url": url + path})
 
         computed_hash = SHA256.new()
         computed_hash.update(body)
@@ -218,11 +178,5 @@ class BadgeViewSet(viewsets.GenericViewSet):
             }
         }
 
-        try:
-            r = requests.get(url + path,
-                             headers=options['headers'],
-                             verify=False)
-            data = r.json()
-        except:
-            data = "Error"
-        return Response(data=data, status=status.HTTP_200_OK)
+        r = requests.get(url + path, headers=options['headers'], verify=False)
+        return Response(data=r.json(), status=status.HTTP_200_OK)

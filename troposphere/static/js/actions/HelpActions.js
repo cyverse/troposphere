@@ -56,10 +56,10 @@ export default {
       if (!params.quota) throw new Error("Missing quota");
       if (!params.reason) throw new Error("Missing reason");
 
-
       if(globals.BADGES_ENABLED){
         actions.BadgeActions.askSupport();
       }
+
 
       var identity = params.identity,
         quota = params.quota,

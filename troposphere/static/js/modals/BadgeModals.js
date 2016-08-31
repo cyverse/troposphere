@@ -1,11 +1,7 @@
-import BadgeModal from "./badge/ShowBadge";
-import MyBadgeModal from "./badge/ShowMyBadge";
-import showHelp from "./badge/ShowHelp";
+import BadgeModal from './badge/ShowBadge';
+import MyBadgeModal from './badge/ShowMyBadge';
 
-var BadgeModals = {
-    showHelp: showHelp,
+export default {
     showBadge: BadgeModal.ShowBadge,
     showMyBadge: MyBadgeModal.ShowMyBadge
 };
-
-export default BadgeModals;

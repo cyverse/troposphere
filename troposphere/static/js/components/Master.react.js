@@ -1,21 +1,21 @@
-import React from "react";
-import stores from "stores";
-import Backbone from "backbone";
-import context from "context";
-import globals from "globals";
-import Header from "./Header.react";
-import Footer from "./Footer.react";
-import actions from "actions";
-import modals from "modals";
-import modernizrTest from "components/modals/unsupported/modernizrTest.js";
-import NullProject from "models/NullProject";
-import noAllocationSource from "modals/allocationSource/noAllocationSource.js";
+import React from 'react';
+import stores from 'stores';
+import Backbone from 'backbone';
+import context from 'context';
+import globals from 'globals';
+import Header from './Header.react';
+import Footer from './Footer.react';
+import actions from 'actions';
+import modals from 'modals';
+import modernizrTest from 'components/modals/unsupported/modernizrTest.js';
+import NullProject from 'models/NullProject';
+import noAllocationSource from 'modals/allocationSource/noAllocationSource.js';
 
-import Router from "react-router";
-import { RouteHandler } from "react-router";
+import Router from 'react-router';
+import { RouteHandler } from 'react-router';
 
 export default React.createClass({
-    displayName: "Master",
+    displayName: 'Master',
 
     mixins: [Router.State],
 
@@ -38,7 +38,7 @@ export default React.createClass({
     loadBadgeData: function() {
         stores.BadgeStore.getAll(),
         stores.MyBadgeStore.getAll(),
-        stores.InstanceHistoryStore.fetchAndCheckBadges();
+        stores.InstanceHistoryStore.getAllAndCheckBadges();
         stores.ImageBookmarkStore.getAllAndCheckBadges();
     },
 
@@ -74,6 +74,9 @@ export default React.createClass({
 
                 if (missing.length > 0) {
                     noAllocationSource.showModal(missing, resolve);
+                } else {
+                    // give the other promises a shot at handling things
+                    resolve();
                 }
             } else {
                 // Continue on to the next promise
@@ -85,14 +88,14 @@ export default React.createClass({
             // to launch the next modal if we need to
             () => new Promise((resolve, reject) => {
                 modernizrTest.unsupported()
-                    ? modals.UnsupportedModal.showModal(resolve)
-                    : resolve()
+                ? modals.UnsupportedModal.showModal(resolve)
+                : resolve();
             })
 
         ).then(() => {
             !nullProject.isEmpty()
-                ? actions.NullProjectActions.migrateResourcesIntoProject(nullProject)
-                : actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject()
+            ? actions.NullProjectActions.migrateResourcesIntoProject(nullProject)
+            : actions.NullProjectActions.moveAttachedVolumesIntoCorrectProject();
         })
     },
 
@@ -113,20 +116,19 @@ export default React.createClass({
             //Users who ARE logged in, but without an identity
             //cannot be handled in the application, currently.
             //These users are punted now.
-            var username = context.profile.get("username"),
-                errorText = "User <" + username + "> was authenticated, but has no available, active identities. Contact your Cloud Administrator.",
+            var username = context.profile.get('username'),
+                errorText = 'User <' + username + '> was authenticated, but has no available, active identities. Contact your Cloud Administrator.',
                 error_status = encodeURIComponent(errorText);
-            window.location = "/forbidden?banner=" + error_status;
+            window.location = '/forbidden?banner=' + error_status;
         }
 
         var maintenanceMessages = stores.MaintenanceMessageStore.getAll() || new Backbone.Collection(),
-            marginTop = maintenanceMessages.length * 24 + "px";
+            marginTop = maintenanceMessages.length * 24 + 'px';
 
         return (
         <div>
-            <Header profile={ context.profile } currentRoute={ ["projects"] } maintenanceMessages={ maintenanceMessages }
-            />
-            <div id="main" style={ { "marginTop": marginTop } }>
+            <Header profile={ context.profile } currentRoute={ ['projects'] } maintenanceMessages={ maintenanceMessages } />
+            <div id="main" style={ { 'marginTop': marginTop } }>
                 <RouteHandler/>
             </div>
             <Footer text={ globals.SITE_FOOTER } profile={ context.profile } />

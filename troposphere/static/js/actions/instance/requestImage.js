@@ -1,6 +1,4 @@
-
 import globals from 'globals';
-import stores from 'stores';
 import $ from 'jquery';
 import Utils from '../Utils';
 
@@ -20,12 +18,10 @@ export default {
       // if(!params.filesToExclude) throw new Error("Missing filesToExclude");
       // if(!params.systemFiles) throw new Error("Missing systemFiles");
       if(!params.scripts) throw new Error("Missing scripts");
+      if(!params.identity) throw new Error("Missing identity");
       if(!params.licenses) throw new Error("Missing licenses");
       if(!params.visibility) throw new Error("Missing visibility");
       if(!params.imageUsers) throw new Error("Missing imageUsers");
-
-      // temp. workaround for getting user's identity
-      var identity = stores.IdentityStore.getAll().models[0].id;
 
       var instance = params.instance.get('id'),
           name = params.name,

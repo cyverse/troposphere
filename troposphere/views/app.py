@@ -62,8 +62,7 @@ def _should_enabled_new_relic():
         bool(settings.NEW_RELIC_ENVIRONMENT) is True
 
 
-def _populate_template_params(request, maintenance_records, notice_t,
-                              disabled_login, public=False):
+def _populate_template_params(request, maintenance_records, notice_t, disabled_login, public=False):
     """
     Creates a dict of parameters for later template merge given the arguments,
     request session, and django settings (defined in `default.py` or overidden
@@ -111,26 +110,10 @@ def _populate_template_params(request, maintenance_records, notice_t,
     template_params['SITE_FOOTER'] = settings.SITE_FOOTER
     template_params['SUPPORT_EMAIL'] = settings.SUPPORT_EMAIL
     template_params['UI_VERSION'] = settings.UI_VERSION
-
-    template_params['BADGES_ENABLED'] = getattr(settings,
-                                                "BADGES_ENABLED",
-                                                False)
     template_params['BADGE_HOST'] = getattr(settings, "BADGE_HOST", None)
-    template_params['BADGE_IMAGE_HOST'] = getattr(settings,
-                                                  "BADGE_IMAGE_HOST",
-                                                  None)
-    template_params['BADGE_ASSERTION_HOST'] = getattr(settings,
-                                                      "BADGE_ASSERTION_HOST",
-                                                      None)
-
-    template_params['USE_MOCK_DATA'] = getattr(settings,
-                                               "USE_MOCK_DATA",
-                                               False)
-    template_params['USE_ALLOCATION_SOURCES'] = getattr(
-        settings,
-        "USE_ALLOCATION_SOURCES",
-        False)
-
+    template_params['USE_MOCK_DATA'] = getattr(settings, "USE_MOCK_DATA", False)
+    template_params['USE_ALLOCATION_SOURCES'] = getattr(settings,
+            "USE_ALLOCATION_SOURCES", False)
     template_params['THEME_URL'] = "/assets/theme"
     template_params['ORG_NAME'] = settings.ORG_NAME
     template_params['DYNAMIC_ASSET_LOADING'] = settings.DYNAMIC_ASSET_LOADING
@@ -163,8 +146,7 @@ def _populate_template_params(request, maintenance_records, notice_t,
     return template_params, show_troposphere_only
 
 
-def _handle_public_application_request(request, maintenance_records,
-                                       disabled_login=False):
+def _handle_public_application_request(request, maintenance_records, disabled_login=False):
     """
     Deal with unauthenticated requests:
 
@@ -186,8 +168,7 @@ def _handle_public_application_request(request, maintenance_records,
     # only honor `?beta=false` from the query string...
     if "beta" in request.GET:
         request.session['beta'] = request.GET['beta'].lower()
-    else:
-        # consider troposphere the _default_
+    else: # consider troposphere the _default_
         request.session['beta'] = 'true'
 
     if "airport_ui" not in request.session:
@@ -202,8 +183,7 @@ def _handle_public_application_request(request, maintenance_records,
             template_params,
             context_instance=RequestContext(request)
         )
-    else:
-        # Return the old Airport UI
+    else: # Return the old Airport UI
         response = render_to_response(
             'login.html',
             template_params,
@@ -226,8 +206,7 @@ def _handle_authenticated_application_request(request, maintenance_records,
             'maintenance_notice' in request.COOKIES)
 
     template_params, show_troposphere_only = _populate_template_params(request,
-            maintenance_records, notice_info,
-            disabled_login=False, public=False)
+            maintenance_records, notice_info, disabled_login=False, public=False)
 
     user_preferences, created = UserPreferences.objects.get_or_create(
         user=request.user)
@@ -247,8 +226,7 @@ def _handle_authenticated_application_request(request, maintenance_records,
         prefs_modified = True
         request.session['beta'] = request.GET['beta'].lower()
         user_preferences.show_beta_interface = (True
-                                                if request.session['beta'] ==
-                                                'true' else False)
+            if request.session['beta'] == 'true' else False)
 
     # Moving forward, the UI version shown will be controlled by
     # `airport_ui=<bool>` - and `beta` will be removed.
@@ -256,14 +234,13 @@ def _handle_authenticated_application_request(request, maintenance_records,
         prefs_modified = True
         request.session['airport_ui'] = request.GET['airport_ui'].lower()
         user_preferences.airport_ui = (True
-                                       if request.session['airport_ui'] ==
-                                       'true' else False)
+            if request.session['airport_ui'] == 'true' else False)
 
     if prefs_modified and not is_emulated_session(request):
         user_preferences.save()
 
-    chose_airport = (user_preferences.airport_ui or
-                     not user_preferences.show_beta_interface)
+    chose_airport = (user_preferences.airport_ui  or
+        not user_preferences.show_beta_interface)
 
     # show airport-ui if it's true and we are showing the option
     # of switching UIs
@@ -275,8 +252,7 @@ def _handle_authenticated_application_request(request, maintenance_records,
             template_params,
             context_instance=RequestContext(request)
         )
-    else:
-        # Return the new Troposphere UI
+    else: # Return the new Troposphere UI
         response = render_to_response(
             'index.html',
             template_params,
@@ -297,10 +273,8 @@ def application_backdoor(request):
         logger.info('No maintenance, Go to /application - do not collect $100')
         return redirect('application')
 
-    if request.user.is_authenticated() and request.user.username not in \
-            STAFF_LIST_USERNAMES:
-        logger.warn('[Backdoor] %s is NOT in staff_list_usernames' %
-                    request.user.username)
+    if request.user.is_authenticated() and request.user.username not in STAFF_LIST_USERNAMES:
+        logger.warn('[Backdoor] %s is NOT in staff_list_usernames' % request.user.username)
         return redirect('maintenance')
 
     # route a potential VIP to login
@@ -312,6 +286,7 @@ def application_backdoor(request):
     }
     # I'm on the Guest List! Backstage Pass!
     return redirect('/login?%s' % (urlencode(query_arguments),))
+
 
 
 def application(request):
@@ -330,9 +305,8 @@ def application(request):
             maintenance_records,
             notice_info)
     else:
-        return _handle_public_application_request(request,
-                    maintenance_records,
-                    disabled_login=disabled_login)
+        return _handle_public_application_request(request, maintenance_records,
+            disabled_login=disabled_login)
 
 
 def forbidden(request):

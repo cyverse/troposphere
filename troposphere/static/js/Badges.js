@@ -11,4 +11,4 @@ export default {
     FAVORITE_5_IMAGES_BADGE: 8,
     UBUNTU_INSTANCE_BADGE: 9,
     CENTOS_INSTANCE_BADGE: 10
-};
+  };

@@ -54,11 +54,20 @@ export default React.createClass({
       },
 
       updateState: function () {
-        if (this.isMounted()) this.setState(this.getState());
+          // TODO / FIXME: this guard using `isMounted` needs
+          // to be evaluated and removed
+          // @lenards
+          // https://facebook.github.io/react/blog/2015/12/16/ismounted-antipattern.html
+          if (this.isMounted()) this.setState(this.getState());
       },
 
       componentDidMount: function () {
-        stores.ProjectStore.addChangeListener(this.updateState);
+          stores.ProjectStore.addChangeListener(this.updateState);
+          // Prime the "state" pump
+          // - this is isn't called then projectId is still -999
+          //   when a user simplified _clicks_ *move* given the
+          //   project shown in the drop-down
+          this.updateState();
       },
 
       componentWillUnmount: function () {

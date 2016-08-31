@@ -12,14 +12,13 @@ import { hasLoggedInUser } from "utilities/profilePredicate";
 
 let Link = Router.Link;
 
-let links = [
+const links = [
     {
         name: "Dashboard",
         linksTo: "dashboard",
         href: "/application/dashboard",
         icon: "stats",
         requiresLogin: true,
-        isEnabled: true
     },
     {
         name: "Projects",
@@ -34,14 +33,21 @@ let links = [
         href: "/application/images",
         icon: "floppy-disk",
         requiresLogin: false
-    },
-    {
+    }
+
+    // This is a little ugly, but we conditionally include an element in a
+    // list
+].concat(
+    globals.USE_ALLOCATION_SOURCES
+    ? []
+    : [{
         name: "Providers",
         linksTo: "providers",
         href: "/application/providers",
         icon: "cloud",
         requiresLogin: true
-    },
+    }]
+).concat([
     {
         name: "Help",
         linksTo: "help",
@@ -57,7 +63,7 @@ let links = [
         requiresLogin: true,
         requiresStaff: true
     }
-];
+]);
 
 let LoginLink = React.createClass({
     render: function() {
@@ -83,9 +89,8 @@ let LogoutLink = React.createClass({
     },
 
     render: function() {
-        var statusPageEl,
-            username = this.props.username,
-            badgeLink;
+        let statusPageEl;
+        let username = this.props.username;
 
         if (!username && window.show_public_site) {
             username = "AnonymousUser"
@@ -106,14 +111,10 @@ let LogoutLink = React.createClass({
             trackAction("viewed-requests", {});
         };
 
-        if (globals.BADGES_ENABLED) {
-            badgeLink = (
-                <li>
-                    <Link to="my-badges"> Badges
-                    </Link>
-                </li>
-            );
+        if (!username && window.show_public_site) {
+            username = "AnonymousUser"
         }
+
 
         return (
         <li className="dropdown">
@@ -128,8 +129,6 @@ let LogoutLink = React.createClass({
                     <Link to="my-requests-resources" onClick={ trackRequests }> My requests
                     </Link>
                 </li>
-                <li className="divider"></li>
-                { badgeLink }
                 <li>
                     <a id="version_link" href="#" onClick={ this.onShowVersion }>Version</a>
                 </li>
@@ -172,6 +171,7 @@ let Header = React.createClass({
                 "CyVerse Maintenance Information",
                 context.getMaintenanceNotice(),
                 {
+                    "toastClass": "toast toast-mod-info-darken",
                     "positionClass": "toast-top-full-width",
                     "closeButton": true,
                     "timeOut": 0,
@@ -218,29 +218,33 @@ let Header = React.createClass({
         }
     },
 
-    render: function() {
-        var profile = this.props.profile,
-            hasUser = hasLoggedInUser(profile);
+    renderNavLinks() {
+        let profile = this.props.profile;
+        let loggedIn = hasLoggedInUser(profile);
+        let navLinks = links;
 
-        var loginLogoutDropdown = (hasUser ?
-            <LogoutLink username={ profile.get("username") } /> :
-            <LoginLink/>);
-
-        if (!profile.get('selected_identity')) {
-            links = links.filter(function (link) {
-                return !link.requiresLogin && link.isEnabled;
-            })
-        } else {
-            links = links.filter(function (link) {
-                if (link.requiresStaff) return profile.get('is_staff');
-                return link.isEnabled;
+        if (!loggedIn) {
+            navLinks = navLinks.filter(function(link) {
+                return !link.requiresLogin;
             })
         }
 
-        var navLinks = links.map(function (link) {
+        if (!profile.get("is_staff")) {
+            navLinks = navLinks.filter(function(link) {
+                return !link.requiresStaff;
+            })
+        }
+
+        return navLinks.map((link) => {
             //We need to only trigger the toggle menu on small screen sizes to avoid buggy behavior when selecting menu items on larger screens
             var smScreen = (this.state.windowWidth < 768);
-            var toggleMenu = smScreen ? {toggle: 'collapse',target:'.navbar-collapse'} : {toggle: null, target: null};
+            var toggleMenu = smScreen ? {
+                toggle: "collapse",
+                target: ".navbar-collapse"
+            } : {
+                toggle: null,
+                target: null
+            };
 
             return (
             <li key={ link.name } data-toggle={ toggleMenu.toggle } data-target={ toggleMenu.target }>
@@ -250,11 +254,20 @@ let Header = React.createClass({
                 </Link>
             </li>
             );
-        }.bind(this));
+        });
+    },
 
-        var brandLink = (hasUser ?
-            <Link to="dashboard" className="navbar-brand" /> :
-            <Link to="images" className="navbar-brand" />);
+    render: function() {
+        let profile = this.props.profile;
+        let loggedIn = hasLoggedInUser(profile);
+
+        let loginLogoutDropdown = loggedIn
+            ? <LogoutLink username={ profile.get("username") } />
+            : <LoginLink/>;
+
+        let brandLink = loggedIn
+            ? <Link to="dashboard" className="navbar-brand" />
+            : <Link to="images" className="navbar-brand" />;
 
         return (
         <div className="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -274,12 +287,12 @@ let Header = React.createClass({
                 </div>
                 <div className="navbar-collapse collapse">
                     <ul className="nav navbar-nav">
-                        { navLinks }
+                        { this.renderNavLinks() }
                     </ul>
                     <ul className="nav navbar-nav navbar-right">
                         { loginLogoutDropdown }
                     </ul>
-                    { hasUser ? this.renderBetaToggle() : null }
+                    { loggedIn ? this.renderBetaToggle() : null }
                 </div>
             </div>
         </div>

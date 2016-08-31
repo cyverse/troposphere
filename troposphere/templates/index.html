@@ -68,26 +68,16 @@
     var API_ROOT = "{{ API_ROOT }}";
 {% endif %}
 
+{% if BADGE_HOST %}
+    var BADGE_HOST = "{{ BADGE_HOST }}";
+{% endif %}
+
 {% if API_V2_ROOT %}
     var API_V2_ROOT = "{{ API_V2_ROOT }}";
 {% endif %}
 
 {% if BADGE_HOST %}
     var BADGE_HOST = "{{ BADGE_HOST }}";
-{% endif %}
-
-{% if BADGES_ENABLED %}
-    var BADGES_ENABLED = true;
-{% else %}
-    var BADGES_ENABLED = false;
-{% endif %}
-
-{% if BADGE_IMAGE_HOST %}
-    var BADGE_IMAGE_HOST = "{{ BADGE_IMAGE_HOST }}";
-{% endif %}
-
-{% if BADGE_ASSERTION_HOST %}
-    var BADGE_ASSERTION_HOST = "{{ BADGE_ASSERTION_HOST }}";
 {% endif %}
 
 {% if SITE_TITLE %}
@@ -100,6 +90,10 @@
 
 {% if UI_VERSION %}
     var UI_VERSION = "{{ UI_VERSION }}";
+{% endif %}
+
+{% if BADGE_HOST %}
+    var BADGE_HOST = "{{ BADGE_HOST }}";
 {% endif %}
 
 {% if USE_GATE_ONE_API %}
@@ -174,11 +168,6 @@
     {% else %}
     <script src="{{ BASE_URL }}/assets/bundles/app.js"></script>
     {% endif %}
-
-    {% if BADGES_ENABLED %}
-        <script src="https://backpack.openbadges.org/issuer.js"></script>
-    {% endif %}
-
     <!-- Google Analtics -->
     <script src="{{ BASE_URL }}/assets/bundles/analytics.js"></script>
 {% endif %}

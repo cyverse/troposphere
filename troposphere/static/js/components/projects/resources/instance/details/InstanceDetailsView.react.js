@@ -3,6 +3,7 @@ import Backbone from "backbone";
 
 import BreadcrumbBar from "components/projects/common/BreadcrumbBar.react";
 import globals from "globals";
+import Utils from "actions/Utils";
 import InstanceInfoSection from "./sections/InstanceInfoSection.react";
 import InstanceDetailsSection from "./sections/InstanceDetailsSection.react";
 import InstanceMetricsSection from "./sections/InstanceMetricsSection.react";
@@ -25,7 +26,13 @@ export default React.createClass({
         EventActions.fire(
             EventConstants.ALLOCATION_SOURCE_CHANGE,
             { instance, allocationSource }
-        )
+        );
+        // force update the associated allocation source prior to update
+        instance.set({allocation_source: allocationSource});
+        Utils.dispatch(
+            EventConstants.ALLOCATION_SOURCE_CHANGE,
+            { instance, allocationSource }
+        );
     },
 
     renderAllocationSourceSection() {
