@@ -62,9 +62,6 @@ export default React.createClass({
 
       return (
         <div className="resource-users">
-          {
-            //<span className='user-title'>{this.props.label}</span>
-          }
           {licenseView}
         </div>
       );

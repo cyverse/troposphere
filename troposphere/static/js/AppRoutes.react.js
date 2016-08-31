@@ -40,7 +40,15 @@ import ImageMaster from './components/admin/ImageMaster.react';
 import ImageRequest from './components/admin/ImageRequest.react';
 import IdentityMembershipMaster from './components/admin/IdentityMembershipMaster.react';
 
-let AppRoutes = (
+const providersRoute = (
+  <Route name="providers" handler={ProvidersMaster}>
+    <DefaultRoute handler={ProviderListSection} />
+    <Route name="provider" path=":id" handler={ProviderDetail}/>
+    <Route name="all-providers" path="/" handler={ProviderListSection} />
+  </Route>
+)
+
+const appRoutes = (
     <Route name="root" path="/application" handler={Master}>
       <Route name="dashboard" handler={DashboardPage}/>
 
@@ -66,14 +74,11 @@ let AppRoutes = (
         <Route name="image-details" path=":imageId" handler={ImageDetailsPage}/>
       </Route>
 
-      {   /* Don't include route if globals.USE_ALLOCATION_SOURCES */
-          globals.USE_ALLOCATION_SOURCES ? null : (
-          <Route name="providers" handler={ProvidersMaster}>
-            <DefaultRoute handler={ProviderListSection} />
-            <Route name="provider" path=":id" handler={ProviderDetail}/>
-            <Route name="all-providers" path="/" handler={ProviderListSection} />
-          </Route>
-      ) } 
+      {  
+          globals.USE_ALLOCATION_SOURCES 
+          ? null 
+          : providersRoute 
+      } 
 
       <Route name="help" handler={HelpPage}/>
       <Route name="settings" handler={SettingsPage}/>
@@ -107,4 +112,4 @@ let AppRoutes = (
     </Route>
 );
 
-export default AppRoutes;
+export default appRoutes;

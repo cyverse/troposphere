@@ -160,9 +160,9 @@ export default React.createClass({
       return (
         <div className="image-request-summary">
           <p>{"An image request will be submitted with the following information:"}</p>
-          {
-            //this.renderDataDump(imageData)
-          }
+          { /*
+              this.renderDataDump(imageData)
+          */ }
           <div className="form-horizontal">
             <div className="form-group">
               <label className="control-label col-sm-3">New/Update</label>
