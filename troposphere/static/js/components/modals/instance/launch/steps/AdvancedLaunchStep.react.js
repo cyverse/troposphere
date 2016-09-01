@@ -93,10 +93,14 @@ export default React.createClass({
     },
 
     renderOptionList: function() {
+        // If we only have one option rederOptionList can be commented out.
+        // The content will resize to fill the whole modal.  This flexability
+        // will allow us to easily animate the width of RenderOptionList,
+        // allowing the user to toggle the side bar open or closed for more
+        // room.
         if (this.state.options.length <= 1) {
             return
         }
-        ;
         let options = this.state.options.map(this.renderOptions);
         return (
         <ul className="AdvancedOptions-optionList NavStacked">
@@ -109,10 +113,6 @@ export default React.createClass({
         return (
         <div>
             <div className="AdvancedOptions">
-                {/* If we only have one option rederOptionList can be commented out.
-                                                                                                                                                                                                                                                    The content will resize to fill the whole modal.
-                                                                                                                                                                                                                                                    This flexability will allow us to easily animate the width of RenderOptionList,
-                                                                                                                                                                                                                                                    allowing the user to toggle the side bar open or closed for more room. */}
                 {this.renderOptionList()}
                 <div className="AdvancedOptions-content">
                     {this.renderBody()}

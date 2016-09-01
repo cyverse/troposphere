@@ -449,10 +449,7 @@ export default React.createClass({
             <hr />
             {descriptionView}
             <hr />
-            {/*
-                                                                                                                                                                                    TODO: implement 'allow Imaging' in the next iteration
-                                                                                                                                                                                    canImageView
-                                                                                                                                                                                */}
+            {/* canImageView */}
             {startDateView}
             {endDateView}
             <hr />

@@ -73,14 +73,6 @@ export default React.createClass({
         )
     },
 
-    renderDataDump: function(imageData) {
-        return (
-        <p>
-            {JSON.stringify(imageData, null, 4)}
-        </p>
-        );
-    },
-
     renderFilesToExclude: function(imageData) {
         var files_str = imageData.filesToExclude || "";
 
@@ -194,9 +186,6 @@ export default React.createClass({
             <p>
                 {"An image request will be submitted with the following information:"}
             </p>
-            {/*
-                                                                                                          this.renderDataDump(imageData)
-                                                                                                      */}
             <div className="form-horizontal">
                 <div className="form-group">
                     <label className="control-label col-sm-3">

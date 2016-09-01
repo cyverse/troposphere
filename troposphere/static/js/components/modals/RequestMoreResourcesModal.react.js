@@ -95,33 +95,28 @@ export default React.createClass({
     // ------
     //
     renderAllocationSourceText: function() {
-        if (globals.USE_ALLOCATION_SOURCES) {
-            return (
-            <div>
-                <p>
-                    If you are requesting for an Allocation Source please include the following information below.
-                </p>
-                <ol>
-                    <li>
-                        What Allocation Source
-                    </li>
-                    <li>
-                        How much you are requesting
-                    </li>
-                    <li>
-                        The reason you need more
-                    </li>
-                </ol>
-            </div>
-            )
-        }
+        return (
+        <div>
+            <p>
+                If you are requesting for an Allocation Source please include the following information below.
+            </p>
+            <ol>
+                <li>
+                    What Allocation Source
+                </li>
+                <li>
+                    How much you are requesting
+                </li>
+                <li>
+                    The reason you need more
+                </li>
+            </ol>
+        </div>
+        )
     },
 
     renderAUCalculator: function() {
-        if (globals.USE_ALLOCATION_SOURCES) return;
-        return (
-        <AUCalculator identity={this.state.identity} />
-        )
+        return (<AUCalculator identity={this.state.identity} />);
     },
 
     renderIdentity: function(identity) {
@@ -160,8 +155,9 @@ export default React.createClass({
                 <label htmlFor="project-name">
                     {"What resources would you like to request?"}
                 </label>
-                {/* If globals.USE_ALLOCATION_SOURCE render this text */
-                                                                                                                                                                                                                                                                              this.renderAllocationSourceText()}
+                {globals.USE_ALLOCATION_SOURCE
+                 ? this.renderAllocationSourceText()
+                 : ""}
                 <textarea type="text"
                     className="form-control"
                     rows="7"
@@ -169,8 +165,9 @@ export default React.createClass({
                     value={this.state.resources}
                     onChange={this.handleResourcesChange} />
             </div>
-            {/* if globals.USE_ALLOCATION_SOURCE don't render this */
-                                                                                                                                                                                                                this.renderAUCalculator()}
+            {globals.USE_ALLOCATION_SOURCE
+             ? this.renderAUCalculator()
+             : ""}
             <div className="form-group">
                 <label htmlFor="project-description">
                     {"How will you use the additional resources?"}
