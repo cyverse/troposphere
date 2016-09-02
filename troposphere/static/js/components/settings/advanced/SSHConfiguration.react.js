@@ -112,9 +112,6 @@ export default React.createClass({
                         </tbody>
                     </table>
                 </div>
-                <div>
-                    These keys are automatically added to instances that you launch in the future. To apply new keys to an existing instance, you must navigate to it, click the Redeploy button, and wait until instance shows "Active" status.
-                </div>
             </div>
         );
     }

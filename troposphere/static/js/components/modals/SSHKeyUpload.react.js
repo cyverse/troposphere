@@ -136,6 +136,10 @@ export default React.createClass({
                                 { showKeyWarn ? <span className="help-block">{ '* ' + this.state.errorMsg }</span> : '' }
                             </div>
                         </div>
+                        <span id="helpBlock" className="help-block">
+                            * This key will not have immediate effect. Key
+                            access will be available on next resume or deploy.
+                        </span>
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-danger" onClick={ this.hide }>
