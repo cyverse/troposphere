@@ -113,8 +113,8 @@ export default React.createClass({
                     </table>
                 </div>
                 <div>
-		    <h4>Important Notes</h4>
-		    <p>Newly added keys are applied to instances launched in the future, and existing instances <em>that are re-deployed</em>. To re-deploy an existing instance, navigate to it, click the Redeploy button, and wait until instance shows "Active" status.</p>
+                    <h4>Important Notes</h4>
+                    <p>Newly added keys are applied to instances launched in the future, and existing instances <em>that are re-deployed</em>. To re-deploy an existing instance, navigate to it, click the Redeploy button, and wait until instance shows "Active" status.</p>
                     <p>Deleting a key from this page means that it will not be applied to instances launched in the future, but <em>the removed key is not automatically removed from existing or re-deployed instances</em> which already have it. If you need to remove an authorized key from an existing instance, please edit /root/.ssh/authorized_keys inside the instance, or contact Atmosphere support for assistance.</p>
                 </div>
             </div>
