@@ -4,11 +4,14 @@ import SSHKeyUpload from 'components/modals/SSHKeyUpload.react';
 import actions from 'actions';
 import stores from 'stores';
 
+import globals from 'globals';
+
 export default React.createClass({
 
     getInitialState: function() {
         var profile = stores.ProfileStore.get();
         return {
+            displayMoreInfo: false,
             profile: profile,
             ssh_keys: stores.SSHKeyStore.getAll(),
             use_ssh_keys: profile.get('settings')['use_ssh_keys'],
@@ -22,6 +25,40 @@ export default React.createClass({
     componentDidMount: function() {
         stores.ProfileStore.addChangeListener(this.updateState);
         stores.SSHKeyStore.addChangeListener(this.updateState);
+    },
+
+    onDisplayMoreInfo(e) {
+        e.preventDefault();
+        this.setState({ displayMoreInfo: true });
+    },
+
+    renderSupportLink() {
+        return (
+            <a href={ `mailto:${globals.SUPPORT_EMAIL}` }>{ ` ${globals.SUPPORT_EMAIL} ` }</a>
+        );
+    },
+
+    renderMoreInfo() {
+        var displayMoreInfo = this.state.displayMoreInfo;
+
+        if (displayMoreInfo) {
+            return (
+            <p>
+               Removing a key from this list, doesn't remove it from the
+               instance.  If you need to remove a key from an existing
+               instance, please edit /root/.ssh/authorized_keys inside the
+               instance, or contact Atmosphere support at 
+               { this.renderSupportLink() } for assistance.
+            </p>
+            )
+        }
+
+        return (
+        <p>
+            Click <a onClick={this.onDisplayMoreInfo}> here </a>
+            to learn about securely removing keys.
+        </p>
+        )
     },
 
     componentWillUnmount: function() {
@@ -88,8 +125,14 @@ export default React.createClass({
         return (
             <div>
                 <h3>SSH Configuration</h3>
-                <div>
-                    <input type="checkbox" checked={use_ssh_keys} onChange={this.handleChangeSSHPreference}/> &nbsp;&nbsp;Enable ssh access into launched instances.
+                <div style={{maxWidth: "600px"}}>
+                    <p>
+                        Use the table below to list ssh keys that you would
+                        like to be present when you launch an instance.
+                        Changes do not effect running instances. They will take
+                        effect on the next resume or deploy of an instance.
+                    </p>
+                    {  this.renderMoreInfo() }
                 </div>
                 <div>
                     <table className="clearfix table" style={{ tableLayout: "fixed" }}>
@@ -111,11 +154,6 @@ export default React.createClass({
                             </tr>
                         </tbody>
                     </table>
-                <p id="helpBlock" className="help-block">
-                    * Keys removed or added will not have immediate effect.
-                    The changes will take effect on the next resume or deploy
-                    of an instance.
-                </p>
                 </div>
             </div>
         );
