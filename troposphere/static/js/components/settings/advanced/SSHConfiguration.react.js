@@ -1,7 +1,6 @@
 import React from 'react';
 import ModalHelpers from 'components/modals/ModalHelpers';
 import SSHKeyUpload from 'components/modals/SSHKeyUpload.react';
-import actions from 'actions';
 import stores from 'stores';
 
 import globals from 'globals';
@@ -14,7 +13,6 @@ export default React.createClass({
             displayMoreInfo: false,
             profile: profile,
             ssh_keys: stores.SSHKeyStore.getAll(),
-            use_ssh_keys: profile.get('settings')['use_ssh_keys'],
         };
     },
 
@@ -66,18 +64,6 @@ export default React.createClass({
         stores.SSHKeyStore.removeChangeListener(this.updateState);
     },
 
-    handleChangeSSHPreference: function(event) {
-        var isChecked = event.target.checked;
-        // Update the store
-        actions.ProfileActions.updateProfileAttributes(this.state.profile, {
-            use_ssh_keys: isChecked
-        });
-        // Optimistically update ui
-        this.setState({
-            use_ssh_keys: isChecked
-        });
-    },
-
     destroySSHKey: function(sshKey) {
 
         // EmitChange is responsible for triggering the rerender, which
@@ -120,7 +106,6 @@ export default React.createClass({
     render: function() {
         var profile = this.state.profile;
         var ssh_keys = this.state.ssh_keys;
-        var use_ssh_keys = this.state.use_ssh_keys;
 
         return (
             <div>
