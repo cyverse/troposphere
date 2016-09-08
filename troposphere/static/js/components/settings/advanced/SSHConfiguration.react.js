@@ -41,20 +41,27 @@ export default React.createClass({
 
         if (displayMoreInfo) {
             return (
-            <p>
-               Removing a key from this list, doesn't remove it from the
-               instance.  If you need to remove a key from an existing
-               instance, please edit /root/.ssh/authorized_keys inside the
-               instance, or contact Atmosphere support at 
-               { this.renderSupportLink() } for assistance.
-            </p>
+            <div>
+                <p>
+                   Changes do not immediately affect existing instances.  A
+                   suspended instance must be resumed to receive the new keys.
+                   An active instance must be re-deployed.
+                </p>
+                <p>
+                   Removing a key from this list doesn't remove it from any existing
+                   instances. If you need to remove a key from an existing
+                   instance, please edit /root/.ssh/authorized_keys inside the
+                   instance, or contact Atmosphere support at
+                   { this.renderSupportLink() } for assistance.
+                </p>
+            </div>
             )
         }
 
         return (
         <p>
             Click <a onClick={this.onDisplayMoreInfo}> here </a>
-            to learn about securely removing keys.
+            to learn more.
         </p>
         )
     },
@@ -112,10 +119,8 @@ export default React.createClass({
                 <h3>SSH Configuration</h3>
                 <div style={{maxWidth: "600px"}}>
                     <p>
-                        Use the table below to list ssh keys that you would
+                        Use the table below to list SSH keys that you would
                         like to be present when you launch an instance.
-                        Changes do not effect running instances. They will take
-                        effect on the next resume or deploy of an instance.
                     </p>
                     {  this.renderMoreInfo() }
                 </div>
