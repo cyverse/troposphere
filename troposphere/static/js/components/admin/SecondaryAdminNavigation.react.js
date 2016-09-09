@@ -1,7 +1,7 @@
 import React from "react";
 import Router from "react-router";
 import Glyphicon from "components/common/Glyphicon.react";
-import stores from 'stores';
+import stores from "stores";
 import globals from "globals";
 
 
@@ -32,17 +32,17 @@ export default React.createClass({
         stores.ResourceRequestStore.removeChangeListener(this.updateState);
     },
 
-   requestPreview() {
-       let requests = stores.ResourceRequestStore.findWhere({
-           'status.name': 'pending'
-       });
+    requestPreview() {
+        let requests = stores.ResourceRequestStore.findWhere({
+            "status.name": "pending"
+        });
 
-       if (requests) {
-          return `(${requests.length})`;
-       }
+        if (requests) {
+            return `(${requests.length})`;
+        }
 
-       return "(...)";
-   },
+        return "(...)";
+    },
 
     render() {
 
@@ -58,9 +58,9 @@ export default React.createClass({
                 this.renderRoute("Manage Users", "atmosphere-user-manager", "user"),
                 this.renderRoute("Manage Identities", "identity-membership-manager", "user"),
                 this.renderRoute(
-                        `Resource Requests ${ this.requestPreview() }`,
-                        "resource-request-manager",
-                        "tasks"),
+                    `Resource Requests ${ this.requestPreview() }`,
+                    "resource-request-manager",
+                    "tasks"),
                 this.renderRoute("Imaging Requests", "image-request-manager", "floppy-disk"),
             ]
         }
@@ -70,7 +70,7 @@ export default React.createClass({
             <div className="secondary-nav">
                 <div className="container">
                     <ul className="secondary-nav-links">
-                        { navLinks }
+                        {navLinks}
                     </ul>
                 </div>
             </div>

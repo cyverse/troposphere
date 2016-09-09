@@ -39,8 +39,8 @@ import AtmosphereUserMaster from "./components/admin/AtmosphereUserMaster.react"
 import ImageMaster from "./components/admin/ImageMaster.react";
 import ImageRequest from "./components/admin/ImageRequest.react";
 import IdentityMembershipMaster from "./components/admin/IdentityMembershipMaster.react";
-import ResourceMaster from './components/admin/ResourceMaster.react';
-import ResourceRequest from './components/admin/ResourceRequest.react';
+import ResourceMaster from "./components/admin/ResourceMaster.react";
+import ResourceRequest from "./components/admin/ResourceRequest.react";
 
 const providersRoute = (
 <Route name="providers" handler={ProvidersMaster}>
@@ -81,7 +81,7 @@ const appRoutes = (
         <Route name="atmosphere-user-manager" path="users" handler={AtmosphereUserMaster} />
         <Route name="identity-membership-manager" path="identities" handler={IdentityMembershipMaster} />
         <Route name="resource-request-manager" path="resource-requests" handler={ResourceMaster}>
-          <Route name="resource-request-detail" path=":id" handler={ResourceRequest}/>
+            <Route name="resource-request-detail" path=":id" handler={ResourceRequest} />
         </Route>
         <Route name="image-request-manager" path="imaging-requests" handler={ImageMaster}>
             <Route name="image-request-detail" path=":id" handler={ImageRequest} />

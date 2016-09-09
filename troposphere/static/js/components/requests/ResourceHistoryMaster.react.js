@@ -10,8 +10,13 @@ export default React.createClass({
     mixins: [Router.State],
 
     closeRequest: function(request) {
-      var closedStatus = stores.StatusStore.findWhere({"name": "closed"}).models[0].id;
-      ResourceActions.close({request: request, status: closedStatus});
+        var closedStatus = stores.StatusStore.findWhere({
+            "name": "closed"
+        }).models[0].id;
+        ResourceActions.close({
+            request: request,
+            status: closedStatus
+        });
     },
 
     render: function() {
