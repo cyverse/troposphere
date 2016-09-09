@@ -1,9 +1,9 @@
-import Dispatcher from 'dispatchers/Dispatcher';
-import BaseStore from 'stores/BaseStore';
-import InstanceCollection from 'collections/InstanceCollection';
-import Utils from 'actions/Utils';
-import InstanceConstants from 'constants/InstanceConstants';
-import InstanceState from 'models/InstanceState';
+import Dispatcher from "dispatchers/Dispatcher";
+import BaseStore from "stores/BaseStore";
+import InstanceCollection from "collections/InstanceCollection";
+import Utils from "actions/Utils";
+import InstanceConstants from "constants/InstanceConstants";
+import InstanceState from "models/InstanceState";
 import EventConstants from "constants/EventConstants";
 
 var InstanceStore = BaseStore.extend({
@@ -26,13 +26,13 @@ var InstanceStore = BaseStore.extend({
         if (!this.models) return this.fetchModels();
 
         var instances = this.models.filter(function(instance) {
-            return instance.get('projects').length === 0
+            return instance.get("projects").length === 0
         });
 
         return new InstanceCollection(instances);
     },
 
-    getTotalResources: function (providerId) {
+    getTotalResources: function(providerId) {
         if (!this.models) return this.fetchModels();
 
         let total = {
@@ -42,10 +42,10 @@ var InstanceStore = BaseStore.extend({
         };
 
         this.models.forEach(function(item) {
-            if (providerId == item.get('identity').provider) {
-                total.cpu = total.cpu += item.get('size').cpu;
-                total.mem = total.mem += item.get('size').mem;
-                total.disk = total.disk += item.get('size').disk;
+            if (providerId == item.get("identity").provider) {
+                total.cpu = total.cpu += item.get("size").cpu;
+                total.mem = total.mem += item.get("size").mem;
+                total.disk = total.disk += item.get("size").disk;
             }
         });
         return total;
@@ -56,12 +56,12 @@ var InstanceStore = BaseStore.extend({
     // -----------------
 
     isInFinalState: function(instance) {
-        if (instance.get('state').get('status') == 'active' &&
-            instance.get('ip_address').charAt(0) == '0') {
+        if (instance.get("state").get("status") == "active" &&
+            instance.get("ip_address").charAt(0) == "0") {
             return false;
         }
 
-        return instance.get('state').isInFinalState();
+        return instance.get("state").isInFinalState();
     },
 
     // Poll for a model
@@ -74,7 +74,7 @@ var InstanceStore = BaseStore.extend({
                 return false;
             }
 
-            var status = instance.get('state').get("status");
+            var status = instance.get("state").get("status");
             instance.set({
                 state: new InstanceState({
                     status_raw: status + " - deleting",
@@ -83,7 +83,9 @@ var InstanceStore = BaseStore.extend({
                 }),
             });
 
-            Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {instance: instance});
+            Utils.dispatch(InstanceConstants.UPDATE_INSTANCE, {
+                instance: instance
+            });
 
             // Keep polling while 200 or not 404
             return response.status == "200";

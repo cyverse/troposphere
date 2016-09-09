@@ -1,6 +1,6 @@
 
-import MaintenanceMessageCollection from 'collections/MaintenanceMessageCollection';
-import BaseStore from 'stores/BaseStore';
+import MaintenanceMessageCollection from "collections/MaintenanceMessageCollection";
+import BaseStore from "stores/BaseStore";
 
 let MaintenanceMessageStore = BaseStore.extend({
     collection: MaintenanceMessageCollection,
@@ -12,7 +12,7 @@ let MaintenanceMessageStore = BaseStore.extend({
             isInMaintenance = false;
 
         providerMessages.forEach(function(message) {
-            if (message.get('disable_login') === true) {
+            if (message.get("disable_login") === true) {
                 isInMaintenance = true;
             }
         });

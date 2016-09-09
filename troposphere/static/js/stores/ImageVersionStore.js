@@ -1,8 +1,8 @@
-import ImageVersionCollection from 'collections/ImageVersionCollection';
-import Dispatcher from 'dispatchers/Dispatcher';
-import stores from 'stores';
-import BaseStore from 'stores/BaseStore';
-import ImageVersionConstants from 'constants/ImageVersionConstants';
+import ImageVersionCollection from "collections/ImageVersionCollection";
+import Dispatcher from "dispatchers/Dispatcher";
+import stores from "stores";
+import BaseStore from "stores/BaseStore";
+import ImageVersionConstants from "constants/ImageVersionConstants";
 
 let ImageVersionStore = BaseStore.extend({
     collection: ImageVersionCollection,
@@ -28,7 +28,9 @@ let ImageVersionStore = BaseStore.extend({
     getMachines: function(versionId) {
         var _machines = stores.ProviderMachineStore ?
             stores.ProviderMachineStore.fetchWhere(
-                {version_id: versionId}
+                {
+                    version_id: versionId
+                }
             ) : null;
 
         if (_machines == null) {

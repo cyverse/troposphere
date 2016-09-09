@@ -1,6 +1,6 @@
-import React from 'react';
-import SecondaryRequestNavigation from './SecondaryRequestNavigation.react';
-import Router from 'react-router';
+import React from "react";
+import SecondaryRequestNavigation from "./SecondaryRequestNavigation.react";
+import Router from "react-router";
 
 
 let RouteHandler = Router.RouteHandler;
@@ -11,15 +11,13 @@ export default React.createClass({
     mixins: [Router.State],
 
     render: function() {
-      return (
+        return (
         <div>
             <SecondaryRequestNavigation/>
             <div className="container admin">
-            <span className="adminHeader">
-            <RouteHandler />
-            </span>
+                <span className="adminHeader"><RouteHandler /></span>
             </div>
         </div>
-      );
+        );
     }
 });

@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 
 export default React.createClass({
-      displayName: "ResourceStatusTooltip",
+    displayName: "ResourceStatusTooltip",
 
-      propTypes: {
+    propTypes: {
         resourceName: React.PropTypes.string.isRequired,
         status: React.PropTypes.string.isRequired,
         count: React.PropTypes.number.isRequired
-      },
+    },
 
-      render: function () {
+    render: function() {
         // Example Output:
         //
         // There are 6 Volumes with
@@ -19,7 +19,7 @@ export default React.createClass({
         // a status of Build - Deploying
 
         return (
-          <div>
+        <div>
             {"You have "}
             <b>{this.props.count}</b>
             {" " + this.props.resourceName}
@@ -27,7 +27,7 @@ export default React.createClass({
             <br/>
             {"a status of "}
             <b>{this.props.status}</b>
-          </div>
+        </div>
         );
-      }
+    }
 });

@@ -1,89 +1,89 @@
-import React from 'react';
-import Backbone from 'backbone';
+import React from "react";
+import Backbone from "backbone";
 
 export default React.createClass({
-      displayName: "EditDetails",
+    displayName: "EditDetails",
 
-      propTypes: {
+    propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         onCancel: React.PropTypes.func.isRequired,
         onSave: React.PropTypes.func.isRequired
-      },
+    },
 
-      getInitialState: function () {
+    getInitialState: function() {
         var project = this.props.project;
 
         return {
-          name: project.get('name'),
-          description: project.get('description')
+            name: project.get("name"),
+            description: project.get("description")
         }
-      },
+    },
 
-      isSubmittable: function(){
-        var hasName        = !!this.state.name.trim();
+    isSubmittable: function() {
+        var hasName = !!this.state.name.trim();
         var hasDescription = !!this.state.description.trim();
         return hasName && hasDescription;
-      },
+    },
 
-      handleCancel: function(){
+    handleCancel: function() {
         this.props.onCancel();
-      },
+    },
 
-      handleSave: function (description) {
+    handleSave: function(description) {
         this.props.onSave({
-          name: this.state.name,
-          description: this.state.description
+            name: this.state.name,
+            description: this.state.description
         });
 
-        //actions.ProjectActions.updateProjectAttributes(this.props.project, {description: description})
-      },
+    //actions.ProjectActions.updateProjectAttributes(this.props.project, {description: description})
+    },
 
-      handleNameChange: function (e) {
+    handleNameChange: function(e) {
         var text = e.target.value;
-        this.setState({name: text});
-      },
+        this.setState({
+            name: text
+        });
+    },
 
-      handleDescriptionChange: function (e) {
+    handleDescriptionChange: function(e) {
         var text = e.target.value;
-        this.setState({description: text});
-      },
+        this.setState({
+            description: text
+        });
+    },
 
-      // ------
-      // Render
-      // ------
+    // ------
+    // Render
+    // ------
 
-      render: function () {
+    render: function() {
         var project = this.props.project;
 
         return (
-          <div className="edit-details">
-            <div className="project-info-segment row" style={{marginTop:"62px"}}>
-              <h4 className="col-md-3">Name</h4>
-              <input type="text"
-                     defaultValue={this.state.name}
-                     onKeyUp={this.handleNameChange}
-                />
+        <div className="edit-details">
+            <div className="project-info-segment row" style={{ marginTop: "62px" }}>
+                <h4 className="col-md-3">Name</h4>
+                <input type="text" defaultValue={this.state.name} onKeyUp={this.handleNameChange} />
             </div>
-
             <div className="project-info-segment row">
-              <h4 className="col-md-3">Created</h4>
-
-              <p className="col-md-9">{project.get('start_date').format("MMMM Do, YYYY hh:mm a")}</p>
+                <h4 className="col-md-3">Created</h4>
+                <p className="col-md-9">
+                    {project.get("start_date").format("MMMM Do, YYYY hh:mm a")}
+                </p>
             </div>
-
             <div className="project-info-segment row">
-              <h4 className="col-md-3">Description</h4>
-              <textarea type="text"
-                        defaultValue={this.state.description}
-                        onKeyUp={this.handleDescriptionChange}
-                />
+                <h4 className="col-md-3">Description</h4>
+                <textarea type="text" defaultValue={this.state.description} onKeyUp={this.handleDescriptionChange} />
             </div>
-
             <div className="buttons">
-              <button className="btn btn-default cancel-button" onClick={this.handleCancel}>Cancel</button>
-              <button className="btn btn-primary save-button" onClick={this.handleSave} disabled={!this.isSubmittable()}>Save</button>
+                <button className="btn btn-default cancel-button" onClick={this.handleCancel}>
+                    Cancel
+                </button>
+                <button className="btn btn-primary save-button" onClick={this.handleSave} disabled={!this.isSubmittable()}>
+                    Save
+                </button>
             </div>
-          </div>
+        </div>
         );
-      }
+    }
 });

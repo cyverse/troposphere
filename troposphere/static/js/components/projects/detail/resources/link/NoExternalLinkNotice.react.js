@@ -1,14 +1,14 @@
-import React from 'react';
+import React from "react";
 
 
 export default React.createClass({
     displayName: "NoExternalLinkNotice",
 
-    render: function () {
-      return (
+    render: function() {
+        return (
         <p>
-          You have not added any links to this project.
+            You have not added any links to this project.
         </p>
-      );
+        );
     }
 });

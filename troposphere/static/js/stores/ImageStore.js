@@ -1,54 +1,56 @@
 
-import moment from 'moment';
-import ImageCollection from 'collections/ImageCollection';
-import ProviderCollection from 'collections/ProviderCollection';
-import ProviderMachineCollection from 'collections/ProviderMachineCollection';
-import Dispatcher from 'dispatchers/Dispatcher';
-import BaseStore from 'stores/BaseStore';
-import stores from 'stores';
-import ImageConstants from 'constants/ImageConstants';
-import NotificationController from 'controllers/NotificationController';
+import moment from "moment";
+import ImageCollection from "collections/ImageCollection";
+import ProviderCollection from "collections/ProviderCollection";
+import ProviderMachineCollection from "collections/ProviderMachineCollection";
+import Dispatcher from "dispatchers/Dispatcher";
+import BaseStore from "stores/BaseStore";
+import stores from "stores";
+import ImageConstants from "constants/ImageConstants";
+import NotificationController from "controllers/NotificationController";
 
 var ImageStore = BaseStore.extend({
     collection: ImageCollection,
 
-    update: function(image){
-      var tags = image.get('tags')
-      var tagIds = tags.map(function(tag){
-          return tag.id;
-      });
-      var updateAttrs = {
-        name: image.get('name'),
-        description: image.get('description'),
-        tags: tagIds
-      }
-      if(image.get('end_date')) {
-        var end_date;
-        if (typeof image.get('end_date') == "object") {
-            end_date = image.get('end_date')
-        } else {
-            //NOTE: This may never happen..
-            end_date = moment(image.get('end_date'));
+    update: function(image) {
+        var tags = image.get("tags")
+        var tagIds = tags.map(function(tag) {
+            return tag.id;
+        });
+        var updateAttrs = {
+            name: image.get("name"),
+            description: image.get("description"),
+            tags: tagIds
         }
-        //Test validity if the date
-        if(end_date.isValid()) {
-            end_date = end_date.toISOString();
-        } else {
-            end_date = null;
+        if (image.get("end_date")) {
+            var end_date;
+            if (typeof image.get("end_date") == "object") {
+                end_date = image.get("end_date")
+            } else {
+                //NOTE: This may never happen..
+                end_date = moment(image.get("end_date"));
+            }
+            //Test validity if the date
+            if (end_date.isValid()) {
+                end_date = end_date.toISOString();
+            } else {
+                end_date = null;
+            }
+            //Add new date (or non-date) to the update list
+            updateAttrs.end_date = end_date
         }
-        //Add new date (or non-date) to the update list
-        updateAttrs.end_date = end_date
-      }
-      image.save(updateAttrs, {
-        patch: true
-      }).done(function(){
-        image.set({tags:tags});
-        this.emitChange();
-      }.bind(this)).fail(function(){
-        var failureMessage = "Error updating Image " + image.get('name') + ".";
-        NotificationController.error(failureMessage);
-        this.emitChange();
-      }.bind(this));
+        image.save(updateAttrs, {
+            patch: true
+        }).done(function() {
+            image.set({
+                tags: tags
+            });
+            this.emitChange();
+        }.bind(this)).fail(function() {
+            var failureMessage = "Error updating Image " + image.get("name") + ".";
+            NotificationController.error(failureMessage);
+            this.emitChange();
+        }.bind(this));
     },
 
     get: function(imageId) {
@@ -59,8 +61,8 @@ var ImageStore = BaseStore.extend({
     },
     getForProject: function(projectId) {
         var project_images = projectId ? this.fetchWhere({
-                projects__id: projectId
-            }) : null;
+            projects__id: projectId
+        }) : null;
 
         return project_images;
     },
@@ -72,7 +74,7 @@ var ImageStore = BaseStore.extend({
             application__id: imageId
         });
         //TODO: _projects is returning an OBJECT instead of an array?!?!
-        if(!_projects) {
+        if (!_projects) {
             return null;
         }
 

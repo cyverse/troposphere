@@ -1,10 +1,10 @@
 
-import Dispatcher from 'dispatchers/Dispatcher';
-import BaseStore from 'stores/BaseStore';
-import ImageVersionLicenseCollection from 'collections/ImageVersionLicenseCollection';
-import ImageVersionLicenseConstants from 'constants/ImageVersionLicenseConstants';
-import LicenseCollection from 'collections/LicenseCollection';
-import License from 'models/License';
+import Dispatcher from "dispatchers/Dispatcher";
+import BaseStore from "stores/BaseStore";
+import ImageVersionLicenseCollection from "collections/ImageVersionLicenseCollection";
+import ImageVersionLicenseConstants from "constants/ImageVersionLicenseConstants";
+import LicenseCollection from "collections/LicenseCollection";
+import License from "models/License";
 
 let _modelsFor = {};
 let _isFetchingFor = {};
@@ -30,7 +30,7 @@ let ImageVersionLicenseStore = BaseStore.extend({
 
                 // convert ImageVersionLicense collection to a LicenseCollection
                 var licenses = models.map(function(version_license) {
-                    return new License(version_license.get('license'), {
+                    return new License(version_license.get("license"), {
                         parse: true
                     });
                 });
@@ -47,11 +47,11 @@ let ImageVersionLicenseStore = BaseStore.extend({
 
         // convert ImageVersionLicense collection to an LicenseCollection
         var imageVersionLicenses = this.models.filter(function(version_license) {
-            return version_license.get('image_version').id === imageversion.id;
+            return version_license.get("image_version").id === imageversion.id;
         });
 
         var licenses = imageVersionLicenses.map(function(version_license) {
-            return new License(version_license.get('license'), {
+            return new License(version_license.get("license"), {
                 parse: true
             });
         });

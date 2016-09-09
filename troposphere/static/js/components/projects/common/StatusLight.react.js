@@ -1,17 +1,17 @@
-import React from 'react';
+import React from "react";
 
 export default React.createClass({
-      displayName: "StatusLight",
+    displayName: "StatusLight",
 
-      propTypes: {
+    propTypes: {
         status: React.PropTypes.string.isRequired
-      },
+    },
 
-      render: function () {
+    render: function() {
 
         var status = this.props.status || "";
         return (
-          <span className={"instance-status-light " + status}></span>
+        <span className={"instance-status-light " + status}></span>
         );
-      }
+    }
 });

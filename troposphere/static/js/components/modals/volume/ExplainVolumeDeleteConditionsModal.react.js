@@ -1,84 +1,83 @@
-import React from 'react';
-import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import React from "react";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
 
 export default React.createClass({
-      displayName: "ExplainVolumeDeleteConditionsModal",
+    displayName: "ExplainVolumeDeleteConditionsModal",
 
-      mixins: [BootstrapModalMixin],
+    mixins: [BootstrapModalMixin],
 
-      //
-      // Internal Modal Callbacks
-      // ------------------------
-      //
+    //
+    // Internal Modal Callbacks
+    // ------------------------
+    //
 
-      cancel: function () {
+    cancel: function() {
         this.hide();
-      },
+    },
 
-      confirm: function () {
+    confirm: function() {
         this.hide();
         this.props.onConfirm();
-      },
+    },
 
-      //
-      // Render Helpers
-      // --------------
-      //
+    //
+    // Render Helpers
+    // --------------
+    //
 
-      renderAttachedInstance: function (instance) {
+    renderAttachedInstance: function(instance) {
         return (
-          <li><strong>{instance.get('name')}</strong></li>
+        <li>
+            <strong>{instance.get("name")}</strong>
+        </li>
         )
-      },
+    },
 
-      //
-      // Render
-      // ------
-      //
+    //
+    // Render
+    // ------
+    //
 
-      renderBody: function () {
+    renderBody: function() {
         return (
-          <div role='form'>
-            <div className='form-group'>
-              <p>
-                {
-                  "Volumes cannot be deleted while they are attached to an instance."
-                }
-              </p>
-
-              <p>
-                {
-                  "This volume is currently attached to the following instance:"
-                }
-              </p>
-              <ul>
-                {this.renderAttachedInstance(this.props.instance)}
-              </ul>
-              <p>{"Once you detach the volume from the above instance you will be able to delete it."}</p>
+        <div role="form">
+            <div className="form-group">
+                <p>
+                    {"Volumes cannot be deleted while they are attached to an instance."}
+                </p>
+                <p>
+                    {"This volume is currently attached to the following instance:"}
+                </p>
+                <ul>
+                    {this.renderAttachedInstance(this.props.instance)}
+                </ul>
+                <p>
+                    {"Once you detach the volume from the above instance you will be able to delete it."}
+                </p>
             </div>
-          </div>
+        </div>
         );
-      },
+    },
 
-      render: function () {
+    render: function() {
         return (
-          <div className="modal fade">
+        <div className="modal fade">
             <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <strong>Volume Delete Conditions</strong>
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <strong>Volume Delete Conditions</strong>
+                    </div>
+                    <div className="modal-body">
+                        {this.renderBody()}
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-primary" onClick={this.confirm}>
+                            OK
+                        </button>
+                    </div>
                 </div>
-                <div className="modal-body">
-                  {this.renderBody()}
-                </div>
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-primary" onClick={this.confirm}>
-                    OK
-                  </button>
-                </div>
-              </div>
             </div>
-          </div>
+        </div>
         );
-      }
+    }
 });

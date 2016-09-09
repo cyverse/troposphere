@@ -1,5 +1,5 @@
-import CreateModal from './tag/create';
-import AddModal from './tag/create_AddToInstance';
+import CreateModal from "./tag/create";
+import AddModal from "./tag/create_AddToInstance";
 
 export default {
     create: CreateModal.create,

@@ -1,7 +1,7 @@
-import React from 'react';
-import Router, { RouteHandler } from 'react-router';
-import RouterInstance from '../../Router';
-import stores from 'stores';
+import React from "react";
+import Router, { RouteHandler } from "react-router";
+import RouterInstance from "../../Router";
+import stores from "stores";
 
 export default React.createClass({
 
@@ -59,7 +59,7 @@ export default React.createClass({
     renderRefreshButton() {
         var controlsClass = "glyphicon pull-right glyphicon-refresh" + (this.state.refreshing ? " refreshing" : "");
         return (
-        <span className={ controlsClass } onClick={ this.onRefresh } />
+        <span className={controlsClass} onClick={this.onRefresh} />
         );
     },
 
@@ -89,8 +89,8 @@ export default React.createClass({
 
         return requests.map((r) => {
             return (
-            <li key={ r.id } onClick={ this.onResourceClick.bind(this, r) }>
-                { r.get("created_by").username }
+            <li key={r.id} onClick={this.onResourceClick.bind(this, r)}>
+                {r.get("created_by").username}
             </li>
             );
         })
@@ -100,9 +100,9 @@ export default React.createClass({
 
         return (
         <div className="resource-master">
-            <h2>Resource Requests { this.renderRefreshButton() }</h2>
+            <h2>Resource Requests {this.renderRefreshButton()}</h2>
             <ul className="requests-list pull-left">
-                { this.renderResourceRequests() }
+                {this.renderResourceRequests()}
             </ul>
             <RouteHandler />
         </div>

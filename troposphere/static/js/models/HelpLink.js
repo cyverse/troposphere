@@ -1,5 +1,5 @@
-import Backbone from 'backbone';
-import globals from 'globals';
+import Backbone from "backbone";
+import globals from "globals";
 
 export default Backbone.Model.extend({
 
@@ -7,7 +7,7 @@ export default Backbone.Model.extend({
 
     idAttribute: "link_key",
 
-    parse: function (attributes) {
+    parse: function(attributes) {
         return attributes;
     },
 });

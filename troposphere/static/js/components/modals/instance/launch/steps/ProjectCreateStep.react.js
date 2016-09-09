@@ -1,94 +1,104 @@
-import React from 'react';
+import React from "react";
 
 export default React.createClass({
-      displayName: "ProjectCreateModal",
+    displayName: "ProjectCreateModal",
 
-      getInitialState: function () {
+    getInitialState: function() {
         return {
-          projectName: "",
-          projectDescription: ""
+            projectName: "",
+            projectDescription: ""
         };
-      },
+    },
 
-      isSubmittable: function(){
-        var hasName        = !!this.state.projectName.trim();
+    isSubmittable: function() {
+        var hasName = !!this.state.projectName.trim();
         var hasDescription = !!this.state.projectDescription.trim();
         return hasName && hasDescription;
-      },
+    },
 
-      //
-      // Internal Modal Callbacks
-      // ------------------------
-      //
+    //
+    // Internal Modal Callbacks
+    // ------------------------
+    //
 
-      cancel: function () {
+    cancel: function() {
         this.hide();
-      },
+    },
 
-      confirm: function () {
+    confirm: function() {
         this.hide();
         this.props.onConfirm(this.state.projectName, this.state.projectDescription);
-      },
+    },
 
-      //
-      // Custom Modal Callbacks
-      // ----------------------
-      //
+    //
+    // Custom Modal Callbacks
+    // ----------------------
+    //
 
-      // todo: I don't think there's a reason to update state unless
-      // there's a risk of the component being re-rendered by the parent.
-      // Should probably verify this behavior, but for now, we play it safe.
-      onNameChange: function (e) {
-        this.setState({projectName: e.target.value});
-      },
+    // todo: I don't think there's a reason to update state unless
+    // there's a risk of the component being re-rendered by the parent.
+    // Should probably verify this behavior, but for now, we play it safe.
+    onNameChange: function(e) {
+        this.setState({
+            projectName: e.target.value
+        });
+    },
 
-      onDescriptionChange: function (e) {
-        this.setState({projectDescription: e.target.value});
-      },
+    onDescriptionChange: function(e) {
+        this.setState({
+            projectDescription: e.target.value
+        });
+    },
 
-      //
-      // Render
-      // ------
-      //
+    //
+    // Render
+    // ------
+    //
 
-      renderBody: function () {
+    renderBody: function() {
         return (
-          <div role='form'>
-
-            <div className='form-group'>
-              <label htmlFor='project-name'>Project Name</label>
-              <input type='text' className='form-control' value={this.state.projectName} onChange={this.onNameChange}/>
+        <div role="form">
+            <div className="form-group">
+                <label htmlFor="project-name">
+                    Project Name
+                </label>
+                <input type="text"
+                    className="form-control"
+                    value={this.state.projectName}
+                    onChange={this.onNameChange} />
             </div>
-
-            <div className='form-group'>
-              <label htmlFor='project-description'>Description</label>
-              <textarea type='text'
-                    className='form-control'
+            <div className="form-group">
+                <label htmlFor="project-description">
+                    Description
+                </label>
+                <textarea type="text"
+                    className="form-control"
                     rows="7"
                     value={this.state.projectDescription}
-                    onChange={this.onDescriptionChange}
-                />
+                    onChange={this.onDescriptionChange} />
             </div>
-          </div>
+        </div>
         );
-      },
+    },
 
-      render: function () {
+    render: function() {
 
         return (
-                <div>
-                  {this.renderBody()}
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-danger" onClick={this.props.cancel}>
+        <div>
+            {this.renderBody()}
+            <div className="modal-footer">
+                <button type="button" className="btn btn-danger" onClick={this.props.cancel}>
                     Cancel
-                  </button>
-                  <button type="button" className="btn btn-primary" onClick={this.confirm}
-                          disabled={!this.isSubmittable()}>
+                </button>
+                <button type="button"
+                    className="btn btn-primary"
+                    onClick={this.confirm}
+                    disabled={!this.isSubmittable()}>
                     Create
-                  </button>
-                </div>
-              </div>
+                </button>
+            </div>
+        </div>
         );
-      }
+    }
 
-    });
+});

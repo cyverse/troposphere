@@ -1,6 +1,6 @@
 
-import BaseStore from 'stores/BaseStore';
-import IdentityCollection from 'collections/IdentityCollection';
+import BaseStore from "stores/BaseStore";
+import IdentityCollection from "collections/IdentityCollection";
 
 let IdentityStore = BaseStore.extend({
     collection: IdentityCollection

@@ -1,17 +1,21 @@
-import VolumeConstants from 'constants/VolumeConstants';
-import Volume from 'models/Volume';
-import actions from 'actions';
-import Utils from '../Utils';
-import ProjectVolume from 'models/ProjectVolume';
-import ProjectVolumeConstants from 'constants/ProjectVolumeConstants';
+import VolumeConstants from "constants/VolumeConstants";
+import Volume from "models/Volume";
+import actions from "actions";
+import Utils from "../Utils";
+import ProjectVolume from "models/ProjectVolume";
+import ProjectVolumeConstants from "constants/ProjectVolumeConstants";
 
 export default {
 
     createAndAddToProject: function(payload) {
-        if (!payload.project) throw new Error("Missing project");
-        if (!payload.volumeName) throw new Error("Missing volumeName");
-        if (!payload.volumeSize) throw new Error("Missing volumeSize");
-        if (!payload.identity) throw new Error("Missing identity");
+        if (!payload.project)
+            throw new Error("Missing project");
+        if (!payload.volumeName)
+            throw new Error("Missing volumeName");
+        if (!payload.volumeSize)
+            throw new Error("Missing volumeSize");
+        if (!payload.identity)
+            throw new Error("Missing identity");
 
         var volumeName = payload.volumeName,
             project = payload.project,
@@ -24,12 +28,12 @@ export default {
             description: "",
             status: "creating",
             provider: {
-                id: identity.get('provider').id,
-                uuid: identity.get('provider').uuid
+                id: identity.get("provider").id,
+                uuid: identity.get("provider").uuid
             },
             identity: {
                 id: identity.id,
-                uuid: identity.get('uuid')
+                uuid: identity.get("uuid")
             },
             projects: [project.id]
         }, {
@@ -55,11 +59,11 @@ export default {
             name: volumeName,
             size: volumeSize
         }).done(function(attrs, status, response) {
-            volume.set('id', attrs.id);
+            volume.set("id", attrs.id);
             volume.fetch().done(function() {
                 // todo: remove hack and start using ProjectVolume endpoint to discover
                 // which project an volume is in
-                volume.set('projects', [project.id]);
+                volume.set("projects", [project.id]);
 
                 Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {
                     volume: volume

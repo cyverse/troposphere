@@ -1,6 +1,6 @@
-import React from 'react';
-import Backbone from 'backbone';
-import Router from 'react-router';
+import React from "react";
+import Backbone from "backbone";
+import Router from "react-router";
 
 export default React.createClass({
     displayName: "Name",
@@ -8,23 +8,23 @@ export default React.createClass({
     mixins: [Router.State],
 
     propTypes: {
-      instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    render: function () {
-      var instance = this.props.instance,
-          name = instance.get('name').trim() || "[no instance name]";
+    render: function() {
+        var instance = this.props.instance,
+            name = instance.get("name").trim() || "[no instance name]";
 
-      if (instance && !instance.get('id')) {
+        if (instance && !instance.get("id")) {
+            return (
+            <span>{instance.get("name")}</span>
+            );
+        }
+
         return (
-          <span>{instance.get('name')}</span>
-        );
-      }
-
-      return (
-        <Router.Link to="project-instance-details" params={{projectId: this.getParams().projectId, instanceId: instance.id}}>
-          {name}
+        <Router.Link to="project-instance-details" params={{ projectId: this.getParams().projectId, instanceId: instance.id }}>
+            {name}
         </Router.Link>
-      );
+        );
     }
 });

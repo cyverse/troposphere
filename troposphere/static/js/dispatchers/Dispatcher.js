@@ -1,6 +1,6 @@
 
-import Q from 'q';
-import _ from 'underscore';
+import Q from "q";
+import _ from "underscore";
 
 let _callbacks = [];
 let _promises = [];

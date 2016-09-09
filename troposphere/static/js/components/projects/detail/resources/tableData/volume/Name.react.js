@@ -1,28 +1,28 @@
-import React from 'react';
-import Backbone from 'backbone';
-import Router from 'react-router';
+import React from "react";
+import Backbone from "backbone";
+import Router from "react-router";
 
 export default React.createClass({
 
     mixins: [Router.State],
 
     propTypes: {
-      volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    render: function () {
-      var volume = this.props.volume;
+    render: function() {
+        var volume = this.props.volume;
 
-      if (!volume.id) {
+        if (!volume.id) {
+            return (
+            <span>{volume.get("name")}</span>
+            );
+        }
+
         return (
-          <span>{volume.get('name')}</span>
-        );
-      }
-
-      return (
-        <Router.Link to="project-volume-details" params={{projectId: this.getParams().projectId, volumeId: volume.id}}>
-          {volume.get('name')}
+        <Router.Link to="project-volume-details" params={{ projectId: this.getParams().projectId, volumeId: volume.id }}>
+            {volume.get("name")}
         </Router.Link>
-      );
+        );
     }
 });

@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 
 
 export default React.createClass({
     displayName: "FilesToExclude",
 
     propTypes: {
-      onChange: React.PropTypes.func.isRequired,
-      styles: React.PropTypes.object,
-      value: React.PropTypes.string
+        onChange: React.PropTypes.func.isRequired,
+        styles: React.PropTypes.object,
+        value: React.PropTypes.string
     },
     getDefaultProps: function() {
         return {
@@ -16,45 +16,47 @@ export default React.createClass({
             },
         };
     },
-    handleChange: function(e){
-      this.props.onChange(e.target.value)
+    handleChange: function(e) {
+        this.props.onChange(e.target.value)
     },
 
-    render: function () {
-      var styles = this.props.styles,
-        value = this.props.value;
+    render: function() {
+        var styles = this.props.styles,
+            value = this.props.value;
 
-      return (
+        return (
         <div className="form-group" style={styles}>
-          <label htmlFor={name} className="control-label">
-            Files to exclude
-          </label>
-          <div className="help-block">
-            <p>
-              {
-                "The following directories will automatically be excluded from the image:"
-              }
-            </p>
-            <div>/home/</div>
-            <div>/mnt/</div>
-            <div>/tmp/</div>
-            <div>/root/</div>
-          </div>
-          <div className="help-block">
-            {
-              "If your instance has additional files or directories you'd like to " +
-              "exclude, please list them here. Write one path per line."
-            }
-          </div>
-          <textarea
-            value={value}
-            name={"exclude"}
-            rows="4"
-            className="form-control"
-            placeholder="Files to exclude (if applicable)..."
-            onChange={this.handleChange}
-            />
+            <label htmlFor={name} className="control-label">
+                Files to exclude
+            </label>
+            <div className="help-block">
+                <p>
+                    {"The following directories will automatically be excluded from the image:"}
+                </p>
+                <div>
+                    /home/
+                </div>
+                <div>
+                    /mnt/
+                </div>
+                <div>
+                    /tmp/
+                </div>
+                <div>
+                    /root/
+                </div>
+            </div>
+            <div className="help-block">
+                {"If your instance has additional files or directories you'd like to " +
+                 "exclude, please list them here. Write one path per line."}
+            </div>
+            <textarea value={value}
+                name={"exclude"}
+                rows="4"
+                className="form-control"
+                placeholder="Files to exclude (if applicable)..."
+                onChange={this.handleChange} />
         </div>
-      );
+        );
     }
 });

@@ -1,6 +1,6 @@
-import React from 'react';
-import BootScriptOption from '../components/BootScriptOption.react';
-import AdvancedOptionsFooter from '../components/AdvancedOptionsFooter.react';
+import React from "react";
+import BootScriptOption from "../components/BootScriptOption.react";
+import AdvancedOptionsFooter from "../components/AdvancedOptionsFooter.react";
 
 export default React.createClass({
 
@@ -9,21 +9,21 @@ export default React.createClass({
             view: "BOOTSCRIPT_VIEW",
             footerDisabled: false,
 
-            options:[
+            options: [
                 {
                     name: "Deployment Scripts",
                     view: "BOOTSCRIPT_VIEW"
                 },
-                // This is for testing options sidebar,
-                // to add new options add them to this object and follow the pattern starting with renderBody below.
-                /*{
-                    name: "Option 2",
-                    view: "OPTION2_VIEW"
-                },
-                {
-                    name: "Option 3",
-                    view: "OPTION3_VIEW"
-                }*/
+            // This is for testing options sidebar,
+            // to add new options add them to this object and follow the pattern starting with renderBody below.
+            /*{
+                name: "Option 2",
+                view: "OPTION2_VIEW"
+            },
+            {
+                name: "Option 3",
+                view: "OPTION3_VIEW"
+            }*/
             ],
         }
     },
@@ -49,83 +49,81 @@ export default React.createClass({
 
     renderBody: function() {
         let view = this.state.view;
-        switch(view) {
+        switch (view) {
             case "BOOTSCRIPT_VIEW":
-            return this.renderBootScripts()
+                return this.renderBootScripts()
             case "OPTION2_VIEW":
-            return this.renderOption2()
+                return this.renderOption2()
             case "OPTION3_VIEW":
-            return this.renderOption3()
+                return this.renderOption3()
         }
     },
 
-    renderOptions: function (item, i) {
+    renderOptions: function(item, i) {
         let title = item.name;
         let isActive = "";
         if (item.view == this.state.view) {
             isActive = "active";
         }
         return (
-            <li key={i}className={`NavStacked-link ${isActive}`}>
-                <a onClick={this.changeOption.bind(this, item)}>
-                    {title}
-                </a>
-            </li>
+        <li key={i} className={`NavStacked-link ${isActive}`}>
+            <a onClick={this.changeOption.bind(this, item)}>
+                {title}
+            </a>
+        </li>
         );
     },
 
     renderBootScripts: function() {
-            return (
-                <BootScriptOption {...this.props}
-                    onDisableFooter={this.onDisableFooter}
-                    onEnableFooter={this.onEnableFooter}
-                />
-            );
+        return (
+        <BootScriptOption {...this.props} onDisableFooter={this.onDisableFooter} onEnableFooter={this.onEnableFooter} />
+        );
     },
 
     renderOption2: function() {
         return (
-            "Option2"
+        "Option2"
         )
     },
 
     renderOption3: function() {
         return (
-            "Option3"
+        "Option3"
         )
     },
 
     renderOptionList: function() {
-        if (this.state.options.length <= 1) { return };
+        // If we only have one option rederOptionList can be commented out.
+        // The content will resize to fill the whole modal.  This flexability
+        // will allow us to easily animate the width of RenderOptionList,
+        // allowing the user to toggle the side bar open or closed for more
+        // room.
+        if (this.state.options.length <= 1) {
+            return
+        }
         let options = this.state.options.map(this.renderOptions);
         return (
-            <ul className="AdvancedOptions-optionList NavStacked">
-                {options}
-            </ul>
+        <ul className="AdvancedOptions-optionList NavStacked">
+            {options}
+        </ul>
         )
     },
 
     render: function() {
         return (
-            <div>
-                <div className="AdvancedOptions">
-                {/* If we only have one option rederOptionList can be commented out.
-                    The content will resize to fill the whole modal.
-                    This flexability will allow us to easily animate the width of RenderOptionList,
-                    allowing the user to toggle the side bar open or closed for more room. */}
-                    {this.renderOptionList()}
-                    <div className="AdvancedOptions-content">
-                        {this.renderBody()}
-                    </div>
+        <div>
+            <div className="AdvancedOptions">
+                {this.renderOptionList()}
+                <div className="AdvancedOptions-content">
+                    {this.renderBody()}
                 </div>
-                <AdvancedOptionsFooter
-                    continueToLaunch={this.state.continueToLaunch}
-                    clearOptionsIsDisabled={!this.props.hasAdvancedOptions}
-                    footerDisabled={this.state.footerDisabled}
-                    onSaveAdvanced={this.props.onSaveAdvanced}
-                    onClearAdvanced={this.props.onClearAdvanced}
-                />
             </div>
+            <AdvancedOptionsFooter continueToLaunch={this.state.continueToLaunch}
+                clearOptionsIsDisabled={!this.props.hasAdvancedOptions}
+                footerDisabled={this.state.footerDisabled}
+                onSaveAdvanced={this.props.onSaveAdvanced}
+                onClearAdvanced={this.props.onClearAdvanced} />
+        </div>
         )
     }
 });

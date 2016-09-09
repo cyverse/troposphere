@@ -1,6 +1,6 @@
-import React from 'react';
-import ProjectListView from './list/ProjectListView.react';
-import stores from 'stores';
+import React from "react";
+import ProjectListView from "./list/ProjectListView.react";
+import stores from "stores";
 
 
 function getProjectState() {
@@ -36,15 +36,15 @@ export default React.createClass({
     // Render
     // ------
     //
-    render: function () {
+    render: function() {
         if (this.state.projects) {
-          return (
-            <ProjectListView projects={this.state.projects}/>
-          );
+            return (
+            <ProjectListView projects={this.state.projects} />
+            );
         } else {
-          return (
+            return (
             <div className="loading"></div>
-          );
+            );
         }
     }
 });

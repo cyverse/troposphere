@@ -1,7 +1,7 @@
-import TagCollection from 'collections/TagCollection';
-import Dispatcher from 'dispatchers/Dispatcher';
-import BaseStore from 'stores/BaseStore';
-import TagConstants from 'constants/TagConstants';
+import TagCollection from "collections/TagCollection";
+import Dispatcher from "dispatchers/Dispatcher";
+import BaseStore from "stores/BaseStore";
+import TagConstants from "constants/TagConstants";
 
 let _pendingInstanceTags = {};
 let _pendingImageTags = {};
@@ -19,7 +19,7 @@ let TagStore = BaseStore.extend({
             return;
         }
 
-        var imageTagArray = image.get('tags').map(function(tag) {
+        var imageTagArray = image.get("tags").map(function(tag) {
             //var tagName = tag.name;
             //var tag = _tags.findWhere({name: tagName}, {parse: true});
             //if(!tag) throw new Error("Expected to find a tag with name '" + tagName +"'");

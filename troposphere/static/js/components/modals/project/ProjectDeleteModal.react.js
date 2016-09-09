@@ -1,75 +1,77 @@
-import React from 'react';
-import Backbone from 'backbone';
-import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import React from "react";
+import Backbone from "backbone";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
 
 export default React.createClass({
-      displayName: "ProjectDeleteModal",
+    displayName: "ProjectDeleteModal",
 
-      mixins: [BootstrapModalMixin],
+    mixins: [BootstrapModalMixin],
 
-      propTypes: {
+    propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    },
 
-      isSubmittable: function () {
+    isSubmittable: function() {
         return true;
-      },
+    },
 
-      //
-      // Internal Modal Callbacks
-      // ------------------------
-      //
+    //
+    // Internal Modal Callbacks
+    // ------------------------
+    //
 
-      cancel: function () {
+    cancel: function() {
         this.hide();
-      },
+    },
 
-      confirm: function () {
+    confirm: function() {
         this.hide();
         this.props.onConfirm();
-      },
+    },
 
-      //
-      // Render
-      // ------
-      //
+    //
+    // Render
+    // ------
+    //
 
-      renderBody: function () {
+    renderBody: function() {
         var project = this.props.project;
         return (
-          <p>
+        <p>
             {"Are you sure you want to delete the project "}
-            <strong>{project.get('name')}</strong>
+            <strong>{project.get("name")}</strong>
             {"?"}
-          </p>
+        </p>
         );
-      },
+    },
 
-      render: function () {
+    render: function() {
 
         return (
-          <div className="modal fade">
+        <div className="modal fade">
             <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  {this.renderCloseButton()}
-                  <strong>Delete Project</strong>
+                <div className="modal-content">
+                    <div className="modal-header">
+                        {this.renderCloseButton()}
+                        <strong>Delete Project</strong>
+                    </div>
+                    <div className="modal-body">
+                        {this.renderBody()}
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-danger" onClick={this.cancel}>
+                            Cancel
+                        </button>
+                        <button type="button"
+                            className="btn btn-primary"
+                            onClick={this.confirm}
+                            disabled={!this.isSubmittable()}>
+                            Yes, delete the project
+                        </button>
+                    </div>
                 </div>
-                <div className="modal-body">
-                  {this.renderBody()}
-                </div>
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-danger" onClick={this.cancel}>
-                    Cancel
-                  </button>
-                  <button type="button" className="btn btn-primary" onClick={this.confirm}
-                          disabled={!this.isSubmittable()}>
-                    Yes, delete the project
-                  </button>
-                </div>
-              </div>
             </div>
-          </div>
+        </div>
         );
-      }
+    }
 });
