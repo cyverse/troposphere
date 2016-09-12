@@ -1,10 +1,10 @@
 
-import  $ from 'jquery';
-import  _ from 'underscore';
-import  Store from 'stores/Store';
-import  ClientVersion from 'models/ClientVersion';
-import  ServerDeployVersion from 'models/ServerDeployVersion';
-import  ServerVersion from 'models/ServerVersion';
+import $ from "jquery";
+import _ from "underscore";
+import Store from "stores/Store";
+import ClientVersion from "models/ClientVersion";
+import ServerDeployVersion from "models/ServerDeployVersion";
+import ServerVersion from "models/ServerVersion";
 
 let _version;
 let _isFetching = false;

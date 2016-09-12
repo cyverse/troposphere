@@ -1,6 +1,6 @@
-import React from 'react';
-import Backbone from 'backbone';
-import ProgressBar from 'components/common/ui/ProgressBar.react';
+import React from "react";
+import Backbone from "backbone";
+import ProgressBar from "components/common/ui/ProgressBar.react";
 
 export default React.createClass({
     propTypes: {
@@ -14,15 +14,11 @@ export default React.createClass({
     resourceExceded: function(total, limit) {
         if (total > limit) {
             return (
-                <div style={{color: "red", marginTop: "-20px"}}>
-                    You do not have enough resources. <br/>
-                    <a className="btn btn-xs btn-default"
-                        style={{margin: "5px 0 20px"}}
-                        onClick={this.props.onRequestResources}
-                    >
-                        Request more Resources
-                    </a>
-                </div>
+            <div style={{ color: "red", marginTop: "-20px" }}>
+                You do not have enough resources.
+                <br/>
+                <a className="btn btn-xs btn-default" style={{ margin: "5px 0 20px" }} onClick={this.props.onRequestResources}>Request more Resources</a>
+            </div>
             )
         }
     },
@@ -38,24 +34,24 @@ export default React.createClass({
 
 
         // CPU's have used + will use
-         let allocationCpu,
-         cpuUsed,
-         cpuWillUse,
-         cpuWillTotal,
-         percentOfCpuUsed,
-         percentOfCpuWillUse,
+        let allocationCpu,
+            cpuUsed,
+            cpuWillUse,
+            cpuWillTotal,
+            percentOfCpuUsed,
+            percentOfCpuWillUse,
 
-        // Memory have used + will use
-         allocationGb,
-         gbUsed,
-         gbWillUse,
-         gbWillTotal,
-         percentOfGbUsed,
-         percentOfGbWillUse,
+            // Memory have used + will use
+            allocationGb,
+            gbUsed,
+            gbWillUse,
+            gbWillTotal,
+            percentOfGbUsed,
+            percentOfGbWillUse,
 
-        // Labels for bar graphs
-         cpuLabel = "loading...",
-         gbLabel = "loading...";
+            // Labels for bar graphs
+            cpuLabel = "loading...",
+            gbLabel = "loading...";
 
         // Check if we have our models before using their backbone methods
         if (identityProvider && size && resourcesUsed) {
@@ -63,20 +59,20 @@ export default React.createClass({
             // Calculate and set all of our graph information
 
             // CPU's have used + will use
-            allocationCpu = identityProvider.get('quota').cpu;
+            allocationCpu = identityProvider.get("quota").cpu;
             cpuUsed = resourcesUsed.cpu;
-            cpuWillUse = size.get('cpu');
+            cpuWillUse = size.get("cpu");
             cpuWillTotal = cpuUsed + cpuWillUse;
             percentOfCpuUsed = Math.round(cpuUsed / allocationCpu * 100);
             percentOfCpuWillUse = Math.round(cpuWillUse / allocationCpu * 100);
 
             // Memory have used + will use
-            allocationGb = identityProvider.get('quota').memory;
+            allocationGb = identityProvider.get("quota").memory;
             gbUsed = resourcesUsed.mem / 1024;
-            gbWillUse = size.get('mem');
+            gbWillUse = size.get("mem");
             gbWillTotal = gbUsed + gbWillUse;
             percentOfGbUsed = Math.round(gbUsed / allocationGb * 100);
-            percentOfGbWillUse = Math.round(gbWillUse / allocationGb *100);
+            percentOfGbWillUse = Math.round(gbWillUse / allocationGb * 100);
 
             // Labels for bar graphs
             cpuLabel = `A total ${cpuWillTotal} of ${allocationCpu} alloted CPUs`;
@@ -84,25 +80,21 @@ export default React.createClass({
         }
 
         return (
-                <div className="form-group">
-                    <label>Resources Instance will Use</label>
-                    <ProgressBar
-                        startColor="#56AA21"
-                        startValue={percentOfCpuUsed}
-                        afterValue={percentOfCpuWillUse}
-                        label={cpuLabel}
-                    />
-                    {this.resourceExceded(cpuWillTotal, allocationCpu)}
-
-                    <ProgressBar
-                        startColor="#56AA21"
-                        startValue={percentOfGbUsed}
-                        afterValue={percentOfGbWillUse}
-                        label={gbLabel}
-                    />
-                    {this.resourceExceded(gbWillTotal, allocationGb)}
-
-                </div>
-            )
+        <div className="form-group">
+            <label>
+                Resources Instance will Use
+            </label>
+            <ProgressBar startColor="#56AA21"
+                startValue={percentOfCpuUsed}
+                afterValue={percentOfCpuWillUse}
+                label={cpuLabel} />
+            {this.resourceExceded(cpuWillTotal, allocationCpu)}
+            <ProgressBar startColor="#56AA21"
+                startValue={percentOfGbUsed}
+                afterValue={percentOfGbWillUse}
+                label={gbLabel} />
+            {this.resourceExceded(gbWillTotal, allocationGb)}
+        </div>
+        )
     },
 });

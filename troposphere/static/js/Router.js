@@ -1,5 +1,5 @@
 
-import Router from 'react-router';
+import Router from "react-router";
 
 // router singleton
 let _router;

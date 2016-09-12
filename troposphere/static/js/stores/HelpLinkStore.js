@@ -1,6 +1,6 @@
-import Dispatcher from 'dispatchers/Dispatcher';
-import BaseStore from 'stores/BaseStore';
-import HelpLinkCollection from 'collections/HelpLinkCollection';
+import Dispatcher from "dispatchers/Dispatcher";
+import BaseStore from "stores/BaseStore";
+import HelpLinkCollection from "collections/HelpLinkCollection";
 
 var HelpLinkStore = BaseStore.extend({
     collection: HelpLinkCollection,
@@ -13,7 +13,7 @@ var HelpLinkStore = BaseStore.extend({
 
 var store = new HelpLinkStore();
 
-Dispatcher.register(function (dispatch) {
+Dispatcher.register(function(dispatch) {
     var options = dispatch.action.options || options;
 
     if (!options.silent) {

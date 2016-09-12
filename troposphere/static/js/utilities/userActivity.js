@@ -30,7 +30,7 @@
 const trackAction = (actionName, details) => {
     try {
         if (window.intercom_app_id && window.Intercom) {
-            window.Intercom('trackEvent', actionName, details);
+            window.Intercom("trackEvent", actionName, details);
         }
     } catch (e) {
         // optionally - can call out to Raven

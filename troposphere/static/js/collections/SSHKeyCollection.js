@@ -1,6 +1,6 @@
-import Backbone from 'backbone';
-import SSHKey from 'models/SSHKey';
-import globals from 'globals';
+import Backbone from "backbone";
+import SSHKey from "models/SSHKey";
+import globals from "globals";
 
 
 export default Backbone.Collection.extend({

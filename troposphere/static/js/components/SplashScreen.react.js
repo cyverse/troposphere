@@ -1,10 +1,10 @@
-import $ from 'jquery';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import context from 'context';
-import stores from 'stores';
-import Router from '../Router';
-import routes from '../AppRoutes.react';
+import $ from "jquery";
+import React from "react";
+import ReactDOM from "react-dom";
+import context from "context";
+import stores from "stores";
+import Router from "../Router";
+import routes from "../AppRoutes.react";
 
 export default React.createClass({
     displayName: "SplashScreen",
@@ -14,81 +14,81 @@ export default React.createClass({
     // ----------------
     //
 
-    getInitialState: function () {
-      return {
-        profile: stores.ProfileStore.get(),
-        instances: stores.InstanceStore.getAll(),
-        volumes: stores.VolumeStore.getAll()
-      };
+    getInitialState: function() {
+        return {
+            profile: stores.ProfileStore.get(),
+            instances: stores.InstanceStore.getAll(),
+            volumes: stores.VolumeStore.getAll()
+        };
     },
 
-    updateState: function () {
-      var profile = stores.ProfileStore.get(),
-        instances = stores.InstanceStore.getAll(),
-        volumes = stores.VolumeStore.getAll(),
-        isEmulatedUser;
+    updateState: function() {
+        var profile = stores.ProfileStore.get(),
+            instances = stores.InstanceStore.getAll(),
+            volumes = stores.VolumeStore.getAll(),
+            isEmulatedUser;
 
-      if (profile && instances && volumes) {
+        if (profile && instances && volumes) {
 
-        // set user context
-        context.profile = profile;
-        //context.nullProject = nullProject;
+            // set user context
+            context.profile = profile;
+            //context.nullProject = nullProject;
 
-        // if the emulator token exists, the user is being emulated by staff
-        // in that case, this doesn't count as a real session, so don't report
-        // it to Intercom.
-        isEmulatedUser = !!window.emulator_token;
+            // if the emulator token exists, the user is being emulated by staff
+            // in that case, this doesn't count as a real session, so don't report
+            // it to Intercom.
+            isEmulatedUser = !!window.emulator_token;
 
-        if (!isEmulatedUser) {
-          window.Intercom('boot', {
-            app_id: window.intercom_app_id,
-            name: profile.get("username"),
-            username: profile.get("username"),
-            email: profile.get("email"),
-            company: {
-              id: window.intercom_company_id,
-              name: window.intercom_company_name
+            if (!isEmulatedUser) {
+                window.Intercom("boot", {
+                    app_id: window.intercom_app_id,
+                    name: profile.get("username"),
+                    username: profile.get("username"),
+                    email: profile.get("email"),
+                    company: {
+                        id: window.intercom_company_id,
+                        name: window.intercom_company_name
+                    }
+                // TODO: The current logged in user's sign-up date as a Unix timestamp.
+                //created_at: 1234567890
+                });
             }
-            // TODO: The current logged in user's sign-up date as a Unix timestamp.
-            //created_at: 1234567890
-          });
+
+            this.startApplication();
         }
-
-        this.startApplication();
-      }
     },
 
-    componentDidMount: function () {
-      stores.ProfileStore.addChangeListener(this.updateState);
-      stores.InstanceStore.addChangeListener(this.updateState);
-      stores.VolumeStore.addChangeListener(this.updateState);
+    componentDidMount: function() {
+        stores.ProfileStore.addChangeListener(this.updateState);
+        stores.InstanceStore.addChangeListener(this.updateState);
+        stores.VolumeStore.addChangeListener(this.updateState);
     },
 
-    componentWillUnmount: function () {
-      stores.ProfileStore.removeChangeListener(this.updateState);
-      stores.InstanceStore.removeChangeListener(this.updateState);
-      stores.VolumeStore.removeChangeListener(this.updateState);
+    componentWillUnmount: function() {
+        stores.ProfileStore.removeChangeListener(this.updateState);
+        stores.InstanceStore.removeChangeListener(this.updateState);
+        stores.VolumeStore.removeChangeListener(this.updateState);
     },
 
-    startApplication: function () {
+    startApplication: function() {
 
-      $('body').removeClass('splash-screen');
+        $("body").removeClass("splash-screen");
 
-      // Start the application router
-      Router.getInstance(routes).run(function (Handler, state) {
-        // you might want to push the state of the router to a store for whatever reason
-        // RouterActions.routeChange({routerState: state});
+        // Start the application router
+        Router.getInstance(routes).run(function(Handler, state) {
+            // you might want to push the state of the router to a store for whatever reason
+            // RouterActions.routeChange({routerState: state});
 
-        // Update intercom so users get any messages sent to them
-        window.Intercom('update');
+            // Update intercom so users get any messages sent to them
+            window.Intercom("update");
 
-        // whenever the url changes, this callback is called again
-        ReactDOM.render(<Handler/>, document.getElementById("application"));
-      });
+            // whenever the url changes, this callback is called again
+            ReactDOM.render(<Handler/>, document.getElementById("application"));
+        });
     },
 
-    render: function () {
-      return null;
+    render: function() {
+        return null;
     }
 
-  });
+});

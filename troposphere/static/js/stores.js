@@ -8,4 +8,5 @@ export default function () {
     return {
         // add stores here
     }
-};
+}
+;

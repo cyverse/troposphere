@@ -1,7 +1,7 @@
-import _ from 'underscore';
-import Backbone from 'backbone';
+import _ from "underscore";
+import Backbone from "backbone";
 
-let CHANGE_EVENT = 'change';
+let CHANGE_EVENT = "change";
 
 let Store = {
     addChangeListener: function(callback) {

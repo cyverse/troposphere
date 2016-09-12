@@ -1,18 +1,18 @@
-import React from 'react';
-import Router from 'react-router';
-import stores from 'stores';
-import ComponentHandleInputWithDelay from 'components/mixins/ComponentHandleInputWithDelay';
-import AtmosphereUser from './AtmosphereUser.react';
+import React from "react";
+import Router from "react-router";
+import stores from "stores";
+import ComponentHandleInputWithDelay from "components/mixins/ComponentHandleInputWithDelay";
+import AtmosphereUser from "./AtmosphereUser.react";
 
 export default React.createClass({
-    displayName: 'AtmosphereUserMaster',
+    displayName: "AtmosphereUserMaster",
     mixins: [Router.State, ComponentHandleInputWithDelay],
 
     USERS_PAGE_SIZE: 20,
 
     getInitialState: function() {
         return {
-            query: '',
+            query: "",
             users: null,
         };
     },
@@ -66,7 +66,7 @@ export default React.createClass({
         }
 
         let rows = users.map(
-            (user) => <AtmosphereUser key={ user.id } user={ user } />
+            (user) => <AtmosphereUser key={user.id} user={user} />
         );
 
         if (rows.length == 0) {
@@ -78,7 +78,7 @@ export default React.createClass({
         }
 
         return (
-        <table className="admin-table table table-striped table-hover" style={ { marginTop: '20px' } }>
+        <table className="admin-table table table-striped table-hover" style={{ marginTop: "20px" }}>
             <tbody>
                 <tr className="admin-row">
                     <th>
@@ -97,7 +97,7 @@ export default React.createClass({
                         <h4>Enabled/Disabled</h4>
                     </th>
                 </tr>
-                { rows }
+                {rows}
             </tbody>
         </table>
         );
@@ -105,16 +105,16 @@ export default React.createClass({
     render: function() {
         return (
         <div className="resource-master">
-            <div id='user-container'>
-                <input type='text'
-                       className='form-control search-input'
-                       placeholder='Search for a specific user by username'
-                       onChange={ this.onSearchChange }
-                       value={ this.state.query }
-                       ref="textField" />
+            <div id="user-container">
+                <input type="text"
+                    className="form-control search-input"
+                    placeholder="Search for a specific user by username"
+                    onChange={this.onSearchChange}
+                    value={this.state.query}
+                    ref="textField" />
             </div>
             <h3>Atmosphere Users</h3>
-            { this.renderTable() }
+            {this.renderTable()}
         </div>
         );
     }

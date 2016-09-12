@@ -1,5 +1,5 @@
-import BaseStore from 'stores/BaseStore';
-import AllocationSourceCollection from 'collections/AllocationSourceCollection';
+import BaseStore from "stores/BaseStore";
+import AllocationSourceCollection from "collections/AllocationSourceCollection";
 
 let AllocationSourceStore = BaseStore.extend({
     collection: AllocationSourceCollection

@@ -1,19 +1,23 @@
-import React from 'react';
+import React from "react";
 
 export default React.createClass({
-      displayName: 'ResourceDetail',
+    displayName: "ResourceDetail",
 
-      propTypes: {
+    propTypes: {
         label: React.PropTypes.string.isRequired,
         children: React.PropTypes.node.isRequired
-      },
+    },
 
-      render: function () {
+    render: function() {
         return (
-          <li className="clearfix">
-            <div className="t-body-2 detail-label">{this.props.label + " "}</div>
-            <div className="detail-value" >{this.props.children}</div>
-          </li>
+        <li className="clearfix">
+            <div className="t-body-2 detail-label">
+                {this.props.label + " "}
+            </div>
+            <div className="detail-value">
+                {this.props.children}
+            </div>
+        </li>
         );
-      }
+    }
 });

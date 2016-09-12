@@ -1,38 +1,46 @@
-import ImageBookmarkConstants from 'constants/ImageBookmarkConstants';
-import ImageBookmark from 'models/ImageBookmark';
-import Badges from 'Badges';
-import actions from 'actions';
-import Utils from './Utils';
-import stores from 'stores';
+import ImageBookmarkConstants from "constants/ImageBookmarkConstants";
+import ImageBookmark from "models/ImageBookmark";
+import Badges from "Badges";
+import actions from "actions";
+import Utils from "./Utils";
+import stores from "stores";
 
 export default {
 
-    addBookmark: function (params, options) {
-      if (!params.image) throw new Error("Missing image");
+    addBookmark: function(params, options) {
+        if (!params.image)
+            throw new Error("Missing image");
 
-      var image = params.image,
-        imageBookmark = new ImageBookmark(),
-        data = {
-          image: image.id
-        };
+        var image = params.image,
+            imageBookmark = new ImageBookmark(),
+            data = {
+                image: image.id
+            };
 
-      imageBookmark.save(null, {attrs: data}).done(function () {
-        actions.BadgeActions.checkOrGrant(Badges.FAVORITE_IMAGE_BADGE);
-        Utils.dispatch(ImageBookmarkConstants.ADD_IMAGE_BOOKMARK, {imageBookmark: imageBookmark}, options);
-      });
+        imageBookmark.save(null, {
+            attrs: data
+        }).done(function() {
+            actions.BadgeActions.checkOrGrant(Badges.FAVORITE_IMAGE_BADGE);
+            Utils.dispatch(ImageBookmarkConstants.ADD_IMAGE_BOOKMARK, {
+                imageBookmark: imageBookmark
+            }, options);
+        });
     },
 
-    removeBookmark: function (params, options) {
-      if (!params.image) throw new Error("Missing image");
+    removeBookmark: function(params, options) {
+        if (!params.image)
+            throw new Error("Missing image");
 
-      var image = params.image,
-        imageBookmark = stores.ImageBookmarkStore.findOne({
-          'image.id': image.id
+        var image = params.image,
+            imageBookmark = stores.ImageBookmarkStore.findOne({
+                "image.id": image.id
+            });
+
+        imageBookmark.destroy().done(function() {
+            Utils.dispatch(ImageBookmarkConstants.REMOVE_IMAGE_BOOKMARK, {
+                imageBookmark: imageBookmark
+            }, options);
         });
-
-      imageBookmark.destroy().done(function () {
-        Utils.dispatch(ImageBookmarkConstants.REMOVE_IMAGE_BOOKMARK, {imageBookmark: imageBookmark}, options);
-      });
     }
 
-  };
+};

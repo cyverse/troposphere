@@ -1,24 +1,24 @@
-import React from 'react';
-import Backbone from 'backbone';
+import React from "react";
+import Backbone from "backbone";
 
 export default React.createClass({
-      displayName: "IpAddress",
+    displayName: "IpAddress",
 
-      propTypes: {
+    propTypes: {
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    },
 
-      render: function () {
+    render: function() {
         var instance = this.props.instance;
 
-        var address = instance.get('ip_address');
+        var address = instance.get("ip_address");
 
         if (!address || address.charAt(0) == "0") {
             address = "N/A";
         }
 
         return (
-          <span>{address}</span>
+        <span>{address}</span>
         );
-      }
+    }
 });

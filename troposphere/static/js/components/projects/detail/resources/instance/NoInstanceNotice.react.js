@@ -1,14 +1,14 @@
-import React from 'react';
+import React from "react";
 
 
 export default React.createClass({
     displayName: "NoInstanceNotice",
 
-    render: function () {
-      return (
+    render: function() {
+        return (
         <p>
-          You have not added any instances to this project.
+            You have not added any instances to this project.
         </p>
-      );
+        );
     }
 });

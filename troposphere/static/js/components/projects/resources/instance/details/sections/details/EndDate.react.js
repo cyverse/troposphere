@@ -1,7 +1,7 @@
-import React from 'react';
-import Backbone from 'backbone';
-import ResourceDetail from 'components/projects/common/ResourceDetail.react';
-import Time from 'components/common/Time.react';
+import React from "react";
+import Backbone from "backbone";
+import ResourceDetail from "components/projects/common/ResourceDetail.react";
+import Time from "components/common/Time.react";
 
 var EndDate = React.createClass({
     displayName: "EndDate",
@@ -10,11 +10,11 @@ var EndDate = React.createClass({
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    render: function () {
+    render: function() {
         return (
-          <ResourceDetail label="Deleted">
-            <Time date={this.props.instance.get('end_date')}/>
-          </ResourceDetail>
+        <ResourceDetail label="Deleted">
+            <Time date={this.props.instance.get("end_date")} />
+        </ResourceDetail>
         );
     }
 });

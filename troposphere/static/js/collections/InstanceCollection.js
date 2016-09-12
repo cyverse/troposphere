@@ -2,8 +2,8 @@ import Backbone from "backbone";
 
 import globals from "globals";
 import Instance from "models/Instance";
-import { api } from 'mock/instances.js';
-import mockSync from 'utilities/mockSync';
+import { api } from "mock/instances.js";
+import mockSync from "utilities/mockSync";
 
 export default Backbone.Collection.extend({
     model: Instance,
@@ -21,6 +21,6 @@ export default Backbone.Collection.extend({
     },
 
     sync: globals.USE_MOCK_DATA
-          ? mockSync(api)
-          : Backbone.sync
+        ? mockSync(api)
+        : Backbone.sync
 });

@@ -1,8 +1,8 @@
-import React from 'react';
-import Backbone from 'backbone';
-import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
-import stores from 'stores';
-import InstanceSelect from '../volume_attach/InstanceSelect.react';
+import React from "react";
+import Backbone from "backbone";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
+import stores from "stores";
+import InstanceSelect from "../volume_attach/InstanceSelect.react";
 
 // Example Usage from http://bl.ocks.org/insin/raw/8449696/
 // render: function(){
@@ -30,27 +30,27 @@ import InstanceSelect from '../volume_attach/InstanceSelect.react';
 // }
 
 export default React.createClass({
-      displayName: "VolumeAttachModal",
+    displayName: "VolumeAttachModal",
 
-      mixins: [BootstrapModalMixin],
+    mixins: [BootstrapModalMixin],
 
-      propTypes: {
+    propTypes: {
         volume: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         helpLink: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    },
 
-      isSubmittable: function () {
+    isSubmittable: function() {
         var hasInstanceId = !!this.state.instanceId;
         return hasInstanceId;
-      },
+    },
 
-      //
-      // Mounting & State
-      // ----------------
-      //
+    //
+    // Mounting & State
+    // ----------------
+    //
 
-      getState: function() {
+    getState: function() {
         if (this.props.project === undefined)
             throw new Error("Volume attach modal lacks a project");
 
@@ -66,179 +66,175 @@ export default React.createClass({
 
         // Use selected instance or default to the first one
         if (state.instances) {
-          var volume = this.props.volume,
-            InstanceCollection = state.instances.constructor;
+            var volume = this.props.volume,
+                InstanceCollection = state.instances.constructor;
 
-          // Filter out instances not in the same provider as the volume
-          state.instances = state.instances.filter(function (i) {
-            return i.get('identity').provider === volume.get('identity').provider;
-          });
-          state.instances = new InstanceCollection(state.instances);
-          state.instanceId = this.state.instanceId || state.instances.first().id;
+            // Filter out instances not in the same provider as the volume
+            state.instances = state.instances.filter(function(i) {
+                return i.get("identity").provider === volume.get("identity").provider;
+            });
+            state.instances = new InstanceCollection(state.instances);
+            state.instanceId = this.state.instanceId || state.instances.first().id;
         }
 
         return state;
-      },
+    },
 
-      getInitialState: function () {
+    getInitialState: function() {
         return this.getState();
-      },
+    },
 
-      updateState: function () {
+    updateState: function() {
         if (this.isMounted()) this.setState(this.getState());
-      },
+    },
 
-      componentDidMount: function () {
+    componentDidMount: function() {
         stores.InstanceStore.addChangeListener(this.updateState);
         stores.ProjectInstanceStore.addChangeListener(this.updateState);
-      },
+    },
 
-      componentWillUnmount: function () {
+    componentWillUnmount: function() {
         stores.InstanceStore.removeChangeListener(this.updateState);
         stores.ProjectInstanceStore.removeChangeListener(this.updateState);
-      },
+    },
 
-      //
-      // Internal Modal Callbacks
-      // ------------------------
-      //
+    //
+    // Internal Modal Callbacks
+    // ------------------------
+    //
 
-      cancel: function () {
+    cancel: function() {
         this.hide();
-      },
+    },
 
-      confirm: function () {
+    confirm: function() {
         this.hide();
         var instance = this.state.instances.get(this.state.instanceId);
-        if (instance === undefined) throw new Error("Instance not found in modal's instances store");
+        if (instance === undefined)
+            throw new Error("Instance not found in modal's instances store");
         this.props.onConfirm(instance);
-      },
+    },
 
-      //
-      // Custom Modal Callbacks
-      // ----------------------
-      //
+    //
+    // Custom Modal Callbacks
+    // ----------------------
+    //
 
-      onInstanceChange: function (e) {
+    onInstanceChange: function(e) {
         var newInstanceId = ~~e.target.value;
-        this.setState({instanceId: newInstanceId});
-      },
+        this.setState({
+            instanceId: newInstanceId
+        });
+    },
 
-      //
-      // Render
-      // ------
-      //
+    //
+    // Render
+    // ------
+    //
 
-      renderLoadingContent: function () {
+    renderLoadingContent: function() {
         return (
-          <div className="modal-content">
+        <div className="modal-content">
             <div className="modal-header">
-              {this.renderCloseButton()}
-              <strong>Attach Volume</strong>
+                {this.renderCloseButton()}
+                <strong>Attach Volume</strong>
             </div>
             <div className="modal-body">
-              <div className="loading"></div>
+                <div className="loading"></div>
             </div>
             <div className="modal-footer">
             </div>
-          </div>
+        </div>
         )
-      },
+    },
 
-      renderAttachRulesContent: function () {
+    renderAttachRulesContent: function() {
         return (
-          <div className="modal-content">
+        <div className="modal-content">
             <div className="modal-header">
-              <strong>Volume Attach Rules</strong>
+                <strong>Volume Attach Rules</strong>
             </div>
             <div className="modal-body">
-              <div role='form'>
-                <div className='form-group'>
-                  <p>
-                    <strong>Uh oh! </strong>
-                    It looks like you don't have any instances in this project
-                    that you can attach the volume to. Volumes can only be
-                    attached to instances that are <strong>active</strong>, in
-                    the <strong>same project</strong> and on the <strong>same
-                    provider</strong> as the volume.
-                  </p>
-
-                  <p>
-                    {
-                      "If you'd like to attach this volume to an instance, you'll first need to "
-                    }
-                    <a href={this.props.helpLink.get('href')}>create an instance</a>
-                    {
-                      " on the same provider or move an existing instance into this project."
-                    }
-                  </p>
+                <div role="form">
+                    <div className="form-group">
+                        <p>
+                            <strong>Uh oh!</strong> It looks like you don't have any instances in this project that you can attach the volume to. Volumes can only be attached
+                            to instances that are <strong>active</strong>, in the <strong>same project</strong> and on the <strong>same provider</strong> as the volume.
+                        </p>
+                        <p>
+                            {"If you'd like to attach this volume to an instance, you'll first need to "}
+                            <a href={this.props.helpLink.get("href")}>create an instance</a>
+                            {" on the same provider or move an existing instance into this project."}
+                        </p>
+                    </div>
                 </div>
-              </div>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-primary" onClick={this.cancel}>
-                OK
-              </button>
+                <button type="button" className="btn btn-primary" onClick={this.cancel}>
+                    OK
+                </button>
             </div>
-          </div>
+        </div>
         )
-      },
+    },
 
-      renderAttachVolumeContent: function (instances) {
+    renderAttachVolumeContent: function(instances) {
         var instanceId = this.state.instanceId;
 
         return (
-          <div className="modal-content">
+        <div className="modal-content">
             <div className="modal-header">
-              {this.renderCloseButton()}
-              <strong>Attach Volume</strong>
+                {this.renderCloseButton()}
+                <strong>Attach Volume</strong>
             </div>
             <div className="modal-body">
-              <div role='form'>
-                <p>Select the instance from the list below that you would like to attach the volume to:</p>
-
-                <div className='form-group'>
-                  <label htmlFor='instance'>Instance</label>
-                  <InstanceSelect
-                    instanceId={instanceId}
-                    instances={instances}
-                    onChange={this.onInstanceChange}
-                    />
+                <div role="form">
+                    <p>
+                        Select the instance from the list below that you would like to attach the volume to:
+                    </p>
+                    <div className="form-group">
+                        <label htmlFor="instance">
+                            Instance
+                        </label>
+                        <InstanceSelect instanceId={instanceId} instances={instances} onChange={this.onInstanceChange} />
+                    </div>
                 </div>
-              </div>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-danger" onClick={this.cancel}>
-                Cancel
-              </button>
-              <button type="button" className="btn btn-primary" onClick={this.confirm} disabled={!this.isSubmittable()}>
-                Attach volume to instance
-              </button>
+                <button type="button" className="btn btn-danger" onClick={this.cancel}>
+                    Cancel
+                </button>
+                <button type="button"
+                    className="btn btn-primary"
+                    onClick={this.confirm}
+                    disabled={!this.isSubmittable()}>
+                    Attach volume to instance
+                </button>
             </div>
-          </div>
+        </div>
         )
-      },
+    },
 
-      render: function () {
+    render: function() {
         var instances = this.state.instances,
             content;
 
         var activeInstances = instances && instances.filter(i => i.is_active());
 
         if (instances == null) {
-          content = this.renderLoadingContent();
+            content = this.renderLoadingContent();
         } else if (activeInstances.length > 0) {
-          content = this.renderAttachVolumeContent(activeInstances);
+            content = this.renderAttachVolumeContent(activeInstances);
         } else {
-          content = this.renderAttachRulesContent();
+            content = this.renderAttachRulesContent();
         }
 
         return (
-          <div className="modal fade">
+        <div className="modal fade">
             <div className="modal-dialog">
-              {content}
+                {content}
             </div>
-          </div>
+        </div>
         );
-      }
+    }
 });

@@ -1,8 +1,8 @@
 
-import Dispatcher from 'dispatchers/Dispatcher';
-import BaseStore from 'stores/BaseStore';
-import LicenseConstants from 'constants/LicenseConstants';
-import LicenseCollection from 'collections/LicenseCollection';
+import Dispatcher from "dispatchers/Dispatcher";
+import BaseStore from "stores/BaseStore";
+import LicenseConstants from "constants/LicenseConstants";
+import LicenseCollection from "collections/LicenseCollection";
 
 let LicenseStore = BaseStore.extend({
     collection: LicenseCollection,
@@ -18,7 +18,8 @@ let LicenseStore = BaseStore.extend({
 
 
     getLicensesForVersion: function(version) {
-        if (!this.models) throw new Error("Must fetch users before calling getLicensesFromList");
+        if (!this.models)
+            throw new Error("Must fetch users before calling getLicensesFromList");
 
         var versionLicenseArray = version.license.map(function(user) {
             return {
@@ -30,7 +31,8 @@ let LicenseStore = BaseStore.extend({
     },
 
     getLicensesFromList: function(usernameList) {
-        if (!this.models) throw new Error("Must fetch users before calling getLicensesFromList");
+        if (!this.models)
+            throw new Error("Must fetch users before calling getLicensesFromList");
         var users = usernameList.map(function(username) {
             var user = this.models.findWhere({
                 username: username

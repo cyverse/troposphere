@@ -72,7 +72,7 @@ export default React.createClass({
     renderOption(props) {
         return (
         <option {...props}>
-            { props.label }
+            {props.label}
         </option>
         );
     },
@@ -130,8 +130,8 @@ export default React.createClass({
         }
 
         return (
-        <select value={ index } className='form-control' onChange={ this.onSelect }>
-            { options }
+        <select value={index} className="form-control" onChange={this.onSelect}>
+            {options}
         </select>
         );
     }

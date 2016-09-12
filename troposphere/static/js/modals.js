@@ -7,6 +7,7 @@
 export default function () {
 
     return {
-      // add modals here
+        // add modals here
     }
-};
+}
+;

@@ -11,21 +11,21 @@
 // dependent logic in a single function that is called by passing the key value
 // pair to be changed and returns a new object to pass into setState from any call site we wish.
 
-import React from 'react';
-import Backbone from 'backbone';
-import _ from 'underscore';
-import modals from 'modals';
-import stores from 'stores';
-import globals from 'globals';
-import actions from 'actions';
-import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
-import { filterEndDate } from 'utilities/filterCollection';
+import React from "react";
+import Backbone from "backbone";
+import _ from "underscore";
+import modals from "modals";
+import stores from "stores";
+import globals from "globals";
+import actions from "actions";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
+import { filterEndDate } from "utilities/filterCollection";
 
-import ImageSelectStep from './launch/steps/ImageSelectStep.react';
-import ProjectCreateView from 'components/common/ProjectCreateView.react';
-import BasicLaunchStep from './launch/steps/BasicLaunchStep.react';
-import AdvancedLaunchStep from './launch/steps/AdvancedLaunchStep.react';
-import LicenseStep from './launch/steps/LicenseStep.react';
+import ImageSelectStep from "./launch/steps/ImageSelectStep.react";
+import ProjectCreateView from "components/common/ProjectCreateView.react";
+import BasicLaunchStep from "./launch/steps/BasicLaunchStep.react";
+import AdvancedLaunchStep from "./launch/steps/AdvancedLaunchStep.react";
+import LicenseStep from "./launch/steps/LicenseStep.react";
 
 // This class implements the instance launch walkthrough. By design it keeps
 // track of two states. First is the state for switching between separate
@@ -36,7 +36,7 @@ import LicenseStep from './launch/steps/LicenseStep.react';
 // passes to the appropriate children.
 export default React.createClass({
     mixins: [BootstrapModalMixin],
-    displayName: 'InstanceLaunchWizardModal',
+    displayName: "InstanceLaunchWizardModal",
 
     propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model),
@@ -49,7 +49,7 @@ export default React.createClass({
 
         // We might have these
         let image = this.props.image ? this.props.image : null;
-        let instanceName = image ? image.get('name') : null;
+        let instanceName = image ? image.get("name") : null;
         let project = this.props.project ? this.props.project : null;
         let view = this.props.initialView;
 
@@ -57,8 +57,8 @@ export default React.createClass({
         // to create a new one
         let projectList = stores.ProjectStore.getAll();
         if (projectList) {
-            if (view != 'IMAGE_VIEW' && projectList.length === 0) {
-                view = 'PROJECT_VIEW';
+            if (view != "IMAGE_VIEW" && projectList.length === 0) {
+                view = "PROJECT_VIEW";
             }
         }
 
@@ -95,7 +95,7 @@ export default React.createClass({
         // to create a new one
         let projectList = stores.ProjectStore.getAll();
         if (projectList) {
-            if (view != 'IMAGE_VIEW' && projectList.length === 0) {
+            if (view != "IMAGE_VIEW" && projectList.length === 0) {
                 this.viewProject();
             }
         }
@@ -107,7 +107,9 @@ export default React.createClass({
 
         let imageVersionList;
         if (this.state.image) {
-            imageVersionList = stores.ImageVersionStore.fetchWhere({image_id: this.state.image.id});
+            imageVersionList = stores.ImageVersionStore.fetchWhere({
+                image_id: this.state.image.id
+            });
         }
 
         let imageVersion = this.state.imageVersion;
@@ -126,9 +128,12 @@ export default React.createClass({
             provider = provider || providerList.shuffle()[0];
         }
 
-        let identityProvider, providerSizeList;
+        let identityProvider,
+            providerSizeList;
         if (provider) {
-            identityProvider = stores.IdentityStore.findOne({ 'provider.id': provider.id });
+            identityProvider = stores.IdentityStore.findOne({
+                "provider.id": provider.id
+            });
 
             providerSizeList = stores.SizeStore.fetchWhere({
                 provider__id: provider.id
@@ -140,7 +145,8 @@ export default React.createClass({
             providerSize = this.state.providerSize ?
                 this.state.providerSize :
                 providerSizeList.first();
-        };
+        }
+        ;
 
         let allocationSource;
         if (allocationSourceList) {
@@ -192,23 +198,33 @@ export default React.createClass({
     },
 
     viewImageSelect: function() {
-        this.setState({ view: 'IMAGE_VIEW' });
+        this.setState({
+            view: "IMAGE_VIEW"
+        });
     },
 
     viewProject: function() {
-        this.setState({ view: 'PROJECT_VIEW' });
+        this.setState({
+            view: "PROJECT_VIEW"
+        });
     },
 
     viewBasic: function() {
-        this.setState({ view: 'BASIC_VIEW' });
+        this.setState({
+            view: "BASIC_VIEW"
+        });
     },
 
     viewAdvanced: function() {
-        this.setState({ view:'ADVANCED_VIEW' });
+        this.setState({
+            view: "ADVANCED_VIEW"
+        });
     },
 
     viewLicense: function() {
-        this.setState({ view: 'LICENSE_VIEW' });
+        this.setState({
+            view: "LICENSE_VIEW"
+        });
     },
 
     //=========================
@@ -216,21 +232,27 @@ export default React.createClass({
     //=========================
 
     onSelectImage: function(image) {
-        let instanceName = image.get('name');
-        let imageVersionList = stores.ImageVersionStore.fetchWhere({image_id: image.id});
+        let instanceName = image.get("name");
+        let imageVersionList = stores.ImageVersionStore.fetchWhere({
+            image_id: image.id
+        });
 
         let imageVersion;
         if (imageVersionList) {
             imageVersionList = imageVersionList.cfilter(filterEndDate);
             imageVersion = imageVersionList.first();
-        };
+        }
+        ;
 
         let providerList;
         if (imageVersion) {
             providerList = stores.ProviderStore.getProvidersForVersion(imageVersion);
-        };
+        }
+        ;
 
-        let provider, providerSizeList, identityProvider;
+        let provider,
+            providerSizeList,
+            identityProvider;
         if (providerList) {
             provider = providerList.first();
             providerSizeList = stores.SizeStore.fetchWhere({
@@ -238,14 +260,16 @@ export default React.createClass({
             });
 
             identityProvider = stores.IdentityStore.findOne({
-                'provider.id': provider.id
+                "provider.id": provider.id
             });
-        };
+        }
+        ;
 
         let providerSize;
         if (providerSizeList) {
             providerSize = providerSizeList.first();
-        };
+        }
+        ;
 
         this.setState({
             image,
@@ -262,12 +286,16 @@ export default React.createClass({
     },
 
     onNameChange: function(e) {
-        this.setState({ instanceName: e.target.value });
+        this.setState({
+            instanceName: e.target.value
+        });
     },
 
     onNameBlur: function(e) {
         let instanceName = this.state.instanceName.trim();
-        this.setState({instanceName});
+        this.setState({
+            instanceName
+        });
     },
 
     onVersionChange: function(imageVersion) {
@@ -283,12 +311,13 @@ export default React.createClass({
             });
 
             identityProvider = stores.IdentityStore.findOne({
-                'provider.id': provider.id
+                "provider.id": provider.id
             });
 
             if (providerSizeList) {
                 providerSize = providerSizeList.first();
-            };
+            }
+            ;
         }
 
         this.setState({
@@ -300,7 +329,9 @@ export default React.createClass({
     },
 
     onProjectChange: function(project) {
-        this.setState({ project });
+        this.setState({
+            project
+        });
     },
 
     onAllocationSourceChange: function(source) {
@@ -317,12 +348,13 @@ export default React.createClass({
         let providerSize;
 
         let identityProvider = stores.IdentityStore.findOne({
-            'provider.id': provider.id
+            "provider.id": provider.id
         });
 
         if (providerSizeList) {
             providerSize = providerSizeList.first();
-        };
+        }
+        ;
 
         this.setState({
             provider,
@@ -332,7 +364,9 @@ export default React.createClass({
     },
 
     onSizeChange: function(providerSize) {
-        this.setState({ providerSize });
+        this.setState({
+            providerSize
+        });
     },
 
     onRequestResources: function() {
@@ -343,7 +377,9 @@ export default React.createClass({
     onAddAttachedScript: function(value) {
         let attachedScripts = this.state.attachedScripts;
         if (attachedScripts.indexOf(value) === -1) {
-            this.setState({ attachedScripts: [...attachedScripts, value] });
+            this.setState({
+                attachedScripts: [...attachedScripts, value]
+            });
         }
     },
 
@@ -351,7 +387,9 @@ export default React.createClass({
         let attachedScripts = this.state.attachedScripts
             .filter((i) => i != item);
 
-        this.setState({ attachedScripts });
+        this.setState({
+            attachedScripts
+        });
     },
 
     onSaveAdvanced: function() {
@@ -359,7 +397,9 @@ export default React.createClass({
     },
 
     onClearAdvanced: function() {
-        this.setState({ attachedScripts: [] });
+        this.setState({
+            attachedScripts: []
+        });
     },
 
     onProjectCreateConfirm: function(name, description) {
@@ -375,9 +415,9 @@ export default React.createClass({
     //============================
 
     onSubmitLaunch: function() {
-        let licenseList = this.state.imageVersion.get('licenses');
+        let licenseList = this.state.imageVersion.get("licenses");
         if (this.canLaunch()) {
-            if (licenseList.length >= 1 && this.state.view === 'BASIC_VIEW') {
+            if (licenseList.length >= 1 && this.state.view === "BASIC_VIEW") {
                 this.viewLicense();
                 return
             }
@@ -392,7 +432,7 @@ export default React.createClass({
             };
 
             if (globals.USE_ALLOCATION_SOURCES) {
-                launchData.allocation_source_id = this.state.allocationSource.get('source_id');
+                launchData.allocation_source_id = this.state.allocationSource.get("source_id");
             }
 
             actions.InstanceActions.launch(launchData);
@@ -400,7 +440,9 @@ export default React.createClass({
             return
         }
 
-        this.setState({showValidationErr: true})
+        this.setState({
+            showValidationErr: true
+        })
     },
 
 
@@ -425,26 +467,27 @@ export default React.createClass({
             let resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
 
             // AU's Used
-            let allocationConsumed, allocationTotal;
+            let allocationConsumed,
+                allocationTotal;
 
             // If we are not using AllocationSource set to provider
-            if (globals.USE_ALLOCATION_SOURCES)  {
+            if (globals.USE_ALLOCATION_SOURCES) {
                 let allocationSource = this.state.allocationSource;
-                allocationConsumed = allocationSource.get('compute_used');
-                allocationTotal = allocationSource.get('compute_allowed');
+                allocationConsumed = allocationSource.get("compute_used");
+                allocationTotal = allocationSource.get("compute_allowed");
             } else {
-                allocationConsumed = identityProvider.get('usage').current;
-                allocationTotal = identityProvider.get('usage').threshold;
+                allocationConsumed = identityProvider.get("usage").current;
+                allocationTotal = identityProvider.get("usage").threshold;
             }
 
             // CPU's have used + will use
-            let  allocationCpu = identityProvider.get('quota').cpu;
-            let  cpuWillTotal = resourcesUsed.cpu + size.get('cpu');
+            let allocationCpu = identityProvider.get("quota").cpu;
+            let cpuWillTotal = resourcesUsed.cpu + size.get("cpu");
 
             // Memory have used + will use
-            let  allocationMem = identityProvider.get('quota').memory;
-            let  memUsed = resourcesUsed.mem / 1024;
-            let  memWillTotal = memUsed + size.get('mem');
+            let allocationMem = identityProvider.get("quota").memory;
+            let memUsed = resourcesUsed.mem / 1024;
+            let memWillTotal = memUsed + size.get("mem");
             if (allocationConsumed >= allocationTotal) {
                 return true;
             }
@@ -460,17 +503,17 @@ export default React.createClass({
     },
 
     canLaunch: function() {
-        let requiredFields = ['project', 'identityProvider', 'providerSize', 'imageVersion', 'attachedScripts'];
+        let requiredFields = ["project", "identityProvider", "providerSize", "imageVersion", "attachedScripts"];
 
         // Check if we are using AllocationSource and add to requierd fields
         if (globals.USE_ALLOCATION_SOURCES) {
-            requiredFields.push('allocationSource');
+            requiredFields.push("allocationSource");
         }
 
         // All required fields are truthy
         let requiredExist = _.every(requiredFields, (prop) => Boolean(this.state[prop]))
 
-        return  requiredExist && !this.exceedsResources();
+        return requiredExist && !this.exceedsResources();
     },
 
     //==================
@@ -479,33 +522,33 @@ export default React.createClass({
 
     renderBody: function() {
         let view = this.state.view;
-        switch(view) {
-            case 'IMAGE_VIEW':
-            return this.renderImageSelect()
-            case 'PROJECT_VIEW':
-            return this.renderProjectCreateStep()
-            case 'BASIC_VIEW':
-            return this.renderBasicOptions()
-            case 'ADVANCED_VIEW':
-            return this.renderAdvancedOptions()
-            case 'LICENSE_VIEW':
-            return this.renderLicenseStep()
+        switch (view) {
+            case "IMAGE_VIEW":
+                return this.renderImageSelect()
+            case "PROJECT_VIEW":
+                return this.renderProjectCreateStep()
+            case "BASIC_VIEW":
+                return this.renderBasicOptions()
+            case "ADVANCED_VIEW":
+                return this.renderAdvancedOptions()
+            case "LICENSE_VIEW":
+                return this.renderLicenseStep()
         }
     },
 
     headerTitle: function() {
         let view = this.state.view;
-        switch(view) {
-            case 'IMAGE_VIEW':
-            return 'Select an Image'
-            case 'PROJECT_VIEW':
-            return 'Create New Project'
-            case 'BASIC_VIEW':
-            return 'Basic Options'
-            case 'ADVANCED_VIEW':
-            return 'Advanced Options'
-            case 'LICENSE_VIEW':
-            return 'License Agreement'
+        switch (view) {
+            case "IMAGE_VIEW":
+                return "Select an Image"
+            case "PROJECT_VIEW":
+                return "Create New Project"
+            case "BASIC_VIEW":
+                return "Basic Options"
+            case "ADVANCED_VIEW":
+                return "Advanced Options"
+            case "LICENSE_VIEW":
+                return "License Agreement"
         }
     },
 
@@ -515,20 +558,13 @@ export default React.createClass({
 
     renderImageSelect: function() {
         return (
-            <ImageSelectStep
-                image={this.state.image}
-                onSelectImage={this.onSelectImage}
-                onCancel = {this.hide}
-            />
+        <ImageSelectStep image={this.state.image} onSelectImage={this.onSelectImage} onCancel={this.hide} />
         );
     },
 
     renderProjectCreateStep: function() {
         return (
-            <ProjectCreateView
-                cancel={this.hide}
-                onConfirm={this.onProjectCreateConfirm}
-            />
+        <ProjectCreateView cancel={this.hide} onConfirm={this.onProjectCreateConfirm} />
         );
     },
 
@@ -544,7 +580,9 @@ export default React.createClass({
 
         let imageVersionList;
         if (this.state.image) {
-            imageVersionList = stores.ImageVersionStore.fetchWhere({image_id: this.state.image.id});
+            imageVersionList = stores.ImageVersionStore.fetchWhere({
+                image_id: this.state.image.id
+            });
 
             if (imageVersionList) {
                 imageVersionList = imageVersionList.cfilter(filterEndDate);
@@ -556,7 +594,8 @@ export default React.createClass({
             providerList = stores.ProviderStore.getProvidersForVersion(imageVersion);
         }
 
-        let providerSizeList, resourcesUsed;
+        let providerSizeList,
+            resourcesUsed;
         if (provider) {
             resourcesUsed = stores.InstanceStore.getTotalResources(provider.id);
 
@@ -571,87 +610,57 @@ export default React.createClass({
         }
 
         return (
-            <BasicLaunchStep { ...{
-                    showValidationErr: this.state.showValidationErr,
-                    attachedScripts: this.state.attachedScripts,
-                    backIsDisabled: this.props.initialView == 'BASIC_VIEW',
-                    launchIsDisabled: !this.canLaunch(),
-                    identityProvider: this.state.identityProvider,
-                    image,
-                    imageVersion,
-                    imageVersionList,
-                    instanceName: this.state.instanceName,
-                    onBack: this.onBack,
-                    onCancel: this.hide,
-                    onNameChange: this.onNameChange,
-                    onNameBlur: this.onNameBlur,
-                    onProjectChange: this.onProjectChange,
-                    onAllocationSourceChange: this.onAllocationSourceChange,
-                    onProviderChange: this.onProviderChange,
-                    onRequestResources: this.onRequestResources,
-                    onSizeChange: this.onSizeChange,
-                    onSubmitLaunch: this.onSubmitLaunch,
-                    onVersionChange: this.onVersionChange,
-                    project,
-                    projectList,
-                    provider,
-                    providerList,
-                    providerSize,
-                    providerSizeList,
-                    resourcesUsed,
-                    viewAdvanced: this.viewAdvanced,
-                    hasAdvancedOptions: this.hasAdvancedOptions(),
-                    allocationSource: this.state.allocationSource,
-                    allocationSourceList,
-                }}
-            />
+        <BasicLaunchStep { ...{ showValidationErr: this.state.showValidationErr, attachedScripts: this.state.attachedScripts, backIsDisabled: this.props.initialView=="BASIC_VIEW"
+            , launchIsDisabled: !this.canLaunch(), identityProvider: this.state.identityProvider, image, imageVersion, imageVersionList, instanceName: this.state.instanceName,
+            onBack: this.onBack, onCancel: this.hide, onNameChange: this.onNameChange, onNameBlur: this.onNameBlur, onProjectChange: this.onProjectChange, onAllocationSourceChange:
+            this.onAllocationSourceChange, onProviderChange: this.onProviderChange, onRequestResources: this.onRequestResources, onSizeChange: this.onSizeChange, onSubmitLaunch:
+            this.onSubmitLaunch, onVersionChange: this.onVersionChange, project, projectList, provider, providerList, providerSize, providerSizeList, resourcesUsed, viewAdvanced:
+            this.viewAdvanced, hasAdvancedOptions: this.hasAdvancedOptions(), allocationSource: this.state.allocationSource, allocationSourceList, }} />
         )
     },
 
     renderAdvancedOptions: function() {
         let bootScriptList = stores.ScriptStore.getAll();
         return (
-            <AdvancedLaunchStep
-                bootScriptList={bootScriptList}
-                attachedScripts={this.state.attachedScripts}
-                onAddAttachedScript={this.onAddAttachedScript}
-                onRemoveAttachedScript={this.onRemoveAttachedScript}
-                onClearAdvanced={this.onClearAdvanced}
-                onSaveAdvanced={this.onSaveAdvanced}
-                hasAdvancedOptions={this.hasAdvancedOptions()}
-            />
+        <AdvancedLaunchStep bootScriptList={bootScriptList}
+            attachedScripts={this.state.attachedScripts}
+            onAddAttachedScript={this.onAddAttachedScript}
+            onRemoveAttachedScript={this.onRemoveAttachedScript}
+            onClearAdvanced={this.onClearAdvanced}
+            onSaveAdvanced={this.onSaveAdvanced}
+            hasAdvancedOptions={this.hasAdvancedOptions()} />
         );
     },
 
     renderLicenseStep: function() {
-        let licenseList = this.state.imageVersion.get('licenses');
+        let licenseList = this.state.imageVersion.get("licenses");
 
-        if (!licenseList) {return}
+        if (!licenseList) {
+            return
+        }
         return (
-            <LicenseStep
-                licenseList={licenseList}
-                onSubmitLaunch={this.onSubmitLaunch}
-                onBack={this.viewBasic}
-                onCancel={this.hide}
-            />
+        <LicenseStep licenseList={licenseList}
+            onSubmitLaunch={this.onSubmitLaunch}
+            onBack={this.viewBasic}
+            onCancel={this.hide} />
         )
     },
 
     render: function() {
         return (
-            <div className="modal fade">
-                <div className="modal-dialog" style={{width:"100%", maxWidth:"800px"}}>
-                    <div className="modal-content">
-                        <div className="modal-header instance-launch">
-                            {this.renderCloseButton()}
-                            <h2 className="headline">Launch an Instance / {this.headerTitle()}</h2>
-                        </div>
-                        <div className="modal-body">
-                            {this.renderBody()}
-                        </div>
+        <div className="modal fade">
+            <div className="modal-dialog" style={{ width: "100%", maxWidth: "800px" }}>
+                <div className="modal-content">
+                    <div className="modal-header instance-launch">
+                        {this.renderCloseButton()}
+                        <h2 className="headline">Launch an Instance / {this.headerTitle()}</h2>
+                    </div>
+                    <div className="modal-body">
+                        {this.renderBody()}
                     </div>
                 </div>
             </div>
+        </div>
         );
     }
 });

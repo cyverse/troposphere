@@ -1,68 +1,61 @@
-import React from 'react';
-import Backbone from 'backbone';
-import stores from 'stores';
-import ProviderCollection from 'collections/ProviderCollection';
-import IdentityCollection from 'collections/IdentityCollection';
-import ProviderSummaryLinePlot from 'components/dashboard/plots/ProviderSummaryLinePlot.react';
-import ResourceStatusSummaryPlot from 'components/dashboard/plots/ResourceStatusSummaryPlot.react';
+import React from "react";
+import Backbone from "backbone";
+import stores from "stores";
+import ProviderCollection from "collections/ProviderCollection";
+import IdentityCollection from "collections/IdentityCollection";
+import ProviderSummaryLinePlot from "components/dashboard/plots/ProviderSummaryLinePlot.react";
+import ResourceStatusSummaryPlot from "components/dashboard/plots/ResourceStatusSummaryPlot.react";
 
 
 export default React.createClass({
     displayName: "Resources",
 
     propTypes: {
-      provider: React.PropTypes.instanceOf(Backbone.Model).isRequired
+        provider: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    render: function () {
-      let provider = this.props.provider,
-        identity = stores.IdentityStore.findOne({'provider.id': provider.id}),
-        instances = stores.InstanceStore.findWhere({'provider.id': provider.id}),
-        volumes = stores.VolumeStore.findWhere({
-          'provider.id': provider.id
-        }),
-        sizes = stores.SizeStore.fetchWhere({
-          provider__id: provider.id,
-          archived: true,
-          page_size: 100
-        });
+    render: function() {
+        let provider = this.props.provider,
+            identity = stores.IdentityStore.findOne({
+                "provider.id": provider.id
+            }),
+            instances = stores.InstanceStore.findWhere({
+                "provider.id": provider.id
+            }),
+            volumes = stores.VolumeStore.findWhere({
+                "provider.id": provider.id
+            }),
+            sizes = stores.SizeStore.fetchWhere({
+                provider__id: provider.id,
+                archived: true,
+                page_size: 100
+            });
 
-      if (!provider || !identity || !instances || !volumes || !sizes) return <div className="loading"></div>;
+        if (!provider || !identity || !instances || !volumes || !sizes) return <div className="loading"></div>;
 
-      let providers = new ProviderCollection([provider]),
-        identities = new IdentityCollection([identity]);
+        let providers = new ProviderCollection([provider]),
+            identities = new IdentityCollection([identity]);
 
-      return (
+        return (
         <div className="row provider-info-section">
-          <h4>Resources</h4>
-
-          <div className="provider">
-            <div className="row">
-              <div className="col-md-8">
-                <ProviderSummaryLinePlot
-                  providers={providers}
-                  identities={identities}
-                  instances={instances}
-                  volumes={volumes}
-                  sizes={sizes}
-                  />
-              </div>
-              <div className="col-md-4">
-                <ResourceStatusSummaryPlot
-                  title="Instances"
-                  provider={provider.id}
-                  resources={instances}
-                  />
-                <ResourceStatusSummaryPlot
-                  title="Volumes"
-                  provider={provider.id}
-                  resources={volumes}
-                  />
-              </div>
+            <h4>Resources</h4>
+            <div className="provider">
+                <div className="row">
+                    <div className="col-md-8">
+                        <ProviderSummaryLinePlot providers={providers}
+                            identities={identities}
+                            instances={instances}
+                            volumes={volumes}
+                            sizes={sizes} />
+                    </div>
+                    <div className="col-md-4">
+                        <ResourceStatusSummaryPlot title="Instances" provider={provider.id} resources={instances} />
+                        <ResourceStatusSummaryPlot title="Volumes" provider={provider.id} resources={volumes} />
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      );
+        );
 
     }
 });

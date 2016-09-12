@@ -1,6 +1,6 @@
-import Backbone from 'backbone';
-import globals from 'globals';
-import moment from 'moment';
+import Backbone from "backbone";
+import globals from "globals";
+import moment from "moment";
 
 let Project = Backbone.Model.extend({
     urlRoot: globals.API_V2_ROOT + "/providers",

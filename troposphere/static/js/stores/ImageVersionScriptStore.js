@@ -1,10 +1,10 @@
 
-import Dispatcher from 'dispatchers/Dispatcher';
-import BaseStore from 'stores/BaseStore';
-import ImageVersionScriptCollection from 'collections/ImageVersionScriptCollection';
-import ImageVersionScriptConstants from 'constants/ImageVersionScriptConstants';
-import ScriptCollection from 'collections/ScriptCollection';
-import Script from 'models/Script';
+import Dispatcher from "dispatchers/Dispatcher";
+import BaseStore from "stores/BaseStore";
+import ImageVersionScriptCollection from "collections/ImageVersionScriptCollection";
+import ImageVersionScriptConstants from "constants/ImageVersionScriptConstants";
+import ScriptCollection from "collections/ScriptCollection";
+import Script from "models/Script";
 
 let _modelsFor = {};
 let _isFetchingFor = {};
@@ -30,7 +30,7 @@ let ImageVersionScriptStore = BaseStore.extend({
 
                 // convert ImageVersionScript collection to a ScriptCollection
                 var scripts = models.map(function(version_script) {
-                    return new Script(version_script.get('script'), {
+                    return new Script(version_script.get("script"), {
                         parse: true
                     });
                 });
@@ -47,11 +47,11 @@ let ImageVersionScriptStore = BaseStore.extend({
 
         // convert ImageVersionScript collection to an ScriptCollection
         var imageVersionScripts = this.models.filter(function(version_script) {
-            return version_script.get('image_version').id === imageversion.id;
+            return version_script.get("image_version").id === imageversion.id;
         });
 
         var scripts = imageVersionScripts.map(function(version_script) {
-            return new Script(version_script.get('boot_script'), {
+            return new Script(version_script.get("boot_script"), {
                 parse: true
             });
         });

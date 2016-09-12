@@ -35,7 +35,7 @@ export default React.createClass({
         }
 
         return (
-        <AvailabilityView version={ version } />
+        <AvailabilityView version={version} />
         );
     },
 
@@ -57,7 +57,7 @@ export default React.createClass({
             || profile.get("is_staff")) {
             return (
             <div className="edit-link-row">
-                <a className="edit-link" onClick={ this.onEditClicked }><span className="glyphicon glyphicon-pencil" /> Edit Version</a>
+                <a className="edit-link" onClick={this.onEditClicked}><span className="glyphicon glyphicon-pencil" /> Edit Version</a>
             </div>
             )
         }
@@ -96,18 +96,18 @@ export default React.createClass({
         return (
         <li className="app-card">
             <div>
-                <span className="icon-container"><Gravatar hash={ versionHash } size={ iconSize } type={ type }/></span>
+                <span className="icon-container"><Gravatar hash={versionHash} size={iconSize} type={type}/></span>
                 <div className="image-version-details app-name">
                     <div className="version">
-                        <h4>{ version.get("name") }</h4>
-                        { isRecommended ? <span className="recommended-tag">Recommended</span> : null }
-                        { this.renderDateString(version) } by
-                        { owner }
+                        <h4>{version.get("name")}</h4>
+                        {isRecommended ? <span className="recommended-tag">Recommended</span> : null}
+                        {this.renderDateString(version)} by
+                        {owner}
                         <br />
-                        <div dangerouslySetInnerHTML={ { __html: changeLogHTML } } />
+                        <div dangerouslySetInnerHTML={{ __html: changeLogHTML }} />
                     </div>
-                    { this.renderEditLink() }
-                    { this.renderAvailability() }
+                    {this.renderEditLink()}
+                    {this.renderAvailability()}
                 </div>
             </div>
         </li>

@@ -1,7 +1,7 @@
-import BaseStore from 'stores/BaseStore';
-import QuotaCollection from 'collections/QuotaCollection';
-import Dispatcher from 'dispatchers/Dispatcher';
-import QuotaConstants from 'constants/QuotaConstants';
+import BaseStore from "stores/BaseStore";
+import QuotaCollection from "collections/QuotaCollection";
+import Dispatcher from "dispatchers/Dispatcher";
+import QuotaConstants from "constants/QuotaConstants";
 
 let QuotaStore = BaseStore.extend({
     collection: QuotaCollection,
@@ -9,7 +9,7 @@ let QuotaStore = BaseStore.extend({
 
 var store = new QuotaStore();
 
-Dispatcher.register(function (dispatch) {
+Dispatcher.register(function(dispatch) {
     var actionType = dispatch.action.actionType;
     var payload = dispatch.action.payload;
     var options = dispatch.action.options || options;

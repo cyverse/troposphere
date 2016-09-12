@@ -1,5 +1,5 @@
-import React from 'react';
-import ProgressBar from 'components/common/ui/ProgressBar.react';
+import React from "react";
+import ProgressBar from "components/common/ui/ProgressBar.react";
 
 export default React.createClass({
     propTypes: {
@@ -11,15 +11,11 @@ export default React.createClass({
     resourceExceded: function(total, limit) {
         if (total > limit) {
             return (
-                <div style={{color: "red", marginTop: "-20px"}}>
-                    You do not have enough resources. <br/>
-                    <a className="btn btn-xs btn-default"
-                        style={{margin: "5px 0 20px"}}
-                        onClick={this.props.onRequestResources}
-                    >
-                        Request more Resources
-                    </a>
-                </div>
+            <div style={{ color: "red", marginTop: "-20px" }}>
+                You do not have enough resources.
+                <br/>
+                <a className="btn btn-xs btn-default" style={{ margin: "5px 0 20px" }} onClick={this.props.onRequestResources}>Request more Resources</a>
+            </div>
             )
         }
     },
@@ -36,32 +32,30 @@ export default React.createClass({
             allocationTotal,
             allocationPercent,
 
-        // Labels for bar graphs
-        auLabel = "loading...";
+            // Labels for bar graphs
+            auLabel = "loading...";
 
         // Check if we have our models before using their backbone methods
-        if ( identityProvider ) {
+        if (identityProvider) {
 
             // Calculate and set all of our graph information
             // AU's Used
-            allocationConsumed = identityProvider.get('usage').current;
-            allocationTotal = identityProvider.get('usage').threshold;
+            allocationConsumed = identityProvider.get("usage").current;
+            allocationTotal = identityProvider.get("usage").threshold;
             allocationPercent = Math.round(allocationConsumed / allocationTotal * 100);
 
             // Labels for bar graphs
-            auLabel =  `You have used ${allocationPercent}% of ${allocationTotal} AU's from this provider`;
+            auLabel = `You have used ${allocationPercent}% of ${allocationTotal} AU's from this provider`;
         }
 
         return (
-                <div className="form-group">
-                    <label>AUs Consumed</label>
-                    <ProgressBar
-                        startColor="#56AA21"
-                        startValue={allocationPercent}
-                        label={auLabel}
-                    />
-                    {this.resourceExceded(allocationConsumed, allocationTotal)}
-                </div>
-            )
+        <div className="form-group">
+            <label>
+                AUs Consumed
+            </label>
+            <ProgressBar startColor="#56AA21" startValue={allocationPercent} label={auLabel} />
+            {this.resourceExceded(allocationConsumed, allocationTotal)}
+        </div>
+        )
     },
 });

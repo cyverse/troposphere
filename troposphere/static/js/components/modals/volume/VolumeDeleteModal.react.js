@@ -1,78 +1,77 @@
-import React from 'react';
-import Backbone from 'backbone';
-import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import React from "react";
+import Backbone from "backbone";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
 
 export default React.createClass({
-      displayName: "VolumeDeleteModal",
+    displayName: "VolumeDeleteModal",
 
-      mixins: [BootstrapModalMixin],
+    mixins: [BootstrapModalMixin],
 
-      propTypes: {
+    propTypes: {
         volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    },
 
-      //
-      // Internal Modal Callbacks
-      // ------------------------
-      //
+    //
+    // Internal Modal Callbacks
+    // ------------------------
+    //
 
-      cancel: function () {
+    cancel: function() {
         this.hide();
-      },
+    },
 
-      confirm: function () {
+    confirm: function() {
         this.hide();
         this.props.onConfirm();
-      },
+    },
 
-      //
-      // Render
-      // ------
-      //
+    //
+    // Render
+    // ------
+    //
 
-      renderBody: function () {
+    renderBody: function() {
         var volume = this.props.volume;
         return (
-          <div>
+        <div>
             <p>
-              {"Are you sure you want to delete the volume "}
-              <strong>{volume.get('name')}</strong>
-              {"?"}
+                {"Are you sure you want to delete the volume "}
+                <strong>{volume.get("name")}</strong>
+                {"?"}
             </p>
-
             <p>
-              {"The volume will be destroyed and "}
-              <strong style={{"textDecoration":"underline"}}>all data will be permanently lost</strong>
-              {"."}
+                {"The volume will be destroyed and "}
+                <strong style={{ "textDecoration": "underline" }}>all data will be permanently lost</strong>
+                {"."}
             </p>
-          </div>
+        </div>
         );
-      },
+    },
 
-      render: function () {
+    render: function() {
 
         return (
-          <div className="modal fade">
+        <div className="modal fade">
             <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  {this.renderCloseButton()}
-                  <strong>Delete Volume</strong>
+                <div className="modal-content">
+                    <div className="modal-header">
+                        {this.renderCloseButton()}
+                        <strong>Delete Volume</strong>
+                    </div>
+                    <div className="modal-body">
+                        {this.renderBody()}
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-danger" onClick={this.cancel}>
+                            Cancel
+                        </button>
+                        <button type="button" className="btn btn-primary" onClick={this.confirm}>
+                            Yes, delete this volume
+                        </button>
+                    </div>
                 </div>
-                <div className="modal-body">
-                  {this.renderBody()}
-                </div>
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-danger" onClick={this.cancel}>
-                    Cancel
-                  </button>
-                  <button type="button" className="btn btn-primary" onClick={this.confirm}>
-                    Yes, delete this volume
-                  </button>
-                </div>
-              </div>
             </div>
-          </div>
+        </div>
         );
-      }
+    }
 });

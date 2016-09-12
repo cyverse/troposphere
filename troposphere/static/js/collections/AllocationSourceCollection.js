@@ -1,16 +1,16 @@
-import Backbone from 'backbone';
+import Backbone from "backbone";
 
-import AllocationSource from 'models/AllocationSource';
-import globals from 'globals';
-import { api } from 'mock/allocationSources.js';
-import mockSync from 'utilities/mockSync';
+import AllocationSource from "models/AllocationSource";
+import globals from "globals";
+import { api } from "mock/allocationSources.js";
+import mockSync from "utilities/mockSync";
 
 export default Backbone.Collection.extend({
     model: AllocationSource,
 
     url: globals.API_V2_ROOT + "/allocation_sources",
 
-    parse: function (response) {
+    parse: function(response) {
 
         console.warn("We may be tampering with data until the api settles");
         // Ensure the api returns values for these fields
@@ -23,7 +23,7 @@ export default Backbone.Collection.extend({
         let results = response.results.map(source => {
             Object.keys(defaults).forEach(f => {
                 if (source[f] == null) {
-                    console.warn("We are tampering with data "+f+" until the api settles");
+                    console.warn("We are tampering with data " + f + " until the api settles");
                     source[f] = defaults[f];
                 }
             });
@@ -32,7 +32,7 @@ export default Backbone.Collection.extend({
         return results;
     },
 
-    sync: globals.USE_MOCK_DATA 
-          ? mockSync(api)
-          : Backbone.sync
+    sync: globals.USE_MOCK_DATA
+        ? mockSync(api)
+        : Backbone.sync
 });

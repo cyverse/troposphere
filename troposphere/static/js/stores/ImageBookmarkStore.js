@@ -1,11 +1,11 @@
 
-import Dispatcher from 'dispatchers/Dispatcher';
-import BaseStore from 'stores/BaseStore';
-import ImageBookmarkCollection from 'collections/ImageBookmarkCollection';
-import ImageBookmarkConstants from 'constants/ImageBookmarkConstants';
-import actions from 'actions';
-import ImageCollection from 'collections/ImageCollection';
-import stores from 'stores';
+import Dispatcher from "dispatchers/Dispatcher";
+import BaseStore from "stores/BaseStore";
+import ImageBookmarkCollection from "collections/ImageBookmarkCollection";
+import ImageBookmarkConstants from "constants/ImageBookmarkConstants";
+import actions from "actions";
+import ImageCollection from "collections/ImageCollection";
+import stores from "stores";
 
 let ImageBookmarkStore = BaseStore.extend({
     collection: ImageBookmarkCollection,
@@ -23,8 +23,9 @@ let ImageBookmarkStore = BaseStore.extend({
 
         var images = this.models.map(function(ib) {
             // this will cause the image to be fetched if we don't yet have it
-            var image = stores.ImageStore.get(ib.get('image').id);
-            if (!image) haveAllImages = false;
+            var image = stores.ImageStore.get(ib.get("image").id);
+            if (!image)
+                haveAllImages = false;
             return image;
         });
 

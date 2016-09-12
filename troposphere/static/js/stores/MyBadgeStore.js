@@ -1,7 +1,7 @@
-import BaseStore from 'stores/BaseStore';
-import BadgeConstants from 'constants/BadgeConstants';
-import Dispatcher from 'dispatchers/Dispatcher';
-import MyBadgeCollection from 'collections/MyBadgeCollection';
+import BaseStore from "stores/BaseStore";
+import BadgeConstants from "constants/BadgeConstants";
+import Dispatcher from "dispatchers/Dispatcher";
+import MyBadgeCollection from "collections/MyBadgeCollection";
 
 let MyBadgeStore = BaseStore.extend({
     collection: MyBadgeCollection

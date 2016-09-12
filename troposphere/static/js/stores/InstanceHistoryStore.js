@@ -1,6 +1,6 @@
-import BaseStore from 'stores/BaseStore';
-import InstanceHistoryCollection from 'collections/InstanceHistoryCollection';
-import actions from 'actions';
+import BaseStore from "stores/BaseStore";
+import InstanceHistoryCollection from "collections/InstanceHistoryCollection";
+import actions from "actions";
 
 let InstanceHistoryStore = BaseStore.extend({
     collection: InstanceHistoryCollection,

@@ -1,19 +1,19 @@
-import Backbone from 'backbone';
-import Volume from 'models/Volume';
-import globals from 'globals';
+import Backbone from "backbone";
+import Volume from "models/Volume";
+import globals from "globals";
 
 export default Backbone.Collection.extend({
     model: Volume,
 
-    url: globals.API_V2_ROOT + '/volumes',
+    url: globals.API_V2_ROOT + "/volumes",
 
-    parse: function (response) {
-      this.meta = {
-        count: response.count,
-        next: response.next,
-        previous: response.previous
-      };
+    parse: function(response) {
+        this.meta = {
+            count: response.count,
+            next: response.next,
+            previous: response.previous
+        };
 
-      return response.results;
+        return response.results;
     }
 });
