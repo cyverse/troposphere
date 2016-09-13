@@ -49,7 +49,7 @@ def maintenance(request):
         template_params['BASE_URL'] = settings.BASE_URL
 
     return render_to_response(
-        'login_.html',
+        'login.html',
         template_params,
         context_instance=RequestContext(request)
     )

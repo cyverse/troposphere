@@ -6,7 +6,7 @@ export default React.createClass({
     displayName: "NotFoundPage",
 
     render: function() {
-        var window_location = window.location.pathname + "?beta=true";
+        let window_location = window.location.pathname;
 
         return (
         <div className="container">

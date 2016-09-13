@@ -79,8 +79,7 @@ export default React.createClass({
             // Move this to using a more React-Router friendly approach
             var loginUrl = buildLoginUrl(),
                 imageUrl = buildImageUrl(this.props.image),
-                fullUrl = loginUrl + "?redirect_to=" + imageUrl +
-                    "?beta=true";
+                fullUrl = loginUrl + "?redirect_to=" + imageUrl;
 
           button = (
             <a className='btn btn-primary launch-button' href={fullUrl}>

@@ -58,6 +58,7 @@ docs/_build/
 
 troposphere.key
 troposphere/settings/local.py
+troposphere/settings/secret_key.py
 troposphere/assets
 node_modules
 variables.ini
