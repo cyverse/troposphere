@@ -13,16 +13,30 @@ export default React.createClass({
     mixins: [Router.State, ComponentHandleInputWithDelay],
 
     propTypes: {
-        tags: React.PropTypes.instanceOf(Backbone.Collection)
+        tags: React.PropTypes.instanceOf(Backbone.Collection),
+        query: React.PropTypes.string
     },
 
     getInitialState: function() {
         return {
-            query: "",
+            query: this.props.query || "",
             images: null,
             isLoadingMoreResults: false,
             nextUrl: null,
-            viewType: 'list'
+            viewType: "list",
+        }
+    },
+
+    componentWillReceiveProps(newProps) {
+        // This is an important edge case. Several things can effect the query
+        // for this component:
+        //
+        //    - a user types in the search bar
+        //    - a parent component sets query=SomeTagName
+        //
+        // That means that we have to listen for props
+        if (newProps.query != this.props.query) {
+            this.setState({ query: newProps.query });
         }
     },
 
