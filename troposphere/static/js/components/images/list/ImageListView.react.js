@@ -36,7 +36,9 @@ export default React.createClass({
         //
         // That means that we have to listen for props
         if (newProps.query != this.props.query) {
-            this.setState({ query: newProps.query });
+            this.setState({
+                query: newProps.query
+            });
         }
     },
 
