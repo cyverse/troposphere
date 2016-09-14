@@ -54,7 +54,6 @@ THEME_NAME= "troposphere_theme"
 # ./manage.py collectstatic moves files from STATICFILES_DIRS to STATIC_ROOT
 STATICFILES_DIRS = [
     ("theme", "{{ THEME_PATH }}/{{ THEME_NAME }}"),
-    #("resources", os.path.join(BASE_DIR, "static", "resources"))  # Might be available in master? Otherwise remove this line.
 ]
 
 ORG_NAME= "{{ ORG_NAME }}"
