@@ -30,10 +30,6 @@ export default React.createClass({
       });
     },
 
-    onClick: function () {
-      Router.getInstance().transitionTo("search", {}, {q: this.props.tag.get('name')});
-    },
-
     render: function () {
       var tag = this.props.tag,
         tagName = tag.get('name'),
