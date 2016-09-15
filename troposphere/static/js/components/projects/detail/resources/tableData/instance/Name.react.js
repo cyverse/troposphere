@@ -17,12 +17,13 @@ export default React.createClass({
 
       if (instance && !instance.get('id')) {
         return (
-          <span>{instance.get('name')}</span>
+          <span style={{opacity: 0.57}}>{instance.get('name')}</span>
         );
       }
 
       return (
-        <Router.Link to="project-instance-details" params={{projectId: this.getParams().projectId, instanceId: instance.id}}>
+        <Router.Link to="project-instance-details"
+                     params={{projectId: this.getParams().projectId, instanceId: instance.id}}>
           {name}
         </Router.Link>
       );

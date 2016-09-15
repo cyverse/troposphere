@@ -3,7 +3,7 @@ import jstz from 'jstz';
 
 let timezone = jstz.determine();
 let tz_region = timezone ? timezone.name() : 'America/Phoenix';
-let shell_proxy = 'https://atmo-proxy.iplantcollaborative.org/';
+let shell_proxy = 'https://atmo-proxy.cyverse.org/';
 
 export default {
     API_ROOT: window.API_ROOT || '/api/v1',
