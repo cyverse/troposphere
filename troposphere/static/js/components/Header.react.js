@@ -67,7 +67,7 @@ const links = [
 
 let LoginLink = React.createClass({
     render: function() {
-        let redirect_path = window.location.pathname + "?beta=true";
+        let redirect_path = window.location.pathname;
 
         return (
         <li className="dropdown">
@@ -192,32 +192,6 @@ let Header = React.createClass({
         window.removeEventListener("resize", this.handleResize);
     },
 
-    renderBetaToggle: function() {
-
-        if (!window.show_troposphere_only) {
-
-            let trackEvent = (e) => {
-                trackAction("switch-ui", {
-                    user_interface: "troposphere-to-airport"
-                });
-                trackAction("switch-to-airport");
-            };
-
-            return (
-            <div className="beta-toggle">
-                <a href="/application?beta=false&airport_ui=true" onClick={trackEvent}>
-                    <div className="toggle-wrapper">
-                        <div className="toggle-background">
-                            <div className="toggle-text"> View Old UI </div>
-                        </div>
-                        <div className="toggle-switch"></div>
-                    </div>
-                </a>
-            </div>
-            )
-        }
-    },
-
     renderNavLinks() {
         let profile = this.props.profile;
         let loggedIn = hasLoggedInUser(profile);
@@ -292,7 +266,6 @@ let Header = React.createClass({
                     <ul className="nav navbar-nav navbar-right">
                         {loginLogoutDropdown}
                     </ul>
-                    {loggedIn ? this.renderBetaToggle() : null}
                 </div>
             </div>
         </div>
