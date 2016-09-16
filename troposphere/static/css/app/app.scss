@@ -35,6 +35,21 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
     min-height: 500px;
   }
 }
+
+// Bootstrap styles h tags directly breaking their own selector rules.
+// This normallizes the h tags so that we can style them directly
+// using the 'Title' component or classes
+
+h1, h2, h3, h4, h5, h6, 
+.h1, .h2, .h3, .h4, .h5, .h6 {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-family: inherit;
+    font-weight: inherit;
+    line-height: 1;
+    color: inherit;
+}
+
 //
 // Application specific styles
 // ---------------------------

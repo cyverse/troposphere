@@ -1,7 +1,9 @@
-import React from "react";
-import Router from "react-router";
-import SecondaryProjectNavigation from "../common/SecondaryProjectNavigation";
-import stores from "stores";
+import React from 'react';
+import Router from 'react-router';
+
+import stores from 'stores';
+import { Section } from 'cyverse-ui';
+import ResourcesHeader from 'components/projects/common/ProjectResourcesHeader';
 
 let RouteHandler = Router.RouteHandler;
 
@@ -15,15 +17,15 @@ export default React.createClass({
 
         if (!project) {
             return (
-            <div className="loading"></div>
+                <div className="loading"></div>
             )
         }
 
         return (
-        <div className="project-details">
-            <SecondaryProjectNavigation project={project} currentRoute="todo-remove-this" />
-            <RouteHandler/>
-        </div>
+            <Section>
+              <ResourcesHeader project = { project } />
+              <RouteHandler project = { project } />
+            </Section>
         );
     }
 });

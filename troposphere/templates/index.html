@@ -158,6 +158,23 @@
 {% if USER_PORTAL %}
     var user_portal = {{USER_PORTAL | safe}};
 {% endif %}
+
+/*
+    This is for setting theme related vars. It should be set in our theme's
+    folder and added here as part of our build 
+
+    Currently I get "webpackJsonp is not defined" trying to include this from
+    a script tag linked to THEME_URL like we do with theme.css 
+    Will have to look into this before this feature is ready for a PR.
+*/
+var  THEME = {
+    color: {
+        primary: "#0971ab",
+        danger: "#ea5050",
+        success: "#5cb85c",
+    }
+};
+
     </script>
 
 {% if DYNAMIC_ASSET_LOADING %}
@@ -170,8 +187,10 @@
     {% else %}
     {% render_bundle 'app' 'js' %}
     {% endif %}
+
     <!-- Google Analytics -->
     {% render_bundle 'analytics' 'js' %}
+
 {% else %}
     <script src="{{ BASE_URL }}/assets/bundles/manifest.js"></script>
     <script src="{{ BASE_URL }}/assets/bundles/vendor.js"></script>

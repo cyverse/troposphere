@@ -1,8 +1,8 @@
 import React from "react";
 import modals from "modals";
 import moment from "moment";
-import RefreshComponent from "components/projects/resources/instance/details/sections/metrics/RefreshComponent";
-import stores from "stores";
+import RefreshButton from "components/common/ui/RefreshButton";
+import stores from "stores";                                
 
 
 export default React.createClass({
@@ -30,7 +30,7 @@ export default React.createClass({
 
     renderRefreshButton: function() {
         return (
-        <span className="my-requests refresh-button"><RefreshComponent onRefreshClick={this.refreshHistory} timestamp={stores.ImageRequestStore.lastUpdated} delay={1000 * 30} /></span>
+        <span className="my-requests refresh-button"><RefreshButton onRefreshClick={this.refreshHistory} timestamp={stores.ImageRequestStore.lastUpdated} delay={1000 * 30} /></span>
         );
     },
 

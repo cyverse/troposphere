@@ -22,18 +22,13 @@ import ProviderDetail from "./components/providers/ProviderDetail";
 import HelpPage from "./components/help/HelpPage";
 import ProjectsMaster from "./components/projects/ProjectsMaster";
 import ProjectDetailsMaster from "./components/projects/detail/ProjectDetailsMaster";
-import ProjectDetailsPage from "./components/projects/ProjectDetailsPage";
 import ProjectResourcesPage from "./components/projects/ProjectResourcesPage";
 import FavoritedImagesPage from "./components/images/FavoritedImagesPage";
 import MyImagesPage from "./components/images/MyImagesPage";
 import MyImageRequestsPage from "./components/images/MyImageRequestsPage";
 import ImageTagsPage from "./components/images/ImageTagsPage";
 import ImagesMaster from "./components/images/ImagesMaster";
-import NewInstanceDetail from "./components/common/InstanceDetail";
 import SettingsPage from "./components/settings/SettingsPage";
-import ProjectInstancePage from "./components/projects/InstanceDetailsPage";
-import ProjectVolumePage from "./components/projects/VolumeDetailsPage";
-import ProjectLinkPage from "./components/projects/ExternalLinkDetailsPage";
 import AdminMaster from "./components/admin/AdminMaster";
 import AtmosphereUserMaster from "./components/admin/AtmosphereUserMaster";
 import ImageMaster from "./components/admin/ImageMaster";
@@ -53,12 +48,7 @@ const appRoutes = (
     <Route name="dashboard" handler={DashboardPage} />
     <Route name="projects" handler={ProjectsMaster}>
         <Route name="project" path=":projectId" handler={ProjectDetailsMaster}>
-            <Route name="project-details" path="details" handler={ProjectDetailsPage} />
             <Route name="project-resources" path="resources" handler={ProjectResourcesPage} />
-            <Route name="project-instance-details" path="instances/:instanceId" handler={ProjectInstancePage} />
-            <Route name="project-volume-details" path="volumes/:volumeId" handler={ProjectVolumePage} />
-            <Route name="project-link-details" path="links/:linkId" handler={ProjectLinkPage} />
-            <DefaultRoute handler={ProjectDetailsPage} />
         </Route>
         <DefaultRoute handler={ProjectListPage} />
     </Route>
@@ -91,9 +81,6 @@ const appRoutes = (
     <Route name="my-requests" handler={RequestMaster}>
         <Route name="my-requests-resources" path="resources" handler={RequestHistory} />
         <Route name="my-requests-images" path="images" handler={MyImageRequestsPage} />
-    </Route>
-    <Route name="instances">
-        <Route name="new-instance-detail" path=":id" handler={NewInstanceDetail} />
     </Route>
     <DefaultRoute handler={DashboardPage} />
 </Route>

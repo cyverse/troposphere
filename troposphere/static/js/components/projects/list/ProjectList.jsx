@@ -36,7 +36,7 @@ export default React.createClass({
             }.bind(this));
 
         return (
-        <ul id="project-list" className="row">
+        <ul id="project-list">
             {projects}
         </ul>
         );
