@@ -6,6 +6,7 @@ import actions from 'actions';
 import modals from 'modals';
 import stores from 'stores';
 
+import { VerticalMenu, Button, Sheet } from 'troposphere-ui';
 
 export default React.createClass({
     displayName: "SecondaryProjectNavigation",
@@ -42,45 +43,32 @@ export default React.createClass({
     },
 
     render: function () {
-      var project = this.props.project;
+        var project = this.props.project;
 
-      return (
-        <div>
-          <div className="secondary-nav">
-            <div className="container">
-
-
-              <ul className="secondary-nav-links">
-                {this.renderRoute("Resources", "project-resources", "th", {projectId: project.id})}
-                {this.renderRoute("Details", "project-details", "list-alt", {projectId: project.id})}
-              </ul>
-
-              <ul className="options-bar navbar-nav navbar-right">
-                <li className="dropdown">
-                  <a href="#" className="dropdown-toggle" data-toggle="dropdown">
-                    <i className="glyphicon glyphicon-cog"/>
-                    Options
-                    <b className="caret"></b>
-                  </a>
-                  <ul className="dropdown-menu">
-                    <li>
-                      <a href="#" className="danger" onClick={this.onDeleteProject}>
-                        <i className="glyphicon glyphicon-trash"/>
-                        Delete Project
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-
+        return (
+            <div style = {{ maxWidth: "1200px", margin: "auto" }} >
+                <div style = {{ display: "inline-block" }} >
+                    <h1> 
+                        { project.get('name') }
+                    </h1>
+                </div>
+                <div style = {{ 
+                        float: "right",
+                        position: "relative",
+                        display: "inline-block",
+                    }} 
+                >
+                    <VerticalMenu
+                        menuItemList = {[
+                            {
+                                render: "Delete Project",
+                                onClick: this.onDeleteProject
+                            }
+                        ]}
+                     
+                    />
+                </div>
             </div>
-          </div>
-              <div className="project-name container">
-                <h1>
-                  {project.get('name')}
-                </h1>
-              </div>
-        </div>
-      );
+        );
     }
 });

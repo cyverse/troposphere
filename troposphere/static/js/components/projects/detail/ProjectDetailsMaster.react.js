@@ -1,6 +1,6 @@
 import React from 'react';
 import Router from 'react-router';
-import SecondaryProjectNavigation from '../common/SecondaryProjectNavigation.react';
+import ResourcesHeader from '../common/ResourcesHeader.react';
 import stores from 'stores';
 
 let RouteHandler = Router.RouteHandler;
@@ -21,8 +21,8 @@ export default React.createClass({
 
       return (
         <div className="project-details">
-          <SecondaryProjectNavigation project={project} currentRoute="todo-remove-this"/>
-          <RouteHandler/>
+          <ResourcesHeader project = { project } />
+          <RouteHandler project = { project } />
         </div>
       );
     }
