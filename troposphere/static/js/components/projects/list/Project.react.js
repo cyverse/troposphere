@@ -43,7 +43,7 @@ export default React.createClass({
                 <div className="loading" style={{marginTop: "65px"}}/>
             </div>
           </li>
-        )
+        );
       }
 
       if (projectExternalLinks && projectInstances && projectVolumes && projectImages) {
@@ -52,6 +52,7 @@ export default React.createClass({
           numImages = projectImages.length;
           numExternalLinks = projectExternalLinks.length;
       }
+
         return (
           <li className={"col-md-4" + this.props.className} style={{padding: "15px"}}>
             <div className="media card">
