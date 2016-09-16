@@ -96,7 +96,6 @@ export default React.createClass({
     render: function() {
       var webShellUrl = this.props.instance.shell_url(),
           remoteDesktopUrl = this.props.instance.vnc_url(),
-          usesRemoteDesktop = !!(this.props.instance && this.props.instance.get('vnc')),
           webDesktopCapable = !!(this.props.instance && this.props.instance.get('web_desktop')),
           status = this.props.instance.get('state').get('status'),
           activity = this.props.instance.get('state').get('activity'),
@@ -156,16 +155,6 @@ export default React.createClass({
           isDisabled: webLinksDisabled
         }
       ]);
-
-      if (usesRemoteDesktop) {
-          linksArray.push({
-              label: 'Remote Desktop',
-              icon: 'sound-stereo',
-              href: remoteDesktopUrl,
-              openInNewWindow: true,
-              isDisabled: webLinksDisabled
-          });
-      }
 
       if (webDesktopCapable && featureFlags.WEB_DESKTOP) {
           linksArray.push({
