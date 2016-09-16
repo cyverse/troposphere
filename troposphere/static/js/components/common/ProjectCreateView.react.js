@@ -2,7 +2,7 @@ import React from 'react';
 import { trackAction } from '../../utilities/userActivity';
 
 export default React.createClass({
-    displayName: "ProjectCreateModal",
+    displayName: "ProjectCreateView",
 
     getInitialState: function () {
         return {
