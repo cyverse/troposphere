@@ -35,27 +35,20 @@ export default React.createClass({
         return (
         <div className="sub-menu">
             <div className="dropdown">
-              <button id="res-new-menu" className="btn btn-primary dropdown-toggle" data-toggle="dropdown">New</button>
-              <ul className="dropdown-menu">
-                <li>
-                  <a id="res-create-instance" href="#" onClick={this.onCreateInstance}>
-                    <i className={'glyphicon glyphicon-tasks'}/>
-                    Instance
-                  </a>
-                </li>
-                <li>
-                  <a id="res-create-volume" href="#" onClick={this.onCreateVolume}>
-                    <i className={'glyphicon glyphicon-hdd'}/>
-                    Volume
-                  </a>
-                </li>
-                <li>
-                  <a id="res-create-link" href="#" onClick={this.onCreateExternalLink}>
-                    <i className={'glyphicon glyphicon-globe'}/>
-                    Link
-                  </a>
-                </li>
-              </ul>
+                <button id="res-new-menu" className="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                    New
+                </button>
+                <ul className="dropdown-menu">
+                    <li>
+                        <a id="res-create-instance" href="#" onClick={this.onCreateInstance}><i className={'glyphicon glyphicon-tasks'} /> Instance</a>
+                    </li>
+                    <li>
+                        <a id="res-create-volume" href="#" onClick={this.onCreateVolume}><i className={'glyphicon glyphicon-hdd'} /> Volume</a>
+                    </li>
+                    <li>
+                        <a id="res-create-link" href="#" onClick={this.onCreateExternalLink}><i className={'glyphicon glyphicon-globe'} /> Link</a>
+                    </li>
+                </ul>
             </div>
         </div>
         );

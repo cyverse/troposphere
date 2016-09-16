@@ -3,7 +3,7 @@ import ModalHelpers from "components/modals/ModalHelpers";
 import SSHKeyUpload from "components/modals/SSHKeyUpload.react";
 import stores from "stores";
 
-import globals from 'globals';
+import globals from "globals";
 
 export default React.createClass({
 
@@ -27,7 +27,9 @@ export default React.createClass({
 
     onDisplayMoreInfo(e) {
         e.preventDefault();
-        this.setState({ displayMoreInfo: true });
+        this.setState({
+            displayMoreInfo: true
+        });
     },
 
     renderSupportLink() {
@@ -60,8 +62,7 @@ export default React.createClass({
 
         return (
         <p>
-            Click <a onClick={this.onDisplayMoreInfo}> here </a>
-            to learn more.
+            Click <a onClick={this.onDisplayMoreInfo}>here</a> to learn more.
         </p>
         )
     },

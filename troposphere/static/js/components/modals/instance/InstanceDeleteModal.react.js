@@ -30,13 +30,17 @@ export default React.createClass({
                 {' Data will be'}
                 <strong>{' lost.'}</strong>
             </p>
-            <p>
-                {"The following instance " +
-                 "will be shut down and all data will be permanently lost:"}
+            <div>
+                <p>
+                    {"The following instance " +
+                     "will be shut down and all data will be permanently lost:"}
+                </p>
                 <ul>
-                    <strong>{instance.get("name") + " #" + instance.get("id")}</strong>
+                    <li>
+                        <strong>{instance.get("name") + " #" + instance.get("id")}</strong>
+                    </li>
                 </ul>
-            </p>
+            </div>
             <p>
                 <em>Note:</em>
                 {" Your resource usage charts will not reflect changes until the " +

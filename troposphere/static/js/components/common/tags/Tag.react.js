@@ -20,6 +20,8 @@ export default React.createClass({
     },
 
     componentDidMount: function() {
+        // FIXME:
+        // https://github.com/yannickcr/eslint-plugin-react/issues/678#issue-165177220
         var el = ReactDOM.findDOMNode(this),
             $el = $(el),
             tag = this.props.tag;
@@ -27,12 +29,6 @@ export default React.createClass({
         $el.tooltip({
             title: tag.get("description"),
             placement: "left"
-        });
-    },
-
-    onClick: function() {
-        Router.getInstance().transitionTo("search", {}, {
-            q: this.props.tag.get("name")
         });
     },
 

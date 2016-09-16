@@ -92,15 +92,18 @@ export default React.createClass({
                         isVisible={true} />
                 );
             }
+        } else if (!this.props.multipleSelected) {
+            // Include "Delete" if only one resource
+            // is currently selected - regardless of
+            // the state of that resource
+            linksArray.push(
+                <Button key="Delete"
+                    icon="remove"
+                    tooltip="Delete"
+                    onClick={this.onDelete}
+                    isVisible={true} />
+            );
         }
-
-        linksArray.push(
-            <Button key="Delete"
-                icon="remove"
-                tooltip="Delete"
-                onClick={this.onDelete}
-                isVisible={true} />
-        );
 
         return (
         <div className="clearfix u-md-pull-right">

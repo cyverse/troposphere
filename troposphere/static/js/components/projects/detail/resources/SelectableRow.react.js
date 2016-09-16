@@ -17,7 +17,7 @@ export default React.createClass({
 
     toggleCheckbox: function(e) {
         e.stopPropagation();
-        if (!this.props.resource.id) return;
+        if (this.props.resource && this.props.resource.isNew()) return;
 
         if (this.props.isSelected) {
             this.props.onResourceDeselected(this.props.resource);
@@ -32,12 +32,15 @@ export default React.createClass({
         }
     },
 
+
     render: function() {
-        var rowClassName = this.props.isActive ? "selected" : "";
+        let resource = this.props.resource,
+            diminish = resource && resource.isNew() ? 0.32 : 1,
+            rowClassName = this.props.isActive ? "selected" : "";
 
         return (
         <tr className={"sm-row " + rowClassName} style={{ cursor: "pointer" }} onClick={this.previewResource}>
-            <td className="sm-cell hidden-xs" onClick={this.toggleCheckbox}>
+            <td className="sm-cell hidden-xs" style={{ opacity: diminish }} onClick={this.toggleCheckbox}>
                 <Checkbox isChecked={this.props.isSelected} />
             </td>
             {this.props.children}

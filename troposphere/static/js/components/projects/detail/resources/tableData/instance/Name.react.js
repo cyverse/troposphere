@@ -17,7 +17,7 @@ export default React.createClass({
 
         if (instance && !instance.get("id")) {
             return (
-            <span>{instance.get("name")}</span>
+            <span style={{ opacity: 0.57 }}>{instance.get("name")}</span>
             );
         }
 
