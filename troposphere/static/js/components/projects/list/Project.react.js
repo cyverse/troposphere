@@ -26,7 +26,8 @@ export default React.createClass({
         numImages = "-",
         numExternalLinks = "-";
 
-      if (project.id) {
+      // only attempt to fetching project metadata for persisted projects
+      if (project && project.id && !project.isNew()) {
         description = project.get('description');
         projectCreationDate = moment(project.get('start_date')).format("MMM D, YYYY hh:mm a");
         projectExternalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(project);
