@@ -1,10 +1,11 @@
 import React from 'react';
 import stores from 'stores';
 import Router from 'react-router';
-import Wrapper from 'components/common/ui/Wrapper.react';
+
 import { Section, Tabs, InstanceCard, MediaCardGroup } from 'troposphere-ui';
 import { ConsoleIcon, ReplayIcon, PauseIcon } from 'troposphere-ui/icons';
 
+import Wrapper from 'components/common/ui/Wrapper.react';
 import InstanceList from './InstanceList.react';
 
 export default React.createClass({
@@ -18,7 +19,7 @@ export default React.createClass({
     },
 
     componentDidMount() {
-        let projectInstances = stores
+        stores
             .ProjectInstanceStore
             .addChangeListener(this.updateState);
     },
@@ -54,7 +55,7 @@ export default React.createClass({
                 instances = { instances } 
             />
         )
-    },
+    },  
 
     renderVolumes() {
         return (

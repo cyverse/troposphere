@@ -33,9 +33,8 @@ export default React.createClass({
         ];
 
         return (
-            <MediaCardGroup>
                 <InstanceCard
-                    key = 'card'
+                    key = { `${instance.get('uuid')}-card` }
                     title = { instance.get('name') }
                     primaryColor = { THEME.color.primary }
                     launched = "Sep 2, 2016 (a day ago)"
@@ -67,7 +66,6 @@ export default React.createClass({
                         />,
                     ]}
                 />   
-            </MediaCardGroup>
         )
     },
         render() {
