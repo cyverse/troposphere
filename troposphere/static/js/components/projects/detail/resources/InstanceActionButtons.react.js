@@ -100,7 +100,10 @@ export default React.createClass({
               />
           );
         }
-      } else if (!this.props.multipleSelected) {
+      }
+
+
+      if (!this.props.multipleSelected) {
           // Include "Delete" if only one resource
           // is currently selected - regardless of
           // the state of that resource
