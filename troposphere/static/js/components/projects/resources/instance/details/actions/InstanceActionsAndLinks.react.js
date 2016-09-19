@@ -95,7 +95,6 @@ export default React.createClass({
 
     render: function() {
       var webShellUrl = this.props.instance.shell_url(),
-          remoteDesktopUrl = this.props.instance.vnc_url(),
           webDesktopCapable = !!(this.props.instance && this.props.instance.get('web_desktop')),
           status = this.props.instance.get('state').get('status'),
           activity = this.props.instance.get('state').get('activity'),
