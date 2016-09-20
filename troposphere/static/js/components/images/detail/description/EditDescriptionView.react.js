@@ -20,7 +20,7 @@ export default React.createClass({
     render: function() {
         return (
         <div className={this.props.className}>
-            <h4 className={this.props.titleClassName}>{this.props.title}</h4>
+            <h4 className={"t-body-2 " + this.props.titleClassName}>{this.props.title}</h4>
             <div className={this.props.formClassName}>
                 <textarea className="form-control"
                     rows="7"

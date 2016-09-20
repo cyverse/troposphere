@@ -94,8 +94,8 @@ export default React.createClass({
                 <EditNameView image={image} value={this.state.name} onChange={this.handleNameChange} />
                 <CreatedView image={image} />
                 <div className="image-info-segment row">
-                    <h4 className="titel col-md-2">Date to hide image from public view</h4>
-                    <div className="col-md-10">
+                    <h4 className="t-body-2 col-md-2">Date to hide image from public view</h4>
+                    <div style={{ marginBottom: "15px" }} className="col-md-10">
                         <InteractiveDateField value={this.state.endDate} onChange={this.handleEndDateChange} />
                     </div>
                 </div>

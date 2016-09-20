@@ -35,7 +35,7 @@ export default React.createClass({
 
         return (
         <div className="image-tags image-info-segment row">
-            <h4 className="t-title col-md-2">Tags</h4>
+            <h4 className="t-body-2 col-md-2">Tags</h4>
             <div className="content col-md-10">
                 <EditTagsView tags={this.props.tags}
                     activeTags={imageTags}

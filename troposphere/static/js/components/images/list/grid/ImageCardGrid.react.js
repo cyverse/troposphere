@@ -18,14 +18,14 @@ export default React.createClass({
         if (!title) return;
 
         return (
-        <h3>{title}</h3>
+        <h3 className="t-title">{title}</h3>
         )
     },
 
     renderCard: function(image) {
         let isEndDated = !filterEndDate(image);
         return (
-        <li key={image.id}>
+        <li className="gridCell" key={image.id}>
             <ImageCard isEndDated={isEndDated} image={image} tags={this.props.tags} />
         </li>
         );

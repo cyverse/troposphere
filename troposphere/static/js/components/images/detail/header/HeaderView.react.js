@@ -40,7 +40,7 @@ export default React.createClass({
         if (profile.id) {
             addToProjectButton = (
                 <div className="tooltip-wrapper" style={{ display: "inline-block", float: "right" }}>
-                    <button className="btn" onClick={this.showAddProjectModal}>
+                    <button className="btn addToProject" onClick={this.showAddProjectModal}>
                         <i className="glyphicon glyphicon-plus"></i> Add to Project
                     </button>
                 </div>
@@ -50,7 +50,7 @@ export default React.createClass({
         return (
         <div className="image-header">
             <a className="nav-back btn btn-default" onClick={this.onReturnToPreviousPage}><span className="glyphicon glyphicon-arrow-left">{''}</span></a>
-            <h1>{this.props.image.get("name")}</h1>
+            <h1 className="t-title">{this.props.image.get("name")}</h1>
             {addToProjectButton}
         </div>
         );

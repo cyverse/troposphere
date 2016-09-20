@@ -1,17 +1,10 @@
 // todo: this is a hack to get the cards to align in the center of the page
 // find a better way to do this, or (at least) modify this value to adjust
 // for different screen sizes
-.application-card-view {
-  h3 {
-    border-bottom: 1px solid #ccc;
-  }
-}
 
 .display-toggles {
-  h3 {
-    border: none;
+  .t-title {
     float: left;
-    margin: 0;
   }
 }
 
@@ -35,15 +28,20 @@
       text-align: left;
     }
     
-    p {
+    .description {
         color: #393939;
+        white-space: normal;
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 5px;
+        margin-bottom: 0;
     }
     .app-name {
       vertical-align: top;
       display: inline-block;
       max-width: 1000px;
 
-      h4, .title-2 {
+      .title-2 {
         font-size: 19px;
         font-weight: bold;
         margin: 0;
@@ -61,12 +59,7 @@
       margin-top: 0px;
     }
 
-    p {
-      white-space: normal;
-      padding-left: 20px;
-      padding-right: 20px;
-      padding-top: 5px;
-      margin-bottom: 0;
+    .description {
     }
   }
 }
@@ -76,7 +69,7 @@
   margin: 0;
   padding: 0;
 
-  > li {
+  .gridCell {
     margin: 0 0 20px 0;
     display: inline-block;
     vertical-align: top;
@@ -112,7 +105,6 @@
   }
 
   .app-name {
-    //text-align: center;
     font-size: 16px;
     white-space: nowrap;
     overflow: hidden;
@@ -121,7 +113,7 @@
     padding-right: 22px;
     margin-bottom: 9px;
 
-    > a {
+    .t-title > a {
       text-decoration: underline;
     }
   }
@@ -157,18 +149,11 @@
 }
 
 #app-detail {
-
-  h2 {
-    display: inline-block;
-    //margin-right: 15px;
-    font-size: 17px;
-  }
-
   .image-launch-card {
     background-color: #EEEEEE;
 
     width: 237px;
-    padding: 38px 0px 26px 0px;
+    padding: 40px 20px 20px 20px;
     border-radius: 5px;
     position: relative;
 
@@ -183,26 +168,19 @@
     }
 
     .launch-button {
-      font-size: 21px;
-      padding: 7px 56px;
-      margin: auto;
+      width: 100%;
       display: block;
-    }
-
-    a.launch-button {
-      margin: 0px 30px;
-      padding: 7px 0px;
     }
   }
 }
 
-ul.tags {
+.tags {
   list-style: none;
   padding-left: 0;
   margin-top: 5px;
   font-size: 13px;
 
-  li {
+  .tag {
     display: inline-block;
     margin-right: 5px;
     margin-bottom: 10px;
@@ -210,13 +188,10 @@ ul.tags {
     span, a {
       padding: 5px 10px;
       border-radius: 3px;
-      //background-color: $tag-color;
-      color: #EEE;
       border: 0;
     }
 
     a:hover {
-//      background-color: $tag-color;
       border: 0;
     }
   }
@@ -271,15 +246,13 @@ ul.tags {
 .image-header {
   margin-bottom: 10px;
 
-  h1 {
+  .t-title {
     vertical-align: middle;
     display: inline-block;
     margin: 0;
-    font-size: 25px;
-    //font-weight: 600;
   }
 
-  button {
+  .addToProject {
     float: right;
     background-color: #BEE5EA;
     font-size: 17px;
@@ -322,25 +295,7 @@ ul.tags {
   }
 }
 
-.image-availability {
-  h2 {
-    margin-top: 10px;
-    margin-right: 25px;
-    margin-bottom: 10px;
-  }
-
-  span {
-    font-size: 17px;
-    font-weight: normal;
-  }
-
-}
-
 .image-description {
-  h2 {
-    margin-bottom: 3px;
-  }
-
   p {
     // Formula to convert Illustrator's 'leading' to line-height
     // line-height = font-size + leading/2
@@ -453,7 +408,7 @@ ul.tags {
 
 @media (max-width: 991px) {
   .app-card-grid {
-    > li {
+    .gridCell {
       width: 33%;
     }
   }
@@ -461,7 +416,7 @@ ul.tags {
 
 @media (max-width: 767px) {
   .app-card-grid {
-    > li {
+    .gridCell {
       width: 50%;
     }
   }
@@ -485,34 +440,9 @@ ul.tags {
   text-align: left;
 }
 
-ul.tag-list {
-  list-style-type: none;
-  padding-left: 0;
-
-  li.tag-item {
-    //border-top: solid 1px #ddd;
-
-    padding: 20px;
-    margin: 20px 0;
-    border: 1px solid #eee;
-    border-left-width: 5px;
-    border-radius: 3px;
-    border-left-color: $brand-primary;
-
-    h4 {
-      margin-top: 0;
-      margin-bottom: 5px;
-    }
-
-    p {
-      margin-bottom: 0;
-    }
-  }
-}
-
 .image-tag-list {
   table {
-    h4 {
+    .t-body-2 {
       min-height: 30px;
     }
   }
@@ -526,7 +456,7 @@ ul.tag-list {
   margin-top: 12px;
   border-bottom:solid 1px lightgrey;
 
-  h4, p{
+  .t-body-2, p{
     margin-top:0;
     margin-bottom:10px;
   }
