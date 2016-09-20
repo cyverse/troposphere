@@ -56,8 +56,8 @@ export default React.createClass({
 
         var project = this.props.project;
 
-        // TODO: remove ambiguity between state/this.state
-        var state = {
+        // prepare to build out the `next` state for the component
+        var next = {
             instances: stores.ProjectInstanceStore.getInstancesFor(project),
             instanceId: null
         };
@@ -65,19 +65,19 @@ export default React.createClass({
         this.state = this.state || {};
 
         // Use selected instance or default to the first one
-        if (state.instances) {
+        if (next.instances) {
           var volume = this.props.volume,
-            InstanceCollection = state.instances.constructor;
+            InstanceCollection = next.instances.constructor;
 
           // Filter out instances not in the same provider as the volume
-          state.instances = state.instances.filter(function (i) {
+          next.instances = next.instances.filter(function (i) {
             return i.get('identity').provider === volume.get('identity').provider;
           });
-          state.instances = new InstanceCollection(state.instances);
-          state.instanceId = this.state.instanceId || state.instances.first().id;
+          next.instances = new InstanceCollection(next.instances);
+          next.instanceId = this.state.instanceId || next.instances.first().id;
         }
 
-        return state;
+        return next;
       },
 
       getInitialState: function () {
