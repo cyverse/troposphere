@@ -67,8 +67,7 @@ export default React.createClass({
         // Use selected instance or default to the first one (when available)
         if (next.instances) {
           var volume = this.props.volume,
-              firstInstanceId = null,
-              InstanceCollection = next.instances.constructor;
+              firstInstanceId = null;
 
           // Filter out instances not in the same provider as the volume
           next.instances = next.instances.cfilter(function (i) {
