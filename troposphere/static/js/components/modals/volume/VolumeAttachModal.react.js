@@ -64,17 +64,20 @@ export default React.createClass({
 
         this.state = this.state || {};
 
-        // Use selected instance or default to the first one
+        // Use selected instance or default to the first one (when available)
         if (next.instances) {
           var volume = this.props.volume,
-            InstanceCollection = next.instances.constructor;
+              firstInstanceId = null,
+              InstanceCollection = next.instances.constructor;
 
           // Filter out instances not in the same provider as the volume
           next.instances = next.instances.filter(function (i) {
             return i.get('identity').provider === volume.get('identity').provider;
           });
           next.instances = new InstanceCollection(next.instances);
-          next.instanceId = this.state.instanceId || next.instances.first().id;
+          // if the collection has a first, use that instance's id
+          firstInstanceId = next.instances.first() ? next.instances.first().id : null;
+          next.instanceId = this.state.instanceId || firstInstanceId;
         }
 
         return next;
