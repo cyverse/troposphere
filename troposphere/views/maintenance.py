@@ -21,13 +21,8 @@ def get_notice(request):
     """
     Returns a notice indicating details about a forthcoming maintenance period
     """
-    # FIXME: this query object was accepted for the PR - but will need
-    # to be refactored as a later date (PR 404)
-    # NOTE: if you're seeing this message and it is past July 2016, then
-    # lenards has dropped the :football: :frown-face:
     notices = MaintenanceNotice.active()
     has_notice = notices.count() > 0
-    notice = notices[0] if has_notice else notices
 
     notice = {}
     if has_notice:

@@ -205,8 +205,7 @@ def _handle_authenticated_application_request(request, maintenance_records,
     Deals with request verified identities via `iplantauth` module.
     """
     if notice_info and notice_info[1]:
-        notice_info = (notice_info[0],
-            notice_info[1].message,
+        notice_info = (notice_info[0], notice_info[1],
             'maintenance_notice' in request.COOKIES)
 
     template_params, show_troposphere_only = _populate_template_params(request,
