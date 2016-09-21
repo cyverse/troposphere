@@ -71,10 +71,9 @@ export default React.createClass({
               InstanceCollection = next.instances.constructor;
 
           // Filter out instances not in the same provider as the volume
-          next.instances = next.instances.filter(function (i) {
+          next.instances = next.instances.cfilter(function (i) {
             return i.get('identity').provider === volume.get('identity').provider;
           });
-          next.instances = new InstanceCollection(next.instances);
           // if the collection has a first, use that instance's id
           firstInstanceId = next.instances.first() ? next.instances.first().id : null;
           next.instanceId = this.state.instanceId || firstInstanceId;
