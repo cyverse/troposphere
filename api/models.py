@@ -132,6 +132,7 @@ class MaintenanceNotice(SingletonModel):
     """
     show_message = models.BooleanField(default=False)
     message = models.TextField()
+    title = models.TextField(default="Maintenance Information")
     end_date = models.DateTimeField(blank=True, null=True)
 
     @classmethod
@@ -146,9 +147,10 @@ class MaintenanceNotice(SingletonModel):
         return records.all()
 
     def __unicode__(self):
-        return "Active? {0}; End date: {1}; Message: {2}".format(
+        return "Active? {0}; End date: {1}; Title: {2} Message: {3}".format(
             self.show_message,
             self.end_date,
+            self.title,
             self.message)
 
     class Meta:
