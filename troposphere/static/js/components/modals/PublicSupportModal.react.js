@@ -28,11 +28,11 @@ export default React.createClass({
 
         var content = (
         <div>
-            <h4>Want to provide feedback?</h4>
+            <h4 className="t-body-2">Want to provide feedback?</h4>
             <p>
                 {'To avoid automated or auto-generated message, user must be authenticated to give feedback.'}
             </p>
-            <h4 className="t-title">{'Having trouble logging in?'}</h4>
+            <h4 className="t-body-2">{'Having trouble logging in?'}</h4>
             <p>
                 {`If you are experiencing issues accessing ${globals.SITE_FOOTER}, please contact
               the support staff by sending an email to: `}

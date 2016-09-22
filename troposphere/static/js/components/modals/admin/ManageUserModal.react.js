@@ -35,7 +35,7 @@ export default React.createClass({
 
         var content = (
         <div>
-            <h4>Manage User End Date</h4>
+            <h4 className="t-body-2">Manage User End Date</h4>
             <ul>
                 <li>
                     <b>User Name:</b>

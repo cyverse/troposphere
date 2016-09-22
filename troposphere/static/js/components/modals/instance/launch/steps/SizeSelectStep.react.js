@@ -233,7 +233,7 @@ export default React.createClass({
         <div>
             <div role="form">
                 <div className="modal-section form-horizontal">
-                    <h4>Select an Instance Size</h4>
+                    <h4 className="t-body-2">Select an Instance Size</h4>
                     <p>
                         Minimum requirements not available on this provider.
                     </p>
@@ -306,7 +306,7 @@ export default React.createClass({
             <div role="form">
                 {this.renderAllocationWarning(selectedIdentity)}
                 <div className="modal-section form-horizontal">
-                    <h4>Select an Instance Size</h4>
+                    <h4 className="t-body-2">Select an Instance Size</h4>
                     <div className="form-group">
                         <label htmlFor="size" className="col-sm-3 control-label">
                             Instance Size
@@ -321,7 +321,7 @@ export default React.createClass({
                         {minRequirements}
                     </div>
                     <div className="modal-section">
-                        <h4>Projected Resource Usage</h4>
+                        <h4 classNames="t-body-2">Projected Resource Usage</h4>
                         <div className="form-group">
                             {this.renderCpuConsumption(selectedIdentity, size, sizes, instances)}
                             {this.renderMemoryConsumption(selectedIdentity, size, sizes, instances)}

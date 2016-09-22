@@ -106,7 +106,7 @@ export default React.createClass({
 
         return (
         <div className="row provider-info-section">
-            <h4>Instances Consuming Allocation</h4>
+            <h4 className="t-title">Instances Consuming Allocation</h4>
             {content}
         </div>
         );

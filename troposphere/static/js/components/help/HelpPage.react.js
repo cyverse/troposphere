@@ -49,7 +49,8 @@ export default React.createClass({
         });
 
         return (
-        <div className="container">
+        <div style={{ paddingTop: "50px" }} className="container">
+            <h1 className="t-display-1">Help Page</h1>
             <h2 className="t-title">External resources</h2>
             <ul>
                 {resourceElements}

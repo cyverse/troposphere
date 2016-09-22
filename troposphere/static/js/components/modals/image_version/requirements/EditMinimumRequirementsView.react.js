@@ -36,7 +36,7 @@ export default React.createClass({
 
         return (
         <div>
-            <h4>Minimum Requirements</h4>
+            <h4 className="t-body-2">Minimum Requirements</h4>
             <div>
                 <div className="help-block">
                     Minimum # of CPU cores:

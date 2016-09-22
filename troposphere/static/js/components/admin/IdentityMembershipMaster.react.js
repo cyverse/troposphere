@@ -90,13 +90,13 @@ export default React.createClass({
             <tbody>
                 <tr className="admin-row">
                     <th>
-                        <h4>User</h4>
+                        <h4 className="t-body-2">User</h4>
                     </th>
                     <th>
-                        <h4>Provider</h4>
+                        <h4 className="t-body-2">Provider</h4>
                     </th>
                     <th>
-                        <h4>Enabled/Disabled</h4>
+                        <h4 className="t-body-2">Enabled/Disabled</h4>
                     </th>
                 </tr>
                 {identityMembershipRows}

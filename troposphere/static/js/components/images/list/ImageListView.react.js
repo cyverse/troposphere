@@ -263,7 +263,7 @@ export default React.createClass({
         return (
         <div>
             <div className="display-toggles clearfix">
-                <h3 className="t-title">{title}</h3>
+                <h3 className="t-body-2">{title}</h3>
                 <div className="btn-group pull-right hidden-xs hiddin-sm">
                     {this.renderListButton()}
                     {this.renderGridButton()}

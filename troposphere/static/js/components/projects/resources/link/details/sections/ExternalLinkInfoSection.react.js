@@ -90,7 +90,7 @@ export default React.createClass({
             );
         } else {
             descriptionContent = (
-                <h4 onClick={this.onEnterEditDescription}>{this.state.description} <i className="glyphicon glyphicon-pencil"></i></h4>
+                <h4 className="t-body-2" onClick={this.onEnterEditDescription}>{this.state.description} <i className="glyphicon glyphicon-pencil"></i></h4>
             );
         }
 
@@ -100,7 +100,7 @@ export default React.createClass({
             );
         } else {
             linkContent = (
-                <h4 onClick={this.onEnterEditLink}>{this.state.link} <i className="glyphicon glyphicon-pencil"></i></h4>
+                <h4 className="t-body-2" onClick={this.onEnterEditLink}>{this.state.link} <i className="glyphicon glyphicon-pencil"></i></h4>
             );
         }
 
@@ -110,22 +110,22 @@ export default React.createClass({
             );
         } else {
             nameContent = (
-                <h4 onClick={this.onEnterEditName}>{this.state.name} <i className="glyphicon glyphicon-pencil"></i></h4>
+                <h4 className="t-body-2" onClick={this.onEnterEditName}>{this.state.name} <i className="glyphicon glyphicon-pencil"></i></h4>
             );
         }
 
         return (
         <div className="resource-info-section section clearfix">
             <div className="resource-info">
-                <h2>Name</h2>
+                <h2 className="t-title">Name</h2>
                 <div className="resource-name editable">
                     {nameContent}
                 </div>
-                <h2>Description</h2>
+                <h2 className="t-title">Description</h2>
                 <div className="resource-name editable">
                     {descriptionContent}
                 </div>
-                <h2>Link</h2>
+                <h2 className="t-title">Link</h2>
                 <div className="resource-name editable">
                     {linkContent}
                 </div>

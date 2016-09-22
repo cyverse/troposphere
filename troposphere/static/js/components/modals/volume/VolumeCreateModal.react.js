@@ -264,7 +264,7 @@ export default React.createClass({
         return (
         <div role="form">
             <div className="modal-section form-horizontal">
-                <h4>Volume Details</h4>
+                <h4 classNames="t-body-2">Volume Details</h4>
                 <div className="form-group">
                     <label htmlFor="volumeName" className="col-sm-3 control-label">
                         Volume Name
@@ -300,7 +300,7 @@ export default React.createClass({
                 </div>
             </div>
             <div className="modal-section">
-                <h4><span>Projected Resource Usage</span> <a className="modal-link" href="#" onClick={this.handleResourceRequest}>{"Need more resources?"}</a></h4>
+                <h4 classNames="t-body-2"><span>Projected Resource Usage</span> <a className="modal-link" href="#" onClick={this.handleResourceRequest}>{"Need more resources?"}</a></h4>
                 {this.renderStorageConsumption(identity, size, volumes)}
                 {this.renderStorageCountConsumption(identity, size, volumes)}
             </div>

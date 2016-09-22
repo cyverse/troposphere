@@ -16,7 +16,7 @@ export default React.createClass({
         if (!title) return;
 
         return (
-        <h3>{title}</h3>
+        <h3 className="t-title">{title}</h3>
         )
     },
 
