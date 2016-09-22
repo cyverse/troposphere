@@ -100,7 +100,7 @@ export default React.createClass({
 
         return (
         <div className="resource-master">
-            <h2>Resource Requests {this.renderRefreshButton()}</h2>
+            <h2 className="t-headline">Resource Requests {this.renderRefreshButton()}</h2>
             <ul className="requests-list pull-left">
                 {this.renderResourceRequests()}
             </ul>

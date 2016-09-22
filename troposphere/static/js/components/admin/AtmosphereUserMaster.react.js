@@ -72,7 +72,7 @@ export default React.createClass({
         if (rows.length == 0) {
             return (
             <div>
-                <h3>No Users were returned from the API</h3>
+                <h3 className="t-title">No Users were returned from the API</h3>
             </div>
             );
         }
@@ -82,19 +82,19 @@ export default React.createClass({
             <tbody>
                 <tr className="admin-row">
                     <th>
-                        <h4>User</h4>
+                        <h4 className="t-body-2">User</h4>
                     </th>
                     <th>
-                        <h4>E-Mail</h4>
+                        <h4 className="t-body-2">E-Mail</h4>
                     </th>
                     <th>
-                        <h4>Staff</h4>
+                        <h4 className="t-body-2">Staff</h4>
                     </th>
                     <th>
-                        <h4>Superuser</h4>
+                        <h4 className="t-body-2">Superuser</h4>
                     </th>
                     <th>
-                        <h4>Enabled/Disabled</h4>
+                        <h4 className="t-body-2">Enabled/Disabled</h4>
                     </th>
                 </tr>
                 {rows}
@@ -113,7 +113,7 @@ export default React.createClass({
                     value={this.state.query}
                     ref="textField" />
             </div>
-            <h3>Atmosphere Users</h3>
+            <h3 className="t-title">Atmosphere Users</h3>
             {this.renderTable()}
         </div>
         );

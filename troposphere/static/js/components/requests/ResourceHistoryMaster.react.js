@@ -92,13 +92,13 @@ export default React.createClass({
                 <tbody>
                     <tr>
                         <th>
-                            <h3>Request</h3>
+                            <h3 className="t-title">Request</h3>
                         </th>
                         <th>
-                            <h3>Reason</h3>
+                            <h3 className="t-title">Reason</h3>
                         </th>
                         <th>
-                            <h3>Status</h3>
+                            <h3 className="t-title">Status</h3>
                         </th>
                     </tr>
                     {displayRequests}

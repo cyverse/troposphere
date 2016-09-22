@@ -63,13 +63,13 @@ export default React.createClass({
             <SettingsHeader/>
             <div className="container">
                 <div className="notifications">
-                    <h3>Notifications</h3>
+                    <h3 className="t-title">Notifications</h3>
                     <div>
                         <input type="checkbox" checked={wantsEmails} onChange={this.handleChangeEmailPreference} /> Receive an email notification when an instance finishes launching
                     </div>
                 </div>
                 <div>
-                    <h3>Allocation</h3>
+                    <h3 className="t-title">Allocation</h3>
                     <div>
                         <p>
                             If you need a temporary or permanent boost in your allocation (more CPUs, etc.) you may <a href="#" onClick={this.handleRequestMoreResources}>request more resources.</a>
@@ -77,7 +77,7 @@ export default React.createClass({
                     </div>
                 </div>
                 <div>
-                    <h3>Appearance</h3>
+                    <h3 className="t-title">Appearance</h3>
                     <p>
                         Select the Image and Instance icon set you would like to use:
                     </p>

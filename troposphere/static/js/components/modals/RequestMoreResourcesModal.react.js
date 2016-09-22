@@ -190,7 +190,7 @@ export default React.createClass({
                 <div className="modal-content">
                     <div className="modal-header">
                         {this.renderCloseButton()}
-                        <h1 className="t-headline">Request Resources</h1>
+                        <h1 className="t-title">Request Resources</h1>
                     </div>
                     <div className="modal-body">
                         {this.renderBody()}

@@ -209,7 +209,7 @@ export default React.createClass({
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <strong>Migrate Resources</strong>
+                        <h1 className="t-title">Migrate Resources</h1>
                     </div>
                     <div className="modal-body">
                         {this.renderBody()}

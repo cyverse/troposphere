@@ -80,8 +80,8 @@ export default React.createClass({
 
         if (!identityMembershipRows[0]) {
             return (
-            <div>
-                <h3>No IdentityMemberships were returned from the API</h3>
+            <div style={{ paddingTop: "30px" }}>
+                <h3 className="t-title">No IdentityMemberships were returned from the API</h3>
             </div>
             );
         }
@@ -139,7 +139,7 @@ export default React.createClass({
         });
         providerRows.push(self.renderAllProviderRow())
         return (
-        <div className="secondary-nav-links">
+        <div style={{ marginBottom: "30px" }} className="secondary-nav-links">
             {providerRows}
         </div>
         );
@@ -156,7 +156,7 @@ export default React.createClass({
                     ref="textField" />
             </div>
             {this.renderProviderSelect()}
-            <h3>Identities</h3>
+            <h3 className="t-title">Identities</h3>
             {this.renderTable()}
         </div>
         );

@@ -27,7 +27,7 @@ export default React.createClass({
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h3>Resources Still Attached</h3>
+                        <h1 className="t-title">Resources Still Attached</h1>
                     </div>
                     <div className="modal-body">
                         {content}

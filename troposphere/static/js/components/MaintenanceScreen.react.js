@@ -32,7 +32,10 @@ export default React.createClass({
                     <img src={login} />
                 </div>
             </div>
-            <h4><h4><p> Atmosphere is currently under maintenance. </p> {statusPageEl}</h4></h4>
+            <h4 className="t-title">
+                Atmosphere is currently under maintenance.
+            </h4>
+            {statusPageEl}
         </div>
         );
     }

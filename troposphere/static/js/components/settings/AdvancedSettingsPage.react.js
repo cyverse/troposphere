@@ -40,7 +40,7 @@ export default React.createClass({
         return (
         <div>
             <div>
-                <h3>Advanced</h3>
+                <h3 className="t-title">Advanced</h3>
                 {this.state.showMore ?
                  this.renderMore() :
                  this.renderLess()}

@@ -68,7 +68,7 @@ export default React.createClass({
                 </div>
             </div>
             <div className="project-name container">
-                <h1>{project.get("name")}</h1>
+                <h1 className="t-display-1">{project.get("name")}</h1>
             </div>
         </div>
         );

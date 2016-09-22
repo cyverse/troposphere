@@ -52,7 +52,7 @@ export default React.createClass({
                 <div className="modal-content">
                     <div className="modal-header">
                         {this.renderCloseButton()}
-                        <strong>Delete Link</strong>
+                        <h1 className="t-title">Delete Link</h1>
                     </div>
                     <div className="modal-body" style={{ minHeight: "200px" }}>
                         {this.renderBody()}

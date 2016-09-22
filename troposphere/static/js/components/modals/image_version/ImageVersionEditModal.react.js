@@ -488,7 +488,7 @@ export default React.createClass({
                 <div id="ImageVersionEditModal" className="modal-content">
                     <div className="modal-header">
                         {this.renderCloseButton()}
-                        <h2>Edit Image Version</h2>
+                        <h1 className="t-title">Edit Image Version</h1>
                     </div>
                     <div className="modal-body">
                         {this.renderBody()}

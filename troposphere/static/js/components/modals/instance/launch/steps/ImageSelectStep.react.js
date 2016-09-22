@@ -308,7 +308,7 @@ export default React.createClass({
         return (
         <div>
             <div className="modal-section">
-                <h3 className="t-title">First choose an image for your instance</h3>
+                <h3 className="t-body-2">First choose an image for your instance</h3>
                 <hr/>
                 <TabLinks links={["Show Featured", "Show Favorites", "Show All"]} defaultLink={this.FEATURED_VIEW} onTabClick={this.onChangeView} />
                 {this.renderImageTabView()}

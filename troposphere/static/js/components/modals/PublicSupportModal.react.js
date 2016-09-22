@@ -32,7 +32,7 @@ export default React.createClass({
             <p>
                 {'To avoid automated or auto-generated message, user must be authenticated to give feedback.'}
             </p>
-            <h4>{'Having trouble logging in?'}</h4>
+            <h4 className="t-title">{'Having trouble logging in?'}</h4>
             <p>
                 {`If you are experiencing issues accessing ${globals.SITE_FOOTER}, please contact
               the support staff by sending an email to: `}
@@ -49,7 +49,7 @@ export default React.createClass({
                 <div className="modal-content badge-modal-content">
                     <div className="modal-header">
                         {this.renderCloseButton()}
-                        <strong>Feedback & Support</strong>
+                        <h1 className="t-title">Feedback & Support</h1>
                     </div>
                     <div className="modal-body">
                         {content}

@@ -55,7 +55,7 @@ export default React.createClass({
                 <div className="modal-content badge-modal-content">
                     <div className="modal-header">
                         {this.renderCloseButton()}
-                        <strong>{this.props.badge.get("name")}</strong>
+                        <h1 className="t-title-1">{this.props.badge.get("name")}</h1>
                     </div>
                     <div className="modal-body">
                         {content}

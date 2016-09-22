@@ -152,7 +152,7 @@ export default React.createClass({
         return (
         <div className="modal-content">
             <div className="modal-header">
-                <strong>Volume Attach Rules</strong>
+                <h1 className="t-title">Volume Attach Rules</h1>
             </div>
             <div className="modal-body">
                 <div role="form">

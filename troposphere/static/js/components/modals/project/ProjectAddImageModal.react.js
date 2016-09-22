@@ -233,7 +233,7 @@ export default React.createClass({
                 <div className="modal-content">
                     <div className="modal-header">
                         {this.renderCloseButton()}
-                        <strong>Add Image to Project</strong>
+                        <h1 className="t-title">Add Image to Project</h1>
                     </div>
                     <div className="modal-body">
                         {this.renderBody()}

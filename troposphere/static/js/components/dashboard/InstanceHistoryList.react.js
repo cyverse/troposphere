@@ -190,7 +190,7 @@ export default React.createClass({
     render: function() {
         return (
         <div onClick={this.loadMoreHistory}>
-            <h2>{this.renderTitle()} {this.renderRefreshButton()}</h2>
+            <h2 className="t-headline">{this.renderTitle()} {this.renderRefreshButton()}</h2>
             {this.renderBody()}
         </div>
         );

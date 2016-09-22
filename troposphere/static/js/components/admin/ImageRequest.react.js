@@ -137,7 +137,7 @@ export default React.createClass({
         return (
         <div className="request-admin pull-right admin-detail">
             <div>
-                <h3>Request Information</h3>
+                <h3 className="t-body-2">Request Information</h3>
                 <div>
                     Request ID:
                     {request.get("id")}

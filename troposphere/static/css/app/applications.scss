@@ -229,7 +229,6 @@
 }
 
 .nav-back {
-  //float: left;
   padding: 10px 13px !important;
   margin-right: 10px;
 
@@ -238,8 +237,7 @@
 
   .glyphicon {
     color: white;
-    //-webkit-transform: scaleX(2.5) scaleY(3);
-    -webkit-transform: scaleX(1.8) scaleY(2.2);
+    transform: scaleX(1.8) scaleY(2.2);
   }
 }
 
@@ -322,7 +320,7 @@
     margin-bottom: 10px !important;
   }
 
-  h2 {
+  .t-title {
     margin-bottom: 15px;
   }
 

@@ -127,13 +127,9 @@
   }
 
   .resource-header{
-    font-size: 28px;
-    font-weight: 500;
     border-bottom: 1px solid #dddddd;
     margin-bottom: 20px;
     a{
-      font-size: inherit;
-      font-style: italic;
       margin-left: 3%;
     }
   }
@@ -168,13 +164,6 @@
 
     .launch-info {
       float: right;
-    }
-  }
-
-  .community-activity {
-    h3 {
-      margin-bottom: 6px;
-      margin-top: 24px;
     }
   }
 }

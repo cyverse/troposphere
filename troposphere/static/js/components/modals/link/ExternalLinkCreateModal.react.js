@@ -259,7 +259,7 @@ export default React.createClass({
                 <div className="modal-content">
                     <div className="modal-header">
                         {this.renderCloseButton()}
-                        <h2 className="t-headline">Create a Link</h2>
+                        <h1 className="t-title">Create a Link</h1>
                     </div>
                     <div className="modal-body">
                         {this.renderBody()}

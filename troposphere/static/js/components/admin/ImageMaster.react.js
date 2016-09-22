@@ -92,14 +92,14 @@ export default React.createClass({
             return (
             <div>
                 {this.renderRefreshButton()}
-                <h3>No imaging requests</h3>
+                <h3 className="t-body-2">No imaging requests</h3>
             </div>
             );
         }
 
         return (
         <div className="image-master">
-            <h2>Imaging Requests {this.renderRefreshButton()}</h2>
+            <h2 className="t-headline">Imaging Requests {this.renderRefreshButton()}</h2>
             <ul className="requests-list pull-left">
                 {imageRequestRows}
             </ul>
