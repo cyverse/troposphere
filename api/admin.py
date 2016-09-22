@@ -1,6 +1,7 @@
 from django.contrib import admin
 
-from .models import MaintenanceRecord, UserPreferences, SiteMetadata
+from .models import (MaintenanceRecord, MaintenanceNotice,
+                     UserPreferences, SiteMetadata)
 
 
 @admin.register(UserPreferences)
@@ -21,6 +22,23 @@ class SiteMetadataAdmin(admin.ModelAdmin):
         "account_instructions_link",
         "display_status_page_link",
         "status_page_link"
+    ]
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+@admin.register(MaintenanceNotice)
+class MaintenanceNoticeAdmin(admin.ModelAdmin):
+    actions = None # disable the `delete selected` action
+
+    list_display = [
+        "show_message",
+        "message",
+        "end_date"
     ]
 
     def has_add_permission(self, request):

@@ -100,9 +100,8 @@ export default React.createClass({
                 <div className="image-version-details app-name">
                     <div className="version">
                         <h2 className="t-title" >{version.get("name")}</h2>
-                        {isRecommended ? <span className="recommended-tag">Recommended</span> : null}
-                        {this.renderDateString(version)} by
-                        {owner}
+                        { isRecommended ? <span className="recommended-tag">Recommended</span> : null }
+                        {`${this.renderDateString(version)} by ${owner}`}
                         <br />
                         <div dangerouslySetInnerHTML={{ __html: changeLogHTML }} />
                     </div>

@@ -26,22 +26,24 @@ export default React.createClass({
             numImages = "-",
             numExternalLinks = "-";
 
-        if (project.id) {
-            description = project.get("description");
-            projectCreationDate = moment(project.get("start_date")).format("MMM D, YYYY hh:mm a");
+
+        // only attempt to fetching project metadata for persisted projects
+        if (project && project.id && !project.isNew()) {
+            description = project.get('description');
+            projectCreationDate = moment(project.get('start_date')).format("MMM D, YYYY hh:mm a");
             projectExternalLinks = stores.ProjectExternalLinkStore.getExternalLinksFor(project);
             projectInstances = stores.ProjectInstanceStore.getInstancesFor(project);
             projectImages = stores.ProjectImageStore.getImagesFor(project);
             projectVolumes = stores.ProjectVolumeStore.getVolumesFor(project);
         } else {
             return (
-            <li className={"col-md-4" + this.props.className} style={{ padding: "15px" }}>
-                <div className="media card">
-                    <h2 className="t-title">{project.get("name") || "..."}</h2>
-                    <div className="loading" style={{ marginTop: "65px" }} />
-                </div>
-            </li>
-            )
+                <li className={"col-md-4" + this.props.className} style={{padding: "15px"}}>
+                    <div className="media card">
+                        <h2 className="t-title">{project.get('name') || '...'}</h2>
+                        <div className="loading" style={{marginTop: "65px"}}/>
+                    </div>
+                </li>
+            );
         }
 
         if (projectExternalLinks && projectInstances && projectVolumes && projectImages) {
@@ -50,6 +52,7 @@ export default React.createClass({
             numImages = projectImages.length;
             numExternalLinks = projectExternalLinks.length;
         }
+
         return (
         <li className={"col-md-4" + this.props.className} style={{ padding: "15px" }}>
             <div className="media card">
