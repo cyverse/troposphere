@@ -1,14 +1,16 @@
-import React from 'react';
-import Backbone from 'backbone';
-import modals from 'modals';
-import context from 'context';
+import React from "react";
+import Backbone from "backbone";
+import modals from "modals";
+import context from "context";
 
 
 export default React.createClass({
     displayName: "Footer",
 
     propTypes: {
-      profile: React.PropTypes.instanceOf(Backbone.Model)
+        text: React.PropTypes.string,
+        link: React.PropTypes.string,
+        profile: React.PropTypes.instanceOf(Backbone.Model)
     },
 
     onFeedback: function () {
@@ -33,12 +35,12 @@ export default React.createClass({
 
       return (
         <footer className="footer">
-          <div className="container">
-            <a href="http://user.cyverse.org" target="_blank">
-                  {"\u00a9" + year + " " + this.props.text}
-            </a>
-            {feedbackButton}
-          </div>
+            <div className="container">
+                <a href={this.props.link} target="_blank">
+                    {"\u00a9" + year + " " + this.props.text}
+                </a>
+                {feedbackButton}
+            </div>
         </footer>
       );
     }
