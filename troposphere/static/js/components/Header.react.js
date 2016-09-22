@@ -1,14 +1,16 @@
-import React from "react";
-import Backbone from "backbone";
-import modals from "modals";
-import MaintenanceMessageBanner from "./MaintenanceMessageBanner.react";
-import context from "context";
-import globals from "globals";
-import Router from "react-router";
+import React from 'react';
+import Router from 'react-router';
+import Backbone from 'backbone';
+import toastr from 'toastr';
 
-import NotificationController from "controllers/NotificationController";
-import { trackAction } from "utilities/userActivity";
-import { hasLoggedInUser } from "utilities/profilePredicate";
+import modals from 'modals';
+import MaintenanceMessageBanner from './MaintenanceMessageBanner.react';
+import context from 'context';
+import globals from 'globals';
+
+import { trackAction } from 'utilities/userActivity';
+import { hasLoggedInUser } from 'utilities/profilePredicate';
+
 
 let Link = Router.Link;
 
@@ -167,9 +169,10 @@ let Header = React.createClass({
 
     handleNotice: function() {
         if (context.hasMaintenanceNotice()) {
-            NotificationController.warning(
-                context.getMaintenanceNotice(),
-                "Maintenance Information",
+            var notice = context.getMaintenanceNotice();
+            toastr.warning(
+                notice['message'],
+                notice['title'],
                 {
                     "toastClass": "toast toast-mod-info-darken",
                     "positionClass": "toast-top-full-width",

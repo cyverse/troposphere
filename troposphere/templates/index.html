@@ -137,7 +137,10 @@
 {% endif %}
 
 {% if notice %}
-    var maint_notice = "{{ notice }}"
+    var maint_notice = {
+         title: "{{notice.title}}",
+         message: "{{notice.message}}"
+    };
 {% endif %}
 
     </script>

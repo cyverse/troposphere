@@ -94,29 +94,20 @@ export default React.createClass({
     },
 
     render: function() {
-        var webShellUrl = this.props.instance.shell_url(),
-            remoteDesktopUrl = this.props.instance.vnc_url(),
-            usesRemoteDesktop = !!(this.props.instance && this.props.instance.get("vnc")),
-            webDesktopCapable = !!(this.props.instance && this.props.instance.get("web_desktop")),
-            status = this.props.instance.get("state").get("status"),
-            activity = this.props.instance.get("state").get("activity"),
-            ip_address = this.props.instance.get("ip_address"),
-            webLinksDisabled = !ip_address || ip_address === "0.0.0.0",
-            inFinalState = this.props.instance.get("state").isInFinalState();
+      var webShellUrl = this.props.instance.shell_url(),
+          webDesktopCapable = !!(this.props.instance && this.props.instance.get('web_desktop')),
+          status = this.props.instance.get('state').get('status'),
+          activity = this.props.instance.get('state').get('activity'),
+          ip_address = this.props.instance.get('ip_address'),
+          webLinksDisabled = !ip_address || ip_address === "0.0.0.0",
+          inFinalState = this.props.instance.get('state').isInFinalState();
 
-        // todo: Add back and implement reboot and resize once it's understood how to
-        // I'm hiding from the display for now so as not to show users functionality
-        // that doesn't exist.
-        var linksArray = [
-            {
-                label: "Actions",
-                icon: null
-            },
-            {
-                label: "Report",
-                icon: "inbox",
-                onClick: this.onReport
-            }
+      // todo: Add back and implement reboot and resize once it's understood how to
+      // I'm hiding from the display for now so as not to show users functionality
+      // that doesn't exist.
+      var linksArray = [
+        {label: 'Actions', icon: null},
+        {label: 'Report', icon: 'inbox', onClick: this.onReport}
         //{label: 'Reboot', icon: 'repeat', onClick: this.onReboot},
         //{label: 'Resize', icon: 'resize-full', onClick: this.onResize},
         ];
@@ -171,6 +162,28 @@ export default React.createClass({
                 });
             }
         }
+<<<<<<< HEAD
+=======
+      ]);
+
+      if (webDesktopCapable && featureFlags.WEB_DESKTOP) {
+          linksArray.push({
+              label: 'Web Desktop',
+              icon: 'sound-stereo',
+              onClick: this.onWebDesktop.bind(
+                  this,
+                  ip_address,
+                  this.props.instance),
+              isDisabled: webLinksDisabled
+          });
+      }
+
+      var links = linksArray.map(function(link) {
+        // Links without icons are generally section headings
+        if (!link.icon) return (
+          <li key={link.label} className="section-label">{link.label}</li>
+        );
+>>>>>>> ravenous-raven
 
         if (activity === "deploying" || status === "deploying"
             || activity === "user_deploy_error" || status === "user_deploy_error"

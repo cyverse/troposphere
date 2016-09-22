@@ -99,10 +99,9 @@ export default React.createClass({
                 <span className="icon-container"><Gravatar hash={versionHash} size={iconSize} type={type}/></span>
                 <div className="image-version-details app-name">
                     <div className="version">
-                        <h4>{version.get("name")}</h4>
-                        {isRecommended ? <span className="recommended-tag">Recommended</span> : null}
-                        {this.renderDateString(version)} by
-                        {owner}
+                        <h4>{ version.get("name") }</h4>
+                        { isRecommended ? <span className="recommended-tag">Recommended</span> : null }
+                        {`${this.renderDateString(version)} by ${owner}`}
                         <br />
                         <div dangerouslySetInnerHTML={{ __html: changeLogHTML }} />
                     </div>

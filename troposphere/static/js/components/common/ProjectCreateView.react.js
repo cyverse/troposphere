@@ -2,7 +2,7 @@ import React from "react";
 import { trackAction } from "../../utilities/userActivity";
 
 export default React.createClass({
-    displayName: "ProjectCreateModal",
+    displayName: "ProjectCreateView",
 
     getInitialState: function() {
         return {
@@ -12,7 +12,7 @@ export default React.createClass({
         };
     },
 
-    validateName: function() {
+    validateName: function () {
         let name = this.state.projectName;
         let hasError = false;
         let message = "";
@@ -34,7 +34,7 @@ export default React.createClass({
         }
     },
 
-    validateDescription: function() {
+    validateDescription: function () {
         let description = this.state.projectDescription;
         let hasError = false;
         let message = "";
@@ -50,7 +50,7 @@ export default React.createClass({
         }
     },
 
-    isSubmittable: function() {
+    isSubmittable: function () {
         if (!this.validateName().hasError && !this.validateDescription().hasError) {
             return true;
         }
@@ -64,7 +64,8 @@ export default React.createClass({
 
     confirm: function() {
         if (this.isSubmittable()) {
-            this.props.onConfirm(this.state.projectName.trim(), this.state.projectDescription.trim());
+            this.props.onConfirm(this.state.projectName.trim(),
+                                 this.state.projectDescription.trim());
         }
         trackAction("created-project", {});
         this.setState({
@@ -81,7 +82,7 @@ export default React.createClass({
         });
     },
 
-    onNameBlur: function() {
+    onNameBlur: function () {
         let projectName = this.state.projectName.trim();
         this.setState({
             projectName

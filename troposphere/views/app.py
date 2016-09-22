@@ -15,7 +15,7 @@ from troposphere.version import get_version
 from troposphere.auth import has_valid_token
 from troposphere.site_metadata import get_site_metadata
 from .emulation import is_emulated_session
-from .maintenance import get_maintenance, get_notices
+from .maintenance import get_maintenance, get_notice
 
 logger = logging.getLogger(__name__)
 
@@ -166,8 +166,7 @@ def _handle_authenticated_application_request(request, maintenance_records,
     Deals with request verified identities via `iplantauth` module.
     """
     if notice_info and notice_info[1]:
-        notice_info = (notice_info[0],
-            notice_info[1].message,
+        notice_info = (notice_info[0], notice_info[1],
             'maintenance_notice' in request.COOKIES)
 
     template_params = _populate_template_params(request, maintenance_records,
@@ -227,7 +226,7 @@ def application_backdoor(request):
 def application(request):
     maintenance_records, disabled_login, in_maintenance = \
         get_maintenance(request)
-    notice_info = get_notices(request)
+    notice_info = get_notice(request)
 
     if should_route_to_maintenace(request, in_maintenance):
         logger.warn('%s has actice session but is NOT in staff_list_usernames'

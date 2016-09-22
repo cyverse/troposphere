@@ -101,8 +101,8 @@ export default React.createClass({
         }
 
         let project = this.state.project;
-        if (!project) {
-            project = stores.ProjectStore.getAll().first();
+        if (!project && projectList) {
+            project = projectList.first();
         }
 
         let imageVersionList;
