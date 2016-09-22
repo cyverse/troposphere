@@ -1,12 +1,12 @@
-import React  from 'react';
-import Backbone  from 'backbone';
-import Glyphicon  from 'components/common/Glyphicon.react';
-import modals  from 'modals';
+import React  from "react";
+import Backbone  from "backbone";
+import Glyphicon  from "components/common/Glyphicon.react";
+import modals  from "modals";
 
-import featureFlags from 'utilities/featureFlags';
-import { findCookie } from 'utilities/cookieHelpers';
+import featureFlags from "utilities/featureFlags";
+import { findCookie } from "utilities/cookieHelpers";
 
-import $  from 'jquery';
+import $  from "jquery";
 
 
 export default React.createClass({
@@ -73,61 +73,61 @@ export default React.createClass({
         var CSRFToken = findCookie("tropo_csrftoken");
 
         // build a form to POST to web_desktop
-        var form = $('<form>')
+        var form = $("<form>")
             .attr("method", "POST")
             .attr("action", "/web_desktop")
             .attr("target", "_blank");
 
-        form.append($('<input>')
+        form.append($("<input>")
             .attr("type", "hidden")
             .attr("name", "ipAddress")
             .attr("value", ipAddr));
 
-        form.append($('<input>')
+        form.append($("<input>")
             .attr("type", "hidden")
             .attr("name", "csrfmiddlewaretoken")
             .attr("style", "display: none;")
             .attr("value", CSRFToken));
 
-        $('body').append(form);
+        $("body").append(form);
         form[0].submit();
     },
 
     render: function() {
       var webShellUrl = this.props.instance.shell_url(),
-          webDesktopCapable = !!(this.props.instance && this.props.instance.get('web_desktop')),
-          status = this.props.instance.get('state').get('status'),
-          activity = this.props.instance.get('state').get('activity'),
-          ip_address = this.props.instance.get('ip_address'),
+          webDesktopCapable = !!(this.props.instance && this.props.instance.get("web_desktop")),
+          status = this.props.instance.get("state").get("status"),
+          activity = this.props.instance.get("state").get("activity"),
+          ip_address = this.props.instance.get("ip_address"),
           webLinksDisabled = !ip_address || ip_address === "0.0.0.0",
-          inFinalState = this.props.instance.get('state').isInFinalState();
+          inFinalState = this.props.instance.get("state").isInFinalState();
 
       // todo: Add back and implement reboot and resize once it's understood how to
       // I'm hiding from the display for now so as not to show users functionality
       // that doesn't exist.
       var linksArray = [
-        {label: 'Actions', icon: null},
-        {label: 'Report', icon: 'inbox', onClick: this.onReport}
+        {label: "Actions", icon: null},
+        {label: "Report", icon: "inbox", onClick: this.onReport}
         //{label: 'Reboot', icon: 'repeat', onClick: this.onReboot},
         //{label: 'Resize', icon: 'resize-full', onClick: this.onResize},
       ];
 
       if (status !== "suspended") {
-        linksArray.push({label: 'Image', icon: 'camera', onClick: this.onImageRequest});
+        linksArray.push({label: "Image", icon: "camera", onClick: this.onImageRequest});
       }
 
       // Add in the conditional links based on current machine state
       if (inFinalState) {
         if (status === "active") {
-          linksArray.push({label: 'Suspend', icon: 'pause', onClick: this.onSuspend});
-          linksArray.push({label: 'Stop', icon: 'stop', onClick: this.onStop});
-          linksArray.push({label: 'Reboot', icon: 'repeat', onClick: this.onReboot});
-          linksArray.push({label: 'Redeploy', icon: 'repeat', onClick: this.onRedeploy});
+          linksArray.push({label: "Suspend", icon: "pause", onClick: this.onSuspend});
+          linksArray.push({label: "Stop", icon: "stop", onClick: this.onStop});
+          linksArray.push({label: "Reboot", icon: "repeat", onClick: this.onReboot});
+          linksArray.push({label: "Redeploy", icon: "repeat", onClick: this.onRedeploy});
         } else if (status === "suspended") {
-          linksArray.push({label: 'Resume', icon: 'play', onClick: this.onResume});
-          linksArray.push({label: 'Reboot', icon: 'repeat', onClick: this.onReboot});
+          linksArray.push({label: "Resume", icon: "play", onClick: this.onResume});
+          linksArray.push({label: "Reboot", icon: "repeat", onClick: this.onReboot});
         } else if (status === "shutoff") {
-          linksArray.push({label: 'Start', icon: 'play', onClick: this.onStart});
+          linksArray.push({label: "Start", icon: "play", onClick: this.onStart});
         }
       }
 
@@ -135,20 +135,20 @@ export default React.createClass({
         || activity === "user_deploy_error"|| status === "user_deploy_error"
         || activity === "deploy_error"|| status === "deploy_error"
         || activity === "initializing" || activity === "boot_script_error") {
-        linksArray.push({label: 'Redeploy', icon: 'repeat', onClick: this.onRedeploy});
+        linksArray.push({label: "Redeploy", icon: "repeat", onClick: this.onRedeploy});
       }
 
       if (!inFinalState && status === "active" && (activity === "networking"
         || activity === "running_boot_script")) {
-          linksArray.push({label: 'Reboot', icon: 'repeat', onClick: this.onReboot});
-          linksArray.push({label: 'Redeploy', icon: 'repeat', onClick: this.onRedeploy});
+          linksArray.push({label: "Reboot", icon: "repeat", onClick: this.onReboot});
+          linksArray.push({label: "Redeploy", icon: "repeat", onClick: this.onRedeploy});
       }
       linksArray = linksArray.concat([
-        {label: 'Delete', icon: 'remove', onClick: this.onDelete, isDangerLink: true},
-        {label: 'Links', icon: null},
+        {label: "Delete", icon: "remove", onClick: this.onDelete, isDangerLink: true},
+        {label: "Links", icon: null},
         {
-          label: 'Open Web Shell',
-          icon: 'console',
+          label: "Open Web Shell",
+          icon: "console",
           href: webShellUrl,
           openInNewWindow: true,
           isDisabled: webLinksDisabled
@@ -157,8 +157,8 @@ export default React.createClass({
 
       if (webDesktopCapable && featureFlags.WEB_DESKTOP) {
           linksArray.push({
-              label: 'Web Desktop',
-              icon: 'sound-stereo',
+              label: "Web Desktop",
+              icon: "sound-stereo",
               onClick: this.onWebDesktop.bind(
                   this,
                   ip_address,
@@ -182,7 +182,7 @@ export default React.createClass({
         //
         if (link.openInNewWindow) {
           var style = {};
-          if (!link.href) style.cursor = 'not-allowed';
+          if (!link.href) style.cursor = "not-allowed";
           return (
             <li key={link.label} className={className + " link"} style={style} disabled={link.isDisabled}>
               <a href={link.href} target="_blank">
