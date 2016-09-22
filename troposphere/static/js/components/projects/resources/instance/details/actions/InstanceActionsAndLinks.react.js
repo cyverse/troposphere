@@ -162,8 +162,6 @@ export default React.createClass({
                 });
             }
         }
-<<<<<<< HEAD
-=======
       ]);
 
       if (webDesktopCapable && featureFlags.WEB_DESKTOP) {
@@ -183,7 +181,6 @@ export default React.createClass({
         if (!link.icon) return (
           <li key={link.label} className="section-label">{link.label}</li>
         );
->>>>>>> ravenous-raven
 
         if (activity === "deploying" || status === "deploying"
             || activity === "user_deploy_error" || status === "user_deploy_error"
