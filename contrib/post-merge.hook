@@ -9,3 +9,8 @@ fi
 if [ -e contrib/migrations-warning.rb ]; then
     ruby contrib/migrations-warning.rb;
 fi
+
+# Warn when there is a configure error
+if [ -e contrib/configure-warning.sh ]; then
+    bash contrib/configure-warning.sh;
+fi
