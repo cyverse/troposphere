@@ -59,4 +59,3 @@ migrate` is necessary. To get a helpful warning:
 ```bash
 ln -s contrib/post-merge.hook .git/hooks/post-merge
 ```
-
