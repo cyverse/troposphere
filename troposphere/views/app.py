@@ -123,6 +123,8 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
             metadata.display_status_page_link
         template_params['STATUS_PAGE_LINK'] = \
             metadata.status_page_link
+        template_params['SITE_FOOTER_LINK'] = \
+            metadata.site_footer_link
 
     if hasattr(settings, "API_ROOT"):
         template_params['API_ROOT'] = settings.API_ROOT

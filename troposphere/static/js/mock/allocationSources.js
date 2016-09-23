@@ -1,4 +1,4 @@
-export const api = {
+const api = {
     "count": 2,
     "next": null,
     "previous": null,
