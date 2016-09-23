@@ -214,7 +214,6 @@ export default React.createClass({
                     { `Change log: ${request.get("new_version_change_log")}` }
                 </div>
                 <div>
-                   
                     { `Installed Software: ${request.get("installed_software")}` }
                 </div>
                 <div>
