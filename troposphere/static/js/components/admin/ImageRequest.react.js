@@ -139,136 +139,107 @@ export default React.createClass({
             <div style={{ marginBottom: "20px" }}>
                 <h3 className="t-body-2">Request Information</h3>
                 <div>
-                   Request ID:
-                   {` ${request.get("id")}` }
+                   { `Request ID: ${request.get("id")}` }
                 </div>
                 <div>
-                    Username:
-                    {` ${request.get("new_machine_owner").username}` }
+                    { `Username: ${request.get("new_machine_owner").username}` }
                 </div>
                 <div>
-                    Request type:
-                    {` ${forked ? "New Application Request" : "Updated Application Request"}`}
+                    { `Request type: ${forked ? "New Application Request" : "Updated Application Request"}`}
                 </div>
                 <div>
-                    Imaging status:
-                    {` ${allowImaging ? "Imaging allowed" : "Author only"}` }
+                    { `Imaging status: ${allowImaging ? "Imaging allowed" : "Author only"}` }
                 </div>
                 <div>
-                    Request state:
-                    {` ${request.get("old_status")}` }
+                    { `Request state: ${request.get("old_status")}` }
                 </div>
                 <div>
-                    Status:
-                    {` ${request.get("status").name}` }    
+                    { `Status: ${request.get("status").name}` }    
                 </div>
             </div>
             <div style={{ marginBottom: "20px" }}>
                 <h3 className="t-body-2">Additional Information</h3>
                 <div>
-                    Original machine:
-                    {` ${instance_mach_str}` }
+                    { `Original machine: ${instance_mach_str}` }
                 </div>
                 <div>
-                    Original provider:
-                    {` ${machine.provider.name}` }
+                    { `Original provider: ${machine.provider.name}` }
                 </div>
                 <div>
-                    Destination machine:
-                    {` ${new_machine ? new_machine.uuid : "N/A"}`}
+                    {`Destination machine: ${new_machine ? new_machine.uuid : "N/A"}`}
                 </div>
                 <div>
-                    Destination provider:
-                    {` ${new_provider.name}` }
+                    { `Destination provider: ${new_provider.name}` }
                 </div>
             </div>
             <div style={{ marginBottom: "20px" }}>
                 <h3 className="t-body-2">Application Information</h3>
                 <div>
-                    Name:
-                    {` ${request.get("new_application_name")}` }
+                    { `Name: ${request.get("new_application_name")}` }
                 </div>
                 <div>
-                    Description:
-                    {` ${request.get("new_application_description")}` }
+                    { `Description: ${request.get("new_application_description")}` }
                 </div>
                 <div>
-                    Tags:
-                    {` ${request.get("new_version_tags")}` }
+                    { `Tags: ${request.get("new_version_tags")}` }
                 </div>
                 <div>
-                    Visbility:
-                    {` ${request.get("new_application_visibility")}` }
+                    { `Visbility: ${request.get("new_application_visibility")}` }
                 </div>
                 <div>
-                    Membership Requested (Private Only):
-                {` ${access_list}` }
+                    { `Membership Requested (Private Only): ${access_list}` }
                 </div>
                 <div>
-                    Membership Approved (Private Only):
-                    {` ${membership_list}` }
+                    { `Membership Approved (Private Only): ${membership_list}` }
                 </div>
                 <div>
-                    Boot scripts (Optional):
-                    {` ${scripts_list}` }
+                    { `Boot scripts (Optional): ${scripts_list}` }
                 </div>
                 <div>
-                    Licenses (Optional):
-                    {` ${licenses_list}` }
+                    { `Licenses (Optional): ${licenses_list}` }
                 </div>
                 <div>
-                    Minimum Memory Threshold (Optional):
-                    {` ${request.get("new_version_memory_min") == 0 ? "" : request.get("new_version_memory_min")}` }
+                    {`Minimum Memory Threshold (Optional): ${request.get("new_version_memory_min") == 0 ? "" : request.get("new_version_memory_min")}` }
                 </div>
                 <div>
-                    Minimum CPU Threshold (Optional):
-                    {` ${request.get("new_version_cpu_min") == 0 ? "" : request.get("new_version_cpu_min")}` }
+                    { `Minimum CPU Threshold (Optional): ${request.get("new_version_cpu_min") == 0 ? "" : request.get("new_version_cpu_min")}` }
                 </div>
             </div>
             <div style={{ marginBottom: "20px" }}>
                 <h3 className="t-body-2">Version Information</h3>
                 <div>
-                    Name:
-                    {` ${request.get("new_version_name")}` }
+                    { `Name: ${request.get("new_version_name")}` }
                 </div>
                 <div>
-                    Change log:
-                    {` ${request.get("new_version_change_log")}` }
+                    { `Change log: ${request.get("new_version_change_log")}` }
                 </div>
                 <div>
-                    Installed Software:
-                    {` ${request.get("installed_software")}` }
+                   
+                    { `Installed Software: ${request.get("installed_software")}` }
                 </div>
                 <div>
-                    Excluded files:
-                    {` ${request.get("exclude_files")}` }
+                    { `Excluded files: ${request.get("exclude_files")}` }
                 </div>
                 <div>
-                    System files:
-                    {` ${request.get("system_files")}` }
+                    { `System files: ${request.get("system_files")}` }
                 </div>
             </div>
             <div style={{ marginBottom: "20px" }}>
                 <h3 className="t-body-2">Instance Information</h3>
                 <div>
-                    Instance ID:
-                    {` ${instance.id}` }
+                    { `Instance ID: ${instance.id}` }
                 </div>
                 <div>
-                    Instance alias:
-                    {` ${instance.uuid}` }
+                    { `Instance alias: ${instance.uuid}` }
                 </div>
                 <div>
-                    Instance status:
-                    {` ${instance.end_date ? "Destroyed on " + instance.end_date : instance.status}` }
+                    { `Instance status: ${instance.end_date ? "Destroyed on " + instance.end_date : instance.status}` }
                 </div>
                 <div>
-                    Instance size:
-                    {` ${instance_size_str}` }
+                    { `Instance size: ${instance_size_str}` }
                 </div>
                 <div>
-                    Instance name:
-                    {` ${instance.name}` }
+                    { `Instance name: ${instance.name}` }
                 </div>
             </div>
             <div>
