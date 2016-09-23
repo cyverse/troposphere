@@ -10,7 +10,7 @@ export default React.createClass({
 
         return (
         <div className="container">
-            <h1 className="t-display">Page Unavailable</h1>
+            <h1 className="t-display-1">Page Unavailable</h1>
             <div>
                 <p style={{ "fontSize": "133%" }}>
                     <Glyphicon name="info-sign" />
