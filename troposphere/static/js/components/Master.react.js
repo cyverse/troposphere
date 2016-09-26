@@ -127,11 +127,15 @@ export default React.createClass({
 
         return (
         <div>
-            <Header profile={ context.profile } currentRoute={ ['projects'] } maintenanceMessages={ maintenanceMessages } />
+            <Header profile={ context.profile }
+                    currentRoute={ ['projects'] }
+                    maintenanceMessages={ maintenanceMessages } />
             <div id="main" style={ { 'marginTop': marginTop } }>
                 <RouteHandler/>
             </div>
-            <Footer text={ globals.SITE_FOOTER } profile={ context.profile } />
+            <Footer text={globals.SITE_FOOTER}
+                    link={globals.SITE_FOOTER_LINK}
+                    profile={context.profile} />
         </div>
         );
     }

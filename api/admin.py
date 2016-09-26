@@ -21,7 +21,8 @@ class SiteMetadataAdmin(admin.ModelAdmin):
         "user_portal_link_text",
         "account_instructions_link",
         "display_status_page_link",
-        "status_page_link"
+        "status_page_link",
+        "site_footer_link"
     ]
 
     def has_add_permission(self, request):

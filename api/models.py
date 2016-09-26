@@ -118,6 +118,10 @@ class SiteMetadata(SingletonModel):
         max_length=254,
         default=b"http://atmosphere.status.io",
         help_text="Hyperlink to page communicate Atmosphere stats information.")
+    site_footer_link = models.CharField(
+        max_length=254,
+        default=b"http://user.cyverse.org/",
+        help_text="Hyperlink in footer to host installation organization or product page.")
 
     class Meta:
         db_table = 'site_metadata'
