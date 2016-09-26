@@ -43,7 +43,7 @@ export default React.createClass({
         if (!email) {
             return (
             <div>
-                <h1>Loading</h1>
+                <h1 className="t-headline">Loading</h1>
             </div>
             )
         }
@@ -58,7 +58,7 @@ export default React.createClass({
         if (myBadges.length == 0) {
             return (
             <div className="mine">
-                <h4 onClick={this.check}>Check badges</h4> You haven't earned any badges yet.
+                <h4  className="t-title"onClick={this.check}>Check badges</h4> You haven't earned any badges yet.
             </div>
             )
         }

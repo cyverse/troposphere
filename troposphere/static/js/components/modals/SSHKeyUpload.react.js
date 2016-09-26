@@ -113,7 +113,7 @@ export default React.createClass({
                 <div className="modal-content">
                     <div className="modal-header">
                         {this.renderCloseButton()}
-                        <strong>Add a public SSH key</strong>
+                        <h1 className="t-title">Add a public SSH key</h1>
                     </div>
                     <div style={{ minHeight: "300px" }} className="modal-body">
                         <div className="form-group">

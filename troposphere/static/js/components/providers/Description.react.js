@@ -14,7 +14,7 @@ export default React.createClass({
 
         return (
         <div className="row provider-info-section">
-            <h4>Description</h4>
+            <h4 className="t-title">Description</h4>
             <p>
                 {provider.get("description")}
             </p>

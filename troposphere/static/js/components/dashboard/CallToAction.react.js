@@ -17,9 +17,11 @@ export default React.createClass({
         <Router.Link to={this.props.linksTo} className="option">
             <img src={this.props.image} />
             <br/>
-            <strong>{this.props.title}</strong>
+            <h2 className="t-title option__title">{this.props.title}</h2>
             <hr/>
-            {this.props.description}
+            <p className="option__description">
+                {this.props.description}
+            </p>
         </Router.Link>
         );
     }

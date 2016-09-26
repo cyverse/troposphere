@@ -62,17 +62,17 @@ export default React.createClass({
         return (
         <div className="edit-details">
             <div className="project-info-segment row" style={{ marginTop: "62px" }}>
-                <h4 className="col-md-3">Name</h4>
+                <h4 className="t-body-2 col-md-3">Name</h4>
                 <input type="text" defaultValue={this.state.name} onKeyUp={this.handleNameChange} />
             </div>
             <div className="project-info-segment row">
-                <h4 className="col-md-3">Created</h4>
+                <h4 className="t-body-2 col-md-3">Created</h4>
                 <p className="col-md-9">
                     {project.get("start_date").format("MMMM Do, YYYY hh:mm a")}
                 </p>
             </div>
             <div className="project-info-segment row">
-                <h4 className="col-md-3">Description</h4>
+                <h4 className="t-body-2 col-md-3">Description</h4>
                 <textarea type="text" defaultValue={this.state.description} onKeyUp={this.handleDescriptionChange} />
             </div>
             <div className="buttons">

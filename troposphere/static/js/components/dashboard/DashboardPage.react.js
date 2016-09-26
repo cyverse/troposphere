@@ -67,52 +67,48 @@ export default React.createClass({
 
         return (
         <div id="dashboard-view">
-            <div className="container">
-                <div className="row">
-                    <div className="col-md-12">
-                        <h2>Getting Started</h2>
-                        <div className="row calls-to-action">
-                            <div className="col-md-3 col-sm-4">
-                                <CallToAction title="Launch New Instance"
-                                    image={launch_instance}
-                                    description="Browse Atmosphere's list of available images and select one to launch a new instance."
-                                    linksTo="images" />
-                            </div>
-                            <div className="col-md-3 col-sm-4">
-                                <CallToAction title="Browse Help Resources"
-                                    image={help}
-                                    description="View a video tutorial, read the how-to guides, or email the Atmosphere support team."
-                                    linksTo="help" />
-                            </div>
-                            <div className="col-md-3 col-sm-4">
-                                <CallToAction title="Change Your Settings"
-                                    image={settings}
-                                    description="Modify your account settings, view your resource quota, or request more resources."
-                                    linksTo="settings" />
-                            </div>
+            <div style={{ paddingTop: "30px" }} className="container">
+                    <h2 className="t-headline">Getting Started</h2>
+                    <div className="row calls-to-action">
+                        <div className="col-md-4 col-sm-12">
+                            <CallToAction title="Launch New Instance"
+                                image={launch_instance}
+                                description="Browse Atmosphere's list of available images and select one to launch a new instance."
+                                linksTo="images" />
                         </div>
-                        <div className="resource-header">
-                            {`Resources in Use`}
-                            <a href="#" onClick={this.renderRequestMoreResources}>Need more{String.fromCharCode(63)}</a>
+                        <div className="col-md-4 col-sm-12">
+                            <CallToAction title="Browse Help Resources"
+                                image={help}
+                                description="View a video tutorial, read the how-to guides, or email the Atmosphere support team."
+                                linksTo="help" />
                         </div>
-                        <div className="row">
-                            <div className="col-md-8">
-                                {renderAllocationPlot}
-                                <ProviderSummaryLinePlot providers={providers}
-                                    identities={identities}
-                                    instances={instances}
-                                    volumes={volumes}
-                                    sizes={sizes} />
-                            </div>
-                            <div className="col-md-4">
-                                <ResourceStatusSummaryPlot title="Instances" resources={instances} />
-                                <ResourceStatusSummaryPlot title="Volumes" resources={volumes} />
-                            </div>
+                        <div className="col-md-4 col-sm-12">
+                            <CallToAction title="Change Your Settings"
+                                image={settings}
+                                description="Modify your account settings, view your resource quota, or request more resources."
+                                linksTo="settings" />
                         </div>
-                        <InstanceHistoryList/>
                     </div>
+                    <div className="resource-header clearfix">
+                        <h2 className="t-headline pull-left"> Resources in Use </h2>
+                        <a href="#" className="btn btn-sm btn-primary pull-left" onClick={this.renderRequestMoreResources}>Need more{String.fromCharCode(63)}</a>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-8">
+                            {renderAllocationPlot}
+                            <ProviderSummaryLinePlot providers={providers}
+                                identities={identities}
+                                instances={instances}
+                                volumes={volumes}
+                                sizes={sizes} />
+                        </div>
+                        <div className="col-md-4">
+                            <ResourceStatusSummaryPlot title="Instances" resources={instances} />
+                            <ResourceStatusSummaryPlot title="Volumes" resources={volumes} />
+                        </div>
+                    </div>
+                    <InstanceHistoryList/>
                 </div>
-            </div>
         </div>
         );
     }

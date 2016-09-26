@@ -50,7 +50,7 @@ export default React.createClass({
                 <div className="modal-content">
                     <div className="modal-header">
                         {this.renderCloseButton()}
-                        <strong>Redeploy Instance</strong>
+                        <h1 className="t-title">Redeploy Instance</h1>
                     </div>
                     <div className="modal-body">
                         {this.renderBody()}

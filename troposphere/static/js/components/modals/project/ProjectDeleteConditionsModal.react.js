@@ -51,7 +51,7 @@ export default React.createClass({
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <strong>Project Delete Conditions</strong>
+                        <h1 className="t-title">Project Delete Conditions</h1>
                     </div>
                     <div className="modal-body">
                         {this.renderBody()}

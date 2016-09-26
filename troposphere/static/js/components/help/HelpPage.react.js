@@ -49,13 +49,14 @@ export default React.createClass({
         });
 
         return (
-        <div className="container">
-            <h2>External resources</h2>
+        <div style={{ paddingTop: "50px" }} className="container">
+            <h1 className="t-display-1">Help Page</h1>
+            <h2 className="t-title">External resources</h2>
             <ul>
                 {resourceElements}
             </ul>
             <div>
-                <h2>Contact</h2>
+                <h2 className="t-title">Contact</h2>
                 <p>
                     {"You can contact the Atmosphere support staff by clicking on the "}
                     <strong>{"Feedback & Support"}</strong>

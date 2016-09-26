@@ -92,7 +92,7 @@ export default React.createClass({
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <strong>Move Volumes</strong>
+                        <h1 className="t-title">Move Volumes</h1>
                     </div>
                     <div className="modal-body">
                         {this.renderBody()}

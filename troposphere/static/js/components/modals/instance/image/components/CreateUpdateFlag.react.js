@@ -23,7 +23,9 @@ export default React.createClass({
     render: function() {
         return (
         <div id="CreateUpdateFlag">
-            <h4 htmlFor="update" className="control-label">{this.renderNameLabel()}</h4>
+            <h4 htmlFor="update" className="t-body-2 control-label">
+                {this.renderNameLabel()}
+            </h4>
             <div className="form-group callout-info">
                 <div className="help-block">
                     {this.renderHelpText()}

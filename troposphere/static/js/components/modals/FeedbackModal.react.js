@@ -139,7 +139,7 @@ export default React.createClass({
                 <div className="modal-content">
                     <div className="modal-header">
                         {this.renderCloseButton()}
-                        <strong>{this.props.header}</strong>
+                        <h1 className="t-title">{this.props.header}</h1>
                     </div>
                     <div className="modal-body">
                         {content}

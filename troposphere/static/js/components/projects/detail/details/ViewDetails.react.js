@@ -17,7 +17,7 @@ export default React.createClass({
     renderName: function(project) {
         return (
         <div className="project-info-segment row">
-            <h4 className="col-md-3">Name</h4>
+            <h4 className="t-body-2 col-md-3">Name</h4>
             <p className="col-md-9">
                 {project.get("name")}
             </p>
@@ -31,7 +31,7 @@ export default React.createClass({
             .format("MMM Do YYYY hh:mm a z");
         return (
         <div className="project-info-segment row">
-            <h4 className="col-md-3">Created</h4>
+            <h4 className="t-body-2 col-md-3">Created</h4>
             <p className="col-md-9">
                 {start_date}
             </p>
@@ -46,7 +46,7 @@ export default React.createClass({
 
         return (
         <div className="project-info-segment row">
-            <h4 className="col-md-3">Description</h4>
+            <h4 className="t-body-2 col-md-3">Description</h4>
             <div className="col-md-9" dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
         </div>
         )

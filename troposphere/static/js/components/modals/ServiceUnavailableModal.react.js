@@ -34,7 +34,7 @@ export default React.createClass({
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <strong>Atmosphere Maintenance</strong>
+                        <h1 className="t-title">Atmosphere Maintenance</h1>
                     </div>
                     <div className="modal-body">
                         {this.renderBody()}

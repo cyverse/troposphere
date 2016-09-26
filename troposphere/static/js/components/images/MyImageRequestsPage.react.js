@@ -54,7 +54,7 @@ export default React.createClass({
         if (stores.ProfileStore.get().get("is_staff")) {
             machineStateColumn = (
                 <th>
-                    <h3>Machine State</h3>
+                    <h3 className="t-title">Machine State</h3>
                 </th>
             );
         }
@@ -139,20 +139,20 @@ export default React.createClass({
                 <tbody>
                     <tr>
                         <th>
-                            <h3>Date requested</h3>
+                            <h3 className="t-title">Date requested</h3>
                         </th>
                         <th>
-                            <h3>Date completed</h3>
+                            <h3 className="t-title">Date completed</h3>
                         </th>
                         <th>
-                            <h3>Base instance</h3>
+                            <h3 className="t-title">Base instance</h3>
                         </th>
                         <th>
-                            <h3>Status</h3>
+                            <h3 className="t-title">Status</h3>
                         </th>
                         {machineStateColumn}
                         <th>
-                            <h3>New Machine ID</h3>
+                            <h3 className="t-title">New Machine ID</h3>
                         </th>
                     </tr>
                     {displayRequests}

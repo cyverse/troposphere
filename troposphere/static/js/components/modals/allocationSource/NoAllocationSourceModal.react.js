@@ -166,7 +166,7 @@ const DefaultModalView = React.createClass({
         return (
         <div className="modal-content">
             <div className="modal-header">
-                <h1 className="t-headline">Confirm Allocation Sources for Your Instances</h1>
+                <h1 className="t-title">Confirm Allocation Sources for Your Instances</h1>
             </div>
             <div className="modal-body">
                 {this.renderBody()}

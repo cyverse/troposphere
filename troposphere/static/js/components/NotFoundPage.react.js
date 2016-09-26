@@ -9,8 +9,8 @@ export default React.createClass({
         let window_location = window.location.pathname;
 
         return (
-        <div className="container">
-            <h2>Page Unavailable</h2>
+        <div style={{ paddingTop: "50px" }} className="container">
+            <h1 className="t-display-1">Page Unavailable</h1>
             <div>
                 <p style={{ "fontSize": "133%" }}>
                     <Glyphicon name="info-sign" />

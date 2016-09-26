@@ -25,7 +25,7 @@ export default React.createClass({
         }
 
         return (
-        <div className="image-availability image-info-segment">
+        <div className="image-availability">
             <h4 className="t-title">Available on Providers:</h4>
             <div className="content">
                 <ul className="list-group">

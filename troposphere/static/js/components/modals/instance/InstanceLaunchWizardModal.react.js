@@ -653,7 +653,7 @@ export default React.createClass({
                 <div className="modal-content">
                     <div className="modal-header instance-launch">
                         {this.renderCloseButton()}
-                        <h2 className="headline">Launch an Instance / {this.headerTitle()}</h2>
+                        <h1 className="t-title">Launch an Instance / {this.headerTitle()}</h1>
                     </div>
                     <div className="modal-body">
                         {this.renderBody()}

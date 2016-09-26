@@ -62,9 +62,11 @@ export default React.createClass({
             <div>
                 {endDated}
                 <span className="icon-container"><Router.Link to="image-details" params={{ imageId: image.id }}> {icon} </Router.Link></span>
-                <span className="app-name"><h4><Router.Link to="image-details" params={{ imageId: image.id }}> {image.get("name")} </Router.Link></h4> <div> <time> {imageCreationDate} </time> by <strong>{image.get("created_by").username}</strong> </div> <Tags activeTags={imageTags}/></span>
+                <span className="app-name"><h4 className="t-title" ><Router.Link to="image-details" params={{ imageId: image.id }}> {image.get("name")} </Router.Link></h4> <div> <time> {imageCreationDate} </time> by <strong>{image.get("created_by").username}</strong> </div> <Tags activeTags={imageTags}/></span>
             </div>
-            <div dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
+            <div className="description">
+                <span dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
+            </div>
             {bookmark}
         </div>
         );

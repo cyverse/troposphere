@@ -14,7 +14,7 @@ export default React.createClass({
     render: function() {
         var content = (
         <div>
-            <h4>You are trying to move attached resources</h4>
+            <h4 classNames="t-body-2">You are trying to move attached resources</h4>
             <p>
                 An instance or volume cannot be moved while attached. To move these resources, please detach them by first selecting the attached volume and then selecting the detach
                 option on the top right.
@@ -27,7 +27,7 @@ export default React.createClass({
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h3>Resources Still Attached</h3>
+                        <h1 className="t-title">Resources Still Attached</h1>
                     </div>
                     <div className="modal-body">
                         {content}

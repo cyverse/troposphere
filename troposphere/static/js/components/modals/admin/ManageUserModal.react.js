@@ -35,7 +35,7 @@ export default React.createClass({
 
         var content = (
         <div>
-            <h4>Manage User End Date</h4>
+            <h4 className="t-body-2">Manage User End Date</h4>
             <ul>
                 <li>
                     <b>User Name:</b>
@@ -59,7 +59,7 @@ export default React.createClass({
                 <div className="modal-content">
                     <div className="modal-header">
                         {this.renderCloseButton()}
-                        <h3>{this.props.header}</h3>
+                        <h1 className="t-title">{this.props.header}</h1>
                     </div>
                     <div className="modal-body">
                         {content}

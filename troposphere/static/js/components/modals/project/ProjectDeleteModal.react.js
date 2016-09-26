@@ -53,13 +53,13 @@ export default React.createClass({
                 <div className="modal-content">
                     <div className="modal-header">
                         {this.renderCloseButton()}
-                        <strong>Delete Project</strong>
+                        <h1 className="t-title">Delete Project</h1>
                     </div>
                     <div className="modal-body">
                         {this.renderBody()}
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-danger" onClick={this.cancel}>
+                        <button type="button" className="btn btn-default" onClick={this.cancel}>
                             Cancel
                         </button>
                         <button type="button"

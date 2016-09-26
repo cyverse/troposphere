@@ -12,8 +12,11 @@ export default React.createClass({
         return (
         <div>
             <SecondaryAdminNavigation/>
-            <div className="container admin">
-                <span className="adminHeader"><h1>Admin</h1> <RouteHandler /></span>
+            <div style={{ paddingTop: "30px" }} className="container admin">
+                <span className="adminHeader">
+                    <h1 className="t-display-1">Admin</h1> 
+                    <RouteHandler />
+                </span>
             </div>
         </div>
         );

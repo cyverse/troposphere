@@ -46,7 +46,7 @@ export default React.createClass({
         return (
         <tr key={tag.id || tag.cid}>
             <td style={{ "verticalAlign": "top", "width": "117px" }}>
-                <h4 style={{ "margin": "0", "color": "#5A5A5A", "fontSize": "18px" }}><Router.Link to="search" query={{ q: name }}> {name} </Router.Link></h4>
+                <h4 className="t-body-2" style={{ "margin": "0", "color": "#5A5A5A", "fontSize": "18px" }}><Router.Link to="search" query={{ q: name }}> {name} </Router.Link></h4>
             </td>
             <td>
                 <p style={{ "fontSize": "14px" }}>

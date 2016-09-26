@@ -132,7 +132,7 @@ export default React.createClass({
 
         return (
         <div className="scriptMultiSelectAndCreate">
-            <h4>{this.props.titleText}</h4>
+            <h4 className="t-body-2">{this.props.titleText}</h4>
             <div className="help-block">
                 Deployment scripts will be executed when a user has launched their instance. They will also be executed each time an instance is "Started", "Resumed", or "Restarted".
                 As such, these scripts should be able to handle being run multiple times without adverse effects.

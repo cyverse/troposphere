@@ -3,25 +3,24 @@
         margin: 0 0 20px;
     }
     
-    .headline, .title {
+    .t-title, .headline, .title {
         margin-top:0;
-        margin-bottom:5px;
+        margin-bottom:0;
     }
+
     ul {
         list-style-type: none;
     }
 
     .modal-section {
+
         padding-bottom: 5px;
 
-        h4 {
-            font-size: 19px;
-            border-bottom: 1px solid #ddd;
-        }
-        .title-2 {
+        .t-title {
             margin-top:0;
             margin-bottom:0;
         }
+
         .search-input {
             height: 36px;
             font-size:16px;
