@@ -33,3 +33,16 @@ npm run server
 ### Linting
 
 See `LINT.md`
+
+### Coding Style
+
+- Use an [EditorConfig](http://editorconfig.org/) plugin to leverage the project's `.editorconfig`
+
+#### Git Hooks
+The hooks below give helpful hints about common tasks like migrating, or
+installing dependencies.
+
+Link the following hook to get these hints after pulling in code.
+```bash
+ln -s extras/hooks/post-merge.hook .git/hooks/post-merge
+```
