@@ -10,142 +10,19 @@
 
 .app-card-list {
   list-style: none;
-  margin: 0;
+  margin: 0 0 20px;
   padding: 0;
 
   .media {
-      margin:0 0 20px;
-  }
-
-  .app-card {
-    margin:0 0 20px;
-    overflow:hidden;
-    border: 1px solid #ccc;
-    width: 100%;
-
     .icon-container {
-      margin-left: 20px;
-      text-align: left;
-    }
-    
-    .description {
-        color: #393939;
-        white-space: normal;
-        padding-left: 20px;
-        padding-right: 20px;
-        padding-top: 5px;
-        margin-bottom: 0;
-    }
-    .app-name {
-      vertical-align: top;
-      display: inline-block;
-      max-width: 1000px;
-
-      .title-2 {
-        font-size: 19px;
-        font-weight: bold;
-        margin: 0;
-        margin-bottom: 2px;
-
-        a {
-          text-decoration: underline;
-        }
-      }
+      margin-left: 10px;
     }
 
-    .tags {
-      padding-left: 0px;
-      padding-right: 0px;
-      margin-top: 0px;
-    }
-
-    .description {
-    }
-  }
-}
-
-.app-card-grid {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-
-  .gridCell {
-    margin: 0 0 20px 0;
-    display: inline-block;
-    vertical-align: top;
-    width: 25%;
-  }
-
-  /* App cards on image lists */
-  .app-card {
-    border: 1px solid #ccc;
-
-    .launch-button {
-      display: none;
-    }
-  }
-}
-
-/* All app cards  */
-.app-card {
-  width: 225px;
-  padding: 20px 0px 26px 0px;
-  border-radius: 5px;
-  position: relative;
-  background-color: white;
-
-  .icon-container {
-    text-align: center;
-    margin-bottom: 8px;
-
-    img {
-      border-radius: 5px;
-      border: 1px solid #ccc;
+    .t-body-2 {
+      margin: 0;
     }
   }
 
-  .app-name {
-    font-size: 16px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding-left: 22px;
-    padding-right: 22px;
-    margin-bottom: 9px;
-
-    .t-title > a {
-      text-decoration: underline;
-    }
-  }
-
-  .creation-details {
-    padding-left: 22px;
-    padding-right: 22px;
-  }
-
-  .description {
-    padding-right: 22px;
-    padding-left: 22px;
-    padding-top: 5px;
-    overflow-x: hidden;
-  }
-
-  .tags {
-    padding-left: 22px;
-    padding-right: 22px;
-
-    .tag {
-      font-size: 13px;
-      margin-right: 4px;
-      margin-bottom: 4px;
-      border-top: 1px solid transparent;
-      float: left;
-
-      span, a {
-        padding: 3px 7px;
-      }
-    }
-  }
 }
 
 #app-detail {
@@ -178,7 +55,8 @@
   list-style: none;
   padding-left: 0;
   margin-top: 5px;
-  font-size: 13px;
+  margin-bottom: -6px;
+  font-size: 10px;
 
   .tag {
     display: inline-block;
@@ -186,8 +64,8 @@
     margin-bottom: 10px;
 
     span, a {
-      padding: 5px 10px;
-      border-radius: 3px;
+      padding: 3px 8px;
+      border-radius: 9999px;
       border: 0;
     }
 
@@ -304,16 +182,6 @@
   }
 }
 
-.image-version-details {
-  display: inline-block;
-  vertical-align: middle;
-
-  //height: 75px;
-  line-height: 21px;
-
-}
-
-
 .image-versions {
   .loading {
     margin-top: 10px !important;
@@ -327,39 +195,6 @@
   ul {
     list-style-type: none;
     padding-left: 0;
-  }
-
-  li {
-    position: relative;
-    margin-bottom: 18px;
-  }
-
-  .recommended-tag {
-    padding: 4px 10px;
-    border-radius: 3px;
-    background-color: #FBB040;
-    color: #EEE;
-    border: 0;
-    font-size: 13px;
-    margin-left: 10px;
-  }
-
-  img {
-    margin-right: 20px;
-    border-radius: 3px;
-  }
-
-  .image-version-details {
-    display: inline-block;
-    vertical-align: middle;
-    font-size: 12px;
-
-    //height: 75px;
-    line-height: 21px;
-
-    .version {
-      font-size: 15px;
-    }
   }
 }
 
@@ -426,11 +261,8 @@
 }
 
 .search-input {
-  height: 55px;
-  font-size: 20px;
-  margin-bottom: 1em;
-  margin-left: auto;
-  margin-right: auto;
+  margin-bottom: 5px;
+
 }
 
 .advanced-search-options {

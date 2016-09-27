@@ -19,15 +19,18 @@ export default React.createClass({
         editable: React.PropTypes.bool,
         showAvailability: React.PropTypes.bool
     },
+
     getDefaultProps: function() {
         return {
             showAvailability: true,
             editable: true
         }
     },
+
     onEditClicked: function() {
         return this.props.onEditClicked(this.props.version);
     },
+
     renderAvailability: function() {
         var version = this.props.version;
         if (!this.props.showAvailability) {
@@ -56,12 +59,13 @@ export default React.createClass({
             || username === image.get("created_by").username
             || profile.get("is_staff")) {
             return (
-            <div className="edit-link-row">
-                <a className="edit-link" onClick={this.onEditClicked}><span className="glyphicon glyphicon-pencil" /> Edit Version</a>
+            <div>
+                <a onClick={this.onEditClicked}><span className="glyphicon glyphicon-pencil" /> Edit Version</a>
             </div>
             )
         }
     },
+
     renderDateString: function(version) {
         var date_str,
             dateCreated = moment(version.get("start_date"))
@@ -80,13 +84,14 @@ export default React.createClass({
         return date_str;
 
     },
+
     render: function() {
         // todo: figure out if anything is ever recommended, or if it's just a concept idea
         var version = this.props.version,
             image = this.props.image,
             isRecommended = false,
             versionHash = CryptoJS.MD5(version.id.toString()).toString(),
-            iconSize = 63,
+            iconSize = 40,
             type = stores.ProfileStore.get().get("icon_set"),
             owner = image.get("created_by").username,
             changeLog = this.props.version.get("change_log"),
@@ -94,19 +99,27 @@ export default React.createClass({
             changeLogHTML = converter.makeHtml(changeLog);
 
         return (
-        <li className="app-card">
+        <li className="media card">
             <div>
-                <span className="icon-container"><Gravatar hash={versionHash} size={iconSize} type={type}/></span>
-                <div className="image-version-details app-name">
-                    <div className="version">
+                <div className="media__img">
+                    <Gravatar hash={versionHash} size={iconSize} type={type}/>
+                </div>
+                <div 
+                    className="media__content"
+                    style={{ 
+                        display: "flex",
+                    }}
+                >
+                    <div style={{ minWidth: "250px", marginRight: "20px" }}>
                         <h2 className="t-title" >{version.get("name")}</h2>
                         { isRecommended ? <span className="recommended-tag">Recommended</span> : null }
                         {`${this.renderDateString(version)} by ${owner}`}
-                        <br />
-                        <div dangerouslySetInnerHTML={{ __html: changeLogHTML }} />
+                        {this.renderEditLink()}
                     </div>
-                    {this.renderEditLink()}
-                    {this.renderAvailability()}
+                    <div>
+                        <div dangerouslySetInnerHTML={{ __html: changeLogHTML }} />
+                        {this.renderAvailability()}
+                    </div>
                 </div>
             </div>
         </li>
