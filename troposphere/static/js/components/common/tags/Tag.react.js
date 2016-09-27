@@ -3,10 +3,13 @@ import ReactDOM from "react-dom";
 import $ from "jquery";
 import Backbone from "backbone";
 import Router from "react-router";
+import RouterInstance from "Router";
 
 
 export default React.createClass({
     displayName: "Tag",
+
+    mixins: [Router.State],
 
     propTypes: {
         tag: React.PropTypes.instanceOf(Backbone.Model).isRequired,
@@ -17,6 +20,15 @@ export default React.createClass({
         return {
             renderLinks: true
         }
+    },
+
+    onClick(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        RouterInstance.getInstance()
+            .transitionTo("search",null,{ 
+                    q: this.props.tag.get('name')
+            });
     },
 
     componentDidMount: function() {
@@ -39,15 +51,15 @@ export default React.createClass({
 
         if (this.props.renderLinks) {
             link = (
-                <Router.Link to="search" query={{ q: tagName }}>
+                <span onClick={ this.onClick }> 
                     {tagName}
-                </Router.Link>
+                </span>
             );
         } else {
             link = (
-                <a href="javascript:void(0)">
+                <span>
                     {tagName}
-                </a>
+                </span>
             )
         }
 
