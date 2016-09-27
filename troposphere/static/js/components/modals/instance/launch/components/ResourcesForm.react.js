@@ -71,13 +71,14 @@ export default React.createClass({
                 : null
             }
             <div className="form-group">
-                <label htmlFor="instanceName">
+                <label htmlFor="provider">
                     Provider
                 </label>
-                <SelectMenu current={ provider }
-                             optionName={ p => p.get("name") }
-                             list={ providerList }
-                             onSelect={ onProviderChange } />
+                <SelectMenu id="provider"
+                            current={ provider }
+                            optionName={ p => p.get("name") }
+                            list={ providerList }
+                            onSelect={ onProviderChange } />
             </div>
             <div className="form-group">
                 <label htmlFor="instanceSize">
