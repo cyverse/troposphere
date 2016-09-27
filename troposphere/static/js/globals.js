@@ -4,6 +4,7 @@ import jstz from "jstz";
 let timezone = jstz.determine();
 let tz_region = timezone ? timezone.name() : "America/Phoenix";
 let shell_proxy = "https://atmo-proxy.cyverse.org/";
+let default_footer_link = "http://www.cyverse.org/";
 
 export default {
     API_ROOT: window.API_ROOT || "/api/v1",
@@ -15,6 +16,7 @@ export default {
     STATUS_PAGE_LINK: window.STATUS_PAGE_LINK || "",
     SITE_TITLE: window.SITE_TITLE || "Atmosphere",
     SITE_FOOTER: window.SITE_FOOTER || "CyVerse",
+    SITE_FOOTER_LINK: window.SITE_FOOTER_LINK || default_footer_link,
     UI_VERSION: window.UI_VERSION || "Unknown Unicolored-Jay",
     SUPPORT_EMAIL: window.SUPPORT_EMAIL || "support@iplantcollaborative.org",
     TZ_REGION: tz_region,

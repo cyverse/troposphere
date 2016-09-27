@@ -8,6 +8,8 @@ export default React.createClass({
     displayName: "Footer",
 
     propTypes: {
+        text: React.PropTypes.string,
+        link: React.PropTypes.string,
         profile: React.PropTypes.instanceOf(Backbone.Model)
     },
 
@@ -34,7 +36,7 @@ export default React.createClass({
         return (
         <footer className="footer">
             <div className="container">
-                <a href="http://user.cyverse.org" target="_blank">
+                <a href={this.props.link} target="_blank">
                     {"\u00a9" + year + " " + this.props.text}
                 </a>
                 {feedbackButton}

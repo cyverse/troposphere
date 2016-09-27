@@ -121,11 +121,16 @@ export default React.createClass({
                     .map(this.renderListOption)
             )
 
-            index = list.indexOf(current);
+            index = list.findIndex(function(it) {
+                return current.get("source_id") === it.get("source_id");
+            });
+
             if (current != null && index == -1) {
+                /* eslint-disable no-console */
                 console.warn(
                     "The element to display doesn't exist in the list of available elements"
                 );
+                /* eslint-enable no-console */
             }
         }
 
