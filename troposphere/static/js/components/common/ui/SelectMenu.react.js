@@ -122,7 +122,7 @@ export default React.createClass({
             )
 
             index = list.findIndex(function(it) {
-                return current.get("source_id") === it.get("source_id");
+                return current && current.get("source_id") === it.get("source_id");
             });
 
             if (current != null && index == -1) {
