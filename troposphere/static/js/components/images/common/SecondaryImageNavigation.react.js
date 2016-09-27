@@ -39,7 +39,7 @@ export default React.createClass({
 
 
             if (!userImages || !favoritedImages) {
-                return <div className="loading"></div>
+                return <div style={{ height: "63px" }} className="secondary-nav"/>
             }
 
             let myImagesText = `My Images (${userImages.length})`;

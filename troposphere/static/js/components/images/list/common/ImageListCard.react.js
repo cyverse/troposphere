@@ -25,7 +25,7 @@ export default React.createClass({
             imageTags = stores.TagStore.getImageTags(image),
             imageCreationDate = moment(image.get("start_date"))
                 .tz(globals.TZ_REGION)
-                .format("MMM Do YYYY hh:mm a z"),
+                .format("MMM Do YY hh:mm "),
             converter = new Showdown.Converter(),
             description = image.get("description");
 
@@ -33,7 +33,7 @@ export default React.createClass({
             description = "No Description Provided."
         }
         var descriptionHtml = converter.makeHtml(description),
-            iconSize = 67,
+            iconSize = 40,
             icon;
 
         // always use the Gravatar icons
@@ -46,7 +46,17 @@ export default React.createClass({
         let endDated;
         if (this.props.isEndDated) {
             endDated = (
-                <div style={{ position: "absolute", top: "10px", left: "0", background: "#F55A5A", display: "inline-block", padding: "5px 10px", color: "white" }}>
+                <div 
+                    style={{ 
+                        position: "absolute", 
+                        top: "10px", 
+                        left: "0", 
+                        background: "#F55A5A", 
+                        display: "inline-block", 
+                        padding: "5px 10px", 
+                        color: "white" 
+                    }}
+                >
                     End Dated
                 </div>
             );
@@ -58,14 +68,41 @@ export default React.createClass({
         }
 
         return (
-        <div className="app-card">
-            <div>
-                {endDated}
-                <span className="icon-container"><Router.Link to="image-details" params={{ imageId: image.id }}> {icon} </Router.Link></span>
-                <span className="app-name"><h4 className="t-title" ><Router.Link to="image-details" params={{ imageId: image.id }}> {image.get("name")} </Router.Link></h4> <div> <time> {imageCreationDate} </time> by <strong>{image.get("created_by").username}</strong> </div> <Tags activeTags={imageTags}/></span>
+        <div className="media card">
+            {endDated}
+            <div className="media__img">
+                <Router.Link to="image-details" params={{ imageId: image.id }}> 
+                    {icon} 
+                </Router.Link>
             </div>
-            <div className="description">
-                <span dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
+            <div 
+                className="media__content"
+                style={{ display: "flex" }} 
+            >
+                <div 
+                    className="media__title"
+                    style={{ 
+                        minWidth: "250px",
+                        marginRight: "40px"
+                    }}    
+                >
+                    <h2 className="t-body-2" >
+                        <Router.Link to="image-details" params={{ imageId: image.id }}> 
+                            {image.get("name")} 
+                        </Router.Link>
+                    </h2> 
+                    <div style={{ fontSize: "12px" }}> 
+                        <time> 
+                            {imageCreationDate} 
+                        </time> 
+                        by 
+                        <strong> {image.get("created_by").username}</strong> 
+                    </div> 
+                </div>
+                <div className="description">
+                    <span dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
+                    <Tags activeTags={imageTags}/>
+                </div>
             </div>
             {bookmark}
         </div>

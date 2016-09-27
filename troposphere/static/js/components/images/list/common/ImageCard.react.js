@@ -28,7 +28,7 @@ export default React.createClass({
                 .tz(globals.TZ_REGION)
                 .format("MMM Do YYYY hh:mm a z"),
             hasLoggedInUser = context.hasLoggedInUser(),
-            iconSize = 145,
+            iconSize = 45,
             icon;
 
         // always use the Gravatar icons
