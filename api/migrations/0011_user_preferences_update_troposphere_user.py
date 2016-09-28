@@ -11,6 +11,7 @@ class Migration(migrations.Migration):
         ('api', '0010_sitemetadata_site_footer_link'),
     ]
 
+    # These one-off operations are no longer necessary. The file was already executed in a production environment so it will stay as-is.
     operations = [
         # migrations.RunSQL(
         #     '''ALTER TABLE api_userpreferences DROP CONSTRAINT api_userpreferences_user_id_6af783c3068af7fc_fk_auth_user_id''',
