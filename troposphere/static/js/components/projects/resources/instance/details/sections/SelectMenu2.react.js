@@ -1,6 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
-import _ from "underscore";
+
 
 export default React.createClass({
     displayName: "SelectMenu2",
