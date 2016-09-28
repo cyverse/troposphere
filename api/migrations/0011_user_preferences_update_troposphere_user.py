@@ -12,14 +12,14 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunSQL(
-            '''ALTER TABLE api_userpreferences DROP CONSTRAINT api_userpreferences_user_id_6af783c3068af7fc_fk_auth_user_id''',
-        reverse_sql='''ALTER TABLE api_userpreferences ADD CONSTRAINT api_userpreferences_user_id_6af783c3068af7fc_fk_auth_user_id
-            FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED'''
-        ),
-        migrations.RunSQL(
-        '''ALTER TABLE api_userpreferences ADD CONSTRAINT api_userpreferences_user_id_6af783c3068af7fc_fk_auth_user_id
-            FOREIGN KEY (user_id) REFERENCES troposphere_user(id) DEFERRABLE INITIALLY DEFERRED''',
-        reverse_sql='''ALTER TABLE api_userpreferences DROP CONSTRAINT api_userpreferences_user_id_6af783c3068af7fc_fk_auth_user_id'''
-        ),
+        # migrations.RunSQL(
+        #     '''ALTER TABLE api_userpreferences DROP CONSTRAINT api_userpreferences_user_id_6af783c3068af7fc_fk_auth_user_id''',
+        # reverse_sql='''ALTER TABLE api_userpreferences ADD CONSTRAINT api_userpreferences_user_id_6af783c3068af7fc_fk_auth_user_id
+        #     FOREIGN KEY (user_id) REFERENCES auth_user(id) DEFERRABLE INITIALLY DEFERRED'''
+        # ),
+        # migrations.RunSQL(
+        # '''ALTER TABLE api_userpreferences ADD CONSTRAINT api_userpreferences_user_id_6af783c3068af7fc_fk_auth_user_id
+        #     FOREIGN KEY (user_id) REFERENCES troposphere_user(id) DEFERRABLE INITIALLY DEFERRED''',
+        # reverse_sql='''ALTER TABLE api_userpreferences DROP CONSTRAINT api_userpreferences_user_id_6af783c3068af7fc_fk_auth_user_id'''
+        # ),
     ]
