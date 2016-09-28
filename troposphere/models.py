@@ -13,7 +13,7 @@ from threepio import logger
 from django.utils.translation import ugettext_lazy as _
 
 
-class User(AbstractBaseUser, PermissionsMixin):
+class TroposphereUser(AbstractBaseUser, PermissionsMixin):
     uuid = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     end_date = models.DateTimeField(null=True, blank=True)
     # Ripped from django.contrib.auth.models to force a larger max_length:

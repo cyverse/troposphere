@@ -4,7 +4,7 @@ import jwt
 import requests
 
 from Crypto.Hash import SHA256
-from troposphere.models import User
+from troposphere.models import TroposphereUser as User
 from rest_framework import (viewsets, mixins, status)
 from rest_framework.response import Response
 
