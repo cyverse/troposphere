@@ -35,6 +35,7 @@ INSTALLED_APPS = (
     'webpack_loader', # resolved JS asset + hash for template rendering
     'iplantauth',
     'api',
+    'troposphere',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -52,6 +53,8 @@ ROOT_URLCONF = 'troposphere.urls'
 WSGI_APPLICATION = 'troposphere.wsgi.application'
 
 DATABASES = {}
+
+AUTH_USER_MODEL = 'troposphere.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
