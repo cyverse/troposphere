@@ -54,7 +54,7 @@ WSGI_APPLICATION = 'troposphere.wsgi.application'
 
 DATABASES = {}
 
-AUTH_USER_MODEL = 'troposphere.User'
+AUTH_USER_MODEL = 'troposphere.TroposphereUser'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
