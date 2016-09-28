@@ -1,4 +1,4 @@
-from troposphere.models import User
+from troposphere.models import TroposphereUser as User
 from rest_framework import serializers
 
 from api.models import UserPreferences
