@@ -21,7 +21,6 @@ def migrate_accounts(apps, schema_editor):
     all_old_users = DjangoUser._default_manager.all().order_by('id')
     for old_user in all_old_users:
         TroposphereUser.objects.create(
-            id=old_user.id,
             username=old_user.username,
             password=old_user.password,
             email=old_user.email,
@@ -64,8 +63,6 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'troposphere_user',
-                'verbose_name': 'user',
-                'verbose_name_plural': 'users',
             },
             managers=[
                 ('objects', django.contrib.auth.models.UserManager()),
