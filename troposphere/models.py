@@ -57,8 +57,6 @@ class TroposphereUser(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ['email']
 
     class Meta:
-        verbose_name = _('user')
-        verbose_name_plural = _('users')
         db_table = 'troposphere_user'
 
     def get_full_name(self):
