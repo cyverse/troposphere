@@ -14,7 +14,7 @@ export default React.createClass({
                 </div>
                 <div style={ this.style().content } >
                     <div style={ this.style().titleSection } >
-                        <h2>
+                        <h2
                             className="t-body-2"
                             style={ this.style().title }
                         >
