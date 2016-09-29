@@ -13,35 +13,33 @@ export default React.createClass({
     renderProviderMachine: function(provider_machine) {
         // Hide 'end-dated' provider_machines
         let endDate = provider_machine.get("end_date");
-        if (endDate && endDate.isValid()) {
-            return;
-        }
+        if (endDate && endDate.isValid()) return;
 
         return (
-        <div key={provider_machine.get("id")}>
-            {provider_machine.get("provider").name} -
-            {provider_machine.get("uuid")}
-        </div>
+            <div key={provider_machine.get("id")}>
+                {provider_machine.get("provider").name}
+            </div>
         )
     },
-    renderBody: function() {
-        var machines = stores.ProviderMachineStore.getMachinesForVersion(this.props.version);
 
-        if (!machines) {
-            return (<div className="content col-md-10">
-                        <div className="loading" />
-                    </div>);
-        }
-        return (
-        <div className="content">
-            {machines.map(this.renderProviderMachine)}
-        </div>
-        );
+    renderBody: function() {
+        let machines = stores.ProviderMachineStore
+            .getMachinesForVersion(this.props.version);
+
+        if (!machines) return;
+
+        return machines.map(this.renderProviderMachine);
     },
+
     render: function() {
         return (
-        <div className="version-availability" style={{ marginTop: "20px" }}>
-            <h4 className="t-body-2" style={{ marginBottom: "10px" }}>Available on:</h4>
+        <div>
+            <h4
+                className="t-body-2"
+                style={{ marginBottom: "5px" }}
+            >
+            Available on:
+            </h4>
             {this.renderBody()}
         </div>
         );
