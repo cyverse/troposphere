@@ -2,6 +2,7 @@ import React from "react";
 import Router from "react-router";
 import RouterInstance from "Router";
 import Gravatar from "components/common/Gravatar.react";
+import MediaCard from "components/common/ui/MediaCard.react";
 import Backbone from "backbone";
 import Bookmark from "components/images/common/Bookmark.react";
 import Tags from "components/images/detail/tags/Tags.react";
@@ -68,12 +69,13 @@ export default React.createClass({
                 <div 
                     style={{ 
                         position: "absolute", 
-                        top: "10px", 
+                        top: "3px", 
                         left: "0", 
                         background: "#F55A5A", 
                         display: "inline-block", 
-                        padding: "5px 10px", 
-                        color: "white" 
+                        padding: "3px 5px", 
+                        color: "white",
+                        fontSize: "10px",
                     }}
                 >
                     End Dated
@@ -87,53 +89,28 @@ export default React.createClass({
         }
 
         return (
-            <div 
-                onClick={ this.onCardClick } 
-                className="media card"
-                style={{
-                    cursor: "pointer"
-                }}
-            >
-                {endDated}
-                <div className="media__img">
-                    {icon} 
-                </div>
-                <div 
-                    className="media__content"
-                    style={{ 
-                        display: "flex", 
-                        flexFlow: "wrap",
-                    }} 
-                >
-                    <div 
-                        className="media__title"
-                        style={{ 
-                            minWidth: "220px",
-                            marginRight: "40px"
-                        }}    
-                    >
-                        <h2 className="t-body-2" >
-                            { name }  
-                        </h2> 
-                        <div style={{ fontSize: "12px" }}> 
-                            <time> 
-                                {imageCreationDate} 
-                            </time> 
-                            by 
-                            <strong> {image.get("created_by").username}</strong> 
-                        </div> 
-                    </div>
-                    <div className="description"
-                        style={{
-                            minWidth: "250px"
-                        }}
-                    >
+            <MediaCard
+                avatar={ icon }
+                title={ name }
+                onCardClick={ this.onCardClick }
+                subheading={ 
+                    <span>
+                        <time> 
+                            {imageCreationDate} 
+                        </time> 
+                        by 
+                        <strong> {image.get("created_by").username}</strong> 
+                    </span>
+                }
+                description={ 
+                    <span>
+                        {endDated}
+                        {bookmark}
                         <span dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
                         <Tags activeTags={imageTags}/>
-                    </div>
-                </div>
-                {bookmark}
-            </div>
+                    </span>
+                }
+            />
         );
     }
 });

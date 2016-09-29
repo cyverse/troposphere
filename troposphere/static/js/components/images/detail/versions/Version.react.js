@@ -1,6 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
 import Gravatar from "components/common/Gravatar.react";
+import MediaCard from "components/common/ui/MediaCard.react";
 import AvailabilityView from "../availability/AvailabilityView.react";
 import CryptoJS from "crypto-js";
 import stores from "stores";
@@ -47,9 +48,11 @@ export default React.createClass({
         if (this.props.editable == false) {
             return;
         }
-        var profile = stores.ProfileStore.get(),
-            version = this.props.version,
-            image = this.props.image;
+
+        let profile = stores.ProfileStore.get();
+        let version = this.props.version;
+        let image = this.props.image;
+
         if (!profile.id || !profile.get("username")) {
             return;
         }
@@ -60,22 +63,25 @@ export default React.createClass({
             || profile.get("is_staff")) {
             return (
             <div>
-                <a onClick={this.onEditClicked}><span className="glyphicon glyphicon-pencil" /> Edit Version</a>
+                <a onClick={this.onEditClicked}>
+                    <span className="glyphicon glyphicon-pencil" />
+                    { " Edit Version" }
+                </a>
             </div>
             )
         }
     },
 
     renderDateString: function(version) {
-        var date_str,
-            dateCreated = moment(version.get("start_date"))
+        let date_str;
+        let dateCreated = moment(version.get("start_date"))
                 .tz(globals.TZ_REGION)
-                .format("M/DD/YYYY hh:mm a z");
+                .format("MMM Do YY, hh:mm");
 
         if (version.get("end_date")) {
-            var dateArchived = moment(version.get("end_date"))
+            let dateArchived = moment(version.get("end_date"))
                 .tz(globals.TZ_REGION)
-                .format("M/DD/YYYY hh:mm a z");
+                .format("MMM Do YY, hh:mm");
 
             date_str = dateCreated + " - " + dateArchived;
         } else {
@@ -87,42 +93,67 @@ export default React.createClass({
 
     render: function() {
         // todo: figure out if anything is ever recommended, or if it's just a concept idea
-        var version = this.props.version,
-            image = this.props.image,
-            isRecommended = false,
-            versionHash = CryptoJS.MD5(version.id.toString()).toString(),
-            iconSize = 40,
-            type = stores.ProfileStore.get().get("icon_set"),
-            owner = image.get("created_by").username,
-            changeLog = this.props.version.get("change_log"),
-            converter = new showdown.Converter(),
-            changeLogHTML = converter.makeHtml(changeLog);
+        let version = this.props.version;
+        let  image = this.props.image;
+        let versionHash = CryptoJS.MD5(version.id.toString()).toString();
+        let type = stores.ProfileStore.get().get("icon_set");
+        let owner = image.get("created_by").username;
+        let changeLog = this.props.version.get("change_log");
+        let converter = new showdown.Converter();
+        let changeLogHTML = converter.makeHtml(changeLog);
 
-        return (
-        <li className="media card">
-            <div>
-                <div className="media__img">
-                    <Gravatar hash={versionHash} size={iconSize} type={type}/>
-                </div>
-                <div 
-                    className="media__content"
-                    style={{ 
-                        display: "flex",
-                    }}
-                >
-                    <div style={{ minWidth: "250px", marginRight: "20px" }}>
-                        <h2 className="t-title" >{version.get("name")}</h2>
-                        { isRecommended ? <span className="recommended-tag">Recommended</span> : null }
-                        {`${this.renderDateString(version)} by ${owner}`}
-                        {this.renderEditLink()}
-                    </div>
-                    <div>
-                        <div dangerouslySetInnerHTML={{ __html: changeLogHTML }} />
-                        {this.renderAvailability()}
-                    </div>
-                </div>
-            </div>
-        </li>
+        let subheading =  (
+            <span>
+                { `${this.renderDateString(version)} by ${owner}` }
+                { this.renderEditLink() }
+            </span>
         );
+        return (
+            <MediaCard
+                title={ version.get("name") }
+                subheading={ subheading }
+                avatar={
+                    <Gravatar
+                        hash={versionHash}
+                        size={40}
+                        type={type}
+                    />
+                }
+                description={
+                    <div
+                        style={ this.style().content }
+                    >
+                        <div style={ this.style().description }
+                            dangerouslySetInnerHTML={{ __html: changeLogHTML }}
+                        />
+                        <div style={ this.style().availability }
+                        >
+                            { this.renderAvailability() }
+                        </div>
+                    </div>
+                }
+            />
+        );
+    },
+
+    style() {
+        return {
+            content: {
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "space-between",
+            },
+
+            description: {
+                marginRight: "40px"
+            },
+
+            availability: {
+                fontSize: "12px",
+                width: "30%",
+                minWidth: "220px",
+                marginRight: "30px",
+            },
+        };
     }
 });
