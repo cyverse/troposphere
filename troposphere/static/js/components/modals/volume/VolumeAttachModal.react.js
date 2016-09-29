@@ -71,6 +71,9 @@ export default React.createClass({
 
           // Filter out instances not in the same provider as the volume
           next.instances = next.instances.cfilter(function (i) {
+            if( i.get('status') != 'active' ) {
+                return false;
+            }
             return i.get('identity').provider === volume.get('identity').provider;
           });
           // if the collection has a first, use that instance's id
