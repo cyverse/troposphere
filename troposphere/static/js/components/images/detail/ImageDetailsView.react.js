@@ -66,7 +66,8 @@ export default React.createClass({
                     providers={this.props.providers}
                     identities={this.props.identities}
                     onSave={this.handleSaveImageDetails}
-                    onCancel={this.handleCancelEditing} />
+                    onCancel={this.handleCancelEditing}
+                />
             )
         } else {
             view = (
@@ -74,30 +75,22 @@ export default React.createClass({
                     tags={this.props.tags}
                     providers={this.props.providers}
                     identities={this.props.identities}
-                    onEditImageDetails={this.handleEditImageDetails} />
+                    onEditImageDetails={this.handleEditImageDetails}
+                />
             )
         }
         return (
-        <div id="app-detail" className="container">
-            <div className="row">
-                <div className="col-md-12">
-                    <HeaderView image={this.props.image} />
-                </div>
-            </div>
-            <div className="image-content">
-                <div className="row">
-                    <div className="col-sm-8">
+            <div id="app-detail" className="container">
+                <HeaderView image={this.props.image} />
+                <div className="image-content">
+                    <div style={{ marginBottom: "30px" }}>
                         {view}
                     </div>
-                    <div className="col-sm-4">
-                        <ImageLaunchCard image={this.props.image} onLaunch={this.showLaunchModal} />
+                    <div className="versionView">
+                        {versionView}
                     </div>
                 </div>
-                <div className="versionView">
-                    {versionView}
-                </div>
             </div>
-        </div>
         );
     }
 });
