@@ -1,4 +1,4 @@
-// todo: this is a hack to get the cards to align in the center of the page
+5// todo: this is a hack to get the cards to align in the center of the page
 // find a better way to do this, or (at least) modify this value to adjust
 // for different screen sizes
 
@@ -187,15 +187,6 @@
     margin-top: 10px !important;
     margin-bottom: 10px !important;
   }
-
-  .t-title {
-    margin-bottom: 15px;
-  }
-
-  ul {
-    list-style-type: none;
-    padding-left: 0;
-  }
 }
 
 /* Bookmarks */
@@ -280,42 +271,6 @@
 
 .tag-title {
   margin-bottom: 10px;
-}
-
-.image-info-segment {
-  margin-top: 12px;
-  border-bottom:solid 1px lightgrey;
-
-  .t-body-2, p{
-    margin-top:0;
-    margin-bottom:10px;
-  }
-
-  p {
-    color: #7D7D7D;
-  }
-
-  textarea {
-    font-size: 16px;
-    height: 215px;
-  }
-
-  input {
-    font-size: 16px;
-  }
-
-  .btn.new-tag {
-    margin-left: 0px;
-    margin-bottom: 5px;
-  }
-
-  .content {
-    font-size: 16px;
-
-    .tags {
-      margin-top: 0;
-    }
-  }
 }
 
 .image-content {
