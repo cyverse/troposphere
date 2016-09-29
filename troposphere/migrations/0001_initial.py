@@ -5,14 +5,21 @@ from __future__ import unicode_literals
 import django.contrib.auth.models
 import django.core.validators
 from django.db import migrations, models
+from django.db.utils import ProgrammingError
 import django.utils.timezone
 import uuid
 
 
 def migrate_accounts(apps, schema_editor):
-    TroposphereUser = apps.get_model("troposphere", "User")
+    TroposphereUser = apps.get_model("troposphere", "TroposphereUser")
     DjangoUser = apps.get_model("auth", "User")
-    for old_user in DjangoUser._default_manager.all().order_by('id'):
+    table_names = schema_editor.connection.introspection.table_names()
+    if 'auth_user' not in table_names:
+        return None
+    # This is only required for accounts that have an `auth_user` created already.
+    # New databases will not have `auth_user` and rely only on `troposphere_user`.
+    all_old_users = DjangoUser._default_manager.all().order_by('id')
+    for old_user in all_old_users:
         TroposphereUser.objects.create(
             id=old_user.id,
             username=old_user.username,
@@ -37,7 +44,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='User',
+            name='TroposphereUser',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('password', models.CharField(max_length=128, verbose_name='password')),
