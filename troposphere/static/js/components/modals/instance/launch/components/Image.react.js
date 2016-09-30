@@ -44,7 +44,7 @@ export default React.createClass({
         let activeTags = stores.TagStore.getImageTags(this.props.image);
 
         return (
-        <Tags tags={tags} activeTags={activeTags} renderLinks={false} />
+        <Tags activeTags={activeTags} renderLinks={false} />
         );
     },
 

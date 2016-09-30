@@ -24,8 +24,8 @@ export default React.createClass({
 
     onCardClick() {
         RouterInstance.getInstance()
-            .transitionTo("image-details",{ 
-                imageId: this.props.image.id 
+            .transitionTo("image-details",{
+                imageId: this.props.image.id
             });
     },
 
@@ -42,7 +42,7 @@ export default React.createClass({
             name = image.get('name');
 
         if (imageTags.length > 10) {
-            imageTags = imageTags.slice(0,10);
+            imageTags = imageTags.first(10);
         }
         if (name.length > 30) {
             name = name.substring(0,30) + " ..."
@@ -66,14 +66,14 @@ export default React.createClass({
         let endDated;
         if (this.props.isEndDated) {
             endDated = (
-                <div 
-                    style={{ 
-                        position: "absolute", 
-                        top: "3px", 
-                        left: "0", 
-                        background: "#F55A5A", 
-                        display: "inline-block", 
-                        padding: "3px 5px", 
+                <div
+                    style={{
+                        position: "absolute",
+                        top: "3px",
+                        left: "0",
+                        background: "#F55A5A",
+                        display: "inline-block",
+                        padding: "3px 5px",
                         color: "white",
                         fontSize: "10px",
                     }}
@@ -84,8 +84,8 @@ export default React.createClass({
         }
         if (hasLoggedInUser) {
             bookmark = (
-                <span 
-                    style={{ 
+                <span
+                    style={{
                         position: "absolute",
                         top: "10px",
                         right: "10px",
@@ -101,16 +101,16 @@ export default React.createClass({
                 avatar={ icon }
                 title={ name }
                 onCardClick={ this.onCardClick }
-                subheading={ 
+                subheading={
                     <span>
-                        <time> 
-                            {imageCreationDate} 
-                        </time> 
-                        by 
-                        <strong> {image.get("created_by").username}</strong> 
+                        <time>
+                            {imageCreationDate}
+                        </time>
+                        by
+                        <strong> {image.get("created_by").username}</strong>
                     </span>
                 }
-                description={ 
+                description={
                     <span>
                         {endDated}
                         {bookmark}
