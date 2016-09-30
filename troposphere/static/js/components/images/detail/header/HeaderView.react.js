@@ -5,6 +5,7 @@ import $ from "jquery";
 import stores from "stores";
 import modals from "modals";
 import { trackAction } from "utilities/userActivity";
+import Bookmark from "../../common/Bookmark.react";
 
 export default React.createClass({
     displayName: "HeaderView",
@@ -47,6 +48,9 @@ export default React.createClass({
         if (profile.id) {
             buttonGroup = (
                 <div>
+                    <span style={{ marginRight: "20px" }}>
+                        <Bookmark width="25px" image={ this.props.image }/>
+                    </span>
                     <span
                         className="tooltip-wrapper"
                         style={{ marginRight: "20px" }}
@@ -95,6 +99,7 @@ export default React.createClass({
     style() {
         return {
             header: {
+                position: "relative",
                 marginBottom: "30px",
                 display: "flex",
                 justifyContent: "space-between"

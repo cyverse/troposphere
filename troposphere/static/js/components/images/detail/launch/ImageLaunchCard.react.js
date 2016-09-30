@@ -85,15 +85,9 @@ export default React.createClass({
         }
 
         return (
-        <div className="image-launch-card">
-            <div className="icon-container">
-                <a>
-                    {icon}
-                </a>
-            </div>
+        <span>
             {button}
-            {bookmark}
-        </div>
+        </span>
         );
     }
 });
