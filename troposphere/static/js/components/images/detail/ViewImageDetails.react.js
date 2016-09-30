@@ -42,7 +42,7 @@ export default React.createClass({
 
     render: function() {
         return (
-            <div>
+            <div style={{ marginBottom: "80px", maxWidth: "600px" }}>
                 <div style={{ marginBottom: "20px" }}>
                     <CreatedView image={this.props.image} />
                     <RemovedView image={this.props.image} />
