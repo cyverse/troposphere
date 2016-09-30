@@ -84,7 +84,15 @@ export default React.createClass({
         }
         if (hasLoggedInUser) {
             bookmark = (
-                <Bookmark image={image} />
+                <span 
+                    style={{ 
+                        position: "absolute",
+                        top: "10px",
+                        right: "10px",
+                    }}
+                >
+                    <Bookmark width="15px" image={image} />
+                </span>
             );
         }
 

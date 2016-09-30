@@ -28,26 +28,17 @@ export default React.createClass({
     },
 
     render: function() {
-        var image = this.props.image,
-            isFavorited = stores.ImageBookmarkStore.findOne({
+        let image = this.props.image;
+        let isFavorited = stores.ImageBookmarkStore.findOne({
                 "image.id": image.id
-            }),
-            img;
+            });
 
-        if (isFavorited) {
-            img = (
-                <img src={filled_star} />
-            );
-        } else {
-            img = (
-                <img src={empty_star} />
-            );
-        }
+        let img = isFavorited ? filled_star : empty_star;
 
         return (
-        <a className="bookmark" href="#" onClick={this.toggleFavorite}>
-            {img}
-        </a>
+            <a href="#" onClick={this.toggleFavorite}>
+                <img width={ this.props.width } src={ img }/>
+            </a>
         );
     }
 });
