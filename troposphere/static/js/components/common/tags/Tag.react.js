@@ -25,10 +25,14 @@ export default React.createClass({
     onClick(e) {
         e.stopPropagation();
         e.preventDefault();
-        RouterInstance.getInstance()
-            .transitionTo("search",null,{ 
-                    q: this.props.tag.get('name')
-            });
+        // Still causing a warning
+        // "Failed Context Types: Required context `router`"
+        if (this.props.renderLinks) {
+            RouterInstance.getInstance()
+                .transitionTo("search",null,{
+                        q: this.props.tag.get('name')
+                });
+        }
     },
 
     componentDidMount: function() {
@@ -51,7 +55,7 @@ export default React.createClass({
 
         if (this.props.renderLinks) {
             link = (
-                <span onClick={ this.onClick }> 
+                <span onClick={ this.onClick }>
                     {tagName}
                 </span>
             );

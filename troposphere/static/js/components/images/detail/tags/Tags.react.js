@@ -4,9 +4,14 @@ import Tag from "components/common/tags/Tag.react";
 
 export default React.createClass({
     displayName: "Tags",
-
+    // We are calling first() on some of our collections,
+    // those are returned as an array :(
     propTypes: {
-        activeTags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
+        activeTags: React.PropTypes
+            .oneOfType([ 
+                React.PropTypes.array,  
+                React.PropTypes.object 
+            ]).isRequired
     },
 
     render: function() {
