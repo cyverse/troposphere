@@ -34,9 +34,9 @@ export default React.createClass({
         var imageTags = stores.TagStore.getImageTags(image);
 
         return (
-        <div className="image-tags image-info-segment row">
-            <h4 className="t-body-2 col-md-2">Tags</h4>
-            <div className="content col-md-10">
+        <div className="image-tags">
+            <h4 className="t-body-2">Tags</h4>
+            <div className="content">
                 <EditTagsView tags={this.props.tags}
                     activeTags={imageTags}
                     onTagAdded={this.props.onTagAdded}
