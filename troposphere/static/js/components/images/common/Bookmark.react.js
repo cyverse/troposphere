@@ -9,6 +9,7 @@ export default React.createClass({
     displayName: "CommonBookmark",
 
     toggleFavorite: function(e) {
+        e.stopPropagation();
         e.preventDefault();
         var image = this.props.image,
             imageBookmark = stores.ImageBookmarkStore.findOne({
