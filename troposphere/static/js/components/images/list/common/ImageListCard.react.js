@@ -88,8 +88,8 @@ export default React.createClass({
         var bookmark;
         if (hasLoggedInUser) {
             bookmark = (
-                <span
-                    style={{
+                <span 
+                    style={{ 
                         position: "absolute",
                         top: "10px",
                         right: "10px",

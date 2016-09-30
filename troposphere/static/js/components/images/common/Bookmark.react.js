@@ -29,14 +29,15 @@ export default React.createClass({
     render: function() {
         let image = this.props.image;
         let isFavorited = stores.ImageBookmarkStore.findOne({
-            "image.id": image.id
-        });
+                "image.id": image.id
+            });
+
         let img = isFavorited ? filled_star : empty_star;
 
         return (
-        <a className="bookmark" href="#" onClick={this.toggleFavorite}>
-            <img width={ this.props.width } src={ img }/>
-        </a>
+            <a href="#" onClick={this.toggleFavorite}>
+                <img width={ this.props.width } src={ img }/>
+            </a>
         );
     }
 });
