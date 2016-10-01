@@ -1,7 +1,6 @@
 import React from "react";
 import Backbone from "backbone";
 import TagsView from "./tags/TagsView.react";
-import NameView from "./name/NameView.react";
 import CreatedView from "./created/CreatedView.react";
 import RemovedView from "./removed/RemovedView.react";
 import AuthorView from "./author/AuthorView.react";
