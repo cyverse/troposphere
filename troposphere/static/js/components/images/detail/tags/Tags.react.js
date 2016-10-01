@@ -1,5 +1,4 @@
 import React from "react";
-import Backbone from "backbone";
 import Tag from "components/common/tags/Tag.react";
 
 export default React.createClass({
