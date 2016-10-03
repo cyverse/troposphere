@@ -22,26 +22,23 @@ export default React.createClass({
         )
     },
 
-    renderBody: function() {
+    render: function() {
         let machines = stores.ProviderMachineStore
             .getMachinesForVersion(this.props.version);
 
-        if (!machines) return;
+        let providers = machines ? machines.map(this.renderProviderMachine)
+            : null;
 
-        return machines.map(this.renderProviderMachine);
-    },
-
-    render: function() {
         return (
-        <div>
-            <h4
-                className="t-body-2"
-                style={{ marginBottom: "5px" }}
-            >
-            Available on:
-            </h4>
-            {this.renderBody()}
-        </div>
+            <div>
+                <h4
+                    className="t-body-2"
+                    style={{ marginBottom: "5px" }}
+                >
+                Available on:
+                </h4>
+                { providers }
+            </div>
         );
 
     }

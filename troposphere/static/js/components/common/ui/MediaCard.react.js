@@ -4,28 +4,37 @@ export default React.createClass({
     displayName: "MediaCard",
 
     render() {
+        let style = this.style();
+        let {
+            onCardClick,
+            avatar,
+            title,
+            subheading,
+            description,
+        } = this.props;
+
         return (
             <div
-                onClick={ this.props.onCardClick }
-                style={ this.style().card }
+                onClick={ onCardClick }
+                style={ style.card }
             >
-                <div style={ this.style().avatar }>
-                    { this.props.avatar }
+                <div style={ style.avatar }>
+                    { avatar }
                 </div>
-                <div style={ this.style().content } >
-                    <div style={ this.style().titleSection } >
+                <div style={ style.content } >
+                    <div style={ style.titleSection } >
                         <h2
                             className="t-body-2"
-                            style={ this.style().title }
+                            style={ style.title }
                         >
-                            { this.props.title }
+                            { title }
                         </h2>
-                        <div style={ this.style().subheading } >
-                                { this.props.subheading}
+                        <div style={ style.subheading } >
+                                { subheading}
                         </div>
                     </div>
-                    <div style={ this.style().description } >
-                        { this.props.description }
+                    <div style={ style.description } >
+                        { description }
                     </div>
                 </div>
             </div>

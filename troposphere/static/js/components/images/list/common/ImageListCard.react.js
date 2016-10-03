@@ -29,32 +29,55 @@ export default React.createClass({
             });
     },
 
-    render() {
-        var image = this.props.image,
-            hasLoggedInUser = context.hasLoggedInUser(),
-            type = stores.ProfileStore.get().get("icon_set"),
-            imageTags = stores.TagStore.getImageTags(image),
-            imageCreationDate = moment(image.get("start_date"))
-                .tz(globals.TZ_REGION)
-                .format("MMM Do YY hh:mm "),
-            converter = new Showdown.Converter(),
-            description = image.get("description");
-            name = image.get('name');
+    renderEndDated() {
+        let style = {
+            position: "absolute",
+            top: "3px",
+            left: "0",
+            background: "#F55A5A",
+            display: "inline-block",
+            padding: "3px 5px",
+            color: "white",
+            fontSize: "10px",
+        };
 
-        if (imageTags.length > 10) {
-            imageTags = imageTags.first(10);
+        if (this.props.isEndDated) {
+            return (
+                <div style={ style }>
+                    End Dated
+                </div>
+            );
         }
-        if (name.length > 30) {
-            name = name.substring(0,30) + " ..."
-        }
+    },
+
+    render() {
+        let image = this.props.image;
+        let hasLoggedInUser = context.hasLoggedInUser();
+        let type = stores.ProfileStore.get().get("icon_set");
+        let imageTags = stores.TagStore.getImageTags(image);
+            imageTags = imageTags ? imageTags.first(10) : null;
+
+        let imageCreationDate = moment(image.get("start_date"))
+                .tz(globals.TZ_REGION)
+                .format("MMM Do YY hh:mm ");
+
+        let converter = new Showdown.Converter();
+
+        let description = image.get("description");
         if (!description) {
             description = "No Description Provided."
         } else if ( description.length > 90 ) {
             description = description.substring(0,90) + " ..."
         }
-        var descriptionHtml = converter.makeHtml( description ),
-            iconSize = 40,
-            icon;
+
+        let name = image.get('name');
+        if (name.length > 30) {
+            name = name.substring(0,30) + " ..."
+        }
+
+        let descriptionHtml = converter.makeHtml( description );
+        let iconSize = 40;
+        let icon;
 
         // always use the Gravatar icons
         icon = (
@@ -63,25 +86,6 @@ export default React.createClass({
 
         // Hide bookmarking on the public page
         var bookmark;
-        let endDated;
-        if (this.props.isEndDated) {
-            endDated = (
-                <div
-                    style={{
-                        position: "absolute",
-                        top: "3px",
-                        left: "0",
-                        background: "#F55A5A",
-                        display: "inline-block",
-                        padding: "3px 5px",
-                        color: "white",
-                        fontSize: "10px",
-                    }}
-                >
-                    End Dated
-                </div>
-            );
-        }
         if (hasLoggedInUser) {
             bookmark = (
                 <span
@@ -104,16 +108,16 @@ export default React.createClass({
                 subheading={
                     <span>
                         <time>
-                            {imageCreationDate}
+                            { imageCreationDate }
                         </time>
                         by
-                        <strong> {image.get("created_by").username}</strong>
+                        <strong> { image.get("created_by").username }</strong>
                     </span>
                 }
                 description={
                     <span>
-                        {endDated}
-                        {bookmark}
+                        { this.renderEndDated() }
+                        { bookmark }
                         <span dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
                         <Tags activeTags={imageTags}/>
                     </span>
