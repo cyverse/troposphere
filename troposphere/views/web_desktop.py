@@ -32,7 +32,6 @@ def web_desktop(request):
     template_params = {}
 
     logger.info("POST body: %s" % request.POST)
-
     if request.user.is_authenticated():
         logger.info("user is authenticated, well done.")
         sig = None
