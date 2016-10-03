@@ -15,23 +15,35 @@ define(function(require) {
     if (urlParams.fun)
       req += "&fun=" + urlParams.fun;
 
+    if (urlParams.from)
+        req += "&from=" + urlParams.from;
+
+    if (urlParams.until)
+        req += "&until=" + urlParams.until;
+
     d3.json(req)
       .header("Authorization", "Token " + access_token)
       .get(function(error, json) {
 
-        // The json object should be an array with length >= 1 
-        if (!(json && Array.isArray(json) && json.length)) 
+        // The json object should be an array with length >= 1
+        if (!(json && Array.isArray(json) && json.length))
           return onError && onError();
         var data = json[0].datapoints
 
         // Trim initial/final null values
-        if (data[0][0] == null)
+        if (data[0][0] == null){
           data.splice(0, 1);
-        data.length = urlParams.size;
-
-        onSuccess(data.map(function(arr) {
-          return { x: arr[1] * 1000, y: arr[0] };
-        }));
+          urlParams.size = urlParams.size - 1;
+        }
+        if(data.length > 0){
+            data.length = urlParams.size;
+            onSuccess(data.map(function(arr) {
+                return { x: arr[1] * 1000, y: arr[0] };
+            }));
+        }
+        else{
+            onError();
+        }
 
       })
   }
@@ -57,7 +69,7 @@ define(function(require) {
 
   var get = function(name) {
     return function(obj) {
-      return obj[name];
+        return obj[name];
     };
   };
 

@@ -6,6 +6,7 @@ define(function(require) {
     displayName: "InstanceMetricsSection",
 
     render: function() {
+      var inactive = this.props.instance.get('end_date') ? true : false;
       return (
           <div>
             <div className="resource-details-section section">
@@ -14,6 +15,7 @@ define(function(require) {
             <div id="container" className="metrics">
               <InstanceMetrics
                 instance={ this.props.instance }
+                inactive={inactive}
               />
             </div>
           </div>

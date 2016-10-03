@@ -29,6 +29,10 @@
   &.error {
     background: crimson;
   }
+
+  &.deleted {
+    background: gray;
+  }
 }
 
 .report-instance-view {

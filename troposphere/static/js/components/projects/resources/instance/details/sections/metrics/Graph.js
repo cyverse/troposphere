@@ -67,6 +67,8 @@ define(function(require) {
     var urlParams =  {
       field: this.type,
       res: this.resolution,
+      from: this.from,
+      until: this.until,
       size: this.points,
     }
 
@@ -83,8 +85,8 @@ define(function(require) {
 
   Graph.prototype.make = function() {
     var me = this;
-    var data = this.data
-      var graphDom = this.element;
+    var data = this.data;
+    var graphDom = this.element;
 
     var yAxisWidth = 60,
       margin = {top: 10, right: 20, bottom: 5, left: yAxisWidth},
@@ -144,7 +146,6 @@ define(function(require) {
           .attr("class", "metrics mean line")
           .attr("d", line)
       }
-
     svg.append("path")
       .datum(data)
       .attr("class", "metrics rx area")

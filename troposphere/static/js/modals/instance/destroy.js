@@ -11,7 +11,6 @@ define(function (require) {
   return {
 
     destroy: function (payload, options) {
-      if (!payload.project) throw new Error("Missing project");
       if (!payload.instance) throw new Error("Missing instance");
 
       var project = payload.project,
@@ -23,15 +22,17 @@ define(function (require) {
             attachedVolumes,
         };
 
-       ModalComponent = 
-           attachedVolumes.length > 0 
+       ModalComponent =
+           attachedVolumes.length > 0
            ? ExplainInstanceDeleteConditionsModal
            : InstanceDeleteModal;
 
       ModalHelpers.renderModal(ModalComponent, props, function () {
         attachedVolumes.forEach((volume) => VolumeStore.pollUntilDetached(volume));
         actions.InstanceActions.destroy(payload, options);
-        Router.getInstance().transitionTo("project-resources", {projectId: project.id});
+        if(project){
+            Router.getInstance().transitionTo("project-resources", {projectId: project.id});
+        }
       })
     },
 

@@ -15,6 +15,16 @@ API_SERVER="{{ API_SERVER }}"
 API_ROOT    = API_SERVER + "/api/v1"
 API_V2_ROOT = API_SERVER + "/api/v2"
 
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'CACHE': not DEBUG,
+        'BUNDLE_DIR_NAME': 'bundles/', # must end with slash
+        'STATS_FILE': os.path.join(BASE_DIR, '../', 'webpack-stats.json'),
+        'POLL_INTERVAL': 0.1,
+        'IGNORE': ['.+\.hot-update.js', '.+\.map']
+    }
+}
+
 SITE_TITLE= "{{ SITE_TITLE}}"
 SITE_FOOTER= "{{ SITE_FOOTER }}"
 
@@ -150,6 +160,10 @@ BADGE_SYSTEM_NAME = "{{ BADGE_SYSTEM_NAME }}"
 BADGE_SECRET = "{{ BADGE_SECRET }}"
 {% endif %}
 
+# resolved JS asset + hash for template rendering
+INSTALLED_APPS += (
+    'webpack_loader',
+)
 {% if DJANGO_JENKINS %}
 INSTALLED_APPS += (
     'django_jenkins',

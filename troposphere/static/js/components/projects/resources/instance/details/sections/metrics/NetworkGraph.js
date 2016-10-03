@@ -42,6 +42,8 @@ define(function(require) {
     series.forEach(function(s) {
       s.urlParams = {
         field: s.type,
+        from: me.from,
+        until: me.until,
         res: me.resolution,
         size: me.points,
       };

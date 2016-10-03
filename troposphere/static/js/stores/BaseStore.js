@@ -78,11 +78,13 @@ define(function (require) {
         this.models.add(payload.data, {at: payload.at});
         return;
       }
+      // temporarily use cid to get around currently undefined id
+      if(!payload.id) payload.id = payload.cid;
       this.models.add(payload);
     },
 
     update: function (model) {
-      var existingModel = this.models.get(model);
+      var existingModel = this.models.get(model) || this.models.get({cid: model.cid});
       if (existingModel) {
         this.models.add(model, {merge: true});
       } else {
@@ -350,10 +352,12 @@ define(function (require) {
 
       if(!this.isFetchingQuery[queryString]) {
         this.isFetchingQuery[queryString] = true;
+        this.isFetching = true;
         var models = new this.collection();
         models.fetch({
           url: models.url + queryString
         }).done(function () {
+          this.isFetching = false;
           this.isFetchingQuery[queryString] = false;
           this.queryModels[queryString] = models;
           this.appendModels(models);
@@ -375,11 +379,13 @@ define(function (require) {
         nextUrl = searchResults.meta.next;
 
       if (nextUrl && !this.isFetchingQuery[queryString]) {
+        this.isFetching = true;
         this.isFetchingQuery[queryString] = true;
         var moreModels = new this.collection();
         this.queryModels[queryString].fetch({
           url: nextUrl, remove: false
         }).done(function () {
+          this.isFetching = false;
           this.isFetchingQuery[queryString] = false;
           this.emitChange();
         }.bind(this));
@@ -416,9 +422,10 @@ define(function (require) {
                 // Use latest polling func
                 var keepPolling = this.pollingModels[model.cid](model, response);
 
-                if (this.has(model))
-                    this.update(model);
-                this.emitChange();
+                if (this.has(model)){
+                        this.update(model);
+                        this.emitChange();
+                }
 
                 if (keepPolling) {
                     setTimeout(wrapper, this.pollingFrequency);
