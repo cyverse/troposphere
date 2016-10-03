@@ -23,8 +23,11 @@ export default {
             let err_message = error_json;
             if (error_json.hasOwnProperty("non_field_errors")) {
                 err_message = error_json.non_field_errors.join(" , ");
+                if(err_message.name  != null && err_message.name[0] != null) {
+                    err_message = err_message.name[0]
+                }
             }
-            var message = "Error updating Image Version " + version.get("name") + ": " + err_message;
+            var message = "Error updating Image Version '" + version.get("name") + "': " + err_message;
             NotificationController.error(null, message);
             Utils.dispatch(ImageVersionConstants.REMOVE_IMAGE_VERSION, {
                 version: version

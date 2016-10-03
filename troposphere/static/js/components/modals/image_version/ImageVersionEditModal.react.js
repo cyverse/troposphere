@@ -174,7 +174,10 @@ export default React.createClass({
         let orig_version = this.props.version,
             versions = image.get("versions");
         name = (name == null) ? "" : name.trim().toLowerCase();
-
+        //No-name is always invalid.
+        if (name == "") {
+            return false;
+        }
         versions = versions.filter(function(version) {
             return (version.id !== orig_version.id &&
             (version.name && version.name.toLowerCase() === name));
