@@ -21,8 +21,6 @@ export default React.createClass({
         let { onTagClick } = this.props;
         e.stopPropagation();
         e.preventDefault();
-        // Still causing a warning
-        // "Failed Context Types: Required context `router`"
         if (onTagClick) {
             onTagClick(this.props.tag);
         }
@@ -46,23 +44,11 @@ export default React.createClass({
             tagName = tag.get("name"),
             link;
 
-        if (this.props.renderLinks) {
-            link = (
+        return (
+            <li className="tag">
                 <span onClick={ this.onClick }>
                     {tagName}
                 </span>
-            );
-        } else {
-            link = (
-                <span>
-                    {tagName}
-                </span>
-            )
-        }
-
-        return (
-            <li className="tag">
-                {link}
             </li>
         );
     }
