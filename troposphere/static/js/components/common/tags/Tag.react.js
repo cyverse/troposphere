@@ -40,9 +40,8 @@ export default React.createClass({
     },
 
     render: function() {
-        var tag = this.props.tag,
-            tagName = tag.get("name"),
-            link;
+        let tag = this.props.tag;
+        let tagName = tag.get("name");
 
         return (
             <li className="tag">
