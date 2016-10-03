@@ -2,14 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import $ from "jquery";
 import Backbone from "backbone";
-import Router from "react-router";
-import RouterInstance from "Router";
-
 
 export default React.createClass({
     displayName: "Tag",
-
-    mixins: [Router.State],
 
     propTypes: {
         tag: React.PropTypes.instanceOf(Backbone.Model).isRequired,
@@ -23,15 +18,13 @@ export default React.createClass({
     },
 
     onClick(e) {
+        let { onTagClick } = this.props;
         e.stopPropagation();
         e.preventDefault();
         // Still causing a warning
         // "Failed Context Types: Required context `router`"
-        if (this.props.renderLinks) {
-            RouterInstance.getInstance()
-                .transitionTo("search",null,{
-                        q: this.props.tag.get('name')
-                });
+        if (onTagClick) {
+            onTagClick(this.props.tag);
         }
     },
 
@@ -68,10 +61,9 @@ export default React.createClass({
         }
 
         return (
-        <li className="tag">
-            {link}
-        </li>
+            <li className="tag">
+                {link}
+            </li>
         );
-
     }
 });
