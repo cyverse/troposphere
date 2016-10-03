@@ -29,9 +29,10 @@ export default React.createClass({
 
     render: function() {
         let image = this.props.image;
-        let isFavorited = stores.ImageBookmarkStore.findOne({
-                "image.id": image.id
-            });
+        let bookmarks = stores.ImageBookmarkStore.getAll();
+        let isFavorited = bookmarks ? stores.ImageBookmarkStore.findOne({
+            "image.id": image.id
+        }) : null;
 
         let img = isFavorited ? filled_star : empty_star;
 

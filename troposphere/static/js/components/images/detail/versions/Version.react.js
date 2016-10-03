@@ -93,12 +93,13 @@ export default React.createClass({
 
     render: function() {
         // todo: figure out if anything is ever recommended, or if it's just a concept idea
-        let version = this.props.version;
-        let  image = this.props.image;
+        let { version, image } = this.props;
+        let style = this.style();
+
         let versionHash = CryptoJS.MD5(version.id.toString()).toString();
         let type = stores.ProfileStore.get().get("icon_set");
         let owner = image.get("created_by").username;
-        let changeLog = this.props.version.get("change_log");
+        let changeLog = version.get("change_log");
         let converter = new showdown.Converter();
         let changeLogHTML = converter.makeHtml(changeLog);
 
@@ -121,12 +122,12 @@ export default React.createClass({
                 }
                 description={
                     <div
-                        style={ this.style().content }
+                        style={ style.content }
                     >
-                        <div style={ this.style().description }
+                        <div style={ style.description }
                             dangerouslySetInnerHTML={{ __html: changeLogHTML }}
                         />
-                        <div style={ this.style().availability }
+                        <div style={ style.availability }
                         >
                             { this.renderAvailability() }
                         </div>
