@@ -27,14 +27,14 @@
     }
   }
 
-  h3 {
+  .t-title {
     margin: 20px 0px 15px 0px;
     border-bottom: 1px solid #ddd;
     padding-bottom: 5px;
   }
 
   .notifications {
-    h3 {
+    .t-title {
       margin: 0px 0px 15px 0px;
     }
 
@@ -43,4 +43,4 @@
     }
   }
 
-}
+}       

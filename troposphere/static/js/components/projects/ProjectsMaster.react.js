@@ -1,5 +1,5 @@
-import React from 'react';
-import Router from 'react-router';
+import React from "react";
+import Router from "react-router";
 
 
 let RouteHandler = Router.RouteHandler;
@@ -9,10 +9,10 @@ export default React.createClass({
 
     mixins: [Router.State],
 
-    render: function () {
-      return (
+    render: function() {
+        return (
         <RouteHandler/>
-      );
+        );
     }
 
 });

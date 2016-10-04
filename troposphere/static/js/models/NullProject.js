@@ -1,20 +1,20 @@
-import Backbone from 'backbone';
+import Backbone from "backbone";
 
 export default Backbone.Model.extend({
-    initialize: function (attrs) {
-      this.set('instances', attrs.instances || []);
-      this.set('volumes', attrs.volumes || []);
+    initialize: function(attrs) {
+        this.set("instances", attrs.instances || []);
+        this.set("volumes", attrs.volumes || []);
     },
 
-    isEmpty: function () {
-      var instances = this.get('instances').filter(function (instance) {
-        return instance.get('projects').length === 0;
-      });
+    isEmpty: function() {
+        var instances = this.get("instances").filter(function(instance) {
+            return instance.get("projects").length === 0;
+        });
 
-      var volumes = this.get('volumes').filter(function (volume) {
-        return volume.get('projects').length === 0;
-      });
+        var volumes = this.get("volumes").filter(function(volume) {
+            return volume.get("projects").length === 0;
+        });
 
-      return instances.length === 0 && volumes.length === 0;
+        return instances.length === 0 && volumes.length === 0;
     }
 });

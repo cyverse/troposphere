@@ -5,7 +5,7 @@ import globals from "globals";
 import ResourceGraphs from "../components/ResourceGraphs.react";
 import ProviderAllocationGraph from "../components/ProviderAllocationGraph.react";
 import AllocationSourceGraph from "components/common/AllocationSourceGraph.react";
-import SelectMenu2 from "components/common/ui/SelectMenu2.react";
+import SelectMenu from "components/common/ui/SelectMenu.react";
 
 export default React.createClass({
     propTypes: {
@@ -28,19 +28,17 @@ export default React.createClass({
     },
 
     renderAllocationSourceMenu() {
-        let {
-            allocationSource, allocationSourceList, onAllocationSourceChange,
-        } = this.props;
+        let { allocationSource, allocationSourceList, onAllocationSourceChange, } = this.props;
 
         return (
         <div className="form-group">
             <label htmlFor="allocationSource">
                 Allocation Source
             </label>
-            <SelectMenu2 current={ allocationSource }
-                         list={ allocationSourceList }
-                         optionName={ as => as.get("name") }
-                         onSelect={ onAllocationSourceChange } />
+            <SelectMenu current={allocationSource}
+                list={allocationSourceList}
+                optionName={as => as.get("name")}
+                onSelect={onAllocationSourceChange} />
         </div>
         );
     },
@@ -57,43 +55,36 @@ export default React.createClass({
         );
     },
 
-    render: function () {
-        let {
-            provider, providerList, onProviderChange,
-            providerSize, providerSizeList, onSizeChange,
-        } = this.props;
+    render: function() {
+        let { provider, providerList, onProviderChange, providerSize, providerSizeList, onSizeChange, } = this.props;
 
         return (
         <form>
-            {
-                globals.USE_ALLOCATION_SOURCES
-                ? this.renderAllocationSourceMenu()
-                : null
-            }
+            {globals.USE_ALLOCATION_SOURCES
+             ? this.renderAllocationSourceMenu()
+             : null}
             <div className="form-group">
                 <label htmlFor="instanceName">
                     Provider
                 </label>
-                <SelectMenu2 current={ provider }
-                             optionName={ p => p.get("name") }
-                             list={ providerList }
-                             onSelect={ onProviderChange } />
+                <SelectMenu current={provider}
+                    optionName={p => p.get("name")}
+                    list={providerList}
+                    onSelect={onProviderChange} />
             </div>
             <div className="form-group">
                 <label htmlFor="instanceSize">
                     Instance Size
                 </label>
-                <SelectMenu2 current={ providerSize }
-                             optionName={ this.getProviderSizeName }
-                             list={ providerSizeList }
-                             onSelect={ onSizeChange } />
+                <SelectMenu current={providerSize}
+                    optionName={this.getProviderSizeName}
+                    list={providerSizeList}
+                    onSelect={onSizeChange} />
             </div>
             <div className="form-group">
-                {
-                    globals.USE_ALLOCATION_SOURCES
-                    ? this.renderAllocationSourceGraph()
-                    : this.renderProviderGraph()
-                }
+                {globals.USE_ALLOCATION_SOURCES
+                 ? this.renderAllocationSourceGraph()
+                 : this.renderProviderGraph()}
                 <ResourceGraphs { ...this.props } />
             </div>
         </form>

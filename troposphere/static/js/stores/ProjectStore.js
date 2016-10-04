@@ -1,9 +1,7 @@
-
-import _ from 'underscore';
-import Dispatcher from 'dispatchers/Dispatcher';
-import BaseStore from 'stores/BaseStore';
-import ProjectCollection from 'collections/ProjectCollection';
-import ProjectConstants from 'constants/ProjectConstants';
+import Dispatcher from "dispatchers/Dispatcher";
+import BaseStore from "stores/BaseStore";
+import ProjectCollection from "collections/ProjectCollection";
+import ProjectConstants from "constants/ProjectConstants";
 
 let ProjectStore = BaseStore.extend({
     collection: ProjectCollection

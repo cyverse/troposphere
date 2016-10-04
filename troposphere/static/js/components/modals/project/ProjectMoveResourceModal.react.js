@@ -1,8 +1,8 @@
-import React from 'react';
-import Backbone from 'backbone';
-import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
-import stores from 'stores';
-import ProjectSelect from '../instance_launch/ProjectSelect.react';
+import React from "react";
+import Backbone from "backbone";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
+import stores from "stores";
+import ProjectSelect from "../instance_launch/ProjectSelect.react";
 
 
 function getState(currentProject, currentState) {
@@ -26,151 +26,156 @@ function getState(currentProject, currentState) {
 }
 
 export default React.createClass({
-      displayName: "ProjectMoveResourceModal",
+    displayName: "ProjectMoveResourceModal",
 
-      mixins: [BootstrapModalMixin],
+    mixins: [BootstrapModalMixin],
 
-      propTypes: {
+    propTypes: {
         currentProject: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         resources: React.PropTypes.instanceOf(Backbone.Collection).isRequired
-      },
+    },
 
-      isSubmittable: function () {
+    isSubmittable: function() {
         var hasProject = !!this.state.projectId;
         return hasProject;
-      },
+    },
 
-      //
-      // Mounting & State
-      // ----------------
-      //
+    //
+    // Mounting & State
+    // ----------------
+    //
 
-      getInitialState: function () {
+    getInitialState: function() {
         return getState(this.props.currentProject, this.state || {});
-      },
+    },
 
-      updateState: function () {
+    updateState: function() {
         if (this.isMounted()) this.setState(getState(this.props.currentProject, this.state || {}));
-      },
+    },
 
-      componentDidMount: function () {
+    componentDidMount: function() {
         stores.ProjectStore.addChangeListener(this.updateState);
-      },
+    },
 
-      componentWillUnmount: function () {
+    componentWillUnmount: function() {
         stores.ProjectStore.removeChangeListener(this.updateState);
-      },
+    },
 
-      //
-      // Internal Modal Callbacks
-      // ------------------------
-      //
+    //
+    // Internal Modal Callbacks
+    // ------------------------
+    //
 
-      cancel: function () {
+    cancel: function() {
         this.hide();
-      },
+    },
 
-      confirm: function () {
+    confirm: function() {
         this.hide();
         var project = this.state.projects.get(this.state.projectId);
         this.props.onConfirm(project);
-      },
+    },
 
 
-      //
-      // Custom Modal Callbacks
-      // ----------------------
-      //
+    //
+    // Custom Modal Callbacks
+    // ----------------------
+    //
 
-      onProjectChange: function (e) {
+    onProjectChange: function(e) {
         var newProjectId = e.target.value;
-        this.setState({projectId: newProjectId});
-      },
+        this.setState({
+            projectId: newProjectId
+        });
+    },
 
 
-      //
-      // Render
-      // ------
-      //
+    //
+    // Render
+    // ------
+    //
 
-      renderResource: function (resource) {
+    renderResource: function(resource) {
         return (
-          <li key={resource.id}>{resource.get('name')}</li>
+        <li key={resource.id}>
+            {resource.get("name")}
+        </li>
         );
-      },
+    },
 
-      renderBody: function () {
+    renderBody: function() {
         if (this.state.projects) {
-          if (this.state.projects.models.length > 0) {
-            return (
-              <div role='form'>
-
-                <div className='form-group'>
-                  <label htmlFor='volumeSize'>Resources to Move</label>
-
-                  <p>The following resources will be moved to the selected project</p>
-                  <ul>
-                    {this.props.resources.map(this.renderResource)}
-                  </ul>
+            if (this.state.projects.models.length > 0) {
+                return (
+                <div role="form">
+                    <div className="form-group">
+                        <label htmlFor="volumeSize">
+                            Resources to Move
+                        </label>
+                        <p>
+                            The following resources will be moved to the selected project
+                        </p>
+                        <ul>
+                            {this.props.resources.map(this.renderResource)}
+                        </ul>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="project">
+                            Project
+                        </label>
+                        <ProjectSelect projectId={this.state.projectId} projects={this.state.projects} onChange={this.onProjectChange} />
+                    </div>
                 </div>
-
-                <div className='form-group'>
-                  <label htmlFor='project'>Project</label>
-                  <ProjectSelect
-                    projectId={this.state.projectId}
-                    projects={this.state.projects}
-                    onChange={this.onProjectChange}
-                    />
+                );
+            } else {
+                return (
+                <div role="form">
+                    <div className="form-group">
+                        <p>
+                            Looks like you only have one project.
+                        </p>
+                        <p>
+                            In order to move resources between projects, you will first need to create a second project.
+                        </p>
+                    </div>
                 </div>
-
-              </div>
-            );
-          } else {
-            return (
-              <div role='form'>
-
-                <div className='form-group'>
-                  <p>Looks like you only have one project.</p>
-
-                  <p>In order to move resources between projects, you will first need to create a second project.</p>
-                </div>
-
-              </div>
-            );
-          }
+                );
+            }
         }
 
         return (
-          <div className="loading"></div>
+        <div className="loading"></div>
         );
-      },
+    },
 
-      render: function () {
+    render: function() {
         // todo: If the user only has one project, provide an action to create another project
 
         return (
-          <div className="modal fade">
+        <div className="modal fade">
             <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  {this.renderCloseButton()}
-                  <strong>Move Resources</strong>
+                <div className="modal-content">
+                    <div className="modal-header">
+                        {this.renderCloseButton()}
+                        <strong>Move Resources</strong>
+                    </div>
+                    <div className="modal-body">
+                        {this.renderBody()}
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-danger" onClick={this.cancel}>
+                            Cancel
+                        </button>
+                        <button type="button"
+                            className="btn btn-primary"
+                            onClick={this.confirm}
+                            disabled={!this.isSubmittable()}>
+                            Move resources
+                        </button>
+                    </div>
                 </div>
-                <div className="modal-body">
-                  {this.renderBody()}
-                </div>
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-danger" onClick={this.cancel}>
-                    Cancel
-                  </button>
-                  <button type="button" className="btn btn-primary" onClick={this.confirm}
-                          disabled={!this.isSubmittable()}>
-                    Move resources
-                  </button>
-                </div>
-              </div>
             </div>
-          </div>
+        </div>
         );
-      }
+    }
 });

@@ -1,19 +1,19 @@
-import React from 'react';
-import Backbone from 'backbone';
+import React from "react";
+import Backbone from "backbone";
 
 export default React.createClass({
-      displayName: "ProjectOption",
+    displayName: "ProjectOption",
 
-      propTypes: {
+    propTypes: {
         project: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    },
 
-      render: function () {
+    render: function() {
         var project = this.props.project;
         return (
-          <option value={project.id}>
-            {project.get('name')}
-          </option>
+        <option value={project.id}>
+            {project.get("name")}
+        </option>
         );
-      }
+    }
 });

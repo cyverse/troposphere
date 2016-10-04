@@ -1,12 +1,11 @@
-import Backbone from 'backbone';
-import globals from 'globals';
-import moment from 'moment';
+import Backbone from "backbone";
+import globals from "globals";
+import moment from "moment";
 
 export default Backbone.Model.extend({
     urlRoot: function() {
-        var creds = this.creds;
         var url = globals.API_V2_ROOT +
-            '/provider_machines';
+            "/provider_machines";
         return url;
     },
 

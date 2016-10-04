@@ -26,8 +26,8 @@
     "lint": "eslint troposphere/static/js",
     "travis-lint": "eslint -c .eslintrc.travis --no-eslintrc troposphere/static/js",
     "lint-pre-commit": "eslint --stdin",
-    "format-check": "esformatter -c .esformatter --diff $(git diff --diff-filter=M --name-only | grep js$) || exit 0",
-    "format": "esformatter -c .esformatter -i $(git diff --diff-filter=M --name-only | grep js$)"
+    "format-check": "esformatter -c .esformatter --diff $(git ls-files troposphere/static/js*js) || exit 0",
+    "format": "esformatter -c .esformatter -i $(git ls-files troposphere/static/js*js)"
   },
   "dependencies": {
     "backbone": "^1.2.1",
@@ -45,6 +45,7 @@
     "react": "^15.0.1",
     "react-dom": "^15.0.1",
     "react-router": "^0.13.0",
+    "react-tooltip": "^3.0.10",
     "showdown": "^1.2.1",
     "toastr": "^2.1.0",
     "troposphere-ui": "git@github.com:cyverse/troposphere-ui.git#InstanceCards",
@@ -61,7 +62,7 @@
     "css-loader": "^0.23.0",
     "esformatter": "^0.9.3",
     "esformatter-eol-last": "^1.0.0",
-    "esformatter-jsx": "^5.0.4",
+    "esformatter-jsx": "^7.0.1",
     "esformatter-quotes": "^1.0.3",
     "eslint": "^2.13.*",
     "eslint-plugin-react": "^4.1.0",
@@ -79,6 +80,7 @@
     "url-loader": "^0.5.6",
     "webpack": "^1.10.5",
     "webpack-bundle-tracker": "0.0.93",
+    "webpack-dev-server": "^1.14.1",
     "yuglify": "~0.1.4"
   }
 }

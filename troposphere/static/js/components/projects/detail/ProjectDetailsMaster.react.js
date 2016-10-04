@@ -10,20 +10,20 @@ export default React.createClass({
 
     mixins: [Router.State],
 
-    render: function () {
-      var project = stores.ProjectStore.get(Number(this.getParams().projectId));
+    render: function() {
+        var project = stores.ProjectStore.get(Number(this.getParams().projectId));
 
-      if (!project) {
+        if (!project) {
+            return (
+                <div className="loading"></div>
+            )
+        }
+
         return (
-          <div className="loading"></div>
-        )
-      }
-
-      return (
-        <div className="project-details">
-          <ResourcesHeader project = { project } />
-          <RouteHandler project = { project } />
-        </div>
-      );
+            <div className="project-details">
+              <ResourcesHeader project = { project } />
+              <RouteHandler project = { project } />
+            </div>
+        );
     }
 });

@@ -1,16 +1,16 @@
-import React from 'react';
-import Router from 'react-router';
-import stores from 'stores';
-import IdentityMembership from './IdentityMembership.react';
-import ComponentHandleInputWithDelay from 'components/mixins/ComponentHandleInputWithDelay';
+import React from "react";
+import Router from "react-router";
+import stores from "stores";
+import IdentityMembership from "./IdentityMembership.react";
+import ComponentHandleInputWithDelay from "components/mixins/ComponentHandleInputWithDelay";
 
 export default React.createClass({
-    displayName: 'IdentityMembership',
+    displayName: "IdentityMembership",
     mixins: [Router.State, ComponentHandleInputWithDelay],
 
     getInitialState: function() {
         return {
-            query: '',
+            query: "",
             selectedProviderId: -1,
             memberships: null,
             allModels: null,
@@ -21,7 +21,7 @@ export default React.createClass({
         let query = this.state.query;
         let selected = this.state.selectedProviderId;
         let memberships;
-        if (query !== null && query !== '' && selected !== -1) {
+        if (query !== null && query !== "" && selected !== -1) {
             memberships = stores.IdentityMembershipStore.fetchWhere({
                 username: query,
                 provider_id: selected,
@@ -47,9 +47,9 @@ export default React.createClass({
 
     onProviderChange: function(e) {
         var provider_key = e.target.id,
-            provider_id = provider_key.split('-')[1];
+            provider_id = provider_key.split("-")[1];
 
-        if (provider_id === 'all') {
+        if (provider_id === "all") {
             provider_id = -1
         }
         this.setState({
@@ -74,57 +74,57 @@ export default React.createClass({
 
         var identityMembershipRows = memberships.map(function(membership) {
             return (
-            <IdentityMembership key={ membership.id } membership={ membership } />
+            <IdentityMembership key={membership.id} membership={membership} />
             )
         });
 
         if (!identityMembershipRows[0]) {
             return (
-            <div>
-                <h3>No IdentityMemberships were returned from the API</h3>
+            <div style={{ paddingTop: "30px" }}>
+                <h3 className="t-title">No IdentityMemberships were returned from the API</h3>
             </div>
             );
         }
         return (
-        <table className="admin-table table table-striped table-hover" style={ { marginTop: '20px' } }>
+        <table className="admin-table table table-striped table-hover" style={{ marginTop: "20px" }}>
             <tbody>
                 <tr className="admin-row">
                     <th>
-                        <h4>User</h4>
+                        <h4 className="t-body-2">User</h4>
                     </th>
                     <th>
-                        <h4>Provider</h4>
+                        <h4 className="t-body-2">Provider</h4>
                     </th>
                     <th>
-                        <h4>Enabled/Disabled</h4>
+                        <h4 className="t-body-2">Enabled/Disabled</h4>
                     </th>
                 </tr>
-                { identityMembershipRows }
+                {identityMembershipRows}
             </tbody>
         </table>
         );
     },
     renderAllProviderRow: function(provider) {
-        var provider_id = 'provider-all';
+        var provider_id = "provider-all";
         return (
         <button className="btn btn-default"
-                style={ { marginRight: '10px' } }
-                id={ provider_id }
-                key={ -1 }
-                onClick={ this.onProviderChange }>
-            { "All Providers" }
+            style={{ marginRight: "10px" }}
+            id={provider_id}
+            key={-1}
+            onClick={this.onProviderChange}>
+            {"All Providers"}
         </button>
         );
     },
     renderProvider: function(provider) {
-        var provider_id = 'provider-' + provider.id;
+        var provider_id = "provider-" + provider.id;
         return (
         <button className="btn btn-default"
-                style={ { marginRight: '10px' } }
-                id={ provider_id }
-                key={ provider.id }
-                onClick={ this.onProviderChange }>
-            { provider.get('name') }
+            style={{ marginRight: "10px" }}
+            id={provider_id}
+            key={provider.id}
+            onClick={this.onProviderChange}>
+            {provider.get("name")}
         </button>
         );
     },
@@ -139,25 +139,25 @@ export default React.createClass({
         });
         providerRows.push(self.renderAllProviderRow())
         return (
-        <div className="secondary-nav-links">
-            { providerRows }
+        <div style={{ marginBottom: "30px" }} className="secondary-nav-links">
+            {providerRows}
         </div>
         );
     },
     render: function() {
         return (
         <div className="resource-master">
-            <div id='membership-container'>
-                <input type='text'
-                       className='form-control search-input'
-                       placeholder='Search for a specific user by username'
-                       onChange={ this.onSearchChange }
-                       value={ this.state.query }
-                       ref="textField" />
+            <div id="membership-container">
+                <input type="text"
+                    className="form-control search-input"
+                    placeholder="Search for a specific user by username"
+                    onChange={this.onSearchChange}
+                    value={this.state.query}
+                    ref="textField" />
             </div>
-            { this.renderProviderSelect() }
-            <h3>Identities</h3>
-            { this.renderTable() }
+            {this.renderProviderSelect()}
+            <h3 className="t-title">Identities</h3>
+            {this.renderTable()}
         </div>
         );
     }

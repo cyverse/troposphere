@@ -1,10 +1,9 @@
-import _ from 'underscore';
-import Dispatcher from 'dispatchers/Dispatcher';
-import BaseStore from 'stores/BaseStore';
-import Utils from 'actions/Utils';
-import VolumeCollection from 'collections/VolumeCollection';
-import VolumeConstants from 'constants/VolumeConstants';
-import VolumeState from 'models/VolumeState';
+import Dispatcher from "dispatchers/Dispatcher";
+import BaseStore from "stores/BaseStore";
+import Utils from "actions/Utils";
+import VolumeCollection from "collections/VolumeCollection";
+import VolumeConstants from "constants/VolumeConstants";
+import VolumeState from "models/VolumeState";
 
 let VolumeStore = BaseStore.extend({
     collection: VolumeCollection,
@@ -13,9 +12,9 @@ let VolumeStore = BaseStore.extend({
         page_size: 100
     },
 
-    initialize: function () {
-      this.pollingEnabled = true;
-      this.pollingFrequency = 10 * 1000;
+    initialize: function() {
+        this.pollingEnabled = true;
+        this.pollingFrequency = 10 * 1000;
     },
 
     //
@@ -25,10 +24,10 @@ let VolumeStore = BaseStore.extend({
     getVolumesAttachedToInstance: function(instance) {
         if (!this.models) return this.fetchModels();
 
-        var uuid = instance.get('uuid');
+        var uuid = instance.get("uuid");
 
-        var attachedVolumes = this.models.filter(function (volume) {
-            var attachData = volume.get('attach_data');
+        var attachedVolumes = this.models.filter(function(volume) {
+            var attachData = volume.get("attach_data");
             return attachData.instance_id && attachData.instance_id === uuid;
         });
 
@@ -36,13 +35,13 @@ let VolumeStore = BaseStore.extend({
     },
 
     // Makes a clean list of attached resources from volume information for easy reference
-    getAttachedResources: function () {
+    getAttachedResources: function() {
         if (!this.models) return this.fetchModels();
         var attachedResources = [];
-        this.models.each(function (volume) {
-            var attachData = volume.get('attach_data');
+        this.models.each(function(volume) {
+            var attachData = volume.get("attach_data");
             if (attachData && attachData.instance_id) {
-                attachedResources.push(volume.get('uuid'));
+                attachedResources.push(volume.get("uuid"));
                 attachedResources.push(attachData.instance_id);
             }
         });
@@ -50,10 +49,10 @@ let VolumeStore = BaseStore.extend({
     },
 
 
-    getVolumesNotInAProject: function () {
-      if (!this.models) return this.fetchModels();
+    getVolumesNotInAProject: function() {
+        if (!this.models) return this.fetchModels();
         var volumes = this.models.filter(function(volume) {
-            return volume.get('projects').length === 0
+            return volume.get("projects").length === 0
         });
 
         return new VolumeCollection(volumes);
@@ -63,14 +62,14 @@ let VolumeStore = BaseStore.extend({
     // Polling functions
     //
 
-    isInFinalState: function (volume) {
-      return volume.get('state').isInFinalState();
+    isInFinalState: function(volume) {
+        return volume.get("state").isInFinalState();
     },
 
     // Poll for a model
     pollUntilDetached: function(volume) {
         this.pollWhile(volume, function(model, response) {
-            var status = volume.get('state').get("status");
+            var status = volume.get("state").get("status");
             var responseIs200 = String(response.status)[0] == "2";
 
             var keepPolling = status != "available" && responseIs200;
@@ -82,7 +81,9 @@ let VolumeStore = BaseStore.extend({
                     }),
                 });
             }
-            Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {volume: volume});
+            Utils.dispatch(VolumeConstants.UPDATE_VOLUME, {
+                volume: volume
+            });
 
             return keepPolling;
         }.bind(this));

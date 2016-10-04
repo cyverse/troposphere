@@ -1,10 +1,10 @@
 
-import Dispatcher from 'dispatchers/Dispatcher';
-import BaseStore from 'stores/BaseStore';
-import InstanceTagCollection from 'collections/InstanceTagCollection';
-import InstanceTagConstants from 'constants/InstanceTagConstants';
-import TagCollection from 'collections/TagCollection';
-import Tag from 'models/Tag';
+import Dispatcher from "dispatchers/Dispatcher";
+import BaseStore from "stores/BaseStore";
+import InstanceTagCollection from "collections/InstanceTagCollection";
+import InstanceTagConstants from "constants/InstanceTagConstants";
+import TagCollection from "collections/TagCollection";
+import Tag from "models/Tag";
 
 let _modelsFor = {};
 let _isFetchingFor = {};
@@ -30,7 +30,7 @@ let InstanceTagStore = BaseStore.extend({
 
                 // convert InstanceTag collection to a TagCollection
                 var tags = models.map(function(it) {
-                    return new Tag(it.get('tag'), {
+                    return new Tag(it.get("tag"), {
                         parse: true
                     });
                 });
@@ -47,11 +47,11 @@ let InstanceTagStore = BaseStore.extend({
 
         // convert InstanceTag collection to an TagCollection
         var instanceTags = this.models.filter(function(it) {
-            return it.get('instance').id === instance.id;
+            return it.get("instance").id === instance.id;
         });
 
         var tags = instanceTags.map(function(it) {
-            return new Tag(it.get('tag'), {
+            return new Tag(it.get("tag"), {
                 parse: true
             });
         });

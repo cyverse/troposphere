@@ -1,8 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Backbone from 'backbone';
-import stores from 'stores';
-import SelectMenu from 'components/common/ui/SelectMenu2.react';
+import React from "react";
+import ReactDOM from "react-dom";
+import Backbone from "backbone";
+import SelectMenu from "components/common/ui/SelectMenu.react";
 
 export default React.createClass({
     propTypes: {
@@ -23,7 +22,7 @@ export default React.createClass({
         ReactDOM.findDOMNode(this.refs.nameInput).select();
     },
 
-   render: function () {
+    render: function() {
         let imageVersion = this.props.imageVersion;
         let project = this.props.project;
         let projectList = this.props.projectList;
@@ -37,44 +36,40 @@ export default React.createClass({
         }
 
         return (
-            <form>
-                <div className={instanceNameClasses} >
-                    <label htmlFor="instanceName">
-                        Instance Name
-                    </label>
-                    <input required type="Name"
-                        className="form-control"
-                        id="instanceName"
-                        value={instanceName}
-                        ref="nameInput"
-                        onChange={this.props.onNameChange}
-                        onBlur={this.props.onNameBlur}
-                    />
-                    <span className="help-block">{ errorMessage }</span>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="imageVersion">
-                        Base Image Version
-                    </label>
-                    <SelectMenu
-                        current={imageVersion}
-                        list={this.props.imageVersionList}
-                        optionName={item => item.get('name')}
-                        onSelect={this.props.onVersionChange}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="project">
-                        Project
-                    </label>
-                    <SelectMenu
-                        current={project}
-                        list={projectList}
-                        optionName={item => item.get('name')}
-                        onSelect={this.props.onProjectChange}
-                    />
-                </div>
-            </form>
+        <form>
+            <div className={instanceNameClasses}>
+                <label htmlFor="instanceName">
+                    Instance Name
+                </label>
+                <input required
+                    type="Name"
+                    className="form-control"
+                    id="instanceName"
+                    value={instanceName}
+                    ref="nameInput"
+                    onChange={this.props.onNameChange}
+                    onBlur={this.props.onNameBlur} />
+                <span className="help-block">{errorMessage}</span>
+            </div>
+            <div className="form-group">
+                <label htmlFor="imageVersion">
+                    Base Image Version
+                </label>
+                <SelectMenu current={imageVersion}
+                    list={this.props.imageVersionList}
+                    optionName={item => item.get("name")}
+                    onSelect={this.props.onVersionChange} />
+            </div>
+            <div className="form-group">
+                <label htmlFor="project">
+                    Project
+                </label>
+                <SelectMenu current={project}
+                    list={projectList}
+                    optionName={item => item.get("name")}
+                    onSelect={this.props.onProjectChange} />
+            </div>
+        </form>
         );
     },
 });

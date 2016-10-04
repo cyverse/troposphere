@@ -75,20 +75,13 @@
     margin-left: 15px;
   }
 
-  h4 {
+  .t-body-2 {
     color: #5A5A5A;
-    font-size: 16px;
-    margin-bottom: 5px;
     display: inline-block;
     width: 100px;
-    text-align: right;
+    margin-bottom: 0;
     margin-right: 25px;
     margin-top: 0;
-  }
-
-  .col-md-9 {
-    font-size: 16px;
-    display: inline-block;
   }
 }
 
@@ -110,8 +103,6 @@ ul.project-resource-list {
       font-size: 23px;
     }
   }
-
-
 }
 
 .project-property {
@@ -203,6 +194,4 @@ ul.small-project-resource-list {
       font-size: 23px;
     }
   }
-
-
 }

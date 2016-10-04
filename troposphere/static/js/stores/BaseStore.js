@@ -1,14 +1,14 @@
-import _ from 'underscore';
-import Backbone from 'backbone';
+import _ from "underscore";
+import Backbone from "backbone";
 
 
-let CHANGE_EVENT = 'change';
+let CHANGE_EVENT = "change";
 
 function buildQueryStringFromQueryParams(queryParams) {
     var queryString = Object.keys(queryParams).sort().map(function(key, index) {
-        return key + '=' + queryParams[key];
-    }.bind(this)).join('&');
-    queryString = queryString ? '?' + queryString : queryString;
+        return key + "=" + queryParams[key];
+    }.bind(this)).join("&");
+    queryString = queryString ? "?" + queryString : queryString;
     return queryString;
 }
 
@@ -73,7 +73,7 @@ _.extend(Store.prototype, Backbone.Events, {
     // --------------
 
     add: function(payload) {
-        if ('at' in payload) {
+        if ("at" in payload) {
             this.models.add(payload.data, {
                 at: payload.at
             });
@@ -94,7 +94,7 @@ _.extend(Store.prototype, Backbone.Events, {
                 merge: true
             });
         } else {
-            console.error('Model doesn\'t exist: ' + model.id || model.cid);
+            console.error("Model doesn't exist: " + model.id || model.cid);
         }
     },
 
@@ -121,7 +121,7 @@ _.extend(Store.prototype, Backbone.Events, {
         if (!this.models && !this.isFetching) {
             this.isFetching = true;
             var models = new this.collection();
-            var queryString = '';
+            var queryString = "";
 
             // Build the query string if queryParameters have been provided
             if (this.queryParams) {
@@ -129,7 +129,7 @@ _.extend(Store.prototype, Backbone.Events, {
             }
 
             models.fetch({
-                url: _.result(models, 'url') + queryString
+                url: _.result(models, "url") + queryString
             }).done(function() {
                 this.isFetching = false;
                 this.models = models;
@@ -247,13 +247,13 @@ _.extend(Store.prototype, Backbone.Events, {
         if (!this.models) return this.fetchModels();
         var keys = Object.keys(params);
 
-        var models = this.models.filter(function(model) {
+        var models = this.models.cfilter(function(model) {
             var matchesCriteria = true;
 
             keys.forEach(function(key) {
                 if (!matchesCriteria) return;
 
-                var tokens = key.split('.');
+                var tokens = key.split(".");
                 if (tokens.length === 1) {
                     if (model.get(key) !== params[key])
                         matchesCriteria = false;
@@ -267,7 +267,7 @@ _.extend(Store.prototype, Backbone.Events, {
             return matchesCriteria;
         });
 
-        return new this.collection(models);
+        return models;
     },
 
     // Looks through the local cache and returns the first model matching the given params
@@ -284,7 +284,7 @@ _.extend(Store.prototype, Backbone.Events, {
             keys.forEach(function(key) {
                 if (!matchesCriteria) return;
 
-                var tokens = key.split('.');
+                var tokens = key.split(".");
                 if (tokens.length === 1) {
                     if (model.get(key) !== params[key])
                         matchesCriteria = false;
@@ -353,11 +353,13 @@ _.extend(Store.prototype, Backbone.Events, {
         }
     },
     appendModels: function(moreModels) {
-        if(!this.models) {
+        if (!this.models) {
             this.models = moreModels;
             return;
         }
-        this.models.add(moreModels.models, { merge: true });
+        this.models.add(moreModels.models, {
+            merge: true
+        });
     },
 
     fetchWhere: function(queryParams) {
@@ -398,7 +400,6 @@ _.extend(Store.prototype, Backbone.Events, {
         if (nextUrl && !this.isFetchingQuery[queryString]) {
             this.isFetching = true;
             this.isFetchingQuery[queryString] = true;
-            var moreModels = new this.collection();
 
             this.queryModels[queryString].fetch({
                 url: nextUrl,
@@ -418,7 +419,7 @@ _.extend(Store.prototype, Backbone.Events, {
     // Poll model while whileFunc(model) returns true.
     pollWhile: function(model, whileFunc) {
         if (!model.fetchFromCloud)
-            throw new Error('model missing required method for polling: fetchFromCloud');
+            throw new Error("model missing required method for polling: fetchFromCloud");
 
         // If already polling, mutate the callback and exit
         if (this.pollingModels[model.cid]) {
@@ -461,7 +462,7 @@ _.extend(Store.prototype, Backbone.Events, {
     // Fetches the models state immediately and then sets up to be polled if not in a final state
     pollNowUntilBuildIsFinished: function(model) {
         if (!this.isInFinalState)
-            throw new Error('store missing required method for polling: isInFinalState');
+            throw new Error("store missing required method for polling: isInFinalState");
 
         if (model.id) {
             this.pollWhile(model, _.negate(this.isInFinalState));

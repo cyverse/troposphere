@@ -1,6 +1,5 @@
 import React from "react";
 import Backbone from "backbone";
-import stores from "stores";
 
 import ProgressBar from "components/common/ui/ProgressBar.react";
 
@@ -14,13 +13,10 @@ export default React.createClass({
     resourceExceded: function(total, limit) {
         if (total > limit) {
             return (
-            <div style={ { color: "red", marginTop: "-20px" } }>
+            <div style={{ color: "red", marginTop: "-20px" }}>
                 You do not have enough resources.
                 <br/>
-                <a className="btn btn-xs btn-default" 
-                   style={{ margin: "5px 0 20px" }} 
-                   onClick={ () => console.warn("Implement mee...") }>
-                       Request more Resources</a>
+                <a className="btn btn-xs btn-default" style={{ margin: "5px 0 20px" }} onClick={() => console.warn("Implement mee...")}>Request more Resources</a>
             </div>
             )
         }
@@ -51,10 +47,8 @@ export default React.createClass({
             <label>
                 Allocation Used
             </label>
-            <ProgressBar startColor="#56AA21" 
-                         startValue={ percent } 
-                         label={ auLabel } />
-            { this.resourceExceded(consumed, total) }
+            <ProgressBar startColor="#56AA21" startValue={percent} label={auLabel} />
+            {this.resourceExceded(consumed, total)}
         </div>
         )
     },

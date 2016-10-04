@@ -1,15 +1,15 @@
-import IResume from './instance/resume';
-import ISuspend from './instance/suspend';
-import IStop from './instance/stop';
-import IStart from './instance/start';
-import IReboot from './instance/reboot';
-import IRedeploy from './instance/redeploy';
-import IPoll from './instance/poll';
-import ILaunch from './instance/launch';
-import IDestroy from './instance/destroy';
-import IUpdate from './instance/update';
-import IReport from './instance/report';
-import IRequest from './instance/requestImage';
+import IResume from "./instance/resume";
+import ISuspend from "./instance/suspend";
+import IStop from "./instance/stop";
+import IStart from "./instance/start";
+import IReboot from "./instance/reboot";
+import IRedeploy from "./instance/redeploy";
+import IPoll from "./instance/poll";
+import ILaunch from "./instance/launch";
+import IDestroy from "./instance/destroy";
+import IUpdate from "./instance/update";
+import IReport from "./instance/report";
+import IRequest from "./instance/requestImage";
 
 export default {
     resume: IResume.resume,

@@ -1,17 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Backbone from 'backbone';
-import _ from 'underscore';
-import stores from 'stores';
+import React from "react";
+import stores from "stores";
 
-import TabLinks from 'components/common/ui/TabLinks.react';
-import ImageCollection from 'collections/ImageCollection';
-import ImageList from '../components/ImageList.react';
-import ComponentHandleInputWithDelay from 'components/mixins/ComponentHandleInputWithDelay';
-import InstanceLaunchFooter from '../components/InstanceLaunchFooter.react';
+import TabLinks from "components/common/ui/TabLinks.react";
+import ImageCollection from "collections/ImageCollection";
+import ImageList from "../components/ImageList.react";
+import ComponentHandleInputWithDelay from "components/mixins/ComponentHandleInputWithDelay";
+import InstanceLaunchFooter from "../components/InstanceLaunchFooter.react";
 
 export default React.createClass({
-    displayName: 'InstanceLaunchWizardModal-ImageSelectStep',
+    displayName: "InstanceLaunchWizardModal-ImageSelectStep",
     mixins: [ComponentHandleInputWithDelay],
 
     RESULTS_PER_PAGE: 20,
@@ -34,12 +31,12 @@ export default React.createClass({
         stores.TagStore.addChangeListener(this.updateState);
         this.focusSearchInput();
 
-        // Here we have the option to prime the data, in the future
-        // subscribing to a data source should do this automatically
-        //
-        // this.fetchAll();
-        // this.fetchFeatured();
-        // this.fetchFavorites();
+    // Here we have the option to prime the data, in the future
+    // subscribing to a data source should do this automatically
+    //
+    // this.fetchAll();
+    // this.fetchFeatured();
+    // this.fetchFavorites();
     },
 
     componentWillUnmount: function() {
@@ -132,12 +129,12 @@ export default React.createClass({
         let images;
         if (query) {
             images = stores.ImageStore.fetchWhere({
-                tags__name: 'Featured',
+                tags__name: "Featured",
                 search: query
             });
         } else {
             images = stores.ImageStore.fetchWhere({
-                tags__name: 'Featured'
+                tags__name: "Featured"
             });
         }
 
@@ -149,12 +146,12 @@ export default React.createClass({
         let images;
         if (query) {
             images = stores.ImageStore.getWhere({
-                tags__name: 'Featured',
+                tags__name: "Featured",
                 search: query
             });
         } else {
             images = stores.ImageStore.getWhere({
-                tags__name: 'Featured'
+                tags__name: "Featured"
             });
         }
 
@@ -201,7 +198,6 @@ export default React.createClass({
             return (
             // Note: this div collapses w/o nbsp
             <div className="filter-description">
-                &nbsp;
             </div>
             );
         }
@@ -209,9 +205,9 @@ export default React.createClass({
         let message;
         if (images.length === 0) {
             if (view == this.FAVORITE_VIEW) {
-                message = 'No favorited images found';
+                message = "No favorited images found";
             } else {
-                message = 'No images found';
+                message = "No images found";
             }
         } else {
             if (total > images.length) {
@@ -227,7 +223,7 @@ export default React.createClass({
 
         return (
         <div className="filter-description">
-            { message }
+            {message}
         </div>
         );
     },
@@ -235,7 +231,7 @@ export default React.createClass({
     renderMoreImagesButton: function() {
         return (
         <li>
-            <button style={ { 'margin': '15px auto', 'display': 'block' } } className="btn btn-default" onClick={ this.handleLoadMoreImages }>
+            <button style={{ "margin": "15px auto", "display": "block" }} className="btn btn-default" onClick={this.handleLoadMoreImages}>
                 Show more images...
             </button>
         </li>
@@ -249,10 +245,10 @@ export default React.createClass({
     renderSearchInput: function() {
         return (
         <input ref="searchField"
-               type="text"
-               placeholder="Search across image name, tag or description"
-               className="form-control search-input"
-               onChange={ this.onSearchChange } />
+            type="text"
+            placeholder="Search across image name, tag or description"
+            className="form-control search-input"
+            onChange={this.onSearchChange} />
         );
     },
 
@@ -265,7 +261,6 @@ export default React.createClass({
     // populate that data source.
     renderImageTabView: function() {
         let tags = stores.TagStore.getAll();
-        let query = this.state.query;
         let view = this.state.view;
 
         let images;
@@ -285,8 +280,8 @@ export default React.createClass({
         if (!(images && tags)) {
             return (
             <div>
-                { this.renderSearchInput() }
-                { this.renderFilterDescription() }
+                {this.renderSearchInput()}
+                {this.renderFilterDescription()}
                 <div className="loading" />
             </div>
             );
@@ -297,12 +292,12 @@ export default React.createClass({
 
         return (
         <div>
-            { this.renderSearchInput() }
-            { this.renderFilterDescription(shownImages, images.length) }
-            <ImageList images={ shownImages } onSelectImage={ this.props.onSelectImage }>
-                { images.length > shownImages.length
-                      ? this.renderMoreImagesButton()
-                      : null }
+            {this.renderSearchInput()}
+            {this.renderFilterDescription(shownImages, images.length)}
+            <ImageList images={shownImages} onSelectImage={this.props.onSelectImage}>
+                {images.length > shownImages.length
+                 ? this.renderMoreImagesButton()
+                 : null}
             </ImageList>
         </div>
         );
@@ -313,16 +308,16 @@ export default React.createClass({
         return (
         <div>
             <div className="modal-section">
-                <h3 className="t-title">First choose an image for your instance</h3>
+                <h3 className="t-body-2">First choose an image for your instance</h3>
                 <hr/>
-                <TabLinks links={ ['Show Featured', 'Show Favorites', 'Show All'] } defaultLink={ this.FEATURED_VIEW } onTabClick={ this.onChangeView } />
-                { this.renderImageTabView() }
+                <TabLinks links={["Show Featured", "Show Favorites", "Show All"]} defaultLink={this.FEATURED_VIEW} onTabClick={this.onChangeView} />
+                {this.renderImageTabView()}
             </div>
-            <InstanceLaunchFooter showValidationErr={ true }
-                                  onCancel={ this.props.onCancel }
-                                  launchIsDisabled={ true }
-                                  advancedIsDisabled={ true }
-                                  backIsDisabled={ true } />
+            <InstanceLaunchFooter showValidationErr={true}
+                onCancel={this.props.onCancel}
+                launchIsDisabled={true}
+                advancedIsDisabled={true}
+                backIsDisabled={true} />
         </div>
         );
 

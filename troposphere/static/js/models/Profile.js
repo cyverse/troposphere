@@ -1,10 +1,10 @@
-import Backbone from 'backbone';
-import globals from 'globals';
+import Backbone from "backbone";
+import globals from "globals";
 
 export default Backbone.Model.extend({
-      url: globals.API_ROOT + "/profile",
+    url: globals.API_ROOT + "/profile",
 
-      parse: function (response) {
+    parse: function(response) {
         var attributes = response;
 
         attributes.id = response.username;
@@ -28,8 +28,7 @@ export default Backbone.Model.extend({
         attributes.settings.icon_set = response.icon_set;
         attributes.settings.quick_launch = response.quick_launch;
         attributes.settings.send_emails = response.send_emails;
-        attributes.settings.use_ssh_keys = response.use_ssh_keys;
 
         return attributes;
-      }
+    }
 });

@@ -34,35 +34,9 @@
   border-bottom: 1px solid #EEEEEE;
   margin-bottom: 20px;
 
-  .project-name i {
-    display: none;
-  }
-
-  h1 {
-    font-size: 25px;
-    margin-bottom: 3px;
-    margin-top: 29px;
-    height: 36px;
-  }
-
   ul {
     padding-left: 0px;
     margin-bottom: 0px;
-  }
-
-  // For the projects list page
-  &.half-height {
-    padding: 23px 0px;
-
-    h1 {
-      float: left;
-      margin: 0;
-      line-height: 39px;
-    }
-
-    button {
-      float: right;
-    }
   }
 
   > .container > ul > li {
@@ -124,14 +98,7 @@
 
         &:hover {
           color: white;
-          background: -moz-linear-gradient(50% 0% -90deg, rgba(244, 125, 92, 1) 0%, rgba(244, 125, 92, 1) 0.08%, rgba(242, 99, 75, 1) 23.78%, rgba(240, 80, 63, 1) 48%, rgba(239, 69, 56, 1) 73.05%, rgba(239, 65, 54, 1) 100%);
-          background: -webkit-linear-gradient(-90deg, rgba(244, 125, 92, 1) 0%, rgba(244, 125, 92, 1) 0.08%, rgba(242, 99, 75, 1) 23.78%, rgba(240, 80, 63, 1) 48%, rgba(239, 69, 56, 1) 73.05%, rgba(239, 65, 54, 1) 100%);
-          background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0, rgba(244, 125, 92, 1)), color-stop(0.0008, rgba(244, 125, 92, 1)), color-stop(0.2378, rgba(242, 99, 75, 1)), color-stop(0.48, rgba(240, 80, 63, 1)), color-stop(0.7305, rgba(239, 69, 56, 1)), color-stop(1, rgba(239, 65, 54, 1)));
-          background: -o-linear-gradient(-90deg, rgba(244, 125, 92, 1) 0%, rgba(244, 125, 92, 1) 0.08%, rgba(242, 99, 75, 1) 23.78%, rgba(240, 80, 63, 1) 48%, rgba(239, 69, 56, 1) 73.05%, rgba(239, 65, 54, 1) 100%);
-          background: -ms-linear-gradient(-90deg, rgba(244, 125, 92, 1) 0%, rgba(244, 125, 92, 1) 0.08%, rgba(242, 99, 75, 1) 23.78%, rgba(240, 80, 63, 1) 48%, rgba(239, 69, 56, 1) 73.05%, rgba(239, 65, 54, 1) 100%);
-          -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#F47D5C', endColorstr='#EF4136' ,GradientType=0)";
           background: linear-gradient(180deg, rgba(244, 125, 92, 1) 0%, rgba(244, 125, 92, 1) 0.08%, rgba(242, 99, 75, 1) 23.78%, rgba(240, 80, 63, 1) 48%, rgba(239, 69, 56, 1) 73.05%, rgba(239, 65, 54, 1) 100%);
-          filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F47D5C', endColorstr='#EF4136', GradientType=0);
         }
       }
     }
@@ -280,61 +247,6 @@
   }
 }
 
-.side-panel {
-  height: 500px;
-  background-color: #eeeeee;
-  padding: 10px;
-
-  .preview-message {
-    padding: 10px 40px;
-
-    .message {
-      color: #aaa;
-      font-size: 16px;
-    }
-  }
-
-  .header {
-    border-bottom: 2px solid #CCCCCC;
-    padding-bottom: 1px;
-    margin-bottom: 6px;
-
-    .title {
-      font-size: 17px;
-      //border-bottom: 2px solid $brand-primary;
-      text-transform: uppercase;
-      margin-left: 7px;
-      padding-right: 7px;
-    }
-  }
-
-  ul {
-    padding-left: 10px;
-  }
-
-  li {
-    list-style: none;
-    line-height: 120%;
-    padding-bottom: 10px;
-
-    .detail-label {
-      width: 40%;
-      margin-right: 5%;
-      display: block;
-      float:left;
-    }
-
-    .detail-value {
-      width: 55%;
-      display: block;
-      float:left;
-    }
-    div {
-      font-size: 13px;
-    }
-  }
-}
-
 // This is repeated above because the values are different here and the above are scoped within `.side-panel`
 .detail-label {
     width: 15%;
@@ -364,14 +276,14 @@
 
     i {
       display: inline-block;
-      font-size: 25px;
+      font-size: 18px;
       margin-right: 10px;
     }
 
-  .title-3,  h2 {
+  .title-3 {
       display: inline-block;
       vertical-align: bottom;
-      font-size: 27px;
+      font-size: 18px;
       margin-top: 0px;
       margin-bottom: 3px;
     }
@@ -435,12 +347,6 @@
   .resource-list {
     position: relative;
 
-    .side-panel {
-      position: absolute;
-      right: 0;
-      width: 350px;
-    }
-
     .scrollable-content {
       float: left;
       width: 100%;
@@ -486,10 +392,6 @@ ul.message-banner {
     .resource-list {
       .scrollable-content {
         padding-right: 0px;
-      }
-
-      .side-panel {
-        display: none;
       }
     }
   }

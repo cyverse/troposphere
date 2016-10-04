@@ -1,6 +1,6 @@
-import Backbone from 'backbone';
-import globals from 'globals';
-import VolumeState from './VolumeState';
+import Backbone from "backbone";
+import globals from "globals";
+import VolumeState from "./VolumeState";
 
 let extractAttachData = function(attrs) {
     if (attrs.attach_data && attrs.attach_data.instance_alias) {
@@ -19,70 +19,76 @@ let extractAttachData = function(attrs) {
 export default Backbone.Model.extend({
     urlRoot: globals.API_V2_ROOT + "/volumes",
 
-    parse: function (attributes) {
-      if(attributes.start_date){
-        attributes.start_date = new Date(attributes.start_date);
-      }
-      if(attributes.status){
-        attributes.state = new VolumeState({status_raw: attributes.status});
-      }
-      else{
-        attributes.status = "Unknown";
-        attributes.state = new VolumeState({status_raw: "Unknown"});
-      }
-      attributes.attach_data = extractAttachData(attributes);
-      return attributes;
-    },
-
-    isAttached: function () {
-      return this.get('status') == 'in-use' || this.get('status') == 'detaching';
-    },
-
-    fetchFromCloud: function (cb) {
-      var volumeId = this.get('uuid'),
-        providerId = this.get('provider').uuid,
-        identityId = this.get('identity').uuid;
-
-      var url = (
-        globals.API_ROOT +
-        "/provider/" + providerId +
-        "/identity/" + identityId +
-        "/volume/" + volumeId
-      );
-
-      Backbone.sync("read", this, {
-        url: url
-      }).done(function (attrs, status, response) {
-        this.set('status', attrs.status || "Unknown");
-        this.set('state', new VolumeState({status_raw: attrs.status}));
-        this.set('attach_data', extractAttachData(attrs));
-        cb(response);
-      }.bind(this));
-    },
-
-    createOnV1Endpoint: function (options, cb) {
-      if (!options.name) throw new Error("Missing name");
-      if (!options.size) throw new Error("Missing size");
-
-      var volumeId = this.get('uuid'),
-        providerId = this.get('provider').uuid,
-        identityId = this.get('identity').uuid,
-        name = options.name,
-        size = options.size;
-
-      var url = (
-        globals.API_ROOT +
-        "/provider/" + providerId +
-        "/identity/" + identityId +
-        "/volume"
-      );
-
-      return Backbone.sync("create", this, {
-        url: url,
-        attrs: {
-          name: name,
-          size: size
+    parse: function(attributes) {
+        if (attributes.start_date) {
+            attributes.start_date = new Date(attributes.start_date);
         }
-      });
+        if (attributes.status) {
+            attributes.state = new VolumeState({
+                status_raw: attributes.status
+            });
+        } else {
+            attributes.status = "Unknown";
+            attributes.state = new VolumeState({
+                status_raw: "Unknown"
+            });
+        }
+        attributes.attach_data = extractAttachData(attributes);
+        return attributes;
+    },
+
+    isAttached: function() {
+        return this.get("status") == "in-use" || this.get("status") == "detaching";
+    },
+
+    fetchFromCloud: function(cb) {
+        var volumeId = this.get("uuid"),
+            providerId = this.get("provider").uuid,
+            identityId = this.get("identity").uuid;
+
+        var url = (
+        globals.API_ROOT +
+            "/provider/" + providerId +
+            "/identity/" + identityId +
+            "/volume/" + volumeId
+        );
+
+        Backbone.sync("read", this, {
+            url: url
+        }).done(function(attrs, status, response) {
+            this.set("status", attrs.status || "Unknown");
+            this.set("state", new VolumeState({
+                status_raw: attrs.status
+            }));
+            this.set("attach_data", extractAttachData(attrs));
+            cb(response);
+        }.bind(this));
+    },
+
+    createOnV1Endpoint: function(options, cb) {
+        if (!options.name)
+            throw new Error("Missing name");
+        if (!options.size)
+            throw new Error("Missing size");
+
+        var providerId = this.get("provider").uuid,
+            identityId = this.get("identity").uuid,
+            name = options.name,
+            size = options.size;
+
+        var url = (
+        globals.API_ROOT +
+            "/provider/" + providerId +
+            "/identity/" + identityId +
+            "/volume"
+        );
+
+        return Backbone.sync("create", this, {
+            url: url,
+            attrs: {
+                name: name,
+                size: size
+            }
+        });
     }
 });

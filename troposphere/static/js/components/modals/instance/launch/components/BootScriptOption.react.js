@@ -1,10 +1,15 @@
-import React from 'react';
-import AddScripts from './AddScripts.react';
-import CreateScript from './CreateScript.react';
+import React from "react";
+import AddScripts from "./AddScripts.react";
+import CreateScript from "./CreateScript.react";
 
 
 export default React.createClass({
+    displayName: "BootScriptOption",
 
+    propTypes: {
+        onDisableFooter: React.PropTypes.func,
+        onEnableFooter: React.PropTypes.func
+    },
     getInitialState: function() {
         return {
             view: "ADDSCRIPT_VIEW"
@@ -27,23 +32,19 @@ export default React.createClass({
 
     renderSelectScripts: function() {
         return (
-            <AddScripts {...this.props}
-                onCreateScript={this.onCreateScript}
-            />
+        <AddScripts {...this.props} onCreateScript={this.onCreateScript} />
         )
     },
 
     renderCreateScript: function() {
         return (
-            <CreateScript {...this.props}
-                close={this.onCloseCreateScript}
-            />
+        <CreateScript {...this.props} close={this.onCloseCreateScript} />
         )
     },
 
     renderBody: function() {
         let view = this.state.view;
-        switch(view) {
+        switch (view) {
             case "ADDSCRIPT_VIEW":
                 return this.renderSelectScripts()
             case "CREATESCRIPT_VIEW":
@@ -53,11 +54,11 @@ export default React.createClass({
 
     render: function() {
         return (
-            <div>
-                <h3 className="t-title">Deployment Scripts</h3>
-                <hr/>
-                {this.renderBody()}
-            </div>
+        <div>
+            <h3 className="t-title">Deployment Scripts</h3>
+            <hr/>
+            {this.renderBody()}
+        </div>
         )
     }
 });

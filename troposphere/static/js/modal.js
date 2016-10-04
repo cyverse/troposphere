@@ -1,16 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Backbone from 'backbone';
-import _ from 'underscore';
-import ModalMixin from 'components/mixins/modal';
+import React from "react";
+import ReactDOM from "react-dom";
+import _ from "underscore";
+import ModalMixin from "components/mixins/modal";
 
 
 let ConfirmComponent = React.createClass({
     mixins: [ModalMixin],
     getDefaultProps: function() {
         return {
-            okButtonText: 'OK',
-            //onCancel: function() {},
+            okButtonText: "OK",
+        //onCancel: function() {},
         };
     },
 
@@ -35,7 +34,7 @@ let ConfirmComponent = React.createClass({
     renderFooter: function() {
         return React.DOM.div({},
             React.DOM.button({
-                className: 'btn btn-primary',
+                className: "btn btn-primary",
                 onClick: this.onConfirm
             }, this.props.okButtonText));
     }
@@ -43,7 +42,7 @@ let ConfirmComponent = React.createClass({
 });
 
 let mountModal = function(modalComponent) {
-    ReactDOM.render(modalComponent, document.getElementById('modal'));
+    ReactDOM.render(modalComponent, document.getElementById("modal"));
 };
 
 /*

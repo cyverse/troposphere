@@ -1,7 +1,7 @@
-import React from 'react';
-import Backbone from 'backbone';
-import ResourceDetail from 'components/projects/common/ResourceDetail.react';
-import stores from 'stores';
+import React from "react";
+import Backbone from "backbone";
+import ResourceDetail from "components/projects/common/ResourceDetail.react";
+import stores from "stores";
 
 
 export default React.createClass({
@@ -11,20 +11,20 @@ export default React.createClass({
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    render: function () {
+    render: function() {
         var instance = this.props.instance,
-          size = stores.SizeStore.get(instance.get('size').id);
+            size = stores.SizeStore.get(instance.get("size").id);
 
         if (!size) {
-          return (
+            return (
             <div className="loading-tiny-inline"></div>
-          );
+            );
         }
 
         return (
-          <ResourceDetail label="Size">
+        <ResourceDetail label="Size">
             {size.formattedDetails()}
-          </ResourceDetail>
+        </ResourceDetail>
         );
     }
 });

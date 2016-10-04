@@ -1,65 +1,67 @@
-import React from 'react';
-import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import React from "react";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
 
 export default React.createClass({
-      displayName: "InstanceStopModal",
+    displayName: "InstanceStopModal",
 
-      mixins: [BootstrapModalMixin],
+    mixins: [BootstrapModalMixin],
 
-      //
-      // Internal Modal Callbacks
-      // ------------------------
-      //
+    //
+    // Internal Modal Callbacks
+    // ------------------------
+    //
 
-      cancel: function () {
+    cancel: function() {
         this.hide();
-      },
+    },
 
-      confirm: function () {
+    confirm: function() {
         this.hide();
         this.props.onConfirm();
-      },
+    },
 
-      //
-      // Render
-      // ------
-      //
+    //
+    // Render
+    // ------
+    //
 
-      renderBody: function () {
+    renderBody: function() {
         return (
-          <div>
-            <p>{"Would you like to stop this instance?"}</p>
-
-            <p><strong>NOTE:</strong> This will NOT affect your resources. To preserve resources and time allocation you
-              must suspend your instance.</p>
-          </div>
+        <div>
+            <p>
+                {"Would you like to stop this instance?"}
+            </p>
+            <p>
+                <strong>NOTE:</strong> This will NOT affect your resources. To preserve resources and time allocation you must suspend your instance.
+            </p>
+        </div>
         );
-      },
+    },
 
-      render: function () {
+    render: function() {
 
         return (
-          <div className="modal fade">
+        <div className="modal fade">
             <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  {this.renderCloseButton()}
-                  <strong>Stop Instance</strong>
+                <div className="modal-content">
+                    <div className="modal-header">
+                        {this.renderCloseButton()}
+                        <h1 className="t-title">Stop Instance</h1>
+                    </div>
+                    <div className="modal-body">
+                        {this.renderBody()}
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-danger" onClick={this.cancel}>
+                            Cancel
+                        </button>
+                        <button type="button" className="btn btn-primary" onClick={this.confirm}>
+                            Yes, stop this instance
+                        </button>
+                    </div>
                 </div>
-                <div className="modal-body">
-                  {this.renderBody()}
-                </div>
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-danger" onClick={this.cancel}>
-                    Cancel
-                  </button>
-                  <button type="button" className="btn btn-primary" onClick={this.confirm}>
-                    Yes, stop this instance
-                  </button>
-                </div>
-              </div>
             </div>
-          </div>
+        </div>
         );
-      }
+    }
 });

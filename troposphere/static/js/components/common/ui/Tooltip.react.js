@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export default React.createClass({
     propTypes: {
@@ -15,7 +15,7 @@ export default React.createClass({
     },
 
     componentDidMount: function() {
-        setTimeout( ()=> {
+        setTimeout(() => {
             this.setState({
                 animate: {
                     opacity: "1",
@@ -23,7 +23,7 @@ export default React.createClass({
                 }
             })
         }
-        , 100);
+            , 100);
     },
 
     style: {
@@ -45,7 +45,7 @@ export default React.createClass({
             right: "0",
             left: "0",
             bottom: "-20px",
-            margin:"auto",
+            margin: "auto",
             width: "10px",
             border: "solid 10px rgba(0,0,0,0)",
             borderTop: "solid 10px black",
@@ -55,15 +55,12 @@ export default React.createClass({
     render: function() {
 
         return (
-            <div style={{
-                ...this.style.content,
-                ...this.state.animate,
-            }} >
-                <div>
-                    {this.props.message}
-                </div>
-                <div style={this.style.originPoint}/>
+        <div style={{ ...this.style.content, ...this.state.animate, }}>
+            <div>
+                {this.props.message}
             </div>
+            <div style={this.style.originPoint} />
+        </div>
         )
     }
 })

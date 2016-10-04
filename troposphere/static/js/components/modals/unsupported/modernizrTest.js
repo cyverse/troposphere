@@ -1,5 +1,5 @@
-import modernizr from 'lib/modernizr-latest.js';
-import _ from 'underscore';
+import modernizr from "lib/modernizr-latest.js";
+import _ from "underscore";
 
 let features = modernizr;
 
@@ -12,25 +12,25 @@ let requiredFeatures = [
     //'mathml',
     //'dart',
     //the actual tests, so far, we are concerned about
-    'cssanimations',
-    'es5',
-    'es5array',
-    'es5date',
-    'es5function',
-    'es5object',
-    'strictmode',
-    'es5string',
-    'json',
-    'es5syntax',
-    'es5undefined',
-    'ruby',
-    'svg',
-    'flexbox',
-    'inlinesvg',
-    'cssgradients',
-    'rgba',
-    'eventlistener',
-    'ellipsis'
+    "cssanimations",
+    "es5",
+    "es5array",
+    "es5date",
+    "es5function",
+    "es5object",
+    "strictmode",
+    "es5string",
+    "json",
+    "es5syntax",
+    "es5undefined",
+    "ruby",
+    "svg",
+    "flexbox",
+    "inlinesvg",
+    "cssgradients",
+    "rgba",
+    "eventlistener",
+    "ellipsis"
 ];
 
 let unsupportedFeatures = _.map(_.filter(_.pairs(features), _.negate(_.last)), _.first);
@@ -41,7 +41,7 @@ let unsupported = function() {
 };
 
 export default {
-        unsupportedFeatures: unsupportedFeatures,
-        breakingFeatures: breakingFeatures,
-        unsupported: unsupported,
+    unsupportedFeatures: unsupportedFeatures,
+    breakingFeatures: breakingFeatures,
+    unsupported: unsupported,
 };

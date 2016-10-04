@@ -15,7 +15,7 @@ from troposphere.version import get_version
 from troposphere.auth import has_valid_token
 from troposphere.site_metadata import get_site_metadata
 from .emulation import is_emulated_session
-from .maintenance import get_maintenance, get_notices
+from .maintenance import get_maintenance, get_notice
 
 logger = logging.getLogger(__name__)
 
@@ -50,13 +50,6 @@ def should_route_to_maintenace(request, in_maintenance):
         and not is_emulated_session(request))
 
 
-def _should_show_troposphere_only():
-    # `SHOW_TROPOSPHERE_ONLY` may not be present in `settings`, so use
-    # `hasattr` to handle when it is not present & avoid 500 errors on load.
-    return hasattr(settings, "SHOW_TROPOSPHERE_ONLY") and \
-        settings.SHOW_TROPOSPHERE_ONLY is True
-
-
 def _should_enabled_new_relic():
     return hasattr(settings, "NEW_RELIC_ENVIRONMENT") and \
         bool(settings.NEW_RELIC_ENVIRONMENT) is True
@@ -69,7 +62,6 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
     in `local.py`).
     """
     # keep this variable around for the return statement ...
-    show_troposphere_only = _should_show_troposphere_only()
     enable_new_relic = _should_enabled_new_relic()
     notice = ""
     if notice_t and len(notice_t) > 2:
@@ -82,7 +74,6 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
         'emulator': request.session.get('emulator'),
         'records': maintenance_records,
         'notice': notice,
-        'show_troposphere_only': show_troposphere_only,
         'new_relic_enabled': enable_new_relic,
         'show_public_site': public
     }
@@ -91,7 +82,7 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
         template_params['disable_login'] = disabled_login
     else:
         template_params['disable_login'] = False
-        template_params['show_instance_metrics'] = \
+        template_params['SHOW_INSTANCE_METRICS'] = \
             getattr(settings, "SHOW_INSTANCE_METRICS", False)
         # Only include Intercom information when rendering the authenticated
         # version of the site.
@@ -114,12 +105,8 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
     template_params['USE_MOCK_DATA'] = getattr(settings, "USE_MOCK_DATA", False)
     template_params['USE_ALLOCATION_SOURCES'] = getattr(settings,
             "USE_ALLOCATION_SOURCES", False)
-
-    #TODO: Replace this line when theme support is re-enabled.
-    #template_params["THEME_URL"] = "assets/"
-    template_params['THEME_URL'] = "/themes/%s" % settings.THEME_NAME
+    template_params['THEME_URL'] = "/assets/theme"
     template_params['ORG_NAME'] = settings.ORG_NAME
-
     template_params['DYNAMIC_ASSET_LOADING'] = settings.DYNAMIC_ASSET_LOADING
 
     if hasattr(settings, "BASE_URL"):
@@ -147,54 +134,28 @@ def _populate_template_params(request, maintenance_records, notice_t, disabled_l
         template_params['USE_GATE_ONE_API'] = settings.USE_GATE_ONE_API
         template_params['WEB_SH_URL'] = settings.WEB_SH_URL
 
-    return template_params, show_troposphere_only
+    return template_params
 
 
 def _handle_public_application_request(request, maintenance_records, disabled_login=False):
     """
     Deal with unauthenticated requests:
+    - there is only the opportunity to browser the Public Image Catalog.
 
-    - For troposphere, there is the opportunity to browser the Public Image Catalog.
-    - For airport, there is nothing to do but ask for people to `login.html`.
     """
-    template_params, show_troposphere_only = _populate_template_params(request,
-            maintenance_records, None, disabled_login, True)
+    template_params = _populate_template_params(request, maintenance_records,
+                                                None, disabled_login, True)
 
     if 'new_relic_enabled' in template_params:
         logger.info("New Relic enabled? %s" % template_params['new_relic_enabled'])
     else:
         logger.info("New Relic key missing from `template_params`")
 
-    # If show airport_ui flag in query params, set the session value to that
-    if "airport_ui" in request.GET:
-        request.session['airport_ui'] = request.GET['airport_ui'].lower()
-
-    # only honor `?beta=false` from the query string...
-    if "beta" in request.GET:
-        request.session['beta'] = request.GET['beta'].lower()
-    else: # consider troposphere the _default_
-        request.session['beta'] = 'true'
-
-    if "airport_ui" not in request.session:
-        request.session['airport_ui'] = 'false'
-        # the absence flag to show the airport_ui would be equal to 'false'
-    show_airport = request.session['airport_ui'] is 'true'
-
-    # Return the new Troposphere UI
-    if not show_airport or show_troposphere_only:
-        response = render_to_response(
-            'index.html',
-            template_params,
-            context_instance=RequestContext(request)
-        )
-    else: # Return the old Airport UI
-        response = render_to_response(
-            'login.html',
-            template_params,
-            context_instance=RequestContext(request)
-        )
-    response.set_cookie('beta', request.session['beta'])
-    response.set_cookie('airport_ui', request.session['airport_ui'])
+    response = render_to_response(
+        'index.html',
+        template_params,
+        context_instance=RequestContext(request)
+    )
 
     return response
 
@@ -205,17 +166,22 @@ def _handle_authenticated_application_request(request, maintenance_records,
     Deals with request verified identities via `iplantauth` module.
     """
     if notice_info and notice_info[1]:
-        notice_info = (notice_info[0],
-            notice_info[1].message,
+        notice_info = (notice_info[0], notice_info[1],
             'maintenance_notice' in request.COOKIES)
 
-    template_params, show_troposphere_only = _populate_template_params(request,
-            maintenance_records, notice_info, disabled_login=False, public=False)
+    template_params = _populate_template_params(request, maintenance_records,
+                                                notice_info,
+                                                disabled_login=False,
+                                                public=False)
 
-    user_preferences, created = UserPreferences.objects.get_or_create(
-        user=request.user)
-
-    prefs_modified = False
+    # UserPreferences currently do not have a reason to be fetched.
+    # This model was used when we need to decide which user interface to
+    # given what the community member preferred.
+    #
+    # I leave this for now as an example of how to fetch this model:
+    # ---
+    # user_preferences, created = UserPreferences.objects.get_or_create(
+    #    user=request.user)
 
     if 'new_relic_enabled' in template_params:
         logger.info("New Relic enabled? %s" % template_params['new_relic_enabled'])
@@ -223,45 +189,11 @@ def _handle_authenticated_application_request(request, maintenance_records,
         logger.info("New Relic key missing from `template_params`")
 
 
-    # TODO - once phased out, we should ignore show_beta_interface altogether
-    # ----
-    # If beta flag in query params, set the session value to that
-    if "beta" in request.GET:
-        prefs_modified = True
-        request.session['beta'] = request.GET['beta'].lower()
-        user_preferences.show_beta_interface = (True
-            if request.session['beta'] == 'true' else False)
-
-    # Moving forward, the UI version shown will be controlled by
-    # `airport_ui=<bool>` - and `beta` will be removed.
-    if "airport_ui" in request.GET:
-        prefs_modified = True
-        request.session['airport_ui'] = request.GET['airport_ui'].lower()
-        user_preferences.airport_ui = (True
-            if request.session['airport_ui'] == 'true' else False)
-
-    if prefs_modified and not is_emulated_session(request):
-        user_preferences.save()
-
-    chose_airport = (user_preferences.airport_ui  or
-        not user_preferences.show_beta_interface)
-
-    # show airport-ui if it's true and we are showing the option
-    # of switching UIs
-    # ----------
-    # Return the old Airport UI
-    if chose_airport and not show_troposphere_only:
-        response = render_to_response(
-            'cf2.html',
-            template_params,
-            context_instance=RequestContext(request)
-        )
-    else: # Return the new Troposphere UI
-        response = render_to_response(
-            'index.html',
-            template_params,
-            context_instance=RequestContext(request)
-        )
+    response = render_to_response(
+        'index.html',
+        template_params,
+        context_instance=RequestContext(request)
+    )
 
     if 'maintenance_notice' not in request.COOKIES:
         response.set_cookie('maintenance_notice', 'true',
@@ -284,8 +216,6 @@ def application_backdoor(request):
     # route a potential VIP to login
     query_arguments = {
         'redirect_to': '/application',
-        'beta': 'true',
-        'airport_ui': 'false',
         'bsp': 'true'
     }
     # I'm on the Guest List! Backstage Pass!
@@ -296,7 +226,7 @@ def application_backdoor(request):
 def application(request):
     maintenance_records, disabled_login, in_maintenance = \
         get_maintenance(request)
-    notice_info = get_notices(request)
+    notice_info = get_notice(request)
 
     if should_route_to_maintenace(request, in_maintenance):
         logger.warn('%s has actice session but is NOT in staff_list_usernames'
@@ -322,7 +252,7 @@ def forbidden(request):
     metadata = get_site_metadata()
     template_params = {}
 
-    template_params['THEME_URL'] = "/themes/%s" % settings.THEME_NAME
+    template_params['THEME_URL'] = "/assets/theme"
     template_params['ORG_NAME'] = settings.ORG_NAME
     template_params['SITE_TITLE'] = settings.SITE_TITLE
     template_params['SITE_FOOTER'] = settings.SITE_FOOTER

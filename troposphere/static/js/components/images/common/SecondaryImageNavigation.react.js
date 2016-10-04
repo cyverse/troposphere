@@ -1,20 +1,20 @@
-import React from 'react';
-import stores from 'stores';
-import Router from 'react-router';
-import Glyphicon from 'components/common/Glyphicon.react';
-import context from 'context';
+import React from "react";
+import stores from "stores";
+import Router from "react-router";
+import Glyphicon from "components/common/Glyphicon.react";
+import context from "context";
 
 export default React.createClass({
-    displayName: 'SecondaryImageNavigation',
+    displayName: "SecondaryImageNavigation",
 
     renderRoute: function(name, linksTo, icon, requiresLogin) {
         if (requiresLogin && !context.hasLoggedInUser()) return null;
 
         return (
-        <li key={ name }>
-            <Router.Link to={ linksTo }>
-                <Glyphicon name={ icon } />
-                <span>{ name }</span>
+        <li key={name}>
+            <Router.Link to={linksTo}>
+                <Glyphicon name={icon} />
+                <span>{name}</span>
             </Router.Link>
         </li>
         )
@@ -23,19 +23,18 @@ export default React.createClass({
     render: function() {
         // only attempt to get bookmarks if there is a profile that might have them ...
         let userLoggedIn = context.hasLoggedInUser();
-        let images = stores.ImageStore.getAll();
 
         let routes;
         if (!userLoggedIn) {
             routes = [
-                this.renderRoute('Search', 'search', 'search', false),
-                this.renderRoute('Tags', 'tags', 'tags', false)
+                this.renderRoute("Search", "search", "search", false),
+                this.renderRoute("Tags", "tags", "tags", false)
             ];
         } else {
             let profile = stores.ProfileStore.get();
             let favoritedImages = stores.ImageBookmarkStore.getBookmarkedImages();
             let userImages = stores.ImageStore.fetchWhere({
-                created_by__username: profile.get('username')
+                created_by__username: profile.get("username")
             });
 
 
@@ -47,11 +46,11 @@ export default React.createClass({
             let myFavoritedImagesText = `Favorites (${favoritedImages.length})`;
 
             routes = [
-                this.renderRoute('Search', 'search', 'search', false),
-                this.renderRoute(myFavoritedImagesText, 'favorites', 'bookmark', true),
-                this.renderRoute(myImagesText, 'authored', 'user', true),
-                this.renderRoute('My Image Requests', 'my-image-requests', 'export', true),
-                this.renderRoute('Tags', 'tags', 'tags', false),
+                this.renderRoute("Search", "search", "search", false),
+                this.renderRoute(myFavoritedImagesText, "favorites", "bookmark", true),
+                this.renderRoute(myImagesText, "authored", "user", true),
+                this.renderRoute("My Image Requests", "my-image-requests", "export", true),
+                this.renderRoute("Tags", "tags", "tags", false),
             ];
         }
 
@@ -60,7 +59,7 @@ export default React.createClass({
             <div className="secondary-nav">
                 <div className="container">
                     <ul className="secondary-nav-links">
-                        { routes }
+                        {routes}
                     </ul>
                 </div>
             </div>

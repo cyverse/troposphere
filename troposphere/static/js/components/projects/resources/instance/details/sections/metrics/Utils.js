@@ -1,5 +1,5 @@
-import globals from 'globals';
-import d3 from 'd3';
+import globals from "globals";
+import d3 from "d3";
 
 let fetch = function(uuid, urlParams, onSuccess, onError) {
     var api = globals.API_V2_ROOT + "/metrics";
@@ -9,12 +9,12 @@ let fetch = function(uuid, urlParams, onSuccess, onError) {
     var extra = 2;
 
     var req = api + "/" + uuid + ".json" +
-      "?field=" + urlParams.field +
-      "&res="   + urlParams.res   +
-      "&size="  + (urlParams.size + extra);
+        "?field=" + urlParams.field +
+        "&res=" + urlParams.res +
+        "&size=" + (urlParams.size + extra);
 
     if (urlParams.fun) {
-      req += "&fun=" + urlParams.fun;
+        req += "&fun=" + urlParams.fun;
     }
 
     if (urlParams.from)
@@ -24,47 +24,49 @@ let fetch = function(uuid, urlParams, onSuccess, onError) {
         req += "&until=" + urlParams.until;
 
     d3.json(req)
-      .header("Authorization", "Token " + window.access_token)
-      .get(function(error, json) {
+        .header("Authorization", "Token " + window.access_token)
+        .get(function(error, json) {
 
-        // The json object should be an array with length >= 1
-        if (!(json && Array.isArray(json) && json.length)){
-          return onError && onError();
-        }
-        var data = json[0].datapoints;
+            // The json object should be an array with length >= 1
+            if (!(json && Array.isArray(json) && json.length)) {
+                return onError && onError();
+            }
+            var data = json[0].datapoints;
 
-        // Trim initial/final null values
-        if (data[0][0] == null){
-          data.splice(0, 1);
-          urlParams.size = urlParams.size - 1;
-        }
-        if(data.length > 0){
-            data.length = urlParams.size;
-            onSuccess(data.map(function(arr) {
-                return { x: arr[1] * 1000, y: arr[0] };
-            }));
-        }
-        else{
-            onError();
-        }
+            // Trim initial/final null values
+            if (data[0][0] == null) {
+                data.splice(0, 1);
+                urlParams.size = urlParams.size - 1;
+            }
+            if (data.length > 0) {
+                data.length = urlParams.size;
+                onSuccess(data.map(function(arr) {
+                    return {
+                        x: arr[1] * 1000,
+                        y: arr[0]
+                    };
+                }));
+            } else {
+                onError();
+            }
 
-      })
-  }
+        })
+}
 
-let bytesToString = function (bytes) {
-    var fmt = d3.format('.0f'),
-      isNegative = bytes < 0,
-      output = "";
+let bytesToString = function(bytes) {
+    var fmt = d3.format(".0f"),
+        isNegative = bytes < 0,
+        output = "";
 
     bytes = Math.abs(bytes);
     if (bytes < 1024) {
-      output = fmt(bytes) + 'B';
+        output = fmt(bytes) + "B";
     } else if (bytes < 1024 * 1024) {
-      output = fmt(bytes / 1024) + 'kB';
+        output = fmt(bytes / 1024) + "kB";
     } else if (bytes < 1024 * 1024 * 1024) {
-      output = fmt(bytes / 1024 / 1024) + 'MB';
+        output = fmt(bytes / 1024 / 1024) + "MB";
     } else {
-      output = fmt(bytes / 1024 / 1024 / 1024) + 'GB';
+        output = fmt(bytes / 1024 / 1024 / 1024) + "GB";
     }
     return isNegative ? "-" + output : output;
 };

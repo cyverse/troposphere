@@ -1,5 +1,5 @@
-import BaseStore from 'stores/BaseStore';
-import StatusCollection from 'collections/StatusCollection';
+import BaseStore from "stores/BaseStore";
+import StatusCollection from "collections/StatusCollection";
 
 let StatusStore = BaseStore.extend({
     collection: StatusCollection

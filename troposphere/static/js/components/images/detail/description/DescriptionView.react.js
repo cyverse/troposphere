@@ -1,26 +1,26 @@
-import React from 'react';
-import Backbone from 'backbone';
-import Showdown from 'showdown';
+import React from "react";
+import Backbone from "backbone";
+import Showdown from "showdown";
 
 
 export default React.createClass({
-      displayName: "DescriptionView",
+    displayName: "DescriptionView",
 
-      propTypes: {
+    propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    },
 
-      render: function () {
+    render: function() {
         var image = this.props.image,
-          converter = new Showdown.Converter(),
-          description = image.get('description'),
-          descriptionHtml = converter.makeHtml(description);
+            converter = new Showdown.Converter(),
+            description = image.get("description"),
+            descriptionHtml = converter.makeHtml(description);
 
         return (
-          <div className="image-info-segment row">
-            <h4 className="t-title col-md-2">Description:</h4>
-            <div className="content col-md-10" dangerouslySetInnerHTML={{__html: descriptionHtml}}/>
-          </div>
+        <div className="image-info-segment row">
+            <h4 className="t-body-2 col-md-2">Description:</h4>
+            <div className="content col-md-10" dangerouslySetInnerHTML={{ __html: descriptionHtml }} />
+        </div>
         );
-      }
+    }
 });

@@ -1,23 +1,23 @@
-import d3 from 'd3';
-import Graph from './Graph';
-import Utils from './Utils';
-import { extend } from 'underscore';
+import d3 from "d3";
+import Graph from "./Graph";
+import Utils from "./Utils";
+import { extend } from "underscore";
 
 
 let NetworkGraph = function(settings) {
     var defaults = {
-        type: 'net',
+        type: "net",
         upper: {
-            query: '*.*.' + settings.uuid + '.rx',
-            type: 'rx',
+            query: "*.*." + settings.uuid + ".rx",
+            type: "rx",
             data: [],
-            transform: 'derivative',
+            transform: "derivative",
         },
         lower: {
-            query: '*.*.' + settings.uuid + '.tx',
-            type: 'tx',
+            query: "*.*." + settings.uuid + ".tx",
+            type: "tx",
             data: [],
-            transform: 'derivative',
+            transform: "derivative",
         }
     };
 
@@ -46,10 +46,10 @@ NetworkGraph.prototype.fetch = function(onSuccess, onError) {
             size: me.points,
         };
 
-        if (s.transform == 'derivative')
-            s.urlParams.fun = 'perSecond';
+        if (s.transform == "derivative")
+            s.urlParams.fun = "perSecond";
         else
-            s.urlParams.fun = '';
+            s.urlParams.fun = "";
     });
 
     Utils.fetch(me.uuid, series[0].urlParams, function(data) {
@@ -69,11 +69,10 @@ NetworkGraph.prototype.make = function() {
         rxData = me.upper.data,
         txData = me.lower.data;
 
-    var getX = Utils.get('x');
-    var getY = Utils.get('y');
+    var getX = Utils.get("x");
+    var getY = Utils.get("y");
 
-    var metricsAxisHeight = 20,
-        yAxisWidth = 60,
+    var yAxisWidth = 60,
         margin = {
             top: 10,
             right: 20,
@@ -137,22 +136,22 @@ NetworkGraph.prototype.make = function() {
             return -y(d.y) + height;
         });
 
-    var svg = d3.select(graphDom).append('svg')
-        .attr('width', me.width)
-        .attr('height', me.height)
-        .append('g')
-        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+    var svg = d3.select(graphDom).append("svg")
+        .attr("width", me.width)
+        .attr("height", me.height)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
     var delta = 0.2;
     var showMeanUpper = yMeanUpper < yMax - delta * yMax &&
-    yMeanUpper > delta * yMax;
+        yMeanUpper > delta * yMax;
 
     var showMeanLower = yMeanLower < yMax - delta * yMax &&
-    yMeanLower > delta * yMax;
+        yMeanLower > delta * yMax;
 
     if (showMeanUpper && showMeanLower) {
-        svg.append('path')
+        svg.append("path")
             .datum([
                 {
                     x: xMin,
@@ -163,11 +162,11 @@ NetworkGraph.prototype.make = function() {
                     y: yMeanUpper
                 }
             ])
-            .style('stroke-dasharray', ('3, 3'))
-            .attr('class', 'metrics mean line')
-            .attr('d', line);
+            .style("stroke-dasharray", ("3, 3"))
+            .attr("class", "metrics mean line")
+            .attr("d", line);
 
-        svg.append('path')
+        svg.append("path")
             .datum([
                 {
                     x: xMin,
@@ -178,39 +177,31 @@ NetworkGraph.prototype.make = function() {
                     y: -yMeanLower
                 }
             ])
-            .style('stroke-dasharray', ('3, 3'))
-            .attr('class', 'metrics mean line')
-            .attr('d', line);
+            .style("stroke-dasharray", ("3, 3"))
+            .attr("class", "metrics mean line")
+            .attr("d", line);
     }
 
-    var middleAxis = d3.svg.line()
-        .x(function(d) {
-            return x(d.x);
-        })
-        .y(function(d) {
-            return y(0);
-        });
-
-    svg.append('path')
+    svg.append("path")
         .datum(rxData)
-        .attr('class', 'metrics rx area')
-        .attr('d', area);
+        .attr("class", "metrics rx area")
+        .attr("d", area);
 
-    svg.append('path')
+    svg.append("path")
         .datum(txData)
-        .attr('class', 'metrics tx area')
-        .attr('d', areaReflect);
+        .attr("class", "metrics tx area")
+        .attr("d", areaReflect);
 
-    svg.append('path')
+    svg.append("path")
         .datum(txData)
-        .attr('class', 'metrics tx line')
-        .attr('d', lineReflect)
-        .attr('transform', 'translate(0,' + height + ')');
+        .attr("class", "metrics tx line")
+        .attr("d", lineReflect)
+        .attr("transform", "translate(0," + height + ")");
 
-    svg.append('path')
+    svg.append("path")
         .datum(rxData)
-        .attr('class', 'metrics rx line')
-        .attr('d', line);
+        .attr("class", "metrics rx line")
+        .attr("d", line);
 
     var yTick = Math.max(1024, yMax);
     var yAxis = d3.svg.axis()
@@ -219,27 +210,27 @@ NetworkGraph.prototype.make = function() {
         })
         .tickValues([-yTick, yTick, 0 /*yMeanUpper, -yMeanLower*/ ])
         .scale(y)
-        .orient('left');
+        .orient("left");
 
-    svg.append('g')
-        .attr('class', 'metrics y axis')
+    svg.append("g")
+        .attr("class", "metrics y axis")
         .call(yAxis);
 
-    svg.append('text')
-        .attr('class', 'metrics x axis')
-        .attr('style', 'text-anchor:end')
-        .attr('x', width)
-        .attr('y', 0)
-        .attr('dy', '.32em')
-        .text('data in');
+    svg.append("text")
+        .attr("class", "metrics x axis")
+        .attr("style", "text-anchor:end")
+        .attr("x", width)
+        .attr("y", 0)
+        .attr("dy", ".32em")
+        .text("data in");
 
-    svg.append('text')
-        .attr('class', 'metrics x axis')
-        .attr('style', 'text-anchor:end')
-        .attr('x', width)
-        .attr('y', height)
-        .attr('dy', '.32em')
-        .text('data out');
+    svg.append("text")
+        .attr("class", "metrics x axis")
+        .attr("style", "text-anchor:end")
+        .attr("x", width)
+        .attr("y", height)
+        .attr("dy", ".32em")
+        .text("data out");
 };
 
 export default NetworkGraph;

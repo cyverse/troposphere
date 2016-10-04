@@ -1,5 +1,6 @@
-import React from 'react';
-import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
+import React from "react";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
+import { trackAction } from "../../utilities/userActivity";
 
 // Example Usage from http://bl.ocks.org/insin/raw/8449696/
 // render: function(){
@@ -33,112 +34,122 @@ function getState() {
 }
 
 export default React.createClass({
-      displayName: "FeedbackModal",
+    displayName: "FeedbackModal",
 
-      mixins: [BootstrapModalMixin],
+    mixins: [BootstrapModalMixin],
 
-      //
-      // Mounting & State
-      // ----------------
-      //
-      getInitialState: function () {
+    //
+    // Mounting & State
+    // ----------------
+    //
+    getInitialState: function() {
         return getState();
-      },
+    },
 
-      updateState: function () {
+    updateState: function() {
         if (this.isMounted()) this.setState(getState());
-      },
+    },
 
-      //
-      // Internal Modal Callbacks
-      // ------------------------
-      //
+    //
+    // Internal Modal Callbacks
+    // ------------------------
+    //
 
-      cancel: function () {
+    cancel: function() {
         this.hide();
-      },
+    },
 
-      confirm: function () {
+    confirm: function() {
         this.hide();
         this.props.onConfirm(this.state.feedback);
-      },
+        trackAction("sent-feedback", {});
+    },
 
 
-      //
-      // Custom Modal Callbacks
-      // ----------------------
-      //
+    //
+    // Custom Modal Callbacks
+    // ----------------------
+    //
 
-      onFeedbackChange: function (e) {
+    onFeedbackChange: function(e) {
         var newFeedback = e.target.value;
-        this.setState({feedback: newFeedback});
-      },
+        this.setState({
+            feedback: newFeedback
+        });
+    },
 
-      //
-      // Render
-      // ------
-      //
+    //
+    // Render
+    // ------
+    //
 
-      render: function () {
+    render: function() {
         var buttonArray = [
-          {type: 'danger', text: 'Cancel', handler: this.cancel},
-          {type: 'primary', text: this.props.confirmButtonMessage, handler: this.confirm}
+            {
+                type: "danger",
+                text: "Cancel",
+                handler: this.cancel
+            },
+            {
+                type: "primary",
+                text: this.props.confirmButtonMessage,
+                handler: this.confirm
+            }
         ];
 
-        var buttons = buttonArray.map(function (button) {
-          // Enable all buttons be default
-          var isDisabled = false;
+        var buttons = buttonArray.map(function(button) {
+            // Enable all buttons be default
+            var isDisabled = false;
 
-          // Disable the launch button if the user hasn't provided a name, size or identity for the volume
-          var stateIsValid = this.state.feedback;
-          if (button.type === "primary" && !stateIsValid) isDisabled = true;
+            // Disable the launch button if the user hasn't provided a name, size or identity for the volume
+            var stateIsValid = this.state.feedback;
+            if (button.type === "primary" && !stateIsValid)
+                isDisabled = true;
 
-          return (
-            <button key={button.text} type="button" className={'btn btn-' + button.type} onClick={button.handler}
-                    disabled={isDisabled}>
-              {button.text}
+            return (
+            <button key={button.text}
+                type="button"
+                className={"btn btn-" + button.type}
+                onClick={button.handler}
+                disabled={isDisabled}>
+                {button.text}
             </button>
-          );
+            );
         }.bind(this));
 
         var content = (
-          <div role='form'>
-
-            <div className='form-group'>
-              <p>
-                {
-                  "Are you experiencing a problem with Atmosphere to which you can't find a solution? " +
-                  "Do you have a feature request or bug report? Let us know!"
-                }
-              </p>
-              <textarea type='text'
-                        className='form-control'
-                        rows="7"
-                        value={this.state.feedback}
-                        onChange={this.onFeedbackChange}
-                />
+        <div role="form">
+            <div className="form-group">
+                <p>
+                    {"Are you experiencing a problem with Atmosphere to which you can't find a solution? " +
+                     "Do you have a feature request or bug report? Let us know!"}
+                </p>
+                <textarea type="text"
+                    className="form-control"
+                    rows="7"
+                    value={this.state.feedback}
+                    onChange={this.onFeedbackChange} />
             </div>
-
-          </div>
+        </div>
         );
 
         return (
-          <div className="modal fade">
+        <div className="modal fade">
             <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  {this.renderCloseButton()}
-                  <strong>{this.props.header}</strong>
+                <div className="modal-content">
+                    <div className="modal-header">
+                        {this.renderCloseButton()}
+                        <h1 className="t-title">{this.props.header}</h1>
+                    </div>
+                    <div className="modal-body">
+                        {content}
+                    </div>
+                    <div className="modal-footer">
+                        {buttons}
+                    </div>
                 </div>
-                <div className="modal-body">
-                  {content}
-                </div>
-                <div className="modal-footer">
-                  {buttons}
-                </div>
-              </div>
             </div>
-          </div>
+        </div>
         );
-      }
+    }
 });

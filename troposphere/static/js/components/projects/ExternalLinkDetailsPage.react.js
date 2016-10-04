@@ -1,9 +1,9 @@
-import React from 'react';
-import Router from 'react-router';
+import React from "react";
+import Router from "react-router";
 
-import ProjectResourcesWrapper from './detail/resources/ProjectResourcesWrapper.react';
-import ExternalLinkDetailsView from './resources/link/details/ExternalLinkDetailsView.react';
-import stores from 'stores';
+import ProjectResourcesWrapper from "./detail/resources/ProjectResourcesWrapper.react";
+import ExternalLinkDetailsView from "./resources/link/details/ExternalLinkDetailsView.react";
+import stores from "stores";
 
 
 export default React.createClass({
@@ -11,17 +11,17 @@ export default React.createClass({
 
     mixins: [Router.State],
 
-    render: function () {
-      var project = stores.ProjectStore.get(Number(this.getParams().projectId));
-      var linkId = this.getParams().linkId;
-      var link = stores.ExternalLinkStore.get(linkId);
+    render: function() {
+        var project = stores.ProjectStore.get(Number(this.getParams().projectId));
+        var linkId = this.getParams().linkId;
+        var link = stores.ExternalLinkStore.get(linkId);
 
-      if (!project || !link) return <div className="loading"></div>;
+        if (!project || !link) return <div className="loading"></div>;
 
-      return (
+        return (
         <ProjectResourcesWrapper project={project}>
-          <ExternalLinkDetailsView project={project} link={link}/>
+            <ExternalLinkDetailsView project={project} link={link} />
         </ProjectResourcesWrapper>
-      );
+        );
     }
 });

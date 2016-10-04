@@ -1,23 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Profile from 'models/Profile';
-import $ from 'jquery';
-import Router from '../Router';
-import routes from './AppRoutes.react';
+import React from "react";
+import ReactDOM from "react-dom";
+import Profile from "models/Profile";
+import $ from "jquery";
+import Router from "../Router";
+import routes from "./AppRoutes.react";
 
 
-import modals from 'modals';
+import modals from "modals";
 
-modals.PublicModals = require('modals/PublicModals');
+modals.PublicModals = require("modals/PublicModals");
 
 // Register which stores the application should use
-import stores from 'stores';
+import stores from "stores";
 
-stores.ImageStore = require('stores/ImageStore');
-stores.ImageBookmarkStore = require('stores/ImageBookmarkStore');
-stores.ImageVersionStore = require('stores/ImageVersionStore');
-stores.TagStore = require('stores/TagStore');
-stores.HelpLinkStore    = require('stores/HelpLinkStore');
+stores.ImageStore = require("stores/ImageStore");
+stores.ImageBookmarkStore = require("stores/ImageBookmarkStore");
+stores.ImageVersionStore = require("stores/ImageVersionStore");
+stores.TagStore = require("stores/TagStore");
+stores.HelpLinkStore = require("stores/HelpLinkStore");
 
 // Mock out the profile store with an empty profile
 stores.ProfileStore = {
@@ -40,7 +40,7 @@ stores.MaintenanceMessageStore = {
 function startApplication() {
 
     $(document).ready(function() {
-        $('body').removeClass('splash-screen');
+        $("body").removeClass("splash-screen");
 
         // Start the application router
         Router.getInstance(routes).run(function(Handler, state) {
@@ -48,7 +48,7 @@ function startApplication() {
             // RouterActions.routeChange({routerState: state});
 
             // whenever the url changes, this callback is called again
-            ReactDOM.render(<Handler /> , document.getElementById("application"));
+            ReactDOM.render(<Handler />, document.getElementById("application"));
         });
     });
 }

@@ -1,23 +1,24 @@
-import React from 'react';
-import Backbone from 'backbone';
-import Showdown from 'showdown';
+import React from "react";
+import Backbone from "backbone";
 
 
 export default React.createClass({
-      displayName: "NameView",
+    displayName: "NameView",
 
-      propTypes: {
+    propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    },
 
-      render: function () {
+    render: function() {
         var image = this.props.image;
 
         return (
-          <div className="image-info-segment row">
-            <h4 className="t-title col-md-2">Name:</h4>
-            <p className="content col-md-10">{image.get('name')}</p>
-          </div>
+        <div className="image-info-segment row">
+            <h4 className="t-body-2 col-md-2">Name:</h4>
+            <p className="content col-md-10">
+                {image.get("name")}
+            </p>
+        </div>
         );
-      }
+    }
 });

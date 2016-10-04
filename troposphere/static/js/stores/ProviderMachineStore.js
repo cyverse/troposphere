@@ -1,18 +1,18 @@
-import Backbone from 'backbone';
-import ProviderMachineCollection from 'collections/ProviderMachineCollection';
-import Dispatcher from 'dispatchers/Dispatcher';
-import BaseStore from 'stores/BaseStore';
-import ProviderMachineConstants from 'constants/ProviderMachineConstants';
-import _ from 'underscore';
-import NotificationController from 'controllers/NotificationController';
+import ProviderMachineCollection from "collections/ProviderMachineCollection";
+import Dispatcher from "dispatchers/Dispatcher";
+import BaseStore from "stores/BaseStore";
+import ProviderMachineConstants from "constants/ProviderMachineConstants";
+import _ from "underscore";
 
 
 let ProviderMachineStore = BaseStore.extend({
     collection: ProviderMachineCollection,
 
     removeCache: function(machine) {
-      var queryParams = {machine_id: machine.id},
-          queryString = this.generateQueryString(queryParams);
+        var queryParams = {
+                machine_id: machine.id
+            },
+            queryString = this.generateQueryString(queryParams);
 
         this.queryModels[queryString] = null;
 
@@ -25,8 +25,8 @@ let ProviderMachineStore = BaseStore.extend({
     },
     getMachinesFor: function(image) {
         var image_key = "image=" + image.id;
-        var use_query = "?image_id="+image.id
-        if(!this.queryModels[image_key]) {
+        var use_query = "?image_id=" + image.id
+        if (!this.queryModels[image_key]) {
             this.fetchWhere(use_query);
         } else {
             return this.queryModels[image_key];
@@ -35,7 +35,7 @@ let ProviderMachineStore = BaseStore.extend({
 
     getMachinesForVersion: function(version) {
         var version_key = "version=" + version.id,
-            use_query = "?version_id="+ version.id;
+            use_query = "?version_id=" + version.id;
 
         if (this.queryModels[version_key]) {
             return this.queryModels[version_key]
@@ -51,7 +51,7 @@ let ProviderMachineStore = BaseStore.extend({
             this.isFetching = true;
             var models = new this.collection();
             models.fetch({
-                url: _.result(models, 'url') + use_query
+                url: _.result(models, "url") + use_query
             }).done(function() {
                 this.isFetching = false;
 
@@ -70,7 +70,6 @@ let store = new ProviderMachineStore();
 
 Dispatcher.register(function(dispatch) {
     var actionType = dispatch.action.actionType;
-    var payload = dispatch.action.payload;
     var options = dispatch.action.options || options;
 
     switch (actionType) {

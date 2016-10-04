@@ -1,11 +1,11 @@
-import _ from 'underscore';
-import Dispatcher from 'dispatchers/Dispatcher';
-import BaseStore from 'stores/BaseStore';
-import ProjectInstanceCollection from 'collections/ProjectInstanceCollection';
-import Constants from 'constants/ProjectInstanceConstants';
-import InstanceCollection from 'collections/InstanceCollection';
-import Instance from 'models/Instance';
-import stores from 'stores';
+import _ from "underscore";
+import Dispatcher from "dispatchers/Dispatcher";
+import BaseStore from "stores/BaseStore";
+import ProjectInstanceCollection from "collections/ProjectInstanceCollection";
+import Constants from "constants/ProjectInstanceConstants";
+import InstanceCollection from "collections/InstanceCollection";
+import Instance from "models/Instance";
+import stores from "stores";
 
 let _modelsFor = {};
 let _isFetchingFor = {};
@@ -35,7 +35,7 @@ let ProjectInstanceStore = BaseStore.extend({
 
                 // convert ProjectInstance collection to an InstanceCollection
                 var instances = models.map(function(pi) {
-                    return new Instance(pi.get('instance'), {
+                    return new Instance(pi.get("instance"), {
                         parse: true
                     });
                 });
@@ -51,18 +51,18 @@ let ProjectInstanceStore = BaseStore.extend({
     // on another store, and contain duplicate data with that dependency. Is
     // the InstanceStore or ProjectInstanceStore right? It depends on whom you
     // ask.
-    getInstancesFor: function (project) {
-      var allInstances = stores.InstanceStore.getAll();
-      // Don't make a call if we don't have instances or a project ID
-      if (!project.id || !allInstances) return;
-      if (!_modelsFor[project.id]) return this.fetchModelsFor(project.id);
+    getInstancesFor: function(project) {
+        var allInstances = stores.InstanceStore.getAll();
+        // Don't make a call if we don't have instances or a project ID
+        if (!project.id || !allInstances) return;
+        if (!_modelsFor[project.id]) return this.fetchModelsFor(project.id);
 
-      // Filter instances belonging to the project
-      var instances = allInstances.filter(function (i) {
-          return _.contains(i.get('projects'), project.id);
-      });
+        // Filter instances belonging to the project
+        var instances = allInstances.filter(function(i) {
+            return _.contains(i.get("projects"), project.id);
+        });
 
-      return new InstanceCollection(instances);
+        return new InstanceCollection(instances);
     },
 
     getInstancesForProjectOnProvider: function(project, provider) {
@@ -71,7 +71,7 @@ let ProjectInstanceStore = BaseStore.extend({
 
         // filter out instances not on provider
         var instances = instances.filter(function(i) {
-            return i.get('provider').id === provider.id;
+            return i.get("provider").id === provider.id;
         });
 
         return new InstanceCollection(instances);

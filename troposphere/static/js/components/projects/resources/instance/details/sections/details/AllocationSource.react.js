@@ -1,8 +1,8 @@
-import React from 'react';
-import Backbone from 'backbone';
-import stores from 'stores';
+import React from "react";
+import Backbone from "backbone";
+import stores from "stores";
 
-import ResourceDetail from 'components/projects/common/ResourceDetail.react';
+import ResourceDetail from "components/projects/common/ResourceDetail.react";
 
 export default React.createClass({
     displayName: "Id",
@@ -11,18 +11,18 @@ export default React.createClass({
         instance: React.PropTypes.instanceOf(Backbone.Model).isRequired
     },
 
-    render: function () { 
+    render: function() {
         let sourceList = stores.AllocationSourceStore.getAll();
         let sourceName;
         // We will be using instance to querry for the current Allocation Source
         if (this.props.instance && sourceList) {
-            sourceName = sourceList.at(1).get('name');
+            sourceName = sourceList.at(1).get("name");
         }
 
         return (
-            <ResourceDetail label="Allocation Source">
-                { sourceName }
-            </ResourceDetail>
+        <ResourceDetail label="Allocation Source">
+            {sourceName}
+        </ResourceDetail>
         );
     }
 });

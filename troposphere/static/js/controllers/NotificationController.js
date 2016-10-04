@@ -1,5 +1,5 @@
-import toastr from 'toastr';
-import _ from 'underscore';
+import toastr from "toastr";
+import _ from "underscore";
 
 /*
    toastr demo
@@ -22,19 +22,19 @@ var noFadeDefaults = {
 };
 
 export default {
-    success: function(title, message, options={}) {
+    success: function(title, message, options = {}) {
         let settings = _.defaults(options, defaults);
         toastr.success(title, message, settings);
     },
-    info: function(title, message, options={}) {
+    info: function(title, message, options = {}) {
         let settings = _.defaults(options, defaults);
         toastr.info(title, message, settings);
     },
-    warning: function(title, message, options={}) {
+    warning: function(title, message, options = {}) {
         let settings = _.defaults(options, noFadeDefaults);
         toastr.warning(title, message, settings);
     },
-    error: function(title, message, options={}) {
+    error: function(title, message, options = {}) {
         let settings = _.defaults(options, noFadeDefaults);
         toastr.error(title, message, settings);
     }

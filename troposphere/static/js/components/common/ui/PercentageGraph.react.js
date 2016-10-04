@@ -1,8 +1,7 @@
 import React from "react";
-import ReactDOM from 'react-dom';
-import ReactDOMServer from 'react-dom/server';
+import ReactDOM from "react-dom";
+import ReactDOMServer from "react-dom/server";
 import $ from "jquery";
-import Backbone from "backbone";
 import Highcharts from "highcharts";
 import ResourceUseTooltip from "./tooltips/ResourceUseTooltip.react";
 
@@ -40,7 +39,7 @@ export default React.createClass({
     // Mounting and State
     //
 
-    componentDidMount: function () {
+    componentDidMount: function() {
         var categories = this.props.categories;
         var seriesData = this.props.seriesData;
 
@@ -51,7 +50,7 @@ export default React.createClass({
         $el.removeClass("loading");
 
         if (seriesData.length === 0) {
-          return;
+            return;
         }
         var height = (categories.length * (seriesData.length * 50)) + 100;
 
@@ -61,13 +60,13 @@ export default React.createClass({
         if (max > 100) {
             plotLines = [{
                 value: 100,
-                color: 'red',
-                dashStyle: 'shortdash',
+                color: "red",
+                dashStyle: "shortdash",
                 zIndex: 3,
                 width: 3
             }];
             plotBands = [{
-                color: 'pink',
+                color: "pink",
                 from: 101,
                 to: max + (max / 2)
             }];
@@ -80,27 +79,27 @@ export default React.createClass({
         // - `options` is the same as passing plotOptions to Highcharts.Chart
         new Highcharts.createChart(el, {
             chart: {
-                type: 'bar',
-                backgroundColor: 'transparent',
+                type: "bar",
+                backgroundColor: "transparent",
                 height,
             },
             colors: [
-                '#0098aa',
-                '#56AA21',
-                '#AD5527',
-                '#5E8535',
-                '#60646B',
-                '#2F5494',
-                '#C79730'
+                "#0098aa",
+                "#56AA21",
+                "#AD5527",
+                "#5E8535",
+                "#60646B",
+                "#2F5494",
+                "#C79730"
             ],
             credits: {
                 enabled: false
             },
             title: {
-                text: ''
+                text: ""
             },
             xAxis: {
-                type: 'category',
+                type: "category",
                 categories,
             },
             yAxis: {
@@ -109,37 +108,33 @@ export default React.createClass({
                 plotLines,
                 plotBands,
                 title: {
-                    text: 'Percent of Allocation Used'
+                    text: "Percent of Allocation Used"
                 }
             },
 
             tooltip: {
                 shared: false,
-                formatter: function (tooltip) {
+                formatter: function(tooltip) {
                     var limits = this.series.options.limits;
                     var currentLimit = limits[this.x];
                     var currentUsage = currentLimit * this.y / 100;
                     var appendMessages = this.series.options.appendMessages;
                     var appendMessage = appendMessages[this.x];
 
-                    var formatterComponent = (<ResourceUseTooltip
-                      resourceName={appendMessage}
-                      used={currentUsage}
-                      max={currentLimit}
-                    />);
+                    var formatterComponent = (<ResourceUseTooltip resourceName={appendMessage} used={currentUsage} max={currentLimit} />);
 
                     return ReactDOMServer.renderToStaticMarkup(formatterComponent);
                 }
             },
             legend: {
-                verticalAlign: 'top',
-                align: 'center'
+                verticalAlign: "top",
+                align: "center"
             },
             series: seriesData
         });
     },
 
-    componentDidUpdate: function () {
+    componentDidUpdate: function() {
         this.componentDidMount();
     },
 
@@ -147,7 +142,7 @@ export default React.createClass({
     // Render
     //
 
-    render: function () {
+    render: function() {
         return ( <div/> );
     }
 });

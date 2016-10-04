@@ -1,24 +1,26 @@
-import React from 'react';
+import React from "react";
 
 
 export default React.createClass({
     displayName: "ProjectListHeader",
 
     propTypes: {
-      title: React.PropTypes.string.isRequired,
-      children: React.PropTypes.element
+        title: React.PropTypes.string.isRequired,
+        children: React.PropTypes.element
     },
 
-    render: function () {
-      return (
-        <div className="secondary-nav half-height">
-          <div className="container">
-            <div className="project-name">
-              <h1>{this.props.title}</h1>
-              {this.props.children}
+    render: function() {
+        return (
+            <div className="container">
+                <div style={{ paddingTop: "50px" }} className="project-name clearfix">
+                    <div className="pull-left">
+                        <h1 className="t-display-1" >{this.props.title}</h1>
+                    </div>
+                    <div className="pull-right">
+                        {this.props.children}
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      );
+        );
     }
 });

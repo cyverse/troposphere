@@ -1,9 +1,10 @@
-import React from 'react';
+import React from "react";
+import { trackAction } from "../../utilities/userActivity";
 
 export default React.createClass({
-    displayName: "ProjectCreateModal",
+    displayName: "ProjectCreateView",
 
-    getInitialState: function () {
+    getInitialState: function() {
         return {
             projectName: "",
             projectDescription: "",
@@ -11,7 +12,7 @@ export default React.createClass({
         };
     },
 
-    validateName: function() {
+    validateName: function () {
         let name = this.state.projectName;
         let hasError = false;
         let message = "";
@@ -33,7 +34,7 @@ export default React.createClass({
         }
     },
 
-    validateDescription: function() {
+    validateDescription: function () {
         let description = this.state.projectDescription;
         let hasError = false;
         let message = "";
@@ -49,7 +50,7 @@ export default React.createClass({
         }
     },
 
-    isSubmittable: function() {
+    isSubmittable: function () {
         if (!this.validateName().hasError && !this.validateDescription().hasError) {
             return true;
         }
@@ -57,36 +58,45 @@ export default React.createClass({
         return false;
     },
 
-    cancel: function () {
+    cancel: function() {
         this.hide();
     },
 
-    confirm: function () {
+    confirm: function() {
         if (this.isSubmittable()) {
-            this.props.onConfirm(this.state.projectName.trim(), this.state.projectDescription.trim());
+            this.props.onConfirm(this.state.projectName.trim(),
+                                 this.state.projectDescription.trim());
         }
-        this.setState({showValidation: true });
+        trackAction("created-project", {});
+        this.setState({
+            showValidation: true
+        });
     },
 
     // todo: I don't think there's a reason to update state unless
     // there's a risk of the component being re-rendered by the parent.
     // Should probably verify this behavior, but for now, we play it safe.
-    onNameChange: function (e) {
-        this.setState({projectName: e.target.value});
+    onNameChange: function(e) {
+        this.setState({
+            projectName: e.target.value
+        });
     },
 
-    onNameBlur: function() {
+    onNameBlur: function () {
         let projectName = this.state.projectName.trim();
-        this.setState({projectName});
+        this.setState({
+            projectName
+        });
     },
 
-    onDescriptionChange: function (e) {
-        this.setState({projectDescription: e.target.value});
+    onDescriptionChange: function(e) {
+        this.setState({
+            projectDescription: e.target.value
+        });
     },
 
-    renderBody: function () {
+    renderBody: function() {
         let projectName = this.state.projectName;
-        let projectDescription = this.state.projectDescription;
         let nameClassNames = "form-group";
         let nameErrorMessage = null;
         let descriptionClassNames = "form-group";
@@ -102,33 +112,34 @@ export default React.createClass({
         }
 
         return (
-            <div role='form'>
-                <div className={nameClassNames}>
-                    <label htmlFor='project-name'>Project Name</label>
-                    <input type='text'
-                        className='form-control'
-                        value={projectName}
-                        onChange={this.onNameChange}
-                        onBlur= {this.onNameBlur}
-                    />
-                    <span className="help-block">{ nameErrorMessage }</span>
-                </div>
-
-                <div className={descriptionClassNames}>
-                    <label htmlFor='project-description'>Description</label>
-                    <textarea type='text'
-                        className='form-control'
-                        rows="7"
-                        value={this.state.projectDescription}
-                        onChange={this.onDescriptionChange}
-                    />
-                    <span className="help-block">{ descriptionErrorMessage }</span>
-                </div>
+        <div role="form">
+            <div className={nameClassNames}>
+                <label htmlFor="project-name">
+                    Project Name
+                </label>
+                <input type="text"
+                    className="form-control"
+                    value={projectName}
+                    onChange={this.onNameChange}
+                    onBlur={this.onNameBlur} />
+                <span className="help-block">{nameErrorMessage}</span>
             </div>
+            <div className={descriptionClassNames}>
+                <label htmlFor="project-description">
+                    Description
+                </label>
+                <textarea type="text"
+                    className="form-control"
+                    rows="7"
+                    value={this.state.projectDescription}
+                    onChange={this.onDescriptionChange} />
+                <span className="help-block">{descriptionErrorMessage}</span>
+            </div>
+        </div>
         );
     },
 
-    render: function () {
+    render: function() {
         let isSubmittable = true;
         if (this.state.showValidation) {
             if (!this.isSubmittable()) {
@@ -136,28 +147,24 @@ export default React.createClass({
             }
         }
         return (
-            <div>
-                {this.renderBody()}
-                <div className="modal-footer">
-                    <button
-                        id="cancelCreateProject"
-                        type="button"
-                        className="btn btn-default"
-                        onClick={this.props.cancel}
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        id="submitCreateProject"
-                        type="button"
-                        className="btn btn-primary"
-                        onClick={this.confirm}
-                        disabled={!isSubmittable}
-                    >
-                        Create
-                    </button>
-                </div>
+        <div>
+            {this.renderBody()}
+            <div className="modal-footer">
+                <button id="cancelCreateProject"
+                    type="button"
+                    className="btn btn-default"
+                    onClick={this.props.cancel}>
+                    Cancel
+                </button>
+                <button id="submitCreateProject"
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={this.confirm}
+                    disabled={!isSubmittable}>
+                    Create
+                </button>
             </div>
+        </div>
         );
     }
 });

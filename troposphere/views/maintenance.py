@@ -17,18 +17,20 @@ def get_maintenance(request):
     return (records, disable_login, in_maintenance)
 
 
-def get_notices(request):
+def get_notice(request):
     """
     Returns a notice indicating details about a forthcoming maintenance period
     """
-    # FIXME: this query object was accepted for the PR - but will need
-    # to be refactored as a later date (PR 404)
-    # NOTE: if you're seeing this message and it is past July 2016, then
-    # lenards has dropped the :football: :frown-face:
-    records = MaintenanceNotice.active()
-    has_notice = records.count() > 0
-    record = records[0] if records.count() > 0 else records
-    return (has_notice, record)
+    notices = MaintenanceNotice.active()
+    has_notice = notices.count() > 0
+
+    notice = {}
+    if has_notice:
+        model = notices[0]
+        notice['title'] = model.title
+        notice['message'] = model.message
+
+    return (has_notice, notice)
 
 
 def maintenance(request):
@@ -39,7 +41,7 @@ def maintenance(request):
 
     template_params = {}
 
-    template_params["THEME_URL"] = "/themes/%s" % settings.THEME_NAME
+    template_params["THEME_URL"] = "/assets/theme"
     template_params['ORG_NAME'] = settings.ORG_NAME
     template_params['SITE_TITLE'] = settings.SITE_TITLE
     template_params['SITE_FOOTER'] = settings.SITE_FOOTER
@@ -49,7 +51,7 @@ def maintenance(request):
         template_params['BASE_URL'] = settings.BASE_URL
 
     return render_to_response(
-        'login_.html',
+        'login.html',
         template_params,
         context_instance=RequestContext(request)
     )

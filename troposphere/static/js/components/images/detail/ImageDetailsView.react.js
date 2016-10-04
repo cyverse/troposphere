@@ -1,98 +1,103 @@
-import React from 'react';
-import Backbone from 'backbone';
-import HeaderView from './header/HeaderView.react';
-import ImageLaunchCard from './launch/ImageLaunchCard.react';
-import actions from 'actions';
-import ViewImageDetails from './ViewImageDetails.react';
-import EditImageDetails from './EditImageDetails.react';
-import VersionsView from './versions/VersionsView.react';
-import modals from 'modals';
+import React from "react";
+import Backbone from "backbone";
+import HeaderView from "./header/HeaderView.react";
+import ImageLaunchCard from "./launch/ImageLaunchCard.react";
+import actions from "actions";
+import ViewImageDetails from "./ViewImageDetails.react";
+import EditImageDetails from "./EditImageDetails.react";
+import VersionsView from "./versions/VersionsView.react";
+import modals from "modals";
+import { trackAction } from "../../../utilities/userActivity";
 
 export default React.createClass({
-      displayName: "ImageDetailsView",
+    displayName: "ImageDetailsView",
 
-      propTypes: {
+    propTypes: {
         image: React.PropTypes.instanceOf(Backbone.Model).isRequired,
         providers: React.PropTypes.instanceOf(Backbone.Collection),
         identities: React.PropTypes.instanceOf(Backbone.Collection),
         tags: React.PropTypes.instanceOf(Backbone.Collection).isRequired
-      },
+    },
 
-      getInitialState: function () {
+    getInitialState: function() {
         return {
-          isEditing: false
+            isEditing: false
         }
-      },
+    },
 
-      showLaunchModal: function (e) {
-        modals.InstanceModals.launch({ image: this.props.image, initialView: "BASIC_VIEW" });
-      },
+    showLaunchModal: function(e) {
+        modals.InstanceModals.launch({
+            image: this.props.image,
+            initialView: "BASIC_VIEW"
+        });
+        trackAction("launched-from-image-detail", {});
+    },
 
-      handleEditImageDetails: function () {
-        this.setState({isEditing: true})
-      },
+    handleEditImageDetails: function() {
+        this.setState({
+            isEditing: true
+        })
+    },
 
-      handleSaveImageDetails: function(newAttributes){
+    handleSaveImageDetails: function(newAttributes) {
         var image = this.props.image;
         actions.ImageActions.updateImageAttributes(image, newAttributes);
-        this.setState({isEditing: false});
-      },
+        this.setState({
+            isEditing: false
+        });
+    },
 
-      handleCancelEditing: function(){
-        this.setState({isEditing: false});
-      },
+    handleCancelEditing: function() {
+        this.setState({
+            isEditing: false
+        });
+    },
 
-      render: function () {
+    render: function() {
         var view,
             versionView = (
-                <VersionsView image={this.props.image}
-            />
-        );
+            <VersionsView image={this.props.image} />
+            );
 
-        if(this.state.isEditing){
-          view = (
-            <EditImageDetails
-                image={this.props.image}
-                tags={this.props.tags}
-                providers={this.props.providers}
-                identities={this.props.identities}
-                onSave={this.handleSaveImageDetails}
-                onCancel={this.handleCancelEditing}
-            />
-          )
+        if (this.state.isEditing) {
+            view = (
+                <EditImageDetails image={this.props.image}
+                    tags={this.props.tags}
+                    providers={this.props.providers}
+                    identities={this.props.identities}
+                    onSave={this.handleSaveImageDetails}
+                    onCancel={this.handleCancelEditing} />
+            )
         } else {
-          view = (
-            <ViewImageDetails
-                image={this.props.image}
-                tags={this.props.tags}
-                providers={this.props.providers}
-                identities={this.props.identities}
-                onEditImageDetails={this.handleEditImageDetails}
-            />
-          )
+            view = (
+                <ViewImageDetails image={this.props.image}
+                    tags={this.props.tags}
+                    providers={this.props.providers}
+                    identities={this.props.identities}
+                    onEditImageDetails={this.handleEditImageDetails} />
+            )
         }
         return (
-          <div id='app-detail' className="container">
+        <div id="app-detail" className="container">
             <div className="row">
-              <div className="col-md-12">
-                <HeaderView image={this.props.image}/>
-              </div>
+                <div className="col-md-12">
+                    <HeaderView image={this.props.image} />
+                </div>
             </div>
             <div className="image-content">
-              <div className="row">
-                <div className="col-sm-8">
-                  {view}
+                <div className="row">
+                    <div className="col-sm-8">
+                        {view}
+                    </div>
+                    <div className="col-sm-4">
+                        <ImageLaunchCard image={this.props.image} onLaunch={this.showLaunchModal} />
+                    </div>
                 </div>
-                <div className="col-sm-4">
-                  <ImageLaunchCard image={this.props.image} onLaunch={this.showLaunchModal}/>
+                <div className="versionView">
+                    {versionView}
                 </div>
-              </div>
-              <div className="versionView">
-                {versionView}
-              </div>
             </div>
-
-          </div>
+        </div>
         );
-      }
+    }
 });

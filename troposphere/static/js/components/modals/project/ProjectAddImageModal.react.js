@@ -1,12 +1,12 @@
-import React from 'react';
-import Backbone from 'backbone';
-import stores from 'stores';
-import ProjectSelect from '../instance_launch/ProjectSelect.react';
-import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
-
+import React from "react";
+import Backbone from "backbone";
+import stores from "stores";
+import ProjectSelect from "../instance_launch/ProjectSelect.react";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
+import { trackAction } from "../../../utilities/userActivity";
 
 export default React.createClass({
-    displayName: 'ProjectAddImageModal',
+    displayName: "ProjectAddImageModal",
 
     mixins: [BootstrapModalMixin],
 
@@ -21,7 +21,7 @@ export default React.createClass({
         projects.forEach(function(project) {
             let project_id = project.id;
             let project_match = existing_projects.filter(function(existing_project) {
-                let test_project_id = existing_project.get('project').id;
+                let test_project_id = existing_project.get("project").id;
                 return (test_project_id == project_id)
             });
             if (firstProjectID !== 0) {
@@ -100,8 +100,8 @@ export default React.createClass({
         var project = this.state.projects.get(this.state.projectId);
         //Action to add 'image' to 'project' happens in 'props.onConfirm'
         this.props.onConfirm(project, this.props.image);
+        trackAction("added-image-to-project", {});
     },
-
 
     //
     // Custom Modal Callbacks
@@ -115,7 +115,6 @@ export default React.createClass({
         });
     },
 
-
     //
     // Render
     // ------
@@ -124,29 +123,29 @@ export default React.createClass({
     renderImage: function() {
         return (
         <p>
-            { this.props.image.get('name') }
+            {this.props.image.get("name")}
         </p>
         );
     },
     renderExistingProjects: function() {
         if (this.state.existing == null) {
-            return (<div className='loading' />);
+            return (<div className="loading" />);
         }
         let project_divs = this.state.existing.map(function(existing_project) {
             return (
-            <div id={ existing_project.cid }>
-                { existing_project.get('project').name }
+            <div id={existing_project.cid}>
+                {existing_project.get("project").name}
             </div>
             );
         });
 
         return (
-        <div className='form-group'>
-            <label htmlFor='existing-project'>
+        <div className="form-group">
+            <label htmlFor="existing-project">
                 Added to Project(s)
             </label>
-            <div id='existing-project'>
-                { project_divs }
+            <div id="existing-project">
+                {project_divs}
             </div>
         </div>
         );
@@ -160,7 +159,7 @@ export default React.createClass({
             let needle = project.id;
             let haystack_matches = self.state.existing.filter(
                 function(existing_project) {
-                    let project_id = existing_project.get('project').id;
+                    let project_id = existing_project.get("project").id;
                     return project_id == needle;
                 });
             return haystack_matches.length == 0;
@@ -170,7 +169,7 @@ export default React.createClass({
     },
     renderProjects: function() {
         if (this.state.projects == null || this.state.existing == null) {
-            return (<div className='loading' />);
+            return (<div className="loading" />);
         }
         let projects = this.filterRemainingProjects();
         if (projects.length == 0) {
@@ -179,11 +178,11 @@ export default React.createClass({
             //Because the component re-used was not in 'common' I will leave this as an exercise
             //for the reader.
             return (
-            <div className='form-group'>
-                <label htmlFor='project'>
+            <div className="form-group">
+                <label htmlFor="project">
                     Project
                 </label>
-                <select className='form-control' id='project'>
+                <select className="form-control" id="project">
                     <option value="-1">
                         No Project Available.
                     </option>
@@ -197,30 +196,30 @@ export default React.createClass({
         }
 
         return (
-        <div className='form-group'>
-            <label htmlFor='project'>
+        <div className="form-group">
+            <label htmlFor="project">
                 Project
             </label>
-            <ProjectSelect projectId={ this.state.projectId } projects={ projects } onChange={ this.onProjectChange } />
+            <ProjectSelect projectId={this.state.projectId} projects={projects} onChange={this.onProjectChange} />
         </div>
         );
     },
     renderBody: function() {
         return (
-        <div role='form'>
-            <div className='form-group'>
-                <label htmlFor='addImage'>
+        <div role="form">
+            <div className="form-group">
+                <label htmlFor="addImage">
                     Add Image to Project
                 </label>
                 <p>
                     Select a project to add the image:
                 </p>
                 <ul>
-                    { this.renderImage() }
+                    {this.renderImage()}
                 </ul>
             </div>
-            { this.renderProjects() }
-            { this.renderExistingProjects() }
+            {this.renderProjects()}
+            {this.renderExistingProjects()}
         </div>
         );
     },
@@ -233,20 +232,20 @@ export default React.createClass({
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
-                        { this.renderCloseButton() }
-                        <strong>Add Image to Project</strong>
+                        {this.renderCloseButton()}
+                        <h1 className="t-title">Add Image to Project</h1>
                     </div>
                     <div className="modal-body">
-                        { this.renderBody() }
+                        {this.renderBody()}
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-danger" onClick={ this.cancel }>
+                        <button type="button" className="btn btn-danger" onClick={this.cancel}>
                             Cancel
                         </button>
                         <button type="button"
-                                className="btn btn-primary"
-                                onClick={ this.confirm }
-                                disabled={ !this.isSubmittable() }>
+                            className="btn btn-primary"
+                            onClick={this.confirm}
+                            disabled={!this.isSubmittable()}>
                             Add image to project
                         </button>
                     </div>

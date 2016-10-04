@@ -1,184 +1,189 @@
-import React from 'react';
-import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
-import Glyphicon from 'components/common/Glyphicon.react';
+import React from "react";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
+import Glyphicon from "components/common/Glyphicon.react";
 import _ from "underscore";
+import { trackAction } from "../../../utilities/userActivity";
 
 export default React.createClass({
-      displayName: "InstanceReportModal",
+    displayName: "InstanceReportModal",
 
-      mixins: [BootstrapModalMixin],
+    mixins: [BootstrapModalMixin],
 
-      getInitialState: function () {
+    getInitialState: function() {
         return {
-          ssh: false,
-          vnc: false,
-          pending: false,
-          installErrors: false,
-          metrics: false,
-          other: false,
-          details: ""
+            ssh: false,
+            vnc: false,
+            pending: false,
+            installErrors: false,
+            metrics: false,
+            other: false,
+            details: ""
         };
-      },
+    },
 
-      isSubmittable: function () {
+    isSubmittable: function() {
         var hasDetails = !!this.state.details && this.state.details.length > 0;
         return hasDetails;
-      },
+    },
 
-      getReportInfo: function () {
+    getReportInfo: function() {
         var problemKeys = _.keys(
-          _.object(
-            _.filter(
-              _.pairs(this.state), function (pair) {
-                return pair[1] === true;
-              }
+            _.object(
+                _.filter(
+                    _.pairs(this.state), function(pair) {
+                        return pair[1] === true;
+                    }
+                )
             )
-          )
         );
         var problems = _.values(
-          _.pick(this.problemText, problemKeys)
+            _.pick(this.problemText, problemKeys)
         );
 
         var reportInfo = {
-          problems: problems,
-          details: this.state.details
+            problems: problems,
+            details: this.state.details
         };
 
         return reportInfo;
-      },
+    },
 
-      //
-      // Internal Modal Callbacks
-      // ------------------------
-      //
+    //
+    // Internal Modal Callbacks
+    // ------------------------
+    //
 
-      cancel: function () {
+    cancel: function() {
         this.hide();
-      },
+    },
 
-      confirm: function () {
+    confirm: function() {
         this.hide();
         var reportInfo = this.getReportInfo();
         this.props.onConfirm(reportInfo);
-      },
+        trackAction("reported-instance", {});
+    },
 
-      //
-      // Custom Modal Callbacks
-      // ----------------------
-      //
+    //
+    // Custom Modal Callbacks
+    // ----------------------
+    //
 
-      updateCheckbox: function (key, e) {
+    updateCheckbox: function(key, e) {
         var state = {};
         state[key] = e.target.checked;
         this.setState(state);
-      },
+    },
 
-      handleDetailsChange: function (e) {
-        this.setState({details: e.target.value});
-      },
+    handleDetailsChange: function(e) {
+        this.setState({
+            details: e.target.value
+        });
+    },
 
-      //
-      // Render
-      // ------
-      //
+    //
+    // Render
+    // ------
+    //
 
-      problemText: {
+    problemText: {
         ssh: "I cannot connect via SSH.",
         vnc: "I cannot connect via VNC.",
         pending: "The instance's status never changed from pending to running",
         installErrors: "I am receiving errors while trying to run or install software",
         metrics: "The instance's metrics do not display.",
         other: "Other problem(s)."
-      },
+    },
 
-      renderCheckbox: function (value) {
+    renderCheckbox: function(value) {
         var onChange = _.partial(this.updateCheckbox, value);
 
         return (
-          <div className="checkbox">
+        <div className="checkbox">
             <label>
-              <input type="checkbox"
-                     name="problems"
-                     id={"problems-" + value}
-                     value={value}
-                     checked={this.state[value]}
-                     onChange={onChange}
-                />
-              {this.problemText[value]}
+                <input type="checkbox"
+                    name="problems"
+                    id={"problems-" + value}
+                    value={value}
+                    checked={this.state[value]}
+                    onChange={onChange} />
+                {this.problemText[value]}
             </label>
-          </div>
+        </div>
         );
-      },
+    },
 
-      renderIntroduction: function (instance) {
+    renderIntroduction: function(instance) {
         return (
-          <p className="alert alert-info">
-            <Glyphicon name="info-sign"/>
+        <p className="alert alert-info">
+            <Glyphicon name="info-sign" />
             {" Is the instance "}
-            <code>{this.props.instance.get('name')}</code>
+            <code>{this.props.instance.get("name")}</code>
             {" exhibiting unexpected behavior? Please read about "}
-            <a href={this.props.usingInstances.get('href')}>using instances</a>
+            <a href={this.props.usingInstances.get("href")}>using instances</a>
             {" or "}
-            <a href={this.props.troubleshooting.get('href')}>troubleshooting instances</a>
+            <a href={this.props.troubleshooting.get("href")}>troubleshooting instances</a>
             {" for answers to common problems before submitting a request to support staff."}
-          </p>
+        </p>
         );
-      },
+    },
 
-      renderBody: function () {
+    renderBody: function() {
         var volume = this.props.volume;
 
         return (
-          <div>
+        <div>
             {this.renderIntroduction(volume)}
             <div role="form">
-
-              <div className="form-group">
-                <label>{"What problems are you having with this instance?"}</label>
-                {this.renderCheckbox("ssh")}
-                {this.renderCheckbox("vnc")}
-                {this.renderCheckbox("pending")}
-                {this.renderCheckbox("installErrors")}
-                {this.renderCheckbox("metrics")}
-                {this.renderCheckbox("other")}
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="details">
-                  Please provide as many details about the problem as possible.
-                </label>
-                <textarea className="form-control" onChange={this.handleDetailsChange} rows="6"/>
-              </div>
+                <div className="form-group">
+                    <label>
+                        {"What problems are you having with this instance?"}
+                    </label>
+                    {this.renderCheckbox("ssh")}
+                    {this.renderCheckbox("vnc")}
+                    {this.renderCheckbox("pending")}
+                    {this.renderCheckbox("installErrors")}
+                    {this.renderCheckbox("metrics")}
+                    {this.renderCheckbox("other")}
+                </div>
+                <div className="form-group">
+                    <label htmlFor="details">
+                        Please provide as many details about the problem as possible.
+                    </label>
+                    <textarea className="form-control" onChange={this.handleDetailsChange} rows="6" />
+                </div>
             </div>
-          </div>
+        </div>
         );
-      },
+    },
 
-      render: function () {
+    render: function() {
 
         return (
-          <div className="modal fade">
+        <div className="modal fade">
             <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  {this.renderCloseButton()}
-                  <strong>Report Instance</strong>
+                <div className="modal-content">
+                    <div className="modal-header">
+                        {this.renderCloseButton()}
+                        <h1 className="t-title">Report Instance</h1>
+                    </div>
+                    <div className="modal-body">
+                        {this.renderBody()}
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-danger" onClick={this.cancel}>
+                            Cancel
+                        </button>
+                        <button type="button"
+                            className="btn btn-primary"
+                            onClick={this.confirm}
+                            disabled={!this.isSubmittable()}>
+                            Report Instance
+                        </button>
+                    </div>
                 </div>
-                <div className="modal-body">
-                  {this.renderBody()}
-                </div>
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-danger" onClick={this.cancel}>
-                    Cancel
-                  </button>
-                  <button type="button" className="btn btn-primary" onClick={this.confirm}
-                          disabled={!this.isSubmittable()}>
-                    Report Instance
-                  </button>
-                </div>
-              </div>
             </div>
-          </div>
+        </div>
         );
-      }
+    }
 });

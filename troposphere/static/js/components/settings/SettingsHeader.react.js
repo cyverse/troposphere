@@ -1,21 +1,17 @@
-
-import React from 'react';
-import Backbone from 'backbone';
+import React from "react";
 
 export default React.createClass({
     displayName: "SettingsHeader",
 
     propTypes: {},
 
-    render: function () {
+    render: function() {
         return (
-          <div className="secondary-nav half-height">
-            <div className="container">
-              <div className="project-name">
-                <h1>Settings</h1>
-              </div>
+            <div style={{paddingTop: "50px"}} className="container">
+                <div className="project-name">
+                    <h1 className="t-display-1">Settings</h1>
+                </div>
             </div>
-          </div>
         );
     }
 });

@@ -36,9 +36,9 @@ export default React.createClass({
         return (
         <div>
             <p>
-                { "Are you sure you want to delete the link " }
-                <strong>{ link.get("name") }</strong>
-                { "?" }
+                {"Are you sure you want to delete the link "}
+                <strong>{link.get("name")}</strong>
+                {"?"}
             </p>
         </div>
         );
@@ -51,17 +51,17 @@ export default React.createClass({
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
-                        { this.renderCloseButton() }
-                        <strong>Delete Link</strong>
+                        {this.renderCloseButton()}
+                        <h1 className="t-title">Delete Link</h1>
                     </div>
-                    <div className="modal-body" style={ { minHeight: "200px" } }>
-                        { this.renderBody() }
+                    <div className="modal-body" style={{ minHeight: "200px" }}>
+                        {this.renderBody()}
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-danger" onClick={ this.cancel }>
+                        <button type="button" className="btn btn-danger" onClick={this.cancel}>
                             Cancel
                         </button>
-                        <button type="button" className="btn btn-primary" onClick={ this.confirm }>
+                        <button type="button" className="btn btn-primary" onClick={this.confirm}>
                             Yes, delete this link
                         </button>
                     </div>

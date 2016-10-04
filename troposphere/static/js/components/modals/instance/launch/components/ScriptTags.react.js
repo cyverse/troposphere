@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export default React.createClass({
 
@@ -6,25 +6,21 @@ export default React.createClass({
         this.props.onRemove(item)
     },
 
-    renderTag: function (item, i) {
+    renderTag: function(item, i) {
         if (item) {
             return (
-                <a key={i} className="tag"
-                    onClick={this.onRemove.bind(this, item)}
-                >
-                    {item.get('title') + " "}
-                    <span className="tag__x glyphicon glyphicon-remove"/>
-                </a>
+            <a key={i} className="tag" onClick={this.onRemove.bind(this, item)}>
+                {item.get("title") + " "} <span className="tag__x glyphicon glyphicon-remove" /></a>
             )
         }
     },
 
-    render: function(){
+    render: function() {
 
         return (
-            <div>
-                {this.props.scripts.map(this.renderTag)}
-            </div>
+        <div>
+            {this.props.scripts.map(this.renderTag)}
+        </div>
         )
     }
 });

@@ -1,98 +1,98 @@
-import React from 'react';
-import BootstrapModalMixin from 'components/mixins/BootstrapModalMixin.react';
-import stores from 'stores';
-import IdentitySelect from '../instance/launch/components/IdentitySelect.react';
-import modals from 'modals';
+import React from "react";
+import BootstrapModalMixin from "components/mixins/BootstrapModalMixin.react";
+import stores from "stores";
+import IdentitySelect from "../instance/launch/components/IdentitySelect.react";
+import modals from "modals";
 
 export default React.createClass({
-      displayName: "VolumeCreateModal",
+    displayName: "VolumeCreateModal",
 
-      mixins: [BootstrapModalMixin],
+    mixins: [BootstrapModalMixin],
 
-      isSubmittable: function () {
+    isSubmittable: function() {
         var identities = stores.IdentityStore.getAll(),
-          maintenanceMessages = stores.MaintenanceMessageStore.getAll(),
-          volumes = stores.VolumeStore.getAll();
+            maintenanceMessages = stores.MaintenanceMessageStore.getAll(),
+            volumes = stores.VolumeStore.getAll();
 
         if (!identities || !maintenanceMessages || !volumes) return false;
 
         // Make sure the selected provider is not in maintenance
         var selectedIdentity = stores.IdentityStore.get(this.state.identityId),
-          isProviderInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(selectedIdentity.get('provider').id);
+            isProviderInMaintenance = stores.MaintenanceMessageStore.isProviderInMaintenance(selectedIdentity.get("provider").id);
 
         // Disable the launch button if the user hasn't provided a name, size or identity for the volume
-        var hasProvider              = !!this.state.identityId,
-            hasName                  = !!this.state.volumeName.trim(),
-            hasSize                  = !!this.state.volumeSize,
+        var hasProvider = !!this.state.identityId,
+            hasName = !!this.state.volumeName.trim(),
+            hasSize = !!this.state.volumeSize,
             providerNotInMaintenance = !isProviderInMaintenance,
             hasEnoughQuotaForStorage = this.hasEnoughQuotaForStorage(selectedIdentity, this.state.volumeSize, volumes),
             hasEnoughQuotaForStorageCount = this.hasEnoughQuotaForStorageCount(selectedIdentity, volumes);
 
         return (
-          hasProvider &&
-          hasName &&
-          hasSize &&
-          providerNotInMaintenance &&
-          hasEnoughQuotaForStorage &&
-          hasEnoughQuotaForStorageCount
+        hasProvider &&
+        hasName &&
+        hasSize &&
+        providerNotInMaintenance &&
+        hasEnoughQuotaForStorage &&
+        hasEnoughQuotaForStorageCount
         );
-      },
+    },
 
-      //
-      // Mounting & State
-      // ----------------
-      //
+    //
+    // Mounting & State
+    // ----------------
+    //
 
-      getState: function () {
+    getState: function() {
         var state = this.state,
-          identities = stores.IdentityStore.getAll();
+            identities = stores.IdentityStore.getAll();
 
         // Use selected identity or default to the first one
         if (identities) {
-          state.identityId = state.identityId || identities.first().id;
+            state.identityId = state.identityId || identities.first().id;
         }
 
         return state;
-      },
+    },
 
-      getInitialState: function () {
+    getInitialState: function() {
         var identities = stores.IdentityStore.getAll();
 
         return {
-          volumeName: "",
-          volumeSize: 1,
-          identityId: identities ? identities.first().id : null
+            volumeName: "",
+            volumeSize: 1,
+            identityId: identities ? identities.first().id : null
         };
-      },
+    },
 
-      updateState: function () {
+    updateState: function() {
         if (this.isMounted()) this.setState(this.getState());
-      },
+    },
 
-      componentDidMount: function () {
+    componentDidMount: function() {
         stores.ProviderStore.addChangeListener(this.updateState);
         stores.IdentityStore.addChangeListener(this.updateState);
         stores.VolumeStore.addChangeListener(this.updateState);
         stores.MaintenanceMessageStore.addChangeListener(this.updateState);
-      },
+    },
 
-      componentWillUnmount: function () {
+    componentWillUnmount: function() {
         stores.ProviderStore.removeChangeListener(this.updateState);
         stores.IdentityStore.removeChangeListener(this.updateState);
         stores.VolumeStore.removeChangeListener(this.updateState);
         stores.MaintenanceMessageStore.removeChangeListener(this.updateState);
-      },
+    },
 
-      //
-      // Internal Modal Callbacks
-      // ------------------------
-      //
+    //
+    // Internal Modal Callbacks
+    // ------------------------
+    //
 
-      cancel: function () {
+    cancel: function() {
         this.hide();
-      },
+    },
 
-      confirm: function () {
+    confirm: function() {
         var name = this.state.volumeName.trim(),
             size = this.state.volumeSize,
             identityId = this.state.identityId,
@@ -100,25 +100,29 @@ export default React.createClass({
 
         this.hide();
         this.props.onConfirm(name, size, identity);
-      },
+    },
 
 
-      //
-      // Custom Modal Callbacks
-      // ----------------------
-      //
+    //
+    // Custom Modal Callbacks
+    // ----------------------
+    //
 
-      onProviderIdentityChange: function (e) {
+    onProviderIdentityChange: function(e) {
         var newIdentityId = e.target.value;
-        this.setState({identityId: newIdentityId});
-      },
+        this.setState({
+            identityId: newIdentityId
+        });
+    },
 
-      onVolumeNameChange: function (e) {
+    onVolumeNameChange: function(e) {
         var newVolumeName = e.target.value;
-        this.setState({volumeName: newVolumeName});
-      },
+        this.setState({
+            volumeName: newVolumeName
+        });
+    },
 
-      onVolumeSizeChange: function (e) {
+    onVolumeSizeChange: function(e) {
         // todo: Don't let the user enter a value < 1, but doing it this way
         // doesn't let them hit backspace to remove the default 1 and start
         // typing a number.  Instead we should check for the onBlur event and
@@ -127,72 +131,83 @@ export default React.createClass({
         // and don't magically change it for them.
         //if(e.target.value < 1) e.target.value = 1;
         var newVolumeSize = Number(e.target.value);
-        this.setState({volumeSize: newVolumeSize});
-      },
+        this.setState({
+            volumeSize: newVolumeSize
+        });
+    },
 
-      //
-      // Helper Functions
-      //
+    //
+    // Helper Functions
+    //
 
-      hasEnoughQuotaForStorage: function (identity, size, volumes) {
-        var quota = identity.get('quota');
+    hasEnoughQuotaForStorage: function(identity, size, volumes) {
+        var quota = identity.get("quota");
         var maximumAllowed = quota.storage;
         var projected = size;
         var currentlyUsed = identity.getStorageUsed(volumes);
 
         return (projected + currentlyUsed) <= maximumAllowed;
-      },
+    },
 
-      handleResourceRequest: function (e) {
+    handleResourceRequest: function(e) {
         e.preventDefault();
         this.hide();
         modals.HelpModals.requestMoreResources();
-      },
+    },
 
-      hasEnoughQuotaForStorageCount: function (identity, volumes) {
-        var quota = identity.get('quota');
+    hasEnoughQuotaForStorageCount: function(identity, volumes) {
+        var quota = identity.get("quota");
         var maximumAllowed = quota.storage_count;
         var projected = 1;
         var currentlyUsed = identity.getStorageCountUsed(volumes);
 
         return (projected + currentlyUsed) <= maximumAllowed;
-      },
+    },
 
-      //
-      // Render
-      // ------
-      //
+    //
+    // Render
+    // ------
+    //
 
-      renderProgressBar: function (message, currentlyUsedPercent, projectedPercent, overQuotaMessage) {
-        var currentlyUsedStyle = {width: currentlyUsedPercent + "%"};
-        var projectedUsedStyle = {width: projectedPercent + "%", opacity: "0.6"};
+    renderProgressBar: function(message, currentlyUsedPercent, projectedPercent, overQuotaMessage) {
+        var currentlyUsedStyle = {
+            width: currentlyUsedPercent + "%"
+        };
+        var projectedUsedStyle = {
+            width: projectedPercent + "%",
+            opacity: "0.6"
+        };
         var totalPercent = currentlyUsedPercent + projectedPercent;
         var barTypeClass;
 
         if (totalPercent <= 50) {
-          barTypeClass = "progress-bar-success";
+            barTypeClass = "progress-bar-success";
         } else if (totalPercent <= 100) {
-          barTypeClass = "progress-bar-warning";
+            barTypeClass = "progress-bar-warning";
         } else {
-          barTypeClass = "progress-bar-danger";
-          projectedUsedStyle.width = (100 - currentlyUsedPercent) + "%";
-          message = overQuotaMessage;
+            barTypeClass = "progress-bar-danger";
+            projectedUsedStyle.width = (100 - currentlyUsedPercent) + "%";
+            message = overQuotaMessage;
         }
 
         return (
-          <div className="quota-consumption-bars">
+        <div className="quota-consumption-bars">
             <div className="progress">
-              <div className="value">{Math.round(currentlyUsedPercent + projectedPercent) + "%"}</div>
-              <div className={"progress-bar " + barTypeClass} style={currentlyUsedStyle}></div>
-              <div className={"progress-bar " + barTypeClass} style={projectedUsedStyle}></div>
+                <div className="value">
+                    {Math.round(currentlyUsedPercent + projectedPercent) + "%"}
+                </div>
+                <div className={"progress-bar " + barTypeClass} style={currentlyUsedStyle}></div>
+                <div className={"progress-bar " + barTypeClass} style={projectedUsedStyle}></div>
             </div>
-            <div>{message}</div>
-          </div>
+            <div>
+                {message}
+            </div>
+        </div>
         );
-      },
+    },
 
-      renderStorageConsumption: function (identity, size, volumes) {
-        var quota = identity.get('quota');
+    renderStorageConsumption: function(identity, size, volumes) {
+        var quota = identity.get("quota");
         var maximumAllowed = quota.storage;
         var projected = size;
         var currentlyUsed = identity.getStorageUsed(volumes);
@@ -203,17 +218,17 @@ export default React.createClass({
 
         var message = "You will use " + (Math.round(currentlyUsed + projected)) + " of " + maximumAllowed + " allotted GBs of Storage.";
         var overQuotaMessage = (
-          <div>
+        <div>
             <strong>Storage quota exceeded.</strong>
             <span>{" Choose a smaller size or delete an existing volume."}</span>
-          </div>
+        </div>
         );
 
         return this.renderProgressBar(message, currentlyUsedPercent, projectedPercent, overQuotaMessage);
-      },
+    },
 
-      renderStorageCountConsumption: function (identity, size, volumes) {
-        var quota = identity.get('quota');
+    renderStorageCountConsumption: function(identity, size, volumes) {
+        var quota = identity.get("quota");
         var maximumAllowed = quota.storage_count;
         var projected = 1;
         var currentlyUsed = identity.getStorageCountUsed(volumes);
@@ -224,103 +239,101 @@ export default React.createClass({
 
         var message = "You will use " + (Math.round(currentlyUsed + projected)) + " of " + maximumAllowed + " allotted Volumes.";
         var overQuotaMessage = (
-          <div>
+        <div>
             <strong>Volume quota exceeded.</strong>
             <span>{" You must delete an existing volume before creating a new one."}</span>
-          </div>
+        </div>
         );
 
         return this.renderProgressBar(message, currentlyUsedPercent, projectedPercent, overQuotaMessage);
-      },
+    },
 
-      renderBody: function () {
+    renderBody: function() {
         var identities = stores.IdentityStore.getAll(),
-          providers = stores.ProviderStore.getAll(),
-          volumes = stores.VolumeStore.getAll(),
-          identityId = this.state.identityId,
-          name = this.state.volumeName,
-          size = this.state.volumeSize,
-          identity;
+            providers = stores.ProviderStore.getAll(),
+            volumes = stores.VolumeStore.getAll(),
+            identityId = this.state.identityId,
+            name = this.state.volumeName,
+            size = this.state.volumeSize,
+            identity;
 
         if (!identities || !providers || !volumes) return <div className="loading"></div>;
 
         identity = identities.get(identityId);
 
         return (
-          <div role='form'>
-
+        <div role="form">
             <div className="modal-section form-horizontal">
-              <h4>Volume Details</h4>
-
-              <div className='form-group'>
-                <label htmlFor='volumeName' className="col-sm-3 control-label">Volume Name</label>
-
-                <div className="col-sm-9">
-                  <input type="text" className="form-control" value={name} onChange={this.onVolumeNameChange}/>
+                <h4 classNames="t-body-2">Volume Details</h4>
+                <div className="form-group">
+                    <label htmlFor="volumeName" className="col-sm-3 control-label">
+                        Volume Name
+                    </label>
+                    <div className="col-sm-9">
+                        <input type="text"
+                            className="form-control"
+                            value={name}
+                            onChange={this.onVolumeNameChange} />
+                    </div>
                 </div>
-              </div>
-
-              <div className='form-group'>
-                <label htmlFor='volumeSize' className="col-sm-3 control-label">Volume Size (GB)</label>
-
-                <div className="col-sm-9">
-                  <input type="number" className="form-control" value={size} onChange={this.onVolumeSizeChange}/>
+                <div className="form-group">
+                    <label htmlFor="volumeSize" className="col-sm-3 control-label">
+                        Volume Size (GB)
+                    </label>
+                    <div className="col-sm-9">
+                        <input type="number"
+                            className="form-control"
+                            value={size}
+                            onChange={this.onVolumeSizeChange} />
+                    </div>
                 </div>
-              </div>
-
-              <div className='form-group'>
-                <label htmlFor='identity' className="col-sm-3 control-label">Provider</label>
-
-                <div className="col-sm-9">
-                  <IdentitySelect
-                    identityId={identityId}
-                    identities={identities}
-                    providers={providers}
-                    onChange={this.onProviderIdentityChange}
-                    />
+                <div className="form-group">
+                    <label htmlFor="identity" className="col-sm-3 control-label">
+                        Provider
+                    </label>
+                    <div className="col-sm-9">
+                        <IdentitySelect identityId={identityId}
+                            identities={identities}
+                            providers={providers}
+                            onChange={this.onProviderIdentityChange} />
+                    </div>
                 </div>
-              </div>
             </div>
-
             <div className="modal-section">
-              <h4>
-                <span>Projected Resource Usage</span>
-                <a className="modal-link" href="#" onClick={this.handleResourceRequest}>
-                  {"Need more resources?"}
-                </a>
-              </h4>
-              {this.renderStorageConsumption(identity, size, volumes)}
-              {this.renderStorageCountConsumption(identity, size, volumes)}
+                <h4 classNames="t-body-2"><span>Projected Resource Usage</span> <a className="modal-link" href="#" onClick={this.handleResourceRequest}>{"Need more resources?"}</a></h4>
+                {this.renderStorageConsumption(identity, size, volumes)}
+                {this.renderStorageCountConsumption(identity, size, volumes)}
             </div>
-
-          </div>
+        </div>
         );
-      },
+    },
 
-      render: function () {
+    render: function() {
         return (
-          <div className="modal fade">
+        <div className="modal fade">
             <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  {this.renderCloseButton()}
-                  <strong>Create Volume</strong>
+                <div className="modal-content">
+                    <div className="modal-header">
+                        {this.renderCloseButton()}
+                        <h1 className="t-title">Create Volume</h1>
+                    </div>
+                    <div className="modal-body">
+                        {this.renderBody()}
+                    </div>
+                    <div className="modal-footer">
+                        <button type="button" className="btn btn-danger" onClick={this.cancel}>
+                            Cancel
+                        </button>
+                        <button type="button"
+                            className="btn btn-primary"
+                            onClick={this.confirm}
+                            disabled={!this.isSubmittable()}>
+                            Create volume
+                        </button>
+                    </div>
                 </div>
-                <div className="modal-body">
-                  {this.renderBody()}
-                </div>
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-danger" onClick={this.cancel}>
-                    Cancel
-                  </button>
-                  <button type="button" className="btn btn-primary" onClick={this.confirm}
-                          disabled={!this.isSubmittable()}>
-                    Create volume
-                  </button>
-                </div>
-              </div>
             </div>
-          </div>
+        </div>
         );
-      }
+    }
 });

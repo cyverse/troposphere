@@ -1,7 +1,7 @@
 import React from "react";
 import Backbone from "backbone";
 
-import SelectMenu from "components/common/ui/SelectMenu2.react";
+import SelectMenu from "components/common/ui/SelectMenu.react";
 import AllocationSourceGraph from "components/common/AllocationSourceGraph.react";
 
 export default React.createClass({
@@ -61,20 +61,20 @@ export default React.createClass({
         if (instance.get("allocation_source")) {
             let src = instance.get("allocation_source");
             current = src instanceof Backbone.Model ? src
-                    : new Backbone.Model(instance.get("allocation_source"));
+                : new Backbone.Model(instance.get("allocation_source"));
         }
 
         return (
         <div style={{ paddingTop: "20px" }}>
             <h2 className="t-title">Allocation Source</h2>
             <div style={{ marginBottom: "20px" }}>
-                <SelectMenu current={ current }
-                            optionName={ item => item.get("name") }
-                            findIndex={ (el, idx, arr) => el.get("source_id") == current.get("source_id") }
-                            list={ allocationSources }
-                            onSelect={ this.onSourceChange } />
+                <SelectMenu current={current}
+                    optionName={item => item.get("name")}
+                    findIndex={(el, idx, arr) => el.get("source_id") == current.get("source_id")}
+                    list={allocationSources}
+                    onSelect={this.onSourceChange} />
             </div>
-            <AllocationSourceGraph allocationSource={ current } />
+            <AllocationSourceGraph allocationSource={current} />
         </div>
         );
     }

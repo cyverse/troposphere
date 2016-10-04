@@ -1,7 +1,6 @@
-import React from 'react';
-import _ from 'underscore';
+import React from "react";
 
-import InstanceLaunchFooter from '../components/InstanceLaunchFooter.react';
+import InstanceLaunchFooter from "../components/InstanceLaunchFooter.react";
 
 export default React.createClass({
     getInitialState: function() {
@@ -11,22 +10,26 @@ export default React.createClass({
         })
     },
 
-    isSigned: function( license ) {
-        if (this.state.signedList.indexOf( license ) !== -1) {
+    isSigned: function(license) {
+        if (this.state.signedList.indexOf(license) !== -1) {
             return true
         }
         return false
     },
 
     changeLicense: function(item) {
-        this.setState({ license: item });
+        this.setState({
+            license: item
+        });
     },
 
     onNext: function() {
         let license = this.state.license;
         let licenseList = this.props.licenseList;
         license = licenseList[licenseList.indexOf(license) + 1];
-        this.setState({ license });
+        this.setState({
+            license
+        });
     },
 
     onAgree: function() {
@@ -34,71 +37,71 @@ export default React.createClass({
 
         if (signedList.length === 0) {
             signedList = [...this.props.licenseList]
+        } else {
+            signedList = []
         }
-        else { signedList = [] }
 
         this.setState({
             signedList
         });
     },
 
-    renderLicense: function (item) {
+    renderLicense: function(item) {
         let style = {
-                listItem: {
-                    paddingLeft: "25px",
-                    position: "relative"
-                },
-                checked: {
-                    position: "absolute",
-                    top: "5px",
-                    left: "5px"
-                }
-            };
+            listItem: {
+                paddingLeft: "25px",
+                position: "relative"
+            },
+            checked: {
+                position: "absolute",
+                top: "5px",
+                left: "5px"
+            }
+        };
         let checkMark = this.isSigned(item) ?
-            () => <i className="glyphicon glyphicon-ok" style={style.checked}/> :
-            () => {return};
+            () => <i className="glyphicon glyphicon-ok" style={style.checked} /> :
+            () => {
+                return
+            };
 
         let title = item.title;
         let isActive = "";
 
-       if (item == this.state.license) {
+        if (item == this.state.license) {
             isActive = "active";
         }
 
         return (
-            <li className={`NavStacked-link ${isActive}`}>
-                <a style={style.listItem}
-                    onClick={this.changeLicense.bind(this, item)}
-                >
-                   {checkMark()}{title}
-                </a>
-            </li>
+        <li className={`NavStacked-link ${isActive}`}>
+            <a style={style.listItem} onClick={this.changeLicense.bind(this, item)}>
+                {checkMark()}
+                {title}
+            </a>
+        </li>
         );
     },
 
     renderLicenseList: function() {
-        if (this.props.licenseList.length <= 1) { return };
+        if (this.props.licenseList.length <= 1) {
+            return
+        }
+        ;
 
         let licenses = this.props.licenseList.map(this.renderLicense);
         return (
-            <ul className="AdvancedOptions-optionList">
-                {licenses}
-            </ul>
+        <ul className="AdvancedOptions-optionList">
+            {licenses}
+        </ul>
         )
     },
 
     renderCheckAgree: function() {
         return (
-            <div className="checkbox">
-                <label>
-                <input
-                    checked={this.isSigned(this.state.license)}
-                    onClick={this.onAgree}
-                    type="checkbox"
-                />
-                    I agree to all of these terms
-                </label>
-            </div>
+        <div className="checkbox">
+            <label>
+                <input checked={this.isSigned(this.state.license)} onClick={this.onAgree} type="checkbox" /> I agree to all of these terms
+            </label>
+        </div>
         )
     },
 
@@ -133,40 +136,33 @@ export default React.createClass({
 
         let nextButton = () => {
             if (licenseList.indexOf(license) !== (licenseList.length - 1)) {
-                return  <button
-                            type="button"
-                            onClick={this.onNext}
-                            className="btn btn-xs btn-default pull-right"
-                        >
-                            View Next License
-                        </button>
+                return <button type="button" onClick={this.onNext} className="btn btn-xs btn-default pull-right">
+                           View Next License
+                       </button>
             }
             return
         };
 
         return (
-            <div>
-                <div className="modal-section AdvancedOptions">
-                    {this.renderLicenseList()}
-                    <div className="clearfix" style={style.mainContent}>
-                        <h2 className="t-title">{license.title} </h2>
-                        <div className="u-insetShadow"
-                            style={style.agreement}
-                        >
-                            {license.text}
-                        </div>
-                        {nextButton()}
-                        <form style={style.form}>
-                            {this.renderCheckAgree()}
-                        </form>
+        <div>
+            <div className="modal-section AdvancedOptions">
+                {this.renderLicenseList()}
+                <div className="clearfix" style={style.mainContent}>
+                    <h2 className="t-title">{license.title}</h2>
+                    <div className="u-insetShadow" style={style.agreement}>
+                        {license.text}
                     </div>
+                    {nextButton()}
+                    <form style={style.form}>
+                        {this.renderCheckAgree()}
+                    </form>
                 </div>
-                <InstanceLaunchFooter {...this.props}
-                    showValidationErr={true}
-                    launchIsDisabled={notSigned}
-                    advancedIsDisabled={true}
-                />
             </div>
+            <InstanceLaunchFooter {...this.props}
+                showValidationErr={true}
+                launchIsDisabled={notSigned}
+                advancedIsDisabled={true} />
+        </div>
         )
     }
 });

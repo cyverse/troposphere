@@ -1,16 +1,16 @@
-import React from 'react';
-import Backbone from 'backbone';
+import React from "react";
+import Backbone from "backbone";
 
 export default React.createClass({
-      displayName: "Size",
+    displayName: "Size",
 
-      propTypes: {
+    propTypes: {
         volume: React.PropTypes.instanceOf(Backbone.Model).isRequired
-      },
+    },
 
-      render: function () {
+    render: function() {
         return (
-          <span style={{textTransform: "capitalize"}}>{this.props.volume.get('size') + " GB"}</span>
+        <span style={{ textTransform: "capitalize" }}>{this.props.volume.get("size") + " GB"}</span>
         );
-      }
+    }
 });

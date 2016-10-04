@@ -1,9 +1,7 @@
-
-import Dispatcher from 'dispatchers/Dispatcher';
-import BaseStore from 'stores/BaseStore';
-import ImageRequestCollection from 'collections/ImageRequestCollection';
-import ImageRequestConstants from 'constants/ImageRequestConstants';
-import stores from 'stores';
+import Dispatcher from "dispatchers/Dispatcher";
+import BaseStore from "stores/BaseStore";
+import ImageRequestCollection from "collections/ImageRequestCollection";
+import ImageRequestConstants from "constants/ImageRequestConstants";
 
 let ImageRequestStore = BaseStore.extend({
     collection: ImageRequestCollection

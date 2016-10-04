@@ -37,7 +37,7 @@
 
     <div class="splash-image">
         <div class="loading"></div>
-        <h4 class="center">Loading {{ SITE_TITLE }}...</h4>
+        <h4 style="margin-top: 20px" class="center t-title">Loading {{ SITE_TITLE }}...</h4>
     </div>
 
     <div id="application"></div>
@@ -118,16 +118,10 @@
     var show_public_site = false;
 {% endif %}
 
-{% if show_troposphere_only %}
-    var show_troposphere_only = true;
-{%  else %}
-    var show_troposphere_only = false;
-{% endif %}
-
 {% if show_instance_metrics %}
-    var show_instance_metrics = true;
+    var SHOW_INSTANCE_METRICS = true;
 {%  else %}
-    var show_instance_metrics = false;
+    var SHOW_INSTANCE_METRICS = false;
 {% endif %}
 
 {% if USE_MOCK_DATA %}
@@ -143,7 +137,10 @@
 {% endif %}
 
 {% if notice %}
-    var maint_notice = "{{ notice }}"
+    var maint_notice = {
+         title: "{{notice.title}}",
+         message: "{{notice.message}}"
+    };
 {% endif %}
 
 /*
