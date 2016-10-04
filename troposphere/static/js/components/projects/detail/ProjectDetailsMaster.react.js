@@ -1,6 +1,6 @@
 import React from 'react';
 import Router from 'react-router';
-import ResourcesHeader from '../common/ResourcesHeader.react';
+import ResourcesHeader from '../common/ProjectResourcesHeader.react';
 import stores from 'stores';
 
 let RouteHandler = Router.RouteHandler;
