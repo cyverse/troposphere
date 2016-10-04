@@ -18,7 +18,7 @@ export default React.createClass({
 
     renderTag: function(tag) {
         return (
-            <Tag key={tag.id || tag.cid} tag={tag} renderLinks={this.props.renderLinks} />
+            <Tag key={tag.id || tag.cid} tag={tag} />
         );
     },
 
