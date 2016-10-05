@@ -92,7 +92,7 @@ module.exports = {
         ]
       },
       { test: /\.js$/,
-        loader: "babel",
+        loader: "babel-loader",
         query: { cacheDirectory: '/tmp/' },
         exclude: /(node_modules|troposphere\/static\/js\/lib)/ },
       { test: /\.(scss|sass)$/,
