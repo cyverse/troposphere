@@ -30,6 +30,7 @@
     "format": "esformatter -c .esformatter -i $(git ls-files troposphere/static/js*js)"
   },
   "dependencies": {
+    "babel-polyfill": "^6.16.0",
     "backbone": "^1.2.1",
     "bootstrap-sass": "^3.3.6",
     "classnames": "^2.2.3",

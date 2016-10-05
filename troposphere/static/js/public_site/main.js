@@ -1,3 +1,4 @@
+import "babel-polyfill";
 import bootstrapper from "public_site/bootstrapper.react";
 import Raven from "raven-js";
 
